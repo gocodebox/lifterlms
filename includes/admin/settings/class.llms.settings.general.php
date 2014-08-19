@@ -29,6 +29,9 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	public function __construct() {
 		$this->id    = 'general';
 		$this->label = __( 'General', 'lifterlms' );
+
+		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
+		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 	}
 
 	/**

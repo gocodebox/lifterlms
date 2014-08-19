@@ -46,10 +46,24 @@ class LLMS_Admin_Settings {
 	 * @return void
 	 */
 	public static function output() {
+		global $current_section, $current_tab;
+
+		do_action( 'lifterlms_settings_start' );
 
 		self::get_settings_pages();
 
+		// Get current tab/section
+		$current_tab = empty( $_GET['tab'] ) ? 'general' : sanitize_title( $_GET['tab'] );
+		//$current_section = empty( $_REQUEST['section'] ) ? '' : sanitize_title( $_REQUEST['section'] );
+
+		// Get tabs for the settings page
+	    $tabs = apply_filters( 'lifterlms_settings_tabs_array', array() );
+
 		include 'views/html.admin.settings.php';
+	}
+
+	//to-do: this will match the correct fields with the settings. 
+	public static function output_fields( $options ) {
 	}
 
 }
