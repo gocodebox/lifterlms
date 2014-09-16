@@ -1,0 +1,125 @@
+.dad-list, .dad-list .title {
+	border: 1px solid #dfdfdf;
+}
+.dad-list tr {
+	cursor: move;
+}
+.newTasks{
+	padding:3px;
+	border:1px solid #888;	
+	-moz-border-radius:3px;  
+  	-webkit-border-radius: 3px;  
+  	border-radius:3px;
+}
+.widefat th, .widefat td {
+overflow: visible;
+}
+
+.title {
+	padding: 10px;
+	line-height: 1;
+	border-color: gray;
+	background-color: #f1f1f1;
+	border: 1px solid #f1f1f1;
+	margin: 0;
+	position: relative;
+}
+.title .order {
+	margin-right: 10px;
+	font-weight: bold;
+}
+.chosen-select {
+	width: 300px;
+}
+.myicon:before {
+	content: "\2605";
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 20px/1 'dashicons';
+	vertical-align: top;
+}
+i.section-dismiss {
+	font-size: 2em;
+	position: absolute;
+	right: 16px;
+	top: 14px;
+	color: rgba(88, 88, 91, 0.3);
+	cursor: pointer;
+}
+i.section-dismiss:hover {
+	cursor: pointer;
+	color: #d54e21;
+}
+.section-content {
+	padding: 10px;
+	line-height: 1;
+	border: 1px solid #dfdfdf;
+	position: relative;
+}
+.section-content:hover {
+	background-color: #f9f9f9;
+}
+.section {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+#syllabus {
+	position: relative;
+	min-height: 100px;
+}
+#syllabus .add-lesson {
+	margin: 10px 0 16px 10px;
+}
+.deleteBtn {
+	color: rgba(88, 88, 91, 0.3);
+	font-size: 2em;
+	cursor: pointer;
+}
+.deleteBtn:hover {
+	cursor: pointer;
+	color: #d54e21;
+}
+.select, .input {
+	width: 300px;
+}
+#extra .short {
+	width: 160px;
+}
+#lifterlms-course-data .short {
+	width: 160px;
+}
+#extra label {
+	margin-right: 10px;
+}
+.clear {
+	clear: both;
+	width: 100%;
+}
+.llms-large-text {
+	min-height: 100px;
+}
+#spinner {
+	width: 20px;
+	height: 20px;
+	margin-left: 4px;
+	margin-top: 5px;
+	display: inline-block;
+}
+table.dad-list tr th:nth-child(2) {
+	width: 50px;
+}
+table.dad-list tr td:nth-child(2) {
+	text-align: right;
+	padding-right: 16px;
+	padding-top: 14px;
+}
+.meta-box-sortables .course-section select {
+	width:80%;
+}
+/*we really need to create a helper function to style the dragged element but for v1 I'm not worried about it*/
+.ui-sortable-helper  {
+    background-color: #f1f1f1;
+}
+#addNewSection {
+	margin-bottom: 16px;
+}

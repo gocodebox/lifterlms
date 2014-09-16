@@ -18,11 +18,7 @@
 /**
  * Restrict direct access
  */
-if ( ! function_exists( 'add_filter' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'LifterLMS') ) :
 
@@ -65,7 +61,7 @@ final class LifterLMS {
 			spl_autoload_register( "__autoload" );
 		}
 
-		//spl_autoload_register( array( $this, "autoload" ) );
+		spl_autoload_register( array( $this, "autoload" ) );
 
 		// Define constants
 		$this->define_constants();
@@ -91,10 +87,13 @@ final class LifterLMS {
 		$class = strtolower( $class );
 		$file = 'class.' . str_replace( '_', '.', $class ) . '.php';
 
-		if (strpos( $class, 'llms_' ) === 0 ) {
+		if ( strpos( $class, 'llms_meta_box' ) === 0 ) {
+			$path = $this->plugin_path() . '/includes/admin/post-types/meta-boxes/';
+		}
+		elseif (strpos( $class, 'llms_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/';
 		}
-
+		
 		if ( $path && is_readable( $path . $file ) ) {
 			include_once( $path . $file );
 			return;
@@ -117,13 +116,20 @@ final class LifterLMS {
 	 * Include required core classes
 	 */
 	private function includes() {
-
-		include_once( 'includes/class.llms.install.php');
+		include_once( 'includes/llms.functions.core.php' );
+		include_once( 'includes/class.llms.install.php' );
 
 
 		if ( is_admin() ) {
 			include_once( 'includes/admin/class.llms.admin.php' );
+		
+		// Post types
+		include_once( 'includes/class.llms.post-types.php' );
+
+		// ajax
+		include_once( 'includes/class.llms.ajax.php');
 		}
+		
 	}
 
 	/**
@@ -161,19 +167,6 @@ final class LifterLMS {
 	public function template_path() {
 		return apply_filters( 'LLMS_TEMPLATE_PATH', 'lifterlms/' );
 	}
-
-	//REMOVE TEST ONLY
-	public function do_something () {
-		echo get_bloginfo( 'version' );
-		//echo basename( __FILE__ );
-		echo $this->plugin_path();
-		// if(is_admin() === true) {
-  //    		echo 'true';
-		// }
-		// else {
-		//      echo 'false';
-		// }
- 	}	
  	
 }
 

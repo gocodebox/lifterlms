@@ -34,7 +34,10 @@ class LLMS_Admin {
 	 * Include required admin classes
 	 */
 	public function includes () {
+
 		include_once( 'class.llms.admin.menus.php');
+		include_once( 'class.llms.admin.post-types.php' );
+		include_once( 'class.llms.admin.assets.php' );
 	}
 }
 
