@@ -114,6 +114,40 @@ class LLMS_Post_Types {
 	        ) )
 	    );
 
+		register_taxonomy( 'course_difficulty',
+	        apply_filters( 'lifterlms_taxonomy_objects_course_difficulty', array( 'course' ) ),
+	        apply_filters( 'lifterlms_taxonomy_args_course_difficulty', array(
+	            'hierarchical' 			=> false,
+	            'update_count_callback' => '_llms_term_recount',
+	            'label' 				=> __( 'Course Difficulties', 'lifterlms' ),
+	            'labels' => array(
+	                    'name' 				=> __( 'Course Difficulties', 'lifterlms' ),
+	                    'singular_name' 	=> __( 'Course Difficulty', 'lifterlms' ),
+						'menu_name'			=> _x( 'Course Difficulties', 'Admin menu name', 'lifterlms' ),
+	                    'search_items' 		=> __( 'Search Course Difficulties', 'lifterlms' ),
+	                    'all_items' 		=> __( 'All Course Difficulties', 'lifterlms' ),
+	                    'parent_item' 		=> __( 'Parent Course Difficulty', 'lifterlms' ),
+	                    'parent_item_colon' => __( 'Parent Course Difficulty:', 'lifterlms' ),
+	                    'edit_item' 		=> __( 'Edit Course Difficulty', 'lifterlms' ),
+	                    'update_item' 		=> __( 'Update Course Difficulty', 'lifterlms' ),
+	                    'add_new_item' 		=> __( 'Add New Course Difficulty', 'lifterlms' ),
+	                    'new_item_name' 	=> __( 'New Course Difficulty Name', 'lifterlms' )
+	            	),
+	            'show_ui' 				=> true,
+	            'query_var' 			=> true,
+	            //'capabilities'			=> array(
+	            	//'manage_terms' 		=> 'manage_course_terms',
+					//'edit_terms' 		=> 'edit_course_terms',
+					// 'delete_terms' 		=> 'delete_course_terms',
+					// 'assign_terms' 		=> 'assign_course_terms',
+	             //),
+	            'rewrite' 				=> array(
+					'slug'         => empty( $permalinks['difficulty_base'] ) ? _x( 'course-difficulty', 'slug', 'lifterlms' ) : $permalinks['difficulty_base'],
+					'with_front'   => false,
+	            ),
+	        ) )
+	    );
+
 		global $llms_course_attributes, $lifterlms;
 
 		$llms_course_attributes = array();

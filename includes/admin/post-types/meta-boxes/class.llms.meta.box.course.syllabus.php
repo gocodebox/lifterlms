@@ -26,6 +26,7 @@ class LLMS_Meta_Box_Course_Syllabus{
 		}
 
 		$syllabus = get_post_meta( $post->ID, '_sections');
+		$lesson_length = get_post_meta( $post->ID, '_lesson_length', true );
 
     	
 		function get_sections_select ($section_id) {
@@ -37,7 +38,7 @@ class LLMS_Meta_Box_Course_Syllabus{
 
 			$query = new WP_Query( $args );
 			$html .= '<select class="section-select">';
-			$html .= '<option value="" selected disabled>Please select a a section...</option>';
+			$html .= '<option value="" selected disabled>Select a section...</option>';
 			while ( $query->have_posts() ) : $query->the_post();
 			
 			if ($section_id == $post->ID) {
@@ -68,7 +69,7 @@ class LLMS_Meta_Box_Course_Syllabus{
 			
 			$html .= '<tr class="list_item" data-section_id="' . $section_id . '" data-order="' . $section_position . '" style="display: table-row;"><td>';
 			$html .= '<select class="lesson-select">';
-			$html .= '<option value="" selected disabled>Please select a course...</option>';
+			$html .= '<option value="" selected disabled>Select a course...</option>';
 			
 			while ( $query->have_posts() ) : $query->the_post();
 
@@ -85,27 +86,51 @@ class LLMS_Meta_Box_Course_Syllabus{
 
 			return $html;
 		} 
-
-	?>
+		?>
 
 	<div>
-		<label for="lesson_length">Estimated Time to complete course (In hours)</label>
-		<input type="number" step=".5" id="lesson-length" name="lesson_length" value="BAHHHHH" size="25" class="regular-text ltr" />
+
+		<?php lifterlms_wp_text_input( array( 'id' => '_lesson_length', 'label' => __( 'Course Length (in hours)', 'lifterlms' ) ) ); ?>
+		
         <div class="clear"></div>
-		<label for="lesson_complexity">Course Difficulty</label>
-		<select id="lesson-complexity-options" name="lesson_complexity" class="select lesson-complexity-select">
-			<option value="">None</option>
-			<option value="">Easy</option>
-			<option value="">Normal</option>
-        	<option value="">Hard</option>
-		</select>
+		<br />
+
+		<?php 
+		echo '<label>Course Difficulty</label><input type="hidden" name="taxonomy_noncename" id="taxonomy_noncename" value="' . 
+            wp_create_nonce( 'taxonomy_course_difficulty' ) . '" />';
+     
+    		// Get all course_difficulty taxonomy terms
+    		$difficulties = get_terms('course_difficulty', 'hide_empty=0'); 
+ 
+		?>
+		<select name='post_course_difficulty' id='post_course_difficulty'>
+
+    	<?php 
+        $names = wp_get_object_terms($post->ID, 'course_difficulty'); 
+       
+        if (!count($names)) {
+        	echo '<option class="course_difficulty-option" value="" selected disabled>Select a difficulty...</option>';
+        }
+
+    	foreach ($difficulties as $difficulty) {
+        	if (!is_wp_error($names) && !empty($names) && !strcmp($difficulty->slug, $names[0]->slug)) {
+            	echo "<option class='difficulty-option' value='" . $difficulty->slug . "' selected>" . $difficulty->name . "</option>\n"; 
+        	}
+        	else {
+            	echo "<option class='difficulty-option' value='" . $difficulty->slug . "'>" . $difficulty->name . "</option>\n"; 
+        	}
+    	}
+   		?>
+		</select>    
+
+        <br />
         <br />
         <p><strong><?php _e('Add Course Content', 'lifterlms'); ?></strong></p>
         <a href="#" class="button" id="addNewSection"/>Add a new Section</a>
         <div id="spinner"><img id="loading" alt="WordPress loading spinner" src="/wp-admin/images/spinner.gif"></div>		
         <div id="syllabus" data-post_id="<?php echo $post->ID ?>"> 
 
-	<?php 
+		<?php 
 
 		if(is_array($syllabus[0])) {
 			foreach($syllabus[0] as $key => $value ) {
@@ -132,12 +157,26 @@ class LLMS_Meta_Box_Course_Syllabus{
 				</div>';	
 			}
 		}
-	
-	?>
+		?>
 		</div>
 	</div>
 
-<?php
-
+	<?php
 	}
+
+	public static function save( $post_id, $post ) {
+		global $wpdb;
+
+		$lesson_length = llms_clean( stripslashes( $_POST['_lesson_length'] ) );
+
+		if ( isset( $lesson_length ) ) {
+			update_post_meta( $post_id, '_lesson_length', ( $lesson_length === '' ? '' : llms_format_decimal( $lesson_length ) ) );
+		}
+		
+		if ( isset( $_POST['post_course_difficulty'] ) ) {
+			$course_difficulty = $_POST['post_course_difficulty'];
+			wp_set_object_terms( $post_id,  $course_difficulty, 'course_difficulty' );
+		}
+	}
+
 }

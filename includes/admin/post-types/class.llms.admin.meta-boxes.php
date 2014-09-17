@@ -23,19 +23,20 @@ class LLMS_Admin_Meta_Boxes {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ), 10 );
-		add_action( 'add_meta_boxes', array( $this, 'rename_meta_boxes' ), 20 );
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 30 );
-		add_action( 'save_post', array( $this, 'save_meta_boxes' ), 1, 2 );
+		add_action( 'add_meta_boxes'	, array( $this, 'remove_meta_boxes' ), 10 );
+		add_action( 'add_meta_boxes'	, array( $this, 'rename_meta_boxes' ), 20 );
+		add_action( 'add_meta_boxes'	, array( $this, 'add_meta_boxes' ), 30 );
+		add_action( 'save_post'			, array( $this, 'save_meta_boxes' ), 1, 2 );
 
 		// Save Course Meta Boxes
-		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Course_Data::save', 10, 2 );
-		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Course_Video::save', 10, 2 );
+		add_action( 'lifterlms_process_course_meta'			, 'LLMS_Meta_Box_Course_Data::save', 10, 2 );
+		add_action( 'lifterlms_process_course_meta'			, 'LLMS_Meta_Box_Course_Video::save', 10, 2 );
+		add_action( 'lifterlms_process_course_meta'		, 'LLMS_Meta_Box_Course_Syllabus::save', 10, 2 );
 		//add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Course_Images::save', 20, 2 );
 
 		//Error handling
-		add_action( 'admin_notices', array( $this, 'output_errors' ) );
-		add_action( 'shutdown', array( $this, 'save_errors' ) );
+		add_action( 'admin_notices'		, array( $this, 'output_errors' ) );
+		add_action( 'shutdown'			, array( $this, 'save_errors' ) );
 	}
 
 	/**
@@ -91,6 +92,7 @@ class LLMS_Admin_Meta_Boxes {
 	 */
 	public function remove_meta_boxes() {
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
+		remove_meta_box('tagsdiv-course_difficulty','course','normal');
 	}
 
 	/**
