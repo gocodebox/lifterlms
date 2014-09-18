@@ -17,9 +17,9 @@ class LLMS_AJAX {
 	 */
 	public function __construct() {
 		$ajax_events = array(
-			'get_sections' => false,
-			'get_lessons' => false,
-			'update_syllabus' => false
+			'get_sections' 		=> false,
+			'get_lessons' 		=> false,
+			'update_syllabus' 	=> false
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {

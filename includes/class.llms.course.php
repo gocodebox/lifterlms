@@ -24,6 +24,16 @@ class LLMS_Course {
 		}
 	}
 
+	public function __isset( $key ) {
+		return metadata_exists( 'post', $this->id, '_' . $key );
+	}
+
+	public function __get( $key ) {
+		$value = get_post_meta( $this->id, '_' . $key, true );
+		return $value;
+	}
+
+
 	/**
 	 * Get SKU
 	 *
@@ -31,6 +41,25 @@ class LLMS_Course {
 	 */
 	public function get_sku() {
 		return $this->sku;
+	}
+
+	/**
+	 * Get SKU
+	 *
+	 * @return string
+	 */
+	public function get_lesson_length() {
+		return $this->lesson_length;
+	}
+
+
+	/**
+	 * Get SKU
+	 *
+	 * @return string
+	 */
+	public function get_video() {
+		return $this->video_embed;
 	}
 
 	/**
@@ -87,4 +116,37 @@ class LLMS_Course {
 		return apply_filters( 'lifterlms_get_price_html', $price, $this );
 	}
 
+
+	public function is_on_sale() {
+		return ( $this->get_sale_price() != $this->get_regular_price() && $this->get_sale_price() == $this->get_price() );
+	}
+
+	public function get_price() {
+		return 5;//$this->price;//apply_filters( 'lifterlms_get_price', $this->price, $this );
+	}
+
+	public function set_price( $price ) {
+		$this->price = $price;
+	}
+
+	public function get_regular_price( $qty = 1, $price = '' ) {
+		$price = $price;
+	}
+
+	public function get_sale_price( $qty = 1, $price = '' ) {
+		$price = $price;
+	}
+
+	public function get_price_including_tax( $qty = 1, $price = '' ) {
+		$price = $price;
+	}
+
+	public function get_price_excluding_tax( $qty = 1, $price = '' ) {
+		$price = $price;
+	}
+
+		public function get_price_suffix() {
+		
+		return $this->price;
+	}
 }

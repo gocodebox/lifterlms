@@ -31,6 +31,22 @@ if ( ! function_exists( 'lifterlms_template_single_price' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_single_lesson_length' ) ) {
+
+	function lifterlms_template_single_lesson_length() {
+
+		llms_get_template( 'course/lesson_length.php' );
+	}
+}
+
+if ( ! function_exists( 'lifterlms_template_single_video' ) ) {
+
+	function lifterlms_template_single_video() {
+
+		llms_get_template( 'course/video.php' );
+	}
+}
+
 /**
  * When the_post is called, put course data into a global.
  *
@@ -51,3 +67,11 @@ function llms_setup_course_data( $post ) {
 	return $GLOBALS['course'];
 }
 add_action( 'the_post', 'llms_setup_course_data' );
+
+
+
+function llms_price( $price, $args = array() ) {
+	
+
+	return $price;
+}

@@ -16,6 +16,6 @@ $course_not_class = get_post_custom($post->ID);
 
 <div class="llms-price-wrapper">
 
-	<p class="llms-price"><?php echo $course->get_price_html(); ?></p> 
+	<p class="llms-lesson_length"><?php echo $course->get_lesson_length(); ?></p> 
 
 </div>
