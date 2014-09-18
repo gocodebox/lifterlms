@@ -26,6 +26,6 @@ var_dump($course);
 ?>
 
 
-	<p class="llms-price"><?php echo $course //->get_price_html(); ?></p> 
+	<p class="llms-price"><?php echo $course->get_price_html(); ?></p> 
 
 </div>

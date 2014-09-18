@@ -146,7 +146,7 @@ final class LifterLMS {
 			include_once( 'includes/class.llms.course.php' );		
 			include_once( 'includes/class.llms.course.factory.php' );
 
-
+			$this->course_factory = new LLMS_Course_Factory(); 
 		
 
 		if ( ! is_admin() ) {

@@ -49,7 +49,7 @@ class LLMS_Course_Factory {
 		// if ( ! class_exists( $classname ) )
 		 	$classname = 'LLMS_Course_Simple';
 
-		return 'this is the course factory';//new LLMS_Course_Simple($the_course, $args );//$classname( $the_course, $args );
+		return new LLMS_Course_Simple($the_course, $args );//$classname( $the_course, $args );
 	}
 
 }

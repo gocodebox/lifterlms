@@ -92,7 +92,7 @@ class LLMS_Admin_Meta_Boxes {
 	 */
 	public function remove_meta_boxes() {
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
-		remove_meta_box('tagsdiv-course_difficulty','course','normal');
+		remove_meta_box('tagsdiv-course_difficulty','course','side');
 	}
 
 	/**
