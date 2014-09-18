@@ -35,6 +35,8 @@ final class LifterLMS {
 
 	public $session = null;
 
+	public $course_factory = null;
+
 	/**
 	 * Main Instance of LifterLMS
 	 *
@@ -71,6 +73,7 @@ final class LifterLMS {
 
 		//Hooks
 		add_action( 'init', array( $this, 'init' ), 0 );
+		add_action( 'init', array( $this, 'include_template_functions' ) );
 
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
@@ -104,8 +107,14 @@ final class LifterLMS {
 	 * Define LifterLMS Constants
 	 */
 	private function define_constants() {
-		define( 'LLMS_PLUGIN_FILE', __FILE__ );
-		define( 'LLMS_VERSION', $this->version );
+		
+		if ( ! defined( 'LLMS_PLUGIN_FILE' ) ) {
+			define( 'LLMS_PLUGIN_FILE', __FILE__ );
+		}
+
+		if ( ! defined( 'LLMS_VERSION' ) ) {
+			define( 'LLMS_VERSION', $this->version );
+		}
 
 		if ( ! defined( 'LLMS_TEMPLATE_PATH' ) ) {
 			define( 'LLMS_TEMPLATE_PATH', $this->template_path() );
@@ -122,20 +131,50 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 			include_once( 'includes/admin/class.llms.admin.php' );
-		
-		// Post types
-		include_once( 'includes/class.llms.post-types.php' );
-
-		// ajax
-		include_once( 'includes/class.llms.ajax.php');
 		}
 		
+			// Post types
+			include_once( 'includes/class.llms.post-types.php' );
+
+			// Ajax
+			include_once( 'includes/class.llms.ajax.php' );
+
+			// Hooks
+			include_once( 'includes/llms.template.hooks.php' );
+
+			// Classes
+			include_once( 'includes/class.llms.course.php' );		
+			include_once( 'includes/class.llms.course.factory.php' );
+
+
+		
+
+		if ( ! is_admin() ) {
+			$this->frontend_includes();
+		}
+	
+	}
+
+	/**
+	 * Include required frontend classes.
+	 */
+	public function frontend_includes() {
+		include_once( 'includes/class.llms.template.loader.php' );
+	}
+
+	/**
+	 * Load Hooks
+	 */
+	public function include_template_functions() {
+		include_once( 'includes/llms.template.functions.php' );
 	}
 
 	/**
 	 * Init LifterLMS when WordPress Initialises.
 	 */
 	public function init() {
+
+		$this->course_factory = new LLMS_Course_Factory(); 
 
 		do_action( 'lifterlms_init' );
 

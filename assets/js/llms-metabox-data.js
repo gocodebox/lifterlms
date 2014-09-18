@@ -1,9 +1,9 @@
 jQuery(document).ready(function($) {
 
-	$.toggle_sales_fields();
+	toggle_sales_fields();
 
 	$('#cancel-sale').on('click', function () {
-		$.clear_fields(["#_sale_price", "#_sale_price_dates_from", "#_sale_price_dates_to"]);
+		clear_fields(["#_sale_price", "#_sale_price_dates_from", "#_sale_price_dates_to"]);
 		return false;
 	});
 	
@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
 
 //Toggle sales fields
 (function($){  
-	$.toggle_sales_fields = function() {
+	toggle_sales_fields = function() {
 
 		if ($('#_sale_price').val().length > 0) {
 	  		$("#checkme").prop('checked', true);
@@ -23,7 +23,7 @@ jQuery(document).ready(function($) {
 		}
 
 		$("#checkme").click(function(){
-			$.toggle_sales_fields();	
+			toggle_sales_fields();	
 		});
 
 		if ($("#checkme").is(":checked"))

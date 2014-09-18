@@ -273,7 +273,7 @@ class LLMS_Post_Types {
 		 * Section Post Type
 		 */
 	    register_post_type( "section",
-		    apply_filters( 'lifterlms_register_post_type_shop_order',
+		    apply_filters( 'lifterlms_register_post_type_section',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'Sections', 'lifterlms' ),
@@ -294,7 +294,7 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where sections are stored.', 'lifterlms' ),
 					'public' 				=> false,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'shop_order',
+					//'capability_type' 		=> 'section',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -313,7 +313,7 @@ class LLMS_Post_Types {
 		 * Lesson Post Type
 		 */
 	    register_post_type( "lesson",
-		    apply_filters( 'lifterlms_register_post_type_shop_order',
+		    apply_filters( 'lifterlms_register_post_type_section',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'Lessons', 'lifterlms' ),
@@ -332,19 +332,20 @@ class LLMS_Post_Types {
 							'menu_name'				=> _x('Lessons', 'Admin menu name', 'lifterlms' )
 						),
 					'description' 			=> __( 'This is where you can view all of the lessons.', 'lifterlms' ),
-					'public' 				=> false,
+					'public' 				=> true,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'shop_order',
+					//'capability_type' 		=> 'lesson',
 					'map_meta_cap'			=> true,
-					'publicly_queryable' 	=> false,
-					'exclude_from_search' 	=> true,
+					'publicly_queryable' 	=> true,
+					'exclude_from_search' 	=> false,
 					'show_in_menu' 			=> 'edit.php?post_type=course',
 					'hierarchical' 			=> false,
+					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+
 					'show_in_nav_menus' 	=> false,
-					'rewrite' 				=> false,
-					'query_var' 			=> false,
+					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
-					'has_archive' 			=> false,
+					//'has_archive' 			=> false,
 				)
 			)
 		);

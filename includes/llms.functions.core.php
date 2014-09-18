@@ -8,6 +8,10 @@
  * @version     0.1
  */
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+include( 'llms.course.functions.php' );
+
 /**
  * Get attribute taxonomies.
  *
@@ -380,4 +384,96 @@ function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
  */
 function llms_clean( $var ) {
 	return sanitize_text_field( $var );
+}
+
+/**
+ * Get template part
+ *
+ * @access public
+ * @param mixed $slug
+ * @param string $name
+ * @return void
+ */
+function llms_get_template_part( $slug, $name = '' ) {
+	$template = '';
+
+	if ( $name ) {
+		$template = locate_template( array( "{$slug}-{$name}.php", LLMS()->template_path() . "{$slug}-{$name}.php" ) );
+	}
+
+	// Get default slug-name.php
+	if ( ! $template && $name && file_exists( LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
+		$template = LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php";
+	}
+
+	if ( ! $template ) {
+		$template = locate_template( array( "{$slug}.php", LLMS()->template_path() . "{$slug}.php" ) );
+	}
+
+	// Allow 3rd party plugin filter template file from their plugin
+	$template = apply_filters( 'llms_get_template_part', $template, $slug, $name );
+
+	if ( $template ) {
+		load_template( $template, false );
+	}
+}
+
+/**
+ * @access public
+ * @param string $template_name
+ * @param array $args (default: array())
+ * @param string $template_path (default: '')
+ * @param string $default_path (default: '')
+ * @return void
+ */
+function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
+	if ( $args && is_array( $args ) ) {
+		extract( $args );
+	}
+
+	$located = llms_locate_template( $template_name, $template_path, $default_path );
+
+	if ( ! file_exists( $located ) ) {
+		_doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $located ), '2.1' );
+		return;
+	}
+
+	do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
+
+	include( $located );
+
+	do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
+}
+
+/**
+ * @access public
+ * @param string $template_name
+ * @param string $template_path (default: '')
+ * @param string $default_path (default: '')
+ * @return string
+ */
+function llms_locate_template( $template_name, $template_path = '', $default_path = '' ) {
+	if ( ! $template_path ) {
+		$template_path = LLMS()->template_path();
+	}
+
+	if ( ! $default_path ) {
+		$default_path = LLMS()->plugin_path() . '/templates/';
+	}
+
+	// Look within passed path within the theme - this is priority
+	$template = locate_template(
+		array(
+			trailingslashit( $template_path ) . $template_name,
+			$template_name
+		)
+	);
+
+	// Get default template
+	if ( ! $template ) {
+		$template = $default_path . $template_name;
+	}
+
+	// Return what we found
+	return apply_filters('lifterlms_locate_template', $template, $template_name, $template_path);
 }
