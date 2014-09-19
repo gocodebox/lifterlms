@@ -10,10 +10,5 @@ global $post, $course;
 
 ?>
 
+<p class="llms-difficulty"><?php echo $course->get_difficulty(); ?></p>
 
-
-<div class="llms-price-wrapper">
-
-	<p class="llms-lesson_length"><?php echo $course->get_lesson_length(); ?></p> 
-
-</div>

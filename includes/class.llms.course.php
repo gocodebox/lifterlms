@@ -10,6 +10,7 @@ class LLMS_Course {
 	/** @var object The actual post object. */
 	public $post;
 
+
 	
 	public function __construct( $course ) {
 		if ( is_numeric( $course ) ) {
@@ -44,7 +45,7 @@ class LLMS_Course {
 	}
 
 	/**
-	 * Get SKU
+	 * Get Lesson Length
 	 *
 	 * @return string
 	 */
@@ -54,13 +55,44 @@ class LLMS_Course {
 
 
 	/**
-	 * Get SKU
+	 * Get Video (oembed)
+	 *
+	 * @return mixed (default: '')
+	 */
+	public function get_video() {
+		
+		if ( ! isset( $this->video_embed ) ) {
+			return '';
+		}
+		else {
+			return wp_oembed_get($this->video_embed);
+		}
+	}
+
+	/**
+	 * Get Difficulty
 	 *
 	 * @return string
 	 */
-	public function get_video() {
-		return $this->video_embed;
+	public function get_difficulty() {
+		$terms = get_the_terms($this->id, 'course_difficulty'); 
+
+		foreach ( $terms as $term ) {
+        	return $term->name;
+        }
+
 	}
+
+	public function get_syllabus() {
+
+		$syllabus = $this->sections; 
+
+		
+		
+		return $syllabus;
+
+	}
+
 
 	/**
 	 * Returns the price in html format.
