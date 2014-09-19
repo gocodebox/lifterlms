@@ -11,14 +11,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
 
-<div id="course-<?php the_ID(); ?>" <?php post_class(); ?>>
-
+<div id="lesson-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 	<div class="summary entry-summary">
 
 		<?php
 
-			do_action( 'lifterlms_single_course_summary' );
+			do_action( 'lifterlms_single_lesson_summary' );
 
 		?>
 

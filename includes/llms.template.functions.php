@@ -23,6 +23,14 @@ if ( ! function_exists( 'lifterlms_template_single_short_description' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_single_full_description' ) ) {
+
+	function lifterlms_template_single_full_description() {
+
+		llms_get_template( 'course/full-description.php' );
+	}
+}
+
 if ( ! function_exists( 'lifterlms_template_single_price' ) ) {
 
 	function lifterlms_template_single_price() {
@@ -88,4 +96,69 @@ add_action( 'the_post', 'llms_setup_course_data' );
 function llms_price( $price, $args = array() ) {
 	
 	return $price;
+}
+
+/**
+ * Returns post array of data for sections associated with a course
+ *
+ * @param array
+ * @return array
+ */
+function get_section_data ($sections) {
+	global $post; 
+	$html = '';
+	$args = array(
+	    'post_type' => 'section',
+	);
+
+	$query = get_posts( $args );
+
+	$array = array();
+
+	foreach($sections as $key => $value) :
+		
+		foreach($query as $post) : 
+			
+			if ($value == $post->ID) {
+				$array[$post->ID] = $post;
+			}
+
+		endforeach;
+
+	endforeach;
+
+	return $array; 
+
+}
+
+/**
+ * Returns post array of data for lessons associated with a course
+ *
+ * @param array
+ * @return array
+ */
+function get_lesson_data ($lessons) {
+	global $post; 
+	$html = '';
+	$args = array(
+	    'post_type' => 'lesson',
+	);
+
+	$query = get_posts( $args );
+
+	$array = array();
+
+
+	foreach($lessons as $key => $value) :
+
+		foreach($query as $post) :
+
+			if ($value == $post->ID) {
+				$array[$value] = $post;
+			}
+		endforeach;	
+
+	endforeach;
+
+	return $array; 
 }

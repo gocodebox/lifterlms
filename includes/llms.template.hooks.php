@@ -15,3 +15,7 @@ add_action( 'lifterlms_single_course_summary', 'lifterlms_template_single_diffic
 add_action( 'lifterlms_single_course_summary', 'lifterlms_template_single_video', 10 );
 add_action( 'lifterlms_single_course_summary', 'lifterlms_template_single_syllabus', 10 );
 
+
+add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_single_title', 10 );
+add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_single_full_description', 10 );
+

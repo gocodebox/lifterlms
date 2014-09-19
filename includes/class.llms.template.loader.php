@@ -29,6 +29,11 @@ class LLMS_Template_Loader {
 			$template = LLMS()->plugin_path() . '/templates/single-course.php';
 		}
 
+		if ( is_single() && get_post_type() == 'lesson' ) {
+
+			$template = LLMS()->plugin_path() . '/templates/single-lesson.php';
+		}
+
 		return $template;
 	}
 

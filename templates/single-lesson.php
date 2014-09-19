@@ -13,7 +13,7 @@ get_header();
 
 while ( have_posts() ) : the_post(); 
 
-	llms_get_template_part( 'content', 'single-course' ); 
+	llms_get_template_part( 'content', 'single-lesson' ); 
 
 endwhile;
 ?>
