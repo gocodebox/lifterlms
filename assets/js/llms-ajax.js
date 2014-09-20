@@ -30,12 +30,12 @@ Ajax.prototype.get_lessons = function (section_id, section_position) {
 
 Ajax.prototype.update_syllabus = function () {
 	jQuery.ajax({
-        type 		: this.type,
+       // type 		: this.type,
 		url			: this.url, 
 		data 		: this.data,
         cache		: this.cache,
         dataType	: this.dataType, 
-        success 	: function(response) { console.log(response); },
+        success 	: function(response) { console.log(JSON.stringify(response, null, 4)); },
         error 		: function(errorThrown){ console.log(errorThrown); },
 	}); 
 };  

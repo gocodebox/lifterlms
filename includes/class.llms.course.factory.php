@@ -20,5 +20,15 @@ class LLMS_Course_Factory {
 		return new LLMS_Course_Simple($the_course, $args );
 	}
 
+	public function get_lesson( $the_lesson = false, $args = array() ) {
+		global $post;
+
+	 	$the_lesson = $post;
+
+	 	$classname = 'LLMS_Lesson_Simple';
+
+		return new LLMS_Lesson_Simple ($the_lesson, $args );
+	}
+
 }
 

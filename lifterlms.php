@@ -143,7 +143,9 @@ final class LifterLMS {
 			include_once( 'includes/llms.template.hooks.php' );
 
 			// Classes
-			include_once( 'includes/class.llms.course.php' );		
+			include_once( 'includes/class.llms.course.php' );	
+			include_once( 'includes/class.llms.lesson.php' );
+
 			include_once( 'includes/class.llms.course.factory.php' );
 
 			$this->course_factory = new LLMS_Course_Factory(); 

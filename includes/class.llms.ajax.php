@@ -77,6 +77,8 @@ class LLMS_AJAX {
 	 */
 	public function update_syllabus() {
 
+		$post_id  = $_REQUEST['post_id'];	
+
 		// Parse section id and create new array for comparison.
 		function parse_new_sections ( $new_sections_array ) {
 			$array = array();
@@ -110,7 +112,29 @@ class LLMS_AJAX {
 
 		// Compare arrays and determine if there are any duplicates. 
 		function array_has_dupes($new_array) {
-				return count($new_array) !== count(array_unique($new_array));
+			return count($new_array) !== count(array_unique($new_array));
+		}
+
+
+		function delete_lesson_meta($post_id) {
+			$lesson_ids = array();
+
+			$rd_args = array(
+				'post_type' => 'lesson',
+				'meta_key' => '_parent_course',
+				'meta_value' => $post_id
+			);
+				 
+			$rd_query = new WP_Query( $rd_args );
+
+			$lesson_ids = array();
+
+			//foreach( $rd_query as $key => $value )
+			while ( $rd_query->have_posts() ) : $rd_query->the_post();
+				//delete_post_meta($rd_query->post->ID, '_parent_course', $post_id)
+				array_push($lesson_ids,  $rd_query->post->ID  );
+			endwhile;
+
 		}
 
 
@@ -132,10 +156,48 @@ class LLMS_AJAX {
 			else {
 				update_post_meta( $_REQUEST['post_id'], '_sections', ( $_REQUEST['sections'] === '' ) ? '' : $_REQUEST['sections']  );
 				$success = 'yes';
+
+				//$lesson_ids = delete_lesson_meta($post_id);
+
+			
+
+			$lesson_ids = array();
+
+			$rd_args = array(
+				'post_type' => 'lesson',
+				'meta_key' => '_parent_course',
+				'meta_value' => $post_id
+			);
+				 
+			$rd_query = new WP_Query( $rd_args );
+
+			$lesson_ids = array();
+
+			//foreach( $rd_query as $key => $value )
+			while ( $rd_query->have_posts() ) : $rd_query->the_post();
+				delete_post_meta($rd_query->post->ID, '_parent_course', $post_id);
+				//array_push($lesson_ids,  $rd_query->post->ID  );
+			endwhile;
+
+
+			$response = array();
+				foreach ($_REQUEST['sections'] as $key => $value) { 
+					foreach ($value['lessons'] as $keys => $values) { 
+					array_push($response, $values['lesson_id']);
+					update_post_meta( $values['lesson_id'], '_parent_course', ( $post_id  === '' ) ? '' : $post_id   );
+					}
+				}
+
+
+
+
 			}
 		}
-		//print_r($_REQUEST);
-	echo $success;
+
+
+
+		echo json_encode($lesson_ids);
+	//echo $success;
 	die();
 	}
 

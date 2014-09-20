@@ -70,6 +70,15 @@ if ( ! function_exists( 'lifterlms_template_single_syllabus' ) ) {
 		llms_get_template( 'course/syllabus.php' );
 	}
 }
+
+if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
+
+	function lifterlms_template_single_parent_course() {
+
+		llms_get_template( 'course/parent_course.php' );
+	}
+}
+
 /**
  * When the_post is called, put course data into a global.
  *
@@ -77,17 +86,44 @@ if ( ! function_exists( 'lifterlms_template_single_syllabus' ) ) {
  * @return LLMS_Course
  */
 function llms_setup_course_data( $post ) {
-	unset( $GLOBALS['course'] );
+	
+	if ($post->post_type == 'course') {
+		unset( $GLOBALS['course'] );
 
-	if ( is_int( $post ) )
-		$post = get_post( $post );
+		if ( is_int( $post ) )
+			$post = get_post( $post );
 
-	if ( empty( $post->post_type ) )
-		return;
+		if ( empty( $post->post_type ) )
+			return;
 
-	$GLOBALS['course'] = get_course( $post );
+			$GLOBALS['course'] = get_course( $post );
 
-	return $GLOBALS['course'];
+			return $GLOBALS['course'];
+		}
+
+
+
+	if ($post->post_type == 'lesson') {
+		unset( $GLOBALS['lesson'] );
+
+		if ( is_int( $post ) )
+			$post = get_post( $post );
+
+		if ( empty( $post->post_type ) )
+			return;
+
+			$GLOBALS['lesson'] = get_lesson( $post );
+
+			return $GLOBALS['lesson'];
+		}
+
+		if ($post->post_type == 'lesson') {
+
+			$GLOBALS['lesson'] = get_lesson( $post );
+
+		return $GLOBALS['lesson'];
+	}
+
 }
 add_action( 'the_post', 'llms_setup_course_data' );
 

@@ -8,8 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course;
 
-$course_not_class = get_post_custom($post->ID);
-
 ?>
 
 
