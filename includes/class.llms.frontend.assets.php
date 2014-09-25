@@ -22,6 +22,7 @@ class LLMS_Frontend_Assets {
 	public function __construct () {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_footer', array( $this, 'wp_footer' ) );
 	}
 
 	/**
@@ -41,11 +42,17 @@ class LLMS_Frontend_Assets {
 	 * @return string
 	 */
 	public function enqueue_scripts() {
-		//no scripts yet. This will work exactly like the admin side. 
+		//no scripts yet. This will work exactly like the admin side.
 		global $post, $wp;
-
 	}
 
+	/**
+	 * add inline script to the footer
+	 * @return void
+	 */
+	public function wp_footer() {
+		echo '<script type="text/javascript">window.llms = window.llms || {};window.llms.ajaxurl = "'.admin_url( 'admin-ajax.php' ).'";</script>';
+	}
 }
 
 new LLMS_Frontend_Assets();

@@ -15,20 +15,20 @@ jQuery(document).ready(function($) {
     // set data element "last_selected" to current selected value on page load
 	$("select").each(function () {
     	reverse_selection(this);
-	});	
+	});
 
 	// set data element "last_selected" to current selected value before change
-    $('.section-select').click(function() {  
+    $('.section-select').click(function() {
     	reverse_selection(this);
     });
 
     // check for duplicate sections on select change
-    $('.section-select').change(function() {  
+    $('.section-select').change(function() {
  		catch_duplicates(this);
     });
 
 	// calls ajax update function on lesson change
-    $('.lesson-select').change(function() { 
+    $('.lesson-select').change(function() {
     	catch_blanks();
     });
 
@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
 		add_new_lesson();
 		return false;
 	});
-	
+
 	// deletes the parent element and updates syllabus when delete button clicked
 	$('.deleteBtn').click(function(){
 		delete_this(this)
@@ -71,16 +71,16 @@ reverse_selection = function( element ) {
 
 /**
  * Return an alert message when a duplicate section is selected
- */	
+ */
 catch_blanks = function (){
-	jQuery('.section-select').each(function () { 
+	jQuery('.section-select').each(function () {
 		if ( jQuery(this).val() == null || jQuery(this).val() == '' ) {
 			alert( 'Unable to save. Please make sure all of your sections are assigned.' );
 		}
 		else {
 			update_syllabus();
 		}
-	}); 
+	});
 }
 
 catch_duplicates = function(element){
@@ -89,12 +89,12 @@ catch_duplicates = function(element){
 	var new_value = jQuery(element).val();
 	var old_value = jQuery(element).data('last_selected');
 
-	jQuery('.section-select').each(function () { 
-		
+	jQuery('.section-select').each(function () {
+
 		if (new_value == jQuery(this).val()) {
 			names.push(jQuery(this).val())
 		}
-		//TODO im starting to really need a message class 
+		//TODO im starting to really need a message class
 		if (names.length > 1){
 			alert("So sorry. Unfortunately you selected a section that already exists in this course. That is FORBIDDEN!!!mwahahahahah!");
 			jQuery(element).val(old_value).attr("selected", true);
@@ -116,12 +116,12 @@ lessons_sortable = function() {
     	axis 		: 'y',
         start 		: function(event, ui) {
 			var start_pos = ui.item.index();
-			ui.item.data('start_pos', start_pos); 
+			ui.item.data('start_pos', start_pos);
 		},
         update		: function(event, ui) {
             var start_pos = ui.item.data('start_pos');
             var end_pos = jQuery(ui.item).index();
-            
+
             jQuery(ui.item).attr("data-order", end_pos);
             update_syllabus();
         }
@@ -160,14 +160,14 @@ get_sections = function() {
 parse_lessons = function(section_id) {
     var section_id = section_id
     var lessons = [];
-    
+
     jQuery('.course-section tbody select').each(function() {
 
         var parent_position = jQuery(this).parent().parent().parent().parent().parent().attr("id");
         var rowId = (jQuery('#' + parent_position  + ' .list_item').length) + 1;
 
         var lesson_obj = {};
-        
+
         lesson_obj['lesson_id'] = jQuery(this).val();
 
         var position = jQuery(this).parent().parent().attr("data-order");
@@ -179,17 +179,17 @@ parse_lessons = function(section_id) {
         if(jQuery(this).parent().parent().attr("data-section_id") == section_id) {
             lessons.push(lesson_obj);
         }
-    
+
     });
     return lessons;
 }
 
 /**
- * Main update function, updates sections and lessons via ajax class. 
+ * Main update function, updates sections and lessons via ajax class.
  */
 update_syllabus = function() {
 	var request_obj = get_sections();
-    
+
 	    var data = { 'action':'update_syllabus', 'post_id' : jQuery('#syllabus').data("post_id"), 'sections' : request_obj };
 
 	    var ajax = new Ajax('post', data, false);
@@ -207,20 +207,20 @@ get_lessons = function(section_id, section_position) {
 /**
  * Creates new lesson tr element
  */
-add_new_lesson = function(){	
+add_new_lesson = function(){
 	console.log('add new lesson called');
-	
+
 	console.log(event.target);
-	
+
 	var section_id = jQuery(event.target).attr("data-section_id");
 	console.log(event.target.id);
 	console.log('section_id of button clicked: ' + section_id);
 
-	if ( typeof( jQuery(event.target).attr("data-section") )  === "undefined" ) {
+	if ( typeof( jQuery(event.target).attr("data-section") )  === undefined ) {
 		 var section_position = 1; //default if no sectionid exists
 	}
 	else {
-		var section_position = jQuery(event.target).attr("data-section");	
+		var section_position = jQuery(event.target).attr("data-section");
 	}
 	console.log('section_position of button clicked: ' +section_position);
 
@@ -240,8 +240,8 @@ lesson_template = function (lessons, section_id, section_position) {
 		var select_class = 'list_item_' + row_id;
 		var row_class = 'row_' + row_id;
 
-		var numRows = jQuery('#' + section_position  + ' .dad-list').length;	
-		
+		var numRows = jQuery('#' + section_position  + ' .dad-list').length;
+
 		jQuery('<tr class="list_item" id="' + row_class + '" data-section_id="' + section_id + '" data-order="' + row_id + '"> \
 			<td><select id="' + select_class + '" data-placeholder="Choose a Section" class="chosen-select lesson-select" \
 			></select></td><td><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn"></i></td></tr>')
@@ -286,7 +286,7 @@ delete_this = function(thisButton){
 	update_syllabus();
 };
 
-(function($){ 
+(function($){
 	/**
 	 * Create new section
 	 */
@@ -339,7 +339,7 @@ delete_this = function(thisButton){
 		$(addLessonBtn).text('Add Lesson');
 		//$(addLessonBtn).on('click', add_new_lesson());
 		$(addLessonBtn).on('click', function(){ add_new_lesson() } );
- 
+
 		// create table framework
 		var table = '<table class="wp-list-table widefat fixed posts dad-list"> \
 		<thead><tr><th>Name</th><th></th></tr></thead> \
@@ -354,7 +354,7 @@ delete_this = function(thisButton){
 		    	$(select).append(option);
 		    }
 		}
-		
+
 		// put components together to build section block
 		title.appendChild(label);
 		title.appendChild(select);
@@ -362,11 +362,11 @@ delete_this = function(thisButton){
 		section.appendChild(title);
 		$(section).append(table);
 		$(section).append(addLessonBtn);
-				
+
     	$("#syllabus").hide().append(section).fadeIn(1000);
     	$(select).trigger("chosen:updated")
 
     	// grant table sorting functionality
-    	lessons_sortable();  	
+    	lessons_sortable();
     }
 })(jQuery);
