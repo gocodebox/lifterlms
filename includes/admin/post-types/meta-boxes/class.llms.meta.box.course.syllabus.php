@@ -1,22 +1,22 @@
 <?php
-/**
- * Course Syllabus
- *
- * @author 		codeBOX
- * @category 	Admin
- * @package 	lifterLMS/Admin/Meta Boxes
- * @version     0.1
- */
-
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * LLMS_Meta_Course_Syllabus
- */
-class LLMS_Meta_Box_Course_Syllabus{
+* Meta Box Course Syllabus
+*
+* main course metabox for organizing lessons, sections and setting course attributes. 
+*
+* @version 1.0
+* @author codeBOX
+* @project lifterLMS
+*/
+class LLMS_Meta_Box_Course_Syllabus {
 
 	/**
-	 * Output the metabox
+	 * outputs syllabus fields
+	 *
+	 * @return string
+	 * @param string $post
 	 */
 	public static function output( $post ) {
 		global $post;
@@ -29,6 +29,12 @@ class LLMS_Meta_Box_Course_Syllabus{
 		$lesson_length = get_post_meta( $post->ID, '_lesson_length', true );
 
     	
+	    /**
+		 * get section data
+		 *
+		 * @return string
+		 * @param string $section_id
+		 */
 		function get_sections_select ($section_id) {
 			global $post; 
 			$html = '';
@@ -55,8 +61,13 @@ class LLMS_Meta_Box_Course_Syllabus{
 			return $html;
 		}
 
-
-		function get_lessons_select ($section_id, $section_position, $lesson_id, $lesson_position) {
+ 		/**
+		 * get lesson data
+		 *
+		 * @return string
+		 * @param string $section_id, $section_position, $lesson_id, $lesson_position
+		 */
+		function get_lessons_select( $section_id, $section_position, $lesson_id, $lesson_position ) {
 			global $post; 
 			$html = '';
 			$args = array(
@@ -164,19 +175,29 @@ class LLMS_Meta_Box_Course_Syllabus{
 	<?php
 	}
 
+	/**
+	 * save syllabus fields (not course builder)
+	 *
+	 * @return string
+	 * @param $post_id, $post
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		$lesson_length = llms_clean( stripslashes( $_POST['_lesson_length'] ) );
+		if ( isset( $_POST['_lesson_length'] ) ) {
 
-		if ( isset( $lesson_length ) ) {
+			$lesson_length = llms_clean( stripslashes( $_POST['_lesson_length'] ) );
 			update_post_meta( $post_id, '_lesson_length', ( $lesson_length === '' ? '' : llms_format_decimal( $lesson_length ) ) );
+
 		}
-		
+
 		if ( isset( $_POST['post_course_difficulty'] ) ) {
+
 			$course_difficulty = $_POST['post_course_difficulty'];
 			wp_set_object_terms( $post_id,  $course_difficulty, 'course_difficulty' );
+
 		}
+
 	}
 
 }

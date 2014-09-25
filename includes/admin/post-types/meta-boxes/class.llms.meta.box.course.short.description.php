@@ -1,22 +1,22 @@
 <?php
-/**
- * Course Short Description
- *
- * @author 		codeBOX
- * @category 	Admin
- * @package 	lifterLMS/Admin/Meta Boxes
- * @version     0.1
- */
-
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * LLMS_Meta_Box_Course_Short_Description
- */
+* Meta Box Course Short Description
+*
+* hijacks post excerpt and changes the text field to tinymce.
+*
+* @version 1.0
+* @author codeBOX
+* @project lifterLMS
+*/
 class LLMS_Meta_Box_Course_Short_Description {
 
 	/**
-	 * Output the metabox
+	 * outputs tinymce
+	 *
+	 * @return mixed (wp_editor)
+	 * @param string $post
 	 */
 	public static function output( $post ) {
 		$settings = array(

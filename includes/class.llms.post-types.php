@@ -251,7 +251,7 @@ class LLMS_Post_Types {
 					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
-					//'has_archive' 			=> ( $learn_page_id = llms_get_page_id( 'learn' ) ) && get_page( $learn_page_id ) ? get_page_uri( $learn_page_id ) : 'learn',
+					'has_archive' 			=> ( $shop_page_id = llms_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
 					'show_in_nav_menus' 	=> true
 				)
 			)

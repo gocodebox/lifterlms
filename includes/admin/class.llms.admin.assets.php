@@ -1,36 +1,45 @@
 <?php
-/**
- * @author 		codeBOX
- * @category 	Admin
- * @package 	lifterLMS/Admin
- * @version     0.1
- */
-
 if ( ! defined( 'ABSPATH' ) ) exit;
-
 if ( ! class_exists( 'LLMS_Admin_Assets' ) ) :
 
 /**
- * LLMS_Admin_Assets Class
- */
+* Admin Assets Class
+*
+* Sets up the enqueue scripts and styles for the Admin pages.
+* TODO: register scripts. make page ids a db option. 
+*
+* @version 1.0
+* @author codeBOX
+* @project lifterLMS
+*/
 class LLMS_Admin_Assets {
-	public static $suffix = ''; //'.min';
 
 	/**
-	 * Hook in tabs.
-	 */
+	* allows injecting "min" in file name suffix.
+	* @access public
+	* @var string
+	*/
+	public static $min = ''; //'.min';
+
+	/**
+	* Constructor
+	*
+	* executes enqueue functions on admin_enqueue_scripts
+	*/
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 	}
 
 	/**
-	 * Return an array of all possible page ids for lifterLMS
-	 */
-	public function get_screen_ids() {
-		$screen_id = sanitize_title( __( 'lifterLMS', 'lifterlms' ) );
+    * Returns array of the page ids we want to enqueue scripts on.
+	*
+	* @return array
+	*/
+	public function get_llms_admin_page_ids() {
+		$screen_id = 'lifterlms';
 
-	    return apply_filters( 'lifterlms_screen_ids', array(
+	    return apply_filters( 'lifterlms_admin_page_ids', array(
 	    	$screen_id . '_page_llms-settings',
 	    	'course',
 	    	'edit-course',
@@ -39,32 +48,34 @@ class LLMS_Admin_Assets {
 	}
 
 	/**
-	 * Enqueue styles
-	 */
+	* Enqueue stylesheets
+	*
+	* @return void
+	*/
 	public function admin_styles() {
 
-			wp_enqueue_style( 'admin-styles', plugins_url( '/assets/css/admin' . LLMS_Admin_Assets::$suffix . '.css', LLMS_PLUGIN_FILE ) );
-			wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Admin_Assets::$suffix . '.css', LLMS_PLUGIN_FILE ) );
+			wp_enqueue_style( 'admin-styles', plugins_url( '/assets/css/admin' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+			wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 	}
 
 	/**
-	 * Enqueue scripts
-	 */
+	* Enqueue scripts
+	*
+	* @return void
+	*/
 	public function admin_scripts() {
 		$screen = get_current_screen();
 
-		if ( in_array( $screen->id, LLMS_Admin_Assets::get_screen_ids() ) ) {
+		if ( in_array( $screen->id, LLMS_Admin_Assets::get_llms_admin_page_ids() ) ) {
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 
-			wp_enqueue_media();
-
-			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$suffix . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
-			wp_enqueue_script( 'llms-ajax', plugins_url(  '/assets/js/llms-ajax' . LLMS_Admin_Assets::$suffix . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			wp_enqueue_script( 'llms-ajax', plugins_url(  '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			
-			wp_enqueue_script( 'llms-metabox-data', plugins_url(  '/assets/js/llms-metabox-data' . LLMS_Admin_Assets::$suffix . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
-			wp_enqueue_script( 'llms-metabox-fields', plugins_url(  '/assets/js/llms-metabox-fields' . LLMS_Admin_Assets::$suffix . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
-			wp_enqueue_script( 'llms-metabox-syllabus', plugins_url(  '/assets/js/llms-metabox-syllabus' . LLMS_Admin_Assets::$suffix . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			wp_enqueue_script( 'llms-metabox-data', plugins_url(  '/assets/js/llms-metabox-data' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			wp_enqueue_script( 'llms-metabox-fields', plugins_url(  '/assets/js/llms-metabox-fields' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			wp_enqueue_script( 'llms-metabox-syllabus', plugins_url(  '/assets/js/llms-metabox-syllabus' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 
 		}
 	}

@@ -10,8 +10,6 @@ global $post, $course;
 
 ?>
 
-
-
 <div class="llms-price-wrapper">
 
 	<p class="llms-lesson_length"><?php echo $course->get_lesson_length(); ?></p> 

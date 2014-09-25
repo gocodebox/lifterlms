@@ -1,21 +1,26 @@
 <?php
 /**
- * lifterLMS Attribute Functions
- *
- * @author 		codeBOX
- * @category 	Core
- * @package 	lifterLMS/Functions
- * @version     0.1
- */
+* Core functions file
+*
+* Misc functions used by lifterLMS core. 
+*
+* @version 1.0
+* @author codeBOX
+* @project lifterLMS
+*/
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-include( 'llms.course.functions.php' );
+//include other function files
+include( 'functions/llms.functions.course.php' );
+include( 'functions/llms.functions.notice.php' );
+include( 'functions/llms.functions.page.php' );
+include( 'functions/llms.functions.person.php' );
 
 /**
  * Get attribute taxonomies.
  *
- * @return object
+ * @return array
  */
 function llms_get_attribute_taxonomies() {
 
@@ -33,78 +38,6 @@ function llms_get_attribute_taxonomies() {
 	return apply_filters( 'lifterlms_attribute_taxonomies', $attribute_taxonomies );
 }
 
-/**
- * @param  int $course_id
- * @param  string $taxonomy
- * @param  array  $args
- * @return array
- */
-function llms_get_course_terms( $course_id, $taxonomy, $args = array() ) {
-	if ( ! taxonomy_exists( $taxonomy ) ) {
-		return array();
-	}
-
-	if ( empty( $args['orderby'] ) && taxonomy_is_course_attribute( $taxonomy ) ) {
-		$args['orderby'] = llms_attribute_orderby( $taxonomy );
-	}
-
-	// Support ordering by parent
-	if ( ! empty( $args['orderby'] ) && $args['orderby'] === 'parent' ) {
-		$fields = isset( $args['fields'] ) ? $args['fields'] : 'all';
-
-		// Unset for wp_get_post_terms
-		unset( $args['orderby'] );
-		unset( $args['fields'] );
-
-		$terms = wp_get_post_terms( $course_id, $taxonomy, $args );
-
-		usort( $terms, '_llms_get_course_terms_parent_usort_callback' );
-
-		switch ( $fields ) {
-			case 'names' :
-				$terms = wp_list_pluck( $terms, 'name' );
-				break;
-			case 'ids' :
-				$terms = wp_list_pluck( $terms, 'term_id' );
-				break;
-			case 'slugs' :
-				$terms = wp_list_pluck( $terms, 'slug' );
-				break;
-		}
-	} elseif ( ! empty( $args['orderby'] ) && $args['orderby'] === 'menu_order' ) {
-		// wp_get_post_terms doesn't let us use custom sort order
-		$args['include'] = wp_get_post_terms( $course_id, $taxonomy, array( 'fields' => 'ids' ) );
-		
-		if ( empty( $args['include'] ) ) {
-			$terms = array();
-		} else {
-			// This isn't needed for get_terms
-			unset( $args['orderby'] );
-
-			// Set args for get_terms
-			$args['menu_order'] = isset( $args['order'] ) ? $args['order'] : 'ASC';
-			$args['hide_empty'] = isset( $args['hide_empty'] ) ? $args['hide_empty'] : 0;
-			$args['fields']     = isset( $args['fields'] ) ? $args['fields'] : 'names';
-
-			// Ensure slugs is valid for get_terms - slugs isn't supported
-			$args['fields']     = $args['fields'] === 'slugs' ? 'id=>slug' : $args['fields'];
-			$terms              = get_terms( $taxonomy, $args );
-		}
-	} else {
-		$terms = wp_get_post_terms( $course_id, $taxonomy, $args );
-	}
-
-	return $terms;
-}
-
-/**
- * Function for recounting course terms, ignoring hidden courses.
- * @param  array  $terms
- * @param  string  $taxonomy
- * @param  boolean $callback
- * @param  boolean $terms_are_term_taxonomy_ids
- * @return void
- */
 function _llms_term_recount( $terms, $taxonomy, $callback = true, $terms_are_term_taxonomy_ids = true ) {
 	global $wpdb;
 
@@ -191,26 +124,10 @@ function _llms_term_recount( $terms, $taxonomy, $callback = true, $terms_are_ter
 	}
 }
 
-/**
- * lifterLMS Term Meta API
- *
- * @param mixed $term_id
- * @param mixed $meta_key
- * @param mixed $meta_value
- * @param string $prev_value (default: '')
- * @return bool
- */
 function update_lifterlms_term_meta( $term_id, $meta_key, $meta_value, $prev_value = '' ) {
 	return update_metadata( 'lifterlms_term', $term_id, $meta_key, $meta_value, $prev_value );
 }
 
-/**
- * Output a text input box.
- *
- * @access public
- * @param array $field
- * @return void
- */
 function lifterlms_wp_text_input( $field ) {
 	global $thepostid, $post, $lifterlms;
 
@@ -256,11 +173,59 @@ function lifterlms_wp_text_input( $field ) {
 	echo '</p>';
 }
 
-/**
- * Get Currency symbol.
- * @param string $currency (default: '')
- * @return string
- */
+function get_lifterlms_currency() {
+	return apply_filters( 'lifterlms_currency', get_option('lifterlms_currency') );
+}
+
+function get_lifterlms_currencies() {
+	return array_unique(
+		apply_filters( 'lifterlms_currencies',
+			array(
+				'AED' => __( 'United Arab Emirates Dirham', 'lifterlms' ),
+				'AUD' => __( 'Australian Dollars', 'lifterlms' ),
+				'BDT' => __( 'Bangladeshi Taka', 'lifterlms' ),
+				'BRL' => __( 'Brazilian Real', 'lifterlms' ),
+				'BGN' => __( 'Bulgarian Lev', 'lifterlms' ),
+				'CAD' => __( 'Canadian Dollars', 'lifterlms' ),
+				'CLP' => __( 'Chilean Peso', 'lifterlms' ),
+				'CNY' => __( 'Chinese Yuan', 'lifterlms' ),
+				'COP' => __( 'Colombian Peso', 'lifterlms' ),
+				'CZK' => __( 'Czech Koruna', 'lifterlms' ),
+				'DKK' => __( 'Danish Krone', 'lifterlms' ),
+				'EUR' => __( 'Euros', 'lifterlms' ),
+				'HKD' => __( 'Hong Kong Dollar', 'lifterlms' ),
+				'HRK' => __( 'Croatia kuna', 'lifterlms' ),
+				'HUF' => __( 'Hungarian Forint', 'lifterlms' ),
+				'ISK' => __( 'Icelandic krona', 'lifterlms' ),
+				'IDR' => __( 'Indonesia Rupiah', 'lifterlms' ),
+				'INR' => __( 'Indian Rupee', 'lifterlms' ),
+				'ILS' => __( 'Israeli Shekel', 'lifterlms' ),
+				'JPY' => __( 'Japanese Yen', 'lifterlms' ),
+				'KRW' => __( 'South Korean Won', 'lifterlms' ),
+				'MYR' => __( 'Malaysian Ringgits', 'lifterlms' ),
+				'MXN' => __( 'Mexican Peso', 'lifterlms' ),
+				'NGN' => __( 'Nigerian Naira', 'lifterlms' ),
+				'NOK' => __( 'Norwegian Krone', 'lifterlms' ),
+				'NZD' => __( 'New Zealand Dollar', 'lifterlms' ),
+				'PHP' => __( 'Philippine Pesos', 'lifterlms' ),
+				'PLN' => __( 'Polish Zloty', 'lifterlms' ),
+				'GBP' => __( 'Pounds Sterling', 'lifterlms' ),
+				'RON' => __( 'Romanian Leu', 'lifterlms' ),
+				'RUB' => __( 'Russian Ruble', 'lifterlms' ),
+				'SGD' => __( 'Singapore Dollar', 'lifterlms' ),
+				'ZAR' => __( 'South African rand', 'lifterlms' ),
+				'SEK' => __( 'Swedish Krona', 'lifterlms' ),
+				'CHF' => __( 'Swiss Franc', 'lifterlms' ),
+				'TWD' => __( 'Taiwan New Dollars', 'lifterlms' ),
+				'THB' => __( 'Thai Baht', 'lifterlms' ),
+				'TRY' => __( 'Turkish Lira', 'lifterlms' ),
+				'USD' => __( 'US Dollars', 'lifterlms' ),
+				'VND' => __( 'Vietnamese Dong', 'lifterlms' ),
+			)
+		)
+	);
+}
+
 function get_lifterlms_currency_symbol( $currency = '' ) {
 	if ( ! $currency ) {
 		$currency = get_lifterlms_currency();
@@ -329,33 +294,11 @@ function get_lifterlms_currency_symbol( $currency = '' ) {
 	return apply_filters( 'lifterlms_currency_symbol', $currency_symbol, $currency );
 }
 
-/**
- * Get Currency Symbol
- * @return string
- */
-function get_lifterlms_currency() {
-	return apply_filters( 'lifterlms_currency', get_option('lifterlms_currency') );
-}
 
-/**
- * Get Currency Locale
- * @param  string $value
- * @return string
- */
 function llms_format_localized_price( $value ) {
-	return str_replace( '.', get_option( 'lifterlms_price_decimal_sep' ), strval( $value ) );
+	return str_replace( '.', '.', strval( $value ) );
 }
 
-/**
- * Format decimal numbers ready for DB storage
- *
- * Sanitize, remove locale formatting, and optionally round + trim off zeros
- *
- * @param  float|string $number Expects either a float or a string with a decimal separator only (no thousands)
- * @param  mixed $dp number of decimal points to use, blank to use lifterlms_price_num_decimals, or false to avoid all rounding.
- * @param  boolean $trim_zeros from end of string
- * @return string
- */
 function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
 	// Remove locale from string
 	if ( ! is_float( $number ) ) {
@@ -366,8 +309,8 @@ function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
 
 	// DP is false - don't use number format, just return a string in our format
 	if ( $dp !== false ) {
-		$dp     = intval( $dp == "" ? get_option( 'lifterlms_price_num_decimals' ) : $dp );
-		$number = number_format( floatval( $number ), $dp, '.', '' );
+		$dp = 2;     //= intval( $dp == "" ? get_option( 'lifterlms_price_num_decimals' ) : $dp );
+		$number = number_format( floatval( $number ), $dp, '.', ',' );
 	}
 
 	if ( $trim_zeros && strstr( $number, '.' ) ) {
@@ -377,23 +320,10 @@ function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
 	return $number;
 }
 
-/**
- * Clean variables
- * @param string $var
- * @return string
- */
 function llms_clean( $var ) {
 	return sanitize_text_field( $var );
 }
 
-/**
- * Get template part
- *
- * @access public
- * @param mixed $slug
- * @param string $name
- * @return void
- */
 function llms_get_template_part( $slug, $name = '' ) {
 	$template = '';
 
@@ -418,14 +348,7 @@ function llms_get_template_part( $slug, $name = '' ) {
 	}
 }
 
-/**
- * @access public
- * @param string $template_name
- * @param array $args (default: array())
- * @param string $template_path (default: '')
- * @param string $default_path (default: '')
- * @return void
- */
+
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 	if ( $args && is_array( $args ) ) {
 		extract( $args );
@@ -440,13 +363,6 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
 	do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
 }
 
-/**
- * @access public
- * @param string $template_name
- * @param string $template_path (default: '')
- * @param string $default_path (default: '')
- * @return string
- */
 function llms_locate_template( $template_name, $template_path = '', $default_path = '' ) {
 	if ( ! $template_path ) {
 		$template_path = LLMS()->template_path();

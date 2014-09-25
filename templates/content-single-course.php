@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <div id="course-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 
-	<div class="summary entry-summary">
+	<div class="llms-summary">
 
 		<?php
 

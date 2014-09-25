@@ -1,22 +1,24 @@
 <?php
-/**
- * Course Data
- *
- * Displays the course data meta box.
- *
- * @author 		codeBOX
- * @category 	Admin
- * @package 	lifterLMS/Admin/Meta Boxes
- * @version     2.1.0
- */
-
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * LLMS_Meta_Box_Course_Data
- */
-class LLMS_Meta_Box_Course_Data {
+* Meta Box Course Product info. 
+*
+* Fields for managing the course as a sellable product. 
+*
+* @version 1.0
+* @author codeBOX
+* @project lifterLMS
+*/
+class LLMS_Meta_Box_Course_Product {
 
+	
+	/**
+	 * outputs product fields
+	 *
+	 * @return string (html)
+	 * @param string $post
+	 */
 	public static function output( $post ) {
 		
 		global $post, $wpdb, $thepostid;
@@ -28,14 +30,12 @@ class LLMS_Meta_Box_Course_Data {
 		if ( $terms = wp_get_object_terms( $post->ID, 'course_type' ) )
 			$course_type = sanitize_title( current( $terms )->name );
 		else
-			$course_type = apply_filters( 'default_course_type', 'simple' );
+			$course_type = apply_filters( 'default_course_type', 'basic' );
 
 		//TO DO This has to go. I don't think I am going to do these
 		$course_type_selector = apply_filters( 'course_type_selector', array(
-			'simple' 	=> __( 'Simple course', 'lifterlms' ),
+			'basic' 	=> __( 'Basic course', 'lifterlms' ),
 		), $course_type );
-
-
 
 	    // SKU
 		echo '<div>';
@@ -46,7 +46,7 @@ class LLMS_Meta_Box_Course_Data {
 
 		echo '</div>';
 
-		echo '<div class="options_group pricing show_if_simple show_if_external">';
+		echo '<div class="options_group pricing show_if_basic show_if_external">';
 
 		// Price
 		lifterlms_wp_text_input( array( 'id' => '_regular_price', 'label' => __( 'Regular Price', 'lifterlms' ) . ' (' . get_lifterlms_currency_symbol() . ')', 'data_type' => 'price' ) );
@@ -81,12 +81,15 @@ class LLMS_Meta_Box_Course_Data {
 	}
 
 	/**
-	 * Save meta box data
+	 * saves all product metabox data
+	 *
+	 * @return void
+	 * @param $post_id, $post
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		$course_type  = empty( $_POST['course-type'] ) ? 'simple' : sanitize_title( stripslashes( $_POST['course-type'] ) );
+		$course_type  = empty( $_POST['course-type'] ) ? 'basic' : sanitize_title( stripslashes( $_POST['course-type'] ) );
 
 		// Update post meta
 		if ( isset( $_POST['_regular_price'] ) )
@@ -148,7 +151,7 @@ class LLMS_Meta_Box_Course_Data {
 					 ", $new_sku ) )
 					) {
 
-					LLMS_Admin_Meta_Boxes::add_error( __( 'Course SKU must be unique.', 'lifterlms' ) );
+					LLMS_Admin_Meta_Boxes::get_error( __( 'The SKU used already exists. Please create a unique SKU.', 'lifterlms' ) );
 
 				} else {
 					update_post_meta( $post_id, '_sku', $new_sku );

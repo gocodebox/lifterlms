@@ -1,28 +1,20 @@
 <?php
-/**
- * LifterLMS Settings Page
- *
- * @author 		codeBOX
- * @category 	Admin
- * @package 	LifterLMS/Admin
- * @version     0.1
- */
-
-if ( ! function_exists( 'add_filter' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 if ( ! class_exists( 'LLMS_Settings_Page' ) ) :
 
 /**
- * LLMS_Admin_Settings Class
- */
+* Admin Settings Page Base Class
+*
+* @version 1.0
+* @author codeBOX
+* @project lifterLMS
+*/
 class LLMS_Settings_Page {
 
 	/**
-	 * Add page to settings.
+	 * Add the settings page
+	 *
+	 * @return array
 	 */
 	public function add_settings_page( $pages ) {
 		$pages[ $this->id ] = $this->label;
@@ -30,12 +22,19 @@ class LLMS_Settings_Page {
 		return $pages;
 	}
 
+	/**
+	 * Get the page sections
+	 *
+	 * @return array
+	 */
 	public function get_sections() {
 		return array();
 	}
 
 	/**
-	 * Output settings sections as tabs
+	 * Output settings sections as tabs and set post href
+	 *
+	 * @return array
 	 */
 	public function output_sections() {
 		global $current_section;
@@ -60,12 +59,29 @@ class LLMS_Settings_Page {
 	}
 
 	/**
-	 * Output the settings
+	 * Output the settings fields
+	 *
+	 * @return LLMS_Admin_Settings::output_fields
 	 */
 	public function output() {
 		$settings = $this->get_settings();
 
 		LLMS_Admin_Settings::output_fields( $settings );
+	}
+
+	/**
+	 * Save the settings field values
+	 *
+	 * @return void
+	 */
+	public function save() {
+		global $current_section;
+
+		$settings = $this->get_settings();
+		LLMS_Admin_Settings::save_fields( $settings );
+
+		 if ( $current_section )
+	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section );
 	}
 	
 }

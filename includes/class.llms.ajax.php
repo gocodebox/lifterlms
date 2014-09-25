@@ -1,15 +1,15 @@
 <?php
-/**
- * lifterLMS AJAX Event Handler
- *
- * @author 		codeBOX
- * @category 	Core
- * @version     0.1
- */
-
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
-
+/**
+* lifterLMS AJAX Event Handler
+*
+* Handles server side ajax communication.
+*
+* @version 1.0
+* @author codeBOX
+* @project lifterLMS
+*/
 class LLMS_AJAX {
 
 	/**
@@ -187,18 +187,13 @@ class LLMS_AJAX {
 					update_post_meta( $values['lesson_id'], '_parent_course', ( $post_id  === '' ) ? '' : $post_id   );
 					}
 				}
-
-
-
-
 			}
+			
 		}
 
-
-
-		echo json_encode($lesson_ids);
-	//echo $success;
+	echo json_encode($lesson_ids);
 	die();
+
 	}
 
 }

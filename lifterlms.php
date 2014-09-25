@@ -35,7 +35,11 @@ final class LifterLMS {
 
 	public $session = null;
 
+	public $person = null;
+
 	public $course_factory = null;
+
+	public $query = null;
 
 	/**
 	 * Main Instance of LifterLMS
@@ -72,8 +76,11 @@ final class LifterLMS {
 		$this->includes();
 
 		//Hooks
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'action_links' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
+		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+		//add_action( 'after_setup_theme', array( $this, 'setup_environment' ) );
 
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
@@ -95,6 +102,9 @@ final class LifterLMS {
 		}
 		elseif (strpos( $class, 'llms_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/';
+		} 
+		elseif ( strpos( $class, 'llms_shortcode_' ) === 0 ) {
+			$path = $this->plugin_path() . '/includes/shortcodes/';
 		}
 		
 		if ( $path && is_readable( $path . $file ) ) {
@@ -127,6 +137,8 @@ final class LifterLMS {
 	private function includes() {
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
+		include_once( 'includes/class.llms.session.php' );
+		include_once( 'includes/class.llms.session.handler.php' );
 
 
 		if ( is_admin() ) {
@@ -148,8 +160,13 @@ final class LifterLMS {
 
 			include_once( 'includes/class.llms.course.factory.php' );
 
-			$this->course_factory = new LLMS_Course_Factory(); 
-		
+			$this->query = include( 'includes/class.llms.query.php' );
+
+			$this->course_factory = new LLMS_Course_Factory();
+
+			$session_class = apply_filters( 'lifterlms_session_handler', 'LLMS_Session_Handler' );
+			$this->session = new $session_class();
+
 
 		if ( ! is_admin() ) {
 			$this->frontend_includes();
@@ -162,6 +179,12 @@ final class LifterLMS {
 	 */
 	public function frontend_includes() {
 		include_once( 'includes/class.llms.template.loader.php' );
+		include_once( 'includes/class.llms.frontend.assets.php' );
+		include_once( 'includes/class.llms.frontend.forms.php' );
+		include_once( 'includes/class.llms.frontend.password.php' );		
+		include_once( 'includes/class.llms.person.php' ); 
+		include_once( 'includes/class.llms.shortcodes.php' );
+		include_once( 'includes/shortcodes/class.llms.shortcode.my.account.php' );
 	}
 
 	/**
@@ -176,7 +199,11 @@ final class LifterLMS {
 	 */
 	public function init() {
 
-		$this->course_factory = new LLMS_Course_Factory(); 
+		do_action( 'before_lifterlms_init' );
+
+		if ( ! is_admin() ) {
+			$this->person = new LLMS_Person();
+		}
 
 		do_action( 'lifterlms_init' );
 
@@ -207,6 +234,17 @@ final class LifterLMS {
 	 */
 	public function template_path() {
 		return apply_filters( 'LLMS_TEMPLATE_PATH', 'lifterlms/' );
+	}
+
+	/**
+	 * Set up image sizes
+	 */
+	public function setup_environment() {
+
+		$shop_thumbnail = llms_get_image_size( 'shop_thumbnail' );
+		$shop_catalog	= llms_get_image_size( 'shop_catalog' );
+		$shop_single	= llms_get_image_size( 'shop_single' );
+
 	}
  	
 }

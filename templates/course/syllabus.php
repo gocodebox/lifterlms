@@ -8,6 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course;
 
+$post_id = $post->ID;
+
 ?>
 
 <div class="llms-syllabus-wrapper">
@@ -48,7 +50,14 @@ foreach($the_stuff as $key => $value) :
 
 	foreach($the_lessons as $key => $value) :
 
-		echo '<a class="llms-lesson-link" href="' . get_permalink( $value->ID ) . '">' . $value->post_title . '</a>';
+
+		if ( $value->ID == $post_id ){
+			echo $value->post_title;
+		}
+		else {
+			echo '<a class="llms-lesson-link" href="' . get_permalink( $value->ID ) . '">' . $value->post_title . '</a>';
+		}
+		
 		echo '<br>';
 
 	endforeach;

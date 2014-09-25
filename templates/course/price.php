@@ -10,8 +10,6 @@ global $post, $course;
 
 ?>
 
-
-
 <div class="llms-price-wrapper">
 
 	<p class="llms-price"><?php echo $course->get_price_html(); ?></p> 

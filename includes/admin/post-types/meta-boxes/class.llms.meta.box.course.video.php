@@ -1,22 +1,22 @@
 <?php
-/**
- * Course Short Description
- *
- * @author 		codeBOX
- * @category 	Admin
- * @package 	lifterLMS/Admin/Meta Boxes
- * @version     0.1
- */
-
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * LLMS_Meta_Box_Course_Video Embed
- */
+* Meta Box Course Video
+*
+* diplays text input for oembed video
+*
+* @version 1.0
+* @author codeBOX
+* @project lifterLMS
+*/
 class LLMS_Meta_Box_Course_Video {
 
 	/**
-	 * Output the metabox
+	 * Set up video input
+	 *
+	 * @return string
+	 * @param string $post
 	 */
 	public static function output( $post ) {
 		global $post;
@@ -24,8 +24,8 @@ class LLMS_Meta_Box_Course_Video {
 		$video_embed = get_post_meta( $post->ID, '_video_embed', true );
 
 		$html = '';
-		$html .= '<label class="screen-reader-text" for="_video_embed">' . __( 'Video Embed Code', 'lifterlms' ) . '</label>';
-		$html .= '<textarea class="large-text llms-large-text code" name="_video_embed" tabindex="6" id="_video-embed">' . $video_embed . '</textarea>';
+		$html .= '<label for="_video_embed">' . __( 'Video Embed Code', 'lifterlms' ) . '</label> ';
+		$html .= '<input type="text" class="code" name="_video_embed" id="_video-embed" value="' . $video_embed . '"/>';
 		$html .= '<p>' .  __( 'Paste the embed code for your Wistia, Vimeo or Youtube videos in the box above.', 'lifterlms' ) . '</p>';
 
 		echo $html;
@@ -34,8 +34,13 @@ class LLMS_Meta_Box_Course_Video {
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		if ( isset( $_POST['_video_embed'] ) )
-			update_post_meta( $post_id, '_video_embed', ( $_POST['_video_embed'] === '' ) ? '' : $_POST['_video_embed'] );
+		if ( isset( $_POST['_video_embed'] ) ) {
+
+			$video = ( llms_clean( $_POST['_video_embed']  ) );
+
+			update_post_meta( $post_id, '_video_embed', ( $video === '' ) ? '' : $video );
+			
+		}
 	}
 
 }

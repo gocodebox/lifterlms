@@ -123,3 +123,7 @@ table.dad-list tr td:nth-child(2) {
 #addNewSection {
 	margin-bottom: 16px;
 }
+
+.courses {
+	background: #000;
+}

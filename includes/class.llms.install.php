@@ -87,9 +87,9 @@ class LLMS_Install {
 	 */
 	public static function create_pages() {
 		$pages = apply_filters( 'lifterlms_create_pages', array(
-			'learn' => array(
-				'name'    => _x( 'learn', 'Page slug', 'lifterlms' ),
-				'title'   => _x( 'learn', 'Page title', 'lifterlms' ),
+			'shop' => array(
+				'name'    => _x( 'shop', 'Page slug', 'lifterlms' ),
+				'title'   => _x( 'shop', 'Page title', 'lifterlms' ),
 				'content' => ''
 			)
 		) );
