@@ -35,23 +35,38 @@ class LLMS_Template_Loader {
 
 		if ( is_single() && get_post_type() == 'course' ) {
 
-			$template = LLMS()->plugin_path() . '/templates/single-course.php';
+			$template = 'single-course';
 
 		}
 
 		if ( is_single() && get_post_type() == 'lesson' ) {
 
-			$template = LLMS()->plugin_path() . '/templates/single-lesson.php';
-
-		} 
-
-		elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'shop' ) ) ) {
-
-			$template = LLMS()->plugin_path() . '/templates/archive-course.php';
+			$template = 'single-lesson';
 
 		}
 
-		return $template;
+		elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'shop' ) ) ) {
+
+			$template = 'archive-course';
+
+		}
+
+		$template_path = ($this->has_theme_override($template)) ? get_stylesheet_directory() . '/llms/' : LLMS()->plugin_path() . '/templates/';
+
+		return $template_path . $template . '.php';
+	}
+
+
+	/**
+	 * Check to see if the installed theme has an override template
+	 *
+	 * @param  string  $template  slug to the template file (no .php)
+	 * @return boolean
+	 */
+	private function has_theme_override($template='') {
+
+		return file_exists(get_stylesheet_directory() . '/llms/' .$template . '.php');
+
 	}
 
 }
