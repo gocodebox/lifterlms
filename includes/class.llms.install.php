@@ -80,6 +80,8 @@ class LLMS_Install {
 		include_once( 'class.llms.post-types.php' );
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
+
+		flush_rewrite_rules();
 	}
 
 	/**

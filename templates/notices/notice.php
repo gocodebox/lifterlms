@@ -13,6 +13,6 @@ if ( ! $messages ) return;
 
 <?php foreach ( $messages as $message ) : ?>
 
-	<div class="lifterlms-info"><?php echo wp_kses_post( $message ); ?></div>
+	<div class="llms-info"><?php echo wp_kses_post( $message ); ?></div>
 	
 <?php endforeach; ?>
