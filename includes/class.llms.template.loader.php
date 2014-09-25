@@ -35,25 +35,31 @@ class LLMS_Template_Loader {
 
 		if ( is_single() && get_post_type() == 'course' ) {
 
-			$template = 'single-course';
+			$template = 'single-course.php';
 
 		}
 
 		if ( is_single() && get_post_type() == 'lesson' ) {
 
-			$template = 'single-lesson';
+			$template = 'single-lesson.php';
 
 		}
 
 		elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'shop' ) ) ) {
 
-			$template = 'archive-course';
+			$template = 'archive-course.php';
+
+		} else {
+
+			// not an llms template
+			return $template;
 
 		}
 
-		$template_path = ($this->has_theme_override($template)) ? get_stylesheet_directory() . '/llms/' : LLMS()->plugin_path() . '/templates/';
 
-		return $template_path . $template . '.php';
+		$template_path = ($this->has_theme_override($template)) ? get_stylesheet_directory() . '/llms/' : LLMS()->plugin_path() . '/templates/';
+		return $template_path . $template;
+
 	}
 
 
@@ -65,7 +71,7 @@ class LLMS_Template_Loader {
 	 */
 	private function has_theme_override($template='') {
 
-		return file_exists(get_stylesheet_directory() . '/llms/' .$template . '.php');
+		return file_exists(get_stylesheet_directory() . '/llms/' .$template);
 
 	}
 
