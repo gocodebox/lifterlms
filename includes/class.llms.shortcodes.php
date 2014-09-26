@@ -76,7 +76,7 @@ class LLMS_Shortcodes {
 	*
 	* Used for courses [courses]
 	*
-	* @return self::shortcode_wrapper
+	* @return array
 	*/
 	public static function courses( $atts ) {
 
@@ -84,13 +84,14 @@ class LLMS_Shortcodes {
 
 	    $query = new WP_Query( array(
 	        'post_type' => 'course',
+	        'post_status' => 'publish',
 	        'posts_per_page' => isset($atts['per_page']) ? $atts['per_page'] : -1,
 	        'order' => isset($atts['order']) ? $atts['order'] : 'ASC',
 	        'orderby' => isset($atts['orderby']) ? $atts['orderby'] : 'title',
 	    ) );
 
 	    if ( $query->have_posts() ) { ?>
-	    
+
 	       <?php lifterlms_course_loop_start(); ?>
 
 					<?php while ( $query->have_posts() ) : $query->the_post(); ?>
