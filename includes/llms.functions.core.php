@@ -2,7 +2,7 @@
 /**
 * Core functions file
 *
-* Misc functions used by lifterLMS core. 
+* Misc functions used by lifterLMS core.
 *
 * @version 1.0
 * @author codeBOX

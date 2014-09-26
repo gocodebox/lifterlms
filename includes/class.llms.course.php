@@ -38,14 +38,14 @@ class LLMS_Course {
 			$this->id   = absint( $course );
 			$this->post = get_post( $this->id );
 
-		} 
+		}
 
 		elseif ( $course instanceof LLMS_Course ) {
 
 			$this->id   = absint( $course->id );
 			$this->post = $course;
 
-		} 
+		}
 
 		elseif ( isset( $course->ID ) ) {
 
@@ -113,7 +113,7 @@ class LLMS_Course {
 	 * @return mixed (default: '')
 	 */
 	public function get_video() {
-		
+
 		if ( ! isset( $this->video_embed ) ) {
 
 			return '';
@@ -135,7 +135,7 @@ class LLMS_Course {
 	 */
 	public function get_difficulty() {
 
-		$terms = get_the_terms($this->id, 'course_difficulty'); 
+		$terms = get_the_terms($this->id, 'course_difficulty');
 
 		if ( $terms === false ) {
 
@@ -155,14 +155,28 @@ class LLMS_Course {
 	}
 
 	/**
+	 * Get the course short description
+	 *
+	 * @return string (html)
+	 */
+	public function get_short_description() {
+
+		$short_description = wpautop($this->post->post_excerpt);
+
+		return $short_description;
+
+	}
+
+
+	/**
 	 * Get the Course Section and Lesson information
 	 *
 	 * @return string
 	 */
 	public function get_syllabus() {
 
-		$syllabus = $this->sections; 
-		
+		$syllabus = $this->sections;
+
 		return $syllabus;
 
 	}
@@ -179,23 +193,23 @@ class LLMS_Course {
 		$display_price 			= $this->get_price();
 		$display_base_price 	= $this->get_base_price();
 		$display_sale_price    	= $this->get_sale_price();
-		
+
 		if ( $this->get_price() > 0 ) {
 
-			$price = $this->set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price);	
+			$price = $this->set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price);
 
-		} 
+		}
 
 		elseif ( $this->get_price() === '' ) {
 
 			$price = apply_filters( 'lifterlms_empty_price_html', '', $this );
 
-		} 
+		}
 
 		elseif ( $this->get_price() == 0 ) {
 
 			$price = $this->list_price_html_as_free();
-			
+
 		}
 
 		return apply_filters( 'lifterlms_get_price_html', $price, $this );
@@ -208,9 +222,9 @@ class LLMS_Course {
 	 * @return string
 	 */
 	public function set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price) {
-		
 
-		// Check if price is on sale and base price exists 
+
+		// Check if price is on sale and base price exists
 		if ( $this->is_on_sale() && $this->get_base_price() ) {
 
 			//generate price with formatting and suffix
@@ -220,7 +234,7 @@ class LLMS_Course {
 
 			$price = apply_filters( 'lifterlms_sale_price_html', $price, $this );
 
-		} 
+		}
 
 		else {
 
@@ -250,7 +264,7 @@ class LLMS_Course {
 
 			$price .= apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
 
-		} 
+		}
 
 		else {
 
@@ -265,7 +279,7 @@ class LLMS_Course {
 	}
 
 	/**
-	 * Check: Is the sale price different than the base price and is the sale price equal to the price returned from get_price(). 
+	 * Check: Is the sale price different than the base price and is the sale price equal to the price returned from get_price().
 	 *
 	 * @return bool
 	 */
@@ -348,7 +362,7 @@ class LLMS_Course {
 	public function get_price_variations_html( $base, $sale ) {
 
 		return '<del>' . ( ( is_numeric( $base ) ) ? llms_price( $base ) : $base ) . '</del> <ins>' . ( ( is_numeric( $sale ) ) ? llms_price( $sale ) : $sale ) . '</ins>';
-	
+
 	}
 
 
@@ -367,32 +381,32 @@ class LLMS_Course {
 
 			$visible = false;
 
-		} 
+		}
 
 		elseif ( $this->visibility === 'visible' ) {
 
 			$visible = true;
 
 		// Visibility in loop
-		} 
+		}
 
 		elseif ( $this->visibility === 'search' && is_search() ) {
 
 			$visible = true;
 
-		} 
+		}
 
 		elseif ( $this->visibility === 'search' && ! is_search() ) {
 
 			$visible = false;
 
-		} 
+		}
 
 		elseif ( $this->visibility === 'catalog' && is_search() ) {
 
 			$visible = false;
 
-		} 
+		}
 
 		elseif ( $this->visibility === 'catalog' && ! is_search() ) {
 
