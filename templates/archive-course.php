@@ -7,7 +7,7 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; 
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 get_header( 'shop' ); ?>
 
@@ -26,7 +26,7 @@ get_header( 'shop' ); ?>
 		<?php if ( have_posts() ) : ?>
 
 			<?php
-	
+
 				do_action( 'lifterlms_before_shop_loop' );
 
 			?>
@@ -44,7 +44,7 @@ get_header( 'shop' ); ?>
 			<?php lifterlms_course_loop_end(); ?>
 
 			<?php
-			
+
 				do_action( 'lifterlms_after_shop_loop' );
 
 			?>
@@ -64,7 +64,7 @@ get_header( 'shop' ); ?>
 	<?php
 
 		do_action( 'lifterlms_sidebar' );
-		
+
 	?>
 
 <?php get_footer( 'shop' ); ?>

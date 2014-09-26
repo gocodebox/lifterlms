@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; 
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
 * lifterLMS AJAX Event Handler
@@ -16,6 +16,7 @@ class LLMS_AJAX {
 	 * Hook into ajax events
 	 */
 	public function __construct() {
+
 		$ajax_events = array(
 			'get_sections' 		=> false,
 			'get_lessons' 		=> false,
@@ -42,10 +43,10 @@ class LLMS_AJAX {
 		$args = array(
 			'post_type' => 'section'
 		 );
-		
+
 		$postslist = get_posts( $args );
 
-		echo json_encode($postslist );
+		echo json_encode($postslist);
 
 		die();
 	}
@@ -77,7 +78,7 @@ class LLMS_AJAX {
 	 */
 	public function update_syllabus() {
 
-		$post_id  = $_REQUEST['post_id'];	
+		$post_id  = $_REQUEST['post_id'];
 
 		// Parse section id and create new array for comparison.
 		function parse_new_sections ( $new_sections_array ) {
@@ -99,7 +100,7 @@ class LLMS_AJAX {
 		// Parse section ids returned from DB and create new array for comparison.
 		function parse_current_sections ( $current_sections_array ) {
 		    $array = array();
-		    
+
 		    foreach($current_sections_array[0] as $key => $value ) {
 		    	foreach($value as $keys => $values ) {
 		    		if ($keys == 'section_id') {
@@ -110,7 +111,7 @@ class LLMS_AJAX {
 		    return $array;
 		}
 
-		// Compare arrays and determine if there are any duplicates. 
+		// Compare arrays and determine if there are any duplicates.
 		function array_has_dupes($new_array) {
 			return count($new_array) !== count(array_unique($new_array));
 		}
@@ -124,7 +125,7 @@ class LLMS_AJAX {
 				'meta_key' => '_parent_course',
 				'meta_value' => $post_id
 			);
-				 
+
 			$rd_query = new WP_Query( $rd_args );
 
 			$lesson_ids = array();
@@ -159,7 +160,7 @@ class LLMS_AJAX {
 
 				//$lesson_ids = delete_lesson_meta($post_id);
 
-			
+
 
 			$lesson_ids = array();
 
@@ -168,7 +169,7 @@ class LLMS_AJAX {
 				'meta_key' => '_parent_course',
 				'meta_value' => $post_id
 			);
-				 
+
 			$rd_query = new WP_Query( $rd_args );
 
 			$lesson_ids = array();
@@ -181,14 +182,14 @@ class LLMS_AJAX {
 
 
 			$response = array();
-				foreach ($_REQUEST['sections'] as $key => $value) { 
-					foreach ($value['lessons'] as $keys => $values) { 
+				foreach ($_REQUEST['sections'] as $key => $value) {
+					foreach ($value['lessons'] as $keys => $values) {
 					array_push($response, $values['lesson_id']);
 					update_post_meta( $values['lesson_id'], '_parent_course', ( $post_id  === '' ) ? '' : $post_id   );
 					}
 				}
 			}
-			
+
 		}
 
 	echo json_encode($lesson_ids);

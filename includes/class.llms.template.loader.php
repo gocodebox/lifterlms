@@ -32,26 +32,46 @@ class LLMS_Template_Loader {
 
 		$find = array( 'lifterlms.php' );
 		$file = '';
-
 		if ( is_single() && get_post_type() == 'course' ) {
 
-			$template = LLMS()->plugin_path() . '/templates/single-course.php';
+			$template = 'single-course.php';
 
 		}
 
-		if ( is_single() && get_post_type() == 'lesson' ) {
+		elseif ( is_single() && get_post_type() == 'lesson' ) {
 
-			$template = LLMS()->plugin_path() . '/templates/single-lesson.php';
+			$template = 'single-lesson.php';
 
-		} 
+		}
 
 		elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'shop' ) ) ) {
 
-			$template = LLMS()->plugin_path() . '/templates/archive-course.php';
+			$template = 'archive-course.php';
+
+		} else {
+
+			// not an llms template
+			return $template;
 
 		}
 
-		return $template;
+		$template_path = ($this->has_theme_override($template)) ? get_stylesheet_directory() . '/llms/' : LLMS()->plugin_path() . '/templates/';
+
+		return $template_path . $template;
+
+	}
+
+
+	/**
+	 * Check to see if the installed theme has an override template
+	 *
+	 * @param  string  $template  slug to the template file (no .php)
+	 * @return boolean
+	 */
+	private function has_theme_override($template='') {
+
+		return file_exists(get_stylesheet_directory() . '/llms/' .$template);
+
 	}
 
 }
