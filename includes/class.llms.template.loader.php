@@ -32,14 +32,13 @@ class LLMS_Template_Loader {
 
 		$find = array( 'lifterlms.php' );
 		$file = '';
-
 		if ( is_single() && get_post_type() == 'course' ) {
 
 			$template = 'single-course.php';
 
 		}
 
-		if ( is_single() && get_post_type() == 'lesson' ) {
+		elseif ( is_single() && get_post_type() == 'lesson' ) {
 
 			$template = 'single-lesson.php';
 
@@ -56,8 +55,8 @@ class LLMS_Template_Loader {
 
 		}
 
-
 		$template_path = ($this->has_theme_override($template)) ? get_stylesheet_directory() . '/llms/' : LLMS()->plugin_path() . '/templates/';
+
 		return $template_path . $template;
 
 	}

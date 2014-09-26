@@ -13,9 +13,7 @@ Ajax.prototype.get_sections = function () {
 		data 		: this.data,
         cache		: this.cache,
         dataType	: this.dataType,
-		success		: function(response) {
-			section_template(response);
-		}
+		success		: function(response) { section_template(response); }
 	});
 };
 

@@ -44,7 +44,7 @@ class LLMS_AJAX {
 			'post_type' => 'section'
 		 );
 
-		$postslist = get_posts(  );
+		$postslist = get_posts( $args );
 
 		echo json_encode($postslist);
 

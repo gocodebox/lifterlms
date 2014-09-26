@@ -18,6 +18,7 @@
 	border-top: 1px solid #f6f6f6;
 	width: 100%;
 	display: inline-block;
+	text-align: center;
 	list-style: none;
 	clear: both;
 	margin: 0;
@@ -26,19 +27,23 @@
 
 .llms-course-list .courses li {
 	width: 300px;
-	margin: 15px 0;
-	float: left;
+	margin: 15px;
 	border: 1px solid #EFEFEF;
 	padding: 15px;
 	border-radius: 2px;
 	border-bottom: 1px solid #f6f6f6;
 	position: relative;
 	list-style: none;
+	vertical-align: top;
 	display: inline-block;
+	text-align: left;
 }
 
-.llms-course-list .courses li:nth-child(2n+1) {
-	clear: both;
+.llms-course-list .courses li.first {
+	margin-left: 0;
+}
+
+.llms-course-list .courses li.last {
 	margin-right: 15px;
 }
 
