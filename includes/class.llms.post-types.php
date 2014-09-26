@@ -312,6 +312,9 @@ class LLMS_Post_Types {
 		/**
 		 * Lesson Post Type
 		 */
+
+		$lesson_permalink = empty( $permalinks['lesson_base'] ) ? _x( 'lesson', 'slug', 'lifterlms' ) : $permalinks['lesson_base'];
+
 	    register_post_type( "lesson",
 		    apply_filters( 'lifterlms_register_post_type_section',
 				array(
@@ -340,8 +343,7 @@ class LLMS_Post_Types {
 					'exclude_from_search' 	=> false,
 					'show_in_menu' 			=> 'edit.php?post_type=course',
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
-
+					'rewrite' 				=> $lesson_permalink ? array( 'slug' => untrailingslashit( $lesson_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
