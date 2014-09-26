@@ -67,3 +67,43 @@
 .llms-video-wrapper {
 	text-align: center;
 }
+
+.llms-syllabus-wrapper {
+	padding: 15px;
+	text-align: center;
+}
+
+.llms-syllabus-wrapper .llms-lesson-preview {
+	border: 1px solid #9a9a9a;
+	display: inline-block;
+	margin: 15px;
+	text-align: left;
+	vertical-align: top;
+	width: 500px;
+	max-width: 100%;
+	max-width: calc(100% - 30px);
+}
+
+.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-title {
+	padding-right: 75px;
+}
+
+.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-counter {
+	position: absolute;
+	right: 15px;
+	text-align: right;
+	top: 15px;
+	width: 60px;
+}
+
+.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-link {
+	background: #f1f1f1;
+	color: #212121;
+	display: block;
+	padding: 15px;
+	text-decoration: none;
+}
+
+.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-link:hover {
+	background: #eaeaea;
+}

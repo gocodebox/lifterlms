@@ -108,7 +108,7 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
  * @return LLMS_Course
  */
 function llms_setup_course_data( $post ) {
-	if  ( ! is_admin() ) {	
+	if  ( ! is_admin() ) {
 
 		if ($post->post_type == 'course') {
 			unset( $GLOBALS['course'] );
@@ -136,7 +136,7 @@ add_action( 'the_post', 'llms_setup_course_data' );
  */
 function llms_setup_lesson_data( $post ) {
 	if  ( ! is_admin() ) {
-		
+
 		if ($post->post_type == 'lesson') {
 			unset( $GLOBALS['lesson'] );
 			//unset( $GLOBALS['course'] );
@@ -149,7 +149,7 @@ function llms_setup_lesson_data( $post ) {
 
 
 			$courseid = get_post_meta( $post->ID, '_parent_course');
-			
+
 			if ( isset($courseid) ) {
 			$parent_course = get_post( $courseid[0] );
 			}
@@ -169,7 +169,7 @@ add_action( 'the_post', 'llms_setup_lesson_data' );
 
 
 function llms_price( $price, $args = array() ) {
-	
+
 	return $price;
 }
 
@@ -180,7 +180,7 @@ function llms_price( $price, $args = array() ) {
  * @return array
  */
 function get_section_data ($sections) {
-	global $post; 
+	global $post;
 	$html = '';
 	$args = array(
 	    'post_type' => 'section',
@@ -191,9 +191,9 @@ function get_section_data ($sections) {
 	$array = array();
 
 	foreach($sections as $key => $value) :
-		
-		foreach($query as $post) : 
-			
+
+		foreach($query as $post) :
+
 			if ($value == $post->ID) {
 				$array[$post->ID] = $post;
 			}
@@ -202,7 +202,7 @@ function get_section_data ($sections) {
 
 	endforeach;
 
-	return $array; 
+	return $array;
 
 }
 
@@ -213,7 +213,7 @@ function get_section_data ($sections) {
  * @return array
  */
 function get_lesson_data ($lessons) {
-	global $post; 
+	global $post;
 	$html = '';
 	$args = array(
 	    'post_type' => 'lesson',
@@ -231,11 +231,12 @@ function get_lesson_data ($lessons) {
 			if ($value == $post->ID) {
 				$array[$value] = $post;
 			}
-		endforeach;	
+
+		endforeach;
 
 	endforeach;
 
-	return $array; 
+	return $array;
 }
 
 
@@ -496,6 +497,13 @@ if ( ! function_exists( 'lifterlms_courses_will_display' ) ) {
 		set_transient( 'llms_courses_will_display_' . $parent_id, $courses_will_display, YEAR_IN_SECONDS );
 
 		return $courses_will_display;
+	}
+}
+
+if ( ! function_exists( 'lifterlms_template_loop_short_description' ) ) {
+
+	function lifterlms_template_loop_short_description() {
+		llms_get_template( 'loop/short-description.php' );
 	}
 }
 

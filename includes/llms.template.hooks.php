@@ -29,6 +29,8 @@ add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_single_syllab
 
 add_action( 'lifterlms_before_shop_loop_item_title', 'lifterlms_template_loop_course_thumbnail', 10 );
 
+add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_short_description', 10 );
+add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_length', 10 );
 add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_price', 10 );
 add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_length', 10 );
 add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_difficulty', 10 );
