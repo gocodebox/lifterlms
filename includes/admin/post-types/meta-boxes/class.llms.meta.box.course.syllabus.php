@@ -122,7 +122,7 @@ class LLMS_Meta_Box_Course_Syllabus {
         if (!count($names)) {
         	echo '<option class="course_difficulty-option" value="" selected disabled>Select a difficulty...</option>';
         }
-
+        echo '<option class="course_difficulty-option" value="">None</option>';
     	foreach ($difficulties as $difficulty) {
         	if (!is_wp_error($names) && !empty($names) && !strcmp($difficulty->slug, $names[0]->slug)) {
             	echo "<option class='difficulty-option' value='" . $difficulty->slug . "' selected>" . $difficulty->name . "</option>\n"; 
