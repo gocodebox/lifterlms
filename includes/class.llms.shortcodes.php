@@ -20,6 +20,7 @@ class LLMS_Shortcodes {
 
 		$shortcodes = array(
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
+			'courses' => __CLASS__ . '::courses',		
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -69,6 +70,43 @@ class LLMS_Shortcodes {
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
 
 	}
+
+	/**
+	* courses shortcode
+	*
+	* Used for courses [courses]
+	*
+	* @return self::shortcode_wrapper
+	*/
+	public static function courses( $atts ) {
+
+	    ob_start();
+
+	    $query = new WP_Query( array(
+	        'post_type' => 'course',
+	        'posts_per_page' => isset($atts['per_page']) ? $atts['per_page'] : -1,
+	        'order' => isset($atts['order']) ? $atts['order'] : 'ASC',
+	        'orderby' => isset($atts['orderby']) ? $atts['orderby'] : 'title',
+	    ) );
+
+	    if ( $query->have_posts() ) { ?>
+	    
+	       <?php lifterlms_course_loop_start(); ?>
+
+					<?php while ( $query->have_posts() ) : $query->the_post(); ?>
+
+						<?php llms_get_template_part( 'content', 'course' ); ?>
+
+					<?php endwhile; ?>
+
+				<?php lifterlms_course_loop_end(); ?>
+
+	    <?php $courses = ob_get_clean();
+	    return $courses;
+	    }
+
+	}
+
 
 }
 
