@@ -202,15 +202,15 @@ class LLMS_Post_Types {
 	 * Register Post Types
 	 */
 	public static function register_post_types() {
-		if ( post_type_exists('course') ) {
-			return;
-		}
-		if ( post_type_exists('section') ) {
-			return;
-		}
-		if ( post_type_exists('lesson') ) {
-			return;
-		}
+		// if ( post_type_exists('course') ) {
+		// 	return;
+		// }
+		// if ( post_type_exists('section') ) {
+		// 	return;
+		// }
+		// if ( post_type_exists('lesson') ) {
+		// 	return;
+		// }
 
 		do_action( 'lifterlms_register_post_type' );
 
@@ -348,6 +348,45 @@ class LLMS_Post_Types {
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
 					//'has_archive' 			=> false,
+				)
+			)
+		);
+
+	    register_post_type( "order",
+		    apply_filters( 'lifterlms_register_post_type_order',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Orders', 'lifterlms' ),
+							'singular_name' 		=> __( 'Order', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Order', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Order', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Order', 'lifterlms' ),
+							'new_item' 				=> __( 'New Order', 'lifterlms' ),
+							'view' 					=> __( 'View Order', 'lifterlms' ),
+							'view_item' 			=> __( 'View Order', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Orders', 'lifterlms' ),
+							'not_found' 			=> __( 'No Orders found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Orders found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Orders', 'lifterlms' ),
+							'menu_name'				=> _x('Orders', 'Admin menu name', 'lifterlms' ),
+						),
+					'description' 			=> __( 'This is where orders are managed', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> true,
+					//'capability_type' 		=> 'order',
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'lifterlms',
+					//'show_in_menu' 			=> 'edit.php?post_type=course',
+					//'show_in_menu' 			=> 'admin.php?page=lifterlms',//?page=lifterlms //current_user_can( 'manage_options' ) ? 'lifterLMS' : true,
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title', 'comments', 'custom-fields' ),
+					'has_archive' 			=> false,
 				)
 			)
 		);

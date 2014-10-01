@@ -45,6 +45,7 @@ class LLMS_Query {
 	public function init_query_vars() {
 
 		$this->query_vars = array(	
+			'confirm-payment' => get_option( 'lifterlms_myaccount_confirm_payment_endpoint', 'confirm-payment' ),
 			'edit-account' => get_option( 'lifterlms_myaccount_edit_account_endpoint', 'edit-account' ),
 			'lost-password' => get_option( 'lifterlms_myaccount_lost_password_endpoint', 'lost-password' ),
 			'person-logout' => get_option( 'lifterlms_logout_endpoint', 'person-logout' ),

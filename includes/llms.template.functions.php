@@ -69,6 +69,14 @@ if ( ! function_exists( 'lifterlms_template_single_lesson_length' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_single_purchase_link' ) ) {
+
+	function lifterlms_template_single_purchase_link() {
+
+		llms_get_template( 'course/purchase-link.php' );
+	}
+}
+
 if ( ! function_exists( 'lifterlms_template_single_video' ) ) {
 
 	function lifterlms_template_single_video() {
@@ -100,6 +108,15 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
 		llms_get_template( 'course/parent_course.php' );
 	}
 }
+
+if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
+
+	function lifterlms_template_single_parent_course() {
+
+		llms_get_template( 'course/parent_course.php' );
+	}
+}
+
 
 /**
  * When the_post is called, put course data into a global.
@@ -428,6 +445,38 @@ if ( ! function_exists( 'is_shop' ) ) {
 	}
 }
 
+if ( ! function_exists( 'is_account_page' ) ) {
+
+	function is_account_page() {
+		return is_page( llms_get_page_id( 'myaccount' ) ) || apply_filters( 'lifterlms_is_account_page', false ) ? true : false;
+	}
+}
+
+
+if ( ! function_exists( 'is_checkout' ) ) {
+
+	function is_checkout() {
+		return is_page( llms_get_page_id( 'checkout' ) ) ? true : false;
+	}
+}
+
+if ( ! function_exists( 'is_llms_endpoint_url' ) ) {
+
+	function is_llms_endpoint_url( $endpoint ) {
+		global $wp;
+
+		$llms_endpoints = LLMS()->query->get_query_vars();
+
+		if ( ! isset( $llms_endpoints[ $endpoint ] ) ) {
+			return false;
+		} else {
+			$endpoint_var = $llms_endpoints[ $endpoint ];
+		}
+
+		return isset( $wp->query_vars[ $endpoint_var ] ) ? true : false;
+	}
+}
+
 if ( ! function_exists( 'lifterlms_courses_will_display' ) ) {
 
 
@@ -612,19 +661,6 @@ if ( ! function_exists( 'lifterlms_get_sidebar' ) ) {
 	}
 }
 
-if ( ! function_exists( 'is_account_page' ) ) {
-
-	/**
-	 * is_account_page - Returns true when viewing an account page.
-	 *
-	 * @access public
-	 * @return bool
-	 */
-	function is_account_page() {
-		return is_page( llms_get_page_id( 'myaccount' ) ) || apply_filters( 'lifterlms_is_account_page', false ) ? true : false;
-	}
-}
-
 if ( ! function_exists( 'is_lifterlms' ) ) {
 	function is_lifterlms() {
 		return apply_filters( 'is_lifterlms', ( is_shop() || is_course_taxonomy() || is_course() ) ? true : false );
@@ -656,4 +692,52 @@ function llms_person_edit_account_url() {
 	return apply_filters( 'lifterlms_person_edit_account_url', $edit_account_url );
 }
 
+function get_product_query_var( $vars ){
+	$vars[] = "product";
+	return $vars;
+}
+add_filter( 'query_vars', 'get_product_query_var' );
 
+/**
+ * Check if user is enrolled in course. 
+ *
+ * @return bool
+ */
+function llms_is_user_enrolled( $user_id, $product_id ) {
+	global $wpdb;
+
+	$results = get_post_meta( $product_id, '_llms_student', false );
+
+	foreach ( $results as $key => $value ) :
+		if ( $value == $user_id ) { 
+			return true;
+		}
+		else {
+			return false;
+		}
+	endforeach;
+
+}
+
+function get_available_payment_options() {
+
+	$_available_options = array();
+	$option_prefix = 'lifterlms_gateway_enable_';
+	$options = array(
+			'paypal'
+	);
+
+	foreach( $options as $option ) {
+		$single_option = '';
+
+	$single_option = get_option( $option_prefix . $option, 'no' );
+
+		if ( $single_option  === 'yes' ) {
+
+ 			array_push($_available_options, $option);
+		}
+
+	llms_get_template( 'checkout/' . $option . '.php' );
+	
+	}
+}

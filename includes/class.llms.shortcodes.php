@@ -20,6 +20,7 @@ class LLMS_Shortcodes {
 
 		$shortcodes = array(
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
+			'lifterlms_checkout' => __CLASS__ . '::checkout',
 			'courses' => __CLASS__ . '::courses',		
 		);
 
@@ -68,6 +69,19 @@ class LLMS_Shortcodes {
 	public static function my_account( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
+
+	}
+
+	/**
+	* Checkout shortcode.
+	*
+	* Used for displaying checkout form
+	*
+	* @return self::shortcode_wrapper
+	*/
+	public static function checkout( $atts ) {
+
+		return self::shortcode_wrapper( array( 'LLMS_Shortcode_Checkout', 'output' ), $atts );
 
 	}
 

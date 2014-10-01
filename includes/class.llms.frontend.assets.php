@@ -44,6 +44,9 @@ class LLMS_Frontend_Assets {
 	public function enqueue_scripts() {
 		//no scripts yet. This will work exactly like the admin side.
 		global $post, $wp;
+
+		wp_enqueue_script( 'llms-form-checkout', plugins_url(  '/assets/js/llms-form-checkout' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+
 	}
 
 	/**

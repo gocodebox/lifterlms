@@ -1,0 +1,94 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
+* Order class
+*
+* Manages Ordering process.
+*
+* @version 1.0
+* @author codeBOX
+* @project lifterLMS
+*/
+class LLMS_Order {
+
+	protected static $_instance = null;
+
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+
+			self::$_instance = new self();
+
+		}
+
+		return self::$_instance;
+	}
+
+	public function get_order() {
+
+	}
+
+	public function process_order() {
+		global $wpdb;
+
+		$order = LLMS()->session->get( 'llms_order', array() );
+
+		$order_exists = $wpdb->get_results("SELECT user_id, product_id, order_completed 
+			FROM " . $wpdb->prefix ."lifterlms_order
+			WHERE user_id = " . $order->user_id . " AND product_id = " . $order->product_id);
+
+		if ( ! $order_exists ) {
+
+			$result = $wpdb->insert( $wpdb->prefix .'lifterlms_order', array( 
+				'user_id' 			=> $order->user_id,  
+				'created_date' 		=> date("Y-m-d h:i:s"),
+				'order_completed' 	=> $order->order_completed,
+				'product_id' 		=> $order->product_id, 
+
+			) );
+
+		}
+	}
+
+	public function update_order() {
+		global $wpdb;
+
+		$order = LLMS()->session->get( 'llms_order', array() );
+
+		$order_data = apply_filters( 'lifterlms_new_order', array(
+			'post_type' 	=> 'order',
+			'post_title' 	=> sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ) ) ),
+			'post_status' 	=> 'publish',
+			'ping_status'	=> 'closed',
+			'post_author' 	=> 1,
+			'post_password'	=> uniqid( 'order_' )
+		) );
+
+		$order_post_id = wp_insert_post( $order_data, true );
+
+		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order', 
+			array( 
+				'completed_date' 	=> date("Y-m-d h:i:s"),
+				'order_completed' 	=> 'yes',
+				'order_post_id'		=> $order_post_id,
+			),
+			array( 
+				'user_id' 			=> $order->user_id, 
+				'product_id' 		=> $order->product_id, 
+			)
+		);
+
+		//Assign user to the purchased course post
+		update_post_meta($order->product_id,'_llms_student', $order->user_id);
+
+		// Add order metadata to the order post
+		update_post_meta($order_post_id,'_llms_user_id', $order->user_id);
+		update_post_meta($order_post_id,'_llms_payment_method', $order->payment_method);
+		update_post_meta($order_post_id,'_llms_product_title', $order->product_title);
+		update_post_meta($order_post_id,'_llms_order_total', $order->total);
+		update_post_meta($order_post_id,'_llms_product_sku', $order->product_sku);
+		update_post_meta($order_post_id,'_llms_order_currency', $order->currency);
+
+	}
+
+}

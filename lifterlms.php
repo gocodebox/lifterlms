@@ -76,7 +76,6 @@ final class LifterLMS {
 		$this->includes();
 
 		//Hooks
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'action_links' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
@@ -105,6 +104,10 @@ final class LifterLMS {
 		} 
 		elseif ( strpos( $class, 'llms_shortcode_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/shortcodes/';
+		}
+
+		elseif ( strpos( $class, 'llms_gateway_' ) === 0 ) {
+			$path = $this->plugin_path() . '/includes/payment_gateways/';
 		}
 		
 		if ( $path && is_readable( $path . $file ) ) {
@@ -135,6 +138,7 @@ final class LifterLMS {
 	 * Include required core classes
 	 */
 	private function includes() {
+
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
 		include_once( 'includes/class.llms.session.php' );
@@ -145,27 +149,30 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.php' );
 		}
 		
-			// Post types
-			include_once( 'includes/class.llms.post-types.php' );
+		// Post types
+		include_once( 'includes/class.llms.post-types.php' );
 
-			// Ajax
-			include_once( 'includes/class.llms.ajax.php' );
+		// Payment Gateway
+		include_once( 'includes/class.llms.payment.gateway.php' );
 
-			// Hooks
-			include_once( 'includes/llms.template.hooks.php' );
+		// Ajax
+		include_once( 'includes/class.llms.ajax.php' );
 
-			// Classes
-			include_once( 'includes/class.llms.course.php' );	
-			include_once( 'includes/class.llms.lesson.php' );
+		// Hooks
+		include_once( 'includes/llms.template.hooks.php' );
 
-			include_once( 'includes/class.llms.course.factory.php' );
+		// Classes
+		include_once( 'includes/class.llms.course.php' );	
+		include_once( 'includes/class.llms.lesson.php' );
 
-			$this->query = include( 'includes/class.llms.query.php' );
+		include_once( 'includes/class.llms.course.factory.php' );
 
-			$this->course_factory = new LLMS_Course_Factory();
+		$this->query = include( 'includes/class.llms.query.php' );
 
-			$session_class = apply_filters( 'lifterlms_session_handler', 'LLMS_Session_Handler' );
-			$this->session = new $session_class();
+		$this->course_factory = new LLMS_Course_Factory();
+
+		$session_class = apply_filters( 'lifterlms_session_handler', 'LLMS_Session_Handler' );
+		$this->session = new $session_class();
 
 
 		if ( ! is_admin() ) {
@@ -185,6 +192,9 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.person.php' ); 
 		include_once( 'includes/class.llms.shortcodes.php' );
 		include_once( 'includes/shortcodes/class.llms.shortcode.my.account.php' );
+		include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
+
+		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
 	}
 
 	/**
@@ -234,6 +244,24 @@ final class LifterLMS {
 	 */
 	public function template_path() {
 		return apply_filters( 'LLMS_TEMPLATE_PATH', 'lifterlms/' );
+	}
+
+	/**
+	 * get payment gateways.
+	 *
+	 * @return array
+	 */
+	public function payment_gateways() {
+		return LLMS_Payment_Gateways::instance();
+	}
+
+	/**
+	 * Process order class
+	 *
+	 * @return array
+	 */
+	public function checkout() {
+	return LLMS_Order::instance();
 	}
 
 	/**

@@ -48,7 +48,9 @@ class LLMS_Template_Loader {
 
 			$template = 'archive-course.php';
 
-		} else {
+		} 
+
+		else {
 
 			// not an llms template
 			return $template;

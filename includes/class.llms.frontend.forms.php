@@ -20,9 +20,200 @@ class LLMS_Frontend_Forms {
 	public function __construct() {
 
 		add_action( 'template_redirect', array( $this, 'save_account_details' ) );	
+
+		add_action( 'init', array( $this, 'create_order' ) );
+		add_action( 'init', array( $this, 'confirm_order' ) );	
 		add_action( 'init', array( $this, 'login' ) );
 		add_action( 'init', array( $this, 'user_registration' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
+
+		add_action( 'lifterlms_order_process_begin', array( $this, 'order_processing' ), 10, 1 );
+		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 1 );
+		add_action( 'lifterlms_order_process_complete', array( $this, 'order_complete' ), 10, 1 );
+
+	}
+
+	public function confirm_order() {
+		global $wpdb;
+
+		if ( ! isset($_REQUEST['token']) ) {
+			return;
+		}
+
+		if ( 'POST' !== strtoupper( $_SERVER[ 'REQUEST_METHOD' ] ) ) {
+			return;
+		}
+
+		if ( empty( $_POST[ 'action' ] ) || ( 'process_order' !== $_POST[ 'action' ] ) || empty( $_POST['_wpnonce'] ) ) {
+			return;
+		}
+
+		// noonnce the post
+		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
+
+		$current_order = LLMS()->session->get( 'llms_order', array() );
+
+		$payment_method	= $current_order->payment_method;
+
+		$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
+	
+		$result = $available_gateways[$payment_method]->confirm_payment($_REQUEST);
+
+		$errors = new WP_Error();
+		$order = new stdClass();
+
+		$order->token	= $result['TOKEN'];
+		$order->payer_id	= $result['PAYERID'];
+
+		$order->payment_method	= $current_order->payment_method;
+		$order->product_title	= $result['L_PAYMENTREQUEST_0_NAME0'];
+		$order->product_price	= $result['PAYMENTREQUEST_0_ITEMAMT'];
+		$order->product_sku		= $result['L_PAYMENTREQUEST_0_NUMBER0'];
+
+		$order->user_id     	= (int) get_current_user_id();
+		$current_user 			= get_user_by( 'id', $order->user_id );
+
+		$order->order_completed = 'no';
+
+		$order->total 			= $result['AMT'];
+		$order->currency 		= get_lifterlms_currency();
+		$order->return_url		= $this->llms_confirm_payment_url();
+
+
+		if ( $confirm_order = $available_gateways[$payment_method]->confirm_payment($_REQUEST) ) {
+			$process_result = $available_gateways[$payment_method]->complete_payment($order);
+		}
+
+	}
+
+	public function create_order() {
+		global $wpdb;
+
+		// check if session already exists. if it does assign it. 
+		$current_order = LLMS()->session->get( 'llms_order', array() );
+
+		if ( 'POST' !== strtoupper( $_SERVER[ 'REQUEST_METHOD' ] ) ) {
+			return;
+		}
+
+		if ( empty( $_POST[ 'action' ] ) || ( 'create_order_details' !== $_POST[ 'action' ] ) || empty( $_POST['_wpnonce'] ) ) {
+			return;
+		}
+		
+		// noonnce the post
+		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
+
+		$errors = new WP_Error();
+		$order = new stdClass();
+
+		$order->payment_method	= $_POST['payment_method'];
+		$order->product_title	= $_POST['product_title'];
+		$order->product_price	= $_POST['product_price'];
+		$order->product_sku		= $_POST['product_sku'];
+
+		$order->user_id     	= (int) get_current_user_id();
+		$current_user 			= get_user_by( 'id', $order->user_id );
+		$product_id 			= ! empty( $_POST[ 'product_id' ] ) ? llms_clean( $_POST[ 'product_id' ] ) : '';
+		
+		$order->order_completed = 'no';
+		$order->product_id 		= $product_id;
+
+		$order->total 			= $_POST['product_price'];
+		$order->currency 		= get_lifterlms_currency();
+		$order->return_url		= $this->llms_confirm_payment_url();
+		$order->cancel_url		= $this->llms_cancel_payment_url();
+
+		if ( $order->user_id <= 0 || $order->product_id <= 0 ) {
+			return;
+		}
+
+		$url = isset($_POST['redirect']) ? llms_clean( $_POST['redirect'] ) : '';
+
+		$redirect = LLMS_Frontend_Forms::llms_get_redirect( $url );
+	
+		// if no errors were returned save the data
+		if ( llms_notice_count( 'error' ) == 0 ) {
+
+			LLMS()->session->set( 'llms_order', $order );
+
+			$lifterlms_checkout = LLMS()->checkout();
+			$lifterlms_checkout->process_order();
+
+			$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
+
+			$result = $available_gateways[$order->payment_method]->process_payment($order);
+
+		}
+
+	}
+
+	function llms_confirm_payment_url() {
+
+		$confirm_payment_url = llms_get_endpoint_url( 'confirm-payment', '', get_permalink( llms_get_page_id( 'checkout' ) ) );
+
+		return apply_filters( 'lifterlms_checkout_confirm_payment_url', $confirm_payment_url );
+	}
+
+	function llms_cancel_payment_url() {
+
+		$cancel_payment_url = esc_url( get_permalink( llms_get_page_id( 'checkout' ) ) );
+
+		return apply_filters( 'lifterlms_checkout_confirm_payment_url', $cancel_payment_url );
+	}
+
+	public function order_processing ($url) {
+
+		$redirect = esc_url( $url );
+
+		llms_add_notice( __( 'Saved order to database and session', 'lifterlms' ) );
+
+		wp_redirect( apply_filters( 'lifterlms_order_process_pending_redirect', $url ) );
+		exit;
+
+	}
+
+	public function order_success ($user_id) {
+
+		$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
+
+		llms_add_notice( __( 'Course purchased', 'lifterlms' ) );
+
+		wp_redirect( apply_filters( 'lifterlms_order_process_success_redirect', $redirect ) );
+
+		exit;
+
+	}
+
+	public function order_complete ($user_id) {
+
+		$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
+
+		llms_add_notice( __( 'You already own this course. You cannot purchase it again.', 'lifterlms' ) );
+
+		wp_redirect( apply_filters( 'lifterlms_order_process_complete_redirect', $redirect ) );
+
+	}
+
+	public static function llms_get_redirect( $url ) {
+		if ( ! empty( $url ) ) {
+
+		$redirect = esc_url( $url );
+
+		} 
+		
+		elseif ( wp_get_referer() ) {
+
+			$redirect = esc_url( wp_get_referer() );
+
+		} 
+
+		else {
+
+			$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
+
+		}
+
+		return $redirect;
 
 	}
 
@@ -32,6 +223,11 @@ class LLMS_Frontend_Forms {
 	* @return void
 	*/
 	public function save_account_details() {
+
+		
+		if ( ! $_SERVER['REQUEST_METHOD'] === 'POST' ) {
+			return;
+		}
 
 		if ( 'POST' !== strtoupper( $_SERVER[ 'REQUEST_METHOD' ] ) ) {
 
@@ -44,7 +240,7 @@ class LLMS_Frontend_Forms {
 
 		}
 
-		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms-save_account_details' );
+		wp_verify_nonce( $_POST['_wpnonce'], 'save_account_details' );
 
 		$update       = true;
 		$errors       = new WP_Error();

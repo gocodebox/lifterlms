@@ -14,16 +14,14 @@ llms_print_notices(); ?>
 	<?php
 
 	printf(
-		__( '<a href="%2$s">Sign out</a>.', 'lifterlms' ) . ' ',
-		$current_user->display_name,
+		__( '<a href="%1$s">Sign out</a>.', 'lifterlms' ) . ' ',
 		wp_logout_url( get_permalink( llms_get_page_id( 'myaccount' ) ) )
 	);
 	echo '<br /><br />';
 
 	printf(
 		__( 'Hello <strong>%1$s</strong>', 'lifterlms' ) . ' ',
-		$current_user->display_name,
-		wp_logout_url( get_permalink( llms_get_page_id( 'myaccount' ) ) )
+		$current_user->display_name
 	);
 
 	echo '<br />';

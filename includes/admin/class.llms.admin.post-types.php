@@ -47,9 +47,10 @@ class LLMS_Admin_Post_Types {
 		global $post, $post_ID;
 
 		$llms_post_types = array(
-			'course' => 'Course',
-			'section' => 'Section',
-			'lesson' => 'Lesson',
+			'course'	=> 'Course',
+			'section' 	=> 'Section',
+			'lesson' 	=> 'Lesson',
+			'order'	 	=> 'Order'
 		);
 
 		foreach( $llms_post_types as $type => $title ) {
@@ -68,6 +69,7 @@ class LLMS_Admin_Post_Types {
 					date_i18n( __( 'M j, Y @ G:i', 'lifterlms' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
 				10 => sprintf( __( $title . ' draft updated. <a target="_blank" href="%s">Preview ' . $title . '</a>', 'lifterlms' ), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
 			);
+
 
 		}
 
