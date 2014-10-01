@@ -21,11 +21,16 @@ $lessons = array();
 
 $syllabus = $course->get_syllabus();
 
-foreach($syllabus as $key => $value ) :
+if ($syllabus ) {
+	foreach($syllabus as $key => $value ) :
 
-	array_push($array, $syllabus[$key]['section_id']);
+		array_push($array, $syllabus[$key]['section_id']);
 
-endforeach;
+	endforeach;
+}
+else {
+	echo __( 'This course does not have any lessons.', 'lifterlms' );
+}
 
 
 $the_stuff = get_section_data($array);
