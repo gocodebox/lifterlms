@@ -18,7 +18,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	*/
 	public function __construct() {
 		$this->id    = 'courses';
-		$this->label = 'Courses';
+		$this->label = __( 'Courses', 'lifterlms' );
 
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );

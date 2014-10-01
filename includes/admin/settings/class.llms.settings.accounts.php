@@ -18,7 +18,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	*/
 	public function __construct() {
 		$this->id    = 'account';
-		$this->label = 'Accounts';
+		$this->label = __( 'Accounts', 'lifterlms' );
 
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );

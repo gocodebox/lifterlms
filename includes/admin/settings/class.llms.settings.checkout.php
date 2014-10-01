@@ -50,6 +50,14 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 					'css' 		=> 'min-width:300px;',
 					'desc_tip'	=> __( 'This sets the base page of the checkout page', 'lifterlms' ),
 				),
+				array(
+					'title' => __( 'Confirm Payment', 'lifterlms' ),
+					'desc' 		=> __( 'Payment Confirmation Page', 'lifterlms' ),
+					'id' 		=> 'lifterlms_myaccount_confirm_payment_endpoint',
+					'type' 		=> 'text',
+					'default'	=> 'edit-account',
+					'desc_tip'	=> true,
+				),
 
 				array( 'type' => 'sectionend', 'id' => 'checkout_options'),
 			) 	
