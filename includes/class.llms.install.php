@@ -35,7 +35,7 @@ class LLMS_Install {
 		register_activation_hook( LLMS_PLUGIN_FILE, array( $this, 'install' ) );
 		add_action( 'admin_init', array( $this, 'check_wp_version' ) );	
 		add_action( 'admin_init', array( $this, 'install_settings' ) );
-		}
+	}
 
 	//custom error notice ~ this needs to be moved to it's own class / factory
 	public function custom_error_notice(){

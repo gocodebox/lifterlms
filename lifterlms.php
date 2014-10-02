@@ -1,9 +1,9 @@
 <?php
 /**
 *Plugin Name: LifterLMS
-*Plugin URI: http://gocodebox.com
-*Description: Only the greatest LMS plugin ever created!
-*Version: 0.1
+*Plugin URI: http://lifterlms.com/
+*Description: lifterLMS is the easiest way for anyone to create a Learning Management System on the Wordpress platform.
+*Version: 1.0
 *Author: codeBOX
 *Author URI: http://gocodebox.com
 *
@@ -79,7 +79,7 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
-		//add_action( 'after_setup_theme', array( $this, 'setup_environment' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ) );
 
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
@@ -274,7 +274,15 @@ final class LifterLMS {
 		$shop_single	= llms_get_image_size( 'shop_single' );
 
 	}
- 	
+
+	public function add_action_links ( $links ) {
+
+	 $lifter_links = array(
+	 '<a href="' . admin_url( 'admin.php?page=llms-settings' ) . '">' . __( 'Settings', 'lifterlms' ) . '</a>'
+	 );
+	return array_merge( $links, $lifter_links );
+	}
+
 }
 
 endif;

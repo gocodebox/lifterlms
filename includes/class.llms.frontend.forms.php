@@ -436,7 +436,6 @@ class LLMS_Frontend_Forms {
 					}
 
 					else {
-
 						wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $redirect, $user ) );
 						exit;
 					}
