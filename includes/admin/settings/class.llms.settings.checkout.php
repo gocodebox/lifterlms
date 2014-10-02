@@ -55,7 +55,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 					'desc' 		=> __( 'Payment Confirmation Page', 'lifterlms' ),
 					'id' 		=> 'lifterlms_myaccount_confirm_payment_endpoint',
 					'type' 		=> 'text',
-					'default'	=> 'edit-account',
+					'default'	=> 'confirm-payment',
 					'desc_tip'	=> true,
 				),
 

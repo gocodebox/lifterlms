@@ -22,6 +22,7 @@ $lessons = array();
 $syllabus = $course->get_syllabus();
 
 if ($syllabus ) {
+	
 	foreach($syllabus as $key => $value ) :
 
 		array_push($array, $syllabus[$key]['section_id']);

@@ -39,10 +39,17 @@ class LLMS_Shortcode_Checkout {
 				llms_add_notice( $message );
 			}
 
+			if ( $product_id = get_query_var( 'product' ) ) {
+			$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
+			
+			$account_redirect = add_query_arg( 'product', $product_id, $account_url );
+		}
+
 			printf(
 				__( '<a href="%1$s">Login or create an account to purchase this course</a>.', 'lifterlms' ) . ' ',
-				wp_logout_url( get_permalink( llms_get_page_id( 'myaccount' ) ) )
+				$account_redirect 
 			);
+			
 		}
 
 		else {

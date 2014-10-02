@@ -83,14 +83,14 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'autoload'      => false
 				),
 
-				array(
-				'desc'          => __( 'Display Featured image as banner on course page', 'lifterlms' ),
-				'id'            => 'lifterlms_course_display_featured_banner',
-				'default'       => 'yes',
-				'type'          => 'checkbox',
-				'checkboxgroup' => 'end',
-				'autoload'      => false
-				),
+				// array(
+				// 'desc'          => __( 'Display Featured image as banner on course page', 'lifterlms' ),
+				// 'id'            => 'lifterlms_course_display_featured_banner',
+				// 'default'       => 'yes',
+				// 'type'          => 'checkbox',
+				// 'checkboxgroup' => 'end',
+				// 'autoload'      => false
+				// ),
 
 		
 

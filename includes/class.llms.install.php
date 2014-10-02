@@ -34,6 +34,7 @@ class LLMS_Install {
 		$this->current_wp_version = get_bloginfo( 'version' );
 		register_activation_hook( LLMS_PLUGIN_FILE, array( $this, 'install' ) );
 		add_action( 'admin_init', array( $this, 'check_wp_version' ) );	
+		add_action( 'admin_init', array( $this, 'install_settings' ) );
 		}
 
 	//custom error notice ~ this needs to be moved to it's own class / factory
@@ -84,25 +85,67 @@ class LLMS_Install {
 		flush_rewrite_rules();
 	}
 
-	/**
-	 * Create lean page
-	 */
-	public static function create_pages() {
-		$pages = apply_filters( 'lifterlms_create_pages', array(
-			'shop' => array(
-				'name'    => _x( 'shop', 'Page slug', 'lifterlms' ),
-				'title'   => _x( 'shop', 'Page title', 'lifterlms' ),
-				'content' => ''
-			)
-		) );
+	public function install_settings() {
 
-		foreach ( $pages as $key => $page ) {
-			llms_create_page( exc_sql( $page['name'] ), 'lifterlms_' . $key . '_page_id', $page['title'], ! empty( $page['parent'] ) ? llms_get_page_id( $page['parent'] ) : '' );
+		$installation_complete = get_option( 'lifterlms_settings_installed', 'no' ) === 'yes' ? true : false;
+
+		if ( ! $installation_complete ) {
+
+			self::create_pages();
+			update_option( 'lifterlms_settings_installed', 'yes' );
+
 		}
 	}
 
+	/**
+	 * Create starter pages
+	 *
+	 * TODO: This could be refactored to loop through and gen the pages.
+	 */
+	public static function create_pages() {
+
+		$shop_page = apply_filters( 'lifterlms_new_page', array(
+			'post_type' 	=> 'page',
+			'post_title' 	=> 'Courses',
+			'post_author' 	=> 1,
+			'post_content'  => '',
+		) );
+
+		$checkout_page = apply_filters( 'lifterlms_new_page', array(
+			'post_type' 	=> 'page',
+			'post_title' 	=> 'Checkout',
+			'post_author' 	=> 1,
+			'post_content'  => '[lifterlms_checkout]',
+		) );
+
+		$account_page = apply_filters( 'lifterlms_new_page', array(
+			'post_type' 	=> 'page',
+			'post_title' 	=> 'My Account',
+			'post_author' 	=> 1,
+			'post_content'  => '[lifterlms_my_account]',
+		) );
+
+		$shop_page_id = wp_insert_post( $shop_page, true );
+		$checkout_page_id = wp_insert_post( $checkout_page, true );
+		$account_page_id = wp_insert_post( $account_page, true );
+
+	}
+
 	public function create_options() {
-		//nothing to do yet
+		
+		include_once( 'admin/class.llms.admin.settings.php' );
+
+		$settings = LLMS_Admin_Settings::get_settings_tabs();
+
+		foreach ( $settings as $section ) {
+			foreach ( $section->get_settings() as $value ) {
+				if ( isset( $value['default'] ) && isset( $value['id'] ) ) {
+					$autoload = isset( $value['autoload'] ) ? (bool) $value['autoload'] : true;
+					add_option( $value['id'], $value['default'], '', ( $autoload ? 'yes' : 'no' ) );
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -132,9 +175,10 @@ class LLMS_Install {
 			CREATE TABLE {$wpdb->prefix}lifterlms_order (
 			  order_id bigint(20) NOT NULL auto_increment,
 			  user_id bigint(20) NOT NULL,
-			  created_date datetime NOT NULL DE '0000-00-00 00:00:00',
-			  order_completed bigint(20) NOT NULL DEFAULT 'no',
+			  created_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+			  order_completed varchar(200) NOT NULL DEFAULT 'no',
 			  completed_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+			  product_id bigint(20) NOT NULL,
 			  order_post_id bigint(20) NULL,
 			  PRIMARY KEY  (order_id),
 			  KEY user_id (user_id)

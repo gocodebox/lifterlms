@@ -425,9 +425,21 @@ class LLMS_Frontend_Forms {
 					// Feedback
 					llms_add_notice( sprintf( __( 'You are now logged in as <strong>%s</strong>', 'lifterlms' ), $user->display_name ) );
 
-					wp_redirect( apply_filters( 'lifterlms_login_redirect', $redirect, $user ) );
+					if ( ! empty($_POST['product_id']) ) {
 
-					exit;
+						$product_id = $_POST['product_id'];
+						$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
+						$checkout_redirect = add_query_arg( 'product', $product_id, $checkout_url );
+
+						wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect, $user ) );
+						exit;
+					}
+
+					else {
+
+						wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $redirect, $user ) );
+						exit;
+					}
 				}
 
 			} 
@@ -609,8 +621,20 @@ class LLMS_Frontend_Forms {
 
 			}
 
-			wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect ) );
-			exit;
+			if ( ! empty($_POST['product_id']) ) {
+
+				$product_id = $_POST['product_id'];
+				$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
+				$checkout_redirect = add_query_arg( 'product', $product_id, $checkout_url );
+
+				wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect ) );
+				exit;
+			}
+
+			else {
+				wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect ) );
+				exit;
+			}
 		}
 		
 	}

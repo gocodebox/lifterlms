@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LifterLMS_Settings_Accounts' ) ) :
+if ( ! class_exists( 'LLMS_Settings_Accounts' ) ) :
 
 /**
 * Admin Settings Page, Accounts Tab
@@ -92,7 +92,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc' 		=> __( 'Custom Link: yoursite.com/?person-logout=true', 'lifterlms' ),
 				'id' 		=> 'lifterlms_logout_endpoint',
 				'type' 		=> 'text',
-				'default'	=> 'person-logout',
+				'default'	=> 'logout',
 				'desc_tip'	=> true,
 			),
 
@@ -113,7 +113,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			array(
 				'desc'          => __( 'Allow users sign up for an account without purchasing a course.', 'lifterlms' ),
 				'id'            => 'lifterlms_enable_myaccount_registration',
-				'default'       => 'no',
+				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'end',
 				'autoload'      => false
@@ -142,7 +142,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'title'         => __( 'Course Access', 'lifterlms' ),
 				'desc'          => __( 'Require user signup for free courses.', 'lifterlms' ),
 				'id'            => 'lifterlms_registration_require_signup',
-				'default'       => 'no',
+				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'start',
 				'autoload'      => false

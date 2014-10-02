@@ -8,6 +8,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+$product_id = get_query_var( 'product' );
+
 ?>
 
 <?php llms_print_notices(); ?>
@@ -27,6 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		<form method="post" class="login">
 
 			<?php do_action( 'lifterlms_login_form_start' ); ?>
+
+			<input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
 
 			<p>
 				<label for="username"><?php _e( 'Username or email address', 'lifterlms' ); ?> <span class="required">*</span></label>
@@ -65,6 +69,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		<form method="post" class="register">
 
 			<?php do_action( 'lifterlms_register_form_start' ); ?>
+
+			<input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
 
 			<?php if ( 'no' === get_option( 'lifterlms_registration_generate_username' ) ) : ?>
 
