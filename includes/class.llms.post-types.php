@@ -202,15 +202,15 @@ class LLMS_Post_Types {
 	 * Register Post Types
 	 */
 	public static function register_post_types() {
-		// if ( post_type_exists('course') ) {
-		// 	return;
-		// }
-		// if ( post_type_exists('section') ) {
-		// 	return;
-		// }
-		// if ( post_type_exists('lesson') ) {
-		// 	return;
-		// }
+		if ( post_type_exists('course') ) {
+			return;
+		}
+		elseif ( post_type_exists('section') ) {
+			return;
+		}
+		elseif ( post_type_exists('lesson') ) {
+			return;
+		}
 
 		do_action( 'lifterlms_register_post_type' );
 
@@ -386,6 +386,46 @@ class LLMS_Post_Types {
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
 					'supports' 				=> array( 'title', 'comments', 'custom-fields' ),
+					'has_archive' 			=> false,
+				)
+			)
+		);
+
+		/**
+		 * Email Post Type
+		 */
+	    register_post_type( "llms_email",
+		    apply_filters( 'lifterlms_register_post_type_section',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Emails', 'lifterlms' ),
+							'singular_name' 		=> __( 'Email', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Email', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Email', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Email', 'lifterlms' ),
+							'new_item' 				=> __( 'New Email', 'lifterlms' ),
+							'view' 					=> __( 'View Email', 'lifterlms' ),
+							'view_item' 			=> __( 'View Email', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Emails', 'lifterlms' ),
+							'not_found' 			=> __( 'No Emails found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Emails found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Emails', 'lifterlms' ),
+							'menu_name'				=> _x('Emails', 'Admin menu name', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where emails are stored.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> true,
+					//'capability_type' 		=> 'email',
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'lifterlms',
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
 					'has_archive' 			=> false,
 				)
 			)

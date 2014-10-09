@@ -10,5 +10,5 @@ global $post, $course;
 
 ?>
 
-<p class="llms-difficulty"><?php echo $course->get_difficulty(); ?></p>
+<p class="llms-difficulty"><?php printf( __( 'Difficulty: <span class="difficulty">%s</span>', 'lifterlms' ), $course->get_difficulty() ); ?></p>
 

@@ -47,10 +47,11 @@ class LLMS_Admin_Post_Types {
 		global $post, $post_ID;
 
 		$llms_post_types = array(
-			'course'	=> 'Course',
-			'section' 	=> 'Section',
-			'lesson' 	=> 'Lesson',
-			'order'	 	=> 'Order'
+			'course'		=> 'Course',
+			'section' 		=> 'Section',
+			'lesson' 		=> 'Lesson',
+			'order'	 		=> 'Order',
+			'llms_email'	=> 'Email'
 		);
 
 		foreach( $llms_post_types as $type => $title ) {

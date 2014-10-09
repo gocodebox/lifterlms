@@ -41,7 +41,10 @@ class LLMS_AJAX {
 	public function get_sections(){
 
 		$args = array(
-			'post_type' => 'section'
+			'post_type' 	=> 'section',
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
 		 );
 
 		$postslist = get_posts( $args );
@@ -60,7 +63,9 @@ class LLMS_AJAX {
 	public function get_lessons(){
 
 		$args = array(
-			'post_type' => 'lesson'
+			'post_type' 	=> 'lesson',
+			'nopaging' 		=> true,
+			'post_status'	=> 'publish',
 		 );
 
 		$postslist = get_posts( $args );

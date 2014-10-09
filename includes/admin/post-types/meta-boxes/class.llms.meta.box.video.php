@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box Course Video
+* Meta Box Video
 *
 * diplays text input for oembed video
 *
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * @author codeBOX
 * @project lifterLMS
 */
-class LLMS_Meta_Box_Course_Video {
+class LLMS_Meta_Box_Video {
 
 	/**
 	 * Set up video input
@@ -20,6 +20,7 @@ class LLMS_Meta_Box_Course_Video {
 	 */
 	public static function output( $post ) {
 		global $post;
+		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
 		$video_embed = get_post_meta( $post->ID, '_video_embed', true );
 

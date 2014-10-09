@@ -51,6 +51,7 @@ class LLMS_Admin_Settings {
 			$settings[] = include( 'settings/class.llms.settings.accounts.php' );
 			$settings[] = include( 'settings/class.llms.settings.checkout.php' );
 			$settings[] = include( 'settings/class.llms.settings.gateways.php' );
+			$settings[] = include( 'settings/class.llms.settings.email.php' );
 
 			self::$settings = apply_filters( 'lifterlms_get_settings_pages', $settings );
 

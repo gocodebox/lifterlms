@@ -10,8 +10,8 @@ global $lifterlms;
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( get_query_var( 'product' ) ) {
-	$product = get_post( get_query_var( 'product' ) );
+if ( get_query_var( 'course-id' ) ) {
+	$product = get_post( get_query_var( 'course-id' ) );
 }
 elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
 

@@ -201,6 +201,8 @@ function get_section_data ($sections) {
 	$html = '';
 	$args = array(
 	    'post_type' => 'section',
+	    'post_status' => 'publish',
+	    'nopaging' 		=> true,
 	);
 
 	$query = get_posts( $args );
@@ -234,6 +236,8 @@ function get_lesson_data ($lessons) {
 	$html = '';
 	$args = array(
 	    'post_type' => 'lesson',
+	    'post_status' => 'publish',
+	    'nopaging' 		=> true,
 	);
 
 	$query = get_posts( $args );

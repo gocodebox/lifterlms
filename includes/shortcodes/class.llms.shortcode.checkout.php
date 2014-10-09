@@ -35,19 +35,16 @@ class LLMS_Shortcode_Checkout {
 			$message = apply_filters( 'lifterlms_checkout_message', '' );
 
 			if ( ! empty( $message ) ) {
-
-				llms_add_notice( $message );
 			}
 
-			if ( $product_id = get_query_var( 'product' ) ) {
+			$product_id = get_query_var( 'course-id' );
 			$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
-			
-			$account_redirect = add_query_arg( 'product', $product_id, $account_url );
-		}
+
+			$account_redirect = add_query_arg( 'course-id', $product_id, $account_url );
 
 			printf(
 				__( '<a href="%1$s">Login or create an account to purchase this course</a>.', 'lifterlms' ) . ' ',
-				$account_redirect 
+				$account_redirect
 			);
 			
 		}
@@ -81,7 +78,7 @@ class LLMS_Shortcode_Checkout {
 		) );
 	}
 
-		/**
+	/**
 	* Edit Checkout template
 	*
 	* @return void

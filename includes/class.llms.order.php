@@ -41,7 +41,7 @@ class LLMS_Order {
 
 			$result = $wpdb->insert( $wpdb->prefix .'lifterlms_order', array( 
 				'user_id' 			=> $order->user_id,  
-				'created_date' 		=> date("Y-m-d h:i:s"),
+				'created_date' 		=> current_time('mysql'),
 				'order_completed' 	=> $order->order_completed,
 				'product_id' 		=> $order->product_id, 
 
@@ -68,7 +68,7 @@ class LLMS_Order {
 
 		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order', 
 			array( 
-				'completed_date' 	=> date("Y-m-d h:i:s"),
+				'completed_date' 	=> current_time('mysql'),
 				'order_completed' 	=> 'yes',
 				'order_post_id'		=> $order_post_id,
 			),
@@ -88,6 +88,25 @@ class LLMS_Order {
 		update_post_meta($order_post_id,'_llms_order_total', $order->total);
 		update_post_meta($order_post_id,'_llms_product_sku', $order->product_sku);
 		update_post_meta($order_post_id,'_llms_order_currency', $order->currency);
+		update_post_meta($order_post_id,'_llms_order_product_id', $order->product_id);
+
+		$user_metadatas = array(
+			'_start_date' => 'yes',
+			'_status' => 'Enrolled',
+			'_progress' => '0'
+		);
+
+		foreach ($user_metadatas as $key => $value) {
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+				array( 
+					'user_id' 			=> $order->user_id,
+					'post_id' 			=> $order->product_id,
+					'meta_key'			=> $key,
+					'meta_value'		=> $value,
+					'updated_date'		=> current_time('mysql'),
+				)
+			);
+		}
 
 	}
 

@@ -104,6 +104,17 @@ class LLMS_Query {
 
 	}
 
+	public function add_query_vars( $vars ) {
+		foreach ( $this->query_vars as $key => $var )
+			$vars[] = $key;
+
+		return $vars;
+	}
+	public function add_endpoints() {
+		foreach ( $this->query_vars as $key => $var )
+			add_rewrite_endpoint( $var, EP_PAGES );
+	}
+
 }
 
 endif;

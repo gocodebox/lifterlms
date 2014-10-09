@@ -8,7 +8,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-$product_id = get_query_var( 'product' );
+$product_id = get_query_var( 'course-id' );
+
+global $wpdb;
 
 ?>
 

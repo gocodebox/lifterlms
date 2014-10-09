@@ -209,16 +209,31 @@ final class LifterLMS {
 	 */
 	public function init() {
 
+
 		do_action( 'before_lifterlms_init' );
 
 		if ( ! is_admin() ) {
 			$this->person = new LLMS_Person();
 		}
 
+		// Email Actions
+		$email_actions = array(
+			'lifterlms_created_person'
+		);
+
+		foreach ( $email_actions as $action )
+			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 );
+
+
 		do_action( 'lifterlms_init' );
 
 	}
 
+	public function send_transactional_email() {
+		$this->mailer();
+		$args = func_get_args();
+		do_action_ref_array( current_filter() . '_notification', $args );
+	}
 	/**
 	 * Get the plugin url.
 	 *
@@ -253,6 +268,10 @@ final class LifterLMS {
 	 */
 	public function payment_gateways() {
 		return LLMS_Payment_Gateways::instance();
+	}
+
+	public function mailer() {
+		return LLMS_Emails::instance();
 	}
 
 	/**

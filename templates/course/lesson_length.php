@@ -10,8 +10,8 @@ global $post, $course;
 
 ?>
 
-<div class="llms-price-wrapper">
+<div class="llms-length-wrapper">
 
-	<p class="llms-lesson_length"><?php echo $course->get_lesson_length(); ?></p> 
+	<p class="llms-lesson_length"><?php printf( __( 'Estimated Time: <span class="length">%s</span>', 'lifterlms' ), $course->get_lesson_length() ); ?></p> 
 
 </div>

@@ -82,6 +82,9 @@ class LLMS_Install {
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
+		LLMS()->query->init_query_vars();
+		LLMS()->query->add_endpoints();
+
 		flush_rewrite_rules();
 	}
 
@@ -92,6 +95,7 @@ class LLMS_Install {
 		if ( ! $installation_complete ) {
 
 			self::create_pages();
+			self::create_posts();
 			update_option( 'lifterlms_settings_installed', 'yes' );
 
 		}
@@ -108,6 +112,7 @@ class LLMS_Install {
 			'post_type' 	=> 'page',
 			'post_title' 	=> 'Courses',
 			'post_author' 	=> 1,
+			'post_status'   => 'publish',
 			'post_content'  => '',
 		) );
 
@@ -115,6 +120,7 @@ class LLMS_Install {
 			'post_type' 	=> 'page',
 			'post_title' 	=> 'Checkout',
 			'post_author' 	=> 1,
+			'post_status'   => 'publish',
 			'post_content'  => '[lifterlms_checkout]',
 		) );
 
@@ -122,6 +128,7 @@ class LLMS_Install {
 			'post_type' 	=> 'page',
 			'post_title' 	=> 'My Account',
 			'post_author' 	=> 1,
+			'post_status'   => 'publish',
 			'post_content'  => '[lifterlms_my_account]',
 		) );
 
@@ -129,6 +136,23 @@ class LLMS_Install {
 		$checkout_page_id = wp_insert_post( $checkout_page, true );
 		$account_page_id = wp_insert_post( $account_page, true );
 
+	}
+
+	public function create_posts() {
+		$new_user_email = apply_filters( 'lifterlms_new_page', array(
+			'post_title'    => 'Welcome Email',
+			'post_content'  => '<h1><span style="color: #008000;">Hey There {user_login},</span></h1>
+								<h1>Thanks for creating an account on {site_title}!</h1>
+								Your username is <strong>{user_login}.</strong>
+								You can access your account to view your courses here: <a href="{site_url}">{site_title}</a>.
+								<a href="http://local.wp-test.com/wp-content/uploads/2014/09/bigfoot.jpg"><img class="alignnone 
+								size-medium wp-image-28" src="http://local.wp-test.com/wp-content/uploads/2014/09/bigfoot-300x225.jpg" 
+								alt="bigfoot" width="300" height="225" /></a>',
+			'post_status'   => 'publish',
+			'post_author'   => 1,
+		) );
+
+		$new_user_email_id = wp_insert_post( $new_user_email, true );
 	}
 
 	public function create_options() {
@@ -209,6 +233,17 @@ class LLMS_Install {
 			  KEY order_item_id (order_item_id),
 			  KEY meta_key (meta_key)
 			) $collate;
+			CREATE TABLE {$wpdb->prefix}lifterlms_user_postmeta (
+			  meta_id bigint(20) NOT NULL auto_increment,
+			  user_id bigint(20) NOT NULL,
+			  post_id bigint(20) NOT NULL,
+			  meta_key varchar(255) NULL,
+			  meta_value longtext NULL,
+			  updated_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+			  PRIMARY KEY  (meta_id),
+			  KEY user_id (user_id),
+			  KEY post_id (post_id),
+			) $collate;
 		";
 
 		try
@@ -218,8 +253,7 @@ class LLMS_Install {
 		catch (Exception $e)
 		{
 		 throw new Exception( 'Instalation failed. Error creating lifterLMS tables in database.', 0, $e);
-		}
-		
+		}	
 
 	}
 
@@ -237,7 +271,7 @@ class LLMS_Install {
 			'view_lifterlms_reports'
 			);
 
-		$capability_types = array( 'course', 'section', 'lesson' );
+		$capability_types = array( 'course', 'section', 'lesson', 'order', 'llms_email' );
 
 		foreach( $capability_types as $capability_type ) {
 			$capability_types[ $capability_type  ] = array(

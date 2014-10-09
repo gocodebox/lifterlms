@@ -4,7 +4,25 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 <?php llms_print_notices(); ?>
 
+<nav class="account-links">
+    <?php
+
+    printf(
+        __( '<a href="%1$s">Sign out</a>  &middot;  ', 'lifterlms' ) . ' ',
+        wp_logout_url( get_permalink( llms_get_page_id( 'myaccount' ) ) )
+    );
+
+
+    printf( __( '<a href="%s">My Courses</a>', 'lifterlms' ),
+        get_permalink( llms_get_page_id( 'myaccount' ) )
+    );
+
+    ?>
+</nav>
+
 <form action="" method="post">
+
+    <h3>Basic Information</h3>
 
     <p class="form-row form-row-first">
         <label for="account_first_name"><?php _e( 'First name', 'lifterlms' ); ?></label>
@@ -18,6 +36,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
         <label for="account_email"><?php _e( 'Email address', 'lifterlms' ); ?></label>
         <input type="email" class="input-text" name="account_email" id="account_email" value="<?php echo esc_attr( $user->user_email ); ?>" />
     </p>
+
+    <h3>Change Password</h3>
+
     <p class="form-row form-row-first">
         <label for="password_1"><?php _e( 'Password (leave blank to leave unchanged)', 'lifterlms' ); ?></label>
         <input type="password" class="input-text" name="password_1" id="password_1" />

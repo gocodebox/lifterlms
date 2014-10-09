@@ -404,3 +404,9 @@ function llms_log($message) {
         }
     }
 }
+
+function add_query_var_course_id( $vars ){
+  $vars[] = "course-id";
+  return $vars;
+}
+add_filter( 'query_vars', 'add_query_var_course_id' );

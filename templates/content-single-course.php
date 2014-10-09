@@ -10,7 +10,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
-
+<main class="content llms-content" role="main">
 <div id="course-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 
@@ -25,4 +25,5 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 	</div>
 
 </div>
+</main>
 

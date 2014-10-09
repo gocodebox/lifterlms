@@ -40,14 +40,12 @@ class LLMS_Meta_Box_Course_Syllabus {
 			$html = '';
 			$args = array(
 			    'post_type' => 'section',
-			    'post_status' => 'publish',
-			    'nopaging' 		=> true,
 			);
 
-			$query = get_posts( $args );
+			$query = new WP_Query( $args );
 			$html .= '<select class="section-select">';
-			//$html .= '<option value="" selected disabled>Select a section...</option>';
-			foreach ( $query as $post ) : setup_postdata( $post );
+			$html .= '<option value="" selected disabled>Select a section...</option>';
+			while ( $query->have_posts() ) : $query->the_post();
 			
 			if ($section_id == $post->ID) {
 				$html .= '<option value="'.$post->ID.'" selected="selected">'. get_the_title($post->ID) . '</option>';
@@ -56,7 +54,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 				$html .= '<option value="'.$post->ID.'">'. get_the_title($post->ID) . '</option>';
 			}
 					
-			endforeach;
+			endwhile;
 
 			$html .= '</select>';
 
@@ -74,20 +72,17 @@ class LLMS_Meta_Box_Course_Syllabus {
 			$html = '';
 			$args = array(
 			    'post_type' => 'lesson',
-			    'post_status' => 'publish',
-			    'nopaging' 		=> true,
 			);
 
 			$lessonId = $lesson_id;
-
-			$query = null;
-			$query = get_posts( $args );
+			$query = new WP_Query( $args );
 			$lesson_position = $lesson_position + 1;
 			
 			$html .= '<tr class="list_item" data-section_id="' . $section_id . '" data-order="' . $section_position . '" style="display: table-row;"><td>';
 			$html .= '<select class="lesson-select">';
-
-			foreach ( $query as $post ) : setup_postdata( $post );
+			$html .= '<option value="" selected disabled>Select a course...</option>';
+			
+			while ( $query->have_posts() ) : $query->the_post();
 
 				if ($lesson_id == $post->ID) {
 						$html .= '<option value="'.$post->ID.'" data-lesson_id="' . $lesson_id . '" selected="selected">'. get_the_title($post->ID) . '</option>';
@@ -96,7 +91,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 					$html .= '<option value="'.$post->ID.'">'. get_the_title($post->ID) . '</option>';
 				}
 
-			endforeach;
+			endwhile;
 			
 			$html .= '</select></td><td><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn"></i></td></tr>';
 
@@ -181,7 +176,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 	}
 
 	/**
-	 * save syllabus fields (not course builder data)
+	 * save syllabus fields (not course builder)
 	 *
 	 * @return string
 	 * @param $post_id, $post

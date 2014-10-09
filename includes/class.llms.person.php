@@ -35,7 +35,6 @@ class LLMS_Person {
 		if ( empty( LLMS()->session->person ) ) {
 
 			$this->_data = LLMS()->session->person;
-
 		}
 
 		// When leaving or ending page load, store data
@@ -52,4 +51,26 @@ class LLMS_Person {
 			$GLOBALS['lifterlms']->session->person = $this->_data;
 		}
 	}
+
+	/**
+	 * Return array of objects containing user meta data for a single post.
+	 *
+	 * @return  array
+	 */
+	public function get_user_postmeta_data( $user_id, $post_id ) {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+
+		$results = $wpdb->get_results( $wpdb->prepare(
+			'SELECT * FROM '.$table_name.' WHERE user_id = %s and post_id = %d', $user_id, $post_id) );
+
+		for ($i=0; $i < count($results); $i++) {
+			$results[$results[$i]->meta_key] = $results[$i];
+			unset($results[$i]);
+		}
+
+		return $results;
+	}
+
 }
