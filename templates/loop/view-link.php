@@ -17,7 +17,7 @@ $course_progress = $user_postmetas['_progress']->meta_value;
 
 <div class="llms-purchase-link-wrapper">
 	<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) { ?>
-		<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-purchase-link"><?php _e( 'Take This Course', 'lifterlms' ); ?></a> 
+		<a href="<?php echo get_post_permalink( $course->ID); ?>" class="button llms-purchase-link"><?php _e( 'View Course', 'lifterlms' ); ?></a> 
 	<?php  } 
 
 	else { 
@@ -30,7 +30,7 @@ $course_progress = $user_postmetas['_progress']->meta_value;
 			</div>
 		</div>
 
-		<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-purchase-link"><?php printf( __( 'Continue (%s%%)', 'lifterlms' ), $course_progress ); ?></a> 
+		<a href="<?php echo get_post_permalink( $course->ID); ?>" class="button llms-purchase-link"><?php printf( __( 'Continue (%s%%)', 'lifterlms' ), $course_progress ); ?></a> 
 
 	<?php } ?>
 </div>

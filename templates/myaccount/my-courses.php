@@ -73,7 +73,7 @@ if ( $my_orders) {
 				<section class="progress">
 
 				<div class="llms-progress">
-					<div class="progress__indicator"><?php echo $course_progress ?>%</div>
+					<div class="progress__indicator"><?php printf( __( '%s%%', 'lifterlms' ), $course_progress ); ?></div>
 						<div class="progress-bar">
 						    <div class="progress-bar-complete" style="width:<?php echo $course_progress ?>%"></div>
 						</div>

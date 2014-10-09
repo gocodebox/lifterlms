@@ -588,6 +588,13 @@ if ( ! function_exists( 'lifterlms_template_loop_course_thumbnail' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_loop_view_link' ) ) {
+
+	function lifterlms_template_loop_view_link() {
+		llms_get_template( 'loop/view-link.php' );
+	}
+}
+
 if ( ! function_exists( 'lifterlms_get_course_thumbnail' ) ) {
 
 	function lifterlms_get_course_thumbnail( $size = 'shop_catalog', $placeholder_width = 0, $placeholder_height = 0  ) {
