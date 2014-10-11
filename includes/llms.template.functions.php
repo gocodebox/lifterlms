@@ -101,6 +101,14 @@ if ( ! function_exists( 'lifterlms_template_single_syllabus' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_section_syllabus' ) ) {
+
+	function lifterlms_template_section_syllabus() {
+
+		llms_get_template( 'course/section_syllabus.php' );
+	}
+}
+
 if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
 
 	function lifterlms_template_single_parent_course() {
@@ -114,6 +122,14 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
 	function lifterlms_template_single_parent_course() {
 
 		llms_get_template( 'course/parent_course.php' );
+	}
+}
+
+if ( ! function_exists( 'lifterlms_template_complete_lesson_link' ) ) {
+
+	function lifterlms_template_complete_lesson_link() {
+
+		llms_get_template( 'course/complete-lesson-link.php' );
 	}
 }
 

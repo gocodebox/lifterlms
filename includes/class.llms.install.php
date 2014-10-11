@@ -140,14 +140,12 @@ class LLMS_Install {
 
 	public function create_posts() {
 		$new_user_email = apply_filters( 'lifterlms_new_page', array(
+			'post_type' 	=> 'llms_email',
 			'post_title'    => 'Welcome Email',
 			'post_content'  => '<h1><span style="color: #008000;">Hey There {user_login},</span></h1>
 								<h1>Thanks for creating an account on {site_title}!</h1>
 								Your username is <strong>{user_login}.</strong>
-								You can access your account to view your courses here: <a href="{site_url}">{site_title}</a>.
-								<a href="http://local.wp-test.com/wp-content/uploads/2014/09/bigfoot.jpg"><img class="alignnone 
-								size-medium wp-image-28" src="http://local.wp-test.com/wp-content/uploads/2014/09/bigfoot-300x225.jpg" 
-								alt="bigfoot" width="300" height="225" /></a>',
+								You can access your account to view your courses here: <a href="{site_url}">{site_title}</a>.',
 			'post_status'   => 'publish',
 			'post_author'   => 1,
 		) );
@@ -242,7 +240,7 @@ class LLMS_Install {
 			  updated_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 			  PRIMARY KEY  (meta_id),
 			  KEY user_id (user_id),
-			  KEY post_id (post_id),
+			  KEY post_id (post_id)
 			) $collate;
 		";
 

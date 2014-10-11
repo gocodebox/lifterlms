@@ -114,4 +114,8 @@ class LLMS_Lesson {
 		//todo
 	}
 
+	public function single_mark_complete_text() {
+		return apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'woocommerce' ), $this );
+	}
+
 }

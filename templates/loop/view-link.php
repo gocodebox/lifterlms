@@ -8,11 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course;
 
-$user = new LLMS_Person;
-$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
-
-$course_progress = $user_postmetas['_progress']->meta_value;
-
 ?>
 
 <div class="llms-purchase-link-wrapper">
@@ -21,6 +16,10 @@ $course_progress = $user_postmetas['_progress']->meta_value;
 	<?php  } 
 
 	else { 
+		$user = new LLMS_Person;
+		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
+
+		$course_progress = $user_postmetas['_progress']->meta_value;
 
 	?>
 		<div class="llms-progress">

@@ -167,6 +167,50 @@ class LLMS_Course {
 
 	}
 
+	public function get_lesson_ids() {
+		$array  = array ();
+
+		$syllabus = $this->get_syllabus();
+
+		foreach($syllabus as $key => $value ) :
+			foreach ($syllabus[$key]['lessons'] as $keys) :
+
+				array_push($array, $keys);
+
+			endforeach;
+
+		endforeach;
+
+		return $array;
+
+	}
+
+	public function get_percent_complete() {
+		$lesson_ids = $this->get_lesson_ids();
+		$array = array();
+		$i = 0;
+
+		$user = new LLMS_Person;
+
+		foreach( $lesson_ids as $key => $value ) {
+			array_push($array, $value['lesson_id']);
+		}
+
+		foreach( $array as $key => $value ) {
+			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value );
+			if ( isset($user_postmetas['_is_complete']) ) {
+				if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+					$i++;
+				}
+			}
+		}
+
+		$percent_complete = round(100 / ( ( count($lesson_ids) / $i ) ), 0 );
+
+		return $percent_complete;
+
+	}
+
 	/**
 	 * Get the course short description
 	 *
@@ -208,7 +252,6 @@ class LLMS_Course {
 		$display_sale_price    	= $this->get_sale_price();
 
 		if ( $this->get_price() > 0 ) {
-
 			$price = $this->set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price);
 
 		}

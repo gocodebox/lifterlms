@@ -77,7 +77,7 @@ class LLMS_Order {
 				'product_id' 		=> $order->product_id, 
 			)
 		);
-
+		//llms_log($order);
 		//Assign user to the purchased course post
 		update_post_meta($order->product_id,'_llms_student', $order->user_id);
 

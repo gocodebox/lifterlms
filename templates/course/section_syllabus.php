@@ -23,7 +23,7 @@ $syllabus = $course->get_syllabus();
 
 if ($syllabus ) {
 	
-	foreach( $syllabus as $key => $value ) :
+	foreach($syllabus as $key => $value ) :
 
 		array_push($array, $syllabus[$key]['section_id']);
 
@@ -58,7 +58,7 @@ foreach($the_stuff as $key => $value) :
 	foreach($the_lessons as $key => $value) :
 
 		if ( $value->ID == $post_id ){
-			echo $value->post_title;
+			//echo $value->post_title;
 		}
 		else {
 			if ( llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
@@ -75,7 +75,7 @@ foreach($the_stuff as $key => $value) :
 			else {
 			echo '
 				<div class="llms-lesson-preview">
-					<a class="llms-lesson-link" href="javascript:void(0)">
+					<a class="llms-lesson-link" href="' . $course->get_checkout_url() . '">
 						<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
 						<span class="llms-lesson-counter">'.$lesson_i.' of '.$total_lessons.'</span>
 						<p>'.$value->post_excerpt.'</p>
