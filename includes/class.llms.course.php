@@ -167,6 +167,28 @@ class LLMS_Course {
 
 	}
 
+	public function get_next_lesson() {
+		$lessons_not_completed = array();
+		$lesson_ids = array();
+
+		$lessons = $this->get_lesson_ids();
+
+		$user = new LLMS_Person;
+
+		foreach( $lessons as $key => $value ) {
+
+			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value['lesson_id'] );
+
+				if ( ! isset($user_postmetas['_is_complete']) ) {
+
+					array_push($lessons_not_completed, $value['lesson_id']);
+			}
+		}
+
+		return $lessons_not_completed[0];
+
+	}
+
 	public function get_lesson_ids() {
 		$array  = array ();
 

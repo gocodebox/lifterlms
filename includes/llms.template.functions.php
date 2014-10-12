@@ -133,6 +133,14 @@ if ( ! function_exists( 'lifterlms_template_complete_lesson_link' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_next_lesson_link' ) ) {
+
+	function lifterlms_template_next_lesson_link() {
+
+		llms_get_template( 'course/next-lesson-link.php' );
+	}
+}
+
 
 /**
  * When the_post is called, put course data into a global.

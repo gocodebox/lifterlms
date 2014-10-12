@@ -14,6 +14,7 @@ $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course-
 if ( $user_postmetas  ) {
 	$course_progress = $course->get_percent_complete();
 
+	$next_lesson = get_permalink($course->get_next_lesson());
 }
 
 ?>
@@ -21,20 +22,19 @@ if ( $user_postmetas  ) {
 <div class="llms-purchase-link-wrapper">
 	<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) { 
 		
-		if ( $course->get_price() < 0 ) {
-			echo '<a href="' . $course->get_checkout_url() . '" class="button llms-purchase-link">' . _e( 'Take This Course', 'lifterlms' ) . '</a>';
+		if ( $course->get_price() > 0 ) {
+		?>
+			<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-purchase-link"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
+		<?php
 		}
 		else { ?>
 						
-
-
 <form action="" method="post">
 
 	<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />
   	<input type="hidden" name="product_price" value="<?php echo $course->get_price(); ?>" />
   	<input type="hidden" name="product_sku" value="<?php echo $course->get_sku(); ?>" />
   	<input type="hidden" name="product_title" value="<?php echo $post->post_title; ?>" />
-
 
 	<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none" <?php //checked( $gateway->chosen, true ); ?> />
 
@@ -44,16 +44,12 @@ if ( $user_postmetas  ) {
 	<input type="hidden" name="action" value="create_order_details" />
 </form>
 
-
-
-
-
-
 		<?php }
 	?>
 	<?php  } 
 
-	else { 
+	elseif( isset( $next_lesson)  ) { 
+		$next_lesson = $course->get_next_lesson();
 
 	?>
 
@@ -64,7 +60,11 @@ if ( $user_postmetas  ) {
 			</div>
 		</div>
 
-		<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-purchase-link"><?php printf( __( 'Continue (%s%%)', 'lifterlms' ), $course_progress ); ?></a> 
+		<a href="<?php echo get_permalink( $next_lesson ); ?>" class="button llms-purchase-link"><?php printf( __( 'Continue (%s%%)', 'lifterlms' ), $course_progress ); ?></a> 
 
-	<?php } ?>
+<?php 
+	}
+	else { ?>
+		<?php printf( __( 'Course %s%% Complete!', 'lifterlms' ), $course_progress ); ?>
+<?php	} ?>
 </div>
