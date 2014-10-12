@@ -26,12 +26,71 @@ class LLMS_Frontend_Forms {
 		add_action( 'init', array( $this, 'login' ) );
 		add_action( 'init', array( $this, 'user_registration' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
+		add_action( 'init', array( $this, 'mark_complete' ) );
 
 		add_action( 'lifterlms_order_process_begin', array( $this, 'order_processing' ), 10, 1 );
-		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 1 );
+		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 2 );
 		add_action( 'lifterlms_order_process_complete', array( $this, 'order_complete' ), 10, 1 );
 
 	}
+
+	// Mark lesson as complete
+    public function mark_complete() {
+    	global $wpdb;
+
+    	if ( 'POST' !== strtoupper( $_SERVER[ 'REQUEST_METHOD' ] ) ) {
+			return;
+		}
+
+    	if ( ! isset( $_POST['mark_complete'] ) || empty( $_POST['_wpnonce'] ) ) {
+    		return;
+    	}
+
+    	if ( isset( $_POST['mark-complete'] ) ) {
+    		$lesson = new LLMS_Lesson( $_POST['mark-complete'] );
+
+    		$current_lesson = new stdClass();
+
+    		$current_lesson->id = $_POST['mark-complete'];
+
+    		$current_lesson->parent_id = $lesson->get_parent_course();
+    		$current_lesson->title = get_the_title($current_lesson->id);
+
+
+    		$current_lesson->user_id = get_post_meta( $current_lesson->parent_id , '_llms_student', true );
+
+    		//TODO move this to it's own class and create a userpostmeta class.
+    		$user = new LLMS_Person;
+			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $current_lesson->id );
+
+    		if ( empty($current_lesson->user_id) ) {
+    			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
+    		}
+    		elseif ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+    			return;
+
+    		}
+    		else {
+
+    			$key = '_is_complete';
+    			$value = 'yes';
+
+    			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+					array( 
+						'user_id' 			=> $current_lesson->user_id,
+						'post_id' 			=> $current_lesson->id,
+						'meta_key'			=> $key,
+						'meta_value'		=> $value,
+						'updated_date'		=> current_time('mysql'),
+					)
+				);
+				do_action( 'lifterlms_lesson_completed', $current_lesson->user_id, $current_lesson->id);
+				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), $current_lesson->title ) );
+
+    		}
+    	}
+
+    }
 
 	public function confirm_order() {
 		global $wpdb;
@@ -88,7 +147,7 @@ class LLMS_Frontend_Forms {
 
 	public function create_order() {
 		global $wpdb;
-
+		//llms_log('create_order called');
 		// check if session already exists. if it does assign it. 
 		$current_order = LLMS()->session->get( 'llms_order', array() );
 
@@ -97,9 +156,10 @@ class LLMS_Frontend_Forms {
 		}
 
 		if ( empty( $_POST[ 'action' ] ) || ( 'create_order_details' !== $_POST[ 'action' ] ) || empty( $_POST['_wpnonce'] ) ) {
+			//llms_log($_POST[ 'action' ]);
 			return;
 		}
-		
+		//llms_log($_POST[ 'action' ]);
 		// noonnce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
@@ -133,15 +193,24 @@ class LLMS_Frontend_Forms {
 	
 		// if no errors were returned save the data
 		if ( llms_notice_count( 'error' ) == 0 ) {
+			if ($order->total == 0) {
+				$lifterlms_checkout = LLMS()->checkout();
+				$lifterlms_checkout->process_order();
+				$lifterlms_checkout->update_order();
+				do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
+			}
+			else {
 
-			LLMS()->session->set( 'llms_order', $order );
+				LLMS()->session->set( 'llms_order', $order );
 
-			$lifterlms_checkout = LLMS()->checkout();
-			$lifterlms_checkout->process_order();
+				$lifterlms_checkout = LLMS()->checkout();
+				$lifterlms_checkout->process_order();
 
-			$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
+				$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 
-			$result = $available_gateways[$order->payment_method]->process_payment($order);
+				$result = $available_gateways[$order->payment_method]->process_payment($order);
+
+			}
 
 		}
 
@@ -165,18 +234,18 @@ class LLMS_Frontend_Forms {
 
 		$redirect = esc_url( $url );
 
-		llms_add_notice( __( 'Saved order to database and session', 'lifterlms' ) );
+		llms_add_notice( __( 'Please confirm your payment.', 'lifterlms' ) );
 
 		wp_redirect( apply_filters( 'lifterlms_order_process_pending_redirect', $url ) );
 		exit;
 
 	}
 
-	public function order_success ($user_id) {
+	public function order_success ($user_id, $course_title) {
 
 		$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
 
-		llms_add_notice( __( 'Course purchased', 'lifterlms' ) );
+		llms_add_notice( sprintf( __( 'Congratulations! You have enrolled in <strong>%s</strong>', 'lifterlms' ), $course_title ) );
 
 		wp_redirect( apply_filters( 'lifterlms_order_process_success_redirect', $redirect ) );
 

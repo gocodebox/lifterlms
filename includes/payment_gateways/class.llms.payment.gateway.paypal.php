@@ -206,7 +206,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 $lifterlms_checkout = LLMS()->checkout();
                 $result = $lifterlms_checkout->update_order();
 
-                do_action( 'lifterlms_order_process_success', $order->user_id);
+                do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
             }
             else {
            

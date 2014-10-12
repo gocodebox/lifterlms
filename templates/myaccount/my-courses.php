@@ -25,6 +25,10 @@ if ( $my_orders) {
 		$course_id = $order_info['_llms_order_product_id'];
 		$course = get_post($course_id[0]);
 
+		$course_object = new LLMS_Course_Basic( $course_id[0] );
+		$course_progress = $course_object->get_percent_complete();
+		llms_log($course_progress);
+
 		$author = get_the_author();
 		$permalink = get_post_permalink( $course->ID);
 
@@ -36,7 +40,7 @@ if ( $my_orders) {
 
 		$course_status = $user_postmetas['_status']->meta_value;
 
-		$course_progress = $user_postmetas['_progress']->meta_value;
+		//$course_progress = $user_postmetas['_progress']->meta_value;
 		?>
 
 		<li class="course-item">

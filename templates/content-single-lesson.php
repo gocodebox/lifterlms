@@ -10,18 +10,21 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
+<main class="content llms-content" role="main">
 
-<div id="lesson-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<div id="lesson-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-	<div class="llms-summary">
+		<?php llms_print_notices(); ?>
 
-		<?php
+		<div class="llms-summary">
 
-			do_action( 'lifterlms_single_lesson_summary' );
+			<?php
 
-		?>
+				do_action( 'lifterlms_single_lesson_summary' );
+
+			?>
+
+		</div>
 
 	</div>
-
-</div>
-
+</main>

@@ -25,8 +25,9 @@ add_action( 'lifterlms_single_course_summary', 'lifterlms_template_single_syllab
 add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_single_parent_course', 10 );
 add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_single_title', 10 );
 add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_single_full_description', 10 );
-add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_single_syllabus', 10 );
-
+add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_complete_lesson_link', 10 );
+add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_lesson_navigation', 10 );
+add_action( 'lifterlms_single_lesson_summary', 'lifterlms_template_section_syllabus', 10 );
 
 add_action( 'lifterlms_before_shop_loop_item_title', 'lifterlms_template_loop_course_thumbnail', 10 );
 
