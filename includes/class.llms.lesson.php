@@ -96,44 +96,126 @@ class LLMS_Lesson {
 
 	}
 
+	public function get_parent_section() {
+		global $course;
+
+		$sections = array();
+		$syllabus = $course->get_syllabus();
+
+		foreach( $syllabus as $key => $value ) {
+			$sections[$value['section_id']] = $value['lessons'];
+			
+			foreach($value['lessons'] as $keys => $values ) {
+				if ($this->id == $values['lesson_id']) {
+					$parent_section = $value['section_id'];
+				}
+			}
+			
+		}
+
+		return $parent_section;
+
+	}
+
+	public function get_next_lesson() {
+		global $course;
+
+		$lessons = array();
+		$current_lesson = $this->id;
+		$parent_section = $this->get_parent_section();
+		
+
+		$syllabus = $course->get_syllabus();
+
+		foreach( $syllabus as $key => $value ) {
+
+			if ( $parent_section == $value['section_id']) {
+
+				foreach( $value['lessons'] as $keys => $value ) {
+					array_push($lessons, $value['lesson_id']);
+				}
+			}
+		}
+
+		$firstElement = current($lessons);
+		$lastElement = $lessons[sizeof($lessons)-1];
+
+		$currentKey = array_search($this->id, $lessons);
+
+		$currentValue = $lessons[$currentKey];
+
+		$previousValue = "";
+		$nextValue = "";
+
+		if($this->id!=$lastElement){
+		    $nextKey = $currentKey + 1;
+		    $nextValue = $lessons[$nextKey];
+		}
+
+		return $nextValue;
+	}
+
+		public function get_previous_lesson() {
+		global $course;
+		$lessons = array();
+		$current_lesson = $this->id;
+		$parent_section = $this->get_parent_section();
+		
+
+		$syllabus = $course->get_syllabus();
+
+		foreach( $syllabus as $key => $value ) {
+
+			if ( $parent_section == $value['section_id']) {
+
+				foreach( $value['lessons'] as $keys => $value ) {
+					array_push($lessons, $value['lesson_id']);
+				}
+			}
+		}
+
+		$firstElement = current($lessons);
+		$lastElement = $lessons[sizeof($lessons)-1];
+
+		$currentKey = array_search($this->id, $lessons);
+		$currentValue = $lessons[$currentKey];
+
+		$previousValue = "";
+		$nextValue = "";
+		if($this->id!=$lastElement){
+		    $nextKey = $currentKey + 1;
+		    $nextValue = $lessons[$nextKey];
+		}
+
+		if($this->id!=$firstElement){
+
+		    $previousKey = $currentKey - 1;
+		   
+		    $previousValue = $lessons[$previousKey];
+		}
+		llms_log($previousValue);
+		return $previousValue;
+
+	}
+
 	public function is_complete() {
 		$user = new LLMS_Person;
 		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $this->id );
 
 		foreach( $user_postmetas as $key => $value ) {
 
-			//$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value['lesson_id'] );
-llms_log($user_postmetas['_is_complete']->post_id);
+//llms_log($user_postmetas['_is_complete']->post_id);
 			if ( isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $this->id) {
 				return true;
-				//llms_log('lesson complete1');
-				//array_push($lessons_not_completed, $value['lesson_id']);
 			}
 			else {
 				return false;
-				//llms_log('lesson not complete');
+
 			}
 		}
 
 		return $user_postmetas;
-		// foreach( $array as $key => $value ) {
-		// 	$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value );
-		// 	if ( isset($user_postmetas['_is_complete']) ) {
-		// 		if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-		// 			$i++;
-		// 		}
-		// 	}
-		// }
 	}	
-
-	/**
-	 * Get previous lesson in sort order
-	 *
-	 * @return string
-	 */
-	public function get_previous_lesson() {
-		//todo
-	}
 
 	public function single_mark_complete_text() {
 		return apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'woocommerce' ), $this );

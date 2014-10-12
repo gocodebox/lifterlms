@@ -167,7 +167,7 @@ class LLMS_Course {
 
 	}
 
-	public function get_next_lesson() {
+	public function get_next_uncompleted_lesson() {
 		$lessons_not_completed = array();
 		$lesson_ids = array();
 

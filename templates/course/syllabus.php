@@ -72,15 +72,12 @@ foreach($the_stuff as $key => $value) :
 						<span class="llms-lesson-counter">'.$lesson_i.' of '.$total_lessons.'</span>';
 
 				if ( $lesson->is_complete() )  {
-				echo 'Lesson Completed';
-
+					echo 'Lesson Completed';
 				}
 
-			echo 
-						'<p>'.$value->post_excerpt.'</p>
-					</a>
-				</div>';
+			echo '<p>'.$value->post_excerpt.'</p></a></div>';
 			}
+			
 			else {
 			echo '
 				<div class="llms-lesson-preview">

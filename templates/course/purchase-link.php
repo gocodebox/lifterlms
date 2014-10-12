@@ -14,7 +14,7 @@ $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course-
 if ( $user_postmetas  ) {
 	$course_progress = $course->get_percent_complete();
 
-	$next_lesson = get_permalink($course->get_next_lesson());
+	$next_lesson = get_permalink($course->get_next_uncompleted_lesson());
 }
 
 ?>
@@ -49,7 +49,7 @@ if ( $user_postmetas  ) {
 	<?php  } 
 
 	elseif( isset( $next_lesson)  ) { 
-		$next_lesson = $course->get_next_lesson();
+		$next_lesson = $course->get_next_uncompleted_lesson();
 
 	?>
 

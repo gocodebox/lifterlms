@@ -133,11 +133,11 @@ if ( ! function_exists( 'lifterlms_template_complete_lesson_link' ) ) {
 	}
 }
 
-if ( ! function_exists( 'lifterlms_template_next_lesson_link' ) ) {
+if ( ! function_exists( 'lifterlms_template_lesson_navigation' ) ) {
 
-	function lifterlms_template_next_lesson_link() {
+	function lifterlms_template_lesson_navigation() {
 
-		llms_get_template( 'course/next-lesson-link.php' );
+		llms_get_template( 'course/lesson-navigation.php' );
 	}
 }
 
