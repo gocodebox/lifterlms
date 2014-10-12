@@ -22,7 +22,7 @@ $lessons = array();
 $syllabus = $course->get_syllabus();
 
 if ($syllabus ) {
-	
+
 	foreach( $syllabus as $key => $value ) :
 
 		array_push($array, $syllabus[$key]['section_id']);
@@ -61,34 +61,31 @@ foreach($the_stuff as $key => $value) :
 			echo $value->post_title;
 		}
 		else {
-			if ( llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
 
-				$lesson = new LLMS_Lesson($value->ID);
-
-			echo '
-				<div class="llms-lesson-preview">
-					<a class="llms-lesson-link" href="' . get_permalink( $value->ID ) . '">
-						<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
-						<span class="llms-lesson-counter">'.$lesson_i.' of '.$total_lessons.'</span>';
-
-				if ( $lesson->is_complete() )  {
-					echo 'Lesson Completed';
-				}
-
-			echo '<p>'.$value->post_excerpt.'</p></a></div>';
+			$lesson = new LLMS_Lesson($value->ID);
+			if( $lesson->is_complete() ) {
+				$check = '<span class="llms-lesson-complete"><i class="fa fa-check-circle"></i></span>';
+				$complete = ' is-complete';
+			} else {
+				$complete = $check = '';
 			}
-			
-			else {
+			$permalink = 'javascript:void(0)';
+			if( llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
+				$permalink = get_permalink( $value->ID );
+			}
+
 			echo '
-				<div class="llms-lesson-preview">
-					<a class="llms-lesson-link" href="javascript:void(0)">
-						<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
-						<span class="llms-lesson-counter">'.$lesson_i.' of '.$total_lessons.'</span>
-						<p>'.$value->post_excerpt.'</p>
+				<div class="llms-lesson-preview' . $complete . '">
+					<a class="llms-lesson-link" href="' . $permalink . '">
+						' . $check . '
+						<div class="lesson-information">
+							<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
+							<span class="llms-lesson-counter">' . $lesson_i . ' of ' . $total_lessons . '</span>
+							<p class="llms-lesson-excerpt">'.$value->post_excerpt.'</p>
+						</div>
 					</a>
 				</div>
 			';
-			}
 		}
 	$lesson_i++;
 	endforeach;

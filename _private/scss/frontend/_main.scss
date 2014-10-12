@@ -1,0 +1,311 @@
+*, *:after, *::before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.llms-course-list {
+	margin: 30px 0;
+	padding: 30px;
+	background: #FFF;
+	border-radius: 2px;
+	display: inline-block;
+	width: 100%;
+}
+
+.llms-course-list .courses {
+	border-top: 1px solid #f6f6f6;
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+	list-style: none;
+	clear: both;
+	margin: 0;
+	padding: 0;
+}
+
+.llms-course-list .courses li {
+	width: 300px;
+	margin: 15px;
+	border: 1px solid #EFEFEF;
+	padding: 15px;
+	border-radius: 2px;
+	border-bottom: 1px solid #f6f6f6;
+	position: relative;
+	list-style: none;
+	vertical-align: top;
+	display: inline-block;
+	text-align: left;
+}
+
+.llms-course-list .courses li.first {
+	margin-left: 0;
+}
+
+.llms-course-list .courses li.last {
+	margin-right: 15px;
+}
+
+.llms-course-list .courses li .llms-title {
+	display: block;
+	font-weight: 700;
+	margin-bottom: .5em;
+	font-size: 18px;
+	text-decoration: none;
+	line-height: 30px;
+}
+
+.llms-course-list .courses li .llms-price {
+	display: block;
+	font-weight: 700;
+	margin-bottom: .5em;
+	font-size: 24px;
+	text-decoration: none;
+	line-height: 30px;
+}
+.llms-video-wrapper {
+	text-align: center;
+}
+
+.llms-syllabus-wrapper {
+	padding: 15px;
+	text-align: center;
+}
+
+.llms-syllabus-wrapper .llms-lesson-preview {
+	// border: 1px solid #9a9a9a;
+	box-shadow: $element-box-shadow;
+	display: inline-block;
+	margin: 15px;
+	text-align: left;
+	vertical-align: top;
+	width: 500px;
+	max-width: 100%;
+	max-width: calc(100% - 30px);
+
+	&.is-complete .llms-lesson-link {
+		padding-left: 75px;
+	}
+
+	.llms-lesson-link {
+		@extend %cf;
+
+		background: #f1f1f1;
+		color: #212121;
+		display: block;
+		min-height: 85px;
+		padding: 15px;
+		transition: background .4s ease;
+		text-decoration: none;
+		position: relative;
+
+		&:hover {
+			background: #eaeaea;
+		}
+	}
+
+	.llms-lesson-complete {
+		color: $color-red;
+		font-size: 3em;
+		line-height: 1;
+		margin-right: .25em;
+
+		@include absolute(top 15px left 15px);
+	}
+
+	.llms-lesson-title {
+		float: left;
+		margin-bottom: .25em;
+	}
+
+	.llms-lesson-counter {
+		float: right;
+	}
+
+	.llms-lesson-excerpt {
+		clear: both;
+	}
+
+}
+
+
+
+
+
+
+
+
+.clear {
+	clear: both;
+	width: 100%;
+}
+
+.llms-featured-image > img {
+	width: 100%;
+}
+
+.llms-purchase-link-wrapper {
+	text-align: center;
+	width: 100%;
+}
+.llms-length-wrapper {
+	margin-top: 20px;
+}
+
+.llms-length-wrapper p {
+	margin: 0;
+}
+
+
+/* My Courses */
+.llms-my-courses {
+	font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+}
+
+.llms-my-courses a {
+	-webkit-filter: brightness(100%);
+	-webkit-transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-o-transition: all .5s ease;
+	-ms-transition: all .5s ease;
+	transition: all .5s ease;
+}
+
+.llms-my-courses ul.listing-courses {
+	width: 100%;
+	margin: 0;
+}
+
+.llms-my-courses > h3 {
+	background-color: #f5f5f5;
+	padding: 4px;
+}
+
+.llms-my-courses ul.listing-courses li.course-item {
+	margin: 10px 0;
+	padding: 10px 0;
+	list-style-type: none;
+	width: 100%;
+	border-bottom: 2px solid #f5f5f5;
+}
+.llms-my-courses ul.listing-courses li.course-item:first-child {
+	border-bottom: 2px solid #f5f5f5;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .course-image {
+	float: left;
+	margin-right: 20px;
+	border: 1px solid #f5f5f5;
+	padding: 4px;
+	overflow: hidden;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .course-image img {
+	-webkit-filter: brightness(100%);
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	-ms-transition: all 1s ease;
+	transition: all 1s ease;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .course-image img:hover {
+	-webkit-filter: brightness(80%);
+
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course h3 {
+	margin: 10px 0;
+	display: block;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course p {
+	margin: 0;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course hgroup {
+
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .info {
+	float: left;
+	width: 100%;
+}
+
+.llms-sts-enrollment {
+	display: inline-block;
+}
+
+.llms-sts-enrollment .llms-sts-current {
+	font-weight: 400;
+}
+
+.llms-start-date {
+	float: right;
+	text-align: right;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .course-message {
+	border-radius: 3px;
+	z-index: 10;
+	margin: 10px 0;
+	padding: 15px 20px;
+	background: #fffef4;
+	border: 1px solid #ccc;
+}
+
+.course-message p {
+	margin: 0;
+}
+
+.grade-value, .author, .length, .difficulty, span {
+font-size: 1.2rem;
+font-weight: bold;
+}
+
+.course-link {
+	text-align: center;
+}
+
+.account-links {
+	text-align: left;
+	margin-bottom: 40px;
+}
+
+/* progress bar */
+.llms-progress {
+	position: relative;
+	height: 1em;
+	width: 100%;
+	margin: 30px 0;
+}
+
+.llms-progress .progress-bar {
+	background-color: #f1f2f2;
+	position: absolute;
+	height: .4em;
+	left: 0;
+	right: 3em;
+	top: .3em;
+}
+
+.llms-progress .progress-bar-complete {
+	background-color: $color-red;
+	position: absolute;
+	height: 100%;
+}
+
+.progress__indicator {
+	float: right;
+	width: 3em;
+	text-align: right;
+	height: 1em;
+	line-height: 1em;
+}
+
+/* Genisis Overrides */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
+}
+

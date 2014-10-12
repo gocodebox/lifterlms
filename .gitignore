@@ -1,1 +1,4 @@
 sftp-config.json
+
+.sass-cache/
+.sass-cache/*
