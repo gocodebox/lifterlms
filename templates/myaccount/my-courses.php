@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-$my_orders = get_posts( 
+$my_orders = get_posts(
 	array(
 		'meta_key'    => '_llms_user_id',
 		'meta_value'  => get_current_user_id(),
@@ -10,18 +10,18 @@ $my_orders = get_posts(
 	)
 );
 
-if ( $my_orders) { 
+if ( $my_orders) {
 ?>
 
 <div class="llms-my-courses">
-<?php echo  '<h3>' .__( 'In-Progress', 'lifterlms' ) . '</h3>'; ?> 
+<?php echo  '<h3>' .__( 'In-Progress', 'lifterlms' ) . '</h3>'; ?>
 	<ul class="listing-courses">
 
 	<?php
 	foreach ( $my_orders as $order ) {
 
 		$order_info = get_post_meta($order->ID);
-		
+
 		$course_id = $order_info['_llms_order_product_id'];
 		$course = get_post($course_id[0]);
 
@@ -31,7 +31,7 @@ if ( $my_orders) {
 		$user = new LLMS_Person;
 		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->ID );
 
-		$date_formatted = date('M d, Y', 
+		$date_formatted = date('M d, Y',
 			strtotime($user_postmetas['_start_date']->updated_date) );
 
 		$course_status = $user_postmetas['_status']->meta_value;
@@ -52,7 +52,7 @@ if ( $my_orders) {
 					}
 					?>
 					</div>
-				         
+
 					<hgroup>
 					<span class="llms-sts-enrollment">
 					    <span class="llms-sts-label">Status: </span>
@@ -69,7 +69,7 @@ if ( $my_orders) {
 				</section>
 
 				<div class="clear"></div>
-				
+
 				<section class="progress">
 
 				<div class="llms-progress">

@@ -48,7 +48,7 @@ class LLMS_Template_Loader {
 
 			$template = 'archive-course.php';
 
-		} 
+		}
 
 		else {
 

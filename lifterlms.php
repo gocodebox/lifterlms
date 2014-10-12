@@ -77,6 +77,7 @@ final class LifterLMS {
 
 		//Hooks
 		add_action( 'init', array( $this, 'init' ), 0 );
+		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ) );
@@ -99,17 +100,19 @@ final class LifterLMS {
 		if ( strpos( $class, 'llms_meta_box' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/admin/post-types/meta-boxes/';
 		}
-		elseif (strpos( $class, 'llms_' ) === 0 ) {
-			$path = $this->plugin_path() . '/includes/';
-		} 
 		elseif ( strpos( $class, 'llms_shortcode_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/shortcodes/';
 		}
-
+		elseif ( strpos( $class, 'llms_integration_' ) === 0 ) {
+			$path = $this->plugin_path() . '/includes/integrations/';
+		}
 		elseif ( strpos( $class, 'llms_gateway_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/payment_gateways/';
 		}
-		
+		elseif (strpos( $class, 'llms_' ) === 0 ) {
+			$path = $this->plugin_path() . '/includes/';
+		}
+
 		if ( $path && is_readable( $path . $file ) ) {
 			include_once( $path . $file );
 			return;
@@ -120,7 +123,7 @@ final class LifterLMS {
 	 * Define LifterLMS Constants
 	 */
 	private function define_constants() {
-		
+
 		if ( ! defined( 'LLMS_PLUGIN_FILE' ) ) {
 			define( 'LLMS_PLUGIN_FILE', __FILE__ );
 		}
@@ -148,7 +151,7 @@ final class LifterLMS {
 		if ( is_admin() ) {
 			include_once( 'includes/admin/class.llms.admin.php' );
 		}
-		
+
 		// Post types
 		include_once( 'includes/class.llms.post-types.php' );
 
@@ -162,7 +165,7 @@ final class LifterLMS {
 		include_once( 'includes/llms.template.hooks.php' );
 
 		// Classes
-		include_once( 'includes/class.llms.course.php' );	
+		include_once( 'includes/class.llms.course.php' );
 		include_once( 'includes/class.llms.lesson.php' );
 
 		include_once( 'includes/class.llms.course.factory.php' );
@@ -178,7 +181,7 @@ final class LifterLMS {
 		if ( ! is_admin() ) {
 			$this->frontend_includes();
 		}
-	
+
 	}
 
 	/**
@@ -188,8 +191,8 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.template.loader.php' );
 		include_once( 'includes/class.llms.frontend.assets.php' );
 		include_once( 'includes/class.llms.frontend.forms.php' );
-		include_once( 'includes/class.llms.frontend.password.php' );		
-		include_once( 'includes/class.llms.person.php' ); 
+		include_once( 'includes/class.llms.frontend.password.php' );
+		include_once( 'includes/class.llms.person.php' );
 		include_once( 'includes/class.llms.shortcodes.php' );
 		include_once( 'includes/shortcodes/class.llms.shortcode.my.account.php' );
 		include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
@@ -208,7 +211,6 @@ final class LifterLMS {
 	 * Init LifterLMS when WordPress Initialises.
 	 */
 	public function init() {
-
 
 		do_action( 'before_lifterlms_init' );
 
@@ -275,12 +277,20 @@ final class LifterLMS {
 	}
 
 	/**
+	 * get integrations
+	 * @return object instance
+	 */
+	public function integrations() {
+		return LLMS_Integrations::instance();
+	}
+
+	/**
 	 * Process order class
 	 *
 	 * @return array
 	 */
 	public function checkout() {
-	return LLMS_Order::instance();
+		return LLMS_Order::instance();
 	}
 
 	/**

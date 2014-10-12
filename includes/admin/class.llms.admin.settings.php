@@ -52,6 +52,7 @@ class LLMS_Admin_Settings {
 			$settings[] = include( 'settings/class.llms.settings.checkout.php' );
 			$settings[] = include( 'settings/class.llms.settings.gateways.php' );
 			$settings[] = include( 'settings/class.llms.settings.email.php' );
+			$settings[] = include( 'settings/class.llms.settings.integrations.php' );
 
 			self::$settings = apply_filters( 'lifterlms_get_settings_pages', $settings );
 
@@ -71,7 +72,7 @@ class LLMS_Admin_Settings {
 		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'lifterlms-settings' ) ) {
 			die( __( 'Whoa! something went wrong there!. Please refresh the page and retry.', 'lifterlms' ) );
 		}
-	    		
+
 	   	do_action( 'lifterlms_settings_save_' . $current_tab );
 	    do_action( 'lifterlms_update_options_' . $current_tab );
 	    do_action( 'lifterlms_update_options' );
@@ -153,7 +154,7 @@ class LLMS_Admin_Settings {
 	}
 
 	/**
-    * Output fields for settings tabs. Dynamically generates fields. 
+    * Output fields for settings tabs. Dynamically generates fields.
     *
 	* Needs to be refactored! Sets up all of the fields..gross...
 	*
@@ -162,21 +163,21 @@ class LLMS_Admin_Settings {
 	public static function output_fields( $settings ) {
 	    foreach ( $settings as $value ) {
 
-	    	if ( ! isset( $value['type'] ) ) 
+	    	if ( ! isset( $value['type'] ) )
 	    		continue;
-	    	if ( ! isset( $value['id'] ) ) 
+	    	if ( ! isset( $value['id'] ) )
 	    		$value['id'] = '';
-	    	if ( ! isset( $value['title'] ) ) 
+	    	if ( ! isset( $value['title'] ) )
 	    		$value['title'] = isset( $value['name'] ) ? $value['name'] : '';
-	    	if ( ! isset( $value['class'] ) ) 
+	    	if ( ! isset( $value['class'] ) )
 	    		$value['class'] = '';
-	    	if ( ! isset( $value['css'] ) ) 
+	    	if ( ! isset( $value['css'] ) )
 	    		$value['css'] = '';
-	    	if ( ! isset( $value['default'] ) ) 
+	    	if ( ! isset( $value['default'] ) )
 	    		$value['default'] = '';
-	    	if ( ! isset( $value['desc'] ) ) 
+	    	if ( ! isset( $value['desc'] ) )
 	    		$value['desc'] = '';
-	    	if ( ! isset( $value['desc_tooltip'] ) ) 
+	    	if ( ! isset( $value['desc_tooltip'] ) )
 	    		$value['desc_tooltip'] = false;
 
 	    	// Custom attribute handling
@@ -196,20 +197,20 @@ class LLMS_Admin_Settings {
 				$description = '';
 				$tooltip = $value['desc'];
 
-			} 
+			}
 
 			elseif ( ! empty( $value['desc_tooltip'] ) ) {
 
 				$description = $value['desc'];
 				$tooltip = $value['desc_tooltip'];
 
-			} 
+			}
 
 			elseif ( ! empty( $value['desc'] ) ) {
 
 				$description = $value['desc'];
 				$tooltip = '';
-			} 
+			}
 
 			else {
 
@@ -226,7 +227,7 @@ class LLMS_Admin_Settings {
 			elseif ( $description && in_array( $value['type'], array( 'checkbox' ) ) ) {
 
 				$description =  wp_kses_post( $description );
-			} 
+			}
 
 			elseif ( $description ) {
 

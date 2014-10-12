@@ -43,14 +43,16 @@ class LLMS_Shortcode_My_Account {
 			if ( isset( $wp->query_vars['lost-password'] ) ) {
 
 				self::lost_password();
-			} 
+			}
 
 			else {
 
 				llms_get_template( 'myaccount/form-login.php' );
+				llms_get_template( 'myaccount/form-registration.php' );
+
 			}
 
-		} 
+		}
 
 		// If user is logged in, display the correct page
 		else {
@@ -58,7 +60,7 @@ class LLMS_Shortcode_My_Account {
 			if ( isset( $wp->query_vars['edit-account'] ) ) {
 
 				self::edit_account();
-			} 
+			}
 
 			else {
 
@@ -87,8 +89,8 @@ class LLMS_Shortcode_My_Account {
 	* @return void
 	*/
 	private static function edit_account() {
-		llms_get_template( 'myaccount/form-edit-account.php', array( 
-			'user' => get_user_by( 'id', get_current_user_id() ) 
+		llms_get_template( 'myaccount/form-edit-account.php', array(
+			'user' => get_user_by( 'id', get_current_user_id() )
 		) );
 	}
 
@@ -115,13 +117,13 @@ class LLMS_Shortcode_My_Account {
 				$args['login'] = esc_attr( $_GET['login'] );
 			}
 
-		} 
+		}
 
 		elseif ( isset( $_GET['reset'] ) ) {
 
-			llms_add_notice( __( 'Your password has been reset.', 'lifterlms' ) 
+			llms_add_notice( __( 'Your password has been reset.', 'lifterlms' )
 				. ' <a href="' . get_permalink( llms_get_page_id( 'myaccount' ) ) . '">' . __( 'Log in', 'lifterlms' ) . '</a>' );
-		
+
 		}
 
 		llms_get_template( 'myaccount/form-lost-password.php', $args );
