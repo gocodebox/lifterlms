@@ -340,6 +340,31 @@ if ( ! function_exists( 'lifterlms_course_loop_end' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_course_progress_bar') ) {
+	/**
+	 * Outputs the html for a progress bar
+	 * @param  int / $progress / percent completion
+	 * @param  string / $link / permalink to link the button to, if false will output a span with no href
+	 * @return null
+	 */
+	function lifterlms_course_progress_bar($progress,$link=false) {
+
+		$tag = ($link) ? 'a' : 'span';
+		$href = ($link) ? ' href=" ' .$link. ' "' : '';
+
+		echo '
+			<div class="llms-progress">
+				<div class="progress__indicator">' . sprintf( __( '%s%%', 'lifterlms' ), $progress ) . '</div>
+					<div class="progress-bar">
+					<div class="progress-bar-complete" style="width:' . $progress . '%"></div>
+				</div>
+			</div>
+			<' . $tag . ' class="llms-button llms-purchase-button"'. $href .'>' . sprintf( __( 'Continue (%s%%)', 'lifterlms' ), $progress ) . '</' . $tag . '>
+		';
+	}
+
+}
+
 if ( ! function_exists( 'lifterlms_course_subcategories' ) ) {
 
 	function lifterlms_course_subcategories( $args = array() ) {
@@ -625,7 +650,7 @@ if ( ! function_exists( 'lifterlms_get_course_thumbnail' ) ) {
 		global $post;
 
 		if ( has_post_thumbnail() )
-			return get_the_post_thumbnail( $post->ID, $size );
+			return get_the_post_thumbnail( $post->ID, $size, array('class' => 'llms-course-image') );
 		elseif ( llms_placeholder_img_src() )
 			return llms_placeholder_img( $size );
 	}
@@ -650,7 +675,7 @@ function llms_placeholder_img_src() {
 function llms_placeholder_img( $size = 'shop_thumbnail' ) {
 	$dimensions = llms_get_image_size( $size );
 
-	return apply_filters('lifterlms_placeholder_img', '<img src="' . llms_placeholder_img_src() . '" alt="Placeholder" width="' . esc_attr( $dimensions['width'] ) . '" class="lifterlms-placeholder wp-post-image" height="' . esc_attr( $dimensions['height'] ) . '" />' );
+	return apply_filters('lifterlms_placeholder_img', '<img src="' . llms_placeholder_img_src() . '" alt="Placeholder" width="' . esc_attr( $dimensions['width'] ) . '" class="llms-course-image llms-placeholder wp-post-image" height="' . esc_attr( $dimensions['height'] ) . '" />' );
 }
 
 /**
@@ -734,7 +759,7 @@ function get_product_query_var( $vars ){
 add_filter( 'query_vars', 'get_product_query_var' );
 
 /**
- * Check if user is enrolled in course. 
+ * Check if user is enrolled in course.
  *
  * @return bool
  */
@@ -744,7 +769,7 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 	$results = get_post_meta( $product_id, '_llms_student', false );
 
 	foreach ( $results as $key => $value ) :
-		if ( $value == $user_id ) { 
+		if ( $value == $user_id ) {
 			return true;
 		}
 		else {
@@ -773,6 +798,6 @@ function get_available_payment_options() {
 		}
 
 	llms_get_template( 'checkout/' . $option . '.php' );
-	
+
 	}
 }

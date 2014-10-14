@@ -11,25 +11,19 @@ global $post, $course;
 
 ?>
 
-<div class="llms-purchase-link-wrapper">
-	<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) { ?>
-		<a href="<?php echo get_post_permalink( $course->ID); ?>" class="button llms-purchase-link"><?php _e( 'View Course', 'lifterlms' ); ?></a> 
-	<?php  } 
+<footer class="llms-course-footer">
 
-	else { 
-		$course_progress = $course->get_percent_complete();
-		$user = new LLMS_Person;
-		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
+<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ): ?>
+	<span class="llms-button llms-purchase-button"><?php _e( 'View Course', 'lifterlms' ); ?></span>
 
-	?>
-		<div class="llms-progress">
-			<div class="progress__indicator"><?php printf( __( '%s%%', 'lifterlms' ), $course_progress ); ?></div>
-				<div class="progress-bar">
-				<div class="progress-bar-complete" style="width:<?php echo $course_progress ?>%"></div>
-			</div>
-		</div>
+<?php else:
 
-		<a href="<?php echo get_post_permalink( $course->ID); ?>" class="button llms-purchase-link"><?php printf( __( 'Continue (%s%%)', 'lifterlms' ), $course_progress ); ?></a> 
+	$course_progress = $course->get_percent_complete();
+	$user = new LLMS_Person;
+	$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
 
-	<?php } ?>
-</div>
+	lifterlms_course_progress_bar($course_progress);
+
+endif; ?>
+
+</footer>

@@ -86,6 +86,7 @@ foreach($the_stuff as $key => $value) :
 					</a>
 				</div>
 			';
+
 		}
 	$lesson_i++;
 	endforeach;

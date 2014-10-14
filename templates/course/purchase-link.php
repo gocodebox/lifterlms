@@ -14,21 +14,23 @@ $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course-
 if ( $user_postmetas  ) {
 	$course_progress = $course->get_percent_complete();
 
-	$next_lesson = get_permalink($course->get_next_uncompleted_lesson());
+	if($course->get_next_uncompleted_lesson()) {
+		$next_lesson = get_permalink($course->get_next_uncompleted_lesson());
+	}
 }
 
 ?>
 
 <div class="llms-purchase-link-wrapper">
-	<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) { 
-		
+	<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
+
 		if ( $course->get_price() > 0 ) {
 		?>
 			<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-purchase-link"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
 		<?php
 		}
 		else { ?>
-						
+
 <form action="" method="post">
 
 	<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />
@@ -46,25 +48,18 @@ if ( $user_postmetas  ) {
 
 		<?php }
 	?>
-	<?php  } 
+	<?php  }
 
-	elseif( isset( $next_lesson)  ) { 
+	elseif( isset( $next_lesson)  ) {
 		$next_lesson = $course->get_next_uncompleted_lesson();
+
+		lifterlms_course_progress_bar($course_progress,get_permalink( $next_lesson ));
 
 	?>
 
-		<div class="llms-progress">
-			<div class="progress__indicator"><?php printf( __( '%s%%', 'lifterlms' ), $course_progress ); ?></div>
-				<div class="progress-bar">
-				<div class="progress-bar-complete" style="width:<?php echo $course_progress ?>%"></div>
-			</div>
-		</div>
-
-		<a href="<?php echo get_permalink( $next_lesson ); ?>" class="button llms-purchase-link"><?php printf( __( 'Continue (%s%%)', 'lifterlms' ), $course_progress ); ?></a> 
-
-<?php 
+<?php
 	}
 	else { ?>
-		<?php printf( __( 'Course %s%% Complete!', 'lifterlms' ), $course_progress ); ?>
+	<h5 class="llms-h5"><?php printf( __( 'Course %s%% Complete!', 'lifterlms' ), $course_progress ); ?></h5>
 <?php	} ?>
 </div>

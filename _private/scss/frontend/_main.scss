@@ -5,13 +5,59 @@
 	box-sizing: border-box;
 }
 
+
+.llms-button {
+	background: $color-red;
+	border-radius: 3px;
+	color: $color-white;
+	display: inline-block;
+	padding: 10px 20px;
+	text-decoration: none;
+	transition: background .4s ease;
+
+	&:visited {
+		color: $color-white;
+	}
+	&:hover {
+		background: $color-red-hover;
+		text-decoration: none;
+	}
+}
+
+
 .llms-course-list {
 	margin: 30px 0;
 	padding: 30px;
 	background: #FFF;
-	border-radius: 2px;
+	// border-radius: 2px;
 	display: inline-block;
 	width: 100%;
+
+	.llms-course-link {
+		@extend %llms-element;
+
+		display: block
+	}
+
+	.llms-course-footer {
+		border-top: 3px solid $color-white;
+		margin: 15px -15px 0;
+		padding: 15px 15px 0;
+		text-align: center;
+	}
+
+	.llms-progress {
+		margin-top: 0;
+		.progress-bar {
+			background-color: $color-white;
+		}
+	}
+
+}
+
+.llms-course-image {
+	display: block;
+	margin: 0 auto;
 }
 
 .llms-course-list .courses {
@@ -28,11 +74,6 @@
 .llms-course-list .courses li {
 	width: 300px;
 	margin: 15px;
-	border: 1px solid #EFEFEF;
-	padding: 15px;
-	border-radius: 2px;
-	border-bottom: 1px solid #f6f6f6;
-	position: relative;
 	list-style: none;
 	vertical-align: top;
 	display: inline-block;
@@ -68,14 +109,22 @@
 	text-align: center;
 }
 
+
+
+
+
+
+
+
 .llms-syllabus-wrapper {
 	padding: 15px;
 	text-align: center;
 }
 
-.llms-syllabus-wrapper .llms-lesson-preview {
-	// border: 1px solid #9a9a9a;
-	box-shadow: $element-box-shadow;
+//
+// LESSON PREVIEW
+//
+.llms-lesson-preview {
 	display: inline-block;
 	margin: 15px;
 	text-align: left;
@@ -90,19 +139,7 @@
 
 	.llms-lesson-link {
 		@extend %cf;
-
-		background: #f1f1f1;
-		color: #212121;
-		display: block;
-		min-height: 85px;
-		padding: 15px;
-		transition: background .4s ease;
-		text-decoration: none;
-		position: relative;
-
-		&:hover {
-			background: #eaeaea;
-		}
+		@extend %llms-element;
 	}
 
 	.llms-lesson-complete {
@@ -132,6 +169,18 @@
 
 
 
+//
+// Course Navigation
+//
+.llms-course-navigation {
+	@extend %cf;
+
+	padding: 30px 0;
+
+	.prev-lesson { float: left; }
+
+	.next-lesson { float: right; }
+}
 
 
 
@@ -259,10 +308,10 @@
 	margin: 0;
 }
 
-.grade-value, .author, .length, .difficulty, span {
-font-size: 1.2rem;
-font-weight: bold;
-}
+// .grade-value, .author, .length, .difficulty, span {
+// font-size: 1.2rem;
+// font-weight: bold;
+// }
 
 .course-link {
 	text-align: center;
@@ -278,11 +327,11 @@ font-weight: bold;
 	position: relative;
 	height: 1em;
 	width: 100%;
-	margin: 30px 0;
+	margin: 15px 0;
 }
 
 .llms-progress .progress-bar {
-	background-color: #f1f2f2;
+	background-color: #f1f2f1;
 	position: absolute;
 	height: .4em;
 	left: 0;

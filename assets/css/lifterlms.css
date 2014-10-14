@@ -1,7 +1,23 @@
-.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-link:after {
+.llms-lesson-preview .llms-lesson-link:after, .llms-course-navigation:after {
   content: "";
   display: table;
   clear: both;
+}
+
+.llms-course-list .llms-course-link, .llms-lesson-preview .llms-lesson-link {
+  background: #f1f1f1;
+  box-shadow: 0 1px 2px 0 rgba(1, 1, 1, 0.4);
+  display: block;
+  color: #212121;
+  min-height: 85px;
+  padding: 15px;
+  text-decoration: none;
+  position: relative;
+  -webkit-transition: background .4s ease;
+          transition: background .4s ease;
+}
+.llms-course-list .llms-course-link:hover, .llms-lesson-preview .llms-lesson-link:hover {
+  background: #eaeaea;
 }
 
 *, *:after, *::before {
@@ -10,13 +26,50 @@
   box-sizing: border-box;
 }
 
+.llms-button {
+  background: #e5554e;
+  border-radius: 3px;
+  color: #fefefe;
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  -webkit-transition: background .4s ease;
+          transition: background .4s ease;
+}
+.llms-button:visited {
+  color: #fefefe;
+}
+.llms-button:hover {
+  background: #e24038;
+  text-decoration: none;
+}
+
 .llms-course-list {
   margin: 30px 0;
   padding: 30px;
   background: #FFF;
-  border-radius: 2px;
   display: inline-block;
   width: 100%;
+}
+.llms-course-list .llms-course-link {
+  display: block;
+}
+.llms-course-list .llms-course-footer {
+  border-top: 3px solid #fefefe;
+  margin: 15px -15px 0;
+  padding: 15px 15px 0;
+  text-align: center;
+}
+.llms-course-list .llms-progress {
+  margin-top: 0;
+}
+.llms-course-list .llms-progress .progress-bar {
+  background-color: #fefefe;
+}
+
+.llms-course-image {
+  display: block;
+  margin: 0 auto;
 }
 
 .llms-course-list .courses {
@@ -33,11 +86,6 @@
 .llms-course-list .courses li {
   width: 300px;
   margin: 15px;
-  border: 1px solid #EFEFEF;
-  padding: 15px;
-  border-radius: 2px;
-  border-bottom: 1px solid #f6f6f6;
-  position: relative;
   list-style: none;
   vertical-align: top;
   display: inline-block;
@@ -79,8 +127,7 @@
   text-align: center;
 }
 
-.llms-syllabus-wrapper .llms-lesson-preview {
-  box-shadow: 0 1px 2px 0 rgba(1, 1, 1, 0.2);
+.llms-lesson-preview {
   display: inline-block;
   margin: 15px;
   text-align: left;
@@ -89,24 +136,10 @@
   max-width: 100%;
   max-width: calc(100% - 30px);
 }
-.llms-syllabus-wrapper .llms-lesson-preview.is-complete .llms-lesson-link {
+.llms-lesson-preview.is-complete .llms-lesson-link {
   padding-left: 75px;
 }
-.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-link {
-  background: #f1f1f1;
-  color: #212121;
-  display: block;
-  min-height: 85px;
-  padding: 15px;
-  -webkit-transition: background .4s ease;
-          transition: background .4s ease;
-  text-decoration: none;
-  position: relative;
-}
-.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-link:hover {
-  background: #eaeaea;
-}
-.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-complete {
+.llms-lesson-preview .llms-lesson-complete {
   color: #e5554e;
   font-size: 3em;
   line-height: 1;
@@ -115,15 +148,25 @@
   top: 15px;
   left: 15px;
 }
-.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-title {
+.llms-lesson-preview .llms-lesson-title {
   float: left;
   margin-bottom: .25em;
 }
-.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-counter {
+.llms-lesson-preview .llms-lesson-counter {
   float: right;
 }
-.llms-syllabus-wrapper .llms-lesson-preview .llms-lesson-excerpt {
+.llms-lesson-preview .llms-lesson-excerpt {
   clear: both;
+}
+
+.llms-course-navigation {
+  padding: 30px 0;
+}
+.llms-course-navigation .prev-lesson {
+  float: left;
+}
+.llms-course-navigation .next-lesson {
+  float: right;
 }
 
 .clear {
@@ -239,11 +282,6 @@
   margin: 0;
 }
 
-.grade-value, .author, .length, .difficulty, span {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
 .course-link {
   text-align: center;
 }
@@ -258,11 +296,11 @@
   position: relative;
   height: 1em;
   width: 100%;
-  margin: 30px 0;
+  margin: 15px 0;
 }
 
 .llms-progress .progress-bar {
-  background-color: #f1f2f2;
+  background-color: #f1f2f1;
   position: absolute;
   height: .4em;
   left: 0;

@@ -1,4 +1,10 @@
 $color-black: #010101;
-$color-red: #e5554e;
 
-$element-box-shadow: 0 1px 2px 0 rgba($color-black,0.2);
+$color-red: #e5554e;
+$color-red-hover: darken($color-red,5);
+
+$color-white: #fefefe;
+
+$el-box-shadow: 0 1px 2px 0 rgba($color-black,0.4);
+$el-background: #f1f1f1;
+$el-background-hover: #eaeaea;
