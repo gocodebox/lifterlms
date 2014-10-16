@@ -21,7 +21,7 @@ class LLMS_Shortcodes {
 		$shortcodes = array(
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
-			'courses' => __CLASS__ . '::courses',		
+			'courses' => __CLASS__ . '::courses',
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -33,7 +33,7 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	* Creates a wrapper for shortcode. 
+	* Creates a wrapper for shortcode.
 	*
 	* @return void
 	*/
@@ -117,6 +117,7 @@ class LLMS_Shortcodes {
 				<?php lifterlms_course_loop_end(); ?>
 
 	    <?php $courses = ob_get_clean();
+	    wp_reset_postdata();
 	    return $courses;
 	    }
 
