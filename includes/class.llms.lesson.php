@@ -117,6 +117,18 @@ class LLMS_Lesson {
 
 	}
 
+	public function get_prerequisite() {
+
+		if ( $this->has_prerequisite == 'on' ) {
+
+			return $this->prerequisite;
+		}
+		else {
+			return false;
+		}
+	}
+
+
 	public function get_next_lesson() {
 		global $course;
 
@@ -193,7 +205,7 @@ class LLMS_Lesson {
 		   
 		    $previousValue = $lessons[$previousKey];
 		}
-		llms_log($previousValue);
+
 		return $previousValue;
 
 	}

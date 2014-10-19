@@ -33,7 +33,7 @@ class LLMS_Install {
 	public function __construct() {
 		$this->current_wp_version = get_bloginfo( 'version' );
 		register_activation_hook( LLMS_PLUGIN_FILE, array( $this, 'install' ) );
-		add_action( 'admin_init', array( $this, 'check_wp_version' ) );
+		add_action( 'admin_init', array( $this, 'check_wp_version' ) );	
 		add_action( 'admin_init', array( $this, 'install_settings' ) );
 	}
 
@@ -46,7 +46,7 @@ class LLMS_Install {
          		'. You may experience issues with this plugin until you upgrade your version of Wordpress.</p></div>';
 	}
 
-	//testing message only. You can dump shit out in this message.
+	//testing message only. You can dump shit out in this message. 
 	public function custom_dump_notice(){
      	global $current_screen;
      	if ( $current_screen->parent_base == 'plugins' )
@@ -56,10 +56,10 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Check if installed WP version is compatable with plugin requirements.
+	 * Check if installed WP version is compatable with plugin requirements. 
 	 */
 	public function check_wp_version() {
-
+		
 		if ( version_compare( get_bloginfo( 'version' ), $this->min_wp_version, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'custom_error_notice' ));
 		}
@@ -71,13 +71,13 @@ class LLMS_Install {
 	 * Install LLMS
 	 */
 	public function install() {
-
+		
 		$this->create_options();
 		$this->create_tables();
 		$this->create_roles();
-
-
-		// Register Post Types
+		
+		
+		// Register Post Types	
 		include_once( 'class.llms.post-types.php' );
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
@@ -145,10 +145,6 @@ class LLMS_Install {
 			'post_content'  => '<h1><span style="color: #008000;">Hey There {user_login},</span></h1>
 								<h1>Thanks for creating an account on {site_title}!</h1>
 								Your username is <strong>{user_login}.</strong>
-								You can access your account to view your courses here: <a href="{site_url}">{site_title}</a>.
-								<a href="http://local.wp-test.com/wp-content/uploads/2014/09/bigfoot.jpg"><img class="alignnone
-								size-medium wp-image-28" src="http://local.wp-test.com/wp-content/uploads/2014/09/bigfoot-300x225.jpg"
-								alt="bigfoot" width="300" height="225" /></a>
 								You can access your account to view your courses here: <a href="{site_url}">{site_title}</a>.',
 			'post_status'   => 'publish',
 			'post_author'   => 1,
@@ -158,7 +154,7 @@ class LLMS_Install {
 	}
 
 	public function create_options() {
-
+		
 		include_once( 'admin/class.llms.admin.settings.php' );
 
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
@@ -255,7 +251,7 @@ class LLMS_Install {
 		catch (Exception $e)
 		{
 		 throw new Exception( 'Instalation failed. Error creating lifterLMS tables in database.', 0, $e);
-		}
+		}	
 
 	}
 

@@ -34,13 +34,31 @@ class LLMS_Template_Loader {
 		$file = '';
 		if ( is_single() && get_post_type() == 'course' ) {
 
-			$template = 'single-course.php';
+			if ( $this->check_user_permissions( 'course' ) ) {
+
+				$template = 'single-course.php';
+			
+			}
+			else {
+
+				$template = 'single-no-access.php';
+			
+			}
 
 		}
 
 		elseif ( is_single() && get_post_type() == 'lesson' ) {
 
-			$template = 'single-lesson.php';
+			if ( $this->check_user_permissions( 'lesson' ) ) {
+
+				$template = 'single-lesson.php';
+			
+			}
+			else {
+
+				$template = 'single-no-access.php';
+			
+			}
 
 		}
 
@@ -48,7 +66,7 @@ class LLMS_Template_Loader {
 
 			$template = 'archive-course.php';
 
-		}
+		} 
 
 		else {
 
@@ -61,6 +79,46 @@ class LLMS_Template_Loader {
 
 		return $template_path . $template;
 
+	}
+
+	public function check_user_permissions ( $page ) {
+		global $post;
+
+		if ( ! wp_get_current_user() ) {
+			return;
+		}
+		//LLMS_log($page);
+
+		$allow_access = true;
+
+		switch( $page ) {
+
+			case ('course') :
+
+				if ( outstanding_prerequisite_exists(get_current_user_id(), $page ) )  {
+					LLMS_log('got to if 1');
+					$allow_access = false;
+				}
+				elseif ( course_start_date_in_future( $page ) )  {
+					LLMS_log('got to if 2');
+					$allow_access = false;
+				}
+				break;
+			case ('lesson') :
+
+				if ( outstanding_prerequisite_exists(get_current_user_id(), $page ) )  {
+					$allow_access = false;
+				}
+				elseif ( lesson_start_date_in_future(get_current_user_id(), $page) ) {
+					$allow_access = false;
+				}
+				break;
+			default:
+				$allow_access = false;
+				break;
+		}
+
+	return $allow_access;
 	}
 
 

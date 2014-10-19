@@ -115,7 +115,7 @@ class LLMS_Course {
 
 		$checkout_page_id = llms_get_page_id( 'checkout' );
 		$checkout_url =  apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
-
+		
 		return add_query_arg( 'course-id', $this->id, $checkout_url );
 
 	}
@@ -166,6 +166,18 @@ class LLMS_Course {
 		}
 
 	}
+
+	public function get_prerequisite() {
+
+		if ( $this->has_prerequisite == 'on' ) {
+
+			return $this->prerequisite;
+		}
+		else {
+			return false;
+		}
+	}
+
 
 	public function get_next_uncompleted_lesson() {
 		$lessons_not_completed = array();
@@ -226,7 +238,6 @@ class LLMS_Course {
 				}
 			}
 		}
-
 
 		$percent_complete = ($i != 0) ? round(100 / ( ( count($lesson_ids) / $i ) ), 0 ) : 0;
 

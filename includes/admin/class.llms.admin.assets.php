@@ -44,6 +44,12 @@ class LLMS_Admin_Assets {
 	    	'course',
 	    	'edit-course',
 	    	'edit-course_cat',
+
+	    	'llms_certificate',
+	    	'edit-llms_certificate',
+
+	    	'llms_engagement',
+	    	'edit-llms_engagement',
 	    ));
 	}
 
@@ -64,6 +70,7 @@ class LLMS_Admin_Assets {
 	* @return void
 	*/
 	public function admin_scripts() {
+		global $post_type;
 		$screen = get_current_screen();
 
 		if ( in_array( $screen->id, LLMS_Admin_Assets::get_llms_admin_page_ids() ) ) {
@@ -71,11 +78,26 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'jquery-ui-sortable' );
 
 			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
-			wp_enqueue_script( 'llms-ajax', plugins_url(  '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			
-			wp_enqueue_script( 'llms-metabox-data', plugins_url(  '/assets/js/llms-metabox-data' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
-			wp_enqueue_script( 'llms-metabox-fields', plugins_url(  '/assets/js/llms-metabox-fields' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
-			wp_enqueue_script( 'llms-metabox-syllabus', plugins_url(  '/assets/js/llms-metabox-syllabus' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+
+			wp_enqueue_script( 'llms-ajax', plugins_url(  '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			wp_enqueue_script( 'llms-metabox', plugins_url(  '/assets/js/llms-metabox' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+
+			
+			if( 'course' == $post_type ) {
+				wp_enqueue_script( 'llms-metabox-syllabus', plugins_url(  '/assets/js/llms-metabox-syllabus' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+				wp_enqueue_script( 'llms-metabox-data', plugins_url(  '/assets/js/llms-metabox-data' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+				wp_enqueue_script( 'llms-metabox-fields', plugins_url(  '/assets/js/llms-metabox-fields' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			}
+			if( 'llms_certificate' == $post_type ) {
+
+				wp_enqueue_script( 'llms-metabox-certificate', plugins_url(  '/assets/js/llms-metabox-certificate' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			}
+			if( 'llms_engagement' == $post_type ) {
+
+				wp_enqueue_script( 'llms-metabox-engagement', plugins_url(  '/assets/js/llms-metabox-engagement' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			}
+
 
 		}
 	}

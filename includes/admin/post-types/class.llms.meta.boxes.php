@@ -32,10 +32,18 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Course_Product::save', 10, 2 );
 		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Video::save', 10, 2 );
 		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Course_Syllabus::save', 10, 2 );
+		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_General::save', 10, 2 );
 
 		add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Video::save', 10, 2 );
-
+		add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_General::save', 10, 2 );
+		add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Lesson_Options::save', 10, 2 );
+		
 		add_action( 'lifterlms_process_llms_email_meta', 'LLMS_Meta_Box_Email_Settings::save', 10, 2 );
+
+		add_action( 'lifterlms_process_llms_certificate_meta', 'LLMS_Meta_Box_Certificate_Options::save', 10, 2 );
+		add_action( 'lifterlms_process_llms_achievement_meta', 'LLMS_Meta_Box_Achievement_Options::save', 10, 2 );
+
+		add_action( 'lifterlms_process_llms_engagement_meta', 'LLMS_Meta_Box_Engagement_Options::save', 10, 2 );
 
 		//Error handling
 		add_action( 'admin_notices', array( $this, 'display_errors' ) );
@@ -98,10 +106,19 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-course-data', __( 'Course Data', 'lifterlms' ), 'LLMS_Meta_Box_Course_Product::output', 'course', 'normal', 'high' );
 		add_meta_box( 'lifterlms-course-video', __( 'Course Video', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'course', 'normal');
 		add_meta_box( 'lifterlms-course-syllabus', __( 'Course Syllabus', 'lifterlms' ), 'LLMS_Meta_Box_Course_Syllabus::output', 'course', 'normal');
+		add_meta_box( 'lifterlms-course-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_General::output', 'course', 'normal' );
 
 		add_meta_box( 'lifterlms-lesson-video', __( 'Featured Video', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'lesson', 'normal', 'high' );
+		add_meta_box( 'lifterlms-lesson-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_General::output', 'lesson', 'normal' );
+		add_meta_box( 'lifterlms-lesson-options', __( 'Lesson Options', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Options::output', 'lesson', 'normal' );
 
 		add_meta_box( 'lifterlms-email-settings', __( 'Email Settings', 'lifterlms' ), 'LLMS_Meta_Box_Email_Settings::output', 'llms_email', 'normal', 'high' );
+
+		add_meta_box( 'lifterlms-certificate-options', __( 'Certificate Options', 'lifterlms' ), 'LLMS_Meta_Box_Certificate_Options::output', 'llms_certificate', 'normal' );
+		add_meta_box( 'lifterlms-achievement-options', __( 'Achievement Options', 'lifterlms' ), 'LLMS_Meta_Box_Achievement_Options::output', 'llms_achievement', 'normal' );
+		
+		add_meta_box( 'lifterlms-engagement-options', __( 'Engagement Options', 'lifterlms' ), 'LLMS_Meta_Box_Engagement_Options::output', 'llms_engagement', 'normal' );
+
 	}
 
 	/**
@@ -137,7 +154,7 @@ class LLMS_Admin_Meta_Boxes {
 		elseif ( empty( $post_id ) || empty( $post ) ) {
 			return false;
 		}
-		elseif ( ! in_array( $post->post_type, array( 'course', 'section', 'lesson', 'order', 'llms_email' ) ) ) {
+		elseif ( ! in_array( $post->post_type, array( 'course', 'section', 'lesson', 'order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement' ) ) ) {
 			return false;
 		}
 		elseif ( defined( 'DOING_AUTOSAVE' ) || is_int( wp_is_post_revision( $post ) ) || is_int( wp_is_post_autosave( $post ) ) ) {

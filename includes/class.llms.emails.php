@@ -31,6 +31,7 @@ class LLMS_Emails {
 	}
 
 	function __construct() {
+		LLMS_log('made to to LLMS_Emails contruct');
 		
 		$this->init();
 
@@ -38,6 +39,11 @@ class LLMS_Emails {
 		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
 
 		add_action( 'lifterlms_created_person_notification', array( $this, 'person_new_account' ), 10, 3 );
+
+		add_action( 'lifterlms_lesson_completed_engagement_notification', array( $this, 'lesson_completed' ), 10, 3 );
+
+
+		//add_action( 'lifterlms_created_person_notification', array( $this, 'person_new_account' ), 10, 3 );
 
 		do_action( 'lifterlms_email', $this );
 	}
@@ -48,6 +54,8 @@ class LLMS_Emails {
 
 		$this->emails['LLMS_Email_Person_Reset_Password']   = include( 'emails/class.llms.email.person.reset.password.php' );
 		$this->emails['LLMS_Email_Person_New']      = include( 'emails/class.llms.email.person.new.php' );
+
+		$this->emails['LLMS_Email_Engagement']      = include( 'emails/class.llms.email.engagement.php' );
 
 		$this->emails = apply_filters( 'lifterlms_email_classes', $this->emails );
 	}
@@ -118,13 +126,24 @@ class LLMS_Emails {
 	}
 
 	function person_new_account( $person_id, $new_person_data = array(), $password_generated = false ) {
-		
+		LLMS_log('LLMS_Emails: person_new_account function executed');
 		if ( ! $person_id )
 			return;
 
 		$user_pass = ! empty( $new_person_data['user_pass'] ) ? $new_person_data['user_pass'] : '';
 		$email = $this->emails['LLMS_Email_Person_New'];
 		$email->trigger( $person_id, $user_pass, $password_generated );
+	}
+
+	function lesson_completed( $person_id, $email_id ) {
+		LLMS_log('LLMS_Emails: lesson_completed function executed');
+		if ( ! $person_id )
+			return;
+
+		$user_pass = ! empty( $new_person_data['user_pass'] ) ? $new_person_data['user_pass'] : '';
+		//LLMS_log($this->emails);
+		$email = $this->emails['LLMS_Email_Engagement'];
+		$email->trigger( $person_id, $email_id );
 	}
 
 }

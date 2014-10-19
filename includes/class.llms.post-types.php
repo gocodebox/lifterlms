@@ -425,7 +425,130 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+					'supports' 				=> array( 'title', 'editor', 'page-attributes' ),
+					'has_archive' 			=> false,
+				)
+			)
+		);
+
+		/**
+		 * Certificate Post type
+		 */
+		$certificate_permalink = empty( $permalinks['certificate_base'] ) ? _x( 'certificate', 'slug', 'lifterlms' ) : $permalinks['certificate_base'];
+
+
+	    register_post_type( "llms_certificate",
+		    apply_filters( 'lifterlms_register_post_type_section',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Certificates', 'lifterlms' ),
+							'singular_name' 		=> __( 'Certificate', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Certificate', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Certificate', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Certificate', 'lifterlms' ),
+							'new_item' 				=> __( 'New Certificate', 'lifterlms' ),
+							'view' 					=> __( 'View Certificate', 'lifterlms' ),
+							'view_item' 			=> __( 'View Certificate', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Certificates', 'lifterlms' ),
+							'not_found' 			=> __( 'No Certificates found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Certificates found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Certificates', 'lifterlms' ),
+							'menu_name'				=> _x('Certificates', 'Admin menu name', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where you can view all of the certificates.', 'lifterlms' ),
+					'public' 				=> true,
+					'show_ui' 				=> true,
+					//'capability_type' 		=> 'lesson',
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> true,
+					'exclude_from_search' 	=> false,
+					'show_in_menu' 			=> 'lifterlms',
+					'hierarchical' 			=> false,
+					'rewrite' 				=> $certificate_permalink ? array( 'slug' => untrailingslashit( $certificate_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'show_in_nav_menus' 	=> false,
+					'query_var' 			=> true,
+					'supports' 				=> array( 'title', 'page-attributes' ),
+					//'has_archive' 			=> false,
+				)
+			)
+		);
+
+		/**
+		 * Achievement Post type
+		 */
+	    register_post_type( "llms_achievement",
+		    apply_filters( 'lifterlms_register_post_type_section',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Achievements', 'lifterlms' ),
+							'singular_name' 		=> __( 'Achievement', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Achievement', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Achievement', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Achievement', 'lifterlms' ),
+							'new_item' 				=> __( 'New Achievement', 'lifterlms' ),
+							'view' 					=> __( 'View Achievement', 'lifterlms' ),
+							'view_item' 			=> __( 'View Achievement', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Achievement', 'lifterlms' ),
+							'not_found' 			=> __( 'No Achievement found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Achievement found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Achievement', 'lifterlms' ),
+							'menu_name'				=> _x('Achievements', 'Admin menu name', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where achievements are stored.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> true,
+					//'capability_type' 		=> 'email',
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'lifterlms',
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title', 'page-attributes' ),
+					'has_archive' 			=> false,
+				)
+			)
+		);
+
+		/**
+		 * Engagement Post type
+		 */
+	    register_post_type( "llms_engagement",
+		    apply_filters( 'lifterlms_register_post_type_section',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Engagements', 'lifterlms' ),
+							'singular_name' 		=> __( 'Engagement', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Engagement', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Engagement', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Engagement', 'lifterlms' ),
+							'new_item' 				=> __( 'New Engagement', 'lifterlms' ),
+							'view' 					=> __( 'View Engagement', 'lifterlms' ),
+							'view_item' 			=> __( 'View Engagement', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Engagement', 'lifterlms' ),
+							'not_found' 			=> __( 'No Engagement found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Engagement found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Engagement', 'lifterlms' ),
+							'menu_name'				=> _x('Engagements', 'Admin menu name', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where engagements are stored.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> true,
+					//'capability_type' 		=> 'email',
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'lifterlms',
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title', 'page-attributes' ),
 					'has_archive' 			=> false,
 				)
 			)

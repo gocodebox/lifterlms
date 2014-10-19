@@ -798,6 +798,149 @@ function get_available_payment_options() {
 		}
 
 	llms_get_template( 'checkout/' . $option . '.php' );
-
+	
 	}
 }
+
+//  function lifterlms_no_permissions_main_content() {
+// 	while ( have_posts() ) {
+// 		the_post();
+// 		llms_get_template_part( 'content', 'no-access' );
+// 	}
+// } 
+
+
+
+function outstanding_prerequisite_exists($user_id, $post_id) {
+	global $post;
+	$result = false;
+
+	if ( $post->post_type == 'course' ) {
+
+
+		$current_post = new LLMS_Course($post->ID);
+
+		$result = find_prerequisite($user_id, $current_post);
+
+	}
+	elseif ( $post->post_type == 'lesson' ) {
+
+		$current_post = new LLMS_Lesson($post->ID);
+
+		$parent_course_id = $current_post->get_parent_course();
+
+		$parent_course = new LLMS_Course($parent_course_id);
+
+		$result = find_prerequisite($user_id, $parent_course );
+
+		if (! $result) {
+			$result = find_prerequisite($user_id, $current_post);
+		}
+
+	}
+	
+	return $result;	
+
+}
+
+function find_prerequisite( $user_id, $post ) {
+	$user = new LLMS_Person();
+
+	$prerequisite_exists = false;
+
+	if ($prerequisite_id = $post->get_prerequisite()) {
+
+		$prerequisite_exists = true;
+
+		$prerequisite = get_post( $prerequisite_id );
+		$user_postmetas = $user->get_user_postmeta_data( $user_id, $prerequisite->ID );
+
+		if ( isset($user_postmetas) ) {
+	
+			foreach( $user_postmetas as $key => $value ) {
+				
+				if ( isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $prerequisite_id) {
+					$prerequisite_exists = false;
+				}
+			}
+		}
+}
+if ($prerequisite_exists) {
+		do_action('lifterlms_content_restricted_by_prerequisite', $prerequisite);
+	}
+	return $prerequisite_exists;
+
+}
+
+function course_start_date_in_future($post_id) {
+
+LLMS_log($post_id);
+$post = get_post($post_id);
+LLMS_log($post);
+	$course_in_future = false;
+
+	if ( $start_date = get_metadata('post', $post->ID, '_course_dates_from', true) ) {
+		$todays_date =  strtotime('today');
+
+		if ($todays_date < $start_date) {
+			LLMS_log('dfsadsf111asd');
+			$course_in_future = true;
+			LLMS_log($wtf);
+
+		}
+	}
+	if ($course_in_future) {
+		$start_date_formatted = date('M d, Y', $start_date);
+		do_action('lifterlms_content_restricted_by_start_date', $start_date_formatted);
+	}
+
+	return $course_in_future;
+
+}
+
+function lesson_start_date_in_future($user_id, $post) {
+	global $post;
+
+	$result = false;
+
+	$lesson = new LLMS_Lesson($post);
+
+	if ( $drip_days = get_metadata('post', $post->ID, '_days_before_avalailable', true) ) {
+
+		$parent_course = $lesson->get_parent_course();
+		$user = new LLMS_Person;
+
+		$user_postmetas = $user->get_user_postmeta_data( $user_id, $parent_course );
+
+		if ( isset($user_postmetas['_start_date']) ) {
+			
+			$start_date = $user_postmetas['_start_date']->updated_date;
+			$start_date = date('Y-n-j', strtotime($start_date));
+			$start_date = date_create($start_date);
+	
+			$todays_date = date_create('today');
+			$start_date->add(new DateInterval('P' . $drip_days .'D'));
+			$diff = date_diff($start_date, $todays_date);
+
+			if ( $todays_date < $start_date ) {
+
+				$result = true;
+			}
+
+		}
+
+		if ( course_start_date_in_future($parent_course) ) {
+			$result = true;
+		}
+		elseif ($result) {
+			$start_date_formatted = $start_date->format('M d, Y');
+			do_action('lifterlms_content_restricted_by_start_date', $start_date_formatted);
+		}
+
+	}
+
+	return $result;
+}
+
+
+

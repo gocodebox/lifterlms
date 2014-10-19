@@ -32,6 +32,11 @@ class LLMS_Frontend_Forms {
 		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 2 );
 		add_action( 'lifterlms_order_process_complete', array( $this, 'order_complete' ), 10, 1 );
 
+
+		add_action( 'lifterlms_content_restricted_by_prerequisite', array( $this, 'llms_restricted_by_prerequisite' ), 10, 1 );
+		add_action( 'lifterlms_content_restricted_by_start_date', array( $this, 'llms_restricted_by_start_date' ), 10, 1 );
+		
+
 	}
 
 	// Mark lesson as complete
@@ -85,6 +90,7 @@ class LLMS_Frontend_Forms {
 					)
 				);
 				do_action( 'lifterlms_lesson_completed', $current_lesson->user_id, $current_lesson->id);
+				LLMS_log('lifterlms_lesson_completed do_action triggered');
 				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), $current_lesson->title ) );
 
     		}
@@ -261,6 +267,19 @@ class LLMS_Frontend_Forms {
 
 		wp_redirect( apply_filters( 'lifterlms_order_process_complete_redirect', $redirect ) );
 
+	}
+
+	function llms_restricted_by_prerequisite($prerequisite) {
+		$link = get_permalink( $prerequisite->ID);
+		//LLMS_log($prerequisite->ID);
+
+		llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ), 
+			$link, $prerequisite->post_title, $prerequisite->post_title ) );
+	}
+
+	function llms_restricted_by_start_date($date) {
+		llms_add_notice( sprintf( __( 'This content is not available until %s', 'lifterlms' ), 
+			$date ) );
 	}
 
 	public static function llms_get_redirect( $url ) {

@@ -18,9 +18,13 @@ class LLMS_AJAX {
 	public function __construct() {
 
 		$ajax_events = array(
-			'get_sections' 		=> false,
-			'get_lessons' 		=> false,
-			'update_syllabus' 	=> false
+			'get_courses' 			=> false,
+			'get_sections' 			=> false,
+			'get_lessons' 			=> false,
+			'get_emails' 			=> false,
+			'get_achievements' 		=> false,
+			'get_certificates' 		=> false,
+			'update_syllabus' 		=> false
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -30,6 +34,28 @@ class LLMS_AJAX {
 				add_action( 'wp_ajax_nopriv_' . $ajax_event, array( $this, $ajax_event ) );
 			}
 		}
+	}
+
+	/**
+	 * Return array of courses (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_courses(){
+
+		$args = array(
+			'post_type' 	=> 'course',
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
+		 );
+
+		$postslist = get_posts( $args );
+
+		echo json_encode($postslist);
+
+		die();
 	}
 
 	/**
@@ -66,6 +92,72 @@ class LLMS_AJAX {
 			'post_type' 	=> 'lesson',
 			'nopaging' 		=> true,
 			'post_status'	=> 'publish',
+		 );
+
+		$postslist = get_posts( $args );
+
+		echo json_encode($postslist);
+
+		die();
+	}
+
+	/**
+	 * Return array of courses (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_emails(){
+
+		$args = array(
+			'post_type' 	=> 'llms_email',
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
+		 );
+
+		$postslist = get_posts( $args );
+
+		echo json_encode($postslist);
+
+		die();
+	}
+
+	/**
+	 * Return array of courses (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_achievements(){
+
+		$args = array(
+			'post_type' 	=> 'llms_achievement',
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
+		 );
+
+		$postslist = get_posts( $args );
+
+		echo json_encode($postslist);
+
+		die();
+	}
+
+	/**
+	 * Return array of courses (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_certificates(){
+
+		$args = array(
+			'post_type' 	=> 'llms_certificate',
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
 		 );
 
 		$postslist = get_posts( $args );

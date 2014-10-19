@@ -220,11 +220,19 @@ final class LifterLMS {
 
 		// Email Actions
 		$email_actions = array(
-			'lifterlms_created_person'
+			'lifterlms_created_person',
+			'lifterlms_lesson_completed_engagement'
 		);
 
 		foreach ( $email_actions as $action )
 			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 );
+
+		$engagement_actions = array(
+			'lifterlms_lesson_completed'
+		);
+
+		foreach( $engagement_actions as $action )
+			add_action( $action, array( $this, 'trigger_engagement' ), 10, 10 );
 
 
 		do_action( 'lifterlms_init' );
@@ -232,10 +240,20 @@ final class LifterLMS {
 	}
 
 	public function send_transactional_email() {
+LLMS_log('lifterlms.php: send_transactional_email executed');
 		$this->mailer();
 		$args = func_get_args();
 		do_action_ref_array( current_filter() . '_notification', $args );
 	}
+
+	public function trigger_engagement() {
+		LLMS_log('trigger_engagement actually loaded');
+		$this->engagements();
+		$args = func_get_args();
+		do_action_ref_array( current_filter() . '_notification', $args );
+	}
+
+	
 	/**
 	 * Get the plugin url.
 	 *
@@ -282,6 +300,8 @@ final class LifterLMS {
 	 */
 	public function integrations() {
 		return LLMS_Integrations::instance();
+	public function engagements() {
+		return LLMS_Engagements::instance();
 	}
 
 	/**

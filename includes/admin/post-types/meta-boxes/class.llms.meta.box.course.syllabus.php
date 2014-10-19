@@ -19,7 +19,9 @@ class LLMS_Meta_Box_Course_Syllabus {
 	 * @param string $post
 	 */
 	public static function output( $post ) {
-		global $post;
+		global $post, $thepostid;;
+
+		$thepostid = $post->ID;
 
 		if ( ! get_post_meta( $post->ID, '_sections') ) {
 			add_post_meta( $post->ID, '_sections', '');
@@ -106,7 +108,26 @@ class LLMS_Meta_Box_Course_Syllabus {
 
 	<div>
 
-		<?php lifterlms_wp_text_input( array( 'id' => '_lesson_length', 'label' => __( 'Course Length (in hours)', 'lifterlms' ) ) ); ?>
+	<?php lifterlms_wp_text_input( array( 'id' => '_lesson_length', 'label' => __( 'Course Length (in hours)', 'lifterlms' ) ) ); ?>
+
+	<?php 
+	lifterlms_wp_text_input( array( 'id' => '_sale_price', 'data_type' => 'price', 'label' => __( 'Sale Price', 'lifterlms' ) 
+			. ' ('.get_lifterlms_currency_symbol().')', 'description' => '' 
+			. '<div class="clear"></div>'
+			. __( 'Set specific start and end dates for the course.', 'lifterlms' ) . '' ) );
+	// Special Price date range
+		$course_dates_from 	= ( $date = get_post_meta( $thepostid, '_course_dates_from', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
+		$course_dates_to 	= ( $date = get_post_meta( $thepostid, '_course_dates_to', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
+		// need to add better date validation. I don't want to hardcode pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01]) into the inputs. 
+		echo '	<p class="form-field course_dates_fields">
+					<label for="_course_dates_from">' . __( 'Course Availabilty', 'lifterlms' ) . '</label>
+					Course Begins<input type="text" class="datepicker short" name="_course_dates_from" id="_course_dates_from" value="' . esc_attr( $course_dates_from ) . '" placeholder="' . _x( 'From&hellip;', 'placeholder', 'lifterlms' ) . ' YYYY-MM-DD" maxlength="10" />
+					Course Ends<input type="text" class="datepicker short" name="_course_dates_to" id="_course_dates_tp" value="' . esc_attr( $course_dates_to ) . '" placeholder="' . _x( 'To&hellip;', 'placeholder', 'lifterlms' ) . '  YYYY-MM-DD" maxlength="10" />
+					</p>';
+
+
+
+	?>
 		
         <div class="clear"></div>
 		<br />
@@ -188,6 +209,28 @@ class LLMS_Meta_Box_Course_Syllabus {
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
+
+		//if ( isset( $_POST['_course_start_date'] ) ) {
+//Update Sales Price Dates
+		$date_from = isset( $_POST['_course_dates_from'] ) ? $_POST['_course_dates_from'] : '';
+		$date_to = isset( $_POST['_course_dates_to'] ) ? $_POST['_course_dates_to'] : '';
+
+		// Dates
+		if ( $date_from )
+			update_post_meta( $post_id, '_course_dates_from', strtotime( $date_from ) );
+
+		else
+			//LLMS_log('sweet!');
+			update_post_meta( $post_id, '_course_dates_from', '' );
+
+		if ( $date_to )
+
+			update_post_meta( $post_id, '_course_dates_to', strtotime( $date_to ) );
+		else
+			update_post_meta( $post_id, '_course_dates_to', '' );
+
+		if ( $date_to && ! $date_from )
+			update_post_meta( $post_id, '_course_dates_from', strtotime( 'NOW', current_time( 'timestamp' ) ) );
 
 		if ( isset( $_POST['_lesson_length'] ) ) {
 
