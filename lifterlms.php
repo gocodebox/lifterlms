@@ -228,7 +228,8 @@ final class LifterLMS {
 			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 );
 
 		$engagement_actions = array(
-			'lifterlms_lesson_completed'
+			'lifterlms_lesson_completed',
+			'lifterlms_course_completed',
 		);
 
 		foreach( $engagement_actions as $action )
@@ -300,8 +301,14 @@ LLMS_log('lifterlms.php: send_transactional_email executed');
 	 */
 	public function integrations() {
 		return LLMS_Integrations::instance();
+	}
+
 	public function engagements() {
 		return LLMS_Engagements::instance();
+	}
+
+	public function certificates() {
+		return LLMS_Certificates::instance();
 	}
 
 	/**

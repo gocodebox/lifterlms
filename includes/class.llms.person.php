@@ -9,6 +9,7 @@
 * @author codeBOX
 * @project lifterLMS
 */
+
 class LLMS_Person {
 
 	/**
@@ -59,7 +60,7 @@ class LLMS_Person {
 	 */
 	public function get_user_postmeta_data( $user_id, $post_id ) {
 		global $wpdb;
-//LLMS_log('get_user_postmeta_data ran useroid=' . $user_id . ' postid=' . $post_id);
+
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
@@ -67,6 +68,27 @@ class LLMS_Person {
 //LMS_log($results);
 		for ($i=0; $i < count($results); $i++) {
 			$results[$results[$i]->meta_key] = $results[$i];
+			unset($results[$i]);
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Return array of objects containing user meta data for a single post.
+	 *
+	 * @return  array
+	 */
+	public function get_user_postmetas_by_key( $user_id, $meta_key ) {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+
+		$results = $wpdb->get_results( $wpdb->prepare(
+			'SELECT * FROM '.$table_name.' WHERE user_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $user_id, $meta_key ) );
+
+		for ($i=0; $i < count($results); $i++) {
+			$results[$results[$i]->post_id] = $results[$i];
 			unset($results[$i]);
 		}
 

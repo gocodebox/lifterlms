@@ -68,6 +68,18 @@ class LLMS_Template_Loader {
 
 		} 
 
+		elseif ( is_single() && get_post_type() == 'llms_certificate' ) {
+
+			$template = 'single-certificate.php';
+			
+		}
+
+		elseif ( is_single() && get_post_type() == 'llms_my_certificate' ) {
+
+			$template = 'single-certificate.php';
+			
+		}
+			
 		else {
 
 			// not an llms template
@@ -95,21 +107,21 @@ class LLMS_Template_Loader {
 
 			case ('course') :
 
-				if ( outstanding_prerequisite_exists(get_current_user_id(), $page ) )  {
-					LLMS_log('got to if 1');
+				if ( outstanding_prerequisite_exists(get_current_user_id(),  $post->ID ) )  {
+
 					$allow_access = false;
 				}
-				elseif ( course_start_date_in_future( $page ) )  {
-					LLMS_log('got to if 2');
+				elseif ( course_start_date_in_future( $post->ID ) )  {
+
 					$allow_access = false;
 				}
 				break;
 			case ('lesson') :
 
-				if ( outstanding_prerequisite_exists(get_current_user_id(), $page ) )  {
+				if ( outstanding_prerequisite_exists(get_current_user_id(), $post->ID ) )  {
 					$allow_access = false;
 				}
-				elseif ( lesson_start_date_in_future(get_current_user_id(), $page) ) {
+				elseif ( lesson_start_date_in_future(get_current_user_id(), $post->ID ) ) {
 					$allow_access = false;
 				}
 				break;

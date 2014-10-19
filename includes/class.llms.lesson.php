@@ -230,7 +230,7 @@ class LLMS_Lesson {
 	}	
 
 	public function single_mark_complete_text() {
-		return apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'woocommerce' ), $this );
+		return apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'lifterlms' ), $this );
 	}
 
 }

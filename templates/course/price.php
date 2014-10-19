@@ -11,11 +11,13 @@ global $post, $course;
 
 ?>
 <?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) { ?>
+	<?php if ( $course->get_price_html() ) { ?>
 
-<div class="llms-price-wrapper">
+	<div class="llms-price-wrapper">
 
-	<p class="llms-price">Price: <span class="length"><?php echo $course->get_price_html(); ?></span></p> 
+		<p class="llms-price">Price: <span class="length"><?php echo $course->get_price_html(); ?></span></p> 
 
-</div>
+	</div>
 
-<?php  } ?>
+<?php }
+ } ?>

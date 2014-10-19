@@ -97,16 +97,12 @@ i.section-dismiss:hover {
   width: 300px;
 }
 
-#extra .short {
-  width: 160px;
+#post_course_difficulty {
+  min-width: 200px;
 }
 
-#lifterlms-course-data .short {
-  width: 160px;
-}
-
-#extra label {
-  margin-right: 10px;
+#_video-embed, #_audio-embed {
+  width: 100%;
 }
 
 .clear {
@@ -151,6 +147,14 @@ table.dad-list tr td:nth-child(2) {
 
 .courses {
   background: #000;
+}
+
+.llms_certificate_default_image, .llms_certificate_image {
+  width: 300px;
+}
+
+.llms_achievement_default_image, .llms_achievement_image {
+  width: 120px;
 }
 
 /*!

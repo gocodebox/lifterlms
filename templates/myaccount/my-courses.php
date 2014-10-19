@@ -14,7 +14,7 @@ if ( $my_orders) {
 ?>
 
 <div class="llms-my-courses">
-<?php echo  '<h3>' .__( 'In-Progress', 'lifterlms' ) . '</h3>'; ?>
+<?php echo  '<h3>' .__( 'Courses In-Progress', 'lifterlms' ) . '</h3>'; ?>
 	<ul class="listing-courses">
 
 	<?php
@@ -82,14 +82,6 @@ if ( $my_orders) {
 						    <div class="progress-bar-complete" style="width:<?php echo $course_progress ?>%"></div>
 						</div>
 					</div>
-
-					<div class="course-message">
-				      <p class="message-text">Your current progress:
-				      	<span class="grade-value"><?php echo $course_progress ?>%</span>.
-				        	Progress required for a Certificate: <span class="grade-value">
-				        	80%</span>.
-				      </p>
-				</div>
 
 				<div class="course-link">
 			 		<?php echo '<a href="' . $permalink  . '" class="button">' . __( 'View Course', 'lifterlms' ) . '</a>'; ?>

@@ -89,7 +89,7 @@ class LLMS_Post_Types {
 	            'labels' => array(
 	                    'name' 				=> __( 'Course Tags', 'lifterlms' ),
 	                    'singular_name' 	=> __( 'Course Tag', 'lifterlms' ),
-						'menu_name'			=> _x( 'Tags', 'Admin menu name', 'lifterlms' ),
+						'menu_name'			=> _x( 'Course Tags', 'Admin menu name', 'lifterlms' ),
 	                    'search_items' 		=> __( 'Search Course Tags', 'lifterlms' ),
 	                    'all_items' 		=> __( 'All Course Tags', 'lifterlms' ),
 	                    'parent_item' 		=> __( 'Parent Course Tag', 'lifterlms' ),
@@ -425,7 +425,7 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
-					'supports' 				=> array( 'title', 'editor', 'page-attributes' ),
+					'supports' 				=> array( 'title', 'editor' ),
 					'has_archive' 			=> false,
 				)
 			)
@@ -468,7 +468,7 @@ class LLMS_Post_Types {
 					'rewrite' 				=> $certificate_permalink ? array( 'slug' => untrailingslashit( $certificate_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'page-attributes' ),
+					'supports' 				=> array( 'title', 'editor' ),
 					//'has_archive' 			=> false,
 				)
 			)
@@ -508,7 +508,7 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
-					'supports' 				=> array( 'title', 'page-attributes' ),
+					'supports' 				=> array( 'title' ),
 					'has_archive' 			=> false,
 				)
 			)
@@ -548,8 +548,51 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
-					'supports' 				=> array( 'title', 'page-attributes' ),
+					'supports' 				=> array( 'title' ),
 					'has_archive' 			=> false,
+				)
+			)
+		);
+
+		/**
+		 * User specific certificate
+		 */
+		$my_certificate_permalink = empty( $permalinks['my_certificate_base'] ) ? _x( 'my_certificate', 'slug', 'lifterlms' ) : $permalinks['my_certificate_base'];
+
+
+	    register_post_type( "llms_my_certificate",
+		    apply_filters( 'lifterlms_register_post_type_section',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'My Certificates', 'lifterlms' ),
+							'singular_name' 		=> __( 'My Certificate', 'lifterlms' ),
+							'add_new' 				=> __( 'Add My Certificate', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New My Certificate', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit My Certificate', 'lifterlms' ),
+							'new_item' 				=> __( 'New My Certificate', 'lifterlms' ),
+							'view' 					=> __( 'View My Certificate', 'lifterlms' ),
+							'view_item' 			=> __( 'View My Certificate', 'lifterlms' ),
+							'search_items' 			=> __( 'Search My Certificates', 'lifterlms' ),
+							'not_found' 			=> __( 'No My Certificates found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No My Certificates found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent My Certificates', 'lifterlms' ),
+							'menu_name'				=> _x('My Certificates', 'Admin menu name', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where you can view all of the certificates.', 'lifterlms' ),
+					'public' 				=> true,
+					'show_ui' 				=> true,
+					//'capability_type' 		=> 'lesson',
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> true,
+					'exclude_from_search' 	=> false,
+					'show_in_menu' 			=> false,
+					'hierarchical' 			=> false,
+					'rewrite' 				=> $my_certificate_permalink ? array( 'slug' => untrailingslashit( $my_certificate_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'show_in_nav_menus' 	=> false,
+					'query_var' 			=> true,
+					'supports' 				=> array( 'title', 'editor' ),
+					//'has_archive' 			=> false,
 				)
 			)
 		);

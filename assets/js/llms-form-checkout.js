@@ -4,9 +4,6 @@ jQuery(document).ready(function($) {
 	
 	$('#show-coupon').on( 'click', display_coupon_form );
 	
-
-
-
 });
 
 (function($){  

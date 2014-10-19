@@ -79,7 +79,7 @@ class LLMS_Order {
 		);
 		//llms_log($order);
 		//Assign user to the purchased course post
-		update_post_meta($order->product_id,'_llms_student', $order->user_id);
+		//update_user_meta($order->user_id,'_llms_student', $order->product_id);
 
 		// Add order metadata to the order post
 		update_post_meta($order_post_id,'_llms_user_id', $order->user_id);

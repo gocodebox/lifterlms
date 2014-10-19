@@ -766,16 +766,21 @@ add_filter( 'query_vars', 'get_product_query_var' );
 function llms_is_user_enrolled( $user_id, $product_id ) {
 	global $wpdb;
 
-	$results = get_post_meta( $product_id, '_llms_student', false );
+	if ( empty($user_id) || empty($product_id ) ) {
+		return false;
+	}
 
-	foreach ( $results as $key => $value ) :
-		if ( $value == $user_id ) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	endforeach;
+	$user = new LLMS_Person;
+
+	$user_postmetas = $user->get_user_postmeta_data( $user_id, $product_id );
+	$course_status = $user_postmetas['_status']->meta_value;
+
+	if ( $course_status == 'Enrolled' ) {
+		return true;
+	}
+	else {
+		return false;
+	}
 
 }
 
@@ -874,16 +879,20 @@ if ($prerequisite_exists) {
 
 function course_start_date_in_future($post_id) {
 
-LLMS_log($post_id);
+
 $post = get_post($post_id);
-LLMS_log($post);
+
+
 	$course_in_future = false;
 
-	if ( $start_date = get_metadata('post', $post->ID, '_course_dates_from', true) ) {
+	$start_date = get_metadata('post', $post->ID, '_course_dates_from', true);
+
+	if ( $start_date != '' ) {
+		
 		$todays_date =  strtotime('today');
 
 		if ($todays_date < $start_date) {
-			LLMS_log('dfsadsf111asd');
+
 			$course_in_future = true;
 			LLMS_log($wtf);
 

@@ -19,10 +19,29 @@ if ( $user_postmetas  ) {
 	}
 }
 
-?>
 
+?>
 <div class="llms-purchase-link-wrapper">
-	<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
+<?php
+
+	if ( ! is_user_logged_in() ) {
+		$message = apply_filters( 'lifterlms_checkout_message', '' );
+
+		if ( ! empty( $message ) ) {
+		}
+		LLMS_log(get_the_ID());
+
+		$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
+
+		$account_redirect = add_query_arg( 'course-id', get_the_ID(), $account_url );
+	
+	?>
+	<a href="<?php echo $account_redirect; ?>" class="button llms-purchase-link"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
+
+	<?php
+
+	}
+	elseif ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
 
 		if ( $course->get_price() > 0 ) {
 		?>
@@ -31,33 +50,28 @@ if ( $user_postmetas  ) {
 		}
 		else { ?>
 
-<form action="" method="post">
+			<form action="" method="post">
 
-	<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />
-  	<input type="hidden" name="product_price" value="<?php echo $course->get_price(); ?>" />
-  	<input type="hidden" name="product_sku" value="<?php echo $course->get_sku(); ?>" />
-  	<input type="hidden" name="product_title" value="<?php echo $post->post_title; ?>" />
+				<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />
+			  	<input type="hidden" name="product_price" value="<?php echo $course->get_price(); ?>" />
+			  	<input type="hidden" name="product_sku" value="<?php echo $course->get_sku(); ?>" />
+			  	<input type="hidden" name="product_title" value="<?php echo $post->post_title; ?>" />
 
-	<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none" <?php //checked( $gateway->chosen, true ); ?> />
+				<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none" <?php //checked( $gateway->chosen, true ); ?> />
 
-	<p><input type="submit" class="button" name="create_order_details" value="<?php _e( 'Take This Course', 'lifterlms' ); ?>" /></p>
+				<p><input type="submit" class="button" name="create_order_details" value="<?php _e( 'Take This Course', 'lifterlms' ); ?>" /></p>
 
-	<?php wp_nonce_field( 'create_order_details' ); ?>
-	<input type="hidden" name="action" value="create_order_details" />
-</form>
+				<?php wp_nonce_field( 'create_order_details' ); ?>
+				<input type="hidden" name="action" value="create_order_details" />
+			</form>
 
-		<?php }
-	?>
-	<?php  }
+		<?php } 
+	 }
 
 	elseif( isset( $next_lesson)  ) {
 		$next_lesson = $course->get_next_uncompleted_lesson();
 
 		lifterlms_course_progress_bar($course_progress,get_permalink( $next_lesson ));
-
-	?>
-
-<?php
 	}
 	else { ?>
 	<h5 class="llms-h5"><?php printf( __( 'Course %s%% Complete!', 'lifterlms' ), $course_progress ); ?></h5>

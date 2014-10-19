@@ -37,47 +37,64 @@ class LLMS_Meta_Box_Course_Product {
 			'basic' 	=> __( 'Basic course', 'lifterlms' ),
 		), $course_type );
 
-	    // SKU
-		echo '<div>';
+		$sku = get_post_meta( $thepostid, '_sku', true );
+		$regular_price = get_post_meta( $thepostid, '_regular_price', true );
+		$sale_price = get_post_meta( $thepostid, '_sale_price', true );
 
-		lifterlms_wp_text_input( array( 'id' => '_sku', 'label' => '<abbr title="'. __( 'Stock Keeping Unit', 'lifterlms' ) .'">' . __( 'SKU', 'lifterlms' ) . '</abbr>', 'desc_tip' => 'true', 'description' => __( 'SKU refers to a Stock-keeping unit, a unique identifier for each distinct course and service that can be purchased.', 'lifterlms' ) ) );
-
-		do_action('lifterlms_course_options_sku');
-
-		echo '</div>';
-
-		echo '<div class="options_group pricing show_if_basic show_if_external">';
-
-		// Price
-		lifterlms_wp_text_input( array( 'id' => '_regular_price', 'label' => __( 'Regular Price', 'lifterlms' ) . ' (' . get_lifterlms_currency_symbol() . ')', 'data_type' => 'price' ) );
-
-		echo '<div>
-		<label class="selectit">
-		<input type="checkbox" name="meta-checkbox" id="checkme" value="yes" />
-		 Course On Sale</label>
-		 <div class="clear"></div>
-		</div><div id="extra">';
-
-
-		// Special Price
-		lifterlms_wp_text_input( array( 'id' => '_sale_price', 'data_type' => 'price', 'label' => __( 'Sale Price', 'lifterlms' ) 
-			. ' ('.get_lifterlms_currency_symbol().')', 'description' => '' 
-			. '<div class="clear"></div>'
-			. __( 'Schedule time period the course will be on sale for the price listed above.', 'lifterlms' ) . '' ) );
-
-		// Special Price date range
 		$sale_price_dates_from 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_from', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
 		$sale_price_dates_to 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_to', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
-		// need to add better date validation. I don't want to hardcode pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01]) into the inputs. 
-		echo '	<p class="form-field sale_price_dates_fields">
-					<label for="_sale_price_dates_from">' . __( 'Sale Price Dates', 'lifterlms' ) . '</label>
-					From<input type="text" class="datepicker short" name="_sale_price_dates_from" id="_sale_price_dates_from" value="' . esc_attr( $sale_price_dates_from ) . '" placeholder="' . _x( 'From&hellip;', 'placeholder', 'lifterlms' ) . ' YYYY-MM-DD" maxlength="10" />
-					To<input type="text" class="datepicker short" name="_sale_price_dates_to" id="_sale_price_dates_to" value="' . esc_attr( $sale_price_dates_to ) . '" placeholder="' . _x( 'To&hellip;', 'placeholder', 'lifterlms' ) . '  YYYY-MM-DD" maxlength="10" />
-					<a href="#" id="cancel-sale">Cancel Sale</a></p>';
 
-			do_action( 'lifterlms_course_options_pricing' );
 
-		echo '</div></div>';
+		?>
+		<table class="form-table">
+		<tbody>
+			<tr>
+				<th><label for="_sku">SKU</label></th>
+				<td>
+					<input type="text" name="_sku" id="_sku" value="<?php echo $sku ?>">
+					<?php do_action('lifterlms_course_options_sku'); ?>
+				</td>
+			</tr>
+
+			<tr>
+				<th><label for="_regular_price">Regular Price (<?php echo get_lifterlms_currency_symbol(); ?>)</label></th>
+				<td>
+					<input type="text" name="_regular_price" id="_regular_price" value="<?php echo $regular_price; ?>">
+				</td>
+			</tr>
+
+			<tr>
+				<th><label class="selectit">Course On Sale</label></th>
+				<td><input type="checkbox" name="meta-checkbox" id="checkme" value="yes" /></td>
+			</tr>
+
+			<tr>
+				<table id="extra" class="form-table">
+					<tr>
+						<th><label for="_test_price">Sale Price (<?php echo get_lifterlms_currency_symbol(); ?>)</label></th>
+						<td>
+							<input type="text" name="_sale_price" id="_sale_price" value="<?php echo $sale_price; ?>">
+						</td>
+					</tr>
+
+					<tr>
+						<th><label for="_sale_price_dates_from"><?php  _e( 'Sale Price Dates', 'lifterlms' ) ?></label></th>
+						<td>
+							<?php
+							echo '		
+							From <input type="text" class="datepicker short" name="_sale_price_dates_from" id="_sale_price_dates_from" value="' . esc_attr( $sale_price_dates_from ) . '" placeholder="' . _x( 'From&hellip;', 'placeholder', 'lifterlms' ) . ' YYYY-MM-DD" maxlength="10" />
+							To <input type="text" class="datepicker short" name="_sale_price_dates_to" id="_sale_price_dates_to" value="' . esc_attr( $sale_price_dates_to ) . '" placeholder="' . _x( 'To&hellip;', 'placeholder', 'lifterlms' ) . '  YYYY-MM-DD" maxlength="10" />
+							<a href="#" id="cancel-sale">Cancel Sale</a>';
+							do_action( 'lifterlms_course_options_pricing' );
+							?>
+						</td>
+					</tr>
+				</table>
+			</tr>
+		</tbody>
+		</table>
+
+<?php
 	}
 
 	/**
@@ -88,6 +105,7 @@ class LLMS_Meta_Box_Course_Product {
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
+		LLMS_log($_POST['_sale_price']);
 
 		$course_type  = empty( $_POST['course-type'] ) ? 'basic' : sanitize_title( stripslashes( $_POST['course-type'] ) );
 

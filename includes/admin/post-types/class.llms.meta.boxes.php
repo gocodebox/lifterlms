@@ -104,11 +104,11 @@ class LLMS_Admin_Meta_Boxes {
 		
 		add_meta_box( 'postexcerpt', __( 'Course Short Description', 'lifterlms' ), 'LLMS_Meta_Box_Course_Short_Description::output', 'course', 'normal' );
 		add_meta_box( 'lifterlms-course-data', __( 'Course Data', 'lifterlms' ), 'LLMS_Meta_Box_Course_Product::output', 'course', 'normal', 'high' );
-		add_meta_box( 'lifterlms-course-video', __( 'Course Video', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'course', 'normal');
+		add_meta_box( 'lifterlms-course-video', __( 'Featured Media', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'course', 'normal');
 		add_meta_box( 'lifterlms-course-syllabus', __( 'Course Syllabus', 'lifterlms' ), 'LLMS_Meta_Box_Course_Syllabus::output', 'course', 'normal');
 		add_meta_box( 'lifterlms-course-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_General::output', 'course', 'normal' );
 
-		add_meta_box( 'lifterlms-lesson-video', __( 'Featured Video', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'lesson', 'normal', 'high' );
+		add_meta_box( 'lifterlms-lesson-video', __( 'Featured Media', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'lesson', 'normal', 'high' );
 		add_meta_box( 'lifterlms-lesson-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_General::output', 'lesson', 'normal' );
 		add_meta_box( 'lifterlms-lesson-options', __( 'Lesson Options', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Options::output', 'lesson', 'normal' );
 

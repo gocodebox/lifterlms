@@ -50,6 +50,9 @@ class LLMS_Admin_Assets {
 
 	    	'llms_engagement',
 	    	'edit-llms_engagement',
+
+	    	'llms_achievement',
+	    	'edit-llms_achievement',
 	    ));
 	}
 
@@ -76,6 +79,8 @@ class LLMS_Admin_Assets {
 		if ( in_array( $screen->id, LLMS_Admin_Assets::get_llms_admin_page_ids() ) ) {
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
+			wp_register_style('jquery-ui', 'https://code.jquery.com/ui/1.11.2/themes/flick/jquery-ui.css');
+			wp_enqueue_style( 'jquery-ui' );
 
 			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			
@@ -83,7 +88,8 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'llms-ajax', plugins_url(  '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			wp_enqueue_script( 'llms-metabox', plugins_url(  '/assets/js/llms-metabox' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 
-			
+			wp_enqueue_media();
+
 			if( 'course' == $post_type ) {
 				wp_enqueue_script( 'llms-metabox-syllabus', plugins_url(  '/assets/js/llms-metabox-syllabus' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 				wp_enqueue_script( 'llms-metabox-data', plugins_url(  '/assets/js/llms-metabox-data' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
@@ -92,6 +98,10 @@ class LLMS_Admin_Assets {
 			if( 'llms_certificate' == $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-certificate', plugins_url(  '/assets/js/llms-metabox-certificate' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			}
+			if( 'llms_achievement' == $post_type ) {
+
+				wp_enqueue_script( 'llms-metabox-achievement', plugins_url(  '/assets/js/llms-metabox-achievement' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			}
 			if( 'llms_engagement' == $post_type ) {
 

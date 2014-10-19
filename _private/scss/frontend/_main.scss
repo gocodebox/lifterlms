@@ -353,6 +353,53 @@
 	line-height: 1em;
 }
 
+/* my certificates grid */
+.llms-my-certificates {
+	font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+
+	h3 {
+		background-color: #f5f5f5;
+		padding: 4px;
+	}
+
+	ul.listing-certificates {
+		width: 100%;
+		margin: 0;
+
+		li.certificate-item {
+			border-radius: 3px;
+			z-index: 10;
+			margin: 10px 0;
+			padding: 15px 20px;
+			background: #fffef4;
+			border: 1px solid #ccc;
+			list-style-type: none;
+			width: 100%;
+			overflow: auto;
+
+			div {
+				display: block;
+				width: 30%;
+				float: left;
+				text-align: right;
+
+				p, h4 {
+					margin: 0;
+				}
+			}
+			div:first-child {
+				width: 40%;
+				text-align: left;
+			}
+			div:last-child {
+				
+			}
+		}
+	}
+}
+
+
+
 /* Genisis Overrides */
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 300;

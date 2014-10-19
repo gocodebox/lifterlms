@@ -32,6 +32,8 @@ class LLMS_Frontend_Forms {
 		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 2 );
 		add_action( 'lifterlms_order_process_complete', array( $this, 'order_complete' ), 10, 1 );
 
+		
+
 
 		add_action( 'lifterlms_content_restricted_by_prerequisite', array( $this, 'llms_restricted_by_prerequisite' ), 10, 1 );
 		add_action( 'lifterlms_content_restricted_by_start_date', array( $this, 'llms_restricted_by_start_date' ), 10, 1 );
@@ -62,7 +64,7 @@ class LLMS_Frontend_Forms {
     		$current_lesson->title = get_the_title($current_lesson->id);
 
 
-    		$current_lesson->user_id = get_post_meta( $current_lesson->parent_id , '_llms_student', true );
+    		$current_lesson->user_id = get_current_user_id();//get_post_meta( $current_lesson->parent_id , '_llms_student', true );
 
     		//TODO move this to it's own class and create a userpostmeta class.
     		$user = new LLMS_Person;
@@ -71,9 +73,11 @@ class LLMS_Frontend_Forms {
     		if ( empty($current_lesson->user_id) ) {
     			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
     		}
-    		elseif ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-    			return;
-
+    		elseif ( ! empty($user_postmetas) ) {
+    			LLMS_log($user_postmetas);
+    			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+    				return;
+    			}
     		}
     		else {
 
@@ -93,10 +97,100 @@ class LLMS_Frontend_Forms {
 				LLMS_log('lifterlms_lesson_completed do_action triggered');
 				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), $current_lesson->title ) );
 
+
+
+				LLMS_log('userid=' . $current_lesson->user_id);
+				LLMS_log('parent_course=' .$current_lesson->parent_id);
+				LLMS_log('omg this might work!');
+
+				$course = new LLMS_Course($current_lesson->parent_id);
+				$course_completion = $course->get_percent_complete();
+
+				if ( $course_completion == '100' ) {
+
+				$key = '_is_complete';
+				$value = 'yes';
+
+				$user_postmetas = $user->get_user_postmeta_data( $current_lesson->user_id, $course->id );
+				if ( ! empty( $user_postmetas['_is_complete'] ) ) {
+					if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+	    				return;
+	    			}
+	    		}
+
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+					array( 
+						'user_id' 			=> $current_lesson->user_id,
+						'post_id' 			=> $course->id,
+						'meta_key'			=> $key,
+						'meta_value'		=> $value,
+						'updated_date'		=> current_time('mysql'),
+					)
+				);
+
+				LLMS_log('ok im about to do the action');
+				//LLMS_log($user_id);
+				//LLMS_log($course->id);
+				do_action('lifterlms_course_completed', $current_lesson->user_id, $course->id );
+				LLMS_log('ok I just did the action');
+			}
+
     		}
     	}
 
     }
+
+    function mark_course_complete ($user_id, $lesson_id) {
+		global $wpdb;
+LLMS_log('mark_course_complete function executed');
+LLMS_log($user_id);
+LLMS_log($lesson_id);
+		//if (did_action('lifterlms_lesson_completed') === 1) {
+
+			$lesson = new LLMS_Lesson($lesson_id);
+			$course_id = $lesson->get_parent_course();
+
+			$course = new LLMS_Course($course_id);
+			$course_completion = $course->get_percent_complete();
+
+			$user = new LLMS_Person($user_id);
+
+			if ( $course_completion == '100' ) {
+
+				$key = '_is_complete';
+				$value = 'yes';
+
+				$user_postmetas = $user->get_user_postmeta_data( $user_id, $course->id );
+				if ( ! empty( $user_postmetas['_is_complete'] ) ) {
+					if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+	    				return;
+	    			}
+	    		}
+
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+					array( 
+						'user_id' 			=> $user_id,
+						'post_id' 			=> $course->id,
+						'meta_key'			=> $key,
+						'meta_value'		=> $value,
+						'updated_date'		=> current_time('mysql'),
+					)
+				);
+
+				LLMS_log('ok im about to do the action');
+				LLMS_log($user_id);
+				LLMS_log($course->id);
+				do_action('llms_course_completed', $user_id, $course->id );
+				LLMS_log('ok I just did the action');
+			}
+		//}
+	}
+
+
+
+
+   
+
 
 	public function confirm_order() {
 		global $wpdb;
@@ -199,6 +293,9 @@ class LLMS_Frontend_Forms {
 	
 		// if no errors were returned save the data
 		if ( llms_notice_count( 'error' ) == 0 ) {
+
+			LLMS()->session->set( 'llms_order', $order );
+
 			if ($order->total == 0) {
 				$lifterlms_checkout = LLMS()->checkout();
 				$lifterlms_checkout->process_order();
@@ -206,8 +303,6 @@ class LLMS_Frontend_Forms {
 				do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
 			}
 			else {
-
-				LLMS()->session->set( 'llms_order', $order );
 
 				$lifterlms_checkout = LLMS()->checkout();
 				$lifterlms_checkout->process_order();
@@ -516,15 +611,43 @@ class LLMS_Frontend_Forms {
 					if ( ! empty($_POST['product_id']) ) {
 
 						$product_id = $_POST['product_id'];
-						$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
-						$checkout_redirect = add_query_arg( 'product', $product_id, $checkout_url );
 
-						wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect, $user ) );
-						exit;
+						$course = new LLMS_Course($product_id);
+						$user_object = new LLMS_Person($user->ID);
+						LLMS_log('$_POST[product_id]='.$product_id);
+						LLMS_log($course);
+						LLMS_log($course->get_price());
+
+							//llms_log(llms_is_user_enrolled( $user->id, $course->id));
+
+						$user_postmetas = $user_object->get_user_postmeta_data( $user->ID, $course->id );
+						$course_status = $user_postmetas['_status']->meta_value;
+						LLMS_log('dfdsfdsafdsafasd----------');
+						LLMS_log($course_status);
+						LLMS_log($user);
+						LLMS_log($course->id);
+						LLMS_log($user_postmetas);
+
+						
+						if ($course->get_price() > 0 && $course_status != 'Enrolled') {
+						
+							$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
+							$checkout_redirect = add_query_arg( 'course-id', $product_id, $checkout_url );
+
+							wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect ) );
+							exit;
+						}
+
+						else {
+							$checkout_url = get_permalink($course->post->ID);
+
+							wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_url ) );
+							exit;
+						}
 					}
 
 					else {
-						wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $redirect, $user ) );
+						wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect ) );
 						exit;
 					}
 				}
@@ -711,11 +834,27 @@ class LLMS_Frontend_Forms {
 			if ( ! empty($_POST['product_id']) ) {
 
 				$product_id = $_POST['product_id'];
-				$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
-				$checkout_redirect = add_query_arg( 'product', $product_id, $checkout_url );
 
-				wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect ) );
-				exit;
+				$course = new LLMS_Course($product_id);
+				LLMS_log('$_POST[product_id]='.$product_id);
+				LLMS_log($course);
+				LLMS_log($course->get_price());
+				
+				if ($course->get_price() > 0) {
+				
+					$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
+					$checkout_redirect = add_query_arg( 'course-id', $product_id, $checkout_url );
+
+					wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect ) );
+					exit;
+				}
+
+				else {
+					$checkout_url = get_permalink($course->post->ID);
+
+					wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_url ) );
+					exit;
+				}
 			}
 
 			else {
