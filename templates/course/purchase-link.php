@@ -66,7 +66,7 @@ if ( $user_postmetas  ) {
 			</form>
 
 		<?php } 
-	 }
+	 }#ec651b
 
 	elseif( isset( $next_lesson)  ) {
 		$next_lesson = $course->get_next_uncompleted_lesson();

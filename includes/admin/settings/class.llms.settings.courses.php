@@ -57,11 +57,41 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 				array(
 				'title'         => __( 'Course Display', 'lifterlms' ),
-				'desc'          => __( 'Display Author information on course.', 'lifterlms' ),
+				'desc'          => __( 'Display author name on course.', 'lifterlms' ),
 				'id'            => 'lifterlms_course_display_author',
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'start',
+				'autoload'      => false
+				),
+
+				array(
+				//'title'         => __( 'Course Display', 'lifterlms' ),
+				'desc'          => __( 'Display Difficulty on course.', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_difficulty',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				//'checkboxgroup' => 'start',
+				'autoload'      => false
+				),
+
+				array(
+				//'title'         => __( 'Course Display', 'lifterlms' ),
+				'desc'          => __( 'Display Estimated Time on course.', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_length',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				//'checkboxgroup' => 'start',
+				'autoload'      => false
+				),
+
+				array(
+				//'title'         => __( 'Course Display', 'lifterlms' ),
+				'desc'          => __( 'Display Section Title on Syllabus', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_syllabus',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				//'checkboxgroup' => 'start',
 				'autoload'      => false
 				),
 
@@ -74,28 +104,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'autoload'      => false
 				),
 
-				array(
-				'desc'          => __( 'Allow comments on course pages.', 'lifterlms' ),
-				'id'            => 'lifterlms_course_allow_comments',
-				'default'       => 'yes',
-				'type'          => 'checkbox',
-				'checkboxgroup' => 'start',
-				'autoload'      => false
-				),
-
-				// array(
-				// 'desc'          => __( 'Display Featured image as banner on course page', 'lifterlms' ),
-				// 'id'            => 'lifterlms_course_display_featured_banner',
-				// 'default'       => 'yes',
-				// 'type'          => 'checkbox',
-				// 'checkboxgroup' => 'end',
-				// 'autoload'      => false
-				// ),
-
-		
-
 				array( 'type' => 'sectionend', 'id' => 'course_options'),
-
 
 		) ); 
 	}

@@ -68,7 +68,11 @@ if ( $my_orders) {
 					   echo '<a href="' . $permalink  . '">' . $course->post_title . '</a>'
 					?>
 					</h3>
-					<?php printf( __( '<p class="author">Author: <span>%s</span></p>' ), $author ); ?>
+					<?php 
+					if (get_option('lifterlms_course_display_author') == 'yes') {
+						printf( __( '<p class="author">Author: <span>%s</span></p>' ), $author ); 
+					}
+					?>
 					</hgroup>
 				</section>
 

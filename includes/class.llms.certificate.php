@@ -78,36 +78,16 @@ class LLMS_Certificate {
 		return apply_filters( '_llms_certificate_title' . $this->id, $this->title, $this->object );
 	}
 
-
-
 	function get_content() {
 
 	$this->sending = true;
 
 	$email_content = $this->get_content_html();
-	//LLMS_log('get_content()');
-	//LLMS_log($email_content);
 
 		return $email_content;
 	}
 
 	function get_content_html() {}
-
-	function send( $to, $subject, $message, $headers ) {
-
-		add_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
-		add_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
-		add_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
-	LLMS_log('well it made it to the email send');
-	LLMS_log($to);
-		$return = wp_mail( $to, $subject, $message, $headers );
-
-		remove_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
-		remove_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
-		remove_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
-		
-		return $return;
-	}
 
 	public function create($content) {
 		global $wpdb;

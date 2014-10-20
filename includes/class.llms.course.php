@@ -102,6 +102,15 @@ class LLMS_Course {
 	 */
 	public function get_lesson_length() {
 
+		$enabled = get_option('lifterlms_course_display_length');
+		if ( 'yes' != $enabled ) {
+			return false;
+		} 
+
+		elseif ($this->lesson_length == '') {
+			return false;
+		}
+
 		return $this->lesson_length;
 
 	}
@@ -147,6 +156,12 @@ class LLMS_Course {
 	 * @return string
 	 */
 	public function get_difficulty() {
+
+		$enabled = get_option('lifterlms_course_display_difficulty');
+
+		if ( 'yes' != $enabled ) {
+			return false;
+		} 
 
 		$terms = get_the_terms($this->id, 'course_difficulty');
 
