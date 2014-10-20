@@ -164,9 +164,11 @@
 }
 .llms-course-navigation .prev-lesson {
   float: left;
+  width: 40%;
 }
 .llms-course-navigation .next-lesson {
   float: right;
+  width: 40%;
 }
 
 .clear {
@@ -174,8 +176,8 @@
   width: 100%;
 }
 
-.llms-featured-image > img {
-  width: 100%;
+.llms-featured-image {
+  text-align: center;
 }
 
 .llms-purchase-link-wrapper {

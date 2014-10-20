@@ -10,7 +10,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 get_header();
+?>
 
+<?php
 while ( have_posts() ) : the_post();
 
 	llms_get_template_part( 'content', 'single-course' );
@@ -19,7 +21,6 @@ endwhile;
 ?>
 
 <?php
-
-get_sidebar();
+do_action( 'lifterlms_sidebar' );
 get_footer();
 ?>

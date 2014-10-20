@@ -36,7 +36,7 @@ if ( $user_postmetas  ) {
 		$account_redirect = add_query_arg( 'course-id', get_the_ID(), $account_url );
 	
 	?>
-	<a href="<?php echo $account_redirect; ?>" class="button llms-purchase-link"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
+	<a href="<?php echo $account_redirect; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
 
 	<?php
 
@@ -45,7 +45,7 @@ if ( $user_postmetas  ) {
 
 		if ( $course->get_price() > 0 ) {
 		?>
-			<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-purchase-link"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
+			<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
 		<?php
 		}
 		else { ?>
@@ -59,7 +59,7 @@ if ( $user_postmetas  ) {
 
 				<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none" <?php //checked( $gateway->chosen, true ); ?> />
 
-				<p><input type="submit" class="button" name="create_order_details" value="<?php _e( 'Take This Course', 'lifterlms' ); ?>" /></p>
+				<p><input type="submit" class="button llms-button llms-purchase-button" name="create_order_details" value="<?php _e( 'Take This Course', 'lifterlms' ); ?>" /></p>
 
 				<?php wp_nonce_field( 'create_order_details' ); ?>
 				<input type="hidden" name="action" value="create_order_details" />

@@ -118,7 +118,7 @@ class LLMS_Install {
 
 		$checkout_page = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'page',
-			'post_title' 	=> 'Checkout',
+			'post_title' 	=> 'Purchase Course',
 			'post_author' 	=> 1,
 			'post_status'   => 'publish',
 			'post_content'  => '[lifterlms_checkout]',
@@ -126,7 +126,7 @@ class LLMS_Install {
 
 		$account_page = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'page',
-			'post_title' 	=> 'My Account',
+			'post_title' 	=> 'My Courses',
 			'post_author' 	=> 1,
 			'post_status'   => 'publish',
 			'post_content'  => '[lifterlms_my_account]',
@@ -142,8 +142,8 @@ class LLMS_Install {
 		$new_user_email = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'llms_email',
 			'post_title'    => 'Welcome Email',
-			'post_content'  => '<h1><span style="color: #008000;">Hey There {user_login},</span></h1>
-								<h1>Thanks for creating an account on {site_title}!</h1>
+			'post_content'  => '<h2><>Hey There {user_login},</span></h2>
+								<p>Thanks for creating an account on {site_title}!</p>
 								Your username is <strong>{user_login}.</strong>
 								You can access your account to view your courses here: <a href="{site_url}">{site_title}</a>.',
 			'post_status'   => 'publish',

@@ -9,6 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 global $post, $course;
 
 ?>
-
+<?php if ( $difficulty = $course->get_difficulty() ) : ?>
 <p class="llms-difficulty"><?php printf( __( 'Difficulty: <span class="difficulty">%s</span>', 'lifterlms' ), $course->get_difficulty() ); ?></p>
-
+<?php endif; ?>

@@ -177,9 +177,9 @@
 
 	padding: 30px 0;
 
-	.prev-lesson { float: left; }
+	.prev-lesson { float: left; width: 40%; }
 
-	.next-lesson { float: right; }
+	.next-lesson { float: right; width: 40%; }
 }
 
 
@@ -189,9 +189,10 @@
 	clear: both;
 	width: 100%;
 }
-
+.llms-featured-image {
+	text-align: center;
+}
 .llms-featured-image > img {
-	width: 100%;
 }
 
 .llms-purchase-link-wrapper {
