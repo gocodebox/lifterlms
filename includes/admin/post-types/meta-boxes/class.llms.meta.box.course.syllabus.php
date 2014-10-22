@@ -133,7 +133,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 
 			<tr>
 				<th>
-					<?php 
+					<?php  
 					echo '<label>Course Difficulty</label><input type="hidden" name="taxonomy_noncename" id="taxonomy_noncename" value="' . 
 			            wp_create_nonce( 'taxonomy_course_difficulty' ) . '" />';
 			     
@@ -157,6 +157,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 				        	else {
 				            	echo "<option class='difficulty-option' value='" . $difficulty->slug . "'>" . $difficulty->name . "</option>\n"; 
 				        	}
+				        	LLMS_log(get_the_id());
 				    	}
 				   		?>
 					</select>  

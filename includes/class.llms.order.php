@@ -28,10 +28,25 @@ class LLMS_Order {
 
 	}
 
-	public function process_order() {
+	public function process_order($order) {
 		global $wpdb;
 
-		$order = LLMS()->session->get( 'llms_order', array() );
+		LLMS_log('process_order($order) begin');
+		LLMS_log($order);
+		LLMS_log('process_order($order) end');
+
+		if (isset($order) ) {
+			$order = $order;
+		}
+		
+		elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
+			$order = LLMS()->session->get( 'llms_order', array() );
+		}
+		
+		else {
+			return false;
+		}
+		
 
 		$order_exists = $wpdb->get_results("SELECT user_id, product_id, order_completed 
 			FROM " . $wpdb->prefix ."lifterlms_order
@@ -50,10 +65,24 @@ class LLMS_Order {
 		}
 	}
 
-	public function update_order() {
+	public function update_order($order) {
 		global $wpdb;
 
-		$order = LLMS()->session->get( 'llms_order', array() );
+		LLMS_log('update_order($order) begin');
+		LLMS_log($order);
+		LLMS_log('update_order($order) end');
+
+		if (isset($order) ) {
+			$order = $order;
+		}
+		
+		elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
+			$order = LLMS()->session->get( 'llms_order', array() );
+		}
+		
+		else {
+			return false;
+		}
 
 		$order_data = apply_filters( 'lifterlms_new_order', array(
 			'post_type' 	=> 'order',

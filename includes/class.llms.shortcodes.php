@@ -120,6 +120,7 @@ class LLMS_Shortcodes {
 	    wp_reset_postdata();
 	    return $courses;
 	    }
+	    wp_reset_postdata();
 
 	}
 

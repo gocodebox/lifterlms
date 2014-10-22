@@ -150,6 +150,7 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 			include_once( 'includes/admin/class.llms.admin.php' );
+			include_once( 'includes/admin/class.llms.admin.forms.php' );
 		}
 
 		// Post types

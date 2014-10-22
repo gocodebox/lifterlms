@@ -65,7 +65,7 @@ class LLMS_Meta_Box_Video {
 		</tbody>
 		</table>
 
-		<?php
+		<?php  
 	}
 
 	public static function save( $post_id, $post ) {

@@ -1,3 +1,8 @@
+jQuery('.metabox_submit').click(function(e) {
+    e.preventDefault();
+    jQuery('#publish').click();
+});
+	
 /**
  * Returns array of all lessons
  */

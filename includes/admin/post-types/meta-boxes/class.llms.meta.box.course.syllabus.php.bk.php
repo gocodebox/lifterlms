@@ -53,6 +53,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 			else {
 				$html .= '<option value="'.$post->ID.'">'. get_the_title($post->ID) . '</option>';
 			}
+			wp_reset_postdata();
 					
 			endwhile;
 
@@ -90,6 +91,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 				else {
 					$html .= '<option value="'.$post->ID.'">'. get_the_title($post->ID) . '</option>';
 				}
+				wp_reset_postdata();
 
 			endwhile;
 			
@@ -172,7 +174,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 		</div>
 	</div>
 
-	<?php
+	<?php 
 	}
 
 	/**

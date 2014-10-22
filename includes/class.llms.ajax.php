@@ -234,6 +234,7 @@ class LLMS_AJAX {
 			endwhile;
 
 		}
+		wp_reset_postdata();
 
 
 		if ( isset($_REQUEST) ) {
@@ -278,6 +279,8 @@ class LLMS_AJAX {
 			endwhile;
 
 
+			wp_reset_postdata();
+			
 			$response = array();
 				foreach ($_REQUEST['sections'] as $key => $value) {
 					foreach ($value['lessons'] as $keys => $values) {

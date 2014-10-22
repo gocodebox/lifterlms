@@ -773,13 +773,16 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 	$user = new LLMS_Person;
 
 	$user_postmetas = $user->get_user_postmeta_data( $user_id, $product_id );
-	$course_status = $user_postmetas['_status']->meta_value;
 
-	if ( $course_status == 'Enrolled' ) {
-		return true;
-	}
-	else {
-		return false;
+	if (isset($user_postmetas['_status'])) {
+		$course_status = $user_postmetas['_status']->meta_value;
+
+		if ( $course_status == 'Enrolled' ) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }
@@ -806,15 +809,6 @@ function get_available_payment_options() {
 	
 	}
 }
-
-//  function lifterlms_no_permissions_main_content() {
-// 	while ( have_posts() ) {
-// 		the_post();
-// 		llms_get_template_part( 'content', 'no-access' );
-// 	}
-// } 
-
-
 
 function outstanding_prerequisite_exists($user_id, $post_id) {
 	global $post;
