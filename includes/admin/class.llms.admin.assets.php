@@ -53,6 +53,9 @@ class LLMS_Admin_Assets {
 
 	    	'llms_achievement',
 	    	'edit-llms_achievement',
+
+	    	'llms_membership',
+	    	'edit-llms_membership',
 	    ));
 	}
 
@@ -106,6 +109,10 @@ class LLMS_Admin_Assets {
 			if( 'llms_engagement' == $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-engagement', plugins_url(  '/assets/js/llms-metabox-engagement' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			}
+			if( 'llms_membership' == $post_type ) {
+				wp_enqueue_script( 'llms-metabox-data', plugins_url(  '/assets/js/llms-metabox-data' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+				wp_enqueue_script( 'llms-metabox-fields', plugins_url(  '/assets/js/llms-metabox-fields' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			}
 
 

@@ -406,3 +406,165 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 300;
 }
 
+/* checkout form */
+.llms-checkout-wrapper {
+	border: 1px solid #f5f5f5;
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+
+	.llms-checkout {
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px; 
+		
+		border-top:6px solid #62c2f3;
+
+
+		> h4 {
+		background-color: #f5f5f5;
+		padding: 6px 10px;
+		}
+
+		.llms-title-wrapper {
+			display: block;
+			width: 100%;
+			padding-bottom: 10px;
+			margin-bottom: 10px;
+			border-bottom: 2px solid #f5f5f5;
+
+			p {
+				margin: 0;
+				padding: 0 10px;
+			}
+		}
+
+		.llms-price-wrapper {
+			margin: 20px;
+			background:#fff;
+
+		
+
+			.llms-payment-options {
+
+			 }
+		}
+	}
+}
+
+.llms-option {
+	display: block;
+	position: relative;
+	margin: 20px 0;
+	padding-left:40px; 
+
+	label {
+		cursor: pointer;
+	}
+}
+.llms-option:first-child {
+	margin-top:0; 
+}
+.llms-option:last-child {
+	margin-bottom:0; 
+}
+
+.llms-option input[type="radio"] {
+	display: block;
+	position: absolute;
+	top:3px;
+	left:0;
+	z-index: 0;
+}
+
+.llms-option input[type="radio"] {
+	display: inline-block;
+}
+.llms-option input[type="radio"] + label span.llms-radio {
+	display: none;
+}
+
+.llms-option input[type="radio"] + label span.llms-radio {
+	appearance: none;
+
+	z-index: 20;
+	position: absolute;
+	top: 2px;
+	left: -2px;
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	cursor: pointer;
+	vertical-align: middle;
+	box-shadow: hsla(0,0%,100%,.15) 0 1px 1px, inset hsla(0,0%,0%,.5) 0 0 0 1px;
+
+	background: #efefef;
+	background-image: radial-gradient(ellipse at center,  #62c2f3 0%,#62c2f3 40%,#efefef 45%);
+	background-repeat: no-repeat;
+
+	transition: background-position .15s cubic-bezier(.8, 0, 1, 1);
+}
+.llms-option input[type="radio"]:checked + label span.llms-radio {
+	transition: background-position .2s .15s cubic-bezier(0, 0, .2, 1);
+}
+
+.llms-option input[type="radio"] + label span.llms-radio {
+	background-position: -24px 0;
+}
+.llms-option input[type="radio"]:checked + label span.llms-radio {
+	background-position: 0 0;
+}
+
+.llms-option input[type="submit"] {
+	border:none;
+	background:#62c2f3;
+	color:#fff;
+	font-size:20px;
+	padding:10px 0;
+	border-radius:3px;
+	cursor:pointer;
+	width:100%;
+}
+
+.llms-notice-box {
+	border-radius: 3px;
+	z-index: 10;
+	margin: 10px 0;
+	padding: 15px 20px;
+	background: #fffef4;
+	border: 1px solid #ccc;
+	list-style-type: none;
+	width: 100%;
+	overflow: auto;
+}
+.llms-clear-box {
+	border-radius: 3px;
+	z-index: 10;
+	margin: 10px 0;
+	padding: 15px 20px;
+	list-style-type: none;
+	width: 100%;
+	overflow: auto;
+}
+.llms-price-label {
+	font-weight: light;
+}
+.llms-final-price {
+	font-weight: bold;
+	float: right;
+}
+.llms-center-content {
+	text-align: center;
+}
+.llms-input-text {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	color: #333;
+	font-size: 18px;
+	font-weight: 300;
+	padding: 16px;
+	width: 100%;
+}
+
+
+

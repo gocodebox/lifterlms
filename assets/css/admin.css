@@ -157,6 +157,39 @@ table.dad-list tr td:nth-child(2) {
   width: 120px;
 }
 
+.llms-access-level {
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.llms-access-levels {
+  min-height: 42px;
+  max-height: 200px;
+  overflow: auto;
+  padding: .9em;
+  border: 1px solid #dfdfdf;
+  background-color: #fdfdfd;
+}
+
+.llms_access_options {
+  padding: 10px;
+}
+
+.llms-access-option {
+  padding: 10px 10px 10px 13px;
+}
+
+.llms-access-level:last-child {
+  margin-bottom: 0;
+}
+
+.llms-access-levels-title {
+  padding-bottom: 10px;
+  display: block;
+  width: 100%;
+  font-weight: bold;
+}
+
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

@@ -166,6 +166,7 @@ final class LifterLMS {
 		include_once( 'includes/llms.template.hooks.php' );
 
 		// Classes
+		include_once( 'includes/class.llms.product.php' );
 		include_once( 'includes/class.llms.course.php' );
 		include_once( 'includes/class.llms.lesson.php' );
 

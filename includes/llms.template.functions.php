@@ -56,8 +56,15 @@ if ( ! function_exists( 'lifterlms_template_single_full_description' ) ) {
 if ( ! function_exists( 'lifterlms_template_single_price' ) ) {
 
 	function lifterlms_template_single_price() {
+		global $post;
 
-		llms_get_template( 'course/price.php' );
+		if ($post->post_type == 'course') {
+			llms_get_template( 'course/price.php' );
+		}
+		elseif ($post->post_type == 'llms_membership') {
+			LLMS_log('calling the right method');
+			llms_get_template( 'membership/price.php' );
+		}
 	}
 }
 
@@ -72,8 +79,15 @@ if ( ! function_exists( 'lifterlms_template_single_lesson_length' ) ) {
 if ( ! function_exists( 'lifterlms_template_single_purchase_link' ) ) {
 
 	function lifterlms_template_single_purchase_link() {
+		global $post;
 
-		llms_get_template( 'course/purchase-link.php' );
+		if ($post->post_type == 'course') {
+			llms_get_template( 'course/purchase-link.php' );
+		}
+		elseif ($post->post_type == 'llms_membership') {
+			LLMS_log('calling the right method');
+			llms_get_template( 'membership/purchase-link.php' );
+		}
 	}
 }
 
@@ -141,6 +155,13 @@ if ( ! function_exists( 'lifterlms_template_lesson_navigation' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_single_membership_title' ) ) {
+
+	function lifterlms_template_single_membership_title() {
+
+		llms_get_template( 'membership/title.php' );
+	}
+}
 
 /**
  * When the_post is called, put course data into a global.
@@ -168,6 +189,35 @@ function llms_setup_course_data( $post ) {
 
 }
 add_action( 'the_post', 'llms_setup_course_data' );
+
+/**
+ * When the_post is called, put course data into a global.
+ *
+ * @param mixed $post
+ * @return LLMS_Course
+ */
+function llms_setup_product_data( $post ) {
+
+	if  ( ! is_admin() ) {
+
+		if ($post->post_type == 'course' || $post->post_type == 'llms_membership' ) {
+			unset( $GLOBALS['product'] );
+
+			if ( is_int( $post ) )
+				$post = get_post( $post );
+
+			if ( empty( $post->post_type ) )
+				return;
+
+				$GLOBALS['product'] = get_product( $post );
+
+				return $GLOBALS['product'];
+		}
+	}
+
+}
+
+add_action( 'the_post', 'llms_setup_product_data' );
 
 /**
  * When the_post is called, put lesson data into a global.
@@ -314,7 +364,30 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 	    	return $page_title;
 	}
 }
+if ( ! function_exists( 'lifterlms_membership_loop_start' ) ) {
 
+	function lifterlms_membership_loop_start( $echo = true ) {
+		ob_start();
+		llms_get_template( 'loop/loop-start.php' );
+		if ( $echo )
+			echo ob_get_clean();
+		else
+			return ob_get_clean();
+	}
+}
+if ( ! function_exists( 'lifterlms_membership_loop_end' ) ) {
+
+	function lifterlms_membership_loop_end( $echo = true ) {
+		ob_start();
+
+		llms_get_template( 'loop/loop-end.php' );
+
+		if ( $echo )
+			echo ob_get_clean();
+		else
+			return ob_get_clean();
+	}
+}
 if ( ! function_exists( 'lifterlms_course_loop_start' ) ) {
 
 	function lifterlms_course_loop_start( $echo = true ) {
@@ -495,6 +568,13 @@ if ( ! function_exists( 'is_shop' ) ) {
 
 	function is_shop() {
 		return ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'shop' ) ) ) ? true : false;
+	}
+}
+
+if ( ! function_exists( 'is_shop' ) ) {
+
+	function is_memberships() {
+		return ( is_post_type_archive( 'llms_membership' ) || is_page( llms_get_page_id( 'memberships' ) ) ) ? true : false;
 	}
 }
 
@@ -787,6 +867,27 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 
 }
 
+function llms_is_user_member($user_id, $post_id) {
+	$user_memberships = get_user_meta( $user_id, '_llms_restricted_levels', true );
+
+	$is_member = false;
+
+	if ( empty($user_memberships) ) {
+		$is_member = false;
+
+	}
+	else {
+		foreach ( $user_memberships as $key => $value ){
+			if ( in_array($value, $post_id) ){
+				$is_member = true;
+				
+			}
+		}
+	}
+	LLMS_log('is member functino ran');
+	return $is_member;
+}
+
 function get_available_payment_options() {
 
 	$_available_options = array();
@@ -943,6 +1044,27 @@ function lesson_start_date_in_future($user_id, $post) {
 	}
 
 	return $result;
+}
+
+add_action('lifterlms_content_restricted_by_membership', 'page_restricted_by_membership'); 
+
+function page_restricted_by_membership($membership_id) {
+
+	$required_membership_name = get_the_title( $membership_id );
+
+	llms_add_notice( sprintf( __( '%s membership is required to view this content.', 'lifterlms' ), 
+			$required_membership_name ) );
+
+}
+
+/**
+ * Get page object
+ *
+ * @param string $the_course = false, $args = array()
+ * @return array 
+ */
+function get_product( $the_product = false, $args = array() ) {
+	return LLMS()->course_factory->get_product( $the_product, $args );
 }
 
 

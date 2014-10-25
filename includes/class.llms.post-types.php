@@ -395,7 +395,7 @@ class LLMS_Post_Types {
 		 * Email Post Type
 		 */
 	    register_post_type( "llms_email",
-		    apply_filters( 'lifterlms_register_post_type_section',
+		    apply_filters( 'lifterlms_register_post_type_llms_email',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'Emails', 'lifterlms' ),
@@ -438,7 +438,7 @@ class LLMS_Post_Types {
 
 
 	    register_post_type( "llms_certificate",
-		    apply_filters( 'lifterlms_register_post_type_section',
+		    apply_filters( 'lifterlms_register_post_type_llms_certificate',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'Certificates', 'lifterlms' ),
@@ -478,7 +478,7 @@ class LLMS_Post_Types {
 		 * Achievement Post type
 		 */
 	    register_post_type( "llms_achievement",
-		    apply_filters( 'lifterlms_register_post_type_section',
+		    apply_filters( 'lifterlms_register_post_type_llms_achievement',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'Achievements', 'lifterlms' ),
@@ -518,7 +518,7 @@ class LLMS_Post_Types {
 		 * Engagement Post type
 		 */
 	    register_post_type( "llms_engagement",
-		    apply_filters( 'lifterlms_register_post_type_section',
+		    apply_filters( 'lifterlms_register_post_type_llms_engagement',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'Engagements', 'lifterlms' ),
@@ -561,7 +561,7 @@ class LLMS_Post_Types {
 
 
 	    register_post_type( "llms_my_certificate",
-		    apply_filters( 'lifterlms_register_post_type_section',
+		    apply_filters( 'lifterlms_register_post_type_llms_my_certificate',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'My Certificates', 'lifterlms' ),
@@ -593,6 +593,48 @@ class LLMS_Post_Types {
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor' ),
 					//'has_archive' 			=> false,
+				)
+			)
+		);
+
+/**
+		 * Membership Post Type
+		 */
+		$membership_permalink = empty( $permalinks['membership_base'] ) ? _x( 'membership', 'slug', 'lifterlms' ) : $permalinks['membership_base'];
+		
+		register_post_type( "llms_membership",
+			apply_filters( 'lifterlms_register_post_type_membership',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Membership', 'lifterlms' ),
+							'singular_name' 		=> __( 'Membership', 'lifterlms' ),
+							'menu_name'				=> _x( 'Membership', 'Admin menu name', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Membership', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Membership', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Membership', 'lifterlms' ),
+							'new_item' 				=> __( 'New Membership', 'lifterlms' ),
+							'view' 					=> __( 'View Membership', 'lifterlms' ),
+							'view_item' 			=> __( 'View Membership', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Memberships', 'lifterlms' ),
+							'not_found' 			=> __( 'No Memberships found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Memberships found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Membership', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where you can add new Membership levels.', 'lifterlms' ),
+					'public' 				=> true,
+					'show_ui' 				=> true,
+					//'capability_type' 		=> 'course',
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> true,
+					'exclude_from_search' 	=> false,
+					'show_in_menu' 			=> 'lifterlms',
+					'hierarchical' 			=> false, 
+					'rewrite' 				=> $membership_permalink ? array( 'slug' => untrailingslashit( $membership_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'query_var' 			=> true,
+					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+					'has_archive' 			=> ( $membership_page_id = llms_get_page_id( 'memberships' ) ) && get_page( $membership_page_id ) ? get_page_uri( $membership_page_id ) : 'memberships',
+					'show_in_nav_menus' 	=> true
 				)
 			)
 		);

@@ -47,4 +47,20 @@ class LLMS_Course_Factory {
 		return new LLMS_Lesson_Basic ($the_lesson, $args );
 	}
 
+	/**
+	* Get Product
+	*
+	* @param mixed $the_lesson = false, $args = array() 
+	* @return void
+	*/
+	public function get_product( $the_product = false, $args = array() ) {
+		global $post;
+
+	 	$the_product = $post;
+
+	 	$classname = 'LLMS_Product';
+
+		return new LLMS_Product ($the_product, $args );
+	}
+
 }

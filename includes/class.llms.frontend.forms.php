@@ -195,10 +195,13 @@ LLMS_log($lesson_id);
 	public function confirm_order() {
 		global $wpdb;
 
-		if ( ! isset($_REQUEST['token']) ) {
-			return;
-		}
 
+
+		if ( !empty(get_option( 'lifterlms_gateways_paypal_enabled', '') ) ) {
+			if ( ! isset($_REQUEST['token']) ) {
+				return;
+			}
+		}
 		if ( 'POST' !== strtoupper( $_SERVER[ 'REQUEST_METHOD' ] ) ) {
 			return;
 		}
@@ -206,48 +209,33 @@ LLMS_log($lesson_id);
 		if ( empty( $_POST[ 'action' ] ) || ( 'process_order' !== $_POST[ 'action' ] ) || empty( $_POST['_wpnonce'] ) ) {
 			return;
 		}
-
+		
 		// noonnce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
-		$current_order = LLMS()->session->get( 'llms_order', array() );
-
-		$payment_method	= $current_order->payment_method;
-
+		$order = LLMS()->session->get( 'llms_order', array() );
+		$payment_method	= $order->payment_method;
 		$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 	
 		$result = $available_gateways[$payment_method]->confirm_payment($_REQUEST);
 
 		$errors = new WP_Error();
-		$order = new stdClass();
-
-		$order->token	= $result['TOKEN'];
-		$order->payer_id	= $result['PAYERID'];
-
-		$order->payment_method	= $current_order->payment_method;
-		$order->product_title	= $result['L_PAYMENTREQUEST_0_NAME0'];
-		$order->product_price	= $result['PAYMENTREQUEST_0_ITEMAMT'];
-		$order->product_sku		= $result['L_PAYMENTREQUEST_0_NUMBER0'];
-
-		$order->user_id     	= (int) get_current_user_id();
-		$current_user 			= get_user_by( 'id', $order->user_id );
-
-		$order->order_completed = 'no';
-
-		$order->total 			= $result['AMT'];
-		$order->currency 		= get_lifterlms_currency();
-		$order->return_url		= $this->llms_confirm_payment_url();
-
-
-		if ( $confirm_order = $available_gateways[$payment_method]->confirm_payment($_REQUEST) ) {
-			$process_result = $available_gateways[$payment_method]->complete_payment($order);
-		}
+		
+	//	if ( $confirm_order = $available_gateways[$payment_method]->confirm_payment($result) ) {
+			$process_result = $available_gateways[$payment_method]->complete_payment($result, $order);
+		//}
 
 	}
 
 	public function create_order() {
 		global $wpdb;
-		//llms_log('create_order called');
+
+		llms_log('create_order called');
+		llms_log($_POST[ 'action' ]);
+		if ( isset( $_POST['llms-checkout-coupon'] ) ) {
+			return;
+		}
+
 		// check if session already exists. if it does assign it. 
 		$current_order = LLMS()->session->get( 'llms_order', array() );
 
@@ -263,34 +251,48 @@ LLMS_log($lesson_id);
 		// noonnce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
-		$errors = new WP_Error();
 		$order = new stdClass();
+		$errors = new WP_Error();
 
-		$order->payment_method	= $_POST['payment_method'];
+		//get POST data
+		$order->product_id  	= ! empty( $_POST[ 'product_id' ] ) ? llms_clean( $_POST[ 'product_id' ] ) : '';
 		$order->product_title	= $_POST['product_title'];
-		$order->product_price	= $_POST['product_price'];
+		$order->payment_method	= $_POST['payment_method'];
 		$order->product_sku		= $_POST['product_sku'];
+		$order->order_completed = 'no';
 
+		$product = new LLMS_Product($order->product_id);
+
+		$order->payment_option 	= $_POST['payment_option'];
+
+		//get product price (could be single or recurring)
+		if ( $order->payment_option == 'single' ) {
+			$order->product_price			= $product->get_single_price();
+			$order->total 					= $order->product_price;
+		}
+		elseif ( $order->payment_option == 'recurring' ) {
+			$order->product_price			= $product->get_recurring_price();
+			$order->total 					= $order->product_price;
+			$order->billing_period			= $product->get_billing_period();
+			$order->billing_freq			= $product->get_billing_freq();
+		}
+
+		//REFACTOR wtf no idea how this is actually working!!
 		$order->user_id     	= (int) get_current_user_id();
 		$current_user 			= get_user_by( 'id', $order->user_id );
-		$product_id 			= ! empty( $_POST[ 'product_id' ] ) ? llms_clean( $_POST[ 'product_id' ] ) : '';
 		
-		$order->order_completed = 'no';
-		$order->product_id 		= $product_id;
+		if ( $order->user_id <= 0 || $order->total  < 0 || $order->payment_option  == '') {
+			LLMS_log('sdfdsfsadfdsafdas');
+			return;
+		}
 
-		$order->total 			= $_POST['product_price'];
 		$order->currency 		= get_lifterlms_currency();
 		$order->return_url		= $this->llms_confirm_payment_url();
 		$order->cancel_url		= $this->llms_cancel_payment_url();
 
-		if ( $order->user_id <= 0 || $order->product_id <= 0 ) {
-			return;
-		}
-
 		$url = isset($_POST['redirect']) ? llms_clean( $_POST['redirect'] ) : '';
-
 		$redirect = LLMS_Frontend_Forms::llms_get_redirect( $url );
-	
+
 		// if no errors were returned save the data
 		if ( llms_notice_count( 'error' ) == 0 ) {
 
@@ -298,18 +300,17 @@ LLMS_log($lesson_id);
 
 			if ($order->total == 0) {
 				$lifterlms_checkout = LLMS()->checkout();
-				$lifterlms_checkout->process_order();
-				$lifterlms_checkout->update_order();
+				$lifterlms_checkout->process_order($order);
+				$lifterlms_checkout->update_order($order);
 				do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
 			}
 			else {
-
 				$lifterlms_checkout = LLMS()->checkout();
-				$lifterlms_checkout->process_order();
+				$lifterlms_checkout->process_order($order);
 
 				$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
-
 				$result = $available_gateways[$order->payment_method]->process_payment($order);
+				LLMS_log('forms called gateway');
 
 			}
 

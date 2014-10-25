@@ -100,6 +100,21 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         'product_name' => 'L_PAYMENTREQUEST_0_NAME0',
         'product_price' => 'L_PAYMENTREQUEST_0_AMT0',
         'product_sku' => 'L_PAYMENTREQUEST_0_NUMBER0',
+        'item_category' => 'L_PAYMENTREQUEST_0_ITEMCATEGORY0',
+
+        //recurring specific
+        'billing_type' => 'L_BILLINGTYPE0',
+        'billing_agreement_desc' => 'L_BILLINGAGREEMENTDESCRIPTION0',
+        'profile_start_date' =>  'PROFILESTARTDATE',
+        'billing_period' => 'BILLINGPERIOD',
+        'billing_freq' => 'BILLINGFREQUENCY',
+        'recurring_amount' => 'AMT',
+        'description' => 'DESC',
+        'init_payment' => 'INITAMT',
+        'init_payment_fail' => 'FAILEDINITAMTACTION',
+        'max_failed_payments' => 'MAXFAILEDPAYMENTS',
+        'total_billing_cycles' => 'TOTALBILLINGCYCLES',
+
     );
  
     /**
@@ -150,18 +165,52 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
         // Create a new PayPal class instance, and set the sandbox mode to true
         $paypal = new LLMS_Payment_Gateway_Paypal ();
-         
-        $param = array(
-            'amount' => $order->total,
-            'currency_code' => $order->currency,
-            'payment_action' => 'Sale',
-            'return_url' => $order->return_url,
-            'cancel_url' => $order->cancel_url,
-            'product_name' => $order->product_title,
-            'product_sku' => $order->product_sku,
-            'product_price' => $order->product_price,
-        );
-         
+
+
+
+        if ( $order->payment_option == 'single' ) {
+
+            $param = array(
+                'amount' => $order->total,
+                'currency_code' => $order->currency,
+                'payment_action' => 'Sale',
+                'return_url' => $order->return_url,
+                'cancel_url' => $order->cancel_url,
+                'product_name' => $order->product_title,
+                'product_sku' => $order->product_sku,
+                'product_price' => $order->product_price,
+            );
+        }
+
+        if ( $order->payment_option == 'recurring' ) { 
+
+            $param = array(
+                'amount' => $order->total,
+                'recurring_amount' => $order->total,
+                'currency_code' => $order->currency,
+                'payment_action' => 'Sale',
+                'return_url' => $order->return_url,
+                'cancel_url' => $order->cancel_url,
+                'product_name' => $order->product_title,
+                'product_sku' => $order->product_sku,
+                'product_price' => $order->product_price,
+                'item_category' => 'Digital',
+                //'product_name' => $order->product_title,
+                'billing_type' => 'RecurringPayments',
+                'billing_agreement_desc' => $order->product_title,
+                'profile_start_date' => date("Y-m-d"),
+                'billing_period' => $order->billing_period,
+                'billing_freq' => $order->billing_freq,
+                'total_billing_cycles' => $order->billing_freq,
+                'max_failed_payments' => '1',
+                'total_cycles' => '2'
+
+                
+
+
+            );
+        }
+
         if ($paypal->setExpressCheckout($param)) {
 
             $redirect_url = $paypal->getRedirectURL();
@@ -186,34 +235,81 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
          
     }
 
-    public function complete_payment($order) {
-        
+    public function complete_payment($request, $order) {
+       LLMS_log($order);
+        LLMS_log($request);
         $paypal = new LLMS_Payment_Gateway_Paypal ();
 
-        $param = array(
-            'amount' => $order->total,
-            'currency_code' => $order->currency,
-            'payment_action' => 'Sale',
-            'payer_id' => $order->payer_id,
-            'token' => $order->token
-        );
+        if ($order->payment_option == 'recurring' ){
 
-        if ($paypal->doExpressCheckout($param)) {
-            $response = $paypal->getResponse();
+            $init_param = array(
+                'amount' => $request['AMT'],
+                'currency_code' => $request['CURRENCYCODE'],
+                'payment_action' => 'Sale',
+                'payer_id' => $request['PAYERID'],
+                'token' => $request['TOKEN'],
+            );
 
-            if ($response['PAYMENTINFO_0_ACK'] == 'Success') {
+            if ($paypal->doExpressCheckout($init_param)) {
+                LLMS_log('-------first_response------');
+                LLMS_log($init_response );
+                $init_response = $paypal->getResponse();
 
-                $lifterlms_checkout = LLMS()->checkout();
-                $result = $lifterlms_checkout->update_order();
-
-                do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
-            }
-            else {
-           
-                do_action( 'lifterlms_order_process_error', $order->user_id);
             }
 
-        } 
+            if ($init_response['ACK'] == 'Success') {
+
+                LLMS_log('recurring payment');
+
+
+                $param = array(
+                    'profile_start_date' => $request['TIMESTAMP'],
+                    'description' => $order->product_title,
+                    'billing_period' => 'Month',
+                    'billing_freq' => $order->billing_freq,
+                    'recurring_amount' => $request['AMT'],
+                    'currency_code' => $request['CURRENCYCODE'],
+                    'rec_amount' => $request['AMT'],
+                    'token' => $request['TOKEN'],
+                    'payer_id' => $request['PAYERID'],
+                );
+
+                if ($paypal->createRecurringPaymentsProfile($param)) {
+                    $response = $paypal->getResponse();
+                    LLMS_log($response);
+                }
+            }
+
+        }
+
+        if ( $order->payment_option == 'single' ) {
+      
+            $param = array(
+                'amount' => $request['AMT'],
+                'currency_code' => $request['CURRENCYCODE'],
+                'payment_action' => 'Sale',
+                'payer_id' => $request['PAYERID'],
+                'token' => $request['TOKEN'],
+            );
+
+            if ($paypal->doExpressCheckout($param)) {
+                $response = $paypal->getResponse();
+
+            }
+        }
+
+
+        if ($response['ACK'] == 'Success') {
+
+            $lifterlms_checkout = LLMS()->checkout();
+            $result = $lifterlms_checkout->update_order($order);
+
+            do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
+        }
+        else {
+       
+            do_action( 'lifterlms_order_process_error', $order->user_id);
+        }
         
     }
 
@@ -243,6 +339,15 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function doExpressCheckout($param) {
         return $this->requestExpressCheckout('DoExpressCheckoutPayment', $param);
     }
+
+    /**
+     * Executes a doExpressCheckout command
+     * @param array $param
+     * @return boolean
+     */
+    public function createRecurringPaymentsProfile($param) {
+        return $this->requestExpressCheckout('CreateRecurringPaymentsProfile', $param);
+    }
  
     /**
      * @param string $type
@@ -253,6 +358,8 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     private function requestExpressCheckout($type, $param) {
         // Construct the request array
         $param = $this->replace_short_terms($param);
+
+      
         $request = $this->build_request($type, $param);
  
         // Makes the HTTP request
@@ -301,6 +408,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
      */
     private function build_request($type, $param) {
         // Request Body
+
         $body = $param;
         $body['METHOD'] = $type;
         $body['VERSION'] = $this->version;
@@ -316,8 +424,10 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             'timeout' => $this->time_out,
             'sslverify' => $this->ssl_verify
         );
- 
+ LLMS_log('request');
+ LLMS_log($request);
         return $request;
+
     }
  
     /**
@@ -327,6 +437,8 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function getResponse() {
         if ($this->full_response) {
             parse_str(urldecode($this->full_response['body']), $output);
+LLMS_log('paypal response');
+LLMS_log($output);
             return $output;
         }
         return false;

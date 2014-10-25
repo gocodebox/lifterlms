@@ -410,3 +410,9 @@ function add_query_var_course_id( $vars ){
   return $vars;
 }
 add_filter( 'query_vars', 'add_query_var_course_id' );
+
+function add_query_var_product_id( $vars ){
+  $vars[] = "product-id";
+  return $vars;
+}
+add_filter( 'query_vars', 'add_query_var_product_id' );

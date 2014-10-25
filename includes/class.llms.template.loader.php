@@ -32,7 +32,20 @@ class LLMS_Template_Loader {
 
 		$find = array( 'lifterlms.php' );
 		$file = '';
-		if ( is_single() && get_post_type() == 'course' ) {
+
+		if ( is_single() && $this->page_restricted_by_membership() ) {
+
+				$template = 'single-no-access.php';
+		
+		}
+
+		elseif ( is_single() && get_post_type() == 'llms_membership' ) {
+
+				$template = 'single-membership.php';
+
+		}
+
+		elseif ( is_single() && get_post_type() == 'course' ) {
 
 			if ( $this->check_user_permissions( 'course' ) ) {
 
@@ -68,6 +81,12 @@ class LLMS_Template_Loader {
 
 		} 
 
+		elseif ( is_post_type_archive( 'llms_membership' ) || is_page( llms_get_page_id( 'memberships' ) ) ) {
+
+			$template = 'archive-membership.php';
+
+		} 
+
 		elseif ( is_single() && get_post_type() == 'llms_certificate' ) {
 
 			$template = 'single-certificate.php';
@@ -95,11 +114,11 @@ class LLMS_Template_Loader {
 
 	public function check_user_permissions ( $page ) {
 		global $post;
+		LLMS_log($person);
 
 		if ( ! wp_get_current_user() ) {
 			return;
 		}
-		//LLMS_log($page);
 
 		$allow_access = true;
 
@@ -133,6 +152,38 @@ class LLMS_Template_Loader {
 	return $allow_access;
 	}
 
+	public function page_restricted_by_membership() {
+		global $post;
+
+		$restrict_access = true;
+		$membership_id = '';
+
+		$user_memberships = get_user_meta( get_current_user_id(), '_llms_restricted_levels', true );
+		$page_restrictions = get_post_meta( $post->ID, '_llms_restricted_levels', true );
+
+		if ( empty($page_restrictions) ) {
+			$restrict_access = false;
+
+		}
+		else {
+			foreach ( $page_restrictions as $key => $value ){
+				if ( in_array($value, $user_memberships) ){
+					$restrict_access = false;
+					
+				}
+				else {
+					LLMS_log('value');
+					LLMS_log($value);
+					$membership_id = $value;
+				}
+			}
+		}
+
+		if ($restrict_access) {
+			do_action('lifterlms_content_restricted_by_membership', $membership_id);
+		}
+		return $restrict_access;
+	}
 
 	/**
 	 * Check to see if the installed theme has an override template

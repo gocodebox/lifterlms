@@ -1,6 +1,7 @@
 jQuery(document).ready(function($) {
 
 	toggle_sales_fields();
+	toggle_recurring_fields();
 
 	$('#cancel-sale').on('click', function () {
 		clear_fields(["#_sale_price", "#_sale_price_dates_from", "#_sale_price_dates_to"]);
@@ -35,6 +36,36 @@ jQuery(document).ready(function($) {
 		{
 			//otherwise, hide it
 			$("#extra").hide("fast");
+		}
+	}
+})(jQuery);
+
+
+//Toggle Recurring Payment Fields
+(function($){  
+	toggle_recurring_fields = function() {
+
+		if ($('#_llms_subscription_price').val().length > 0) {
+	  		$("#recurring_options").show("fast");
+		}
+		else {
+			//Hide div w/id extra
+	   		$("#recurring_options").css("display","none");
+		}
+
+		$("#_llms_recurring_enabled").click(function(){
+			toggle_recurring_fields();	
+		});
+
+		if ($("#_llms_recurring_enabled").is(":checked"))
+		{
+			//show the hidden div
+			$("#recurring_options").show("fast");
+		}
+		else
+		{
+			//otherwise, hide it
+			$("#recurring_options").hide("fast");
 		}
 	}
 })(jQuery);

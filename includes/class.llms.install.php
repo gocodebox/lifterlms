@@ -108,6 +108,14 @@ class LLMS_Install {
 	 */
 	public static function create_pages() {
 
+		$membership_page = apply_filters( 'lifterlms_new_page', array(
+			'post_type' 	=> 'page',
+			'post_title' 	=> 'Memberships',
+			'post_author' 	=> 1,
+			'post_status'   => 'publish',
+			'post_content'  => '',
+		) );
+
 		$shop_page = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'page',
 			'post_title' 	=> 'Courses',
@@ -132,6 +140,7 @@ class LLMS_Install {
 			'post_content'  => '[lifterlms_my_account]',
 		) );
 
+		$membership_page_id = wp_insert_post( $membership_page, true );
 		$shop_page_id = wp_insert_post( $shop_page, true );
 		$checkout_page_id = wp_insert_post( $checkout_page, true );
 		$account_page_id = wp_insert_post( $account_page, true );

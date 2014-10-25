@@ -45,7 +45,7 @@ class LLMS_Payment_Gateway {
 	public function confirm_payment($response) {
 	}
 
-	public function complete_payment($order) {
+	public function complete_payment($request, $order) {
 	}
 
 }

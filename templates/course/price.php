@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course;
 
-
+LLMS_log('fdsafdsaf');
 ?>
 <?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) { ?>
 	<?php if ( $course->get_price_html() ) { ?>

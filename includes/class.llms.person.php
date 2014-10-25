@@ -95,4 +95,9 @@ class LLMS_Person {
 		return $results;
 	}
 
+	public function get_permissions() {
+		
+
+	}
+
 }

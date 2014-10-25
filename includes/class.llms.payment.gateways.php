@@ -83,4 +83,9 @@ class LLMS_Payment_Gateways {
 		return apply_filters( 'lifterlms_available_payment_gateways', $_available_gateways );
 	}
 
+	public function can_process_recurring() {
+		$is_available = true;
+		return $is_available;
+	}
+
 }

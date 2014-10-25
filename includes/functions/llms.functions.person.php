@@ -104,3 +104,87 @@ function llms_set_person_auth_cookie( $person_id ) {
 	wp_set_auth_cookie( $person_id, true );
 }
 
+// function modify_contact_methods($profile_fields) {
+
+// 	// Add new fields
+// 	$profile_fields['twitter'] = 'Twitter Username';
+// 	$profile_fields['facebook'] = 'Facebook URL';
+// 	$profile_fields['gplus'] = 'Google+ URL';
+
+// 	return $profile_fields;
+// }
+
+add_action( 'show_user_profile', 'llms_membership_settings' );
+add_action( 'edit_user_profile', 'llms_membership_settings' );
+
+    
+function llms_membership_settings( $user ) {
+	LLMS_log('llms_membership_settings is being called');
+    // get the value of a single meta key
+    $my_membership_levels = get_user_meta( $user->ID, '_llms_restricted_levels', true ); // $user contains WP_User object
+
+    $membership_levels_args = array(
+		'posts_per_page'   => -1,
+		'post_status'      => 'publish',
+		'orderby'          => 'title',
+		'order'            => 'ASC',
+		'post_type'        => 'llms_membership',
+		'suppress_filters' => true 
+	); 
+	$membership_levels = get_posts($membership_levels_args);
+
+    ?>
+    <table class="form-table">
+		<tbody>
+			<?php
+				//get all existing membership levels
+			
+
+			if($membership_levels) : 
+			?>
+			<tr>
+				<th>
+					<label><?php _e('Membership Roles','lifterlms'); ?></label> 
+				</th>
+				<td>
+					<?php
+					foreach ( $membership_levels as $level  ) : 
+						//LLMS_log($level);
+						if( in_array($level->ID, $my_membership_levels) ) {
+							$checked = 'checked ="checked"';
+						}
+						else {
+							$checked = '';
+						}
+						echo '<input type="checkbox" name="llms_level[]" ' . $checked . ' value="' . $level->ID . '"/>';
+						echo '<label for="llms_level">' . $level->post_title . '</label></br>';
+						
+					endforeach; 
+					?>
+				</td>
+			</tr>
+		<?php endif; ?>
+		</tbody>
+	</table>
+<?php
+}
+
+function llms_membership_settings_save( $user_id ) {
+	if ( !current_user_can( 'edit_users', $user_id ) ) {
+		return;
+	}
+
+	$membership_levels = array();
+
+	foreach( $_POST['llms_level'] as $value ) {
+		LLMS_log($value );
+		array_push($membership_levels, $value);
+	}
+	
+	update_usermeta( $user_id, '_llms_restricted_levels', $membership_levels );
+
+}
+
+add_action( 'personal_options_update',  'llms_membership_settings_save' );
+add_action( 'edit_user_profile_update', 'llms_membership_settings_save' );
+
