@@ -168,18 +168,24 @@ function outstanding_prerequisite_exists($user_id, $post_id) {
 
 		$current_post = new LLMS_Lesson($post->ID);
 
+		$result = find_prerequisite($user_id, $current_post);
+
+		if (!$result) {
+
 		$parent_course_id = $current_post->get_parent_course();
 
 		$parent_course = new LLMS_Course($parent_course_id);
 
 		$result = find_prerequisite($user_id, $parent_course );
+	}
 
-		if (! $result) {
-			$result = find_prerequisite($user_id, $current_post);
-		}
+		//if (! $result) {
+			
+		//}
 
 	}
-	
+	LLMS_log('result');
+	LLMS_log($result);
 	return $result;	
 
 }
@@ -188,17 +194,27 @@ function outstanding_prerequisite_exists($user_id, $post_id) {
 function find_prerequisite( $user_id, $post ) {
 	$user = new LLMS_Person();
 LLMS_log('find prerequisit');
-LLMS_log($user_id);
 LLMS_log($post);
 
+
+// if ($post->post_type == 'course') {
+// 	$lesson = new LLMS_Course($post->ID);
+// }
+//if ($post->post_type == 'lesson') {
+	$lesson = new LLMS_Lesson($post->id);
+	$p = $lesson->get_prerequisite();
+//}
+
+LLMS_log($lesson );
 	$prerequisite_exists = false;
 
-	if ($prerequisite_id = $post->get_prerequisite()) {
+	if ($prerequisite_id = $lesson->get_prerequisite()) {
+
 
 		$prerequisite_exists = true;
 
 		$prerequisite = get_post( $prerequisite_id );
-		$user_postmetas = $user->get_user_postmeta_data( $user_id, $prerequisite->ID );
+		$user_postmetas = $user->get_user_postmeta_data( $user->ID, $prerequisite->ID );
 
 		if ( isset($user_postmetas) ) {
 	
@@ -218,10 +234,18 @@ LLMS_log($post);
 }
 
 function llms_get_prerequisite($user_id, $post_id) {
+	$user = new LLMS_Person();
 	$post = get_post( $post_id );
-	$prerequisite_id = $post->get_prerequisite();
+	if ($post->post_type = 'course') {
+		$post_obj = new LLMS_Course($post->ID);
+	}
+	elseif ($post->post_type = 'lesson') {
+		$post_obj = new LLMS_Lesson($post->ID);
+	}
+	$prerequisite_id = $post_obj->get_prerequisite();
+
 	$prerequisite = get_post( $prerequisite_id );
-	$user_postmetas = $user->get_user_postmeta_data( $user_id, $prerequisite->ID );
+	$user_postmetas = $user->get_user_postmeta_data( $user_id, $prerequisite_id );
 
 	return $prerequisite;
 }
