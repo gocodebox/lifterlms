@@ -169,7 +169,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 	
     <h2><?php _e('Create Course Syllabus', 'lifterlms'); ?></h2>
     <a href="#" class="button" id="addNewSection"/>Add a new Section</a>
-    <div id="spinner"><img id="loading" alt="WordPress loading spinner" src="/wp-admin/images/spinner.gif"></div>		
+    <div id="spinner"><img id="loading" alt="WordPress loading spinner" src="<?php echo admin_url('wp-admin/images/spinner.gif'); ?>"></div>		
     <div id="syllabus" data-post_id="<?php echo $post->ID ?>"> 
 
 	<?php 
