@@ -40,6 +40,19 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		return apply_filters( 'lifterlms_general_settings', array(
 			array( 'title' => __( 'General Options', 'lifterlms' ), 'type' => 'title', 'desc' => '', 'id' => 'general_options' ),
 		
+			
+
+			array(	'title' => __( 'Plugin Activation', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Enter your activation key to recieve important updates and new features when they are available.', 'lifterlms' ), 'id' => 'activation_options' ),
+
+			array(
+				'title' => __( 'Activation Key', 'lifterlms' ),
+				'desc' 		=> __( 'Activation Key', 'lifterlms' ),
+				'id' 		=> 'lifterlms_activation_key',
+				'type' 		=> 'text',
+				'default'	=> '',
+				'desc_tip'	=> true,
+			),
+
 			array( 'type' => 'sectionend', 'id' => 'general_options'),
 
 			array(	'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),

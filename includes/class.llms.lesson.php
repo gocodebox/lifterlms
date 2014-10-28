@@ -86,6 +86,48 @@ class LLMS_Lesson {
 	}
 
 	/**
+	 * Get Video (oembed)
+	 *
+	 * @return mixed (default: '')
+	 */
+	public function get_video() {
+
+		if ( ! isset( $this->video_embed ) ) {
+
+			return '';
+
+		}
+
+		else {
+
+			return wp_oembed_get($this->video_embed);
+
+		}
+
+	}
+
+	/**
+	 * Get Audio (wp shortcode)
+	 *
+	 * @return mixed (default: '')
+	 */
+	public function get_audio() {
+
+		if ( ! isset( $this->audio_embed ) ) {
+
+			return '';
+
+		}
+
+		else {
+
+			return do_shortcode('[audio src="'. $this->audio_embed . '"]');
+
+		}
+
+	}
+
+	/**
 	 * Get parent course
 	 *
 	 * @return string

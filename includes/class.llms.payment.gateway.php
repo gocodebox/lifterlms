@@ -22,8 +22,14 @@ class LLMS_Payment_Gateway {
 
 	//REFACTOR - stubbed out for paypal only. 
 	public function is_available() {
-		$is_available = true;
-		return $is_available;
+
+		$available = get_option('lifterlms_gateway_enable_' . $this->id);
+		if ($available == 'yes') {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 
@@ -47,5 +53,8 @@ class LLMS_Payment_Gateway {
 
 	public function complete_payment($request, $order) {
 	}
+
+	public function update_order() {
+    }
 
 }

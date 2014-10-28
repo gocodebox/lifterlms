@@ -151,6 +151,8 @@ final class LifterLMS {
 		if ( is_admin() ) {
 			include_once( 'includes/admin/class.llms.admin.php' );
 			include_once( 'includes/admin/class.llms.admin.forms.php' );
+			require ( 'plugin-updates/plugin-update-checker.php');
+			include_once( 'includes/class.llms.update.php' );
 		}
 
 		// Post types

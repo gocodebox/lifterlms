@@ -6,11 +6,14 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
-global $post, $course;
+global $post, $course, $lesson;
 
 ?>
 <div class="llms-full-description">
-	hello
+	
 	<?php echo apply_filters( 'lifterlms_full_description', $post->post_content ) ?>
+	<h2><?php 
+	$parent_course = get_post( $lesson->get_parent_course() );
+	?></h2>
 
 </div>

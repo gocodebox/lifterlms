@@ -40,6 +40,7 @@ class LLMS_Person {
 
 		// When leaving or ending page load, store data
     	add_action( 'shutdown', array( $this, 'save_data' ), 10 );
+    	add_action( 'wp_login', array( $this, 'set_user_login_timestamp' ), 10, 2);
 	}
 
 	/**
@@ -51,6 +52,11 @@ class LLMS_Person {
 		if ( $this->_changed ) {
 			$GLOBALS['lifterlms']->session->person = $this->_data;
 		}
+	}
+
+	public function set_user_last_login_timestamp($user_login, $user) {
+		$now = current_time( 'timestamp' );
+		update_user_meta($user->ID, 'llms_last_login', $now);
 	}
 
 	/**
@@ -65,7 +71,7 @@ class LLMS_Person {
 
 		$results = $wpdb->get_results( $wpdb->prepare(
 			'SELECT * FROM '.$table_name.' WHERE user_id = %s and post_id = %d', $user_id, $post_id) );
-//LMS_log($results);
+
 		for ($i=0; $i < count($results); $i++) {
 			$results[$results[$i]->meta_key] = $results[$i];
 			unset($results[$i]);

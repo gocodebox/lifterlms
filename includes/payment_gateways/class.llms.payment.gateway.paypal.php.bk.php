@@ -96,10 +96,13 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         'payment_action' => 'PAYMENTREQUEST_0_PAYMENTACTION',
         'token' => 'TOKEN',
         'payer_id' => 'PAYERID',
+
         'product_name' => 'L_PAYMENTREQUEST_0_NAME0',
         'product_price' => 'L_PAYMENTREQUEST_0_AMT0',
         'product_sku' => 'L_PAYMENTREQUEST_0_NUMBER0',
         'item_category' => 'L_PAYMENTREQUEST_0_ITEMCATEGORY0',
+
+        //recurring specific
         'billing_type' => 'L_BILLINGTYPE0',
         'billing_agreement_desc' => 'L_BILLINGAGREEMENTDESCRIPTION0',
         'profile_start_date' =>  'PROFILESTARTDATE',
@@ -160,6 +163,8 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
      */
     public function process_payment($order) {
 
+
+
         // Create a new PayPal class instance, and set the sandbox mode to true
         $paypal = new LLMS_Payment_Gateway_Paypal ();
 
@@ -170,6 +175,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             $param = array(
                 'amount' => $order->total,
                 'currency_code' => $order->currency,
+                'payment_action' => 'Sale',
                 'return_url' => $order->return_url,
                 'cancel_url' => $order->cancel_url,
                 'product_name' => $order->product_title,
@@ -181,23 +187,25 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         if ( $order->payment_option == 'recurring' ) { 
 
             $param = array(
-                'amount' => $order->first_payment,
+                'amount' => $order->total,
                 'recurring_amount' => $order->total,
                 'currency_code' => $order->currency,
+                'payment_action' => 'Sale',
                 'return_url' => $order->return_url,
                 'cancel_url' => $order->cancel_url,
                 'product_name' => $order->product_title,
                 'product_sku' => $order->product_sku,
-                'product_price' => $order->first_payment,
+                'product_price' => $order->product_price,
                 'item_category' => 'Digital',
                 'billing_type' => 'RecurringPayments',
                 'billing_agreement_desc' => $order->product_title,
-                'profile_start_date' => $order->billing_start_date,
+                'profile_start_date' => date("Y-m-d"),
                 'billing_period' => $order->billing_period,
                 'billing_freq' => $order->billing_freq,
                 'total_billing_cycles' => $order->billing_freq,
                 'max_failed_payments' => '1',
-                'total_billing_cycles' => $order->billing_cycle
+                'total_cycles' => $order->billing_cycle
+
             );
         }
 
@@ -232,41 +240,36 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
         if ($order->payment_option == 'recurring' ){
 
-            $billing_period = $this->get_billing_period($order->billing_period);
+            $init_param = array(
+                'amount' => $request['AMT'],
+                'currency_code' => $request['CURRENCYCODE'],
+                'payment_action' => 'Sale',
+                'payer_id' => $request['PAYERID'],
+                'token' => $request['TOKEN'],
+            );
 
-            //only do initial billing if 1st payment is not 0
-            if ($request['AMT'] > 0) {
+            if ($paypal->doExpressCheckout($init_param)) {
+                LLMS_log('-------first_response------');
+                LLMS_log($init_response );
+                $init_response = $paypal->getResponse();
 
-                $init_param = array(
-                    'amount' => $order->first_payment,
-                    'currency_code' => $request['CURRENCYCODE'],
-                    'payer_id' => $request['PAYERID'],
-                    'token' => $request['TOKEN'],
-                );
-
-                if ($paypal->doExpressCheckout($init_param)) {
-                    LLMS_log('-------first_response------');
-                    LLMS_log($init_response );
-                    $init_response = $paypal->getResponse();
-
-                }
             }
 
-            if ($init_response['ACK'] == 'Success' || $request['AMT'] <= 0) {
+            if ($init_response['ACK'] == 'Success') {
 
                 LLMS_log('recurring payment');
 
+
                 $param = array(
-                    'profile_start_date' => strtotime($order->billing_start_date),
+                    'profile_start_date' => $request['TIMESTAMP'],
                     'description' => $order->product_title,
-                    'billing_period' => $billing_period,
+                    'billing_period' => 'Month',
                     'billing_freq' => $order->billing_freq,
-                    'recurring_amount' => $order->total,
+                    'recurring_amount' => $request['AMT'],
                     'currency_code' => $request['CURRENCYCODE'],
+                    'rec_amount' => $request['AMT'],
                     'token' => $request['TOKEN'],
                     'payer_id' => $request['PAYERID'],
-                    'total_billing_cycles' => $order->billing_cycle,
-                    'max_failed_payments' => '1',
                 );
 
                 if ($paypal->createRecurringPaymentsProfile($param)) {
@@ -282,6 +285,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             $param = array(
                 'amount' => $request['AMT'],
                 'currency_code' => $request['CURRENCYCODE'],
+                'payment_action' => 'Sale',
                 'payer_id' => $request['PAYERID'],
                 'token' => $request['TOKEN'],
             );
@@ -305,24 +309,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             do_action( 'lifterlms_order_process_error', $order->user_id);
         }
         
-    }
-
-    public function update_order() {
-
-    }
-
-    public function get_billing_period($billing_period) {
-
-        $paypal_codes = array (
-            'day' => 'Day',
-            'week' => 'Week',
-            'month' => 'Month',
-            'year' => 'Year'
-        );
-
-        return $paypal_codes[$billing_period];
-
-
     }
 
     /**

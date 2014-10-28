@@ -161,22 +161,46 @@ class LLMS_Product {
 	public function get_recurring_price_html() {
 
 		$price = '';
+		$currency_symbol = get_lifterlms_currency_symbol();
+		$recurring_price = $this->get_recurring_price();
+		$recurring_first_payment = $this->get_recurring_first_payment();
+
 
 		$suffix = $this->get_price_suffix_html();
-		$display_price = (get_lifterlms_currency_symbol() . $this->get_recurring_price());
+		$display_price = ($currency_symbol . $recurring_price);
 		$billing_period = $this->get_billing_period();
 		$billing_freq = $this->get_billing_freq();
-		$billing_cycles = $this->get_billing_freq();
+		$billing_cycle = $this->get_billing_cycle();
 
 
-		if ( $billing_freq > 1 ) {
-			$price = ($display_price . ' / ' . $billing_period . ' for ' . $billing_freq . ' ' . $billing_period . 's');
+		// display billing period based on frequency
+		if ($billing_freq > 1) {
+			$billing_period_html = 'every ' . $billing_freq . ' ' . $billing_period . 's';
 		}
 		else {
-		$price = ($display_price . ' / ' . $billing_period . ' for ' . $billing_freq . ' ' . $billing_period);
+			$billing_period_html = 'per ' . $billing_period;
 		}
 
-		return $price;
+		// / month = $1 
+
+
+		// if first payment is different from recurring payment display first payment. 
+		if ($recurring_first_payment != $recurring_price) {
+			$price = $currency_symbol . $recurring_first_payment . ' then ';
+		}
+
+		if ( $billing_cycle == 0 ) {
+			$price .= ($display_price . ' ' . $billing_period_html);
+		}
+
+		elseif ( $billing_cycle > 1 ) {
+			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's');
+		}
+		else {
+		$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
+		}
+
+		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );;
 	}
 
 
@@ -273,6 +297,10 @@ class LLMS_Product {
 		return apply_filters( 'lifterlms_get_recurring_price', $this->llms_subscription_price, $this );
 	}
 
+	public function get_recurring_first_payment() {
+		return apply_filters( 'lifterlms_get_recurring_first_price', $this->llms_subscription_first_payment, $this );
+	}
+
 	public function get_billing_period() {
 		return $this->llms_billing_period;
 	}
@@ -280,6 +308,37 @@ class LLMS_Product {
 	public function get_billing_freq() {
 		return $this->llms_billing_freq;
 	}
+
+	public function get_billing_cycle() {
+		return $this->llms_billing_cycle;
+	}
+
+	public function get_recurring_next_payment_date() {
+
+		$billing_period = $this->get_billing_period();
+
+		$billing_freq = $this->get_billing_freq();
+		$billing_freq = $billing_freq > 0 ? $billing_freq : 1;
+
+		switch($billing_period) {
+			case 'day':
+				$next_payment_date = date('Y-m-d', strtotime(' +' . $billing_freq . ' day'));
+				break;
+			case 'week':
+				$next_payment_date = date('Y-m-d', strtotime(' +' . $billing_freq . ' week'));
+				break;
+			case 'month':
+				$next_payment_date = date('Y-m-d', strtotime(' +' . $billing_freq . ' month'));
+				break;
+			case 'year':
+				$next_payment_date = date('Y-m-d', strtotime(' +' . $billing_freq . ' year'));
+				break;
+
+		}
+
+		return $next_payment_date;
+	}
+
 
 	/**
 	 * Get function for price value.

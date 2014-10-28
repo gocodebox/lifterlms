@@ -193,6 +193,27 @@ class LLMS_Course {
 	}
 
 	/**
+	 * Get Audio (wp shortcode)
+	 *
+	 * @return mixed (default: '')
+	 */
+	public function get_audio() {
+
+		if ( ! isset( $this->audio_embed ) ) {
+
+			return '';
+
+		}
+
+		else {
+
+			return do_shortcode('[audio src="'. $this->audio_embed . '"]');
+
+		}
+
+	}
+
+	/**
 	 * Get Difficulty
 	 *
 	 * @return string

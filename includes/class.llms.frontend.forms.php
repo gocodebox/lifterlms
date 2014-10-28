@@ -33,10 +33,14 @@ class LLMS_Frontend_Forms {
 		add_action( 'lifterlms_order_process_complete', array( $this, 'order_complete' ), 10, 1 );
 
 		
+		add_action( 'lifterlms_content_restricted', array( $this, 'restriction_alert' ), 10, 2 );
+	
+
+		
 
 
-		add_action( 'lifterlms_content_restricted_by_prerequisite', array( $this, 'llms_restricted_by_prerequisite' ), 10, 1 );
-		add_action( 'lifterlms_content_restricted_by_start_date', array( $this, 'llms_restricted_by_start_date' ), 10, 1 );
+		//add_action( 'lifterlms_content_restricted_by_prerequisite', array( $this, 'llms_restricted_by_prerequisite' ), 10, 1 );
+		//add_action( 'lifterlms_content_restricted_by_start_date', array( $this, 'llms_restricted_by_start_date' ), 10, 1 );
 		
 
 	}
@@ -230,8 +234,6 @@ LLMS_log($lesson_id);
 	public function create_order() {
 		global $wpdb;
 
-		llms_log('create_order called');
-		llms_log($_POST[ 'action' ]);
 		if ( isset( $_POST['llms-checkout-coupon'] ) ) {
 			return;
 		}
@@ -273,8 +275,11 @@ LLMS_log($lesson_id);
 		elseif ( $order->payment_option == 'recurring' ) {
 			$order->product_price			= $product->get_recurring_price();
 			$order->total 					= $order->product_price;
+			$order->first_payment			= $product->get_recurring_first_payment();
 			$order->billing_period			= $product->get_billing_period();
 			$order->billing_freq			= $product->get_billing_freq();
+			$order->billing_cycle			= $product->get_billing_cycle();
+			$order->billing_start_date 		= $product->get_recurring_next_payment_date();
 		}
 
 		//REFACTOR wtf no idea how this is actually working!!
@@ -310,7 +315,6 @@ LLMS_log($lesson_id);
 
 				$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 				$result = $available_gateways[$order->payment_method]->process_payment($order);
-				LLMS_log('forms called gateway');
 
 			}
 
@@ -365,17 +369,55 @@ LLMS_log($lesson_id);
 
 	}
 
-	function llms_restricted_by_prerequisite($prerequisite) {
-		$link = get_permalink( $prerequisite->ID);
-		//LLMS_log($prerequisite->ID);
+	// function llms_restricted_by_prerequisite($prerequisite) {
+	// 	$link = get_permalink( $prerequisite->ID);
+	// 	//LLMS_log($prerequisite->ID);
 
-		llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ), 
-			$link, $prerequisite->post_title, $prerequisite->post_title ) );
-	}
+	// 	llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ), 
+	// 		$link, $prerequisite->post_title, $prerequisite->post_title ) );
+	// }
 
 	function llms_restricted_by_start_date($date) {
 		llms_add_notice( sprintf( __( 'This content is not available until %s', 'lifterlms' ), 
 			$date ) );
+	}
+
+	public function restriction_alert ($post_id, $reason) {
+		$post = get_post($post_id);
+
+		switch($reason) {
+			case 'membership':
+				foreach ($memberships as $key => $value) {
+					llms_add_notice( sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $value ) );
+				}
+				break;
+			case 'parent_membership' :
+				$memberships = llms_get_parent_post_memberships($post_id);
+				foreach ($memberships as $key => $value) {
+					llms_add_notice( sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $value ) );
+				}
+				break;
+			case 'prerequisite' :
+				$prerequisite = llms_get_prerequisite(get_current_user_id(), $post_id);
+				$link = get_permalink( $prerequisite->ID );
+
+				llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ), 
+					$link, $prerequisite->post_title, $prerequisite->post_title ) );
+				break;
+			case 'lesson_start_date' :
+				$start_date = llms_get_lesson_start_date($post_id);
+				llms_add_notice( sprintf( __( 'Lesson is not available until %s.', 'lifterlms' ), $start_date ) );
+				break;
+			case 'course_start_date' :
+				$start_date = llms_get_course_start_date($post_id);
+				llms_add_notice( sprintf( __( 'Course is not available until %s.', 'lifterlms' ), $start_date ) );
+				break;
+			case 'course_end_date' :
+				$end_date = llms_get_course_end_date($post_id);
+				llms_add_notice( sprintf( __( 'Course ended %s.', 'lifterlms' ), $end_date ) );
+				break;
+		}
+
 	}
 
 	public static function llms_get_redirect( $url ) {

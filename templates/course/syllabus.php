@@ -69,10 +69,18 @@ foreach($the_stuff as $key => $value) :
 			} else {
 				$complete = $check = '';
 			}
+
+			//set permalink
 			$permalink = 'javascript:void(0)';
-			if( llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
-				$permalink = get_permalink( $value->ID );
+			$page_restricted = llms_page_restricted($value->ID);
+
+			if ( ! $page_restricted['is_restricted'] ) {
+				
+			// 	if ( llms_is_user_enrolled(get_current_user_id(), $course->id ) && ! lesson_start_date_in_future(get_current_user_id(), $lesson->id) ) {
+			 		$permalink = get_permalink( $value->ID );	
+			// 	}
 			}
+			
 
 			echo '
 				<div class="llms-lesson-preview' . $complete . '">

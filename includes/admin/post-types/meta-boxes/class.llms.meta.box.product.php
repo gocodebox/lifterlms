@@ -34,10 +34,12 @@ class LLMS_Meta_Box_Product {
 		$sale_price_dates_from 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_from', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
 		$sale_price_dates_to 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_to', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
 
-		$recurring_enabled  = get_post_meta( $thepostid, '_llms_recurring_enabled', true );
-		$subscription_price = get_post_meta( $thepostid, '_llms_subscription_price', true );
-		$billing_period 	= get_post_meta( $thepostid, '_llms_billing_period', true );
-		$billing_freq 		= get_post_meta( $thepostid, '_llms_billing_freq', true );
+		$recurring_enabled  		= get_post_meta( $thepostid, '_llms_recurring_enabled', true );
+		$subscription_price 		= get_post_meta( $thepostid, '_llms_subscription_price', true );
+		$subscription_first_payment = get_post_meta( $thepostid, '_llms_subscription_first_payment', true );
+		$billing_period 			= get_post_meta( $thepostid, '_llms_billing_period', true );
+		$billing_freq 				= get_post_meta( $thepostid, '_llms_billing_freq', true );
+		$billing_cycle				= get_post_meta( $thepostid, '_llms_billing_cycle', true );
 
 
 
@@ -119,11 +121,17 @@ class LLMS_Meta_Box_Product {
 							</td>
 						</tr>
 
-			
+						<tr>
+							<th><label for="_llms_subscription_first_payment">Initial Payment (<?php echo get_lifterlms_currency_symbol(); ?>)</label></th>
+							<td>
+								<input type="text" name="_llms_subscription_first_payment" id="_llms_subscription_first_payment" value="<?php echo $subscription_first_payment ?>">
+								<br><span class="description">Initial payment charged on purchase.</span>
+							</td>
+						</tr>
+
 						<tr>
 							<th><label>Billing Period</label></th>
 							<td>
-								/ 
 								<select id="_llms_billing_period" name="_llms_billing_period">
 									<option value="" selected disabled>Select a period...</option>
 									<?php foreach ( $billing_periods as $key => $value  ) : 
@@ -140,11 +148,17 @@ class LLMS_Meta_Box_Product {
 							</td>
 						</tr>
 						<tr>
+							<th><label>Billing Cycles</label></th>
+							<td>
+								<input type="text" name="_llms_billing_cycle" id="_llms_billing_cycle" value="<?php echo $billing_cycle; ?>">
+								<br><span class="description">Enter 0 to charge indefinately. IE: 12 would bill for 12 months.</span>
+							</td>
+						</tr>
+						<tr>
 							<th><label>Billing Frequency</label></th>
 							<td>
-
 								<input type="text" name="_llms_billing_freq" id="_llms_billing_freq" value="<?php echo $billing_freq; ?>">
-								<br><span class="description">Enter 0 to charge indefinately.</span>
+								<br><span class="description">Frequency of payments. IE if month is set for period and frequency is 2 you will bill every 2 months.</span>
 							</td>
 						</tr>
 
@@ -212,27 +226,34 @@ class LLMS_Meta_Box_Product {
 
 		//Update Recurring Payments
 		if ( isset($_POST['_llms_recurring_enabled'])
-			&& isset($_POST['_llms_subscription_price'])
+			&& !empty($_POST['_llms_subscription_price'])
 			&& isset($_POST['_llms_billing_period'])
-			&& isset($_POST['_llms_billing_freq'])) {
+			&& !empty($_POST['_llms_billing_freq'])
+			&& !empty($_POST['_llms_billing_cycle']))  {
 			LLMS_log('everything is set');
 
-			$recurring_enabled 	= llms_clean( $_POST['_llms_recurring_enabled'] );
-			$subscription_price = llms_clean( $_POST['_llms_subscription_price'] );
-			$billing_period 	= llms_clean( $_POST['_llms_billing_period'] );
-			$billing_freq 		= llms_clean( $_POST['_llms_billing_freq'] );
+			$recurring_enabled 			= llms_clean( $_POST['_llms_recurring_enabled'] );
+			$subscription_price 		= llms_clean( $_POST['_llms_subscription_price'] );
+			$subscription_first_payment = (!$_POST['_llms_subscription_first_payment'] == '' ? llms_clean( $_POST['_llms_subscription_first_payment']) : '0' );
+			$billing_period 			= llms_clean( $_POST['_llms_billing_period'] );
+			$billing_freq 				= llms_clean( $_POST['_llms_billing_freq'] );
+			$billing_cycle				= llms_clean( $_POST['_llms_billing_cycle'] );
 
 			update_post_meta( $post_id, '_llms_recurring_enabled', $recurring_enabled );
 			update_post_meta( $post_id, '_llms_subscription_price', llms_format_decimal( $subscription_price ) );
+			update_post_meta( $post_id, '_llms_subscription_first_payment', llms_format_decimal( $subscription_first_payment ) );
 			update_post_meta( $post_id, '_llms_billing_period', $billing_period );
 			update_post_meta( $post_id, '_llms_billing_freq', $billing_freq );
+			update_post_meta( $post_id, '_llms_billing_cycle', $billing_cycle );
 
 		}
 		else {
 			update_post_meta( $post_id, '_llms_recurring_enabled', '' );
 			update_post_meta( $post_id, '_llms_subscription_price', '' );
+			update_post_meta( $post_id, '_llms_subscription_first_payment', '' );
 			update_post_meta( $post_id, '_llms_billing_period', '' );
 			update_post_meta( $post_id, '_llms_billing_freq', '' );
+			update_post_meta( $post_id, '_llms_billing_cycle', '' );
 		}
 
 

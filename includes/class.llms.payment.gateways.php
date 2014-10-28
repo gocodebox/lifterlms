@@ -31,7 +31,6 @@ class LLMS_Payment_Gateways {
 	}
 
     function payment_gateways() {
-
 		$_available_gateways = array();
 
 		if ( sizeof( $this->payment_gateways ) > 0 )
@@ -42,7 +41,6 @@ class LLMS_Payment_Gateways {
 	}
 
 	function init() {
-
     	$load_gateways = apply_filters( 'lifterlms_payment_gateways', array(
 			'LLMS_Payment_Gateway_Paypal'
     	) );

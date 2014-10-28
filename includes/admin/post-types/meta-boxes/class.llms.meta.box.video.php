@@ -23,6 +23,7 @@ class LLMS_Meta_Box_Video {
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
 		$video_embed = get_post_meta( $post->ID, '_video_embed', true );
+		$audio_embed = get_post_meta( $post->ID, '_audio_embed', true );
 		?>
 
 		<table class="form-table">
@@ -72,11 +73,12 @@ class LLMS_Meta_Box_Video {
 		global $wpdb;
 
 		if ( isset( $_POST['_video_embed'] ) ) {
-
 			$video = ( llms_clean( $_POST['_video_embed']  ) );
-
-			update_post_meta( $post_id, '_video_embed', ( $video === '' ) ? '' : $video );
-			
+			update_post_meta( $post_id, '_video_embed', ( $video === '' ) ? '' : $video );		
+		}
+		if ( isset( $_POST['_audio_embed'] ) ) {
+			$audio = ( llms_clean( $_POST['_audio_embed']  ) );
+			update_post_meta( $post_id, '_audio_embed', ( $audio === '' ) ? '' : $audio );		
 		}
 	}
 

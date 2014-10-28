@@ -16,6 +16,7 @@ include( 'functions/llms.functions.course.php' );
 include( 'functions/llms.functions.notice.php' );
 include( 'functions/llms.functions.page.php' );
 include( 'functions/llms.functions.person.php' );
+include( 'functions/llms.functions.access.php' );
 
 /**
  * Get attribute taxonomies.

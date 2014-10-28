@@ -22,6 +22,7 @@ if ( ! class_exists( 'LLMS_Install' ) ) :
 
 class LLMS_Install {
 
+	public $version = '1.0';
 	protected $min_wp_version = '3.5';
 	public $current_wp_version;
 
@@ -163,6 +164,11 @@ class LLMS_Install {
 	}
 
 	public function create_options() {
+
+		//store installed version
+		add_option('lifterlms_current_version', $this->version);
+		add_option('lifterlms_is_active', '');
+		add_option('lifterlms_update_key', '');
 		
 		include_once( 'admin/class.llms.admin.settings.php' );
 

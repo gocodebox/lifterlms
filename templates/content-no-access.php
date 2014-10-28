@@ -8,7 +8,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-
+global $post;
 ?>
 
 <main class="content llms-content" role="main">
@@ -21,9 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 			<?php
 				do_action('before_lifterlms_no_access_main_content');
 
-				do_action('after_lifterlms_no_access_main_content');
-
 				do_action( 'lifterlms_no_access_main_content' );
+
+				do_action('after_lifterlms_no_access_main_content');
 			?>
 
 		</div>
