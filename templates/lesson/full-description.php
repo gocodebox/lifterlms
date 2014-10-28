@@ -10,8 +10,7 @@ global $post, $course, $lesson;
 
 ?>
 <div class="llms-full-description">
-	
-	<?php echo apply_filters( 'lifterlms_full_description', $post->post_content ) ?>
+	<?php echo apply_filters( 'the_content', apply_filters( 'lifterlms_full_description', $post->post_content ) ) ?>
 	<h2><?php 
 	$parent_course = get_post( $lesson->get_parent_course() );
 	?></h2>

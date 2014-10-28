@@ -10,7 +10,7 @@ global $post, $course;
 
 ?>
 <div class="llms-full-description">
-	hello
-	<?php echo apply_filters( 'lifterlms_full_description', $post->post_content ) ?>
+	
+	<?php echo apply_filters( 'the_content', apply_filters( 'lifterlms_full_description', do_shortcode( $post->post_content ) ) ); ?>
 
 </div>
