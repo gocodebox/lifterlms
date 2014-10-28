@@ -196,8 +196,8 @@ LLMS_log($lesson_id);
 		global $wpdb;
 
 
-
-		if ( !empty(get_option( 'lifterlms_gateways_paypal_enabled', '') ) ) {
+		$paypal_enabled = get_option( 'lifterlms_gateways_paypal_enabled', '');
+		if ( !empty( $paypal_enabled ) ) {
 			if ( ! isset($_REQUEST['token']) ) {
 				return;
 			}
