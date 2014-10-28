@@ -152,7 +152,8 @@ function parent_page_restricted_by_membership($post_id) {
 	
 
 function outstanding_prerequisite_exists($user_id, $post_id) {
-	//global $post;
+	$user = new LLMS_Person;
+	LLMS_log( $user);
 	$result = false;
 	$post = get_post( $post_id );
 
@@ -168,44 +169,29 @@ function outstanding_prerequisite_exists($user_id, $post_id) {
 
 		$current_post = new LLMS_Lesson($post->ID);
 
-		$result = find_prerequisite($user_id, $current_post);
-
-		if (!$result) {
-
 		$parent_course_id = $current_post->get_parent_course();
 
 		$parent_course = new LLMS_Course($parent_course_id);
 
 		$result = find_prerequisite($user_id, $parent_course );
-	}
 
-		//if (! $result) {
-			
-		//}
+		if (! $result) {
+			$result = find_prerequisite($user_id, $current_post);
+		}
 
 	}
-	LLMS_log('result');
-	LLMS_log($result);
+	
 	return $result;	
 
 }
 
 
 function find_prerequisite( $user_id, $post ) {
-	$user = new LLMS_Person();
-LLMS_log('find prerequisit');
-LLMS_log($post);
+	$user = new LLMS_Person;
 
-
-// if ($post->post_type == 'course') {
-// 	$lesson = new LLMS_Course($post->ID);
-// }
-//if ($post->post_type == 'lesson') {
 	$lesson = new LLMS_Lesson($post->id);
 	$p = $lesson->get_prerequisite();
-//}
 
-LLMS_log($lesson );
 	$prerequisite_exists = false;
 
 	if ($prerequisite_id = $lesson->get_prerequisite()) {
@@ -214,7 +200,7 @@ LLMS_log($lesson );
 		$prerequisite_exists = true;
 
 		$prerequisite = get_post( $prerequisite_id );
-		$user_postmetas = $user->get_user_postmeta_data( $user->ID, $prerequisite->ID );
+		$user_postmetas = $user->get_user_postmeta_data( $user_id, $prerequisite->ID );
 
 		if ( isset($user_postmetas) ) {
 	
@@ -225,30 +211,43 @@ LLMS_log($lesson );
 				}
 			}
 		}
-}
-// if ($prerequisite_exists) {
-// 		do_action('lifterlms_content_restricted_by_prerequisite', $prerequisite);
-// 	}
+	}
+
 	return $prerequisite_exists;
 
 }
 
 function llms_get_prerequisite($user_id, $post_id) {
-	$user = new LLMS_Person();
+	$user = new LLMS_Person;
 	$post = get_post( $post_id );
-	if ($post->post_type = 'course') {
-		$post_obj = new LLMS_Course($post->ID);
-	}
-	elseif ($post->post_type = 'lesson') {
-		$post_obj = new LLMS_Lesson($post->ID);
-	}
-	$prerequisite_id = $post_obj->get_prerequisite();
 
-	$prerequisite = get_post( $prerequisite_id );
-	$user_postmetas = $user->get_user_postmeta_data( $user_id, $prerequisite_id );
+	if ( $post->post_type == 'course' ) {
+
+
+		$current_post = new LLMS_Course($post->ID);
+
+		$result = find_prerequisite($user_id, $current_post);
+
+	}
+	if ( $post->post_type == 'lesson' ) {
+
+		$current_post = new LLMS_Lesson($post->ID);
+
+		$parent_course_id = $current_post->get_parent_course();
+
+		$parent_course = new LLMS_Course($parent_course_id);
+		$prerequisite_id = $parent_course->get_prerequisite();
+		$prerequisite = get_post( $prerequisite_id );
+
+		if ( empty($prerequisite_id) ) {
+			$prerequisite_id = $current_post->get_prerequisite();
+			$prerequisite = get_post( $prerequisite_id);
+		}
+	}
 
 	return $prerequisite;
 }
+
 
 function llms_get_course_start_date($post_id) {
 	$post = get_post($post_id);
@@ -282,10 +281,7 @@ function course_start_date_in_future($post_id) {
 		}
 
 	}
-	// if ($course_in_future) {
-	// 	$start_date_formatted = date('M d, Y', $start_date);
-	// 	do_action('lifterlms_content_restricted_by_start_date', $start_date_formatted);
-	// }
+
 	return $course_in_future;
 
 }
