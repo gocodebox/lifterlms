@@ -285,9 +285,9 @@ LLMS_log($lesson_id);
 		//REFACTOR wtf no idea how this is actually working!!
 		$order->user_id     	= (int) get_current_user_id();
 		$current_user 			= get_user_by( 'id', $order->user_id );
-		
-		if ( $order->user_id <= 0 || $order->total  < 0 || $order->payment_option  == '') {
-			LLMS_log('sdfdsfsadfdsafdas');
+	
+		if ( $order->user_id <= 0 ) {
+
 			return;
 		}
 
