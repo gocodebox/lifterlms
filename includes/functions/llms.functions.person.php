@@ -147,16 +147,18 @@ function llms_membership_settings( $user ) {
 				</th>
 				<td>
 					<?php
+					$checked = '';
 					foreach ( $membership_levels as $level  ) : 
-
-						if( in_array($level->ID, $my_membership_levels) ) {
-							$checked = 'checked ="checked"';
+						if($my_membership_levels) {
+							if( in_array($level->ID, $my_membership_levels) ) {
+								$checked = 'checked ="checked"';
+							}
+							else {
+								$checked = '';
+							}
 						}
-						else {
-							$checked = '';
-						}
-						echo '<input type="checkbox" name="llms_level[]" ' . $checked . ' value="' . $level->ID . '"/>';
-						echo '<label for="llms_level">' . $level->post_title . '</label></br>';
+							echo '<input type="checkbox" name="llms_level[]" ' . $checked . ' value="' . $level->ID . '"/>';
+							echo '<label for="llms_level">' . $level->post_title . '</label></br>';
 						
 					endforeach; 
 					?>

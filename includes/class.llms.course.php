@@ -283,7 +283,7 @@ class LLMS_Course {
 		$array  = array ();
 
 		$syllabus = $this->get_syllabus();
-
+if($syllabus) {
 		foreach($syllabus as $key => $value ) :
 			if($syllabus[$key]['lessons']) {
 			foreach ($syllabus[$key]['lessons'] as $keys) :
@@ -293,7 +293,7 @@ class LLMS_Course {
 			endforeach;
 }
 		endforeach;
-
+}
 		return $array;
 
 	}

@@ -123,23 +123,44 @@ class LLMS_Order {
 			update_post_meta($order_post_id,'_llms_order_billing_freq', $order->billing_freq);
 			update_post_meta($order_post_id,'_llms_order_billing_start_date', $order->billing_start_date);
 		}
-										
-		$user_metadatas = array(
-			'_start_date' => 'yes',
-			'_status' => 'Enrolled',
-		);
+		
+		
+		$post_obj = get_post($order->product_id);
 
-		foreach ($user_metadatas as $key => $value) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-				array( 
-					'user_id' 			=> $order->user_id,
-					'post_id' 			=> $order->product_id,
-					'meta_key'			=> $key,
-					'meta_value'		=> $value,
-					'updated_date'		=> current_time('mysql'),
-				)
+		//enroll user in course
+		if ($post_obj->post_type == 'course') {								
+			$user_metadatas = array(
+				'_start_date' => 'yes',
+				'_status' => 'Enrolled',
 			);
+
+			foreach ($user_metadatas as $key => $value) {
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+					array( 
+						'user_id' 			=> $order->user_id,
+						'post_id' 			=> $order->product_id,
+						'meta_key'			=> $key,
+						'meta_value'		=> $value,
+						'updated_date'		=> current_time('mysql'),
+					)
+				);
+			}
 		}
+
+		//add membership level to user
+		if ($post_obj->post_type == 'llms_membership') {	
+			$membership_levels = get_user_meta($order->user_id, '_llms_restricted_levels', true);
+			if (! empty($membership_levels)) {
+				array_push($membership_levels, $order->product_id);
+			}
+			else {
+				$membership_levels = array();
+				array_push($membership_levels, $order->product_id);
+			}
+			
+			update_usermeta( $order->user_id, '_llms_restricted_levels', $membership_levels );
+		}
+
 	return $order_post_id;
 	}
 
