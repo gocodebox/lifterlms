@@ -696,7 +696,7 @@ class LLMS_Frontend_Forms {
 						if (( $single_price  > 0 || $rec_price > 0) && $course_status != 'Enrolled') {
 						
 							$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
-							$checkout_redirect = add_query_arg( 'course-id', $product_id, $checkout_url );
+							$checkout_redirect = add_query_arg( 'product-id', $product_id, $checkout_url );
 
 							wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect ) );
 							exit;
@@ -909,14 +909,14 @@ class LLMS_Frontend_Forms {
 				if ( $single_price  > 0 || $rec_price > 0) {
 				
 					$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
-					$checkout_redirect = add_query_arg( 'course-id', $product_id, $checkout_url );
+					$checkout_redirect = add_query_arg( 'product-id', $product_id, $checkout_url );
 
 					wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect ) );
 					exit;
 				}
 
 				else {
-					$checkout_url = get_permalink($course->post->ID);
+					$checkout_url = get_permalink($product_id);
 
 					wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_url ) );
 					exit;

@@ -225,8 +225,7 @@ class LLMS_Meta_Box_Product {
 		if ( isset($_POST['_llms_recurring_enabled'])
 			&& !empty($_POST['_llms_subscription_price'])
 			&& isset($_POST['_llms_billing_period'])
-			&& !empty($_POST['_llms_billing_freq'])
-			&& !empty($_POST['_llms_billing_cycle']))  {
+			&& !empty($_POST['_llms_billing_freq']))  {
 
 			$recurring_enabled 			= llms_clean( $_POST['_llms_recurring_enabled'] );
 			$subscription_price 		= llms_clean( $_POST['_llms_subscription_price'] );

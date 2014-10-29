@@ -191,7 +191,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 'product_price' => $order->first_payment,
                 //'item_category' => 'Digital',
                 'billing_type' => 'RecurringPayments',
-                'billing_agreement_desc' => $order->product_title,
+                'billing_agreement_desc' => trim($order->product_title),
                 'profile_start_date' => $order->billing_start_date,
                 'billing_period' => $order->billing_period,
                 'billing_freq' => $order->billing_freq,
@@ -226,7 +226,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     }
 
     public function complete_payment($request, $order) {
-
+LLMS_log($order);
         $paypal = new LLMS_Payment_Gateway_Paypal ();
 
         if ($order->payment_option == 'recurring' ){
@@ -249,11 +249,11 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 }
             }
 
-            if ($init_response['ACK'] == 'Success' || $request['AMT'] <= 0) {
+           // if ($init_response['ACK'] == 'Success' || $request['AMT'] <= 0) {
 
                 $param = array(
                     'profile_start_date' => strtotime($order->billing_start_date),
-                    'description' => $order->product_title,
+                    'description' => trim($order->product_title),
                     'billing_period' => $billing_period,
                     'billing_freq' => $order->billing_freq,
                     'recurring_amount' => $order->total,
@@ -267,7 +267,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 if ($paypal->createRecurringPaymentsProfile($param)) {
                     $response = $paypal->getResponse();
                 }
-            }
+            //}
 
         }
 
@@ -443,7 +443,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function getResponse() {
         if ($this->full_response) {
             parse_str(urldecode($this->full_response['body']), $output);
-
+LLMS_log($output);
             return $output;
         }
         return false;
