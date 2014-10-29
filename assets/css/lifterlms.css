@@ -1,4 +1,4 @@
-.llms-lesson-preview .llms-lesson-link:after, .llms-course-navigation:after {
+.llms-lesson-preview .llms-lesson-link:after {
   content: "";
   display: table;
   clear: both;
@@ -149,26 +149,27 @@
   left: 15px;
 }
 .llms-lesson-preview .llms-lesson-title {
-  float: left;
+  padding-right: 60px;
   margin-bottom: .25em;
 }
 .llms-lesson-preview .llms-lesson-counter {
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .llms-lesson-preview .llms-lesson-excerpt {
   clear: both;
 }
 
 .llms-course-navigation {
+  text-align: center;
   padding: 30px 0;
 }
-.llms-course-navigation .prev-lesson {
-  float: left;
-  width: 40%;
-}
-.llms-course-navigation .next-lesson {
-  float: right;
-  width: 40%;
+.llms-course-navigation .prev-lesson,
+.llms-course-navigation .next-lesson,
+.llms-course-navigation .parent-course {
+  display: inline-block;
+  width: 28%;
 }
 
 .clear {

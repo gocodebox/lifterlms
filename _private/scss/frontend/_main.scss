@@ -152,12 +152,12 @@
 	}
 
 	.llms-lesson-title {
-		float: left;
+		padding-right: 60px;
 		margin-bottom: .25em;
 	}
 
 	.llms-lesson-counter {
-		float: right;
+		@include absolute(top right);
 	}
 
 	.llms-lesson-excerpt {
@@ -173,13 +173,17 @@
 // Course Navigation
 //
 .llms-course-navigation {
-	@extend %cf;
+	// @extend %cf;
 
+	text-align: center;
 	padding: 30px 0;
 
-	.prev-lesson { float: left; width: 40%; }
-
-	.next-lesson { float: right; width: 40%; }
+	.prev-lesson,
+	.next-lesson,
+	.parent-course { 
+		display: inline-block;
+		width: 28%;
+	}
 }
 
 
