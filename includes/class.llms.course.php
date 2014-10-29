@@ -411,7 +411,7 @@ class LLMS_Course {
 
 		elseif ( $this->get_price() == 0 ) {
 
-			$price = $this->list_price_html_as_free();
+			$price = $this->set_price_html_as_free();
 
 		}
 
