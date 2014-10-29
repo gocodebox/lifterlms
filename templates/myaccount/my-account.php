@@ -42,4 +42,6 @@ llms_print_notices(); ?>
 
 <?php llms_get_template( 'myaccount/my-certificates.php' ); ?>
 
+<?php llms_get_template( 'myaccount/my-achievements.php' ); ?>
+
 <?php do_action( 'lifterlms_after_my_account' ); ?>

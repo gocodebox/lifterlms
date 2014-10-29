@@ -157,7 +157,6 @@ class LLMS_Meta_Box_Course_Syllabus {
 				        	else {
 				            	echo "<option class='difficulty-option' value='" . $difficulty->slug . "'>" . $difficulty->name . "</option>\n"; 
 				        	}
-				        	LLMS_log(get_the_id());
 				    	}
 				   		?>
 					</select>  
@@ -169,7 +168,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 	
     <h2><?php _e('Create Course Syllabus', 'lifterlms'); ?></h2>
     <a href="#" class="button" id="addNewSection"/>Add a new Section</a>
-    <div id="spinner"><img id="loading" alt="WordPress loading spinner" src="<?php echo admin_url('wp-admin/images/spinner.gif'); ?>"></div>		
+    <div id="spinner"><img id="loading" alt="WordPress loading spinner" src="<?php echo admin_url('images/spinner.gif'); ?>"></div>		
     <div id="syllabus" data-post_id="<?php echo $post->ID ?>"> 
 
 	<?php 
@@ -225,7 +224,6 @@ class LLMS_Meta_Box_Course_Syllabus {
 			update_post_meta( $post_id, '_course_dates_from', strtotime( $date_from ) );
 
 		else
-			//LLMS_log('sweet!');
 			update_post_meta( $post_id, '_course_dates_from', '' );
 
 		if ( $date_to )

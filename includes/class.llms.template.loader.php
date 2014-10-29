@@ -32,7 +32,7 @@ class LLMS_Template_Loader {
 
 		$find = array( 'lifterlms.php' );
 		$file = '';
-LLMS_log('template loader called');
+
 
 		$page_restricted = llms_page_restricted(get_the_id());
 

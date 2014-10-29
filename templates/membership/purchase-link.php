@@ -8,8 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $product;
 
-
-
+$single_price = $product->get_single_price();
+$rec_price = $product->get_recurring_price();
 
 
 ?>
@@ -21,7 +21,6 @@ global $post, $product;
 
 		if ( ! empty( $message ) ) {
 		}
-		LLMS_log(get_the_ID());
 
 		$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
 
@@ -35,7 +34,7 @@ global $post, $product;
 	}
 	elseif ( ! llms_is_user_member( get_current_user_id(), $product->id ) ) {
 
-		if ( $product->get_price() > 0 ) {
+		if ( $single_price  > 0 || $rec_price > 0) {
 		?>
 			<a href="<?php echo $product->get_checkout_url(); ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Sign Up', 'lifterlms' ); ?></a>
 		<?php

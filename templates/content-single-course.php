@@ -13,8 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <main class="content llms-content" role="main">
 	<div id="course-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-
+		<?php llms_print_notices(); ?>
 		<div class="llms-summary">
+
 
 			<?php
 

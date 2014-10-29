@@ -10,10 +10,11 @@ global $post, $course;
 
 $course_not_class = get_post_custom($post->ID);
 
+if ( !$course->get_audio() ) return;
 ?>
 
-<div class="llms-video-wrapper">
-	<div class="center-video">
+<div class="llms-audio-wrapper">
+	<div class="center-audio">
 		<?php echo $course->get_audio(); ?>
 	</div>
 

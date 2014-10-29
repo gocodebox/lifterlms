@@ -146,12 +146,13 @@ class LLMS_Lesson {
 
 		foreach( $syllabus as $key => $value ) {
 			$sections[$value['section_id']] = $value['lessons'];
-			
+			if($value['lessons']) {
 			foreach($value['lessons'] as $keys => $values ) {
 				if ($this->id == $values['lesson_id']) {
 					$parent_section = $value['section_id'];
 				}
 			}
+		}
 			
 		}
 
@@ -258,7 +259,6 @@ class LLMS_Lesson {
 
 		foreach( $user_postmetas as $key => $value ) {
 
-//llms_log($user_postmetas['_is_complete']->post_id);
 			if ( isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $this->id) {
 				return true;
 			}

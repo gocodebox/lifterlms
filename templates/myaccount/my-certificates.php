@@ -5,15 +5,12 @@ $meta_key = '_certificate_earned';
 
 $user = new LLMS_Person;
 $certificates = $user->get_user_postmetas_by_key( get_current_user_id(), $meta_key );
-LLMS_log(get_current_user_id());
-LLMS_log($certificates);
-
 
 ?>
 
 <div class="llms-my-certificates">
-	<?php echo  '<h3>' .__( 'My Certificates', 'lifterlms' ) . '</h3>'; ?>
-
+	<?php echo  '<h3>' .__( 'My Certificates', 'lifterlms' ) . '</h3>'; 
+	if ($certificates) { ?>
 	<ul class="listing-certificates">
 	<?php foreach ( $certificates as $key => $value ) : ?>
 	
@@ -36,7 +33,14 @@ LLMS_log($certificates);
 	<?php endforeach; ?>
 
 	</ul>
-
+	<?php 
+	}
+	else {
+		echo  '<p>' .__( 'Complete courses and lessons to earn certificates.', 'lifterlms' ) . '</p>'; 
+	}
+	?>
 </div>
+
+
 
 

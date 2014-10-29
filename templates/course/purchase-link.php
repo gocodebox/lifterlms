@@ -6,7 +6,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-global $post, $course;
+global $post, $course, $product;
 
 $user = new LLMS_Person;
 $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
@@ -19,6 +19,10 @@ if ( $user_postmetas  ) {
 	}
 }
 
+$single_price = $product->get_single_price();
+$rec_price = $product->get_recurring_price();
+
+
 
 ?>
 <div class="llms-purchase-link-wrapper">
@@ -29,7 +33,6 @@ if ( $user_postmetas  ) {
 
 		if ( ! empty( $message ) ) {
 		}
-		LLMS_log(get_the_ID());
 
 		$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
 
@@ -43,7 +46,7 @@ if ( $user_postmetas  ) {
 	}
 	elseif ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
 
-		if ( $course->get_price() > 0 ) {
+		if ( $single_price  > 0 || $rec_price > 0) {
 		?>
 			<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
 		<?php

@@ -30,11 +30,11 @@ global $wpdb;
 
 		<p>
 			<label for="username"><?php _e( 'Username or email address', 'lifterlms' ); ?> <span class="required">*</span></label>
-			<input type="text" class="input-text" name="username" id="username" value="<?php if ( ! empty( $_POST['username'] ) ) echo esc_attr( $_POST['username'] ); ?>" />
+			<input type="text" class="input-text llms-input-text" name="username" id="username" value="<?php if ( ! empty( $_POST['username'] ) ) echo esc_attr( $_POST['username'] ); ?>" />
 		</p>
 		<p>
 			<label for="password"><?php _e( 'Password', 'lifterlms' ); ?> <span class="required">*</span></label>
-			<input class="input-text" type="password" name="password" id="password" />
+			<input class="input-text llms-input-text" type="password" name="password" id="password" />
 		</p>
 
 		<?php do_action( 'lifterlms_login_form' ); ?>

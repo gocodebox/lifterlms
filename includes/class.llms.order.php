@@ -31,9 +31,6 @@ class LLMS_Order {
 	public function process_order($order) {
 		global $wpdb;
 
-		LLMS_log('process_order($order) begin');
-		LLMS_log($order);
-		LLMS_log('process_order($order) end');
 
 		if (isset($order) ) {
 			$order = $order;
@@ -68,9 +65,6 @@ class LLMS_Order {
 	public function update_order($order) {
 		global $wpdb;
 
-		LLMS_log('update_order($order) begin');
-		LLMS_log($order);
-		LLMS_log('update_order($order) end');
 
 		if (isset($order) ) {
 			$order = $order;
@@ -106,7 +100,7 @@ class LLMS_Order {
 				'product_id' 		=> $order->product_id, 
 			)
 		);
-		//llms_log($order);
+	
 		//Assign user to the purchased course post
 		//update_user_meta($order->user_id,'_llms_student', $order->product_id);
 
@@ -118,25 +112,57 @@ class LLMS_Order {
 		update_post_meta($order_post_id,'_llms_product_sku', $order->product_sku);
 		update_post_meta($order_post_id,'_llms_order_currency', $order->currency);
 		update_post_meta($order_post_id,'_llms_order_product_id', $order->product_id);
+		update_post_meta($order_post_id,'_llms_order_date', current_time('mysql'));
+		update_post_meta($order_post_id,'_llms_order_type', $order->payment_option);
 
-		$user_metadatas = array(
-			'_start_date' => 'yes',
-			'_status' => 'Enrolled',
-			'_progress' => '0'
-		);
+		if ($order->payment_option == 'recurring') {
+			update_post_meta($order_post_id,'_llms_order_recurring_price', $order->product_price);
+			update_post_meta($order_post_id,'_llms_order_first_payment', $order->first_payment);
+			update_post_meta($order_post_id,'_llms_order_billing_period', $order->billing_period);
+			update_post_meta($order_post_id,'_llms_order_billing_freq', $order->billing_cycle);
+			update_post_meta($order_post_id,'_llms_order_billing_freq', $order->billing_freq);
+			update_post_meta($order_post_id,'_llms_order_billing_start_date', $order->billing_start_date);
+		}
+		
+		
+		$post_obj = get_post($order->product_id);
 
-		foreach ($user_metadatas as $key => $value) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-				array( 
-					'user_id' 			=> $order->user_id,
-					'post_id' 			=> $order->product_id,
-					'meta_key'			=> $key,
-					'meta_value'		=> $value,
-					'updated_date'		=> current_time('mysql'),
-				)
+		//enroll user in course
+		if ($post_obj->post_type == 'course') {								
+			$user_metadatas = array(
+				'_start_date' => 'yes',
+				'_status' => 'Enrolled',
 			);
+
+			foreach ($user_metadatas as $key => $value) {
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+					array( 
+						'user_id' 			=> $order->user_id,
+						'post_id' 			=> $order->product_id,
+						'meta_key'			=> $key,
+						'meta_value'		=> $value,
+						'updated_date'		=> current_time('mysql'),
+					)
+				);
+			}
 		}
 
+		//add membership level to user
+		if ($post_obj->post_type == 'llms_membership') {	
+			$membership_levels = get_user_meta($order->user_id, '_llms_restricted_levels', true);
+			if (! empty($membership_levels)) {
+				array_push($membership_levels, $order->product_id);
+			}
+			else {
+				$membership_levels = array();
+				array_push($membership_levels, $order->product_id);
+			}
+			
+			update_usermeta( $order->user_id, '_llms_restricted_levels', $membership_levels );
+		}
+
+	return $order_post_id;
 	}
+
 
 }

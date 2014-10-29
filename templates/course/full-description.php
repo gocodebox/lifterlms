@@ -14,3 +14,4 @@ global $post, $course;
 	<?php echo apply_filters( 'the_content', apply_filters( 'lifterlms_full_description', do_shortcode( $post->post_content ) ) ); ?>
 
 </div>
+<div class="clear"></div>

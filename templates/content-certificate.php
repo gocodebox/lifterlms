@@ -30,8 +30,6 @@ else {
 	$certimage_width = $certimage[1];
 	$certimage_height = $certimage[2];
 	$certimage = $certimage[0];
-	
-
 }
 
 $certificate = new LLMS_Certificate;

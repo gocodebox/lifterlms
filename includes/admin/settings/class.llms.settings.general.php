@@ -70,32 +70,32 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			),
 
 
-			array(
-				'title' => __( 'Course Alias', 'lifterlms' ),
-				'desc' 		=> __( 'Course Alias', 'lifterlms' ),
-				'id' 		=> 'lifterlms_course_alias',
-				'type' 		=> 'text',
-				'default'	=> 'Course',
-				'desc_tip'	=> true,
-			),
+			// array(
+			// 	'title' => __( 'Course Alias', 'lifterlms' ),
+			// 	'desc' 		=> __( 'Course Alias', 'lifterlms' ),
+			// 	'id' 		=> 'lifterlms_course_alias',
+			// 	'type' 		=> 'text',
+			// 	'default'	=> 'Course',
+			// 	'desc_tip'	=> true,
+			// ),
 
-			array(
-				'title' => __( 'Section Alias', 'lifterlms' ),
-				'desc' 		=> __( 'Section Alias', 'lifterlms' ),
-				'id' 		=> 'lifterlms_section_alias',
-				'type' 		=> 'text',
-				'default'	=> 'Section',
-				'desc_tip'	=> true,
-			),
+			// array(
+			// 	'title' => __( 'Section Alias', 'lifterlms' ),
+			// 	'desc' 		=> __( 'Section Alias', 'lifterlms' ),
+			// 	'id' 		=> 'lifterlms_section_alias',
+			// 	'type' 		=> 'text',
+			// 	'default'	=> 'Section',
+			// 	'desc_tip'	=> true,
+			// ),
 
-			array(
-				'title' => __( 'Lesson Alias', 'lifterlms' ),
-				'desc' 		=> __( 'Lesson Alias', 'lifterlms' ),
-				'id' 		=> 'lifterlms_lesson_alias',
-				'type' 		=> 'text',
-				'default'	=> 'Lesson',
-				'desc_tip'	=> true,
-			),
+			// array(
+			// 	'title' => __( 'Lesson Alias', 'lifterlms' ),
+			// 	'desc' 		=> __( 'Lesson Alias', 'lifterlms' ),
+			// 	'id' 		=> 'lifterlms_lesson_alias',
+			// 	'type' 		=> 'text',
+			// 	'default'	=> 'Lesson',
+			// 	'desc_tip'	=> true,
+			// ),
 
 			array( 'type' => 'sectionend', 'id' => 'script_styling_options' ),
 

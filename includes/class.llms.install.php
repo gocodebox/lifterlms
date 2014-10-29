@@ -127,7 +127,7 @@ class LLMS_Install {
 
 		$checkout_page = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'page',
-			'post_title' 	=> 'Purchase Course',
+			'post_title' 	=> 'Purchase',
 			'post_author' 	=> 1,
 			'post_status'   => 'publish',
 			'post_content'  => '[lifterlms_checkout]',
@@ -152,15 +152,17 @@ class LLMS_Install {
 		$new_user_email = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'llms_email',
 			'post_title'    => 'Welcome Email',
-			'post_content'  => '<h2><>Hey There {user_login},</span></h2>
+			'post_content'  => '<h2><>Hey there {user_login},</span></h2>
 								<p>Thanks for creating an account on {site_title}!</p>
 								Your username is <strong>{user_login}.</strong>
-								You can access your account to view your courses here: <a href="{site_url}">{site_title}</a>.',
+								You can access your account here: <a href="{site_url}">{site_title}</a>.',
 			'post_status'   => 'publish',
 			'post_author'   => 1,
 		) );
 
 		$new_user_email_id = wp_insert_post( $new_user_email, true );
+		update_post_meta($new_user_email_id,'_event_id', 'email_new_user');
+
 	}
 
 	public function create_options() {

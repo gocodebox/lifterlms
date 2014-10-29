@@ -118,7 +118,6 @@ class LLMS_Admin_Meta_Boxes {
 		$post_types = get_post_types( $args, $output, $operator ); 
 
 		foreach ( $post_types  as $post_type ) {
-			LLMS_log($post_type);
 			add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', $post_type, 'side', 'high' );
 
 
@@ -148,6 +147,7 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-membership-data', __( 'Membership Data', 'lifterlms' ), 'LLMS_Meta_Box_Product::output', 'llms_membership', 'normal', 'high' );
 		//add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', 'course', 'side', 'normal' );
 		//add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', 'course', 'side', 'normal' );
+		add_meta_box( 'lifterlms-order-general', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order::output', 'order', 'normal', 'high' );
 	}
 
 	/**
@@ -218,7 +218,6 @@ class LLMS_Admin_Meta_Boxes {
 				do_action( 'lifterlms_process_membership_access', $post_id, $post );
 			}
 			else{
-				LLMS_log('not a llms post type');
 				do_action( 'lifterlms_process_membership_access', $post_id, $post );
 			}
 		}

@@ -35,6 +35,23 @@ class LLMS_Meta_Box_Email_Settings {
 		$html .= '<p>' .  __( 'This is the heading for your email. It will display above the content.', 'lifterlms' ) . '</p>';
 
 		echo $html;
+
+		?>
+		<br/>
+		<p>
+		Use the text editor above to add content to your certificate. 
+		You can include any of the following merge fields to give the certificate a personal touch. 
+		</p>
+		<ul>
+		<li>{site_title}</li>
+		<li>{user_login}</li>
+		<li>{site_url}</li>
+		<li>{first_name}</li>
+		<li>{last_name}</li>
+		<li>{email_address}</li>
+		<li>{current_date}</li>
+		</ul>
+		<?php
 	}
 
 	public static function save( $post_id, $post ) {

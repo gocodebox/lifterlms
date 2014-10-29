@@ -5,5 +5,5 @@ global $course;
 ?>
 
 <?php if ( $length_html = $course->get_lesson_length() ) : ?>
-	<span class="llms-price"><?php echo $length_html; ?></span>
+	<span class="llms-length"><?php echo $length_html; ?></span>
 <?php endif; ?>

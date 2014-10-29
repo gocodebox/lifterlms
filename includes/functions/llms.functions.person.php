@@ -119,7 +119,6 @@ add_action( 'edit_user_profile', 'llms_membership_settings' );
 
     
 function llms_membership_settings( $user ) {
-	LLMS_log('llms_membership_settings is being called');
     // get the value of a single meta key
     $my_membership_levels = get_user_meta( $user->ID, '_llms_restricted_levels', true ); // $user contains WP_User object
 
@@ -148,16 +147,18 @@ function llms_membership_settings( $user ) {
 				</th>
 				<td>
 					<?php
+					$checked = '';
 					foreach ( $membership_levels as $level  ) : 
-						//LLMS_log($level);
-						if( in_array($level->ID, $my_membership_levels) ) {
-							$checked = 'checked ="checked"';
+						if($my_membership_levels) {
+							if( in_array($level->ID, $my_membership_levels) ) {
+								$checked = 'checked ="checked"';
+							}
+							else {
+								$checked = '';
+							}
 						}
-						else {
-							$checked = '';
-						}
-						echo '<input type="checkbox" name="llms_level[]" ' . $checked . ' value="' . $level->ID . '"/>';
-						echo '<label for="llms_level">' . $level->post_title . '</label></br>';
+							echo '<input type="checkbox" name="llms_level[]" ' . $checked . ' value="' . $level->ID . '"/>';
+							echo '<label for="llms_level">' . $level->post_title . '</label></br>';
 						
 					endforeach; 
 					?>
@@ -177,7 +178,7 @@ function llms_membership_settings_save( $user_id ) {
 	$membership_levels = array();
 
 	foreach( $_POST['llms_level'] as $value ) {
-		LLMS_log($value );
+
 		array_push($membership_levels, $value);
 	}
 	

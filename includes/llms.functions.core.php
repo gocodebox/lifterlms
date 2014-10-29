@@ -417,3 +417,23 @@ function add_query_var_product_id( $vars ){
   return $vars;
 }
 add_filter( 'query_vars', 'add_query_var_product_id' );
+
+
+function get_section_id($course_id, $lesson_id) {
+	
+	$course = new LLMS_Course($course_id);
+	$syllabus = $course->get_syllabus();
+		$sections = array();
+		$section;
+
+		foreach ($syllabus as $key => $value) {
+
+			$sections[$value['section_id']] = $value['lessons'];
+			foreach($value['lessons'] as $keys => $values) {
+				if ($values['lesson_id'] == $lesson_id) {
+					$section = $value['section_id'];
+				}
+			}
+		}
+		return $section;
+}

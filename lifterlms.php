@@ -233,6 +233,7 @@ final class LifterLMS {
 
 		$engagement_actions = array(
 			'lifterlms_lesson_completed',
+			'lifterlms_section_completed',
 			'lifterlms_course_completed',
 		);
 
@@ -245,14 +246,12 @@ final class LifterLMS {
 	}
 
 	public function send_transactional_email() {
-LLMS_log('lifterlms.php: send_transactional_email executed');
 		$this->mailer();
 		$args = func_get_args();
 		do_action_ref_array( current_filter() . '_notification', $args );
 	}
 
 	public function trigger_engagement() {
-		LLMS_log('trigger_engagement actually loaded');
 		$this->engagements();
 		$args = func_get_args();
 		do_action_ref_array( current_filter() . '_notification', $args );
@@ -313,6 +312,10 @@ LLMS_log('lifterlms.php: send_transactional_email executed');
 
 	public function certificates() {
 		return LLMS_Certificates::instance();
+	}
+
+	public function achievements() {
+		return LLMS_Achievements::instance();
 	}
 
 	/**

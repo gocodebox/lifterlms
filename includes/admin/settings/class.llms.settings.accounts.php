@@ -111,7 +111,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			array(
-				'desc'          => __( 'Allow users sign up for an account without purchasing a course.', 'lifterlms' ),
+				'desc'          => __( 'Allow users to register from the front end.', 'lifterlms' ),
 				'id'            => 'lifterlms_enable_myaccount_registration',
 				'default'       => 'yes',
 				'type'          => 'checkbox',

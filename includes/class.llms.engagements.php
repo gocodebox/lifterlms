@@ -23,9 +23,9 @@ class LLMS_Engagements {
 	 public function __construct() {
 		
 	 	$this->init();
-		LLMS_log('engagements init');
 
 		add_action( 'lifterlms_lesson_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
+		add_action( 'lifterlms_section_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'lifterlms_course_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 
 	}
@@ -33,6 +33,7 @@ class LLMS_Engagements {
 	public function init() {
 
 		include( 'class.llms.certificates.php' );
+		include( 'class.llms.achievements.php' );
 
 	}
 
@@ -46,7 +47,6 @@ class LLMS_Engagements {
 			foreach ( $hooks as $key => $value ) {
 				
 				$engagement_meta = get_post_meta($value);
-				LLMS_log($engagement_meta['_llms_engagement_type'][0]);
 				$engagement_id = $engagement_meta['_llms_engagement'][0];
 
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
@@ -55,8 +55,12 @@ class LLMS_Engagements {
 
 				elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
 					LLMS()->certificates();
-					LLMS_log('person id from lesson_completed = ' . $person_id);
 					do_action( 'lifterlms_lesson_completed_certificate', $person_id, $engagement_id, $lesson_id);
+				}
+				elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
+					LLMS()->achievements();
+
+					do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id);
 				}
 			}
 		}
@@ -72,7 +76,7 @@ class LLMS_Engagements {
 			foreach ( $hooks as $key => $value ) {
 				
 				$engagement_meta = get_post_meta($value);
-				LLMS_log($engagement_meta['_llms_engagement_type'][0]);
+
 				$engagement_id = $engagement_meta['_llms_engagement'][0];
 
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
@@ -81,8 +85,14 @@ class LLMS_Engagements {
 
 				elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
 					LLMS()->certificates();
-					LLMS_log('person id from lesson_completed = ' . $person_id);
+
 					do_action( 'lifterlms_lesson_completed_certificate', $person_id, $engagement_id, $lesson_id);
+				}
+
+				elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
+					LLMS()->achievements();
+
+					do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id);
 				}
 
 			}

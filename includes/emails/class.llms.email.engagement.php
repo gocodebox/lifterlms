@@ -21,21 +21,8 @@ class LLMS_Email_Engagement extends LLMS_Email {
 
 	public function init($email_id) {
 		global $wpdb;
-LLMS_log('email id=' . $email_id);
-		//$querystr = get_post($email_id);
-
-		 // $querystr = "
-		 //    SELECT $wpdb->posts.* 
-		 //    FROM $wpdb->posts, $wpdb->postmeta
-		 //    WHERE $wpdb->posts.ID = '$email_id' 
-		 //    AND $wpdb->posts.post_status = 'publish' 
-		 //    AND $wpdb->posts.post_type = 'llms_email'
-		 //    AND $wpdb->posts.post_date < NOW()
-		 //    ORDER BY $wpdb->posts.post_date DESC LIMIT 1
-		 // ";
 
  		$email_content = get_post($email_id);//$wpdb->get_results($querystr, OBJECT);
- 		LLMS_log($email_content);
  		$email_meta = get_post_meta( $email_content->ID );
 
 		$this->id 				= 'person_new_account';

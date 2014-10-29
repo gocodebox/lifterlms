@@ -19,9 +19,15 @@ class LLMS_Admin_Post_Types {
 	* Adds functions to actions and sets filter on post_updated_messages
 	*/
 	public function __construct() {
-
 		add_action( 'admin_init', array( $this, 'include_post_type_metabox_class' ) );
 		add_filter( 'post_updated_messages', array( $this, 'llms_post_updated_messages' ) );
+
+		add_filter( 'manage_order_posts_columns', array($this, 'llms_add_order_columns' ), 10, 1 );
+		add_action( 'manage_order_posts_custom_column', array($this, 'llms_manage_order_columns' ), 10, 2 );
+		add_filter( 'manage_edit-order_sortable_columns', array($this, 'llms_order_sortable_columns') );
+
+		add_action( 'load-edit.php', array($this,'llms_edit_order_load' ) );
+		//add_filter( 'request', array($this, 'llms_sort_orders') );
 
 	}
 
@@ -80,6 +86,95 @@ class LLMS_Admin_Post_Types {
 		}
 
 		return $messages;
+	}
+
+	public function llms_add_order_columns($columns) {
+	    $columns = array(
+		'cb' => '<input type="checkbox" />',
+		'title' => __( 'Order' ),
+		'product' => __( 'Product' ),
+		'total' => __( 'Total' ),
+		'order_date' => __( 'Date' )
+	);
+
+	return $columns;
+	}
+
+	public function llms_manage_order_columns( $column, $post_id ) {
+		global $post;
+
+		switch( $column ) {
+
+			case 'product' :
+
+				$product_title = get_post_meta( $post_id, '_llms_product_title', true );
+
+				if ( empty( $product_title ) )
+					echo __( 'Unknown' );
+
+				else
+					printf( __( '%s' ), $product_title );
+
+				break;
+
+			case 'total' :
+
+				$order_total = get_post_meta( $post_id, '_llms_order_total', true );
+
+				if ( empty( $order_total ) )
+					printf( __( '%s%0.2f' ), get_lifterlms_currency_symbol(), $order_total);
+
+				else
+					printf( __( '%s%0.2f' ), get_lifterlms_currency_symbol(), $order_total);
+
+				break;
+
+			case 'order_date' :
+
+				$order_total = get_post_meta( $post_id, '_llms_order_date', true );
+
+				if ( empty( $order_date ) )
+					echo __( 'Unknown' );
+
+				else
+					printf( __( '%s' ), $order_date);
+
+				break;
+
+			default :
+				break;
+		}
+	}
+
+	function llms_order_sortable_columns( $columns ) {
+
+		$columns['product'] = 'product';
+
+		return $columns;
+	}
+
+	function llms_edit_order_load() {
+		add_filter( 'request', array($this,'llms_sort_orders') );
+	}
+
+	public function llms_sort_orders( $vars ) {
+
+		if ( isset( $vars['post_type'] ) && 'order' == $vars['post_type'] ) {
+
+
+			if ( isset( $vars['orderby'] ) && 'product' == $vars['orderby'] ) {
+
+				$vars = array_merge(
+					$vars,
+					array(
+						'meta_key' => '_llms_product_title',
+						'orderby' => 'meta_value'
+					)
+				);
+			}
+		}
+
+		return $vars;
 	}
 
 }

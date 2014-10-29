@@ -39,8 +39,6 @@ $course = get_course($product);
 $info_message = apply_filters( 'lifterlms_checkout_coupon_message', __( 'Have a coupon?', 'lifterlms' ) );
 $info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter your code', 'lifterlms' ) . '</a>';
 
-LLMS_log($product_obj->get_recurring_price_html());
-
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $course->get_price_html() ); 
 $recurring_html_price = $product_obj->get_recurring_price_html();
 ?>
@@ -93,19 +91,11 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 		</div>
 	</form>
 
-	<!-- Coupon code entry form -->
-	<?php llms_print_notice( $info_message, 'notice' ); ?>
-	<form id="llms-checkout-coupon" method="post" style="display:none">
-		<input type="text" name="coupon_code" class="llms-input-text" placeholder="<?php _e( 'Enter coupon code', 'lifterlms' ); ?>" id="coupon_code" value="" />
-		<div class="llms-clear-box llms-center-content">
-		<input type="submit" class="button llms-button" name="apply_coupon" value="<?php _e( 'Apply Coupon', 'lifterlms' ); ?>" />
-		</div>
-		<div class="clear"></div>
-		</div>
-	</form>
+	
+	</div>
 	<!-- display the final price -->
 	<div class="llms-final-price-wrapper llms-clear-box">
-		<h2 class="llms-price"><span class="llms-price-label">You Pay:</span><span class="llms-final-price"></span></p> 
+		<h3 class="llms-price"><span class="llms-price-label">You Pay:</span><span class="llms-final-price"></span></h3> 
 	</div>
 
 	<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />
