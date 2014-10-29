@@ -233,8 +233,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     }
 
     public function complete_payment($request, $order) {
-       LLMS_log($order);
-        LLMS_log($request);
         $paypal = new LLMS_Payment_Gateway_Paypal ();
 
         if ($order->payment_option == 'recurring' ){
@@ -248,16 +246,12 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             );
 
             if ($paypal->doExpressCheckout($init_param)) {
-                LLMS_log('-------first_response------');
-                LLMS_log($init_response );
+
                 $init_response = $paypal->getResponse();
 
             }
 
             if ($init_response['ACK'] == 'Success') {
-
-                LLMS_log('recurring payment');
-
 
                 $param = array(
                     'profile_start_date' => $request['TIMESTAMP'],
@@ -273,7 +267,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
                 if ($paypal->createRecurringPaymentsProfile($param)) {
                     $response = $paypal->getResponse();
-                    LLMS_log($response);
                 }
             }
 
@@ -421,8 +414,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             'timeout' => $this->time_out,
             'sslverify' => $this->ssl_verify
         );
- LLMS_log('request');
- LLMS_log($request);
         return $request;
 
     }
@@ -434,8 +425,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function getResponse() {
         if ($this->full_response) {
             parse_str(urldecode($this->full_response['body']), $output);
-LLMS_log('paypal response');
-LLMS_log($output);
             return $output;
         }
         return false;

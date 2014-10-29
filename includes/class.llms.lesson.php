@@ -259,7 +259,6 @@ class LLMS_Lesson {
 
 		foreach( $user_postmetas as $key => $value ) {
 
-//llms_log($user_postmetas['_is_complete']->post_id);
 			if ( isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $this->id) {
 				return true;
 			}

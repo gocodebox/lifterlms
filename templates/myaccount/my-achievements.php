@@ -17,7 +17,6 @@ $achievements = $user->get_user_postmetas_by_key( get_current_user_id(), $meta_k
 	<?php foreach ( $achievements as $key => $value ) : 
 
 			$meta = get_post_meta($value->meta_value);
-			LLMS_log($meta);
 
 			$achievement_title = $meta['_llms_achievement_title'][0];
 			$achievement_content = $meta['_llms_achievement_content'][0];

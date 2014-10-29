@@ -39,7 +39,6 @@ class LLMS_Meta_Box_Order {
 
 		$usermeta = get_user_meta($user_id);
 		$user = get_user_by('id', $user_id);
-		LLMS_log($user);
 
 		if ($usermeta['first_name'][0] != '') {
 			$user_name = $usermeta['first_name'][0] . ' ' . $usermeta['last_name'][0];

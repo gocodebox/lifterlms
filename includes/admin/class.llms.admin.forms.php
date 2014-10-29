@@ -24,7 +24,7 @@ class LLMS_Admin_Forms {
 	}
 
 	public function updateAdminCourse() {
-		LLMS_log('updateAdminCourse');
+
 	}
 
 }

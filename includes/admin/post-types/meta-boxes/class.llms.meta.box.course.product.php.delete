@@ -105,7 +105,6 @@ class LLMS_Meta_Box_Course_Product {
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-		LLMS_log($_POST['_sale_price']);
 
 		$course_type  = empty( $_POST['course-type'] ) ? 'basic' : sanitize_title( stripslashes( $_POST['course-type'] ) );
 

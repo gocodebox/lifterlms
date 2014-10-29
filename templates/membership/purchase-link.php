@@ -21,7 +21,6 @@ global $post, $product;
 
 		if ( ! empty( $message ) ) {
 		}
-		LLMS_log(get_the_ID());
 
 		$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
 

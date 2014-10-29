@@ -24,7 +24,6 @@ class LLMS_Meta_Box_Access {
 
 		$is_restricted = get_post_meta( $post->ID, '_llms_is_restricted', true );
 		$required_membership_levels = get_post_meta( $post->ID, '_llms_restricted_levels', true );
-		LLMS_log($required_membership_levels);
 
 		$membership_levels_args = array(
 			'posts_per_page'   => -1,
@@ -57,7 +56,7 @@ class LLMS_Meta_Box_Access {
 						if($membership_levels) : 
 
 						foreach ( $membership_levels as $level  ) : 
-							//LLMS_log($level);
+
 							if( in_array($level->ID, $required_membership_levels) ) {
 								$checked = 'checked ="checked"';
 							}
@@ -81,14 +80,12 @@ class LLMS_Meta_Box_Access {
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		LLMS_log('save');
 		$membership_levels = array();
 
 		foreach( $_POST['llms_level'] as $value ) {
-			LLMS_log($value );
+
 			array_push($membership_levels, $value);
 		}
-		LLMS_log('end save');
 
 		if ( ! empty($membership_levels) ) {
 
@@ -108,9 +105,6 @@ class LLMS_Meta_Box_Access {
 			$empty = array();
 			update_post_meta( $post_id, '_llms_restricted_levels', $empty );
 		}
-
-		// $prerequisite = ( llms_clean( $_POST['_prerequisite']  ) );
-		// update_post_meta( $post_id, '_prerequisite', ( $general === '' ) ? '' : $prerequisite );
 	}
 
 }

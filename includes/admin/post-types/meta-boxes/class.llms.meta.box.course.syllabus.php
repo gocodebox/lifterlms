@@ -157,7 +157,6 @@ class LLMS_Meta_Box_Course_Syllabus {
 				        	else {
 				            	echo "<option class='difficulty-option' value='" . $difficulty->slug . "'>" . $difficulty->name . "</option>\n"; 
 				        	}
-				        	LLMS_log(get_the_id());
 				    	}
 				   		?>
 					</select>  
@@ -225,7 +224,6 @@ class LLMS_Meta_Box_Course_Syllabus {
 			update_post_meta( $post_id, '_course_dates_from', strtotime( $date_from ) );
 
 		else
-			//LLMS_log('sweet!');
 			update_post_meta( $post_id, '_course_dates_from', '' );
 
 		if ( $date_to )

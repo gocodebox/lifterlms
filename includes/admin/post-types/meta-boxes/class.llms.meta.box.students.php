@@ -95,15 +95,6 @@ class LLMS_Meta_Box_Students {
 	public static function add_student( $user_id, $post_id ) {
 		global $wpdb;
 
-		LLMS_log('add student called');
-		LLMS_log($user_id);
-		LLMS_log($post_id);
-
-		//if (isset($_POST['add_student'])) {
-			LLMS_log('cool looks like it will work');
-		//}
-
-
 		if ( empty($user_id) || empty($post_id ) ) {
 				return false;
 		}
@@ -232,12 +223,10 @@ class LLMS_Meta_Box_Students {
 		global $wpdb;
 
 		if ( isset( $_POST['add_new_user']) && $_POST['add_new_user'] != '') {
-			LLMS_log('added student to course');
 			$add_user = self::add_student( $_POST['add_new_user'], $post_id );
 		}
 
 		if ( isset( $_POST['remove_student']) && $_POST['remove_student'] != '') {
-			LLMS_log('removed student from course');
 			$remove_user = self::remove_student( $_POST['remove_student'], $post_id );
 		}
 

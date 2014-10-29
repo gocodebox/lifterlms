@@ -226,8 +226,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     }
 
     public function complete_payment($request, $order) {
-       LLMS_log($order);
-        LLMS_log($request);
+
         $paypal = new LLMS_Payment_Gateway_Paypal ();
 
         if ($order->payment_option == 'recurring' ){
@@ -245,16 +244,12 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 );
 
                 if ($paypal->doExpressCheckout($init_param)) {
-                    LLMS_log('-------first_response------');
-                    LLMS_log($init_response );
                     $init_response = $paypal->getResponse();
 
                 }
             }
 
             if ($init_response['ACK'] == 'Success' || $request['AMT'] <= 0) {
-
-                LLMS_log('recurring payment');
 
                 $param = array(
                     'profile_start_date' => strtotime($order->billing_start_date),
@@ -271,7 +266,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
                 if ($paypal->createRecurringPaymentsProfile($param)) {
                     $response = $paypal->getResponse();
-                    LLMS_log($response);
                 }
             }
 
@@ -298,10 +292,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             $lifterlms_checkout = LLMS()->checkout();
             $result = $lifterlms_checkout->update_order($order);
             update_post_meta($result,'_llms_order_paypal_profile_id', $response['PROFILEID']);
-            LLMS_log('paypal payment gateway after order->update_order is called');
-            LLMS_log($result);
-             LLMS_log('end result');
-
 
             do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
         }
@@ -441,8 +431,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             'timeout' => $this->time_out,
             'sslverify' => $this->ssl_verify
         );
- LLMS_log('request');
- LLMS_log($request);
+
         return $request;
 
     }
@@ -454,8 +443,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function getResponse() {
         if ($this->full_response) {
             parse_str(urldecode($this->full_response['body']), $output);
-LLMS_log('paypal response');
-LLMS_log($output);
+
             return $output;
         }
         return false;

@@ -18,8 +18,6 @@ elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
 	$session = LLMS()->session->get( 'llms_order', array() );
 	$product_id = $session->product_id;
 	$product = get_post( $product_id );
-
-	LLMS_log($session);
 }
 else {
 	llms_add_notice( __( 'Product not found.', 'lifterlms' ) );
