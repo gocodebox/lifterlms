@@ -342,6 +342,7 @@ class LLMS_Post_Types {
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,
 					'show_in_menu' 			=> 'edit.php?post_type=course',
+					'show_in_admin_bar'  	=> true,
 					'hierarchical' 			=> false,
 					'rewrite' 				=> $lesson_permalink ? array( 'slug' => untrailingslashit( $lesson_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'show_in_nav_menus' 	=> false,
