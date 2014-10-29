@@ -10,8 +10,10 @@ global $post, $course;
 
 $post_id = $post->ID;
 
-?>
+$course = new LLMS_Course($post->ID);
 
+?>
+<div class="clear"></div>
 <div class="llms-syllabus-wrapper">
 
 <?php
@@ -43,12 +45,13 @@ foreach($the_stuff as $key => $value) :
 
 	echo '<h3 class="llms-h3 llms-section-title">' . $value->post_title . '</h3>';
 
-
+if($syllabus[$i]['lessons']) {
 	foreach( $syllabus[$i]['lessons'] as $key => $value) :
 
 		array_push($lessons_array, $syllabus[$i]['lessons'][$key]['lesson_id']);
 
 	endforeach;
+}
 
 	$the_lessons = get_lesson_data($lessons_array);
 

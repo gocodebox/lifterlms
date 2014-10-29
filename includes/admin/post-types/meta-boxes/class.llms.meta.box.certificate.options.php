@@ -89,7 +89,7 @@ class LLMS_Meta_Box_Certificate_Options {
 						 
 							<p>
 							Use the text editor above to add content to your certificate. 
-							You can include any of the following merge fields to give the certificate a personal touch. 
+							You can include any of the following merge fields. 
 							</p>
 							<ul>
 							<li>{site_title}</li>

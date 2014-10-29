@@ -45,12 +45,12 @@ if ( $my_orders) {
 		<li class="course-item">
 		    <article class="course">
 			    <section class="info">
-				    <div class="course-image effect">
+				    <div class="course-image llms-image-thumb effect">
 				    <?php
 				    //course thumbnail
 					if ( has_post_thumbnail( $course->ID ) ) {
 						echo '<a href="' . get_permalink( $course->ID ) . '" title="' . esc_attr( $course->post_title ) . '">';
-						echo get_the_post_thumbnail( $course->ID, 'thumbnail' );
+						echo get_the_post_thumbnail( $course->ID);
 						echo '</a>';
 					}
 					?>

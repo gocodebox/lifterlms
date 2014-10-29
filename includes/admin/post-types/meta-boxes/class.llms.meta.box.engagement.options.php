@@ -126,8 +126,8 @@ class LLMS_Meta_Box_Engagement_Options {
 				'lesson_completed' => 'lesson completed',
 				'section_completed' => 'section completed',
 				'course_completed' => 'course completed',
-				'course_purchased' => 'course purchased',
-				'user_does_not_log_in' => 'User has not logged in'
+				//'course_purchased' => 'course purchased',
+				//'user_does_not_log_in' => 'User has not logged in'
 			);
 			?>
 

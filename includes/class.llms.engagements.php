@@ -26,6 +26,7 @@ class LLMS_Engagements {
 		LLMS_log('engagements init');
 
 		add_action( 'lifterlms_lesson_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
+		add_action( 'lifterlms_section_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'lifterlms_course_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 
 	}

@@ -21,7 +21,7 @@ function llms_page_restricted($post_id) {
 			$reason = 'membership';
 		}
 		
-		elseif ( $post->post_type == 'lesson' ) {
+		elseif ( is_single() && $post->post_type == 'lesson' ) {
 
 			if( parent_page_restricted_by_membership($post_id) ) {
 
@@ -43,7 +43,7 @@ function llms_page_restricted($post_id) {
 				$reason = 'lesson_start_date';
 			}
 		}
-		elseif ( $post->post_type == 'course') {
+		elseif ( is_single() && $post->post_type == 'course') {
 			
 			if ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
 				$restricted = true;
@@ -250,12 +250,14 @@ function llms_get_prerequisite($user_id, $post_id) {
 function llms_get_course_start_date($post_id) {
 	$post = get_post($post_id);
 	$start_date = get_metadata('post', $post->ID, '_course_dates_from', true);
+	$start_date = date('M d, Y', $start_date);
 	return $start_date;
 }
 
 function llms_get_course_end_date($post_id) {
 	$post = get_post($post_id);
 	$end_date = get_metadata('post', $post->ID, '_course_dates_to', true);
+	$end_date = date('M d, Y', $end_date);
 	return $end_date;
 }
 
@@ -313,7 +315,8 @@ $post = get_post($post_id);
 function llms_get_lesson_start_date($post_id) {
 	$lesson = new LLMS_Lesson($post_id);
 	$drip_days = get_metadata('post', $post_id, '_days_before_avalailable', true);
-	return $drip_days;
+	$lesson_start_date = date('M d, Y', strtotime(' +' . $drip_days . ' day'));
+	return $lesson_start_date;
 }
 
 function lesson_start_date_in_future($user_id, $post_id) {
@@ -426,7 +429,8 @@ function llms_is_user_member($user_id, $post_id) {
 	}
 	else {
 		foreach ( $user_memberships as $key => $value ){
-			if ( in_array($value, $post_id) ){
+
+			if ( $post_id == $value){
 				$is_member = true;
 				
 			}

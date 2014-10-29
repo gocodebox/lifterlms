@@ -39,8 +39,8 @@ jQuery(document).ready(function($) {
 	});
 
 	// Creates new lesson tr element on Add Lesson button click
-	$('.addNewLesson').click(function(){
-		add_new_lesson();
+	$('.addNewLesson').click(function( event ){
+		add_new_lesson(event);
 		return false;
 	});
 
@@ -207,7 +207,7 @@ get_lessons = function(section_id, section_position) {
 /**
  * Creates new lesson tr element
  */
-add_new_lesson = function(){
+add_new_lesson = function(event){
 	console.log('add new lesson called');
 
 	console.log(event.target);
@@ -338,7 +338,7 @@ delete_this = function(thisButton){
 		$(addLessonBtn).attr("data-section", id);
 		$(addLessonBtn).text('Add Lesson');
 		//$(addLessonBtn).on('click', add_new_lesson());
-		$(addLessonBtn).on('click', function(){ add_new_lesson() } );
+		$(addLessonBtn).on('click', function(event){ add_new_lesson( event ) } );
 
 		// create table framework
 		var table = '<table class="wp-list-table widefat fixed posts dad-list"> \

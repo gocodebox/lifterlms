@@ -70,6 +70,14 @@ if ( ! function_exists( 'lifterlms_template_single_full_description' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_single_membership_full_description' ) ) {
+
+	function lifterlms_template_single_membership_full_description() {
+
+		llms_get_template( 'membership/full-description.php' );
+	}
+}
+
 if ( ! function_exists( 'lifterlms_template_single_price' ) ) {
 
 	function lifterlms_template_single_price() {
@@ -113,6 +121,14 @@ if ( ! function_exists( 'lifterlms_template_single_video' ) ) {
 	function lifterlms_template_single_video() {
 
 		llms_get_template( 'course/video.php' );
+	}
+}
+
+if ( ! function_exists( 'lifterlms_template_single_lesson_video' ) ) {
+
+	function lifterlms_template_single_lesson_video() {
+
+		llms_get_template( 'lesson/video.php' );
 	}
 }
 
@@ -234,7 +250,7 @@ function llms_setup_product_data( $post ) {
 			if ( empty( $post->post_type ) )
 				return;
 
-				$GLOBALS['product'] = get_product( $post );
+				$GLOBALS['product'] = llms_get_product( $post );
 
 				return $GLOBALS['product'];
 		}
@@ -896,7 +912,7 @@ function get_available_payment_options() {
  * @param string $the_course = false, $args = array()
  * @return array 
  */
-function get_product( $the_product = false, $args = array() ) {
+function llms_get_product( $the_product = false, $args = array() ) {
 	return LLMS()->course_factory->get_product( $the_product, $args );
 }
 

@@ -13,3 +13,4 @@ if ( ! $post->post_excerpt ) return;
 <div class="llms-short-description">
 	<?php echo apply_filters( 'lifterlms_short_description', $post->post_excerpt ) ?>
 </div>
+<div class="clear"></div>

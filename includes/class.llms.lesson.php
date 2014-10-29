@@ -146,12 +146,13 @@ class LLMS_Lesson {
 
 		foreach( $syllabus as $key => $value ) {
 			$sections[$value['section_id']] = $value['lessons'];
-			
+			if($value['lessons']) {
 			foreach($value['lessons'] as $keys => $values ) {
 				if ($this->id == $values['lesson_id']) {
 					$parent_section = $value['section_id'];
 				}
 			}
+		}
 			
 		}
 

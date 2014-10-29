@@ -21,7 +21,7 @@ $payment_options = $product_obj->get_payment_options();
 			<h4 class="llms-price"><span><?php echo $single_html_price; ?></span></h4> 
 
 			<?php 
-			if ( count($payment_options >1) ) {
+			if ( count($payment_options) > 1 ) {
 				echo 'Or';
 			}
 

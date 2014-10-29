@@ -285,12 +285,13 @@ class LLMS_Course {
 		$syllabus = $this->get_syllabus();
 
 		foreach($syllabus as $key => $value ) :
+			if($syllabus[$key]['lessons']) {
 			foreach ($syllabus[$key]['lessons'] as $keys) :
 
 				array_push($array, $keys);
 
 			endforeach;
-
+}
 		endforeach;
 
 		return $array;
@@ -321,6 +322,40 @@ class LLMS_Course {
 
 		return $percent_complete;
 
+	}
+
+	public function get_section_percent_complete($lesson_id) {
+
+		$syllabus = $this->get_syllabus();
+		$sections = array();
+		$section;
+
+		foreach ($syllabus as $key => $value) {
+
+			$sections[$value['section_id']] = $value['lessons'];
+			foreach($value['lessons'] as $keys => $values) {
+				if ($values['lesson_id'] == $lesson_id) {
+					$section = $value['section_id'];
+				}
+			}
+		}
+
+
+		$total_lessons_in_section = count($sections[$section]);
+		$total_completed_lessons = 0;
+		foreach($sections[$section] as $key => $value) {
+
+			$user = new LLMS_Person;
+			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value['lesson_id'] );
+			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+				$total_completed_lessons++;
+
+			}
+		}
+
+		$percent_complete = ($total_lessons_in_section != 0) ? round(100 / ( ( $total_lessons_in_section / $total_completed_lessons ) ), 0 ) : 0;
+
+		return $percent_complete;
 	}
 
 	/**

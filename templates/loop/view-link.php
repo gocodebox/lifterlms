@@ -13,17 +13,25 @@ global $post, $course;
 
 <footer class="llms-course-footer">
 
-<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ): ?>
-	<span class="llms-button llms-purchase-button"><?php _e( 'View Course', 'lifterlms' ); ?></span>
+<?php 
+	if ($post->post_type == 'course') :
+		if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ): ?>
+			<span class="llms-button llms-purchase-button"><?php _e( 'View Course', 'lifterlms' ); ?></span>
 
-<?php else:
+		<?php 
+		else:
+			$course_progress = $course->get_percent_complete();
+			$user = new LLMS_Person;
+			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
 
-	$course_progress = $course->get_percent_complete();
-	$user = new LLMS_Person;
-	$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
+			lifterlms_course_progress_bar($course_progress);
 
-	lifterlms_course_progress_bar($course_progress);
+		endif; 
+	endif;
 
-endif; ?>
+if ($post->post_type == 'llms_membership') : ?>
+
+<span class="llms-button llms-purchase-button"><?php _e( 'Learn More', 'lifterlms' ); ?></span>
+<?php endif;?>
 
 </footer>

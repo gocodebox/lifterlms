@@ -233,6 +233,7 @@ final class LifterLMS {
 
 		$engagement_actions = array(
 			'lifterlms_lesson_completed',
+			'lifterlms_section_completed',
 			'lifterlms_course_completed',
 		);
 
