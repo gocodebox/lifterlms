@@ -8,7 +8,6 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-LLMS_log('archive-membership loaded');
 get_header( 'memberships' ); ?>
 
 	<?php

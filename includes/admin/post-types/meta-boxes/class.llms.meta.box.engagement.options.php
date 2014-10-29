@@ -172,7 +172,6 @@ class LLMS_Meta_Box_Engagement_Options {
 						break;
 				}
 
-				//LLMS_log($engagement_trigger);
 				if ( ! empty($post_type) ) {
 
 
@@ -184,7 +183,6 @@ class LLMS_Meta_Box_Engagement_Options {
 					 );
 
 					$postslist = get_posts( $args );
-					//LLMS_log($engagement_trigger);
 
 
 				$args2 = array(
@@ -217,7 +215,7 @@ class LLMS_Meta_Box_Engagement_Options {
 					<select id="trigger-select" class="chosen-select chosen select section-select" name="_llms_engagement_trigger">
 						<option value="" selected disabled>Please select an engagement type...</option>
 						<?php foreach ( $postslist as $key => $value  ) : 
-						//LLMS_log($value->ID);
+
 							if ( $value->ID == $engagement_trigger_id) {
 						?>
 							<option value="<?php echo $value->ID; ?>" selected="selected"><?php echo $value->post_title; ?></option>
@@ -240,7 +238,7 @@ class LLMS_Meta_Box_Engagement_Options {
 	}
 
 	public static function save( $post_id, $post ) {
-		//LLMS_log('save function exectured');
+
 		global $wpdb;
 	
 		$engagement = ( llms_clean( $_POST['_llms_engagement']  ) );

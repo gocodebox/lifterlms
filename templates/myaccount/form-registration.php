@@ -9,7 +9,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $product_id = get_query_var( 'course-id' );
-LLMS_log('productid=' .$product_id );
 global $wpdb;
 
 

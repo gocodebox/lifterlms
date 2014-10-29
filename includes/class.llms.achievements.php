@@ -31,8 +31,6 @@ class LLMS_Achievements {
 	}
 
 	function __construct() {
-		LLMS_log('made to to LLMS_Achievements contruct');
-		
 		$this->init();
 
 		add_action( 'lifterlms_lesson_completed_achievement', array( $this, 'lesson_completed' ), 10, 3 );
@@ -40,7 +38,6 @@ class LLMS_Achievements {
 	}
 
 	function init() {
-LLMS_log('LLMS_Achievements init function exectured');
 		include_once( 'class.llms.achievement.php' );
 
 		$this->emails['LLMS_Achievement_User']      = include_once( 'achievements/class.llms.achievement.user.php' );
@@ -94,7 +91,6 @@ LLMS_log('LLMS_Achievements init function exectured');
 	}
 
 	function person_new_account( $person_id, $new_person_data = array(), $password_generated = false ) {
-		LLMS_log('LLMS_Emails: person_new_account function executed');
 		if ( ! $person_id )
 			return;
 
@@ -104,14 +100,11 @@ LLMS_log('LLMS_Achievements init function exectured');
 	}
 
 	function lesson_completed( $person_id, $email_id, $lesson_id ) {
-		LLMS_log('LLMS_Achievement: lesson_completed exectured! yay!');
-
 		if ( ! $person_id )
 			return;
-		LLMS_log('person id from lesson completed achievement ' . $person_id );
 
 		$achievement = $this->emails['LLMS_Achievement_User'];
-		LLMS_log($achievement);
+
 		$achievement->trigger( $person_id, $email_id, $lesson_id );
 	}
 

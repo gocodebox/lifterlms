@@ -19,7 +19,6 @@ class LLMS_Admin_Post_Types {
 	* Adds functions to actions and sets filter on post_updated_messages
 	*/
 	public function __construct() {
-	LLMS_log('LLMS_Admin_Post_Types construct callled');
 		add_action( 'admin_init', array( $this, 'include_post_type_metabox_class' ) );
 		add_filter( 'post_updated_messages', array( $this, 'llms_post_updated_messages' ) );
 
@@ -90,7 +89,6 @@ class LLMS_Admin_Post_Types {
 	}
 
 	public function llms_add_order_columns($columns) {
-		LLMS_log('llms_add_order_columns called');
 	    $columns = array(
 		'cb' => '<input type="checkbox" />',
 		'title' => __( 'Order' ),

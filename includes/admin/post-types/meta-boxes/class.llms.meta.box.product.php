@@ -179,10 +179,7 @@ class LLMS_Meta_Box_Product {
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-		 LLMS_log($_POST['_llms_recurring_enabled']);
-			LLMS_log($_POST['_llms_subscription_price']);
-			LLMS_log($_POST['_llms_billing_period']);
-			LLMS_log($_POST['_llms_billing_freq']);
+
 		// Update post meta
 		if ( isset( $_POST['_regular_price'] ) )
 			update_post_meta( $post_id, '_regular_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
@@ -230,7 +227,6 @@ class LLMS_Meta_Box_Product {
 			&& isset($_POST['_llms_billing_period'])
 			&& !empty($_POST['_llms_billing_freq'])
 			&& !empty($_POST['_llms_billing_cycle']))  {
-			LLMS_log('everything is set');
 
 			$recurring_enabled 			= llms_clean( $_POST['_llms_recurring_enabled'] );
 			$subscription_price 		= llms_clean( $_POST['_llms_subscription_price'] );

@@ -92,12 +92,6 @@ class LLMS_Certificate {
 	public function create($content) {
 		global $wpdb;
 
-		LLMS_log('class.llms.certificate.php create() execute');
-		LLMS_log('title=' . $this->title);
-		LLMS_log('content=' . $content);
-		LLMS_log('image=' . $this->image);
-
-
 		$new_user_certificate = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'llms_my_certificate',
 			'post_title'    => $this->title,

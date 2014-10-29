@@ -8,7 +8,6 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-LLMS_log('content llms membership loaded');
 global $lifterlms_loop, $product;
 
 // Store loop count we're currently on

@@ -104,8 +104,6 @@ class LLMS_Frontend_Forms {
 				$course = new LLMS_Course($current_lesson->parent_id);
 				$section_completion = $course->get_section_percent_complete($current_lesson->id);
 				$section_id = get_section_id($course->id, $current_lesson->id);
-				LLMS_log('the section id');
-				LLMS_log($section_id);
 				
 				if ( $section_completion == '100' ) {
 
@@ -218,7 +216,6 @@ class LLMS_Frontend_Forms {
 		$course = new LLMS_Course($course_id);
 		$course_syllabus = $course->get_syllabus();
 
-		LLMS_log($course_syllabus);
 	}
 
 
@@ -435,8 +432,7 @@ class LLMS_Frontend_Forms {
 				break;
 			case 'lesson_start_date' :
 				$start_date = llms_get_lesson_start_date($post_id);
-				LLMS_log('start date');
-				LLMS_log($start_date);
+
 				llms_add_notice( sprintf( __( 'Lesson is not available until %s.', 'lifterlms' ), $start_date ) );
 				break;
 			case 'course_start_date' :

@@ -31,7 +31,6 @@ class LLMS_Certificates {
 	}
 
 	function __construct() {
-		LLMS_log('made to to LLMS_Certificates contruct');
 		
 		$this->init();
 
@@ -94,7 +93,6 @@ class LLMS_Certificates {
 	}
 
 	function person_new_account( $person_id, $new_person_data = array(), $password_generated = false ) {
-		LLMS_log('LLMS_Emails: person_new_account function executed');
 		if ( ! $person_id )
 			return;
 
@@ -104,11 +102,9 @@ class LLMS_Certificates {
 	}
 
 	function lesson_completed( $person_id, $email_id, $lesson_id ) {
-		LLMS_log('LLMS_Certificate: lesson_completed exectured! yay!');
 
 		if ( ! $person_id )
 			return;
-		LLMS_log('person id from lesson completed certificates ' . $person_id );
 
 		$certificate = $this->emails['LLMS_Certificate_User'];
 		$certificate->trigger( $person_id, $email_id, $lesson_id );

@@ -31,7 +31,6 @@ class LLMS_Emails {
 	}
 
 	function __construct() {
-		LLMS_log('made to to LLMS_Emails contruct');
 		
 		$this->init();
 
@@ -126,7 +125,6 @@ class LLMS_Emails {
 	}
 
 	function person_new_account( $person_id, $new_person_data = array(), $password_generated = false ) {
-		LLMS_log('LLMS_Emails: person_new_account function executed');
 		if ( ! $person_id )
 			return;
 
@@ -136,12 +134,10 @@ class LLMS_Emails {
 	}
 
 	function lesson_completed( $person_id, $email_id ) {
-		LLMS_log('LLMS_Emails: lesson_completed function executed');
 		if ( ! $person_id )
 			return;
 
 		$user_pass = ! empty( $new_person_data['user_pass'] ) ? $new_person_data['user_pass'] : '';
-		//LLMS_log($this->emails);
 		$email = $this->emails['LLMS_Email_Engagement'];
 		$email->trigger( $person_id, $email_id );
 	}

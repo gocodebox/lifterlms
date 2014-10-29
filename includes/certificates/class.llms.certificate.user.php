@@ -21,18 +21,11 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 
 	public function init($email_id, $person_id, $lesson_id) {
 		global $wpdb;
-LLMS_log('email id=' . $email_id);
-LLMS_log('person id=' . $person_id);
-LLMS_log('lesson id=' . $lesson_id);
 
-
- 		$email_content = get_post($email_id);//$wpdb->get_results($querystr, OBJECT);
- 		//LLMS_log($email_content);
+ 		$email_content = get_post($email_id);
  		$email_meta = get_post_meta( $email_content->ID );
- 		//LLMS_log($email_meta);
 
  		$this->certificate_template_id	= $email_id;
- 		LLMS_log('certificate_template_id=' . $this->certificate_template_id);
  		$this->lesson_id    			= $lesson_id;
 		$this->title 					= $email_content->post_title; 
 		$this->certificate_title 		= $email_meta['_llms_certificate_title'][0];
@@ -45,17 +38,6 @@ LLMS_log('lesson id=' . $lesson_id);
 		$this->user_firstname			= ($this->user['first_name'][0] != '' ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
 		$this->user_lastname			= ($this->user['last_name'][0] != '' ?  $this->user['last_name'][0] : '');
 		$this->user_email				= $this->user_data->data->user_email;
-
-		LLMS_log('get_user_meta');
-		LLMS_log($this->user);
-		LLMS_log('get_user_data');
-		LLMS_log($this->user_data);
-
-
-
-
-
-
 
 		//$this->id 				= '';//$email_meta['_email_subject'][0];
 		$this->description		= __( 'Person new account emails are sent when a person signs up via the checkout or My Account page.', 'lifterlms' );

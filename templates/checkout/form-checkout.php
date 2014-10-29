@@ -39,8 +39,6 @@ $course = get_course($product);
 $info_message = apply_filters( 'lifterlms_checkout_coupon_message', __( 'Have a coupon?', 'lifterlms' ) );
 $info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter your code', 'lifterlms' ) . '</a>';
 
-LLMS_log($product_obj->get_recurring_price_html());
-
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $course->get_price_html() ); 
 $recurring_html_price = $product_obj->get_recurring_price_html();
 ?>
