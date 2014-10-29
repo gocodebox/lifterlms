@@ -50,11 +50,9 @@ if ( ! function_exists( 'lifterlms_template_single_course_content' ) ) {
 	function lifterlms_template_single_course_content() {
 		global $post;
 	
-		$is_enrolled = llms_is_user_enrolled( get_current_user_id(), $post->ID );
-		//$is_restricted = page_restricted_by_membership($post->ID);
-		$is_drip = course_start_date_in_future($post->ID);
+		$page_restricted = llms_page_restricted($post->ID);
 
-		if ( ! $is_enrolled || $is_drip ) {
+		if ( $page_restricted['is_restricted'] ) {
 			llms_get_template( 'course/short-description.php' );
 		}
 		else {
@@ -81,7 +79,7 @@ if ( ! function_exists( 'lifterlms_template_single_price' ) ) {
 			llms_get_template( 'course/price.php' );
 		}
 		elseif ($post->post_type == 'llms_membership') {
-			LLMS_log('calling the right method');
+	
 			llms_get_template( 'membership/price.php' );
 		}
 	}
@@ -104,7 +102,7 @@ if ( ! function_exists( 'lifterlms_template_single_purchase_link' ) ) {
 			llms_get_template( 'course/purchase-link.php' );
 		}
 		elseif ($post->post_type == 'llms_membership') {
-			LLMS_log('calling the right method');
+	
 			llms_get_template( 'membership/purchase-link.php' );
 		}
 	}

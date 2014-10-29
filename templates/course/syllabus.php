@@ -72,7 +72,7 @@ foreach($the_stuff as $key => $value) :
 
 			//set permalink
 			$permalink = 'javascript:void(0)';
-			$page_restricted = llms_page_restricted($value->ID);
+			$page_restricted = llms_page_restricted($post_id);
 
 			if ( ! $page_restricted['is_restricted'] ) {
 				

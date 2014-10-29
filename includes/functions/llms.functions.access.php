@@ -14,60 +14,57 @@ function llms_page_restricted($post_id) {
 	$restricted = false;
 	$reason = '';
 
-	LLMS_log('is_page_restricted');
+	if ( ! current_user_can( 'manage_options' ) ) {
 	
-	if ( page_restricted_by_membership($post_id) ) {
-		LLMS_log('page_restricted_by_membership is true');
-		LLMS_log($post->ID);
-		$restricted = true;
-		$reason = 'membership';
-	}
-	
-	elseif ( $post->post_type == 'lesson' ) {
-
-		if( parent_page_restricted_by_membership($post_id) ) {
-			LLMS_log('parent_page_restricted_by_membership is true');
-			LLMS_log($post->ID);
+		if ( page_restricted_by_membership($post_id) ) {
 			$restricted = true;
-			$reason = 'parent_membership';
-		}
-		elseif ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
-
-			LLMS_log('lesson llms_is_user_enrolled true');
-			LLMS_log(get_current_user_id());
-			LLMS_log($post->ID);
-			$restricted = true;
-			$reason = 'enrollment';
-		}
-		elseif ( outstanding_prerequisite_exists(get_current_user_id(), $post_id) ) {
-			LLMS_log('lesson outstanding_prerequisite_exists true');
-			$restricted = true;
-			$reason = 'prerequisite';
-		}
-		elseif ( lesson_start_date_in_future(get_current_user_id(), $post_id ) ) {
-			LLMS_log('lesson lesson_start_date_in_future true');
-			$restricted = true;
-			$reason = 'lesson_start_date';
-		}
-	}
-	elseif ( $post->post_type == 'course') {
-
-		if ( outstanding_prerequisite_exists(get_current_user_id(), $post_id) ) {
-			LLMS_log('course outstanding_prerequisite_exist true');
-			$restricted = true;
-			$reason = 'prerequisite';
-		}
-		elseif ( course_start_date_in_future($post_id) ) {
-			LLMS_log('course_start_date_in_future true');
-			$restricted = true;
-			$reason = 'course_start_date';
-		} 
-		elseif ( course_end_date_in_past($post_id) ) {
-			LLMS_log('course_start_date_in_past true');
-			$restricted = true;
-			$reason = 'course_end_date';
+			$reason = 'membership';
 		}
 		
+		elseif ( $post->post_type == 'lesson' ) {
+
+			if( parent_page_restricted_by_membership($post_id) ) {
+
+				$restricted = true;
+				$reason = 'parent_membership';
+			}
+			elseif ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+				$restricted = true;
+				$reason = 'enrollment';
+			}
+			elseif ( outstanding_prerequisite_exists(get_current_user_id(), $post_id) ) {
+
+				$restricted = true;
+				$reason = 'prerequisite';
+			}
+			elseif ( lesson_start_date_in_future(get_current_user_id(), $post_id ) ) {
+
+				$restricted = true;
+				$reason = 'lesson_start_date';
+			}
+		}
+		elseif ( $post->post_type == 'course') {
+			
+			if ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+				$restricted = true;
+				$reason = 'enrollment';
+			}
+			elseif ( outstanding_prerequisite_exists(get_current_user_id(), $post_id) ) {
+
+				$restricted = true;
+				$reason = 'prerequisite';
+			}
+			elseif ( course_start_date_in_future($post_id) ) {
+
+				$restricted = true;
+				$reason = 'course_start_date';
+			} 
+			elseif ( course_end_date_in_past($post_id) ) {
+
+				$restricted = true;
+				$reason = 'course_end_date';
+			}
+		}
 	}
 
 	$results = array(
@@ -75,7 +72,8 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
-
+LLMS_log('page restriction results');
+LLMS_log($results);
 	return $results;
 	
 }
@@ -85,7 +83,7 @@ function llms_page_restricted($post_id) {
 //any content
 //membership restriction
 function page_restricted_by_membership($post_id) {
-LLMS_log('page_restricted_by_membership called');
+
 
 	$restrict_access = false;
 	$membership_id = '';
@@ -153,7 +151,7 @@ function parent_page_restricted_by_membership($post_id) {
 
 function outstanding_prerequisite_exists($user_id, $post_id) {
 	$user = new LLMS_Person;
-	LLMS_log( $user);
+
 	$result = false;
 	$post = get_post( $post_id );
 
@@ -339,11 +337,11 @@ function lesson_start_date_in_future($user_id, $post_id) {
 
 		$todays_date = date_create('today');
 
-		$lesson_start_date = date('Y-n-j', strtotime($start_date . ' +' . $drip_days . ' day'));
+		$lesson_start_date = date('Y-n-j', strtotime(' +' . $drip_days . ' day'));
 		$lesson_start_date = date_create($lesson_start_date);
 
 		if ( $todays_date < $lesson_start_date ) {
-			LLMS_log('today is less than start date');
+	
 				$result = true;
 		}
 
@@ -384,14 +382,17 @@ function page_restricted_by_membership_alert($membership_id) {
 function llms_is_user_enrolled( $user_id, $product_id ) {
 	global $wpdb;
 	$enrolled = false;
-	LLMS_log('is user enrolled called');
+
+	$post = get_post( $product_id );
+	if (!$post->post_type == 'lesson' || !$post->post_type == 'course') 
+		return true;
+
 
 	if ( is_user_logged_in() ) {
 	
 		if ( !empty($user_id) && !empty( $product_id ) ) {
 
 			$user = new LLMS_Person;
-			$post = get_post( $product_id );
 
 			if ( $post->post_type == 'lesson' ) {
 				$lesson = new LLMS_Lesson($post->ID);
@@ -411,8 +412,6 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 		}
 	}
 
-	LLMS_log('is user enrolled');
-	LLMS_log($enrolled);
 	return $enrolled;
 }
 
@@ -433,6 +432,5 @@ function llms_is_user_member($user_id, $post_id) {
 			}
 		}
 	}
-	LLMS_log('is member functino ran');
 	return $is_member;
 }

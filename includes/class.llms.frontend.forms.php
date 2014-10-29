@@ -78,7 +78,7 @@ class LLMS_Frontend_Forms {
     			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
     		}
     		elseif ( ! empty($user_postmetas) ) {
-    			LLMS_log($user_postmetas);
+    		
     			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
     				return;
     			}
@@ -98,14 +98,8 @@ class LLMS_Frontend_Forms {
 					)
 				);
 				do_action( 'lifterlms_lesson_completed', $current_lesson->user_id, $current_lesson->id);
-				LLMS_log('lifterlms_lesson_completed do_action triggered');
+		
 				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), $current_lesson->title ) );
-
-
-
-				LLMS_log('userid=' . $current_lesson->user_id);
-				LLMS_log('parent_course=' .$current_lesson->parent_id);
-				LLMS_log('omg this might work!');
 
 				$course = new LLMS_Course($current_lesson->parent_id);
 				$course_completion = $course->get_percent_complete();
@@ -132,11 +126,8 @@ class LLMS_Frontend_Forms {
 					)
 				);
 
-				LLMS_log('ok im about to do the action');
-				//LLMS_log($user_id);
-				//LLMS_log($course->id);
 				do_action('lifterlms_course_completed', $current_lesson->user_id, $course->id );
-				LLMS_log('ok I just did the action');
+		
 			}
 
     		}
@@ -146,10 +137,7 @@ class LLMS_Frontend_Forms {
 
     function mark_course_complete ($user_id, $lesson_id) {
 		global $wpdb;
-LLMS_log('mark_course_complete function executed');
-LLMS_log($user_id);
-LLMS_log($lesson_id);
-		//if (did_action('lifterlms_lesson_completed') === 1) {
+
 
 			$lesson = new LLMS_Lesson($lesson_id);
 			$course_id = $lesson->get_parent_course();
@@ -181,11 +169,9 @@ LLMS_log($lesson_id);
 					)
 				);
 
-				LLMS_log('ok im about to do the action');
-				LLMS_log($user_id);
-				LLMS_log($course->id);
+	
 				do_action('llms_course_completed', $user_id, $course->id );
-				LLMS_log('ok I just did the action');
+
 			}
 		//}
 	}
@@ -246,10 +232,10 @@ LLMS_log($lesson_id);
 		}
 
 		if ( empty( $_POST[ 'action' ] ) || ( 'create_order_details' !== $_POST[ 'action' ] ) || empty( $_POST['_wpnonce'] ) ) {
-			//llms_log($_POST[ 'action' ]);
+			
 			return;
 		}
-		//llms_log($_POST[ 'action' ]);
+
 		// noonnce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
@@ -260,13 +246,13 @@ LLMS_log($lesson_id);
 		$order->product_id  	= ! empty( $_POST[ 'product_id' ] ) ? llms_clean( $_POST[ 'product_id' ] ) : '';
 		$order->product_title	= $_POST['product_title'];
 		$order->payment_method	= $_POST['payment_method'];
-		$order->product_sku		= $_POST['product_sku'];
+		
 		$order->order_completed = 'no';
 
 		$product = new LLMS_Product($order->product_id);
 
 		$order->payment_option 	= $_POST['payment_option'];
-
+		$order->product_sku		= $product->get_sku();
 		//get product price (could be single or recurring)
 		if ( $order->payment_option == 'single' ) {
 			$order->product_price			= $product->get_single_price();
@@ -369,13 +355,6 @@ LLMS_log($lesson_id);
 
 	}
 
-	// function llms_restricted_by_prerequisite($prerequisite) {
-	// 	$link = get_permalink( $prerequisite->ID);
-	// 	//LLMS_log($prerequisite->ID);
-
-	// 	llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ), 
-	// 		$link, $prerequisite->post_title, $prerequisite->post_title ) );
-	// }
 
 	function llms_restricted_by_start_date($date) {
 		llms_add_notice( sprintf( __( 'This content is not available until %s', 'lifterlms' ), 
@@ -387,14 +366,19 @@ LLMS_log($lesson_id);
 
 		switch($reason) {
 			case 'membership':
+				$memberships = llms_get_post_memberships($post_id);
 				foreach ($memberships as $key => $value) {
-					llms_add_notice( sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $value ) );
+					$membership = get_post($value);
+					$membership_title = $membership->post_title;
+					llms_add_notice( sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $membership_title ) );
 				}
 				break;
 			case 'parent_membership' :
 				$memberships = llms_get_parent_post_memberships($post_id);
 				foreach ($memberships as $key => $value) {
-					llms_add_notice( sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $value ) );
+					$membership = get_post($value);
+					$membership_title = $membership->post_title;
+					llms_add_notice( sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $membership_title ) );
 				}
 				break;
 			case 'prerequisite' :
@@ -657,19 +641,11 @@ LLMS_log($lesson_id);
 
 						$course = new LLMS_Course($product_id);
 						$user_object = new LLMS_Person($user->ID);
-						LLMS_log('$_POST[product_id]='.$product_id);
-						LLMS_log($course);
-						LLMS_log($course->get_price());
-
-							//llms_log(llms_is_user_enrolled( $user->id, $course->id));
+						
 
 						$user_postmetas = $user_object->get_user_postmeta_data( $user->ID, $course->id );
 						$course_status = $user_postmetas['_status']->meta_value;
-						LLMS_log('dfdsfdsafdsafasd----------');
-						LLMS_log($course_status);
-						LLMS_log($user);
-						LLMS_log($course->id);
-						LLMS_log($user_postmetas);
+		
 
 						
 						if ($course->get_price() > 0 && $course_status != 'Enrolled') {
@@ -879,9 +855,7 @@ LLMS_log($lesson_id);
 				$product_id = $_POST['product_id'];
 
 				$course = new LLMS_Course($product_id);
-				LLMS_log('$_POST[product_id]='.$product_id);
-				LLMS_log($course);
-				LLMS_log($course->get_price());
+			
 				
 				if ($course->get_price() > 0) {
 				

@@ -39,6 +39,10 @@ add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_len
 add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_difficulty', 10 );
 add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_view_link', 10 );
 
+add_action( 'lifterlms_after_memberships_loop_item_title', 'lifterlms_template_loop_price', 10 );
+add_action( 'lifterlms_after_memberships_loop_item_title', 'lifterlms_template_loop_view_link', 10 );
+
+
 add_action( 'lifterlms_single_membership_summary', 'lifterlms_template_single_title', 10 );
 add_action( 'lifterlms_single_membership_summary', 'lifterlms_template_single_price', 10 );
 add_action( 'lifterlms_single_membership_summary', 'lifterlms_template_single_purchase_link', 10 );

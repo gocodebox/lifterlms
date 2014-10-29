@@ -16,6 +16,7 @@ class LLMS_Meta_Box_Achievement_Options {
 
 
 	public static function output( $post ) {
+		$prefix = '_llms_';
 		global $post;
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
@@ -98,6 +99,7 @@ class LLMS_Meta_Box_Achievement_Options {
 
 
 	public static function metabox_options() {
+		$prefix = '_llms_';
 		
 		$achievement_creator_meta_fields = array(
 			array(
@@ -134,6 +136,7 @@ class LLMS_Meta_Box_Achievement_Options {
 
 	public static function save( $post_id, $post ) {
 		global $wpdb;
+		$prefix = '_llms_';
 
 		$title = $prefix . 'achievement_title';
 		$content = $prefix . 'achievement_content';

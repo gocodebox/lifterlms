@@ -4,7 +4,7 @@
   clear: both;
 }
 
-.llms-course-list .llms-course-link, .llms-lesson-preview .llms-lesson-link {
+.llms-course-list .llms-membership-link, .llms-course-list .llms-course-link, .llms-lesson-preview .llms-lesson-link {
   background: #f1f1f1;
   box-shadow: 0 1px 2px 0 rgba(1, 1, 1, 0.4);
   display: block;
@@ -16,7 +16,7 @@
   -webkit-transition: background .4s ease;
           transition: background .4s ease;
 }
-.llms-course-list .llms-course-link:hover, .llms-lesson-preview .llms-lesson-link:hover {
+.llms-course-list .llms-membership-link:hover, .llms-course-list .llms-course-link:hover, .llms-lesson-preview .llms-lesson-link:hover {
   background: #eaeaea;
 }
 
@@ -42,6 +42,68 @@
 .llms-button:hover {
   background: #e24038;
   text-decoration: none;
+  color: #fefefe;
+}
+
+.llms-course-list .llms-membership-link {
+  display: block;
+}
+.llms-course-list .llms-membership-footer {
+  border-top: 3px solid #fefefe;
+  margin: 15px -15px 0;
+  padding: 15px 15px 0;
+  text-align: center;
+}
+
+.llms-membership-image {
+  display: block;
+  margin: 0 auto;
+}
+
+.llms-membership-list .memberships {
+  border-top: 1px solid #f6f6f6;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  list-style: none;
+  clear: both;
+  margin: 0;
+  padding: 0;
+}
+
+.llms-membership-list .memberships li {
+  width: 300px;
+  margin: 15px;
+  list-style: none;
+  vertical-align: top;
+  display: inline-block;
+  text-align: left;
+}
+
+.llms-membership-list .memberships li.first {
+  margin-left: 0;
+}
+
+.llms-membership-list .memberships li.last {
+  margin-right: 15px;
+}
+
+.llms-membership-list .memberships li .llms-title {
+  display: block;
+  font-weight: 700;
+  margin-bottom: .5em;
+  font-size: 18px;
+  text-decoration: none;
+  line-height: 30px;
+}
+
+.llms-membership-list .memberships li .llms-price {
+  display: block;
+  font-weight: 700;
+  margin-bottom: .5em;
+  font-size: 24px;
+  text-decoration: none;
+  line-height: 30px;
 }
 
 .llms-course-list {
@@ -361,6 +423,39 @@
   text-align: left;
 }
 
+.llms-my-achievements {
+  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+}
+.llms-my-achievements h3 {
+  background-color: #f5f5f5;
+  padding: 4px;
+}
+.llms-my-achievements ul.listing-achievements {
+  width: 100%;
+  margin: 0;
+}
+.llms-my-achievements ul.listing-achievements li.achievement-item {
+  border-radius: 3px;
+  z-index: 10;
+  margin: 10px 0;
+  padding: 15px 20px;
+  background: #fffef4;
+  border: 1px solid #ccc;
+  list-style-type: none;
+  width: 30%;
+  overflow: auto;
+  min-width: 200px;
+}
+.llms-my-achievements ul.listing-achievements li.achievement-item div {
+  display: block;
+  width: 100%;
+  float: left;
+  text-align: center;
+}
+.llms-my-achievements ul.listing-achievements li.achievement-item div p, .llms-my-achievements ul.listing-achievements li.achievement-item div h4 {
+  margin: 0;
+}
+
 /* Genisis Overrides */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
@@ -376,7 +471,7 @@ h1, h2, h3, h4, h5, h6 {
 .llms-checkout-wrapper .llms-checkout {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  border-top: 6px solid #62c2f3;
+  border-top: 6px solid #e5554e;
 }
 .llms-checkout-wrapper .llms-checkout > h4 {
   background-color: #f5f5f5;
@@ -447,8 +542,8 @@ h1, h2, h3, h4, h5, h6 {
   vertical-align: middle;
   box-shadow: rgba(255, 255, 255, 0.15) 0 1px 1px, inset rgba(0, 0, 0, 0.5) 0 0 0 1px;
   background: #efefef;
-  background-image: -webkit-radial-gradient(center, ellipse, #62c2f3 0%, #62c2f3 40%, #efefef 45%);
-  background-image: radial-gradient(ellipse at center, #62c2f3 0%, #62c2f3 40%, #efefef 45%);
+  background-image: -webkit-radial-gradient(center, ellipse, #e5554e 0%, #e5554e 40%, #efefef 45%);
+  background-image: radial-gradient(ellipse at center, #e5554e 0%, #e5554e 40%, #efefef 45%);
   background-repeat: no-repeat;
   -webkit-transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
           transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
@@ -469,7 +564,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .llms-option input[type="submit"] {
   border: none;
-  background: #62c2f3;
+  background: #e5554e;
   color: #fff;
   font-size: 20px;
   padding: 10px 0;
@@ -501,7 +596,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .llms-price-label {
-  font-weight: light;
+  font-weight: normal;
 }
 
 .llms-final-price {
@@ -521,6 +616,21 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
   padding: 16px;
   width: 100%;
+}
+
+.llms-price {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.llms-price-loop {
+  font-weight: .8em;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.courses .entry {
+  padding: 0;
 }
 
 /*!

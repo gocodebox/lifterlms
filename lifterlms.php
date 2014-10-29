@@ -315,6 +315,10 @@ LLMS_log('lifterlms.php: send_transactional_email executed');
 		return LLMS_Certificates::instance();
 	}
 
+	public function achievements() {
+		return LLMS_Achievements::instance();
+	}
+
 	/**
 	 * Process order class
 	 *

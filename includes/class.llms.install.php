@@ -127,7 +127,7 @@ class LLMS_Install {
 
 		$checkout_page = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'page',
-			'post_title' 	=> 'Purchase Course',
+			'post_title' 	=> 'Purchase',
 			'post_author' 	=> 1,
 			'post_status'   => 'publish',
 			'post_content'  => '[lifterlms_checkout]',

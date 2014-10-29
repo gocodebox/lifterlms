@@ -189,7 +189,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 'product_name' => $order->product_title,
                 'product_sku' => $order->product_sku,
                 'product_price' => $order->first_payment,
-                'item_category' => 'Digital',
+                //'item_category' => 'Digital',
                 'billing_type' => 'RecurringPayments',
                 'billing_agreement_desc' => $order->product_title,
                 'profile_start_date' => $order->billing_start_date,
@@ -297,6 +297,11 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
             $lifterlms_checkout = LLMS()->checkout();
             $result = $lifterlms_checkout->update_order($order);
+            update_post_meta($result,'_llms_order_paypal_profile_id', $response['PROFILEID']);
+            LLMS_log('paypal payment gateway after order->update_order is called');
+            LLMS_log($result);
+             LLMS_log('end result');
+
 
             do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
         }

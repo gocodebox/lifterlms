@@ -105,7 +105,7 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 	</form>
 	<!-- display the final price -->
 	<div class="llms-final-price-wrapper llms-clear-box">
-		<h2 class="llms-price"><span class="llms-price-label">You Pay:</span><span class="llms-final-price"></span></p> 
+		<h3 class="llms-price"><span class="llms-price-label">You Pay:</span><span class="llms-final-price"></span></h3> 
 	</div>
 
 	<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />

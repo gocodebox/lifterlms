@@ -33,6 +33,7 @@ class LLMS_Engagements {
 	public function init() {
 
 		include( 'class.llms.certificates.php' );
+		include( 'class.llms.achievements.php' );
 
 	}
 
@@ -57,6 +58,11 @@ class LLMS_Engagements {
 					LLMS()->certificates();
 					LLMS_log('person id from lesson_completed = ' . $person_id);
 					do_action( 'lifterlms_lesson_completed_certificate', $person_id, $engagement_id, $lesson_id);
+				}
+				elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
+					LLMS()->achievements();
+					LLMS_log('person id from lesson_completed = ' . $person_id);
+					do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id);
 				}
 			}
 		}
@@ -83,6 +89,12 @@ class LLMS_Engagements {
 					LLMS()->certificates();
 					LLMS_log('person id from lesson_completed = ' . $person_id);
 					do_action( 'lifterlms_lesson_completed_certificate', $person_id, $engagement_id, $lesson_id);
+				}
+
+				elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
+					LLMS()->achievements();
+					LLMS_log('person id from lesson_completed = ' . $person_id);
+					do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id);
 				}
 
 			}

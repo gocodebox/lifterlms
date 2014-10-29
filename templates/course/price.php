@@ -8,16 +8,29 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course;
 
-LLMS_log('fdsafdsaf');
+$product_obj = new LLMS_Product($post->ID);
+$single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
+$recurring_html_price = $product_obj->get_recurring_price_html();
+$payment_options = $product_obj->get_payment_options();
+
 ?>
-<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) { ?>
-	<?php if ( $course->get_price_html() ) { ?>
+<div class="llms-price-wrapper">
+	<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) :
+		foreach ($payment_options as $key => $value) :
+			if ($value == 'single') : ?>
+			<h4 class="llms-price"><span><?php echo $single_html_price; ?></span></h4> 
 
-	<div class="llms-price-wrapper">
+			<?php 
+			if ( count($payment_options >1) ) {
+				echo 'Or';
+			}
 
-		<p class="llms-price">Price: <span class="length"><?php echo $course->get_price_html(); ?></span></p> 
+			endif; 
+			if ($value == 'recurring') : ?>
+			<h4 class="llms-price"><span><?php echo $recurring_html_price; ?></span></h4>
 
-	</div>
-
-<?php }
- } ?>
+			<?php endif; ?>
+		<?php 
+		endforeach;
+	endif; ?>
+</div>

@@ -27,7 +27,6 @@ if ( $my_orders) {
 
 		$course_object = new LLMS_Course_Basic( $course_id[0] );
 		$course_progress = $course_object->get_percent_complete();
-		llms_log($course_progress);
 
 		$author = get_the_author();
 		$permalink = get_post_permalink( $course->ID);
@@ -88,7 +87,7 @@ if ( $my_orders) {
 					</div>
 
 				<div class="course-link">
-			 		<?php echo '<a href="' . $permalink  . '" class="button">' . __( 'View Course', 'lifterlms' ) . '</a>'; ?>
+			 		<?php echo '<a href="' . $permalink  . '" class="button llms-button">' . __( 'View Course', 'lifterlms' ) . '</a>'; ?>
 			 	</div>
 
 			  	<div class="clear"></div>

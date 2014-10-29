@@ -148,6 +148,7 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-membership-data', __( 'Membership Data', 'lifterlms' ), 'LLMS_Meta_Box_Product::output', 'llms_membership', 'normal', 'high' );
 		//add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', 'course', 'side', 'normal' );
 		//add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', 'course', 'side', 'normal' );
+		add_meta_box( 'lifterlms-order-general', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order::output', 'order', 'normal', 'high' );
 	}
 
 	/**
