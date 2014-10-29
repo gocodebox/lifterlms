@@ -140,6 +140,14 @@ if ( ! function_exists( 'lifterlms_template_single_audio' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_single_lesson_audio' ) ) {
+
+	function lifterlms_template_single_lesson_audio() {
+
+		llms_get_template( 'lesson/audio.php' );
+	}
+}
+
 if ( ! function_exists( 'lifterlms_template_single_difficulty' ) ) {
 
 	function lifterlms_template_single_difficulty() {
@@ -459,22 +467,33 @@ if ( ! function_exists( 'lifterlms_course_progress_bar') ) {
 	 * Outputs the html for a progress bar
 	 * @param  int / $progress / percent completion
 	 * @param  string / $link / permalink to link the button to, if false will output a span with no href
-	 * @return null
+	 * @param  bool / $button / output a button with the link
+	 * @param  bool / $echo / true will echo content, false will return it
+	 * @return null / html content
 	 */
-	function lifterlms_course_progress_bar($progress,$link=false) {
+	function lifterlms_course_progress_bar($progress,$link=false,$button=true,$echo = true) {
 
 		$tag = ($link) ? 'a' : 'span';
 		$href = ($link) ? ' href=" ' .$link. ' "' : '';
 
-		echo '
+		$r = '
 			<div class="llms-progress">
 				<div class="progress__indicator">' . sprintf( __( '%s%%', 'lifterlms' ), $progress ) . '</div>
 					<div class="progress-bar">
 					<div class="progress-bar-complete" style="width:' . $progress . '%"></div>
 				</div>
-			</div>
-			<' . $tag . ' class="llms-button llms-purchase-button"'. $href .'>' . sprintf( __( 'Continue (%s%%)', 'lifterlms' ), $progress ) . '</' . $tag . '>
-		';
+			</div>';
+
+
+		if($button) {
+			$r .= '<' . $tag . ' class="llms-button llms-purchase-button"'. $href .'>' . sprintf( __( 'Continue (%s%%)', 'lifterlms' ), $progress ) . '</' . $tag . '>';	
+		}
+
+		if($echo) {
+			echo $r;
+		} else {
+			return $r;
+		}
 	}
 
 }
@@ -632,6 +651,32 @@ if ( ! function_exists( 'is_checkout' ) ) {
 	function is_checkout() {
 		return is_page( llms_get_page_id( 'checkout' ) ) ? true : false;
 	}
+}
+
+if ( ! function_exists( 'is_course' ) ) {
+
+	/**
+	 * Determine if current post is a lifterLMS Course
+	 * @return boolean
+	 */
+	function is_course() {
+
+		return ( get_post_type() == 'course' ) ? true : false;
+
+	}
+
+}
+
+if( ! function_exists( 'is_lesson') ) {
+
+	/**
+	 * Determine if current post is a lifterLMS Lesson
+	 * @return boolean
+	 */
+	function is_lesson() {
+		return ( get_post_type() == 'lesson' ) ? true : false;
+	}
+
 }
 
 if ( ! function_exists( 'is_llms_endpoint_url' ) ) {

@@ -12,10 +12,12 @@ $course_not_class = get_post_custom($post->ID);
 if (!isset($lesson)) {
 	$lesson = new LLMS_Lesson($post->ID);
 }
+
+if( !$lesson->get_audio() ) return;
 ?>
 
-<div class="llms-video-wrapper">
-	<div class="center-video">
+<div class="llms-audio-wrapper">
+	<div class="center-audio">
 		<?php echo $lesson->get_audio(); ?>
 	</div>
 

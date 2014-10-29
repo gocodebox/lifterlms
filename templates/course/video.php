@@ -10,6 +10,8 @@ global $post, $course;
 
 $course_not_class = get_post_custom($post->ID);
 
+if ( !$course->get_video() ) return;
+
 ?>
 
 <div class="llms-video-wrapper">

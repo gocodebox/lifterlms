@@ -14,6 +14,8 @@ if (!isset($lesson)) {
 	$lesson = new LLMS_Lesson($post->ID);
 }
 
+
+if( !$lesson->get_video() ) return;
 ?>
 
 <div class="llms-video-wrapper">
