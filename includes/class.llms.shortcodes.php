@@ -21,7 +21,9 @@ class LLMS_Shortcodes {
 		$shortcodes = array(
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
+			'lifterlms_courses' => __CLASS__ . '::courses', // added here so that we can deprecate the non-prefixed "courses" (maybe)
 			'courses' => __CLASS__ . '::courses',
+			'lifterlms_course_progess' => __CLASS__ . '::course_progress',
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -31,6 +33,18 @@ class LLMS_Shortcodes {
 		}
 
 	}
+
+	/**
+	 * Output onscreen messages when shortcodes encounter errors
+	 * @param string / $message / warning notice to display
+	 * @return html
+	 */
+	private static function _warn( $message = 'There was an error outputting your shortcode!' ) {
+
+		return '<p style="color: red;">' . $message . '</p>';
+
+	}
+
 
 	/**
 	* Creates a wrapper for shortcode.
@@ -85,6 +99,34 @@ class LLMS_Shortcodes {
 
 	}
 
+
+	/**
+	 * Course Progress Bar Shortcode
+	 * @param  [type] $atts [description]
+	 * @return [type]       [description]
+	 */
+	public static function course_progress( $atts ) {
+
+		if ( is_course() ) {
+			$course_id = get_the_ID();
+		} elseif( is_lesson() ) {
+			$lesson = new LLMS_Lesson( get_the_ID() );
+			$course_id = $lesson->get_parent_course();
+		} else {
+			return self::_warn( 'shortcode [ lifter_lms_course_progress_bar ] can only be displayed on course or lesson posts!' );
+		}
+
+		$course = new LLMS_Course ( $course_id );
+
+		$course_progress = $course->get_percent_complete();
+
+
+		// var_dump(lifterlms_course_progress_bar( $course_progress, false, false, false ));
+
+		return lifterlms_course_progress_bar( $course_progress, false, false, false );
+	}
+
+
 	/**
 	* courses shortcode
 	*
@@ -104,26 +146,23 @@ class LLMS_Shortcodes {
 	        'orderby' => isset($atts['orderby']) ? $atts['orderby'] : 'title',
 	    ) );
 
-	    if ( $query->have_posts() ) { ?>
+	    if ( $query->have_posts() ) {
 
-	       <?php lifterlms_course_loop_start(); ?>
+	       lifterlms_course_loop_start();
 
-					<?php while ( $query->have_posts() ) : $query->the_post(); ?>
+			while ( $query->have_posts() ) : $query->the_post();
 
-						<?php llms_get_template_part( 'content', 'course' ); ?>
+				llms_get_template_part( 'content', 'course' );
 
-					<?php endwhile; ?>
+			endwhile;
 
-				<?php lifterlms_course_loop_end(); ?>
+			lifterlms_course_loop_end();
 
-	    <?php $courses = ob_get_clean();
-	    wp_reset_postdata();
-	    return $courses;
+	    	$courses = ob_get_clean();
+	    	wp_reset_postdata();
+	   		return $courses;
 	    }
-	    wp_reset_postdata();
 
 	}
-
-
 }
 
