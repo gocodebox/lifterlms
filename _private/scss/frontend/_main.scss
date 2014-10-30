@@ -228,7 +228,7 @@
 	}
 
 	.llms-lesson-counter {
-		@include absolute(top right);
+		@include absolute(top 15px right 15px);
 	}
 
 	.llms-lesson-excerpt {
