@@ -31,7 +31,7 @@ class LLMS_Activate {
         	return;
         }
 
-        $url = 'http://dev.gocodebox.com/llms/wp-admin/admin-ajax.php';
+        $url = 'https://lifterlms.com/wp-admin/admin-ajax.php';
 
         $response = wp_remote_post(
             $url,
