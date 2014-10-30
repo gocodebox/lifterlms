@@ -39,7 +39,6 @@ if ( $my_orders) {
 
 		$course_status = $user_postmetas['_status']->meta_value;
 
-		//$course_progress = $user_postmetas['_progress']->meta_value;
 		?>
 
 		<li class="course-item">

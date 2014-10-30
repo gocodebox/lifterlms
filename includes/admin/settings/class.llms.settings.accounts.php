@@ -61,15 +61,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			array(
-				'title' => __( 'My Badges', 'lifterlms' ),
-				'desc' 		=> __( 'Earned badges page', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_my_badges_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'my-badges',
-				'desc_tip'	=> true,
-			),
-
-			array(
 				'title' => __( 'Edit Account Info', 'lifterlms' ),
 				'desc' 		=> __( 'Edit Account page', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_edit_account_endpoint',
@@ -101,21 +92,11 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			array(	'title' => __( 'User Registration Options', 'lifterlms' ), 'type' => 'title', 'id' => 'Customize the registration experience for users.' ),
 
 			array(
-				'title'         => __( 'Enable Registration', 'lifterlms' ),
-				'desc'          => __( 'Create an account for someone when they purchase a course (we\'ll send them an email with credentials.)', 'lifterlms' ),
-				'id'            => 'lifterlms_enable_signup_and_login_from_checkout',
-				'default'       => 'yes',
-				'type'          => 'checkbox',
-				'checkboxgroup' => 'start',
-				'autoload'      => false
-			),
-
-			array(
-				'desc'          => __( 'Allow users to register from the front end.', 'lifterlms' ),
+				'desc'          => __( 'Enable user registration on login page.', 'lifterlms' ),
 				'id'            => 'lifterlms_enable_myaccount_registration',
 				'default'       => 'yes',
 				'type'          => 'checkbox',
-				'checkboxgroup' => 'end',
+				'checkboxgroup' => 'start',
 				'autoload'      => false
 			),
 
@@ -125,7 +106,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'id'            => 'lifterlms_registration_generate_username',
 				'default'       => 'yes',
 				'type'          => 'checkbox',
-				'checkboxgroup' => 'start',
+				'checkboxgroup' => 'middle',
 				'autoload'      => false
 			),
 
@@ -135,16 +116,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'end',
-				'autoload'      => false
-			),
-
-			array(
-				'title'         => __( 'Course Access', 'lifterlms' ),
-				'desc'          => __( 'Require user signup for free courses.', 'lifterlms' ),
-				'id'            => 'lifterlms_registration_require_signup',
-				'default'       => 'yes',
-				'type'          => 'checkbox',
-				'checkboxgroup' => 'start',
 				'autoload'      => false
 			),
 

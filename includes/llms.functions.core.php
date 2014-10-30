@@ -437,3 +437,13 @@ function get_section_id($course_id, $lesson_id) {
 		}
 		return $section;
 }
+
+function get_update_keys($query){
+	LLMS_log('is it calling this?');
+	$update_key = get_option('lifterlms_update_key', '');
+	$url = urlencode(get_bloginfo('url'));
+	$query['updatekey'] = $update_key;
+	$query['url'] = $url;
+
+	return $query;
+}

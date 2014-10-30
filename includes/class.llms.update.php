@@ -1,5 +1,8 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
+
+
+
 if ( ! class_exists( 'LLMS_Update' ) ) :
 
 /**
@@ -22,29 +25,30 @@ class LLMS_Update {
 	 * @access public
 	 */
 	public function __construct() {
-		//LLMS_log('update construct called');
+		// LLMS_log('update construct called');
 
-		// if ( is_admin() ) {
+		// //if ( is_admin() ) {
 		// 	add_action( 'plugins_loaded', array( $this,'update_check' ) );
-		// }
+		//}
 
 	}
 
 	public function update_check() {
 		
-		$update_obj = PucFactory::buildUpdateChecker( 'http://w-shadow.com/files/external-update-example/info.json', __FILE__ );
-		LLMS_log($update_file);
-		$update_file->checkPeriod = 0;
+		
+		// $update_obj = PucFactory::buildUpdateChecker( 'http://w-shadow.com/files/external-update-example/info.json', __FILE__ );
+		// LLMS_log($update_file);
+		// $update_file->checkPeriod = 0;
 
-		$update_file = file_get_contents($update_obj->metadataUrl);
+		// $update_file = file_get_contents($update_obj->metadataUrl);
 
-		if ($update_file) {
+		// if ($update_file) {
 
-			//$this->update_file = json_decode($update_file,true);
+		// 	//$this->update_file = json_decode($update_file,true);
 
-			$this->update=json_decode($update_file,true);
-			$this->check_version();
-		}
+		// 	$this->update=json_decode($update_file,true);
+		// 	$this->check_version();
+		// }
 
 
 

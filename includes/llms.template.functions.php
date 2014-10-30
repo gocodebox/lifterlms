@@ -918,6 +918,11 @@ function llms_person_edit_account_url() {
 	return apply_filters( 'lifterlms_person_edit_account_url', $edit_account_url );
 }
 
+// function llms_lostpassword_url() {
+//     return llms_get_endpoint_url( 'lost-password', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
+// }
+// add_filter( 'lostpassword_url',  'llms_lostpassword_url', 10, 0 );
+
 function get_product_query_var( $vars ){
 	$vars[] = "product";
 	return $vars;

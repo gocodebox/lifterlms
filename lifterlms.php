@@ -141,7 +141,7 @@ final class LifterLMS {
 	 * Include required core classes
 	 */
 	private function includes() {
-
+		require ( 'plugin-updates/plugin-update-checker.php');
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
 		include_once( 'includes/class.llms.session.php' );
@@ -150,9 +150,7 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 			include_once( 'includes/admin/class.llms.admin.php' );
-			include_once( 'includes/admin/class.llms.admin.forms.php' );
-			require ( 'plugin-updates/plugin-update-checker.php');
-			include_once( 'includes/class.llms.update.php' );
+			include_once( 'includes/admin/class.llms.admin.forms.php' );	
 			include_once( 'includes/class.llms.activate.php' );
 		}
 
@@ -241,6 +239,14 @@ final class LifterLMS {
 		foreach( $engagement_actions as $action )
 			add_action( $action, array( $this, 'trigger_engagement' ), 10, 10 );
 
+
+		
+		$MyUpdateChecker = PucFactory::buildUpdateChecker(
+		'http://updates.gocodebox.com/?action=get_metadata&slug=lifterlms',
+		__FILE__, 
+		'lifterlms', 3
+		);
+		$MyUpdateChecker->addQueryArgFilter('get_update_keys');
 
 		do_action( 'lifterlms_init' );
 

@@ -101,12 +101,6 @@ class LLMS_Post_Types {
 	            	),
 	            'show_ui' 				=> true,
 	            'query_var' 			=> true,
-				// 'capabilities'			=> array(
-				// 	'manage_terms' 		=> 'manage_course_terms',
-				// 	'edit_terms' 		=> 'edit_course_terms',
-				// 	'delete_terms' 		=> 'delete_course_terms',
-				// 	'assign_terms' 		=> 'assign_course_terms',
-				// ),
 	            'rewrite' 				=> array(
 					'slug'       => empty( $permalinks['tag_base'] ) ? _x( 'course-tag', 'slug', 'lifterlms' ) : $permalinks['tag_base'],
 					'with_front' => false
@@ -135,12 +129,6 @@ class LLMS_Post_Types {
 	            	),
 	            'show_ui' 				=> true,
 	            'query_var' 			=> true,
-	            //'capabilities'			=> array(
-	            	//'manage_terms' 		=> 'manage_course_terms',
-					//'edit_terms' 		=> 'edit_course_terms',
-					// 'delete_terms' 		=> 'delete_course_terms',
-					// 'assign_terms' 		=> 'assign_course_terms',
-	             //),
 	            'rewrite' 				=> array(
 					'slug'         => empty( $permalinks['difficulty_base'] ) ? _x( 'course-difficulty', 'slug', 'lifterlms' ) : $permalinks['difficulty_base'],
 					'with_front'   => false,
@@ -178,12 +166,6 @@ class LLMS_Post_Types {
 				            	),
 				            'show_ui' 					=> false,
 				            'query_var' 				=> true,
-				    //         'capabilities'			=> array(
-				    //         	'manage_terms' 		=> 'manage_course_terms',
-								// 'edit_terms' 		=> 'edit_course_terms',
-								// 'delete_terms' 		=> 'delete_course_terms',
-								// 'assign_terms' 		=> 'assign_course_terms',
-				    //         ),
 				            'show_in_nav_menus' 		=> apply_filters( 'lifterlms_attribute_show_in_nav_menus', false, $name ),
 				            'rewrite' 					=> array(
 								'slug'         => ( empty( $permalinks['attribute_base'] ) ? '' : trailingslashit( $permalinks['attribute_base'] ) ) . sanitize_title( $tax->attribute_name ),
@@ -243,7 +225,6 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where you can add new courses.', 'lifterlms' ),
 					'public' 				=> true,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'course',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,
@@ -294,7 +275,6 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where sections are stored.', 'lifterlms' ),
 					'public' 				=> false,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'section',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -337,7 +317,6 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where you can view all of the lessons.', 'lifterlms' ),
 					'public' 				=> true,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'lesson',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,
@@ -348,7 +327,6 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
-					//'has_archive' 			=> false,
 				)
 			)
 		);
@@ -375,13 +353,10 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where orders are managed', 'lifterlms' ),
 					'public' 				=> false,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'order',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
 					'show_in_menu' 			=> 'lifterlms',
-					//'show_in_menu' 			=> 'edit.php?post_type=course',
-					//'show_in_menu' 			=> 'admin.php?page=lifterlms',//?page=lifterlms //current_user_can( 'manage_options' ) ? 'lifterLMS' : true,
 					'hierarchical' 			=> false,
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
@@ -417,7 +392,6 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where emails are stored.', 'lifterlms' ),
 					'public' 				=> false,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'email',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -460,7 +434,6 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 					'public' 				=> true,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'lesson',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,
@@ -470,7 +443,6 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor' ),
-					//'has_archive' 			=> false,
 				)
 			)
 		);
@@ -500,7 +472,6 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where achievements are stored.', 'lifterlms' ),
 					'public' 				=> false,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'email',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -540,7 +511,6 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where engagements are stored.', 'lifterlms' ),
 					'public' 				=> false,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'email',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -583,7 +553,6 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 					'public' 				=> true,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'lesson',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,
@@ -593,7 +562,6 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor' ),
-					//'has_archive' 			=> false,
 				)
 			)
 		);
@@ -625,7 +593,6 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where you can add new Membership levels.', 'lifterlms' ),
 					'public' 				=> true,
 					'show_ui' 				=> true,
-					//'capability_type' 		=> 'course',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,

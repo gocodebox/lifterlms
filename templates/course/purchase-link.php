@@ -69,7 +69,7 @@ $rec_price = $product->get_recurring_price();
 			</form>
 
 		<?php } 
-	 }#ec651b
+	 }
 
 	elseif( isset( $next_lesson)  ) {
 		$next_lesson = $course->get_next_uncompleted_lesson();

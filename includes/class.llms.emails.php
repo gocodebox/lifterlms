@@ -38,6 +38,7 @@ class LLMS_Emails {
 		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
 
 		add_action( 'lifterlms_created_person_notification', array( $this, 'person_new_account' ), 10, 3 );
+		//add_action( 'lifterlms_reset_password_notification', array( $this, 'person_new_account' ), 10, 3 );
 
 		add_action( 'lifterlms_lesson_completed_engagement_notification', array( $this, 'lesson_completed' ), 10, 3 );
 
@@ -55,6 +56,7 @@ class LLMS_Emails {
 		$this->emails['LLMS_Email_Person_New']      = include( 'emails/class.llms.email.person.new.php' );
 
 		$this->emails['LLMS_Email_Engagement']      = include( 'emails/class.llms.email.engagement.php' );
+		$this->emails['LLMS_Email_Reset_Password']   = include( 'emails/class.llms.email.reset.password.php' );
 
 		$this->emails = apply_filters( 'lifterlms_email_classes', $this->emails );
 	}

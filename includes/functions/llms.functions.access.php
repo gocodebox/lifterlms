@@ -348,10 +348,6 @@ function lesson_start_date_in_future($user_id, $post_id) {
 		}
 
 	}
-	// if ($result) {
-	// 	$start_date_formatted = date('M d, Y', $lesson_start_date);
-	// 	do_action('lifterlms_content_restricted_by_start_date', $result);
-	// }
 
 	return $result;
 }

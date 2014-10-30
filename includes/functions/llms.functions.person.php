@@ -57,11 +57,7 @@ function llms_create_new_person( $email, $username = '', $password = '' ) {
 	}
 
 	// Handle password creation
-	if ( 'yes' === get_option( 'lifterlms_registration_generate_password' ) && empty( $password ) ) {
-		$password = wp_generate_password();
-		$password_generated = true;
-
-	} elseif ( empty( $password ) ) {
+	if ( empty( $password ) ) {
 		return new WP_Error( 'registration-error', __( 'Please enter an account password.', 'lifterlms' ) );
 
 	} else {
@@ -103,16 +99,6 @@ function llms_set_person_auth_cookie( $person_id ) {
 
 	wp_set_auth_cookie( $person_id, true );
 }
-
-// function modify_contact_methods($profile_fields) {
-
-// 	// Add new fields
-// 	$profile_fields['twitter'] = 'Twitter Username';
-// 	$profile_fields['facebook'] = 'Facebook URL';
-// 	$profile_fields['gplus'] = 'Google+ URL';
-
-// 	return $profile_fields;
-// }
 
 add_action( 'show_user_profile', 'llms_membership_settings' );
 add_action( 'edit_user_profile', 'llms_membership_settings' );

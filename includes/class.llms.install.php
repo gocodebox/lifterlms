@@ -152,7 +152,7 @@ class LLMS_Install {
 		$new_user_email = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'llms_email',
 			'post_title'    => 'Welcome Email',
-			'post_content'  => '<h2><>Hey there {user_login},</span></h2>
+			'post_content'  => '<p>Hey there {user_login}</p>,
 								<p>Thanks for creating an account on {site_title}!</p>
 								Your username is <strong>{user_login}.</strong>
 								You can access your account here: <a href="{site_url}">{site_title}</a>.',

@@ -79,9 +79,8 @@ if($syllabus[$i]['lessons']) {
 
 			if ( ! $page_restricted['is_restricted'] ) {
 				
-			// 	if ( llms_is_user_enrolled(get_current_user_id(), $course->id ) && ! lesson_start_date_in_future(get_current_user_id(), $lesson->id) ) {
-			 		$permalink = get_permalink( $value->ID );	
-			// 	}
+			 	$permalink = get_permalink( $value->ID );	
+
 			}
 			
 

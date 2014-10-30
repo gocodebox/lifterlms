@@ -830,15 +830,8 @@ class LLMS_Frontend_Forms {
 				$_username = '';
 			}
 
-			if ( 'no' === get_option( 'lifterlms_registration_generate_password' ) ) {
-
-				$_password = $_POST['password'];
-			}
-
-			else {
-
-				$_password = '';
-			}
+			$_password = $_POST['password'];
+			
 
 			try {
 

@@ -103,11 +103,6 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 
 		ob_start();
 		llms_get_template( $this->template_html, array(
-			// 'email_heading'      => $this->get_heading(),
-			// 'user_login'         => $this->user_login,
-			// 'user_pass'          => $this->user_pass,
-			// 'blogname'           => $this->get_blogname(),
-			// 'password_generated' => $this->password_generated,
 			'email_message' 	 => $content,
 			'title'				 => $this->title,
 			'image'				 => $this->image,

@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
     <div class="clear"></div>
 
-    <p><input type="submit" class="button" name="LLMS_reset_password" value="<?php echo 'lost_password' == $args['form'] ? __( 'Reset Password', 'lifterlms' ) : __( 'Save', 'lifterlms' ); ?>" /></p>
+    <p><input type="submit" class="button" name="llms_reset_password" value="<?php echo 'lost_password' == $args['form'] ? __( 'Reset Password', 'lifterlms' ) : __( 'Save', 'lifterlms' ); ?>" /></p>
 	<?php wp_nonce_field( $args['form'] ); ?>
 
 </form>
