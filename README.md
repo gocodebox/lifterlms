@@ -1,4 +1,4 @@
-lifter-lms
+lifterLMS
 ==========
 
 LIFTER LMS
@@ -17,3 +17,15 @@ LIFTER LMS
 ####Examples
 *log_me(array('This is a message' => 'for debugging purposes'));
 *log_me('This is a message for debugging purposes');
+
+
+
+
+
+CHANGELOG
+=========
+
+v1.0.1 - 2014-10-30
+-------------------
+
++ Updated activation endpoint url to point towards live server rather than dev
