@@ -153,6 +153,7 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.forms.php' );
 			require ( 'plugin-updates/plugin-update-checker.php');
 			include_once( 'includes/class.llms.update.php' );
+			include_once( 'includes/class.llms.activate.php' );
 		}
 
 		// Post types
@@ -318,6 +319,10 @@ final class LifterLMS {
 		return LLMS_Achievements::instance();
 	}
 
+	public function activate() {
+		return LLMS_Activate::get_instance();
+	}
+
 	/**
 	 * Process order class
 	 *
@@ -339,10 +344,15 @@ final class LifterLMS {
 	}
 
 	public function add_action_links ( $links ) {
-
+		
 	 $lifter_links = array(
 	 '<a href="' . admin_url( 'admin.php?page=llms-settings' ) . '">' . __( 'Settings', 'lifterlms' ) . '</a>'
 	 );
+
+	if (count($links) == 3) {
+		return $links;
+	}
+
 	return array_merge( $links, $lifter_links );
 	}
 

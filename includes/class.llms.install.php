@@ -169,8 +169,9 @@ class LLMS_Install {
 
 		//store installed version
 		add_option('lifterlms_current_version', $this->version);
-		add_option('lifterlms_is_active', '');
+		add_option('lifterlms_is_activated', '');
 		add_option('lifterlms_update_key', '');
+		add_option('lifterlms_authkey', 'YA5j24mKX38yyLZf2CD6YX6i78Kr94tg');
 		
 		include_once( 'admin/class.llms.admin.settings.php' );
 

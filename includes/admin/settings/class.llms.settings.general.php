@@ -23,6 +23,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
+		LLMS()->activate();
 	}
 
 	/**
@@ -31,6 +32,15 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * @return array
 	 */
 	public function get_settings() {
+		$is_activated = get_option( 'lifterlms_is_activated', '' );
+		$activation_response = get_option( 'lifterlms_activation_message', '' );;
+		if($is_activated == 'yes') {
+			$activation_message = 'Activated';
+		}
+		else {
+			$activation_message = 'Not Activated (' . $activation_response . ')';
+		}
+
 		$currency_code_options = get_lifterlms_currencies();
 
 		foreach ( $currency_code_options as $code => $name ) {
@@ -46,7 +56,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Activation Key', 'lifterlms' ),
-				'desc' 		=> __( 'Activation Key', 'lifterlms' ),
+				'desc' 		=> __( $activation_message, 'lifterlms' ),
 				'id' 		=> 'lifterlms_activation_key',
 				'type' 		=> 'text',
 				'default'	=> '',
@@ -101,6 +111,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 
 		) );
+
 	}
 	
 	/**

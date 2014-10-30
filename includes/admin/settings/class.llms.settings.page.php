@@ -82,6 +82,7 @@ class LLMS_Settings_Page {
 
 		 if ( $current_section )
 	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section );
+	    
 	}
 	
 }
