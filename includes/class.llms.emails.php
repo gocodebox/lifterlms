@@ -38,12 +38,7 @@ class LLMS_Emails {
 		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
 
 		add_action( 'lifterlms_created_person_notification', array( $this, 'person_new_account' ), 10, 3 );
-		//add_action( 'lifterlms_reset_password_notification', array( $this, 'person_new_account' ), 10, 3 );
-
 		add_action( 'lifterlms_lesson_completed_engagement_notification', array( $this, 'lesson_completed' ), 10, 3 );
-
-
-		//add_action( 'lifterlms_created_person_notification', array( $this, 'person_new_account' ), 10, 3 );
 
 		do_action( 'lifterlms_email', $this );
 	}

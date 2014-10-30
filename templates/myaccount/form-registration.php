@@ -53,7 +53,7 @@ if(array_key_exists('bp', $integrations) && $integrations['bp']->enabled) {
 
 					<p>
 						<label for="reg_password"><?php _e( 'Password', 'lifterlms' ); ?> <span class="required">*</span></label>
-						<input type="password" class="input-text" name="password" id="reg_password" />
+						<input type="password" class="input-text llms-input-text" name="password" id="reg_password" />
 					</p>
 
 

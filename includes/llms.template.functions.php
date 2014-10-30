@@ -400,8 +400,8 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 
 		} else {
 
-			$shop_page_id = llms_get_page_id( 'shop' );
-			$page_title   = get_the_title( $shop_page_id );
+			//$shop_page_id = llms_get_page_id( 'shop' );
+			//$page_title   = get_the_title( $shop_page_id );
 
 		}
 

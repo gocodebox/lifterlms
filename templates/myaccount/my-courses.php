@@ -38,7 +38,7 @@ if ( $my_orders) {
 			strtotime($user_postmetas['_start_date']->updated_date) );
 
 		$course_status = $user_postmetas['_status']->meta_value;
-
+		if ($course->post_type == 'course') {
 		?>
 
 		<li class="course-item">
@@ -93,7 +93,7 @@ if ( $my_orders) {
 			</article>
 		</li>
 
-	<?php }; ?>
+	<?php } }; ?>
 
 	</ul>
 </div>

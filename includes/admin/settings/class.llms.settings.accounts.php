@@ -110,15 +110,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'autoload'      => false
 			),
 
-			array(
-				'desc'          => __( 'Auto-generate passwords when users sign up.', 'lifterlms' ),
-				'id'            => 'lifterlms_registration_generate_password',
-				'default'       => 'no',
-				'type'          => 'checkbox',
-				'checkboxgroup' => 'end',
-				'autoload'      => false
-			),
-
 			array( 'type' => 'sectionend', 'id' => 'account_registration_options'),
 
 		)); // End pages settings

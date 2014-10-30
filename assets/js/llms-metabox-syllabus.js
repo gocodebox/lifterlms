@@ -96,7 +96,7 @@ catch_duplicates = function(element){
 		}
 		//TODO im starting to really need a message class
 		if (names.length > 1){
-			alert("So sorry. Unfortunately you selected a section that already exists in this course. That is FORBIDDEN!!!mwahahahahah!");
+			alert("You cannot select a section already assigned to this course.");
 			jQuery(element).val(old_value).attr("selected", true);
      		return false;
 		}
@@ -208,13 +208,9 @@ get_lessons = function(section_id, section_position) {
  * Creates new lesson tr element
  */
 add_new_lesson = function(event){
-	console.log('add new lesson called');
-
-	console.log(event.target);
 
 	var section_id = jQuery(event.target).attr("data-section_id");
-	console.log(event.target.id);
-	console.log('section_id of button clicked: ' + section_id);
+
 
 	if ( typeof( jQuery(event.target).attr("data-section") )  === undefined ) {
 		 var section_position = 1; //default if no sectionid exists
@@ -222,7 +218,6 @@ add_new_lesson = function(event){
 	else {
 		var section_position = jQuery(event.target).attr("data-section");
 	}
-	console.log('section_position of button clicked: ' +section_position);
 
     get_lessons(section_id, section_position);
 }
@@ -231,10 +226,6 @@ add_new_lesson = function(event){
  * Generate lesson template
  */
 lesson_template = function (lessons, section_id, section_position) {
-	console.log(lessons);
-	console.log(section_id);
-	console.log(section_position);
-	console.log('made it to template fucntion');
 
 		var row_id = (jQuery('#' + section_position  + ' .list_item').length) + 1;
 		var select_class = 'list_item_' + row_id;
@@ -300,7 +291,7 @@ delete_this = function(thisButton){
 	 */
 	section_template = function (sections) {
 		var response = sections;
-		console.log(response);
+	
         var id = $('.course-section').length + 1;
         var sectionId = 'section_' + id;
 

@@ -223,32 +223,6 @@ class LLMS_Install {
 			  PRIMARY KEY  (order_id),
 			  KEY user_id (user_id)
 			) $collate;
-			CREATE TABLE {$wpdb->prefix}lifterlms_attribute_taxonomies (
-			  attribute_id bigint(20) NOT NULL auto_increment,
-			  attribute_name varchar(200) NOT NULL,
-			  attribute_label longtext NULL,
-			  attribute_type varchar(200) NOT NULL,
-			  attribute_orderby varchar(200) NOT NULL,
-			  PRIMARY KEY  (attribute_id),
-			  KEY attribute_name (attribute_name)
-			) $collate;
-			CREATE TABLE {$wpdb->prefix}lifterlms_order_items (
-			  order_item_id bigint(20) NOT NULL auto_increment,
-			  order_item_name longtext NOT NULL,
-			  order_item_type varchar(200) NOT NULL DEFAULT '',
-			  order_id bigint(20) NOT NULL,
-			  PRIMARY KEY  (order_item_id),
-			  KEY order_id (order_id)
-			) $collate;
-			CREATE TABLE {$wpdb->prefix}lifterlms_order_itemmeta (
-			  meta_id bigint(20) NOT NULL auto_increment,
-			  order_item_id bigint(20) NOT NULL,
-			  meta_key varchar(255) NULL,
-			  meta_value longtext NULL,
-			  PRIMARY KEY  (meta_id),
-			  KEY order_item_id (order_item_id),
-			  KEY meta_key (meta_key)
-			) $collate;
 			CREATE TABLE {$wpdb->prefix}lifterlms_user_postmeta (
 			  meta_id bigint(20) NOT NULL auto_increment,
 			  user_id bigint(20) NOT NULL,

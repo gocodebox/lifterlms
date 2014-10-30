@@ -10,18 +10,11 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 global $lifterlms_loop, $product;
 
-// Store loop count we're currently on
 if ( empty( $lifterlms_loop['loop'] ) )
 	$lifterlms_loop['loop'] = 0;
-
-// Store column count for displaying the grid
 if ( empty( $lifterlms_loop['columns'] ) )
 	$lifterlms_loop['columns'] = apply_filters( 'loop_memberships_columns', 4 );
-
-// Increase loop count
 $lifterlms_loop['loop']++;
-
-// Extra post classes
 $classes = array();
 if ( 0 == ( $lifterlms_loop['loop'] - 1 ) % $lifterlms_loop['columns'] || 1 == $lifterlms_loop['columns'] )
 	$classes[] = 'first';

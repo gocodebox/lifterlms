@@ -48,7 +48,6 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 					'default'	=> '',
 					'class'		=> 'chosen_select_nostd',
 					'css' 		=> 'min-width:300px;',
-					'desc_tip'	=> __( 'This sets the base page of your shop - this is where your membership archive will be.', 'lifterlms' ),
 				),
 
 				array( 'type' => 'sectionend', 'id' => 'membership_options'),

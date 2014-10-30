@@ -48,12 +48,11 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'default'	=> '',
 					'class'		=> 'chosen_select_nostd',
 					'css' 		=> 'min-width:300px;',
-					'desc_tip'	=> __( 'This sets the base page of your shop - this is where your course archive will be.', 'lifterlms' ),
 				),
 
 				array( 'type' => 'sectionend', 'id' => 'course_options' ),
 
-				array( 'title' => __( 'Display Settings', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Course Settings', 'lifterlms' ), 'id' => 'course_options' ),
+				array( 'title' => __( 'Display Settings', 'lifterlms' ), 'type' => 'title', 'id' => 'course_options' ),
 
 				array(
 				'title'         => __( 'Course Display', 'lifterlms' ),
@@ -66,41 +65,26 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				),
 
 				array(
-				//'title'         => __( 'Course Display', 'lifterlms' ),
 				'desc'          => __( 'Display Difficulty on course.', 'lifterlms' ),
 				'id'            => 'lifterlms_course_display_difficulty',
 				'default'       => 'no',
 				'type'          => 'checkbox',
-				//'checkboxgroup' => 'start',
 				'autoload'      => false
 				),
 
 				array(
-				//'title'         => __( 'Course Display', 'lifterlms' ),
 				'desc'          => __( 'Display Estimated Time on course.', 'lifterlms' ),
 				'id'            => 'lifterlms_course_display_length',
 				'default'       => 'no',
 				'type'          => 'checkbox',
-				//'checkboxgroup' => 'start',
 				'autoload'      => false
 				),
 
 				array(
-				//'title'         => __( 'Course Display', 'lifterlms' ),
 				'desc'          => __( 'Display Section Title on Syllabus', 'lifterlms' ),
 				'id'            => 'lifterlms_course_display_syllabus',
 				'default'       => 'yes',
 				'type'          => 'checkbox',
-				//'checkboxgroup' => 'start',
-				'autoload'      => false
-				),
-
-				array(
-				'desc'          => __( 'Display Featured image as banner on course page', 'lifterlms' ),
-				'id'            => 'lifterlms_course_display_featured_banner.',
-				'default'       => 'yes',
-				'type'          => 'checkbox',
-				'checkboxgroup' => 'end',
 				'autoload'      => false
 				),
 
