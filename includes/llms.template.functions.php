@@ -653,20 +653,6 @@ if ( ! function_exists( 'is_checkout' ) ) {
 	}
 }
 
-if ( ! function_exists( 'is_course' ) ) {
-
-	/**
-	 * Determine if current post is a lifterLMS Course
-	 * @return boolean
-	 */
-	function is_course() {
-
-		return ( get_post_type() == 'course' ) ? true : false;
-
-	}
-
-}
-
 if( ! function_exists( 'is_lesson') ) {
 
 	/**
@@ -889,7 +875,7 @@ if ( ! function_exists( 'lifterlms_get_sidebar' ) ) {
 
 if ( ! function_exists( 'is_lifterlms' ) ) {
 	function is_lifterlms() {
-		return apply_filters( 'is_lifterlms', ( is_shop() || is_course_taxonomy() || is_course() ) ? true : false );
+		return apply_filters( 'is_lifterlms', ( is_shop() || is_course_taxonomy() || is_course() || is_lesson() ) ? true : false );
 	}
 }
 
