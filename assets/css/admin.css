@@ -2369,3 +2369,10 @@ table.dad-list tr td:nth-child(2) {
 .fa-meanpath:before {
   content: "\f20c";
 }
+
+
+
+.toplevel_page_lifterlms img { 
+  height: 18px;
+  width: 18px;
+}

@@ -38,7 +38,7 @@ class LLMS_Admin_Menus {
 
 		if ( current_user_can( 'manage_options' ) ) {
 
-			$lifterLMS = add_menu_page('lifterLMS', 'lifterLMS', 'manage_options', 'lifterlms', 'llms_homepage', '', '50.15973');
+			$lifterLMS = add_menu_page('lifterLMS', 'lifterLMS', 'manage_options', 'lifterlms', 'llms_homepage', plugin_dir_url(LLMS_PLUGIN_FILE) . 'assets/images/lifterLMS-wp-menu-icon.png', '50.15973');
 
 			function llms_homepage() {
 	    		global $title;
