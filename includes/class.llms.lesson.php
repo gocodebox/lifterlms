@@ -142,18 +142,19 @@ class LLMS_Lesson {
 		global $course;
 
 		$sections = array();
-		$syllabus = $course->get_syllabus();
-
-		foreach( $syllabus as $key => $value ) {
-			$sections[$value['section_id']] = $value['lessons'];
-			if($value['lessons']) {
-			foreach($value['lessons'] as $keys => $values ) {
-				if ($this->id == $values['lesson_id']) {
-					$parent_section = $value['section_id'];
+		
+		if (is_object($course)) {
+			$syllabus = $course->get_syllabus();
+			foreach( $syllabus as $key => $value ) {
+				$sections[$value['section_id']] = $value['lessons'];
+				if($value['lessons']) {
+					foreach($value['lessons'] as $keys => $values ) {
+						if ($this->id == $values['lesson_id']) {
+							$parent_section = $value['section_id'];
+						}
+					}
 				}
 			}
-		}
-			
 		}
 
 		return $parent_section;
@@ -179,35 +180,36 @@ class LLMS_Lesson {
 		$current_lesson = $this->id;
 		$parent_section = $this->get_parent_section();
 		
+		if (is_object($course) ){
+			$syllabus = $course->get_syllabus();
 
-		$syllabus = $course->get_syllabus();
+			foreach( $syllabus as $key => $value ) {
 
-		foreach( $syllabus as $key => $value ) {
+				if ( $parent_section == $value['section_id']) {
 
-			if ( $parent_section == $value['section_id']) {
-
-				foreach( $value['lessons'] as $keys => $value ) {
-					array_push($lessons, $value['lesson_id']);
+					foreach( $value['lessons'] as $keys => $value ) {
+						array_push($lessons, $value['lesson_id']);
+					}
 				}
 			}
+
+			$firstElement = current($lessons);
+			$lastElement = $lessons[sizeof($lessons)-1];
+
+			$currentKey = array_search($this->id, $lessons);
+
+			$currentValue = $lessons[$currentKey];
+
+			$previousValue = "";
+			$nextValue = "";
+
+			if($this->id!=$lastElement){
+			    $nextKey = $currentKey + 1;
+			    $nextValue = $lessons[$nextKey];
+			}
+
+			return $nextValue;
 		}
-
-		$firstElement = current($lessons);
-		$lastElement = $lessons[sizeof($lessons)-1];
-
-		$currentKey = array_search($this->id, $lessons);
-
-		$currentValue = $lessons[$currentKey];
-
-		$previousValue = "";
-		$nextValue = "";
-
-		if($this->id!=$lastElement){
-		    $nextKey = $currentKey + 1;
-		    $nextValue = $lessons[$nextKey];
-		}
-
-		return $nextValue;
 	}
 
 		public function get_previous_lesson() {
@@ -216,37 +218,38 @@ class LLMS_Lesson {
 		$current_lesson = $this->id;
 		$parent_section = $this->get_parent_section();
 		
+		if (is_object($course) ){
+			$syllabus = $course->get_syllabus();
 
-		$syllabus = $course->get_syllabus();
+			foreach( $syllabus as $key => $value ) {
 
-		foreach( $syllabus as $key => $value ) {
+				if ( $parent_section == $value['section_id']) {
 
-			if ( $parent_section == $value['section_id']) {
-
-				foreach( $value['lessons'] as $keys => $value ) {
-					array_push($lessons, $value['lesson_id']);
+					foreach( $value['lessons'] as $keys => $value ) {
+						array_push($lessons, $value['lesson_id']);
+					}
 				}
 			}
-		}
 
-		$firstElement = current($lessons);
-		$lastElement = $lessons[sizeof($lessons)-1];
+			$firstElement = current($lessons);
+			$lastElement = $lessons[sizeof($lessons)-1];
 
-		$currentKey = array_search($this->id, $lessons);
-		$currentValue = $lessons[$currentKey];
+			$currentKey = array_search($this->id, $lessons);
+			$currentValue = $lessons[$currentKey];
 
-		$previousValue = "";
-		$nextValue = "";
-		if($this->id!=$lastElement){
-		    $nextKey = $currentKey + 1;
-		    $nextValue = $lessons[$nextKey];
-		}
+			$previousValue = "";
+			$nextValue = "";
+			if($this->id!=$lastElement){
+			    $nextKey = $currentKey + 1;
+			    $nextValue = $lessons[$nextKey];
+			}
 
-		if($this->id!=$firstElement){
+			if($this->id!=$firstElement){
 
-		    $previousKey = $currentKey - 1;
-		   
-		    $previousValue = $lessons[$previousKey];
+			    $previousKey = $currentKey - 1;
+			   
+			    $previousValue = $lessons[$previousKey];
+			}
 		}
 
 		return $previousValue;
