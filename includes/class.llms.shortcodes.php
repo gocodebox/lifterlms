@@ -24,6 +24,7 @@ class LLMS_Shortcodes {
 			'lifterlms_courses' => __CLASS__ . '::courses', // added here so that we can deprecate the non-prefixed "courses" (maybe)
 			'courses' => __CLASS__ . '::courses',
 			'lifterlms_course_progess' => __CLASS__ . '::course_progress',
+			'lifterlms_course_title' => __CLASS__ . '::course_title',
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -125,6 +126,23 @@ class LLMS_Shortcodes {
 
 		return lifterlms_course_progress_bar( $course_progress, false, false, false );
 	}
+
+	/**
+	 * Course Progress Bar Shortcode
+	 * @param  [type] $atts [description]
+	 * @return [type]       [description]
+	 */
+	public static function course_title( $atts ) {
+		global $lesson;
+		if ( is_lesson() ) {
+			$course_id = $lesson->get_parent_course();	
+		}
+		else {
+			self::_warn( 'shortcode [ lifter_course_title ] can only be displayed on lesson posts!' );
+		}
+		return get_the_title( $course_id );
+	}
+
 
 
 	/**
