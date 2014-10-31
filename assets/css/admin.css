@@ -190,6 +190,11 @@ table.dad-list tr td:nth-child(2) {
   font-weight: bold;
 }
 
+.toplevel_page_lifterlms img {
+  height: 18px;
+  width: 18px;
+}
+
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -2368,11 +2373,4 @@ table.dad-list tr td:nth-child(2) {
 
 .fa-meanpath:before {
   content: "\f20c";
-}
-
-
-
-.toplevel_page_lifterlms img { 
-  height: 18px;
-  width: 18px;
 }
