@@ -125,9 +125,6 @@
 .llms-course-list .llms-progress {
   margin-top: 0;
 }
-.llms-course-list .llms-progress .progress-bar {
-  background-color: #fefefe;
-}
 
 .llms-course-image {
   display: block;
