@@ -41,7 +41,8 @@ class LLMS_Activate {
                 'authkey'     => $authkey,
                 'license' => $license,
                 'url' => $site_url
-                )
+                ),
+                'sslverify' => false
             )
         );
 
