@@ -25,6 +25,14 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.0.2 - (UNRELEASED)
+---------------------
+
++ Added lesson short description to previous lesson preview links -- it was rendering on "Next" but not "Previous"
++ Added a class to course shop links wrapper to signify the course has been completed
++ Removed an uncessary CSS rule related to the progress bar
+
+
 v1.0.2 - 2014-10-30
 -------------------
 
