@@ -12,5 +12,6 @@ global $post, $course;
 <?php if ( $length = $course->get_lesson_length() ) : ?>
 <div class="llms-length-wrapper">
 	<p class="llms-lesson_length"><?php printf( __( 'Estimated Time: <span class="length">%s</span>', 'lifterlms' ), $length ); ?></p> 
-<?php endif; ?>
+
 </div>
+<?php endif; ?>

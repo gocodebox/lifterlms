@@ -27,6 +27,7 @@ class LLMS_Integration_Woocommerce {
 		//if($this->enabled) {
 			add_action('woocommerce_order_status_completed',array($this,'process_order'));
 			add_action('woocommerce_after_my_account',array($this,'my_courses_content'));
+			add_filter( 'lifterlms_registration_redirect',array($this, 'woocommerce_login_redirect'), 10, 1);
 			
 		//}
 	}
@@ -56,13 +57,25 @@ class LLMS_Integration_Woocommerce {
 	}
 
 	public function my_courses_content() {
-		LLMS_log('my_courses_content called');
 		llms_get_template( 'myaccount/my-courses.php' );
 		llms_get_template( 'myaccount/my-certificates.php' );
 		llms_get_template( 'myaccount/my-achievements.php' );
 	}
 
 
+
+
+	function woocommerce_login_redirect($redirect_to) {
+		$myaccount_page_id = get_option( 'woocommerce_myaccount_page_id' );
+
+		if ( $myaccount_page_id ) {
+			$myaccount_page_url = get_permalink( $myaccount_page_id );
+		}
+
+	     $redirect_to = $myaccount_page_url;
+
+	     return $redirect_to;
+	}
 
 	public function process_order($order_id) {
 		global $post;

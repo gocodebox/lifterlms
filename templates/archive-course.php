@@ -66,5 +66,5 @@ get_header( 'shop' ); ?>
 		do_action( 'lifterlms_sidebar' );
 
 	?>
-<?php get_sidebar( 'shop' ) ?>
+<?php get_sidebar() ?>
 <?php get_footer( 'shop' ); ?>

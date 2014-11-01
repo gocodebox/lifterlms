@@ -29,3 +29,4 @@ do_action( 'lifterlms_before_main_content' );
 	</div>
 <?php do_action( 'lifterlms_after_main_content' ); ?>
 
+

@@ -1,5 +1,8 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+$person = new LLMS_Person;
+$my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_status' );
+LLMS_log($my_courses);
 
 $my_orders = get_posts(
 	array(
@@ -18,80 +21,90 @@ $my_orders = get_posts(
 	<ul class="listing-courses">
 
 	<?php
-	foreach ( $my_orders as $order ) {
+	foreach ( $my_courses as $course_item ) {
+		if ( $course_item->meta_value == 'Enrolled' ) {
 
-		$order_info = get_post_meta($order->ID);
+			//$course_data = get_post($course->post_id);
+			//$course_meta = get_post_meta($course->post_id);
+			$course = new LLMS_Course_Basic( $course_item->post_id );
+			//$course_id = $order_info['_llms_order_product_id'];
 
-		$course_id = $order_info['_llms_order_product_id'];
-		$course = get_post($course_id[0]);
+			//$course_object = new LLMS_Course_Basic( $course_id[0] );
+			$course_progress = $course->get_percent_complete();
+			$author = get_the_author();
+			$permalink = get_post_permalink( $course->id );
 
-		$course_object = new LLMS_Course_Basic( $course_id[0] );
-		$course_progress = $course_object->get_percent_complete();
+			//$user = new LLMS_Person;
+			//$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->ID );
 
-		$author = get_the_author();
-		$permalink = get_post_permalink( $course->ID);
+			$date_formatted = date('M d, Y', strtotime($course_item->updated_date) );
+			$course_status = $course_item->meta_value;
 
-		$user = new LLMS_Person;
-		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->ID );
+			if (get_option('lifterlms_course_display_author') == 'yes') {
+				$course_author = sprintf( __( '<p class="author">Author: <span>%s</span></p>' ), $author ); 
+			}
 
-		$date_formatted = date('M d, Y',
-			strtotime($user_postmetas['_start_date']->updated_date) );
+			?>
 
-		$course_status = $user_postmetas['_status']->meta_value;
-		if ($course->post_type == 'course') {
-		?>
-
-		<li class="course-item">
-		    <article class="course">
-			    <section class="info">
-				    <div class="course-image llms-image-thumb effect">
-				    <?php
-				    //course thumbnail
-					if ( has_post_thumbnail( $course->ID ) ) {
-						echo '<a href="' . get_permalink( $course->ID ) . '" title="' . esc_attr( $course->post_title ) . '">';
-						echo get_the_post_thumbnail( $course->ID);
-						echo '</a>';
-					}
-					?>
-					</div>
-
-					<hgroup>
-					<span class="llms-sts-enrollment">
-					    <span class="llms-sts-label">Status: </span>
-					    <span class="llms-sts-current"><?php echo $course_status ?></span>
-					</span>
-					<p class="llms-start-date">Course Started - <?php echo $date_formatted ?></p>
-					<h3>
-					<?php
-					   echo '<a href="' . $permalink  . '">' . $course->post_title . '</a>'
-					?>
-					</h3>
-					<?php 
-					if (get_option('lifterlms_course_display_author') == 'yes') {
-						printf( __( '<p class="author">Author: <span>%s</span></p>' ), $author ); 
-					}
-					?>
-					</hgroup>
-				</section>
-
-				<div class="clear"></div>
-
-				<section class="progress">
-
-				<div class="llms-progress">
-					<div class="progress__indicator"><?php printf( __( '%s%%', 'lifterlms' ), $course_progress ); ?></div>
-						<div class="progress-bar">
-						    <div class="progress-bar-complete" style="width:<?php echo $course_progress ?>%"></div>
+			<li class="course-item">
+			    <article class="course">
+				    <section class="info">
+					    <div class="course-image llms-image-thumb effect">
+					    <?php
+					   // lifterlms_template_single_featured_image();
+					    //get_the_post_thumbnail( $course->id );
+					    //the_post_thumbnail();
+					 //    if ( has_post_thumbnail() ) {
+						// 	the_post_thumbnail();
+						// } 
+		LLMS_log('about to look for an image');
+		LLMS_log(llms_placeholder_img_src());
+		 LLMS_log(get_the_post_thumbnail( $course->id));
+						// if ( has_post_thumbnail( $course->id ) ) {
+						// 	LLMS_log('post has thumbnial');
+						// 	echo '<a href="' . get_permalink( $course->id ) . '" title="' . esc_attr( $course->post->post_title ) . '">';
+						// 	echo get_the_post_thumbnail( $course->id );
+						// 	echo '</a>';
+						// }
+						//else {
+							echo lifterlms_get_featured_image( $course->id );
+						//}
+					//	}
+						//lifterlms_get_featured_image( $course->id );
+						?>
 						</div>
-					</div>
 
-				<div class="course-link">
-			 		<?php echo '<a href="' . $permalink  . '" class="button llms-button">' . __( 'View Course', 'lifterlms' ) . '</a>'; ?>
-			 	</div>
+						<hgroup>
+						<span class="llms-sts-enrollment">
+						    <span class="llms-sts-label">Status: </span>
+						    <span class="llms-sts-current"><?php echo $course_status ?></span>
+						</span>
+						<p class="llms-start-date">Course Started - <?php echo $date_formatted ?></p>
+						<h3>
+						<?php echo '<a href="' . $permalink  . '">' . $course->post->post_title . '</a>' ?>
+						</h3>
+						<?php echo $course_author ?>
+						</hgroup>
+					</section>
 
-			  	<div class="clear"></div>
-			</article>
-		</li>
+					<div class="clear"></div>
+
+					<section class="progress">
+
+					<div class="llms-progress">
+						<div class="progress__indicator"><?php printf( __( '%s%%', 'lifterlms' ), $course_progress ); ?></div>
+							<div class="progress-bar">
+							    <div class="progress-bar-complete" style="width:<?php echo $course_progress ?>%"></div>
+							</div>
+						</div>
+
+					<div class="course-link">
+				 		<?php echo '<a href="' . $permalink  . '" class="button llms-button">' . __( 'View Course', 'lifterlms' ) . '</a>'; ?>
+				 	</div>
+
+				  	<div class="clear"></div>
+				</article>
+			</li>
 
 	<?php } }; ?>
 

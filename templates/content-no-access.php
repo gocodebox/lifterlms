@@ -9,9 +9,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 global $post;
+do_action( 'lifterlms_before_main_content' );
 ?>
-
-<main class="content llms-content" role="main">
 	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 
@@ -29,5 +28,5 @@ global $post;
 		</div>
 
 	</div>
-</main>
+<?php do_action( 'lifterlms_after_main_content' ); ?>
 

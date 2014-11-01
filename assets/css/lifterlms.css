@@ -35,14 +35,64 @@
   text-decoration: none;
   -webkit-transition: background .4s ease;
           transition: background .4s ease;
+  text-decoration: none;
 }
 .llms-button:visited {
   color: #fefefe;
+  text-decoration: none;
 }
 .llms-button:hover {
   background: #e24038;
   text-decoration: none;
   color: #fefefe;
+}
+
+.course-link .llms-button {
+  color: #fefefe;
+  text-decoration: none;
+}
+.course-link .llms-button:hover {
+  color: #fefefe;
+  text-decoration: none;
+}
+
+.llms-purchase-link-wrapper .llms-purchase-button.llms-button {
+  color: #fefefe;
+  text-decoration: none;
+}
+.llms-purchase-link-wrapper .llms-purchase-button.llms-button:visited {
+  color: #fefefe;
+  text-decoration: none;
+}
+.llms-purchase-link-wrapper .llms-purchase-button.llms-button:hover {
+  color: #fefefe;
+  text-decoration: none;
+}
+
+.course-link .llms-button {
+  color: #fefefe;
+  text-decoration: none;
+}
+.course-link .llms-button:visited {
+  color: #fefefe;
+  text-decoration: none;
+}
+.course-link .llms-button:hover {
+  color: #fefefe;
+  text-decoration: none;
+}
+
+.hentry .course-link .llms-button {
+  color: #fefefe;
+  text-decoration: none;
+}
+.hentry .course-link .llms-button:visited {
+  color: #fefefe;
+  text-decoration: none;
+}
+.hentry .course-link .llms-button:hover {
+  color: #fefefe;
+  text-decoration: none;
 }
 
 .llms-course-list .llms-membership-link {
@@ -197,6 +247,9 @@
 .llms-lesson-preview.is-complete .llms-lesson-link {
   padding-left: 75px;
 }
+.llms-lesson-preview .llms-lesson-link:visited {
+  color: inherit;
+}
 .llms-lesson-preview .llms-lesson-complete {
   color: #e5554e;
   font-size: 3em;
@@ -219,6 +272,32 @@
   clear: both;
 }
 
+.llms-course-navigation .llms-lesson-preview.previous {
+  float: left;
+  width: 50%;
+  margin: 0;
+  max-width: 300px;
+}
+.llms-course-navigation .llms-lesson-preview.previous h5 {
+  margin: 0;
+}
+.llms-course-navigation .llms-lesson-preview.previous p {
+  font-size: .8em;
+}
+
+.llms-course-navigation .llms-lesson-preview.next {
+  float: right;
+  width: 50%;
+  margin: 0;
+  max-width: 300px;
+}
+.llms-course-navigation .llms-lesson-preview.next h5 {
+  margin: 0;
+}
+.llms-course-navigation .llms-lesson-preview.next p {
+  font-size: .8em;
+}
+
 .llms-course-navigation {
   text-align: center;
   padding: 30px 0;
@@ -228,6 +307,12 @@
 .llms-course-navigation .parent-course {
   display: inline-block;
   width: 28%;
+  margin: 0;
+}
+@media screen and (max-width: 768px) {
+  .llms-course-navigation .parent-course {
+    display: none;
+  }
 }
 
 .clear {
@@ -266,6 +351,7 @@
 .llms-my-courses ul.listing-courses {
   width: 100%;
   margin: 0;
+  padding: 0;
 }
 
 .llms-my-courses > h3 {
@@ -292,6 +378,11 @@
   padding: 4px;
   overflow: hidden;
 }
+@media screen and (max-width: 641px) {
+  .llms-my-courses ul.listing-courses li.course-item .course .course-image {
+    width: 100%;
+  }
+}
 
 .llms-my-courses ul.listing-courses li.course-item .course .course-image img {
   -webkit-filter: brightness(100%);
@@ -306,6 +397,7 @@
 .llms-my-courses ul.listing-courses li.course-item .course h3 {
   margin: 10px 0;
   display: block;
+  clear: none;
 }
 
 .llms-my-courses ul.listing-courses li.course-item .course p {
@@ -328,6 +420,12 @@
 .llms-start-date {
   float: right;
   text-align: right;
+}
+@media screen and (max-width: 641px) {
+  .llms-start-date {
+    float: none;
+    text-align: left;
+  }
 }
 
 .llms-my-courses ul.listing-courses li.course-item .course .course-message {

@@ -274,8 +274,10 @@ class LLMS_Course {
 					array_push($lessons_not_completed, $value['lesson_id']);
 			}
 		}
-
-		return $lessons_not_completed[0];
+		if ($lessons_not_completed) {
+			return $lessons_not_completed[0];
+		}
+		
 
 	}
 

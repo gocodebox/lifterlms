@@ -28,5 +28,5 @@ endwhile;
 
 <?php
 
-do_action( 'lifterlms_sidebar' );
+get_sidebar();
 get_footer(); ?>

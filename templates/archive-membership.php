@@ -64,4 +64,5 @@ get_header( 'memberships' ); ?>
 
 	?>
 
-<?php get_footer( 'memberships' ); ?>
+<?php get_sidebar( 'shop' ) ?>
+<?php get_footer( 'shop' ); ?>

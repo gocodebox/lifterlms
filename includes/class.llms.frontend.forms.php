@@ -23,15 +23,9 @@ class LLMS_Frontend_Forms {
 
 		add_action( 'init', array( $this, 'create_order' ) );
 		add_action( 'init', array( $this, 'confirm_order' ) );	
-
-		$integrations = LLMS()->integrations()->get_available_integrations();
-        if (!array_key_exists('wc', $integrations) && !$integrations['wc']->enabled) {
-			add_action( 'init', array( $this, 'login' ) );
-			add_action( 'init', array( $this, 'user_registration' ) );
-			add_action( 'init', array( $this, 'reset_password' ) );
-		}
-
-
+		add_action( 'init', array( $this, 'login' ) );
+		add_action( 'init', array( $this, 'user_registration' ) );
+		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
 
 		add_action( 'lifterlms_order_process_begin', array( $this, 'order_processing' ), 10, 1 );

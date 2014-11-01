@@ -9,6 +9,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+//temporary solution to genisis sidebar issue. 
+remove_action( 'genesis_sidebar', 'genesis_do_sidebar' );
+
 function llms_template_redirect() {
 	global $wp_query, $wp;
 
@@ -387,6 +390,7 @@ function get_lesson_data ($lessons) {
 if ( ! function_exists( 'lifterlms_page_title' ) ) {
 
 	function lifterlms_page_title( $echo = true ) {
+		$page_title = '';
 
 		if ( is_search() ) {
 			$page_title = sprintf( __( 'Search Results: &ldquo;%s&rdquo;', 'lifterlms' ), get_search_query() );
@@ -798,16 +802,27 @@ if ( ! function_exists( 'lifterlms_template_loop_view_link' ) ) {
 
 if ( ! function_exists( 'lifterlms_get_course_thumbnail' ) ) {
 
-	function lifterlms_get_course_thumbnail( $size = 'shop_catalog', $placeholder_width = 0, $placeholder_height = 0  ) {
+	function lifterlms_get_course_thumbnail(  ) {
 		global $post;
 
 		if ( has_post_thumbnail() )
 			return get_the_post_thumbnail( $post->ID, $size, array('class' => 'llms-course-image') );
 		elseif ( llms_placeholder_img_src() )
-			return llms_placeholder_img( $size );
+			return llms_placeholder_img( 'full' );
 	}
 }
 
+if ( ! function_exists( 'lifterlms_get_featured_image' ) ) {
+
+	function lifterlms_get_featured_image( $post_id ) {
+		$post = get_post($post_id);
+		LLMS_log($post);
+		if ( has_post_thumbnail($post_id) )
+			return get_the_post_thumbnail( $post->ID, 'full' );
+		elseif ( llms_placeholder_img_src() )
+			return llms_placeholder_img();
+	}
+}
 /**
  * Get the placeholder image URL for courses
  *
@@ -824,7 +839,7 @@ function llms_placeholder_img_src() {
  * @access public
  * @return string
  */
-function llms_placeholder_img( $size = 'shop_thumbnail' ) {
+function llms_placeholder_img( $size = 'full' ) {
 	$dimensions = llms_get_image_size( $size );
 
 	return apply_filters('lifterlms_placeholder_img', '<img src="' . llms_placeholder_img_src() . '" alt="Placeholder" width="' . esc_attr( $dimensions['width'] ) . '" class="llms-course-image llms-placeholder wp-post-image" height="' . esc_attr( $dimensions['height'] ) . '" />' );
@@ -839,13 +854,13 @@ function llms_placeholder_img( $size = 'shop_thumbnail' ) {
 function llms_get_image_size( $image_size ) {
 	if ( in_array( $image_size, array( 'shop_thumbnail', 'shop_catalog', 'shop_single' ) ) ) {
 		$size           = get_option( $image_size . '_image_size', array() );
-		$size['width']  = isset( $size['width'] ) ? $size['width'] : '300';
-		$size['height'] = isset( $size['height'] ) ? $size['height'] : '300';
+		$size['width']  = isset( $size['width'] ) ? $size['width'] : '400';
+		$size['height'] = isset( $size['height'] ) ? $size['height'] : '400';
 		$size['crop']   = isset( $size['crop'] ) ? $size['crop'] : 1;
 	} else {
 		$size = array(
-			'width'  => '300',
-			'height' => '300',
+			'width'  => '400',
+			'height' => '400',
 			'crop'   => 1
 		);
 	}
