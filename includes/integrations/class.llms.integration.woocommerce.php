@@ -26,6 +26,8 @@ class LLMS_Integration_Woocommerce {
 
 		//if($this->enabled) {
 			add_action('woocommerce_order_status_completed',array($this,'process_order'));
+			add_action('woocommerce_after_my_account',array($this,'my_courses_content'));
+			
 		//}
 	}
 
@@ -46,11 +48,20 @@ class LLMS_Integration_Woocommerce {
 	 * @return boolean
 	 */
 	public function is_installed() {
+
 		if(class_exists('WooCommerce')) {
 			return true;
 		}
 		return false;
 	}
+
+	public function my_courses_content() {
+		LLMS_log('my_courses_content called');
+		llms_get_template( 'myaccount/my-courses.php' );
+		llms_get_template( 'myaccount/my-certificates.php' );
+		llms_get_template( 'myaccount/my-achievements.php' );
+	}
+
 
 
 	public function process_order($order_id) {

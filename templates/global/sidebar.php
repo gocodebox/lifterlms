@@ -1,5 +1,7 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-
-get_sidebar( 'shop' ); ?>
+?>
+<div id="secondary">
+<?php get_sidebar( 'shop' ); ?>
+</div>

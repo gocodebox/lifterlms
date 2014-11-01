@@ -10,11 +10,11 @@ $my_orders = get_posts(
 	)
 );
 
-if ( $my_orders) {
 ?>
 
 <div class="llms-my-courses">
-<?php echo  '<h3>' .__( 'Courses In-Progress', 'lifterlms' ) . '</h3>'; ?>
+<?php echo  '<h3>' .__( 'Courses In-Progress', 'lifterlms' ) . '</h3>'; 
+	if ( $my_orders) {?>
 	<ul class="listing-courses">
 
 	<?php
@@ -96,6 +96,12 @@ if ( $my_orders) {
 	<?php } }; ?>
 
 	</ul>
+	<?php 
+	}
+	else {
+		echo  '<p>' .__( 'You are not enrolled in any courses.', 'lifterlms' ) . '</p>'; 
+	}
+	?>
 </div>
 
-<?php } ?>
+

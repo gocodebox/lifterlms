@@ -9,12 +9,13 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+do_action( 'lifterlms_before_main_content' );
 ?>
-<main class="content llms-content" role="main">
+
 	<div id="course-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 		<?php llms_print_notices(); ?>
-		<div class="llms-summary">
+		<div class="llms-summary entry-content">
 
 
 			<?php
@@ -26,5 +27,5 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</div>
 
 	</div>
-</main>
+<?php do_action( 'lifterlms_after_main_content' ); ?>
 

@@ -15,7 +15,7 @@ global $post;
 	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 
-		<div class="llms-summary">
+		<div class="llms-summary entry-content">
 		<?php llms_print_notices(); ?>
 			
 			<?php

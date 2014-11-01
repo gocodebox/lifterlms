@@ -133,12 +133,12 @@ class LLMS_Shortcodes {
 	 * @return [type]       [description]
 	 */
 	public static function course_title( $atts ) {
-		global $lesson;
 		if ( is_lesson() ) {
+			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();	
 		}
 		else {
-			self::_warn( 'shortcode [ lifter_course_title ] can only be displayed on lesson posts!' );
+			return self::_warn( 'shortcode [ lifterlms_course_title ] can only be displayed on lesson posts!' );
 		}
 		return get_the_title( $course_id );
 	}
