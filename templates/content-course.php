@@ -23,11 +23,17 @@ if ( empty( $lifterlms_loop['columns'] ) )
 if ( ! $course || ! $course->is_visible() )
 	return;
 
+
 // Increase loop count
 $lifterlms_loop['loop']++;
 
 // Extra post classes
 $classes = array();
+// check if course is complete so we can add a completed class to the link element
+if( $course->get_percent_complete() == 100)
+	$classes[] = 'llms-course-complete';
+
+
 if ( 0 == ( $lifterlms_loop['loop'] - 1 ) % $lifterlms_loop['columns'] || 1 == $lifterlms_loop['columns'] )
 	$classes[] = 'first';
 if ( 0 == $lifterlms_loop['loop'] % $lifterlms_loop['columns'] )
