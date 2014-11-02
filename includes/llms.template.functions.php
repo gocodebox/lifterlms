@@ -816,11 +816,14 @@ if ( ! function_exists( 'lifterlms_get_featured_image' ) ) {
 
 	function lifterlms_get_featured_image( $post_id ) {
 		$post = get_post($post_id);
-		LLMS_log($post);
-		if ( has_post_thumbnail($post_id) )
-			return get_the_post_thumbnail( $post->ID, 'full' );
-		elseif ( llms_placeholder_img_src() )
+
+		
+		if ( has_post_thumbnail($post_id) ) {
+			return llms_featured_img( $post->ID, 'full' );
+		}
+		elseif ( llms_placeholder_img_src() ) {
 			return llms_placeholder_img();
+		}
 	}
 }
 /**
@@ -842,8 +845,24 @@ function llms_placeholder_img_src() {
 function llms_placeholder_img( $size = 'full' ) {
 	$dimensions = llms_get_image_size( $size );
 
-	return apply_filters('lifterlms_placeholder_img', '<img src="' . llms_placeholder_img_src() . '" alt="Placeholder" width="' . esc_attr( $dimensions['width'] ) . '" class="llms-course-image llms-placeholder wp-post-image" height="' . esc_attr( $dimensions['height'] ) . '" />' );
+	return apply_filters('lifterlms_placeholder_img', '<img src="' . llms_placeholder_img_src() . '" alt="Placeholder" class="llms-course-image llms-placeholder wp-post-image" />' );
 }
+
+/**
+ * Get the featured image
+ *
+ * @access public
+ * @return string
+ */
+function llms_featured_img( $post_id, $size ) {
+
+LLMS_log('the featured image src');
+	$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'full' );
+	LLMS_log($img);
+
+	return apply_filters('lifterlms_featured_img', '<img src="' . $img[0] . '" alt="Placeholder" class="llms-course-image llms-featured-imaged wp-post-image" />' );
+}
+
 
 /**
  * Get an image size.

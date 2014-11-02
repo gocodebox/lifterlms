@@ -57,9 +57,9 @@ $my_orders = get_posts(
 					 //    if ( has_post_thumbnail() ) {
 						// 	the_post_thumbnail();
 						// } 
-		LLMS_log('about to look for an image');
-		LLMS_log(llms_placeholder_img_src());
-		 LLMS_log(get_the_post_thumbnail( $course->id));
+		// LLMS_log('about to look for an image');
+		// LLMS_log(llms_placeholder_img_src());
+		//  LLMS_log(get_the_post_thumbnail( $course->id));
 						// if ( has_post_thumbnail( $course->id ) ) {
 						// 	LLMS_log('post has thumbnial');
 						// 	echo '<a href="' . get_permalink( $course->id ) . '" title="' . esc_attr( $course->post->post_title ) . '">';

@@ -178,6 +178,13 @@
 .llms-course-image {
   display: block;
   margin: 0 auto;
+  width: 100%;
+}
+
+.llms-featured-image {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .llms-image-thumb {

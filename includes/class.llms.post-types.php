@@ -20,6 +20,8 @@ class LLMS_Post_Types {
 		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
 	}
 
+	
+
 	/**
 	 * Register Taxonomies
 	 */

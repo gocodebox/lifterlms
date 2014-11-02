@@ -2,4 +2,4 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-echo '</div></section>';
+echo '</div><div class="clear"></div></div></div></section>';

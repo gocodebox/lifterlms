@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 do_action( 'lifterlms_before_main_content' );
 ?>
 
+
 	<div id="course-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 		<?php llms_print_notices(); ?>
