@@ -5,15 +5,12 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-
+global $post;
 ?>
-
+<div class="post-thumbnail">
 <h1 class="llms-featured-image">
-
 <?php
-
-if ( has_post_thumbnail() ) {
-	the_post_thumbnail();
-} 
-
-?></h1>
+	echo lifterlms_get_featured_image_banner( $post->ID );
+?>
+</h1>
+</div>

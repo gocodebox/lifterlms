@@ -57,7 +57,7 @@ class LLMS_Meta_Box_Access {
 
 						foreach ( $membership_levels as $level  ) : 
 
-							if( in_array($level->ID, $required_membership_levels) ) {
+							if( $required_membership_levels && in_array($level->ID, $required_membership_levels) ) {
 								$checked = 'checked ="checked"';
 							}
 							else {
@@ -82,9 +82,11 @@ class LLMS_Meta_Box_Access {
 
 		$membership_levels = array();
 
-		foreach( $_POST['llms_level'] as $value ) {
+		if ($_POST['llms_level']) {
+			foreach( $_POST['llms_level'] as $value ) {
 
-			array_push($membership_levels, $value);
+				array_push($membership_levels, $value);
+			}
 		}
 
 		if ( ! empty($membership_levels) ) {

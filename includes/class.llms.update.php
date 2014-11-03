@@ -34,30 +34,10 @@ class LLMS_Update {
 	}
 
 	public function update_check() {
-		
-		
-		// $update_obj = PucFactory::buildUpdateChecker( 'http://w-shadow.com/files/external-update-example/info.json', __FILE__ );
-		// LLMS_log($update_file);
-		// $update_file->checkPeriod = 0;
-
-		// $update_file = file_get_contents($update_obj->metadataUrl);
-
-		// if ($update_file) {
-
-		// 	//$this->update_file = json_decode($update_file,true);
-
-		// 	$this->update=json_decode($update_file,true);
-		// 	$this->check_version();
-		// }
-
-
-
+	
 	}
 
 	public function check_version() {
-		LLMS_log($update);
-
-		llms_log($this->update['version']);
 		$current_version = get_option('lifterlms_current_version');
 		$this->available_version = $this->update['version'];
 		

@@ -338,17 +338,6 @@ final class LifterLMS {
 		return LLMS_Order::instance();
 	}
 
-	/**
-	 * Set up image sizes
-	 */
-	public function setup_environment() {
-
-		$shop_thumbnail = llms_get_image_size( 'shop_thumbnail' );
-		$shop_catalog	= llms_get_image_size( 'shop_catalog' );
-		$shop_single	= llms_get_image_size( 'shop_single' );
-
-	}
-
 	public function add_action_links ( $links ) {
 		
 	 $lifter_links = array(

@@ -226,7 +226,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     }
 
     public function complete_payment($request, $order) {
-LLMS_log($order);
         $paypal = new LLMS_Payment_Gateway_Paypal ();
 
         if ($order->payment_option == 'recurring' ){
@@ -443,7 +442,6 @@ LLMS_log($order);
     public function getResponse() {
         if ($this->full_response) {
             parse_str(urldecode($this->full_response['body']), $output);
-LLMS_log($output);
             return $output;
         }
         return false;

@@ -25,6 +25,14 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.0.3 - 2014-11-04
+-------------------
+
++ Major Templating Update! 
++ Removed Course, Lesson and Membership single lesson templates. 
++ Course and Section content templates now filter through WP content
+
+
 v1.0.2 - (UNRELEASED)
 ---------------------
 

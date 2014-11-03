@@ -28,8 +28,6 @@ class LLMS_Email_Person_New extends LLMS_Email {
 
  		$email_content = $wpdb->get_results($querystr, OBJECT);
  		$email_meta = get_post_meta( $email_content[0]->ID );
- 		LLMS_log('email content');
-LLMS_log($email_content);
 		$this->id 				= 'person_new_account';
 		$this->title 			= __( 'New account', 'lifterlms' );
 		$this->description		= __( 'Person new account emails are sent when a person signs up via the checkout or My Account page.', 'lifterlms' );

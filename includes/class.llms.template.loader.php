@@ -39,20 +39,20 @@ class LLMS_Template_Loader {
 		if ( is_single() && $page_restricted['is_restricted'] ) {
 
 				do_action('lifterlms_content_restricted', $page_restricted['id'], $page_restricted['reason']);
-				$template = 'single-no-access.php';
+				return $template;
 		
 		}
 
 		elseif ( is_single() && get_post_type() == 'llms_membership' ) {
 
-				$template = 'single-membership.php';
+				return $template;
 
 		}
 
 		elseif ( is_single() && get_post_type() == 'course' ) {
 
-
-				$template = 'single-course.php';
+				return $template;
+				//$template = 'single-course.php';
 
 
 		}
@@ -60,7 +60,7 @@ class LLMS_Template_Loader {
 		elseif ( is_single() && get_post_type() == 'lesson' ) {
 
 
-				$template = 'single-lesson.php';
+				return $template;
 			
 
 		}

@@ -65,6 +65,15 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				),
 
 				array(
+				'desc'          => __( 'Display featured image as course banner.', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_banner',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'start',
+				'autoload'      => false
+				),
+
+				array(
 				'desc'          => __( 'Display Difficulty on course.', 'lifterlms' ),
 				'id'            => 'lifterlms_course_display_difficulty',
 				'default'       => 'no',

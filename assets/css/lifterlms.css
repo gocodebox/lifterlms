@@ -184,7 +184,6 @@
 .llms-featured-image {
   display: block;
   margin: 0 auto;
-  width: 100%;
 }
 
 .llms-image-thumb {
@@ -192,7 +191,6 @@
 }
 
 .llms-course-list .courses {
-  border-top: 1px solid #f6f6f6;
   width: 100%;
   display: inline-block;
   text-align: center;
@@ -738,6 +736,10 @@ h1, h2, h3, h4, h5, h6 {
 .list-view .site-content .llms-course-list .hentry, .list-view .site-content .llms-membership-list .hentry {
   border-top: 0;
   padding-top: 0;
+}
+
+.llms-content {
+  width: 100%;
 }
 
 /*!

@@ -17,10 +17,15 @@ while ( have_posts() ) : the_post();
 
 	llms_get_template_part( 'content', 'single-membership' );
 
+	if ( comments_open() || get_comments_number() ) {
+		comments_template();
+	}
+
 endwhile;
 ?>
 
 <?php
+get_comments();
 get_sidebar();
 get_footer();
 ?>

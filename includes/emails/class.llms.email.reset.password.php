@@ -58,10 +58,7 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
 			return;
 		}
-LLMS_log($this->get_subject());
-LLMS_log($this->get_content());
 		$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
-LLMS_log('triggered email');
 	}
 
 	/**

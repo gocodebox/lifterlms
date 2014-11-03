@@ -8,4 +8,4 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
 
-<h1 class="llms-h1 llms-title"><?php the_title(); ?></h1>
+<h1 class="entry-title hentry-title llms-h1 llms-title"><?php the_title(); ?></h1>

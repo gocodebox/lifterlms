@@ -349,6 +349,31 @@ function llms_get_template_part( $slug, $name = '' ) {
 	}
 }
 
+function llms_get_template_part_contents( $slug, $name = '' ) {
+	$template = '';
+
+	if ( $name ) {
+		$template = locate_template( array( "{$slug}-{$name}.php", LLMS()->template_path() . "{$slug}-{$name}.php" ) );
+	}
+
+	// Get default slug-name.php
+	if ( ! $template && $name && file_exists( LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
+		$template = LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php";
+	}
+
+	if ( ! $template ) {
+		$template = locate_template( array( "{$slug}.php", LLMS()->template_path() . "{$slug}.php" ) );
+	}
+
+	// Allow 3rd party plugin filter template file from their plugin
+	//$template = apply_filters( 'llms_get_template_part', $template, $slug, $name );
+
+	if ( $template ) {
+		return $template;
+		//load_template( $template, false );
+	}
+}
+
 
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 	if ( $args && is_array( $args ) ) {
@@ -439,7 +464,6 @@ function get_section_id($course_id, $lesson_id) {
 }
 
 function get_update_keys($query){
-	LLMS_log('is it calling this?');
 	$update_key = get_option('lifterlms_update_key', '');
 	$url = urlencode(get_bloginfo('url'));
 	$query['updatekey'] = $update_key;

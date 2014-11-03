@@ -10,6 +10,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 get_header( 'memberships' ); ?>
 
+<main class="content llms-content" role="main">
+<div id="page-<?php the_ID(); ?>" <?php post_class(); ?>>
+
 	<?php
 
 		do_action( 'lifterlms_before_main_content' );
@@ -57,12 +60,12 @@ get_header( 'memberships' ); ?>
 		do_action( 'lifterlms_after_main_content' );
 
 	?>
-
+</div></main>
 	<?php
 
 		do_action( 'lifterlms_sidebar' );
 
 	?>
 
-<?php get_sidebar( 'shop' ) ?>
+
 <?php get_footer( 'shop' ); ?>

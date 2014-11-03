@@ -38,7 +38,6 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 		if ( strstr( $permalink, '?' ) ) {
 			$query_string = '?' . parse_url( $permalink, PHP_URL_QUERY );
 			$permalink    = current( explode( '?', $permalink ) );
-LLMS_log($permalink);
 		
 		} else {
 			$query_string = '';

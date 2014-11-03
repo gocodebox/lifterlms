@@ -8,11 +8,16 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-do_action( 'lifterlms_before_main_content' );
+
 ?>
 
 
 	<div id="lesson-<?php the_ID(); ?>" <?php post_class(); ?>>
+
+		<?php do_action( 'lifterlms_before_single_lesson_header' ); ?>
+		<header class="llms-entry-header entry-header">
+		<?php do_action( 'lifterlms_single_lesson_header' ); ?>
+		</header>
 
 		<?php llms_print_notices(); ?>
 
@@ -26,5 +31,6 @@ do_action( 'lifterlms_before_main_content' );
 
 		</div>
 
+
 	</div>
-<?php do_action( 'lifterlms_after_main_content' ); ?>
+

@@ -11,10 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 get_header( 'shop' ); ?>
 
-	<?php
+<main class="content llms-content" role="main">
+<div id="page-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-		do_action( 'lifterlms_before_main_content' );
-	?>
+
 		<?php if ( apply_filters( 'lifterlms_show_page_title', true ) ) : ?>
 
 			<h1 class="page-title"><?php lifterlms_page_title(); ?></h1>
@@ -57,14 +57,13 @@ get_header( 'shop' ); ?>
 
 	<?php
 
-		do_action( 'lifterlms_after_main_content' );
+
 
 	?>
-
+</div></main>
 	<?php
 
 		do_action( 'lifterlms_sidebar' );
 
 	?>
-<?php get_sidebar() ?>
-<?php get_footer( 'shop' ); ?>
+<?php get_footer(); ?>

@@ -197,8 +197,6 @@ class LLMS_Shortcode_My_Account {
 		$hashed = $wp_hasher->HashPassword( $key );
 
 		$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
-LLMS_log('reset password started');
-		// Send email notification
 		$mailer = LLMS()->mailer();
 		do_action( 'lifterlms_reset_password_notification', $user_login, $key );
 
