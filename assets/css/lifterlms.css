@@ -742,6 +742,12 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
+.llms-lesson-button-wrapper {
+  width: 100%;
+  display: block;
+  clear: both;
+}
+
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

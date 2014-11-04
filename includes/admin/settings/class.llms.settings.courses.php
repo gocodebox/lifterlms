@@ -97,6 +97,14 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'autoload'      => false
 				),
 
+				array(
+				'desc'          => __( 'Display Lesson excerpts in lesson navigation', 'lifterlms' ),
+				'id'            => 'lifterlms_lesson_nav_display_excerpt',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				'autoload'      => false
+				),
+
 				array( 'type' => 'sectionend', 'id' => 'course_options'),
 
 		) ); 

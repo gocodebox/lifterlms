@@ -9,7 +9,6 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 llms_print_notices();
-echo 'hello';
 do_action( 'lifterlms_single_lesson_before_summary' );
 
 ?>
