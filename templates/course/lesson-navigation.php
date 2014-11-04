@@ -56,3 +56,4 @@ if ( $lesson->get_next_lesson() ) {
 <?php } ?>
 
 </nav>
+<div class="clear"></div>

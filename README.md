@@ -25,6 +25,13 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.0.4 - 2014-11-04
+-------------------
+
++ Templating bug fix
++ Added shortcode and autop support to course and lesson content / excerpt
+
+
 v1.0.3 - 2014-11-04
 -------------------
 

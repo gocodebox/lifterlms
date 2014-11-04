@@ -7,12 +7,18 @@
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
 global $post, $course, $lesson;
+	// add_filter('lifterlms_full_description', 'llms_filter_content',1, 1);
+
+
+	// 	function llms_filter_content($content){
+	// 	return apply_filters('get_the_content', wptexturize(do_shortcode($content)) );
+	// }
+
+	add_filter('lifterlms_full_description', 'do_shortcode');
+
 
 ?>
 <div class="llms-full-description">
-	<?php echo apply_filters( 'the_content', apply_filters( 'lifterlms_full_description', $post->post_content ) ) ?>
-	<h2><?php 
-	$parent_course = get_post( $lesson->get_parent_course() );
-	?></h2>
-
+	<?php echo apply_filters( 'lifterlms_full_description', wptexturize($post->post_content) ); ?>
 </div>
+<div class="clear"></div>

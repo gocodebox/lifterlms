@@ -22,7 +22,7 @@ function llms_page_restricted($post_id) {
 		}
 		
 		elseif ( is_single() && $post->post_type == 'lesson' ) {
-
+LLMS_log('else is post type= lesson');
 			if( parent_page_restricted_by_membership($post_id) ) {
 
 				$restricted = true;
@@ -72,7 +72,7 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
-
+LLMS_log($results);
 	return $results;
 	
 }
@@ -319,7 +319,7 @@ function llms_get_lesson_start_date($post_id) {
 }
 
 function lesson_start_date_in_future($user_id, $post_id) {
-
+LLMS_log('lesson start date in future');
 	$result = false;
 	$lesson = new LLMS_Lesson($post_id);
 

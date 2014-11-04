@@ -39,6 +39,7 @@ class LLMS_Template_Loader {
 		if ( is_single() && $page_restricted['is_restricted'] ) {
 
 				do_action('lifterlms_content_restricted', $page_restricted['id'], $page_restricted['reason']);
+				//$template = 'single-no-access.php';
 				return $template;
 		
 		}

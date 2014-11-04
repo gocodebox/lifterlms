@@ -8,9 +8,9 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-global $post;
 llms_print_notices();
+echo 'hello';
+do_action( 'lifterlms_single_lesson_before_summary' );
 
 ?>
-<?php do_action( 'lifterlms_no_access_main_content' ); ?>
 
