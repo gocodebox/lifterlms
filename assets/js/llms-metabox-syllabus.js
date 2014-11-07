@@ -22,14 +22,20 @@ jQuery(document).ready(function($) {
     	reverse_selection(this);
     });
 
+    //disable selections on page load
+	$('.section-select').attr('disabled', 'disbaled');
+	$('.lesson-select').attr('disabled', 'disbaled');
+
     // check for duplicate sections on select change
     $('.section-select').change(function() {
- 		catch_duplicates(this);
+ 		//catch_duplicates(this);
+ 		//$(this).attr('disabled', 'disbaled');
     });
 
 	// calls ajax update function on lesson change
     $('.lesson-select').change(function() {
-    	catch_blanks();
+    	update_syllabus();
+    	//$(this).attr('disabled', 'disbaled');
     });
 
 	// creates new section on Add a new Section button click
@@ -59,6 +65,9 @@ jQuery(document).ready(function($) {
 	// Sets lesson tr elements to sortable on page load
 	lessons_sortable();
 	load_ajax_animation();
+	sections_sortable();
+	order_lessons();
+	
 
 });
 
@@ -78,12 +87,14 @@ catch_blanks = function (){
 			alert( 'Unable to save. Please make sure all of your sections are assigned.' );
 		}
 		else {
+			console.log('catch_blanks update called');
 			update_syllabus();
 		}
 	});
 }
 
 catch_duplicates = function(element){
+	console.log('catch_duplicates update called');
 	var that = jQuery(this);
 	var names = [];
 	var new_value = jQuery(element).val();
@@ -100,20 +111,45 @@ catch_duplicates = function(element){
 			jQuery(element).val(old_value).attr("selected", true);
      		return false;
 		}
-		else {
-			update_syllabus();
-		}
 	});
+
+	var promise = wait();
+	promise.done(update_syllabus);
+	var section_position = jQuery(element).parent().parent().attr('id');
+	get_associated_lessons(new_value, section_position);
+}
+
+function wait() {
+	var deferred = jQuery.Deferred();
+
+	setTimeout(function() {
+		deferred.resolve();
+	}, 2500);
+
+	return deferred.promise();
 }
 
 /**
  * Click event function to append a new row to the tasks table
  */
+
 lessons_sortable = function() {
 
     jQuery('.dad-list').sortable({
     	items		: '.list_item',
     	axis 		: 'y',
+    	placeholder : "placeholder",
+    	cursor		: "move",
+    	forcePlaceholderSize:true,
+    	helper 		: function(e, tr) {
+		    var jQueryoriginals = tr.children();
+		    var jQueryhelper = tr.clone();
+		    jQueryhelper.children().each(function(index)
+		    {
+		      jQuery(this).width(jQueryoriginals.eq(index).width())
+		    });
+		    return jQueryhelper;
+		},
         start 		: function(event, ui) {
 			var start_pos = ui.item.index();
 			ui.item.data('start_pos', start_pos);
@@ -123,7 +159,47 @@ lessons_sortable = function() {
             var end_pos = jQuery(ui.item).index();
 
             jQuery(ui.item).attr("data-order", end_pos);
+            order_lessons();
             update_syllabus();
+        } 
+    });
+}
+
+order_lessons = function() {
+	jQuery('.course-section').each( function(index) {
+    	jQuery(this).find('.list_item').each( function(index) {
+    		jQuery(this).attr("data-order", index + 1);
+    	});
+    });
+}
+
+/**
+ * Click event function to append a new row to the tasks table
+ */
+sections_sortable = function() {
+
+    jQuery('#syllabus').sortable({
+    	items		: '.course-section',
+    	axis 		: 'y',
+    	placeholder : "sortable-placeholder section-placeholder",
+ 		cursor		: "move",
+        start 		: function(event, ui) {
+			var start_pos = ui.item.index();
+			ui.item.data('start_pos', start_pos);
+		},
+        update		: function(event, ui) {
+            var start_pos = ui.item.data('start_pos');
+            var end_pos = jQuery(ui.item).index();
+
+            jQuery(ui.item).attr("data-order", end_pos);
+            jQuery('.course-section').each( function(index) {
+			jQuery( this ).attr('id', index + 1 )
+			jQuery( this ).find('label').text('Section ' + (index + 1) + ':');
+			jQuery( this ).find('a.add-lesson').attr('data-section', index + 1);
+
+	});
+            update_syllabus();
+
         }
     });
 }
@@ -188,6 +264,7 @@ parse_lessons = function(section_id) {
  * Main update function, updates sections and lessons via ajax class.
  */
 update_syllabus = function() {
+	console.log('update syllabus called');
 	var request_obj = get_sections();
 
 	    var data = { 'action':'update_syllabus', 'post_id' : jQuery('#syllabus').data("post_id"), 'sections' : request_obj };
@@ -197,12 +274,31 @@ update_syllabus = function() {
 }
 
 /**
+ * Find lessons associated with selected section
+ */
+get_associated_lessons = function(section_id, section_position) {
+	console.log('get_associated_lessons called');
+	var ajax = new Ajax('post', {'action':'get_associated_lessons', 'section_id' : section_id, 'section_position' : section_position }, true);
+	ajax.get_associated_lessons(section_id, section_position);
+}
+
+add_associated_lessons = function(response, section_id, section_position) {
+	console.log('add_associated_lessons triggered');
+	console.log(response);
+	console.log(section_id);
+	console.log(section_position);
+	associated_lesson_template(response, section_id, section_position)
+}
+
+/**
  * Returns array of all lessons
  */
 get_lessons = function(section_id, section_position) {
 	var ajax = new Ajax('post', {'action':'get_lessons'}, true);
 	ajax.get_lessons(section_id, section_position);
 }
+
+
 
 /**
  * Creates new lesson tr element
@@ -227,24 +323,25 @@ add_new_lesson = function(event){
  */
 lesson_template = function (lessons, section_id, section_position) {
 
-		var row_id = (jQuery('#' + section_position  + ' .list_item').length) + 1;
-		var select_class = 'list_item_' + row_id;
-		var row_class = 'row_' + row_id;
+	var row_id = (jQuery('#' + section_position  + ' .list_item').length) + 1;
+	var select_class = 'list_item_' + row_id;
+	var row_class = 'row_' + row_id;
 
-		var numRows = jQuery('#' + section_position  + ' .dad-list').length;
+	var numRows = jQuery('#' + section_position  + ' .dad-list').length;
 
-		jQuery('<tr class="list_item" id="' + row_class + '" data-section_id="' + section_id + '" data-order="' + row_id + '"> \
-			<td><select id="' + select_class + '" data-placeholder="Choose a Section" class="chosen-select lesson-select" \
-			></select></td><td><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn"></i></td></tr>')
-		.appendTo('#' + section_position + ' .dad-list tbody').hide().fadeIn(300);
+	jQuery('<tr class="list_item" id="' + row_class + '" data-section_id="' + section_id + '" data-order="' + row_id + '"> \
+		<td><select data-type="lesson" id="' + select_class + '" data-placeholder="Choose a Section" class="chosen-select lesson-select" \
+		></select></td><td><i class="fa fa-bars llms-fa-move-lesson"></i><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn"></i></td></tr>')
+	.appendTo('#' + section_position + ' .dad-list tbody').hide().fadeIn(300);
 
-		jQuery(select).change(function() { update_syllabus($(select).val()) });
-		jQuery('#' + section_position + ' .dad-list tbody ' + '.lesson-select').change(function() { update_syllabus() });
+	jQuery(select).change(function() { update_syllabus(jQuery(select).val()); });
+	jQuery('#' + section_position + ' .dad-list tbody ' + '.lesson-select').change(function() { get_edit_link(jQuery(this)); update_syllabus(); jQuery(this).attr('disabled', 'disbaled'); });
 
 
-		jQuery('.deleteBtn').click(function() {
-		    var contentPanelId = jQuery(this).attr("class");
-		    jQuery(this).parent().parent().remove();
+	jQuery('.deleteBtn').click(function() {
+	    var contentPanelId = jQuery(this).attr("class");
+	    jQuery(this).parent().parent().remove();
+	    update_syllabus();
 	});
 
 
@@ -254,9 +351,85 @@ lesson_template = function (lessons, section_id, section_position) {
     		var select = jQuery('#' + section_position + ' #' + select_class);
     		var option = '<option value="' + lessons[key]['ID'] + '">' +  lessons[key]['post_title'] + '</option>'
     		jQuery(select).append(option);
+    		//jQuery(select).prepend('<option value="" selected disabled>Please select a lesson...</option>');
 	    }
 	}
 	jQuery(select).prepend('<option value="" selected disabled>Please select a lesson...</option>');
+};
+
+get_edit_link = function(element) {
+	console.log('get edit link called');
+	console.log(element);
+	var lesson_id = jQuery(element).val();
+	var element_id = jQuery(element).attr('id');
+	console.log('element_id');
+	console.log(element_id);
+	var type = jQuery(element).attr('data-type');
+
+	console.log(lesson_id);
+	var ajax = new Ajax('post', {'action':'get_lesson', 'lesson_id' : lesson_id}, true);
+	ajax.get_lesson(lesson_id, element_id, type);
+}
+add_edit_link = function(post, lesson_id, row_id, type) {
+	console.log('add_edit_link called');
+	console.log(lesson_id);
+	console.log(post);
+	console.log(row_id);
+	console.log('type');
+	console.log(type);
+	//var td = jQuery('#' + row_id).parent().next();
+
+	var edit_link = document.createElement('a');
+	edit_link.setAttribute('href', encodeURI(post.edit_url));
+
+	var edit_icon = document.createElement('i');
+	edit_icon.setAttribute('class', 'fa fa-pencil-square-o llms-fa-edit-lesson');
+
+	edit_link.appendChild(edit_icon);
+	// put components together to build section block
+	if (type == 'lesson') {
+		
+		jQuery('#' + row_id).parent().next().append(edit_link);
+	}
+	if (type == 'section') {
+		console.log('trying to append the emelemnt')
+		jQuery('#' + row_id).parent().append(edit_link);
+	}
+}
+
+ /**
+ * Generate lesson template
+ */
+associated_lesson_template = function (lessons, section_id, section_position) {
+	for (var key in lessons) {
+
+		var row_id = (jQuery('#' + section_position  + ' .list_item').length) + 1;
+		var select_class = 'list_item_' + row_id;
+		var row_class = 'row_' + row_id;
+
+		var numRows = jQuery('#' + section_position  + ' .dad-list').length;
+
+		jQuery('<tr class="list_item" id="' + row_class + '" data-section_id="' + section_id + '" data-order="' + row_id + '"> \
+			<td><select id="' + select_class + '" data-placeholder="Choose a Section" class="chosen-select lesson-select" disabled="disabled" \
+			></select></td><td><a href="' + lessons[key]['edit_url'] + '"><i class="fa fa-pencil-square-o llms-fa-edit-lesson"></i></a> \
+			<i class="fa fa-bars llms-fa-move-lesson"></i><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn"></i></td></tr>')
+		.appendTo('#' + section_position + ' .dad-list tbody').hide().fadeIn(300);
+
+		jQuery(select).change(function() { update_syllabus(jQuery(select).val()); });
+		jQuery('#' + section_position + ' .dad-list tbody ' + '.lesson-select').change(function() { update_syllabus(); jQuery(this).attr('disabled', 'disbaled'); });
+		jQuery('.deleteBtn').click(function() {
+		    var contentPanelId = jQuery(this).attr("class");
+		    jQuery(this).parent().parent().remove();
+		    update_syllabus();
+		});
+
+	    if (lessons.hasOwnProperty(key)) {
+			var select = jQuery('#' + section_position + ' #' + select_class);
+			
+			var option = '<option selected value="' + lessons[key]['ID'] + '">' +  lessons[key]['post_title'] + '</option>'
+			jQuery(select).append(option);
+	    }
+	}
 };
 
 /**
@@ -273,7 +446,6 @@ delete_this = function(thisButton){
 	});
 	// var id = $('.course-section').length + 1;
  //        var sectionId = 'section_' + id;
-
 	update_syllabus();
 };
 
@@ -311,8 +483,11 @@ delete_this = function(thisButton){
 		var select = document.createElement('select');
 		select.setAttribute('class', 'chosen-select chosen select section-select');
 		select.setAttribute('data-placeholder', 'Select a Section');
+		select.setAttribute('data-type', 'section');
+		select.setAttribute('id', 'section_item_' + id);
+		
 		$(select).click(function() { reverse_selection ($(select))});
-		$(select).change(function() { catch_duplicates($(select)) });
+		$(select).change(function() { get_edit_link(jQuery(this)); catch_duplicates($(select)); $(this).attr('disabled', 'disbaled'); });
 		$(select).attr("selectedIndex", -1);
 
 		// create delete button
@@ -320,6 +495,9 @@ delete_this = function(thisButton){
 		removeBtn.setAttribute('data-code', 'f153');
 		removeBtn.setAttribute('class', 'dashicons dashicons-dismiss section-dismiss');
 		$(removeBtn).click(function() { delete_this($(select)) });
+		
+		var moveBtn = document.createElement('i');
+		moveBtn.setAttribute('class', 'fa fa-bars llms-fa-move-lesson');
 
 		// create add lesson button
 		var addLessonBtn = document.createElement('a');
@@ -350,6 +528,7 @@ delete_this = function(thisButton){
 		title.appendChild(label);
 		title.appendChild(select);
 		title.appendChild(removeBtn);
+		title.appendChild(moveBtn);
 		section.appendChild(title);
 		$(section).append(table);
 		$(section).append(addLessonBtn);

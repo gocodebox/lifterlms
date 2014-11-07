@@ -1,0 +1,1 @@
+!function($){$(".datepicker").datepicker({dateFormat:"yy/mm/dd"}),clear_fields=function(a){var a=a;$.each(a,function(a,n){$(n).val("")})},load_ajax_animation=function(){$("#loading").hide(),$(document).ajaxStop(function(){$("#loading").hide()}),$(document).ajaxStart(function(){$("#loading").show()})}}(jQuery);

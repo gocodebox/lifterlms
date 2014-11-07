@@ -102,7 +102,10 @@ class LLMS_Meta_Box_Course_Syllabus {
 
 			endforeach;
 			
-			$html .= '</select></td><td><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn"></i></td></tr>';
+			$html .= '</select></td><td>
+				<a href="' . get_edit_post_link($lesson_id) . '"><i class="fa fa-pencil-square-o llms-fa-edit-lesson"></i></a>
+				<i class="fa fa-bars llms-fa-move-lesson"></i><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn"></i>
+				</td></tr>';
 
 			return $html;
 		} 
@@ -178,6 +181,8 @@ class LLMS_Meta_Box_Course_Syllabus {
 			echo '<div id="' . $syllabus[0][$key]['position'] . '" class="course-section"> 
 					<p class="title"><label class="order">Section ' . $syllabus[0][$key]['position'] . ': </label>
 						' . get_sections_select($syllabus[0][$key]['section_id']) . '
+						<a href="' . get_edit_post_link($syllabus[0][$key]['section_id']) . '"><i class="fa fa-pencil-square-o llms-fa-edit-lesson"></i></a>
+						<i class="fa fa-bars llms-fa-move-lesson"></i>
 						<i data-code="f153" data-section_id="' . $syllabus[0][$key]['position'] . '" class="dashicons dashicons-dismiss section-dismiss"></i>
 					</p> 
 					<table class="wp-list-table widefat fixed posts dad-list"> 

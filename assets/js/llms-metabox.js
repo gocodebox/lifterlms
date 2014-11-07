@@ -1,3 +1,11 @@
+jQuery(document).ready(function($) {
+
+	$('#associated_course').chosen();
+	$('#associated_section').chosen();
+	
+});
+
+
 jQuery('.metabox_submit').click(function(e) {
     e.preventDefault();
     jQuery('#publish').click();

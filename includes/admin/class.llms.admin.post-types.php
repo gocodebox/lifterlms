@@ -25,9 +25,16 @@ class LLMS_Admin_Post_Types {
 		add_filter( 'manage_order_posts_columns', array($this, 'llms_add_order_columns' ), 10, 1 );
 		add_action( 'manage_order_posts_custom_column', array($this, 'llms_manage_order_columns' ), 10, 2 );
 		add_filter( 'manage_edit-order_sortable_columns', array($this, 'llms_order_sortable_columns') );
-
 		add_action( 'load-edit.php', array($this,'llms_edit_order_load' ) );
 		//add_filter( 'request', array($this, 'llms_sort_orders') );
+
+		add_filter( 'manage_lesson_posts_columns', array($this, 'llms_add_lesson_columns' ), 10, 1 );
+		add_action( 'manage_lesson_posts_custom_column', array($this, 'llms_manage_lesson_columns' ), 10, 2 );
+
+		add_filter( 'manage_section_posts_columns', array($this, 'llms_add_section_columns' ), 10, 1 );
+		add_action( 'manage_section_posts_custom_column', array($this, 'llms_manage_section_columns' ), 10, 2 );
+		//add_filter( 'manage_edit-lesson_sortable_columns', array($this, 'llms_lesson_sortable_columns') );
+		//add_action( 'load-edit.php', array($this,'llms_edit_lesson_load' ) );
 
 	}
 
@@ -176,6 +183,160 @@ class LLMS_Admin_Post_Types {
 
 		return $vars;
 	}
+
+	public function llms_add_lesson_columns($columns) {
+	    $columns = array(
+		'cb' => '<input type="checkbox" />',
+		'title' => __( 'Lesson Title' ),
+		'course' => __( 'Assigned Course' ),
+		'section' => __( 'Assigned Section' ),
+		'prereq' => __( 'Prerequisite' ),
+		//'start_date' => __( 'Begins' ),
+		'memberships' => __( 'Memberships Required' ),
+		'date' => __( 'Date' )
+		//'price' => __( 'Price' ),
+		);
+		return $columns;
+	}
+
+	public function llms_manage_lesson_columns( $column, $post_id ) {
+		global $post;
+
+		switch( $column ) {
+
+			case 'course' :
+
+				$course = get_post_meta( $post_id, '_parent_course', true );
+				$edit_link = get_edit_post_link($course);
+
+				if ( empty( $course ) )
+					echo __( '' );
+
+				else
+					printf( __( '<a href="%s">%s</a>' ), $edit_link , get_the_title($course) );
+
+				break;
+
+			case 'section' :
+
+				$section = get_post_meta( $post_id, '_parent_section', true );
+				$edit_link = get_edit_post_link($section);
+				
+				if ( empty( $section ) )
+					echo __( '' );
+
+				else
+					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title($section) );
+
+
+				break;
+
+			case 'prereq' :
+
+				$prereq = get_post_meta( $post_id, '_prerequisite', true );
+				$edit_link = get_edit_post_link($prereq);
+				
+				if ( empty( $prereq ) )
+					echo __( '' );
+
+				else
+					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title($prereq) );
+
+				break;
+
+			case 'memberships' :
+
+				$memberships = llms_get_post_memberships($post_id);
+
+				if  ( empty( $memberships ) ) {
+					echo __( '' );
+				}
+				else {
+					$membership_list = array();
+					foreach ($memberships as $key => $value) {
+
+						array_push($membership_list, get_the_title($value));
+					}
+					printf( __( '%s ' ), implode(', ', $membership_list));
+							//echo ', '; 
+				}
+						
+						//$i = ',' ? count($memberships) > 1 : '';
+						//printf( __( '%s ' ), get_the_title($value));
+					
+
+				break;
+
+			default :
+				break;
+		}
+	}
+
+	public function llms_add_section_columns($columns) {
+	    $columns = array(
+		'cb' => '<input type="checkbox" />',
+		'title' => __( 'Lesson Title' ),
+		'course' => __( 'Assigned Course' ),
+		'date' => __( 'Date' )
+		);
+		return $columns;
+	}
+
+	public function llms_manage_section_columns( $column, $post_id ) {
+		global $post;
+
+		switch( $column ) {
+
+			case 'course' :
+
+				$course = get_post_meta( $post_id, '_parent_course', true );
+				$edit_link = get_edit_post_link($course);
+				if ( empty( $course ) )
+					echo __( '' );
+
+				else
+					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title($course) );
+
+				break;
+
+			default :
+				break;
+		}
+	}
+
+//I will be back to finish this. 
+// 	function llms_lesson_sortable_columns( $columns ) {
+
+// 		$columns['course'] = 'course';
+
+// 		return $columns;
+// 	}
+
+// 	function llms_edit_lesson_load() {
+// 		add_filter( 'request', array($this,'llms_sort_lessons') );
+// 	}
+
+// 	public function llms_sort_lessons( $vars ) {
+		
+// 		LLMS_log($vars);
+
+// 		if ( isset( $vars['post_type'] ) && 'lesson' == $vars['post_type'] ) {
+// LLMS_log('made it');
+
+// 			//if ( isset( $vars['orderby'] ) && 'course' == $vars['orderby'] ) {
+	
+// 				$vars = array_merge(
+// 					$vars,
+// 					array(
+// 						'meta_key' => '_parent_course',
+// 						'orderby' => 'post_title'
+// 					)
+// 				);
+// 			}
+// 		//}
+// LLMS_log($vars);
+// 		return $vars;
+// 	}
 
 }
 

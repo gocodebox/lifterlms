@@ -326,6 +326,18 @@ if($syllabus) {
 
 	}
 
+	public function get_sections() {
+		$syllabus = $this->get_syllabus(); 
+		$sections = array();
+		if ($syllabus) {
+			foreach($syllabus as $key => $value) {
+				LLMS_log($value['section_id']);
+				array_push($sections,$value['section_id']);
+			}
+		}
+		return $sections;
+	}
+
 	public function get_section_percent_complete($lesson_id) {
 
 		$syllabus = $this->get_syllabus();

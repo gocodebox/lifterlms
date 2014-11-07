@@ -36,6 +36,7 @@ class LLMS_Install {
 		register_activation_hook( LLMS_PLUGIN_FILE, array( $this, 'install' ) );
 		add_action( 'admin_init', array( $this, 'check_wp_version' ) );	
 		add_action( 'admin_init', array( $this, 'install_settings' ) );
+		add_action( 'admin_init', array( $this, 'update_relationships' ) );
 	}
 
 	//custom error notice ~ this needs to be moved to it's own class / factory
@@ -66,6 +67,41 @@ class LLMS_Install {
 		}
 
 		$this->install();
+	}
+
+	public function update_relationships() {
+		$relationship_updated = get_option( 'lifterlms_relationship_update', 'no' ) === 'yes' ? true : false;
+
+		if (!$relationship_updated) {
+			LLMS_log('update_relationships called');
+			$course_args = array(
+				'posts_per_page'   => -1,
+				'orderby'          => 'title',
+				'order'            => 'ASC',
+				'post_type'        => 'course',
+				'suppress_filters' => true 
+			); 
+			$courses = get_posts($course_args);
+			foreach($courses as $course) {
+				$syllabus = get_post_meta($course->ID, '_sections');
+				if ($syllabus) {
+					foreach($syllabus as $keys => $values) {
+						foreach($values as $k => $v) {
+							if ($v['section_id']) {
+								update_post_meta($v['section_id'], '_parent_course', $course->ID);
+								foreach($v['lessons'] as $lk => $lv) {
+									if($v['lessons']) {
+										update_post_meta($lv['lesson_id'], '_parent_course', $course->ID);
+										update_post_meta($lv['lesson_id'], '_parent_section', $v['section_id']);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			update_option( 'lifterlms_relationship_update', 'yes' );
+		}
 	}
 
 	/**

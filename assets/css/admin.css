@@ -47,8 +47,8 @@ i.section-dismiss {
   font-size: 2em;
   position: absolute;
   right: 16px;
-  top: 14px;
-  color: rgba(88, 88, 91, 0.3);
+  top: 12px;
+  color: rgba(88, 88, 91, 0.6);
   cursor: pointer;
 }
 
@@ -83,9 +83,10 @@ i.section-dismiss:hover {
 }
 
 .deleteBtn {
-  color: rgba(88, 88, 91, 0.3);
+  color: rgba(88, 88, 91, 0.6);
   font-size: 2em;
   cursor: pointer;
+  margin-top: -6px;
 }
 
 .deleteBtn:hover {
@@ -133,12 +134,7 @@ table.dad-list tr td:nth-child(2) {
 }
 
 .meta-box-sortables .course-section select {
-  width: 80%;
-}
-
-/*we really need to create a helper function to style the dragged element but for v1 I'm not worried about it*/
-.ui-sortable-helper {
-  background-color: #f1f1f1;
+  width: 75%;
 }
 
 #addNewSection {
@@ -193,6 +189,134 @@ table.dad-list tr td:nth-child(2) {
 .toplevel_page_lifterlms img {
   height: 18px;
   width: 18px;
+}
+
+.llms-lesson-list {
+  margin: 0;
+}
+
+.llms-lesson-list a {
+  text-decoration: none;
+}
+
+.llms-lesson-list span {
+  margin-left: 10px;
+}
+
+select[disabled] {
+  color: #000;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+  box-shadow: none;
+  background: none;
+  margin-top: -4px;
+}
+
+.section-placeholder {
+  height: 200px;
+  width: 100%;
+}
+
+.sortable-placeholder {
+  border-left: 2px solid #4999DA;
+  margin: 0 0 0.75rem 0;
+  position: relative;
+  z-index: 6;
+  visibility: visible;
+  background: #f4f9fb;
+}
+
+#syllabus .placeholder {
+  height: 46px;
+  border: 10px solid #4999DA;
+  background: #f4f9fb;
+  visibility: visible;
+}
+
+/*we really need to create a helper function to style the dragged element but for v1 I'm not worried about it*/
+.ui-sortable-helper {
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.list_item td {
+  position: relative;
+}
+
+.course-section .title .llms-fa-move-lesson {
+  position: absolute;
+  font-size: 20px;
+  right: 60px;
+  color: rgba(88, 88, 91, 0.6);
+  top: 14px;
+  cursor: move;
+}
+
+.course-section .title .llms-fa-edit-lesson {
+  position: absolute;
+  font-size: 20px;
+  right: 104px;
+  color: rgba(88, 88, 91, 0.6);
+  top: 14px;
+  cursor: pointer;
+}
+
+.course-section .title .llms-fa-edit-lesson:hover {
+  color: #009af7;
+}
+
+.course-section .title .llms-fa-move-lesson:hover {
+  color: #009af7;
+}
+
+.course-section .title .llms-fa-move-lesson:active {
+  color: #009af7;
+}
+
+.course-section .title .llms-fa-edit-lesson:active {
+  color: #009af7;
+}
+
+tbody tr td .llms-fa-move-lesson {
+  position: absolute;
+  font-size: 20px;
+  right: 60px;
+  color: rgba(88, 88, 91, 0.6);
+  top: 10px;
+  cursor: move;
+}
+
+tbody tr td .llms-fa-move-lesson:hover {
+  color: #009af7;
+}
+
+tbody tr td .llms-fa-move-lesson:active {
+  color: #009af7;
+}
+
+tbody tr td .llms-fa-edit-lesson {
+  position: absolute;
+  font-size: 20px;
+  right: 104px;
+  color: rgba(88, 88, 91, 0.6);
+  top: 11px;
+  cursor: pointer;
+}
+
+tbody tr td .llms-fa-edit-lesson:hover {
+  color: #009af7;
+  cursor: pointer;
+}
+
+tbody tr td .llms-fa-edit-lesson:active {
+  color: #009af7;
+}
+
+.course-section .widefat tfoot tr th, .course-section .widefat thead tr th {
+  color: #9b9b9d;
 }
 
 /*!

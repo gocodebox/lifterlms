@@ -45,6 +45,12 @@ class LLMS_Admin_Assets {
 	    	'edit-course',
 	    	'edit-course_cat',
 
+	    	'lesson',
+	    	'edit-lesson',
+
+	    	'section',
+	    	'edit-section',
+
 	    	'llms_certificate',
 	    	'edit-llms_certificate',
 
