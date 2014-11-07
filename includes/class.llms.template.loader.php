@@ -96,7 +96,7 @@ class LLMS_Template_Loader {
 
 		}
 
-		$template_path = ($this->has_theme_override($template)) ? get_stylesheet_directory() . '/llms/' : LLMS()->plugin_path() . '/templates/';
+		$template_path = ($this->has_theme_override($template)) ? get_stylesheet_directory() . '/lifterlms/' : LLMS()->plugin_path() . '/templates/';
 
 		return $template_path . $template;
 
@@ -111,7 +111,7 @@ class LLMS_Template_Loader {
 	 */
 	private function has_theme_override($template='') {
 
-		return file_exists(get_stylesheet_directory() . '/llms/' .$template);
+		return file_exists(get_stylesheet_directory() . '/lifterlms/' .$template);
 
 	}
 

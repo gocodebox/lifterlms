@@ -35,10 +35,10 @@ class LLMS_Integration_Buddypress {
 	 */
 	public function add_profile_nav_items() {
 		bp_core_new_nav_item( array(
-			'name' => __( 'My Courses', 'lifterlms' ),
+			'name' => __( 'Courses', 'lifterlms' ),
 			'slug' => 'courses',
-			'position' => 19,
-			'screen_function' => array($this,'my_courses'),
+			'position' => 20,
+			'screen_function' => array($this,'courses'),
 			'show_for_displayed_user' => true,
 			'default_subnav_slug' => 'test'
 		));
@@ -73,9 +73,9 @@ class LLMS_Integration_Buddypress {
 	 * Callback for "My Courses" profile screen
 	 * @return null
 	 */
-	public function my_courses() {
-		add_action('bp_template_title', array($this,'my_courses_title'));
-		add_action('bp_template_content', array($this,'my_courses_content'));
+	public function courses() {
+		add_action('bp_template_title', array($this,'courses_title'));
+		add_action('bp_template_content', array($this,'courses_content'));
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
@@ -83,7 +83,7 @@ class LLMS_Integration_Buddypress {
 	 * "My Courses" profile screen title
 	 * @return null
 	 */
-	public function my_courses_title() {
+	public function courses_title() {
 		_e( 'My Courses', 'lifterlms' );
 	}
 
@@ -91,7 +91,7 @@ class LLMS_Integration_Buddypress {
 	 * "My Courses" profile screen content
 	 * @return null
 	 */
-	public function my_courses_content() {
+	public function courses_content() {
 		llms_get_template('myaccount/my-courses.php');
 	}
 
