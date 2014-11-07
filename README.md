@@ -31,6 +31,13 @@ v1.0.5 - UNRELEASED
 + Fixed a mis-placed parenthesis in templates/course/lesson-navigation.php related to outputting excerpt in navigation option
 + Changed theme override template directory from /llms to /lifterlms
 + Update the positiong & name of the "My Courses" Menu in BuddyPress Compatibility file
++ New meta_key _parent_section added for easier connection and quicker queries.
++ Section sorting on course syllabus
++ Edit links added to course syllabus
++ Assign section to course and view associated lessons metabox added to sections
++ Assign lesson to section and view associated lessons metabox added to lessons
++ Assigned Course, Assigned Section, Prerequisite and Membership Required added to lesson edit grid
++ Assigned Course added to section edit grid
 
 v1.0.4 - 2014-11-04
 -------------------
@@ -47,7 +54,7 @@ v1.0.3 - 2014-11-04
 + Course and Section content templates now filter through WP content
 
 
-v1.0.2 - (UNRELEASED)
+v1.0.2 - 2014-10-31
 ---------------------
 
 + Added lesson short description to previous lesson preview links -- it was rendering on "Next" but not "Previous"
