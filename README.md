@@ -29,6 +29,8 @@ v1.0.5 - UNRELEASED
 -------------------
 
 + Fixed a mis-placed parenthesis in templates/course/lesson-navigation.php related to outputting excerpt in navigation option
++ Changed theme override template directory from /llms to /lifterlms
++ Update the positiong & name of the "My Courses" Menu in BuddyPress Compatibility file
 
 v1.0.4 - 2014-11-04
 -------------------
