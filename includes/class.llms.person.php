@@ -54,7 +54,7 @@ class LLMS_Person {
 		}
 	}
 
-	public function set_user_last_login_timestamp($user_login, $user) {
+	public function set_user_login_timestamp ($user_login, $user) {
 		$now = current_time( 'timestamp' );
 		update_user_meta($user->ID, 'llms_last_login', $now);
 	}
