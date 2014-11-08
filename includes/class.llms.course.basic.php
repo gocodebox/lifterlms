@@ -23,5 +23,8 @@ class LLMS_Course_Basic extends LLMS_Course {
 		parent::__construct( $course );
 		
 	}
+	public function test() {
+		
+	}
 
 }
