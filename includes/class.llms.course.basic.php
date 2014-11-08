@@ -23,6 +23,9 @@ class LLMS_Course_Basic extends LLMS_Course {
 		parent::__construct( $course );
 		
 	}
+	public function test() {
+		
+	}
 
 	public function test() {
 		LLMS_log('this should cause a conflict');
