@@ -24,7 +24,7 @@ class LLMS_Course_Basic extends LLMS_Course {
 		
 	}
 	public function test() {
-		LLMS_log('no dev is better');
+		LLMS_log('memberhsip is better');
 	}
 
 }
