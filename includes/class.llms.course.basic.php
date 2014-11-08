@@ -24,4 +24,8 @@ class LLMS_Course_Basic extends LLMS_Course {
 		
 	}
 
+	public function test() {
+		LLMS_log('this should cause a conflict');
+	}
+
 }
