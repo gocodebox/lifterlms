@@ -15,14 +15,19 @@ function llms_page_restricted($post_id) {
 	$reason = '';
 
 	if ( ! current_user_can( 'manage_options' ) ) {
+
+		if (site_restricted_by_membership($post_id)) {
+			$restricted = true;
+			$reason = 'site_wide_membership';
+		}
 	
-		if ( page_restricted_by_membership($post_id) ) {
+		elseif ( page_restricted_by_membership($post_id) ) {
 			$restricted = true;
 			$reason = 'membership';
 		}
 		
 		elseif ( is_single() && $post->post_type == 'lesson' ) {
-LLMS_log('else is post type= lesson');
+
 			if( parent_page_restricted_by_membership($post_id) ) {
 
 				$restricted = true;
@@ -77,11 +82,56 @@ LLMS_log($results);
 	
 }
 
+function site_restricted_by_membership($post_id) {
+
+	//check if membership is required
+	$membership_required = get_option('lifterlms_membership_required', '');
+
+	//if it's not required return false
+	if (!$membership_required || $membership_required == '') {
+		return false;
+	}
+
+	if ($membership_required && !$membership_required == '') {
+		if( is_user_logged_in() ) {
+			$user_id = get_current_user_id();
+			$user_memberships = get_user_meta( $user_id, '_llms_restricted_levels', true );
+
+			if ( $user_memberships && in_array($membership_required, $user_memberships) ) {
+				return false;
+			}
+		}
+
+	}
+
+	$post = get_post($post_id);
+	//if page is not account, purchase, memberships, or is of post type llms_memberships restrict content
+	if ($post->post_type == 'llms_membership') {
+		return false;
+	}
+	elseif ( is_post_type_archive( 'llms_membership' ) ) {
+		return false;
+	}
+	elseif ( is_page( llms_get_page_id( 'memberships' ) ) ) {
+		return false;
+	}
+	elseif ( is_page( llms_get_page_id( 'myaccount' ) ) ) {
+		return false;
+	}
+	elseif ( is_page( llms_get_page_id( 'checkout' ) ) ) {
+		return false;
+	}
+	//get site restricted memberships
+	return true;
+}
 
 
 //any content
 //membership restriction
 function page_restricted_by_membership($post_id) {
+	$post = get_post($post_id);
+	$userid = get_current_user_id();
+	$membership_required = get_option('lifterlms_membership_required', '');
 
 
 	$restrict_access = false;
@@ -96,7 +146,6 @@ function page_restricted_by_membership($post_id) {
 		
 		//is user logged in 
 		if ( is_user_logged_in() ) {
-			$userid = get_current_user_id();
 			$user_memberships = get_user_meta( $userid, '_llms_restricted_levels', true );
 
 			//does user have any membership levels
@@ -105,7 +154,18 @@ function page_restricted_by_membership($post_id) {
 				foreach ( $page_restrictions as $key => $value ){
 					if ( in_array($value, $user_memberships) ){
 						$restrict_access = false;	
+					}
+					else if ( $membership_required && !$membership_required == '') {
+						if ( in_array($membership_required , $user_memberships) ){
+							$restrict_access = false;	
+						}
 					}	
+				}
+				//if post type is course and user is enrolled then do not restrict content.
+				if ($post->post_type == 'course' ) {
+					if ( llms_is_user_enrolled( $userid, $post->id) ) {
+						$restrict_access = false;
+					}
 				}
 			}
 		}

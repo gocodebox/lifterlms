@@ -12,8 +12,8 @@ global $lifterlms;
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( get_query_var( 'course-id' ) ) {
-	$product = get_post( get_query_var( 'course-id' ) );
+if ( get_query_var( 'product-id' ) ) {
+	$product = get_post( get_query_var( 'product-id' ) );
 }
 elseif ( get_query_var( 'product-id' ) ) {
 	$product = get_post( get_query_var( 'product-id' ) );

@@ -686,7 +686,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .llms-option input[type="radio"] {
-	display: block;
+  display: block;
 	position: absolute;
 	top:3px;
 	left:0;
@@ -803,10 +803,14 @@ padding-top: 0;
 .llms-content {
 	width: 100%;
 }
+
 .llms-lesson-button-wrapper {
 	width: 100%;
 	display: block;
 	clear: both;
+}
+.courses a.llms-course-link:hover {
+  text-decoration: none;
 }
 
 

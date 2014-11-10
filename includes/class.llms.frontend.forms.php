@@ -29,7 +29,7 @@ class LLMS_Frontend_Forms {
 		add_action( 'init', array( $this, 'mark_complete' ) );
 
 		add_action( 'lifterlms_order_process_begin', array( $this, 'order_processing' ), 10, 1 );
-		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 2 );
+		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 1 );
 		add_action( 'lifterlms_order_process_complete', array( $this, 'order_complete' ), 10, 1 );
 
 		
@@ -335,7 +335,7 @@ class LLMS_Frontend_Forms {
 				$lifterlms_checkout = LLMS()->checkout();
 				$lifterlms_checkout->process_order($order);
 				$lifterlms_checkout->update_order($order);
-				do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
+				do_action( 'lifterlms_order_process_success', $order);
 			}
 			else {
 				$lifterlms_checkout = LLMS()->checkout();
@@ -375,11 +375,26 @@ class LLMS_Frontend_Forms {
 
 	}
 
-	public function order_success ($user_id, $course_title) {
+	public function order_success ($order) {
+		$product_title = $order->product_title;
+		$post_obj = get_post($order->product_id);
 
-		$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
+		if ($post_obj->post_type == 'course') {
+			//if post type is course then redirect user back to course
+			// $course = new LLMS_Course($order->product_id);
+			// $next_lesson = $course->get_next_uncompleted_lesson();
 
-		llms_add_notice( sprintf( __( 'Congratulations! You have enrolled in <strong>%s</strong>', 'lifterlms' ), $course_title ) );
+			$redirect = esc_url( get_permalink( $order->product_id ) );
+			llms_add_notice( sprintf( __( 'Congratulations! You have enrolled in <strong>%s</strong>', 'lifterlms' ), $product_title ) );
+		}
+		elseif ($post_obj->post_type == 'llms_membership') {
+			$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
+			llms_add_notice( sprintf( __( 'Congratulations! Your new membership level is <strong>%s</strong>', 'lifterlms' ), $product_title ) );
+		}
+		else {
+			$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
+			llms_add_notice( sprintf( __( 'You have successfully purchased <strong>%s</strong>', 'lifterlms' ), $product_title ) );
+		}
 
 		wp_redirect( apply_filters( 'lifterlms_order_process_success_redirect', $redirect ) );
 
@@ -407,6 +422,13 @@ class LLMS_Frontend_Forms {
 		$post = get_post($post_id);
 
 		switch($reason) {
+			case 'site_wide_membership':
+				$membership = get_option('lifterlms_membership_required', '');
+					$membership = get_post($membership);
+					$membership_title = $membership->post_title;
+					$membership_url = get_permalink($membership->ID);
+					llms_add_notice( sprintf( __( '<a href="%s">%s</a> membership level is required to access this content.', 'lifterlms' ), $membership_url, $membership_title ) );
+				break;
 			case 'membership':
 				$memberships = llms_get_post_memberships($post_id);
 				foreach ($memberships as $key => $value) {

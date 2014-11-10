@@ -36,12 +36,24 @@ class LLMS_Template_Loader {
 
 		$page_restricted = llms_page_restricted(get_the_id());
 
-		if ( is_single() && $page_restricted['is_restricted'] ) {
+		if ( $page_restricted['is_restricted'] ) {
+			do_action('lifterlms_content_restricted', $page_restricted['id'], $page_restricted['reason']);
 
-				do_action('lifterlms_content_restricted', $page_restricted['id'], $page_restricted['reason']);
-				//$template = 'single-no-access.php';
+			//if restriction reason is site_wide_membership then restrict all content 
+			if ( $page_restricted['reason'] == 'site_wide_membership' ) {
+				$template = 'single-no-access.php';
+			}
+			//if courses or course display template
+			elseif ( is_single() && get_post_type() == 'course' ) {
 				return $template;
-		
+			}
+			elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'shop' ) ) ) {
+				$template = 'archive-course.php';
+			}
+			//else restrict access
+			else {
+				$template = 'single-no-access.php';
+			}
 		}
 
 		elseif ( is_single() && get_post_type() == 'llms_membership' ) {
@@ -74,7 +86,7 @@ class LLMS_Template_Loader {
 
 		elseif ( is_post_type_archive( 'llms_membership' ) || is_page( llms_get_page_id( 'memberships' ) ) ) {
 
-			$template = 'archive-membership.php';
+			$template = 'archive-llms_membership.php';
 
 		} 
 

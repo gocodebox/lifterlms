@@ -24,12 +24,13 @@ class LLMS_Integration_Woocommerce {
 
 		$this->enabled = ($this->available && $this->installed) ? true : false;
 
-		//if($this->enabled) {
+		if ($this->enabled) {
 			add_action('woocommerce_order_status_completed',array($this,'process_order'));
 			add_action('woocommerce_after_my_account',array($this,'my_courses_content'));
+
 			add_filter( 'lifterlms_registration_redirect',array($this, 'woocommerce_login_redirect'), 10, 1);
-			
-		//}
+		}
+		
 	}
 
 	/**
@@ -173,7 +174,7 @@ class LLMS_Integration_Woocommerce {
 			$lifterlms_checkout->process_order($order);
 			$lifterlms_checkout->update_order($order);
 
-			do_action( 'lifterlms_order_process_success', $order->user_id, $order->product_title);
+			do_action( 'lifterlms_order_process_success', $order );
 		}
 
 	}

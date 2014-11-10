@@ -166,11 +166,30 @@ lessons_sortable = function() {
 }
 
 order_lessons = function() {
+	
 	jQuery('.course-section').each( function(index) {
+		var section_position = jQuery(this).attr('id');
     	jQuery(this).find('.list_item').each( function(index) {
     		jQuery(this).attr("data-order", index + 1);
+    		jQuery(this).attr("id", 'row_' + section_position + '_' + (index + 1));
     	});
     });
+    jQuery('.course-section').each( function(index) {
+    	var section_position = jQuery(this).attr('id');
+    	jQuery(this).find('.lesson-select').each( function(index) {
+    		jQuery(this).attr("data-order", index + 1);
+    		jQuery(this).attr("id", 'list_item_' + section_position + '_' + (index + 1));
+    	});
+    });
+	jQuery('.course-section').each( function(index) {
+		console.log(index);
+		var section_position = jQuery(this).attr('id');
+		jQuery(this).find('.section-select').each( function(index) {
+			console.log('-------------------------------');
+			console.log(section_position)
+			jQuery(this).attr("id", 'section_item_' + section_position);
+		});
+	});
 }
 
 /**
@@ -193,14 +212,14 @@ sections_sortable = function() {
 
             jQuery(ui.item).attr("data-order", end_pos);
             jQuery('.course-section').each( function(index) {
-			jQuery( this ).attr('id', index + 1 )
-			jQuery( this ).find('label').text('Section ' + (index + 1) + ':');
-			jQuery( this ).find('a.add-lesson').attr('data-section', index + 1);
+				jQuery( this ).attr('id', index + 1 )
+				jQuery( this ).find('label').text('Section ' + (index + 1) + ':');
+				jQuery( this ).find('a.add-lesson').attr('data-section', index + 1);
 
-	});
-            update_syllabus();
-
-        }
+			});
+			order_lessons();
+		    update_syllabus();
+		}
     });
 }
 
@@ -324,8 +343,8 @@ add_new_lesson = function(event){
 lesson_template = function (lessons, section_id, section_position) {
 
 	var row_id = (jQuery('#' + section_position  + ' .list_item').length) + 1;
-	var select_class = 'list_item_' + row_id;
-	var row_class = 'row_' + row_id;
+	var select_class = 'list_item_' + section_position + '_' + row_id;
+	var row_class = 'row_' + section_position + '_' + row_id;
 
 	var numRows = jQuery('#' + section_position  + ' .dad-list').length;
 
@@ -335,12 +354,12 @@ lesson_template = function (lessons, section_id, section_position) {
 	.appendTo('#' + section_position + ' .dad-list tbody').hide().fadeIn(300);
 
 	jQuery(select).change(function() { update_syllabus(jQuery(select).val()); });
-	jQuery('#' + section_position + ' .dad-list tbody ' + '.lesson-select').change(function() { get_edit_link(jQuery(this)); update_syllabus(); jQuery(this).attr('disabled', 'disbaled'); });
-
+	jQuery('#' + section_position + ' .dad-list tbody ' + '.lesson-select').change(function() { get_edit_link(jQuery(this)); update_syllabus(); jQuery(this).attr('disabled', 'disabled'); });
 
 	jQuery('.deleteBtn').click(function() {
 	    var contentPanelId = jQuery(this).attr("class");
 	    jQuery(this).parent().parent().remove();
+	    order_lessons();
 	    update_syllabus();
 	});
 
@@ -404,8 +423,8 @@ associated_lesson_template = function (lessons, section_id, section_position) {
 	for (var key in lessons) {
 
 		var row_id = (jQuery('#' + section_position  + ' .list_item').length) + 1;
-		var select_class = 'list_item_' + row_id;
-		var row_class = 'row_' + row_id;
+		var select_class = 'list_item_' + section_position + '_' + row_id;
+		var row_class = 'row_' + section_position + '_' + row_id;
 
 		var numRows = jQuery('#' + section_position  + ' .dad-list').length;
 
@@ -416,10 +435,11 @@ associated_lesson_template = function (lessons, section_id, section_position) {
 		.appendTo('#' + section_position + ' .dad-list tbody').hide().fadeIn(300);
 
 		jQuery(select).change(function() { update_syllabus(jQuery(select).val()); });
-		jQuery('#' + section_position + ' .dad-list tbody ' + '.lesson-select').change(function() { update_syllabus(); jQuery(this).attr('disabled', 'disbaled'); });
+		jQuery('#' + section_position + ' .dad-list tbody ' + '.lesson-select').change(function() { get_edit_link(jQuery(this)); update_syllabus(); jQuery(this).attr('disabled', 'disbaled'); });
 		jQuery('.deleteBtn').click(function() {
 		    var contentPanelId = jQuery(this).attr("class");
 		    jQuery(this).parent().parent().remove();
+		    order_lessons();
 		    update_syllabus();
 		});
 
@@ -444,8 +464,7 @@ delete_this = function(thisButton){
 		jQuery( this ).find('a.add-lesson').attr('data-section', index + 1);
 
 	});
-	// var id = $('.course-section').length + 1;
- //        var sectionId = 'section_' + id;
+ 	order_lessons();
 	update_syllabus();
 };
 

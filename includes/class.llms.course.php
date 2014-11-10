@@ -167,7 +167,7 @@ class LLMS_Course {
 		$checkout_page_id = llms_get_page_id( 'checkout' );
 		$checkout_url =  apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
 		
-		return add_query_arg( 'course-id', $this->id, $checkout_url );
+		return add_query_arg( 'product-id', $this->id, $checkout_url );
 
 	}
 

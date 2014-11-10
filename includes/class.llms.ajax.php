@@ -122,7 +122,7 @@ class LLMS_AJAX {
 		'post_status'   	=> 'publish',
 		'meta_query' 		=> array(
 			array(
-			    'key' => '_parent_course',
+			    'key' => '_parent_section',
 			    'compare' => 'NOT EXISTS'
 			    )
 			)                   

@@ -37,7 +37,8 @@ v1.0.5 - UNRELEASED
 + Assign section to course and view associated lessons metabox added to sections
 + Assign lesson to section and view associated lessons metabox added to lessons
 + Assigned Course, Assigned Section, Prerequisite and Membership Required added to lesson edit grid
-+ Assigned Course added to section edit grid
++ Assigned Course added to section edit grid'
++ New membership setting: Restrict Entire Site by Membership Level (allows site restriction to everything but membership purchase and account).
 
 v1.0.4 - 2014-11-04
 -------------------

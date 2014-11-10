@@ -524,6 +524,62 @@ class LLMS_Admin_Settings {
 	               	</tr><?php
 	            break;
 
+	            // Single page selects
+	            case 'single_select_membership' :
+
+	            	// $args = array( 'name'				=> $value['id'],
+	            	// 			   'id'					=> $value['id'],
+	            	// 			   'sort_column' 		=> 'menu_order',
+	            	// 			   'sort_order'			=> 'ASC',
+	            	// 			   'show_option_none' 	=> ' ',
+	            	// 			   'class'				=> $value['class'],
+	            	// 			   'echo' 				=> false,
+	            	// 			   'selected'			=> absint( self::get_option( $value['id'] ) ),
+	            	// 			  // 'post_type'			=> 'llms_membership'
+	            	// 			   );
+	            	
+	            	?>
+		            	
+						<?php
+						$args = array(
+							'posts_per_page' 	=> -1,
+							'post_type' 		=> 'llms_membership',
+							'nopaging' 			=> true,
+							'post_status'   	=> 'publish',   
+							'class'				=> $value['class'],   
+							'selected'			=> absint( self::get_option( $value['id'] ) ),
+						);
+						$posts = get_posts($args);
+						
+						
+
+	            	if( isset( $value['args'] ) ) {
+	            		$args = wp_parse_args( $value['args'], $args );
+	            	}
+
+	            	?><tr valign="top" class="single_select_membership">
+	                    <th><?php echo esc_html( $value['title'] ) ?> <?php echo $tooltip; ?></th>
+	                    <td class="forminp">
+	                    <select class="<?php echo $args['class']; ?>" style="<?php echo $value['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
+	                    	<option value="<? echo $post->ID; ?>"> <?php _e('None', 'lifterlms'); ?></option>
+		                    <?php foreach( $posts as $post ) : setup_postdata($post); 
+		                    		if ( $args['selected'] == $post->ID) {
+		                    			$selected = 'selected';
+		                    		}
+		                    		else {
+		                    			$selected = '';
+		                    		}
+		                    ?>
+						    <option value="<? echo $post->ID; ?>" <?php echo $selected; ?> ><?php echo $post->post_title ?></option>
+						<?php endforeach; ?>
+						</select>
+
+
+
+				        </td>
+	               	</tr><?php
+	            break;
+
 	            // Default: run an action
 	            default:
 	            	do_action( 'lifterlms_admin_field_' . $value['type'], $value );
@@ -626,6 +682,7 @@ class LLMS_Admin_Settings {
 	            case 'number':
 		    	case "select" :
 		    	case "single_select_page" :
+		    	case "single_select_membership" :
 		    	case 'radio' :
 
 

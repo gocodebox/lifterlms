@@ -9,7 +9,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 global $lifterlms_loop, $product;
-
+LLMS_log($product);
 if ( empty( $lifterlms_loop['loop'] ) )
 	$lifterlms_loop['loop'] = 0;
 if ( empty( $lifterlms_loop['columns'] ) )

@@ -81,15 +81,15 @@ class LLMS_Meta_Box_Course_Syllabus {
 			    'post_status' => 'publish',
 			    'nopaging' 		=> true,
 			);
-
+LLMS_log($section_position);
 			$lessonId = $lesson_id;
 
 			$query = null;
 			$query = get_posts( $args );
 			$lesson_position = $lesson_position + 1;
 			
-			$html .= '<tr class="list_item" data-section_id="' . $section_id . '" data-order="' . $section_position . '" style="display: table-row;"><td>';
-			$html .= '<select class="lesson-select">';
+			$html .= '<tr class="list_item" id="row_' . $section_position . '_' . $lesson_position . '" data-section_id="' . $section_id . '" data-order="' . $section_position . '" style="display: table-row;"><td>';
+			$html .= '<select id="list_item_' . $section_position . '_' . $lesson_position . '" class="lesson-select">';
 
 			foreach ( $query as $post ) : setup_postdata( $post );
 

@@ -19,6 +19,11 @@ function llms_template_redirect() {
 		wp_safe_redirect( get_post_type_archive_link('course') );
 		exit;
 	}
+	// When default permalinks are enabled, redirect memberships page to post type archive url
+	if ( ! empty( $_GET['page_id'] ) && get_option( 'permalink_structure' ) == "" && $_GET['page_id'] == llms_get_page_id( 'memberships' ) ) {
+		wp_safe_redirect( get_post_type_archive_link('llms_membership') );
+		exit;
+	}
 }
 add_action( 'template_redirect', 'llms_template_redirect' );
 
@@ -800,13 +805,22 @@ if ( ! function_exists( 'lifterlms_template_loop_view_link' ) ) {
 
 if ( ! function_exists( 'lifterlms_get_course_thumbnail' ) ) {
 
-	function lifterlms_get_course_thumbnail(  ) {
+	function lifterlms_get_course_thumbnail() {
 		global $post;
 
-		if ( has_post_thumbnail() )
+		// if (!$post) {
+		// 	$post = get_post($post_id);
+		// }
+
+		LLMS_log($post);
+LLMS_log('lifterlms_get_course_thumbnail called');
+		if ( has_post_thumbnail() ) {
+			LLMS_log('it has a thumbnail');
 			return lifterlms_get_featured_image( $post->ID );
-		elseif ( llms_placeholder_img_src() )
+		}
+		elseif ( llms_placeholder_img_src() ) {
 			return llms_placeholder_img( 'full' );
+		}
 	}
 }
 
@@ -839,6 +853,7 @@ function llms_get_post_content( $content ) {
 				if ($post->post_excerpt) {
 				add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_short_description', 10 );
 				$content = '';
+				LLMS_log($content);
 				}
 			}
 			$template_before  = llms_get_template_part_contents( 'content', 'single-course-before' );

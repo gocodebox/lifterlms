@@ -138,48 +138,48 @@ class LLMS_Post_Types {
 	        ) )
 	    );
 
-		global $llms_course_attributes, $lifterlms;
+		//global $llms_course_attributes, $lifterlms;
 
-		$llms_course_attributes = array();
+		// $llms_course_attributes = array();
 
-		if ( $attribute_taxonomies = llms_get_attribute_taxonomies() ) {
-			foreach ( $attribute_taxonomies as $tax ) {
-				if ( $name = $llms_attribute_taxonomy_name( $tax->attribute_name ) ) {
-					$label = ! empty( $tax->attribute_label ) ? $tax->attribute_label : $tax->attribute_name;
+		// if ( $attribute_taxonomies = llms_get_attribute_taxonomies() ) {
+		// 	foreach ( $attribute_taxonomies as $tax ) {
+		// 		if ( $name = $llms_attribute_taxonomy_name( $tax->attribute_name ) ) {
+		// 			$label = ! empty( $tax->attribute_label ) ? $tax->attribute_label : $tax->attribute_name;
 				
-					$llms_course_attributes[ $name ] = $tax;
+		// 			$llms_course_attributes[ $name ] = $tax;
 
-					register_taxonomy( $name,
-				        apply_filters( 'lifterlms_taxonomy_objects_' . $name, array( 'course' ) ),
-				        apply_filters( 'lifterlms_taxonomy_args_' . $name, array(
-				            'hierarchical' 				=> true,
-	            			'update_count_callback' 	=> '_update_post_term_count',
-				            'labels' => array(
-				                    'name' 						=> $label,
-				                    'singular_name' 			=> $label,
-				                    'search_items' 				=> sprintf( __( 'Search %s', 'lifterlms' ), $label ),
-				                    'all_items' 				=> sprintf( __( 'All %s', 'lifterlms' ), $label ),
-				                    'parent_item' 				=> sprintf( __( 'Parent %s', 'lifterlms' ), $label ),
-				                    'parent_item_colon' 		=> sprintf( __( 'Parent %s:', 'lifterlms' ), $label ),
-				                    'edit_item' 				=> sprintf( __( 'Edit %s', 'lifterlms' ), $label ),
-				                    'update_item' 				=> sprintf( __( 'Update %s', 'lifterlms' ), $label ),
-				                    'add_new_item' 				=> sprintf( __( 'Add New %s', 'lifterlms' ), $label ),
-				                    'new_item_name' 			=> sprintf( __( 'New %s', 'lifterlms' ), $label )
-				            	),
-				            'show_ui' 					=> false,
-				            'query_var' 				=> true,
-				            'show_in_nav_menus' 		=> apply_filters( 'lifterlms_attribute_show_in_nav_menus', false, $name ),
-				            'rewrite' 					=> array(
-								'slug'         => ( empty( $permalinks['attribute_base'] ) ? '' : trailingslashit( $permalinks['attribute_base'] ) ) . sanitize_title( $tax->attribute_name ),
-								'with_front'   => false,
-								'hierarchical' => true
-				            ),
-				        ) )
-				    );
-				}
-			}
-			do_action( 'llms_after_register_taxonomy' );
-		}
+		// 			register_taxonomy( $name,
+		// 		        apply_filters( 'lifterlms_taxonomy_objects_' . $name, array( 'course' ) ),
+		// 		        apply_filters( 'lifterlms_taxonomy_args_' . $name, array(
+		// 		            'hierarchical' 				=> true,
+	 //            			'update_count_callback' 	=> '_update_post_term_count',
+		// 		            'labels' => array(
+		// 		                    'name' 						=> $label,
+		// 		                    'singular_name' 			=> $label,
+		// 		                    'search_items' 				=> sprintf( __( 'Search %s', 'lifterlms' ), $label ),
+		// 		                    'all_items' 				=> sprintf( __( 'All %s', 'lifterlms' ), $label ),
+		// 		                    'parent_item' 				=> sprintf( __( 'Parent %s', 'lifterlms' ), $label ),
+		// 		                    'parent_item_colon' 		=> sprintf( __( 'Parent %s:', 'lifterlms' ), $label ),
+		// 		                    'edit_item' 				=> sprintf( __( 'Edit %s', 'lifterlms' ), $label ),
+		// 		                    'update_item' 				=> sprintf( __( 'Update %s', 'lifterlms' ), $label ),
+		// 		                    'add_new_item' 				=> sprintf( __( 'Add New %s', 'lifterlms' ), $label ),
+		// 		                    'new_item_name' 			=> sprintf( __( 'New %s', 'lifterlms' ), $label )
+		// 		            	),
+		// 		            'show_ui' 					=> false,
+		// 		            'query_var' 				=> true,
+		// 		            'show_in_nav_menus' 		=> apply_filters( 'lifterlms_attribute_show_in_nav_menus', false, $name ),
+		// 		            'rewrite' 					=> array(
+		// 						'slug'         => ( empty( $permalinks['attribute_base'] ) ? '' : trailingslashit( $permalinks['attribute_base'] ) ) . sanitize_title( $tax->attribute_name ),
+		// 						'with_front'   => false,
+		// 						'hierarchical' => true
+		// 		            ),
+		// 		        ) )
+		// 		    );
+		// 		}
+		// 	}
+		// 	do_action( 'llms_after_register_taxonomy' );
+		// }
 	}
 
 	/**

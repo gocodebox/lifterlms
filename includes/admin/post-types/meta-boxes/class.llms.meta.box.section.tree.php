@@ -55,6 +55,8 @@ class LLMS_Meta_Box_Section_Tree {
 				}
 			}
 		}
+		LLMS_log('check for parent course');
+		LLMS_log($parent_course);
 
 		if ($parent_course) {
 			$course_edit_link = get_edit_post_link($parent_course);
@@ -144,7 +146,7 @@ LLMS_log('the post associated_course started');
 				if (!$prev_parent) {
 					LLMS_log('no previous parent exists');
 					$course_args = array(
-						'posts_per_page'   => -1,
+						'posts_per_page'   => 1000,
 						'post_status'      => 'publish',
 						'orderby'          => 'title',
 						'order'            => 'ASC',
@@ -159,7 +161,7 @@ LLMS_log('the post associated_course started');
 						if (!empty($sections)) {
 							if (in_array($post->ID, $sections)) {
 								$prev_parent = $value->ID;
-								LLMS_log('found  the prev parent');
+								LLMS_log('found the prev parent');
 								LLMS_log($prev_parent);
 								break;
 							}
@@ -210,8 +212,15 @@ LLMS_log('finding lessons foreach');
 					LLMS_log('lessons is empty');
 					$lesson = array();
 					$i = 0;
-					$lesson_ids = $wpdb->get_col("SELECT post_id
-					FROM $wpdb->postmeta WHERE meta_key = '_parent_section'" );
+					$lesson_ids = $wpdb->get_col( $wpdb->prepare( 
+						"
+						SELECT post_id
+						FROM $wpdb->postmeta 
+						WHERE meta_key = '_parent_section' 
+							AND meta_value = '%s'
+						", 
+						$post_id
+				)   );
 
 					$position = 0;
 					if ($lesson_ids) {

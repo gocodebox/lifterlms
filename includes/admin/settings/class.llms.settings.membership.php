@@ -50,6 +50,18 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 					'css' 		=> 'min-width:300px;',
 				),
 
+				
+
+				array(
+					'title' => __( 'Restrict site by membership level', 'lifterlms' ),
+					'desc' 		=> '<br/>' . sprintf( __( 'Only allow access to site to users with a specific membership level. Users will be able to view and purchase membership level.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+					'id' 		=> 'lifterlms_membership_required',
+					'type' 		=> 'single_select_membership',
+					'default'	=> '',
+					'class'		=> 'chosen_select_nostd',
+					'css' 		=> 'min-width:300px;',
+				),
+
 				array( 'type' => 'sectionend', 'id' => 'membership_options'),
 
 		) ); 

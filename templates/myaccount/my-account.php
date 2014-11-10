@@ -8,7 +8,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-llms_print_notices(); ?>
+llms_print_notices(); 
+print_r(error_get_last());
+?>
 
 <nav class="account-links">
 	<?php

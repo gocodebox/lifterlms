@@ -37,10 +37,10 @@ class LLMS_Shortcode_Checkout {
 			if ( ! empty( $message ) ) {
 			}
 
-			$product_id = get_query_var( 'course-id' );
+			$product_id = get_query_var( 'product-id' );
 			$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
 
-			$account_redirect = add_query_arg( 'course-id', $product_id, $account_url );
+			$account_redirect = add_query_arg( 'product-id', $product_id, $account_url );
 
 			printf(
 				__( '<a href="%1$s">Login or create an account to purchase this course</a>.', 'lifterlms' ) . ' ',
