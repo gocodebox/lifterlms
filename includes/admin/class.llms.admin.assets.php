@@ -62,6 +62,12 @@ class LLMS_Admin_Assets {
 
 	    	'llms_membership',
 	    	'edit-llms_membership',
+
+	    	'llms_quiz',
+	    	'edit-llms_quiz',
+
+	    	'llms_question',
+	    	'edit-llms_question',
 	    ));
 	}
 
@@ -120,7 +126,12 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-metabox-data', plugins_url(  '/assets/js/llms-metabox-data' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 				wp_enqueue_script( 'llms-metabox-fields', plugins_url(  '/assets/js/llms-metabox-fields' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			}
-
+			if( 'llms_question' == $post_type ) {
+				wp_enqueue_script( 'llms-metabox-single-question', plugins_url(  '/assets/js/llms-metabox-single-question' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			}
+			if( 'llms_quiz' == $post_type ) {
+				wp_enqueue_script( 'llms-metabox-quiz-builder', plugins_url(  '/assets/js/llms-metabox-quiz-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			}
 
 		}
 	}

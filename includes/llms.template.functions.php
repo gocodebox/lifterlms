@@ -218,6 +218,31 @@ if ( ! function_exists( 'lifterlms_template_single_membership_title' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_quiz_attempts' ) ) {
+
+	function lifterlms_template_quiz_attempts() {
+
+		llms_get_template( 'quiz/attempts.php' );
+	}
+}
+
+if ( ! function_exists( 'lifterlms_template_passing_percent' ) ) {
+
+	function lifterlms_template_passing_percent() {
+
+		llms_get_template( 'quiz/passing-percent.php' );
+	}
+}
+if ( ! function_exists( 'lifterlms_template_start_button' ) ) {
+
+	function lifterlms_template_start_button() {
+
+		llms_get_template( 'quiz/start-button.php' );
+	}
+}
+
+
+
 /**
  * When the_post is called, put course data into a global.
  *
@@ -244,6 +269,33 @@ function llms_setup_course_data( $post ) {
 
 }
 add_action( 'the_post', 'llms_setup_course_data' );
+
+/**
+ * When the_post is called, put quiz data into a global.
+ *
+ * @param mixed $post
+ * @return LLMS_Course
+ */
+function llms_setup_quiz_data( $post ) {
+	if  ( ! is_admin() ) {
+
+		if ($post->post_type == 'llms_quiz') {
+			unset( $GLOBALS['quiz'] );
+
+			if ( is_int( $post ) )
+				$post = get_post( $post );
+
+			if ( empty( $post->post_type ) )
+				return;
+
+				$GLOBALS['quiz'] = llms_get_quiz( $post );
+
+				return $GLOBALS['quiz'];
+		}
+	}
+
+}
+add_action( 'the_post', 'llms_setup_quiz_data' );
 
 /**
  * When the_post is called, put course data into a global.
@@ -904,6 +956,20 @@ function llms_get_post_content( $content ) {
 
 			return do_shortcode($output_before . $content . $output_after);
 
+			case 'llms_quiz':
+			$template_before  = llms_get_template_part_contents( 'content', 'single-quiz-before' );
+			$template_after  = llms_get_template_part_contents( 'content', 'single-quiz-after' );
+
+			ob_start();
+			load_template($template_before);
+			$output_before = ob_get_clean();
+	
+			ob_start();
+			load_template($template_after);
+			$output_after = ob_get_clean();
+
+			return do_shortcode($output_before . $content . $output_after);
+
 		default:
 		  return $content;
 		}
@@ -1056,5 +1122,27 @@ function llms_get_product( $the_product = false, $args = array() ) {
 	return LLMS()->course_factory->get_product( $the_product, $args );
 }
 
+/**
+ * Get page object
+ *
+ * @param string $the_course = false, $args = array()
+ * @return array 
+ */
+function llms_get_quiz( $the_quiz = false, $args = array() ) {
+	return LLMS()->course_factory->get_quiz( $the_quiz, $args );
+}
+
+function tpp_posts_comments_return() {
+	$post_id = isset( $_POST['post_id'] ) ? $_POST['post_id'] : 0;
+
+	if ($post_id > 0) {
+		$post = get_post($post_id);
+		?>
+		<div class="tpp_post" id="post"><?php echo $post->post_content; ?></div>
+		<?php
+	}
+	die();
+}
+add_action('wp_ajax_nopriv_tpp_comments', 'tpp_posts_comments_return');
 
 

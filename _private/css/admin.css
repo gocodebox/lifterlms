@@ -252,35 +252,6 @@ tbody tr td .llms-fa-edit-lesson {
   top: 11px;
   cursor: pointer; }
 
-tbody tr td .llms-fa-edit:hover {
-  color: #009af7;
-  cursor: pointer; }
-
-tbody tr td .llms-fa-edit:active {
-  color: #009af7; }
-
-tbody tr td .llms-fa-move {
-  position: absolute;
-  font-size: 20px;
-  right: 60px;
-  color: rgba(88, 88, 91, 0.6);
-  top: 10px;
-  cursor: move; }
-
-tbody tr td .llms-fa-move:hover {
-  color: #009af7; }
-
-tbody tr td .llms-fa-move:active {
-  color: #009af7; }
-
-tbody tr td .llms-fa-edit {
-  position: absolute;
-  font-size: 20px;
-  right: 104px;
-  color: rgba(88, 88, 91, 0.6);
-  top: 11px;
-  cursor: pointer; }
-
 tbody tr td .llms-fa-edit-lesson:hover {
   color: #009af7;
   cursor: pointer; }
@@ -288,10 +259,9 @@ tbody tr td .llms-fa-edit-lesson:hover {
 tbody tr td .llms-fa-edit-lesson:active {
   color: #009af7; }
 
-#llms-single-options {
+.llms-single-options {
   position: relative;
-  min-height: 100px;
-  padding: 10px 0; }
+  min-height: 100px; }
 
 #llms-question-container {
   position: relative;
@@ -302,35 +272,7 @@ tbody tr td .llms-fa-edit-lesson:active {
   margin: 8px; }
 
 .option-text {
-  width: 100%;
-  margin-top: 10px; }
-
-.deleteBtn.single-option-delete {
-  position: absolute;
-  font-size: 2em;
-  right: 14px;
-  color: rgba(88, 88, 91, 0.6);
-  top: 14px; }
-
-.single-option-delete:hover {
-  cursor: pointer;
-  color: #d54e21; }
-
-td.llms-table-points, th.llms-table-points {
-  width: 10%; }
-  td.llms-table-points input[type=text], th.llms-table-points input[type=text] {
-    width: 100%; }
-
-td.llms-table-select, th.llms-table-select {
-  width: 70%; }
-  td.llms-table-select select, th.llms-table-select select {
-    width: 100%; }
-
-.question-select {
-  margin-top: 2px; }
-
-.llms-table-select .chosen-container {
-  margin-top: 2px; }
+  width: 100%; }
 
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome

@@ -270,6 +270,36 @@ tbody tr td .llms-fa-edit-lesson {
 	top: 11px;
 	cursor: pointer;
 }
+tbody tr td .llms-fa-edit:hover {
+	color: #009af7;
+	cursor: pointer;
+}
+tbody tr td .llms-fa-edit:active {
+	color: #009af7;
+}
+
+tbody tr td .llms-fa-move {
+	position: absolute;
+	font-size: 20px;
+	right: 60px;
+	color: rgba(88, 88, 91, 0.6);
+	top: 10px;
+	cursor: move;
+}
+tbody tr td .llms-fa-move:hover {
+	color: #009af7;
+}
+tbody tr td .llms-fa-move:active {
+	color: #009af7;
+}
+tbody tr td .llms-fa-edit {
+	position: absolute;
+	font-size: 20px;
+	right: 104px;
+	color: rgba(88, 88, 91, 0.6);
+	top: 11px;
+	cursor: pointer;
+}
 tbody tr td .llms-fa-edit-lesson:hover {
 	color: #009af7;
 	cursor: pointer;
@@ -319,6 +349,12 @@ td.llms-table-select, th.llms-table-select {
 	}
 }
 td.llms-table-options {
+}
+.question-select {
+	margin-top: 2px;
+}
+.llms-table-select .chosen-container {
+	margin-top: 2px;
 }
 // table.dad-list tr th:nth-child(2) {
 // 	width: 50px;

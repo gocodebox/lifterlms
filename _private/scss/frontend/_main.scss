@@ -797,8 +797,8 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 0
 }
 .list-view .site-content .llms-course-list .hentry, .list-view .site-content .llms-membership-list .hentry {
-border-top: 0;
-padding-top: 0;
+	border-top: 0;
+	padding-top: 0;
 }
 .llms-content {
 	width: 100%;
@@ -808,6 +808,17 @@ padding-top: 0;
 	width: 100%;
 	display: block;
 	clear: both;
+}
+.llms-template-wrapper {
+	width: 100%;
+	display: block;
+	clear: both;
+}
+.llms-button-wrapper {
+	width: 100%;
+	display: block;
+	clear: both;
+	text-align: center;
 }
 .courses a.llms-course-link:hover {
   text-decoration: none;

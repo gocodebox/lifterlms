@@ -54,6 +54,11 @@ class LLMS_Admin_Meta_Boxes {
 
 		add_action( 'lifterlms_process_membership_access', 'LLMS_Meta_Box_Access::save', 10, 2 );
 
+		add_action( 'lifterlms_process_llms_quiz_meta', 'LLMS_Meta_Box_Quiz_General::save', 10, 2 );
+		add_action( 'lifterlms_process_llms_quiz_meta', 'LLMS_Meta_Box_Quiz_Questions::save', 10, 2 );
+
+		add_action( 'lifterlms_process_llms_question_meta', 'LLMS_Meta_Box_Question_General::save', 10, 2 );
+
 		//Error handling
 		add_action( 'admin_notices', array( $this, 'display_errors' ) );
 		add_action( 'shutdown', array( $this, 'set_errors' ) );
@@ -152,6 +157,13 @@ class LLMS_Admin_Meta_Boxes {
 		//add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', 'course', 'side', 'normal' );
 		//add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', 'course', 'side', 'normal' );
 		add_meta_box( 'lifterlms-order-general', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order::output', 'order', 'normal', 'high' );
+	
+		add_meta_box( 'lifterlms-quiz-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_Quiz_General::output', 'llms_quiz', 'normal' );
+		add_meta_box( 'lifterlms-quiz-questions', __( 'Quiz Questions', 'lifterlms' ), 'LLMS_Meta_Box_Quiz_Questions::output', 'llms_quiz', 'normal' );
+		
+		add_meta_box( 'lifterlms-question-general', __( 'Question Settings', 'lifterlms' ), 'LLMS_Meta_Box_Question_General::output', 'llms_question', 'normal' );
+
+
 	}
 
 	/**
@@ -201,8 +213,8 @@ class LLMS_Admin_Meta_Boxes {
 	}
 
 	public function is_llms_post_type( $post ) {
-
-		if ( in_array( $post->post_type, array( 'course', 'section', 'lesson', 'order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement', 'llms_membership' ) ) ) {
+LLMS_log('checking post type');
+		if ( in_array( $post->post_type, array( 'course', 'section', 'lesson', 'order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement', 'llms_membership', 'llms_quiz', 'llms_question' ) ) ) {
 			return true;
 		}
 	}
@@ -214,7 +226,7 @@ class LLMS_Admin_Meta_Boxes {
 	* @param $post, $post_id
 	*/
 	public function save_meta_boxes( $post_id, $post ) {
-
+LLMS_log('save post type called');
 		if ( LLMS_Admin_Meta_Boxes::validate_post( $post_id, $post ) ) {
 
 			if ( LLMS_Admin_Meta_Boxes::is_llms_post_type( $post ) ) {

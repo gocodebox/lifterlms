@@ -3,6 +3,7 @@ jQuery(document).ready(function($) {
 	$('#associated_course').chosen();
 	$('#associated_section').chosen();
 	$('#trigger-select').chosen();
+	$('.question-select').chosen();
 	
 });
 

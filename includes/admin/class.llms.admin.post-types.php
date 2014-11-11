@@ -69,6 +69,8 @@ class LLMS_Admin_Post_Types {
 			'llms_certificate' 	=> 'Certificate',
 			'llms_achievement' 	=> 'Achievement',
 			'llms_engagement' 	=> 'Engagement',
+			'llms_quiz' 		=> 'Quiz',
+			'llms_question' 		=> 'Question',
 
 		);
 

@@ -102,8 +102,6 @@ class LLMS_Person {
 	}
 
 	public function get_permissions() {
-		
-
 	}
 
 }

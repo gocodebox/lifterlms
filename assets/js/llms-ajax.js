@@ -83,3 +83,36 @@ Ajax.prototype.get_associated_lessons = function (section_id, section_position) 
 		success		: function(response) { add_associated_lessons(response, section_id, section_position); },
 	});
 };
+
+Ajax.prototype.get_question = function (question_id, row_id) {
+	jQuery.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+        cache		: this.cache,
+        dataType	: this.dataType,
+		success		: function(response) { add_edit_link(response, question_id, row_id); },
+	});
+};
+
+Ajax.prototype.get_questions = function () {
+	jQuery.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+        cache		: this.cache,
+        dataType	: this.dataType,
+		success		: function(response) { single_question_template(response); },
+	});
+};
+
+Ajax.prototype.get_quiz_questions = function (quiz_id, user_id) {
+	jQuery.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+        cache		: this.cache,
+        dataType	: this.dataType,
+		success		: function(response) { get_quiz_full_page(response); },
+	});
+};
