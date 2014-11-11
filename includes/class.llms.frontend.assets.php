@@ -42,9 +42,9 @@ class LLMS_Frontend_Assets {
 	 * @return string
 	 */
 	public function enqueue_scripts() {
-		//no scripts yet. This will work exactly like the admin side.
 		global $post, $wp;
-
+		wp_enqueue_script( 'llms-ajax', plugins_url(  '/assets/js/llms-ajax' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+		wp_enqueue_script( 'llms-quiz', plugins_url(  '/assets/js/llms-quiz' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 		wp_enqueue_script( 'llms-form-checkout', plugins_url(  '/assets/js/llms-form-checkout' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 
 	}

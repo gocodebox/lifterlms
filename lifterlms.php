@@ -170,6 +170,7 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.product.php' );
 		include_once( 'includes/class.llms.course.php' );
 		include_once( 'includes/class.llms.lesson.php' );
+		include_once( 'includes/class.llms.quiz.php' );
 
 		include_once( 'includes/class.llms.course.factory.php' );
 

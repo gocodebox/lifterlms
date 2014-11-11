@@ -58,6 +58,12 @@ add_action( 'lifterlms_single_membership_before_summary', 'lifterlms_template_si
 add_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_single_purchase_link', 10 );
 
 
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_attempts', 10 );
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_passing_percent', 10 );
+
+add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_start_button', 10 );
+
+
 
 // add_action( 'lifterlms_before_main_content', 'lifterlms_output_content_wrapper', 10 );
 // add_action( 'lifterlms_after_main_content', 'lifterlms_output_content_wrapper_end', 10 );

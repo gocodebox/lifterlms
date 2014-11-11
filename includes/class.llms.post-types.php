@@ -609,6 +609,88 @@ class LLMS_Post_Types {
 			)
 		);
 
+		/**
+		 * Quiz Post Type
+		 */
+		$quiz_permalink = empty( $permalinks['quiz_base'] ) ? _x( 'llms_quiz', 'slug', 'lifterlms' ) : $permalinks['quiz_base'];
+
+	    register_post_type( "llms_quiz",
+		    apply_filters( 'lifterlms_register_post_type_section',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Quizzes', 'lifterlms' ),
+							'singular_name' 		=> __( 'Quiz', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Quiz', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Quiz', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Quiz', 'lifterlms' ),
+							'new_item' 				=> __( 'New Quiz', 'lifterlms' ),
+							'view' 					=> __( 'View Quiz', 'lifterlms' ),
+							'view_item' 			=> __( 'View Quiz', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Quiz', 'lifterlms' ),
+							'not_found' 			=> __( 'No Quizzes found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Quizzes found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Quizzes', 'lifterlms' ),
+							'menu_name'				=> _x('Quizzes', 'Admin menu name', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where you can view all of the quizzes.', 'lifterlms' ),
+					'public' 				=> true,
+					'show_ui' 				=> true,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> true,
+					'exclude_from_search' 	=> false,
+					'show_in_menu' 			=> 'edit.php?post_type=course',
+					'show_in_admin_bar'  	=> true,
+					'hierarchical' 			=> false,
+					'rewrite' 				=> $quiz_permalink ? array( 'slug' => untrailingslashit( $quiz_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'show_in_nav_menus' 	=> false,
+					'query_var' 			=> true,
+					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments' ),
+				)
+			)
+		);
+
+		/**
+		 * Quiz Question Post Type
+		 */
+		$question_permalink = empty( $permalinks['question_base'] ) ? _x( 'llms_question', 'slug', 'lifterlms' ) : $permalinks['question_base'];
+
+	    register_post_type( "llms_question",
+		    apply_filters( 'lifterlms_register_post_type_section',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Questions', 'lifterlms' ),
+							'singular_name' 		=> __( 'Question', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Question', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Question', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Question', 'lifterlms' ),
+							'new_item' 				=> __( 'New Question', 'lifterlms' ),
+							'view' 					=> __( 'View Question', 'lifterlms' ),
+							'view_item' 			=> __( 'View Question', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Questions', 'lifterlms' ),
+							'not_found' 			=> __( 'No Questions found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Questions found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Questions', 'lifterlms' ),
+							'menu_name'				=> _x('Quiz Questions', 'Admin menu name', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where you can view all of the Quiz Questions.', 'lifterlms' ),
+					'public' 				=> true,
+					'show_ui' 				=> true,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> true,
+					'exclude_from_search' 	=> false,
+					'show_in_menu' 			=> 'edit.php?post_type=course',
+					'show_in_admin_bar'  	=> true,
+					'hierarchical' 			=> false,
+					'rewrite' 				=> $question_permalink ? array( 'slug' => untrailingslashit( $question_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'show_in_nav_menus' 	=> false,
+					'query_var' 			=> true,
+					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments' ),
+				)
+			)
+		);
+
 
 	}
 

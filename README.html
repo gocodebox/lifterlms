@@ -1,0 +1,83 @@
+<h1>lifterLMS</h1>
+
+<p>LIFTER LMS</p>
+
+<h3>Shortcodes</h3>
+
+<ul>
+<li>[lifterlms_my_account]
+<em>adds entire account page
+</em>Accepts no arguments</li>
+<li>[courses]
+**Accepts arguments: order, orderby and per_page</li>
+</ul>
+
+
+<h3>Debug: lms_log($message)</h3>
+
+<p>*Logs message to wp-contents/debug.log</p>
+
+<h4>Examples</h4>
+
+<p><em>log_me(array(&lsquo;This is a message&rsquo; => &lsquo;for debugging purposes&rsquo;));
+</em>log_me(&lsquo;This is a message for debugging purposes&rsquo;);</p>
+
+<h1>CHANGELOG</h1>
+
+<h2>v1.0.5 - UNRELEASED</h2>
+
+<ul>
+<li>Fixed a mis-placed parenthesis in templates/course/lesson-navigation.php related to outputting excerpt in navigation option</li>
+<li>Changed theme override template directory from /llms to /lifterlms</li>
+<li>Update the positiong &amp; name of the &ldquo;My Courses&rdquo; Menu in BuddyPress Compatibility file</li>
+<li>New meta_key _parent_section added for easier connection and quicker queries.</li>
+<li>Section sorting on course syllabus</li>
+<li>Edit links added to course syllabus</li>
+<li>Assign section to course and view associated lessons metabox added to sections</li>
+<li>Assign lesson to section and view associated lessons metabox added to lessons</li>
+<li>Assigned Course, Assigned Section, Prerequisite and Membership Required added to lesson edit grid</li>
+<li>Assigned Course added to section edit grid'</li>
+<li>New membership setting: Restrict Entire Site by Membership Level (allows site restriction to everything but membership purchase and account).</li>
+</ul>
+
+
+<h2>v1.0.4 - 2014-11-04</h2>
+
+<ul>
+<li>Templating bug fix</li>
+<li>Added shortcode and autop support to course and lesson content / excerpt</li>
+</ul>
+
+
+<h2>v1.0.3 - 2014-11-04</h2>
+
+<ul>
+<li>Major Templating Update!</li>
+<li>Removed Course, Lesson and Membership single lesson templates.</li>
+<li>Course and Section content templates now filter through WP content</li>
+</ul>
+
+
+<h2>v1.0.2 - 2014-10-31</h2>
+
+<ul>
+<li>Added lesson short description to previous lesson preview links &ndash; it was rendering on &ldquo;Next&rdquo; but not &ldquo;Previous&rdquo;</li>
+<li>Added a class to course shop links wrapper to signify the course has been completed</li>
+<li>Removed an uncessary CSS rule related to the progress bar</li>
+</ul>
+
+
+<h2>v1.0.2 - 2014-10-30</h2>
+
+<ul>
+<li>Fixed SSL certificate issues when retreiving data from https://lifterlms.com</li>
+<li>Added rocket settings icon back into repo</li>
+</ul>
+
+
+<h2>v1.0.1 - 2014-10-30</h2>
+
+<ul>
+<li>Updated activation endpoint url to point towards live server rather than dev</li>
+</ul>
+

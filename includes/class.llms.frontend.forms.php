@@ -27,6 +27,7 @@ class LLMS_Frontend_Forms {
 		add_action( 'init', array( $this, 'user_registration' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
+		add_action( 'init', array( $this, 'start_quiz' ) );
 
 		add_action( 'lifterlms_order_process_begin', array( $this, 'order_processing' ), 10, 1 );
 		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 1 );
@@ -43,6 +44,24 @@ class LLMS_Frontend_Forms {
 		//add_action( 'lifterlms_content_restricted_by_start_date', array( $this, 'llms_restricted_by_start_date' ), 10, 1 );
 		
 
+	}
+
+
+	public function start_quiz() {
+		LLMS_log('quiz has started');
+
+		//when start button is pressed:
+		//
+		//
+		//take user to page that has all questions?
+		//oh god! this is the big part!
+		//
+		//take the user to a page that lists out the questions. 
+		//add data to the users session triggering the quiz start
+		//
+		//When user clicks complete
+		//udpate the session
+		//score the quiz return the user
 	}
 
 	// Mark lesson as complete

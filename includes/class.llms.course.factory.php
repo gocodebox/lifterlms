@@ -63,4 +63,20 @@ class LLMS_Course_Factory {
 		return new LLMS_Product ($the_product, $args );
 	}
 
+	/**
+	* Get Quiz
+	*
+	* @param mixed $the_lesson = false, $args = array() 
+	* @return void
+	*/
+	public function get_quiz( $the_quiz = false, $args = array() ) {
+		global $post;
+
+	 	$the_quiz = $post;
+
+	 	$classname = 'LLMS_Quiz';
+
+		return new LLMS_Quiz ($the_quiz, $args );
+	}
+
 }

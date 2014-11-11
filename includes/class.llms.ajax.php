@@ -26,7 +26,10 @@ class LLMS_AJAX {
 			'get_achievements' 			=> false,
 			'get_certificates' 			=> false,
 			'update_syllabus' 			=> false,
-			'get_associated_lessons' 	=> false
+			'get_associated_lessons' 	=> false,
+			'get_question' 				=> false,
+			'get_questions' 			=> false,
+			'get_quiz_questions' 		=> false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -135,6 +138,45 @@ class LLMS_AJAX {
 
 		echo json_encode($postslist);
 
+		die();
+	}
+
+	/**
+	 * Return single lesson post
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_question(){
+
+		$question_id = $_REQUEST['question_id'];
+		$post = get_post( $question_id  );
+		$post->edit_url = get_edit_post_link($post->ID, false);
+
+		echo json_encode($post);
+		die();
+	}
+
+	/**
+	 * Return array of questions (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_questions(){
+
+		$args = array(
+			'posts_per_page' 	=> -1,
+			'post_type' 		=> 'llms_question',
+			'nopaging' 			=> true,
+			'post_status'   	=> 'publish',      
+		);
+		$postslist = get_posts( $args );
+
+		foreach($postslist as $key => $value) {
+			$value->edit_url = get_edit_post_link($value->ID, false);
+		}
+		echo json_encode($postslist);
 		die();
 	}
 
@@ -421,6 +463,51 @@ LLMS_log($_REQUEST);
 	echo json_encode($lesson_ids);
 	die();
 
+	}
+
+	/**
+	 * Return array of questions (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_quiz_questions(){
+
+		$quiz_id = $_REQUEST['quiz_id'];
+		$user_id = $_REQUEST['user_id'];
+
+
+		//first off. we need to check if the user can actually view this quiz
+		//
+		//then we need to get the postmeta and then get each question.
+		$questions = get_post_meta($quiz_id, '_llms_questions', true);
+
+		if($questions) {
+			foreach ($questions as $key => $value) {
+				//get each question and build array
+			}
+		}
+
+
+		$args = array(
+			'posts_per_page' 	=> -1,
+			'post_type' 		=> 'llms_question',
+			'nopaging' 			=> true,
+			'post_status'   	=> 'publish',  
+			'meta_query' => array(
+				array(
+					'key' => 'featured',
+					'value' => 'yes',
+				)
+			)    
+		);
+		$questions = get_posts( $args );
+
+		foreach($questions as $key => $value) {
+			$value->edit_url = get_edit_post_link($value->ID, false);
+		}
+		echo json_encode($_REQUEST['quiz_id']);
+		die();
 	}
 
 }
