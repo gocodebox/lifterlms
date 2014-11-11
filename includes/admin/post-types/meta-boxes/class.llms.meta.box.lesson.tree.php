@@ -129,7 +129,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 		global $wpdb;
 
 		//get post data
-		if ($_POST['associated_section']) {
+		if (isset($_POST['associated_section'])) {
 			$parent_section = ( llms_clean( $_POST['associated_section']  ) );
 
 			//if parent section has not changed do nothing
@@ -184,14 +184,14 @@ class LLMS_Meta_Box_Lesson_Tree {
 						}
 					}
 				}
-				if ($parent_course) {
+				if (isset($parent_course)) {
 					//in order to remove depreciated method update section _parent_course if it does not exist
 					update_post_meta($parent_section, '_parent_course', $parent_course);
 				}
 			}
 
 			//if parent course is found for section then update course syllabus
-			if($parent_course) {
+			if(isset($parent_course)) {
 				$course = new LLMS_Course($parent_course);
 				$syllabus = $course->get_syllabus();
 

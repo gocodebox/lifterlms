@@ -82,7 +82,7 @@ class LLMS_Meta_Box_Access {
 
 		$membership_levels = array();
 
-		if ($_POST['llms_level']) {
+		if (isset($_POST['llms_level'])) {
 			foreach( $_POST['llms_level'] as $value ) {
 
 				array_push($membership_levels, $value);
@@ -100,7 +100,7 @@ class LLMS_Meta_Box_Access {
 			update_post_meta( $post_id, '_llms_is_restricted', $empty );
 		}
 
-		if ( $_POST['_llms_is_restricted'] ) {
+		if ( isset($_POST['_llms_is_restricted']) ) {
 			update_post_meta( $post_id, '_llms_restricted_levels', ( $membership_levels === '' ) ? '' : $membership_levels);
 		}
 		else {

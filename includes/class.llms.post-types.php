@@ -233,7 +233,7 @@ class LLMS_Post_Types {
 					'hierarchical' 			=> false, 
 					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
 					'has_archive' 			=> ( $shop_page_id = llms_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
 					'show_in_nav_menus' 	=> true
 				)
@@ -285,7 +285,7 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+					'supports' 				=> array( 'title' ),
 					'has_archive' 			=> false,
 				)
 			)
@@ -328,7 +328,7 @@ class LLMS_Post_Types {
 					'rewrite' 				=> $lesson_permalink ? array( 'slug' => untrailingslashit( $lesson_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
 				)
 			)
 		);
@@ -363,7 +363,7 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
-					'supports' 				=> array( 'title', 'comments', 'custom-fields' ),
+					'supports' 				=> array( 'title' ),
 					'has_archive' 			=> false,
 				)
 			)
