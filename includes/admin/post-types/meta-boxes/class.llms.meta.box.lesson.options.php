@@ -69,6 +69,11 @@ class LLMS_Meta_Box_Lesson_Options {
 
 		$days = ( llms_clean( $_POST['_days_before_avalailable']  ) );
 		update_post_meta( $post_id, '_days_before_avalailable', ( $days === '' ) ? '' : $days );
+
+		if ( isset( $_POST['_llms_assigned_quiz'] ) ) {
+		$assigned_quiz = ( llms_clean( $_POST['_llms_assigned_quiz'] ) );
+		update_post_meta( $post_id, '_llms_assigned_quiz', ( $assigned_quiz === '' ) ? '' : $assigned_quiz );
+		}
 	}
 
 }
