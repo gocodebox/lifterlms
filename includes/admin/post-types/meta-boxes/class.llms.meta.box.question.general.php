@@ -49,7 +49,7 @@ class LLMS_Meta_Box_Question_General {
 											<td>
 											<i class="fa fa-bars llms-fa-move-lesson"></i>
 											<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i>
-											<input type="radio" name="correct_option" value="<?php echo $key ?>" <?php echo (empty($value['correct_option'] == '1')?'':'checked'); ?> ><label><?php _e('Correct Answer', 'lifterlms') ?></label>
+											<input type="radio" name="correct_option" value="<?php echo $key; ?>" <?php echo (empty($value['correct_option']) == '1')? '':'checked'; ?> ><label><?php _e('Correct Answer', 'lifterlms'); ?></label>
 											<textarea name ="option_text[]" class="option-text"><?php echo $value['option_text']; ?></textarea>
 											</td>
 											</tr>
