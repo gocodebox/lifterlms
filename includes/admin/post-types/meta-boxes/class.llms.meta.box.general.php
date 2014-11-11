@@ -79,15 +79,17 @@ class LLMS_Meta_Box_General {
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		//if ( isset( $_POST['_has_prerequisite'] ) ) {
 
-			$general = ( llms_clean( $_POST['_has_prerequisite']  ) );
-			update_post_meta( $post_id, '_has_prerequisite', ( $general === '' ) ? '' : $general );
+		$general = (isset($_POST['_has_prerequisite']) ? true : false);
+		update_post_meta( $post_id, '_has_prerequisite', ( $general === '' ) ? '' : $general );
 
+
+		if ( isset( $_POST['_prerequisite'] ) ) {
 			$prerequisite = ( llms_clean( $_POST['_prerequisite']  ) );
-			update_post_meta( $post_id, '_prerequisite', ( $general === '' ) ? '' : $prerequisite );
+			update_post_meta( $post_id, '_prerequisite', ( $prerequisite  === '' ) ? '' : $prerequisite );
+		}
 			
-		//}
+		
 	}
 
 }

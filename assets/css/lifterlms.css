@@ -130,7 +130,6 @@
 
 .llms-course-list {
   padding: 30px;
-  background: #FFF;
   display: inline-block;
   width: 100%; }
   .llms-course-list .llms-course-link {
@@ -485,8 +484,12 @@ h1, h2, h3, h4, h5, h6 {
         margin: 0;
         padding: 0 10px; }
     .llms-checkout-wrapper .llms-checkout .llms-price-wrapper {
+<<<<<<< HEAD
       margin: 20px;
       background: #fff; }
+=======
+      margin: 20px; }
+>>>>>>> be59bba059acce9e7d7b30da2ffafc162ff69d07
 
 .llms-option {
   display: block;
@@ -616,6 +619,7 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   clear: both; }
 
+<<<<<<< HEAD
 .llms-template-wrapper {
   width: 100%;
   display: block;
@@ -627,6 +631,8 @@ h1, h2, h3, h4, h5, h6 {
   clear: both;
   text-align: center; }
 
+=======
+>>>>>>> be59bba059acce9e7d7b30da2ffafc162ff69d07
 .courses a.llms-course-link:hover {
   text-decoration: none; }
 
