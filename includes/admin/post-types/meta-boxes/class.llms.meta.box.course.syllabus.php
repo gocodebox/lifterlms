@@ -19,7 +19,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 	 * @param string $post
 	 */
 	public static function output( $post ) {
-		global $post, $thepostid;;
+		global $post, $thepostid;
 
 		$thepostid = $post->ID;
 
@@ -51,19 +51,19 @@ class LLMS_Meta_Box_Course_Syllabus {
 			$query = get_posts( $args );
 			$html .= '<select class="section-select">';
 			//$html .= '<option value="" selected disabled>Select a section...</option>';
-			foreach ( $query as $post ) : setup_postdata( $post );
-			
-			if ($section_id == $post->ID) {
-				$html .= '<option value="'.$post->ID.'" selected="selected">'. get_the_title($post->ID) . '</option>';
+			foreach ( $query as $section ) : setup_postdata( $section );
+			 
+			if ($section_id == $section->ID) {
+				$html .= '<option value="'.$section->ID.'" selected="selected">'. get_the_title($section->ID) . '</option>';
 			}
 			else {
-				$html .= '<option value="'.$post->ID.'">'. get_the_title($post->ID) . '</option>';
+				$html .= '<option value="'.$section->ID.'">'. get_the_title($section->ID) . '</option>';
 			}
 					
 			endforeach;
-
+			wp_reset_postdata(); wp_reset_query();
 			$html .= '</select>';
-
+			
 			return $html;
 		}
 
@@ -91,22 +91,23 @@ LLMS_log($section_position);
 			$html .= '<tr class="list_item" id="row_' . $section_position . '_' . $lesson_position . '" data-section_id="' . $section_id . '" data-order="' . $section_position . '" style="display: table-row;"><td>';
 			$html .= '<select id="list_item_' . $section_position . '_' . $lesson_position . '" class="lesson-select">';
 
-			foreach ( $query as $post ) : setup_postdata( $post );
+			foreach ( $query as $lesson ) : setup_postdata( $lesson );
 
-				if ($lesson_id == $post->ID) {
-						$html .= '<option value="'.$post->ID.'" data-lesson_id="' . $lesson_id . '" selected="selected">'. get_the_title($post->ID) . '</option>';
+				if ($lesson_id == $lesson->ID) {
+						$html .= '<option value="'.$lesson->ID.'" data-lesson_id="' . $lesson_id . '" selected="selected">'. get_the_title($lesson->ID) . '</option>';
 				}
 				else {
-					$html .= '<option value="'.$post->ID.'">'. get_the_title($post->ID) . '</option>';
+					$html .= '<option value="'.$lesson->ID.'">'. get_the_title($lesson->ID) . '</option>';
 				}
 
 			endforeach;
+			wp_reset_postdata(); wp_reset_query();
 			
 			$html .= '</select></td><td>
 				<a href="' . get_edit_post_link($lesson_id) . '"><i class="fa fa-pencil-square-o llms-fa-edit-lesson"></i></a>
 				<i class="fa fa-bars llms-fa-move-lesson"></i><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn"></i>
 				</td></tr>';
-
+			
 			return $html;
 		} 
 		?>
@@ -177,6 +178,7 @@ LLMS_log($section_position);
 	<?php 
 
 	if(is_array($syllabus[0])) {
+
 		foreach($syllabus[0] as $key => $value ) {
 			echo '<div id="' . $syllabus[0][$key]['position'] . '" class="course-section"> 
 					<p class="title"><label class="order">Section ' . $syllabus[0][$key]['position'] . ': </label>
@@ -200,7 +202,8 @@ LLMS_log($section_position);
 					<a class="button button-primary add-lesson addNewLesson" id="section_' 
 					. $syllabus[0][$key]['position'] . '" data-section="' . $syllabus[0][$key]['position'] 
 					. '"data-section_id="' . $syllabus[0][$key]['section_id'] . '">Add Lesson</a>
-			</div>';	
+			</div>';
+
 		}
 	}
 	?>
@@ -208,6 +211,7 @@ LLMS_log($section_position);
 </div>
 
 <?php
+
 }
 
 	/**

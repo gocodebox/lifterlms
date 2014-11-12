@@ -137,6 +137,10 @@ class LLMS_Meta_Box_Lesson_Tree {
 				return;
 			}
 
+			if (empty($parent_section)) {
+				delete_post_meta($post_id, '_parent_section', $parent_section);
+			}
+
 			//check if lesson is already assigned to a course and if it is remove it from the previous course syllabus
 			if ($prev_parent_course_id = get_post_meta($post_id, '_parent_course', true)) {
 				//if parent course already assigned remove it from course _sections array
@@ -154,6 +158,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 				}
 				LLMS_log($prev_syllabus);
 				update_post_meta($prev_parent_course_id, '_sections', $prev_syllabus);
+				delete_post_meta($post_id, '_parent_course', $prev_parent_course_id);
 			}
 
 			//if section is assigned to a course then update course syllabus
@@ -191,7 +196,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 			}
 
 			//if parent course is found for section then update course syllabus
-			if(isset($parent_course)) {
+			if(!empty($parent_course)) {
 				$course = new LLMS_Course($parent_course);
 				$syllabus = $course->get_syllabus();
 
@@ -219,10 +224,6 @@ class LLMS_Meta_Box_Lesson_Tree {
 
 			//update lesson _parent_section post meta
 			update_post_meta($post_id, '_parent_section', $parent_section);
-		}
-		else {
-			$empty = '';
-			update_post_meta( $post_id, '_parent_course', $empty );
 		}
 
 	}
