@@ -86,13 +86,15 @@ class LLMS_Install {
 				$syllabus = get_post_meta($course->ID, '_sections');
 				if ($syllabus) {
 					foreach($syllabus as $keys => $values) {
-						foreach($values as $k => $v) {
-							if ($v['section_id']) {
-								update_post_meta($v['section_id'], '_parent_course', $course->ID);
-								foreach($v['lessons'] as $lk => $lv) {
-									if($v['lessons']) {
-										update_post_meta($lv['lesson_id'], '_parent_course', $course->ID);
-										update_post_meta($lv['lesson_id'], '_parent_section', $v['section_id']);
+						if (isset($values)) {
+							foreach($values as $k => $v) {
+								if ($v['section_id']) {
+									update_post_meta($v['section_id'], '_parent_course', $course->ID);
+									foreach($v['lessons'] as $lk => $lv) {
+										if($v['lessons']) {
+											update_post_meta($lv['lesson_id'], '_parent_course', $course->ID);
+											update_post_meta($lv['lesson_id'], '_parent_section', $v['section_id']);
+										}
 									}
 								}
 							}
