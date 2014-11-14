@@ -240,21 +240,28 @@ class LLMS_Meta_Box_Engagement_Options {
 	public static function save( $post_id, $post ) {
 
 		global $wpdb;
-	
-		$engagement = ( llms_clean( $_POST['_llms_engagement']  ) );
-		update_post_meta( $post_id, '_llms_engagement', ( $engagement === '' ) ? '' : $engagement );
+		if (isset($_POST['_llms_engagement'])
+			&& isset($_POST['_llms_trigger_type'])
+			&& isset($_POST['_llms_engagement_type'])
+			&& isset($_POST['_llms_engagement_delay'])
+			&& isset($_POST['_llms_engagement_trigger'])
+		) {
 
-		$trigger_type = ( llms_clean( $_POST['_llms_trigger_type']  ) );
-		update_post_meta( $post_id, '_llms_trigger_type', ( $trigger_type === '' ) ? '' : $trigger_type );
+			$engagement = ( llms_clean( $_POST['_llms_engagement']  ) );
+			update_post_meta( $post_id, '_llms_engagement', ( $engagement === '' ) ? '' : $engagement );
 
-		$engagement_type = ( llms_clean( $_POST['_llms_engagement_type']  ) );
-		update_post_meta( $post_id, '_llms_engagement_type', ( $engagement_type === '' ) ? '' : $engagement_type );
+			$trigger_type = ( llms_clean( $_POST['_llms_trigger_type']  ) );
+			update_post_meta( $post_id, '_llms_trigger_type', ( $trigger_type === '' ) ? '' : $trigger_type );
 
-		$engagement_delay = ( llms_clean( $_POST['_llms_engagement_delay']  ) );
-		update_post_meta( $post_id, '_llms_engagement_delay', ( $engagement_delay === '' ) ? '0' : $engagement_delay );
+			$engagement_type = ( llms_clean( $_POST['_llms_engagement_type']  ) );
+			update_post_meta( $post_id, '_llms_engagement_type', ( $engagement_type === '' ) ? '' : $engagement_type );
 
-		$engagement_trigger = ( llms_clean( $_POST['_llms_engagement_trigger']  ) );
-		update_post_meta( $engagement_trigger, '_llms_engagement_trigger', ( $post->ID === '' ) ? '' : $post->ID );
+			$engagement_delay = ( llms_clean( $_POST['_llms_engagement_delay']  ) );
+			update_post_meta( $post_id, '_llms_engagement_delay', ( $engagement_delay === '' ) ? '0' : $engagement_delay );
+
+			$engagement_trigger = ( llms_clean( $_POST['_llms_engagement_trigger']  ) );
+			update_post_meta( $engagement_trigger, '_llms_engagement_trigger', ( $post->ID === '' ) ? '' : $post->ID );
+		}
 
 	}
 

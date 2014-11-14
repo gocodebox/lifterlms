@@ -160,7 +160,6 @@ table.dad-list tr td:nth-child(2) {
 
 .llms-access-levels {
   min-height: 42px;
-  max-height: 200px;
   overflow: auto;
   padding: .9em;
   border: 1px solid #dfdfdf;
@@ -205,15 +204,21 @@ table.dad-list tr td:nth-child(2) {
 
 select[disabled] {
   color: #000;
-  border: none;
+  border: transparent;
+  background: none;
+  -moz-appearance: checkbox-container;
   -webkit-appearance: none;
-  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
   text-indent: 1px;
   text-overflow: '';
   box-shadow: none;
   background: none;
   margin-top: -4px;
 }
+
+select[disabled]::-ms-expand {
+  display: none; }
 
 .section-placeholder {
   height: 200px;

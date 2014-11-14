@@ -39,6 +39,8 @@ v1.0.5 - UNRELEASED
 + Assigned Course, Assigned Section, Prerequisite and Membership Required added to lesson edit grid
 + Assigned Course added to section edit grid'
 + New membership setting: Restrict Entire Site by Membership Level (allows site restriction to everything but membership purchase and account).
++ Updated template overriding to check child & parent themes
++ Updated template overriding to apply filters to directories to check for overrides to allow themes and plugins to add their own directories
 
 v1.0.4 - 2014-11-04
 -------------------

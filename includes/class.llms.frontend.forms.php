@@ -68,7 +68,8 @@ class LLMS_Frontend_Forms {
     public function mark_complete() {
     	global $wpdb;
 
-    	if ( 'POST' !== strtoupper( $_SERVER[ 'REQUEST_METHOD' ] ) ) {
+    	$request_method = strtoupper(getenv('REQUEST_METHOD'));
+    	if ( 'POST' !== $request_method ) {
 			return;
 		}
 
@@ -253,7 +254,9 @@ class LLMS_Frontend_Forms {
 				return;
 			}
 		}
-		if ( 'POST' !== strtoupper( $_SERVER[ 'REQUEST_METHOD' ] ) ) {
+
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+		if ( 'POST' !== $request_method  ) {
 			return;
 		}
 
@@ -288,7 +291,8 @@ class LLMS_Frontend_Forms {
 		// check if session already exists. if it does assign it. 
 		$current_order = LLMS()->session->get( 'llms_order', array() );
 
-		if ( 'POST' !== strtoupper( $_SERVER[ 'REQUEST_METHOD' ] ) ) {
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+		if ( 'POST' !== $request_method ) {
 			return;
 		}
 
