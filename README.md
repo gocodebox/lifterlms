@@ -25,7 +25,13 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.0.5 - UNRELEASED
+v1.0.6 - UNRELEASED
+-------------------
+
++ BuddyPress Screen Permission Fix
+
+
+v1.0.5 - RELEASE???????? [MARK PLEASE UPDATE W/ RELEASE DATE]
 -------------------
 
 + Fixed a mis-placed parenthesis in templates/course/lesson-navigation.php related to outputting excerpt in navigation option

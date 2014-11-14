@@ -39,8 +39,8 @@ class LLMS_Integration_Buddypress {
 			'slug' => 'courses',
 			'position' => 20,
 			'screen_function' => array($this,'courses'),
-			'show_for_displayed_user' => true,
-			'default_subnav_slug' => 'test'
+			'show_for_displayed_user' => false,
+			'default_subnav_slug' => ' '
 		));
 	}
 
