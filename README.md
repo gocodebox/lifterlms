@@ -28,7 +28,11 @@ CHANGELOG
 v1.0.6 - UNRELEASED
 -------------------
 
+### BUDDYPRESS
 + BuddyPress Screen Permission Fix
++ Added two additional screens to BuddyPress: Certificates and Achievements
+
+### MISC
 + Added llms options for course archive pagination and added course archive page pagination template
 + Added user statisticc shortcode
 

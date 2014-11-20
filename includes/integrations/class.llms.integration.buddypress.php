@@ -34,13 +34,46 @@ class LLMS_Integration_Buddypress {
 	 * @return  null
 	 */
 	public function add_profile_nav_items() {
+		global $bp;
+		// add the main nav menu
 		bp_core_new_nav_item( array(
 			'name' => __( 'Courses', 'lifterlms' ),
 			'slug' => 'courses',
 			'position' => 20,
-			'screen_function' => array($this,'courses'),
+			'screen_function' => array($this,'courses_screen'),
 			'show_for_displayed_user' => false,
-			'default_subnav_slug' => ' '
+			'default_subnav_slug' => 'courses'
+		));
+
+		$parent_url = $bp->loggedin_user->domain.'courses/';
+		$is_my_profile = bp_is_my_profile(); // only let the logged in user access subnav screens
+
+		// add sub nav items
+		bp_core_new_subnav_item(array(
+			'name'            => __( 'Courses', 'lifterlms' ),
+			'slug'            => 'courses',
+			'parent_slug'     => 'courses',
+			'parent_url'      => $parent_url,
+			'screen_function' => array($this,'courses_screen'),
+			'user_has_access' => $is_my_profile
+		));
+
+		bp_core_new_subnav_item(array(
+			'name'            => __( 'Achievements', 'lifterlms' ),
+			'slug'            => 'achievements',
+			'parent_slug'     => 'courses',
+			'parent_url'      => $parent_url,
+			'screen_function' => array($this,'achievements_screen'),
+			'user_has_access' => $is_my_profile,
+		));
+
+		bp_core_new_subnav_item(array(
+			'name'            => __( 'Certificates', 'lifterlms' ),
+			'slug'            => 'certificates',
+			'parent_slug'     => 'courses',
+			'parent_url'      => $parent_url,
+			'screen_function' => array($this,'certificates_screen'),
+			'user_has_access' => $is_my_profile,
 		));
 	}
 
@@ -69,31 +102,68 @@ class LLMS_Integration_Buddypress {
 	}
 
 
+
+
 	/**
-	 * Callback for "My Courses" profile screen
+	 * Callback for "Achievements" profile screen
 	 * @return null
 	 */
-	public function courses() {
-		add_action('bp_template_title', array($this,'courses_title'));
+	public function achievements_screen() {
+		// add_action('bp_template_title', array($this,'achievements_title'));
+		add_action('bp_template_content', array($this,'achievements_content'));
+		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+	}
+
+		/**
+		 * "Achievements" profile screen content
+		 * @return null
+		 */
+		public function achievements_content() {
+			llms_get_template('myaccount/my-achievements.php');
+		}
+
+
+
+	/**
+	 * Callback for "Certificates" profile screen
+	 * @return null
+	 */
+	public function certificates_screen() {
+		// add_action('bp_template_title', array($this,'certificates_title'));
+		add_action('bp_template_content', array($this,'certificates_content'));
+		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+	}
+
+		/**
+		 * "Certificates" profile screen content
+		 * @return null
+		 */
+		public function certificates_content() {
+			llms_get_template('myaccount/my-certificates.php');
+		}
+
+
+
+	/**
+	 * Callback for "Courses" profile screen
+	 * @return null
+	 */
+	public function courses_screen() {
+		// add_action('bp_template_title', array($this,'courses_title'));
 		add_action('bp_template_content', array($this,'courses_content'));
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
-	/**
-	 * "My Courses" profile screen title
-	 * @return null
-	 */
-	public function courses_title() {
-		_e( 'My Courses', 'lifterlms' );
-	}
+		/**
+		 * "Courses" profile screen content
+		 * @return null
+		 */
+		public function courses_content() {
+			llms_get_template('myaccount/my-courses.php');
+		}
 
-	/**
-	 * "My Courses" profile screen content
-	 * @return null
-	 */
-	public function courses_content() {
-		llms_get_template('myaccount/my-courses.php');
-	}
+
+
 
 
 	/**
