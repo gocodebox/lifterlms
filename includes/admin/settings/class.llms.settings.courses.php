@@ -50,6 +50,14 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'css' 		=> 'min-width:300px;',
 				),
 
+				array(
+					'title' => __( 'Courses per page', 'lifterlms' ),
+					'desc' 		=> '<br/>' . sprintf( __( 'To show all courses on one page, enter -1', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+					'id' 		=> 'lifterlms_shop_courses_per_page',
+					'type' 		=> 'text',
+					'default'	=> '10'
+				),
+
 				array( 'type' => 'sectionend', 'id' => 'course_options' ),
 
 				array( 'title' => __( 'Display Settings', 'lifterlms' ), 'type' => 'title', 'id' => 'course_options' ),

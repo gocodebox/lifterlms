@@ -25,11 +25,7 @@ get_header( 'shop' ); ?>
 
 		<?php if ( have_posts() ) : ?>
 
-			<?php
-
-				do_action( 'lifterlms_before_shop_loop' );
-
-			?>
+			<?php do_action( 'lifterlms_before_shop_loop' ); ?>
 
 			<?php lifterlms_course_loop_start(); ?>
 
@@ -43,11 +39,9 @@ get_header( 'shop' ); ?>
 
 			<?php lifterlms_course_loop_end(); ?>
 
-			<?php
+			<?php do_action( 'lifterlms_after_shop_loop' ); ?>
 
-				do_action( 'lifterlms_after_shop_loop' );
-
-			?>
+			<?php llms_get_template_part( 'course', 'pagination' ); ?>
 
 		<?php elseif ( ! lifterlms_course_subcategories( array( 'before' => lifterlms_course_loop_start( false ), 'after' => lifterlms_course_loop_end( false ) ) ) ) : ?>
 

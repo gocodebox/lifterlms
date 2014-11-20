@@ -29,6 +29,7 @@ v1.0.6 - UNRELEASED
 -------------------
 
 + BuddyPress Screen Permission Fix
++ Added llms options for course archive pagination and added course archive page pagination template
 
 
 v1.0.5 - RELEASE???????? [MARK PLEASE UPDATE W/ RELEASE DATE]

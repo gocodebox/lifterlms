@@ -829,3 +829,29 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+// llms-pagination
+.llms-pagination {
+	ul {
+		@extend %cf;
+		list-style-type: none;
+	}
+
+	li {
+		float: left;
+		&:last-child {
+			.page-numbers {
+				border-right-width: 1px;
+			}
+		}
+
+		.page-numbers {
+			background: $color-white;
+			border: 1px solid #ccc;
+			border-right-width: 0;
+			display: block;
+			padding: .5em .75em;
+			text-decoration: none;
+		}
+	}
+
+}

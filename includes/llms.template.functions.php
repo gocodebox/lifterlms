@@ -1146,3 +1146,17 @@ function tpp_posts_comments_return() {
 add_action('wp_ajax_nopriv_tpp_comments', 'tpp_posts_comments_return');
 
 
+
+/**
+ * Paginate Courses on Course Archive by llms setting
+ * @param  object / $query / global $wp_query query args
+ * @return object / $query
+ */
+function llms_courses_per_page( $query ) {
+	if(!is_admin() && is_shop() && is_main_query()) {
+		$per_page = get_option( 'lifterlms_shop_courses_per_page', 10 );
+		$query->query_vars['posts_per_page'] = $per_page;
+	}
+	return $query;
+}
+add_filter( 'pre_get_posts', 'llms_courses_per_page' );
