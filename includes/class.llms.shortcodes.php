@@ -25,6 +25,7 @@ class LLMS_Shortcodes {
 			'courses' => __CLASS__ . '::courses',
 			'lifterlms_course_progess' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
+			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics'
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -181,6 +182,61 @@ class LLMS_Shortcodes {
 	   		return $courses;
 	    }
 
+	}
+
+
+	/**
+	 * Output user statstics related to courses enrolled, completed, etc...
+	 * @param  [array] $atts / array of user input attributes
+	 * @return string / html content
+	 */
+	public static function user_statistics( $atts ) {
+		extract(shortcode_atts(array(
+			'type' => 'course', // course, lesson, section
+			'stat' => 'completed' // completed, enrolled
+		),$atts));
+
+		// setup the meta key to search on
+		switch($stat) {
+			case 'completed': 
+				$key = '_is_complete'; 
+				$val = false;
+			break;
+
+			case 'enrolled': 
+				$key = '_status';
+				$val = 'Enrolled';
+			break;
+		}
+
+		// get user id of logged in user
+		$uid = wp_get_current_user()->ID;
+
+		// init person class
+		$person = new LLMS_Person();
+		// get results
+		$results = $person->get_user_postmetas_by_key($uid,$key);
+
+		// unset all items that are not courses
+		foreach($results as $key=>$obj) {
+			if(get_post_type($obj->post_id) != $type) {
+				unset($results[$key]);
+			}
+		}
+
+		// filter by value if set
+		if(is_array($results) && $val)  {
+			foreach($results as $key=>$obj) {
+				// remove from the results array if $val doesn't match
+				if($obj->meta_value != $val) {
+					unset($results[$key]);
+				}
+			}
+		}
+
+		$count = (is_array($results)) ? count($results) : 0;
+
+		return $count . ' ' . _n( $type, $type.'s', $count, 'lifterlms' );
 	}
 }
 
