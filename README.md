@@ -27,6 +27,13 @@ CHANGELOG
 
 v1.0.6 - UNRELEASED
 -------------------
++ Added Coupon Creation 
++ Added Coupon support for checkout processing
++ Added Credit Card Support processing support
++ Added Form filters for external integration
++ Added Form templates for external integration
++ Added Account Setting: Require First and Last Name on registration
++ Added Account Setting: Require Billing Address on registration
 
 ### BUDDYPRESS
 + BuddyPress Screen Permission Fix
