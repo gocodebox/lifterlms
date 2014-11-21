@@ -70,7 +70,8 @@ class LLMS_Admin_Post_Types {
 			'llms_achievement' 	=> 'Achievement',
 			'llms_engagement' 	=> 'Engagement',
 			'llms_quiz' 		=> 'Quiz',
-			'llms_question' 		=> 'Question',
+			'llms_question' 	=> 'Question',
+			'llms_coupon'		=> 'Coupon',
 
 		);
 
@@ -305,40 +306,6 @@ class LLMS_Admin_Post_Types {
 				break;
 		}
 	}
-
-//I will be back to finish this. 
-// 	function llms_lesson_sortable_columns( $columns ) {
-
-// 		$columns['course'] = 'course';
-
-// 		return $columns;
-// 	}
-
-// 	function llms_edit_lesson_load() {
-// 		add_filter( 'request', array($this,'llms_sort_lessons') );
-// 	}
-
-// 	public function llms_sort_lessons( $vars ) {
-		
-// 		LLMS_log($vars);
-
-// 		if ( isset( $vars['post_type'] ) && 'lesson' == $vars['post_type'] ) {
-// LLMS_log('made it');
-
-// 			//if ( isset( $vars['orderby'] ) && 'course' == $vars['orderby'] ) {
-	
-// 				$vars = array_merge(
-// 					$vars,
-// 					array(
-// 						'meta_key' => '_parent_course',
-// 						'orderby' => 'post_title'
-// 					)
-// 				);
-// 			}
-// 		//}
-// LLMS_log($vars);
-// 		return $vars;
-// 	}
 
 }
 

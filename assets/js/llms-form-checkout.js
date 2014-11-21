@@ -1,5 +1,7 @@
 jQuery(document).ready(function($) {
 
+	$('#llms_country_options').chosen();
+
 	//display coupon redemption form on link click
 	get_current_price();
 	
@@ -7,9 +9,31 @@ jQuery(document).ready(function($) {
 
 	$('.llms-payment-options input[type=radio]').change(display_current_price);
 
+	if ($('.llms-payment-methods input[type=radio]').length) {
+		console.log($('.llms-payment-methods input[type=radio]').data('payment-type'));
+		if ($('.llms-payment-methods input[type=radio]:checked').data('payment-type') == 'creditcard') {
+
+			$('.llms-creditcard-fields').show();
+		}
+		
+	}
+
+	$('.llms-payment-methods input[type=radio]').change(display_credit_card_fields);
+
 	//$('.llms-price-option-radio').on('change', display_current_price );
 	
 });
+
+(function($){
+display_credit_card_fields = function() {
+	if ($(this).data('payment-type') == 'creditcard') {
+		$('.llms-creditcard-fields').slideDown('fast');
+	}
+	else {
+		$('.llms-creditcard-fields').slideUp('fast');
+	}
+};
+})(jQuery);
 
 (function($){  
 display_coupon_form = function() {
@@ -18,7 +42,7 @@ display_coupon_form = function() {
 	$(this).hide();
 	$('#llms-checkout-coupon').show().slideDown('slow');
 	return false;
-}
+};
 })(jQuery);
 
 (function($){  
@@ -33,7 +57,7 @@ display_current_price = function() {
 	// $(this).hide();
 	// $('#llms-checkout-coupon').show();
 	// return false;
-}
+};
 })(jQuery);
 
 (function($){  
@@ -50,5 +74,5 @@ get_current_price = function() {
 	// $(this).hide();
 	// $('#llms-checkout-coupon').show();
 	// return false;
-}
+};
 })(jQuery);

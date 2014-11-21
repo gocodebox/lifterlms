@@ -2,7 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( ! class_exists( 'LLMS_Email_Customer_Reset_Password' ) ) :
+if ( ! class_exists( 'LLMS_Email_Reset_Password' ) ) :
 
 class LLMS_Email_Reset_Password extends LLMS_Email {
 

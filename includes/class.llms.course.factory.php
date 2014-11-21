@@ -66,7 +66,7 @@ class LLMS_Course_Factory {
 	/**
 	* Get Quiz
 	*
-	* @param mixed $the_lesson = false, $args = array() 
+	* @param mixed $the_quiz = false, $args = array() 
 	* @return void
 	*/
 	public function get_quiz( $the_quiz = false, $args = array() ) {
@@ -77,6 +77,22 @@ class LLMS_Course_Factory {
 	 	$classname = 'LLMS_Quiz';
 
 		return new LLMS_Quiz ($the_quiz, $args );
+	}
+
+	/**
+	* Get Question
+	*
+	* @param mixed $the_question = false, $args = array() 
+	* @return void
+	*/
+	public function get_question( $the_question = false, $args = array() ) {
+		global $post;
+
+	 	$the_question = $post;
+
+	 	$classname = 'LLMS_Question';
+
+		return new LLMS_Question ($the_question, $args );
 	}
 
 }

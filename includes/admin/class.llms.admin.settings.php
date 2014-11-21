@@ -343,7 +343,6 @@ class LLMS_Admin_Settings {
 	            case 'multiselect' :
 
 	            	$option_value 	= self::get_option( $value['id'], $value['default'] );
-
 	            	?><tr valign="top">
 						<th>
 							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
@@ -479,25 +478,6 @@ class LLMS_Admin_Settings {
 							</fieldset>
 						<?php
 					}
-	            break;
-
-	            // Image width settings
-	            case 'image_width' :
-
-	            	$width 	= self::get_option( $value['id'] . '[width]', $value['default']['width'] );
-	            	$height = self::get_option( $value['id'] . '[height]', $value['default']['height'] );
-	            	$crop 	= checked( 1, self::get_option( $value['id'] . '[crop]', $value['default']['crop'] ), false );
-
-	            	?><tr valign="top">
-						<th><?php echo esc_html( $value['title'] ) ?> <?php echo $tooltip; ?></th>
-	                    <td class="forminp image_width_settings">
-
-	                    	<input name="<?php echo esc_attr( $value['id'] ); ?>[width]" id="<?php echo esc_attr( $value['id'] ); ?>-width" type="text" size="3" value="<?php echo $width; ?>" /> &times; <input name="<?php echo esc_attr( $value['id'] ); ?>[height]" id="<?php echo esc_attr( $value['id'] ); ?>-height" type="text" size="3" value="<?php echo $height; ?>" />px
-
-	                    	<label><input name="<?php echo esc_attr( $value['id'] ); ?>[crop]" id="<?php echo esc_attr( $value['id'] ); ?>-crop" type="checkbox" <?php echo $crop; ?> /> <?php _e( 'Hard Crop?', 'lifterlms' ); ?></label>
-
-	                    	</td>
-	                </tr><?php
 	            break;
 
 	            // Single page selects
@@ -636,7 +616,8 @@ class LLMS_Admin_Settings {
 	 * @return bool
 	 */
 	public static function save_fields( $settings ) {
-
+LLMS_log('save_fields called');
+LLMS_log($_POST);
 	    if ( empty( $_POST ) )
 	    	return false;
 
@@ -695,24 +676,20 @@ class LLMS_Admin_Settings {
 
 		    	break;
 
-		    	case "image_width" :
-
-			    	if ( isset( $_POST[$value['id'] ]['width'] ) ) {
-
-		              	$update_options[ $value['id'] ]['width']  = llms_clean( stripslashes( $_POST[ $value['id'] ]['width'] ) );
-		              	$update_options[ $value['id'] ]['height'] = llms_clean( stripslashes( $_POST[ $value['id'] ]['height'] ) );
-
-						if ( isset( $_POST[ $value['id'] ]['crop'] ) )
-							$update_options[ $value['id'] ]['crop'] = 1;
-						else
-							$update_options[ $value['id'] ]['crop'] = 0;
-
-		            } else {
-		            	$update_options[ $value['id'] ]['width'] 	= $value['default']['width'];
-		            	$update_options[ $value['id'] ]['height'] 	= $value['default']['height'];
-		            	$update_options[ $value['id'] ]['crop'] 	= $value['default']['crop'];
-		            }
-
+		    	case "multiselect" :
+			 
+			    	if ( isset( $_POST[$value['id']]) ) {
+			    		foreach($_POST[$value['id']] as $k => $v) {
+			    			
+			    			$_POST[$value['id']][$k] = llms_clean( stripslashes( $v ) );
+			    		}
+			    		$option_value = $_POST[ $value['id'] ];
+			    	
+			    	}
+			    	else {
+			    		$option_value = '';
+			    	}
+			    	LLMS_log($option_value);
 		    	break;
 
 		    	// Custom handling

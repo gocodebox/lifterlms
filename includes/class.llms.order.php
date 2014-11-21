@@ -158,7 +158,7 @@ class LLMS_Order {
 				array_push($membership_levels, $order->product_id);
 			}
 			
-			update_usermeta( $order->user_id, '_llms_restricted_levels', $membership_levels );
+			update_user_meta( $order->user_id, '_llms_restricted_levels', $membership_levels );
 		}
 
 	return $order_post_id;

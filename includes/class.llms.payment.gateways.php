@@ -32,7 +32,6 @@ class LLMS_Payment_Gateways {
 
     function payment_gateways() {
 		$_available_gateways = array();
-
 		if ( sizeof( $this->payment_gateways ) > 0 )
 			foreach ( $this->payment_gateways as $gateway )
 				$_available_gateways[ $gateway->id ] = $gateway;
@@ -46,7 +45,6 @@ class LLMS_Payment_Gateways {
     	) );
 
 		$order_end 	= 999;
-
 		foreach ($load_gateways as $gateway) :
 
 			$load_gateway = new $gateway();
@@ -66,13 +64,10 @@ class LLMS_Payment_Gateways {
 	 * @return array
 	 */
 	function get_available_payment_gateways() {
-
 		$_available_gateways = array();
 
 		foreach ( $this->payment_gateways as $gateway ) :
-
 			if ( $gateway->is_available() ) {
-				
 					$_available_gateways[$gateway->id] = $gateway;
 				}
 

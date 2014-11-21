@@ -277,6 +277,33 @@ class LLMS_Product {
 
 	}
 
+	public function adjusted_price($price = '') {
+		 $adjustment = llms_get_coupon();
+      LLMS_log($adjustment);
+      $total = $price;
+
+      if ( !empty( $adjustment && $adjustment->amount > 0 ) ) {
+		if ($this->id == $adjustment->product_id) {
+		    if ($adjustment->type == 'percent') {
+		          LLMS_log('percent was found');
+		          $amount =  (1 - ($adjustment->amount / 100));
+		          LLMS_log($amount);
+		          $total = ($price * $amount);
+		          $total = sprintf('%0.2f', $total);
+		          LLMS_log($total);
+		    }
+		    elseif ($adjustment->type == 'dollar') {
+		          $amount = round( $adjustment->amount, 2 );
+		          $total = ($price - $amount);
+		          $total = sprintf('%0.2f', $total);
+		          LLMS_log('the total');
+		          LLMS_log($total);
+		    }
+		}
+      }
+      return $total;
+	}
+
 	/**
 	 * Get function for price value.
 	 *
@@ -284,21 +311,20 @@ class LLMS_Product {
 	 * @return void
 	 */
 	public function get_price() {
-
-		return apply_filters( 'lifterlms_get_price', $this->price, $this );
+		return apply_filters( 'lifterlms_get_price', $this->adjusted_price($this->price), $this );
 
 	}
 
 	public function get_single_price() {
-		return apply_filters( 'lifterlms_get_single_price', $this->price, $this );
+		return apply_filters( 'lifterlms_get_single_price', $this->adjusted_price($this->price), $this );
 	}
 
 	public function get_recurring_price() {
-		return apply_filters( 'lifterlms_get_recurring_price', $this->llms_subscription_price, $this );
+		return apply_filters( 'lifterlms_get_recurring_price', $this->adjusted_price($this->llms_subscription_price), $this );
 	}
 
 	public function get_recurring_first_payment() {
-		return apply_filters( 'lifterlms_get_recurring_first_price', $this->llms_subscription_first_payment, $this );
+		return apply_filters( 'lifterlms_get_recurring_first_price', $this->adjusted_price($this->llms_subscription_first_payment), $this );
 	}
 
 	public function get_billing_period() {

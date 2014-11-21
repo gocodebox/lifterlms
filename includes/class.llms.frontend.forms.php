@@ -21,6 +21,7 @@ class LLMS_Frontend_Forms {
 
 		add_action( 'template_redirect', array( $this, 'save_account_details' ) );	
 
+		add_action( 'init', array( $this, 'apply_coupon' ) );
 		add_action( 'init', array( $this, 'create_order' ) );
 		add_action( 'init', array( $this, 'confirm_order' ) );	
 		add_action( 'init', array( $this, 'login' ) );
@@ -49,6 +50,7 @@ class LLMS_Frontend_Forms {
 
 	public function start_quiz() {
 		LLMS_log('quiz has started');
+		$hello = 'hello';
 
 		//when start button is pressed:
 		//
@@ -281,13 +283,92 @@ class LLMS_Frontend_Forms {
 
 	}
 
+	public function apply_coupon() {
+		global $wpdb;
+		//LLMS_log('apply coupon called');
+		//LLMS_log($_POST);
+
+		if ( !isset( $_POST['llms_apply_coupon'] ) ) {
+			return;
+		}
+
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+		if ( 'POST' !== $request_method ) {
+			return;
+		}
+
+		if ( empty( $_POST['_wpnonce'] ) ) {
+			
+			return;
+		}
+		
+		wp_verify_nonce( $_POST['_wpnonce'], 'llms-checkout-coupon' );
+
+		$coupon = new stdClass();
+		$errors = new WP_Error();
+
+		$coupon->user_id = (int) get_current_user_id();
+
+		if (empty($coupon->user_id ) ) {
+			return;
+		}
+		
+		$coupon->coupon_code 	= llms_clean($_POST['coupon_code']);
+		$coupon->product_id 	= $_POST['product_id'];
+
+		$args = array(
+		'posts_per_page' 	=> 1,
+		'post_type' 		=> 'llms_coupon',
+		'nopaging' 			=> true,
+		'post_status'   	=> 'publish',
+		'meta_query' 		=> array(
+			array(
+			    'key' 	=> '_llms_coupon_title',
+			    'value' => $coupon->coupon_code
+			    )
+			)                   
+		);
+		$coupon_post = get_posts( $args );
+		LLMS_log($coupon_post);
+
+		if ( empty($coupon_post) ) {
+			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> was not found.', 'lifterlms' ), $coupon->coupon_code ), 'error' ) ;
+		}
+
+		foreach ( $coupon_post as $cp ) {
+			$coupon->id = $cp->ID;
+		}
+
+		//get coupon metadata
+		$coupon_meta = get_post_meta($coupon->id);
+
+		$coupon->type 		= ! empty( $coupon_meta['_llms_dicount_type'][0] ) 		? $coupon_meta['_llms_dicount_type'][0] 	: '';
+		$coupon->amount 	= ! empty( $coupon_meta['_llms_coupon_amount'][0] ) 	? $coupon_meta['_llms_coupon_amount'][0] 	: '';
+		$coupon->limit 		= ! empty( $coupon_meta['_llms_usage_limit'][0] ) 		? $coupon_meta['_llms_usage_limit'][0] 		: '';
+
+
+		//get product price
+		//$product = new LLMS_Product($coupon->product_id);
+
+		LLMS()->session->set( 'llms_coupon', $coupon );
+		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' ) ;
+		//if coupon type is dollar
+		
+		
+		//else if coupon type is percentage
+
+	}
+
 	public function create_order() {
 		global $wpdb;
+
+		//LLMS_log($_POST);
+
+		//return;
 
 		if ( isset( $_POST['llms-checkout-coupon'] ) ) {
 			return;
 		}
-
 		// check if session already exists. if it does assign it. 
 		$current_order = LLMS()->session->get( 'llms_order', array() );
 
@@ -307,11 +388,64 @@ class LLMS_Frontend_Forms {
 		$order = new stdClass();
 		$errors = new WP_Error();
 
+		$order->user_id = (int) get_current_user_id();
+
+		if (empty($order->user_id ) ) {
+			return;
+		}
+
+		$user_meta = get_user_meta($order->user_id);
+
+		$order->billing_address_1 	= ( !empty($user_meta['llms_billing_address_1'][0]) ? $user_meta['llms_billing_address_1'][0] 	: '' );
+		$order->billing_address_2 	= ( !empty($user_meta['llms_billing_address_2'][0]) ? $user_meta['llms_billing_address_2'][0] 	: '' );
+		$order->billing_city 		= ( !empty($user_meta['llms_billing_city'][0]) ? $user_meta['llms_billing_city'][0] 				: '' );
+		$order->billing_state 		= ( !empty($user_meta['llms_billing_state'][0]) ? $user_meta['llms_billing_state'][0] 			: '' );
+		$order->billing_zip 		= ( !empty($user_meta['llms_billing_zip'][0]) ? $user_meta['llms_billing_zip'][0] 				: '' );
+		$order->billing_country 	= ( !empty($user_meta['llms_billing_country'][0]) ? $user_meta['llms_billing_country'][0] 		: '' );
+
 		//get POST data
 		$order->product_id  	= ! empty( $_POST[ 'product_id' ] ) ? llms_clean( $_POST[ 'product_id' ] ) : '';
 		$order->product_title	= $_POST['product_title'];
-		$order->payment_method	= $_POST['payment_method'];
+		//$order->payment_method	= $_POST['payment_method'];
+
+		$payment_method_data = explode("_", $_POST['payment_method']);
+		$order->payment_type = $payment_method_data[0];
+		$order->payment_method = $payment_method_data[1];
 		
+		$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
+
+		if ($order->payment_type == 'creditcard' && empty($_POST['use_existing_card'])) {	
+LLMS_log($_POST);
+			if ( empty($_POST['cc_type']) ) {
+				llms_add_notice( __( 'Please select a credit card type.', 'lifterlms' ), 'error' );
+			}
+			if ( empty($_POST['cc_number']) ) {
+				llms_add_notice( __( 'Please enter a credit card number.', 'lifterlms' ), 'error' );
+			}
+			if ( empty($_POST['cc_exp_month']) ) {
+				llms_add_notice( __( 'Please select an expiration month.', 'lifterlms' ), 'error' );
+			}
+			if ( empty($_POST['cc_exp_year']) ) {
+				llms_add_notice( __( 'Please select an expiration year.', 'lifterlms' ), 'error' );
+			}
+			if ( empty($_POST['cc_cvv']) ) {
+				llms_add_notice( __( 'Please enter the credit card CVV2 number', 'lifterlms' ), 'error' );
+			}
+			if ( llms_notice_count('error') ) {
+				return;
+			}
+    			
+		}
+
+		$order->use_existing_card = empty($_POST['use_existing_card']) ? '' : $_POST['use_existing_card'];
+
+		$order->cc_type 		= ( !empty($_POST['cc_type']) 		? $_POST['cc_type'] 	 : '');
+	    $order->cc_number 		= ( !empty($_POST['cc_number']) 	? $_POST['cc_number'] 	 : '');
+	    $order->cc_exp_month 	= ( !empty($_POST['cc_exp_month'])  ? $_POST['cc_exp_month'] : '');
+	    $order->cc_exp_year 	= ( !empty($_POST['cc_exp_year']) 	? $_POST['cc_exp_year']  : '');
+	    $order->cc_cvv 			= ( !empty($_POST['cc_cvv'])  		? $_POST['cc_cvv'] 		 : '');
+
+	
 		$order->order_completed = 'no';
 
 		$product = new LLMS_Product($order->product_id);
@@ -332,15 +466,13 @@ class LLMS_Frontend_Forms {
 			$order->billing_cycle			= $product->get_billing_cycle();
 			$order->billing_start_date 		= $product->get_recurring_next_payment_date();
 		}
-
-		//REFACTOR wtf no idea how this is actually working!!
-		$order->user_id     	= (int) get_current_user_id();
-		$current_user 			= get_user_by( 'id', $order->user_id );
 	
 		if ( $order->user_id <= 0 ) {
 
 			return;
 		}
+
+		if ($order->payment_method)
 
 		$order->currency 		= get_lifterlms_currency();
 		$order->return_url		= $this->llms_confirm_payment_url();
@@ -352,7 +484,9 @@ class LLMS_Frontend_Forms {
 		// if no errors were returned save the data
 		if ( llms_notice_count( 'error' ) == 0 ) {
 
-			LLMS()->session->set( 'llms_order', $order );
+			$order_session = clone $order;
+			unset($order_session->cc_type, $order_session->cc_number, $order_session->cc_exp_month, $order_session->cc_exp_year, $order_session->cc_cvv);
+			LLMS()->session->set( 'llms_order', $order_session );
 
 			if ($order->total == 0) {
 				$lifterlms_checkout = LLMS()->checkout();
@@ -363,8 +497,6 @@ class LLMS_Frontend_Forms {
 			else {
 				$lifterlms_checkout = LLMS()->checkout();
 				$lifterlms_checkout->process_order($order);
-
-				$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 				$result = $available_gateways[$order->payment_method]->process_payment($order);
 
 			}
@@ -553,16 +685,27 @@ class LLMS_Frontend_Forms {
 
 		}
 
-		$account_first_name = ! empty( $_POST[ 'account_first_name' ] ) ? llms_clean( $_POST[ 'account_first_name' ] ) : '';
-		$account_last_name  = ! empty( $_POST[ 'account_last_name' ] ) ? llms_clean( $_POST[ 'account_last_name' ] ) : '';
-		$account_email      = ! empty( $_POST[ 'account_email' ] ) ? sanitize_email( $_POST[ 'account_email' ] ) : '';
-		$pass1              = ! empty( $_POST[ 'password_1' ] ) ? $_POST[ 'password_1' ] : '';
-		$pass2              = ! empty( $_POST[ 'password_2' ] ) ? $_POST[ 'password_2' ] : '';
+		$account_first_name = ! empty( $_POST[ 'account_first_name' ] ) 	? llms_clean( $_POST[ 'account_first_name' ] ) : '';
+		$account_last_name  = ! empty( $_POST[ 'account_last_name' ] ) 		? llms_clean( $_POST[ 'account_last_name' ] ) : '';
+		$account_email      = ! empty( $_POST[ 'account_email' ] ) 			? sanitize_email( $_POST[ 'account_email' ] ) : '';
+		$pass1              = ! empty( $_POST[ 'password_1' ] ) 			? $_POST[ 'password_1' ] : '';
+		$pass2              = ! empty( $_POST[ 'password_2' ] ) 			? $_POST[ 'password_2' ] : '';
+
+
 
 		$user->first_name   = $account_first_name;
 		$user->last_name    = $account_last_name;
 		$user->user_email   = $account_email;
 		$user->display_name = $user->first_name;
+
+		if ('yes' === get_option( 'lifterlms_registration_require_address' ) ) {
+		$billing_address_1 	= ! empty( $_POST[ 'billing_address_1' ] ) 		? llms_clean( $_POST[ 'billing_address_1' ] ) 	: '';
+		$billing_address_2 	= ! empty( $_POST[ 'billing_address_2' ] ) 		? llms_clean( $_POST[ 'billing_address_2' ] ) 	: '';
+		$billing_city 		= ! empty( $_POST[ 'billing_city' ] ) 			? llms_clean( $_POST[ 'billing_city' ] ) 			: '';
+		$billing_state 		= ! empty( $_POST[ 'billing_state' ] ) 			? llms_clean( $_POST[ 'billing_state' ] ) 			: '';
+		$billing_zip 		= ! empty( $_POST[ 'billing_zip' ] ) 			? llms_clean( $_POST[ 'billing_zip' ] ) 			: '';
+		$billing_country 	= ! empty( $_POST[ 'billing_country' ] ) 		? llms_clean( $_POST[ 'billing_country' ] ) 	: '';
+		}
 
 		if ( $pass1 ) {
 
@@ -600,6 +743,24 @@ class LLMS_Frontend_Forms {
 
 		}
 
+		elseif ('yes' === get_option( 'lifterlms_registration_require_address' ) ) {
+			if ( empty( $billing_address_1 ) ) {
+				llms_add_notice( __( 'Please enter your billing address.', 'lifterlms' ), 'error' );
+			}
+			if ( empty( $billing_city ) ) {
+				llms_add_notice( __( 'Please enter your billing city.', 'lifterlms' ), 'error' );
+			}
+			if ( empty( $billing_state ) ) {
+				llms_add_notice( __( 'Please enter your billing state.', 'lifterlms' ), 'error' );
+			}
+			if ( empty( $billing_zip ) ) {
+				llms_add_notice( __( 'Please enter your billing zip code.', 'lifterlms' ), 'error' );
+			}
+			if ( empty( $billing_country ) ) {
+				llms_add_notice( __( 'Please enter your billing country.', 'lifterlms' ), 'error' );
+			}
+		}
+
 		do_action_ref_array( 'user_profile_update_errors', array ( &$errors, $update, &$user ) );
 
 		if ( $errors->get_error_messages() ) {
@@ -616,6 +777,19 @@ class LLMS_Frontend_Forms {
 		if ( llms_notice_count( 'error' ) == 0 ) {
 
 			wp_update_user( $user ) ;
+
+			$person_address = apply_filters( 'lifterlms_new_person_address', array(
+				'llms_billing_address_1' 	=>	$billing_address_1,
+				'llms_billing_address_2'	=>	$billing_address_2,
+				'llms_billing_city'			=>	$billing_city,
+				'llms_billing_state'		=>	$billing_state,
+				'llms_billing_zip'			=>	$billing_zip, 
+				'llms_billing_country'		=>	$billing_country
+				) );
+
+			foreach ($person_address as $key => $value ) {
+				update_user_meta( $user->ID, $key, $value );
+			}
 
 			llms_add_notice( __( 'Account details were changed successfully.', 'lifterlms' ) );
 
@@ -875,13 +1049,53 @@ class LLMS_Frontend_Forms {
 				$_username = '';
 			}
 
+			if ('yes' === get_option( 'lifterlms_registration_require_name' ) ) {
+				$_firstname = $_POST['firstname'];
+				$_lastname = $_POST['lastname'];
+
+			}
+			else {
+				$_firstname = '';
+				$_lastname = '';
+			}
+
+			if ('yes' === get_option( 'lifterlms_registration_require_address' ) ) {
+				$_billing_address_1 = $_POST['billing_address_1'];
+				$_billing_address_2 = $_POST['billing_address_2'];
+				$_billing_city = $_POST['billing_city'];
+				$_billing_state = $_POST['billing_state'];
+				$_billing_zip = $_POST['billing_zip'];
+				$_billing_country = $_POST['billing_country'];
+
+			}
+			else {
+				$_billing_address_1 = '';
+				$_billing_address_2 = '';
+				$_billing_city 		= '';
+				$_billing_state 	= '';
+				$_billing_zip 		= '';
+				$_billing_country 	= '';
+			}
+
 			$_password = $_POST['password'];
 			
 
 			try {
 
 				$validation_error = new WP_Error();
-				$validation_error = apply_filters( 'lifterlms_user_registration_errors', $validation_error, $_username, $_password, $_POST['email'] );
+				$validation_error = apply_filters( 'lifterlms_user_registration_errors', 
+					$validation_error, 
+					$_username, 
+					$_firstname, 
+					$_lastname, 
+					$_password, 
+					$_POST['email'],
+					$_billing_address_1,
+					$_billing_city,
+					$_billing_state,
+					$_billing_zip,
+					$_billing_country
+				);
 
 				if ( $validation_error->get_error_code() ) {
 
@@ -899,8 +1113,17 @@ class LLMS_Frontend_Forms {
 			}
 
 			$username   = ! empty( $_username ) ? llms_clean( $_username ) : '';
+			$firstname  = ! empty( $_firstname ) ? llms_clean( $_firstname ) : '';
+			$lastname   = ! empty( $_lastname ) ? llms_clean( $_lastname ) : '';
 			$email      = ! empty( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
 			$password   = $_password;
+
+			$billing_address_1 	= ! empty( $_billing_address_1 ) 	? llms_clean( $_billing_address_1 ) : '';
+			$billing_address_2 	= ! empty( $_billing_address_2 ) 	? llms_clean( $_billing_address_2 ) : '';
+			$billing_city 		= ! empty( $_billing_city ) 		? llms_clean( $_billing_city ) 		: '';
+			$billing_state 		= ! empty( $_billing_state ) 		? llms_clean( $_billing_state ) 	: '';
+			$billing_zip 		= ! empty( $_billing_zip ) 			? llms_clean( $_billing_zip ) 		: '';
+			$billing_country 	= ! empty( $_billing_country ) 		? llms_clean( $_billing_country ) 	: '';
 
 			// Anti-spam trap
 			if ( ! empty( $_POST['email_2'] ) ) {
@@ -910,7 +1133,19 @@ class LLMS_Frontend_Forms {
 
 			}
 
-			$new_person = llms_create_new_person( $email, $username, $password );
+			$new_person = llms_create_new_person( 
+				$email, 
+				$username, 
+				$firstname, 
+				$lastname, 
+				$password,
+				$billing_address_1,
+				$billing_address_2,
+				$billing_city,
+				$billing_state,
+				$billing_zip, 
+				$billing_country
+			);
 
 			if ( is_wp_error( $new_person ) ) {
 

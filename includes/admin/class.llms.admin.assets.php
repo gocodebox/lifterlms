@@ -41,6 +41,7 @@ class LLMS_Admin_Assets {
 
 	    return apply_filters( 'lifterlms_admin_page_ids', array(
 	    	$screen_id . '_page_llms-settings',
+	    	'llms-settings',
 	    	'course',
 	    	'edit-course',
 	    	'edit-course_cat',

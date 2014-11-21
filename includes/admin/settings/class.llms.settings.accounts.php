@@ -31,6 +31,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * @return array
 	 */
 	public function get_settings() {
+		LLMS_log('main apply filters called');
 
 		return apply_filters( 'lifterlms_' . $this->id . '_settings', array(
 
@@ -104,6 +105,25 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'title'         => __( 'Account Creation', 'lifterlms' ),
 				'desc'          => __( 'Use email addresses for usernames.', 'lifterlms' ),
 				'id'            => 'lifterlms_registration_generate_username',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'middle',
+				'autoload'      => false
+			),
+
+			array(
+				'title'         => __( 'Account Creation', 'lifterlms' ),
+				'desc'          => __( 'Require First and Last name on user registration.', 'lifterlms' ),
+				'id'            => 'lifterlms_registration_require_name',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'middle',
+				'autoload'      => false
+			),
+			array(
+				'title'         => __( 'Account Creation', 'lifterlms' ),
+				'desc'          => __( 'Require Billing Address on user registration.', 'lifterlms' ),
+				'id'            => 'lifterlms_registration_require_address',
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'middle',

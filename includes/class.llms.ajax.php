@@ -476,37 +476,34 @@ LLMS_log($_REQUEST);
 		$quiz_id = $_REQUEST['quiz_id'];
 		$user_id = $_REQUEST['user_id'];
 
+		$quiz = new LLMS_Quiz($quiz_id );
 
 		//first off. we need to check if the user can actually view this quiz
 		//
 		//then we need to get the postmeta and then get each question.
-		$questions = get_post_meta($quiz_id, '_llms_questions', true);
+		$all_questions = array();
+		$questions = $quiz->get_questions();
 
 		if($questions) {
 			foreach ($questions as $key => $value) {
+				array_push($all_questions, get_post($value['id']));
 				//get each question and build array
 			}
 		}
-
 
 		$args = array(
 			'posts_per_page' 	=> -1,
 			'post_type' 		=> 'llms_question',
 			'nopaging' 			=> true,
 			'post_status'   	=> 'publish',  
-			'meta_query' => array(
-				array(
-					'key' => 'featured',
-					'value' => 'yes',
-				)
-			)    
 		);
 		$questions = get_posts( $args );
 
 		foreach($questions as $key => $value) {
 			$value->edit_url = get_edit_post_link($value->ID, false);
 		}
-		echo json_encode($_REQUEST['quiz_id']);
+		LLMS_log($_REQUEST['quiz_id']);
+		echo json_encode($all_questions);
 		die();
 	}
 

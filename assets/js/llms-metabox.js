@@ -4,6 +4,9 @@ jQuery(document).ready(function($) {
 	$('#associated_section').chosen();
 	$('#trigger-select').chosen();
 	$('.question-select').chosen();
+
+	//needs to be put into the infusionsoft plugin
+	$('#lifterlms_gateway_is_accepted_cards').chosen({width: '350px'});
 	
 });
 

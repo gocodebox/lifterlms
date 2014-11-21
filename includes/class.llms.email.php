@@ -20,9 +20,9 @@ class LLMS_Email {
 	function __construct() {
 
 			// Default template base if not declared in child constructor
-			if ( is_null( $this->template_base ) ) {
-				$this->template_base = LLMS()->plugin_path() . '/templates/';
-			}
+			// if ( is_null( $this->template_base ) ) {
+			// 	$this->template_base = LLMS()->plugin_path() . '/templates/';
+			// }
 
 			// Settings TODO Refoactor: theses can come from the email post now
 			$this->email_type     	= 'html';
