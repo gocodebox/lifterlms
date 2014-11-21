@@ -37,7 +37,7 @@ class LLMS_Session_Handler extends LLMS_Session {
 	* @access private
 	* @var bool
 	*/
-	private $_has_cookie = false;
+	private $_has_cookie = false; 
 
 	/**
 	* Constructor
@@ -46,7 +46,7 @@ class LLMS_Session_Handler extends LLMS_Session {
 	*/
 	public function __construct() {
 
-		$this->_cookie = 'wp_lifterlms_session_' . COOKIEHASH;
+		$this->_cookie = 'wp_lifterlms_session_' . 'COOKIEHASH';
 
 		if ( $cookie = $this->get_session_cookie() ) {
 

@@ -29,7 +29,7 @@ LLMS_log('posts found');
 
 			<?php while ( have_posts() ) : the_post(); ?>
 
-				<?php LLMS_log(the_post());  llms_get_template_part( 'content', 'llms_membership' ); ?>
+				<?php llms_get_template_part( 'content', 'llms_membership' ); ?>
 
 			<?php endwhile; // end of the loop. ?>
 

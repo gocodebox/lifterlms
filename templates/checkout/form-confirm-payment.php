@@ -25,8 +25,7 @@ else {
 
 $product_obj = new LLMS_Product($product);
 
-$course = get_course($product);
-$single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $course->get_price_html() ); 
+$single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
 $recurring_html_price = $product_obj->get_recurring_price_html();
 ?>
 
@@ -52,14 +51,14 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 					echo '</strong>';
 				}
 				else {
-					echo '<label>Price:</label>echo </strong>';
+					echo '<label>Price:</label></strong> ';
 					echo $single_html_price;
 					echo '</strong>';
 				}
 				?>
 			<br />
 			<label>Payment Method:</label>
-			<strong><?php echo $session->payment_method; ?></strong>
+			<strong><?php echo $session->payment_type; ?></strong>
 		</div>
 	</div>
 

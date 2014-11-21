@@ -46,6 +46,51 @@ if(array_key_exists('bp', $integrations) && $integrations['bp']->enabled) {
 
 				<?php endif; ?>
 
+				<?php if ( 'yes' === get_option( 'lifterlms_registration_require_name' ) ) : ?>
+
+					<p>
+						<label for="reg_firstname"><?php _e( 'First Name', 'lifterlms' ); ?> <span class="required">*</span></label>
+						<input type="text" class="input-text llms-input-text" name="firstname" id="reg_firstname" value="<?php if ( ! empty( $_POST['firstname'] ) ) echo esc_attr( $_POST['firstname'] ); ?>" />
+					</p>
+					<p>
+						<label for="reg_lastname"><?php _e( 'Last Name', 'lifterlms' ); ?> <span class="required">*</span></label>
+						<input type="text" class="input-text llms-input-text" name="lastname" id="reg_lastname" value="<?php if ( ! empty( $_POST['lastname'] ) ) echo esc_attr( $_POST['lastname'] ); ?>" />
+					</p>
+				<?php endif; ?>
+
+				<?php if ( 'yes' === get_option( 'lifterlms_registration_require_address' ) ) : ?>
+					
+					<p>
+						<label for="billing_address_1"><?php _e( 'Billing Address 1', 'lifterlms' ); ?> <span class="required">*</span></label>
+						<input type="text" class="input-text llms-input-text" name="billing_address_1" id="billing_address_1" value="<?php if ( ! empty( $_POST['billing_address_1'] ) ) echo esc_attr( $_POST['billing_address_1'] ); ?>" />
+					</p>
+					<p>
+						<label for="billing_address_2"><?php _e( 'Billing Address 2', 'lifterlms' ); ?></label>
+						<input type="text" class="input-text llms-input-text" name="billing_address_2" id="billing_address_2" value="<?php if ( ! empty( $_POST['billing_address_2'] ) ) echo esc_attr( $_POST['billing_address_2'] ); ?>" />
+					</p>
+					<p>
+						<label for="billing_city"><?php _e( 'Billing City', 'lifterlms' ); ?> <span class="required">*</span></label>
+						<input type="text" class="input-text llms-input-text" name="billing_city" id="billing_city" value="<?php if ( ! empty( $_POST['billing_city'] ) ) echo esc_attr( $_POST['billing_city'] ); ?>" />
+					</p>
+					<p>
+						<label for="billing_state"><?php _e( 'Billing State', 'lifterlms' ); ?> <span class="required">*</span></label>
+						<input type="text" class="input-text llms-input-text" name="billing_state" id="billing_state" value="<?php if ( ! empty( $_POST['billing_state'] ) ) echo esc_attr( $_POST['billing_state'] ); ?>" />
+					</p>
+					<p>
+						<label for="billing_zip"><?php _e( 'Billing Zip', 'lifterlms' ); ?> <span class="required">*</span></label>
+						<input type="text" class="input-text llms-input-text" name="billing_zip" id="billing_address_1" value="<?php if ( ! empty( $_POST['billing_zip'] ) ) echo esc_attr( $_POST['billing_zip'] ); ?>" />
+					</p>
+					<p>
+						<label for="billing_country"><?php _e( 'Billing Country', 'lifterlms' ); ?> <span class="required">*</span></label>
+						<select id="llms_country_options" name="billing_country">
+						<?php $country_options = get_lifterlms_countries();
+							foreach ( $country_options as $code => $name ) { ?>
+							<option value="<?php echo $code; ?>"><?php echo $name; ?></option>
+							<?php } ?>
+						</select>
+					</p>
+				<?php endif; ?>
+
 				<p>
 					<label for="reg_email"><?php _e( 'Email address', 'lifterlms' ); ?> <span class="required">*</span></label>
 					<input type="email" class="input-text llms-input-text" name="email" id="reg_email" value="<?php if ( ! empty( $_POST['email'] ) ) echo esc_attr( $_POST['email'] ); ?>" />

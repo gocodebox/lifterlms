@@ -240,7 +240,20 @@ if ( ! function_exists( 'lifterlms_template_start_button' ) ) {
 		llms_get_template( 'quiz/start-button.php' );
 	}
 }
+if ( ! function_exists( 'lifterlms_template_single_next_question' ) ) {
 
+	function lifterlms_template_single_next_question() {
+
+		llms_get_template( 'quiz/next-question.php' );
+	}
+}
+if ( ! function_exists( 'lifterlms_template_single_single_choice' ) ) {
+
+	function lifterlms_template_single_single_choice() {
+
+		llms_get_template( 'quiz/single-choice.php' );
+	}
+}
 
 
 /**
@@ -296,6 +309,33 @@ function llms_setup_quiz_data( $post ) {
 
 }
 add_action( 'the_post', 'llms_setup_quiz_data' );
+
+/**
+ * When the_post is called, put question data into a global.
+ *
+ * @param mixed $post
+ * @return LLMS_Question
+ */
+function llms_setup_question_data( $post ) {
+	if  ( ! is_admin() ) {
+
+		if ($post->post_type == 'llms_question') {
+			unset( $GLOBALS['question'] );
+
+			if ( is_int( $post ) )
+				$post = get_post( $post );
+
+			if ( empty( $post->post_type ) )
+				return;
+
+				$GLOBALS['question'] = llms_get_question( $post );
+
+				return $GLOBALS['question'];
+		}
+	}
+
+}
+add_action( 'the_post', 'llms_setup_question_data' );
 
 /**
  * When the_post is called, put course data into a global.
@@ -970,6 +1010,20 @@ function llms_get_post_content( $content ) {
 
 			return do_shortcode($output_before . $content . $output_after);
 
+			case 'llms_question':
+			$template_before  = llms_get_template_part_contents( 'content', 'single-question-before' );
+			$template_after  = llms_get_template_part_contents( 'content', 'single-question-after' );
+
+			ob_start();
+			load_template($template_before);
+			$output_before = ob_get_clean();
+	
+			ob_start();
+			load_template($template_after);
+			$output_after = ob_get_clean();
+
+			return do_shortcode($output_before . $content . $output_after);
+
 		default:
 		  return $content;
 		}
@@ -1130,6 +1184,16 @@ function llms_get_product( $the_product = false, $args = array() ) {
  */
 function llms_get_quiz( $the_quiz = false, $args = array() ) {
 	return LLMS()->course_factory->get_quiz( $the_quiz, $args );
+}
+
+/**
+ * Get page object
+ *
+ * @param string $the_course = false, $args = array()
+ * @return array 
+ */
+function llms_get_question( $the_question = false, $args = array() ) {
+	return LLMS()->course_factory->get_question( $the_question, $args );
 }
 
 function tpp_posts_comments_return() {

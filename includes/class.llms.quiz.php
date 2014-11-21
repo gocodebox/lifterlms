@@ -130,9 +130,25 @@ class LLMS_Quiz {
 				$attempts = $value;
 			}
 		}
+		LLMS_log('xdebug should catch this');
 		$total_attempts_remaining = ($attempts_allowed - $attempts);
 
 		return $total_attempts_remaining;
+	}
+
+	public function get_questions() {
+		return $this->llms_questions;
+
+	}
+
+	
+	public function get_question_key ($question_id) {
+		foreach ($this->get_questions() as $key => $value) {
+			if ($key == $quiz_id) {
+				$question_key = $key;
+			}
+		}
+		return $question_key;
 	}
 
 }

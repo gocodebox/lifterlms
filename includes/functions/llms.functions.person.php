@@ -20,7 +20,19 @@ function llms_disable_admin_bar( $show_admin_bar ) {
 }
 add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10, 1 );
 
-function llms_create_new_person( $email, $username = '', $password = '' ) {
+function llms_create_new_person( 
+	$email, 
+	$username = '', 
+	$firstname = '', 
+	$lastname = '', 
+	$password = '',
+	$billing_address_1 = '',
+	$billing_address_2 = '',
+	$billing_city = '',
+	$billing_state = '',
+	$billing_zip = '', 
+	$billing_country = ''
+	) {
 
 	// Check the e-mail address
 	if ( empty( $email ) || ! is_email( $email ) ) {
@@ -56,6 +68,32 @@ function llms_create_new_person( $email, $username = '', $password = '' ) {
 		}
 	}
 
+	if ('yes' === get_option( 'lifterlms_registration_require_name' ) ) {
+
+		if ( empty( $firstname ) || empty( $lastname ) ) {
+			return new WP_Error( 'registration-error', __( 'Please enter your name.', 'lifterlms' ) );
+		}
+
+	}
+
+	if ('yes' === get_option( 'lifterlms_registration_require_address' ) ) {
+		if ( empty( $billing_address_1 ) ) {
+			return new WP_Error( 'registration-error', __( 'Please enter your billing address.', 'lifterlms' ) );
+		}
+		if ( empty( $billing_city ) ) {
+			return new WP_Error( 'registration-error', __( 'Please enter your billing city.', 'lifterlms' ) );
+		}
+		if ( empty( $billing_state ) ) {
+			return new WP_Error( 'registration-error', __( 'Please enter your billing state.', 'lifterlms' ) );
+		}
+		if ( empty( $billing_zip ) ) {
+			return new WP_Error( 'registration-error', __( 'Please enter your billing zip code.', 'lifterlms' ) );
+		}
+		if ( empty( $billing_country ) ) {
+			return new WP_Error( 'registration-error', __( 'Please enter your billing country.', 'lifterlms' ) );
+		}
+	}
+
 	// Handle password creation
 	if ( empty( $password ) ) {
 		return new WP_Error( 'registration-error', __( 'Please enter an account password.', 'lifterlms' ) );
@@ -67,9 +105,20 @@ function llms_create_new_person( $email, $username = '', $password = '' ) {
 	// WP Validation
 	$validation_errors = new WP_Error();
 
-	do_action( 'lifterlms_register_post', $username, $email, $validation_errors );
+	do_action( 'lifterlms_register_post', $username, $email, $validation_errors, $firstname, $lastname );
 
-	$validation_errors = apply_filters( 'lifterlms_registration_errors', $validation_errors, $username, $email );
+	$validation_errors = apply_filters( 'lifterlms_registration_errors', 
+		$validation_errors, 
+		$username, 
+		$email, 
+		$firstname, 
+		$lastname,
+		$billing_address_1,
+		$billing_city,
+		$billing_state,
+		$billing_zip, 
+		$billing_country
+	);
 
 	if ( $validation_errors->get_error_code() )
 		return $validation_errors;
@@ -78,16 +127,39 @@ function llms_create_new_person( $email, $username = '', $password = '' ) {
 		'user_login' => $username,
 		'user_pass'  => $password,
 		'user_email' => $email,
+		'first_name' => $firstname,
+		'last_name'  => $lastname,
 		'role'       => 'person'
 	) );
 
+	$new_person_address = apply_filters( 'lifterlms_new_person_address', array(
+	'llms_billing_address_1' =>	$billing_address_1,
+	'llms_billing_address_2'	=>	$billing_address_2,
+	'llms_billing_city'		=>	$billing_city,
+	'llms_billing_state'		=>	$billing_state,
+	'llms_billing_zip'		=>	$billing_zip, 
+	'llms_billing_country'	=>	$billing_country
+	) );
+
 	$person_id = wp_insert_user( $new_person_data );
+
+	foreach ($new_person_address as $key => $value ) {
+		add_user_meta( $person_id, $key, $value );
+	}
 
 	if ( is_wp_error( $person_id ) ) {
 		return new WP_Error( 'registration-error', '<strong>' . __( 'ERROR', 'lifterlms' ) . '</strong>: ' . __( 'Couldn&#8217;t register you&hellip; please contact us if you continue to have problems.', 'lifterlms' ) );
 	}
 
 	do_action( 'lifterlms_created_person', $person_id, $new_person_data, $password_generated );
+	do_action( 'lifterlms_created_person_address', 
+		$billing_address_1,
+		$billing_address_2,
+		$billing_city,
+		$billing_state,
+		$billing_zip, 
+		$billing_country
+	);
 
 	return $person_id;
 }
@@ -162,13 +234,14 @@ function llms_membership_settings_save( $user_id ) {
 	}
 
 	$membership_levels = array();
+	if (isset($_POST['llms_level'])) {
+		foreach( $_POST['llms_level'] as $value ) {
 
-	foreach( $_POST['llms_level'] as $value ) {
-
-		array_push($membership_levels, $value);
+			array_push($membership_levels, $value);
+		}
 	}
 	
-	update_usermeta( $user_id, '_llms_restricted_levels', $membership_levels );
+	update_user_meta( $user_id, '_llms_restricted_levels', $membership_levels );
 
 }
 

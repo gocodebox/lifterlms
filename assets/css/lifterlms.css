@@ -1,4 +1,4 @@
-.llms-lesson-preview .llms-lesson-link:after, .llms-pagination ul:after {
+.llms-lesson-preview .llms-lesson-link:after {
   content: "";
   display: table;
   clear: both;
@@ -565,6 +565,11 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
 }
 
+#main-content .llms-payment-options p {
+  margin: 0;
+  font-size: 16px;
+}
+
 /* checkout form */
 .llms-checkout-wrapper {
   border: 1px solid #f5f5f5;
@@ -580,20 +585,24 @@ h1, h2, h3, h4, h5, h6 {
 .llms-checkout-wrapper .llms-checkout > h4 {
   background-color: #f5f5f5;
   padding: 6px 10px;
+  margin: 0;
 }
 .llms-checkout-wrapper .llms-checkout .llms-title-wrapper {
   display: block;
   width: 100%;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
   border-bottom: 2px solid #f5f5f5;
 }
 .llms-checkout-wrapper .llms-checkout .llms-title-wrapper p {
-  margin: 0;
   padding: 0 10px;
+  margin: 10px 0;
+}
+.llms-checkout-wrapper .llms-checkout .llms-title-wrapper h4 {
+  padding: 0 10px;
+  margin: 10px 0;
 }
 .llms-checkout-wrapper .llms-checkout .llms-price-wrapper {
   margin: 20px;
+  text-size: 16px;
 }
 
 .llms-option {
@@ -601,6 +610,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   margin: 20px 0;
   padding-left: 40px;
+  font-size: 16px;
 }
 .llms-option label {
   cursor: pointer;
@@ -612,6 +622,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .llms-option:last-child {
+  margin-bottom: 0;
+}
+
+#main-content .llms-option:last-child {
   margin-bottom: 0;
 }
 
@@ -635,7 +649,7 @@ h1, h2, h3, h4, h5, h6 {
   appearance: none;
   z-index: 20;
   position: absolute;
-  top: 2px;
+  top: 0;
   left: -2px;
   display: inline-block;
   width: 24px;
@@ -676,6 +690,10 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
+.llms-styled-text {
+  padding: 14px 0;
+}
+
 .llms-notice-box {
   border-radius: 3px;
   z-index: 10;
@@ -686,6 +704,62 @@ h1, h2, h3, h4, h5, h6 {
   list-style-type: none;
   width: 100%;
   overflow: auto;
+}
+.llms-notice-box input[type="text"] {
+  height: 35px;
+}
+.llms-notice-box .col-1-1 {
+  width: 100%;
+}
+.llms-notice-box .col-1-1 input[type=text] {
+  width: 100%;
+}
+.llms-notice-box .col-1-2 {
+  width: 50%;
+  float: left;
+}
+@media screen and (max-width: 768px) {
+  .llms-notice-box .col-1-2 {
+    width: 100%;
+  }
+}
+.llms-notice-box .col-1-3 {
+  width: 33%;
+  float: left;
+  margin-right: 10px;
+}
+.llms-notice-box .col-1-4 {
+  width: 25%;
+  float: left;
+  margin-right: 10px;
+}
+@media screen and (max-width: 768px) {
+  .llms-notice-box .col-1-4 {
+    width: 100%;
+  }
+}
+.llms-notice-box .col-1-6 {
+  width: 16.6%;
+  float: left;
+  margin-right: 10px;
+}
+.llms-notice-box .col-1-8 {
+  width: 11%;
+  float: right;
+}
+.llms-notice-box .llms-pad-right {
+  padding-right: 10px;
+}
+@media screen and (max-width: 768px) {
+  .llms-notice-box .llms-pad-right {
+    padding-right: 0;
+  }
+}
+
+#cc_cvv {
+  margin-right: 0;
+  width: 27%;
+  float: right;
 }
 
 .llms-clear-box {
@@ -769,22 +843,52 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
 }
 
-.llms-pagination ul {
-  list-style-type: none;
-}
-.llms-pagination li {
-  float: left;
-}
-.llms-pagination li:last-child .page-numbers {
-  border-right-width: 1px;
-}
-.llms-pagination li .page-numbers {
-  background: #fefefe;
+.llms-styled-select {
   border: 1px solid #ccc;
-  border-right-width: 0;
-  display: block;
-  padding: .5em .75em;
-  text-decoration: none;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.llms-styled-select, .llms-styled-select select {
+  width: 100%;
+}
+
+select:focus {
+  outline: none;
+}
+
+.llms-styled-select select {
+  height: 34px;
+  padding: 5px 0 5px 5px;
+  background: transparent;
+  border: none;
+  -webkit-appearance: none;
+  font-size: 16px;
+  color: #444444;
+}
+
+@-moz-document url-prefix() {
+  .--ms-styled-select select {
+    width: 110%;
+  }
+}
+.llms-styled-select .fa-sort-desc {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  font-size: 24px;
+  color: #ccc;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+_:-o-prefocus .llms-styled-select, .selector .llms-styled-select {
+  background: none;
 }
 
 /*!

@@ -135,6 +135,10 @@ final class LifterLMS {
 		if ( ! defined( 'LLMS_TEMPLATE_PATH' ) ) {
 			define( 'LLMS_TEMPLATE_PATH', $this->template_path() );
 		}
+
+		if ( ! defined( 'LLMS_PLUGIN_DIR' ) ) {
+			define( 'LLMS_PLUGIN_DIR', WP_PLUGIN_DIR . "/" . plugin_basename( dirname(__FILE__) ) . '/');
+		}
 	}
 
 	/**
@@ -171,6 +175,7 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.course.php' );
 		include_once( 'includes/class.llms.lesson.php' );
 		include_once( 'includes/class.llms.quiz.php' );
+		include_once( 'includes/class.llms.question.php' );
 
 		include_once( 'includes/class.llms.course.factory.php' );
 
@@ -225,7 +230,7 @@ final class LifterLMS {
 		// Email Actions
 		$email_actions = array(
 			'lifterlms_created_person',
-			'lifterlms_lesson_completed_engagement'
+			'lifterlms_lesson_completed_engagement',
 		);
 
 		foreach ( $email_actions as $action )
@@ -235,6 +240,7 @@ final class LifterLMS {
 			'lifterlms_lesson_completed',
 			'lifterlms_section_completed',
 			'lifterlms_course_completed',
+			'user_register',
 		);
 
 		foreach( $engagement_actions as $action )

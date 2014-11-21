@@ -135,6 +135,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
         $this->id           = 'paypal';
         $this->title        = 'PayPal';
+        $this->payment_type = 'paypal';
 
         $this->version      = '117.00';
 
@@ -204,7 +205,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         if ($paypal->setExpressCheckout($param)) {
 
             $redirect_url = $paypal->getRedirectURL();
-            do_action( 'lifterlms_order_process_begin', $redirect_url );
+            //do_action( 'lifterlms_order_process_begin', $redirect_url );
 
         } 
 

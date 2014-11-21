@@ -34,12 +34,12 @@ $product_obj = new LLMS_Product($product);
 
 $payment_options = $product_obj->get_payment_options();
 
-$course = get_course($product);
+//$course = get_course($product);
 
 $info_message = apply_filters( 'lifterlms_checkout_coupon_message', __( 'Have a coupon?', 'lifterlms' ) );
 $info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter your code', 'lifterlms' ) . '</a>';
 
-$single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $course->get_price_html() ); 
+$single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
 $recurring_html_price = $product_obj->get_recurring_price_html();
 ?>
 
@@ -53,7 +53,7 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 
 	<!-- Product information -->
 	<div class="llms-title-wrapper">
-		<p class="llms-title"><?php echo $product->post_title; ?></p>
+		<h4 class="llms-title"><?php echo $product->post_title; ?></h4>
 	</div>
 
 	<!-- pricing options -->
@@ -91,16 +91,27 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 		</div>
 	</form>
 
+	<!-- Coupon code entry form -->
+	<?php llms_print_notice( $info_message, 'notice' ); ?>
+	<form id="llms-checkout-coupon" method="post" style="display:none">
+		<input type="text" name="coupon_code" class="llms-input-text" placeholder="<?php _e( 'Enter coupon code', 'lifterlms' ); ?>" id="coupon_code" value="" />
+		<div class="llms-clear-box llms-center-content">
+		<input type="submit" class="button llms-button" name="llms_apply_coupon" value="<?php _e( 'Apply Coupon', 'lifterlms' ); ?>" />
+		<input type="hidden" name="product_id" value="<?php echo $product->ID; ?>" />
+		</div>
+		<div class="clear"></div>
+		<?php wp_nonce_field( 'llms-checkout-coupon' ); ?>
+	</form>
 	
 	</div>
 	<!-- display the final price -->
 	<div class="llms-final-price-wrapper llms-clear-box">
-		<h3 class="llms-price"><span class="llms-price-label">You Pay:</span><span class="llms-final-price"></span></h3> 
+		<h3 class="llms-price"><span class="llms-price-label"><?php _e('You Pay:', 'lifterlms'); ?></span><span class="llms-final-price"></span></h3> 
 	</div>
 
-	<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />
-  	<input type="hidden" name="product_price" value="<?php echo $course->get_price(); ?>" />
-  	<input type="hidden" name="product_sku" value="<?php echo $course->get_sku(); ?>" />
+	<input type="hidden" name="product_id" value="<?php echo $product->ID; ?>" />
+  	<input type="hidden" name="product_price" value="<?php echo $product_obj->get_price(); ?>" />
+  	<input type="hidden" name="product_sku" value="<?php echo $product_obj->get_sku(); ?>" />
   	<input type="hidden" name="product_title" value="<?php echo $product->post_title; ?>" />
 
 	<div class="llms-price-wrapper">
@@ -114,14 +125,21 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 					current( $available_gateways )->set_current();
 
 					foreach ( $available_gateways as $gateway ) :
-						$i++
+						$i++;
 						?>
 						<p class="payment_method_<?php echo $gateway->id; ?> llms-option">
 							<input id="payment_method_<?php echo $gateway->id; ?>" 
 								type="radio" class="input-radio" 
 								name="payment_method" 
-								value="<?php echo esc_attr( $gateway->id ); ?>"
-								<?php if ($i == 1) { echo 'CHECKED'; } ?> 
+								value="<?php echo $gateway->payment_type; ?>_<?php echo esc_attr( $gateway->id ); ?>"
+								data-payment-type="<?php echo $gateway->payment_type; ?>"
+								<?php if ( ! empty( $_POST['payment_method'] ) ) :
+								 	if ( $_POST['payment_method'] == ($gateway->payment_type . '_' . esc_attr( $gateway->id) ) ) :
+								 		echo 'CHECKED';
+								 	elseif ($i == 1) : 
+								 		echo 'CHECKED';
+								 	endif;
+								endif; ?> 
 							/>
 							<label for="payment_method_<?php echo $gateway->id; ?>">
 								<span class="llms-radio"></span>
@@ -137,6 +155,8 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 			}
 			?>
 		</div>
+
+		<?php apply_filters('lifterlms_form_checkout_cc', llms_get_template( 'checkout/form-checkout-cc.php', 'lifterlms') ); ?>
 
 		<div class="llms-clear-box llms-center-content">
 			<?php if ( count( $available_gateways ) ) : ?>

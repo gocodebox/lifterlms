@@ -51,7 +51,7 @@ class LLMS_Meta_Box_Product {
 		);
 
 		?>
-
+		<?php do_action( 'lifterlms_before_product_meta_box' ); ?>
 		<table class="form-table">
 			<tbody>
 				<tr>
@@ -167,7 +167,7 @@ class LLMS_Meta_Box_Product {
 
 			</tbody>
 		</table>
-
+		<?php do_action( 'lifterlms_after_product_meta_box' ); ?>
 <?php
 	}
 
@@ -179,6 +179,7 @@ class LLMS_Meta_Box_Product {
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
+		do_action( 'lifterlms_before_save_product_meta_box', $post_id, $post );
 
 		// Update post meta
 		if ( isset( $_POST['_regular_price'] ) )
@@ -281,5 +282,7 @@ class LLMS_Meta_Box_Product {
 				update_post_meta( $post_id, '_sku', '' );
 			}
 		}
+
+		do_action( 'lifterlms_after_save_product_meta_box', $post_id, $post );
 	}
 }

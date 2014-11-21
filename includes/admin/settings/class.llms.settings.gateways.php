@@ -36,7 +36,7 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 
 			$base_slug = ($gateways_page_id > 0 && get_page( $gateways_page_id )) ? get_page_uri( $gateways_page_id ) : 'gateways';
 
-			return apply_filters( 'lifterlms_course_settings', array(
+			return apply_filters( 'lifterlms_gateway_settings', array(
 
 				array(	'title' => __( 'Gateways Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Manage payment gateways.', 'id' => 'gateway_options' ),
 

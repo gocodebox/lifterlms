@@ -568,7 +568,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-/**
+		/**
 		 * Membership Post Type
 		 */
 		$membership_permalink = empty( $permalinks['membership_base'] ) ? _x( 'membership', 'slug', 'lifterlms' ) : $permalinks['membership_base'];
@@ -687,6 +687,45 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments' ),
+				)
+			)
+		);
+
+		/**
+		 * Coupon Post type
+		 */
+	    register_post_type( "llms_coupon",
+		    apply_filters( 'lifterlms_register_post_type_llms_coupon',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Coupons', 'lifterlms' ),
+							'singular_name' 		=> __( 'Coupon', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Coupon', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Coupon', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Coupon', 'lifterlms' ),
+							'new_item' 				=> __( 'New Coupon', 'lifterlms' ),
+							'view' 					=> __( 'View Coupon', 'lifterlms' ),
+							'view_item' 			=> __( 'View Coupon', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Coupon', 'lifterlms' ),
+							'not_found' 			=> __( 'No Coupon found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Coupon found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Coupon', 'lifterlms' ),
+							'menu_name'				=> _x('Coupons', 'Admin menu name', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where coupons are stored.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> true,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'lifterlms',
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title' ),
+					'has_archive' 			=> false,
 				)
 			)
 		);

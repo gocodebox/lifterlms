@@ -27,7 +27,7 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_lesson_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'lifterlms_section_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'lifterlms_course_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
-
+		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
 	}
 
 	public function init() {
@@ -121,6 +121,12 @@ class LLMS_Engagements {
 		endif;
 
 		return $engagement_ids;
+	}
+
+	public function llms_user_register($user) {
+		LLMS_log('user registered engagement triggered');
+		do_action('lifterlms_user_registered', $user);
+
 	}
 
 }
