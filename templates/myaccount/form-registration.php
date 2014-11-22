@@ -27,7 +27,7 @@ if(array_key_exists('bp', $integrations) && $integrations['bp']->enabled) {
 
 	<div class="col-2">
 
-		<?php if(!$buddypress): ?>
+		<?php //if(!$buddypress): ?>
 
 			<h2><?php _e( 'Register', 'lifterlms' ); ?></h2>
 
@@ -117,10 +117,6 @@ if(array_key_exists('bp', $integrations) && $integrations['bp']->enabled) {
 
 			</form>
 
-		<?php else : ?>
-			<a href="<?php echo $integrations['bp']->get_registration_permalink(); ?>" title="Register" ><?php _e( 'Register', 'lifterlms' ); ?></a>
-
-		<?php endif; ?>
 
 	</div>
 

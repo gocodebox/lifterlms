@@ -85,6 +85,16 @@ class LLMS_AJAX {
 		);
 		$postslist = get_posts( $args );
 
+		if (empty($postslist)) { 
+			$args = array(
+				'posts_per_page' 	=> -1,
+				'post_type' 		=> 'lesson',
+				'nopaging' 			=> true
+			);
+				
+			$postslist = get_posts( $args );
+		}
+
 		foreach($postslist as $key => $value) {
 			$value->edit_url = get_edit_post_link($value->ID);
 		}
@@ -122,7 +132,6 @@ class LLMS_AJAX {
 		'posts_per_page' 	=> -1,
 		'post_type' 		=> 'lesson',
 		'nopaging' 			=> true,
-		'post_status'   	=> 'publish',
 		'meta_query' 		=> array(
 			array(
 			    'key' => '_parent_section',
@@ -131,6 +140,16 @@ class LLMS_AJAX {
 			)                   
 		);
 		$postslist = get_posts( $args );
+
+		if (empty($postslist)) { 
+			$args = array(
+				'posts_per_page' 	=> -1,
+				'post_type' 		=> 'lesson',
+				'nopaging' 			=> true
+			);
+				
+			$postslist = get_posts( $args );
+		}
 
 		foreach($postslist as $key => $value) {
 			$value->edit_url = get_edit_post_link($value->ID, false);

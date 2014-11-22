@@ -62,6 +62,9 @@ class LLMS_Engagements {
 
 					do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id);
 				}
+				else {
+					do_action( 'lifterlms_external_engagement', $person_id, $engagement_id, $lesson_id);
+				}
 			}
 		}
 	}

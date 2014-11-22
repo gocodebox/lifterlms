@@ -361,9 +361,11 @@ if($syllabus) {
 
 			$user = new LLMS_Person;
 			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value['lesson_id'] );
-			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-				$total_completed_lessons++;
+			if ( !empty($user_postmetas['_is_complete']) ) {
+				if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+					$total_completed_lessons++;
 
+				}
 			}
 		}
 

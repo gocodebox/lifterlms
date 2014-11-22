@@ -18,6 +18,11 @@ class LLMS_Meta_Box_Engagement_Options {
 	 * @return string
 	 * @param string $post
 	 */
+	
+	public function __construct() {
+
+	}
+
 	public static function output( $post ) {
 		global $post;
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
@@ -28,24 +33,16 @@ class LLMS_Meta_Box_Engagement_Options {
 		$engagement_type = get_post_meta( $post->ID, '_llms_engagement_type', true );
 		$engagement_delay = get_post_meta( $post->ID, '_llms_engagement_delay', true );
 		$engagement_trigger = get_post_meta( $post->ID, '_llms_engagement_trigger', true );
-		
-
-		// $html = '';
-		// $html .= '<label for="_video_embed">' . __( 'Video Embed Code', 'lifterlms' ) . '</label> ';
-		// $html .= '<input type="text" class="code" name="_video_embed" id="_video-embed" value="' . $video_embed . '"/>';
-		// $html .= '<p>' .  __( 'Paste the embed code for your Wistia, Vimeo or Youtube videos in the box above.', 'lifterlms' ) . '</p>';
-
-		// echo $html;
-
 
 		?>
 
 		<?php 
 
-	$engagement_types = array(
+	$engagement_types = apply_filters('lifterlms_engagement_types', array(
 		'email' => 'Send Email',
 		'achievement' => 'Give Achievement',
 		'certificate' => 'Give Certificate',
+		)
 	);
 
 	?>
@@ -81,13 +78,18 @@ class LLMS_Meta_Box_Engagement_Options {
 							'post_status'   => 'publish',
 						 );
 
-					$postslist = get_posts( $args );
+					$postlist = get_posts( $args );
+
+					$engagement_types = $postlist;
+
+					$engagement_types = apply_filters('lifterlms_engagement_event_options', $engagement_types, $engagement_type);
+
 				?>
 				<th><label for="engagement-select">Engagement Title</label></th>
 				<td>					
 					<select id="engagement-select" class="chosen-select chosen select section-select" name="_llms_engagement">
 						<option value="" selected disabled>Please select an engagement type...</option>
-						<?php foreach ( $postslist as $key => $value  ) : 
+						<?php foreach ( $engagement_types as $key => $value  ) : 
 					
 							if ( $value->ID == $engagement ) {
 						?>
@@ -122,12 +124,13 @@ class LLMS_Meta_Box_Engagement_Options {
 			</tr>
 
 			<?php
-			$triggers = array(
+			$triggers = apply_filters( 'lifterlms_engagement_triggers', array(
 				'lesson_completed' => 'lesson completed',
 				'section_completed' => 'section completed',
 				'course_completed' => 'course completed',
-				//'course_purchased' => 'course purchased',
-				//'user_does_not_log_in' => 'User has not logged in'
+				'user_registration' => 'New User Registration',
+				'days_since_login' => 'Days since user last logged in'
+				) 
 			);
 			?>
 

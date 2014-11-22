@@ -282,7 +282,7 @@ class LLMS_Product {
       LLMS_log($adjustment);
       $total = $price;
 
-      if ( !empty( $adjustment && $adjustment->amount > 0 ) ) {
+      if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 		if ($this->id == $adjustment->product_id) {
 		    if ($adjustment->type == 'percent') {
 		          LLMS_log('percent was found');
