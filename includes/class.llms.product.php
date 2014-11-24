@@ -277,6 +277,7 @@ class LLMS_Product {
 
 	}
 
+
 	public function adjusted_price($price = '') {
 		 $adjustment = llms_get_coupon();
       LLMS_log($adjustment);
@@ -284,21 +285,23 @@ class LLMS_Product {
 
       if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 		if ($this->id == $adjustment->product_id) {
-		    if ($adjustment->type == 'percent') {
-		          LLMS_log('percent was found');
-		          $amount =  (1 - ($adjustment->amount / 100));
-		          LLMS_log($amount);
-		          $total = ($price * $amount);
-		          $total = sprintf('%0.2f', $total);
-		          LLMS_log($total);
-		    }
-		    elseif ($adjustment->type == 'dollar') {
-		          $amount = round( $adjustment->amount, 2 );
-		          $total = ($price - $amount);
-		          $total = sprintf('%0.2f', $total);
-		          LLMS_log('the total');
-		          LLMS_log($total);
-		    }
+			if ($adjustment->limit > 0) {
+			    if ($adjustment->type == 'percent') {
+			          LLMS_log('percent was found');
+			          $amount =  (1 - ($adjustment->amount / 100));
+			          LLMS_log($amount);
+			          $total = ($price * $amount);
+			          $total = sprintf('%0.2f', $total);
+			          LLMS_log($total);
+			    }
+			    elseif ($adjustment->type == 'dollar') {
+			          $amount = round( $adjustment->amount, 2 );
+			          $total = ($price - $amount);
+			          $total = sprintf('%0.2f', $total);
+			          LLMS_log('the total');
+			          LLMS_log($total);
+			    }
+			}
 		}
       }
       return $total;

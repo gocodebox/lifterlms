@@ -342,13 +342,16 @@ class LLMS_Frontend_Forms {
 		//get coupon metadata
 		$coupon_meta = get_post_meta($coupon->id);
 
-		$coupon->type 		= ! empty( $coupon_meta['_llms_dicount_type'][0] ) 		? $coupon_meta['_llms_dicount_type'][0] 	: '';
+		$coupon->type 		= ! empty( $coupon_meta['_llms_discount_type'][0] ) 		? $coupon_meta['_llms_discount_type'][0] 	: '';
 		$coupon->amount 	= ! empty( $coupon_meta['_llms_coupon_amount'][0] ) 	? $coupon_meta['_llms_coupon_amount'][0] 	: '';
 		$coupon->limit 		= ! empty( $coupon_meta['_llms_usage_limit'][0] ) 		? $coupon_meta['_llms_usage_limit'][0] 		: '';
 
-
-		//get product price
-		//$product = new LLMS_Product($coupon->product_id);
+		if ($coupon->limit <= 0) {
+			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> cannot be applied to this order.', 'lifterlms' ), $coupon->coupon_code ), 'error' ) ;
+		}
+		
+		//remove coupon limit
+		$coupon->limit = ($coupon->limit - 1);
 
 		LLMS()->session->set( 'llms_coupon', $coupon );
 		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' ) ;
@@ -582,14 +585,14 @@ LLMS_log($_POST);
 					$membership = get_post($membership);
 					$membership_title = $membership->post_title;
 					$membership_url = get_permalink($membership->ID);
-					llms_add_notice( sprintf( __( '<a href="%s">%s</a> membership level is required to access this content.', 'lifterlms' ), $membership_url, $membership_title ) );
+					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message',sprintf( __( '<a href="%s">%s</a> membership level is required to access this content.', 'lifterlms' ), $membership_url, $membership_title ) ) );
 				break;
 			case 'membership':
 				$memberships = llms_get_post_memberships($post_id);
 				foreach ($memberships as $key => $value) {
 					$membership = get_post($value);
 					$membership_title = $membership->post_title;
-					llms_add_notice( sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $membership_title ) );
+					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message',sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $membership_title ) ) );
 				}
 				break;
 			case 'parent_membership' :
@@ -597,7 +600,7 @@ LLMS_log($_POST);
 				foreach ($memberships as $key => $value) {
 					$membership = get_post($value);
 					$membership_title = $membership->post_title;
-					llms_add_notice( sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $membership_title ) );
+					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $membership_title ) ) );
 				}
 				break;
 			case 'prerequisite' :

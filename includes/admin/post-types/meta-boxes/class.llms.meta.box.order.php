@@ -37,6 +37,34 @@ class LLMS_Meta_Box_Order {
 		$rec_billing_freq = get_post_meta( $post->ID, '_llms_order_billing_freq', true );
 		$rec_billing_start_date = get_post_meta( $post->ID, '_llms_order_billing_start_date', true );
 
+		$payment_type = get_post_meta( $post->ID, '_llms_payment_type', true );
+
+		
+		if (!empty($payment_type) && $payment_type == 'creditcard') {
+			$cc_type = get_post_meta( $post->ID, '_llms_order_cc_type', true );
+			$cc_number = get_post_meta( $post->ID, '_llms_order_cc_number', true );
+			$cc_exp_month = get_post_meta( $post->ID, '_llms_order_cc_exp_month', true );
+			$cc_exp_year = get_post_meta( $post->ID, '_llms_order_exp_year', true );
+		}
+
+		$coupon_id = get_post_meta( $post->ID, '_llms_order_coupon_id', true );
+		if (!empty($coupon_id)) {
+			$coupon_type = get_post_meta($post->ID, '_llms_order_coupon_type', true );
+			$coupon_amount = get_post_meta($post->ID, '_llms_order_coupon_amount', true );
+			$coupon_limit = get_post_meta($post->ID, '_llms_order_coupon_limit', true );
+			$coupon_title = get_the_title( $coupon_id );
+			$coupon_code = get_post_meta($post->ID, '_llms_order_coupon_code', true );
+			
+
+			if ( $coupon_type == 'percent' ) {
+				$coupon_amount_html = $coupon_amount . '%';
+			}
+			elseif ( $coupon_type == 'dollar' ) {
+				$coupon_amount_html = '$' . $coupon_amount;
+			}
+
+		}
+
 		$usermeta = get_user_meta($user_id);
 		$user = get_user_by('id', $user_id);
 
@@ -47,7 +75,8 @@ class LLMS_Meta_Box_Order {
 			$user_name = $user->user_nicename;
 		}
 		$user_email = $user->user_email;
-		?>
+		
+		do_action( 'lifterlms_before_order_meta_box' ); ?>
 
 		<table class="form-table">
 		<tbody>
@@ -63,56 +92,109 @@ class LLMS_Meta_Box_Order {
 					<table class="form-table">
 			
 						<tr>
-							<td><label>Order Date</label></td>
+							<td><label><?php _e('Order Date', 'lifterlms') ?></label></td>
 							<td><?php echo $order_date ?></td>
 						</tr>
 						<tr>
-							<td><label>Payment Method</label></td>
+							<td><label><?php _e('Payment Method', 'lifterlms') ?></label></td>
 							<td><?php echo $payment_method; ?></td>
 						</tr>
 						<tr>
-							<td><label>Product Title</label></td>
+							<td><label><?php _e('Product Title', 'lifterlms') ?></label></td>
 							<td><?php echo $product_title; ?></td>
 						</tr>
 						<tr>
-							<td><label>Purchase Total</label></td>
+							<td><label><?php _e('Purchase Total', 'lifterlms') ?></label></td>
 							<td><?php echo get_lifterlms_currency_symbol() . $order_total; ?></td>
 						</tr>
 						<tr>
-							<td><label>Buyer Name</label></td>
+							<td><label><?php _e('Buyer Name', 'lifterlms') ?></label></td>
 							<td><?php echo $user_name; ?></td>
 						</tr>
 						<tr>
-							<td><label>Buyer Email</label></td>
+							<td><label><?php _e('Buyer Email', 'lifterlms') ?></label></td>
 							<td><a href="mailto:<?php echo $user_email ?>"><?php echo $user_email; ?></td>
 						</tr>
 						<tr>
-							<td><label>Payment Type</label></td>
+							<td><label><?php _e('Payment Type', 'lifterlms') ?></label></td>
 							<td><?php echo $order_type; ?></td>
 						</tr>
 
 						<?php if ($order_type == 'recurring' ) { ?>
 
 						<tr>
-							<td><label>First Payment (paid)</label></td>
-							<td><?php echo $rec_first_payment ?></td>
+							<td><label><?php _e('First Payment (paid)', 'lifterlms') ?></label></td>
+							<td><?php echo $rec_first_payment; ?></td>
 						</tr>
 						<tr>
-							<td><label>Billing Amount</label></td>
-							<td><?php echo $rec_payment ?></td>
+							<td><label><?php _e('Billing Amount', 'lifterlms') ?></label></td>
+							<td><?php echo $rec_payment; ?></td>
 						</tr>
 						<tr>
-							<td><label>Billing Period</label></td>
-							<td><?php echo $rec_billing_period ?></td>
+							<td><label><?php _e('Billing Period', 'lifterlms') ?></label></td>
+							<td><?php echo $rec_billing_period; ?></td>
 						</tr>
 						<tr>
-							<td><label>Billing Frequency</label></td>
-							<td><?php echo $rec_billing_freq ?></td>
+							<td><label><?php _e('Billing Frequency', 'lifterlms') ?></label></td>
+							<td><?php echo $rec_billing_freq; ?></td>
 						</tr>
 						<tr>
-							<td><label>Billing Start Date</label></td>
-							<td><?php echo $rec_billing_start_date ?></td>
+							<td><label><?php _e('Billing Start Date', 'lifterlms') ?></label></td>
+							<td><?php echo $rec_billing_start_date; ?></td>
 						</tr>
+
+						<!-- Display Credit Card Information -->
+						<?php if (!empty($payment_type) && $payment_type == 'creditcard') : ?>
+							<tr>
+								<td><label><?php _e('CC Type', 'lifterlms') ?></label></td>
+								<td><?php echo $cc_type; ?></td>
+							</tr>
+							<tr>
+								<td><label><?php _e('CC Number', 'lifterlms') ?></label></td>
+								<td><?php echo $cc_number; ?></td>
+							</tr>
+							<tr>
+								<td><label><?php _e('CC Exp Date', 'lifterlms') ?></label></td>
+								<td><?php echo $cc_exp_month; ?></td>
+							</tr>
+							<tr>
+								<td><label><?php _e('CC Exp Year', 'lifterlms') ?></label></td>
+								<td><?php echo $cc_exp_year; ?></td>
+							</tr>
+						<?php endif; ?>
+
+						<!-- Display Coupon Information -->
+						<?php if (!empty($coupon_id) ) : ?>
+							<tr>
+								<td><label><?php _e('Coupon Used?', 'lifterlms') ?></label></td>
+								<td><?php echo _e('Yes'); ?></td>
+							</tr>
+							<tr>
+								<td><label><?php _e('Coupon Name', 'lifterlms') ?></label></td>
+								<td><?php echo $coupon_title; ?></td>
+							</tr>
+							<tr>
+								<td><label><?php _e('Coupon Code', 'lifterlms') ?></label></td>
+								<td><?php echo $coupon_code; ?></td>
+							</tr>
+							<tr>
+								<td><label><?php _e('Coupon Amount', 'lifterlms') ?></label></td>
+								<td><?php echo $coupon_amount_html; ?></td>
+							</tr>
+							<tr>
+								<td><label><?php _e('Remaining coupon uses', 'lifterlms') ?></label></td>
+								<td><?php echo $coupon_limit; ?></td>
+							</tr>
+						<?php else : ?>
+							<tr>
+								<td><label><?php _e('Coupon Used?', 'lifterlms') ?></label></td>
+								<td><?php echo _e('No'); ?></td>
+							</tr>
+						<?php endif; ?>
+
+
+		
+
 
 						<?php } ?>
 	
@@ -122,8 +204,7 @@ class LLMS_Meta_Box_Order {
 
 		</tbody>
 		</table>
-
-		<?php  
+		<?php do_action( 'lifterlms_after_order_meta_box' );
 	}
 
 	public static function save( $post_id, $post ) {
