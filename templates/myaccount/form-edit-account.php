@@ -55,12 +55,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
         <?php 
         $user_id = get_current_user_id();
 
-        $billing_address_1  = ! empty( get_user_meta( $user_id, 'llms_billing_address_1' ) )      ? get_user_meta( $user_id, 'llms_billing_address_1', true ) : '';
-        $billing_address_2  = ! empty( get_user_meta( $user_id, 'llms_billing_address_2' )  )     ? get_user_meta( $user_id, 'llms_billing_address_2', true ) : '';
-        $billing_city       = ! empty( get_user_meta( $user_id, 'llms_billing_city' ) )           ? get_user_meta( $user_id, 'llms_billing_city', true )      : '';
-        $billing_state      = ! empty( get_user_meta( $user_id, 'llms_billing_state' ) )          ? get_user_meta( $user_id, 'llms_billing_state', true )     : '';
-        $billing_zip        = ! empty( get_user_meta( $user_id, 'llms_billing_zip' ) )            ? get_user_meta( $user_id, 'llms_billing_zip', true )       : '';
-        $billing_country    = ! empty( get_user_meta( $user_id, 'llms_billing_country' ) )        ? get_user_meta( $user_id, 'llms_billing_country', true )   : '';
+        $billing_address_1  = ( get_user_meta( $user_id, 'llms_billing_address_1' ) )      ? get_user_meta( $user_id, 'llms_billing_address_1', true ) : '';
+        $billing_address_2  = ( get_user_meta( $user_id, 'llms_billing_address_2' )  )     ? get_user_meta( $user_id, 'llms_billing_address_2', true ) : '';
+        $billing_city       = ( get_user_meta( $user_id, 'llms_billing_city' ) )           ? get_user_meta( $user_id, 'llms_billing_city', true )      : '';
+        $billing_state      = ( get_user_meta( $user_id, 'llms_billing_state' ) )          ? get_user_meta( $user_id, 'llms_billing_state', true )     : '';
+        $billing_zip        = ( get_user_meta( $user_id, 'llms_billing_zip' ) )            ? get_user_meta( $user_id, 'llms_billing_zip', true )       : '';
+        $billing_country    = ( get_user_meta( $user_id, 'llms_billing_country' ) )        ? get_user_meta( $user_id, 'llms_billing_country', true )   : '';
         ?>
                     
         <p>
