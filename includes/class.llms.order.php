@@ -125,13 +125,6 @@ class LLMS_Order {
 			update_post_meta($order_post_id,'_llms_order_billing_start_date', $order->billing_start_date);
 		}
 
-		// if ($order->payment_type == 'creditcard') {
-		// 	update_post_meta($order_post_id,'_llms_order_cc_type', $order->cc_type);
-		// 	update_post_meta($order_post_id,'_llms_order_cc_number', $order->cc_number);
-		// 	update_post_meta($order_post_id,'_llms_order_cc_exp_month', $order->cc_exp_month);
-		// 	update_post_meta($order_post_id,'_llms_order_exp_year', $order->cc_exp_year);
-		// 	update_post_meta($order_post_id,'_llms_order_cc_cvv', $order->cc_cvv);
-		// }
 		$coupon = LLMS()->session->get( 'llms_coupon', array() );
 		if (!empty($coupon)) {
 			update_post_meta($order_post_id,'_llms_order_coupon_id', $coupon->id);

@@ -218,7 +218,8 @@ select[disabled] {
 }
 
 select[disabled]::-ms-expand {
-  display: none; }
+  display: none;
+}
 
 .section-placeholder {
   height: 200px;
@@ -409,6 +410,21 @@ td.llms-table-select select, th.llms-table-select select {
 
 .llms-table-select .chosen-container {
   margin-top: 2px;
+}
+
+.llms-meta-select {
+  width: 100%;
+}
+
+.llmsis_cycle {
+  width: 100%;
+  float: none;
+  margin-top: 10px;
+}
+
+#llmis-add-new-sub {
+  margin-bottom: 20px;
+  margin-left: 10px;
 }
 
 /*!

@@ -365,7 +365,7 @@ class LLMS_Frontend_Forms {
 	public function create_order() {
 		global $wpdb;
 
-		//LLMS_log($_POST);
+		LLMS_log($_POST);
 
 		//return;
 
@@ -453,7 +453,15 @@ LLMS_log($_POST);
 
 		$product = new LLMS_Product($order->product_id);
 
-		$order->payment_option 	= $_POST['payment_option'];
+		$payment_option_data = explode("_", $_POST['payment_option']);
+		$order->payment_option = $payment_option_data[0];
+		$order->payment_option_id = $payment_option_data[1];
+		LLMS_log('asdfsadfasdfasdfasdfasdfasdf');
+		LLMS_log($order->payment_option);
+		LLMS_log($order->payment_option_id);
+
+
+		//$order->payment_option 	= $_POST['payment_option'];
 		$order->product_sku		= $product->get_sku();
 		//get product price (could be single or recurring)
 		if ( $order->payment_option == 'single' ) {
@@ -461,13 +469,23 @@ LLMS_log($_POST);
 			$order->total 					= $order->product_price;
 		}
 		elseif ( $order->payment_option == 'recurring' ) {
-			$order->product_price			= $product->get_recurring_price();
-			$order->total 					= $order->product_price;
-			$order->first_payment			= $product->get_recurring_first_payment();
-			$order->billing_period			= $product->get_billing_period();
-			$order->billing_freq			= $product->get_billing_freq();
-			$order->billing_cycle			= $product->get_billing_cycle();
-			$order->billing_start_date 		= $product->get_recurring_next_payment_date();
+LLMS_log('PAYMENT OPTION RECURRING FOUND');
+			$subs = $product->get_subscriptions();
+			LLMS_log($subs);
+			foreach ($subs as $id => $sub) {
+				LLMS_log($subs);
+				if ($id == $order->payment_option_id) {
+					LLMS_log($sub);
+					$order->product_price   		= $product->get_subscription_payment_price($sub);
+					$order->total 					= $product->get_subscription_total_price($sub);
+					$order->first_payment			= $product->get_subscription_payment_price($sub);
+					$order->billing_period			= $product->get_billing_period($sub);
+					$order->billing_freq			= $product->get_billing_freq($sub);
+					$order->billing_cycle			= $product->get_billing_cycle($sub);
+					$order->billing_start_date 		= $product->get_recurring_next_payment_date($sub);
+				}
+
+			}
 		}
 	
 		if ( $order->user_id <= 0 ) {
