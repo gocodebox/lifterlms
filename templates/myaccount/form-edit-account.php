@@ -23,6 +23,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 <form action="" method="post">
 
+    <div class="llms-basic-information">
+
     <h3><?php _e('Basic Information', 'lifterlms') ?></h3>
 
     <p class="form-row form-row-first">
@@ -38,6 +40,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
         <input type="email" class="input-text llms-input-text" name="account_email" id="account_email" value="<?php echo esc_attr( $user->user_email ); ?>" />
     </p>
 
+    </div>
+
+    <div class="llms-change-password">
+
     <h3><?php _e('Change Password', 'lifterlms') ?></h3>
 
     <p class="form-row form-row-first">
@@ -49,7 +55,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
         <input type="password" class="input-text llms-input-text" name="password_2" id="password_2" />
     </p>
 
+    </div>
+
+
     <?php if ( 'yes' === get_option( 'lifterlms_registration_require_address' ) ) : ?>
+        
+        <div class="llms-billing-information">
 
         <h3><?php _e('Billing Information', 'lifterlms') ?></h3>
         <?php 
@@ -96,6 +107,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
                 <?php endforeach; ?>
             </select>
         </p>
+        
+        </div>
     <?php endif; ?>
 
     <?php do_action( 'lifterlms_edit_account_form_end' ); ?>
