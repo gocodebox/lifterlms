@@ -57,10 +57,15 @@ class LLMS_Meta_Box_Coupon_Options {
 						<?php break;
 						//dropdown
 						case 'dropdown': ?>
-							
+
 							<select name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>">
-							<?php foreach ($field['options'] as $id => $option) :?>
-								<option value="<?php echo $id; ?>"><?php echo $option; ?></option>
+							<option value="" disabled selected><?php _e('Please select an option...', 'lifterlms'); ?></option>
+							<?php foreach ($field['options'] as $id => $option) :
+								if ($meta == $id) : ?>
+								<option value="<?php echo $id; ?>" selected><?php echo $option; ?></option>
+							<?php else : ?>
+							<option value="<?php echo $id; ?>"><?php echo $option; ?></option>
+							<?php endif; ?>
 							<?php endforeach; ?>
 							</select>
 							<br /><span class="description"><?php echo $field['desc']; ?></span>
@@ -112,7 +117,7 @@ class LLMS_Meta_Box_Coupon_Options {
 	public static function metabox_options() {
 		$prefix = '_llms_';
 		
-		$coupon_creator_meta_fields = array(
+		$coupon_creator_meta_fields = apply_filters('lifterlms_coupon_options_output', array(
 			array(
 				'label' => 'Coupon Code',
 				'desc' => 'Enter a code that users will enter to apply this coupon to thier item.',
@@ -152,7 +157,7 @@ class LLMS_Meta_Box_Coupon_Options {
 			// 	'type'  => 'date',
 			// 	'section' => 'coupon_meta_box'
 			// ),				
-		);
+		) );
 
 		if(has_filter('llms_meta_fields')) {
 			//Add Fields to the coupon Creator Meta Box
@@ -168,21 +173,29 @@ class LLMS_Meta_Box_Coupon_Options {
 		$prefix = '_llms_';
 
 		$title = $prefix 	. 'coupon_title';
-		$type = $prefix 	. 'dicount_type';
+		$type = $prefix 	. 'discount_type';
 		$amount = $prefix 	. 'coupon_amount';
 		$limit = $prefix 	. 'usage_limit';
 		
-		$update_title = ( llms_clean( $_POST[$title]  ) );
-		update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
+		if (isset($_POST[$title])) {
+			$update_title = ( llms_clean( $_POST[$title]  ) );
+			update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
+		}
+		if (isset($_POST[$type])) {
+			$update_type = ( llms_clean( $_POST[$type]  ) );
+			update_post_meta( $post_id, $type, ( $update_type === '' ) ? '' : $update_type );
+		}
+		if (isset($_POST[$amount])) {
+			$update_amount = ( llms_clean( $_POST[$amount]  ) );
+			update_post_meta( $post_id, $amount, ( $update_amount === '' ) ? '' : $update_amount );
+		}
+		if (isset($_POST[$limit])) {
+			$update_limit = ( llms_clean( $_POST[$limit]  ) );
+			update_post_meta( $post_id, $limit, ( $update_limit === '' ) ? '' : $update_limit );
+		}
 
-		$update_type = ( llms_clean( $_POST[$type]  ) );
-		update_post_meta( $post_id, $type, ( $update_type === '' ) ? '' : $update_type );
-
-		$update_amount = ( llms_clean( $_POST[$amount]  ) );
-		update_post_meta( $post_id, $amount, ( $update_amount === '' ) ? '' : $update_amount );
-
-		$update_limit = ( llms_clean( $_POST[$limit]  ) );
-		update_post_meta( $post_id, $limit, ( $update_limit === '' ) ? '' : $update_limit );
+			do_action( 'lifterlms_after_save_coupon_meta_box', $post_id, $post );
+		
 
 	}
 
