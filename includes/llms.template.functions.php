@@ -1217,7 +1217,7 @@ add_action('wp_ajax_nopriv_tpp_comments', 'tpp_posts_comments_return');
  * @return object / $query
  */
 function llms_courses_per_page( $query ) {
-	if(!is_admin() && is_shop() && is_main_query()) {
+	if(!is_admin() && is_shop() && $query->is_main_query()) {
 		$per_page = get_option( 'lifterlms_shop_courses_per_page', 10 );
 		$query->query_vars['posts_per_page'] = $per_page;
 	}
