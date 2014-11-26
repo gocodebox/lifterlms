@@ -345,6 +345,14 @@ class LLMS_Frontend_Forms {
 		$coupon->type 		= ! empty( $coupon_meta['_llms_discount_type'][0] ) 		? $coupon_meta['_llms_discount_type'][0] 	: '';
 		$coupon->amount 	= ! empty( $coupon_meta['_llms_coupon_amount'][0] ) 	? $coupon_meta['_llms_coupon_amount'][0] 	: '';
 		$coupon->limit 		= ! empty( $coupon_meta['_llms_usage_limit'][0] ) 		? $coupon_meta['_llms_usage_limit'][0] 		: '';
+		$coupon->title		= ! empty( $coupon_meta['_llms_coupon_title'][0] ) 		? $coupon_meta['_llms_coupon_title'][0] 		: '';
+
+		if ($coupon->type = 'percent') {
+			$coupon->name = ($coupon->title . ': ' . $coupon->amount . '% coupon');
+		}
+		elseif ($coupon->type = 'dollar') {
+			$coupon->name = ($coupon->title . ': ' . '$' . $coupon->amount . ' coupon');
+		}
 
 		if ($coupon->limit <= 0) {
 			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> cannot be applied to this order.', 'lifterlms' ), $coupon->coupon_code ), 'error' ) ;
@@ -352,7 +360,8 @@ class LLMS_Frontend_Forms {
 		
 		//remove coupon limit
 		$coupon->limit = ($coupon->limit - 1);
-
+LLMS_log('---------coupon---------');
+LLMS_log($coupon);
 		LLMS()->session->set( 'llms_coupon', $coupon );
 		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' ) ;
 		//if coupon type is dollar
@@ -418,7 +427,6 @@ class LLMS_Frontend_Forms {
 		$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 
 		if ($order->payment_type == 'creditcard' && empty($_POST['use_existing_card'])) {	
-LLMS_log($_POST);
 			if ( empty($_POST['cc_type']) ) {
 				llms_add_notice( __( 'Please select a credit card type.', 'lifterlms' ), 'error' );
 			}
@@ -929,7 +937,9 @@ LLMS_log('PAYMENT OPTION RECURRING FOUND');
 						$rec_price = $product->get_recurring_price();
 
 						$user_postmetas = $user_object->get_user_postmeta_data( $user->ID, $course->id );
-						$course_status = $user_postmetas['_status']->meta_value;
+						if(!empty($user_postmetas['_status'])) {
+							$course_status = $user_postmetas['_status']->meta_value;
+						}
 		
 
 						
@@ -1188,6 +1198,7 @@ LLMS_log('PAYMENT OPTION RECURRING FOUND');
 				$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
 
 			}
+			do_action('lifterlms_user_registered', $new_person);
 
 			if ( ! empty($_POST['product_id']) ) {
 

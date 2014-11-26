@@ -43,7 +43,7 @@ $info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter you
 
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
 
-
+$coupon_session = LLMS()->session->get( 'llms_coupon', array() );
 
 
 //$recurring_html_price = $product_obj->get_recurring_price_html();
@@ -90,29 +90,26 @@ $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $produc
 				<?php
 				elseif ($value == 'recurring') : 
 					$subs = $product_obj->get_subscriptions();
-					foreach ($subs as $id => $sub) : ?>
+					if (!empty($subs)) :
+						foreach ($subs as $id => $sub) : ?>
 
-						<p class="llms-payment-option llms-option">
-							<input id="llms-payment-option_<?php echo $value . '_' . $id; ?>" 
-								class="llms-price-option-radio" 
-								type="radio" 
-								name="payment_option" 
-								value="<?php echo $value . '_' . $id; ?>"
-								<?php if ($i == 1) { echo 'CHECKED'; } ?> 
-							/>
-							<label for="llms-payment-option_<?php echo $value . '_' . $id; ?>">
-								<span class="llms-radio"></span>
-								<?php 
-									echo $product_obj->get_subscription_price_html($sub);
-								?>
-							</label>
-						</p>
-					
-			
+							<p class="llms-payment-option llms-option">
+								<input id="llms-payment-option_<?php echo $value . '_' . $id; ?>" 
+									class="llms-price-option-radio" 
+									type="radio" 
+									name="payment_option" 
+									value="<?php echo $value . '_' . $id; ?>"
+									<?php if ($i == 1) { echo 'CHECKED'; } ?> 
+								/>
+								<label for="llms-payment-option_<?php echo $value . '_' . $id; ?>">
+									<span class="llms-radio"></span>
+									<?php 
+										echo $product_obj->get_subscription_price_html($sub);
+									?>
+								</label>
+							</p>
 
-							
-
-			<?php endforeach; endif; endforeach;
+			<?php endforeach; endif; endif; endforeach;
 			?>
 		</div>
 	</form>

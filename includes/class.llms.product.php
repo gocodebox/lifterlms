@@ -141,8 +141,8 @@ class LLMS_Product {
 
 		$price = '';
 		$currency_symbol = get_lifterlms_currency_symbol();
-		$sub_price = $this->adjusted_price($this->get_subscription_payment_price($sub));
-		$sub_first_payment = $this->adjusted_price($this->get_subscription_payment_price($sub));
+		$sub_price = $this->adjusted_price($this->get_subscription_total_price($sub));
+		$sub_first_payment = $this->adjusted_price($this->get_subscription_total_price($sub));
 
 
 		$suffix = $this->get_price_suffix_html();
@@ -355,7 +355,7 @@ class LLMS_Product {
 
 		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 			if ($this->id == $adjustment->product_id) {
-				if ($adjustment->limit > 0) {
+				if ($adjustment->limit >= 0) {
 				    if ($adjustment->type == 'percent') {
 				          LLMS_log('percent was found');
 				          $amount =  ($adjustment->amount / 100);
@@ -385,7 +385,7 @@ class LLMS_Product {
 
       if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 		if ($this->id == $adjustment->product_id) {
-			if ($adjustment->limit > 0) {
+			if ($adjustment->limit >= 0) {
 			    if ($adjustment->type == 'percent') {
 			          LLMS_log('percent was found');
 			          $amount =  (1 - ($adjustment->amount / 100));
