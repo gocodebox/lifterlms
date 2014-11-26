@@ -43,7 +43,7 @@ $info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter you
 
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
 
-$subs = $product_obj->get_subscriptions();
+
 
 
 //$recurring_html_price = $product_obj->get_recurring_price_html();
@@ -89,6 +89,7 @@ $subs = $product_obj->get_subscriptions();
 					</p>
 				<?php
 				elseif ($value == 'recurring') : 
+					$subs = $product_obj->get_subscriptions();
 					foreach ($subs as $id => $sub) : ?>
 
 						<p class="llms-payment-option llms-option">

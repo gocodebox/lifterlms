@@ -476,9 +476,9 @@ LLMS_log('PAYMENT OPTION RECURRING FOUND');
 				LLMS_log($subs);
 				if ($id == $order->payment_option_id) {
 					LLMS_log($sub);
-					$order->product_price   		= $product->get_subscription_payment_price($sub);
+					$order->product_price   		= $product->get_subscription_total_price($sub);
 					$order->total 					= $product->get_subscription_total_price($sub);
-					$order->first_payment			= $product->get_subscription_payment_price($sub);
+					$order->first_payment			= $product->get_subscription_total_price($sub);
 					$order->billing_period			= $product->get_billing_period($sub);
 					$order->billing_freq			= $product->get_billing_freq($sub);
 					$order->billing_cycle			= $product->get_billing_cycle($sub);

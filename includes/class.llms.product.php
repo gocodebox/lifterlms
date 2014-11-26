@@ -132,6 +132,8 @@ class LLMS_Product {
 	}
 
 	public function get_subscription_payment_price($sub) {
+		LLMS_log('-------------f-dsa-fd-sfa-dsfa-dsf-sda-f-dsf---------------');
+		LLMS_log($sub);
 		return ( $this->get_subscription_total_price($sub) / ( $this->get_billing_cycle($sub) / $this->get_billing_freq($sub) ) );
 	}
 
@@ -139,8 +141,8 @@ class LLMS_Product {
 
 		$price = '';
 		$currency_symbol = get_lifterlms_currency_symbol();
-		$sub_price = $this->get_subscription_payment_price($sub);
-		$sub_first_payment = $this->get_subscription_payment_price($sub);
+		$sub_price = $this->adjusted_price($this->get_subscription_payment_price($sub));
+		$sub_first_payment = $this->adjusted_price($this->get_subscription_payment_price($sub));
 
 
 		$suffix = $this->get_price_suffix_html();
@@ -203,7 +205,7 @@ class LLMS_Product {
 
 		$suffix 				= $this->get_price_suffix_html();
 		$currency_symbol 		= get_lifterlms_currency_symbol() != '' ? get_lifterlms_currency_symbol() : '';
-		$display_price 			= $this->get_price();
+		$display_price 			= $this->adjusted_price($this->get_price());
 		$display_base_price 	= $this->get_base_price();
 		$display_sale_price    	= $this->get_sale_price();
 
@@ -346,6 +348,35 @@ class LLMS_Product {
 
 	}
 
+	public function get_coupon_discount_total($price = '') {
+		$adjustment = llms_get_coupon();
+	    LLMS_log($adjustment);
+	    $total = $price;
+
+		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
+			if ($this->id == $adjustment->product_id) {
+				if ($adjustment->limit > 0) {
+				    if ($adjustment->type == 'percent') {
+				          LLMS_log('percent was found');
+				          $amount =  ($adjustment->amount / 100);
+				          LLMS_log($amount);
+				          $total = ($price * $amount);
+				          $total = sprintf('%0.2f', $total);
+				          LLMS_log($total);
+				    }
+				    elseif ($adjustment->type == 'dollar') {
+				          $amount = round( $adjustment->amount, 2 );
+				          $total = ($amount);
+				          $total = sprintf('%0.2f', $total);
+				          LLMS_log('the total');
+				          LLMS_log($total);
+				    }
+				}
+			}
+		}
+		return $total;
+		}
+
 
 	public function adjusted_price($price = '') {
 		 $adjustment = llms_get_coupon();
@@ -383,12 +414,12 @@ class LLMS_Product {
 	 * @return void
 	 */
 	public function get_price() {
-		return apply_filters( 'lifterlms_get_price', $this->adjusted_price($this->price), $this );
+		return apply_filters( 'lifterlms_get_price', $this->price, $this );
 
 	}
 
 	public function get_single_price() {
-		return apply_filters( 'lifterlms_get_single_price', $this->adjusted_price($this->price), $this );
+		return apply_filters( 'lifterlms_get_single_price', $this->price, $this );
 	}
 
 	public function get_recurring_price() {
