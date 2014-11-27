@@ -33,6 +33,8 @@ else {
 $product_obj = new LLMS_Product($product);
 
 $payment_options = $product_obj->get_payment_options();
+LLMS_log('payment_options 5');
+LLMS_log($payment_options);
 
 //$course = get_course($product);
 
@@ -40,7 +42,11 @@ $info_message = apply_filters( 'lifterlms_checkout_coupon_message', __( 'Have a 
 $info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter your code', 'lifterlms' ) . '</a>';
 
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
-$recurring_html_price = $product_obj->get_recurring_price_html();
+
+$coupon_session = LLMS()->session->get( 'llms_coupon', array() );
+
+
+//$recurring_html_price = $product_obj->get_recurring_price_html();
 ?>
 
 <?php llms_print_notices(); ?>
@@ -63,30 +69,47 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 			$i = 0;
 
 			foreach ($payment_options as $key => $value) :
+				if ($value == 'single') :
 				$i++;
-			?>
-				<p class="llms-payment-option llms-option">
-					<input id="llms-payment-option_<?php echo $value; ?>" 
-						class="llms-price-option-radio" 
-						type="radio" 
-						name="payment_option" 
-						value="<?php echo $value; ?>"
-						<?php if ($i == 1) { echo 'CHECKED'; } ?> 
-					/>
-					<label for="llms-payment-option_<?php echo $value; ?>">
-						<span class="llms-radio"></span>
-						<?php 
-						if ($value == 'single') {
-							echo $single_html_price;
-						}
-						if ($value == 'recurring') {
-							echo $recurring_html_price;
-						}
-						?>
-					</label>
-				</p>
-			<?php
-			endforeach;
+				?>
+					<p class="llms-payment-option llms-option">
+						<input id="llms-payment-option_<?php echo $value; ?>" 
+							class="llms-price-option-radio" 
+							type="radio" 
+							name="payment_option" 
+							value="<?php echo $value . '_' . $key; ?>"
+							<?php if ($i == 1) { echo 'CHECKED'; } ?> 
+						/>
+						<label for="llms-payment-option_<?php echo $value; ?>">
+							<span class="llms-radio"></span>
+							<?php 
+								echo $single_html_price;
+							?>
+						</label>
+					</p>
+				<?php
+				elseif ($value == 'recurring') : 
+					$subs = $product_obj->get_subscriptions();
+					if (!empty($subs)) :
+						foreach ($subs as $id => $sub) : ?>
+
+							<p class="llms-payment-option llms-option">
+								<input id="llms-payment-option_<?php echo $value . '_' . $id; ?>" 
+									class="llms-price-option-radio" 
+									type="radio" 
+									name="payment_option" 
+									value="<?php echo $value . '_' . $id; ?>"
+									<?php if ($i == 1) { echo 'CHECKED'; } ?> 
+								/>
+								<label for="llms-payment-option_<?php echo $value . '_' . $id; ?>">
+									<span class="llms-radio"></span>
+									<?php 
+										echo $product_obj->get_subscription_price_html($sub);
+									?>
+								</label>
+							</p>
+
+			<?php endforeach; endif; endif; endforeach;
 			?>
 		</div>
 	</form>
@@ -121,11 +144,12 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 			if ( $available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways() ) {
 		
 				if ( count( $available_gateways ) ) :
-					$i = 0;
+					$ii = 0;
 					current( $available_gateways )->set_current();
 
 					foreach ( $available_gateways as $gateway ) :
-						$i++;
+						$ii++;
+					echo ''
 						?>
 						<p class="payment_method_<?php echo $gateway->id; ?> llms-option">
 							<input id="payment_method_<?php echo $gateway->id; ?>" 
@@ -134,11 +158,12 @@ $recurring_html_price = $product_obj->get_recurring_price_html();
 								value="<?php echo $gateway->payment_type; ?>_<?php echo esc_attr( $gateway->id ); ?>"
 								data-payment-type="<?php echo $gateway->payment_type; ?>"
 								<?php if ( ! empty( $_POST['payment_method'] ) ) :
-								 	if ( $_POST['payment_method'] == ($gateway->payment_type . '_' . esc_attr( $gateway->id) ) ) :
+									 	if ( $_POST['payment_method'] == ($gateway->payment_type . '_' . esc_attr( $gateway->id) ) ) :
+									 		echo 'CHECKED';
+									 	endif;
+								 	elseif ($ii == 1) : 
 								 		echo 'CHECKED';
-								 	elseif ($i == 1) : 
-								 		echo 'CHECKED';
-								 	endif;
+								 	
 								endif; ?> 
 							/>
 							<label for="payment_method_<?php echo $gateway->id; ?>">

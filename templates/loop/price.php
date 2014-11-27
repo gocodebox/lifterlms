@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 global $post;
 $product_obj = new LLMS_Product($post->ID);
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
-$recurring_html_price = $product_obj->get_recurring_price_html();
+//$recurring_html_price = $product_obj->get_recurring_price_html();
 $payment_options = $product_obj->get_payment_options();
 
 ?>
@@ -20,8 +20,12 @@ $payment_options = $product_obj->get_payment_options();
 			}
 
 			endif; 
-			if ($value == 'recurring') : ?>
-			<h4 class="llms-price-loop"><span><?php echo $recurring_html_price; ?></span></h4>
+			if ($value == 'recurring') : 
+				$subs = $product_obj->get_subscriptions();
+			foreach ($subs as $id => $sub) : ?>
+				<h4 class="llms-price-loop"><span><?php echo $product_obj->get_subscription_price_html($sub); ?></span></h4>
+			<?php endforeach; ?>
+			
 
 			<?php endif; ?>
 		<?php 

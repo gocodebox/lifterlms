@@ -121,8 +121,8 @@ class LLMS_Shortcode_My_Account {
 
 		elseif ( isset( $_GET['reset'] ) ) {
 
-			llms_add_notice( __( 'Your password has been reset.', 'lifterlms' )
-				. ' <a href="' . get_permalink( llms_get_page_id( 'myaccount' ) ) . '">' . __( 'Log in', 'lifterlms' ) . '</a>' );
+			llms_add_notice( apply_filters( 'lifterlms_password_reset_login_message', __( 'Your password has been reset.', 'lifterlms' )
+				. ' <a href="' . get_permalink( llms_get_page_id( 'myaccount' ) ) . '">' . __( 'Log in', 'lifterlms' ) . '</a>' ) );
 
 		}
 

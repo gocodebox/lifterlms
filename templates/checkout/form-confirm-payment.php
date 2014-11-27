@@ -26,7 +26,14 @@ else {
 $product_obj = new LLMS_Product($product);
 
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
-$recurring_html_price = $product_obj->get_recurring_price_html();
+
+$subs = $product_obj->get_subscriptions();
+foreach ($subs as $id => $sub) {
+	if ($session->payment_option_id == $id) {
+		$recurring_html_price = $product_obj->get_subscription_price_html($sub);
+	}
+}
+//$recurring_html_price = $product_obj->get_recurring_price_html();
 ?>
 
 <?php llms_print_notices(); ?>

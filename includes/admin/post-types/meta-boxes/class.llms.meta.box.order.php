@@ -39,14 +39,6 @@ class LLMS_Meta_Box_Order {
 
 		$payment_type = get_post_meta( $post->ID, '_llms_payment_type', true );
 
-		
-		if (!empty($payment_type) && $payment_type == 'creditcard') {
-			$cc_type = get_post_meta( $post->ID, '_llms_order_cc_type', true );
-			$cc_number = get_post_meta( $post->ID, '_llms_order_cc_number', true );
-			$cc_exp_month = get_post_meta( $post->ID, '_llms_order_cc_exp_month', true );
-			$cc_exp_year = get_post_meta( $post->ID, '_llms_order_exp_year', true );
-		}
-
 		$coupon_id = get_post_meta( $post->ID, '_llms_order_coupon_id', true );
 		if (!empty($coupon_id)) {
 			$coupon_type = get_post_meta($post->ID, '_llms_order_coupon_type', true );
@@ -142,26 +134,6 @@ class LLMS_Meta_Box_Order {
 							<td><label><?php _e('Billing Start Date', 'lifterlms') ?></label></td>
 							<td><?php echo $rec_billing_start_date; ?></td>
 						</tr>
-
-						<!-- Display Credit Card Information -->
-						<?php if (!empty($payment_type) && $payment_type == 'creditcard') : ?>
-							<tr>
-								<td><label><?php _e('CC Type', 'lifterlms') ?></label></td>
-								<td><?php echo $cc_type; ?></td>
-							</tr>
-							<tr>
-								<td><label><?php _e('CC Number', 'lifterlms') ?></label></td>
-								<td><?php echo $cc_number; ?></td>
-							</tr>
-							<tr>
-								<td><label><?php _e('CC Exp Date', 'lifterlms') ?></label></td>
-								<td><?php echo $cc_exp_month; ?></td>
-							</tr>
-							<tr>
-								<td><label><?php _e('CC Exp Year', 'lifterlms') ?></label></td>
-								<td><?php echo $cc_exp_year; ?></td>
-							</tr>
-						<?php endif; ?>
 
 						<!-- Display Coupon Information -->
 						<?php if (!empty($coupon_id) ) : ?>

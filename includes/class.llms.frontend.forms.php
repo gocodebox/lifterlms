@@ -345,6 +345,14 @@ class LLMS_Frontend_Forms {
 		$coupon->type 		= ! empty( $coupon_meta['_llms_discount_type'][0] ) 		? $coupon_meta['_llms_discount_type'][0] 	: '';
 		$coupon->amount 	= ! empty( $coupon_meta['_llms_coupon_amount'][0] ) 	? $coupon_meta['_llms_coupon_amount'][0] 	: '';
 		$coupon->limit 		= ! empty( $coupon_meta['_llms_usage_limit'][0] ) 		? $coupon_meta['_llms_usage_limit'][0] 		: '';
+		$coupon->title		= ! empty( $coupon_meta['_llms_coupon_title'][0] ) 		? $coupon_meta['_llms_coupon_title'][0] 		: '';
+
+		if ($coupon->type = 'percent') {
+			$coupon->name = ($coupon->title . ': ' . $coupon->amount . '% coupon');
+		}
+		elseif ($coupon->type = 'dollar') {
+			$coupon->name = ($coupon->title . ': ' . '$' . $coupon->amount . ' coupon');
+		}
 
 		if ($coupon->limit <= 0) {
 			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> cannot be applied to this order.', 'lifterlms' ), $coupon->coupon_code ), 'error' ) ;
@@ -352,7 +360,8 @@ class LLMS_Frontend_Forms {
 		
 		//remove coupon limit
 		$coupon->limit = ($coupon->limit - 1);
-
+LLMS_log('---------coupon---------');
+LLMS_log($coupon);
 		LLMS()->session->set( 'llms_coupon', $coupon );
 		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' ) ;
 		//if coupon type is dollar
@@ -365,7 +374,7 @@ class LLMS_Frontend_Forms {
 	public function create_order() {
 		global $wpdb;
 
-		//LLMS_log($_POST);
+		LLMS_log($_POST);
 
 		//return;
 
@@ -418,7 +427,6 @@ class LLMS_Frontend_Forms {
 		$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 
 		if ($order->payment_type == 'creditcard' && empty($_POST['use_existing_card'])) {	
-LLMS_log($_POST);
 			if ( empty($_POST['cc_type']) ) {
 				llms_add_notice( __( 'Please select a credit card type.', 'lifterlms' ), 'error' );
 			}
@@ -453,7 +461,15 @@ LLMS_log($_POST);
 
 		$product = new LLMS_Product($order->product_id);
 
-		$order->payment_option 	= $_POST['payment_option'];
+		$payment_option_data = explode("_", $_POST['payment_option']);
+		$order->payment_option = $payment_option_data[0];
+		$order->payment_option_id = $payment_option_data[1];
+		LLMS_log('asdfsadfasdfasdfasdfasdfasdf');
+		LLMS_log($order->payment_option);
+		LLMS_log($order->payment_option_id);
+
+
+		//$order->payment_option 	= $_POST['payment_option'];
 		$order->product_sku		= $product->get_sku();
 		//get product price (could be single or recurring)
 		if ( $order->payment_option == 'single' ) {
@@ -461,13 +477,23 @@ LLMS_log($_POST);
 			$order->total 					= $order->product_price;
 		}
 		elseif ( $order->payment_option == 'recurring' ) {
-			$order->product_price			= $product->get_recurring_price();
-			$order->total 					= $order->product_price;
-			$order->first_payment			= $product->get_recurring_first_payment();
-			$order->billing_period			= $product->get_billing_period();
-			$order->billing_freq			= $product->get_billing_freq();
-			$order->billing_cycle			= $product->get_billing_cycle();
-			$order->billing_start_date 		= $product->get_recurring_next_payment_date();
+LLMS_log('PAYMENT OPTION RECURRING FOUND');
+			$subs = $product->get_subscriptions();
+			LLMS_log($subs);
+			foreach ($subs as $id => $sub) {
+				LLMS_log($subs);
+				if ($id == $order->payment_option_id) {
+					LLMS_log($sub);
+					$order->product_price   		= $product->get_subscription_total_price($sub);
+					$order->total 					= $product->get_subscription_total_price($sub);
+					$order->first_payment			= $product->get_subscription_total_price($sub);
+					$order->billing_period			= $product->get_billing_period($sub);
+					$order->billing_freq			= $product->get_billing_freq($sub);
+					$order->billing_cycle			= $product->get_billing_cycle($sub);
+					$order->billing_start_date 		= $product->get_recurring_next_payment_date($sub);
+				}
+
+			}
 		}
 	
 		if ( $order->user_id <= 0 ) {
@@ -911,7 +937,9 @@ LLMS_log($_POST);
 						$rec_price = $product->get_recurring_price();
 
 						$user_postmetas = $user_object->get_user_postmeta_data( $user->ID, $course->id );
-						$course_status = $user_postmetas['_status']->meta_value;
+						if(!empty($user_postmetas['_status'])) {
+							$course_status = $user_postmetas['_status']->meta_value;
+						}
 		
 
 						
@@ -1170,6 +1198,7 @@ LLMS_log($_POST);
 				$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
 
 			}
+			do_action('lifterlms_user_registered', $new_person);
 
 			if ( ! empty($_POST['product_id']) ) {
 
