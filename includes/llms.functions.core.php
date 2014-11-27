@@ -798,7 +798,7 @@ add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
 add_action('init', 'llms_expire_membership');
 function llms_expire_membership() {
   global $wpdb;
-LLMS_log('WORK DAM YOU');
+
   //find all memberships wth an expiration date
   $args = array(
     'post_type'     => 'llms_membership',
@@ -831,7 +831,7 @@ LLMS_log('WORK DAM YOU');
     $enrolled_users = $results;
 
     foreach ( $enrolled_users as $user ) {
-      LLMS_log($user);
+
       $start_date = $user->updated_date;
       $user_id = $user->user_id;
       $meta_key_start_date = '_start_date';
@@ -839,9 +839,6 @@ LLMS_log('WORK DAM YOU');
 
       $start_date = $wpdb->get_results( $wpdb->prepare(
       'SELECT updated_date FROM '.$table_name.' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC', $user_id, $post->ID, $meta_key_start_date, $meta_value_start_date) );
-LLMS_log('START DATE');
-      LLMS_log($start_date[0]->updated_date);
-
 
       //add expiration terms to start date
       $exp_date = date('Y-m-d',strtotime(date('Y-m-d', strtotime($start_date[0]->updated_date)) . ' +'.$interval. ' ' . $period));
