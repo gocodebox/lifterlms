@@ -120,6 +120,6 @@ if(array_key_exists('bp', $integrations) && $integrations['bp']->enabled) {
 
 	</div>
 
-	<?php do_action( 'lifterlms_after_person_login_form' ); ?>
+	<?php do_action( 'lifterlms_after_person_register_form' ); ?>
 
 <?php endif; ?>
