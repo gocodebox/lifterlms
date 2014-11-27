@@ -795,7 +795,7 @@ function llms_expire_membership_schedule() {
 
 
 add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
-add_action('init', 'llms_expire_membership');
+//add_action('init', 'llms_expire_membership');
 function llms_expire_membership() {
   global $wpdb;
 
