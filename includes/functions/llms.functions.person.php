@@ -229,6 +229,7 @@ function llms_membership_settings( $user ) {
 }
 
 function llms_membership_settings_save( $user_id ) {
+	global $wpdb;
 	if ( !current_user_can( 'edit_users', $user_id ) ) {
 		return;
 	}
@@ -240,7 +241,27 @@ function llms_membership_settings_save( $user_id ) {
 			array_push($membership_levels, $value);
 		}
 	}
-	
+
+	$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+
+	foreach ( $membership_levels as $level  ) { 
+		if($level) {
+			$set_user_enrolled = array(
+		      'post_id' => $level,
+		      'user_id' => $user_id,
+		      'meta_key' => '_status'
+		    );
+
+		    $status_update = array(
+		      'meta_value' => 'Enrolled',
+		      'updated_date' => current_time( 'mysql' )
+		    );
+
+		    // change enrolled to expired in user_postmeta
+		    $update_user_meta = $wpdb->update( $table_name, $status_update, $set_user_enrolled );
+		}
+	}
+			
 	update_user_meta( $user_id, '_llms_restricted_levels', $membership_levels );
 
 }

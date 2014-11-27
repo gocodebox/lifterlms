@@ -51,6 +51,7 @@ class LLMS_Admin_Meta_Boxes {
 
 
 		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Product::save', 10, 2 );
+		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Expiration::save', 10, 2 );
 
 		add_action( 'lifterlms_process_membership_access', 'LLMS_Meta_Box_Access::save', 10, 2 );
 
@@ -156,6 +157,8 @@ class LLMS_Admin_Meta_Boxes {
 
 
 		add_meta_box( 'lifterlms-membership-data', __( 'Membership Data', 'lifterlms' ), apply_filters('lifterlms_product_meta_box', 'LLMS_Meta_Box_Product::output'), 'llms_membership', 'normal', 'high' );
+		add_meta_box( 'lifterlms-expiration-options', __( 'Membership Expiration', 'lifterlms' ), 'LLMS_Meta_Box_Expiration::output', 'llms_membership', 'normal' );
+
 		//add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', 'course', 'side', 'normal' );
 		//add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', 'course', 'side', 'normal' );
 		add_meta_box( 'lifterlms-order-general', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order::output', 'order', 'normal', 'high' );

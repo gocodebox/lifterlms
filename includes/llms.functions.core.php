@@ -749,3 +749,135 @@ function get_update_keys($query){
 
 	return $query;
 }
+
+
+
+// $this->app = new LLMSIS_SDK;
+    // LLMSIS_log('llmsis_find_overdue_invoices called');
+
+    // // get payment plan items
+    // $pp_items = $this->app->get_pay_plan_items();
+
+
+    // // get payment plan ids from database
+    // $args = array(
+    //   'post_type'    => 'llms_order',
+    //   'posts_per_page' => -1,
+    //   'meta_query'     => array(
+    //    'key' => '_llms_order_is_payplan_id'
+    //    ),
+    // );
+  
+       
+    // $posts = get_posts( $args );
+     
+    // foreach ($posts as $post) {
+    //  //do your stuff
+    // }
+    //get all overdue invoice ids in array
+    //get all invoice ids
+    //insert invoice ids into option
+    //
+    //get overdue invoices from databae
+    //check every invoice id to an array
+    //for every match:
+    //find the userid and the product id
+    //update the enrollment
+
+
+
+add_action( 'wp', 'llms_expire_membership_schedule' );
+function llms_expire_membership_schedule() {
+    if ( ! wp_next_scheduled('llms_check_for_expired_memberships')) {
+      wp_schedule_event( time(), 'daily', 'llms_check_for_expired_memberships' );
+    }
+  }
+
+
+add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
+add_action('init', 'llms_expire_membership');
+function llms_expire_membership() {
+  global $wpdb;
+LLMS_log('WORK DAM YOU');
+  //find all memberships wth an expiration date
+  $args = array(
+    'post_type'     => 'llms_membership',
+    'posts_per_page'  => 500,
+    'meta_query'    => array(
+      'key' => '_llms_expiration_terms'
+      )
+  );
+
+  $posts = get_posts( $args );
+ 
+  foreach ($posts as $post) {
+    $exp_terms = get_post_meta($post->ID, '_llms_expiration_terms', true);
+    $interval = $exp_terms['interval'];
+    $period = $exp_terms['period'];
+
+    // query postmeta table and find all users enrolled
+    $table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+    $meta_key_status = '_status';
+    $meta_value_status = 'Enrolled';
+
+    $results = $wpdb->get_results( $wpdb->prepare(
+      'SELECT * FROM '.$table_name.' WHERE post_id = %d AND meta_key = "%s" AND meta_value = %s ORDER BY updated_date DESC', $post->ID, $meta_key_status, $meta_value_status ) );
+
+    for ($i=0; $i < count($results); $i++) {
+      $results[$results[$i]->post_id] = $results[$i];
+      unset($results[$i]);
+    }
+
+    $enrolled_users = $results;
+
+    foreach ( $enrolled_users as $user ) {
+      LLMS_log($user);
+      $start_date = $user->updated_date;
+      $user_id = $user->user_id;
+      $meta_key_start_date = '_start_date';
+      $meta_value_start_date = 'yes';
+
+      $start_date = $wpdb->get_results( $wpdb->prepare(
+      'SELECT updated_date FROM '.$table_name.' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC', $user_id, $post->ID, $meta_key_start_date, $meta_value_start_date) );
+LLMS_log('START DATE');
+      LLMS_log($start_date[0]->updated_date);
+
+
+      //add expiration terms to start date
+      $exp_date = date('Y-m-d',strtotime(date('Y-m-d', strtotime($start_date[0]->updated_date)) . ' +'.$interval. ' ' . $period));
+
+      // get current datetime
+      $today = current_time( 'mysql' );
+      $today = date("Y-m-d", strtotime($today));
+
+      //compare expiration date to current date.
+      if ( $exp_date < $today ) {
+        $set_user_expired = array(
+          'post_id' => $post->ID,
+          'user_id' => $user_id,
+          'meta_key' => '_status'
+        );
+
+        $status_update = array(
+          'meta_value' => 'Expired',
+          'updated_date' => current_time( 'mysql' )
+        );
+
+        // change enrolled to expired in user_postmeta
+        $update_user_meta = $wpdb->update( $table_name, $status_update, $set_user_expired );
+
+        // remove membership id from usermeta array
+        $users_levels = get_user_meta( $user_id, '_llms_restricted_levels', true );
+        if ( in_array( $post->ID, $users_levels ) ) {
+            $key = array_search( $post->ID, $users_levels );
+            unset( $users_levels[$key] );
+            
+            update_user_meta( $user_id, '_llms_restricted_levels', $users_levels );
+        }
+      }
+
+    }
+
+  }
+
+}

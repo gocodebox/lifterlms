@@ -213,18 +213,20 @@ class LLMS_Meta_Box_Product {
 			update_post_meta( $post_id, '_sale_price_dates_from', strtotime( 'NOW', current_time( 'timestamp' ) ) );
 
 		// Update price if on sale
-		if ( $_POST['_sale_price'] !== '' && $date_to == '' && $date_from == '' )
-			update_post_meta( $post_id, '_price', llms_format_decimal( $_POST['_sale_price'] ) );
-		else
-			update_post_meta( $post_id, '_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
+		if (isset( $_POST['_sale_price'] ) ) {
+			if ( $_POST['_sale_price'] !== '' && $date_to == '' && $date_from == '' )
+				update_post_meta( $post_id, '_price', llms_format_decimal( $_POST['_sale_price'] ) );
+			else
+				update_post_meta( $post_id, '_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
 
-		if ( $_POST['_sale_price'] !== '' && $date_from && strtotime( $date_from ) < strtotime( 'NOW', current_time( 'timestamp' ) ) )
-			update_post_meta( $post_id, '_price', llms_format_decimal( $_POST['_sale_price'] ) );
+			if ( $_POST['_sale_price'] !== '' && $date_from && strtotime( $date_from ) < strtotime( 'NOW', current_time( 'timestamp' ) ) )
+				update_post_meta( $post_id, '_price', llms_format_decimal( $_POST['_sale_price'] ) );
 
-		if ( $date_to && strtotime( $date_to ) < strtotime( 'NOW', current_time( 'timestamp' ) ) ) {
-			update_post_meta( $post_id, '_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
-			update_post_meta( $post_id, '_sale_price_dates_from', '' );
-			update_post_meta( $post_id, '_sale_price_dates_to', '' );
+			if ( $date_to && strtotime( $date_to ) < strtotime( 'NOW', current_time( 'timestamp' ) ) ) {
+				update_post_meta( $post_id, '_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
+				update_post_meta( $post_id, '_sale_price_dates_from', '' );
+				update_post_meta( $post_id, '_sale_price_dates_to', '' );
+			}
 		}
 
 
@@ -260,32 +262,34 @@ class LLMS_Meta_Box_Product {
 
 
 		// Unique SKU
-		$sku = get_post_meta( $post_id, '_sku', true );
-		$new_sku = llms_clean( stripslashes( $_POST['_sku'] ) );
+		if ( isset( $_POST['_sku'] ) ) {
+			$sku = get_post_meta( $post_id, '_sku', true );
+			$new_sku = llms_clean( stripslashes( $_POST['_sku'] ) );
 
-		if ( $new_sku == '' ) {
-			update_post_meta( $post_id, '_sku', '' );
-		} elseif ( $new_sku !== $sku ) {
-			if ( ! empty( $new_sku ) ) {
-				if (
-					$wpdb->get_var( $wpdb->prepare("
-						SELECT $wpdb->posts.ID
-					    FROM $wpdb->posts
-					    LEFT JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id)
-					    WHERE ($wpdb->posts.post_type = 'course' 
-					    OR $wpdb->posts.post_type = 'llms_membership') 
-					    AND $wpdb->posts.post_status = 'publish'
-					    AND $wpdb->postmeta.meta_key = '_sku' AND $wpdb->postmeta.meta_value = '%s'
-					 ", $new_sku ) )
-					) {
-
-					LLMS_Admin_Meta_Boxes::get_error( __( 'The SKU used already exists. Please create a unique SKU.', 'lifterlms' ) );
-
-				} else {
-					update_post_meta( $post_id, '_sku', $new_sku );
-				}
-			} else {
+			if ( $new_sku == '' ) {
 				update_post_meta( $post_id, '_sku', '' );
+			} elseif ( $new_sku !== $sku ) {
+				if ( ! empty( $new_sku ) ) {
+					if (
+						$wpdb->get_var( $wpdb->prepare("
+							SELECT $wpdb->posts.ID
+						    FROM $wpdb->posts
+						    LEFT JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id)
+						    WHERE ($wpdb->posts.post_type = 'course' 
+						    OR $wpdb->posts.post_type = 'llms_membership') 
+						    AND $wpdb->posts.post_status = 'publish'
+						    AND $wpdb->postmeta.meta_key = '_sku' AND $wpdb->postmeta.meta_value = '%s'
+						 ", $new_sku ) )
+						) {
+
+						LLMS_Admin_Meta_Boxes::get_error( __( 'The SKU used already exists. Please create a unique SKU.', 'lifterlms' ) );
+
+					} else {
+						update_post_meta( $post_id, '_sku', $new_sku );
+					}
+				} else {
+					update_post_meta( $post_id, '_sku', '' );
+				}
 			}
 		}
 

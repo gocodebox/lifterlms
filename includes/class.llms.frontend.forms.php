@@ -422,7 +422,10 @@ LLMS_log($coupon);
 
 		$payment_method_data = explode("_", $_POST['payment_method']);
 		$order->payment_type = $payment_method_data[0];
-		$order->payment_method = $payment_method_data[1];
+
+		if (count($payment_method_data) > 1) {
+			$order->payment_method = $payment_method_data[1];
+		}
 		
 		$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 
@@ -461,38 +464,42 @@ LLMS_log($coupon);
 
 		$product = new LLMS_Product($order->product_id);
 
-		$payment_option_data = explode("_", $_POST['payment_option']);
-		$order->payment_option = $payment_option_data[0];
-		$order->payment_option_id = $payment_option_data[1];
-		LLMS_log('asdfsadfasdfasdfasdfasdfasdf');
-		LLMS_log($order->payment_option);
-		LLMS_log($order->payment_option_id);
+		//if (isset($_POST['payment_option'])) {
+			$payment_option_data = explode("_", $_POST['payment_option']);
+			$order->payment_option = $payment_option_data[0];
+			$order->payment_option_id = $payment_option_data[1];
+			LLMS_log('asdfsadfasdfasdfasdfasdfasdf');
+			LLMS_log($order->payment_option);
+			LLMS_log($order->payment_option_id);
+		//}
 
 
 		//$order->payment_option 	= $_POST['payment_option'];
 		$order->product_sku		= $product->get_sku();
 		//get product price (could be single or recurring)
-		if ( $order->payment_option == 'single' ) {
-			$order->product_price			= $product->get_single_price();
-			$order->total 					= $order->product_price;
-		}
-		elseif ( $order->payment_option == 'recurring' ) {
-LLMS_log('PAYMENT OPTION RECURRING FOUND');
-			$subs = $product->get_subscriptions();
-			LLMS_log($subs);
-			foreach ($subs as $id => $sub) {
+		if ( property_exists( $order, 'payment_option' ) ) {
+			if ( $order->payment_option == 'single' ) {
+				$order->product_price			= $product->get_single_price();
+				$order->total 					= $order->product_price;
+			}
+			elseif ( $order->payment_option == 'recurring' ) {
+		LLMS_log('PAYMENT OPTION RECURRING FOUND');
+				$subs = $product->get_subscriptions();
 				LLMS_log($subs);
-				if ($id == $order->payment_option_id) {
-					LLMS_log($sub);
-					$order->product_price   		= $product->get_subscription_total_price($sub);
-					$order->total 					= $product->get_subscription_total_price($sub);
-					$order->first_payment			= $product->get_subscription_total_price($sub);
-					$order->billing_period			= $product->get_billing_period($sub);
-					$order->billing_freq			= $product->get_billing_freq($sub);
-					$order->billing_cycle			= $product->get_billing_cycle($sub);
-					$order->billing_start_date 		= $product->get_recurring_next_payment_date($sub);
-				}
+				foreach ($subs as $id => $sub) {
+					LLMS_log($subs);
+					if ($id == $order->payment_option_id) {
+						LLMS_log($sub);
+						$order->product_price   		= $product->get_subscription_total_price($sub);
+						$order->total 					= $product->get_subscription_total_price($sub);
+						$order->first_payment			= $product->get_subscription_total_price($sub);
+						$order->billing_period			= $product->get_billing_period($sub);
+						$order->billing_freq			= $product->get_billing_freq($sub);
+						$order->billing_cycle			= $product->get_billing_cycle($sub);
+						$order->billing_start_date 		= $product->get_recurring_next_payment_date($sub);
+					}
 
+				}
 			}
 		}
 	
@@ -501,36 +508,37 @@ LLMS_log('PAYMENT OPTION RECURRING FOUND');
 			return;
 		}
 
-		if ($order->payment_method)
+		//if ( property_exists( 'order', 'payment_method' ) ) {
 
-		$order->currency 		= get_lifterlms_currency();
-		$order->return_url		= $this->llms_confirm_payment_url();
-		$order->cancel_url		= $this->llms_cancel_payment_url();
+			$order->currency 		= get_lifterlms_currency();
+			$order->return_url		= $this->llms_confirm_payment_url();
+			$order->cancel_url		= $this->llms_cancel_payment_url();
 
-		$url = isset($_POST['redirect']) ? llms_clean( $_POST['redirect'] ) : '';
-		$redirect = LLMS_Frontend_Forms::llms_get_redirect( $url );
+			$url = isset($_POST['redirect']) ? llms_clean( $_POST['redirect'] ) : '';
+			$redirect = LLMS_Frontend_Forms::llms_get_redirect( $url );
 
-		// if no errors were returned save the data
-		if ( llms_notice_count( 'error' ) == 0 ) {
+			// if no errors were returned save the data
+			if ( llms_notice_count( 'error' ) == 0 ) {
 
-			$order_session = clone $order;
-			unset($order_session->cc_type, $order_session->cc_number, $order_session->cc_exp_month, $order_session->cc_exp_year, $order_session->cc_cvv);
-			LLMS()->session->set( 'llms_order', $order_session );
+				if ($order->total == 0) {
+					$lifterlms_checkout = LLMS()->checkout();
+					$lifterlms_checkout->process_order($order);
+					$lifterlms_checkout->update_order($order);
+					do_action( 'lifterlms_order_process_success', $order);
+				}
+				else {
+					$order_session = clone $order;
+					unset($order_session->cc_type, $order_session->cc_number, $order_session->cc_exp_month, $order_session->cc_exp_year, $order_session->cc_cvv);
+					LLMS()->session->set( 'llms_order', $order_session );
 
-			if ($order->total == 0) {
-				$lifterlms_checkout = LLMS()->checkout();
-				$lifterlms_checkout->process_order($order);
-				$lifterlms_checkout->update_order($order);
-				do_action( 'lifterlms_order_process_success', $order);
+					$lifterlms_checkout = LLMS()->checkout();
+					$lifterlms_checkout->process_order($order);
+					$result = $available_gateways[$order->payment_method]->process_payment($order);
+
+				}
+
 			}
-			else {
-				$lifterlms_checkout = LLMS()->checkout();
-				$lifterlms_checkout->process_order($order);
-				$result = $available_gateways[$order->payment_method]->process_payment($order);
-
-			}
-
-		}
+		//}
 
 	}
 
