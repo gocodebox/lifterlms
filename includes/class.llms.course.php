@@ -331,7 +331,7 @@ if($syllabus) {
 		$sections = array();
 		if ($syllabus) {
 			foreach($syllabus as $key => $value) {
-				LLMS_log($value['section_id']);
+
 				array_push($sections,$value['section_id']);
 			}
 		}

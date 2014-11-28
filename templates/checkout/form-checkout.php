@@ -33,10 +33,6 @@ else {
 $product_obj = new LLMS_Product($product);
 
 $payment_options = $product_obj->get_payment_options();
-LLMS_log('payment_options 5');
-LLMS_log($payment_options);
-
-//$course = get_course($product);
 
 $info_message = apply_filters( 'lifterlms_checkout_coupon_message', __( 'Have a coupon?', 'lifterlms' ) );
 $info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter your code', 'lifterlms' ) . '</a>';
@@ -44,9 +40,6 @@ $info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter you
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
 
 $coupon_session = LLMS()->session->get( 'llms_coupon', array() );
-
-
-//$recurring_html_price = $product_obj->get_recurring_price_html();
 ?>
 
 <?php llms_print_notices(); ?>

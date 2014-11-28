@@ -81,7 +81,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 			    'post_status' => 'publish',
 			    'nopaging' 		=> true,
 			);
-LLMS_log($section_position);
+
 			$lessonId = $lesson_id;
 
 			$query = null;

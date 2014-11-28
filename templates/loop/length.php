@@ -2,8 +2,6 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 global $course;
-LLMS_log('length loop template');
-LLMS_log($course);
 ?>
 
 <?php if ( $length_html = $course->get_lesson_length() ) : ?>

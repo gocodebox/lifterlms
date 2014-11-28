@@ -31,7 +31,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * @return array
 	 */
 	public function get_settings() {
-		LLMS_log('main apply filters called');
 
 		return apply_filters( 'lifterlms_' . $this->id . '_settings', array(
 

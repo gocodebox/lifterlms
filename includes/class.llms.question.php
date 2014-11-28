@@ -32,7 +32,7 @@ class LLMS_Question {
 	* initializes the question object based on post data
 	*/
 	public function __construct( $question ) {
-LLMS_log('question started here');
+
 		if ( is_numeric( $question ) ) {
 
 			$this->id   = absint( $question );

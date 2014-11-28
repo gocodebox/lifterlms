@@ -18,34 +18,8 @@ include( 'functions/llms.functions.page.php' );
 include( 'functions/llms.functions.person.php' );
 include( 'functions/llms.functions.access.php' );
 
-
-//add_filter( 'lifterlms_get_single_price', 'llms_get_adjusted_price', 10, 2 );
-// function llms_get_adjusted_price($price, $product) {
-      
-//       $adjustment = llms_get_coupon();
-//       LLMS_log($adjustment);
-//       if ( !empty( $adjustment && $adjustment->amount > 0 ) ) {
-//             if ($adjustment->type == 'percent') {
-//                   LLMS_log('percent was found');
-//                   $amount =  (1 - ($adjustment->amount / 100));
-//                   LLMS_log($amount);
-//                   $total = ($price * $amount);
-//                   LLMS_log($total);
-//             }
-//             elseif ($adjustment->type == 'dollar') {
-//                   $amount = round( $adjustment->amount, 2 );
-//                   $total = ($price - $amount);
-//             }
-//       }
-
-//       return $total;
-
-// }
-
 function llms_get_coupon() {
       $coupon = LLMS()->session->get( 'llms_coupon', array() );
-      LLMS_log('coupon session');
-      LLMS_log($coupon);
       return $coupon;
 }
 /**

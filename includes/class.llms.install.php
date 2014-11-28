@@ -73,7 +73,7 @@ class LLMS_Install {
 		$relationship_updated = get_option( 'lifterlms_relationship_update', 'no' ) === 'yes' ? true : false;
 
 		if (!$relationship_updated) {
-			LLMS_log('update_relationships called');
+
 			$course_args = array(
 				'posts_per_page'   => -1,
 				'orderby'          => 'title',

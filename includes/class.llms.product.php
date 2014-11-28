@@ -132,8 +132,6 @@ class LLMS_Product {
 	}
 
 	public function get_subscription_payment_price($sub) {
-		LLMS_log('-------------f-dsa-fd-sfa-dsfa-dsf-sda-f-dsf---------------');
-		LLMS_log($sub);
 		return ( $this->get_subscription_total_price($sub) / ( $this->get_billing_cycle($sub) / $this->get_billing_freq($sub) ) );
 	}
 
@@ -350,26 +348,23 @@ class LLMS_Product {
 
 	public function get_coupon_discount_total($price = '') {
 		$adjustment = llms_get_coupon();
-	    LLMS_log($adjustment);
 	    $total = $price;
 
 		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 			if ($this->id == $adjustment->product_id) {
 				if ($adjustment->limit >= 0) {
 				    if ($adjustment->type == 'percent') {
-				          LLMS_log('percent was found');
-				          $amount =  ($adjustment->amount / 100);
-				          LLMS_log($amount);
-				          $total = ($price * $amount);
-				          $total = sprintf('%0.2f', $total);
-				          LLMS_log($total);
+
+						$amount =  ($adjustment->amount / 100);
+
+						$total = ($price * $amount);
+						$total = sprintf('%0.2f', $total);
+				        
 				    }
 				    elseif ($adjustment->type == 'dollar') {
-				          $amount = round( $adjustment->amount, 2 );
-				          $total = ($amount);
-				          $total = sprintf('%0.2f', $total);
-				          LLMS_log('the total');
-				          LLMS_log($total);
+						$amount = round( $adjustment->amount, 2 );
+						$total = ($amount);
+						$total = sprintf('%0.2f', $total);
 				    }
 				}
 			}
@@ -379,27 +374,25 @@ class LLMS_Product {
 
 
 	public function adjusted_price($price = '') {
-		 $adjustment = llms_get_coupon();
-      LLMS_log($adjustment);
-      $total = $price;
+		$adjustment = llms_get_coupon();
+
+      	$total = $price;
 
       if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 		if ($this->id == $adjustment->product_id) {
 			if ($adjustment->limit >= 0) {
 			    if ($adjustment->type == 'percent') {
-			          LLMS_log('percent was found');
+
 			          $amount =  (1 - ($adjustment->amount / 100));
-			          LLMS_log($amount);
+
 			          $total = ($price * $amount);
 			          $total = sprintf('%0.2f', $total);
-			          LLMS_log($total);
+
 			    }
 			    elseif ($adjustment->type == 'dollar') {
 			          $amount = round( $adjustment->amount, 2 );
 			          $total = ($price - $amount);
 			          $total = sprintf('%0.2f', $total);
-			          LLMS_log('the total');
-			          LLMS_log($total);
 			    }
 			}
 		}

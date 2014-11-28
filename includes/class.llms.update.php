@@ -25,11 +25,6 @@ class LLMS_Update {
 	 * @access public
 	 */
 	public function __construct() {
-		// LLMS_log('update construct called');
-
-		// //if ( is_admin() ) {
-		// 	add_action( 'plugins_loaded', array( $this,'update_check' ) );
-		//}
 
 	}
 

@@ -206,7 +206,6 @@ class LLMS_AJAX {
 	 * @return array
 	 */
 	public function get_associated_lessons(){
-		LLMS_log($_REQUEST);
 		$parent_section = $_REQUEST['section_id'];
 
 		$args = array(
@@ -307,7 +306,7 @@ class LLMS_AJAX {
 	 */
 	public function update_syllabus() {
 		$post_id  = $_REQUEST['post_id'];
-LLMS_log($_REQUEST);
+
 		// Parse section id and create new array for comparison.
 		function parse_new_sections ( $new_sections_array ) {
 			$array = array();
@@ -521,7 +520,7 @@ LLMS_log($_REQUEST);
 		foreach($questions as $key => $value) {
 			$value->edit_url = get_edit_post_link($value->ID, false);
 		}
-		LLMS_log($_REQUEST['quiz_id']);
+
 		echo json_encode($all_questions);
 		die();
 	}

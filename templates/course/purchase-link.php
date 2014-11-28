@@ -35,7 +35,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 		}
 
 		if ($memberships_required) {
-			LLMS_log($memberships_required);
+
 			//if there is more than 1 membership that can view the content then redirect to memberships page
 			if (count($memberships_required) > 1) {
 				$membership_url = get_permalink( llms_get_page_id( 'memberships' ) );
