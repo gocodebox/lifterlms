@@ -58,6 +58,8 @@ if(array_key_exists('bp', $integrations) && $integrations['bp']->enabled) {
 					</p>
 				<?php endif; ?>
 
+				<?php do_action( 'lifterlms_register_form_after_names' ); ?>
+
 				<?php if ( 'yes' === get_option( 'lifterlms_registration_require_address' ) ) : ?>
 					
 					<p>
