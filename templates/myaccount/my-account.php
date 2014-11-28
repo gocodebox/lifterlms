@@ -12,19 +12,21 @@ llms_print_notices();
 ?>
 
 <nav class="account-links">
-	<?php
+	<?php do_action( 'lifterlms_before_my_account_navigation' ); ?>
 
+	<?php
 	printf(
 		__( '<a href="%1$s">Sign out</a>  &middot;  ', 'lifterlms' ) . ' ',
 		wp_logout_url( get_permalink( llms_get_page_id( 'myaccount' ) ) )
 	);
 
-
-	printf( __( '<a href="%s">Account Settings</a>.', 'lifterlms' ),
+	printf( __( '<a href="%s">Account Settings</a>', 'lifterlms' ),
 		llms_person_edit_account_url()
 	);
 
 	?>
+
+	<?php do_action( 'lifterlms_after_my_account_navigation' ); ?>
 </nav>
 	<?php
 	
