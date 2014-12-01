@@ -129,7 +129,7 @@ function llms_create_new_person(
 		'user_email' => $email,
 		'first_name' => $firstname,
 		'last_name'  => $lastname,
-		'role'       => 'person'
+		'role'       => 'student'
 	) );
 
 	$new_person_address = apply_filters( 'lifterlms_new_person_address', array(
@@ -268,4 +268,3 @@ function llms_membership_settings_save( $user_id ) {
 
 add_action( 'personal_options_update',  'llms_membership_settings_save' );
 add_action( 'edit_user_profile_update', 'llms_membership_settings_save' );
-

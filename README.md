@@ -35,6 +35,12 @@ v1.0.6 - UNRELEASED
 + Added Account Setting: Require First and Last Name on registration
 + Added Account Setting: Require Billing Address on registration
 
+### User Roles
++ Updated user role from "person" to "student"
++ Added temporary migration function to transition any register users with "person" role to "student" role
++ Added "Student" role install function
+
+
 ### BUDDYPRESS
 + BuddyPress Screen Permission Fix
 + Added two additional screens to BuddyPress: Certificates and Achievements
