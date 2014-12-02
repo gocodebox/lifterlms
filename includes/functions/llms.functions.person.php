@@ -268,3 +268,88 @@ function llms_membership_settings_save( $user_id ) {
 
 add_action( 'personal_options_update',  'llms_membership_settings_save' );
 add_action( 'edit_user_profile_update', 'llms_membership_settings_save' );
+
+
+
+/**
+ * Add Custom Columns to the Admin Users Table Screen
+ * @param  array $columns key=>val array of existing columns
+ * @return array $columns updated columns
+ */
+function llms_add_user_table_columns( $columns ) {
+	$columns['llms-last-login'] = __( 'Last Login', 'lifterlms' );
+	$columns['llms-memberships'] = __( 'Memberships', 'lifterlms' );
+	return $columns;
+}
+add_filter( 'manage_users_columns', 'llms_add_user_table_columns' );
+
+/**
+ * Add data user data for custom column added by llms_add_user_table_columns
+ * @param  string $val         value of the field
+ * @param  string $column_name "id" or name of the column
+ * @param  int $user_id        user_id for the row in the loop
+ * @return string              data to display on screen 
+ */
+function llms_add_user_table_rows( $val, $column_name, $user_id ) {
+	// $user = get_userdata( $user_id );
+
+	switch( $column_name ) {
+
+		/**
+		 * Display user information for their last sucessful login
+		 */
+		case 'llms-last-login':
+
+			$last = get_user_meta( $user_id, 'llms_last_login', true );
+			$return = ($last) ? date( get_option( 'date_format' , 'Y-m-d' ). ' h:i:s a', $last ) : 'Never';
+
+		break;
+
+		/**
+		 * Display information related to user memberships
+		 */
+		case 'llms-memberships':
+
+			$user = new LLMS_Person;
+			$data = $user->get_user_memberships_data( $user_id );
+
+			if( ! empty( $data ) ) {
+
+				$return = '';
+
+				foreach( $data as $membership_id=>$obj ) {
+
+					$return .= '<b>' . get_the_title( $membership_id ) . '</b><br>';
+
+					$return .= '<em>Status</em>: ' . $obj['_status']->meta_value;
+
+					if( $obj['_status']->meta_value == 'Enrolled' ) {
+
+						$return .= '<br><em>Start Date</em>: ' . date( get_option( 'date_format' , 'Y-m-d' ), strtotime( $obj['_start_date']->updated_date ) );
+
+						$membership_interval = get_post_meta( $membership_id, '_llms_expiration_interval', true );
+						$membership_period = get_post_meta( $membership_id, '_llms_expiration_period', true );
+
+						$end_date = strtotime( '+' . $membership_interval . $membership_period, strtotime( $obj['_start_date']->updated_date ) );
+
+						$return .= '<br><em>End Date</em>: ' . date( get_option( 'date_format' , 'Y-m-d' ), $end_date );
+
+					}
+
+				}
+
+			} else {
+
+				return 'No memberships';
+
+			}
+
+		break;
+
+		default:
+			$return = $val;
+	}
+
+	return $return;
+}
+add_filter( 'manage_users_custom_column', 'llms_add_user_table_rows', 10, 3 );

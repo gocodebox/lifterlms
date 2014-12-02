@@ -35,6 +35,10 @@ v1.0.6 - UNRELEASED
 + Added Account Setting: Require First and Last Name on registration
 + Added Account Setting: Require Billing Address on registration
 
+### User Admin Table
++ Added Membership Custom Column that displays user's membership information
++ Added "Last Login" custom column that displays user's last login date/time
+
 ### User Roles
 + Updated user role from "person" to "student"
 + Added temporary migration function to transition any register users with "person" role to "student" role
