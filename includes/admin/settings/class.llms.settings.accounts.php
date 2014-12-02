@@ -112,6 +112,16 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 			array(
 				'title'         => __( 'Account Creation', 'lifterlms' ),
+				'desc'          => __( 'Require users to enter their email address twice for accuracy', 'lifterlms' ),
+				'id'            => 'lifterlms_registration_confirm_email',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'middle',
+				'autoload'      => false
+			),
+
+			array(
+				'title'         => __( 'Account Creation', 'lifterlms' ),
 				'desc'          => __( 'Require First and Last name on user registration.', 'lifterlms' ),
 				'id'            => 'lifterlms_registration_require_name',
 				'default'       => 'yes',

@@ -22,10 +22,12 @@ add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10, 1 );
 
 function llms_create_new_person( 
 	$email, 
+	$email2, 
 	$username = '', 
 	$firstname = '', 
 	$lastname = '', 
 	$password = '',
+	$password2 = '',
 	$billing_address_1 = '',
 	$billing_address_2 = '',
 	$billing_city = '',
@@ -37,6 +39,10 @@ function llms_create_new_person(
 	// Check the e-mail address
 	if ( empty( $email ) || ! is_email( $email ) ) {
 		return new WP_Error( 'registration-error', __( 'Please provide a valid email address.', 'lifterlms' ) );
+	}
+
+	if( $email != $email2 ) {
+		return new WP_Error( 'registration-error', __( 'Your email addresses do not match.', 'lifterlms' ) );		
 	}
 
 	if ( email_exists( $email ) ) {
@@ -97,7 +103,8 @@ function llms_create_new_person(
 	// Handle password creation
 	if ( empty( $password ) ) {
 		return new WP_Error( 'registration-error', __( 'Please enter an account password.', 'lifterlms' ) );
-
+	} elseif ( $password != $password2 ) {
+		return new WP_Error( 'registration-error', __( 'Your passwords did not match.', 'lifterlms' ) );
 	} else {
 		$password_generated = false;
 	}

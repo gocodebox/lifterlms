@@ -34,6 +34,8 @@ v1.0.6 - UNRELEASED
 + Added Form templates for external integration
 + Added Account Setting: Require First and Last Name on registration
 + Added Account Setting: Require Billing Address on registration
++ Added Account Setting: Require users to validate email address (double entry)
++ Added password validation (double entry) on user registration / account creation
 
 ### User Admin Table
 + Added Membership Custom Column that displays user's membership information
