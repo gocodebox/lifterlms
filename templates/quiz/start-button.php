@@ -19,10 +19,9 @@ if ( empty($attempts) || $attempts > 0) {
 ?>
 	<form method="POST" action="" name="llms_start_quiz" enctype="multipart/form-data"> 
 	 	<?php do_action( 'lifterlms_before_start_quiz' ); ?>
-
+		<input id="llms-user" name="llms-user_id" type="hidden" value="<?php echo $user_id; ?>"/>
+	 	<input id="llms-quiz" name="llms-quiz_id" type="hidden" value="<?php echo $quiz->id; ?>"/>
 	 	<input id="llms_start_quiz" type="submit" class="button" name="llms_start_quiz" value="<?php _e('Start Quiz', 'lifterlms'); ?>" />
-	 	<input id="llms-user" type="hidden" value="<?php echo $user_id; ?>"/>
-	 	<input id="llms-quiz" type="hidden" value="<?php echo $quiz->id; ?>"/>
 	 	<input type="hidden" name="action" value="llms_start_quiz" />
 
 	 	<?php wp_nonce_field( 'llms_start_quiz' ); ?>

@@ -50,7 +50,7 @@ v1.0.6 - UNRELEASED
 + Added user statisticc shortcode
 
 
-v1.0.5 - RELEASE???????? [MARK PLEASE UPDATE W/ RELEASE DATE]
+v1.0.5 - 2014-11-12
 -------------------
 
 + Fixed a mis-placed parenthesis in templates/course/lesson-navigation.php related to outputting excerpt in navigation option

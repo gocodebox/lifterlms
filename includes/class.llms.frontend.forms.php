@@ -28,7 +28,9 @@ class LLMS_Frontend_Forms {
 		add_action( 'init', array( $this, 'user_registration' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
-		add_action( 'init', array( $this, 'start_quiz' ) );
+		add_action( 'init', array( $this, 'take_quiz' ) );
+		add_action( 'init', array( $this, 'llms_start_quiz' ) );
+		add_action( 'init', array( $this, 'llms_answer_question' ) );
 
 		add_action( 'lifterlms_order_process_begin', array( $this, 'order_processing' ), 10, 1 );
 		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 1 );
@@ -47,21 +49,225 @@ class LLMS_Frontend_Forms {
 
 	}
 
+	public function llms_answer_question() {
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+		
+		if ( 'POST' !== $request_method ) {
+			return;
+		}
 
-	public function start_quiz() {
+    	if ( ! isset( $_POST['llms_answer_question'] ) || empty( $_POST['_wpnonce'] ) ) {
+    		return;
+    	}
 
-		//when start button is pressed:
-		//
-		//
-		//take user to page that has all questions?
-		//oh god! this is the big part!
-		//
-		//take the user to a page that lists out the questions. 
-		//add data to the users session triggering the quiz start
-		//
-		//When user clicks complete
-		//udpate the session
-		//score the quiz return the user
+	    if ( isset( $_POST['llms_answer_question'] ) ) {
+
+	    	//get quiz object from session
+	    	$quiz = LLMS()->session->get( 'llms_quiz' );
+
+	    	//if quiz session does not exist return an error message to the user.
+	    	if ( empty( $quiz ) ) {
+	    		return llms_add_notice( __( 'There was an error finding the associated quiz. Please return to the lesson and begin quiz again.', 'lifterlms' ), 'error' );
+	    	}
+
+	    	if ( empty( $_POST['llms_option_selected'] ) ) {
+	    		return llms_add_notice( __( 'You must answer the question to continue.', 'lifterlms' ), 'error' );
+	    	}
+
+	    	LLMS_log('next lesson button clicked');
+	    	LLMS_log($_POST);
+	    	LLMS_log($quiz);
+
+
+	    	//get question meta data
+	    	$correct_option = '';
+	    	$question_options = get_post_meta($_POST['question_id'], '_llms_question_options', true);
+
+	    	foreach ( $question_options as $key => $value ) {
+	    		if ( $value['correct_option'] ) {
+	    			$correct_option = $key;
+	    		}
+	    	}
+	    	
+	    	//LLMS_log($current_question);
+
+	    	//update quiz object
+	    	foreach ( $quiz->questions as $key => $value ) {
+	    		LLMS_log($value );
+	
+    			if ( $value['id'] == $_POST['question_id'] ) {
+    				$quiz->questions[$key]['answer'] = $_POST['llms_option_selected'];
+
+    				if ( $_POST['llms_option_selected'] == $correct_option ) {
+    					$quiz->questions[$key]['correct'] = true;
+    				}
+
+    			}
+	    		
+	    	}
+	    	LLMS_log($quiz);
+	    	LLMS()->session->set( 'llms_quiz', $quiz );
+
+	    	//update quiz user meta data
+	    	$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
+LLMS_log('quiz data as soon as its pulled from the dataabse');
+	    	LLMS_log($quiz_data);
+
+	    	foreach ( $quiz_data as $key => $value ) {
+	  			foreach ( $value as $k => $v ) {
+	  				LLMS_log($v);
+	  				if ( $v['wpnonce'] == $quiz->wpnonce ) { 
+	  					foreach ( $quiz_data[$key][$k]['questions'] as $id => $data ) {
+	  						if ( $data['id'] == $_POST['question_id'] ) {
+	  							$quiz_data[$key][$k]['questions'][$id]['answer'] = $quiz->questions[$key]['answer'];
+	  							$quiz_data[$key][$k]['questions'][$id]['correct'] = $quiz->questions[$key]['correct'];
+	  						}
+	  					}
+	  				}
+	  			}
+	    	//	if ( $value['wpnonce'] == $quiz->wpnonce ) {
+    			
+    			LLMS_log('updating quiz object');
+    			LLMS_log($quiz_data);
+	    			LLMS_log($quiz_array);
+    		}
+    	}
+    	update_user_meta( $quiz->user_id, 'llms_quiz_data',  $quiz_data );
+	}
+
+
+	/**
+	* Start Quiz submit handler
+	* Performs security and verification checks
+	* If quiz is enabled for user redirects user to 1st question.
+	*
+	* @return void
+	*/
+	public function llms_start_quiz() {
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+    	if ( 'POST' !== $request_method ) {
+			return;
+		}
+
+    	if ( ! isset( $_POST['llms_start_quiz'] ) || empty( $_POST['_wpnonce'] ) ) {
+    		return;
+    	}
+
+    	if ( isset( $_POST['llms_start_quiz'] ) ) {
+    	
+	    	$quiz = LLMS()->session->get( 'llms_quiz' );
+
+	    	if ( $quiz->id == $_POST['llms-quiz_id'] && $quiz->user_id == $_POST['llms-user_id'] ) {
+
+	    		//add quiz information to quiz object
+	    		$quiz->wpnonce = $_POST['_wpnonce'];
+	    		$quiz->start_date = current_time( 'mysql' ); 
+	    		$quiz->end_date = '';
+
+	    		//get existing quiz object from database
+	    		$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
+
+				//count previous attempts and set quiz attempt to +1 of quiz attempt count
+	    		$attempts = 0;
+
+	    		if ( $quiz_data ) {
+
+	    			foreach( $quiz_data as $key => $value ) {
+	    				if ( $value['id'] == $quiz->id ) {
+	    					$attempts++;
+	    				}
+	    			}
+	    		}
+
+	    		$quiz->attempt = ( $attempts + 1 );
+
+	    		//add questions to quiz object
+	    		//question_id (int), answer (string), correct (bool)
+	    		$quiz_obj = new LLMS_Quiz( $quiz->id );
+
+	    		//$all_questions = array();
+				$questions = $quiz_obj->get_questions();	
+
+				if($questions) {
+					foreach ($questions as $key => $value) {
+						$questions[$key][ 'answer' ] = '';
+						$questions[$key][ 'correct' ] = false;
+					}
+
+					$quiz->questions = $questions;
+				}
+				else {
+					return llms_add_notice( __( 'There are no questions associated with this quiz.', 'lifterlms' ), 'error' );
+				}
+
+				//save quiz object to usermeta
+				$quiz_array = (array) $quiz;
+
+				if ( $quiz_data ) {
+					array_push( $quiz_data, $quiz_array );
+				}
+				else {
+					$quiz_data = array();
+					$quiz_data[] = $quiz_array;
+				}
+				
+				update_user_meta( $quiz->user_id, 'llms_quiz_data',  $quiz_data );
+
+				//save quiz object to session
+				LLMS()->session->set( 'llms_quiz', $quiz );
+
+				//redirect user to first question in questions
+				
+
+				$redirect = get_permalink( $quiz->questions[0]['id'] );
+				wp_redirect( apply_filters( 'lifterlms_lesson_begin_quiz', $redirect ) );
+			}
+			else {
+    			return llms_add_notice( __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ), 'error' );
+    		}
+
+    	}
+    	else {
+    		return llms_add_notice( __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ), 'error' );
+    	}
+	}
+
+	/**
+	* Take quiz submit handler from lesson
+	* Redirect user to quiz if quiz is available for lesson. 
+	* Creates session object llms_quiz
+	*
+	* @return void
+	*/
+	public function take_quiz() {
+
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+    	if ( 'POST' !== $request_method ) {
+			return;
+		}
+
+    	if ( ! isset( $_POST['take_quiz'] ) || empty( $_POST['_wpnonce'] ) ) {
+    		return;
+    	}
+
+		if ( isset( $_POST['take_quiz'] ) ) {
+
+			LLMS_log('start quiz called');
+			LLMS_log($_POST);
+
+			//create quiz session object
+			$quiz = new stdClass();
+			$quiz->id = $_POST['quiz_id'];
+			$quiz->assoc_lesson = $_POST['associated_lesson'];
+			$quiz->user_id = (int) get_current_user_id();
+
+			LLMS()->session->set( 'llms_quiz', $quiz );
+
+			//redirect user to quiz page
+			$redirect = get_permalink( $_POST['quiz_id'] );
+			wp_redirect( apply_filters( 'lifterlms_lesson_start_quiz_redirect', $redirect ) );
+
+		}
 	}
 
 	// Mark lesson as complete
@@ -349,12 +555,14 @@ class LLMS_Frontend_Forms {
 			$coupon->name = ($coupon->title . ': ' . '$' . $coupon->amount . ' coupon');
 		}
 
-		if ($coupon->limit <= 0) {
-			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> cannot be applied to this order.', 'lifterlms' ), $coupon->coupon_code ), 'error' ) ;
+		if ( isset( $coupon->limit ) ) {
+			if ($coupon->limit <= 0) {
+				return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> cannot be applied to this order.', 'lifterlms' ), $coupon->coupon_code ), 'error' ) ;
+			}
+			
+			//remove coupon limit
+			$coupon->limit = ($coupon->limit - 1);
 		}
-		
-		//remove coupon limit
-		$coupon->limit = ($coupon->limit - 1);
 
 		LLMS()->session->set( 'llms_coupon', $coupon );
 		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' ) ;
@@ -459,6 +667,8 @@ class LLMS_Frontend_Forms {
 		$order->payment_option_id = $payment_option_data[1];
 
 		$order->product_sku		= $product->get_sku();
+		$order->total = 0;
+		$order->product_price = 0;
 		//get product price (could be single or recurring)
 		if ( property_exists( $order, 'payment_option' ) ) {
 			if ( $order->payment_option == 'single' ) {

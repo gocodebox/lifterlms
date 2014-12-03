@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 
-	$('#llms_start_quiz').click(function() {
+	$('#llms_start_quiz_depreciated').click(function() {
 		get_quiz_questions();
 		//alert('sript is loaded');
 		return false;

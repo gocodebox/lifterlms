@@ -163,7 +163,7 @@ class LLMS_Lesson {
 
 	public function get_prerequisite() {
 
-		if ( $this->has_prerequisite == 'on' ) {
+		if ( $this->has_prerequisite ) {
 
 			return $this->prerequisite;
 		}

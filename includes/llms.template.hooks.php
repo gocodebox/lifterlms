@@ -63,9 +63,10 @@ add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_passing_
 
 add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_start_button', 10 );
 
+add_action( 'lifterlms_single_question_before_summary', 'lifterlmslifterlms_template_question_wrapper_start', 10 );
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_single_choice', 10 );
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_next_question', 10 );
-
+add_action( 'lifterlms_single_question_after_summary', 'lifterlmslifterlms_template_question_wrapper_end', 10 );
 
 
 // add_action( 'lifterlms_before_main_content', 'lifterlms_output_content_wrapper', 10 );

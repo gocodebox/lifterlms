@@ -19,7 +19,9 @@ $question_key = isset($quiz) ? $quiz->get_question_key : 0;
 	?>
 	<div class="llms-option_<?php echo $question_key; ?>">
 		<label class="llms-question-label">
-			<input type="radio" name="llms_option_1<" value="<?php echo $key; ?>"/>
+			<input type="radio" name="llms_option_selected" value="<?php echo $key; ?>"/>
+			<input type="hidden" name="question_type" value="single_choice" />
+			<input type="hidden" name="question_id" value="<?php echo $question->id ?>" />
 			<?php echo $option; ?>
 		</label>
 	</div>

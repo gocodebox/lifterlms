@@ -62,8 +62,27 @@ class LLMS_Order {
 		}
 	}
 
+	/**
+	* Complete order processing
+	*
+	* @accepts $order (object)
+	* @return Created Order post Id
+	*/
 	public function update_order($order) {
 		global $wpdb;
+
+		//check if user is already enrolled in the course. 
+		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+		$meta_key = '_status';
+		$meta_value = 'Enrolled';
+
+		$user_enrolled = $wpdb->get_results( $wpdb->prepare(
+      	'SELECT * FROM '.$table_name.' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC', 
+      		$order->user_id, $order->product_id, $meta_key, $meta_value) );
+
+		if ( !empty( $user_enrolled ) ) {
+			return;
+		}
 
 
 		if (isset($order) ) {
@@ -137,9 +156,6 @@ class LLMS_Order {
 			update_post_meta($coupon->id, '_llms_usage_limit', $coupon->limit );
 			
 		}
-		
-		
-		
 
 		//enroll user in course						
 		$user_metadatas = array(
