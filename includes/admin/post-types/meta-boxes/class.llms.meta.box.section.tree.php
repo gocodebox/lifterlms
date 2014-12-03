@@ -55,8 +55,6 @@ class LLMS_Meta_Box_Section_Tree {
 				}
 			}
 		}
-		LLMS_log('check for parent course');
-		LLMS_log($parent_course);
 
 		if ($parent_course) {
 			$course_edit_link = get_edit_post_link($parent_course);
@@ -65,7 +63,6 @@ class LLMS_Meta_Box_Section_Tree {
 			$course_tree = $course->get_syllabus();
 			foreach ($course_tree as $key => $value) {
 				if ($value['section_id'] == $post->ID) {
-					LLMS_log($value['lessons']);
 					$lessons = $value['lessons'];
 				}
 			}
@@ -128,7 +125,7 @@ class LLMS_Meta_Box_Section_Tree {
 
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-LLMS_log('the post associated_course started');
+
 		if ($_POST['associated_course']) {
 
 			$parent_course = ( llms_clean( $_POST['associated_course']  ) );
@@ -144,7 +141,7 @@ LLMS_log('the post associated_course started');
 
 				//if no parent course assigned in db then check the courses
 				if (!$prev_parent) {
-					LLMS_log('no previous parent exists');
+
 					$course_args = array(
 						'posts_per_page'   => 1000,
 						'post_status'      => 'publish',
@@ -161,30 +158,26 @@ LLMS_log('the post associated_course started');
 						if (!empty($sections)) {
 							if (in_array($post->ID, $sections)) {
 								$prev_parent = $value->ID;
-								LLMS_log('found the prev parent');
-								LLMS_log($prev_parent);
+
 								break;
 							}
 						}
 					}
 				}
-LLMS_log('parent_course ' . $parent_course);
-LLMS_log('prev_course ' . $prev_parent);
+
 				//if section belongs to another course remove it from the previous course
 				if ($prev_parent && $prev_parent != $parent_course) {
-LLMS_log('starting cool part');
-LLMS_log($prev_parent);
+
 					$prev_course = new LLMS_Course($prev_parent);
 					$sections = $prev_course->get_sections();
 
 					if (in_array($post_id, $sections)) {
 						$pc_syllabus = $prev_course->get_syllabus();
-LLMS_log('finding lessons start');
+
 						foreach($pc_syllabus as $key => $value) {
-LLMS_log('finding lessons foreach');
+
 							if ($value['section_id'] == $post_id) {
-								LLMS_log('finding lessons');
-								//LLMS_log($value);
+
 								$lessons = $value['lessons'];
 								unset($pc_syllabus[$key]);
 								$pc_syllabus  = array_values($pc_syllabus);
@@ -209,7 +202,7 @@ LLMS_log('finding lessons foreach');
 				//find lessons and add them. 
 				//check if previous course section area had lessons
 				if (empty($lessons)) {
-					LLMS_log('lessons is empty');
+
 					$lesson = array();
 					$i = 0;
 					$lesson_ids = $wpdb->get_col( $wpdb->prepare( 
@@ -246,8 +239,7 @@ LLMS_log('finding lessons foreach');
 
 				//add section array to course and save parent_course variable
 				array_push($syllabus, $section_tree);
-				LLMS_log('syllabus right before saving');
-				LLMS_log($syllabus);
+
 				update_post_meta( $post_id, '_parent_course', $parent_course );
 				update_post_meta( $parent_course, '_sections', $syllabus);
 

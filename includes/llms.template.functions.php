@@ -900,14 +900,8 @@ if ( ! function_exists( 'lifterlms_get_course_thumbnail' ) ) {
 	function lifterlms_get_course_thumbnail() {
 		global $post;
 
-		// if (!$post) {
-		// 	$post = get_post($post_id);
-		// }
-
-		LLMS_log($post);
-LLMS_log('lifterlms_get_course_thumbnail called');
 		if ( has_post_thumbnail() ) {
-			LLMS_log('it has a thumbnail');
+
 			return lifterlms_get_featured_image( $post->ID );
 		}
 		elseif ( llms_placeholder_img_src() ) {
@@ -943,9 +937,8 @@ function llms_get_post_content( $content ) {
 				add_filter('the_excerpt', array($GLOBALS['wp_embed'], 'autoembed'), 9);
 
 				if ($post->post_excerpt) {
-				add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_short_description', 10 );
-				$content = '';
-				LLMS_log($content);
+					add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_short_description', 10 );
+					$content = '';
 				}
 			}
 			$template_before  = llms_get_template_part_contents( 'content', 'single-course-before' );

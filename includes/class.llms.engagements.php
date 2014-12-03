@@ -127,7 +127,6 @@ class LLMS_Engagements {
 	}
 
 	public function llms_user_register($user) {
-		LLMS_log('user registered engagement triggered');
 
 	}
 

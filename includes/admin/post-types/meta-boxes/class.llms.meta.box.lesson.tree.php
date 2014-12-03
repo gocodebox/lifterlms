@@ -40,7 +40,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 		$sections = get_posts($section_args);
 
 		if ( $parent_section ) {
-			LLMS_log('parent section found');
+
 			$parent_course_id = get_post_meta($parent_section, '_parent_course', true);
 			
 			if ($parent_course_id) {
@@ -52,7 +52,6 @@ class LLMS_Meta_Box_Lesson_Tree {
 				foreach($syllabus as $key => $value) {
 					if ($value['section_id'] == $parent_section) {
 						$lessons = $value['lessons'];
-						//LLMS_log($lessons);
 					}
 				}
 			}
@@ -105,10 +104,9 @@ class LLMS_Meta_Box_Lesson_Tree {
 					if ($lessons) :
 						echo '<ul class="llms-lesson-list">';
 							foreach ($lessons as $key => $value) :
-								LLMS_log($lessons);
+							
 								$lesson = get_post($value['lesson_id']);
-								LLMS_log('the post id');
-								LLMS_log($post->ID);
+							
 								if ($lesson->ID == $post->ID) {
 									echo '<li><span><i class="fa fa-book"></i> ' . $lesson->post_title . '</span></li>';
 								}
@@ -156,7 +154,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 						}
 					}
 				}
-				LLMS_log($prev_syllabus);
+
 				update_post_meta($prev_parent_course_id, '_sections', $prev_syllabus);
 				delete_post_meta($post_id, '_parent_course', $prev_parent_course_id);
 			}
@@ -216,8 +214,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 						update_post_meta($course->id, '_sections', $syllabus);
 					}
 				}
-				LLMS_log('parent course');
-				LLMS_log($parent_course);
+	
 				//update lesson _parent_course post meta
 				update_post_meta($post_id, '_parent_course', $course->id);
 			}

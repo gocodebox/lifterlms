@@ -130,7 +130,7 @@ class LLMS_Quiz {
 				$attempts = $value;
 			}
 		}
-		LLMS_log('xdebug should catch this');
+
 		$total_attempts_remaining = ($attempts_allowed - $attempts);
 
 		return $total_attempts_remaining;

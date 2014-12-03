@@ -616,8 +616,6 @@ class LLMS_Admin_Settings {
 	 * @return bool
 	 */
 	public static function save_fields( $settings ) {
-LLMS_log('save_fields called');
-LLMS_log($_POST);
 	    if ( empty( $_POST ) )
 	    	return false;
 
@@ -689,7 +687,6 @@ LLMS_log($_POST);
 			    	else {
 			    		$option_value = '';
 			    	}
-			    	LLMS_log($option_value);
 		    	break;
 
 		    	// Custom handling

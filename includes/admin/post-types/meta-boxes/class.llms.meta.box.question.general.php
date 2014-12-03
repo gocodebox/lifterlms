@@ -20,7 +20,7 @@ class LLMS_Meta_Box_Question_General {
 	 */
 	public static function output( $post ) {
 		global $post;
-		LLMS_log('output works');
+
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
 		$question_type = get_post_meta( $post->ID, '_llms_question_type', true );
@@ -42,8 +42,7 @@ class LLMS_Meta_Box_Question_General {
 									<?php
 									if ($question_options) {
 										foreach ($question_options as $key => $value) {
-											LLMS_log($question_options);
-											LLMS_log($value['correct_option']);
+
 											?>
 											<tr class="list_item" data-order="<?php echo $key ?>" style="display: table-row;">
 											<td>
@@ -80,10 +79,6 @@ class LLMS_Meta_Box_Question_General {
 
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-		LLMS_log('it is saving?');
-
-
-		LLMS_log($_POST);
 
 		$question_options = array();
 
@@ -102,21 +97,12 @@ class LLMS_Meta_Box_Question_General {
 			$option_data['correct_option'] = $correct_option;
 			$question_options[$key] = $option_data;
 		}
-		LLMS_log($question_options);
 
 		update_post_meta( $post_id, '_llms_question_type', 'single_choice');	
 		//update_post_meta( $post_id, '_llms_question_options', $question_options);
 			update_post_meta( $post_id, '_llms_question_options', ( $question_options === '' ) ? '' : $question_options );	
 		}
-		//LLMS_log($question_options);
-		//if ( isset( $_POST['_llms_allowed_attempts'] ) ) {
-			//$allowed_attempts = ( llms_clean( $_POST['_llms_allowed_attempts']  ) );
-			//update_post_meta( $post_id, '_llms_question_type', 'single_choice');		
-		//}
-		// if ( isset( $_POST['_llms_passing_percent'] ) ) {
-		// 	$passing_percent = ( llms_clean( $_POST['_llms_passing_percent']  ) );
-		// 	update_post_meta( $post_id, '_llms_passing_percent', ( $passing_percent === '' ) ? '0' : $passing_percent );		
-		// }
+
 	}
 
 }

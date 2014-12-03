@@ -49,8 +49,6 @@ class LLMS_Frontend_Forms {
 
 
 	public function start_quiz() {
-		LLMS_log('quiz has started');
-		$hello = 'hello';
 
 		//when start button is pressed:
 		//
@@ -285,8 +283,6 @@ class LLMS_Frontend_Forms {
 
 	public function apply_coupon() {
 		global $wpdb;
-		//LLMS_log('apply coupon called');
-		//LLMS_log($_POST);
 
 		if ( !isset( $_POST['llms_apply_coupon'] ) ) {
 			return;
@@ -329,7 +325,6 @@ class LLMS_Frontend_Forms {
 			)                   
 		);
 		$coupon_post = get_posts( $args );
-		LLMS_log($coupon_post);
 
 		if ( empty($coupon_post) ) {
 			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> was not found.', 'lifterlms' ), $coupon->coupon_code ), 'error' ) ;
@@ -360,8 +355,7 @@ class LLMS_Frontend_Forms {
 		
 		//remove coupon limit
 		$coupon->limit = ($coupon->limit - 1);
-LLMS_log('---------coupon---------');
-LLMS_log($coupon);
+
 		LLMS()->session->set( 'llms_coupon', $coupon );
 		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' ) ;
 		//if coupon type is dollar
@@ -373,10 +367,6 @@ LLMS_log($coupon);
 
 	public function create_order() {
 		global $wpdb;
-
-		LLMS_log($_POST);
-
-		//return;
 
 		if ( isset( $_POST['llms-checkout-coupon'] ) ) {
 			return;
@@ -464,17 +454,10 @@ LLMS_log($coupon);
 
 		$product = new LLMS_Product($order->product_id);
 
-		//if (isset($_POST['payment_option'])) {
-			$payment_option_data = explode("_", $_POST['payment_option']);
-			$order->payment_option = $payment_option_data[0];
-			$order->payment_option_id = $payment_option_data[1];
-			LLMS_log('asdfsadfasdfasdfasdfasdfasdf');
-			LLMS_log($order->payment_option);
-			LLMS_log($order->payment_option_id);
-		//}
+		$payment_option_data = explode("_", $_POST['payment_option']);
+		$order->payment_option = $payment_option_data[0];
+		$order->payment_option_id = $payment_option_data[1];
 
-
-		//$order->payment_option 	= $_POST['payment_option'];
 		$order->product_sku		= $product->get_sku();
 		//get product price (could be single or recurring)
 		if ( property_exists( $order, 'payment_option' ) ) {
@@ -483,13 +466,12 @@ LLMS_log($coupon);
 				$order->total 					= $order->product_price;
 			}
 			elseif ( $order->payment_option == 'recurring' ) {
-		LLMS_log('PAYMENT OPTION RECURRING FOUND');
+
 				$subs = $product->get_subscriptions();
-				LLMS_log($subs);
+
 				foreach ($subs as $id => $sub) {
-					LLMS_log($subs);
+
 					if ($id == $order->payment_option_id) {
-						LLMS_log($sub);
 						$order->product_price   		= $product->get_subscription_total_price($sub);
 						$order->total 					= $product->get_subscription_total_price($sub);
 						$order->first_payment			= $product->get_subscription_total_price($sub);
@@ -1117,6 +1099,7 @@ LLMS_log($coupon);
 			}
 
 			$_password = $_POST['password'];
+			$_password2 = $_POST['password_2'];
 			
 
 			try {
@@ -1127,7 +1110,8 @@ LLMS_log($coupon);
 					$_username, 
 					$_firstname, 
 					$_lastname, 
-					$_password, 
+					$_password,  
+					$_password2,  
 					$_POST['email'],
 					$_billing_address_1,
 					$_billing_city,
@@ -1155,7 +1139,13 @@ LLMS_log($coupon);
 			$firstname  = ! empty( $_firstname ) ? llms_clean( $_firstname ) : '';
 			$lastname   = ! empty( $_lastname ) ? llms_clean( $_lastname ) : '';
 			$email      = ! empty( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
+			if ( 'yes' === get_option( 'lifterlms_registration_confirm_email' ) ) {
+				$email2     = ! empty( $_POST['email_confirm'] ) ? sanitize_email( $_POST['email_confirm'] ) : '';
+			} else {
+				$email2 = $email;
+			}
 			$password   = $_password;
+			$password2   = $_password2;
 
 			$billing_address_1 	= ! empty( $_billing_address_1 ) 	? llms_clean( $_billing_address_1 ) : '';
 			$billing_address_2 	= ! empty( $_billing_address_2 ) 	? llms_clean( $_billing_address_2 ) : '';
@@ -1174,10 +1164,12 @@ LLMS_log($coupon);
 
 			$new_person = llms_create_new_person( 
 				$email, 
+				$email2, 
 				$username, 
 				$firstname, 
 				$lastname, 
 				$password,
+				$password2,
 				$billing_address_1,
 				$billing_address_2,
 				$billing_city,

@@ -16,10 +16,9 @@ get_header( 'shop' ); ?>
 
 	<?php do_action( 'lifterlms_archive_description' ); ?>
 
-	<?php LLMS_log('looking for posts'); if ( have_posts() ) : ?>
+	<?php if ( have_posts() ) : ?>
 	
 		<?php
-LLMS_log('posts found'); 
 
 			do_action( 'lifterlms_before_memberships_loop' );
 

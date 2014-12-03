@@ -74,7 +74,7 @@ class LLMS_Install {
 		$relationship_updated = get_option( 'lifterlms_relationship_update', 'no' ) === 'yes' ? true : false;
 
 		if (!$relationship_updated) {
-			LLMS_log('update_relationships called');
+
 			$course_args = array(
 				'posts_per_page'   => -1,
 				'orderby'          => 'title',
@@ -295,7 +295,44 @@ class LLMS_Install {
 	public function create_roles() {
 		global $wp_roles;
 
-		$methods = $this->get_capabilities();
+		/**
+		 * @note 
+		 * I think this was incomplete and is not needed, possibly remove in the future
+		 * - thomasplevy
+		 */
+		// $methods = $this->get_capabilities();
+
+		// this function should only ever run once!
+		$roles_installed = (get_option( 'lifterlms_student_role_created', 'no' ) == 'yes') ? true : false;
+
+		if ( ! $roles_installed ) {
+
+			add_role(
+				'student',
+				__( 'Student', 'lifterlms' ),
+				array(
+					'read' => true
+				)
+			);
+
+			/**
+			 * Migrate "person" -> "student"
+			 * Temporary query to move all existing "person" roles to updated "student" role
+			 * @since  v1.0.6
+			 */
+			$persons = new WP_User_Query( array( 'role' => 'person' ) );
+			if( ! empty( $persons->results ) ) {
+				foreach ( $persons->results as $user ) {
+					$user->add_role('student');
+					$user->remove_role('person');
+					$user->remove_cap('person');
+				}
+			}
+
+			update_option( 'lifterlms_student_role_created', 'yes' );
+
+		}	
+
 	}
 
 	public function get_capabilities() {
@@ -304,7 +341,7 @@ class LLMS_Install {
 		$capabilities['core'] = array(
 			'manage_lifterlms',
 			'view_lifterlms_reports'
-			);
+		);
 
 		$capability_types = array( 'course', 'section', 'lesson', 'order', 'llms_email' );
 

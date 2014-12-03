@@ -59,6 +59,38 @@ class LLMS_Person {
 		update_user_meta($user->ID, 'llms_last_login', $now);
 	}
 
+
+	/**
+	 * Get data about a specific users memberships
+	 * @param  int $user_id user id
+	 * @return array / array of objects containing details about users memberships
+	 */
+	public function get_user_memberships_data( $user_id ) {
+
+		$memberships = get_user_meta( $user_id, '_llms_restricted_levels', true );
+
+		$r = array();
+
+		if($memberships) {
+
+			foreach($memberships as $membership_id) {
+
+				$info = $this->get_user_postmeta_data( $user_id, $membership_id );
+
+				if( $info ) {
+
+					$r[$membership_id] = $info;
+
+				}
+
+
+			}
+
+		}
+
+		return $r;
+	}
+
 	/**
 	 * Return array of objects containing user meta data for a single post.
 	 *
@@ -72,7 +104,7 @@ class LLMS_Person {
 		$results = $wpdb->get_results( $wpdb->prepare(
 			'SELECT * FROM '.$table_name.' WHERE user_id = %s and post_id = %d', $user_id, $post_id) );
 
-		for ($i=0; $i < count($results); $i++) {
+		for ($i=0; $i <= count($results); $i++) {
 			$results[$results[$i]->meta_key] = $results[$i];
 			unset($results[$i]);
 		}
@@ -93,7 +125,7 @@ class LLMS_Person {
 		$results = $wpdb->get_results( $wpdb->prepare(
 			'SELECT * FROM '.$table_name.' WHERE user_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $user_id, $meta_key ) );
 
-		for ($i=0; $i < count($results); $i++) {
+		for ($i=0; $i <= count($results); $i++) {
 			$results[$results[$i]->post_id] = $results[$i];
 			unset($results[$i]);
 		}

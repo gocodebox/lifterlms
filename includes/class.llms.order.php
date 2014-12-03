@@ -160,21 +160,14 @@ class LLMS_Order {
 		}
 		wp_reset_postdata();
 		wp_reset_query();
-		LLMS_log($order);
-LLMS_log('about to set the membership level');
-LLMS_log($order->product_id);
-LLMS_log($order->user_id);
-$post_obj = get_post($order->product_id);
-LLMS_log($post_obj);
+
+		$post_obj = get_post($order->product_id);
+
 		//add membership level to user
 		if ($post_obj->post_type == 'llms_membership') {	
 			$membership_levels = get_user_meta($order->user_id, '_llms_restricted_levels', true);
 			if (! empty($membership_levels)) {
 				array_push($membership_levels, $order->product_id);
-				LLMS_log('just pushed the membership level');
-				LLMS_log($order->product_id);
-				LLMS_log($order->user_id);
-				LLMS_log($membership_levels);
 
 			}
 			else {

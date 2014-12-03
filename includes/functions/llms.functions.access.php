@@ -77,7 +77,7 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
-LLMS_log($results);
+
 	return $results;
 	
 }
@@ -379,7 +379,7 @@ function llms_get_lesson_start_date($post_id) {
 }
 
 function lesson_start_date_in_future($user_id, $post_id) {
-LLMS_log('lesson start date in future');
+
 	$result = false;
 	$lesson = new LLMS_Lesson($post_id);
 

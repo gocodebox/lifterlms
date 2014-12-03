@@ -34,6 +34,18 @@ v1.0.6 - UNRELEASED
 + Added Form templates for external integration
 + Added Account Setting: Require First and Last Name on registration
 + Added Account Setting: Require Billing Address on registration
++ Added Account Setting: Require users to validate email address (double entry)
++ Added password validation (double entry) on user registration / account creation
+
+### User Admin Table
++ Added Membership Custom Column that displays user's membership information
++ Added "Last Login" custom column that displays user's last login date/time
+
+### User Roles
++ Updated user role from "person" to "student"
++ Added temporary migration function to transition any register users with "person" role to "student" role
++ Added "Student" role install function
+
 
 ### BUDDYPRESS
 + BuddyPress Screen Permission Fix

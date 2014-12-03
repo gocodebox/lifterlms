@@ -18,34 +18,8 @@ include( 'functions/llms.functions.page.php' );
 include( 'functions/llms.functions.person.php' );
 include( 'functions/llms.functions.access.php' );
 
-
-//add_filter( 'lifterlms_get_single_price', 'llms_get_adjusted_price', 10, 2 );
-// function llms_get_adjusted_price($price, $product) {
-      
-//       $adjustment = llms_get_coupon();
-//       LLMS_log($adjustment);
-//       if ( !empty( $adjustment && $adjustment->amount > 0 ) ) {
-//             if ($adjustment->type == 'percent') {
-//                   LLMS_log('percent was found');
-//                   $amount =  (1 - ($adjustment->amount / 100));
-//                   LLMS_log($amount);
-//                   $total = ($price * $amount);
-//                   LLMS_log($total);
-//             }
-//             elseif ($adjustment->type == 'dollar') {
-//                   $amount = round( $adjustment->amount, 2 );
-//                   $total = ($price - $amount);
-//             }
-//       }
-
-//       return $total;
-
-// }
-
 function llms_get_coupon() {
       $coupon = LLMS()->session->get( 'llms_coupon', array() );
-      LLMS_log('coupon session');
-      LLMS_log($coupon);
       return $coupon;
 }
 /**
@@ -797,23 +771,32 @@ function get_update_keys($query){
 // add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
 // add_action('init', 'llms_expire_membership');
 function llms_expire_membership() {
-  global $wpdb;
+    global $wpdb;
 
-  //find all memberships wth an expiration date
-  $args = array(
+    //find all memberships wth an expiration date
+    $args = array(
     'post_type'     => 'llms_membership',
     'posts_per_page'  => 500,
     'meta_query'    => array(
-      'key' => '_llms_expiration_terms'
+      'key' => '_llms_expiration_interval'
       )
-  );
+    );
 
-  $posts = get_posts( $args );
- 
-  foreach ($posts as $post) {
-    $exp_terms = get_post_meta($post->ID, '_llms_expiration_terms', true);
-    $interval = $exp_terms['interval'];
-    $period = $exp_terms['period'];
+    $posts = get_posts( $args );
+
+    if ( empty($posts) ) {
+      return;
+    }
+
+    foreach ($posts as $post) {
+    
+    //make sure interval and period exist before continuing.
+    $interval = get_post_meta($post->ID, '_llms_expiration_interval', true);
+    $period = get_post_meta($post->ID, '_llms_expiration_period', true);
+
+    if ( empty($interval) || empty($period) ) {
+        return;
+    }
 
     // query postmeta table and find all users enrolled
     $table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
@@ -846,6 +829,12 @@ function llms_expire_membership() {
       // get current datetime
       $today = current_time( 'mysql' );
       $today = date("Y-m-d", strtotime($today));
+
+      //if a date parse causes exp date to be unmodified then return.
+      if ( $exp_date == $start_date[0]->updated_date ) {
+        return;
+        LLMS_log('An error occured modifying the date value. Function: llms_expire_membership, interval: ' .  $interval . ' period: ' . $period);
+      }
 
       //compare expiration date to current date.
       if ( $exp_date < $today ) {

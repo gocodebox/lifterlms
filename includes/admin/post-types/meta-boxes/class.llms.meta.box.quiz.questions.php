@@ -20,7 +20,7 @@ class LLMS_Meta_Box_Quiz_Questions {
 	 */
 	public static function output( $post ) {
 		global $post;
-		LLMS_log('output works');
+
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
 		// $question_type = get_post_meta( $post->ID, '_llms_question_type', true );
@@ -66,7 +66,7 @@ class LLMS_Meta_Box_Quiz_Questions {
 														<?php
 														if ($questions) {
 															foreach ($questions as $pkey => $pvalue) { 
-																LLMS_log($pvalue);
+													
 																$selected = ($pvalue->ID == $value['id'] ? 'selected' : ''); ?>
 																<option <?php echo $selected ?> value="<?php echo $pvalue->ID; ?>"><?php echo $pvalue->post_title; ?></option>
 															<?php }
@@ -131,7 +131,6 @@ class LLMS_Meta_Box_Quiz_Questions {
 
 					$questions[$key] = $question_data;
 				}
-				LLMS_log($questions);
 
 				if($questions) {
 					update_post_meta( $post_id, '_llms_questions', $questions);	
