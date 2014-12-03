@@ -31,7 +31,7 @@ if(array_key_exists('bp', $integrations) && $integrations['bp']->enabled) {
 
 			<h2><?php _e( 'Register', 'lifterlms' ); ?></h2>
 
-			<form method="post" class="register">
+			<form method="post" class="llms-new-person-form register">
 
 				<?php do_action( 'lifterlms_register_form_start' ); ?>
 

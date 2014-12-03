@@ -30,6 +30,8 @@ class LLMS_Shortcode_My_Account {
 	public static function output( $atts ) {
 		global $lifterlms, $wp;
 
+		do_action('lifterlms_before_my_account_shortcode');
+
 		// If user is not logged in
 		if ( ! is_user_logged_in() ) {
 
@@ -68,6 +70,8 @@ class LLMS_Shortcode_My_Account {
 
 			}
 		}
+
+		do_action('lifterlms_after_my_account_shortcode');
 	}
 
 	/**

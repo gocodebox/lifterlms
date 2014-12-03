@@ -78,7 +78,7 @@ function llms_page_restricted($post_id) {
 		'reason' => $reason
 	);
 
-	return $results;
+	return apply_filters( 'llms_page_restricted', $results );
 	
 }
 

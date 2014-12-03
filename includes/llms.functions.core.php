@@ -182,7 +182,6 @@ function get_lifterlms_countries() {
 	return array_unique(
 		apply_filters( 'lifterlms_countries',
 			array(
-      'GB' => __( 'United Kingdom', 'lifterlms' ),
       'US' => __( 'United States', 'lifterlms' ),
       'AF' => __( 'Afghanistan', 'lifterlms' ),
       'AL' => __( 'Albania', 'lifterlms' ),
@@ -407,6 +406,7 @@ function get_lifterlms_countries() {
       'UG' => __( 'Uganda', 'lifterlms' ),
       'UA' => __( 'Ukraine', 'lifterlms' ),
       'AE' => __( 'United Arab Emirates', 'lifterlms' ),
+      'GB' => __( 'United Kingdom', 'lifterlms' ),
       'UM' => __( 'United States Minor Outlying Islands', 'lifterlms' ),
       'UY' => __( 'Uruguay', 'lifterlms' ),
       'UZ' => __( 'Uzbekistan', 'lifterlms' ),
