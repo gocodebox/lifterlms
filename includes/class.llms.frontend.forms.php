@@ -1309,6 +1309,7 @@ LLMS_log('quiz data as soon as its pulled from the dataabse');
 			}
 
 			$_password = $_POST['password'];
+			$_password2 = $_POST['password_2'];
 			
 
 			try {
@@ -1319,7 +1320,8 @@ LLMS_log('quiz data as soon as its pulled from the dataabse');
 					$_username, 
 					$_firstname, 
 					$_lastname, 
-					$_password, 
+					$_password,  
+					$_password2,  
 					$_POST['email'],
 					$_billing_address_1,
 					$_billing_city,
@@ -1347,7 +1349,13 @@ LLMS_log('quiz data as soon as its pulled from the dataabse');
 			$firstname  = ! empty( $_firstname ) ? llms_clean( $_firstname ) : '';
 			$lastname   = ! empty( $_lastname ) ? llms_clean( $_lastname ) : '';
 			$email      = ! empty( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
+			if ( 'yes' === get_option( 'lifterlms_registration_confirm_email' ) ) {
+				$email2     = ! empty( $_POST['email_confirm'] ) ? sanitize_email( $_POST['email_confirm'] ) : '';
+			} else {
+				$email2 = $email;
+			}
 			$password   = $_password;
+			$password2   = $_password2;
 
 			$billing_address_1 	= ! empty( $_billing_address_1 ) 	? llms_clean( $_billing_address_1 ) : '';
 			$billing_address_2 	= ! empty( $_billing_address_2 ) 	? llms_clean( $_billing_address_2 ) : '';
@@ -1366,10 +1374,12 @@ LLMS_log('quiz data as soon as its pulled from the dataabse');
 
 			$new_person = llms_create_new_person( 
 				$email, 
+				$email2, 
 				$username, 
 				$firstname, 
 				$lastname, 
 				$password,
+				$password2,
 				$billing_address_1,
 				$billing_address_2,
 				$billing_city,

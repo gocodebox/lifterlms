@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 
 <nav class="account-links">
+    <?php do_action( 'lifterlms_before_my_account_navigation' ); ?>
+
     <?php
 
     printf(
@@ -19,6 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
     );
 
     ?>
+
+    <?php do_action( 'lifterlms_after_my_account_navigation' ); ?>
 </nav>
 
 <form action="" class="llms-person-information-form" method="post">

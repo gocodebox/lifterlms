@@ -98,10 +98,24 @@ if(array_key_exists('bp', $integrations) && $integrations['bp']->enabled) {
 					<input type="email" class="input-text llms-input-text" name="email" id="reg_email" value="<?php if ( ! empty( $_POST['email'] ) ) echo esc_attr( $_POST['email'] ); ?>" />
 				</p>
 
+				<?php if ( 'yes' === get_option( 'lifterlms_registration_confirm_email' ) ) : ?>
+
 					<p>
-						<label for="reg_password"><?php _e( 'Password', 'lifterlms' ); ?> <span class="required">*</span></label>
-						<input type="password" class="input-text llms-input-text" name="password" id="reg_password" />
+						<label for="reg_email_2"><?php _e( 'Re-enter your email address', 'lifterlms' ); ?> <span class="required">*</span></label>
+						<input type="email" class="input-text llms-input-text" name="email_confirm" id="reg_email_2" value="<?php if ( ! empty( $_POST['email_confirm'] ) ) echo esc_attr( $_POST['email_confirm'] ); ?>" />
 					</p>
+
+				<?php endif; ?>
+
+				<p>
+					<label for="reg_password"><?php _e( 'Password', 'lifterlms' ); ?> <span class="required">*</span></label>
+					<input type="password" class="input-text llms-input-text" name="password" id="reg_password" />
+				</p>
+
+		        <p>
+		            <label for="password_2"><?php _e( 'Re-enter new password', 'lifterlms' ); ?> <span class="required">*</span></label>
+		            <input type="password" class="input-text llms-input-text" name="password_2" id="password_2" />
+		        </p>
 
 
 				<!-- Used as anti-spam blocker -->
