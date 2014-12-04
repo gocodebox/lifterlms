@@ -712,6 +712,8 @@ LLMS_log('quiz data as soon as its pulled from the dataabse');
 			// if no errors were returned save the data
 			if ( llms_notice_count( 'error' ) == 0 ) {
 
+				$order = apply_filters( 'lifterlms_before_order_process', $order );
+
 				if ($order->total == 0) {
 					$lifterlms_checkout = LLMS()->checkout();
 					$lifterlms_checkout->process_order($order);

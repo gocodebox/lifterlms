@@ -179,10 +179,9 @@ function lifterlms_wp_text_input( $field ) {
 }
 
 function get_lifterlms_countries() {
-      return array_unique(
-            apply_filters( 'lifterlms_countries',
-                  array(
-      'GB' => __( 'United Kingdom', 'lifterlms' ),
+	return array_unique(
+		apply_filters( 'lifterlms_countries',
+			array(
       'US' => __( 'United States', 'lifterlms' ),
       'AF' => __( 'Afghanistan', 'lifterlms' ),
       'AL' => __( 'Albania', 'lifterlms' ),
@@ -407,6 +406,7 @@ function get_lifterlms_countries() {
       'UG' => __( 'Uganda', 'lifterlms' ),
       'UA' => __( 'Ukraine', 'lifterlms' ),
       'AE' => __( 'United Arab Emirates', 'lifterlms' ),
+      'GB' => __( 'United Kingdom', 'lifterlms' ),
       'UM' => __( 'United States Minor Outlying Islands', 'lifterlms' ),
       'UY' => __( 'Uruguay', 'lifterlms' ),
       'UZ' => __( 'Uzbekistan', 'lifterlms' ),
@@ -651,21 +651,56 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
       }
 
       // Look within passed path within the theme - this is priority
-      $template = locate_template(
-            array(
-                  trailingslashit( $template_path ) . $template_name,
-                  $template_name
-            )
-      );
+      // $template = locate_template(
+      //       array(
+      //             trailingslashit( $template_path ) . $template_name,
+      //             $template_name
+      //       )
+      // );
+
+      // check theme and template directories for the template
+      $override_path = llms_get_template_override($template_name);
+
 
       // Get default template
-      if ( ! $template ) {
-            $template = $default_path . $template_name;
-      }
+      // if ( ! $template ) {
+      //       $template = $default_path . $template_name;
+      // }
+
+      $path = ($override_path) ? $override_path : $default_path;
+
+      $template = $path . $template_name;
+
 
       // Return what we found
       return apply_filters('lifterlms_locate_template', $template, $template_name, $template_path);
 }
+
+
+function llms_get_template_override($template = '') {
+
+      /**
+       * Allow themes and plugins to determine which folders to look in for theme overrides
+       */
+      $dirs = apply_filters( 'lifterlms_theme_override_directories', array( 
+            get_stylesheet_directory() . '/lifterlms',
+            get_template_directory() . '/lifterlms'
+      ) );
+
+
+      foreach( $dirs as $dir ) {
+
+            $path = $dir . '/';
+
+            if( file_exists($path . $template) ) {
+                  return $path;
+            }
+
+      }
+
+      return false;
+}
+
 
 // debug function
 function llms_log($message) {

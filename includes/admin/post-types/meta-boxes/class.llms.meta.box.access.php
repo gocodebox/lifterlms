@@ -76,7 +76,7 @@ class LLMS_Meta_Box_Access {
 
 		<?php  
 	}
-
+	
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 

@@ -37,8 +37,6 @@ class LLMS_Install {
 		add_action( 'admin_init', array( $this, 'check_wp_version' ) );	
 		add_action( 'admin_init', array( $this, 'install_settings' ) );
 		add_action( 'admin_init', array( $this, 'update_relationships' ) );
-
-		add_action( 'init', array( $this, 'register_post_types') );
 	}
 
 	//custom error notice ~ this needs to be moved to it's own class / factory
@@ -68,6 +66,7 @@ class LLMS_Install {
 			add_action( 'admin_notices', array( $this, 'custom_error_notice' ));
 		}
 
+		$this->install();
 	}
 
 	public function update_relationships() {
@@ -107,31 +106,25 @@ class LLMS_Install {
 		}
 	}
 
-
 	/**
 	 * Install LLMS
 	 */
 	public function install() {
+		
 		$this->create_options();
 		$this->create_tables();
 		$this->create_roles();
+		
+		
+		// Register Post Types	
+		include_once( 'class.llms.post-types.php' );
+		LLMS_Post_Types::register_post_types();
+		LLMS_Post_Types::register_taxonomies();
 
 		LLMS()->query->init_query_vars();
 		LLMS()->query->add_endpoints();
 
-		$this->register_post_types();
 		flush_rewrite_rules();
-	}
-
-
-	/**
-	 * Register CPTs and Taxonomies
-	 * @return null
-	 */
-	public function register_post_types() {
-		include_once( 'class.llms.post-types.php' );
-		LLMS_Post_Types::register_post_types();
-		LLMS_Post_Types::register_taxonomies();
 	}
 
 	public function install_settings() {
@@ -295,44 +288,7 @@ class LLMS_Install {
 	public function create_roles() {
 		global $wp_roles;
 
-		/**
-		 * @note 
-		 * I think this was incomplete and is not needed, possibly remove in the future
-		 * - thomasplevy
-		 */
-		// $methods = $this->get_capabilities();
-
-		// this function should only ever run once!
-		$roles_installed = (get_option( 'lifterlms_student_role_created', 'no' ) == 'yes') ? true : false;
-
-		if ( ! $roles_installed ) {
-
-			add_role(
-				'student',
-				__( 'Student', 'lifterlms' ),
-				array(
-					'read' => true
-				)
-			);
-
-			/**
-			 * Migrate "person" -> "student"
-			 * Temporary query to move all existing "person" roles to updated "student" role
-			 * @since  v1.0.6
-			 */
-			$persons = new WP_User_Query( array( 'role' => 'person' ) );
-			if( ! empty( $persons->results ) ) {
-				foreach ( $persons->results as $user ) {
-					$user->add_role('student');
-					$user->remove_role('person');
-					$user->remove_cap('person');
-				}
-			}
-
-			update_option( 'lifterlms_student_role_created', 'yes' );
-
-		}	
-
+		$methods = $this->get_capabilities();
 	}
 
 	public function get_capabilities() {
@@ -341,7 +297,7 @@ class LLMS_Install {
 		$capabilities['core'] = array(
 			'manage_lifterlms',
 			'view_lifterlms_reports'
-		);
+			);
 
 		$capability_types = array( 'course', 'section', 'lesson', 'order', 'llms_email' );
 

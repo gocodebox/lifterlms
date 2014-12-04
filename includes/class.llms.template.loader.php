@@ -109,7 +109,7 @@ class LLMS_Template_Loader {
 		}
 
 		// check for an override file
-		$override = $this->has_theme_override($template);
+		$override = llms_get_template_override($template);
 		$template_path = ($override) ? $override : LLMS()->plugin_path() . '/templates/';
 
 		return $template_path . $template;
@@ -117,36 +117,36 @@ class LLMS_Template_Loader {
 	}
 
 
-	/**
-	 * Check to see if the installed theme has an override template and return the path to the template directory if found
-	 *
-	 * @param  string  $template  slug to the template file (no .php)
-	 * @return string / boolean
-	 */
-	private function has_theme_override($template='') {
+	// /**
+	//  * Check to see if the installed theme has an override template and return the path to the template directory if found
+	//  *
+	//  * @param  string  $template  slug to the template file (no .php)
+	//  * @return string / boolean
+	//  */
+	// private function has_theme_override($template='') {
 
-		/**
-		 * Allow themes and plugins to determine which folders to look in for theme overrides
-		 */
-		$dirs = apply_filters( 'lifterlms_theme_override_directories', array( 
-			get_stylesheet_directory() . '/lifterlms',
-			get_template_directory() . '/lifterlms'
-		) );
+	// 	*
+	// 	 * Allow themes and plugins to determine which folders to look in for theme overrides
+		 
+	// 	$dirs = apply_filters( 'lifterlms_theme_override_directories', array( 
+	// 		get_stylesheet_directory() . '/lifterlms',
+	// 		get_template_directory() . '/lifterlms'
+	// 	) );
 
 
-		foreach( $dirs as $dir ) {
+	// 	foreach( $dirs as $dir ) {
 
-			$path = $dir . '/';
+	// 		$path = $dir . '/';
 
-			if( file_exists($path . $template) ) {
-				return $path;
-			}
+	// 		if( file_exists($path . $template) ) {
+	// 			return $path;
+	// 		}
 
-		}
+	// 	}
 
-		return false;
+	// 	return false;
 
-	}
+	// }
 
 }
 
