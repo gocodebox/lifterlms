@@ -108,7 +108,7 @@ class LLMS_Product {
 		if ($this->is_recurring()) {
 			array_push($options, 'recurring');
 		}	
-		return $options;
+		return apply_filters( 'lifterlms_product_get_payment_options', $options);
 	}
 
 	public function get_subscriptions() {

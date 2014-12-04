@@ -11,12 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
     <?php
 
     printf(
-        __( '<a href="%1$s">Sign out</a>  &middot;  ', 'lifterlms' ) . ' ',
+        __( '<a class="llms-nav-link signout" href="%1$s">Sign out</a>  &middot;  ', 'lifterlms' ) . ' ',
         wp_logout_url( get_permalink( llms_get_page_id( 'myaccount' ) ) )
     );
 
-
-    printf( __( '<a href="%s">My Courses</a>', 'lifterlms' ),
+    printf( __( '<a class="llms-nav-link my-courses" href="%s">My Courses</a>', 'lifterlms' ),
         get_permalink( llms_get_page_id( 'myaccount' ) )
     );
 

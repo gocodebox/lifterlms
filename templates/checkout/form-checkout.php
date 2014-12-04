@@ -23,7 +23,6 @@ elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
 	$session = LLMS()->session->get( 'llms_order', array() );
 	$product_id = $session->product_id;
 	$product = get_post( $product_id );
-
 }
 else {
 
@@ -55,12 +54,14 @@ $coupon_session = LLMS()->session->get( 'llms_coupon', array() );
 		<h4 class="llms-title"><?php echo $product->post_title; ?></h4>
 	</div>
 
+	<?php do_action( 'lifterlms_after_checkout_login_form_title' ); ?>
+
 	<!-- pricing options -->
 	<div class="llms-price-wrapper">
 		<div class="llms-payment-options llms-notice-box">
 			<?php 
 			$i = 0;
-
+			$checked = false;
 			foreach ($payment_options as $key => $value) :
 				if ($value == 'single') :
 				$i++;
@@ -71,7 +72,7 @@ $coupon_session = LLMS()->session->get( 'llms_coupon', array() );
 							type="radio" 
 							name="payment_option" 
 							value="<?php echo $value . '_' . $key; ?>"
-							<?php if ($i == 1) { echo 'CHECKED'; } ?> 
+							<?php if ($i == 1) { echo 'checked="checked"'; $checked = 'true'; } ?> 
 						/>
 						<label for="llms-payment-option_<?php echo $value; ?>">
 							<span class="llms-radio"></span>
@@ -83,16 +84,16 @@ $coupon_session = LLMS()->session->get( 'llms_coupon', array() );
 				<?php
 				elseif ($value == 'recurring') : 
 					$subs = $product_obj->get_subscriptions();
+
 					if (!empty($subs)) :
 						foreach ($subs as $id => $sub) : ?>
-
 							<p class="llms-payment-option llms-option">
 								<input id="llms-payment-option_<?php echo $value . '_' . $id; ?>" 
 									class="llms-price-option-radio" 
 									type="radio" 
 									name="payment_option" 
 									value="<?php echo $value . '_' . $id; ?>"
-									<?php if ($i == 1) { echo 'CHECKED'; } ?> 
+									<?php if ($i == 1 && !$checked) { echo 'checked="checked'; } ?> 
 								/>
 								<label for="llms-payment-option_<?php echo $value . '_' . $id; ?>">
 									<span class="llms-radio"></span>
@@ -101,9 +102,18 @@ $coupon_session = LLMS()->session->get( 'llms_coupon', array() );
 									?>
 								</label>
 							</p>
-
-			<?php endforeach; endif; endif; endforeach;
-			?>
+						<?php endforeach; ?>
+					<?php endif; ?>
+				<?php else: ?>
+					<?php
+					/**
+					 * Allow addons / plugins / themes to define custom payment options
+					 * This action will be called to allow them to output some custom html for the payment options
+					 */
+					?>
+					<?php do_action( 'lifterlms_checkout_payment_option_'.$value, $product_obj, $value ); ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
 		</div>
 	</form>
 
