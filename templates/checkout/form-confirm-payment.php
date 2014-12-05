@@ -28,9 +28,11 @@ $product_obj = new LLMS_Product($product);
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
 
 $subs = $product_obj->get_subscriptions();
-foreach ($subs as $id => $sub) {
-	if ($session->payment_option_id == $id) {
-		$recurring_html_price = $product_obj->get_subscription_price_html($sub);
+if( $subs ) {
+	foreach ($subs as $id => $sub) {
+		if ($session->payment_option_id == $id) {
+			$recurring_html_price = $product_obj->get_subscription_price_html($sub);
+		}
 	}
 }
 //$recurring_html_price = $product_obj->get_recurring_price_html();
@@ -57,10 +59,17 @@ foreach ($subs as $id => $sub) {
 					echo $recurring_html_price;
 					echo '</strong>';
 				}
-				else {
+				elseif ($session->payment_option == 'single') {
 					echo '<label>Price:</label></strong> ';
 					echo $single_html_price;
 					echo '</strong>';
+				
+				}
+				else {
+					/**
+					 * Allow themes / plugins / extensions to create custom confirmation messages
+					 */
+					do_action( 'lifterlms_checkout_confirm_html_'.$session->payment_option, $session );
 				}
 				?>
 			<br />
