@@ -174,7 +174,7 @@ class LLMS_Product {
 			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's');
 		}
 		else {
-		$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
+			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
 		}
 
 		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );;
@@ -370,34 +370,32 @@ class LLMS_Product {
 			}
 		}
 		return $total;
-		}
+	}
 
 
 	public function adjusted_price($price = '') {
 		$adjustment = llms_get_coupon();
+		$total = $price;
 
-      	$total = $price;
+		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
+			if ($this->id == $adjustment->product_id) {
+				if ($adjustment->limit >= 0) {
+					if ($adjustment->type == 'percent') {
 
-      if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
-		if ($this->id == $adjustment->product_id) {
-			if ($adjustment->limit >= 0) {
-			    if ($adjustment->type == 'percent') {
+						$amount =  (1 - ($adjustment->amount / 100));
 
-			          $amount =  (1 - ($adjustment->amount / 100));
-
-			          $total = ($price * $amount);
-			          $total = sprintf('%0.2f', $total);
-
-			    }
-			    elseif ($adjustment->type == 'dollar') {
-			          $amount = round( $adjustment->amount, 2 );
-			          $total = ($price - $amount);
-			          $total = sprintf('%0.2f', $total);
-			    }
+						$total = ($price * $amount);
+						$total = sprintf('%0.2f', $total);
+					}
+					elseif ($adjustment->type == 'dollar') {
+						$amount = round( $adjustment->amount, 2 );
+						$total = ($price - $amount);
+						$total = sprintf('%0.2f', $total);
+					}
+				}
 			}
 		}
-      }
-      return $total;
+		return $total;
 	}
 
 	/**

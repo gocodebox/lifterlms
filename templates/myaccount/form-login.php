@@ -22,7 +22,7 @@ global $wpdb;
 
 	<h2><?php _e( 'Login', 'lifterlms' ); ?></h2>
 
-	<form method="post" class="login">
+	<form method="post" class="llms-person-login-form login">
 
 		<?php do_action( 'lifterlms_login_form_start' ); ?>
 
