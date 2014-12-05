@@ -319,8 +319,8 @@ class LLMS_Frontend_Forms {
 		'post_status'   	=> 'publish',
 		'meta_query' 		=> array(
 			array(
-			    'key' 	=> '_llms_coupon_title',
-			    'value' => $coupon->coupon_code
+			    	'key' 	=> '_llms_coupon_title',
+			    	'value' => $coupon->coupon_code
 			    )
 			)                   
 		);
@@ -337,15 +337,15 @@ class LLMS_Frontend_Forms {
 		//get coupon metadata
 		$coupon_meta = get_post_meta($coupon->id);
 
-		$coupon->type 		= ! empty( $coupon_meta['_llms_discount_type'][0] ) 		? $coupon_meta['_llms_discount_type'][0] 	: '';
+		$coupon->type 		= ! empty( $coupon_meta['_llms_discount_type'][0] ) 	? $coupon_meta['_llms_discount_type'][0] 	: '';
 		$coupon->amount 	= ! empty( $coupon_meta['_llms_coupon_amount'][0] ) 	? $coupon_meta['_llms_coupon_amount'][0] 	: '';
 		$coupon->limit 		= ! empty( $coupon_meta['_llms_usage_limit'][0] ) 		? $coupon_meta['_llms_usage_limit'][0] 		: '';
-		$coupon->title		= ! empty( $coupon_meta['_llms_coupon_title'][0] ) 		? $coupon_meta['_llms_coupon_title'][0] 		: '';
+		$coupon->title		= ! empty( $coupon_meta['_llms_coupon_title'][0] ) 		? $coupon_meta['_llms_coupon_title'][0] 	: '';
 
-		if ($coupon->type = 'percent') {
+		if ($coupon->type == 'percent') {
 			$coupon->name = ($coupon->title . ': ' . $coupon->amount . '% coupon');
 		}
-		elseif ($coupon->type = 'dollar') {
+		elseif ($coupon->type == 'dollar') {
 			$coupon->name = ($coupon->title . ': ' . '$' . $coupon->amount . ' coupon');
 		}
 
