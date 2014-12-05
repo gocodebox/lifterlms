@@ -40,7 +40,7 @@ single_question_template = function (response) {
 	jQuery('<tr class="list_item" id="question_' + order + '" data-order="' + order + '" style="display: table-row;"><td class="llms-table-select"> \
 	<select id="question_select_' + order + '" name="_llms_question[]" data-placeholder="Choose a Section" class="chosen-select question-select"></select> \
 	</td> \
-	<td class="llms-table-points"><input type="text" class="llms-points" name="_llms_points_' + order + '" id="llms_points[]" value=""/> \
+	<td class="llms-table-points"><input type="text" class="llms-points" name="_llms_points[]" id="llms_points[]" value=""/> \
 	</td><td class="llms-table-options"> \
 	<i class="fa fa-bars llms-fa-move"></i><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i> \
 	</td></tr>').appendTo('#llms-single-options .question-list tbody').hide().fadeIn(300);

@@ -106,6 +106,47 @@ class LLMS_Quiz {
 
 	}
 
+	/**
+	 * returns the total points possible
+	 * @return [int] [description]
+	 */
+	public function get_total_possible_points() {
+		$questions = $this->get_questions();
+
+		$points = 0;
+
+		if ( ! empty( $questions ) ) {
+			foreach ( $questions as $key => $value ) {
+				$points += $value['points'];
+			}
+		}
+		return ( $points != 0 ? $points : 0 );
+	}
+
+	public function get_point_weight() {
+		return ( 100 / $this->get_total_possible_points() );
+	}
+
+	public function get_grade($points) {
+		return $points * $this->get_point_weight();
+	}
+
+	public function get_user_grade( $user_id ) {
+		$grade = 0;
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id ) {
+				$grade = $value['grade'];
+			}
+		}
+		return $grade;
+	}
+
+	public function is_passing_score( $user_id ) {
+		return $this->get_passing_percent() < $this->get_user_grade( $user_id );
+	}
+
 	public function get_total_attempts_by_user($user_id) {
 		global $wpdb;
 

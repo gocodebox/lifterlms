@@ -260,6 +260,10 @@ class LLMS_Lesson {
 		$user = new LLMS_Person;
 		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $this->id );
 
+		if ( empty($user_postmetas) ) {
+			return false;
+		}
+
 		foreach( $user_postmetas as $key => $value ) {
 
 			if ( isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $this->id) {

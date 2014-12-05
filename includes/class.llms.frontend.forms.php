@@ -50,6 +50,7 @@ class LLMS_Frontend_Forms {
 	}
 
 	public function llms_answer_question() {
+		LLMS_log($_POST);
 		$request_method = strtoupper(getenv('REQUEST_METHOD'));
 		
 		if ( 'POST' !== $request_method ) {
@@ -70,7 +71,7 @@ class LLMS_Frontend_Forms {
 	    		return llms_add_notice( __( 'There was an error finding the associated quiz. Please return to the lesson and begin quiz again.', 'lifterlms' ), 'error' );
 	    	}
 
-	    	if ( empty( $_POST['llms_option_selected'] ) ) {
+	    	if ( $_POST['llms_option_selected'] === '' ) {
 	    		return llms_add_notice( __( 'You must answer the question to continue.', 'lifterlms' ), 'error' );
 	    	}
 
@@ -88,51 +89,125 @@ class LLMS_Frontend_Forms {
 	    			$correct_option = $key;
 	    		}
 	    	}
-	    	
+
+
+
 	    	//LLMS_log($current_question);
 
 	    	//update quiz object
 	    	foreach ( $quiz->questions as $key => $value ) {
-	    		LLMS_log($value );
-	
+
     			if ( $value['id'] == $_POST['question_id'] ) {
+
+    				$current_question = $value['id'];
+
     				$quiz->questions[$key]['answer'] = $_POST['llms_option_selected'];
 
     				if ( $_POST['llms_option_selected'] == $correct_option ) {
     					$quiz->questions[$key]['correct'] = true;
     				}
+    				else {
+    					$quiz->questions[$key]['correct'] = false;
+    				}
 
     			}
 	    		
 	    	}
-	    	LLMS_log($quiz);
+	 
 	    	LLMS()->session->set( 'llms_quiz', $quiz );
 
 	    	//update quiz user meta data
 	    	$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
-LLMS_log('quiz data as soon as its pulled from the dataabse');
-	    	LLMS_log($quiz_data);
 
 	    	foreach ( $quiz_data as $key => $value ) {
-	  			foreach ( $value as $k => $v ) {
-	  				LLMS_log($v);
-	  				if ( $v['wpnonce'] == $quiz->wpnonce ) { 
-	  					foreach ( $quiz_data[$key][$k]['questions'] as $id => $data ) {
-	  						if ( $data['id'] == $_POST['question_id'] ) {
-	  							$quiz_data[$key][$k]['questions'][$id]['answer'] = $quiz->questions[$key]['answer'];
-	  							$quiz_data[$key][$k]['questions'][$id]['correct'] = $quiz->questions[$key]['correct'];
-	  						}
-	  					}
-	  				}
-	  			}
-	    	//	if ( $value['wpnonce'] == $quiz->wpnonce ) {
-    			
-    			LLMS_log('updating quiz object');
-    			LLMS_log($quiz_data);
-	    			LLMS_log($quiz_array);
+
+  				if ( $value['wpnonce'] == $quiz->wpnonce ) { 
+
+  					foreach ( $quiz_data[$key]['questions'] as $id => $data ) {
+  						if ( $data['id'] == $_POST['question_id'] ) {
+
+  							$quiz_data[$key]['questions'][$id]['answer'] = $quiz->questions[$id]['answer'];
+  							$quiz_data[$key]['questions'][$id]['correct'] = $quiz->questions[$id]['correct'];
+
+  						}
+  					}
+  				}
+
     		}
     	}
     	update_user_meta( $quiz->user_id, 'llms_quiz_data',  $quiz_data );
+
+    	//if another question exists in lessons array then take user to next question
+
+
+    	foreach ( $quiz->questions as $k => $q ) {
+    		if ( $q['id'] == $current_question ) {
+    			$next_question = $k+1;
+    		}
+    		if ( !empty($next_question) && $k == $next_question ) {
+    			$next_question_id = $q['id'];
+    		}
+    	}
+    	if ( empty( $next_question_id ) ) {
+    		
+			$quiz->end_date = current_time( 'mysql' ); 
+			//$quiz->attempts = ( $quiz->attempts - 1 );
+
+			//save quiz object to usermeta
+			$quiz_array = (array) $quiz;
+
+			if ( $quiz_data ) {
+
+				foreach ( $quiz_data as $id => $q ) {
+
+					if ( $q['wpnonce'] == $quiz->wpnonce ) {
+
+						$points = 0;
+						$grade = 0;
+
+						//set the end time
+						$quiz_data[$id][ 'end_date' ] = $quiz->end_date;
+
+						$quiz_obj = new LLMS_Quiz( $quiz->id );
+
+						//get grade
+						//get total points earned
+						foreach ( $q['questions'] as $key => $value ) {
+							if ( $value['correct'] ) {
+								$points += $value['points'];
+							}
+						}
+						
+						//calculate grade
+						if ( $points == 0 ) {
+							$quiz_data[$id][ 'grade' ] = 0;
+						}
+						else {
+							$quiz_data[$id][ 'grade' ] = $quiz_obj->get_grade( $points );
+						}
+
+					}
+
+					
+				}
+			}
+			else {
+				return llms_add_notice( __( 'There was an error with your quiz.', 'lifterlms' ), 'error' );
+			}
+
+			
+
+			update_user_meta( $quiz->user_id, 'llms_quiz_data',  $quiz_data );
+
+			$redirect = get_permalink( $quiz->id );
+			wp_redirect( apply_filters( 'lifterlms_quiz_completed_redirect', $redirect ) );
+
+    	}
+    	else {
+    		$redirect = get_permalink( $next_question_id );
+			wp_redirect( $redirect );
+    	}
+    	//if there are no other questions in the questions array then redirect back to quiz page
 	}
 
 
@@ -163,6 +238,7 @@ LLMS_log('quiz data as soon as its pulled from the dataabse');
 	    		$quiz->wpnonce = $_POST['_wpnonce'];
 	    		$quiz->start_date = current_time( 'mysql' ); 
 	    		$quiz->end_date = '';
+	    		$quiz->grade = 0;
 
 	    		//get existing quiz object from database
 	    		$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
@@ -199,11 +275,16 @@ LLMS_log('quiz data as soon as its pulled from the dataabse');
 				else {
 					return llms_add_notice( __( 'There are no questions associated with this quiz.', 'lifterlms' ), 'error' );
 				}
-
+LLMS_log($quiz);
 				//save quiz object to usermeta
 				$quiz_array = (array) $quiz;
 
 				if ( $quiz_data ) {
+					foreach ( $quiz_data as $key => $value ) {
+						if ( $value['wpnoonce'] == $quiz->wpnoonce ) {
+							LLMS_log($value);
+						}
+					}
 					array_push( $quiz_data, $quiz_array );
 				}
 				else {
