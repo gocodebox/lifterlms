@@ -891,6 +891,10 @@ _:-o-prefocus .llms-styled-select, .selector .llms-styled-select {
   background: none;
 }
 
+.llms-form-item-wrapper {
+  margin-bottom: 1em;
+}
+
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

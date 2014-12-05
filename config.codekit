@@ -1128,15 +1128,6 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/includes\/class.llms.frontend.forms.php": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/includes\/class.llms.frontend.forms.php",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/includes\/class.llms.frontend.password.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -2203,6 +2194,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/templates\/myaccount\/form-registration.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/myaccount\/form-registration.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/templates\/myaccount\/my-account.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -2377,7 +2377,7 @@
 	},
 "hooks": [
 	],
-"lastSavedByUser": "Mark Nelson",
+"lastSavedByUser": "Thomas Patrick Levy",
 "manualImportLinks": {
 	},
 "projectAttributes": {
@@ -2632,6 +2632,10 @@
 			"active": 0,
 			"flagValue": -1
 			},
+		"gcl": {
+			"active": false,
+			"flagValue": -1
+			},
 		"globalstrict": {
 			"active": 0,
 			"flagValue": -1
@@ -2744,6 +2748,10 @@
 			"active": 0,
 			"flagValue": -1
 			},
+		"onevar": {
+			"active": false,
+			"flagValue": -1
+			},
 		"phantom": {
 			"active": 0,
 			"flagValue": -1
@@ -2780,8 +2788,8 @@
 			"active": 0,
 			"flagValue": -1
 			},
-		"singleGroups": {
-			"active": 0,
+		"smarttabs": {
+			"active": false,
 			"flagValue": -1
 			},
 		"strict": {
@@ -2796,6 +2804,10 @@
 			"active": 0,
 			"flagValue": -1
 			},
+		"trailing": {
+			"active": true,
+			"flagValue": -1
+			},
 		"typed": {
 			"active": 0,
 			"flagValue": -1
@@ -2806,6 +2818,10 @@
 			},
 		"unused": {
 			"active": 1,
+			"flagValue": -1
+			},
+		"white": {
+			"active": false,
 			"flagValue": -1
 			},
 		"withstmt": {
