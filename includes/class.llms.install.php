@@ -114,6 +114,7 @@ class LLMS_Install {
 		$this->create_options();
 		$this->create_tables();
 		$this->create_roles();
+		$this->cron();
 		
 		
 		// Register Post Types	
@@ -323,6 +324,14 @@ class LLMS_Install {
 			);
 		}
 		return $capabilities;
+	}
+
+	public function cron() {
+
+		if ( ! wp_next_scheduled('llms_check_for_expired_memberships')) {
+  			wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
+		}
+
 	}
 
 }
