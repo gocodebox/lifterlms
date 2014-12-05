@@ -147,6 +147,18 @@ class LLMS_Quiz {
 		return $this->get_passing_percent() < $this->get_user_grade( $user_id );
 	}
 
+	public function get_end_date( $user_id ) {
+		$end_date = '';
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id ) {
+				$end_date = $value['end_date'];
+			}
+		}
+		return $end_date;
+	}
+
 	public function get_total_attempts_by_user($user_id) {
 		global $wpdb;
 
