@@ -346,6 +346,17 @@
   margin: 0;
 }
 
+/* My Quizes */
+.llms-quiz-results {
+  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+  position: relative;
+}
+
+.llms-quiz-results > h3 {
+  background-color: #f5f5f5;
+  padding: 4px;
+}
+
 /* My Courses */
 .llms-my-courses {
   font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
@@ -889,6 +900,62 @@ select::-ms-expand {
 
 _:-o-prefocus .llms-styled-select, .selector .llms-styled-select {
   background: none;
+}
+
+/* Circle Graph */
+/* Circle Graph */
+.llms-progress-circle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  float: left;
+}
+
+.llms-progress-circle-count {
+  position: absolute;
+  top: 66px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 50px;
+  color: #666;
+  font-size: 44px;
+}
+
+.llms-progress-circle svg {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+}
+
+.llms-progress-circle circle {
+  fill: transparent;
+}
+
+svg .llms-background-circle {
+  fill: transparent;
+  stroke-width: 10px;
+  stroke: #f1f2f1;
+  stroke-dasharray: 430;
+}
+
+svg .llms-animated-circle {
+  fill: transparent;
+  stroke-width: 10px;
+  stroke: #e5554e;
+  stroke-dasharray: 430;
+  stroke-dashoffset: 410;
+}
+
+.llms-quiz-result-details {
+  float: left;
+}
+.llms-quiz-result-details ul {
+  list-style-type: none;
+}
+.llms-quiz-result-details ul li {
+  font-size: 20px;
 }
 
 /*!
