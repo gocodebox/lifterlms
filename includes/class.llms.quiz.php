@@ -135,6 +135,7 @@ class LLMS_Quiz {
 		$grade = 0;
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 
+<<<<<<< HEAD
 		if ( ! $quiz ) {
 			return;
 		}
@@ -142,6 +143,13 @@ class LLMS_Quiz {
 		foreach ( $quiz as $key => $value ) {
 			if ( $value['id'] == $this->id ) {
 				$grade = $value['grade'];
+=======
+		if ( $quiz ) {
+			foreach ( $quiz as $key => $value ) {
+				if ( $value['id'] == $this->id ) {
+					$grade = $value['grade'];
+				}
+>>>>>>> hovo
 			}
 		}
 		return $grade;
