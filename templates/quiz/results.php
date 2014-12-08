@@ -9,14 +9,21 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 global $quiz;
 $user_id = get_current_user_id();
 
-$passing_percent = $quiz->get_passing_percent();
+
 $quiz_data = get_user_meta( get_current_user_id(), 'llms_quiz_data', true );
-//var_dump( $quiz_data );
+if ( $quiz_data ) {
+$quiz->is_passing_score( $user_id );
+$passing_percent = $quiz->get_passing_percent();
+var_dump( $quiz_data );
 
 $grade = $quiz->get_user_grade( $user_id );
-$is_passing_score = $quiz->is_passing_score( $user_id );
 
+$is_passing_score = $quiz->is_passing_score( $user_id );
+$best_grade = $quiz->get_best_grade( $user_id );
+$time = $quiz->get_total_time( $user_id );
 //get quiz score
+//
+
 ?>
 THIS SHOULD SHOW UP NOW!
 <div class="clear"></div>
@@ -33,7 +40,10 @@ THIS SHOULD SHOW UP NOW!
 		?>
 
 	</p>
+	Your best grade: <?php echo $best_grade; ?>
+	Total time: <?php echo $time ?>
 </div>
+<?php } ?>
 
 
 

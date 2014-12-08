@@ -7,10 +7,10 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $quiz;
-
+$user_id = get_current_user_id();
 //get total attempts
-$attempts_left = $quiz->get_total_allowed_attempts();
-
+//$attempts_left = $quiz->get_total_allowed_attempts();
+$attempts_left = $quiz->get_remaining_attempts_by_user($user_id)
 //get total attempts used
 
 

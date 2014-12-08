@@ -247,6 +247,20 @@ if ( ! function_exists( 'lifterlms_template_single_next_question' ) ) {
 		llms_get_template( 'quiz/next-question.php' );
 	}
 }
+if ( ! function_exists( 'lifterlms_template_single_prev_question' ) ) {
+
+	function lifterlms_template_single_prev_question() {
+
+		llms_get_template( 'quiz/previous-question.php' );
+	}
+}
+if ( ! function_exists( 'lifterlms_template_single_question_count' ) ) {
+
+	function lifterlms_template_single_question_count() {
+
+		llms_get_template( 'quiz/question-count.php' );
+	}
+}
 if ( ! function_exists( 'lifterlms_template_single_single_choice' ) ) {
 
 	function lifterlms_template_single_single_choice() {

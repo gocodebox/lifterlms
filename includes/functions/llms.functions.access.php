@@ -70,6 +70,12 @@ function llms_page_restricted($post_id) {
 				$reason = 'course_end_date';
 			}
 		}
+		elseif ( is_single() && $post->post_type == 'llms_question' ) {
+			if ( quiz_restricted() ) {
+				$restricted = true;
+				$reason = 'quiz_restricted';
+			}
+		}
 	}
 
 	$results = array(
@@ -77,9 +83,21 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
-
+LLMS_log($results);
 	return apply_filters( 'llms_page_restricted', $results );
 	
+}
+
+function quiz_restricted() {
+	
+	$quiz = LLMS()->session->get( 'llms_quiz' );
+
+	if ( $quiz && $quiz->end_date == '' ) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }
 
 function site_restricted_by_membership($post_id) {

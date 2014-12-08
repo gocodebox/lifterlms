@@ -282,4 +282,100 @@ class LLMS_Lesson {
 		return apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'lifterlms' ), $this );
 	}
 
+	public function mark_complete( $user_id ) {
+		global $wpdb;
+
+			
+		$user = new LLMS_Person;
+		$user_postmetas = $user->get_user_postmeta_data( $user_id, $this->id );
+
+		if ( empty( $user_id ) ) {
+			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
+		}
+		elseif ( ! empty($user_postmetas) ) {
+		
+			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+				return;
+			}
+		}
+		else {
+
+			$key = '_is_complete';
+			$value = 'yes';
+
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+				array( 
+					'user_id' 			=> $user_id,
+					'post_id' 			=> $this->id,
+					'meta_key'			=> $key,
+					'meta_value'		=> $value,
+					'updated_date'		=> current_time('mysql'),
+				)
+			);
+			do_action( 'lifterlms_lesson_completed', $user_id, $this->id);
+	
+			llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title($this->id) ) );
+
+
+			$course = new LLMS_Course($this->get_parent_course());
+			$section_completion = $course->get_section_percent_complete($this->id);
+			$section_id = get_section_id($course->id, $this->id);
+			
+			if ( $section_completion == '100' ) {
+
+				$key = '_is_complete';
+				$value = 'yes';
+
+				$user_postmetas = $user->get_user_postmeta_data( $user_id, $section_id );
+				if ( ! empty( $user_postmetas['_is_complete'] ) ) {
+					if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+	    				return;
+	    			}
+	    		}
+
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+					array( 
+						'user_id' 			=> $user_id,
+						'post_id' 			=> $section_id,
+						'meta_key'			=> $key,
+						'meta_value'		=> $value,
+						'updated_date'		=> current_time('mysql'),
+					)
+				);
+
+				do_action('lifterlms_section_completed', $user_id, $section_id );
+	
+			}
+
+			$course_completion = $course->get_percent_complete();
+
+			if ( $course_completion == '100' ) {
+
+				$key = '_is_complete';
+				$value = 'yes';
+
+				$user_postmetas = $user->get_user_postmeta_data( $user_id, $course->id );
+				if ( ! empty( $user_postmetas['_is_complete'] ) ) {
+					if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+	    				return;
+	    			}
+	    		}
+
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+					array( 
+						'user_id' 			=> $user_id,
+						'post_id' 			=> $course->id,
+						'meta_key'			=> $key,
+						'meta_value'		=> $value,
+						'updated_date'		=> current_time('mysql'),
+					)
+				);
+
+				do_action('lifterlms_course_completed', $user_id, $course->id );
+	
+			}
+
+		}
+	}
+
 }

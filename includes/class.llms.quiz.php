@@ -135,6 +135,10 @@ class LLMS_Quiz {
 		$grade = 0;
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 
+		if ( ! $quiz ) {
+			return;
+		}
+
 		foreach ( $quiz as $key => $value ) {
 			if ( $value['id'] == $this->id ) {
 				$grade = $value['grade'];
@@ -143,8 +147,46 @@ class LLMS_Quiz {
 		return $grade;
 	}
 
+	public function get_best_grade( $user_id ) {
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+
+		//get all grades and add to grades array
+		$grades = array();
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id ) {
+				if ( $value['grade'] ) {
+					array_push( $grades, $value['grade'] );
+				}
+			}
+		}
+
+		$highest_grade = ( empty( $grades ) ? 0 : max( $grades ) );
+		return $highest_grade;
+	}
+
+	public function get_total_time( $user_id ) {
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$total_time = 0;
+		if ( $quiz ) {
+			foreach ( $quiz as $key => $value ) {
+				if ( $value['id'] == $this->id ) {
+					if ( $value['end_date'] ) {
+						$start_date = strtotime( $value['start_date'] );
+						$end_date = strtotime( $this->get_end_date( $user_id ) );
+						$total_time = round( abs( $end_date - $start_date ) / 60, 2 ) . " minute";
+					}
+				}
+			}
+		}
+		return $total_time;
+	}
+
 	public function is_passing_score( $user_id ) {
-		return $this->get_passing_percent() < $this->get_user_grade( $user_id );
+		LLMS_log('is_passing_score test');
+		LLMS_log($this->get_passing_percent());
+		LLMS_log($this->get_user_grade( $user_id ));
+		LLMS_log( $this->get_passing_percent() < $this->get_user_grade( $user_id ) );
+		return ( $this->get_passing_percent() < $this->get_user_grade( $user_id ) );
 	}
 
 	public function get_end_date( $user_id ) {
@@ -159,29 +201,55 @@ class LLMS_Quiz {
 		return $end_date;
 	}
 
-	public function get_total_attempts_by_user($user_id) {
-		global $wpdb;
+	public function get_start_date( $user_id ) {
+		$end_date = '';
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 
-		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-
-		$result = $wpdb->get_col( $wpdb->prepare(
-			'SELECT meta_value FROM '.$table_name.' WHERE user_id = %s AND post_id = %d AND meta_key = "_attempts" ORDER BY updated_date DESC', $user_id, $this->id ) );
-
-		return $result;
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id ) {
+				$start_date = $value['start_date'];
+			}
+		}
+		return $end_date;
 	}
 
-	public function get_remaining_attempts_by_user($user_id) {
-		$attempts_allowed = $this->get_total_allowed_attempts();
-		$attempts = $this->get_total_attempts_by_user($user_id);
+	public function get_assoc_lesson( $user_id ) {
+		$end_date = '';
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 
-		//attempts aren't really unlimited but they get 1000 tries.
+		if ( ! $quiz ) {
+			return;
+		}
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id ) {
+				$lesson = $value['assoc_lesson'];
+			}
+		}
+		return $lesson;
+	}
+
+	public function get_total_attempts_by_user( $user_id ) {
+		global $wpdb;
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$attempts = 0;
+
+		if ( $quiz ) {
+			foreach ( $quiz as $key => $value ) {
+				if ( $value['id'] == $this->id ) {
+					$attempts++;
+				}
+			}
+		}
+
+		return $attempts;
+	}
+
+	public function get_remaining_attempts_by_user( $user_id ) {
+		$attempts_allowed = $this->get_total_allowed_attempts();
+		$attempts = $this->get_total_attempts_by_user( $user_id );
+
 		if ( empty($attempts) ) {
 			$attempts = 0;
-		}
-		else {
-			foreach($attempts as $key => $value) {
-				$attempts = $value;
-			}
 		}
 
 		$total_attempts_remaining = ($attempts_allowed - $attempts);

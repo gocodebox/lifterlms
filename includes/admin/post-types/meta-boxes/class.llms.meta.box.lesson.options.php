@@ -22,6 +22,7 @@ class LLMS_Meta_Box_Lesson_Options {
 
     	$days_before_avalailable = get_post_meta( $post->ID, '_days_before_avalailable', true );
     	$assigned_quiz = get_post_meta( $post->ID, '_llms_assigned_quiz', true );
+    	$require_passing_grade = get_post_meta( $post->ID, '_llms_require_passing_grade', true );
 
     	$quiz_args = array(
 			'posts_per_page'   => 1000,
@@ -58,6 +59,15 @@ class LLMS_Meta_Box_Lesson_Options {
 						<br /><span class="description"><?php _e('Quiz will be required to complete lesson.', 'lifterms'); ?></span>
 					</td>
 				</tr>
+
+				<tr>
+					<th><label for="'_llms_require_passing_grade'"><?php _e('Require Passing Grade', 'lifterlms'); ?></label></th>
+					<td>
+						<input type="checkbox" name="_llms_require_passing_grade" <?php if( $require_passing_grade == true ) { ?>checked="checked"<?php } ?> />
+						<br /><span class="description"><?php _e('Checking this box will require students to get a passing score on the above quiz to complete the lesson.', 'lifterms'); ?></span>
+					</td>
+				</tr>
+
 			</tbody>
 		</table>
 
@@ -74,6 +84,9 @@ class LLMS_Meta_Box_Lesson_Options {
 		$assigned_quiz = ( llms_clean( $_POST['_llms_assigned_quiz'] ) );
 		update_post_meta( $post_id, '_llms_assigned_quiz', ( $assigned_quiz === '' ) ? '' : $assigned_quiz );
 		}
+
+		$require_passing_grade = ( isset( $_POST['_llms_require_passing_grade'] ) ? true : false );
+		update_post_meta( $post_id, '_llms_require_passing_grade', ( $require_passing_grade === '' ) ? '' : $require_passing_grade );
 	}
 
 }
