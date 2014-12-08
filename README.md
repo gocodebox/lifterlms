@@ -27,7 +27,8 @@ CHANGELOG
 
 v1.0.6 - UNRELEASED
 -------------------
-+ Added Coupon Creation 
++ Updated HTML / CSS on Registration form
++ Added Coupon Creation
 + Added Coupon support for checkout processing
 + Added Credit Card Support processing support
 + Added Form filters for external integration
@@ -83,8 +84,8 @@ v1.0.4 - 2014-11-04
 v1.0.3 - 2014-11-04
 -------------------
 
-+ Major Templating Update! 
-+ Removed Course, Lesson and Membership single lesson templates. 
++ Major Templating Update!
++ Removed Course, Lesson and Membership single lesson templates.
 + Course and Section content templates now filter through WP content
 
 
