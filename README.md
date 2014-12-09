@@ -25,7 +25,7 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.1.0
+v1.1.0 - 2014-12-08
 -------------------
 + Updated HTML / CSS on Registration form
 + Added Coupon Creation
