@@ -25,7 +25,7 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.0.6 - UNRELEASED
+v1.1.0
 -------------------
 + Updated HTML / CSS on Registration form
 + Added Coupon Creation
@@ -37,6 +37,11 @@ v1.0.6 - UNRELEASED
 + Added Account Setting: Require Billing Address on registration
 + Added Account Setting: Require users to validate email address (double entry)
 + Added password validation (double entry) on user registration / account creation
++ Added Quiz Question post type and associated metaboxes
++ Added Quiz post type and associated metaboxes
++ Added ability to assign a quiz to a lesson
++ Added front end quiz functionality
++ Added Course capacity (limit # of students)
 
 ### User Admin Table
 + Added Membership Custom Column that displays user's membership information

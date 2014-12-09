@@ -226,6 +226,14 @@ if ( ! function_exists( 'lifterlms_template_quiz_attempts' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_quiz_return_link' ) ) {
+
+	function lifterlms_template_quiz_return_link() {
+
+		llms_get_template( 'quiz/return-to-lesson.php' );
+	}
+}
+
 if ( ! function_exists( 'lifterlms_template_passing_percent' ) ) {
 
 	function lifterlms_template_passing_percent() {

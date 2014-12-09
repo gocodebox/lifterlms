@@ -60,7 +60,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 				<a href="<?php echo $account_redirect; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>	
 			<?php
 			}else{
-				echo "Course is reached its limit";
+				echo "Course has reached its limit";
 			}
 		}
 		//check if membership level is required
@@ -100,8 +100,8 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 				  	<input type="hidden" name="product_price" value="<?php echo $course->get_price(); ?>" />
 				  	<input type="hidden" name="product_sku" value="<?php echo $course->get_sku(); ?>" />
 				  	<input type="hidden" name="product_title" value="<?php echo $post->post_title; ?>" />
-	
-					<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none" <?php //checked( $gateway->chosen, true ); ?> />
+					<input type="hidden" name="payment_option" value="none_0" />
+					<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none_0" <?php //checked( $gateway->chosen, true ); ?> />
 	
 					<p><input type="submit" class="button llms-button llms-purchase-button" name="create_order_details" value="<?php _e( 'Take This Course', 'lifterlms' ); ?>" /></p>
 	
@@ -109,7 +109,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 					<input type="hidden" name="action" value="create_order_details" />
 				</form>
 			<?php } else{
-				echo "Course is reached its limit";
+				echo "Course has reached its limit";
 			} ?>
 
 		<?php } 

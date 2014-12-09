@@ -18,14 +18,8 @@ if ( $quiz ) {
 <div class="clear"></div>
 <div class="llms-button-wrapper" id="quiz-start-button">
 
-
-
-
-<input id="llms_lesson_redirect" class="button" type="submit" name="llms_leson_redirect" onclick="location.href='<?php echo$lesson_link; ?>';" value="<?php _e('Return To Lesson', 'lifterlms'); ?>" />
-
 <?php
-var_dump('attempts: ' . $attempts . 'quiz id: ' . $quiz->id);
-if ( ( empty( $quiz ) || $attempts > 0 ) || $quiz->end_date == '' ) :
+if ( empty( $quiz ) || $attempts > 0 || $quiz->get_end_date( $user_id ) == '' ) :
 ?>
 	<form method="POST" action="" name="llms_start_quiz" enctype="multipart/form-data"> 
 	 	<?php do_action( 'lifterlms_before_start_quiz' ); ?>

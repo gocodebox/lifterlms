@@ -809,9 +809,9 @@ LLMS_log($quiz);
 				foreach ($subs as $id => $sub) {
 
 					if ($id == $order->payment_option_id) {
-						$order->product_price   		= $product->get_subscription_total_price($sub);
+						$order->product_price   		= $product->get_subscription_payment_price($sub);
 						$order->total 					= $product->get_subscription_total_price($sub);
-						$order->first_payment			= $product->get_subscription_total_price($sub);
+						$order->first_payment			= $product->get_subscription_first_payment($sub);
 						$order->billing_period			= $product->get_billing_period($sub);
 						$order->billing_freq			= $product->get_billing_freq($sub);
 						$order->billing_cycle			= $product->get_billing_cycle($sub);
@@ -819,6 +819,10 @@ LLMS_log($quiz);
 					}
 
 				}
+			}
+			elseif ( $order->payment_option == 'none' ) {
+				$order->product_price			= 0;
+				$order->total 					= 0;
 			}
 		}
 	

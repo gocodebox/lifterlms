@@ -941,14 +941,10 @@ _:-o-prefocus, .selector {
   .llms-styled-select { background: none; }
   }
 
-
-<<<<<<< HEAD
-
 .llms-form-item-wrapper {
 	margin-bottom: 1em;
 }
-=======
-  /* Circle Graph */
+
 /* Circle Graph */
 .llms-progress-circle {
 	position: relative;
@@ -960,7 +956,7 @@ _:-o-prefocus, .selector {
 .llms-progress-circle-count {
     position: absolute;
     top: 66px;
-    left: 0;
+    left: -10px;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -995,9 +991,20 @@ svg .llms-animated-circle {
 	float: left;
 	ul {
 		list-style-type: none;
+		float: left;
 		li {
 			font-size: 20px;
 		}
 	}
 }
->>>>>>> hovo
+.llms-attempts {
+	font-weight: bold;
+}
+
+.llms-pass-perc {
+	font-weight: bold;
+}
+.llms-content-block {
+	margin: 6px 0;
+}
+

@@ -139,7 +139,7 @@ class LLMS_Order {
 			update_post_meta($order_post_id,'_llms_order_recurring_price', $order->product_price);
 			update_post_meta($order_post_id,'_llms_order_first_payment', $order->first_payment);
 			update_post_meta($order_post_id,'_llms_order_billing_period', $order->billing_period);
-			update_post_meta($order_post_id,'_llms_order_billing_freq', $order->billing_cycle);
+			update_post_meta($order_post_id,'_llms_order_billing_cycle', $order->billing_cycle);
 			update_post_meta($order_post_id,'_llms_order_billing_freq', $order->billing_freq);
 			update_post_meta($order_post_id,'_llms_order_billing_start_date', $order->billing_start_date);
 		}

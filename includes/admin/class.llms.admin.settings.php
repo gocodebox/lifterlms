@@ -541,7 +541,7 @@ class LLMS_Admin_Settings {
 	                    <th><?php echo esc_html( $value['title'] ) ?> <?php echo $tooltip; ?></th>
 	                    <td class="forminp">
 	                    <select class="<?php echo $args['class']; ?>" style="<?php echo $value['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
-	                    	<option value="<? echo $post->ID; ?>"> <?php _e('None', 'lifterlms'); ?></option>
+	                    	<option value=""> <?php _e('None', 'lifterlms'); ?></option>
 		                    <?php foreach( $posts as $post ) : setup_postdata($post); 
 		                    		if ( $args['selected'] == $post->ID) {
 		                    			$selected = 'selected';
@@ -550,7 +550,7 @@ class LLMS_Admin_Settings {
 		                    			$selected = '';
 		                    		}
 		                    ?>
-						    <option value="<? echo $post->ID; ?>" <?php echo $selected; ?> ><?php echo $post->post_title ?></option>
+						    <option value="<?php echo $post->ID; ?>" <?php echo $selected; ?> ><?php echo $post->post_title ?></option>
 						<?php endforeach; ?>
 						</select>
 

@@ -131,16 +131,20 @@ class LLMS_Product {
 		return $sub['total_price'];
 	}
 
+	public function get_subscription_first_payment($sub) {
+		return $sub['first_payment'];
+	}
+
 	public function get_subscription_payment_price($sub) {
-		return ( $this->get_subscription_total_price($sub) / ( $this->get_billing_cycle($sub) / $this->get_billing_freq($sub) ) );
+		return $sub['sub_price'];
 	}
 
 	public function get_subscription_price_html($sub) {
 
 		$price = '';
 		$currency_symbol = get_lifterlms_currency_symbol();
-		$sub_price = $this->adjusted_price($this->get_subscription_total_price($sub));
-		$sub_first_payment = $this->adjusted_price($this->get_subscription_total_price($sub));
+		$sub_price = $this->adjusted_price( $this->get_subscription_payment_price($sub) );
+		$sub_first_payment = $this->adjusted_price( $this->get_subscription_first_payment($sub) );
 
 
 		$suffix = $this->get_price_suffix_html();

@@ -135,21 +135,17 @@ class LLMS_Quiz {
 		$grade = 0;
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 
-<<<<<<< HEAD
+
 		if ( ! $quiz ) {
 			return;
 		}
 
-		foreach ( $quiz as $key => $value ) {
-			if ( $value['id'] == $this->id ) {
-				$grade = $value['grade'];
-=======
 		if ( $quiz ) {
 			foreach ( $quiz as $key => $value ) {
 				if ( $value['id'] == $this->id ) {
 					$grade = $value['grade'];
 				}
->>>>>>> hovo
+
 			}
 		}
 		return $grade;
@@ -172,16 +168,46 @@ class LLMS_Quiz {
 		return $highest_grade;
 	}
 
-	public function get_total_time( $user_id ) {
+	public function get_best_quiz_attempt( $user_id ) {
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$grades = array();
+
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id ) {
+				if ( $value['grade'] ) {
+					array_push( $grades, $value['grade'] );
+				}
+			}
+		}
+		$highest_grade = ( empty( $grades ) ? 0 : max( $grades ) );
+
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id && $highest_grade == $value['grade'] ) {
+				$unique_id = $value['wpnonce'];
+			}
+		}
+		LLMS_log('finding highest grade');
+		return $unique_id;
+	}
+
+	public function get_total_time( $user_id, $unique_id = '' ) {
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 		$total_time = 0;
 		if ( $quiz ) {
 			foreach ( $quiz as $key => $value ) {
-				if ( $value['id'] == $this->id ) {
+				if ( $unique_id == $value['wpnonce'] ) {
+					if ( $value['end_date'] ) {
+						$start_date = strtotime( $value['start_date'] );
+						$end_date = strtotime( $this->get_end_date( $user_id, $unique_id ) );
+						$total_time = round( abs( $end_date - $start_date ) / 60, 2 ) . " minutes";
+					}
+					break;
+				}
+				elseif ( $value['id'] == $this->id ) {
 					if ( $value['end_date'] ) {
 						$start_date = strtotime( $value['start_date'] );
 						$end_date = strtotime( $this->get_end_date( $user_id ) );
-						$total_time = round( abs( $end_date - $start_date ) / 60, 2 ) . " minute";
+						$total_time = round( abs( $end_date - $start_date ) / 60, 2 ) . " minutes";
 					}
 				}
 			}
@@ -190,35 +216,39 @@ class LLMS_Quiz {
 	}
 
 	public function is_passing_score( $user_id ) {
-		LLMS_log('is_passing_score test');
-		LLMS_log($this->get_passing_percent());
-		LLMS_log($this->get_user_grade( $user_id ));
-		LLMS_log( $this->get_passing_percent() < $this->get_user_grade( $user_id ) );
-		return ( $this->get_passing_percent() < $this->get_user_grade( $user_id ) );
+		return ( $this->get_passing_percent() < $this->get_best_grade( $user_id ) );
 	}
 
-	public function get_end_date( $user_id ) {
+	public function get_end_date( $user_id, $unique_id = '' ) {
 		$end_date = '';
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 		foreach ( $quiz as $key => $value ) {
-			if ( $value['id'] == $this->id ) {
+			if ( $value['wpnonce'] == $unique_id ) {
+				$end_date = $value['end_date'];
+				break;
+			}
+			elseif ( $value['id'] == $this->id ) {
 				$end_date = $value['end_date'];
 			}
 		}
 		return $end_date;
 	}
 
-	public function get_start_date( $user_id ) {
+	public function get_start_date( $user_id, $unique_id = '' ) {
 		$end_date = '';
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 
-		foreach ( $quiz as $key => $value ) {
-			if ( $value['id'] == $this->id ) {
+		foreach ( $quiz as $key => $value ) { 
+			if ( $value['wpnonce'] == $unique_id ) {
+				$start_date = $value['start_date'];
+				break;
+			}
+			elseif ( $value['id'] == $this->id ) {
 				$start_date = $value['start_date'];
 			}
 		}
-		return $end_date;
+		return $start_date;
 	}
 
 	public function get_assoc_lesson( $user_id ) {
@@ -268,6 +298,38 @@ class LLMS_Quiz {
 	public function get_questions() {
 		return $this->llms_questions;
 
+	}
+
+	public function get_question_count() {
+		return count( $this->llms_questions );
+	}
+
+	public function get_correct_answers_count( $user_id, $unique_id = '' ) {
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$wpnonce = '';
+
+		if ( $quiz ) {
+			foreach ( $quiz as $key => $value ) {
+				if ( $unique_id == $value['wpnonce'] ) {
+					$count = 0;
+					$wpnonce = $value['wpnonce'];
+					foreach ( $value['questions'] as $k => $v ) {
+						if ( $v['correct'] ) {
+							$count++;
+						}
+					}
+				}
+				elseif ( $value['id'] == $this->id && $wpnonce == '' ) {
+					$count = 0;
+					foreach ( $value['questions'] as $k => $v ) {
+						if ( $v['correct'] ) {
+							$count++;
+						}
+					}
+				}
+			}
+		}
+		return $count;
 	}
 
 	

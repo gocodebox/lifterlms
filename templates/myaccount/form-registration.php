@@ -74,7 +74,7 @@ global $wpdb;
 					<select id="llms_country_options" name="billing_country">
 					<?php $country_options = get_lifterlms_countries();
 						foreach ( $country_options as $code => $name ) { ?>
-							<option value="<?php echo $code; ?>"<?php selected( $_POST['billing_country'], $code ); ?>><?php echo $name; ?></option>
+							<option value="<?php echo $code; ?>"><?php echo $name; ?></option>
 						<?php } ?>
 					</select>
 				</div>

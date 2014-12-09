@@ -19,9 +19,9 @@ $attempts_left = $quiz->get_remaining_attempts_by_user($user_id)
 ?>
 <div class="clear"></div>
 <div class="llms-template-wrapper">
-	<p class="llms-content-block">
+	<h4 class="llms-content-block">
 		<?php printf( __('Attempts Remaining: <span class="llms-content llms-attempts">%s</span>', 'lifterlms'), $attempts_left ); ?>
-	</p>
+	</h4>
 </div>
 
 
