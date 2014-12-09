@@ -7,7 +7,6 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course, $product;
-
 $user = new LLMS_Person;
 $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
 
@@ -51,12 +50,17 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 
 		//if course is purchasable redirect to login / registration page
 		else {
+			if(check_course_capacity()) {
 
-			$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
-			$account_redirect = add_query_arg( 'product-id', get_the_ID(), $account_url );
-		?>
-			<a href="<?php echo $account_redirect; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>	
-		<?php
+				$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
+				$account_redirect = add_query_arg( 'product-id', get_the_ID(), $account_url );
+
+			?>
+				<a href="<?php echo $account_redirect; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>	
+			<?php
+			}else{
+				_e( 'Course is no longer available', 'lifterlms' );
+			}
 		}
 		//check if membership level is required
 	?>
@@ -85,23 +89,27 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 			<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
 		<?php
 		}
-		else { ?>
+		else {
 
-			<form action="" method="post">
-
-				<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />
-			  	<input type="hidden" name="product_price" value="<?php echo $course->get_price(); ?>" />
-			  	<input type="hidden" name="product_sku" value="<?php echo $course->get_sku(); ?>" />
-			  	<input type="hidden" name="product_title" value="<?php echo $post->post_title; ?>" />
-			  	<input type="hidden" name="payment_option" value="none_0" />
-
-				<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none_0" <?php //checked( $gateway->chosen, true ); ?> />
-
-				<p><input type="submit" class="button llms-button llms-purchase-button" name="create_order_details" value="<?php _e( 'Take This Course', 'lifterlms' ); ?>" /></p>
-
-				<?php wp_nonce_field( 'create_order_details' ); ?>
-				<input type="hidden" name="action" value="create_order_details" />
-			</form>
+		 ?>
+			<?php if(check_course_capacity()) { ?>
+				<form action="" method="post">
+	
+					<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />
+				  	<input type="hidden" name="product_price" value="<?php echo $course->get_price(); ?>" />
+				  	<input type="hidden" name="product_sku" value="<?php echo $course->get_sku(); ?>" />
+				  	<input type="hidden" name="product_title" value="<?php echo $post->post_title; ?>" />
+	
+					<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none" <?php //checked( $gateway->chosen, true ); ?> />
+	
+					<p><input type="submit" class="button llms-button llms-purchase-button" name="create_order_details" value="<?php _e( 'Take This Course', 'lifterlms' ); ?>" /></p>
+	
+					<?php wp_nonce_field( 'create_order_details' ); ?>
+					<input type="hidden" name="action" value="create_order_details" />
+				</form>
+			<?php } else{
+				_e( 'Course is no longer available', 'lifterlms' );
+			} ?>
 
 		<?php } 
 	 }

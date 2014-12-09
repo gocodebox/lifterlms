@@ -29,6 +29,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 
 		$syllabus = get_post_meta( $post->ID, '_sections');
 		$lesson_length = get_post_meta( $post->ID, '_lesson_length', true );
+		$lesson_max_user = get_post_meta( $post->ID, '_lesson_max_user', true );
 		$course_dates_from 	= ( $date = get_post_meta( $thepostid, '_course_dates_from', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
 		$course_dates_to 	= ( $date = get_post_meta( $thepostid, '_course_dates_to', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
 
@@ -166,6 +167,13 @@ class LLMS_Meta_Box_Course_Syllabus {
 					</select>  
 				</td>
 			</tr>
+			<tr>
+				<th><label for="_lesson_max_user">Course Capacity</label></th>
+				<td>
+					<input type="text" name="_lesson_max_user" id="_lesson_max_user" value="<?php echo $lesson_max_user ?>">
+					<br /><span class="description">Limit the number of users that can enroll in this course.</span>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 
@@ -248,6 +256,13 @@ class LLMS_Meta_Box_Course_Syllabus {
 
 			$lesson_length = llms_clean( stripslashes( $_POST['_lesson_length'] ) );
 			update_post_meta( $post_id, '_lesson_length', ( $lesson_length === '' ? '' : llms_format_decimal( $lesson_length ) ) );
+
+		}
+		
+		if ( isset( $_POST['_lesson_max_user'] ) ) {
+
+			$lesson_max_user = llms_clean( stripslashes( $_POST['_lesson_max_user'] ) );
+			update_post_meta( $post_id, '_lesson_max_user', ( $lesson_max_user === '' ? '' : llms_format_decimal( $lesson_max_user ) ) );
 
 		}
 
