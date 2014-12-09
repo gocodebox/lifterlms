@@ -20,19 +20,19 @@ function llms_disable_admin_bar( $show_admin_bar ) {
 }
 add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10, 1 );
 
-function llms_create_new_person( 
-	$email, 
-	$email2, 
-	$username = '', 
-	$firstname = '', 
-	$lastname = '', 
+function llms_create_new_person(
+	$email,
+	$email2,
+	$username = '',
+	$firstname = '',
+	$lastname = '',
 	$password = '',
 	$password2 = '',
 	$billing_address_1 = '',
 	$billing_address_2 = '',
 	$billing_city = '',
 	$billing_state = '',
-	$billing_zip = '', 
+	$billing_zip = '',
 	$billing_country = ''
 	) {
 
@@ -42,7 +42,7 @@ function llms_create_new_person(
 	}
 
 	if( $email != $email2 ) {
-		return new WP_Error( 'registration-error', __( 'Your email addresses do not match.', 'lifterlms' ) );		
+		return new WP_Error( 'registration-error', __( 'Your email addresses do not match.', 'lifterlms' ) );
 	}
 
 	if ( email_exists( $email ) ) {
@@ -114,16 +114,16 @@ function llms_create_new_person(
 
 	do_action( 'lifterlms_register_post', $username, $email, $validation_errors, $firstname, $lastname );
 
-	$validation_errors = apply_filters( 'lifterlms_registration_errors', 
-		$validation_errors, 
-		$username, 
-		$email, 
-		$firstname, 
+	$validation_errors = apply_filters( 'lifterlms_registration_errors',
+		$validation_errors,
+		$username,
+		$email,
+		$firstname,
 		$lastname,
 		$billing_address_1,
 		$billing_city,
 		$billing_state,
-		$billing_zip, 
+		$billing_zip,
 		$billing_country
 	);
 
@@ -144,7 +144,7 @@ function llms_create_new_person(
 	'llms_billing_address_2'	=>	$billing_address_2,
 	'llms_billing_city'		=>	$billing_city,
 	'llms_billing_state'		=>	$billing_state,
-	'llms_billing_zip'		=>	$billing_zip, 
+	'llms_billing_zip'		=>	$billing_zip,
 	'llms_billing_country'	=>	$billing_country
 	) );
 
@@ -159,12 +159,12 @@ function llms_create_new_person(
 	}
 
 	do_action( 'lifterlms_created_person', $person_id, $new_person_data, $password_generated );
-	do_action( 'lifterlms_created_person_address', 
+	do_action( 'lifterlms_created_person_address',
 		$billing_address_1,
 		$billing_address_2,
 		$billing_city,
 		$billing_state,
-		$billing_zip, 
+		$billing_zip,
 		$billing_country
 	);
 
@@ -182,7 +182,7 @@ function llms_set_person_auth_cookie( $person_id ) {
 add_action( 'show_user_profile', 'llms_membership_settings' );
 add_action( 'edit_user_profile', 'llms_membership_settings' );
 
-    
+
 function llms_membership_settings( $user ) {
     // get the value of a single meta key
     $my_membership_levels = get_user_meta( $user->ID, '_llms_restricted_levels', true ); // $user contains WP_User object
@@ -193,8 +193,8 @@ function llms_membership_settings( $user ) {
 		'orderby'          => 'title',
 		'order'            => 'ASC',
 		'post_type'        => 'llms_membership',
-		'suppress_filters' => true 
-	); 
+		'suppress_filters' => true
+	);
 	$membership_levels = get_posts($membership_levels_args);
 
     ?>
@@ -202,18 +202,18 @@ function llms_membership_settings( $user ) {
 		<tbody>
 			<?php
 				//get all existing membership levels
-			
 
-			if($membership_levels) : 
+
+			if($membership_levels) :
 			?>
 			<tr>
 				<th>
-					<label><?php _e('Membership Roles','lifterlms'); ?></label> 
+					<label><?php _e('Membership Roles','lifterlms'); ?></label>
 				</th>
 				<td>
 					<?php
 					$checked = '';
-					foreach ( $membership_levels as $level  ) : 
+					foreach ( $membership_levels as $level  ) :
 						if($my_membership_levels) {
 							if( in_array($level->ID, $my_membership_levels) ) {
 								$checked = 'checked ="checked"';
@@ -224,8 +224,8 @@ function llms_membership_settings( $user ) {
 						}
 							echo '<input type="checkbox" name="llms_level[]" ' . $checked . ' value="' . $level->ID . '"/>';
 							echo '<label for="llms_level">' . $level->post_title . '</label></br>';
-						
-					endforeach; 
+
+					endforeach;
 					?>
 				</td>
 			</tr>
@@ -251,7 +251,7 @@ function llms_membership_settings_save( $user_id ) {
 
 	$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
-	foreach ( $membership_levels as $level  ) { 
+	foreach ( $membership_levels as $level  ) {
 		if($level) {
 			$set_user_enrolled = array(
 		      'post_id' => $level,
@@ -268,7 +268,7 @@ function llms_membership_settings_save( $user_id ) {
 		    $update_user_meta = $wpdb->update( $table_name, $status_update, $set_user_enrolled );
 		}
 	}
-			
+
 	update_user_meta( $user_id, '_llms_restricted_levels', $membership_levels );
 
 }
@@ -295,7 +295,7 @@ add_filter( 'manage_users_columns', 'llms_add_user_table_columns' );
  * @param  string $val         value of the field
  * @param  string $column_name "id" or name of the column
  * @param  int $user_id        user_id for the row in the loop
- * @return string              data to display on screen 
+ * @return string              data to display on screen
  */
 function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 	// $user = get_userdata( $user_id );
