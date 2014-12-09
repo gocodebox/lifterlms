@@ -14,7 +14,6 @@ if ( get_query_var( 'product' ) ) {
 	$product = get_post( get_query_var( 'product' ) );
 }
 elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
-
 	$session = LLMS()->session->get( 'llms_order', array() );
 	$product_id = $session->product_id;
 	$product = get_post( $product_id );
@@ -24,8 +23,6 @@ else {
 }
 
 $product_obj = new LLMS_Product($product);
-
-$single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
 
 $subs = $product_obj->get_subscriptions();
 if( $subs ) {
@@ -40,7 +37,7 @@ if( $subs ) {
 
 <?php llms_print_notices(); ?>
 
-<?php do_action( 'lifterlms_before_checkout_login_form' ); ?>
+<?php do_action( 'lifterlms_before_checkout_confirm_form' ); ?>
 <div class="llms-checkout-wrapper">
 	<div class="llms-checkout">
 		<h4><?php _e( 'Confirm Purchase', 'lifterlms' ); ?></h4>
@@ -49,11 +46,13 @@ if( $subs ) {
 			<p class="llms-title"><?php echo $product->post_title; ?></p>
 		</div>
 
+		<?php do_action( 'lifterlms_checkout_confirm_after_title' ); ?>
+
 		<!-- pricing options -->
 		<div class="llms-price-wrapper">
 			<div class="llms-payment-options llms-notice-box">
-		
-				<?php 
+
+				<?php
 				if ($session->payment_option == 'recurring') {
 					echo '<label>Payment Terms:</label> <strong>';
 					echo $recurring_html_price;
@@ -61,9 +60,9 @@ if( $subs ) {
 				}
 				elseif ($session->payment_option == 'single') {
 					echo '<label>Price:</label></strong> ';
-					echo $single_html_price;
+					echo sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() );
 					echo '</strong>';
-				
+
 				}
 				else {
 					/**
