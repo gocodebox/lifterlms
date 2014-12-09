@@ -69,7 +69,7 @@ function llms_clear_notices() {
  */
 function llms_print_notices() {
 
-	$all_notices  = LLMS()->session->get( 'llms_notices', array() );
+	$all_notices  = apply_filters( 'lifterlms_print_notices', LLMS()->session->get( 'llms_notices', array() ) );
 	$notice_types = apply_filters( 'lifterlms_notice_types', array( 'error', 'success', 'notice' ) );
 
 	foreach ( $notice_types as $notice_type ) {
