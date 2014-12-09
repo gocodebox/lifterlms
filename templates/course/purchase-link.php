@@ -7,7 +7,6 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course, $product;
-
 $user = new LLMS_Person;
 $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
 
@@ -60,7 +59,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 				<a href="<?php echo $account_redirect; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>	
 			<?php
 			}else{
-				echo "Course is reached its limit";
+				_e( 'Course is no longer available', 'lifterlms' );
 			}
 		}
 		//check if membership level is required
@@ -109,7 +108,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 					<input type="hidden" name="action" value="create_order_details" />
 				</form>
 			<?php } else{
-				echo "Course is reached its limit";
+				_e( 'Course is no longer available', 'lifterlms' );
 			} ?>
 
 		<?php } 

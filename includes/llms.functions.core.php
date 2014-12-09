@@ -871,8 +871,28 @@ function llms_expire_membership() {
 function check_course_capacity() {
 
       global $post, $wpdb;
-      $lesson_max_user = get_post_meta( $post->ID, '_lesson_max_user', true );
+      $lesson_max_user = (int)get_post_meta( $post->ID, '_lesson_max_user', true );
       $table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
       $results = $wpdb->get_results('SELECT * FROM '.$table_name.' WHERE post_id = '.$post->ID .' AND meta_value = "Enrolled"');
-     return count($results)<$lesson_max_user;
+      if ($lesson_max_user === 0) {
+            return true;
+      }else{
+            return count($results)<$lesson_max_user;
+      }
+}
+
+add_filter( 'sidebars_widgets', 'displaying_sidebar_in_post_types' );
+      
+function displaying_sidebar_in_post_types($sidebars_widgets) {
+            // var_dump($sidebars_widgets['llms_lesson_widgets_side']);
+      if (is_singular('course')) {
+            $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_course_widgets_side'];
+      } elseif (is_singular('lesson')) {
+            $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_lesson_widgets_side'];
+      } else {
+            $sidebars_widgets['sidebar-1'] = false;
+      }
+            return $sidebars_widgets;
+      
+            
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author 		codeBOX
  * @category 	Admin
@@ -61,8 +62,8 @@ class LLMS_Install {
 	 * Check if installed WP version is compatable with plugin requirements. 
 	 */
 	public function check_wp_version() {
-		
 		if ( version_compare( get_bloginfo( 'version' ), $this->min_wp_version, '<' ) ) {
+
 			add_action( 'admin_notices', array( $this, 'custom_error_notice' ));
 		}
 
@@ -120,6 +121,11 @@ class LLMS_Install {
 		include_once( 'class.llms.post-types.php' );
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
+
+		include_once( 'class.llms.sidebars.php' );
+		LLMS_Sidebars::register_lesson_sidebars();
+		LLMS_Sidebars::register_course_sidebars();
+
 
 		LLMS()->query->init_query_vars();
 		LLMS()->query->add_endpoints();

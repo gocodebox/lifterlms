@@ -171,6 +171,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 				<th><label for="_lesson_max_user">Course Capacity</label></th>
 				<td>
 					<input type="text" name="_lesson_max_user" id="_lesson_max_user" value="<?php echo $lesson_max_user ?>">
+					<br /><span class="description">Limit the number of users that can enroll in this course.</span>
 				</td>
 			</tr>
 		</tbody>
