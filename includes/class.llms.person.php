@@ -99,16 +99,25 @@ class LLMS_Person {
 	public function get_user_postmeta_data( $user_id, $post_id ) {
 		global $wpdb;
 
+		if ( empty($user_id) || empty($post_id) ) {
+			return;
+		}
+
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
 			'SELECT * FROM '.$table_name.' WHERE user_id = %s and post_id = %d', $user_id, $post_id) );
 
-		for ($i=0; $i <= count($results); $i++) {
+		if ( empty($results) ) {
+			return;
+		}
+		LLMS_log($results);
+
+		for ($i=0; $i < count($results); $i++) {
 			$results[$results[$i]->meta_key] = $results[$i];
 			unset($results[$i]);
 		}
-
+LLMS_log($results);
 		return $results;
 	}
 
@@ -120,16 +129,26 @@ class LLMS_Person {
 	public function get_user_postmetas_by_key( $user_id, $meta_key ) {
 		global $wpdb;
 
+		if ( empty($user_id) || empty($meta_key) ) {
+			return;
+		}
+
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
 			'SELECT * FROM '.$table_name.' WHERE user_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $user_id, $meta_key ) );
 
-		for ($i=0; $i <= count($results); $i++) {
+		if ( empty($results) ) {
+			return;
+		}
+
+
+
+		for ($i=0; $i < count($results); $i++) {
 			$results[$results[$i]->post_id] = $results[$i];
 			unset($results[$i]);
 		}
-
+LLMS_log($results);
 		return $results;
 	}
 

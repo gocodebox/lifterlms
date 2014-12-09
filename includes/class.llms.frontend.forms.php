@@ -28,7 +28,10 @@ class LLMS_Frontend_Forms {
 		add_action( 'init', array( $this, 'user_registration' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
-		add_action( 'init', array( $this, 'start_quiz' ) );
+		add_action( 'init', array( $this, 'take_quiz' ) );
+		add_action( 'init', array( $this, 'llms_start_quiz' ) );
+		add_action( 'init', array( $this, 'llms_answer_question' ) );
+		add_action( 'init', array( $this, 'prev_question' ) );
 
 		add_action( 'lifterlms_order_process_begin', array( $this, 'order_processing' ), 10, 1 );
 		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 1 );
@@ -47,21 +50,349 @@ class LLMS_Frontend_Forms {
 
 	}
 
+	public function prev_question() {
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+		
+		if ( 'POST' !== $request_method ) {
+			return;
+		}
 
-	public function start_quiz() {
+    	if ( ! isset( $_POST['llms_prev_question'] ) || empty( $_POST['_wpnonce'] ) ) {
+    		return;
+    	}
+    	if ( isset( $_POST['llms_prev_question'] ) ) {
+    		$quiz = LLMS()->session->get( 'llms_quiz' );
 
-		//when start button is pressed:
-		//
-		//
-		//take user to page that has all questions?
-		//oh god! this is the big part!
-		//
-		//take the user to a page that lists out the questions. 
-		//add data to the users session triggering the quiz start
-		//
-		//When user clicks complete
-		//udpate the session
-		//score the quiz return the user
+    		foreach ( $quiz->questions as $key => $value ) {
+				if ( $value['id'] == $_POST['question_id'] ) {
+					$previous_question_key = ( $key - 1 );
+					if ( $previous_question_key >= 0 ) {
+						$prev_question_link = get_permalink( $quiz->questions[ $previous_question_key ][ 'id' ] );
+			    		$redirect = get_permalink( $prev_question_link );
+						wp_redirect( apply_filters( 'lifterlms_prev_question_redirect', $prev_question_link ) );
+					}
+	    		}
+	    	}
+		}
+	}
+
+	public function llms_answer_question() {
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+		
+		if ( 'POST' !== $request_method ) {
+			return;
+		}
+
+    	if ( ! isset( $_POST['llms_answer_question'] ) || empty( $_POST['_wpnonce'] ) ) {
+    		return;
+    	}
+
+	    if ( isset( $_POST['llms_answer_question'] ) ) {
+
+	    	//get quiz object from session
+	    	$quiz = LLMS()->session->get( 'llms_quiz' );
+
+	    	//if quiz session does not exist return an error message to the user.
+	    	if ( empty( $quiz ) ) {
+	    		return llms_add_notice( __( 'There was an error finding the associated quiz. Please return to the lesson and begin quiz again.', 'lifterlms' ), 'error' );
+	    	}
+
+	    	if ( $_POST['llms_option_selected'] === '' ) {
+	    		return llms_add_notice( __( 'You must answer the question to continue.', 'lifterlms' ), 'error' );
+	    	}
+
+	    	LLMS_log('next lesson button clicked');
+	    	LLMS_log($_POST);
+	    	LLMS_log($quiz);
+
+
+	    	//get question meta data
+	    	$correct_option = '';
+	    	$question_options = get_post_meta($_POST['question_id'], '_llms_question_options', true);
+
+	    	foreach ( $question_options as $key => $value ) {
+	    		if ( $value['correct_option'] ) {
+	    			$correct_option = $key;
+	    		}
+	    	}
+
+
+
+	    	//LLMS_log($current_question);
+
+	    	//update quiz object
+	    	foreach ( $quiz->questions as $key => $value ) {
+
+    			if ( $value['id'] == $_POST['question_id'] ) {
+
+    				$current_question = $value['id'];
+
+    				$quiz->questions[$key]['answer'] = $_POST['llms_option_selected'];
+
+    				if ( $_POST['llms_option_selected'] == $correct_option ) {
+    					$quiz->questions[$key]['correct'] = true;
+    				}
+    				else {
+    					$quiz->questions[$key]['correct'] = false;
+    				}
+
+    			}
+	    		
+	    	}
+	 
+	    	LLMS()->session->set( 'llms_quiz', $quiz );
+
+	    	//update quiz user meta data
+	    	$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
+
+	    	foreach ( $quiz_data as $key => $value ) {
+
+  				if ( $value['wpnonce'] == $quiz->wpnonce ) { 
+
+  					foreach ( $quiz_data[$key]['questions'] as $id => $data ) {
+  						if ( $data['id'] == $_POST['question_id'] ) {
+
+  							$quiz_data[$key]['questions'][$id]['answer'] = $quiz->questions[$id]['answer'];
+  							$quiz_data[$key]['questions'][$id]['correct'] = $quiz->questions[$id]['correct'];
+
+  						}
+  					}
+  				}
+
+    		}
+    	}
+    	update_user_meta( $quiz->user_id, 'llms_quiz_data',  $quiz_data );
+
+
+    	//if another question exists in lessons array then take user to next question
+
+
+    	foreach ( $quiz->questions as $k => $q ) {
+    		if ( $q['id'] == $current_question ) {
+    			$next_question = $k+1;
+    		}
+    		if ( !empty($next_question) && $k == $next_question ) {
+    			$next_question_id = $q['id'];
+    		}
+    	}
+    	if ( empty( $next_question_id ) ) {
+    		
+			$quiz->end_date = current_time( 'mysql' ); 
+			//$quiz->attempts = ( $quiz->attempts - 1 );
+
+			//save quiz object to usermeta
+			$quiz_array = (array) $quiz;
+
+			if ( $quiz_data ) {
+
+				foreach ( $quiz_data as $id => $q ) {
+
+					if ( $q['wpnonce'] == $quiz->wpnonce ) {
+
+						$points = 0;
+						$grade = 0;
+
+						//set the end time
+						$quiz_data[$id][ 'end_date' ] = $quiz->end_date;
+
+						$quiz_obj = new LLMS_Quiz( $quiz->id );
+
+						//get grade
+						//get total points earned
+						foreach ( $q['questions'] as $key => $value ) {
+							if ( $value['correct'] ) {
+								$points += $value['points'];
+							}
+						}
+						
+						//calculate grade
+						if ( $points == 0 ) {
+							$quiz_data[$id][ 'grade' ] = 0;
+						}
+						else {
+							$quiz_data[$id][ 'grade' ] = $quiz_obj->get_grade( $points );
+							update_user_meta( $quiz->user_id, 'llms_quiz_data',  $quiz_data );
+
+							$quiz_data[$id][ 'passed' ] = $quiz_obj->is_passing_score( $quiz->user_id );
+							update_user_meta( $quiz->user_id, 'llms_quiz_data',  $quiz_data );
+
+							LLMS()->session->set( 'llms_quiz', $quiz );
+						}
+
+						if ( $quiz_data[$id][ 'passed' ] ) {
+							$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
+							$lesson->mark_complete( $quiz->user_id );
+						}
+
+					}
+
+					
+				}
+			}
+			else {
+				return llms_add_notice( __( 'There was an error with your quiz.', 'lifterlms' ), 'error' );
+			}
+
+			
+
+			$redirect = get_permalink( $quiz->id );
+			wp_redirect( apply_filters( 'lifterlms_quiz_completed_redirect', $redirect ) );
+
+    	}
+    	else {
+    		$redirect = get_permalink( $next_question_id );
+			wp_redirect( $redirect );
+    	}
+    	//if there are no other questions in the questions array then redirect back to quiz page
+	}
+
+
+	/**
+	* Start Quiz submit handler
+	* Performs security and verification checks
+	* If quiz is enabled for user redirects user to 1st question.
+	*
+	* @return void
+	*/
+	public function llms_start_quiz() {
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+    	if ( 'POST' !== $request_method ) {
+			return;
+		}
+
+    	if ( ! isset( $_POST['llms_start_quiz'] ) || empty( $_POST['_wpnonce'] ) ) {
+    		return;
+    	}
+
+    	if ( isset( $_POST['llms_start_quiz'] ) ) {
+    	
+	    	$quiz = LLMS()->session->get( 'llms_quiz' );
+
+	    	if ( $quiz->id == $_POST['llms-quiz_id'] && $quiz->user_id == $_POST['llms-user_id'] ) {
+LLMS_log('end_date');
+LLMS_log($quiz);
+	    		if ( property_exists ( $quiz , 'end_date' ) && $quiz->end_date === '' ) {
+	    			$redirect = get_permalink( $quiz->questions[0]['id'] );
+	    			wp_redirect( apply_filters( 'lifterlms_lesson_begin_quiz', $redirect ) );
+	    			return;
+	    		}
+	    		LLMS_log('passed the check');
+	    		//add quiz information to quiz object
+	    		LLMS_log('noonce');
+	    		LLMS_log($_POST['_wpnonce']);
+	    	
+	    		
+	    		$quiz->start_date = current_time( 'mysql' ); 
+	    		$quiz->end_date = '';
+	    		$quiz->grade = 0;
+	    		$quiz->passed = false;
+
+	    		//get existing quiz object from database
+	    		$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
+
+				//count previous attempts and set quiz attempt to +1 of quiz attempt count
+	    		$attempts = 0;
+
+	    		if ( $quiz_data ) {
+
+	    			foreach( $quiz_data as $key => $value ) {
+	    				if ( $value['id'] == $quiz->id ) {
+	    					$attempts++;
+	    				}
+	    			}
+	    		}
+
+	    		$quiz->attempt = ( $attempts + 1 );
+				$quiz->wpnonce = wp_create_nonce( 'my-action_'.$quiz->id.$quiz->attempt );
+	    		//add questions to quiz object
+	    		//question_id (int), answer (string), correct (bool)
+	    		$quiz_obj = new LLMS_Quiz( $quiz->id );
+
+	    		//$all_questions = array();
+				$questions = $quiz_obj->get_questions();	
+
+				if($questions) {
+					foreach ($questions as $key => $value) {
+						$questions[$key][ 'answer' ] = '';
+						$questions[$key][ 'correct' ] = false;
+					}
+
+					$quiz->questions = $questions;
+				}
+				else {
+					return llms_add_notice( __( 'There are no questions associated with this quiz.', 'lifterlms' ), 'error' );
+				}
+LLMS_log($quiz);
+				//save quiz object to usermeta
+				$quiz_array = (array) $quiz;
+
+				if ( $quiz_data ) {
+					// foreach ( $quiz_data as $key => $value ) {
+					// 	if ( $value['wpnonce'] == $quiz->wpnonce ) {
+					// 		LLMS_log($value);
+					// 	}
+					// }
+					array_push( $quiz_data, $quiz_array );
+				}
+				else {
+					$quiz_data = array();
+					$quiz_data[] = $quiz_array;
+				}
+				
+				update_user_meta( $quiz->user_id, 'llms_quiz_data',  $quiz_data );
+
+				//save quiz object to session
+				LLMS()->session->set( 'llms_quiz', $quiz );
+
+				//redirect user to first question in questions
+				
+
+				$redirect = get_permalink( $quiz->questions[0]['id'] );
+				wp_redirect( apply_filters( 'lifterlms_lesson_begin_quiz', $redirect ) );
+			}
+			else {
+    			return llms_add_notice( __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ), 'error' );
+    		}
+
+    	}
+    	else {
+    		return llms_add_notice( __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ), 'error' );
+    	}
+	}
+
+	/**
+	* Take quiz submit handler from lesson
+	* Redirect user to quiz if quiz is available for lesson. 
+	* Creates session object llms_quiz
+	*
+	* @return void
+	*/
+	public function take_quiz() {
+
+		$request_method = strtoupper(getenv('REQUEST_METHOD'));
+    	if ( 'POST' !== $request_method ) {
+			return;
+		}
+
+    	if ( ! isset( $_POST['take_quiz'] ) || empty( $_POST['_wpnonce'] ) ) {
+    		return;
+    	}
+
+		if ( isset( $_POST['take_quiz'] ) ) {
+
+			//create quiz session object
+			$quiz = new stdClass();
+			$quiz->id = $_POST['quiz_id'];
+			$quiz->assoc_lesson = $_POST['associated_lesson'];
+			$quiz->user_id = (int) get_current_user_id();
+
+			LLMS()->session->set( 'llms_quiz', $quiz );
+
+			//redirect user to quiz page
+			$redirect = get_permalink( $_POST['quiz_id'] );
+			wp_redirect( apply_filters( 'lifterlms_lesson_start_quiz_redirect', $redirect ) );
+
+		}
 	}
 
 	// Mark lesson as complete
@@ -79,109 +410,111 @@ class LLMS_Frontend_Forms {
 
     	if ( isset( $_POST['mark-complete'] ) ) {
     		$lesson = new LLMS_Lesson( $_POST['mark-complete'] );
+    		$lesson->mark_complete( get_current_user_id() );
+   //  		$lesson = new LLMS_Lesson( $_POST['mark-complete'] );
 
-    		$current_lesson = new stdClass();
+   //  		$current_lesson = new stdClass();
 
-    		$current_lesson->id = $_POST['mark-complete'];
+   //  		$current_lesson->id = $_POST['mark-complete'];
 
-    		$current_lesson->parent_id = $lesson->get_parent_course();
-    		$current_lesson->title = get_the_title($current_lesson->id);
+   //  		$current_lesson->parent_id = $lesson->get_parent_course();
+   //  		$current_lesson->title = get_the_title($current_lesson->id);
 
 
-    		$current_lesson->user_id = get_current_user_id();//get_post_meta( $current_lesson->parent_id , '_llms_student', true );
+   //  		$current_lesson->user_id = get_current_user_id();//get_post_meta( $current_lesson->parent_id , '_llms_student', true );
 
-    		//TODO move this to it's own class and create a userpostmeta class.
-    		$user = new LLMS_Person;
-			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $current_lesson->id );
+   //  		//TODO move this to it's own class and create a userpostmeta class.
+   //  		$user = new LLMS_Person;
+			// $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $current_lesson->id );
 
-    		if ( empty($current_lesson->user_id) ) {
-    			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
-    		}
-    		elseif ( ! empty($user_postmetas) ) {
+   //  		if ( empty($current_lesson->user_id) ) {
+   //  			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
+   //  		}
+   //  		elseif ( ! empty($user_postmetas) ) {
     		
-    			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-    				return;
-    			}
-    		}
-    		else {
+   //  			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+   //  				return;
+   //  			}
+   //  		}
+   //  		else {
 
-    			$key = '_is_complete';
-    			$value = 'yes';
+   //  			$key = '_is_complete';
+   //  			$value = 'yes';
 
-    			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-					array( 
-						'user_id' 			=> $current_lesson->user_id,
-						'post_id' 			=> $current_lesson->id,
-						'meta_key'			=> $key,
-						'meta_value'		=> $value,
-						'updated_date'		=> current_time('mysql'),
-					)
-				);
-				do_action( 'lifterlms_lesson_completed', $current_lesson->user_id, $current_lesson->id);
+   //  			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+			// 		array( 
+			// 			'user_id' 			=> $current_lesson->user_id,
+			// 			'post_id' 			=> $current_lesson->id,
+			// 			'meta_key'			=> $key,
+			// 			'meta_value'		=> $value,
+			// 			'updated_date'		=> current_time('mysql'),
+			// 		)
+			// 	);
+			// 	do_action( 'lifterlms_lesson_completed', $current_lesson->user_id, $current_lesson->id);
 		
-				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), $current_lesson->title ) );
+			// 	llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), $current_lesson->title ) );
 
-				$course = new LLMS_Course($current_lesson->parent_id);
-				$section_completion = $course->get_section_percent_complete($current_lesson->id);
-				$section_id = get_section_id($course->id, $current_lesson->id);
+			// 	$course = new LLMS_Course($current_lesson->parent_id);
+			// 	$section_completion = $course->get_section_percent_complete($current_lesson->id);
+			// 	$section_id = get_section_id($course->id, $current_lesson->id);
 				
-				if ( $section_completion == '100' ) {
+			// 	if ( $section_completion == '100' ) {
 
-					$key = '_is_complete';
-					$value = 'yes';
+			// 		$key = '_is_complete';
+			// 		$value = 'yes';
 
-					$user_postmetas = $user->get_user_postmeta_data( $current_lesson->user_id, $section_id );
-					if ( ! empty( $user_postmetas['_is_complete'] ) ) {
-						if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-		    				return;
-		    			}
-		    		}
+			// 		$user_postmetas = $user->get_user_postmeta_data( $current_lesson->user_id, $section_id );
+			// 		if ( ! empty( $user_postmetas['_is_complete'] ) ) {
+			// 			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+		 //    				return;
+		 //    			}
+		 //    		}
 
-					$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-						array( 
-							'user_id' 			=> $current_lesson->user_id,
-							'post_id' 			=> $section_id,
-							'meta_key'			=> $key,
-							'meta_value'		=> $value,
-							'updated_date'		=> current_time('mysql'),
-						)
-					);
+			// 		$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+			// 			array( 
+			// 				'user_id' 			=> $current_lesson->user_id,
+			// 				'post_id' 			=> $section_id,
+			// 				'meta_key'			=> $key,
+			// 				'meta_value'		=> $value,
+			// 				'updated_date'		=> current_time('mysql'),
+			// 			)
+			// 		);
 
-					do_action('lifterlms_section_completed', $current_lesson->user_id, $section_id );
+			// 		do_action('lifterlms_section_completed', $current_lesson->user_id, $section_id );
 		
-				}
+			// 	}
 
 
 
-				$course_completion = $course->get_percent_complete();
+			// 	$course_completion = $course->get_percent_complete();
 
-				if ( $course_completion == '100' ) {
+			// 	if ( $course_completion == '100' ) {
 
-					$key = '_is_complete';
-					$value = 'yes';
+			// 		$key = '_is_complete';
+			// 		$value = 'yes';
 
-					$user_postmetas = $user->get_user_postmeta_data( $current_lesson->user_id, $course->id );
-					if ( ! empty( $user_postmetas['_is_complete'] ) ) {
-						if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-		    				return;
-		    			}
-		    		}
+			// 		$user_postmetas = $user->get_user_postmeta_data( $current_lesson->user_id, $course->id );
+			// 		if ( ! empty( $user_postmetas['_is_complete'] ) ) {
+			// 			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+		 //    				return;
+		 //    			}
+		 //    		}
 
-					$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-						array( 
-							'user_id' 			=> $current_lesson->user_id,
-							'post_id' 			=> $course->id,
-							'meta_key'			=> $key,
-							'meta_value'		=> $value,
-							'updated_date'		=> current_time('mysql'),
-						)
-					);
+			// 		$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
+			// 			array( 
+			// 				'user_id' 			=> $current_lesson->user_id,
+			// 				'post_id' 			=> $course->id,
+			// 				'meta_key'			=> $key,
+			// 				'meta_value'		=> $value,
+			// 				'updated_date'		=> current_time('mysql'),
+			// 			)
+			// 		);
 
-					do_action('lifterlms_course_completed', $current_lesson->user_id, $course->id );
+			// 		do_action('lifterlms_course_completed', $current_lesson->user_id, $course->id );
 		
-				}
+		 //	}
 
-    		}
+     		//}
     	}
 
     }
@@ -349,12 +682,14 @@ class LLMS_Frontend_Forms {
 			$coupon->name = ($coupon->title . ': ' . '$' . $coupon->amount . ' coupon');
 		}
 
-		if ($coupon->limit <= 0) {
-			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> cannot be applied to this order.', 'lifterlms' ), $coupon->coupon_code ), 'error' ) ;
+		if ( isset( $coupon->limit ) ) {
+			if ($coupon->limit <= 0) {
+				return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> cannot be applied to this order.', 'lifterlms' ), $coupon->coupon_code ), 'error' ) ;
+			}
+			
+			//remove coupon limit
+			$coupon->limit = ($coupon->limit - 1);
 		}
-		
-		//remove coupon limit
-		$coupon->limit = ($coupon->limit - 1);
 
 		LLMS()->session->set( 'llms_coupon', $coupon );
 		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' ) ;
@@ -459,6 +794,8 @@ class LLMS_Frontend_Forms {
 		$order->payment_option_id = $payment_option_data[1];
 
 		$order->product_sku		= $product->get_sku();
+		$order->total = 0;
+		$order->product_price = 0;
 		//get product price (could be single or recurring)
 		if ( property_exists( $order, 'payment_option' ) ) {
 			if ( $order->payment_option == 'single' ) {
@@ -472,9 +809,9 @@ class LLMS_Frontend_Forms {
 				foreach ($subs as $id => $sub) {
 
 					if ($id == $order->payment_option_id) {
-						$order->product_price   		= $product->get_subscription_total_price($sub);
+						$order->product_price   		= $product->get_subscription_payment_price($sub);
 						$order->total 					= $product->get_subscription_total_price($sub);
-						$order->first_payment			= $product->get_subscription_total_price($sub);
+						$order->first_payment			= $product->get_subscription_first_payment($sub);
 						$order->billing_period			= $product->get_billing_period($sub);
 						$order->billing_freq			= $product->get_billing_freq($sub);
 						$order->billing_cycle			= $product->get_billing_cycle($sub);
@@ -482,6 +819,10 @@ class LLMS_Frontend_Forms {
 					}
 
 				}
+			}
+			elseif ( $order->payment_option == 'none' ) {
+				$order->product_price			= 0;
+				$order->total 					= 0;
 			}
 		}
 	
@@ -640,6 +981,12 @@ class LLMS_Frontend_Forms {
 			case 'course_end_date' :
 				$end_date = llms_get_course_end_date($post_id);
 				llms_add_notice( sprintf( __( 'Course ended %s.', 'lifterlms' ), $end_date ) );
+				break;
+			case 'quiz_restricted' :
+				//$end_date = llms_get_course_end_date($post_id);
+				llms_add_notice( sprintf( __( 'You do not have access to the quiz questions. <a href="%s">Return to Account page</a>.', 'lifterlms' ), get_permalink( llms_get_page_id( 'myaccount' ) )));
+				//$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
+				//p_redirect( apply_filters( 'quiz_restricted_redirect', $redirect ) );
 				break;
 		}
 

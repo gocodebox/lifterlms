@@ -57,15 +57,20 @@ add_action( 'lifterlms_single_membership_before_summary', 'lifterlms_template_si
 //add_action( 'lifterlms_single_membership_summary', 'lifterlms_template_single_membership_full_description', 10 );
 add_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_single_purchase_link', 10 );
 
-
-add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_attempts', 10 );
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_return_link', 10 );
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_results', 10 );
 add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_passing_percent', 10 );
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_attempts', 10 );
+
 
 add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_start_button', 10 );
 
+add_action( 'lifterlms_single_question_before_summary', 'lifterlmslifterlms_template_question_wrapper_start', 10 );
+add_action( 'lifterlms_single_question_before_summary', 'lifterlms_template_single_question_count', 10 );
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_single_choice', 10 );
+add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_prev_question', 10 );
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_next_question', 10 );
-
+add_action( 'lifterlms_single_question_after_summary', 'lifterlmslifterlms_template_question_wrapper_end', 10 );
 
 
 // add_action( 'lifterlms_before_main_content', 'lifterlms_output_content_wrapper', 10 );

@@ -106,29 +106,188 @@ class LLMS_Quiz {
 
 	}
 
-	public function get_total_attempts_by_user($user_id) {
-		global $wpdb;
+	/**
+	 * returns the total points possible
+	 * @return [int] [description]
+	 */
+	public function get_total_possible_points() {
+		$questions = $this->get_questions();
 
-		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+		$points = 0;
 
-		$result = $wpdb->get_col( $wpdb->prepare(
-			'SELECT meta_value FROM '.$table_name.' WHERE user_id = %s AND post_id = %d AND meta_key = "_attempts" ORDER BY updated_date DESC', $user_id, $this->id ) );
-
-		return $result;
+		if ( ! empty( $questions ) ) {
+			foreach ( $questions as $key => $value ) {
+				$points += $value['points'];
+			}
+		}
+		return ( $points != 0 ? $points : 0 );
 	}
 
-	public function get_remaining_attempts_by_user($user_id) {
-		$attempts_allowed = $this->get_total_allowed_attempts();
-		$attempts = $this->get_total_attempts_by_user($user_id);
+	public function get_point_weight() {
+		return ( 100 / $this->get_total_possible_points() );
+	}
 
-		//attempts aren't really unlimited but they get 1000 tries.
+	public function get_grade($points) {
+		return $points * $this->get_point_weight();
+	}
+
+	public function get_user_grade( $user_id ) {
+		$grade = 0;
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+
+
+		if ( ! $quiz ) {
+			return;
+		}
+
+		if ( $quiz ) {
+			foreach ( $quiz as $key => $value ) {
+				if ( $value['id'] == $this->id ) {
+					$grade = $value['grade'];
+				}
+
+			}
+		}
+		return $grade;
+	}
+
+	public function get_best_grade( $user_id ) {
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+
+		//get all grades and add to grades array
+		$grades = array();
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id ) {
+				if ( $value['grade'] ) {
+					array_push( $grades, $value['grade'] );
+				}
+			}
+		}
+
+		$highest_grade = ( empty( $grades ) ? 0 : max( $grades ) );
+		return $highest_grade;
+	}
+
+	public function get_best_quiz_attempt( $user_id ) {
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$grades = array();
+
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id ) {
+				if ( $value['grade'] ) {
+					array_push( $grades, $value['grade'] );
+				}
+			}
+		}
+		$highest_grade = ( empty( $grades ) ? 0 : max( $grades ) );
+
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id && $highest_grade == $value['grade'] ) {
+				$unique_id = $value['wpnonce'];
+			}
+		}
+		LLMS_log('finding highest grade');
+		return $unique_id;
+	}
+
+	public function get_total_time( $user_id, $unique_id = '' ) {
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$total_time = 0;
+		if ( $quiz ) {
+			foreach ( $quiz as $key => $value ) {
+				if ( $unique_id == $value['wpnonce'] ) {
+					if ( $value['end_date'] ) {
+						$start_date = strtotime( $value['start_date'] );
+						$end_date = strtotime( $this->get_end_date( $user_id, $unique_id ) );
+						$total_time = round( abs( $end_date - $start_date ) / 60, 2 ) . " minutes";
+					}
+					break;
+				}
+				elseif ( $value['id'] == $this->id ) {
+					if ( $value['end_date'] ) {
+						$start_date = strtotime( $value['start_date'] );
+						$end_date = strtotime( $this->get_end_date( $user_id ) );
+						$total_time = round( abs( $end_date - $start_date ) / 60, 2 ) . " minutes";
+					}
+				}
+			}
+		}
+		return $total_time;
+	}
+
+	public function is_passing_score( $user_id ) {
+		return ( $this->get_passing_percent() < $this->get_best_grade( $user_id ) );
+	}
+
+	public function get_end_date( $user_id, $unique_id = '' ) {
+		$end_date = '';
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['wpnonce'] == $unique_id ) {
+				$end_date = $value['end_date'];
+				break;
+			}
+			elseif ( $value['id'] == $this->id ) {
+				$end_date = $value['end_date'];
+			}
+		}
+		return $end_date;
+	}
+
+	public function get_start_date( $user_id, $unique_id = '' ) {
+		$end_date = '';
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+
+		foreach ( $quiz as $key => $value ) { 
+			if ( $value['wpnonce'] == $unique_id ) {
+				$start_date = $value['start_date'];
+				break;
+			}
+			elseif ( $value['id'] == $this->id ) {
+				$start_date = $value['start_date'];
+			}
+		}
+		return $start_date;
+	}
+
+	public function get_assoc_lesson( $user_id ) {
+		$end_date = '';
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+
+		if ( ! $quiz ) {
+			return;
+		}
+		foreach ( $quiz as $key => $value ) {
+			if ( $value['id'] == $this->id ) {
+				$lesson = $value['assoc_lesson'];
+			}
+		}
+		return $lesson;
+	}
+
+	public function get_total_attempts_by_user( $user_id ) {
+		global $wpdb;
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$attempts = 0;
+
+		if ( $quiz ) {
+			foreach ( $quiz as $key => $value ) {
+				if ( $value['id'] == $this->id ) {
+					$attempts++;
+				}
+			}
+		}
+
+		return $attempts;
+	}
+
+	public function get_remaining_attempts_by_user( $user_id ) {
+		$attempts_allowed = $this->get_total_allowed_attempts();
+		$attempts = $this->get_total_attempts_by_user( $user_id );
+
 		if ( empty($attempts) ) {
 			$attempts = 0;
-		}
-		else {
-			foreach($attempts as $key => $value) {
-				$attempts = $value;
-			}
 		}
 
 		$total_attempts_remaining = ($attempts_allowed - $attempts);
@@ -139,6 +298,38 @@ class LLMS_Quiz {
 	public function get_questions() {
 		return $this->llms_questions;
 
+	}
+
+	public function get_question_count() {
+		return count( $this->llms_questions );
+	}
+
+	public function get_correct_answers_count( $user_id, $unique_id = '' ) {
+		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$wpnonce = '';
+
+		if ( $quiz ) {
+			foreach ( $quiz as $key => $value ) {
+				if ( $unique_id == $value['wpnonce'] ) {
+					$count = 0;
+					$wpnonce = $value['wpnonce'];
+					foreach ( $value['questions'] as $k => $v ) {
+						if ( $v['correct'] ) {
+							$count++;
+						}
+					}
+				}
+				elseif ( $value['id'] == $this->id && $wpnonce == '' ) {
+					$count = 0;
+					foreach ( $value['questions'] as $k => $v ) {
+						if ( $v['correct'] ) {
+							$count++;
+						}
+					}
+				}
+			}
+		}
+		return $count;
 	}
 
 	

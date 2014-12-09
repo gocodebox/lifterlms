@@ -250,6 +250,19 @@ class LLMS_Meta_Box_Product {
 			update_post_meta( $post_id, '_llms_billing_freq', $billing_freq );
 			update_post_meta( $post_id, '_llms_billing_cycle', $billing_cycle );
 
+			$llms_subs = array();
+			$llms_sub = array();
+			$llms_sub['billing_cycle'] = $billing_cycle;
+			$llms_sub['billing_freq'] = $billing_freq;
+			$llms_sub['billing_period'] = $billing_period;
+			$llms_sub['total_price'] = ( ( $subscription_price * $billing_cycle ) + $subscription_first_payment );
+			$llms_sub['sub_price'] = $subscription_price;
+			$llms_sub['first_payment'] = $subscription_first_payment;
+
+			$llms_subs[] = $llms_sub;
+			update_post_meta( $post_id, '_llms_subscriptions', $llms_subs );
+
+
 		}
 		else {
 			update_post_meta( $post_id, '_llms_recurring_enabled', '' );
@@ -258,6 +271,9 @@ class LLMS_Meta_Box_Product {
 			update_post_meta( $post_id, '_llms_billing_period', '' );
 			update_post_meta( $post_id, '_llms_billing_freq', '' );
 			update_post_meta( $post_id, '_llms_billing_cycle', '' );
+
+			$llms_subs = array();
+			update_post_meta( $post_id, '_llms_subscriptions', $llms_subs );
 		}
 
 

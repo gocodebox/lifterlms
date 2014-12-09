@@ -5,27 +5,19 @@
  * @package 	LifterLMS/Classes
  * @version     0.1
  */
-
 /**
  * Restrict direct access
  */
-
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
 if ( ! defined( 'ABSPATH' ) ) exit;
-
 if ( ! class_exists( 'LLMS_Install' ) ) :
-
 /**
  * LLMS_Install Class
  */
-
 class LLMS_Install {
-
 	public $version = '1.0';
 	protected $min_wp_version = '3.5';
 	public $current_wp_version;
-
 	/**
 	 * LLMS_Install Constructor.
 	 * @access public
@@ -37,10 +29,8 @@ class LLMS_Install {
 		add_action( 'admin_init', array( $this, 'check_wp_version' ) );	
 		add_action( 'admin_init', array( $this, 'install_settings' ) );
 		add_action( 'admin_init', array( $this, 'update_relationships' ) );
-
 		add_action( 'init', array( $this, 'register_post_types') );
 	}
-
 	//custom error notice ~ this needs to be moved to it's own class / factory
 	public function custom_error_notice(){
      	global $current_screen;
@@ -49,7 +39,6 @@ class LLMS_Install {
          		. $this->min_wp_version . ' or higher. Your current version of Wordpress is ' . $this->current_wp_version  .
          		'. You may experience issues with this plugin until you upgrade your version of Wordpress.</p></div>';
 	}
-
 	//testing message only. You can dump shit out in this message. 
 	public function custom_dump_notice(){
      	global $current_screen;
@@ -58,7 +47,6 @@ class LLMS_Install {
          		. $this->min_wp_version . ' or higher. Your current version of Wordpress is ' . $this->current_wp_version  .
          		'. You may experience issues with this plugin until you upgrade your version of Wordpress.</p></div>';
 	}
-
 	/**
 	 * Check if installed WP version is compatable with plugin requirements. 
 	 */
@@ -67,14 +55,10 @@ class LLMS_Install {
 		if ( version_compare( get_bloginfo( 'version' ), $this->min_wp_version, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'custom_error_notice' ));
 		}
-
 	}
-
 	public function update_relationships() {
 		$relationship_updated = get_option( 'lifterlms_relationship_update', 'no' ) === 'yes' ? true : false;
-
 		if (!$relationship_updated) {
-
 			$course_args = array(
 				'posts_per_page'   => -1,
 				'orderby'          => 'title',
@@ -106,8 +90,6 @@ class LLMS_Install {
 			update_option( 'lifterlms_relationship_update', 'yes' );
 		}
 	}
-
-
 	/**
 	 * Install LLMS
 	 */
@@ -115,15 +97,12 @@ class LLMS_Install {
 		$this->create_options();
 		$this->create_tables();
 		$this->create_roles();
-
 		LLMS()->query->init_query_vars();
 		LLMS()->query->add_endpoints();
-
 		$this->register_post_types();
+		$this->cron();
 		flush_rewrite_rules();
 	}
-
-
 	/**
 	 * Register CPTs and Taxonomies
 	 * @return null
@@ -133,27 +112,20 @@ class LLMS_Install {
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 	}
-
 	public function install_settings() {
-
 		$installation_complete = get_option( 'lifterlms_settings_installed', 'no' ) === 'yes' ? true : false;
-
 		if ( ! $installation_complete ) {
-
 			self::create_pages();
 			self::create_posts();
 			update_option( 'lifterlms_settings_installed', 'yes' );
-
 		}
 	}
-
 	/**
 	 * Create starter pages
 	 *
 	 * TODO: This could be refactored to loop through and gen the pages.
 	 */
 	public static function create_pages() {
-
 		$membership_page = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'page',
 			'post_title' 	=> 'Memberships',
@@ -161,7 +133,6 @@ class LLMS_Install {
 			'post_status'   => 'publish',
 			'post_content'  => '',
 		) );
-
 		$shop_page = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'page',
 			'post_title' 	=> 'Courses',
@@ -169,7 +140,6 @@ class LLMS_Install {
 			'post_status'   => 'publish',
 			'post_content'  => '',
 		) );
-
 		$checkout_page = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'page',
 			'post_title' 	=> 'Purchase',
@@ -177,7 +147,6 @@ class LLMS_Install {
 			'post_status'   => 'publish',
 			'post_content'  => '[lifterlms_checkout]',
 		) );
-
 		$account_page = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'page',
 			'post_title' 	=> 'My Courses',
@@ -185,14 +154,11 @@ class LLMS_Install {
 			'post_status'   => 'publish',
 			'post_content'  => '[lifterlms_my_account]',
 		) );
-
 		$membership_page_id = wp_insert_post( $membership_page, true );
 		$shop_page_id = wp_insert_post( $shop_page, true );
 		$checkout_page_id = wp_insert_post( $checkout_page, true );
 		$account_page_id = wp_insert_post( $account_page, true );
-
 	}
-
 	public function create_posts() {
 		$new_user_email = apply_filters( 'lifterlms_new_page', array(
 			'post_type' 	=> 'llms_email',
@@ -204,14 +170,10 @@ class LLMS_Install {
 			'post_status'   => 'publish',
 			'post_author'   => 1,
 		) );
-
 		$new_user_email_id = wp_insert_post( $new_user_email, true );
 		update_post_meta($new_user_email_id,'_event_id', 'email_new_user');
-
 	}
-
 	public function create_options() {
-
 		//store installed version
 		add_option('lifterlms_current_version', $this->version);
 		add_option('lifterlms_is_activated', '');
@@ -219,9 +181,7 @@ class LLMS_Install {
 		add_option('lifterlms_authkey', 'YA5j24mKX38yyLZf2CD6YX6i78Kr94tg');
 		
 		include_once( 'admin/class.llms.admin.settings.php' );
-
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
-
 		foreach ( $settings as $section ) {
 			foreach ( $section->get_settings() as $value ) {
 				if ( isset( $value['default'] ) && isset( $value['id'] ) ) {
@@ -230,20 +190,14 @@ class LLMS_Install {
 				}
 			}
 		}
-
 	}
-
 	/**
 	 * Create liftLMS tables
 	 */
 	public function create_tables() {
-
 		global $wpdb, $lifterlms;
-
 		$wpdb->hide_errors();
-
 		$collate = '';
-
 		if ( $wpdb->has_cap( 'collation' ) ) {
 			if ( ! empty($wpdb->charset ) ) {
 				$collate .= "DEFAULT CHARACTER SET $wpdb->charset";
@@ -252,9 +206,7 @@ class LLMS_Install {
 				$collate .= " COLLATE $wpdb->collate";
 			}
 		}
-
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
 		//lifterLMS Tables
 		$lifterlms_tables = "
 			CREATE TABLE {$wpdb->prefix}lifterlms_order (
@@ -280,7 +232,6 @@ class LLMS_Install {
 			  KEY post_id (post_id)
 			) $collate;
 		";
-
 		try
 		{
 		$conn = dbDelta( $lifterlms_tables );
@@ -289,24 +240,18 @@ class LLMS_Install {
 		{
 		 throw new Exception( 'Instalation failed. Error creating lifterLMS tables in database.', 0, $e);
 		}	
-
 	}
-
 	public function create_roles() {
 		global $wp_roles;
-
 		/**
 		 * @note 
 		 * I think this was incomplete and is not needed, possibly remove in the future
 		 * - thomasplevy
 		 */
 		// $methods = $this->get_capabilities();
-
 		// this function should only ever run once!
 		$roles_installed = (get_option( 'lifterlms_student_role_created', 'no' ) == 'yes') ? true : false;
-
 		if ( ! $roles_installed ) {
-
 			add_role(
 				'student',
 				__( 'Student', 'lifterlms' ),
@@ -314,7 +259,6 @@ class LLMS_Install {
 					'read' => true
 				)
 			);
-
 			/**
 			 * Migrate "person" -> "student"
 			 * Temporary query to move all existing "person" roles to updated "student" role
@@ -328,23 +272,16 @@ class LLMS_Install {
 					$user->remove_cap('person');
 				}
 			}
-
 			update_option( 'lifterlms_student_role_created', 'yes' );
-
 		}	
-
 	}
-
 	public function get_capabilities() {
 		$capabilities = array();
-
 		$capabilities['core'] = array(
 			'manage_lifterlms',
 			'view_lifterlms_reports'
 		);
-
 		$capability_types = array( 'course', 'section', 'lesson', 'order', 'llms_email' );
-
 		foreach( $capability_types as $capability_type ) {
 			$capability_types[ $capability_type  ] = array(
 				"edit_{$capability_type}",
@@ -369,8 +306,13 @@ class LLMS_Install {
 		return $capabilities;
 	}
 
+	public function cron() {
+
+		if ( ! wp_next_scheduled('llms_check_for_expired_memberships')) {
+  			wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
+		}
+
+	}
 }
-
 endif;
-
 return new LLMS_Install();

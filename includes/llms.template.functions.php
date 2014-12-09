@@ -226,6 +226,14 @@ if ( ! function_exists( 'lifterlms_template_quiz_attempts' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_quiz_return_link' ) ) {
+
+	function lifterlms_template_quiz_return_link() {
+
+		llms_get_template( 'quiz/return-to-lesson.php' );
+	}
+}
+
 if ( ! function_exists( 'lifterlms_template_passing_percent' ) ) {
 
 	function lifterlms_template_passing_percent() {
@@ -247,11 +255,46 @@ if ( ! function_exists( 'lifterlms_template_single_next_question' ) ) {
 		llms_get_template( 'quiz/next-question.php' );
 	}
 }
+if ( ! function_exists( 'lifterlms_template_single_prev_question' ) ) {
+
+	function lifterlms_template_single_prev_question() {
+
+		llms_get_template( 'quiz/previous-question.php' );
+	}
+}
+if ( ! function_exists( 'lifterlms_template_single_question_count' ) ) {
+
+	function lifterlms_template_single_question_count() {
+
+		llms_get_template( 'quiz/question-count.php' );
+	}
+}
 if ( ! function_exists( 'lifterlms_template_single_single_choice' ) ) {
 
 	function lifterlms_template_single_single_choice() {
 
 		llms_get_template( 'quiz/single-choice.php' );
+	}
+}
+if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_start' ) ) {
+
+	function lifterlmslifterlms_template_question_wrapper_start() {
+
+		llms_get_template( 'quiz/wrapper-start.php' );
+	}
+}
+if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_end' ) ) {
+
+	function lifterlmslifterlms_template_question_wrapper_end() {
+
+		llms_get_template( 'quiz/wrapper-end.php' );
+	}
+}
+if ( ! function_exists( 'lifterlms_template_quiz_results' ) ) {
+
+	function lifterlms_template_quiz_results() {
+
+		llms_get_template( 'quiz/results.php' );
 	}
 }
 

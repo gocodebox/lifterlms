@@ -164,7 +164,25 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         // Create a new PayPal class instance, and set the sandbox mode to true
         $paypal = new LLMS_Payment_Gateway_Paypal ();
 
+        //apply coupon to order total
+        $coupon = LLMS()->session->get( 'llms_coupon' );
+        if ( $coupon ) {
+            $product = new LLMS_Product( $order->product_id );
+            $order->total = ( $order->total - $product->get_coupon_discount_total( $order->total ) );
 
+            if ( $order->payment_option == 'recurring' ) {
+                if ($coupon->type == 'percent') {
+                    $order->first_payment = ( $order->first_payment - $product->get_coupon_discount_total( $order->first_payment ) );
+                    $order->product_price = ( $order->product_price - $product->get_coupon_discount_total( $order->product_price ) );
+                } 
+                else {
+                    return llms_add_notice( __( 'You cannot apply dollar based discounts to recurring orders.', 'lifterlms' ) );
+                }
+            }
+            elseif ( $order->payment_option == 'single' ) {
+                $order->product_price = ( $order->product_price - $product->get_coupon_discount_total( $order->product_price ) );
+            }
+        }
 
         if ( $order->payment_option == 'single' ) {
 
@@ -183,7 +201,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
             $param = array(
                 'amount' => $order->first_payment,
-                'recurring_amount' => $order->total,
+                'recurring_amount' => $order->product_price,
                 'currency_code' => $order->currency,
                 'return_url' => $order->return_url,
                 'cancel_url' => $order->cancel_url,
@@ -205,7 +223,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         if ($paypal->setExpressCheckout($param)) {
 
             $redirect_url = $paypal->getRedirectURL();
-            //do_action( 'lifterlms_order_process_begin', $redirect_url );
+            do_action( 'lifterlms_order_process_begin', $redirect_url );
 
         } 
 
@@ -237,7 +255,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             if ($request['AMT'] > 0) {
 
                 $init_param = array(
-                    'amount' => $order->first_payment,
+                    'amount' => $request['AMT'],
                     'currency_code' => $request['CURRENCYCODE'],
                     'payer_id' => $request['PAYERID'],
                     'token' => $request['TOKEN'],
@@ -249,25 +267,34 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 }
             }
 
-           // if ($init_response['ACK'] == 'Success' || $request['AMT'] <= 0) {
+            $coupon = LLMS()->session->get( 'llms_coupon' );
+            if ( $coupon ) {
+                $product = new LLMS_Product( $order->product_id );
 
-                $param = array(
-                    'profile_start_date' => strtotime($order->billing_start_date),
-                    'description' => trim($order->product_title),
-                    'billing_period' => $billing_period,
-                    'billing_freq' => $order->billing_freq,
-                    'recurring_amount' => $order->total,
-                    'currency_code' => $request['CURRENCYCODE'],
-                    'token' => $request['TOKEN'],
-                    'payer_id' => $request['PAYERID'],
-                    'total_billing_cycles' => $order->billing_cycle,
-                    'max_failed_payments' => '1',
-                );
-
-                if ($paypal->createRecurringPaymentsProfile($param)) {
-                    $response = $paypal->getResponse();
+                if ( $order->payment_option == 'recurring' ) {
+                    if ($coupon->type == 'percent') {
+                        $order->product_price = ( $order->product_price - $product->get_coupon_discount_total( $order->product_price ) );
+                    } 
                 }
-            //}
+            }
+
+            $param = array(
+                'profile_start_date' => strtotime($order->billing_start_date),
+                'description' => trim($order->product_title),
+                'billing_period' => $billing_period,
+                'billing_freq' => $order->billing_freq,
+                'recurring_amount' => $order->product_price,
+                'currency_code' => $request['CURRENCYCODE'],
+                'token' => $request['TOKEN'],
+                'payer_id' => $request['PAYERID'],
+                'total_billing_cycles' => $order->billing_cycle,
+                'max_failed_payments' => '1',
+            );
+
+            if ($paypal->createRecurringPaymentsProfile($param)) {
+                $response = $paypal->getResponse();
+            }
+        
 
         }
 
@@ -291,7 +318,10 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
             $lifterlms_checkout = LLMS()->checkout();
             $result = $lifterlms_checkout->update_order($order);
-            update_post_meta($result,'_llms_order_paypal_profile_id', $response['PROFILEID']);
+
+            if ( $order->payment_option == 'recurring' ) {
+                update_post_meta($result,'_llms_order_paypal_profile_id', $response['PROFILEID']);
+            }
 
             do_action( 'lifterlms_order_process_success', $order );
         }
@@ -444,6 +474,8 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         if ($this->full_response) {
             parse_str(urldecode($this->full_response['body']), $output);
             return $output;
+            LLMS_log('paypal output');
+            LLMS_log($output);
         }
         return false;
     }

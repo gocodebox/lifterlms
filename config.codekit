@@ -98,22 +98,6 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_private\/scss\/frontend\/_main.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 0,
-		"decimalPrecision": 10,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_private\/scss\/frontend\/_main.scss",
-		"outputAbbreviatedPath": "\/assets\/css\/_main.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
 	"\/_private\/scss\/lifterlms.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 0,
@@ -297,15 +281,6 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/css\/admin.css",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/assets\/css\/lifterlms.css": {
-		"fileType": 16,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/assets\/css\/lifterlms.css",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -613,28 +588,6 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox.js",
 		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/assets\/js\/llms-quiz-min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/assets\/js\/llms-quiz-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-quiz-min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/assets\/js\/llms-quiz.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/assets\/js\/llms-quiz.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-quiz-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -1128,6 +1081,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/includes\/class.llms.frontend.forms.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/class.llms.frontend.forms.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/includes\/class.llms.frontend.password.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -1241,15 +1203,6 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/includes\/class.llms.question.php",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/includes\/class.llms.quiz.php": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/includes\/class.llms.quiz.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -1430,53 +1383,6 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/includes\/payment_gateways\/class.llms.payment.gateway.paypal.php",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/includes\/plugin-updaztes\/css\/puc-debug-bar.css": {
-		"fileType": 16,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/includes\/plugin-updaztes\/css\/puc-debug-bar.css",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/includes\/plugin-updaztes\/debug-bar-panel.php": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/includes\/plugin-updaztes\/debug-bar-panel.php",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/includes\/plugin-updaztes\/debug-bar-plugin.php": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/includes\/plugin-updaztes\/debug-bar-plugin.php",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/includes\/plugin-updaztes\/js\/debug-bar.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/includes\/plugin-updaztes\/js\/debug-bar.js",
-		"outputAbbreviatedPath": "\/assets\/js\/debug-bar-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/includes\/plugin-updaztes\/plugin-update-checker.php": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/includes\/plugin-updaztes\/plugin-update-checker.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -2293,6 +2199,24 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/templates\/quiz\/previous-question.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/previous-question.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/quiz\/question-count.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/question-count.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/templates\/quiz\/single-choice.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -2307,6 +2231,24 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/quiz\/start-button.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/quiz\/wrapper-end.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/wrapper-end.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/quiz\/wrapper-start.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/wrapper-start.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -2377,7 +2319,7 @@
 	},
 "hooks": [
 	],
-"lastSavedByUser": "Thomas Patrick Levy",
+"lastSavedByUser": "Mark Nelson",
 "manualImportLinks": {
 	},
 "projectAttributes": {
@@ -2632,10 +2574,6 @@
 			"active": 0,
 			"flagValue": -1
 			},
-		"gcl": {
-			"active": false,
-			"flagValue": -1
-			},
 		"globalstrict": {
 			"active": 0,
 			"flagValue": -1
@@ -2748,10 +2686,6 @@
 			"active": 0,
 			"flagValue": -1
 			},
-		"onevar": {
-			"active": false,
-			"flagValue": -1
-			},
 		"phantom": {
 			"active": 0,
 			"flagValue": -1
@@ -2788,8 +2722,8 @@
 			"active": 0,
 			"flagValue": -1
 			},
-		"smarttabs": {
-			"active": false,
+		"singleGroups": {
+			"active": 0,
 			"flagValue": -1
 			},
 		"strict": {
@@ -2804,10 +2738,6 @@
 			"active": 0,
 			"flagValue": -1
 			},
-		"trailing": {
-			"active": true,
-			"flagValue": -1
-			},
 		"typed": {
 			"active": 0,
 			"flagValue": -1
@@ -2818,10 +2748,6 @@
 			},
 		"unused": {
 			"active": 1,
-			"flagValue": -1
-			},
-		"white": {
-			"active": false,
 			"flagValue": -1
 			},
 		"withstmt": {
