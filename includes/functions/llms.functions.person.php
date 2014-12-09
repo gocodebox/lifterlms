@@ -33,7 +33,8 @@ function llms_create_new_person(
 	$billing_city = '',
 	$billing_state = '',
 	$billing_zip = '',
-	$billing_country = ''
+	$billing_country = '',
+	$agree_to_terms = ''
 	) {
 
 	// Check the e-mail address
@@ -98,6 +99,14 @@ function llms_create_new_person(
 		if ( empty( $billing_country ) ) {
 			return new WP_Error( 'registration-error', __( 'Please enter your billing country.', 'lifterlms' ) );
 		}
+	}
+
+	if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms' ) ) {
+
+		if( empty( $agree_to_terms ) ) {
+			return new WP_Error( 'registration-error', __( 'You must agree to the Terms and Conditions.', 'lifterlms' ) );
+		}
+
 	}
 
 	// Handle password creation

@@ -108,6 +108,17 @@ global $wpdb;
 	            <input type="password" class="input-text llms-input-text" name="password_2" id="password_2" />
 	        </div>
 
+			<?php if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms' ) && get_option( 'lifterlms_terms_page_id' ) ) : ?>
+
+				<div class="llms-form-item-wrapper agree_to_terms">
+					<input type="checkbox" name="agree_to_terms" id="agree_to_terms" value="yes" />
+					<label for="agree_to_terms">
+						<?php printf ( __( 'I have read and agree to the <a href="%s">Terms and Conditions</a>', 'lifterlms' ), get_the_permalink( get_option( 'lifterlms_terms_page_id' ) ) ); ?>
+						<span class="required">*</span>
+					</label>
+				</div>
+
+			<?php endif; ?>
 
 	        <input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
 

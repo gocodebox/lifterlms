@@ -25,6 +25,12 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.1.1 - UNRELEASED
+-------------------
+
+# New Features
++ Added user registration settings to require users to agree to Terms and Conditions on user registration
+
 v1.1.0 - 2014-12-08
 -------------------
 + Updated HTML / CSS on Registration form

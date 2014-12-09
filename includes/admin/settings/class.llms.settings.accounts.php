@@ -138,6 +138,25 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'checkboxgroup' => 'middle',
 				'autoload'      => false
 			),
+			array(
+				'title'         => __( 'Account Creation', 'lifterlms' ),
+				'desc'          => __( 'Add a required "I Agree to the Terms and Conditions" checkbox on user registration', 'lifterlms' ),
+				'id'            => 'lifterlms_registration_require_agree_to_terms',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'middle',
+				'autoload'      => false
+			),
+			array(
+				'title' => __( 'Terms and Conditions Page', 'lifterlms' ),
+				'desc' 		=> __( 'Select the page where your Terms and Conditions are described.', 'lifterlms' ),
+				'id' 		=> 'lifterlms_terms_page_id',
+				'type' 		=> 'single_select_page',
+				'default'	=> 0,
+				'class'		=> 'chosen_select_nostd',
+				'css' 		=> 'min-width:300px;',
+				'desc_tip'	=> true,
+			),
 
 			array( 'type' => 'sectionend', 'id' => 'account_registration_options'),
 

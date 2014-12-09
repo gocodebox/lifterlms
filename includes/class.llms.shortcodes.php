@@ -136,7 +136,7 @@ class LLMS_Shortcodes {
 	public static function course_title( $atts ) {
 		if ( is_lesson() ) {
 			$lesson = new LLMS_Lesson( get_the_ID() );
-			$course_id = $lesson->get_parent_course();	
+			$course_id = $lesson->get_parent_course();
 		}
 		else {
 			return self::_warn( 'shortcode [ lifterlms_course_title ] can only be displayed on lesson posts!' );
@@ -198,12 +198,12 @@ class LLMS_Shortcodes {
 
 		// setup the meta key to search on
 		switch($stat) {
-			case 'completed': 
-				$key = '_is_complete'; 
+			case 'completed':
+				$key = '_is_complete';
 				$val = false;
 			break;
 
-			case 'enrolled': 
+			case 'enrolled':
 				$key = '_status';
 				$val = 'Enrolled';
 			break;
@@ -217,10 +217,14 @@ class LLMS_Shortcodes {
 		// get results
 		$results = $person->get_user_postmetas_by_key($uid,$key);
 
-		// unset all items that are not courses
-		foreach($results as $key=>$obj) {
-			if(get_post_type($obj->post_id) != $type) {
-				unset($results[$key]);
+		// pp_dump($results,$uid,$key);
+
+		if($results) {
+			// unset all items that are not courses
+			foreach($results as $key=>$obj) {
+				if(get_post_type($obj->post_id) != $type) {
+					unset($results[$key]);
+				}
 			}
 		}
 
