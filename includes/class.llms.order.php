@@ -35,27 +35,27 @@ class LLMS_Order {
 		if (isset($order) ) {
 			$order = $order;
 		}
-		
+
 		elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
 			$order = LLMS()->session->get( 'llms_order', array() );
 		}
-		
+
 		else {
 			return false;
 		}
-		
 
-		$order_exists = $wpdb->get_results("SELECT user_id, product_id, order_completed 
+
+		$order_exists = $wpdb->get_results("SELECT user_id, product_id, order_completed
 			FROM " . $wpdb->prefix ."lifterlms_order
 			WHERE user_id = " . $order->user_id . " AND product_id = " . $order->product_id);
 
 		if ( ! $order_exists ) {
 
-			$result = $wpdb->insert( $wpdb->prefix .'lifterlms_order', array( 
-				'user_id' 			=> $order->user_id,  
+			$result = $wpdb->insert( $wpdb->prefix .'lifterlms_order', array(
+				'user_id' 			=> $order->user_id,
 				'created_date' 		=> current_time('mysql'),
 				'order_completed' 	=> $order->order_completed,
-				'product_id' 		=> $order->product_id, 
+				'product_id' 		=> $order->product_id,
 
 			) );
 
@@ -69,15 +69,16 @@ class LLMS_Order {
 	* @return Created Order post Id
 	*/
 	public function update_order($order) {
+
 		global $wpdb;
 
-		//check if user is already enrolled in the course. 
+		//check if user is already enrolled in the course.
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 		$meta_key = '_status';
 		$meta_value = 'Enrolled';
 
 		$user_enrolled = $wpdb->get_results( $wpdb->prepare(
-      	'SELECT * FROM '.$table_name.' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC', 
+      	'SELECT * FROM '.$table_name.' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC',
       		$order->user_id, $order->product_id, $meta_key, $meta_value) );
 
 		if ( !empty( $user_enrolled ) ) {
@@ -88,11 +89,11 @@ class LLMS_Order {
 		if (isset($order) ) {
 			$order = $order;
 		}
-		
+
 		elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
 			$order = LLMS()->session->get( 'llms_order', array() );
 		}
-		
+
 		else {
 			return false;
 		}
@@ -108,18 +109,18 @@ class LLMS_Order {
 
 		$order_post_id = wp_insert_post( $order_data, true );
 
-		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order', 
-			array( 
+		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order',
+			array(
 				'completed_date' 	=> current_time('mysql'),
 				'order_completed' 	=> 'yes',
 				'order_post_id'		=> $order_post_id,
 			),
-			array( 
-				'user_id' 			=> $order->user_id, 
-				'product_id' 		=> $order->product_id, 
+			array(
+				'user_id' 			=> $order->user_id,
+				'product_id' 		=> $order->product_id,
 			)
 		);
-	
+
 		//Assign user to the purchased course post
 		//update_user_meta($order->user_id,'_llms_student', $order->product_id);
 
@@ -154,18 +155,18 @@ class LLMS_Order {
 
 			//now that the coupon has been used. post the new coupon limit
 			update_post_meta($coupon->id, '_llms_usage_limit', $coupon->limit );
-			
+
 		}
 
-		//enroll user in course						
+		//enroll user in course
 		$user_metadatas = array(
 			'_start_date' => 'yes',
 			'_status' => 'Enrolled',
 		);
 
 		foreach ($user_metadatas as $key => $value) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-				array( 
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				array(
 					'user_id' 			=> $order->user_id,
 					'post_id' 			=> $order->product_id,
 					'meta_key'			=> $key,
@@ -180,7 +181,7 @@ class LLMS_Order {
 		$post_obj = get_post($order->product_id);
 
 		//add membership level to user
-		if ($post_obj->post_type == 'llms_membership') {	
+		if ($post_obj->post_type == 'llms_membership') {
 			$membership_levels = get_user_meta($order->user_id, '_llms_restricted_levels', true);
 			if (! empty($membership_levels)) {
 				array_push($membership_levels, $order->product_id);
@@ -190,7 +191,7 @@ class LLMS_Order {
 				$membership_levels = array();
 				array_push($membership_levels, $order->product_id);
 			}
-			
+
 			update_user_meta( $order->user_id, '_llms_restricted_levels', $membership_levels );
 		}
 
