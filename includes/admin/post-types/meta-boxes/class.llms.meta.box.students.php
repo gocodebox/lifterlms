@@ -84,11 +84,11 @@ class LLMS_Meta_Box_Students {
 				 		</select>
 				 		<input type="submit" class="button metabox_submit" name="remove_student_submit" value="<?php _e( 'Remove', 'lifterlms' ); ?>" />
 				 		</form>
-				 		
+
 					</td>
 				</tr>
 			</tbody>
-		</table> 
+		</table>
     <?php
 	}
 
@@ -106,8 +106,8 @@ class LLMS_Meta_Box_Students {
 			'_status' => 'Enrolled',
 		);
 		foreach( $user_metadatas as $key => $value ) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-				array( 
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				array(
 					'user_id' 			=> $user_id,
 					'post_id' 			=> $post_id,
 					'meta_key'			=> $key,
@@ -135,30 +135,30 @@ class LLMS_Meta_Box_Students {
 
 		$order_id = $wpdb->get_results( $wpdb->prepare(
 			'SELECT order_post_id FROM '.$table_name.' WHERE user_id = %s and product_id = %d', $user_id, $post_id) );
-		
+
 		foreach ($order_id as $key => $value) {
 			if ($order_id[$key]->order_post_id) {
 				wp_delete_post( $order_id[$key]->order_post_id);
 			}
 		}
-		
-		
 
-		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order', 
-			array( 
+
+
+		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order',
+			array(
 				'completed_date' 	=> current_time('mysql'),
 				'order_completed' 	=> 'yes',
 				'order_post_id'		=> $order_post_id,
 			),
-			array( 
-				'user_id' 			=> $user_id, 
-				'product_id' 		=> $post_id, 
+			array(
+				'user_id' 			=> $user_id,
+				'product_id' 		=> $post_id,
 			)
 		);
-		
+
 		foreach( $user_metadatas as $key => $value ) {
-		$update_user_postmeta = $wpdb->delete( $wpdb->prefix .'lifterlms_user_postmeta', 
-			array( 
+		$update_user_postmeta = $wpdb->delete( $wpdb->prefix .'lifterlms_user_postmeta',
+			array(
 				'user_id' 			=> $user_id,
 				'post_id' 			=> $post_id,
 				'meta_key'			=> $key,
@@ -186,8 +186,8 @@ class LLMS_Meta_Box_Students {
 
 		$order_post_id = wp_insert_post( $order_data, true );
 
-		$result = $wpdb->insert( $wpdb->prefix .'lifterlms_order', 
-			array( 
+		$result = $wpdb->insert( $wpdb->prefix .'lifterlms_order',
+			array(
 				'user_id'			=> $user_id,
 				'created_date' 		=> current_time('mysql'),
 				'completed_date' 	=> current_time('mysql'),
@@ -197,15 +197,15 @@ class LLMS_Meta_Box_Students {
 			)
 		);
 
-		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order', 
-			array( 
+		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order',
+			array(
 				'completed_date' 	=> current_time('mysql'),
 				'order_completed' 	=> 'yes',
 				'order_post_id'		=> $order_post_id,
 			),
-			array( 
-				'user_id' 			=> $user_id, 
-				'product_id' 		=> $post_id, 
+			array(
+				'user_id' 			=> $user_id,
+				'product_id' 		=> $post_id,
 			)
 		);
 
