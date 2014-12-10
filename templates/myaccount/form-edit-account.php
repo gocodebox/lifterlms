@@ -24,6 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
     <?php do_action( 'lifterlms_after_my_account_navigation' ); ?>
 </nav>
 
+<?php do_action( 'lifterlms_edit_account_start' ); ?>
+
 <form action="" class="llms-person-information-form" method="post">
 
     <div class="llms-basic-information">
@@ -62,11 +64,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 
     <?php if ( 'yes' === get_option( 'lifterlms_registration_require_address' ) ) : ?>
-        
+
         <div class="llms-billing-information">
 
             <h3><?php _e('Billing Information', 'lifterlms') ?></h3>
-            <?php 
+            <?php
             $user_id = get_current_user_id();
 
             $billing_address_1  = ( get_user_meta( $user_id, 'llms_billing_address_1' ) )      ? get_user_meta( $user_id, 'llms_billing_address_1', true ) : '';
@@ -76,7 +78,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
             $billing_zip        = ( get_user_meta( $user_id, 'llms_billing_zip' ) )            ? get_user_meta( $user_id, 'llms_billing_zip', true )       : '';
             $billing_country    = ( get_user_meta( $user_id, 'llms_billing_country' ) )        ? get_user_meta( $user_id, 'llms_billing_country', true )   : '';
             ?>
-                        
+
             <p>
                 <label for="billing_address_1"><?php _e( 'Billing Address 1', 'lifterlms' ); ?> <span class="required">*</span></label>
                 <input type="text" class="input-text llms-input-text" name="billing_address_1" id="billing_address_1" value="<?php echo $billing_address_1; ?>" />
@@ -110,7 +112,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
                     <?php endforeach; ?>
                 </select>
             </p>
-        
+
         </div>
     <?php endif; ?>
 

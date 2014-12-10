@@ -217,7 +217,7 @@ function llms_membership_settings( $user ) {
 			?>
 			<tr>
 				<th>
-					<label><?php _e('Membership Roles','lifterlms'); ?></label>
+					<label><?php _e('Membership Levels','lifterlms'); ?></label>
 				</th>
 				<td>
 					<?php
@@ -253,7 +253,6 @@ function llms_membership_settings_save( $user_id ) {
 	$membership_levels = array();
 	if (isset($_POST['llms_level'])) {
 		foreach( $_POST['llms_level'] as $value ) {
-
 			array_push($membership_levels, $value);
 		}
 	}
@@ -262,10 +261,23 @@ function llms_membership_settings_save( $user_id ) {
 
 	foreach ( $membership_levels as $level  ) {
 		if($level) {
+
+			// get current status (if any)
+		    $current_status = $wpdb->get_results( $wpdb->prepare(
+		        'SELECT * FROM '.$table_name.' WHERE post_id = %d AND user_id = %d AND meta_key = "%s" ORDER BY updated_date DESC',
+		       	$level, $user_id, '_status' )
+		    );
+
 			$set_user_enrolled = array(
 		      'post_id' => $level,
 		      'user_id' => $user_id,
 		      'meta_key' => '_status'
+		    );
+
+			$set_user_start_date = array(
+		      'post_id' => $level,
+		      'user_id' => $user_id,
+		      'meta_key' => '_start_date'
 		    );
 
 		    $status_update = array(
@@ -273,13 +285,40 @@ function llms_membership_settings_save( $user_id ) {
 		      'updated_date' => current_time( 'mysql' )
 		    );
 
-		    // change enrolled to expired in user_postmeta
-		    $update_user_meta = $wpdb->update( $table_name, $status_update, $set_user_enrolled );
+		    $start_update = array(
+		      'meta_value' => 'yes',
+		      'updated_date' => current_time( 'mysql' )
+		    );
+
+		    if($current_status) {
+		    	foreach($current_status as $status) {
+		    		switch($status->meta_value) {
+		    			// update the existing record
+		    			case 'Expired':
+						    $wpdb->update( $table_name, $start_update, $set_user_start_date );
+						    $wpdb->update( $table_name, $status_update, $set_user_enrolled );
+		    			break;
+
+		    			// do nothing
+		    			case 'Enrolled': break;
+		    		}
+		    	}
+
+		    // insert a new status in the database for them
+		    } else {
+		    	$status_data = array_merge($set_user_enrolled, $status_update);
+		    	$start_data = array_merge($set_user_start_date, $start_update);
+		    	ksort($status_data);
+		    	ksort($start_data);
+		    	$wpdb->insert( $table_name, $status_data, array( '%s', '%s', '%d', '%s', '%d' ) );
+		    	$wpdb->insert( $table_name, $start_data, array( '%s', '%s', '%d', '%s', '%d' ) );
+		    }
+
 		}
 	}
 
+	// update restricted levels array
 	update_user_meta( $user_id, '_llms_restricted_levels', $membership_levels );
-
 }
 
 add_action( 'personal_options_update',  'llms_membership_settings_save' );
