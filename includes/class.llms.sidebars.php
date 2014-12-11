@@ -22,7 +22,7 @@ class LLMS_Sidebars {
     }
 
 
-  public function register_lesson_sidebars () {
+  public static function register_lesson_sidebars () {
 
     register_sidebar( array(
           'name' => __( 'Lesson Sidebar', 'lifterlms' ),
@@ -33,7 +33,7 @@ class LLMS_Sidebars {
       ) );
   }
 
-  public function register_course_sidebars () {
+  public static function register_course_sidebars () {
 
     register_sidebar( array(
           'name' => __( 'Course Sidebar', 'lifterlms' ),

@@ -921,10 +921,9 @@ function displaying_sidebar_in_post_types($sidebars_widgets) {
             $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_course_widgets_side'];
       } elseif (is_singular('lesson')) {
             $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_lesson_widgets_side'];
-      } else {
-            $sidebars_widgets['sidebar-1'] = false;
+      //} else {
+            //$sidebars_widgets['sidebar-1'] = false;
       }
-            return $sidebars_widgets;
       
-            
+      return $sidebars_widgets;      
 }
