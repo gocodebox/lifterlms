@@ -7,7 +7,6 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course, $product;
-
 $user = new LLMS_Person;
 $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
 
@@ -60,7 +59,11 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 				<a href="<?php echo $account_redirect; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>	
 			<?php
 			}else{
+<<<<<<< HEAD
 				echo "Course has reached its limit";
+=======
+				_e( 'Course is no longer available', 'lifterlms' );
+>>>>>>> hovo
 			}
 		}
 		//check if membership level is required
@@ -100,8 +103,13 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 				  	<input type="hidden" name="product_price" value="<?php echo $course->get_price(); ?>" />
 				  	<input type="hidden" name="product_sku" value="<?php echo $course->get_sku(); ?>" />
 				  	<input type="hidden" name="product_title" value="<?php echo $post->post_title; ?>" />
+<<<<<<< HEAD
 					<input type="hidden" name="payment_option" value="none_0" />
 					<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none_0" <?php //checked( $gateway->chosen, true ); ?> />
+=======
+	
+					<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none" <?php //checked( $gateway->chosen, true ); ?> />
+>>>>>>> hovo
 	
 					<p><input type="submit" class="button llms-button llms-purchase-button" name="create_order_details" value="<?php _e( 'Take This Course', 'lifterlms' ); ?>" /></p>
 	
@@ -109,7 +117,11 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 					<input type="hidden" name="action" value="create_order_details" />
 				</form>
 			<?php } else{
+<<<<<<< HEAD
 				echo "Course has reached its limit";
+=======
+				_e( 'Course is no longer available', 'lifterlms' );
+>>>>>>> hovo
 			} ?>
 
 		<?php } 
