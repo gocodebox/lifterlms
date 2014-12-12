@@ -98,9 +98,7 @@ class LLMS_Install {
 		$this->create_options();
 		$this->create_tables();
 		$this->create_roles();
-<<<<<<< HEAD
-=======
-		
+
 		
 		// Register Post Types	
 		include_once( 'class.llms.post-types.php' );
@@ -111,8 +109,6 @@ class LLMS_Install {
 		LLMS_Sidebars::register_lesson_sidebars();
 		LLMS_Sidebars::register_course_sidebars();
 
-
->>>>>>> hovo
 		LLMS()->query->init_query_vars();
 		LLMS()->query->add_endpoints();
 		$this->register_post_types();

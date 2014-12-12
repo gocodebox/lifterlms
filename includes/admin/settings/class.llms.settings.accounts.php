@@ -140,6 +140,15 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 			array(
 				'title'         => __( 'Account Creation', 'lifterlms' ),
+				'desc'          => __( 'Add phone number field to user registration.', 'lifterlms' ),
+				'id'            => 'lifterlms_registration_add_phone',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'middle',
+				'autoload'      => false
+			),
+			array(
+				'title'         => __( 'Account Creation', 'lifterlms' ),
 				'desc'          => __( 'Add a required "I Agree to the Terms and Conditions" checkbox on user registration', 'lifterlms' ),
 				'id'            => 'lifterlms_registration_require_agree_to_terms',
 				'default'       => 'no',

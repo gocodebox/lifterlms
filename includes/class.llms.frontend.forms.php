@@ -1419,7 +1419,7 @@ LLMS_log($quiz);
 				$_username = '';
 			}
 
-			if ('yes' === get_option( 'lifterlms_registration_require_name' ) ) {
+			if ( 'yes' === get_option( 'lifterlms_registration_require_name' ) ) {
 				$_firstname = $_POST['firstname'];
 				$_lastname = $_POST['lastname'];
 
@@ -1429,7 +1429,7 @@ LLMS_log($quiz);
 				$_lastname = '';
 			}
 
-			if ('yes' === get_option( 'lifterlms_registration_require_address' ) ) {
+			if ( 'yes' === get_option( 'lifterlms_registration_require_address' ) ) {
 				$_billing_address_1 = $_POST['billing_address_1'];
 				$_billing_address_2 = $_POST['billing_address_2'];
 				$_billing_city = $_POST['billing_city'];
@@ -1445,6 +1445,10 @@ LLMS_log($quiz);
 				$_billing_state 	= '';
 				$_billing_zip 		= '';
 				$_billing_country 	= '';
+			}
+
+			if ( 'yes' == get_option( 'lifterlms_registration_add_phone' ) ) {
+				$_phone = $_POST['phone'];
 			}
 
 			$_password = $_POST['password'];
@@ -1504,7 +1508,7 @@ LLMS_log($quiz);
 			$billing_state 		= ! empty( $_billing_state ) 		? llms_clean( $_billing_state ) 	: '';
 			$billing_zip 		= ! empty( $_billing_zip ) 			? llms_clean( $_billing_zip ) 		: '';
 			$billing_country 	= ! empty( $_billing_country ) 		? llms_clean( $_billing_country ) 	: '';
-
+			$phone   		 	= ! empty( $_phone ) 				? llms_clean( $_phone ) 			: '';
 			$agree_to_terms     = $_agree_to_terms;
 
 			// Anti-spam trap
@@ -1529,7 +1533,8 @@ LLMS_log($quiz);
 				$billing_state,
 				$billing_zip,
 				$billing_country,
-				$agree_to_terms
+				$agree_to_terms,
+				$phone
 			);
 
 			if ( is_wp_error( $new_person ) ) {
