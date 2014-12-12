@@ -906,8 +906,8 @@ function check_course_capacity() {
     $lesson_max_user = get_post_meta( $post->ID, '_lesson_max_user', true );
     $table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
     $results = $wpdb->get_results('SELECT * FROM '.$table_name.' WHERE post_id = '.$post->ID .' AND meta_value = "Enrolled"');
-    
-    if ( $results ) {
+
+    if ( $results && $lesson_max_user ) {
         return count($results)<$lesson_max_user;
     }
     else {
