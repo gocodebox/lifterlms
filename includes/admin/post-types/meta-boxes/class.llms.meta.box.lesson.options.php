@@ -2,21 +2,19 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box General
+* Meta Box Lesson Options
 *
-* diplays text input for oembed general
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* diplays misc lesson options. 
 */
 class LLMS_Meta_Box_Lesson_Options {
 
 	/**
-	 * Set up general input
+	 * Static output class.
 	 *
-	 * @return string
-	 * @param string $post
+	 * Displays MetaBox
+	 * 
+	 * @param  object $post [WP post object]
+	 * @return void
 	 */
 	public static function output( $post ) {
 
@@ -74,6 +72,16 @@ class LLMS_Meta_Box_Lesson_Options {
     <?php
 	}
 
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
@@ -81,10 +89,11 @@ class LLMS_Meta_Box_Lesson_Options {
 		update_post_meta( $post_id, '_days_before_avalailable', ( $days === '' ) ? '' : $days );
 
 		if ( isset( $_POST['_llms_assigned_quiz'] ) ) {
+		//update assigned quiz select
 		$assigned_quiz = ( llms_clean( $_POST['_llms_assigned_quiz'] ) );
 		update_post_meta( $post_id, '_llms_assigned_quiz', ( $assigned_quiz === '' ) ? '' : $assigned_quiz );
 		}
-
+		//update passing grade textbox
 		$require_passing_grade = ( isset( $_POST['_llms_require_passing_grade'] ) ? true : false );
 		update_post_meta( $post_id, '_llms_require_passing_grade', ( $require_passing_grade === '' ) ? '' : $require_passing_grade );
 	}

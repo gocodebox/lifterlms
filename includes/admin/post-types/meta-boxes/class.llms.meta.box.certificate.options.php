@@ -2,19 +2,25 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box General
-*
-* diplays text input for oembed general
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* Meta Box Certificate Options
+* 
+* displays certificate options metabox. Only displays on certificate post.
 */
 class LLMS_Meta_Box_Certificate_Options {
 
 	public static $prefix = '_llms_';
 
-
+	/**
+	 * Static output class.
+	 *
+	 * Displays MetaBox
+	 * Calls static class metabox_options
+	 * Loops through meta-options array and displays appropriate fields based on type.
+	 * 
+	 * @param  object $post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function output( $post ) {
 		global $post;
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
@@ -55,10 +61,9 @@ class LLMS_Meta_Box_Certificate_Options {
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
 								
 						<?php break;
-						// image using Media Manager from WP 3.5 and greater
+						// image
 						case 'image': 
-						
-							//$image = plugins_url('/images/optional_certificate.png' , __FILE__ ); 
+
 							$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png' ); ?>
 							<img id="<?php echo $field['id']; ?>" class="llms_certificate_default_image" style="display:none" src="<?php echo $image; ?>">
 							<?php //Check existing field and if numeric
@@ -88,10 +93,11 @@ class LLMS_Meta_Box_Certificate_Options {
 						 case 'llms_help':?>
 						 
 							<p>
-							Use the text editor above to add content to your certificate. 
-							You can include any of the following merge fields. 
+							<?php _e( 'Use the text editor above to add content to your certificate.
+							You can include any of the following merge fields.', 'lifterlms' ); ?> 
 							</p>
 							<ul>
+							<!-- merge fields cannot be translated so are not echoed. -->
 							<li>{site_title}</li>
 							<li>{user_login}</li>
 							<li>{site_url}</li>
@@ -117,7 +123,13 @@ class LLMS_Meta_Box_Certificate_Options {
 	echo ob_get_clean();
 	}	
 
-
+	/**
+	 * Builds array of metabox options.
+	 * Array is called in output method to display options.
+	 * Appropriate fields are generated based on type.
+	 * 
+	 * @return array [md array of metabox fields]
+	 */
 	public static function metabox_options() {
 		$prefix = '_llms_';
 		
@@ -152,23 +164,31 @@ class LLMS_Meta_Box_Certificate_Options {
 		return $certificate_creator_meta_fields;
 		}
 
-
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-$prefix = '_llms_';
+
+		$prefix = '_llms_';
 		$title = $prefix . 'certificate_title';
 		$image = $prefix . 'certificate_image';
 
-		//if ( isset( $_POST['_has_prerequisite'] ) ) {
+		//update title
+		$update_title = ( llms_clean( $_POST[$title]  ) );
+		update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
 
-			$update_title = ( llms_clean( $_POST[$title]  ) );
-			update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
+		//update background image
+		$update_image = ( llms_clean( $_POST[$image]  ) );
+		update_post_meta( $post_id, $image, ( $update_image === '' ) ? '' : $update_image );
 
-			$update_image = ( llms_clean( $_POST[$image]  ) );
-			update_post_meta( $post_id, $image, ( $update_image === '' ) ? '' : $update_image );
-
-			
-		//}
 	}
 
 }

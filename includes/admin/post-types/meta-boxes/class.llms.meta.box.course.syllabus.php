@@ -3,12 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
 * Meta Box Course Syllabus
-*
-* main course metabox for organizing lessons, sections and setting course attributes. 
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* 
+* Syllabus metabox contains misc options and syllabus
 */
 class LLMS_Meta_Box_Course_Syllabus {
 
@@ -51,7 +47,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 
 			$query = get_posts( $args );
 			$html .= '<select class="section-select">';
-			//$html .= '<option value="" selected disabled>Select a section...</option>';
+
 			foreach ( $query as $section ) : setup_postdata( $section );
 			 
 			if ($section_id == $section->ID) {
@@ -118,10 +114,10 @@ class LLMS_Meta_Box_Course_Syllabus {
 	<table class="form-table">
 		<tbody>
 			<tr>
-				<th><label for="_lesson_length">Course Length</label></th>
+				<th><label for="_lesson_length"><?php _e('Course Length' )?></label></th>
 				<td>
 					<input type="text" name="_lesson_length" id="_lesson_length" value="<?php echo $lesson_length ?>">
-					<br /><span class="description">Enter a description of the estimated length. IE: 3 days</span>
+					<br /><span class="description"><?php _e('Enter a description of the estimated length. IE: 3 days', 'lifterlms' ); ?></span>
 				</td>
 			</tr>
 			<tr>
@@ -132,7 +128,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 					Begins <input type="text" class="datepicker short" name="_course_dates_from" id="_course_dates_from" value="' . esc_attr( $course_dates_from ) . '" placeholder="' . _x( 'From&hellip;', 'placeholder', 'lifterlms' ) . ' YYYY-MM-DD" maxlength="10" />
 					Ends <input type="text" class="datepicker short" name="_course_dates_to" id="_course_dates_tp" value="' . esc_attr( $course_dates_to ) . '" placeholder="' . _x( 'To&hellip;', 'placeholder', 'lifterlms' ) . '  YYYY-MM-DD" maxlength="10" />';
 				?>
-				<br /><span class="description">Enter a Begin and/or End date for the course if it will only be available for a set period of time.</span>
+				<br /><span class="description"><?php e_( 'Enter a Begin and/or End date for the course if it will only be available for a set period of time.', 'lifterlms' ); ?></span>
 				</td>
 			</tr>
 
@@ -171,10 +167,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 				<th><label for="_lesson_max_user">Course Capacity</label></th>
 				<td>
 					<input type="text" name="_lesson_max_user" id="_lesson_max_user" value="<?php echo $lesson_max_user ?>">
-<<<<<<< HEAD
-=======
-					<br /><span class="description">Limit the number of users that can enroll in this course.</span>
->>>>>>> hovo
+					<br /><span class="description"><?php _e( 'Limit the number of users that can enroll in this course.', 'lifterlms' ); ?></span>
 				</td>
 			</tr>
 		</tbody>
@@ -182,7 +175,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 
 	
     <h2><?php _e('Create Course Syllabus', 'lifterlms'); ?></h2>
-    <a href="#" class="button" id="addNewSection"/>Add a new Section</a>
+    <a href="#" class="button" id="addNewSection"/>A<?php e_( 'Add a new Section', 'lifterlms' ); ?></a>
     <div id="spinner"><img id="loading" alt="WordPress loading spinner" src="<?php echo admin_url('images/spinner.gif'); ?>"></div>		
     <div id="syllabus" data-post_id="<?php echo $post->ID ?>"> 
 
@@ -234,8 +227,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		//if ( isset( $_POST['_course_start_date'] ) ) {
-//Update Sales Price Dates
+		//Update Sales Price Dates
 		$date_from = isset( $_POST['_course_dates_from'] ) ? $_POST['_course_dates_from'] : '';
 		$date_to = isset( $_POST['_course_dates_to'] ) ? $_POST['_course_dates_to'] : '';
 
@@ -256,21 +248,21 @@ class LLMS_Meta_Box_Course_Syllabus {
 			update_post_meta( $post_id, '_course_dates_from', strtotime( 'NOW', current_time( 'timestamp' ) ) );
 
 		if ( isset( $_POST['_lesson_length'] ) ) {
-
+			//update lesson length text box
 			$lesson_length = llms_clean( stripslashes( $_POST['_lesson_length'] ) );
 			update_post_meta( $post_id, '_lesson_length', ( $lesson_length === '' ? '' : llms_format_decimal( $lesson_length ) ) );
 
 		}
 		
 		if ( isset( $_POST['_lesson_max_user'] ) ) {
-
+			//update lesson capacity textbox
 			$lesson_max_user = llms_clean( stripslashes( $_POST['_lesson_max_user'] ) );
 			update_post_meta( $post_id, '_lesson_max_user', ( $lesson_max_user === '' ? '' : llms_format_decimal( $lesson_max_user ) ) );
 
 		}
 
 		if ( isset( $_POST['post_course_difficulty'] ) ) {
-
+			//update associated difficulty taxonomy select
 			$course_difficulty = $_POST['post_course_difficulty'];
 			wp_set_object_terms( $post_id,  $course_difficulty, 'course_difficulty' );
 

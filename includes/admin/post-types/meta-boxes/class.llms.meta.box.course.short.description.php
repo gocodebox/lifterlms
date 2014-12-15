@@ -2,13 +2,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box Course Short Description
-*
-* hijacks post excerpt and changes the text field to tinymce.
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* Meta Box Short Description
+* 
+* Overrides WP short description
 */
 class LLMS_Meta_Box_Course_Short_Description {
 

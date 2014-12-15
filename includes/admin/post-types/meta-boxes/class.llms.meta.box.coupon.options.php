@@ -2,19 +2,25 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box General
-*
-* diplays text input for oembed general
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* Meta Box Coupon Options
+* 
+* displays coupon options metabox. Only displays on coupon post.
 */
 class LLMS_Meta_Box_Coupon_Options {
 
 	public $prefix = '_llms_';
 
-
+	/**
+	 * Static output class.
+	 *
+	 * Displays MetaBox
+	 * Calls static class metabox_options
+	 * Loops through meta-options array and displays appropriate fields based on type.
+	 * 
+	 * @param  object $post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function output( $post ) {
 		$prefix = '_llms_';
 		global $post;
@@ -71,7 +77,7 @@ class LLMS_Meta_Box_Coupon_Options {
 							<br /><span class="description"><?php echo $field['desc']; ?></span>
 						
 						<?php break;
-						// image using Media Manager from WP 3.5 and greater
+						// image
 						case 'image': 
 						
 							$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_coupon.png' ); ?>
@@ -113,11 +119,18 @@ class LLMS_Meta_Box_Coupon_Options {
 	echo ob_get_clean();
 	}	
 
-
+	/**
+	 * Builds array of metabox options.
+	 * Array is called in output method to display options.
+	 * Appropriate fields are generated based on type.
+	 * 
+	 * @return array [md array of metabox fields]
+	 */
 	public static function metabox_options() {
 		$prefix = '_llms_';
 		
 		$coupon_creator_meta_fields = apply_filters('lifterlms_coupon_options_output', array(
+			// Coupon code text field
 			array(
 				'label' => 'Coupon Code',
 				'desc' => 'Enter a code that users will enter to apply this coupon to thier item.',
@@ -125,6 +138,7 @@ class LLMS_Meta_Box_Coupon_Options {
 				'type'  => 'text',
 				'section' => 'coupon_meta_box'
 			),
+			// Discount type select
 			array(
 				'label' => 'Discount Type',
 				'desc' => 'Select a dollar or percentage discount.',
@@ -136,6 +150,7 @@ class LLMS_Meta_Box_Coupon_Options {
 						'dollar' => '$ Discount'
 					)
 			),
+			//Coupon amount text field
 			array(
 				'label'  => 'Coupon Amount',
 				'desc' => 'The value of the coupon. do not include symbols such as $ or %.',
@@ -143,20 +158,14 @@ class LLMS_Meta_Box_Coupon_Options {
 				'type'  => 'text',
 				'section' => 'coupon_meta_box'
 			),
+			//Usage limit text field
 			array(
 				'label'  => 'Usage Limit',
 				'desc' => 'The amount of times this coupon can be used. Leave empty if unlimited.',
 				'id'    => $prefix . 'usage_limit',
 				'type'  => 'text',
 				'section' => 'coupon_meta_box'
-			),
-			// array(
-			// 	'label'  => 'Expiration Date',
-			// 	'desc' => 'Enter a day the coupon will expire.',
-			// 	'id'    => $prefix . 'expiration_date',
-			// 	'type'  => 'date',
-			// 	'section' => 'coupon_meta_box'
-			// ),				
+			),				
 		) );
 
 		if(has_filter('llms_meta_fields')) {
@@ -167,7 +176,16 @@ class LLMS_Meta_Box_Coupon_Options {
 		return $coupon_creator_meta_fields;
 		}
 
-
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 		$prefix = '_llms_';
@@ -178,22 +196,27 @@ class LLMS_Meta_Box_Coupon_Options {
 		$limit = $prefix 	. 'usage_limit';
 		
 		if (isset($_POST[$title])) {
+			//update title
 			$update_title = ( llms_clean( $_POST[$title]  ) );
 			update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
 		}
 		if (isset($_POST[$type])) {
+			//update discount type
 			$update_type = ( llms_clean( $_POST[$type]  ) );
 			update_post_meta( $post_id, $type, ( $update_type === '' ) ? '' : $update_type );
 		}
 		if (isset($_POST[$amount])) {
+			//update coupon amount
 			$update_amount = ( llms_clean( $_POST[$amount]  ) );
 			update_post_meta( $post_id, $amount, ( $update_amount === '' ) ? '' : $update_amount );
 		}
 		if (isset($_POST[$limit])) {
+			//update usage limit
 			$update_limit = ( llms_clean( $_POST[$limit]  ) );
 			update_post_meta( $post_id, $limit, ( $update_limit === '' ) ? '' : $update_limit );
 		}
 
+			//save coupon action
 			do_action( 'lifterlms_after_save_coupon_meta_box', $post_id, $post );
 		
 

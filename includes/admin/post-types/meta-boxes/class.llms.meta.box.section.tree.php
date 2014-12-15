@@ -2,21 +2,23 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box Video
+* Meta Box Section Tree
 *
-* diplays text input for oembed video
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* Handles display and update for section tree. 
+* Section tree displays all associated lessons and a select box to choose the associated course. 
 */
 class LLMS_Meta_Box_Section_Tree {
 
 	/**
-	 * Set up video input
+	 * Static output class.
 	 *
-	 * @return string
-	 * @param string $post
+	 * Displays MetaBox
+	 * Calls static class metabox_options
+	 * Loops through meta-options array and displays appropriate fields based on type.
+	 * 
+	 * @param  object $post [WP post object]
+	 * 
+	 * @return void
 	 */
 	public static function output( $post ) {
 		global $post;
@@ -123,6 +125,16 @@ class LLMS_Meta_Box_Section_Tree {
 		<?php  
 	}
 
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 

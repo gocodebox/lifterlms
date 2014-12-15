@@ -2,21 +2,20 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box Video
+* Meta Box Order
 *
-* diplays text input for oembed video
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* Main metabox for order post. 
+* Displays details of order
 */
 class LLMS_Meta_Box_Order {
 
 	/**
-	 * Set up video input
+	 * Static output class.
 	 *
-	 * @return string
-	 * @param string $post
+	 * Displays MetaBox
+	 * 
+	 * @param  object $post [WP post object]
+	 * @return void
 	 */
 	public static function output( $post ) {
 		global $post;
@@ -29,17 +28,14 @@ class LLMS_Meta_Box_Order {
 		$order_type = get_post_meta( $post->ID, '_llms_order_type', true );
 		$order_date = get_post_meta( $post->ID, '_llms_order_date', true );
 		$order_type = get_post_meta( $post->ID, '_llms_order_type', true );
-		
-
 		$rec_payment = get_post_meta( $post->ID, '_llms_order_recurring_price', true );
 		$rec_first_payment = get_post_meta( $post->ID, '_llms_order_first_payment', true );
 		$rec_billing_period = get_post_meta( $post->ID, '_llms_order_billing_period', true );
 		$rec_billing_freq = get_post_meta( $post->ID, '_llms_order_billing_freq', true );
 		$rec_billing_start_date = get_post_meta( $post->ID, '_llms_order_billing_start_date', true );
-
 		$payment_type = get_post_meta( $post->ID, '_llms_payment_type', true );
-
 		$coupon_id = get_post_meta( $post->ID, '_llms_order_coupon_id', true );
+
 		if (!empty($coupon_id)) {
 			$coupon_type = get_post_meta($post->ID, '_llms_order_coupon_type', true );
 			$coupon_amount = get_post_meta($post->ID, '_llms_order_coupon_amount', true );
@@ -47,14 +43,12 @@ class LLMS_Meta_Box_Order {
 			$coupon_title = get_the_title( $coupon_id );
 			$coupon_code = get_post_meta($post->ID, '_llms_order_coupon_code', true );
 			
-
 			if ( $coupon_type == 'percent' ) {
 				$coupon_amount_html = $coupon_amount . '%';
 			}
 			elseif ( $coupon_type == 'dollar' ) {
 				$coupon_amount_html = '$' . $coupon_amount;
 			}
-
 		}
 
 		$usermeta = get_user_meta($user_id);
@@ -66,6 +60,7 @@ class LLMS_Meta_Box_Order {
 		else {
 			$user_name = $user->user_nicename;
 		}
+
 		$user_email = $user->user_email;
 		
 		do_action( 'lifterlms_before_order_meta_box' ); ?>
@@ -162,14 +157,8 @@ class LLMS_Meta_Box_Order {
 								<td><label><?php _e('Coupon Used?', 'lifterlms') ?></label></td>
 								<td><?php echo _e('No'); ?></td>
 							</tr>
-						<?php endif; ?>
-
-
-		
-
-
-						<?php } ?>
-	
+						<?php endif;
+						} ?>
 					</table>
 				</td>
 			</tr>
@@ -178,18 +167,4 @@ class LLMS_Meta_Box_Order {
 		</table>
 		<?php do_action( 'lifterlms_after_order_meta_box' );
 	}
-
-	public static function save( $post_id, $post ) {
-		global $wpdb;
-
-		if ( isset( $_POST['_video_embed'] ) ) {
-			$video = ( llms_clean( $_POST['_video_embed']  ) );
-			update_post_meta( $post_id, '_video_embed', ( $video === '' ) ? '' : $video );		
-		}
-		if ( isset( $_POST['_audio_embed'] ) ) {
-			$audio = ( llms_clean( $_POST['_audio_embed']  ) );
-			update_post_meta( $post_id, '_audio_embed', ( $audio === '' ) ? '' : $audio );		
-		}
-	}
-
 }

@@ -2,21 +2,20 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box Video
+* Meta Box Access
 *
-* diplays text input for oembed video
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* diplays access metabox on all public posts. 
+* Access metabox allows users to assign multiple membership levels to a post or page. 
 */
 class LLMS_Meta_Box_Access {
 
 	/**
-	 * Set up video input
+	 * Static output class.
 	 *
-	 * @return string
-	 * @param string $post
+	 * Displays MetaBox
+	 * 
+	 * @param  object $post [WP post object]
+	 * @return void
 	 */
 	public static function output( $post ) {
 		global $post;
@@ -77,6 +76,16 @@ class LLMS_Meta_Box_Access {
 		<?php  
 	}
 	
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
@@ -90,10 +99,8 @@ class LLMS_Meta_Box_Access {
 		}
 
 		if ( ! empty($membership_levels) ) {
-
 			$is_restricted = ( llms_clean( $_POST['_llms_is_restricted']  ) );
 			update_post_meta( $post_id, '_llms_is_restricted', ( $is_restricted === '' ) ? '' : $is_restricted );
- 
 		}
 		else {
 			$empty = '';

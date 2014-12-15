@@ -5,19 +5,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * Meta Box Product info. 
 *
 * Fields for managing the Product as a sellable product. 
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Meta_Box_Product {
 
 	
 	/**
-	 * outputs product fields
+	 * Static output class.
 	 *
-	 * @return string (html)
-	 * @param string $post
+	 * Displays MetaBox
+	 * Calls static class metabox_options
+	 * Loops through meta-options array and displays appropriate fields based on type.
+	 * 
+	 * @param  object $post [WP post object]
+	 * 
+	 * @return void
 	 */
 	public static function output( $post ) {
 		
@@ -178,10 +179,14 @@ class LLMS_Meta_Box_Product {
 	}
 
 	/**
-	 * saves all product metabox data
+	 * Static save method
 	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
 	 * @return void
-	 * @param $post_id, $post
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;

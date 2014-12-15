@@ -2,19 +2,25 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box General
-*
-* diplays text input for oembed general
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* Meta Box Expiration
+* 
+* Displays expiration fields for membership post. Displays only on membership post.
 */
 class LLMS_Meta_Box_Expiration {
 
 	public $prefix = '_llms_';
 
-
+	/**
+	 * Static output class.
+	 *
+	 * Displays MetaBox
+	 * Calls static class metabox_options
+	 * Loops through meta-options array and displays appropriate fields based on type.
+	 * 
+	 * @param  object $post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function output( $post ) {
 		$prefix = '_llms_';
 		global $post;
@@ -71,7 +77,7 @@ class LLMS_Meta_Box_Expiration {
 							<br /><span class="description"><?php echo $field['desc']; ?></span>
 						
 						<?php break;
-						// image using Media Manager from WP 3.5 and greater
+						// image
 						case 'image': 
 						
 							$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_coupon.png' ); ?>
@@ -113,7 +119,13 @@ class LLMS_Meta_Box_Expiration {
 	echo ob_get_clean();
 	}	
 
-
+	/**
+	 * Builds array of metabox options.
+	 * Array is called in output method to display options.
+	 * Appropriate fields are generated based on type.
+	 * 
+	 * @return array [md array of metabox fields]
+	 */
 	public static function metabox_options() {
 		$prefix = '_llms_';
 		
@@ -146,7 +158,16 @@ class LLMS_Meta_Box_Expiration {
 		return $expiration_meta_fields;
 		}
 
-
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
@@ -155,10 +176,12 @@ class LLMS_Meta_Box_Expiration {
 		$interval = $prefix  . 'expiration_interval';
 		$period = $prefix  . 'expiration_period';
 	
+		//upate interval textbox
 		$update_interval = llms_clean( $_POST[$interval] );
-		$update_period = llms_clean( $_POST[$period] );
-
 		update_post_meta( $post_id, $interval, ( $update_interval === '' ) ? '' : $update_interval );
+
+		//update period select
+		$update_period = llms_clean( $_POST[$period] );
 		update_post_meta( $post_id, $period, ( $update_period  === '' ) ? '' : $update_period  );
 	}
 

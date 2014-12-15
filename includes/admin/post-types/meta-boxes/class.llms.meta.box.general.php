@@ -28,7 +28,7 @@ class LLMS_Meta_Box_General {
     <table class="form-table">
 		<tbody>
 			<tr>
-				<th><label for="_has_prerequisite">Has a Prerequisite</label></th>
+				<th><label for="_has_prerequisite"><?php _e( 'Has a Prerequisite', 'lifterlms' ); ?></label></th>
 				<td>
 					<input type="checkbox" name="_has_prerequisite" <?php if( $has_prerequisite == true ) { ?>checked="checked"<?php } ?> />
 				</td>
@@ -38,7 +38,6 @@ class LLMS_Meta_Box_General {
 				<?php 
 				$prerquisite_args = array(
 				'posts_per_page'   => -1,
-				
 				'orderby'          => 'title',
 				'order'            => 'ASC',
 				'post_type'        => $post->post_type,
@@ -49,7 +48,7 @@ class LLMS_Meta_Box_General {
 				$all_posts = get_posts($prerquisite_args);
 				if($all_posts) : ?>
 
-					<th><label for="_prerequisite">Select a prerequisite</label></th>
+					<th><label for="_prerequisite"><?php _e( 'Select a prerequisite', 'lifterlms' ); ?></label></th>
 					<td>
 						<form action="" id="myform">
 							<select id="_prerequisite" name="_prerequisite">
@@ -76,15 +75,25 @@ class LLMS_Meta_Box_General {
 	<?php
 	}
 
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-
 
 		$general = (isset($_POST['_has_prerequisite']) ? true : false);
 		update_post_meta( $post_id, '_has_prerequisite', ( $general === '' ) ? '' : $general );
 
-
 		if ( isset( $_POST['_prerequisite'] ) ) {
+
+			//update prerequisite select
 			$prerequisite = ( llms_clean( $_POST['_prerequisite']  ) );
 			update_post_meta( $post_id, '_prerequisite', ( $prerequisite  === '' ) ? '' : $prerequisite );
 		}

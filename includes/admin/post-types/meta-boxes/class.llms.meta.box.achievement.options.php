@@ -2,19 +2,25 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box General
-*
-* diplays text input for oembed general
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* Meta Box Achievement Options
+* 
+* displays achievement options metabox. Only displays on achievement post.
 */
 class LLMS_Meta_Box_Achievement_Options {
 
 	public $prefix = '_llms_';
 
-
+	/**
+	 * Static output class.
+	 *
+	 * Displays MetaBox
+	 * Calls static class metabox_options
+	 * Loops through meta-options array and displays appropriate fields based on type.
+	 * 
+	 * @param  object $post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function output( $post ) {
 		$prefix = '_llms_';
 		global $post;
@@ -55,7 +61,7 @@ class LLMS_Meta_Box_Achievement_Options {
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
 								
 						<?php break;
-						// image using Media Manager from WP 3.5 and greater
+						// image 
 						case 'image': 
 						
 							$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' ); ?>
@@ -89,7 +95,6 @@ class LLMS_Meta_Box_Achievement_Options {
 					?>
 				</td></tr>
 		<?php	
-			//endif; //end if in section check
 		
 		} // end foreach ?>
 			</table>	
@@ -97,11 +102,18 @@ class LLMS_Meta_Box_Achievement_Options {
 	echo ob_get_clean();
 	}	
 
-
+	/**
+	 * Builds array of metabox options.
+	 * Array is called in output method to display options.
+	 * Appropriate fields are generated based on type.
+	 * 
+	 * @return array [md array of metabox fields]
+	 */
 	public static function metabox_options() {
 		$prefix = '_llms_';
 		
 		$achievement_creator_meta_fields = array(
+			//Achievement title text box
 			array(
 				'label' => 'Achievement Title',
 				'desc' => 'Enter a title for your achievement. IE: Achievement of Completion',
@@ -109,6 +121,7 @@ class LLMS_Meta_Box_Achievement_Options {
 				'type'  => 'text',
 				'section' => 'achievement_meta_box'
 			),
+			//Achievment content textarea
 			array(
 				'label' => 'Achievement Content',
 				'desc' => 'Enter any information you would like to display on the achievement.',
@@ -116,6 +129,7 @@ class LLMS_Meta_Box_Achievement_Options {
 				'type'  => 'textarea_w_tags',
 				'section' => 'achievement_meta_box'
 			),
+			//Achievement background image
 			array(
 				'label'  => 'Background Image',
 				'desc'  => 'Select an Image to use for the achievement.',
@@ -133,7 +147,16 @@ class LLMS_Meta_Box_Achievement_Options {
 		return $achievement_creator_meta_fields;
 		}
 
-
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 		$prefix = '_llms_';
@@ -142,19 +165,17 @@ class LLMS_Meta_Box_Achievement_Options {
 		$content = $prefix . 'achievement_content';
 		$image = $prefix . 'achievement_image';
 
-		//if ( isset( $_POST['_has_prerequisite'] ) ) {
+		//update title
+		$update_title = ( llms_clean( $_POST[$title]  ) );
+		update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
 
-			$update_title = ( llms_clean( $_POST[$title]  ) );
-			update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
+		//update content
+		$update_content = ( llms_clean( $_POST[$content]  ) );
+		update_post_meta( $post_id, $content, ( $update_content === '' ) ? '' : $update_content );
 
-			$update_content = ( llms_clean( $_POST[$content]  ) );
-			update_post_meta( $post_id, $content, ( $update_content === '' ) ? '' : $update_content );
-
-			$update_image = ( llms_clean( $_POST[$image]  ) );
-			update_post_meta( $post_id, $image, ( $update_image === '' ) ? '' : $update_image );
-
-			
-		//}
+		//update image
+		$update_image = ( llms_clean( $_POST[$image]  ) );
+		update_post_meta( $post_id, $image, ( $update_image === '' ) ? '' : $update_image );
 	}
 
 }

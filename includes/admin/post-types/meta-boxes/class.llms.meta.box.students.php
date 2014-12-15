@@ -2,25 +2,25 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box General
+* Meta Box Students
 *
-* diplays text input for oembed general
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* Allows users to add and remove students from a course. Only displays on course post. 
 */
 class LLMS_Meta_Box_Students {
 
 	/**
-	 * Set up general input
+	 * Static output class.
 	 *
-	 * @return string
-	 * @param string $post
+	 * Displays MetaBox
+	 * Calls static class metabox_options
+	 * Loops through meta-options array and displays appropriate fields based on type.
+	 * 
+	 * @param  object $post [WP post object]
+	 * 
+	 * @return void
 	 */
 	public static function output( $post ) {
 
-    	//$days_before_avalailable = get_post_meta( $post->ID, '_days_before_avalailable', true );
     	$enrolled_students = array();
     	$users_not_enrolled = array();
     	$enrolled_student_ids = array();
@@ -92,6 +92,13 @@ class LLMS_Meta_Box_Students {
     <?php
 	}
 
+	/**
+	 * Sets the users status to enrolled in the usermeta table. 
+	 * @param int $user_id [ID of the user]
+	 * @param int $post_id [ID of the post]
+	 *
+	 * @return void
+	 */
 	public static function add_student( $user_id, $post_id ) {
 		global $wpdb;
 
@@ -119,6 +126,13 @@ class LLMS_Meta_Box_Students {
 		do_action('lifterlms_student_added_by_admin', $user_id, $post_id);
 	}
 
+	/**
+	 * Removes the student from the course by setting the date to 0:00:00
+	 * @param int $user_id [ID of the user]
+	 * @param int $post_id [ID of the post]
+	 * 
+	 * @return void
+	 */
 	public static function remove_student( $user_id, $post_id ) {
 		global $wpdb;
 
@@ -141,8 +155,6 @@ class LLMS_Meta_Box_Students {
 				wp_delete_post( $order_id[$key]->order_post_id);
 			}
 		}
-
-
 
 		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order',
 			array(
@@ -167,9 +179,15 @@ class LLMS_Meta_Box_Students {
 			);
 		}
 		do_action('lifterlms_student_removed_by_admin', $user_id, $post_id);
-		//wp_redirect($url);
 	}
 
+	/**
+	 * Creates a order post to associate with the enrollment of the user. 
+	 * @param int $user_id [ID of the user]
+	 * @param int $post_id [ID of the post]
+	 * 
+	 * @return void
+	 */
 	public static function create_order($user_id, $post_id) {
 		global $wpdb, $post;
 
@@ -219,14 +237,26 @@ class LLMS_Meta_Box_Students {
 	}
 
 
+	/**
+	 * Static save method
+	 *
+	 * Triggers add or remove method based on selection values.
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
 		if ( isset( $_POST['add_new_user']) && $_POST['add_new_user'] != '') {
+			//triggers add_student static method
 			$add_user = self::add_student( $_POST['add_new_user'], $post_id );
 		}
 
 		if ( isset( $_POST['remove_student']) && $_POST['remove_student'] != '') {
+			//triggers remove_student static method
 			$remove_user = self::remove_student( $_POST['remove_student'], $post_id );
 		}
 

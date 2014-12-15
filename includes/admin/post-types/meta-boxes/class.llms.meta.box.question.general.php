@@ -5,18 +5,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * Quiz General Settings
 *
 * Quesion Builder Metabox
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Meta_Box_Question_General {
 
 	/**
-	 * Set up metabox
+	 * Static output class.
 	 *
-	 * @return string
-	 * @param string $post
+	 * Displays MetaBox
+	 * Calls static class metabox_options
+	 * Loops through meta-options array and displays appropriate fields based on type.
+	 * 
+	 * @param  object $post [WP post object]
+	 * 
+	 * @return void
 	 */
 	public static function output( $post ) {
 		global $post;
@@ -27,56 +28,55 @@ class LLMS_Meta_Box_Question_General {
 		$question_options = get_post_meta( $post->ID, '_llms_question_options', true );
 		?>
 
-				<div id="llms-question-container">
-					<?php
-					$label  = '';
-					$label .= '<h3>' . __( 'Question Options', 'lifterlms' ) . '</h3> ';
-					echo $label;
-					?>
+		<div id="llms-question-container">
+			<?php
+			$label  = '';
+			$label .= '<h3>' . __( 'Question Options', 'lifterlms' ) . '</h3> ';
+			echo $label;
+			?>
 
-					<a href="#" class="button" id="add_new_option"/><?php _e('Add a new option', 'lifterlms'); ?></a>
-					<div id="llms-single-options">
-						<table class="wp-list-table widefat fixed posts dad-list ui-sortable">
-							<tbody>
-								
-									<?php
-									if ($question_options) {
-										foreach ($question_options as $key => $value) {
+			<a href="#" class="button" id="add_new_option"/><?php _e('Add a new option', 'lifterlms'); ?></a>
+			<div id="llms-single-options">
+				<table class="wp-list-table widefat fixed posts dad-list ui-sortable">
+					<tbody>
+						
+							<?php
+							if ($question_options) {
+								foreach ($question_options as $key => $value) {
 
-											?>
-											<tr class="list_item" data-order="<?php echo $key ?>" style="display: table-row;">
-											<td>
-											<i class="fa fa-bars llms-fa-move-lesson"></i>
-											<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i>
-											<input type="radio" name="correct_option" value="<?php echo $key; ?>" <?php echo (empty($value['correct_option']) == '1')? '':'checked'; ?> ><label><?php _e('Correct Answer', 'lifterlms'); ?></label>
-											<textarea name ="option_text[]" class="option-text"><?php echo $value['option_text']; ?></textarea>
-											</td>
-											</tr>
-										<?php
-										}
-									}
 									?>
-									
-								
-							</tbody>
-						</table>
-					</div>
-				</div>
+									<tr class="list_item" data-order="<?php echo $key ?>" style="display: table-row;">
+									<td>
+									<i class="fa fa-bars llms-fa-move-lesson"></i>
+									<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i>
+									<input type="radio" name="correct_option" value="<?php echo $key; ?>" <?php echo (empty($value['correct_option']) == '1')? '':'checked'; ?> ><label><?php _e('Correct Answer', 'lifterlms'); ?></label>
+									<textarea name ="option_text[]" class="option-text"><?php echo $value['option_text']; ?></textarea>
+									</td>
+									</tr>
+								<?php
+								}
+							}
+							?>
+							
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
 
-
-
-
-
-
-
-
-
-
-
-
-		<?php  
+	<?php  
 	}
 
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 * 
+	 * @param  int 		$post_id [id of post object]
+	 * @param  object 	$post [WP post object]
+	 * 
+	 * @return void
+	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
