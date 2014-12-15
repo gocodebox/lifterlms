@@ -5,7 +5,6 @@ if ( ! class_exists( 'LLMS_Settings_Page' ) ) :
 /**
 * Admin Settings Page Base Class
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

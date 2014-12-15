@@ -5,7 +5,6 @@ if ( ! class_exists( 'LLMS_Settings_Membership' ) ) :
 /**
 * Admin Settings Page, Membership Tab
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

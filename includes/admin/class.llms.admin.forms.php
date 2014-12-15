@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 *
 * Class used managing front end facing forms.
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */
