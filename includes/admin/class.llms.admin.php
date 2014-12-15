@@ -7,7 +7,6 @@ if ( ! class_exists( 'LLMS_Admin' ) ) :
 *
 * Sets up menus, post types and assets
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

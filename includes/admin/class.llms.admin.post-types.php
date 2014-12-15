@@ -7,7 +7,6 @@ if ( ! class_exists( 'LLMS_Admin_Post_Types' ) ) :
 *
 * Sets up post type custom messages and includes base metabox class
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

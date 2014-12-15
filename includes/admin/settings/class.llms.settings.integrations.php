@@ -5,7 +5,6 @@ if ( ! class_exists( 'LLMS_Settings_Integrations' ) ) :
 /**
 * Admin Settings Page, Integrations Tab
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

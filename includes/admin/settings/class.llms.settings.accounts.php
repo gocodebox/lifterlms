@@ -5,7 +5,6 @@ if ( ! class_exists( 'LLMS_Settings_Accounts' ) ) :
 /**
 * Admin Settings Page, Accounts Tab
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

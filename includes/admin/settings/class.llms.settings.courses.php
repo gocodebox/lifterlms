@@ -6,7 +6,6 @@ if ( ! class_exists( 'LLMS_Settings_Courses' ) ) :
 * Admin Settings Page, Courses Tab
 *
 * @version 1.0
-* @author codeBOX
 * @project lifterLMS
 */
 class LLMS_Settings_Courses extends LLMS_Settings_Page {

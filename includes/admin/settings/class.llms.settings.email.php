@@ -5,7 +5,6 @@ if ( ! class_exists( 'LLMS_Settings_Email' ) ) :
 /**
 * Admin Settings Page, Email Tab
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

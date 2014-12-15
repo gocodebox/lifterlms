@@ -7,7 +7,6 @@ if ( ! class_exists( 'LLMS_Admin_Menus' ) ) :
 *
 * Sets up admin menu items.
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

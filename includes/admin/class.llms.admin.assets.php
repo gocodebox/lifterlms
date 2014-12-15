@@ -8,7 +8,6 @@ if ( ! class_exists( 'LLMS_Admin_Assets' ) ) :
 * Sets up the enqueue scripts and styles for the Admin pages.
 * TODO: register scripts. make page ids a db option. 
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */
