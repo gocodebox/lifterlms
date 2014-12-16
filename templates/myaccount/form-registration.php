@@ -46,14 +46,15 @@ global $wpdb;
 				</div>
 			<?php endif; ?>
 
+			<?php do_action( 'lifterlms_register_form_after_names' ); ?>
+
 			<?php if ( 'yes' === get_option( 'lifterlms_registration_add_phone' ) ) : ?>
 				<div class="llms-form-item-wrapper phone">
 					<label for="llms_phone"><?php _e( 'Phone', 'lifterlms' ); ?></label>
 					<input type="text" class="input-text llms-input-text" name="phone" id="llms_phone" value="<?php if ( ! empty( $_POST['phone'] ) ) echo esc_attr( $_POST['phone'] ); ?>" />
-			</div>
+				</div>
 			<?php endif; ?>
 
-			<?php do_action( 'lifterlms_register_form_after_names' ); ?>
 
 			<?php if ( 'yes' === get_option( 'lifterlms_registration_require_address' ) ) : ?>
 				<div class="llms-form-item-wrapper billing_address_1">
