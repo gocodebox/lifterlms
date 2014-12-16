@@ -25,11 +25,14 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.1.1 - UNRELEASED
+v1.1.1 - 2014-12-16
 -------------------
-
-# New Features
 + Added user registration settings to require users to agree to Terms and Conditions on user registration
++ Added comments to all classes methods and functions
++ Removed unused and depreciated methods
++ Added Lesson and Course Sidebar Widget Areas
++ Fixed bug with course capacity option
++ Fixed bug with endpoint rewrite
 
 v1.1.0 - 2014-12-08
 -------------------
