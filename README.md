@@ -33,6 +33,7 @@ v1.1.1 - 2014-12-16
 + Added Lesson and Course Sidebar Widget Areas
 + Fixed bug with course capacity option
 + Fixed bug with endpoint rewrite
++ Added localization POT file and us_EN.po translation file
 
 v1.1.0 - 2014-12-08
 -------------------

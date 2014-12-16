@@ -253,7 +253,7 @@ class LLMS_Admin_Post_Types {
 				$edit_link = get_edit_post_link($course);
 
 				if ( empty( $course ) )
-					echo __( '' );
+					echo '';
 
 				else
 					printf( __( '<a href="%s">%s</a>' ), $edit_link , get_the_title($course) );
@@ -266,7 +266,7 @@ class LLMS_Admin_Post_Types {
 				$edit_link = get_edit_post_link($section);
 				
 				if ( empty( $section ) )
-					echo __( '' );
+					echo '';
 
 				else
 					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title($section) );
@@ -279,7 +279,7 @@ class LLMS_Admin_Post_Types {
 				$edit_link = get_edit_post_link($prereq);
 				
 				if ( empty( $prereq ) )
-					echo __( '' );
+					echo '';
 
 				else
 					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title($prereq) );
@@ -291,7 +291,7 @@ class LLMS_Admin_Post_Types {
 				$memberships = llms_get_post_memberships($post_id);
 
 				if  ( empty( $memberships ) ) {
-					echo __( '' );
+					echo '';
 				}
 				else {
 					$membership_list = array();
@@ -345,7 +345,7 @@ class LLMS_Admin_Post_Types {
 				$course = get_post_meta( $post_id, '_parent_course', true );
 				$edit_link = get_edit_post_link($course);
 				if ( empty( $course ) )
-					echo __( '' );
+					echo '';
 
 				else
 					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title($course) );

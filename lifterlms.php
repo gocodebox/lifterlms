@@ -81,6 +81,9 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ) );
+		
+		// load localization files
+		add_action( 'init', array( $this, 'localize' ) );
 
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
@@ -369,6 +372,15 @@ final class LifterLMS {
 		}
 
 		return array_merge( $links, $lifter_links );
+	}
+
+	/**
+	 * Load Localization files
+	 * @return void
+	 */
+	public function localize() {
+		// load localization files
+		load_plugin_textdomain('lifterlms', false, LLMS_PLUGIN_DIR . 'languages' );
 	}
 
 }
