@@ -3,10 +3,6 @@
 * Core functions file
 *
 * Misc functions used by lifterLMS core.
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -18,10 +14,15 @@ include( 'functions/llms.functions.page.php' );
 include( 'functions/llms.functions.person.php' );
 include( 'functions/llms.functions.access.php' );
 
+/**
+ * Get Coupon
+ * @return object [coupon session object]
+ */
 function llms_get_coupon() {
       $coupon = LLMS()->session->get( 'llms_coupon', array() );
       return $coupon;
 }
+
 /**
  * Get attribute taxonomies.
  *
@@ -43,141 +44,10 @@ function llms_get_attribute_taxonomies() {
       return apply_filters( 'lifterlms_attribute_taxonomies', $attribute_taxonomies );
 }
 
-function _llms_term_recount( $terms, $taxonomy, $callback = true, $terms_are_term_taxonomy_ids = true ) {
-      global $wpdb;
-
-      // Standard callback
-      if ( $callback ) {
-            _update_post_term_count( $terms, $taxonomy );
-      }
-
-      // Stock query
-      if ( get_option( 'lifterlms_hide_out_of_stock_items' ) == 'yes' ) {
-            $stock_join  = "LEFT JOIN {$wpdb->postmeta} AS meta_stock ON posts.ID = meta_stock.post_id";
-            $stock_query = "
-            AND meta_stock.meta_key = '_stock_status'
-            AND meta_stock.meta_value = 'instock'
-            ";
-      } else {
-            $stock_query = $stock_join = '';
-      }
-
-      // Main query
-      $count_query = "
-            SELECT COUNT( DISTINCT posts.ID ) FROM {$wpdb->posts} as posts
-            LEFT JOIN {$wpdb->postmeta} AS meta_visibility ON posts.ID = meta_visibility.post_id
-            LEFT JOIN {$wpdb->term_relationships} AS rel ON posts.ID=rel.object_ID
-            LEFT JOIN {$wpdb->term_taxonomy} AS tax USING( term_taxonomy_id )
-            LEFT JOIN {$wpdb->terms} AS term USING( term_id )
-            LEFT JOIN {$wpdb->postmeta} AS postmeta ON posts.ID = postmeta.post_id
-            $stock_join
-            WHERE       post_status = 'publish'
-            AND   post_type   = 'course'
-            AND   meta_visibility.meta_key = '_visibility'
-            AND   meta_visibility.meta_value IN ( 'visible', 'catalog' )
-            $stock_query
-      ";
-
-      // Pre-process term taxonomy ids
-      if ( ! $terms_are_term_taxonomy_ids ) {
-            // We passed in an array of TERMS in format id=>parent
-            $terms = array_filter( (array) array_keys( $terms ) );
-      } else {
-            // If we have term taxonomy IDs we need to get the term ID
-            $term_taxonomy_ids = $terms;
-            $terms             = array();
-            foreach ( $term_taxonomy_ids as $term_taxonomy_id ) {
-                  $term    = get_term_by( 'term_taxonomy_id', $term_taxonomy_id, $taxonomy->name );
-                  $terms[] = $term->term_id;
-            }
-      }
-
-      // Exit if we have no terms to count
-      if ( ! $terms ) {
-            return;
-      }
-
-      // Ancestors need counting
-      if ( is_taxonomy_hierarchical( $taxonomy->name ) ) {
-            foreach ( $terms as $term_id ) {
-                  $terms = array_merge( $terms, get_ancestors( $term_id, $taxonomy->name ) );
-            }
-      }
-
-      // Unique terms only
-      $terms = array_unique( $terms );
-
-      // Count the terms
-      foreach ( $terms as $term_id ) {
-            $terms_to_count = array( absint( $term_id ) );
-
-            if ( is_taxonomy_hierarchical( $taxonomy->name ) ) {
-                  // We need to get the $term's hierarchy so we can count its children too
-                  if ( ( $children = get_term_children( $term_id, $taxonomy->name ) ) && ! is_wp_error( $children ) ) {
-                        $terms_to_count = array_unique( array_map( 'absint', array_merge( $terms_to_count, $children ) ) );
-                  }
-            }
-
-            // Generate term query
-            $term_query = 'AND term_id IN ( ' . implode( ',', $terms_to_count ) . ' )';
-
-            // Get the count
-            $count = $wpdb->get_var( $count_query . $term_query );
-
-            // Update the count
-            update_lifterlms_term_meta( $term_id, 'course_count_' . $taxonomy->name, absint( $count ) );
-      }
-}
-
-function update_lifterlms_term_meta( $term_id, $meta_key, $meta_value, $prev_value = '' ) {
-      return update_metadata( 'lifterlms_term', $term_id, $meta_key, $meta_value, $prev_value );
-}
-
-function lifterlms_wp_text_input( $field ) {
-      global $thepostid, $post, $lifterlms;
-
-      $thepostid              = empty( $thepostid ) ? $post->ID : $thepostid;
-      $field['placeholder']   = isset( $field['placeholder'] ) ? $field['placeholder'] : '';
-      $field['class']         = isset( $field['class'] ) ? $field['class'] : 'short';
-      $field['wrapper_class'] = isset( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
-      $field['value']         = isset( $field['value'] ) ? $field['value'] : get_post_meta( $thepostid, $field['id'], true );
-      $field['name']          = isset( $field['name'] ) ? $field['name'] : $field['id'];
-      $field['type']          = isset( $field['type'] ) ? $field['type'] : 'text';
-      $data_type              = empty( $field['data_type'] ) ? '' : $field['data_type'];
-
-      switch ( $data_type ) {
-            case 'price' :
-                  $field['class'] .= ' llms_input_price';
-                  $field['value']  = llms_format_localized_price( $field['value'] );
-            break;
-            case 'decimal' :
-                  $field['class'] .= ' llms_input_decimal';
-                  $field['value']  = llms_format_localized_decimal( $field['value'] );
-            break;
-      }
-
-      // Custom attribute handling
-      $custom_attributes = array();
-
-      if ( ! empty( $field['custom_attributes'] ) && is_array( $field['custom_attributes'] ) )
-            foreach ( $field['custom_attributes'] as $attribute => $value )
-                  $custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $value ) . '"';
-
-      echo '<p class="form-field ' . esc_attr( $field['id'] ) . '_field ' . esc_attr( $field['wrapper_class'] ) . '"><label for="' . esc_attr( $field['id'] ) . '">' . wp_kses_post( $field['label'] ) . '</label><input type="' . esc_attr( $field['type'] ) . '" class="' . esc_attr( $field['class'] ) . '" name="' . esc_attr( $field['name'] ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['value'] ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . implode( ' ', $custom_attributes ) . ' /> ';
-
-      if ( ! empty( $field['description'] ) ) {
-
-            if ( isset( $field['desc_tip'] ) && false !== $field['desc_tip'] ) {
-
-                  echo '<i class="dashicons dashicons-info help_tip" data-tip="' . esc_attr( $field['description'] ) . '"></i>';
-            } else {
-                  echo '<span class="description">' . wp_kses_post( $field['description'] ) . '</span>';
-            }
-
-      }
-      echo '</p>';
-}
-
+/**
+ * Get Countries array for Select list
+ * @return array [Countries list]
+ */
 function get_lifterlms_countries() {
 	return array_unique(
 		apply_filters( 'lifterlms_countries',
@@ -426,10 +296,18 @@ function get_lifterlms_countries() {
       );
 }
 
+/**
+ * Get Currency Selection
+ * @return string [Currency Id]
+ */
 function get_lifterlms_currency() {
       return apply_filters( 'lifterlms_currency', get_option('lifterlms_currency') );
 }
 
+/**
+ * Get Currency array for select list
+ * @return array [Currecies]
+ */
 function get_lifterlms_currencies() {
       return array_unique(
             apply_filters( 'lifterlms_currencies',
@@ -479,6 +357,11 @@ function get_lifterlms_currencies() {
       );
 }
 
+/**
+ * Get Currency Symbol text code
+ * @param  string $currency [Currency Id]
+ * @return string [Currency Code]
+ */
 function get_lifterlms_currency_symbol( $currency = '' ) {
       if ( ! $currency ) {
             $currency = get_lifterlms_currency();
@@ -547,11 +430,26 @@ function get_lifterlms_currency_symbol( $currency = '' ) {
       return apply_filters( 'lifterlms_currency_symbol', $currency_symbol, $currency );
 }
 
-
+/**
+ * Format Localized Price
+ * Returns formatted price based on localization
+ * 
+ * @param  string $value [price as string]
+ * @return string [formatted price]
+ */
 function llms_format_localized_price( $value ) {
       return str_replace( '.', '.', strval( $value ) );
 }
 
+/**
+ * Format Number as decimal
+ * 
+ * @param  int  $number     [price value]
+ * @param  boolean $dp         [decimal points]
+ * @param  boolean $trim_zeros [trim zeros?]
+ * 
+ * @return string [formatted number]
+ */
 function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
       // Remove locale from string
       if ( ! is_float( $number ) ) {
@@ -573,10 +471,22 @@ function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
       return $number;
 }
 
+/**
+ * Sanitize text field
+ * @param  string $var [raw text field input]
+ * @return string [clean string]
+ */
 function llms_clean( $var ) {
       return sanitize_text_field( $var );
 }
 
+/**
+ * Get template part
+ * @param  string $slug [url slug of template]
+ * @param  string $name [name of template]
+ * 
+ * @return string [name of file]
+ */
 function llms_get_template_part( $slug, $name = '' ) {
       $template = '';
 
@@ -601,6 +511,14 @@ function llms_get_template_part( $slug, $name = '' ) {
       }
 }
 
+/**
+ * Get Template part contents
+ * 
+ * @param  string $slug [url slug]
+ * @param  string $name [name of template]
+ * 
+ * @return string [naem of file]
+ */
 function llms_get_template_part_contents( $slug, $name = '' ) {
       $template = '';
 
@@ -618,15 +536,22 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
       }
 
       // Allow 3rd party plugin filter template file from their plugin
-      //$template = apply_filters( 'llms_get_template_part', $template, $slug, $name );
-
       if ( $template ) {
             return $template;
             //load_template( $template, false );
       }
 }
 
-
+/**
+ * Get Template Part
+ * 
+ * @param  string] $template_name [name of template]
+ * @param  array  $args          [array of pst args]
+ * @param  string $template_path [file path to template]
+ * @param  string $default_path  [default file path]
+ * 
+ * @return void
+ */
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
       if ( $args && is_array( $args ) ) {
             extract( $args );
@@ -641,6 +566,15 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
       do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
 }
 
+/**
+ * Locate Template
+ * 
+ * @param  string $template_name [name of template]
+ * @param  string $template_path [dir path to template]
+ * @param  string $default_path  [default path]
+ * 
+ * @return mixed $template, $template_name, $template_path
+ */
 function llms_locate_template( $template_name, $template_path = '', $default_path = '' ) {
       if ( ! $template_path ) {
             $template_path = LLMS()->template_path();
@@ -650,33 +584,24 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
             $default_path = LLMS()->plugin_path() . '/templates/';
       }
 
-      // Look within passed path within the theme - this is priority
-      // $template = locate_template(
-      //       array(
-      //             trailingslashit( $template_path ) . $template_name,
-      //             $template_name
-      //       )
-      // );
-
       // check theme and template directories for the template
       $override_path = llms_get_template_override($template_name);
 
-
       // Get default template
-      // if ( ! $template ) {
-      //       $template = $default_path . $template_name;
-      // }
-
       $path = ($override_path) ? $override_path : $default_path;
 
       $template = $path . $template_name;
 
-
-      // Return what we found
+      // Return template
       return apply_filters('lifterlms_locate_template', $template, $template_name, $template_path);
 }
 
-
+/**
+ * Get Template Override
+ * 
+ * @param  string $template [template file]
+ * @return mixed [template file or false if none exists.]
+ */
 function llms_get_template_override($template = '') {
 
       /**
@@ -701,8 +626,12 @@ function llms_get_template_override($template = '') {
       return false;
 }
 
-
-// debug function
+/**
+ * LLMS debug function
+ * 
+ * @param  mixed $message [array or object]
+ * @return logs message to wp log file
+ */
 function llms_log($message) {
 
     if ( WP_DEBUG === true ) {
@@ -718,19 +647,39 @@ function llms_log($message) {
     }
 }
 
-function add_query_var_course_id( $vars ){
-  $vars[] = "product-id";
-  return $vars;
-}
-add_filter( 'query_vars', 'add_query_var_course_id' );
+/**
+ * Add product-id to WP query variables
+ * DEPRECIATED: REMOVE THIS FUNCTION 
+ * 
+ * @param array $vars [WP query variables]
+ *
+ * @return array $vars [WP query variables]
+ */
+// function add_query_var_course_id( $vars ){
+//   $vars[] = "product-id";
+//   return $vars;
+// }
+// add_filter( 'query_vars', 'add_query_var_course_id' );
 
+/**
+ * Add product-id to WP query variables
+ * 
+ * @param array $vars [WP query variables]
+ * @return array $vars [WP query variables]
+ */
 function add_query_var_product_id( $vars ){
   $vars[] = "product-id";
   return $vars;
 }
 add_filter( 'query_vars', 'add_query_var_product_id' );
 
-
+/**
+ * Get Section Id
+ * 
+ * @param  int $course_id [course post ID]
+ * @param  int $lesson_id [leson Post ID]
+ * @return int $section [section post ID]
+ */
 function get_section_id($course_id, $lesson_id) {
       
       $course = new LLMS_Course($course_id);
@@ -750,6 +699,12 @@ function get_section_id($course_id, $lesson_id) {
             return $section;
 }
 
+/**
+ * Get update keys
+ * 
+ * @param  array $query [decoded post query]
+ * @return array $encoded post query
+ */
 function get_update_keys($query){
       $update_key = get_option('lifterlms_update_key', '');
       $url = urlencode(get_bloginfo('url'));
@@ -759,49 +714,21 @@ function get_update_keys($query){
       return $query;
 }
 
-
-
-// $this->app = new LLMSIS_SDK;
-    // LLMSIS_log('llmsis_find_overdue_invoices called');
-
-    // // get payment plan items
-    // $pp_items = $this->app->get_pay_plan_items();
-
-
-    // // get payment plan ids from database
-    // $args = array(
-    //   'post_type'    => 'llms_order',
-    //   'posts_per_page' => -1,
-    //   'meta_query'     => array(
-    //    'key' => '_llms_order_is_payplan_id'
-    //    ),
-    // );
-  
-       
-    // $posts = get_posts( $args );
-     
-    // foreach ($posts as $post) {
-    //  //do your stuff
-    // }
-    //get all overdue invoice ids in array
-    //get all invoice ids
-    //insert invoice ids into option
-    //
-    //get overdue invoices from databae
-    //check every invoice id to an array
-    //for every match:
-    //find the userid and the product id
-    //update the enrollment
-
-
-
-add_action( 'wp', 'llms_expire_membership_schedule' );
+/**
+ * Schedule expired membership cron
+ * @return void
+ */
 function llms_expire_membership_schedule() {
       if ( ! wp_next_scheduled('llms_check_for_expired_memberships')) {
             wp_schedule_event( time(), 'daily', 'llms_check_for_expired_memberships' );
       }
 }
-add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
+add_action( 'wp', 'llms_expire_membership_schedule' );
+
+/**
+ * Expire Membership
+ * @return void
+ */
 function llms_expire_membership() {
     global $wpdb;
 
@@ -899,14 +826,20 @@ function llms_expire_membership() {
   }
 
 }
+add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
 
+/**
+ * Check Course Capacity
+ * 
+ * @return bool [is course at capacity?]
+ */
 function check_course_capacity() {
     global $post, $wpdb;
     
     $lesson_max_user = (int)get_post_meta( $post->ID, '_lesson_max_user', true );
     $table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
     $results = $wpdb->get_results('SELECT * FROM '.$table_name.' WHERE post_id = '.$post->ID .' AND meta_value = "Enrolled"');
-    
+
     if ($lesson_max_user === 0) {
         return true;
     }else{
@@ -914,7 +847,12 @@ function check_course_capacity() {
     }
 }
 
-add_filter( 'sidebars_widgets', 'displaying_sidebar_in_post_types' );
+/**
+ * Display lesson and course custom sidebars
+ * 
+ * @param  array $sidebars_widgets [WP array of widgets in sidebar]
+ * @return array $sidebars_widgets [Filtered WP array of widgets in sidebar]
+ */
 function displaying_sidebar_in_post_types($sidebars_widgets) {
 
       if (is_singular('course')) {
@@ -926,3 +864,4 @@ function displaying_sidebar_in_post_types($sidebars_widgets) {
       return $sidebars_widgets;      
 
 }
+add_filter( 'sidebars_widgets', 'displaying_sidebar_in_post_types' );

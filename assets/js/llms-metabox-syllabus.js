@@ -132,7 +132,6 @@ function wait() {
 /**
  * Click event function to append a new row to the tasks table
  */
-
 lessons_sortable = function() {
 
     jQuery('.dad-list').sortable({

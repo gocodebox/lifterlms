@@ -2,25 +2,33 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Frontend scripts class
+* Engagments Class
 *
-* Initializes front end scripts
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* Finds and triggers the appropriate engagement
 */
 class LLMS_Engagements {
 
+	/**
+	 * protected instance of class
+	 * @var null
+	 */
 	protected static $_instance = null;
 
+	/**
+	 * Create instance of class
+	 * @return object [Instance of engagements class]
+	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) )
 			self::$_instance = new self();
 		return self::$_instance;
 	}
 
-	 public function __construct() {
+	/**
+	 * Constructor
+	 * Adds actions to events that trigger engagements
+	 */
+	public function __construct() {
 		
 	 	$this->init();
 
@@ -30,6 +38,10 @@ class LLMS_Engagements {
 		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
 	}
 
+	/**
+	 * Include engagement types (excluding email)
+	 * @return void
+	 */
 	public function init() {
 
 		include( 'class.llms.certificates.php' );
@@ -37,6 +49,15 @@ class LLMS_Engagements {
 
 	}
 
+	/**
+	 * Lesson completed engagements
+	 * Triggers appropriate engagement when lesson is completed
+	 * REFACTOR: lesson, section and course triggers this method. RENAME
+	 * 
+	 * @param  int $person_id [ID of the current user]
+	 * @param  int $lesson_id [ID of the lesson, course or section]
+	 * @return void
+	 */
 	public function lesson_completed( $person_id, $lesson_id ) {
 
 		if ( ! $person_id )
@@ -69,41 +90,51 @@ class LLMS_Engagements {
 		}
 	}
 
-	public function course_completed( $person_id, $lesson_id ) {
+//DELETE AFTER TESTING COMPLETE
+	// /**
+	//  * Course completed engagment triggers
+	//  * REFACTOR: THIS IS NOT BEING USED. ALL ACTIONS TRIGGER LESSON COMPLETED. 
+	//  */
+	// public function course_completed( $person_id, $lesson_id ) {
 
-		if ( ! $person_id )
-			return;
+	// 	if ( ! $person_id )
+	// 		return;
 
-		if ($hooks = get_post_meta( $lesson_id, '_llms_engagement_trigger' )) {
+	// 	if ($hooks = get_post_meta( $lesson_id, '_llms_engagement_trigger' )) {
 
-			foreach ( $hooks as $key => $value ) {
+	// 		foreach ( $hooks as $key => $value ) {
 				
-				$engagement_meta = get_post_meta($value);
+	// 			$engagement_meta = get_post_meta($value);
 
-				$engagement_id = $engagement_meta['_llms_engagement'][0];
+	// 			$engagement_id = $engagement_meta['_llms_engagement'][0];
 
-				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
-					do_action( 'lifterlms_lesson_completed_engagement', $person_id, $engagement_id);
-				}
+	// 			if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
+	// 				do_action( 'lifterlms_lesson_completed_engagement', $person_id, $engagement_id);
+	// 			}
 
-				elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
-					LLMS()->certificates();
+	// 			elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
+	// 				LLMS()->certificates();
 
-					do_action( 'lifterlms_lesson_completed_certificate', $person_id, $engagement_id, $lesson_id);
-				}
+	// 				do_action( 'lifterlms_lesson_completed_certificate', $person_id, $engagement_id, $lesson_id);
+	// 			}
 
-				elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
-					LLMS()->achievements();
+	// 			elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
+	// 				LLMS()->achievements();
 
-					do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id);
-				}
+	// 				do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id);
+	// 			}
 
-			}
+	// 		}
 
-		}
+	// 	}
 
-	}
+	// }
 
+	/**
+	 * Get the engagement hooks
+	 * @param  [type] $lesson_id [lesson, section or course id that triggered the engagment]
+	 * @return array [array of all engagement post ids]
+	 */
 	public function get_engagement_hooks($lesson_id) {
 		$engagement_ids = array();
 
@@ -126,11 +157,16 @@ class LLMS_Engagements {
 		return $engagement_ids;
 	}
 
+	/**
+	 * new user registered engagement method
+	 * Called when new user is registered
+	 * Overridable by child classes
+	 * 
+	 * @param  object $user [Current user data]
+	 * @return void
+	 */
 	public function llms_user_register($user) {
 
 	}
 
 }
-
-
-

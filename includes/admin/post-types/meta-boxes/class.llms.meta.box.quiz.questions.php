@@ -114,7 +114,7 @@ class LLMS_Meta_Box_Quiz_Questions {
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-		LLMS_log($_POST);
+
 		$questions = array();
 
 		if ( isset($_POST['_llms_question']) ) {

@@ -21,10 +21,8 @@ if ( $user_postmetas  ) {
 $single_price = $product->get_single_price();
 $rec_price = $product->get_recurring_price();
 $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', true );
-
-
-
 ?>
+
 <div class="llms-purchase-link-wrapper">
 	<?php
 	if ( ! is_user_logged_in() ) {
@@ -33,6 +31,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 		if ( ! empty( $message ) ) {
 		}
 
+		//if membership required to take course
 		if ($memberships_required) {
 
 			//if there is more than 1 membership that can view the content then redirect to memberships page
@@ -60,8 +59,6 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 			<?php
 			}else{
 
-				echo "Course has reached its limit";
-
 				_e( 'Course is no longer available', 'lifterlms' );
 
 			}
@@ -88,10 +85,13 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 
 		//if a user is not a member and the product has a price > 0
 		//if course can be purchased and user is not member redirect to checkout page
-		if ( ($single_price  > 0 || $rec_price > 0) && !$user_is_member) {
+		if ( ($single_price  > 0 || $rec_price > 0) && !$user_is_member ) {
 		?>
+			<?php if(check_course_capacity()) { ?>
 			<a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Take This Course', 'lifterlms' ); ?></a>
-		<?php
+			<?php } 
+			else { _e( 'Course is no longer available', 'lifterlms' );
+			}
 		}
 		else {
 
@@ -106,19 +106,12 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 
 					<input type="hidden" name="payment_option" value="none_0" />
 					<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none_0" <?php //checked( $gateway->chosen, true ); ?> />
-
-	
-					<input id="payment_method_<?php echo 'none' ?>" type="hidden" name="payment_method" value="none" <?php //checked( $gateway->chosen, true ); ?> />
-
 					<p><input type="submit" class="button llms-button llms-purchase-button" name="create_order_details" value="<?php _e( 'Take This Course', 'lifterlms' ); ?>" /></p>
 	
 					<?php wp_nonce_field( 'create_order_details' ); ?>
 					<input type="hidden" name="action" value="create_order_details" />
 				</form>
 			<?php } else{
-
-				echo "Course has reached its limit";
-
 				_e( 'Course is no longer available', 'lifterlms' );
 
 			} ?>

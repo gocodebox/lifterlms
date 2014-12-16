@@ -16,7 +16,6 @@ if ( $quiz_data ) {
 $quiz->is_passing_score( $user_id );
 $passing_percent = $quiz->get_passing_percent();
 
-//var_dump( $quiz_data );
 $start_date = $quiz->get_start_date( $user_id );
 
 $grade = $quiz->get_user_grade( $user_id );

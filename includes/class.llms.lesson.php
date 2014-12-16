@@ -6,9 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 *
 * Class used for instantiating lesson object
 *
-* @version 1.0
 * @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Lesson {
 
@@ -138,6 +136,12 @@ class LLMS_Lesson {
 
 	}
 
+	/**
+	 * Get the parent section
+	 * Finds and returns parent section id
+	 * 
+	 * @return int [ID of parent section]
+	 */
 	public function get_parent_section() {
 		global $course;
 
@@ -161,6 +165,11 @@ class LLMS_Lesson {
 
 	}
 
+	/**
+	 * Get the lesson prerequisite
+	 * 
+	 * @return int [ID of the prerequisite post]
+	 */
 	public function get_prerequisite() {
 
 		if ( $this->has_prerequisite ) {
@@ -172,7 +181,12 @@ class LLMS_Lesson {
 		}
 	}
 
-
+	/**
+	 * Get Next lesson
+	 * Finds and returns next lesson id
+	 * 
+	 * @return int [ID of next lesson]
+	 */
 	public function get_next_lesson() {
 		global $course;
 
@@ -212,8 +226,13 @@ class LLMS_Lesson {
 		}
 	}
 
-		public function get_previous_lesson() {
+	/**
+	 * Get previous lesson id
+	 * @return int [ID of previous lesson]
+	 */
+	public function get_previous_lesson() {
 		global $course;
+
 		$lessons = array();
 		$current_lesson = $this->id;
 		$parent_section = $this->get_parent_section();
@@ -256,6 +275,10 @@ class LLMS_Lesson {
 
 	}
 
+	/**
+	 * Check if lesson is complete
+	 * @return bool [Is lesson marked complete for user]
+	 */
 	public function is_complete() {
 		$user = new LLMS_Person;
 		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $this->id );
@@ -278,10 +301,20 @@ class LLMS_Lesson {
 		return $user_postmetas;
 	}	
 
+	/**
+	 * Text to display on Mark Complete button
+	 * @return string [Button text]
+	 */
 	public function single_mark_complete_text() {
 		return apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'lifterlms' ), $this );
 	}
 
+	/**
+	 * Mark lesson as complete
+	 * 
+	 * @param  int $user_id [ID of user]
+	 * @return void
+	 */
 	public function mark_complete( $user_id ) {
 		global $wpdb;
 
@@ -378,4 +411,4 @@ class LLMS_Lesson {
 		}
 	}
 
-}
+} //end LLMS_Lesson 

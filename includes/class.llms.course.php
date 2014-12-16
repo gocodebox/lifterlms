@@ -245,6 +245,10 @@ class LLMS_Course {
 
 	}
 
+	/**
+	 * Get course prerequisite
+	 * @return mixed [Returns prerequisite course id or false if none exists]
+	 */
 	public function get_prerequisite() {
 
 		if ( $this->has_prerequisite == 'on' ) {
@@ -256,7 +260,10 @@ class LLMS_Course {
 		}
 	}
 
-
+	/**
+	 * Find the next uncompleted lesson in the course syllabus
+	 * @return int [Next uncompleted lesson]
+	 */
 	public function get_next_uncompleted_lesson() {
 		$lessons_not_completed = array();
 		$lesson_ids = array();
@@ -277,29 +284,39 @@ class LLMS_Course {
 		if ($lessons_not_completed) {
 			return $lessons_not_completed[0];
 		}
-		
-
 	}
 
+	/**
+	 * Get all lesson ids associated with a course
+	 * @return array $array [array of all lesson ids in a course]
+	 */
 	public function get_lesson_ids() {
 		$array  = array ();
-
 		$syllabus = $this->get_syllabus();
-if($syllabus) {
-		foreach($syllabus as $key => $value ) :
-			if($syllabus[$key]['lessons']) {
-			foreach ($syllabus[$key]['lessons'] as $keys) :
 
-				array_push($array, $keys);
+		if($syllabus) {
 
+			foreach($syllabus as $key => $value ) :
+
+				if($syllabus[$key]['lessons']) {
+
+					foreach ($syllabus[$key]['lessons'] as $keys) :
+
+						array_push($array, $keys);
+
+					endforeach;
+				}
 			endforeach;
-}
-		endforeach;
-}
+		}
+
 		return $array;
 
 	}
 
+	/**
+	 * Get the current percent complete by user
+	 * @return int [numerical representation of % completion in course]
+	 */
 	public function get_percent_complete() {
 		$lesson_ids = $this->get_lesson_ids();
 		$array = array();
@@ -326,6 +343,10 @@ if($syllabus) {
 
 	}
 
+	/**
+	 * Get all sections
+	 * @return array $sections [Returns array of all sections associated with a course.]
+	 */
 	public function get_sections() {
 		$syllabus = $this->get_syllabus(); 
 		$sections = array();
@@ -338,6 +359,13 @@ if($syllabus) {
 		return $sections;
 	}
 
+	/**
+	 * Get percent complete by section
+	 * 
+	 * @param  int $lesson_id [ID of the current lesson]
+	 * 
+	 * @return int [numeric representation of % of lessons in section completed]
+	 */
 	public function get_section_percent_complete($lesson_id) {
 
 		$syllabus = $this->get_syllabus();
@@ -353,7 +381,6 @@ if($syllabus) {
 				}
 			}
 		}
-
 
 		$total_lessons_in_section = count($sections[$section]);
 		$total_completed_lessons = 0;
@@ -391,7 +418,7 @@ if($syllabus) {
 	/**
 	 * Get the Course Section and Lesson information
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function get_syllabus() {
 

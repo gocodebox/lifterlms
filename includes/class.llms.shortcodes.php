@@ -122,9 +122,6 @@ class LLMS_Shortcodes {
 
 		$course_progress = $course->get_percent_complete();
 
-
-		// var_dump(lifterlms_course_progress_bar( $course_progress, false, false, false ));
-
 		return lifterlms_course_progress_bar( $course_progress, false, false, false );
 	}
 

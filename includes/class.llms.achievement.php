@@ -18,11 +18,6 @@ class LLMS_Achievement {
 
 	function __construct() {
 
-			// Default template base if not declared in child constructor
-			if ( is_null( $this->template_base ) ) {
-				$this->template_base = LLMS()->plugin_path() . '/templates/';
-			}
-
 			// Settings TODO Refoactor: theses can come from the email post now
 			$this->email_type     	= 'html';
 			$this->enabled   		= get_option( 'enabled' );
@@ -51,37 +46,14 @@ class LLMS_Achievement {
 		return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
 
-//REFACTOR: REMOVE THESE METHODS AFTER TESTING
-	// function get_content_type() {
-	// 	return 'text/html';
-	// }
-
-	// function get_from_name() {
-	// 	return wp_specialchars_decode( esc_html( get_option( 'lifterlms_email_from_name' ) ), ENT_QUOTES );
-	// }
-
-	// function get_from_address() {
-	// 	return sanitize_email( get_option( 'lifterlms_email_from_address' ) );
-	// }
-
-	// function get_recipient() {
-	// 	return apply_filters( 'lifterlms_email_recipient_' . $this->id, $this->recipient, $this->object );
-	// }
-
-	// function get_subject() {
-	// 	return apply_filters( 'lifterlms_email_subject_' . $this->id, $this->format_string( $this->subject ), $this->object );
-	// }
-
-	// function get_headers() {
-	// 	return apply_filters( 'lifterlms_email_headers', "Content-Type: " . $this->get_content_type() . "\r\n", $this->id, $this->object );
-	// }
-	// function format_string( $string ) {
-	// 	return str_replace( $this->find, $this->replace, $string );
-	// }
-
-	// function get_heading() {
-	// 	return apply_filters( 'lifterlms_email_heading_' . $this->id, $this->format_string( $this->heading ), $this->object );
-	// }
+	/**
+	 * Format String
+	 * @param  string $string [un-formatted string]
+	 * @return string         [formatted string]
+	 */
+	function format_string( $string ) {
+		return str_replace( $this->find, $this->replace, $string );
+	}
 
 
 	/**

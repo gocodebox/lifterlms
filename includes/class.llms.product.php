@@ -5,10 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * Base Product Class
 *
 * Class used for instantiating Product object
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Product {
 
@@ -95,6 +91,10 @@ class LLMS_Product {
 
 	}
 
+	/**
+	 * Get product payment options
+	 * @return array $options [available payment option ids]
+	 */
 	public function get_payment_options() {
 
 		$single = $this->get_price();
@@ -111,34 +111,75 @@ class LLMS_Product {
 		return apply_filters( 'lifterlms_product_get_payment_options', $options);
 	}
 
+	/**
+	 * Get subscriptions
+	 * @return array [array of subscription ids]
+	 */
 	public function get_subscriptions() {
 		return $this->llms_subscriptions;
 	}
 
+	/**
+	 * Get billing period
+	 * @param  int $sub [id of the subscription]
+	 * @return int [billing period id]
+	 */
 	public function get_billing_period($sub) {
 		return $sub['billing_period'];
 	}
 
+	/**
+	 * Get billing frequency
+	 * @param  int $sub [id of subscription]
+	 * @return int [billing frequency]
+	 */
 	public function get_billing_freq($sub) {
 		return $sub['billing_freq'];
 	}
 
+	/**
+	 * Get billing cycles
+	 * @param  int $sub [sub id]
+	 * @return int [billing cycles]
+	 */
 	public function get_billing_cycle($sub) {
 		return $sub['billing_cycle'];
 	}
 
+	/**
+	 * Get subscription total price
+	 * Total price of the subscription
+	 * 
+	 * @param  int $sub [sub id]
+	 * @return int [total price]
+	 */
 	public function get_subscription_total_price($sub) {
 		return $sub['total_price'];
 	}
 
+	/**
+	 * Get sub first payment
+	 * @param  int $sub [sub id]
+	 * @return int [first payment amount]
+	 */
 	public function get_subscription_first_payment($sub) {
 		return $sub['first_payment'];
 	}
 
+	/**
+	 * Get subscription payment price
+	 * @param int $sub [sub id]
+	 * @return int     [recurring sub price amount]
+	 */
 	public function get_subscription_payment_price($sub) {
 		return $sub['sub_price'];
 	}
 
+	/**
+	 * Get subscription html output
+	 * @param  int $sub [sub id]
+	 * @return string [formatted dollar amount]
+	 */
 	public function get_subscription_price_html($sub) {
 
 		$price = '';
@@ -161,9 +202,6 @@ class LLMS_Product {
 		else {
 			$billing_period_html = 'per ' . $billing_period;
 		}
-
-		// / month = $1 
-
 
 		// if first payment is different from recurring payment display first payment. 
 		if ($sub_first_payment != $sub_price) {
@@ -231,6 +269,16 @@ class LLMS_Product {
 		return apply_filters( 'lifterlms_get_price_html', $price, $this );
 	}
 
+	public function get_recurring_price() {
+		return apply_filters( 'lifterlms_get_recurring_price', $this->llms_subscription_price, $this );
+	}
+
+	/**
+	 * Get recurring price html output
+	 * Formatted string representation of recurring price, cycle, frequency and first payment 
+	 * 
+	 * @return string [formatted string representing price]
+	 */
 	public function get_recurring_price_html() {
 
 		$price = '';
@@ -253,9 +301,6 @@ class LLMS_Product {
 		else {
 			$billing_period_html = 'per ' . $billing_period;
 		}
-
-		// / month = $1 
-
 
 		// if first payment is different from recurring payment display first payment. 
 		if ($recurring_first_payment != $recurring_price) {
@@ -376,7 +421,12 @@ class LLMS_Product {
 		return $total;
 	}
 
-
+	/**
+	 * Adjust price using coupon
+	 * 
+	 * @param  string $price [product price]
+	 * @return string       [adjusted product price]
+	 */
 	public function adjusted_price($price = '') {
 		$adjustment = llms_get_coupon();
 		$total = $price;
@@ -413,22 +463,29 @@ class LLMS_Product {
 
 	}
 
+	/**
+	 * Get single purchase price
+	 * @return int [single purchase price]
+	 */
 	public function get_single_price() {
 		return apply_filters( 'lifterlms_get_single_price', $this->price, $this );
 	}
 
-	public function get_recurring_price() {
-
-		//return apply_filters( 'lifterlms_get_recurring_price', $this->adjusted_price($this->llms_subscription_price), $this );
-	}
-
+	/**
+	 * Get recurring first payment price
+	 * @return  int [first payment amount]
+	 */
 	public function get_recurring_first_payment() {
 
 		return apply_filters( 'lifterlms_get_recurring_first_price', $this->adjusted_price($this->llms_subscription_first_payment), $this );
 	}
 
-
-
+	/**
+	 * Get next recurring payment date
+	 * 
+	 * @param  int $sub [sub id]
+	 * @return datetime [date of next payment]
+	 */
 	public function get_recurring_next_payment_date($sub) {
 
 		$billing_period = $this->get_billing_period($sub);

@@ -483,7 +483,6 @@ class LLMS_AJAX {
 	 * @return array
 	 */
 	public function get_quiz_questions(){
-LLMS_log('get_quiz_questions called');
 		$quiz_id = $_REQUEST['quiz_id'];
 		$user_id = $_REQUEST['user_id'];
 

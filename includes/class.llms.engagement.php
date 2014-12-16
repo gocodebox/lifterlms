@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 *
 * Handles generating and sending the email
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

@@ -2,26 +2,22 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Base Email Class
+* Base Certificate Class
 *
-* Handles generating and sending the email
-*
-* @author codeBOX
-* @project lifterLMS
+* Handles generating certificates
 */
 class LLMS_Certificate {
 
-	// is the email enabled
+	/**
+	 * Certificate Enabled
+	 * @var bool
+	 */
 	var $enabled;
 
-	var $heading;
-
+	/**
+	 * Constructor
+	 */
 	function __construct() {
-
-			// Default template base if not declared in child constructor
-			if ( is_null( $this->template_base ) ) {
-				$this->template_base = LLMS()->plugin_path() . '/templates/';
-			}
 
 			// Settings TODO Refoactor: theses can come from the email post now
 			$this->email_type     	= 'html';
@@ -31,52 +27,44 @@ class LLMS_Certificate {
 			$this->replace = array( $this->get_blogname(), $this->get_blogname() );
 	}
 
+	/**
+	 * Is Enabled
+	 * @return boolean [certificate enabled]
+	 */
 	function is_enabled() {
 		$enabled = $this->enabled == "yes" ? true : false;
 		return true;
 	}
 
-//REFACTOR: DELETE METHODS AFTER TESTING
-	// function get_blogname() {
-	// 	return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-	// }
+	/**
+	 * Get Blog Name
+	 * @return string [blog name]
+	 */
+	function get_blogname() {
+		return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+	}
 
-	// function get_content_type() {
-	// 	return 'text/html';
-	// }
+	/**
+	 * Format String
+	 * @param  string $string [Find and replace merge fields]
+	 * @return string [formatted string]
+	 */
+	function format_string( $string ) {
+		return str_replace( $this->find, $this->replace, $string );
+	}
 
-	// function get_from_name() {
-	// 	return wp_specialchars_decode( esc_html( get_option( 'lifterlms_email_from_name' ) ), ENT_QUOTES );
-	// }
-
-	// function get_from_address() {
-	// 	return sanitize_email( get_option( 'lifterlms_email_from_address' ) );
-	// }
-
-	// function get_recipient() {
-	// 	return apply_filters( 'lifterlms_email_recipient_' . $this->id, $this->recipient, $this->object );
-	// }
-
-	// function get_subject() {
-	// 	return apply_filters( 'lifterlms_email_subject_' . $this->id, $this->format_string( $this->subject ), $this->object );
-	// }
-
-	// function get_headers() {
-	// 	return apply_filters( 'lifterlms_email_headers', "Content-Type: " . $this->get_content_type() . "\r\n", $this->id, $this->object );
-	// }
-	// function format_string( $string ) {
-	// 	return str_replace( $this->find, $this->replace, $string );
-	// }
-
-	// function get_heading() {
-	// 	return apply_filters( 'lifterlms_email_heading_' . $this->id, $this->format_string( $this->heading ), $this->object );
-	// }
-
-
+	/**
+	 * Get Blog Title
+	 * @return string [Blog title]
+	 */
 	function get_title() {
 		return apply_filters( '_llms_certificate_title' . $this->id, $this->title, $this->object );
 	}
 
+	/**
+	 * Get Content
+	 * @return string [Post Content]
+	 */
 	function get_content() {
 
 	$this->sending = true;
@@ -86,8 +74,17 @@ class LLMS_Certificate {
 		return $email_content;
 	}
 
+	/**
+	 * Get Content HTML
+	 * @return string [html formatted string]
+	 */
 	function get_content_html() {}
 
+	/**
+	 * Create Certificate
+	 * @param  string $content [html formatted post content]
+	 * @return void
+	 */
 	public function create($content) {
 		global $wpdb;
 

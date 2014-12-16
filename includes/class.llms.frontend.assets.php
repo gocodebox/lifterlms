@@ -6,9 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 *
 * Initializes front end scripts
 *
-* @version 1.0
 * @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Frontend_Assets {
 

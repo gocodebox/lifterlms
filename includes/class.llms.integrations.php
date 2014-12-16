@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
 * Integrations
 *
-* @version 1.0
 * @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Integrations {
 	protected static $_instance = null;
@@ -59,11 +57,6 @@ class LLMS_Integrations {
 		ksort( $this->integrations );
 	}
 
-
-
-
-
-
 	/**
 	 * Get available integrations
 	 *
@@ -86,7 +79,11 @@ class LLMS_Integrations {
 		return apply_filters( 'lifterlms_available_integrations', $_available_integrations );
 	}
 
-
+	/**
+	 * Get all available integrations
+	 * 
+	 * @return array [array of all integrations]
+	 */
     function integrations() {
 
 		$_available_integrations = array();

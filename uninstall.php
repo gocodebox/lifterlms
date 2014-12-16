@@ -1,11 +1,6 @@
 <?php
 /**
  * LifterLMS Uninstall
- *
- * @author 		codeBOX
- * @category 	Core
- * @package 	LifterLMS/Uninstaller
- * @version     0.1
  */
 
 // If uninstall not called from WordPress exit 

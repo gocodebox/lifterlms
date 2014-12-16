@@ -1,14 +1,14 @@
 <?php
 /**
-*Plugin Name: LifterLMS
-*Plugin URI: http://lifterlms.com/
-*Description: lifterLMS is the easiest way for anyone to create a Learning Management System on the Wordpress platform.
-*Version: 1.1.0
-*Author: codeBOX
-*Author URI: http://gocodebox.com
+* Plugin Name: LifterLMS
+* Plugin URI: http://lifterlms.com/
+* Description: lifterLMS is the easiest way for anyone to create a Learning Management System on the Wordpress platform.
+* Version: 1.1.0
+* Author: codeBOX
+* Author URI: http://gocodebox.com
 *
-*Requires at least: 3.8
-*Tested up to: 3.9
+* Requires at least: 3.8
+* Tested up to: 4.0
 *
 * @package 		LifterLMS
 * @category 	Core
@@ -176,7 +176,6 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.lesson.php' );
 		include_once( 'includes/class.llms.quiz.php' );
 		include_once( 'includes/class.llms.question.php' );
-
 		include_once( 'includes/class.llms.course.factory.php' );
 
 		$this->query = include( 'includes/class.llms.query.php' );
@@ -243,28 +242,36 @@ final class LifterLMS {
 			'user_register',
 		);
 
-		foreach( $engagement_actions as $action )
+		foreach( $engagement_actions as $action ) {
 			add_action( $action, array( $this, 'trigger_engagement' ), 10, 10 );
+		}
 
-
-		
 		$MyUpdateChecker = PucFactory::buildUpdateChecker(
 		'http://updates.gocodebox.com/?action=get_metadata&slug=lifterlms',
 		__FILE__, 
 		'lifterlms', 3
 		);
+
 		$MyUpdateChecker->addQueryArgFilter('get_update_keys');
 
 		do_action( 'lifterlms_init' );
 
 	}
 
+	/**
+	 * Send Transactional Email
+	 * @return void
+	 */
 	public function send_transactional_email() {
 		$this->mailer();
 		$args = func_get_args();
 		do_action_ref_array( current_filter() . '_notification', $args );
 	}
 
+	/**
+	 * Trigger Engagemnt
+	 * @return [type] [description]
+	 */
 	public function trigger_engagement() {
 		$this->engagements();
 		$args = func_get_args();
@@ -345,6 +352,12 @@ final class LifterLMS {
 		return LLMS_Order::instance();
 	}
 
+	/**
+	 * Add Action Links
+	 * Settings action links
+	 * 
+	 * @param array $links [array of links]
+	 */
 	public function add_action_links ( $links ) {
 
 		$lifter_links = array(

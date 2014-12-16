@@ -19,6 +19,7 @@ $blog_title = get_bloginfo( 'name' );
 		p, h1, h2, h3, h4, h5, h6 {line-height: 1;}
 		table td {border-collapse: collapse;}
 		table { mso-table-lspace:0pt; mso-table-rspace:0pt; }
+		.hentry {background-color:none;}
 		.image_fix {display:block;}
 		#backgroundTable {margin:0; padding:20px; width:100% !important; line-height: 100% !important;}
 		#outlook a {padding:0;}

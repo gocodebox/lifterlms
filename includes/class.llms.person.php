@@ -4,10 +4,6 @@
 * Person base class. 
 *
 * Class used for instantiating course object
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
 */
 
 class LLMS_Person {
@@ -54,6 +50,13 @@ class LLMS_Person {
 		}
 	}
 
+	/**
+	 * Set user login timestamp on login
+	 * Update login timestamp on user login
+	 * 
+	 * @param stirng $user_login [User login id]
+	 * @param object $user       [User data object]
+	 */
 	public function set_user_login_timestamp ($user_login, $user) {
 		$now = current_time( 'timestamp' );
 		update_user_meta($user->ID, 'llms_last_login', $now);
@@ -62,7 +65,9 @@ class LLMS_Person {
 
 	/**
 	 * Get data about a specific users memberships
+	 * 
 	 * @param  int $user_id user id
+	 * 
 	 * @return array / array of objects containing details about users memberships
 	 */
 	public function get_user_memberships_data( $user_id ) {
@@ -82,10 +87,7 @@ class LLMS_Person {
 					$r[$membership_id] = $info;
 
 				}
-
-
 			}
-
 		}
 
 		return $r;
@@ -111,13 +113,12 @@ class LLMS_Person {
 		if ( empty($results) ) {
 			return;
 		}
-		LLMS_log($results);
 
 		for ($i=0; $i < count($results); $i++) {
 			$results[$results[$i]->meta_key] = $results[$i];
 			unset($results[$i]);
 		}
-LLMS_log($results);
+
 		return $results;
 	}
 
@@ -148,11 +149,8 @@ LLMS_log($results);
 			$results[$results[$i]->post_id] = $results[$i];
 			unset($results[$i]);
 		}
-LLMS_log($results);
-		return $results;
-	}
 
-	public function get_permissions() {
+		return $results;
 	}
 
 }

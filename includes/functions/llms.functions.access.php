@@ -92,7 +92,7 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
-LLMS_log($results);
+
 	return apply_filters( 'llms_page_restricted', $results );
 	
 }

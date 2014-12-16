@@ -15,7 +15,7 @@ foreach ( $quiz->questions as $key => $value ) {
 		$current_question = ( $key + 1 );
 	}
 }
-//printf( __( 'Question %d of %d', 'lifterlms' ), admin_url( 'options-permalink.php' ) 
+
 printf( __( 'Question %d of %d', 'lifterlms' ), $current_question, $question_count );
 ?>
 

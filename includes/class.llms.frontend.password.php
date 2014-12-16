@@ -95,7 +95,6 @@ class LLMS_Frontend_Password {
 
 		}
 
-		// TODO: send emails
 		$mailer = llms()->mailer();
 		do_action( 'lifterlms_reset_password_notification', $user_login, $key );
 		llms_add_notice( __( 'Check your e-mail for the account confirmation link.', 'lifterlms' ) );

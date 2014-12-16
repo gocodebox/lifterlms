@@ -14,13 +14,11 @@ class LLMS_Frontend_Forms {
 
 	/**
 	* Constructor
-	*
 	* initializes the forms methods
 	*/
 	public function __construct() {
 
 		add_action( 'template_redirect', array( $this, 'save_account_details' ) );
-
 		add_action( 'init', array( $this, 'apply_coupon' ) );
 		add_action( 'init', array( $this, 'create_order' ) );
 		add_action( 'init', array( $this, 'confirm_order' ) );
@@ -32,24 +30,19 @@ class LLMS_Frontend_Forms {
 		add_action( 'init', array( $this, 'llms_start_quiz' ) );
 		add_action( 'init', array( $this, 'llms_answer_question' ) );
 		add_action( 'init', array( $this, 'prev_question' ) );
-
 		add_action( 'lifterlms_order_process_begin', array( $this, 'order_processing' ), 10, 1 );
 		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 1 );
 		add_action( 'lifterlms_order_process_complete', array( $this, 'order_complete' ), 10, 1 );
-
-
 		add_action( 'lifterlms_content_restricted', array( $this, 'restriction_alert' ), 10, 2 );
-
-
-
-
-
-		//add_action( 'lifterlms_content_restricted_by_prerequisite', array( $this, 'llms_restricted_by_prerequisite' ), 10, 1 );
-		//add_action( 'lifterlms_content_restricted_by_start_date', array( $this, 'llms_restricted_by_start_date' ), 10, 1 );
-
 
 	}
 
+	/**
+	 * Previous question button click
+	 * Finds the previous question and redirects the user to the post
+	 * 
+	 * @return void
+	 */
 	public function prev_question() {
 		$request_method = strtoupper(getenv('REQUEST_METHOD'));
 
@@ -76,6 +69,12 @@ class LLMS_Frontend_Forms {
 		}
 	}
 
+	/**
+	 * answer question form post (next lesson / complete quiz button click)
+	 * inserts answer in database and adds it to current quiz session
+	 * 
+	 * @return void
+	 */
 	public function llms_answer_question() {
 		$request_method = strtoupper(getenv('REQUEST_METHOD'));
 
@@ -101,11 +100,6 @@ class LLMS_Frontend_Forms {
 	    		return llms_add_notice( __( 'You must answer the question to continue.', 'lifterlms' ), 'error' );
 	    	}
 
-	    	LLMS_log('next lesson button clicked');
-	    	LLMS_log($_POST);
-	    	LLMS_log($quiz);
-
-
 	    	//get question meta data
 	    	$correct_option = '';
 	    	$question_options = get_post_meta($_POST['question_id'], '_llms_question_options', true);
@@ -115,10 +109,6 @@ class LLMS_Frontend_Forms {
 	    			$correct_option = $key;
 	    		}
 	    	}
-
-
-
-	    	//LLMS_log($current_question);
 
 	    	//update quiz object
 	    	foreach ( $quiz->questions as $key => $value ) {
@@ -137,7 +127,6 @@ class LLMS_Frontend_Forms {
     				}
 
     			}
-
 	    	}
 
 	    	LLMS()->session->set( 'llms_quiz', $quiz );
@@ -165,8 +154,6 @@ class LLMS_Frontend_Forms {
 
 
     	//if another question exists in lessons array then take user to next question
-
-
     	foreach ( $quiz->questions as $k => $q ) {
     		if ( $q['id'] == $current_question ) {
     			$next_question = $k+1;
@@ -234,7 +221,7 @@ class LLMS_Frontend_Forms {
 			}
 
 
-
+			//if there are no other questions in the questions array then redirect back to quiz page
 			$redirect = get_permalink( $quiz->id );
 			wp_redirect( apply_filters( 'lifterlms_quiz_completed_redirect', $redirect ) );
 
@@ -243,7 +230,7 @@ class LLMS_Frontend_Forms {
     		$redirect = get_permalink( $next_question_id );
 			wp_redirect( $redirect );
     	}
-    	//if there are no other questions in the questions array then redirect back to quiz page
+    	
 	}
 
 
@@ -269,19 +256,13 @@ class LLMS_Frontend_Forms {
 	    	$quiz = LLMS()->session->get( 'llms_quiz' );
 
 	    	if ( $quiz->id == $_POST['llms-quiz_id'] && $quiz->user_id == $_POST['llms-user_id'] ) {
-LLMS_log('end_date');
-LLMS_log($quiz);
+
 	    		if ( property_exists ( $quiz , 'end_date' ) && $quiz->end_date === '' ) {
 	    			$redirect = get_permalink( $quiz->questions[0]['id'] );
 	    			wp_redirect( apply_filters( 'lifterlms_lesson_begin_quiz', $redirect ) );
 	    			return;
 	    		}
-	    		LLMS_log('passed the check');
-	    		//add quiz information to quiz object
-	    		LLMS_log('noonce');
-	    		LLMS_log($_POST['_wpnonce']);
-
-
+	    		
 	    		$quiz->start_date = current_time( 'mysql' );
 	    		$quiz->end_date = '';
 	    		$quiz->grade = 0;
@@ -322,16 +303,11 @@ LLMS_log($quiz);
 				else {
 					return llms_add_notice( __( 'There are no questions associated with this quiz.', 'lifterlms' ), 'error' );
 				}
-LLMS_log($quiz);
+
 				//save quiz object to usermeta
 				$quiz_array = (array) $quiz;
 
 				if ( $quiz_data ) {
-					// foreach ( $quiz_data as $key => $value ) {
-					// 	if ( $value['wpnonce'] == $quiz->wpnonce ) {
-					// 		LLMS_log($value);
-					// 	}
-					// }
 					array_push( $quiz_data, $quiz_array );
 				}
 				else {
@@ -345,8 +321,6 @@ LLMS_log($quiz);
 				LLMS()->session->set( 'llms_quiz', $quiz );
 
 				//redirect user to first question in questions
-
-
 				$redirect = get_permalink( $quiz->questions[0]['id'] );
 				wp_redirect( apply_filters( 'lifterlms_lesson_begin_quiz', $redirect ) );
 			}
@@ -395,7 +369,14 @@ LLMS_log($quiz);
 		}
 	}
 
-	// Mark lesson as complete
+	/**
+	 * Mark Lesson as complete 
+	 * Complete Lesson form post
+	 *
+	 * Marks lesson as complete and returns completion message to user
+	 * 
+	 * @return void
+	 */
     public function mark_complete() {
     	global $wpdb;
 
@@ -411,155 +392,70 @@ LLMS_log($quiz);
     	if ( isset( $_POST['mark-complete'] ) ) {
     		$lesson = new LLMS_Lesson( $_POST['mark-complete'] );
     		$lesson->mark_complete( get_current_user_id() );
-   //  		$lesson = new LLMS_Lesson( $_POST['mark-complete'] );
-
-   //  		$current_lesson = new stdClass();
-
-   //  		$current_lesson->id = $_POST['mark-complete'];
-
-   //  		$current_lesson->parent_id = $lesson->get_parent_course();
-   //  		$current_lesson->title = get_the_title($current_lesson->id);
-
-
-   //  		$current_lesson->user_id = get_current_user_id();//get_post_meta( $current_lesson->parent_id , '_llms_student', true );
-
-   //  		//TODO move this to it's own class and create a userpostmeta class.
-   //  		$user = new LLMS_Person;
-			// $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $current_lesson->id );
-
-   //  		if ( empty($current_lesson->user_id) ) {
-   //  			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
-   //  		}
-   //  		elseif ( ! empty($user_postmetas) ) {
-
-   //  			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-   //  				return;
-   //  			}
-   //  		}
-   //  		else {
-
-   //  			$key = '_is_complete';
-   //  			$value = 'yes';
-
-   //  			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
-			// 		array(
-			// 			'user_id' 			=> $current_lesson->user_id,
-			// 			'post_id' 			=> $current_lesson->id,
-			// 			'meta_key'			=> $key,
-			// 			'meta_value'		=> $value,
-			// 			'updated_date'		=> current_time('mysql'),
-			// 		)
-			// 	);
-			// 	do_action( 'lifterlms_lesson_completed', $current_lesson->user_id, $current_lesson->id);
-
-			// 	llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), $current_lesson->title ) );
-
-			// 	$course = new LLMS_Course($current_lesson->parent_id);
-			// 	$section_completion = $course->get_section_percent_complete($current_lesson->id);
-			// 	$section_id = get_section_id($course->id, $current_lesson->id);
-
-			// 	if ( $section_completion == '100' ) {
-
-			// 		$key = '_is_complete';
-			// 		$value = 'yes';
-
-			// 		$user_postmetas = $user->get_user_postmeta_data( $current_lesson->user_id, $section_id );
-			// 		if ( ! empty( $user_postmetas['_is_complete'] ) ) {
-			// 			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-		 //    				return;
-		 //    			}
-		 //    		}
-
-			// 		$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
-			// 			array(
-			// 				'user_id' 			=> $current_lesson->user_id,
-			// 				'post_id' 			=> $section_id,
-			// 				'meta_key'			=> $key,
-			// 				'meta_value'		=> $value,
-			// 				'updated_date'		=> current_time('mysql'),
-			// 			)
-			// 		);
-
-			// 		do_action('lifterlms_section_completed', $current_lesson->user_id, $section_id );
-
-			// 	}
-
-
-
-			// 	$course_completion = $course->get_percent_complete();
-
-			// 	if ( $course_completion == '100' ) {
-
-			// 		$key = '_is_complete';
-			// 		$value = 'yes';
-
-			// 		$user_postmetas = $user->get_user_postmeta_data( $current_lesson->user_id, $course->id );
-			// 		if ( ! empty( $user_postmetas['_is_complete'] ) ) {
-			// 			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-		 //    				return;
-		 //    			}
-		 //    		}
-
-			// 		$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
-			// 			array(
-			// 				'user_id' 			=> $current_lesson->user_id,
-			// 				'post_id' 			=> $course->id,
-			// 				'meta_key'			=> $key,
-			// 				'meta_value'		=> $value,
-			// 				'updated_date'		=> current_time('mysql'),
-			// 			)
-			// 		);
-
-			// 		do_action('lifterlms_course_completed', $current_lesson->user_id, $course->id );
-
-		 //	}
-
-     		//}
     	}
 
     }
 
+    /**
+     * Mark Course complete form post
+     * Called by lesson complete. 
+     *
+     * If all lessons are complete in course mark course as complete
+     * 
+     * @param  int $user_id   [ID of the current user]
+     * @param  int $lesson_id [ID of the current lesson]
+     * 
+     * @return void
+     */
     function mark_course_complete ($user_id, $lesson_id) {
 		global $wpdb;
 
+		$lesson = new LLMS_Lesson($lesson_id);
+		$course_id = $lesson->get_parent_course();
 
-			$lesson = new LLMS_Lesson($lesson_id);
-			$course_id = $lesson->get_parent_course();
+		$course = new LLMS_Course($course_id);
+		$course_completion = $course->get_percent_complete();
 
-			$course = new LLMS_Course($course_id);
-			$course_completion = $course->get_percent_complete();
+		$user = new LLMS_Person($user_id);
 
-			$user = new LLMS_Person($user_id);
+		if ( $course_completion == '100' ) {
 
-			if ( $course_completion == '100' ) {
+			$key = '_is_complete';
+			$value = 'yes';
 
-				$key = '_is_complete';
-				$value = 'yes';
+			$user_postmetas = $user->get_user_postmeta_data( $user_id, $course->id );
+			if ( ! empty( $user_postmetas['_is_complete'] ) ) {
+				if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+    				return;
+    			}
+    		}
 
-				$user_postmetas = $user->get_user_postmeta_data( $user_id, $course->id );
-				if ( ! empty( $user_postmetas['_is_complete'] ) ) {
-					if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-	    				return;
-	    			}
-	    		}
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				array(
+					'user_id' 			=> $user_id,
+					'post_id' 			=> $course->id,
+					'meta_key'			=> $key,
+					'meta_value'		=> $value,
+					'updated_date'		=> current_time('mysql'),
+				)
+			);
 
-				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
-					array(
-						'user_id' 			=> $user_id,
-						'post_id' 			=> $course->id,
-						'meta_key'			=> $key,
-						'meta_value'		=> $value,
-						'updated_date'		=> current_time('mysql'),
-					)
-				);
+			do_action('llms_course_completed', $user_id, $course->id );
 
-
-				do_action('llms_course_completed', $user_id, $course->id );
-
-			}
-		//}
+		}
 	}
 
+	/**
+	 * mark section complete
+	 * Called by mark_lesson_complte
+	 *
+	 * If all lessons in section complete mark section as complete. 
+	 * 
+	 * @param  int $user_id   [ID of the current user]
+     * @param  int $lesson_id [ID of the current lesson]
+     * 
+	 * @return void
+	 */
 	public function mark_section_complete ($user_id, $lesson_id) {
 		global $wpdb;
 
@@ -571,15 +467,17 @@ LLMS_log($quiz);
 
 	}
 
-
-
-
-
-
-
+	/**
+	 * Confirm order form post
+	 * User clicks confirm order
+	 *
+	 * Executes payment gateway confirm order method and completes order. 
+	 * Redirects user to appropriate page / post
+	 * 
+	 * @return void
+	 */
 	public function confirm_order() {
 		global $wpdb;
-
 
 		$paypal_enabled = get_option( 'lifterlms_gateways_paypal_enabled', '');
 		if ( !empty( $paypal_enabled ) ) {
@@ -608,12 +506,17 @@ LLMS_log($quiz);
 
 		$errors = new WP_Error();
 
-	//	if ( $confirm_order = $available_gateways[$payment_method]->confirm_payment($result) ) {
-			$process_result = $available_gateways[$payment_method]->complete_payment($result, $order);
-		//}
+		$process_result = $available_gateways[$payment_method]->complete_payment($result, $order);
 
 	}
 
+	/**
+	 * Apply Coupon to order form post
+	 * Applies coupon value to session
+	 * Sets price html output to discounted value
+	 * 
+	 * @return void
+	 */
 	public function apply_coupon() {
 		global $wpdb;
 
@@ -692,14 +595,20 @@ LLMS_log($quiz);
 		}
 
 		LLMS()->session->set( 'llms_coupon', $coupon );
-		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' ) ;
-		//if coupon type is dollar
-
-
-		//else if coupon type is percentage
+		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
 
 	}
 
+	/**
+	 * Create order 
+	 * Payment step 1 form submission
+	 * Creates order object and order session object. 
+	 * passes data to payment gateway if price exists
+	 * If no price exists passes order to order
+	 * Redirects user to appropriate page / post
+	 * 
+	 * @return void
+	 */
 	public function create_order() {
 		global $wpdb;
 
@@ -831,42 +740,43 @@ LLMS_log($quiz);
 			return;
 		}
 
-		//if ( property_exists( 'order', 'payment_method' ) ) {
+		$order->currency 		= get_lifterlms_currency();
+		$order->return_url		= $this->llms_confirm_payment_url();
+		$order->cancel_url		= $this->llms_cancel_payment_url();
 
-			$order->currency 		= get_lifterlms_currency();
-			$order->return_url		= $this->llms_confirm_payment_url();
-			$order->cancel_url		= $this->llms_cancel_payment_url();
+		$url = isset($_POST['redirect']) ? llms_clean( $_POST['redirect'] ) : '';
+		$redirect = LLMS_Frontend_Forms::llms_get_redirect( $url );
 
-			$url = isset($_POST['redirect']) ? llms_clean( $_POST['redirect'] ) : '';
-			$redirect = LLMS_Frontend_Forms::llms_get_redirect( $url );
+		// if no errors were returned save the data
+		if ( llms_notice_count( 'error' ) == 0 ) {
 
-			// if no errors were returned save the data
-			if ( llms_notice_count( 'error' ) == 0 ) {
+			$order = apply_filters( 'lifterlms_before_order_process', $order );
 
-				$order = apply_filters( 'lifterlms_before_order_process', $order );
+			if ($order->total == 0) {
+				$lifterlms_checkout = LLMS()->checkout();
+				$lifterlms_checkout->process_order($order);
+				$lifterlms_checkout->update_order($order);
+				do_action( 'lifterlms_order_process_success', $order);
+			}
+			else {
+				$order_session = clone $order;
+				unset($order_session->cc_type, $order_session->cc_number, $order_session->cc_exp_month, $order_session->cc_exp_year, $order_session->cc_cvv);
+				LLMS()->session->set( 'llms_order', $order_session );
 
-				if ($order->total == 0) {
-					$lifterlms_checkout = LLMS()->checkout();
-					$lifterlms_checkout->process_order($order);
-					$lifterlms_checkout->update_order($order);
-					do_action( 'lifterlms_order_process_success', $order);
-				}
-				else {
-					$order_session = clone $order;
-					unset($order_session->cc_type, $order_session->cc_number, $order_session->cc_exp_month, $order_session->cc_exp_year, $order_session->cc_cvv);
-					LLMS()->session->set( 'llms_order', $order_session );
-
-					$lifterlms_checkout = LLMS()->checkout();
-					$lifterlms_checkout->process_order($order);
-					$result = $available_gateways[$order->payment_method]->process_payment($order);
-
-				}
+				$lifterlms_checkout = LLMS()->checkout();
+				$lifterlms_checkout->process_order($order);
+				$result = $available_gateways[$order->payment_method]->process_payment($order);
 
 			}
-		//}
+
+		}
 
 	}
 
+	/**
+	 * Get url for redirect when user confirms payment
+	 * @return string [url to redirect user to on form post]
+	 */
 	function llms_confirm_payment_url() {
 
 		$confirm_payment_url = llms_get_endpoint_url( 'confirm-payment', '', get_permalink( llms_get_page_id( 'checkout' ) ) );
@@ -874,6 +784,10 @@ LLMS_log($quiz);
 		return apply_filters( 'lifterlms_checkout_confirm_payment_url', $confirm_payment_url );
 	}
 
+	/**
+	 * Get url for when user cancels payment
+	 * @return string [url to redirect user to on form post]
+	 */
 	function llms_cancel_payment_url() {
 
 		$cancel_payment_url = esc_url( get_permalink( llms_get_page_id( 'checkout' ) ) );
@@ -881,6 +795,11 @@ LLMS_log($quiz);
 		return apply_filters( 'lifterlms_checkout_confirm_payment_url', $cancel_payment_url );
 	}
 
+	/**
+	 * Redirect user to confirm payment page
+	 * @param  string $url [url to redirect user to]
+	 * @return void
+	 */
 	public function order_processing ($url) {
 
 		$redirect = esc_url( $url );
@@ -892,6 +811,15 @@ LLMS_log($quiz);
 
 	}
 
+	/**
+	 * Redirect user on order success
+	 * If order is returned successful from payment gateway
+	 * Chooses the appropriate url based on order data. 
+	 * 
+	 * @param  object $order [order object]
+	 * 
+	 * @return void
+	 */
 	public function order_success ($order) {
 		$product_title = $order->product_title;
 		$post_obj = get_post($order->product_id);
@@ -919,6 +847,11 @@ LLMS_log($quiz);
 
 	}
 
+	/**
+	 * Redirect user on completed order
+	 * @param  int $user_id [ID of current user]
+	 * @return void
+	 */
 	public function order_complete ($user_id) {
 
 		$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
@@ -929,12 +862,23 @@ LLMS_log($quiz);
 
 	}
 
-
-	function llms_restricted_by_start_date($date) {
+	/**
+	 * Alert message when course / lesson is restricted by start date.
+	 * @param  string $date [Formatted date for display]
+	 * @return void
+	 */
+	public function llms_restricted_by_start_date($date) {
 		llms_add_notice( sprintf( __( 'This content is not available until %s', 'lifterlms' ),
 			$date ) );
 	}
 
+	/**
+	 * Alert message when page / post is restricted
+	 * 
+	 * @param  int $post_id [ID of the current post / page]
+	 * @param  string $reason [string code of reason]
+	 * @return void
+	 */
 	public function restriction_alert ($post_id, $reason) {
 		$post = get_post($post_id);
 
@@ -992,6 +936,13 @@ LLMS_log($quiz);
 
 	}
 
+	/**
+	 * Get redirect url method
+	 * Safe redirect: If there is no referer then redirect user to myaccount
+	 * 
+	 * @param  string $url [sting of url to redirect user to]
+	 * @return string  $redirec [url to redirect user to]
+	 */
 	public static function llms_get_redirect( $url ) {
 		if ( ! empty( $url ) ) {
 
@@ -1058,8 +1009,6 @@ LLMS_log($quiz);
 		$account_email      = ! empty( $_POST[ 'account_email' ] ) 			? sanitize_email( $_POST[ 'account_email' ] ) : '';
 		$pass1              = ! empty( $_POST[ 'password_1' ] ) 			? $_POST[ 'password_1' ] : '';
 		$pass2              = ! empty( $_POST[ 'password_2' ] ) 			? $_POST[ 'password_2' ] : '';
-
-
 
 		$user->first_name   = $account_first_name;
 		$user->last_name    = $account_last_name;

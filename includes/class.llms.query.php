@@ -6,10 +6,6 @@ if ( ! class_exists( 'LLMS_Query' ) ) :
 * Query base class. 
 *
 * Handles query objects
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Query {
 
@@ -104,12 +100,20 @@ class LLMS_Query {
 
 	}
 
+	/**
+	 * Add query variables
+	 * @param $vars [array of WP query variables available for query]
+	 */
 	public function add_query_vars( $vars ) {
 		foreach ( $this->query_vars as $key => $var )
 			$vars[] = $key;
 
 		return $vars;
 	}
+
+	/**
+	 * Add Query Endpoints
+	 */
 	public function add_endpoints() {
 		foreach ( $this->query_vars as $key => $var )
 			add_rewrite_endpoint( $var, EP_PAGES );

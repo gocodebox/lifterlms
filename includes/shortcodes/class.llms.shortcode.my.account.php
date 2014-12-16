@@ -21,7 +21,7 @@ class LLMS_Shortcode_My_Account {
 	}
 
 	/**
-	* Determines what content to output to user absed on status
+	* Determines what content to output to user based on status
 	*
 	* @param array $atts
 	* @return array $messages
@@ -207,7 +207,13 @@ class LLMS_Shortcode_My_Account {
 		return true;
 	}
 
-		public static function check_password_reset_key( $key, $login ) {
+	/**
+	 * Check Password Reset Key
+	 * @param  string $key   	[password reset key]
+	 * @param  string $login 	[wp_user query return]
+	 * @return array        	[wp_user query return]
+	 */
+	public static function check_password_reset_key( $key, $login ) {
 		global $wpdb, $wp_hasher;
 
 		$key = preg_replace( '/[^a-z0-9]/i', '', $key );
@@ -241,6 +247,12 @@ class LLMS_Shortcode_My_Account {
 		return $user;
 	}
 
+	/**
+	 * Reset Password
+	 * @param  object $user     [user object]
+	 * @param  string $new_pass [new password]
+	 * @return void
+	 */
 	public static function reset_password( $user, $new_pass ) {
 		do_action( 'password_reset', $user, $new_pass );
 
@@ -248,6 +260,5 @@ class LLMS_Shortcode_My_Account {
 
 		wp_password_change_notification( $user );
 	}
-
 
 }

@@ -49,8 +49,7 @@ class LLMS_Session_Handler extends LLMS_Session {
 		$this->_cookie = 'wp_lifterlms_session_' . 'COOKIEHASH';
 
 		if ( $cookie = $this->get_session_cookie() ) {
-			LLMS_log('person id');
-LLMS_log($this->_person_id);
+
 			$this->_person_id        = $cookie[0];
 			$this->_session_expiration = $cookie[1];
 			$this->_session_expiring   = $cookie[2];

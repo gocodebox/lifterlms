@@ -5,18 +5,25 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * Payment Gateway class
 *
 * Class for managing payment gateways
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Payment_Gateways {
 
+	/**
+	 * Payment Gateways
+	 * @var array
+	 */
 	var $payment_gateways;
 
-
+	/**
+	 * private instance of class
+	 * @var null
+	 */
 	protected static $_instance = null;
 
+	/**
+	 * Create instance of class
+	 * @return self
+	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
 
@@ -26,10 +33,19 @@ class LLMS_Payment_Gateways {
 		return self::$_instance;
 	}
 
+	/**
+	 * Constructor
+	 * initializes class
+	 */
 	public function __construct() {
 		$this->init();
 	}
 
+	/**
+	 * Get all payment gateways
+	 * 
+	 * @return array $_available_gateways [private array of all payment gateways]
+	 */
     function payment_gateways() {
 		$_available_gateways = array();
 		if ( sizeof( $this->payment_gateways ) > 0 )
@@ -39,6 +55,11 @@ class LLMS_Payment_Gateways {
 		return $_available_gateways;
 	}
 
+	/**
+	 * Initialize payment gateways
+	 * 
+	 * @return void
+	 */
 	function init() {
     	$load_gateways = apply_filters( 'lifterlms_payment_gateways', array(
 			'LLMS_Payment_Gateway_Paypal'
@@ -76,6 +97,11 @@ class LLMS_Payment_Gateways {
 		return apply_filters( 'lifterlms_available_payment_gateways', $_available_gateways );
 	}
 
+	/**
+	 * Check if payment gateway can process recurring payments
+	 * 
+	 * @return bool [can gateway handle recurring payments]
+	 */
 	public function can_process_recurring() {
 		$is_available = true;
 		return $is_available;

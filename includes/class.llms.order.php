@@ -5,15 +5,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * Order class
 *
 * Manages Ordering process.
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Order {
 
+	/**
+	 * protected instance of class
+	 * @var null
+	 */
 	protected static $_instance = null;
 
+	/**
+	 * Set private instance of class
+	 * @return self
+	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
 
@@ -24,10 +28,14 @@ class LLMS_Order {
 		return self::$_instance;
 	}
 
-	public function get_order() {
-
-	}
-
+	/**
+	 * Process order
+	 *
+	 * Inserts order details in database
+	 * 
+	 * @param  object $order [order data object]
+	 * @return void
+	 */
 	public function process_order($order) {
 		global $wpdb;
 
@@ -44,7 +52,6 @@ class LLMS_Order {
 			return false;
 		}
 
-
 		$order_exists = $wpdb->get_results("SELECT user_id, product_id, order_completed
 			FROM " . $wpdb->prefix ."lifterlms_order
 			WHERE user_id = " . $order->user_id . " AND product_id = " . $order->product_id);
@@ -58,7 +65,6 @@ class LLMS_Order {
 				'product_id' 		=> $order->product_id,
 
 			) );
-
 		}
 	}
 
@@ -120,9 +126,6 @@ class LLMS_Order {
 				'product_id' 		=> $order->product_id,
 			)
 		);
-
-		//Assign user to the purchased course post
-		//update_user_meta($order->user_id,'_llms_student', $order->product_id);
 
 		// Add order metadata to the order post
 		update_post_meta($order_post_id,'_llms_user_id', $order->user_id);

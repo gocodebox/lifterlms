@@ -491,8 +491,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         if ($this->full_response) {
             parse_str(urldecode($this->full_response['body']), $output);
             return $output;
-            LLMS_log('paypal output');
-            LLMS_log($output);
         }
         return false;
     }

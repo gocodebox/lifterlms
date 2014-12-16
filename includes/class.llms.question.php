@@ -2,13 +2,8 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Base Course Class
+* Base Question Class
 *
-* Class used for instantiating course object
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
 */
 class LLMS_Question {
 
@@ -84,10 +79,18 @@ class LLMS_Question {
 		return $value;
 	}
 
+	/**
+	 * Get question type
+	 * @return string [type id]
+	 */
 	public function get_type() {
 		return $this->llms_question_type;
 	}
 
+	/**
+	 * Get question options
+	 * @return array [question options]
+	 */
 	public function get_options() {
 
 		return $this->llms_question_options;

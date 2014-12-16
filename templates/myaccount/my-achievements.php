@@ -19,7 +19,7 @@ $achievements = $user->get_user_postmetas_by_key( get_current_user_id(), $meta_k
 			$meta = get_post_meta($value->meta_value);
 
 			$achievement_title = $meta['_llms_achievement_title'][0];
-			$achievement_content = $meta['_llms_achievement_content'][0];
+			$achievement_content = ( empty( $meta['_llms_achievement_content'][0] ) ? '' : $meta['_llms_achievement_content'][0] );
 
 			$achievementimage_id = $meta['_llms_achievement_image'][0]; // Get Image Meta
 			$achievementimage = wp_get_attachment_image_src($achievementimage_id, 'achievement'); //Get Right Size Image for Print Template

@@ -93,7 +93,7 @@ if($coupon_session) {
 					$subs = $product_obj->get_subscriptions();
 
 					if (!empty($subs)) :
-					var_dump($subs );
+
 						foreach ($subs as $id => $sub) : ?>
 							<p class="llms-payment-option llms-option">
 								<input id="llms-payment-option_<?php echo $value . '_' . $id; ?>"

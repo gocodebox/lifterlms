@@ -1,11 +1,10 @@
 <?php
 /**
- * Setup menus in WP Admin.
+ * Post Types base class
  *
- * @author 		codeBOX
- * @category 	Admin
- * @package 	LifterLMS/Course
- * @version     0.1
+ * Creates all post types needed for lifterLMS
+ *
+ * @author codeBOX
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -19,8 +18,6 @@ class LLMS_Post_Types {
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
 		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
 	}
-
-	
 
 	/**
 	 * Register Taxonomies
@@ -51,7 +48,6 @@ class LLMS_Post_Types {
 	        apply_filters( 'lifterlms_taxonomy_objects_course_cat', array( 'course' ) ),
 	        apply_filters( 'lifterlms_taxonomy_args_course_cat', array(
 	            'hierarchical' 			=> true,
-	            'update_count_callback' => '_llms_term_recount',
 	            'label' 				=> __( 'Course Categories', 'lifterlms' ),
 	            'labels' => array(
 	                    'name' 				=> __( 'Course Categories', 'lifterlms' ),
@@ -68,12 +64,6 @@ class LLMS_Post_Types {
 	            	),
 	            'show_ui' 				=> true,
 	            'query_var' 			=> true,
-	            //'capabilities'			=> array(
-	            	//'manage_terms' 		=> 'manage_course_terms',
-					//'edit_terms' 		=> 'edit_course_terms',
-					// 'delete_terms' 		=> 'delete_course_terms',
-					// 'assign_terms' 		=> 'assign_course_terms',
-	             //),
 	            'rewrite' 				=> array(
 					'slug'         => empty( $permalinks['category_base'] ) ? _x( 'course-category', 'slug', 'lifterlms' ) : $permalinks['category_base'],
 					'with_front'   => false,
@@ -86,7 +76,6 @@ class LLMS_Post_Types {
 	        apply_filters( 'lifterlms_taxonomy_objects_course_tag', array( 'course' ) ),
 	        apply_filters( 'lifterlms_taxonomy_args_course_tag', array(
 	            'hierarchical' 			=> false,
-	            'update_count_callback' => '_llms_term_recount',
 	            'label' 				=> __( 'Course Tags', 'lifterlms' ),
 	            'labels' => array(
 	                    'name' 				=> __( 'Course Tags', 'lifterlms' ),
@@ -114,7 +103,6 @@ class LLMS_Post_Types {
 	        apply_filters( 'lifterlms_taxonomy_objects_course_difficulty', array( 'course' ) ),
 	        apply_filters( 'lifterlms_taxonomy_args_course_difficulty', array(
 	            'hierarchical' 			=> false,
-	            'update_count_callback' => '_llms_term_recount',
 	            'label' 				=> __( 'Course Difficulties', 'lifterlms' ),
 	            'labels' => array(
 	                    'name' 				=> __( 'Course Difficulties', 'lifterlms' ),
@@ -137,49 +125,6 @@ class LLMS_Post_Types {
 	            ),
 	        ) )
 	    );
-
-		//global $llms_course_attributes, $lifterlms;
-
-		// $llms_course_attributes = array();
-
-		// if ( $attribute_taxonomies = llms_get_attribute_taxonomies() ) {
-		// 	foreach ( $attribute_taxonomies as $tax ) {
-		// 		if ( $name = $llms_attribute_taxonomy_name( $tax->attribute_name ) ) {
-		// 			$label = ! empty( $tax->attribute_label ) ? $tax->attribute_label : $tax->attribute_name;
-				
-		// 			$llms_course_attributes[ $name ] = $tax;
-
-		// 			register_taxonomy( $name,
-		// 		        apply_filters( 'lifterlms_taxonomy_objects_' . $name, array( 'course' ) ),
-		// 		        apply_filters( 'lifterlms_taxonomy_args_' . $name, array(
-		// 		            'hierarchical' 				=> true,
-	 //            			'update_count_callback' 	=> '_update_post_term_count',
-		// 		            'labels' => array(
-		// 		                    'name' 						=> $label,
-		// 		                    'singular_name' 			=> $label,
-		// 		                    'search_items' 				=> sprintf( __( 'Search %s', 'lifterlms' ), $label ),
-		// 		                    'all_items' 				=> sprintf( __( 'All %s', 'lifterlms' ), $label ),
-		// 		                    'parent_item' 				=> sprintf( __( 'Parent %s', 'lifterlms' ), $label ),
-		// 		                    'parent_item_colon' 		=> sprintf( __( 'Parent %s:', 'lifterlms' ), $label ),
-		// 		                    'edit_item' 				=> sprintf( __( 'Edit %s', 'lifterlms' ), $label ),
-		// 		                    'update_item' 				=> sprintf( __( 'Update %s', 'lifterlms' ), $label ),
-		// 		                    'add_new_item' 				=> sprintf( __( 'Add New %s', 'lifterlms' ), $label ),
-		// 		                    'new_item_name' 			=> sprintf( __( 'New %s', 'lifterlms' ), $label )
-		// 		            	),
-		// 		            'show_ui' 					=> false,
-		// 		            'query_var' 				=> true,
-		// 		            'show_in_nav_menus' 		=> apply_filters( 'lifterlms_attribute_show_in_nav_menus', false, $name ),
-		// 		            'rewrite' 					=> array(
-		// 						'slug'         => ( empty( $permalinks['attribute_base'] ) ? '' : trailingslashit( $permalinks['attribute_base'] ) ) . sanitize_title( $tax->attribute_name ),
-		// 						'with_front'   => false,
-		// 						'hierarchical' => true
-		// 		            ),
-		// 		        ) )
-		// 		    );
-		// 		}
-		// 	}
-		// 	do_action( 'llms_after_register_taxonomy' );
-		// }
 	}
 
 	/**
@@ -294,7 +239,6 @@ class LLMS_Post_Types {
 		/**
 		 * Lesson Post Type
 		 */
-
 		$lesson_permalink = empty( $permalinks['lesson_base'] ) ? _x( 'lesson', 'slug', 'lifterlms' ) : $permalinks['lesson_base'];
 
 	    register_post_type( "lesson",
@@ -333,6 +277,9 @@ class LLMS_Post_Types {
 			)
 		);
 
+		/**
+		 * Order post type
+		 */
 	    register_post_type( "order",
 		    apply_filters( 'lifterlms_register_post_type_order',
 				array(
@@ -531,8 +478,6 @@ class LLMS_Post_Types {
 		 * User specific certificate
 		 */
 		$my_certificate_permalink = empty( $permalinks['my_certificate_base'] ) ? _x( 'my_certificate', 'slug', 'lifterlms' ) : $permalinks['my_certificate_base'];
-
-
 	    register_post_type( "llms_my_certificate",
 		    apply_filters( 'lifterlms_register_post_type_llms_my_certificate',
 				array(
@@ -572,7 +517,6 @@ class LLMS_Post_Types {
 		 * Membership Post Type
 		 */
 		$membership_permalink = empty( $permalinks['membership_base'] ) ? _x( 'membership', 'slug', 'lifterlms' ) : $permalinks['membership_base'];
-		
 		register_post_type( "llms_membership",
 			apply_filters( 'lifterlms_register_post_type_membership',
 				array(
@@ -613,7 +557,6 @@ class LLMS_Post_Types {
 		 * Quiz Post Type
 		 */
 		$quiz_permalink = empty( $permalinks['quiz_base'] ) ? _x( 'llms_quiz', 'slug', 'lifterlms' ) : $permalinks['quiz_base'];
-
 	    register_post_type( "llms_quiz",
 		    apply_filters( 'lifterlms_register_post_type_section',
 				array(
@@ -654,7 +597,6 @@ class LLMS_Post_Types {
 		 * Quiz Question Post Type
 		 */
 		$question_permalink = empty( $permalinks['question_base'] ) ? _x( 'llms_question', 'slug', 'lifterlms' ) : $permalinks['question_base'];
-
 	    register_post_type( "llms_question",
 		    apply_filters( 'lifterlms_register_post_type_section',
 				array(
@@ -729,7 +671,6 @@ class LLMS_Post_Types {
 				)
 			)
 		);
-
 
 	}
 
