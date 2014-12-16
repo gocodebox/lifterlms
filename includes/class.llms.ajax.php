@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 *
 * Handles server side ajax communication.
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */
@@ -161,7 +160,7 @@ class LLMS_AJAX {
 	}
 
 	/**
-	 * Return single lesson post
+	 * Return single question post
 	 *
 	 * @param string
 	 * @return array
@@ -255,7 +254,7 @@ class LLMS_AJAX {
 	}
 
 	/**
-	 * Return array of courses (id => name)
+	 * Return array of achivements (id => name)
 	 *
 	 * @param string
 	 * @return array
@@ -277,7 +276,7 @@ class LLMS_AJAX {
 	}
 
 	/**
-	 * Return array of courses (id => name)
+	 * Return array of certificates (id => name)
 	 *
 	 * @param string
 	 * @return array
@@ -406,10 +405,7 @@ class LLMS_AJAX {
 					);
 
 					$ols_query = new WP_Query( $ols_args );
-//i htink i need to do it right here
-//check if section is in request
-//if section is not in request don't delete relationship
-//should be able to move section blocks between lessons
+
 					while ( $ols_query->have_posts() ) : $ols_query->the_post();
 						if ($section_query->post->ID) {
 							foreach($new_sections_array as $key => $value)  {
@@ -450,8 +446,6 @@ class LLMS_AJAX {
 				endwhile;
 				wp_reset_postdata();
 
-				//loop through each section
-				//find all lessons with _parent_section as section_id and delete the metadata
 				foreach($_REQUEST['sections'] as $key => $value) {
 
 					$ls_args = array(
@@ -468,7 +462,6 @@ class LLMS_AJAX {
 						}
 					endwhile;
 					wp_reset_postdata();
-
 
 					foreach($value['lessons'] as $keys => $values) {
 						update_post_meta($values['lesson_id'], '_parent_section', $value['section_id']);
@@ -505,10 +498,10 @@ LLMS_log('get_quiz_questions called');
 		if($questions) {
 			foreach ($questions as $key => $value) {
 				array_push($all_questions, get_post($value['id']));
-				//get each question and build array
+				
 			}
 		}
-
+		//get each question and build array
 		$args = array(
 			'posts_per_page' 	=> -1,
 			'post_type' 		=> 'llms_question',

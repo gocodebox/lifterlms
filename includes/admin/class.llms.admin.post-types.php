@@ -25,16 +25,10 @@ class LLMS_Admin_Post_Types {
 		add_action( 'manage_order_posts_custom_column', array($this, 'llms_manage_order_columns' ), 10, 2 );
 		add_filter( 'manage_edit-order_sortable_columns', array($this, 'llms_order_sortable_columns') );
 		add_action( 'load-edit.php', array($this,'llms_edit_order_load' ) );
-		//add_filter( 'request', array($this, 'llms_sort_orders') );
-
 		add_filter( 'manage_lesson_posts_columns', array($this, 'llms_add_lesson_columns' ), 10, 1 );
 		add_action( 'manage_lesson_posts_custom_column', array($this, 'llms_manage_lesson_columns' ), 10, 2 );
-
 		add_filter( 'manage_section_posts_columns', array($this, 'llms_add_section_columns' ), 10, 1 );
 		add_action( 'manage_section_posts_custom_column', array($this, 'llms_manage_section_columns' ), 10, 2 );
-		//add_filter( 'manage_edit-lesson_sortable_columns', array($this, 'llms_lesson_sortable_columns') );
-		//add_action( 'load-edit.php', array($this,'llms_edit_lesson_load' ) );
-
 	}
 
 	/**
@@ -71,7 +65,6 @@ class LLMS_Admin_Post_Types {
 			'llms_quiz' 		=> 'Quiz',
 			'llms_question' 	=> 'Question',
 			'llms_coupon'		=> 'Coupon',
-
 		);
 
 		foreach( $llms_post_types as $type => $title ) {
@@ -97,6 +90,13 @@ class LLMS_Admin_Post_Types {
 		return $messages;
 	}
 
+	/**
+	 * Order post. Appends custom columns to post grid
+	 * 
+	 * @param  array $columns [array of columns]
+	 * 
+	 * @return array $columns.
+	 */
 	public function llms_add_order_columns($columns) {
 	    $columns = array(
 		'cb' => '<input type="checkbox" />',
@@ -109,6 +109,14 @@ class LLMS_Admin_Post_Types {
 	return $columns;
 	}
 
+	/**
+	 * Order post: Queries data based on column name
+	 * 
+	 * @param  string $column  [custom column name]
+	 * @param  int $post_id [ID of the individual post]
+	 * 
+	 * @return void
+	 */
 	public function llms_manage_order_columns( $column, $post_id ) {
 		global $post;
 
@@ -155,17 +163,36 @@ class LLMS_Admin_Post_Types {
 		}
 	}
 
-	function llms_order_sortable_columns( $columns ) {
+	/**
+	 * Order post: Creates array of columns that will be sortable.
+	 * 
+	 * @param  array $columns [Sortable columns]
+	 * 
+	 * @return array $columns
+	 */
+	public function llms_order_sortable_columns( $columns ) {
 
 		$columns['product'] = 'product';
 
 		return $columns;
 	}
 
-	function llms_edit_order_load() {
+	/**
+	 * Order post: Adds custom sortable columns to WP request.
+	 * 
+	 * @return void
+	 */
+	public function llms_edit_order_load() {
 		add_filter( 'request', array($this,'llms_sort_orders') );
 	}
 
+	/**
+	 * Order post: Applies custom query variables for sorting custom columns. 
+	 * 
+	 * @param  array $vars [Post Query Arguments]
+	 * 
+	 * @return array $vars
+	 */
 	public function llms_sort_orders( $vars ) {
 
 		if ( isset( $vars['post_type'] ) && 'order' == $vars['post_type'] ) {
@@ -186,6 +213,14 @@ class LLMS_Admin_Post_Types {
 		return $vars;
 	}
 
+	/**
+	 * Lesson post: Queries data based on column name
+	 * 
+	 * @param  string $column  [custom column name]
+	 * @param  int $post_id [ID of the individual post]
+	 * 
+	 * @return void
+	 */
 	public function llms_add_lesson_columns($columns) {
 	    $columns = array(
 		'cb' => '<input type="checkbox" />',
@@ -193,14 +228,20 @@ class LLMS_Admin_Post_Types {
 		'course' => __( 'Assigned Course' ),
 		'section' => __( 'Assigned Section' ),
 		'prereq' => __( 'Prerequisite' ),
-		//'start_date' => __( 'Begins' ),
 		'memberships' => __( 'Memberships Required' ),
 		'date' => __( 'Date' )
-		//'price' => __( 'Price' ),
 		);
 		return $columns;
 	}
 
+	/**
+	 * Lesson post: Queries data based on column name
+	 * 
+	 * @param  string $column  [custom column name]
+	 * @param  int $post_id [ID of the individual post]
+	 * 
+	 * @return void
+	 */
 	public function llms_manage_lesson_columns( $column, $post_id ) {
 		global $post;
 
@@ -229,7 +270,6 @@ class LLMS_Admin_Post_Types {
 
 				else
 					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title($section) );
-
 
 				break;
 
@@ -260,13 +300,8 @@ class LLMS_Admin_Post_Types {
 						array_push($membership_list, get_the_title($value));
 					}
 					printf( __( '%s ' ), implode(', ', $membership_list));
-							//echo ', '; 
 				}
-						
-						//$i = ',' ? count($memberships) > 1 : '';
-						//printf( __( '%s ' ), get_the_title($value));
 					
-
 				break;
 
 			default :
@@ -274,6 +309,14 @@ class LLMS_Admin_Post_Types {
 		}
 	}
 
+	/**
+	 * Section post: Queries data based on column name
+	 * 
+	 * @param  string $column  [custom column name]
+	 * @param  int $post_id [ID of the individual post]
+	 * 
+	 * @return void
+	 */
 	public function llms_add_section_columns($columns) {
 	    $columns = array(
 		'cb' => '<input type="checkbox" />',
@@ -283,7 +326,15 @@ class LLMS_Admin_Post_Types {
 		);
 		return $columns;
 	}
-
+	
+	/**
+	 * Section post: Queries data based on column name
+	 * 
+	 * @param  string $column  [custom column name]
+	 * @param  int $post_id [ID of the individual post]
+	 * 
+	 * @return void
+	 */
 	public function llms_manage_section_columns( $column, $post_id ) {
 		global $post;
 

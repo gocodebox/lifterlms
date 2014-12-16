@@ -5,13 +5,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 *
 * Functions for managing front end notices (alert messages)
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */
 
 /**
- * Print a single notice immediately
+ * Returns a count of all current notices by type.
+ * 
+ * @param  string $notice_type [Type of notice passed. IE: error, success, warning]
+ * 
+ * @return int $notice_count [count of all notices by notice type]
  */
 function llms_notice_count( $notice_type = '' ) {
 	$notice_count = 0;
@@ -33,7 +36,12 @@ function llms_notice_count( $notice_type = '' ) {
 }
 
 /**
- * See if a notice has already been added
+ * Checks if a notice has already been added
+ * 
+ * @param  string $message     [The notice message]
+ * @param  string $notice_type [notice type]
+ * 
+ * @return bool [Do any notices exist?]
  */
 function llms_has_notice( $message, $notice_type = 'success' ) {
 	$notices = LLMS()->session->get( 'llms_notices', array() );
@@ -44,11 +52,19 @@ function llms_has_notice( $message, $notice_type = 'success' ) {
 /**
  * store a notice
  */
+
+/**
+ * Stores notice in llms_notices session
+ * 
+ * @param  string $message     [The notice message]
+ * @param  string $notice_type [notice type]
+ * 
+ * @return void
+ */
 function llms_add_notice( $message, $notice_type = 'success' ) {
 
 	$notices = LLMS()->session->get( 'llms_notices', array() );
 
-	// Backward compatibility
 	if ( 'success' === $notice_type )
 		$message = apply_filters( 'lifterlms_add_message', $message );
 
@@ -60,12 +76,20 @@ function llms_add_notice( $message, $notice_type = 'success' ) {
 /**
  * Unset all notices
  */
+
+/**
+ * Clears all notices from session
+ * 
+ * @return void
+ */
 function llms_clear_notices() {
 	LLMS()->session->set( 'llms_notices', null );
 }
 
 /**
  * Prints messages and errors which are stored in the session, then clears them.
+ * 
+ * @return void
  */
 function llms_print_notices() {
 
@@ -86,7 +110,12 @@ add_action( 'lifterlms_before_shop_loop', 'llms_print_notices', 10 );
 add_action( 'lifterlms_before_single_course', 'llms_print_notices', 10 );
 
 /**
- * Print a single notice immediately
+ * Prints notice
+ * 
+ * @param  string $message     [The notice message]
+ * @param  string $notice_type [notice type]
+ * 
+ * @return void
  */
 function llms_print_notice( $message, $notice_type = 'success' ) {
 
@@ -99,7 +128,11 @@ function llms_print_notice( $message, $notice_type = 'success' ) {
 }
 
 /**
- * Returns all queued notices.
+ * Returns all notices in session
+ * 
+ * @param  string $notice_type [notice type]
+ * 
+ * @return array $notices [All current notices in session]
  */
 function llms_get_notices( $notice_type = '' ) {
 

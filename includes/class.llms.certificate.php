@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 *
 * Handles generating and sending the email
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */
@@ -34,44 +33,44 @@ class LLMS_Certificate {
 
 	function is_enabled() {
 		$enabled = $this->enabled == "yes" ? true : false;
-		//TODO: Refactor this is not always true. This needs to be tied to the email post. 
-		return true;//apply_filters( 'lifterlms_email_enabled_' . $this->id, $enabled, $this->object );
+		return true;
 	}
 
-	function get_blogname() {
-		return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-	}
+//REFACTOR: DELETE METHODS AFTER TESTING
+	// function get_blogname() {
+	// 	return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+	// }
 
-	function get_content_type() {
-		return 'text/html';
-	}
+	// function get_content_type() {
+	// 	return 'text/html';
+	// }
 
-	function get_from_name() {
-		return wp_specialchars_decode( esc_html( get_option( 'lifterlms_email_from_name' ) ), ENT_QUOTES );
-	}
+	// function get_from_name() {
+	// 	return wp_specialchars_decode( esc_html( get_option( 'lifterlms_email_from_name' ) ), ENT_QUOTES );
+	// }
 
-	function get_from_address() {
-		return sanitize_email( get_option( 'lifterlms_email_from_address' ) );
-	}
+	// function get_from_address() {
+	// 	return sanitize_email( get_option( 'lifterlms_email_from_address' ) );
+	// }
 
-	function get_recipient() {
-		return apply_filters( 'lifterlms_email_recipient_' . $this->id, $this->recipient, $this->object );
-	}
+	// function get_recipient() {
+	// 	return apply_filters( 'lifterlms_email_recipient_' . $this->id, $this->recipient, $this->object );
+	// }
 
-	function get_subject() {
-		return apply_filters( 'lifterlms_email_subject_' . $this->id, $this->format_string( $this->subject ), $this->object );
-	}
+	// function get_subject() {
+	// 	return apply_filters( 'lifterlms_email_subject_' . $this->id, $this->format_string( $this->subject ), $this->object );
+	// }
 
-	function get_headers() {
-		return apply_filters( 'lifterlms_email_headers', "Content-Type: " . $this->get_content_type() . "\r\n", $this->id, $this->object );
-	}
-	function format_string( $string ) {
-		return str_replace( $this->find, $this->replace, $string );
-	}
+	// function get_headers() {
+	// 	return apply_filters( 'lifterlms_email_headers', "Content-Type: " . $this->get_content_type() . "\r\n", $this->id, $this->object );
+	// }
+	// function format_string( $string ) {
+	// 	return str_replace( $this->find, $this->replace, $string );
+	// }
 
-	function get_heading() {
-		return apply_filters( 'lifterlms_email_heading_' . $this->id, $this->format_string( $this->heading ), $this->object );
-	}
+	// function get_heading() {
+	// 	return apply_filters( 'lifterlms_email_heading_' . $this->id, $this->format_string( $this->heading ), $this->object );
+	// }
 
 
 	function get_title() {

@@ -1,16 +1,21 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
 * Person Functions
 *
 * Functions for managing users in the lifterLMS system
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+/**
+ * Disables admin bar on front end
+ * 
+ * @param  bool $show_admin_bar [show = true]
+ * 
+ * @return bool $show_admin_bar [Display admin bar on front end for user?]
+ */
 function llms_disable_admin_bar( $show_admin_bar ) {
 	if ( apply_filters( 'lifterlms_disable_admin_bar', get_option( 'lifterlms_lock_down_admin', 'yes' ) === 'yes' ) && ! ( current_user_can( 'edit_posts' ) || current_user_can( 'manage_lifterlms' ) ) ) {
 		$show_admin_bar = false;
@@ -20,6 +25,26 @@ function llms_disable_admin_bar( $show_admin_bar ) {
 }
 add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10, 1 );
 
+/**
+ * Creates new user
+ * 
+ * @param  string $email             [user email]
+ * @param  string $email2            [user verify email]
+ * @param  string $username          [username]
+ * @param  string $firstname         [user first name]
+ * @param  string $lastname          [user last name]
+ * @param  string $password          [user password]
+ * @param  string $password2         [user verify password]
+ * @param  string $billing_address_1 [user billing address 1]
+ * @param  string $billing_address_2 [user billing address 2]
+ * @param  string $billing_city      [user billing city]
+ * @param  string $billing_state     [user billing state]
+ * @param  string $billing_zip       [user billing zip]
+ * @param  string $billing_country   [user billing country]
+ * @param  string $agree_to_terms    [agree to terms checkbox bool]
+ * 
+ * @return int $person_id 			 [ID of the user created]
+ */
 function llms_create_new_person(
 	$email,
 	$email2,
@@ -180,6 +205,13 @@ function llms_create_new_person(
 	return $person_id;
 }
 
+/**
+ * Sets user auth cookie by id
+ * 
+ * @param  int $person_id [ID of user]
+ * 
+ * @return void
+ */
 function llms_set_person_auth_cookie( $person_id ) {
 	global $current_user;
 
@@ -187,11 +219,17 @@ function llms_set_person_auth_cookie( $person_id ) {
 
 	wp_set_auth_cookie( $person_id, true );
 }
-
 add_action( 'show_user_profile', 'llms_membership_settings' );
 add_action( 'edit_user_profile', 'llms_membership_settings' );
 
-
+/**
+ * Membership checkboxes on user profile page (admin)
+ * Displays checkboxes with all membership levels
+ * 
+ * @param  object $user [WP user object]
+ * 
+ * @return void
+ */
 function llms_membership_settings( $user ) {
     // get the value of a single meta key
     $my_membership_levels = get_user_meta( $user->ID, '_llms_restricted_levels', true ); // $user contains WP_User object
@@ -210,9 +248,7 @@ function llms_membership_settings( $user ) {
     <table class="form-table">
 		<tbody>
 			<?php
-				//get all existing membership levels
-
-
+			//get all existing membership levels
 			if($membership_levels) :
 			?>
 			<tr>
@@ -244,6 +280,15 @@ function llms_membership_settings( $user ) {
 <?php
 }
 
+/**
+ * Appends membership levels to WP user save method. 
+ * Membership levels appear as checkboxes. 
+ * Loops through checkboxes and saves membership levels checked to usermeta.
+ * 
+ * @param  int $user_id [ID of the user]
+ * 
+ * @return void
+ */
 function llms_membership_settings_save( $user_id ) {
 	global $wpdb;
 	if ( !current_user_can( 'edit_users', $user_id ) ) {
@@ -320,15 +365,14 @@ function llms_membership_settings_save( $user_id ) {
 	// update restricted levels array
 	update_user_meta( $user_id, '_llms_restricted_levels', $membership_levels );
 }
-
 add_action( 'personal_options_update',  'llms_membership_settings_save' );
 add_action( 'edit_user_profile_update', 'llms_membership_settings_save' );
 
-
-
 /**
  * Add Custom Columns to the Admin Users Table Screen
+ * 
  * @param  array $columns key=>val array of existing columns
+ * 
  * @return array $columns updated columns
  */
 function llms_add_user_table_columns( $columns ) {
@@ -340,9 +384,11 @@ add_filter( 'manage_users_columns', 'llms_add_user_table_columns' );
 
 /**
  * Add data user data for custom column added by llms_add_user_table_columns
+ * 
  * @param  string $val         value of the field
  * @param  string $column_name "id" or name of the column
  * @param  int $user_id        user_id for the row in the loop
+ * 
  * @return string              data to display on screen
  */
 function llms_add_user_table_rows( $val, $column_name, $user_id ) {

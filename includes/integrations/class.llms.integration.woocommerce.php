@@ -2,9 +2,8 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* BuddyPress Integration
+* WooCommerce Integration
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */
@@ -14,8 +13,6 @@ class LLMS_Integration_Woocommerce {
 
 	/**
 	 * Constructor
-	 *
-	 * @return  null
 	 */
 	public function __construct() {
 
@@ -65,7 +62,13 @@ class LLMS_Integration_Woocommerce {
 
 
 
-
+	/**
+	 * Overrides lifterLMS account login redirect to send users to WooCommerce account page. 
+	 * 
+	 * @param  [type] $redirect_to [url of page to redirect to]
+	 * 
+	 * @return string $redirect_to
+	 */
 	function woocommerce_login_redirect($redirect_to) {
 		$myaccount_page_id = get_option( 'woocommerce_myaccount_page_id' );
 
@@ -78,6 +81,13 @@ class LLMS_Integration_Woocommerce {
 	     return $redirect_to;
 	}
 
+	/**
+	 * Processes lifterLMS order when WooCommerce order is marked complete
+	 * 
+	 * @param  int $order_id [ID of the WooCommerce order]
+	 * 
+	 * @return void
+	 */
 	public function process_order($order_id) {
 		global $post;
 
@@ -180,4 +190,3 @@ class LLMS_Integration_Woocommerce {
 	}
 
 }
-?>

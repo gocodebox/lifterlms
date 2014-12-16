@@ -1,9 +1,14 @@
 <?php
-
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'LLMS_Certificate_User' ) ) :
 
+/**
+* Certificate Class
+* Child Class. Extends from LLMS_Certificate.
+* 
+* Generates certificate post for user. Triggered from engagement.
+*/
 class LLMS_Certificate_User extends LLMS_Certificate {
 
 	var $user_login;
@@ -19,6 +24,15 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		parent::__construct();
 	}
 
+	/**
+	 * Sets up data needed to generate certificate.
+	 * 
+	 * @param  int $email_id  [ID of Certificate]
+	 * @param  int $person_id [ID of the user recieving the certificate]
+	 * @param  int $lesson_id [ID of associated lesson]
+	 * 
+	 * @return void
+	 */
 	public function init($email_id, $person_id, $lesson_id) {
 		global $wpdb;
 
@@ -34,32 +48,32 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		$this->userid           		= $person_id;
 		$this->user             		= get_user_meta( $person_id );
 		$this->user_data				= get_userdata( $person_id );
-
 		$this->user_firstname			= ($this->user['first_name'][0] != '' ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
 		$this->user_lastname			= ($this->user['last_name'][0] != '' ?  $this->user['last_name'][0] : '');
 		$this->user_email				= $this->user_data->data->user_email;
-
-		//$this->id 				= '';//$email_meta['_email_subject'][0];
 		$this->description		= __( 'Person new account emails are sent when a person signs up via the checkout or My Account page.', 'lifterlms' );
-
 		$this->template_html 	= 'certificates/template.php';
-
 		$this->subject 			= $email_meta['_email_subject'][0];
-		$this->heading      	= $email_meta['_email_heading'][0];//__( 'Welcome to {site_title}', 'lifterlms');
+		$this->heading      	= $email_meta['_email_heading'][0];
 		$this->email_content	= $email_content->post_content;
 		$this->account_link 	= get_permalink( llms_get_page_id( 'myaccount' ) );
+
 	}
 
 	/**
-	 * trigger function.
-	 *
+	 * [trigger description]
+	 * 
+	 * @param  int $user_id   [ID of the user recieving the certificate]
+	 * @param  int $email_id  [ID of the certificate]
+	 * @param  int $lesson_id [ID of the associated lesson]
+	 * 
 	 * @return void
 	 */
 	function trigger( $user_id, $email_id, $lesson_id ) {
 		$this->init($email_id, $user_id, $lesson_id);
 
 		if ( $user_id ) {
-			$this->object 		= new WP_User( $user_id );
+			$this->object 				= new WP_User( $user_id );
 
 			$this->user_pass          = $user_pass;
 			$this->user_login         = stripslashes( $this->object->user_login );

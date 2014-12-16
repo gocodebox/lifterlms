@@ -1,9 +1,15 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'LLMS_Email_Engagement' ) ) :
 
+/**
+* Engagement Email Class
+* Child Class. Extends from LLMS_Email.
+* 
+* Generates emails and sends to user. Triggered from engagement.
+*/
 class LLMS_Email_Engagement extends LLMS_Email {
 
 	var $user_login;
@@ -12,47 +18,49 @@ class LLMS_Email_Engagement extends LLMS_Email {
 
 	/**
 	 * Constructor
+	 * Inherits parent constructor
 	 */
 	function __construct() {
-		
-
 		parent::__construct();
 	}
 
 	public function init($email_id) {
 		global $wpdb;
 
- 		$email_content = get_post($email_id);//$wpdb->get_results($querystr, OBJECT);
+ 		$email_content = get_post($email_id);
  		$email_meta = get_post_meta( $email_content->ID );
 
 		$this->id 				= 'person_new_account';
 		$this->title 			= __( 'New account', 'lifterlms' );
 		$this->description		= __( 'Person new account emails are sent when a person signs up via the checkout or My Account page.', 'lifterlms' );
-
 		$this->template_html 	= 'emails/template.php';
-
 		$this->subject 			= $email_meta['_email_subject'][0];
-		$this->heading      	= $email_meta['_email_heading'][0];//__( 'Welcome to {site_title}', 'lifterlms');
+		$this->heading      	= $email_meta['_email_heading'][0];
 		$this->email_content	= $email_content->post_content;
 		$this->account_link 	= get_permalink( llms_get_page_id( 'myaccount' ) );
+
 	}
 
 	/**
-	 * trigger function.
-	 *
+	 * [trigger description]
+	 * 
+	 * @param  int $user_id  [ID of the user recieving the email]
+	 * @param  int $email_id [ID of the Email post]
+	 * 
 	 * @return void
 	 */
 	function trigger( $user_id, $email_id ) {
 		$this->init($email_id);
 
 		if ( $user_id ) {
-			$this->object 		= new WP_User( $user_id );
 
+			$this->object 		= new WP_User( $user_id );
 			$this->user_pass          = $user_pass;
 			$this->user_login         = stripslashes( $this->object->user_login );
 			$this->user_email         = stripslashes( $this->object->user_email );
 			$this->recipient          = $this->user_email;
 			$this->password_generated = $password_generated;
+			
 		}
 
 		if ( ! $this->is_enabled() || ! $this->get_recipient() )

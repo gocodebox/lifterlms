@@ -3,9 +3,8 @@
 /**
 * My Account Shortcode
 *
-* TODO: description
+* Sets functionality associated with shortcode [llms_my_account]
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

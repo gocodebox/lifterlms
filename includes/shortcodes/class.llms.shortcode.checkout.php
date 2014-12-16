@@ -1,11 +1,10 @@
 <?php
 
 /**
-* My Account Shortcode
+* Checkout Shortcode
 *
-* TODO: description
+* Sets functionality associated with shortcode [llms_checkout]
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

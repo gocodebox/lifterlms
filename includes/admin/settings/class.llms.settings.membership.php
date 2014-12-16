@@ -31,37 +31,34 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 	 */
 	public function get_settings() {
 		// Get shop page
-			$memberships_page_id = llms_get_page_id('memberships');
+		$memberships_page_id = llms_get_page_id('memberships');
 
-			$base_slug = ($memberships_page_id > 0 && get_page( $memberships_page_id )) ? get_page_uri( $memberships_page_id ) : 'memberships';
+		$base_slug = ($memberships_page_id > 0 && get_page( $memberships_page_id )) ? get_page_uri( $memberships_page_id ) : 'memberships';
 
-			return apply_filters( 'lifterlms_membership_settings', array(
+		return apply_filters( 'lifterlms_membership_settings', array(
 
-				array(	'title' => __( 'Membership Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your membership for a unique user experience.', 'id' => 'membership_options' ),
+			array(	'title' => __( 'Membership Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your membership for a unique user experience.', 'id' => 'membership_options' ),
 
-				array(
-					'title' => __( 'Membership Page', 'lifterlms' ),
-					'desc' 		=> '<br/>' . sprintf( __( 'Page used for displaying memberships.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
-					'id' 		=> 'lifterlms_memberships_page_id',
-					'type' 		=> 'single_select_page',
-					'default'	=> '',
-					'class'		=> 'chosen_select_nostd',
-					'css' 		=> 'min-width:300px;',
-				),
+			array(
+				'title' => __( 'Membership Page', 'lifterlms' ),
+				'desc' 		=> '<br/>' . sprintf( __( 'Page used for displaying memberships.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'id' 		=> 'lifterlms_memberships_page_id',
+				'type' 		=> 'single_select_page',
+				'default'	=> '',
+				'class'		=> 'chosen_select_nostd',
+				'css' 		=> 'min-width:300px;',
+			),
+			array(
+				'title' => __( 'Restrict site by membership level', 'lifterlms' ),
+				'desc' 		=> '<br/>' . sprintf( __( 'Only allow access to site to users with a specific membership level. Users will be able to view and purchase membership level.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'id' 		=> 'lifterlms_membership_required',
+				'type' 		=> 'single_select_membership',
+				'default'	=> '',
+				'class'		=> 'chosen_select_nostd',
+				'css' 		=> 'min-width:300px;',
+			),
 
-				
-
-				array(
-					'title' => __( 'Restrict site by membership level', 'lifterlms' ),
-					'desc' 		=> '<br/>' . sprintf( __( 'Only allow access to site to users with a specific membership level. Users will be able to view and purchase membership level.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
-					'id' 		=> 'lifterlms_membership_required',
-					'type' 		=> 'single_select_membership',
-					'default'	=> '',
-					'class'		=> 'chosen_select_nostd',
-					'css' 		=> 'min-width:300px;',
-				),
-
-				array( 'type' => 'sectionend', 'id' => 'membership_options'),
+			array( 'type' => 'sectionend', 'id' => 'membership_options'),
 
 		) ); 
 	}

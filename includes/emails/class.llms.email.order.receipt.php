@@ -1,9 +1,16 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'LLMS_Email_Person_New' ) ) :
 
+/**
+* New Registration Email Class
+* Custom email class to send Welcome email to new users
+* REFACTOR: Remove class and add welcome email to new user registration engagement. 
+* 
+* Generates and sends welcome email on new user registration action. 
+*/
 class LLMS_Email_Person_New extends LLMS_Email {
 
 	var $user_login;
@@ -12,6 +19,8 @@ class LLMS_Email_Person_New extends LLMS_Email {
 
 	/**
 	 * Constructor
+	 * Inherits parent constructor
+	 * Queries data needed to generate welcome email. 
 	 */
 	function __construct() {
 		global $wpdb;
@@ -33,11 +42,9 @@ class LLMS_Email_Person_New extends LLMS_Email {
 		$this->id 				= 'person_new_account';
 		$this->title 			= __( 'New account', 'lifterlms' );
 		$this->description		= __( 'Person new account emails are sent when a person signs up via the checkout or My Account page.', 'lifterlms' );
-
 		$this->template_html 	= 'emails/template.php';
-
 		$this->subject 			= $email_meta['_email_subject'][0];
-		$this->heading      	= $email_meta['_email_heading'][0];//__( 'Welcome to {site_title}', 'lifterlms');
+		$this->heading      	= $email_meta['_email_heading'][0];
 		$this->email_content	= $email_content[0]->post_content;
 		$this->account_link 	= get_permalink( llms_get_page_id( 'myaccount' ) );
 
@@ -45,8 +52,12 @@ class LLMS_Email_Person_New extends LLMS_Email {
 	}
 
 	/**
-	 * trigger function.
-	 *
+	 * [trigger description]
+	 * 
+	 * @param  int  $user_id            				[ID of the user recieving the email]
+	 * DEPRECIATED @param  string  $user_pass           [Password if password generation is active] 
+	 * DEPRECIATED @param  boolean $password_generated  [If password generation setting is active]
+	 * 
 	 * @return void
 	 */
 	function trigger( $user_id, $user_pass = '', $password_generated = false ) {

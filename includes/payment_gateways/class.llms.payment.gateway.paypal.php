@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 *
 * Class for managing Paypal API transactions
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */
@@ -229,6 +228,13 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
     }
 
+    /**
+     * Executes paypal purchase request
+     * 
+     * @param  array $response [paypal return response from user payment approval]
+     * 
+     * @return array           [success or fail response from getExpressCheckout]
+     */
     public function confirm_payment($response) {
 
         $paypal = new LLMS_Payment_Gateway_Paypal ();
@@ -244,6 +250,16 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
          
     }
 
+    /**
+     * Complete payment cleanup
+     * Sets all variables needed to create lifterLMS order 
+     * Updates required tables to associate user with course or membership purchased
+     * 
+     * @param  array $request [Paypal getExpressCheckout response]
+     * @param  object $order   [order object that stores all details of order]
+     * 
+     * @return void
+     */
     public function complete_payment($request, $order) {
         $paypal = new LLMS_Payment_Gateway_Paypal ();
 
@@ -332,10 +348,13 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         
     }
 
-    public function update_order() {
-
-    }
-
+    /**
+     * Queries billing period for product (course or membership post)
+     * 
+     * @param  string $billing_period [string id of billing period stored in post metadata]
+     * 
+     * @return string [paypal string id of billing period]
+     */
     public function get_billing_period($billing_period) {
 
         $paypal_codes = array (
@@ -346,8 +365,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         );
 
         return $paypal_codes[$billing_period];
-
-
     }
 
     /**

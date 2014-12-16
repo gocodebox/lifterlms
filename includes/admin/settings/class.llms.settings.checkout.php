@@ -5,7 +5,6 @@ if ( ! class_exists( 'LLMS_Settings_Checkout' ) ) :
 /**
 * Admin Settings Page, Checkout Tab
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

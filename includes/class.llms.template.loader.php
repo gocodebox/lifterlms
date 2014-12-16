@@ -35,7 +35,9 @@ class LLMS_Template_Loader {
 
 
 		$page_restricted = llms_page_restricted(get_the_id());
-
+		LLMS_log('page id');
+LLMS_log(get_the_id());
+LLMS_log('end');
 		if ( $page_restricted['is_restricted'] ) {
 			do_action('lifterlms_content_restricted', $page_restricted['id'], $page_restricted['reason']);
 

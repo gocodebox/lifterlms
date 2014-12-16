@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! class_exists( 'LLMS_Email_Reset_Password' ) ) :
 
+/**
+* Reset Password Email Class
+* Custom email class to send email reset link to users email
+* 
+* Generates and sends password reset email
+*/
 class LLMS_Email_Reset_Password extends LLMS_Email {
 
 	/** @var string */
@@ -18,7 +24,7 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 	/**
 	 * Constructor
 	 *
-	 * @access public
+	 * Inherits from parent constructor
 	 * @return void
 	 */
 	function __construct() {
@@ -26,9 +32,7 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 		$this->id 				= 'customer_reset_password';
 		$this->title 			= __( 'Reset password', 'lifterlms' );
 		$this->description		= __( 'Customer reset password emails are sent when a customer resets their password.', 'lifterlms' );
-
 		$this->template_html 	= 'emails/reset-password.php';
-
 		$this->subject 			= __( 'Password Reset for {site_title}', 'lifterlms');
 		$this->heading      	= __( 'Password Reset Instructions', 'lifterlms');
 
@@ -40,19 +44,23 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 	}
 
 	/**
-	 * trigger function.
-	 *
-	 * @access public
+	 * Sets class variables and sends email
+	 * 
+	 * @param  id $user_login [ID of user requesting password reset email]
+	 * @param  string $reset_key  [string passed in http request to validate user]
+	 * 
 	 * @return void
 	 */
 	function trigger( $user_login = '', $reset_key = '' ) {
-		if ( $user_login && $reset_key ) {
-			$this->object     = get_user_by( 'login', $user_login );
 
+		if ( $user_login && $reset_key ) {
+
+			$this->object     = get_user_by( 'login', $user_login );
 			$this->user_login = $user_login;
 			$this->reset_key  = $reset_key;
 			$this->user_email = stripslashes( $this->object->user_email );
 			$this->recipient  = $this->user_email;
+
 		}
 
 		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
@@ -64,7 +72,6 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 	/**
 	 * get_content_html function.
 	 *
-	 * @access public
 	 * @return string
 	 */
 	function get_content_html() {
@@ -83,7 +90,6 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 	/**
 	 * get_content_plain function.
 	 *
-	 * @access public
 	 * @return string
 	 */
 	function get_content_plain() {

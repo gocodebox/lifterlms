@@ -50,13 +50,14 @@ class LLMS_Email_Person_New extends LLMS_Email {
 	function trigger( $user_id, $user_pass = '', $password_generated = false ) {
 
 		if ( $user_id ) {
-			$this->object 		= new WP_User( $user_id );
 
+			$this->object 			  = new WP_User( $user_id );
 			$this->user_pass          = $user_pass;
 			$this->user_login         = stripslashes( $this->object->user_login );
 			$this->user_email         = stripslashes( $this->object->user_email );
 			$this->recipient          = $this->user_email;
 			$this->password_generated = $password_generated;
+			
 		}
 
 		if ( ! $this->is_enabled() || ! $this->get_recipient() )

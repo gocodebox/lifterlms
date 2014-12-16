@@ -4,7 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
 * BuddyPress Integration
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

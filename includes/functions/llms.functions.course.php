@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * Misc functions used for user interactions with courses and lessons
 * TODO: refactor and re-organize
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */

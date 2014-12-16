@@ -5,9 +5,8 @@ if ( ! class_exists( 'LLMS_Admin_Settings' ) ) :
 /**
 * Admin Settings Class
 *
-* TODO: description
+* Settings field Factory
 *
-* @version 1.0
 * @author codeBOX
 * @project lifterLMS
 */
@@ -507,32 +506,16 @@ class LLMS_Admin_Settings {
 	            // Single page selects
 	            case 'single_select_membership' :
 
-	            	// $args = array( 'name'				=> $value['id'],
-	            	// 			   'id'					=> $value['id'],
-	            	// 			   'sort_column' 		=> 'menu_order',
-	            	// 			   'sort_order'			=> 'ASC',
-	            	// 			   'show_option_none' 	=> ' ',
-	            	// 			   'class'				=> $value['class'],
-	            	// 			   'echo' 				=> false,
-	            	// 			   'selected'			=> absint( self::get_option( $value['id'] ) ),
-	            	// 			  // 'post_type'			=> 'llms_membership'
-	            	// 			   );
-	            	
-	            	?>
-		            	
-						<?php
-						$args = array(
-							'posts_per_page' 	=> -1,
-							'post_type' 		=> 'llms_membership',
-							'nopaging' 			=> true,
-							'post_status'   	=> 'publish',   
-							'class'				=> $value['class'],   
-							'selected'			=> absint( self::get_option( $value['id'] ) ),
-						);
-						$posts = get_posts($args);
+					$args = array(
+						'posts_per_page' 	=> -1,
+						'post_type' 		=> 'llms_membership',
+						'nopaging' 			=> true,
+						'post_status'   	=> 'publish',   
+						'class'				=> $value['class'],   
+						'selected'			=> absint( self::get_option( $value['id'] ) ),
+					);
+					$posts = get_posts($args);
 						
-						
-
 	            	if( isset( $value['args'] ) ) {
 	            		$args = wp_parse_args( $value['args'], $args );
 	            	}
@@ -540,22 +523,19 @@ class LLMS_Admin_Settings {
 	            	?><tr valign="top" class="single_select_membership">
 	                    <th><?php echo esc_html( $value['title'] ) ?> <?php echo $tooltip; ?></th>
 	                    <td class="forminp">
-	                    <select class="<?php echo $args['class']; ?>" style="<?php echo $value['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
-	                    	<option value=""> <?php _e('None', 'lifterlms'); ?></option>
-		                    <?php foreach( $posts as $post ) : setup_postdata($post); 
-		                    		if ( $args['selected'] == $post->ID) {
-		                    			$selected = 'selected';
-		                    		}
-		                    		else {
-		                    			$selected = '';
-		                    		}
-		                    ?>
-						    <option value="<?php echo $post->ID; ?>" <?php echo $selected; ?> ><?php echo $post->post_title ?></option>
-						<?php endforeach; ?>
-						</select>
-
-
-
+		                    <select class="<?php echo $args['class']; ?>" style="<?php echo $value['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
+		                    	<option value=""> <?php _e('None', 'lifterlms'); ?></option>
+			                    <?php foreach( $posts as $post ) : setup_postdata($post); 
+			                    		if ( $args['selected'] == $post->ID) {
+			                    			$selected = 'selected';
+			                    		}
+			                    		else {
+			                    			$selected = '';
+			                    		}
+			                    ?>
+							    <option value="<?php echo $post->ID; ?>" <?php echo $selected; ?> ><?php echo $post->post_title ?></option>
+							<?php endforeach; ?>
+							</select>
 				        </td>
 	               	</tr><?php
 	            break;
@@ -568,7 +548,7 @@ class LLMS_Admin_Settings {
 		}
 	}
 
-		/**
+	/**
 	 * Get a setting from the settings API.
 	 *
 	 * @param mixed $option
@@ -611,8 +591,8 @@ class LLMS_Admin_Settings {
 	 *
 	 * Loops though the lifterlms options array and outputs each field.
 	 *
-	 * @access public
 	 * @param array $settings Opens array to output
+	 * 
 	 * @return bool
 	 */
 	public static function save_fields( $settings ) {
@@ -735,8 +715,6 @@ class LLMS_Admin_Settings {
 
 	    return true;
 	}
-
-
 
 }
 
