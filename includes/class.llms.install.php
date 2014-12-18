@@ -115,9 +115,7 @@ class LLMS_Install {
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
-		include_once( 'class.llms.sidebars.php' );
-		LLMS_Sidebars::register_lesson_sidebars();
-		LLMS_Sidebars::register_course_sidebars();
+		
 
 		$this->register_post_types();
 		$this->cron();
@@ -141,6 +139,10 @@ class LLMS_Install {
 		include_once( 'class.llms.post-types.php' );
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
+
+		include_once( 'class.llms.sidebars.php' );
+		LLMS_Sidebars::register_lesson_sidebars();
+		LLMS_Sidebars::register_course_sidebars();
 	}
 
 	/**
