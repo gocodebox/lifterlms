@@ -25,6 +25,10 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.1.2 - 2014-12-18
+-------------------
++ Moved Sidebar registration from plugin install to init
+
 v1.1.1 - 2014-12-16
 -------------------
 + Added user registration settings to require users to agree to Terms and Conditions on user registration
