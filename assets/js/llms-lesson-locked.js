@@ -1,15 +1,20 @@
 jQuery(document).ready(function($) {
+	var tip = $('.llms-lesson-tooltip');
 
     $( '.llms-lesson-link-locked' ).click(function(e) {
-    	var tip  = $(this).attr("title");
-    	$('#lockedTooltip').html(tip);
+    	e.preventDefault();
+    	var el = $(this);
+    	var thistip = el.find('.llms-lesson-tooltip');
 
- 		var left = $(this).offset().left + ($(this).outerWidth()/2) - ($('#lockedTooltip').outerWidth()/2);
-    	var top  = $(this).offset().top - parseInt($(this).css("padding")) - ($('#lockedTooltip').outerHeight()/2) - 8;
+	    if(!thistip.length) {
+	      el.append(tip.clone());
+	      thistip = el.find('.llms-lesson-tooltip');
+    	  thistip.html(el.attr("title"));
+	    }
 
- 		$('#lockedTooltip').css('top',top);
-        $('#lockedTooltip').css('left',left);
-    	$('#lockedTooltip').fadeIn();
+    	thistip.toggleClass('active');
     })
 });
+
+
 
