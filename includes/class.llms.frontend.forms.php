@@ -1357,6 +1357,8 @@ class LLMS_Frontend_Forms {
 
 			wp_verify_nonce( $_POST['register'], 'lifterlms-register' );
 
+			do_action('lifterlms_new_user_registration', array( $this, $_POST));
+
 			if ( 'no' === get_option( 'lifterlms_registration_generate_username' ) ) {
 
 				$_username = $_POST['username'];

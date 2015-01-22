@@ -612,7 +612,6 @@ function llms_get_template_override($template = '') {
             get_template_directory() . '/lifterlms'
       ) );
 
-
       foreach( $dirs as $dir ) {
 
             $path = $dir . '/';
