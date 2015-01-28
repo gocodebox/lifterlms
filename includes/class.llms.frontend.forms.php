@@ -1110,7 +1110,7 @@ class LLMS_Frontend_Forms {
 
 			llms_add_notice( __( 'Account details were changed successfully.', 'lifterlms' ) );
 
-			do_action( 'lifterlms_save_account_details', $user->ID );
+			do_action( 'lifterlms_save_account_details', $user->ID, $_POST );
 
 			wp_safe_redirect( get_permalink( llms_get_page_id( 'myaccount' ) ) );
 

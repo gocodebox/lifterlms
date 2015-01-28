@@ -59,7 +59,8 @@ function llms_create_new_person(
 	$billing_state = '',
 	$billing_zip = '',
 	$billing_country = '',
-	$agree_to_terms = ''
+	$agree_to_terms = '',
+	$phone = ''
 	) {
 
 	// Check the e-mail address
@@ -170,7 +171,7 @@ function llms_create_new_person(
 		'user_email' => $email,
 		'first_name' => $firstname,
 		'last_name'  => $lastname,
-		'role'       => 'student'
+		'role'       => 'student',
 	) );
 
 	$new_person_address = apply_filters( 'lifterlms_new_person_address', array(
@@ -186,6 +187,10 @@ function llms_create_new_person(
 
 	foreach ($new_person_address as $key => $value ) {
 		add_user_meta( $person_id, $key, $value );
+	}
+
+	if ( isset( $phone ) ) {
+		add_user_meta( $person_id, 'llms_phone', $phone );
 	}
 
 	if ( is_wp_error( $person_id ) ) {
