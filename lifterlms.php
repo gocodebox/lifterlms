@@ -33,7 +33,7 @@ final class LifterLMS {
 
 	protected static $_instance = null;
 
-	public $session = null;
+	public   $session = null;
 
 	public $person = null;
 

@@ -19,9 +19,9 @@
 		 * initializes the forms methods
 		 */
 		public function __construct() {
-
 			add_action( 'template_redirect', array( $this, 'save_account_details' ) );
 			add_action( 'init', array( $this, 'apply_coupon' ) );
+			add_action( 'init', array( $this, 'process_free_order' ) );
 			add_action( 'init', array( $this, 'create_order' ) );
 			add_action( 'init', array( $this, 'confirm_order' ) );
 			add_action( 'init', array( $this, 'login' ) );
@@ -58,7 +58,7 @@
 			if( isset( $_POST[ 'llms_prev_question' ] ) ) {
 				$quiz = LLMS()->session->get( 'llms_quiz' );
 
-				foreach( $quiz->questions as $key => $value ) {
+				foreach( (array)$quiz->questions as $key => $value ) {
 					if( $value[ 'id' ] == $_POST[ 'question_id' ] ) {
 						$previous_question_key = ( $key - 1 );
 						if( $previous_question_key >= 0 ) {
@@ -113,7 +113,7 @@
 				}
 
 				//update quiz object
-				foreach( $quiz->questions as $key => $value ) {
+				foreach( (array)$quiz->questions as $key => $value ) {
 
 					if( $value[ 'id' ] == $_POST[ 'question_id' ] ) {
 
@@ -156,7 +156,7 @@
 
 
 			//if another question exists in lessons array then take user to next question
-			foreach( $quiz->questions as $k => $q ) {
+			foreach( (array)$quiz->questions as $k => $q ) {
 				if( $q[ 'id' ] == $current_question ) {
 					$next_question = $k + 1;
 				}
@@ -461,43 +461,80 @@
 		public function mark_section_complete( $user_id, $lesson_id ) {
 			global $wpdb;
 
-			$lesson    = new LLMS_Lesson( $lesson_id );
-			$course_id = $lesson->get_parent_course();
-
+			$lesson          = new LLMS_Lesson( $lesson_id );
+			$course_id       = $lesson->get_parent_course();
 			$course          = new LLMS_Course( $course_id );
 			$course_syllabus = $course->get_syllabus();
-
 		}
 
 		/**
 		 * Processes orders that, calculated with a coupon, result in a free amount
-		 * and bypass the paymenet gateway.
+		 * and bypass the payment gateway.
 		 */
 		public function process_free_order() {
 			/** Stop script if necessary nonce doesn't exist or is invalid */
 			if( !array_key_exists( "_wpnonce", $_POST ) || !wp_verify_nonce( $_POST[ "_wpnonce" ], "create_order_details" ) ) {
-				return false;
+				return true;
 			}
 
-			/** Class containing data of current order */
-			$order = LLMS()->session->get( 'llms_order', array() );
+			/** Coupon data */
+			$coupon = LLMS()->session->get( "llms_coupon", array() );
+			/** Order data */
+			$order = LLMS()->session->get( "llms_order", array() );
+			/** Don't do anything if no coupon has been applied */
+			if( !isset( $coupon->id ) || !$coupon->id ) {
+				return true;
+			}
 
-			/**
-			 * Todo: Do some checks here to verify the coupons and so on based on $order.
-			 */
+			$parameters = array(
+				"showposts"  => 1,
+				"post_type"  => "llms_coupon",
+				"meta_query" => array(
+					"key"   => "_llms_coupon_title",
+					"value" => $coupon->coupon_code
+				)
+			);
 
-			$handler = new LLMS_Order();
+			$coupon_post = new WP_Query( $parameters );
 
-			/**
-			 * Todo: Collect order data through $data and submit them to $handler
-			 */
+			if( !$coupon_post->have_posts() ) {
+				return true;
+			}
 
-			/**
-			 * Todo: Redirect back to the course/success page.
-			 */
+			$coupon_post     = $coupon_post->posts[ 0 ];
+			$coupon_type     = get_post_meta( $coupon_post->ID, "_llms_discount_type", true );
+			$coupon_amount   = get_post_meta( $coupon_post->ID, "_llms_coupon_amount", true );
+			$coupon_is_valid = true;
 
-			/** We can spare the rest and exit at this point */
+			/** Check if coupon is valid and actually results in 0 total */
+			if( $coupon_amount !== $coupon->amount ) {
+				$coupon_is_valid = false;
+			}
+			if( $coupon_type == "percent" && $coupon_amount != 100 ) {
+				$coupon_is_valid = false;
+			}
+			elseif( $coupon_type == "amount" && ( $coupon_amount - $order->total ) ) {
+				$coupon_is_valid = false;
+			}
+			if( !$coupon_is_valid ) {
+				/** Clear session */
+				LLMS()->session->set( "llms_coupon", "" );
+				return llms_add_notice( sprintf( "There was an error processing the payment with coupon <strong>%s</strong>.", $coupon->coupon_code ), "error" );
+			}
+
+			/** Insert order into database */
+			$handle = new LLMS_Order();
 			exit;
+			$handle->process_order( $order );
+			$handle->update_order( $order );
+
+			/** Clear session */
+			LLMS()->session->set( "llms_coupon", "" );
+			LLMS()->session->set( "llms_order", "" );
+
+			/** Redirect to success page */
+			$this->order_success( $order );
+			return true;
 		}
 
 		/**
@@ -608,8 +645,10 @@
 
 			$coupon->type   = !empty( $coupon_meta[ '_llms_discount_type' ][ 0 ] ) ? $coupon_meta[ '_llms_discount_type' ][ 0 ] : '';
 			$coupon->amount = !empty( $coupon_meta[ '_llms_coupon_amount' ][ 0 ] ) ? $coupon_meta[ '_llms_coupon_amount' ][ 0 ] : '';
-			$coupon->limit  = !empty( $coupon_meta[ '_llms_usage_limit' ][ 0 ] ) ? $coupon_meta[ '_llms_usage_limit' ][ 0 ] : '';
-			$coupon->title  = !empty( $coupon_meta[ '_llms_coupon_title' ][ 0 ] ) ? $coupon_meta[ '_llms_coupon_title' ][ 0 ] : '';
+			if( $coupon_meta[ '_llms_usage_limit' ][ 0 ] ) {
+				$coupon->limit = !empty( $coupon_meta[ '_llms_usage_limit' ][ 0 ] ) ? $coupon_meta[ '_llms_usage_limit' ][ 0 ] : '';
+			}
+			$coupon->title = !empty( $coupon_meta[ '_llms_coupon_title' ][ 0 ] ) ? $coupon_meta[ '_llms_coupon_title' ][ 0 ] : '';
 
 			if( $coupon->type == 'percent' ) {
 				$coupon->name = ( $coupon->title . ': ' . $coupon->amount . '% coupon' );
@@ -888,7 +927,7 @@
 		 */
 		public function order_success( $order ) {
 			$product_title = $order->product_title;
-			$post_obj = get_post( $order->product_id );
+			$post_obj      = get_post( $order->product_id );
 
 			if( $post_obj->post_type == 'course' ) {
 				//if post type is course then redirect user back to course
@@ -951,7 +990,7 @@
 		 * @return void
 		 */
 		public function restriction_alert( $post_id, $reason ) {
-			$post       = get_post( $post_id );
+			$post = get_post( $post_id );
 
 			switch( $reason ) {
 				case 'site_wide_membership':
@@ -979,7 +1018,7 @@
 					break;
 				case 'prerequisite' :
 					$prerequisite = llms_get_prerequisite( get_current_user_id(), $post_id );
-					$link = get_permalink( $prerequisite->ID );
+					$link         = get_permalink( $prerequisite->ID );
 
 					llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ),
 						$link, $prerequisite->post_title, $prerequisite->post_title ) );
