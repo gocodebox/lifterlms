@@ -1024,6 +1024,10 @@ class LLMS_Frontend_Forms {
 			$billing_country 	= ! empty( $_POST[ 'billing_country' ] ) 		? llms_clean( $_POST[ 'billing_country' ] ) 	: '';
 		}
 
+		if ( 'yes' == get_option( 'lifterlms_registration_add_phone' ) ) {
+			$phone = llms_clean( $_POST['phone'] );
+		}
+
 		if ( $pass1 ) {
 
 			$user->user_pass = $pass1;
@@ -1106,6 +1110,10 @@ class LLMS_Frontend_Forms {
 
 			foreach ($person_address as $key => $value ) {
 				update_user_meta( $user->ID, $key, $value );
+			}
+
+			if ( 'yes' == get_option( 'lifterlms_registration_add_phone' ) ) {
+				update_user_meta( $user->ID, 'llms_phone', $phone );
 			}
 
 			llms_add_notice( __( 'Account details were changed successfully.', 'lifterlms' ) );
