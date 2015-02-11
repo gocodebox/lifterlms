@@ -80,6 +80,7 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+		//add_action( 'init', array( 'LLMS_Widgets', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ) );
 		
 		// load localization files
@@ -105,6 +106,9 @@ final class LifterLMS {
 		}
 		elseif ( strpos( $class, 'llms_shortcode_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/shortcodes/';
+		}
+		elseif ( strpos( $class, 'llms_widget_' ) === 0 ) {
+			$path = $this->plugin_path() . '/includes/widgets/';
 		}
 		elseif ( strpos( $class, 'llms_integration_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/integrations/';
@@ -181,6 +185,9 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.question.php' );
 		include_once( 'includes/class.llms.course.factory.php' );
 
+		include_once( 'includes/class.llms.widgets.php' );
+		include_once( 'includes/class.llms.widget.php' );
+
 		$this->query = include( 'includes/class.llms.query.php' );
 
 		$this->course_factory = new LLMS_Course_Factory();
@@ -209,6 +216,9 @@ final class LifterLMS {
 		include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
 
 		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
+
+		
+		//include_once( 'includes/widgets/class.llms.widget.progress.php' );
 	}
 
 	/**

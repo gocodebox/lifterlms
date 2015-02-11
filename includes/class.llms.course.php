@@ -428,6 +428,199 @@ class LLMS_Course {
 
 	}
 
+	public static function check_enrollment( $course_id, $user_id = '' ) {
+		global $wpdb;
+
+		//set enrollment to false
+		$enrolled = false;
+
+		// if no course id then nothing we can do
+		if ( ! empty( $course_id ) ) {
+
+			// if user id is empty get current user id
+			if ( empty( $user_id ) ) {
+
+				$user_id = get_current_user_id();
+			}
+
+			//query user_postmeta table
+			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+			$results = $wpdb->get_results( 
+				$wpdb->prepare(
+					'SELECT * FROM '.$table_name.
+						' WHERE post_id = %s 
+							AND user_id = %s', 
+					$course_id, $user_id 
+				) 
+			);
+
+			if ( $results ) {
+				foreach ( $results as $result ) {
+					if ( $result->meta_key === '_status' && ( $result->meta_value === 'Enrolled' || $result->meta_value === 'Expired' ) ) {
+						$enrolled = $results;
+					}
+				}
+				
+			}
+		}
+
+		return $enrolled;
+	}
+
+	public static function get_user_post_data( $post_id, $user_id = '' ) {
+		global $wpdb;
+
+		$results = false;
+
+		if ( ! empty( $post_id ) ) {
+
+			// if user id is empty get current user id
+			if ( empty( $user_id ) ) {
+
+				$user_id = get_current_user_id();
+			}
+
+			// query user postmeta table
+			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+			$results = $wpdb->get_results( 
+				$wpdb->prepare(
+					'SELECT * FROM '.$table_name.
+						' WHERE post_id = %s 
+							AND user_id = %s', 
+					$post_id, $user_id 
+				) 
+			);
+		}
+
+		return $results;
+
+	}
+
+	public function get_student_progress( $user_id = '' ) {
+
+		// if user_id is empty get current user id
+		if ( empty( $user_id ) ) {
+
+			$user_id = get_current_user_id();
+		}
+
+		//check if user is enrolled
+		$enrollment = self::check_enrollment( $this->id, $user_id );
+
+
+		// set up course details and enrollment information
+		$obj = new stdClass();
+		$obj->id = $this->id;
+
+		if ( $enrollment ) {
+
+			$obj->is_enrolled = true;
+			$obj->is_complete = false;
+
+			//loop through returned rows and save data to object
+			foreach ( $enrollment as $row ) {
+
+				if ( $row->meta_key === '_start_date' ) {
+
+					$obj->start_date = $row->updated_date;
+
+				} elseif ( $row->meta_key === '_is_complete' ) {
+
+					$obj->is_complete = true;
+					$obj->completed_date = $row->updated_date;
+
+				} elseif ( $row->meta_key === 'status' ) {
+
+					$obj->status = $row->meta_value;
+
+				}
+			}
+
+		} else {
+
+			$obj->is_enrolled = false;
+
+		}
+
+		//add sections array to object
+		$obj->sections = array();
+		//add lessons array to object
+		$obj->lessons = array();
+
+		
+		//get course syllabus
+		$course_syllabus = $this->get_syllabus();
+
+		//get section data
+		foreach ( $course_syllabus as $key => $value ) {
+
+			$section = array();
+			$section['id'] = $value['section_id'];
+			$section['title'] = get_the_title(  $value['section_id'] );
+
+			// get any user post meta data
+			$section['is_complete'] = false;
+			$section_user_data = self::get_user_post_data( $value['section_id'], $user_id );
+
+			$obj->is_complete = false;
+			if ( $section_user_data ) {
+
+				//loop through returned rows and save data to object
+				foreach ( $section_user_data as $row ) {
+
+					if ( $row->meta_key === '_is_complete' ) {
+
+						$section['is_complete'] = true;
+						$section['completed_date'] = $row->updated_date;
+
+					}
+
+				}
+
+			}
+			
+			$obj->sections[] = $section;
+
+			// get lesson data
+			if ( $value['lessons'] ) { 
+
+				foreach ( $value['lessons'] as $k => $v ) {
+
+					$lesson = array();
+					$lesson['id'] = $v['lesson_id'];
+					$lesson['title'] = get_the_title( $v['lesson_id'] );
+					$lesson['parent_id'] = $value['section_id'];
+
+					$lesson['is_complete'] = false;
+
+					$lesson_user_data = self::get_user_post_data( $v['lesson_id'], $user_id );
+
+					//loop through returned rows and save data to object
+					foreach ( $lesson_user_data as $row ) {
+
+						if ( $row->meta_key === '_is_complete' ) {
+
+							$lesson['is_complete'] = true;
+							$lesson['completed_date'] = $row->updated_date;
+
+						}
+
+					}
+
+					$obj->lessons[] = $lesson;
+
+				}
+
+			}
+
+		}
+
+		return $obj;
+		
+	}
+
+
+
 	/**
 	 * Get price in html format
 	 *

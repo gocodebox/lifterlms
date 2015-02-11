@@ -974,6 +974,39 @@ svg .llms-animated-circle {
   margin: 6px 0;
 }
 
+.llms-widget-syllabus .llms-lesson-complete {
+  size: 1.2em;
+  margin-right: 6px;
+  font-size: 1.2em;
+  color: #ccc;
+}
+.llms-widget-syllabus .llms-lesson-complete.done {
+  color: #e5554e;
+}
+.llms-widget-syllabus .section-title {
+  font-weight: bold;
+}
+.llms-widget-syllabus .lesson-title a {
+  text-decoration: none;
+}
+.llms-widget-syllabus .lesson-title a:hover {
+  text-decoration: none !important;
+}
+.llms-widget-syllabus .lesson-title.done a {
+  color: #999;
+  text-decoration: line-through;
+}
+.llms-widget-syllabus ul {
+  list-style-type: none;
+}
+.llms-widget-syllabus ul li {
+  list-style-type: none;
+}
+.llms-widget-syllabus ul li ul li {
+  margin: 0 0 2px 0;
+  padding: 0;
+}
+
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
