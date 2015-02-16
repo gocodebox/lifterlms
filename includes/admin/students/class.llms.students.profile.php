@@ -189,8 +189,6 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 
 		}
 
-		var_dump($user);
-
 		return $user;
 		
 	}
