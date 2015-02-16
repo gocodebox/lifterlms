@@ -1,0 +1,32 @@
+/******************************************************************
+
+Tablets and small computers
+
+******************************************************************/
+
+//option page tab menu
+.llms-nav-tab {
+	display: inline-block;
+	width: 25%;
+}
+
+//select box form wrapper
+#llms-form-wrapper {
+	.llms-select {
+		width: 50%;
+		max-width: 500px;
+	
+	}.llms-filter-options {
+		width: 50%;
+		//display: inline-block;
+		max-width: 500px;
+	
+	}.llms-date-select {
+		width: 47.5%;
+		
+		&:first-child {
+			margin-right: 5%
+		}
+		
+	}
+}

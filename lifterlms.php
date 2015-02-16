@@ -163,7 +163,12 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.php' );
 			include_once( 'includes/admin/class.llms.admin.forms.php' );	
 			include_once( 'includes/class.llms.activate.php' );
+			include_once( 'includes/class.llms.analytics.php' );
 		}
+
+		// Date and Number formatting
+		include_once( 'includes/class.llms.date.php' );
+		include_once( 'includes/class.llms.number.php' );
 
 		// Post types
 		include_once( 'includes/class.llms.post-types.php' );

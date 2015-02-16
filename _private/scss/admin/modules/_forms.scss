@@ -1,0 +1,65 @@
+/******************************************************************
+
+Form Styles 
+
+******************************************************************/
+
+// lifterlms form wrapper
+#llms-form-wrapper {
+
+
+	// setup defaults
+	input[type="text"],
+	input[type="password"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="date"],
+	input[type="month"],
+	input[type="time"],
+	input[type="week"],
+	input[type="number"],
+	input[type="email"],
+	input[type="url"],
+	input[type="search"],
+	input[type="tel"],
+	input[type="color"],
+	input[type="checkbox"],
+	select,
+	textarea,
+	.llms-field {
+		
+		// a focused input (or hovered on)
+		&:focus,
+		&:active {
+		
+		} // end hover or focus
+	}
+
+	// sub wrapper for seach filter form (analytics)
+	.llms-search-form-wrapper {
+		border-bottom: 1px solid $color-grey;
+		margin: 20px 0;
+	
+	}
+
+	#llms_analytics_search {	
+		border:none !important; 
+		text-shadow: none !important; 
+		border: none !important; 
+		outline: none !important;
+		box-shadow: none !important;
+		margin: 0 !important;
+		color:#fff !important;
+		background: $color-blue !important; 
+		border-radius: 0;
+		transition: .5s;
+		
+		&:hover {
+			background: $color-darkblue !important;
+		
+		}&:active {
+			background: $color-lightblue !important;
+		}
+	}
+
+} // end input defaults

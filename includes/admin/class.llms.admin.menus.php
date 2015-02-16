@@ -21,6 +21,8 @@ class LLMS_Admin_Menus {
 
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
 		add_action( 'admin_menu', array( $this, 'display_settings_menu') );
+		add_action( 'admin_menu', array( $this, 'display_analytics_menu') );
+		add_action( 'admin_menu', array( $this, 'display_students_menu') );
 		
 	}	
 
@@ -70,6 +72,52 @@ class LLMS_Admin_Menus {
 	public function settings_page_init() {
 		include_once( 'class.llms.admin.settings.php' );
 		LLMS_Admin_Settings::output();
+	}
+
+	/**
+	* Analytics Menu Item
+	*
+	* Sub menu item to Admin Menu
+	*
+	* @return void
+	*/
+	public function display_analytics_menu() {
+
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', 'manage_options',
+		 	'llms-analytics', array( $this, 'analytics_page_init' ) );
+	}
+
+	/**
+	 * Init LLMS_Admin_Analytics
+	 *
+	 * @return void
+	 */
+	public function analytics_page_init() {
+		include_once( 'class.llms.admin.analytics.php' );
+		LLMS_Admin_Analytics::output();
+	}
+
+	/**
+	* Students Menu Item
+	*
+	* Sub menu item to Admin Menu
+	*
+	* @return void
+	*/
+	public function display_students_menu() {
+
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Students', 'Students', 'manage_options',
+		 	'llms-students', array( $this, 'students_page_init' ) );
+	}
+
+	/**
+	 * Init LLMS_Admin_Students
+	 *
+	 * @return void
+	 */
+	public function students_page_init() {
+		include_once( 'class.llms.admin.students.php' );
+		LLMS_Admin_Students::output();
 	}
 
 }

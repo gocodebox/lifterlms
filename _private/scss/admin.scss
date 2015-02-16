@@ -2,6 +2,50 @@
 // Main Admin CSS File
 //
 
+// grid layout for breakpoints
+@import "admin/partials/grid";
+
+// variables
+@import "admin/partials/variables";
+
+// forms
+@import "admin/modules/forms";
+
+// widgets
+@import "admin/modules/widgets";
+
+// Base (mobile)
+@import "admin/breakpoints/base";
+
+// Larger mobile devices
+@media only screen and (min-width: 481px) {
+	@import "admin/breakpoints/481up";
+}
+
+// Tablets and smaller laptops
+@media only screen and (min-width: 768px) {
+	@import "admin/breakpoints/768up";
+} 
+
+// Desktops
+@media only screen and (min-width: 1030px) {
+	@import "admin/breakpoints/1030up";
+}
+
+// Larger Monitors and TVs
+@media only screen and (min-width: 1240px) {
+	@import "admin/breakpoints/1240up";
+}
+
+// Retina Screens
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+       only screen and (min--moz-device-pixel-ratio: 1.5),
+       only screen and (min-device-pixel-ratio: 1.5) {
+	@import "admin/breakpoints/2x";
+}
+
 @import "admin/main";
+@import "admin/tabs";
+@import "admin/fonts";
 
 @import "_includes/vendor/_font-awesome";

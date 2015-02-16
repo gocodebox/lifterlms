@@ -41,6 +41,10 @@ class LLMS_Admin_Assets {
 	    return apply_filters( 'lifterlms_admin_page_ids', array(
 	    	$screen_id . '_page_llms-settings',
 	    	'llms-settings',
+	    	$screen_id . '_page_llms-analytics',
+	    	'llms-analytics',
+	    	$screen_id . '_page_llms-students',
+	    	'llms-students',
 	    	'course',
 	    	'edit-course',
 	    	'edit-course_cat',
@@ -90,6 +94,7 @@ class LLMS_Admin_Assets {
 	public function admin_scripts() {
 		global $post_type;
 		$screen = get_current_screen();
+		wp_enqueue_script('chart', 'https://www.google.com/jsapi');
 
 		if ( in_array( $screen->id, LLMS_Admin_Assets::get_llms_admin_page_ids() ) ) {
 			wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -132,6 +137,10 @@ class LLMS_Admin_Assets {
 			if( 'llms_quiz' == $post_type ) {
 				wp_enqueue_script( 'llms-metabox-quiz-builder', plugins_url(  '/assets/js/llms-metabox-quiz-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			}
+
+			wp_enqueue_script( 'llms-options-analytics', plugins_url(  '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			//wp_enqueue_script('chart', 'https://www.google.com/jsapi');
+			
 
 		}
 	}
