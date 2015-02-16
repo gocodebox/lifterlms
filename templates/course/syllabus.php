@@ -9,11 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 global $post, $course;
 
 $post_id = $post->ID;
-
 $course = new LLMS_Course($post->ID);
-
 ?>
 <div class="clear"></div>
+<div class="llms-lesson-tooltip"id="lockedTooltip"></div>
 <div class="llms-syllabus-wrapper">
 
 <?php
@@ -76,17 +75,21 @@ if($syllabus[$i]['lessons']) {
 			//set permalink
 			$permalink = 'javascript:void(0)';
 			$page_restricted = llms_page_restricted($post_id);
+			$title = '';
+			$linkclass = '';
 
 			if ( ! $page_restricted['is_restricted'] ) {
-				
 			 	$permalink = get_permalink( $value->ID );	
-
+			 	$linkclass = 'llms-lesson-link';
 			}
-			
+			else {
+				$title = 'Take this course to unlock this lesson';
+				$linkclass = 'llms-lesson-link-locked';
+			}			
 
 			echo '
 				<div class="llms-lesson-preview' . $complete . '">
-					<a class="llms-lesson-link" href="' . $permalink . '">
+					<a class="' . $linkclass . '" title = "'. $title . '" href="' . $permalink . '">
 						' . $check . '
 						<div class="lesson-information">
 							<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>

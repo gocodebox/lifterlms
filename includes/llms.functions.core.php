@@ -853,10 +853,9 @@ function check_course_capacity() {
  * @return array $sidebars_widgets [Filtered WP array of widgets in sidebar]
  */
 function displaying_sidebar_in_post_types($sidebars_widgets) {
-
-      if (is_singular('course')) {
+      if (is_singular('course') && array_key_exists ('llms_course_widgets_side', $sidebars_widgets)) {
             $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_course_widgets_side'];
-      } elseif (is_singular('lesson')) {
+      } elseif (is_singular('lesson') && array_key_exists ('llms_lesson_widgets_side', $sidebars_widgets)) {
             $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_lesson_widgets_side'];
       }
       
