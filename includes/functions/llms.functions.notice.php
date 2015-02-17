@@ -17,7 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return int $notice_count [count of all notices by notice type]
  */
 function llms_notice_count( $notice_type = '' ) {
+	
 	$notice_count = 0;
+
 	$all_notices  = LLMS()->session->get( 'llms_notices', array() );
 
 	if ( isset( $all_notices[$notice_type] ) ) {
@@ -33,20 +35,6 @@ function llms_notice_count( $notice_type = '' ) {
 	}
 
 	return $notice_count;
-}
-
-/**
- * Checks if a notice has already been added
- * 
- * @param  string $message     [The notice message]
- * @param  string $notice_type [notice type]
- * 
- * @return bool [Do any notices exist?]
- */
-function llms_has_notice( $message, $notice_type = 'success' ) {
-	$notices = LLMS()->session->get( 'llms_notices', array() );
-	$notices = isset( $notices[ $notice_type ] ) ? $notices[ $notice_type ] : array();
-	return array_search( $message, $notices ) !== false;
 }
 
 /**
@@ -125,26 +113,4 @@ function llms_print_notice( $message, $notice_type = 'success' ) {
 	llms_get_template( "notices/{$notice_type}.php", array(
 		'messages' => array( apply_filters( 'lifterlms_add_' . $notice_type, $message ) )
 	) );
-}
-
-/**
- * Returns all notices in session
- * 
- * @param  string $notice_type [notice type]
- * 
- * @return array $notices [All current notices in session]
- */
-function llms_get_notices( $notice_type = '' ) {
-
-	$all_notices = LLMS()->session->get( 'llms_notices', array() );
-
-	if ( empty ( $notice_type ) ) {
-		$notices = $all_notices;
-	} elseif ( isset( $all_notices[$notice_type] ) ) {
-		$notices = $all_notices[$notice_type];
-	} else {
-		$notices = array();
-	}
-
-	return $notices;
 }

@@ -24,27 +24,6 @@ function llms_get_coupon() {
 }
 
 /**
- * Get attribute taxonomies.
- *
- * @return array
- */
-function llms_get_attribute_taxonomies() {
-
-      $transient_name = 'llms_attribute_taxonomies';
-
-      if ( false === ( $attribute_taxonomies = get_transient( $transient_name ) ) ) {
-
-            global $wpdb;
-
-            $attribute_taxonomies = $wpdb->get_results( "SELECT * FROM " . $wpdb->prefix . "lifterlms_attribute_taxonomies" );
-
-            set_transient( $transient_name, $attribute_taxonomies );
-      }
-
-      return apply_filters( 'lifterlms_attribute_taxonomies', $attribute_taxonomies );
-}
-
-/**
  * Get Countries array for Select list
  * @return array [Countries list]
  */
@@ -429,16 +408,6 @@ function get_lifterlms_currency_symbol( $currency = '' ) {
       return apply_filters( 'lifterlms_currency_symbol', $currency_symbol, $currency );
 }
 
-/**
- * Format Localized Price
- * Returns formatted price based on localization
- * 
- * @param  string $value [price as string]
- * @return string [formatted price]
- */
-function llms_format_localized_price( $value ) {
-      return str_replace( '.', '.', strval( $value ) );
-}
 
 /**
  * Format Number as decimal

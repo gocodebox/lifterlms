@@ -90,46 +90,6 @@ class LLMS_Engagements {
 		}
 	}
 
-//DELETE AFTER TESTING COMPLETE
-	// /**
-	//  * Course completed engagment triggers
-	//  * REFACTOR: THIS IS NOT BEING USED. ALL ACTIONS TRIGGER LESSON COMPLETED. 
-	//  */
-	// public function course_completed( $person_id, $lesson_id ) {
-
-	// 	if ( ! $person_id )
-	// 		return;
-
-	// 	if ($hooks = get_post_meta( $lesson_id, '_llms_engagement_trigger' )) {
-
-	// 		foreach ( $hooks as $key => $value ) {
-				
-	// 			$engagement_meta = get_post_meta($value);
-
-	// 			$engagement_id = $engagement_meta['_llms_engagement'][0];
-
-	// 			if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
-	// 				do_action( 'lifterlms_lesson_completed_engagement', $person_id, $engagement_id);
-	// 			}
-
-	// 			elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
-	// 				LLMS()->certificates();
-
-	// 				do_action( 'lifterlms_lesson_completed_certificate', $person_id, $engagement_id, $lesson_id);
-	// 			}
-
-	// 			elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
-	// 				LLMS()->achievements();
-
-	// 				do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id);
-	// 			}
-
-	// 		}
-
-	// 	}
-
-	// }
-
 	/**
 	 * Get the engagement hooks
 	 * @param  [type] $lesson_id [lesson, section or course id that triggered the engagment]

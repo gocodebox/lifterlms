@@ -369,6 +369,11 @@ Base Mobile
   width: 100%;
 }
 
+.llms-nav-tab-settings {
+  display: block;
+  width: 100%;
+}
+
 #llms-form-wrapper .llms-select {
   width: 100%;
   margin-bottom: 20px;
@@ -412,6 +417,11 @@ Base Mobile
   ******************************************************************/
   .llms-nav-tab {
     display: inline-block;
+    width: 33%;
+  }
+
+  .llms-nav-tab-settings {
+    display: inline-block;
     width: 25%;
   }
 
@@ -439,6 +449,11 @@ Base Mobile
   .llms-nav-tab {
     display: inline-block;
     width: 33.333%;
+  }
+
+  .llms-nav-tab-settings {
+    display: inline-block;
+    width: 25%;
   }
 
   #llms-form-wrapper .llms-select {
@@ -490,6 +505,10 @@ Base Mobile
   large Monitor Stylsheet
   
   ******************************************************************/
+  .llms-nav-tab-settings {
+    display: inline-block;
+    width: 12.5%;
+  }
 }
 .dad-list, .dad-list .title {
   border: 1px solid #dfdfdf;
@@ -924,7 +943,7 @@ td.llms-table-select select, th.llms-table-select select {
   background: #33b1cb;
   padding: 0;
 }
-.wrap h2.llms-nav-tab-wrapper .llms-nav-tab {
+.wrap h2.llms-nav-tab-wrapper .llms-nav-tab, .wrap h2.llms-nav-tab-wrapper .llms-nav-tab-settings {
   background: #33b1cb;
   border: 0;
   color: #fff;
@@ -938,10 +957,10 @@ td.llms-table-select select, th.llms-table-select select {
           transition: .8s;
   text-align: center;
 }
-.wrap h2.llms-nav-tab-wrapper .llms-nav-tab:hover {
+.wrap h2.llms-nav-tab-wrapper .llms-nav-tab:hover, .wrap h2.llms-nav-tab-wrapper .llms-nav-tab-settings:hover {
   background: #069cb5;
 }
-.wrap h2.llms-nav-tab-wrapper .llms-nav-tab:active {
+.wrap h2.llms-nav-tab-wrapper .llms-nav-tab:active, .wrap h2.llms-nav-tab-wrapper .llms-nav-tab-settings:active {
   background: #0185a3;
 }
 .wrap h2.llms-nav-tab-wrapper a {

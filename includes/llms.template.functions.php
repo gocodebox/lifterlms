@@ -897,120 +897,6 @@ if ( ! function_exists( 'lifterlms_course_progress_bar') ) {
 }
 
 /**
- * Get Course Subcategories
- * @param  array  $args [array of query arguments]
- * @return oid
- */
-if ( ! function_exists( 'lifterlms_course_subcategories' ) ) {
-	
-	function lifterlms_course_subcategories( $args = array() ) {
-		global $wp_query;
-
-		$defaults = array(
-			'before'  => '',
-			'after'  => '',
-			'force_display' => false
-		);
-
-		$args = wp_parse_args( $args, $defaults );
-
-		extract( $args );
-
-		// Main query only
-		if ( ! is_main_query() && ! $force_display ) return;
-
-		// Don't show when filtering, searching or when on page > 1 and ensure we're on a course archive
-		if ( is_search() || is_filtered() || is_paged() || ( ! is_course_category() && ! is_shop() ) ) return;
-
-		// Check categories are enabled
-		if ( is_shop() && get_option( 'lifterlms_shop_page_display' ) == '' ) return;
-
-		// Find the category + category parent, if applicable
-		$term 			= get_queried_object();
-		$parent_id 		= empty( $term->term_id ) ? 0 : $term->term_id;
-
-		if ( is_course_category() ) {
-			$display_type = get_lifterlms_term_meta( $term->term_id, 'display_type', true );
-
-			switch ( $display_type ) {
-				case 'courses' :
-					return;
-				break;
-				case '' :
-					if ( get_option( 'lifterlms_category_archive_display' ) == '' )
-						return;
-				break;
-			}
-		}
-
-		$args = apply_filters( 'lifterlms_course_subcategories_args', array(
-			'child_of'		=> $parent_id,
-			'menu_order'	=> 'ASC',
-			'hide_empty'	=> 1,
-			'hierarchical'	=> 1,
-			'taxonomy'		=> 'course_cat',
-			'pad_counts'	=> 1
-		) );
-
-		$course_categories     = get_categories( $args );
-		$course_category_found = false;
-
-		if ( $course_categories ) {
-
-			foreach ( $course_categories as $category ) {
-
-				if ( $category->parent != $parent_id ) {
-					continue;
-				}
-				if ( $args['hide_empty'] && $category->count == 0 ) {
-					continue;
-				}
-
-				if ( ! $course_category_found ) {
-					// We found a category
-					$course_category_found = true;
-					echo $before;
-				}
-
-				llms_get_template( 'content-course_cat.php', array(
-					'category' => $category
-				) );
-
-			}
-
-		}
-
-		// If we are hiding courses disable the loop and pagination
-		if ( $course_category_found ) {
-			if ( is_course_category() ) {
-				$display_type = get_lifterlms_term_meta( $term->term_id, 'display_type', true );
-
-				switch ( $display_type ) {
-					case 'subcategories' :
-						$wp_query->post_count = 0;
-						$wp_query->max_num_pages = 0;
-					break;
-					case '' :
-						if ( get_option( 'lifterlms_category_archive_display' ) == 'subcategories' ) {
-							$wp_query->post_count = 0;
-							$wp_query->max_num_pages = 0;
-						}
-					break;
-				}
-			}
-			if ( is_shop() && get_option( 'lifterlms_shop_page_display' ) == 'subcategories' ) {
-				$wp_query->post_count = 0;
-				$wp_query->max_num_pages = 0;
-			}
-
-			echo $after;
-			return true;
-		}
-
-	}
-}
-
-/**
  * Is template filtered
  * @return boolean [template filtered?]
  */
@@ -1050,7 +936,7 @@ if ( ! function_exists( 'is_shop' ) ) {
  * Is Memberhsip Archive Page
  * @return boolean [Is Membership Archive?]
  */
-if ( ! function_exists( 'is_shop' ) ) {
+if ( ! function_exists( 'is_memberships' ) ) {
 	
 	function is_memberships() {
 		return ( is_post_type_archive( 'llms_membership' ) || is_page( llms_get_page_id( 'memberships' ) ) ) ? true : false;
@@ -1091,102 +977,7 @@ if( ! function_exists( 'is_lesson') ) {
 
 }
 
-/**
- * Is llms endpoint url
- * @param  string  $endpoint [endpoint]
- * @return boolean [Does endpoint exist in llms_endpoints?]
- */
-if ( ! function_exists( 'is_llms_endpoint_url' ) ) {
 
-	function is_llms_endpoint_url( $endpoint ) {
-		global $wp;
-
-		$llms_endpoints = LLMS()->query->get_query_vars();
-
-		if ( ! isset( $llms_endpoints[ $endpoint ] ) ) {
-			return false;
-		} else {
-			$endpoint_var = $llms_endpoints[ $endpoint ];
-		}
-
-		return isset( $wp->query_vars[ $endpoint_var ] ) ? true : false;
-	}
-}
-//DEPRECIATED: DELETE AFTER TESTING
-// /**
-//  * [lifterlms_courses_will_display description]
-//  * @return [type] [description]
-//  */
-// if ( ! function_exists( 'lifterlms_courses_will_display' ) ) {
-
-// 	function lifterlms_courses_will_display() {
-// 		if ( is_shop() )
-// 			return get_option( 'lifterlms_shop_page_display' ) != 'subcategories';
-
-// 		if ( ! is_course_taxonomy() )
-// 			return false;
-
-// 		if ( is_search() || is_filtered() || is_paged() )
-// 			return true;
-
-// 		$term = get_queried_object();
-
-// 		if ( is_course_category() ) {
-// 			switch ( get_lifterlms_term_meta( $term->term_id, 'display_type', true ) ) {
-// 				case 'subcategories' :
-// 					// Nothing - we want to continue to see if there are courses/subcats
-// 				break;
-// 				case 'courses' :
-// 				case 'both' :
-// 					return true;
-// 				break;
-// 				default :
-// 					// Default - no setting
-// 					if ( get_option( 'lifterlms_category_archive_display' ) != 'subcategories' )
-// 						return true;
-// 				break;
-// 			}
-// 		}
-
-// 		// Begin subcategory logic
-// 		global $wpdb;
-
-// 		$parent_id             = empty( $term->term_id ) ? 0 : $term->term_id;
-// 		$taxonomy              = empty( $term->taxonomy ) ? '' : $term->taxonomy;
-// 		$courses_will_display = true;
-
-// 		if ( ! $parent_id && ! $taxonomy ) {
-// 			return true;
-// 		}
-
-// 		if ( false === ( $courses_will_display = get_transient( 'llms_courses_will_display_' . $parent_id ) ) ) {
-// 			$has_children = $wpdb->get_col( $wpdb->prepare( "SELECT term_id FROM {$wpdb->term_taxonomy} WHERE parent = %d AND taxonomy = %s", $parent_id, $taxonomy ) );
-
-// 			if ( $has_children ) {
-// 				// Check terms have courses inside - parents first. If courses are found inside, subcats will be shown instead of courses so we can return false.
-// 				if ( sizeof( get_objects_in_term( $has_children, $taxonomy ) ) > 0 ) {
-// 					$courses_will_display = false;
-// 				} else {
-// 					// If we get here, the parents were empty so we're forced to check children
-// 					foreach ( $has_children as $term ) {
-// 						$children = get_term_children( $term, $taxonomy );
-
-// 						if ( sizeof( get_objects_in_term( $children, $taxonomy ) ) > 0 ) {
-// 							$courses_will_display = false;
-// 							break;
-// 						}
-// 					}
-// 				}
-// 			} else {
-// 				$courses_will_display = true;
-// 			}
-// 		}
-
-// 		set_transient( 'llms_courses_will_display_' . $parent_id, $courses_will_display, YEAR_IN_SECONDS );
-
-// 		return $courses_will_display;
-// 	}
-// }
 
 /**
  * Product Short Description Template Include
@@ -1490,23 +1281,6 @@ function llms_get_quiz( $the_quiz = false, $args = array() ) {
 function llms_get_question( $the_question = false, $args = array() ) {
 	return LLMS()->course_factory->get_question( $the_question, $args );
 }
-
-/**
- * Post Comments Return
- * @return void
- */
-function tpp_posts_comments_return() {
-	$post_id = isset( $_POST['post_id'] ) ? $_POST['post_id'] : 0;
-
-	if ($post_id > 0) {
-		$post = get_post($post_id);
-		?>
-		<div class="tpp_post" id="post"><?php echo $post->post_content; ?></div>
-		<?php
-	}
-	die();
-}
-add_action('wp_ajax_nopriv_tpp_comments', 'tpp_posts_comments_return');
 
 /**
  * Paginate Courses on Course Archive by llms setting
