@@ -710,8 +710,12 @@ class LLMS_Admin_Settings {
 	    }
 
 	    // Now save the options
-	    foreach( $update_options as $name => $value )
+	    foreach( $update_options as $name => $value ) {
+
 	    	update_option( $name, $value );
+	    }
+	    //flush the rewrite rules (REFACTOR: be more specific about when this is done)
+	    flush_rewrite_rules();
 
 	    return true;
 	}

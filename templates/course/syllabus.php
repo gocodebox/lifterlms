@@ -51,6 +51,7 @@ foreach($the_stuff as $key => $value) :
 	echo '<h3 class="llms-h3 llms-section-title">' . $value->post_title . '</h3>';
 
 if($syllabus[$i]['lessons']) {
+
 	foreach( $syllabus[$i]['lessons'] as $key => $value) :
 
 		array_push($lessons_array, $syllabus[$i]['lessons'][$key]['lesson_id']);
@@ -113,6 +114,7 @@ if($syllabus[$i]['lessons']) {
 	$i++;
 
 endforeach;
+
 
 ?>
 

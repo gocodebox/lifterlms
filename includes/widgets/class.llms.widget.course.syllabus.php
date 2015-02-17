@@ -29,6 +29,7 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 	 * @return echo
 	 */
 	public function widget_contents() {
+		global $post;
 
 		// course progress bar
 		if ( is_course() ) {

@@ -497,7 +497,7 @@ class LLMS_Course {
 	}
 
 	public function get_student_progress( $user_id = '' ) {
-
+		
 		// if user_id is empty get current user id
 		if ( empty( $user_id ) ) {
 

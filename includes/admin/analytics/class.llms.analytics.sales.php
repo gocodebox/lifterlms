@@ -40,25 +40,28 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		//search form
 		$html = $this->search_form();
 
+		if ( $search ) {
 
-		//WIDGET ROW
-		$html .= '<div class="llms-widget-row">';
-		//total sold
-		$html .= self::quarter_width_widget( $this->total_sales( $search ) );
+			//WIDGET ROW
+			$html .= '<div class="llms-widget-row">';
+			//total sold
+			$html .= self::quarter_width_widget( $this->total_sales( $search ) );
 
-		//total sales
-		$html .= self::quarter_width_widget( $this->total_units_sold( $search ) );
+			//total sales
+			$html .= self::quarter_width_widget( $this->total_units_sold( $search ) );
 
-		//total coupons used
-		$html .= self::quarter_width_widget( $this->total_coupons_used( $search ) );
+			//total coupons used
+			$html .= self::quarter_width_widget( $this->total_coupons_used( $search ) );
 
-		//total coupon amount
-		$html .= self::quarter_width_widget( $this->total_coupon_amount( $search ) );
+			//total coupon amount
+			$html .= self::quarter_width_widget( $this->total_coupon_amount( $search ) );
 
-		$html .= '</div>'; //end widget row
+			$html .= '</div>'; //end widget row
 
-		//sales volumn line chart
-		$html .= self::full_width_widget( $this->sales_chart( $search ) );
+			//sales volumn line chart
+			$html .= self::full_width_widget( $this->sales_chart( $search ) );
+			
+		}
 
 		//return contents
 		return $this->get_page_contents( $title, $html );

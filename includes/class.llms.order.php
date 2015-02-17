@@ -139,28 +139,10 @@
 				)
 			);
 
-			// Add order metadata to the order post
-			update_post_meta( $order_post_id, '_llms_user_id', $order->user_id );
-			update_post_meta( $order_post_id, '_llms_payment_method', $order->payment_method );
-			update_post_meta( $order_post_id, '_llms_product_title', $order->product_title );
-			update_post_meta( $order_post_id, '_llms_order_total', $order->total );
-			update_post_meta( $order_post_id, '_llms_product_sku', $order->product_sku );
-			update_post_meta( $order_post_id, '_llms_order_currency', $order->currency );
-			update_post_meta( $order_post_id, '_llms_order_product_id', $order->product_id );
-			update_post_meta( $order_post_id, '_llms_order_date', current_time( 'mysql' ) );
-			update_post_meta( $order_post_id, '_llms_order_type', $order->payment_option );
-			update_post_meta( $order_post_id, '_llms_payment_type', $order->payment_type );
-			update_post_meta( $order_post_id, '_llms_product_type', $order->product_type );
+			
 
-			if( $order->payment_option == 'recurring' ) {
-				update_post_meta( $order_post_id, '_llms_order_recurring_price', $order->product_price );
-				update_post_meta( $order_post_id, '_llms_order_first_payment', $order->first_payment );
-				update_post_meta( $order_post_id, '_llms_order_billing_period', $order->billing_period );
-				update_post_meta( $order_post_id, '_llms_order_billing_cycle', $order->billing_cycle );
-				update_post_meta( $order_post_id, '_llms_order_billing_freq', $order->billing_freq );
-				update_post_meta( $order_post_id, '_llms_order_billing_start_date', $order->billing_start_date );
-			}
-
+			
+			//update coupon post meta
 			$coupon = LLMS()->session->get( 'llms_coupon', array() );
 			if( !empty( $coupon ) ) {
 				update_post_meta( $order_post_id, '_llms_order_coupon_id', $coupon->id );
@@ -173,6 +155,46 @@
 				if ( $coupon->limit !== 'unlimited' ) {
 					update_post_meta( $coupon->id, '_llms_usage_limit', $coupon->limit );
 				}
+
+				// Add order metadata to the order post
+				update_post_meta( $order_post_id, '_llms_user_id', $order->user_id );
+				update_post_meta( $order_post_id, '_llms_payment_method', $order->payment_method );
+				update_post_meta( $order_post_id, '_llms_product_title', $order->product_title );
+
+				//calculate order total based on coupon 
+				if ( !empty( $coupon ) ) {
+					$product = new LLMS_Product( $order->product_id );
+
+					$order->adjusted_price = $product->adjusted_price( $order->total );
+
+					//set total to adjusted price and save coupon total
+					update_post_meta( $order_post_id, '_llms_order_total', $product->adjusted_price( $order->total ) );
+					update_post_meta( $order_post_id, '_llms_order_coupon_value', $product->get_coupon_discount_total( $order->total ) );
+
+				} else {
+					update_post_meta( $order_post_id, '_llms_order_total', $order->total );
+				}
+				update_post_meta( $order_post_id, '_llms_order_product_price', $order->product_price );
+				update_post_meta( $order_post_id, '_llms_order_original_total', $order->total );
+
+
+
+				update_post_meta( $order_post_id, '_llms_product_sku', $order->product_sku );
+				update_post_meta( $order_post_id, '_llms_order_currency', $order->currency );
+				update_post_meta( $order_post_id, '_llms_order_product_id', $order->product_id );
+				update_post_meta( $order_post_id, '_llms_order_date', current_time( 'mysql' ) );
+				update_post_meta( $order_post_id, '_llms_order_type', $order->payment_option );
+				update_post_meta( $order_post_id, '_llms_payment_type', $order->payment_type );
+				update_post_meta( $order_post_id, '_llms_product_type', $order->product_type );
+
+				if( $order->payment_option == 'recurring' ) {
+				update_post_meta( $order_post_id, '_llms_order_recurring_price', $order->product_price );
+				update_post_meta( $order_post_id, '_llms_order_first_payment', $order->first_payment );
+				update_post_meta( $order_post_id, '_llms_order_billing_period', $order->billing_period );
+				update_post_meta( $order_post_id, '_llms_order_billing_cycle', $order->billing_cycle );
+				update_post_meta( $order_post_id, '_llms_order_billing_freq', $order->billing_freq );
+				update_post_meta( $order_post_id, '_llms_order_billing_start_date', $order->billing_start_date );
+			}
 				
 
 			}
@@ -213,6 +235,10 @@
 
 				update_user_meta( $order->user_id, '_llms_restricted_levels', $membership_levels );
 			}
+
+			//kill sessions
+			LLMS()->session->set( 'llms_order', array() );
+			LLMS()->session->set( 'llms_coupon', array() );
 
 			return $order_post_id;
 		}

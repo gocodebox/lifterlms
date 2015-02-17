@@ -701,16 +701,16 @@ function get_section_data ($sections) {
 	    'nopaging' 		=> true,
 	);
 
-	$query = get_posts( $args );
+	$sections_query = get_posts( $args );
 
 	$array = array();
 
 	foreach($sections as $key => $value) :
 
-		foreach($query as $post) :
+		foreach($sections_query as $section) :
 
-			if ($value == $post->ID) {
-				$array[$post->ID] = $post;
+			if ($value == $section->ID) {
+				$array[$section->ID] = $section;
 			}
 
 		endforeach;
@@ -736,17 +736,17 @@ function get_lesson_data ($lessons) {
 	    'nopaging' 		=> true,
 	);
 
-	$query = get_posts( $args );
+	$lessons_query = get_posts( $args );
 
 	$array = array();
 
 
 	foreach($lessons as $key => $value) :
 
-		foreach($query as $post) :
+		foreach($lessons_query as $lesson) :
 
-			if ($value == $post->ID) {
-				$array[$value] = $post;
+			if ($value == $lesson->ID) {
+				$array[$value] = $lesson;
 			}
 
 		endforeach;

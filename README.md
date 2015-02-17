@@ -25,6 +25,26 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.1.3 - 2015-02-17
+-------------------
++ Admin Course Analytics Dashboard Page. View at LifterLMS->Analytics->Course
++ Admin Sales Analytics Dashboard Page. View at LifterLMS->Analytics->Sales
++ Admin Memberships Analytics Dashboard Page. View at LifterLMS->Analytics->Memberships
++ Admin Students Search Page. View at LifterLMS->Students
++ Admin Student Profile Page ( View user information related to courses and memberships )
++ Lesson and Course Sidebar Widgets ( Syllabus, Course Progress )
++ Course Syllabus: Lesson blocks greyed out. Clicking lesson displays message to take course. 
++ Misc. Front end bug fixes
++ Misc. Admin bug fixes
++ Course and Lesson prerequisites: Can no longer select a prerequisite without marking "Has Prerequisite"
++ Admin CSS updates
++ Better Session Management
++ Number and Date formatting handled by seperate classes to provide consistant date formats across system
++ Zero dollar coupon management: Coupons that set total to 0 will bypass payment gateway, generate order and enroll users.
++ Better coupon verification.
++ Better third party payment gateway support. Third party gateway plugins are now easier to develop and integrate. 
++ User Registration: Phone Number Registration field option now available in Accounts settings page. 
+
 v1.1.2 - 2014-12-18
 -------------------
 + Moved Sidebar registration from plugin install to init

@@ -21,7 +21,7 @@
 		public function __construct() {
 			add_action( 'template_redirect', array( $this, 'save_account_details' ) );
 			add_action( 'init', array( $this, 'apply_coupon' ) );
-			add_action( 'init', array( $this, 'process_free_order' ) );
+			//add_action( 'init', array( $this, 'process_free_order' ) );
 			add_action( 'init', array( $this, 'create_order' ) );
 			add_action( 'init', array( $this, 'confirm_order' ) );
 			add_action( 'init', array( $this, 'login' ) );
@@ -473,9 +473,9 @@
 		 */
 		public function process_free_order() {
 			/** Stop script if necessary nonce doesn't exist or is invalid */
-			if( !array_key_exists( "_wpnonce", $_POST ) || !wp_verify_nonce( $_POST[ "_wpnonce" ], "create_order_details" ) ) {
-				return true;
-			}
+			// if( !array_key_exists( "_wpnonce", $_POST ) || !wp_verify_nonce( $_POST[ "_wpnonce" ], "create_order_details" ) ) {
+			// 	return true;
+			// }
 
 			/** Coupon data */
 			$coupon = LLMS()->session->get( "llms_coupon", array() );
@@ -483,11 +483,13 @@
 			$order = LLMS()->session->get( "llms_order", array() );
 			/** Don't do anything if no coupon has been applied */
 			if( !isset( $coupon->id ) || !$coupon->id ) {
-				return true;
+				return false;
 			}
+
 			//don't do anything if coupon amount does not = 100% off. 
-			if ( $coupon->amount !== 100 || ( $coupon_type == "dollar" && ( $coupon_amount - $order->total ) ) ) {
-				return true;
+			if ( ( $coupon->amount != '100' && $coupon->type === 'percent' ) 
+				|| ( $coupon->type === "dollar" && ( $coupon->amount !== $order->total ) ) ) {
+				return false;
 			}
 
 			$coupon_type     = get_post_meta( $coupon->id, "_llms_discount_type", true );
@@ -496,23 +498,26 @@
 
 			/** Check if coupon is valid and actually results in 0 total */
 			if( $coupon_amount !== $coupon->amount ) {
+
 				$coupon_is_valid = false;
 			}
 			if( $coupon_type == "percent" && $coupon_amount != 100 ) {
+
 				$coupon_is_valid = false;
 			}
 			elseif( $coupon_type == "dollar" && ( $coupon_amount - $order->total ) ) {
+
 				$coupon_is_valid = false;
 			}
 			if( !$coupon_is_valid ) {
 				/** Clear session */
 				LLMS()->session->set( "llms_coupon", "" );
-				return llms_add_notice( sprintf( "There was an error processing the payment with coupon <strong>%s</strong>.", $coupon->coupon_code ), "error" );
+				return $coupon->coupon_code;
 			}
 
 			/** Insert order into database */
 			$handle = new LLMS_Order();
-			exit;
+			$lifterlms_checkout = LLMS()->checkout();
 			$handle->process_order( $order );
 			$handle->update_order( $order );
 
@@ -521,10 +526,13 @@
 			LLMS()->session->set( "llms_order", "" );
 
 			/** Redirect to success page */
-			$this->order_success( $order );
-			return true;
+			do_action( 'lifterlms_order_process_success', $order );
+			//return true;
 		}
 
+					// $lifterlms_checkout->process_order( $order );
+					// $lifterlms_checkout->update_order( $order );
+					
 		/**
 		 * Confirm order form post
 		 * User clicks confirm order
@@ -767,6 +775,15 @@
 			$order->payment_option    = $payment_option_data[ 0 ];
 			$order->payment_option_id = $payment_option_data[ 1 ];
 
+			//if $ based coupon and recurring order return error and clear session variables
+			if ( $order->payment_option == 'recurring' && !empty( $coupon ) ) {
+				$coupon = LLMS()->session->get( "llms_coupon", array() );
+				if ( $coupon->type === 'dollar' ) {
+					return llms_add_notice( __( 'Only percent based coupons can be applied to payment plans.', 'lifterlms' ), 'error' );
+				}
+			}
+			
+
 			$order->product_sku   = $product->get_sku();
 			$order->total         = 0;
 			$order->product_price = 0;
@@ -828,9 +845,19 @@
 					unset( $order_session->cc_type, $order_session->cc_number, $order_session->cc_exp_month, $order_session->cc_exp_year, $order_session->cc_cvv );
 					LLMS()->session->set( 'llms_order', $order_session );
 
-					$lifterlms_checkout = LLMS()->checkout();
-					$lifterlms_checkout->process_order( $order );
-					$result = $available_gateways[ $order->payment_method ]->process_payment( $order );
+					$order_discounted_to_free = $this->process_free_order();
+
+					if ( ! $order_discounted_to_free ) {
+
+						$lifterlms_checkout = LLMS()->checkout();
+						$lifterlms_checkout->process_order( $order );
+						$result = $available_gateways[ $order->payment_method ]->process_payment( $order );
+
+					} else {
+						return llms_add_notice( sprintf( "There was an error processing the payment with coupon <strong>%s</strong>.", $order_discounted_to_free ), "error" );
+					}
+
+					
 
 				}
 

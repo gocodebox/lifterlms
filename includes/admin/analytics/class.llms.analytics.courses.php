@@ -40,29 +40,30 @@ class LLMS_Analytics_Courses extends LLMS_Analytics_Page {
 		//search form
 		$html = $this->search_form();
 
+		if ( $search ) {
+			//WIDGET ROW
+			$html .= '<div class="llms-widget-row">';
+			//total Students ever
+			$html .= self::quarter_width_widget( $this->total_students_all_time( $search ) );
 
-		//WIDGET ROW
-		$html .= '<div class="llms-widget-row">';
-		//total Students ever
-		$html .= self::quarter_width_widget( $this->total_students_all_time( $search ) );
+			// total currently enrolled students
+			$html .= self::quarter_width_widget( $this->total_current_students( $search ) );
 
-		// total currently enrolled students
-		$html .= self::quarter_width_widget( $this->total_current_students( $search ) );
+			//course completion percentage
+			$html .= self::quarter_width_widget( $this->completion_percentage( $search ) );
 
-		//course completion percentage
-		$html .= self::quarter_width_widget( $this->completion_percentage( $search ) );
+			//total certificates issued
+			$html .= self::quarter_width_widget( $this->total_certificates_issued( $search ) );
 
-		//total certificates issued
-		$html .= self::quarter_width_widget( $this->total_certificates_issued( $search ) );
+			$html .= '</div>'; //end widget row
 
-		$html .= '</div>'; //end widget row
+			//sales volumn line chart
+			$html .= self::full_width_widget( $this->sales_chart( $search ) );
 
-		//sales volumn line chart
-		$html .= self::full_width_widget( $this->sales_chart( $search ) );
-
-		if ( $search->product_id !== 'all_courses' ) {
-			$html .= self::full_width_widget( $this->lesson_completion_chart( $search ) );
-			$html .= self::full_width_widget( $this->lesson_student_table( $search ) );
+			if ( $search->product_id !== 'all_courses' ) {
+				$html .= self::full_width_widget( $this->lesson_completion_chart( $search ) );
+				$html .= self::full_width_widget( $this->lesson_student_table( $search ) );
+			}
 		}
 
 		//return contents
