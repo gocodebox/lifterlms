@@ -9,7 +9,11 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-global $course, $lifterlms_loop;
+global $post, $course, $lifterlms_loop;
+
+if ( ! $course ) {
+	$course = new LLMS_Course( $post->ID );
+}
 
 // Store loop count we're currently on
 if ( empty( $lifterlms_loop['loop'] ) )
