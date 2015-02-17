@@ -17,14 +17,16 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 	
 			if ( $course->post->post_type == 'course') {
 				$course_progress = $course->get_percent_complete();
-				$author = get_the_author();
+				$author = get_userdata( $course->post->post_author );
+				$author_name = $author->first_name . ' ' . $author->last_name;
+
 				$permalink = get_post_permalink( $course->id );
 
 				$date_formatted = date('M d, Y', strtotime($course_item->updated_date) );
 				$course_status = $course_item->meta_value;
 
 				if (get_option('lifterlms_course_display_author') == 'yes') {
-					$course_author = sprintf( __( '<p class="author">Author: <span>%s</span></p>' ), $author ); 
+					$course_author = sprintf( __( '<p class="author">Author: <span>%s</span></p>' ), $author_name ); 
 				}
 				?>
 

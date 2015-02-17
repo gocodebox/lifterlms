@@ -63,7 +63,7 @@ class LLMS_Emails {
 	 * Adds actions to trigger emails off of events
 	 */
 	function __construct() {
-		llms_log('emails is called');
+
 		$this->init();
 
 		add_action( 'lifterlms_email_header', array( $this, 'email_header' ) );

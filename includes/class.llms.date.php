@@ -127,8 +127,7 @@ class LLMS_Date {
 			'start_date' => $start_date,
 			'end_date' => $end_date
 		);
-		llms_log('date filter');
-		llms_log($date_range);
+
 		return $date_range;
 
 	}
@@ -159,6 +158,10 @@ class LLMS_Date {
 		}
 
 		
+	}
+
+	public static function get_localized_date_string() {
+		return strftime( _x( '%b %d, %Y @ %I:%M %p', 'Localized Order DateTime', 'lifterlms' ) );
 	}
 
 

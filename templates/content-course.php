@@ -19,11 +19,6 @@ if ( empty( $lifterlms_loop['loop'] ) )
 if ( empty( $lifterlms_loop['columns'] ) )
 	$lifterlms_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
 
-// Ensure visibility
-if ( ! $course || ! $course->is_visible() )
-	return;
-
-
 // Increase loop count
 $lifterlms_loop['loop']++;
 

@@ -35,8 +35,8 @@ class LLMS_Meta_Box_Email_Settings {
 		?>
 		<br/>
 		<p>
-		<?php _e( 'Use the text editor above to add content to your certificate. 
-		You can include any of the following merge fields to give the certificate a personal touch.' ); ?>
+		<?php _e( 'Use the text editor above to add content to your email. 
+		You can include any of the following merge fields to give the email a personal touch.' ); ?>
 		</p>
 		<ul>
 		<!-- cannot translate merge fields -->

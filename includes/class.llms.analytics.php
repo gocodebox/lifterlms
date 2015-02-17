@@ -158,7 +158,11 @@ class LLMS_Analytics {
 						foreach ( $search->students as $key => $value ) {
 							
 							if ( $value->post_id == $course->ID && LLMS_Date::db_date( $value->enrolled_date ) <= $date ) {
-								$daily_total++;
+								
+								if ( $value->status === 'Enrolled' ) {
+									$daily_total++;
+								}
+								
 							}
 
 						}
@@ -177,7 +181,11 @@ class LLMS_Analytics {
 						foreach ( $search->members as $key => $value ) {
 							
 							if ( $value->post_id == $membership->ID && LLMS_Date::db_date( $value->enrolled_date ) <= $date ) {
-								$daily_total++;
+								
+								if ( $value->status === 'Enrolled' ) {
+									$daily_total++;
+								}
+								
 							}
 
 						}
@@ -346,8 +354,7 @@ class LLMS_Analytics {
 
 	public static function get_users( $post_id, $include_expired = false ) {
 		global $wpdb;
-llms_log('checking include expired');
-llms_log($include_expired);
+
 		$students_array = array();
 		$students_large = array();
 		$students_small = array();
@@ -599,7 +606,7 @@ llms_log($include_expired);
 
 					//loop through each student and check if lesson is completed
 					foreach ( $search->students as $student ) {
-						//llms_log($student->user_id . ' ' . $lesson->ID . ' ' . $search->end_date );
+	
 						if ( self::is_lesson_completed( $student->user_id, $lesson->ID, $search->end_date ) ) {
 							$unit++;
 						}
@@ -617,7 +624,7 @@ llms_log($include_expired);
 				$lesson_completions[] = $lesson_array;
 
 			}
-			llms_log($lesson_completions);
+
 			return $lesson_completions;
 		}
 
@@ -637,7 +644,7 @@ llms_log($include_expired);
 
 		$results = $wpdb->get_results( $wpdb->prepare(
 			'SELECT updated_date FROM '.$table_name.' WHERE user_id = %s AND post_id = %d AND meta_key = "_is_complete"', $user_id, $lesson_id) );
-		//llms_log($results);
+
 		if ( $results ) {
 
 			if ( ! empty( $end_date ) ) {
@@ -722,7 +729,7 @@ llms_log($include_expired);
 		
 
 	public static function get_students( $search ) {
-llms_log('get students method called----------');
+
 		$student_arrays = array();
 		$students_large = array();
 		$students_small = array();
@@ -825,7 +832,7 @@ llms_log('get students method called----------');
 		);
 
 		if ( $results ) {
-			llms_log($results);
+
 			foreach ( $results as $key => $value ) {
 
 				$post = get_post( $value->post_id );

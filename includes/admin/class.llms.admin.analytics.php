@@ -45,7 +45,7 @@ class LLMS_Admin_Analytics {
 
 			include_once( 'analytics/class.llms.analytics.page.php' );
 
-			$analytics[] = include( 'analytics/class.llms.analytics.dashboard.php' );
+			//$analytics[] = include( 'analytics/class.llms.analytics.dashboard.php' );
 			$analytics[] = include( 'analytics/class.llms.analytics.sales.php' );
 			$analytics[] = include( 'analytics/class.llms.analytics.courses.php' );
 			$analytics[] = include( 'analytics/class.llms.analytics.memberships.php' );
@@ -126,7 +126,7 @@ class LLMS_Admin_Analytics {
 
 		self::get_analytics_tabs();
 
-		$current_tab = empty( $_GET['tab'] ) ? 'dashboard' : sanitize_title( $_GET['tab'] );
+		$current_tab = empty( $_GET['tab'] ) ? 'sales' : sanitize_title( $_GET['tab'] );
 
 	    if ( ! empty( $_POST ) )
 	    	self::save();
@@ -165,7 +165,7 @@ class LLMS_Admin_Analytics {
 
 	    //sales analytics
 	    if ( !empty( $_POST[ 'action' ] ) && ( 'llms-analytics-sales' === $_POST[ 'action' ] ) && !empty( $_POST['_wpnonce'] ) ) {
-	    llms_log( 'product search action triggered ');
+
 	 		$search = new stdClass;
 
 	 		//validate fields
@@ -233,7 +233,7 @@ class LLMS_Admin_Analytics {
 
 	    //course analytics
 	    if ( !empty( $_POST[ 'action' ] ) && ( 'llms-analytics-course' === $_POST[ 'action' ] ) && !empty( $_POST['_wpnonce'] ) ) {
-	    llms_log( 'course search action triggered ');
+
 	 		$search = new stdClass;
 
 	 		//validate fields
@@ -284,8 +284,7 @@ class LLMS_Admin_Analytics {
 
 						$students = array_merge( $students, $enrolled_users );
 					}
-					llms_log('students array');
-					llms_log( $students);
+
 					$search->students = $students;
 				}
 
@@ -316,9 +315,6 @@ class LLMS_Admin_Analytics {
 				
 
 			}
-	 		//llms_log($search);
-			//get results and save to search object
-	 		//$search->results = LLMS_Analytics::get_orders( $values );
 	 		
 	 		//set search object as session object
 		    LLMS()->session->set( 'llms_analytics_course', $search );
@@ -326,7 +322,7 @@ class LLMS_Admin_Analytics {
 
 	    //membership analytics
 	    if ( !empty( $_POST[ 'action' ] ) && ( 'llms-analytics-membership' === $_POST[ 'action' ] ) && !empty( $_POST['_wpnonce'] ) ) {
-	    llms_log( 'membership search action triggered ');
+
 	 		$search = new stdClass;
 
 	 		//validate fields
@@ -363,7 +359,7 @@ class LLMS_Admin_Analytics {
 
 			// if product id is not "all" then add product id to values
 			if ( $search->product_id === 'all_memberships' ) {
-llms_log( 'all memeberships called');
+
 				$memberships = LLMS_Analytics::get_posts( 'llms_membership' );
 
 				//if any courses are returned loop through them and get the enrolled students
@@ -377,8 +373,7 @@ llms_log( 'all memeberships called');
 
 						$members = array_merge( $members, $enrolled_users );
 					}
-					llms_log('members array');
-					llms_log( $members);
+
 					$search->members = $members;
 				}
 
@@ -398,9 +393,6 @@ llms_log( 'all memeberships called');
 				
 
 			}
-	 		//llms_log($search);
-			//get results and save to search object
-	 		//$search->results = LLMS_Analytics::get_orders( $values );
 	 		
 	 		//set search object as session object
 		    LLMS()->session->set( 'llms_analytics_membership', $search );

@@ -6,7 +6,13 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-global $post, $course, $lesson;
+global $post, $lesson;
+
+if ( ! $lesson ) {
+
+	$lesson = new LLMS_Lesson( $post->ID );
+	
+}
 
 $user = new LLMS_Person;
 $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->id );

@@ -40,6 +40,7 @@ class LLMS_Meta_Box_Engagement_Options {
 		$engagement_type = get_post_meta( $post->ID, '_llms_engagement_type', true );
 		$engagement_delay = get_post_meta( $post->ID, '_llms_engagement_delay', true );
 		$engagement_trigger = get_post_meta( $post->ID, '_llms_engagement_trigger', true );
+		$engagement_trigger_post = get_post_meta( $post->ID, '_llms_engagement_trigger_post', true );
 
 		?>
 
@@ -124,7 +125,7 @@ class LLMS_Meta_Box_Engagement_Options {
 						<?php
 						$html = '';
 						$html .= '<input type="text" class="code" name="_llms_engagement_delay" id="_llms_engagement_delay" value="' . $engagement_delay . '"/>';
-						$html .= '<br><span class="description">' .  __( 'If no value or 0 is entered the engagemnt will trigger immediately.', 'lifterlms' ) . '</span>';
+						$html .= '<br><span class="description">' .  __( 'If no value or 0 is entered the engagement will trigger immediately.', 'lifterlms' ) . '</span>';
 						echo $html;
 						?>
 					</td>
@@ -195,29 +196,29 @@ class LLMS_Meta_Box_Engagement_Options {
 						$postslist = get_posts( $args );
 
 
-					$args2 = array(
+					// $args2 = array(
 
-						'post_type'   => $post_type,
-						'post_status'   => 'publish',
-						'meta_query'  => array(
+					// 	'post_type'   => $post_type,
+					// 	'post_status'   => 'publish',
+					// 	'meta_query'  => array(
 
-						    array(
+					// 	    array(
 
-						      'value' => $post->ID,
-						      'key' => '_llms_engagement_trigger'
-						    )
-						)
-					);
+					// 	      'value' => $post->ID,
+					// 	      'key' => '_llms_engagement_trigger'
+					// 	    )
+					// 	)
+					// );
 
-					$my_query = new WP_Query( $args2 );
+					// $my_query = new WP_Query( $args2 );
 
-					if( $my_query->have_posts() ) {
-						while( $my_query->have_posts() ) {
-							$my_query->the_post();
-								$engagement_trigger_id = $post->ID;
-						}
-					}
-					wp_reset_postdata();
+					// if( $my_query->have_posts() ) {
+					// 	while( $my_query->have_posts() ) {
+					// 		$my_query->the_post();
+					// 			$engagement_trigger_id = $post->ID;
+					// 	}
+					// }
+					// wp_reset_postdata();
 					?>
 
 					<th><label for="trigger-select">Event</label></th>
@@ -226,7 +227,7 @@ class LLMS_Meta_Box_Engagement_Options {
 							<option value="" selected disabled><?php _e( 'Please select an engagement type...', 'lifterlms' ); ?></option>
 							<?php foreach ( $postslist as $key => $value  ) : 
 
-								if ( $value->ID == $engagement_trigger_id) {
+								if ( $value->ID == $engagement_trigger_post ) {
 							?>
 								<option value="<?php echo $value->ID; ?>" selected="selected"><?php echo $value->post_title; ?></option>
 
@@ -266,7 +267,7 @@ class LLMS_Meta_Box_Engagement_Options {
 			&& isset($_POST['_llms_trigger_type'])
 			&& isset($_POST['_llms_engagement_type'])
 			&& isset($_POST['_llms_engagement_delay'])
-			&& isset($_POST['_llms_engagement_trigger'])
+			//&& isset($_POST['_llms_engagement_trigger'])
 		) {
 
 			//update engagement select
@@ -285,9 +286,28 @@ class LLMS_Meta_Box_Engagement_Options {
 			$engagement_delay = ( llms_clean( $_POST['_llms_engagement_delay']  ) );
 			update_post_meta( $post_id, '_llms_engagement_delay', ( $engagement_delay === '' ) ? '0' : $engagement_delay );
 
-			//update trigger select
-			$engagement_trigger = ( llms_clean( $_POST['_llms_engagement_trigger']  ) );
-			update_post_meta( $engagement_trigger, '_llms_engagement_trigger', ( $post->ID === '' ) ? '' : $post->ID );
+
+			if ( isset($_POST['_llms_engagement_trigger']) ) {
+
+				//if previous post had engagement set to trigger then remove it.
+				$prev_trigger_post = get_post_meta( $post->ID, '_llms_engagement_trigger_post', true );
+
+				$engagement_trigger = ( llms_clean( $_POST['_llms_engagement_trigger']  ) );
+
+				if ( $prev_trigger_post && ( $engagement_trigger !== $prev_trigger_post ) ) {
+					delete_post_meta( $prev_trigger_post, '_llms_engagement_trigger', $post->ID );
+				}
+
+				//update trigger select
+				$engagement_trigger = ( llms_clean( $_POST['_llms_engagement_trigger']  ) );
+				update_post_meta( $engagement_trigger, '_llms_engagement_trigger', ( $post->ID === '' ) ? '' : $post->ID );
+
+				//update trigger select for engagement
+				$engagement_trigger_post  = ( llms_clean( $_POST['_llms_engagement_trigger']  ) );
+				update_post_meta( $post_id, '_llms_engagement_trigger_post', ( $post->ID === '' ) ? '' : $engagement_trigger );
+
+			}
+
 		}
 
 	}

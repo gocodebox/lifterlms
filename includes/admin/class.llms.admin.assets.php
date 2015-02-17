@@ -115,6 +115,9 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-metabox-data', plugins_url(  '/assets/js/llms-metabox-data' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 				wp_enqueue_script( 'llms-metabox-fields', plugins_url(  '/assets/js/llms-metabox-fields' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			}
+			if( 'lesson' == $post_type ) {
+				wp_enqueue_script( 'llms-metabox-fields', plugins_url(  '/assets/js/llms-metabox-fields' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+			}
 			if( 'llms_certificate' == $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-certificate', plugins_url(  '/assets/js/llms-metabox-certificate' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);

@@ -8,6 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $product;
 
+if ( ! $product ) {
+
+	$product = new LLMS_Product( $post->ID );
+	
+}
+
 $product_obj = new LLMS_Product($post->ID);
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() ); 
 //$recurring_html_price = $product_obj->get_recurring_price_html();

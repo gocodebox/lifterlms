@@ -401,7 +401,7 @@ class LLMS_Product {
 
 		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 			if ($this->id == $adjustment->product_id) {
-				if ($adjustment->limit >= 0) {
+				if ( ( $adjustment->limit >= 0 ) || ( $adjustment->limit === 'unlimited' ) ) {
 				    if ($adjustment->type == 'percent') {
 
 						$amount =  ($adjustment->amount / 100);
@@ -433,7 +433,8 @@ class LLMS_Product {
 
 		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 			if ($this->id == $adjustment->product_id) {
-				if ($adjustment->limit >= 0) {
+
+				if ( ( $adjustment->limit >= 0 ) || ( $adjustment->limit === 'unlimited' ) ) {
 					if ($adjustment->type == 'percent') {
 
 						$amount =  (1 - ($adjustment->amount / 100));
@@ -595,8 +596,7 @@ class LLMS_Product {
 	 */
 	public static function get_order_data( $id ) {
 		global $wpdb;
-llms_log('product get order data');
-llms_log($id);
+
 		$order = new \stdClass();
 
 		// Get Auction Meta
@@ -642,7 +642,7 @@ llms_log($id);
 			//paypal profile id for recurring payments
 			$order->paypal_profile_id = $pm['_llms_order_paypal_profile_id'][0];
 		}
-		llms_log( $order );
+
 		return $order;
 	}
 

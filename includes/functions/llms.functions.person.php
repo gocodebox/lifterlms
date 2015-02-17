@@ -436,10 +436,13 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 						$membership_interval = get_post_meta( $membership_id, '_llms_expiration_interval', true );
 						$membership_period = get_post_meta( $membership_id, '_llms_expiration_period', true );
 
-						$end_date = strtotime( '+' . $membership_interval . $membership_period, strtotime( $obj['_start_date']->updated_date ) );
-
-						$return .= '<br><em>End Date</em>: ' . date( get_option( 'date_format' , 'Y-m-d' ), $end_date );
-
+						//only display end date if exists.
+						if ( $membership_interval ) {
+							
+							$end_date = strtotime( '+' . $membership_interval . $membership_period, strtotime( $obj['_start_date']->updated_date ) );
+						
+							$return .= '<br><em>End Date</em>: ' . date( get_option( 'date_format' , 'Y-m-d' ), $end_date );
+						}
 					}
 
 				}

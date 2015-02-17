@@ -28,7 +28,7 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 	 * @return void
 	 */
 	function __construct() {
-llms_log('this construct was called');
+
 		$this->id 				= 'customer_reset_password';
 		$this->title 			= __( 'Reset password', 'lifterlms' );
 		$this->description		= __( 'Customer reset password emails are sent when a customer resets their password.', 'lifterlms' );
@@ -52,7 +52,7 @@ llms_log('this construct was called');
 	 * @return void
 	 */
 	function trigger( $user_login = '', $reset_key = '' ) {
-llms_log('this construct was called');
+
 		if ( $user_login && $reset_key ) {
 
 			$this->object     = get_user_by( 'login', $user_login );

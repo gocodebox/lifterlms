@@ -77,6 +77,11 @@ class LLMS_Meta_Box_Order {
 				</th>
 				<td>
 					<table class="form-table">
+
+						<tr>
+							<td colspan="2"><label><?php echo $post->post_title ?></label></td>
+			
+						</tr>
 			
 						<tr>
 							<td><label><?php _e('Order Date', 'lifterlms') ?></label></td>

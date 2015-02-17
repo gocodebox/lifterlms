@@ -438,7 +438,7 @@ Base Mobile
   ******************************************************************/
   .llms-nav-tab {
     display: inline-block;
-    width: 25%;
+    width: 33.333%;
   }
 
   #llms-form-wrapper .llms-select {

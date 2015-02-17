@@ -107,9 +107,18 @@
 				return false;
 			}
 
+			//get the type of product ( course / membership )
+			$product_obj = get_post( $order->product_id );
+			if ( $product_obj->post_type === 'course' ) {
+				$order->product_type = 'course';
+			} elseif ( $product_obj->post_type === 'llms_membership' ) {
+				$order->product_type = 'membership';
+			}
+
+			// create order post
 			$order_data = apply_filters( 'lifterlms_new_order', array(
 				'post_type'     => 'order',
-				'post_title'    => sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ) ) ),
+				'post_title'    => sprintf( __( 'Order - %s, %s', 'lifterlms' ), $order->product_type, LLMS_Date::get_localized_date_string() ),
 				'post_status'   => 'publish',
 				'ping_status'   => 'closed',
 				'post_author'   => 1,
@@ -141,6 +150,7 @@
 			update_post_meta( $order_post_id, '_llms_order_date', current_time( 'mysql' ) );
 			update_post_meta( $order_post_id, '_llms_order_type', $order->payment_option );
 			update_post_meta( $order_post_id, '_llms_payment_type', $order->payment_type );
+			update_post_meta( $order_post_id, '_llms_product_type', $order->product_type );
 
 			if( $order->payment_option == 'recurring' ) {
 				update_post_meta( $order_post_id, '_llms_order_recurring_price', $order->product_price );
@@ -160,7 +170,10 @@
 				update_post_meta( $order_post_id, '_llms_order_coupon_code', $coupon->coupon_code );
 
 				//now that the coupon has been used. post the new coupon limit
-				update_post_meta( $coupon->id, '_llms_usage_limit', $coupon->limit );
+				if ( $coupon->limit !== 'unlimited' ) {
+					update_post_meta( $coupon->id, '_llms_usage_limit', $coupon->limit );
+				}
+				
 
 			}
 

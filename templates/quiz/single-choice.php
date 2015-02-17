@@ -5,7 +5,18 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-global $quiz, $question;
+global $post, $quiz, $question;
+
+if ( ! $quiz ) {
+
+	$quiz = new LLMS_Quiz( $post->ID );
+	
+}
+if ( ! $question ) {
+
+	$question = new LLMS_Question( $post->ID );
+	
+}
 
 $options = $question->get_options();
 $question_key = isset($quiz) ? $quiz->get_question_key : 0;

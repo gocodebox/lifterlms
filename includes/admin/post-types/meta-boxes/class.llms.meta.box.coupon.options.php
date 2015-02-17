@@ -147,7 +147,7 @@ class LLMS_Meta_Box_Coupon_Options {
 				'section' => 'coupon_meta_box',
 				'options' => array(
 						'percent' => '% Discount',
-						'dollar' => '$ Discount'
+						'dollar' => sprintf( __( '%s Discount', 'lifterlms' ), get_lifterlms_currency_symbol() )
 					)
 			),
 			//Coupon amount text field

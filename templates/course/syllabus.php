@@ -8,6 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course;
 
+if ( ! $course ) {
+
+	$course = new LLMS_Course( $post->ID );
+	
+}
+
 $post_id = $post->ID;
 $course = new LLMS_Course($post->ID);
 ?>

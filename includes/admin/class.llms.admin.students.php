@@ -165,7 +165,7 @@ class LLMS_Admin_Students {
 
 	    //sales analytics
 	    if ( !empty( $_POST[ 'action' ] ) && ( 'llms-students-search' === $_POST[ 'action' ] ) && !empty( $_POST['_wpnonce'] ) ) {
-	    llms_log( 'product search action triggered ');
+
 	 		$search = new stdClass;
 
 	 		//validate fields

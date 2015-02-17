@@ -34,7 +34,7 @@ class LLMS_Analytics_Courses extends LLMS_Analytics_Page {
 	 */
 	public function get_analytics() {
 		$search = LLMS()->session->get( 'llms_analytics_course' );
-		//var_dump( $search);
+
 		$title = __( 'Course Analytics', 'lifterlms' );
 		
 		//search form
@@ -190,7 +190,14 @@ class LLMS_Analytics_Courses extends LLMS_Analytics_Page {
 
 			$lesson_completion_percent = LLMS_Analytics::get_lesson_completion_avg( $search );
 
-			array_unshift($lesson_completion_percent, $headers);
+			if ( ! empty( $lesson_completion_percent ) ) {
+				array_unshift($lesson_completion_percent, $headers);
+			} else {
+				$lesson_completion_percent = array();
+			}
+
+		} else {
+			$lesson_completion_percent = array();
 		}
 
 		$html = '<p class="llms-label">' . __( 'Lesson Completion Percentage', 'lifterlms' ) . '</p>';

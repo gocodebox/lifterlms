@@ -7,6 +7,18 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course, $product;
+
+if ( ! $course ) {
+
+	$course = new LLMS_Course( $post->ID );
+	
+}
+if ( ! $product ) {
+
+	$product = new LLMS_Product( $post->ID );
+	
+}
+
 $user = new LLMS_Person;
 $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
 

@@ -191,10 +191,16 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		if ( $search ) {
 
 			$total_sold_by_day = LLMS_Analytics::get_total_sold_by_day( $search->results, $search->start_date, $search->end_date );
+		
+			if ( ! empty( $total_sold_by_day ) ) {
+				array_unshift($total_sold_by_day, $headers);
+			} else {
+				$total_sold_by_day = array();
+			}
 
+		} else {
+			$total_sold_by_day = array();
 		}
-
-		array_unshift($total_sold_by_day, $headers);
 		
 		$html = '<p class="llms-label">' . __( 'Sales Volume', 'lifterlms' ) . '</p>';
 

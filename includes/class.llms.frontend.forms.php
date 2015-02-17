@@ -485,25 +485,13 @@
 			if( !isset( $coupon->id ) || !$coupon->id ) {
 				return true;
 			}
-
-			$parameters = array(
-				"showposts"  => 1,
-				"post_type"  => "llms_coupon",
-				"meta_query" => array(
-					"key"   => "_llms_coupon_title",
-					"value" => $coupon->coupon_code
-				)
-			);
-
-			$coupon_post = new WP_Query( $parameters );
-
-			if( !$coupon_post->have_posts() ) {
+			//don't do anything if coupon amount does not = 100% off. 
+			if ( $coupon->amount !== 100 || ( $coupon_type == "dollar" && ( $coupon_amount - $order->total ) ) ) {
 				return true;
 			}
 
-			$coupon_post     = $coupon_post->posts[ 0 ];
-			$coupon_type     = get_post_meta( $coupon_post->ID, "_llms_discount_type", true );
-			$coupon_amount   = get_post_meta( $coupon_post->ID, "_llms_coupon_amount", true );
+			$coupon_type     = get_post_meta( $coupon->id, "_llms_discount_type", true );
+			$coupon_amount   = get_post_meta( $coupon->id, "_llms_coupon_amount", true );
 			$coupon_is_valid = true;
 
 			/** Check if coupon is valid and actually results in 0 total */
@@ -513,7 +501,7 @@
 			if( $coupon_type == "percent" && $coupon_amount != 100 ) {
 				$coupon_is_valid = false;
 			}
-			elseif( $coupon_type == "amount" && ( $coupon_amount - $order->total ) ) {
+			elseif( $coupon_type == "dollar" && ( $coupon_amount - $order->total ) ) {
 				$coupon_is_valid = false;
 			}
 			if( !$coupon_is_valid ) {
@@ -645,9 +633,9 @@
 
 			$coupon->type   = !empty( $coupon_meta[ '_llms_discount_type' ][ 0 ] ) ? $coupon_meta[ '_llms_discount_type' ][ 0 ] : '';
 			$coupon->amount = !empty( $coupon_meta[ '_llms_coupon_amount' ][ 0 ] ) ? $coupon_meta[ '_llms_coupon_amount' ][ 0 ] : '';
-			if( $coupon_meta[ '_llms_usage_limit' ][ 0 ] ) {
-				$coupon->limit = !empty( $coupon_meta[ '_llms_usage_limit' ][ 0 ] ) ? $coupon_meta[ '_llms_usage_limit' ][ 0 ] : '';
-			}
+
+			$coupon->limit = $coupon_meta[ '_llms_usage_limit' ][ 0 ] !== '' ? $coupon_meta[ '_llms_usage_limit' ][ 0 ] : 'unlimited';
+
 			$coupon->title = !empty( $coupon_meta[ '_llms_coupon_title' ][ 0 ] ) ? $coupon_meta[ '_llms_coupon_title' ][ 0 ] : '';
 
 			if( $coupon->type == 'percent' ) {
@@ -657,13 +645,18 @@
 				$coupon->name = ( $coupon->title . ': ' . '$' . $coupon->amount . ' coupon' );
 			}
 
+			//if coupon limit is not unlimited deduct 1 from limit
 			if( isset( $coupon->limit ) ) {
-				if( $coupon->limit <= 0 ) {
-					return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> cannot be applied to this order.', 'lifterlms' ), $coupon->coupon_code ), 'error' );
-				}
+				if ( $coupon->limit !== 'unlimited' ) {
+				
+					if( $coupon->limit <= 0 ) {
+						return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> cannot be applied to this order.', 'lifterlms' ), $coupon->coupon_code ), 'error' );
+					}
 
-				//remove coupon limit
-				$coupon->limit = ( $coupon->limit - 1 );
+					//remove coupon limit
+					$coupon->limit = ( $coupon->limit - 1 );
+
+				}
 			}
 
 			LLMS()->session->set( 'llms_coupon', $coupon );

@@ -6,7 +6,14 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-global $quiz;
+global $post, $quiz;
+
+if ( ! $quiz ) {
+
+	$quiz = new LLMS_Quiz( $post->ID );
+	
+}
+
 $user_id = get_current_user_id();
 $quiz_session = LLMS()->session->get( 'llms_quiz' );
 

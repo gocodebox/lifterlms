@@ -41,7 +41,7 @@ class LLMS_Meta_Box_Quiz_General {
 					<?php
 					$html  = '';
 					$html .= '<input type="text" class="code" name="_llms_allowed_attempts" id="_llms_allowed_attempts" value="' . $allowed_attempts . '"/>';
-					$html .= '<br /><span class="description">' .  __( 'Number of alowed attempts. Must be at least 1.', 'lifterlms' ) . '</span>';
+					$html .= '<br /><span class="description">' .  __( 'Number of allowed attempts. Must be at least 1.', 'lifterlms' ) . '</span>';
 					echo $html;
 					?>
 				</td>

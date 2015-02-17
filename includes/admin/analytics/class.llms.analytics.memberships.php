@@ -168,13 +168,20 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 		if ( $search ) {
 
 			//add each course name to headers
-			foreach ( $search->memberships as $membership ) {
-				array_push( $headers, $membership->post_title );
+			if ( ! empty( $search->memberships ) ) {
+
+				foreach ( $search->memberships as $membership ) {
+					array_push( $headers, $membership->post_title );
+				}
+
+				$total_members_by_day = LLMS_Analytics::get_total_enrolled_by_day( $search );
+
+				array_unshift($total_members_by_day, $headers);
+
 			}
-
-			$total_members_by_day = LLMS_Analytics::get_total_enrolled_by_day( $search );
-
-			array_unshift($total_members_by_day, $headers);
+			
+		} else {
+			$total_members_by_day = array();
 		}
 	
 		$html = '<p class="llms-label">' . __( 'Membership Enrollment by Day', 'lifterlms' ) . '</p>';

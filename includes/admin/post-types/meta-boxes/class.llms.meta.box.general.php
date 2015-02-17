@@ -30,11 +30,11 @@ class LLMS_Meta_Box_General {
 			<tr>
 				<th><label for="_has_prerequisite"><?php _e( 'Has a Prerequisite', 'lifterlms' ); ?></label></th>
 				<td>
-					<input type="checkbox" name="_has_prerequisite" <?php if( $has_prerequisite == true ) { ?>checked="checked"<?php } ?> />
+					<input id="llms_has_prerequisite" type="checkbox" name="_has_prerequisite" <?php if( $has_prerequisite == true ) { ?>checked="checked"<?php } ?> />
 				</td>
 			</tr>
 
-			<tr>
+			<tr class="llms_select_prerequisite">
 				<?php 
 				$prerquisite_args = array(
 				'posts_per_page'   => -1,

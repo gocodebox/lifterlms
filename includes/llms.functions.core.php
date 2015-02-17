@@ -320,7 +320,6 @@ function get_lifterlms_currencies() {
                         'CAD' => __( 'Canadian Dollars', 'lifterlms' ),
                         'CLP' => __( 'Chilean Peso', 'lifterlms' ),
                         'CNY' => __( 'Chinese Yuan', 'lifterlms' ),
-                        'COP' => __( 'Colombian Peso', 'lifterlms' ),
                         'CZK' => __( 'Czech Koruna', 'lifterlms' ),
                         'DKK' => __( 'Danish Krone', 'lifterlms' ),
                         'EUR' => __( 'Euros', 'lifterlms' ),
