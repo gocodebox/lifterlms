@@ -25,7 +25,7 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.1.3 - 2015-02-17
+v1.2.0 - 2015-02-17
 -------------------
 + Admin Course Analytics Dashboard Page. View at LifterLMS->Analytics->Course
 + Admin Sales Analytics Dashboard Page. View at LifterLMS->Analytics->Sales
