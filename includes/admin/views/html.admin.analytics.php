@@ -5,8 +5,6 @@
 	<form method="post" id="llms-form-wrapper">
 <?php 
 global $submenu;
-var_dump( $submenu);
-
 
 ?>
 		<h2 class="llms-nav-tab-wrapper">
