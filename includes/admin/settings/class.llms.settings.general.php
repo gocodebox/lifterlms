@@ -32,12 +32,16 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 */
 	public function get_settings() {
 		$is_activated = get_option( 'lifterlms_is_activated', '' );
-		$activation_response = get_option( 'lifterlms_activation_message', '' );;
+		$activation_response = get_option( 'lifterlms_activation_message', '' );
 		if($is_activated == 'yes') {
 			$activation_message = 'Activated';
+			$deactivate_checkbox = 'checkbox';
+			$deactivate_message = __( 'Deactivate LifterLMS.', 'lifterlms' );
 		}
 		else {
 			$activation_message = 'Not Activated (' . $activation_response . ')';
+			$deactivate_checkbox = '';
+			$deactivate_message = '';
 		}
 
 		$currency_code_options = get_lifterlms_currencies();
@@ -47,11 +51,33 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		}
 
 		return apply_filters( 'lifterlms_general_settings', array(
-			array( 'title' => __( 'General Options', 'lifterlms' ), 'type' => 'title', 'desc' => '', 'id' => 'general_options' ),
-		
-			
 
-			array(	'title' => __( 'Plugin Activation', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Enter your activation key to recieve important updates and new features when they are available.', 'lifterlms' ), 'id' => 'activation_options' ),
+			array( 'type' => 'sectionstart', 'id' => 'general_information', 'class' =>'top' ),
+		
+			array(	'title' => __( 'Welcome to LifterLMS', 
+				'lifterlms' ), 
+				'type' => 'title', 
+				'desc' => '
+					
+				<div class="llms-list">
+				<ul>
+				<li><p>' . __( 'Thank you for choosing <a href="http://lifterlms.com">LifterLMS</a> as your Learning Management Solution.', 'lifterlms' ) .' </p></li>
+				<li><p>Version: ' . LLMS()->version . '</p></li>
+				<li><p>Support: <a href="https://lifterlms.com/forums/">' . __( 'https://lifterlms.com/forums/' ) . '</a></p></li>
+				<li><p>Blog: <a href="http://blog.lifterlms.com/">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
+				<li><p>Tutorials: <a href="http://demo.lifterlms.com/">' . __( 'http://demo.lifterlms.com/' ) . '</a></p></li>
+				</ul>
+				</div>', 
+				'id' => 'actsdfion_options' ),
+				
+			array( 'type' => 'sectionend', 'id' => 'general_information' ),
+
+			array( 'type' => 'sectionstart', 'id' => 'activation' ),
+
+			array(	'title' => __( 'Plugin Activation', 'lifterlms' ), 'type' => 'title', 
+				'desc' => __( 'Enter your activation key to recieve important updates and new features when they are available.
+					Need an activation key? <a href="http://lifterlms.com">Get one here</a>', 'lifterlms' ), 
+				'id' => 'activation_options' ),
 
 			array(
 				'title' => __( 'Activation Key', 'lifterlms' ),
@@ -62,7 +88,23 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'general_options'),
+			array(
+				'desc'          => $deactivate_message,
+				'id'            => 'lifterlms_activation_deactivate',
+				'default'       => 'no',
+				'type'          => $deactivate_checkbox,
+				'checkboxgroup' => 'start',
+			),
+
+			array(
+				'title' => __( '', 'lifterlms' ),
+				'value' => __( 'Update Activation', 'lifterlms' ),
+				'type' 		=> 'button',
+			),
+
+			array( 'type' => 'sectionend', 'id' => 'activation' ),
+
+			array( 'type' => 'sectionstart', 'id' => 'general_options'),
 
 			array(	'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
 
@@ -70,7 +112,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'title' 	=> __( 'Default Currency', 'lifterlms' ),
 				'desc' 		=> __( 'Default currency type.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_currency',
-				'css' 		=> 'min-width:350px;',
 				'default'	=> 'USD',
 				'type' 		=> 'select',
 				'class'		=> 'chosen_select',
@@ -78,7 +119,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'options'   => $currency_code_options
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'script_styling_options' ),
+			array( 'type' => 'sectionend', 'id' => 'general_options' ),
 
 
 		) );

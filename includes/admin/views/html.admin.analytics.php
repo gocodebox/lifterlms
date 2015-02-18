@@ -3,7 +3,12 @@
 <h1 class="llms-page-header"><?php _e( 'Analytics', 'lifterlms' ); ?></h1>
 
 	<form method="post" id="llms-form-wrapper">
+<?php 
+global $submenu;
+var_dump( $submenu);
 
+
+?>
 		<h2 class="llms-nav-tab-wrapper">
 			<?php
 				foreach ( $tabs as $name => $label ) 

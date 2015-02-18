@@ -18,11 +18,13 @@
 			do_action( 'lifterlms_settings_' . $current_tab );
 			do_action( 'lifterlms_settings_tabs_' . $current_tab );
 		?>
+		<div id="llms-form-wrapper">
 		 <p class="submit">
-        	<input name="save" class="button-primary" type="submit" value="<?php _e( 'Save changes', 'lifterlms' ); ?>" />
+        	<input name="save" class="button-primary" type="submit" value="<?php _e( 'Save Changes', 'lifterlms' ); ?>" />
         	<input type="hidden" name="subtab" id="last_tab" />
         	<?php wp_nonce_field( 'lifterlms-settings' ); ?>
         </p>
+        </div>
 	
 	</form>
 </div>

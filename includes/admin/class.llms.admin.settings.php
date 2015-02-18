@@ -252,12 +252,12 @@ class LLMS_Admin_Settings {
 
 	            	if ( ! empty( $value['title'] ) ) {
 
-	            		echo '<h3>' . esc_html( $value['title'] ) . '</h3>';
+	            		echo '<p class="llms-label">' . esc_html( $value['title'] ) . '</p>';
 
 	            	}
 	            	if ( ! empty( $value['desc'] ) ) {
 
-	            		echo wpautop( wptexturize( wp_kses_post( $value['desc'] ) ) );
+	            		echo '<p class="llms-description">' . wpautop( wptexturize( wp_kses_post( $value['desc'] ) ) ) . '</p>';
 
 	            	}
 
@@ -270,6 +270,20 @@ class LLMS_Admin_Settings {
 	            	}
 	            break;
 
+	             case 'sectionstart':
+	            	if ( ! empty( $value['id'] ) ) {
+
+	            		do_action( 'lifterlms_settings_' . sanitize_title( $value['id'] ) . '_before' );
+
+	            		echo '<div class="llms-widget-full ' . $value['class'] . '">';
+						echo '<div class="llms-widget">';
+
+	            		do_action( 'lifterlms_settings_' . sanitize_title( $value['id'] ) . '_start' );
+
+
+	            	}
+	            break;
+
 	            case 'sectionend':
 	            	if ( ! empty( $value['id'] ) ) {
 
@@ -278,12 +292,28 @@ class LLMS_Admin_Settings {
 	            	}
 
 	            	echo '</table>';
+	            	echo '</div>';
+	            	echo '</div>';
 
 	            	if ( ! empty( $value['id'] ) ) {
 
 	            		do_action( 'lifterlms_settings_' . sanitize_title( $value['id'] ) . '_after' );
 
 	            	}
+	            break;
+
+	            case 'button':
+	            	echo '<tr valign="top"><th>
+	            		<label for="' . esc_attr( $value['id'] ) . '">' . esc_html( $value['title'] ) . '</label>
+							' . $tooltip . '
+	            	</th>';
+
+	            	echo '<td class="forminp forminp-' . sanitize_title( $value['type'] ) . '">';
+	            	echo '<div id="llms-form-wrapper">';
+	            	echo '<input name="save" class="button-primary" type="submit" value="' . esc_attr( $value['value'] ) . '" />';
+	            	echo '</div>';
+	            	echo '</td></tr>';
+	            	//get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
 	            break;
 
 	            case 'text':

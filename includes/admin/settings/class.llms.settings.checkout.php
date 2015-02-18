@@ -37,6 +37,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			return apply_filters( 'lifterlms_course_settings', array(
 
+				array( 'type' => 'sectionstart', 'id' => 'course_archive_options', 'class' =>'top' ),
+
 				array(	'title' => __( 'Checkout Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Manage checkout settings.', 'id' => 'course_options' ),
 
 				array(
@@ -46,7 +48,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 					'type' 		=> 'single_select_page',
 					'default'	=> '',
 					'class'		=> 'chosen_select_nostd',
-					'css' 		=> 'min-width:300px;',
 					'desc_tip'	=> __( 'This sets the base page of the checkout page', 'lifterlms' ),
 				),
 				array(
@@ -58,7 +59,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 					'desc_tip'	=> true,
 				),
 
-				array( 'type' => 'sectionend', 'id' => 'checkout_options'),
+				array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
+
 			) 	
 		); 
 	}

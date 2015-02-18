@@ -300,6 +300,25 @@ Form Styles
   border-bottom: 1px solid #999;
   margin: 20px 0;
 }
+#llms-form-wrapper .button-primary {
+  border: none !important;
+  text-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  color: #fff !important;
+  background: #069cb5 !important;
+  border-radius: 0;
+  -webkit-transition: .5s;
+          transition: .5s;
+}
+#llms-form-wrapper .button-primary:hover {
+  background: #0185a3 !important;
+}
+#llms-form-wrapper .button-primary:active {
+  background: #33b1cb !important;
+}
 #llms-form-wrapper #llms_analytics_search {
   border: none !important;
   text-shadow: none !important;
@@ -330,6 +349,8 @@ Option Page Widgets
   border: 1px solid #ccc;
   background: #fff;
   margin-bottom: 20px;
+  padding: 0 20px 20px;
+  box-sizing: border-box;
 }
 .llms-widget h1 {
   font-size: 2.4em;
@@ -342,7 +363,7 @@ Option Page Widgets
   font-size: 1em;
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
-  margin: 10px 20px;
+  margin: 10px 0;
   box-sizing: border-box;
 }
 .llms-widget .llms-chart {
@@ -399,6 +420,10 @@ Base Mobile
   margin-top: 20px;
 }
 
+.llms-widget .form-table td {
+  padding: 15px 0;
+}
+
 @media only screen and (min-width: 481px) {
   /******************************************************************
   
@@ -438,6 +463,28 @@ Base Mobile
   }
   #llms-form-wrapper .llms-date-select:first-child {
     margin-right: 5%;
+  }
+
+  .llms-widget input[type="text"],
+  .llms-widget input[type="password"],
+  .llms-widget input[type="datetime"],
+  .llms-widget input[type="datetime-local"],
+  .llms-widget input[type="date"],
+  .llms-widget input[type="month"],
+  .llms-widget input[type="time"],
+  .llms-widget input[type="week"],
+  .llms-widget input[type="number"],
+  .llms-widget input[type="email"],
+  .llms-widget input[type="url"],
+  .llms-widget input[type="search"],
+  .llms-widget input[type="tel"],
+  .llms-widget input[type="color"],
+  .llms-widget select,
+  .llms-widget textarea {
+    width: 50%;
+  }
+  .llms-widget .form-table th {
+    width: 140px;
   }
 }
 @media only screen and (min-width: 1030px) {

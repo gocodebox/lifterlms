@@ -37,6 +37,8 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 
 		return apply_filters( 'lifterlms_membership_settings', array(
 
+			array( 'type' => 'sectionstart', 'id' => 'membership_options', 'class' =>'top' ),
+
 			array(	'title' => __( 'Membership Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your membership for a unique user experience.', 'id' => 'membership_options' ),
 
 			array(
@@ -46,7 +48,6 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 				'type' 		=> 'single_select_page',
 				'default'	=> '',
 				'class'		=> 'chosen_select_nostd',
-				'css' 		=> 'min-width:300px;',
 			),
 			array(
 				'title' => __( 'Restrict site by membership level', 'lifterlms' ),
@@ -55,7 +56,6 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 				'type' 		=> 'single_select_membership',
 				'default'	=> '',
 				'class'		=> 'chosen_select_nostd',
-				'css' 		=> 'min-width:300px;',
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'membership_options'),

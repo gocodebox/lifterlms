@@ -39,6 +39,8 @@ class LLMS_Settings_Email extends LLMS_Settings_Page {
 
 			return apply_filters( 'lifterlms_course_settings', array(
 
+				array( 'type' => 'sectionstart', 'id' => 'email_options', 'class' =>'top' ),
+
 				array(	'title' => __( 'Email Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Manage email settings.', 'id' => 'email_options' ),
 
 				array(
@@ -70,7 +72,6 @@ class LLMS_Settings_Email extends LLMS_Settings_Page {
 					'desc' 		=> sprintf(__( 'Enter the url for the email header (logo).<a href="%s">Upload an image</a>.', 'lifterlms' ), admin_url('media-new.php')),
 					'id' 		=> 'lifterlms_email_header_image',
 					'type' 		=> 'text',
-					'css' 		=> 'min-width:300px;',
 					'default'	=> '',
 					'autoload'  => false
 			),

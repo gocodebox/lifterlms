@@ -41,6 +41,25 @@ Form Styles
 		margin: 20px 0;
 	
 	}
+	.button-primary {	
+		border:none !important; 
+		text-shadow: none !important; 
+		border: none !important; 
+		outline: none !important;
+		box-shadow: none !important;
+		margin: 0 !important;
+		color:#fff !important;
+		background: $color-blue !important; 
+		border-radius: 0;
+		transition: .5s;
+		
+		&:hover {
+			background: $color-darkblue !important;
+		
+		}&:active {
+			background: $color-lightblue !important;
+		}
+	}
 
 	#llms_analytics_search {	
 		border:none !important; 

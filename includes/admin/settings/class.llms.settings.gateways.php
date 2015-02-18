@@ -37,9 +37,9 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 
 			return apply_filters( 'lifterlms_gateway_settings', array(
 
-				array(	'title' => __( 'Gateways Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Manage payment gateways.', 'id' => 'gateway_options' ),
+				array( 'type' => 'sectionstart', 'id' => 'gateways_options', 'class' =>'top' ),
 
-				array( 'title' => __( 'Paypal', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Enable Paypal payment gateway', 'lifterlms' ), 'id' => 'gateway_paypal_options' ),
+				array( 'title' => __( 'Paypal Settings', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Enable Paypal payment gateway', 'lifterlms' ), 'id' => 'gateway_paypal_options' ),
 
 				array(
 				'desc'          => __( 'Enable Paypal', 'lifterlms' ),

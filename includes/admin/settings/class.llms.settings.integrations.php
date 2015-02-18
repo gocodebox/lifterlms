@@ -37,12 +37,13 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		}
 
 		return apply_filters( 'lifterlms_integrations_settings', array(
-			array( 'title' => __( 'Integrations Options', 'lifterlms' ), 'type' => 'title', 'desc' => '', 'id' => 'integrations_options' ),
 
-			array( 'type' => 'sectionend', 'id' => 'integrations_options'),
+			array( 'type' => 'sectionstart', 'id' => 'integration_options', 'class' =>'top' ),
+
+			array( 'title' => __( 'Integration Settings', 'lifterlms' ), 'type' => 'title', 'desc' => '', 'id' => 'integrations_options' ),
 
 			array(
-				// 'title' => __( 'Enable BuddyPress', 'lifterlms' ),
+				'title' => __( 'Integrations', 'lifterlms' ),
 				'desc' 		=> __( 'Enable BuddyPress', 'lifterlms' ),
 				'id' 		=> 'lifterlms_buddypress_enabled',
 				'type' 		=> 'checkbox',
@@ -58,7 +59,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'script_styling_options' ),
+			array( 'type' => 'sectionend', 'id' => 'integration_options' ),
 
 
 		) );
