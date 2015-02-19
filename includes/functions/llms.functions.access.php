@@ -403,8 +403,44 @@ function llms_get_prerequisite($user_id, $post_id) {
 function llms_get_course_start_date($post_id) {
 	$post = get_post($post_id);
 	$start_date = get_metadata('post', $post->ID, '_course_dates_from', true);
-	$start_date = date('M d, Y', $start_date);
+	
+	if ($start_date != '') {
+		$start_date = date('M d, Y', $start_date);
+	}
+	
 	return $start_date;
+}
+
+/**
+ * Queries course metadata to get the date the user enrolled.
+ * 
+ * @param  int $user_id [ID of current user]
+ * @param  int $post_id [ID of current post or page]
+ * 
+ * @return datetime $start_date [Start Date in M, d, Y format] or empty string if user is not enrolled.
+ */
+function llms_get_course_enrolled_date($user_id, $post_id) {
+		$post = get_post( $post_id );
+		
+		$course_id = -1;
+		if ($post->post_type == 'course') {
+			$course_id = $post_id;
+		} else if ($post->post_type == 'lesson') {
+			$lesson = new LLMS_Lesson($post->ID);
+			$course_id = $lesson->get_parent_course();
+		}
+
+		$start_date = '';
+		$llmsPerson = new LLMS_Person();
+		$user_postmetas = $llmsPerson->get_user_postmeta_data( $user_id, $course_id );
+		                              
+		if ( isset($user_postmetas['_status']) ) {
+			if ( $user_postmetas['_status']->meta_value == 'Enrolled' ) {
+				$start_date = date('Y-m-d', strtotime($user_postmetas['_status']->updated_date));
+			}
+		}
+		
+		return $start_date;
 }
 
 /**
@@ -412,43 +448,19 @@ function llms_get_course_start_date($post_id) {
  * 
  * @param  int $post_id [ID of current post or page]
  * 
- * @return datetime $end_date [End Date in M, d, Y format]
+ * @return datetime $end_date [End Date in M, d, Y format] or emtpy string if user is not enrolled.
  */
 function llms_get_course_end_date($post_id) {
 	$post = get_post($post_id);
 	$end_date = get_metadata('post', $post->ID, '_course_dates_to', true);
-	$end_date = date('M d, Y', $end_date);
+	
+	if ($end_date != '') {
+		$end_date = date('M d, Y', $end_date);
+	}
+	
 	return $end_date;
 }
 
-/**
- * Checks if course start date is greater than current date. 
- * 
- * @param  int $post_id [ID of current post or page]
- * 
- * @return bool $course_in_future [Does the course have a future start date?]
- */
-function course_start_date_in_future($post_id) {
-	$post = get_post($post_id);
-	$course_in_future = false;
-
-	$start_date = get_metadata('post', $post->ID, '_course_dates_from', true);
-
-	if ( $start_date != '' ) {
-		
-		$todays_date =  strtotime('today');
-
-		if ($todays_date < $start_date) {
-
-			$course_in_future = true;
-
-		}
-
-	}
-
-	return $course_in_future;
-
-}
 
 /**
  * Checks if course end date is less than current date. 
@@ -458,22 +470,18 @@ function course_start_date_in_future($post_id) {
  * @return bool $course_in_past [Hast the course end date past?]
  */
 function course_end_date_in_past($post_id) {
-$post = get_post($post_id);
-
 	$course_in_past = false;
-
-	$end_date = get_metadata('post', $post->ID, '_course_dates_to', true);
+	$end_date = llms_get_course_end_date($post_id); //removed copy and past code here just becuase it was so glaring
 
 	if ( $end_date != '' ) {
-		
 		$todays_date =  strtotime('today');
-
-		if ($todays_date > $end_date) {
-
+		if ($todays_date > date_create($end_date)) {
 			$course_in_past = true;
 		}
 	}
 
+	// break out and display an error
+	// TODO should this take the drip feed into account, I would assume so...
 	if ($course_in_past) {
 		$end_date_formatted = date('M d, Y', $end_date);
 		do_action('lifterlms_content_restricted_by_end_date', $end_date_formatted);
@@ -485,16 +493,33 @@ $post = get_post($post_id);
 /**
  * Queries the lesson start date
  * 
+ * @param  int $user_id [ID of current user]
  * @param  int $post_id [ID of current post or page]
  * 
  * @return datetime $lesson_start_date [Start Date in M, d, Y format]
  */
-function llms_get_lesson_start_date($post_id) {
-	$lesson = new LLMS_Lesson($post_id);
+function llms_get_lesson_start_date($user_id, $post_id) {
+	$start_date = llms_get_course_start_date(post_id);
+	//TODO if the course start date is not set, default the start date to the date the user enrolled 
+	//TODO NOTE: should this be the default, not relevant for me since I never set a start date ...
+	if ( $start_date == '' ) {
+		$start_date = llms_get_course_enrolled_date($user_id, $post_id);
+	} 
+
+ 	if ( $start_date == '' ) {
+		  	// TODO ok this is a horrid fallback, I suspect it would be better to display an error page here.
+		  	$start_date = date('M d, Y');
+	}
+
+	// get drip days and add them to the start date if they are not empty
 	$drip_days = get_metadata('post', $post_id, '_days_before_avalailable', true);
-	$lesson_start_date = date('M d, Y', strtotime(' +' . $drip_days . ' day'));
-	return $lesson_start_date;
+	if ( $drip_days != '' ) {
+		$start_date = date('M d, Y', strtotime($start_date . ' +' . $drip_days . ' day'));
+	} 
+	
+	return $start_date;
 }
+
 
 /**
  * Checks if lesson start date is greater than current date. 
@@ -504,38 +529,29 @@ function llms_get_lesson_start_date($post_id) {
  * @return bool $result [Does the lesson have a future start date?]
  */
 function lesson_start_date_in_future($user_id, $post_id) {
-
-	$result = false;
-	$lesson = new LLMS_Lesson($post_id);
-
-	$parent_course = $lesson->get_parent_course();
-	
-	if ( course_start_date_in_future($parent_course) ) {
-
-		$result = true;
-	}
-	elseif ( course_end_date_in_past($parent_course) ) {
-
-		$result = true;
-	}
-	elseif ( null !== get_metadata('post', $post_id, '_days_before_avalailable', true) ) {
-
-		$drip_days = get_metadata('post', $post_id, '_days_before_avalailable', true);
-
-		$todays_date = date_create('today');
-
-		$lesson_start_date = date('Y-n-j', strtotime(' +' . $drip_days . ' day'));
-		$lesson_start_date = date_create($lesson_start_date);
-
-		if ( $todays_date < $lesson_start_date ) {
-	
-				$result = true;
-		}
-
-	}
-
-	return $result;
+	return course_end_date_in_past(post_id) || (date_create('today') < date_create(llms_get_lesson_start_date($user_id, $post_id))); 
 }
+
+/**
+ * Checks if course start date is greater than current date. 
+ * 
+ * @param  int $post_id [ID of current post or page]
+ * 
+ * @return bool $course_in_future [Does the course have a future start date?]
+ */
+function course_start_date_in_future($post_id) {
+	$start_date = llms_get_course_start_date(post_id);
+
+	if ( $start_date != '' ) {
+		if (strtotime('today') < date_create($start_date)) {
+			$course_in_future = true;
+		}
+	}
+
+	return $course_in_future;
+}
+
+
 
 /**
  * On screen notice passed to user when page is restricted by membership

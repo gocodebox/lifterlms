@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifterLMS\n"
 "POT-Creation-Date: 2014-12-16 12:43-0700\n"
-"PO-Revision-Date: 2014-12-16 12:54-0700\n"
+"PO-Revision-Date: 2015-02-19 13:39-0300\n"
 "Last-Translator: Mark Nelson <support@gocodebox.com>\n"
 "Language-Team: codeBOX <support@gocodebox.com>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.1\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: _e;__\n"
@@ -17,48 +17,52 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.settings.php:527
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:52
 msgid "Membership Restrictions"
-msgstr ""
+msgstr "Restrições a Filiação"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.options.php:96
 msgid ""
 "Use the text editor above to add content to your certificate.\n"
 "\t\t\t\t\t\t\tYou can include any of the following merge fields."
 msgstr ""
+"Use o editor de textos acima para adicionar conteúdo ao certificado. \n"
+"\t\t\t\t\t\t\t Você pode incluir os seguintes campos dinâmicos."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.options.php:68
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.expiration.php:68
 msgid "Please select an option..."
-msgstr ""
+msgstr "Por favor selecione uma opção..."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.syllabus.php:117
 msgid "Course Length"
-msgstr ""
+msgstr "Duração do Curso"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.syllabus.php:120
 msgid "Enter a description of the estimated length. IE: 3 days"
-msgstr ""
+msgstr "Digite a descrição da duração estimada. Exemplo: 3 dias"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.syllabus.php:131
 msgid ""
 "Enter a Begin and/or End date for the course if it will only be available for a set "
 "period of time."
 msgstr ""
+"Digite data de Início e/ou Término do curso se ele vai estar disponível por "
+"determinado período de tempo."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.syllabus.php:170
 msgid "Limit the number of users that can enroll in this course."
-msgstr ""
+msgstr "Limite o número de usuários que podem se matricular neste curso."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.syllabus.php:177
 msgid "Create Course Syllabus"
-msgstr ""
+msgstr "Crie o Programa de Estudos do Curso"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.syllabus.php:178
 msgid "Add a new Section"
-msgstr ""
+msgstr "Adicione uma nova Seção"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:38
 msgid ""
@@ -66,421 +70,429 @@ msgid ""
 "\t\tYou can include any of the following merge fields to give the certificate a "
 "personal touch."
 msgstr ""
+"Use o editor de textos acima para adicionar conteúdo ao certificado. \n"
+"\t\t Você pode incluir qualquer dos campos dinâmicos abaixo para dar um toque "
+"pessoal ao certificado."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:60
 msgid "Engagement Type"
-msgstr ""
+msgstr "Tipo de Envolvimento"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:75
 msgid "Select the type of engagement you want to create."
-msgstr ""
+msgstr "Selecione o tipo de envolvimento que você quer criar."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:95
 msgid "Engagement Title"
-msgstr ""
+msgstr "Título do Envolvimento"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:145
 msgid "Event Trigger"
-msgstr ""
+msgstr "Acionador de Evento"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:148
 msgid "Please select a post..."
-msgstr ""
+msgstr "Por favor selecione um post..."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:160
 msgid "Select the event to trigger the engagement on."
-msgstr ""
+msgstr "Selecione um evento para acionar o envolvimento."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:226
 msgid "Please select an engagement type..."
-msgstr ""
+msgstr "Por favor selecione o tipo de envolvimento..."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.general.php:31
 msgid "Has a Prerequisite"
-msgstr ""
+msgstr "Tem um Pré-requisito"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.general.php:51
 msgid "Select a prerequisite"
-msgstr ""
+msgstr "Selecione o pré-requisito"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:39
 msgid "Drip Content (in days)"
-msgstr ""
+msgstr "Libere o Conteúdo (em dias)"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:42
 msgid ""
 "Number of days before lesson is available after course begins (date of purchase or "
 "set start date)"
 msgstr ""
+"Número de dias antes que a lição esteja disponível após o início do curso (data da "
+"compra ou data configurada de início)"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:47
 msgid "Assigned Quiz"
-msgstr ""
+msgstr "Questionário atrelado"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:57
 msgid "Quiz will be required to complete lesson."
-msgstr ""
+msgstr "Questionário será necessário para completar a lição."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:62
 msgid "Require Passing Grade"
-msgstr ""
+msgstr "Nota Mínima Necessária"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:65
 msgid ""
 "Checking this box will require students to get a passing score on the above quiz to "
 "complete the lesson."
 msgstr ""
+"Selecionando essa caixa vai requerer do estudante a nota mínima do questionário "
+"acima para completar a lição."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.tree.php:85
 msgid "Associated Section "
-msgstr ""
+msgstr "Seção Associada"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.tree.php:100
 msgid "Lessons in associated section"
-msgstr ""
+msgstr "Lições na seção associada"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:82
 msgid "Order Date"
-msgstr ""
+msgstr "Data do Pedido"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:86
 msgid "Payment Method"
-msgstr ""
+msgstr "Método de Pagamento"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:90
 msgid "Product Title"
-msgstr ""
+msgstr "Título do Produto"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:94
 msgid "Purchase Total"
-msgstr ""
+msgstr "Total da Compra"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:98
 msgid "Buyer Name"
-msgstr ""
+msgstr "Nome do Comprador"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:102
 msgid "Buyer Email"
-msgstr ""
+msgstr "Email do Comprador"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:106
 msgid "Payment Type"
-msgstr ""
+msgstr "Tipo de Pagamento"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:113
 msgid "First Payment (paid)"
-msgstr ""
+msgstr "Primeiro Pagamento (pago)"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:117
 msgid "Billing Amount"
-msgstr ""
+msgstr "Total da Cobrança"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:121
 msgid "Billing Period"
-msgstr ""
+msgstr "Período da Conbrança"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:125
 msgid "Billing Frequency"
-msgstr ""
+msgstr "Frequência da Cobrança"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:129
 msgid "Billing Start Date"
-msgstr ""
+msgstr "Início da Cobrança"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:136
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:157
 msgid "Coupon Used?"
-msgstr ""
+msgstr "Cupom usado?"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:137
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:140
 msgid "Coupon Name"
-msgstr ""
+msgstr "Nome do Cupom"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:144
 msgid "Coupon Code"
-msgstr ""
+msgstr "Código do Cupom"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:148
 msgid "Coupon Amount"
-msgstr ""
+msgstr "Valor do Cupom"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:152
 msgid "Remaining coupon uses"
-msgstr ""
+msgstr "Usos de cupom restantes"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:158
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:68
 msgid "Single Payment Options"
-msgstr ""
+msgstr "Opção de Pagamento Único"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:93
 msgid "Sale Price Dates"
-msgstr ""
+msgstr "Dias de Promoção"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:114
 msgid "Recurring Payment Options"
-msgstr ""
+msgstr "Opção de Pagamento Recorrente"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.question.general.php:38
 msgid "Add a new option"
-msgstr ""
+msgstr "Adicionar nova opção"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.question.general.php:52
 msgid "Correct Answer"
-msgstr ""
+msgstr "Resposta Correta"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:48
 msgid "Add a new question"
-msgstr ""
+msgstr "Adicionar nova questão"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:95
 msgid "Total Points: "
-msgstr ""
+msgstr "Pontos Totais:"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.section.tree.php:96
 msgid "Associated Course "
-msgstr ""
+msgstr "Curso Associado"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.section.tree.php:111
 msgid "Lessons in this section"
-msgstr ""
+msgstr "Lições nessa seção"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.students.php:73
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.students.php:85
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: includes/admin/views/html.admin.settings.php:20
 #: templates/myaccount/form-edit-account.php:122
 msgid "Save changes"
-msgstr ""
+msgstr "Salvar mudanças"
 
 #: includes/functions/llms.functions.person.php:256
 msgid "Membership Levels"
-msgstr ""
+msgstr "Níveis de Associação"
 
 #: templates/checkout/form-checkout.php:133
 msgid "Enter coupon code"
-msgstr ""
+msgstr "Digite o código de cupom"
 
 #: templates/checkout/form-checkout.php:135
 msgid "Apply Coupon"
-msgstr ""
+msgstr "Aplicar Cupom"
 
 #: templates/checkout/form-checkout.php:146
 msgid "You Pay:"
-msgstr ""
+msgstr "Você Pagou:"
 
 #: templates/checkout/form-checkout.php:202
 msgid "Buy Now"
-msgstr ""
+msgstr "Comprar Agora"
 
 #: templates/checkout/form-confirm-payment.php:43
 #: templates/checkout/form-confirm-payment.php:82
 msgid "Confirm Purchase"
-msgstr ""
+msgstr "Confirmar Compra"
 
 #: templates/content-certificate.php:112
 msgid "Print Certificate"
-msgstr ""
+msgstr "Imprimir Certificado"
 
 #: templates/course/complete-lesson-link.php:34
 msgid "Take Quiz"
-msgstr ""
+msgstr "Fazer Questionário"
 
 #: templates/course/purchase-link.php:46 templates/course/purchase-link.php:58
 #: templates/course/purchase-link.php:91 templates/course/purchase-link.php:109
 msgid "Take This Course"
-msgstr ""
+msgstr "Fazer Este Curso"
 
 #: templates/course/purchase-link.php:62 templates/course/purchase-link.php:93
 #: templates/course/purchase-link.php:115
 msgid "Course is no longer available"
-msgstr ""
+msgstr "Curso não está mais disponível"
 
 #: templates/emails/reset-password.php:6
 msgid "Password reset"
-msgstr ""
+msgstr "Resetar Senha"
 
 #: templates/emails/reset-password.php:8
 msgid "To reset your password, click on the link below."
-msgstr ""
+msgstr "Para resetar sua senha, clique no link abaixo."
 
 #: templates/emails/reset-password.php:11
 msgid "Click here to reset your password"
-msgstr ""
+msgstr "Clique aqui para resetar sua senha"
 
 #: templates/global/form-login.php:15 templates/myaccount/form-lost-password.php:13
 msgid "Username or email"
-msgstr ""
+msgstr "Nome de usuário ou email"
 
 #: templates/global/form-login.php:19 templates/myaccount/form-login.php:36
 #: templates/myaccount/form-registration.php:110
 msgid "Password"
-msgstr ""
+msgstr "Senha"
 
 #: templates/global/form-login.php:28 templates/myaccount/form-login.php:23
 #: templates/myaccount/form-login.php:44
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: templates/global/form-login.php:31 templates/myaccount/form-login.php:46
 msgid "Remember me"
-msgstr ""
+msgstr "Lembre-se de mim"
 
 #: templates/global/form-login.php:35 templates/myaccount/form-login.php:50
 msgid "Lost your password?"
-msgstr ""
+msgstr "Esqueceu a senha?"
 
 #: templates/loop/no-courses-found.php:4
 msgid "No products were found matching your selection."
-msgstr ""
+msgstr "Nenhum produto encontrado de acordo com a sua seleção"
 
 #: templates/loop/view-link.php:19
 msgid "View Course"
-msgstr ""
+msgstr "Ver Curso"
 
 #: templates/loop/view-link.php:34
 msgid "Learn More"
-msgstr ""
+msgstr "Veja Mais"
 
 #: templates/membership/purchase-link.php:30
 #: templates/membership/purchase-link.php:39
 #: templates/membership/purchase-link.php:53
 msgid "Sign Up"
-msgstr ""
+msgstr "Inscrever-se"
 
 #: templates/myaccount/form-edit-account.php:33
 msgid "Basic Information"
-msgstr ""
+msgstr "Informações Básicas"
 
 #: templates/myaccount/form-edit-account.php:36
 msgid "First name"
-msgstr ""
+msgstr "Nome"
 
 #: templates/myaccount/form-edit-account.php:40
 msgid "Last name"
-msgstr ""
+msgstr "Sobrenome"
 
 #: templates/myaccount/form-edit-account.php:44
 #: templates/myaccount/form-registration.php:94
 msgid "Email address"
-msgstr ""
+msgstr "Endereço de email"
 
 #: templates/myaccount/form-edit-account.php:52
 msgid "Change Password"
-msgstr ""
+msgstr "Mudar Senha"
 
 #: templates/myaccount/form-edit-account.php:55
 msgid "Password (leave blank to leave unchanged)"
-msgstr ""
+msgstr "Senha (deixe em branco para manter a antiga)"
 
 #: templates/myaccount/form-edit-account.php:59
 msgid "Confirm new password"
-msgstr ""
+msgstr "Confirmar nova senha"
 
 #: templates/myaccount/form-edit-account.php:70
 msgid "Billing Information"
-msgstr ""
+msgstr "Informações"
 
 #: templates/myaccount/form-edit-account.php:83
 #: templates/myaccount/form-registration.php:61
 msgid "Billing Address 1"
-msgstr ""
+msgstr "Endereço 1"
 
 #: templates/myaccount/form-edit-account.php:87
 #: templates/myaccount/form-registration.php:65
 msgid "Billing Address 2"
-msgstr ""
+msgstr "Endereço 2"
 
 #: templates/myaccount/form-edit-account.php:91
 #: templates/myaccount/form-registration.php:69
 msgid "Billing City"
-msgstr ""
+msgstr "Cidade"
 
 #: templates/myaccount/form-edit-account.php:95
 #: templates/myaccount/form-registration.php:73
 msgid "Billing State"
-msgstr ""
+msgstr "Estado"
 
 #: templates/myaccount/form-edit-account.php:99
 #: templates/myaccount/form-registration.php:77
 msgid "Billing Zip"
-msgstr ""
+msgstr "CEP"
 
 #: templates/myaccount/form-edit-account.php:103
 #: templates/myaccount/form-registration.php:81
 msgid "Billing Country"
-msgstr ""
+msgstr "País"
 
 #: templates/myaccount/form-login.php:32
 msgid "Username or email address"
-msgstr ""
+msgstr "Usuário ou endereço de email"
 
 #: templates/myaccount/form-lost-password.php:21
 msgid "New password"
-msgstr ""
+msgstr "Nova senha"
 
 #: templates/myaccount/form-lost-password.php:25
 #: templates/myaccount/form-registration.php:115
 msgid "Re-enter new password"
-msgstr ""
+msgstr "Confirme sua senha"
 
 #: templates/myaccount/form-registration.php:21
 #: templates/myaccount/form-registration.php:142
 msgid "Register"
-msgstr ""
+msgstr "Registre"
 
 #: templates/myaccount/form-registration.php:30
 msgid "Username"
-msgstr ""
+msgstr "Nome de Usuário"
 
 #: templates/myaccount/form-registration.php:39
 msgid "First Name"
-msgstr ""
+msgstr "Nome"
 
 #: templates/myaccount/form-registration.php:44
 msgid "Last Name"
-msgstr ""
+msgstr "Sobrenome"
 
 #: templates/myaccount/form-registration.php:53
 msgid "Phone"
-msgstr ""
+msgstr "Telefone"
 
 #: templates/myaccount/form-registration.php:101
 msgid "Re-enter your email address"
-msgstr ""
+msgstr "Confirme seu email"
 
 #: templates/myaccount/form-registration.php:134
 msgid "Anti-spam"
-msgstr ""
+msgstr "Anti-spam"
 
 #: templates/quiz/previous-question.php:16
 msgid "Previous Question"
-msgstr ""
+msgstr "Pergunta Anterior"
 
 #: templates/quiz/results.php:61 templates/quiz/results.php:79
 msgid "Passed"
-msgstr ""
+msgstr "Passou"
 
 #: templates/quiz/results.php:64 templates/quiz/results.php:82
 msgid "Failed"
-msgstr ""
+msgstr "Falhou"
 
 #: templates/quiz/start-button.php:28
 msgid "Start Quiz"
-msgstr ""
+msgstr "Comece o Questionário"
 
 #: templates/quiz/start-button.php:39
 msgid "<p>You are not able take this quiz</p>"
-msgstr ""
+msgstr "<p>Você não está habilitado para fazer esse questionário</p>"
+

@@ -58,9 +58,9 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				array(	'title' => __( 'Welcome to LifterLMS', 
 					'lifterlms' ), 
 					'type' => 'title', 
-					'desc' => '<h2>Getting Started with LifterLMS</h2>
-					<p>Before you start creating courses, making lots of money and building the best (insert your business here) online there are a few setup items we need to address.</p>
-					<p>First things first. We need to activate your plugin. Enter the activation key you were given when you purchased LifterLMS. If you don\'t have a key that\'s ok. Go ahead and continue the setup. You can activate the plugin later.</p>
+					'desc' => '<h2>' . __( 'Getting Started with LifterLMS', 'lifterlms' ) . '</h2>
+					<p>' . __( 'Before you start creating courses, making lots of money and building the best (insert your business here) online there are a few setup items we need to address.', 'lifterlms' ) . '</p>
+					<p>' . __( 'First things first. We need to activate your plugin. Enter the activation key you were given when you purchased LifterLMS. If you don\'t have a key that\'s ok. Go ahead and continue the setup. You can activate the plugin later.', 'lifterlms' ) . '</p>
 
 	', 
 					'id' => 'welcome_options_activate' ),
@@ -78,13 +78,12 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 				array(	
 					'type' => 'desc', 
-					'desc' => '
-					<p>Next we need to set up your pages. Ya, we know, more pages… That’s just the way Wordpress works. We’ve already installed them. You just need to set them. 
-	When you installed LifterLMS we created a few pages for you. You can select those pages or use different ones. Your choice.</p>
+					'desc' => '<p>' . __( 'Next we need to set up your pages. Ya, we know, more pages... That\'s just the way Wordpress works. We\'ve already installed them. You just need to set them.', 'lifterlms' ) . '
+					</p> ' . __( 'When you installed LifterLMS we created a few pages for you. You can select those pages or use different ones. Your choice.', 'lifterlms' ) . '</p>
 
-	<p>The first page you need is the Student Account page. This is the page users will go to register, login and access their accounts. We installed a page called My Courses. You can use that or select a different page. If you happen to select a different page you will need to add this shortcode to the page: [lifterlms_my_account]</p>
+						<p>' . __( 'The first page you need is the Student Account page. This is the page users will go to register, login and access their accounts. We installed a page called My Courses. You can use that or select a different page. If you happen to select a different page you will need to add this shortcode to the page:', 'lifterlms' ) . ' [lifterlms_my_account]</p>
 
-	', 
+	',
 					'id' => 'welcome_options_setup' ),
 
 				array(
@@ -100,8 +99,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				array(	
 					'type' => 'desc', 
 					'desc' => '
-					<p>Next we need a checkout page so people can buy your courses and memberships. If you are a true philanthropist and don’t plan on selling anything you can skip setting up this page. 
-	We created a page called “Purchase” you can use that or select a different page.</p>
+					<p>' . __( 'Next we need a checkout page so people can buy your courses and memberships. If you are a true philanthropist and don\'t plan on selling anything you can skip setting up this page. We created a page called "Purchase you can use that or select a different page.', 'lifterlms' ) . '</p>
 	', 
 					'id' => 'welcome_options_setup' ), 
 
@@ -123,7 +121,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				array(	
 								'type' => 'desc', 
 								'desc' => '
-								<p>If you are going to sell your courses you should probably pick a currency.</p>
+								<p>' . __( 'If you are going to sell your courses you should probably pick a currency.', 'lifterlms' ) . '</p>
 				', 
 								'id' => 'welcome_options_setup' ),
 
@@ -142,12 +140,12 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 								'type' => 'desc', 
 								'desc' => '
 
-								<p>There are a lot of other settings but those were the important ones to get you started. You can access all of the other settings from the big blue menu at the top of the page.</p>  
+								<p>' . __( 'There are a lot of other settings but those were the important ones to get you started. You can access all of the other settings from the big blue menu at the top of the page.', 'liftelrms' ) . '</p>  
 
-								<p>If you have any questions or want to request a feature head on over to our <a href="https://lifterlms.com/forums/">Support Forums.</a></p>
+								<p>' . __( 'If you have any questions or want to request a feature head on over to our', 'lifterlms' ) . ' <a href="https://lifterlms.com/forums/">' . __( 'Support Forums.', 'lifterlms' ) . '</a></p>
 
-								<p>That’s all there is to it. Your ready to start building courses and changing the world!</p> 
-								<p>Click "Save Changes" below to save your settings and get started.</p>
+								<p>' . __( 'That\'s all there is to it. Your ready to start building courses and changing the world!', 'lifterlms' ) . '</p> 
+								<p>' . __( 'Click "Save Changes" below to save your settings and get started.', 'lifterlms' ) . '</p>
 				', 
 								'id' => 'welcome_options_setup' ),
 
@@ -175,14 +173,14 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 						
 					<div class="llms-list">
 					<ul>
-					<li><p>' . __( 'Thank you for choosing <a href="http://lifterlms.com">LifterLMS</a> as your Learning Management Solution.', 'lifterlms' ) .' </p></li>
-					<li><p>Version: ' . LLMS()->version . '</p></li>
-					<li><p>Support: <a href="https://lifterlms.com/forums/">' . __( 'https://lifterlms.com/forums/' ) . '</a></p></li>
-					<li><p>Blog: <a href="http://blog.lifterlms.com/">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
-					<li><p>Tutorials: <a href="http://demo.lifterlms.com/">' . __( 'http://demo.lifterlms.com/' ) . '</a></p></li>
+					<li><p>' . __( 'Thank you for choosing', 'lifterlms' ) . ' <a href="http://lifterlms.com">LifterLMS</a> ' . __( 'as your Learning Management Solution.', 'lifterlms' ) .' </p></li>
+					<li><p>' . __( 'Version:', 'lifterlms' ) . ' ' . LLMS()->version . '</p></li>
+					<li><p>' . __( 'Support:', 'lifterlms' ) . ' <a href="https://lifterlms.com/forums/">' . __( 'https://lifterlms.com/forums/' ) . '</a></p></li>
+					<li><p>' . __( 'Blog:', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
+					<li><p>' . __( 'Tutorials:', 'lifterlms' ) . ' <a href="http://demo.lifterlms.com/">' . __( 'http://demo.lifterlms.com/' ) . '</a></p></li>
 					</ul>
 					</div>', 
-					'id' => 'actsdfion_options' ),
+					'id' => 'activation_options' ),
 					
 				array( 'type' => 'sectionend', 'id' => 'general_information' ),
 
@@ -211,7 +209,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				),
 
 				array(
-					'title' => __( '', 'lifterlms' ),
+					'title' => '',
 					'value' => __( 'Update Activation', 'lifterlms' ),
 					'type' 		=> 'button',
 				),
