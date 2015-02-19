@@ -237,8 +237,8 @@
 			}
 
 			//kill sessions
-			LLMS()->session->set( 'llms_order', array() );
-			LLMS()->session->set( 'llms_coupon', array() );
+			unset( LLMS()->session->llms_coupon );
+			unset( LLMS()->session->llms_order );
 
 			return $order_post_id;
 		}

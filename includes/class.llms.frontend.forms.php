@@ -472,10 +472,6 @@
 		 * and bypass the payment gateway.
 		 */
 		public function process_free_order() {
-			/** Stop script if necessary nonce doesn't exist or is invalid */
-			// if( !array_key_exists( "_wpnonce", $_POST ) || !wp_verify_nonce( $_POST[ "_wpnonce" ], "create_order_details" ) ) {
-			// 	return true;
-			// }
 
 			/** Coupon data */
 			$coupon = LLMS()->session->get( "llms_coupon", array() );
@@ -522,16 +518,13 @@
 			$handle->update_order( $order );
 
 			/** Clear session */
-			LLMS()->session->set( "llms_coupon", "" );
-			LLMS()->session->set( "llms_order", "" );
+			unset( LLMS()->session->llms_coupon );
+			unset( LLMS()->session->llms_order );
 
 			/** Redirect to success page */
 			do_action( 'lifterlms_order_process_success', $order );
 			//return true;
 		}
-
-					// $lifterlms_checkout->process_order( $order );
-					// $lifterlms_checkout->update_order( $order );
 					
 		/**
 		 * Confirm order form post
@@ -1356,6 +1349,15 @@
 						}
 
 						else {
+
+							//if order or coupon sessions were created destroy them
+							if ( LLMS()->session->llms_coupon ) {
+								unset( LLMS()->session->llms_coupon );
+							}
+							if ( LLMS()->session->llms_order ) {
+								unset( LLMS()->session->llms_order );
+							}
+							
 							wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect ) );
 							exit;
 						}
