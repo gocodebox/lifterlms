@@ -25,6 +25,15 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.2.1 - 2015-02-19
+-------------------
++ Updated settings page theming
++ Added Set up Quick Start Guide
++ Added Plugin Deactivation Option
++ Updated language POT file
++ Added Portuguese language support. Thank you Fernando Cassino for the translation :)
+
+
 v1.2.0 - 2015-02-17
 -------------------
 + Admin Course Analytics Dashboard Page. View at LifterLMS->Analytics->Course
