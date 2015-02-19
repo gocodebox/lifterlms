@@ -61,7 +61,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 
 		//if course is purchasable redirect to login / registration page
 		else {
-			if(check_course_capacity()) {
+			if( check_course_capacity()) {
 
 				$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
 				$account_redirect = add_query_arg( 'product-id', get_the_ID(), $account_url );

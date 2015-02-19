@@ -19,6 +19,7 @@ class LLMS_Admin {
 	*/
 	public function __construct() {
 		add_action( 'init', array( $this, 'include_admin_classes' ) );
+		add_action( 'init', array( $this, 'skip_first_time_setup' ) );
 	}
 
 	/**
@@ -34,6 +35,18 @@ class LLMS_Admin {
 		include_once( 'class.llms.admin.post-types.php' );
 		include_once( 'class.llms.admin.assets.php' );
 	}
+
+	public function skip_first_time_setup() {
+
+		if ( empty( $_POST[ 'action' ] ) || ( 'llms-skip-setup' !== $_POST[ 'action' ] ) || empty( $_POST['_wpnonce'] ) ) {
+
+			return;
+		}
+
+		update_option( 'lifterlms_first_time_setup', 'yes' );
+
+	}
+
 }
 
 endif;

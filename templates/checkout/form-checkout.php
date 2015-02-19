@@ -49,6 +49,7 @@ if($coupon_session) {
 	$info_message = apply_filters( 'lifterlms_checkout_coupon_message', __( 'Have a coupon?', 'lifterlms' ) );
 	$info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter your code', 'lifterlms' ) . '</a>';
 }
+
 ?>
 
 <form action="" method="post">

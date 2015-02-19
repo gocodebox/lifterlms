@@ -82,3 +82,21 @@ Form Styles
 	}
 
 } // end input defaults
+
+
+#llms-skip-setup-form {
+	.llms-admin-link {
+		background:none!important;
+		border:none; 
+		padding:0!important;
+		color:#0074a2;
+		cursor:pointer;
+		&:hover {
+			color:#2ea2cc
+		}&:focus{
+			color:#124964;
+		}
+
+	}
+
+}

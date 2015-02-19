@@ -122,8 +122,6 @@ class LLMS_Activate {
         );
         if ( is_wp_error( $response ) ) { 
 
-            llms_log($response);
-
         } else {
 
             update_option('lifterlms_activation_key', '');

@@ -270,6 +270,13 @@ class LLMS_Admin_Settings {
 	            	}
 	            break;
 
+	            case "desc":
+	            	if ( ! empty( $value['desc'] ) ) {
+	            	echo '<th colspan="2" style="font-weight: normal;">' . wpautop( wptexturize( wp_kses_post( $value['desc'] ) ) ) . '</th>';
+	            	}
+
+	            break;
+
 	             case 'sectionstart':
 	            	if ( ! empty( $value['id'] ) ) {
 
@@ -314,6 +321,14 @@ class LLMS_Admin_Settings {
 	            	echo '</div>';
 	            	echo '</td></tr>';
 	            	//get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
+	            break;
+
+	            case "hidden":
+					echo '<th></th>';
+					echo '<td><input type="hidden" 
+						name="' . esc_attr( $value['id'] ) . '"
+						id="' . esc_attr( $value['id'] ) . '" 
+						value="' . esc_attr( $value['value'] ) . '">';
 	            break;
 
 	            case 'text':
@@ -673,13 +688,13 @@ class LLMS_Admin_Settings {
 		    	case "single_select_page" :
 		    	case "single_select_membership" :
 		    	case 'radio' :
+		    	case "hidden" :
 
-
-		       if ( isset( $_POST[$value['id']] ) ) {
-	            	$option_value = llms_clean( stripslashes( $_POST[ $value['id'] ] ) );
-	            } else {
-	                $option_value = '';
-	            }
+			       if ( isset( $_POST[$value['id']] ) ) {
+		            	$option_value = llms_clean( stripslashes( $_POST[ $value['id'] ] ) );
+		            } else {
+		                $option_value = '';
+		            }
 
 
 		    	break;

@@ -21,7 +21,7 @@
 		public function __construct() {
 			add_action( 'template_redirect', array( $this, 'save_account_details' ) );
 			add_action( 'init', array( $this, 'apply_coupon' ) );
-			//add_action( 'init', array( $this, 'process_free_order' ) );
+			add_action( 'init', array( $this, 'coupon_check' ) );
 			add_action( 'init', array( $this, 'create_order' ) );
 			add_action( 'init', array( $this, 'confirm_order' ) );
 			add_action( 'init', array( $this, 'login' ) );
@@ -484,7 +484,7 @@
 
 			//don't do anything if coupon amount does not = 100% off. 
 			if ( ( $coupon->amount != '100' && $coupon->type === 'percent' ) 
-				|| ( $coupon->type === "dollar" && ( $coupon->amount !== $order->total ) ) ) {
+				|| ( $coupon->type === "dollar" && ( ( $order->total - $coupon->amount ) > 0  ) ) ) {
 				return false;
 			}
 
@@ -501,7 +501,7 @@
 
 				$coupon_is_valid = false;
 			}
-			elseif( $coupon_type == "dollar" && ( $coupon_amount - $order->total ) ) {
+			elseif( $coupon_type == "dollar" && ( ( $order->total - $coupon_amount ) > 0 ) ) {
 
 				$coupon_is_valid = false;
 			}
@@ -599,6 +599,7 @@
 			$errors = new WP_Error();
 
 			$coupon->user_id = (int)get_current_user_id();
+			$coupon->product_id = $_POST['product_id'];
 
 			if( empty( $coupon->user_id ) ) {
 				return;
@@ -664,6 +665,27 @@
 			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
 
 		}
+
+		/**
+		 * Compares coupon code to product
+		 * If coupon was applied to a different product it unsets the coupon. 
+		 * @return [type] [description]
+		 */
+		public function coupon_check() {
+
+			if( empty( $_GET ) || empty( $_GET['product-id'] ) ) {
+				return;
+			}
+
+			//if product_id associated with coupon does not match the current product then unset the coupon
+			if ( LLMS()->session->llms_coupon && $_GET['product-id'] != LLMS()->session->llms_coupon->product_id ) {
+
+				unset( LLMS()->session->llms_coupon );
+				
+			}
+
+		}
+		
 
 		/**
 		 * Create order
@@ -1328,6 +1350,8 @@
 							$user_postmetas = $user_object->get_user_postmeta_data( $user->ID, $course->id );
 							if( !empty( $user_postmetas[ '_status' ] ) ) {
 								$course_status = $user_postmetas[ '_status' ]->meta_value;
+							} else {
+								$course_status = '';
 							}
 
 

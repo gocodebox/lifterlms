@@ -127,7 +127,7 @@ function llms_create_new_person(
 		}
 	}
 
-	if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms' ) ) {
+	if ( ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms' ) ) && ( !empty( get_option( 'lifterlms_terms_page_id' ) ) ) ) {
 
 		if( empty( $agree_to_terms ) ) {
 			return new WP_Error( 'registration-error', __( 'You must agree to the Terms and Conditions.', 'lifterlms' ) );
