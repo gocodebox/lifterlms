@@ -39,6 +39,7 @@ $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $produc
 $coupon_session = LLMS()->session->get( 'llms_coupon', array() );
 
 if($coupon_session) {
+
 	$info_message = sprintf( __( 'Coupon code "%s" has been applied to your order', 'lifterlms' ), $coupon_session->coupon_code );
 
 	$savings = ($coupon_session->type == 'percent') ? $coupon_session->amount.'%' : '$'.$coupon_session->amount;
