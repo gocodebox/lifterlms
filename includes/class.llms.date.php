@@ -164,6 +164,46 @@ class LLMS_Date {
 		return strftime( _x( '%b %d, %Y @ %I:%M %p', 'Localized Order DateTime', 'lifterlms' ) );
 	}
 
+	public static function convert_to_hours_minutes_string( $time ) {
+	    settype($time, 'integer');
+	    if ($time < 1) {
+	        return;
+	    }
+	    $hours = floor($time / 60);
+	    $minutes = ($time % 60);
+
+	  	$hour_desc = '';
+	  	$minute_desc = '';
+
+	  	$hours_string = '';
+	  	$minutes_string = '';
+
+	    //determine hours vs hour in string
+	    if ( !empty( $hours ) ) {
+	    	if ( $hours > 1 ) {
+	    		$hour_desc = 'hours';
+	    	} else {
+	    		$hour_desc = 'hour';
+	    	}
+
+	    	$hours_string = sprintf( __( '%d %s ', 'lifterlms' ), $hours, $hour_desc );
+	    }
+
+	    //determine minutes vs minute in string
+	    if ( !empty( $minutes ) ) {
+	    	if ( $minutes > 1 ) {
+	    		$minute_desc = 'minutes';
+	    	} else {
+	    		$minute_desc = 'minute';
+	    	}
+
+	    	$minutes_string = sprintf( __( '%d %s', 'lifterlms' ), $minutes, $minute_desc );
+
+	    }
+
+	    return $hours_string . $minutes_string;
+	}
+
 
 
 }

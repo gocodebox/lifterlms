@@ -29,24 +29,10 @@ $associated_quiz = get_post_meta( $post->ID, '_llms_assigned_quiz', true );
 
 			echo __( 'Lesson Complete', 'lifterlms' );
 		}
-	}
-	elseif ($associated_quiz) {
-	?>
 
-	<form method="POST" action="" name="take_quiz" enctype="multipart/form-data"> 
+	} 
 
-	 	<input type="hidden" name="associated_lesson" value="<?php echo esc_attr( $post->ID ); ?>" />
-	 	<input type="hidden" name="quiz_id" value="<?php echo esc_attr( $associated_quiz ); ?>" />
-	 	<input type="submit" class="button" name="take_quiz" value="<?php _e( 'Take Quiz', 'lifterlms' ); ?>" />
-	 	<input type="hidden" name="action" value="take_quiz" />
-
-	 	<?php wp_nonce_field( 'take_quiz' ); ?>
-	</form>
-
-	<?php
-	}
-
-	else {
+	if ( !isset( $user_postmetas['_is_complete'] ) && !$associated_quiz ) {
 
 	?>
 	<form method="POST" action="" name="mark_complete" enctype="multipart/form-data"> 
@@ -61,5 +47,21 @@ $associated_quiz = get_post_meta( $post->ID, '_llms_assigned_quiz', true );
 		<?php do_action( 'lifterlms_after_mark_complete_lesson'  ); ?>
 	</form>
 
+	<?php }
+
+	if ($associated_quiz) {
+	?>
+
+	<form method="POST" action="" name="take_quiz" enctype="multipart/form-data"> 
+
+	 	<input type="hidden" name="associated_lesson" value="<?php echo esc_attr( $post->ID ); ?>" />
+	 	<input type="hidden" name="quiz_id" value="<?php echo esc_attr( $associated_quiz ); ?>" />
+	 	<input type="submit" class="button" name="take_quiz" value="<?php _e( 'Take Quiz', 'lifterlms' ); ?>" />
+	 	<input type="hidden" name="action" value="take_quiz" />
+
+	 	<?php wp_nonce_field( 'take_quiz' ); ?>
+	</form>
+
 	<?php } ?>
+
 </div>

@@ -62,23 +62,33 @@ add_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_sin
  * QUIZ
  */
 //before Quiz Summary
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_timer', 5 );
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_wrapper_start', 5 );
 add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_return_link', 10 );
-add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_results', 10 );
-add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_passing_percent', 10 );
-add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_attempts', 10 );
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_results', 15 );
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_passing_percent', 20 );
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_attempts', 25 );
+add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_time_limit', 30 );
 
 //After Quiz Summary
+add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_quiz_wrapper_end', 5 );
 add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_start_button', 10 );
+add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_quiz_question', 15 );
+
+
 
 //Before Question Summary
 add_action( 'lifterlms_single_question_before_summary', 'lifterlmslifterlms_template_question_wrapper_start', 10 );
 add_action( 'lifterlms_single_question_before_summary', 'lifterlms_template_single_question_count', 10 );
 
 //After Question Summary
-add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_single_choice', 10 );
+add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_single_choice_ajax', 10 );
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_prev_question', 10 );
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_next_question', 10 );
 add_action( 'lifterlms_single_question_after_summary', 'lifterlmslifterlms_template_question_wrapper_end', 10 );
+
+
+
 
 
 

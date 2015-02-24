@@ -25,6 +25,21 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.2.2 - 2015-02-23
+-------------------
++ Corrected drip content bug
++ Added Ajax functionality to quiz
++ rounded quiz grades
++ Added quiz time limit setting to Quiz
++ Added quiz timer to quiz, front end
++ Quiz allowed attempts field now allows unlimited attempts
++ Set Ajax lesson delete method to not return empty lesson value
++ Set next and previous questions to display below quiz question
++ Decoupled Single option select question type from quiz to allow for more question types
++ Added Quiz time limit to display on Quiz page
++ Added functionality to automatically complete quiz when quiz timer reaches 0
++ Moved Quiz functionality methods from front end forms class to Quiz class
+
 v1.2.1 - 2015-02-19
 -------------------
 + Updated settings page theming

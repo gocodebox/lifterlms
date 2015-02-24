@@ -401,8 +401,10 @@ function llms_get_prerequisite($user_id, $post_id) {
  * @return datetime $start_date [Start Date in M, d, Y format]
  */
 function llms_get_course_start_date($post_id) {
-	$post = get_post($post_id);
-	$start_date = get_metadata('post', $post->ID, '_course_dates_from', true);
+
+	$post = get_post( $post_id );
+
+	$start_date = get_post_meta( $post->ID, '_course_dates_from', true );
 	
 	if ($start_date != '') {
 		$start_date = date('M d, Y', $start_date);
@@ -499,7 +501,8 @@ function course_end_date_in_past($post_id) {
  * @return datetime $lesson_start_date [Start Date in M, d, Y format]
  */
 function llms_get_lesson_start_date($user_id, $post_id) {
-	$start_date = llms_get_course_start_date(post_id);
+
+	$start_date = llms_get_course_start_date( $post_id );
 	//TODO if the course start date is not set, default the start date to the date the user enrolled 
 	//TODO NOTE: should this be the default, not relevant for me since I never set a start date ...
 	if ( $start_date == '' ) {
@@ -529,7 +532,7 @@ function llms_get_lesson_start_date($user_id, $post_id) {
  * @return bool $result [Does the lesson have a future start date?]
  */
 function lesson_start_date_in_future($user_id, $post_id) {
-	return course_end_date_in_past(post_id) || (date_create('today') < date_create(llms_get_lesson_start_date($user_id, $post_id))); 
+	return course_end_date_in_past( $post_id ) || (date_create('today') < date_create(llms_get_lesson_start_date($user_id, $post_id))); 
 }
 
 /**
@@ -540,7 +543,9 @@ function lesson_start_date_in_future($user_id, $post_id) {
  * @return bool $course_in_future [Does the course have a future start date?]
  */
 function course_start_date_in_future($post_id) {
-	$start_date = llms_get_course_start_date(post_id);
+	$start_date = llms_get_course_start_date( $post_id );
+
+	$course_in_future = false;
 
 	if ( $start_date != '' ) {
 		if (strtotime('today') < date_create($start_date)) {

@@ -5,7 +5,15 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-global $question;
+global $post;
+
+$question = new LLMS_Question( $args['question_id'] );
+
+if ( ! $question ) {
+
+	$question = new LLMS_Question( $post->ID );
+	
+}
 
 $options = $question->get_options();
 $quiz = LLMS()->session->get( 'llms_quiz' );
@@ -22,9 +30,9 @@ foreach ( $quiz->questions as $key => $value ) :
 endforeach;
 ?>
 
-		<input id="llms_answer_question" type="submit" class="button" name="llms_answer_question" value="<?php printf( __( '%s', 'lifterlms' ), $btn_text ); ?>" />
-		<input type="hidden" name="action" value="llms_answer_question" />
-		<?php wp_nonce_field( 'llms_answer_question' ); ?>
+<input id="llms_answer_question" type="submit" class="button" name="llms_answer_question" value="<?php printf( __( '%s', 'lifterlms' ), $btn_text ); ?>" />
+<input type="hidden" name="action" value="llms_answer_question" />
+<?php wp_nonce_field( 'llms_answer_question' ); ?>
 		
 
 

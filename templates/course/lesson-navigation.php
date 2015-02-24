@@ -5,7 +5,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-global $post, $course, $lesson, $lifterlms;
+global $post, $lesson;
 ?>
 
 <nav class="llms-course-navigation">

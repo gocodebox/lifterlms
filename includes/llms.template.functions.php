@@ -89,20 +89,6 @@ function llms_get_post_content( $content ) {
 
 			return do_shortcode($output_before . $content . $output_after);
 
-			case 'llms_question':
-			$template_before  = llms_get_template_part_contents( 'content', 'single-question-before' );
-			$template_after  = llms_get_template_part_contents( 'content', 'single-question-after' );
-
-			ob_start();
-			load_template($template_before);
-			$output_before = ob_get_clean();
-	
-			ob_start();
-			load_template($template_after);
-			$output_after = ob_get_clean();
-
-			return do_shortcode($output_before . $content . $output_after);
-
 		default:
 		  return $content;
 		}
@@ -405,6 +391,66 @@ if ( ! function_exists( 'lifterlms_template_quiz_attempts' ) ) {
 }
 
 /**
+ * Quiz timer
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_time_limit' ) ) {
+
+	function lifterlms_template_quiz_time_limit() {
+
+		llms_get_template( 'quiz/time-limit.php' );
+	}
+}
+
+/**
+ * Quiz timer
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_timer' ) ) {
+
+	function lifterlms_template_quiz_timer() {
+
+		llms_get_template( 'quiz/timer.php' );
+	}
+}
+
+/**
+ * Quiz: wrapper start ( quiz container )
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_wrapper_start' ) ) {
+
+	function lifterlms_template_quiz_wrapper_start() {
+
+		llms_get_template( 'quiz/quiz-wrapper-start.php' );
+	}
+}
+
+/**
+ * Quiz: wrapper end ( quiz container )
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_wrapper_end' ) ) {
+
+	function lifterlms_template_quiz_wrapper_end() {
+
+		llms_get_template( 'quiz/quiz-wrapper-end.php' );
+	}
+}
+
+/**
+ * Question: Wrapper for ajax loaded quiz question
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_question' ) ) {
+
+	function lifterlms_template_quiz_question() {
+
+		llms_get_template( 'quiz/quiz-question.php' );
+	}
+}
+
+/**
  * Lesson Return link Template Include
  * @return void
  */
@@ -446,9 +492,9 @@ if ( ! function_exists( 'lifterlms_template_start_button' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_single_next_question' ) ) {
 
-	function lifterlms_template_single_next_question() {
+	function lifterlms_template_single_next_question( $args ) {
 
-		llms_get_template( 'quiz/next-question.php' );
+		llms_get_template( 'quiz/next-question.php', $args );
 	}
 }
 
@@ -458,9 +504,9 @@ if ( ! function_exists( 'lifterlms_template_single_next_question' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_single_prev_question' ) ) {
 
-	function lifterlms_template_single_prev_question() {
+	function lifterlms_template_single_prev_question( $args ) {
 
-		llms_get_template( 'quiz/previous-question.php' );
+		llms_get_template( 'quiz/previous-question.php', $args );
 	}
 }
 
@@ -470,9 +516,17 @@ if ( ! function_exists( 'lifterlms_template_single_prev_question' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_single_question_count' ) ) {
 
-	function lifterlms_template_single_question_count() {
+	function lifterlms_template_single_question_count( $args ) {
 
-		llms_get_template( 'quiz/question-count.php' );
+		llms_get_template( 'quiz/question-count.php', $args );
+	}
+}
+
+if ( ! function_exists( 'lifterlms_get_content' ) ) {
+
+	function lifterlms_get_content( $args ) {
+
+		llms_get_template( 'content-single-question.php', $args );
 	}
 }
 
@@ -489,14 +543,26 @@ if ( ! function_exists( 'lifterlms_template_single_single_choice' ) ) {
 }
 
 /**
+ * Single Choice Question Template Include AJAX
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_single_single_choice_ajax' ) ) {
+
+	function lifterlms_template_single_single_choice_ajax( $args ) {
+
+		llms_get_template( 'quiz/single-choice_ajax.php', $args );
+	}
+}
+
+/**
  * Question Wrapper Start Template Include
  * @return void
  */
 if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_start' ) ) {
 
-	function lifterlmslifterlms_template_question_wrapper_start() {
+	function lifterlmslifterlms_template_question_wrapper_start( $args ) {
 
-		llms_get_template( 'quiz/wrapper-start.php' );
+		llms_get_template( 'quiz/wrapper-start.php', $args );
 	}
 }
 
@@ -506,9 +572,9 @@ if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_start' ) )
  */
 if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_end' ) ) {
 
-	function lifterlmslifterlms_template_question_wrapper_end() {
+	function lifterlmslifterlms_template_question_wrapper_end( $args ) {
 
-		llms_get_template( 'quiz/wrapper-end.php' );
+		llms_get_template( 'quiz/wrapper-end.php', $args );
 	}
 }
 
@@ -656,7 +722,7 @@ function llms_setup_lesson_data( $post ) {
 			$courseid = get_post_meta( $post->ID, '_parent_course');
 
 			if ( isset($courseid) ) {
-			$parent_course = get_post( $courseid[0] );
+			$parent_course = get_post( $courseid );
 			}
 
 			$GLOBALS['lesson'] = get_lesson( $post );

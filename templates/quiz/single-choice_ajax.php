@@ -5,18 +5,11 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-global $post, $quiz, $question;
 
-if ( ! $quiz ) {
+$quiz = new LLMS_Quiz( $args['quiz_id'] );
 
-	$quiz = new LLMS_Quiz( $post->ID );
-	
-}
-if ( ! $question ) {
+$question = new LLMS_Question( $args['question_id'] );
 
-	$question = new LLMS_Question( $post->ID );
-	
-}
 
 $options = $question->get_options();
 $question_key = isset($quiz) ? $quiz->get_question_key : 0;
@@ -43,7 +36,8 @@ if ( ! empty( $quiz_session->questions ) ) {
 			$option = $value['option_text'];	
 			
 
-			if ( (int) $answer === (int) $key ) { 
+			if ( ( (int) $answer === (int) $key ) &&  $answer !== '' ) { 
+				llms_log( 'this if statement triggered');
 				$checked = 'checked';
 			}
 			
@@ -54,9 +48,10 @@ if ( ! empty( $quiz_session->questions ) ) {
 	?>
 	<div class="llms-option_<?php echo $question_key; ?>">
 		<label class="llms-question-label">
-			<input type="radio" name="llms_option_selected" value="<?php echo $key; ?>" <?php echo $checked; ?>/>
-			<input type="hidden" name="question_type" value="single_choice" />
-			<input type="hidden" name="question_id" value="<?php echo $question->id ?>" />
+			<input type="radio" name="llms_option_selected" id="question-answer" value="<?php echo $key; ?>" <?php echo $checked; ?>/>
+			<input type="hidden" name="question_type" id="question-type" value="single_choice" />
+			<input type="hidden" name="question_id" id="question-id" value="<?php echo $question->id ?>" />
+			<input type="hidden" name="quiz_id" id="quiz-id" value="<?php echo $quiz->id ?>" />
 			<?php echo $option; ?>
 		</label>
 	</div>
@@ -65,5 +60,6 @@ if ( ! empty( $quiz_session->questions ) ) {
 	endforeach;
 	?>
 </div>
+
 
 

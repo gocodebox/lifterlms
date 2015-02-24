@@ -5,7 +5,16 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-global $question;
+global $post;
+
+$question = new LLMS_Question( $args['question_id'] );
+
+if ( ! $question ) {
+
+	$question = new LLMS_Question( $post->ID );
+	
+}
+
 $quiz = LLMS()->session->get( 'llms_quiz' );
 
 foreach ( $quiz->questions as $key => $value ) :

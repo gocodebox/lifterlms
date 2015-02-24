@@ -534,6 +534,23 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
       do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
 }
 
+function llms_get_template_ajax( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
+      if ( $args && is_array( $args ) ) {
+            extract( $args );
+      }
+
+      $located = llms_locate_template( $template_name, $template_path, $default_path );
+
+      //do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
+
+      include( $located );
+      $myvar = ob_get_contents();
+            ob_end_clean();
+            return $myvar;
+
+     // do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
+}
+
 /**
  * Locate Template
  * 

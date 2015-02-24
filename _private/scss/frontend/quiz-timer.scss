@@ -1,0 +1,93 @@
+#llms-quiz-timer {
+	float: right;
+	width: 100%;
+	clear: both;	
+}
+.countdown-label {
+  	margin-top: 6px;
+	text-align: center;
+	
+	display: inline-block;
+
+
+  p {
+	color: #65584c;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: thin;
+	font-family: Arial;
+  }
+}
+#countdown{
+box-shadow: 0 1px 2px 0 rgba(1, 1, 1, 0.4);
+width: 240px;
+	height: 96px;
+	text-align: center;
+background: #f1f1f1;
+
+	border-radius: 5px;
+
+	float: right;
+
+}
+
+
+
+#countdown #tiles{
+  color: #fff;
+	position: relative;
+	z-index: 1;
+text-shadow: 1px 1px 0px #ccc;
+	display: inline-block;
+  font-family: Arial, sans-serif;
+	text-align: center;
+  
+  padding: 0;
+  border-radius: 5px 5px 0 0;
+  font-size: 48px;
+  font-weight: thin;
+  display: block;
+  line-height: 1.4;
+    
+}
+
+.color-full {
+  background: #53bb74;
+}
+.color-half {
+  background: #ebc85d;
+}
+.color-empty {
+  background: #e5554e;
+}
+
+#countdown #tiles > span{
+	width: 70px;
+	max-width: 70px;
+
+	padding: 18px 0;
+	position: relative;
+}
+
+
+
+
+
+#countdown .labels{
+	width: 100%;
+	height: 25px;
+	text-align: center;
+	position: absolute;
+	bottom: 8px;
+}
+
+#countdown .labels li{
+	width: 102px;
+	font: bold 15px 'Droid Sans', Arial, sans-serif;
+	color: #f47321;
+	text-shadow: 1px 1px 0px #000;
+	text-align: center;
+	text-transform: uppercase;
+	display: inline-block;
+}
