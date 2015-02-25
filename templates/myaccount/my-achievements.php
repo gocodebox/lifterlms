@@ -26,6 +26,8 @@ $achievements = $user->get_user_postmetas_by_key( get_current_user_id(), $meta_k
 
 			if ($achievementimage == '') {
 				$achievementimage = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' );
+			} else {
+				$achievementimage = $achievementimage[0];
 			}
 			$achievementimage_width = 120;
 			$achievementimage_height = 120;
