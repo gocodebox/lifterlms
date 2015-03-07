@@ -36,7 +36,7 @@ class LLMS_Achievements {
 		$this->init();
 
 		add_action( 'lifterlms_lesson_completed_achievement', array( $this, 'lesson_completed' ), 10, 3 );
-		add_action( 'lifterlms_custom_achievement', array( $this, 'custom_achievement_earned' ), 10, 2 );
+		add_action( 'lifterlms_custom_achievement', array( $this, 'custom_achievement_earned' ), 10, 3 );
 
 	}
 
@@ -75,17 +75,18 @@ class LLMS_Achievements {
 	 * Calls tigger method passing arguments
 	 *
 	 * @param  int $person_id [ID of the current user]
-	 * @param  int $engagement_id  [Achivement template post ID]
+	 * @param  int $achievement  [Achivement template post ID]
+	 * @param  int $engagement_id  [Engagment trigger post ID]
 	 *
 	 * @return [type]            [description]
 	 */
-	function custom_achievement_earned( $person_id, $engagement_id ) {
+	function custom_achievement_earned( $person_id, $achievement_id, $engagement_id ) {
 		if ( ! $person_id )
 			return;
 
 		$achievement = $this->emails['LLMS_Achievement_User'];
 
-		$achievement->trigger( $person_id, $engagement_id, 0 );
+		$achievement->trigger( $person_id, $achievement_id, $engagement_id );
 	}
 
 }
