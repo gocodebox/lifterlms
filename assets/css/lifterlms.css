@@ -1,4 +1,4 @@
-.llms-lesson-preview .llms-lesson-link:after {
+.llms-lesson-preview .llms-lesson-link:after, .llms-my-achievements ul.listing-achievements:after {
   content: "";
   display: table;
   clear: both; }
@@ -445,30 +445,24 @@
 
 .llms-my-achievements {
   font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif; }
-  .llms-my-achievements h3 {
-    background-color: #f5f5f5;
-    padding: 4px; }
   .llms-my-achievements ul.listing-achievements {
-    width: 100%;
-    margin: 0; }
+    margin: 0;
+    width: 100%; }
     .llms-my-achievements ul.listing-achievements li.achievement-item {
       border-radius: 3px;
-      z-index: 10;
-      margin: 10px 0;
+      margin: 1% 1% 0 0;
       padding: 15px 20px;
       background: #fffef4;
       border: 1px solid #ccc;
       list-style-type: none;
-      width: 30%;
+      width: 32.333%;
       overflow: auto;
-      min-width: 200px; }
-      .llms-my-achievements ul.listing-achievements li.achievement-item div {
-        display: block;
-        width: 100%;
-        float: left;
-        text-align: center; }
-        .llms-my-achievements ul.listing-achievements li.achievement-item div p, .llms-my-achievements ul.listing-achievements li.achievement-item div h4 {
-          margin: 0; }
+      min-width: 200px;
+      z-index: 10;
+      float: left;
+      text-align: center; }
+      .llms-my-achievements ul.listing-achievements li.achievement-item p, .llms-my-achievements ul.listing-achievements li.achievement-item h4 {
+        margin: 0; }
 
 /* Genisis Overrides */
 h1, h2, h3, h4, h5, h6 {

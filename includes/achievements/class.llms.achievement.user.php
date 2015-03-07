@@ -7,7 +7,7 @@ if ( ! class_exists( 'LLMS_Achievement_User' ) ) :
 /**
 * User Achievemnet class, inherits methods from LLMS_Achievment
 *
-* Generates achievements for users. 
+* Generates achievements for users.
 */
 class LLMS_Achievement_User extends LLMS_Achievement {
 
@@ -19,18 +19,18 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * Constructor
 	 */
 	public function __construct() {
-		
+
 
 		parent::__construct();
 	}
 
 	/**
 	 * Initializes all of the variables needed to create the achievement post.
-	 * 
+	 *
 	 * @param  int $email_id [id of email post]
 	 * @param  int $person_id [id of user]
 	 * @param  int $lesson_id [id of associated lesson]
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init($email_id, $person_id, $lesson_id) {
@@ -41,9 +41,9 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
  		$this->achievement_template_id	= $email_id;
  		$this->lesson_id    			= $lesson_id;
-		$this->title 					= $email_content->post_title; 
+		$this->title 					= $email_content->post_title;
 		$this->achievement_title 		= $email_meta['_llms_achievement_title'][0];
-		$this->content 					= $email_content->post_content;
+		$this->content 					= ( !empty( $email_content->post_content ) ) ? $email_content->post_content : $email_meta['_llms_achievement_content'][0];
 		$this->image 					= $email_meta['_llms_achievement_image'][0];
 		$this->userid           		= $person_id;
 		$this->user             		= get_user_meta( $person_id );
@@ -62,11 +62,11 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 	/**
 	 * Creates new instance of WP_User and calls parent method create
-	 * 
+	 *
 	 * @param  int $person_id [id of user]
 	 * @param  int $email_id [id of email post]
 	 * @param  int $lesson_id [id of associated lesson]
-	 * 
+	 *
 	 * @return void
 	 */
 	public function trigger( $user_id, $email_id, $lesson_id ) {
@@ -92,22 +92,22 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 	/**
 	 * Gets post content and replaces merge fields with user meta-data
-	 * 
+	 *
 	 * @return mixed [returns formatted post content]
 	 */
 	public function get_content_html() {
 
-		$this->find = array( 
-			'{site_title}', 
-			'{user_login}', 
+		$this->find = array(
+			'{site_title}',
+			'{user_login}',
 			'{site_url}' ,
 			'{first_name}',
 			'{last_name}',
 			'{email_address}',
 			'{current_date}');
-		$this->replace = array( 
-			$this->get_blogname(), 
-			$this->user_login, 
+		$this->replace = array(
+			$this->get_blogname(),
+			$this->user_login,
 			$this->account_link,
 			$this->user_firstname,
 			$this->user_lastname,

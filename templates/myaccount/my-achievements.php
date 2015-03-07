@@ -1,72 +1,42 @@
 <?php
+/**
+ * User Achievements Template
+ */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-$meta_key = '_achievement_earned';
-
 $user = new LLMS_Person;
-$achievements = $user->get_user_postmetas_by_key( get_current_user_id(), $meta_key );
-
+$count = ( !$count ) ? 1000 : $count; // shortcodes will define $count and load the contents of this template
+$user_id = ( !$user_id ) ? get_current_user_id() : $user_id;
+$achievements = $user->get_user_achievements( $count, $user_id );
 ?>
 
 <div class="llms-my-achievements">
-	<?php echo  '<h3>' .__( 'My Achievements', 'lifterlms' ) . '</h3>'; 
-	if ($achievements) { 
-		
-		?>
-	<ul class="listing-achievements">
-	<?php foreach ( $achievements as $key => $value ) : 
+	<h3 class="llms-my-achievements-title"><?php echo __( apply_filters( 'lifterlms_my_achievements_title', 'My Achievements' ), 'lifterlms' ); ?></h3>
 
-			$meta = get_post_meta($value->meta_value);
+	<?php if ($achievements): ?>
+		<ul class="listing-achievements">
+			<?php foreach( $achievements as $achievement ): ?>
+				<li class="achievement-item">
 
-			$achievement_title = $meta['_llms_achievement_title'][0];
-			$achievement_content = ( empty( $meta['_llms_achievement_content'][0] ) ? '' : $meta['_llms_achievement_content'][0] );
+					<?php do_action( 'lifterlms_before_achievement' ); ?>
 
-			$achievementimage_id = $meta['_llms_achievement_image'][0]; // Get Image Meta
-			$achievementimage = wp_get_attachment_image_src($achievementimage_id, 'achievement'); //Get Right Size Image for Print Template
+					<div class="llms-achievement-image"><img alt="<?php echo esc_attr($achievement['title']); ?>" src="<?php echo $achievement['image']; ?>"></div>
 
-			if ($achievementimage == '') {
-				$achievementimage = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' );
-			} else {
-				$achievementimage = $achievementimage[0];
-			}
-			$achievementimage_width = 120;
-			$achievementimage_height = 120;
+					<h4 class="llms-achievement-title"><?php echo $achievement['title']; ?></h4>
 
+					<?php if( $achievement['content'] ): ?>
+						<div class="llms-achievement-content"><p><?php echo $achievement['content']; ?></p></div>
+					<?php endif; ?>
 
+					<div class="llms-achievement-date"><p><?php echo $achievement['date']; ?></p></div>
 
-	?>
-	
-		<li class="achievement-item">
-			<div>
-				<img src="<?php echo $achievementimage; ?>" width="<?php echo $achievementimage_width ?>" height="<?php echo $achievementimage_height ?>"/>
-			</div>
-			<div>
-				<h4><?php echo $achievement_title; ?></h4>
-			</div>
-			<div>
-				<p><?php echo $achievement_content; ?></p>
-			</div>
-			<div>
-				<p><?php echo date('M d, Y', strtotime($value->updated_date)); ?></p>
-			</div>
-				
-			<div>
-				
-			</div>
+					<?php do_action( 'lifterlms_after_achievement' ); ?>
 
-		</li>
-
-	<?php endforeach; ?>
-
-	</ul>
-	<?php 
-	}
-	else {
-		echo  '<p>' .__( 'Complete courses and lessons to earn achievements.', 'lifterlms' ) . '</p>'; 
-	}
-	?>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	<?php else: ?>
+		<p><?php echo __( apply_filters( 'lifterlms_no_achievements_text', 'Complete courses and lessons to earn achievements.' ), 'lifterlms' ); ?></p>
+	<?php endif; ?>
 </div>
-
-
-
-

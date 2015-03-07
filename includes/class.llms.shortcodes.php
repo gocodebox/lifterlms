@@ -20,6 +20,7 @@ class LLMS_Shortcodes {
 
 		$shortcodes = array(
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
+			'lifterlms_my_achievements' => __CLASS__ . '::my_achievements',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
 			'lifterlms_courses' => __CLASS__ . '::courses', // added here so that we can deprecate the non-prefixed "courses" (maybe)
 			'courses' => __CLASS__ . '::courses',
@@ -87,6 +88,27 @@ class LLMS_Shortcodes {
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
 
 	}
+
+
+	public static function my_achievements( $atts ) {
+
+		extract( shortcode_atts( array(
+
+			'count' => null,
+			'user_id' => 0
+
+		), $atts, 'lifterlms_my_achievements' ) );
+
+		ob_start();
+
+		include( llms_get_template_part_contents( 'myaccount/my', 'achievements' ) );
+
+		$html = ob_get_clean();
+
+		return $html;
+	}
+
+
 
 	/**
 	* Checkout shortcode.
