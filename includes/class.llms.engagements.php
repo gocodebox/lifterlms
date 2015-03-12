@@ -127,8 +127,7 @@ class LLMS_Engagements {
 	 * @return void
 	 */
 	public function llms_user_register($user) {
-		llms_log('made it here');
-llms_log( $user);
+
 		if ( ! $user )
 			return;
 
@@ -149,14 +148,14 @@ llms_log( $user);
 		$all_posts = get_posts($args);
 
 		if ($all_posts) {
-llms_log( $all_posts);
+
 			foreach ( $all_posts as $key => $value ) {
 				
 				$engagement_meta = get_post_meta($value->ID);
 				$achievement_id = $engagement_meta['_llms_engagement'][0];
 
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
-					llms_log( 'found email');
+
 					do_action( 'lifterlms_custom_engagement', $user, $achievement_id, $value->ID );
 				}
 

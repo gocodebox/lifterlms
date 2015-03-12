@@ -256,7 +256,7 @@ class LLMS_Emails {
 	function custom_email_earned( $person_id, $email_id, $engagement_id ) {
 		if ( ! $person_id )
 			return;
-llms_log('made it to the email method custom email earned');
+
 		$email = $this->emails['LLMS_Email_Engagement'];
 
 		$email->trigger( $person_id, $email_id );

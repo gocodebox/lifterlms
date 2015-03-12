@@ -37,7 +37,7 @@ if ( ! empty( $quiz_session->questions ) ) {
 			
 
 			if ( ( (int) $answer === (int) $key ) &&  $answer !== '' ) { 
-				llms_log( 'this if statement triggered');
+
 				$checked = 'checked';
 			}
 			

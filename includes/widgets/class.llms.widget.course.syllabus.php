@@ -45,15 +45,8 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 
 		$course_syllabus = $course->get_syllabus();
 
-		//if ( LLMS_Course::check_enrollment( $course->id, get_current_user_id() ) ) {
-		//	$syllabus = $course_syllabus;
-		//} else {
-			$syllabus = $course->get_student_progress();
-		//}
-		
+		$syllabus = $course->get_student_progress();
 
-		llms_log($syllabus);
-		//var_dump( $syllabus );
 		$html = '<div class="llms-widget-syllabus">';
 			$html .= '<ul>';
 

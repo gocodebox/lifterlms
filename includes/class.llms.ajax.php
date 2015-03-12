@@ -52,7 +52,6 @@ class LLMS_AJAX {
 	 * @return array
 	 */
 	public function get_all_posts(){
-		llms_log( $_REQUEST );
 
 		$post_type = llms_clean( $_REQUEST['post_type'] );
 
