@@ -62,6 +62,7 @@ return_data = function (response) {
 		select.setAttribute('name', '_llms_engagement_trigger');
 		
 		td.appendChild(select);
+		jQuery(select).chosen({width:"300px"});
 
 		if (!jQuery('#trigger-select').length) {
 	
@@ -78,6 +79,8 @@ return_data = function (response) {
 				
 			jQuery('.engagement-option').append(td);
 		}
+
+	jQuery(select).trigger("chosen:updated");
 }
 
 return_engagement_data = function (response) {
@@ -99,6 +102,7 @@ return_engagement_data = function (response) {
 		select.setAttribute('name', '_llms_engagement');
 		
 		td.appendChild(select);
+		jQuery(select).chosen({width:"300px"});
 
 		if (!jQuery('#engagement-select').length) {
 		
@@ -119,6 +123,7 @@ return_engagement_data = function (response) {
 			jQuery('.engagement-posts').append(td);
 
 		}
+		jQuery(select).trigger("chosen:updated");
 }
 
 clear_trigger_select = function () {

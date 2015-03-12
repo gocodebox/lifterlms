@@ -45,13 +45,25 @@ class LLMS_Admin_Analytics {
 
 			include_once( 'analytics/class.llms.analytics.page.php' );
 
-			//$analytics[] = include( 'analytics/class.llms.analytics.dashboard.php' );
-			$analytics[] = include( 'analytics/class.llms.analytics.sales.php' );
-			$analytics[] = include( 'analytics/class.llms.analytics.courses.php' );
-			$analytics[] = include( 'analytics/class.llms.analytics.memberships.php' );
-
 			self::$analytics = apply_filters( 'lifterlms_get_analytics_pages', $analytics );
 
+			//$analytics[] = include( 'analytics/class.llms.analytics.dashboard.php' );
+			if ( ! get_option( 'lifterlms_analytics_disable_sales' ) ) {
+
+				$analytics[] = include( 'analytics/class.llms.analytics.sales.php' );
+
+			}
+			if ( ! get_option( 'lifterlms_analytics_disable_courses' ) ) {
+			
+				$analytics[] = include( 'analytics/class.llms.analytics.courses.php' );
+			}
+
+			if ( ! get_option( 'lifterlms_analytics_disable_memberships' ) ) {
+
+				$analytics[] = include( 'analytics/class.llms.analytics.memberships.php' );
+
+			}
+			
 		}
 
 		return self::$analytics;

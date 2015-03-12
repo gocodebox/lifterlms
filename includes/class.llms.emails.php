@@ -70,6 +70,7 @@ class LLMS_Emails {
 		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
 		add_action( 'lifterlms_created_person_notification', array( $this, 'person_new_account' ), 10, 3 );
 		add_action( 'lifterlms_lesson_completed_engagement_notification', array( $this, 'lesson_completed' ), 10, 3 );
+		add_action( 'lifterlms_custom_engagement_notification', array( $this, 'custom_email_earned' ), 10, 3 );
 
 		do_action( 'lifterlms_email', $this );
 
@@ -239,6 +240,25 @@ class LLMS_Emails {
 
 		$user_pass = ! empty( $new_person_data['user_pass'] ) ? $new_person_data['user_pass'] : '';
 		$email = $this->emails['LLMS_Email_Engagement'];
+		$email->trigger( $person_id, $email_id );
+	}
+
+	/**
+	 * Earn a custom email which is no associated with a specific lesson
+	 * Calls tigger method passing arguments
+	 *
+	 * @param  int $person_id [ID of the current user]
+	 * @param  int $email  [email template post ID]
+	 * @param  int $engagement_id  [Engagment trigger post ID]
+	 *
+	 * @return [type]            [description]
+	 */
+	function custom_email_earned( $person_id, $email_id, $engagement_id ) {
+		if ( ! $person_id )
+			return;
+
+		$email = $this->emails['LLMS_Email_Engagement'];
+
 		$email->trigger( $person_id, $email_id );
 	}
 

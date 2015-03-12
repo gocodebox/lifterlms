@@ -21,7 +21,6 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 
 		add_filter( 'lifterlms_analytics_tabs_array', array( $this, 'add_analytics_page' ), 20 );
 		add_action( 'lifterlms_analytics_' . $this->id, array( $this, 'output' ) );
-		//add_action( 'admin_init', array( $this, 'search_analytics_sales' ) );
 		add_action( 'lifterlms_analytics_save_' . $this->id, array( $this, 'save' ) );
 	}
 

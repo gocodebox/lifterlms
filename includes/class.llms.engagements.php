@@ -36,6 +36,7 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_section_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'lifterlms_course_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
+		//add_action( 'init', array( $this, 'llms_user_register' ), 10, 1 );
 	}
 
 	/**
@@ -127,6 +128,52 @@ class LLMS_Engagements {
 	 */
 	public function llms_user_register($user) {
 
+		if ( ! $user )
+			return;
+
+		$args = array(
+			'posts_per_page'   => 100,
+			'post_status'	   => 'publish',
+			'orderby'          => 'title',
+			'post_type'        => 'llms_engagement',
+				'meta_query' => array(
+					array(
+					'key'       => '_llms_trigger_type',
+					'compare'   => '=',
+					'value'   => 'user_registration',
+					)
+				)
+			); 
+
+		$all_posts = get_posts($args);
+
+		if ($all_posts) {
+
+			foreach ( $all_posts as $key => $value ) {
+				
+				$engagement_meta = get_post_meta($value->ID);
+				$achievement_id = $engagement_meta['_llms_engagement'][0];
+
+				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
+
+					do_action( 'lifterlms_custom_engagement', $user, $achievement_id, $value->ID );
+				}
+
+				elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
+					LLMS()->certificates();
+					do_action( 'lifterlms_custom_certificate', $user, $achievement_id, $value->ID );
+				}
+				elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
+					LLMS()->achievements();
+
+					do_action( 'lifterlms_custom_achievement', $user, $achievement_id, $value->ID );
+				}
+				else {
+					do_action( 'lifterlms_external_engagement', $person_id, $engagement_id, $lesson_id);
+				}
+			}
+		}
+		
 	}
 
 }

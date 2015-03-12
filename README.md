@@ -11,7 +11,7 @@ LIFTER LMS
 **Accepts arguments: order, orderby and per_page
 
 
-###Debug: lms_log($message)
+###Debug: llms_log($message)
 *Logs message to wp-contents/debug.log
 
 ####Examples
@@ -24,6 +24,23 @@ LIFTER LMS
 
 CHANGELOG
 =========
+
+v1.2.3 - 2015-03-12
+-------------------
++ Achievement design and functionality updates
++ Achievemnt shortcode added
++ Better searching added to engagement screen
++ Achievement bug fixes
++ On screen error reporting added to activation for trouble shooting
++ Custom engagement methods added to certificate, achievement and sections
++ Corrected new user registration engagement bug
++ LifterLMS access reduced from manage_options to edit_posts
++ Filters added to analytics to allow custom developement
++ Engagment bug fix: Section and Lesson bug select
++ Syllabus bug corrected: No longer displays lessons in section box if no sections exist.
++ Removed depreciated achievement template
++ Membership Bug fix: Membership restriction will now only display on single posts.
+
 
 v1.2.2 - 2015-02-23
 -------------------

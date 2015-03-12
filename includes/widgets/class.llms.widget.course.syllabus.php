@@ -44,12 +44,10 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 		$course = new LLMS_Course ( $course_id );
 
 		$course_syllabus = $course->get_syllabus();
-		$html = '';
-		
+
 		$syllabus = $course->get_student_progress();
 
-		//var_dump( $syllabus );
-		$html .= '<div class="llms-widget-syllabus">';
+		$html = '<div class="llms-widget-syllabus">';
 			$html .= '<ul>';
 
 

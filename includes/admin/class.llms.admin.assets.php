@@ -71,7 +71,7 @@ class LLMS_Admin_Assets {
 	    	'edit-llms_quiz',
 
 	    	'llms_question',
-	    	'edit-llms_question',
+	    	'edit-llms_question'
 	    ));
 	}
 
