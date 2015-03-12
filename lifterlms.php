@@ -248,6 +248,7 @@ final class LifterLMS {
 		$email_actions = array(
 			'lifterlms_created_person',
 			'lifterlms_lesson_completed_engagement',
+			'lifterlms_custom_engagement'
 		);
 
 		foreach ( $email_actions as $action )

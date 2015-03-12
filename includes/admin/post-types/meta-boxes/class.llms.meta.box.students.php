@@ -156,18 +156,6 @@ class LLMS_Meta_Box_Students {
 			}
 		}
 
-		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order',
-			array(
-				'completed_date' 	=> current_time('mysql'),
-				'order_completed' 	=> 'yes',
-				'order_post_id'		=> $order_post_id,
-			),
-			array(
-				'user_id' 			=> $user_id,
-				'product_id' 		=> $post_id,
-			)
-		);
-
 		foreach( $user_metadatas as $key => $value ) {
 		$update_user_postmeta = $wpdb->delete( $wpdb->prefix .'lifterlms_user_postmeta',
 			array(

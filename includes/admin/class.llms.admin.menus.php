@@ -66,9 +66,9 @@ class LLMS_Admin_Menus {
 	public function display_admin_menu() {
 		//global $menu, $lifterlms;
 
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( current_user_can( 'edit_posts' ) ) {
 
-			$lifterLMS = add_menu_page('lifterlms', 'LifterLMS', 'manage_options', 'lifterlms', 'llms_homepage', plugin_dir_url(LLMS_PLUGIN_FILE) . 'assets/images/lifterLMS-wp-menu-icon.png', '50.15973');
+			$lifterLMS = add_menu_page('lifterlms', 'LifterLMS', 'edit_posts', 'lifterlms', 'llms_homepage', plugin_dir_url(LLMS_PLUGIN_FILE) . 'assets/images/lifterLMS-wp-menu-icon.png', '50.15973');
 
 			function llms_homepage() {
 	    		global $title;
@@ -89,7 +89,7 @@ class LLMS_Admin_Menus {
 	*/
 	public function display_settings_menu() {
 
-		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Settings', 'Settings', 'manage_options',
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Settings', 'Settings', 'edit_posts',
 		 	'llms-settings', array( $this, 'settings_page_init' ) );
 	}
 
@@ -112,7 +112,7 @@ class LLMS_Admin_Menus {
 	*/
 	public function display_analytics_menu() {
 
-		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', 'manage_options',
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', 'edit_posts',
 		 	'llms-analytics', array( $this, 'analytics_page_init' ) );
 	}
 
@@ -135,7 +135,7 @@ class LLMS_Admin_Menus {
 	*/
 	public function display_students_menu() {
 
-		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Students', 'Students', 'manage_options',
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Students', 'Students', 'edit_posts',
 		 	'llms-students', array( $this, 'students_page_init' ) );
 	}
 

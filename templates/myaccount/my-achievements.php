@@ -6,8 +6,8 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $user = new LLMS_Person;
-$count = ( !$count ) ? 1000 : $count; // shortcodes will define $count and load the contents of this template
-$user_id = ( !$user_id ) ? get_current_user_id() : $user_id;
+$count = ( empty($count) ) ? 1000 : $count; // shortcodes will define $count and load the contents of this template
+$user_id = ( empty($user_id) ) ? get_current_user_id() : $user_id;
 $achievements = $user->get_user_achievements( $count, $user_id );
 ?>
 

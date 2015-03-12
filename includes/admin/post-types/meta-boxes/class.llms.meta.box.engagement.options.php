@@ -195,30 +195,6 @@ class LLMS_Meta_Box_Engagement_Options {
 
 						$postslist = get_posts( $args );
 
-
-					// $args2 = array(
-
-					// 	'post_type'   => $post_type,
-					// 	'post_status'   => 'publish',
-					// 	'meta_query'  => array(
-
-					// 	    array(
-
-					// 	      'value' => $post->ID,
-					// 	      'key' => '_llms_engagement_trigger'
-					// 	    )
-					// 	)
-					// );
-
-					// $my_query = new WP_Query( $args2 );
-
-					// if( $my_query->have_posts() ) {
-					// 	while( $my_query->have_posts() ) {
-					// 		$my_query->the_post();
-					// 			$engagement_trigger_id = $post->ID;
-					// 	}
-					// }
-					// wp_reset_postdata();
 					?>
 
 					<th><label for="trigger-select">Event</label></th>

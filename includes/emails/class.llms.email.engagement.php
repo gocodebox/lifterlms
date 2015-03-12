@@ -24,20 +24,19 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		parent::__construct();
 	}
 
-	public function init($email_id) {
+	public function init( $email_id, $user_id ) {
 		global $wpdb;
 
  		$email_content = get_post($email_id);
  		$email_meta = get_post_meta( $email_content->ID );
 
-		$this->id 				= 'person_new_account';
-		$this->title 			= __( 'New account', 'lifterlms' );
-		$this->description		= __( 'Person new account emails are sent when a person signs up via the checkout or My Account page.', 'lifterlms' );
-		$this->template_html 	= 'emails/template.php';
-		$this->subject 			= $email_meta['_email_subject'][0];
-		$this->heading      	= $email_meta['_email_heading'][0];
-		$this->email_content	= $email_content->post_content;
-		$this->account_link 	= get_permalink( llms_get_page_id( 'myaccount' ) );
+		$this->id 					= 'engagement email';
+		$this->title 				= __( 'Engagement Email', 'lifterlms' );
+		$this->template_html 		= 'emails/template.php';
+		$this->subject 				= $email_meta['_email_subject'][0];
+		$this->heading      		= $email_meta['_email_heading'][0];
+		$this->email_content		= $email_content->post_content;
+		$this->account_link 		= get_permalink( llms_get_page_id( 'myaccount' ) );
 
 	}
 
@@ -50,16 +49,17 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	 * @return void
 	 */
 	function trigger( $user_id, $email_id ) {
-		$this->init($email_id);
+
+		$this->init( $email_id, $user_id );
 
 		if ( $user_id ) {
 
-			$this->object 		= new WP_User( $user_id );
-			$this->user_pass          = $user_pass;
+			$this->object 			  = new WP_User( $user_id );
 			$this->user_login         = stripslashes( $this->object->user_login );
 			$this->user_email         = stripslashes( $this->object->user_email );
 			$this->recipient          = $this->user_email;
-			$this->password_generated = $password_generated;
+			$this->user_firstname	  = stripslashes( $this->object->first_name );
+			$this->user_lastname	  = stripslashes( $this->object->last_name );
 			
 		}
 
@@ -76,14 +76,23 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	 */
 	function get_content_html() {
 
-		$this->find = array( 
-			'{site_title}', 
-			'{user_login}', 
-			'{site_url}' );
-		$this->replace = array( 
-			$this->get_blogname(), 
-			$this->user_login, 
-			$this->account_link );
+		$this->find = array(
+			'{site_title}',
+			'{user_login}',
+			'{site_url}' ,
+			'{first_name}',
+			'{last_name}',
+			'{email_address}',
+			'{current_date}');
+		$this->replace = array(
+			$this->get_blogname(),
+			$this->user_login,
+			$this->account_link,
+			$this->user_firstname,
+			$this->user_lastname,
+			$this->user_email,
+			date('M d, Y', strtotime(current_time('mysql'))),
+		);
 
 		$content = $this->format_string($this->email_content);
 
@@ -93,7 +102,6 @@ class LLMS_Email_Engagement extends LLMS_Email {
 			'user_login'         => $this->user_login,
 			'user_pass'          => $this->user_pass,
 			'blogname'           => $this->get_blogname(),
-			'password_generated' => $this->password_generated,
 			'email_message' 	 => $content,
 			'sent_to_admin' => false,
 			'plain_text'    => false

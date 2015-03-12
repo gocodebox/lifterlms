@@ -33,6 +33,7 @@ class LLMS_AJAX {
 			'answer_question'			=> false,
 			'previous_question'			=> false,
 			'complete_quiz'				=> false,
+			'get_all_posts'				=> false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -42,6 +43,31 @@ class LLMS_AJAX {
 				add_action( 'wp_ajax_nopriv_' . $ajax_event, array( $this, $ajax_event ) );
 			}
 		}
+	}
+
+	/**
+	 * Return array of courses (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_all_posts(){
+		llms_log( $_REQUEST );
+
+		$post_type = llms_clean( $_REQUEST['post_type'] );
+
+		$args = array(
+			'post_type' 	=> $post_type,
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
+		 );
+
+		$postslist = get_posts( $args );
+
+		echo json_encode($postslist);
+
+		die();
 	}
 
 	/**
@@ -88,21 +114,14 @@ class LLMS_AJAX {
 		);
 		$postslist = get_posts( $args );
 
-		if (empty($postslist)) { 
-			$args = array(
-				'posts_per_page' 	=> -1,
-				'post_type' 		=> 'lesson',
-				'nopaging' 			=> true
-			);
-				
-			$postslist = get_posts( $args );
-		}
+		if (!empty($postslist)) { 
+		
+			foreach($postslist as $key => $value) {
+				$value->edit_url = get_edit_post_link($value->ID);
+			}
 
-		foreach($postslist as $key => $value) {
-			$value->edit_url = get_edit_post_link($value->ID);
+			echo json_encode($postslist);
 		}
-
-		echo json_encode($postslist);
 
 		die();
 	}
@@ -144,21 +163,15 @@ class LLMS_AJAX {
 		);
 		$postslist = get_posts( $args );
 
-		if (empty($postslist)) { 
-			$args = array(
-				'posts_per_page' 	=> -1,
-				'post_type' 		=> 'lesson',
-				'nopaging' 			=> true
-			);
-				
-			$postslist = get_posts( $args );
-		}
+		if (!empty($postslist)) { 
 
-		foreach($postslist as $key => $value) {
-			$value->edit_url = get_edit_post_link($value->ID, false);
-		}
+			foreach($postslist as $key => $value) {
+				$value->edit_url = get_edit_post_link($value->ID, false);
+			}
 
-		echo json_encode($postslist);
+			echo json_encode($postslist);
+
+		}
 
 		die();
 	}

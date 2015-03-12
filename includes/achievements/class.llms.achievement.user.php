@@ -51,10 +51,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		$this->user_firstname			= ($this->user['first_name'][0] != '' ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
 		$this->user_lastname			= ($this->user['last_name'][0] != '' ?  $this->user['last_name'][0] : '');
 		$this->user_email				= $this->user_data->data->user_email;
-		$this->description				= __( 'Person new account emails are sent when a person signs up via the checkout or My Account page.', 'lifterlms' );
 		$this->template_html 			= 'achievements/template.php';
-		//$this->subject 					= $email_meta['_email_subject'][0];
-		//$this->heading      			= $email_meta['_email_heading'][0];
 		$this->email_content			= $email_content->post_content;
 		$this->account_link 			= get_permalink( llms_get_page_id( 'myaccount' ) );
 
@@ -75,11 +72,10 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		if ( $user_id ) {
 
 			$this->object 		= new WP_User( $user_id );
-		//	$this->user_pass          = $user_pass;
 			$this->user_login         = stripslashes( $this->object->user_login );
 			$this->user_email         = stripslashes( $this->object->user_email );
 			$this->recipient          = $this->user_email;
-			//$this->password_generated = $password_generated;
+
 
 		}
 

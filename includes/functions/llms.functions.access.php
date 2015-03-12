@@ -92,6 +92,7 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
+	llms_log( $results );
 
 	return apply_filters( 'llms_page_restricted', $results );
 	
@@ -146,7 +147,7 @@ function site_restricted_by_membership($post_id) {
 
 	$post = get_post($post_id);
 	//if page is not account, purchase, memberships, or is of post type llms_memberships restrict content
-	if ($post->post_type == 'llms_membership') {
+	if ( $post->post_type == 'llms_membership') {
 		return false;
 	}
 	elseif ( is_post_type_archive( 'llms_membership' ) ) {
@@ -176,6 +177,10 @@ function site_restricted_by_membership($post_id) {
  */
 function page_restricted_by_membership($post_id) {
 	$post = get_post($post_id);
+
+	if ( !is_single($post_id) ) {
+		return false;
+	}
 	$userid = get_current_user_id();
 	$membership_required = get_option('lifterlms_membership_required', '');
 

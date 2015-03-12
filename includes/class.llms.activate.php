@@ -81,8 +81,10 @@ class LLMS_Activate {
             );
 
             if ( is_wp_error( $response ) ) {
-
-            	update_option('lifterlms_activation_message', $activation_response->message);
+                if ( !is_array( $response->get_error_message() ) ) {
+                    update_option('lifterlms_activation_message', $response->get_error_message() );
+                }
+            	
 
             }
             else {

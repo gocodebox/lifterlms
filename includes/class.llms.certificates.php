@@ -30,6 +30,7 @@ class LLMS_Certificates {
 		$this->init();
 
 		add_action( 'lifterlms_lesson_completed_certificate', array( $this, 'lesson_completed' ), 10, 3 );
+		add_action( 'lifterlms_custom_certificate', array( $this, 'custom_certificate_earned' ), 10, 3 );
 
 	}
 
@@ -61,6 +62,25 @@ class LLMS_Certificates {
 
 		$certificate = $this->certs['LLMS_Certificate_User'];
 		$certificate->trigger( $person_id, $cert_id, $lesson_id );
+	}
+
+	/**
+	 * Earn a custom certificate which is no associated with a specific lesson
+	 * Calls tigger method passing arguments
+	 *
+	 * @param  int $person_id [ID of the current user]
+	 * @param  int $certificate  [certificate template post ID]
+	 * @param  int $engagement_id  [Engagment trigger post ID]
+	 *
+	 * @return [type]            [description]
+	 */
+	function custom_certificate_earned( $person_id, $certificate_id, $engagement_id ) {
+		if ( ! $person_id )
+			return;
+
+		$certificate = $this->emails['LLMS_Certificate_User'];
+
+		$certificate->trigger( $person_id, $certificate_id, $engagement_id );
 	}
 
 }
