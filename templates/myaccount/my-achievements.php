@@ -10,16 +10,17 @@ $count = ( !$count ) ? 1000 : $count; // shortcodes will define $count and load 
 $user_id = ( !$user_id ) ? get_current_user_id() : $user_id;
 $achievements = $user->get_user_achievements( $count, $user_id );
 ?>
-
 <div class="llms-my-achievements">
 	<h3 class="llms-my-achievements-title"><?php echo __( apply_filters( 'lifterlms_my_achievements_title', 'My Achievements' ), 'lifterlms' ); ?></h3>
+
+	<?php do_action( 'lifterlms_before_achievements' ); ?>
 
 	<?php if ($achievements): ?>
 		<ul class="listing-achievements">
 			<?php foreach( $achievements as $achievement ): ?>
 				<li class="achievement-item">
 
-					<?php do_action( 'lifterlms_before_achievement' ); ?>
+					<?php do_action( 'lifterlms_before_achievement', $achievement ); ?>
 
 					<div class="llms-achievement-image"><img alt="<?php echo esc_attr($achievement['title']); ?>" src="<?php echo $achievement['image']; ?>"></div>
 
@@ -31,7 +32,7 @@ $achievements = $user->get_user_achievements( $count, $user_id );
 
 					<div class="llms-achievement-date"><p><?php echo $achievement['date']; ?></p></div>
 
-					<?php do_action( 'lifterlms_after_achievement' ); ?>
+					<?php do_action( 'lifterlms_after_achievement', $achievement ); ?>
 
 				</li>
 			<?php endforeach; ?>
@@ -39,4 +40,7 @@ $achievements = $user->get_user_achievements( $count, $user_id );
 	<?php else: ?>
 		<p><?php echo __( apply_filters( 'lifterlms_no_achievements_text', 'Complete courses and lessons to earn achievements.' ), 'lifterlms' ); ?></p>
 	<?php endif; ?>
+
+	<?php do_action( 'lifterlms_after_achievements' ); ?>
+
 </div>
