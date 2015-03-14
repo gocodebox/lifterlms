@@ -101,7 +101,7 @@ if($syllabus[$i]['lessons']) {
 						<div class="lesson-information">
 							<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
 							<span class="llms-lesson-counter">' . $lesson_i . ' of ' . $total_lessons . '</span>
-							<p class="llms-lesson-excerpt">'.$value->post_excerpt.'</p>
+							<p class="llms-lesson-excerpt">'.llms_get_excerpt($value->ID).'</p>
 						</div>
 					</a>
 				</div>

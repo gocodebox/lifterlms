@@ -1361,3 +1361,19 @@ function llms_courses_per_page( $query ) {
 	return $query;
 }
 add_filter( 'pre_get_posts', 'llms_courses_per_page' );
+
+
+function llms_get_excerpt($post_id) {
+	global $post;
+
+    $temp = $post;
+    $post = get_post( $post_id );
+    setup_postdata( $post );
+
+    $excerpt = get_the_excerpt();
+
+    wp_reset_postdata();
+    $post = $temp;
+
+    return $excerpt;
+}
