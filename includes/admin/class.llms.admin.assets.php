@@ -18,7 +18,7 @@ class LLMS_Admin_Assets {
 	* @access public
 	* @var string
 	*/
-	public static $min = ''; //'.min';
+	public static $min = '.min'; //'.min';
 
 	/**
 	* Constructor
@@ -142,9 +142,7 @@ class LLMS_Admin_Assets {
 			}
 
 			wp_enqueue_script( 'llms-options-analytics', plugins_url(  '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
-			//wp_enqueue_script('chart', 'https://www.google.com/jsapi');
 			
-
 		}
 	}
 

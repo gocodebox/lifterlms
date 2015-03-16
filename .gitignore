@@ -1,4 +1,10 @@
+# Ignore node_modules
+node_modules/
+node_modules/*
+
+# Ignore sftp config (Sublime Extension)
 sftp-config.json
 
+# Ignore sass-cache
 .sass-cache/
 .sass-cache/*

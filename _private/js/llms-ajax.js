@@ -1,5 +1,3 @@
-
-
 function Ajax (type, data, cache) {
 	
 	this.type = type;
@@ -129,7 +127,7 @@ Ajax.prototype.start_quiz = function (quiz_id, user_id) {
 		success: function( html ) {
 
 			//start the quiz timer
-			start_quiz_timer();
+			LLMS.Quiz.start_quiz_timer();
 
 			//show the quiz timer
 			jQuery('#llms-quiz-timer').show();
@@ -143,7 +141,7 @@ Ajax.prototype.start_quiz = function (quiz_id, user_id) {
 			jQuery('#llms_answer_question').click(function() {
 
 				//call answer question
-				answer_question();
+				LLMS.Quiz.answer_question();
 
 				return false;
 
@@ -179,13 +177,13 @@ Ajax.prototype.answer_question = function ( quiz_id, question_type, question_id,
 				
 				jQuery('#llms_answer_question').click(function() {
 					console.log( 'answer question clicked');
-					answer_question();
+					LLMS.Quiz.answer_question();
 					return false;
 				});
 
 				jQuery('#llms_prev_question').click(function() {
 					console.log( 'answer question clicked');
-					previous_question();
+					LLMS.Quiz.previous_question();
 					return false;
 				});
 
@@ -214,13 +212,13 @@ Ajax.prototype.previous_question = function (quiz_id, question_id) {
 			jQuery('#llms-quiz-question-wrapper').append( html );
 			
 			jQuery('#llms_answer_question').click(function() {
-				answer_question();
+				LLMS.Quiz.answer_question();
 				return false;
 			});
 
 			jQuery('#llms_prev_question').click(function() {
 				console.log( 'previus question clicked');
-				previous_question();
+				LLMS.Quiz.previous_question();
 				return false;
 			});
 		}
