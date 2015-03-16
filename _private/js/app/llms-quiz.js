@@ -171,7 +171,7 @@ LLMS.Quiz = {
 			//set actual timer
 			setTimeout(
 				function() {
-					this.complete_quiz();
+					that.complete_quiz();
 				}, time_limit );
 
 			this.getCountdown(

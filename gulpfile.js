@@ -119,7 +119,7 @@ gulp.task( 'process-scripts', function () {
 	return gulp.src( '_private/js/*.js' )
 		.pipe(include())
 		.pipe( rename( { suffix: '.min' } ) )
-		//.pipe( uglify() )
+		.pipe( uglify() )
 		.pipe( gulp.dest( 'assets/js/' ) );
 
 });
