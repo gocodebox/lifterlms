@@ -59,7 +59,8 @@ function llms_create_new_person(
 	$billing_state = '',
 	$billing_zip = '',
 	$billing_country = '',
-	$agree_to_terms = ''
+	$agree_to_terms = '',
+	$phone = ''
 	) {
 
 	// Check the e-mail address
@@ -126,7 +127,9 @@ function llms_create_new_person(
 		}
 	}
 
-	if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms' ) ) {
+	//get terms page
+	$terms = get_option( 'lifterlms_terms_page_id' );
+	if ( ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms' ) ) && $terms ) {
 
 		if( empty( $agree_to_terms ) ) {
 			return new WP_Error( 'registration-error', __( 'You must agree to the Terms and Conditions.', 'lifterlms' ) );
@@ -170,7 +173,7 @@ function llms_create_new_person(
 		'user_email' => $email,
 		'first_name' => $firstname,
 		'last_name'  => $lastname,
-		'role'       => 'student'
+		'role'       => 'student',
 	) );
 
 	$new_person_address = apply_filters( 'lifterlms_new_person_address', array(
@@ -186,6 +189,10 @@ function llms_create_new_person(
 
 	foreach ($new_person_address as $key => $value ) {
 		add_user_meta( $person_id, $key, $value );
+	}
+
+	if ( isset( $phone ) ) {
+		add_user_meta( $person_id, 'llms_phone', $phone );
 	}
 
 	if ( is_wp_error( $person_id ) ) {
@@ -431,10 +438,13 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 						$membership_interval = get_post_meta( $membership_id, '_llms_expiration_interval', true );
 						$membership_period = get_post_meta( $membership_id, '_llms_expiration_period', true );
 
-						$end_date = strtotime( '+' . $membership_interval . $membership_period, strtotime( $obj['_start_date']->updated_date ) );
-
-						$return .= '<br><em>End Date</em>: ' . date( get_option( 'date_format' , 'Y-m-d' ), $end_date );
-
+						//only display end date if exists.
+						if ( $membership_interval ) {
+							
+							$end_date = strtotime( '+' . $membership_interval . $membership_period, strtotime( $obj['_start_date']->updated_date ) );
+						
+							$return .= '<br><em>End Date</em>: ' . date( get_option( 'date_format' , 'Y-m-d' ), $end_date );
+						}
 					}
 
 				}

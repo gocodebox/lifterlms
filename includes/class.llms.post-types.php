@@ -310,8 +310,11 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
-					'supports' 				=> array( 'title' ),
+					'supports' 				=> array('' ),
 					'has_archive' 			=> false,
+					'capabilities' => array(
+    'create_posts' => false,
+  )
 				)
 			)
 		);

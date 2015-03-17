@@ -8,12 +8,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course;
 
+if ( ! $course ) {
+
+	$course = new LLMS_Course( $post->ID );
+	
+}
+
 $post_id = $post->ID;
-
 $course = new LLMS_Course($post->ID);
-
 ?>
 <div class="clear"></div>
+<div class="llms-lesson-tooltip"id="lockedTooltip"></div>
 <div class="llms-syllabus-wrapper">
 
 <?php
@@ -46,6 +51,7 @@ foreach($the_stuff as $key => $value) :
 	echo '<h3 class="llms-h3 llms-section-title">' . $value->post_title . '</h3>';
 
 if($syllabus[$i]['lessons']) {
+
 	foreach( $syllabus[$i]['lessons'] as $key => $value) :
 
 		array_push($lessons_array, $syllabus[$i]['lessons'][$key]['lesson_id']);
@@ -76,22 +82,26 @@ if($syllabus[$i]['lessons']) {
 			//set permalink
 			$permalink = 'javascript:void(0)';
 			$page_restricted = llms_page_restricted($post_id);
+			$title = '';
+			$linkclass = '';
 
 			if ( ! $page_restricted['is_restricted'] ) {
-				
 			 	$permalink = get_permalink( $value->ID );	
-
+			 	$linkclass = 'llms-lesson-link';
 			}
-			
+			else {
+				$title = 'Take this course to unlock this lesson';
+				$linkclass = 'llms-lesson-link-locked';
+			}			
 
 			echo '
 				<div class="llms-lesson-preview' . $complete . '">
-					<a class="llms-lesson-link" href="' . $permalink . '">
+					<a class="' . $linkclass . '" title = "'. $title . '" href="' . $permalink . '">
 						' . $check . '
 						<div class="lesson-information">
 							<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
 							<span class="llms-lesson-counter">' . $lesson_i . ' of ' . $total_lessons . '</span>
-							<p class="llms-lesson-excerpt">'.$value->post_excerpt.'</p>
+							<p class="llms-lesson-excerpt">'.llms_get_excerpt($value->ID).'</p>
 						</div>
 					</a>
 				</div>
@@ -104,6 +114,7 @@ if($syllabus[$i]['lessons']) {
 	$i++;
 
 endforeach;
+
 
 ?>
 

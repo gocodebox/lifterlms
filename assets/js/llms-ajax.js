@@ -1,9 +1,13 @@
+
+
 function Ajax (type, data, cache) {
+	
 	this.type = type;
 	this.data = data;
 	this.cache = cache;
 	this.dataType = 'json';
 	this.url = window.ajaxurl || window.llms.ajaxurl;
+	
 }
 
 Ajax.prototype.get_sections = function () {
@@ -106,13 +110,143 @@ Ajax.prototype.get_questions = function () {
 	});
 };
 
-Ajax.prototype.get_quiz_questions = function (quiz_id, user_id) {
+Ajax.prototype.start_quiz = function (quiz_id, user_id) {
 	jQuery.ajax({
 		type 		: this.type,
 		url			: this.url,
 		data 		: this.data,
         cache		: this.cache,
         dataType	: this.dataType,
-		success		: function(response) { get_quiz_full_page(response); },
+		beforeSend: function() {
+
+			jQuery( '#llms_start_quiz' ).hide();
+			jQuery('html, body').stop().animate({scrollTop: 0}, 500); 
+			jQuery('#llms-quiz-wrapper').empty();
+
+			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Question...</div>' );
+		
+		},
+		success: function( html ) {
+
+			//start the quiz timer
+			start_quiz_timer();
+
+			//show the quiz timer
+			jQuery('#llms-quiz-timer').show();
+
+			//remove the loading message
+			jQuery('#llms-quiz-question-wrapper #loader').remove();
+
+			//append the returned html 
+			jQuery('#llms-quiz-question-wrapper').append( html );
+			
+			jQuery('#llms_answer_question').click(function() {
+
+				//call answer question
+				answer_question();
+
+				return false;
+
+			});
+		}
 	});
 };
+
+Ajax.prototype.answer_question = function ( quiz_id, question_type, question_id, answer ) {
+	jQuery.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+        cache		: this.cache,
+        dataType	: this.dataType,
+		beforeSend: function() {
+		jQuery('#llms-quiz-question-wrapper').empty();	
+		jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Next Question...</div>' );
+		},
+		success: function( response ) {
+
+			if ( response.redirect ) {
+				window.location.replace( response.redirect ); 
+
+			} else if ( response.message) {
+				window.location.replace( response.redirect ); 
+
+			} else {
+
+				jQuery('#llms-quiz-question-wrapper #loader').remove();
+
+				jQuery('#llms-quiz-question-wrapper').append( response.html );
+				
+				jQuery('#llms_answer_question').click(function() {
+					console.log( 'answer question clicked');
+					answer_question();
+					return false;
+				});
+
+				jQuery('#llms_prev_question').click(function() {
+					console.log( 'answer question clicked');
+					previous_question();
+					return false;
+				});
+
+			}
+		} //end success
+	});
+};
+
+Ajax.prototype.previous_question = function (quiz_id, question_id) {
+	jQuery.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+        cache		: this.cache,
+        dataType	: this.dataType,
+		beforeSend: function() {
+
+			jQuery('#llms-quiz-question-wrapper').empty();
+			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Question...</div>' );
+
+		},
+		success: function( html ) {
+
+			jQuery('#llms-quiz-question-wrapper #loader').remove();
+
+			jQuery('#llms-quiz-question-wrapper').append( html );
+			
+			jQuery('#llms_answer_question').click(function() {
+				answer_question();
+				return false;
+			});
+
+			jQuery('#llms_prev_question').click(function() {
+				console.log( 'previus question clicked');
+				previous_question();
+				return false;
+			});
+		}
+
+	});
+};
+
+Ajax.prototype.complete_quiz = function ( quiz_id, question_id, question_type, answer ) {
+	jQuery.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+        cache		: this.cache,
+        dataType	: this.dataType,
+		beforeSend: function() {
+
+			jQuery('#llms-quiz-question-wrapper').empty();	
+			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Quiz Results...</div>' );
+		
+		},
+		success: function( response ) {
+
+			//redirect back to quiz page
+			window.location.replace( response.redirect ); 
+
+		} //end success
+	});
+}; 
+

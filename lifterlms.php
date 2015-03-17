@@ -3,12 +3,12 @@
 * Plugin Name: LifterLMS
 * Plugin URI: http://lifterlms.com/
 * Description: lifterLMS is the easiest way for anyone to create a Learning Management System on the Wordpress platform.
-* Version: 1.1.1
+* Version: 1.2.3
 * Author: codeBOX
 * Author URI: http://gocodebox.com
 *
 * Requires at least: 3.8
-* Tested up to: 4.0
+* Tested up to: 4.1
 *
 * @package 		LifterLMS
 * @category 	Core
@@ -29,11 +29,11 @@ if ( ! class_exists( 'LifterLMS') ) :
  */
 final class LifterLMS {
 
-	public $version = '1.1.1';
+	public $version = '1.2.3';
 
 	protected static $_instance = null;
 
-	public $session = null;
+	public   $session = null;
 
 	public $person = null;
 
@@ -80,10 +80,11 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+		//add_action( 'init', array( 'LLMS_Widgets', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ) );
 		
 		// load localization files
-		add_action( 'init', array( $this, 'localize' ) );
+		add_action( 'plugins_loaded', array( $this, 'localize' ) );
 
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
@@ -105,6 +106,9 @@ final class LifterLMS {
 		}
 		elseif ( strpos( $class, 'llms_shortcode_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/shortcodes/';
+		}
+		elseif ( strpos( $class, 'llms_widget_' ) === 0 ) {
+			$path = $this->plugin_path() . '/includes/widgets/';
 		}
 		elseif ( strpos( $class, 'llms_integration_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/integrations/';
@@ -159,7 +163,12 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.php' );
 			include_once( 'includes/admin/class.llms.admin.forms.php' );	
 			include_once( 'includes/class.llms.activate.php' );
+			include_once( 'includes/class.llms.analytics.php' );
 		}
+
+		// Date and Number formatting
+		include_once( 'includes/class.llms.date.php' );
+		include_once( 'includes/class.llms.number.php' );
 
 		// Post types
 		include_once( 'includes/class.llms.post-types.php' );
@@ -180,6 +189,9 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.quiz.php' );
 		include_once( 'includes/class.llms.question.php' );
 		include_once( 'includes/class.llms.course.factory.php' );
+
+		include_once( 'includes/class.llms.widgets.php' );
+		include_once( 'includes/class.llms.widget.php' );
 
 		$this->query = include( 'includes/class.llms.query.php' );
 
@@ -209,6 +221,9 @@ final class LifterLMS {
 		include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
 
 		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
+
+		
+		//include_once( 'includes/widgets/class.llms.widget.progress.php' );
 	}
 
 	/**
@@ -233,6 +248,7 @@ final class LifterLMS {
 		$email_actions = array(
 			'lifterlms_created_person',
 			'lifterlms_lesson_completed_engagement',
+			'lifterlms_custom_engagement'
 		);
 
 		foreach ( $email_actions as $action )
@@ -379,8 +395,10 @@ final class LifterLMS {
 	 * @return void
 	 */
 	public function localize() {
+		
 		// load localization files
-		load_plugin_textdomain('lifterlms', false, LLMS_PLUGIN_DIR . 'languages' );
+		$test = load_plugin_textdomain('lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+
 	}
 
 }

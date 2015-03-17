@@ -1,0 +1,230 @@
+<h1>lifterLMS</h1>
+
+<p>LIFTER LMS</p>
+
+<h3>Shortcodes</h3>
+
+<ul>
+<li>[lifterlms_my_account]
+<em>adds entire account page
+</em>Accepts no arguments</li>
+<li>[courses]
+**Accepts arguments: order, orderby and per_page</li>
+</ul>
+
+
+<h3>Debug: llms_log($message)</h3>
+
+<p>*Logs message to wp-contents/debug.log</p>
+
+<h4>Examples</h4>
+
+<p><em>log_me(array(&lsquo;This is a message&rsquo; => &lsquo;for debugging purposes&rsquo;));
+</em>log_me(&lsquo;This is a message for debugging purposes&rsquo;);</p>
+
+<h1>CHANGELOG</h1>
+
+<h2>v1.2.3 - 2015-03-12</h2>
+
+<ul>
+<li>Achievement design and functionality updates</li>
+<li>Achievemnt shortcode added</li>
+<li>Better searching added to engagement screen</li>
+<li>Achievement bug fixes</li>
+<li>On screen error reporting added to activation for trouble shooting</li>
+<li>Custom engagement methods added to certificate, achievement and sections</li>
+<li>Corrected new user registration engagement bug</li>
+<li>LifterLMS access reduced from manage_options to edit_posts</li>
+<li>Filters added to analytics to allow custom developement</li>
+<li>Engagment bug fix: Section and Lesson bug select</li>
+<li>Syllabus bug corrected: No longer displays lessons in section box if no sections exist.</li>
+<li>Removed depreciated achievement template</li>
+<li>Membership Bug fix: Membership restriction will now only display on single posts.</li>
+</ul>
+
+
+<h2>v1.2.2 - 2015-02-23</h2>
+
+<ul>
+<li>Corrected drip content bug</li>
+<li>Added Ajax functionality to quiz</li>
+<li>rounded quiz grades</li>
+<li>Added quiz time limit setting to Quiz</li>
+<li>Added quiz timer to quiz, front end</li>
+<li>Quiz allowed attempts field now allows unlimited attempts</li>
+<li>Set Ajax lesson delete method to not return empty lesson value</li>
+<li>Set next and previous questions to display below quiz question</li>
+<li>Decoupled Single option select question type from quiz to allow for more question types</li>
+<li>Added Quiz time limit to display on Quiz page</li>
+<li>Added functionality to automatically complete quiz when quiz timer reaches 0</li>
+<li>Moved Quiz functionality methods from front end forms class to Quiz class</li>
+</ul>
+
+
+<h2>v1.2.1 - 2015-02-19</h2>
+
+<ul>
+<li>Updated settings page theming</li>
+<li>Added Set up Quick Start Guide</li>
+<li>Added Plugin Deactivation Option</li>
+<li>Updated language POT file</li>
+<li>Added Portuguese language support. Thank you Fernando Cassino for the translation :)</li>
+</ul>
+
+
+<h2>v1.2.0 - 2015-02-17</h2>
+
+<ul>
+<li>Admin Course Analytics Dashboard Page. View at LifterLMS->Analytics->Course</li>
+<li>Admin Sales Analytics Dashboard Page. View at LifterLMS->Analytics->Sales</li>
+<li>Admin Memberships Analytics Dashboard Page. View at LifterLMS->Analytics->Memberships</li>
+<li>Admin Students Search Page. View at LifterLMS->Students</li>
+<li>Admin Student Profile Page ( View user information related to courses and memberships )</li>
+<li>Lesson and Course Sidebar Widgets ( Syllabus, Course Progress )</li>
+<li>Course Syllabus: Lesson blocks greyed out. Clicking lesson displays message to take course.</li>
+<li>Misc. Front end bug fixes</li>
+<li>Misc. Admin bug fixes</li>
+<li>Course and Lesson prerequisites: Can no longer select a prerequisite without marking &ldquo;Has Prerequisite&rdquo;</li>
+<li>Admin CSS updates</li>
+<li>Better Session Management</li>
+<li>Number and Date formatting handled by seperate classes to provide consistant date formats across system</li>
+<li>Zero dollar coupon management: Coupons that set total to 0 will bypass payment gateway, generate order and enroll users.</li>
+<li>Better coupon verification.</li>
+<li>Better third party payment gateway support. Third party gateway plugins are now easier to develop and integrate.</li>
+<li>User Registration: Phone Number Registration field option now available in Accounts settings page.</li>
+</ul>
+
+
+<h2>v1.1.2 - 2014-12-18</h2>
+
+<ul>
+<li>Moved Sidebar registration from plugin install to init</li>
+</ul>
+
+
+<h2>v1.1.1 - 2014-12-16</h2>
+
+<ul>
+<li>Added user registration settings to require users to agree to Terms and Conditions on user registration</li>
+<li>Added comments to all classes methods and functions</li>
+<li>Removed unused and depreciated methods</li>
+<li>Added Lesson and Course Sidebar Widget Areas</li>
+<li>Fixed bug with course capacity option</li>
+<li>Fixed bug with endpoint rewrite</li>
+<li>Added localization POT file and us_EN.po translation file</li>
+</ul>
+
+
+<h2>v1.1.0 - 2014-12-08</h2>
+
+<ul>
+<li>Updated HTML / CSS on Registration form</li>
+<li>Added Coupon Creation</li>
+<li>Added Coupon support for checkout processing</li>
+<li>Added Credit Card Support processing support</li>
+<li>Added Form filters for external integration</li>
+<li>Added Form templates for external integration</li>
+<li>Added Account Setting: Require First and Last Name on registration</li>
+<li>Added Account Setting: Require Billing Address on registration</li>
+<li>Added Account Setting: Require users to validate email address (double entry)</li>
+<li>Added password validation (double entry) on user registration / account creation</li>
+<li>Added Quiz Question post type and associated metaboxes</li>
+<li>Added Quiz post type and associated metaboxes</li>
+<li>Added ability to assign a quiz to a lesson</li>
+<li>Added front end quiz functionality</li>
+<li>Added Course capacity (limit # of students)</li>
+</ul>
+
+
+<h3>User Admin Table</h3>
+
+<ul>
+<li>Added Membership Custom Column that displays user&rsquo;s membership information</li>
+<li>Added &ldquo;Last Login&rdquo; custom column that displays user&rsquo;s last login date/time</li>
+</ul>
+
+
+<h3>User Roles</h3>
+
+<ul>
+<li>Updated user role from &ldquo;person&rdquo; to &ldquo;student&rdquo;</li>
+<li>Added temporary migration function to transition any register users with &ldquo;person&rdquo; role to &ldquo;student&rdquo; role</li>
+<li>Added &ldquo;Student&rdquo; role install function</li>
+</ul>
+
+
+<h3>BUDDYPRESS</h3>
+
+<ul>
+<li>BuddyPress Screen Permission Fix</li>
+<li>Added two additional screens to BuddyPress: Certificates and Achievements</li>
+</ul>
+
+
+<h3>MISC</h3>
+
+<ul>
+<li>Added llms options for course archive pagination and added course archive page pagination template</li>
+<li>Added user statisticc shortcode</li>
+</ul>
+
+
+<h2>v1.0.5 - 2014-11-12</h2>
+
+<ul>
+<li>Fixed a mis-placed parenthesis in templates/course/lesson-navigation.php related to outputting excerpt in navigation option</li>
+<li>Changed theme override template directory from /llms to /lifterlms</li>
+<li>Update the positiong &amp; name of the &ldquo;My Courses&rdquo; Menu in BuddyPress Compatibility file</li>
+<li>New meta_key _parent_section added for easier connection and quicker queries.</li>
+<li>Section sorting on course syllabus</li>
+<li>Edit links added to course syllabus</li>
+<li>Assign section to course and view associated lessons metabox added to sections</li>
+<li>Assign lesson to section and view associated lessons metabox added to lessons</li>
+<li>Assigned Course, Assigned Section, Prerequisite and Membership Required added to lesson edit grid</li>
+<li>Assigned Course added to section edit grid'</li>
+<li>New membership setting: Restrict Entire Site by Membership Level (allows site restriction to everything but membership purchase and account).</li>
+<li>Updated template overriding to check child &amp; parent themes</li>
+<li>Updated template overriding to apply filters to directories to check for overrides to allow themes and plugins to add their own directories</li>
+</ul>
+
+
+<h2>v1.0.4 - 2014-11-04</h2>
+
+<ul>
+<li>Templating bug fix</li>
+<li>Added shortcode and autop support to course and lesson content / excerpt</li>
+</ul>
+
+
+<h2>v1.0.3 - 2014-11-04</h2>
+
+<ul>
+<li>Major Templating Update!</li>
+<li>Removed Course, Lesson and Membership single lesson templates.</li>
+<li>Course and Section content templates now filter through WP content</li>
+</ul>
+
+
+<h2>v1.0.2 - 2014-10-31</h2>
+
+<ul>
+<li>Added lesson short description to previous lesson preview links &ndash; it was rendering on &ldquo;Next&rdquo; but not &ldquo;Previous&rdquo;</li>
+<li>Added a class to course shop links wrapper to signify the course has been completed</li>
+<li>Removed an uncessary CSS rule related to the progress bar</li>
+</ul>
+
+
+<h2>v1.0.2 - 2014-10-30</h2>
+
+<ul>
+<li>Fixed SSL certificate issues when retreiving data from https://lifterlms.com</li>
+<li>Added rocket settings icon back into repo</li>
+</ul>
+
+
+<h2>v1.0.1 - 2014-10-30</h2>
+
+<ul>
+<li>Updated activation endpoint url to point towards live server rather than dev</li>
+</ul>
+

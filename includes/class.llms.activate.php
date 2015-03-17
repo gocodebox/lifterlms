@@ -46,47 +46,93 @@ class LLMS_Activate {
      */
     public function get_post_response( ) {
     	$is_active = get_option('lifterlms_is_activated', '');
+        $deactivate = get_option('lifterlms_activation_deactivate', '');
 
       	$action = 'llms_activate_plugin';
         $authkey = get_option('lifterlms_authkey', '');
         $license = get_option('lifterlms_activation_key', '');
         $site_url = get_bloginfo('url');
 
-        if (($license && $is_active == 'yes') || $license == '') {
-        	return;
+        //if deactivate option set to yes then deactivate 
+        //if ( $deactivate === 'yes' && $is_active === 'yes' ) {
+        if ( $deactivate === 'yes'  ) {
+
+            $this->deactivate( $authkey, $license, $site_url );
+
+        } else {
+
+            if (($license && $is_active == 'yes') || ($license == '' && $deactivate !== 'yes' ) ) {
+            	return;
+            }
+
+            $url = 'https://lifterlms.com/wp-admin/admin-ajax.php';
+
+            $response = wp_remote_post(
+                $url,
+                array(
+                    'body' => array(
+                    'action'   => $action,
+                    'authkey'     => $authkey,
+                    'license' => $license,
+                    'url' => $site_url
+                    ),
+                    'sslverify' => false
+                )
+            );
+
+            if ( is_wp_error( $response ) ) {
+                if ( !is_array( $response->get_error_message() ) ) {
+                    update_option('lifterlms_activation_message', $response->get_error_message() );
+                }
+            	
+
+            }
+            else {
+
+    			$activation_response = json_decode ($response['body']);
+    			if ($activation_response->success) {
+    				update_option('lifterlms_is_activated', 'yes');
+    				update_option('lifterlms_update_key', $activation_response->update_key);
+    			}
+    			else {
+    				update_option('lifterlms_activation_message', $activation_response->message);
+    			}
+
+            }
         }
+    }
+
+    /**
+     * Deactivates the plugin by updating the site options
+     * @return void
+     */
+    public function deactivate( $authkey, $license, $site_url ) {
 
         $url = 'https://lifterlms.com/wp-admin/admin-ajax.php';
+        $action = 'llms_deactivate_site';
 
         $response = wp_remote_post(
             $url,
             array(
                 'body' => array(
                 'action'   => $action,
-                'authkey'     => $authkey,
-                'license' => $license,
+                'key' => $license,
                 'url' => $site_url
                 ),
                 'sslverify' => false
             )
         );
+        if ( is_wp_error( $response ) ) { 
 
-        if ( is_wp_error( $response ) ) {
+        } else {
 
-        	update_option('lifterlms_activation_message', $activation_response->message);
-
-        }
-        else {
-
-			$activation_response = json_decode ($response['body']);
-			if ($activation_response->success) {
-				update_option('lifterlms_is_activated', 'yes');
-				update_option('lifterlms_update_key', $activation_response->update_key);
-			}
-			else {
-				update_option('lifterlms_activation_message', $activation_response->message);
-			}
+            update_option('lifterlms_activation_key', '');
+            update_option('lifterlms_is_activated', '');
+            update_option('lifterlms_activation_deactivate', '');
+            update_option('lifterlms_activation_message', '');
 
         }
+
     }
+
 }

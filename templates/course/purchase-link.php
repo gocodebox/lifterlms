@@ -7,6 +7,18 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course, $product;
+
+if ( ! $course ) {
+
+	$course = new LLMS_Course( $post->ID );
+	
+}
+if ( ! $product ) {
+
+	$product = new LLMS_Product( $post->ID );
+	
+}
+
 $user = new LLMS_Person;
 $user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $course->id );
 
@@ -49,7 +61,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 
 		//if course is purchasable redirect to login / registration page
 		else {
-			if(check_course_capacity()) {
+			if( check_course_capacity()) {
 
 				$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
 				$account_redirect = add_query_arg( 'product-id', get_the_ID(), $account_url );

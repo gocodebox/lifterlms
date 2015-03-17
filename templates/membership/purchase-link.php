@@ -8,6 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $product;
 
+if ( ! $product ) {
+
+	$product = new LLMS_Product( $post->ID );
+	
+}
+
 $single_price = $product->get_single_price();
 $rec_price = $product->get_recurring_price();
 

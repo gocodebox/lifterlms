@@ -131,7 +131,7 @@ class LLMS_Lesson {
 	 * @return string
 	 */
 	public function get_parent_course() {
-
+		//$this->parent_course = get_post_meta( $this->ID, '_parent_course', true );
 		return $this->parent_course;
 
 	}
@@ -143,7 +143,8 @@ class LLMS_Lesson {
 	 * @return int [ID of parent section]
 	 */
 	public function get_parent_section() {
-		global $course;
+		
+		$course = new LLMS_Course( $this->parent_course );
 
 		$sections = array();
 		
@@ -188,8 +189,8 @@ class LLMS_Lesson {
 	 * @return int [ID of next lesson]
 	 */
 	public function get_next_lesson() {
-		global $course;
 
+		$course = new LLMS_Course( $this->parent_course );
 		$lessons = array();
 		$current_lesson = $this->id;
 		$parent_section = $this->get_parent_section();
@@ -231,13 +232,13 @@ class LLMS_Lesson {
 	 * @return int [ID of previous lesson]
 	 */
 	public function get_previous_lesson() {
-		global $course;
 
 		$lessons = array();
 		$current_lesson = $this->id;
 		$parent_section = $this->get_parent_section();
+		$course = new LLMS_Course( $this->parent_course );
 		
-		if (is_object($course) ){
+		if (is_object( $course ) ){
 			$syllabus = $course->get_syllabus();
 
 			foreach( $syllabus as $key => $value ) {

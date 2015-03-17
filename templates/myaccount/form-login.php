@@ -18,7 +18,7 @@ global $wpdb;
 
 <?php do_action( 'lifterlms_before_person_login_form' ); ?>
 
-<div class="col-1" id="person_login">
+<div class="col-1 llms-person-login" id="person_login">
 
 	<h2><?php _e( 'Login', 'lifterlms' ); ?></h2>
 
@@ -42,13 +42,15 @@ global $wpdb;
 		<p>
 			<?php wp_nonce_field( 'lifterlms-login' ); ?>
 			<input type="submit" class="button" name="login" value="<?php _e( 'Login', 'lifterlms' ); ?>" />
-			<label for="rememberme" class="inline">
-				<input name="rememberme" type="checkbox" id="rememberme" value="forever" /> <?php _e( 'Remember me', 'lifterlms' ); ?>
+			<label for="rememberme" class="inline llms-rememberme-link">
+				<input class="llms-rememberme-link" name="rememberme" type="checkbox" id="rememberme" value="forever" /> <?php _e( 'Remember me', 'lifterlms' ); ?>
 			</label>
 		</p>
-		<p class="lost_password">
-			<a href="<?php echo esc_url( llms_lostpassword_url() ); ?>"><?php _e( 'Lost your password?', 'lifterlms' ); ?></a>
-		</p>
+		<div class="llms-lost-password-link">
+			<p class="lost_password">
+				<a href="<?php echo esc_url( llms_lostpassword_url() ); ?>"><?php _e( 'Lost your password?', 'lifterlms' ); ?></a>
+			</p>
+		</div>
 
 		<?php do_action( 'lifterlms_login_form_end' ); ?>
 

@@ -8,6 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course;
 
+if ( ! $course ) {
+
+	$course = new LLMS_Course( $post->ID );
+	
+}
+
 ?>
 <?php if ( $length = $course->get_lesson_length() ) : ?>
 <div class="llms-length-wrapper">

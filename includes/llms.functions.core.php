@@ -24,27 +24,6 @@ function llms_get_coupon() {
 }
 
 /**
- * Get attribute taxonomies.
- *
- * @return array
- */
-function llms_get_attribute_taxonomies() {
-
-      $transient_name = 'llms_attribute_taxonomies';
-
-      if ( false === ( $attribute_taxonomies = get_transient( $transient_name ) ) ) {
-
-            global $wpdb;
-
-            $attribute_taxonomies = $wpdb->get_results( "SELECT * FROM " . $wpdb->prefix . "lifterlms_attribute_taxonomies" );
-
-            set_transient( $transient_name, $attribute_taxonomies );
-      }
-
-      return apply_filters( 'lifterlms_attribute_taxonomies', $attribute_taxonomies );
-}
-
-/**
  * Get Countries array for Select list
  * @return array [Countries list]
  */
@@ -320,7 +299,6 @@ function get_lifterlms_currencies() {
                         'CAD' => __( 'Canadian Dollars', 'lifterlms' ),
                         'CLP' => __( 'Chilean Peso', 'lifterlms' ),
                         'CNY' => __( 'Chinese Yuan', 'lifterlms' ),
-                        'COP' => __( 'Colombian Peso', 'lifterlms' ),
                         'CZK' => __( 'Czech Koruna', 'lifterlms' ),
                         'DKK' => __( 'Danish Krone', 'lifterlms' ),
                         'EUR' => __( 'Euros', 'lifterlms' ),
@@ -430,16 +408,6 @@ function get_lifterlms_currency_symbol( $currency = '' ) {
       return apply_filters( 'lifterlms_currency_symbol', $currency_symbol, $currency );
 }
 
-/**
- * Format Localized Price
- * Returns formatted price based on localization
- * 
- * @param  string $value [price as string]
- * @return string [formatted price]
- */
-function llms_format_localized_price( $value ) {
-      return str_replace( '.', '.', strval( $value ) );
-}
 
 /**
  * Format Number as decimal
@@ -566,6 +534,23 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
       do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
 }
 
+function llms_get_template_ajax( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
+      if ( $args && is_array( $args ) ) {
+            extract( $args );
+      }
+
+      $located = llms_locate_template( $template_name, $template_path, $default_path );
+
+      //do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
+
+      include( $located );
+      $myvar = ob_get_contents();
+            ob_end_clean();
+            return $myvar;
+
+     // do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
+}
+
 /**
  * Locate Template
  * 
@@ -611,7 +596,6 @@ function llms_get_template_override($template = '') {
             get_stylesheet_directory() . '/lifterlms',
             get_template_directory() . '/lifterlms'
       ) );
-
 
       foreach( $dirs as $dir ) {
 
@@ -854,10 +838,9 @@ function check_course_capacity() {
  * @return array $sidebars_widgets [Filtered WP array of widgets in sidebar]
  */
 function displaying_sidebar_in_post_types($sidebars_widgets) {
-
-      if (is_singular('course')) {
+      if (is_singular('course') && array_key_exists ('llms_course_widgets_side', $sidebars_widgets)) {
             $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_course_widgets_side'];
-      } elseif (is_singular('lesson')) {
+      } elseif (is_singular('lesson') && array_key_exists ('llms_lesson_widgets_side', $sidebars_widgets)) {
             $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_lesson_widgets_side'];
       }
       

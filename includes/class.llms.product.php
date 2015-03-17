@@ -401,7 +401,7 @@ class LLMS_Product {
 
 		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 			if ($this->id == $adjustment->product_id) {
-				if ($adjustment->limit >= 0) {
+				if ( ( $adjustment->limit >= 0 ) || ( $adjustment->limit === 'unlimited' ) ) {
 				    if ($adjustment->type == 'percent') {
 
 						$amount =  ($adjustment->amount / 100);
@@ -433,7 +433,8 @@ class LLMS_Product {
 
 		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
 			if ($this->id == $adjustment->product_id) {
-				if ($adjustment->limit >= 0) {
+
+				if ( ( $adjustment->limit >= 0 ) || ( $adjustment->limit === 'unlimited' ) ) {
 					if ($adjustment->type == 'percent') {
 
 						$amount =  (1 - ($adjustment->amount / 100));
@@ -586,5 +587,64 @@ class LLMS_Product {
 		return '<del>' . ( ( is_numeric( $base ) ) ? llms_price( $base ) : $base ) . '</del> <ins>' . ( ( is_numeric( $sale ) ) ? llms_price( $sale ) : $sale ) . '</ins>';
 
 	}
+
+	/**
+	 * Retrieves all relivent post meta for order
+	 * 
+	 * @param  [int] $id [Id of order]
+	 * @return [object]     [Object containing all post meta relivent to oreder]
+	 */
+	public static function get_order_data( $id ) {
+		global $wpdb;
+
+		$order = new \stdClass();
+
+		// Get Auction Meta
+		$pm = get_post_meta( $id );
+
+		$order->id = $id;
+		$order->user_id = isset( $pm['_llms_user_id'][0] ) ? $pm['_llms_user_id'][0] : '';
+		
+		//product information
+		$order->product_id = isset( $pm['_llms_order_product_id'][0] ) ? $pm['_llms_order_product_id'][0] : '';
+		$order->product_title = get_the_title( $order->id );
+		$order->product_title = isset( $pm['_llms_product_title'][0] ) ? $pm['_llms_product_title'][0] : '';
+		$order->product_sku = isset( $pm['_llms_product_sku'][0] ) ? $pm['_llms_product_sku'][0] : '';
+
+		//order information
+		$order->order_currency = isset( $pm['_llms_order_currency'][0] ) ? $pm['_llms_order_currency'][0] : '';
+		$order->order_date = isset( $pm['_llms_order_date'][0] ) ? LLMS_Date::db_date( $pm['_llms_order_date'][0] ) : '';
+		$order->order_time = isset( $pm['_llms_order_date'][0] ) ? $pm['_llms_order_date'][0] : '';
+		$order->order_type = isset( $pm['_llms_order_type'][0] ) ? $pm['_llms_order_type'][0] : '';
+
+		//recurring payment information
+		$order->order_recurring_price = isset( $pm['_llms_order_recurring_price'][0] ) ? $pm['_llms_order_recurring_price'][0] : '';
+		$order->order_first_payment = isset( $pm['_llms_order_first_payment'][0] ) ? $pm['_llms_order_first_payment'][0] : 0;
+		$order->order_billing_period = isset( $pm['_llms_order_billing_period'][0] ) ? $pm['_llms_order_billing_period'][0] : '';
+		$order->order_billing_cycle = isset( $pm['_llms_order_billing_cycle'][0] ) ? $pm['_llms_order_billing_cycle'][0] : '';
+		$order->order_billing_freq = isset( $pm['_llms_order_billing_freq'][0] ) ? $pm['_llms_order_billing_freq'][0] : '';
+		$order->order_billing_start_date = isset( $pm['_llms_order_billing_start_date'][0] ) ? $pm['_llms_order_billing_start_date'][0] : '';
+
+		//payment information
+		$order->payment_type = isset( $pm['_llms_payment_type'][0] ) ? $pm['_llms_payment_type'][0] : '';
+		$order->payment_method = isset( $pm['_llms_payment_method'][0] ) ? $pm['_llms_payment_method'][0] : '';
+		$order->order_total = isset( $pm['_llms_order_total'][0] ) ? $pm['_llms_order_total'][0] : 0;
+		
+		//coupon information
+		$order->coupon_id = isset( $pm['_llms_order_coupon_id'][0] ) ? $pm['_llms_order_coupon_id'][0] : '';
+		$order->coupon_type = isset( $pm['_llms_order_coupon_type'][0] ) ? $pm['_llms_order_coupon_type'][0] : '';
+		$order->coupon_amount = isset( $pm['_llms_order_coupon_amount'][0] ) ? $pm['_llms_order_coupon_amount'][0] : 0;
+		$order->coupon_limit = isset( $pm['_llms_order_coupon_limit'][0] ) ? $pm['_llms_order_coupon_limit'][0] : '';
+		$order->coupon_code = isset( $pm['_llms_order_coupon_code'][0] ) ? $pm['_llms_order_coupon_code'][0] : '';
+
+		//paypal recurring specific
+		if ( $order->payment_type === 'paypal' && $order->order_type === 'recurring' ) {
+			//paypal profile id for recurring payments
+			$order->paypal_profile_id = $pm['_llms_order_paypal_profile_id'][0];
+		}
+
+		return $order;
+	}
+
 
 }

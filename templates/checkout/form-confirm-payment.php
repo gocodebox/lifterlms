@@ -32,7 +32,6 @@ if( $subs ) {
 		}
 	}
 }
-//$recurring_html_price = $product_obj->get_recurring_price_html();
 ?>
 
 <?php llms_print_notices(); ?>

@@ -51,7 +51,11 @@ class LLMS_Email_Person_New extends LLMS_Email {
 
 		if ( $user_id ) {
 
-			$this->object 			  = new WP_User( $user_id );
+			$this->object 			    = new WP_User( $user_id );
+			$this->user             	= get_user_meta( $user_id );
+			$this->user_data			= get_userdata( $user_id );
+			$this->user_firstname		= ($this->user['first_name'][0] != '' ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
+			$this->user_lastname		= ($this->user['last_name'][0] != '' ?  $this->user['last_name'][0] : '');
 			$this->user_pass          = $user_pass;
 			$this->user_login         = stripslashes( $this->object->user_login );
 			$this->user_email         = stripslashes( $this->object->user_email );
@@ -76,11 +80,20 @@ class LLMS_Email_Person_New extends LLMS_Email {
 		$this->find = array( 
 			'{site_title}', 
 			'{user_login}', 
-			'{site_url}' );
+			'{site_url}' ,
+			'{first_name}',
+			'{last_name}',
+			'{email_address}',
+			'{current_date}');
 		$this->replace = array( 
 			$this->get_blogname(), 
 			$this->user_login, 
-			$this->account_link );
+			$this->account_link,
+			$this->user_firstname,
+			$this->user_lastname,
+			$this->user_email,
+			date('M d, Y', strtotime(current_time('mysql'))),
+		);
 
 		$content = $this->format_string($this->email_content);
 

@@ -89,20 +89,6 @@ function llms_get_post_content( $content ) {
 
 			return do_shortcode($output_before . $content . $output_after);
 
-			case 'llms_question':
-			$template_before  = llms_get_template_part_contents( 'content', 'single-question-before' );
-			$template_after  = llms_get_template_part_contents( 'content', 'single-question-after' );
-
-			ob_start();
-			load_template($template_before);
-			$output_before = ob_get_clean();
-	
-			ob_start();
-			load_template($template_after);
-			$output_after = ob_get_clean();
-
-			return do_shortcode($output_before . $content . $output_after);
-
 		default:
 		  return $content;
 		}
@@ -405,6 +391,66 @@ if ( ! function_exists( 'lifterlms_template_quiz_attempts' ) ) {
 }
 
 /**
+ * Quiz timer
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_time_limit' ) ) {
+
+	function lifterlms_template_quiz_time_limit() {
+
+		llms_get_template( 'quiz/time-limit.php' );
+	}
+}
+
+/**
+ * Quiz timer
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_timer' ) ) {
+
+	function lifterlms_template_quiz_timer() {
+
+		llms_get_template( 'quiz/timer.php' );
+	}
+}
+
+/**
+ * Quiz: wrapper start ( quiz container )
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_wrapper_start' ) ) {
+
+	function lifterlms_template_quiz_wrapper_start() {
+
+		llms_get_template( 'quiz/quiz-wrapper-start.php' );
+	}
+}
+
+/**
+ * Quiz: wrapper end ( quiz container )
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_wrapper_end' ) ) {
+
+	function lifterlms_template_quiz_wrapper_end() {
+
+		llms_get_template( 'quiz/quiz-wrapper-end.php' );
+	}
+}
+
+/**
+ * Question: Wrapper for ajax loaded quiz question
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_question' ) ) {
+
+	function lifterlms_template_quiz_question() {
+
+		llms_get_template( 'quiz/quiz-question.php' );
+	}
+}
+
+/**
  * Lesson Return link Template Include
  * @return void
  */
@@ -446,9 +492,9 @@ if ( ! function_exists( 'lifterlms_template_start_button' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_single_next_question' ) ) {
 
-	function lifterlms_template_single_next_question() {
+	function lifterlms_template_single_next_question( $args ) {
 
-		llms_get_template( 'quiz/next-question.php' );
+		llms_get_template( 'quiz/next-question.php', $args );
 	}
 }
 
@@ -458,9 +504,9 @@ if ( ! function_exists( 'lifterlms_template_single_next_question' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_single_prev_question' ) ) {
 
-	function lifterlms_template_single_prev_question() {
+	function lifterlms_template_single_prev_question( $args ) {
 
-		llms_get_template( 'quiz/previous-question.php' );
+		llms_get_template( 'quiz/previous-question.php', $args );
 	}
 }
 
@@ -470,9 +516,17 @@ if ( ! function_exists( 'lifterlms_template_single_prev_question' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_single_question_count' ) ) {
 
-	function lifterlms_template_single_question_count() {
+	function lifterlms_template_single_question_count( $args ) {
 
-		llms_get_template( 'quiz/question-count.php' );
+		llms_get_template( 'quiz/question-count.php', $args );
+	}
+}
+
+if ( ! function_exists( 'lifterlms_get_content' ) ) {
+
+	function lifterlms_get_content( $args ) {
+
+		llms_get_template( 'content-single-question.php', $args );
 	}
 }
 
@@ -489,14 +543,26 @@ if ( ! function_exists( 'lifterlms_template_single_single_choice' ) ) {
 }
 
 /**
+ * Single Choice Question Template Include AJAX
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_single_single_choice_ajax' ) ) {
+
+	function lifterlms_template_single_single_choice_ajax( $args ) {
+
+		llms_get_template( 'quiz/single-choice_ajax.php', $args );
+	}
+}
+
+/**
  * Question Wrapper Start Template Include
  * @return void
  */
 if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_start' ) ) {
 
-	function lifterlmslifterlms_template_question_wrapper_start() {
+	function lifterlmslifterlms_template_question_wrapper_start( $args ) {
 
-		llms_get_template( 'quiz/wrapper-start.php' );
+		llms_get_template( 'quiz/wrapper-start.php', $args );
 	}
 }
 
@@ -506,9 +572,9 @@ if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_start' ) )
  */
 if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_end' ) ) {
 
-	function lifterlmslifterlms_template_question_wrapper_end() {
+	function lifterlmslifterlms_template_question_wrapper_end( $args ) {
 
-		llms_get_template( 'quiz/wrapper-end.php' );
+		llms_get_template( 'quiz/wrapper-end.php', $args );
 	}
 }
 
@@ -656,7 +722,7 @@ function llms_setup_lesson_data( $post ) {
 			$courseid = get_post_meta( $post->ID, '_parent_course');
 
 			if ( isset($courseid) ) {
-			$parent_course = get_post( $courseid[0] );
+			$parent_course = get_post( $courseid );
 			}
 
 			$GLOBALS['lesson'] = get_lesson( $post );
@@ -701,16 +767,16 @@ function get_section_data ($sections) {
 	    'nopaging' 		=> true,
 	);
 
-	$query = get_posts( $args );
+	$sections_query = get_posts( $args );
 
 	$array = array();
 
 	foreach($sections as $key => $value) :
 
-		foreach($query as $post) :
+		foreach($sections_query as $section) :
 
-			if ($value == $post->ID) {
-				$array[$post->ID] = $post;
+			if ($value == $section->ID) {
+				$array[$section->ID] = $section;
 			}
 
 		endforeach;
@@ -736,17 +802,17 @@ function get_lesson_data ($lessons) {
 	    'nopaging' 		=> true,
 	);
 
-	$query = get_posts( $args );
+	$lessons_query = get_posts( $args );
 
 	$array = array();
 
 
 	foreach($lessons as $key => $value) :
 
-		foreach($query as $post) :
+		foreach($lessons_query as $lesson) :
 
-			if ($value == $post->ID) {
-				$array[$value] = $post;
+			if ($value == $lesson->ID) {
+				$array[$value] = $lesson;
 			}
 
 		endforeach;
@@ -897,120 +963,6 @@ if ( ! function_exists( 'lifterlms_course_progress_bar') ) {
 }
 
 /**
- * Get Course Subcategories
- * @param  array  $args [array of query arguments]
- * @return oid
- */
-if ( ! function_exists( 'lifterlms_course_subcategories' ) ) {
-	
-	function lifterlms_course_subcategories( $args = array() ) {
-		global $wp_query;
-
-		$defaults = array(
-			'before'  => '',
-			'after'  => '',
-			'force_display' => false
-		);
-
-		$args = wp_parse_args( $args, $defaults );
-
-		extract( $args );
-
-		// Main query only
-		if ( ! is_main_query() && ! $force_display ) return;
-
-		// Don't show when filtering, searching or when on page > 1 and ensure we're on a course archive
-		if ( is_search() || is_filtered() || is_paged() || ( ! is_course_category() && ! is_shop() ) ) return;
-
-		// Check categories are enabled
-		if ( is_shop() && get_option( 'lifterlms_shop_page_display' ) == '' ) return;
-
-		// Find the category + category parent, if applicable
-		$term 			= get_queried_object();
-		$parent_id 		= empty( $term->term_id ) ? 0 : $term->term_id;
-
-		if ( is_course_category() ) {
-			$display_type = get_lifterlms_term_meta( $term->term_id, 'display_type', true );
-
-			switch ( $display_type ) {
-				case 'courses' :
-					return;
-				break;
-				case '' :
-					if ( get_option( 'lifterlms_category_archive_display' ) == '' )
-						return;
-				break;
-			}
-		}
-
-		$args = apply_filters( 'lifterlms_course_subcategories_args', array(
-			'child_of'		=> $parent_id,
-			'menu_order'	=> 'ASC',
-			'hide_empty'	=> 1,
-			'hierarchical'	=> 1,
-			'taxonomy'		=> 'course_cat',
-			'pad_counts'	=> 1
-		) );
-
-		$course_categories     = get_categories( $args );
-		$course_category_found = false;
-
-		if ( $course_categories ) {
-
-			foreach ( $course_categories as $category ) {
-
-				if ( $category->parent != $parent_id ) {
-					continue;
-				}
-				if ( $args['hide_empty'] && $category->count == 0 ) {
-					continue;
-				}
-
-				if ( ! $course_category_found ) {
-					// We found a category
-					$course_category_found = true;
-					echo $before;
-				}
-
-				llms_get_template( 'content-course_cat.php', array(
-					'category' => $category
-				) );
-
-			}
-
-		}
-
-		// If we are hiding courses disable the loop and pagination
-		if ( $course_category_found ) {
-			if ( is_course_category() ) {
-				$display_type = get_lifterlms_term_meta( $term->term_id, 'display_type', true );
-
-				switch ( $display_type ) {
-					case 'subcategories' :
-						$wp_query->post_count = 0;
-						$wp_query->max_num_pages = 0;
-					break;
-					case '' :
-						if ( get_option( 'lifterlms_category_archive_display' ) == 'subcategories' ) {
-							$wp_query->post_count = 0;
-							$wp_query->max_num_pages = 0;
-						}
-					break;
-				}
-			}
-			if ( is_shop() && get_option( 'lifterlms_shop_page_display' ) == 'subcategories' ) {
-				$wp_query->post_count = 0;
-				$wp_query->max_num_pages = 0;
-			}
-
-			echo $after;
-			return true;
-		}
-
-	}
-}
-
-/**
  * Is template filtered
  * @return boolean [template filtered?]
  */
@@ -1050,7 +1002,7 @@ if ( ! function_exists( 'is_shop' ) ) {
  * Is Memberhsip Archive Page
  * @return boolean [Is Membership Archive?]
  */
-if ( ! function_exists( 'is_shop' ) ) {
+if ( ! function_exists( 'is_memberships' ) ) {
 	
 	function is_memberships() {
 		return ( is_post_type_archive( 'llms_membership' ) || is_page( llms_get_page_id( 'memberships' ) ) ) ? true : false;
@@ -1091,102 +1043,7 @@ if( ! function_exists( 'is_lesson') ) {
 
 }
 
-/**
- * Is llms endpoint url
- * @param  string  $endpoint [endpoint]
- * @return boolean [Does endpoint exist in llms_endpoints?]
- */
-if ( ! function_exists( 'is_llms_endpoint_url' ) ) {
 
-	function is_llms_endpoint_url( $endpoint ) {
-		global $wp;
-
-		$llms_endpoints = LLMS()->query->get_query_vars();
-
-		if ( ! isset( $llms_endpoints[ $endpoint ] ) ) {
-			return false;
-		} else {
-			$endpoint_var = $llms_endpoints[ $endpoint ];
-		}
-
-		return isset( $wp->query_vars[ $endpoint_var ] ) ? true : false;
-	}
-}
-//DEPRECIATED: DELETE AFTER TESTING
-// /**
-//  * [lifterlms_courses_will_display description]
-//  * @return [type] [description]
-//  */
-// if ( ! function_exists( 'lifterlms_courses_will_display' ) ) {
-
-// 	function lifterlms_courses_will_display() {
-// 		if ( is_shop() )
-// 			return get_option( 'lifterlms_shop_page_display' ) != 'subcategories';
-
-// 		if ( ! is_course_taxonomy() )
-// 			return false;
-
-// 		if ( is_search() || is_filtered() || is_paged() )
-// 			return true;
-
-// 		$term = get_queried_object();
-
-// 		if ( is_course_category() ) {
-// 			switch ( get_lifterlms_term_meta( $term->term_id, 'display_type', true ) ) {
-// 				case 'subcategories' :
-// 					// Nothing - we want to continue to see if there are courses/subcats
-// 				break;
-// 				case 'courses' :
-// 				case 'both' :
-// 					return true;
-// 				break;
-// 				default :
-// 					// Default - no setting
-// 					if ( get_option( 'lifterlms_category_archive_display' ) != 'subcategories' )
-// 						return true;
-// 				break;
-// 			}
-// 		}
-
-// 		// Begin subcategory logic
-// 		global $wpdb;
-
-// 		$parent_id             = empty( $term->term_id ) ? 0 : $term->term_id;
-// 		$taxonomy              = empty( $term->taxonomy ) ? '' : $term->taxonomy;
-// 		$courses_will_display = true;
-
-// 		if ( ! $parent_id && ! $taxonomy ) {
-// 			return true;
-// 		}
-
-// 		if ( false === ( $courses_will_display = get_transient( 'llms_courses_will_display_' . $parent_id ) ) ) {
-// 			$has_children = $wpdb->get_col( $wpdb->prepare( "SELECT term_id FROM {$wpdb->term_taxonomy} WHERE parent = %d AND taxonomy = %s", $parent_id, $taxonomy ) );
-
-// 			if ( $has_children ) {
-// 				// Check terms have courses inside - parents first. If courses are found inside, subcats will be shown instead of courses so we can return false.
-// 				if ( sizeof( get_objects_in_term( $has_children, $taxonomy ) ) > 0 ) {
-// 					$courses_will_display = false;
-// 				} else {
-// 					// If we get here, the parents were empty so we're forced to check children
-// 					foreach ( $has_children as $term ) {
-// 						$children = get_term_children( $term, $taxonomy );
-
-// 						if ( sizeof( get_objects_in_term( $children, $taxonomy ) ) > 0 ) {
-// 							$courses_will_display = false;
-// 							break;
-// 						}
-// 					}
-// 				}
-// 			} else {
-// 				$courses_will_display = true;
-// 			}
-// 		}
-
-// 		set_transient( 'llms_courses_will_display_' . $parent_id, $courses_will_display, YEAR_IN_SECONDS );
-
-// 		return $courses_will_display;
-// 	}
-// }
 
 /**
  * Product Short Description Template Include
@@ -1492,23 +1349,6 @@ function llms_get_question( $the_question = false, $args = array() ) {
 }
 
 /**
- * Post Comments Return
- * @return void
- */
-function tpp_posts_comments_return() {
-	$post_id = isset( $_POST['post_id'] ) ? $_POST['post_id'] : 0;
-
-	if ($post_id > 0) {
-		$post = get_post($post_id);
-		?>
-		<div class="tpp_post" id="post"><?php echo $post->post_content; ?></div>
-		<?php
-	}
-	die();
-}
-add_action('wp_ajax_nopriv_tpp_comments', 'tpp_posts_comments_return');
-
-/**
  * Paginate Courses on Course Archive by llms setting
  * @param  object / $query / global $wp_query query args
  * @return object / $query
@@ -1521,3 +1361,19 @@ function llms_courses_per_page( $query ) {
 	return $query;
 }
 add_filter( 'pre_get_posts', 'llms_courses_per_page' );
+
+
+function llms_get_excerpt($post_id) {
+	global $post;
+
+    $temp = $post;
+    $post = get_post( $post_id );
+    setup_postdata( $post );
+
+    $excerpt = get_the_excerpt();
+
+    wp_reset_postdata();
+    $post = $temp;
+
+    return $excerpt;
+}

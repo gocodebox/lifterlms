@@ -428,111 +428,195 @@ class LLMS_Course {
 
 	}
 
-	/**
-	 * Get price in html format
-	 *
-	 * @return string
-	 */
-	public function get_price_html( $price = '' ) {
+	public static function check_enrollment( $course_id, $user_id = '' ) {
+		global $wpdb;
 
-		$suffix 				= $this->get_price_suffix_html();
-		$currency_symbol 		= get_lifterlms_currency_symbol() != '' ? get_lifterlms_currency_symbol() : '';
-		$display_price 			= $this->get_price();
-		$display_base_price 	= $this->get_base_price();
-		$display_sale_price    	= $this->get_sale_price();
+		//set enrollment to false
+		$enrolled = false;
 
-		if ( $this->get_price() > 0 ) {
-			$price = $this->set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price);
+		// if no course id then nothing we can do
+		if ( ! empty( $course_id ) ) {
 
+			// if user id is empty get current user id
+			if ( empty( $user_id ) ) {
+
+				$user_id = get_current_user_id();
+			}
+
+			//query user_postmeta table
+			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+			$results = $wpdb->get_results( 
+				$wpdb->prepare(
+					'SELECT * FROM '.$table_name.
+						' WHERE post_id = %s 
+							AND user_id = %s', 
+					$course_id, $user_id 
+				) 
+			);
+
+			if ( $results ) {
+				foreach ( $results as $result ) {
+					if ( $result->meta_key === '_status' && ( $result->meta_value === 'Enrolled' || $result->meta_value === 'Expired' ) ) {
+						$enrolled = $results;
+					}
+				}
+				
+			}
 		}
 
-		elseif ( $this->get_price() === '' ) {
-
-			$price = apply_filters( 'lifterlms_empty_price_html', '', $this );
-
-		}
-
-		elseif ( $this->get_price() == 0 ) {
-
-			$price = $this->set_price_html_as_free();
-
-		}
-
-		return apply_filters( 'lifterlms_get_price_html', $price, $this );
+		return $enrolled;
 	}
 
+	public static function get_user_post_data( $post_id, $user_id = '' ) {
+		global $wpdb;
 
-	/**
-	 * Set price html to a decimal value with currency and suffix.
-	 *
-	 * @return string
-	 */
-	public function set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price) {
+		$results = false;
 
+		if ( ! empty( $post_id ) ) {
 
-		// Check if price is on sale and base price exists
-		if ( $this->is_on_sale() && $this->get_base_price() ) {
+			// if user id is empty get current user id
+			if ( empty( $user_id ) ) {
 
-			//generate price with formatting and suffix
-			$price = $currency_symbol;
+				$user_id = get_current_user_id();
+			}
 
-			$price .= $this->get_price_variations_html( $display_base_price, $display_price ) . $suffix;
-
-			$price = apply_filters( 'lifterlms_sale_price_html', $price, $this );
-
+			// query user postmeta table
+			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+			$results = $wpdb->get_results( 
+				$wpdb->prepare(
+					'SELECT * FROM '.$table_name.
+						' WHERE post_id = %s 
+							AND user_id = %s', 
+					$post_id, $user_id 
+				) 
+			);
 		}
 
-		else {
-
-			//generate price with formatting and suffix
-			$price = $currency_symbol;
-
-			$price .= llms_price( $display_price ) . $suffix;
-
-			$price = apply_filters( 'lifterlms_price_html', $price, $this );
-
-		}
-
-		return $price;
-
-	}
-
-	/**
-	 * Set price html to Free is ocurse is 0
-	 *
-	 * @return string
-	 */
-	public function set_price_html_as_free() {
-
-		if ( $this->is_on_sale() && $this->get_base_price() ) {
-
-			$price .= $this->get_price_variations_html( $display_base_price, __( 'Free!', 'lifterlms' ) );
-
-			$price .= apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
-
-		}
-
-		else {
-
-			$price = __( 'Free!', 'lifterlms' );
-
-			$price = apply_filters( 'lifterlms_free_price_html', $price, $this );
-
-		}
-
-		return $price;
+		return $results;
 
 	}
 
-	/**
-	 * Check: Is the sale price different than the base price and is the sale price equal to the price returned from get_price().
-	 *
-	 * @return bool
-	 */
-	public function is_on_sale() {
+	public function get_student_progress( $user_id = '' ) {
+		
+		// if user_id is empty get current user id
+		if ( empty( $user_id ) ) {
 
-		return ( $this->get_sale_price() != $this->get_base_price() && $this->get_sale_price() == $this->get_price() );
+			$user_id = get_current_user_id();
+		}
 
+		//check if user is enrolled
+		$enrollment = self::check_enrollment( $this->id, $user_id );
+
+
+		// set up course details and enrollment information
+		$obj = new stdClass();
+		$obj->id = $this->id;
+
+		if ( $enrollment ) {
+
+			$obj->is_enrolled = true;
+			$obj->is_complete = false;
+
+			//loop through returned rows and save data to object
+			foreach ( $enrollment as $row ) {
+
+				if ( $row->meta_key === '_start_date' ) {
+
+					$obj->start_date = $row->updated_date;
+
+				} elseif ( $row->meta_key === '_is_complete' ) {
+
+					$obj->is_complete = true;
+					$obj->completed_date = $row->updated_date;
+
+				} elseif ( $row->meta_key === 'status' ) {
+
+					$obj->status = $row->meta_value;
+
+				}
+			}
+
+		} else {
+
+			$obj->is_enrolled = false;
+
+		}
+
+		//add sections array to object
+		$obj->sections = array();
+		//add lessons array to object
+		$obj->lessons = array();
+
+		
+		//get course syllabus
+		$course_syllabus = $this->get_syllabus();
+
+		//get section data
+		foreach ( $course_syllabus as $key => $value ) {
+
+			$section = array();
+			$section['id'] = $value['section_id'];
+			$section['title'] = get_the_title(  $value['section_id'] );
+
+			// get any user post meta data
+			$section['is_complete'] = false;
+			$section_user_data = self::get_user_post_data( $value['section_id'], $user_id );
+
+			$obj->is_complete = false;
+			if ( $section_user_data ) {
+
+				//loop through returned rows and save data to object
+				foreach ( $section_user_data as $row ) {
+
+					if ( $row->meta_key === '_is_complete' ) {
+
+						$section['is_complete'] = true;
+						$section['completed_date'] = $row->updated_date;
+
+					}
+
+				}
+
+			}
+			
+			$obj->sections[] = $section;
+
+			// get lesson data
+			if ( $value['lessons'] ) { 
+
+				foreach ( $value['lessons'] as $k => $v ) {
+
+					$lesson = array();
+					$lesson['id'] = $v['lesson_id'];
+					$lesson['title'] = get_the_title( $v['lesson_id'] );
+					$lesson['parent_id'] = $value['section_id'];
+
+					$lesson['is_complete'] = false;
+
+					$lesson_user_data = self::get_user_post_data( $v['lesson_id'], $user_id );
+
+					//loop through returned rows and save data to object
+					foreach ( $lesson_user_data as $row ) {
+
+						if ( $row->meta_key === '_is_complete' ) {
+
+							$lesson['is_complete'] = true;
+							$lesson['completed_date'] = $row->updated_date;
+
+						}
+
+					}
+
+					$obj->lessons[] = $lesson;
+
+				}
+
+			}
+
+		}
+
+		return $obj;
+		
 	}
 
 	/**
@@ -543,123 +627,6 @@ class LLMS_Course {
 	public function get_price() {
 
 		return apply_filters( 'lifterlms_get_price', $this->price, $this );
-
-	}
-
-	/**
-	 * Set function for price value.
-	 *
-	 * @return void
-	 */
-	public function set_price( $price ) {
-
-		$this->price = $price;
-
-	}
-
-	/**
-	 * get the base price value.
-	 *
-	 * @return void
-	 */
-	public function get_base_price( $price = '' ) {
-
-		$price = $price;
-
-	}
-
-	/**
-	 * get the base price value.
-	 *
-	 * @return void
-	 */
-	public function get_sale_price( $price = '' ) {
-
-		$price = $price;
-
-	}
-
-	/**
-	 * creates the price suffix html
-	 *
-	 * @return void
-	 */
-	public function get_price_suffix_html() {
-
-
-		$price_display_suffix  = get_option( 'lifterlms_price_display_suffix' );
-
-		if ( $price_display_suffix ) {
-
-			$price_display_suffix = ' <small class="lifterlms-price-suffix">' . $price_display_suffix . '</small>';
-
-			$price_display_suffix = str_replace( $find, $replace, $price_display_suffix );
-
-		}
-
-		return apply_filters( 'lifterlms_get_price_suffix_html', $price_display_suffix, $this );
-	}
-
-	/**
-	 * Returns base price and sale price in html format.
-	 *
-	 * @return string
-	 */
-	public function get_price_variations_html( $base, $sale ) {
-
-		return '<del>' . ( ( is_numeric( $base ) ) ? llms_price( $base ) : $base ) . '</del> <ins>' . ( ( is_numeric( $sale ) ) ? llms_price( $sale ) : $sale ) . '</ins>';
-
-	}
-
-
-	/**
-	 * checks if course is visible
-	 *
-	 * @return bool
-	 */
-	public function is_visible() {
-
-		$visible = true;
-
-
-		// visibility setting
-		if ( $this->visibility === 'hidden' ) {
-
-			$visible = false;
-
-		}
-
-		elseif ( $this->visibility === 'visible' ) {
-
-			$visible = true;
-
-		// Visibility in loop
-		}
-
-		elseif ( $this->visibility === 'search' && is_search() ) {
-
-			$visible = true;
-
-		}
-
-		elseif ( $this->visibility === 'search' && ! is_search() ) {
-
-			$visible = false;
-
-		}
-
-		elseif ( $this->visibility === 'catalog' && is_search() ) {
-
-			$visible = false;
-
-		}
-
-		elseif ( $this->visibility === 'catalog' && ! is_search() ) {
-
-			$visible = true;
-		}
-
-		return apply_filters( 'lifterlms_course_is_visible', $visible, $this->id );
 
 	}
 

@@ -25,8 +25,9 @@ class LLMS_Install {
 	public function __construct() {
 		$this->current_wp_version = get_bloginfo( 'version' );
 		register_activation_hook( LLMS_PLUGIN_FILE, array( $this, 'install' ) );
+		add_action( 'admin_init', array( $this, 'first_time_setup' ) );
 		add_action( 'admin_init', array( $this, 'check_wp_version' ) );	
-		add_action( 'admin_init', array( $this, 'install_settings' ) );
+		add_action( 'init', array( $this, 'install_settings' ) );
 		add_action( 'admin_init', array( $this, 'update_relationships' ) );
 		add_action( 'init', array( $this, 'register_post_types') );
 		add_action( 'init', array( $this, 'init_query') );
@@ -42,6 +43,36 @@ class LLMS_Install {
          	echo '<div class="error"><p>Warning - LifterLMS is only compatable with Wordpress version '
          		. $this->min_wp_version . ' or higher. Your current version of Wordpress is ' . $this->current_wp_version  .
          		'. You may experience issues with this plugin until you upgrade your version of Wordpress.</p></div>';
+	}
+
+	public function first_time_setup() {
+		if ( ! get_option( 'lifterlms_first_time_setup' ) ) {
+
+			add_action( 'admin_notices', array( $this, 'welcome_message' ));
+
+		}
+	}
+
+	public function welcome_message() {
+		global $current_screen;
+
+     	if ( $current_screen->base !== 'lifterlms_page_llms-settings' ) {
+
+         	echo '<div id="welcome-panel" class="welcome-panel">
+         	<div class="welcome-panel-content">
+					<h3>Welcome to LifterLMS!</h3>
+					<p class="about-description">Before you start building your course check out our 
+					<a href="' . get_admin_url() . '/admin.php?page=llms-settings' . '">Quick Setup Guide</a></p>
+					
+					<form method="post" id="llms-skip-setup-form">
+					<input type="hidden" name="action" value="llms-skip-setup" />
+					' . wp_nonce_field( 'llms_skip_setup', '_wpnonce', true, false ) . '
+					<p><input type="submit" class="llms-admin-link" name="llms-skip-setup" value="No thanks, I know what I\'m doing" /></p>
+					</form>
+				</div>
+				</div>';
+
+     	}
 	}
 	
 	/**
@@ -115,9 +146,7 @@ class LLMS_Install {
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
-		include_once( 'class.llms.sidebars.php' );
-		LLMS_Sidebars::register_lesson_sidebars();
-		LLMS_Sidebars::register_course_sidebars();
+		
 
 		$this->register_post_types();
 		$this->cron();
@@ -141,6 +170,10 @@ class LLMS_Install {
 		include_once( 'class.llms.post-types.php' );
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
+
+		include_once( 'class.llms.sidebars.php' );
+		LLMS_Sidebars::register_lesson_sidebars();
+		LLMS_Sidebars::register_course_sidebars();
 	}
 
 	/**

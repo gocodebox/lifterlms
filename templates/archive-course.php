@@ -29,8 +29,7 @@ get_header( 'shop' ); ?>
 
 			<?php lifterlms_course_loop_start(); ?>
 
-				<?php lifterlms_course_subcategories(); ?>
-
+		
 				<?php while ( have_posts() ) : the_post(); ?>
 
 					<?php llms_get_template_part( 'content', 'course' ); ?>
@@ -42,10 +41,6 @@ get_header( 'shop' ); ?>
 			<?php do_action( 'lifterlms_after_shop_loop' ); ?>
 
 			<?php llms_get_template_part( 'course', 'pagination' ); ?>
-
-		<?php elseif ( ! lifterlms_course_subcategories( array( 'before' => lifterlms_course_loop_start( false ), 'after' => lifterlms_course_loop_end( false ) ) ) ) : ?>
-
-			<?php llms_get_template( 'loop/no-courses-found.php' ); ?>
 
 		<?php endif; ?>
 

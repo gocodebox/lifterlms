@@ -33,7 +33,9 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 		return apply_filters( 'lifterlms_' . $this->id . '_settings', array(
 
-			array( 'title' => __( 'Account Settings', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Customize your users account and sign up experience.', 'lifterlms' ), 'id' => 'account_page_options' ),
+			array( 'type' => 'sectionstart', 'id' => 'course_archive_options', 'class' =>'top' ),
+
+			array( 'title' => __( 'Archive Settings', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Customize your users account and sign up experience.', 'lifterlms' ), 'id' => 'account_page_options' ),
 
 			array(
 				'title' => __( 'Account Access Page', 'lifterlms' ),
@@ -42,13 +44,14 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type' 		=> 'single_select_page',
 				'default'	=> '',
 				'class'		=> 'chosen_select_nostd',
-				'css' 		=> 'min-width:300px;',
 				'desc_tip'	=> true,
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'account_page_options' ),
+			array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
 
-			array( 'title' => __( 'My Account Page Slugs', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'These slugs represent different actions in the user account.', 'lifterlms' ), 'id' => 'account_endpoint_options' ),
+			array( 'type' => 'sectionstart', 'id' => 'account_page_options' ),
+
+			array( 'title' => __( 'Account Page Slugs', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'These slugs represent different actions in the user account.', 'lifterlms' ), 'id' => 'account_endpoint_options' ),
 
 			array(
 				'title' => __( 'My Courses', 'lifterlms' ),
@@ -86,7 +89,9 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'account_endpoint_options' ),
+			array( 'type' => 'sectionend', 'id' => 'account_page_options' ),
+
+			array( 'type' => 'sectionstart', 'id' => 'account_registration_options'),
 
 			array(	'title' => __( 'User Registration Options', 'lifterlms' ), 'type' => 'title', 'id' => 'Customize the registration experience for users.' ),
 
@@ -162,7 +167,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type' 		=> 'single_select_page',
 				'default'	=> 0,
 				'class'		=> 'chosen_select_nostd',
-				'css' 		=> 'min-width:300px;',
+				'css' 		=> 'min-width:200px;',
 				'desc_tip'	=> true,
 			),
 

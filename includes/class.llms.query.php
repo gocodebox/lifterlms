@@ -5,7 +5,7 @@ if ( ! class_exists( 'LLMS_Query' ) ) :
 /**
 * Query base class. 
 *
-* Handles query objects
+* Handles queries and endpoints
 */
 class LLMS_Query {
 

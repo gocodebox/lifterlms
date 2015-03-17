@@ -77,6 +77,11 @@ class LLMS_Meta_Box_Order {
 				</th>
 				<td>
 					<table class="form-table">
+
+						<tr>
+							<td colspan="2"><label><?php echo $post->post_title ?></label></td>
+			
+						</tr>
 			
 						<tr>
 							<td><label><?php _e('Order Date', 'lifterlms') ?></label></td>
@@ -129,6 +134,8 @@ class LLMS_Meta_Box_Order {
 							<td><label><?php _e('Billing Start Date', 'lifterlms') ?></label></td>
 							<td><?php echo $rec_billing_start_date; ?></td>
 						</tr>
+						<?php 
+						} ?>
 
 						<!-- Display Coupon Information -->
 						<?php if (!empty($coupon_id) ) : ?>
@@ -157,8 +164,7 @@ class LLMS_Meta_Box_Order {
 								<td><label><?php _e('Coupon Used?', 'lifterlms') ?></label></td>
 								<td><?php echo _e('No'); ?></td>
 							</tr>
-						<?php endif;
-						} ?>
+						<?php endif; ?>
 					</table>
 				</td>
 			</tr>

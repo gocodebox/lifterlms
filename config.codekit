@@ -1,19 +1,28 @@
 {
 "CodeKitInfo": "This is a CodeKit 2.x project configuration file. It is designed to sync project settings across multiple machines. MODIFYING THE CONTENTS OF THIS FILE IS A POOR LIFE DECISION. If you do so, you will likely cause CodeKit to crash. This file is not useful unless accompanied by the project that created it in CodeKit 2. This file is not backwards-compatible with CodeKit 1.x. For more information, see: http:\/\/incident57.com\/codekit",
-"creatorBuild": "18270",
+"creatorBuild": "18493",
 "files": {
+	"\/_private\/assets\/css\/quiz-timer.css": {
+		"fileType": 16,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/assets\/css\/quiz-timer.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/_private\/scss\/_includes\/_extends.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 0,
-		"decimalPrecision": 5,
+		"decimalPrecision": 10,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_private\/scss\/_includes\/_extends.scss",
-		"outputAbbreviatedPath": "\/assets\/css\/_extends.css",
+		"outputAbbreviatedPath": "\/_private\/assets\/css\/_extends.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
+		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
 		"shouldRunBless": 0,
 		"useLibsass": 0
@@ -21,15 +30,15 @@
 	"\/_private\/scss\/_includes\/_mixins.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 0,
-		"decimalPrecision": 5,
+		"decimalPrecision": 10,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_private\/scss\/_includes\/_mixins.scss",
-		"outputAbbreviatedPath": "\/assets\/css\/_mixins.css",
+		"outputAbbreviatedPath": "\/_private\/assets\/css\/_mixins.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
+		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
 		"shouldRunBless": 0,
 		"useLibsass": 0
@@ -37,15 +46,15 @@
 	"\/_private\/scss\/_includes\/_vars.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 0,
-		"decimalPrecision": 5,
+		"decimalPrecision": 10,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_private\/scss\/_includes\/_vars.scss",
-		"outputAbbreviatedPath": "\/assets\/css\/_vars.css",
+		"outputAbbreviatedPath": "\/_private\/assets\/css\/_vars.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
+		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
 		"shouldRunBless": 0,
 		"useLibsass": 0
@@ -53,15 +62,15 @@
 	"\/_private\/scss\/_includes\/vendor\/_font-awesome.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 0,
-		"decimalPrecision": 5,
+		"decimalPrecision": 10,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_private\/scss\/_includes\/vendor\/_font-awesome.scss",
-		"outputAbbreviatedPath": "\/assets\/css\/_font-awesome.css",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_font-awesome.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
+		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
 		"shouldRunBless": 0,
 		"useLibsass": 0
@@ -69,7 +78,7 @@
 	"\/_private\/scss\/admin.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 0,
-		"decimalPrecision": 5,
+		"decimalPrecision": 10,
 		"fileType": 4,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
@@ -77,8 +86,24 @@
 		"outputAbbreviatedPath": "\/assets\/css\/admin.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"shouldRunAutoprefixer": 1,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/_fonts.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/_fonts.scss",
+		"outputAbbreviatedPath": "\/_private\/assets\/css\/_fonts.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -90,7 +115,215 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_private\/scss\/admin\/_main.scss",
-		"outputAbbreviatedPath": "\/assets\/css\/_main.css",
+		"outputAbbreviatedPath": "\/_private\/assets\/css\/_main.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/_tabs.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/_tabs.scss",
+		"outputAbbreviatedPath": "\/_private\/assets\/css\/_tabs.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/breakpoints\/2x.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/breakpoints\/2x.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/2x.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/breakpoints\/_1030up.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/breakpoints\/_1030up.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_1030up.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/breakpoints\/_1240up.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/breakpoints\/_1240up.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_1240up.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/breakpoints\/_481up.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/breakpoints\/_481up.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_481up.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/breakpoints\/_768up.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/breakpoints\/_768up.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_768up.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/breakpoints\/_base.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/breakpoints\/_base.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_base.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/modules\/_forms.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/modules\/_forms.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_forms.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/modules\/_widgets.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/modules\/_widgets.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_widgets.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/partials\/_grid.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/partials\/_grid.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_grid.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/admin\/partials\/_variables.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/admin\/partials\/_variables.scss",
+		"outputAbbreviatedPath": "\/_private\/scss\/assets\/css\/_variables.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/frontend\/_main.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/frontend\/_main.scss",
+		"outputAbbreviatedPath": "\/_private\/assets\/css\/_main.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_private\/scss\/frontend\/quiz-timer.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_private\/scss\/frontend\/quiz-timer.scss",
+		"outputAbbreviatedPath": "\/_private\/assets\/css\/quiz-timer.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -101,7 +334,7 @@
 	"\/_private\/scss\/lifterlms.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 0,
-		"decimalPrecision": 5,
+		"decimalPrecision": 10,
 		"fileType": 4,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
@@ -109,8 +342,8 @@
 		"outputAbbreviatedPath": "\/assets\/css\/lifterlms.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"shouldRunAutoprefixer": 1,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -150,7 +383,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/chosen\/chosen.jquery.js",
-		"outputAbbreviatedPath": "\/assets\/js\/chosen.jquery-min.js",
+		"outputAbbreviatedPath": "\/assets\/chosen\/min\/chosen.jquery-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -161,7 +394,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/chosen\/chosen.jquery.min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/chosen.jquery.min-min.js",
+		"outputAbbreviatedPath": "\/assets\/chosen\/min\/chosen.jquery.min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -181,7 +414,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/chosen\/chosen.proto.js",
-		"outputAbbreviatedPath": "\/assets\/js\/chosen.proto-min.js",
+		"outputAbbreviatedPath": "\/assets\/chosen\/min\/chosen.proto-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -192,7 +425,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/chosen\/chosen.proto.min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/chosen.proto.min-min.js",
+		"outputAbbreviatedPath": "\/assets\/chosen\/min\/chosen.proto.min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -234,7 +467,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/chosen\/docsupport\/prism.js",
-		"outputAbbreviatedPath": "\/assets\/js\/prism-min.js",
+		"outputAbbreviatedPath": "\/assets\/chosen\/docsupport\/min\/prism-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -285,6 +518,24 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/assets\/css\/lifterlms-temp.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/css\/lifterlms-temp.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/assets\/css\/lifterlms.css": {
+		"fileType": 16,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/css\/lifterlms.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/assets\/images\/lifterLMS-wp-menu-icon.png": {
 		"fileType": 32768,
 		"ignore": 0,
@@ -311,7 +562,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 0,
+		"initialSize": 96217,
 		"inputAbbreviatedPath": "\/assets\/images\/optional_certificate.png",
 		"outputAbbreviatedPath": "\/assets\/images\/optional_certificate.png",
 		"outputPathIsOutsideProject": 0,
@@ -334,7 +585,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-ajax-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-ajax-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-ajax-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -345,7 +596,29 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-ajax.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-ajax-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-ajax-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/assets\/js\/llms-analytics-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/js\/llms-analytics-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-analytics-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/assets\/js\/llms-analytics.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/js\/llms-analytics.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-analytics-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -356,7 +629,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-form-checkout-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-form-checkout-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-form-checkout-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -367,7 +640,18 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-form-checkout.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-form-checkout-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-form-checkout-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/assets\/js\/llms-lesson-locked.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/js\/llms-lesson-locked.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-lesson-locked-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -378,7 +662,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-achievement-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-achievement-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-achievement-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -389,7 +673,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-achievement.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-achievement-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-achievement-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -400,7 +684,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-certificate-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-certificate-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-certificate-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -411,7 +695,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-certificate.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-certificate-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-certificate-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -422,7 +706,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-data-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-data-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-data-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -433,7 +717,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-data.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-data-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-data-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -444,7 +728,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-engagement-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-engagement-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-engagement-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -455,7 +739,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-engagement.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-engagement-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-engagement-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -466,7 +750,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-fields-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-fields-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-fields-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -477,7 +761,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-fields.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-fields-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-fields-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -488,7 +772,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -499,7 +783,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-quiz-builder-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-quiz-builder-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-quiz-builder-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -510,7 +794,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-quiz-builder.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-quiz-builder-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-quiz-builder-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -521,7 +805,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-single-question-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-single-question-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-single-question-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -532,7 +816,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-single-question.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-single-question-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-single-question-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -543,7 +827,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-students-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-students-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-students-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -554,7 +838,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-students.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-students-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-students-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -565,7 +849,7 @@
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-syllabus-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-syllabus-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-syllabus-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -576,7 +860,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox-syllabus.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-syllabus-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-syllabus-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -587,7 +871,62 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/llms-metabox.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/assets\/js\/llms-quiz-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/js\/llms-quiz-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-quiz-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/assets\/js\/llms-quiz.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/js\/llms-quiz.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/llms-quiz-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/assets\/js\/min\/llms-ajax-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/js\/min\/llms-ajax-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/min\/llms-ajax-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/assets\/js\/min\/llms-metabox-engagement-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-engagement-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/min\/llms-metabox-engagement-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/assets\/js\/min\/llms-metabox-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/min\/llms-metabox-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -595,10 +934,21 @@
 		},
 	"\/assets\/js\/min\/llms-metabox-syllabus-min.js": {
 		"fileType": 64,
-		"ignore": 0,
+		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/js\/min\/llms-metabox-syllabus-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/llms-metabox-syllabus-min-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/min\/llms-metabox-syllabus-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/assets\/js\/min\/llms-quiz-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/js\/min\/llms-quiz-min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/min\/llms-quiz-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -609,6 +959,60 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/includes\/achievements\/class.llms.achievement.user.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/analytics\/class.llms.analytics.courses.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/analytics\/class.llms.analytics.courses.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/analytics\/class.llms.analytics.dashboard.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/analytics\/class.llms.analytics.dashboard.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/analytics\/class.llms.analytics.memberships.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/analytics\/class.llms.analytics.memberships.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/analytics\/class.llms.analytics.page.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/analytics\/class.llms.analytics.page.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/analytics\/class.llms.analytics.sales.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/analytics\/class.llms.analytics.sales.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/class.llms.admin.analytics.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/class.llms.admin.analytics.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -663,6 +1067,15 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/includes\/admin\/class.llms.admin.settings.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/class.llms.admin.students.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/class.llms.admin.students.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -937,11 +1350,56 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/includes\/admin\/students\/class.llms.students.dashboard.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/students\/class.llms.students.dashboard.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/students\/class.llms.students.page.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/students\/class.llms.students.page.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/students\/class.llms.students.profile.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/students\/class.llms.students.profile.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/views\/html.admin.analytics.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/views\/html.admin.analytics.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/includes\/admin\/views\/html.admin.settings.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/includes\/admin\/views\/html.admin.settings.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/admin\/views\/html.admin.students.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/admin\/views\/html.admin.students.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -991,6 +1449,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/includes\/class.llms.analytics.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/class.llms.analytics.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/includes\/class.llms.certificate.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -1032,6 +1499,15 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/includes\/class.llms.course.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/class.llms.date.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/class.llms.date.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -1135,6 +1611,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/includes\/class.llms.number.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/class.llms.number.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/includes\/class.llms.order.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -1207,6 +1692,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/includes\/class.llms.quiz.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/class.llms.quiz.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/includes\/class.llms.session.handler.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -1234,6 +1728,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/includes\/class.llms.sidebars.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/class.llms.sidebars.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/includes\/class.llms.template.loader.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -1248,6 +1751,24 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/includes\/class.llms.update.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/class.llms.widget.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/class.llms.widget.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/class.llms.widgets.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/class.llms.widgets.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -1405,6 +1926,24 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/includes\/widgets\/class.llms.widget.course.progress.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/widgets\/class.llms.widget.course.progress.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/includes\/widgets\/class.llms.widget.course.syllabus.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/includes\/widgets\/class.llms.widget.course.syllabus.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/lifterlms.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -1446,7 +1985,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/plugin-updates\/js\/debug-bar.js",
-		"outputAbbreviatedPath": "\/assets\/js\/debug-bar-min.js",
+		"outputAbbreviatedPath": "\/plugin-updates\/js\/min\/debug-bar-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -1461,21 +2000,36 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/templates\/achievements\/footer.php": {
-		"fileType": 8192,
+	"\/plugin-updates\/README.md": {
+		"enableFootnoteSupport": 0,
+		"enableSmartyPants": 1,
+		"expandTabs": 1,
+		"fileType": 4096,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/templates\/achievements\/footer.php",
+		"inputAbbreviatedPath": "\/plugin-updates\/README.md",
+		"outputAbbreviatedPath": "\/plugin-updates\/README.html",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/README.html": {
+		"fileType": 8192,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/README.html",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/templates\/achievements\/header.php": {
-		"fileType": 8192,
+	"\/README.md": {
+		"enableFootnoteSupport": 0,
+		"enableSmartyPants": 1,
+		"expandTabs": 1,
+		"fileType": 4096,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/templates\/achievements\/header.php",
-		"outputAbbreviatedPath": "No Output Path",
+		"inputAbbreviatedPath": "\/README.md",
+		"outputAbbreviatedPath": "\/README.html",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
@@ -1691,6 +2245,15 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/content-single-question-before.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/content-single-question.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/content-single-question.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -2118,15 +2681,6 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/templates\/myaccount\/my-achievements.php": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/templates\/myaccount\/my-achievements.php",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/templates\/myaccount\/my-certificates.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -2217,6 +2771,51 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/templates\/quiz\/quiz-question.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/quiz-question.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/quiz\/quiz-wrapper-end.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/quiz-wrapper-end.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/quiz\/quiz-wrapper-start.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/quiz-wrapper-start.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/quiz\/results.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/results.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/quiz\/return-to-lesson.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/return-to-lesson.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/templates\/quiz\/single-choice.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -2226,11 +2825,38 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/templates\/quiz\/single-choice_ajax.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/single-choice_ajax.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/templates\/quiz\/start-button.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/quiz\/start-button.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/quiz\/time-limit.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/time-limit.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/quiz\/timer.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/quiz\/timer.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -2325,7 +2951,7 @@
 "projectAttributes": {
 	"bowerAbbreviatedPath": "",
 	"displayValue": "lifterlms",
-	"displayValueWasSetByUser": 0,
+	"displayValueWasSetByUser": 1,
 	"iconImageName": "brackets_darkGray"
 	},
 "projectSettings": {
@@ -2365,6 +2991,10 @@
 			},
 		"empty_constructor_needs_parens": {
 			"active": 0,
+			"flagValue": -1
+			},
+		"ensure_comprehensions": {
+			"active": 1,
 			"flagValue": -1
 			},
 		"indentation": {
@@ -2458,6 +3088,10 @@
 		"space_operators": {
 			"active": 0,
 			"flagValue": -1
+			},
+		"spacing_after_comma": {
+			"active": 1,
+			"flagValue": -1
 			}
 		},
 	"coffeeMinifyOutput": 1,
@@ -2489,10 +3123,10 @@
 	"jadeOutputStyle": 0,
 	"javascriptAutoOutputPathEnabled": 1,
 	"javascriptAutoOutputPathFilenamePattern": "*-min.js",
-	"javascriptAutoOutputPathRelativePath": "\/assets\/js",
+	"javascriptAutoOutputPathRelativePath": "\/min",
 	"javascriptAutoOutputPathReplace1": "",
 	"javascriptAutoOutputPathReplace2": "",
-	"javascriptAutoOutputPathStyle": 1,
+	"javascriptAutoOutputPathStyle": 2,
 	"javascriptCreateSourceMap": 1,
 	"javascriptOutputStyle": 1,
 	"javascriptSyntaxCheckerStyle": 1,
@@ -2512,6 +3146,10 @@
 			},
 		"browser": {
 			"active": 1,
+			"flagValue": -1
+			},
+		"browserify": {
+			"active": 0,
 			"flagValue": -1
 			},
 		"camelcase": {
@@ -2536,6 +3174,10 @@
 			},
 		"dojo": {
 			"active": 0,
+			"flagValue": -1
+			},
+		"elision": {
+			"active": 1,
 			"flagValue": -1
 			},
 		"eqeqeq": {
@@ -2590,6 +3232,10 @@
 			"active": 0,
 			"flagValue": -1
 			},
+		"jasmine": {
+			"active": 0,
+			"flagValue": -1
+			},
 		"jquery": {
 			"active": 1,
 			"flagValue": -1
@@ -2633,6 +3279,10 @@
 		"maxstatements": {
 			"active": 0,
 			"flagValue": 4
+			},
+		"mocha": {
+			"active": 0,
+			"flagValue": -1
 			},
 		"mootools": {
 			"active": 0,
@@ -2699,6 +3349,10 @@
 			"flagValue": -1
 			},
 		"prototypejs": {
+			"active": 0,
+			"flagValue": -1
+			},
+		"qunit": {
 			"active": 0,
 			"flagValue": -1
 			},
@@ -2906,10 +3560,10 @@
 	"reloadFileURLs": 0,
 	"sassAutoOutputPathEnabled": 1,
 	"sassAutoOutputPathFilenamePattern": "*.css",
-	"sassAutoOutputPathRelativePath": "\/assets\/css",
+	"sassAutoOutputPathRelativePath": "..\/..\/assets\/css",
 	"sassAutoOutputPathReplace1": "sass",
 	"sassAutoOutputPathReplace2": "css",
-	"sassAutoOutputPathStyle": 1,
+	"sassAutoOutputPathStyle": 2,
 	"sassCreateSourceMap": 0,
 	"sassDebugStyle": 0,
 	"sassDecimalPrecision": 10,
@@ -2917,15 +3571,16 @@
 	"sassUseLibsass": 0,
 	"shouldRunAutoprefixer": 0,
 	"shouldRunBless": 0,
-	"skippedItemsString": "README.md, .svn, .git, .hg, log, _logs, _cache, cache, logs",
+	"skippedItemsString": ".svn, .git, .hg, log, _logs, _cache, cache, logs, node_modules",
 	"slimAutoOutputPathEnabled": 1,
 	"slimAutoOutputPathFilenamePattern": "*.html",
 	"slimAutoOutputPathRelativePath": "",
 	"slimAutoOutputPathReplace1": "",
 	"slimAutoOutputPathReplace2": "",
 	"slimAutoOutputPathStyle": 0,
-	"slimCompileOnly": 1,
+	"slimCompileOnly": 0,
 	"slimLogicless": 0,
+	"slimOutputFormat": 0,
 	"slimOutputStyle": 1,
 	"slimRailsCompatible": 0,
 	"stylusAutoOutputPathEnabled": 1,
@@ -2950,8 +3605,9 @@
 	"typescriptMinifyOutput": 0,
 	"typescriptModuleType": 0,
 	"typescriptNoImplicitAny": 0,
-	"typescriptNoResolve": 0,
+	"typescriptPreserveConstEnums": 0,
 	"typescriptRemoveComments": 0,
+	"typescriptSuppressImplicitAnyIndexErrors": 0,
 	"typescriptTargetECMAVersion": 0,
 	"uglifyDefinesString": "",
 	"uglifyFlags2": {
@@ -2988,6 +3644,10 @@
 			"flagValue": -1
 			},
 		"dead_code": {
+			"active": 0,
+			"flagValue": -1
+			},
+		"drop_console": {
 			"active": 0,
 			"flagValue": -1
 			},
@@ -3031,6 +3691,10 @@
 			"active": 1,
 			"flagValue": -1
 			},
+		"keep_fargs": {
+			"active": 0,
+			"flagValue": -1
+			},
 		"loops": {
 			"active": 1,
 			"flagValue": -1
@@ -3043,8 +3707,16 @@
 			"active": 1,
 			"flagValue": 32000
 			},
+		"negate_iife": {
+			"active": 1,
+			"flagValue": -1
+			},
 		"properties": {
 			"active": 1,
+			"flagValue": -1
+			},
+		"pure_getters": {
+			"active": 0,
 			"flagValue": -1
 			},
 		"quote-keys": {

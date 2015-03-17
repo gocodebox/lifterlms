@@ -25,6 +25,7 @@ class LLMS_Meta_Box_Quiz_General {
 
 		$allowed_attempts = get_post_meta( $post->ID, '_llms_allowed_attempts', true );
 		$passing_percent = get_post_meta( $post->ID, '_llms_passing_percent', true );
+		$time_limit = get_post_meta( $post->ID, '_llms_time_limit', true );
 		?>
 
 		<table class="form-table">
@@ -41,7 +42,7 @@ class LLMS_Meta_Box_Quiz_General {
 					<?php
 					$html  = '';
 					$html .= '<input type="text" class="code" name="_llms_allowed_attempts" id="_llms_allowed_attempts" value="' . $allowed_attempts . '"/>';
-					$html .= '<br /><span class="description">' .  __( 'Number of alowed attempts. Must be at least 1.', 'lifterlms' ) . '</span>';
+					$html .= '<br /><span class="description">' .  __( 'Number of allowed attempts. Leave blank for unlimited attempts.', 'lifterlms' ) . '</span>';
 					echo $html;
 					?>
 				</td>
@@ -64,6 +65,27 @@ class LLMS_Meta_Box_Quiz_General {
 					?>
 				</td>
 			</tr>
+
+			<tr>
+				<th>
+					<?php
+					$label  = '';
+					$label .= '<label for="_llms_time_limit">' . __( 'Time Limit', 'lifterlms' ) . '</label> ';
+					echo $label;
+					?>
+				</th>
+				<td>
+					<?php
+					$html  = '';
+					$html .= '<input type="number" class="code" name="_llms_time_limit" id="_llms_time_limit" value="' . $time_limit . '"/>';
+					$html .= '<br /><span class="description">' .  __( 'Enter a time limit for quiz completion in minutes. Leave empty if no time limit.', 'lifterlms' ) . '</span>';
+					echo $html;
+					?>
+				</td>
+			</tr>
+
+
+			
 		</tbody>
 		</table>
 
@@ -85,12 +107,17 @@ class LLMS_Meta_Box_Quiz_General {
 
 		if ( isset( $_POST['_llms_allowed_attempts'] ) ) {
 			$allowed_attempts = ( llms_clean( $_POST['_llms_allowed_attempts']  ) );
-			update_post_meta( $post_id, '_llms_allowed_attempts', ( $allowed_attempts === '' ) ? '1' : $allowed_attempts );		
+			update_post_meta( $post_id, '_llms_allowed_attempts', ( $allowed_attempts === '' ) ? '' : $allowed_attempts );		
 		}
 		if ( isset( $_POST['_llms_passing_percent'] ) ) {
 			$passing_percent = ( llms_clean( $_POST['_llms_passing_percent']  ) );
 			update_post_meta( $post_id, '_llms_passing_percent', ( $passing_percent === '' ) ? '0' : $passing_percent );		
 		}
+		if ( isset( $_POST['_llms_time_limit'] ) ) {
+			$time_limit = ( llms_clean( $_POST['_llms_time_limit']  ) );
+			update_post_meta( $post_id, '_llms_time_limit', $time_limit );		
+		}
+	
 	}
 
 }

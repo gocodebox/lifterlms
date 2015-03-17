@@ -11,7 +11,7 @@ LIFTER LMS
 **Accepts arguments: order, orderby and per_page
 
 
-###Debug: lms_log($message)
+###Debug: llms_log($message)
 *Logs message to wp-contents/debug.log
 
 ####Examples
@@ -24,6 +24,71 @@ LIFTER LMS
 
 CHANGELOG
 =========
+
+v1.2.3 - 2015-03-12
+-------------------
++ Achievement design and functionality updates
++ Achievemnt shortcode added
++ Better searching added to engagement screen
++ Achievement bug fixes
++ On screen error reporting added to activation for trouble shooting
++ Custom engagement methods added to certificate, achievement and sections
++ Corrected new user registration engagement bug
++ LifterLMS access reduced from manage_options to edit_posts
++ Filters added to analytics to allow custom developement
++ Engagment bug fix: Section and Lesson bug select
++ Syllabus bug corrected: No longer displays lessons in section box if no sections exist.
++ Removed depreciated achievement template
++ Membership Bug fix: Membership restriction will now only display on single posts.
+
+
+v1.2.2 - 2015-02-23
+-------------------
++ Corrected drip content bug
++ Added Ajax functionality to quiz
++ rounded quiz grades
++ Added quiz time limit setting to Quiz
++ Added quiz timer to quiz, front end
++ Quiz allowed attempts field now allows unlimited attempts
++ Set Ajax lesson delete method to not return empty lesson value
++ Set next and previous questions to display below quiz question
++ Decoupled Single option select question type from quiz to allow for more question types
++ Added Quiz time limit to display on Quiz page
++ Added functionality to automatically complete quiz when quiz timer reaches 0
++ Moved Quiz functionality methods from front end forms class to Quiz class
+
+v1.2.1 - 2015-02-19
+-------------------
++ Updated settings page theming
++ Added Set up Quick Start Guide
++ Added Plugin Deactivation Option
++ Updated language POT file
++ Added Portuguese language support. Thank you Fernando Cassino for the translation :)
+
+
+v1.2.0 - 2015-02-17
+-------------------
++ Admin Course Analytics Dashboard Page. View at LifterLMS->Analytics->Course
++ Admin Sales Analytics Dashboard Page. View at LifterLMS->Analytics->Sales
++ Admin Memberships Analytics Dashboard Page. View at LifterLMS->Analytics->Memberships
++ Admin Students Search Page. View at LifterLMS->Students
++ Admin Student Profile Page ( View user information related to courses and memberships )
++ Lesson and Course Sidebar Widgets ( Syllabus, Course Progress )
++ Course Syllabus: Lesson blocks greyed out. Clicking lesson displays message to take course. 
++ Misc. Front end bug fixes
++ Misc. Admin bug fixes
++ Course and Lesson prerequisites: Can no longer select a prerequisite without marking "Has Prerequisite"
++ Admin CSS updates
++ Better Session Management
++ Number and Date formatting handled by seperate classes to provide consistant date formats across system
++ Zero dollar coupon management: Coupons that set total to 0 will bypass payment gateway, generate order and enroll users.
++ Better coupon verification.
++ Better third party payment gateway support. Third party gateway plugins are now easier to develop and integrate. 
++ User Registration: Phone Number Registration field option now available in Accounts settings page. 
+
+v1.1.2 - 2014-12-18
+-------------------
++ Moved Sidebar registration from plugin install to init
 
 v1.1.1 - 2014-12-16
 -------------------

@@ -37,7 +37,9 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 			return apply_filters( 'lifterlms_course_settings', array(
 
-				array(	'title' => __( 'Course Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your courses for a unique user experience.', 'id' => 'course_options' ),
+				array( 'type' => 'sectionstart', 'id' => 'course_archive_options', 'class' =>'top' ),
+
+				array(	'title' => __( 'Archive Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your courses for a unique user experience.', 'id' => 'course_options' ),
 
 				array(
 					'title' => __( 'Courses Page', 'lifterlms' ),
@@ -46,7 +48,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'type' 		=> 'single_select_page',
 					'default'	=> '',
 					'class'		=> 'chosen_select_nostd',
-					'css' 		=> 'min-width:300px;',
 				),
 
 				array(
@@ -54,10 +55,14 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'desc' 		=> '<br/>' . sprintf( __( 'To show all courses on one page, enter -1', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
 					'id' 		=> 'lifterlms_shop_courses_per_page',
 					'type' 		=> 'text',
-					'default'	=> '10'
+					'default'	=> '10',
+					'css' 		=> 'min-width:200px;',
 				),
 
-				array( 'type' => 'sectionend', 'id' => 'course_options' ),
+				array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
+
+
+				array( 'type' => 'sectionstart', 'id' => 'course_display_options' ),
 
 				array( 'title' => __( 'Display Settings', 'lifterlms' ), 'type' => 'title', 'id' => 'course_options' ),
 
@@ -112,7 +117,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'autoload'      => false
 				),
 
-				array( 'type' => 'sectionend', 'id' => 'course_options'),
+				array( 'type' => 'sectionend', 'id' => 'course_display_options' ),
 
 		) ); 
 	}

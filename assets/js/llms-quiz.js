@@ -1,39 +1,219 @@
 jQuery(document).ready(function($) {
 
-	$('#llms_start_quiz_depreciated').click(function() {
-		get_quiz_questions();
-		//alert('sript is loaded');
+	// calls start quix on "Start Quiz" button click
+	$('#llms_start_quiz').click(function() {
+		start_quiz();
 		return false;
 	});
+
+	//hides the quiz timer when page loads
+	$('#llms-quiz-timer').hide();
+
+	/**
+	 * Used for populating the quiz grade svg graph
+	 * @type {[type]}
+	 */
+	var $llms_circ = $('.llms-animated-circle');
+	var $llms_prog_count = $('.llms-progress-circle-count');
+	var $llms_circ_val = $('.progress-range');
+	var llms_grade_perc = $('#llms-grade-value').val();
+	var llms_circ_offset = 430 * llms_grade_perc / 100;
+
+	$llms_circ.css({
+		"stroke-dashoffset" : 430 - llms_circ_offset
+	})
+
+	$llms_prog_count.html(Math.round(llms_grade_perc) + "%");
 	
 });
 
 /**
- * Returns array of all questions
+ * Quiz Functions
+ * All methods used for interacting with quiz
  */
-get_quiz_questions = function() {
-	var post_id = jQuery('#llms-quiz').val();
-	var user_id = jQuery('#llms-user').val();
-	console.log(post_id + ' ' + user_id);
-	var ajax = new Ajax('post', { 'action':'get_quiz_questions', 'quiz_id' : post_id, 'user_id' : user_id }, true);
-	ajax.get_quiz_questions(post_id, user_id);
-}
+(function($) {
 
-get_quiz_full_page = function(questions, user_id) {
-	console.log('get quiz full page called');
-	console.log(questions);
+	/**
+	 * Start Quiz
+	 * Finds values of quiz-id and user-id
+	 * Calls ajax.start_quiz
+	 * @return {[void]}
+	 */
+	start_quiz = function () {
 
-}
+		var post_id = jQuery('#llms-quiz').val();
+		var user_id = jQuery('#llms-user').val();
 
-jQuery(document).ready(function($) {
-	var $llms_circ = $('.llms-animated-circle');
-	var $llms_prog_count = $('.llms-progress-circle-count');
-	var $llms_circ_val = $('.progress-range');
+		var ajax = new Ajax('post', { 'action':'start_quiz', 'quiz_id' : post_id, 'user_id' : user_id }, true); 
 
-	var llms_grade_perc = $('#llms-grade-value').val();
-	var llms_circ_offset = 430 * llms_grade_perc / 100;
-	$llms_circ.css({
-	"stroke-dashoffset" : 430 - llms_circ_offset
-	})
-	$llms_prog_count.html(Math.round(llms_grade_perc) + "%");
-});
+		ajax.start_quiz( post_id, user_id );  
+	} 
+
+	/**
+	 * Answer Question
+	 * Finds values of quiz-id, question-type, question-id and answer
+	 * Calls ajax.answer_question
+	 * 
+	 * @return {[void]}
+	 */
+	answer_question = function() {
+
+		if ( jQuery( 'input[name=llms_option_selected]:checked' ).length <= 0 ){
+
+			jQuery('#llms-quiz-question-wrapper .llms-error').remove();
+			jQuery('#llms-quiz-question-wrapper').prepend( '<div class="llms-error">You must enter an answer to continue.</div>' );
+		
+		} else {
+
+			var quiz_id = jQuery('#llms-quiz').val();
+			var question_type = jQuery('#question-type').val();
+			var question_id = jQuery('#question-id').val();
+			var answer = jQuery('input[name=llms_option_selected]:checked').val();
+
+			var ajax = new Ajax('post', { 'action':'answer_question', 'quiz_id' : quiz_id, 'question_type' : question_type, 'question_id' : question_id, 'answer' : answer }, true); 
+			
+			ajax.answer_question( question_type, question_id, answer );  
+
+		}
+
+	}
+
+	/**
+	 * Previous Question
+	 * Finds quiz-id and question-id
+	 * Calls ajax.previous_question to find the previous question
+	 * @return {[void]}
+	 */
+	previous_question = function() {
+
+		var quiz_id = jQuery('#llms-quiz').val();
+		var question_id = jQuery('#question-id').val();
+
+		var ajax = new Ajax('post', { 'action':'previous_question', 'quiz_id' : quiz_id, 'question_id' : question_id }, true); 
+
+		ajax.previous_question( quiz_id, question_id );  
+	}
+
+	/**
+	 * Start Quiz Timer
+	 * Gets minutes from hidden field
+	 * Not used as actual quiz timer. Quiz is timed on the server from the quiz class
+	 * Calculates minutes to milliseconds and then converts to hours / minutes
+	 *
+	 * When time limit reaches 0 calls complete_quiz() to complete quiz. 
+	 * 
+	 * @return Calls get_count_down at a set interval of 1 second
+	 */
+	start_quiz_timer = function() {
+
+		var minutes = $( '#set-time' ).val();
+
+		if ( minutes ) {
+
+			var target_date = new Date().getTime() + ((minutes * 60 ) * 1000); // set the countdown date
+			var time_limit = ((minutes * 60 ) * 1000);
+			
+			//set actual timer
+			setTimeout(
+			  function() 
+			  {
+			    complete_quiz();
+			  }, time_limit );
+
+			var days, hours, minutes, seconds; // variables for time units
+
+			var countdown = document.getElementById("tiles"); // get tag element
+
+			getCountdown(minutes, target_date, time_limit, days, hours, minutes, seconds, countdown);
+
+			//call get_count_down every 1 second
+			setInterval(function () { getCountdown(minutes, target_date, time_limit, days, hours, minutes, seconds, countdown); }, 1000);
+
+		}
+
+	}
+	
+	/**
+	 * Get Count Down
+	 * Called every second to update the on screen countdown timer
+	 * Changes color to yellow at 1/2 of total time
+	 * Changes color to red at 1/4 of total time
+	 * @param  {[int]} minutes     [description]
+	 * @param  {[date]} target_date [description]
+	 * @param  {[int]} time_limit  [description]
+	 * @param  {[int]} days        [description]
+	 * @param  {[int]} hours       [description]
+	 * @param  {[int]} minutes     [description]
+	 * @param  {[int]} seconds     [description]
+	 * @param  {[int]} countdown   [description]
+	 * @return Displays updates hours, minutes on quiz timer
+	 */
+	function getCountdown(minutes, target_date, time_limit, days, hours, minutes, seconds, countdown){
+
+		// find the amount of "seconds" between now and target
+		var current_date = new Date().getTime();
+		var seconds_left = (target_date - current_date) / 1000;
+	  
+		if ( seconds_left >= 0 ) {
+
+			if ( (seconds_left * 1000 ) < ( time_limit / 2 ) )  {
+
+			$( '#tiles' ).removeClass('color-full');
+			$( '#tiles' ).addClass('color-half');
+
+			} 
+
+			if ( (seconds_left * 1000 ) < ( time_limit / 4 ) )  {
+
+			$( '#tiles' ).removeClass('color-half');
+			$( '#tiles' ).addClass('color-empty');
+
+			}
+
+			days = pad( parseInt(seconds_left / 86400) );
+			seconds_left = seconds_left % 86400;
+
+			hours = pad( parseInt(seconds_left / 3600) );
+			seconds_left = seconds_left % 3600;
+
+			minutes = pad( parseInt(seconds_left / 60) );
+			seconds = pad( parseInt( seconds_left % 60 ) );
+
+			// format countdown string + set tag value
+			countdown.innerHTML = "<span>" + hours + ":</span><span>" + minutes + ":</span><span>" + seconds + "</span>"; 
+		    
+		}
+	}   
+	  
+	/**
+	 * Pad Number
+	 * pads number with 0 if single digit. 
+	 * 
+	 * @param  {[int]} n [number]
+	 * @return {[string]} [padded number]
+	 */
+	function pad(n) {
+		return (n < 10 ? '0' : '') + n;
+	}
+
+	/**
+	 * Complete Quiz
+	 * Called by start_quiz_timer when countdown reaches 0
+	 * 
+	 * @return Calls ajax.complete_quiz to end quiz
+	 */
+	function complete_quiz() {
+		console.log( 'complete quiz called');
+		var quiz_id = jQuery('#llms-quiz').val();
+		var question_type = jQuery('#question-type').val();
+		var question_id = jQuery('#question-id').val();
+		var answer = jQuery('input[name=llms_option_selected]:checked').val();
+		var ajax = new Ajax('post', { 'action':'complete_quiz', 'quiz_id' : quiz_id, 'question_id' : question_id, 'question_type' : question_type, 'answer' : answer }, true); 
+		ajax.complete_quiz( quiz_id, question_id, question_type, answer );  
+	}
+
+})(jQuery);
+
+
+
+

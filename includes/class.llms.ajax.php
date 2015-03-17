@@ -29,6 +29,11 @@ class LLMS_AJAX {
 			'get_question' 				=> false,
 			'get_questions' 			=> false,
 			'get_quiz_questions' 		=> false,
+			'start_quiz'				=> false,
+			'answer_question'			=> false,
+			'previous_question'			=> false,
+			'complete_quiz'				=> false,
+			'get_all_posts'				=> false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -38,6 +43,30 @@ class LLMS_AJAX {
 				add_action( 'wp_ajax_nopriv_' . $ajax_event, array( $this, $ajax_event ) );
 			}
 		}
+	}
+
+	/**
+	 * Return array of courses (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_all_posts(){
+
+		$post_type = llms_clean( $_REQUEST['post_type'] );
+
+		$args = array(
+			'post_type' 	=> $post_type,
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
+		 );
+
+		$postslist = get_posts( $args );
+
+		echo json_encode($postslist);
+
+		die();
 	}
 
 	/**
@@ -84,21 +113,14 @@ class LLMS_AJAX {
 		);
 		$postslist = get_posts( $args );
 
-		if (empty($postslist)) { 
-			$args = array(
-				'posts_per_page' 	=> -1,
-				'post_type' 		=> 'lesson',
-				'nopaging' 			=> true
-			);
-				
-			$postslist = get_posts( $args );
-		}
+		if (!empty($postslist)) { 
+		
+			foreach($postslist as $key => $value) {
+				$value->edit_url = get_edit_post_link($value->ID);
+			}
 
-		foreach($postslist as $key => $value) {
-			$value->edit_url = get_edit_post_link($value->ID);
+			echo json_encode($postslist);
 		}
-
-		echo json_encode($postslist);
 
 		die();
 	}
@@ -140,21 +162,15 @@ class LLMS_AJAX {
 		);
 		$postslist = get_posts( $args );
 
-		if (empty($postslist)) { 
-			$args = array(
-				'posts_per_page' 	=> -1,
-				'post_type' 		=> 'lesson',
-				'nopaging' 			=> true
-			);
-				
-			$postslist = get_posts( $args );
-		}
+		if (!empty($postslist)) { 
 
-		foreach($postslist as $key => $value) {
-			$value->edit_url = get_edit_post_link($value->ID, false);
-		}
+			foreach($postslist as $key => $value) {
+				$value->edit_url = get_edit_post_link($value->ID, false);
+			}
 
-		echo json_encode($postslist);
+			echo json_encode($postslist);
+
+		}
 
 		die();
 	}
@@ -344,6 +360,7 @@ class LLMS_AJAX {
 
 
 		function delete_lesson_meta($post_id) {
+
 			$lesson_ids = array();
 
 			$rd_args = array(
@@ -354,13 +371,12 @@ class LLMS_AJAX {
 
 			$rd_query = new WP_Query( $rd_args );
 
-			$lesson_ids = array();
-
-			//foreach( $rd_query as $key => $value )
 			while ( $rd_query->have_posts() ) : $rd_query->the_post();
-				//delete_post_meta($rd_query->post->ID, '_parent_course', $post_id)
+	
 				array_push($lesson_ids,  $rd_query->post->ID  );
+
 			endwhile;
+
 			wp_reset_postdata();
 		}
 		
@@ -471,51 +487,167 @@ class LLMS_AJAX {
 			}
 		}
 
-	echo json_encode($lesson_ids);
-	die();
+		//echo json_encode($lesson_ids);
+		die();
 
 	}
 
 	/**
-	 * Return array of questions (id => name)
-	 *
-	 * @param string
-	 * @return array
+	 * Starts Quiz
+	 * Calls Quiz::start_quiz to set session object and get first question id 
+	 * 
+	 * @return [json] [1st question id, html of 1st question post]
 	 */
-	public function get_quiz_questions(){
-		$quiz_id = $_REQUEST['quiz_id'];
-		$user_id = $_REQUEST['user_id'];
+	public function start_quiz() {
 
-		$quiz = new LLMS_Quiz($quiz_id );
+		$quiz_id = llms_clean( $_REQUEST['quiz_id'] );
+		$user_id = llms_clean( $_REQUEST['user_id'] );
 
-		//first off. we need to check if the user can actually view this quiz
-		//
-		//then we need to get the postmeta and then get each question.
-		$all_questions = array();
-		$questions = $quiz->get_questions();
-
-		if($questions) {
-			foreach ($questions as $key => $value) {
-				array_push($all_questions, get_post($value['id']));
-				
-			}
-		}
-		//get each question and build array
+		//call start quiz method
+		$question_id = LLMS_Quiz::start_quiz( $quiz_id, $user_id );
+		
+		//get requst variables
 		$args = array(
-			'posts_per_page' 	=> -1,
-			'post_type' 		=> 'llms_question',
-			'nopaging' 			=> true,
-			'post_status'   	=> 'publish',  
+			'quiz_id' => $quiz_id,
+			'question_id' => $question_id
 		);
-		$questions = get_posts( $args );
 
-		foreach($questions as $key => $value) {
-			$value->edit_url = get_edit_post_link($value->ID, false);
+		$first_question = llms_get_template_ajax( 'content-single-question.php', $args );
+
+    	echo json_encode( $first_question );
+    	die();
+	}
+
+	/**
+	 * Calls Quiz::answer_question to update session object and get next quiz question
+	 * 
+	 * @return [json] [html, message, redirect]
+	 */
+	public function answer_question() {
+
+		$quiz_id = llms_clean( $_REQUEST['quiz_id'] );
+		$question_id = llms_clean( $_REQUEST['question_id'] );
+		$question_type = llms_clean( $_REQUEST['question_type'] );
+		$answer = llms_clean( $_REQUEST['answer'] );
+		$complete = false;
+
+		//call answer question and get response
+		$next_step = LLMS_Quiz::answer_question( $quiz_id, $question_id, $question_type, $answer, $complete );
+
+		//if next question exists then get next question html
+		$next_question = '';
+		if ( array_key_exists('next_question_id', $next_step ) ) {
+
+			$args = array(
+			'quiz_id' => $quiz_id,
+			'question_id' => $next_step['next_question_id'],
+			);
+
+			$next_question = llms_get_template_ajax( 'content-single-question.php', $args );
+
 		}
 
-		echo json_encode($all_questions);
-		die();
+		//if message exists then set message
+		$message = '';
+		if (array_key_exists('message', $next_step ) ) {
+			$message = $next_step['message'];
+		}
+
+		//if redirect exists set redirect
+		$redirect = '';
+		if (array_key_exists('redirect', $next_step ) ) {
+			$redirect = $next_step['redirect'];
+		}
+
+		//setup json response
+		$response = array(
+			'html' => $next_question,
+			'message' => $message,
+			'redirect' => $redirect
+		);
+
+		echo json_encode( $response );
+    	die();
 	}
+
+	/**
+	 * Calls Quiz::previous_question to get previous question html
+	 * @return [json] [prevous question id]
+	 */
+	public function previous_question() {
+
+		$quiz_id = llms_clean( $_REQUEST['quiz_id'] );
+		$question_id = llms_clean( $_REQUEST['question_id'] );
+
+		//call start quiz method
+		$prev_question_id = LLMS_Quiz::previous_question( $question_id );
+		
+		//get requst variables
+		$args = array(
+			'quiz_id' => $quiz_id,
+			'question_id' => $prev_question_id
+		);
+
+		$previous_question = llms_get_template_ajax( 'content-single-question.php', $args );
+
+    	echo json_encode( $previous_question );
+    	die();
+	}
+
+
+	/**
+	 * Calls Quiz::answer_question, passes $complete as true to complete quiz prematurely
+	 * Only called if quiz timer hits 0
+	 * 
+	 * @return [type] [description]
+	 */
+	public function complete_quiz() {
+
+		$quiz_id = llms_clean( $_REQUEST['quiz_id'] );
+		$question_id = llms_clean( $_REQUEST['question_id'] );
+		$question_type = llms_clean( $_REQUEST['question_type'] );
+		$answer = isset( $_REQUEST['answer'] ) ? llms_clean( $_REQUEST['answer'] ) : '';
+		$complete = true;
+
+		//call answer question and get response
+		$next_step = LLMS_Quiz::answer_question( $quiz_id, $question_id, $question_type, $answer, $complete );
+
+		//if next question exists then get next question html
+		$next_question = '';
+		if ( array_key_exists('next_question_id', $next_step ) ) {
+
+			$args = array(
+			'quiz_id' => $quiz_id,
+			'question_id' => $next_step['next_question_id'],
+			);
+
+			$next_question = llms_get_template_ajax( 'content-single-question.php', $args );
+
+		}
+
+		//if message exists then set message
+		$message = '';
+		if (array_key_exists('message', $next_step ) ) {
+			$message = $next_step['message'];
+		}
+
+		//if redirect exists set redirect
+		$redirect = '';
+		if (array_key_exists('redirect', $next_step ) ) {
+			$redirect = $next_step['redirect'];
+		}
+
+		//setup json response
+		$response = array(
+			'html' => $next_question,
+			'message' => $message,
+			'redirect' => $redirect
+		);
+
+		echo json_encode( $response );
+    	die();
+	}
+
 
 }
 

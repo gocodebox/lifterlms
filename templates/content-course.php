@@ -9,7 +9,11 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-global $course, $lifterlms_loop;
+global $post, $course, $lifterlms_loop;
+
+if ( ! $course ) {
+	$course = new LLMS_Course( $post->ID );
+}
 
 // Store loop count we're currently on
 if ( empty( $lifterlms_loop['loop'] ) )
@@ -18,11 +22,6 @@ if ( empty( $lifterlms_loop['loop'] ) )
 // Store column count for displaying the grid
 if ( empty( $lifterlms_loop['columns'] ) )
 	$lifterlms_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
-
-// Ensure visibility
-if ( ! $course || ! $course->is_visible() )
-	return;
-
 
 // Increase loop count
 $lifterlms_loop['loop']++;

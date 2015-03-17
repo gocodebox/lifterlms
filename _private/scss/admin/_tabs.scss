@@ -1,0 +1,43 @@
+.wrap {
+	h2.llms-nav-tab-wrapper {
+		background: $color-lightblue;
+		//border-radius: 5px;
+		padding: 0;
+		.llms-nav-tab, .llms-nav-tab-settings {
+			background: $color-lightblue;
+			border: 0;
+			color: #fff;
+			margin: 0;
+			font-weight: 300;
+			padding: 10px 0;
+			text-decoration: none;
+			font-size: 15px;
+			line-height: 24px;
+			transition: .8s;
+			text-align: center;
+			
+			&:first-child {
+				//border-radius: 5px 0 0 5px;
+			}&:hover {
+				background: $color-blue;
+			}&:active {
+				background: $color-darkblue;
+			}
+		}a {
+			letter-spacing: 3px;
+			&:hover {
+				letter-spacing: 4px;
+			}
+		}.llms-nav-tab-active {
+				background: $color-darkblue;
+		}
+
+	}
+}
+.llms-button-primary {	
+	border:none !important; 
+	text-shadow: none !important; 
+	border: none !important; 
+	outline: none !important;
+	box-shadow: none !important;
+}
