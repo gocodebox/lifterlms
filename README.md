@@ -25,6 +25,40 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.2.4 - 2015-04-22
+-------------------
++ Moved All Course metaboxes to global Course Options Metabox
++ Move Enrolled and Non-Enrolled user wysiwyg post editors to Options Metabox
++ Removed Course Syllabus metabox, Added Course Outline Metabox
++ Set priority of Course Outline and Course Options Metabox to top
++ Added ability to Create new section to Course Outline
++ Added abiliyt to Create new lesson to Course Outline
++ Added ability to add existing Lesson to Course Outline
++ Added Lesson duplicate functionality when adding lesson previously assigned to another course.
++ Added ability to drag lessons between sections in Course Outline
++ Added ability to edit Section Title in Course Outline
++ Added ability to edit lesson title and excerpt in Course Outline
++ Added New Style and Design for better usability to Course Outline 
++ Added Lesson Icon with tooltip to Course Outline: Prerequisite - shows if prerequisite exists and displays name of prerequisite
++ Added Lesson Icon with tooltip to Course Outline: Quiz - shows if quiz is assigned to course and displays name of quiz
++ Added Lesson Icon with tooltip to Course Outline: Drip Content - shows if drip days are set and # of days
++ Added Lesson Icon with tooltip to Course Outline: Content - displays if lesson has content added.
++ Added Course Outline Metabox to Lesson Post Editor: Allows you to assign lesson to section and view entire course tree. Links to Course and all other lessons in course.
++ Style Update: backgrounds on frontend. Removed all references to white background on front end elements  
++ Corrected Restriction for course in past. Updated course in past message to display as Course ended instead of Course not available until. 
++ Added restriction message when user attempts to visit a restricted lesson.
++ Updated course syllabus sidebar widget to not display lessons as links if user is not enrolled in course.
++ Added ability to use Attribute Order for sorting Courses and Memberships on Archive pages.
++ Added support for selling memberships with Woocommerce. LifterLMS now checks memberships for SKU matches in addition to Courses when products are purchased using WooCommerce.
++ Added gulp for scss, js and svg management
++ Added svg sprite and svg class for managing svg elements on front and backend.
++ Added better language translation support for strings
++ Refactored Ajax Classes for cleaner, faster development
++ Refactored metabox build class for cleaner, faster development
++ Refactored Course syllabus to reduce query size for larger, complex courses
++ Added Handler classes for Lessons, Sections, Courses and Posts
++ Refactored Course get / set methods to reduce database queries
+
 v1.2.3 - 2015-03-12
 -------------------
 + Achievement design and functionality updates

@@ -126,15 +126,9 @@ class LLMS_Admin_Meta_Boxes {
 			array_push($public_post_types, $post_type);
 		}
 
-		add_meta_box( 'lifterlms-course-main', __( 'Course Options', 'lifterlms' ), 'LLMS_Meta_Box_Main::output', 'course', 'normal' );
-			
-		//add_meta_box( 'postexcerpt', __( 'Course Short Description', 'lifterlms' ), 'LLMS_Meta_Box_Course_Short_Description::output', 'course', 'normal' );
-		//add_meta_box( 'lifterlms-course-data', __( 'Course Data', 'lifterlms' ), 'LLMS_Meta_Box_Product::output', 'course', 'normal', 'high' );
-		//add_meta_box( 'lifterlms-course-video', __( 'Featured Media', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'course', 'normal');
-		//add_meta_box( 'lifterlms-course-syllabus', __( 'Course Syllabus', 'lifterlms' ), 'LLMS_Meta_Box_Course_Syllabus::output', 'course', 'normal');
-		//add_meta_box( 'lifterlms-course-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_General::output', 'course', 'normal' );
-		add_meta_box( 'lifterlms-course-outline', __( 'Course Outline', 'lifterlms' ), 'LLMS_Meta_Box_Course_Outline::output', 'course', 'advanced' );
-		//add_meta_box( 'lifterlms-course-students', __( 'Student Settings', 'lifterlms' ), 'LLMS_Meta_Box_Students::output', 'course', 'normal' );
+		add_meta_box( 'lifterlms-course-outline', __( 'Course Outline', 'lifterlms' ), 'LLMS_Meta_Box_Course_Outline::output', 'course', 'normal', 'high' );
+		add_meta_box( 'lifterlms-course-main', __( 'Course Options', 'lifterlms' ), 'LLMS_Meta_Box_Main::output', 'course', 'normal', 'high' );
+
 		add_meta_box( 'lifterlms-section-tree', __( 'Section Tree', 'lifterlms' ), 'LLMS_Meta_Box_Section_Tree::output', 'section', 'side' );
 		add_meta_box( 'lifterlms-lesson-tree', __( 'Course Outline', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Tree::output', 'lesson', 'side' );
 		add_meta_box( 'lifterlms-lesson-video', __( 'Featured Media', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'lesson', 'normal', 'high' );
