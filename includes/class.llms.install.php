@@ -168,15 +168,20 @@ class LLMS_Install {
 							
 
 							//loop through lessons and update llms_order, parent_section and parent_course
-							foreach( $lessons as $lesson ) {
+							if ( !empty($lessons) ) {
 
-								$lesson_id = $lesson['lesson_id'];
-								$lesson_order = $lesson['position'];
+								foreach( $lessons as $lesson ) {
 
-								update_post_meta($lesson_id, '_parent_course', $course->ID);
-								update_post_meta($lesson_id, '_parent_section', $section_id);
-								update_post_meta($section_id, '_llms_order', $lesson_order);
+									$lesson_id = $lesson['lesson_id'];
+									$lesson_order = $lesson['position'];
+
+									update_post_meta($lesson_id, '_parent_course', $course->ID);
+									update_post_meta($lesson_id, '_parent_section', $section_id);
+									update_post_meta($lesson_id, '_llms_order', $lesson_order);
+								}
+
 							}
+							
 							
 						}
 
