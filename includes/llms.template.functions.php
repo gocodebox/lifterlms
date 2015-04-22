@@ -935,7 +935,7 @@ if ( ! function_exists( 'lifterlms_course_loop_end' ) ) {
  */
 if ( ! function_exists( 'lifterlms_course_progress_bar') ) {
 	
-	function lifterlms_course_progress_bar($progress,$link=false,$button=true,$echo = true) {
+	function lifterlms_course_progress_bar( $progress, $link=false, $button=true, $echo = true ) {
 
 		$tag = ($link) ? 'a' : 'span';
 		$href = ($link) ? ' href=" ' .$link. ' "' : '';
@@ -1377,3 +1377,22 @@ function llms_get_excerpt($post_id) {
 
     return $excerpt;
 }
+
+/**
+ * Set Course and Membership to order by order instead of title
+ * @param  [obj] $vars [query object]
+ * @return [object]       [query object]
+ */
+function llms_custom_archive_order( $vars ) {
+  if ( !is_admin() && isset($vars['post_type']) && post_type_supports($vars['post_type'], 'page-attributes') ) {
+
+  	if ( $vars['post_type'] === 'course' || $vars['post_type'] === 'membership' ) {
+	    $vars['orderby'] = 'menu_order';
+	    $vars['order'] = 'ASC';
+  	}
+  	
+  }
+
+  return $vars;
+}
+add_filter( 'request', 'llms_custom_archive_order');

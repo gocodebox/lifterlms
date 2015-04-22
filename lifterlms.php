@@ -3,7 +3,7 @@
 * Plugin Name: LifterLMS
 * Plugin URI: http://lifterlms.com/
 * Description: lifterLMS is the easiest way for anyone to create a Learning Management System on the Wordpress platform.
-* Version: 1.2.3
+* Version: 1.2.4
 * Author: codeBOX
 * Author URI: http://gocodebox.com
 *
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LifterLMS') ) :
  */
 final class LifterLMS {
 
-	public $version = '1.2.3';
+	public $version = '1.2.4';
 
 	protected static $_instance = null;
 
@@ -146,13 +146,19 @@ final class LifterLMS {
 		if ( ! defined( 'LLMS_PLUGIN_DIR' ) ) {
 			define( 'LLMS_PLUGIN_DIR', WP_PLUGIN_DIR . "/" . plugin_basename( dirname(__FILE__) ) . '/');
 		}
+
+		if ( ! defined( 'LLMS_SVG_DIR' ) ) {
+			define( 'LLMS_SVG_DIR', plugins_url( '/assets/svg/svg.svg', LLMS_PLUGIN_FILE ) );
+		}
 	}
 
 	/**
 	 * Include required core classes
 	 */
 	private function includes() {
+
 		require ( 'plugin-updates/plugin-update-checker.php');
+		
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
 		include_once( 'includes/class.llms.session.php' );
@@ -166,9 +172,13 @@ final class LifterLMS {
 			include_once( 'includes/class.llms.analytics.php' );
 		}
 
-		// Date and Number formatting
+		// Date, Number and language formatting
 		include_once( 'includes/class.llms.date.php' );
 		include_once( 'includes/class.llms.number.php' );
+		include_once( 'includes/class.llms.language.php' );
+
+		// svg management
+		include_once( 'includes/class.llms.svg.php' );
 
 		// Post types
 		include_once( 'includes/class.llms.post-types.php' );
@@ -178,6 +188,7 @@ final class LifterLMS {
 
 		// Ajax
 		include_once( 'includes/class.llms.ajax.php' );
+		include_once( 'includes/class.llms.ajax.handler.php' );
 
 		// Hooks
 		include_once( 'includes/llms.template.hooks.php' );
@@ -185,10 +196,16 @@ final class LifterLMS {
 		// Classes
 		include_once( 'includes/class.llms.product.php' );
 		include_once( 'includes/class.llms.course.php' );
+		include_once( 'includes/class.llms.section.php' );
 		include_once( 'includes/class.llms.lesson.php' );
+		include_once( 'includes/class.llms.lesson.handler.php' );
 		include_once( 'includes/class.llms.quiz.php' );
 		include_once( 'includes/class.llms.question.php' );
 		include_once( 'includes/class.llms.course.factory.php' );
+
+		//handler classes
+		include_once( 'includes/class.llms.post.handler.php' );
+		include_once( 'includes/class.llms.person.handler.php' );
 
 		include_once( 'includes/class.llms.widgets.php' );
 		include_once( 'includes/class.llms.widget.php' );

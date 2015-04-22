@@ -696,6 +696,7 @@ function get_update_keys($query){
       $query['url'] = $url;
 
       return $query;
+
 }
 
 /**

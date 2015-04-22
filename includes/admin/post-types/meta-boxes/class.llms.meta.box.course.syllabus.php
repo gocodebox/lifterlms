@@ -233,19 +233,19 @@ class LLMS_Meta_Box_Course_Syllabus {
 
 		// Dates
 		if ( $date_from )
-			update_post_meta( $post_id, '_course_dates_from', strtotime( $date_from ) );
+			update_post_meta( $post_id, '_course_dates_from', LLMS_Date::db_date( $date_from ) );
 
 		else
 			update_post_meta( $post_id, '_course_dates_from', '' );
 
 		if ( $date_to )
 
-			update_post_meta( $post_id, '_course_dates_to', strtotime( $date_to ) );
+			update_post_meta( $post_id, '_course_dates_to', LLMS_Date::db_date( $date_to ) );
 		else
 			update_post_meta( $post_id, '_course_dates_to', '' );
 
 		if ( $date_to && ! $date_from )
-			update_post_meta( $post_id, '_course_dates_from', strtotime( 'NOW', current_time( 'timestamp' ) ) );
+			update_post_meta( $post_id, '_course_dates_from', LLMS_Date::db_date( 'NOW', current_time( 'timestamp' ) ) );
 
 		if ( isset( $_POST['_lesson_length'] ) ) {
 			//update lesson length text box
@@ -261,9 +261,9 @@ class LLMS_Meta_Box_Course_Syllabus {
 
 		}
 
-		if ( isset( $_POST['post_course_difficulty'] ) ) {
+		if ( isset( $_POST['_post_course_difficulty'] ) ) {
 			//update associated difficulty taxonomy select
-			$course_difficulty = $_POST['post_course_difficulty'];
+			$course_difficulty = $_POST['_post_course_difficulty'];
 			wp_set_object_terms( $post_id,  $course_difficulty, 'course_difficulty' );
 
 		}

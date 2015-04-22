@@ -26,7 +26,8 @@ class LLMS_Shortcodes {
 			'courses' => __CLASS__ . '::courses',
 			'lifterlms_course_progess' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
-			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics'
+			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
+			'lifterlms_regiration' => __CLASS__ . '::registration'
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -86,6 +87,24 @@ class LLMS_Shortcodes {
 	public static function my_account( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
+
+	}
+
+	/**
+	 * Registration page shortcode
+	 * Used to seperate registration from login
+	 * @param  [atts] $atts [no atts are allowed]
+	 * @return [html]       [registration template html]
+	 */
+	public static function registration( $atts ) {
+
+		ob_start();
+
+		include( llms_get_template_part_contents( 'myaccount/form', 'registration' ) );
+
+		$html = ob_get_clean();
+
+		return $html;
 
 	}
 

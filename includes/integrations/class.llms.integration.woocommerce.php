@@ -128,7 +128,7 @@ class LLMS_Integration_Woocommerce {
 
 		// get all product skus
 		$args = array(
-		  'post_type'   => 'course',
+		  'post_type' => array('course','llms_membership'),
 		  'meta_query'  => array(
 		    	array(
 		      		'key' => '_sku'

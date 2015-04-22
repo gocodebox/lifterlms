@@ -739,7 +739,10 @@ class LLMS_Frontend_Forms {
 				foreach ($memberships as $key => $value) {
 					$membership = get_post($value);
 					$membership_title = $membership->post_title;
-					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message',sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $membership_title ) ) );
+					$link = get_permalink($membership->ID);
+					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', 
+						'<a href="' . $link . '">' . $membership_title  . '</a> ' 
+						. LLMS_Language::output('membership level is required to access this content.') ) );
 				}
 				break;
 			case 'parent_membership' :
@@ -747,15 +750,19 @@ class LLMS_Frontend_Forms {
 				foreach ($memberships as $key => $value) {
 					$membership = get_post($value);
 					$membership_title = $membership->post_title;
-					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', sprintf( __( '%s membership level is required to access this content.', 'lifterlms' ), $membership_title ) ) );
+					$link = get_permalink($membership->ID);
+					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', 
+						'<a href="' . $link . '">' . $membership_title  . '</a> ' 
+						. LLMS_Language::output('membership level is required to access this content.') ) );
 				}
 				break;
 			case 'prerequisite' :
-				$prerequisite = llms_get_prerequisite(get_current_user_id(), $post_id);
-				$link = get_permalink( $prerequisite->ID );
+
+				$prerequisite = LLMS_Post_Handler::get_prerequisite($post_id); //llms_get_prerequisite(get_current_user_id(), $post_id);
+				$link = get_permalink( $prerequisite );
 
 				llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ),
-					$link, $prerequisite->post_title, $prerequisite->post_title ) );
+					$link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
 				break;
 			case 'lesson_start_date' :
 				$start_date = llms_get_lesson_start_date(get_current_user_id(), $post_id);
@@ -763,18 +770,28 @@ class LLMS_Frontend_Forms {
 				llms_add_notice( sprintf( __( 'Lesson is not available until %s.', 'lifterlms' ), $start_date ) );
 				break;
 			case 'course_start_date' :
-				$start_date = llms_get_course_start_date($post_id);
+				$course = new LLMS_Course($post_id);
+				$start_date = LLMS_Date::pretty_date($course->get_start_date($post_id));
+				//$start_date = llms_get_course_start_date($post_id);
 				llms_add_notice( sprintf( __( 'Course is not available until %s.', 'lifterlms' ), $start_date ) );
 				break;
 			case 'course_end_date' :
-				$end_date = llms_get_course_end_date($post_id);
+				$course = new LLMS_Course($post_id);
+				$end_date = LLMS_Date::pretty_date($course->get_end_date($post_id));
 				llms_add_notice( sprintf( __( 'Course ended %s.', 'lifterlms' ), $end_date ) );
 				break;
 			case 'quiz_restricted' :
-				//$end_date = llms_get_course_end_date($post_id);
 				llms_add_notice( sprintf( __( 'You do not have access to the quiz questions. <a href="%s">Return to Account page</a>.', 'lifterlms' ), get_permalink( llms_get_page_id( 'myaccount' ) )));
-				//$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-				//p_redirect( apply_filters( 'quiz_restricted_redirect', $redirect ) );
+				break;
+			case 'enrollment_lesson' :
+				$lesson = new LLMS_Lesson($post_id);
+				$parent_course = $lesson->get_parent_course();
+				$title = get_the_title($parent_course);
+				$link = get_permalink($parent_course);
+				llms_add_notice( apply_filters( 'lifterlms_lesson_enrollment_restricted_message', 
+					LLMS_Language::output('You must enroll in' ) 
+						. ' <a href="' . $link . '">'
+						. $title . '</a> ' . LLMS_Language::output('to view this lesson') ) );
 				break;
 		}
 
@@ -913,17 +930,21 @@ class LLMS_Frontend_Forms {
 
 			wp_update_user( $user ) ;
 
-			$person_address = apply_filters( 'lifterlms_new_person_address', array(
-				'llms_billing_address_1' 	=>	$billing_address_1,
-				'llms_billing_address_2'	=>	$billing_address_2,
-				'llms_billing_city'			=>	$billing_city,
-				'llms_billing_state'		=>	$billing_state,
-				'llms_billing_zip'			=>	$billing_zip,
-				'llms_billing_country'		=>	$billing_country
-				) );
+			//if address option is set then update address fields
+			if ( 'yes' === get_option( 'lifterlms_registration_require_address' ) ) {
 
-			foreach ($person_address as $key => $value ) {
-				update_user_meta( $user->ID, $key, $value );
+				$person_address = apply_filters( 'lifterlms_new_person_address', array(
+					'llms_billing_address_1' 	=>	$billing_address_1,
+					'llms_billing_address_2'	=>	$billing_address_2,
+					'llms_billing_city'			=>	$billing_city,
+					'llms_billing_state'		=>	$billing_state,
+					'llms_billing_zip'			=>	$billing_zip,
+					'llms_billing_country'		=>	$billing_country
+					) );
+
+				foreach ($person_address as $key => $value ) {
+					update_user_meta( $user->ID, $key, $value );
+				}
 			}
 
 			if ( 'yes' == get_option( 'lifterlms_registration_add_phone' ) ) {

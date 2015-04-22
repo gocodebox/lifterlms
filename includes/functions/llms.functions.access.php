@@ -44,7 +44,7 @@ function llms_page_restricted($post_id) {
 			}
 			elseif ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
 				$restricted = true;
-				$reason = 'enrollment';
+				$reason = 'enrollment_lesson';
 			}
 			elseif ( outstanding_prerequisite_exists(get_current_user_id(), $post_id) ) {
 
@@ -366,36 +366,36 @@ function find_prerequisite( $user_id, $post ) {
  * 
  * @return object [Post object that is marked as prerequisite]
  */
-function llms_get_prerequisite($user_id, $post_id) {
-	$user = new LLMS_Person;
-	$post = get_post( $post_id );
+// function llms_get_prerequisite($user_id, $post_id) {
+// 	$user = new LLMS_Person;
+// 	$post = get_post( $post_id );
 
-	if ( $post->post_type == 'course' ) {
+// 	if ( $post->post_type == 'course' ) {
 
 
-		$current_post = new LLMS_Course($post->ID);
+// 		$current_post = new LLMS_Course($post->ID);
 
-		$result = find_prerequisite($user_id, $current_post);
+// 		$result = find_prerequisite($user_id, $current_post);
 
-	}
-	if ( $post->post_type == 'lesson' ) {
+// 	}
+// 	if ( $post->post_type == 'lesson' ) {
 
-		$current_post = new LLMS_Lesson($post->ID);
+// 		$current_post = new LLMS_Lesson($post->ID);
 
-		$parent_course_id = $current_post->get_parent_course();
+// 		$parent_course_id = $current_post->get_parent_course();
 
-		$parent_course = new LLMS_Course($parent_course_id);
-		$prerequisite_id = $parent_course->get_prerequisite();
-		$prerequisite = get_post( $prerequisite_id );
+// 		$parent_course = new LLMS_Course($parent_course_id);
+// 		$prerequisite_id = $parent_course->get_prerequisite();
+// 		$prerequisite = get_post( $prerequisite_id );
 
-		if ( empty($prerequisite_id) ) {
-			$prerequisite_id = $current_post->get_prerequisite();
-			$prerequisite = get_post( $prerequisite_id);
-		}
-	}
+// 		if ( empty($prerequisite_id) ) {
+// 			$prerequisite_id = $current_post->get_prerequisite();
+// 			$prerequisite = get_post( $prerequisite_id);
+// 		}
+// 	}
 
-	return $prerequisite;
-}
+// 	return $prerequisite;
+// }
 
 /**
  * Queries course start date metadata
@@ -404,18 +404,18 @@ function llms_get_prerequisite($user_id, $post_id) {
  * 
  * @return datetime $start_date [Start Date in M, d, Y format]
  */
-function llms_get_course_start_date($post_id) {
+// function llms_get_course_start_date($post_id) {
 
-	$post = get_post( $post_id );
+// 	$post = get_post( $post_id );
 
-	$start_date = get_post_meta( $post->ID, '_course_dates_from', true );
+// 	$start_date = get_post_meta( $post->ID, '_course_dates_from', true );
 	
-	if ($start_date != '') {
-		$start_date = date('M d, Y', $start_date);
-	}
+// 	if ($start_date != '') {
+// 		$start_date = date('M d, Y', $start_date);
+// 	}
 	
-	return $start_date;
-}
+// 	return $start_date;
+// }
 
 /**
  * Queries course metadata to get the date the user enrolled.
@@ -456,16 +456,16 @@ function llms_get_course_enrolled_date($user_id, $post_id) {
  * 
  * @return datetime $end_date [End Date in M, d, Y format] or emtpy string if user is not enrolled.
  */
-function llms_get_course_end_date($post_id) {
-	$post = get_post($post_id);
-	$end_date = get_metadata('post', $post->ID, '_course_dates_to', true);
+// function llms_get_course_end_date($post_id) {
+// 	$post = get_post($post_id);
+// 	$end_date = get_metadata('post', $post->ID, '_course_dates_to', true);
 	
-	if ($end_date != '') {
-		$end_date = date('M d, Y', $end_date);
-	}
+// 	if ($end_date != '') {
+// 		$end_date = date('M d, Y', $end_date);
+// 	}
 	
-	return $end_date;
-}
+// 	return $end_date;
+// }
 
 
 /**
@@ -477,11 +477,14 @@ function llms_get_course_end_date($post_id) {
  */
 function course_end_date_in_past($post_id) {
 	$course_in_past = false;
-	$end_date = llms_get_course_end_date($post_id); //removed copy and past code here just becuase it was so glaring
+
+	$course = new LLMS_Course($post_id);
+	$end_date = $course->get_end_date($post_id); //removed copy and past code here just becuase it was so glaring
 
 	if ( $end_date != '' ) {
-		$todays_date =  strtotime('today');
-		if ($todays_date > date_create($end_date)) {
+		$todays_date =  current_time( 'mysql' );
+
+		if ($todays_date > $end_date) {
 			$course_in_past = true;
 		}
 	}
@@ -489,7 +492,7 @@ function course_end_date_in_past($post_id) {
 	// break out and display an error
 	// TODO should this take the drip feed into account, I would assume so...
 	if ($course_in_past) {
-		$end_date_formatted = date('M d, Y', $end_date);
+		$end_date_formatted = LLMS_Date::pretty_date($end_date);
 		do_action('lifterlms_content_restricted_by_end_date', $end_date_formatted);
 	}
 
@@ -497,32 +500,37 @@ function course_end_date_in_past($post_id) {
 }
 
 /**
- * Queries the lesson start date
+ * Returns the start date for the lesson
+ * Returns the date the lesson can start
+ * If drip days are set it calculates the drip days
  * 
  * @param  int $user_id [ID of current user]
- * @param  int $post_id [ID of current post or page]
+ * @param  int $post_id [ID of lesson]
  * 
  * @return datetime $lesson_start_date [Start Date in M, d, Y format]
  */
 function llms_get_lesson_start_date($user_id, $post_id) {
 
-	$start_date = llms_get_course_start_date( $post_id );
-	//TODO if the course start date is not set, default the start date to the date the user enrolled 
-	//TODO NOTE: should this be the default, not relevant for me since I never set a start date ...
-	if ( $start_date == '' ) {
-		$start_date = llms_get_course_enrolled_date($user_id, $post_id);
-	} 
+	$lesson = new LLMS_Lesson($post_id);
+	$course_id = $lesson->get_parent_course();
+	$course = new LLMS_Course($course_id);
 
- 	if ( $start_date == '' ) {
-		  	// TODO ok this is a horrid fallback, I suspect it would be better to display an error page here.
-		  	$start_date = date('M d, Y');
+	
+	//get the course start date
+	//get the date the user enrolled
+	$course_start_date = $course->get_start_date();
+	$user_enrolled_date = $course->get_user_enroll_date($user_id);
+	$drip_days = $lesson->get_drip_days();
+
+	//get the greater of the two dates
+	if ( $course_start_date > $user_enrolled_date ) {
+		$start_date = $course_start_date;
+	} else {
+		$start_date = $user_enrolled_date;
 	}
-
-	// get drip days and add them to the start date if they are not empty
-	$drip_days = get_metadata('post', $post_id, '_days_before_avalailable', true);
-	if ( $drip_days != '' ) {
-		$start_date = date('M d, Y', strtotime($start_date . ' +' . $drip_days . ' day'));
-	} 
+	
+	//add drip days
+	$start_date = LLMS_Date::db_date( $start_date . '+ ' . $drip_days . ' days' );
 	
 	return $start_date;
 }
@@ -547,14 +555,14 @@ function lesson_start_date_in_future($user_id, $post_id) {
  * @return bool $course_in_future [Does the course have a future start date?]
  */
 function course_start_date_in_future($post_id) {
-	$start_date = llms_get_course_start_date( $post_id );
+	$course = new LLMS_Course($post_id);
+	$start_date = $course->get_start_date( $post_id );
 
 	$course_in_future = false;
 
-	if ( $start_date != '' ) {
-		if (strtotime('today') < date_create($start_date)) {
-			$course_in_future = true;
-		}
+
+	if (current_time( 'mysql' ) < $start_date) {
+		$course_in_future = true;
 	}
 
 	return $course_in_future;

@@ -29,7 +29,7 @@ class LLMS_Meta_Box_Students {
     		'blog_id'      => $GLOBALS['blog_id'],
 			'include'      => array(),
 			'exclude'      => $enrolled_students,
-			'orderby'      => 'login',
+			'orderby'      => 'display_name',
 			'order'        => 'ASC',
 			'count_total'  => false,
 			'fields'       => 'all',
@@ -49,7 +49,7 @@ class LLMS_Meta_Box_Students {
     		'blog_id'      => $GLOBALS['blog_id'],
 			'include'      => array(),
 			'exclude'      => $enrolled_student_ids,
-			'orderby'      => 'login',
+			'orderby'      => 'display_name',
 			'order'        => 'ASC',
 			'count_total'  => false,
 			'fields'       => 'all',
@@ -177,51 +177,9 @@ class LLMS_Meta_Box_Students {
 	 * @return void
 	 */
 	public static function create_order($user_id, $post_id) {
-		global $wpdb, $post;
-
-		$sku = get_post_meta( $post_id, '_sku', true );
-
-		$order_data = apply_filters( 'lifterlms_new_order', array(
-			'post_type' 	=> 'order',
-			'post_title' 	=> sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ) ) ),
-			'post_status' 	=> 'publish',
-			'ping_status'	=> 'closed',
-			'post_author' 	=> 1,
-			'post_password'	=> uniqid( 'order_' )
-		) );
-
-		$order_post_id = wp_insert_post( $order_data, true );
-
-		$result = $wpdb->insert( $wpdb->prefix .'lifterlms_order',
-			array(
-				'user_id'			=> $user_id,
-				'created_date' 		=> current_time('mysql'),
-				'completed_date' 	=> current_time('mysql'),
-				'order_completed' 	=> 'yes',
-				'product_id'		=> $post_id,
-				'order_post_id'		=> $order_post_id,
-			)
-		);
-
-		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order',
-			array(
-				'completed_date' 	=> current_time('mysql'),
-				'order_completed' 	=> 'yes',
-				'order_post_id'		=> $order_post_id,
-			),
-			array(
-				'user_id' 			=> $user_id,
-				'product_id' 		=> $post_id,
-			)
-		);
-
-		update_post_meta($order_post_id,'_llms_user_id', $user_id);
-		update_post_meta($order_post_id,'_llms_payment_method', 'assinged_by_admin');
-		update_post_meta($order_post_id,'_llms_product_title', $post->post_title);
-		update_post_meta($order_post_id,'_llms_order_total', '0');
-		update_post_meta($order_post_id,'_llms_product_sku', $sku);
-		update_post_meta($order_post_id,'_llms_order_currency', get_lifterlms_currency_symbol());
-		update_post_meta($order_post_id,'_llms_order_product_id', $post_id);
+		$order = new LLMS_Order();
+		$handle = LLMS()->checkout();
+		$handle->create($user_id, $post_id);
 	}
 
 
@@ -238,14 +196,14 @@ class LLMS_Meta_Box_Students {
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		if ( isset( $_POST['add_new_user']) && $_POST['add_new_user'] != '') {
+		if ( isset( $_POST['_add_new_user']) && $_POST['_add_new_user'] != '') {
 			//triggers add_student static method
-			$add_user = self::add_student( $_POST['add_new_user'], $post_id );
+			$add_user = self::add_student( $_POST['_add_new_user'], $post_id );
 		}
 
-		if ( isset( $_POST['remove_student']) && $_POST['remove_student'] != '') {
+		if ( isset( $_POST['_remove_student']) && $_POST['_remove_student'] != '') {
 			//triggers remove_student static method
-			$remove_user = self::remove_student( $_POST['remove_student'], $post_id );
+			$remove_user = self::remove_student( $_POST['_remove_student'], $post_id );
 		}
 
 	}

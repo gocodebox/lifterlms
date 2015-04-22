@@ -161,6 +161,15 @@ table.dad-list tr td:nth-child(2) {
 }
 .llms-lesson-list {
 	margin: 0;
+	ul {
+		margin-left: 10px;
+		li {
+			margin-top: 6px;
+			a {
+				color: $color-blue;
+			}
+		}
+	}
 }
 .llms-lesson-list a {
 	text-decoration: none;

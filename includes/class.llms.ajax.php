@@ -12,6 +12,133 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class LLMS_AJAX {
 
 	/**
+	 * nonce validation argument
+	 * @var string
+	 */
+	const NONCE = 'llms-ajax';
+
+    /**
+     * Register the AJAX handler class with all the appropriate WordPress hooks.
+     */
+    public function register()
+    {
+        $handler = 'LLMS_AJAX';
+        $methods = get_class_methods('LLMS_AJAX_Handler');
+ 
+ 		foreach( $methods as $method ) {
+ 			add_action('wp_ajax_' . $method, array($handler, 'handle'));
+        	add_action('wp_ajax_nopriv_' . $method, array($handler, 'handle'));
+        	add_action('wp_loaded', array($this, 'register_script'));
+ 		}
+        
+    }
+
+    /**
+     * Handles the AJAX request for my plugin.
+     */
+    public static function handle() {
+        // Make sure we are getting a valid AJAX request
+		check_ajax_referer(self::NONCE);
+
+		$request = self::scrub_request($_REQUEST);
+
+        $response = LLMS_AJAX_Handler::$request['action']( $request );
+
+        if ( $response instanceof WP_Error ) {
+            $this->send_error($response);
+        }
+ 
+        wp_send_json_success($response);
+ 
+        die();
+    }
+
+    public static function scrub_request($request) {
+
+    	foreach ( $request as $key => $value ) {
+
+    		if ( is_array($value) ) {
+    			$request[$key] = self::scrub_request($value);
+    		} else {
+    			$request[$key] = llms_clean($value);
+    		}
+    		
+
+    	}
+
+    	return $request;
+
+    }
+
+    /**
+     * Register our AJAX JavaScript.
+     */
+    public function register_script() {
+
+    	// script will only register once 
+        wp_register_script('llms',  plugins_url(  '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ));
+        wp_localize_script('llms', 'wp_ajax_data', $this->get_ajax_data());
+        wp_enqueue_script('llms');
+    }
+
+     /**
+     * Get the AJAX data 
+     * Currently only retrieves the nonce until we can figuare out how to get the post id too
+     *
+     * @return array
+     */
+    public function get_ajax_data() {
+        return array(
+            'nonce' => wp_create_nonce(LLMS_AJAX::NONCE)
+        );
+    }
+
+    /**
+     * Get the comment text sent by the AJAX request.
+     * Uses PHP function filter_var
+     *
+     * @return string
+     */
+    private function get_comment()
+    {
+        $comment = '';
+ 
+        if (isset($_POST['comment'])) {
+            $comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
+        }
+ 
+        return $comment;
+    }
+ 
+    /**
+     * Get the post ID sent by the AJAX request.
+     *
+     * @return int
+     */
+    private function get_post_id()
+    {
+        $post_id = 0;
+ 
+        if (isset($_POST['post_id'])) {
+            $post_id = absint(filter_var($_POST['post_id'], FILTER_SANITIZE_NUMBER_INT));
+        }
+ 
+        return $post_id;
+    }
+
+    /**
+     * Sends a JSON response with the details of the given error.
+     *
+     * @param WP_Error $error
+     */
+    private function send_error(WP_Error $error) {
+        wp_send_json(array(
+            'code' => $error->get_error_code(),
+            'message' => $error->get_error_message()
+        ));
+    }
+
+	/**
 	 * Hook into ajax events
 	 */
 	public function __construct() {
@@ -34,6 +161,7 @@ class LLMS_AJAX {
 			'previous_question'			=> false,
 			'complete_quiz'				=> false,
 			'get_all_posts'				=> false,
+			//'test_ajax_call'			=> false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -43,6 +171,8 @@ class LLMS_AJAX {
 				add_action( 'wp_ajax_nopriv_' . $ajax_event, array( $this, $ajax_event ) );
 			}
 		}
+
+		self::register();
 	}
 
 	/**
@@ -647,6 +777,8 @@ class LLMS_AJAX {
 		echo json_encode( $response );
     	die();
 	}
+
+	
 
 
 }
