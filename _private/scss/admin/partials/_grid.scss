@@ -8,6 +8,7 @@ Grids for Breakpoints
 @mixin grid-col {
   float: left;
   padding-right: 0.75em;
+  box-sizing: border-box;
 
 }
 
@@ -15,6 +16,9 @@ Grids for Breakpoints
 .last-col {
   float: right;
   padding-right: 0 !important;
+}
+.last-col:after {
+    clear: both;
 }
 
 
@@ -66,6 +70,16 @@ them however you see fit.
 	.m-left {
 		text-align: center;
 	}
+
+  .d-right {
+    text-align: right;
+  }
+  .d-center {
+    text-align: center;
+  }
+  .d-left {
+    text-align: left;
+  }
 
 } // end mobile styles
 

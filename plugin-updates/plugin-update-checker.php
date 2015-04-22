@@ -27,7 +27,7 @@ class PluginUpdateChecker_1_6 {
 	public $optionName = '';  //Where to store the update info.
 	public $muPluginFile = ''; //For MU plugins, the plugin filename relative to the mu-plugins directory.
 
-	public $debugMode = false; //Set to TRUE to enable error reporting. Errors are raised using trigger_error()
+	public $debugMode = true; //Set to TRUE to enable error reporting. Errors are raised using trigger_error()
                                //and should be logged to the standard PHP error log.
 
 	public $throttleRedundantChecks = false; //Check less often if we already know that an update is available.
@@ -192,7 +192,7 @@ class PluginUpdateChecker_1_6 {
 		$installedVersion = $this->getInstalledVersion();
 		$queryArgs['installed_version'] = ($installedVersion !== null) ? $installedVersion : '';
 		$queryArgs = apply_filters('puc_request_info_query_args-'.$this->slug, $queryArgs);
-		
+
 		//Various options for the wp_remote_get() call. Plugins can filter these, too.
 		$options = array(
 			'timeout' => 10, //seconds
@@ -201,7 +201,7 @@ class PluginUpdateChecker_1_6 {
 			),
 		);
 		$options = apply_filters('puc_request_info_options-'.$this->slug, $options);
-		
+
 		//The plugin info should be at 'http://your-api.com/url/here/$slug/info.json'
 		$url = $this->metadataUrl; 
 		if ( !empty($queryArgs) ){
@@ -766,6 +766,7 @@ class PluginInfo_1_6 {
 	 */
 	public static function fromJson($json, $triggerErrors = false){
 		/** @var StdClass $apiResponse */
+
 		$apiResponse = json_decode($json);
 		if ( empty($apiResponse) || !is_object($apiResponse) ){
 			if ( $triggerErrors ) {
@@ -776,7 +777,7 @@ class PluginInfo_1_6 {
 			}
 			return null;
 		}
-		
+
 		//Very, very basic validation.
 		$valid = isset($apiResponse->name) && !empty($apiResponse->name) && isset($apiResponse->version) && !empty($apiResponse->version);
 		if ( !$valid ){

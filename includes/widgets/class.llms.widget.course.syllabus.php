@@ -44,6 +44,7 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 		$course = new LLMS_Course ( $course_id );
 
 		$course_syllabus = $course->get_syllabus();
+		//var_dump($course_syllabus);
 
 		$syllabus = $course->get_student_progress();
 
@@ -62,10 +63,18 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 							if ( $lesson['parent_id'] == $section['id'] ) {
 
 								$html .= '<ul>';
-									$html .= '<li>';
-										$html .= '<span class="llms-lesson-complete ' . ( $lesson['is_complete'] ? 'done' : '' ) . '"><i class="fa fa-check-circle"></i></span>';
-										$html .= '<span class="lesson-title ' . ( $lesson['is_complete'] ? 'done' : '' ) . '"><a href="' . get_permalink( $lesson['id'] ) . '">' . $lesson['title'] . '</a></span>';
-									$html .= '</li>';
+								$html .= '<li>';
+								$html .= '<span class="llms-lesson-complete ' . ( $lesson['is_complete'] ? 'done' : '' ) . '"><i class="fa fa-check-circle"></i></span>';
+								$html .= '<span class="lesson-title ' . ( $lesson['is_complete'] ? 'done' : '' ) . '">';
+
+								if ( LLMS_Course::check_enrollment( $course_id, get_current_user_id() ) ) {
+									$html .= '<a href="' . get_permalink( $lesson['id'] ) . '">' . $lesson['title'] . '</a>';
+								} else {
+									$html .= $lesson['title'];
+								}
+
+								$html .= '</span>';
+								$html .= '</li>';
 								$html .= '</ul>';
 
 							}

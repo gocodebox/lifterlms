@@ -30,6 +30,64 @@
 			return self::$_instance;
 		}
 
+	/**
+	 * Creates a order post to associate with the enrollment of the user. 
+	 * Used to create order and skip checkout process
+	 * @param int $user_id [ID of the user]
+	 * @param int $post_id [ID of the post]
+	 * 
+	 * @return void
+	 */
+	public function create($user_id, $post_id) {
+		global $wpdb;
+
+		$post = get_post($post_id);
+
+		$sku = get_post_meta( $post_id, '_sku', true );
+
+		$order_data = apply_filters( 'lifterlms_new_order', array(
+			'post_type' 	=> 'order',
+			'post_title' 	=> sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ) ) ),
+			'post_status' 	=> 'publish',
+			'ping_status'	=> 'closed',
+			'post_author' 	=> 1,
+			'post_password'	=> uniqid( 'order_' )
+		) );
+
+		$order_post_id = wp_insert_post( $order_data, true );
+
+		$result = $wpdb->insert( $wpdb->prefix .'lifterlms_order',
+			array(
+				'user_id'			=> $user_id,
+				'created_date' 		=> current_time('mysql'),
+				'completed_date' 	=> current_time('mysql'),
+				'order_completed' 	=> 'yes',
+				'product_id'		=> $post_id,
+				'order_post_id'		=> $order_post_id,
+			)
+		);
+
+		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order',
+			array(
+				'completed_date' 	=> current_time('mysql'),
+				'order_completed' 	=> 'yes',
+				'order_post_id'		=> $order_post_id,
+			),
+			array(
+				'user_id' 			=> $user_id,
+				'product_id' 		=> $post_id,
+			)
+		);
+
+		update_post_meta($order_post_id,'_llms_user_id', $user_id);
+		update_post_meta($order_post_id,'_llms_payment_method', 'assinged_by_admin');
+		update_post_meta($order_post_id,'_llms_product_title', $post->post_title);
+		update_post_meta($order_post_id,'_llms_order_total', '0');
+		update_post_meta($order_post_id,'_llms_product_sku', $sku);
+		update_post_meta($order_post_id,'_llms_order_currency', get_lifterlms_currency_symbol());
+		update_post_meta($order_post_id,'_llms_order_product_id', $post_id);
+	}
+
 		/**
 		 * Process order
 		 *

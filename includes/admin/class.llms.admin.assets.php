@@ -104,6 +104,7 @@ class LLMS_Admin_Assets {
 
 			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			
+			
 
 			wp_enqueue_script( 'llms-ajax', plugins_url(  '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			wp_enqueue_script( 'llms-metabox', plugins_url(  '/assets/js/llms-metabox' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
@@ -143,6 +144,10 @@ class LLMS_Admin_Assets {
 
 			wp_enqueue_script( 'llms-options-analytics', plugins_url(  '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			
+			wp_enqueue_script( 'top-modal', plugins_url(  '/assets/js/vendor/topModal.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+
+			wp_register_script('llms',  plugins_url(  '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ));
+			wp_enqueue_script( 'llms', plugins_url(  '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 		}
 	}
 

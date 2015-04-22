@@ -2,7 +2,7 @@
 (function($){ 
 	// Datepicker to do: need to change this to an option that's set from admin.
 	$('.datepicker').datepicker({ 
-		dateFormat: "yy/mm/dd" 
+		dateFormat: "mm/dd/yy" 
 	});
 
 	//only display prerequisite field if has prerequisite is checked

@@ -48,7 +48,7 @@ $rec_price = $product->get_recurring_price();
 		else { ?>
 
 			<form action="" method="post">
-
+				<input type="hidden" name="payment_option" value="none_0" />
 				<input type="hidden" name="product_id" value="<?php echo $product->id; ?>" />
 			  	<input type="hidden" name="product_price" value="<?php echo $product->get_price(); ?>" />
 			  	<input type="hidden" name="product_sku" value="<?php echo $product->get_sku(); ?>" />

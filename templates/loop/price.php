@@ -6,19 +6,21 @@ $product_obj = new LLMS_Product($post->ID);
 $single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() );
 //$recurring_html_price = $product_obj->get_recurring_price_html();
 $payment_options = $product_obj->get_payment_options();
-
+$single_payment_exists = false;
 ?>
 <div class="llms-price-wrapper">
 	<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $post->id ) ) : ?>
 		<?php foreach ($payment_options as $key => $value) : ?>
-			<?php if ($value == 'single') : ?>
+			<?php if ($value == 'single') : 
+				$single_payment_exists = true;
+			?>
 				<h4 class="llms-price"><span><?php echo $single_html_price; ?></span></h4>
 			<?php endif; ?>
 
 			<?php if ($value == 'recurring') : ?>
 				<?php $subs = $product_obj->get_subscriptions(); ?>
 				<?php foreach ($subs as $id => $sub) : ?>
-					<?php echo 'or'; ?>
+					<?php echo $single_payment_exists ? 'or' : ''; ?>
 					<h4 class="llms-price"><span><?php echo $product_obj->get_subscription_price_html($sub); ?></span></h4>
 				<?php endforeach; ?>
 			<?php endif; ?>

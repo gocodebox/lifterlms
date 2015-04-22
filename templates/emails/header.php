@@ -48,7 +48,7 @@ $blog_title = get_bloginfo( 'name' );
 					</tr>
 					<tr>
 						<td align="center" width="600">
-	                    	<h1><?php echo $email_heading; ?></h1>
+	                    	<h1><?php echo isset($email_heading) ? $email_heading : ''; ?></h1>
 	                    </td>
 					</tr>
 					<tr>

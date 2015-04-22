@@ -10,9 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $product_id = get_query_var( 'product-id' );
 global $wpdb;
+llms_print_notices();
 ?>
 
-<?php if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) : ?>
+<?php //if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) : ?>
 
 	<?php do_action( 'lifterlms_before_person_register_form' ); ?>
 
@@ -150,4 +151,4 @@ global $wpdb;
 
 	<?php do_action( 'lifterlms_after_person_register_form' ); ?>
 
-<?php endif; ?>
+<?php //endif; ?>

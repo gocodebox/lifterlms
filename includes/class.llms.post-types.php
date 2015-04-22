@@ -178,7 +178,7 @@ class LLMS_Post_Types {
 					'hierarchical' 			=> false, 
 					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
+					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
 					'has_archive' 			=> ( $shop_page_id = llms_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
 					'show_in_nav_menus' 	=> true
 				)
@@ -221,11 +221,11 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where sections are stored.', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> true,
+					'show_ui' 				=> false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
-					'show_in_menu' 			=> 'edit.php?post_type=course',
+					//'show_in_menu' 			=> 'edit.php?post_type=course',
 					'hierarchical' 			=> false,
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,

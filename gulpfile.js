@@ -11,7 +11,18 @@ var gulp = require( 'gulp' ),
 	notify = require( 'gulp-notify' ),
 	growl = require( 'gulp-notify-growl' ),
 	jscs = require('gulp-jscs'),
-	jshint = require( 'gulp-jshint' );
+	jshint = require( 'gulp-jshint' ),
+	svgstore = require('gulp-svgstore'),
+	svgmin = require('gulp-svgmin');
+
+
+gulp.task('svgstore', function () {
+    return gulp
+        .src('_private/svg/*.svg')
+        .pipe(svgmin())
+        .pipe(svgstore())
+        .pipe(gulp.dest('assets/svg'));
+});
 
 /**
  * JSCS
@@ -90,7 +101,11 @@ gulp.task( 'process-frontend-styles', function () {
 		.pipe( gulp.dest( 'assets/css/' ) )
 		.pipe( rename( { suffix: '.min' } ) )
 		.pipe( minifycss() )
-		.pipe( gulp.dest( 'assets/css/') );
+		.pipe( gulp.dest( 'assets/css/') )
+		.pipe(notify({
+            title: 'Front End Styles',
+            message: 'Successfully Front End Styles'
+        }));
 
 });
 
@@ -107,7 +122,11 @@ gulp.task( 'process-admin-styles', function () {
 		.pipe( gulp.dest( 'assets/css/' ) )
 		.pipe( rename( { suffix: '.min' } ) )
 		.pipe( minifycss() )
-		.pipe( gulp.dest( 'assets/css/') );
+		.pipe( gulp.dest( 'assets/css/') )
+		.pipe(notify({
+            title: 'Admin Styles',
+            message: 'Successfully Admin Styles'
+        }));
 
 });
 
@@ -134,6 +153,7 @@ gulp.task( 'process-scripts', function () {
 gulp.task( 'watch', function () {
 
 	gulp.watch( '_private/js/**/*.js', [ 'build', 'process-scripts' ] );
-	gulp.watch( '_private/**/*.scss', [ 'process-admin-styles', 'process-frontend-styles' ] );
+	gulp.watch( '_private/**/*.scss', [ 'process-admin-styles' ] );
+
 
 });

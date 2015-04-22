@@ -200,22 +200,22 @@ class LLMS_Meta_Box_Product {
 		
 
 		//Update Sales Price Dates
-		$date_from = isset( $_POST['_sale_price_dates_from'] ) ? $_POST['_sale_price_dates_from'] : '';
-		$date_to = isset( $_POST['_sale_price_dates_to'] ) ? $_POST['_sale_price_dates_to'] : '';
+		$date_from = isset( $_POST['_sale_price_dates_from'] ) ? LLMS_Date::db_date( $_POST['_sale_price_dates_from'] ) : '';
+		$date_to = isset( $_POST['_sale_price_dates_to'] ) ? LLMS_Date::db_date($_POST['_sale_price_dates_to'] ) : '';
 
 		// Dates
 		if ( $date_from )
-			update_post_meta( $post_id, '_sale_price_dates_from', strtotime( $date_from ) );
+			update_post_meta( $post_id, '_sale_price_dates_from', $date_from );
 		else
 			update_post_meta( $post_id, '_sale_price_dates_from', '' );
 
 		if ( $date_to )
-			update_post_meta( $post_id, '_sale_price_dates_to', strtotime( $date_to ) );
+			update_post_meta( $post_id, '_sale_price_dates_to', $date_to );
 		else
 			update_post_meta( $post_id, '_sale_price_dates_to', '' );
 
 		if ( $date_to && ! $date_from )
-			update_post_meta( $post_id, '_sale_price_dates_from', strtotime( 'NOW', current_time( 'timestamp' ) ) );
+			update_post_meta( $post_id, '_sale_price_dates_from', LLMS_Date::db_date( strtotime( 'NOW', current_time( 'timestamp' ) ) ) );
 
 		// Update price if on sale
 		if (isset( $_POST['_sale_price'] ) ) {
@@ -232,6 +232,13 @@ class LLMS_Meta_Box_Product {
 				update_post_meta( $post_id, '_sale_price_dates_from', '' );
 				update_post_meta( $post_id, '_sale_price_dates_to', '' );
 			}
+		}
+
+		if (isset( $_POST['_on_sale'])) {
+			$on_sale = llms_clean($_POST['_on_sale']);
+			update_post_meta( $post_id, '_on_sale', $on_sale );
+		} else {
+			update_post_meta( $post_id, '_on_sale', '' );
 		}
 
 

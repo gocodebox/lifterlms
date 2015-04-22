@@ -37,7 +37,7 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();
 		} else {
-			return self::_warn( 'Course progress can only be displayed on course or lesson posts!' );
+			return _e( 'Course progress can only be displayed on course or lesson posts!' );
 		}
 
 		$course = new LLMS_Course ( $course_id );

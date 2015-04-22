@@ -95,6 +95,52 @@ class LLMS_Course {
 
 	}
 
+	public function get_children_sections() {
+
+		$args = array(
+			'post_type' 		=> 'section',
+			'posts_per_page'	=> 500,
+			'meta_key'			=> '_llms_order',
+			'order'				=> 'ASC',
+			'orderby'			=> 'meta_value_num',
+			'meta_query' 		=> array(
+				array(
+					'key' 		=> '_parent_course',
+	      			'value' 	=> $this->id,
+	      			'compare' 	=> '='
+      			)
+		  	),
+		);
+		 
+		$sections = get_posts( $args );
+		 
+		return $sections;
+
+	}
+
+	public function get_children_lessons() {
+
+		$args = array(
+			'post_type' 		=> 'lesson',
+			'posts_per_page'	=> 500,
+			'meta_key'			=> '_llms_order',
+			'order'				=> 'ASC',
+			'orderby'			=> 'meta_value_num',
+			'meta_query' 		=> array(
+				array(
+					'key' 		=> '_parent_course',
+	      			'value' 	=> $this->id,
+	      			'compare' 	=> '='
+      			)
+		  	),
+		);
+		 
+		$sections = get_posts( $args );
+		 
+		return $sections;
+
+	}
+
 	/**
 	 * Get Lesson Length
 	 *
@@ -192,6 +238,20 @@ class LLMS_Course {
 
 	}
 
+	public function get_start_date() {
+
+		if ( $this->course_dates_from ) {
+			return $this->course_dates_from;
+		} else {
+			return $this->post->post_date;
+		}
+
+	}
+
+	public function get_end_date() {
+		return $this->course_dates_to;
+	}
+
 	/**
 	 * Get Audio (wp shortcode)
 	 *
@@ -251,13 +311,39 @@ class LLMS_Course {
 	 */
 	public function get_prerequisite() {
 
-		if ( $this->has_prerequisite == 'on' ) {
+		if ( !empty($this->has_prerequisite) ) {
 
 			return $this->prerequisite;
 		}
 		else {
 			return false;
 		}
+	}
+
+	public function get_enrolled_students() {
+		$enrolled_students = array();
+    	$users_not_enrolled = array();
+    	$enrolled_student_ids = array();
+
+    	$user_args = array(
+    		'blog_id'      => $this->id,
+			'include'      => array(),
+			'exclude'      => $enrolled_students,
+			'orderby'      => 'display_name',
+			'order'        => 'ASC',
+			'count_total'  => false,
+			'fields'       => 'all',
+    	);
+    	$all_users = get_users( $user_args );
+
+    	foreach ( $all_users as $key => $value  ) :
+    		if ( llms_is_user_enrolled( $value->ID, $this->id ) ) {
+    			$enrolled_students[] = $value;
+    		}
+
+    	endforeach;
+
+    	return $enrolled_students;
 	}
 
 	/**
@@ -268,17 +354,17 @@ class LLMS_Course {
 		$lessons_not_completed = array();
 		$lesson_ids = array();
 
-		$lessons = $this->get_lesson_ids();
+		$lessons = $this->get_children_lessons();
 
 		$user = new LLMS_Person;
 
-		foreach( $lessons as $key => $value ) {
+		foreach( $lessons as $lesson ) {
 
-			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value['lesson_id'] );
+			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->ID );
 
 				if ( ! isset($user_postmetas['_is_complete']) ) {
 
-					array_push($lessons_not_completed, $value['lesson_id']);
+					array_push($lessons_not_completed, $lesson->ID);
 			}
 		}
 		if ($lessons_not_completed) {
@@ -318,14 +404,16 @@ class LLMS_Course {
 	 * @return int [numerical representation of % completion in course]
 	 */
 	public function get_percent_complete() {
-		$lesson_ids = $this->get_lesson_ids();
+
+		$lesson_ids = $this->get_children_lessons();
+
 		$array = array();
 		$i = 0;
 
 		$user = new LLMS_Person;
 
-		foreach( $lesson_ids as $key => $value ) {
-			array_push($array, $value['lesson_id']);
+		foreach( $lesson_ids as $lesson ) {
+			array_push($array, $lesson->ID);
 		}
 
 		foreach( $array as $key => $value ) {
@@ -366,40 +454,43 @@ class LLMS_Course {
 	 * 
 	 * @return int [numeric representation of % of lessons in section completed]
 	 */
-	public function get_section_percent_complete($lesson_id) {
+	// public function get_section_percent_complete($lesson_id) {
 
-		$syllabus = $this->get_syllabus();
-		$sections = array();
-		$section;
+		
 
-		foreach ($syllabus as $key => $value) {
 
-			$sections[$value['section_id']] = $value['lessons'];
-			foreach($value['lessons'] as $keys => $values) {
-				if ($values['lesson_id'] == $lesson_id) {
-					$section = $value['section_id'];
-				}
-			}
-		}
+	// 	$syllabus = $this->get_syllabus();
+	// 	$sections = array();
+	// 	$section;
 
-		$total_lessons_in_section = count($sections[$section]);
-		$total_completed_lessons = 0;
-		foreach($sections[$section] as $key => $value) {
+	// 	foreach ($syllabus as $key => $value) {
 
-			$user = new LLMS_Person;
-			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value['lesson_id'] );
-			if ( !empty($user_postmetas['_is_complete']) ) {
-				if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-					$total_completed_lessons++;
+	// 		$sections[$value['section_id']] = $value['lessons'];
+	// 		foreach($value['lessons'] as $keys => $values) {
+	// 			if ($values['lesson_id'] == $lesson_id) {
+	// 				$section = $value['section_id'];
+	// 			}
+	// 		}
+	// 	}
 
-				}
-			}
-		}
+	// 	$total_lessons_in_section = count($sections[$section]);
+	// 	$total_completed_lessons = 0;
+	// 	foreach($sections[$section] as $key => $value) {
 
-		$percent_complete = ($total_lessons_in_section != 0) ? round(100 / ( ( $total_lessons_in_section / $total_completed_lessons ) ), 0 ) : 0;
+	// 		$user = new LLMS_Person;
+	// 		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value['lesson_id'] );
+	// 		if ( !empty($user_postmetas['_is_complete']) ) {
+	// 			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+	// 				$total_completed_lessons++;
 
-		return $percent_complete;
-	}
+	// 			}
+	// 		}
+	// 	}
+
+	// 	$percent_complete = ($total_lessons_in_section != 0) ? round(100 / ( ( $total_lessons_in_section / $total_completed_lessons ) ), 0 ) : 0;
+
+	// 	return $percent_complete;
+	// }
 
 	/**
 	 * Get the course short description
@@ -465,6 +556,51 @@ class LLMS_Course {
 		}
 
 		return $enrolled;
+	}
+
+	public function is_user_enrolled($user_id = '') {
+
+		$enrolled = false;
+
+		$user_post_data = self::get_user_post_data( $this->id, $user_id );
+
+		if ( $user_post_data ) {
+
+			foreach( $user_post_data as $upd ) {
+				if ( $upd->meta_key === '_status' && $upd->meta_value === 'Enrolled' ) {
+					$enrolled = true;
+				}
+			}
+
+		}
+
+		return $enrolled;
+
+	}
+
+	public function get_user_enroll_date($user_id = '') {
+		
+		$enrolled_date = '';
+
+		//if no user get current user
+		if ( empty($user_id) ) {
+			$user_id = get_current_user_id();
+		}
+
+		if ( $this->is_user_enrolled($user_id = '') ) {
+
+			$user_post_data = self::get_user_post_data( $this->id, $user_id );
+
+			foreach( $user_post_data as $upd ) {
+				if ( $upd->meta_value === 'Enrolled' ) {
+					$enrolled_date = $upd->updated_date;
+				}
+			}
+
+		}
+
+		return $enrolled_date;
+
 	}
 
 	public static function get_user_post_data( $post_id, $user_id = '' ) {
@@ -551,16 +687,18 @@ class LLMS_Course {
 		//get course syllabus
 		$course_syllabus = $this->get_syllabus();
 
-		//get section data
-		foreach ( $course_syllabus as $key => $value ) {
+		$sections = $this->get_children_sections();
+
+		foreach( $sections as $child_section ) {
+			$section_obj = new LLMS_Section($child_section->ID);
 
 			$section = array();
-			$section['id'] = $value['section_id'];
-			$section['title'] = get_the_title(  $value['section_id'] );
+			$section['id'] = $section_obj->id;
+			$section['title'] = $section_obj->post->post_title;
 
 			// get any user post meta data
 			$section['is_complete'] = false;
-			$section_user_data = self::get_user_post_data( $value['section_id'], $user_id );
+			$section_user_data = self::get_user_post_data( $section_obj->id, $user_id );
 
 			$obj->is_complete = false;
 			if ( $section_user_data ) {
@@ -581,27 +719,31 @@ class LLMS_Course {
 			
 			$obj->sections[] = $section;
 
-			// get lesson data
-			if ( $value['lessons'] ) { 
+			//get lesson data
+			$lessons = $section_obj->get_children_lessons();
 
-				foreach ( $value['lessons'] as $k => $v ) {
+			if ( $lessons ) { 
+
+				foreach ( $lessons as $child_lesson ) {
+					$lesson_obj = new LLMS_Lesson($child_lesson->ID);
 
 					$lesson = array();
-					$lesson['id'] = $v['lesson_id'];
-					$lesson['title'] = get_the_title( $v['lesson_id'] );
-					$lesson['parent_id'] = $value['section_id'];
+					$lesson['id'] = $lesson_obj->id;
+					$lesson['title'] = $lesson_obj->post->post_title;
+					$lesson['parent_id'] = $lesson_obj->get_parent_section();
 
 					$lesson['is_complete'] = false;
-
-					$lesson_user_data = self::get_user_post_data( $v['lesson_id'], $user_id );
+					$lesson_user_data = self::get_user_post_data( $lesson_obj->id, $user_id );
 
 					//loop through returned rows and save data to object
-					foreach ( $lesson_user_data as $row ) {
+					if ( $lesson_user_data ) {
 
-						if ( $row->meta_key === '_is_complete' ) {
+						foreach ( $lesson_user_data as $row ) {
 
-							$lesson['is_complete'] = true;
-							$lesson['completed_date'] = $row->updated_date;
+							if ( $row->meta_key === '_is_complete' ) {
+								$lesson['is_complete'] = true;
+								$lesson['completed_date'] = $row->updated_date;
+							}
 
 						}
 
@@ -614,6 +756,70 @@ class LLMS_Course {
 			}
 
 		}
+
+		//get section data
+		// foreach ( $course_syllabus as $key => $value ) {
+
+		// 	$section = array();
+		// 	$section['id'] = $value['section_id'];
+		// 	$section['title'] = get_the_title(  $value['section_id'] );
+
+		// 	// get any user post meta data
+		// 	$section['is_complete'] = false;
+		// 	$section_user_data = self::get_user_post_data( $value['section_id'], $user_id );
+
+		// 	$obj->is_complete = false;
+		// 	if ( $section_user_data ) {
+
+		// 		//loop through returned rows and save data to object
+		// 		foreach ( $section_user_data as $row ) {
+
+		// 			if ( $row->meta_key === '_is_complete' ) {
+
+		// 				$section['is_complete'] = true;
+		// 				$section['completed_date'] = $row->updated_date;
+
+		// 			}
+
+		// 		}
+
+		// 	}
+			
+		// 	$obj->sections[] = $section;
+
+			// get lesson data
+		// 	if ( $value['lessons'] ) { 
+
+		// 		foreach ( $value['lessons'] as $k => $v ) {
+
+		// 			$lesson = array();
+		// 			$lesson['id'] = $v['lesson_id'];
+		// 			$lesson['title'] = get_the_title( $v['lesson_id'] );
+		// 			$lesson['parent_id'] = $value['section_id'];
+
+		// 			$lesson['is_complete'] = false;
+
+		// 			$lesson_user_data = self::get_user_post_data( $v['lesson_id'], $user_id );
+
+		// 			//loop through returned rows and save data to object
+		// 			foreach ( $lesson_user_data as $row ) {
+
+		// 				if ( $row->meta_key === '_is_complete' ) {
+
+		// 					$lesson['is_complete'] = true;
+		// 					$lesson['completed_date'] = $row->updated_date;
+
+		// 				}
+
+		// 			}
+
+		// 			$obj->lessons[] = $lesson;
+
+		// 		}
+
+		// 	}
+
+		// }
 
 		return $obj;
 		

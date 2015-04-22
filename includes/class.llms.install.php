@@ -23,14 +23,17 @@ class LLMS_Install {
 	 * Adds install actions to init and admin init
 	 */
 	public function __construct() {
+
 		$this->current_wp_version = get_bloginfo( 'version' );
 		register_activation_hook( LLMS_PLUGIN_FILE, array( $this, 'install' ) );
 		add_action( 'admin_init', array( $this, 'first_time_setup' ) );
 		add_action( 'admin_init', array( $this, 'check_wp_version' ) );	
 		add_action( 'init', array( $this, 'install_settings' ) );
 		add_action( 'admin_init', array( $this, 'update_relationships' ) );
+		add_action( 'admin_init', array( $this, 'update_course_outline' ) );
 		add_action( 'init', array( $this, 'register_post_types') );
 		add_action( 'init', array( $this, 'init_query') );
+		
 	}
 
 	/**
@@ -125,6 +128,66 @@ class LLMS_Install {
 			}
 			update_option( 'lifterlms_relationship_update', 'yes' );
 		}
+	}
+
+	public function update_course_outline() {
+		$course_outline_updated = get_option( 'lifterlms_course_outline_updated', 'no' ) === 'yes' ? true : false;
+		if (!$course_outline_updated) {
+
+			//get all courses _sections
+			$args = array(
+			'posts_per_page' 	=> -1,
+			'post_type' 		=> 'course',
+			'nopaging' 			=> true,
+			'meta_query' 		=> array(
+				array(
+				    'key' => '_sections',
+				    'compare' => '='
+				    )
+				)                   
+			);
+			$courses = get_posts( $args );
+
+			if ( $courses ) {
+
+				foreach ( $courses as $course ) {
+					$syllabus = get_post_meta($course->ID, '_sections', true);
+
+					if ( !empty($syllabus)) {
+
+						//set sections and lessons to post meta
+						foreach( $syllabus as $section ) {
+
+							$section_id = $section['section_id'];
+							$section_order = $section['position'];
+							$lessons = $section['lessons'];
+
+							//update parent_course and llms_order for sections
+							update_post_meta($section_id, '_parent_course', $course->ID);
+							update_post_meta($section_id, '_llms_order', $section_order);
+							
+
+							//loop through lessons and update llms_order, parent_section and parent_course
+							foreach( $lessons as $lesson ) {
+
+								$lesson_id = $lesson['lesson_id'];
+								$lesson_order = $lesson['position'];
+
+								update_post_meta($lesson_id, '_parent_course', $course->ID);
+								update_post_meta($lesson_id, '_parent_section', $section_id);
+								update_post_meta($section_id, '_llms_order', $lesson_order);
+							}
+							
+						}
+
+					}
+					
+				}
+			}
+
+			update_option( 'lifterlms_course_outline_updated', 'yes' );
+		}
+
 	}
 	
 	/**

@@ -73,6 +73,8 @@ class LLMS_Frontend_Assets {
 	 * @return void
 	 */
 	public function wp_footer() {
+
+		//register ajax
 		echo '<script type="text/javascript">window.llms = window.llms || {};window.llms.ajaxurl = "'.admin_url( 'admin-ajax.php' ).'";</script>';
 	}
 }

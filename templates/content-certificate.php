@@ -85,7 +85,7 @@ $certificate = new LLMS_Certificate;
 		    }
 		}
 	</style>
-<?php wp_head(); ?>
+<?php //wp_head(); ?>
 </head>
 <body>
 	<main role="main">
