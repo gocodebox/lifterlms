@@ -136,7 +136,7 @@
 		 * @return Created Order post Id
 		 */
 		public function update_order( $order ) {
-
+llms_log( $order);
 			global $wpdb;
 
 			//check if user is already enrolled in the course.
@@ -149,19 +149,24 @@
 				$order->user_id, $order->product_id, $meta_key, $meta_value ) );
 
 			if( !empty( $user_enrolled ) ) {
+				llms_log( 'returned on user not enrolled');
 				return;
 			}
 
 
 			if( isset( $order ) ) {
 				$order = $order;
+				llms_log( 'wtf am i doing here? Im setting order to order??? mkayyyy');
 			}
 
 			elseif( LLMS()->session->get( 'llms_order', array() ) ) {
 				$order = LLMS()->session->get( 'llms_order', array() );
+				llms_log( 'maybe this is doing it because the order session exists');
+				llms_log($order);
 			}
 
 			else {
+				llms_log( 'returning false');
 				return false;
 			}
 
@@ -182,9 +187,10 @@
 				'post_author'   => 1,
 				'post_password' => uniqid( 'order_' )
 			) );
-
+llms_log( 'created order:');
+llms_log( $order_data);
 			$order_post_id = wp_insert_post( $order_data, true );
-
+llms_log( $order_post_id);
 			$result = $wpdb->update( $wpdb->prefix . 'lifterlms_order',
 				array(
 					'completed_date'  => current_time( 'mysql' ),
@@ -197,7 +203,8 @@
 				)
 			);
 
-			
+llms_log( 'ok we have created teh order and are now going to update the post meta shit');
+llms_log($order_post_id);			
 
 			
 			//update coupon post meta
@@ -208,53 +215,51 @@
 				update_post_meta( $order_post_id, '_llms_order_coupon_amount', $coupon->amount );
 				update_post_meta( $order_post_id, '_llms_order_coupon_limit', $coupon->limit );
 				update_post_meta( $order_post_id, '_llms_order_coupon_code', $coupon->coupon_code );
-
+			
 				//now that the coupon has been used. post the new coupon limit
 				if ( $coupon->limit !== 'unlimited' ) {
 					update_post_meta( $coupon->id, '_llms_usage_limit', $coupon->limit );
 				}
+			}
 
-				// Add order metadata to the order post
-				update_post_meta( $order_post_id, '_llms_user_id', $order->user_id );
-				update_post_meta( $order_post_id, '_llms_payment_method', $order->payment_method );
-				update_post_meta( $order_post_id, '_llms_product_title', $order->product_title );
+			// Add order metadata to the order post
+			update_post_meta( $order_post_id, '_llms_user_id', $order->user_id );
+			update_post_meta( $order_post_id, '_llms_payment_method', $order->payment_method );
+			update_post_meta( $order_post_id, '_llms_product_title', $order->product_title );
 
-				//calculate order total based on coupon 
-				if ( !empty( $coupon ) ) {
-					$product = new LLMS_Product( $order->product_id );
+			//calculate order total based on coupon 
+			if ( !empty( $coupon ) ) {
+				$product = new LLMS_Product( $order->product_id );
 
-					$order->adjusted_price = $product->adjusted_price( $order->total );
+				$order->adjusted_price = $product->adjusted_price( $order->total );
 
-					//set total to adjusted price and save coupon total
-					update_post_meta( $order_post_id, '_llms_order_total', $product->adjusted_price( $order->total ) );
-					update_post_meta( $order_post_id, '_llms_order_coupon_value', $product->get_coupon_discount_total( $order->total ) );
+				//set total to adjusted price and save coupon total
+				update_post_meta( $order_post_id, '_llms_order_total', $product->adjusted_price( $order->total ) );
+				update_post_meta( $order_post_id, '_llms_order_coupon_value', $product->get_coupon_discount_total( $order->total ) );
 
-				} else {
-					update_post_meta( $order_post_id, '_llms_order_total', $order->total );
-				}
-				update_post_meta( $order_post_id, '_llms_order_product_price', $order->product_price );
-				update_post_meta( $order_post_id, '_llms_order_original_total', $order->total );
+			} else {
+				update_post_meta( $order_post_id, '_llms_order_total', $order->total );
+			}
+			update_post_meta( $order_post_id, '_llms_order_product_price', $order->product_price );
+			update_post_meta( $order_post_id, '_llms_order_original_total', $order->total );
 
 
 
-				update_post_meta( $order_post_id, '_llms_product_sku', $order->product_sku );
-				update_post_meta( $order_post_id, '_llms_order_currency', $order->currency );
-				update_post_meta( $order_post_id, '_llms_order_product_id', $order->product_id );
-				update_post_meta( $order_post_id, '_llms_order_date', current_time( 'mysql' ) );
-				update_post_meta( $order_post_id, '_llms_order_type', $order->payment_option );
-				update_post_meta( $order_post_id, '_llms_payment_type', $order->payment_type );
-				update_post_meta( $order_post_id, '_llms_product_type', $order->product_type );
+			update_post_meta( $order_post_id, '_llms_product_sku', $order->product_sku );
+			update_post_meta( $order_post_id, '_llms_order_currency', $order->currency );
+			update_post_meta( $order_post_id, '_llms_order_product_id', $order->product_id );
+			update_post_meta( $order_post_id, '_llms_order_date', current_time( 'mysql' ) );
+			update_post_meta( $order_post_id, '_llms_order_type', $order->payment_option );
+			update_post_meta( $order_post_id, '_llms_payment_type', $order->payment_type );
+			update_post_meta( $order_post_id, '_llms_product_type', $order->product_type );
 
-				if( $order->payment_option == 'recurring' ) {
+			if( $order->payment_option == 'recurring' ) {
 				update_post_meta( $order_post_id, '_llms_order_recurring_price', $order->product_price );
 				update_post_meta( $order_post_id, '_llms_order_first_payment', $order->first_payment );
 				update_post_meta( $order_post_id, '_llms_order_billing_period', $order->billing_period );
 				update_post_meta( $order_post_id, '_llms_order_billing_cycle', $order->billing_cycle );
 				update_post_meta( $order_post_id, '_llms_order_billing_freq', $order->billing_freq );
 				update_post_meta( $order_post_id, '_llms_order_billing_start_date', $order->billing_start_date );
-			}
-				
-
 			}
 
 			//enroll user in course

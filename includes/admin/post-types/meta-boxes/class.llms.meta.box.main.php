@@ -28,7 +28,7 @@ class LLMS_Meta_Box_Main {
 
 
 				
-		$certificate_creator_meta_fields = self::metabox_options();
+		$meta_fields_course_main = self::metabox_options();
 					
 		ob_start(); ?>
 
@@ -40,7 +40,7 @@ class LLMS_Meta_Box_Main {
 			<ul class="tabs">
 				<?php 
 				$i = 0;
-				foreach ($certificate_creator_meta_fields as $meta_box) : 
+				foreach ($meta_fields_course_main as $meta_box) : 
 					$i++
 				?>
 					<li class="tab-link d-1of6 t-1of2 m-all
@@ -53,28 +53,17 @@ class LLMS_Meta_Box_Main {
 
 			<?php 
 			$i = 0;
-			foreach ($certificate_creator_meta_fields as $meta_box) : 
+			foreach ($meta_fields_course_main as $meta_box) : 
 				$i++
 			?>
 			<div id="tab-<?php echo $i; ?>" class="tab-content <?php echo $i === 1 ? 'current' : ''; ?>">
-			<!-- <table class="form-table">
-			<tbody> -->
-			<ul>
-				<?php foreach( $meta_box['fields'] as $field ) :
-					echo self::output_field($field);
-				endforeach; ?>
-			</ul>
-			<!-- </table>
-			</div> -->
-		<!-- 	<div id="tab-2" class="tab-content">
-				 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			</div>
-			<div id="tab-3" class="tab-content">
-				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-			</div>
-			<div id="tab-4" class="tab-content">
-				Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-			</div> -->
+
+				<ul>
+					<?php foreach( $meta_box['fields'] as $field ) :
+						echo self::output_field($field);
+					endforeach; ?>
+				</ul>
+
 			</div>
 
 			<?php endforeach; ?>
@@ -101,7 +90,7 @@ class LLMS_Meta_Box_Main {
 		public static function output_field( $field ) { 
 			global $post;
 
-		 //foreach ($certificate_creator_meta_fields as $field) {
+		 //foreach ($meta_fields_course_main as $field) {
 			$meta = self::get_post_meta($post->ID, $field['id']); ?>
 
 				<li class="llms-mb-list <?php echo $field['group']; ?>">
@@ -166,53 +155,30 @@ class LLMS_Meta_Box_Main {
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
 						
 					<?php break;
-						 // Videos
-						 case 'llms_help':?>
-						 
-							<p>
-							<?php _e( 'Use the text editor above to add content to your certificate.
-							You can include any of the following merge fields.', 'lifterlms' ); ?> 
-							</p>
-							<ul>
-							<!-- merge fields cannot be translated so are not echoed. -->
-							<li>{site_title}</li>
-							<li>{user_login}</li>
-							<li>{site_url}</li>
-							<li>{first_name}</li>
-							<li>{last_name}</li>
-							<li>{email_address}</li>
-							<li>{current_date}</li>
-							</ul>
+						//checkbox
+						case 'checkbox':?>
 							
-						<?php break;
-
-							//checkbox
-							case 'checkbox':?>
-								
-								<div class="llms-switch d-1of4 t-1of4 m-1of2">
-									<div class="llms-toggle-icon-on">
-										<?php echo LLMS_Svg::get_icon( 'llms-icon-checkmark', 'Off', 'Off', 'toggle-icon' ); ?>
-									</div>
-									<div class="llms-toggle-icon-off">
-									<?php echo LLMS_Svg::get_icon( 'llms-icon-close', 'Off', 'Off', 'toggle-icon' ); ?>
-									</div>
-
-  									<input 
-  										name="<?php echo esc_attr( $field['id'] ); ?>"
-  										id="<?php echo esc_attr( $field['id'] ); ?>"
-  										class="llms-toggle llms-toggle-round" 
-  										type="checkbox"
-  										value="<?php echo esc_attr( $field['value'] ); ?>"
-  										<?php echo $meta ? 'checked' : ''; ?>
-  									/> 
-
-									<label for="<?php echo $field['id'] ?>"></label>
+							<div class="llms-switch d-1of4 t-1of4 m-1of2">
+								<div class="llms-toggle-icon-on">
+									<?php echo LLMS_Svg::get_icon( 'llms-icon-checkmark', 'Off', 'Off', 'toggle-icon' ); ?>
+								</div>
+								<div class="llms-toggle-icon-off">
+								<?php echo LLMS_Svg::get_icon( 'llms-icon-close', 'Off', 'Off', 'toggle-icon' ); ?>
 								</div>
 
-								
+									<input 
+										name="<?php echo esc_attr( $field['id'] ); ?>"
+										id="<?php echo esc_attr( $field['id'] ); ?>"
+										class="llms-toggle llms-toggle-round" 
+										type="checkbox"
+										value="<?php echo esc_attr( $field['value'] ); ?>"
+										<?php echo $meta ? 'checked' : ''; ?>
+									/> 
 
+								<label for="<?php echo $field['id'] ?>"></label>
+							</div>
 							<?php break;
-
+							//select
 							case 'select':?>
 						
 								<select 
@@ -235,7 +201,7 @@ class LLMS_Meta_Box_Main {
 						 		</select>
 
 						 	<?php break;
-
+						 	//button
 						 	case 'button':?>
 
 						 		<button 
@@ -246,7 +212,7 @@ class LLMS_Meta_Box_Main {
 						 		</button>
 
 						 	<?php break;
-
+						 	//post excerpt
 						 	case 'post-excerpt':
 
 						 	$settings = array(
@@ -267,7 +233,7 @@ class LLMS_Meta_Box_Main {
 
 							?><div class="clear"></div><?php
 						 	break;
-
+						 	//post content
 						 	case 'post-content':
 
 						 	$settings = array(
@@ -295,6 +261,12 @@ class LLMS_Meta_Box_Main {
 									class="<?php echo esc_attr( $field['class'] ); ?>"
 									value="<?php echo !empty($meta) ? LLMS_Date::pretty_date($meta) : ''; ?>" size="30" 
 								/>
+
+						 	<?php break;
+						 	//custom html
+						 	case 'custom-html':?>
+
+						 		<?php echo $field['value'];?>
 
 						 	<?php break;
 	
@@ -400,7 +372,7 @@ class LLMS_Meta_Box_Main {
 			}
 		}
 
-		$certificate_creator_meta_fields = array(
+		$meta_fields_course_main = array(
 			array(
 				'title' => 'Description',
 				'fields' => array(
@@ -714,40 +686,13 @@ class LLMS_Meta_Box_Main {
 				)
 			),
 		);
-			
 
-
-		// 	array(
-		// 		'label' => 'Certificate Title',
-		// 		'desc' => 'Enter a title for your certificate. IE: Certificate of Completion',
-		// 		'id' => $prefix . 'certificate_title',
-		// 		'type'  => 'text',
-		// 		'section' => 'certificate_meta_box',
-		// 		'title' => 'A tab title'
-		// 	),
-		// 	array(
-		// 		'label'  => 'Background Image',
-		// 		'desc'  => 'Select an Image to use for the certificate background.',
-		// 		'id'    => $prefix . 'certificate_image',
-		// 		'type'  => 'image',
-		// 		'section' => 'certificate_meta_box',
-		// 		'title' => 'A second tab title'
-		// 	),
-		// 	array(
-		// 			'label'  => 'How to use Certificates:',
-		// 			'id'    => $prefix . 'llms_help',
-		// 			'type'  => 'llms_help',
-		// 			'section' => 'certificate_meta_box',
-		// 			'title' => 'A third tab title'
-		// 		)			
-		// );
-
-		if(has_filter('llms_meta_fields')) {
-			//Add Fields to the certificate Creator Meta Box
-			$certificate_creator_meta_fields = apply_filters('llms_meta_fields', $certificate_creator_meta_fields);
+		if(has_filter('llms_meta_fields_course_main')) {
+			//Add Fields to the course main Meta Box
+			$meta_fields_course_main = apply_filters('llms_meta_fields_course_main', $meta_fields_course_main);
 		} 
 		
-		return $certificate_creator_meta_fields;
+		return $meta_fields_course_main;
 	}
 
 	/**
@@ -763,9 +708,9 @@ class LLMS_Meta_Box_Main {
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		$prefix = '_';
-		$title = $prefix . 'certificate_title';
-		$image = $prefix . 'certificate_image';
+		// $prefix = '_';
+		// $title = $prefix . 'certificate_title';
+		// $image = $prefix . 'certificate_image';
 
 		// //update title
 		// $update_title = ( llms_clean( $_POST[$title]  ) );

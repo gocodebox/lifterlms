@@ -148,7 +148,7 @@ class LLMS_Admin_Post_Types {
 
 			case 'order_date' :
 
-				$order_total = get_post_meta( $post_id, '_llms_order_date', true );
+				$order_date = get_post_meta( $post_id, '_llms_order_date', true );
 
 				if ( empty( $order_date ) )
 					echo __( 'Unknown' );
