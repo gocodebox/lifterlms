@@ -1370,7 +1370,7 @@ function llms_get_excerpt($post_id) {
     $post = get_post( $post_id );
     setup_postdata( $post );
 
-    $excerpt = get_the_excerpt();
+    $excerpt = $post->post_excerpt;
 
     wp_reset_postdata();
     $post = $temp;
