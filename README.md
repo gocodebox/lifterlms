@@ -25,6 +25,12 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.2.5 - 2015-04-22
+-------------------
++ Corrected excerpt to not pull in lesson navigation
++ Modified metabox api for better extension integration
++ Corrected issue with order not displaying all information if coupon was not applied to order
+
 v1.2.4 - 2015-04-22
 -------------------
 + Moved All Course metaboxes to global Course Options Metabox
