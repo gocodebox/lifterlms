@@ -496,3 +496,4 @@ msgstr "Comece o Questionário"
 msgid "<p>You are not able take this quiz</p>"
 msgstr "<p>Você não está habilitado para fazer esse questionário</p>"
 
+

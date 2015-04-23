@@ -414,7 +414,7 @@ final class LifterLMS {
 	public function localize() {
 		
 		// load localization files
-		$test = load_plugin_textdomain('lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain('lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 	}
 
