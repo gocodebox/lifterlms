@@ -171,18 +171,23 @@ class LLMS_Meta_Box_Lesson_Tree {
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-
+llms_log($_POST);
 		if ( isset( $_POST['associated_section'] ) ) {
 			$parent_section = llms_clean( $_POST['associated_section'] );
 			$parent_course = get_post_meta( $parent_section, '_parent_course', true );
-
-			if ( $parent_course ) {
-				LLMS_Lesson_Handler::assign_to_course( $parent_course, $parent_section, $post_id, false );
-
-			} else {
-
-				LLMS_Admin_Meta_Boxes::get_error( __( 'There was an error assigning the lesson to a section. Please be sure section is assigned to a course.', 'lifterlms' ) );
+			$current_parent_section = get_post_meta($post_id, '_parent_section', true);
 			
+			if( $current_parent_section && $current_parent_section !== $parent_section ) {
+
+				if ( $parent_course ) {
+					LLMS_Lesson_Handler::assign_to_course( $parent_course, $parent_section, $post_id, false );
+
+				} else {
+
+					LLMS_Admin_Meta_Boxes::get_error( __( 'There was an error assigning the lesson to a section. Please be sure section is assigned to a course.', 'lifterlms' ) );
+				
+				}
+
 			}
 					
 		}
