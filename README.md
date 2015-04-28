@@ -25,7 +25,13 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.2.5 - 2015-04-22
+v1.2.6 - 2015-04-28
+-------------------
++ Corrected issue with lesson re-order on save
++ corrected html formatting issue on purchase page
++ corrected html formatting issue on course page
+
+v1.2.5 - 2015-04-23
 -------------------
 + Corrected excerpt to not pull in lesson navigation
 + Modified metabox api for better extension integration
