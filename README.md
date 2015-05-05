@@ -25,6 +25,12 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.2.7 - 2015-04-28
+-------------------
++ Minor bug fix with lesson redirect to quiz
++ Minor change to global Course object instantiation.
+
+
 v1.2.6 - 2015-04-28
 -------------------
 + Corrected issue with lesson re-order on save

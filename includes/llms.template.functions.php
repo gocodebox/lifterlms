@@ -597,7 +597,7 @@ if ( ! function_exists( 'lifterlms_template_quiz_results' ) ) {
  * @return LLMS_Course
  */
 function llms_setup_course_data( $post ) {
-	if  ( ! is_admin() ) {
+	if  ( ! is_admin() && !empty($post) ) {
 
 		if ($post->post_type == 'course') {
 			unset( $GLOBALS['course'] );
