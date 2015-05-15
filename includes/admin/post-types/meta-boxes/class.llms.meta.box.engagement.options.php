@@ -113,6 +113,8 @@ class LLMS_Meta_Box_Engagement_Options {
 					<?php } ?>
 				</tr>
 
+				<?php do_action( 'lifterlms_engagement_edit_after_engagement_select' ); ?>
+
 				<tr>
 					<th>
 						<?php

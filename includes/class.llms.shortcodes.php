@@ -222,7 +222,6 @@ class LLMS_Shortcodes {
 
 	}
 
-
 	/**
 	 * Output user statstics related to courses enrolled, completed, etc...
 	 * @param  [array] $atts / array of user input attributes

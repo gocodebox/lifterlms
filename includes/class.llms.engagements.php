@@ -169,7 +169,7 @@ class LLMS_Engagements {
 					do_action( 'lifterlms_custom_achievement', $user, $achievement_id, $value->ID );
 				}
 				else {
-					do_action( 'lifterlms_external_engagement', $person_id, $engagement_id, $lesson_id);
+					do_action( 'lifterlms_external_engagement', $user, $achievement_id, $value->ID);
 				}
 			}
 		}
