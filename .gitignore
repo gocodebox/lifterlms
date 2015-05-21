@@ -8,3 +8,7 @@ sftp-config.json
 # Ignore sass-cache
 .sass-cache/
 .sass-cache/*
+
+# Ignore sublime project files
+*.sublime-project
+*.sublime-workspace
