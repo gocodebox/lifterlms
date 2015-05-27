@@ -19,6 +19,7 @@ class LLMS_Admin_Post_Types {
 	*/
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'include_post_type_metabox_class' ) );
+		add_action( 'metabox_init', array( $this, 'meta_metabox_init') );
 		add_filter( 'post_updated_messages', array( $this, 'llms_post_updated_messages' ) );
 
 		add_filter( 'manage_order_posts_columns', array($this, 'llms_add_order_columns' ), 10, 1 );
@@ -40,6 +41,16 @@ class LLMS_Admin_Post_Types {
 	*/
 	public function include_post_type_metabox_class() {
 		include( 'post-types/class.llms.meta.boxes.php' );
+	}
+
+	/**
+	 * Initializes core for metaboxes
+	 *
+	 * @return void
+	 */
+	public function meta_metabox_init() {
+		include_once( 'llms.class.admin.metabox.php' );
+		echo "<h1>Hello I'm here!</h1>";
 	}
 
 	/**

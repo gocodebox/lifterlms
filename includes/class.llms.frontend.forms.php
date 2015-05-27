@@ -67,7 +67,7 @@ class LLMS_Frontend_Forms {
 			//redirect user to quiz page
 			$redirect = get_permalink( $_POST[ 'quiz_id' ] );
 			wp_redirect( apply_filters( 'lifterlms_lesson_start_quiz_redirect', $redirect ) );
-
+			exit;
 		}
 	}
 

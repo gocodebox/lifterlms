@@ -176,13 +176,11 @@ Ajax.prototype.answer_question = function ( quiz_id, question_type, question_id,
 				jQuery('#llms-quiz-question-wrapper').append( response.html );
 				
 				jQuery('#llms_answer_question').click(function() {
-					console.log( 'answer question clicked');
 					LLMS.Quiz.answer_question();
 					return false;
 				});
 
 				jQuery('#llms_prev_question').click(function() {
-					console.log( 'answer question clicked');
 					LLMS.Quiz.previous_question();
 					return false;
 				});
@@ -217,7 +215,6 @@ Ajax.prototype.previous_question = function (quiz_id, question_id) {
 			});
 
 			jQuery('#llms_prev_question').click(function() {
-				console.log( 'previus question clicked');
 				LLMS.Quiz.previous_question();
 				return false;
 			});
