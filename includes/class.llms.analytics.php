@@ -590,6 +590,7 @@ class LLMS_Analytics {
 	public static function get_lesson_completion_avg( $search ) {
 
 		$lesson_completions = array();
+		$all_students = 0;
 
 		if ( ! empty( $search->lessons ) ) {
 			//loop through each lesson
@@ -614,9 +615,12 @@ class LLMS_Analytics {
 					}
 
 				}
-
-				//calculate completion percentage
-				$completion_percent = LLMS_Number::whole_number( ( $unit / $all_students ) );
+				if ($all_students > 0) {
+					//calculate completion percentage
+					$completion_percent = LLMS_Number::whole_number( ( $unit / $all_students ) );
+				} else {
+					$completion_percent = 0;
+				}
 				
 				//add unit count to lesson array
 				array_push( $lesson_array, $completion_percent );

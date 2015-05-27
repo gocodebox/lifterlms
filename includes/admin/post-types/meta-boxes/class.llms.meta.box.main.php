@@ -24,10 +24,7 @@ class LLMS_Meta_Box_Main {
 	public static function output( $post ) {
 		global $post;
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
-
-
-
-				
+	
 		$meta_fields_course_main = self::metabox_options();
 					
 		ob_start(); ?>

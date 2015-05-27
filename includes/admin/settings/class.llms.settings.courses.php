@@ -31,9 +31,9 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	 */
 	public function get_settings() {
 		// Get shop page
-			$shop_page_id = llms_get_page_id('shop');
+			$shop_page_id = llms_get_page_id('llms_shop');
 
-			$base_slug = ($shop_page_id > 0 && get_page( $shop_page_id )) ? get_page_uri( $shop_page_id ) : 'shop';
+			$base_slug = ($shop_page_id > 0 && get_page( $shop_page_id )) ? get_page_uri( $shop_page_id ) : 'llms_shop';
 
 			return apply_filters( 'lifterlms_course_settings', array(
 

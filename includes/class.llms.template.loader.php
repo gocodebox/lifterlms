@@ -42,7 +42,8 @@ class LLMS_Template_Loader {
 			elseif ( is_single() && get_post_type() == 'course' ) {
 				return $template;
 			}
-			elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'shop' ) ) ) {
+			elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'llms_shop' ) ) ) {
+
 				$template = 'archive-course.php';
 			}
 			//else restrict access
@@ -73,7 +74,7 @@ class LLMS_Template_Loader {
 
 		}
 
-		elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'shop' ) ) ) {
+		elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'llms_shop' ) ) ) {
 
 			$template = 'archive-course.php';
 

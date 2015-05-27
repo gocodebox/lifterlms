@@ -9,7 +9,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-get_header( 'shop' ); ?>
+get_header( 'llms_shop' ); ?>
 
 <main class="content llms-content" role="main">
 <div id="page-<?php the_ID(); ?>" <?php post_class(); ?>>
