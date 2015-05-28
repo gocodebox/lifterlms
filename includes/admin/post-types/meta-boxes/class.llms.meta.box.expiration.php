@@ -177,12 +177,16 @@ class LLMS_Meta_Box_Expiration {
 		$period = $prefix  . 'expiration_period';
 	
 		//upate interval textbox
-		$update_interval = llms_clean( $_POST[$interval] );
-		update_post_meta( $post_id, $interval, ( $update_interval === '' ) ? '' : $update_interval );
+		if (isset($_POST[$interval])) {
+			$update_interval = llms_clean( $_POST[$interval] );
+			update_post_meta( $post_id, $interval, ( $update_interval === '' ) ? '' : $update_interval );
+		}
 
 		//update period select
-		$update_period = llms_clean( $_POST[$period] );
-		update_post_meta( $post_id, $period, ( $update_period  === '' ) ? '' : $update_period  );
+		if (isset($_POST[$period])) {
+			$update_period = llms_clean( $_POST[$period] );
+			update_post_meta( $post_id, $period, ( $update_period  === '' ) ? '' : $update_period  );
+		}
 	}
 
 }

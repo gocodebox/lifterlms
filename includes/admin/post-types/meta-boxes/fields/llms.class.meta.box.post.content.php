@@ -1,14 +1,10 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Admin_Metabox' ) ) 
-{
-	include_once 'llms.class.meta.box.fields.php';
-}
 
 /**
 * 
 */
-class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field
+class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
 {
 	/**
 	 * Class constructor

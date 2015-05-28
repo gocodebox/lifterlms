@@ -109,7 +109,7 @@ class LLMS_Meta_Box_Product {
 		<?php 
 		//only display recurring options if infusionsoft is not enabled. REFACTOR!!!!
 		$infusionsoft_enabled = get_option('lifterlms_gateway_is_enabled', 'no');
-		if ( empty($infusionsoft_enabled) || $infusionsoft_enabled == 'no' ) : ?>
+		//if ( empty($infusionsoft_enabled) || $infusionsoft_enabled == 'no' ) : ?>
 
 		<h2><?php _e('Recurring Payment Options', 'lifterlms'); ?></h2>
 		<table class="form-table">
@@ -173,7 +173,7 @@ class LLMS_Meta_Box_Product {
 
 			</tbody>
 		</table>
-	<?php endif; ?>
+	<?php //endif; ?>
 		<?php do_action( 'lifterlms_after_product_meta_box' ); ?>
 <?php
 	}
