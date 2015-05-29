@@ -606,7 +606,7 @@ h1.outline-title {
   width: auto;
 }
 
-#menu {
+#llms-outline-menu {
   visibility: hidden;
   -webkit-transition: opacity 0.3s 0.6s, visibility 0s 0.9s;
           transition: opacity 0.3s 0.6s, visibility 0s 0.9s;
@@ -617,7 +617,7 @@ h1.outline-title {
   z-index: 1;
 }
 
-#menu.fade-in {
+#llms-outline-menu.fade-in {
   visibility: visible;
   opacity: 1;
   -webkit-transition: opacity 0.1s 0s, visibility 0s 0s;

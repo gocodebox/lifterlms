@@ -27,6 +27,7 @@ class LLMS_Shortcodes {
 			'lifterlms_course_progess' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
+			'lifterlms_registration' => __CLASS__ . '::registration',
 			'lifterlms_regiration' => __CLASS__ . '::registration'
 		);
 

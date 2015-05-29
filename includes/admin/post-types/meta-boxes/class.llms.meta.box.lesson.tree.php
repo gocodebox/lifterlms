@@ -171,7 +171,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-llms_log($_POST);
+
 		if ( isset( $_POST['associated_section'] ) ) {
 			$parent_section = llms_clean( $_POST['associated_section'] );
 			$parent_course = get_post_meta( $parent_section, '_parent_course', true );

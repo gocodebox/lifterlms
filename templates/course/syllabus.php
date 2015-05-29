@@ -93,6 +93,10 @@ $html .= '<div class="llms-syllabus-wrapper">';
 	}
 $html .= '<div class="clear"></div>';
 $html .= '</div>';
-echo $html;
+
+if (get_option('lifterlms_course_display_outline') === 'yes') {
+	echo $html;
+}
+
 ?>
 

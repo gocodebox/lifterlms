@@ -117,6 +117,14 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'autoload'      => false
 				),
 
+				array(
+				'desc'          => __( 'Display Course Outline on Course page', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_outline',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'autoload'      => false
+				),
+
 				array( 'type' => 'sectionend', 'id' => 'course_display_options' ),
 
 		) ); 

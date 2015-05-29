@@ -136,7 +136,6 @@
 		 * @return Created Order post Id
 		 */
 		public function update_order( $order ) {
-llms_log( $order);
 			global $wpdb;
 
 			//check if user is already enrolled in the course.
@@ -149,24 +148,19 @@ llms_log( $order);
 				$order->user_id, $order->product_id, $meta_key, $meta_value ) );
 
 			if( !empty( $user_enrolled ) ) {
-				llms_log( 'returned on user not enrolled');
 				return;
 			}
 
 
 			if( isset( $order ) ) {
 				$order = $order;
-				llms_log( 'wtf am i doing here? Im setting order to order??? mkayyyy');
 			}
 
 			elseif( LLMS()->session->get( 'llms_order', array() ) ) {
 				$order = LLMS()->session->get( 'llms_order', array() );
-				llms_log( 'maybe this is doing it because the order session exists');
-				llms_log($order);
 			}
 
 			else {
-				llms_log( 'returning false');
 				return false;
 			}
 
@@ -187,10 +181,9 @@ llms_log( $order);
 				'post_author'   => 1,
 				'post_password' => uniqid( 'order_' )
 			) );
-llms_log( 'created order:');
-llms_log( $order_data);
+
 			$order_post_id = wp_insert_post( $order_data, true );
-llms_log( $order_post_id);
+
 			$result = $wpdb->update( $wpdb->prefix . 'lifterlms_order',
 				array(
 					'completed_date'  => current_time( 'mysql' ),
@@ -202,11 +195,7 @@ llms_log( $order_post_id);
 					'product_id' => $order->product_id,
 				)
 			);
-
-llms_log( 'ok we have created teh order and are now going to update the post meta shit');
-llms_log($order_post_id);			
-
-			
+		
 			//update coupon post meta
 			$coupon = LLMS()->session->get( 'llms_coupon', array() );
 			if( !empty( $coupon ) ) {

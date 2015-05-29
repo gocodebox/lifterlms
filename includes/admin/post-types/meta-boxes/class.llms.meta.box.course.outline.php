@@ -378,7 +378,7 @@ class LLMS_Meta_Box_Course_Outline {
 
 		$html .= '<button id="llms-outline-add" class="llms-button-primary bt">Add</button>';
 
-   		$html .= '<div id="menu">';
+   		$html .= '<div id="llms-outline-menu">';
 
    		$html .= '<div id="triangle"></div>';
 

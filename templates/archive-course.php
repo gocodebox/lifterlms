@@ -13,7 +13,6 @@ get_header( 'llms_shop' ); ?>
 
 <main class="content llms-content" role="main">
 <div id="page-<?php the_ID(); ?>" <?php post_class(); ?>>
-<?php var_dump('test'); ?>
 
 		<?php if ( apply_filters( 'lifterlms_show_page_title', true ) ) : ?>
 

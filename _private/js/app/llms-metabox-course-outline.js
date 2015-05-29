@@ -104,20 +104,14 @@ LLMS.MB_Course_Outline = {
 	        });
 	    });
 
-	    // $('a.show2').click(function(){
-	    //     $('#pop2').topModal({
-		   //      	title: 'Create a Section'
-		   //      });
-	    // });
-
 		this.setup_course();
 
 		$(window).click(function(e) {
 			if (e.target.id !== 'llms-outline-add' && $('#llms-outline-add').hasClass('clicked') ) {
 				$('#llms-outline-add').removeClass('clicked');
 	            $('#llms-outline-add').addClass('bt');
-	            $('#menu').removeClass('fade-in');
-	            $('#menu').css('visibility', 'hidden');
+	            $('#llms-outline-menu').removeClass('fade-in');
+	            $('#llms-outline-menu').css('visibility', 'hidden');
 			}
 		});
 
@@ -128,19 +122,19 @@ LLMS.MB_Course_Outline = {
 	        if ($('#llms-outline-add').hasClass('bt')) {
 	            $('#llms-outline-add').removeClass('bt');
 	            $('#llms-outline-add').addClass('clicked');
-				$('#menu').addClass('fade-in');
-	           $('#menu').css('visibility', 'visible');
+				$('#llms-outline-menu').addClass('fade-in');
+	           $('#llms-outline-menu').css('visibility', 'visible');
 	        } else {
 	            $('#llms-outline-add').removeClass('clicked');
 	            $('#llms-outline-add').addClass('bt');
-	            $('#menu').removeClass('fade-in');
-	            $('#menu').css('visibility', 'hidden');
+	            $('#llms-outline-menu').removeClass('fade-in');
+	            $('#llms-outline-menu').css('visibility', 'hidden');
 	        }
 	    });
 
 	    $('#tooltip_menu a').click(function(e) {
-	    	$('#menu').removeClass('fade-in');
-	        $('#menu').css('visibility', 'hidden');
+	    	$('#llms-outline-menu').removeClass('fade-in');
+	        $('#llms-outline-menu').css('visibility', 'hidden');
 	        e.preventDefault();
 	    });
 

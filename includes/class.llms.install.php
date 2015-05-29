@@ -33,6 +33,7 @@ class LLMS_Install {
 		add_action( 'admin_init', array( $this, 'update_course_outline' ) );
 		add_action( 'init', array( $this, 'register_post_types') );
 		add_action( 'init', array( $this, 'init_query') );
+		//add_action( 'init', array( $this, 'update_courses_archive' ) );
 		
 	}
 
@@ -86,6 +87,24 @@ class LLMS_Install {
 
 			add_action( 'admin_notices', array( $this, 'custom_error_notice' ));
 		}
+	}
+
+	/**
+	 * Update course, lesson and section syllabus
+	 * @since  v1.0.6
+	 * Updates users to new method of storing relationship
+	 * 
+	 * @return void
+	 */
+	public function update_courses_archive() {
+		$courses_archive = get_option( 'lifterlms_shop_page_id', '' );
+
+		if ($courses_archive) {
+			update_option('lifterlms_courses_page_id', $courses_archive);
+			delete_option('lifterlms_shop_page_id');
+			flush_rewrite_rules();
+		}
+
 	}
 
 	/**
