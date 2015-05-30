@@ -131,7 +131,9 @@ class LLMS_Admin_Meta_Boxes {
 		//===================================
 		add_meta_box( 'lifterlms-course-main', __( 'Course Options', 'lifterlms' ), 'LLMS_Meta_Box_Main::output', 'course', 'normal', 'high' );
 		add_meta_box( 'lifterlms-email-settings', __( 'Email Settings', 'lifterlms' ), 'LLMS_Meta_Box_Email_Settings::output', 'llms_email', 'normal', 'high' );
-		add_meta_box( 'lifterlms-course-main', __( 'Membership Settings', 'lifterlms' ), 'LLMS_Meta_Box_Membership::output', 'llms_membership', 'normal', 'high' );
+		add_meta_box( 'lifterlms-membership-settings', __( 'Membership Settings', 'lifterlms' ), 'LLMS_Meta_Box_Membership::output', 'llms_membership', 'normal', 'high' );
+		add_meta_box( 'lifterlms-lesson-settings', __( 'Lesson Settings', 'lifterlms' ), 'LLMS_Meta_Box_Lesson::output', 'lesson', 'normal', 'high' );
+		add_meta_box( 'lifterlms-achievement-settings', __( 'Achievement Settings', 'lifterlms' ), 'LLMS_Meta_Box_Achievement::output', 'llms_achievement', 'normal', 'high' );
 
 		//===================================
 		// Old meta box style
@@ -139,11 +141,11 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-course-outline', __( 'Course Outline', 'lifterlms' ), 'LLMS_Meta_Box_Course_Outline::output', 'course', 'normal', 'high' );
 		add_meta_box( 'lifterlms-section-tree', __( 'Section Tree', 'lifterlms' ), 'LLMS_Meta_Box_Section_Tree::output', 'section', 'side' );
 		add_meta_box( 'lifterlms-lesson-tree', __( 'Course Outline', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Tree::output', 'lesson', 'side' );
-		add_meta_box( 'lifterlms-lesson-video', __( 'Featured Media', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'lesson', 'normal', 'high' );
-		add_meta_box( 'lifterlms-lesson-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_General::output', 'lesson', 'normal' );
-		add_meta_box( 'lifterlms-lesson-options', __( 'Lesson Options', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Options::output', 'lesson', 'normal' );		
+		//add_meta_box( 'lifterlms-lesson-video', __( 'Featured Media', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'lesson', 'normal', 'high' );
+		//add_meta_box( 'lifterlms-lesson-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_General::output', 'lesson', 'normal' );
+		//add_meta_box( 'lifterlms-lesson-options', __( 'Lesson Options', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Options::output', 'lesson', 'normal' );		
 		add_meta_box( 'lifterlms-certificate-options', __( 'Certificate Options', 'lifterlms' ), 'LLMS_Meta_Box_Certificate_Options::output', 'llms_certificate', 'normal' );
-		add_meta_box( 'lifterlms-achievement-options', __( 'Achievement Options', 'lifterlms' ), 'LLMS_Meta_Box_Achievement_Options::output', 'llms_achievement', 'normal' );
+		//add_meta_box( 'lifterlms-achievement-options', __( 'Achievement Options', 'lifterlms' ), 'LLMS_Meta_Box_Achievement_Options::output', 'llms_achievement', 'normal' );
 		add_meta_box( 'lifterlms-engagement-options', __( 'Engagement Options', 'lifterlms' ), 'LLMS_Meta_Box_Engagement_Options::output', 'llms_engagement', 'normal' );
 		//add_meta_box( 'lifterlms-membership-data', __( 'Membership Data', 'lifterlms' ), apply_filters('lifterlms_product_meta_box', 'LLMS_Meta_Box_Product::output'), 'llms_membership', 'normal', 'high' );
 		//add_meta_box( 'lifterlms-expiration-options', __( 'Membership Expiration', 'lifterlms' ), 'LLMS_Meta_Box_Expiration::output', 'llms_membership', 'normal' );
