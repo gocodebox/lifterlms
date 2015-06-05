@@ -52,9 +52,21 @@ $certificate = new LLMS_Certificate;
 			margin: 0 auto;
 			width: <?php echo $certimage_width; ?>px;
 		}
+		.header {
+			display: none;
+		}
+		#content {
+			background: none;
+		}
 		.entry {
 			margin-bottom: 40px !important;
 			padding: 50px 60px !important;
+			background: none;
+		}
+		.hentry {
+			margin-bottom: 40px !important;
+			padding: 50px 60px !important;
+			background: none;
 		}
 		.site-header {
 			display: none;

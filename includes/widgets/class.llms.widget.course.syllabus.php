@@ -29,68 +29,7 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 	 * @return echo
 	 */
 	public function widget_contents() {
-		global $post;
-
-		// course progress bar
-		if ( is_course() ) {
-			$course_id = get_the_ID();
-		} elseif( is_lesson() ) {
-			$lesson = new LLMS_Lesson( get_the_ID() );
-			$course_id = $lesson->get_parent_course();
-		} else {
-			return _e( 'Course progress can only be displayed on course or lesson posts!' );
-		}
-
-		$course = new LLMS_Course ( $course_id );
-
-		$course_syllabus = $course->get_syllabus();
-		//var_dump($course_syllabus);
-
-		$syllabus = $course->get_student_progress();
-
-		$html = '<div class="llms-widget-syllabus">';
-			$html .= '<ul>';
-
-
-			//get section data
-			foreach ( $syllabus->sections as $section ) {
-
-				$html .= '<li>';
-					$html .= '<span class="section-title">' . $section['title'] . '</span>';
-						
-						foreach ( $syllabus->lessons as $lesson ) {
-
-							if ( $lesson['parent_id'] == $section['id'] ) {
-
-								$html .= '<ul>';
-								$html .= '<li>';
-								$html .= '<span class="llms-lesson-complete ' . ( $lesson['is_complete'] ? 'done' : '' ) . '"><i class="fa fa-check-circle"></i></span>';
-								$html .= '<span class="lesson-title ' . ( $lesson['is_complete'] ? 'done' : '' ) . '">';
-
-								if ( LLMS_Course::check_enrollment( $course_id, get_current_user_id() ) ) {
-									$html .= '<a href="' . get_permalink( $lesson['id'] ) . '">' . $lesson['title'] . '</a>';
-								} else {
-									$html .= $lesson['title'];
-								}
-
-								$html .= '</span>';
-								$html .= '</li>';
-								$html .= '</ul>';
-
-							}
-						
-						}
-
-				$html .= '</li>';
-
-			}
-
-			$html .= '</ul>';
-
-		$html .= '</div>';
-
-		echo $html;
-
+		echo do_shortcode('[lifterlms_course_outline]');
 	}
 
 }

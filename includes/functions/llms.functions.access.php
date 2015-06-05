@@ -177,9 +177,6 @@ function site_restricted_by_membership($post_id) {
 function page_restricted_by_membership($post_id) {
 	$post = get_post($post_id);
 
-	if ( !is_single($post_id) ) {
-		return false;
-	}
 	$userid = get_current_user_id();
 	$membership_required = get_option('lifterlms_membership_required', '');
 

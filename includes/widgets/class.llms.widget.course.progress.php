@@ -29,24 +29,7 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	 * @return echo
 	 */
 	public function widget_contents() {
-
-		// course progress bar
-		if ( is_course() ) {
-			$course_id = get_the_ID();
-		} elseif( is_lesson() ) {
-			$lesson = new LLMS_Lesson( get_the_ID() );
-			$course_id = $lesson->get_parent_course();
-		} else {
-			return _e( 'Course progress can only be displayed on course or lesson posts!' );
-		}
-
-		$course = new LLMS_Course ( $course_id );
-
-		$course_progress = $course->get_percent_complete();
-
-		echo $course->post->post_title;
-		echo lifterlms_course_progress_bar( $course_progress, false, false, false );
-
+		echo do_shortcode('[lifterlms_course_progess]');
 	}
 
 }

@@ -28,7 +28,8 @@ class LLMS_Shortcodes {
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
 			'lifterlms_registration' => __CLASS__ . '::registration',
-			'lifterlms_regiration' => __CLASS__ . '::registration'
+			'lifterlms_regiration' => __CLASS__ . '::registration',
+			'lifterlms_course_outline' => __CLASS__ . '::course_outline'
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -280,5 +281,75 @@ class LLMS_Shortcodes {
 
 		return $count . ' ' . _n( $type, $type.'s', $count, 'lifterlms' );
 	}
-}
 
+	/**
+	 * Course Outline Shortcode
+	 * 
+	 * @return template course/outline-list-small.php
+	 */
+	public static function course_outline( $atts ) {
+		global $post;
+
+		extract(shortcode_atts(array(
+			'course_id' => false,
+			'outline_type' => 'full', // course, lesson, section
+			'view_type' => 'list' // completed, enrolled
+		),$atts));
+
+		// If no course id is passed try to get course id
+		if (!$course_id) {
+
+			if ( is_course() ) {
+				$course_id = get_the_ID();
+			} elseif( is_lesson() ) {
+				$lesson = new LLMS_Lesson( get_the_ID() );
+				$course_id = $lesson->get_parent_course();
+			} else {
+				return _e( 'Course progress can only be displayed on course or lesson posts!' );
+			}
+			
+		}
+
+		$course = new LLMS_Course ( $course_id );
+
+		$course_syllabus = $course->get_syllabus();
+		//var_dump($course_syllabus);
+
+		$syllabus = $course->get_student_progress();
+
+		if ($outline_type === 'current_section') {
+
+			$next_lesson = $course->get_next_uncompleted_lesson();
+			$next_lesson = new LLMS_Lesson($next_lesson);
+
+			foreach ( $syllabus->sections as $section ) {
+				
+				if ((int)$next_lesson->get_parent_section() === (int)$section['id']) {
+					
+					$args = array(
+								'course' => $course,
+								'sections' => array($section),
+								'syllabus' => $syllabus
+							);
+				
+					break;
+				
+				} 
+				
+			}
+
+		} else {
+
+			$args = array(
+						'course' => $course,
+						'sections' => $syllabus->sections,
+						'syllabus' => $syllabus
+					);
+
+		}
+
+		llms_get_template('course/outline-list-small.php', $args );
+
+	}
+
+}

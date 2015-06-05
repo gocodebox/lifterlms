@@ -704,7 +704,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow: auto;
 }
 .llms-notice-box input[type="text"] {
-  height: 35px;
+  height: auto;
 }
 .llms-notice-box .col-1-1 {
   width: 100%;
