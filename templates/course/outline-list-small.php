@@ -33,7 +33,7 @@
 
 									<?php if ( LLMS_Course::check_enrollment( $course->id, get_current_user_id() ) ) : ?>
 
-										<a href="' . get_permalink( $lesson['id'] ) . '"><?php echo $lesson['title']; ?></a>
+										<a href="<?php echo get_permalink( $lesson['id'] ); ?>"><?php echo $lesson['title']; ?></a>
 			
 									<?php else :
 

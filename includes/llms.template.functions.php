@@ -599,19 +599,22 @@ if ( ! function_exists( 'lifterlms_template_quiz_results' ) ) {
 function llms_setup_course_data( $post ) {
 	if  ( ! is_admin() ) {
 
-		if ($post->post_type == 'course') {
+		if ($post && $post->post_type == 'course') {
 			unset( $GLOBALS['course'] );
 
-			if ( is_int( $post ) )
+			if ( is_int( $post ) ) {
 				$post = get_post( $post );
-
-			if ( empty( $post->post_type ) )
+			}
+				
+			if ( empty( $post->post_type ) ) {
 				return;
+			}
 
-				$GLOBALS['course'] = get_course( $post );
+			$GLOBALS['course'] = get_course( $post );
 
-				return $GLOBALS['course'];
+			return $GLOBALS['course'];
 		}
+		
 	}
 
 }

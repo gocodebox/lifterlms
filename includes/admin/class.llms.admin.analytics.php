@@ -202,6 +202,7 @@ class LLMS_Admin_Analytics {
 	 			$search->date_range = $date_range;
 	 			$search->start_date = $date_range['start_date'];
 	 			$search->end_date = $date_range['end_date'];
+	 			$search->end_date_plus_one = LLMS_Date::db_date( $date_range['end_date'] . '+ 1 day');
 
 	 		} else {
 
