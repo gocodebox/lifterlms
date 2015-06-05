@@ -25,11 +25,26 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.2.7 - 2015-04-28
+v1.2.7 - 2015-06-05
 -------------------
 + Minor bug fix with lesson redirect to quiz
 + Minor change to global Course object instantiation.
-
++ Bug Fix: Remove student from course
++ Bug Fix: Appearance Menus missing select field (THANKS ANDREA!)
++ New Course Setting: Hide Course Outline on course page
++ New Shortcode: [lifterlms_course_outline] - displays course outline with settings (see documentation)
++ Membership metabox design update
++ Certificate metabox design update
++ Achievement metabox design update
++ Lesson metabox design update
++ Emails metabox design update
++ Coupons metabox design update
++ Update to certificate design (better alignment and theme functionality)
++ Better theme sidebar support
++ More awesome control for devlopers building new settings for LifterLMS
++ Advanced filter system for metabox fields with finite control for 3rd party developers.
++ Woocommerce confict correction to archive templates
++ Style updates to allow themes better control on design
 
 v1.2.6 - 2015-04-28
 -------------------
