@@ -41,7 +41,7 @@ class LLMS_Lesson_Handler {
 
 	}
 
-	public static function assign_to_course( $course_id, $section_id, $lesson_id, $duplicate = true ) {
+	public static function assign_to_course( $course_id, $section_id, $lesson_id, $duplicate = true, $reset_order = true ) {
 
 		//first determine if lesson is associated with a course
 		//we need to know this because if it is already associated then we duplicate it and assign the dupe
@@ -61,10 +61,14 @@ class LLMS_Lesson_Handler {
 
 		}
 
-		//set lesson order
-		$section = new LLMS_Section( $section_id );
-		$lesson_order = $section->get_next_available_lesson_order();
-		update_post_meta( $lesson_id, '_llms_order', $lesson_order );
+		if ($reset_order) {
+
+			//set lesson order
+			$section = new LLMS_Section( $section_id );
+			$lesson_order = $section->get_next_available_lesson_order();
+			update_post_meta( $lesson_id, '_llms_order', $lesson_order );
+
+		}
 
 		return $lesson_id;
 

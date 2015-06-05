@@ -113,50 +113,16 @@ class LLMS_Meta_Box_Lesson_Tree {
 				$html .= '</ul>'; //end outline
 			}
 
-
-
 		}
+
+		
+
+		} 
 
 		$html .= '</div>';
 
-
-		
-		//$html .= '<span class="llms-access-levels-title">' . LLMS_Language::output('Lessons in associated section') . '</span> ';
-
-		// if ( $parent_course_id ) {
-		// 	$course = new LLMS_Course( $parent_course_id );
-
-		// 	echo $course->post->post_title;
-
-		// 	$sections = $course->get_children_sections();
-
-		// 	if ( $sections ) {
-		// 		foreach ( $sections as $section ) {
-		// 			$sectionObj = new LLMS_Section( $section->ID );
-		// 			$lessons = $sectionObj->get_children_lessons();
-					
-		// 			echo $section->post_title;
-
-		// 			foreach ( $lessons as $lesson ) {
-		// 				$lessonObj = new LLMS_Lesson( $lesson->ID );
-
-		// 				echo $lesson->post_title;
-		// 			}
-		// 		}
-		// 	}
-
-			// foreach ( $sections as $section ) {
-			// 	$section = new LLMS_Section( $sectionObj->ID );
-			// 	$lessonsObj = $section->get_children_lessons();
-
-			// 	foreach ( $lessonsObj as $lessonObj ) {
-			// 		$lesson = new LLMS_Lesson( $lessonObj->ID );
-			// 	}
-				
-			// }
-
-		} 
 		echo $html;
+
 	}
 
 	/**
@@ -177,14 +143,14 @@ class LLMS_Meta_Box_Lesson_Tree {
 			$parent_course = get_post_meta( $parent_section, '_parent_course', true );
 			$current_parent_section = get_post_meta($post_id, '_parent_section', true);
 			
-			if( $current_parent_section && $current_parent_section !== $parent_section ) {
+			if( $current_parent_section !== $parent_section ) {
 
 				if ( $parent_course ) {
 					LLMS_Lesson_Handler::assign_to_course( $parent_course, $parent_section, $post_id, false );
 
 				} else {
 
-					LLMS_Admin_Meta_Boxes::get_error( __( 'There was an error assigning the lesson to a section. Please be sure section is assigned to a course.', 'lifterlms' ) );
+					LLMS_Admin_Meta_Boxes::get_error( __( 'There was an error assigning the lesson to a section. Please be sure a section is assigned to a course.', 'lifterlms' ) );
 				
 				}
 
