@@ -71,7 +71,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox{
 						'id'    	=> self::$prefix . 'llms_achievement_image',
 						'type'  	=> 'image',
 						'section' 	=> 'achievement_meta_box',
-						'class' 	=> 'code input-full',
+						'class' 	=> 'achievement',
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',

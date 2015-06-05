@@ -994,7 +994,7 @@ if ( ! function_exists( 'is_course_category' ) ) {
 if ( ! function_exists( 'is_shop' ) ) {
 	
 	function is_shop() {
-		return ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'shop' ) ) ) ? true : false;
+		return (( is_single() && is_post_type_archive( 'course' )) || (is_single() && is_page( llms_get_page_id( 'shop' )) ) ) ? true : false;
 	}
 }
 

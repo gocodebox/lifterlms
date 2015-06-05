@@ -46,10 +46,10 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 			$image = $image[0];
 		} ?>
 				<img src="<?php echo $image; ?>" id="<?php echo $this->field['id']; ?>" class="<?php echo $imgclass; ?>" /><br />
-				<input name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" type="hidden" class="upload_certificate_image" type="text" size="36" name="ad_image" value="<?php echo $this->meta; ?>" /> 
-				<input id="<?php echo $this->field['id']; ?>" class="button certificate_image_button" type="button" value="Upload Image" />
-				<small> <a href="#" id="<?php echo $this->field['id']; ?>" class="llms_certificate_clear_image_button">Remove Image</a></small>
-				<br /><span class="description"><?php echo $this->field['desc']; ?></span>			
+				<input name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" type="hidden" class="upload_<?php echo $this->field['class']; ?>_image" type="text" size="36" name="ad_image" value="<?php echo $this->meta; ?>" /> 
+				<input id="<?php echo $this->field['id']; ?>" class="button <?php echo $this->field['class']; ?>_image_button" type="button" value="Upload Image" />
+				<small> <a href="#" id="<?php echo $this->field['id']; ?>" class="llms_<?php echo $this->field['class']; ?>_clear_image_button">Remove Image</a></small>
+				<br /><span class="description"><?php echo $this->field['desc']; ?></span>		
 		<?php
 		parent::CloseOutput();				
 	}

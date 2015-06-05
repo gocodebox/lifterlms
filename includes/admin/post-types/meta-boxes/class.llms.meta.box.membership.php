@@ -45,8 +45,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		$regular_price = get_post_meta( $thepostid, '_regular_price', true );
 		$sale_price = get_post_meta( $thepostid, '_sale_price', true );
 
-		$sale_price_dates_from 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_from', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
-		$sale_price_dates_to 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_to', true ) ) ? date_i18n( 'Y-m-d', $date ) : '';
+		$sale_price_dates_from 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_from', true ) ) ? $date : '';
+		$sale_price_dates_to 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_to', true ) ) ? $date : '';
 
 		$recurring_enabled  		= get_post_meta( $thepostid, '_llms_recurring_enabled', true );
 		$subscription_price 		= get_post_meta( $thepostid, '_llms_subscription_price', true );

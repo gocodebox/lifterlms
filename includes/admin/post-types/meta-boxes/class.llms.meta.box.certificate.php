@@ -58,7 +58,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
 						'id'    	=> self::$prefix . 'llms_certificate_image',
 						'type'  	=> 'image',
 						'section' 	=> 'certificate_meta_box',
-						'class' 	=> 'code input-full',
+						'class' 	=> 'certificate',
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
