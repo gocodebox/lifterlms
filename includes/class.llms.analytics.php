@@ -340,7 +340,7 @@ class LLMS_Analytics {
 					MAX(IF(pa.meta_key = "_status", pa.meta_value, NULL)) AS status,
 					MAX(IF(pa.meta_key = "_is_complete", pa.updated_date, NULL)) AS completed_date
 					from '.$table_name.' p
-					left join wp_lifterlms_user_postmeta pa on p.user_id = pa.user_id and p.post_id = pa.post_id
+					left join '.$table_name.' pa on p.user_id = pa.user_id and p.post_id = pa.post_id
 					where p.post_id = %s 
 					and p.updated_date <= %s 
 					group by p.user_id', 

@@ -46,7 +46,6 @@ v1.2.7 - 2015-06-05
 + Woocommerce confict correction to archive templates
 + Style updates to allow themes better control on design
 
-
 v1.2.6 - 2015-04-28
 -------------------
 + Corrected issue with lesson re-order on save
