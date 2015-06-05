@@ -40,42 +40,42 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 				'title' 	=> 'Settings',
 				'fields' 	=> array(
 					array(
-						'type'	=> 'text',
-						'label'	=> 'Email Subject',
-						'desc' 	=> 'This will be used for the subject line of your email. The Subject allows mergefields.',
-						'id' 	=> self::$prefix .'email_subject',
-						'class' => 'code',
-						'value' => $email_subject,
-						'desc_class' => 'd-all',
-						'group' => 'top',
+						'type'		=> 'text',
+						'label'		=> 'Email Subject',
+						'desc' 		=> 'This will be used for the subject line of your email. The Subject allows mergefields.',
+						'id' 		=> self::$prefix .'email_subject',
+						'class' 	=> 'code',
+						'value' 	=> $email_subject,
+						'desc_class'=> 'd-all',
+						'group' 	=> 'top',
 					),
 					array(
-						'type'	=> 'text',
-						'label'	=> 'Email Heading',
-						'desc' 	=> 'This is the heading for your email. It will display above the content.',
-						'id' 	=> self::$prefix . 'email_heading',
-						'class' => 'code',
-						'value' => $email_heading,
-						'desc_class' => 'd-all',
-						'group' => 'bottom',
+						'type'		=> 'text',
+						'label'		=> 'Email Heading',
+						'desc' 		=> 'This is the heading for your email. It will display above the content.',
+						'id' 		=> self::$prefix . 'email_heading',
+						'class' 	=> 'code',
+						'value' 	=> $email_heading,
+						'desc_class'=> 'd-all',
+						'group' 	=> 'bottom',
 					),
 					array(
-						'type'	=> 'custom-html',
-						'label'	=> '',
-						'desc' 	=> '',
-						'id' 	=> '',
-						'class' => '',						
-						'desc_class' => 'd-all',
-						'group' => 'bottom',
-						'value' => 	'<p>Use the text editor above to add content to your email. 
-									You can include any of the following merge fields to give the email a personal touch.
-									<br>{site_title}
-									<br>{user_login}
-									<br>{site_url}
-									<br>{first_name}
-									<br>{last_name}
-									<br>{email_address}
-									<br>{current_date}</p>
+						'type'		=> 'custom-html',
+						'label'		=> '',
+						'desc' 		=> '',
+						'id' 		=> '',
+						'class' 	=> '',						
+						'desc_class'=> 'd-all',
+						'group' 	=> 'bottom',
+						'value' 	=> 	'<p>Use the text editor above to add content to your email. 
+										You can include any of the following merge fields to give the email a personal touch.
+										<br>{site_title}
+										<br>{user_login}
+										<br>{site_url}
+										<br>{first_name}
+										<br>{last_name}
+										<br>{email_address}
+										<br>{current_date}</p>
 									',
 					),
 				)

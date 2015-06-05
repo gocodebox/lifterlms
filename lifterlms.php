@@ -166,9 +166,9 @@ final class LifterLMS {
 
 
 		if ( is_admin() ) {
-			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php');
-			include_once( 'includes/admin/llms.class.admin.metabox.php' );
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php' );
+			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php');
+			include_once( 'includes/admin/llms.class.admin.metabox.php' );			
 			include_once( 'includes/admin/class.llms.admin.php' );
 			include_once( 'includes/admin/class.llms.admin.forms.php' );	
 			include_once( 'includes/class.llms.activate.php' );
