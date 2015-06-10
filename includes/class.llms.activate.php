@@ -67,37 +67,49 @@ class LLMS_Activate {
 
             $url = 'https://lifterlms.com/wp-admin/admin-ajax.php';
 
-            $response = wp_remote_post(
-                $url,
-                array(
-                    'body' => array(
+            $request =  array(
                     'action'   => $action,
                     'authkey'     => $authkey,
                     'license' => $license,
                     'url' => $site_url
-                    ),
-                    'sslverify' => false
-                )
-            );
+                    );
 
-            if ( is_wp_error( $response ) ) {
-                if ( !is_array( $response->get_error_message() ) ) {
-                    update_option('lifterlms_activation_message', $response->get_error_message() );
-                }
-            	
+            $postdata = http_build_query(
+                            array(
+                                'action'   => $action,
+                                'authkey'     => $authkey,
+                                'license' => $license,
+                                'url' => $site_url
+                                )
+                            );
 
-            }
-            else {
+            $opts = array('http' =>
+                                array(
+                                    'method'  => 'POST',
+                                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                                    'content' => $postdata
+                                )
+                    );
+            
+            $context  = stream_context_create($opts);
 
-    			$activation_response = json_decode ($response['body']);
-    			if ($activation_response->success) {
+            $result = file_get_contents($url, false, $context);
+     
+            if ($result) {
+
+                $response = json_decode($result);
+           // var_dump($response);
+
+                if (!$response->success) {
+
+                    update_option('lifterlms_activation_message', $response->message );
+                
+                } else {
+                    update_option('lifterlms_activation_message', 'Activated' );
     				update_option('lifterlms_is_activated', 'yes');
-    				update_option('lifterlms_update_key', $activation_response->update_key);
-    			}
-    			else {
-    				update_option('lifterlms_activation_message', $activation_response->message);
-    			}
+    				update_option('lifterlms_update_key', $response->update_key);
 
+                }
             }
         }
     }
