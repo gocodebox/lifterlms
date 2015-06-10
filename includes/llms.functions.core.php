@@ -847,6 +847,7 @@ llms_log($sidebars_widgets);
       } elseif (is_singular('lesson') && array_key_exists ('llms_lesson_widgets_side', $sidebars_widgets)) {
             $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_lesson_widgets_side'];
             $sidebars_widgets['single-sidebar'] = $sidebars_widgets['llms_lesson_widgets_side'];
+            $sidebars_widgets['main-sidebar'] = $sidebars_widgets['llms_course_widgets_side'];
       }
       return $sidebars_widgets;      
 
