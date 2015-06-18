@@ -264,7 +264,7 @@ class LLMS_Quiz {
 	 * @return bool [is grade > required passing percent]
 	 */
 	public function is_passing_score( $user_id ) {
-		return ( $this->get_passing_percent() < $this->get_best_grade( $user_id ) );
+		return ( $this->get_passing_percent() <= $this->get_best_grade( $user_id ) );
 	}
 
 	public function get_end_date( $user_id, $unique_id = '' ) {
