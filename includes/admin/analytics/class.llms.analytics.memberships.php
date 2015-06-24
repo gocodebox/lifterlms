@@ -164,7 +164,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 
 		$headers = array( 'Date' );
 
-		if ( $search ) {
+		if ( $search && isset($search->members) ) {
 
 			//add each course name to headers
 			if ( ! empty( $search->memberships ) ) {
@@ -236,9 +236,9 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	 * @return [html]
 	 */
 	public function total_members_all_time( $search ) {
-
+		$total = isset($search->members) ? LLMS_Analytics::get_total_users($search->members) : '0';
 		$html = '<p class="llms-label">' . __( 'All Members', 'lifterlms' ) . '</p>';
-		$html .= '<h1>' . LLMS_Analytics::get_total_users( $search->members ) . '</h1>';
+		$html .= '<h1>' . $total . '</h1>';
 
 		return $html;
 	}
@@ -249,9 +249,9 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	 * @return [html]
 	 */
 	public function total_current_members( $search ) {
-
+		$total = isset($search->members) ? LLMS_Analytics::get_total_current_enrolled_users($search->members) : '0';
 		$html = '<p class="llms-label">' . __( 'Current Members', 'lifterlms' ) . '</p>';
-		$html .= '<h1>' . LLMS_Analytics::get_total_current_enrolled_users( $search->members ) . '</h1>';
+		$html .= '<h1>' . $total . '</h1>';
 
 		return $html;
 	}
@@ -262,9 +262,9 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	 * @return [html]
 	 */
 	public function membership_retention( $search ) {
-
+		$total = isset($search->members) ? LLMS_Number::whole_number( LLMS_Analytics::get_membership_retention( $search->members ) ) : '0'; 
 		$html = '<p class="llms-label">' . __( 'Retention %', 'lifterlms' ) . '</p>';
-		$html .= '<h1>' . LLMS_Number::whole_number( LLMS_Analytics::get_membership_retention( $search->members ) ) . '%</h1>';
+		$html .= '<h1>' .  $total . '%</h1>';
 
 		return $html;
 	}
@@ -276,8 +276,9 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	 */
 	public function expired_members( $search ) {
 
+		$total = isset($search->members) ? LLMS_Analytics::get_total_current_expired_users( $search->members ) : '0';
 		$html = '<p class="llms-label">' . __( 'Expired Members', 'lifterlms' ) . '</p>';
-		$html .= '<h1>' . LLMS_Analytics::get_total_current_expired_users( $search->members ) . '</h1>';
+		$html .= '<h1>' . $total . '</h1>';
 
 		return $html;
 	}
