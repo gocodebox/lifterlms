@@ -65,6 +65,7 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 					),
 					array(
 						'type'  	=> 'number',
+						'min'		=> '0',
 						'label'  	=> 'Time Limit',
 						'desc'  	=> 'Enter a time limit for quiz completion in minutes. Leave empty if no time limit.',
 						'id'    	=> self::$prefix . 'llms_time_limit',						

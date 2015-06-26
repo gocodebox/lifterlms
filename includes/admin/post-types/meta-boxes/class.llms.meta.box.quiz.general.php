@@ -77,7 +77,7 @@ class LLMS_Meta_Box_Quiz_General {
 				<td>
 					<?php
 					$html  = '';
-					$html .= '<input type="number" class="code" name="_llms_time_limit" id="_llms_time_limit" value="' . $time_limit . '"/>';
+					$html .= '<input type="number" min="0" class="code" name="_llms_time_limit" id="_llms_time_limit" value="' . $time_limit . '"/>';
 					$html .= '<br /><span class="description">' .  __( 'Enter a time limit for quiz completion in minutes. Leave empty if no time limit.', 'lifterlms' ) . '</span>';
 					echo $html;
 					?>

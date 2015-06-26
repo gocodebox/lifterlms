@@ -22,7 +22,12 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		
 		parent::Output(); ?>
 					
-		<input type="number" 
+		<input type="number"
+		<?php
+			if (isset($this->field['min'])) {
+				echo 'min="' . $this->field['min'] . '"';
+			}
+		?>
 			name="<?php echo $this->field['id']; ?>" 
 			id="<?php echo $this->field['id']; ?>" 
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
