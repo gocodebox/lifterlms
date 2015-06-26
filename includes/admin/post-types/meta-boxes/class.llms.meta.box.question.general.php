@@ -51,6 +51,9 @@ class LLMS_Meta_Box_Question_General {
 									<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i>
 									<input type="radio" name="correct_option" value="<?php echo $key; ?>" <?php echo (empty($value['correct_option']) == '1')? '':'checked'; ?> ><label><?php _e('Correct Answer', 'lifterlms'); ?></label>
 									<textarea name ="option_text[]" class="option-text"><?php echo $value['option_text']; ?></textarea>
+									<br>
+									<label>Description</label>
+									<textarea name ="option_description[]" class="option-text"><?php echo $value['option_description']; ?></textarea>
 									</td>
 									</tr>
 								<?php
@@ -95,12 +98,13 @@ class LLMS_Meta_Box_Question_General {
 			}
 			$option_data['option_text'] = $option_text;
 			$option_data['correct_option'] = $correct_option;
+			$option_data['option_description'] = $_POST['option_description'][$key];
 			$question_options[$key] = $option_data;
 		}
 
 		update_post_meta( $post_id, '_llms_question_type', 'single_choice');	
 		//update_post_meta( $post_id, '_llms_question_options', $question_options);
-			update_post_meta( $post_id, '_llms_question_options', ( $question_options === '' ) ? '' : $question_options );	
+			update_post_meta( $post_id, '_llms_question_options', ( $question_options === '' ) ? '' : $question_options );
 		}
 
 	}
