@@ -40,6 +40,19 @@ LLMS.Quiz = {
 			return false;
 		});
 
+		$('.view-summary').click(function() {
+			var accordion = $('.accordion');
+			if(accordion.hasClass('hidden')) {
+				accordion.fadeIn(300);
+				accordion.removeClass('hidden');
+				$(this).text('Hide Summary');
+			} else{
+				accordion.fadeOut(300);
+				accordion.addClass('hidden');
+				$(this).text('View Summary');
+			}
+		});
+
 		//draw quiz grade circular chart
 		this.chart_quiz_grade();
 

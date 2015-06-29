@@ -10,7 +10,7 @@ global $quiz;
 $user_id = get_current_user_id();
 
 
-$quiz_data = get_user_meta( get_current_user_id(), 'llms_quiz_data', true );
+$quiz_data = get_user_meta($user_id, 'llms_quiz_data', true );
 $quiz_session = LLMS()->session->get( 'llms_quiz' );
 
 if ( $quiz_data ) {

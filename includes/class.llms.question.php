@@ -96,4 +96,13 @@ class LLMS_Question {
 		return $this->llms_question_options;
 	}
 
+	public function get_correct_option() {
+		$options = $this->get_options();
+		foreach ($options as $option) {
+			if($option['correct_option']) {
+				return $option;
+			}
+		}
+	}
+
 }
