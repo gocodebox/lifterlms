@@ -14,7 +14,7 @@
 	$congrats = ['Congrats!', 'Well Done!', 'Oh right !', 'You rock!', 'You rules !', 'You are the best !'];
 	foreach ($quiz_session->questions as $key => $question) {
 		$background = $question['correct'] ? 'right' : 'wrong';
-		$icon = $question['correct'] ? 'llms-icon-checkmark' :  'llms-icon-forbidden'; //'llms-icon-close';
+		$icon = $question['correct'] ? 'llms-icon-checkmark' :  'llms-icon-close';
 		$question_object = new LLMS_Question( $question['id']);
 		$options = $question_object->get_options();
 		$correct_option = $question_object->get_correct_option();
