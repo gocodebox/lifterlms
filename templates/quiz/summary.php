@@ -4,6 +4,9 @@
 	$user_id = get_current_user_id();
 	$quiz_data = get_user_meta($user_id, 'llms_quiz_data', true );
 	$quiz_session = LLMS()->session->get( 'llms_quiz' );
+	$show_correct_answer = get_post_meta( $quiz->post->ID, '_llms_show_correct_answer', true);
+	$show_option_description_wrong_answer = get_post_meta( $quiz->post->ID, '_llms_show_options_description_wrong_answer', true );
+	$show_option_description_right_answer = get_post_meta( $quiz->post->ID, '_llms_show_options_description_right_answer', true );
 
 ?>
 <div class ="llms-template-wrapper quiz-summary">
@@ -38,18 +41,29 @@
 					<li>
 						Your answer: <?php echo $options[$question['answer']]['option_text']; ?>						
 					</li>
-					<li>
-						Correct answer: <?php echo $correct_option['option_text']; ?>
-					</li>					
-					<li>
 					<?php
-						if($question['correct']) {
-							echo $congrats[rand(0,5)];
-						} else {
-							echo 'Description: ' . $correct_option['option_description'];
+					if($show_correct_answer) {
+						echo '<li>';
+							echo 'Correct answer: ' . $correct_option['option_text'];
+						echo '</li>';
+					}
+					if($question['correct']) {
+						if($show_option_description_right_answer) {
+							echo '<li>';
+								echo 'Description: ' . $options[$question['answer']]['option_description'];
+							echo '</li>';
 						}
+						echo '<li>';
+							echo $congrats[rand(0,5)];
+						echo '</li>';
+					} else {
+						if($show_option_description_wrong_answer) {
+							echo '<li>';
+								echo 'Description: ' . $options[$question['answer']]['option_description'];
+							echo '</li>';
+						}
+					}
 					?>
-					</li>
 				</ul>		
 				</div>
 			</div>

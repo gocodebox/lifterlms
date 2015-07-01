@@ -55,7 +55,7 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 					array(
 						'type'  	=> 'text',
 						'label'  	=> 'Passing Percentage',
-						'desc'  	=> 'Enter the percent required to pass quiz. DO NOT USE % (IE: enter 50 to have a passing requirement of 50%.',
+						'desc'  	=> 'Enter the percent required to pass quiz. DO NOT USE % (IE: enter 50 to have a passing requirement of 50%.)',
 						'id'    	=> self::$prefix . 'llms_passing_percent',						
 						'section' 	=> 'quiz_meta_box',
 						'class' 	=> 'code input-full',
@@ -73,6 +73,50 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 						'class' 	=> 'code input-full',
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
+						'value' 	=> '',
+					),
+					array(
+						'type'  	=> 'checkbox',
+						'label'  	=> 'Show Results',
+						'desc'  	=> 'Display Last Quiz Results to User',
+						'id'    	=> self::$prefix . 'llms_show_results',
+						'section' 	=> 'quiz_meta_box',
+						'class' 	=> '',
+						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'group' 	=> '',
+						'value' 	=> '',
+					),
+					array(
+						'type'  	=> 'checkbox',
+						'label'  	=> 'Show Correct Answer',
+						'desc'  	=> 'Display Correct Answer on Incorrect Questions',
+						'id'    	=> self::$prefix . 'llms_show_correct_answer',
+						'section' 	=> 'quiz_meta_box',
+						'class' 	=> '',
+						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'group'		=> 'hidden',
+						'value' 	=> '',
+					),
+					array(
+						'type'  	=> 'checkbox',
+						'label'  	=> 'Show Description Wrong Answer',
+						'desc'  	=> 'Display Picked Option Descritpion on Wrong Questions',
+						'id'    	=> self::$prefix . 'llms_show_options_description_wrong_answer',
+						'section' 	=> 'quiz_meta_box',
+						'class' 	=> '',
+						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'group'		=> 'hidden',
+						'value' 	=> '',
+					),
+					array(
+						'type'  	=> 'checkbox',
+						'label'  	=> 'Show Description Right Answer',
+						'desc'  	=> 'Display Picked Option Descritpion on Right Questions',
+						'id'    	=> self::$prefix . 'llms_show_options_description_right_answer',
+						'section' 	=> 'quiz_meta_box',
+						'class' 	=> '',
+						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'group'		=> 'hidden',
 						'value' 	=> '',
 					),
 				)
@@ -98,9 +142,5 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-
-		
-
 	}
-
 }
