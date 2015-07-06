@@ -26,7 +26,7 @@ class LLMS_AJAX {
         $classes = array();
         $classes[] = 'LLMS_AJAX_Handler';
 
-   		$classes = apply_filter('llms_ajax_classes', $classes);
+   		$classes = apply_filters('llms_ajax_classes', $classes);
 
    		foreach ($classes as $class) {
    			$methods = get_class_methods('LLMS_AJAX_Handler');
