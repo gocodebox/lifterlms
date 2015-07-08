@@ -92,7 +92,7 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
-llms_log($results);
+
 	return apply_filters( 'llms_page_restricted', $results );
 	
 }
@@ -571,7 +571,7 @@ function llms_get_lesson_start_date($user_id, $post_id) {
  * @return bool $result [Does the lesson have a future start date?]
  */
 function lesson_start_date_in_future($user_id, $post_id) {
-	return course_end_date_in_past( $post_id ) || (date_create('today') < date_create(llms_get_lesson_start_date($user_id, $post_id))); 
+	return course_end_date_in_past( $post_id ) || (date_create(current_time('mysql')) < date_create(llms_get_lesson_start_date($user_id, $post_id))); 
 }
 
 /**
