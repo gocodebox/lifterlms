@@ -58,6 +58,15 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 				'class'		=> 'chosen_select_nostd',
 			),
 
+			array(
+				'title' => __( 'Redirect members to checkout', 'lifterlms' ),
+				'desc' 		=> '<br/>' . sprintf( __( 'Automatically redirect users to checkout after selecting course.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'id' 		=> 'redirect_to_checkout',
+				'type' 		=> 'checkbox',
+				'default'	=> 'no',
+				'desc_tip'	=> true,
+			),
+
 			array( 'type' => 'sectionend', 'id' => 'membership_options'),
 
 		) ); 
