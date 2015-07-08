@@ -175,6 +175,8 @@ function site_restricted_by_membership($post_id) {
  * @return bool $resticted_access [Is page restricted by membership level]
  */
 function page_restricted_by_membership($post_id) {
+llms_log('is_topic_restricted called');
+
 	$post = get_post($post_id);
 
 	$userid = get_current_user_id();
@@ -186,6 +188,11 @@ function page_restricted_by_membership($post_id) {
 
 	//are there membership restictions on page
 	$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );
+
+	if (!$page_restrictions) {
+		//check if page is a topic and restict if parent is restricted (bbpress)
+		$page_restrictions = is_topic_restricted($post);
+	}
 
 	// membership restrictions exist
 	if ( ! empty($page_restrictions) ) {
@@ -219,6 +226,29 @@ function page_restricted_by_membership($post_id) {
 	}
 
 	return $restrict_access;
+}
+
+/**
+ * Custom restriction for bbpress topics
+ * @param  [type]  $post [description]
+ * @return boolean       [description]
+ */
+function is_topic_restricted($post) {
+	llms_log('is_topic_restricted called');
+	$page_restrictions = array();
+
+	if ($post->post_type === 'topic') {
+
+		$parent_id = wp_get_post_parent_id( $post->ID );
+
+		if ($parent_id) {
+			$page_restrictions = get_post_meta( $parent_id, '_llms_restricted_levels', true );
+			llms_log($page_restrictions);
+		}
+	}
+
+	return $page_restrictions;
+
 }
 
 /**
@@ -541,7 +571,7 @@ function llms_get_lesson_start_date($user_id, $post_id) {
  * @return bool $result [Does the lesson have a future start date?]
  */
 function lesson_start_date_in_future($user_id, $post_id) {
-	return course_end_date_in_past( $post_id ) || (date_create('today') < date_create(llms_get_lesson_start_date($user_id, $post_id))); 
+	return course_end_date_in_past( $post_id ) || (date_create(current_time('mysql')) < date_create(llms_get_lesson_start_date($user_id, $post_id))); 
 }
 
 /**

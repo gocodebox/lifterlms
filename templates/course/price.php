@@ -32,9 +32,13 @@ $single_payment_exists = false;
 			<?php endif; ?>
 
 			<?php if ($value == 'recurring') : ?>
-				<?php $subs = $product_obj->get_subscriptions(); ?>
+				<?php $subs = $product_obj->get_subscriptions(); 
+
+
+				?>
 				<?php foreach ($subs as $id => $sub) : ?>
 					<?php echo $single_payment_exists ? 'or' : ''; ?>
+	
 					<h4 class="llms-price"><span><?php echo $product_obj->get_subscription_price_html($sub); ?></span></h4>
 				<?php endforeach; ?>
 			<?php endif; ?>

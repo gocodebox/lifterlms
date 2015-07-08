@@ -736,13 +736,19 @@ class LLMS_Frontend_Forms {
 				break;
 			case 'membership':
 				$memberships = llms_get_post_memberships($post_id);
-				foreach ($memberships as $key => $value) {
-					$membership = get_post($value);
-					$membership_title = $membership->post_title;
-					$link = get_permalink($membership->ID);
+
+				if ($memberships) {
+					foreach ($memberships as $key => $value) {
+						$membership = get_post($value);
+						$membership_title = $membership->post_title;
+						$link = get_permalink($membership->ID);
+						llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', 
+							'<a href="' . $link . '">' . $membership_title  . '</a> ' 
+							. LLMS_Language::output('membership level is required to access this content.') ) );
+					}
+				} else {
 					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', 
-						'<a href="' . $link . '">' . $membership_title  . '</a> ' 
-						. LLMS_Language::output('membership level is required to access this content.') ) );
+							'You do not have permission to view this page.') );
 				}
 				break;
 			case 'parent_membership' :

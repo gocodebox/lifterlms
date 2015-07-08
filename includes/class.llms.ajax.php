@@ -23,14 +23,20 @@ class LLMS_AJAX {
     public function register()
     {
         $handler = 'LLMS_AJAX';
-        $methods = get_class_methods('LLMS_AJAX_Handler');
+        $classes = array();
+        $classes[] = 'LLMS_AJAX_Handler';
+
+   		$classes = apply_filters('llms_ajax_classes', $classes);
+
+   		foreach ($classes as $class) {
+   			$methods = get_class_methods('LLMS_AJAX_Handler');
  
- 		foreach( $methods as $method ) {
- 			add_action('wp_ajax_' . $method, array($handler, 'handle'));
-        	add_action('wp_ajax_nopriv_' . $method, array($handler, 'handle'));
-        	add_action('wp_loaded', array($this, 'register_script'));
- 		}
-        
+	 		foreach( $methods as $method ) {
+	 			add_action('wp_ajax_' . $method, array($handler, 'handle'));
+	        	add_action('wp_ajax_nopriv_' . $method, array($handler, 'handle'));
+	        	add_action('wp_loaded', array($this, 'register_script'));
+	 		}
+   		}        
     }
 
     /**

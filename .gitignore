@@ -12,3 +12,9 @@ sftp-config.json
 # Ignore sublime project files
 *.sublime-project
 *.sublime-workspace
+
+#Ignore Eclipse project files
+.buildpath
+.project
+.settings/
+
