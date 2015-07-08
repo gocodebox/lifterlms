@@ -112,7 +112,7 @@ class LLMS_Admin_Menus {
 	*/
 	public function display_analytics_menu() {
 
-		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', 'edit_posts',
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', apply_filters('lifterlms_analytics_access', 'edit_posts'),
 		 	'llms-analytics', array( $this, 'analytics_page_init' ) );
 	}
 

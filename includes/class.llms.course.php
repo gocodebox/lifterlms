@@ -135,9 +135,9 @@ class LLMS_Course {
 		  	),
 		);
 		 
-		$sections = get_posts( $args );
+		$lessons = get_posts( $args );
 		 
-		return $sections;
+		return $lessons;
 
 	}
 

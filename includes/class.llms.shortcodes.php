@@ -29,7 +29,8 @@ class LLMS_Shortcodes {
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
 			'lifterlms_registration' => __CLASS__ . '::registration',
 			'lifterlms_regiration' => __CLASS__ . '::registration',
-			'lifterlms_course_outline' => __CLASS__ . '::course_outline'
+			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
+			'lifterlms_hide_content' => __CLASS__ . '::hide_content'
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -144,6 +145,15 @@ class LLMS_Shortcodes {
 
 	}
 
+	public static function hide_content($atts, $content = null) {
+		extract(shortcode_atts(array(
+			'membership' => '', // course, lesson, section
+		),$atts));
+		
+		if (llms_is_user_member(get_current_user_id(), $membership)) {
+			return $content;
+		} 
+	}
 
 	/**
 	 * Course Progress Bar Shortcode

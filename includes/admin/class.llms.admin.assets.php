@@ -44,6 +44,7 @@ class LLMS_Admin_Assets {
 	    	$screen_id . '_page_llms-analytics',
 	    	'llms-analytics',
 	    	$screen_id . '_page_llms-students',
+	    	'admin_page_llms-analytics',
 	    	'llms-students',
 	    	'course',
 	    	'edit-course',
