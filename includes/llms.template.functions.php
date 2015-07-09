@@ -591,6 +591,20 @@ if ( ! function_exists( 'lifterlms_template_quiz_results' ) ) {
 }
 
 /**
+ * Quiz Results Summary Template Include
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_summary' ) ) {
+
+	function lifterlms_template_quiz_summary() {
+		global $post;
+		if (get_post_meta( $post->ID, '_llms_show_results', true)) {
+			llms_get_template( 'quiz/summary.php' );
+		}
+	}
+}
+
+/**
  * When the_post is called, put course data into a global.
  *
  * @param mixed $post

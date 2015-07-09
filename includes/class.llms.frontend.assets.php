@@ -40,7 +40,6 @@ class LLMS_Frontend_Assets {
 		if (file_exists( $filename )){
 			wp_enqueue_style( 'temp-styles', plugins_url( '/assets/css/lifterlms-temp' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		}
-
 	}
 
 	/**
@@ -54,6 +53,8 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'jquery-ui-slider' );
 		wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+		wp_enqueue_script( 'collapse', plugins_url( 'assets/js/vendor/collapse.js', LLMS_PLUGIN_FILE ));
+		wp_enqueue_script( 'transition', plugins_url( 'assets/js/vendor/transition.js', LLMS_PLUGIN_FILE ));
 		
 		wp_enqueue_script( 'llms', plugins_url(  '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 
