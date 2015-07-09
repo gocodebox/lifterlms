@@ -942,13 +942,10 @@ _:-o-prefocus, .selector {
 }
 
 .llms-progress-circle-count {
+	top: 27%;
     position: absolute;
-    top: 66px;
-    left: -10px;
-    width: 100%;
-    height: 100%;
+    width: 94%;
     text-align: center;
-    line-height: 50px;
     color: #666;
     font-size:44px;
 }
