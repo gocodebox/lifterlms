@@ -29,7 +29,7 @@ class LLMS_AJAX {
    		$classes = apply_filters('llms_ajax_classes', $classes);
 
    		foreach ($classes as $class) {
-   			$methods = get_class_methods('LLMS_AJAX_Handler');
+   			$methods = get_class_methods($class);
  
 	 		foreach( $methods as $method ) {
 	 			add_action('wp_ajax_' . $method, array($handler, 'handle'));
