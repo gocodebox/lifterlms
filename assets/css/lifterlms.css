@@ -645,7 +645,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .llms-option input[type="radio"] + label span.llms-radio {
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   z-index: 20;
   position: absolute;
   top: 0;
@@ -901,13 +903,10 @@ _:-o-prefocus .llms-styled-select, .selector .llms-styled-select {
 }
 
 .llms-progress-circle-count {
+  top: 27%;
   position: absolute;
-  top: 66px;
-  left: -10px;
-  width: 100%;
-  height: 100%;
+  width: 94%;
   text-align: center;
-  line-height: 50px;
   color: #666;
   font-size: 44px;
 }
@@ -1142,6 +1141,325 @@ svg .llms-animated-circle {
   text-align: center;
   text-transform: uppercase;
   display: inline-block;
+}
+
+.quiz-summary .hidden {
+  display: none;
+}
+.quiz-summary svg {
+  width: 16px;
+  height: 16px;
+  padding-top: 0.3em;
+}
+.quiz-summary ul {
+  list-style: none;
+}
+.quiz-summary a {
+  text-decoration: none;
+  font-size: .8em;
+  color: #07c;
+  border-bottom: none !important;
+  cursor: pointer;
+}
+.quiz-summary a:hover, .quiz-summary a:visited, .quiz-summary a:link, .quiz-summary a:active {
+  text-decoration: none;
+}
+.quiz-summary a:hover {
+  color: #30a7fc;
+}
+.quiz-summary .accordion .panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.quiz-summary .accordion .panel-body {
+  padding: 15px;
+}
+.quiz-summary .accordion .panel-heading {
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.quiz-summary .accordion .panel-heading .panel-title {
+  margin: 0 !important;
+}
+.quiz-summary .accordion .panel-heading > .dropdown .dropdown-toggle {
+  color: inherit;
+}
+.quiz-summary .accordion .panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 16px;
+  color: inherit;
+}
+.quiz-summary .accordion .panel-title > .small, .quiz-summary .accordion .panel-title > .small > a, .quiz-summary .accordion .panel-title > a, .quiz-summary .accordion .panel-title > small, .quiz-summary .accordion .panel-title > small > a {
+  color: inherit;
+}
+.quiz-summary .accordion .panel-footer {
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.quiz-summary .accordion .panel > .list-group, .quiz-summary .accordion .panel > .panel-collapse > .list-group {
+  margin-bottom: 0;
+}
+.quiz-summary .accordion .panel > .list-group .list-group-item, .quiz-summary .accordion .panel > .panel-collapse > .list-group .list-group-item {
+  border-width: 1px 0;
+  border-radius: 0;
+}
+.quiz-summary .accordion .panel > .list-group:first-child .list-group-item:first-child, .quiz-summary .accordion .panel > .panel-collapse > .list-group:first-child .list-group-item:first-child {
+  border-top: 0;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.quiz-summary .accordion .panel > .list-group:last-child .list-group-item:last-child, .quiz-summary .accordion .panel > .panel-collapse > .list-group:last-child .list-group-item:last-child {
+  border-bottom: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.quiz-summary .accordion .panel > .panel-heading + .panel-collapse > .list-group .list-group-item:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.quiz-summary .accordion .panel-heading + .list-group .list-group-item:first-child {
+  border-top-width: 0;
+}
+.quiz-summary .accordion .list-group + .panel-footer {
+  border-top-width: 0;
+}
+.quiz-summary .accordion .panel > .panel-collapse > .table, .quiz-summary .accordion .panel > .table, .quiz-summary .accordion .panel > .table-responsive > .table {
+  margin-bottom: 0;
+}
+.quiz-summary .accordion .panel > .panel-collapse > .table caption, .quiz-summary .accordion .panel > .table caption, .quiz-summary .accordion .panel > .table-responsive > .table caption {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child, .quiz-summary .accordion .panel > .table:first-child {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child, .quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child, .quiz-summary .accordion .panel > .table:first-child > tbody:first-child > tr:first-child, .quiz-summary .accordion .panel > .table:first-child > thead:first-child > tr:first-child {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:first-child, .quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:first-child, .quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:first-child, .quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:first-child, .quiz-summary .accordion .panel > .table:first-child > tbody:first-child > tr:first-child td:first-child, .quiz-summary .accordion .panel > .table:first-child > tbody:first-child > tr:first-child th:first-child, .quiz-summary .accordion .panel > .table:first-child > thead:first-child > tr:first-child td:first-child, .quiz-summary .accordion .panel > .table:first-child > thead:first-child > tr:first-child th:first-child {
+  border-top-left-radius: 3px;
+}
+.quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:last-child, .quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:last-child, .quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:last-child, .quiz-summary .accordion .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:last-child, .quiz-summary .accordion .panel > .table:first-child > tbody:first-child > tr:first-child td:last-child, .quiz-summary .accordion .panel > .table:first-child > tbody:first-child > tr:first-child th:last-child, .quiz-summary .accordion .panel > .table:first-child > thead:first-child > tr:first-child td:last-child, .quiz-summary .accordion .panel > .table:first-child > thead:first-child > tr:first-child th:last-child {
+  border-top-right-radius: 3px;
+}
+.quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child, .quiz-summary .accordion .panel > .table:last-child {
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child, .quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child, .quiz-summary .accordion .panel > .table:last-child > tbody:last-child > tr:last-child, .quiz-summary .accordion .panel > .table:last-child > tfoot:last-child > tr:last-child {
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:first-child, .quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:first-child, .quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:first-child, .quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:first-child, .quiz-summary .accordion .panel > .table:last-child > tbody:last-child > tr:last-child td:first-child, .quiz-summary .accordion .panel > .table:last-child > tbody:last-child > tr:last-child th:first-child, .quiz-summary .accordion .panel > .table:last-child > tfoot:last-child > tr:last-child td:first-child, .quiz-summary .accordion .panel > .table:last-child > tfoot:last-child > tr:last-child th:first-child {
+  border-bottom-left-radius: 3px;
+}
+.quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:last-child, .quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:last-child, .quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:last-child, .quiz-summary .accordion .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:last-child, .quiz-summary .accordion .panel > .table:last-child > tbody:last-child > tr:last-child td:last-child, .quiz-summary .accordion .panel > .table:last-child > tbody:last-child > tr:last-child th:last-child, .quiz-summary .accordion .panel > .table:last-child > tfoot:last-child > tr:last-child td:last-child, .quiz-summary .accordion .panel > .table:last-child > tfoot:last-child > tr:last-child th:last-child {
+  border-bottom-right-radius: 3px;
+}
+.quiz-summary .accordion .panel > .panel-body + .table, .quiz-summary .accordion .panel > .panel-body + .table-responsive, .quiz-summary .accordion .panel > .table + .panel-body, .quiz-summary .accordion .panel > .table-responsive + .panel-body {
+  border-top: 1px solid #ddd;
+}
+.quiz-summary .accordion .panel > .table > tbody:first-child > tr:first-child td, .quiz-summary .accordion .panel > .table > tbody:first-child > tr:first-child th {
+  border-top: 0;
+}
+.quiz-summary .accordion .panel > .table-bordered, .quiz-summary .accordion .panel > .table-responsive > .table-bordered {
+  border: 0;
+}
+.quiz-summary .accordion .panel > .table-bordered > tbody > tr > td:first-child, .quiz-summary .accordion .panel > .table-bordered > tbody > tr > th:first-child, .quiz-summary .accordion .panel > .table-bordered > tfoot > tr > td:first-child, .quiz-summary .accordion .panel > .table-bordered > tfoot > tr > th:first-child, .quiz-summary .accordion .panel > .table-bordered > thead > tr > td:first-child, .quiz-summary .accordion .panel > .table-bordered > thead > tr > th:first-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tbody > tr > td:first-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tbody > tr > th:first-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tfoot > tr > td:first-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tfoot > tr > th:first-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > thead > tr > td:first-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > thead > tr > th:first-child {
+  border-left: 0;
+}
+.quiz-summary .accordion .panel > .table-bordered > tbody > tr > td:last-child, .quiz-summary .accordion .panel > .table-bordered > tbody > tr > th:last-child, .quiz-summary .accordion .panel > .table-bordered > tfoot > tr > td:last-child, .quiz-summary .accordion .panel > .table-bordered > tfoot > tr > th:last-child, .quiz-summary .accordion .panel > .table-bordered > thead > tr > td:last-child, .quiz-summary .accordion .panel > .table-bordered > thead > tr > th:last-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tbody > tr > td:last-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tbody > tr > th:last-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tfoot > tr > td:last-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tfoot > tr > th:last-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > thead > tr > td:last-child, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > thead > tr > th:last-child {
+  border-right: 0;
+}
+.quiz-summary .accordion .panel > .table-bordered > tbody > tr:first-child > td, .quiz-summary .accordion .panel > .table-bordered > tbody > tr:first-child > th, .quiz-summary .accordion .panel > .table-bordered > thead > tr:first-child > td, .quiz-summary .accordion .panel > .table-bordered > thead > tr:first-child > th, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tbody > tr:first-child > td, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tbody > tr:first-child > th, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > thead > tr:first-child > td, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > thead > tr:first-child > th {
+  border-bottom: 0;
+}
+.quiz-summary .accordion .panel > .table-bordered > tbody > tr:last-child > td, .quiz-summary .accordion .panel > .table-bordered > tbody > tr:last-child > th, .quiz-summary .accordion .panel > .table-bordered > tfoot > tr:last-child > td, .quiz-summary .accordion .panel > .table-bordered > tfoot > tr:last-child > th, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tbody > tr:last-child > td, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tbody > tr:last-child > th, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tfoot > tr:last-child > td, .quiz-summary .accordion .panel > .table-responsive > .table-bordered > tfoot > tr:last-child > th {
+  border-bottom: 0;
+}
+.quiz-summary .accordion .panel > .table-responsive {
+  margin-bottom: 0;
+  border: 0;
+}
+.quiz-summary .accordion .panel-group {
+  margin-bottom: 20px;
+}
+.quiz-summary .accordion .panel-group .panel {
+  margin-bottom: 0;
+  border-radius: 4px;
+}
+.quiz-summary .accordion .panel-group .panel + .panel {
+  margin-top: 5px;
+}
+.quiz-summary .accordion .panel-group .panel-heading {
+  border-bottom: 0;
+}
+.quiz-summary .accordion .panel-group .panel-heading + .panel-collapse > .list-group, .quiz-summary .accordion .panel-group .panel-heading + .panel-collapse > .panel-body {
+  border-top: 1px solid #ddd;
+}
+.quiz-summary .accordion .panel-group .panel-footer {
+  border-top: 0;
+}
+.quiz-summary .accordion .panel-group .panel-footer + .panel-collapse .panel-body {
+  border-bottom: 1px solid #ddd;
+}
+.quiz-summary .accordion .panel-default {
+  border-color: #ddd;
+}
+.quiz-summary .accordion .panel-default > .panel-heading {
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+}
+.quiz-summary .accordion .panel-default > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ddd;
+}
+.quiz-summary .accordion .panel-default > .panel-heading .badge {
+  color: #f5f5f5;
+  background-color: #333;
+}
+.quiz-summary .accordion .panel-default > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ddd;
+}
+.quiz-summary .accordion .panel-primary {
+  border-color: #337ab7;
+}
+.quiz-summary .accordion .panel-primary > .panel-heading {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+.quiz-summary .accordion .panel-primary > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #337ab7;
+}
+.quiz-summary .accordion .panel-primary > .panel-heading .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+.quiz-summary .accordion .panel-primary > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #337ab7;
+}
+.quiz-summary .accordion .panel-success {
+  border-color: #d6e9c6;
+}
+.quiz-summary .accordion .panel-success > .panel-heading {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+.quiz-summary .accordion .panel-success > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #d6e9c6;
+}
+.quiz-summary .accordion .panel-success > .panel-heading .badge {
+  color: #dff0d8;
+  background-color: #3c763d;
+}
+.quiz-summary .accordion .panel-success > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #d6e9c6;
+}
+.quiz-summary .accordion .panel-info {
+  border-color: #bce8f1;
+}
+.quiz-summary .accordion .panel-info > .panel-heading {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.quiz-summary .accordion .panel-info > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #bce8f1;
+}
+.quiz-summary .accordion .panel-info > .panel-heading .badge {
+  color: #d9edf7;
+  background-color: #31708f;
+}
+.quiz-summary .accordion .panel-info > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #bce8f1;
+}
+.quiz-summary .accordion .panel-warning {
+  border-color: #faebcc;
+}
+.quiz-summary .accordion .panel-warning > .panel-heading {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+.quiz-summary .accordion .panel-warning > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #faebcc;
+}
+.quiz-summary .accordion .panel-warning > .panel-heading .badge {
+  color: #fcf8e3;
+  background-color: #8a6d3b;
+}
+.quiz-summary .accordion .panel-warning > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #faebcc;
+}
+.quiz-summary .accordion .panel-danger {
+  border-color: #ebccd1;
+}
+.quiz-summary .accordion .panel-danger > .panel-heading {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+.quiz-summary .accordion .panel-danger > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ebccd1;
+}
+.quiz-summary .accordion .panel-danger > .panel-heading .badge {
+  color: #f2dede;
+  background-color: #a94442;
+}
+.quiz-summary .accordion .panel-danger > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ebccd1;
+}
+.quiz-summary .accordion .collapse {
+  display: none;
+}
+.quiz-summary .accordion .collapse.in {
+  display: block;
+}
+.quiz-summary .accordion .btn-group-vertical > .btn-group:after, .quiz-summary .accordion .btn-group-vertical > .btn-group:before, .quiz-summary .accordion .btn-toolbar:after, .quiz-summary .accordion .btn-toolbar:before, .quiz-summary .accordion .clearfix:after, .quiz-summary .accordion .clearfix:before, .quiz-summary .accordion .container-fluid:after, .quiz-summary .accordion .container-fluid:before, .quiz-summary .accordion .container:after, .quiz-summary .accordion .container:before, .quiz-summary .accordion .dl-horizontal dd:after, .quiz-summary .accordion .dl-horizontal dd:before, .quiz-summary .accordion .form-horizontal .form-group:after, .quiz-summary .accordion .form-horizontal .form-group:before, .quiz-summary .accordion .modal-footer:after, .quiz-summary .accordion .modal-footer:before, .quiz-summary .accordion .nav:after, .quiz-summary .accordion .nav:before, .quiz-summary .accordion .navbar-collapse:after, .quiz-summary .accordion .navbar-collapse:before, .quiz-summary .accordion .navbar-header:after, .quiz-summary .accordion .navbar-header:before, .quiz-summary .accordion .navbar:after, .quiz-summary .accordion .navbar:before, .quiz-summary .accordion .pager:after, .quiz-summary .accordion .pager:before, .quiz-summary .accordion .panel-body:after, .quiz-summary .accordion .panel-body:before, .quiz-summary .accordion .row:after, .quiz-summary .accordion .row:before {
+  display: table;
+  content: " ";
+}
+.quiz-summary .accordion .collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+  -webkit-transition-duration: .35s;
+  transition-duration: .35s;
+  -webkit-transition-property: height,visibility;
+  transition-property: height, visibility;
+}
+.quiz-summary .wrong {
+  border: 2px solid red !important;
+  background-color: #eb7979 !important;
+}
+.quiz-summary .right {
+  border: 2px solid green !important;
+  background-color: #6ed166 !important;
+}
+.quiz-summary .wrong-panel {
+  border-bottom: 2px solid red !important;
+  border-left: 2px solid red !important;
+  border-right: 2px solid red !important;
+}
+.quiz-summary .right-panel {
+  border-bottom: 2px solid green !important;
+  border-left: 2px solid green !important;
+  border-right: 2px solid green !important;
 }
 
 /*!

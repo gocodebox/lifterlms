@@ -22,10 +22,18 @@ single_course_template = function () {
 	var order = (jQuery("#llms-single-options tr").length);
 
 	jQuery('<tr class="list_item" data-order="' + order + '" style="display: table-row;"> \
-				<td><i class="fa fa-bars llms-fa-move-lesson"></i> \
-				<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i> \
-				<input type="radio" name="correct_option" value="' + order + '"><label>Correct Answer</label> \
-				<textarea name="option_text[]" class="option-text"></textarea></td></tr>').appendTo('#llms-single-options .dad-list tbody').hide().fadeIn(300);
+				<td>
+					<i class="fa fa-bars llms-fa-move-lesson"></i> \
+					<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i> \
+					<input type="radio" name="correct_option" value="' + order + '">
+					<label>Correct Answer</label> \
+					<textarea name="option_text[]" class="option-text"></textarea>
+					<br>
+					<label>Description</label>
+					<textarea name="option_description[]" class="option-text"> </textarea>
+				</td>
+			</tr>
+				').appendTo('#llms-single-options .dad-list tbody').hide().fadeIn(300);
 	
 	delete_option();
 };

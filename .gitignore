@@ -18,3 +18,5 @@ sftp-config.json
 .project
 .settings/
 
+#npm debug log
+npm-debug.log

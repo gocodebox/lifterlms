@@ -270,7 +270,7 @@ function get_lifterlms_countries() {
       'YU' => __( 'Yugoslavia', 'lifterlms' ),
       'ZM' => __( 'Zambia', 'lifterlms' ),
       'ZW' => __( 'Zimbabwe', 'lifterlms' )
-                )  
+                )
             )
       );
 }
@@ -411,11 +411,11 @@ function get_lifterlms_currency_symbol( $currency = '' ) {
 
 /**
  * Format Number as decimal
- * 
+ *
  * @param  int  $number     [price value]
  * @param  boolean $dp         [decimal points]
  * @param  boolean $trim_zeros [trim zeros?]
- * 
+ *
  * @return string [formatted number]
  */
 function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
@@ -452,7 +452,7 @@ function llms_clean( $var ) {
  * Get template part
  * @param  string $slug [url slug of template]
  * @param  string $name [name of template]
- * 
+ *
  * @return string [name of file]
  */
 function llms_get_template_part( $slug, $name = '' ) {
@@ -481,10 +481,10 @@ function llms_get_template_part( $slug, $name = '' ) {
 
 /**
  * Get Template part contents
- * 
+ *
  * @param  string $slug [url slug]
  * @param  string $name [name of template]
- * 
+ *
  * @return string [naem of file]
  */
 function llms_get_template_part_contents( $slug, $name = '' ) {
@@ -512,12 +512,12 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
 
 /**
  * Get Template Part
- * 
+ *
  * @param  string] $template_name [name of template]
  * @param  array  $args          [array of pst args]
  * @param  string $template_path [file path to template]
  * @param  string $default_path  [default file path]
- * 
+ *
  * @return void
  */
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
@@ -553,11 +553,11 @@ function llms_get_template_ajax( $template_name, $args = array(), $template_path
 
 /**
  * Locate Template
- * 
+ *
  * @param  string $template_name [name of template]
  * @param  string $template_path [dir path to template]
  * @param  string $default_path  [default path]
- * 
+ *
  * @return mixed $template, $template_name, $template_path
  */
 function llms_locate_template( $template_name, $template_path = '', $default_path = '' ) {
@@ -583,7 +583,7 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 
 /**
  * Get Template Override
- * 
+ *
  * @param  string $template [template file]
  * @return mixed [template file or false if none exists.]
  */
@@ -592,7 +592,7 @@ function llms_get_template_override($template = '') {
       /**
        * Allow themes and plugins to determine which folders to look in for theme overrides
        */
-      $dirs = apply_filters( 'lifterlms_theme_override_directories', array( 
+      $dirs = apply_filters( 'lifterlms_theme_override_directories', array(
             get_stylesheet_directory() . '/lifterlms',
             get_template_directory() . '/lifterlms'
       ) );
@@ -612,7 +612,7 @@ function llms_get_template_override($template = '') {
 
 /**
  * LLMS debug function
- * 
+ *
  * @param  mixed $message [array or object]
  * @return logs message to wp log file
  */
@@ -633,8 +633,8 @@ function llms_log($message) {
 
 /**
  * Add product-id to WP query variables
- * DEPRECIATED: REMOVE THIS FUNCTION 
- * 
+ * DEPRECIATED: REMOVE THIS FUNCTION
+ *
  * @param array $vars [WP query variables]
  *
  * @return array $vars [WP query variables]
@@ -647,7 +647,7 @@ function llms_log($message) {
 
 /**
  * Add product-id to WP query variables
- * 
+ *
  * @param array $vars [WP query variables]
  * @return array $vars [WP query variables]
  */
@@ -659,13 +659,13 @@ add_filter( 'query_vars', 'add_query_var_product_id' );
 
 /**
  * Get Section Id
- * 
+ *
  * @param  int $course_id [course post ID]
  * @param  int $lesson_id [leson Post ID]
  * @return int $section [section post ID]
  */
 function get_section_id($course_id, $lesson_id) {
-      
+
       $course = new LLMS_Course($course_id);
       $syllabus = $course->get_syllabus();
             $sections = array();
@@ -685,7 +685,7 @@ function get_section_id($course_id, $lesson_id) {
 
 /**
  * Get update keys
- * 
+ *
  * @param  array $query [decoded post query]
  * @return array $encoded post query
  */
@@ -733,7 +733,7 @@ function llms_expire_membership() {
     }
 
     foreach ($posts as $post) {
-    
+
     //make sure interval and period exist before continuing.
     $interval = get_post_meta($post->ID, '_llms_expiration_interval', true);
     $period = get_post_meta($post->ID, '_llms_expiration_period', true);
@@ -801,7 +801,7 @@ function llms_expire_membership() {
         if ( in_array( $post->ID, $users_levels ) ) {
             $key = array_search( $post->ID, $users_levels );
             unset( $users_levels[$key] );
-            
+
             update_user_meta( $user_id, '_llms_restricted_levels', $users_levels );
         }
       }
@@ -815,12 +815,12 @@ add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
 
 /**
  * Check Course Capacity
- * 
+ *
  * @return bool [is course at capacity?]
  */
 function check_course_capacity() {
     global $post, $wpdb;
-    
+
     $lesson_max_user = (int)get_post_meta( $post->ID, '_lesson_max_user', true );
     $table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
     $results = $wpdb->get_results('SELECT * FROM '.$table_name.' WHERE post_id = '.$post->ID .' AND meta_value = "Enrolled"');
@@ -834,7 +834,7 @@ function check_course_capacity() {
 
 /**
  * Display lesson and course custom sidebars
- * 
+ *
  * @param  array $sidebars_widgets [WP array of widgets in sidebar]
  * @return array $sidebars_widgets [Filtered WP array of widgets in sidebar]
  */
@@ -844,12 +844,14 @@ llms_log($sidebars_widgets);
             $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_course_widgets_side'];
             $sidebars_widgets['main-sidebar'] = $sidebars_widgets['llms_course_widgets_side'];
             $sidebars_widgets['single-sidebar'] = $sidebars_widgets['llms_course_widgets_side'];
+            $sidebars_widgets['primary'] = $sidebars_widgets['llms_course_widgets_side']; // woocanvas
       } elseif (is_singular('lesson') && array_key_exists ('llms_lesson_widgets_side', $sidebars_widgets)) {
             $sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_lesson_widgets_side'];
             $sidebars_widgets['single-sidebar'] = $sidebars_widgets['llms_lesson_widgets_side'];
             $sidebars_widgets['main-sidebar'] = $sidebars_widgets['llms_course_widgets_side'];
+            $sidebars_widgets['primary'] = $sidebars_widgets['llms_lesson_widgets_side']; // woocanvas
       }
-      return $sidebars_widgets;      
+      return $sidebars_widgets;
 
 }
 add_filter( 'sidebars_widgets', 'displaying_sidebar_in_post_types' );

@@ -10,7 +10,7 @@ global $quiz;
 $user_id = get_current_user_id();
 
 
-$quiz_data = get_user_meta( get_current_user_id(), 'llms_quiz_data', true );
+$quiz_data = get_user_meta($user_id, 'llms_quiz_data', true );
 $quiz_session = LLMS()->session->get( 'llms_quiz' );
 
 if ( $quiz_data ) {
@@ -29,7 +29,6 @@ if ( $quiz_data ) {
 	$best = $quiz->get_best_quiz_attempt( $user_id );
 	$best_time = $quiz->get_total_time( $user_id, $best );
 
-	var_dump($quiz_data);
 	?>
 
 	<div class="clear"></div>

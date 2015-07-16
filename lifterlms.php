@@ -8,7 +8,7 @@
 * Author URI: http://gocodebox.com
 *
 * Requires at least: 3.8
-* Tested up to: 4.1
+* Tested up to: 4.2.2
 *
 * @package 		LifterLMS
 * @category 	Core
