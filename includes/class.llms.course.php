@@ -120,8 +120,10 @@ class LLMS_Course {
 
 	public function get_children_lessons() {
 
+		$lessons = array();
+
 		$args = array(
-			'post_type' 		=> 'lesson',
+			'post_type' 		=> 'section',
 			'posts_per_page'	=> 500,
 			'meta_key'			=> '_llms_order',
 			'order'				=> 'ASC',
@@ -135,8 +137,17 @@ class LLMS_Course {
 		  	),
 		);
 		 
-		$lessons = get_posts( $args );
-		 
+		$sections = get_posts( $args );
+
+		foreach ($sections as $s) {
+
+			$section = new LLMS_Section($s->ID);
+
+
+			$lessons = array_merge($lessons, $section->get_children_lessons());
+
+		}
+
 		return $lessons;
 
 	}
