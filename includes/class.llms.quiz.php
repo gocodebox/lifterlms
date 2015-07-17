@@ -1,4 +1,7 @@
 <?php
+
+use LLMS\Users\User;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
@@ -76,6 +79,11 @@ class LLMS_Quiz {
 		$value = get_post_meta( $this->id, '_' . $item, true );
 
 		return $value;
+	}
+
+	public function get_id()
+	{
+		return $this->id;
 	}
 
 	/**
@@ -715,6 +723,44 @@ class LLMS_Quiz {
 				}
 			}
 		}
+	}
+
+	public function show_quiz_results()
+	{
+		return $this->llms_show_results;
+	}
+
+	public function show_correct_answer()
+	{
+		return $this->llms_show_correct_answer;
+	}
+
+	public function show_description_wrong_answer()
+	{
+		return $this->llms_show_options_description_wrong_answer;
+	}
+
+	public function show_description_right_answer()
+	{
+		return $this->llms_show_options_description_right_answer;
+	}
+
+	public function get_users_last_attempt(User $user)
+	{
+		$quiz_data = $user->get_quiz_data();
+
+		$last_attempt = array();
+
+		foreach ((array)$quiz_data as $quiz)
+		{
+			if ((int)$quiz['id'] === (int)$this->get_id() 
+				&& (int)$this->get_total_attempts_by_user($user->get_id()) === (int)$quiz['attempt'])
+			{
+				$last_attempt = $quiz;
+			}
+		}
+
+		return $last_attempt;
 	}
 
 }

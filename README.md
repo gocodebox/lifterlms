@@ -25,6 +25,22 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.2.8 - 2015-07-17
+-------------------
++ Updated Portuguese translation file
++ Fixed issue where quiz score could not be equal to required grade.
++ New Feature: Quiz Results Summary. Display the quiz results to the user on quiz completion.
++ New feature: Clarification. Display information about correct and incorrect answers to users
++ New Feature: Display correct answers to user on quiz completion
++ Removed ability to add negative time limit to quiz
++ New Membership feature: Make membership archive links go directly to checkout. Setting allows you to skip membership sales page and send users directly to registration and checkout.
++ Sidebar support for prototype theme
++ Sidebar support for X theme
++ Sidebar support for WooCanvas
++ New Shortcode: [lifterlms_hide_content]: Use to restrict content on a page, course or lesson to a specific membership. Pass the post id of the membership you want to restrict the content to. Example: [lifterlms_hide_content membership="5"]
++ New updates to gulp build process
++ Class autoloading and LLMS namespace introduced for more efficient coding.
+
 v1.2.7 - 2015-06-05
 -------------------
 + Minor bug fix with lesson redirect to quiz

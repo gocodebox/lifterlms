@@ -82,6 +82,12 @@ if ( $quiz_data ) {
 						<h6><?php printf( __( '%d / %d correct answers', 'lifterlms' ), $quiz->get_correct_answers_count( $user_id ), $quiz->get_question_count() ); ?></h6>
 						<h6><?php printf( __( 'Date: <span class="llms_content_block">%s</span>', 'lifterlms' ), $start_date ); ?></h6>
 						<h6><?php printf( __( 'Total time: %s', 'lifterlms' ), $time ); ?></h6>
+
+						<?php if ($quiz->show_quiz_results()) { ?>
+						<a class="view-summary"><?php _e('View Summary', 'lifterlms'); ?></a>
+						<?php } ?>
+
+					</li>
 					</li>
 				</ul>
 				<?php endif; ?>

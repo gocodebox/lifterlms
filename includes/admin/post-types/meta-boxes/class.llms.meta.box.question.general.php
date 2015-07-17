@@ -26,6 +26,7 @@ class LLMS_Meta_Box_Question_General {
 
 		$question_type = get_post_meta( $post->ID, '_llms_question_type', true );
 		$question_options = get_post_meta( $post->ID, '_llms_question_options', true );
+
 		?>
 
 		<div id="llms-question-container">
@@ -52,8 +53,8 @@ class LLMS_Meta_Box_Question_General {
 									<input type="radio" name="correct_option" value="<?php echo $key; ?>" <?php echo (empty($value['correct_option']) == '1')? '':'checked'; ?> ><label><?php _e('Correct Answer', 'lifterlms'); ?></label>
 									<textarea name ="option_text[]" class="option-text"><?php echo $value['option_text']; ?></textarea>
 									<br>
-									<label>Description</label>
-									<textarea name ="option_description[]" class="option-text"><?php echo $value['option_description']; ?></textarea>
+									<label><?php _e('Explanation Field', 'lifterlms'); ?></label>
+									<textarea name ="option_description[]" class="option-text"><?php echo array_key_exists('option_description', $value) ? $value['option_description'] : ''; ?></textarea>
 									</td>
 									</tr>
 								<?php

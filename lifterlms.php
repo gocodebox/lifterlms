@@ -22,6 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'LifterLMS') ) :
 
+require 'vendor/autoload.php';
+
 /**
  * Main LifterLMS Class
  *
