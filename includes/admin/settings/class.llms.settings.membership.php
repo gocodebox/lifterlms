@@ -60,7 +60,7 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Redirect members to checkout', 'lifterlms' ),
-				'desc' 		=> '<br/>' . sprintf( __( 'Automatically redirect users to checkout after selecting course.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'desc' 		=> '<br/>' . sprintf( __( 'Automatically redirect users to checkout after selecting membership.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
 				'id' 		=> 'redirect_to_checkout',
 				'type' 		=> 'checkbox',
 				'default'	=> 'no',
