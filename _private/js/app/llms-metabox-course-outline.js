@@ -87,6 +87,8 @@ LLMS.MB_Course_Outline = {
 	        	title: $(this).attr('data-modal_title'),
 	        	open: function() {
 	        		_this.getSections();
+					$( '#llms_create_lesson' ).find('input[value="Create Lesson"]').removeProp('disabled');
+
 	        	}
 
 	        });
@@ -179,7 +181,7 @@ LLMS.MB_Course_Outline = {
 		$( '#llms_create_lesson' ).on( 'submit', function(e) {
 			console.log('form submitted');
 			e.preventDefault();
-
+			$(e.target).find('input[value="Create Lesson"]').prop('disabled', 'disabled');
 			var values = {};
 			$.each($(this).serializeArray(), function (i, field) {
 			    values[field.name] = field.value;
@@ -530,7 +532,6 @@ LLMS.MB_Course_Outline = {
 	},
 
 	createLesson: function( values ) {
-
 		console.log('about to do an ajax call');
 	    LLMS.Ajax.call({
 	    	data: {
@@ -568,14 +569,11 @@ LLMS.MB_Course_Outline = {
 
 	    			//clear form
 	    			$( '#llms_create_lesson' ).each(function(){
-					    this.reset();
+						this.reset();
 					});
-
-	    		}
-	    	}
-
-	    });
-
+				}
+			},
+		});
 	},
 
 	addExistingLesson: function( values ) {
@@ -613,14 +611,11 @@ LLMS.MB_Course_Outline = {
 	    			LLMS.MB_Course_Outline.addLessonRowFunctionality();
 
 	    			$( '#llms_add_existing_lesson' ).each(function(){
-					    this.reset();
+						this.reset();
 					});
-
-	    		}
-	    	}
-
-	    });
-
+				}
+			}
+		});
 	},
 
 	getSections: function() {
