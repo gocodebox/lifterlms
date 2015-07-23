@@ -55,7 +55,7 @@ class PluginUpdateChecker_1_6 {
 		$this->checkPeriod = $checkPeriod;
 		$this->slug = $slug;
 		$this->optionName = $optionName;
-		$this->debugMode = defined('WP_DEBUG') && WP_DEBUG;
+		$this->debugMode = false;//defined('WP_DEBUG') && WP_DEBUG;
 
 		//If no slug is specified, use the name of the main plugin file as the slug.
 		//For example, 'my-cool-plugin/cool-plugin.php' becomes 'cool-plugin'.
@@ -568,8 +568,7 @@ class PluginUpdateChecker_1_6 {
 	 * @return void
 	 */
 	public function handleManualCheck() {
-		$shouldCheck =
-			   isset($_GET['puc_check_for_updates'], $_GET['puc_slug'])
+		$shouldCheck = isset($_GET['puc_check_for_updates'], $_GET['puc_slug'])
 			&& $_GET['puc_slug'] == $this->slug
 			&& current_user_can('update_plugins')
 			&& check_admin_referer('puc_check_for_updates');
@@ -579,7 +578,7 @@ class PluginUpdateChecker_1_6 {
 			$status = ($update === null) ? 'no_update' : 'update_available';
 			wp_redirect(add_query_arg(
 					array(
-					     'puc_update_check_result' => $status,
+					     'puc_update_check_result' => $_GET['puc_update_check_result'] == 'no_update_key_found' ? 'no_update_key_found' : $status,
 					     'puc_slug' => $this->slug,
 					),
 					is_network_admin() ? network_admin_url('plugins.php') : admin_url('plugins.php')
@@ -597,14 +596,20 @@ class PluginUpdateChecker_1_6 {
 		if ( isset($_GET['puc_update_check_result'], $_GET['puc_slug']) && ($_GET['puc_slug'] == $this->slug) ) {
 			$status = strval($_GET['puc_update_check_result']);
 			if ( $status == 'no_update' ) {
+				$class = 'updated';
 				$message = 'This plugin is up to date.';
 			} else if ( $status == 'update_available' ) {
+				$class = 'updated';
 				$message = 'A new version of this plugin is available.';
+			} else if ($status == 'no_update_key_found') {
+				$class = 'updated error';
+				$message = "Update Key not found. If you have your product activated and think this is an error contact support@lifterlms.com please";
 			} else {
+				$class = 'updated';
 				$message = sprintf('Unknown update checker status "%s"', htmlentities($status));
 			}
 			printf(
-				'<div class="updated"><p>%s</p></div>',
+				'<div class="'.$class.'"><p>%s</p></div>',
 				apply_filters('puc_manual_check_message-' . $this->slug, $message, $status)
 			);
 		}
@@ -775,6 +780,11 @@ class PluginInfo_1_6 {
 					E_USER_NOTICE
 				);
 			}
+			return null;
+		}
+
+		if(isset($apiResponse->success) && ($apiResponse->success == false && $apiResponse->message == 'Update key not found')) {
+			$_GET['puc_update_check_result'] = 'no_update_key_found';
 			return null;
 		}
 
