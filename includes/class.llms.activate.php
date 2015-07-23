@@ -65,9 +65,7 @@ class LLMS_Activate {
             	return;
             }
 
-            //$url = 'https://lifterlms.com/wp-admin/admin-ajax.php';
-            //$url =  'http://dev.gocodebox.com/llms/wp-admin/admin-ajax.php';
-            $url =  'http://localhost/lifterdotcom/wp-admin/admin-ajax.php';
+            $url = 'https://lifterlms.com/wp-admin/admin-ajax.php';
 
             $request =  array(
                     'action'   => $action,
@@ -100,7 +98,7 @@ class LLMS_Activate {
             if ($result) {
 
                 $response = json_decode($result);
-            var_dump($response);
+           // var_dump($response);
 
                 if (!$response->success) {
 
@@ -122,8 +120,7 @@ class LLMS_Activate {
      */
     public function deactivate( $authkey, $license, $site_url ) {
 
-        //$url = 'https://lifterlms.com/wp-admin/admin-ajax.php';
-        $url =  'http://localhost/lifterdotcom/wp-admin/admin-ajax.php';
+        $url = 'https://lifterlms.com/wp-admin/admin-ajax.php';
         $action = 'llms_deactivate_site';
 
         $response = wp_remote_post(
