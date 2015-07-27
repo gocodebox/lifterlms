@@ -614,7 +614,7 @@ h1.outline-title {
   position: absolute;
   left: -84px;
   bottom: 40px;
-  z-index: 1;
+  z-index: 6;
 }
 
 #llms-outline-menu.fade-in {

@@ -107,34 +107,71 @@ LLMS.MB_Course_Outline = {
 
 		$(window).click(function(e) {
 			if (e.target.id !== 'llms-outline-add' && $('#llms-outline-add').hasClass('clicked') ) {
-				$('#llms-outline-add').removeClass('clicked');
-	            $('#llms-outline-add').addClass('bt');
-	            $('#llms-outline-menu').removeClass('fade-in');
-	            $('#llms-outline-menu').css('visibility', 'hidden');
+				$('#llms-outline-menu').css('display', 'none');
+				reset();
+			}
+		});
+
+		function reset() {
+			$('#llms-outline-add').removeClass('clicked');
+            $('#llms-outline-add').addClass('bt');
+            $('#llms-outline-menu').removeClass('fade-in');
+			$('#triangle').show();
+		}
+
+		$(window).scroll(function() {
+			if($('#llms-outline-add').hasClass('clicked')) {
+					$('#triangle').hide();
+					var popover = $('#llms-outline-menu'),
+					top = -($('#llms-outline-add').offset().top) - 81 +
+					$(window).scrollTop() + ($(window).height() / 2);
+					popover.css('top', top);
 			}
 		});
 
 		console.log('wow it did work!!!');
 	    $('#llms-outline-add').click(function(e) {
-	    	e.preventDefault();
-	    	console.log('button clicked');
-	        if ($('#llms-outline-add').hasClass('bt')) {
-	            $('#llms-outline-add').removeClass('bt');
-	            $('#llms-outline-add').addClass('clicked');
-				$('#llms-outline-menu').addClass('fade-in');
-	           $('#llms-outline-menu').css('visibility', 'visible');
+			e.preventDefault();
+			console.log('button clicked');
+			var popover = $('#llms-outline-menu');
+			if ($(this).hasClass('bt')) {
+				if($(this).offset().top - $(window).scrollTop() < 200) {
+					popover.css('top', '43px');
+					if($(window).width() < 851) {
+						popover.find('#triangle').css('left', '164px');
+							popover.css('top', '57px');
+							popover.css('left', '-138px');
+							popover.css('bottom', '15px');
+					}
+				} else {
+					popover.css('top', '');
+						if($(window).width() < 851) {
+							popover.css('top', '-54px');
+								var left = $(window).width() < 400 ?  -Math.abs($(window).width() / 2) : -242;
+								left += 'px';
+								popover.css('left', left);
+							popover.css('bottom', '15px');
+							popover.find('#triangle').css('left', '227px');
+						}
+				}
+	            $(this).removeClass('bt');
+	            $(this).addClass('clicked');
+				popover.addClass('fade-in');
+				popover.css('display', 'block');
 	        } else {
-	            $('#llms-outline-add').removeClass('clicked');
-	            $('#llms-outline-add').addClass('bt');
-	            $('#llms-outline-menu').removeClass('fade-in');
-	            $('#llms-outline-menu').css('visibility', 'hidden');
+	            $(this).removeClass('clicked');
+	            $(this).addClass('bt');
+	            popover.removeClass('fade-in');
+				popover.css('display', 'none');
+				popover.find('#triangle').show();
 	        }
 	    });
 
 	    $('#tooltip_menu a').click(function(e) {
-	    	$('#llms-outline-menu').removeClass('fade-in');
-	        $('#llms-outline-menu').css('visibility', 'hidden');
-	        e.preventDefault();
+			var popover = $('#llms-outline-menu');
+			popover.removeClass('fade-in');
+			popover.css('display', 'none');
+			e.preventDefault();
 	    });
 
 	    $('a.tooltip').click(function(e) {
@@ -163,13 +200,14 @@ LLMS.MB_Course_Outline = {
 
 		//section form submit
 		$( '#llms_create_section' ).on( 'submit', function(e) {
+			console.log('section form submitted');
 			e.preventDefault();
-
 			var values = {};
 			$.each($(this).serializeArray(), function (i, field) {
 			    values[field.name] = field.value;
 			});
 			if(_this.alreadySubmitted === false) {
+				console.log('alreadySubmitted is false');
 				_this.alreadySubmitted = true;
 				_this.createSection( values );
 			}
@@ -282,7 +320,6 @@ LLMS.MB_Course_Outline = {
 	    	},
 	    	success: function(r) {
 	    		console.log(r);
-
 	    		if ( r.success === true ) {
 	    			console.log('WOOOOOO total success!!!!!');
 	    		}
