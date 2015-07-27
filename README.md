@@ -24,6 +24,12 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.2.9
+-------------------
++ Improved popopver behavior in course creation.
++ BugFixnig. Prevent multiple lesson and section form submition
++ Fixed typos at backend quiz page
++ Fixed check for update bug when plugin isn't properly activated.
 
 v1.2.8 - 2015-07-17
 -------------------
