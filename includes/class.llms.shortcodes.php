@@ -207,12 +207,23 @@ class LLMS_Shortcodes {
 
 	    ob_start();
 
+	    if(isset($atts['category'])) {
+			$tax = 	array(
+						array(
+							'taxonomy' => 'course_cat',
+							'field' => 'slug',
+							'terms' => $atts['category'],
+						)
+					);
+	    }
+
 	    $query = new WP_Query( array(
 	        'post_type' => 'course',
 	        'post_status' => 'publish',
 	        'posts_per_page' => isset($atts['per_page']) ? $atts['per_page'] : -1,
 	        'order' => isset($atts['order']) ? $atts['order'] : 'ASC',
 	        'orderby' => isset($atts['orderby']) ? $atts['orderby'] : 'title',
+	        'tax_query' => isset($tax) ? $tax : '',
 	    ) );
 
 	    if ( $query->have_posts() ) {
@@ -220,6 +231,7 @@ class LLMS_Shortcodes {
 	       lifterlms_course_loop_start();
 
 			while ( $query->have_posts() ) : $query->the_post();
+
 
 				llms_get_template_part( 'content', 'course' );
 
