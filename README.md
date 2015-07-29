@@ -31,6 +31,7 @@ v1.2.9
 + Fixed typos at backend quiz page
 + Fixed check for update bug when plugin isn't properly activated.
 + BugFixing, quiz post type should show author metabox
++ Added course category filter to lifter_lms shortcode
 
 v1.2.8 - 2015-07-17
 -------------------
