@@ -175,6 +175,7 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.forms.php' );	
 			include_once( 'includes/class.llms.activate.php' );
 			include_once( 'includes/class.llms.analytics.php' );
+			include_once( 'includes/admin/class.llms.admin.reviews.php' );
 		}
 
 		// Date, Number and language formatting
@@ -207,6 +208,7 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.quiz.php' );
 		include_once( 'includes/class.llms.question.php' );
 		include_once( 'includes/class.llms.course.factory.php' );
+		include_once( 'includes/class.llms.review.php' );
 
 		//handler classes
 		include_once( 'includes/class.llms.post.handler.php' );
