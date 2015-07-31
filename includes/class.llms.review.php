@@ -70,7 +70,7 @@ class LLMS_Reviews
 		/**
 		 * Check to see if reviews are open
 		 */
-		if (get_post_meta(get_the_ID(),'_llms_reviews_enabled',true))
+		if (get_post_meta(get_the_ID(),'_llms_reviews_enabled',true) && is_user_logged_in())
 		{			
 			/**
 			 * Look for previous reviews that we have written on this course.

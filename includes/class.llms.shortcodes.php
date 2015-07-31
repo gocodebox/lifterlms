@@ -30,7 +30,8 @@ class LLMS_Shortcodes {
 			'lifterlms_registration' => __CLASS__ . '::registration',
 			'lifterlms_regiration' => __CLASS__ . '::registration',
 			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
-			'lifterlms_hide_content' => __CLASS__ . '::hide_content'
+			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
+			'lifterlms_related_courses' => __CLASS__ . '::RelatedCourses',
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -204,6 +205,56 @@ class LLMS_Shortcodes {
 	* @return array
 	*/
 	public static function courses( $atts ) {
+
+	    ob_start();
+
+	    if(isset($atts['category'])) {
+			$tax = 	array(
+						array(
+							'taxonomy' => 'course_cat',
+							'field' => 'slug',
+							'terms' => $atts['category'],
+						)
+					);
+	    }
+
+	    $query = new WP_Query( array(
+	        'post_type' => 'course',
+	        'post_status' => 'publish',
+	        'posts_per_page' => isset($atts['per_page']) ? $atts['per_page'] : -1,
+	        'order' => isset($atts['order']) ? $atts['order'] : 'ASC',
+	        'orderby' => isset($atts['orderby']) ? $atts['orderby'] : 'title',
+	        'tax_query' => isset($tax) ? $tax : '',
+	    ) );
+
+	    if ( $query->have_posts() ) {
+
+	       lifterlms_course_loop_start();
+
+			while ( $query->have_posts() ) : $query->the_post();
+
+
+				llms_get_template_part( 'content', 'course' );
+
+			endwhile;
+
+			lifterlms_course_loop_end();
+
+	    	$courses = ob_get_clean();
+	    	wp_reset_postdata();
+	   		return $courses;
+	    }
+
+	}
+
+	/**
+	* courses shortcode
+	*
+	* Used for [lifterlms_related_courses]
+	*
+	* @return array
+	*/
+	public static function RelatedCourses( $atts ) {
 
 	    ob_start();
 

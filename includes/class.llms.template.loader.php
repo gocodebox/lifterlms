@@ -46,6 +46,9 @@ class LLMS_Template_Loader {
 
 				$template = 'archive-course.php';
 			}
+			elseif ( is_single() && get_post_type() == 'llms_membership' ) {
+				return $template;
+			}
 			//else restrict access
 			else {
 				$template = 'single-no-access.php';

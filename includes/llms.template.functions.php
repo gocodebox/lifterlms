@@ -62,6 +62,14 @@ function llms_get_post_content( $content ) {
 			return do_shortcode($output_before . $content . $output_after);
 
 		case 'llms_membership':
+			if ( $page_restricted['is_restricted'] ) {
+				add_filter('the_excerpt', array($GLOBALS['wp_embed'], 'autoembed'), 9);
+
+				if ($post->post_excerpt) {
+					add_action( 'lifterlms_single_membership_before_summary', 'lifterlms_template_single_short_description', 10 );
+					$content = '';
+				}
+			}
 			$template_before  = llms_get_template_part_contents( 'content', 'single-membership-before' );
 			$template_after  = llms_get_template_part_contents( 'content', 'single-membership-after' );
 
