@@ -237,7 +237,7 @@ function is_topic_restricted($post) {
 	llms_log('is_topic_restricted called');
 	$page_restrictions = array();
 
-	if ($post->post_type === 'topic') {
+	if (isset($post->post_type) && $post->post_type === 'topic') {
 
 		$parent_id = wp_get_post_parent_id( $post->ID );
 
