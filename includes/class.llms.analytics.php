@@ -360,6 +360,7 @@ class LLMS_Analytics {
 		$students_small = array();
 
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+		$users_table = $wpdb->prefix . 'users';
 
 		if ( $post_id === 'all_products' ) {
 
@@ -372,6 +373,7 @@ class LLMS_Analytics {
 				FROM '.$table_name.'
 				WHERE meta_key = "_status"
 				AND ( meta_value = "Enrolled" OR meta_value = "Expired" )
+				AND EXISTS(SELECT 1 FROM ' . $users_table . ' WHERE ID = user_id)
 				group by user_id' 	
 			);
 
@@ -388,6 +390,7 @@ class LLMS_Analytics {
 					WHERE meta_key = "_status"
 					AND post_id = %s
 					AND ( meta_value = "Enrolled" OR meta_value = "Expired" )
+					AND EXISTS(SELECT 1 FROM ' . $users_table . ' WHERE ID = user_id)
 					group by user_id', 
 					$post_id
 				)	
