@@ -1113,7 +1113,7 @@ if ( ! function_exists( 'lifterlms_template_loop_difficulty' ) ) {
 if ( ! function_exists( 'lifterlms_template_loop_course_thumbnail' ) ) {
 
 	function lifterlms_template_loop_course_thumbnail() {
-		echo lifterlms_get_course_thumbnail();
+		llms_get_template( 'loop/featured-image.php' );
 	}
 }
 
