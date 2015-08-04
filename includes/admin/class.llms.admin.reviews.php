@@ -1,0 +1,195 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! class_exists( 'LLMS_Admin_Reviews' ) ) :
+
+/**
+ * This class handles the admin side of the reviews.
+ * It is responsible for creating the meta box on the course
+ * page (and in the future the membership page).
+ */
+class LLMS_Admin_Reviews 
+{
+	public static $prefix = '_';
+
+	/**
+	 * The constructor for the class. It adds the methods here to the appropriate 
+	 * actions. The actions are for:
+	 * 1) Creating the custom column set in the llms_review post screen
+	 * 2) Making a column sortable
+	 * 3) Adding content to the column
+	 * 4) Outputting the content.
+	 * 5) Adding the meta boxes to the course page
+	 * 6) Handling the saving of the data
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+		add_action('manage_llms_review_posts_columns',array($this,'Init'));
+		add_action('manage_edit-llms_review_sortable_columns',array($this,'MakeColumnsSortable'));
+		add_action('manage_llms_review_posts_custom_column',array($this,'GenerateColumnData'),10,2);
+		add_action('llms_meta_fields_course_main', array($this,'AddReviewMetaBoxes'));
+		add_action('save_post', array($this,'SaveReviewMetaBoxes'));
+	}
+
+	/**
+	 * This function generates the custom column set. It takes in
+	 * the array of standard columns, then modifies that set to 
+	 * contain the needed fields.	
+	 * 
+	 * @param array $columns The array of standard WP columns
+	 * 
+	 * @return array The updated array of columns.
+	 */
+	public function Init($columns)
+	{
+		unset($columns['date']);
+		unset($columns['comments']);
+		$columns['title'] = __('Review Title','lifterlms');
+	    $columns['course'] = __('Course Reviewed','lifterlms');	    
+	    $columns['author'] = __('Review Author','lifterlms');	 
+	    $columns['date'] = __('Review Date','lifterlms');
+	    return $columns;
+	}
+
+	/**
+	 * This function makes the 'Course' column sortable
+	 * @param array $columns Array of sortable columns
+	 * @return array Updated column array.
+	 */
+	public function MakeColumnsSortable($columns)
+	{
+		$columns['course'] = 'course';
+		return $columns;
+	}
+
+	/**
+	 * This function entered the information into the course section 
+	 * of the llms_review post page. It takes the column that is being
+	 * worked on, as well as the comment ID, then echoes the content 
+	 * required.
+	 * 
+	 * @param string $column  Type of column being worked on
+	 * @param int $post_ID ID of comment
+	 *
+	 * @return void
+	 */
+	public function GenerateColumnData($column,$post_ID)
+	{
+		switch ( $column ) {
+		case 'course':
+			echo (wp_get_post_parent_id($post_ID) != 0) ?
+			 get_the_title(wp_get_post_parent_id($post_ID)) : 
+			 '';
+			break;
+		}
+	}
+
+	/**
+	 * This function builds the additional content that is added 
+	 * to the course meta box. It builds the additional fields and 
+	 * then returns the updated array of fields
+	 * 
+	 * @param array $content Array of meta fields
+	 *
+	 * @return array Updated array of meta fields
+	 */
+	public function AddReviewMetaBoxes($content)
+	{		
+		/**
+		 * This array is what holds the updated fields.
+		 * It is created in such a way so that a plugin
+		 * can latch onto it to extend the review functionality
+		 * @var array
+		 */
+		$fields = array(
+			array(
+					'type'		=> 'checkbox',
+					'label'		=> 'Enable Reviews',
+					'desc' 		=> 'Select to enable reivews.',
+					'id' 		=> self::$prefix . 'llms_reviews_enabled',
+					'class' 	=> '',
+					'value' 	=> '1',
+					'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+					'group' 	=> '',
+			),
+			array(
+					'type'		=> 'checkbox',
+					'label'		=> 'Display Reviews',
+					'desc' 		=> 'Select to display reivews on the page.',
+					'id' 		=> self::$prefix . 'llms_display_reviews',
+					'class' 	=> 'llms-num-reviews-top',
+					'value' 	=> '1',
+					'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+					'group' 	=> 'llms-num-reviews-top',
+			),
+			array(
+					'type'		=> 'number',
+					'min'		=> '0',
+					'label'		=> 'Number of Reviews',
+					'desc' 		=> 'Number of reviews to display on the page.',
+					'id' 		=> self::$prefix . 'llms_num_reviews',
+					'class' 	=> 'input-full',
+					'value' 	=> '',
+					'desc_class'=> 'd-all',
+					'group' 	=> 'bottom llms-num-reviews-bottom',
+			),
+			array(
+					'type'		=> 'checkbox',
+					'label'		=> 'Prevent Multiple Reviews',
+					'desc' 		=> 'Select to prevent a user from submitting more than one review.',
+					'id' 		=> self::$prefix . 'llms_multiple_reviews_disabled',
+					'class' 	=> '',
+					'value' 	=> '1',
+					'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+					'group' 	=> '',
+			),		
+		);
+
+		if(has_filter('llms_review_fields')) {
+			$fields = apply_filters('llms_review_fieds', $fields);
+		} 
+
+		$metaBoxTab = array(			
+			'title' => 'Reviews',
+			'fields' => $fields
+		);
+		array_push($content, $metaBoxTab);
+		return $content;
+	}
+
+	/**
+	 * This function handles the logic to save the information that is contained
+	 * in the custom metabox. It looks at each of the values, then makes sure that
+	 * there are proper default values so that the program doesn't go crashy crashy
+	 * (nobody likes crashy crashy)
+	 *
+	 * @return void
+	 */
+	public function SaveReviewMetaBoxes()
+	{
+		$enabled = (isset($_POST['_llms_reviews_enabled'])) ? $_POST['_llms_reviews_enabled'] : '';
+		$display = (isset($_POST['_llms_display_reviews'])) ? $_POST['_llms_display_reviews'] : '';
+		$num = (isset($_POST['_llms_num_reviews'])) ? $_POST['_llms_num_reviews'] : 0;
+		$multiple = (isset($_POST['_llms_multiple_reviews_disabled'])) ? $_POST['_llms_multiple_reviews_disabled'] : '';
+
+		if (isset($_POST['post_ID']))
+		{
+			update_post_meta( $_POST['post_ID'], '_llms_reviews_enabled', $enabled);
+		}
+		if (isset($_POST['post_ID']))
+		{
+			update_post_meta( $_POST['post_ID'], '_llms_display_reviews', $display);
+		}
+		if (isset($_POST['post_ID']))
+		{
+			update_post_meta( $_POST['post_ID'], '_llms_num_reviews', $num);
+		}
+		if (isset($_POST['post_ID']))
+		{
+			update_post_meta( $_POST['post_ID'], '_llms_multiple_reviews_disabled', $multiple);
+		}		
+	}
+}
+endif;
+return new LLMS_Admin_Reviews;

@@ -26,7 +26,6 @@ class LLMS_Admin_Menus {
 		add_action( 'admin_menu', array( $this, 'display_settings_menu') );
 		add_action( 'admin_menu', array( $this, 'display_analytics_menu') );
 		add_action( 'admin_menu', array( $this, 'display_students_menu') );
-		
 	}	
 
 	/**
@@ -39,16 +38,17 @@ class LLMS_Admin_Menus {
 	    global $submenu;
 
 	    $arr = array();
-	    $arr[] = $submenu['lifterlms'][7];
-	    $arr[] = $submenu['lifterlms'][8];
-	    $arr[] = $submenu['lifterlms'][9];
-	    $arr[] = $submenu['lifterlms'][5];
-	    $arr[] = $submenu['lifterlms'][1];
-	    $arr[] = $submenu['lifterlms'][2];
-	    $arr[] = $submenu['lifterlms'][3];
-	    $arr[] = $submenu['lifterlms'][4];
-	    $arr[] = $submenu['lifterlms'][0];
-	    $arr[] = $submenu['lifterlms'][6];
+	    $arr[] = $submenu['lifterlms'][8];  // Settings
+	    $arr[] = $submenu['lifterlms'][9];  // Analytics
+	    $arr[] = $submenu['lifterlms'][10]; // Students
+	    $arr[] = $submenu['lifterlms'][5];  // Membership
+	    $arr[] = $submenu['lifterlms'][1];  // Emails
+	    $arr[] = $submenu['lifterlms'][2];  // Certificates
+	    $arr[] = $submenu['lifterlms'][3];  // Achievements
+	    $arr[] = $submenu['lifterlms'][4];  // Engagements
+	    $arr[] = $submenu['lifterlms'][0];  // Orders
+	    $arr[] = $submenu['lifterlms'][6];  // Coupons
+	    $arr[] = $submenu['lifterlms'][7];  // Reviews
 
 	    $submenu['lifterlms'] = $arr;
 
@@ -148,7 +148,6 @@ class LLMS_Admin_Menus {
 		include_once( 'class.llms.admin.students.php' );
 		LLMS_Admin_Students::output();
 	}
-
 }
 
 endif;

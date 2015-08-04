@@ -93,6 +93,36 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 		$llms_meta_fields_llms_membership_settings = array(
 			array(
+				'title' 	=> 'Description',
+				'fields' 	=> array(
+					array(
+						'type'		=> 'post-content',
+						'label'		=> 'Enrolled user and non-enrolled visitor description',
+						'desc' 		=> 'This content will be displayed to enrolled users. If the non-enrolled users description
+							field is left blank the content will be displayed to both enrolled users and non-logged / restricted 
+							visitors.',
+						'id' 		=> '',
+						'class' 	=> '',
+						'value' 	=> '',
+						'desc_class'=> '',
+						'group' 	=> '',
+					),
+					array(
+						'type'		=> 'post-excerpt',
+						'label'		=> 'Restricted Access Description',
+						'desc' 		=> 'Enter content in this field if you would like visitors that 
+							are not enrolled or are restricted to view different content from 
+							enrolled users. Visitors who are not enrolled in the course 
+							or are restricted from the course will see this description if it contains content.',
+						'id' 		=> '',
+						'class' 	=> '',
+						'value' 	=> '',
+						'desc_class'=> '',
+						'group' 	=> '',
+					)
+				)
+			),
+			array(
 				'title' 	=> 'Price Single',
 				'fields' 	=> array(
 					array(

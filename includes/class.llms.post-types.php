@@ -612,7 +612,7 @@ class LLMS_Post_Types {
 					'hierarchical' 			=> false, 
 					'rewrite' 				=> $membership_permalink ? array( 'slug' => untrailingslashit( $membership_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+					'supports' 				=> array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
 					'has_archive' 			=> ( $membership_page_id = llms_get_page_id( 'memberships' ) ) && get_page( $membership_page_id ) ? get_page_uri( $membership_page_id ) : 'memberships',
 					'show_in_nav_menus' 	=> true
 				)
@@ -654,7 +654,7 @@ class LLMS_Post_Types {
 					'rewrite' 				=> $quiz_permalink ? array( 'slug' => untrailingslashit( $quiz_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments' ),
+					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'author'),
 				)
 			)
 		);
@@ -738,8 +738,46 @@ class LLMS_Post_Types {
 			)
 		);
 
+		/**
+		 * Review Post Type
+		 */
+		//$review_permalink = empty( $permalinks['review_base'] ) ? _x( 'review', 'slug', 'lifterlms' ) : $permalinks['review_base'];
+		register_post_type( "llms_review",
+			apply_filters( 'lifterlms_register_post_type_review',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Reviews', 'lifterlms' ),
+							'singular_name' 		=> __( 'Review', 'lifterlms' ),
+							'menu_name'				=> _x( 'Reviews', 'Admin menu name', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Review', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Review', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Review', 'lifterlms' ),
+							'new_item' 				=> __( 'New Review', 'lifterlms' ),
+							'view' 					=> __( 'View Review', 'lifterlms' ),
+							'view_item' 			=> __( 'View Review', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Reviews', 'lifterlms' ),
+							'not_found' 			=> __( 'No Reviews found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Reviews found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Review', 'lifterlms' )
+						),
+					'description' 			=> __( 'This is where you can add new reviews.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> true,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'lifterlms',
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'has_archive' 			=> false,
+					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+				)
+			)
+		);
 	}
-
 }
 
 new LLMS_Post_types();
