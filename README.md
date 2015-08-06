@@ -33,6 +33,7 @@ v1.2.9
 + BugFixing, quiz post type should show author metabox
 + Added course category filter to lifter_lms shortcode
 + BugFixing, typo in [lifterlms_course_progess shortcode]
++ BugFixing, Analytics shouldn't fetch students meta info from users were deleted. 
 
 v1.2.8 - 2015-07-17
 -------------------

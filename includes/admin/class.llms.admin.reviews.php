@@ -147,7 +147,7 @@ class LLMS_Admin_Reviews
 		);
 
 		if(has_filter('llms_review_fields')) {
-			$fields = apply_filters('llms_review_fieds', $fields);
+			$fields = apply_filters('llms_review_fields', $fields);
 		} 
 
 		$metaBoxTab = array(			
