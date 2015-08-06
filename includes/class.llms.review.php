@@ -51,13 +51,27 @@ class LLMS_Reviews
 			);
 			$posts_array = get_posts( $args ); 
 
+			$styles = array(
+				'background-color' => '#EFEFEF',
+				'title-color' => 'inherit',
+				'text-color' => 'inherit',
+				'custom-css' => '',
+			);
+
+
+			if(has_filter('llms_review_custom_styles')) {
+				$styles = apply_filters('llms_review_custom_styles', $styles);
+			}
+
 			foreach ($posts_array as $post) 
 			{
+				echo $styles['custom-css'];
+
 				?>
-				<div class="llms_review" style="margin:20px 0px; background-color:#EFEFEF; padding:10px">
-					<h5 style="font-size:17px" style="margin:3px 0px"><strong><?php echo get_the_title($post->ID);?></strong></h5>
-					<h6 style="font-size:13px">By: <?php echo get_the_author_meta('display_name',get_post_field('post_author', $post->ID));?></h5>
-					<p style="font-size:15px"><?php echo get_post_field('post_content', $post->ID);?></p>
+				<div class="llms_review" style="margin:20px 0px; background-color:<?php echo $styles['background-color']; ?>; padding:10px">
+					<h5 style="font-size:17px; color:<?php echo $styles['title-color']; ?>;" style="margin:3px 0px"><strong><?php echo get_the_title($post->ID);?></strong></h5>
+					<h6 style="font-size:13px; color:<?php echo $styles['text-color']; ?>;">By: <?php echo get_the_author_meta('display_name',get_post_field('post_author', $post->ID));?></h5>
+					<p style="font-size:15px; color:<?php echo $styles['text-color']; ?>;"><?php echo get_post_field('post_content', $post->ID);?></p>
 				</div>
 				<?php				
 			}
