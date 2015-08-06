@@ -1,5 +1,5 @@
 <?php
-if ( !class_exists('PucDebugBarPlugin', false) ) {
+if ( !class_exists('PucDebugBarPlugin') ) {
 
 class PucDebugBarPlugin {
 	/** @var PluginUpdateChecker */
@@ -23,7 +23,7 @@ class PucDebugBarPlugin {
 	 */
 	public function addDebugBarPanel($panels) {
 		require_once dirname(__FILE__) . '/debug-bar-panel.php';
-		if ( current_user_can('update_plugins') && class_exists('PluginUpdateCheckerPanel', false) ) {
+		if ( current_user_can('update_plugins') && class_exists('PluginUpdateCheckerPanel') ) {
 			$panels[] = new PluginUpdateCheckerPanel($this->updateChecker);
 		}
 		return $panels;

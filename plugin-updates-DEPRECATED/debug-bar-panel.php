@@ -1,6 +1,6 @@
 <?php
 
-if ( !class_exists('PluginUpdateCheckerPanel', false) && class_exists('Debug_Bar_Panel', false) ) {
+if ( !class_exists('PluginUpdateCheckerPanel') && class_exists('Debug_Bar_Panel') ) {
 
 /**
  * A Debug Bar panel for the plugin update checker.
@@ -34,10 +34,7 @@ class PluginUpdateCheckerPanel extends Debug_Bar_Panel {
 		$this->row('Slug', htmlentities($this->updateChecker->slug));
 		$this->row('DB option', htmlentities($this->updateChecker->optionName));
 
-		$requestInfoButton = '';
-		if ( function_exists('get_submit_button') ) {
-			$requestInfoButton = get_submit_button('Request Info', 'secondary', 'puc-request-info-button', false, array('id' => 'puc-request-info-button-' . $this->updateChecker->slug));
-		}
+		$requestInfoButton = function_exists('get_submit_button') ? get_submit_button('Request Info', 'secondary', 'puc-request-info-button', false) : '';
 		$this->row('Metadata URL', htmlentities($this->updateChecker->metadataUrl) . ' ' . $requestInfoButton . $responseBox);
 
 		if ( $this->updateChecker->checkPeriod > 0 ) {
@@ -65,10 +62,7 @@ class PluginUpdateCheckerPanel extends Debug_Bar_Panel {
 		echo '<h3>Status</h3>';
 		echo '<table class="puc-debug-data">';
 		$state = $this->updateChecker->getUpdateState();
-		$checkNowButton = '';
-		if ( function_exists('get_submit_button')  ) {
-			$checkNowButton = get_submit_button('Check Now', 'secondary', 'puc-check-now-button', false, array('id' => 'puc-check-now-button-' . $this->updateChecker->slug));
-		}
+		$checkNowButton = function_exists('get_submit_button') ? get_submit_button('Check Now', 'secondary', 'puc-check-now-button', false) : '';
 
 		if ( isset($state, $state->lastCheck) ) {
 			$this->row('Last check', $this->formatTimeWithDelta($state->lastCheck) . ' ' . $checkNowButton . $responseBox);
