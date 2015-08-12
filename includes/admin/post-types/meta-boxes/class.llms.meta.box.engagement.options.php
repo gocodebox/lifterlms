@@ -62,7 +62,7 @@ class LLMS_Meta_Box_Engagement_Options {
 					<td>					
 						<select id="_llms_engagement_type" name="_llms_engagement_type">
 							<option value="" selected disabled>Please select an engagement type...</option>
-								<?php foreach ( $engagement_types as $key => $value  ) : 
+								<?php foreach ( (array)$engagement_types as $key => $value  ) : 
 									if ( $key == $engagement_type ) {
 								?>
 									<option value="<?php echo $key; ?>" selected="selected"><?php echo $value; ?></option>
