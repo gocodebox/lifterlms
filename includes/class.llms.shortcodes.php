@@ -422,7 +422,6 @@ class LLMS_Shortcodes {
 		}
 
 		llms_get_template('course/outline-list-small.php', $args );
-
 	}
 
 }

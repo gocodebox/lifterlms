@@ -40,7 +40,7 @@ class LLMS_Reviews
 		{
 			?>
 			<div id="old_reviews">
-			<h3>What Others Have Said</h3>
+			<?php echo apply_filters('lifterlms_reviews_section_title', '<h3>What Others Have Said</h3>'); ?>
 			<?php 
 			$args = array(
 				'posts_per_page'   => get_post_meta(get_the_ID(),'_llms_num_reviews',true),
@@ -146,4 +146,5 @@ class LLMS_Reviews
 	}
 }
 endif;
+
 return new LLMS_Reviews;

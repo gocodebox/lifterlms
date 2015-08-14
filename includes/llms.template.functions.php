@@ -3,7 +3,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
 * Front end template functions
 */
+add_action('init', 'update_portfolio_restrictions');
+function update_portfolio_restrictions() {
 
+	$args = array(
+		'posts_per_page' 	=> -1,
+		'post_type' 		=> 'portfolio',
+		'nopaging' 			=> true,
+		'fields' 			=> 'ids',
+	);
+	$postslist = get_posts( $args );
+
+	 $memberships = get_postmeta(2408, '_llms_restricted_levels', true);
+var_dump($memberships);
+	 foreach ($postslist as $key => $value) {
+	 	update_postmeta($value, '_llms_restricted_levels', $memberships);
+	}
+}
 /**
  * Post Template Include
  * Appends LLMS content above and below post content
