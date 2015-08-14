@@ -87,4 +87,19 @@ class User
 		return $this->quiz_data;
 	}
 
+	public function get_first_name()
+	{
+		return $this->first_name;
+	}
+
+	public function get_last_name()
+	{
+		return $this->last_name;
+	}
+
+	public function get_full_name()
+	{
+		return $this->first_name . ' ' . $this->last_name;
+	}
+
 }
