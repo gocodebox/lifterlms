@@ -9,7 +9,7 @@ LLMS.Review = {
 	 */
 	init: function()
 	{
-		console.log('review ');
+		console.log('Initializing Review ');
 		this.bind();
 	},
 
@@ -56,7 +56,7 @@ LLMS.Review = {
 			}
 		});
 
-		console.log('review bound');
+		console.log('Review Methods Bound');
 	},
 
 	/**
@@ -78,7 +78,7 @@ LLMS.Review = {
             },
             success: function()
             {
-                console.log('success');
+                console.log('Review success');
                 $('#review_box').hide('swing');
                 $('#thank_you_box').show('swing');
             },

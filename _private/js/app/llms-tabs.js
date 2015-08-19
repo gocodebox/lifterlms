@@ -13,9 +13,7 @@ LLMS.Tabs = {
 	 * loads class methods
 	 */
 	init: function() {
-
 			this.bind();
-
 	},
 
 	/**

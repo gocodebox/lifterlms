@@ -24,7 +24,7 @@ LIFTER LMS
 
 CHANGELOG
 =========
-v1.2.9
+v1.3.0
 -------------------
 + Improved popopver behavior in course creation.
 + BugFixnig. Prevent multiple lesson and section form submition
@@ -35,7 +35,9 @@ v1.2.9
 + BugFixing, typo in [lifterlms_course_progess shortcode]
 + BugFixing, Analytics shouldn't fetch students meta info from users were deleted.
 + Adds in basic review functionality
-+ Updates plugin-updater to remedy PHP conflicts 
++ Updates plugin-updater to remedy PHP conflicts
++ Fixes date bug in Analytics
++ Cleans up jQuery console messages 
 
 v1.2.8 - 2015-07-17
 -------------------
