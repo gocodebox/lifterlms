@@ -802,8 +802,6 @@ console.log(lesson_id);
 	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO total success!!!!!');
-
 	    			$('#llms-lesson-select').empty();
 
 					$.each(r.data, function(key, value) {

@@ -243,5 +243,16 @@ Ajax.prototype.complete_quiz = function ( quiz_id, question_id, question_type, a
 
 		} //end success
 	});
+};
+
+Ajax.prototype.getLessons = function () {
+	jQuery.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+        cache		: this.cache,
+        dataType	: this.dataType,
+		success		: function(response) { return_data(response); },
+	});
 }; 
 
