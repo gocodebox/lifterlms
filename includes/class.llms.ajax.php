@@ -162,6 +162,7 @@ class LLMS_AJAX {
 			'previous_question'			=> false,
 			'complete_quiz'				=> false,
 			'get_all_posts'				=> false,
+			'getLessons'				=> false,
 			//'test_ajax_call'			=> false,
 		);
 
@@ -198,6 +199,55 @@ class LLMS_AJAX {
 		echo json_encode($postslist);
 
 		die();
+	}
+
+	/**
+	 * Return custom array of lessons for use on the engagement page
+	 * 
+	 * @since 1.3.0
+	 * @version 1.3.0
+	 * 
+	 * @return array Array of lessons
+	 */
+	public function getLessons()
+	{
+		$args = array(
+			'post_type' 	=> 'lesson',
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
+		 );
+
+		$lessons = get_posts( $args );
+
+		$options = array();
+
+		if (!empty($lessons)) { 
+
+			foreach($lessons as $key => $value) {
+
+				//get parent course if assigned
+				$parent_course = get_post_meta( $value->ID, '_parent_course', true );
+
+				if ( $parent_course ) {
+					$title = $value->post_title . ' ( ' . get_the_title($parent_course) . ' )';
+				} else {
+					$title = $value->post_title . ' ( ' . LLMS_Language::output('unassigned') . ' )';
+				}
+
+				$options[$value->ID] = $title;
+				$options[] = array(
+					'ID' 		 => $value->ID,
+					'post_title' => $title,
+				);
+
+			}
+
+		}
+
+		echo json_encode($options);
+
+		wp_die();
 	}
 
 	/**

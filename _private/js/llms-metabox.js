@@ -21,8 +21,10 @@ jQuery('.metabox_submit').click(function(e) {
  * Returns array of all lessons
  */
 get_all_lessons = function() {
-	var ajax = new Ajax('post', {'action':'get_all_posts', 'post_type' : 'lesson'}, true);
-	ajax.get_all_posts( post_type );
+	//var ajax = new Ajax('post', {'action':'get_all_posts', 'post_type' : 'lesson'}, true);
+	//ajax.get_all_posts( post_type );
+	var ajax = new Ajax('post', {'action':'getLessons'}, true);
+	ajax.getLessons();
 }
 
 get_all_sections = function() {

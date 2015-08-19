@@ -208,7 +208,7 @@ class LLMS_Admin_Analytics {
 
 	 			$search->start_date = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-start-date' ] ) );
 	 			$search->end_date = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-end-date' ] ) );
-	 			$end_date_plus_one = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-end-date' ] ) . '+ 1 day');
+	 			$search->end_date_plus_one = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-end-date' ] ) . '+ 1 day');
 	 		}
 
 	 		//set up search arguments
@@ -220,7 +220,7 @@ class LLMS_Admin_Analytics {
 				), 
 				'1' => array(
 				 	'key' => '_llms_order_date', 
-					'value' => $end_date_plus_one, 
+					'value' => $search->end_date_plus_one, 
 					'compare' => '<=' 
 				),
 			);
