@@ -85,6 +85,12 @@ function llms_page_restricted($post_id) {
 				$reason = 'quiz_restricted';
 			}
 		}
+		elseif ( is_single() && $post->post_type == 'llms_membership' ) {
+			if ( membership_page_restricted() ) {
+				$restricted = true;
+				$reason = 'membership_page';
+			}
+		}
 	}
 
 	$results = array(
@@ -92,7 +98,7 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
-
+//var_dump($results);
 	return apply_filters( 'llms_page_restricted', $results );
 	
 }
@@ -165,7 +171,31 @@ function site_restricted_by_membership($post_id) {
 	return true;
 }
 
+/**
+ * Checks if user is a member of the membership post they are viewing
+ * @return [type] [description]
+ */
+function membership_page_restricted()
+{
+	global $post;
 
+	$restricted = true;
+
+	if (is_single() && $post->post_type === 'llms_membership')
+	{
+
+		if( is_user_logged_in() ) 
+		{
+			$user_memberships = get_user_meta( get_current_user_id(), '_llms_restricted_levels', true );
+
+			if ( $user_memberships && in_array($post->ID, $user_memberships) ) {
+				$restricted = false;
+			}
+		}
+	}
+
+	return $restricted;
+}
 /**
  * Checks if specific page / post is restricted by membership(s)
  * If page is restricted checks user authority to view content. 

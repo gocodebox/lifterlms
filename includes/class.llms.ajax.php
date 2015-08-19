@@ -222,6 +222,7 @@ class LLMS_AJAX {
 		die();
 	}
 
+
 	/**
 	 * Return array of sections (id => name)
 	 *
