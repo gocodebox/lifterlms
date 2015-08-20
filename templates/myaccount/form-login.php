@@ -7,7 +7,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-var_dump($_GET);
+
 $product_id = get_query_var( 'product-id' );
 
 global $wpdb;
