@@ -28,8 +28,10 @@ get_all_lessons = function() {
 }
 
 get_all_sections = function() {
-	var ajax = new Ajax('post', {'action':'get_all_posts', 'post_type' : 'section'}, true);
-	ajax.get_all_posts( post_type );
+	//var ajax = new Ajax('post', {'action':'get_all_posts', 'post_type' : 'section'}, true);
+	//ajax.get_all_posts( post_type );
+	var ajax = new Ajax('post', {'action':'getSections'}, true);
+	ajax.getSections();
 }
 
 get_all_courses = function() {

@@ -135,45 +135,6 @@ return_engagement_data = function (response) {
 		jQuery(select).trigger("chosen:updated");
 }
 
-return_lesson_data = function(response) {
-	clear_trigger_select();
-
-        var th = document.createElement('th');
-
-		var label = document.createElement("Label");
-		label.setAttribute("for",'trigger-select');
-		label.innerHTML = "Engagement Trigger";
-		th.appendChild(label);
-
-		var td = document.createElement("td");
-
-        var select = document.createElement('select');
-		select.setAttribute('id', 'trigger-select');
-		select.setAttribute('class', 'chosen-select chosen select section-select');
-		select.setAttribute('name', '_llms_engagement_trigger');
-		
-		td.appendChild(select);
-		jQuery(select).chosen({width:"300px"});
-
-		if (!jQuery('#trigger-select').length) {
-	
-			// populate select with sections.
-			jQuery(select).append('<option value="" selected disabled>Please select a lesson...</option>');
-			for (var key in response) {
-			    if (response.hasOwnProperty(key)) {
-			    	var option = jQuery('<option />').val(response[key]['ID']).text(response[key]['post_title']);
-			    	jQuery(select).append(option);
-			    }
-			}
-		
-			jQuery('.engagement-option').append(th);
-				
-			jQuery('.engagement-option').append(td);
-		}
-
-	jQuery(select).trigger("chosen:updated");
-}
-
 clear_trigger_select = function () {
 	jQuery('.engagement-option').empty();
 }
