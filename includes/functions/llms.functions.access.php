@@ -206,6 +206,7 @@ function membership_page_restricted()
  */
 function page_restricted_by_membership($post_id) {
 llms_log('is_topic_restricted called');
+	
 
 	$post = get_post($post_id);
 
@@ -216,39 +217,42 @@ llms_log('is_topic_restricted called');
 	$restrict_access = false;
 	$membership_id = '';
 
-	//are there membership restictions on page
-	$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );
+	if (is_single()) {
 
-	if (!$page_restrictions) {
-		//check if page is a topic and restict if parent is restricted (bbpress)
-		$page_restrictions = is_topic_restricted($post);
-	}
+		//are there membership restictions on page
+		$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );
 
-	// membership restrictions exist
-	if ( ! empty($page_restrictions) ) {
-		$restrict_access = true;
-		
-		//is user logged in 
-		if ( is_user_logged_in() ) {
-			$user_memberships = get_user_meta( $userid, '_llms_restricted_levels', true );
+		if (!$page_restrictions) {
+			//check if page is a topic and restict if parent is restricted (bbpress)
+			$page_restrictions = is_topic_restricted($post);
+		}
 
-			//does user have any membership levels
-			if( ! empty($user_memberships) ) {
+		// membership restrictions exist
+		if ( ! empty($page_restrictions) ) {
+			$restrict_access = true;
+			
+			//is user logged in 
+			if ( is_user_logged_in() ) {
+				$user_memberships = get_user_meta( $userid, '_llms_restricted_levels', true );
 
-				foreach ( $page_restrictions as $key => $value ){
-					if ( in_array($value, $user_memberships) ){
-						$restrict_access = false;	
-					}
-					else if ( $membership_required && !$membership_required == '') {
-						if ( in_array($membership_required , $user_memberships) ){
+				//does user have any membership levels
+				if( ! empty($user_memberships) ) {
+
+					foreach ( $page_restrictions as $key => $value ){
+						if ( in_array($value, $user_memberships) ){
 							$restrict_access = false;	
 						}
-					}	
-				}
-				//if post type is course and user is enrolled then do not restrict content.
-				if ($post->post_type == 'course' ) {
-					if ( llms_is_user_enrolled( $userid, $post->id) ) {
-						$restrict_access = false;
+						else if ( $membership_required && !$membership_required == '') {
+							if ( in_array($membership_required , $user_memberships) ){
+								$restrict_access = false;	
+							}
+						}	
+					}
+					//if post type is course and user is enrolled then do not restrict content.
+					if ($post->post_type == 'course' ) {
+						if ( llms_is_user_enrolled( $userid, $post->id) ) {
+							$restrict_access = false;
+						}
 					}
 				}
 			}
