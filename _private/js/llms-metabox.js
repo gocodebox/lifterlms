@@ -39,6 +39,11 @@ get_all_courses = function() {
 	ajax.get_all_posts();
 }
 
+get_all_course_tracks = function() {
+	var ajax = new Ajax('post', {'action':'get_course_tracks'}, true);
+	ajax.get_course_tracks();
+}
+
 get_all_emails = function() {
 	var ajax = new Ajax('post', {'action':'get_emails'}, true);
 	ajax.get_all_engagements();

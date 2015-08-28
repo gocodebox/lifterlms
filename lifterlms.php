@@ -283,6 +283,7 @@ final class LifterLMS {
 			'lifterlms_section_completed',
 			'lifterlms_course_completed',
 			'user_register',
+			'lifterlms_course_track_completed',
 		);
 
 		foreach( $engagement_actions as $action ) {

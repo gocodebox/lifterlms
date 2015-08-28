@@ -37,7 +37,8 @@ v1.3.0
 + Adds in basic review functionality
 + Updates plugin-updater to remedy PHP conflicts
 + Fixes date bug in Analytics
-+ Cleans up jQuery console messages 
++ Cleans up jQuery console messages
++ Adds in course tracks 
 
 v1.2.8 - 2015-07-17
 -------------------
