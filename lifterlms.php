@@ -31,11 +31,7 @@ require 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-<<<<<<< HEAD
-	public $version = '1.2.8';
-=======
 	public $version = '1.3.0';
->>>>>>> origin/develop
 
 	protected static $_instance = null;
 
