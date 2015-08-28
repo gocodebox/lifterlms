@@ -24,6 +24,10 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.1 - 2015/08/28
+-------------------
++ Hotfix: resolves issue with ajax url
+
 v1.3.0 - 2015/08/28
 -------------------
 + Improved popopver behavior in course creation.
