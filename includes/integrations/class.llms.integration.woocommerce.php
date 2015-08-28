@@ -90,7 +90,7 @@ class LLMS_Integration_Woocommerce {
 	 */
 	public function process_order($order_id) {
 		global $post;
-llms_log('made it to process order');
+
 		$wc_order = new WC_Order( $order_id );
 		$items = $wc_order->get_items();
 
@@ -126,39 +126,50 @@ llms_log('made it to process order');
 		$product = get_post_meta($wc_product_id);
 		$wc_sku = $product['_sku'][0];//$_POST['product_sku'];
 
-		// get all product skus
 		$args = array(
-		  'post_type' => array('course','llms_membership'),
+		  'posts_per_page' => 1,
+		  'post_type' => 'llms_membership',
 		  'meta_query'  => array(
 		    	array(
-		      		'key' => '_sku'
+		      		'key' => '_sku',
+		      		'value' => $wc_sku,
+		      		'compare' => '='
 	    		)
 	  		)
 		);
-		$my_query = new WP_Query( $args );
+		$memberships = get_posts($args);
 
-		if( $my_query->have_posts() ) {
+		if ($memberships)
+		{
+			foreach ($memberships as $membership)
+			{
+				$sku = get_post_meta($membership->ID, '_sku', true);
+				$order->product_id 		= $membership->ID;
+			    $order->product_sku 	= $sku;
+			}
+		}
+		else
+		{
+			$args = array(
+			  'posts_per_page' => 1,
+			  'post_type' => 'course',
+			  'meta_query'  => array(
+			    	array(
+			      		'key' => '_sku',
+			      		'value' => $wc_sku,
+			      		'compare' => '='
+		    		)
+		  		)
+			);
+			$courses = get_posts($args);
 
-		  while( $my_query->have_posts() ) {
-
-		    $my_query->the_post();
-
-		    //compare sku to courses to find a match. 
-		    $llms_product_meta = get_post_meta($post->ID);
-
-
-
-		    if ( $llms_product_meta['_sku'][0] == $wc_sku ) {
-		   
-		    	$order->product_id 		= $post->ID;
-		    	$order->product_sku = $llms_product_meta['_sku'][0]; 
-
-		    }
-
-		  } // end while
-
-		} // end if
-		wp_reset_postdata();
+			foreach ($courses as $course)
+			{
+				$sku = get_post_meta($membership->ID, '_sku', true);
+				$order->product_id 		= $course->ID;
+			    $order->product_sku 	= $sku;
+			}
+		}
 
 		// exit if there is not matching sku
 		if ( empty($order->product_sku) || empty($order->product_id)) {
