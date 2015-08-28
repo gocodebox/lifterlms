@@ -69,7 +69,7 @@ LLMS.Review = {
 		jQuery.ajax({
             type : 'post',
             dataType : 'json',
-            url : myAjax.ajaxurl,
+            url : window.llms.ajaxurl,
             data : {
             	action : 'LLMSSubmitReview',
                 review_title: $('#review_title').val(),
