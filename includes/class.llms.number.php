@@ -21,7 +21,9 @@ class LLMS_Number {
 	 * @return [string]
 	 */
 	public static function format_money( $number ) {
-		return get_lifterlms_currency_symbol() . number_format( $number, 2, '.', ',' );
+
+		return get_lifterlms_currency_symbol() . number_format( (int)$number, 2, '.', ',' );
+		
 	}
 
 	/**

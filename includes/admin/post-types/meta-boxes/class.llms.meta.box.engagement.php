@@ -81,6 +81,10 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox{
 				'key' 	=> 'days_since_login',
 				'title' => 'Days since user last logged in', 
 			),
+			array(
+				'key' 	=> 'course_track_completed',
+				'title' => 'Course Track Completed', 
+			),
 		);
 
 		$meta_fields_engagement = array(

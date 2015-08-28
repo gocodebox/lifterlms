@@ -20,3 +20,6 @@ sftp-config.json
 
 #npm debug log
 npm-debug.log
+
+#ignore osx DS_Store file
+.DS_Store

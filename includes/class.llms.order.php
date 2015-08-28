@@ -213,7 +213,10 @@
 
 			// Add order metadata to the order post
 			update_post_meta( $order_post_id, '_llms_user_id', $order->user_id );
-			update_post_meta( $order_post_id, '_llms_payment_method', $order->payment_method );
+			if (isset($order->payment_method))
+			{
+				update_post_meta( $order_post_id, '_llms_payment_method', $order->payment_method );
+			}
 			update_post_meta( $order_post_id, '_llms_product_title', $order->product_title );
 
 			//calculate order total based on coupon 

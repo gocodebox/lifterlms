@@ -1,26 +1,40 @@
 jQuery(document).ready(function($) {
 
 	$('#_llms_trigger_type').change(function() {
+		console.log('LLMS Engagement Trigger Changed');
 
 		var triggerOptionSelected = $("option:selected", this);
     	var triggerValueSelected = this.value;
 
 		if (triggerValueSelected == 'lesson_completed') {
+			console.log('LLMS Engagement: Begin Lesson Query');
 			var lessons = get_all_lessons();
+			console.log('LLMS Engagement: End Lesson Query');
 		}
 		else if (triggerValueSelected == 'section_completed') {
+			console.log('LLMS Engagement: Begin Section Query');
 			var sections = get_all_sections();
+			console.log('LLMS Engagement: End Section Query');
 		}
 		else if (triggerValueSelected == 'course_completed') {
+			console.log('LLMS Engagement: Begin Course Query');
 			var courses = get_all_courses();
+			console.log('LLMS Engagement: End Course Query');
 		}
 		else if (triggerValueSelected == 'course_purchased') {
+			console.log('LLMS Engagement: Begin Course Query');
 			var courses = get_all_courses();
+			console.log('LLMS Engagement: End Course Query');
+		}
+		else if (triggerValueSelected == 'course_track_completed') {
+			console.log('LLMS Engagement: Begin Course Track Query');
+			var course_tracks = get_all_course_tracks();
+			console.log('LLMS Engagement: End Course Track Query');
 		}
 		else {
 			clear_trigger_select();
 		}
-		});
+	});
 
 
 		$('#_llms_engagement_type').change(function() {

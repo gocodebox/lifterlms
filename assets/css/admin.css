@@ -614,7 +614,7 @@ h1.outline-title {
   position: absolute;
   left: -84px;
   bottom: 40px;
-  z-index: 1;
+  z-index: 6;
 }
 
 #llms-outline-menu.fade-in {
@@ -1954,6 +1954,11 @@ td.llms-table-select select, th.llms-table-select select {
 #llmis-add-new-sub {
   margin-bottom: 20px;
   margin-left: 10px;
+}
+
+.title {
+  background-color: inherit;
+  border: inherit;
 }
 
 .wrap h2.llms-nav-tab-wrapper {

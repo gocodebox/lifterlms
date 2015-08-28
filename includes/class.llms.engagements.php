@@ -35,7 +35,9 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_lesson_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'lifterlms_section_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'lifterlms_course_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
+		add_action( 'lifterlms_course_track_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
+		add_action('lifterlms_course_completed_notification',array( $this, 'MaybeFireEngagement'),10,2);
 		//add_action( 'init', array( $this, 'llms_user_register' ), 10, 1 );
 	}
 
@@ -172,8 +174,110 @@ class LLMS_Engagements {
 					do_action( 'lifterlms_external_engagement', $user, $achievement_id, $value->ID);
 				}
 			}
-		}
-		
+		}		
 	}
 
+	/**
+	 * This function is responsible for deciding wether or not to fire
+	 * the 'course_track_completed' action.
+	 * @param int $user_id   ID of user to check
+	 * @param int $course_id ID of course
+	 */
+	function MaybeFireEngagement($user_id, $course_id)
+	{	
+		/**
+		 * This variable is what will store the list of classes
+		 * for each track that this class is a member of
+		 * @var array
+		 */
+		$coursesInTrack = array();
+		
+		// Get Track Information
+		// This gets the information about all the tracks that
+		// this course is a part of
+		$tracks = wp_get_post_terms($course_id,'course_track',array("fields" => "all"));
+
+		// Run through each of the tracks that this course is a member of 
+		foreach ((array)$tracks as $id => $track) 
+		{
+			/**
+			 * Variable that stores if the track has been completed
+			 * @var boolean
+			 */
+			$completedTrack = false;
+			
+			$args = array(
+				'posts_per_page' 	=> 1000,
+				'post_type' 		=> 'course',
+				'nopaging' 			=> true,
+				'post_status' 		=> 'publish',
+				'orderby'          	=> 'post_title',
+				'order'            	=> 'ASC',
+				'suppress_filters' 	=> true,
+				'tax_query' => array(
+					array(
+						'taxonomy' 	=> 'course_track',
+						'field'		=> 'term_id',
+						'terms'		=> $track->term_id,
+					)
+				) 
+			);
+			$courses = get_posts( $args );
+			
+			// Run through each of the courses that is in the track 
+			// to see if all of the courses are completed
+			foreach ($courses as $key => $course) 
+			{
+				/**
+				 * This variable stores the information about each course
+				 * in the track 
+				 * @var array
+				 */
+				$data = LLMS_Course::get_user_post_data($course->ID, $user_id);
+				
+				// If there is data about the course, parse it 
+				if ($data !== array())
+				{
+					/**
+					 * Create a variable to store whether or not the class is completed
+					 * @var boolean
+					 */
+					$hasCompleted = false;
+
+					// Run through each of the meta values in the array				
+				    foreach ($data as $key => $object) 
+				    {
+				        // Check to see is the current object is the '_is_complete'
+				        if (is_object($object) && $object->meta_key == '_is_complete' && $object->meta_value == 'yes')
+				        {
+				        	// If so, the course has been completed
+				        	$hasCompleted = true;
+				        	break;
+				        }
+				    }
+
+				   	// If the course is completed keep an update going
+				   	if ($hasCompleted)
+				   	{
+				   		$completedTrack = true;
+				   	}				
+				}
+				// If data is empty, break out of the loop because the 
+				// user has not enrolled in that course
+				else
+				{
+					$completedTrack = false;
+					break;
+				}
+			}
+
+			// If completed at the end of the track loop do the action
+			if ($completedTrack)
+			{
+				do_action('lifterlms_course_track_completed',$user_id,$track->term_id);
+			}
+
+			$coursesInTrack[$id] = $courses;
+		}	
+	}
 }

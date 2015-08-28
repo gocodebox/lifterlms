@@ -146,6 +146,7 @@ class LLMS_AJAX {
 
 		$ajax_events = array(
 			'get_courses' 				=> false,
+			'get_course_tracks' 		=> false,
 			'get_sections' 				=> false,
 			'get_lesson' 				=> false,
 			'get_lessons' 				=> false,
@@ -162,6 +163,8 @@ class LLMS_AJAX {
 			'previous_question'			=> false,
 			'complete_quiz'				=> false,
 			'get_all_posts'				=> false,
+			'getLessons'				=> false,
+			'getSections'				=> false,
 			//'test_ajax_call'			=> false,
 		);
 
@@ -201,6 +204,102 @@ class LLMS_AJAX {
 	}
 
 	/**
+	 * Return custom array of lessons for use on the engagement page
+	 * 
+	 * @since 1.3.0
+	 * @version 1.3.0
+	 * 
+	 * @return array Array of lessons
+	 */
+	public function getLessons()
+	{
+		$args = array(
+			'post_type' 	=> 'lesson',
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
+		 );
+
+		$lessons = get_posts( $args );
+
+		$options = array();
+
+		if (!empty($lessons)) { 
+
+			foreach($lessons as $key => $value) {
+
+				//get parent course if assigned
+				$parent_course = get_post_meta( $value->ID, '_parent_course', true );
+
+				if ( $parent_course ) {
+					$title = $value->post_title . ' ( ' . get_the_title($parent_course) . ' )';
+				} else {
+					$title = $value->post_title . ' ( ' . LLMS_Language::output('unassigned') . ' )';
+				}
+
+				$options[] = array(
+					'ID' 		 => $value->ID,
+					'post_title' => $title,
+				);
+
+			}
+
+		}
+
+		echo json_encode($options);
+
+		wp_die();
+	}
+
+	/**
+	 * Return custom array of sections for use on the engagement page
+	 * 
+	 * @since 1.3.0
+	 * @version 1.3.0
+	 * 
+	 * @return array Array of sections
+	 */
+	public function getSections()
+	{
+		$args = array(
+			'post_type' 	=> 'section',
+			'nopaging' 		=> true,
+			'post_status'   => 'publish',
+
+		 );
+
+		$sections = get_posts( $args );
+
+		$options = array();
+
+		if (!empty($sections)) { 
+
+			foreach($sections as $key => $value) {
+
+				//get parent course if assigned
+				$parent_course = get_post_meta( $value->ID, '_parent_course', true );
+
+				if ( $parent_course ) {
+					$title = $value->post_title . ' ( ' . get_the_title($parent_course) . ' )';
+				} else {
+					$title = $value->post_title . ' ( ' . LLMS_Language::output('unassigned') . ' )';
+				}
+
+				$options[] = array(
+					'ID' 		 => $value->ID,
+					'post_title' => $title,
+				);
+
+			}
+
+		}
+
+		echo json_encode($options);
+
+		wp_die();
+	}
+
+	/**
 	 * Return array of courses (id => name)
 	 *
 	 * @param string
@@ -221,6 +320,31 @@ class LLMS_AJAX {
 
 		die();
 	}
+
+	/**
+	 * Return array of course tracks (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_course_tracks(){		
+		$trackslist = get_terms('course_track',array('hide_empty' => '0',));
+		
+		$tracks = array();
+
+		foreach ((array)$trackslist as $num => $track) 
+		{
+			$tracks[] = array(
+				'ID' 		 => $track->term_id,
+				'post_title' => $track->name,
+			);
+		}
+
+		echo json_encode($tracks);
+
+		die();
+	}
+
 
 	/**
 	 * Return array of sections (id => name)

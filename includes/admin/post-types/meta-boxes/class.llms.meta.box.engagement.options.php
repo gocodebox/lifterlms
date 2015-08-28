@@ -62,7 +62,7 @@ class LLMS_Meta_Box_Engagement_Options {
 					<td>					
 						<select id="_llms_engagement_type" name="_llms_engagement_type">
 							<option value="" selected disabled>Please select an engagement type...</option>
-								<?php foreach ( $engagement_types as $key => $value  ) : 
+								<?php foreach ( (array)$engagement_types as $key => $value  ) : 
 									if ( $key == $engagement_type ) {
 								?>
 									<option value="<?php echo $key; ?>" selected="selected"><?php echo $value; ?></option>
@@ -135,11 +135,12 @@ class LLMS_Meta_Box_Engagement_Options {
 
 				<?php
 				$triggers = apply_filters( 'lifterlms_engagement_triggers', array(
-					'lesson_completed' => 'lesson completed',
-					'section_completed' => 'section completed',
-					'course_completed' => 'course completed',
+					'lesson_completed' => 'Lesson Completed',
+					'section_completed' => 'Section Completed',
+					'course_completed' => 'Course Completed',
 					'user_registration' => 'New User Registration',
-					'days_since_login' => 'Days since user last logged in'
+					'days_since_login' => 'Days since user last logged in',
+					'course_track_completed' => 'Course Track Completed',
 					) 
 				);
 				?>
@@ -169,6 +170,7 @@ class LLMS_Meta_Box_Engagement_Options {
 				<?php
 				if($trigger_type) {
 					$post_type = '';
+					$postslist = array();
 
 					switch ($trigger_type)  {
 						case 'lesson_completed' :
@@ -183,41 +185,59 @@ class LLMS_Meta_Box_Engagement_Options {
 						case 'course_purchased' :
 							$post_type = 'course';
 							break;
+						case 'course_track_completed' :
+							$post_type = 'course_track';
+							break;
 					}
 
-					if ( ! empty($post_type) ) {
+					if ( ! empty($post_type) ) 
+					{
+						if ($post_type != 'course_track')
+						{
+							$args = array(
+								'post_type' 	=> $post_type,
+								'nopaging' 		=> true,
+								'post_status'   => 'publish',
+							);
 
+							$postslist = get_posts( $args );
+						}
+						else
+						{
+							$trackslist = get_terms('course_track',array('hide_empty' => '0',));
 
-					$args = array(
-							'post_type' 	=> $post_type,
-							'nopaging' 		=> true,
-							'post_status'   => 'publish',
+							foreach ((array)$trackslist as $num => $track) 
+							{
+								$postslist[] = (object)array(
+									'ID' 		 => $track->term_id,
+									'post_title' => $track->name,
+								);
+							}
+						}						
 
-						 );
+						?>
 
-						$postslist = get_posts( $args );
+						<th><label for="trigger-select">Event</label></th>
+						<td>
+							<select id="trigger-select" class="chosen-select chosen select section-select" name="_llms_engagement_trigger">
+								<option value="" selected disabled><?php _e( 'Please select an engagement type...', 'lifterlms' ); ?></option>
+								<?php foreach ( $postslist as $key => $value  ) : 
 
-					?>
+									if ( $value->ID == $engagement_trigger_post ) {
+								?>
+									<option value="<?php echo $value->ID; ?>" selected="selected"><?php echo $value->post_title; ?></option>
 
-					<th><label for="trigger-select">Event</label></th>
-					<td>
-						<select id="trigger-select" class="chosen-select chosen select section-select" name="_llms_engagement_trigger">
-							<option value="" selected disabled><?php _e( 'Please select an engagement type...', 'lifterlms' ); ?></option>
-							<?php foreach ( $postslist as $key => $value  ) : 
+								<?php } else { ?>
+									<option value="<?php echo $value->ID; ?>"><?php echo $value->post_title; ?></option>
 
-								if ( $value->ID == $engagement_trigger_post ) {
-							?>
-								<option value="<?php echo $value->ID; ?>" selected="selected"><?php echo $value->post_title; ?></option>
-
-							<?php } else { ?>
-								<option value="<?php echo $value->ID; ?>"><?php echo $value->post_title; ?></option>
-
-							<?php } ?>
-							<?php endforeach; ?>
-				 		</select>
-					</td>
-
-					<?php } } ?>
+								<?php } ?>
+								<?php endforeach; ?>
+					 		</select>
+						</td>
+						<?php 
+					} 
+				} 
+				?>
 				</tr>
 
 			</tbody>

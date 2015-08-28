@@ -90,7 +90,7 @@ class LLMS_Integration_Woocommerce {
 	 */
 	public function process_order($order_id) {
 		global $post;
-
+llms_log('made it to process order');
 		$wc_order = new WC_Order( $order_id );
 		$items = $wc_order->get_items();
 
@@ -159,7 +159,6 @@ class LLMS_Integration_Woocommerce {
 
 		} // end if
 		wp_reset_postdata();
-
 
 		// exit if there is not matching sku
 		if ( empty($order->product_sku) || empty($order->product_id)) {

@@ -89,6 +89,11 @@ gulp.task('build', ['jscs', 'lint'], function() {
 });
 
 /**
+ * Rebuild task to do everything in one fell swoop
+ */
+gulp.task('rebuild',['process-scripts','process-frontend-styles','process-admin-styles'],function(){});
+
+/**
  * Compile front end SASS files
  */
 gulp.task( 'process-frontend-styles', function () {
@@ -104,7 +109,7 @@ gulp.task( 'process-frontend-styles', function () {
 		.pipe( gulp.dest( 'assets/css/') )
 		.pipe(notify({
             title: 'Front End Styles',
-            message: 'Successfully Front End Styles'
+            message: 'Successfully Built Front End Styles'
         }));
 
 });
@@ -125,7 +130,7 @@ gulp.task( 'process-admin-styles', function () {
 		.pipe( gulp.dest( 'assets/css/') )
 		.pipe(notify({
             title: 'Admin Styles',
-            message: 'Successfully Admin Styles'
+            message: 'Successfully Built Admin Styles'
         }));
 
 });

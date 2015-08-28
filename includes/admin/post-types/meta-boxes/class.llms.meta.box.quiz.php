@@ -100,7 +100,7 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 					array(
 						'type'  	=> 'checkbox',
 						'label'  	=> 'Show Description Wrong Answer',
-						'desc'  	=> 'Display Picked Option Descritpion on Wrong Questions',
+						'desc'  	=> 'Display Picked Option Description on Wrong Questions',
 						'id'    	=> self::$prefix . 'llms_show_options_description_wrong_answer',
 						'section' 	=> 'quiz_meta_box',
 						'class' 	=> '',
@@ -111,7 +111,7 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 					array(
 						'type'  	=> 'checkbox',
 						'label'  	=> 'Show Description Right Answer',
-						'desc'  	=> 'Display Picked Option Descritpion on Right Questions',
+						'desc'  	=> 'Display Picked Option Description on Right Questions',
 						'id'    	=> self::$prefix . 'llms_show_options_description_right_answer',
 						'section' 	=> 'quiz_meta_box',
 						'class' 	=> '',

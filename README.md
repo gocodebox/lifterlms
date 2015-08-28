@@ -24,6 +24,21 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.0 - 2015/08/28
+-------------------
++ Improved popopver behavior in course creation.
++ BugFixnig. Prevent multiple lesson and section form submition
++ Fixed typos at backend quiz page
++ Fixed check for update bug when plugin isn't properly activated.
++ BugFixing, quiz post type should show author metabox
++ Added course category filter to lifter_lms shortcode
++ BugFixing, typo in [lifterlms_course_progess shortcode]
++ BugFixing, Analytics shouldn't fetch students meta info from users were deleted.
++ Adds in basic review functionality
++ Updates plugin-updater to remedy PHP conflicts
++ Fixes date bug in Analytics
++ Cleans up jQuery console messages
++ Adds in course tracks 
 
 v1.2.8 - 2015-07-17
 -------------------

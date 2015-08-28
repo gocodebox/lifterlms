@@ -85,6 +85,12 @@ function llms_page_restricted($post_id) {
 				$reason = 'quiz_restricted';
 			}
 		}
+		elseif ( is_single() && $post->post_type == 'llms_membership' ) {
+			if ( membership_page_restricted() ) {
+				$restricted = true;
+				$reason = 'membership_page';
+			}
+		}
 	}
 
 	$results = array(
@@ -92,7 +98,7 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
-
+//var_dump($results);
 	return apply_filters( 'llms_page_restricted', $results );
 	
 }
@@ -165,7 +171,31 @@ function site_restricted_by_membership($post_id) {
 	return true;
 }
 
+/**
+ * Checks if user is a member of the membership post they are viewing
+ * @return [type] [description]
+ */
+function membership_page_restricted()
+{
+	global $post;
 
+	$restricted = true;
+
+	if (is_single() && $post->post_type === 'llms_membership')
+	{
+
+		if( is_user_logged_in() ) 
+		{
+			$user_memberships = get_user_meta( get_current_user_id(), '_llms_restricted_levels', true );
+
+			if ( $user_memberships && in_array($post->ID, $user_memberships) ) {
+				$restricted = false;
+			}
+		}
+	}
+
+	return $restricted;
+}
 /**
  * Checks if specific page / post is restricted by membership(s)
  * If page is restricted checks user authority to view content. 
@@ -176,6 +206,7 @@ function site_restricted_by_membership($post_id) {
  */
 function page_restricted_by_membership($post_id) {
 llms_log('is_topic_restricted called');
+	
 
 	$post = get_post($post_id);
 
@@ -186,39 +217,42 @@ llms_log('is_topic_restricted called');
 	$restrict_access = false;
 	$membership_id = '';
 
-	//are there membership restictions on page
-	$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );
+	if (is_single()) {
 
-	if (!$page_restrictions) {
-		//check if page is a topic and restict if parent is restricted (bbpress)
-		$page_restrictions = is_topic_restricted($post);
-	}
+		//are there membership restictions on page
+		$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );
 
-	// membership restrictions exist
-	if ( ! empty($page_restrictions) ) {
-		$restrict_access = true;
-		
-		//is user logged in 
-		if ( is_user_logged_in() ) {
-			$user_memberships = get_user_meta( $userid, '_llms_restricted_levels', true );
+		if (!$page_restrictions) {
+			//check if page is a topic and restict if parent is restricted (bbpress)
+			$page_restrictions = is_topic_restricted($post);
+		}
 
-			//does user have any membership levels
-			if( ! empty($user_memberships) ) {
+		// membership restrictions exist
+		if ( ! empty($page_restrictions) ) {
+			$restrict_access = true;
+			
+			//is user logged in 
+			if ( is_user_logged_in() ) {
+				$user_memberships = get_user_meta( $userid, '_llms_restricted_levels', true );
 
-				foreach ( $page_restrictions as $key => $value ){
-					if ( in_array($value, $user_memberships) ){
-						$restrict_access = false;	
-					}
-					else if ( $membership_required && !$membership_required == '') {
-						if ( in_array($membership_required , $user_memberships) ){
+				//does user have any membership levels
+				if( ! empty($user_memberships) ) {
+
+					foreach ( $page_restrictions as $key => $value ){
+						if ( in_array($value, $user_memberships) ){
 							$restrict_access = false;	
 						}
-					}	
-				}
-				//if post type is course and user is enrolled then do not restrict content.
-				if ($post->post_type == 'course' ) {
-					if ( llms_is_user_enrolled( $userid, $post->id) ) {
-						$restrict_access = false;
+						else if ( $membership_required && !$membership_required == '') {
+							if ( in_array($membership_required , $user_memberships) ){
+								$restrict_access = false;	
+							}
+						}	
+					}
+					//if post type is course and user is enrolled then do not restrict content.
+					if ($post->post_type == 'course' ) {
+						if ( llms_is_user_enrolled( $userid, $post->id) ) {
+							$restrict_access = false;
+						}
 					}
 				}
 			}
@@ -237,7 +271,7 @@ function is_topic_restricted($post) {
 	llms_log('is_topic_restricted called');
 	$page_restrictions = array();
 
-	if ($post->post_type === 'topic') {
+	if (isset($post->post_type) && $post->post_type === 'topic') {
 
 		$parent_id = wp_get_post_parent_id( $post->ID );
 
