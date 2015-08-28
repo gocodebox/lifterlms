@@ -266,3 +266,14 @@ Ajax.prototype.getSections = function () {
 		success		: function(response) { return_data(response); },
 	});
 }; 
+
+Ajax.prototype.get_course_tracks = function () {
+	jQuery.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+        cache		: this.cache,
+        dataType	: this.dataType,
+		success		: function(response) { return_data(response); },
+	});
+};

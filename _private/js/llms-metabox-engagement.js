@@ -26,6 +26,11 @@ jQuery(document).ready(function($) {
 			var courses = get_all_courses();
 			console.log('LLMS Engagement: End Course Query');
 		}
+		else if (triggerValueSelected == 'course_track_completed') {
+			console.log('LLMS Engagement: Begin Course Track Query');
+			var course_tracks = get_all_course_tracks();
+			console.log('LLMS Engagement: End Course Track Query');
+		}
 		else {
 			clear_trigger_select();
 		}

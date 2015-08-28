@@ -72,6 +72,34 @@ class LLMS_Post_Types {
 		        ) )
 		    );
 
+			register_taxonomy( 'course_track',
+		        apply_filters( 'lifterlms_taxonomy_objects_course_track', array( 'course' ) ),
+		        apply_filters( 'lifterlms_taxonomy_args_course_track', array(
+		            'hierarchical' 			=> true,
+		            'label' 				=> __( 'Course Track', 'lifterlms' ),
+		            'labels' => array(
+		                    'name' 				=> __( 'Course Tracks', 'lifterlms' ),
+		                    'singular_name' 	=> __( 'Course Track', 'lifterlms' ),
+							'menu_name'			=> _x( 'Course Tracks', 'Admin menu name', 'lifterlms' ),
+		                    'search_items' 		=> __( 'Search Course Tracks', 'lifterlms' ),
+		                    'all_items' 		=> __( 'All Course Tracks', 'lifterlms' ),
+		                    'parent_item' 		=> __( 'Parent Course Track', 'lifterlms' ),
+		                    'parent_item_colon' => __( 'Parent Course Track:', 'lifterlms' ),
+		                    'edit_item' 		=> __( 'Edit Course Track', 'lifterlms' ),
+		                    'update_item' 		=> __( 'Update Course Track', 'lifterlms' ),
+		                    'add_new_item' 		=> __( 'Add New Course Track', 'lifterlms' ),
+		                    'new_item_name' 	=> __( 'New Course Track Name', 'lifterlms' )
+		            	),
+		            'show_ui' 				=> true,
+		            'query_var' 			=> true,
+		            'rewrite' 				=> array(
+						'slug'         => empty( $permalinks['track_base'] ) ? _x( 'course-track', 'slug', 'lifterlms' ) : $permalinks['track_base'],
+						'with_front'   => false,
+						'hierarchical' => true,
+		            ),
+		        ) )
+		    );
+
 			register_taxonomy( 'course_tag',
 		        apply_filters( 'lifterlms_taxonomy_objects_course_tag', array( 'course') ),
 		        apply_filters( 'lifterlms_taxonomy_args_course_tag', array(

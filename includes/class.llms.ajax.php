@@ -146,6 +146,7 @@ class LLMS_AJAX {
 
 		$ajax_events = array(
 			'get_courses' 				=> false,
+			'get_course_tracks' 		=> false,
 			'get_sections' 				=> false,
 			'get_lesson' 				=> false,
 			'get_lessons' 				=> false,
@@ -316,6 +317,30 @@ class LLMS_AJAX {
 		$postslist = get_posts( $args );
 
 		echo json_encode($postslist);
+
+		die();
+	}
+
+	/**
+	 * Return array of course tracks (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_course_tracks(){		
+		$trackslist = get_terms('course_track',array('hide_empty' => '0',));
+		
+		$tracks = array();
+
+		foreach ((array)$trackslist as $num => $track) 
+		{
+			$tracks[] = array(
+				'ID' 		 => $track->term_id,
+				'post_title' => $track->name,
+			);
+		}
+
+		echo json_encode($tracks);
 
 		die();
 	}
