@@ -24,7 +24,7 @@ LIFTER LMS
 
 CHANGELOG
 =========
-v1.3.0
+v1.3.0 - 2015/08/28
 -------------------
 + Improved popopver behavior in course creation.
 + BugFixnig. Prevent multiple lesson and section form submition
