@@ -378,7 +378,7 @@ class LLMS_Shortcodes {
 				$lesson = new LLMS_Lesson( get_the_ID() );
 				$course_id = $lesson->get_parent_course();
 			} else {
-				return _e( 'Course progress can only be displayed on course or lesson posts!' );
+				return _e( 'Course outline can only be displayed on course or lesson posts!' );
 			}
 			
 		}

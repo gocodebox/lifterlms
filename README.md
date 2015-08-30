@@ -24,6 +24,11 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.2 - 2015/08/30
+-------------------
++ Hotfix: resolves issues with sidebar shortcodes
++ Updates: Text clarifications
+
 v1.3.1 - 2015/08/28
 -------------------
 + Hotfix: resolves issue with ajax url
