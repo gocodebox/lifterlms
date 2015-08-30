@@ -29,7 +29,7 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	 * @return echo
 	 */
 	public function widget_contents() {
-		echo do_shortcode('[lifterlms_course_progess]');
+		echo do_shortcode('[lifterlms_course_progress]');
 	}
 
 }
