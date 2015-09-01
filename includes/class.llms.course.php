@@ -331,6 +331,21 @@ class LLMS_Course {
 		}
 	}
 
+	/**
+	 * Get course prerequisite
+	 * @return mixed [Returns prerequisite course id or false if none exists]
+	 */
+	public function get_prerequisite_track() {
+
+		if ( !empty($this->has_prerequisite) ) {
+
+			return $this->prerequisite_track;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public function get_enrolled_students() {
 		$enrolled_students = array();
     	$users_not_enrolled = array();

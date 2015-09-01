@@ -763,12 +763,130 @@ class LLMS_Frontend_Forms {
 				}
 				break;
 			case 'prerequisite' :
+				if ($post->post_type == 'course')
+				{
+					// Handle course prerequisite
+					$prerequisite = LLMS_Post_Handler::get_prerequisite($post_id); //llms_get_prerequisite(get_current_user_id(), $post_id);
+					$link = get_permalink( $prerequisite );
 
-				$prerequisite = LLMS_Post_Handler::get_prerequisite($post_id); //llms_get_prerequisite(get_current_user_id(), $post_id);
-				$link = get_permalink( $prerequisite );
+					if ($prerequisite != '')
+					{
+						llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ),
+							$link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
+					}					
 
-				llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ),
-					$link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
+					// Handle Track prerequisite
+					$course = new LLMS_Course($post_id);
+					if ($prerequisite_id = $course->get_prerequisite_track())
+					{
+						$args = array(
+							'posts_per_page' 	=> 1000,
+							'post_type' 		=> 'course',
+							'nopaging' 			=> true,
+							'post_status' 		=> 'publish',
+							'orderby'          	=> 'post_title',
+							'order'            	=> 'ASC',
+							'suppress_filters' 	=> true,
+							'tax_query' => array(
+								array(
+									'taxonomy' 	=> 'course_track',
+									'field'		=> 'term_id',
+									'terms'		=> $prerequisite_id,
+								)
+							) 
+						);
+						$term = get_term( $prerequisite_id, 'course_track' );
+						$prerequisites = get_posts( $args );
+						llms_add_notice( sprintf( __( 'You must complete the following course track before accessing this content: <strong>%s</strong>', 'lifterlms' ),
+							$term->name ) );
+						llms_add_notice( sprintf( __( 'Courses remaining:', 'lifterlms' )));
+						foreach ($prerequisites as $prerequisite) 
+						{							
+							$user = new LLMS_Person;
+							$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $prerequisite->ID );
+
+							if ( isset($user_postmetas) ) 
+							{						
+								foreach( $user_postmetas as $key => $value ) 
+								{									
+									if ( !isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $prerequisite_id) {
+										$link = get_permalink( $prerequisite->ID );
+										llms_add_notice( sprintf( __( '<strong><a href="%s" alt="%s">%s</strong></a>', 'lifterlms' ),
+											$link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
+									}
+								}
+							}
+							else
+							{
+								$link = get_permalink( $prerequisite->ID );
+								llms_add_notice( sprintf( __( '<strong><a href="%s" alt="%s">%s</strong></a>', 'lifterlms' ),
+									$link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
+							}
+						}
+					}						
+				}
+				else
+				{
+					$current_post = new LLMS_Lesson($post->ID);
+					$parent_course_id = $current_post->get_parent_course();
+					$course = new LLMS_Course($parent_course_id);
+					$prerequisite = LLMS_Post_Handler::get_prerequisite($parent_course_id); //llms_get_prerequisite(get_current_user_id(), $post_id);
+					if ($prerequisite)
+					{
+						$link = get_permalink( $prerequisite );
+
+						llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ),
+							$link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
+					}					
+					
+					if ($prerequisite_id = $course->get_prerequisite_track())
+					{
+						$args = array(
+							'posts_per_page' 	=> 1000,
+							'post_type' 		=> 'course',
+							'nopaging' 			=> true,
+							'post_status' 		=> 'publish',
+							'orderby'          	=> 'post_title',
+							'order'            	=> 'ASC',
+							'suppress_filters' 	=> true,
+							'tax_query' => array(
+								array(
+									'taxonomy' 	=> 'course_track',
+									'field'		=> 'term_id',
+									'terms'		=> $prerequisite_id,
+								)
+							) 
+						);
+						$term = get_term( $prerequisite_id, 'course_track' );
+						$prerequisites = get_posts( $args );
+						llms_add_notice( sprintf( __( 'You must complete the following course track before accessing this content: <strong>%s</strong>', 'lifterlms' ),
+							$term->name ) );
+						llms_add_notice( sprintf( __( 'Courses remaining:', 'lifterlms' )));
+						foreach ($prerequisites as $prerequisite) 
+						{							
+							$user = new LLMS_Person;
+							$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $prerequisite->ID );
+
+							if ( isset($user_postmetas) ) 
+							{						
+								foreach( $user_postmetas as $key => $value ) 
+								{									
+									if ( !isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $prerequisite_id) {
+										$link = get_permalink( $prerequisite->ID );
+										llms_add_notice( sprintf( __( '<strong><a href="%s" alt="%s">%s</strong></a>', 'lifterlms' ),
+											$link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
+									}
+								}
+							}
+							else
+							{
+								$link = get_permalink( $prerequisite->ID );
+								llms_add_notice( sprintf( __( '<strong><a href="%s" alt="%s">%s</strong></a>', 'lifterlms' ),
+									$link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
+							}							
+						}
+					}
+				}				
 				break;
 			case 'lesson_start_date' :
 				$start_date = llms_get_lesson_start_date(get_current_user_id(), $post_id);

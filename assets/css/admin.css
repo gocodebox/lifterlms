@@ -1132,6 +1132,10 @@ ul.chosen-results li {
   border: 0;
 }
 
+.tab-content .no-border {
+  border-bottom: 0px;
+}
+
 /******************************************************************
 
 Styles for topModal modal
