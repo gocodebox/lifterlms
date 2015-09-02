@@ -220,7 +220,6 @@ class LLMS_Admin_Meta_Boxes {
 	*/
 	public function save_meta_boxes( $post_id, $post ) {
 		if ( LLMS_Admin_Meta_Boxes::validate_post( $post_id, $post ) ) {
-
 			if ( LLMS_Admin_Meta_Boxes::is_llms_post_type( $post ) ) {
 				do_action( 'lifterlms_process_' . $post->post_type . '_meta', $post_id, $post );
 				do_action( 'lifterlms_process_membership_access', $post_id, $post );

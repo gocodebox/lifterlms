@@ -391,14 +391,14 @@ function outstanding_prerequisite_exists($user_id, $post_id) {
 function find_prerequisite( $user_id, $post ) {
 	$user = new LLMS_Person;
 
-	$lesson = new LLMS_Lesson($post->id);
-	$p = $lesson->get_prerequisite();
+	$course = new LLMS_Course($post->id);
+	$p = $course->get_prerequisite();
 
 	$prerequisite_exists = false;
+	$initialPrereq = false;
 
-	if ($prerequisite_id = $lesson->get_prerequisite()) {
-
-
+	if ($prerequisite_id = $course->get_prerequisite()) 
+	{
 		$prerequisite_exists = true;
 
 		$prerequisite = get_post( $prerequisite_id );
@@ -413,9 +413,51 @@ function find_prerequisite( $user_id, $post ) {
 				}
 			}
 		}
+		$initialPrereq = $prerequisite_exists;
+	}
+	if ($prerequisite_id = $course->get_prerequisite_track())
+	{
+		$prerequisite_exists = true;
+
+		$args = array(
+			'posts_per_page' 	=> 1000,
+			'post_type' 		=> 'course',
+			'nopaging' 			=> true,
+			'post_status' 		=> 'publish',
+			'orderby'          	=> 'post_title',
+			'order'            	=> 'ASC',
+			'suppress_filters' 	=> true,
+			'tax_query' => array(
+				array(
+					'taxonomy' 	=> 'course_track',
+					'field'		=> 'term_id',
+					'terms'		=> $prerequisite_id,
+				)
+			) 
+		);
+		$prerequisites = get_posts( $args );
+		$prerequisite_exists = false;
+		foreach ($prerequisites as $prerequisite) 
+		{
+			$user_postmetas = $user->get_user_postmeta_data( $user_id, $prerequisite->ID );
+
+			if ( isset($user_postmetas) ) {
+		
+				foreach( $user_postmetas as $key => $value ) {
+					
+					if ( !isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $prerequisite->ID) {
+						$prerequisite_exists = true;
+					}
+				}
+			}
+			else
+			{
+				$prerequisite_exists = true;
+			}
+		}			
 	}
 
-	return $prerequisite_exists;
+	return ($initialPrereq || $prerequisite_exists);
 
 }
 

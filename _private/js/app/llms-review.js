@@ -18,13 +18,36 @@ LLMS.Review = {
 	 */
 	bind: function()
 	{
-		parent = this;
 		$('#llms_review_submit_button').click(function()
 		{
 			if ($('#review_title').val() !== '' && $('#review_text').val() !== '')
 			{
-				parent.SubmitReview();
-			} else {
+				jQuery.ajax({
+		            type : 'post',
+		            dataType : 'json',
+		            url : window.llms.ajaxurl,
+		            data : {
+		            	action : 'LLMSSubmitReview',
+		                review_title: $('#review_title').val(),
+		                review_text: $('#review_text').val(),
+		                pageID : $('#post_ID').val()
+		            },
+		            success: function()
+		            {
+		                console.log('Review success');
+		                $('#review_box').hide('swing');
+		                $('#thank_you_box').show('swing');
+		            },
+		            error: function(jqXHR, textStatus, errorThrown )
+		            {
+		                console.log(jqXHR);
+		                console.log(textStatus);
+		                console.log(errorThrown);
+		            },
+		        });
+			} 
+			else 
+			{
 				if ($('#review_title').val() === '')
 				{
 					$('#review_title_error').show('swing');
@@ -57,37 +80,5 @@ LLMS.Review = {
 		});
 
 		console.log('Review Methods Bound');
-	},
-
-	/**
-	 * This function submits the review behind
-	 * the scenes so that the page is not required
-	 * to reload during submission
-	 */
-	SubmitReview: function()
-	{
-		jQuery.ajax({
-            type : 'post',
-            dataType : 'json',
-            url : window.llms.ajaxurl,
-            data : {
-            	action : 'LLMSSubmitReview',
-                review_title: $('#review_title').val(),
-                review_text: $('#review_text').val(),
-                pageID : $('#post_ID').val()
-            },
-            success: function()
-            {
-                console.log('Review success');
-                $('#review_box').hide('swing');
-                $('#thank_you_box').show('swing');
-            },
-            error: function(jqXHR, textStatus, errorThrown )
-            {
-                console.log(jqXHR);
-                console.log(textStatus);
-                console.log(errorThrown);
-            },
-        });
-	}
+	},	
 };

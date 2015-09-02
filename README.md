@@ -24,6 +24,14 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.3 - 2015/09/01
+-------------------
++ Updates: Removes depricated plugin updater
++ Updates: Adds Course Track prerequisite
++ Updates: Various text fixes
++ BugFixes: Fixes lesson name on prerequisite notification
++ BugFixes: Fixes critical error with WordPress customizer
+
 v1.3.2 - 2015/08/30
 -------------------
 + Hotfix: resolves issues with sidebar shortcodes

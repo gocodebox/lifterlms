@@ -129,7 +129,6 @@ LLMS.MB_Course_Outline = {
 			}
 		});
 
-		console.log('wow it did work!!!');
 	    $('#llms-outline-add').click(function(e) {
 			e.preventDefault();
 			console.log('button clicked');
