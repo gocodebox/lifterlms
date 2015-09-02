@@ -18,9 +18,9 @@ LLMS.Review = {
 	 */
 	bind: function()
 	{
-		parent = this;
 		$('#llms_review_submit_button').click(function()
 		{
+			parent = this;
 			if ($('#review_title').val() !== '' && $('#review_text').val() !== '')
 			{
 				parent.SubmitReview();
