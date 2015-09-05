@@ -24,6 +24,11 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.4 - 2015/09/04
+-------------------
++ BugFixes: Fixes bug with featured image on course page
++ BugFixes: Fixes issue with lesson completed percentage on analytics page
+
 v1.3.3 - 2015/09/01
 -------------------
 + Updates: Removes depricated plugin updater
