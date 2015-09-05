@@ -321,7 +321,7 @@ class LLMS_Admin_Analytics {
 				$search->lessons = array();
 				foreach ( $lesson_ids as $id ) {
 
-					array_push( $search->lessons, get_post( $id['lesson_id'] ) );
+					array_push( $search->lessons, get_post($id));
 
 				}
 				//$search->test_student_progress = $course_obj->get_student_progress( '147' );
