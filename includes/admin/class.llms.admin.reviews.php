@@ -106,7 +106,7 @@ class LLMS_Admin_Reviews
 			array(
 					'type'		=> 'checkbox',
 					'label'		=> 'Enable Reviews',
-					'desc' 		=> 'Select to enable reivews.',
+					'desc' 		=> 'Select to enable reviews.',
 					'id' 		=> self::$prefix . 'llms_reviews_enabled',
 					'class' 	=> '',
 					'value' 	=> '1',
@@ -116,7 +116,7 @@ class LLMS_Admin_Reviews
 			array(
 					'type'		=> 'checkbox',
 					'label'		=> 'Display Reviews',
-					'desc' 		=> 'Select to display reivews on the page.',
+					'desc' 		=> 'Select to display reviews on the page.',
 					'id' 		=> self::$prefix . 'llms_display_reviews',
 					'class' 	=> 'llms-num-reviews-top',
 					'value' 	=> '1',
