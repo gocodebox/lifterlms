@@ -46,8 +46,16 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					'key' 	=> $c_post->ID,
 					'title' => $c_post->post_title
 				);
-			}
-			
+			}			
+		}
+
+		$course_tracks_options = get_terms('course_track', 'hide_empty=0');
+		$course_tracks = array();
+		foreach( (array)$course_tracks_options as $term ) {
+			$course_tracks[] = array(
+				'key' 	=> $term->term_id,
+				'title' => $term->name
+			);
 		}
 
 		//setup course difficulty select options
@@ -192,7 +200,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					array(
 						'type'		=> 'checkbox',
 						'label'		=> 'Enable Prerequisite',
-						'desc' 		=> 'Enable to choose a prerequisite Course',
+						'desc' 		=> 'Enable to choose a prerequisite course or course track',
 						'id' 		=> self::$prefix . 'has_prerequisite',
 						'class' 	=> '',
 						'value' 	=> '1',
@@ -202,10 +210,20 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					array(
 						'type'		=> 'select',
 						'label'		=> 'Choose Prerequisite',
-						'desc' 		=> 'Select the prerequisite course',
+						'desc' 		=> 'Select a prerequisite course',
 						'id' 		=> self::$prefix . 'prerequisite',
 						'class' 	=> 'llms-chosen-select',
 						'value' 	=> $course_options,
+						'desc_class'=> 'd-all',
+						'group' 	=> 'bottom llms-prereq-bottom no-border',
+					),
+					array(
+						'type'		=> 'select',
+						'label'		=> 'Choose Prerequisite',
+						'desc' 		=> 'Select the prerequisite course track',
+						'id' 		=> self::$prefix . 'prerequisite_track',
+						'class' 	=> 'llms-chosen-select',
+						'value' 	=> $course_tracks,
 						'desc_class'=> 'd-all',
 						'group' 	=> 'bottom llms-prereq-bottom',
 					),

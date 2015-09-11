@@ -331,6 +331,21 @@ class LLMS_Course {
 		}
 	}
 
+	/**
+	 * Get course prerequisite
+	 * @return mixed [Returns prerequisite course id or false if none exists]
+	 */
+	public function get_prerequisite_track() {
+
+		if ( !empty($this->has_prerequisite) ) {
+
+			return $this->prerequisite_track;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public function get_enrolled_students() {
 		$enrolled_students = array();
     	$users_not_enrolled = array();
@@ -388,26 +403,36 @@ class LLMS_Course {
 	 * @return array $array [array of all lesson ids in a course]
 	 */
 	public function get_lesson_ids() {
-		$array  = array ();
-		$syllabus = $this->get_syllabus();
+		$lessons = array();
 
-		if($syllabus) {
+		$args = array(
+			'post_type' 		=> 'section',
+			'posts_per_page'	=> 500,
+			'meta_key'			=> '_llms_order',
+			'order'				=> 'ASC',
+			'orderby'			=> 'meta_value_num',
+			'meta_query' 		=> array(
+				array(
+					'key' 		=> '_parent_course',
+	      			'value' 	=> $this->id,
+	      			'compare' 	=> '='
+      			)
+		  	),
+		);
+		 
+		$sections = get_posts( $args );
 
-			foreach($syllabus as $key => $value ) :
-
-				if($syllabus[$key]['lessons']) {
-
-					foreach ($syllabus[$key]['lessons'] as $keys) :
-
-						array_push($array, $keys);
-
-					endforeach;
-				}
-			endforeach;
+		foreach ($sections as $s) 
+		{
+			$section = new LLMS_Section($s->ID);
+			$lessonset = $section->get_children_lessons();
+			foreach ($lessonset as $lessonojb) 
+			{
+				$lessons[] = $lessonojb->ID;
+			}
 		}
 
-		return $array;
-
+		return $lessons;
 	}
 
 	/**

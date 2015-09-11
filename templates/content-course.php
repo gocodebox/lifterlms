@@ -45,7 +45,7 @@ if ( 0 == $lifterlms_loop['loop'] % $lifterlms_loop['columns'] )
 	<a class="llms-course-link" href="<?php the_permalink(); ?>">
 
 		<?php
-
+		
 			do_action( 'lifterlms_before_shop_loop_item_title' );
 
 		?>

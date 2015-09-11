@@ -97,6 +97,12 @@ class LLMS_Meta_Box_General {
 			$prerequisite = ( llms_clean( $_POST['_prerequisite']  ) );
 			update_post_meta( $post_id, '_prerequisite', ( $prerequisite  === '' ) ? '' : $prerequisite );
 		}
+		if ( isset( $_POST['_prerequisite_track'] ) ) {
+
+			//update prerequisite select
+			$prerequisite_track = ( llms_clean( $_POST['_prerequisite_track']  ) );
+			update_post_meta( $post_id, '_prerequisite_track', ( $prerequisite_track  === '' ) ? '' : $prerequisite_track );
+		}
 			
 		
 	}

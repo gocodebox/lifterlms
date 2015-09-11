@@ -24,6 +24,28 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.4 - 2015/09/04
+-------------------
++ BugFixes: Fixes bug with featured image on course page
++ BugFixes: Fixes issue with lesson completed percentage on analytics page
+
+v1.3.3 - 2015/09/01
+-------------------
++ Updates: Removes depricated plugin updater
++ Updates: Adds Course Track prerequisite
++ Updates: Various text fixes
++ BugFixes: Fixes lesson name on prerequisite notification
++ BugFixes: Fixes critical error with WordPress customizer
+
+v1.3.2 - 2015/08/30
+-------------------
++ Hotfix: resolves issues with sidebar shortcodes
++ Updates: Text clarifications
+
+v1.3.1 - 2015/08/28
+-------------------
++ Hotfix: resolves issue with ajax url
+
 v1.3.0 - 2015/08/28
 -------------------
 + Improved popopver behavior in course creation.

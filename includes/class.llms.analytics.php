@@ -597,8 +597,8 @@ class LLMS_Analytics {
 
 		if ( ! empty( $search->lessons ) ) {
 			//loop through each lesson
-			foreach ( $search->lessons as $lesson ) {
-
+			foreach ( $search->lessons as $lesson ) 
+			{				
 				//create array and add post title
 				$lesson_array = array( $lesson->post_title );
 
