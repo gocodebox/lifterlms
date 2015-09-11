@@ -24,7 +24,7 @@ LIFTER LMS
 
 CHANGELOG
 =========
-v1.3.5
+v1.3.5 - 2015/09/11
 -------------------
 + Revisions: Fixes typos
 + Updates: Adds sidebar functionality to various themes
