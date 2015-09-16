@@ -2,8 +2,6 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if ( ! class_exists( 'LLMS_Email_Person_New' ) ) :
-
 class LLMS_Email_Person_New extends LLMS_Email {
 
 	var $user_login;
@@ -112,7 +110,5 @@ class LLMS_Email_Person_New extends LLMS_Email {
 	}
 
 }
-
-endif;
 
 return new LLMS_Email_Person_New();

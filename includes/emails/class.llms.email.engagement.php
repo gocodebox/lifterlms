@@ -2,8 +2,6 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'LLMS_Email_Engagement' ) ) :
-
 /**
 * Engagement Email Class
 * Child Class. Extends from LLMS_Email.
@@ -110,7 +108,5 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	}
 
 }
-
-endif;
 
 return new LLMS_Email_Engagement();

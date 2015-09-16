@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Admin_Post_Types' ) ) :
 
 /**
 * Admin Post Types Class
@@ -369,7 +368,5 @@ class LLMS_Admin_Post_Types {
 	}
 
 }
-
-endif;
 
 return new LLMS_Admin_Post_Types();

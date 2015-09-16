@@ -20,8 +20,6 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'LifterLMS') ) :
-
 require 'vendor/autoload.php';
 
 /**
@@ -159,7 +157,7 @@ final class LifterLMS {
 	 */
 	private function includes() {
 
-		require ( 'plugin-updates/plugin-update-checker.php');
+		require_once( 'plugin-updates/plugin-update-checker.php');
 		
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
@@ -217,7 +215,9 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.widgets.php' );
 		include_once( 'includes/class.llms.widget.php' );
 
-		$this->query = include( 'includes/class.llms.query.php' );
+		include_once( 'includes/class.llms.query.php' );
+
+		$this->query = new LLMS_Query();
 
 		$this->course_factory = new LLMS_Course_Factory();
 
@@ -427,8 +427,6 @@ final class LifterLMS {
 	}
 
 }
-
-endif;
 
 /**
  * Returns the main instance of LLMS

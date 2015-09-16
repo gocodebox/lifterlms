@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Reviews' ) ) :
 
 /**
  * This class handles the front end of the reviews. It is responsible
@@ -159,6 +158,5 @@ class LLMS_Reviews
 		$result = wp_insert_post($post, true);
 	}
 }
-endif;
 
 return new LLMS_Reviews;

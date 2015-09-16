@@ -7,7 +7,7 @@
  * Released under the MIT license. See license.txt for details.
  */
 
-if ( !class_exists('PluginUpdateChecker_2_2', false) ):
+//if ( !class_exists('PluginUpdateChecker_2_2', false) ):
 
 /**
  * A custom plugin update checker. 
@@ -885,7 +885,7 @@ class PluginUpdateChecker_2_2 {
 	}
 }
 
-endif;
+
 
 if ( !class_exists('PluginInfo_2_2', false) ):
 

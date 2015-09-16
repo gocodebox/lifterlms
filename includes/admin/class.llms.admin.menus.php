@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Admin_Menus' ) ) :
 
 /**
 * Admin Assets Class
@@ -149,7 +148,5 @@ class LLMS_Admin_Menus {
 		LLMS_Admin_Students::output();
 	}
 }
-
-endif;
 
 return new LLMS_Admin_Menus();

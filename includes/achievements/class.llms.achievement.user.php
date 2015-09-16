@@ -2,8 +2,6 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if ( ! class_exists( 'LLMS_Achievement_User' ) ) :
-
 /**
 * User Achievemnet class, inherits methods from LLMS_Achievment
 *
@@ -123,7 +121,5 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	}
 
 }
-
-endif;
 
 return new LLMS_Achievement_User();

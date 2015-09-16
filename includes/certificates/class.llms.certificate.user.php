@@ -1,8 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'LLMS_Certificate_User' ) ) :
-
 /**
 * Certificate Class
 * Child Class. Extends from LLMS_Certificate.
@@ -119,7 +117,5 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	}
 
 }
-
-endif;
 
 return new LLMS_Certificate_User();

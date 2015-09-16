@@ -2,8 +2,6 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'LLMS_Email_Person_New' ) ) :
-
 /**
 * New Registration Email Class
 * Custom email class to send Welcome email to new users
@@ -111,7 +109,5 @@ class LLMS_Email_Person_New extends LLMS_Email {
 	}
 
 }
-
-endif;
 
 return new LLMS_Email_Person_New();
