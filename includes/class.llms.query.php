@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Query' ) ) :
 
 /**
 * Query base class. 
@@ -120,7 +119,5 @@ class LLMS_Query {
 	}
 
 }
-
-endif;
 
 return new LLMS_Query();

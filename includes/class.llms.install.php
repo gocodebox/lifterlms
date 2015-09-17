@@ -7,7 +7,6 @@
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Install' ) ) :
 
 /**
  * LLMS_Install Class
@@ -467,7 +466,5 @@ class LLMS_Install {
 	}
 
 }
-
-endif;
 
 return new LLMS_Install();

@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Admin_Students' ) ) :
+
 
 /**
 * Admin students Class
@@ -185,5 +185,3 @@ class LLMS_Admin_Students {
 	}
 
 }
-
-endif;

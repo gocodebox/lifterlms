@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Settings_Integrations' ) ) :
 
 /**
 * Admin Settings Page, Integrations Tab
@@ -78,7 +77,5 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 	}
 
 }
-
-endif;
 
 return new LLMS_Settings_Integrations();

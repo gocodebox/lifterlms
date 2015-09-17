@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Admin' ) ) :
 
 /**
 * Admin Class
@@ -48,7 +47,5 @@ class LLMS_Admin {
 	}
 
 }
-
-endif;
 
 return new LLMS_Admin();
