@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Analytics_Dashboard' ) ) :
 
 /**
 * Admin analytics Page, Dashboard Tab
@@ -98,7 +97,5 @@ class LLMS_Analytics_Dashboard extends LLMS_Analytics_Page {
 	}
 
 }
-
-endif;
 
 return new LLMS_Analytics_Dashboard();

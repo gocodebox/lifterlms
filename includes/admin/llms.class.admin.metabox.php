@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Admin_Metabox' ) ) :
 
 // include all classes for each of the metabox types
 foreach (glob(LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/*.php') as $filename)
@@ -77,5 +76,3 @@ abstract class LLMS_Admin_Metabox {
 		<?php echo ob_get_clean();
 	}		
 }
-
-endif;

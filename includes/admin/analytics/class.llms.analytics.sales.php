@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Analytics_Sales' ) ) :
 
 /**
 * Admin analytics Page, sales Tab
@@ -294,7 +293,5 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 	}
 
 }
-
-endif;
 
 return new LLMS_Analytics_Sales();

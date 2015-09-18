@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Settings_General' ) ) :
 
 /**
 * Admin Settings Page, General Tab
@@ -253,7 +252,5 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	}
 
 }
-
-endif;
 
 return new LLMS_Settings_General();

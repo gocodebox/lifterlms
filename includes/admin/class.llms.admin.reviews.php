@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Admin_Reviews' ) ) :
 
 /**
  * This class handles the admin side of the reviews.
@@ -191,5 +190,5 @@ class LLMS_Admin_Reviews
 		}		
 	}
 }
-endif;
+
 return new LLMS_Admin_Reviews;

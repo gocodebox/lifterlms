@@ -2,8 +2,6 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( ! class_exists( 'LLMS_Email_Reset_Password' ) ) :
-
 /**
 * Reset Password Email Class
 * Custom email class to send email reset link to users email
@@ -105,7 +103,5 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 		return ob_get_clean();
 	}
 }
-
-endif;
 
 return new LLMS_Email_Reset_Password();

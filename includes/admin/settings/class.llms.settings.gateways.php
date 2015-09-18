@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Settings_Gateways' ) ) :
 
 /**
 * Admin Settings Page, Gateways Tab
@@ -115,7 +114,5 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 	}
 
 }
-
-endif;
 
 return new LLMS_Settings_Gateways();

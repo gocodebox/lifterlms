@@ -1,6 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! class_exists( 'LLMS_Settings_Membership' ) ) :
 
 /**
 * Admin Settings Page, Membership Tab
@@ -96,7 +95,5 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 	}
 
 }
-
-endif;
 
 return new LLMS_Settings_Membership();

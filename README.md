@@ -24,6 +24,14 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.6 - 2015/09/18
+-------------------
++ BugFixes: Fixes pesky Zend Error that plagued some unfortunate victims
++ BugFixes: Students can now be properly deleted from the course
++ BugFixes: Fixes random class redeclaration error messages
++ Updates: Adds new filter 'lifterlms_quiz_passed' to customize 'Passed' text after quiz
++ Updates: Adds new filter 'lifterlms_quiz_failed' to customize 'Failed' text after quiz
+
 v1.3.5 - 2015/09/11
 -------------------
 + Revisions: Fixes typos

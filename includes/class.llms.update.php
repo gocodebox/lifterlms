@@ -1,10 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-
-
-if ( ! class_exists( 'LLMS_Update' ) ) :
-
 /**
 * Update base class. 
 *
@@ -51,7 +47,5 @@ class LLMS_Update {
 	}
 
 }
-
-endif;
 
 return new LLMS_Update();
