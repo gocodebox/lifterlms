@@ -24,6 +24,10 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.7
+-------------------
++ Updates: Adds Spanish translation
+
 v1.3.6 - 2015/09/18
 -------------------
 + BugFixes: Fixes pesky Zend Error that plagued some unfortunate victims
