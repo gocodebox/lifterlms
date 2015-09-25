@@ -337,6 +337,7 @@ class LLMS_Install {
 		) );
 		$new_user_email_id = wp_insert_post( $new_user_email, true );
 		update_post_meta($new_user_email_id,'_event_id', 'email_new_user');
+		update_post_meta($new_user_email_id,'_email_subject', 'Welcome to {site_title}');
 	}
 
 	/**
