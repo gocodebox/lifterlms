@@ -24,6 +24,22 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.7 - 2015/09/25
+-------------------
++ Updates: Adds Spanish translation
++ Updates: Adds new filter 'lifterlms_single_payment_text' to customize single payment string on checkout
++ Updates: Student analytics now indicate which courses a student has completed
++ BugFixes: Resolved security issue with WordPress searches and lessons
++ BugFixes: Fixes analytics bug that potentially arises after a course is deleted
+
+v1.3.6 - 2015/09/18
+-------------------
++ BugFixes: Fixes pesky Zend Error that plagued some unfortunate victims
++ BugFixes: Students can now be properly deleted from the course
++ BugFixes: Fixes random class redeclaration error messages
++ Updates: Adds new filter 'lifterlms_quiz_passed' to customize 'Passed' text after quiz
++ Updates: Adds new filter 'lifterlms_quiz_failed' to customize 'Failed' text after quiz
+
 v1.3.5 - 2015/09/11
 -------------------
 + Revisions: Fixes typos

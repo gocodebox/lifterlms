@@ -72,10 +72,10 @@ if ( $quiz_data ) {
 						<h5 class="llms-content-block">
 							<?php 
 							if ( $is_passing_score ) {
-								_e('Passed', 'lifterlms');
+								_e(apply_filters('lifterlms_quiz_passed','Passed'), 'lifterlms');
 							}
 							else {
-								_e('Failed', 'lifterlms');
+								_e(apply_filters('lifterlms_quiz_failed','Failed'), 'lifterlms');
 							}
 							?>
 						</h5>
@@ -99,10 +99,10 @@ if ( $quiz_data ) {
 						<h5>
 							<?php 
 							if ( $is_passing_score ) {
-								_e('Passed', 'lifterlms');
+								_e(apply_filters('lifterlms_quiz_passed','Passed'), 'lifterlms');
 							}
 							else {
-								_e('Failed', 'lifterlms');
+								_e(apply_filters('lifterlms_quiz_failed','Failed'), 'lifterlms');
 							}
 							?>
 						</h5>

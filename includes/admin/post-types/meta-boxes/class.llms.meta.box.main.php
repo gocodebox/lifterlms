@@ -416,7 +416,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'type'		=> 'select',
 						'label'		=> 'Remove Student',
 						'desc' 		=> 'Remove a user from the course.',
-						'id' 		=> self::$prefix . 'add_student_submit',
+						'id' 		=> self::$prefix . 'remove_student',
 						'class' 	=> 'llms-chosen-select',
 						'value' 	=> $enrolled_student_options,
 						'desc_class'=> 'd-all',

@@ -844,9 +844,16 @@ class LLMS_Analytics {
 
 				$post = get_post( $value->post_id );
 
-				$results[$key]->post_title =  $post->post_title;
-				$results[$key]->post_type =  $post->post_type;
-
+				if (isset($post))
+				{
+					$results[$key]->post_title =  $post->post_title;
+					$results[$key]->post_type =  $post->post_type;
+				}
+				else
+				{
+					$results[$key]->post_title =  '';
+					$results[$key]->post_type =  '';
+				}
 			}
 		}
 
@@ -872,9 +879,12 @@ class LLMS_Analytics {
 
 		$courses_array = array();
 
-		foreach ( $user->courses as $course ) {
-
-			$course_array = array( $course->post_title, LLMS_Date::db_date( $course->updated_date ), $course->meta_value );
+		foreach ( $user->courses as $course ) 
+		{
+			$c = new LLMS_Course($course->post_id);
+			$comp = $c->get_percent_complete($user->id);
+			$status = ($comp == '100') ? 'Completed' : 'Enrolled';
+			$course_array = array( $course->post_title, LLMS_Date::db_date( $course->updated_date ), $status );
 			array_push( $courses_array, $course_array);
 		}
 
