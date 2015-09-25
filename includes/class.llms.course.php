@@ -439,7 +439,12 @@ class LLMS_Course {
 	 * Get the current percent complete by user
 	 * @return int [numerical representation of % completion in course]
 	 */
-	public function get_percent_complete() {
+	public function get_percent_complete($user_id = '') {
+
+		if ($user_id == '')
+		{
+			$user_id = get_current_user_id();
+		}
 
 		$lesson_ids = $this->get_children_lessons();
 
@@ -453,7 +458,7 @@ class LLMS_Course {
 		}
 
 		foreach( $array as $key => $value ) {
-			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value );
+			$user_postmetas = $user->get_user_postmeta_data( $user_id, $value );
 			if ( isset($user_postmetas['_is_complete']) ) {
 				if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
 					$i++;
