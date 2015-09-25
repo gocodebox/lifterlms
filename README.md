@@ -27,6 +27,8 @@ CHANGELOG
 v1.3.7
 -------------------
 + Updates: Adds Spanish translation
++ BugFixes: Resolved security issue with WordPress searches and lessons
++ Updates: Adds new filter 'lifterlms_single_payment_text' to customize single payment string on checkout
 
 v1.3.6 - 2015/09/18
 -------------------

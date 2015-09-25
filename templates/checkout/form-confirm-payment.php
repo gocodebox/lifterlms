@@ -59,7 +59,7 @@ if( $subs ) {
 				}
 				elseif ($session->payment_option == 'single') {
 					echo '<label>Price:</label></strong> ';
-					echo sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() );
+					echo sprintf( __( apply_filters('lifterlms_single_payment_text','Single payment of %s'), 'lifterlms' ), $product_obj->get_price_html() );
 					echo '</strong>';
 
 				}

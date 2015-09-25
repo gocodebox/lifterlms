@@ -15,7 +15,7 @@ if ( ! $product ) {
 }
 
 $product_obj = new LLMS_Product($post->ID);
-$single_html_price = sprintf( __( 'Single payment of %s', 'lifterlms' ), $product_obj->get_price_html() );
+$single_html_price = sprintf( __( apply_filters('lifterlms_single_payment_text','Single payment of %s'), 'lifterlms' ), $product_obj->get_price_html() );
 //$recurring_html_price = $product_obj->get_recurring_price_html();
 $payment_options = $product_obj->get_payment_options();
 $single_payment_exists = false;
