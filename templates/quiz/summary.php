@@ -72,7 +72,9 @@ use LLMS\Users\User;
 							{ ?>
 							
 							<li>
-								<?php echo LLMS_Language::output('Your answer:' . $options[$question['answer']]['option_text']); ?>						
+								<span class="llms-quiz-summary-label user-answer">
+								<?php echo LLMS_Language::output('Your answer:' . $options[$question['answer']]['option_text']); ?>
+								</span>						
 							</li>
 
 							<?php } ?>
@@ -81,9 +83,9 @@ use LLMS\Users\User;
 							
 							if ($quiz->show_correct_answer()) 
 							{
-								echo '<li>';
+								echo '<li><span class="llms-quiz-summary-label correct-answer">';
 									echo 'Correct answer: ' . $correct_option['option_text'];
-								echo '</li>';
+								echo '</span></li>';
 							}
 
 							if ($question['correct']) 
@@ -92,9 +94,9 @@ use LLMS\Users\User;
 								{
 									if (array_key_exists('option_description', $options[$question['answer']]))
 									{ 
-										echo '<li>' .
+										echo '<li><span class="llms-quiz-summary-label clarification">' .
 											LLMS_Language::output('Clarification: ' . $options[$question['answer']]['option_description'])
-										. '</li>';
+										. '</span></li>';
 									}
 								}
 							} 
@@ -104,9 +106,9 @@ use LLMS\Users\User;
 								{
 									if (array_key_exists('option_description', $options[$question['answer']]))
 									{
-										echo '<li>' .
+										echo '<li><span class="llms-quiz-summary-label clarification">' .
 											LLMS_Language::output('Clarification: ' . $options[$question['answer']]['option_description'])
-										. '</li>';
+										. '</span></li>';
 									}
 								}
 							}
