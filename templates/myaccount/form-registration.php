@@ -13,7 +13,7 @@ global $wpdb;
 llms_print_notices();
 ?>
 
-<?php //if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) : ?>
+<?php if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) : ?>
 
 	<?php do_action( 'lifterlms_before_person_register_form' ); ?>
 
