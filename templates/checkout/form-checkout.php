@@ -52,7 +52,7 @@ if($coupon_session) {
 
 ?>
 
-<form action="" method="post">
+<form action="" method="post" id="llms-product-purchase-form">
 	<div class="llms-checkout-wrapper">
 		<div class="llms-checkout">
 		<?php echo  '<h4>' .__( 'Confirm Purchase', 'lifterlms' ) . '</h4>'; ?>
