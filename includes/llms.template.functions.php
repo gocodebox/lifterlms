@@ -47,11 +47,11 @@ function llms_get_post_content( $content ) {
 			$template_after  = llms_get_template_part_contents( 'content', 'single-course-after' );
 
 			ob_start();
-			load_template($template_before);
+			load_template($template_before, false);
 			$output_before = ob_get_clean();
 	
 			ob_start();
-			load_template($template_after);
+			load_template($template_after, false);
 			$output_after = ob_get_clean();
 
 			return do_shortcode($output_before . $content . $output_after);
@@ -68,11 +68,11 @@ function llms_get_post_content( $content ) {
 			}
 
 			ob_start();
-			load_template($template_before);
+			load_template($template_before, false);
 			$output_before = ob_get_clean();
 	
 			ob_start();
-			load_template($template_after);
+			load_template($template_after, false);
 			$output_after = ob_get_clean();
 
 			return do_shortcode($output_before . $content . $output_after);
@@ -90,11 +90,11 @@ function llms_get_post_content( $content ) {
 			$template_after  = llms_get_template_part_contents( 'content', 'single-membership-after' );
 
 			ob_start();
-			load_template($template_before);
+			load_template($template_before, false);
 			$output_before = ob_get_clean();
 	
 			ob_start();
-			load_template($template_after);
+			load_template($template_after, false);
 			$output_after = ob_get_clean();
 
 			return do_shortcode($output_before . $content . $output_after);
@@ -104,11 +104,11 @@ function llms_get_post_content( $content ) {
 			$template_after  = llms_get_template_part_contents( 'content', 'single-quiz-after' );
 
 			ob_start();
-			load_template($template_before);
+			load_template($template_before, false);
 			$output_before = ob_get_clean();
 	
 			ob_start();
-			load_template($template_after);
+			load_template($template_after, false);
 			$output_after = ob_get_clean();
 
 			return do_shortcode($output_before . $content . $output_after);
