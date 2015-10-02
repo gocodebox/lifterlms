@@ -114,8 +114,8 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		ob_start();
 		llms_get_template( $this->template_html, array(
 			'email_message' 	 => $content,
-			'title'				 => $this->title,
-			'image'				 => $this->image,
+			'title'			 => $this->format_string( $this->title ),
+			'image'			 => $this->image,
 		) );
 		return ob_get_clean();
 	}

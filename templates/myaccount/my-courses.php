@@ -15,7 +15,7 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 		if ( $course_item->meta_value == 'Enrolled' ) {
 			$course = new LLMS_Course_Basic( $course_item->post_id );
 	
-			if ( $course->post->post_type == 'course') {
+			if ( is_object( $course->post ) && $course->post->post_type == 'course') {
 				$course_progress = $course->get_percent_complete();
 				$author = get_userdata( $course->post->post_author );
 				$author_name = $author->first_name . ' ' . $author->last_name;
@@ -25,6 +25,7 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 				$date_formatted = date('M d, Y', strtotime($course_item->updated_date) );
 				$course_status = $course_item->meta_value;
 
+				$course_author = '';
 				if (get_option('lifterlms_course_display_author') == 'yes') {
 					$course_author = sprintf( __( '<p class="author">Author: <span>%s</span></p>' ), $author_name ); 
 				}
