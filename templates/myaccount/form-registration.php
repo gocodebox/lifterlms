@@ -151,4 +151,4 @@ llms_print_notices();
 
 	<?php do_action( 'lifterlms_after_person_register_form' ); ?>
 
-<?php //endif; ?>
+<?php endif; ?>
