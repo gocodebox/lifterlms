@@ -20,11 +20,6 @@
   background: #eaeaea;
 }
 
-*, *:after, *::before {
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 .llms-button {
   background: #e5554e;
   border-radius: 3px;
