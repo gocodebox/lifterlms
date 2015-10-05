@@ -30,6 +30,7 @@ v1.3.9
 + BugFixes: Fixes CSS issues with box-sizing takeover
 + Feature: New Settings Tile: Session Management. Found at LifterLMS->Settings->General.
 + Feature: Clear User Session Tool. You can now clear all LifterLMS user session data from your site in LifterLMS->Settings->General
++ Updates: Backend code cleanup
 
 v1.3.8 - 2015/10/02
 -------------------
