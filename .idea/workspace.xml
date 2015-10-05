@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aedc48c5-3ede-4cb5-9792-46613bc3cb52" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/class.llms.session.handler.php" afterPath="$PROJECT_DIR$/includes/class.llms.session.handler.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/admin/settings/class.llms.settings.general.php" afterPath="$PROJECT_DIR$/includes/admin/settings/class.llms.settings.general.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <ignored path="lifterlms.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,16 +24,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="class.llms.settings.general.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="class.llms.settings.general.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/includes/admin/settings/class.llms.settings.general.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5608696">
+            <state vertical-scroll-proportion="0.0">
               <caret line="237" column="359" selection-start-line="237" selection-start-column="359" selection-end-line="237" selection-end-column="359" />
               <folding>
                 <marker date="1444059642000" expanded="true" signature="2703:2899" placeholder="..." />
                 <marker date="1444059642000" expanded="true" signature="6480:7215" placeholder="..." />
                 <marker date="1444059642000" expanded="true" signature="6490:7203" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.38799077">
+              <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -75,6 +84,7 @@
       <list>
         <option value="$PROJECT_DIR$/includes/class.llms.session.handler.php" />
         <option value="$PROJECT_DIR$/includes/admin/settings/class.llms.settings.general.php" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -283,13 +293,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/includes/admin/settings/class.llms.settings.general.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5608696">
+        <state vertical-scroll-proportion="0.0">
           <caret line="237" column="359" selection-start-line="237" selection-start-column="359" selection-end-line="237" selection-end-column="359" />
           <folding>
             <marker date="1444059642000" expanded="true" signature="2703:2899" placeholder="..." />
             <marker date="1444059642000" expanded="true" signature="6480:7215" placeholder="..." />
             <marker date="1444059642000" expanded="true" signature="6490:7203" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38799077">
+          <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
+          <folding />
         </state>
       </provider>
     </entry>
