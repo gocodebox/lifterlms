@@ -255,4 +255,11 @@ class LLMS_Session_Handler extends LLMS_Session {
 	
 	}
 
+    public function delete_all_session_data()
+    {
+        global $wpdb;
+
+        $wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '_llms_session%'" );
+    }
+
 }

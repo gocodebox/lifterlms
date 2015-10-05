@@ -21,6 +21,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
+        add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'register_hooks' ) );
 		LLMS()->activate();
 	}
 
@@ -156,7 +157,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 				array( 'type' => 'sectionend', 'id' => 'welcome_options_activate' ),
 
-				) 
+				)
 			);
 
 		} else {
@@ -164,12 +165,12 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			return apply_filters( 'lifterlms_general_settings', array(
 
 				array( 'type' => 'sectionstart', 'id' => 'general_information', 'class' =>'top' ),
-			
-				array(	'title' => __( 'Welcome to LifterLMS', 
-					'lifterlms' ), 
-					'type' => 'title', 
+
+				array(	'title' => __( 'Welcome to LifterLMS',
+					'lifterlms' ),
+					'type' => 'title',
 					'desc' => '
-						
+
 					<div class="llms-list">
 					<ul>
 					<li><p>' . __( 'Thank you for choosing', 'lifterlms' ) . ' <a href="http://lifterlms.com">LifterLMS</a> ' . __( 'as your Learning Management Solution.', 'lifterlms' ) .' </p></li>
@@ -178,16 +179,16 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					<li><p>' . __( 'Blog:', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
 					<li><p>' . __( 'Tutorials:', 'lifterlms' ) . ' <a href="http://demo.lifterlms.com/">' . __( 'http://demo.lifterlms.com/' ) . '</a></p></li>
 					</ul>
-					</div>', 
+					</div>',
 					'id' => 'activation_options' ),
-					
+
 				array( 'type' => 'sectionend', 'id' => 'general_information' ),
 
 				array( 'type' => 'sectionstart', 'id' => 'activation' ),
 
-				array(	'title' => __( 'Plugin Activation', 'lifterlms' ), 'type' => 'title', 
+				array(	'title' => __( 'Plugin Activation', 'lifterlms' ), 'type' => 'title',
 					'desc' => __( 'Enter your activation key to recieve important updates and new features when they are available.
-						Need an activation key? <a href="http://lifterlms.com">Get one here</a>', 'lifterlms' ), 
+						Need an activation key? <a href="http://lifterlms.com">Get one here</a>', 'lifterlms' ),
 					'id' => 'activation_options' ),
 
 				array(
@@ -232,11 +233,40 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 				array( 'type' => 'sectionend', 'id' => 'general_options' ),
 
+                array( 'type' => 'sectionstart', 'id' => 'session_manager'),
 
-			 	) 
+                array(	'title' => __( 'Session Management', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help.', 'lifterlms' ), 'id' => 'session_manager' ),
+
+                array(
+                    'title' => '',
+                    'value' => __( 'Clear All User Session Data', 'lifterlms' ),
+                    'type' 		=> 'button',
+                ),
+
+                array( 'type' => 'sectionend', 'id' => 'session_manager' )
+
+
+			 	)
+
 			);
 		}
 
+	}
+
+	/**
+	 * register new hooks
+	 * @return void
+	 */
+	public function register_hooks() 
+	{
+
+		if ( isset($_POST['save']) && strtolower($_POST['save']) == 'clear all user session data')
+        {
+			$session_handler = new LLMS_Session_Handler();
+
+            $session_handler->delete_all_session_data();
+
+		}
 	}
 	
 	/**
