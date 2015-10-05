@@ -24,7 +24,7 @@ LIFTER LMS
 
 CHANGELOG
 =========
-v1.3.9 
+v1.3.9 - 2015/10/5
 -------------------
 + BugFixes: Removes conflict with Yoast SEO
 + BugFixes: Fixes CSS issues with box-sizing takeover
