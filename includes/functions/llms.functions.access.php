@@ -703,31 +703,27 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 	$enrolled = false;
 
 	$post = get_post( $product_id );
-	if (!$post->post_type == 'lesson' || !$post->post_type == 'course') 
+	if (!$post->post_type == 'lesson' || !$post->post_type == 'course')
 		return true;
-
-
-	if ( is_user_logged_in() ) {
 	
-		if ( !empty($user_id) && !empty( $product_id ) ) {
+	if ( !empty($user_id) && !empty( $product_id ) ) {
 
-			$user = new LLMS_Person;
+		$user = new LLMS_Person;
 
-			if ( $post->post_type == 'lesson' ) {
-				$lesson = new LLMS_Lesson($post->ID);
-				$product_id = $lesson->get_parent_course();
+		if ( $post->post_type == 'lesson' ) {
+			$lesson = new LLMS_Lesson($post->ID);
+			$product_id = $lesson->get_parent_course();
+		}
+
+		$user_postmetas = $user->get_user_postmeta_data( $user_id, $product_id );
+
+		if (isset($user_postmetas['_status'])) {
+			$course_status = $user_postmetas['_status']->meta_value;
+
+			if ( $course_status == 'Enrolled' ) {
+				$enrolled = true;
 			}
 
-			$user_postmetas = $user->get_user_postmeta_data( $user_id, $product_id );
-
-			if (isset($user_postmetas['_status'])) {
-				$course_status = $user_postmetas['_status']->meta_value;
-
-				if ( $course_status == 'Enrolled' ) {
-					$enrolled = true;
-				}
-
-			}
 		}
 	}
 
