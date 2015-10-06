@@ -209,7 +209,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					),
 					array(
 						'type'		=> 'select',
-						'label'		=> 'Choose Prerequisite',
+						'label'		=> 'Choose Prerequisite Course',
 						'desc' 		=> 'Select a prerequisite course',
 						'id' 		=> self::$prefix . 'prerequisite',
 						'class' 	=> 'llms-chosen-select',
@@ -219,7 +219,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					),
 					array(
 						'type'		=> 'select',
-						'label'		=> 'Choose Prerequisite',
+						'label'		=> 'Choose Prerequisite Course Track',
 						'desc' 		=> 'Select the prerequisite course track',
 						'id' 		=> self::$prefix . 'prerequisite_track',
 						'class' 	=> 'llms-chosen-select',
