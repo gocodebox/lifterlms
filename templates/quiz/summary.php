@@ -20,7 +20,7 @@ use LLMS\Users\User;
 
 	<div class = "accordion hidden">
 
-		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel-group collapsed" id="accordion" role="tablist" aria-multiselectable="true">
 
 		<?php
 
