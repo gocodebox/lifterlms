@@ -1399,3 +1399,24 @@ function llms_custom_archive_order( $vars ) {
   return $vars;
 }
 add_filter( 'request', 'llms_custom_archive_order');
+
+/**
+ * Shuffles an array while keeping the array indices
+ *
+ * @param array $array
+ *
+ * @return bool
+ */
+function llms_shuffle_assoc( &$array ) {
+	$keys = array_keys($array);
+
+	shuffle($keys);
+
+	foreach($keys as $key) {
+		$new[$key] = $array[$key];
+	}
+
+	$array = $new;
+
+	return true;
+}
