@@ -471,7 +471,7 @@
   margin: 15px 0;
 }
 
-.llms-progress .progress-bar {
+.llms-progress .llms-progress-bar {
   background-color: #f1f2f1;
   position: absolute;
   height: .4em;

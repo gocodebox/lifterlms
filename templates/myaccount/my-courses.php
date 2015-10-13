@@ -55,7 +55,7 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 
 						<div class="llms-progress">
 							<div class="progress__indicator"><?php printf( __( '%s%%', 'lifterlms' ), $course_progress ); ?></div>
-							<div class="progress-bar">
+							<div class="llms-progress-bar">
 							    <div class="progress-bar-complete" style="width:<?php echo $course_progress ?>%"></div>
 							</div>
 						</div>
