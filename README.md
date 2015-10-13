@@ -27,6 +27,7 @@ CHANGELOG
 v1.3.10
 -------------------
 + Updates: Clarifies some prerequisite text
++ BugFixes: Resolves fatal errors with a small subset of premium themes
 
 v1.3.9 - 2015/10/5
 -------------------
