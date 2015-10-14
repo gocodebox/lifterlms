@@ -24,6 +24,13 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.3.10 - 2015/10/15
+-------------------
++ Updates: Clarifies some prerequisite text
++ Updates: Quiz questions are now randomized!
++ Updates: Fixes small CSS issue
++ BugFixes: Resolves fatal errors with a small subset of premium themes
+
 v1.3.9 - 2015/10/5
 -------------------
 + BugFixes: Removes conflict with Yoast SEO
