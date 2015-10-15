@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $post, $course, $product;
 
-if ( ! $course ) {
+if ( ! $course  || !is_object($course) ) {
 
 	$course = new LLMS_Course( $post->ID );
 	
