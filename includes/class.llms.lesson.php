@@ -295,9 +295,12 @@ class LLMS_Lesson {
 			return $this->days_before_avalailable;
 		} else {
 			return 0;
-		}
+		}		
+	}
 
-		
+	public function get_is_free()
+	{
+		return $this->llms_free_lesson;
 	}
 
 	public function has_content() {

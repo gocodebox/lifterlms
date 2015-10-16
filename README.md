@@ -24,6 +24,13 @@ LIFTER LMS
 
 CHANGELOG
 =========
+v1.4.0
+-------------------
++ Feature: Free lessons - demo lessons that can be taken at any time by any user
++ Feature: Guest lessons - demo lessons that can be taken by a non-logged in user
++ Updates: Automatically registers appropriate sidebars for Genesis theme
++ Updates: Backend file cleanup
+
 v1.3.10 - 2015/10/15
 -------------------
 + Updates: Clarifies some prerequisite text

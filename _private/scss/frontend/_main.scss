@@ -275,6 +275,14 @@
 		@include absolute(top 15px left 15px);
 	}
 
+	.llms-free-lesson-svg {
+		@extend .llms-lesson-complete;
+		fill: currentColor;
+		width:50px;
+		height: 50px;
+		margin-top: -10px;
+	}
+
 	.llms-lesson-title {
 		padding-right: 60px;
 		margin: 0 0 .25em 0;
