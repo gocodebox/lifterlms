@@ -30,6 +30,7 @@ v1.4.0
 + Feature: Guest lessons - demo lessons that can be taken by a non-logged in user
 + Updates: Automatically registers appropriate sidebars for Genesis theme
 + Updates: Backend file cleanup
++ Updates: Text cleanup
 
 v1.3.10 - 2015/10/15
 -------------------
