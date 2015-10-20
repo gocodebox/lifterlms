@@ -31,6 +31,8 @@ v1.4.0
 + Updates: Automatically registers appropriate sidebars for Genesis theme
 + Updates: Backend file cleanup
 + Updates: Text cleanup
++ BugFixes: WordPress pages are now properly restricted by memberships
++ BugFixes: Fixes bug that caused order screen to act up if user was deleted
 
 v1.3.10 - 2015/10/15
 -------------------
