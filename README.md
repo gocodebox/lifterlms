@@ -28,6 +28,7 @@ v1.4.0
 -------------------
 + Feature: Free lessons - demo lessons that can be taken at any time by any user
 + Feature: Guest lessons - demo lessons that can be taken by a non-logged in user
++ Feature: Random quiz question - quiz questions can now be set to be in user set order or random order
 + Updates: Automatically registers appropriate sidebars for Genesis theme
 + Updates: Backend file cleanup
 + Updates: Text cleanup

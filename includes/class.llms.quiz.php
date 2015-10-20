@@ -763,4 +763,9 @@ class LLMS_Quiz {
 		return $last_attempt;
 	}
 
+	public function get_show_random_answers()
+	{
+		return $this->llms_random_answers;
+	}
+
 }

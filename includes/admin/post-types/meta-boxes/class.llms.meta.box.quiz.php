@@ -77,6 +77,17 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 					),
 					array(
 						'type'  	=> 'checkbox',
+						'label'  	=> 'Randomize Answers',
+						'desc'  	=> 'Select to randomize quiz answers',
+						'id'    	=> self::$prefix . 'llms_random_answers',
+						'section' 	=> 'quiz_meta_box',
+						'class' 	=> '',
+						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'group' 	=> '',
+						'value' 	=> '',
+					),
+					array(
+						'type'  	=> 'checkbox',
 						'label'  	=> 'Show Results',
 						'desc'  	=> 'Display Last Quiz Results to User',
 						'id'    	=> self::$prefix . 'llms_show_results',
