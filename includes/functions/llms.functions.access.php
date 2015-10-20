@@ -222,7 +222,7 @@ llms_log('is_topic_restricted called');
 	$restrict_access = false;
 	$membership_id = '';
 
-	if (is_single()) {
+	if (is_single() || is_page()) {
 
 		//are there membership restictions on page
 		$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );
