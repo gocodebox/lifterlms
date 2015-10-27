@@ -164,7 +164,8 @@
 				return false;
 			}
 
-			//get the type of product ( course / membership )
+			//get the type of product ( course / membership )Dange
+
 			$product_obj = get_post( $order->product_id );
 			if ( $product_obj->post_type === 'course' ) {
 				$order->product_type = 'course';
