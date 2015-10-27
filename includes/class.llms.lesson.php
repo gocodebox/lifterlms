@@ -213,30 +213,9 @@ class LLMS_Lesson {
 	 * 
 	 * @return int [ID of parent section]
 	 */
-	public function get_parent_section() {
-
+	public function get_parent_section() 
+	{
 		return $this->parent_section;
-		
-		// $course = new LLMS_Course( $this->parent_course );
-
-		// $sections = array();
-		
-		// if (is_object($course)) {
-		// 	$syllabus = $course->get_syllabus();
-		// 	foreach( $syllabus as $key => $value ) {
-		// 		$sections[$value['section_id']] = $value['lessons'];
-		// 		if($value['lessons']) {
-		// 			foreach($value['lessons'] as $keys => $values ) {
-		// 				if ($this->id == $values['lesson_id']) {
-		// 					$parent_section = $value['section_id'];
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
-
-		// return $parent_section;
-
 	}
 
 	/**
@@ -321,9 +300,7 @@ class LLMS_Lesson {
 
 		$parent_section = $this->get_parent_section();
 		$current_position = $this->get_order();
-		$previous_position = $current_position + 1;
-
-
+		$next_position = $current_position + 1;
 
 		$args = array(
 			'posts_per_page' 	=> 1,
@@ -339,7 +316,7 @@ class LLMS_Lesson {
 			    ),
 			    array(
 				    'key' => '_llms_order',
-				    'value' => $previous_position,
+				    'value' => $next_position,
 				    'compare' => '='
 			    )
 			)                   
@@ -350,51 +327,53 @@ class LLMS_Lesson {
 		if ( $lessons ) {
 			return $lessons[0]->ID;
 		} else {
-			return false;
-		}
+			// See if there is another section after this section and get first lesson there
+			$parent_course = $this->get_parent_course();
+			$cursection = new LLMS_Section($this->get_parent_section());
+			$current_position = $cursection->get_order();
+			$next_position = $current_position + 1;
 
-		// $course = new LLMS_Course( $this->parent_course );
-		// $lessons = array();
-		// $current_lesson = $this->id;
-		// $parent_section = $this->get_parent_section();
-		
-		// if (is_object($course) ){
-		// 	$syllabus = $course->get_syllabus();
+			$args = array(
+				'post_type' 		=> 'section',
+				'posts_per_page'	=> 500,
+				'meta_key'			=> '_llms_order',
+				'order'				=> 'ASC',
+				'orderby'			=> 'meta_value_num',
+				'meta_query' 		=> array(
+					'relation' => 'AND',
+					array(
+					    'key' => '_parent_course',
+					    'value' => $parent_course,
+					    'compare' => '='
+				    ),
+				    array(
+					    'key' => '_llms_order',
+					    'value' => $next_position,
+					    'compare' => '='
+				    )
+				)                   
+			);
+			$sections = get_posts( $args );
 
-		// 	foreach( $syllabus as $key => $value ) {
-
-		// 		if ( $parent_section == $value['section_id']) {
-
-		// 			foreach( $value['lessons'] as $keys => $value ) {
-		// 				array_push($lessons, $value['lesson_id']);
-		// 			}
-		// 		}
-		// 	}
-
-		// 	$firstElement = current($lessons);
-		// 	$lastElement = $lessons[sizeof($lessons)-1];
-
-		// 	$currentKey = array_search($this->id, $lessons);
-
-		// 	$currentValue = $lessons[$currentKey];
-
-		// 	$previousValue = "";
-		// 	$nextValue = "";
-
-		// 	if($this->id!=$lastElement){
-		// 	    $nextKey = $currentKey + 1;
-		// 	    $nextValue = $lessons[$nextKey];
-		// 	}
-
-		// 	return $nextValue;
+			if ($sections)
+			{
+				$newsection = new LLMS_Section($sections[0]->ID);
+				$lessons = $newsection->get_children_lessons();
+				return $lessons[0]->ID;
+			}
+			else
+			{
+				return false;
+			}
+		}		
 	}
 
 	/**
 	 * Get previous lesson id
 	 * @return int [ID of previous lesson]
 	 */
-	public function get_previous_lesson() {
-
+	public function get_previous_lesson() 
+	{
 		$parent_section = $this->get_parent_section();
 		$current_position = $this->get_order();
 
@@ -429,52 +408,51 @@ class LLMS_Lesson {
 			} else {
 				return false;
 			}
-			
-
 		}
+		else
+		{
+			// See if there is a previous section
+			$parent_course = $this->get_parent_course();
+			$cursection = new LLMS_Section($this->get_parent_section());
+			$current_position = $cursection->get_order();
+			$previous_position = $current_position - 1;
 
+			if ($previous_position != 0)
+			{
+				$args = array(
+					'post_type' 		=> 'section',
+					'posts_per_page'	=> 500,
+					'meta_key'			=> '_llms_order',
+					'order'				=> 'ASC',
+					'orderby'			=> 'meta_value_num',
+					'meta_query' 		=> array(
+						'relation' => 'AND',
+						array(
+						    'key' => '_parent_course',
+						    'value' => $parent_course,
+						    'compare' => '='
+					    ),
+					    array(
+						    'key' => '_llms_order',
+						    'value' => $previous_position,
+						    'compare' => '='
+					    )
+					)                   
+				);
+				$sections = get_posts( $args );
 
-		// $lessons = array();
-		// $current_lesson = $this->id;
-		// $parent_section = $this->get_parent_section();
-		// $course = new LLMS_Course( $this->parent_course );
-		
-		// if (is_object( $course ) ){
-		// 	$syllabus = $course->get_syllabus();
-
-		// 	foreach( $syllabus as $key => $value ) {
-
-		// 		if ( $parent_section == $value['section_id']) {
-
-		// 			foreach( $value['lessons'] as $keys => $value ) {
-		// 				array_push($lessons, $value['lesson_id']);
-		// 			}
-		// 		}
-		// 	}
-
-		// 	$firstElement = current($lessons);
-		// 	$lastElement = $lessons[sizeof($lessons)-1];
-
-		// 	$currentKey = array_search($this->id, $lessons);
-		// 	$currentValue = $lessons[$currentKey];
-
-		// 	$previousValue = "";
-		// 	$nextValue = "";
-		// 	if($this->id!=$lastElement){
-		// 	    $nextKey = $currentKey + 1;
-		// 	    $nextValue = $lessons[$nextKey];
-		// 	}
-
-		// 	if($this->id!=$firstElement){
-
-		// 	    $previousKey = $currentKey - 1;
-			   
-		// 	    $previousValue = $lessons[$previousKey];
-		// 	}
-		// }
-
-		//return $previousValue;
-
+				if ($sections)
+				{
+					$newsection = new LLMS_Section($sections[0]->ID);
+					$lessons = $newsection->get_children_lessons();
+					return $lessons[count($lessons)-1]->ID;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
 	}
 
 	/**

@@ -78,7 +78,7 @@ $html .= '<div class="llms-syllabus-wrapper">';
 					$html .= $check;
 					$html .= '<div class="lesson-information">';
 					$html .= '<h5 class="llms-h5 llms-lesson-title">' . $lesson->post->post_title . '</h5>';
-					$html .= '<span class="llms-lesson-counter">' . $lesson->get_order() . ' of ' . count($lessons) . '</span>';
+					$html .= '<span class="llms-lesson-counter">' . $lesson->get_order() . __('of','lifterlms') . count($lessons) . '</span>';
 					$html .= '<p class="llms-lesson-excerpt">'.llms_get_excerpt($lesson->id).'</p>';
 					$html .= '</div>';
 					$html .= '</a>';

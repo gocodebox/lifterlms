@@ -87,14 +87,12 @@ catch_blanks = function (){
 			alert( 'Unable to save. Please make sure all of your sections are assigned.' );
 		}
 		else {
-			console.log('catch_blanks update called');
 			update_syllabus();
 		}
 	});
 }
 
 catch_duplicates = function(element){
-	console.log('catch_duplicates update called');
 	var that = jQuery(this);
 	var names = [];
 	var new_value = jQuery(element).val();

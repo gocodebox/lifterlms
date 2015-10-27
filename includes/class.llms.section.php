@@ -210,10 +210,8 @@ class LLMS_Section {
 		  	),
 		);
 		 
-		$sections = get_posts( $args );
-		 
-		return $sections;
-
+		$lessons = get_posts( $args );
+		return $lessons;
 	}
 
 	/**

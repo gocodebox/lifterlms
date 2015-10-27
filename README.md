@@ -32,8 +32,15 @@ v1.4.0
 + Updates: Automatically registers appropriate sidebars for Genesis theme
 + Updates: Backend file cleanup
 + Updates: Text cleanup
++ Updates: Adds greater localization support (more strings to translate! yay!)
++ Updates: Cleans up some unneccessary console.log() calls
++ Updates: Removes mass of commented out code (cleaner reading)
++ Updates: 'Next Lesson' button added after successful completion of quiz
++ Updates: 'Next Lesson' button at bottom of lesson properly gets starting lesson of next section at the end of the previous section
++ Updates: 'Previous Lesson' button at bottom of lesson will now properly get last lesson of previous section (if applicable)
 + BugFixes: WordPress pages are now properly restricted by memberships
 + BugFixes: Fixes bug that caused order screen to act up if user was deleted
++ BugFixes: Resolves nastly little bug that caused syllabus numbers to be out of whack
 
 v1.3.10 - 2015/10/15
 -------------------

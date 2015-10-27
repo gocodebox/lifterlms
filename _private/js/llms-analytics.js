@@ -23,7 +23,6 @@ jQuery(document).ready(function($) {
 
 
     var query_vars = get_query_var();
-    console.log( query_vars );
     if ( ( query_vars.page === 'llms-analytics' && query_vars.tab === 'sales' ) ||
       ( query_vars.page === 'llms-analytics' && ! ( 'tab' in query_vars ) )  ) {
         
@@ -181,7 +180,6 @@ get_query_var = function() {
 
 
       function drawTable() {
-        console.log(students_result_large);
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Last');
         data.addColumn('string', 'First');

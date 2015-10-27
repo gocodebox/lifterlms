@@ -40,10 +40,10 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 
 							<hgroup>
 							<span class="llms-sts-enrollment">
-							    <span class="llms-sts-label">Status: </span>
+							    <span class="llms-sts-label"><?php _e('Status:','lifterlms'); ?></span>
 							    <span class="llms-sts-current"><?php echo $course_status ?></span>
 							</span>
-							<p class="llms-start-date">Course Started - <?php echo $date_formatted ?></p>
+							<p class="llms-start-date"><?php echo __('Course Started','lifterlms') . ' - ' . $date_formatted ?></p>
 							<h3>
 							<?php echo '<a href="' . $permalink  . '">' . $course->post->post_title . '</a>' ?>
 							</h3>

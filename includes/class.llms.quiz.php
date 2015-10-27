@@ -385,7 +385,7 @@ class LLMS_Quiz {
 		
 		} else {
 
-			$total_attempts_remaining = 'unlimited';
+			$total_attempts_remaining = __('unlimited','lifterlms');
 
 		}
 
