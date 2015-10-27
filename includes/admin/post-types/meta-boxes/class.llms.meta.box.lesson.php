@@ -90,7 +90,17 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'value' 	=> $audio_embed,
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
-					)
+					),
+					array(
+						'type'		=> 'checkbox',
+						'label'		=> 'Free Lesson',
+						'desc' 		=> 'Checking this box will allow guests to view the content of this lesson without registering or signing up for the course.',
+						'id' 		=> self::$prefix . 'llms_free_lesson',
+						'class' 	=> '',
+						'value' 	=> '1',
+						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'group' 	=> 'top',
+					),
 				)
 			),
 			array(

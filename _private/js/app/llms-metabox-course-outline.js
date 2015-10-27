@@ -131,7 +131,6 @@ LLMS.MB_Course_Outline = {
 
 	    $('#llms-outline-add').click(function(e) {
 			e.preventDefault();
-			console.log('button clicked');
 			var popover = $('#llms-outline-menu');
 			if ($(this).hasClass('bt')) {
 				if($(this).offset().top - $(window).scrollTop() < 200) {
@@ -199,14 +198,12 @@ LLMS.MB_Course_Outline = {
 
 		//section form submit
 		$( '#llms_create_section' ).on( 'submit', function(e) {
-			console.log('section form submitted');
 			e.preventDefault();
 			var values = {};
 			$.each($(this).serializeArray(), function (i, field) {
 			    values[field.name] = field.value;
 			});
 			if(_this.alreadySubmitted === false) {
-				console.log('alreadySubmitted is false');
 				_this.alreadySubmitted = true;
 				_this.createSection( values );
 			}
@@ -214,7 +211,6 @@ LLMS.MB_Course_Outline = {
 
 		//new lesson form submit
 		$( '#llms_create_lesson' ).on( 'submit', function(e) {
-			console.log('form submitted');
 			e.preventDefault();
 			var values = {};
 			$.each($(this).serializeArray(), function (i, field) {
@@ -229,7 +225,6 @@ LLMS.MB_Course_Outline = {
 
 		//add existing lesson form submit
 		$( '#llms_add_existing_lesson' ).on( 'submit', function(e) {
-			console.log('form submitted');
 			e.preventDefault();
 
 			var values = {};
@@ -245,7 +240,6 @@ LLMS.MB_Course_Outline = {
 
 		//update lesson title
 		$( '#llms_edit_lesson' ).on( 'submit', function(e) {
-			console.log('form submitted');
 			e.preventDefault();
 
 			var values = {};
@@ -259,7 +253,6 @@ LLMS.MB_Course_Outline = {
 
 		//update section title
 		$( '#llms_edit_section' ).on( 'submit', function(e) {
-			console.log('form submitted');
 			e.preventDefault();
 
 			var values = {};
@@ -273,7 +266,6 @@ LLMS.MB_Course_Outline = {
 
 		//update lesson title
 		$( '#llms_delete_section' ).on( 'submit', function(e) {
-			console.log('form submitted');
 			e.preventDefault();
 
 			var values = {};
@@ -315,12 +307,10 @@ LLMS.MB_Course_Outline = {
 				sections: section_tree
 	    	},
 	    	beforeSend: function() {
-	    		console.log('hell ya! i just did a before send');
 	    	},
 	    	success: function(r) {
 	    		console.log(r);
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO total success!!!!!');
 	    		}
 	    	}
 	    });
@@ -334,13 +324,11 @@ LLMS.MB_Course_Outline = {
 				lessons: lesson_tree
 	    	},
 	    	beforeSend: function() {
-	    		console.log('hell ya! i just did a before send');
 	    	},
 	    	success: function(r) {
 	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('udpate lesson success!');
 	    		}
 	    	}
 	    });
@@ -381,10 +369,6 @@ LLMS.MB_Course_Outline = {
 	},
 
 	createSection: function( values ) {
-
-		console.log( values.llms_section_name );
-
-		console.log('about to do an ajax call');
 	    LLMS.Ajax.call({
 	    	data: {
 	    		action: 'create_section',
@@ -392,13 +376,11 @@ LLMS.MB_Course_Outline = {
 
 	    	},
 	    	beforeSend: function() {
-	    		console.log('hell ya! i just did a before send');
 	    	},
 	    	success: function(r) {
 	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO total success!!!!!');
 
 	    			$('#llms_course_outline_sort').append(r.data);
 	    			$(window).trigger('build');
@@ -482,7 +464,6 @@ LLMS.MB_Course_Outline = {
 
 		//update lesson title
 		$( '.llms-remove-lesson-link' ).on( 'click', function(e) {
-			console.log('remove link clicked');
 			e.preventDefault();
 
 			var lesson_id = $(this).parent().parent().parent().find('[name="llms_lesson_id[]"]').val();
@@ -492,7 +473,6 @@ LLMS.MB_Course_Outline = {
 	},
 
 	createLesson: function( values ) {
-		console.log('about to do an ajax call');
 	    LLMS.Ajax.call({
 	    	data: {
 	    		action: 'create_lesson',
@@ -501,13 +481,11 @@ LLMS.MB_Course_Outline = {
 				section_id: values.llms_section
 	    	},
 	    	beforeSend: function() {
-	    		console.log('hell ya! i just did a before send');
 	    	},
 	    	success: function(r) {
 	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO total success!!!!!');
 
 	    			//find the correct section and attach lesson
 	    			$( '.llms-section' ).each( function() {
@@ -538,7 +516,6 @@ LLMS.MB_Course_Outline = {
 
 	addExistingLesson: function( values ) {
 
-		console.log('about to do an ajax call');
 	    LLMS.Ajax.call({
 	    	data: {
 	    		action: 'add_lesson_to_course',
@@ -546,21 +523,16 @@ LLMS.MB_Course_Outline = {
 				section_id: values.llms_section
 	    	},
 	    	beforeSend: function() {
-	    		console.log('hell ya! i just did a before send');
 	    	},
 	    	success: function(r) {
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO total success!!!!!');
 
 	    			$( '.llms-section' ).each( function() {
 
 						var input_value = $(this).find('[name="llms_section_id[]"]').val();
 						console.log(input_value);
 						if ( input_value === values.llms_section ) {
-							console.log('found one');
-							console.log($(this));
 							$(this).find( '#llms_section_tree_' + values.llms_section ).append(r.data);
 						}
 
@@ -585,11 +557,8 @@ LLMS.MB_Course_Outline = {
 	    		action: 'get_course_sections',
 	    	},
 	    	success: function(r) {
-	    		console.log('success came back');
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO total success!!!!!');
 
 	    			$('#llms-section-select').empty();
 
@@ -614,11 +583,8 @@ LLMS.MB_Course_Outline = {
 	    		section_id: section_id
 	    	},
 	    	success: function(r) {
-	    		console.log('success came back');
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO section total success!!!!!');
 
 					$('#llms-section-edit-name').val(r.data.post.post_title);
 					$('#llms-section-edit-id').val(r.data.id);
@@ -635,11 +601,8 @@ console.log(lesson_id);
 	    		lesson_id: lesson_id
 	    	},
 	    	success: function(r) {
-	    		console.log('success came back');
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO section total success!!!!!');
 
 					$('#llms-lesson-edit-name').val(r.data.post.post_title);
 					$('#llms-lesson-edit-excerpt').val(r.data.post.post_excerpt);
@@ -658,11 +621,8 @@ console.log(lesson_id);
 	    		title: values.llms_section_edit_name
 	    	},
 	    	success: function(r) {
-	    		console.log('success came back');
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO section total success!!!!!');
 
 	    			//find and update section title in tree
 	    			//find the correct section and attach lesson
@@ -700,11 +660,8 @@ console.log(lesson_id);
 	    		excerpt: values.llms_lesson_edit_excerpt
 	    	},
 	    	success: function(r) {
-	    		console.log('success came back');
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO section total success!!!!!');
 
 	    			//find the correct lesson and update the title and description
 	    			$( '.llms-lesson' ).each( function() {
@@ -736,11 +693,8 @@ console.log(lesson_id);
 	    		lesson_id: lesson_id,
 	    	},
 	    	success: function(r) {
-	    		console.log('success came back');
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO section total success!!!!!');
 
 	    			//find the correct lesson and remove it
 	    			$( '.llms-lesson' ).each( function() {
@@ -766,11 +720,8 @@ console.log(lesson_id);
 	    		section_id: values.llms_section_delete_id,
 	    	},
 	    	success: function(r) {
-	    		console.log('success came back');
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
-	    			console.log('WOOOOOO section total success!!!!!');
 
 	    			//find the correct lesson and remove it
 	    			$( '.llms-section' ).each( function() {
@@ -797,8 +748,6 @@ console.log(lesson_id);
 	    		action: 'get_lesson_options_for_select',
 	    	},
 	    	success: function(r) {
-	    		console.log('success came back');
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
 	    			$('#llms-lesson-select').empty();

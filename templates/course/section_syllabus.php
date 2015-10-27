@@ -61,27 +61,27 @@ foreach($the_stuff as $key => $value) :
 			//echo $value->post_title;
 		}
 		else {
-			if ( llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
-			echo '
-				<div class="llms-lesson-preview">
-					<a class="llms-lesson-link" href="' . get_permalink( $value->ID ) . '">
-						<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
-						<span class="llms-lesson-counter">'.$lesson_i.' of '.$total_lessons.'</span>
-						<p>'.$value->post_excerpt.'</p>
-					</a>
-				</div>
-			';
+			elseif ( llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
+				echo '
+					<div class="llms-lesson-preview">
+						<a class="llms-lesson-link" href="' . get_permalink( $value->ID ) . '">
+							<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
+							<span class="llms-lesson-counter">'.$lesson_i.__('of','lifterlms').$total_lessons.'</span>
+							<p>'.$value->post_excerpt.'</p>
+						</a>
+					</div>
+				';
 			}
 			else {
-			echo '
-				<div class="llms-lesson-preview">
-					<a class="llms-lesson-link" href="' . $course->get_checkout_url() . '">
-						<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
-						<span class="llms-lesson-counter">'.$lesson_i.' of '.$total_lessons.'</span>
-						<p>'.$value->post_excerpt.'</p>
-					</a>
-				</div>
-			';
+				echo '
+					<div class="llms-lesson-preview">
+						<a class="llms-lesson-link" href="' . $course->get_checkout_url() . '">
+							<h5 class="llms-h5 llms-lesson-title">' . $value->post_title . '</h5>
+							<span class="llms-lesson-counter">'.$lesson_i.__('of','lifterlms').$total_lessons.'</span>
+							<p>'.$value->post_excerpt.'</p>
+						</a>
+					</div>
+				';
 			}
 		}
 	$lesson_i++;

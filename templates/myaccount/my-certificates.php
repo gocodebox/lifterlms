@@ -25,7 +25,7 @@ $certificates = $user->get_user_postmetas_by_key( get_current_user_id(), $meta_k
 			</div>
 				
 			<div>
-				<span><a href="<?php echo get_permalink($value->meta_value); ?>" target="_blank">View Certificate</a></span>
+				<span><a href="<?php echo get_permalink($value->meta_value); ?>" target="_blank"><?php _e('View Certificate','lifterlms');?></a></span>
 			</div>
 
 		</li>

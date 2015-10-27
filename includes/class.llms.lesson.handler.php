@@ -41,33 +41,33 @@ class LLMS_Lesson_Handler {
 
 	}
 
-	public static function assign_to_course( $course_id, $section_id, $lesson_id, $duplicate = true, $reset_order = true ) {
-
+	public static function assign_to_course( $course_id, $section_id, $lesson_id, $duplicate = true, $reset_order = true ) 
+	{
+		// Get position of next lesson
+		$section = new LLMS_Section( $section_id );
+		$lesson_order = $section->get_next_available_lesson_order();
+		
 		//first determine if lesson is associated with a course
 		//we need to know this because if it is already associated then we duplicate it and assign the dupe
 		$parent_course = get_post_meta( $lesson_id, '_parent_course', true );
 		$parent_section = get_post_meta( $lesson_id, '_parent_section', true );
 
 		//parent course exists, lets dupe this baby!
-		if ( $parent_course && $duplicate == true ) {
-
+		if ( $parent_course && $duplicate == true ) 
+		{
 			$lesson_id = self::duplicate_lesson( $course_id, $section_id, $lesson_id );
-
-		} else {
-
+		} 
+		else 
+		{
 			//add parent section and course to new lesson
 			update_post_meta( $lesson_id, '_parent_section', $section_id );
 			update_post_meta( $lesson_id, '_parent_course', $course_id );
 
 		}
 
-		if ($reset_order) {
-
-			//set lesson order
-			$section = new LLMS_Section( $section_id );
-			$lesson_order = $section->get_next_available_lesson_order();
+		if ($reset_order) 
+		{			
 			update_post_meta( $lesson_id, '_llms_order', $lesson_order );
-
 		}
 
 		return $lesson_id;

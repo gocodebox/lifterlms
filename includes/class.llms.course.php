@@ -489,51 +489,6 @@ class LLMS_Course {
 	}
 
 	/**
-	 * Get percent complete by section
-	 * 
-	 * @param  int $lesson_id [ID of the current lesson]
-	 * 
-	 * @return int [numeric representation of % of lessons in section completed]
-	 */
-	// public function get_section_percent_complete($lesson_id) {
-
-		
-
-
-	// 	$syllabus = $this->get_syllabus();
-	// 	$sections = array();
-	// 	$section;
-
-	// 	foreach ($syllabus as $key => $value) {
-
-	// 		$sections[$value['section_id']] = $value['lessons'];
-	// 		foreach($value['lessons'] as $keys => $values) {
-	// 			if ($values['lesson_id'] == $lesson_id) {
-	// 				$section = $value['section_id'];
-	// 			}
-	// 		}
-	// 	}
-
-	// 	$total_lessons_in_section = count($sections[$section]);
-	// 	$total_completed_lessons = 0;
-	// 	foreach($sections[$section] as $key => $value) {
-
-	// 		$user = new LLMS_Person;
-	// 		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $value['lesson_id'] );
-	// 		if ( !empty($user_postmetas['_is_complete']) ) {
-	// 			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-	// 				$total_completed_lessons++;
-
-	// 			}
-	// 		}
-	// 	}
-
-	// 	$percent_complete = ($total_lessons_in_section != 0) ? round(100 / ( ( $total_lessons_in_section / $total_completed_lessons ) ), 0 ) : 0;
-
-	// 	return $percent_complete;
-	// }
-
-	/**
 	 * Get the course short description
 	 *
 	 * @return string (html)
@@ -796,71 +751,7 @@ class LLMS_Course {
 
 			}
 
-		}
-
-		//get section data
-		// foreach ( $course_syllabus as $key => $value ) {
-
-		// 	$section = array();
-		// 	$section['id'] = $value['section_id'];
-		// 	$section['title'] = get_the_title(  $value['section_id'] );
-
-		// 	// get any user post meta data
-		// 	$section['is_complete'] = false;
-		// 	$section_user_data = self::get_user_post_data( $value['section_id'], $user_id );
-
-		// 	$obj->is_complete = false;
-		// 	if ( $section_user_data ) {
-
-		// 		//loop through returned rows and save data to object
-		// 		foreach ( $section_user_data as $row ) {
-
-		// 			if ( $row->meta_key === '_is_complete' ) {
-
-		// 				$section['is_complete'] = true;
-		// 				$section['completed_date'] = $row->updated_date;
-
-		// 			}
-
-		// 		}
-
-		// 	}
-			
-		// 	$obj->sections[] = $section;
-
-			// get lesson data
-		// 	if ( $value['lessons'] ) { 
-
-		// 		foreach ( $value['lessons'] as $k => $v ) {
-
-		// 			$lesson = array();
-		// 			$lesson['id'] = $v['lesson_id'];
-		// 			$lesson['title'] = get_the_title( $v['lesson_id'] );
-		// 			$lesson['parent_id'] = $value['section_id'];
-
-		// 			$lesson['is_complete'] = false;
-
-		// 			$lesson_user_data = self::get_user_post_data( $v['lesson_id'], $user_id );
-
-		// 			//loop through returned rows and save data to object
-		// 			foreach ( $lesson_user_data as $row ) {
-
-		// 				if ( $row->meta_key === '_is_complete' ) {
-
-		// 					$lesson['is_complete'] = true;
-		// 					$lesson['completed_date'] = $row->updated_date;
-
-		// 				}
-
-		// 			}
-
-		// 			$obj->lessons[] = $lesson;
-
-		// 		}
-
-		// 	}
-
-		// }
+		}		
 
 		return $obj;
 		

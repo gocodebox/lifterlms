@@ -385,7 +385,7 @@ class LLMS_Quiz {
 		
 		} else {
 
-			$total_attempts_remaining = 'unlimited';
+			$total_attempts_remaining = __('unlimited','lifterlms');
 
 		}
 
@@ -761,6 +761,11 @@ class LLMS_Quiz {
 		}
 
 		return $last_attempt;
+	}
+
+	public function get_show_random_answers()
+	{
+		return $this->llms_random_answers;
 	}
 
 }

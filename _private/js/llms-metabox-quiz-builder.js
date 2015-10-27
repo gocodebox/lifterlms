@@ -50,9 +50,7 @@ llms_total_points = function() {
  * Generate single choice question template
  */
 single_question_template = function (response) {
-	console.log('single_course_template_called');
 	var order = (jQuery("#llms-single-options tr").length);
-	console.log(response);
 	var questions = response;
 
 	jQuery('<tr class="list_item" id="question_' + order + '" data-order="' + order + '" style="display: table-row;"><td class="llms-table-select"> \

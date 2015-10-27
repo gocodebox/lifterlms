@@ -36,26 +36,31 @@ function llms_page_restricted($post_id) {
 		}
 		
 		elseif ( is_single() && $post->post_type == 'lesson' ) {
-
-			if( parent_page_restricted_by_membership($post_id) ) {
-
-				$restricted = true;
-				$reason = 'parent_membership';
+			$l = new LLMS_Lesson($post_id);
+			if (!$l->get_is_free())
+			{
+				if( parent_page_restricted_by_membership($post_id) ) 
+				{
+					$restricted = true;
+					$reason = 'parent_membership';
+				}
+				elseif ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) ) 
+				{
+					$restricted = true;
+					$reason = 'enrollment_lesson';
+				}
+				elseif ( outstanding_prerequisite_exists(get_current_user_id(), $post_id) ) 
+				{
+					$restricted = true;
+					$reason = 'prerequisite';
+				}
+				elseif ( lesson_start_date_in_future(get_current_user_id(), $post_id ) ) 
+				{
+					$restricted = true;
+					$reason = 'lesson_start_date';
+				}
 			}
-			elseif ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
-				$restricted = true;
-				$reason = 'enrollment_lesson';
-			}
-			elseif ( outstanding_prerequisite_exists(get_current_user_id(), $post_id) ) {
-
-				$restricted = true;
-				$reason = 'prerequisite';
-			}
-			elseif ( lesson_start_date_in_future(get_current_user_id(), $post_id ) ) {
-
-				$restricted = true;
-				$reason = 'lesson_start_date';
-			}
+			
 		}
 		elseif ( is_single() && $post->post_type == 'course') {
 			
@@ -217,7 +222,7 @@ llms_log('is_topic_restricted called');
 	$restrict_access = false;
 	$membership_id = '';
 
-	if (is_single()) {
+	if (is_single() || is_page()) {
 
 		//are there membership restictions on page
 		$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );

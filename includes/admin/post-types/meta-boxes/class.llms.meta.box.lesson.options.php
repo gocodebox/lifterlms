@@ -88,12 +88,18 @@ class LLMS_Meta_Box_Lesson_Options {
 		$days = ( llms_clean( $_POST['_days_before_avalailable']  ) );
 		update_post_meta( $post_id, '_days_before_avalailable', ( $days === '' ) ? '' : $days );
 
-		if ( isset( $_POST['_llms_assigned_quiz'] ) ) {
-		//update assigned quiz select
-		$assigned_quiz = ( llms_clean( $_POST['_llms_assigned_quiz'] ) );
-		update_post_meta( $post_id, '_llms_assigned_quiz', ( $assigned_quiz === '' ) ? '' : $assigned_quiz );
+		// Free lesson checkbox
+		$freeLesson = ( isset( $_POST['_llms_free_lesson'] ) ? true : false );
+		update_post_meta( $post_id, '_llms_free_lesson', ( $freeLesson === '' ) ? '' : $freeLesson );
+
+		if ( isset( $_POST['_llms_assigned_quiz'] ) ) 
+		{
+			//update assigned quiz select
+			$assigned_quiz = ( llms_clean( $_POST['_llms_assigned_quiz'] ) );
+			update_post_meta( $post_id, '_llms_assigned_quiz', ( $assigned_quiz === '' ) ? '' : $assigned_quiz );
 		}
-		//update passing grade textbox
+
+		//update passing grade checkbox
 		$require_passing_grade = ( isset( $_POST['_llms_require_passing_grade'] ) ? true : false );
 		update_post_meta( $post_id, '_llms_require_passing_grade', ( $require_passing_grade === '' ) ? '' : $require_passing_grade );
 	}

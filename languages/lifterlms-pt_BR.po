@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifterLMS\n"
 "POT-Creation-Date: 2015-07-09 12:45-0300\n"
-"PO-Revision-Date: 2015-07-10 09:40-0300\n"
+"PO-Revision-Date: 2015-10-23 09:48-0400\n"
 "Last-Translator: Maximiliano Rico <maximilian.rico@gmail.com>\n"
 "Language-Team: codeBOX <support@gocodebox.com>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.6\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: _e;__\n"
@@ -189,8 +189,8 @@ msgid "New Course"
 msgstr "Novo Curso"
 
 #: includes/class.llms.post-types.php:165
-#: includes/class.llms.post-types.php:166
-#: templates/myaccount/my-courses.php:63 templates/loop/view-link.php:19
+#: includes/class.llms.post-types.php:166 templates/myaccount/my-courses.php:63
+#: templates/loop/view-link.php:19
 msgid "View Course"
 msgstr "Ver Curso"
 
@@ -3710,8 +3710,7 @@ msgstr "Inscrever-se"
 
 #: templates/membership/price.php:18 templates/loop/price.php:6
 #: templates/checkout/form-checkout.php:37
-#: templates/checkout/form-confirm-payment.php:62
-#: templates/course/price.php:18
+#: templates/checkout/form-confirm-payment.php:62 templates/course/price.php:18
 #, fuzzy, php-format
 msgid "Single payment of %s"
 msgstr "Opção de Pagamento Único"
@@ -4013,8 +4012,7 @@ msgstr "Comprar Agora"
 msgid "Take This Course"
 msgstr "Fazer Este Curso"
 
-#: templates/course/purchase-link.php:74
-#: templates/course/purchase-link.php:105
+#: templates/course/purchase-link.php:74 templates/course/purchase-link.php:105
 #: templates/course/purchase-link.php:127
 msgid "Course is no longer available"
 msgstr "Curso não está mais disponível"
