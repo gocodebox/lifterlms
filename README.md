@@ -38,6 +38,7 @@ v1.4.0
 + Updates: 'Next Lesson' button added after successful completion of quiz
 + Updates: 'Next Lesson' button at bottom of lesson properly gets starting lesson of next section at the end of the previous section
 + Updates: 'Previous Lesson' button at bottom of lesson will now properly get last lesson of previous section (if applicable)
++ Updates: Move Registration Form to global templates to allow users to disable registration on login page but use registration form on custom page.
 + BugFixes: WordPress pages are now properly restricted by memberships
 + BugFixes: Fixes bug that caused order screen to act up if user was deleted
 + BugFixes: Resolves nastly little bug that caused syllabus numbers to be out of whack
