@@ -48,6 +48,11 @@ $html .= '<div class="llms-syllabus-wrapper">';
 					if( $lesson->is_complete() ) {
 						$check = '<span class="llms-lesson-complete"><i class="fa fa-check-circle"></i></span>';
 						$complete = ' is-complete';
+					} 
+					elseif ($lesson->get_is_free())
+					{
+						$check = LLMS_Svg::get_icon('llms-icon-free', '', '', 'llms-free-lesson-svg');
+						$complete = ' is-complete';
 					} else {
 						$complete = $check = '';
 					}
@@ -58,7 +63,7 @@ $html .= '<div class="llms-syllabus-wrapper">';
 					$title = '';
 					$linkclass = '';
 
-					if ( ! $page_restricted['is_restricted'] ) {
+					if ( ! $page_restricted['is_restricted'] || $lesson->get_is_free()) {
 					 	$permalink = get_permalink( $lesson->id );	
 					 	$linkclass = 'llms-lesson-link';
 					}
@@ -73,7 +78,7 @@ $html .= '<div class="llms-syllabus-wrapper">';
 					$html .= $check;
 					$html .= '<div class="lesson-information">';
 					$html .= '<h5 class="llms-h5 llms-lesson-title">' . $lesson->post->post_title . '</h5>';
-					$html .= '<span class="llms-lesson-counter">' . $lesson->get_order() . ' of ' . count($lessons) . '</span>';
+					$html .= '<span class="llms-lesson-counter">' . $lesson->get_order() . __('of','lifterlms') . count($lessons) . '</span>';
 					$html .= '<p class="llms-lesson-excerpt">'.llms_get_excerpt($lesson->id).'</p>';
 					$html .= '</div>';
 					$html .= '</a>';

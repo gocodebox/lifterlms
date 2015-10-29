@@ -146,21 +146,25 @@ class LLMS_Meta_Box_Quiz_General {
 			$time_limit = ( llms_clean( $_POST['_llms_time_limit']  ) );
 			update_post_meta( $post_id, '_llms_time_limit', $time_limit );
 		}
-			$show_result = ( isset( $_POST['_llms_show_results'] ) ? true : false );
-			update_post_meta( $post_id, '_llms_show_results', ( $show_result === '' ) ? '' : $show_result );
 
-			$show_correct_answer = ( isset( $_POST['_llms_show_correct_answer'] ) ? true : false );
-			update_post_meta( $post_id, '_llms_show_correct_answer', ( $show_correct_answer === '' )
-				? '' : $show_correct_answer );
+		$random_answers = ( isset( $_POST['_llms_random_answers'] ) ? true : false );
+		update_post_meta( $post_id, '_llms_random_answers', ( $random_answers === '' ) ? '' : $random_answers );
+		
+		$show_result = ( isset( $_POST['_llms_show_results'] ) ? true : false );
+		update_post_meta( $post_id, '_llms_show_results', ( $show_result === '' ) ? '' : $show_result );
 
-			$show_option_description_wrong_answer = ( isset( $_POST['_llms_show_options_description_wrong_answer'] )
-				? true : false );
-			update_post_meta($post_id, '_llms_show_options_description_wrong_answer',
-				( $show_option_description_wrong_answer === '') ? '' : $show_option_description_wrong_answer);
+		$show_correct_answer = ( isset( $_POST['_llms_show_correct_answer'] ) ? true : false );
+		update_post_meta( $post_id, '_llms_show_correct_answer', ( $show_correct_answer === '' )
+			? '' : $show_correct_answer );
 
-			$show_option_description_right_answer = ( isset( $_POST['_llms_show_options_description_right_answer'] )
-				? true : false );
-			update_post_meta($post_id, '_llms_show_options_description_right_answer',
-				( $show_option_description_right_answer === '') ? '' : $show_option_description_right_answer);
+		$show_option_description_wrong_answer = ( isset( $_POST['_llms_show_options_description_wrong_answer'] )
+			? true : false );
+		update_post_meta($post_id, '_llms_show_options_description_wrong_answer',
+			( $show_option_description_wrong_answer === '') ? '' : $show_option_description_wrong_answer);
+
+		$show_option_description_right_answer = ( isset( $_POST['_llms_show_options_description_right_answer'] )
+			? true : false );
+		update_post_meta($post_id, '_llms_show_options_description_right_answer',
+			( $show_option_description_right_answer === '') ? '' : $show_option_description_right_answer);
 	}
 }

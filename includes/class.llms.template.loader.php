@@ -31,7 +31,7 @@ class LLMS_Template_Loader {
 
 		$page_restricted = llms_page_restricted(get_the_id());
 
-		if ( $page_restricted['is_restricted'] && is_single()) {
+		if ( $page_restricted['is_restricted'] && (is_single() || is_page())) {
 			do_action('lifterlms_content_restricted', $page_restricted['id'], $page_restricted['reason']);
 
 			//if restriction reason is site_wide_membership then restrict all content 

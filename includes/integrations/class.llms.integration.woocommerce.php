@@ -165,9 +165,11 @@ class LLMS_Integration_Woocommerce {
 
 			foreach ($courses as $course)
 			{
-				$sku = get_post_meta($membership->ID, '_sku', true);
+				$sku = get_post_meta($course->ID, '_sku', true);
 				$order->product_id 		= $course->ID;
 			    $order->product_sku 	= $sku;
+                $order->payment_type    = 'woocommerce';
+                $order->payment_option  = 'single';
 			}
 		}
 

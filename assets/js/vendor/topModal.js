@@ -134,9 +134,6 @@
 		var popupWidth = object.width();				
 		var popupHeight = object.height();
 		var scrollTop     = $(window).scrollTop();
-console.log('window height: ' + windowHeight);
-console.log('popup height: ' + popupHeight);
-console.log('scroll to top: ' + scrollTop);
 		var topPos = (windowHeight / 2) - (popupHeight / 2);
 		var leftPos = (windowWidth / 2) - (popupWidth / 2);
 		if(topPos < 30) topPos = 30;

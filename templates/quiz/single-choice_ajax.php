@@ -7,6 +7,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 $quiz = new LLMS_Quiz( $args['quiz_id'] );
+$quizObj = $quiz;
 
 $question = new LLMS_Question( $args['question_id'] );
 
@@ -31,7 +32,10 @@ if ( ! empty( $quiz_session->questions ) ) {
 <div class="clear"></div>
 <div class="llms-question-wrapper">
 	<?php
-	llms_shuffle_assoc( $options );
+	if ($quizObj->get_show_random_answers())
+	{
+		llms_shuffle_assoc( $options );
+	}
 	foreach($options as $key => $value) :
 		if (isset($value)) :
 			$option = $value['option_text'];	

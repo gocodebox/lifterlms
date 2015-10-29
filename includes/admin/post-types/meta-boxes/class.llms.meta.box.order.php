@@ -54,14 +54,14 @@ class LLMS_Meta_Box_Order {
 		$usermeta = get_user_meta($user_id);
 		$user = get_user_by('id', $user_id);
 
-		if ($usermeta['first_name'][0] != '') {
+		if (isset($usermeta['first_name']) && $usermeta['first_name'][0] != '') {
 			$user_name = $usermeta['first_name'][0] . ' ' . $usermeta['last_name'][0];
 		}
 		else {
-			$user_name = $user->user_nicename;
+			$user_name = (is_object($user) ? $user->user_nicename : '');
 		}
 
-		$user_email = $user->user_email;
+		$user_email = (is_object($user) ? $user->user_email : '');
 		
 		do_action( 'lifterlms_before_order_meta_box' ); ?>
 

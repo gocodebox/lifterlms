@@ -385,7 +385,7 @@ class LLMS_Quiz {
 		
 		} else {
 
-			$total_attempts_remaining = 'unlimited';
+			$total_attempts_remaining = __('unlimited','lifterlms');
 
 		}
 
@@ -753,7 +753,7 @@ class LLMS_Quiz {
 
 		foreach ((array)$quiz_data as $quiz)
 		{
-			if ((int)$quiz['id'] === (int)$this->get_id() 
+			if (isset($quiz['id']) && (int)$quiz['id'] === (int)$this->get_id()
 				&& (int)$this->get_total_attempts_by_user($user->get_id()) === (int)$quiz['attempt'])
 			{
 				$last_attempt = $quiz;
@@ -761,6 +761,11 @@ class LLMS_Quiz {
 		}
 
 		return $last_attempt;
+	}
+
+	public function get_show_random_answers()
+	{
+		return $this->llms_random_answers;
 	}
 
 }

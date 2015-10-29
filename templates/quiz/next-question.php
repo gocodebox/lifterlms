@@ -22,9 +22,9 @@ foreach ( $quiz->questions as $key => $value ) :
 	if ( $value['id'] == $question->id ) :
 		$next_question_key = ( $key + 1 );
 		if ( $next_question_key > ( count($quiz->questions) - 1 ) ) :
-			$btn_text = 'Complete Quiz';
+			$btn_text = __('Complete Quiz','lifterlms');
 		else:
-			$btn_text = 'Next Question';
+			$btn_text = __('Next Question','lifterlms');
 		endif;
 	endif;
 endforeach;

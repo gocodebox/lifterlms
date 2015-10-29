@@ -48,7 +48,7 @@ ul.tabs li.current{
     }
 }
 
-.tab-content{
+.container .tab-content{
     display: none;
     background: $color-white;
     padding: 15px;
@@ -110,14 +110,14 @@ ul.tabs li.current{
 
     }
 
-}.tab-content.current{
+}.container .tab-content.current{
     display: inherit;
 }
 ul.chosen-results li {
     border: 0;
 }
 
-.tab-content .no-border
+.container .tab-content .no-border
 {
     border-bottom: 0px;
 }
