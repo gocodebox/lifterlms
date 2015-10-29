@@ -24,7 +24,7 @@ LIFTER LMS
 
 CHANGELOG
 =========
-v1.4.0
+v1.4.0 - 2015/10/29
 -------------------
 + Feature: Free lessons - demo lessons that can be taken at any time by any user
 + Feature: Guest lessons - demo lessons that can be taken by a non-logged in user
@@ -42,8 +42,8 @@ v1.4.0
 + BugFixes: WordPress pages are now properly restricted by memberships
 + BugFixes: Fixes bug that caused order screen to act up if user was deleted
 + BugFixes: Resolves nastly little bug that caused syllabus numbers to be out of whack
-+ BUGFixes: Resolved error with WooCommerce integration where courses would not always register the user
-+ BUGFixes: Corrected CSS conflict with Bridge theme settings page
++ BugFixes: Resolved error with WooCommerce integration where courses would not always register the user
++ BugFixes: Corrected CSS conflict with Bridge theme settings page
 
 v1.3.10 - 2015/10/15
 -------------------
