@@ -104,7 +104,7 @@ class LLMS_Shortcodes {
 
 		ob_start();
 
-		include( llms_get_template_part_contents( 'myaccount/form', 'registration' ) );
+		include( llms_get_template_part_contents( 'global/form', 'registration' ) );
 
 		$html = ob_get_clean();
 

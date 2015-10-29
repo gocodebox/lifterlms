@@ -38,8 +38,7 @@ if ( $quiz_data ) {
 
 			<?php 
 			//determine if grade, best grade or none should be shown.
-			if ( empty( $grade ) && empty( $best_grade ) ) :
-			else : 
+			if (isset($grade) && isset($best_grade)) :
 
 			 	$graph_grade = empty( $grade ) ? $best_grade : $grade;
 
@@ -65,7 +64,7 @@ if ( $quiz_data ) {
 			 
 			<div class="llms-quiz-result-details">
 
-				<?php if ( !empty( $grade ) ) : ?>
+				<?php //if ($grade) : ?>
 				<ul>
 					<li>
 						<h4><?php printf( __( 'Your Score: %d%%', 'lifterlms' ), $grade ); ?></h4>
@@ -90,9 +89,9 @@ if ( $quiz_data ) {
 					</li>
 					</li>
 				</ul>
-				<?php endif; ?>
+				<?php //endif; ?>
 
-				<?php if ( !empty( $best_grade ) ) : ?>
+				<?php //if ($best_grade ) ) : ?>
 				<ul>
 					<li>
 						<h4><?php printf( __( 'Best Score: %d%%', 'lifterlms' ), $best_grade ); ?></h4>
@@ -111,7 +110,7 @@ if ( $quiz_data ) {
 						<h6><?php printf( __( 'Total time: %s', 'lifterlms' ), $best_time ); ?></h6>
 					</li>
 				</ul>
-				<?php endif; ?>
+				<?php //endif; ?>
 
 			</div>
 
