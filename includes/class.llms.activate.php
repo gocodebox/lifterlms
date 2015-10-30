@@ -45,10 +45,10 @@ class LLMS_Activate {
      * @return void
      */
     public function get_post_response( ) {
-    	$is_active = get_option('lifterlms_is_activated', '');
+        $is_active = get_option('lifterlms_is_activated', '');
         $deactivate = get_option('lifterlms_activation_deactivate', '');
 
-      	$action = 'llms_activate_plugin';
+        $action = 'llms_activate_plugin';
         $authkey = get_option('lifterlms_authkey', '');
         $license = get_option('lifterlms_activation_key', '');
         $site_url = get_bloginfo('url');
@@ -62,7 +62,7 @@ class LLMS_Activate {
         } else {
 
             if (($license && $is_active == 'yes') || ($license == '' && $deactivate !== 'yes' ) ) {
-            	return;
+                return;
             }
 
             $url = 'https://lifterlms.com/wp-admin/admin-ajax.php';
@@ -91,27 +91,52 @@ class LLMS_Activate {
                                 )
                     );
             
-            $context  = stream_context_create($opts);
 
-            $result = file_get_contents($url, false, $context);
-     
-            if ($result) {
-
-                $response = json_decode($result);
-           // var_dump($response);
-
-                if (!$response->success) {
-
-                    update_option('lifterlms_activation_message', $response->message );
-                
-                } else {
-                    update_option('lifterlms_activation_message', 'Activated' );
-    				update_option('lifterlms_is_activated', 'yes');
-    				update_option('lifterlms_update_key', $response->update_key);
-
-                }
+            if($this->get_http_response_code($url) != "200")
+            {
+                update_option('lifterlms_activation_message', 'There was an error contacting the LifterLMS activation server. Please contact support@lifterlms or try again.');
             }
+            else
+            {
+
+                $context  = stream_context_create($opts);
+
+                $result = file_get_contents($url, false, $context);
+
+                if ($result) {
+
+                    $response = json_decode($result);
+                    // var_dump($response);
+
+                    if (!$response->success) {
+
+                        update_option('lifterlms_activation_message', $response->message );
+                    
+                    } else {
+                        update_option('lifterlms_activation_message', 'Activated' );
+                        update_option('lifterlms_is_activated', 'yes');
+                        update_option('lifterlms_update_key', $response->update_key);
+
+                    }
+                }
+                else
+                {
+                     update_option('lifterlms_activation_message', 'There was an error calling file_get_contents(). Please set allow_url_fopen to "1" in your php.ini file. Contact your hosting provider if you are unsure what to do.');
+                }
+
+            } 
+ 
         }
+    }
+
+    /**
+    * check response code for activation url before proceeding 
+    */
+    public function get_http_response_code($url) 
+    {
+        $headers = get_headers($url);
+        llms_log($headers);
+        return substr($headers[0], 9, 3);
     }
 
     /**
