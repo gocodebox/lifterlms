@@ -15,7 +15,14 @@ if ( ! $course  || !is_object($course) ) {
 }
 
 $product_obj = new LLMS_Product($post->ID);
-$single_html_price = sprintf( __( apply_filters('lifterlms_single_payment_text','Single payment of %s'), 'lifterlms' ), $product_obj->get_price_html() );
+if ($product_obj->get_price_html()=="Free!")
+{
+	$single_html_price = sprintf( __( apply_filters('lifterlms_single_payment_text','%s'), 'lifterlms' ), $product_obj->get_price_html() );
+}
+else 
+{
+	$single_html_price = sprintf( __( apply_filters('lifterlms_single_payment_text','single payment of %s'), 'lifterlms' ), $product_obj->get_price_html() );
+}
 //$recurring_html_price = $product_obj->get_recurring_price_html();
 $payment_options = $product_obj->get_payment_options();
 $single_payment_exists = false;
