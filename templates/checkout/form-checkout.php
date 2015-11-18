@@ -81,7 +81,7 @@ if($coupon_session) {
 								type="radio"
 								name="payment_option"
 								value="<?php echo $value . '_' . $key; ?>"
-								<?php if ($i == 1) { echo 'checked="checked"'; $checked = 'true'; } ?>
+								<?php if ($i == 1) { echo 'checked'; $checked = true; } ?>
 							/>
 							<label for="llms-payment-option_<?php echo $value; ?>">
 								<span class="llms-radio"></span>
@@ -92,6 +92,7 @@ if($coupon_session) {
 						</p>
 					<?php
 					elseif ($value == 'recurring') :
+						$i++;
 						$subs = $product_obj->get_subscriptions();
 
 						if (!empty($subs)) :
@@ -103,7 +104,7 @@ if($coupon_session) {
 										type="radio"
 										name="payment_option"
 										value="<?php echo $value . '_' . $id; ?>"
-										<?php if ($i == 1 && !$checked) { echo 'checked="checked'; } ?>
+										<?php if ($i == 1 && !$checked) { echo 'checked'; $checked = true;} ?>
 									/>
 									<label for="llms-payment-option_<?php echo $value . '_' . $id; ?>">
 										<span class="llms-radio"></span>
