@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * Admin Assets Class
 *
 * Sets up the enqueue scripts and styles for the Admin pages.
-* TODO: register scripts. make page ids a db option. 
+* TODO: register scripts. make page ids a db option.
 *
 * @author codeBOX
 * @project lifterLMS
@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	*/
 	public function admin_styles() {
 
-			wp_enqueue_style( 'admin-styles', plugins_url( '/assets/css/admin' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+			wp_enqueue_style( 'llms-admin-styles', plugins_url( '/assets/css/admin' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 			wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 	}
 
@@ -103,8 +103,8 @@ class LLMS_Admin_Assets {
 			wp_enqueue_style( 'jquery-ui' );
 
 			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
-			
-			
+
+
 
 			wp_enqueue_script( 'llms-ajax', plugins_url(  '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			wp_enqueue_script( 'llms-metabox', plugins_url(  '/assets/js/llms-metabox' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
@@ -143,7 +143,7 @@ class LLMS_Admin_Assets {
 			}
 
 			wp_enqueue_script( 'llms-options-analytics', plugins_url(  '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
-			
+
 			wp_enqueue_script( 'top-modal', plugins_url(  '/assets/js/vendor/topModal.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 
 			wp_register_script('llms',  plugins_url(  '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ));
