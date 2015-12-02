@@ -38,7 +38,7 @@ v1.4.1 - 2015/12/02
 + BugFixes: Resolved issue with no default price selected at checkout when only recurring option existed.
 + BugFixes: Lesson prerequisite now alert the user and provide a link to redirect the user to the next required lesson in the course.
 + BugFixes: Paypal errors now return error message instead of white screen when Paypal API fails.
-+ BugFixes: Corrected JavaScript error with modals on courses page in Internet Explorer 11.
++ BugFixes: Corrected JavaScript error with modals on course edit page in Internet Explorer 11.
 
 v1.4.0 - 2015/10/29
 -------------------

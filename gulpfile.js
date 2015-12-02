@@ -158,8 +158,8 @@ gulp.task( 'process-scripts', function () {
 gulp.task( 'watch', function () {
 
 	gulp.watch( '_private/js/**/*.js', [ 'build', 'process-scripts' ] );
-	gulp.watch( '_private/**/*.scss', [ 'process-admin-styles' ] );
-	//gulp.watch( '_private/**/*.scss', [ 'process-frontend-styles' ] );
+	//gulp.watch( '_private/**/*.scss', [ 'process-admin-styles' ] );
+	gulp.watch( '_private/**/*.scss', [ 'process-frontend-styles' ] );
 
 
 });
