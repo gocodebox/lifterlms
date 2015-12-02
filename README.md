@@ -25,6 +25,11 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.4.2 - 2015/12/02 (unreleased)
+--------------------------------
+
++ BugFixes: fixed issue in `llms_featured_img()` that was preventing the `$size` variable from being passed to the WP core function being utilized.
+
 v1.4.1 - 2015/12/02
 -------------------
 + Feature: Custom single price text - Display custom text for the single price on the courses and course page. Custom field does not require a single payment price be set. IE: Free!
@@ -138,7 +143,7 @@ v1.3.0 - 2015/08/28
 + Updates plugin-updater to remedy PHP conflicts
 + Fixes date bug in Analytics
 + Cleans up jQuery console messages
-+ Adds in course tracks 
++ Adds in course tracks
 
 v1.2.8 - 2015-07-17
 -------------------
@@ -202,14 +207,14 @@ v1.2.4 - 2015-04-22
 + Added ability to drag lessons between sections in Course Outline
 + Added ability to edit Section Title in Course Outline
 + Added ability to edit lesson title and excerpt in Course Outline
-+ Added New Style and Design for better usability to Course Outline 
++ Added New Style and Design for better usability to Course Outline
 + Added Lesson Icon with tooltip to Course Outline: Prerequisite - shows if prerequisite exists and displays name of prerequisite
 + Added Lesson Icon with tooltip to Course Outline: Quiz - shows if quiz is assigned to course and displays name of quiz
 + Added Lesson Icon with tooltip to Course Outline: Drip Content - shows if drip days are set and # of days
 + Added Lesson Icon with tooltip to Course Outline: Content - displays if lesson has content added.
 + Added Course Outline Metabox to Lesson Post Editor: Allows you to assign lesson to section and view entire course tree. Links to Course and all other lessons in course.
-+ Style Update: backgrounds on frontend. Removed all references to white background on front end elements  
-+ Corrected Restriction for course in past. Updated course in past message to display as Course ended instead of Course not available until. 
++ Style Update: backgrounds on frontend. Removed all references to white background on front end elements
++ Corrected Restriction for course in past. Updated course in past message to display as Course ended instead of Course not available until.
 + Added restriction message when user attempts to visit a restricted lesson.
 + Updated course syllabus sidebar widget to not display lessons as links if user is not enrolled in course.
 + Added ability to use Attribute Order for sorting Courses and Memberships on Archive pages.
@@ -272,7 +277,7 @@ v1.2.0 - 2015-02-17
 + Admin Students Search Page. View at LifterLMS->Students
 + Admin Student Profile Page ( View user information related to courses and memberships )
 + Lesson and Course Sidebar Widgets ( Syllabus, Course Progress )
-+ Course Syllabus: Lesson blocks greyed out. Clicking lesson displays message to take course. 
++ Course Syllabus: Lesson blocks greyed out. Clicking lesson displays message to take course.
 + Misc. Front end bug fixes
 + Misc. Admin bug fixes
 + Course and Lesson prerequisites: Can no longer select a prerequisite without marking "Has Prerequisite"
@@ -281,8 +286,8 @@ v1.2.0 - 2015-02-17
 + Number and Date formatting handled by seperate classes to provide consistant date formats across system
 + Zero dollar coupon management: Coupons that set total to 0 will bypass payment gateway, generate order and enroll users.
 + Better coupon verification.
-+ Better third party payment gateway support. Third party gateway plugins are now easier to develop and integrate. 
-+ User Registration: Phone Number Registration field option now available in Accounts settings page. 
++ Better third party payment gateway support. Third party gateway plugins are now easier to develop and integrate.
++ User Registration: Phone Number Registration field option now available in Accounts settings page.
 
 v1.1.2 - 2014-12-18
 -------------------
