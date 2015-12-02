@@ -27,7 +27,7 @@ var_dump($memberships);
  * @return string $content [WP post content with lifterLMS content appended above and below]
  */
 if ( ! function_exists( 'llms_get_post_content' ) ) {
-	
+
 function llms_get_post_content( $content ) {
 	$page_restricted = llms_page_restricted(get_the_id());
 
@@ -49,7 +49,7 @@ function llms_get_post_content( $content ) {
 			ob_start();
 			load_template($template_before, false);
 			$output_before = ob_get_clean();
-	
+
 			ob_start();
 			load_template($template_after, false);
 			$output_after = ob_get_clean();
@@ -70,7 +70,7 @@ function llms_get_post_content( $content ) {
 			ob_start();
 			load_template($template_before, false);
 			$output_before = ob_get_clean();
-	
+
 			ob_start();
 			load_template($template_after, false);
 			$output_after = ob_get_clean();
@@ -92,7 +92,7 @@ function llms_get_post_content( $content ) {
 			ob_start();
 			load_template($template_before, false);
 			$output_before = ob_get_clean();
-	
+
 			ob_start();
 			load_template($template_after, false);
 			$output_after = ob_get_clean();
@@ -106,7 +106,7 @@ function llms_get_post_content( $content ) {
 			ob_start();
 			load_template($template_before, false);
 			$output_before = ob_get_clean();
-	
+
 			ob_start();
 			load_template($template_after, false);
 			$output_after = ob_get_clean();
@@ -145,7 +145,7 @@ add_action( 'template_redirect', 'llms_template_redirect' );
  * @return void
  */
 if ( ! function_exists( 'lifterlms_template_single_featured_image' ) ) {
-	
+
 	function lifterlms_template_single_featured_image() {
 
 		llms_get_template( 'course/featured-image.php' );
@@ -233,7 +233,7 @@ if ( ! function_exists( 'lifterlms_template_single_price' ) ) {
 			llms_get_template( 'course/price.php' );
 		}
 		elseif ($post->post_type == 'llms_membership') {
-	
+
 			llms_get_template( 'membership/price.php' );
 		}
 	}
@@ -264,7 +264,7 @@ if ( ! function_exists( 'lifterlms_template_single_purchase_link' ) ) {
 			llms_get_template( 'course/purchase-link.php' );
 		}
 		elseif ($post->post_type == 'llms_membership') {
-	
+
 			llms_get_template( 'membership/purchase-link.php' );
 		}
 	}
@@ -643,7 +643,7 @@ function llms_setup_course_data( $post ) {
 			if ( is_int( $post ) ) {
 				$post = get_post( $post );
 			}
-				
+
 			if ( empty( $post->post_type ) ) {
 				return;
 			}
@@ -652,7 +652,7 @@ function llms_setup_course_data( $post ) {
 
 			return $GLOBALS['course'];
 		}
-		
+
 	}
 
 }
@@ -782,10 +782,10 @@ add_action( 'the_post', 'llms_setup_lesson_data' );
 
 /**
  * Get Price
- * 
+ *
  * @param  int $price [product price]
  * @param  array  $args  [array of price arguments]
- * 
+ *
  * @return int $price [formatted price]
  */
 function llms_price( $price, $args = array() ) {
@@ -869,7 +869,7 @@ function get_lesson_data ($lessons) {
  * @return string $page_title [page title]
  */
 if ( ! function_exists( 'lifterlms_page_title' ) ) {
-	
+
 	function lifterlms_page_title( $echo = true ) {
 		$page_title = '';
 
@@ -900,7 +900,7 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
  * @return string [loop start html]
  */
 if ( ! function_exists( 'lifterlms_membership_loop_start' ) ) {
-	
+
 	function lifterlms_membership_loop_start( $echo = true ) {
 		ob_start();
 		llms_get_template( 'loop/loop-start.php' );
@@ -936,7 +936,7 @@ if ( ! function_exists( 'lifterlms_membership_loop_end' ) ) {
  * @return string [loop start html]
  */
 if ( ! function_exists( 'lifterlms_course_loop_start' ) ) {
-	
+
 	function lifterlms_course_loop_start( $echo = true ) {
 		ob_start();
 		llms_get_template( 'loop/loop-start.php' );
@@ -975,7 +975,7 @@ if ( ! function_exists( 'lifterlms_course_loop_end' ) ) {
  * @return null / html content
  */
 if ( ! function_exists( 'lifterlms_course_progress_bar') ) {
-	
+
 	function lifterlms_course_progress_bar( $progress, $link=false, $button=true, $echo = true ) {
 
 		$tag = ($link) ? 'a' : 'span';
@@ -991,7 +991,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar') ) {
 
 
 		if($button) {
-			$r .= '<' . $tag . ' class="llms-button llms-purchase-button"'. $href .'>' . sprintf( __( 'Continue (%s%%)', 'lifterlms' ), $progress ) . '</' . $tag . '>';	
+			$r .= '<' . $tag . ' class="llms-button llms-purchase-button"'. $href .'>' . sprintf( __( 'Continue (%s%%)', 'lifterlms' ), $progress ) . '</' . $tag . '>';
 		}
 
 		if($echo) {
@@ -1008,7 +1008,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar') ) {
  * @return boolean [template filtered?]
  */
 if ( ! function_exists( 'is_filtered' ) ) {
-	
+
 	function is_filtered() {
 		global $_chosen_attributes;
 
@@ -1033,7 +1033,7 @@ if ( ! function_exists( 'is_course_category' ) ) {
  * @return boolean [Is Course Archive?]
  */
 if ( ! function_exists( 'is_shop' ) ) {
-	
+
 	function is_shop() {
 		return (( is_single() && is_post_type_archive( 'course' )) || (is_single() && is_page( llms_get_page_id( 'shop' )) ) ) ? true : false;
 	}
@@ -1044,7 +1044,7 @@ if ( ! function_exists( 'is_shop' ) ) {
  * @return boolean [Is Membership Archive?]
  */
 if ( ! function_exists( 'is_memberships' ) ) {
-	
+
 	function is_memberships() {
 		return ( is_post_type_archive( 'llms_membership' ) || is_page( llms_get_page_id( 'memberships' ) ) ) ? true : false;
 	}
@@ -1178,7 +1178,7 @@ if ( ! function_exists( 'lifterlms_get_course_thumbnail' ) ) {
 if ( ! function_exists( 'lifterlms_get_featured_image' ) ) {
 
 	function lifterlms_get_featured_image( $post_id ) {
-		
+
 		if ( has_post_thumbnail($post_id) ) {
 
 			return llms_featured_img( $post_id, 'full' );
@@ -1196,14 +1196,14 @@ if ( ! function_exists( 'lifterlms_get_featured_image' ) ) {
  * @return string [url of featured image full size]
  */
 if ( ! function_exists( 'lifterlms_get_featured_image_banner' ) ) {
-	
+
 	function lifterlms_get_featured_image_banner( $post_id ) {
 		if (get_option('lifterlms_course_display_banner') == 'yes') {
 			if ( has_post_thumbnail($post_id) ) {
 				return llms_featured_img( $post_id, 'full' );
 			}
 		}
-		
+
 	}
 }
 
@@ -1235,7 +1235,7 @@ function llms_placeholder_img( $size = 'full' ) {
  * @return string
  */
 function llms_featured_img( $post_id, $size ) {
-	$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'full' );
+	$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $size );
 
 	return apply_filters('lifterlms_featured_img', '<img src="' . $img[0] . '" alt="Placeholder" class="llms-course-image llms-featured-imaged wp-post-image" />' );
 }
@@ -1245,7 +1245,7 @@ function llms_featured_img( $post_id, $size ) {
  * @return [type] [description]
  */
 if ( ! function_exists( 'lifterlms_output_content_wrapper' ) ) {
-	
+
 	function lifterlms_output_content_wrapper() {
 		llms_get_template( 'global/wrapper-start.php' );
 	}
@@ -1320,7 +1320,7 @@ function llms_person_edit_account_url() {
 /**
  * Get Product Query Var
  * REFACTOR: Move to query class
- * 
+ *
  * @param  array $vars [array of query variables]
  * @return array $vars [array of query variables]
  */
@@ -1333,7 +1333,7 @@ add_filter( 'query_vars', 'get_product_query_var' );
 /**
  * Get available payment gateway options
  * Get's available payment gateways options IE: single, recurring
- * 
+ *
  * @return void
  */
 function get_available_payment_options() {
@@ -1355,7 +1355,7 @@ function get_available_payment_options() {
 		}
 
 	llms_get_template( 'checkout/' . $option . '.php' );
-	
+
 	}
 }
 
@@ -1431,7 +1431,7 @@ function llms_custom_archive_order( $vars ) {
 	    $vars['orderby'] = 'menu_order';
 	    $vars['order'] = 'ASC';
   	}
-  	
+
   }
 
   return $vars;
