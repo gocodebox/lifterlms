@@ -65,6 +65,24 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 				array( 'title' => __( 'Display Settings', 'lifterlms' ), 'type' => 'title', 'id' => 'course_options' ),
 
+                array(
+                    'title' => __( 'Course Purchase Button Text', 'lifterlms' ),
+                    'desc' 		=> '<br/>' . sprintf( __( 'Enter custom text to display on the Course Purchase Button.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+                    'id' 		=> 'lifterlms_button_purchase_course_custom_text',
+                    'type' 		=> 'text',
+                    'default'	=> 'Take This Course',
+                    'css' 		=> 'min-width:200px;',
+                ),
+
+                array(
+                    'title' => __( 'Membership Signup Button Text', 'lifterlms' ),
+                    'desc' 		=> '<br/>' . sprintf( __( 'Enter custom text to display on Membership sign up button (displays on course page).', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+                    'id' 		=> 'lifterlms_button_purchase_membership_custom_text',
+                    'type' 		=> 'text',
+                    'default'	=> 'Become a Member',
+                    'css' 		=> 'min-width:200px;',
+                ),
+
 				array(
 				'title'         => __( 'Course Display', 'lifterlms' ),
 				'desc'          => __( 'Display author name on course.', 'lifterlms' ),

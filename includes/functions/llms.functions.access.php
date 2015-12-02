@@ -210,8 +210,6 @@ function membership_page_restricted()
  * @return bool $resticted_access [Is page restricted by membership level]
  */
 function page_restricted_by_membership($post_id) {
-llms_log('is_topic_restricted called');
-	
 
 	$post = get_post($post_id);
 
@@ -273,7 +271,7 @@ llms_log('is_topic_restricted called');
  * @return boolean       [description]
  */
 function is_topic_restricted($post) {
-	llms_log('is_topic_restricted called');
+
 	$page_restrictions = array();
 
 	if (isset($post->post_type) && $post->post_type === 'topic') {

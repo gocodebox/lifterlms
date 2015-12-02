@@ -175,9 +175,10 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					<ul>
 					<li><p>' . __( 'Thank you for choosing', 'lifterlms' ) . ' <a href="http://lifterlms.com">LifterLMS</a> ' . __( 'as your Learning Management Solution.', 'lifterlms' ) .' </p></li>
 					<li><p>' . __( 'Version:', 'lifterlms' ) . ' ' . LLMS()->version . '</p></li>
-					<li><p>' . __( 'Support:', 'lifterlms' ) . ' <a href="https://lifterlms.com/forums/">' . __( 'https://lifterlms.com/forums/' ) . '</a></p></li>
-					<li><p>' . __( 'Blog:', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
-					<li><p>' . __( 'Tutorials:', 'lifterlms' ) . ' <a href="http://demo.lifterlms.com/">' . __( 'http://demo.lifterlms.com/' ) . '</a></p></li>
+					<li><p>' . __( 'Support:', 'lifterlms' ) . ' <a href="https://lifterlms.com/contact/" target="_blank">' . __( 'https://lifterlms.com/contact/' ) . '</a></p></li>
+					<li><p>' . __( 'Blog:', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/" target="_blank">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
+					<li><p>' . __( 'Tutorials:', 'lifterlms' ) . ' <a href="http://demo.lifterlms.com" target="_blank">' . __( 'http://demo.lifterlms.com' ) . '</a></p></li>
+					<li><p>' . __( 'Services:', 'lifterlms' ) . ' <a href="http://lifterlms.com/done-for-you" target="_blank">' . __( 'http://lifterlms.com/done-for-you' ) . '</a></p></li>
 					</ul>
 					</div>',
 					'id' => 'activation_options' ),

@@ -53,6 +53,7 @@
 .llms-purchase-link-wrapper .llms-purchase-button.llms-button {
   color: #fefefe;
   text-decoration: none;
+  margin-top: 10px;
 }
 .llms-purchase-link-wrapper .llms-purchase-button.llms-button:visited {
   color: #fefefe;
@@ -336,6 +337,7 @@
   text-align: center;
   width: 100%;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .llms-length-wrapper {
@@ -538,6 +540,10 @@
 
 .llms-my-achievements {
   font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+}
+.llms-my-achievements h3 {
+  background-color: #f5f5f5;
+  padding: 4px;
 }
 .llms-my-achievements ul.listing-achievements {
   margin: 0;
@@ -1004,6 +1010,7 @@ svg .llms-animated-circle {
   color: #fff;
   border-radius: 5px;
   margin-bottom: 10px;
+  list-style-type: none;
 }
 
 .llms-question-count {

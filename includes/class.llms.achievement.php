@@ -11,15 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 */
 class LLMS_Achievement {
 
-	// is the email enabled
+	// is the achievement enabled
 	var $enabled;
 
 	var $heading;
 
 	function __construct() {
 
-			// Settings TODO Refoactor: theses can come from the email post now
-			$this->email_type     	= 'html';
+			// Settings TODO Refoactor: theses can come from the achievement post now
 			$this->enabled   		= get_option( 'enabled' );
 
 			$this->find = array( '{blogname}', '{site_title}' );
@@ -71,9 +70,7 @@ class LLMS_Achievement {
 	 */
 	function get_content() {
 
-	$this->sending = true;
-
-	$achievement_content = $this->get_content_html();
+	$achievement_content = $this->content;
 
 		return $achievement_content;
 	}
@@ -102,6 +99,7 @@ class LLMS_Achievement {
 
 		update_post_meta( $new_user_achievement_id,'_llms_achievement_title', $this->achievement_title );
 		update_post_meta( $new_user_achievement_id,'_llms_achievement_image', $this->image );
+        update_post_meta( $new_user_achievement_id,'_llms_achievement_content', $this->content );
 
 		$user_metadatas = array(
 			'_achievement_earned' => $new_user_achievement_id,

@@ -29,253 +29,268 @@ LLMS.MB_Course_Outline = {
 	bind: function() {
 		var _this = this;
 
-		$( '.llms-modal-cancel' ).click(function(e) {
-			e.preventDefault();
-			$(window).trigger('build');
-		});
+        $(document).ready(function() {
+            //add section row js functionality
+            _this.addSectionRowFunctionality();
 
-		$(document).ready(function() {
-			$('.llms-chosen-select').chosen({width: '100%'});
-		});
+            //add lesson row js functionality
+            _this.addLessonRowFunctionality();
+        });
 
-		//hack to resize excerpt and content editor size.
-		//There is a WP but where passing the css_options to wp_editor
-		//does not work.
-		$('.tab-link').on('click', function() {
-			$( '#content_ifr' ).css('height', '300px');
-			$( '#excerpt_ifr' ).css('height', '300px');
-		});
+            $('.llms-modal-cancel').click(function (e) {
+                e.preventDefault();
+                $(window).trigger('build');
+            });
 
-		//show / hide prereq lesson select based on setting
-		if ( $('#_has_prerequisite').attr('checked') ) {
-			$('.llms-prereq-top').addClass('top');
-			$('.llms-prereq-bottom').show();
+            $(document).ready(function () {
+                $('.llms-chosen-select').chosen({width: '100%'});
+            });
 
-		} else {
-			$('.llms-prereq-bottom').hide();
-		}
-		$('#_has_prerequisite').change(function() {
-			if ( $('#_has_prerequisite').attr('checked') ) {
-				$('.llms-prereq-top').addClass('top');
-				$('.llms-prereq-bottom').show();
+            //hack to resize excerpt and content editor size.
+            //There is a WP but where passing the css_options to wp_editor
+            //does not work.
+            $('.tab-link').on('click', function () {
+                $('#content_ifr').css('height', '300px');
+                $('#excerpt_ifr').css('height', '300px');
+            });
 
-			} else {
-				$('.llms-prereq-top').removeClass('top');
-				$('.llms-prereq-bottom').hide();
-			}
-		});
+            //show / hide prereq lesson select based on setting
+            if ($('#_has_prerequisite').attr('checked')) {
+                $('.llms-prereq-top').addClass('top');
+                $('.llms-prereq-bottom').show();
 
-		//generic modal call
-		$('a.llms-modal').click(function() {
-			$('#' + $(this).attr('data-modal_id') ).topModal( {
-	        	title: $(this).attr('data-modal_title'),
-	        	closed: function() {
-	        		_this.alreadySubmitted = false;
-	        	}
-	        });
-		});
+            } else {
+                $('.llms-prereq-bottom').hide();
+            }
+            $('#_has_prerequisite').change(function () {
+                if ($('#_has_prerequisite').attr('checked')) {
+                    $('.llms-prereq-top').addClass('top');
+                    $('.llms-prereq-bottom').show();
 
-		//add new lesson modal
-	    $('a.llms-modal-new-lesson-link').click(function(){
-	        $('#' + $(this).attr('data-modal_id') ).topModal( {
-	        	title: $(this).attr('data-modal_title'),
-	        	open: function() {
-	        		_this.getSections();
-					$( '#llms_create_lesson' ).find('input[value="Create Lesson"]').removeProp('disabled');
-	        	},
-	        	closed: function() {
-	        		_this.alreadySubmitted = false;
-	        	}
-	        });
-	    });
+                } else {
+                    $('.llms-prereq-top').removeClass('top');
+                    $('.llms-prereq-bottom').hide();
+                }
+            });
 
-	    //add existing lesson modal
-	    $('a.llms-modal-existing-lesson-link').click(function(){
-	        $('#' + $(this).attr('data-modal_id') ).topModal( {
-	        	title: $(this).attr('data-modal_title'),
-	        	open: function() {
-	        		_this.getSections();
-	        		_this.getLessons();
-	        	},
-	        	closed: function() {
-	        		_this.alreadySubmitted = false;
-	        	}
-	        });
-	    });
+            this.toggle_custom_single_price_field();
 
-		this.setup_course();
+            //generic modal call
+            $('a.llms-modal').click(function () {
+                $('#' + $(this).attr('data-modal_id')).topModal({
+                    title: $(this).attr('data-modal_title'),
+                    closed: function () {
+                        _this.alreadySubmitted = false;
+                    }
+                });
+            });
 
-		$(window).click(function(e) {
-			if (e.target.id !== 'llms-outline-add' && $('#llms-outline-add').hasClass('clicked') ) {
-				$('#llms-outline-menu').css('display', 'none');
-				reset();
-			}
-		});
+            //add new lesson modal
+            $('a.llms-modal-new-lesson-link').click(function () {
+                $('#' + $(this).attr('data-modal_id')).topModal({
+                    title: $(this).attr('data-modal_title'),
+                    open: function () {
+                        _this.getSections();
+                        $('#llms_create_lesson').find('input[value="Create Lesson"]').removeProp('disabled');
+                    },
+                    closed: function () {
+                        _this.alreadySubmitted = false;
+                    }
+                });
+            });
 
-		function reset() {
-			$('#llms-outline-add').removeClass('clicked');
-            $('#llms-outline-add').addClass('bt');
-            $('#llms-outline-menu').removeClass('fade-in');
-			$('#triangle').show();
-		}
+            //add existing lesson modal
+            $('a.llms-modal-existing-lesson-link').click(function () {
+                $('#' + $(this).attr('data-modal_id')).topModal({
+                    title: $(this).attr('data-modal_title'),
+                    open: function () {
+                        _this.getSections();
+                        _this.getLessons();
+                    },
+                    closed: function () {
+                        _this.alreadySubmitted = false;
+                    }
+                });
+            });
 
-		$(window).scroll(function() {
-			if($('#llms-outline-add').hasClass('clicked')) {
-					$('#triangle').hide();
-					var popover = $('#llms-outline-menu'),
-					top = -($('#llms-outline-add').offset().top) - 81 +
-					$(window).scrollTop() + ($(window).height() / 2);
-					popover.css('top', top);
-			}
-		});
+            this.setup_course();
 
-	    $('#llms-outline-add').click(function(e) {
-			e.preventDefault();
-			var popover = $('#llms-outline-menu');
-			if ($(this).hasClass('bt')) {
-				if($(this).offset().top - $(window).scrollTop() < 200) {
-					popover.css('top', '43px');
-					if($(window).width() < 851) {
-						popover.find('#triangle').css('left', '164px');
-							popover.css('top', '57px');
-							popover.css('left', '-138px');
-							popover.css('bottom', '15px');
-					}
-				} else {
-					popover.css('top', '');
-						if($(window).width() < 851) {
-							popover.css('top', '-54px');
-								var left = $(window).width() < 400 ?  -Math.abs($(window).width() / 2) : -242;
-								left += 'px';
-								popover.css('left', left);
-							popover.css('bottom', '15px');
-							popover.find('#triangle').css('left', '227px');
-						}
-				}
-	            $(this).removeClass('bt');
-	            $(this).addClass('clicked');
-				popover.addClass('fade-in');
-				popover.css('display', 'block');
-	        } else {
-	            $(this).removeClass('clicked');
-	            $(this).addClass('bt');
-	            popover.removeClass('fade-in');
-				popover.css('display', 'none');
-				popover.find('#triangle').show();
-	        }
-	    });
+            $(window).click(function (e) {
+                if (e.target.id !== 'llms-outline-add' && $('#llms-outline-add').hasClass('clicked')) {
+                    $('#llms-outline-menu').css('display', 'none');
+                    reset();
+                }
+            });
 
-	    $('#tooltip_menu a').click(function(e) {
-			var popover = $('#llms-outline-menu');
-			popover.removeClass('fade-in');
-			popover.css('display', 'none');
-			e.preventDefault();
-	    });
+            function reset() {
+                $('#llms-outline-add').removeClass('clicked');
+                $('#llms-outline-add').addClass('bt');
+                $('#llms-outline-menu').removeClass('fade-in');
+                $('#triangle').show();
+            }
 
-	    $('a.tooltip').click(function(e) {
-	        e.preventDefault();
-	    });
+            $(window).scroll(function () {
+                if ($('#llms-outline-add').hasClass('clicked')) {
+                    $('#triangle').hide();
+                    var popover = $('#llms-outline-menu'),
+                        top = -($('#llms-outline-add').offset().top) - 81 +
+                            $(window).scrollTop() + ($(window).height() / 2);
+                    popover.css('top', top);
+                }
+            });
 
-		//sortable
-		$( '.llms-lesson-tree' ).sortable({
-			connectWith: '.llms-lesson-tree',
-			axis 		: 'y',
-	    	placeholder : 'placeholder',
-	    	cursor		: 'move',
-	    	forcePlaceholderSize:true,
-	    	stop: function() {
+            $('#llms-outline-add').click(function (e) {
+                e.preventDefault();
+                var popover = $('#llms-outline-menu');
+                if ($(this).hasClass('bt')) {
+                    if ($(this).offset().top - $(window).scrollTop() < 200) {
+                        popover.css('top', '43px');
+                        if ($(window).width() < 851) {
+                            popover.find('#triangle').css('left', '164px');
+                            popover.css('top', '57px');
+                            popover.css('left', '-138px');
+                            popover.css('bottom', '15px');
+                        }
+                    } else {
+                        popover.css('top', '');
+                        if ($(window).width() < 851) {
+                            popover.css('top', '-54px');
+                            var left = $(window).width() < 400 ? -Math.abs($(window).width() / 2) : -242;
+                            left += 'px';
+                            popover.css('left', left);
+                            popover.css('bottom', '15px');
+                            popover.find('#triangle').css('left', '227px');
+                        }
+                    }
+                    $(this).removeClass('bt');
+                    $(this).addClass('clicked');
+                    popover.addClass('fade-in');
+                    popover.css('display', 'block');
+                } else {
+                    $(this).removeClass('clicked');
+                    $(this).addClass('bt');
+                    popover.removeClass('fade-in');
+                    popover.css('display', 'none');
+                    popover.find('#triangle').show();
+                }
+            });
 
-	    		_this.resortLessons();
-	    	}
+            $('#tooltip_menu a').click(function (e) {
+                var popover = $('#llms-outline-menu');
+                popover.removeClass('fade-in');
+                popover.css('display', 'none');
+                e.preventDefault();
+            });
 
-		}).disableSelection();
+            $('a.tooltip').click(function (e) {
+                e.preventDefault();
+            });
 
-		//add section row js functionality
-		_this.addSectionRowFunctionality();
+            //section form submit
+            $('#llms_create_section').on('submit', function (e) {
+                e.preventDefault();
+                var values = {};
+                $.each($(this).serializeArray(), function (i, field) {
+                    values[field.name] = field.value;
+                });
+                if (_this.alreadySubmitted === false) {
+                    _this.alreadySubmitted = true;
+                    _this.createSection(values);
+                }
+            });
 
-		//add lesson row js functionality
-		_this.addLessonRowFunctionality();
+            //new lesson form submit
+            $('#llms_create_lesson').on('submit', function (e) {
+                e.preventDefault();
+                var values = {};
+                $.each($(this).serializeArray(), function (i, field) {
+                    values[field.name] = field.value;
+                });
+                if (_this.alreadySubmitted === false) {
+                    _this.alreadySubmitted = true;
+                    _this.createLesson(values);
+                }
 
-		//section form submit
-		$( '#llms_create_section' ).on( 'submit', function(e) {
-			e.preventDefault();
-			var values = {};
-			$.each($(this).serializeArray(), function (i, field) {
-			    values[field.name] = field.value;
-			});
-			if(_this.alreadySubmitted === false) {
-				_this.alreadySubmitted = true;
-				_this.createSection( values );
-			}
-		});
+            });
 
-		//new lesson form submit
-		$( '#llms_create_lesson' ).on( 'submit', function(e) {
-			e.preventDefault();
-			var values = {};
-			$.each($(this).serializeArray(), function (i, field) {
-			    values[field.name] = field.value;
-			});
-			if(_this.alreadySubmitted === false) {
-				_this.alreadySubmitted = true;
-				_this.createLesson( values );
-			}
+            //add existing lesson form submit
+            $('#llms_add_existing_lesson').on('submit', function (e) {
+                e.preventDefault();
 
-		});
+                var values = {};
+                $.each($(this).serializeArray(), function (i, field) {
+                    values[field.name] = field.value;
+                });
+                if (_this.alreadySubmitted === false) {
+                    _this.alreadySubmitted = true;
+                    _this.addExistingLesson(values);
+                }
 
-		//add existing lesson form submit
-		$( '#llms_add_existing_lesson' ).on( 'submit', function(e) {
-			e.preventDefault();
+            });
 
-			var values = {};
-			$.each($(this).serializeArray(), function (i, field) {
-			    values[field.name] = field.value;
-			});
-			if(_this.alreadySubmitted === false) {
-				_this.alreadySubmitted = true;
-				_this.addExistingLesson( values );
-			}
+            //update lesson title
+            $('#llms_edit_lesson').on('submit', function (e) {
+                e.preventDefault();
 
-		});
+                var values = {};
+                $.each($(this).serializeArray(), function (i, field) {
+                    values[field.name] = field.value;
+                });
 
-		//update lesson title
-		$( '#llms_edit_lesson' ).on( 'submit', function(e) {
-			e.preventDefault();
+                _this.updateLesson(values);
 
-			var values = {};
-			$.each($(this).serializeArray(), function (i, field) {
-			    values[field.name] = field.value;
-			});
+            });
 
-			_this.updateLesson( values );
+            //update section title
+            $('#llms_edit_section').on('submit', function (e) {
+                e.preventDefault();
 
-		});
+                var values = {};
+                $.each($(this).serializeArray(), function (i, field) {
+                    values[field.name] = field.value;
+                });
 
-		//update section title
-		$( '#llms_edit_section' ).on( 'submit', function(e) {
-			e.preventDefault();
+                _this.updateSection(values);
 
-			var values = {};
-			$.each($(this).serializeArray(), function (i, field) {
-			    values[field.name] = field.value;
-			});
+            });
 
-			_this.updateSection( values );
+            //update lesson title
+            $('#llms_delete_section').on('submit', function (e) {
+                e.preventDefault();
 
-		});
+                var values = {};
+                $.each($(this).serializeArray(), function (i, field) {
+                    values[field.name] = field.value;
+                });
 
-		//update lesson title
-		$( '#llms_delete_section' ).on( 'submit', function(e) {
-			e.preventDefault();
-
-			var values = {};
-			$.each($(this).serializeArray(), function (i, field) {
-			    values[field.name] = field.value;
-			});
-
-			_this.deleteSection( values );
-		});
+                _this.deleteSection(values);
+            });
 	},
+
+    toggle_custom_single_price_field: function()
+    {
+        //show / hide prereq lesson select based on setting
+        if ($('#_is_custom_single_price').attr('checked')) {
+            $('.llms-custom-single-price-top').removeClass('bottom');
+            $('.llms-custom-single-price-top').addClass('top');
+            $('.llms-custom-single-price-bottom').show();
+
+        } else {
+            $('.llms-custom-single-price-bottom').hide();
+        }
+        $('#_is_custom_single_price').change(function () {
+            if ($('#_is_custom_single_price').attr('checked')) {
+                $('.llms-custom-single-price-top').removeClass('bottom');
+                $('.llms-custom-single-price-top').addClass('top');
+                $('.llms-custom-single-price-bottom').show();
+
+            } else {
+                $('.llms-custom-single-price-top').removeClass('top');
+                $('.llms-custom-single-price-top').addClass('bottom');
+                $('.llms-custom-single-price-bottom').hide();
+            }
+        });
+    },
 	resortSections: function() {
 
 		var section_tree = {};
@@ -310,8 +325,6 @@ LLMS.MB_Course_Outline = {
 	    	},
 	    	success: function(r) {
 	    		console.log(r);
-	    		if ( r.success === true ) {
-	    		}
 	    	}
 	    });
 	},
@@ -328,8 +341,6 @@ LLMS.MB_Course_Outline = {
 	    	success: function(r) {
 	    		console.log(r);
 
-	    		if ( r.success === true ) {
-	    		}
 	    	}
 	    });
 	},

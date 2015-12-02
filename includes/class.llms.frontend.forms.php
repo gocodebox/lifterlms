@@ -732,7 +732,7 @@ class LLMS_Frontend_Forms {
 					$membership = get_post($membership);
 					$membership_title = $membership->post_title;
 					$membership_url = get_permalink($membership->ID);
-					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message',sprintf( __( '<a href="%s">%s</a> membership level is required to access this content.', 'lifterlms' ), $membership_url, $membership_title ) ) );
+					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message',sprintf( __( '<a href="%s">%s</a> membership level allows access this content.', 'lifterlms' ), $membership_url, $membership_title ) ) );
 				break;
 			case 'membership':
 				$memberships = llms_get_post_memberships($post_id);
@@ -744,7 +744,7 @@ class LLMS_Frontend_Forms {
 						$link = get_permalink($membership->ID);
 						llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', 
 							'<a href="' . $link . '">' . $membership_title  . '</a> ' 
-							. LLMS_Language::output('membership level is required to access this content.') ) );
+							. LLMS_Language::output('membership level allows access this content.') ) );
 					}
 				} else {
 					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', 
@@ -759,7 +759,7 @@ class LLMS_Frontend_Forms {
 					$link = get_permalink($membership->ID);
 					llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', 
 						'<a href="' . $link . '">' . $membership_title  . '</a> ' 
-						. LLMS_Language::output('membership level is required to access this content.') ) );
+						. LLMS_Language::output('membership level allows access this content.') ) );
 				}
 				break;
 			case 'prerequisite' :
@@ -830,14 +830,19 @@ class LLMS_Frontend_Forms {
 					$current_post = new LLMS_Lesson($post->ID);
 					$parent_course_id = $current_post->get_parent_course();
 					$course = new LLMS_Course($parent_course_id);
-					$prerequisite = LLMS_Post_Handler::get_prerequisite($parent_course_id); //llms_get_prerequisite(get_current_user_id(), $post_id);
-					if ($prerequisite)
+					$prerequisite = LLMS_Post_Handler::get_prerequisite($post->ID); //llms_get_prerequisite(get_current_user_id(), $post_id);
+					if ( ! $prerequisite)
 					{
-						$link = get_permalink( $prerequisite );
+                        $prerequisite = LLMS_Post_Handler::get_prerequisite($parent_course_id);
+					}
 
-						llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ),
-							$link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
-					}					
+                    if ($prerequisite)
+                    {
+                        $link = get_permalink( $prerequisite );
+
+                        llms_add_notice( sprintf( __( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ),
+                            $link, get_the_title($prerequisite), get_the_title($prerequisite) ) );
+                    }
 					
 					if ($prerequisite_id = $course->get_prerequisite_track())
 					{

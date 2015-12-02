@@ -25,7 +25,7 @@
     "validateLineBreaks": "LF",
     "validateQuoteMarks": "'",
    // "disallowMixedSpacesAndTabs": true,
-    "disallowTrailingWhitespace": true,
+   // "disallowTrailingWhitespace": false,
     "disallowKeywordsOnNewLine": ["else"],
     "requireLineFeedAtFileEnd": true,
     "maximumLineLength": 120,

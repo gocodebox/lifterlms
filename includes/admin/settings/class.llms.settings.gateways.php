@@ -54,9 +54,18 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 				'id'            => 'lifterlms_gateways_paypal_enable_sandbox',
 				'default'       => 'no',
 				'type'          => 'checkbox',
-				'checkboxgroup' => 'end',
+				'checkboxgroup' => '',
 				'autoload'      => false
 				),
+
+                array(
+                    'desc'          => __( 'Enable Debug Mode. <i>Display Response Messages on Checkout Screen</i>', 'lifterlms' ),
+                    'id'            => 'lifterlms_gateways_paypal_enable_debug',
+                    'default'       => false,
+                    'type'          => 'checkbox',
+                    'checkboxgroup' => 'end',
+                    'autoload'      => false
+                ),
 
 				array(
 				'title' => __( 'API Username', 'lifterlms' ),

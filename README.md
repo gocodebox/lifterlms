@@ -24,6 +24,22 @@ LIFTER LMS
 
 CHANGELOG
 =========
+
+v1.4.1 - 2015/12/02
+-------------------
++ Feature: Custom single price text - Display custom text for the single price on the courses and course page. Custom field does not require a single payment price be set. IE: Free!
++ Feature: Custom Purchase Course Button Text Option. Change the text of the Take This Course button in Settings->Courses.
++ Feature: New Become A Member button on courses that are restricted to memberships.
++ Feature: Custom Become A Member Text Option. Change the text of the become a member button in Settings->Courses.
++ Feature: Paypal Debug Mode. Enable debug mode in Settings->Gateways to view responses from Paypal API when errors occur.
++ Updates: Updated support links in Settings->General.
++ Updates: added minor styling to course page to increase margin and padding for some themes.
++ Updates: Achievement content now available to pull into custom templates. The Achievement content is not by default displayed but can now be used in custom templates.
++ BugFixes: Resolved issue with no default price selected at checkout when only recurring option existed.
++ BugFixes: Lesson prerequisite now alert the user and provide a link to redirect the user to the next required lesson in the course.
++ BugFixes: Paypal errors now return error message instead of white screen when Paypal API fails.
++ BugFixes: Corrected JavaScript error with modals on course edit page in Internet Explorer 11.
+
 v1.4.0 - 2015/10/29
 -------------------
 + Feature: Free lessons - demo lessons that can be taken at any time by any user

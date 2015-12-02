@@ -95,6 +95,16 @@ class LLMS_Course {
 
 	}
 
+    public function get_purchase_button_text()
+    {
+        return get_option('lifterlms_button_purchase_course_custom_text', 'Take This Course');
+    }
+
+    public function get_purchase_membership_button_text()
+    {
+        return get_option('lifterlms_button_purchase_membership_custom_text', 'Become a Member');
+    }
+
 	public function get_children_sections() {
 
 		$args = array(
