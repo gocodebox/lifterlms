@@ -1,4 +1,4 @@
-/* global LLMS, $, jQuery, myAjax */
+/* global LLMS, $, jQuery */
 /* jshint strict: false */
 /*jshint -W020 */
 
@@ -45,9 +45,7 @@ LLMS.Review = {
 		                console.log(errorThrown);
 		            },
 		        });
-			} 
-			else 
-			{
+			} else {
 				if ($('#review_title').val() === '')
 				{
 					$('#review_title_error').show('swing');

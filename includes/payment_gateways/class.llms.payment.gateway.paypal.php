@@ -116,13 +116,15 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     /**
      *Can be set for debugging. print_r()
      */
-    public $debug_info;
+    public $debug_info = [];
  
     /**
      * Saves the full response once a request succeed
      * @mixed
      */
     public $full_response = false;
+
+    private $is_debug = false;
  
     /**
      * Creates a new PayPal gateway object
@@ -141,7 +143,10 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         $this->sandbox      = get_option( 'lifterlms_gateways_paypal_enable_sandbox' ) == 'yes' ? true : false; 
         $this->user         = get_option( 'lifterlms_gateways_paypal_email' ); 
         $this->password     = get_option( 'lifterlms_gateways_paypal_password' ); 
-        $this->signature    = get_option( 'lifterlms_gateways_paypal_signature' ); 
+        $this->signature    = get_option( 'lifterlms_gateways_paypal_signature' );
+
+        // get the debug status for displaying error messages.
+        $this->is_debug = $this->get_debug_status();
 
          // Set the Server and Redirect URL
         if ($this->sandbox) {
@@ -154,6 +159,13 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
     }
 
+    private function get_debug_status()
+    {
+        $debug = get_option( 'lifterlms_gateways_paypal_enable_debug', 'no');
+
+        return strcmp($debug, 'yes') === 0 ? true : false;
+    }
+
     /**
      * Process method. 
      * @param boolean $sandbox Set to true if you want to enable the Sandbox mode
@@ -161,7 +173,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function process_payment($order) {
 
         // Create a new PayPal class instance, and set the sandbox mode to true
-        $paypal = new LLMS_Payment_Gateway_Paypal ();
+       // $paypal = new LLMS_Payment_Gateway_Paypal ();
 
         //apply coupon to order total
         $coupon = LLMS()->session->get( 'llms_coupon' );
@@ -219,12 +231,23 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             );
         }
 
-        if ($paypal->setExpressCheckout($param)) {
+        if ($this->setExpressCheckout($param)) {
 
-            $redirect_url = $paypal->getRedirectURL();
-            do_action( 'lifterlms_order_process_begin', $redirect_url );
+            $redirect_url = $this->getRedirectURL();
+            if ($redirect_url)
+            {
+                do_action( 'lifterlms_order_process_begin', $redirect_url );
+            }
+            else
+            {
+                return $this->return_error('There was an error connecting to the payment gateway.');
+            }
 
-        } 
+        }
+        else
+        {
+            return $this->return_error('There was an error connecting to the payment gateway.');
+        }
 
     }
 
@@ -237,16 +260,19 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
      */
     public function confirm_payment($response) {
 
-        $paypal = new LLMS_Payment_Gateway_Paypal ();
+        //$paypal = new LLMS_Payment_Gateway_Paypal ();
 
         $param = array(
             'token' => $response['token'],
         );
-        if ($paypal->getExpressCheckout($param)) {
+        if ($this->getExpressCheckout($param)) {
 
-           return $paypal->getResponse();
-
-        } 
+           return $this->getResponse();
+        }
+        else
+        {
+            return $this->return_error('There was an error connecting to the payment gateway.');
+        }
          
     }
 
@@ -261,7 +287,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
      * @return void
      */
     public function complete_payment($request, $order) {
-        $paypal = new LLMS_Payment_Gateway_Paypal ();
+        //$this = new LLMS_Payment_Gateway_Paypal ();
 
         if ($order->payment_option == 'recurring' ){
 
@@ -277,9 +303,19 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                     'token' => $request['TOKEN'],
                 );
 
-                if ($paypal->doExpressCheckout($init_param)) {
-                    $init_response = $paypal->getResponse();
+                if ($this->doExpressCheckout($init_param)) {
 
+                    $init_response = $this->getResponse();
+
+                    if (!$init_response || $init_response['ACK'] === 'Failure')
+                    {
+                        return $this->return_error('There was an error connecting to the payment gateway.');
+                    }
+
+                }
+                else
+                {
+                    return $this->return_error('There was an error connecting to the payment gateway.');
                 }
             }
 
@@ -307,14 +343,22 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 'max_failed_payments' => '1',
             );
 
-            if ($paypal->createRecurringPaymentsProfile($param)) {
-                $response = $paypal->getResponse();
-            }
-        
+            if ($this->createRecurringPaymentsProfile($param))
+            {
+                $response = $this->getResponse();
 
+                if ( ! $response || $response['ACK'] === 'Failure')
+                {
+                    return $this->return_error('There was an error connecting to the payment gateway.');
+                }
+            }
+            else
+            {
+                return $this->return_error('There was an error connecting to the payment gateway.');
+            }
         }
 
-        if ( $order->payment_option == 'single' ) {
+        if ( $order->payment_option == 'single' && strcmp($request['ACK'], 'Failure') !== 0) {
       
             $param = array(
                 'amount' => $request['AMT'],
@@ -323,14 +367,24 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 'token' => $request['TOKEN'],
             );
 
-            if ($paypal->doExpressCheckout($param)) {
-                $response = $paypal->getResponse();
+            if ($this->doExpressCheckout($param)) {
 
+                $response = $this->getResponse();
+
+                if (!$response || $response['ACK'] === 'Failure')
+                {
+                    return $this->return_error('There was an error connecting to the payment gateway.');
+                }
+
+            }
+            else
+            {
+                return $this->return_error('There was an error connecting to the payment gateway.');
             }
         }
 
 
-        if ($response['ACK'] == 'Success') {
+        if (isset($response) && $response['ACK'] == 'Success') {
 
             $lifterlms_checkout = LLMS()->checkout();
             $result = $lifterlms_checkout->update_order($order);
@@ -344,6 +398,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         else {
        
             do_action( 'lifterlms_order_process_error', $order->user_id);
+            return $this->return_error('There was an error connecting to the payment gateway.');
         }
         
     }
@@ -421,19 +476,19 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
  
         // HTTP Request fails
         if (is_wp_error($response)) {
-            $this->debug_info = $response;
+            //$this->debug_info = $response;
             return false;
         }
  
         // Status code returned other than 200
         if ($response['response']['code'] != 200) {
-            $this->debug_info = 'Response code different than 200';
+            //$this->debug_info = 'Response code different than 200 ' . $this->debug_info = $response;
             return false;
         }
  
         // Saves the full response
         $this->full_response = $response;
- 
+
         // Request succeeded
         return true;
     }
@@ -490,6 +545,12 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function getResponse() {
         if ($this->full_response) {
             parse_str(urldecode($this->full_response['body']), $output);
+
+            if ($output && strcmp($output['ACK'], 'Failure') === 0)
+            {
+                $this->debug_info = $output;
+            }
+
             return $output;
         }
         return false;
@@ -509,6 +570,11 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             $url = $this->redirect_url . '?' . http_build_query($query_data);
             return $url;
         }
+        else
+        {
+            $this->debug_info = $output;
+        }
+
         return false;
     }
  
@@ -521,7 +587,69 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         if ($output['ACK'] === 'Success') {
             return $output['TOKEN'];
         }
+        else
+        {
+            $this->debug_info = $output;
+        }
+
         return false;
+    }
+
+    public function return_error($message)
+    {
+        if ($this->is_debug)
+        {
+            return llms_add_notice($this->outputError($this->debug_info));
+        }
+        else
+        {
+            return llms_add_notice($message, 'error');
+        }
+    }
+
+    /**
+     * Debug function for printing the content of an object or array
+     *
+     * @param [mixes] $obj
+     */
+    public function pr($obj) {
+        ob_start();
+        $pr = '';
+        if (!self::is_cli())
+            $pr .= '<pre style="word-wrap: break-word">';
+        if (is_object($obj))
+            $pr .= $this->sprint_r($obj);
+        elseif (is_array($obj))
+            $pr .= $this->sprint_r($obj);
+        else
+            $pr .= $obj;
+        if (!self::is_cli())
+            $pr .= '</pre>';
+
+        return $pr;
+    }
+
+    public static function is_cli() {
+        return (PHP_SAPI == 'cli' && empty($_SERVER['REMOTE_ADDR']));
+    }
+
+    /**
+     * Outputs Error messages
+     * @param  [obj] $XeroOAuth [Xero API call object]
+     * @return [obj]            [Prints errors using pr method]
+     */
+    public function outputError($debug_info) {
+
+        return 'Paypal Gateway Error: ' . $this->pr($debug_info) . PHP_EOL;
+
+    }
+
+    public function sprint_r($var) {
+        ob_start();
+        print_r($var);
+        $output=ob_get_contents();
+        ob_end_clean();
+        return $output;
     }
 
 }

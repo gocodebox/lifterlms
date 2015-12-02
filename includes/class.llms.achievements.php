@@ -11,9 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 */
 class LLMS_Achievements {
 
-	public $emails;
+	public $achievements;
 
-	public $email_content;
+	public $content;
 
 	private $_from_address;
 
@@ -47,7 +47,7 @@ class LLMS_Achievements {
 	function init() {
 		include_once( 'class.llms.achievement.php' );
 
-		$this->emails['LLMS_Achievement_User']      = include_once( 'achievements/class.llms.achievement.user.php' );
+		$this->achievements['LLMS_Achievement_User']      = include_once( 'achievements/class.llms.achievement.user.php' );
 
 	}
 
@@ -56,18 +56,18 @@ class LLMS_Achievements {
 	 * Calls tigger method passing arguments
 	 *
 	 * @param  int $person_id [ID of the current user]
-	 * @param  int $email_id  [Achivement template post ID]
+	 * @param  int $id  [Achivement template post ID]
 	 * @param  int $lesson_id [Associated lesson with achievement]
 	 *
 	 * @return [type]            [description]
 	 */
-	function lesson_completed( $person_id, $email_id, $lesson_id ) {
+	function lesson_completed( $person_id, $id, $lesson_id ) {
 		if ( ! $person_id )
 			return;
 
-		$achievement = $this->emails['LLMS_Achievement_User'];
+		$achievement = $this->achievements['LLMS_Achievement_User'];
 
-		$achievement->trigger( $person_id, $email_id, $lesson_id );
+		$achievement->trigger( $person_id, $id, $lesson_id );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class LLMS_Achievements {
 		if ( ! $person_id )
 			return;
 
-		$achievement = $this->emails['LLMS_Achievement_User'];
+		$achievement = $this->achievements['LLMS_Achievement_User'];
 
 		$achievement->trigger( $person_id, $achievement_id, $engagement_id );
 	}

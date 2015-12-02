@@ -84,7 +84,7 @@
 		$(".topModalClose, .topModalBackground").on("click", function (event) {
 		    methods.hidePopup();
 		});
-		event = new Event('build');
+           // event = new Event('build');
 		$(window).on('build', function (e) {methods.hidePopup()});
 
 

@@ -25,24 +25,24 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	/**
 	 * Initializes all of the variables needed to create the achievement post.
 	 *
-	 * @param  int $email_id [id of email post]
+	 * @param  int $id [id of post]
 	 * @param  int $person_id [id of user]
 	 * @param  int $lesson_id [id of associated lesson]
 	 *
 	 * @return void
 	 */
-	public function init($email_id, $person_id, $lesson_id) {
+	public function init($id, $person_id, $lesson_id) {
 		global $wpdb;
 
- 		$email_content = get_post($email_id);
- 		$email_meta = get_post_meta( $email_content->ID );
+ 		$content = get_post($id);
+ 		$meta = get_post_meta( $content->ID );
 
- 		$this->achievement_template_id	= $email_id;
+ 		$this->achievement_template_id	= $id;
  		$this->lesson_id    			= $lesson_id;
-		$this->title 					= $email_content->post_title;
-		$this->achievement_title 		= $email_meta['_llms_achievement_title'][0];
-		$this->content 					= ( !empty( $email_content->post_content ) ) ? $email_content->post_content : $email_meta['_llms_achievement_content'][0];
-		$this->image 					= $email_meta['_llms_achievement_image'][0];
+		$this->title 					= $content->post_title;
+		$this->achievement_title 		= $meta['_llms_achievement_title'][0];
+		$this->content 					= ( !empty( $content->post_content ) ) ? $content->post_content : $meta['_llms_achievement_content'][0];
+		$this->image 					= $meta['_llms_achievement_image'][0];
 		$this->userid           		= $person_id;
 		$this->user             		= get_user_meta( $person_id );
 		$this->user_data				= get_userdata( $person_id );
@@ -50,7 +50,6 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		$this->user_lastname			= ($this->user['last_name'][0] != '' ?  $this->user['last_name'][0] : '');
 		$this->user_email				= $this->user_data->data->user_email;
 		$this->template_html 			= 'achievements/template.php';
-		$this->email_content			= $email_content->post_content;
 		$this->account_link 			= get_permalink( llms_get_page_id( 'myaccount' ) );
 
 	}
@@ -59,17 +58,17 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * Creates new instance of WP_User and calls parent method create
 	 *
 	 * @param  int $person_id [id of user]
-	 * @param  int $email_id [id of email post]
+	 * @param  int $id [id of post]
 	 * @param  int $lesson_id [id of associated lesson]
 	 *
 	 * @return void
 	 */
-	public function trigger( $user_id, $email_id, $lesson_id ) {
-		$this->init($email_id, $user_id, $lesson_id);
+	public function trigger( $user_id, $id, $lesson_id ) {
+		$this->init($id, $user_id, $lesson_id);
 
 		if ( $user_id ) {
 
-			$this->object 		= new WP_User( $user_id );
+			$this->object 		      = new WP_User( $user_id );
 			$this->user_login         = stripslashes( $this->object->user_login );
 			$this->user_email         = stripslashes( $this->object->user_email );
 			$this->recipient          = $this->user_email;
@@ -113,7 +112,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 		ob_start();
 		llms_get_template( $this->template_html, array(
-			'email_message' 	 => $content,
+			'content'        => $this->content,
 			'title'			 => $this->format_string( $this->title ),
 			'image'			 => $this->image,
 		) );

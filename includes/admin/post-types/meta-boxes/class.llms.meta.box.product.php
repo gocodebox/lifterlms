@@ -321,6 +321,21 @@ class LLMS_Meta_Box_Product {
 			}
 		}
 
+        // custom text for price checkbox
+        if (isset($_POST['_is_custom_single_price']) &&
+            (isset($_POST['_custom_single_price_html']) && strlen(trim($_POST['_custom_single_price_html'])) > 0))
+        {
+            $is_custom_single_price = llms_clean($_POST['_is_custom_single_price']);
+            $custom_single_price = llms_clean($_POST['_custom_single_price_html']);
+            update_post_meta( $post_id, '_is_custom_single_price', $is_custom_single_price );
+            update_post_meta( $post_id, '_custom_single_price_html', $custom_single_price );
+        }
+        else
+        {
+            update_post_meta( $post_id, '_is_custom_single_price', '' );
+            update_post_meta( $post_id, '_custom_single_price_html', '' );
+        }
+
 		do_action( 'lifterlms_after_save_product_meta_box', $post_id, $post );
 	}
 }

@@ -384,6 +384,16 @@ class LLMS_Product {
 
 	}
 
+    public function is_custom_single_price()
+    {
+        return $this->is_custom_single_price;
+    }
+
+    public function get_custom_single_price_html()
+    {
+        return $this->custom_single_price_html;
+    }
+
 	/**
 	 * Check: Is the sale price different than the base price and is the sale price equal to the price returned from get_price().
 	 *
