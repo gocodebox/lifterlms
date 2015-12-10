@@ -25,10 +25,12 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.4.2 - 2015/12/02 (unreleased)
---------------------------------
+v1.4.2 - 2015/12/10
+-------------------
 
++ Tested and compatible with WordPress version 4.4
 + BugFixes: fixed issue in `llms_featured_img()` that was preventing the `$size` variable from being passed to the WP core function being utilized.
++ BugFixes: correctly handling conflicts with Plugin Update library
 
 v1.4.1 - 2015/12/02
 -------------------

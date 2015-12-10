@@ -3,12 +3,12 @@
 * Plugin Name: LifterLMS
 * Plugin URI: http://lifterlms.com/
 * Description: LifterLMS is the easiest way for anyone to create a Learning Management System on the Wordpress platform.
-* Version: 1.4.1
+* Version: 1.4.2
 * Author: codeBOX
 * Author URI: http://gocodebox.com
 *
 * Requires at least: 3.8
-* Tested up to: 4.3.1
+* Tested up to: 4.4
 *
 * @package 		LifterLMS
 * @category 	Core
@@ -29,7 +29,7 @@ require 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '1.4.1';
+	public $version = '1.4.2';
 
 	protected static $_instance = null;
 
@@ -82,7 +82,7 @@ final class LifterLMS {
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		//add_action( 'init', array( 'LLMS_Widgets', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ) );
-		
+
 		// load localization files
 		add_action( 'plugins_loaded', array( $this, 'localize' ) );
 
@@ -158,7 +158,7 @@ final class LifterLMS {
 	private function includes() {
 
 		require_once( 'plugin-updates/plugin-update-checker.php');
-		
+
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
 		include_once( 'includes/class.llms.session.php' );
@@ -168,9 +168,9 @@ final class LifterLMS {
 		if ( is_admin() ) {
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php' );
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php');
-			include_once( 'includes/admin/llms.class.admin.metabox.php' );			
+			include_once( 'includes/admin/llms.class.admin.metabox.php' );
 			include_once( 'includes/admin/class.llms.admin.php' );
-			include_once( 'includes/admin/class.llms.admin.forms.php' );	
+			include_once( 'includes/admin/class.llms.admin.forms.php' );
 			include_once( 'includes/class.llms.activate.php' );
 			include_once( 'includes/class.llms.analytics.php' );
 			include_once( 'includes/admin/class.llms.admin.reviews.php' );
@@ -246,7 +246,7 @@ final class LifterLMS {
 
 		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
 
-		
+
 		//include_once( 'includes/widgets/class.llms.widget.progress.php' );
 	}
 
@@ -292,7 +292,7 @@ final class LifterLMS {
 
 		$MyUpdateChecker = PucFactory::buildUpdateChecker(
 		'http://updates.gocodebox.com/?action=get_metadata&slug=lifterlms',
-		__FILE__, 
+		__FILE__,
 		'lifterlms', 3
 		);
 
@@ -322,7 +322,7 @@ final class LifterLMS {
 		do_action_ref_array( current_filter() . '_notification', $args );
 	}
 
-	
+
 	/**
 	 * Get the plugin url.
 	 *
@@ -399,7 +399,7 @@ final class LifterLMS {
 	/**
 	 * Add Action Links
 	 * Settings action links
-	 * 
+	 *
 	 * @param array $links [array of links]
 	 */
 	public function add_action_links ( $links ) {
@@ -420,7 +420,7 @@ final class LifterLMS {
 	 * @return void
 	 */
 	public function localize() {
-		
+
 		// load localization files
 		load_plugin_textdomain('lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
