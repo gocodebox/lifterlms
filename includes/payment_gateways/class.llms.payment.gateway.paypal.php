@@ -16,73 +16,73 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
      * @string
      */
     public $version;
- 
+
     /**
      * PayPal account username
      * @string
      */
     public $user;
- 
+
     /**
      * PayPal account password
      * @string
      */
     public $password;
- 
+
     /**
      * PayPal account signature
      * @string
      */
     public $signature;
- 
+
     /**
      * Period of time (in seconds) after which the connection ends
      * @integer
      */
     public $time_out = 60;
- 
+
     /**
      * Requires SSL Verification
      * @boolean
      */
     public $ssl_verify;
- 
+
     /**
      * PayPal API Server
      * @string
      */
     private $server;
- 
+
     /**
      * PayPal API Redirect URL
      * @string
      */
     private $redirect_url;
- 
+
     /**
      * Real world PayPal API Server
      * @string
      */
     private $real_server = 'https://api-3t.paypal.com/nvp';
- 
+
     /**
      * Read world PayPal redirect URL
      * @string
      */
     private $real_redirect_url = 'https://www.paypal.com/cgi-bin/webscr';
- 
+
     /**
      * Sandbox PayPal Server
      * @string
      */
     private $sandbox_server = 'https://api-3t.sandbox.paypal.com/nvp';
- 
+
     /**
      * Sandbox PayPal redirect URL
      * @string
      */
     private $sandbox_redirect_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
- 
+
     /**
      * Array representing the supported short-terms
      * @array
@@ -112,12 +112,12 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         'total_billing_cycles' => 'TOTALBILLINGCYCLES',
 
     );
- 
+
     /**
      *Can be set for debugging. print_r()
      */
-    public $debug_info = [];
- 
+    public $debug_info = array();
+
     /**
      * Saves the full response once a request succeed
      * @mixed
@@ -125,7 +125,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public $full_response = false;
 
     private $is_debug = false;
- 
+
     /**
      * Creates a new PayPal gateway object
      * @param boolean $sandbox Set to true if you want to enable the Sandbox mode
@@ -140,9 +140,9 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
         $this->version      = '117.00';
 
-        $this->sandbox      = get_option( 'lifterlms_gateways_paypal_enable_sandbox' ) == 'yes' ? true : false; 
-        $this->user         = get_option( 'lifterlms_gateways_paypal_email' ); 
-        $this->password     = get_option( 'lifterlms_gateways_paypal_password' ); 
+        $this->sandbox      = get_option( 'lifterlms_gateways_paypal_enable_sandbox' ) == 'yes' ? true : false;
+        $this->user         = get_option( 'lifterlms_gateways_paypal_email' );
+        $this->password     = get_option( 'lifterlms_gateways_paypal_password' );
         $this->signature    = get_option( 'lifterlms_gateways_paypal_signature' );
 
         // get the debug status for displaying error messages.
@@ -167,7 +167,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     }
 
     /**
-     * Process method. 
+     * Process method.
      * @param boolean $sandbox Set to true if you want to enable the Sandbox mode
      */
     public function process_payment($order) {
@@ -185,7 +185,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 if ($coupon->type == 'percent') {
                     $order->first_payment = ( $order->first_payment - $product->get_coupon_discount_total( $order->first_payment ) );
                     $order->product_price = ( $order->product_price - $product->get_coupon_discount_total( $order->product_price ) );
-                } 
+                }
                 else {
                     return llms_add_notice( __( 'You cannot apply dollar based discounts to recurring orders.', 'lifterlms' ) );
                 }
@@ -208,7 +208,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             );
         }
 
-        if ( $order->payment_option == 'recurring' ) { 
+        if ( $order->payment_option == 'recurring' ) {
 
             $param = array(
                 'amount' => $order->first_payment,
@@ -253,9 +253,9 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
     /**
      * Executes paypal purchase request
-     * 
+     *
      * @param  array $response [paypal return response from user payment approval]
-     * 
+     *
      * @return array           [success or fail response from getExpressCheckout]
      */
     public function confirm_payment($response) {
@@ -273,17 +273,17 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         {
             return $this->return_error('There was an error connecting to the payment gateway.');
         }
-         
+
     }
 
     /**
      * Complete payment cleanup
-     * Sets all variables needed to create lifterLMS order 
+     * Sets all variables needed to create lifterLMS order
      * Updates required tables to associate user with course or membership purchased
-     * 
+     *
      * @param  array $request [Paypal getExpressCheckout response]
      * @param  object $order   [order object that stores all details of order]
-     * 
+     *
      * @return void
      */
     public function complete_payment($request, $order) {
@@ -326,7 +326,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 if ( $order->payment_option == 'recurring' ) {
                     if ($coupon->type == 'percent') {
                         $order->product_price = ( $order->product_price - $product->get_coupon_discount_total( $order->product_price ) );
-                    } 
+                    }
                 }
             }
 
@@ -359,7 +359,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         }
 
         if ( $order->payment_option == 'single' && strcmp($request['ACK'], 'Failure') !== 0) {
-      
+
             $param = array(
                 'amount' => $request['AMT'],
                 'currency_code' => $request['CURRENCYCODE'],
@@ -396,18 +396,18 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
             do_action( 'lifterlms_order_process_success', $order );
         }
         else {
-       
+
             do_action( 'lifterlms_order_process_error', $order->user_id);
             return $this->return_error('There was an error connecting to the payment gateway.');
         }
-        
+
     }
 
     /**
      * Queries billing period for product (course or membership post)
-     * 
+     *
      * @param  string $billing_period [string id of billing period stored in post metadata]
-     * 
+     *
      * @return string [paypal string id of billing period]
      */
     public function get_billing_period($billing_period) {
@@ -430,7 +430,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function setExpressCheckout($param) {
         return $this->requestExpressCheckout('SetExpressCheckout', $param);
     }
- 
+
     /**
      * Executes a getExpressCheckout command
      * @param array $param
@@ -439,7 +439,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function getExpressCheckout($param) {
         return $this->requestExpressCheckout('GetExpressCheckoutDetails', $param);
     }
- 
+
     /**
      * Executes a doExpressCheckout command
      * @param array $param
@@ -457,7 +457,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
     public function createRecurringPaymentsProfile($param) {
         return $this->requestExpressCheckout('CreateRecurringPaymentsProfile', $param);
     }
- 
+
     /**
      * @param string $type
      * @param array $param
@@ -468,31 +468,31 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         // Construct the request array
         $param = $this->replace_short_terms($param);
 
-      
+
         $request = $this->build_request($type, $param);
- 
+
         // Makes the HTTP request
         $response = wp_remote_post($this->server, $request);
- 
+
         // HTTP Request fails
         if (is_wp_error($response)) {
             //$this->debug_info = $response;
             return false;
         }
- 
+
         // Status code returned other than 200
         if ($response['response']['code'] != 200) {
             //$this->debug_info = 'Response code different than 200 ' . $this->debug_info = $response;
             return false;
         }
- 
+
         // Saves the full response
         $this->full_response = $response;
 
         // Request succeeded
         return true;
     }
- 
+
     /**
      * Replace the Parameters short terms
      * @param array $param The given parameters array
@@ -508,7 +508,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         }
         return $param;
     }
- 
+
     /**
      * Builds the request array from the object, param and type parameters
      * @param string $type
@@ -525,7 +525,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         $body['PWD'] = $this->password;
         $body['SIGNATURE'] = $this->signature;
         //$body['CUSTOM'] = 'a custom field.come back to me';
- 
+
         // Request Array
         $request = array(
             'method' => 'POST',
@@ -537,7 +537,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         return $request;
 
     }
- 
+
     /**
      * Returns the PayPal Body response
      * @return array $reponse
@@ -555,7 +555,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         }
         return false;
     }
- 
+
     /**
      * Returns the redirect URL
      * @return string $url
@@ -577,7 +577,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
         return false;
     }
- 
+
     /**
      * Returns the response Token
      * @return string $token
