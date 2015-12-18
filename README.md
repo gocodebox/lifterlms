@@ -25,11 +25,12 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.4.4rc - 2015/12/18
----------------------
+v1.4.4rc-1 - 2015/12/18
+-----------------------
 
 ##### Updates
 
++ My account page can now (optionally) display a list of memberships a student is currently enrolled in
 + Student analytics on the admin panel display student's Memberships
 + Student analytics on the admin panel will now display student's progress through courses in addition to their current enrollment status.
 + Custom taxonomy archive templates for Course tags, categories, tracks, and difficulties now exist and properly function.
@@ -38,9 +39,11 @@ v1.4.4rc - 2015/12/18
 
 ##### Bug fixes
 
++ Student analytics profile on admin panel will display the correct number of memberships the student is enrolled in.
 + Fixed a small CSS issue that caused extra white space to be displayed above Course or Membership tiles on archive pages when using the WordPress Twentyfifteen default theme
 
 ##### Miscellaneus
++ Account settings screen displays the correct title ("Account Settings" it previously said "Archive Settings")
 + Made language changes to the LifterLMS settings intro screen copy
 + Added link to CourseClinic on settings intro screen
 + Added link to LifterLMS documentation on the settings intro screen

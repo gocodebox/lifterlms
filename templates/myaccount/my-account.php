@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-llms_print_notices(); 
+llms_print_notices();
 ?>
 
 <nav class="account-links">
@@ -29,7 +29,7 @@ llms_print_notices();
 	<?php do_action( 'lifterlms_after_my_account_navigation' ); ?>
 </nav>
 	<?php
-	
+
 		printf(
 		__( '<h3>Hello <strong>%1$s</strong></h3>', 'lifterlms' ) . ' ',
 		$current_user->display_name
@@ -46,5 +46,11 @@ llms_print_notices();
 <?php llms_get_template( 'myaccount/my-certificates.php' ); ?>
 
 <?php llms_get_template( 'myaccount/my-achievements.php' ); ?>
+
+<?php if( get_option( 'lifterlms_enable_myaccount_memberships_list', 'no' ) === 'yes' ): ?>
+
+	<?php llms_get_template( 'myaccount/my-memberships.php' ); ?>
+
+<?php endif; ?>
 
 <?php do_action( 'lifterlms_after_my_account' ); ?>

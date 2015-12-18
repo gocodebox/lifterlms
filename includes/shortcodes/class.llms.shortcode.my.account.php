@@ -54,7 +54,7 @@ class LLMS_Shortcode_My_Account {
 				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) {
 					llms_get_template( 'myaccount/form-registration.php' );
 				}
-				
+
 
 			}
 

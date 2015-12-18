@@ -32,9 +32,9 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 		return apply_filters( 'lifterlms_' . $this->id . '_settings', array(
 
-			array( 'type' => 'sectionstart', 'id' => 'course_archive_options', 'class' =>'top' ),
+			array( 'type' => 'sectionstart', 'id' => 'course_account_options', 'class' =>'top' ),
 
-			array( 'title' => __( 'Archive Settings', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Customize your users account and sign up experience.', 'lifterlms' ), 'id' => 'account_page_options' ),
+			array( 'title' => __( 'Account Settings', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Customize your users account and sign up experience.', 'lifterlms' ), 'id' => 'account_page_options' ),
 
 			array(
 				'title' => __( 'Account Access Page', 'lifterlms' ),
@@ -46,7 +46,16 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
+			array(
+				'desc'          => __( 'Display Student Memberships on Account Page', 'lifterlms' ),
+				'id'            => 'lifterlms_enable_myaccount_memberships_list',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'start',
+				'autoload'      => false
+			),
+
+			array( 'type' => 'sectionend', 'id' => 'course_account_options' ),
 
 			array( 'type' => 'sectionstart', 'id' => 'account_page_options' ),
 

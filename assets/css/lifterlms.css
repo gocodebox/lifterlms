@@ -567,6 +567,26 @@
   margin: 0;
 }
 
+/* my certificates grid */
+.llms-my-memberships {
+  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+}
+.llms-my-memberships h3 {
+  background-color: #f5f5f5;
+  padding: 4px;
+}
+.llms-my-memberships ul.listing-memberships {
+  width: 100%;
+  margin: 0;
+}
+.llms-my-memberships ul.listing-memberships li.membership-item {
+  padding: 15px 20px;
+  border: 1px solid #ccc;
+  list-style-type: none;
+  width: 100%;
+  overflow: auto;
+}
+
 /* Genisis Overrides */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
