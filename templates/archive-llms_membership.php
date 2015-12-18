@@ -18,11 +18,7 @@ get_header( 'llms_shop' ); ?>
 
 	<?php if ( have_posts() ) : ?>
 
-		<?php
-
-			do_action( 'lifterlms_before_memberships_loop' );
-
-		?>
+		<?php do_action( 'lifterlms_before_memberships_loop' ); ?>
 
 		<?php lifterlms_membership_loop_start(); ?>
 
@@ -34,22 +30,16 @@ get_header( 'llms_shop' ); ?>
 
 		<?php lifterlms_membership_loop_end(); ?>
 
-		<?php
+		<?php do_action( 'lifterlms_after_memberships_loop' ); ?>
 
-			do_action( 'lifterlms_after_memberships_loop' );
+	<?php else : ?>
 
-		?>
+		<?php llms_get_template( 'loop/no-courses-found.php' ); ?>
 
-		<?php else : ?>
-
-			<?php llms_get_template( 'loop/no-courses-found.php' ); ?>
-
-		<?php endif; ?>
+	<?php endif; ?>
 
 </div></main>
-	<?php
 
-		do_action( 'lifterlms_sidebar' );
+<?php do_action( 'lifterlms_sidebar' ); ?>
 
-	?>
 <?php get_footer(); ?>
