@@ -17,7 +17,7 @@ get_header( 'llms_shop' ); ?>
 	<?php do_action( 'lifterlms_archive_description' ); ?>
 
 	<?php if ( have_posts() ) : ?>
-	
+
 		<?php
 
 			do_action( 'lifterlms_before_memberships_loop' );
@@ -46,11 +46,6 @@ get_header( 'llms_shop' ); ?>
 
 		<?php endif; ?>
 
-	<?php
-
-
-
-	?>
 </div></main>
 	<?php
 
