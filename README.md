@@ -30,6 +30,8 @@ v1.4.4 - 2015/12/18
 
 ##### Updates
 
++ Student analytics on the admin panel display student's Memberships
++ Student analytics on the admin panel will now display student's progress through courses in addition to their current enrollment status.
 + Custom taxonomy archive templates for Course tags, categories, tracks, and difficulties now exist and properly function.
 + Custom taxonomy archive templates for Membership categories and tags now exist and properly function.
 + Added the `[lifterlms_memberships]` shortcode which was documented but never implemented. Details on usage available at [https://lifterlms.readme.io/docs/short-codes#memberships-lifterlms_memberships](https://lifterlms.readme.io/docs/short-codes#memberships-lifterlms_memberships)
