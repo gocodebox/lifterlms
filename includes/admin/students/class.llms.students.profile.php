@@ -28,12 +28,12 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 	 * Main students page builder
 	 * Collects elements and calls get_page_contents to wrap html
 	 * Called from html.admin.students to build page.
-	 * 
+	 *
 	 * @return [html]
 	 */
 	public function get_students() {
 		//get student tabs
-		
+
 		//only display page contents student exists
 		if ( empty( $_GET['student'] ) || ! get_user_by( 'id', sanitize_title( $_GET['student'] ) ) ) {
 
@@ -41,7 +41,7 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 			$html = '';
 
 			return $this->get_page_contents( $title, $html );
-		
+
 		} else {
 
 			$user = $this->get_user_data( sanitize_title( $_GET['student'] ) );
@@ -53,7 +53,7 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 			$html = self::full_width_widget( self::user_profile( $user ), 'top' );
 
 			$html .= '<div class="llms-widget-row top">';
-			
+
 			//total courses enrolled
 			$html .= self::quarter_width_widget( self::total_courses_enrolled( $user ) );
 
@@ -65,24 +65,25 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 
 			//total money spent
 			$html .= self::quarter_width_widget( self::total_money_spent( $user ) );
-			
+
 
 
 			$html .= '</div>'; //end widget row
 
 			//course list
 			$html .= self::full_width_widget( $this->student_course_list( $user ) );
-			
+
+			$html .= self::full_width_widget( $this->student_membership_list( $user ) );
 
 
 			return $this->get_page_contents( $title, $html );
 
 		}
-		
+
 		//$search = LLMS()->session->get( 'llms_student_search' );
 		//var_dump( $search);
-		
-		
+
+
 		//search form
 		//$html = $this->search_form();
 
@@ -108,11 +109,11 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 
 		// if ( $search->product_id !== 'all_courses' ) {
 		// 	$html .= self::full_width_widget( $this->lesson_completion_chart( $search ) );
-			
+
 		// }
 
 		//return contents
-		
+
 	}
 
 	public function get_user_data( $user_id ) {
@@ -144,7 +145,7 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 		} else {
 			$user->last_login = '';
 		}
-		
+
 
 		//get enrollment data
 		$enrollments = LLMS_Analytics::get_user_enrollments( $user->id );
@@ -165,7 +166,7 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 					array_push( $user->memberships, $enrollment );
 				}
 			}
-		} 
+		}
 
 		//get order data
 		$user->orders = LLMS_Analytics::get_orders_by_user( $user_id );
@@ -189,7 +190,7 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 		}
 
 		return $user;
-		
+
 	}
 
 
@@ -227,8 +228,9 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 	 * @return [html]
 	 */
 	public function total_memberships_enrolled( $user ) {
+
 		$html = '<p class="llms-label">' . __( 'Memberships', 'lifterlms' ) . '</p>';
-		$html .= '<h1>' . $user->number_of_purchases . '</h1>';
+		$html .= '<h1>' . $user->memberships_enrolled . '</h1>';
 
 		return $html;
 	}
@@ -257,7 +259,7 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 		return $html;
 	}
 
-	
+
 
 	public function student_course_list( $user ) {
 
@@ -270,13 +272,32 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 			//array_unshift($students, $headers);
 		}
 
-		
+
 
 		$html = '<p class="llms-label">' . __( 'Courses', 'lifterlms' ) . '</p>';
 		$html .= '<script>
 			var student_course_list = ' . json_encode($courses_arrays) . '
 			</script>';
 		$html .= '<div id="student_course_table" class="llms-chart"></div>';
+
+		return $html;
+
+	}
+
+
+	public function student_membership_list( $user ) {
+
+		if ( $user ) {
+
+			$memberships_arrays = LLMS_Analytics::get_memberships_by_user_table( $user );
+
+		}
+
+		$html = '<p class="llms-label">' . __( 'Memberships', 'lifterlms' ) . '</p>';
+		$html .= '<script>
+			var student_membership_list = ' . json_encode($memberships_arrays) . '
+			</script>';
+		$html .= '<div id="student_membership_table" class="llms-chart"></div>';
 
 		return $html;
 
@@ -336,8 +357,8 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 
 
 
-	
-	
+
+
 	/**
 	 * save students to the database
 	 *
@@ -347,7 +368,7 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 		$students = $this->get_students();
 
 		LLMS_Admin_Students::save_search_fields( $students );
-		
+
 	}
 
 	/**

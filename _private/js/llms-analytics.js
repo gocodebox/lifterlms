@@ -25,18 +25,18 @@ jQuery(document).ready(function($) {
     var query_vars = get_query_var();
     if ( ( query_vars.page === 'llms-analytics' && query_vars.tab === 'sales' ) ||
       ( query_vars.page === 'llms-analytics' && ! ( 'tab' in query_vars ) )  ) {
-        
+
         google.setOnLoadCallback(drawChart);
-        
+
         $(window).resize(function(){
             drawChart();
         });
 
     } else if ( query_vars.page === 'llms-analytics' && query_vars.tab === 'courses' ) {
-        
+
         google.setOnLoadCallback(drawChart2);
         google.setOnLoadCallback(drawChart3);
-        
+
 
 
         if ( $( window ).width() <= 768 ) {
@@ -60,7 +60,7 @@ jQuery(document).ready(function($) {
     } else if ( query_vars.page === 'llms-analytics' && query_vars.tab === 'memberships' ) {
 
         google.setOnLoadCallback( draw_enrolled_members_chart );
-        
+
         if ( $( window ).width() <= 768 ) {
             google.setOnLoadCallback( draw_member_table_small );
         } else {
@@ -77,8 +77,8 @@ jQuery(document).ready(function($) {
             draw_enrolled_members_chart();
 
         });
-       
-    } else if ( ( query_vars.page === 'llms-students' && ! ( 'tab' in query_vars ) ) 
+
+    } else if ( ( query_vars.page === 'llms-students' && ! ( 'tab' in query_vars ) )
         || ( query_vars.page === 'llms-students' && query_vars.tab === 'dashboard' ) ) {
 
         //manage expired users checkbox for students search screen
@@ -87,13 +87,13 @@ jQuery(document).ready(function($) {
              $( '#include_expired_users' ).hide();
              $( '#exp_users_filter' ).attr('checked', false);
         }
-        //on checkbox selection if the expired users filter is hidden then display it. 
+        //on checkbox selection if the expired users filter is hidden then display it.
         $( '.chosen-select-width').chosen().change( function() {
             if ( $( '.chosen-select-width').chosen().val() == 'all_products' ) {
-                $( '#include_expired_users' ).hide(); 
+                $( '#include_expired_users' ).hide();
                 $( '#exp_users_filter' ).attr('checked', false);
             } else {
-                $( '#include_expired_users' ).show(); 
+                $( '#include_expired_users' ).show();
             }
         });
 
@@ -105,10 +105,11 @@ jQuery(document).ready(function($) {
             draw_student_search_results_table()
 
         });
-    
+
     } else if ( query_vars.page === 'llms-students' && query_vars.tab === 'profile' ) {
 
         google.setOnLoadCallback( draw_student_course_table );
+        google.setOnLoadCallback( draw_student_membership_table );
 
         $(window).resize(function(){
             draw_student_course_table()
@@ -116,7 +117,7 @@ jQuery(document).ready(function($) {
 
     }
 
-    
+
 
 });
 
@@ -133,8 +134,8 @@ get_query_var = function() {
     return vars;
 }
 
-     
-      
+
+
       function drawChart() {
         var data = google.visualization.arrayToDataTable(myJson);
 
@@ -195,7 +196,6 @@ get_query_var = function() {
       }
 
       function drawTableSmall() {
-        console.log(students_result_small);
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Last');
         data.addColumn('string', 'First');
@@ -208,7 +208,7 @@ get_query_var = function() {
       }
 
 
-      
+
       function draw_enrolled_members_chart() {
         var data = google.visualization.arrayToDataTable(enrolled_members);
 
@@ -224,7 +224,7 @@ get_query_var = function() {
       }
 
 
-     
+
       function draw_member_table() {
 
         var data = new google.visualization.DataTable();
@@ -273,6 +273,7 @@ get_query_var = function() {
         data.addColumn('string', 'Course');
         data.addColumn('string', 'Enrolled Date');
         data.addColumn('string', 'Status');
+        data.addColumn('string', 'Progress');
         data.addRows(student_course_list);
 
         var table = new google.visualization.Table(document.getElementById('student_course_table'));
@@ -280,5 +281,15 @@ get_query_var = function() {
         table.draw(data, {showRowNumber: true, allowHtml: true});
       }
 
-      
-       
+      function draw_student_membership_table() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'membership');
+        data.addColumn('string', 'Enrolled Date');
+        data.addColumn('string', 'Status');
+        data.addRows(student_membership_list);
+
+        var table = new google.visualization.Table(document.getElementById('student_membership_table'));
+
+        table.draw(data, {showRowNumber: true, allowHtml: true});
+      }

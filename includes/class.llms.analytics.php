@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
 * Analytics Class
-* 
+*
 * Manages large queries of grouped data
 */
 class LLMS_Analytics {
@@ -17,7 +17,7 @@ class LLMS_Analytics {
 
 	//sales data
 	//get all product orders
-	
+
 	//get orders
 	public static function get_orders( $values ) {
 
@@ -26,11 +26,11 @@ class LLMS_Analytics {
 		  'posts_per_page'	=> 5000,
 		  'meta_query' 		=> array(),
 		);
-		 
+
 		if( count( $values ) > 1 ){
 		  $args['meta_query']['relation'] = 'AND';
 		}
-		 
+
 		foreach( $values as $key => $value ){
 		  $args['meta_query'][] = array(
 		      'key' => $value['key'],
@@ -53,9 +53,9 @@ class LLMS_Analytics {
 		return $orders_data;
 	}
 
-	
+
 	/**
-	 * Returns 10000 posts 
+	 * Returns 10000 posts
 	 * @param  [string] $post_type [post type filter]
 	 * @return [mixed] [array of post objects or false if no results found]
 	 */
@@ -67,7 +67,7 @@ class LLMS_Analytics {
 			'orderby'          => 'title',
 			'order'            => 'ASC',
 			'post_type'        => $post_type,
-			'suppress_filters' => true 
+			'suppress_filters' => true
 		);
 		$posts = get_posts( $args );
 
@@ -79,7 +79,7 @@ class LLMS_Analytics {
 		$courses = self::get_posts( 'course' );
 		$memberhsips = self::get_posts( 'llms_membership' );
 
-		//if courses or membership are false 
+		//if courses or membership are false
 		//turn them into empty arrays
 		if ( !$courses ) {
 			$courses  =array();
@@ -89,18 +89,18 @@ class LLMS_Analytics {
 		}
 
 		$products = array_merge( $courses, $memberhsips );
-		
+
 		return $products;
 	}
 
 	/**
-	 * Get array of date / total $ made on site 
+	 * Get array of date / total $ made on site
 	 * Uses start and end date for timeline
-	 * 
+	 *
 	 * @param  [array] $orders     [array of order objects]
 	 * @param  [string] $start_date [date yyyy-mm-dd]
 	 * @param  [string] $end_date [date yyyy-mm-dd]
-	 * 
+	 *
 	 * @return [array]             [array of date / daily total]
 	 */
 	public static function get_total_sold_by_day( $orders, $start_date, $end_date ) {
@@ -108,7 +108,7 @@ class LLMS_Analytics {
 		$total_by_day = array();
 
 		$date = $start_date;
-		
+
 
 		while ( $date <= $end_date ) {
 
@@ -148,7 +148,7 @@ class LLMS_Analytics {
 			$total_by_day[] = $daily_results;
 
 			if ( isset( $search->courses ) ) {
-	
+
 				foreach ( $search->courses as $course ) {
 
 					$daily_total = 0;
@@ -156,13 +156,13 @@ class LLMS_Analytics {
 					//loop through all students and count enrolled students
 					if ( $search->students ) {
 						foreach ( $search->students as $key => $value ) {
-							
+
 							if ( $value->post_id == $course->ID && LLMS_Date::db_date( $value->enrolled_date ) <= $date ) {
-								
+
 								if ( $value->status === 'Enrolled' ) {
 									$daily_total++;
 								}
-								
+
 							}
 
 						}
@@ -179,13 +179,13 @@ class LLMS_Analytics {
 					//loop through all students and count enrolled students
 					if ( $search->members ) {
 						foreach ( $search->members as $key => $value ) {
-							
+
 							if ( $value->post_id == $membership->ID && LLMS_Date::db_date( $value->enrolled_date ) <= $date ) {
-								
+
 								if ( $value->status === 'Enrolled' ) {
 									$daily_total++;
 								}
-								
+
 							}
 
 						}
@@ -240,7 +240,7 @@ class LLMS_Analytics {
 		if ( $orders ) {
 
 			$units = count( $orders );
-			
+
 		}
 
 		return $units;
@@ -264,7 +264,7 @@ class LLMS_Analytics {
 				}
 
 			}
-			
+
 		}
 
 		return $coupons;
@@ -292,7 +292,7 @@ class LLMS_Analytics {
 				}
 
 			}
-			
+
 		}
 
 		return $coupons;
@@ -307,13 +307,13 @@ class LLMS_Analytics {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-		$results = $wpdb->get_results( 
+		$results = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT * FROM '.$table_name.
-					' WHERE post_id = %s 
-						AND meta_value = "Enrolled"', 
+					' WHERE post_id = %s
+						AND meta_value = "Enrolled"',
 				$post_id
-			) 
+			)
 		);
 
 		return $results;
@@ -331,9 +331,9 @@ class LLMS_Analytics {
 		$end_date = LLMS_Date::db_date( $end_date . '1 day' );
 
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-		$results = $wpdb->get_results( 
+		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT 
+				'SELECT
 					p.user_id,
 					p.post_id,
 					MAX(IF(pa.meta_key = "_start_date", pa.updated_date, NULL)) AS enrolled_date,
@@ -341,11 +341,11 @@ class LLMS_Analytics {
 					MAX(IF(pa.meta_key = "_is_complete", pa.updated_date, NULL)) AS completed_date
 					from '.$table_name.' p
 					left join '.$table_name.' pa on p.user_id = pa.user_id and p.post_id = pa.post_id
-					where p.post_id = %s 
-					and p.updated_date <= %s 
-					group by p.user_id', 
+					where p.post_id = %s
+					and p.updated_date <= %s
+					group by p.user_id',
 				$post_id, $end_date
-			) 
+			)
 		);
 
 		return $results;
@@ -365,8 +365,8 @@ class LLMS_Analytics {
 		if ( $post_id === 'all_products' ) {
 
 			// query user_postmeta table
-			$results = $wpdb->get_results( 
-				'SELECT 
+			$results = $wpdb->get_results(
+				'SELECT
 					user_id,
 					meta_value,
 					updated_date
@@ -374,15 +374,15 @@ class LLMS_Analytics {
 				WHERE meta_key = "_status"
 				AND ( meta_value = "Enrolled" OR meta_value = "Expired" )
 				AND EXISTS(SELECT 1 FROM ' . $users_table . ' WHERE ID = user_id)
-				group by user_id' 	
+				group by user_id'
 			);
 
 		} else {
 
 			// query user_postmeta table
-			$results = $wpdb->get_results( 
+			$results = $wpdb->get_results(
 				$wpdb->prepare(
-					'SELECT 
+					'SELECT
 						user_id,
 						meta_value,
 						updated_date
@@ -391,14 +391,14 @@ class LLMS_Analytics {
 					AND post_id = %s
 					AND ( meta_value = "Enrolled" OR meta_value = "Expired" )
 					AND EXISTS(SELECT 1 FROM ' . $users_table . ' WHERE ID = user_id)
-					group by user_id', 
+					group by user_id',
 					$post_id
-				)	
+				)
 			);
 
 		}
 
-		if ( $results ) { 
+		if ( $results ) {
 
 			foreach ( $results as $key => $student ) {
 
@@ -406,7 +406,7 @@ class LLMS_Analytics {
 				if ( ! $include_expired && $student->meta_value === 'Expired' ) {
 
 					unset( $results[ $key ] );
-				
+
 				} else {
 
 					//get member name
@@ -416,7 +416,7 @@ class LLMS_Analytics {
 					//add data to large table array
 					$student_data = array(
 						$last_name,
-						$first_name, 
+						$first_name,
 						$profile_link
 					);
 					array_push( $students_large, $student_data );
@@ -424,7 +424,7 @@ class LLMS_Analytics {
 					//add data to small table array
 					$student_data = array(
 						$last_name,
-						$first_name, 
+						$first_name,
 						$profile_link
 					);
 					array_push( $students_small, $student_data );
@@ -436,9 +436,9 @@ class LLMS_Analytics {
 			$students_array['large'] = $students_large;
 			//$students_array['small'] = $students_small;
 		}
-		
+
 		return $students_array;
-		
+
 	}
 
 	/**
@@ -453,7 +453,7 @@ class LLMS_Analytics {
 		if ( $students ) {
 
 			$units = count( $students );
-			
+
 		}
 
 		return $units;
@@ -480,7 +480,7 @@ class LLMS_Analytics {
 					$units++;
 				}
 			}
-			
+
 		}
 
 		return $units;
@@ -502,7 +502,7 @@ class LLMS_Analytics {
 					$units++;
 				}
 			}
-			
+
 		}
 
 		return $units;
@@ -559,24 +559,24 @@ class LLMS_Analytics {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		if ( $product_id === 'all_courses' ) {
-			$results = $wpdb->get_results( 
+			$results = $wpdb->get_results(
 				'SELECT *
 					from '.$table_name.'
 					where meta_key = "_certificate_earned"'
 			);
 
 		} else {
-			$results = $wpdb->get_results( 
+			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					'SELECT *
 						from '.$table_name.'
-						where meta_key = "_certificate_earned" 
+						where meta_key = "_certificate_earned"
 						AND post_id = %s', $product_id
 				)
 			);
 		}
 
-		
+
 		if ( $results ) {
 			return count( $results );
 		} else {
@@ -597,8 +597,8 @@ class LLMS_Analytics {
 
 		if ( ! empty( $search->lessons ) ) {
 			//loop through each lesson
-			foreach ( $search->lessons as $lesson ) 
-			{				
+			foreach ( $search->lessons as $lesson )
+			{
 				//create array and add post title
 				$lesson_array = array( $lesson->post_title );
 
@@ -610,7 +610,7 @@ class LLMS_Analytics {
 
 					//loop through each student and check if lesson is completed
 					foreach ( $search->students as $student ) {
-	
+
 						if ( self::is_lesson_completed( $student->user_id, $lesson->ID, $search->end_date ) ) {
 							$unit++;
 						}
@@ -624,7 +624,7 @@ class LLMS_Analytics {
 				} else {
 					$completion_percent = 0;
 				}
-				
+
 				//add unit count to lesson array
 				array_push( $lesson_array, $completion_percent );
 
@@ -691,7 +691,7 @@ class LLMS_Analytics {
 				//add data to large table array
 				$member_data = array(
 					$last_name,
-					$first_name, 
+					$first_name,
 					$enrollment_date,
 					( $exp_date ? $exp_date : '' ),
 					$profile_link
@@ -701,7 +701,7 @@ class LLMS_Analytics {
 				//add data to small table array
 				$member_data = array(
 					$last_name,
-					$first_name, 
+					$first_name,
 					$profile_link
 				);
 				array_push( $members_small, $member_data );
@@ -711,7 +711,7 @@ class LLMS_Analytics {
 
 		$members_array['large'] = $members_large;
 		$members_array['small'] = $members_small;
-		
+
 		return $members_array;
 	}
 
@@ -728,12 +728,12 @@ class LLMS_Analytics {
 			if ( $exp_date !== $enrollment_date ) {
 				return $exp_date;
 			}
-			
+
 		}
 		return false;
 	}
 
-		
+
 
 	public static function get_students( $search ) {
 
@@ -753,7 +753,7 @@ class LLMS_Analytics {
 				$last_name = get_user_meta( $student->user_id, 'last_name', true );
 				$profile_link = '<a href="' . get_admin_url( '', 'admin.php?page=llms-students&tab=profile&student=' . $student->user_id ) . '">View</a>';
 
-				
+
 				//get student progress information
 				$student_progress = $course->get_student_progress( $student->user_id );
 
@@ -768,7 +768,7 @@ class LLMS_Analytics {
 				if ( ! empty( $student_progress->lessons ) ) {
 
 					$all_lesson_count = count( $student_progress->lessons );
-					
+
 					foreach ( $student_progress->lessons as $lesson ) {
 
 						if ( $lesson['is_complete'] ) {
@@ -797,17 +797,17 @@ class LLMS_Analytics {
 				//add data to large table array
 				$student_data = array(
 					$last_name,
-					$first_name, 
+					$first_name,
 					$start_date,
 					$completion_percent,
 					( $last_completed_lesson ? $last_completed_lesson . ', ' . $last_completed_lesson_date : '' ),
-					$profile_link 
+					$profile_link
 				);
 				array_push( $students_large, $student_data );
 
 				//add data to small table
 				$student_data = array(
-					$first_name, 
+					$first_name,
 					$last_name,
 					$profile_link
 				);
@@ -827,14 +827,14 @@ class LLMS_Analytics {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		// query user_postmeta table
-		$results = $wpdb->get_results( 
+		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT 
+				'SELECT
 					*
 				FROM '.$table_name.'
 				WHERE meta_key = "_status"
 				AND meta_value = "Enrolled"
-				AND user_id = %s', $user_id	
+				AND user_id = %s', $user_id
 			)
 		);
 
@@ -863,11 +863,11 @@ class LLMS_Analytics {
 	public static function get_orders_by_user( $user_id ) {
 
 		//set up search arguments
-		$values = array( 
+		$values = array(
 			'0' => array(
-			 	'key' => '_llms_user_id', 
-				'value' => $user_id, 
-				'compare' => '=' 
+			 	'key' => '_llms_user_id',
+				'value' => $user_id,
+				'compare' => '='
 			)
 		);
 
@@ -879,18 +879,41 @@ class LLMS_Analytics {
 
 		$courses_array = array();
 
-		foreach ( $user->courses as $course ) 
+		foreach ( $user->courses as $course )
 		{
 			$c = new LLMS_Course($course->post_id);
 			$comp = $c->get_percent_complete($user->id);
 			$status = ($comp == '100') ? 'Completed' : 'Enrolled';
-			$course_array = array( $course->post_title, LLMS_Date::db_date( $course->updated_date ), $status );
-			array_push( $courses_array, $course_array);
+			$link = get_edit_post_link( $course->post_id );
+			$title = ( $link ) ? '<a href="' . $link . '">' . $course->post_title . '</a>' : $course->post_title;
+			$course_array = array( $title, LLMS_Date::db_date( $course->updated_date ), $status, $comp . '%' );
+			array_push( $courses_array, $course_array );
 		}
 
 		return $courses_array;
 
-	}		
+	}
+
+	public static function get_memberships_by_user_table( $user )
+	{
+
+		$memberships = array();
+
+		foreach( $user->memberships as $membership )
+		{
+
+			$link = get_edit_post_link( $membership->post_id );
+			$title = ( $link ) ? '<a href="' . $link . '">' . $membership->post_title . '</a>' : $membership->post_title;
+
+			$membership_array = array( $title, LLMS_Date::db_date( $membership->updated_date ), $membership->meta_value );
+
+			array_push( $memberships, $membership_array );
+
+		}
+
+		return $memberships;
+
+	}
 
 }
 
