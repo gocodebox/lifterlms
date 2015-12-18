@@ -34,18 +34,13 @@ class LLMS_Post_Types {
 
 		if( $query->is_main_query() ) {
 
-			if( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track' ) ) ) {
+			if( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 
-				$query->set( 'post_type', 'course' );
-
-			} elseif ( is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
-
-				$query->set( 'post_type', 'llms_membership' );
+				$query->set( 'post_type', array( 'course', 'llms_membership' ) );
 
 			}
 
 		}
-
 
 	}
 

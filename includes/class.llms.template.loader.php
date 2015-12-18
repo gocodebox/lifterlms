@@ -65,14 +65,11 @@ class LLMS_Template_Loader {
 				return $template;
 				//$template = 'single-course.php';
 
-
 		}
 
 		elseif ( is_single() && get_post_type() == 'lesson' ) {
 
-
-				return $template;
-
+			return $template;
 
 		}
 
