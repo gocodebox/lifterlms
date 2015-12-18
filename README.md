@@ -25,6 +25,11 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.4.3 - 2015/12/11
+-------------------
+
++ Fixed an issue that coupd prevent some older servers from being able to run LifterLMS
+
 v1.4.2 - 2015/12/10
 -------------------
 
