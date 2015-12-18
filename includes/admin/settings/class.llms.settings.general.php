@@ -55,14 +55,14 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 				array( 'type' => 'sectionstart', 'id' => 'general_information', 'class' =>'top' ),
 
-				array(	'title' => __( 'Welcome to LifterLMS', 
-					'lifterlms' ), 
-					'type' => 'title', 
+				array(	'title' => __( 'Welcome to LifterLMS',
+					'lifterlms' ),
+					'type' => 'title',
 					'desc' => '<h2>' . __( 'Getting Started with LifterLMS', 'lifterlms' ) . '</h2>
 					<p>' . __( 'Before you start creating courses, making lots of money and building the best (insert your business here) online there are a few setup items we need to address.', 'lifterlms' ) . '</p>
 					<p>' . __( 'First things first. We need to activate your plugin. Enter the activation key you were given when you purchased LifterLMS. If you don\'t have a key that\'s ok. Go ahead and continue the setup. You can activate the plugin later.', 'lifterlms' ) . '</p>
 
-	', 
+	',
 					'id' => 'welcome_options_activate' ),
 
 							array(
@@ -76,8 +76,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 
 
-				array(	
-					'type' => 'desc', 
+				array(
+					'type' => 'desc',
 					'desc' => '<p>' . __( 'Next we need to set up your pages. Ya, we know, more pages... That\'s just the way Wordpress works. We\'ve already installed them. You just need to set them.', 'lifterlms' ) . '
 					</p> ' . __( 'When you installed LifterLMS we created a few pages for you. You can select those pages or use different ones. Your choice.', 'lifterlms' ) . '</p>
 
@@ -96,15 +96,15 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					'desc_tip'	=> true,
 				),
 
-				array(	
-					'type' => 'desc', 
+				array(
+					'type' => 'desc',
 					'desc' => '
 					<p>' . __( 'Next we need a checkout page so people can buy your courses and memberships. If you are a true philanthropist and don\'t plan on selling anything you can skip setting up this page. We created a page called "Purchase you can use that or select a different page.', 'lifterlms' ) . '</p>
-	', 
-					'id' => 'welcome_options_setup' ), 
+	',
+					'id' => 'welcome_options_setup' ),
 
 
-					
+
 
 				array(
 						'title' => __( 'Checkout Page', 'lifterlms' ),
@@ -118,11 +118,11 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 
 
-				array(	
-								'type' => 'desc', 
+				array(
+								'type' => 'desc',
 								'desc' => '
 								<p>' . __( 'If you are going to sell your courses you should probably pick a currency.', 'lifterlms' ) . '</p>
-				', 
+				',
 								'id' => 'welcome_options_setup' ),
 
 				array(
@@ -136,23 +136,23 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 								'options'   => $currency_code_options
 							),
 
-				array(	
-								'type' => 'desc', 
+				array(
+								'type' => 'desc',
 								'desc' => '
 
-								<p>' . __( 'There are a lot of other settings but those were the important ones to get you started. You can access all of the other settings from the big blue menu at the top of the page.', 'liftelrms' ) . '</p>  
+								<p>' . __( 'There are a lot of other settings but those were the important ones to get you started. You can access all of the other settings from the big blue menu at the top of the page.', 'liftelrms' ) . '</p>
 
 								<p>' . __( 'If you have any questions or want to request a feature head on over to our', 'lifterlms' ) . ' <a href="https://lifterlms.com/forums/">' . __( 'Support Forums.', 'lifterlms' ) . '</a></p>
 
-								<p>' . __( 'That\'s all there is to it. Your ready to start building courses and changing the world!', 'lifterlms' ) . '</p> 
+								<p>' . __( 'That\'s all there is to it. Your ready to start building courses and changing the world!', 'lifterlms' ) . '</p>
 								<p>' . __( 'Click "Save Changes" below to save your settings and get started.', 'lifterlms' ) . '</p>
-				', 
+				',
 								'id' => 'welcome_options_setup' ),
 
-				array(	
-								'type' => 'hidden', 
+				array(
+								'type' => 'hidden',
 								'value' => 'yes',
-								
+
 								'id' => 'lifterlms_first_time_setup' ),
 
 				array( 'type' => 'sectionend', 'id' => 'welcome_options_activate' ),
@@ -175,10 +175,12 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					<ul>
 					<li><p>' . __( 'Thank you for choosing', 'lifterlms' ) . ' <a href="http://lifterlms.com">LifterLMS</a> ' . __( 'as your Learning Management Solution.', 'lifterlms' ) .' </p></li>
 					<li><p>' . __( 'Version:', 'lifterlms' ) . ' ' . LLMS()->version . '</p></li>
-					<li><p>' . __( 'Support:', 'lifterlms' ) . ' <a href="https://lifterlms.com/contact/" target="_blank">' . __( 'https://lifterlms.com/contact/' ) . '</a></p></li>
-					<li><p>' . __( 'Blog:', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/" target="_blank">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
-					<li><p>' . __( 'Tutorials:', 'lifterlms' ) . ' <a href="http://demo.lifterlms.com" target="_blank">' . __( 'http://demo.lifterlms.com' ) . '</a></p></li>
-					<li><p>' . __( 'Services:', 'lifterlms' ) . ' <a href="http://lifterlms.com/done-for-you" target="_blank">' . __( 'http://lifterlms.com/done-for-you' ) . '</a></p></li>
+					<li><p>' . __( 'Need help? Send us a support request at ', 'lifterlms' ) . ' <a href="https://lifterlms.com/contact/" target="_blank">' . __( 'https://lifterlms.com/contact/' ) . '</a>.</p></li>
+					<li><p>' . __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Visit our documentation portal at ', 'lifterlms' ) . ' <a href="https://lifterlms.readme.io/" target="_blank">' . __( 'https://lifterlms.readme.io/' ) . '</a>.</p></li>
+					<li><p>' . __( 'Get LifterLMS news, updates, and more on our blog at ', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/" target="_blank">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
+					<li><p>' . __( 'Visit our interactive demo for in depth tutorials at ', 'lifterlms' ) . ' <a href="http://demo.lifterlms.com" target="_blank">' . __( 'http://demo.lifterlms.com' ) . '</a>.</p></li>
+					<li><p>' . __( 'Want LifterLMS setup for you, you might need a <strong>Boost</strong>, visit ', 'lifterlms' ) . ' <a href="http://lifterlms.com/done-for-you" target="_blank">' . __( 'http://lifterlms.com/done-for-you' ) . '</a> ' . __( 'for more information' ) . '.</p></li>
+					<li><p>' . __( 'Learn how to increase your course success at ', 'lifterlms' ) . ' <a href="http://courseclinic.com/" target="_blank">' . __( 'http://courseclinic.com/' ) . '</a> ' . __( 'for more information' ) . '.</p></li>
 					</ul>
 					</div>',
 					'id' => 'activation_options' ),
@@ -258,7 +260,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * register new hooks
 	 * @return void
 	 */
-	public function register_hooks() 
+	public function register_hooks()
 	{
 
 		if ( isset($_POST['save']) && strtolower($_POST['save']) == 'clear all user session data')
@@ -269,7 +271,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		}
 	}
-	
+
 	/**
 	 * save settings to the database
 	 *
@@ -279,7 +281,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		$settings = $this->get_settings();
 
 		LLMS_Admin_Settings::save_fields( $settings );
-		
+
 	}
 
 }
