@@ -23,7 +23,7 @@ class LLMS_Shortcodes {
 			'lifterlms_my_achievements' => __CLASS__ . '::my_achievements',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
 			'lifterlms_courses' => __CLASS__ . '::courses', // added here so that we can deprecate the non-prefixed "courses" (maybe)
-			'courses' => __CLASS__ . '::courses',
+				'courses' => __CLASS__ . '::courses', // should be deprecated at some point
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
@@ -32,6 +32,7 @@ class LLMS_Shortcodes {
 			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::RelatedCourses',
+			'lifterlms_memberships' => __CLASS__ . '::memberships'
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -60,7 +61,6 @@ class LLMS_Shortcodes {
 	* @return void
 	*/
 	public static function shortcode_wrapper(
-
 		$function,
 		$atts    = array(),
 		$wrapper = array(
@@ -113,6 +113,72 @@ class LLMS_Shortcodes {
 	}
 
 
+
+	/**
+	* Memberships Shortcode
+	*
+	* Used for courses [lifterlms_memberships]
+	*
+	* @param array $atts   associative array of shortcode attributes
+	*
+	* @since  1.4.4
+	* @return string
+	*/
+	public static function memberships( $atts ) {
+
+	    if( isset( $atts['category'] ) ) {
+			$tax = 	array(
+				array(
+					'taxonomy' => 'course_cat',
+					'field' => 'slug',
+					'terms' => $atts['category'],
+				)
+			);
+	    }
+
+	    $query = new WP_Query( array(
+	        'post_type' => 'llms_membership',
+	        'post_status' => 'publish',
+	        'posts_per_page' => isset($atts['per_page']) ? $atts['per_page'] : -1,
+	        'order' => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
+	        'orderby' => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
+	        'tax_query' => isset( $tax ) ? $tax : '',
+	    ) );
+
+	    ob_start();
+
+	    if ( $query->have_posts() ) {
+
+			do_action( 'lifterlms_before_memberships_loop' );
+
+			lifterlms_membership_loop_start();
+
+			while ( $query->have_posts() ) : $query->the_post();
+
+				llms_get_template_part( 'content', 'llms_membership' );
+
+			endwhile;
+
+			lifterlms_membership_loop_end();
+
+			do_action( 'lifterlms_after_memberships_loop' );
+
+
+	    } else {
+
+			llms_get_template( 'loop/no-courses-found.php' );
+
+	    }
+
+	    wp_reset_postdata();
+
+	   	return ob_get_clean();
+
+	}
+
+
+
+
 	public static function my_achievements( $atts ) {
 
 		extract( shortcode_atts( array(
@@ -150,10 +216,10 @@ class LLMS_Shortcodes {
 		extract(shortcode_atts(array(
 			'membership' => '', // course, lesson, section
 		),$atts));
-		
+
 		if (llms_is_user_member(get_current_user_id(), $membership)) {
 			return $content;
-		} 
+		}
 	}
 
 	/**
@@ -357,7 +423,7 @@ class LLMS_Shortcodes {
 
 	/**
 	 * Course Outline Shortcode
-	 * 
+	 *
 	 * @return template course/outline-list-small.php
 	 */
 	public static function course_outline( $atts ) {
@@ -380,7 +446,7 @@ class LLMS_Shortcodes {
 			} else {
 				return _e( 'Course outline can only be displayed on course or lesson posts!' );
 			}
-			
+
 		}
 
 		$course = new LLMS_Course ( $course_id );
@@ -396,19 +462,19 @@ class LLMS_Shortcodes {
 			$next_lesson = new LLMS_Lesson($next_lesson);
 
 			foreach ( $syllabus->sections as $section ) {
-				
+
 				if ((int)$next_lesson->get_parent_section() === (int)$section['id']) {
-					
+
 					$args = array(
 								'course' => $course,
 								'sections' => array($section),
 								'syllabus' => $syllabus
 							);
-				
+
 					break;
-				
-				} 
-				
+
+				}
+
 			}
 
 		} else {
