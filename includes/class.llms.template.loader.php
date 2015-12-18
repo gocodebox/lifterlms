@@ -34,7 +34,7 @@ class LLMS_Template_Loader {
 		if ( $page_restricted['is_restricted'] && (is_single() || is_page())) {
 			do_action('lifterlms_content_restricted', $page_restricted['id'], $page_restricted['reason']);
 
-			//if restriction reason is site_wide_membership then restrict all content 
+			//if restriction reason is site_wide_membership then restrict all content
 			if ( $page_restricted['reason'] == 'site_wide_membership' ) {
 				$template = 'single-no-access.php';
 			}
@@ -43,7 +43,6 @@ class LLMS_Template_Loader {
 				return $template;
 			}
 			elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'llms_shop' ) ) ) {
-
 				$template = 'archive-course.php';
 			}
 			elseif ( is_single() && get_post_type() == 'llms_membership' ) {
@@ -73,7 +72,7 @@ class LLMS_Template_Loader {
 
 
 				return $template;
-			
+
 
 		}
 
@@ -81,26 +80,34 @@ class LLMS_Template_Loader {
 
 			$template = 'archive-course.php';
 
-		} 
+		}
+
+		elseif( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
+
+			global $wp_query;
+			$obj = $wp_query->get_queried_object();
+			$template = 'taxonomy-' . $obj->taxonomy . '.php';
+
+		}
 
 		elseif ( is_post_type_archive( 'llms_membership' ) || is_page( llms_get_page_id( 'memberships' ) ) ) {
 
 			$template = 'archive-llms_membership.php';
 
-		} 
+		}
 
 		elseif ( is_single() && get_post_type() == 'llms_certificate' ) {
 
 			$template = 'single-certificate.php';
-			
+
 		}
 
 		elseif ( is_single() && get_post_type() == 'llms_my_certificate' ) {
 
 			$template = 'single-certificate.php';
-			
+
 		}
-			
+
 		else {
 
 			return $template;

@@ -28,7 +28,7 @@ get_header( 'llms_shop' ); ?>
 
 			<?php lifterlms_course_loop_start(); ?>
 
-		
+
 				<?php while ( have_posts() ) : the_post(); ?>
 
 					<?php llms_get_template_part( 'content', 'course' ); ?>
@@ -41,17 +41,14 @@ get_header( 'llms_shop' ); ?>
 
 			<?php llms_get_template_part( 'course', 'pagination' ); ?>
 
+		<?php else: ?>
+
+			<?php llms_get_template( 'loop/no-courses-found.php' ); ?>
+
 		<?php endif; ?>
 
-	<?php
-
-
-
-	?>
 </div></main>
-	<?php
 
-		do_action( 'lifterlms_sidebar' );
+<?php do_action( 'lifterlms_sidebar' ); ?>
 
-	?>
 <?php get_footer(); ?>

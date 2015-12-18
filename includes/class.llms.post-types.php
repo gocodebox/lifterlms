@@ -17,30 +17,60 @@ class LLMS_Post_Types {
 	public function __construct () {
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
 		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
+
+		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
+	}
+
+
+	/**
+	 * Sets the WP_Query variables for "post_type" on LifterLMS custom taxonomy archive pages for Courses and Memberships
+	 * @param   obj    $query   Main WP_Query Object
+	 * @return  void
+	 *
+	 * @since  1.4.4
+	 */
+	public static function pre_get_posts( $query )
+	{
+
+		if( $query->is_main_query() ) {
+
+			if( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track' ) ) ) {
+
+				$query->set( 'post_type', 'course' );
+
+			} elseif ( is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
+
+				$query->set( 'post_type', 'llms_membership' );
+
+			}
+
+		}
+
+
 	}
 
 	/**
 	 * Register Taxonomies
 	 */
 	public static function register_taxonomies () {
-		
+
 		if ( ! taxonomy_exists( 'course_type' ) ) {
 
 			do_action( 'lifterlms_register_taxonomy' );
 
 		    //no permalinks yet... soon
-			$permalinks = get_option( 'lifterlms_permalinks' ); 
+			$permalinks = get_option( 'lifterlms_permalinks' );
 
 			register_taxonomy( 'course_type',
 				apply_filters( 'lifterlms_taxonomy_objects_course_type', array( 'course' ) ),
-				apply_filters( 'lifterlms_taxonomy_args_course_type', array( 
+				apply_filters( 'lifterlms_taxonomy_args_course_type', array(
 					'hierarchical' 		=> false,
 		            'show_ui' 			=> false,
 		            'show_in_nav_menus' => false,
 		            'query_var' 		=> is_admin(),
 		            'rewrite'			=> false,
 		            'public'    		=> false
-					) 
+					)
 				)
 			);
 
@@ -240,7 +270,7 @@ class LLMS_Post_Types {
 		 * Course Post Type
 		 */
 		$course_permalink = empty( $permalinks['course_base'] ) ? _x( 'course', 'slug', 'lifterlms' ) : $permalinks['course_base'];
-		
+
 		register_post_type( "course",
 			apply_filters( 'lifterlms_register_post_type_course',
 				array(
@@ -266,7 +296,7 @@ class LLMS_Post_Types {
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> true,
-					'hierarchical' 			=> false, 
+					'hierarchical' 			=> false,
 					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
@@ -637,7 +667,7 @@ class LLMS_Post_Types {
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,
 					'show_in_menu' 			=> 'lifterlms',
-					'hierarchical' 			=> false, 
+					'hierarchical' 			=> false,
 					'rewrite' 				=> $membership_permalink ? array( 'slug' => untrailingslashit( $membership_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),

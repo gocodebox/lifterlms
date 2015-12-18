@@ -16,6 +16,12 @@ get_header( 'llms_shop' ); ?>
 
 	<?php do_action( 'lifterlms_archive_description' ); ?>
 
+	<?php if ( apply_filters( 'lifterlms_show_page_title', true ) ) : ?>
+
+		<h1 class="page-title"><?php lifterlms_page_title(); ?></h1>
+
+	<?php endif; ?>
+
 	<?php if ( have_posts() ) : ?>
 
 		<?php do_action( 'lifterlms_before_memberships_loop' ); ?>
