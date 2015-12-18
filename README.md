@@ -25,6 +25,24 @@ LIFTER LMS
 CHANGELOG
 =========
 
+v1.4.4 - 2015/12/18
+-------------------
+
+##### Updates
+
++ Custom taxonomy archive templates for Course tags, categories, tracks, and difficulties now exist and properly function.
++ Custom taxonomy archive templates for Membership categories and tags now exist and properly function.
++ Added the `[lifterlms_memberships]` shortcode which was documented but never implemented. Details on usage available at [https://lifterlms.readme.io/docs/short-codes#memberships-lifterlms_memberships](https://lifterlms.readme.io/docs/short-codes#memberships-lifterlms_memberships)
+
+##### Bug fixes
+
++ Fixed a small CSS issue that caused extra white space to be displayed above Course or Membership tiles on archive pages when using the WordPress Twentyfifteen default theme
+
+##### Miscellaneus
++ Made language changes to the LifterLMS settings intro screen copy
++ Added link to CourseClinic on settings intro screen
++ Added link to LifterLMS documentation on the settings intro screen
+
 v1.4.3 - 2015/12/11
 -------------------
 
