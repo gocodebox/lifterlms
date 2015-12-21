@@ -36,6 +36,7 @@ v1.4.4rc-1 - 2015/12/18
 + Custom taxonomy archive templates for Course tags, categories, tracks, and difficulties now exist and properly function.
 + Custom taxonomy archive templates for Membership categories and tags now exist and properly function.
 + Added the `[lifterlms_memberships]` shortcode which was documented but never implemented. Details on usage available at [https://lifterlms.readme.io/docs/short-codes#memberships-lifterlms_memberships](https://lifterlms.readme.io/docs/short-codes#memberships-lifterlms_memberships)
++ Added basic styles to LifterLMS pagination HTML elements (elements with class `.llms-pagination`) which formerly had no associated CSS.
 
 ##### Deprecations
 
@@ -43,6 +44,7 @@ v1.4.4rc-1 - 2015/12/18
 
 ##### Bug fixes
 
++ Fixed pagination issues when using the `[lifterlms_courses]` shortcode
 + Fixed an issue with the `is_shop()` function that prevented courses per page from functioning properly on the default course archive page
 + Student analytics profile on admin panel will display the correct number of memberships the student is enrolled in.
 + Fixed a small CSS issue that caused extra white space to be displayed above Course or Membership tiles on archive pages when using the WordPress Twentyfifteen default theme
