@@ -1,0 +1,29 @@
+.llms-pagination {
+
+	ul {
+		list-style-type: none;
+		@extend %cf;
+
+		li {
+
+			float: left;
+
+			a {
+				border-bottom: 0;
+				text-decoration: none;
+			}
+
+			.page-numbers {
+				padding: 0.5em;
+				text-decoration: underline;
+
+				&.current {
+					text-decoration: none;
+				}
+			}
+
+		}
+
+	}
+
+}

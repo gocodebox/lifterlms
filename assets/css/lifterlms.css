@@ -1,4 +1,4 @@
-.llms-lesson-preview .llms-lesson-link:after, .llms-my-achievements ul.listing-achievements:after {
+.llms-lesson-preview .llms-lesson-link:after, .llms-my-achievements ul.listing-achievements:after, .llms-pagination ul:after {
   content: "";
   display: table;
   clear: both;
@@ -1036,6 +1036,24 @@ svg .llms-animated-circle {
 
 .llms-question-count {
   margin-bottom: 20px;
+}
+
+.llms-pagination ul {
+  list-style-type: none;
+}
+.llms-pagination ul li {
+  float: left;
+}
+.llms-pagination ul li a {
+  border-bottom: 0;
+  text-decoration: none;
+}
+.llms-pagination ul li .page-numbers {
+  padding: 0.5em;
+  text-decoration: underline;
+}
+.llms-pagination ul li .page-numbers.current {
+  text-decoration: none;
 }
 
 .llms-lesson-link-locked, .llms-lesson-link-locked:hover {
