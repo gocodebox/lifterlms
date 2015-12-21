@@ -25,8 +25,8 @@ LIFTER LMS
 CHANGELOG
 =========
 
-v1.4.4rc-1 - 2015/12/18
------------------------
+v1.4.4 - 2015/12/18
+-------------------
 
 ##### Updates
 
@@ -40,16 +40,17 @@ v1.4.4rc-1 - 2015/12/18
 
 ##### Deprecations
 
-+ Setup the `is_shop()` function to be replaced by `is_llms_shop()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_shop()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the plugin, it *will* be removed in the next major update (2.0) and will be noted as an officially deprecated feature at that time.
++ Setup the `is_shop()` function to be replaced by `is_llms_shop()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_shop()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the LifterLMS version of thefunction. It *will* be removed in the next major update (2.0) and will be noted as an officially deprecated feature at that time.
 
 ##### Bug fixes
 
 + Fixed pagination issues when using the `[lifterlms_courses]` shortcode
-+ Fixed an issue with the `is_shop()` function that prevented courses per page from functioning properly on the default course archive page
++ Fixed an issue with the `is_shop()` function that prevented courses per page option from functioning properly on the default course archive page
 + Student analytics profile on admin panel will display the correct number of memberships the student is enrolled in.
 + Fixed a small CSS issue that caused extra white space to be displayed above Course or Membership tiles on archive pages when using the WordPress Twentyfifteen default theme
 
 ##### Miscellaneus
+
 + Account settings screen displays the correct title ("Account Settings" it previously said "Archive Settings")
 + Made language changes to the LifterLMS settings intro screen copy
 + Added link to CourseClinic on settings intro screen
