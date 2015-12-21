@@ -1028,16 +1028,42 @@ if ( ! function_exists( 'is_course_category' ) ) {
 	}
 }
 
+
+/**
+ * Is course archive page
+ * This function should be used in place of deprecated "is_shop" which will conflict with WooCommerce and cause issues when WooCommerce is installed with LifterLMS
+ * @since  1.4.4
+ * @return boolean
+ */
+if( ! function_exists( 'is_llms_shop' ) ) {
+
+	function is_llms_shop()
+	{
+
+		return ( ( is_post_type_archive( 'course' ) ) || ( is_single() && is_page( llms_get_page_id( 'shop' ) ) ) ) ? true : false;
+
+	}
+
+}
+
+
 /**
  * Is Course Archive Page
+ * @deprecated 1.4.4  IMPORTANT: this function should not be used as it conflicts with WooCommerce!
+ * @see is_llms_shop()
  * @return boolean [Is Course Archive?]
  */
 if ( ! function_exists( 'is_shop' ) ) {
 
-	function is_shop() {
+	function is_shop()
+	{
+
 		return (( is_single() && is_post_type_archive( 'course' )) || (is_single() && is_page( llms_get_page_id( 'shop' )) ) ) ? true : false;
+
 	}
+
 }
+
 
 /**
  * Is Memberhsip Archive Page
@@ -1280,7 +1306,7 @@ if ( ! function_exists( 'lifterlms_get_sidebar' ) ) {
  */
 if ( ! function_exists( 'is_lifterlms' ) ) {
 	function is_lifterlms() {
-		return apply_filters( 'is_lifterlms', ( is_shop() || is_course_taxonomy() || is_course() || is_lesson() ) ? true : false );
+		return apply_filters( 'is_lifterlms', ( is_llms_shop() || is_course_taxonomy() || is_course() || is_lesson() ) ? true : false );
 	}
 }
 
@@ -1293,6 +1319,7 @@ if ( ! function_exists( 'is_course_taxonomy' ) ) {
 	function is_course_taxonomy() {
 		return is_tax( get_object_taxonomies( 'course' ) );
 	}
+
 }
 
 /**
@@ -1395,7 +1422,7 @@ function llms_get_question( $the_question = false, $args = array() ) {
  * @return object / $query
  */
 function llms_courses_per_page( $query ) {
-	if(!is_admin() && is_shop() && $query->is_main_query()) {
+	if( !is_admin() && is_llms_shop() && $query->is_main_query() ) {
 		$per_page = get_option( 'lifterlms_shop_courses_per_page', 10 );
 		$query->query_vars['posts_per_page'] = $per_page;
 	}

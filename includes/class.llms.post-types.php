@@ -32,7 +32,7 @@ class LLMS_Post_Types {
 	public static function pre_get_posts( $query )
 	{
 
-		if( $query->is_main_query() ) {
+		if( !is_admin() && $query->is_main_query() ) {
 
 			if( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 
