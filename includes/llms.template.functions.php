@@ -1050,6 +1050,8 @@ if( ! function_exists( 'is_llms_shop' ) ) {
 /**
  * Is Course Archive Page
  * @deprecated 1.4.4  IMPORTANT: this function should not be used as it conflicts with WooCommerce!
+ *             		  This function will be officially removed in the next major update (2.0)
+ * @todo Remove this function during upgrade to LifterLMS 2.0
  * @see is_llms_shop()
  * @return boolean [Is Course Archive?]
  */

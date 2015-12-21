@@ -37,8 +37,13 @@ v1.4.4rc-1 - 2015/12/18
 + Custom taxonomy archive templates for Membership categories and tags now exist and properly function.
 + Added the `[lifterlms_memberships]` shortcode which was documented but never implemented. Details on usage available at [https://lifterlms.readme.io/docs/short-codes#memberships-lifterlms_memberships](https://lifterlms.readme.io/docs/short-codes#memberships-lifterlms_memberships)
 
+##### Deprecations
+
++ Setup the `is_shop()` function to be replaced by `is_llms_shop()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_shop()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the plugin, it *will* be removed in the next major update (2.0) and will be noted as an officially deprecated feature at that time.
+
 ##### Bug fixes
 
++ Fixed an issue with the `is_shop()` function that prevented courses per page from functioning properly on the default course archive page
 + Student analytics profile on admin panel will display the correct number of memberships the student is enrolled in.
 + Fixed a small CSS issue that caused extra white space to be displayed above Course or Membership tiles on archive pages when using the WordPress Twentyfifteen default theme
 
