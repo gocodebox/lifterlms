@@ -137,9 +137,10 @@ class LLMS_Shortcodes {
 	    }
 
 	    $query = new WP_Query( array(
+	    	'paged' => get_query_var('paged'),
 	        'post_type' => 'llms_membership',
 	        'post_status' => 'publish',
-	        'posts_per_page' => isset($atts['per_page']) ? $atts['per_page'] : -1,
+	        'posts_per_page' => isset($atts['posts_per_page']) ? $atts['posts_per_page'] : -1,
 	        'order' => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
 	        'orderby' => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
 	        'tax_query' => isset( $tax ) ? $tax : '',
@@ -161,8 +162,20 @@ class LLMS_Shortcodes {
 
 			lifterlms_membership_loop_end();
 
-			do_action( 'lifterlms_after_memberships_loop' );
+			echo '<nav class="llms-pagination">';
+			echo paginate_links( array(
+					'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link(999999) ) ),
+					'format'       => '?page=%#%',
+					'total'        => $query->max_num_pages,
+					'current'      => max( 1, get_query_var('paged') ),
+					'prev_next'    => true,
+					'prev_text'    => '«' . __( 'Previous', 'lifterlms' ),
+					'next_text'    => __( 'Next', 'lifterlms') . '»',
+					'type'         => 'list'
+				) );
+			echo '</nav>';
 
+			do_action( 'lifterlms_after_memberships_loop' );
 
 	    } else {
 
@@ -276,18 +289,19 @@ class LLMS_Shortcodes {
 
 	    if(isset($atts['category'])) {
 			$tax = 	array(
-						array(
-							'taxonomy' => 'course_cat',
-							'field' => 'slug',
-							'terms' => $atts['category'],
-						)
-					);
+				array(
+					'taxonomy' => 'course_cat',
+					'field' => 'slug',
+					'terms' => $atts['category'],
+				)
+			);
 	    }
 
 	    $query = new WP_Query( array(
+	    	'paged' => get_query_var('paged'),
 	        'post_type' => 'course',
 	        'post_status' => 'publish',
-	        'posts_per_page' => isset($atts['per_page']) ? $atts['per_page'] : -1,
+	        'posts_per_page' => isset($atts['posts_per_page']) ? $atts['posts_per_page'] : -1,
 	        'order' => isset($atts['order']) ? $atts['order'] : 'ASC',
 	        'orderby' => isset($atts['orderby']) ? $atts['orderby'] : 'title',
 	        'tax_query' => isset($tax) ? $tax : '',
@@ -299,16 +313,29 @@ class LLMS_Shortcodes {
 
 			while ( $query->have_posts() ) : $query->the_post();
 
-
 				llms_get_template_part( 'content', 'course' );
 
 			endwhile;
 
 			lifterlms_course_loop_end();
 
+			echo '<nav class="llms-pagination">';
+			echo paginate_links( array(
+					'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link(999999) ) ),
+					'format'       => '?page=%#%',
+					'total'        => $query->max_num_pages,
+					'current'      => max( 1, get_query_var('paged') ),
+					'prev_next'    => true,
+					'prev_text'    => '«' . __( 'Previous', 'lifterlms' ),
+					'next_text'    => __( 'Next', 'lifterlms') . '»',
+					'type'         => 'list'
+				) );
+			echo '</nav>';
+
 	    	$courses = ob_get_clean();
 	    	wp_reset_postdata();
 	   		return $courses;
+
 	    }
 
 	}

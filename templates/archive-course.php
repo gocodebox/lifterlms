@@ -28,7 +28,6 @@ get_header( 'llms_shop' ); ?>
 
 			<?php lifterlms_course_loop_start(); ?>
 
-
 				<?php while ( have_posts() ) : the_post(); ?>
 
 					<?php llms_get_template_part( 'content', 'course' ); ?>
