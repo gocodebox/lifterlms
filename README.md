@@ -12,7 +12,9 @@ v1.4.5 - 2015/12/??
 
 + updated readme file to remove incomplete documentation
 + Added Chosen multi-select options to admin panel metaboxes (settings and posts)
-
++ Added two new actions that developers can hook into:
+	+ `llms_user_enrolled_in_course`, called when users are enrolled in a course. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_enrolled_in_course).
+	+ `llms_user_added_to_membership_level`, called when users are added to a membership level. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_added_to_membership_level).
 
 v1.4.4 - 2015/12/21
 -------------------
