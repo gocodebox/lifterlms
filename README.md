@@ -1,29 +1,17 @@
-lifterLMS
+LifterLMS
 ==========
 
-LIFTER LMS
-
-###Shortcodes
-* [lifterlms_my_account]
-  *adds entire account page
-  *Accepts no arguments
-* [courses]
-**Accepts arguments: order, orderby and per_page
-
-
-###Debug: llms_log($message)
-*Logs message to wp-contents/debug.log
-
-####Examples
-*log_me(array('This is a message' => 'for debugging purposes'));
-*log_me('This is a message for debugging purposes');
-
-
-
+Full documentation available at [https://lifterlms.readme.io](https://lifterlms.readme.io).
 
 
 CHANGELOG
 =========
+
+v1.4.5 - 2015/12/??
+-------------------
+
++ updated readme file to remove incomplete documentation
+
 
 v1.4.4 - 2015/12/21
 -------------------
