@@ -11,6 +11,7 @@ v1.4.5 - 2015/12/??
 -------------------
 
 + updated readme file to remove incomplete documentation
++ Added Chosen multi-select options to admin panel metaboxes (settings and posts)
 
 
 v1.4.4 - 2015/12/21

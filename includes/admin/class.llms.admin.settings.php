@@ -160,6 +160,7 @@ class LLMS_Admin_Settings {
 	* @return void
 	*/
 	public static function output_fields( $settings ) {
+
 	    foreach ( $settings as $value ) {
 
 	    	if ( ! isset( $value['type'] ) )
@@ -206,7 +207,6 @@ class LLMS_Admin_Settings {
 			}
 
 			elseif ( ! empty( $value['desc'] ) ) {
-
 				$description = $value['desc'];
 				$tooltip = '';
 			}
@@ -324,9 +324,9 @@ class LLMS_Admin_Settings {
 
 	            case "hidden":
 					echo '<th></th>';
-					echo '<td><input type="hidden" 
+					echo '<td><input type="hidden"
 						name="' . esc_attr( $value['id'] ) . '"
-						id="' . esc_attr( $value['id'] ) . '" 
+						id="' . esc_attr( $value['id'] ) . '"
 						value="' . esc_attr( $value['value'] ) . '">';
 	            break;
 
@@ -384,7 +384,6 @@ class LLMS_Admin_Settings {
 	            // Select boxes
 	            case 'select' :
 	            case 'multiselect' :
-
 	            	$option_value 	= self::get_option( $value['id'], $value['default'] );
 	            	?><tr valign="top">
 						<th>
@@ -554,12 +553,12 @@ class LLMS_Admin_Settings {
 						'posts_per_page' 	=> -1,
 						'post_type' 		=> 'llms_membership',
 						'nopaging' 			=> true,
-						'post_status'   	=> 'publish',   
-						'class'				=> $value['class'],   
+						'post_status'   	=> 'publish',
+						'class'				=> $value['class'],
 						'selected'			=> absint( self::get_option( $value['id'] ) ),
 					);
 					$posts = get_posts($args);
-						
+
 	            	if( isset( $value['args'] ) ) {
 	            		$args = wp_parse_args( $value['args'], $args );
 	            	}
@@ -569,7 +568,7 @@ class LLMS_Admin_Settings {
 	                    <td class="forminp">
 		                    <select class="<?php echo $args['class']; ?>" style="<?php echo $value['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
 		                    	<option value=""> <?php _e('None', 'lifterlms'); ?></option>
-			                    <?php foreach( $posts as $post ) : setup_postdata($post); 
+			                    <?php foreach( $posts as $post ) : setup_postdata($post);
 			                    		if ( $args['selected'] == $post->ID) {
 			                    			$selected = 'selected';
 			                    		}
@@ -636,7 +635,7 @@ class LLMS_Admin_Settings {
 	 * Loops though the lifterlms options array and outputs each field.
 	 *
 	 * @param array $settings Opens array to output
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function save_fields( $settings ) {
@@ -699,14 +698,14 @@ class LLMS_Admin_Settings {
 		    	break;
 
 		    	case "multiselect" :
-			 
+
 			    	if ( isset( $_POST[$value['id']]) ) {
 			    		foreach($_POST[$value['id']] as $k => $v) {
-			    			
+
 			    			$_POST[$value['id']][$k] = llms_clean( stripslashes( $v ) );
 			    		}
 			    		$option_value = $_POST[ $value['id'] ];
-			    	
+
 			    	}
 			    	else {
 			    		$option_value = '';
