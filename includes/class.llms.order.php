@@ -31,11 +31,11 @@
 		}
 
 	/**
-	 * Creates a order post to associate with the enrollment of the user. 
+	 * Creates a order post to associate with the enrollment of the user.
 	 * Used to create order and skip checkout process
 	 * @param int $user_id [ID of the user]
 	 * @param int $post_id [ID of the post]
-	 * 
+	 *
 	 * @return void
 	 */
 	public function create($user_id, $post_id) {
@@ -196,7 +196,7 @@
 					'product_id' => $order->product_id,
 				)
 			);
-		
+
 			//update coupon post meta
 			$coupon = LLMS()->session->get( 'llms_coupon', array() );
 			if( !empty( $coupon ) ) {
@@ -205,7 +205,7 @@
 				update_post_meta( $order_post_id, '_llms_order_coupon_amount', $coupon->amount );
 				update_post_meta( $order_post_id, '_llms_order_coupon_limit', $coupon->limit );
 				update_post_meta( $order_post_id, '_llms_order_coupon_code', $coupon->coupon_code );
-			
+
 				//now that the coupon has been used. post the new coupon limit
 				if ( $coupon->limit !== 'unlimited' ) {
 					update_post_meta( $coupon->id, '_llms_usage_limit', $coupon->limit );
@@ -220,7 +220,7 @@
 			}
 			update_post_meta( $order_post_id, '_llms_product_title', $order->product_title );
 
-			//calculate order total based on coupon 
+			//calculate order total based on coupon
 			if ( !empty( $coupon ) ) {
 				$product = new LLMS_Product( $order->product_id );
 
@@ -272,6 +272,9 @@
 					)
 				);
 			}
+
+			do_action( 'llms_user_enrolled_in_course', $order->user_id, $order->product_id );
+
 			wp_reset_postdata();
 			wp_reset_query();
 
@@ -290,6 +293,9 @@
 				}
 
 				update_user_meta( $order->user_id, '_llms_restricted_levels', $membership_levels );
+
+				do_action( 'llms_user_added_to_membership_level', $order->user_id, $order->product_id );
+
 			}
 
 			//kill sessions
