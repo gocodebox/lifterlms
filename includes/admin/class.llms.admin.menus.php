@@ -37,9 +37,9 @@ class LLMS_Admin_Menus {
 	    global $submenu;
 
 	    $arr = array();
-	    $arr[] = $submenu['lifterlms'][8];  // Settings
-	    $arr[] = $submenu['lifterlms'][9];  // Analytics
-	    $arr[] = $submenu['lifterlms'][10]; // Students
+	    $arr[] = $submenu['lifterlms'][9];  // Settings
+	    $arr[] = $submenu['lifterlms'][10];  // Analytics
+	    $arr[] = $submenu['lifterlms'][11]; // Students
 	    $arr[] = $submenu['lifterlms'][5];  // Membership
 	    $arr[] = $submenu['lifterlms'][1];  // Emails
 	    $arr[] = $submenu['lifterlms'][2];  // Certificates
@@ -47,7 +47,8 @@ class LLMS_Admin_Menus {
 	    $arr[] = $submenu['lifterlms'][4];  // Engagements
 	    $arr[] = $submenu['lifterlms'][0];  // Orders
 	    $arr[] = $submenu['lifterlms'][6];  // Coupons
-	    $arr[] = $submenu['lifterlms'][7];  // Reviews
+	    $arr[] = $submenu['lifterlms'][7];  // Vouchers
+        $arr[] = $submenu['lifterlms'][8];  // Reviews
 
 	    $submenu['lifterlms'] = $arr;
 

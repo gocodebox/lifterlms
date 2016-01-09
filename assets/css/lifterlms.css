@@ -1507,6 +1507,14 @@ svg .llms-animated-circle {
   border-right: 2px solid green !important;
 }
 
+.account-links .voucher-expand input[type=text] {
+  width: 77%;
+  margin-right: 1%;
+}
+.account-links .voucher-expand button {
+  width: 21%;
+}
+
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

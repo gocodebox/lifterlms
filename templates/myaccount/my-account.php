@@ -20,11 +20,19 @@ llms_print_notices();
 		wp_logout_url( get_permalink( llms_get_page_id( 'myaccount' ) ) )
 	);
 
-	printf( __( '<a class="llms-nav-link account-settings" href="%s">Account Settings</a>', 'lifterlms' ),
+	printf( __( '<a class="llms-nav-link account-settings" href="%s">Account Settings</a>  &middot;  ', 'lifterlms' ),
 		llms_person_edit_account_url()
 	);
 
 	?>
+
+    <a href="#" class="llms-nav-link got_voucher">Got Voucher?</a>
+
+    <form class="voucher-expand" style="display: none;" method="post">
+        <input type="text" placeholder="Voucher Code" name="llms_voucher_code">
+        <button type="submit">Submit</button>
+        <?php wp_nonce_field('lifterlms_voucher_check', 'lifterlms_voucher_nonce'); ?>
+    </form>
 
 	<?php do_action( 'lifterlms_after_my_account_navigation' ); ?>
 </nav>

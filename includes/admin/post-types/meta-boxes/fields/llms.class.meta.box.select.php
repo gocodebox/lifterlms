@@ -1,53 +1,72 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (!defined('ABSPATH')) exit;
 
 /**
-*
-*/
+ *
+ */
 class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
 {
-	/**
-	 * Class constructor
-	 * @param array $_field Array containing information about field
-	 */
-	function __construct($_field)
-	{
-		$this->field = $_field;
-	}
+    /**
+     * Class constructor
+     * @param array $_field Array containing information about field
+     */
+    function __construct($_field)
+    {
+        $this->field = $_field;
+    }
 
-	/**
-	 * Outputs the Html for the given field
-	 * @return HTML
-	 */
-	public function Output()
-	{
-		global $post;
+    /**
+     * Outputs the Html for the given field
+     * @return HTML
+     */
+    public function Output()
+    {
+        global $post;
 
-		parent::Output(); ?>
+        parent::Output();
 
-		<select
-			id="<?php echo esc_attr( $this->field['id'] ); ?>"
-			name="<?php echo esc_attr( $this->field['id'] ); ?>"
-			class="<?php echo esc_attr( $this->field['class'] ); ?>"
-			<?php if( $this->field['multi'] ): ?>
-				multiple="multiple"
-			<?php endif; ?>
-		>
-		    <option value="">None</option>
+        $id = $name = esc_attr($this->field['id']);
 
-			<?php foreach ( $this->field['value'] as $option  ) :
-				if ( $option['key'] == $this->meta ) :
-			?>
-				<option value="<?php echo $option['key']; ?>" selected="selected"><?php echo $option['title']; ?></option>
+        if ($this->field['multi']) {
+            $name .= '[]';
+        }
 
-			<?php else : ?>
-				<option value="<?php echo $option['key']; ?>"><?php echo $option['title']; ?></option>
+        $selected = $this->meta;
+        if ($this->field['selected']) {
+            $selected = $this->field['selected'];
+        }
 
-			<?php endif; ?>
-			<?php endforeach; ?>
- 		</select>
-		<?php
-		parent::CloseOutput();
-	}
+        ?>
+
+        <select
+            id="<?php echo $id; ?>"
+            name="<?php echo $name; ?>"
+            class="<?php echo esc_attr($this->field['class']); ?>"
+            <?php if ($this->field['multi']): ?>
+                multiple="multiple"
+            <?php endif; ?>
+        >
+            <option value="">None</option>
+
+            <?php foreach ($this->field['value'] as $option) :
+
+                $selectedText = '';
+                if (is_array($selected)) {
+                    if (in_array($option['key'], $selected)) {
+                        $selectedText = ' selected="selected" ';
+                    }
+                } elseif ($option['key'] == $selected) {
+                    $selectedText = ' selected="selected" ';
+                }
+
+                ?>
+                <option value="<?php echo $option['key']; ?>"
+                    <?php echo $selectedText ?>><?php echo $option['title']; ?></option>
+
+            <?php endforeach; ?>
+        </select>
+        <?php
+        parent::CloseOutput();
+    }
 }
 

@@ -34,7 +34,7 @@ class LLMS_Frontend_Assets {
 
 		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_style( 'admin-styles', plugins_url( '/assets/css/lifterlms' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
-		
+
 		$filename = ABSPATH . 'wp-content/plugins/lifterlms/assets/css/lifterlms-temp' . LLMS_Frontend_Assets::$min . '.css';
 
 		if (file_exists( $filename )){
@@ -55,7 +55,7 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 		wp_enqueue_script( 'collapse', plugins_url( 'assets/js/vendor/collapse.js', LLMS_PLUGIN_FILE ));
 		wp_enqueue_script( 'transition', plugins_url( 'assets/js/vendor/transition.js', LLMS_PLUGIN_FILE ));
-		
+
 		wp_enqueue_script( 'llms', plugins_url(  '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 
 
@@ -63,10 +63,15 @@ class LLMS_Frontend_Assets {
 		//wp_enqueue_script( 'llms-quiz', plugins_url(  '/assets/js/llms-quiz' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 		wp_enqueue_script( 'llms-form-checkout', plugins_url(  '/assets/js/llms-form-checkout' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 		if(is_course()){
-			wp_enqueue_script( 'llms-lesson-locked', plugins_url( 'assets/js/llms-lesson-locked' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array(), false, true); 
+			wp_enqueue_script( 'llms-lesson-locked', plugins_url( 'assets/js/llms-lesson-locked' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array(), false, true);
 		}
 
+        // My Account Page
+        $myAccountPageId = get_option('lifterlms_myaccount_page_id');
 
+        if (is_page(intval($myAccountPageId)) && is_singular()) {
+            wp_enqueue_script('llms-register-login-form', plugins_url('assets/js/llms-register-login-form' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE), array('jquery'), false, true);
+        }
 	}
 
 	/**

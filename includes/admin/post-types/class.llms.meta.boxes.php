@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; 
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
 * Admin base MetaBox Class
@@ -55,6 +55,9 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_llms_question_meta', 'LLMS_Meta_Box_Question_General::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_coupon_meta', 'LLMS_Meta_Box_Coupon_Options::save', 10, 2 );
 
+        add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher::save', 10, 2 );
+        add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
+
 		//Error handling
 		add_action( 'admin_notices', array( $this, 'display_errors' ) );
 		add_action( 'shutdown', array( $this, 'set_errors' ) );
@@ -101,7 +104,7 @@ class LLMS_Admin_Meta_Boxes {
 
 		echo '</p></div>';
 
-		delete_option( 'lifterlms_errors' );	
+		delete_option( 'lifterlms_errors' );
 
 	}
 
@@ -119,7 +122,7 @@ class LLMS_Admin_Meta_Boxes {
 		);
 		$output = 'names';
 		$operator = 'and';
-		$post_types = get_post_types( $args, $output, $operator ); 
+		$post_types = get_post_types( $args, $output, $operator );
 
 		foreach ( $post_types  as $post_type ) {
 			add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', $post_type, 'side', 'high' );
@@ -137,6 +140,7 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-certificate-settings', __( 'Certificate Settings', 'lifterlms' ), 'LLMS_Meta_Box_Certificate::output', 'llms_certificate', 'normal', 'high' );
 		//add_meta_box( 'lifterlms-engagement-settings', __( 'Engagement Settings', 'lifterlms' ), 'LLMS_Meta_Box_Engagement::output', 'llms_engagement', 'normal', 'high' );
 		add_meta_box( 'lifterlms-coupon-settings', __( 'Coupon Settings', 'lifterlms' ), 'LLMS_Meta_Box_Coupon::output', 'llms_coupon', 'normal', 'high' );
+		add_meta_box( 'lifterlms-voucher-settings', __( 'Voucher Settings', 'lifterlms' ), 'LLMS_Meta_Box_Voucher::output', 'llms_voucher', 'normal', 'high' );
 		add_meta_box( 'lifterlms-quiz-settings', __( 'Quiz Settings', 'lifterlms' ), 'LLMS_Meta_Box_Quiz::output', 'llms_quiz', 'normal', 'high' );
 
 		//===================================
@@ -147,10 +151,11 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-lesson-tree', __( 'Course Outline', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Tree::output', 'lesson', 'side' );
 		//add_meta_box( 'lifterlms-lesson-video', __( 'Featured Media', 'lifterlms' ), 'LLMS_Meta_Box_Video::output', 'lesson', 'normal', 'high' );
 		//add_meta_box( 'lifterlms-lesson-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_General::output', 'lesson', 'normal' );
-		//add_meta_box( 'lifterlms-lesson-options', __( 'Lesson Options', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Options::output', 'lesson', 'normal' );		
+		//add_meta_box( 'lifterlms-lesson-options', __( 'Lesson Options', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Options::output', 'lesson', 'normal' );
 		//add_meta_box( 'lifterlms-certificate-options', __( 'Certificate Options', 'lifterlms' ), 'LLMS_Meta_Box_Certificate_Options::output', 'llms_certificate', 'normal' );
 		//add_meta_box( 'lifterlms-achievement-options', __( 'Achievement Options', 'lifterlms' ), 'LLMS_Meta_Box_Achievement_Options::output', 'llms_achievement', 'normal' );
 		add_meta_box( 'lifterlms-engagement-options', __( 'Engagement Options', 'lifterlms' ), 'LLMS_Meta_Box_Engagement_Options::output', 'llms_engagement', 'normal' );
+        add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
 		//add_meta_box( 'lifterlms-membership-data', __( 'Membership Data', 'lifterlms' ), apply_filters('lifterlms_product_meta_box', 'LLMS_Meta_Box_Product::output'), 'llms_membership', 'normal', 'high' );
 		//add_meta_box( 'lifterlms-expiration-options', __( 'Membership Expiration', 'lifterlms' ), 'LLMS_Meta_Box_Expiration::output', 'llms_membership', 'normal' );
 		add_meta_box( 'lifterlms-order-general', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order::output', 'order', 'normal', 'high' );
@@ -198,7 +203,7 @@ class LLMS_Admin_Meta_Boxes {
 		}
 		elseif ( empty( $_POST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_meta_nonce'], 'lifterlms_save_data' ) ) {
 			return false;
-		} 
+		}
 		elseif ( empty( $_POST['post_ID'] ) || $_POST['post_ID'] != $post_id ) {
 			return false;
 		}
@@ -207,7 +212,7 @@ class LLMS_Admin_Meta_Boxes {
 	}
 
 	public function is_llms_post_type( $post ) {
-		if ( in_array( $post->post_type, array( 'course', 'section', 'lesson', 'order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement', 'llms_membership', 'llms_quiz', 'llms_question', 'llms_coupon' ) ) ) {
+		if ( in_array( $post->post_type, array( 'course', 'section', 'lesson', 'order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement', 'llms_membership', 'llms_quiz', 'llms_question', 'llms_coupon', 'llms_voucher' ) ) ) {
 			return true;
 		}
 	}

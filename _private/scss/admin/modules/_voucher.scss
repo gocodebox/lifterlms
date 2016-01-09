@@ -1,0 +1,104 @@
+.llms-voucher-codes-wrapper,
+.llms-voucher-redemption-wrapper {
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      border: 1px solid;
+    }
+
+    thead {
+      background-color: $color-grey;
+    }
+
+    tr {
+      &:nth-child(even) {
+        background-color: $color-lightgrey;
+      }
+    }
+  }
+}
+
+.llms-voucher-codes-wrapper {
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      border: 1px solid;
+    }
+
+    thead {
+      background-color: $color-grey;
+    }
+
+    tr {
+      &:nth-child(even) {
+        background-color: $color-lightgrey;
+      }
+
+      td {
+
+        span {
+          display: inline-block;
+          min-width: 30px;
+        }
+      }
+    }
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  .llms-voucher-delete {
+    float: right;
+  }
+
+  .llms-voucher-uses {
+    width: 50px;
+  }
+
+  .llms-voucher-add-codes {
+    float: right;
+
+    input[type="text"] {
+      width: 30px;
+    }
+  }
+}
+
+.llms-voucher-export-wrapper {
+
+  .llms-voucher-export-type {
+    width: 100%;
+
+    p {
+      margin: 0 0 0 15px;
+    }
+  }
+
+  .llms-voucher-email-wrapper {
+    width: 100%;
+    margin: 25px 0;
+
+    input[type="text"] {
+      width: 100%;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  > button {
+    float: right;
+  }
+}
+
+.postbox .inside {
+  overflow: auto;
+}

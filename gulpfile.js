@@ -61,7 +61,7 @@ gulp.task('lint', function() {
 			message: '<%= error.message %>',
 			sound: 'Funk',
 			title: 'JS Hint Error'
-        }))
+        }));
 
         /* Alternatively for Windows:
         .on('error',notify.onError({

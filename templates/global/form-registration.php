@@ -115,6 +115,14 @@ llms_print_notices();
             <input type="password" class="input-text llms-input-text" name="password_2" id="password_2" />
         </div>
 
+        <div class="llms-form-item-wrapper voucher-wrapper">
+            <a href="#" class="got_voucher">Got Voucher?</a>
+
+            <div class="voucher-expand" style="display: none;">
+                <input type="text" placeholder="Voucher Code" name="llms_voucher_code">
+            </div>
+        </div>
+
         <?php if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms' ) && get_option( 'lifterlms_terms_page_id' ) ) : ?>
 
             <div class="llms-form-item-wrapper agree_to_terms">

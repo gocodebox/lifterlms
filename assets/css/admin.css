@@ -905,6 +905,82 @@ h1.outline-title {
   margin-left: 6px;
 }
 
+.llms-voucher-codes-wrapper table,
+.llms-voucher-redemption-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.llms-voucher-codes-wrapper table th, .llms-voucher-codes-wrapper table td,
+.llms-voucher-redemption-wrapper table th,
+.llms-voucher-redemption-wrapper table td {
+  border: 1px solid;
+}
+.llms-voucher-codes-wrapper table thead,
+.llms-voucher-redemption-wrapper table thead {
+  background-color: #999;
+}
+.llms-voucher-codes-wrapper table tr:nth-child(even),
+.llms-voucher-redemption-wrapper table tr:nth-child(even) {
+  background-color: #ccc;
+}
+
+.llms-voucher-codes-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.llms-voucher-codes-wrapper table th, .llms-voucher-codes-wrapper table td {
+  border: 1px solid;
+}
+.llms-voucher-codes-wrapper table thead {
+  background-color: #999;
+}
+.llms-voucher-codes-wrapper table tr:nth-child(even) {
+  background-color: #ccc;
+}
+.llms-voucher-codes-wrapper table tr td span {
+  display: inline-block;
+  min-width: 30px;
+}
+.llms-voucher-codes-wrapper button {
+  cursor: pointer;
+}
+.llms-voucher-codes-wrapper .llms-voucher-delete {
+  float: right;
+}
+.llms-voucher-codes-wrapper .llms-voucher-uses {
+  width: 50px;
+}
+.llms-voucher-codes-wrapper .llms-voucher-add-codes {
+  float: right;
+}
+.llms-voucher-codes-wrapper .llms-voucher-add-codes input[type="text"] {
+  width: 30px;
+}
+
+.llms-voucher-export-wrapper .llms-voucher-export-type {
+  width: 100%;
+}
+.llms-voucher-export-wrapper .llms-voucher-export-type p {
+  margin: 0 0 0 15px;
+}
+.llms-voucher-export-wrapper .llms-voucher-email-wrapper {
+  width: 100%;
+  margin: 25px 0;
+}
+.llms-voucher-export-wrapper .llms-voucher-email-wrapper input[type="text"] {
+  width: 100%;
+}
+.llms-voucher-export-wrapper .llms-voucher-email-wrapper p {
+  margin: 0;
+}
+.llms-voucher-export-wrapper > button {
+  float: right;
+}
+
+.postbox .inside {
+  overflow: auto;
+}
+
 /******************************************************************
 
 Option Page Widgets
