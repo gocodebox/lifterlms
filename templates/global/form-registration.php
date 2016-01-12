@@ -116,7 +116,7 @@ llms_print_notices();
         </div>
 
         <div class="llms-form-item-wrapper voucher-wrapper">
-            <a href="#" class="got_voucher">Got Voucher?</a>
+            <a href="#" class="got_voucher">Got a Voucher?</a>
 
             <div class="voucher-expand" style="display: none;">
                 <input type="text" placeholder="Voucher Code" name="llms_voucher_code">

@@ -128,7 +128,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 
         ob_start(); ?>
         <script>var deleteIcon = '<?= $deleteIcon ?>';</script>
-        <div class="llms-voucher-codes-wrapper">
+        <div class="llms-voucher-codes-wrapper" id="llms-form-wrapper">
             <table>
 
                 <thead>
@@ -165,7 +165,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
             <div class="llms-voucher-add-codes">
                 <p>Add <input type="text" placeholder="#" id="llms_voucher_add_quantity"> new code(s) with <input
                         type="text" placeholder="#" id="llms_voucher_add_uses"> use(s) per code
-                    <button id="llms_voucher_add_codes">Add</button>
+                    <button id="llms_voucher_add_codes" class="button-primary">Add</button>
                 </p>
             </div>
 

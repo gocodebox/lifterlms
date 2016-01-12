@@ -35,10 +35,11 @@
 	 * Used to create order and skip checkout process
 	 * @param int $user_id [ID of the user]
 	 * @param int $post_id [ID of the post]
+     * @param string $payment_method
 	 * 
 	 * @return void
 	 */
-	public function create($user_id, $post_id) {
+	public function create($user_id, $post_id, $payment_method = '') {
 		global $wpdb;
 
 		$post = get_post($post_id);
@@ -80,7 +81,10 @@
 		);
 
 		update_post_meta($order_post_id,'_llms_user_id', $user_id);
-		update_post_meta($order_post_id,'_llms_payment_method', 'assinged_by_admin');
+        if (empty($payment_method)) {
+            $payment_method = 'assinged_by_admin';
+        }
+        update_post_meta($order_post_id, '_llms_payment_method', $payment_method);
 		update_post_meta($order_post_id,'_llms_product_title', $post->post_title);
 		update_post_meta($order_post_id,'_llms_order_total', '0');
 		update_post_meta($order_post_id,'_llms_product_sku', $sku);

@@ -163,10 +163,41 @@ class LLMS_Voucher
             $products = $this->get_products();
 
             if (!empty($products)) {
+                global $wpdb;
+
+                $membership_levels = array();
+
                 foreach ($products as $product) {
                     $order = new LLMS_Order();
-                    $order->create($user_id, $product);
+                    $order->create($user_id, $product, 'Voucher');
+
+                    if (get_post_type($product) === 'llms_membership') {
+                        $membership_levels[] = $product;
+                    }
+
+                    // update user postmeta
+                    $user_metadatas = array(
+                        '_start_date' => 'yes',
+                        '_status' => 'Enrolled',
+                    );
+
+                    foreach ($user_metadatas as $key => $value) {
+                        $wpdb->insert($wpdb->prefix . 'lifterlms_user_postmeta',
+                            array(
+                                'user_id' => $user_id,
+                                'post_id' => $product,
+                                'meta_key' => $key,
+                                'meta_value' => $value,
+                                'updated_date' => current_time('mysql'),
+                            )
+                        );
+                    }
                 }
+
+                if (!empty($membership_levels)) {
+                    update_user_meta($user_id, '_llms_restricted_levels', $membership_levels);
+                }
+
             }
         }
 
@@ -241,10 +272,4 @@ class LLMS_Voucher
 
         return $wpdb->delete($this->get_product2voucher_table_name(), array('voucher_id' => $this->id));
     }
-
-    /**
-     * EXPORT CSV
-     */
-
-
 }

@@ -26,7 +26,7 @@ llms_print_notices();
 
 	?>
 
-    <a href="#" class="llms-nav-link got_voucher">Got Voucher?</a>
+    <a href="#" class="llms-nav-link got_voucher">Got a Voucher?</a>
 
     <form class="voucher-expand" style="display: none;" method="post">
         <input type="text" placeholder="Voucher Code" name="llms_voucher_code">

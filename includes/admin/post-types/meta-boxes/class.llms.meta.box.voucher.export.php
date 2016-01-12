@@ -26,7 +26,7 @@ class LLMS_Meta_Box_Voucher_Export
         global $post;
         ob_start();
         ?>
-        <div class="llms-voucher-export-wrapper">
+        <div class="llms-voucher-export-wrapper" id="llms-form-wrapper">
 
             <div class="llms-voucher-export-type">
                 <input type="radio" name="llms_voucher_export_type" id="vouchers_only_type" value="vouchers">
@@ -52,7 +52,7 @@ class LLMS_Meta_Box_Voucher_Export
                 <p>Send to multiple emails by separating emails addresses with commas.</p>
             </div>
 
-            <button type="submit">Generate Export</button>
+            <button type="submit" class="button-primary">Generate Export</button>
             <?php wp_nonce_field('lifterlms_csv_export_data', 'lifterlms_export_nonce'); ?>
         </div>
         <?php
