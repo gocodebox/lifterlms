@@ -10,6 +10,7 @@ CHANGELOG
 v1.4.5 - 2015/12/??
 -------------------
 
++ Fixed a bug related to some required global variables for quizzes and lessons being incorrectly set on certain hosts
 + updated readme file to remove incomplete documentation
 + Added Chosen multi-select options to admin panel metaboxes (settings and posts)
 + Added two new actions that developers can hook into:

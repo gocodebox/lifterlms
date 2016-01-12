@@ -6,6 +6,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 global $post, $lesson;
+
+if( !($lesson instanceof LLMS_Lesson) )
+	$lesson = new LLMS_Lesson( $post->ID );
 ?>
 
 <nav class="llms-course-navigation">
