@@ -7,6 +7,12 @@ Full documentation available at [https://lifterlms.readme.io](https://lifterlms.
 CHANGELOG
 =========
 
+v.1.4.6 - 2016/01/??
+--------------------
+
++ Fixed a bug that caused quiz results to display for users who had never taken the quiz.
+
+
 v1.4.5 - 2016/01/13
 -------------------
 
