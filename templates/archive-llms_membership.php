@@ -38,6 +38,8 @@ get_header( 'llms_shop' ); ?>
 
 		<?php do_action( 'lifterlms_after_memberships_loop' ); ?>
 
+		<?php llms_get_template_part( 'course', 'pagination' ); ?>
+
 	<?php else : ?>
 
 		<?php llms_get_template( 'loop/no-courses-found.php' ); ?>
