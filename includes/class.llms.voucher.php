@@ -61,8 +61,6 @@ class LLMS_Voucher
         $table = $this->get_codes_table_name();
         $redeemed_table = $this->get_redemptions_table_name();
 
-//        $query = "SELECT * FROM $table WHERE `code` = '$code' AND `is_deleted` = 0 LIMIT 1";
-
         $query = "SELECT c.*, count(r.id) as used
                   FROM $table as c
                   LEFT JOIN $redeemed_table as r
@@ -213,11 +211,20 @@ class LLMS_Voucher
 
         $table = $this->get_codes_table_name();
         $redeemed_table = $this->get_redemptions_table_name();
+        $users_table = $wpdb->prefix . 'users';
 
-        $query = "SELECT r.`id`, c.`id` as code_id, c.`voucher_id`, c.`code`, c.`redemption_count`, c.`is_deleted`, r.`user_id`, r.`redemption_date`
+//        $query = "SELECT r.`id`, c.`id` as code_id, c.`voucher_id`, c.`code`, c.`redemption_count`, c.`is_deleted`, r.`user_id`, r.`redemption_date`
+//                  FROM $table as c
+//                  JOIN $redeemed_table as r
+//                  ON c.`id` = r.`code_id`
+//                  WHERE c.`is_deleted` = 0 AND c.`voucher_id` = $this->id";
+
+        $query = "SELECT r.`id`, c.`id` as code_id, c.`voucher_id`, c.`code`, c.`redemption_count`, r.`user_id`, u.`user_email`, r.`redemption_date`
                   FROM $table as c
                   JOIN $redeemed_table as r
                   ON c.`id` = r.`code_id`
+                  JOIN $users_table as u
+                  ON r.`user_id` = u.`ID`
                   WHERE c.`is_deleted` = 0 AND c.`voucher_id` = $this->id";
 
         return $wpdb->get_results($query, $format);
