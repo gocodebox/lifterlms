@@ -287,7 +287,7 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where you can add new courses.', 'lifterlms' ),
 					'public' 				=> true,
-					'show_ui' 				=> true,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_courses_access', 'manage_options' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> true,

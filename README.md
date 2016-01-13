@@ -7,9 +7,12 @@ Full documentation available at [https://lifterlms.readme.io](https://lifterlms.
 CHANGELOG
 =========
 
-v1.4.5 - 2015/12/??
+v1.4.5 - 2016/01/13
 -------------------
 
++ Significant improvements to LifterLMS admin permissions as well as a hardening of permissions. Previously LifterLMS admin screens and menus were available to any users with `edit_posts` capabilities. This has been changed to `manage_options`. Filters for all screens and menus have been added with this release. If you're site currently relies on users with `edit_posts` to be able to access LifterLMS settings and analytics screens you must utilize these new filters in order to maintain their access. Please see full documentation on the new filters at [https://lifterlms.readme.io/docs/filters-admin-menu-and-screen-permissions](https://lifterlms.readme.io/docs/filters-admin-menu-and-screen-permissions). **Please consider testing your changes outside of production before updating to LifterLMS 1.4.5 in production.**
++ Allow "Payment Method" to be translated on the "Confirm Payment" screen
++ Allow the name of the payment gateway to be filtered on the "Confirm Payment" screen
 + Added pagination support to lifterlms membership archive pages
 + Fixed a bug related to some required global variables for quizzes and lessons being incorrectly set on certain hosts
 + updated readme file to remove incomplete documentation
