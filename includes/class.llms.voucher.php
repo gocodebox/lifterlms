@@ -213,12 +213,6 @@ class LLMS_Voucher
         $redeemed_table = $this->get_redemptions_table_name();
         $users_table = $wpdb->prefix . 'users';
 
-//        $query = "SELECT r.`id`, c.`id` as code_id, c.`voucher_id`, c.`code`, c.`redemption_count`, c.`is_deleted`, r.`user_id`, r.`redemption_date`
-//                  FROM $table as c
-//                  JOIN $redeemed_table as r
-//                  ON c.`id` = r.`code_id`
-//                  WHERE c.`is_deleted` = 0 AND c.`voucher_id` = $this->id";
-
         $query = "SELECT r.`id`, c.`id` as code_id, c.`voucher_id`, c.`code`, c.`redemption_count`, r.`user_id`, u.`user_email`, r.`redemption_date`
                   FROM $table as c
                   JOIN $redeemed_table as r
