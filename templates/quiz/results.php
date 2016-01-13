@@ -9,11 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 global $quiz;
 $user_id = get_current_user_id();
 
-
 $quiz_data = get_user_meta($user_id, 'llms_quiz_data', true );
 $quiz_session = LLMS()->session->get( 'llms_quiz' );
 
-if ( $quiz_data ) {
+if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
+
 	$quiz->is_passing_score( $user_id );
 	$passing_percent = $quiz->get_passing_percent();
 
@@ -28,7 +28,6 @@ if ( $quiz_data ) {
 
 	$best = $quiz->get_best_quiz_attempt( $user_id );
 	$best_time = $quiz->get_total_time( $user_id, $best );
-
 	?>
 
 	<div class="clear"></div>
@@ -36,7 +35,7 @@ if ( $quiz_data ) {
 		<div class="llms-quiz-results">
 		<h3>Quiz Results</h3>
 
-			<?php 
+			<?php
 			//determine if grade, best grade or none should be shown.
 			if (isset($grade) && isset($best_grade)) :
 
@@ -56,12 +55,12 @@ if ( $quiz_data ) {
 				     <circle cx="40" cy="40" r="63" transform="translate(50,50)"  />
 				    </g>
 				  </svg>
-				  	
+
 				  <div class="llms-progress-circle-count"><?php printf( __( '%s%%' ), $graph_grade ); ?></div>
 				</div>
 
 			<?php endif; ?>
-			 
+
 			<div class="llms-quiz-result-details">
 
 				<?php //if ($grade) : ?>
@@ -69,7 +68,7 @@ if ( $quiz_data ) {
 					<li>
 						<h4><?php printf( __( 'Your Score: %d%%', 'lifterlms' ), $grade ); ?></h4>
 						<h5 class="llms-content-block">
-							<?php 
+							<?php
 							if ( $is_passing_score ) {
 								_e(apply_filters('lifterlms_quiz_passed','Passed'), 'lifterlms');
 							}
@@ -96,7 +95,7 @@ if ( $quiz_data ) {
 					<li>
 						<h4><?php printf( __( 'Best Score: %d%%', 'lifterlms' ), $best_grade ); ?></h4>
 						<h5>
-							<?php 
+							<?php
 							if ( $is_passing_score ) {
 								_e(apply_filters('lifterlms_quiz_passed','Passed'), 'lifterlms');
 							}
