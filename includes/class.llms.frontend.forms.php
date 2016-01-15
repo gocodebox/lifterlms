@@ -1485,6 +1485,16 @@ class LLMS_Frontend_Forms
 
                 $voucher = new LLMS_Voucher();
                 $voucher->use_voucher($code, $new_person);
+
+                if (!empty($_POST['product_id'])) {
+                    $product_id = $_POST['product_id'];
+                    $valid = $voucher->is_product2voucher_link_valid($code, $product_id);
+
+                    if ($valid) {
+                        wp_redirect(apply_filters('lifterlms_registration_redirect', $redirect));
+                        exit;
+                    }
+                }
             }
 
             if (!empty($_POST['product_id'])) {

@@ -257,6 +257,23 @@ class LLMS_Voucher
         return $products;
     }
 
+    public function is_product2voucher_link_valid($code, $product_id)
+    {
+        $voucher = $this->check_voucher($code);
+
+        if ($voucher) {
+            $this->id = $voucher->voucher_id;
+
+            $products = $this->get_products();
+
+            if (!empty($products) && in_array($product_id, $products)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function save_product($product_id)
     {
         global $wpdb;
