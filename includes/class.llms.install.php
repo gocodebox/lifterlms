@@ -442,18 +442,6 @@ class LLMS_Install {
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             //lifterLMS Tables
             $lifterlms_tables = "
-			CREATE TABLE {$wpdb->prefix}lifterlms_order (
-			  order_id bigint(20) NOT NULL auto_increment,
-			  user_id bigint(20) NOT NULL,
-			  created_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-			  order_completed varchar(200) NOT NULL DEFAULT 'no',
-			  completed_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-			  product_id bigint(20) NOT NULL,
-			  order_post_id bigint(20) NULL,
-			  PRIMARY KEY  (order_id),
-			  KEY user_id (user_id)
-			) $collate;
-
 			CREATE TABLE `{$wpdb->prefix}llms_product2voucher` (
                 `product_id` int(11) NOT NULL,
                 `voucher_id` int(11) NOT NULL,
@@ -469,7 +457,7 @@ class LLMS_Install {
                 KEY `code_id` (`code_id`),
                 KEY `user_id` (`user_id`)
             ) $collate;
-            CREATE TABLE `wp_llms_vouchers_codes` (
+            CREATE TABLE `{$wpdb->prefix}llms_vouchers_codes` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                 `voucher_id` int(11) NOT NULL,
                 `code` varchar(20) NOT NULL DEFAULT '',
@@ -486,6 +474,7 @@ class LLMS_Install {
             try
             {
                 $conn = dbDelta( $lifterlms_tables );
+				update_option( 'lifterlms_voucher_tables_installed', 'yes' );
             }
             catch (Exception $e)
             {
