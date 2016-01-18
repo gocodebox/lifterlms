@@ -181,6 +181,9 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.number.php' );
 		include_once( 'includes/class.llms.language.php' );
 
+		// oembed
+		include_once( 'includes/class.llms.oembed.php' );
+
 		// svg management
 		include_once( 'includes/class.llms.svg.php' );
 

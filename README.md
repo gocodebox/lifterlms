@@ -11,7 +11,7 @@ v.1.4.6 - 2016/01/??
 --------------------
 
 + Fixed a bug that caused quiz results to display for users who had never taken the quiz.
-
++ Added Wistia as an oEmbed provider to fix an issue related to default oembed handling in WordPress 4.4
 
 v1.4.5 - 2016/01/13
 -------------------
