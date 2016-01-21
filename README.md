@@ -13,6 +13,10 @@ v.1.4.6 - 2016/01/??
 + Fixed a bug that caused quiz results to display for users who had never taken the quiz.
 + Added Wistia as an oEmbed provider to fix an issue related to default oembed handling in WordPress 4.4
 
+##### Deprecations
+
++ Setup the `is_checkout()` function to be replaced by `is_llms_checkout()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_checkout()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the LifterLMS version of thefunction. It *will* be removed in the next major update (2.0) and will be noted as an officially deprecated function at that time.
+
 v1.4.5 - 2016/01/13
 -------------------
 

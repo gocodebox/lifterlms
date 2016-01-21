@@ -1089,8 +1089,27 @@ if ( ! function_exists( 'is_account_page' ) ) {
 	}
 }
 
+
 /**
  * Is Checkout Page
+ * @since  1.4.6   This function replaces the deprecated is_checkout() function because of WooCommerce conflicts
+ * @return boolean [Is Checkout Page?]
+ */
+if ( ! function_exists( 'is_llms_checkout' ) ) {
+	function is_llms_checkout()
+	{
+
+		return is_page( llms_get_page_id( 'checkout' ) ) ? true : false;
+
+	}
+}
+
+/**
+ * Is Checkout Page
+ * @deprecated 1.4.6  IMPORTANT: this function should not be used as it conflicts with WooCommerce!
+ *             		  This function will be officially removed in the next major update (2.0)
+ * @todo Remove this function during upgrade to LifterLMS 2.0
+ * @see is_llms_checkout()
  * @return boolean [Is Checkout Page?]
  */
 if ( ! function_exists( 'is_checkout' ) ) {
@@ -1098,6 +1117,7 @@ if ( ! function_exists( 'is_checkout' ) ) {
 	function is_checkout() {
 		return is_page( llms_get_page_id( 'checkout' ) ) ? true : false;
 	}
+
 }
 
 /**
