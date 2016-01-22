@@ -912,6 +912,7 @@ class LLMS_AJAX {
 	public function get_students()
 	{
 		$term = $_REQUEST['term'];
+
 		$user_args = array(
 				'include'      => array(),
 				'orderby'      => 'display_name',
@@ -926,10 +927,15 @@ class LLMS_AJAX {
 		$users_arr = [];
 
 		foreach($all_users as $user) {
-			$users_arr[$user->ID] = $user->display_name . ' (' . $user->user_email . ')';
+			$temp['id'] = $user->ID;
+			$temp['name'] = $user->display_name . ' (' . $user->user_email . ')';
+			$users_arr[] = $temp;
 		}
 
-		echo json_encode(['success' => true, 'term' => $term, 'data' => $users_arr]);
+		echo json_encode([
+				'success' => true,
+				'items' => $users_arr
+		]);
 
 		wp_die();
 	}
