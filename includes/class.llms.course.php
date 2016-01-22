@@ -153,7 +153,6 @@ class LLMS_Course {
 
 			$section = new LLMS_Section($s->ID);
 
-
 			$lessons = array_merge($lessons, $section->get_children_lessons());
 
 		}
@@ -358,8 +357,6 @@ class LLMS_Course {
 
 	public function get_enrolled_students() {
 		$enrolled_students = array();
-    	$users_not_enrolled = array();
-    	$enrolled_student_ids = array();
 
     	$user_args = array(
     		'blog_id'      => $this->id,
@@ -389,7 +386,6 @@ class LLMS_Course {
 	 */
 	public function get_next_uncompleted_lesson() {
 		$lessons_not_completed = array();
-		$lesson_ids = array();
 
 		$lessons = $this->get_children_lessons();
 
@@ -689,10 +685,6 @@ class LLMS_Course {
 		$obj->sections = array();
 		//add lessons array to object
 		$obj->lessons = array();
-
-		
-		//get course syllabus
-		$course_syllabus = $this->get_syllabus();
 
 		$sections = $this->get_children_sections();
 

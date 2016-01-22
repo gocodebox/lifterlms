@@ -21,7 +21,6 @@ class LLMS_Course_Handler {
 		}
 
 		$enrolled_student_ids = array();
-		$users_not_enrolled = array();
 
 		//if no enrolled users are supplied query them and generate array of user ids
 		if ( empty($enrolled_students) ) {
