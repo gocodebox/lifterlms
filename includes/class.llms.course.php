@@ -369,6 +369,7 @@ class LLMS_Course {
 			'order'        => 'ASC',
 			'count_total'  => false,
 			'fields'       => 'all',
+			'number'       => 500,
     	);
     	$all_users = get_users( $user_args );
 

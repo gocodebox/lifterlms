@@ -103,9 +103,9 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 		}
 
 		//non-enrolled users
-		$users_not_enrolled = LLMS_Course_Handler::get_users_not_enrolled( 
-			$post->ID, 
-			$enrolled_students 
+		$users_not_enrolled = LLMS_Course_Handler::get_users_not_enrolled(
+			$post->ID,
+			$enrolled_students
 		);
 
 		$users_not_enrolled_options = array();
