@@ -7,16 +7,38 @@ Full documentation available at [https://lifterlms.readme.io](https://lifterlms.
 CHANGELOG
 =========
 
-v.1.4.6 - 2016/01/??
---------------------
+v1.5.0 - 2016/01/22
+-------------------
+
+##### WooCommerce Integration Enhancements
+
+__NOTE: The following enhancements only apply when the WooCommerce Integration is enabled__
+
+**Always redirect to the WooCommerce Cart when a SKU Matched Product can be found**
+
++ LifterLMS Products (courses and memberships) which are SKU matched to a WooCommerce product will now automatically add the related WooCommerce product to the WooCommerce shopping cart and then automatically redirect the visitor to the WooCommerce cart when the visitor attempts to enroll in a course or membership from the LifterLMS course or membership page.
++ If no WooCommerce product is found via a SKU match, the user will proceed to the LifterLMS checkout.
++ This will enable you to determine which Cart you want a user to use on a product by product basis. You may sell certain courses via WooCommerce and others via LifterLMS (should you choose to do so).
+
+**Multiple Item Checkout**
+
++ When a WooCommerce order is complete user's will now be automatically enrolled in **all** courses and/or memberships in the WooCommerce order. This improves upon a previously limitation that would only allow WooCommerce checkout with one LifterLMS product at a time.
++ The products in the order will be intelligently SKU matched to LifterLMS Courses or Memberships.
++ You may also mix and match between WooCommerce products matched to LifterLMS products and those which are not matched to LifterLMS products. For example, your customers may now buy a Course via SKU matching as well as a T-Shirt that is not matched to a LifterLMS course via a SKU.
+
+##### Other Fixes and improvements
 
 + Fixed a bug that caused quiz results to display for users who had never taken the quiz.
-+ Added Wistia as an oEmbed provider to fix an issue related to default oembed handling in WordPress 4.4
++ Added Wistia as an oEmbed provider to fix an issue related to default oembed handling in WordPress 4.4.
 + added a `.cc_cvv` class that mimics the existing `#cc_cvv` styles to allow gateway extensions to change the ID of the field in their credit card forms
++ Added support for new 1.4.5 capability fixes to be also be reflected under the "+New" menu item in the WP Admin Bar. There are no changes to the filters, the capability filters will simply also remove restricted post types from the admin bar now (as they should).
 
 ##### Deprecations
 
-+ Setup the `is_checkout()` function to be replaced by `is_llms_checkout()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_checkout()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the LifterLMS version of thefunction. It *will* be removed in the next major update (2.0) and will be noted as an officially deprecated function at that time.
+**The following functions have been staged for deprecation in LifterLMS 2.0!**
+
++ Setup the `is_account_page()` function to be replaced by `is_llms_account_page()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_account_page()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the LifterLMS version of thefunction.
++ Setup the `is_checkout()` function to be replaced by `is_llms_checkout()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_checkout()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the LifterLMS version of thefunction.
 
 v1.4.5 - 2016/01/13
 -------------------

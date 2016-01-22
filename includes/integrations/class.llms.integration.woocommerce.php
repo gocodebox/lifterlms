@@ -129,14 +129,6 @@ class LLMS_Integration_Woocommerce
 	}
 
 
-
-
-
-
-
-
-
-
 	/**
 	 * Redirect applicable traffic to the LifterLMS Checkout page to the WooCommerce cart
 	 *
@@ -193,13 +185,6 @@ class LLMS_Integration_Woocommerce
 
 	     return $redirect_to;
 	}
-
-
-
-
-
-
-
 
 
 	/**
