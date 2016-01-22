@@ -784,6 +784,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+input[type="text"].cc_cvv,
 #cc_cvv {
   margin-right: 0;
   width: 23%;

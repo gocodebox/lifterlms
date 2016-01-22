@@ -12,6 +12,7 @@ v.1.4.6 - 2016/01/??
 
 + Fixed a bug that caused quiz results to display for users who had never taken the quiz.
 + Added Wistia as an oEmbed provider to fix an issue related to default oembed handling in WordPress 4.4
++ added a `.cc_cvv` class that mimics the existing `#cc_cvv` styles to allow gateway extensions to change the ID of the field in their credit card forms
 
 ##### Deprecations
 
