@@ -363,7 +363,11 @@ class LLMS_Course {
 		$user_table = $wpdb->prefix . 'users';
 		$usermeta = $wpdb->prefix . 'lifterlms_user_postmeta';
 		
-		$select_user = "SELECT ID, display_name, user_email FROM $user_table JOIN $usermeta ON $user_table.ID = $usermeta.user_id WHERE $usermeta.post_id = $this->id AND $usermeta.meta_key = '_status' AND meta_value = 'Enrolled'";
+		$select_user = "SELECT ID, display_name, user_email FROM $user_table
+			JOIN $usermeta ON $user_table.ID = $usermeta.user_id
+			WHERE $usermeta.post_id = $this->id
+			AND $usermeta.meta_key = '_status'
+			AND meta_value = 'Enrolled'";
 		$all_users = $wpdb->get_results($select_user);
 
     	foreach ( $all_users as $value  ) :

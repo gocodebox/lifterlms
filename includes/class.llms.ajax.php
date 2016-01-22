@@ -165,7 +165,8 @@ class LLMS_AJAX {
 			'get_all_posts'				=> false,
 			'getLessons'				=> false,
 			'getSections'				=> false,
-			'get_students'               => false,
+			'get_students'              => false,
+			'get_enroled_students'      => false,
 			//'test_ajax_call'			=> false,
 		);
 
@@ -934,7 +935,7 @@ class LLMS_AJAX {
 
 		echo json_encode([
 				'success' => true,
-				'items' => $users_arr
+				'items' => $users_arr,
 		]);
 
 		wp_die();
@@ -947,24 +948,34 @@ class LLMS_AJAX {
 	 */
 	public function get_enroled_students()
 	{
-		$term = $_REQUEST['term'];
+		$term = $_REQUEST['term'] . '%';
+		$post_id = (int) $_REQUEST['postId'];
 
 		global $wpdb;
-		global $current_page_city;
 		$user_table = $wpdb->prefix . 'users';
-		$usermeta = $wpdb->prefix . 'wp_lifterlms_user_postmeta';
+		$usermeta = $wpdb->prefix . 'lifterlms_user_postmeta';
 
-// get id of user
-		$select_user = "SELECT ID, display_name, user_email FROM $user_table JOIN ON $user_table.ID = $usermeta.user_id $usermeta WHERE $usermeta.meta_key = '_status' AND meta_value = 'Enrolled'";
+		$select_user = "SELECT ID, display_name, user_email FROM $user_table
+			JOIN $usermeta ON $user_table.ID = $usermeta.user_id
+			WHERE $usermeta.post_id = $post_id
+			AND $usermeta.meta_key = '_status'
+			AND meta_value = 'Enrolled'
+			AND ($user_table.user_email LIKE '$term'
+			OR $user_table.display_name LIKE '$term')";
 		$all_users = $wpdb->get_results($select_user);
 
 		$users_arr = [];
 
 		foreach($all_users as $user) {
-			$users_arr[$user->ID] = $user->display_name . ' (' . $user->user_email . ')';
+			$temp['id'] = $user->ID;
+			$temp['name'] = $user->display_name . ' (' . $user->user_email . ')';
+			$users_arr[] = $temp;
 		}
 
-		echo json_encode(['success' => true, 'term' => $term, 'data' => $users_arr]);
+		echo json_encode([
+				'success' => true,
+				'items' => $users_arr,
+		]);
 
 		wp_die();
 	}
