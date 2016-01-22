@@ -2,35 +2,35 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Base Course Class
-*
-* Class used for instantiating course object
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
-*/
+ * Base Course Class
+ *
+ * Class used for instantiating course object
+ *
+ * @version 1.0
+ * @author codeBOX
+ * @project lifterLMS
+ */
 class LLMS_Course {
 
 	/**
-	* ID
-	* @access public
-	* @var int
-	*/
+	 * ID
+	 * @access public
+	 * @var int
+	 */
 	public $id;
 
 	/**
-	* Post Object
-	* @access public
-	* @var array
-	*/
+	 * Post Object
+	 * @access public
+	 * @var array
+	 */
 	public $post;
 
 	/**
-	* Constructor
-	*
-	* initializes the course object based on post data
-	*/
+	 * Constructor
+	 *
+	 * initializes the course object based on post data
+	 */
 	public function __construct( $course ) {
 
 		if ( is_numeric( $course ) ) {
@@ -57,12 +57,12 @@ class LLMS_Course {
 	}
 
 	/**
-	* __isset function
-	*
-	* checks if metadata exists
-	*
-	* @param string $item
-	*/
+	 * __isset function
+	 *
+	 * checks if metadata exists
+	 *
+	 * @param string $item
+	 */
 	public function __isset( $item ) {
 
 		return metadata_exists( 'post', $this->id, '_' . $item );
@@ -70,13 +70,13 @@ class LLMS_Course {
 	}
 
 	/**
-	* __get function
-	*
-	* initializes the course object based on post data
-	*
-	* @param string $item
-	* @return string $value
-	*/
+	 * __get function
+	 *
+	 * initializes the course object based on post data
+	 *
+	 * @param string $item
+	 * @return string $value
+	 */
 	public function __get( $item ) {
 
 		$value = get_post_meta( $this->id, '_' . $item, true );
@@ -95,35 +95,35 @@ class LLMS_Course {
 
 	}
 
-    public function get_purchase_button_text()
-    {
-        return get_option('lifterlms_button_purchase_course_custom_text', 'Take This Course');
-    }
+	public function get_purchase_button_text()
+	{
+		return get_option('lifterlms_button_purchase_course_custom_text', 'Take This Course');
+	}
 
-    public function get_purchase_membership_button_text()
-    {
-        return get_option('lifterlms_button_purchase_membership_custom_text', 'Become a Member');
-    }
+	public function get_purchase_membership_button_text()
+	{
+		return get_option('lifterlms_button_purchase_membership_custom_text', 'Become a Member');
+	}
 
 	public function get_children_sections() {
 
 		$args = array(
-			'post_type' 		=> 'section',
-			'posts_per_page'	=> 500,
-			'meta_key'			=> '_llms_order',
-			'order'				=> 'ASC',
-			'orderby'			=> 'meta_value_num',
-			'meta_query' 		=> array(
-				array(
-					'key' 		=> '_parent_course',
-	      			'value' 	=> $this->id,
-	      			'compare' 	=> '='
-      			)
-		  	),
+				'post_type' 		=> 'section',
+				'posts_per_page'	=> 500,
+				'meta_key'			=> '_llms_order',
+				'order'				=> 'ASC',
+				'orderby'			=> 'meta_value_num',
+				'meta_query' 		=> array(
+						array(
+								'key' 		=> '_parent_course',
+								'value' 	=> $this->id,
+								'compare' 	=> '='
+						)
+				),
 		);
-		 
+
 		$sections = get_posts( $args );
-		 
+
 		return $sections;
 
 	}
@@ -133,26 +133,25 @@ class LLMS_Course {
 		$lessons = array();
 
 		$args = array(
-			'post_type' 		=> 'section',
-			'posts_per_page'	=> 500,
-			'meta_key'			=> '_llms_order',
-			'order'				=> 'ASC',
-			'orderby'			=> 'meta_value_num',
-			'meta_query' 		=> array(
-				array(
-					'key' 		=> '_parent_course',
-	      			'value' 	=> $this->id,
-	      			'compare' 	=> '='
-      			)
-		  	),
+				'post_type' 		=> 'section',
+				'posts_per_page'	=> 500,
+				'meta_key'			=> '_llms_order',
+				'order'				=> 'ASC',
+				'orderby'			=> 'meta_value_num',
+				'meta_query' 		=> array(
+						array(
+								'key' 		=> '_parent_course',
+								'value' 	=> $this->id,
+								'compare' 	=> '='
+						)
+				),
 		);
-		 
+
 		$sections = get_posts( $args );
 
 		foreach ($sections as $s) {
 
 			$section = new LLMS_Section($s->ID);
-
 
 			$lessons = array_merge($lessons, $section->get_children_lessons());
 
@@ -172,7 +171,7 @@ class LLMS_Course {
 		$enabled = get_option('lifterlms_course_display_length');
 		if ( 'yes' != $enabled ) {
 			return false;
-		} 
+		}
 
 		elseif ($this->lesson_length == '') {
 			return false;
@@ -193,7 +192,7 @@ class LLMS_Course {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
-			'SELECT * FROM '.$table_name.' WHERE post_id = %d', $user_id, $post_id) );
+				'SELECT * FROM '.$table_name.' WHERE post_id = %d', $user_id, $post_id) );
 
 		for ($i=0; $i < count($results); $i++) {
 			$results[$results[$i]->meta_key] = $results[$i];
@@ -214,7 +213,7 @@ class LLMS_Course {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
-			'SELECT * FROM '.$table_name.' WHERE post_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $post_id, $meta_key ) );
+				'SELECT * FROM '.$table_name.' WHERE post_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $post_id, $meta_key ) );
 
 		for ($i=0; $i < count($results); $i++) {
 			$results[$results[$i]->post_id] = $results[$i];
@@ -233,7 +232,7 @@ class LLMS_Course {
 
 		$checkout_page_id = llms_get_page_id( 'checkout' );
 		$checkout_url =  apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
-		
+
 		return add_query_arg( 'product-id', $this->id, $checkout_url );
 
 	}
@@ -305,7 +304,7 @@ class LLMS_Course {
 
 		if ( 'yes' != $enabled ) {
 			return false;
-		} 
+		}
 
 		$terms = get_the_terms($this->id, 'course_difficulty');
 
@@ -319,8 +318,8 @@ class LLMS_Course {
 
 			foreach ( $terms as $term ) {
 
-        		return $term->name;
-        	}
+				return $term->name;
+			}
 
 		}
 
@@ -358,28 +357,20 @@ class LLMS_Course {
 
 	public function get_enrolled_students() {
 		$enrolled_students = array();
-    	$users_not_enrolled = array();
-    	$enrolled_student_ids = array();
 
-    	$user_args = array(
-    		'blog_id'      => $this->id,
-			'include'      => array(),
-			'exclude'      => $enrolled_students,
-			'orderby'      => 'display_name',
-			'order'        => 'ASC',
-			'count_total'  => false,
-			'fields'       => 'all',
-    	);
-    	$all_users = get_users( $user_args );
+		global $wpdb;
+		$user_table = $wpdb->prefix . 'users';
+		$usermeta = $wpdb->prefix . 'lifterlms_user_postmeta';
 
-    	foreach ( $all_users as $key => $value  ) :
-    		if ( llms_is_user_enrolled( $value->ID, $this->id ) ) {
-    			$enrolled_students[] = $value;
-    		}
+		$select_user = "SELECT ID, display_name, user_email FROM $user_table JOIN $usermeta ON $user_table.ID = $usermeta.user_id WHERE $usermeta.post_id = $this->id AND $usermeta.meta_key = '_status' AND meta_value = 'Enrolled'";
+		$all_users = $wpdb->get_results($select_user);
 
-    	endforeach;
+		foreach ( $all_users as $value  ) :
+			$enrolled_students[] = $value;
 
-    	return $enrolled_students;
+		endforeach;
+
+		return $enrolled_students;
 	}
 
 	/**
@@ -388,7 +379,6 @@ class LLMS_Course {
 	 */
 	public function get_next_uncompleted_lesson() {
 		$lessons_not_completed = array();
-		$lesson_ids = array();
 
 		$lessons = $this->get_children_lessons();
 
@@ -398,9 +388,9 @@ class LLMS_Course {
 
 			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->ID );
 
-				if ( ! isset($user_postmetas['_is_complete']) ) {
+			if ( ! isset($user_postmetas['_is_complete']) ) {
 
-					array_push($lessons_not_completed, $lesson->ID);
+				array_push($lessons_not_completed, $lesson->ID);
 			}
 		}
 		if ($lessons_not_completed) {
@@ -416,27 +406,27 @@ class LLMS_Course {
 		$lessons = array();
 
 		$args = array(
-			'post_type' 		=> 'section',
-			'posts_per_page'	=> 500,
-			'meta_key'			=> '_llms_order',
-			'order'				=> 'ASC',
-			'orderby'			=> 'meta_value_num',
-			'meta_query' 		=> array(
-				array(
-					'key' 		=> '_parent_course',
-	      			'value' 	=> $this->id,
-	      			'compare' 	=> '='
-      			)
-		  	),
+				'post_type' 		=> 'section',
+				'posts_per_page'	=> 500,
+				'meta_key'			=> '_llms_order',
+				'order'				=> 'ASC',
+				'orderby'			=> 'meta_value_num',
+				'meta_query' 		=> array(
+						array(
+								'key' 		=> '_parent_course',
+								'value' 	=> $this->id,
+								'compare' 	=> '='
+						)
+				),
 		);
-		 
+
 		$sections = get_posts( $args );
 
-		foreach ($sections as $s) 
+		foreach ($sections as $s)
 		{
 			$section = new LLMS_Section($s->ID);
 			$lessonset = $section->get_children_lessons();
-			foreach ($lessonset as $lessonojb) 
+			foreach ($lessonset as $lessonojb)
 			{
 				$lessons[] = $lessonojb->ID;
 			}
@@ -487,7 +477,7 @@ class LLMS_Course {
 	 * @return array $sections [Returns array of all sections associated with a course.]
 	 */
 	public function get_sections() {
-		$syllabus = $this->get_syllabus(); 
+		$syllabus = $this->get_syllabus();
 		$sections = array();
 		if ($syllabus) {
 			foreach($syllabus as $key => $value) {
@@ -542,13 +532,13 @@ class LLMS_Course {
 
 			//query user_postmeta table
 			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-			$results = $wpdb->get_results( 
-				$wpdb->prepare(
-					'SELECT * FROM '.$table_name.
-						' WHERE post_id = %s 
-							AND user_id = %s', 
-					$course_id, $user_id 
-				) 
+			$results = $wpdb->get_results(
+					$wpdb->prepare(
+							'SELECT * FROM '.$table_name.
+							' WHERE post_id = %s
+							AND user_id = %s',
+							$course_id, $user_id
+					)
 			);
 
 			if ( $results ) {
@@ -557,7 +547,7 @@ class LLMS_Course {
 						$enrolled = $results;
 					}
 				}
-				
+
 			}
 		}
 
@@ -585,7 +575,7 @@ class LLMS_Course {
 	}
 
 	public function get_user_enroll_date($user_id = '') {
-		
+
 		$enrolled_date = '';
 
 		//if no user get current user
@@ -624,13 +614,13 @@ class LLMS_Course {
 
 			// query user postmeta table
 			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-			$results = $wpdb->get_results( 
-				$wpdb->prepare(
-					'SELECT * FROM '.$table_name.
-						' WHERE post_id = %s 
-							AND user_id = %s', 
-					$post_id, $user_id 
-				) 
+			$results = $wpdb->get_results(
+					$wpdb->prepare(
+							'SELECT * FROM '.$table_name.
+							' WHERE post_id = %s
+							AND user_id = %s',
+							$post_id, $user_id
+					)
 			);
 		}
 
@@ -639,7 +629,7 @@ class LLMS_Course {
 	}
 
 	public function get_student_progress( $user_id = '' ) {
-		
+
 		// if user_id is empty get current user id
 		if ( empty( $user_id ) ) {
 
@@ -689,10 +679,6 @@ class LLMS_Course {
 		//add lessons array to object
 		$obj->lessons = array();
 
-		
-		//get course syllabus
-		$course_syllabus = $this->get_syllabus();
-
 		$sections = $this->get_children_sections();
 
 		foreach( $sections as $child_section ) {
@@ -722,13 +708,13 @@ class LLMS_Course {
 				}
 
 			}
-			
+
 			$obj->sections[] = $section;
 
 			//get lesson data
 			$lessons = $section_obj->get_children_lessons();
 
-			if ( $lessons ) { 
+			if ( $lessons ) {
 
 				foreach ( $lessons as $child_lesson ) {
 					$lesson_obj = new LLMS_Lesson($child_lesson->ID);
@@ -761,10 +747,10 @@ class LLMS_Course {
 
 			}
 
-		}		
+		}
 
 		return $obj;
-		
+
 	}
 
 	/**
