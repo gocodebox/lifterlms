@@ -32,6 +32,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Added Wistia as an oEmbed provider to fix an issue related to default oembed handling in WordPress 4.4.
 + added a `.cc_cvv` class that mimics the existing `#cc_cvv` styles to allow gateway extensions to change the ID of the field in their credit card forms
 + Added support for new 1.4.5 capability fixes to be also be reflected under the "+New" menu item in the WP Admin Bar. There are no changes to the filters, the capability filters will simply also remove restricted post types from the admin bar now (as they should).
++ Tested and compatible up to WordPress 4.4.1
 
 ##### Deprecations
 
