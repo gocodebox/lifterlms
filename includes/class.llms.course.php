@@ -358,22 +358,16 @@ class LLMS_Course {
 	public function get_enrolled_students() {
 		$enrolled_students = array();
 
-    	$user_args = array(
-    		'blog_id'      => $this->id,
-			'include'      => array(),
-			'exclude'      => $enrolled_students,
-			'orderby'      => 'display_name',
-			'order'        => 'ASC',
-			'count_total'  => false,
-			'fields'       => 'all',
-			'number'       => 500,
-    	);
-    	$all_users = get_users( $user_args );
+		global $wpdb;
+		global $current_page_city;
+		$user_table = $wpdb->prefix . 'users';
+		$usermeta = $wpdb->prefix . 'lifterlms_user_postmeta';
+		
+		$select_user = "SELECT ID, display_name, user_email FROM $user_table JOIN $usermeta ON $user_table.ID = $usermeta.user_id WHERE $usermeta.post_id = $this->id AND $usermeta.meta_key = '_status' AND meta_value = 'Enrolled'";
+		$all_users = $wpdb->get_results($select_user);
 
-    	foreach ( $all_users as $key => $value  ) :
-    		if ( llms_is_user_enrolled( $value->ID, $this->id ) ) {
-    			$enrolled_students[] = $value;
-    		}
+    	foreach ( $all_users as $value  ) :
+		    $enrolled_students[] = $value;
 
     	endforeach;
 

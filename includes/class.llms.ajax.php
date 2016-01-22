@@ -935,23 +935,22 @@ class LLMS_AJAX {
 	}
 
 	/**
-	 * Return array of students
+	 * Return array of enroled students
 	 *
 	 * @return array Array of sections
 	 */
 	public function get_enroled_students()
 	{
 		$term = $_REQUEST['term'];
-		$user_args = array(
-				'include'      => array(),
-				'orderby'      => 'display_name',
-				'order'        => 'ASC',
-				'count_total'  => false,
-				'fields'       => 'all',
-				'search'       => $term . '*',
-				'number'       => 10,
-		);
-		$all_users = get_users( $user_args );
+
+		global $wpdb;
+		global $current_page_city;
+		$user_table = $wpdb->prefix . 'users';
+		$usermeta = $wpdb->prefix . 'wp_lifterlms_user_postmeta';
+
+// get id of user
+		$select_user = "SELECT ID, display_name, user_email FROM $user_table JOIN ON $user_table.ID = $usermeta.user_id $usermeta WHERE $usermeta.meta_key = '_status' AND meta_value = 'Enrolled'";
+		$all_users = $wpdb->get_results($select_user);
 
 		$users_arr = [];
 
