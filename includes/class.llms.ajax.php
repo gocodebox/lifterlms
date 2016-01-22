@@ -165,6 +165,7 @@ class LLMS_AJAX {
 			'get_all_posts'				=> false,
 			'getLessons'				=> false,
 			'getSections'				=> false,
+			'get_students'               => false,
 			//'test_ajax_call'			=> false,
 		);
 
@@ -903,7 +904,65 @@ class LLMS_AJAX {
     	die();
 	}
 
-	
+	/**
+	 * Return array of students
+	 *
+	 * @return array Array of sections
+	 */
+	public function get_students()
+	{
+		$term = $_REQUEST['term'];
+		$user_args = array(
+				'include'      => array(),
+				'orderby'      => 'display_name',
+				'order'        => 'ASC',
+				'count_total'  => false,
+				'fields'       => 'all',
+				'search'       => $term . '*',
+				'number'       => 10,
+		);
+		$all_users = get_users( $user_args );
+
+		$users_arr = [];
+
+		foreach($all_users as $user) {
+			$users_arr[$user->ID] = $user->display_name . ' (' . $user->user_email . ')';
+		}
+
+		echo json_encode(['success' => true, 'term' => $term, 'data' => $users_arr]);
+
+		wp_die();
+	}
+
+	/**
+	 * Return array of students
+	 *
+	 * @return array Array of sections
+	 */
+	public function get_enroled_students()
+	{
+		$term = $_REQUEST['term'];
+		$user_args = array(
+				'include'      => array(),
+				'orderby'      => 'display_name',
+				'order'        => 'ASC',
+				'count_total'  => false,
+				'fields'       => 'all',
+				'search'       => $term . '*',
+				'number'       => 10,
+		);
+		$all_users = get_users( $user_args );
+
+		$users_arr = [];
+
+		foreach($all_users as $user) {
+			$users_arr[$user->ID] = $user->display_name . ' (' . $user->user_email . ')';
+		}
+
+		echo json_encode(['success' => true, 'term' => $term, 'data' => $users_arr]);
+
+		wp_die();
+	}
 
 
 }

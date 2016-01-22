@@ -19,6 +19,63 @@ Ajax.prototype.get_sections = function () {
 	});
 };
 
+Ajax.prototype.get_students = function (cb) {
+	var $ = jQuery;
+
+	$.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+		cache		: this.cache,
+		dataType	: this.dataType,
+		success: function(r) {
+			if ( r.success === true ) {
+				//alert('lalal');
+				$('.add-student-select').empty();
+console.log(r.data);
+				$.each(r.data, function(key, value) {
+					//append a new option for each result
+					var newOption = $('<option value="' + key + '">' + value + '</option>');
+					$('.add-student-select').append(newOption);
+
+				});
+
+				// refresh option list
+				$('.add-student-select').trigger('chosen:updated');
+				jQuery('.add-student-select').next('.chosen-container').find(".search-field > input, .chosen-search > input").val(r.term);
+			}
+		}
+	});
+};
+
+Ajax.prototype.get_enroled_students = function () {
+	var $ = jQuery;
+	var cb = this.cb;
+	$.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+		cache		: this.cache,
+		dataType	: this.dataType,
+		success: function(r) {
+			if ( r.success === true ) {
+				//alert('lalal');
+				$('.remove-student-select').empty();
+				console.log(r.data);
+				$.each(r.data, function(key, value) {
+					//append a new option for each result
+					var newOption = $('<option value="' + key + '">' + value + '</option>');
+					$('.add-student-select').append(newOption);
+
+				});
+
+				// refresh option list
+				$('.remove-student-select').trigger('chosen:updated');
+			}
+		}
+	});
+};
+
 Ajax.prototype.get_lesson = function (lesson_id, row_id, type) {
 	jQuery.ajax({
 		type 		: this.type,

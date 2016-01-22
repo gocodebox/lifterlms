@@ -104,8 +104,6 @@ class LLMS_Admin_Assets {
 
 			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 
-
-
 			wp_enqueue_script( 'llms-ajax', plugins_url(  '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			wp_enqueue_script( 'llms-metabox', plugins_url(  '/assets/js/llms-metabox' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 
