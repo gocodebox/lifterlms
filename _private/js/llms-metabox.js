@@ -34,7 +34,7 @@ jQuery('.add-student-select').next('.chosen-container').find(".search-field > in
 
 	timeout = setTimeout(function() {
 		ajax.get_students();
-	}, 1000)
+	}, 500)
 
 });
 
@@ -54,7 +54,7 @@ jQuery('.remove-student-select').next('.chosen-container').find(".search-field >
 
 	timeout = setTimeout(function() {
 		ajax.get_students(function() {field.val(untrimmed_val);});
-	}, 1000)
+	}, 500)
 
 });
 
