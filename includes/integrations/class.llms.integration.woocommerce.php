@@ -7,14 +7,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * @author codeBOX
 * @project lifterLMS
 */
-class LLMS_Integration_Woocommerce {
+class LLMS_Integration_Woocommerce
+{
+
 	public $id = 'wc';
 	public $title = 'WooCommerce';
 
 	/**
 	 * Constructor
+	 * Ensure Integration is enabled and available
+	 * Add actions and filters
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 
 		$this->available = $this->is_available();
 		$this->installed = $this->is_installed();
@@ -67,6 +72,11 @@ class LLMS_Integration_Woocommerce {
 	}
 
 
+	/**
+	 * Retrieve a LLMS Product (course or membership) ID by sku
+	 * @param  string $sku    sku to search by
+	 * @return mixed          false if none found, post_id if found
+	 */
 	function get_llms_product_by_sku( $sku )
 	{
 
@@ -120,25 +130,6 @@ class LLMS_Integration_Woocommerce {
 
 
 
-
-	/**
-	 * Add some LifterLMS content to the WC My Account Page
-	 * @return void
-	 */
-	public function wc_my_courses_content()
-	{
-
-		llms_get_template( 'myaccount/my-courses.php' );
-		llms_get_template( 'myaccount/my-certificates.php' );
-		llms_get_template( 'myaccount/my-achievements.php' );
-
-		if( get_option( 'lifterlms_enable_myaccount_memberships_list', 'no' ) === 'yes' ) {
-
-			llms_get_template( 'myaccount/my-memberships.php' );
-
-		}
-
-	}
 
 
 
@@ -212,10 +203,14 @@ class LLMS_Integration_Woocommerce {
 
 
 	/**
-	 * Processes lifterLMS order when WooCommerce order is marked complete
+	 * Creates and Processes LifterLMS orders when WooCommerce order is marked complete
+	 *
+	 *    1. loops through items in the WC Order
+	 *    2. locates llms products by wc product sku
+	 *    3. creates an LLMS order for each matched item
+	 *    4. enrolls the purchaser in the course or membership
 	 *
 	 * @param  int $order_id [ID of the WooCommerce order]
-	 *
 	 * @return void
 	 */
 	public function process_order( $order_id ) {
@@ -277,6 +272,27 @@ class LLMS_Integration_Woocommerce {
 			$llms_checkout->update_order( $llms_order );
 
 			do_action( 'lifterlms_order_process_success', $llms_order );
+
+		}
+
+	}
+
+
+
+	/**
+	 * Add some LifterLMS content to the WC My Account Page
+	 * @return void
+	 */
+	public function wc_my_courses_content()
+	{
+
+		llms_get_template( 'myaccount/my-courses.php' );
+		llms_get_template( 'myaccount/my-certificates.php' );
+		llms_get_template( 'myaccount/my-achievements.php' );
+
+		if( get_option( 'lifterlms_enable_myaccount_memberships_list', 'no' ) === 'yes' ) {
+
+			llms_get_template( 'myaccount/my-memberships.php' );
 
 		}
 
