@@ -7,6 +7,12 @@ Full documentation available at [https://lifterlms.readme.io](https://lifterlms.
 CHANGELOG
 =========
 
+v1.5.1 - 2016/01/??
+-------------------
+
++ Added spaces between numbers and "of" on the counter for course syllabus templates
+
+
 v1.5.0 - 2016/01/22
 -------------------
 
