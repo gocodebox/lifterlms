@@ -3,12 +3,12 @@
 * Plugin Name: LifterLMS
 * Plugin URI: http://lifterlms.com/
 * Description: LifterLMS is the easiest way for anyone to create a Learning Management System on the Wordpress platform.
-* Version: 1.4.5
+* Version: 1.5.0
 * Author: codeBOX
 * Author URI: http://gocodebox.com
 *
 * Requires at least: 3.8
-* Tested up to: 4.4
+* Tested up to: 4.4.1
 *
 * @package 		LifterLMS
 * @category 	Core
@@ -29,7 +29,7 @@ require 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '1.4.5';
+	public $version = '1.5.0';
 
 	protected static $_instance = null;
 
@@ -180,6 +180,9 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.date.php' );
 		include_once( 'includes/class.llms.number.php' );
 		include_once( 'includes/class.llms.language.php' );
+
+		// oembed
+		include_once( 'includes/class.llms.oembed.php' );
 
 		// svg management
 		include_once( 'includes/class.llms.svg.php' );
