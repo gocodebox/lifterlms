@@ -254,7 +254,7 @@
 .llms-lesson-preview .llms-lesson-link:visited {
   color: inherit;
 }
-.llms-lesson-preview .llms-lesson-complete, .llms-lesson-preview .llms-free-lesson-svg {
+.llms-lesson-preview .llms-lesson-complete, .llms-lesson-preview .llms-free-lesson-svg, .llms-lesson-preview .llms-lesson-complete-placeholder {
   color: #e5554e;
   font-size: 3em;
   line-height: 1;
@@ -262,6 +262,9 @@
   position: absolute;
   top: 15px;
   left: 15px;
+}
+.llms-lesson-preview .llms-lesson-complete-placeholder {
+  color: #eaeaea;
 }
 .llms-lesson-preview .llms-free-lesson-svg {
   fill: currentColor;
@@ -987,13 +990,13 @@ svg .llms-animated-circle {
   margin: 6px 0;
 }
 
-.llms-widget-syllabus .llms-lesson-complete, .llms-widget-syllabus .llms-lesson-preview .llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .llms-free-lesson-svg {
+.llms-widget-syllabus .llms-lesson-complete, .llms-widget-syllabus .llms-lesson-preview .llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .llms-free-lesson-svg, .llms-widget-syllabus .lesson-complete-placeholder {
   size: 1.2em;
   margin-right: 6px;
   font-size: 1.2em;
   color: #ccc;
 }
-.llms-widget-syllabus .llms-lesson-complete.done, .llms-widget-syllabus .llms-lesson-preview .done.llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .done.llms-free-lesson-svg {
+.llms-widget-syllabus .llms-lesson-complete.done, .llms-widget-syllabus .llms-lesson-preview .done.llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .done.llms-free-lesson-svg, .llms-widget-syllabus .lesson-complete-placeholder.done {
   color: #e5554e;
 }
 .llms-widget-syllabus .section-title {
@@ -1083,7 +1086,8 @@ svg .llms-animated-circle {
   left: 50%;
   text-align: center;
   -webkit-transform: translateX(-50%) translateY(-100%);
-  transform: translateX(-50%) translateY(-100%);
+  -ms-transform: translateX(-50%) translateY(-100%);
+      transform: translateX(-50%) translateY(-100%);
 }
 
 /* arrows - :after */
@@ -1098,6 +1102,7 @@ svg .llms-animated-circle {
   bottom: -8px;
   left: 50%;
   -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
           transform: translateX(-50%);
 }
 
@@ -1629,30 +1634,35 @@ svg .llms-animated-circle {
 .fa-rotate-90 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
   -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
 .fa-rotate-180 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
   -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
 .fa-rotate-270 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 
 .fa-flip-horizontal {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
   -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 
 .fa-flip-vertical {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
   -webkit-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
   transform: scale(1, -1);
 }
 

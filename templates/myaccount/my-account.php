@@ -35,7 +35,7 @@ llms_print_notices();
 		$current_user->display_name
 	);
 
-		echo __( 'What would you like to learn today?', 'lifterlms' );
+		echo apply_filters('lifterlms_account_greeting', __( 'What would you like to learn today?', 'lifterlms' ));
 
 	?>
 

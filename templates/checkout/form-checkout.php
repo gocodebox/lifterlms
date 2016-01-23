@@ -58,7 +58,8 @@ if($coupon_session) {
 <form action="" method="post" id="llms-product-purchase-form">
 	<div class="llms-checkout-wrapper">
 		<div class="llms-checkout">
-		<?php echo  '<h4>' .__( 'Confirm Purchase', 'lifterlms' ) . '</h4>'; ?>
+		<?php echo  '<h4>' .
+			apply_filters('lifterlms_checkout_form_title', __( 'Confirm Purchase', 'lifterlms' )) . '</h4>'; ?>
 
 		<!-- Product information -->
 		<div class="llms-title-wrapper">
@@ -205,7 +206,12 @@ if($coupon_session) {
 
 			<div class="llms-clear-box llms-center-content">
 				<?php if ( count( $available_gateways ) ) : ?>
-				<input class="llms-button" type="submit" class="button" name="create_order_details" value="<?php _e( 'Buy Now', 'lifterlms' ); ?>" />
+				<input class="llms-button" 
+					type="submit" 
+					class="button" 
+					name="create_order_details" 
+					<?php echo (is_user_logged_in() ? '' : 'disabled="disabled"'); ?>
+					value="<?php _e( 'Buy Now', 'lifterlms' ); ?>" />
 				<?php endif; ?>
 			</div>
 

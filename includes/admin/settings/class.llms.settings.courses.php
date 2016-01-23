@@ -142,6 +142,15 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'autoload'      => false
 				),
 
+				array(
+				'title'         => __( 'Lesson completion placeholder', 'lifterlms' ),
+				'desc'          => __( 'Enrolled students will see greyed out checkmarks on uncompleted lessons.', 'lifterlms' ),
+				'id'            => 'lifterlms_display_lesson_complete_placeholders',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				'autoload'      => false
+				),
+
 				array( 'type' => 'sectionend', 'id' => 'course_display_options' ),
 
 		) ); 
