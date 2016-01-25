@@ -164,6 +164,4 @@ gulp.task( 'watch', function () {
 
 });
 
-gulp.task('default', function() {
-	gulp.start('rebuild');
-});
+gulp.task('default', ['rebuild']);
