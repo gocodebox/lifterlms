@@ -4197,7 +4197,7 @@ S2.define('select2/dropdown/attachBody',[
 
     var css = {
       left: offset.left,
-      top: container.bottom
+      top: container.bottom + 25
     };
 
     // Fix positioning with static parents
