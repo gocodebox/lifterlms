@@ -1,6 +1,10 @@
 jQuery(document).ready(function($) {
     jQuery(".add-student-select").select2({
         width: '100%',
+        multiple: true,
+        allowClear: true,
+        maximumSelectionLength: 10,
+        placeholder: "Select a student",
         ajax: {
             url: "admin-ajax.php",
             method: 'POST',
@@ -24,11 +28,14 @@ jQuery(document).ready(function($) {
                 };
             },
             cache: true,
-        }
+        },
     });
 
     jQuery(".remove-student-select").select2({
         width: '100%',
+        multiple: true,
+        maximumSelectionLength: 10,
+        placeholder: "Select a student",
         ajax: {
             url: "admin-ajax.php",
             method: 'POST',
