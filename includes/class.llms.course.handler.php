@@ -55,15 +55,15 @@ class LLMS_Course_Handler {
 
 	    //query users not enrolled
 		$user_args = array(
-    		'blog_id'      => $GLOBALS['blog_id'],
+			'blog_id'      => $GLOBALS['blog_id'],
 			'include'      => array(),
 			'exclude'      => $enrolled_student_ids,
 			'orderby'      => 'display_name',
 			'order'        => 'ASC',
 			'count_total'  => false,
 			'fields'       => 'all',
-            'number'       => 500,
-    	);
+			'number'       => 500,
+		);
 
     	return get_users( $user_args );
 

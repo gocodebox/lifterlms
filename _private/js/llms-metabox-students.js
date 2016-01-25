@@ -16,7 +16,6 @@ jQuery(document).ready(function($) {
             processResults: function (data) {
                 return {
                     results: $.map(data.items, function (item) {
-                        console.log(item);
                         return {
                             text: item.name,
                             id: item.id
@@ -46,7 +45,6 @@ jQuery(document).ready(function($) {
             processResults: function (data) {
                 return {
                     results: $.map(data.items, function (item) {
-                        console.log(item);
                         return {
                             text: item.name,
                             id: item.id

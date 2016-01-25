@@ -415,9 +415,9 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					array(
 						'type'		=> 'select',
 						'label'		=> 'Add Student',
-						'desc' 		=> 'Add a user to the course.',
-						'id' 		=> self::$prefix . 'add_new_user',
-						'class' 	=> 'add-student-select',
+						'desc'		=> 'Add a user to the course.',
+						'id'		=> self::$prefix . 'add_new_user',
+						'class'		=> 'add-student-select',
 						'value' 	=> $users_not_enrolled_options,
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
@@ -435,8 +435,8 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					array(
 						'type'		=> 'select',
 						'label'		=> 'Remove Student',
-						'desc' 		=> 'Remove a user from the course.',
-						'id' 		=> self::$prefix . 'remove_student',
+						'desc'		=> 'Remove a user from the course.',
+						'id'		=> self::$prefix . 'remove_student',
 						'class' 	=> 'remove-student-select',
 						'value' 	=> $enrolled_student_options,
 						'desc_class'=> 'd-all',
