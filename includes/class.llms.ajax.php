@@ -145,19 +145,19 @@ class LLMS_AJAX {
 	public function __construct() {
 
 		$ajax_events = array(
-			'get_courses' 				=> false,
-			'get_course_tracks' 		=> false,
-			'get_sections' 				=> false,
-			'get_lesson' 				=> false,
-			'get_lessons' 				=> false,
-			'get_emails' 				=> false,
-			'get_achievements' 			=> false,
-			'get_certificates' 			=> false,
-			'update_syllabus' 			=> false,
-			'get_associated_lessons' 	=> false,
-			'get_question' 				=> false,
-			'get_questions' 			=> false,
-			'get_quiz_questions' 		=> false,
+			'get_courses'				=> false,
+			'get_course_tracks'			=> false,
+			'get_sections'				=> false,
+			'get_lesson'				=> false,
+			'get_lessons'				=> false,
+			'get_emails'				=> false,
+			'get_achievements'			=> false,
+			'get_certificates'			=> false,
+			'update_syllabus'			=> false,
+			'get_associated_lessons'	=> false,
+			'get_question'				=> false,
+			'get_questions'				=> false,
+			'get_quiz_questions'		=> false,
 			'start_quiz'				=> false,
 			'answer_question'			=> false,
 			'previous_question'			=> false,
@@ -165,6 +165,8 @@ class LLMS_AJAX {
 			'get_all_posts'				=> false,
 			'getLessons'				=> false,
 			'getSections'				=> false,
+			'get_students'              => false,
+			'get_enroled_students'      => false,
 			//'test_ajax_call'			=> false,
 		);
 
@@ -903,7 +905,80 @@ class LLMS_AJAX {
     	die();
 	}
 
-	
+	/**
+	 * Return array of students
+	 *
+	 * @return array Array of sections
+	 */
+	public function get_students()
+	{
+		$term = $_REQUEST['term'];
+
+		$user_args = array(
+				'include'      => array(),
+				'orderby'      => 'display_name',
+				'order'        => 'ASC',
+				'count_total'  => false,
+				'fields'       => 'all',
+				'search'       => $term . '*',
+				'number'       => 10,
+		);
+		$all_users = get_users( $user_args );
+
+		$users_arr = [];
+
+		foreach($all_users as $user) {
+			$temp['id'] = $user->ID;
+			$temp['name'] = $user->display_name . ' (' . $user->user_email . ')';
+			$users_arr[] = $temp;
+		}
+
+		echo json_encode([
+				'success' => true,
+				'items' => $users_arr,
+		]);
+
+		wp_die();
+	}
+
+	/**
+	 * Return array of enroled students
+	 *
+	 * @return array Array of sections
+	 */
+	public function get_enroled_students()
+	{
+		$term = $_REQUEST['term'] . '%';
+		$post_id = (int) $_REQUEST['postId'];
+
+		global $wpdb;
+		$user_table = $wpdb->prefix . 'users';
+		$usermeta = $wpdb->prefix . 'lifterlms_user_postmeta';
+
+		$select_user = "SELECT ID, display_name, user_email FROM $user_table
+			JOIN $usermeta ON $user_table.ID = $usermeta.user_id
+			WHERE $usermeta.post_id = $post_id
+			AND $usermeta.meta_key = '_status'
+			AND meta_value = 'Enrolled'
+			AND ($user_table.user_email LIKE '$term'
+			OR $user_table.display_name LIKE '$term')";
+		$all_users = $wpdb->get_results($select_user);
+
+		$users_arr = [];
+
+		foreach($all_users as $user) {
+			$temp['id'] = $user->ID;
+			$temp['name'] = $user->display_name . ' (' . $user->user_email . ')';
+			$users_arr[] = $temp;
+		}
+
+		echo json_encode([
+				'success' => true,
+				'items' => $users_arr,
+		]);
+
+		wp_die();
+	}
 
 
 }

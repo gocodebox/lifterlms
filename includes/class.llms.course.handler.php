@@ -12,7 +12,7 @@ class LLMS_Course_Handler {
 
 	public function __construct( $lesson ) {}
 
-	
+
 	public static function get_users_not_enrolled( $post_id, $enrolled_students = array() ) {
 
 		//no post id no deal!
@@ -21,7 +21,6 @@ class LLMS_Course_Handler {
 		}
 
 		$enrolled_student_ids = array();
-		$users_not_enrolled = array();
 
 		//if no enrolled users are supplied query them and generate array of user ids
 		if ( empty($enrolled_students) ) {
@@ -34,6 +33,7 @@ class LLMS_Course_Handler {
 				'order'        => 'ASC',
 				'count_total'  => false,
 				'fields'       => 'all',
+				'number'       => 500,
 	    	);
 	    	$all_users = get_users( $user_args );
 
@@ -42,7 +42,7 @@ class LLMS_Course_Handler {
 	    			$enrolled_students[$value->ID] = $value->display_name;
 	    			array_push($enrolled_student_ids, $value->ID);
 
-	    		} 
+	    		}
 	    	}
 
 	    } else {
@@ -55,19 +55,20 @@ class LLMS_Course_Handler {
 
 	    //query users not enrolled
 		$user_args = array(
-    		'blog_id'      => $GLOBALS['blog_id'],
+			'blog_id'      => $GLOBALS['blog_id'],
 			'include'      => array(),
 			'exclude'      => $enrolled_student_ids,
 			'orderby'      => 'display_name',
 			'order'        => 'ASC',
 			'count_total'  => false,
 			'fields'       => 'all',
-    	);
-    	
+			'number'       => 500,
+		);
+
     	return get_users( $user_args );
 
 	}
-	
+
 
 	// public static function duplicate_lesson($course_id, $section_id, $lesson_id ) {
 
@@ -87,7 +88,7 @@ class LLMS_Course_Handler {
 	// 	update_post_meta( $new_lesson_id, '_parent_course', $course_id );
 
 	// 	return $new_lesson_id;
-		
+
 	// }
 
 	// public static function duplicate( $post_id ) {
@@ -104,7 +105,7 @@ class LLMS_Course_Handler {
 	// 	}
 
 	// 	//no going back now...
- 
+
 	// 	//create duplicate post
 	// 	$args = array(
 	// 		'comment_status' => $postObj->comment_status,
@@ -121,10 +122,10 @@ class LLMS_Course_Handler {
 	// 		'menu_order'     => $postObj->menu_order,
 	// 		'post_password'  => $postObj->post_password
 	// 	);
- 
+
 	// 	//create the duplicate post
 	// 	$new_post_id = wp_insert_post( $args );
- 
+
  // 		if ( $new_post_id ) {
 
 	// 		//get all current post terms and set them to the new post
@@ -133,7 +134,7 @@ class LLMS_Course_Handler {
 	// 			$post_terms = wp_get_object_terms($postObj->ID, $taxonomy, array('fields' => 'slugs'));
 	// 			wp_set_object_terms($new_post_id, $post_terms, $taxonomy, false);
 	// 		}
-	 
+
 	//  	    // duplicate meta
 	// 		$insert_meta = self::duplicate_meta( $post_id, $new_post_id );
 
@@ -148,13 +149,13 @@ class LLMS_Course_Handler {
 
 	// 	//duplicate all post meta
 	// 	$post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id");
-		
+
 	// 	if (count($post_meta_infos)!=0) {
 
 	// 		$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
-			
+
 	// 		foreach ($post_meta_infos as $meta_info) {
-				
+
 	// 			if ( $meta_info->meta_key !== '_parent_section'
 	// 				|| $meta_info->meta_key !== '_parent_course'
 	// 				|| $meta_info->meta_key !== '_prerequisite'
@@ -163,7 +164,7 @@ class LLMS_Course_Handler {
 	// 				$meta_key = $meta_info->meta_key;
 	// 				$meta_value = addslashes($meta_info->meta_value);
 	// 				$sql_query_sel[]= "SELECT $new_post_id, '$meta_key', '$meta_value'";
-				
+
 	// 			}
 
 	// 		}
