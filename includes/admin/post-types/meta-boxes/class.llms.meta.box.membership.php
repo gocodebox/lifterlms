@@ -91,6 +91,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 			),
 		);
 
+		$courses = self::get_courses_list();
+
 		$llms_meta_fields_llms_membership_settings = array(
 			array(
 				'title' 	=> 'Description',
@@ -277,6 +279,22 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'class' 	=> 'input-full',
 					)				
 				)
+			),
+			array(
+				'title' 	=> 'Enrollment',
+				'fields' 	=> array(
+					array(
+						'label' 	=> 'Courses',
+						'desc' 		=> 'Add course to membership.',
+						'id' 		=> self::$prefix . 'llms_course_membership',
+						'type'  	=> 'select',
+						'value' 	=> $courses,
+						'group' 	=> '',
+						'multi'		=> true,
+						'desc_class'=> 'd-all',
+						'class' 	=> 'input-full',
+					)
+				)
 			)
 		);
 
@@ -286,6 +304,24 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		} 
 		
 		return $llms_meta_fields_llms_membership_settings;
+	}
+
+	public static function get_courses_list() {
+		$args = array(
+				'post_type' 	=> 'course',
+				'nopaging' 		=> true,
+				'post_status'   => 'publish',
+				'number'		=> 1000
+		);
+
+		$courses_list = [];
+
+		$courses = get_posts( $args );
+
+		foreach($courses as $course) {
+			$courses_list[] = ['key' => $course->ID, 'title' => $course->post_title];
+		}
+		return $courses_list;
 	}
 
 	/**
@@ -299,7 +335,9 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
-		global $wpdb;
+		global $post, $wpdb;
+
+		$thepostid = $post->ID;
 
 		// $prefix = '_';
 		// $title = $prefix . 'certificate_title';
@@ -313,6 +351,12 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		// $update_image = ( llms_clean( $_POST[$image]  ) );
 		// update_post_meta( $post_id, $image, ( $update_image === '' ) ? '' : $update_image );
 
+		foreach($_POST['_llms_course_membership'] as $course_id) {
+			$memberships = get_post_meta( $course_id, '_llms_restricted_levels', true );
+
+			update_post_meta( $course_id, '_llms_is_restricted', true );
+			update_post_meta( $course_id, '_llms_restricted_levels', array_merge($memberships, [$thepostid]));
+		}
 	}
 
 }
