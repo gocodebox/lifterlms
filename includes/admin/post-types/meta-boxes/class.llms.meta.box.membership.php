@@ -92,6 +92,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		);
 
 		$courses = self::get_courses_list();
+		$membership_courses = self::get_courses_in_membership_list();
 
 		$llms_meta_fields_llms_membership_settings = array(
 			array(
@@ -333,6 +334,28 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		return $courses_list;
 	}
 
+	public static function get_courses_in_membership_list() {
+		global $wpdb, $post;
+		$courses_list = [];
+		$posts_table = $wpdb->prefix . 'posts';
+		$postmeta = $wpdb->prefix . 'postmeta';
+
+		$postmeta_select = '%:"' .$post->ID . '";%';
+
+		$select_courses = "SELECT ID, post_title FROM $posts_table
+					JOIN $postmeta
+					ON $posts_table.ID = $postmeta.post_id
+					WHERE $postmeta.meta_key = '_llms_restricted_levels'
+					AND $postmeta.meta_value LIKE '$postmeta_select'";
+		$courses = $wpdb->get_results($select_courses);
+
+		foreach($courses as $course) {
+			$courses_list[] = ['key' => $course->ID, 'title' => $course->post_title];
+		}
+
+		return $courses_list;
+	}
+
 	/**
 	 * Static save method
 	 *
@@ -347,6 +370,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		global $post, $wpdb;
 
 		$thepostid = $post->ID;
+		$post_id = (string) $thepostid;
 
 		// $prefix = '_';
 		// $title = $prefix . 'certificate_title';
@@ -364,7 +388,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 			$memberships = get_post_meta( $course_id, '_llms_restricted_levels', true );
 
 			update_post_meta( $course_id, '_llms_is_restricted', true );
-			update_post_meta( $course_id, '_llms_restricted_levels', array_merge($memberships, [$thepostid]));
+			update_post_meta( $course_id, '_llms_restricted_levels', array_merge($memberships, [$post_id]));
 		}
 	}
 
