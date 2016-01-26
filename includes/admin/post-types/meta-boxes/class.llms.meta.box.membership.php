@@ -92,7 +92,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		);
 
 		$courses = self::get_courses_list();
-		$membership_courses = self::get_courses_in_membership_list();
 
 		$llms_meta_fields_llms_membership_settings = array(
 			array(
@@ -299,8 +298,9 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'label' 	=> 'Table',
 						'desc' 		=> 'Courses added to membership',
 						'id' 		=> self::$prefix . 'llms_course_membership_table',
+						'titles'	=> ['Course Name', 'Auto Enroll', 'Remove Course'],
 						'type'  	=> 'table',
-						'value' 	=> $courses,
+						'table_data'=> self::get_courses_table_data(),
 						'group' 	=> '',
 						'class' 	=> '',
 					)
@@ -354,6 +354,18 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		}
 
 		return $courses_list;
+	}
+
+	public static function get_courses_table_data() {
+		$membership_courses = self::get_courses_in_membership_list();
+
+		$table_data = [];
+
+		foreach($membership_courses as $course) {
+			$table_data[] = [$course['title'], '<input type="checkbox" value="' . $course->ID . '"', '<a href="#">X</a>'];
+		}
+
+		return $table_data;
 	}
 
 	/**
