@@ -293,6 +293,15 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'multi'		=> true,
 						'desc_class'=> 'd-all',
 						'class' 	=> 'input-full',
+					),
+					array(
+						'label' 	=> 'Table',
+						'desc' 		=> 'Courses added to membership',
+						'id' 		=> self::$prefix . 'llms_course_membership_table',
+						'type'  	=> 'table',
+						'value' 	=> $courses,
+						'group' 	=> '',
+						'class' 	=> '',
 					)
 				)
 			)
