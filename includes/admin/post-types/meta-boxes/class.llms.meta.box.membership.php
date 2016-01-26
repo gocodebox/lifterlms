@@ -295,7 +295,17 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'class' 	=> 'input-full',
 					),
 					array(
-						'label' 	=> 'Table',
+						'type'		=> 'button',
+						'label'		=> '',
+						'desc' 		=> '',
+						'id' 		=> self::$prefix . 'add_course_submit',
+						'class' 	=> 'llms-button-primary',
+						'value' 	=> 'Add Courses',
+						'desc_class'=> '',
+						'group' 	=> '',
+					),
+					array(
+						'label' 	=> 'Added Courses',
 						'desc' 		=> 'Courses added to membership',
 						'id' 		=> self::$prefix . 'llms_course_membership_table',
 						'titles'	=> ['Course Name', 'Auto Enroll', 'Remove Course'],
