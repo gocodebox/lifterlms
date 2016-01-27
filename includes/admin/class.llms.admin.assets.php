@@ -134,8 +134,10 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-metabox-engagement', plugins_url(  '/assets/js/llms-metabox-engagement' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 			}
 			if( 'llms_membership' == $post_type ) {
+				wp_enqueue_script( 'select2', plugins_url(  '/assets/select2/js/select2' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 				wp_enqueue_script( 'llms-metabox-data', plugins_url(  '/assets/js/llms-metabox-data' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 				wp_enqueue_script( 'llms-metabox-fields', plugins_url(  '/assets/js/llms-metabox-fields' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
+				wp_enqueue_script( 'llms-metabox-membership', plugins_url(  '/assets/js/llms-metabox-membership' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery', 'select2'), '', TRUE);
 			}
 			if( 'llms_question' == $post_type ) {
 				wp_enqueue_script( 'llms-metabox-single-question', plugins_url(  '/assets/js/llms-metabox-single-question' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);

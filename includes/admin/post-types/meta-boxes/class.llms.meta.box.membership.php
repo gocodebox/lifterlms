@@ -290,7 +290,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'group' 	=> '',
 						'multi'		=> true,
 						'desc_class'=> 'd-all',
-						'class' 	=> 'input-full',
+						'class' 	=> 'input-full add-course-to-membership',
 					),
 					array(
 						'type'		=> 'button',
@@ -311,7 +311,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'group' 	=> '',
 						'multi'		=> true,
 						'desc_class'=> 'd-all',
-						'class' 	=> 'input-full',
+						'class' 	=> 'input-full remove-course-from-membership',
 					),
 					array(
 						'type'		=> 'button',
