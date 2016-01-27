@@ -151,6 +151,15 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'autoload'      => false
 				),
 
+				array(
+					'title'         => __( 'Auto-Advance Lessons', 'lifterlms' ),
+					'desc'          => __( 'Automatically advance to the next lesson when a student clicks the Mark Complete button.', 'lifterlms' ),
+					'id'            => 'lifterlms_autoadvance',
+					'default'       => 'no',
+					'type'          => 'checkbox',
+					'autoload'      => false
+				),
+
 				array( 'type' => 'sectionend', 'id' => 'course_display_options' ),
 
 		) ); 
