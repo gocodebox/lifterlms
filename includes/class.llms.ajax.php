@@ -921,7 +921,8 @@ class LLMS_AJAX {
 				'count_total'  => false,
 				'fields'       => 'all',
 				'search'       => $term . '*',
-				'number'       => 10,
+				'exclude'      => $this->get_enroled_students_ids(),
+				'number'       => 30,
 		);
 		$all_users = get_users( $user_args );
 
@@ -961,7 +962,8 @@ class LLMS_AJAX {
 			AND $usermeta.meta_key = '_status'
 			AND meta_value = 'Enrolled'
 			AND ($user_table.user_email LIKE '$term'
-			OR $user_table.display_name LIKE '$term')";
+			OR $user_table.display_name LIKE '$term')
+			LIMIT 30";
 		$all_users = $wpdb->get_results($select_user);
 
 		$users_arr = [];
@@ -978,6 +980,31 @@ class LLMS_AJAX {
 		]);
 
 		wp_die();
+	}
+
+	private function get_enroled_students_ids()
+	{
+		$post_id = (int) $_REQUEST['postId'];
+
+		global $wpdb;
+		$user_table = $wpdb->prefix . 'users';
+		$usermeta = $wpdb->prefix . 'lifterlms_user_postmeta';
+
+		$select_user = "SELECT ID FROM $user_table
+			JOIN $usermeta ON $user_table.ID = $usermeta.user_id
+			WHERE $usermeta.post_id = $post_id
+			AND $usermeta.meta_key = '_status'
+			AND meta_value = 'Enrolled'
+			LIMIT 1000";
+		$all_users = $wpdb->get_results($select_user);
+
+		$users_arr = [];
+
+		foreach($all_users as $user) {
+			$users_arr[] = $user->ID;
+		}
+
+		return $users_arr;
 	}
 
 

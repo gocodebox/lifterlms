@@ -15,6 +15,7 @@ jQuery(document).ready(function($) {
                     term: params.term, // search term
                     page: params.page,
                     action: 'get_students',
+                    postId: jQuery('#post_ID').val(),
                 };
             },
             processResults: function (data) {
