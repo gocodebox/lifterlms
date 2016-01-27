@@ -324,8 +324,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'group' 	=> '',
 					),
 					array(
-						'label' 	=> 'Added Courses',
-						'desc' 		=> 'Courses added to membership',
+						'label' 	=> 'Courses',
+						'desc' 		=> 'Automatically enroll users in the selected courses on successful membership registration',
 						'id' 		=> self::$prefix . 'llms_course_membership_table',
 						'titles'	=> ['Course Name', 'Auto Enroll'],
 						'type'  	=> 'table',
