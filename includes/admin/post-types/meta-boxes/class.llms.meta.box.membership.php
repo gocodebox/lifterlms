@@ -347,10 +347,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 	public static function get_courses_list() {
 		$args = array(
-				'post_type' 	=> 'course',
-				'nopaging' 		=> true,
-				'post_status'   => 'publish',
-				'number'		=> 1000
+			'post_type' 	=> 'course',
+			'nopaging'		=> true,
+			'post_status'   => 'publish',
+			'number'		=> 1000,
 		);
 
 		$courses_list = [];
@@ -365,11 +365,11 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 	public static function get_courses_not_in_membership_list() {
 		$args = array(
-				'post_type' 	=> 'course',
-				'nopaging' 		=> true,
-				'post_status'   => 'publish',
-				'number'		=> 1000,
-				'exclude'		=> array_column(self::get_courses_in_membership_list(), 'key'),
+			'post_type' 	=> 'course',
+			'nopaging'		=> true,
+			'post_status'   => 'publish',
+			'number'		=> 1000,
+			'exclude'		=> array_column(self::get_courses_in_membership_list(), 'key'),
 		);
 
 		$courses_list = [];
@@ -388,7 +388,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		$posts_table = $wpdb->prefix . 'posts';
 		$postmeta = $wpdb->prefix . 'postmeta';
 
-		$postmeta_select = '%:"' .$post->ID . '";%';
+		$postmeta_select = '%:"' . $post->ID . '";%';
 
 		$select_courses = "SELECT ID, post_title FROM $posts_table
 					JOIN $postmeta
@@ -405,12 +405,14 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	}
 
 	public static function get_courses_table_data() {
+		global $post;
 		$membership_courses = self::get_courses_in_membership_list();
 
 		$table_data = [];
+		$auto_enroll_checkboxes = get_post_meta( $post->ID, '_llms_auto_enroll', true);
 
 		foreach($membership_courses as $course) {
-			$auto_enroll_checkbox = get_post_meta( $course['key'], '_llms_auto_enroll', true) ? 'checked' : '';
+			$auto_enroll_checkbox = in_array($course['key'], $auto_enroll_checkboxes) ? 'checked' : '';
 			$table_data[] = [$course['title'], '<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"'];
 		}
 
@@ -428,32 +430,30 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
-		$thepostid = $post->ID;
-		$postId = (string) $thepostid;
+		$postId = (string) $post->ID;
 
-		foreach($_POST['_llms_course_membership'] as $course_id) {
-			$memberships = array_merge(get_post_meta( $course_id, '_llms_restricted_levels', true ), [$postId]);
+		if (isset($_POST['_llms_course_membership'])) {
+			foreach ($_POST['_llms_course_membership'] as $course_id) {
+				$memberships = array_merge(get_post_meta($course_id, '_llms_restricted_levels', true), [$postId]);
 
-			update_post_meta( $course_id, '_llms_is_restricted', true );
-			update_post_meta( $course_id, '_llms_restricted_levels', $memberships);
-		}
-
-		foreach($_POST['_llms_remove_course_membership'] as $course_id) {
-			$memberships = array_diff(get_post_meta( $course_id, '_llms_restricted_levels', true ), [$postId]);
-
-			if(!count($memberships)) {
-				update_post_meta( $course_id, '_llms_is_restricted', false );
-			}
-			update_post_meta( $course_id, '_llms_restricted_levels', $memberships);
-		}
-
-		foreach(self::get_courses_in_membership_list() as $course) {
-			if(in_array($course['key'], $_POST['autoEnroll'])) {
-				update_post_meta( $course['key'], '_llms_auto_enroll', true );
-			} else {
-				update_post_meta( $course['key'], '_llms_auto_enroll', false );
+				update_post_meta($course_id, '_llms_is_restricted', true);
+				update_post_meta($course_id, '_llms_restricted_levels', $memberships);
 			}
 		}
+
+		if (isset($_POST['_llms_remove_course_membership'])) {
+			foreach ($_POST['_llms_remove_course_membership'] as $course_id) {
+				$memberships = array_diff(get_post_meta($course_id, '_llms_restricted_levels', true), [$postId]);
+
+				if (!count($memberships)) {
+					update_post_meta($course_id, '_llms_is_restricted', false);
+				}
+				update_post_meta($course_id, '_llms_restricted_levels', $memberships);
+			}
+		}
+
+		$auto_enroll = isset($_POST['autoEnroll']) ? $_POST['autoEnroll'] : [];
+		update_post_meta( $post->ID, '_llms_auto_enroll', $auto_enroll );
 	}
 
 }

@@ -294,6 +294,27 @@
 
 				update_user_meta( $order->user_id, '_llms_restricted_levels', $membership_levels );
 
+				$autoenroll_courses = get_post_meta( $order->product_id, '_llms_auto_enroll', true );
+
+				foreach($autoenroll_courses as $course_id) {
+					$user_metadatas = array(
+						'_start_date' => 'yes',
+						'_status'     => 'Enrolled',
+					);
+
+					foreach( $user_metadatas as $key => $value ) {
+						$wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+							array(
+								'user_id'      => $order->user_id,
+								'post_id'      => $course_id,
+								'meta_key'     => $key,
+								'meta_value'   => $value,
+								'updated_date' => current_time( 'mysql' ),
+							)
+						);
+					}
+				}
+
 				do_action( 'llms_user_added_to_membership_level', $order->user_id, $order->product_id );
 
 			}
@@ -304,6 +325,4 @@
 
 			return $order_post_id;
 		}
-
-
 	}
