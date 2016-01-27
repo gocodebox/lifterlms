@@ -371,9 +371,11 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 		$table_data = [];
 
+
 		foreach($membership_courses as $course) {
+			$remove_link = '<a href="#"><span data-course-id="' . $course['key'] . '" class="dashicons dashicons-no-alt remove-icon"></span></a>';
 			$auto_enroll_checkbox = get_post_meta( $course['key'], '_llms_auto_enroll', true) ? 'checked' : '';
-			$table_data[] = [$course['title'], '<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"', '<a href="#">X</a>'];
+			$table_data[] = [$course['title'], '<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"', $remove_link];
 		}
 
 		return $table_data;
@@ -393,7 +395,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		$thepostid = $post->ID;
 		$postId = (string) $thepostid;
 
-//var_dump($_POST['autoEnroll']); die();
 		foreach($_POST['_llms_course_membership'] as $course_id) {
 			$memberships = get_post_meta( $course_id, '_llms_restricted_levels', true );
 
