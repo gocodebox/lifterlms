@@ -421,6 +421,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'value' 	=> $users_not_enrolled_options,
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
+						'multi'		=> true,
 					),
 					array(
 						'type'		=> 'button',
@@ -441,6 +442,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'value' 	=> $enrolled_student_options,
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
+						'multi'		=> true,
 					),
 					array(
 						'type'		=> 'button',

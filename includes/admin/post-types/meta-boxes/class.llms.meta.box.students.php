@@ -200,13 +200,17 @@ llms_log('remove student called 5');
 
 		if ( isset( $_POST['_add_new_user']) && $_POST['_add_new_user'] != '') {
 			//triggers add_student static method
-			$add_user = self::add_student( $_POST['_add_new_user'], $post_id );
+			foreach($_POST['_add_new_user'] as $user_id) {
+				self::add_student($user_id, $post_id);
+			}
 		}
 
 		if ( isset( $_POST['_remove_student']) && $_POST['_remove_student'] != '') {
 			llms_log('remove student called');
 			//triggers remove_student static method
-			$remove_user = self::remove_student( $_POST['_remove_student'], $post_id );
+			foreach($_POST['_remove_student'] as $user_id) {
+				self::remove_student($user_id, $post_id);
+			}
 		}
 
 	}
