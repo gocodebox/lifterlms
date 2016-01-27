@@ -372,7 +372,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		$table_data = [];
 
 		foreach($membership_courses as $course) {
-			$table_data[] = [$course['title'], '<input type="checkbox" value="' . $course->ID . '"', '<a href="#">X</a>'];
+			$auto_enroll_checkbox = get_post_meta( $course['key'], '_llms_auto_enroll', true) ? 'checked' : '';
+			$table_data[] = [$course['title'], '<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"', '<a href="#">X</a>'];
 		}
 
 		return $table_data;
@@ -389,28 +390,23 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
-		global $post, $wpdb;
-
 		$thepostid = $post->ID;
-		$post_id = (string) $thepostid;
+		$postId = (string) $thepostid;
 
-		// $prefix = '_';
-		// $title = $prefix . 'certificate_title';
-		// $image = $prefix . 'certificate_image';
-
-		// //update title
-		// $update_title = ( llms_clean( $_POST[$title]  ) );
-		// update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
-		// Congrats Mark! You found me!
-		// //update background image
-		// $update_image = ( llms_clean( $_POST[$image]  ) );
-		// update_post_meta( $post_id, $image, ( $update_image === '' ) ? '' : $update_image );
-
+//var_dump($_POST['autoEnroll']); die();
 		foreach($_POST['_llms_course_membership'] as $course_id) {
 			$memberships = get_post_meta( $course_id, '_llms_restricted_levels', true );
 
 			update_post_meta( $course_id, '_llms_is_restricted', true );
-			update_post_meta( $course_id, '_llms_restricted_levels', array_merge($memberships, [$post_id]));
+			update_post_meta( $course_id, '_llms_restricted_levels', array_merge($memberships, [$postId]));
+		}
+
+		foreach(self::get_courses_in_membership_list() as $course) {
+			if(in_array($course['key'], $_POST['autoEnroll'])) {
+				update_post_meta( $course['key'], '_llms_auto_enroll', true );
+			} else {
+				update_post_meta( $course['key'], '_llms_auto_enroll', false );
+			}
 		}
 	}
 
