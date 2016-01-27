@@ -551,11 +551,6 @@ input.llms-toggle-round:checked + label:after {
   float: left;
 }
 
-.remove-icon {
-  text-decoration: none;
-  color: red;
-}
-
 /******************************************************************
 
 Course Outline
