@@ -305,7 +305,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 					array(
 						'label' 	=> 'Added Courses',
 						'desc' 		=> 'Remove course from membership.',
-						'id' 		=> self::$prefix . 'llms_course_membership',
+						'id' 		=> self::$prefix . 'llms_remove_course_membership',
 						'type'  	=> 'select',
 						'value' 	=> self::get_courses_in_membership_list(),
 						'group' 	=> '',
@@ -409,7 +409,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 		$table_data = [];
 
-
 		foreach($membership_courses as $course) {
 			$auto_enroll_checkbox = get_post_meta( $course['key'], '_llms_auto_enroll', true) ? 'checked' : '';
 			$table_data[] = [$course['title'], '<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"'];
@@ -433,10 +432,19 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		$postId = (string) $thepostid;
 
 		foreach($_POST['_llms_course_membership'] as $course_id) {
-			$memberships = get_post_meta( $course_id, '_llms_restricted_levels', true );
+			$memberships = array_merge(get_post_meta( $course_id, '_llms_restricted_levels', true ), [$postId]);
 
 			update_post_meta( $course_id, '_llms_is_restricted', true );
-			update_post_meta( $course_id, '_llms_restricted_levels', array_merge($memberships, [$postId]));
+			update_post_meta( $course_id, '_llms_restricted_levels', $memberships);
+		}
+
+		foreach($_POST['_llms_remove_course_membership'] as $course_id) {
+			$memberships = array_diff(get_post_meta( $course_id, '_llms_restricted_levels', true ), [$postId]);
+
+			if(!count($memberships)) {
+				update_post_meta( $course_id, '_llms_is_restricted', false );
+			}
+			update_post_meta( $course_id, '_llms_restricted_levels', $memberships);
 		}
 
 		foreach(self::get_courses_in_membership_list() as $course) {
