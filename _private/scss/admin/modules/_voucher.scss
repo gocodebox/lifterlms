@@ -12,6 +12,9 @@
     thead {
       background-color: $color-lightblue;
       color:#fff;
+      th {
+        padding: 10px 0;
+      }
     }
 
     tr {
@@ -20,10 +23,12 @@
         background-color: #F1F1F1;
       }
 
-      td:first-child:before {
-        content: counter( row-counter );
+      td {
+        padding: 5px;
+        &:first-child:before {
+          content: counter( row-counter );
+        }
       }
-
     }
   }
 }
