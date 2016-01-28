@@ -98,7 +98,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'id'            => 'lifterlms_course_display_banner',
 				'default'       => 'yes',
 				'type'          => 'checkbox',
-				'checkboxgroup' => 'start',
+				'checkboxgroup' => '',
 				'autoload'      => false
 				),
 
@@ -107,6 +107,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'id'            => 'lifterlms_course_display_difficulty',
 				'default'       => 'no',
 				'type'          => 'checkbox',
+				'checkboxgroup' => '',
 				'autoload'      => false
 				),
 
@@ -115,38 +116,54 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'id'            => 'lifterlms_course_display_length',
 				'default'       => 'no',
 				'type'          => 'checkbox',
+				'checkboxgroup' => '',
 				'autoload'      => false
 				),
 
-				array(
-				'desc'          => __( 'Display Section Title on Syllabus', 'lifterlms' ),
-				'id'            => 'lifterlms_course_display_syllabus',
-				'default'       => 'yes',
-				'type'          => 'checkbox',
-				'autoload'      => false
-				),
 
 				array(
 				'desc'          => __( 'Display Lesson excerpts in lesson navigation', 'lifterlms' ),
 				'id'            => 'lifterlms_lesson_nav_display_excerpt',
 				'default'       => 'no',
 				'type'          => 'checkbox',
+				'checkboxgroup' => 'end',
+				'autoload'      => false
+				),
+
+
+				// course outline settings
+				array(
+				'title'         => __( 'Course Outline', 'lifterlms' ),
+				'desc'          => __( 'Display course outline on the course page', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_outline',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'start',
 				'autoload'      => false
 				),
 
 				array(
-				'desc'          => __( 'Display Course Outline on Course page', 'lifterlms' ),
-				'id'            => 'lifterlms_course_display_outline',
+				'desc'          => __( 'Display  section titles in outline', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_outline_titles',
 				'default'       => 'yes',
 				'type'          => 'checkbox',
+				'checkboxgroup' => '',
 				'autoload'      => false
 				),
 
+				array(
+				'desc'          => __( 'Display lesson featured images in outline', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_outline_lesson_thumbnails',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'end',
+				'autoload'      => false
+				),
 				array( 'type' => 'sectionend', 'id' => 'course_display_options' ),
 
-		) ); 
+		) );
 	}
-	
+
 	/**
 	 * save settings to the database
 	 *
@@ -156,7 +173,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 		$settings = $this->get_settings();
 
 		LLMS_Admin_Settings::save_fields( $settings );
-		
+
 	}
 
 	/**

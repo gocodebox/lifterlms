@@ -248,20 +248,15 @@
   max-width: 100%;
   max-width: calc(100% - 30px);
 }
-.llms-lesson-preview.is-complete .llms-lesson-link {
-  padding-left: 75px;
-}
 .llms-lesson-preview .llms-lesson-link:visited {
   color: inherit;
 }
 .llms-lesson-preview .llms-lesson-complete, .llms-lesson-preview .llms-free-lesson-svg {
   color: #e5554e;
+  float: left;
   font-size: 3em;
   line-height: 1;
   margin-right: .25em;
-  position: absolute;
-  top: 15px;
-  left: 15px;
 }
 .llms-lesson-preview .llms-free-lesson-svg {
   fill: currentColor;
@@ -275,11 +270,27 @@
 }
 .llms-lesson-preview .llms-lesson-counter {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 0;
+  right: 0;
 }
 .llms-lesson-preview .llms-lesson-excerpt {
   clear: both;
+  margin-bottom: 0;
+}
+.llms-lesson-preview .llms-lesson-information {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+.llms-lesson-preview.is-complete .llms-lesson-information {
+  width: calc( 100% - 55px );
+}
+.llms-lesson-preview .llms-lesson-thumbnail {
+  margin-bottom: 15px;
+}
+.llms-lesson-preview .llms-lesson-thumbnail img {
+  display: block;
+  width: 100%;
 }
 
 .llms-course-navigation .llms-lesson-preview.previous {

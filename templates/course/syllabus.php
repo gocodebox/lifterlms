@@ -1,49 +1,63 @@
 <?php
 /**
+ * Template for the Course Syllabus Displayed on individual course pages
+ *
  * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * @package 	LifterLMS/Templates
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+// cease execution if the course outline is disabled
+if( get_option('lifterlms_course_display_outline') === 'no' ) {
+
+	return;
+
+}
+
 global $post, $course;
 
-if ( ! $course || !is_object($course) ) {
+// ensure that we haven't lost the global $course
+if ( ! $course || ! is_object( $course ) ) {
 
 	$course = new LLMS_Course( $post->ID );
 
 }
 
-$html = '';
-$html .= '<div class="clear"></div>';
-$html .= '<div class="llms-lesson-tooltip"id="lockedTooltip"></div>';
-$html .= '<div class="llms-syllabus-wrapper">';
+// retrieve sections to use in the template
+$sections = $course->get_children_sections();
+?>
 
-	//get section data
-	$sections = $course->get_children_sections();
-	if ( !$sections ) {
+<div class="clear"></div>
+<div class="llms-lesson-tooltip" id="lockedTooltip"></div>
+<div class="llms-syllabus-wrapper">
 
-		$html .= LLMS_Language::output('This course does not have any sections.');
+	<?php if ( !$sections ): ?>
 
-	} else {
+		<?php echo LLMS_Language::output('This course does not have any sections.'); ?>
 
-		foreach ( $sections as $section_child ) {
-			$section = new LLMS_Section( $section_child->ID);
+	<?php else: ?>
 
-			$html .= '<h3 class="llms-h3 llms-section-title">' . $section->post->post_title . '</h3>';
+		<?php foreach ( $sections as $section_child ): ?>
+			<?php $section = new LLMS_Section( $section_child->ID ); ?>
 
-			//get lesson data
-			$lessons = $section->get_children_lessons();
+			<?php if( get_option( 'lifterlms_course_display_outline_titles', 'yes' ) === 'yes' ): ?>
+				<h3 class="llms-h3 llms-section-title"><?php echo $section->post->post_title; ?></h3>
+			<?php endif; ?>
 
-			if ( !$lessons ) {
+			<?php $lessons = $section->get_children_lessons(); ?>
+			<?php if( !$lessons ): ?>
 
-				$html .= LLMS_Language::output('This section does not have any lessons.');
+				<?php echo LLMS_Language::output('This section does not have any lessons.'); ?>
 
-			} else {
-
-				foreach( $lessons as $lesson_child ) {
+			<?php else: ?>
+				<?php foreach( $lessons as $lesson_child ): ?>
+					<?php
 					$lesson = new LLMS_Lesson($lesson_child->ID);
 
+					/**
+					 * @todo  refactor
+					 */
 					//determine if lesson is complete to show complete icon
 					if( $lesson->is_complete() ) {
 						$check = '<span class="llms-lesson-complete"><i class="fa fa-check-circle"></i></span>';
@@ -71,37 +85,31 @@ $html .= '<div class="llms-syllabus-wrapper">';
 						$title = LLMS_Language::output( 'Take this course to unlock this lesson' );
 						$linkclass = 'llms-lesson-link-locked';
 					}
+					?>
 
-					$html .= '<div class="llms-lesson-preview' . $complete . '">';
+					<div class="llms-lesson-preview<?php echo $complete; ?>">
+						<a class="<?php echo $linkclass; ?>" title = "<?php echo $title; ?>" href="<?php echo $permalink; ?>">
 
-					$html .= '<a class="' . $linkclass . '" title = "'. $title . '" href="' . $permalink . '">';
-					$html .= $check;
-					$html .= '<div class="lesson-information">';
-					$html .= '<h5 class="llms-h5 llms-lesson-title">' . $lesson->post->post_title . '</h5>';
-					$html .= '<span class="llms-lesson-counter">' . $lesson->get_order() . ' ' . __('of','lifterlms') . ' ' . count($lessons) . '</span>';
-					$html .= '<p class="llms-lesson-excerpt">'.llms_get_excerpt($lesson->id).'</p>';
-					$html .= '</div>';
-					$html .= '</a>';
+							<?php  if( get_option( 'lifterlms_course_display_outline_lesson_thumbnails', 'no' ) === 'yes' && get_the_post_thumbnail( $lesson->id  ) ): ?>
+								<div class="llms-lesson-thumbnail"><?php echo get_the_post_thumbnail( $lesson->id ); ?></div>
+							<?php endif; ?>
 
-					$html .= '</div>'; //end lesson-preview
+							<?php echo $check; ?>
+							<div class="llms-lesson-information">
+								<h5 class="llms-h5 llms-lesson-title"><?php echo $lesson->post->post_title; ?></h5>
+								<span class="llms-lesson-counter"><?php echo $lesson->get_order(); ?> <?php _e( 'of' , 'lifterlms' ); ?> <?php echo count( $lessons ); ?></span>
+								<p class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->id ); ?></p>
+							</div>
+						</a>
+					</div>
 
-					//$html .= '</div>';
+				<?php endforeach; ?>
 
+			<?php endif; ?>
 
-				}
+		<?php endforeach; ?>
 
+	<?php endif; ?>
 
-			}
-
-		}
-
-	}
-$html .= '<div class="clear"></div>';
-$html .= '</div>';
-
-if (get_option('lifterlms_course_display_outline') === 'yes') {
-	echo $html;
-}
-
-?>
-
+	<div class="clear"></div>
+</div>

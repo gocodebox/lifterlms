@@ -7,10 +7,28 @@ Full documentation available at [https://lifterlms.readme.io](https://lifterlms.
 CHANGELOG
 =========
 
-v1.5.1 - 2016/01/??
+v2.0.0 - 2016/02/??
 -------------------
 
+##### Bug Fixes
+
 + Added spaces between numbers and "of" on the counter for course syllabus templates
++ Removed a template hook that was creating duplicate lesson thumbnails on quite a few themes
+
+##### Updated syllabus template
+
++ Added a Course setting to optionally enable Lesson Thumbnails on the Course Syllabus
++ Rewored CSS on the course syllabus to rely on floats rather than absolute positioning, should allow for more robust custimization with less frustration
++ Refactored the syllabus template at "templates/course/syllabus.php" for better performance and readability
+
+##### Deprecated Functions
+
++  `lifterlms_template_section_syllabus()`
+
+##### Deprecated Templates
+
++ templates/course/section_syllabus.php
+
 
 
 v1.5.0 - 2016/01/22
