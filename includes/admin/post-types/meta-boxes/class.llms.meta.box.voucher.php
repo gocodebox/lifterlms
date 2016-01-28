@@ -133,6 +133,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Code</th>
                     <th>Uses</th>
                     <th>Actions</th>
@@ -141,8 +142,10 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 
                 <tbody id="llms_voucher_tbody">
                 <?php if (!empty($codes)):
+                    $cnt = 1;
                     foreach ($codes as $code): ?>
                         <tr>
+                            <td><?php echo $cnt++;?>.</td>
                             <td>
                                 <input type="text" placeholder="Code" value="<?= $code->code ?>"
                                        name="llms_voucher_code[]">
