@@ -85,6 +85,21 @@ class LLMS_Meta_Box_Voucher_Export
                         $voucher = new LLMS_Voucher($post->ID);
                         $codes = $voucher->get_voucher_codes('ARRAY_A');
 
+                        foreach ( $codes as $k=>$v )
+                        {
+                            unset($codes[$k]['id']);
+                            unset($codes[$k]['voucher_id']);
+                            $codes[$k]['count'] = $codes[$k]['redemption_count'];
+                            $codes[$k]['used'] = $codes[$k]['used'];
+                            $codes[$k]['created'] = $codes[$k]['created_at'];
+                            $codes[$k]['updated'] = $codes[$k]['updated_at'];
+                            $codes[$k]['deleted'] = $codes[$k]['is_deleted'];
+                            unset($codes[$k]['redemption_count']);
+                            unset($codes[$k]['created_at']);
+                            unset($codes[$k]['updated_at']);
+                            unset($codes[$k]['is_deleted']);
+
+                        }
                         $csv = self::array_to_csv($codes);
 
                         $fileName = 'vouchers.csv';
