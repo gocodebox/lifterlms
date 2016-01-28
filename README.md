@@ -13,12 +13,12 @@ v2.0.0 - 2016/02/??
 ##### Bug Fixes
 
 + Added spaces between numbers and "of" on the counter for course syllabus templates
-<<<<<<< HEAD
 + Removed a template hook that was creating duplicate lesson thumbnails on quite a few themes
 
 ##### Updated syllabus template
 
 + Added a Course setting to optionally enable Lesson Thumbnails on the Course Syllabus
++ Added a Course setting Display greyed out lesson completion checkmark icons on lessons not competed in the course syllabus
 + Rewored CSS on the course syllabus to rely on floats rather than absolute positioning, should allow for more robust custimization with less frustration
 + Refactored the syllabus template at "templates/course/syllabus.php" for better performance and readability
 
@@ -30,26 +30,34 @@ v2.0.0 - 2016/02/??
 
 + templates/course/section_syllabus.php
 
+##### New Account Dashboard Filters
 
-=======
-+ New Course Setting: Display greyed out lesson completion checkmark icons on lessons not competed.
-+ New Account Dashboard Filters: *[View documentation for more information](https://lifterlms.readme.io/docs/filters-account)*
-    * lifterlms_account_greeting
-    * lifterlms_my_courses_title
-    * lifterlms_my_courses_enrollment_status_html
-    * lifterlms_my_courses_start_date_html
-    * lifterlms_my_courses_course_button_text
-    * lifterlms_my_certificates_title
-+ New Checkout Page Filters: *[View documentation for more information](https://lifterlms.readme.io/docs/filters-checkout)*
-    * lifterlms_checkout_user_logged_in_output
-    * lifterlms_checkout_user_not_logged_in_output
-+ New Course Filters: *[View documentation for more information](https://lifterlms.readme.io/docs/filters-course)*
-    * lifterlms_product_purchase_account_redirect
-    * lifterlms_product_purchase_redirect_membership_required
-    * lifterlms_product_purchase_checkout_redirect
-    * lifterlms_product_purchase_membership_redirect
-    * lifterlms_lesson_complete_icon
->>>>>>> 4f7c1a97e41f03551eb354326fecff64fe56579b
+*[View documentation for more information](https://lifterlms.readme.io/docs/filters-account)*
+
++ `lifterlms_account_greeting`
++ `lifterlms_my_courses_title`
++ `lifterlms_my_courses_enrollment_status_html`
++ `lifterlms_my_courses_start_date_html`
++ `lifterlms_my_courses_course_button_text`
++ `lifterlms_my_certificates_title`
+
+##### New Checkout Page Filters:
+
+*[View documentation for more information](https://lifterlms.readme.io/docs/filters-checkout)*
+
++ `lifterlms_checkout_user_logged_in_output`
++ `lifterlms_checkout_user_not_logged_in_output`
+
+##### New Course Filters:
+
+*[View documentation for more information](https://lifterlms.readme.io/docs/filters-course)*
+
++ `lifterlms_product_purchase_account_redirect`
++ `lifterlms_product_purchase_redirect_membership_required`
++ `lifterlms_product_purchase_checkout_redirect`
++ `lifterlms_product_purchase_membership_redirect`
++ `lifterlms_lesson_complete_icon`
+
 
 v1.5.0 - 2016/01/22
 -------------------
