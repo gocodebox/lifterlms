@@ -9,7 +9,7 @@ $certificates = $user->get_user_postmetas_by_key( get_current_user_id(), $meta_k
 ?>
 
 <div class="llms-my-certificates">
-	<?php echo  '<h3>' .__( 'My Certificates', 'lifterlms' ) . '</h3>'; 
+	<?php echo  '<h3>' . apply_filters('lifterlms_my_certificates_title', __( 'My Certificates', 'lifterlms' )) . '</h3>'; 
 	if ($certificates) { ?>
 	<ul class="listing-certificates">
 	<?php foreach ( $certificates as $key => $value ) : ?>

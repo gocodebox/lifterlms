@@ -60,8 +60,11 @@ $sections = $course->get_children_sections();
 					 */
 					//determine if lesson is complete to show complete icon
 					if( $lesson->is_complete() ) {
-						$check = '<span class="llms-lesson-complete"><i class="fa fa-check-circle"></i></span>';
+						$check = '<span class="llms-lesson-complete"><i class="fa fa-' . apply_filters('lifterlms_lesson_complete_icon', 'check-circle') . '"></i></span>';
 						$complete = ' is-complete';
+					}
+					elseif ($course->is_user_enrolled(get_current_user_id()) && get_option('lifterlms_display_lesson_complete_placeholders') === 'yes') {
+						$check = '<span class="llms-lesson-complete-placeholder"><i class="fa fa-' . apply_filters('lifterlms_lesson_complete_icon', 'check-circle') . '"></i></span>';
 					}
 					elseif ($lesson->get_is_free())
 					{

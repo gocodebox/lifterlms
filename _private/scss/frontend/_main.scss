@@ -268,12 +268,16 @@
     }
   }
 
-  .llms-lesson-complete {
+  .llms-lesson-complete, .llms-lesson-complete-placeholder {
     color: $color-red;
     float: left;
     font-size: 3em;
     line-height: 1;
     margin-right: .25em;
+  }
+
+  .llms-lesson-complete-placeholder {
+    color: $el-background-hover;
   }
 
   .llms-free-lesson-svg {
@@ -1047,7 +1051,7 @@ svg .llms-animated-circle {
 .llms-widget-syllabus {
 
 
-  .llms-lesson-complete {
+  .llms-lesson-complete, .lesson-complete-placeholder {
     size: 1.2em;
     margin-right: 6px;
     font-size: 1.2em;

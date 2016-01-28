@@ -33,7 +33,7 @@ class LLMS_Email_Person_New extends LLMS_Email {
 		$this->template_html 	= 'emails/template.php';
 
 		$this->subject 			= $email_meta['_email_subject'][0];
-		$this->heading      	= $email_meta['_email_heading'][0];//__( 'Welcome to {site_title}', 'lifterlms');
+		$this->heading      	= isset($email_meta['_email_heading'][0]) ? $email_meta['_email_heading'][0] : __( 'Welcome to {site_title}', 'lifterlms');//__( 'Welcome to {site_title}', 'lifterlms');
 		$this->email_content	= $email_content[0]->post_content;
 		$this->account_link 	= get_permalink( llms_get_page_id( 'myaccount' ) );
 

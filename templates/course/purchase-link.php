@@ -60,9 +60,9 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 
             if (($single_price  > 0 || $rec_price > 0)) {
 			?>
-            <a href="<?php echo $account_redirect; ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_button_text() ); ?></a>
+            <a href="<?php echo apply_filters('lifterlms_product_purchase_account_redirect', $account_redirect); ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_button_text() ); ?></a>
                 <?php } ?>
-            <a href="<?php echo $membership_url; ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_membership_button_text() ); ?></a>
+            <a href="<?php echo apply_filters('lifterlms_product_purchase_redirect_membership_required', $membership_url); ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_membership_button_text() ); ?></a>
             <?php
 		}
 
@@ -74,7 +74,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 				$account_redirect = add_query_arg( 'product-id', get_the_ID(), $account_url );
 
 			?>
-				<a href="<?php echo $account_redirect; ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_button_text() ); ?></a>
+				<a href="<?php echo apply_filters('lifterlms_product_purchase_account_redirect', $account_redirect); ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_button_text() ); ?></a>
 			<?php
 			}else{
 
@@ -116,13 +116,13 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 		if ( ($single_price  > 0 || $rec_price > 0) && !$user_is_member ) {
 		?>
 			<?php if(check_course_capacity()) { ?>
-			    <a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_button_text() ); ?></a>
+			    <a href="<?php echo apply_filters('lifterlms_product_purchase_checkout_redirect', $course->get_checkout_url()); ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_button_text() ); ?></a>
 
                 <?php
                 if ($memberships_required)
                 {
                     ?>
-                    <a href="<?php echo $membership_url; ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_membership_button_text() ); ?></a>
+                    <a href="<?php echo apply_filters('lifterlms_product_purchase_membership_redirect', $membership_url); ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_membership_button_text() ); ?></a>
                     <?php
                 }
 
@@ -135,7 +135,7 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 		else if (!$user_is_member && $memberships_required)
         {
         ?>
-            <a href="<?php echo $membership_url; ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_membership_button_text() ); ?></a>
+            <a href="<?php echo apply_filters('lifterlms_product_purchase_membership_redirect', $membership_url); ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_membership_button_text() ); ?></a>
         <?php
         }
         else

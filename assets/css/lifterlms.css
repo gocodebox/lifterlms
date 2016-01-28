@@ -251,12 +251,15 @@
 .llms-lesson-preview .llms-lesson-link:visited {
   color: inherit;
 }
-.llms-lesson-preview .llms-lesson-complete, .llms-lesson-preview .llms-free-lesson-svg {
+.llms-lesson-preview .llms-lesson-complete, .llms-lesson-preview .llms-free-lesson-svg, .llms-lesson-preview .llms-lesson-complete-placeholder {
   color: #e5554e;
   float: left;
   font-size: 3em;
   line-height: 1;
   margin-right: .25em;
+}
+.llms-lesson-preview .llms-lesson-complete-placeholder {
+  color: #eaeaea;
 }
 .llms-lesson-preview .llms-free-lesson-svg {
   fill: currentColor;
@@ -999,13 +1002,13 @@ svg .llms-animated-circle {
   margin: 6px 0;
 }
 
-.llms-widget-syllabus .llms-lesson-complete, .llms-widget-syllabus .llms-lesson-preview .llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .llms-free-lesson-svg {
+.llms-widget-syllabus .llms-lesson-complete, .llms-widget-syllabus .llms-lesson-preview .llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .llms-free-lesson-svg, .llms-widget-syllabus .lesson-complete-placeholder {
   size: 1.2em;
   margin-right: 6px;
   font-size: 1.2em;
   color: #ccc;
 }
-.llms-widget-syllabus .llms-lesson-complete.done, .llms-widget-syllabus .llms-lesson-preview .done.llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .done.llms-free-lesson-svg {
+.llms-widget-syllabus .llms-lesson-complete.done, .llms-widget-syllabus .llms-lesson-preview .done.llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .done.llms-free-lesson-svg, .llms-widget-syllabus .lesson-complete-placeholder.done {
   color: #e5554e;
 }
 .llms-widget-syllabus .section-title {
