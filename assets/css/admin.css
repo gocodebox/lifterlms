@@ -920,9 +920,17 @@ h1.outline-title {
   background-color: #33b1cb;
   color: #fff;
 }
+.llms-voucher-codes-wrapper table tr,
+.llms-voucher-redemption-wrapper table tr {
+  counter-increment: row-counter;
+}
 .llms-voucher-codes-wrapper table tr:nth-child(even),
 .llms-voucher-redemption-wrapper table tr:nth-child(even) {
   background-color: #F1F1F1;
+}
+.llms-voucher-codes-wrapper table tr td:first-child:before,
+.llms-voucher-redemption-wrapper table tr td:first-child:before {
+  content: counter(row-counter);
 }
 
 .llms-voucher-codes-wrapper table {

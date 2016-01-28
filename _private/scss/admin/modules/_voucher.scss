@@ -15,9 +15,15 @@
     }
 
     tr {
+      counter-increment: row-counter;
       &:nth-child(even) {
         background-color: #F1F1F1;
       }
+
+      td:first-child:before {
+        content: counter( row-counter );
+      }
+
     }
   }
 }
