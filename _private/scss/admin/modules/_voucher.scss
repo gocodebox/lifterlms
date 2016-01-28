@@ -6,16 +6,17 @@
     border-collapse: collapse;
 
     th, td {
-      border: 1px solid;
+      border: none;
     }
 
     thead {
-      background-color: $color-grey;
+      background-color: $color-lightblue;
+      color:#fff;
     }
 
     tr {
       &:nth-child(even) {
-        background-color: $color-lightgrey;
+        background-color: #F1F1F1;
       }
     }
   }
@@ -28,16 +29,17 @@
     border-collapse: collapse;
 
     th, td {
-      border: 1px solid;
+      border: none;
     }
 
     thead {
-      background-color: $color-grey;
+      background-color: $color-lightblue;
+      color:#fff;
     }
 
     tr {
       &:nth-child(even) {
-        background-color: $color-lightgrey;
+        background-color: #F1F1F1;
       }
 
       td {

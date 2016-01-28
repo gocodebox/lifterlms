@@ -913,15 +913,16 @@ h1.outline-title {
 .llms-voucher-codes-wrapper table th, .llms-voucher-codes-wrapper table td,
 .llms-voucher-redemption-wrapper table th,
 .llms-voucher-redemption-wrapper table td {
-  border: 1px solid;
+  border: none;
 }
 .llms-voucher-codes-wrapper table thead,
 .llms-voucher-redemption-wrapper table thead {
-  background-color: #999;
+  background-color: #33b1cb;
+  color: #fff;
 }
 .llms-voucher-codes-wrapper table tr:nth-child(even),
 .llms-voucher-redemption-wrapper table tr:nth-child(even) {
-  background-color: #ccc;
+  background-color: #F1F1F1;
 }
 
 .llms-voucher-codes-wrapper table {
@@ -929,13 +930,14 @@ h1.outline-title {
   border-collapse: collapse;
 }
 .llms-voucher-codes-wrapper table th, .llms-voucher-codes-wrapper table td {
-  border: 1px solid;
+  border: none;
 }
 .llms-voucher-codes-wrapper table thead {
-  background-color: #999;
+  background-color: #33b1cb;
+  color: #fff;
 }
 .llms-voucher-codes-wrapper table tr:nth-child(even) {
-  background-color: #ccc;
+  background-color: #F1F1F1;
 }
 .llms-voucher-codes-wrapper table tr td span {
   display: inline-block;
