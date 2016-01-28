@@ -41,6 +41,16 @@ class LLMS_Voucher
         $this->id = $id;
     }
 
+    public function get_voucher_title()
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'posts';
+
+        $query = "SELECT post_title FROM $table WHERE `ID` = $this->id LIMIT 1";
+        return reset($wpdb->get_row($query));
+    }
+
     // Get single voucher code
     public function get_voucher_by_voucher_id()
     {

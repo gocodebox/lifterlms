@@ -111,7 +111,9 @@ class LLMS_Meta_Box_Voucher_Export
 
                         if (!empty($emails)) {
 
-                            self::send_email($csv, $emails);
+                            $voucher = new LLMS_Voucher($post->ID);
+
+                            self::send_email($csv, $emails, $voucher->get_voucher_title());
                         }
                     }
 
@@ -159,8 +161,8 @@ class LLMS_Meta_Box_Voucher_Export
 
     public static function send_email($csv, $emails)
     {
-        $subject = 'Your voucher export';
-        $message = 'CSV fail is in the attachment.';
+        $subject = 'Your LifterLMS Voucher Export';
+        $message = 'Please find the attached voucher csv export for ' . $title . '.';
 
         // create temp file
         $temp = tempnam('/tmp', 'vouchers');
