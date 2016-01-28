@@ -788,6 +788,45 @@ class LLMS_Post_Types {
 		);
 
 		/**
+		 * Voucher Post type
+		 */
+		register_post_type( "llms_voucher",
+			apply_filters( 'lifterlms_register_post_type_llms_voucher',
+				array(
+					'labels' => array(
+						'name' 					=> __( 'Vouchers', 'lifterlms' ),
+						'singular_name' 		=> __( 'Voucher', 'lifterlms' ),
+						'add_new' 				=> __( 'Add Voucher', 'lifterlms' ),
+						'add_new_item' 			=> __( 'Add New Voucher', 'lifterlms' ),
+						'edit' 					=> __( 'Edit', 'lifterlms' ),
+						'edit_item' 			=> __( 'Edit Voucher', 'lifterlms' ),
+						'new_item' 				=> __( 'New Voucher', 'lifterlms' ),
+						'view' 					=> __( 'View Voucher', 'lifterlms' ),
+						'view_item' 			=> __( 'View Voucher', 'lifterlms' ),
+						'search_items' 			=> __( 'Search Voucher', 'lifterlms' ),
+						'not_found' 			=> __( 'No Voucher found', 'lifterlms' ),
+						'not_found_in_trash' 	=> __( 'No Voucher found in trash', 'lifterlms' ),
+						'parent' 				=> __( 'Parent Voucher', 'lifterlms' ),
+						'menu_name'				=> _x('Vouchers', 'Admin menu name', 'lifterlms' )
+					),
+					'description' 			=> __( 'This is where voucher are stored.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> true,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'lifterlms',
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title' ),
+					'has_archive' 			=> false,
+				)
+			)
+		);
+
+		/**
 		 * Review Post Type
 		 */
 		//$review_permalink = empty( $permalinks['review_base'] ) ? _x( 'review', 'slug', 'lifterlms' ) : $permalinks['review_base'];

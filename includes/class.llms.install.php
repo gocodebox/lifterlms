@@ -33,7 +33,8 @@ class LLMS_Install {
 		add_action( 'init', array( $this, 'register_post_types') );
 		add_action( 'init', array( $this, 'init_query') );
 		//add_action( 'init', array( $this, 'update_courses_archive' ) );
-		
+
+		add_action( 'admin_init', array( $this, 'create_voucher_tables' ) );
 	}
 
 	/**
@@ -225,6 +226,7 @@ class LLMS_Install {
 	public function install() {
 		$this->create_options();
 		$this->create_tables();
+        $this->create_voucher_tables();
 		$this->create_roles();
 
 		// Register Post Types	
@@ -416,6 +418,70 @@ class LLMS_Install {
 		 throw new Exception( 'Instalation failed. Error creating lifterLMS tables in database.', 0, $e);
 		}	
 	}
+
+    /**
+     * Create voucher tables
+     */
+    public function create_voucher_tables()
+    {
+        $tables_created = (get_option('lifterlms_voucher_tables_installed', 'no') == 'yes') ? true : false;
+
+        if (!$tables_created) {
+            global $wpdb;
+
+            $wpdb->hide_errors();
+            $collate = '';
+            if ( $wpdb->has_cap( 'collation' ) ) {
+                if ( ! empty($wpdb->charset ) ) {
+                    $collate .= "DEFAULT CHARACTER SET $wpdb->charset";
+                }
+                if ( ! empty($wpdb->collate ) ) {
+                    $collate .= " COLLATE $wpdb->collate";
+                }
+            }
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            //lifterLMS Tables
+            $lifterlms_tables = "
+			CREATE TABLE `{$wpdb->prefix}llms_product2voucher` (
+                `product_id` int(11) NOT NULL,
+                `voucher_id` int(11) NOT NULL,
+                KEY `product_id` (`product_id`),
+                KEY `voucher_id` (`voucher_id`)
+            ) $collate;
+            CREATE TABLE `{$wpdb->prefix}llms_voucher_code_redemptions` (
+                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                `code_id` int(11) NOT NULL,
+                `user_id` int(11) NOT NULL,
+                `redemption_date` datetime DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                KEY `code_id` (`code_id`),
+                KEY `user_id` (`user_id`)
+            ) $collate;
+            CREATE TABLE `{$wpdb->prefix}llms_vouchers_codes` (
+                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                `voucher_id` int(11) NOT NULL,
+                `code` varchar(20) NOT NULL DEFAULT '',
+                `redemption_count` int(11) DEFAULT NULL,
+                `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+                `created_at` datetime DEFAULT NULL,
+                `updated_at` datetime DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                KEY `code` (`code`),
+                KEY `voucher_id` (`voucher_id`)
+            ) $collate;
+
+		";
+            try
+            {
+                $conn = dbDelta( $lifterlms_tables );
+				update_option( 'lifterlms_voucher_tables_installed', 'yes' );
+            }
+            catch (Exception $e)
+            {
+                throw new Exception( 'Instalation failed. Error creating lifterLMS voucher tables in database.', 0, $e);
+            }
+        }
+    }
 
 	/**
 	 * Create lifterLMS user roles

@@ -905,6 +905,84 @@ h1.outline-title {
   margin-left: 6px;
 }
 
+.llms-voucher-codes-wrapper table,
+.llms-voucher-redemption-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.llms-voucher-codes-wrapper table th, .llms-voucher-codes-wrapper table td,
+.llms-voucher-redemption-wrapper table th,
+.llms-voucher-redemption-wrapper table td {
+  border: none;
+}
+.llms-voucher-codes-wrapper table thead,
+.llms-voucher-redemption-wrapper table thead {
+  background-color: #33b1cb;
+  color: #fff;
+}
+.llms-voucher-codes-wrapper table tr:nth-child(even),
+.llms-voucher-redemption-wrapper table tr:nth-child(even) {
+  background-color: #F1F1F1;
+}
+
+.llms-voucher-codes-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.llms-voucher-codes-wrapper table th, .llms-voucher-codes-wrapper table td {
+  border: none;
+}
+.llms-voucher-codes-wrapper table thead {
+  background-color: #33b1cb;
+  color: #fff;
+}
+.llms-voucher-codes-wrapper table tr:nth-child(even) {
+  background-color: #F1F1F1;
+}
+.llms-voucher-codes-wrapper table tr td span {
+  display: inline-block;
+  min-width: 30px;
+}
+.llms-voucher-codes-wrapper button {
+  cursor: pointer;
+}
+.llms-voucher-codes-wrapper .llms-voucher-delete {
+  float: right;
+}
+.llms-voucher-codes-wrapper .llms-voucher-uses {
+  width: 50px;
+}
+.llms-voucher-codes-wrapper .llms-voucher-add-codes {
+  float: right;
+}
+.llms-voucher-codes-wrapper .llms-voucher-add-codes input[type="text"] {
+  width: 30px;
+}
+
+.llms-voucher-export-wrapper .llms-voucher-export-type {
+  width: 100%;
+}
+.llms-voucher-export-wrapper .llms-voucher-export-type p {
+  margin: 0 0 0 15px;
+}
+.llms-voucher-export-wrapper .llms-voucher-email-wrapper {
+  width: 100%;
+  margin: 25px 0;
+}
+.llms-voucher-export-wrapper .llms-voucher-email-wrapper input[type="text"] {
+  width: 100%;
+}
+.llms-voucher-export-wrapper .llms-voucher-email-wrapper p {
+  margin: 0;
+}
+.llms-voucher-export-wrapper > button {
+  float: right;
+}
+
+.postbox .inside {
+  overflow: auto;
+}
+
 /******************************************************************
 
 Option Page Widgets
@@ -1019,7 +1097,6 @@ svg.icon.detail-icon.off {
 }
 svg.icon-ion-arrow-up {
   -webkit-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
           transform: rotate(90deg);
 }
 svg use {
@@ -2157,35 +2234,30 @@ h1.llms-page-header {
 .fa-rotate-90 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
   -webkit-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
 .fa-rotate-180 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
   -webkit-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
 .fa-rotate-270 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   -webkit-transform: rotate(270deg);
-  -ms-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 
 .fa-flip-horizontal {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
   -webkit-transform: scale(-1, 1);
-  -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 
 .fa-flip-vertical {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
   -webkit-transform: scale(1, -1);
-  -ms-transform: scale(1, -1);
   transform: scale(1, -1);
 }
 
