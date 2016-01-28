@@ -52,7 +52,7 @@ class LLMS_Meta_Box_Voucher_Export
                 <p>Send to multiple emails by separating emails addresses with commas.</p>
             </div>
 
-            <button type="submit" class="button-primary">Generate Export</button>
+            <button type="submit" name="llms_generate_export" value="generate" class="button-primary">Generate Export</button>
             <?php wp_nonce_field('lifterlms_csv_export_data', 'lifterlms_export_nonce'); ?>
         </div>
         <?php
@@ -62,7 +62,7 @@ class LLMS_Meta_Box_Voucher_Export
 
     public static function export()
     {
-        if (empty($_POST['lifterlms_export_nonce']) || !wp_verify_nonce($_POST['lifterlms_export_nonce'], 'lifterlms_csv_export_data')) {
+        if (empty($_POST['llms_generate_export']) || empty($_POST['lifterlms_export_nonce']) || !wp_verify_nonce($_POST['lifterlms_export_nonce'], 'lifterlms_csv_export_data')) {
             return false;
         }
 
