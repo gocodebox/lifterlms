@@ -147,7 +147,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                         <tr>
                             <td><?php echo $cnt++;?>.</td>
                             <td>
-                                <input type="text" placeholder="Code" value="<?= $code->code ?>"
+                                <input type="text" maxlength="20" placeholder="Code" value="<?= $code->code ?>"
                                        name="llms_voucher_code[]">
                                 <input type="hidden" name="llms_voucher_code_id[]" value="<?= $code->id ?>">
                             </td>
