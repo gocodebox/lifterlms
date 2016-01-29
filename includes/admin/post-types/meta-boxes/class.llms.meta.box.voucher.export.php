@@ -93,7 +93,6 @@ class LLMS_Meta_Box_Voucher_Export
                             $codes[$k]['used'] = $codes[$k]['used'];
                             $codes[$k]['created'] = $codes[$k]['created_at'];
                             $codes[$k]['updated'] = $codes[$k]['updated_at'];
-                            $codes[$k]['deleted'] = $codes[$k]['is_deleted'];
                             unset($codes[$k]['redemption_count']);
                             unset($codes[$k]['created_at']);
                             unset($codes[$k]['updated_at']);
