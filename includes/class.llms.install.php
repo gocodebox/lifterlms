@@ -443,25 +443,25 @@ class LLMS_Install {
             //lifterLMS Tables
             $lifterlms_tables = "
 			CREATE TABLE `{$wpdb->prefix}llifterlms_product_to_voucher` (
-                `product_id` int(11) NOT NULL,
-                `voucher_id` int(11) NOT NULL,
+                `product_id` bigint(20) NOT NULL,
+                `voucher_id` bigint(20) NOT NULL,
                 KEY `product_id` (`product_id`),
                 KEY `voucher_id` (`voucher_id`)
             ) $collate;
             CREATE TABLE `{$wpdb->prefix}llifterlms_voucher_code_redemptions` (
-                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                `code_id` int(11) NOT NULL,
-                `user_id` int(11) NOT NULL,
+                `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+                `code_id` bigint(20) NOT NULL,
+                `user_id` bigint(20) NOT NULL,
                 `redemption_date` datetime DEFAULT NULL,
                 PRIMARY KEY (`id`),
                 KEY `code_id` (`code_id`),
                 KEY `user_id` (`user_id`)
             ) $collate;
             CREATE TABLE `{$wpdb->prefix}llifterlms_vouchers_codes` (
-                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                `voucher_id` int(11) NOT NULL,
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                `voucher_id` bigint(20) NOT NULL,
                 `code` varchar(20) NOT NULL DEFAULT '',
-                `redemption_count` int(11) DEFAULT NULL,
+                `redemption_count` bigint(20) DEFAULT NULL,
                 `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
                 `created_at` datetime DEFAULT NULL,
                 `updated_at` datetime DEFAULT NULL,
