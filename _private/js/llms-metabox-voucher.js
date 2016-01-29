@@ -16,7 +16,7 @@ $(document).ready(function () {
                     html += '<tr>' +
                         '<td></td>' +
                         '<td>' +
-                        '<input type="text" placeholder="Code" value="' + randomizeCode() + '" name="llms_voucher_code[]">' +
+                        '<input type="text" maxlength="20" placeholder="Code" value="' + randomizeCode() + '" name="llms_voucher_code[]">' +
                         '<input type="hidden" name="llms_voucher_code_id[]" value="0">' +
                         '</td>' +
                         '<td><span>0 / </span><input type="text" placeholder="Uses" value="' + uses + '" class="llms-voucher-uses" name="llms_voucher_uses[]"></td>' +
