@@ -63,11 +63,18 @@ class LLMS_Shortcode_My_Account {
 		// If user is logged in, display the correct page
 		else {
 
+			// edit account page
 			if ( isset( $wp->query_vars['edit-account'] ) ) {
 
 				self::edit_account();
 			}
+			// vouchers redemption
+			elseif( isset( $wp->query_vars['redeem-voucher'] ) ) {
 
+				self::redeem_voucher();
+
+			}
+			// default
 			else {
 
 				self::my_account( $atts );
@@ -100,6 +107,19 @@ class LLMS_Shortcode_My_Account {
 		llms_get_template( 'myaccount/form-edit-account.php', array(
 			'user' => get_user_by( 'id', get_current_user_id() )
 		) );
+	}
+
+	/**
+	 * Redeem Voucher template
+	 * @return void
+	 */
+	private static function redeem_voucher()
+	{
+
+		llms_get_template( 'myaccount/form-redeem-voucher.php', array(
+			'user' => get_user_by( 'id', get_current_user_id() )
+		) );
+
 	}
 
 	/**

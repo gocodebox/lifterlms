@@ -12,11 +12,22 @@
     thead {
       background-color: $color-lightblue;
       color:#fff;
+      th {
+        padding: 10px 0;
+      }
     }
 
     tr {
+      counter-increment: row-counter;
       &:nth-child(even) {
         background-color: #F1F1F1;
+      }
+
+      td {
+        padding: 5px;
+        &:first-child:before {
+          content: counter( row-counter );
+        }
       }
     }
   }

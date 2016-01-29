@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
 * Meta Box Students
 *
-* Allows users to add and remove students from a course. Only displays on course post. 
+* Allows users to add and remove students from a course. Only displays on course post.
 */
 class LLMS_Meta_Box_Students {
 
@@ -14,9 +14,9 @@ class LLMS_Meta_Box_Students {
 	 * Displays MetaBox
 	 * Calls static class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
-	 * 
+	 *
 	 * @param  object $post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function output( $post ) {
@@ -93,7 +93,7 @@ class LLMS_Meta_Box_Students {
 	}
 
 	/**
-	 * Sets the users status to enrolled in the usermeta table. 
+	 * Sets the users status to enrolled in the usermeta table.
 	 * @param int $user_id [ID of the user]
 	 * @param int $post_id [ID of the post]
 	 *
@@ -123,14 +123,15 @@ class LLMS_Meta_Box_Students {
 				)
 			);
 		}
-		do_action('lifterlms_student_added_by_admin', $user_id, $post_id);
+		do_action('llms_user_enrolled_in_course', $user_id, $post_id );
+		do_action('lifterlms_student_added_by_admin', $user_id, $post_id );
 	}
 
 	/**
 	 * Removes the student from the course by setting the date to 0:00:00
 	 * @param int $user_id [ID of the user]
 	 * @param int $post_id [ID of the post]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function remove_student( $user_id, $post_id ) {
@@ -171,10 +172,10 @@ llms_log('remove student called 5');
 	}
 
 	/**
-	 * Creates a order post to associate with the enrollment of the user. 
+	 * Creates a order post to associate with the enrollment of the user.
 	 * @param int $user_id [ID of the user]
 	 * @param int $post_id [ID of the post]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function create_order($user_id, $post_id) {
@@ -188,15 +189,15 @@ llms_log('remove student called 5');
 	 * Static save method
 	 *
 	 * Triggers add or remove method based on selection values.
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-llms_log($_POST);
+
 		if ( isset( $_POST['_add_new_user']) && $_POST['_add_new_user'] != '') {
 			//triggers add_student static method
 			$add_user = self::add_student( $_POST['_add_new_user'], $post_id );

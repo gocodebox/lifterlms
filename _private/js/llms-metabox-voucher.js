@@ -14,7 +14,7 @@ $(document).ready(function () {
             if (parseInt(qty) > 0) {
                 for (var i = 1; i <= parseInt(qty); i++) {
                     html += '<tr>' +
-                        '<td>' + i + '</td>' +
+                        '<td></td>' +
                         '<td>' +
                         '<input type="text" placeholder="Code" value="' + randomizeCode() + '" name="llms_voucher_code[]">' +
                         '<input type="hidden" name="llms_voucher_code_id[]" value="0">' +

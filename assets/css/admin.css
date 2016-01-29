@@ -931,9 +931,25 @@ a.llms-remove-lesson-link {
   background-color: #33b1cb;
   color: #fff;
 }
+.llms-voucher-codes-wrapper table thead th,
+.llms-voucher-redemption-wrapper table thead th {
+  padding: 10px 0;
+}
+.llms-voucher-codes-wrapper table tr,
+.llms-voucher-redemption-wrapper table tr {
+  counter-increment: row-counter;
+}
 .llms-voucher-codes-wrapper table tr:nth-child(even),
 .llms-voucher-redemption-wrapper table tr:nth-child(even) {
   background-color: #F1F1F1;
+}
+.llms-voucher-codes-wrapper table tr td,
+.llms-voucher-redemption-wrapper table tr td {
+  padding: 5px;
+}
+.llms-voucher-codes-wrapper table tr td:first-child:before,
+.llms-voucher-redemption-wrapper table tr td:first-child:before {
+  content: counter(row-counter);
 }
 
 .llms-voucher-codes-wrapper table {
@@ -1117,7 +1133,7 @@ svg use {
 
 /******************************************************************
 
-Metabox Tabs 
+Metabox Tabs
 
 ******************************************************************/
 /**
@@ -1185,6 +1201,10 @@ ul.tabs li.current:hover {
 .container .tab-content #wp-content-editor-tools {
   background: none;
 }
+.container .tab-content .chosen-container-multi {
+  width: 100% !important;
+}
+.container .tab-content .chosen-container-multi .chosen-choices,
 .container .tab-content .chosen-container-single .chosen-single {
   border-radius: 3px;
   vertical-align: middle;
@@ -1198,12 +1218,20 @@ ul.tabs li.current:hover {
   line-height: 32px;
   margin: 0;
 }
+.container .tab-content .chosen-container-multi .chosen-choices:focus,
 .container .tab-content .chosen-container-single .chosen-single:focus {
   background: #fff;
   border: 1px solid #069cb5;
 }
+.container .tab-content .chosen-container-multi .chosen-results li,
+.container .tab-content .chosen-container-single .chosen-results li {
+  padding: 10px;
+}
 .container .tab-content .chosen-container-single .chosen-single div b {
   margin-top: 4px;
+}
+.container .tab-content .chosen-container-multi .chosen-choices li.search-choice {
+  margin-top: 5px;
 }
 .container .tab-content .chosen-search input[type=text] {
   border: 1px solid #ccc;

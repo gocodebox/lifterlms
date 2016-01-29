@@ -3,6 +3,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 global $quiz;
 
+if( !($quiz instanceof LLMS_Quiz ) )
+	$quiz = new LLMS_Quiz( $post->ID );
+
 $time_limit = $quiz->get_time_limit();
 
 if ( !empty( $time_limit ) ) :

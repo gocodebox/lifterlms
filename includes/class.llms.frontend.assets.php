@@ -66,12 +66,6 @@ class LLMS_Frontend_Assets {
 			wp_enqueue_script( 'llms-lesson-locked', plugins_url( 'assets/js/llms-lesson-locked' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array(), false, true);
 		}
 
-        // My Account Page
-        $myAccountPageId = get_option('lifterlms_myaccount_page_id');
-
-        if (is_page(intval($myAccountPageId)) && is_singular()) {
-            wp_enqueue_script('llms-register-login-form', plugins_url('assets/js/llms-register-login-form' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE), array('jquery'), false, true);
-        }
 	}
 
 	/**

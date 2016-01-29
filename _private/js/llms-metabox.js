@@ -5,10 +5,11 @@ jQuery(document).ready(function($) {
 	$('#trigger-select').chosen();
 	$('.question-select').chosen();
 	$('.llms-meta-select').chosen();
+	$('.llms-meta-multiselect').chosen();
 
 	//needs to be put into the infusionsoft plugin
 	$('#lifterlms_gateway_is_accepted_cards').chosen({width: '350px'});
-	
+
 });
 
 
@@ -16,7 +17,7 @@ jQuery('.metabox_submit').click(function(e) {
     e.preventDefault();
     jQuery('#publish').click();
 });
-	
+
 /**
  * Returns array of all lessons
  */

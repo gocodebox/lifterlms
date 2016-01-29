@@ -1,31 +1,113 @@
-lifterLMS
+LifterLMS
 ==========
 
-LIFTER LMS
-
-###Shortcodes
-* [lifterlms_my_account]
-  *adds entire account page
-  *Accepts no arguments
-* [courses]
-**Accepts arguments: order, orderby and per_page
-
-
-###Debug: llms_log($message)
-*Logs message to wp-contents/debug.log
-
-####Examples
-*log_me(array('This is a message' => 'for debugging purposes'));
-*log_me('This is a message for debugging purposes');
-
-
-
+Full documentation available at [https://lifterlms.readme.io](https://lifterlms.readme.io).
 
 
 CHANGELOG
 =========
 
-v1.4.4 - 2015/12/18
+v2.0.0 - 2016/02/??
+-------------------
+
+##### Bug Fixes
+
++ Added spaces between numbers and "of" on the counter for course syllabus templates
++ Removed a template hook that was creating duplicate lesson thumbnails on quite a few themes
+
+##### Updated syllabus template
+
++ Added a Course setting to optionally enable Lesson Thumbnails on the Course Syllabus
++ Added a Course setting Display greyed out lesson completion checkmark icons on lessons not competed in the course syllabus
++ Rewored CSS on the course syllabus to rely on floats rather than absolute positioning, should allow for more robust custimization with less frustration
++ Refactored the syllabus template at "templates/course/syllabus.php" for better performance and readability
+
+##### Deprecated Functions
+
++  `lifterlms_template_section_syllabus()`
+
+##### Deprecated Templates
+
++ templates/course/section_syllabus.php
+
+##### New Account Dashboard Filters
+
+*[View documentation for more information](https://lifterlms.readme.io/docs/filters-account)*
+
++ `lifterlms_account_greeting`
++ `lifterlms_my_courses_title`
++ `lifterlms_my_courses_enrollment_status_html`
++ `lifterlms_my_courses_start_date_html`
++ `lifterlms_my_courses_course_button_text`
++ `lifterlms_my_certificates_title`
+
+##### New Checkout Page Filters:
+
+*[View documentation for more information](https://lifterlms.readme.io/docs/filters-checkout)*
+
++ `lifterlms_checkout_user_logged_in_output`
++ `lifterlms_checkout_user_not_logged_in_output`
+
+##### New Course Filters:
+
+*[View documentation for more information](https://lifterlms.readme.io/docs/filters-course)*
+
++ `lifterlms_product_purchase_account_redirect`
++ `lifterlms_product_purchase_redirect_membership_required`
++ `lifterlms_product_purchase_checkout_redirect`
++ `lifterlms_product_purchase_membership_redirect`
++ `lifterlms_lesson_complete_icon`
+
+
+v1.5.0 - 2016/01/22
+-------------------
+
+##### WooCommerce Integration Enhancements
+
+__NOTE: The following enhancements only apply when the WooCommerce Integration is enabled__
+
+**Always redirect to the WooCommerce Cart when a SKU Matched Product can be found**
+
++ LifterLMS Products (courses and memberships) which are SKU matched to a WooCommerce product will now automatically add the related WooCommerce product to the WooCommerce shopping cart and then automatically redirect the visitor to the WooCommerce cart when the visitor attempts to enroll in a course or membership from the LifterLMS course or membership page.
++ If no WooCommerce product is found via a SKU match, the user will proceed to the LifterLMS checkout.
++ This will enable you to determine which Cart you want a user to use on a product by product basis. You may sell certain courses via WooCommerce and others via LifterLMS (should you choose to do so).
+
+**Multiple Item Checkout**
+
++ When a WooCommerce order is complete user's will now be automatically enrolled in **all** courses and/or memberships in the WooCommerce order. This improves upon a previously limitation that would only allow WooCommerce checkout with one LifterLMS product at a time.
++ The products in the order will be intelligently SKU matched to LifterLMS Courses or Memberships.
++ You may also mix and match between WooCommerce products matched to LifterLMS products and those which are not matched to LifterLMS products. For example, your customers may now buy a Course via SKU matching as well as a T-Shirt that is not matched to a LifterLMS course via a SKU.
+
+##### Other Fixes and improvements
+
++ Fixed a bug that caused quiz results to display for users who had never taken the quiz.
++ Added Wistia as an oEmbed provider to fix an issue related to default oembed handling in WordPress 4.4.
++ added a `.cc_cvv` class that mimics the existing `#cc_cvv` styles to allow gateway extensions to change the ID of the field in their credit card forms
++ Added support for new 1.4.5 capability fixes to be also be reflected under the "+New" menu item in the WP Admin Bar. There are no changes to the filters, the capability filters will simply also remove restricted post types from the admin bar now (as they should).
++ Tested and compatible up to WordPress 4.4.1
+
+##### Deprecations
+
+**The following functions have been staged for deprecation in LifterLMS 2.0!**
+
++ Setup the `is_account_page()` function to be replaced by `is_llms_account_page()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_account_page()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the LifterLMS version of thefunction.
++ Setup the `is_checkout()` function to be replaced by `is_llms_checkout()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_checkout()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the LifterLMS version of thefunction.
+
+v1.4.5 - 2016/01/13
+-------------------
+
++ Significant improvements to LifterLMS admin permissions as well as a hardening of permissions. Previously LifterLMS admin screens and menus were available to any users with `edit_posts` capabilities. This has been changed to `manage_options`. Filters for all screens and menus have been added with this release. If you're site currently relies on users with `edit_posts` to be able to access LifterLMS settings and analytics screens you must utilize these new filters in order to maintain their access. Please see full documentation on the new filters at [https://lifterlms.readme.io/docs/filters-admin-menu-and-screen-permissions](https://lifterlms.readme.io/docs/filters-admin-menu-and-screen-permissions). **Please consider testing your changes outside of production before updating to LifterLMS 1.4.5 in production.**
++ Allow "Payment Method" to be translated on the "Confirm Payment" screen
++ Allow the name of the payment gateway to be filtered on the "Confirm Payment" screen
++ Added pagination support to lifterlms membership archive pages
++ Fixed a bug related to some required global variables for quizzes and lessons being incorrectly set on certain hosts
++ updated readme file to remove incomplete documentation
++ Added Chosen multi-select options to admin panel metaboxes (settings and posts)
++ Added two new actions that developers can hook into:
+	+ `llms_user_enrolled_in_course`, called when users are enrolled in a course. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_enrolled_in_course).
+	+ `llms_user_added_to_membership_level`, called when users are added to a membership level. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_added_to_membership_level).
+
+v1.4.4 - 2015/12/21
 -------------------
 
 ##### Updates

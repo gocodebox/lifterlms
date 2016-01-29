@@ -71,8 +71,8 @@ if( $subs ) {
 				}
 				?>
 			<br />
-			<label>Payment Method:</label>
-			<strong><?php echo $session->payment_type; ?></strong>
+			<label><?php echo __( 'Payment Method', 'lifterlms' ); ?>:</label>
+			<strong><?php echo apply_filters( 'lifterlms_confirm_payment_method_text', $session->payment_type ); ?></strong>
 		</div>
 	</div>
 

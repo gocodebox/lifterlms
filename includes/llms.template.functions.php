@@ -343,18 +343,6 @@ if ( ! function_exists( 'lifterlms_template_single_syllabus' ) ) {
 }
 
 /**
- * Section Syllabus Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_section_syllabus' ) ) {
-
-	function lifterlms_template_section_syllabus() {
-
-		llms_get_template( 'course/section_syllabus.php' );
-	}
-}
-
-/**
  * Parent Course Link Template Include
  * @return void
  */
@@ -1080,6 +1068,23 @@ if ( ! function_exists( 'is_memberships' ) ) {
 
 /**
  * Is Account Page
+ * @since  1.4.6   This function replaces the deprecated is_account_page() function because of WooCommerce conflicts
+ * @return boolean [Is My Courses Page?]
+ */
+if ( ! function_exists( 'is_llms_account_page' ) ) {
+
+	function is_llms_account_page() {
+		return is_page( llms_get_page_id( 'myaccount' ) ) || apply_filters( 'lifterlms_is_account_page', false ) ? true : false;
+	}
+
+}
+
+/**
+ * Is Account Page
+ * @deprecated 1.4.6  IMPORTANT: this function should not be used as it conflicts with WooCommerce!
+ *             		  This function will be officially removed in the next major update (2.0)
+ * @todo Remove this function during upgrade to LifterLMS 2.0
+ * @see is_llms_account_page()
  * @return boolean [Is My Courses Page?]
  */
 if ( ! function_exists( 'is_account_page' ) ) {
@@ -1087,10 +1092,30 @@ if ( ! function_exists( 'is_account_page' ) ) {
 	function is_account_page() {
 		return is_page( llms_get_page_id( 'myaccount' ) ) || apply_filters( 'lifterlms_is_account_page', false ) ? true : false;
 	}
+
+}
+
+
+/**
+ * Is Checkout Page
+ * @since  1.4.6   This function replaces the deprecated is_checkout() function because of WooCommerce conflicts
+ * @return boolean [Is Checkout Page?]
+ */
+if ( ! function_exists( 'is_llms_checkout' ) ) {
+	function is_llms_checkout()
+	{
+
+		return is_page( llms_get_page_id( 'checkout' ) ) ? true : false;
+
+	}
 }
 
 /**
  * Is Checkout Page
+ * @deprecated 1.4.6  IMPORTANT: this function should not be used as it conflicts with WooCommerce!
+ *             		  This function will be officially removed in the next major update (2.0)
+ * @todo Remove this function during upgrade to LifterLMS 2.0
+ * @see is_llms_checkout()
  * @return boolean [Is Checkout Page?]
  */
 if ( ! function_exists( 'is_checkout' ) ) {
@@ -1098,6 +1123,7 @@ if ( ! function_exists( 'is_checkout' ) ) {
 	function is_checkout() {
 		return is_page( llms_get_page_id( 'checkout' ) ) ? true : false;
 	}
+
 }
 
 /**
@@ -1301,6 +1327,21 @@ if ( ! function_exists( 'lifterlms_get_sidebar' ) ) {
 	}
 }
 
+
+/**
+ * Product Short Description Template Include
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_my_account_navigation' ) ) {
+
+	function lifterlms_template_my_account_navigation() {
+		llms_get_template( 'myaccount/my-navigation.php' );
+	}
+}
+
+
+
+
 /**
  * Is LifterLMS check
  * Checks if archive post type is associated with lifterLMS
@@ -1344,6 +1385,18 @@ function llms_person_edit_account_url() {
 	$edit_account_url = llms_get_endpoint_url( 'edit-account', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 
 	return apply_filters( 'lifterlms_person_edit_account_url', $edit_account_url );
+}
+
+/**
+ * Get the link to the redeem voucher page
+ * @return string
+ */
+function llms_person_redeem_voucher_url() {
+
+	$url = llms_get_endpoint_url( 'redeem-voucher', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
+
+	return apply_filters( 'lifterlms_person_redeem_voucher_url', $url );
+
 }
 
 /**

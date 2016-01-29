@@ -1,6 +1,6 @@
 /******************************************************************
 
-Metabox Tabs 
+Metabox Tabs
 
 ******************************************************************/
 
@@ -27,7 +27,7 @@ ul.tabs{
     transition: ease .3s all;
     white-space: nowrap;
     text-align: center;
-    
+
     &:hover {
     background: $color-lightblue;
 
@@ -55,7 +55,7 @@ ul.tabs li.current{
 
     ul  {
         margin: 0;
-        
+
         >li {
             padding: 20px 0;
             margin: 0;
@@ -64,7 +64,7 @@ ul.tabs li.current{
             &:last-child {
                 border: 0;
                 padding-bottom: 0;
-            
+
             }&.top {
                 border-bottom: 0;
                 padding-bottom: 0;
@@ -77,6 +77,11 @@ ul.tabs li.current{
         background: none;
     }
 
+    .chosen-container-multi {
+        width: 100% !important;
+    }
+
+    .chosen-container-multi .chosen-choices,
     .chosen-container-single .chosen-single {
         border-radius: 3px;
         vertical-align: middle;
@@ -92,20 +97,34 @@ ul.tabs li.current{
 
         &:focus {
             background: $color-white;
-            border: 1px solid $color-blue; 
+            border: 1px solid $color-blue;
         }
     }
+
+    .chosen-container-multi,
+    .chosen-container-single, {
+        .chosen-results li {
+            padding: 10px;
+        }
+    }
+
 
     .chosen-container-single .chosen-single div b {
         margin-top: 4px;
     }
 
+    .chosen-container-multi {
+        .chosen-choices li.search-choice {
+            margin-top: 5px;
+        }
+    }
+
     .chosen-search input[type=text] {
         border: 1px solid $color-lightgrey;
-        
+
         &:focus {
             background-color: $color-white;
-            border: 1px solid $color-blue; 
+            border: 1px solid $color-blue;
         }
 
     }

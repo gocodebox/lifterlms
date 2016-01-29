@@ -41,10 +41,10 @@ class LLMS_Shortcode_Checkout {
 
 			$account_redirect = add_query_arg( 'product-id', $product_id, $account_url );
 
-			printf(
+			echo apply_filters('lifterlms_checkout_user_not_logged_in_output', sprintf(
 				__( '<a href="%1$s">Login or create an account to purchase this course</a>.', 'lifterlms' ) . ' ',
 				$account_redirect
-			);
+			));
 			
 		}
 
@@ -57,7 +57,7 @@ class LLMS_Shortcode_Checkout {
 
 			else {
 
-			self::checkout( $atts );
+			apply_filters('lifterlms_checkout_user_logged_in_output', self::checkout( $atts ));
 
 			}
 		}
