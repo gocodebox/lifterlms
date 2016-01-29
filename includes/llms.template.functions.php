@@ -343,18 +343,6 @@ if ( ! function_exists( 'lifterlms_template_single_syllabus' ) ) {
 }
 
 /**
- * Section Syllabus Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_section_syllabus' ) ) {
-
-	function lifterlms_template_section_syllabus() {
-
-		llms_get_template( 'course/section_syllabus.php' );
-	}
-}
-
-/**
  * Parent Course Link Template Include
  * @return void
  */

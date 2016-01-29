@@ -256,9 +256,9 @@
   max-width: 100%;
   max-width: calc(100% - 30px);
 
-  &.is-complete .llms-lesson-link {
-    padding-left: 75px;
-  }
+  // &.is-complete .llms-lesson-link {
+  //   padding-left: 75px;
+  // }
 
   .llms-lesson-link {
     @extend %cf;
@@ -270,11 +270,10 @@
 
   .llms-lesson-complete, .llms-lesson-complete-placeholder {
     color: $color-red;
+    float: left;
     font-size: 3em;
     line-height: 1;
     margin-right: .25em;
-
-    @include absolute(top 15px left 15px);
   }
 
   .llms-lesson-complete-placeholder {
@@ -295,11 +294,30 @@
   }
 
   .llms-lesson-counter {
-    @include absolute(top 15px right 15px);
+    @include absolute(top 0 right 0);
   }
 
   .llms-lesson-excerpt {
     clear: both;
+    margin-bottom: 0;
+  }
+
+  .llms-lesson-information {
+    position: relative;
+    float: left;
+    width: 100%;
+  }
+
+  &.is-complete .llms-lesson-information {
+    width: calc( 100% - 55px );
+  }
+
+  .llms-lesson-thumbnail {
+    margin-bottom: 15px;
+    img {
+      display: block;
+      width: 100%;
+    }
   }
 
 }

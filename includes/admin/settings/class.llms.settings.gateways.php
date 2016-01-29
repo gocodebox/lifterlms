@@ -95,10 +95,10 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 				),
 
 				array( 'type' => 'sectionend', 'id' => 'gateways_options'),
-			) 	
-		); 
+			)
+		);
 	}
-	
+
 	/**
 	 * save settings to the database
 	 *
@@ -108,7 +108,7 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 		$settings = $this->get_settings();
 
 		LLMS_Admin_Settings::save_fields( $settings );
-		
+
 	}
 
 	/**
