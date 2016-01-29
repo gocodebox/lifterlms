@@ -206,7 +206,7 @@ h1.outline-title {
 }
 
 .llms-section, .llms-lesson {
-        .section-content-wrapper {
+    .section-content-wrapper {
         z-index: 5;
         position: relative;
         background: $color-white;
@@ -254,26 +254,33 @@ h1.outline-title {
         margin-right: 10px;
     }
 
-    a.llms-delete-section-link, a.llms-remove-lesson-link {
-        //width: 20px;
-        /* height: 30px; */
-        display: block;
-        padding: 5px;
-        background: #e26049;
-        float: right;
-        color: $color-white !important;
-        transition: ease .3s all;
-        margin-top: 10px;
-        margin-left: 10px;
+}
 
-        &:hover {
-            background: #af3a26;
-        }
+a.llms-voucher-delete,
+a.llms-delete-section-link,
+a.llms-remove-lesson-link {
+    //width: 20px;
+    /* height: 30px; */
+    display: block;
+    padding: 5px;
+    background: #e26049;
+    float: right;
+    color: $color-white !important;
+    transition: ease .3s all;
 
-        .icon.button-icon {
-            fill: $color-white;
-        }
+    &:hover {
+        background: #af3a26;
     }
+
+    .icon.button-icon {
+        fill: $color-white;
+    }
+}
+
+a.llms-delete-section-link,
+a.llms-remove-lesson-link {
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 .llms-lesson-tree {

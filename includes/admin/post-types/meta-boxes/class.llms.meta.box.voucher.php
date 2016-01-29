@@ -124,10 +124,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
         $voucher = new LLMS_Voucher($post->ID);
         $codes = $voucher->get_voucher_codes();
 
-        $deleteIcon = LLMS_Svg::get_icon('llms-icon-trash', 'Delete', 'Delete', 'trash-icon');
-
         ob_start(); ?>
-        <script>var deleteIcon = '<?= $deleteIcon ?>';</script>
         <div class="llms-voucher-codes-wrapper" id="llms-form-wrapper">
             <table>
 
@@ -139,6 +136,9 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                     <th>Actions</th>
                 </tr>
                 </thead>
+
+                <?php $deleteIcon = LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' ); ?>
+                <script>var deleteIcon = '<?= $deleteIcon ?>';</script>
 
                 <tbody id="llms_voucher_tbody">
                 <?php if (!empty($codes)):
@@ -155,8 +155,9 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                                                         placeholder="Uses" class="llms-voucher-uses"
                                                         name="llms_voucher_uses[]"></td>
                             <td>
-                                <button class="llms-voucher-delete" data-id="<?= $code->id ?>">Delete
-                                    <i><?= $deleteIcon ?></i></button>
+                                <a href="#" data-id="<?= $code->id ?>" class="llms-voucher-delete">
+                                    <?php echo $deleteIcon; ?>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach;

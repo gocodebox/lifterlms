@@ -819,7 +819,10 @@ h1.outline-title {
 .llms-section a.llms-delete-section-link, .llms-lesson a.llms-delete-section-link {
   margin-right: 10px;
 }
-.llms-section a.llms-delete-section-link, .llms-section a.llms-remove-lesson-link, .llms-lesson a.llms-delete-section-link, .llms-lesson a.llms-remove-lesson-link {
+
+a.llms-voucher-delete,
+a.llms-delete-section-link,
+a.llms-remove-lesson-link {
   /* height: 30px; */
   display: block;
   padding: 5px;
@@ -828,14 +831,22 @@ h1.outline-title {
   color: #fff !important;
   -webkit-transition: ease .3s all;
           transition: ease .3s all;
-  margin-top: 10px;
-  margin-left: 10px;
 }
-.llms-section a.llms-delete-section-link:hover, .llms-section a.llms-remove-lesson-link:hover, .llms-lesson a.llms-delete-section-link:hover, .llms-lesson a.llms-remove-lesson-link:hover {
+a.llms-voucher-delete:hover,
+a.llms-delete-section-link:hover,
+a.llms-remove-lesson-link:hover {
   background: #af3a26;
 }
-.llms-section a.llms-delete-section-link .icon.button-icon, .llms-section a.llms-remove-lesson-link .icon.button-icon, .llms-lesson a.llms-delete-section-link .icon.button-icon, .llms-lesson a.llms-remove-lesson-link .icon.button-icon {
+a.llms-voucher-delete .icon.button-icon,
+a.llms-delete-section-link .icon.button-icon,
+a.llms-remove-lesson-link .icon.button-icon {
   fill: #fff;
+}
+
+a.llms-delete-section-link,
+a.llms-remove-lesson-link {
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .llms-lesson-tree {
@@ -948,6 +959,7 @@ h1.outline-title {
 }
 .llms-voucher-codes-wrapper .llms-voucher-delete {
   float: right;
+  margin-right: 15px;
 }
 .llms-voucher-codes-wrapper .llms-voucher-uses {
   width: 50px;
