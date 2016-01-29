@@ -462,7 +462,7 @@ class LLMS_Install {
                 `voucher_id` bigint(20) NOT NULL,
                 `code` varchar(20) NOT NULL DEFAULT '',
                 `redemption_count` bigint(20) DEFAULT NULL,
-                `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+                `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
                 `created_at` datetime DEFAULT NULL,
                 `updated_at` datetime DEFAULT NULL,
                 PRIMARY KEY (`id`),
