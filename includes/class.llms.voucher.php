@@ -157,7 +157,22 @@ class LLMS_Voucher
         $voucher = $this->check_voucher($code);
 
         if ($voucher) {
+            global $wpdb;
+
             $this->id = $voucher->voucher_id;
+
+            $postmeta_table = $wpdb->prefix . 'lifterlms_user_postmeta';
+            $select_vouchers = "SELECT meta_value FROM $postmeta_table
+                WHERE $postmeta_table.user_id = $user_id
+                AND $postmeta_table.meta_key = '_voucher'
+                AND $postmeta_table.meta_value = $voucher->id
+ 			    LIMIT 1000";
+            $used_voucher = $wpdb->get_results($select_vouchers, ARRAY_A);
+
+            if(count($used_voucher)) {
+                llms_add_notice( "You used this voucher already!" );
+                return $voucher->voucher_id;
+            }
 
             // use voucher code
             $data = array(
@@ -171,7 +186,6 @@ class LLMS_Voucher
             $products = $this->get_products();
 
             if (!empty($products)) {
-                global $wpdb;
 
                 $membership_levels = array();
 
@@ -187,6 +201,7 @@ class LLMS_Voucher
                     $user_metadatas = array(
                         '_start_date' => 'yes',
                         '_status' => 'Enrolled',
+                        '_voucher' => $voucher->id,
                     );
 
                     foreach ($user_metadatas as $key => $value) {
