@@ -4,25 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 <?php llms_print_notices(); ?>
 
-
-<nav class="account-links">
-    <?php do_action( 'lifterlms_before_my_account_navigation' ); ?>
-
-    <?php
-
-    printf(
-        __( '<a class="llms-nav-link signout" href="%1$s">Sign out</a>  &middot;  ', 'lifterlms' ) . ' ',
-        wp_logout_url( get_permalink( llms_get_page_id( 'myaccount' ) ) )
-    );
-
-    printf( __( '<a class="llms-nav-link my-courses" href="%s">My Courses</a>', 'lifterlms' ),
-        get_permalink( llms_get_page_id( 'myaccount' ) )
-    );
-
-    ?>
-
-    <?php do_action( 'lifterlms_after_my_account_navigation' ); ?>
-</nav>
+<?php do_action( 'lifterlms_my_account_navigation' ); ?>
 
 <?php do_action( 'lifterlms_edit_account_start' ); ?>
 

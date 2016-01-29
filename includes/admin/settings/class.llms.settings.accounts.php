@@ -79,6 +79,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
+
 			array(
 				'title' => __( 'Lost Password', 'lifterlms' ),
 				'desc' 		=> __( 'Lost Password page', 'lifterlms' ),
@@ -87,6 +88,16 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'	=> 'lost-password',
 				'desc_tip'	=> true,
 			),
+
+			array(
+				'title' => __( 'Redeem Vouchers', 'lifterlms' ),
+				'desc' 		=> __( 'Redeem vouchers page', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_redeem_vouchers_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'redeem-voucher',
+				'desc_tip'	=> true,
+			),
+
 
 			array(
 				'title' => __( 'Logout', 'lifterlms' ),

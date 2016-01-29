@@ -1327,6 +1327,21 @@ if ( ! function_exists( 'lifterlms_get_sidebar' ) ) {
 	}
 }
 
+
+/**
+ * Product Short Description Template Include
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_my_account_navigation' ) ) {
+
+	function lifterlms_template_my_account_navigation() {
+		llms_get_template( 'myaccount/my-navigation.php' );
+	}
+}
+
+
+
+
 /**
  * Is LifterLMS check
  * Checks if archive post type is associated with lifterLMS
@@ -1370,6 +1385,18 @@ function llms_person_edit_account_url() {
 	$edit_account_url = llms_get_endpoint_url( 'edit-account', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 
 	return apply_filters( 'lifterlms_person_edit_account_url', $edit_account_url );
+}
+
+/**
+ * Get the link to the redeem voucher page
+ * @return string
+ */
+function llms_person_redeem_voucher_url() {
+
+	$url = llms_get_endpoint_url( 'redeem-voucher', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
+
+	return apply_filters( 'lifterlms_person_redeem_voucher_url', $url );
+
 }
 
 /**

@@ -89,8 +89,10 @@ add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_singl
 add_action( 'lifterlms_single_question_after_summary', 'lifterlmslifterlms_template_question_wrapper_end', 10 );
 
 
-
-
+/**
+ * MY ACCOUNT
+ */
+add_action( 'lifterlms_my_account_navigation', 'lifterlms_template_my_account_navigation', 10 );
 
 
 

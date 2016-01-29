@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Returns the url to the lost password endpoint url
  *
  * @param string $url
- * 
+ *
  * @return string
  */
 function llms_lostpassword_url() {
@@ -26,7 +26,7 @@ add_filter( 'lostpassword_url',  'llms_lostpassword_url', 10, 0 );
  * Get endpoint URL
  *
  * @param string $page
- * 
+ *
  * @return string
  */
 function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
@@ -40,7 +40,7 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 		if ( strstr( $permalink, '?' ) ) {
 			$query_string = '?' . parse_url( $permalink, PHP_URL_QUERY );
 			$permalink    = current( explode( '?', $permalink ) );
-		
+
 		} else {
 			$query_string = '';
 		}

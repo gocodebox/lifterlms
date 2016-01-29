@@ -38,10 +38,12 @@ class LLMS_Admin_Menus {
 
 	    $arr = array();
 
+	    // var_dump( $submenu );
+
 	    // permissions are handled by the add_submenu_page function for the following pages
-	    $arr[] = $submenu['lifterlms'][8];  // Settings
-	    $arr[] = $submenu['lifterlms'][9];  // Analytics
-	    $arr[] = $submenu['lifterlms'][10]; // Students
+	    $arr[] = $submenu['lifterlms'][9];  // Settings
+	    $arr[] = $submenu['lifterlms'][10];  // Analytics
+	    $arr[] = $submenu['lifterlms'][11]; // Students
 
 	    // the following pages are custom post types, show the page only if the user has the proper permissions
 	    if( current_user_can( apply_filters( 'lifterlms_admin_membership_access', 'manage_options' ) ) )
