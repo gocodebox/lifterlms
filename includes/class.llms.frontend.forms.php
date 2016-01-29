@@ -1488,7 +1488,7 @@ class LLMS_Frontend_Forms
 
                 if (!empty($_POST['product_id'])) {
                     $product_id = $_POST['product_id'];
-                    $valid = $voucher->is_product2voucher_link_valid($code, $product_id);
+                    $valid = $voucher->is_product_to_voucher_link_valid($code, $product_id);
 
                     if ($valid) {
                         wp_redirect(apply_filters('lifterlms_registration_redirect', $redirect));

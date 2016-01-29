@@ -11,9 +11,9 @@ class LLMS_Voucher
 {
     protected $id;
 
-    protected static $codes_table_name = 'llms_vouchers_codes';
-    protected static $redemptions_table = 'llms_voucher_code_redemptions';
-    protected static $product2voucher_table = 'llms_product2voucher';
+    protected static $codes_table_name = 'llifterlms_vouchers_codes';
+    protected static $redemptions_table = 'llifterlms_voucher_code_redemptions';
+    protected static $product_to_voucher_table = 'llifterlms_product_to_voucher';
 
     protected function get_codes_table_name()
     {
@@ -29,11 +29,11 @@ class LLMS_Voucher
         return $wpdb->prefix . self::$redemptions_table;
     }
 
-    protected function get_product2voucher_table_name()
+    protected function get_product_to_voucher_table_name()
     {
         global $wpdb;
 
-        return $wpdb->prefix . self::$product2voucher_table;
+        return $wpdb->prefix . self::$product_to_voucher_table;
     }
 
     public function __construct($id = null)
@@ -251,7 +251,7 @@ class LLMS_Voucher
     {
         global $wpdb;
 
-        $table = $this->get_product2voucher_table_name();
+        $table = $this->get_product_to_voucher_table_name();
 
         $query = "SELECT * FROM $table WHERE `voucher_id` = $this->id";
 
@@ -267,7 +267,7 @@ class LLMS_Voucher
         return $products;
     }
 
-    public function is_product2voucher_link_valid($code, $product_id)
+    public function is_product_to_voucher_link_valid($code, $product_id)
     {
         $voucher = $this->check_voucher($code);
 
@@ -291,13 +291,13 @@ class LLMS_Voucher
         $data['voucher_id'] = $this->id;
         $data['product_id'] = $product_id;
 
-        return $wpdb->insert($this->get_product2voucher_table_name(), $data);
+        return $wpdb->insert($this->get_product_to_voucher_table_name(), $data);
     }
 
     public function delete_products()
     {
         global $wpdb;
 
-        return $wpdb->delete($this->get_product2voucher_table_name(), array('voucher_id' => $this->id));
+        return $wpdb->delete($this->get_product_to_voucher_table_name(), array('voucher_id' => $this->id));
     }
 }

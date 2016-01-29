@@ -442,13 +442,13 @@ class LLMS_Install {
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             //lifterLMS Tables
             $lifterlms_tables = "
-			CREATE TABLE `{$wpdb->prefix}llms_product2voucher` (
+			CREATE TABLE `{$wpdb->prefix}llifterlms_product_to_voucher` (
                 `product_id` int(11) NOT NULL,
                 `voucher_id` int(11) NOT NULL,
                 KEY `product_id` (`product_id`),
                 KEY `voucher_id` (`voucher_id`)
             ) $collate;
-            CREATE TABLE `{$wpdb->prefix}llms_voucher_code_redemptions` (
+            CREATE TABLE `{$wpdb->prefix}llifterlms_voucher_code_redemptions` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                 `code_id` int(11) NOT NULL,
                 `user_id` int(11) NOT NULL,
@@ -457,7 +457,7 @@ class LLMS_Install {
                 KEY `code_id` (`code_id`),
                 KEY `user_id` (`user_id`)
             ) $collate;
-            CREATE TABLE `{$wpdb->prefix}llms_vouchers_codes` (
+            CREATE TABLE `{$wpdb->prefix}llifterlms_vouchers_codes` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                 `voucher_id` int(11) NOT NULL,
                 `code` varchar(20) NOT NULL DEFAULT '',
