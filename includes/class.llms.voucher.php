@@ -206,7 +206,10 @@ class LLMS_Voucher
                     update_user_meta($user_id, '_llms_restricted_levels', $membership_levels);
                 }
 
+                llms_add_notice( "Voucher used successfully!" );
             }
+        } else {
+            llms_add_notice( "Voucher could not be used. Please check that you have valid voucher." );
         }
 
         return $voucher;
