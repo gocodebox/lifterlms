@@ -405,15 +405,16 @@ class LLMS_Frontend_Forms
     public function voucher_check()
     {
 
-        if (empty($_POST['lifterlms_voucher_nonce']) || !wp_verify_nonce($_POST['lifterlms_voucher_nonce'], 'lifterlms_voucher_check')) {
+        if ( empty($_POST['lifterlms_voucher_nonce'] ) || !wp_verify_nonce( $_POST['lifterlms_voucher_nonce'], 'lifterlms_voucher_check' ) ) {
             return false;
         }
 
-        if (isset($_POST['llms_voucher_code']) && !empty($_POST['llms_voucher_code'])) {
-            $code = llms_clean($_POST['llms_voucher_code']);
+        if ( isset($_POST['llms_voucher_code'] ) && !empty( $_POST['llms_voucher_code'] ) ) {
 
+            $code = llms_clean( $_POST['llms_voucher_code'] );
             $voucher = new LLMS_Voucher();
-            $voucher->use_voucher($code, get_current_user_id());
+            $voucher->use_voucher( $code, get_current_user_id() );
+
         }
     }
 
