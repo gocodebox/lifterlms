@@ -243,9 +243,9 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
         // CODES SAVE
         $codes = array();
 
-        $llms_codes = $_POST['llms_voucher_code'];
-        $llms_uses = $_POST['llms_voucher_uses'];
-        $llms_voucher_code_id = $_POST['llms_voucher_code_id'];
+        $llms_codes = isset( $_POST['llms_voucher_code'] ) ? $_POST['llms_voucher_code'] : false;
+        $llms_uses = isset( $_POST['llms_voucher_uses'] ) ? $_POST['llms_voucher_uses'] : false;
+        $llms_voucher_code_id = isset( $_POST['llms_voucher_code_id'] ) ? $_POST['llms_voucher_code_id'] : false;
 
         $voucher = new LLMS_Voucher($post_id);
 
@@ -284,8 +284,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 
         // Courses and membership save
 
-        $courses = $_POST['_llms_voucher_courses'];
-        $memberships = $_POST['_llms_voucher_membership'];
+        $courses = isset( $_POST['_llms_voucher_courses'] ) ? $_POST['_llms_voucher_courses'] : false;
+        $memberships = isset( $_POST['_llms_voucher_membership'] ) ? $_POST['_llms_voucher_membership'] : false;
         $products = array();
 
         if (isset($courses) && !empty($courses)) {

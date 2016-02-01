@@ -113,7 +113,7 @@ class LLMS_Meta_Box_Voucher_Export
                         break;
                 }
 
-                $sendEmail = $_POST['llms_voucher_export_send_email'];
+                $sendEmail = isset( $_POST['llms_voucher_export_send_email'] ) ? $_POST['llms_voucher_export_send_email'] : false;
 
                 if (isset($sendEmail) && !empty($sendEmail) && $sendEmail == true) {
 
