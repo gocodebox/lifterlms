@@ -169,8 +169,8 @@ class LLMS_Voucher
  			    LIMIT 1000";
             $used_voucher = $wpdb->get_results($select_vouchers, ARRAY_A);
 
-            if(count($used_voucher)) {
-                llms_add_notice( "You used this voucher already!" );
+            if( count( $used_voucher ) ) {
+                llms_add_notice( 'You have already used this voucher.', 'error' );
                 return $voucher->voucher_id;
             }
 
@@ -182,7 +182,7 @@ class LLMS_Voucher
 
             $this->save_redeemed_code($data);
 
-            // create order for products liked to voucher
+            // create order for products linked to voucher
             $products = $this->get_products();
 
             if (!empty($products)) {
@@ -224,7 +224,7 @@ class LLMS_Voucher
                 llms_add_notice( "Voucher used successfully!" );
             }
         } else {
-            llms_add_notice( "Voucher could not be used. Please check that you have valid voucher." );
+            llms_add_notice( "Voucher could not be used. Please check that you have valid voucher.", 'error' );
         }
 
         return $voucher;
