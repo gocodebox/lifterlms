@@ -115,13 +115,31 @@ llms_print_notices();
             <input type="password" class="input-text llms-input-text" name="password_2" id="password_2" />
         </div>
 
-        <div class="llms-form-item-wrapper voucher-wrapper">
-            <a href="#" class="got_voucher">Got a Voucher?</a>
+        <?php if( !isset( $_GET['product-id'] ) ): ?>
 
-            <div class="voucher-expand" style="display: none;">
-                <input type="text" placeholder="Voucher Code" name="llms_voucher_code">
+            <div class="llms-form-item-wrapper voucher-wrapper">
+                <?php
+                /**
+                 * @todo  move JS to it's own file, it's here b/c this is the only JS that needs to run on this page and it seemed wasteful
+                 */
+                ?>
+                <script type="text/javascript">
+                jQuery( document ).on( 'ready', function() {
+                    jQuery( '#llms-voucher-expand' ).on( 'click', function( e ) {
+                        e.preventDefault();
+                        jQuery( this ).hide().next( '.voucher-expand' ).fadeIn( 400 );
+                    } );
+                } );
+                </script>
+
+                <a href="#" class="voucher-expand-button" id="llms-voucher-expand">Have a Voucher?</a>
+
+                <div class="voucher-expand">
+                    <label for="llms_voucher_code"><?php _e( 'Voucher Code', 'lifterlms' ); ?></label>
+                    <input type="text" id="llms_voucher_code" placeholder="Voucher Code" name="llms_voucher_code">
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
 
         <?php if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms' ) && get_option( 'lifterlms_terms_page_id' ) ) : ?>
 
