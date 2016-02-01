@@ -166,8 +166,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
             </table>
 
             <div class="llms-voucher-add-codes">
-                <p>Add <input type="text" placeholder="#" id="llms_voucher_add_quantity"> new code(s) with <input
-                        type="text" placeholder="#" id="llms_voucher_add_uses"> use(s) per code
+                <p>Add <input type="number" max="50" placeholder="#" id="llms_voucher_add_quantity"> new code(s) with <input
+                        type="number" placeholder="#" id="llms_voucher_add_uses"> use(s) per code
                     <button id="llms_voucher_add_codes" class="button-primary">Add</button>
                 </p>
             </div>

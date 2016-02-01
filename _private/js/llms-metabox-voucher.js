@@ -10,6 +10,11 @@ $(document).ready(function () {
         var uses = $('#llms_voucher_add_uses').val();
         var html = '';
 
+        if($.isNumeric(qty) && qty > 50) {
+            alert("You can only generate 50 rows at a time");
+            retrun;
+        }
+
         if ($.isNumeric(qty) && $.isNumeric(uses)) {
             if (parseInt(qty) > 0) {
                 for (var i = 1; i <= parseInt(qty); i++) {
