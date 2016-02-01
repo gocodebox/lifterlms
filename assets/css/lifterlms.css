@@ -1522,12 +1522,8 @@ svg .llms-animated-circle {
   border-right: 2px solid green !important;
 }
 
-.account-links .voucher-expand input[type=text] {
-  width: 77%;
-  margin-right: 1%;
-}
-.account-links .voucher-expand button {
-  width: 21%;
+.voucher-expand {
+  display: none;
 }
 
 /*!
