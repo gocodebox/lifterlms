@@ -66,7 +66,7 @@ class LLMS_Meta_Box_Voucher_Export
             return false;
         }
 
-        $type = $_POST['llms_voucher_export_type'];
+        $type = ( isset( $_POST['llms_voucher_export_type'] ) ) ? $_POST['llms_voucher_export_type'] : false;
         if (isset($type) && !empty($type)) {
 
             if ($type === 'vouchers' || $type === 'redeemed') {
