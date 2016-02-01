@@ -12,13 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * LLMS_Install Class
  */
 class LLMS_Install {
-	public $version = '1.0';
+
 	protected $min_wp_version = '3.5';
 	public $current_wp_version;
 
 	/**
 	 * LLMS_Install Constructor.
-	 * 
+	 *
 	 * Adds install actions to init and admin init
 	 */
 	public function __construct() {
@@ -26,7 +26,7 @@ class LLMS_Install {
 		$this->current_wp_version = get_bloginfo( 'version' );
 		register_activation_hook( LLMS_PLUGIN_FILE, array( $this, 'install' ) );
 		add_action( 'admin_init', array( $this, 'first_time_setup' ) );
-		add_action( 'admin_init', array( $this, 'check_wp_version' ) );	
+		add_action( 'admin_init', array( $this, 'check_wp_version' ) );
 		add_action( 'init', array( $this, 'install_settings' ) );
 		add_action( 'admin_init', array( $this, 'update_relationships' ) );
 		add_action( 'admin_init', array( $this, 'update_course_outline' ) );
@@ -65,9 +65,9 @@ class LLMS_Install {
          	echo '<div id="welcome-panel" class="welcome-panel">
          	<div class="welcome-panel-content">
 					<h3>Welcome to LifterLMS!</h3>
-					<p class="about-description">Before you start building your course check out our 
+					<p class="about-description">Before you start building your course check out our
 					<a href="' . get_admin_url() . '/admin.php?page=llms-settings' . '">Quick Setup Guide</a></p>
-					
+
 					<form method="post" id="llms-skip-setup-form">
 					<input type="hidden" name="action" value="llms-skip-setup" />
 					' . wp_nonce_field( 'llms_skip_setup', '_wpnonce', true, false ) . '
@@ -78,9 +78,9 @@ class LLMS_Install {
 
      	}
 	}
-	
+
 	/**
-	 * Check if installed WP version is compatable with plugin requirements. 
+	 * Check if installed WP version is compatable with plugin requirements.
 	 */
 	public function check_wp_version() {
 		if ( version_compare( get_bloginfo( 'version' ), $this->min_wp_version, '<' ) ) {
@@ -93,7 +93,7 @@ class LLMS_Install {
 	 * Update course, lesson and section syllabus
 	 * @since  v1.0.6
 	 * Updates users to new method of storing relationship
-	 * 
+	 *
 	 * @return void
 	 */
 	public function update_courses_archive() {
@@ -111,7 +111,7 @@ class LLMS_Install {
 	 * Update course, lesson and section syllabus
 	 * @since  v1.0.6
 	 * Updates users to new method of storing relationship
-	 * 
+	 *
 	 * @return void
 	 */
 	public function update_relationships() {
@@ -122,8 +122,8 @@ class LLMS_Install {
 				'orderby'          => 'title',
 				'order'            => 'ASC',
 				'post_type'        => 'course',
-				'suppress_filters' => true 
-			); 
+				'suppress_filters' => true
+			);
 			$courses = get_posts($course_args);
 			foreach($courses as $course) {
 				$syllabus = get_post_meta($course->ID, '_sections');
@@ -163,7 +163,7 @@ class LLMS_Install {
 				    'key' => '_sections',
 				    'compare' => '='
 				    )
-				)                   
+				)
 			);
 			$courses = get_posts( $args );
 
@@ -184,7 +184,7 @@ class LLMS_Install {
 							//update parent_course and llms_order for sections
 							update_post_meta($section_id, '_parent_course', $course->ID);
 							update_post_meta($section_id, '_llms_order', $section_order);
-							
+
 
 							//loop through lessons and update llms_order, parent_section and parent_course
 							if ( !empty($lessons) ) {
@@ -200,12 +200,12 @@ class LLMS_Install {
 								}
 
 							}
-							
-							
+
+
 						}
 
 					}
-					
+
 				}
 			}
 
@@ -213,14 +213,14 @@ class LLMS_Install {
 		}
 
 	}
-	
+
 	/**
 	 * Core install method
 	 *
 	 * Registers post types, sidebars, taxonomies
 	 * Sets cron jobs
 	 * Flushes rewrites
-	 * 
+	 *
 	 * @return void
 	 */
 	public function install() {
@@ -229,12 +229,12 @@ class LLMS_Install {
         $this->create_voucher_tables();
 		$this->create_roles();
 
-		// Register Post Types	
+		// Register Post Types
 		include_once( 'class.llms.post-types.php' );
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
-		
+
 
 		$this->register_post_types();
 		$this->cron();
@@ -266,10 +266,10 @@ class LLMS_Install {
 
 	/**
 	 * Install Settings
-	 * Only fires once. 
+	 * Only fires once.
 	 *
 	 * Creates posts and pages used by lifterLMS
-	 * 
+	 *
 	 * @return void
 	 */
 	public function install_settings() {
@@ -323,7 +323,7 @@ class LLMS_Install {
 
 	/**
 	 * create any posts needed by lifterLMS
-	 * 
+	 *
 	 * @return void
 	 */
 	public function create_posts() {
@@ -344,7 +344,7 @@ class LLMS_Install {
 
 	/**
 	 * Creates activation and update options in db
-	 * 
+	 *
 	 * @return void
 	 */
 	public function create_options() {
@@ -353,7 +353,7 @@ class LLMS_Install {
 		add_option('lifterlms_is_activated', '');
 		add_option('lifterlms_update_key', '');
 		add_option('lifterlms_authkey', 'YA5j24mKX38yyLZf2CD6YX6i78Kr94tg');
-		
+
 		include_once( 'admin/class.llms.admin.settings.php' );
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 		foreach ( $settings as $section ) {
@@ -368,7 +368,7 @@ class LLMS_Install {
 
 	/**
 	 * Create lifterLMS tables
-	 * 
+	 *
 	 * @return void
 	 */
 	public function create_tables() {
@@ -416,7 +416,7 @@ class LLMS_Install {
 		catch (Exception $e)
 		{
 		 throw new Exception( 'Instalation failed. Error creating lifterLMS tables in database.', 0, $e);
-		}	
+		}
 	}
 
     /**
@@ -442,13 +442,13 @@ class LLMS_Install {
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             //lifterLMS Tables
             $lifterlms_tables = "
-			CREATE TABLE `{$wpdb->prefix}llifterlms_product_to_voucher` (
+			CREATE TABLE `{$wpdb->prefix}lifterlms_product_to_voucher` (
                 `product_id` bigint(20) NOT NULL,
                 `voucher_id` bigint(20) NOT NULL,
                 KEY `product_id` (`product_id`),
                 KEY `voucher_id` (`voucher_id`)
             ) $collate;
-            CREATE TABLE `{$wpdb->prefix}llifterlms_voucher_code_redemptions` (
+            CREATE TABLE `{$wpdb->prefix}lifterlms_voucher_code_redemptions` (
                 `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
                 `code_id` bigint(20) NOT NULL,
                 `user_id` bigint(20) NOT NULL,
@@ -457,7 +457,7 @@ class LLMS_Install {
                 KEY `code_id` (`code_id`),
                 KEY `user_id` (`user_id`)
             ) $collate;
-            CREATE TABLE `{$wpdb->prefix}llifterlms_vouchers_codes` (
+            CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 `voucher_id` bigint(20) NOT NULL,
                 `code` varchar(20) NOT NULL DEFAULT '',
@@ -485,13 +485,13 @@ class LLMS_Install {
 
 	/**
 	 * Create lifterLMS user roles
-	 * Creates student role and assigns new users to student role. 
-	 * 
+	 * Creates student role and assigns new users to student role.
+	 *
 	 * @return void
 	 */
 	public function create_roles() {
 		global $wp_roles;
-	
+
 		// this function should only ever run once!
 		$roles_installed = (get_option( 'lifterlms_student_role_created', 'no' ) == 'yes') ? true : false;
 		if ( ! $roles_installed ) {
@@ -517,7 +517,7 @@ class LLMS_Install {
 				}
 			}
 			update_option( 'lifterlms_student_role_created', 'yes' );
-		}	
+		}
 	}
 
 	/**

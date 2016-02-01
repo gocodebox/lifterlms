@@ -11,9 +11,9 @@ class LLMS_Voucher
 {
     protected $id;
 
-    protected static $codes_table_name = 'llifterlms_vouchers_codes';
-    protected static $redemptions_table = 'llifterlms_voucher_code_redemptions';
-    protected static $product_to_voucher_table = 'llifterlms_product_to_voucher';
+    protected static $codes_table_name = 'lifterlms_vouchers_codes';
+    protected static $redemptions_table = 'lifterlms_voucher_code_redemptions';
+    protected static $product_to_voucher_table = 'lifterlms_product_to_voucher';
 
     protected function get_codes_table_name()
     {
