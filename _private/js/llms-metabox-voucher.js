@@ -3,6 +3,8 @@ var deleteIds = [];
 
 $(document).ready(function () {
 
+    var changeNotSaved = false;
+
     $('#llms_voucher_add_codes').click(function (e) {
         e.preventDefault();
 
@@ -14,6 +16,8 @@ $(document).ready(function () {
             alert("You can only generate 50 rows at a time");
             retrun;
         }
+
+        changeNotSaved = true;
 
         if ($.isNumeric(qty) && $.isNumeric(uses)) {
             if (parseInt(qty) > 0) {
@@ -37,8 +41,39 @@ $(document).ready(function () {
     });
 
     bindDeleteVoucherCode();
-});
 
+    $('.llms-voucher-codes-wrapper input').change(function() {
+        changeNotSaved = true;
+    });
+
+    window.onbeforeunload = function() {
+        return changeNotSaved ? "If you leave this page you will lose your unsaved changes." : null;
+    }
+
+    $('input[type=submit]').click(function (e) {
+        changeNotSaved = false;
+    });
+
+    function bindDeleteVoucherCode() {
+        $('.llms-voucher-delete').click(function (e) {
+            e.preventDefault();
+
+            var t = $(this);
+            var old = t.data('id');
+
+            changeNotSaved = true;
+
+            if (old) {
+                deleteIds.push(old);
+
+                $('#delete_ids').val(deleteIds.join(','));
+            }
+
+            // remove html block
+            t.closest('tr').remove();
+        });
+    }
+});
 function randomizeCode() {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -47,22 +82,4 @@ function randomizeCode() {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
-}
-
-function bindDeleteVoucherCode() {
-    $('.llms-voucher-delete').click(function (e) {
-        e.preventDefault();
-
-        var t = $(this);
-        var old = t.data('id');
-
-        if (old) {
-            deleteIds.push(old);
-
-            $('#delete_ids').val(deleteIds.join(','));
-        }
-
-        // remove html block
-        t.closest('tr').remove();
-    });
 }
