@@ -126,7 +126,7 @@ class LLMS_Admin_Meta_Boxes {
 		$post_types = get_post_types( $args, $output, $operator );
 
 		foreach ( $post_types  as $post_type ) {
-			add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', $post_type, 'side', 'high' );
+			add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', $post_type, 'side' );
 			array_push($public_post_types, $post_type);
 		}
 
