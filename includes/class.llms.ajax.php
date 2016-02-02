@@ -934,10 +934,10 @@ class LLMS_AJAX {
 			$users_arr[] = $temp;
 		}
 
-		echo json_encode([
+		echo json_encode( array(
 				'success' => true,
 				'items' => $users_arr,
-		]);
+		) );
 
 		wp_die();
 	}
