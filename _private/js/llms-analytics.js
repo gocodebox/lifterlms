@@ -259,6 +259,7 @@ get_query_var = function() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Last');
         data.addColumn('string', 'First');
+        data.addColumn('string', 'Email');
         data.addColumn('string', 'View');
         data.addRows(students_search_result_large);
 
