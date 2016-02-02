@@ -47,7 +47,9 @@ We've updated the Students tab interface for performance and usability!
 + Membership now has it's own admin menu
 + Reordered the LifterLMS admin menu and submenu items
 + Removed membership specific taxonomies from courses
-+ remove course specific taxonomies from memberships
++ Removed course specific taxonomies from memberships
++ Coupon code is now a required field when creating a coupon
++ "Humbled" the metabox on all post types that restricts the post to a membership. The metabox would previously gain priority over the WordPress publishing actions metabox. The priority has been reduced to "default" and will to fall into line with all other metaboxes on the screen and appear based on registration priority. If you can't find the metabox, SCROLL DOWN! If you want to put it back up on the top, you can simply drag it up there and WordPress will save your preference.
 
 ##### Deprecated Functions
 
