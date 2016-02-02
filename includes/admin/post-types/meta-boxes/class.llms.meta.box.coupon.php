@@ -66,6 +66,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
+						'required'	=> true,
 					),
 					array(
 						'type'		=> 'select',
