@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! defined( 'LLMS_Admin_Metabox' ) ) 
+if ( ! defined( 'LLMS_Admin_Metabox' ) )
 {
 	// Include the file for the parent class
 	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
@@ -8,7 +8,7 @@ if ( ! defined( 'LLMS_Admin_Metabox' ) )
 
 /**
 * Meta Box Builder
-* 
+*
 * Generates main metabox and builds forms
 */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
@@ -18,20 +18,20 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 * 
+	 *
 	 * @param object $post WP global post object
 	 * @return void
 	 */
 	public static function output ( $post ) {
 		global $post;
 		parent::new_output( $post, self::metabox_options() );
-	}	
+	}
 
 	/**
 	 * Builds array of metabox options.
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
-	 * 
+	 *
 	 * @return array [md array of metabox fields]
 	 */
 	public static function metabox_options() {
@@ -99,7 +99,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'type'		=> 'post-content',
 						'label'		=> 'Enrolled user and non-enrolled visitor description',
 						'desc' 		=> 'This content will be displayed to enrolled users. If the non-enrolled users description
-							field is left blank the content will be displayed to both enrolled users and non-logged / restricted 
+							field is left blank the content will be displayed to both enrolled users and non-logged / restricted
 							visitors.',
 						'id' 		=> '',
 						'class' 	=> '',
@@ -110,9 +110,9 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 					array(
 						'type'		=> 'post-excerpt',
 						'label'		=> 'Restricted Access Description',
-						'desc' 		=> 'Enter content in this field if you would like visitors that 
-							are not enrolled or are restricted to view different content from 
-							enrolled users. Visitors who are not enrolled in the course 
+						'desc' 		=> 'Enter content in this field if you would like visitors that
+							are not enrolled or are restricted to view different content from
+							enrolled users. Visitors who are not enrolled in the course
 							or are restricted from the course will see this description if it contains content.',
 						'id' 		=> '',
 						'class' 	=> '',
@@ -275,7 +275,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'group' 	=> '',
 						'desc_class'=> 'd-all',
 						'class' 	=> 'input-full',
-					)				
+					)
 				)
 			),
 			array(
@@ -340,8 +340,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		if(has_filter('llms_meta_fields_llms_membership_settings')) {
 			//Add Fields to the membership Meta Box
 			$llms_meta_fields_llms_membership_settings = apply_filters('llms_meta_fields_llms_membership_settings', $llms_meta_fields_llms_membership_settings);
-		} 
-		
+		}
+
 		return $llms_meta_fields_llms_membership_settings;
 	}
 
@@ -408,25 +408,34 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		global $post;
 		$membership_courses = self::get_courses_in_membership_list();
 
-		$table_data = [];
+		$table_data = array();
 		$auto_enroll_checkboxes = get_post_meta( $post->ID, '_llms_auto_enroll', true);
+
+		if( !$auto_enroll_checkboxes ) {
+			$auto_enroll_checkboxes = array();
+		}
 
 		foreach($membership_courses as $course) {
 			$auto_enroll_checkbox = in_array($course['key'], $auto_enroll_checkboxes) ? 'checked' : '';
-			$table_data[] = [$course['title'], '<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"'];
+
+			$table_data[] = array(
+				'<a href="' . admin_url( 'post.php?post=' . $course['key'] . '&action=edit' ) . ' ">' . $course['title'] . '</a>' ,
+				'<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"'
+			);
 		}
 
 		return $table_data;
+
 	}
 
 	/**
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
@@ -436,7 +445,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 			foreach ($_POST['_llms_course_membership'] as $course_id) {
 				$memberships = array_merge(get_post_meta($course_id, '_llms_restricted_levels', true), [$postId]);
 
-				update_post_meta($course_id, '_llms_is_restricted', true);
+				update_post_meta($course_id, '_l lms_is_restricted', true);
 				update_post_meta($course_id, '_llms_restricted_levels', $memberships);
 			}
 		}
