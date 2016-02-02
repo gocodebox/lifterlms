@@ -253,7 +253,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 				)
 			),
 			array(
-				'title' 	=> 'Membership Expiration',
+				'title' 	=> 'Expiration',
 				'fields' 	=> array(
 					array(
 						'label' 	=> 'Interval',
