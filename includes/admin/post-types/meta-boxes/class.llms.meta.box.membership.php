@@ -353,12 +353,15 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 			'number'		=> 1000,
 		);
 
-		$courses_list = [];
+		$courses_list = array();
 
 		$courses = get_posts( $args );
 
 		foreach($courses as $course) {
-			$courses_list[] = ['key' => $course->ID, 'title' => $course->post_title];
+			$courses_list[] = array(
+				'key' => $course->ID,
+				'title' => $course->post_title
+			);
 		}
 		return $courses_list;
 	}
@@ -372,19 +375,22 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 			'exclude'		=> array_column(self::get_courses_in_membership_list(), 'key'),
 		);
 
-		$courses_list = [];
+		$courses_list = array();
 
 		$courses = get_posts( $args );
 
 		foreach($courses as $course) {
-			$courses_list[] = ['key' => $course->ID, 'title' => $course->post_title];
+			$courses_list[] = array(
+				'key' => $course->ID,
+				'title' => $course->post_title
+			);
 		}
 		return $courses_list;
 	}
 
 	public static function get_courses_in_membership_list() {
 		global $wpdb, $post;
-		$courses_list = [];
+		$courses_list = array();
 		$posts_table = $wpdb->prefix . 'posts';
 		$postmeta = $wpdb->prefix . 'postmeta';
 
@@ -398,7 +404,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		$courses = $wpdb->get_results($select_courses);
 
 		foreach($courses as $course) {
-			$courses_list[] = ['key' => $course->ID, 'title' => $course->post_title];
+			$courses_list[] = array(
+				'key' => $course->ID,
+				'title' => $course->post_title
+			);
 		}
 
 		return $courses_list;

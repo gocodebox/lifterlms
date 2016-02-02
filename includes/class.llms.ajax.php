@@ -926,7 +926,7 @@ class LLMS_AJAX {
 		);
 		$all_users = get_users( $user_args );
 
-		$users_arr = [];
+		$users_arr = array();
 
 		foreach($all_users as $user) {
 			$temp['id'] = $user->ID;
@@ -966,7 +966,7 @@ class LLMS_AJAX {
 			LIMIT 30";
 		$all_users = $wpdb->get_results($select_user);
 
-		$users_arr = [];
+		$users_arr = array();
 
 		foreach($all_users as $user) {
 			$temp['id'] = $user->ID;
@@ -998,7 +998,7 @@ class LLMS_AJAX {
 			LIMIT 1000";
 		$all_users = $wpdb->get_results($select_user);
 
-		$users_arr = [];
+		$users_arr = array();
 
 		foreach($all_users as $user) {
 			$users_arr[] = $user->ID;
