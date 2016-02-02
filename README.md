@@ -44,6 +44,10 @@ We've updated the Students tab interface for performance and usability!
 ##### Updates and enhancements
 
 + User email is now displayed on the "Students" table on student analytics screens
++ Membership now has it's own admin menu
++ Reordered the LifterLMS admin menu and submenu items
++ Removed membership specific taxonomies from courses
++ remove course specific taxonomies from memberships
 
 ##### Deprecated Functions
 
