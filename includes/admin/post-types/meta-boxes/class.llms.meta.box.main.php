@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! defined( 'LLMS_Admin_Metabox' ) ) 
+if ( ! defined( 'LLMS_Admin_Metabox' ) )
 {
 	// Include the file for the parent class
 	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
@@ -8,7 +8,7 @@ if ( ! defined( 'LLMS_Admin_Metabox' ) )
 
 /**
 * Meta Box Builder
-* 
+*
 * Generates main metabox and builds forms
 */
 class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
@@ -18,25 +18,25 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 * 
+	 *
 	 * @param object $post WP global post object
 	 * @return void
 	 */
 	public static function output ( $post ) {
 		global $post;
 		parent::new_output( $post, self::metabox_options() );
-	}	
+	}
 
 	/**
 	 * Builds array of metabox options.
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
-	 * 
+	 *
 	 * @return array [md array of metabox fields]
 	 */
 	public static function metabox_options() {
 		global $post;
-	
+
 		//setup course select options
 		$course_options = array();
 		$course_posts = LLMS_Post_Handler::get_posts( 'course' );
@@ -46,7 +46,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					'key' 	=> $c_post->ID,
 					'title' => $c_post->post_title
 				);
-			}			
+			}
 		}
 
 		$course_tracks_options = get_terms('course_track', 'hide_empty=0');
@@ -89,35 +89,6 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 			),
 		);
 
-		//enrolled users
-		$course = new LLMS_Course( $post->ID );
-		$enrolled_students = $course->get_enrolled_students();
-		$enrolled_student_options = array();
-		if ( $enrolled_students ) {
-			foreach( $enrolled_students as $student ) {
-				$enrolled_student_options[] = array(
-					'key' 	=> $student->ID,
-					'title' => $student->display_name . ' (' . $student->user_email . ')'
-				);
-			}
-		}
-
-		//non-enrolled users
-		$users_not_enrolled = LLMS_Course_Handler::get_users_not_enrolled(
-			$post->ID,
-			$enrolled_students
-		);
-
-		$users_not_enrolled_options = array();
-		if ( $users_not_enrolled ) {
-			foreach( $users_not_enrolled as $student ) {
-				$users_not_enrolled_options[] = array(
-					'key' 	=> $student->ID,
-					'title' => $student->display_name . ' (' . $student->user_email . ')'
-				);
-			}
-		}
-
 		$meta_fields_course_main = array(
 			array(
 				'title' 	=> 'Description',
@@ -126,7 +97,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'type'		=> 'post-content',
 						'label'		=> 'Enrolled user and non-enrolled visitor description',
 						'desc' 		=> 'This content will be displayed to enrolled users. If the non-enrolled users description
-							field is left blank the content will be displayed to both enrolled users and non-logged / restricted 
+							field is left blank the content will be displayed to both enrolled users and non-logged / restricted
 							visitors.',
 						'id' 		=> '',
 						'class' 	=> '',
@@ -137,9 +108,9 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					array(
 						'type'		=> 'post-excerpt',
 						'label'		=> 'Restricted Access Description',
-						'desc' 		=> 'Enter content in this field if you would like visitors that 
-							are not enrolled or are restricted to view different content from 
-							enrolled users. Visitors who are not enrolled in the course 
+						'desc' 		=> 'Enter content in this field if you would like visitors that
+							are not enrolled or are restricted to view different content from
+							enrolled users. Visitors who are not enrolled in the course
 							or are restricted from the course will see this description if it contains content.',
 						'id' 		=> '',
 						'class' 	=> '',
@@ -257,7 +228,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
 					),
-				)				
+				)
 			),
 			array(
 				'title' 	=> 'Price Single',
@@ -418,9 +389,10 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'desc'		=> 'Add a user to the course.',
 						'id'		=> self::$prefix . 'add_new_user',
 						'class'		=> 'add-student-select',
-						'value' 	=> $users_not_enrolled_options,
+						'value' 	=> array(),
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
+						'multi'		=> true,
 					),
 					array(
 						'type'		=> 'button',
@@ -438,9 +410,10 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'desc'		=> 'Remove a user from the course.',
 						'id'		=> self::$prefix . 'remove_student',
 						'class' 	=> 'remove-student-select',
-						'value' 	=> $enrolled_student_options,
+						'value' 	=> array(),
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
+						'multi'		=> true,
 					),
 					array(
 						'type'		=> 'button',
@@ -459,8 +432,8 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 		if(has_filter('llms_meta_fields_course_main')) {
 			//Add Fields to the course main Meta Box
 			$meta_fields_course_main = apply_filters('llms_meta_fields_course_main', $meta_fields_course_main);
-		} 
-		
+		}
+
 		return $meta_fields_course_main;
 	}
 
@@ -468,10 +441,10 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
