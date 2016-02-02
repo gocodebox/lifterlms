@@ -253,7 +253,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 				)
 			),
 			array(
-				'title' 	=> 'Membership Expiration',
+				'title' 	=> 'Expiration',
 				'fields' 	=> array(
 					array(
 						'label' 	=> 'Interval',
@@ -399,7 +399,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		$select_courses = "SELECT ID, post_title FROM $posts_table
 					JOIN $postmeta
 					ON $posts_table.ID = $postmeta.post_id
-					WHERE $postmeta.meta_key = '_llms_restricted_levels'
+					WHERE $posts_table.post_type = 'course'
+					AND $postmeta.meta_key = '_llms_restricted_levels'
 					AND $postmeta.meta_value LIKE '$postmeta_select'";
 		$courses = $wpdb->get_results($select_courses);
 
