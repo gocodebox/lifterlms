@@ -4,6 +4,7 @@ var deleteIds = [];
 $(document).ready(function () {
 
     var changeNotSaved = false;
+    var codesAddedSinceLastSave = 0;
 
     $('#llms_voucher_add_codes').click(function (e) {
         e.preventDefault();
@@ -12,15 +13,23 @@ $(document).ready(function () {
         var uses = $('#llms_voucher_add_uses').val();
         var html = '';
 
-        if($.isNumeric(qty) && qty > 50) {
-            alert("You can only generate 50 rows at a time");
-            retrun;
-        }
-
         changeNotSaved = true;
 
         if ($.isNumeric(qty) && $.isNumeric(uses)) {
             if (parseInt(qty) > 0) {
+
+                codesAddedSinceLastSave += parseInt(qty);
+
+                if(qty > 50) {
+                    alert("You can only generate 50 rows at a time");
+                    retrun;
+                }
+                if(codesAddedSinceLastSave > 50) {
+                    alert("Please save before adding any more codes, limit is 50 at a time");
+                    codesAddedSinceLastSave -= parseInt(qty);
+                    retrun;
+                }
+
                 for (var i = 1; i <= parseInt(qty); i++) {
                     html += '<tr>' +
                         '<td></td>' +
@@ -42,7 +51,7 @@ $(document).ready(function () {
 
     bindDeleteVoucherCode();
 
-    $('.llms-voucher-codes-wrapper input').change(function() {
+    $('#llms_voucher_tbody input').change(function() {
         changeNotSaved = true;
     });
 
@@ -55,6 +64,7 @@ $(document).ready(function () {
     });
 
     function bindDeleteVoucherCode() {
+        $('.llms-voucher-delete').unbind('click');
         $('.llms-voucher-delete').click(function (e) {
             e.preventDefault();
 
@@ -67,6 +77,8 @@ $(document).ready(function () {
                 deleteIds.push(old);
 
                 $('#delete_ids').val(deleteIds.join(','));
+            } else {
+                codesAddedSinceLastSave--;
             }
 
             // remove html block
