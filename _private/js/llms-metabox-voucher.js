@@ -60,6 +60,22 @@ $(document).ready(function () {
     };
 
     $('input[type=submit]').click(function (e) {
+        var unique_values = {};
+        var duplicate = false;
+        $('input[name="llms_voucher_code[]"]').each(function() {
+            var val = $(this).val()
+            if ( ! unique_values[val] ) {
+                unique_values[val] = true;
+            } else {
+                $(this).css('color', 'red')
+                duplicate = true;
+            }
+        });
+        if(duplicate) {
+            alert('Please make sure that there are no duplicate voucher codes.')
+            return false;
+        }
+
         //if course or membership is not selected, don't allow user to save
         if(!($('#_llms_voucher_courses').val() || $('#_llms_voucher_membership').val())) {
             alert('Please select course or membership before saving.');
