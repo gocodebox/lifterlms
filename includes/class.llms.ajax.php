@@ -31,7 +31,7 @@ class LLMS_AJAX {
         	add_action('wp_ajax_nopriv_' . $method, array($handler, 'handle'));
         	add_action('wp_loaded', array($this, 'register_script'));
  		}
-     
+
     }
 
     /**
@@ -48,9 +48,9 @@ class LLMS_AJAX {
         if ( $response instanceof WP_Error ) {
             $this->send_error($response);
         }
- 
+
         wp_send_json_success($response);
- 
+
         die();
     }
 
@@ -63,7 +63,7 @@ class LLMS_AJAX {
     		} else {
     			$request[$key] = llms_clean($value);
     		}
-    		
+
 
     	}
 
@@ -76,14 +76,14 @@ class LLMS_AJAX {
      */
     public function register_script() {
 
-    	// script will only register once 
+    	// script will only register once
         wp_register_script('llms',  plugins_url(  '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ));
         wp_localize_script('llms', 'wp_ajax_data', $this->get_ajax_data());
         wp_enqueue_script('llms');
     }
 
      /**
-     * Get the AJAX data 
+     * Get the AJAX data
      * Currently only retrieves the nonce until we can figuare out how to get the post id too
      *
      * @return array
@@ -103,14 +103,14 @@ class LLMS_AJAX {
     private function get_comment()
     {
         $comment = '';
- 
+
         if (isset($_POST['comment'])) {
             $comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
         }
- 
+
         return $comment;
     }
- 
+
     /**
      * Get the post ID sent by the AJAX request.
      *
@@ -119,11 +119,11 @@ class LLMS_AJAX {
     private function get_post_id()
     {
         $post_id = 0;
- 
+
         if (isset($_POST['post_id'])) {
             $post_id = absint(filter_var($_POST['post_id'], FILTER_SANITIZE_NUMBER_INT));
         }
- 
+
         return $post_id;
     }
 
@@ -166,7 +166,7 @@ class LLMS_AJAX {
 			'getLessons'				=> false,
 			'getSections'				=> false,
 			'get_students'              => false,
-			'get_enroled_students'      => false,
+			'get_enrolled_students'      => false,
 			//'test_ajax_call'			=> false,
 		);
 
@@ -207,10 +207,10 @@ class LLMS_AJAX {
 
 	/**
 	 * Return custom array of lessons for use on the engagement page
-	 * 
+	 *
 	 * @since 1.3.0
 	 * @version 1.3.0
-	 * 
+	 *
 	 * @return array Array of lessons
 	 */
 	public function getLessons()
@@ -226,7 +226,7 @@ class LLMS_AJAX {
 
 		$options = array();
 
-		if (!empty($lessons)) { 
+		if (!empty($lessons)) {
 
 			foreach($lessons as $key => $value) {
 
@@ -255,10 +255,10 @@ class LLMS_AJAX {
 
 	/**
 	 * Return custom array of sections for use on the engagement page
-	 * 
+	 *
 	 * @since 1.3.0
 	 * @version 1.3.0
-	 * 
+	 *
 	 * @return array Array of sections
 	 */
 	public function getSections()
@@ -274,7 +274,7 @@ class LLMS_AJAX {
 
 		$options = array();
 
-		if (!empty($sections)) { 
+		if (!empty($sections)) {
 
 			foreach($sections as $key => $value) {
 
@@ -329,12 +329,12 @@ class LLMS_AJAX {
 	 * @param string
 	 * @return array
 	 */
-	public function get_course_tracks(){		
+	public function get_course_tracks(){
 		$trackslist = get_terms('course_track',array('hide_empty' => '0',));
-		
+
 		$tracks = array();
 
-		foreach ((array)$trackslist as $num => $track) 
+		foreach ((array)$trackslist as $num => $track)
 		{
 			$tracks[] = array(
 				'ID' 		 => $track->term_id,
@@ -355,7 +355,7 @@ class LLMS_AJAX {
 	 * @return array
 	 */
 	public function get_sections(){
-		
+
 		$args = array(
 		'posts_per_page' 	=> -1,
 		'post_type' 		=> 'section',
@@ -366,12 +366,12 @@ class LLMS_AJAX {
 			    'key' => '_parent_course',
 			    'compare' => 'NOT EXISTS'
 			    )
-			)                   
+			)
 		);
 		$postslist = get_posts( $args );
 
-		if (!empty($postslist)) { 
-		
+		if (!empty($postslist)) {
+
 			foreach($postslist as $key => $value) {
 				$value->edit_url = get_edit_post_link($value->ID);
 			}
@@ -415,11 +415,11 @@ class LLMS_AJAX {
 			    'key' => '_parent_section',
 			    'compare' => 'NOT EXISTS'
 			    )
-			)                   
+			)
 		);
 		$postslist = get_posts( $args );
 
-		if (!empty($postslist)) { 
+		if (!empty($postslist)) {
 
 			foreach($postslist as $key => $value) {
 				$value->edit_url = get_edit_post_link($value->ID, false);
@@ -460,7 +460,7 @@ class LLMS_AJAX {
 			'posts_per_page' 	=> -1,
 			'post_type' 		=> 'llms_question',
 			'nopaging' 			=> true,
-			'post_status'   	=> 'publish',      
+			'post_status'   	=> 'publish',
 		);
 		$postslist = get_posts( $args );
 
@@ -490,7 +490,7 @@ class LLMS_AJAX {
 			    'key' => '_parent_section',
 			    'value' => $parent_section
 			    )
-			)                   
+			)
 		);
 		$postslist = get_posts( $args );
 
@@ -629,14 +629,14 @@ class LLMS_AJAX {
 			$rd_query = new WP_Query( $rd_args );
 
 			while ( $rd_query->have_posts() ) : $rd_query->the_post();
-	
+
 				array_push($lesson_ids,  $rd_query->post->ID  );
 
 			endwhile;
 
 			wp_reset_postdata();
 		}
-		
+
 		if ( isset($_REQUEST) ) {
 
 			$success = 'no'; //default response to no.
@@ -695,7 +695,7 @@ class LLMS_AJAX {
 					}
 				endwhile;
 				wp_reset_postdata();
-					
+
 				//find all sections that are currently assigned to the course
 				foreach ($_REQUEST['sections'] as $key => $value) {
 					//update _parent_course for section ids
@@ -751,8 +751,8 @@ class LLMS_AJAX {
 
 	/**
 	 * Starts Quiz
-	 * Calls Quiz::start_quiz to set session object and get first question id 
-	 * 
+	 * Calls Quiz::start_quiz to set session object and get first question id
+	 *
 	 * @return [json] [1st question id, html of 1st question post]
 	 */
 	public function start_quiz() {
@@ -762,7 +762,7 @@ class LLMS_AJAX {
 
 		//call start quiz method
 		$question_id = LLMS_Quiz::start_quiz( $quiz_id, $user_id );
-		
+
 		//get requst variables
 		$args = array(
 			'quiz_id' => $quiz_id,
@@ -777,7 +777,7 @@ class LLMS_AJAX {
 
 	/**
 	 * Calls Quiz::answer_question to update session object and get next quiz question
-	 * 
+	 *
 	 * @return [json] [html, message, redirect]
 	 */
 	public function answer_question() {
@@ -838,7 +838,7 @@ class LLMS_AJAX {
 
 		//call start quiz method
 		$prev_question_id = LLMS_Quiz::previous_question( $question_id );
-		
+
 		//get requst variables
 		$args = array(
 			'quiz_id' => $quiz_id,
@@ -855,7 +855,7 @@ class LLMS_AJAX {
 	/**
 	 * Calls Quiz::answer_question, passes $complete as true to complete quiz prematurely
 	 * Only called if quiz timer hits 0
-	 * 
+	 *
 	 * @return [type] [description]
 	 */
 	public function complete_quiz() {
@@ -921,7 +921,8 @@ class LLMS_AJAX {
 				'count_total'  => false,
 				'fields'       => 'all',
 				'search'       => $term . '*',
-				'number'       => 10,
+				'exclude'      => $this->get_enrolled_students_ids(),
+				'number'       => 30,
 		);
 		$all_users = get_users( $user_args );
 
@@ -942,11 +943,11 @@ class LLMS_AJAX {
 	}
 
 	/**
-	 * Return array of enroled students
+	 * Return array of enrolled students
 	 *
 	 * @return array Array of sections
 	 */
-	public function get_enroled_students()
+	public function get_enrolled_students()
 	{
 		$term = $_REQUEST['term'] . '%';
 		$post_id = (int) $_REQUEST['postId'];
@@ -961,7 +962,8 @@ class LLMS_AJAX {
 			AND $usermeta.meta_key = '_status'
 			AND meta_value = 'Enrolled'
 			AND ($user_table.user_email LIKE '$term'
-			OR $user_table.display_name LIKE '$term')";
+			OR $user_table.display_name LIKE '$term')
+			LIMIT 30";
 		$all_users = $wpdb->get_results($select_user);
 
 		$users_arr = [];
@@ -978,6 +980,31 @@ class LLMS_AJAX {
 		]);
 
 		wp_die();
+	}
+
+	private function get_enrolled_students_ids()
+	{
+		$post_id = (int) $_REQUEST['postId'];
+
+		global $wpdb;
+		$user_table = $wpdb->prefix . 'users';
+		$usermeta = $wpdb->prefix . 'lifterlms_user_postmeta';
+
+		$select_user = "SELECT ID FROM $user_table
+			JOIN $usermeta ON $user_table.ID = $usermeta.user_id
+			WHERE $usermeta.post_id = $post_id
+			AND $usermeta.meta_key = '_status'
+			AND meta_value = 'Enrolled'
+			LIMIT 1000";
+		$all_users = $wpdb->get_results($select_user);
+
+		$users_arr = [];
+
+		foreach($all_users as $user) {
+			$users_arr[] = $user->ID;
+		}
+
+		return $users_arr;
 	}
 
 

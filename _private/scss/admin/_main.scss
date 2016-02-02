@@ -155,7 +155,7 @@ table.dad-list tr td:nth-child(2) {
 	width: 100%;
 	font-weight: bold;
 }
-.toplevel_page_lifterlms img { 
+.toplevel_page_lifterlms img {
   height: 18px;
   width: 18px;
 }
@@ -179,7 +179,7 @@ table.dad-list tr td:nth-child(2) {
 }
 .course-section {
 }
-select[disabled] { 
+select[disabled] {
  color:#000;
  border: transparent;
  background: none;
@@ -202,7 +202,7 @@ select[disabled]::-ms-expand {
   width: 100%;
 }
 .sortable-placeholder {
-  border-left: 2px solid #4999DA; 
+  border-left: 2px solid #4999DA;
   margin: 0 0 0.75rem 0;
   position: relative;
   z-index: 6;
@@ -212,7 +212,7 @@ select[disabled]::-ms-expand {
 #syllabus .placeholder {
 	height: 46px;
 
-	border:10px solid #4999DA; 
+	border:10px solid #4999DA;
 	background: #f4f9fb;
   	//margin: 0 0 0.75rem 0;
   	//position: relative;
@@ -261,7 +261,7 @@ select[disabled]::-ms-expand {
 .course-section .title .llms-fa-edit-lesson:active {
 	color: #009af7;
 }
-	
+
 
 tbody tr td .llms-fa-move-lesson {
 	position: absolute;
@@ -394,10 +394,15 @@ td.llms-table-options {
 	margin-left: 10px;
 }
 
-.title 
+.title
 {
 	background-color: inherit;
 	border: inherit;
 }
 
 
+#lifterlms-course-outline.postbox {
+	.inside {
+		overflow: visible;
+	}
+}
