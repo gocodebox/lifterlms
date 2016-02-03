@@ -28,12 +28,12 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		$id = $name = esc_attr($this->field['id']);
 
-		if ($this->field['multi']) {
+		if (array_key_exists('multi', $this->field)) {
 			$name .= '[]';
 		}
 
 		$selected = $this->meta;
-		if ($this->field['selected']) {
+		if (array_key_exists('selected', $this->field)) {
 			$selected = $this->field['selected'];
 		}
 
@@ -43,7 +43,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			id="<?php echo $id; ?>"
 			name="<?php echo $name; ?>"
 			class="<?php echo esc_attr($this->field['class']); ?>"
-			<?php if ($this->field['multi']): ?>
+			<?php if (array_key_exists('multi', $this->field) && $this->field['multi']): ?>
 				multiple="multiple"
 			<?php endif; ?>
 		>
