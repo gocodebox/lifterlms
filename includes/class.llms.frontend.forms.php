@@ -1485,7 +1485,7 @@ class LLMS_Frontend_Forms
                 $code = llms_clean($_POST['llms_voucher_code']);
 
                 $voucher = new LLMS_Voucher();
-                $voucher->use_voucher($code, $new_person);
+                $voucher->use_voucher($code, $new_person, false);
 
                 if (!empty($_POST['product_id'])) {
                     $product_id = $_POST['product_id'];
