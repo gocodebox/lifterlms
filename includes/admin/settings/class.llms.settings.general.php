@@ -22,7 +22,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
         add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'register_hooks' ) );
-		LLMS()->activate();
+
 	}
 
 	/**
@@ -31,18 +31,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * @return array
 	 */
 	public function get_settings() {
-		$is_activated = get_option( 'lifterlms_is_activated', '' );
-		$activation_response = get_option( 'lifterlms_activation_message', '' );
-		if($is_activated == 'yes') {
-			$activation_message = 'Activated';
-			$deactivate_checkbox = 'checkbox';
-			$deactivate_message = __( 'Deactivate LifterLMS.', 'lifterlms' );
-		}
-		else {
-			$activation_message = 'Not Activated (' . $activation_response . ')';
-			$deactivate_checkbox = '';
-			$deactivate_message = '';
-		}
 
 		$currency_code_options = get_lifterlms_currencies();
 
@@ -55,35 +43,15 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 				array( 'type' => 'sectionstart', 'id' => 'general_information', 'class' =>'top' ),
 
-				array(	'title' => __( 'Welcome to LifterLMS',
-					'lifterlms' ),
-					'type' => 'title',
-					'desc' => '<h2>' . __( 'Getting Started with LifterLMS', 'lifterlms' ) . '</h2>
-					<p>' . __( 'Before you start creating courses, making lots of money and building the best (insert your business here) online there are a few setup items we need to address.', 'lifterlms' ) . '</p>
-					<p>' . __( 'First things first. We need to activate your plugin. Enter the activation key you were given when you purchased LifterLMS. If you don\'t have a key that\'s ok. Go ahead and continue the setup. You can activate the plugin later.', 'lifterlms' ) . '</p>
-
-	',
-					'id' => 'welcome_options_activate' ),
-
-							array(
-					'title' => __( 'Activation Key', 'lifterlms' ),
-					'desc' 		=> __( $activation_message, 'lifterlms' ),
-					'id' 		=> 'lifterlms_activation_key',
-					'type' 		=> 'text',
-					'default'	=> '',
-					'desc_tip'	=> true,
-				),
-
-
-
 				array(
+					'title' => __( 'Welcome to LifterLMS', 'lifterlms' ),
 					'type' => 'desc',
-					'desc' => '<p>' . __( 'Next we need to set up your pages. Ya, we know, more pages... That\'s just the way Wordpress works. We\'ve already installed them. You just need to set them.', 'lifterlms' ) . '
-					</p> ' . __( 'When you installed LifterLMS we created a few pages for you. You can select those pages or use different ones. Your choice.', 'lifterlms' ) . '</p>
-
-						<p>' . __( 'The first page you need is the Student Account page. This is the page users will go to register, login and access their accounts. We installed a page called My Courses. You can use that or select a different page. If you happen to select a different page you will need to add this shortcode to the page:', 'lifterlms' ) . ' [lifterlms_my_account]</p>
-
-	',
+					'desc' => '
+						<h2>' . __( 'Getting Started with LifterLMS', 'lifterlms' ) . '</h2>
+						<p>' . __( 'Before you start creating courses, making lots of money and building the best (insert your business here) online there are a few setup items we need to address.', 'lifterlms' ) . '</p>
+						<p>' . __( 'We need to set up your pages. Ya, we know, more pages... That\'s just the way Wordpress works. We\'ve already installed them. You just need to set them.', 'lifterlms' ) . '</p>
+						' . __( 'When you installed LifterLMS we created a few pages for you. You can select those pages or use different ones. Your choice.', 'lifterlms' ) . '</p>
+						<p>' . __( 'The first page you need is the Student Account page. This is the page users will go to register, login and access their accounts. We installed a page called My Courses. You can use that or select a different page. If you happen to select a different page you will need to add this shortcode to the page:', 'lifterlms' ) . ' [lifterlms_my_account]</p>',
 					'id' => 'welcome_options_setup' ),
 
 				array(
@@ -186,38 +154,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					'id' => 'activation_options' ),
 
 				array( 'type' => 'sectionend', 'id' => 'general_information' ),
-
-				array( 'type' => 'sectionstart', 'id' => 'activation' ),
-
-				array(	'title' => __( 'Plugin Activation', 'lifterlms' ), 'type' => 'title',
-					'desc' => __( 'Enter your activation key to recieve important updates and new features when they are available.
-						Need an activation key? <a href="http://lifterlms.com">Get one here</a>', 'lifterlms' ),
-					'id' => 'activation_options' ),
-
-				array(
-					'title' => __( 'Activation Key', 'lifterlms' ),
-					'desc' 		=> __( $activation_message, 'lifterlms' ),
-					'id' 		=> 'lifterlms_activation_key',
-					'type' 		=> 'text',
-					'default'	=> '',
-					'desc_tip'	=> true,
-				),
-
-				array(
-					'desc'          => $deactivate_message,
-					'id'            => 'lifterlms_activation_deactivate',
-					'default'       => 'no',
-					'type'          => $deactivate_checkbox,
-					'checkboxgroup' => 'start',
-				),
-
-				array(
-					'title' => '',
-					'value' => __( 'Update Activation', 'lifterlms' ),
-					'type' 		=> 'button',
-				),
-
-				array( 'type' => 'sectionend', 'id' => 'activation' ),
 
 				array( 'type' => 'sectionstart', 'id' => 'general_options'),
 
