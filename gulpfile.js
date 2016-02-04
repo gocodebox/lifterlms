@@ -74,7 +74,7 @@ gulp.task('lint', function() {
 });
 
 /**
- * JS build 
+ * JS build
  * Runs JSCS and Linter before process-scripts
  */
 gulp.task('build', ['jscs', 'lint'], function() {
@@ -119,9 +119,9 @@ gulp.task( 'process-frontend-styles', function () {
  */
 gulp.task( 'process-admin-styles', function () {
 
-	return sass( '_private/scss/admin.scss', { 
+	return sass( '_private/scss/admin.scss', {
 		cacheLocation: '_private/scss/.sass-cache',
-		style: 'expanded' 
+		style: 'expanded'
 		})
 		.pipe( autoprefixer( 'last 2 version' ) )
 		.pipe( gulp.dest( 'assets/css/' ) )
@@ -163,5 +163,16 @@ gulp.task( 'watch', function () {
 
 
 });
+
+
+
+gulp.task( 'readme', function() {
+
+	return gulp.src( '_readme/readme.txt' )
+		.pipe( include() )
+		.pipe( gulp.dest( './' ) );
+
+} );
+
 
 gulp.task('default', ['rebuild']);

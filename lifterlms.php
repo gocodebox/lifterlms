@@ -2,16 +2,16 @@
 /**
 * Plugin Name: LifterLMS
 * Plugin URI: https://lifterlms.com/
-* Description: LifterLMS is the easiest way for anyone to create a Learning Management System on the Wordpress platform.
+* Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
 * Version: 2.0.0
 * Author: Mark Nelson, Thomas Patrick Levy, codeBOX, LLC
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
 * Domain Path: /languages
-* License:     GPL2
+* License:     GPLv2
 * License URI: https://www.gnu.org/licenses/gpl-2.0.html
 * Requires at least: 3.8
-* Tested up to: 4.4.1
+* Tested up to: 4.4.2
 *
 * @package 		LifterLMS
 * @category 	Core
