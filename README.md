@@ -1,9 +1,11 @@
 LifterLMS
 ==========
 
+LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
+
 ### [Changelog](./CHANGELOG.md)
 
-### [Documentation](https://lifterlms.readme.io).
+### [Documentation](https://lifterlms.readme.io)
 
 ### Contributing
 
