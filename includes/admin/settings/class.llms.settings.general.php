@@ -148,7 +148,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					<li><p>' . __( 'Get LifterLMS news, updates, and more on our blog at ', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/" target="_blank">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
 					<li><p>' . __( 'Visit our interactive demo for in depth tutorials at ', 'lifterlms' ) . ' <a href="http://demo.lifterlms.com" target="_blank">' . __( 'http://demo.lifterlms.com' ) . '</a>.</p></li>
 					<li><p>' . __( 'Want LifterLMS setup for you, you might need a <strong>Boost</strong>, visit ', 'lifterlms' ) . ' <a href="http://lifterlms.com/done-for-you" target="_blank">' . __( 'http://lifterlms.com/done-for-you' ) . '</a> ' . __( 'for more information' ) . '.</p></li>
-					<li><p>' . __( 'Learn how to increase your course success at ', 'lifterlms' ) . ' <a href="http://courseclinic.com/" target="_blank">' . __( 'http://courseclinic.com/' ) . '</a> ' . __( 'for more information' ) . '.</p></li>
 					</ul>
 					</div>',
 					'id' => 'activation_options' ),
