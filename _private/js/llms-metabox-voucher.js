@@ -18,12 +18,13 @@ $(document).ready(function () {
         if ($.isNumeric(qty) && $.isNumeric(uses)) {
             if (parseInt(qty) > 0) {
 
-                codesAddedSinceLastSave += parseInt(qty);
-
                 if(qty > 50) {
                     alert("You can only generate 50 rows at a time");
                     return;
                 }
+
+                codesAddedSinceLastSave += parseInt(qty);
+
                 if(codesAddedSinceLastSave > 50) {
                     alert("Please save before adding any more codes, limit is 50 at a time");
                     codesAddedSinceLastSave -= parseInt(qty);
