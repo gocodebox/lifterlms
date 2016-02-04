@@ -412,11 +412,14 @@ class LLMS_Analytics {
 					//get member name
 					$first_name = get_user_meta( $student->user_id, 'first_name', true );
 					$last_name = get_user_meta( $student->user_id, 'last_name', true );
+					$user = get_user_by('id', $student->user_id);
+					$email = $user->user_email;
 					$profile_link = '<a href="' . get_admin_url( '', 'admin.php?page=llms-students&tab=profile&student=' . $student->user_id ) . '">View</a>';
 					//add data to large table array
 					$student_data = array(
 						$last_name,
 						$first_name,
+						$email,
 						$profile_link
 					);
 					array_push( $students_large, $student_data );

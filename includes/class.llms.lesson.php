@@ -586,6 +586,12 @@ class LLMS_Lesson {
 
 				do_action('lifterlms_course_completed', $user_id, $course->id );
 	
+			} elseif (get_option('lifterlms_autoadvance', false)) {
+				$next_lession_id = $this->get_next_lesson();
+				if($next_lession_id) {
+					wp_redirect(get_permalink($next_lession_id));
+					exit;
+				}
 			}
 
 		}

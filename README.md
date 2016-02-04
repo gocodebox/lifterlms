@@ -10,17 +10,46 @@ CHANGELOG
 v2.0.0 - 2016/02/??
 -------------------
 
+##### Auto-advancing lessons
+
++ We've heard your feedback and added a new global course option which will auto-advance a student to the next lesson upon lesson completion.
+
 ##### Bug Fixes
 
 + Added spaces between numbers and "of" on the counter for course syllabus templates
 + Removed a template hook that was creating duplicate lesson thumbnails on quite a few themes
 
-##### Updated syllabus template
+##### Membership Admin Improvements
+
+Visit the "Enrollment" tab on any membership to see some new additions to make managing your memberships easier.
+
++ You can now add courses to and remove courses from a Membership from the Membership itself
++ You can now opt to automatically enroll students in a course (or multiple courses) when they sign up for a membership by checking "Auto Enroll" next to the course on the Membership enrollment tab
+
+##### Student Enrollment & Removal on Courses Admin Screen
+
+We've updated the Students tab interface for performance and usability!
+
++ AJAX enabled searching by student name and or email
++ Increased performance for course page load by only calling student information when needed. This resolves a bug identified by users with large user databases and/or low-powered servers.
++ Allow for addition or removal of several students at a time.
+
+##### Syllabus Template
 
 + Added a Course setting to optionally enable Lesson Thumbnails on the Course Syllabus
 + Added a Course setting Display greyed out lesson completion checkmark icons on lessons not competed in the course syllabus
 + Rewored CSS on the course syllabus to rely on floats rather than absolute positioning, should allow for more robust custimization with less frustration
 + Refactored the syllabus template at "templates/course/syllabus.php" for better performance and readability
+
+##### Updates and enhancements
+
++ User email is now displayed on the "Students" table on student analytics screens
++ Membership now has it's own admin menu
++ Reordered the LifterLMS admin menu and submenu items
++ Removed membership specific taxonomies from courses
++ Removed course specific taxonomies from memberships
++ Coupon code is now a required field when creating a coupon
++ "Humbled" the metabox on all post types that restricts the post to a membership. The metabox would previously gain priority over the WordPress publishing actions metabox. The priority has been reduced to "default" and will to fall into line with all other metaboxes on the screen and appear based on registration priority. If you can't find the metabox, SCROLL DOWN! If you want to put it back up on the top, you can simply drag it up there and WordPress will save your preference.
 
 ##### Deprecated Functions
 

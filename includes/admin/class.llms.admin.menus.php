@@ -38,37 +38,30 @@ class LLMS_Admin_Menus {
 
 	    $arr = array();
 
-	    // var_dump( $submenu );
+	    foreach( $submenu['lifterlms'] as $sm )
+	    {
 
-	    // permissions are handled by the add_submenu_page function for the following pages
-	    $arr[] = $submenu['lifterlms'][9];  // Settings
-	    $arr[] = $submenu['lifterlms'][10];  // Analytics
-	    $arr[] = $submenu['lifterlms'][11]; // Students
+	    	switch( $sm[0] ) {
 
-	    // the following pages are custom post types, show the page only if the user has the proper permissions
-	    if( current_user_can( apply_filters( 'lifterlms_admin_membership_access', 'manage_options' ) ) )
-	    	$arr[] = $submenu['lifterlms'][5];  // Membership
+	    		case 'Settings':	 $i = 0;  break;
+	    		case 'Analytics':	 $i = 1;  break;
+	    		case 'Students':	 $i = 2;  break;
+	    		case 'Emails':		 $i = 3;  break;
+	    		case 'Engagements':	 $i = 4;  break;
+	    		case 'Achievements': $i = 5;  break;
+	    		case 'Certificates': $i = 6;  break;
+	    		case 'Reviews':		 $i = 7; break;
+	    		case 'Orders':		 $i = 8;  break;
+	    		case 'Coupons':		 $i = 9;  break;
+	    		case 'Vouchers':	 $i = 10;  break;
 
-	    if( current_user_can( apply_filters( 'lifterlms_admin_emails_access', 'manage_options' ) ) )
-		    $arr[] = $submenu['lifterlms'][1];  // Emails
+	    	}
 
-	    if( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_options' ) ) )
-		    $arr[] = $submenu['lifterlms'][2];  // Certificates
+	    	$arr[$i] = $sm;
 
-	    if( current_user_can( apply_filters( 'lifterlms_admin_achievements_access', 'manage_options' ) ) )
-	    	$arr[] = $submenu['lifterlms'][3];  // Achievements
+	    }
 
-	    if( current_user_can( apply_filters( 'lifterlms_admin_engagements_access', 'manage_options' ) ) )
-	    	$arr[] = $submenu['lifterlms'][4];  // Engagements
-
-	    if( current_user_can( apply_filters( 'lifterlms_admin_orders_access', 'manage_options' ) ) )
-	    	$arr[] = $submenu['lifterlms'][0];  // Orders
-
-	    if( current_user_can( apply_filters( 'lifterlms_admin_coupons_access', 'manage_options' ) ) )
-	    	$arr[] = $submenu['lifterlms'][6];  // Coupons
-
-	    if( current_user_can( apply_filters( 'lifterlms_admin_reviews_access', 'manage_options' ) ) )
-	    	$arr[] = $submenu['lifterlms'][7];  // Reviews
+	    ksort( $arr );
 
 	    $submenu['lifterlms'] = $arr;
 
@@ -84,19 +77,16 @@ class LLMS_Admin_Menus {
 	* @return void
 	*/
 	public function display_admin_menu() {
-		//global $menu, $lifterlms;
+
+		global $menu;
 
 		if ( current_user_can( apply_filters( 'lifterlms_admin_menu_access', 'manage_options' ) ) ) {
 
-			$lifterLMS = add_menu_page('lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', 'llms_homepage', plugin_dir_url(LLMS_PLUGIN_FILE) . 'assets/images/lifterLMS-wp-menu-icon.png', '50.15973');
+			$menu[51] = array( '', 'read', "llms-separator",'','wp-menu-separator' );
 
-			function llms_homepage() {
-	    		global $title;
-	    		?>
-	        	<h2><?php echo $title; ?></h2>
-	        	IT'S ALIVE!!!!
-	        	<?php
-			}
+			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', 'llms_homepage', plugin_dir_url(LLMS_PLUGIN_FILE) . 'assets/images/lifterLMS-wp-menu-icon.png', 52 );
+
+			function llms_homepage() {}
 
 		}
 
