@@ -1182,19 +1182,19 @@ ul.tabs li.current:hover {
   background: #fff;
   padding: 15px;
 }
-.container .tab-content ul:not(.select2-selection__rendered) {
+.container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) {
   margin: 0;
 }
-.container .tab-content ul:not(.select2-selection__rendered) > li {
+.container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li {
   padding: 20px 0;
   margin: 0;
   border-bottom: 1px solid #ccc;
 }
-.container .tab-content ul:not(.select2-selection__rendered) > li:last-child {
+.container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li:last-child {
   border: 0;
   padding-bottom: 0;
 }
-.container .tab-content ul:not(.select2-selection__rendered) > li.top {
+.container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li.top {
   border-bottom: 0;
   padding-bottom: 0;
 }
