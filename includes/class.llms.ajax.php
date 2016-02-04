@@ -912,7 +912,7 @@ class LLMS_AJAX {
 	 */
 	public function get_students()
 	{
-		$term = $_REQUEST['term'];
+		$term = array_key_exists('term', $_REQUEST) ? $_REQUEST['term'] : '';
 
 		$user_args = array(
 				'include'      => array(),
@@ -949,7 +949,7 @@ class LLMS_AJAX {
 	 */
 	public function get_enrolled_students()
 	{
-		$term = $_REQUEST['term'] . '%';
+		$term = array_key_exists('term', $_REQUEST) ? $_REQUEST['term'] . '%' : '%';
 		$post_id = (int) $_REQUEST['postId'];
 
 		global $wpdb;
