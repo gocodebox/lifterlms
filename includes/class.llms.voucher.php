@@ -302,6 +302,26 @@ class LLMS_Voucher
         return false;
     }
 
+    public function is_code_duplicate($codes)
+    {
+        global $wpdb;
+        $table = $this->get_codes_table_name();
+
+        $codes_as_string = join('","' , $codes);
+
+        $query = 'SELECT code
+                  FROM ' . $table . '
+                  WHERE code IN ("' . $codes_as_string . '")
+                  AND voucher_id != ' . $this->id;
+        $codes = $wpdb->get_results($query, ARRAY_A);
+
+        if(count($codes)) {
+            return $codes;
+        }
+
+        return false;
+    }
+
     public function save_product($product_id)
     {
         global $wpdb;

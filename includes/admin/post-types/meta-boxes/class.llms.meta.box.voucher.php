@@ -249,6 +249,12 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 
         $voucher = new LLMS_Voucher($post_id);
 
+        $duplicates = $voucher->is_code_duplicate($llms_codes);
+        if($duplicates) {
+            add_action( 'admin_notices', array(__CLASS__, 'voucher_duplicate_error_notice') );
+            return;
+        }
+
         if (isset($llms_codes) && !empty($llms_codes) && isset($llms_uses) && !empty($llms_uses)) {
 
             foreach ($llms_codes as $k => $code) {
@@ -321,4 +327,11 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
             }
         }
     }
+
+    public static function voucher_duplicate_error_notice() {
+        $class = "error";
+        $message = "Error in saving, one of the voucher codes exist in one of the other vouchers.";
+        echo"<div class=\"$class\"> <p>$message</p></div>";
+    }
+
 }
