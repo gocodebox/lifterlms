@@ -53,7 +53,7 @@ ul.tabs li.current{
     background: $color-white;
     padding: 15px;
 
-    ul:not(.select2-selection__rendered)  {
+    ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results)  {
         margin: 0;
 
         >li {
