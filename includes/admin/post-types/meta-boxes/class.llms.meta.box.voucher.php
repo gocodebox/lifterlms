@@ -261,7 +261,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                             'redemption_count' => intval($llms_uses[$k])
                         );
 
-                        if (!empty(intval($llms_voucher_code_id[$k]))) {
+                        if ( intval( $llms_voucher_code_id[$k] ) ) {
                             $data['id'] = intval($llms_voucher_code_id[$k]);
                         }
 
