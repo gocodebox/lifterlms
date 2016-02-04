@@ -152,7 +152,7 @@ class LLMS_Voucher
         return $voucher;
     }
 
-    public function use_voucher($code, $user_id)
+    public function use_voucher($code, $user_id, $notices = true)
     {
         $voucher = $this->check_voucher($code);
 
@@ -170,7 +170,9 @@ class LLMS_Voucher
             $used_voucher = $wpdb->get_results($select_vouchers, ARRAY_A);
 
             if( count( $used_voucher ) ) {
-                llms_add_notice( 'You have already used this voucher.', 'error' );
+                if($notices) {
+                    llms_add_notice('You have already used this voucher.', 'error');
+                }
                 return $voucher->voucher_id;
             }
 
@@ -221,10 +223,14 @@ class LLMS_Voucher
                     update_user_meta($user_id, '_llms_restricted_levels', $membership_levels);
                 }
 
-                llms_add_notice( "Voucher used successfully!" );
+                if($notices) {
+                    llms_add_notice("Voucher used successfully!");
+                }
             }
         } else {
-            llms_add_notice( "Voucher could not be used. Please check that you have valid voucher.", 'error' );
+            if($notices) {
+                llms_add_notice("Voucher could not be used. Please check that you have valid voucher.", 'error');
+            }
         }
 
         return $voucher;
