@@ -7,7 +7,7 @@ Full documentation available at [https://lifterlms.readme.io](https://lifterlms.
 CHANGELOG
 =========
 
-v2.0.0 - 2016/02/??
+v2.0.0 - 2016/02/04
 -------------------
 
 ##### Auto-advancing lessons
@@ -51,9 +51,24 @@ We've updated the Students tab interface for performance and usability!
 + Coupon code is now a required field when creating a coupon
 + "Humbled" the metabox on all post types that restricts the post to a membership. The metabox would previously gain priority over the WordPress publishing actions metabox. The priority has been reduced to "default" and will to fall into line with all other metaboxes on the screen and appear based on registration priority. If you can't find the metabox, SCROLL DOWN! If you want to put it back up on the top, you can simply drag it up there and WordPress will save your preference.
 
+##### Deprecated Classes
+
+We've added a "deprecated" file which holds a few stubs for classes and functions deprecated below as to prevent fatal errors. The functions and classes in the deprecated class are classes which we know are being utilized by approved LifterLMS extensions and will allow users to upgrade LifterLMS without upgrade extensions without breaking their websites!
+
++ `LLMS_Activate` which as previously used to activate the plugin for updates via the LifterLMS Update Server and is no longer required.
++ PUC (plugin update checker) Library has been completely removed as it is no longer required for plugin updates.
++ `LLMS_Analytics_Dashboard` was removed as it was a stub that was never used and shouldn't have ever been released as a part of the LifterLMS codebase. I can't believe no one reported this bug!
+
 ##### Deprecated Functions
 
 +  `lifterlms_template_section_syllabus()`
+
+**The following are officiallby deprecated and removed to prevent WooCommerce compatibility conflicts**
+
++ `is_shop()` replaced by `is_llms_shop()`
++ `is_account_page()` replaced by `is_llms_account_page()`
++ `is_checkout()` replaced by `is_llms_checkot()`
+
 
 ##### Deprecated Templates
 
@@ -86,6 +101,10 @@ We've updated the Students tab interface for performance and usability!
 + `lifterlms_product_purchase_checkout_redirect`
 + `lifterlms_product_purchase_membership_redirect`
 + `lifterlms_lesson_complete_icon`
+
+
+
+
 
 
 v1.5.0 - 2016/01/22
