@@ -1,7 +1,7 @@
 === LifterLMS ===
 Contributors: thomasplevy
 Donate link: https://lifterlms.com
-Tags:
+Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 3.8
 Tested up to: 4.4.2
 Stable tag: 2.0.0
@@ -142,6 +142,8 @@ We care about your feature ideas and what you have to say. You can request a fea
 Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/).
 
 == Screenshots ==
+
+1. LifterLMS Settings
 
 == Changelog ==
 
