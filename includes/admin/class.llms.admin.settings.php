@@ -180,8 +180,9 @@ class LLMS_Admin_Settings {
     	// set missing values with defaults
     	$field = self::set_field_defaults( $field );
 
+        $custom_attributes_field = array_key_exists('custom_attributes', $field) ? $field['custom_attributes'] : array();
     	// setup custom attributes
-   		$custom_attributes = self::format_field_custom_attributes( $field['custom_attributes'] );
+   		$custom_attributes = self::format_field_custom_attributes( $custom_attributes_field );
 
     	// setup field description and tooltip
     	// this will return an associative array of with the keys "description" and "tooltip"
@@ -647,15 +648,11 @@ class LLMS_Admin_Settings {
 
     	// Custom attribute handling
 		$custom_attributes = array();
+        foreach ( $attributes as $attribute => $attribute_value ) {
 
-		if ( ! empty( $field['custom_attributes'] ) && is_array( $field['custom_attributes'] ) ) {
+            $custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
 
-			foreach ( $field['custom_attributes'] as $attribute => $attribute_value ) {
-
-				$custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
-
-			}
-		}
+        }
 
 		return $custom_attributes;
 
