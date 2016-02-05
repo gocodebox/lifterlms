@@ -85,6 +85,13 @@ class LLMS_Meta_Box_Voucher_Export
                         $voucher = new LLMS_Voucher($post->ID);
                         $codes = $voucher->get_voucher_codes('ARRAY_A');
 
+                        if( !$codes ) {
+                            /**
+                             * @todo  error handling here
+                             */
+                            return;
+                        }
+
                         foreach ( $codes as $k=>$v )
                         {
                             unset($codes[$k]['id']);
@@ -102,15 +109,34 @@ class LLMS_Meta_Box_Voucher_Export
                         $csv = self::array_to_csv($codes);
 
                         $fileName = 'vouchers.csv';
-                        break;
+                    break;
+
                     case 'redeemed':
 
                         $redeemedCodes = $voucher->get_redeemed_codes('ARRAY_A');
 
+                        if( !$redeemedCodes ) {
+                            /**
+                             * @todo  error handling here
+                             */
+                            return;
+                        }
+
+                        foreach ( $redeemedCodes as $k=>$v )
+                        {
+                            unset($redeemedCodes[$k]['id']);
+                            unset($redeemedCodes[$k]['code_id']);
+                            unset($redeemedCodes[$k]['voucher_id']);
+                            unset($redeemedCodes[$k]['redemption_count']);
+                            unset($redeemedCodes[$k]['user_id']);
+
+                        }
+
                         $csv = self::array_to_csv($redeemedCodes);
 
                         $fileName = 'redeemed_codes.csv';
-                        break;
+
+                    break;
                 }
 
                 $sendEmail = isset( $_POST['llms_voucher_export_send_email'] ) ? $_POST['llms_voucher_export_send_email'] : false;

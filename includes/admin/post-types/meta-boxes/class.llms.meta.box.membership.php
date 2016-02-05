@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! defined( 'LLMS_Admin_Metabox' ) ) 
+if ( ! defined( 'LLMS_Admin_Metabox' ) )
 {
 	// Include the file for the parent class
 	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
@@ -8,7 +8,7 @@ if ( ! defined( 'LLMS_Admin_Metabox' ) )
 
 /**
 * Meta Box Builder
-* 
+*
 * Generates main metabox and builds forms
 */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
@@ -18,20 +18,20 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 * 
+	 *
 	 * @param object $post WP global post object
 	 * @return void
 	 */
 	public static function output ( $post ) {
 		global $post;
 		parent::new_output( $post, self::metabox_options() );
-	}	
+	}
 
 	/**
 	 * Builds array of metabox options.
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
-	 * 
+	 *
 	 * @return array [md array of metabox fields]
 	 */
 	public static function metabox_options() {
@@ -99,7 +99,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'type'		=> 'post-content',
 						'label'		=> 'Enrolled user and non-enrolled visitor description',
 						'desc' 		=> 'This content will be displayed to enrolled users. If the non-enrolled users description
-							field is left blank the content will be displayed to both enrolled users and non-logged / restricted 
+							field is left blank the content will be displayed to both enrolled users and non-logged / restricted
 							visitors.',
 						'id' 		=> '',
 						'class' 	=> '',
@@ -110,9 +110,9 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 					array(
 						'type'		=> 'post-excerpt',
 						'label'		=> 'Restricted Access Description',
-						'desc' 		=> 'Enter content in this field if you would like visitors that 
-							are not enrolled or are restricted to view different content from 
-							enrolled users. Visitors who are not enrolled in the course 
+						'desc' 		=> 'Enter content in this field if you would like visitors that
+							are not enrolled or are restricted to view different content from
+							enrolled users. Visitors who are not enrolled in the course
 							or are restricted from the course will see this description if it contains content.',
 						'id' 		=> '',
 						'class' 	=> '',
@@ -253,7 +253,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 				)
 			),
 			array(
-				'title' 	=> 'Membership Expiration',
+				'title' 	=> 'Expiration',
 				'fields' 	=> array(
 					array(
 						'label' 	=> 'Interval',
@@ -275,7 +275,64 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'group' 	=> '',
 						'desc_class'=> 'd-all',
 						'class' 	=> 'input-full',
-					)				
+					)
+				)
+			),
+			array(
+				'title' 	=> 'Enrollment',
+				'fields' 	=> array(
+					array(
+						'label' 	=> 'Courses',
+						'desc' 		=> 'Add course to membership.',
+						'id' 		=> self::$prefix . 'llms_course_membership',
+						'type'  	=> 'select',
+						'value' 	=> self::get_courses_not_in_membership_list(),
+						'group' 	=> '',
+						'multi'		=> true,
+						'desc_class'=> 'd-all',
+						'class' 	=> 'input-full add-course-to-membership',
+					),
+					array(
+						'type'		=> 'button',
+						'label'		=> '',
+						'desc' 		=> '',
+						'id' 		=> self::$prefix . 'add_course_submit',
+						'class' 	=> 'llms-button-primary',
+						'value' 	=> 'Add Courses',
+						'desc_class'=> '',
+						'group' 	=> '',
+					),
+					array(
+						'label' 	=> 'Added Courses',
+						'desc' 		=> 'Remove course from membership.',
+						'id' 		=> self::$prefix . 'llms_remove_course_membership',
+						'type'  	=> 'select',
+						'value' 	=> self::get_courses_in_membership_list(),
+						'group' 	=> '',
+						'multi'		=> true,
+						'desc_class'=> 'd-all',
+						'class' 	=> 'input-full remove-course-from-membership',
+					),
+					array(
+						'type'		=> 'button',
+						'label'		=> '',
+						'desc' 		=> '',
+						'id' 		=> self::$prefix . 'remove_course_submit',
+						'class' 	=> 'llms-button-primary',
+						'value' 	=> 'Remove Courses',
+						'desc_class'=> '',
+						'group' 	=> '',
+					),
+					array(
+						'label' 	=> 'Courses',
+						'desc' 		=> 'Automatically enroll users in the selected courses on successful membership registration',
+						'id' 		=> self::$prefix . 'llms_course_membership_table',
+						'titles'	=> ['Course Name', 'Auto Enroll'],
+						'type'  	=> 'table',
+						'table_data'=> self::get_courses_table_data(),
+						'group' 	=> '',
+						'class' 	=> '',
+					)
 				)
 			)
 		);
@@ -283,36 +340,139 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		if(has_filter('llms_meta_fields_llms_membership_settings')) {
 			//Add Fields to the membership Meta Box
 			$llms_meta_fields_llms_membership_settings = apply_filters('llms_meta_fields_llms_membership_settings', $llms_meta_fields_llms_membership_settings);
-		} 
-		
+		}
+
 		return $llms_meta_fields_llms_membership_settings;
+	}
+
+	public static function get_courses_list() {
+		$args = array(
+			'post_type' 	=> 'course',
+			'nopaging'		=> true,
+			'post_status'   => 'publish',
+			'number'		=> 1000,
+		);
+
+		$courses_list = array();
+
+		$courses = get_posts( $args );
+
+		foreach($courses as $course) {
+			$courses_list[] = array(
+				'key' => $course->ID,
+				'title' => $course->post_title
+			);
+		}
+		return $courses_list;
+	}
+
+	public static function get_courses_not_in_membership_list() {
+		$args = array(
+			'post_type' 	=> 'course',
+			'nopaging'		=> true,
+			'post_status'   => 'publish',
+			'number'		=> 1000,
+			'exclude'		=> array_column(self::get_courses_in_membership_list(), 'key'),
+		);
+
+		$courses_list = array();
+
+		$courses = get_posts( $args );
+
+		foreach($courses as $course) {
+			$courses_list[] = array(
+				'key' => $course->ID,
+				'title' => $course->post_title
+			);
+		}
+		return $courses_list;
+	}
+
+	public static function get_courses_in_membership_list() {
+		global $wpdb, $post;
+		$courses_list = array();
+		$posts_table = $wpdb->prefix . 'posts';
+		$postmeta = $wpdb->prefix . 'postmeta';
+
+		$postmeta_select = '%:"' . $post->ID . '";%';
+
+		$select_courses = "SELECT ID, post_title FROM $posts_table
+					JOIN $postmeta
+					ON $posts_table.ID = $postmeta.post_id
+					WHERE $posts_table.post_type = 'course'
+					AND $postmeta.meta_key = '_llms_restricted_levels'
+					AND $postmeta.meta_value LIKE '$postmeta_select'";
+		$courses = $wpdb->get_results($select_courses);
+
+		foreach($courses as $course) {
+			$courses_list[] = array(
+				'key' => $course->ID,
+				'title' => $course->post_title
+			);
+		}
+
+		return $courses_list;
+	}
+
+	public static function get_courses_table_data() {
+		global $post;
+		$membership_courses = self::get_courses_in_membership_list();
+
+		$table_data = array();
+		$auto_enroll_checkboxes = get_post_meta( $post->ID, '_llms_auto_enroll', true);
+
+		if( !$auto_enroll_checkboxes ) {
+			$auto_enroll_checkboxes = array();
+		}
+
+		foreach($membership_courses as $course) {
+			$auto_enroll_checkbox = in_array($course['key'], $auto_enroll_checkboxes) ? 'checked' : '';
+
+			$table_data[] = array(
+				'<a href="' . admin_url( 'post.php?post=' . $course['key'] . '&action=edit' ) . ' ">' . $course['title'] . '</a>' ,
+				'<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"'
+			);
+		}
+
+		return $table_data;
+
 	}
 
 	/**
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
-		global $wpdb;
+		$postId = (string) $post->ID;
 
-		// $prefix = '_';
-		// $title = $prefix . 'certificate_title';
-		// $image = $prefix . 'certificate_image';
+		if (isset($_POST['_llms_course_membership'])) {
+			foreach ($_POST['_llms_course_membership'] as $course_id) {
+				$memberships = array_merge(get_post_meta($course_id, '_llms_restricted_levels', true), [$postId]);
 
-		// //update title
-		// $update_title = ( llms_clean( $_POST[$title]  ) );
-		// update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
-		// Congrats Mark! You found me!
-		// //update background image
-		// $update_image = ( llms_clean( $_POST[$image]  ) );
-		// update_post_meta( $post_id, $image, ( $update_image === '' ) ? '' : $update_image );
+				update_post_meta($course_id, '_l lms_is_restricted', true);
+				update_post_meta($course_id, '_llms_restricted_levels', $memberships);
+			}
+		}
 
+		if (isset($_POST['_llms_remove_course_membership'])) {
+			foreach ($_POST['_llms_remove_course_membership'] as $course_id) {
+				$memberships = array_diff(get_post_meta($course_id, '_llms_restricted_levels', true), [$postId]);
+
+				if (!count($memberships)) {
+					update_post_meta($course_id, '_llms_is_restricted', false);
+				}
+				update_post_meta($course_id, '_llms_restricted_levels', $memberships);
+			}
+		}
+
+		$auto_enroll = isset($_POST['autoEnroll']) ? $_POST['autoEnroll'] : [];
+		update_post_meta( $post->ID, '_llms_auto_enroll', $auto_enroll );
 	}
 
 }

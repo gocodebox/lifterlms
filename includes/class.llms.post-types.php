@@ -70,14 +70,14 @@ class LLMS_Post_Types {
 			);
 
 			register_taxonomy( 'course_cat',
-		        apply_filters( 'lifterlms_taxonomy_objects_course_cat', array( 'course', 'llms_membership' ) ),
+		        apply_filters( 'lifterlms_taxonomy_objects_course_cat', array( 'course' ) ),
 		        apply_filters( 'lifterlms_taxonomy_args_course_cat', array(
 		            'hierarchical' 			=> true,
 		            'label' 				=> __( 'Course Categories', 'lifterlms' ),
 		            'labels' => array(
 		                    'name' 				=> __( 'Course Categories', 'lifterlms' ),
 		                    'singular_name' 	=> __( 'Course Category', 'lifterlms' ),
-							'menu_name'			=> _x( 'Course Categories', 'Admin menu name', 'lifterlms' ),
+							'menu_name'			=> _x( 'Categories', 'Admin menu name', 'lifterlms' ),
 		                    'search_items' 		=> __( 'Search Course Categories', 'lifterlms' ),
 		                    'all_items' 		=> __( 'All Course Categories', 'lifterlms' ),
 		                    'parent_item' 		=> __( 'Parent Course Category', 'lifterlms' ),
@@ -105,7 +105,7 @@ class LLMS_Post_Types {
 		            'labels' => array(
 		                    'name' 				=> __( 'Course Tracks', 'lifterlms' ),
 		                    'singular_name' 	=> __( 'Course Track', 'lifterlms' ),
-							'menu_name'			=> _x( 'Course Tracks', 'Admin menu name', 'lifterlms' ),
+							'menu_name'			=> _x( 'Tracks', 'Admin menu name', 'lifterlms' ),
 		                    'search_items' 		=> __( 'Search Course Tracks', 'lifterlms' ),
 		                    'all_items' 		=> __( 'All Course Tracks', 'lifterlms' ),
 		                    'parent_item' 		=> __( 'Parent Course Track', 'lifterlms' ),
@@ -133,7 +133,7 @@ class LLMS_Post_Types {
 		            'labels' => array(
 		                    'name' 				=> __( 'Course Tags', 'lifterlms' ),
 		                    'singular_name' 	=> __( 'Course Tag', 'lifterlms' ),
-							'menu_name'			=> _x( 'Course Tags', 'Admin menu name', 'lifterlms' ),
+							'menu_name'			=> _x( 'Tags', 'Admin menu name', 'lifterlms' ),
 		                    'search_items' 		=> __( 'Search Course Tags', 'lifterlms' ),
 		                    'all_items' 		=> __( 'All Course Tags', 'lifterlms' ),
 		                    'parent_item' 		=> __( 'Parent Course Tag', 'lifterlms' ),
@@ -160,7 +160,7 @@ class LLMS_Post_Types {
 		            'labels' => array(
 		                    'name' 				=> __( 'Course Difficulties', 'lifterlms' ),
 		                    'singular_name' 	=> __( 'Course Difficulty', 'lifterlms' ),
-							'menu_name'			=> _x( 'Course Difficulties', 'Admin menu name', 'lifterlms' ),
+							'menu_name'			=> _x( 'Difficulties', 'Admin menu name', 'lifterlms' ),
 		                    'search_items' 		=> __( 'Search Course Difficulties', 'lifterlms' ),
 		                    'all_items' 		=> __( 'All Course Difficulties', 'lifterlms' ),
 		                    'parent_item' 		=> __( 'Parent Course Difficulty', 'lifterlms' ),
@@ -185,14 +185,14 @@ class LLMS_Post_Types {
 			do_action( 'lifterlms_register_taxonomy' );
 
 			register_taxonomy( 'membership_cat',
-		        apply_filters( 'lifterlms_taxonomy_objects_membership_cat', array( 'llms_membership','course' ) ),
+		        apply_filters( 'lifterlms_taxonomy_objects_membership_cat', array( 'llms_membership' ) ),
 		        apply_filters( 'lifterlms_taxonomy_args_membership_cat', array(
 		            'hierarchical' 			=> true,
 		            'label' 				=> __( 'Membership Categories', 'lifterlms' ),
 		            'labels' => array(
 		                    'name' 				=> __( 'Membership Categories', 'lifterlms' ),
 		                    'singular_name' 	=> __( 'Membership Category', 'lifterlms' ),
-							'menu_name'			=> _x( 'Membership Categories', 'Admin menu name', 'lifterlms' ),
+							'menu_name'			=> _x( 'Categories', 'Admin menu name', 'lifterlms' ),
 		                    'search_items' 		=> __( 'Search Membership Categories', 'lifterlms' ),
 		                    'all_items' 		=> __( 'All Membership Categories', 'lifterlms' ),
 		                    'parent_item' 		=> __( 'Parent Membership Category', 'lifterlms' ),
@@ -203,7 +203,7 @@ class LLMS_Post_Types {
 		                    'new_item_name' 	=> __( 'New Membership Category Name', 'lifterlms' )
 		            	),
 		            'show_ui' 				=> true,
-		            'show_in_menu' 			=> 'lifterlms',
+		            'show_in_menu' 			=> true,
 		            'query_var' 			=> true,
 		            'rewrite' 				=> array(
 						'slug'         => empty( $permalinks['category_base'] ) ? _x( 'membership-category', 'slug', 'lifterlms' ) : $permalinks['category_base'],
@@ -214,14 +214,14 @@ class LLMS_Post_Types {
 		    );
 
 			register_taxonomy( 'membership_tag',
-		        apply_filters( 'lifterlms_taxonomy_objects_membership_tag', array( 'llms_membership', 'course' ) ),
+		        apply_filters( 'lifterlms_taxonomy_objects_membership_tag', array( 'llms_membership' ) ),
 		        apply_filters( 'lifterlms_taxonomy_args_membership_tag', array(
 		            'hierarchical' 			=> false,
 		            'label' 				=> __( 'Membership Tags', 'lifterlms' ),
 		            'labels' => array(
 		                    'name' 				=> __( 'Membership Tags', 'lifterlms' ),
 		                    'singular_name' 	=> __( 'Membership Tag', 'lifterlms' ),
-							'menu_name'			=> _x( 'Membership Tags', 'Admin menu name', 'lifterlms' ),
+							'menu_name'			=> _x( 'Tags', 'Admin menu name', 'lifterlms' ),
 		                    'search_items' 		=> __( 'Search Membership Tags', 'lifterlms' ),
 		                    'all_items' 		=> __( 'All Membership Tags', 'lifterlms' ),
 		                    'parent_item' 		=> __( 'Parent Membership Tag', 'lifterlms' ),
@@ -296,7 +296,8 @@ class LLMS_Post_Types {
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
 					'has_archive' 			=> ( $shop_page_id = llms_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
-					'show_in_nav_menus' 	=> true
+					'show_in_nav_menus' 	=> true,
+					'menu_position'         => 53
 				)
 			)
 		);
@@ -640,7 +641,7 @@ class LLMS_Post_Types {
 					'labels' => array(
 							'name' 					=> __( 'Membership', 'lifterlms' ),
 							'singular_name' 		=> __( 'Membership', 'lifterlms' ),
-							'menu_name'				=> _x( 'Membership', 'Admin menu name', 'lifterlms' ),
+							'menu_name'				=> _x( 'Memberships', 'Admin menu name', 'lifterlms' ),
 							'add_new' 				=> __( 'Add Membership', 'lifterlms' ),
 							'add_new_item' 			=> __( 'Add New Membership', 'lifterlms' ),
 							'edit' 					=> __( 'Edit', 'lifterlms' ),
@@ -659,13 +660,14 @@ class LLMS_Post_Types {
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,
-					'show_in_menu' 			=> 'lifterlms',
+					'show_in_menu' 			=> true,
 					'hierarchical' 			=> false,
 					'rewrite' 				=> $membership_permalink ? array( 'slug' => untrailingslashit( $membership_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
 					'has_archive' 			=> ( $membership_page_id = llms_get_page_id( 'memberships' ) ) && get_page( $membership_page_id ) ? get_page_uri( $membership_page_id ) : 'memberships',
-					'show_in_nav_menus' 	=> true
+					'show_in_nav_menus' 	=> true,
+					'menu_position'         => 54
 				)
 			)
 		);
@@ -811,7 +813,7 @@ class LLMS_Post_Types {
 					),
 					'description' 			=> __( 'This is where voucher are stored.', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> true,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_vouchers_access', 'manage_options' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,

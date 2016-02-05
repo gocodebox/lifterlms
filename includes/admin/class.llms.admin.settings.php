@@ -161,435 +161,506 @@ class LLMS_Admin_Settings {
 	*/
 	public static function output_fields( $settings ) {
 
-	    foreach ( $settings as $value ) {
+	    foreach ( $settings as $field ) {
 
-	    	if ( ! isset( $value['type'] ) )
-	    		continue;
-	    	if ( ! isset( $value['id'] ) )
-	    		$value['id'] = '';
-	    	if ( ! isset( $value['title'] ) )
-	    		$value['title'] = isset( $value['name'] ) ? $value['name'] : '';
-	    	if ( ! isset( $value['class'] ) )
-	    		$value['class'] = '';
-	    	if ( ! isset( $value['css'] ) )
-	    		$value['css'] = '';
-	    	if ( ! isset( $value['default'] ) )
-	    		$value['default'] = '';
-	    	if ( ! isset( $value['desc'] ) )
-	    		$value['desc'] = '';
-	    	if ( ! isset( $value['desc_tooltip'] ) )
-	    		$value['desc_tooltip'] = false;
+	    	// skip item if no field type is set
+			if ( ! isset( $field['type'] ) )
+				continue;
 
-	    	// Custom attribute handling
-			$custom_attributes = array();
+			// output the field
+	    	self::output_field( $field );
 
-			if ( ! empty( $value['custom_attributes'] ) && is_array( $value['custom_attributes'] ) ) {
-
-				foreach ( $value['custom_attributes'] as $attribute => $attribute_value ) {
-
-					$custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
-
-				}
-			}
-
-			if ( $value['desc_tooltip'] === true ) {
-
-				$description = '';
-				$tooltip = $value['desc'];
-
-			}
-
-			elseif ( ! empty( $value['desc_tooltip'] ) ) {
-
-				$description = $value['desc'];
-				$tooltip = $value['desc_tooltip'];
-
-			}
-
-			elseif ( ! empty( $value['desc'] ) ) {
-				$description = $value['desc'];
-				$tooltip = '';
-			}
-
-			else {
-
-				$description = $tooltip = '';
-
-			}
-
-			if ( $description && in_array( $value['type'], array( 'textarea', 'radio' ) ) ) {
-
-				$description = '<p style="margin-top:0">' . wp_kses_post( $description ) . '</p>';
-
-			}
-
-			elseif ( $description && in_array( $value['type'], array( 'checkbox' ) ) ) {
-
-				$description =  wp_kses_post( $description );
-			}
-
-			elseif ( $description ) {
-
-				$description = '<span class="description">' . wp_kses_post( $description ) . '</span>';
-			}
-
-			if ( $tooltip && in_array( $value['type'], array( 'checkbox' ) ) ) {
-
-				$tooltip = '<p class="description">' . $tooltip . '</p>';
-
-			} elseif ( $tooltip ) {
-
-				$tooltip = '<img class="help_tooltip" data-tooltip="' . esc_attr( $tooltip ) . '" src="' . LLMS()->plugin_url() . '/assets/images/help.png" height="16" width="16" />';
-
-			}
-
-			// Switch based on type
-	        switch( $value['type'] ) {
-
-	        	// Section Titles
-	            case 'title':
-
-	            	if ( ! empty( $value['title'] ) ) {
-
-	            		echo '<p class="llms-label">' . esc_html( $value['title'] ) . '</p>';
-
-	            	}
-	            	if ( ! empty( $value['desc'] ) ) {
-
-	            		echo '<p class="llms-description">' . wpautop( wptexturize( wp_kses_post( $value['desc'] ) ) ) . '</p>';
-
-	            	}
-
-	            	echo '<table class="form-table">'. "\n\n";
-
-	            	if ( ! empty( $value['id'] ) ) {
-
-	            		do_action( 'lifterlms_settings_' . sanitize_title( $value['id'] ) );
-
-	            	}
-	            break;
-
-	            case "desc":
-	            	if ( ! empty( $value['desc'] ) ) {
-	            	echo '<th colspan="2" style="font-weight: normal;">' . wpautop( wptexturize( wp_kses_post( $value['desc'] ) ) ) . '</th>';
-	            	}
-
-	            break;
-
-	             case 'sectionstart':
-	            	if ( ! empty( $value['id'] ) ) {
-
-	            		do_action( 'lifterlms_settings_' . sanitize_title( $value['id'] ) . '_before' );
-
-	            		echo '<div class="llms-widget-full ' . $value['class'] . '">';
-						echo '<div class="llms-widget">';
-
-	            		do_action( 'lifterlms_settings_' . sanitize_title( $value['id'] ) . '_start' );
-
-
-	            	}
-	            break;
-
-	            case 'sectionend':
-	            	if ( ! empty( $value['id'] ) ) {
-
-	            		do_action( 'lifterlms_settings_' . sanitize_title( $value['id'] ) . '_end' );
-
-	            	}
-
-	            	echo '</table>';
-	            	echo '</div>';
-	            	echo '</div>';
-
-	            	if ( ! empty( $value['id'] ) ) {
-
-	            		do_action( 'lifterlms_settings_' . sanitize_title( $value['id'] ) . '_after' );
-
-	            	}
-	            break;
-
-	            case 'button':
-	            	echo '<tr valign="top"><th>
-	            		<label for="' . esc_attr( $value['id'] ) . '">' . esc_html( $value['title'] ) . '</label>
-							' . $tooltip . '
-	            	</th>';
-
-	            	echo '<td class="forminp forminp-' . sanitize_title( $value['type'] ) . '">';
-	            	echo '<div id="llms-form-wrapper">';
-	            	echo '<input name="save" class="button-primary" type="submit" value="' . esc_attr( $value['value'] ) . '" />';
-	            	echo '</div>';
-	            	echo '</td></tr>';
-	            	//get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
-	            break;
-
-	            case "hidden":
-					echo '<th></th>';
-					echo '<td><input type="hidden"
-						name="' . esc_attr( $value['id'] ) . '"
-						id="' . esc_attr( $value['id'] ) . '"
-						value="' . esc_attr( $value['value'] ) . '">';
-	            break;
-
-	            case 'text':
-	            case 'email':
-	            case 'number':
-
-	            	$type 			= $value['type'];
-	            	$class 			= '';
-	            	$option_value 	= self::get_option( $value['id'], $value['default'] );
-
-	            	?><tr valign="top">
-						<th>
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-							<?php echo $tooltip; ?>
-						</th>
-	                    <td class="forminp forminp-<?php echo sanitize_title( $value['type'] ) ?>">
-	                    	<input
-	                    		name="<?php echo esc_attr( $value['id'] ); ?>"
-	                    		id="<?php echo esc_attr( $value['id'] ); ?>"
-	                    		type="<?php echo esc_attr( $type ); ?>"
-	                    		style="<?php echo esc_attr( $value['css'] ); ?>"
-	                    		value="<?php echo esc_attr( $option_value ); ?>"
-	                    		class="<?php echo esc_attr( $value['class'] ); ?>"
-	                    		<?php echo implode( ' ', $custom_attributes ); ?>
-	                    		/> <?php echo $description; ?>
-	                    </td>
-	                </tr><?php
-	            break;
-
-	            // Textarea
-	            case 'textarea':
-
-	            	$option_value 	= self::get_option( $value['id'], $value['default'] );
-
-	            	?><tr valign="top">
-						<th>
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-							<?php echo $tooltip; ?>
-						</th>
-	                    <td class="forminp forminp-<?php echo sanitize_title( $value['type'] ) ?>">
-	                    	<?php echo $description; ?>
-
-	                        <textarea
-	                        	name="<?php echo esc_attr( $value['id'] ); ?>"
-	                        	id="<?php echo esc_attr( $value['id'] ); ?>"
-	                        	style="<?php echo esc_attr( $value['css'] ); ?>"
-	                        	class="<?php echo esc_attr( $value['class'] ); ?>"
-	                        	<?php echo implode( ' ', $custom_attributes ); ?>
-	                        	><?php echo esc_textarea( $option_value );  ?></textarea>
-	                    </td>
-	                </tr><?php
-	            break;
-
-	            // Select boxes
-	            case 'select' :
-	            case 'multiselect' :
-	            	$option_value 	= self::get_option( $value['id'], $value['default'] );
-	            	?><tr valign="top">
-						<th>
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-							<?php echo $tooltip; ?>
-						</th>
-	                    <td class="forminp forminp-<?php echo sanitize_title( $value['type'] ) ?>">
-	                    	<select
-	                    		name="<?php echo esc_attr( $value['id'] ); ?><?php if ( $value['type'] == 'multiselect' ) echo '[]'; ?>"
-	                    		id="<?php echo esc_attr( $value['id'] ); ?>"
-	                    		style="<?php echo esc_attr( $value['css'] ); ?>"
-	                    		class="<?php echo esc_attr( $value['class'] ); ?>"
-	                    		<?php echo implode( ' ', $custom_attributes ); ?>
-	                    		<?php if ( $value['type'] == 'multiselect' ) echo 'multiple="multiple"'; ?>
-	                    		>
-		                    	<?php
-			                        foreach ( $value['options'] as $key => $val ) {
-			                        	?>
-			                        	<option value="<?php echo esc_attr( $key ); ?>" <?php
-
-				                        	if ( is_array( $option_value ) )
-				                        		selected( in_array( $key, $option_value ), true );
-				                        	else
-				                        		selected( $option_value, $key );
-
-			                        	?>><?php echo $val ?></option>
-			                        	<?php
-			                        }
-			                    ?>
-	                       </select> <?php echo $description; ?>
-	                    </td>
-	                </tr><?php
-	            break;
-
-	            // Radio inputs
-	            case 'radio' :
-
-	            	$option_value 	= self::get_option( $value['id'], $value['default'] );
-
-	            	?><tr valign="top">
-						<th>
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-							<?php echo $tooltip; ?>
-						</th>
-	                    <td class="forminp forminp-<?php echo sanitize_title( $value['type'] ) ?>">
-	                    	<fieldset>
-	                    		<?php echo $description; ?>
-	                    		<ul>
-	                    		<?php
-	                    			foreach ( $value['options'] as $key => $val ) {
-			                        	?>
-			                        	<li>
-			                        		<label><input
-				                        		name="<?php echo esc_attr( $value['id'] ); ?>"
-				                        		value="<?php echo $key; ?>"
-				                        		type="radio"
-					                    		style="<?php echo esc_attr( $value['css'] ); ?>"
-					                    		class="<?php echo esc_attr( $value['class'] ); ?>"
-					                    		<?php echo implode( ' ', $custom_attributes ); ?>
-					                    		<?php checked( $key, $option_value ); ?>
-				                        		/> <?php echo $val ?></label>
-			                        	</li>
-			                        	<?php
-			                        }
-	                    		?>
-	                    		</ul>
-	                    	</fieldset>
-	                    </td>
-	                </tr><?php
-	            break;
-
-	            // Checkbox input
-	            case 'checkbox' :
-
-					$option_value    = self::get_option( $value['id'], $value['default'] );
-					$visbility_class = array();
-
-	            	if ( ! isset( $value['hide_if_checked'] ) ) {
-	            		$value['hide_if_checked'] = false;
-	            	}
-	            	if ( ! isset( $value['show_if_checked'] ) ) {
-	            		$value['show_if_checked'] = false;
-	            	}
-	            	if ( $value['hide_if_checked'] == 'yes' || $value['show_if_checked'] == 'yes' ) {
-	            		$visbility_class[] = 'hidden_option';
-	            	}
-	            	if ( $value['hide_if_checked'] == 'option' ) {
-	            		$visbility_class[] = 'hide_options_if_checked';
-	            	}
-	            	if ( $value['show_if_checked'] == 'option' ) {
-	            		$visbility_class[] = 'show_options_if_checked';
-	            	}
-
-	            	if ( ! isset( $value['checkboxgroup'] ) || 'start' == $value['checkboxgroup'] ) {
-	            		?>
-		            		<tr valign="top" class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?>">
-								<th><?php echo esc_html( $value['title'] ) ?></th>
-								<td class="forminp forminp-checkbox">
-									<fieldset>
-						<?php
-	            	} else {
-	            		?>
-		            		<fieldset class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?>">
-	            		<?php
-	            	}
-
-	            	if ( ! empty( $value['title'] ) ) {
-	            		?>
-	            			<legend class="screen-reader-text"><span><?php echo esc_html( $value['title'] ) ?></span></legend>
-	            		<?php
-	            	}
-
-	            	?>
-						<label for="<?php echo $value['id'] ?>">
-							<input
-								name="<?php echo esc_attr( $value['id'] ); ?>"
-								id="<?php echo esc_attr( $value['id'] ); ?>"
-								type="checkbox"
-								value="1"
-								<?php checked( $option_value, 'yes'); ?>
-								<?php echo implode( ' ', $custom_attributes ); ?>
-							/> <?php echo $description ?>
-						</label> <?php echo $tooltip; ?>
-					<?php
-
-					if ( ! isset( $value['checkboxgroup'] ) || 'end' == $value['checkboxgroup'] ) {
-									?>
-									</fieldset>
-								</td>
-							</tr>
-						<?php
-					} else {
-						?>
-							</fieldset>
-						<?php
-					}
-	            break;
-
-	            // Single page selects
-	            case 'single_select_page' :
-
-	            	$args = array( 'name'				=> $value['id'],
-	            				   'id'					=> $value['id'],
-	            				   'sort_column' 		=> 'menu_order',
-	            				   'sort_order'			=> 'ASC',
-	            				   'show_option_none' 	=> ' ',
-	            				   'class'				=> $value['class'],
-	            				   'echo' 				=> false,
-	            				   'selected'			=> absint( self::get_option( $value['id'] ) )
-	            				   );
-
-	            	if( isset( $value['args'] ) )
-	            		$args = wp_parse_args( $value['args'], $args );
-
-	            	?><tr valign="top" class="single_select_page">
-	                    <th><?php echo esc_html( $value['title'] ) ?> <?php echo $tooltip; ?></th>
-	                    <td class="forminp">
-				        	<?php echo str_replace(' id=', " data-placeholder='" . __( 'Select a page&hellip;', 'lifterlms' ) .  "' style='" . $value['css'] . "' class='" . $value['class'] . "' id=", wp_dropdown_pages( $args ) ); ?> <?php echo $description; ?>
-				        </td>
-	               	</tr><?php
-	            break;
-
-	            // Single page selects
-	            case 'single_select_membership' :
-
-					$args = array(
-						'posts_per_page' 	=> -1,
-						'post_type' 		=> 'llms_membership',
-						'nopaging' 			=> true,
-						'post_status'   	=> 'publish',
-						'class'				=> $value['class'],
-						'selected'			=> absint( self::get_option( $value['id'] ) ),
-					);
-					$posts = get_posts($args);
-
-	            	if( isset( $value['args'] ) ) {
-	            		$args = wp_parse_args( $value['args'], $args );
-	            	}
-
-	            	?><tr valign="top" class="single_select_membership">
-	                    <th><?php echo esc_html( $value['title'] ) ?> <?php echo $tooltip; ?></th>
-	                    <td class="forminp">
-		                    <select class="<?php echo $args['class']; ?>" style="<?php echo $value['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
-		                    	<option value=""> <?php _e('None', 'lifterlms'); ?></option>
-			                    <?php foreach( $posts as $post ) : setup_postdata($post);
-			                    		if ( $args['selected'] == $post->ID) {
-			                    			$selected = 'selected';
-			                    		}
-			                    		else {
-			                    			$selected = '';
-			                    		}
-			                    ?>
-							    <option value="<?php echo $post->ID; ?>" <?php echo $selected; ?> ><?php echo $post->post_title ?></option>
-							<?php endforeach; ?>
-							</select>
-				        </td>
-	               	</tr><?php
-	            break;
-
-	            // Default: run an action
-	            default:
-	            	do_action( 'lifterlms_admin_field_' . $value['type'], $value );
-	            break;
-	    	}
 		}
 	}
+
+
+	public static function output_field( $field )
+	{
+
+    	// set missing values with defaults
+    	$field = self::set_field_defaults( $field );
+
+    	// setup custom attributes
+   		$custom_attributes = self::format_field_custom_attributes( $field['custom_attributes'] );
+
+    	// setup field description and tooltip
+    	// this will return an associative array of with the keys "description" and "tooltip"
+    	extract( self::set_field_descriptions( $field ) );
+
+    	// get the option value
+    	$option_value = self::get_option( $field['id'], $field['default'] );
+
+		// Switch based on type
+        switch( $field['type'] ) {
+
+        	// Section Titles
+            case 'title':
+
+            	if ( ! empty( $field['title'] ) ) {
+
+            		echo '<p class="llms-label">' . esc_html( $field['title'] ) . '</p>';
+
+            	}
+            	if ( ! empty( $field['desc'] ) ) {
+
+            		echo '<p class="llms-description">' . wpautop( wptexturize( wp_kses_post( $field['desc'] ) ) ) . '</p>';
+
+            	}
+
+            	echo '<table class="form-table">'. "\n\n";
+
+            	if ( ! empty( $field['id'] ) ) {
+
+            		do_action( 'lifterlms_settings_' . sanitize_title( $field['id'] ) );
+
+            	}
+            break;
+
+            case "desc":
+            	if ( ! empty( $field['desc'] ) ) {
+            	echo '<th colspan="2" style="font-weight: normal;">' . wpautop( wptexturize( wp_kses_post( $field['desc'] ) ) ) . '</th>';
+            	}
+
+            break;
+
+             case 'sectionstart':
+            	if ( ! empty( $field['id'] ) ) {
+
+            		do_action( 'lifterlms_settings_' . sanitize_title( $field['id'] ) . '_before' );
+
+            		echo '<div class="llms-widget-full ' . $field['class'] . '">';
+					echo '<div class="llms-widget">';
+
+            		do_action( 'lifterlms_settings_' . sanitize_title( $field['id'] ) . '_start' );
+
+
+            	}
+            break;
+
+            case 'sectionend':
+            	if ( ! empty( $field['id'] ) ) {
+
+            		do_action( 'lifterlms_settings_' . sanitize_title( $field['id'] ) . '_end' );
+
+            	}
+
+            	echo '</table>';
+            	echo '</div>';
+            	echo '</div>';
+
+            	if ( ! empty( $field['id'] ) ) {
+
+            		do_action( 'lifterlms_settings_' . sanitize_title( $field['id'] ) . '_after' );
+
+            	}
+            break;
+
+            case 'button':
+            	echo '<tr valign="top"><th>
+            		<label for="' . esc_attr( $field['id'] ) . '">' . esc_html( $field['title'] ) . '</label>
+						' . $tooltip . '
+            	</th>';
+
+            	echo '<td class="forminp forminp-' . sanitize_title( $field['type'] ) . '">';
+            	echo '<div id="llms-form-wrapper">';
+            	echo '<input name="save" class="button-primary" type="submit" value="' . esc_attr( $field['value'] ) . '" />';
+            	echo '</div>';
+            	echo '</td></tr>';
+            	//get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
+            break;
+
+            case "hidden":
+				echo '<th></th>';
+				echo '<td><input type="hidden"
+					name="' . esc_attr( $field['id'] ) . '"
+					id="' . esc_attr( $field['id'] ) . '"
+					value="' . esc_attr( $field['value'] ) . '">';
+            break;
+
+            case 'text':
+            case 'email':
+            case 'number':
+
+            	$type 			= $field['type'];
+            	$class 			= '';
+
+            	?><tr valign="top">
+					<th>
+						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+						<?php echo $tooltip; ?>
+					</th>
+                    <td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+                    	<input
+                    		name="<?php echo esc_attr( $field['id'] ); ?>"
+                    		id="<?php echo esc_attr( $field['id'] ); ?>"
+                    		type="<?php echo esc_attr( $type ); ?>"
+                    		style="<?php echo esc_attr( $field['css'] ); ?>"
+                    		value="<?php echo esc_attr( $option_value ); ?>"
+                    		class="<?php echo esc_attr( $field['class'] ); ?>"
+                    		<?php echo implode( ' ', $custom_attributes ); ?>
+                    		/> <?php echo $description; ?>
+                    </td>
+                </tr><?php
+            break;
+
+            // Textarea
+            case 'textarea':
+
+
+            	?><tr valign="top">
+					<th>
+						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+						<?php echo $tooltip; ?>
+					</th>
+                    <td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+                    	<?php echo $description; ?>
+
+                        <textarea
+                        	name="<?php echo esc_attr( $field['id'] ); ?>"
+                        	id="<?php echo esc_attr( $field['id'] ); ?>"
+                        	style="<?php echo esc_attr( $field['css'] ); ?>"
+                        	class="<?php echo esc_attr( $field['class'] ); ?>"
+                        	<?php echo implode( ' ', $custom_attributes ); ?>
+                        	><?php echo esc_textarea( $option_value );  ?></textarea>
+                    </td>
+                </tr><?php
+            break;
+
+            // Select boxes
+            case 'select' :
+            case 'multiselect' :
+            	?><tr valign="top">
+					<th>
+						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+						<?php echo $tooltip; ?>
+					</th>
+                    <td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+                    	<select
+                    		name="<?php echo esc_attr( $field['id'] ); ?><?php if ( $field['type'] == 'multiselect' ) echo '[]'; ?>"
+                    		id="<?php echo esc_attr( $field['id'] ); ?>"
+                    		style="<?php echo esc_attr( $field['css'] ); ?>"
+                    		class="<?php echo esc_attr( $field['class'] ); ?>"
+                    		<?php echo implode( ' ', $custom_attributes ); ?>
+                    		<?php if ( $field['type'] == 'multiselect' ) echo 'multiple="multiple"'; ?>
+                    		>
+	                    	<?php
+		                        foreach ( $field['options'] as $key => $val ) {
+		                        	?>
+		                        	<option value="<?php echo esc_attr( $key ); ?>" <?php
+
+			                        	if ( is_array( $option_value ) )
+			                        		selected( in_array( $key, $option_value ), true );
+			                        	else
+			                        		selected( $option_value, $key );
+
+		                        	?>><?php echo $val ?></option>
+		                        	<?php
+		                        }
+		                    ?>
+                       </select> <?php echo $description; ?>
+                    </td>
+                </tr><?php
+            break;
+
+            // Radio inputs
+            case 'radio' :
+
+
+            	?><tr valign="top">
+					<th>
+						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+						<?php echo $tooltip; ?>
+					</th>
+                    <td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+                    	<fieldset>
+                    		<?php echo $description; ?>
+                    		<ul>
+                    		<?php
+                    			foreach ( $field['options'] as $key => $val ) {
+		                        	?>
+		                        	<li>
+		                        		<label><input
+			                        		name="<?php echo esc_attr( $field['id'] ); ?>"
+			                        		value="<?php echo $key; ?>"
+			                        		type="radio"
+				                    		style="<?php echo esc_attr( $field['css'] ); ?>"
+				                    		class="<?php echo esc_attr( $field['class'] ); ?>"
+				                    		<?php echo implode( ' ', $custom_attributes ); ?>
+				                    		<?php checked( $key, $option_value ); ?>
+			                        		/> <?php echo $val ?></label>
+		                        	</li>
+		                        	<?php
+		                        }
+                    		?>
+                    		</ul>
+                    	</fieldset>
+                    </td>
+                </tr><?php
+            break;
+
+            // Checkbox input
+            case 'checkbox' :
+
+				$visbility_class = array();
+
+            	if ( ! isset( $field['hide_if_checked'] ) ) {
+            		$field['hide_if_checked'] = false;
+            	}
+            	if ( ! isset( $field['show_if_checked'] ) ) {
+            		$field['show_if_checked'] = false;
+            	}
+            	if ( $field['hide_if_checked'] == 'yes' || $field['show_if_checked'] == 'yes' ) {
+            		$visbility_class[] = 'hidden_option';
+            	}
+            	if ( $field['hide_if_checked'] == 'option' ) {
+            		$visbility_class[] = 'hide_options_if_checked';
+            	}
+            	if ( $field['show_if_checked'] == 'option' ) {
+            		$visbility_class[] = 'show_options_if_checked';
+            	}
+
+            	if ( ! isset( $field['checkboxgroup'] ) || 'start' == $field['checkboxgroup'] ) {
+            		?>
+	            		<tr valign="top" class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?>">
+							<th><?php echo esc_html( $field['title'] ) ?></th>
+							<td class="forminp forminp-checkbox">
+								<fieldset>
+					<?php
+            	} else {
+            		?>
+	            		<fieldset class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?>">
+            		<?php
+            	}
+
+            	if ( ! empty( $field['title'] ) ) {
+            		?>
+            			<legend class="screen-reader-text"><span><?php echo esc_html( $field['title'] ) ?></span></legend>
+            		<?php
+            	}
+
+            	?>
+					<label for="<?php echo $field['id'] ?>">
+						<input
+							name="<?php echo esc_attr( $field['id'] ); ?>"
+							id="<?php echo esc_attr( $field['id'] ); ?>"
+							type="checkbox"
+							value="1"
+							<?php checked( $option_value, 'yes'); ?>
+							<?php echo implode( ' ', $custom_attributes ); ?>
+						/> <?php echo $description ?>
+					</label> <?php echo $tooltip; ?>
+				<?php
+
+				if ( ! isset( $field['checkboxgroup'] ) || 'end' == $field['checkboxgroup'] ) {
+								?>
+								</fieldset>
+							</td>
+						</tr>
+					<?php
+				} else {
+					?>
+						</fieldset>
+					<?php
+				}
+            break;
+
+            // Single page selects
+            case 'single_select_page' :
+
+            	$args = array( 'name'				=> $field['id'],
+            				   'id'					=> $field['id'],
+            				   'sort_column' 		=> 'menu_order',
+            				   'sort_order'			=> 'ASC',
+            				   'show_option_none' 	=> ' ',
+            				   'class'				=> $field['class'],
+            				   'echo' 				=> false,
+            				   'selected'			=> absint( self::get_option( $field['id'] ) )
+            				   );
+
+            	if( isset( $field['args'] ) )
+            		$args = wp_parse_args( $field['args'], $args );
+
+            	?><tr valign="top" class="single_select_page">
+                    <th><?php echo esc_html( $field['title'] ) ?> <?php echo $tooltip; ?></th>
+                    <td class="forminp">
+			        	<?php echo str_replace(' id=', " data-placeholder='" . __( 'Select a page&hellip;', 'lifterlms' ) .  "' style='" . $field['css'] . "' class='" . $field['class'] . "' id=", wp_dropdown_pages( $args ) ); ?> <?php echo $description; ?>
+			        </td>
+               	</tr><?php
+            break;
+
+            // Single page selects
+            case 'single_select_membership' :
+
+				$args = array(
+					'posts_per_page' 	=> -1,
+					'post_type' 		=> 'llms_membership',
+					'nopaging' 			=> true,
+					'post_status'   	=> 'publish',
+					'class'				=> $field['class'],
+					'selected'			=> absint( self::get_option( $field['id'] ) ),
+				);
+				$posts = get_posts($args);
+
+            	if( isset( $field['args'] ) ) {
+            		$args = wp_parse_args( $field['args'], $args );
+            	}
+
+            	?><tr valign="top" class="single_select_membership">
+                    <th><?php echo esc_html( $field['title'] ) ?> <?php echo $tooltip; ?></th>
+                    <td class="forminp">
+	                    <select class="<?php echo $args['class']; ?>" style="<?php echo $field['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
+	                    	<option value=""> <?php _e('None', 'lifterlms'); ?></option>
+		                    <?php foreach( $posts as $post ) : setup_postdata($post);
+		                    		if ( $args['selected'] == $post->ID) {
+		                    			$selected = 'selected';
+		                    		}
+		                    		else {
+		                    			$selected = '';
+		                    		}
+		                    ?>
+						    <option value="<?php echo $post->ID; ?>" <?php echo $selected; ?> ><?php echo $post->post_title ?></option>
+						<?php endforeach; ?>
+						</select>
+			        </td>
+               	</tr><?php
+            break;
+
+            // Default: run an action
+            default:
+
+            	do_action( 'lifterlms_admin_field_' . $field['type'], $field, $option_value, $description, $tooltip, $custom_attributes );
+
+            break;
+    	}
+
+	}
+
+
+
+	/**
+	 * Add and set default values for a field when looping
+	 * @param array  $value   associative array of field data
+	 * @return array          associative array of field data
+	 *
+	 * @since 1.4.5
+	 */
+	public static function set_field_defaults( $value = array() )
+	{
+
+    	if ( ! isset( $value['id'] ) )
+    		$value['id'] = '';
+    	if ( ! isset( $value['title'] ) )
+    		$value['title'] = isset( $value['name'] ) ? $value['name'] : '';
+    	if ( ! isset( $value['class'] ) )
+    		$value['class'] = '';
+    	if ( ! isset( $value['css'] ) )
+    		$value['css'] = '';
+    	if ( ! isset( $value['default'] ) )
+    		$value['default'] = '';
+    	if ( ! isset( $value['desc'] ) )
+    		$value['desc'] = '';
+    	if ( ! isset( $value['desc_tooltip'] ) )
+    		$value['desc_tooltip'] = false;
+
+    	return $value;
+
+	}
+
+
+	/**
+	 * Setup a field's tooltip and description based on supplied values
+	 * @param  array $field associative array of field data
+	 * @return array       associatve array containing field description and tooltip HTML
+	 *
+	 * @since  1.4.5
+	 */
+	public static function set_field_descriptions( $field = array() )
+	{
+
+		if ( $field['desc_tooltip'] === true ) {
+
+			$description = '';
+			$tooltip = $field['desc'];
+
+		}
+
+		elseif ( ! empty( $field['desc_tooltip'] ) ) {
+
+			$description = $field['desc'];
+			$tooltip = $field['desc_tooltip'];
+
+		}
+
+		elseif ( ! empty( $field['desc'] ) ) {
+			$description = $field['desc'];
+			$tooltip = '';
+		}
+
+		else {
+
+			$description = $tooltip = '';
+
+		}
+
+		if ( $description && in_array( $field['type'], array( 'textarea', 'radio' ) ) ) {
+
+			$description = '<p style="margin-top:0">' . wp_kses_post( $description ) . '</p>';
+
+		}
+
+		elseif ( $description && in_array( $field['type'], array( 'checkbox' ) ) ) {
+
+			$description =  wp_kses_post( $description );
+		}
+
+		elseif ( $description ) {
+
+			$description = '<span class="description">' . wp_kses_post( $description ) . '</span>';
+		}
+
+		if ( $tooltip && in_array( $field['type'], array( 'checkbox' ) ) ) {
+
+			$tooltip = '<p class="description">' . $tooltip . '</p>';
+
+		} elseif ( $tooltip ) {
+
+			$tooltip = '<img class="help_tooltip" data-tooltip="' . esc_attr( $tooltip ) . '" src="' . LLMS()->plugin_url() . '/assets/images/help.png" height="16" width="16" />';
+
+		}
+
+		return array(
+			'description' => $description,
+			'tooltip'     => $tooltip
+		);
+
+	}
+
+	/**
+	 * Formats an associative array of custom field attributes as an array of HTML strings
+	 * @param  array  $attributes   associative array of attributes
+	 * @return array
+	 *
+	 * @since  1.4.5
+	 */
+	public static function format_field_custom_attributes( $attributes = array() )
+	{
+
+    	// Custom attribute handling
+		$custom_attributes = array();
+
+		if ( ! empty( $field['custom_attributes'] ) && is_array( $field['custom_attributes'] ) ) {
+
+			foreach ( $field['custom_attributes'] as $attribute => $attribute_value ) {
+
+				$custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
+
+			}
+		}
+
+		return $custom_attributes;
+
+	}
+
 
 	/**
 	 * Get a setting from the settings API.
@@ -756,7 +827,9 @@ class LLMS_Admin_Settings {
 	    foreach( $update_options as $name => $value ) {
 
 	    	update_option( $name, $value );
+
 	    }
+
 	    //flush the rewrite rules (REFACTOR: be more specific about when this is done)
 	    flush_rewrite_rules();
 

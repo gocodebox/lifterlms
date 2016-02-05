@@ -166,8 +166,8 @@ class LLMS_AJAX {
 			'getLessons'				=> false,
 			'getSections'				=> false,
 			'get_students'              => false,
-			'get_enroled_students'      => false,
-			'check_voucher_duplicate'	=> false
+			'get_enrolled_students'     => false,
+			'check_voucher_duplicate'	=> false,
 			//'test_ajax_call'			=> false,
 		);
 
@@ -913,7 +913,7 @@ class LLMS_AJAX {
 	 */
 	public function get_students()
 	{
-		$term = $_REQUEST['term'];
+		$term = array_key_exists('term', $_REQUEST) ? $_REQUEST['term'] : '';
 
 		$user_args = array(
 				'include'      => array(),
@@ -922,11 +922,12 @@ class LLMS_AJAX {
 				'count_total'  => false,
 				'fields'       => 'all',
 				'search'       => $term . '*',
-				'number'       => 10,
+				'exclude'      => $this->get_enrolled_students_ids(),
+				'number'       => 30,
 		);
 		$all_users = get_users( $user_args );
 
-		$users_arr = [];
+		$users_arr = array();
 
 		foreach($all_users as $user) {
 			$temp['id'] = $user->ID;
@@ -934,22 +935,22 @@ class LLMS_AJAX {
 			$users_arr[] = $temp;
 		}
 
-		echo json_encode([
+		echo json_encode( array(
 				'success' => true,
 				'items' => $users_arr,
-		]);
+		) );
 
 		wp_die();
 	}
 
 	/**
-	 * Return array of enroled students
+	 * Return array of enrolled students
 	 *
 	 * @return array Array of sections
 	 */
-	public function get_enroled_students()
+	public function get_enrolled_students()
 	{
-		$term = $_REQUEST['term'] . '%';
+		$term = array_key_exists('term', $_REQUEST) ? $_REQUEST['term'] . '%' : '%';
 		$post_id = (int) $_REQUEST['postId'];
 
 		global $wpdb;
@@ -962,10 +963,11 @@ class LLMS_AJAX {
 			AND $usermeta.meta_key = '_status'
 			AND meta_value = 'Enrolled'
 			AND ($user_table.user_email LIKE '$term'
-			OR $user_table.display_name LIKE '$term')";
+			OR $user_table.display_name LIKE '$term')
+			LIMIT 30";
 		$all_users = $wpdb->get_results($select_user);
 
-		$users_arr = [];
+		$users_arr = array();
 
 		foreach($all_users as $user) {
 			$temp['id'] = $user->ID;
@@ -973,12 +975,37 @@ class LLMS_AJAX {
 			$users_arr[] = $temp;
 		}
 
-		echo json_encode([
+		echo json_encode(array(
 				'success' => true,
 				'items' => $users_arr,
-		]);
+		));
 
 		wp_die();
+	}
+
+	private function get_enrolled_students_ids()
+	{
+		$post_id = (int) $_REQUEST['postId'];
+
+		global $wpdb;
+		$user_table = $wpdb->prefix . 'users';
+		$usermeta = $wpdb->prefix . 'lifterlms_user_postmeta';
+
+		$select_user = "SELECT ID FROM $user_table
+			JOIN $usermeta ON $user_table.ID = $usermeta.user_id
+			WHERE $usermeta.post_id = $post_id
+			AND $usermeta.meta_key = '_status'
+			AND meta_value = 'Enrolled'
+			LIMIT 1000";
+		$all_users = $wpdb->get_results($select_user);
+
+		$users_arr = array();
+
+		foreach($all_users as $user) {
+			$users_arr[] = $user->ID;
+		}
+
+		return $users_arr;
 	}
 
 	public function check_voucher_duplicate() {

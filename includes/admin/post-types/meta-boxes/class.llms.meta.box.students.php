@@ -136,18 +136,18 @@ class LLMS_Meta_Box_Students {
 	 */
 	public static function remove_student( $user_id, $post_id ) {
 		global $wpdb;
-llms_log('remove student called 2');
+
 		if ( empty($user_id) || empty($post_id ) ) {
 				return;
 		}
-llms_log('remove student called 3');
+
 		$user_metadatas = array(
 			'_start_date' => 'yes',
 			'_status' => 'Enrolled',
 		);
 
 		$table_name = $wpdb->prefix . 'lifterlms_order';
-llms_log('remove student called 4');
+
 		$order_id = $wpdb->get_results( $wpdb->prepare(
 			'SELECT order_post_id FROM '.$table_name.' WHERE user_id = %s and product_id = %d', $user_id, $post_id) );
 
@@ -156,7 +156,7 @@ llms_log('remove student called 4');
 				wp_delete_post( $order_id[$key]->order_post_id);
 			}
 		}
-llms_log('remove student called 5');
+
 		foreach( $user_metadatas as $key => $value ) {
 		$update_user_postmeta = $wpdb->delete( $wpdb->prefix .'lifterlms_user_postmeta',
 			array(
@@ -167,7 +167,7 @@ llms_log('remove student called 5');
 				)
 			);
 		}
-		llms_log('remove student called 6');
+
 		do_action('lifterlms_student_removed_by_admin', $user_id, $post_id);
 	}
 
@@ -200,13 +200,17 @@ llms_log('remove student called 5');
 
 		if ( isset( $_POST['_add_new_user']) && $_POST['_add_new_user'] != '') {
 			//triggers add_student static method
-			$add_user = self::add_student( $_POST['_add_new_user'], $post_id );
+			foreach($_POST['_add_new_user'] as $user_id) {
+				self::add_student($user_id, $post_id);
+			}
 		}
 
 		if ( isset( $_POST['_remove_student']) && $_POST['_remove_student'] != '') {
 			llms_log('remove student called');
 			//triggers remove_student static method
-			$remove_user = self::remove_student( $_POST['_remove_student'], $post_id );
+			foreach($_POST['_remove_student'] as $user_id) {
+				self::remove_student($user_id, $post_id);
+			}
 		}
 
 	}
