@@ -6,6 +6,7 @@
 ##### Bug Fixes
 
 + Properly initialized jQuery on the vouchers metabox admin scripts
++ removed some php shortcut echos (`<?= $var; ?>`)
 
 = v2.0.0 - 2016/02/04 =
 -----------------------
