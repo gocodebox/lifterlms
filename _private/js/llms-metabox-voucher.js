@@ -84,6 +84,9 @@ $(document).ready(function () {
         }
 
         changeNotSaved = false;
+
+        check_voucher_duplicate();
+        return false;
     });
 
     function bindDeleteVoucherCode() {
@@ -108,7 +111,38 @@ $(document).ready(function () {
             t.closest('tr').remove();
         });
     }
+
+    /**
+     * Check for voucher duplicates in other posts.
+     */
+     function check_voucher_duplicate() {
+
+        var codes = get_codes_from_inputs();
+
+        var data = {action: 'check_voucher_duplicate', 'postId' : jQuery('#post_ID').val(), 'codes' : codes };
+
+        var ajax = new Ajax('post', data, false);
+        ajax.check_voucher_duplicate();
+    }
+
+    function get_codes_from_inputs() {
+        var codes = [];
+        $('input[name="llms_voucher_code[]"]').each(function() {
+            codes.push($(this).val());
+        });
+
+        return codes;
+    }
+
 });
+var on_voucher_duplicate = function (results) {
+    if(results.length) {
+        alert("Vouchers can't be saved because there are duplicate codes in other vouchers. Duplicates are: " + JSON.stringify(results))
+    } else {
+        $( "#post" ).submit();
+    }
+
+}
 function randomizeCode() {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -118,3 +152,4 @@ function randomizeCode() {
 
     return text;
 }
+
