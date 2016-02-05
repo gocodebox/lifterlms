@@ -3,6 +3,13 @@
 = v2.0.0 - 2016/02/04 =
 -----------------------
 
+##### Bug Fixes
+
++ Properly initialized jQuery on the vouchers metabox admin scripts
+
+= v2.0.0 - 2016/02/04 =
+-----------------------
+
 ##### Auto-advancing lessons
 
 + We've heard your feedback and added a new global course option which will auto-advance a student to the next lesson upon lesson completion.
