@@ -7,6 +7,7 @@
 
 + Properly initialized jQuery on the vouchers metabox admin scripts
 + removed some php shortcut echos (`<?= $var; ?>`)
++ Resolve issue where courses that are available with a membership or on it's own outside of the membership would prevent users from accessing content if they were not a member.
 
 = v2.0.0 - 2016/02/04 =
 -----------------------
