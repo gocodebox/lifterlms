@@ -204,6 +204,11 @@
   text-align: left;
 }
 
+@media screen and (max-width: 641px) {
+  .llms-course-list .courses li {
+    width: auto;
+  }
+}
 .llms-course-list .courses li.last {
   margin-right: 15px;
 }

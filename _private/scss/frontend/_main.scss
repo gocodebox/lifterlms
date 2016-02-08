@@ -199,6 +199,11 @@
   display: inline-block;
   text-align: left;
 }
+@media screen and (max-width: $break-small) {
+  .llms-course-list .courses li {
+    width: auto;
+  }
+}
 
 // .llms-course-list .courses li.first {
 // 	margin-left: 0;
