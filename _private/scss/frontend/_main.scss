@@ -6,7 +6,6 @@
   padding: 10px 20px;
   text-decoration: none;
   transition: background .4s ease;
-  text-decoration: none;
 
   &:visited {
     color: $color-white;
@@ -723,7 +722,7 @@ h1, h2, h3, h4, h5, h6 {
 
     .llms-price-wrapper {
       margin: 20px;
-      text-size: 16px;
+      font-size: 16px;
       //background:#fff;
 
 
@@ -911,7 +910,6 @@ input[type="text"].cc_cvv,
   font-weight: bold;
 }
 .llms-price-loop {
-  font-weight: .8em;
   margin-bottom: 0;
   font-weight: bold;
 }
@@ -1057,9 +1055,8 @@ svg .llms-animated-circle {
 
 
   .llms-lesson-complete, .lesson-complete-placeholder {
-    size: 1.2em;
-    margin-right: 6px;
     font-size: 1.2em;
+    margin-right: 6px;
     color: #ccc;
     &.done {
       color: #e5554e;
