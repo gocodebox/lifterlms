@@ -223,6 +223,12 @@ class LLMS_Admin_Settings {
 
             break;
 
+            case 'custom-html':
+                if ( ! empty( $field['value'] ) ) {
+            	    echo $field['value'];
+            	}
+            break;
+
              case 'sectionstart':
             	if ( ! empty( $field['id'] ) ) {
 
