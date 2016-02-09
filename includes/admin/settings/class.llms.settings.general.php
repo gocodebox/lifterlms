@@ -32,12 +32,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 */
 	public function get_settings() {
 
-		$currency_code_options = get_lifterlms_currencies();
-
-		foreach ( $currency_code_options as $code => $name ) {
-			$currency_code_options[ $code ] = $name . ' (' . get_lifterlms_currency_symbol( $code ) . ')';
-		}
-
 		if ( ! get_option( 'lifterlms_first_time_setup' ) ) {
 			return apply_filters( 'lifterlms_general_settings', array(
 
@@ -153,23 +147,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					'id' => 'activation_options' ),
 
 				array( 'type' => 'sectionend', 'id' => 'general_information' ),
-
-				array( 'type' => 'sectionstart', 'id' => 'general_options'),
-
-				array(	'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
-
-				array(
-					'title' 	=> __( 'Default Currency', 'lifterlms' ),
-					'desc' 		=> __( 'Default currency type.', 'lifterlms' ),
-					'id' 		=> 'lifterlms_currency',
-					'default'	=> 'USD',
-					'type' 		=> 'select',
-					'class'		=> 'chosen_select',
-					'desc_tip'	=>  true,
-					'options'   => $currency_code_options
-				),
-
-				array( 'type' => 'sectionend', 'id' => 'general_options' ),
 
                 array( 'type' => 'sectionstart', 'id' => 'session_manager'),
 
