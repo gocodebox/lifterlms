@@ -223,16 +223,16 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		$html = '<div class="llms-widget-row">
 					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">Course Enrollments in Last Week</p><h1>' . $students_enrolled . '</h1></div>
+						<div class="llms-widget"><p class="llms-label">Course Enrollments This Week</p><h1>' . $students_enrolled . '</h1></div>
 					</div>
 					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">New Members in Last Week</p><h1>' . $members_registered . '</h1></div>
+						<div class="llms-widget"><p class="llms-label">New Members This Week</p><h1>' . $members_registered . '</h1></div>
 					</div>
 					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">Lessons Completed in Last Week</p><h1>' . $lessons_completed . '</h1></div>
+						<div class="llms-widget"><p class="llms-label">Lessons Completed This Week</p><h1>' . $lessons_completed . '</h1></div>
 					</div>
 					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">Total Sales in Last Week</p><h1>' . $total_sales .'</h1></div>
+						<div class="llms-widget"><p class="llms-label">Total Sales This Week</p><h1>' . $total_sales .'</h1></div>
 					</div>
 				</div>';
 		return preg_replace('~>\s+<~', '><', $html);
@@ -266,8 +266,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		foreach($big_banners as $banner) {
 
-			$html .= '<div class="llms-widget-1-2 no-padding">
-							<div class="llms-banner-image">
+			$html .= '<div class="llms-widget-1-2">
+							<div class="llms-widget llms-banner-image">
 								<a href="' . $banner["link"] . '" target="_blank">
 									<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">
 								</a>
@@ -303,8 +303,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		foreach($small_banners as $banner) {
 
-			$html .= '<div class="llms-widget-1-4 no-padding">
-							<div class="llms-banner-image">
+			$html .= '<div class="llms-widget-1-4">
+							<div class="llms-widget llms-banner-image">
 								<a href="' . $banner["link"] . '" target="_blank">
 									<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">
 								</a>
@@ -312,7 +312,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 						</div>';
 		}
 
-		$html .= '<div class="llms-widget-1-4 no-padding optin-form-wrapper">
+		$html .= '<div class="llms-widget-1-4 optin-form-wrapper">
 				' . self::get_optin_form() .'
 				</div>';
 

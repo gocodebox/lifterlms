@@ -4,7 +4,6 @@ Option Page Widgets
 
 ******************************************************************/
 
-
 .llms-widget {
 	width: 100%;
 	border: 1px solid $color-lightgrey;
@@ -44,7 +43,15 @@ Option Page Widgets
 }
 
 .llms-banner-image {
-	padding: 5px;
+	padding-top: 20px;
+	img { display: block; }
+	// padding: 5px;
+}
+
+.llms-widget-row {
+	div[class*="llms-widget-"] {
+		vertical-align: top;
+	}
 }
 
 .llms-widget-row .no-padding {
