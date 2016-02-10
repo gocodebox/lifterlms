@@ -208,8 +208,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * @return LLMS_Admin_Settings::save_fields
 	 */
 	public function save() {
-		$settings = $this->get_settings();
 
+		$settings = $this->get_settings();
 		LLMS_Admin_Settings::save_fields( $settings );
 
 	}
@@ -243,17 +243,17 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				array(
 						'title' => 'Stripe Plugin',
 						'image' => LLMS()->plugin_url() . '/assets/images/stripe-w-desc.png',
-						'link' => 'https://lifterlms.com/product/stripe-extension/'
+						'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Stripe+Ad+001'
 				),
 				array(
 						'title' => 'Mailchimp Plugin',
 						'image' => LLMS()->plugin_url() . '/assets/images/mailchimp-w-desc.png',
-						'link' => 'https://lifterlms.com/product/mailchimp-extension/'
+						'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Mailchimp+Ad+001'
 				),
 				array(
 						'title' => 'Lifter LMS Pro',
 						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-pro.png',
-						'link' => 'https://lifterlms.com/product/lifterlms-pro'
+						'link' => 'https://lifterlms.com/product/lifterlms-pro?ims=kujno&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=LifterLMS+Pro+Ad+001'
 				),
 				array(
 						'title' => 'Convert Kit',
@@ -283,19 +283,19 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	public static function get_small_banners() {
 		$small_banners = array(
 				array(
-						'title' => 'Course Clinic',
+						'title' => 'Ultimate Course Creation Framework',
 						'image' => LLMS()->plugin_url() . '/assets/images/online-course.jpg',
-						'link' => 'https://lifterlms.com/courseclinic'
+						'link' => 'https://lifterlms.com/courseclinic?ims=uayij&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=UCCF+Ad+001'
 				),
 				array(
-						'title' => 'Demo',
+						'title' => 'LifterLMS Demo Course',
 						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-expert.jpg',
-						'link' => 'http://demo.lifterlms.com'
+						'link' => 'http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?ims=phyxo&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Demo+Ad+001'
 				),
 				array(
-						'title' => 'Free Lifter LMS Course',
+						'title' => 'Course Blueprint',
 						'image' => LLMS()->plugin_url() . '/assets/images/students-engaged.jpg',
-						'link' => 'https://lifterlms.com/free-lifterlms-course'
+						'link' => 'https://lifterlms.com/free-lifterlms-course?ims=aympo&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=CBP+Ad+001'
 				),
 		);
 
@@ -312,59 +312,9 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 						</div>';
 		}
 
-		$html .= '<div class="llms-widget-1-4 optin-form-wrapper">
-				' . self::get_optin_form() .'
-				</div>';
-
 		$html .= '</div>';
 
 		return $html;
-	}
-
-	public static function get_optin_form() {
-		$form = "<div class='optin-form'>
-				<form action='//lifterlms.activehosted.com/proc.php' method='post' id='_form_201' accept-charset='utf-8' enctype='multipart/form-data'>
-				  <input type='hidden' name='f' value='201'>
-				  <input type='hidden' name='s' value=''>
-				  <input type='hidden' name='c' value='0'>
-				  <input type='hidden' name='m' value='0'>
-				  <input type='hidden' name='act' value='sub'>
-				  <input type='hidden' name='nlbox[]' value='11'>
-				  <div class='_form'>
-				    <div class='formwrapper'>
-				      <div id='_field819'>
-				        <div id='compile819' class='_field _type_input'>
-				          <div class='_label '>
-				            Full Name
-				          </div>
-				          <div class='_option'>
-				            <input type='text' name='fullname' >
-				          </div>
-				        </div>
-				      </div>
-				      <div id='_field820'>
-				        <div id='compile820' class='_field _type_input'>
-				          <div class='_label '>
-				            Email *
-				          </div>
-				          <div class='_option'>
-				            <input type='email' name='email' >
-				          </div>
-				        </div>
-				      </div>
-				      <div id='_field821'>
-				        <div id='compile821' class='_field _type_input'>
-				          <div class='_option'>
-				            <input type='submit' class='button-primary' value=\"Subscribe\">
-				          </div>
-				        </div>
-				      </div>
-				    </div>
-				  </div>
-				</form>
-			</div>";
-
-		return $form;
 	}
 
 }
