@@ -132,44 +132,39 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 			return apply_filters( 'lifterlms_general_settings', array(
 
+				array(
+						'type' => 'custom-html',
+						'value' => self::get_stats_widgets(),
+				),
+
+				array(
+					'type' => 'custom-html',
+					'value' => self::get_big_banners(),
+				),
+
+				array(
+						'type' => 'custom-html',
+						'value' => self::get_small_banners(),
+				),
+
 				array( 'type' => 'sectionstart', 'id' => 'general_information', 'class' =>'top' ),
 
-				array(	'title' => __( 'Welcome to LifterLMS',
+				array(	'title' => __( 'Quick Links',
 					'lifterlms' ),
 					'type' => 'title',
 					'desc' => '
 
 					<div class="llms-list">
-					<ul>
-					<li><p>' . __( 'Thank you for choosing', 'lifterlms' ) . ' <a href="http://lifterlms.com">LifterLMS</a> ' . __( 'as your Learning Management Solution.', 'lifterlms' ) .' </p></li>
-					<li><p>' . __( 'Version:', 'lifterlms' ) . ' ' . LLMS()->version . '</p></li>
-					<li><p>' . __( 'Need help? Send us a support request at ', 'lifterlms' ) . ' <a href="https://lifterlms.com/contact/" target="_blank">' . __( 'https://lifterlms.com/contact/' ) . '</a>.</p></li>
-					<li><p>' . __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Visit our documentation portal at ', 'lifterlms' ) . ' <a href="https://lifterlms.readme.io/" target="_blank">' . __( 'https://lifterlms.readme.io/' ) . '</a>.</p></li>
-					<li><p>' . __( 'Get LifterLMS news, updates, and more on our blog at ', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/" target="_blank">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
-					<li><p>' . __( 'Visit our interactive demo for in depth tutorials at ', 'lifterlms' ) . ' <a href="http://demo.lifterlms.com" target="_blank">' . __( 'http://demo.lifterlms.com' ) . '</a>.</p></li>
-					<li><p>' . __( 'Want LifterLMS setup for you, you might need a <strong>Boost</strong>, visit ', 'lifterlms' ) . ' <a href="http://lifterlms.com/done-for-you-lms" target="_blank">' . __( 'http://lifterlms.com/done-for-you' ) . '</a> ' . __( 'for more information' ) . '.</p></li>
-					</ul>
+						<ul>
+							<li><p>' . __( 'Version:', 'lifterlms' ) . ' ' . LLMS()->version . '</p></li>
+							<li><p>' . __( 'Need help? Send us a support request at ', 'lifterlms' ) . ' <a href="https://lifterlms.com/contact/" target="_blank">' . __( 'https://lifterlms.com/contact/' ) . '</a>.</p></li>
+							<li><p>' . __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Visit our documentation portal at ', 'lifterlms' ) . ' <a href="https://lifterlms.readme.io/" target="_blank">' . __( 'https://lifterlms.readme.io/' ) . '</a>.</p></li>
+							<li><p>' . __( 'Get LifterLMS news, updates, and more on our blog at ', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/" target="_blank">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
+						</ul>
 					</div>',
 					'id' => 'activation_options' ),
 
 				array( 'type' => 'sectionend', 'id' => 'general_information' ),
-
-				array( 'type' => 'sectionstart', 'id' => 'general_options'),
-
-				array(	'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
-
-				array(
-					'title' 	=> __( 'Default Currency', 'lifterlms' ),
-					'desc' 		=> __( 'Default currency type.', 'lifterlms' ),
-					'id' 		=> 'lifterlms_currency',
-					'default'	=> 'USD',
-					'type' 		=> 'select',
-					'class'		=> 'chosen_select',
-					'desc_tip'	=>  true,
-					'options'   => $currency_code_options
-				),
-
-				array( 'type' => 'sectionend', 'id' => 'general_options' ),
 
                 array( 'type' => 'sectionstart', 'id' => 'session_manager'),
 
@@ -217,6 +212,159 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		LLMS_Admin_Settings::save_fields( $settings );
 
+	}
+
+	public static function get_stats_widgets() {
+
+		$students_enrolled = LLMS_Analytics::get_users_enrolled_last_n_days(7);
+		$members_registered = LLMS_Analytics::get_members_registered_last_n_days(7);
+		$lessons_completed = LLMS_Analytics::get_lessons_completed_last_n_days(7);
+		$total_sales = LLMS_Analytics::get_total_sales_last_n_days(7);
+
+		$html = '<div class="llms-widget-row">
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">Course Enrollments in Last Week</p><h1>' . $students_enrolled . '</h1></div>
+					</div>
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">New Members in Last Week</p><h1>' . $members_registered . '</h1></div>
+					</div>
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">Lessons Completed in Last Week</p><h1>' . $lessons_completed . '</h1></div>
+					</div>
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">Total Sales in Last Week</p><h1>' . $total_sales .'</h1></div>
+					</div>
+				</div>';
+		return preg_replace('~>\s+<~', '><', $html);
+	}
+
+	public static function get_big_banners() {
+		$big_banners = array(
+				array(
+						'title' => 'Stripe Plugin',
+						'image' => LLMS()->plugin_url() . '/assets/images/stripe-w-desc.png',
+						'link' => 'https://lifterlms.com/product/stripe-extension/'
+				),
+				array(
+						'title' => 'Mailchimp Plugin',
+						'image' => LLMS()->plugin_url() . '/assets/images/mailchimp-w-desc.png',
+						'link' => 'https://lifterlms.com/product/mailchimp-extension/'
+				),
+				array(
+						'title' => 'Lifter LMS Pro',
+						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-pro.png',
+						'link' => 'https://lifterlms.com/product/lifterlms-pro'
+				),
+				array(
+						'title' => 'Convert Kit',
+						'image' => LLMS()->plugin_url() . '/assets/images/convertkit.png',
+						'link' => '#'
+				),
+		);
+
+		$html = '<div class="llms-widget-row">';
+
+		foreach($big_banners as $banner) {
+
+			$html .= '<div class="llms-widget-1-2 no-padding">
+							<div class="llms-banner-image">
+								<a href="' . $banner["link"] . '" target="_blank">
+									<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">
+								</a>
+							</div>
+						</div>';
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	public static function get_small_banners() {
+		$small_banners = array(
+				array(
+						'title' => 'Course Clinic',
+						'image' => LLMS()->plugin_url() . '/assets/images/online-course.jpg',
+						'link' => 'https://lifterlms.com/courseclinic'
+				),
+				array(
+						'title' => 'Demo',
+						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-expert.jpg',
+						'link' => 'http://demo.lifterlms.com'
+				),
+				array(
+						'title' => 'Free Lifter LMS Course',
+						'image' => LLMS()->plugin_url() . '/assets/images/students-engaged.jpg',
+						'link' => 'https://lifterlms.com/free-lifterlms-course'
+				),
+		);
+
+		$html = '<div class="llms-widget-row">';
+
+		foreach($small_banners as $banner) {
+
+			$html .= '<div class="llms-widget-1-4 no-padding">
+							<div class="llms-banner-image">
+								<a href="' . $banner["link"] . '" target="_blank">
+									<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">
+								</a>
+							</div>
+						</div>';
+		}
+
+		$html .= '<div class="llms-widget-1-4 no-padding optin-form-wrapper">
+				' . self::get_optin_form() .'
+				</div>';
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	public static function get_optin_form() {
+		$form = "<div class='optin-form'>
+				<form action='//lifterlms.activehosted.com/proc.php' method='post' id='_form_201' accept-charset='utf-8' enctype='multipart/form-data'>
+				  <input type='hidden' name='f' value='201'>
+				  <input type='hidden' name='s' value=''>
+				  <input type='hidden' name='c' value='0'>
+				  <input type='hidden' name='m' value='0'>
+				  <input type='hidden' name='act' value='sub'>
+				  <input type='hidden' name='nlbox[]' value='11'>
+				  <div class='_form'>
+				    <div class='formwrapper'>
+				      <div id='_field819'>
+				        <div id='compile819' class='_field _type_input'>
+				          <div class='_label '>
+				            Full Name
+				          </div>
+				          <div class='_option'>
+				            <input type='text' name='fullname' >
+				          </div>
+				        </div>
+				      </div>
+				      <div id='_field820'>
+				        <div id='compile820' class='_field _type_input'>
+				          <div class='_label '>
+				            Email *
+				          </div>
+				          <div class='_option'>
+				            <input type='email' name='email' >
+				          </div>
+				        </div>
+				      </div>
+				      <div id='_field821'>
+				        <div id='compile821' class='_field _type_input'>
+				          <div class='_option'>
+				            <input type='submit' class='button-primary' value=\"Subscribe\">
+				          </div>
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				</form>
+			</div>";
+
+		return $form;
 	}
 
 }
