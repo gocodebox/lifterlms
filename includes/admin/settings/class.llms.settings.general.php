@@ -133,6 +133,11 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			return apply_filters( 'lifterlms_general_settings', array(
 
 				array(
+						'type' => 'custom-html',
+						'value' => self::get_stats_widgets(),
+				),
+
+				array(
 					'type' => 'custom-html',
 					'value' => self::get_big_banners(),
 				),
@@ -207,6 +212,30 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		LLMS_Admin_Settings::save_fields( $settings );
 
+	}
+
+	public static function get_stats_widgets() {
+
+		$students_enrolled = LLMS_Analytics::get_users_enrolled_last_n_days(7);
+		$members_registered = LLMS_Analytics::get_members_registered_last_n_days(7);
+		$lessons_completed = LLMS_Analytics::get_lessons_completed_last_n_days(7);
+		$total_sales = LLMS_Analytics::get_total_sales_last_n_days(7);
+
+		$html = '<div class="llms-widget-row">
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">Course Enrollments in Last Week</p><h1>' . $students_enrolled . '</h1></div>
+					</div>
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">New Members in Last Week</p><h1>' . $members_registered . '</h1></div>
+					</div>
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">Lessons Completed in Last Week</p><h1>' . $lessons_completed . '</h1></div>
+					</div>
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">Total Sales in Last Week</p><h1>' . $total_sales .'</h1></div>
+					</div>
+				</div>';
+		return preg_replace('~>\s+<~', '><', $html);
 	}
 
 	public static function get_big_banners() {

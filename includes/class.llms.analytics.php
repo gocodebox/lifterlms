@@ -321,6 +321,91 @@ class LLMS_Analytics {
 	}
 
 	/**
+	 * Get all students enrolled in last n number of days
+	 * @param  [int] $number_of_days
+	 * @return [int]
+	 */
+	public static function get_users_enrolled_last_n_days( $number_of_days = 7 ) {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+		$results = $wpdb->get_var(
+				$wpdb->prepare(
+						'SELECT count(*) FROM ' . $table_name .
+						' WHERE updated_date > DATE_SUB(NOW(), INTERVAL %s DAY)
+						AND meta_value = "Enrolled"',
+						$number_of_days
+				)
+		);
+
+		return $results;
+	}
+
+	/**
+	 * Get all members registered in last n number of days
+	 * @param  [int] $number_of_days
+	 * @return [int]
+	 */
+	public static function get_members_registered_last_n_days( $number_of_days = 7 ) {
+		global $wpdb;
+
+		$results = $wpdb->get_var(
+				$wpdb->prepare(
+						'SELECT count(*) FROM ' . $wpdb->users .
+						' WHERE user_registered > DATE_SUB(NOW(), INTERVAL %s DAY)',
+						$number_of_days
+				)
+		);
+
+		return $results;
+	}
+
+	/**
+	 * Get all lessons completed in last n number of days
+	 * @param  [int] $number_of_days
+	 * @return [int]
+	 */
+	public static function get_lessons_completed_last_n_days( $number_of_days = 7 ) {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+		$results = $wpdb->get_var(
+			$wpdb->prepare(
+				'SELECT count(*) FROM '.$table_name.'
+				WHERE meta_key = "_is_complete"
+				AND updated_date > DATE_SUB(NOW(), INTERVAL %s DAY)',
+				$number_of_days
+			)
+		);
+
+		return $results;
+	}
+
+	public static function get_total_sales_last_n_days( $number_of_days = 7 ) {
+
+		$total = 0;
+		$args = array(
+				'post_type' 		=> 'order',
+				'posts_per_page'	=> 5000,
+				'meta_query' 		=> array(),
+				'date_query' => array(
+						array(
+								'after' => $number_of_days . ' day ago'
+						)
+				)
+		);
+
+		$orders = get_posts( $args );
+		foreach($orders as $order) {
+			$total += get_post_meta( $order->ID, '_llms_order_total', true );
+		}
+
+		return LLMS_Number::format_money_no_decimal($total);
+	}
+
+
+
+	/**
 	 * Query user_postmeta for all users enrolled by course
 	 * @return [type] [description]
 	 */
