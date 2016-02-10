@@ -20,9 +20,9 @@
 		?>
 		<div id="llms-form-wrapper">
 		 <p class="submit">
-		    <?php if ($current_tab != "general") { ?>
+		    <?php if ( $current_tab != "general" || ! get_option( 'lifterlms_first_time_setup' ) ) : ?>
         	    <input name="save" class="button-primary" type="submit" value="<?php _e( 'Save Changes', 'lifterlms' ); ?>" />
-		    <?php } ?>
+		    <?php endif; ?>
         	<input type="hidden" name="subtab" id="last_tab" />
         	<?php wp_nonce_field( 'lifterlms-settings' ); ?>
         </p>
