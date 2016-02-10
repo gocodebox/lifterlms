@@ -1,6 +1,6 @@
 == Changelog ==
 
-= v2.0.0 - 2016/02/04 =
+= v2.0.1 - 2016/02/?? =
 -----------------------
 
 ##### Bug Fixes
@@ -8,6 +8,11 @@
 + Properly initialized jQuery on the vouchers metabox admin scripts
 + removed some php shortcut echos (`<?= $var; ?>`)
 + Resolve issue where courses that are available with a membership or on it's own outside of the membership would prevent users from accessing content if they were not a member.
++ Fixed a few files where undefined variables were being referenced and generating php notices
+
+###### Enhancements
+
++ Updated CSS to provide better course syllabus layout on smaller screens
 
 = v2.0.0 - 2016/02/04 =
 -----------------------
