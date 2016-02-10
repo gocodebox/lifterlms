@@ -258,7 +258,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				array(
 						'title' => 'Convert Kit',
 						'image' => LLMS()->plugin_url() . '/assets/images/convertkit.png',
-						'link' => '#'
 				),
 		);
 
@@ -268,9 +267,19 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 			$html .= '<div class="llms-widget-1-2">
 							<div class="llms-widget llms-banner-image">
-								<a href="' . $banner["link"] . '" target="_blank">
-									<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">
-								</a>
+					';
+
+					if( isset( $banner['link'] ) ) {
+						$html .= '<a href="' . $banner["link"] . '" target="_blank">';
+					}
+
+					$html .= '<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">';
+
+					if( isset( $banner['link'] ) ) {
+						$html .= '</a>';
+					}
+
+					$html .= '
 							</div>
 						</div>';
 		}
@@ -296,6 +305,11 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 						'title' => 'Course Blueprint',
 						'image' => LLMS()->plugin_url() . '/assets/images/students-engaged.jpg',
 						'link' => 'https://lifterlms.com/free-lifterlms-course?ims=aympo&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=CBP+Ad+001'
+				),
+				array(
+						'title' => 'LifterLMS Optin',
+						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-optin.png',
+						'link' => 'http://lifterlms.com/fast-start?ims=pfckn&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=FS+Ad+001'
 				),
 		);
 
