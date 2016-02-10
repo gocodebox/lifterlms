@@ -268,8 +268,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 			$html .= '<div class="llms-widget-1-2 no-padding">
 							<div class="llms-banner-image">
-								<a href="' . $banner["link"] . '">
-									<img width="100%" src="' . $banner["image"] . '" title="' . $banner["image"] . '">
+								<a href="' . $banner["link"] . '" target="_blank">
+									<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">
 								</a>
 							</div>
 						</div>';
@@ -305,8 +305,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 			$html .= '<div class="llms-widget-1-4 no-padding">
 							<div class="llms-banner-image">
-								<a href="' . $banner["link"] . '">
-									<img width="100%" src="' . $banner["image"] . '" title="' . $banner["image"] . '">
+								<a href="' . $banner["link"] . '" target="_blank">
+									<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">
 								</a>
 							</div>
 						</div>';
