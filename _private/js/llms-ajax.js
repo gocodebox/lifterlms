@@ -1,11 +1,11 @@
 function Ajax (type, data, cache) {
-	
+
 	this.type = type;
 	this.data = data;
 	this.cache = cache;
 	this.dataType = 'json';
 	this.url = window.ajaxurl || window.llms.ajaxurl;
-	
+
 }
 
 Ajax.prototype.get_sections = function () {
@@ -118,11 +118,11 @@ Ajax.prototype.start_quiz = function (quiz_id, user_id) {
 		beforeSend: function() {
 
 			jQuery( '#llms_start_quiz' ).hide();
-			jQuery('html, body').stop().animate({scrollTop: 0}, 500); 
+			jQuery('html, body').stop().animate({scrollTop: 0}, 500);
 			jQuery('#llms-quiz-wrapper').empty();
 
 			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Question...</div>' );
-		
+
 		},
 		success: function( html ) {
 
@@ -135,9 +135,9 @@ Ajax.prototype.start_quiz = function (quiz_id, user_id) {
 			//remove the loading message
 			jQuery('#llms-quiz-question-wrapper #loader').remove();
 
-			//append the returned html 
+			//append the returned html
 			jQuery('#llms-quiz-question-wrapper').append( html );
-			
+
 			jQuery('#llms_answer_question').click(function() {
 
 				//call answer question
@@ -158,23 +158,23 @@ Ajax.prototype.answer_question = function ( quiz_id, question_type, question_id,
         cache		: this.cache,
         dataType	: this.dataType,
 		beforeSend: function() {
-		jQuery('#llms-quiz-question-wrapper').empty();	
+		jQuery('#llms-quiz-question-wrapper').empty();
 		jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Next Question...</div>' );
 		},
 		success: function( response ) {
 
 			if ( response.redirect ) {
-				window.location.replace( response.redirect ); 
+				window.location.replace( response.redirect );
 
 			} else if ( response.message) {
-				window.location.replace( response.redirect ); 
+				window.location.replace( response.redirect );
 
 			} else {
 
 				jQuery('#llms-quiz-question-wrapper #loader').remove();
 
 				jQuery('#llms-quiz-question-wrapper').append( response.html );
-				
+
 				jQuery('#llms_answer_question').click(function() {
 					LLMS.Quiz.answer_question();
 					return false;
@@ -208,7 +208,7 @@ Ajax.prototype.previous_question = function (quiz_id, question_id) {
 			jQuery('#llms-quiz-question-wrapper #loader').remove();
 
 			jQuery('#llms-quiz-question-wrapper').append( html );
-			
+
 			jQuery('#llms_answer_question').click(function() {
 				LLMS.Quiz.answer_question();
 				return false;
@@ -232,14 +232,14 @@ Ajax.prototype.complete_quiz = function ( quiz_id, question_id, question_type, a
         dataType	: this.dataType,
 		beforeSend: function() {
 
-			jQuery('#llms-quiz-question-wrapper').empty();	
+			jQuery('#llms-quiz-question-wrapper').empty();
 			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Quiz Results...</div>' );
-		
+
 		},
 		success: function( response ) {
 
 			//redirect back to quiz page
-			window.location.replace( response.redirect ); 
+			window.location.replace( response.redirect );
 
 		} //end success
 	});
@@ -254,7 +254,7 @@ Ajax.prototype.getLessons = function () {
         dataType	: this.dataType,
 		success		: function(response) { return_data(response); },
 	});
-}; 
+};
 
 Ajax.prototype.getSections = function () {
 	jQuery.ajax({
@@ -265,7 +265,7 @@ Ajax.prototype.getSections = function () {
         dataType	: this.dataType,
 		success		: function(response) { return_data(response); },
 	});
-}; 
+};
 
 Ajax.prototype.get_course_tracks = function () {
 	jQuery.ajax({
@@ -275,5 +275,20 @@ Ajax.prototype.get_course_tracks = function () {
         cache		: this.cache,
         dataType	: this.dataType,
 		success		: function(response) { return_data(response); },
+	});
+};
+
+
+Ajax.prototype.check_voucher_duplicate = function () {
+
+	jQuery.ajax({
+		type 		: this.type,
+		url			: this.url,
+		data 		: this.data,
+		cache		: this.cache,
+		dataType	: this.dataType,
+		success		: function(response) {
+			llms_on_voucher_duplicate(response.duplicates);
+		}
 	});
 };
