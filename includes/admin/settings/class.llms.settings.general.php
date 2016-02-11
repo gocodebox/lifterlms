@@ -22,7 +22,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
         add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'register_hooks' ) );
-		LLMS()->activate();
+
 	}
 
 	/**
@@ -31,18 +31,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * @return array
 	 */
 	public function get_settings() {
-		$is_activated = get_option( 'lifterlms_is_activated', '' );
-		$activation_response = get_option( 'lifterlms_activation_message', '' );
-		if($is_activated == 'yes') {
-			$activation_message = 'Activated';
-			$deactivate_checkbox = 'checkbox';
-			$deactivate_message = __( 'Deactivate LifterLMS.', 'lifterlms' );
-		}
-		else {
-			$activation_message = 'Not Activated (' . $activation_response . ')';
-			$deactivate_checkbox = '';
-			$deactivate_message = '';
-		}
 
 		$currency_code_options = get_lifterlms_currencies();
 
@@ -55,35 +43,15 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 				array( 'type' => 'sectionstart', 'id' => 'general_information', 'class' =>'top' ),
 
-				array(	'title' => __( 'Welcome to LifterLMS',
-					'lifterlms' ),
-					'type' => 'title',
-					'desc' => '<h2>' . __( 'Getting Started with LifterLMS', 'lifterlms' ) . '</h2>
-					<p>' . __( 'Before you start creating courses, making lots of money and building the best (insert your business here) online there are a few setup items we need to address.', 'lifterlms' ) . '</p>
-					<p>' . __( 'First things first. We need to activate your plugin. Enter the activation key you were given when you purchased LifterLMS. If you don\'t have a key that\'s ok. Go ahead and continue the setup. You can activate the plugin later.', 'lifterlms' ) . '</p>
-
-	',
-					'id' => 'welcome_options_activate' ),
-
-							array(
-					'title' => __( 'Activation Key', 'lifterlms' ),
-					'desc' 		=> __( $activation_message, 'lifterlms' ),
-					'id' 		=> 'lifterlms_activation_key',
-					'type' 		=> 'text',
-					'default'	=> '',
-					'desc_tip'	=> true,
-				),
-
-
-
 				array(
+					'title' => __( 'Welcome to LifterLMS', 'lifterlms' ),
 					'type' => 'desc',
-					'desc' => '<p>' . __( 'Next we need to set up your pages. Ya, we know, more pages... That\'s just the way Wordpress works. We\'ve already installed them. You just need to set them.', 'lifterlms' ) . '
-					</p> ' . __( 'When you installed LifterLMS we created a few pages for you. You can select those pages or use different ones. Your choice.', 'lifterlms' ) . '</p>
-
-						<p>' . __( 'The first page you need is the Student Account page. This is the page users will go to register, login and access their accounts. We installed a page called My Courses. You can use that or select a different page. If you happen to select a different page you will need to add this shortcode to the page:', 'lifterlms' ) . ' [lifterlms_my_account]</p>
-
-	',
+					'desc' => '
+						<h2>' . __( 'Getting Started with LifterLMS', 'lifterlms' ) . '</h2>
+						<p>' . __( 'Before you start creating courses, making lots of money and building the best (insert your business here) online there are a few setup items we need to address.', 'lifterlms' ) . '</p>
+						<p>' . __( 'We need to set up your pages. Ya, we know, more pages... That\'s just the way Wordpress works. We\'ve already installed them. You just need to set them.', 'lifterlms' ) . '</p>
+						' . __( 'When you installed LifterLMS we created a few pages for you. You can select those pages or use different ones. Your choice.', 'lifterlms' ) . '</p>
+						<p>' . __( 'The first page you need is the Student Account page. This is the page users will go to register, login and access their accounts. We installed a page called My Courses. You can use that or select a different page. If you happen to select a different page you will need to add this shortcode to the page:', 'lifterlms' ) . ' [lifterlms_my_account]</p>',
 					'id' => 'welcome_options_setup' ),
 
 				array(
@@ -164,77 +132,39 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 			return apply_filters( 'lifterlms_general_settings', array(
 
+				array(
+						'type' => 'custom-html',
+						'value' => self::get_stats_widgets(),
+				),
+
+				array(
+					'type' => 'custom-html',
+					'value' => self::get_big_banners(),
+				),
+
+				array(
+						'type' => 'custom-html',
+						'value' => self::get_small_banners(),
+				),
+
 				array( 'type' => 'sectionstart', 'id' => 'general_information', 'class' =>'top' ),
 
-				array(	'title' => __( 'Welcome to LifterLMS',
+				array(	'title' => __( 'Quick Links',
 					'lifterlms' ),
 					'type' => 'title',
 					'desc' => '
 
 					<div class="llms-list">
-					<ul>
-					<li><p>' . __( 'Thank you for choosing', 'lifterlms' ) . ' <a href="http://lifterlms.com">LifterLMS</a> ' . __( 'as your Learning Management Solution.', 'lifterlms' ) .' </p></li>
-					<li><p>' . __( 'Version:', 'lifterlms' ) . ' ' . LLMS()->version . '</p></li>
-					<li><p>' . __( 'Need help? Send us a support request at ', 'lifterlms' ) . ' <a href="https://lifterlms.com/contact/" target="_blank">' . __( 'https://lifterlms.com/contact/' ) . '</a>.</p></li>
-					<li><p>' . __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Visit our documentation portal at ', 'lifterlms' ) . ' <a href="https://lifterlms.readme.io/" target="_blank">' . __( 'https://lifterlms.readme.io/' ) . '</a>.</p></li>
-					<li><p>' . __( 'Get LifterLMS news, updates, and more on our blog at ', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/" target="_blank">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
-					<li><p>' . __( 'Visit our interactive demo for in depth tutorials at ', 'lifterlms' ) . ' <a href="http://demo.lifterlms.com" target="_blank">' . __( 'http://demo.lifterlms.com' ) . '</a>.</p></li>
-					<li><p>' . __( 'Want LifterLMS setup for you, you might need a <strong>Boost</strong>, visit ', 'lifterlms' ) . ' <a href="http://lifterlms.com/done-for-you" target="_blank">' . __( 'http://lifterlms.com/done-for-you' ) . '</a> ' . __( 'for more information' ) . '.</p></li>
-					<li><p>' . __( 'Learn how to increase your course success at ', 'lifterlms' ) . ' <a href="http://courseclinic.com/" target="_blank">' . __( 'http://courseclinic.com/' ) . '</a> ' . __( 'for more information' ) . '.</p></li>
-					</ul>
+						<ul>
+							<li><p>' . __( 'Version:', 'lifterlms' ) . ' ' . LLMS()->version . '</p></li>
+							<li><p>' . __( 'Need help? Send us a support request at ', 'lifterlms' ) . ' <a href="https://lifterlms.com/contact/" target="_blank">' . __( 'https://lifterlms.com/contact/' ) . '</a>.</p></li>
+							<li><p>' . __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Visit our documentation portal at ', 'lifterlms' ) . ' <a href="https://lifterlms.readme.io/" target="_blank">' . __( 'https://lifterlms.readme.io/' ) . '</a>.</p></li>
+							<li><p>' . __( 'Get LifterLMS news, updates, and more on our blog at ', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/" target="_blank">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
+						</ul>
 					</div>',
 					'id' => 'activation_options' ),
 
 				array( 'type' => 'sectionend', 'id' => 'general_information' ),
-
-				array( 'type' => 'sectionstart', 'id' => 'activation' ),
-
-				array(	'title' => __( 'Plugin Activation', 'lifterlms' ), 'type' => 'title',
-					'desc' => __( 'Enter your activation key to recieve important updates and new features when they are available.
-						Need an activation key? <a href="http://lifterlms.com">Get one here</a>', 'lifterlms' ),
-					'id' => 'activation_options' ),
-
-				array(
-					'title' => __( 'Activation Key', 'lifterlms' ),
-					'desc' 		=> __( $activation_message, 'lifterlms' ),
-					'id' 		=> 'lifterlms_activation_key',
-					'type' 		=> 'text',
-					'default'	=> '',
-					'desc_tip'	=> true,
-				),
-
-				array(
-					'desc'          => $deactivate_message,
-					'id'            => 'lifterlms_activation_deactivate',
-					'default'       => 'no',
-					'type'          => $deactivate_checkbox,
-					'checkboxgroup' => 'start',
-				),
-
-				array(
-					'title' => '',
-					'value' => __( 'Update Activation', 'lifterlms' ),
-					'type' 		=> 'button',
-				),
-
-				array( 'type' => 'sectionend', 'id' => 'activation' ),
-
-				array( 'type' => 'sectionstart', 'id' => 'general_options'),
-
-				array(	'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
-
-				array(
-					'title' 	=> __( 'Default Currency', 'lifterlms' ),
-					'desc' 		=> __( 'Default currency type.', 'lifterlms' ),
-					'id' 		=> 'lifterlms_currency',
-					'default'	=> 'USD',
-					'type' 		=> 'select',
-					'class'		=> 'chosen_select',
-					'desc_tip'	=>  true,
-					'options'   => $currency_code_options
-				),
-
-				array( 'type' => 'sectionend', 'id' => 'general_options' ),
 
                 array( 'type' => 'sectionstart', 'id' => 'session_manager'),
 
@@ -278,10 +208,127 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * @return LLMS_Admin_Settings::save_fields
 	 */
 	public function save() {
-		$settings = $this->get_settings();
 
+		$settings = $this->get_settings();
 		LLMS_Admin_Settings::save_fields( $settings );
 
+	}
+
+	public static function get_stats_widgets() {
+
+		$students_enrolled = LLMS_Analytics::get_users_enrolled_last_n_days(7);
+		$members_registered = LLMS_Analytics::get_members_registered_last_n_days(7);
+		$lessons_completed = LLMS_Analytics::get_lessons_completed_last_n_days(7);
+		$total_sales = LLMS_Analytics::get_total_sales_last_n_days(7);
+
+		$html = '<div class="llms-widget-row">
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">Course Enrollments This Week</p><h1>' . $students_enrolled . '</h1></div>
+					</div>
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">New Members This Week</p><h1>' . $members_registered . '</h1></div>
+					</div>
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">Lessons Completed This Week</p><h1>' . $lessons_completed . '</h1></div>
+					</div>
+					<div class="llms-widget-1-4">
+						<div class="llms-widget"><p class="llms-label">Total Sales This Week</p><h1>' . $total_sales .'</h1></div>
+					</div>
+				</div>';
+		return preg_replace('~>\s+<~', '><', $html);
+	}
+
+	public static function get_big_banners() {
+		$big_banners = array(
+				array(
+						'title' => 'Stripe Plugin',
+						'image' => LLMS()->plugin_url() . '/assets/images/stripe-w-desc.png',
+						'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Stripe+Ad+001'
+				),
+				array(
+						'title' => 'Mailchimp Plugin',
+						'image' => LLMS()->plugin_url() . '/assets/images/mailchimp-w-desc.png',
+						'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Mailchimp+Ad+001'
+				),
+				array(
+						'title' => 'Lifter LMS Pro',
+						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-pro.png',
+						'link' => 'https://lifterlms.com/product/lifterlms-pro?ims=kujno&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=LifterLMS+Pro+Ad+001'
+				),
+				array(
+						'title' => 'Convert Kit',
+						'image' => LLMS()->plugin_url() . '/assets/images/convertkit.png',
+				),
+		);
+
+		$html = '<div class="llms-widget-row">';
+
+		foreach($big_banners as $banner) {
+
+			$html .= '<div class="llms-widget-1-2">
+							<div class="llms-widget llms-banner-image">
+					';
+
+					if( isset( $banner['link'] ) ) {
+						$html .= '<a href="' . $banner["link"] . '" target="_blank">';
+					}
+
+					$html .= '<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">';
+
+					if( isset( $banner['link'] ) ) {
+						$html .= '</a>';
+					}
+
+					$html .= '
+							</div>
+						</div>';
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	public static function get_small_banners() {
+		$small_banners = array(
+				array(
+						'title' => 'Ultimate Course Creation Framework',
+						'image' => LLMS()->plugin_url() . '/assets/images/online-course.jpg',
+						'link' => 'https://lifterlms.com/courseclinic?ims=uayij&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=UCCF+Ad+001'
+				),
+				array(
+						'title' => 'LifterLMS Demo Course',
+						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-expert.jpg',
+						'link' => 'http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?ims=phyxo&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Demo+Ad+001'
+				),
+				array(
+						'title' => 'Course Blueprint',
+						'image' => LLMS()->plugin_url() . '/assets/images/students-engaged.jpg',
+						'link' => 'https://lifterlms.com/free-lifterlms-course?ims=aympo&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=CBP+Ad+001'
+				),
+				array(
+						'title' => 'LifterLMS Optin',
+						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-optin.png',
+						'link' => 'http://lifterlms.com/fast-start?ims=pfckn&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=FS+Ad+001'
+				),
+		);
+
+		$html = '<div class="llms-widget-row">';
+
+		foreach($small_banners as $banner) {
+
+			$html .= '<div class="llms-widget-1-4">
+							<div class="llms-widget llms-banner-image">
+								<a href="' . $banner["link"] . '" target="_blank">
+									<img width="100%" src="' . $banner["image"] . '" alt="' . $banner["image"] . '">
+								</a>
+							</div>
+						</div>';
+		}
+
+		$html .= '</div>';
+
+		return $html;
 	}
 
 }

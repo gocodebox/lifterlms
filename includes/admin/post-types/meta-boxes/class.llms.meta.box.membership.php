@@ -327,7 +327,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'label' 	=> 'Courses',
 						'desc' 		=> 'Automatically enroll users in the selected courses on successful membership registration',
 						'id' 		=> self::$prefix . 'llms_course_membership_table',
-						'titles'	=> ['Course Name', 'Auto Enroll'],
+						'titles'	=> array( 'Course Name', 'Auto Enroll' ),
 						'type'  	=> 'table',
 						'table_data'=> self::get_courses_table_data(),
 						'group' 	=> '',
@@ -367,12 +367,20 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	}
 
 	public static function get_courses_not_in_membership_list() {
+
+		$exclude = array();
+		foreach( self::get_courses_in_membership_list() as $c ) {
+
+			$exclude[] = $c['key'];
+
+		}
+
 		$args = array(
 			'post_type' 	=> 'course',
 			'nopaging'		=> true,
 			'post_status'   => 'publish',
 			'number'		=> 1000,
-			'exclude'		=> array_column(self::get_courses_in_membership_list(), 'key'),
+			'exclude'		=> $exclude,
 		);
 
 		$courses_list = array();
@@ -453,16 +461,16 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 		if (isset($_POST['_llms_course_membership'])) {
 			foreach ($_POST['_llms_course_membership'] as $course_id) {
-				$memberships = array_merge(get_post_meta($course_id, '_llms_restricted_levels', true), [$postId]);
+				$memberships = array_merge(get_post_meta($course_id, '_llms_restricted_levels', true), array( $postId ) );
 
-				update_post_meta($course_id, '_l lms_is_restricted', true);
+				update_post_meta($course_id, '_llms_is_restricted', true);
 				update_post_meta($course_id, '_llms_restricted_levels', $memberships);
 			}
 		}
 
 		if (isset($_POST['_llms_remove_course_membership'])) {
 			foreach ($_POST['_llms_remove_course_membership'] as $course_id) {
-				$memberships = array_diff(get_post_meta($course_id, '_llms_restricted_levels', true), [$postId]);
+				$memberships = array_diff(get_post_meta($course_id, '_llms_restricted_levels', true), array( $postId ) );
 
 				if (!count($memberships)) {
 					update_post_meta($course_id, '_llms_is_restricted', false);
@@ -471,7 +479,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 			}
 		}
 
-		$auto_enroll = isset($_POST['autoEnroll']) ? $_POST['autoEnroll'] : [];
+		$auto_enroll = isset($_POST['autoEnroll']) ? $_POST['autoEnroll'] : array();
 		update_post_meta( $post->ID, '_llms_auto_enroll', $auto_enroll );
 	}
 

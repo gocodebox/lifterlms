@@ -11,10 +11,10 @@
 /**
  * Main restriction function
  * Runs checks against restriction types based on page / post type.
- * returns array containing information about page restriction 
- * 
+ * returns array containing information about page restriction
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return array $results
  */
 function llms_page_restricted($post_id) {
@@ -25,45 +25,45 @@ function llms_page_restricted($post_id) {
 
 	if ( ! current_user_can( 'manage_options' ) ) {
 
-		if (site_restricted_by_membership($post_id)) {
+		if ( site_restricted_by_membership( $post_id ) ) {
 			$restricted = true;
 			$reason = 'site_wide_membership';
 		}
-	
+
 		elseif ( page_restricted_by_membership($post_id) ) {
 			$restricted = true;
 			$reason = 'membership';
 		}
-		
+
 		elseif ( is_single() && $post->post_type == 'lesson' ) {
 			$l = new LLMS_Lesson($post_id);
 			if (!$l->get_is_free())
 			{
-				if( parent_page_restricted_by_membership($post_id) ) 
+				if( parent_page_restricted_by_membership($post_id) )
 				{
 					$restricted = true;
 					$reason = 'parent_membership';
 				}
-				elseif ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) ) 
+				elseif ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) )
 				{
 					$restricted = true;
 					$reason = 'enrollment_lesson';
 				}
-				elseif ( outstanding_prerequisite_exists(get_current_user_id(), $post_id) ) 
+				elseif ( outstanding_prerequisite_exists(get_current_user_id(), $post_id) )
 				{
 					$restricted = true;
 					$reason = 'prerequisite';
 				}
-				elseif ( lesson_start_date_in_future(get_current_user_id(), $post_id ) ) 
+				elseif ( lesson_start_date_in_future(get_current_user_id(), $post_id ) )
 				{
 					$restricted = true;
 					$reason = 'lesson_start_date';
 				}
 			}
-			
+
 		}
 		elseif ( is_single() && $post->post_type == 'course') {
-			
+
 			if ( ! llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
 				$restricted = true;
 				$reason = 'enrollment';
@@ -77,7 +77,7 @@ function llms_page_restricted($post_id) {
 
 				$restricted = true;
 				$reason = 'course_start_date';
-			} 
+			}
 			elseif ( course_end_date_in_past($post_id) ) {
 
 				$restricted = true;
@@ -103,18 +103,18 @@ function llms_page_restricted($post_id) {
 		'is_restricted' => $restricted,
 		'reason' => $reason
 	);
-//var_dump($results);
+
 	return apply_filters( 'llms_page_restricted', $results );
-	
+
 }
 
 /**
  * Checks if user has ability to view quiz
- * 
+ *
  * @return bool [Can user view quiz]
  */
 function quiz_restricted() {
-	
+
 	$quiz = LLMS()->session->get( 'llms_quiz' );
 
 	if ( $quiz && $quiz->end_date == '' ) {
@@ -127,13 +127,21 @@ function quiz_restricted() {
 
 /**
  * Checks if site is restricted by master membership
- * If site is restricted checks if user has authority to view current page. 
- * 
+ * If site is restricted checks if user has authority to view current page.
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return bool [Can user view page based on membership restriction]
  */
 function site_restricted_by_membership($post_id) {
+
+	// if this is a course and the user is already enrolled, ignore the sitewide restriction
+	// this allows users to buy a course that's available on it's own OR with a membership
+	if( get_post_type( $post_id ) == 'course' && llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+
+		return false;
+
+	}
 
 	//check if membership is required
 	$membership_required = get_option('lifterlms_membership_required', '');
@@ -189,7 +197,7 @@ function membership_page_restricted()
 	if (is_single() && $post->post_type === 'llms_membership')
 	{
 
-		if( is_user_logged_in() ) 
+		if( is_user_logged_in() )
 		{
 			$user_memberships = get_user_meta( get_current_user_id(), '_llms_restricted_levels', true );
 
@@ -203,10 +211,10 @@ function membership_page_restricted()
 }
 /**
  * Checks if specific page / post is restricted by membership(s)
- * If page is restricted checks user authority to view content. 
- * 
+ * If page is restricted checks user authority to view content.
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return bool $resticted_access [Is page restricted by membership level]
  */
 function page_restricted_by_membership($post_id) {
@@ -216,11 +224,18 @@ function page_restricted_by_membership($post_id) {
 	$userid = get_current_user_id();
 	$membership_required = get_option('lifterlms_membership_required', '');
 
-
 	$restrict_access = false;
 	$membership_id = '';
 
 	if (is_single() || is_page()) {
+
+		// if this is a course and the user is already enrolled, ignore the sitewide restriction
+		// this allows users to buy a course that's available on it's own OR with a membership
+		if( get_post_type( $post_id ) == 'course' && llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+
+			return false;
+
+		}
 
 		//are there membership restictions on page
 		$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );
@@ -233,8 +248,8 @@ function page_restricted_by_membership($post_id) {
 		// membership restrictions exist
 		if ( ! empty($page_restrictions) ) {
 			$restrict_access = true;
-			
-			//is user logged in 
+
+			//is user logged in
 			if ( is_user_logged_in() ) {
 				$user_memberships = get_user_meta( $userid, '_llms_restricted_levels', true );
 
@@ -243,13 +258,13 @@ function page_restricted_by_membership($post_id) {
 
 					foreach ( $page_restrictions as $key => $value ){
 						if ( in_array($value, $user_memberships) ){
-							$restrict_access = false;	
+							$restrict_access = false;
 						}
 						else if ( $membership_required && !$membership_required == '') {
 							if ( in_array($membership_required , $user_memberships) ){
-								$restrict_access = false;	
+								$restrict_access = false;
 							}
-						}	
+						}
 					}
 					//if post type is course and user is enrolled then do not restrict content.
 					if ($post->post_type == 'course' ) {
@@ -258,6 +273,7 @@ function page_restricted_by_membership($post_id) {
 						}
 					}
 				}
+
 			}
 		}
 	}
@@ -290,9 +306,9 @@ function is_topic_restricted($post) {
 
 /**
  * Get membership levels associated with post / page
- * 
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return array          [Membership levels associated with post / page]
  */
 function llms_get_post_memberships($post_id) {
@@ -302,9 +318,9 @@ function llms_get_post_memberships($post_id) {
 
 /**
  * Queries course membership level if post type is lesson
- * 
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return array [membership levels associated with parent course]
  */
 function llms_get_parent_post_memberships($post_id) {
@@ -316,9 +332,9 @@ function llms_get_parent_post_memberships($post_id) {
 
 /**
  * Checks if parent course membership should restrict user from viewing content
- * 
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return bool [Restrict access to user?]
  */
 function parent_page_restricted_by_membership($post_id) {
@@ -331,10 +347,12 @@ function parent_page_restricted_by_membership($post_id) {
 		$lesson = new LLMS_Lesson($post_id);
 		$parent_course = $lesson->get_parent_course();
 
-		if ( page_restricted_by_membership($parent_course) ) {
+		if ( page_restricted_by_membership( $parent_course ) ) {
 
 			$restrict_access = true;
+
 		}
+
 	}
 
 	return $restrict_access;
@@ -343,10 +361,10 @@ function parent_page_restricted_by_membership($post_id) {
 
 /**
  * Checks if lesson or course has outstanding prerequisites that need to be met
- * 
+ *
  * @param  int $user_id [ID of the current user]
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return bool $result [Does post have outstanding prerequisite?]
  */
 function outstanding_prerequisite_exists($user_id, $post_id) {
@@ -378,17 +396,17 @@ function outstanding_prerequisite_exists($user_id, $post_id) {
 		}
 
 	}
-	
-	return $result;	
+
+	return $result;
 
 }
 
 /**
  * Queries post metadata for prerequisite
- * 
+ *
  * @param  int $user_id [ID of current user]
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return bool $prerequisite_exists [Does a prerequisite exist for post?]
  */
 function find_prerequisite( $user_id, $post ) {
@@ -400,7 +418,7 @@ function find_prerequisite( $user_id, $post ) {
 	$prerequisite_exists = false;
 	$initialPrereq = false;
 
-	if ($prerequisite_id = $course->get_prerequisite()) 
+	if ($prerequisite_id = $course->get_prerequisite())
 	{
 		$prerequisite_exists = true;
 
@@ -408,9 +426,9 @@ function find_prerequisite( $user_id, $post ) {
 		$user_postmetas = $user->get_user_postmeta_data( $user_id, $prerequisite->ID );
 
 		if ( isset($user_postmetas) ) {
-	
+
 			foreach( $user_postmetas as $key => $value ) {
-				
+
 				if ( isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $prerequisite_id) {
 					$prerequisite_exists = false;
 				}
@@ -436,18 +454,18 @@ function find_prerequisite( $user_id, $post ) {
 					'field'		=> 'term_id',
 					'terms'		=> $prerequisite_id,
 				)
-			) 
+			)
 		);
 		$prerequisites = get_posts( $args );
 		$prerequisite_exists = false;
-		foreach ($prerequisites as $prerequisite) 
+		foreach ($prerequisites as $prerequisite)
 		{
 			$user_postmetas = $user->get_user_postmeta_data( $user_id, $prerequisite->ID );
 
 			if ( isset($user_postmetas) ) {
-		
+
 				foreach( $user_postmetas as $key => $value ) {
-					
+
 					if ( !isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $prerequisite->ID) {
 						$prerequisite_exists = true;
 					}
@@ -457,7 +475,7 @@ function find_prerequisite( $user_id, $post ) {
 			{
 				$prerequisite_exists = true;
 			}
-		}			
+		}
 	}
 
 	return ($initialPrereq || $prerequisite_exists);
@@ -466,10 +484,10 @@ function find_prerequisite( $user_id, $post ) {
 
 /**
  * Queries the post prerequisite metadata
- * 
+ *
  * @param  int $user_id [ID of current user]
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return object [Post object that is marked as prerequisite]
  */
 // function llms_get_prerequisite($user_id, $post_id) {
@@ -505,9 +523,9 @@ function find_prerequisite( $user_id, $post ) {
 
 /**
  * Queries course start date metadata
- * 
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return datetime $start_date [Start Date in M, d, Y format]
  */
 // function llms_get_course_start_date($post_id) {
@@ -515,25 +533,25 @@ function find_prerequisite( $user_id, $post ) {
 // 	$post = get_post( $post_id );
 
 // 	$start_date = get_post_meta( $post->ID, '_course_dates_from', true );
-	
+
 // 	if ($start_date != '') {
 // 		$start_date = date('M d, Y', $start_date);
 // 	}
-	
+
 // 	return $start_date;
 // }
 
 /**
  * Queries course metadata to get the date the user enrolled.
- * 
+ *
  * @param  int $user_id [ID of current user]
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return datetime $start_date [Start Date in M, d, Y format] or empty string if user is not enrolled.
  */
 function llms_get_course_enrolled_date($user_id, $post_id) {
 		$post = get_post( $post_id );
-		
+
 		$course_id = -1;
 		if ($post->post_type == 'course') {
 			$course_id = $post_id;
@@ -545,40 +563,40 @@ function llms_get_course_enrolled_date($user_id, $post_id) {
 		$start_date = '';
 		$llmsPerson = new LLMS_Person();
 		$user_postmetas = $llmsPerson->get_user_postmeta_data( $user_id, $course_id );
-		                              
+
 		if ( isset($user_postmetas['_status']) ) {
 			if ( $user_postmetas['_status']->meta_value == 'Enrolled' ) {
 				$start_date = date('Y-m-d', strtotime($user_postmetas['_status']->updated_date));
 			}
 		}
-		
+
 		return $start_date;
 }
 
 /**
  * Queries course end date metadata
- * 
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return datetime $end_date [End Date in M, d, Y format] or emtpy string if user is not enrolled.
  */
 // function llms_get_course_end_date($post_id) {
 // 	$post = get_post($post_id);
 // 	$end_date = get_metadata('post', $post->ID, '_course_dates_to', true);
-	
+
 // 	if ($end_date != '') {
 // 		$end_date = date('M d, Y', $end_date);
 // 	}
-	
+
 // 	return $end_date;
 // }
 
 
 /**
- * Checks if course end date is less than current date. 
- * 
+ * Checks if course end date is less than current date.
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return bool $course_in_past [Hast the course end date past?]
  */
 function course_end_date_in_past($post_id) {
@@ -609,10 +627,10 @@ function course_end_date_in_past($post_id) {
  * Returns the start date for the lesson
  * Returns the date the lesson can start
  * If drip days are set it calculates the drip days
- * 
+ *
  * @param  int $user_id [ID of current user]
  * @param  int $post_id [ID of lesson]
- * 
+ *
  * @return datetime $lesson_start_date [Start Date in M, d, Y format]
  */
 function llms_get_lesson_start_date($user_id, $post_id) {
@@ -621,7 +639,7 @@ function llms_get_lesson_start_date($user_id, $post_id) {
 	$course_id = $lesson->get_parent_course();
 	$course = new LLMS_Course($course_id);
 
-	
+
 	//get the course start date
 	//get the date the user enrolled
 	$course_start_date = $course->get_start_date();
@@ -634,30 +652,30 @@ function llms_get_lesson_start_date($user_id, $post_id) {
 	} else {
 		$start_date = $user_enrolled_date;
 	}
-	
+
 	//add drip days
 	$start_date = LLMS_Date::db_date( $start_date . '+ ' . $drip_days . ' days' );
-	
+
 	return $start_date;
 }
 
 
 /**
- * Checks if lesson start date is greater than current date. 
- * 
+ * Checks if lesson start date is greater than current date.
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return bool $result [Does the lesson have a future start date?]
  */
 function lesson_start_date_in_future($user_id, $post_id) {
-	return course_end_date_in_past( $post_id ) || (date_create(current_time('mysql')) < date_create(llms_get_lesson_start_date($user_id, $post_id))); 
+	return course_end_date_in_past( $post_id ) || (date_create(current_time('mysql')) < date_create(llms_get_lesson_start_date($user_id, $post_id)));
 }
 
 /**
- * Checks if course start date is greater than current date. 
- * 
+ * Checks if course start date is greater than current date.
+ *
  * @param  int $post_id [ID of current post or page]
- * 
+ *
  * @return bool $course_in_future [Does the course have a future start date?]
  */
 function course_start_date_in_future($post_id) {
@@ -678,27 +696,27 @@ function course_start_date_in_future($post_id) {
 
 /**
  * On screen notice passed to user when page is restricted by membership
- * 
+ *
  * @param  int $membership_id [ID of the membership]
- * 
+ *
  * @return void
  */
 function page_restricted_by_membership_alert($membership_id) {
 
 	$required_membership_name = get_the_title( $membership_id );
 
-	llms_add_notice( sprintf( __( '%s membership is required to view this content.', 'lifterlms' ), 
+	llms_add_notice( sprintf( __( '%s membership is required to view this content.', 'lifterlms' ),
 		$required_membership_name ) );
 
 }
-add_action('lifterlms_content_restricted_by_membership', 'page_restricted_by_membership_alert'); 
+add_action('lifterlms_content_restricted_by_membership', 'page_restricted_by_membership_alert');
 
 /**
  * Checks if user is currently enrolled in course
- * 
+ *
  * @param  int $user_id [ID of the current user]
  * @param  int $product_id [ID of the product ($course post id)]
- * 
+ *
  * @return bool $enrolled [Is user currently enrolled in the course?]
  */
 function llms_is_user_enrolled( $user_id, $product_id ) {
@@ -708,7 +726,7 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 	$post = get_post( $product_id );
 	if (!$post->post_type == 'lesson' || !$post->post_type == 'course')
 		return true;
-	
+
 	if ( !empty($user_id) && !empty( $product_id ) ) {
 
 		$user = new LLMS_Person;
@@ -735,10 +753,10 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 
 /**
  * Checks if user has the membership level required to view the post / page
- * 
+ *
  * @param  int $user_id [ID of the current user]
  * @param  int $post_id [ID of the post / page]
- * 
+ *
  * @return bool $is_member [Does the user have the required membership level required to view page / post?]
  */
 function llms_is_user_member($user_id, $post_id) {
@@ -755,7 +773,7 @@ function llms_is_user_member($user_id, $post_id) {
 
 			if ( $post_id == $value){
 				$is_member = true;
-				
+
 			}
 		}
 	}

@@ -1,14 +1,17 @@
 <?php
 /**
 * Plugin Name: LifterLMS
-* Plugin URI: http://lifterlms.com/
-* Description: LifterLMS is the easiest way for anyone to create a Learning Management System on the Wordpress platform.
+* Plugin URI: https://lifterlms.com/
+* Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
 * Version: 2.0.0
-* Author: codeBOX
+* Author: Mark Nelson, Thomas Patrick Levy, codeBOX, LLC
 * Author URI: http://gocodebox.com
-*
+* Text Domain: lifterlms
+* Domain Path: /languages
+* License:     GPLv2
+* License URI: https://www.gnu.org/licenses/gpl-2.0.html
 * Requires at least: 3.8
-* Tested up to: 4.4.1
+* Tested up to: 4.4.2
 *
 * @package 		LifterLMS
 * @category 	Core
@@ -157,7 +160,7 @@ final class LifterLMS {
 	 */
 	private function includes() {
 
-		require_once( 'plugin-updates/plugin-update-checker.php');
+		include_once( 'includes/llms.deprecated.php' );
 
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
@@ -171,7 +174,6 @@ final class LifterLMS {
 			include_once( 'includes/admin/llms.class.admin.metabox.php' );
 			include_once( 'includes/admin/class.llms.admin.php' );
 			include_once( 'includes/admin/class.llms.admin.forms.php' );
-			include_once( 'includes/class.llms.activate.php' );
 			include_once( 'includes/class.llms.analytics.php' );
 			include_once( 'includes/admin/class.llms.admin.reviews.php' );
 		}
@@ -292,14 +294,6 @@ final class LifterLMS {
 		foreach( $engagement_actions as $action ) {
 			add_action( $action, array( $this, 'trigger_engagement' ), 10, 10 );
 		}
-
-		$MyUpdateChecker = PucFactory::buildUpdateChecker(
-		'http://updates.gocodebox.com/?action=get_metadata&slug=lifterlms',
-		__FILE__,
-		'lifterlms', 3
-		);
-
-		$MyUpdateChecker->addQueryArgFilter('get_update_keys');
 
 		do_action( 'lifterlms_init' );
 

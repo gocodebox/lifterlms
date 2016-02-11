@@ -159,7 +159,7 @@ class LLMS_Integration_Woocommerce
 				WC()->cart->add_to_cart( $product->id, 1 );
 
 				wp_redirect( wc_get_page_permalink( 'cart' ) );
-				wp_exit();
+				exit;
 
 			}
 
