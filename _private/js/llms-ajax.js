@@ -288,7 +288,7 @@ Ajax.prototype.check_voucher_duplicate = function () {
 		cache		: this.cache,
 		dataType	: this.dataType,
 		success		: function(response) {
-			on_voucher_duplicate(response.duplicates);
+			llms_on_voucher_duplicate(response.duplicates);
 		}
 	});
 };
