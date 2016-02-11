@@ -1,10 +1,10 @@
 === LifterLMS ===
-Contributors: thomasplevy, lifterlms, chrisbadgett, codeboxllc
+Contributors: therealmarknelson, thomasplevy, chrisbadgett, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 3.8
 Tested up to: 4.4.2
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,6 +146,27 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 1. LifterLMS Settings
 
 == Changelog ==
+
+= v2.0.1 - 2016/02/11 =
+-----------------------
+
+##### Updated General Settings Screen
+
++ Improved the general settings interface to be more visually appealing and to provide some ad space to alert customers to other LifterLMS products and information.
++ Moved Currency options to the Checkout settings screen
+
+##### Bug Fixes
+
++ Properly initialized jQuery on the vouchers metabox admin scripts
++ removed some php shortcut echos (`<?= $var; ?>`)
++ Resolve issue where courses that are available with a membership or on it's own outside of the membership would prevent users from accessing content if they were not a member.
++ Fixed a few files where undefined variables were being referenced and generating php notices
++ removed an call to a WordPress core function that has never existed. Not sure what we were thinking there...
+
+###### Enhancements
+
++ Updated CSS to provide better course syllabus layout on smaller screens
++ Added validation to prevent against duplicate voucher code creation
 
 = v2.0.0 - 2016/02/04 =
 -----------------------
