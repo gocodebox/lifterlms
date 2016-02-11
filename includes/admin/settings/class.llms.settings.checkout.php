@@ -34,6 +34,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			$base_slug = ($checkout_page_id > 0 && get_page( $checkout_page_id )) ? get_page_uri( $checkout_page_id ) : 'checkout';
 
+			$currency_code_options = get_lifterlms_currencies();
+
+			foreach ( $currency_code_options as $code => $name ) {
+				$currency_code_options[ $code ] = $name . ' (' . get_lifterlms_currency_symbol( $code ) . ')';
+			}
+
 			return apply_filters( 'lifterlms_course_settings', array(
 
 				array( 'type' => 'sectionstart', 'id' => 'course_archive_options', 'class' =>'top' ),
@@ -60,10 +66,27 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 				array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
 
-			) 	
-		); 
+				array( 'type' => 'sectionstart', 'id' => 'general_options'),
+
+				array(	'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
+
+				array(
+						'title' 	=> __( 'Default Currency', 'lifterlms' ),
+						'desc' 		=> __( 'Default currency type.', 'lifterlms' ),
+						'id' 		=> 'lifterlms_currency',
+						'default'	=> 'USD',
+						'type' 		=> 'select',
+						'class'		=> 'chosen_select',
+						'desc_tip'	=>  true,
+						'options'   => $currency_code_options
+				),
+
+				array( 'type' => 'sectionend', 'id' => 'general_options' ),
+
+			)
+		);
 	}
-	
+
 	/**
 	 * save settings to the database
 	 *
@@ -73,7 +96,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		$settings = $this->get_settings();
 
 		LLMS_Admin_Settings::save_fields( $settings );
-		
+
 	}
 
 	/**

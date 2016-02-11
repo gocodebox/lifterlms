@@ -4,7 +4,6 @@ Option Page Widgets
 
 ******************************************************************/
 
-
 .llms-widget {
 	width: 100%;
 	border: 1px solid $color-lightgrey;
@@ -15,7 +14,7 @@ Option Page Widgets
 
 	h1 {
 		font-size:  2.4em;
-		
+
 	}p {
 		&.llms-label {
 			text-align: center;
@@ -41,4 +40,40 @@ Option Page Widgets
 
 .llms-user-profile {
 	padding: 0 20px;
+}
+
+.llms-banner-image {
+	padding-top: 20px;
+	img { display: block; }
+	// padding: 5px;
+}
+
+.llms-widget-row {
+	div[class*="llms-widget-"] {
+		vertical-align: top;
+	}
+}
+
+.llms-widget-row .no-padding {
+	padding: 0 !important;
+}
+
+.optin-form-wrapper {
+	vertical-align: top;
+
+	.optin-form {
+		height: 335px;
+		padding-top: 50px;
+		box-sizing: border-box;
+		background: #fff;
+		margin: 5px;
+
+		._label {
+			font-weight: bold;
+		}
+
+		input {
+			margin-bottom: 10px;
+		}
+	}
 }

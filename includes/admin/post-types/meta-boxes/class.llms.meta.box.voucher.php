@@ -138,7 +138,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                 </thead>
 
                 <?php $deleteIcon = LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' ); ?>
-                <script>var deleteIcon = '<?= $deleteIcon ?>';</script>
+                <script>var deleteIcon = '<?php echo $deleteIcon ?>';</script>
 
                 <tbody id="llms_voucher_tbody">
                 <?php if (!empty($codes)):
@@ -146,15 +146,15 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                         <tr>
                             <td></td>
                             <td>
-                                <input type="text" maxlength="20" placeholder="Code" value="<?= $code->code ?>"
+                                <input type="text" maxlength="20" placeholder="Code" value="<?php echo $code->code ?>"
                                        name="llms_voucher_code[]">
-                                <input type="hidden" name="llms_voucher_code_id[]" value="<?= $code->id ?>">
+                                <input type="hidden" name="llms_voucher_code_id[]" value="<?php echo $code->id ?>">
                             </td>
-                            <td><span><?= $code->used ?> / </span><input type="text" value="<?= $code->redemption_count ?>"
+                            <td><span><?php echo $code->used ?> / </span><input type="text" value="<?php echo $code->redemption_count ?>"
                                                         placeholder="Uses" class="llms-voucher-uses"
                                                         name="llms_voucher_uses[]"></td>
                             <td>
-                                <a href="#" data-id="<?= $code->id ?>" class="llms-voucher-delete">
+                                <a href="#" data-id="<?php echo $code->id ?>" class="llms-voucher-delete">
                                     <?php echo $deleteIcon; ?>
                                 </a>
                             </td>
@@ -207,10 +207,10 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                         $user = get_user_by('id', $redeemedCode->user_id);
                         ?>
                         <tr>
-                            <td><?= $user->data->display_name ?></td>
-                            <td><?= $user->data->user_email ?></td>
-                            <td><?= $redeemedCode->redemption_date ?></td>
-                            <td><?= $redeemedCode->code ?></td>
+                            <td><?php echo $user->data->display_name ?></td>
+                            <td><?php echo $user->data->user_email ?></td>
+                            <td><?php echo $redeemedCode->redemption_date ?></td>
+                            <td><?php echo $redeemedCode->code ?></td>
                         </tr>
                     <?php endforeach;
                 endif;
