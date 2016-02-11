@@ -166,7 +166,8 @@ class LLMS_AJAX {
 			'getLessons'				=> false,
 			'getSections'				=> false,
 			'get_students'              => false,
-			'get_enrolled_students'      => false,
+			'get_enrolled_students'     => false,
+			'check_voucher_duplicate'	=> false,
 			//'test_ajax_call'			=> false,
 		);
 
@@ -1007,6 +1008,28 @@ class LLMS_AJAX {
 		return $users_arr;
 	}
 
+	public function check_voucher_duplicate() {
+		global $wpdb;
+		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
+
+		$codes = array_key_exists('codes', $_REQUEST) ? $_REQUEST['codes'] : array();
+		$post_id = array_key_exists('postId', $_REQUEST) ? (int) $_REQUEST['postId'] : 0;
+
+		$codes_as_string = join('","' , $codes);
+
+		$query = 'SELECT code
+                  FROM ' . $table . '
+                  WHERE code IN ("' . $codes_as_string . '")
+                  AND voucher_id != ' . $post_id;
+		$codes_result = $wpdb->get_results($query, ARRAY_A);
+
+		echo json_encode([
+				'success' => true,
+				'duplicates' => $codes_result,
+		]);
+
+		wp_die();
+	}
 
 }
 

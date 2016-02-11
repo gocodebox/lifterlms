@@ -69,12 +69,12 @@
                 if ( ! unique_values[val] ) {
                     unique_values[val] = true;
                 } else {
-                    $(this).css('color', 'red')
+                    $(this).css('background-color', 'rgba(226, 96, 73, 0.6)');
                     duplicate = true;
                 }
             });
             if(duplicate) {
-                alert('Please make sure that there are no duplicate voucher codes.')
+                alert('Please make sure that there are no duplicate voucher codes.');
                 return false;
             }
 
@@ -85,6 +85,8 @@
             }
 
             changeNotSaved = false;
+            check_voucher_duplicate();
+            return false;
         });
 
         function bindDeleteVoucherCode() {
@@ -120,4 +122,37 @@
         return text;
     }
 
+    /**
+     * Check for voucher duplicates in other posts.
+     */
+    function check_voucher_duplicate() {
+
+        var codes = get_codes_from_inputs();
+
+        var data = {action: 'check_voucher_duplicate', 'postId' : jQuery('#post_ID').val(), 'codes' : codes };
+
+        var ajax = new Ajax('post', data, false);
+        ajax.check_voucher_duplicate();
+    }
+
+    function get_codes_from_inputs() {
+        var codes = [];
+        $('input[name="llms_voucher_code[]"]').each(function() {
+            codes.push($(this).val());
+        });
+
+        return codes;
+    }
+
 })(jQuery);
+
+function llms_on_voucher_duplicate (results) {
+    if(results.length) {
+        for(var i = 0; i < results.length; i++ ) {
+            jQuery('input[value="' + results[i].code + '"]').css('background-color', 'rgba(226, 96, 73, 0.6)');
+        }
+        alert('Please make sure that there are no duplicate voucher codes.');
+    } else {
+        jQuery( "#post" ).submit();
+    }
+}

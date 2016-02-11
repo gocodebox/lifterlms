@@ -3,12 +3,18 @@
 = v2.0.1 - 2016/02/?? =
 -----------------------
 
+##### Updated General Settings Screen
+
++ Improved the general settings interface to be more visually appealing and to provide some ad space to alert customers to other LifterLMS products and information.
++ Moved Currency options to the Checkout settings screen
+
 ##### Bug Fixes
 
 + Properly initialized jQuery on the vouchers metabox admin scripts
 + removed some php shortcut echos (`<?= $var; ?>`)
 + Resolve issue where courses that are available with a membership or on it's own outside of the membership would prevent users from accessing content if they were not a member.
 + Fixed a few files where undefined variables were being referenced and generating php notices
++ removed an call to a WordPress core function that has never existed. Not sure what we were thinking there...
 
 ###### Enhancements
 
