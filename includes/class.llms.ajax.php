@@ -1023,10 +1023,10 @@ class LLMS_AJAX {
                   AND voucher_id != ' . $post_id;
 		$codes_result = $wpdb->get_results($query, ARRAY_A);
 
-		echo json_encode([
+		echo json_encode( array(
 				'success' => true,
 				'duplicates' => $codes_result,
-		]);
+		) );
 
 		wp_die();
 	}
