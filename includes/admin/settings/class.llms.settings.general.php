@@ -223,16 +223,16 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		$html = '<div class="llms-widget-row">
 					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">Course Enrollments This Week</p><h1>' . $students_enrolled . '</h1></div>
+						<div class="llms-widget"><p class="llms-label">' . __( "Course Enrollments This Week", "lifterlms" ) . '</p><h1>' . $students_enrolled . '</h1></div>
 					</div>
 					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">New Members This Week</p><h1>' . $members_registered . '</h1></div>
+						<div class="llms-widget"><p class="llms-label">' . __( "New Members This Week", "lifterlms" ) . '</p><h1>' . $members_registered . '</h1></div>
 					</div>
 					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">Lessons Completed This Week</p><h1>' . $lessons_completed . '</h1></div>
+						<div class="llms-widget"><p class="llms-label">' . __( "Lessons Completed This Week", "lifterlms" ) . '</p><h1>' . $lessons_completed . '</h1></div>
 					</div>
 					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">Total Sales This Week</p><h1>' . $total_sales .'</h1></div>
+						<div class="llms-widget"><p class="llms-label">' . __( "Total Sales This Week", "lifterlms" ) . '</p><h1>' . $total_sales .'</h1></div>
 					</div>
 				</div>';
 		return preg_replace('~>\s+<~', '><', $html);
