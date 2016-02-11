@@ -29,7 +29,6 @@
   text-decoration: none;
   -webkit-transition: background .4s ease;
           transition: background .4s ease;
-  text-decoration: none;
 }
 .llms-button:visited {
   color: #fefefe;
@@ -204,6 +203,11 @@
   text-align: left;
 }
 
+@media screen and (max-width: 641px) {
+  .llms-course-list .courses li {
+    width: auto;
+  }
+}
 .llms-course-list .courses li.last {
   margin-right: 15px;
 }
@@ -643,7 +647,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .llms-checkout-wrapper .llms-checkout .llms-price-wrapper {
   margin: 20px;
-  text-size: 16px;
+  font-size: 16px;
 }
 
 .llms-option {
@@ -844,7 +848,6 @@ input[type="text"].cc_cvv,
 }
 
 .llms-price-loop {
-  font-weight: .8em;
   margin-bottom: 0;
   font-weight: bold;
 }
@@ -1003,9 +1006,8 @@ svg .llms-animated-circle {
 }
 
 .llms-widget-syllabus .llms-lesson-complete, .llms-widget-syllabus .llms-lesson-preview .llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .llms-free-lesson-svg, .llms-widget-syllabus .lesson-complete-placeholder {
-  size: 1.2em;
-  margin-right: 6px;
   font-size: 1.2em;
+  margin-right: 6px;
   color: #ccc;
 }
 .llms-widget-syllabus .llms-lesson-complete.done, .llms-widget-syllabus .llms-lesson-preview .done.llms-free-lesson-svg, .llms-lesson-preview .llms-widget-syllabus .done.llms-free-lesson-svg, .llms-widget-syllabus .lesson-complete-placeholder.done {

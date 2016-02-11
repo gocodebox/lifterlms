@@ -1052,6 +1052,38 @@ Option Page Widgets
   padding: 0 20px;
 }
 
+.llms-banner-image {
+  padding-top: 20px;
+}
+.llms-banner-image img {
+  display: block;
+}
+
+.llms-widget-row div[class*="llms-widget-"] {
+  vertical-align: top;
+}
+
+.llms-widget-row .no-padding {
+  padding: 0 !important;
+}
+
+.optin-form-wrapper {
+  vertical-align: top;
+}
+.optin-form-wrapper .optin-form {
+  height: 335px;
+  padding-top: 50px;
+  box-sizing: border-box;
+  background: #fff;
+  margin: 5px;
+}
+.optin-form-wrapper .optin-form ._label {
+  font-weight: bold;
+}
+.optin-form-wrapper .optin-form input {
+  margin-bottom: 10px;
+}
+
 /******************************************************************
 
 SVG Styles
@@ -1613,19 +1645,19 @@ ul.tabs li {
     width: 25%;
     display: inline-block;
     box-sizing: border-box;
-    padding-left: 10px;
-  }
-  .llms-widget-row .llms-widget-1-4:first-child {
-    padding-left: 0;
+    padding: 0 5px;
   }
   .llms-widget-row .llms-widget-1-3 {
     width: 33.3%;
     display: inline-block;
     box-sizing: border-box;
-    padding-left: 10px;
+    padding: 0 5px;
   }
-  .llms-widget-row .llms-widget-1-3:first-child {
-    padding-left: 0;
+  .llms-widget-row .llms-widget-1-2 {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0 5px;
   }
 }
 @media only screen and (min-width: 1240px) {

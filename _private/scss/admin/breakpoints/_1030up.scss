@@ -22,24 +22,24 @@ Desktop Stylsheet
 		&:first-child {
 			margin-right: 5%;
 		}
-	
+
 	}.llms-filter-options {
 		display: inline-block;
 		width: 47.5%;
-		
+
 		&.date-filter {
 			margin-right: 5%;
 		}.llms-date-select {
 			margin-bottom: 0;
 		}
-	
+
 	}.llms-date-select {
 		width: 47.5%;
-		
+
 		&:first-child {
 			margin-right: 5%
 		}
-		
+
 	}
 }
 
@@ -49,10 +49,10 @@ Desktop Stylsheet
 		width: 25%;
 		display: inline-block;
 		box-sizing: border-box;
-		padding-left: 10px;
-		&:first-child {
-			padding-left: 0;
-		}
+		padding: 0 5px;
+		// &:first-child {
+			// padding-left: 0;
+		// }
 		.llms-widget {
 
 		}
@@ -60,10 +60,19 @@ Desktop Stylsheet
 		width: 33.3%;
 		display: inline-block;
 		box-sizing: border-box;
-		padding-left: 10px;
-		&:first-child {
-			padding-left: 0;
-		}
+		padding: 0 5px;
+		// &:first-child {
+			// padding-left: 0;
+		// }
+	}
+	.llms-widget-1-2 {
+		width: 50%;
+		display: inline-block;
+		box-sizing: border-box;
+		padding: 0 5px;
+		// &:first-child {
+			// padding-left: 0;
+		// }
 	}
 
 }
