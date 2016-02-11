@@ -25,6 +25,7 @@ class LLMS_Admin_Menus {
 		add_action( 'admin_menu', array( $this, 'display_settings_menu') );
 		add_action( 'admin_menu', array( $this, 'display_analytics_menu') );
 		add_action( 'admin_menu', array( $this, 'display_students_menu') );
+		add_action( 'admin_menu', array( $this, 'display_system_report_menu') );
 	}
 
 	/**
@@ -54,6 +55,7 @@ class LLMS_Admin_Menus {
 	    		case 'Orders':		 $i = 8;  break;
 	    		case 'Coupons':		 $i = 9;  break;
 	    		case 'Vouchers':	 $i = 10;  break;
+	    		case 'System Report':	 $i = 11;  break;
 
 	    	}
 
@@ -157,6 +159,28 @@ class LLMS_Admin_Menus {
 	public function students_page_init() {
 		include_once( 'class.llms.admin.students.php' );
 		LLMS_Admin_Students::output();
+	}
+
+	/**
+	 * System Report Menu Item
+	 *
+	 * Sub menu item to Admin Menu
+	 *
+	 * @return void
+	 */
+	public function display_system_report_menu() {
+
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS System report', 'System Report', apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
+	}
+
+	/**
+	 * Init LLMS_Admin_Settings
+	 *
+	 * @return void
+	 */
+	public function system_report_page_init() {
+		include_once( 'class.llms.admin.system-report.php' );
+		LLMS_Admin_System_Report::output();
 	}
 }
 
