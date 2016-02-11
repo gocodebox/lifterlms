@@ -1,6 +1,6 @@
 == Changelog ==
 
-= v2.0.1 - 2016/02/?? =
+= v2.0.1 - 2016/02/11 =
 -----------------------
 
 ##### Updated General Settings Screen
@@ -19,6 +19,7 @@
 ###### Enhancements
 
 + Updated CSS to provide better course syllabus layout on smaller screens
++ Added validation to prevent against duplicate voucher code creation
 
 = v2.0.0 - 2016/02/04 =
 -----------------------
