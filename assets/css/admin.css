@@ -1043,6 +1043,9 @@ Option Page Widgets
   padding: 10px;
   box-sizing: border-box;
 }
+.llms-widget mark.yes {
+  background-color: #7ad03a;
+}
 
 .llms-widget-1-4 {
   text-align: center;
