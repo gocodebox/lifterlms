@@ -18,6 +18,7 @@ class LLMS_Admin_System_Report {
     public static function output() {
         self::get_wp_environment_box();
         self::get_server_environment_box();
+        self::get_active_plugins_box();
     }
 
     public static function get_wp_environment_box() {
@@ -69,10 +70,6 @@ class LLMS_Admin_System_Report {
                         </li>
                     </ul>
                 </div>
-                <p></p>
-                <table class="form-table">
-
-                </table>
             </div>
         </div>
         <?php
@@ -134,13 +131,53 @@ class LLMS_Admin_System_Report {
                         </li>
                     </ul>
                 </div>
-                <p></p>
-                <table class="form-table">
-
-                </table>
             </div>
         </div>
         <?php
+    }
+
+    public static function get_active_plugins_box() {
+        $active_plugins = (array) get_option( 'active_plugins', array() );
+
+        echo '<div class="llms-widget-full top">
+                <div class="llms-widget">
+                    <p class="llms-label">' . __( 'Active Plugins', 'lifterlms' ) . '</p>
+                    <p class="llms-description"></p>
+                    <div class="llms-list">
+                        <ul>';
+
+        foreach($active_plugins as $plugin) {
+            $plugin_data    = @get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+            $version_string = '';
+            $network_string = '';
+
+            if ( ! empty( $plugin_data['Name'] ) ) {
+                // Link the plugin name to the plugin url if available.
+                $plugin_name = esc_html($plugin_data['Name']);
+                if (!empty($plugin_data['PluginURI'])) {
+                    $plugin_name = '<a href="' . esc_url($plugin_data['PluginURI']) . '" title="' . esc_attr__('Visit plugin homepage', 'lifterlms') . '" target="_blank">' . $plugin_name . '</a>';
+                }
+            }
+
+            if ( ! empty( $version_data['version'] ) && version_compare( $version_data['version'], $plugin_data['Version'], '>' ) ) {
+                $version_string = ' &ndash; <strong style="color:red;">' . esc_html( sprintf( _x( '%s is available', 'Version info', 'lifterlms' ), $version_data['version'] ) ) . '</strong>';
+            }
+            if ( $plugin_data['Network'] != false ) {
+                $network_string = ' &ndash; <strong style="color:black;">' . __( 'Network enabled', 'lifterlms' ) . '</strong>';
+            }
+            ?>
+
+            <li>
+                <p><?php echo $plugin_name; ?>: <strong><?php echo sprintf( _x( 'by %s', 'by author', 'lifterlsm' ), $plugin_data['Author'] ) . ' &ndash; ' . esc_html( $plugin_data['Version'] ) . $version_string . $network_string; ?></strong></p>
+            </li>
+
+            <?php
+        }
+
+        echo "</ul>
+                </div>
+            </div>
+        </div>";
     }
 
     public static function llms_let_to_num( $size ) {
