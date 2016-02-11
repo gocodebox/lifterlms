@@ -3,6 +3,12 @@
 = v2.0.1 - 2016/02/11 =
 -----------------------
 
++ Bugfix: removed a progressive syntax array that caused fatal errors on older versions of PHP
+
+
+= v2.0.1 - 2016/02/11 =
+-----------------------
+
 ##### Updated General Settings Screen
 
 + Improved the general settings interface to be more visually appealing and to provide some ad space to alert customers to other LifterLMS products and information.

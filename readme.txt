@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 3.8
 Tested up to: 4.4.2
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,6 +146,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 1. LifterLMS Settings
 
 == Changelog ==
+
+= v2.0.1 - 2016/02/11 =
+-----------------------
+
++ Bugfix: removed a progressive syntax array that caused fatal errors on older versions of PHP
+
 
 = v2.0.1 - 2016/02/11 =
 -----------------------
