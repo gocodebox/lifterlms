@@ -19,8 +19,8 @@ class LLMS_Admin_System_Report {
         self::get_wp_environment_box();
         self::get_server_environment_box();
         self::get_active_plugins_box();
+        self::get_settings_box();
         self::get_lifterlms_pages_box();
-
         self::get_theme_box();
     }
 
@@ -181,6 +181,48 @@ class LLMS_Admin_System_Report {
                 </div>
             </div>
         </div>";
+    }
+
+    public static function get_settings_box() {
+        ?>
+        <div class="llms-widget-full top">
+            <div class="llms-widget">
+                <p class="llms-label"><?php _e( 'LifterLMS Settings', 'lifterlms' ); ?></p>
+                <p class="llms-description"></p>
+                <div class="llms-list">
+                    <ul>
+                        <li>
+                            <p><?php _e( 'Currency', 'lifterlms' ); ?>: <strong><?php echo get_lifterlms_currency(); ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Auto-Advance Lesson', 'lifterlms' ); ?>: <strong><?php echo get_option('lifterlms_autoadvance', false); ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Redirect Members to Checkout', 'lifterlms' ); ?>: <strong><?php echo get_option('redirect_to_checkout', false); ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Display Student Memberships on Account Page', 'lifterlms' ); ?>: <strong><?php echo get_option('lifterlms_enable_myaccount_memberships_list', false); ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Enable Paypal', 'lifterlms' ); ?>: <strong><?php echo get_option('lifterlms_gateway_enable_paypal', false); ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Enable Sandbox Mode', 'lifterlms' ); ?>: <strong><?php echo get_option('lifterlms_gateways_paypal_enable_sandbox', false); ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Enable Debug Mode', 'lifterlms' ); ?>: <strong><?php echo get_option('lifterlms_gateways_paypal_enable_debug', false); ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Enable BuddyPress', 'lifterlms' ); ?>: <strong><?php echo get_option('lifterlms_buddypress_enabled', false); ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Enable WooCommerce', 'lifterlms' ); ?>: <strong><?php echo get_option('lifterlms_woocommerce_enabled', false); ?></strong></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <?php
     }
 
     public static function get_lifterlms_pages_box() {
