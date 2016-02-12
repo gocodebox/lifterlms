@@ -43,5 +43,3 @@ if( ! $loop->have_posts() ) {
     }
     echo $html;
 wp_reset_postdata();
-
-?>

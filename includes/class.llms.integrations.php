@@ -95,4 +95,3 @@ class LLMS_Integrations {
 		return $_available_integrations;
 	}
 }
-?>
