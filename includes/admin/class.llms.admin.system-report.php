@@ -19,6 +19,9 @@ class LLMS_Admin_System_Report {
         self::get_wp_environment_box();
         self::get_server_environment_box();
         self::get_active_plugins_box();
+        self::get_lifterlms_pages_box();
+
+        self::get_theme_box();
     }
 
     public static function get_wp_environment_box() {
@@ -178,6 +181,93 @@ class LLMS_Admin_System_Report {
                 </div>
             </div>
         </div>";
+    }
+
+    public static function get_lifterlms_pages_box() {
+
+        $pages = array(
+            'llms_shop' => 'Courses',
+            'memberships' => 'Memberships',
+            'myaccount' => 'My Account',
+            'checkout' => 'Checkout'
+        );
+
+        echo '<div class="llms-widget-full top">
+                <div class="llms-widget">
+                    <p class="llms-label">' . __( 'Active Plugins', 'lifterlms' ) . '</p>
+                    <p class="llms-description"></p>
+                    <div class="llms-list">
+                        <ul>';
+
+        foreach ( $pages as $key => $name ) {
+
+            $page_id = llms_get_page_id($key);
+            $page_name = '';
+            $result = '';
+
+            if ($page_id != -1) {
+                $page_name = '<a href="' . get_edit_post_link($page_id) . '" title="' . esc_html($name) . '">' . esc_html($name) . '</a>';
+            }
+
+            if ($page_id == -1) {
+                $result = '<mark class="error">' . __('Page not set', 'lifterlms') . '</mark>';
+            } else {
+                $page = get_post($page_id);
+                if (empty($page)) {
+                    $result = '<mark class="error">' . sprintf(__('Page does not exist', 'lifterlms')) . '</mark>';
+                }
+            }
+
+            ?>
+            <li>
+                <p><?php echo $name; ?>: <strong><?php echo $page_name . ' ' . $result; ?></strong></p>
+            </li>
+            <?php
+
+        }
+
+        echo "</ul>
+                </div>
+            </div>
+        </div>";
+    }
+
+    public static function get_theme_box() {
+		include_once( ABSPATH . 'wp-admin/includes/theme-install.php' );
+		$active_theme = wp_get_theme();
+		$theme_version = $active_theme->Version;
+        ?>
+
+        <div class="llms-widget-full top">
+            <div class="llms-widget">
+                <p class="llms-label"><?php _e( 'Current Theme', 'lifterlms' ); ?></p>
+                <p class="llms-description"></p>
+                <div class="llms-list">
+                    <ul>
+                        <li>
+                            <p><?php _e( 'Theme', 'lifterlms' ); ?>: <strong><?php echo $active_theme; ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Theme Version', 'lifterlms' ); ?>: <strong><?php echo $theme_version; ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Child Theme', 'lifterlms' ); ?>: <strong><?php
+                                    echo is_child_theme() ? '<mark class="yes">&#10004;</mark>' : '&#10005;'; ?></strong></p>
+                        </li>
+                        <?php
+                        if( is_child_theme() ) :
+                            $parent_theme = wp_get_theme( $active_theme->Template );
+                            ?>
+
+                            <li>
+                                <p><?php _e( 'Parent Theme', 'lifterlms' ); ?>: <strong><?php echo $parent_theme; ?></strong></p>
+                            </li>
+                        <?php endif ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <?php
     }
 
     public static function llms_let_to_num( $size ) {
