@@ -1,6 +1,12 @@
 == Changelog ==
 
-= v2.0.1 - 2016/02/11 =
+= v2.0.3 - 2016/02/12 =
+-----------------------
+
++ Removed an unsed quiz stub
+
+
+= v2.0.2 - 2016/02/11 =
 -----------------------
 
 + Bugfix: removed a progressive syntax array that caused fatal errors on older versions of PHP
