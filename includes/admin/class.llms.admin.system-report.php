@@ -10,11 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * @project lifterLMS
 */
 class LLMS_Admin_System_Report {
-    /**
-     * analytics Page output tabs
-     *
-     * @return void
-     */
+
     public static function output() {
         self::get_wp_environment_box();
         self::get_server_environment_box();
@@ -22,14 +18,14 @@ class LLMS_Admin_System_Report {
         self::get_settings_box();
         self::get_lifterlms_pages_box();
         self::get_theme_box();
+        self::add_debug_report_box();
     }
 
     public static function get_wp_environment_box() {
         ?>
         <div class="llms-widget-full top">
-            <div class="llms-widget">
+            <div class="llms-widget settings-box">
                 <p class="llms-label"><?php _e( 'WordPress Environment', 'lifterlms' ); ?></p>
-                <p class="llms-description"></p>
                 <div class="llms-list">
                     <ul>
                         <li>
@@ -81,9 +77,8 @@ class LLMS_Admin_System_Report {
     public static function get_server_environment_box() {
         ?>
         <div class="llms-widget-full top">
-            <div class="llms-widget">
+            <div class="llms-widget settings-box">
                 <p class="llms-label"><?php _e( 'Server Environment', 'lifterlms' ); ?></p>
-                <p class="llms-description"></p>
                 <div class="llms-list">
                     <ul>
                         <li>
@@ -143,9 +138,8 @@ class LLMS_Admin_System_Report {
         $active_plugins = (array) get_option( 'active_plugins', array() );
 
         echo '<div class="llms-widget-full top">
-                <div class="llms-widget">
+                <div class="llms-widget settings-box">
                     <p class="llms-label">' . __( 'Active Plugins', 'lifterlms' ) . '</p>
-                    <p class="llms-description"></p>
                     <div class="llms-list">
                         <ul>';
 
@@ -155,7 +149,6 @@ class LLMS_Admin_System_Report {
             $network_string = '';
 
             if ( ! empty( $plugin_data['Name'] ) ) {
-                // Link the plugin name to the plugin url if available.
                 $plugin_name = esc_html($plugin_data['Name']);
                 if (!empty($plugin_data['PluginURI'])) {
                     $plugin_name = '<a href="' . esc_url($plugin_data['PluginURI']) . '" title="' . esc_attr__('Visit plugin homepage', 'lifterlms') . '" target="_blank">' . $plugin_name . '</a>';
@@ -169,11 +162,9 @@ class LLMS_Admin_System_Report {
                 $network_string = ' &ndash; <strong style="color:black;">' . __( 'Network enabled', 'lifterlms' ) . '</strong>';
             }
             ?>
-
             <li>
                 <p><?php echo $plugin_name; ?>: <strong><?php echo sprintf( _x( 'by %s', 'by author', 'lifterlsm' ), $plugin_data['Author'] ) . ' &ndash; ' . esc_html( $plugin_data['Version'] ) . $version_string . $network_string; ?></strong></p>
             </li>
-
             <?php
         }
 
@@ -186,9 +177,8 @@ class LLMS_Admin_System_Report {
     public static function get_settings_box() {
         ?>
         <div class="llms-widget-full top">
-            <div class="llms-widget">
+            <div class="llms-widget settings-box">
                 <p class="llms-label"><?php _e( 'LifterLMS Settings', 'lifterlms' ); ?></p>
-                <p class="llms-description"></p>
                 <div class="llms-list">
                     <ul>
                         <li>
@@ -235,9 +225,8 @@ class LLMS_Admin_System_Report {
         );
 
         echo '<div class="llms-widget-full top">
-                <div class="llms-widget">
+                <div class="llms-widget settings-box">
                     <p class="llms-label">' . __( 'Active Plugins', 'lifterlms' ) . '</p>
-                    <p class="llms-description"></p>
                     <div class="llms-list">
                         <ul>';
 
@@ -259,13 +248,11 @@ class LLMS_Admin_System_Report {
                     $result = '<mark class="error">' . sprintf(__('Page does not exist', 'lifterlms')) . '</mark>';
                 }
             }
-
             ?>
             <li>
                 <p><?php echo $name; ?>: <strong><?php echo $page_name . ' ' . $result; ?></strong></p>
             </li>
             <?php
-
         }
 
         echo "</ul>
@@ -281,9 +268,8 @@ class LLMS_Admin_System_Report {
         ?>
 
         <div class="llms-widget-full top">
-            <div class="llms-widget">
+            <div class="llms-widget settings-box">
                 <p class="llms-label"><?php _e( 'Current Theme', 'lifterlms' ); ?></p>
-                <p class="llms-description"></p>
                 <div class="llms-list">
                     <ul>
                         <li>
@@ -300,7 +286,6 @@ class LLMS_Admin_System_Report {
                         if( is_child_theme() ) :
                             $parent_theme = wp_get_theme( $active_theme->Template );
                             ?>
-
                             <li>
                                 <p><?php _e( 'Parent Theme', 'lifterlms' ); ?>: <strong><?php echo $parent_theme; ?></strong></p>
                             </li>
@@ -309,6 +294,39 @@ class LLMS_Admin_System_Report {
                 </div>
             </div>
         </div>
+        <?php
+    }
+
+    public static function add_debug_report_box() {
+        ?>
+        <div class="llms-widget-full top">
+            <div class="llms-widget">
+                <p class="llms-label"><?php _e( 'LifterLMS Settings', 'lifterlms' ); ?></p>
+                <p class="llms-description">
+                    <div id="debug-report">
+                        <textarea rows="12" readonly="readonly"></textarea>
+                        <p class="submit"><button id="copy-for-support" class="button-primary" href="#" ><?php _e( 'Copy for Support', 'lifterlms' ); ?></button></p>
+                    </div>
+                </p>
+            </div>
+        </div>
+        <script>
+            jQuery( document ).ready( function( $ ) {
+                $( '#debug-report' ).find( 'textarea' ).val($(".llms-widget.settings-box").text().replace(/  /g,''));
+
+                $('#copy-for-support').on('click', function() {
+                    $( '#debug-report' ).find( 'textarea' ).select();
+                    try {
+                        if(!document.execCommand('copy')) throw 'Not allowed.';
+                    } catch(e) {
+                        copyElement.remove();
+                        console.log("document.execCommand('copy'); is not supported");
+                        var text = $( '#debug-report' ).find( 'textarea' ).val();
+                        prompt('Copy the text below. (ctrl c, enter)', text);
+                    }
+                })
+            });
+        </script>
         <?php
     }
 
