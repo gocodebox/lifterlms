@@ -127,6 +127,46 @@ class LLMS_Admin_System_Report {
                             echo $wpdb->db_version();
                             ?></strong></p>
                         </li>
+                        <li>
+                            <p><?php _e( 'GZip', 'lifterlms' ); ?>: <strong><?php
+                                    if ( is_callable( 'gzopen' ) ) {
+                                        echo '<mark class="yes">&#10004;</mark>';
+                                    } else {
+                                        echo '<mark class="no">&#10005;</mark>';
+                                    } ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'DOMDocument', 'lifterlms' ); ?>: <strong><?php
+                                    if ( class_exists( 'DOMDocument' ) ) {
+                                        echo '<mark class="yes">&#10004;</mark>';
+                                    } else {
+                                        echo '<mark class="no">&#10005;</mark>';
+                                    } ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'SoapClient', 'lifterlms' ); ?>: <strong><?php
+                                    if ( class_exists( 'SoapClient' ) ) {
+                                        echo '<mark class="yes">&#10004;</mark>';
+                                    } else {
+                                        echo '<mark class="no">&#10005;</mark>';
+                                    } ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'fsockopen/cURL', 'lifterlms' ); ?>: <strong><?php
+                                    if ( function_exists( 'fsockopen' ) || function_exists( 'curl_init' ) ) {
+                                        echo '<mark class="yes">&#10004;</mark>';
+                                    } else {
+                                        echo '<mark class="no">&#10005;</mark>';
+                                    } ?></strong></p>
+                        </li>
+                        <li>
+                            <p><?php _e( 'Multibyte String', 'lifterlms' ); ?>: <strong><?php
+                                    if ( extension_loaded( 'mbstring' ) ) {
+                                        echo '<mark class="yes">&#10004;</mark>';
+                                    } else {
+                                        echo '<mark class="no">&#10005;</mark>';
+                                    } ?></strong></p>
+                        </li>
                     </ul>
                 </div>
             </div>
