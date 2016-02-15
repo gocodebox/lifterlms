@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class LLMS_Admin_System_Report {
 
     public static function output() {
+        echo '<div class="wrap lifterlms">';
+
         self::get_wp_environment_box();
         self::get_server_environment_box();
         self::get_active_plugins_box();
@@ -19,6 +21,8 @@ class LLMS_Admin_System_Report {
         self::get_lifterlms_pages_box();
         self::get_theme_box();
         self::add_debug_report_box();
+
+        echo '</div>';
     }
 
     public static function get_wp_environment_box() {
@@ -59,10 +63,7 @@ class LLMS_Admin_System_Report {
                         </li>
                         <li>
                             <p><?php _e( 'Wordpress Debug Mode', 'lifterlms' ); ?>: <strong><?php if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) : ?>
-                                            <mark class="yes">&#10004;</mark>
-                                        <?php else : ?>
-                                            <mark class="no">&ndash;</mark>
-                                        <?php endif; ?></strong></p>
+                                            <mark class="yes">&#10004;</mark><?php else : ?><mark class="no">&ndash;</mark><?php endif; ?></strong></p>
                         </li>
                         <li>
                             <p><?php _e( 'Wordpress Language', 'lifterlms' ); ?>: <strong><?php echo get_locale(); ?></strong></p>
@@ -352,7 +353,14 @@ class LLMS_Admin_System_Report {
         </div>
         <script>
             jQuery( document ).ready( function( $ ) {
-                $( '#debug-report' ).find( 'textarea' ).val($(".llms-widget.settings-box").text().replace(/  /g,''));
+                var $textArea = $( '#debug-report' ).find( 'textarea' );
+
+                $(".llms-widget.settings-box").each( function( index, element ) {
+
+                    var title = $(this).find('.llms-label').text();
+                    var val = $(this).find('li').text().replace(/  /g, '').replace(/\n\n/g, '\n');
+                    $textArea.val($textArea.val() + title + '\n' + val + '\n\n');
+                });
 
                 $('#copy-for-support').on('click', function() {
                     $( '#debug-report' ).find( 'textarea' ).select();
