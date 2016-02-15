@@ -353,7 +353,7 @@ class LLMS_Frontend_Forms
         if ($coupon->type == 'percent') {
             $coupon->name = ($coupon->title . ': ' . $coupon->amount . '% coupon');
         } elseif ($coupon->type == 'dollar') {
-            $coupon->name = ($coupon->title . ': ' . '$' . $coupon->amount . ' coupon');
+            $coupon->name = ($coupon->title . ': ' . get_lifterlms_currency_symbol() . $coupon->amount . ' coupon');
         }
 
         //if coupon limit is not unlimited deduct 1 from limit
