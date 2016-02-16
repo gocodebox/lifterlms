@@ -161,6 +161,14 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+
+= v2.0.4 - 2016/02/15 =
+-----------------------
+
++ Fixed a typo on the `class_exists` check in the deprecated functions file
++ added a filter so that progressive users can opt out of loading the deprecated functions file
+
+
 = v2.0.3 - 2016/02/12 =
 -----------------------
 
