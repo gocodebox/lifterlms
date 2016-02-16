@@ -306,7 +306,6 @@ class LLMS_Frontend_Forms
         wp_verify_nonce($_POST['_wpnonce'], 'llms-checkout-coupon');
 
         $coupon = new stdClass();
-        $errors = new WP_Error();
 
         $coupon->user_id = (int)get_current_user_id();
         $coupon->product_id = $_POST['product_id'];
@@ -334,6 +333,11 @@ class LLMS_Frontend_Forms
 
         if (empty($coupon_post)) {
             return llms_add_notice(sprintf(__('Coupon code <strong>%s</strong> was not found.', 'lifterlms'), $coupon->coupon_code), 'error');
+        } else {
+            $products = get_post_meta($coupon_post[0]->ID, '_llms_coupon_products', true);
+            if(!empty($products) && !in_array($coupon->product_id, $products)) {
+                return llms_add_notice(sprintf(__("Coupon code <strong>%s</strong> can't be applied to this product.", 'lifterlms'), $coupon->coupon_code), 'error');
+            }
         }
 
         foreach ($coupon_post as $cp) {
