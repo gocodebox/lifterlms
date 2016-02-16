@@ -209,6 +209,9 @@ class LLMS_Meta_Box_Coupon_Options {
 		if (isset($_POST[$amount])) {
 			//update coupon amount
 			$update_amount = ( llms_clean( $_POST[$amount]  ) );
+			if($update_type == 'percent' && $update_amount > 100) {
+				$update_amount = 100;
+			}
 			update_post_meta( $post_id, $amount, ( $update_amount === '' ) ? '' : $update_amount );
 		}
 		if (isset($_POST[$limit])) {

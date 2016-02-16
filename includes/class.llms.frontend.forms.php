@@ -306,6 +306,7 @@ class LLMS_Frontend_Forms
         wp_verify_nonce($_POST['_wpnonce'], 'llms-checkout-coupon');
 
         $coupon = new stdClass();
+        $errors = new WP_Error();
 
         $coupon->user_id = (int)get_current_user_id();
         $coupon->product_id = $_POST['product_id'];
