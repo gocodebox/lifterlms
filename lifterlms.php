@@ -160,7 +160,11 @@ final class LifterLMS {
 	 */
 	private function includes() {
 
-		include_once( 'includes/llms.deprecated.php' );
+		if( apply_filters( 'lifterlms_include_deprecated_functions', true ) ) {
+
+			include_once( 'includes/llms.deprecated.php' );
+
+		}
 
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
