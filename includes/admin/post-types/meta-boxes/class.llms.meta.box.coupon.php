@@ -95,6 +95,25 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'required'	=> true,
 					),
 					array(
+						'type' => 'select',
+						'label' => 'Courses',
+						'desc' => "Limit coupon to courses and/or memberships, if none selected coupon won't be restricted.",
+						'id' => self::$prefix . 'llms_coupon_courses',
+						'class' => 'input-full llms-meta-select',
+						'value' => $coursesSelect,
+						'multi' => true,
+						'selected' => $selectedProducts
+					),
+					array(
+						'type' => 'select',
+						'label' => 'Membership',
+						'id' => self::$prefix . 'llms_coupon_membership',
+						'class' => 'input-full llms-meta-select',
+						'value' => $membershipsSelect,
+						'multi' => true,
+						'selected' => $selectedProducts
+					),
+					array(
 						'type'		=> 'select',
 						'label'		=> 'Discount Type',
 						'desc' 		=> 'Select a dollar or percentage discount.',
@@ -125,25 +144,6 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
-					),
-					array(
-						'type' => 'select',
-						'label' => 'Courses',
-						'desc' => "Limit coupon to courses and/or memberships, if none selected coupon won't be restricted.",
-						'id' => self::$prefix . 'llms_coupon_courses',
-						'class' => 'input-full llms-meta-select',
-						'value' => $coursesSelect,
-						'multi' => true,
-						'selected' => $selectedProducts
-					),
-					array(
-						'type' => 'select',
-						'label' => 'Membership',
-						'id' => self::$prefix . 'llms_coupon_membership',
-						'class' => 'input-full llms-meta-select',
-						'value' => $membershipsSelect,
-						'multi' => true,
-						'selected' => $selectedProducts
 					),
 				)
 			),
