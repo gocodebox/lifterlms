@@ -227,7 +227,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
                 'billing_freq' => $order->billing_freq,
                 'total_billing_cycles' => $order->billing_freq,
                 'max_failed_payments' => '1',
-                'total_billing_cycles' => $order->billing_cycle
+                'total_billing_cycles' => $order->billing_cycle,
             );
         }
 
@@ -468,7 +468,6 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
         // Construct the request array
         $param = $this->replace_short_terms($param);
 
-
         $request = $this->build_request($type, $param);
 
         // Makes the HTTP request
@@ -476,13 +475,13 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
         // HTTP Request fails
         if (is_wp_error($response)) {
-            //$this->debug_info = $response;
+            $this->debug_info = $response;
             return false;
         }
 
         // Status code returned other than 200
         if ($response['response']['code'] != 200) {
-            //$this->debug_info = 'Response code different than 200 ' . $this->debug_info = $response;
+            $this->debug_info = $response;
             return false;
         }
 
@@ -528,10 +527,11 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
         // Request Array
         $request = array(
-            'method' => 'POST',
             'body' => $body,
+            'httpversion' => '1.1',
+            'method' => 'POST',
+            'sslverify' => $this->ssl_verify,
             'timeout' => $this->time_out,
-            'sslverify' => $this->ssl_verify
         );
 
         return $request;
@@ -597,6 +597,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
     public function return_error($message)
     {
+
         if ($this->is_debug)
         {
             return llms_add_notice($this->outputError($this->debug_info));
