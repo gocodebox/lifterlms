@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 3.8
 Tested up to: 4.4.2
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -160,6 +160,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v2.0.5 - 2016/02/15 =
+-----------------------
+
++ PayPal requests now using HTTP Version 1.1 in preparation for June 2016 [TLS 1.2 and HTTP/1.1 Updates](https://www.paypal-knowledge.com/infocenter/index?page=content&widgetview=true&id=FAQ1914&viewlocale=en_US). This resolves user's inability to begin PayPal checkout when using Sandbox mode.
++ Updated deprecated function opt out to run off a constant that can be defined in `wp-config.php` instead of using a filter that is hard to use in the way that it is intended.
 
 
 = v2.0.4 - 2016/02/15 =
