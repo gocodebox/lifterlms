@@ -344,7 +344,7 @@ class LLMS_Admin_System_Report {
             <div class="llms-widget">
                 <p class="llms-label"><?php _e( 'Copy System Report for Support', 'lifterlms' ); ?></p>
                 <p class="llms-description">
-                    <div id="debug-report">
+                    <div id="llms-debug-report">
                         <textarea rows="12" readonly="readonly"></textarea>
                         <p class="submit"><button id="copy-for-support" class="button-primary" href="#" ><?php _e( 'Copy for Support', 'lifterlms' ); ?></button></p>
                     </div>
@@ -353,7 +353,7 @@ class LLMS_Admin_System_Report {
         </div>
         <script>
             jQuery( document ).ready( function( $ ) {
-                var $textArea = $( '#debug-report' ).find( 'textarea' );
+                var $textArea = $( '#llms-debug-report' ).find( 'textarea' );
 
                 $(".llms-widget.settings-box").each( function( index, element ) {
 
@@ -363,7 +363,7 @@ class LLMS_Admin_System_Report {
                 });
 
                 $('#copy-for-support').on('click', function() {
-                    $( '#debug-report' ).find( 'textarea' ).select();
+                    $( '#llms-debug-report' ).find( 'textarea' ).select();
                     try {
                         if(!document.execCommand('copy')) throw 'Not allowed.';
                     } catch(e) {
