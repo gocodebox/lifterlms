@@ -1,5 +1,19 @@
 == Changelog ==
 
+= v2.0.5 - 2016/02/15 =
+-----------------------
+
++ PayPal requests now using HTTP Version 1.1 in preparation for June 2016 [TLS 1.2 and HTTP/1.1 Updates](https://www.paypal-knowledge.com/infocenter/index?page=content&widgetview=true&id=FAQ1914&viewlocale=en_US). This resolves user's inability to begin PayPal checkout when using Sandbox mode.
++ Updated deprecated function opt out to run off a constant that can be defined in `wp-config.php` instead of using a filter that is hard to use in the way that it is intended.
+
+
+= v2.0.4 - 2016/02/15 =
+-----------------------
+
++ Fixed a typo on the `class_exists` check in the deprecated functions file
++ added a filter so that progressive users can opt out of loading the deprecated functions file
+
+
 = v2.0.3 - 2016/02/12 =
 -----------------------
 

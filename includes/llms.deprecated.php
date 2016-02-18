@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Plugin Updater Factory class used by extensions for plugin updates
  * If users update LLMS 2.0 and not their extensions they'll get a fatal error because the class no longer exists
  */
-if( !class_exists( 'PucFactory ' ) ) {
+if( !class_exists( 'PucFactory' ) ) {
 
 	class PucFactory {
 
