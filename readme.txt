@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 3.8
 Tested up to: 4.4.2
-Stable tag: 2.0.5
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -160,6 +160,19 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v2.1.0 - 2016/02/15 =
+-----------------------
+
+##### System Report
+
++ A new LifterLMS Admin Page is available which reports information about various server, WordPress, and LifterLMS settings that will help expedite support requests.
++ More information about the system report is available at [https://lifterlms.com/docs/how-to-use-the-lifterlms-system-report/](https://lifterlms.com/docs/how-to-use-the-lifterlms-system-report/)
+
+##### Additional Updates
+
++ Fixed a javascript issue which prevented users from saving vouchers
++ Cleaned up formatting in a large number of included PHP files
 
 = v2.0.5 - 2016/02/15 =
 -----------------------

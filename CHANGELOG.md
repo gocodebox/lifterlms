@@ -1,5 +1,18 @@
 == Changelog ==
 
+= v2.1.0 - 2016/02/15 =
+-----------------------
+
+##### System Report
+
++ A new LifterLMS Admin Page is available which reports information about various server, WordPress, and LifterLMS settings that will help expedite support requests.
++ More information about the system report is available at [https://lifterlms.com/docs/how-to-use-the-lifterlms-system-report/](https://lifterlms.com/docs/how-to-use-the-lifterlms-system-report/)
+
+##### Additional Updates
+
++ Fixed a javascript issue which prevented users from saving vouchers
++ Cleaned up formatting in a large number of included PHP files
+
 = v2.0.5 - 2016/02/15 =
 -----------------------
 

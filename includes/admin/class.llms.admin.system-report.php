@@ -342,7 +342,7 @@ class LLMS_Admin_System_Report {
         ?>
         <div class="llms-widget-full top">
             <div class="llms-widget">
-                <p class="llms-label"><?php _e( 'LifterLMS Settings', 'lifterlms' ); ?></p>
+                <p class="llms-label"><?php _e( 'Copy System Report for Support', 'lifterlms' ); ?></p>
                 <p class="llms-description">
                     <div id="debug-report">
                         <textarea rows="12" readonly="readonly"></textarea>
