@@ -177,4 +177,3 @@ class LLMS_Integration_Buddypress {
 	}
 
 }
-?>
