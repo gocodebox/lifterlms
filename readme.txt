@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 3.8
 Tested up to: 4.4.2
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -173,6 +173,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 + Fixed a javascript issue which prevented users from saving vouchers
 + Cleaned up formatting in a large number of included PHP files
+
 
 = v2.0.5 - 2016/02/15 =
 -----------------------
