@@ -24,6 +24,10 @@ class LLMS_Meta_Box_Voucher_Export
     public static function output($post)
     {
         global $post;
+        if($post->post_status !== 'publish') {
+            echo 'You need to publish post to be able to generate CSV.';
+            return;
+        }
         ob_start();
         ?>
         <div class="llms-voucher-export-wrapper" id="llms-form-wrapper">
