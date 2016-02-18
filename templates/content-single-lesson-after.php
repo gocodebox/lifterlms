@@ -10,5 +10,3 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 do_action( 'lifterlms_single_lesson_after_summary' );
-
-?>
