@@ -57,6 +57,16 @@
             changeNotSaved = true;
         });
 
+        $( "#post" ).on( 'submit', function() {
+            if($('#publish').attr('name') === 'publish') {
+                $('<input />').attr('type', 'hidden')
+                    .attr('name', "publish")
+                    .attr('value', "true")
+                    .appendTo('#post');
+            }
+            return true;
+        } );
+
         window.onbeforeunload = function() {
             return changeNotSaved ? "If you leave this page you will lose your unsaved changes." : null;
         };
