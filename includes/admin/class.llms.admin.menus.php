@@ -44,18 +44,18 @@ class LLMS_Admin_Menus {
 
 	    	switch( $sm[0] ) {
 
-	    		case 'Settings':	 $i = 0;  break;
-	    		case 'Analytics':	 $i = 1;  break;
-	    		case 'Students':	 $i = 2;  break;
-	    		case 'Emails':		 $i = 3;  break;
-	    		case 'Engagements':	 $i = 4;  break;
-	    		case 'Achievements': $i = 5;  break;
-	    		case 'Certificates': $i = 6;  break;
-	    		case 'Reviews':		 $i = 7; break;
-	    		case 'Orders':		 $i = 8;  break;
-	    		case 'Coupons':		 $i = 9;  break;
-	    		case 'Vouchers':	 $i = 10;  break;
-	    		case 'System Report':	 $i = 11;  break;
+	    		case 'Settings':	 	$i = 0;  break;
+	    		case 'Analytics':	 	$i = 1;  break;
+	    		case 'Students':	 	$i = 2;  break;
+	    		case 'Emails':		 	$i = 3;  break;
+	    		case 'Engagements':	 	$i = 4;  break;
+	    		case 'Achievements': 	$i = 5;  break;
+	    		case 'Certificates': 	$i = 6;  break;
+	    		case 'Reviews':		 	$i = 7;  break;
+	    		case 'Orders':		 	$i = 8;  break;
+	    		case 'Coupons':		 	$i = 9;  break;
+	    		case 'Vouchers':	 	$i = 10; break;
+	    		case 'System Report':	$i = 11; break;
 
 	    	}
 
