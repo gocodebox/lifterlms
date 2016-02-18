@@ -13,6 +13,7 @@
 + Fixed a javascript issue which prevented users from saving vouchers
 + Cleaned up formatting in a large number of included PHP files
 
+
 = v2.0.5 - 2016/02/15 =
 -----------------------
 
