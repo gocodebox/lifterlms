@@ -26,3 +26,8 @@ npm-debug.log
 
 idea/
 .idea/*
+
+# Composer
+composer.lock
+composer.phar
+vendor/
