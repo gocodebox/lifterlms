@@ -2,17 +2,17 @@
 
 use LLMS\Users\User;
 
-	global $quiz;
+global $quiz;
 
-	$quiz_session = LLMS()->session->get( 'llms_quiz' );
+$quiz_session = LLMS()->session->get( 'llms_quiz' );
 
-	$user = new User();
+$user = new User();
 
-	$last_attempt = $quiz->get_users_last_attempt( $user );
+$last_attempt = $quiz->get_users_last_attempt( $user );
 
-	$user_id = get_current_user_id();
+$user_id = get_current_user_id();
 
-	$quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
+$quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 ?>
 
@@ -24,7 +24,7 @@ use LLMS\Users\User;
 
 		<?php
 
-		foreach ((array) $last_attempt['questions'] as $key => $question) {
+		foreach ( (array) $last_attempt['questions'] as $key => $question) {
 			$background = $question['correct'] ? 'right' : 'wrong';
 
 			$icon = $question['correct'] ? 'llms-icon-checkmark' :  'llms-icon-close';
@@ -48,36 +48,36 @@ use LLMS\Users\User;
 						<?php echo LLMS_Language::output( 'Question' . ($key + 1) ); ?>
 
 						<?php echo LLMS_Svg::get_icon( $icon, 'Lesson', 'Lesson', 'tree-icon' ); ?>
-		   			
+
 					</h4>
 
 				</div>
 
 				<div id="collapse_<?php echo $key ?>" class="panel-collapse collapse <?php echo $background . '-panel' ?>" role="tabpanel" aria-labelledby="heading_<?php echo $key ?>">
-				
+
 					<div class="panel-body">
-						
+
 					<p>
 						<?php
 						echo do_shortcode( $question_object->post->post_content );
-						?> 
+						?>
 						</p>
-						
+
 						<div class="clear"></div>
 						<br>
 
 						<ul>
 						<?php if (array_key_exists( 'option_text', $options[ $question['answer'] ] )) {
 							?>
-							
+
 							<li>
 								<span class="llms-quiz-summary-label user-answer">
 								<?php echo LLMS_Language::output( 'Your answer:' . $options[ $question['answer'] ]['option_text'] ); ?>
-								</span>						
+								</span>
 							</li>
 
 							<?php } ?>
-							
+
 							<?php
 
 							if ($quiz->show_correct_answer()) {
@@ -105,14 +105,14 @@ use LLMS\Users\User;
 							}
 							?>
 
-						</ul>		
-				
+						</ul>
+
 					</div>
-			
+
 				</div>
-		
+
 			</div>
-		
+
 		<?php } ?>
 
 		</div>

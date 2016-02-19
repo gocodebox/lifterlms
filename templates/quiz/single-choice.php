@@ -18,7 +18,7 @@ if ( ! $question ) {
 
 }
 
-$quizObj = $quiz;
+$quiz_obj = $quiz;
 $options = $question->get_options();
 $question_key = isset( $quiz ) ? $quiz->get_question_key : 0;
 
@@ -39,7 +39,7 @@ if ( ! empty( $quiz_session->questions ) ) {
 <div class="clear"></div>
 <div class="llms-question-wrapper">
 	<?php
-	if ($quizObj->get_show_random_answers()) {
+	if ($quiz_obj->get_show_random_answers()) {
 		llms_shuffle_assoc( $options );
 	}
 
