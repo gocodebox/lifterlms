@@ -29,6 +29,7 @@
     "gulp-minify-css": "^1.0.0",
     "gulp-notify": "^2.2.0",
     "gulp-notify-growl": "^1.0.2",
+    "gulp-phpcs": "^1.0.0",
     "gulp-rename": "^1.2.0",
     "gulp-ruby-sass": "^1.0.0-alpha.3",
     "gulp-svgmin": "^1.1.1",
@@ -37,6 +38,7 @@
     "jscs": "^1.11.3",
     "jshint": "^2.6.3",
     "jshint-stylish": "^1.0.1",
-    "require-dir": "^0.3.0"
+    "require-dir": "^0.3.0",
+    "yargs": "^4.1.0"
   }
 }
