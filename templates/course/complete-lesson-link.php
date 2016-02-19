@@ -13,7 +13,7 @@ if ( ! $lesson ) {
 	$lesson = new LLMS_Lesson( $post->ID );
 
 }
-if (is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson->parent_course )) {
+if ( is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson->parent_course ) ) {
 	$user = new LLMS_Person;
 	$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->id );
 
@@ -25,7 +25,7 @@ if (is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson
 	<div class="llms-lesson-button-wrapper">
 		<?php
 		if ( isset( $user_postmetas['_is_complete'] ) ) {
-			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+			if ( 'yes' === $user_postmetas['_is_complete']->meta_value ) {
 
 				echo __( 'Lesson Complete', 'lifterlms' );
 			}
@@ -35,7 +35,7 @@ if (is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson
 		if ( ! isset( $user_postmetas['_is_complete'] ) && ! $associated_quiz ) {
 
 		?>
-		<form method="POST" action="" name="mark_complete" enctype="multipart/form-data"> 
+		<form method="POST" action="" name="mark_complete" enctype="multipart/form-data">
 		 	<?php do_action( 'lifterlms_before_mark_complete_lesson' ); ?>
 
 		 	<input type="hidden" name="mark-complete" value="<?php echo esc_attr( $post->ID ); ?>" />
@@ -52,7 +52,7 @@ if (is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson
 		if ($associated_quiz) {
 		?>
 
-		<form method="POST" action="" name="take_quiz" enctype="multipart/form-data"> 
+		<form method="POST" action="" name="take_quiz" enctype="multipart/form-data">
 
 		 	<input type="hidden" name="associated_lesson" value="<?php echo esc_attr( $post->ID ); ?>" />
 		 	<input type="hidden" name="quiz_id" value="<?php echo esc_attr( $associated_quiz ); ?>" />

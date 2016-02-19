@@ -42,7 +42,7 @@ if ($coupon_session) {
 
 	$info_message = sprintf( __( 'Coupon code "%s" has been applied to your order', 'lifterlms' ), $coupon_session->coupon_code );
 
-	$savings = ($coupon_session->type == 'percent') ? $coupon_session->amount.'%' : '$'.$coupon_session->amount;
+	$savings = ( 'percent' == $coupon_session->type ) ? $coupon_session->amount.'%' : '$'.$coupon_session->amount;
 
 	$info_message .= ' '.sprintf( __( '(%s off)', 'lifterlms' ), $savings );
 } else {
@@ -73,7 +73,7 @@ if ($coupon_session) {
 				$i = 0;
 				$checked = false;
 				foreach ($payment_options as $key => $value) :
-					if ($value == 'single') :
+					if ( 'single' == $value ) :
 						$i++;
 					?>
 						<p class="llms-payment-option llms-option">
@@ -82,7 +82,7 @@ if ($coupon_session) {
 								type="radio"
 								name="payment_option"
 								value="<?php echo $value . '_' . $key; ?>"
-								<?php if ($i == 1) { echo 'checked'; $checked = true; } ?>
+								<?php if ( 1 == $i ) { echo 'checked'; $checked = true; } ?>
 							/>
 							<label for="llms-payment-option_<?php echo $value; ?>">
 								<span class="llms-radio"></span>
@@ -92,7 +92,7 @@ if ($coupon_session) {
 							</label>
 						</p>
 					<?php
-					elseif ($value == 'recurring') :
+					elseif ( 'recurring' == $value ) :
 						$i++;
 						$subs = $product_obj->get_subscriptions();
 
@@ -105,7 +105,7 @@ if ($coupon_session) {
 										type="radio"
 										name="payment_option"
 										value="<?php echo $value . '_' . $id; ?>"
-										<?php if ($i == 1 && ! $checked) { echo 'checked'; $checked = true;} ?>
+										<?php if ( 1 == $i && ! $checked) { echo 'checked'; $checked = true;} ?>
 									/>
 									<label for="llms-payment-option_<?php echo $value . '_' . $id; ?>">
 										<span class="llms-radio"></span>
@@ -176,10 +176,10 @@ if ($coupon_session) {
 									value="<?php echo $gateway->payment_type; ?>_<?php echo esc_attr( $gateway->id ); ?>"
 									data-payment-type="<?php echo $gateway->payment_type; ?>"
 									<?php if ( ! empty( $_POST['payment_method'] ) ) :
-										if ( $_POST['payment_method'] == ($gateway->payment_type . '_' . esc_attr( $gateway->id ) ) ) :
+										if ( ( $gateway->payment_type . '_' . esc_attr( $gateway->id ) ) == $_POST['payment_method'] ) :
 											echo 'CHECKED';
 										 	endif;
-									 	elseif ($ii == 1) :
+									 	elseif ( 1 == $ii ) :
 									 		echo 'CHECKED';
 
 									endif; ?>
@@ -202,10 +202,10 @@ if ($coupon_session) {
 
 			<div class="llms-clear-box llms-center-content">
 				<?php if ( count( $available_gateways ) ) : ?>
-				<input class="llms-button" 
-					type="submit" 
-					class="button" 
-					name="create_order_details" 
+				<input class="llms-button"
+					type="submit"
+					class="button"
+					name="create_order_details"
 					<?php echo (is_user_logged_in() ? '' : 'disabled="disabled"'); ?>
 					value="<?php _e( 'Buy Now', 'lifterlms' ); ?>" />
 				<?php endif; ?>

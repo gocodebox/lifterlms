@@ -50,11 +50,11 @@ if ( $subs ) {
 			<div class="llms-payment-options llms-notice-box">
 
 				<?php
-				if ($session->payment_option == 'recurring') {
+				if ( 'recurring' == $session->payment_option ) {
 					echo '<label>Payment Terms:</label> <strong>';
 					echo $recurring_html_price;
 					echo '</strong>';
-				} elseif ($session->payment_option == 'single') {
+				} elseif ( 'single' == $session->payment_option ) {
 					echo '<label>Price:</label></strong> ';
 					echo sprintf( __( apply_filters( 'lifterlms_single_payment_text','Single payment of %s' ), 'lifterlms' ), $product_obj->get_price_html() );
 					echo '</strong>';

@@ -33,20 +33,20 @@ if ( ( ! $payment_options || strcmp( $payment_options[0], 'single' ) !== 0) && $
 <div class="llms-price-wrapper">
 	<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) : ?>
 		<?php foreach ($payment_options as $key => $value) : ?>
-			<?php if ($value == 'single') :
+			<?php if ( 'single' == $value ) :
 				$single_payment_exists = true;
 			?>
 				<h4 class="llms-price"><span><?php echo $single_html_price; ?></span></h4>
 			<?php endif; ?>
 
-			<?php if ($value == 'recurring') : ?>
+			<?php if ( 'recurring' == $value ) : ?>
 				<?php $subs = $product_obj->get_subscriptions();
 
 
 				?>
 				<?php foreach ($subs as $id => $sub) : ?>
 					<?php echo $single_payment_exists ? 'or' : ''; ?>
-	
+
 					<h4 class="llms-price"><span><?php echo $product_obj->get_subscription_price_html( $sub ); ?></span></h4>
 				<?php endforeach; ?>
 			<?php endif; ?>

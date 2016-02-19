@@ -12,10 +12,10 @@ if ( $my_courses ) {?>
 
 	<?php
 	foreach ( $my_courses as $course_item ) {
-		if ( $course_item->meta_value == 'Enrolled' ) {
+		if ( 'Enrolled' == $course_item->meta_value ) {
 			$course = new LLMS_Course_Basic( $course_item->post_id );
 
-			if ( is_object( $course->post ) && $course->post->post_type == 'course') {
+			if ( is_object( $course->post ) && 'course' == $course->post->post_type ) {
 				$course_progress = $course->get_percent_complete();
 				$author = get_userdata( $course->post->post_author );
 				$author_name = $author->first_name . ' ' . $author->last_name;
@@ -43,11 +43,11 @@ if ( $my_courses ) {?>
 							    <span class="llms-sts-label">' . __( 'Status:','lifterlms' ) . '</span>
 							    <span class="llms-sts-current">' . $course_status . '</span>
 							</span>'); ?>
-							
+
 
 							<?php echo apply_filters('lifterlms_my_courses_start_date_html',
 							'<p class="llms-start-date">' .  __( 'Course Started','lifterlms' ) . ' - ' . $date_formatted . '</p>'); ?>
-							
+
 
 							<h3>
 							<?php echo '<a href="' . $permalink  . '">' . $course->post->post_title . '</a>' ?>
@@ -64,7 +64,7 @@ if ( $my_courses ) {?>
 							    <div class="progress-bar-complete" style="width:<?php echo $course_progress ?>%"></div>
 							</div>
 						</div>
-						
+
 						<div class="course-link">
 					 		<?php echo '<a href="' . $permalink  . '" class="button llms-button">' . apply_filters( 'lifterlms_my_courses_course_button_text', __( 'View Course', 'lifterlms' ) ) . '</a>'; ?>
 					 	</div>
