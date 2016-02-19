@@ -12,6 +12,16 @@
 	Use all the Rules in the WordPress Core Standard
 	-->
 	<rule ref="WordPress-Core">
+
+		<!--
+		@todo possibly remove this rule
+		removing this for now
+		this does not allow filenames with underscores
+		can't handle that today...
+		-->
+		<exclude name="WordPress.Files.FileName" />
+
+
 		<!--
 		We may want a middle ground though. The best way to do this is add the
 		entire ruleset, then rule by rule, remove ones that don't suit a project. We
