@@ -4,7 +4,7 @@
  * @package 	lifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post, $course;
 ?>

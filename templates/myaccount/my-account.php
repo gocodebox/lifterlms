@@ -15,11 +15,11 @@ llms_print_notices();
 
 	<?php
 		printf(
-		__( '<h3>Hello <strong>%1$s</strong></h3>', 'lifterlms' ) . ' ',
-		$current_user->display_name
-	);
+			__( '<h3>Hello <strong>%1$s</strong></h3>', 'lifterlms' ) . ' ',
+			$current_user->display_name
+		);
 
-		echo apply_filters('lifterlms_account_greeting', __( 'What would you like to learn today?', 'lifterlms' ));
+		echo apply_filters( 'lifterlms_account_greeting', __( 'What would you like to learn today?', 'lifterlms' ) );
 
 	?>
 
@@ -31,7 +31,7 @@ llms_print_notices();
 
 <?php llms_get_template( 'myaccount/my-achievements.php' ); ?>
 
-<?php if( get_option( 'lifterlms_enable_myaccount_memberships_list', 'no' ) === 'yes' ): ?>
+<?php if ( get_option( 'lifterlms_enable_myaccount_memberships_list', 'no' ) === 'yes' ) : ?>
 
 	<?php llms_get_template( 'myaccount/my-memberships.php' ); ?>
 

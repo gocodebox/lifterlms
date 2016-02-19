@@ -7,26 +7,25 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post;
 if ( is_user_admin() ) {
-	show_admin_bar(false);
+	show_admin_bar( false );
 }
 
-$postmeta = get_post_meta($post->ID);
+$postmeta = get_post_meta( $post->ID );
 
 $certificate_title = $postmeta['_llms_certificate_title'][0];
 
 $certimage_id = $postmeta['_llms_certificate_image'][0]; // Get Image Meta
-$certimage = wp_get_attachment_image_src($certimage_id, 'print_certificate'); //Get Right Size Image for Print Template
+$certimage = wp_get_attachment_image_src( $certimage_id, 'print_certificate' ); //Get Right Size Image for Print Template
 
 if ($certimage == '') {
 	$certimage = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png' );
 	$certimage_width = 800;
 	$certimage_height = 616;
-}
-else {
+} else {
 	$certimage_width = $certimage[1];
 	$certimage_height = $certimage[2];
 	$certimage = $certimage[0];
@@ -107,7 +106,7 @@ $certificate = new LLMS_Certificate;
 				<div class="llms-summary">
 				<?php llms_print_notices(); ?>
 					
-					<?php do_action('before_lifterlms_certificate_main_content'); ?>
+					<?php do_action( 'before_lifterlms_certificate_main_content' ); ?>
 
 					
 					<h1><?php echo $certificate_title; ?></h1>
@@ -115,13 +114,13 @@ $certificate = new LLMS_Certificate;
 					
 						
 					
-					<?php do_action('after_lifterlms_certificate_main_content'); ?>
+					<?php do_action( 'after_lifterlms_certificate_main_content' ); ?>
 
 				</div>
 			</div>
 		</div>
 		<div id="llms-print-certificate" class="no-print">
-			<input type="button" class="llms-button" onClick="window.print()" value="<?php echo _e('Print Certificate', 'lifterlms') ?>"/>
+			<input type="button" class="llms-button" onClick="window.print()" value="<?php echo _e( 'Print Certificate', 'lifterlms' ) ?>"/>
 		</div>
 </main>
 

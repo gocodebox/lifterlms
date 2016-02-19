@@ -4,17 +4,16 @@
  * @package 	lifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post, $lesson;
 
 if ( ! $lesson ) {
 
 	$lesson = new LLMS_Lesson( $post->ID );
-	
+
 }
-if (is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson->parent_course ))
-{
+if (is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson->parent_course )) {
 	$user = new LLMS_Person;
 	$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->id );
 
@@ -25,15 +24,15 @@ if (is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson
 	<div class="clear"></div>
 	<div class="llms-lesson-button-wrapper">
 		<?php
-		if ( isset($user_postmetas['_is_complete']) ) {
+		if ( isset( $user_postmetas['_is_complete'] ) ) {
 			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
 
 				echo __( 'Lesson Complete', 'lifterlms' );
 			}
 
-		} 
+		}
 
-		if ( !isset( $user_postmetas['_is_complete'] ) && !$associated_quiz ) {
+		if ( ! isset( $user_postmetas['_is_complete'] ) && ! $associated_quiz ) {
 
 		?>
 		<form method="POST" action="" name="mark_complete" enctype="multipart/form-data"> 
@@ -45,7 +44,7 @@ if (is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson
 		 	<input type="hidden" name="action" value="mark_complete" />
 
 		 	<?php wp_nonce_field( 'mark_complete' ); ?>
-			<?php do_action( 'lifterlms_after_mark_complete_lesson'  ); ?>
+			<?php do_action( 'lifterlms_after_mark_complete_lesson' ); ?>
 		</form>
 
 		<?php }

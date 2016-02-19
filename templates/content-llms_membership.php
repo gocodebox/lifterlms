@@ -7,28 +7,28 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $lifterlms_loop, $product;
 
-if ( empty( $lifterlms_loop['loop'] ) )
-	$lifterlms_loop['loop'] = 0;
-if ( empty( $lifterlms_loop['columns'] ) )
-	$lifterlms_loop['columns'] = apply_filters( 'loop_memberships_columns', 4 );
+if ( empty( $lifterlms_loop['loop'] ) ) {
+	$lifterlms_loop['loop'] = 0; }
+if ( empty( $lifterlms_loop['columns'] ) ) {
+	$lifterlms_loop['columns'] = apply_filters( 'loop_memberships_columns', 4 ); }
 $lifterlms_loop['loop']++;
 $classes = array();
-if ( 0 == ( $lifterlms_loop['loop'] - 1 ) % $lifterlms_loop['columns'] || 1 == $lifterlms_loop['columns'] )
-	$classes[] = 'first';
-if ( 0 == $lifterlms_loop['loop'] % $lifterlms_loop['columns'] )
-	$classes[] = 'last';
+if ( 0 == ( $lifterlms_loop['loop'] - 1 ) % $lifterlms_loop['columns'] || 1 == $lifterlms_loop['columns'] ) {
+	$classes[] = 'first'; }
+if ( 0 == $lifterlms_loop['loop'] % $lifterlms_loop['columns'] ) {
+	$classes[] = 'last'; }
 ?>
 <li <?php post_class( $classes ); ?>>
 
 	<?php do_action( 'lifterlms_before_memberships_loop_item' ); ?>
 
-<?php 
+<?php
 	// check to see if auto-redirect option is set
-	if (get_option('redirect_to_checkout')=='yes') {
-	
+if (get_option( 'redirect_to_checkout' ) == 'yes') {
+
 	// create product object and get prices from the object
 	$product = new LLMS_Product( get_the_ID() );
 	$single_price = $product->get_single_price();
@@ -36,26 +36,21 @@ if ( 0 == $lifterlms_loop['loop'] % $lifterlms_loop['columns'] )
 
 	// check to see if user is logged in
 	// if not, redirect to login / registration page
-	if ( ! is_user_logged_in() ) 
-	{
+	if ( ! is_user_logged_in() ) {
 		$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
 		$account_redirect = add_query_arg( 'product-id', get_the_ID(), $account_url );
 		?>
 		<a class="llms-membership-link" href="<?php echo $account_redirect; ?>">
-		<?php 
-	}
-	// if user is logged in handle separate logic 
-	elseif ( ! llms_is_user_member( get_current_user_id(), get_the_ID() ) ) 
-	{
+		<?php
+	} // if user is logged in handle separate logic
+	elseif ( ! llms_is_user_member( get_current_user_id(), get_the_ID() ) ) {
 		// if price is greater than 0 redirect to checkout page
-		if ($single_price  > 0 || $rec_price > 0)
-		{ ?>
+		if ($single_price > 0 || $rec_price > 0) {
+			?>
 			<a class="llms-membership-link" href="<?php echo $product->get_checkout_url(); ?>">
 			<?php
-		}
-		// otherwise automatically enroll
-		else
-		{
+		} // otherwise automatically enroll
+		else {
 			?>
 			<form action="" method="post" id="hiddenform">
 				<input type="hidden" name="payment_option" value="none_0" />

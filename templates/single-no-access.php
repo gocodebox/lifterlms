@@ -7,13 +7,13 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $post;
 get_header();
 
-while ( have_posts() ) : the_post(); 
+while ( have_posts() ) : the_post();
 
-	llms_get_template_part( 'content', 'no-access' ); 
+	llms_get_template_part( 'content', 'no-access' );
 
 endwhile;
 ?>

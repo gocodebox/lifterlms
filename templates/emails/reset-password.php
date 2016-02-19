@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; ?>
+if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
 <?php do_action( 'lifterlms_email_header', $email_heading ); ?>
 

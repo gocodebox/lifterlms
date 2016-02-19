@@ -4,19 +4,19 @@
  * @package 	lifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post, $course;
 
-if ( ! $course || !is_object($course)) {
+if ( ! $course || ! is_object( $course )) {
 
 	$course = new LLMS_Course( $post->ID );
-	
+
 }
 
-$course_not_class = get_post_custom($post->ID);
+$course_not_class = get_post_custom( $post->ID );
 
-if ( !$course->get_video() ) return;
+if ( ! $course->get_video() ) { return; }
 
 ?>
 

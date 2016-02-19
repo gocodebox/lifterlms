@@ -6,8 +6,8 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $user = new LLMS_Person;
-$count = ( empty($count) ) ? 1000 : $count; // shortcodes will define $count and load the contents of this template
-$user_id = ( empty($user_id) ) ? get_current_user_id() : $user_id;
+$count = ( empty( $count ) ) ? 1000 : $count; // shortcodes will define $count and load the contents of this template
+$user_id = ( empty( $user_id ) ) ? get_current_user_id() : $user_id;
 $achievements = $user->get_user_achievements( $count, $user_id );
 ?>
 <div class="llms-my-achievements">
@@ -15,18 +15,18 @@ $achievements = $user->get_user_achievements( $count, $user_id );
 
 	<?php do_action( 'lifterlms_before_achievements' ); ?>
 
-	<?php if ($achievements): ?>
+	<?php if ($achievements) : ?>
 		<ul class="listing-achievements">
-			<?php foreach( $achievements as $achievement ): ?>
+			<?php foreach ( $achievements as $achievement ) : ?>
 				<li class="achievement-item">
 
 					<?php do_action( 'lifterlms_before_achievement', $achievement ); ?>
 
-					<div class="llms-achievement-image"><img alt="<?php echo esc_attr($achievement['title']); ?>" src="<?php echo $achievement['image']; ?>"></div>
+					<div class="llms-achievement-image"><img alt="<?php echo esc_attr( $achievement['title'] ); ?>" src="<?php echo $achievement['image']; ?>"></div>
 
 					<h4 class="llms-achievement-title"><?php echo $achievement['title']; ?></h4>
 
-					<?php if( $achievement['content'] ): ?>
+					<?php if ( $achievement['content'] ) : ?>
 						<div class="llms-achievement-content"><p><?php echo $achievement['content']; ?></p></div>
 					<?php endif; ?>
 
@@ -37,7 +37,7 @@ $achievements = $user->get_user_achievements( $count, $user_id );
 				</li>
 			<?php endforeach; ?>
 		</ul>
-	<?php else: ?>
+	<?php else : ?>
 		<p><?php echo __( apply_filters( 'lifterlms_no_achievements_text', 'Complete courses and lessons to earn achievements.' ), 'lifterlms' ); ?></p>
 	<?php endif; ?>
 

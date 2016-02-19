@@ -7,7 +7,7 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $post;
 do_action( 'lifterlms_before_main_content' );
 ?>
@@ -18,15 +18,14 @@ do_action( 'lifterlms_before_main_content' );
 		<?php llms_print_notices(); ?>
 			
 			<?php
-				do_action('before_lifterlms_no_access_main_content');
+				do_action( 'before_lifterlms_no_access_main_content' );
 
 				do_action( 'lifterlms_no_access_main_content' );
 
-				do_action('after_lifterlms_no_access_main_content');
+				do_action( 'after_lifterlms_no_access_main_content' );
 			?>
 
 		</div>
 
 	</div>
 <?php do_action( 'lifterlms_after_main_content' ); ?>
-

@@ -7,6 +7,6 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 do_action( 'lifterlms_single_quiz_after_summary' );

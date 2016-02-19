@@ -27,7 +27,7 @@ llms_print_notices();
 
             <div class="llms-form-item-wrapper username">
                 <label for="reg_username"><?php _e( 'Username', 'lifterlms' ); ?> <span class="required">*</span></label>
-                <input type="text" class="input-text llms-input-text" name="username" id="reg_username" value="<?php if ( ! empty( $_POST['username'] ) ) echo esc_attr( $_POST['username'] ); ?>" />
+                <input type="text" class="input-text llms-input-text" name="username" id="reg_username" value="<?php if ( ! empty( $_POST['username'] ) ) { echo esc_attr( $_POST['username'] ); } ?>" />
             </div>
 
         <?php endif; ?>
@@ -36,12 +36,12 @@ llms_print_notices();
 
             <div class="llms-form-item-wrapper firstname">
                 <label for="reg_firstname"><?php _e( 'First Name', 'lifterlms' ); ?> <span class="required">*</span></label>
-                <input type="text" class="input-text llms-input-text" name="firstname" id="reg_firstname" value="<?php if ( ! empty( $_POST['firstname'] ) ) echo esc_attr( $_POST['firstname'] ); ?>" />
+                <input type="text" class="input-text llms-input-text" name="firstname" id="reg_firstname" value="<?php if ( ! empty( $_POST['firstname'] ) ) { echo esc_attr( $_POST['firstname'] ); } ?>" />
             </div>
 
             <div class="llms-form-item-wrapper lastname">
                 <label for="reg_lastname"><?php _e( 'Last Name', 'lifterlms' ); ?> <span class="required">*</span></label>
-                <input type="text" class="input-text llms-input-text" name="lastname" id="reg_lastname" value="<?php if ( ! empty( $_POST['lastname'] ) ) echo esc_attr( $_POST['lastname'] ); ?>" />
+                <input type="text" class="input-text llms-input-text" name="lastname" id="reg_lastname" value="<?php if ( ! empty( $_POST['lastname'] ) ) { echo esc_attr( $_POST['lastname'] ); } ?>" />
             </div>
         <?php endif; ?>
 
@@ -50,7 +50,7 @@ llms_print_notices();
         <?php if ( 'yes' === get_option( 'lifterlms_registration_add_phone' ) ) : ?>
             <div class="llms-form-item-wrapper phone">
                 <label for="llms_phone"><?php _e( 'Phone', 'lifterlms' ); ?></label>
-                <input type="text" class="input-text llms-input-text" name="phone" id="llms_phone" value="<?php if ( ! empty( $_POST['phone'] ) ) echo esc_attr( $_POST['phone'] ); ?>" />
+                <input type="text" class="input-text llms-input-text" name="phone" id="llms_phone" value="<?php if ( ! empty( $_POST['phone'] ) ) { echo esc_attr( $_POST['phone'] ); } ?>" />
             </div>
         <?php endif; ?>
 
@@ -58,29 +58,29 @@ llms_print_notices();
         <?php if ( 'yes' === get_option( 'lifterlms_registration_require_address' ) ) : ?>
             <div class="llms-form-item-wrapper billing_address_1">
                 <label for="billing_address_1"><?php _e( 'Billing Address 1', 'lifterlms' ); ?> <span class="required">*</span></label>
-                <input type="text" class="input-text llms-input-text" name="billing_address_1" id="billing_address_1" value="<?php if ( ! empty( $_POST['billing_address_1'] ) ) echo esc_attr( $_POST['billing_address_1'] ); ?>" />
+                <input type="text" class="input-text llms-input-text" name="billing_address_1" id="billing_address_1" value="<?php if ( ! empty( $_POST['billing_address_1'] ) ) { echo esc_attr( $_POST['billing_address_1'] ); } ?>" />
             </div>
             <div class="llms-form-item-wrapper billing_address_2">
                 <label for="billing_address_2"><?php _e( 'Billing Address 2', 'lifterlms' ); ?></label>
-                <input type="text" class="input-text llms-input-text" name="billing_address_2" id="billing_address_2" value="<?php if ( ! empty( $_POST['billing_address_2'] ) ) echo esc_attr( $_POST['billing_address_2'] ); ?>" />
+                <input type="text" class="input-text llms-input-text" name="billing_address_2" id="billing_address_2" value="<?php if ( ! empty( $_POST['billing_address_2'] ) ) { echo esc_attr( $_POST['billing_address_2'] ); } ?>" />
             </div>
             <div class="llms-form-item-wrapper billing_city">
                 <label for="billing_city"><?php _e( 'Billing City', 'lifterlms' ); ?> <span class="required">*</span></label>
-                <input type="text" class="input-text llms-input-text" name="billing_city" id="billing_city" value="<?php if ( ! empty( $_POST['billing_city'] ) ) echo esc_attr( $_POST['billing_city'] ); ?>" />
+                <input type="text" class="input-text llms-input-text" name="billing_city" id="billing_city" value="<?php if ( ! empty( $_POST['billing_city'] ) ) { echo esc_attr( $_POST['billing_city'] ); } ?>" />
             </div>
             <div class="llms-form-item-wrapper billing_state">
                 <label for="billing_state"><?php _e( 'Billing State', 'lifterlms' ); ?> <span class="required">*</span></label>
-                <input type="text" class="input-text llms-input-text" name="billing_state" id="billing_state" value="<?php if ( ! empty( $_POST['billing_state'] ) ) echo esc_attr( $_POST['billing_state'] ); ?>" />
+                <input type="text" class="input-text llms-input-text" name="billing_state" id="billing_state" value="<?php if ( ! empty( $_POST['billing_state'] ) ) { echo esc_attr( $_POST['billing_state'] ); } ?>" />
             </div>
             <div class="llms-form-item-wrapper billing_zip">
                 <label for="billing_zip"><?php _e( 'Billing Zip', 'lifterlms' ); ?> <span class="required">*</span></label>
-                <input type="text" class="input-text llms-input-text" name="billing_zip" id="billing_address_1" value="<?php if ( ! empty( $_POST['billing_zip'] ) ) echo esc_attr( $_POST['billing_zip'] ); ?>" />
+                <input type="text" class="input-text llms-input-text" name="billing_zip" id="billing_address_1" value="<?php if ( ! empty( $_POST['billing_zip'] ) ) { echo esc_attr( $_POST['billing_zip'] ); } ?>" />
             </div>
             <div class="llms-form-item-wrapper billing_country">
                 <label for="billing_country"><?php _e( 'Billing Country', 'lifterlms' ); ?> <span class="required">*</span></label>
                 <select id="llms_country_options" name="billing_country">
                 <?php $country_options = get_lifterlms_countries();
-                    foreach ( $country_options as $code => $name ) { ?>
+				foreach ( $country_options as $code => $name ) { ?>
                         <option value="<?php echo $code; ?>"><?php echo $name; ?></option>
                     <?php } ?>
                 </select>
@@ -91,14 +91,14 @@ llms_print_notices();
 
         <div class="llms-form-item-wrapper email">
             <label for="reg_email"><?php _e( 'Email address', 'lifterlms' ); ?> <span class="required">*</span></label>
-            <input type="email" class="input-text llms-input-text" name="email" id="reg_email" value="<?php if ( ! empty( $_POST['email'] ) ) echo esc_attr( $_POST['email'] ); ?>" />
+            <input type="email" class="input-text llms-input-text" name="email" id="reg_email" value="<?php if ( ! empty( $_POST['email'] ) ) { echo esc_attr( $_POST['email'] ); } ?>" />
         </div>
 
         <?php if ( 'yes' === get_option( 'lifterlms_registration_confirm_email' ) ) : ?>
 
             <div class="llms-form-item-wrapper email_confirm">
                 <label for="reg_email_2"><?php _e( 'Re-enter your email address', 'lifterlms' ); ?> <span class="required">*</span></label>
-                <input type="email" class="input-text llms-input-text" name="email_confirm" id="reg_email_2" value="<?php if ( ! empty( $_POST['email_confirm'] ) ) echo esc_attr( $_POST['email_confirm'] ); ?>" />
+                <input type="email" class="input-text llms-input-text" name="email_confirm" id="reg_email_2" value="<?php if ( ! empty( $_POST['email_confirm'] ) ) { echo esc_attr( $_POST['email_confirm'] ); } ?>" />
             </div>
 
         <?php endif; ?>
@@ -115,14 +115,14 @@ llms_print_notices();
             <input type="password" class="input-text llms-input-text" name="password_2" id="password_2" />
         </div>
 
-        <?php if( !isset( $_GET['product-id'] ) ): ?>
+        <?php if ( ! isset( $_GET['product-id'] ) ) : ?>
 
             <div class="llms-form-item-wrapper voucher-wrapper">
                 <?php
-                /**
-                 * @todo  move JS to it's own file, it's here b/c this is the only JS that needs to run on this page and it seemed wasteful
-                 */
-                ?>
+				/**
+				 * @todo  move JS to it's own file, it's here b/c this is the only JS that needs to run on this page and it seemed wasteful
+				 */
+				?>
                 <script type="text/javascript">
                 jQuery( document ).on( 'ready', function() {
                     jQuery( '#llms-voucher-expand' ).on( 'click', function( e ) {
@@ -146,7 +146,7 @@ llms_print_notices();
             <div class="llms-form-item-wrapper agree_to_terms">
                 <input type="checkbox" name="agree_to_terms" id="agree_to_terms" value="yes" />
                 <label for="agree_to_terms">
-                    <?php printf ( __( 'I have read and agree to the <a href="%s">Terms and Conditions</a>', 'lifterlms' ), get_the_permalink( get_option( 'lifterlms_terms_page_id' ) ) ); ?>
+                    <?php printf( __( 'I have read and agree to the <a href="%s">Terms and Conditions</a>', 'lifterlms' ), get_the_permalink( get_option( 'lifterlms_terms_page_id' ) ) ); ?>
                     <span class="required">*</span>
                 </label>
             </div>

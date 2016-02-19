@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
     <div class="llms-basic-information">
 
-        <h3><?php _e('Basic Information', 'lifterlms') ?></h3>
+        <h3><?php _e( 'Basic Information', 'lifterlms' ) ?></h3>
 
         <p class="form-row form-row-first">
             <label for="account_first_name"><?php _e( 'First name', 'lifterlms' ); ?></label>
@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
         <div class="llms-change-password">
 
-        <h3><?php _e('Change Password', 'lifterlms') ?></h3>
+        <h3><?php _e( 'Change Password', 'lifterlms' ) ?></h3>
 
         <p class="form-row form-row-first">
             <label for="password_1"><?php _e( 'Password (leave blank to leave unchanged)', 'lifterlms' ); ?></label>
@@ -49,17 +49,17 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
         <div class="llms-billing-information">
 
-            <h3><?php _e('Billing Information', 'lifterlms') ?></h3>
+            <h3><?php _e( 'Billing Information', 'lifterlms' ) ?></h3>
             <?php
-            $user_id = get_current_user_id();
+			$user_id = get_current_user_id();
 
-            $billing_address_1  = ( get_user_meta( $user_id, 'llms_billing_address_1' ) )      ? get_user_meta( $user_id, 'llms_billing_address_1', true ) : '';
-            $billing_address_2  = ( get_user_meta( $user_id, 'llms_billing_address_2' )  )     ? get_user_meta( $user_id, 'llms_billing_address_2', true ) : '';
-            $billing_city       = ( get_user_meta( $user_id, 'llms_billing_city' ) )           ? get_user_meta( $user_id, 'llms_billing_city', true )      : '';
-            $billing_state      = ( get_user_meta( $user_id, 'llms_billing_state' ) )          ? get_user_meta( $user_id, 'llms_billing_state', true )     : '';
-            $billing_zip        = ( get_user_meta( $user_id, 'llms_billing_zip' ) )            ? get_user_meta( $user_id, 'llms_billing_zip', true )       : '';
-            $billing_country    = ( get_user_meta( $user_id, 'llms_billing_country' ) )        ? get_user_meta( $user_id, 'llms_billing_country', true )   : '';
-            ?>
+			$billing_address_1  = ( get_user_meta( $user_id, 'llms_billing_address_1' ) )      ? get_user_meta( $user_id, 'llms_billing_address_1', true ) : '';
+			$billing_address_2  = ( get_user_meta( $user_id, 'llms_billing_address_2' )  )     ? get_user_meta( $user_id, 'llms_billing_address_2', true ) : '';
+			$billing_city       = ( get_user_meta( $user_id, 'llms_billing_city' ) )           ? get_user_meta( $user_id, 'llms_billing_city', true )      : '';
+			$billing_state      = ( get_user_meta( $user_id, 'llms_billing_state' ) )          ? get_user_meta( $user_id, 'llms_billing_state', true )     : '';
+			$billing_zip        = ( get_user_meta( $user_id, 'llms_billing_zip' ) )            ? get_user_meta( $user_id, 'llms_billing_zip', true )       : '';
+			$billing_country    = ( get_user_meta( $user_id, 'llms_billing_country' ) )        ? get_user_meta( $user_id, 'llms_billing_country', true )   : '';
+			?>
 
             <p>
                 <label for="billing_address_1"><?php _e( 'Billing Address 1', 'lifterlms' ); ?> <span class="required">*</span></label>
@@ -85,7 +85,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
                 <label for="billing_country"><?php _e( 'Billing Country', 'lifterlms' ); ?> <span class="required">*</span></label>
                 <select id="llms_country_options" name="billing_country">
                 <?php $country_options = get_lifterlms_countries();
-                    foreach ( $country_options as $code => $name ) : ?>
+				foreach ( $country_options as $code => $name ) : ?>
                         <?php if ($billing_country == $code) : ?>
                             <option value="<?php echo $code; ?>" selected><?php echo $name; ?></option>
                         <?php else : ?>

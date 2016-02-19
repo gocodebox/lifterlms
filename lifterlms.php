@@ -21,7 +21,7 @@
 /**
  * Restrict direct access
  */
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 require 'vendor/autoload.php';
 
@@ -66,11 +66,11 @@ final class LifterLMS {
 	 * @return LifterLMS
 	 */
 	public function __construct() {
-		if ( function_exists( "__autoload" ) ) {
-			spl_autoload_register( "__autoload" );
+		if ( function_exists( '__autoload' ) ) {
+			spl_autoload_register( '__autoload' );
 		}
 
-		spl_autoload_register( array( $this, "autoload" ) );
+		spl_autoload_register( array( $this, 'autoload' ) );
 
 		// Define constants
 		$this->define_constants();
@@ -106,20 +106,15 @@ final class LifterLMS {
 
 		if ( strpos( $class, 'llms_meta_box' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/admin/post-types/meta-boxes/';
-		}
-		elseif ( strpos( $class, 'llms_shortcode_' ) === 0 ) {
+		} elseif ( strpos( $class, 'llms_shortcode_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/shortcodes/';
-		}
-		elseif ( strpos( $class, 'llms_widget_' ) === 0 ) {
+		} elseif ( strpos( $class, 'llms_widget_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/widgets/';
-		}
-		elseif ( strpos( $class, 'llms_integration_' ) === 0 ) {
+		} elseif ( strpos( $class, 'llms_integration_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/integrations/';
-		}
-		elseif ( strpos( $class, 'llms_gateway_' ) === 0 ) {
+		} elseif ( strpos( $class, 'llms_gateway_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/payment_gateways/';
-		}
-		elseif (strpos( $class, 'llms_' ) === 0 ) {
+		} elseif (strpos( $class, 'llms_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/';
 		}
 
@@ -147,14 +142,14 @@ final class LifterLMS {
 		}
 
 		if ( ! defined( 'LLMS_PLUGIN_DIR' ) ) {
-			define( 'LLMS_PLUGIN_DIR', WP_PLUGIN_DIR . "/" . plugin_basename( dirname(__FILE__) ) . '/');
+			define( 'LLMS_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . plugin_basename( dirname( __FILE__ ) ) . '/' );
 		}
 
 		if ( ! defined( 'LLMS_SVG_DIR' ) ) {
 			define( 'LLMS_SVG_DIR', plugins_url( '/assets/svg/svg.svg', LLMS_PLUGIN_FILE ) );
 		}
 
-		if( ! defined( 'LLMS_LOAD_DEPRECATED' ) ) {
+		if ( ! defined( 'LLMS_LOAD_DEPRECATED' ) ) {
 
 			define( 'LLMS_LOAD_DEPRECATED', true );
 
@@ -167,7 +162,7 @@ final class LifterLMS {
 	 */
 	private function includes() {
 
-		if( LLMS_LOAD_DEPRECATED ) {
+		if ( LLMS_LOAD_DEPRECATED ) {
 
 			include_once( 'includes/llms.deprecated.php' );
 
@@ -178,10 +173,9 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.session.php' );
 		include_once( 'includes/class.llms.session.handler.php' );
 
-
 		if ( is_admin() ) {
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php' );
-			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php');
+			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php' );
 			include_once( 'includes/admin/llms.class.admin.metabox.php' );
 			include_once( 'includes/admin/class.llms.admin.php' );
 			include_once( 'includes/admin/class.llms.admin.forms.php' );
@@ -240,7 +234,6 @@ final class LifterLMS {
 		$session_class = apply_filters( 'lifterlms_session_handler', 'LLMS_Session_Handler' );
 		$this->session = new $session_class();
 
-
 		if ( ! is_admin() ) {
 			$this->frontend_includes();
 		}
@@ -261,7 +254,6 @@ final class LifterLMS {
 		include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
 
 		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
-
 
 		//include_once( 'includes/widgets/class.llms.widget.progress.php' );
 	}
@@ -288,11 +280,11 @@ final class LifterLMS {
 		$email_actions = array(
 			'lifterlms_created_person',
 			'lifterlms_lesson_completed_engagement',
-			'lifterlms_custom_engagement'
+			'lifterlms_custom_engagement',
 		);
 
-		foreach ( $email_actions as $action )
-			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 );
+		foreach ( $email_actions as $action ) {
+			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 ); }
 
 		$engagement_actions = array(
 			'lifterlms_lesson_completed',
@@ -302,7 +294,7 @@ final class LifterLMS {
 			'lifterlms_course_track_completed',
 		);
 
-		foreach( $engagement_actions as $action ) {
+		foreach ( $engagement_actions as $action ) {
 			add_action( $action, array( $this, 'trigger_engagement' ), 10, 10 );
 		}
 
@@ -416,7 +408,7 @@ final class LifterLMS {
 			'<a href="' . admin_url( 'admin.php?page=llms-settings' ) . '">' . __( 'Settings', 'lifterlms' ) . '</a>'
 		);
 
-		if (count($links) == 3) {
+		if (count( $links ) == 3) {
 			return $links;
 		}
 
@@ -430,7 +422,7 @@ final class LifterLMS {
 	public function localize() {
 
 		// load localization files
-		load_plugin_textdomain('lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( 'lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 	}
 

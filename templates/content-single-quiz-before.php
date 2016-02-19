@@ -7,9 +7,8 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 llms_print_notices();
 do_action( 'lifterlms_single_quiz_before_summary' );
 
 ?>
-

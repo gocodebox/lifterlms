@@ -7,7 +7,7 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 get_header( 'llms_shop' ); ?>
 
@@ -40,7 +40,7 @@ get_header( 'llms_shop' ); ?>
 
 			<?php llms_get_template_part( 'course', 'pagination' ); ?>
 
-		<?php else: ?>
+		<?php else : ?>
 
 			<?php llms_get_template( 'loop/no-courses-found.php' ); ?>
 

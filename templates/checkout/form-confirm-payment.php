@@ -12,23 +12,21 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( get_query_var( 'product' ) ) {
 	$product = get_post( get_query_var( 'product' ) );
-}
-elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
+} elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
 	$session = LLMS()->session->get( 'llms_order', array() );
 	$product_id = $session->product_id;
 	$product = get_post( $product_id );
-}
-else {
+} else {
 	llms_add_notice( __( 'Product not found.', 'lifterlms' ) );
 }
 
-$product_obj = new LLMS_Product($product);
+$product_obj = new LLMS_Product( $product );
 
 $subs = $product_obj->get_subscriptions();
-if( $subs ) {
+if ( $subs ) {
 	foreach ($subs as $id => $sub) {
 		if ($session->payment_option_id == $id) {
-			$recurring_html_price = $product_obj->get_subscription_price_html($sub);
+			$recurring_html_price = $product_obj->get_subscription_price_html( $sub );
 		}
 	}
 }
@@ -56,14 +54,12 @@ if( $subs ) {
 					echo '<label>Payment Terms:</label> <strong>';
 					echo $recurring_html_price;
 					echo '</strong>';
-				}
-				elseif ($session->payment_option == 'single') {
+				} elseif ($session->payment_option == 'single') {
 					echo '<label>Price:</label></strong> ';
-					echo sprintf( __( apply_filters('lifterlms_single_payment_text','Single payment of %s'), 'lifterlms' ), $product_obj->get_price_html() );
+					echo sprintf( __( apply_filters( 'lifterlms_single_payment_text','Single payment of %s' ), 'lifterlms' ), $product_obj->get_price_html() );
 					echo '</strong>';
 
-				}
-				else {
+				} else {
 					/**
 					 * Allow themes / plugins / extensions to create custom confirmation messages
 					 */

@@ -7,6 +7,6 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 llms_get_template( 'archive-llms_membership.php' );

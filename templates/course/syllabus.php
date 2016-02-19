@@ -6,10 +6,10 @@
  * @package 	LifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 // cease execution if the course outline is disabled
-if( get_option('lifterlms_course_display_outline') === 'no' ) {
+if ( get_option( 'lifterlms_course_display_outline' ) === 'no' ) {
 
 	return;
 
@@ -32,43 +32,40 @@ $sections = $course->get_children_sections();
 <div class="llms-lesson-tooltip" id="lockedTooltip"></div>
 <div class="llms-syllabus-wrapper">
 
-	<?php if ( !$sections ): ?>
+	<?php if ( ! $sections ) : ?>
 
-		<?php echo LLMS_Language::output('This course does not have any sections.'); ?>
+		<?php echo LLMS_Language::output( 'This course does not have any sections.' ); ?>
 
-	<?php else: ?>
+	<?php else : ?>
 
-		<?php foreach ( $sections as $section_child ): ?>
+		<?php foreach ( $sections as $section_child ) : ?>
 			<?php $section = new LLMS_Section( $section_child->ID ); ?>
 
-			<?php if( get_option( 'lifterlms_course_display_outline_titles', 'yes' ) === 'yes' ): ?>
+			<?php if ( get_option( 'lifterlms_course_display_outline_titles', 'yes' ) === 'yes' ) : ?>
 				<h3 class="llms-h3 llms-section-title"><?php echo $section->post->post_title; ?></h3>
 			<?php endif; ?>
 
 			<?php $lessons = $section->get_children_lessons(); ?>
-			<?php if( !$lessons ): ?>
+			<?php if ( ! $lessons ) : ?>
 
-				<?php echo LLMS_Language::output('This section does not have any lessons.'); ?>
+				<?php echo LLMS_Language::output( 'This section does not have any lessons.' ); ?>
 
-			<?php else: ?>
-				<?php foreach( $lessons as $lesson_child ): ?>
+			<?php else : ?>
+				<?php foreach ( $lessons as $lesson_child ) : ?>
 					<?php
-					$lesson = new LLMS_Lesson($lesson_child->ID);
+					$lesson = new LLMS_Lesson( $lesson_child->ID );
 
 					/**
 					 * @todo  refactor
 					 */
 					//determine if lesson is complete to show complete icon
-					if( $lesson->is_complete() ) {
-						$check = '<span class="llms-lesson-complete"><i class="fa fa-' . apply_filters('lifterlms_lesson_complete_icon', 'check-circle') . '"></i></span>';
+					if ( $lesson->is_complete() ) {
+						$check = '<span class="llms-lesson-complete"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
 						$complete = ' is-complete';
-					}
-					elseif ($course->is_user_enrolled(get_current_user_id()) && get_option('lifterlms_display_lesson_complete_placeholders') === 'yes') {
-						$check = '<span class="llms-lesson-complete-placeholder"><i class="fa fa-' . apply_filters('lifterlms_lesson_complete_icon', 'check-circle') . '"></i></span>';
-					}
-					elseif ($lesson->get_is_free())
-					{
-						$check = LLMS_Svg::get_icon('llms-icon-free', '', '', 'llms-free-lesson-svg');
+					} elseif ($course->is_user_enrolled( get_current_user_id() ) && get_option( 'lifterlms_display_lesson_complete_placeholders' ) === 'yes') {
+						$check = '<span class="llms-lesson-complete-placeholder"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
+					} elseif ($lesson->get_is_free()) {
+						$check = LLMS_Svg::get_icon( 'llms-icon-free', '', '', 'llms-free-lesson-svg' );
 						$complete = ' is-complete';
 					} else {
 						$complete = $check = '';
@@ -76,15 +73,14 @@ $sections = $course->get_children_sections();
 
 					//set permalink
 					$permalink = 'javascript:void(0)';
-					$page_restricted = llms_page_restricted($course->id);
+					$page_restricted = llms_page_restricted( $course->id );
 					$title = '';
 					$linkclass = '';
 
 					if ( ! $page_restricted['is_restricted'] || $lesson->get_is_free()) {
 					 	$permalink = get_permalink( $lesson->id );
 					 	$linkclass = 'llms-lesson-link';
-					}
-					else {
+					} else {
 						$title = LLMS_Language::output( 'Take this course to unlock this lesson' );
 						$linkclass = 'llms-lesson-link-locked';
 					}
@@ -93,7 +89,7 @@ $sections = $course->get_children_sections();
 					<div class="llms-lesson-preview<?php echo $complete; ?>">
 						<a class="<?php echo $linkclass; ?>" title = "<?php echo $title; ?>" href="<?php echo $permalink; ?>">
 
-							<?php  if( get_option( 'lifterlms_course_display_outline_lesson_thumbnails', 'no' ) === 'yes' && get_the_post_thumbnail( $lesson->id  ) ): ?>
+							<?php  if ( get_option( 'lifterlms_course_display_outline_lesson_thumbnails', 'no' ) === 'yes' && get_the_post_thumbnail( $lesson->id ) ) : ?>
 								<div class="llms-lesson-thumbnail"><?php echo get_the_post_thumbnail( $lesson->id ); ?></div>
 							<?php endif; ?>
 

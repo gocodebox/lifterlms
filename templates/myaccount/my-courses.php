@@ -6,15 +6,15 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 ?>
 
 <div class="llms-my-courses">
-<?php echo  '<h3>' . apply_filters('lifterlms_my_courses_title', __( 'Courses In-Progress', 'lifterlms' )) . '</h3>'; 
-	if ( $my_courses ) {?>
+<?php echo  '<h3>' . apply_filters( 'lifterlms_my_courses_title', __( 'Courses In-Progress', 'lifterlms' ) ) . '</h3>';
+if ( $my_courses ) {?>
 	<ul class="listing-courses">
 
 	<?php
 	foreach ( $my_courses as $course_item ) {
 		if ( $course_item->meta_value == 'Enrolled' ) {
 			$course = new LLMS_Course_Basic( $course_item->post_id );
-	
+
 			if ( is_object( $course->post ) && $course->post->post_type == 'course') {
 				$course_progress = $course->get_percent_complete();
 				$author = get_userdata( $course->post->post_author );
@@ -22,12 +22,12 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 
 				$permalink = get_post_permalink( $course->id );
 
-				$date_formatted = date('M d, Y', strtotime($course_item->updated_date) );
+				$date_formatted = date( 'M d, Y', strtotime( $course_item->updated_date ) );
 				$course_status = $course_item->meta_value;
 
 				$course_author = '';
-				if (get_option('lifterlms_course_display_author') == 'yes') {
-					$course_author = sprintf( __( '<p class="author">Author: <span>%s</span></p>' ), $author_name ); 
+				if (get_option( 'lifterlms_course_display_author' ) == 'yes') {
+					$course_author = sprintf( __( '<p class="author">Author: <span>%s</span></p>' ), $author_name );
 				}
 				?>
 
@@ -40,13 +40,13 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 
 							<hgroup>
 							<?php echo apply_filters('lifterlms_my_courses_enrollment_status_html', '<span class="llms-sts-enrollment">
-							    <span class="llms-sts-label">' . __('Status:','lifterlms') . '</span>
+							    <span class="llms-sts-label">' . __( 'Status:','lifterlms' ) . '</span>
 							    <span class="llms-sts-current">' . $course_status . '</span>
 							</span>'); ?>
 							
 
-							<?php echo apply_filters('lifterlms_my_courses_start_date_html', 
-								'<p class="llms-start-date">' .  __('Course Started','lifterlms') . ' - ' . $date_formatted . '</p>'); ?>
+							<?php echo apply_filters('lifterlms_my_courses_start_date_html',
+							'<p class="llms-start-date">' .  __( 'Course Started','lifterlms' ) . ' - ' . $date_formatted . '</p>'); ?>
 							
 
 							<h3>
@@ -66,7 +66,7 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 						</div>
 						
 						<div class="course-link">
-					 		<?php echo '<a href="' . $permalink  . '" class="button llms-button">' . apply_filters('lifterlms_my_courses_course_button_text', __( 'View Course', 'lifterlms' )) . '</a>'; ?>
+					 		<?php echo '<a href="' . $permalink  . '" class="button llms-button">' . apply_filters( 'lifterlms_my_courses_course_button_text', __( 'View Course', 'lifterlms' ) ) . '</a>'; ?>
 					 	</div>
 
 					  	<div class="clear"></div>
@@ -75,15 +75,14 @@ $my_courses = $person->get_user_postmetas_by_key( get_current_user_id(), '_statu
 
 	<?php
 			}
-		} 
+		}
 	}; ?>
 
 	</ul>
-	<?php 
-	}
-	else {
-		echo  '<p>' .__( 'You are not enrolled in any courses.', 'lifterlms' ) . '</p>'; 
-	}
+	<?php
+} else {
+	echo  '<p>' .__( 'You are not enrolled in any courses.', 'lifterlms' ) . '</p>';
+}
 	?>
 </div>
 

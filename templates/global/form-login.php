@@ -1,15 +1,15 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( is_user_logged_in() ) 
-	return;
+if ( is_user_logged_in() ) {
+	return; }
 ?>
-<form method="post" class="login" <?php if ( $hidden ) echo 'style="display:none;"'; ?>>
+<form method="post" class="login" <?php if ( $hidden ) { echo 'style="display:none;"'; } ?>>
 
 	<?php do_action( 'lifterlms_login_form_start' ); ?>
 
-	<?php if ( $message ) echo wpautop( wptexturize( $message ) ); ?>
+	<?php if ( $message ) { echo wpautop( wptexturize( $message ) ); } ?>
 
 	<p class="form-row form-row-first">
 		<label for="username"><?php _e( 'Username or email', 'lifterlms' ); ?> <span class="required">*</span></label>

@@ -19,29 +19,26 @@ do_action( 'lifterlms_before_checkout_form' );
 
 if ( get_query_var( 'product-id' ) ) {
 	$product = get_post( get_query_var( 'product-id' ) );
-}
-elseif ( get_query_var( 'product-id' ) ) {
+} elseif ( get_query_var( 'product-id' ) ) {
 	$product = get_post( get_query_var( 'product-id' ) );
-}
-elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
+} elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
 	$session = LLMS()->session->get( 'llms_order', array() );
 	$product_id = $session->product_id;
 	$product = get_post( $product_id );
-}
-else {
+} else {
 	llms_add_notice( __( 'Product not found.', 'lifterlms' ) );
 }
 
-$product_obj = new LLMS_Product($product);
+$product_obj = new LLMS_Product( $product );
 
 $payment_options = $product_obj->get_payment_options();
 
 
-$single_html_price = sprintf( __( apply_filters('lifterlms_single_payment_text','Single payment of %s'), 'lifterlms' ), $product_obj->get_price_html() );
+$single_html_price = sprintf( __( apply_filters( 'lifterlms_single_payment_text','Single payment of %s' ), 'lifterlms' ), $product_obj->get_price_html() );
 
 $coupon_session = LLMS()->session->get( 'llms_coupon', array() );
 
-if($coupon_session) {
+if ($coupon_session) {
 
 	$info_message = sprintf( __( 'Coupon code "%s" has been applied to your order', 'lifterlms' ), $coupon_session->coupon_code );
 
@@ -59,7 +56,7 @@ if($coupon_session) {
 	<div class="llms-checkout-wrapper">
 		<div class="llms-checkout">
 		<?php echo  '<h4>' .
-			apply_filters('lifterlms_checkout_form_title', __( 'Confirm Purchase', 'lifterlms' )) . '</h4>'; ?>
+			apply_filters( 'lifterlms_checkout_form_title', __( 'Confirm Purchase', 'lifterlms' ) ) . '</h4>'; ?>
 
 		<!-- Product information -->
 		<div class="llms-title-wrapper">
@@ -77,7 +74,7 @@ if($coupon_session) {
 				$checked = false;
 				foreach ($payment_options as $key => $value) :
 					if ($value == 'single') :
-					$i++;
+						$i++;
 					?>
 						<p class="llms-payment-option llms-option">
 							<input id="llms-payment-option_<?php echo $value; ?>"
@@ -99,7 +96,7 @@ if($coupon_session) {
 						$i++;
 						$subs = $product_obj->get_subscriptions();
 
-						if (!empty($subs)) :
+						if ( ! empty( $subs )) :
 
 							foreach ($subs as $id => $sub) : ?>
 								<p class="llms-payment-option llms-option">
@@ -108,18 +105,18 @@ if($coupon_session) {
 										type="radio"
 										name="payment_option"
 										value="<?php echo $value . '_' . $id; ?>"
-										<?php if ($i == 1 && !$checked) { echo 'checked'; $checked = true;} ?>
+										<?php if ($i == 1 && ! $checked) { echo 'checked'; $checked = true;} ?>
 									/>
 									<label for="llms-payment-option_<?php echo $value . '_' . $id; ?>">
 										<span class="llms-radio"></span>
 										<?php
-											echo $product_obj->get_subscription_price_html($sub);
+											echo $product_obj->get_subscription_price_html( $sub );
 										?>
 									</label>
 								</p>
 							<?php endforeach; ?>
 						<?php endif; ?>
-					<?php else: ?>
+					<?php else : ?>
 						<?php
 						/**
 						 * Allow addons / plugins / themes to define custom payment options
@@ -150,7 +147,7 @@ if($coupon_session) {
 		</div>
 		<!-- display the final price -->
 		<div class="llms-final-price-wrapper llms-clear-box">
-			<h3 class="llms-price"><span class="llms-price-label"><?php _e('You Pay:', 'lifterlms'); ?></span><span class="llms-final-price"></span></h3>
+			<h3 class="llms-price"><span class="llms-price-label"><?php _e( 'You Pay:', 'lifterlms' ); ?></span><span class="llms-final-price"></span></h3>
 		</div>
 
 		<input type="hidden" name="product_id" value="<?php echo $product->ID; ?>" />
@@ -170,7 +167,7 @@ if($coupon_session) {
 
 						foreach ( $available_gateways as $gateway ) :
 							$ii++;
-						echo ''
+							echo ''
 							?>
 							<p class="payment_method_<?php echo $gateway->id; ?> llms-option">
 								<input id="payment_method_<?php echo $gateway->id; ?>"
@@ -179,8 +176,8 @@ if($coupon_session) {
 									value="<?php echo $gateway->payment_type; ?>_<?php echo esc_attr( $gateway->id ); ?>"
 									data-payment-type="<?php echo $gateway->payment_type; ?>"
 									<?php if ( ! empty( $_POST['payment_method'] ) ) :
-										 	if ( $_POST['payment_method'] == ($gateway->payment_type . '_' . esc_attr( $gateway->id) ) ) :
-										 		echo 'CHECKED';
+										if ( $_POST['payment_method'] == ($gateway->payment_type . '_' . esc_attr( $gateway->id ) ) ) :
+											echo 'CHECKED';
 										 	endif;
 									 	elseif ($ii == 1) :
 									 		echo 'CHECKED';
@@ -195,14 +192,13 @@ if($coupon_session) {
 							<?php
 						endforeach;
 					endif;
-				}
-				else {
+				} else {
 					echo '<p>' . __( 'Payment processing is currently disabled.', 'lifterlms' ) . '</p>';
 				}
 				?>
 			</div>
 
-			<?php apply_filters('lifterlms_form_checkout_cc', llms_get_template( 'checkout/form-checkout-cc.php', 'lifterlms') ); ?>
+			<?php apply_filters( 'lifterlms_form_checkout_cc', llms_get_template( 'checkout/form-checkout-cc.php', 'lifterlms' ) ); ?>
 
 			<div class="llms-clear-box llms-center-content">
 				<?php if ( count( $available_gateways ) ) : ?>

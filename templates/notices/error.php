@@ -6,9 +6,9 @@
  * @package 	lifterlms/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( ! $messages ) return;
+if ( ! $messages ) { return; }
 ?>
 <ul class="llms-error">
 	<?php foreach ( $messages as $message ) : ?>

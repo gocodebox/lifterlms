@@ -1,14 +1,14 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $quiz;
 
-if( !($quiz instanceof LLMS_Quiz ) )
-	$quiz = new LLMS_Quiz( $post->ID );
+if ( ! ($quiz instanceof LLMS_Quiz ) ) {
+	$quiz = new LLMS_Quiz( $post->ID ); }
 
 $time_limit = $quiz->get_time_limit();
 
-if ( !empty( $time_limit ) ) :
+if ( ! empty( $time_limit ) ) :
 ?>
 	<div id="llms-quiz-timer">
 		<input type="hidden" id="set-time" value="<?php echo $time_limit; ?>"/>

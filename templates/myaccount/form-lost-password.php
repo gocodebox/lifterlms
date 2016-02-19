@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 <form method="post" class="lost_reset_password">
 
-	<?php if( 'lost_password' == $args['form'] ) : ?>
+	<?php if ( 'lost_password' == $args['form'] ) : ?>
 
         <p><?php echo apply_filters( 'lifterlms_lost_password_message', __( 'Lost your password? Enter your email address and we will send you a link to reset it.', 'lifterlms' ) ); ?></p>
 
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 	<?php else : ?>
 
-        <p><?php echo apply_filters( 'lifterlms_reset_password_message', __( 'Enter a new password below.', 'lifterlms') ); ?></p>
+        <p><?php echo apply_filters( 'lifterlms_reset_password_message', __( 'Enter a new password below.', 'lifterlms' ) ); ?></p>
 
         <p>
             <label for="password_1"><?php _e( 'New password', 'lifterlms' ); ?> <span class="required">*</span></label>

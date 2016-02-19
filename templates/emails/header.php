@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $blog_title = get_bloginfo( 'name' );
 
@@ -39,16 +39,16 @@ $blog_title = get_bloginfo( 'name' );
 					<tr>
 						<td align="center" valign="top" width="600">
                 		<?php
-                			if ( $blog_logo = get_option( 'lifterlms_email_header_image' ) ) {
+						if ( $blog_logo = get_option( 'lifterlms_email_header_image' ) ) {
 
-                				echo '<img class="image_fix" src="' . esc_url( $blog_logo ) . '" alt="' . get_bloginfo( 'name' ) . '"/>';
-                			}
-                		?>
+							echo '<img class="image_fix" src="' . esc_url( $blog_logo ) . '" alt="' . get_bloginfo( 'name' ) . '"/>';
+						}
+						?>
                 		</td>
 					</tr>
 					<tr>
 						<td align="center" width="600">
-	                    	<h1><?php echo isset($email_heading) ? $email_heading : ''; ?></h1>
+	                    	<h1><?php echo isset( $email_heading ) ? $email_heading : ''; ?></h1>
 	                    </td>
 					</tr>
 					<tr>

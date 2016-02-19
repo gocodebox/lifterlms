@@ -15,10 +15,10 @@ llms_print_notices();
 
 <?php if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) :
 
-    include( llms_get_template_part_contents( 'global/form', 'registration' ) );
+	include( llms_get_template_part_contents( 'global/form', 'registration' ) );
 
-    $html = ob_get_clean();
+	$html = ob_get_clean();
 
-    echo $html;
+	echo $html;
 
 endif; ?>

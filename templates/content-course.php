@@ -7,7 +7,7 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post, $course, $lifterlms_loop;
 
@@ -16,12 +16,12 @@ if ( ! $course ) {
 }
 
 // Store loop count we're currently on
-if ( empty( $lifterlms_loop['loop'] ) )
-	$lifterlms_loop['loop'] = 0;
+if ( empty( $lifterlms_loop['loop'] ) ) {
+	$lifterlms_loop['loop'] = 0; }
 
 // Store column count for displaying the grid
-if ( empty( $lifterlms_loop['columns'] ) )
-	$lifterlms_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
+if ( empty( $lifterlms_loop['columns'] ) ) {
+	$lifterlms_loop['columns'] = apply_filters( 'loop_shop_columns', 4 ); }
 
 // Increase loop count
 $lifterlms_loop['loop']++;
@@ -29,14 +29,14 @@ $lifterlms_loop['loop']++;
 // Extra post classes
 $classes = array();
 // check if course is complete so we can add a completed class to the link element
-if( $course->get_percent_complete() == 100)
-	$classes[] = 'llms-course-complete';
+if ( $course->get_percent_complete() == 100) {
+	$classes[] = 'llms-course-complete'; }
 
 
-if ( 0 == ( $lifterlms_loop['loop'] - 1 ) % $lifterlms_loop['columns'] || 1 == $lifterlms_loop['columns'] )
-	$classes[] = 'first';
-if ( 0 == $lifterlms_loop['loop'] % $lifterlms_loop['columns'] )
-	$classes[] = 'last';
+if ( 0 == ( $lifterlms_loop['loop'] - 1 ) % $lifterlms_loop['columns'] || 1 == $lifterlms_loop['columns'] ) {
+	$classes[] = 'first'; }
+if ( 0 == $lifterlms_loop['loop'] % $lifterlms_loop['columns'] ) {
+	$classes[] = 'last'; }
 ?>
 <li <?php post_class( $classes ); ?>>
 
@@ -45,7 +45,7 @@ if ( 0 == $lifterlms_loop['loop'] % $lifterlms_loop['columns'] )
 	<a class="llms-course-link" href="<?php the_permalink(); ?>">
 
 		<?php
-		
+
 			do_action( 'lifterlms_before_shop_loop_item_title' );
 
 		?>

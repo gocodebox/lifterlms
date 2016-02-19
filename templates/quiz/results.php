@@ -4,12 +4,12 @@
  * @package 	lifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $quiz;
 $user_id = get_current_user_id();
 
-$quiz_data = get_user_meta($user_id, 'llms_quiz_data', true );
+$quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 $quiz_session = LLMS()->session->get( 'llms_quiz' );
 
 if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
@@ -24,7 +24,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 	$is_passing_score = $quiz->is_passing_score( $user_id );
 	$best_grade = $quiz->get_best_grade( $user_id );
 	$time = $quiz->get_total_time( $user_id );
-	$start_date = date('M d, Y', strtotime( $quiz->get_start_date( $user_id ) ) );
+	$start_date = date( 'M d, Y', strtotime( $quiz->get_start_date( $user_id ) ) );
 
 	$best = $quiz->get_best_quiz_attempt( $user_id );
 	$best_time = $quiz->get_total_time( $user_id, $best );
@@ -37,7 +37,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 
 			<?php
 			//determine if grade, best grade or none should be shown.
-			if (isset($grade) && isset($best_grade)) :
+			if (isset( $grade ) && isset( $best_grade )) :
 
 			 	$graph_grade = empty( $grade ) ? $best_grade : $grade;
 
@@ -70,10 +70,9 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 						<h5 class="llms-content-block">
 							<?php
 							if ( $is_passing_score ) {
-								_e(apply_filters('lifterlms_quiz_passed','Passed'), 'lifterlms');
-							}
-							else {
-								_e(apply_filters('lifterlms_quiz_failed','Failed'), 'lifterlms');
+								_e( apply_filters( 'lifterlms_quiz_passed','Passed' ), 'lifterlms' );
+							} else {
+								_e( apply_filters( 'lifterlms_quiz_failed','Failed' ), 'lifterlms' );
 							}
 							?>
 						</h5>
@@ -82,7 +81,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 						<h6><?php printf( __( 'Total time: %s', 'lifterlms' ), $time ); ?></h6>
 
 						<?php if ($quiz->show_quiz_results()) { ?>
-						<a class="view-summary"><?php _e('View Summary', 'lifterlms'); ?></a>
+						<a class="view-summary"><?php _e( 'View Summary', 'lifterlms' ); ?></a>
 						<?php } ?>
 
 					</li>
@@ -97,10 +96,9 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 						<h5>
 							<?php
 							if ( $is_passing_score ) {
-								_e(apply_filters('lifterlms_quiz_passed','Passed'), 'lifterlms');
-							}
-							else {
-								_e(apply_filters('lifterlms_quiz_failed','Failed'), 'lifterlms');
+								_e( apply_filters( 'lifterlms_quiz_passed','Passed' ), 'lifterlms' );
+							} else {
+								_e( apply_filters( 'lifterlms_quiz_failed','Failed' ), 'lifterlms' );
 							}
 							?>
 						</h5>
@@ -116,8 +114,3 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 		</div>
 	</div>
 <?php } ?>
-
-
-
-
-

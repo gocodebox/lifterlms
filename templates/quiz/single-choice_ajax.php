@@ -4,7 +4,7 @@
  * @package 	lifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $quiz = new LLMS_Quiz( $args['quiz_id'] );
 $quizObj = $quiz;
@@ -13,7 +13,7 @@ $question = new LLMS_Question( $args['question_id'] );
 
 
 $options = $question->get_options();
-$question_key = isset($quiz) ? $quiz->get_question_key : 0;
+$question_key = isset( $quiz ) ? $quiz->get_question_key : 0;
 
 $quiz_session = $quiz = LLMS()->session->get( 'llms_quiz' );
 
@@ -32,21 +32,18 @@ if ( ! empty( $quiz_session->questions ) ) {
 <div class="clear"></div>
 <div class="llms-question-wrapper">
 	<?php
-	if ($quizObj->get_show_random_answers())
-	{
+	if ($quizObj->get_show_random_answers()) {
 		llms_shuffle_assoc( $options );
 	}
-	foreach($options as $key => $value) :
-		if (isset($value)) :
-			$option = $value['option_text'];	
-			
+	foreach ($options as $key => $value) :
+		if (isset( $value )) :
+			$option = $value['option_text'];
 
-			if ( ( (int) $answer === (int) $key ) &&  $answer !== '' ) { 
+
+			if ( ( (int) $answer === (int) $key ) &&  $answer !== '' ) {
 
 				$checked = 'checked';
-			}
-			
-			else {
+			} else {
 				$checked = '';
 			}
 
@@ -60,7 +57,7 @@ if ( ! empty( $quiz_session->questions ) ) {
 			<?php echo $option; ?>
 		</label>
 	</div>
-	<?php 
+	<?php
 		endif;
 	endforeach;
 	?>

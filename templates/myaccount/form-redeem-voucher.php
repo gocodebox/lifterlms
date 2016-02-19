@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 	<button type="submit">Submit</button>
 
-	<?php wp_nonce_field('lifterlms_voucher_check', 'lifterlms_voucher_nonce'); ?>
+	<?php wp_nonce_field( 'lifterlms_voucher_check', 'lifterlms_voucher_nonce' ); ?>
 
 </form>
 

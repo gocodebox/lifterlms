@@ -4,14 +4,14 @@
  * @package 	lifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $quiz;
 
 if ( ! $quiz ) {
 
 	$quiz = new LLMS_Quiz( $post->ID );
-	
+
 }
 
 $user_id = get_current_user_id();
@@ -32,7 +32,7 @@ if ( $lesson ) {
 
 }
 
-if ( !empty( $lesson ) ) :
+if ( ! empty( $lesson ) ) :
 ?>
 
 <div class="clear"></div>
@@ -41,5 +41,3 @@ if ( !empty( $lesson ) ) :
 </div>
 
 <?php endif; ?>
-
-
