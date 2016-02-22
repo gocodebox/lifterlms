@@ -32,6 +32,10 @@ else {
 	$certimage_height = $certimage[2];
 }
 
+$cert = new LLMS_Certificates();
+$cert->certs['LLMS_Certificate_User']->init($post->ID, get_current_user_id(), $post->ID);
+$certificate_content = $cert->certs['LLMS_Certificate_User']->get_content_html();
+
 ?>
 <!DOCTYPE html>
 <head>
@@ -48,12 +52,12 @@ else {
 			<div id="certificate-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 				<div class="llms-summary">
-				<?php llms_print_notices(); ?>
+					<?php llms_print_notices(); ?>
 
 					<?php do_action('before_lifterlms_certificate_main_content'); ?>
 
 					<h1><?php echo $certificate_title; ?></h1>
-					<p><?php echo the_content(); ?></p>
+					<p><?php echo $certificate_content; ?></p>
 
 					<?php do_action('after_lifterlms_certificate_main_content'); ?>
 
