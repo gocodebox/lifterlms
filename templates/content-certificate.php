@@ -40,68 +40,6 @@ else {
 
 	<title><?php echo get_the_title(); ?></title>
 
-	<?php $certificate_url_dir = plugins_url(); // Declare Plugin Directory ?>
-
-	<!--Make Background White to Print certificate -->
-	<style type='text/css'>
-		body {
-			background-color: #fff;
-			background-image: none;
-			margin: 0 auto;
-		}
-		.header {
-			display: none;
-		}
-		#content {
-			background: none;
-		}
-		.entry {
-			top: 120px;
-			width: 100%;
-			margin-bottom: 40px !important;
-			background: none;
-		}
-		.hentry {
-			margin-bottom: 40px !important;
-			padding: 50px 90px !important;
-			background: none;
-		}
-		.site-header {
-			display: none;
-		}
-		.nav-primary {
-			display: none;
-		}
-		.llms-certificate-container {
-			position: relative;
-			padding: 20px;
-			margin: auto;
-			margin-bottom: 20px;
-			-webkit-print-color-adjust: exact;
-			overflow: hidden;
-		}
-		.llms-certificate-container h1:first-child {
-			text-align: center;
-		}
-		#llms-print-certificate {
-			text-align: center;
-		}
-		.certificate-background {
-			position: absolute;
-			z-index: -1;
-			top: 0;
-			left: 0;
-			right: 0;
-		}
-		*, *:before, *:after {
-			box-sizing: border-box;
-		}
-		@media print {
-		    .no-print, .no-print * {
-		        display: none !important;
-		    }
-		}
-	</style>
 </head>
 <body>
 	<main role="main">
