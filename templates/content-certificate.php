@@ -1,6 +1,6 @@
 <?php
 /**
- * The Template for displaying all single courses.
+ * The Template for displaying Certificates.
  *
  * @author 		codeBOX
  * @package 	lifterLMS/Templates
@@ -27,12 +27,10 @@ if ($certimage == '') {
 	$certimage_height = 616;
 }
 else {
+	$certimage = $certimage[0];
 	$certimage_width = $certimage[1];
 	$certimage_height = $certimage[2];
-	$certimage = $certimage[0];
 }
-
-$certificate = new LLMS_Certificate;
 
 ?>
 <!DOCTYPE html>
@@ -50,7 +48,6 @@ $certificate = new LLMS_Certificate;
 			background-color: #fff;
 			background-image: none;
 			margin: 0 auto;
-			width: <?php echo $certimage_width; ?>px;
 		}
 		.header {
 			display: none;
@@ -59,13 +56,14 @@ $certificate = new LLMS_Certificate;
 			background: none;
 		}
 		.entry {
+			top: 120px;
+			width: 100%;
 			margin-bottom: 40px !important;
-			padding: 50px 60px !important;
 			background: none;
 		}
 		.hentry {
 			margin-bottom: 40px !important;
-			padding: 50px 60px !important;
+			padding: 50px 90px !important;
 			background: none;
 		}
 		.site-header {
@@ -75,11 +73,9 @@ $certificate = new LLMS_Certificate;
 			display: none;
 		}
 		.llms-certificate-container {
-			background-image: url(<?php echo $certimage; ?>);
-			background-repeat: no-repeat; 
-			height: <?php echo $certimage_height; ?>px;
-			width: <?php echo $certimage_width; ?>px;
+			position: relative;
 			padding: 20px;
+			margin: auto;
 			margin-bottom: 20px;
 			-webkit-print-color-adjust: exact;
 			overflow: hidden;
@@ -89,32 +85,38 @@ $certificate = new LLMS_Certificate;
 		}
 		#llms-print-certificate {
 			text-align: center;
-			width: <?php echo $certimage_width; ?>px;
 		}
-		@media print {    
+		.certificate-background {
+			position: absolute;
+			z-index: -1;
+			top: 0;
+			left: 0;
+			right: 0;
+		}
+		*, *:before, *:after {
+			box-sizing: border-box;
+		}
+		@media print {
 		    .no-print, .no-print * {
 		        display: none !important;
 		    }
 		}
 	</style>
-<?php //wp_head(); ?>
 </head>
 <body>
 	<main role="main">
-		<div class="llms-certificate-container">
+		<div class="llms-certificate-container" style="width:<?php echo $certimage_width; ?>px; height:<?php echo $certimage_height; ?>px;">
+			<img src="<?php echo $certimage; ?>" alt="Cetrificate Background" class="certificate-background">
 			<div id="certificate-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 				<div class="llms-summary">
 				<?php llms_print_notices(); ?>
-					
+
 					<?php do_action('before_lifterlms_certificate_main_content'); ?>
 
-					
 					<h1><?php echo $certificate_title; ?></h1>
 					<p><?php echo the_content(); ?></p>
-					
-						
-					
+
 					<?php do_action('after_lifterlms_certificate_main_content'); ?>
 
 				</div>
