@@ -15,8 +15,14 @@ if ( is_user_admin() ) {
 }
 
 $cert = new LLMS_Certificates();
-$cert->certs['LLMS_Certificate_User']->init($post->ID, get_current_user_id(), $post->ID);
-$certificate_content = $cert->certs['LLMS_Certificate_User']->get_content_html();
+
+if('llms_certificate' == $post_type ) {
+	$cert->certs['LLMS_Certificate_User']->init($post->ID, get_current_user_id(), $post->ID);
+	$certificate_content = $cert->certs['LLMS_Certificate_User']->get_content_html();
+} else {
+	$certificate_content = get_the_content();
+}
+$content = apply_filters('the_content', $certificate_content);
 
 $image_size = llms_get_image_size('print_certificate');
 
@@ -46,7 +52,7 @@ if (empty($image_size)) {
 					<?php do_action('before_lifterlms_certificate_main_content'); ?>
 
 					<h1><?php echo apply_filters( 'lifterlms_certificate_title', $post->ID); ?></h1>
-					<p><?php echo $certificate_content; ?></p>
+					<p><?php echo $content ?></p>
 
 					<?php do_action('after_lifterlms_certificate_main_content'); ?>
 
