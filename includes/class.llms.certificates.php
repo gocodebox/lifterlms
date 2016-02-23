@@ -32,6 +32,9 @@ class LLMS_Certificates {
 		add_action( 'lifterlms_lesson_completed_certificate', array( $this, 'lesson_completed' ), 10, 3 );
 		add_action( 'lifterlms_custom_certificate', array( $this, 'custom_certificate_earned' ), 10, 3 );
 
+		add_filter('lifterlms_certificate_title', array( $this, 'llms_filter_certificate_title' ), 1, 1);
+		add_filter('lifterlms_certificate_image', array( $this,  'llms_filter_certificate_image' ), 1, 1);
+
 	}
 
 	/**
@@ -81,6 +84,26 @@ class LLMS_Certificates {
 		$certificate = $this->emails['LLMS_Certificate_User'];
 
 		$certificate->trigger( $person_id, $certificate_id, $engagement_id );
+	}
+
+	function llms_filter_certificate_title($id) {
+		$postmeta = get_post_meta($id);
+
+		return $postmeta['_llms_certificate_title'][0];
+	}
+
+	function llms_filter_certificate_image($id) {
+		$postmeta = get_post_meta($id);
+
+		$certimage_id = $postmeta['_llms_certificate_image'][0]; // Get Image Meta
+		$certimage = wp_get_attachment_image_src($certimage_id, 'print_certificate'); //Get Right Size Image for Print Template
+
+		if ($certimage == '') {
+			return apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png' );
+		}
+		else {
+			return $certimage[0];
+		}
 	}
 
 }
