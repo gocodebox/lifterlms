@@ -1,6 +1,12 @@
 == Changelog ==
 
-= v2.1.0 - 2016/02/15 =
+= v2.1.2 - 2016/02/15 =
+-----------------------
+
++ Add `the_content` filter to the content of emails sent by LifterLMS
+
+
+= v2.1.1 - 2016/02/15 =
 -----------------------
 
 ##### System Report
@@ -12,6 +18,7 @@
 
 + Fixed a javascript issue which prevented users from saving vouchers
 + Cleaned up formatting in a large number of included PHP files
+
 
 = v2.0.5 - 2016/02/15 =
 -----------------------
