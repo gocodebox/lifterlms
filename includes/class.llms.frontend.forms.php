@@ -763,7 +763,7 @@ class LLMS_Frontend_Forms
                 $membership = get_post($membership);
                 $membership_title = $membership->post_title;
                 $membership_url = get_permalink($membership->ID);
-                llms_add_notice(apply_filters('lifterlms_membership_restricted_message', sprintf(__('<a href="%s">%s</a> membership level allows access this content.', 'lifterlms'), $membership_url, $membership_title)));
+                llms_add_notice(apply_filters('lifterlms_membership_restricted_message', sprintf(__('<a href="%s">%s</a> membership level allows access to this content.', 'lifterlms'), $membership_url, $membership_title)));
                 break;
             case 'membership':
                 $memberships = llms_get_post_memberships($post_id);
@@ -775,7 +775,7 @@ class LLMS_Frontend_Forms
                         $link = get_permalink($membership->ID);
                         llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
                             '<a href="' . $link . '">' . $membership_title . '</a> '
-                            . LLMS_Language::output('membership level allows access this content.')));
+                            . LLMS_Language::output('membership level allows access to this content.')));
                     }
                 } else {
                     llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
@@ -790,7 +790,7 @@ class LLMS_Frontend_Forms
                     $link = get_permalink($membership->ID);
                     llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
                         '<a href="' . $link . '">' . $membership_title . '</a> '
-                        . LLMS_Language::output('membership level allows access this content.')));
+                        . LLMS_Language::output('membership level allows access to this content.')));
                 }
                 break;
             case 'prerequisite' :
