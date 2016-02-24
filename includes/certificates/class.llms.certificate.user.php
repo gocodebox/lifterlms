@@ -70,7 +70,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		$this->init($email_id, $user_id, $lesson_id);
 
 		if ( $user_id ) {
-			$this->object 				= new WP_User( $user_id );
+			$this->object				= new WP_User( $user_id );
 			$this->user_email         = stripslashes( $this->object->user_email );
 			$this->recipient          = $this->user_email;
 

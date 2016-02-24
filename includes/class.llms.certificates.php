@@ -33,7 +33,8 @@ class LLMS_Certificates {
 		add_action( 'lifterlms_custom_certificate', array( $this, 'custom_certificate_earned' ), 10, 3 );
 
 		add_filter('lifterlms_certificate_title', array( $this, 'llms_filter_certificate_title' ), 1, 1);
-		add_filter('lifterlms_certificate_image', array( $this,  'llms_filter_certificate_image' ), 1, 1);
+		add_filter('lifterlms_certificate_image', array( $this, 'llms_filter_certificate_image' ), 1, 1);
+		add_filter('lifterlms_certificate_image_size', array( $this, 'llms_filter_certificate_image_size' ), 1, 1);
 
 	}
 
@@ -45,8 +46,7 @@ class LLMS_Certificates {
 
 		include_once( 'class.llms.certificate.php' );
 
-		$this->certs['LLMS_Certificate_User']      = include_once( 'certificates/class.llms.certificate.user.php' );
-
+		$this->certs['LLMS_Certificate_User'] = include_once( 'certificates/class.llms.certificate.user.php' );
 	}
 
 	/**
@@ -103,6 +103,20 @@ class LLMS_Certificates {
 		}
 		else {
 			return $certimage[0];
+		}
+	}
+
+	function llms_filter_certificate_image_size($id) {
+		$postmeta = get_post_meta($id);
+
+		$certimage_id = $postmeta['_llms_certificate_image'][0];
+		$certimage = wp_get_attachment_image_src($certimage_id, 'print_certificate');
+
+		if ($certimage == '') {
+			return array('width' => 800, 'height' => 616);
+		}
+		else {
+			return array('width' => $certimage[1], 'height' => $certimage[2]);
 		}
 	}
 

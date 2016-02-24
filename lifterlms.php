@@ -306,7 +306,9 @@ final class LifterLMS {
 			add_action( $action, array( $this, 'trigger_engagement' ), 10, 10 );
 		}
 
-		add_image_size( 'print_certificate', 800, 616, true );
+		if(!get_option('lifterlms_certificate_legacy_image_size', true)) {
+			add_image_size('print_certificate', 800, 616, true);
+		}
 
 		do_action( 'lifterlms_init' );
 

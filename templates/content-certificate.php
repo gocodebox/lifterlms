@@ -24,11 +24,12 @@ if('llms_certificate' == $post_type ) {
 }
 $content = apply_filters('the_content', $certificate_content);
 
-$image_size = llms_get_image_size('print_certificate');
+$image = apply_filters( 'lifterlms_certificate_image', $post->ID);
 
-if (empty($image_size)) {
-	$image_size['width'] = 800;
-	$image_size['height'] = 616;
+if(get_option('lifterlms_certificate_legacy_image_size', true)) {
+	$image_size = apply_filters('lifterlms_certificate_image_size', $post->ID);
+} else {
+	$image_size = llms_get_image_size('print_certificate', array('width' => 800, 'height' => 616));
 }
 
 ?>
@@ -43,7 +44,7 @@ if (empty($image_size)) {
 <body>
 	<main role="main">
 		<div class="llms-certificate-container" style="width:<?php echo $image_size['width']; ?>px; height:<?php echo $image_size['height']; ?>px;">
-			<img src="<?php echo apply_filters( 'lifterlms_certificate_image', $post->ID); ?>" alt="Cetrificate Background" class="certificate-background">
+			<img src="<?php echo $image; ?>" alt="Cetrificate Background" class="certificate-background">
 			<div id="certificate-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 				<div class="llms-summary">

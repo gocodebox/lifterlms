@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 * @author codeBOX
 * @project lifterLMS
 */
-class LLMS_Settings_Email extends LLMS_Settings_Page {
+class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 	/**
 	* Constructor
@@ -16,9 +16,9 @@ class LLMS_Settings_Email extends LLMS_Settings_Page {
 	*/
 	public function __construct() {
 		apply_filters('debug', 'This is a checkpoint');
-		
-		$this->id    = 'email';
-		$this->label = __( 'Email', 'lifterlms' );
+
+		$this->id    = 'engagements';
+		$this->label = __( 'Engagements', 'lifterlms' );
 
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
@@ -73,13 +73,28 @@ class LLMS_Settings_Email extends LLMS_Settings_Page {
 					'type' 		=> 'text',
 					'default'	=> '',
 					'autoload'  => false
-			),
+				),
 
 				array( 'type' => 'sectionend', 'id' => 'email_options'),
-			) 	
-		); 
+
+				array( 'type' => 'sectionstart', 'id' => 'certificates_options', 'class' =>'top' ),
+
+				array(	'title' => __( 'Certificates Settings', 'lifterlms' ), 'type' => 'title','desc' => '', 'id' => 'certificates_options' ),
+
+				array(
+						'title'         => __( 'Legacy certificate sizes', 'lifterlms' ),
+						'desc'          => __( 'Use legacy certificate image sizes.', 'lifterlms' ),
+						'id'            => 'lifterlms_certificate_legacy_image_size',
+						'default'       => 'yes',
+						'type'          => 'checkbox',
+						'autoload'      => false
+				),
+				array( 'type' => 'sectionend', 'id' => 'certificates_options'),
+
+			)
+		);
 	}
-	
+
 	/**
 	 * save settings to the database
 	 *
@@ -89,7 +104,7 @@ class LLMS_Settings_Email extends LLMS_Settings_Page {
 		$settings = $this->get_settings();
 
 		LLMS_Admin_Settings::save_fields( $settings );
-		
+
 	}
 
 	/**
@@ -105,4 +120,4 @@ class LLMS_Settings_Email extends LLMS_Settings_Page {
 
 }
 
-return new LLMS_Settings_Email();
+return new LLMS_Settings_Engagements();
