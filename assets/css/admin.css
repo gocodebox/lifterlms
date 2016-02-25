@@ -933,7 +933,7 @@ a.llms-remove-lesson-link {
 }
 .llms-voucher-codes-wrapper table thead th,
 .llms-voucher-redemption-wrapper table thead th {
-  padding: 10px 0;
+  padding: 10px 10px;
 }
 .llms-voucher-codes-wrapper table tr,
 .llms-voucher-redemption-wrapper table tr {
