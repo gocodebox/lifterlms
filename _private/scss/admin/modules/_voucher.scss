@@ -116,3 +116,8 @@
 .postbox .inside {
   overflow: auto;
 }
+
+body .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+  padding: 0 10px;
+  height: auto;
+}
