@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class LLMS_Meta_Box_Review extends LLMS_Admin_Metabox {
 
-    public static $prefix = '_llms_';
+    public static $prefix = '_';
 
     /**
      * Function to field WP::output() method call
@@ -29,6 +29,7 @@ class LLMS_Meta_Box_Review extends LLMS_Admin_Metabox {
      * @return array [md array of metabox fields]
      */
     public static function metabox_options() {
+        global $post;
 
         $courses = LLMS_Analytics::get_posts('course');
         $coursesSelect = array();
@@ -47,11 +48,11 @@ class LLMS_Meta_Box_Review extends LLMS_Admin_Metabox {
                 'fields' 	=> array(
                     array(
                         'type' => 'select',
-                        'label' => 'Courses',
+                        'label' => 'Course',
                         'id' => self::$prefix . 'llms_review_course',
                         'class' => 'input-full llms-meta-select',
                         'value' => $coursesSelect,
-                        'selected' => ''
+                        'selected' => $post->post_parent
                     ),
                 )
             ),
@@ -76,7 +77,7 @@ class LLMS_Meta_Box_Review extends LLMS_Admin_Metabox {
      */
     public static function save( $post_id, $post ) {
         $course = isset( $_POST['_llms_review_course'] ) ? $_POST['_llms_review_course'] : false;
-die();
+
         if($course) {
             wp_update_post(
                 array(
