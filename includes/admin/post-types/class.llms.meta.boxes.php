@@ -56,6 +56,8 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_llms_question_meta', 'LLMS_Meta_Box_Question_General::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_coupon_meta', 'LLMS_Meta_Box_Coupon_Options::save', 10, 2 );
 
+		add_action( 'lifterlms_process_llms_review_meta', 'LLMS_Meta_Box_Review::save', 10, 2 );
+
         add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher::save', 10, 2 );
         add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
 
@@ -143,6 +145,8 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-coupon-settings', __( 'Coupon Settings', 'lifterlms' ), 'LLMS_Meta_Box_Coupon::output', 'llms_coupon', 'normal', 'high' );
 		add_meta_box( 'lifterlms-voucher-settings', __( 'Voucher Settings', 'lifterlms' ), 'LLMS_Meta_Box_Voucher::output', 'llms_voucher', 'normal', 'high' );
 		add_meta_box( 'lifterlms-quiz-settings', __( 'Quiz Settings', 'lifterlms' ), 'LLMS_Meta_Box_Quiz::output', 'llms_quiz', 'normal', 'high' );
+
+		add_meta_box( 'lifterlms-review-settings', __( 'Review Settings', 'lifterlms' ), 'LLMS_Meta_Box_Review::output', 'llms_review', 'normal', 'high' );
 
 		//===================================
 		// Old meta box style

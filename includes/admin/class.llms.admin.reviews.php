@@ -6,12 +6,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * It is responsible for creating the meta box on the course
  * page (and in the future the membership page).
  */
-class LLMS_Admin_Reviews 
+class LLMS_Admin_Reviews
 {
 	public static $prefix = '_';
 
 	/**
-	 * The constructor for the class. It adds the methods here to the appropriate 
+	 * The constructor for the class. It adds the methods here to the appropriate
 	 * actions. The actions are for:
 	 * 1) Creating the custom column set in the llms_review post screen
 	 * 2) Making a column sortable
@@ -33,11 +33,11 @@ class LLMS_Admin_Reviews
 
 	/**
 	 * This function generates the custom column set. It takes in
-	 * the array of standard columns, then modifies that set to 
-	 * contain the needed fields.	
-	 * 
+	 * the array of standard columns, then modifies that set to
+	 * contain the needed fields.
+	 *
 	 * @param array $columns The array of standard WP columns
-	 * 
+	 *
 	 * @return array The updated array of columns.
 	 */
 	public function Init($columns)
@@ -45,8 +45,8 @@ class LLMS_Admin_Reviews
 		unset($columns['date']);
 		unset($columns['comments']);
 		$columns['title'] = __('Review Title','lifterlms');
-	    $columns['course'] = __('Course Reviewed','lifterlms');	    
-	    $columns['author'] = __('Review Author','lifterlms');	 
+	    $columns['course'] = __('Course Reviewed','lifterlms');
+	    $columns['author'] = __('Review Author','lifterlms');
 	    $columns['date'] = __('Review Date','lifterlms');
 	    return $columns;
 	}
@@ -63,11 +63,11 @@ class LLMS_Admin_Reviews
 	}
 
 	/**
-	 * This function entered the information into the course section 
+	 * This function entered the information into the course section
 	 * of the llms_review post page. It takes the column that is being
-	 * worked on, as well as the comment ID, then echoes the content 
+	 * worked on, as well as the comment ID, then echoes the content
 	 * required.
-	 * 
+	 *
 	 * @param string $column  Type of column being worked on
 	 * @param int $post_ID ID of comment
 	 *
@@ -78,23 +78,24 @@ class LLMS_Admin_Reviews
 		switch ( $column ) {
 		case 'course':
 			echo (wp_get_post_parent_id($post_ID) != 0) ?
-			 get_the_title(wp_get_post_parent_id($post_ID)) : 
+			 get_the_title(wp_get_post_parent_id($post_ID)) :
 			 '';
 			break;
 		}
 	}
 
 	/**
-	 * This function builds the additional content that is added 
-	 * to the course meta box. It builds the additional fields and 
+	 * This function builds the additional content that is added
+	 * to the course meta box. It builds the additional fields and
 	 * then returns the updated array of fields
-	 * 
+	 *
 	 * @param array $content Array of meta fields
 	 *
 	 * @return array Updated array of meta fields
 	 */
 	public function AddReviewMetaBoxes($content)
-	{		
+	{
+
 		/**
 		 * This array is what holds the updated fields.
 		 * It is created in such a way so that a plugin
@@ -142,14 +143,14 @@ class LLMS_Admin_Reviews
 					'value' 	=> '1',
 					'desc_class'=> 'd-3of4 t-3of4 m-1of2',
 					'group' 	=> '',
-			),		
+			),
 		);
 
 		if(has_filter('llms_review_fields')) {
 			$fields = apply_filters('llms_review_fields', $fields);
-		} 
+		}
 
-		$metaBoxTab = array(			
+		$metaBoxTab = array(
 			'title' => 'Reviews',
 			'fields' => $fields
 		);
@@ -187,7 +188,7 @@ class LLMS_Admin_Reviews
 		if (isset($_POST['post_ID']))
 		{
 			update_post_meta( $_POST['post_ID'], '_llms_multiple_reviews_disabled', $multiple);
-		}		
+		}
 	}
 }
 

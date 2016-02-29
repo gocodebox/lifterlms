@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
 * Meta Box Coupon Options
-* 
+*
 * displays coupon options metabox. Only displays on coupon post.
 */
 class LLMS_Meta_Box_Coupon_Options {
@@ -16,9 +16,9 @@ class LLMS_Meta_Box_Coupon_Options {
 	 * Displays MetaBox
 	 * Calls static class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
-	 * 
+	 *
 	 * @param  object $post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function output( $post ) {
@@ -26,40 +26,40 @@ class LLMS_Meta_Box_Coupon_Options {
 		global $post;
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
-				
+
 		$coupon_creator_meta_fields = self::metabox_options();
-					
+
 		ob_start(); ?>
 
 		<table class="form-table">
 		<?php foreach ($coupon_creator_meta_fields as $field) {
-			
+
 			$meta = get_post_meta($post->ID, $field['id'], true); ?>
 
 				<tr>
 					<th><label for="<?php echo $field['id']; ?>"><?php echo $field['label']; ?></label></th>
 					<td>
-					<?php switch($field['type']) { 
+					<?php switch($field['type']) {
 						// text
 						case 'text':?>
-						
+
 							<input type="text" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="<?php echo $meta; ?>" size="30" />
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
-								
+
 						<?php break;
 						// textarea
 						case 'textarea': ?>
-						
+
 							<textarea name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" cols="60" rows="4"><?php echo $meta; ?></textarea>
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
-								
+
 						<?php break;
 						// textarea
 						case 'textarea_w_tags': ?>
-						
+
 							<textarea name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" cols="60" rows="4"><?php echo $meta; ?></textarea>
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
-						
+
 						<?php break;
 						//dropdown
 						case 'dropdown': ?>
@@ -75,25 +75,25 @@ class LLMS_Meta_Box_Coupon_Options {
 							<?php endforeach; ?>
 							</select>
 							<br /><span class="description"><?php echo $field['desc']; ?></span>
-						
+
 						<?php break;
 						// image
-						case 'image': 
-						
+						case 'image':
+
 							$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_coupon.png' ); ?>
 							<img id="<?php echo $field['id']; ?>" class="llms_achievement_default_image" style="display:none" src="<?php echo $image; ?>">
 							<?php //Check existing field and if numeric
-							if (is_numeric($meta)) { 
-								$image = wp_get_attachment_image_src($meta, 'medium'); 
+							if (is_numeric($meta)) {
+								$image = wp_get_attachment_image_src($meta, 'medium');
 								$image = $image[0];
 							} ?>
 									<img src="<?php echo $image; ?>" id="<?php echo $field['id']; ?>" class="llms_achievement_image" /><br />
-									<input name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" type="hidden" class="upload_achievement_image" type="text" size="36" name="ad_image" value="<?php echo $meta; ?>" /> 
+									<input name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" type="hidden" class="upload_achievement_image" type="text" size="36" name="ad_image" value="<?php echo $meta; ?>" />
 									<input id="<?php echo $field['id']; ?>" class="achievement_image_button" type="button" value="Upload Image" />
 									<small> <a href="#" id="<?php echo $field['id']; ?>" class="llms_achievement_clear_image_button">Remove Image</a></small>
 									<br /><span class="description"><?php echo $field['desc']; ?></span>
-									
-						<?php break;					
+
+						<?php break;
 						// color
 						case 'color': ?>
 							<?php //Check if Values and If None, then use default
@@ -103,32 +103,32 @@ class LLMS_Meta_Box_Coupon_Options {
 							?>
 							<input class="color-picker" type="text" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="<?php echo $meta; ?>" data-default-color="<?php echo $field['value']; ?>"/>
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
-						
+
 					<?php break;
-	
+
 						} //end switch
-					
+
 					?>
 				</td></tr>
-		<?php	
+		<?php
 			//endif; //end if in section check
-		
+
 		} // end foreach ?>
-			</table>	
+			</table>
 	<?php
 	echo ob_get_clean();
-	}	
+	}
 
 	/**
 	 * Builds array of metabox options.
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
-	 * 
+	 *
 	 * @return array [md array of metabox fields]
 	 */
 	public static function metabox_options() {
 		$prefix = '_llms_';
-		
+
 		$coupon_creator_meta_fields = apply_filters('lifterlms_coupon_options_output', array(
 			// Coupon code text field
 			array(
@@ -165,14 +165,14 @@ class LLMS_Meta_Box_Coupon_Options {
 				'id'    => $prefix . 'usage_limit',
 				'type'  => 'text',
 				'section' => 'coupon_meta_box'
-			),				
+			),
 		) );
 
 		if(has_filter('llms_meta_fields')) {
 			//Add Fields to the coupon Creator Meta Box
 			$coupon_creator_meta_fields = apply_filters('llms_meta_fields', $coupon_creator_meta_fields);
-		} 
-		
+		}
+
 		return $coupon_creator_meta_fields;
 		}
 
@@ -180,10 +180,10 @@ class LLMS_Meta_Box_Coupon_Options {
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
@@ -194,7 +194,7 @@ class LLMS_Meta_Box_Coupon_Options {
 		$type = $prefix 	. 'discount_type';
 		$amount = $prefix 	. 'coupon_amount';
 		$limit = $prefix 	. 'usage_limit';
-		
+
 		if (isset($_POST[$title])) {
 			//update title
 			$update_title = ( llms_clean( $_POST[$title]  ) );
@@ -218,7 +218,7 @@ class LLMS_Meta_Box_Coupon_Options {
 
 			//save coupon action
 			do_action( 'lifterlms_after_save_coupon_meta_box', $post_id, $post );
-		
+
 
 	}
 
