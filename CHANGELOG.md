@@ -10,6 +10,10 @@
 + Fixed some CSS issues on Voucher screens
 + Fixed a grammatical error in a Membership restriction message
 + Fixed a syntax error in "/templates/course/outline-list-small.php" that prevented the `done` CSS class from being properly applied to completed lessons
++ Added translation functions to voucher export meta box class
++ Vouchers Export metabox will only allow export after a voucher has been published. This prevent's an issue caused by attempting to export voucher codes before they were saved in the database via the publish / save action.
++ Vouchers can no longer be saved with a use of "0"
++ Sale price now allows saving of a sale without an end date
 
 = v2.1.1 - 2016/02/15 =
 -----------------------
