@@ -50,13 +50,24 @@ body {
   text-align: center;
 }
 
-.certificate-background {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  right: 0;
+.llms-certificate-container {
+
+  .certificate-background {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .llms_certificate,
+  .llms_my_certificate {
+    position: relative;
+    z-index: 2;
+  }
 }
+
+
 
 @media print {
   .no-print, .no-print * {

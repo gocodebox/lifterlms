@@ -4,33 +4,11 @@
  *
  * @author 		codeBOX
  * @package 	lifterLMS/Templates
- *
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-global $post;
-if ( is_user_admin() ) {
-	show_admin_bar(false);
-}
-
-$cert = new LLMS_Certificates();
-
-if('llms_certificate' == $post_type ) {
-	$cert->certs['LLMS_Certificate_User']->init($post->ID, get_current_user_id(), $post->ID);
-	$certificate_content = $cert->certs['LLMS_Certificate_User']->get_content_html();
-} else {
-	$certificate_content = get_the_content();
-}
-$content = apply_filters('the_content', $certificate_content);
-
-$image = apply_filters( 'lifterlms_certificate_image', $post->ID);
-
-if(get_option('lifterlms_certificate_legacy_image_size', true)) {
-	$image_size = apply_filters('lifterlms_certificate_image_size', $post->ID);
-} else {
-	$image_size = llms_get_image_size('print_certificate', array('width' => 800, 'height' => 616));
-}
+$image = llms_get_certificate_image();
 
 ?>
 <!DOCTYPE html>
@@ -38,13 +16,13 @@ if(get_option('lifterlms_certificate_legacy_image_size', true)) {
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width">
 
-	<title><?php echo get_the_title(); ?></title>
+	<title><?php echo llms_get_certificate_title(); ?></title>
 
 </head>
 <body>
 	<main role="main">
-		<div class="llms-certificate-container" style="width:<?php echo $image_size['width']; ?>px; height:<?php echo $image_size['height']; ?>px;">
-			<img src="<?php echo $image; ?>" alt="Cetrificate Background" class="certificate-background">
+		<div class="llms-certificate-container" style="width:<?php echo $image['width']; ?>px; height:<?php echo $image['height']; ?>px;">
+			<img src="<?php echo $image['src']; ?>" alt="Cetrificate Background" class="certificate-background">
 			<div id="certificate-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 				<div class="llms-summary">
@@ -52,8 +30,8 @@ if(get_option('lifterlms_certificate_legacy_image_size', true)) {
 
 					<?php do_action('before_lifterlms_certificate_main_content'); ?>
 
-					<h1><?php echo apply_filters( 'lifterlms_certificate_title', $post->ID); ?></h1>
-					<p><?php echo $content ?></p>
+					<h1><?php echo llms_get_certificate_title(); ?></h1>
+					<?php echo llms_get_certificate_content(); ?>
 
 					<?php do_action('after_lifterlms_certificate_main_content'); ?>
 
@@ -66,3 +44,4 @@ if(get_option('lifterlms_certificate_legacy_image_size', true)) {
 </main>
 
 </body>
+</html>

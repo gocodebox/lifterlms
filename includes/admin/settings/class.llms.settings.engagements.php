@@ -81,14 +81,51 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 				array(	'title' => __( 'Certificates Settings', 'lifterlms' ), 'type' => 'title','desc' => '', 'id' => 'certificates_options' ),
 
+
 				array(
-						'title'         => __( 'Legacy certificate sizes', 'lifterlms' ),
-						'desc'          => __( 'Use legacy certificate image sizes.', 'lifterlms' ),
-						'id'            => 'lifterlms_certificate_legacy_image_size',
-						'default'       => 'yes',
-						'type'          => 'checkbox',
-						'autoload'      => false
+					'type' => 'desc',
+					'desc' => '<strong>' . __( 'Background Image Settings' ,'lifterlms' ) . '</strong><br>' .
+							  __( 'Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.' ,'lifterlms' ),
+					'id' => 'cert_bg_image_settings'
 				),
+
+				array(
+					'title'         => __( 'Image Width', 'lifterlms' ),
+					'desc'          => __( 'in pixels', 'lifterlms' ),
+					'id'            => 'lifterlms_certificate_bg_img_width',
+					'default'       => '800',
+					'type'          => 'number',
+					'autoload'      => false
+				),
+
+				array(
+					'title'         => __( 'Image Height', 'lifterlms' ),
+					'id'            => 'lifterlms_certificate_bg_img_height',
+					'desc'          => __( 'in pixels', 'lifterlms' ),
+					'default'       => '616',
+					'type'          => 'number',
+					'autoload'      => false
+				),
+
+				array(
+					'title'         => __( 'Hard Crop?', 'lifterlms' ),
+					'id'            => 'lifterlms_certificate_bg_img_crop',
+					'desc'          => __( 'Automatically crop images to above dimensions', 'lifterlms' ),
+					'default'       => 'yes',
+					'type'          => 'checkbox',
+					'autoload'      => false
+				),
+
+				array(
+					'title'         => __( 'Legacy compatibility', 'lifterlms' ),
+					'desc'          => __( 'Use legacy certificate image sizes.', 'lifterlms' ) .
+									   '<br><em>' . __( 'Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image.', 'lifterlms' ) . '</em>',
+					'id'            => 'lifterlms_certificate_legacy_image_size',
+					'default'       => 'yes',
+					'type'          => 'checkbox',
+					'autoload'      => false
+				),
+
 				array( 'type' => 'sectionend', 'id' => 'certificates_options'),
 
 			)

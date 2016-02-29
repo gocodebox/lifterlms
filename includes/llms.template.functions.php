@@ -1495,12 +1495,13 @@ function llms_shuffle_assoc( &$array ) {
  * @return array
  */
 if ( ! function_exists( 'llms_get_image_size' ) ) {
-	function llms_get_image_size($name, $default = array())
+	function llms_get_image_size( $name, $default = array() )
 	{
 		global $_wp_additional_image_sizes;
 
-		if (isset($_wp_additional_image_sizes[$name]))
+		if ( isset( $_wp_additional_image_sizes[$name] ) ) {
 			return $_wp_additional_image_sizes[$name];
+		}
 
 		return $default;
 	}
