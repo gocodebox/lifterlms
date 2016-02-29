@@ -1,5 +1,10 @@
 <?php
 if (!defined('ABSPATH')) exit;
+if (!defined('LLMS_Admin_Metabox')) {
+    // Include the file for the parent class
+    include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
+}
+
 /**
  * Meta Box Builder
  *

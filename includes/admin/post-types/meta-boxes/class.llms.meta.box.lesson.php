@@ -1,9 +1,14 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'LLMS_Admin_Metabox' ) ) 
+{
+	// Include the file for the parent class
+	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
+}
 
 /**
 * Meta Box Builder
-*
+* 
 * Generates main metabox and builds forms
 */
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
@@ -13,25 +18,25 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 *
+	 * 
 	 * @param object $post WP global post object
 	 * @return void
 	 */
 	public static function output ( $post ) {
 		global $post;
 		parent::new_output( $post, self::metabox_options() );
-	}
+	}	
 
 	/**
 	 * Builds array of metabox options.
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
-	 *
+	 * 
 	 * @return array [md array of metabox fields]
 	 */
 	public static function metabox_options() {
 		global $post;
-
+	
 		//setup lesson select options
 		$lesson_options = array();
 		$lesson_posts = LLMS_Post_Handler::get_posts( 'lesson' );
@@ -41,7 +46,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 					'key' 	=> $l_post->ID,
 					'title' => $l_post->post_title
 				);
-			}
+			}			
 		}
 
 		//setup quiz select options
@@ -53,7 +58,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 					'key' 	=> $quiz->ID,
 					'title' => $quiz->post_title
 				);
-			}
+			}			
 		}
 
 		$days_before_avalailable = get_post_meta( $post->ID, '_days_before_avalailable', true );
@@ -156,15 +161,15 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'desc_class'=> 'd-all',
 						'group' 	=> 'bottom llms-prereq-bottom',
 					),
-				)
-			),
+				)				
+			),			
 		);
 
 		if(has_filter('llms_meta_fields_lesson')) {
 			//Add Fields to the course main Meta Box
 			$meta_fields_lesson = apply_filters('llms_meta_fields_lesson', $meta_fields_lesson);
-		}
-
+		} 
+		
 		return $meta_fields_lesson;
 	}
 
@@ -172,16 +177,16 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 *
+	 * 
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 *
+	 * 
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-
+		
 
 	}
 
