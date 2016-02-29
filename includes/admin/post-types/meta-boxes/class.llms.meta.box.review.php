@@ -52,7 +52,8 @@ class LLMS_Meta_Box_Review extends LLMS_Admin_Metabox {
                         'id' => self::$prefix . 'llms_review_course',
                         'class' => 'input-full llms-meta-select',
                         'value' => $coursesSelect,
-                        'selected' => $post->post_parent
+                        'selected' => $post->post_parent,
+                        'required' => true
                     ),
                 )
             ),
