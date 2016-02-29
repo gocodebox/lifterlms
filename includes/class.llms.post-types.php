@@ -358,7 +358,7 @@ class LLMS_Post_Types {
 		$lesson_permalink = empty( $permalinks['lesson_base'] ) ? _x( 'lesson', 'slug', 'lifterlms' ) : $permalinks['lesson_base'];
 
 	    register_post_type( "lesson",
-		    apply_filters( 'lifterlms_register_post_type_section',
+		    apply_filters( 'lifterlms_register_post_type_lesson',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'Lessons', 'lifterlms' ),

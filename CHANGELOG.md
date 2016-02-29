@@ -4,6 +4,7 @@
 -----------------------
 
 + Add `the_content` filter to the content of emails sent by LifterLMS
++ Fixed a typo in filter associated with modifying the registration of the lesson post type (`lifterlms_register_post_type_lesson`)
 
 
 = v2.1.1 - 2016/02/15 =
