@@ -2,26 +2,26 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* Meta Box Product info. 
+* Meta Box Product info.
 *
-* Fields for managing the Product as a sellable product. 
+* Fields for managing the Product as a sellable product.
 */
 class LLMS_Meta_Box_Product {
 
-	
+
 	/**
 	 * Static output class.
 	 *
 	 * Displays MetaBox
 	 * Calls static class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
-	 * 
+	 *
 	 * @param  object $post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function output( $post ) {
-		
+
 		global $post, $wpdb, $thepostid;
 
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
@@ -93,7 +93,7 @@ class LLMS_Meta_Box_Product {
 						<th><label for="_sale_price_dates_from"><?php  _e( 'Sale Price Dates', 'lifterlms' ) ?></label></th>
 						<td>
 							<?php
-							echo '		
+							echo '
 							From <input type="text" class="datepicker short" name="_sale_price_dates_from" id="_sale_price_dates_from" value="' . esc_attr( $sale_price_dates_from ) . '" placeholder="' . _x( 'From&hellip;', 'placeholder', 'lifterlms' ) . ' YYYY-MM-DD" maxlength="10" />
 							To <input type="text" class="datepicker short" name="_sale_price_dates_to" id="_sale_price_dates_to" value="' . esc_attr( $sale_price_dates_to ) . '" placeholder="' . _x( 'To&hellip;', 'placeholder', 'lifterlms' ) . '  YYYY-MM-DD" maxlength="10" />
 							<a href="#" id="cancel-sale">Cancel Sale</a>';
@@ -106,7 +106,7 @@ class LLMS_Meta_Box_Product {
 		</tbody>
 		</table>
 
-		<?php 
+		<?php
 		//only display recurring options if infusionsoft is not enabled. REFACTOR!!!!
 		$infusionsoft_enabled = get_option('lifterlms_gateway_is_enabled', 'no');
 		//if ( empty($infusionsoft_enabled) || $infusionsoft_enabled == 'no' ) : ?>
@@ -140,7 +140,7 @@ class LLMS_Meta_Box_Product {
 							<td>
 								<select id="_llms_billing_period" name="_llms_billing_period">
 									<option value="" selected disabled>Select a period...</option>
-									<?php foreach ( $billing_periods as $key => $value  ) : 
+									<?php foreach ( $billing_periods as $key => $value  ) :
 										if ( $key == $billing_period ) {
 									?>
 										<option value="<?php echo $key; ?>" selected="selected"><?php echo $value; ?></option>
@@ -182,10 +182,10 @@ class LLMS_Meta_Box_Product {
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
@@ -197,40 +197,31 @@ class LLMS_Meta_Box_Product {
 			update_post_meta( $post_id, '_regular_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
 		if ( isset( $_POST['_sale_price'] ) )
 			update_post_meta( $post_id, '_sale_price', ( $_POST['_sale_price'] === '' ? '' : llms_format_decimal( $_POST['_sale_price'] ) ) );
-		
+
 
 		//Update Sales Price Dates
-		$date_from = isset( $_POST['_sale_price_dates_from'] ) ? LLMS_Date::db_date( $_POST['_sale_price_dates_from'] ) : '';
-		$date_to = isset( $_POST['_sale_price_dates_to'] ) ? LLMS_Date::db_date($_POST['_sale_price_dates_to'] ) : '';
+		$date_from = isset( $_POST['_sale_price_dates_from'] ) && $_POST['_sale_price_dates_from'] ? LLMS_Date::db_date( $_POST['_sale_price_dates_from'] ) : '';
+		$date_to = isset( $_POST['_sale_price_dates_to'] ) && $_POST['_sale_price_dates_to'] ? LLMS_Date::db_date($_POST['_sale_price_dates_to'] ) : '';
 
 		// Dates
-		if ( $date_from )
-			update_post_meta( $post_id, '_sale_price_dates_from', $date_from );
-		else
-			update_post_meta( $post_id, '_sale_price_dates_from', '' );
+		update_post_meta( $post_id, '_sale_price_dates_from', $date_from );
+		update_post_meta( $post_id, '_sale_price_dates_to', $date_to );
 
-		if ( $date_to )
-			update_post_meta( $post_id, '_sale_price_dates_to', $date_to );
-		else
-			update_post_meta( $post_id, '_sale_price_dates_to', '' );
-
-		if ( $date_to && ! $date_from )
-			update_post_meta( $post_id, '_sale_price_dates_from', LLMS_Date::db_date( strtotime( 'NOW', current_time( 'timestamp' ) ) ) );
+		if ( $date_to && !$date_from ) {
+			update_post_meta($post_id, '_sale_price_dates_from', LLMS_Date::db_date(strtotime('NOW', current_time('timestamp'))));
+			$date_from = LLMS_Date::db_date(strtotime('NOW', current_time('timestamp')));
+		}
 
 		// Update price if on sale
 		if (isset( $_POST['_sale_price'] ) ) {
-			if ( $_POST['_sale_price'] !== '' && $date_to == '' && $date_from == '' )
-				update_post_meta( $post_id, '_price', llms_format_decimal( $_POST['_sale_price'] ) );
-			else
-				update_post_meta( $post_id, '_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
-
-			if ( $_POST['_sale_price'] !== '' && $date_from && strtotime( $date_from ) < strtotime( 'NOW', current_time( 'timestamp' ) ) )
-				update_post_meta( $post_id, '_price', llms_format_decimal( $_POST['_sale_price'] ) );
-
-			if ( $date_to && strtotime( $date_to ) < strtotime( 'NOW', current_time( 'timestamp' ) ) ) {
-				update_post_meta( $post_id, '_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
-				update_post_meta( $post_id, '_sale_price_dates_from', '' );
-				update_post_meta( $post_id, '_sale_price_dates_to', '' );
+			if ( $_POST['_sale_price'] !== '' && $date_to == '' && $date_from == '' ) {
+				update_post_meta($post_id, '_price', llms_format_decimal($_POST['_sale_price']));
+			} elseif ( $_POST['_sale_price'] !== '' && $date_from && strtotime( $date_from ) < strtotime( 'NOW', current_time( 'timestamp' ) ) && $date_to == '' ) {
+				update_post_meta($post_id, '_price', llms_format_decimal($_POST['_sale_price']));
+			} elseif ( !$date_to || ($date_to && strtotime( $date_to ) > strtotime( 'NOW', current_time( 'timestamp' ) ) ) ) {
+				update_post_meta( $post_id, '_price', ( $_POST['_sale_price'] === '' ) ? '' : llms_format_decimal( $_POST['_sale_price'] ) );
+			} else {
+				update_post_meta($post_id, '_price', ($_POST['_regular_price'] === '') ? '' : llms_format_decimal($_POST['_regular_price']));
 			}
 		}
 
@@ -303,8 +294,8 @@ class LLMS_Meta_Box_Product {
 							SELECT $wpdb->posts.ID
 						    FROM $wpdb->posts
 						    LEFT JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id)
-						    WHERE ($wpdb->posts.post_type = 'course' 
-						    OR $wpdb->posts.post_type = 'llms_membership') 
+						    WHERE ($wpdb->posts.post_type = 'course'
+						    OR $wpdb->posts.post_type = 'llms_membership')
 						    AND $wpdb->posts.post_status = 'publish'
 						    AND $wpdb->postmeta.meta_key = '_sku' AND $wpdb->postmeta.meta_value = '%s'
 						 ", $new_sku ) )
