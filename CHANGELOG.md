@@ -14,6 +14,7 @@
 + Vouchers Export metabox will only allow export after a voucher has been published. This prevent's an issue caused by attempting to export voucher codes before they were saved in the database via the publish / save action.
 + Vouchers can no longer be saved with a use of "0"
 + Sale price now allows saving of a sale without an end date
++ Fixed a few typos and grammatical errors on the Course and Membership settings metaboxes
 
 = v2.1.1 - 2016/02/15 =
 -----------------------

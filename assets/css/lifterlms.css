@@ -289,7 +289,7 @@
   float: left;
   width: 100%;
 }
-.llms-lesson-preview.is-complete .llms-lesson-information {
+.llms-lesson-preview.has-icon .llms-lesson-information {
   width: calc( 100% - 55px );
 }
 .llms-lesson-preview .llms-lesson-thumbnail {

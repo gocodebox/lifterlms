@@ -312,7 +312,8 @@
     width: 100%;
   }
 
-  &.is-complete .llms-lesson-information {
+  &.has-icon .llms-lesson-information {
+  // &.is-complete .llms-lesson-information {
     width: calc( 100% - 55px );
   }
 
