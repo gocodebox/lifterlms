@@ -48,7 +48,7 @@ class LLMS_Settings_Page {
 		$array_keys = array_keys( $sections );
 
 		foreach ( $sections as $id => $label ) {
-			echo '<li><a href="' . admin_url( 'admin.php?page=' . $this->id . '&section=' . sanitize_title( $id ) ) 
+			echo '<li><a href="' . admin_url( 'admin.php?page=' . $this->id . '&section=' . sanitize_title( $id ) )
 			. '"class="' . ($current_section == $id ? 'current' : '' ) . '">' . ( end( $array_keys ) == $id ? '' : '|' ) . '</li>';
 
 			echo '</ul><br class="clear" />';
@@ -80,7 +80,7 @@ class LLMS_Settings_Page {
 
 		 if ( $current_section )
 	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section );
-	    
+
 	}
-	
+
 }

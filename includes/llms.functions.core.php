@@ -8,6 +8,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 //include other function files
+include( 'functions/llms.functions.certificate.php' );
 include( 'functions/llms.functions.course.php' );
 include( 'functions/llms.functions.notice.php' );
 include( 'functions/llms.functions.page.php' );

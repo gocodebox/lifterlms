@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
 * Certificate Class
 * Child Class. Extends from LLMS_Certificate.
-* 
+*
 * Generates certificate post for user. Triggered from engagement.
 */
 class LLMS_Certificate_User extends LLMS_Certificate {
@@ -17,18 +17,18 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * Constructor
 	 */
 	function __construct() {
-		
+
 
 		parent::__construct();
 	}
 
 	/**
 	 * Sets up data needed to generate certificate.
-	 * 
+	 *
 	 * @param  int $email_id  [ID of Certificate]
 	 * @param  int $person_id [ID of the user recieving the certificate]
 	 * @param  int $lesson_id [ID of associated lesson]
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init($email_id, $person_id, $lesson_id) {
@@ -39,7 +39,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 
  		$this->certificate_template_id	= $email_id;
  		$this->lesson_id    			= $lesson_id;
-		$this->title 					= $email_content->post_title; 
+		$this->title 					= $email_content->post_title;
 		$this->certificate_title 		= $email_meta['_llms_certificate_title'][0];
 		$this->content 					= $email_content->post_content;
 		$this->image 					= $email_meta['_llms_certificate_image'][0];
@@ -53,22 +53,24 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		$this->email_content	= $email_content->post_content;
 		$this->account_link 	= get_permalink( llms_get_page_id( 'myaccount' ) );
 
+		$this->user_login = $this->user_data->user_login;
+
 	}
 
 	/**
 	 * [trigger description]
-	 * 
+	 *
 	 * @param  int $user_id   [ID of the user recieving the certificate]
 	 * @param  int $email_id  [ID of the certificate]
 	 * @param  int $lesson_id [ID of the associated lesson]
-	 * 
+	 *
 	 * @return void
 	 */
 	function trigger( $user_id, $email_id, $lesson_id ) {
 		$this->init($email_id, $user_id, $lesson_id);
 
 		if ( $user_id ) {
-			$this->object 				= new WP_User( $user_id );
+			$this->object				= new WP_User( $user_id );
 			$this->user_email         = stripslashes( $this->object->user_email );
 			$this->recipient          = $this->user_email;
 
@@ -87,17 +89,17 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 */
 	function get_content_html() {
 
-		$this->find = array( 
-			'{site_title}', 
-			'{user_login}', 
+		$this->find = array(
+			'{site_title}',
+			'{user_login}',
 			'{site_url}' ,
 			'{first_name}',
 			'{last_name}',
 			'{email_address}',
 			'{current_date}');
-		$this->replace = array( 
-			$this->get_blogname(), 
-			$this->user_login, 
+		$this->replace = array(
+			$this->get_blogname(),
+			$this->user_login,
 			$this->account_link,
 			$this->user_firstname,
 			$this->user_lastname,

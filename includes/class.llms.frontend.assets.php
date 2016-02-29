@@ -31,6 +31,7 @@ class LLMS_Frontend_Assets {
 
 	//http://local.wordpress-trunk.dev/wp-content/plugins/lifterlms/assets/css/lifterlms-temp.css
 	public static function enqueue_styles() {
+		global $post_type;
 
 		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_style( 'admin-styles', plugins_url( '/assets/css/lifterlms' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
@@ -39,6 +40,10 @@ class LLMS_Frontend_Assets {
 
 		if (file_exists( $filename )){
 			wp_enqueue_style( 'temp-styles', plugins_url( '/assets/css/lifterlms-temp' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+		}
+
+		if( 'llms_my_certificate' == $post_type || 'llms_certificate' == $post_type ) {
+			wp_enqueue_style( 'certificates', plugins_url( '/assets/css/certificates' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		}
 	}
 

@@ -26,7 +26,7 @@ class LLMS_Certificates {
 	 * Initialize class and add actions
 	 */
 	function __construct() {
-		
+
 		$this->init();
 
 		add_action( 'lifterlms_lesson_completed_certificate', array( $this, 'lesson_completed' ), 10, 3 );
@@ -42,17 +42,16 @@ class LLMS_Certificates {
 
 		include_once( 'class.llms.certificate.php' );
 
-		$this->certs['LLMS_Certificate_User']      = include_once( 'certificates/class.llms.certificate.user.php' );
-
+		$this->certs['LLMS_Certificate_User'] = include_once( 'certificates/class.llms.certificate.user.php' );
 	}
 
 	/**
 	 * [lesson_completed description]
-	 * 
+	 *
 	 * @param  int $person_id [ID of the current user]
 	 * @param  int $cert_id  [ID of the Certificate template]
 	 * @param  int $lesson_id [description]
-	 * 
+	 *
 	 * @return void
 	 */
 	function lesson_completed( $person_id, $cert_id, $lesson_id ) {
@@ -84,6 +83,3 @@ class LLMS_Certificates {
 	}
 
 }
-
-
-
