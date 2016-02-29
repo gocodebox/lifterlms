@@ -267,6 +267,10 @@ class LLMS_Frontend_Forms
         wp_verify_nonce($_POST['_wpnonce'], 'lifterlms_create_order_details');
 
         $order = LLMS()->session->get('llms_order', array());
+        if (empty($order)) {
+            return;
+        }
+
         $payment_method = $order->payment_method;
         $available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 
@@ -274,7 +278,7 @@ class LLMS_Frontend_Forms
 
         $errors = new WP_Error();
 
-        $process_result = $available_gateways[$payment_method]->complete_payment($result, $order);
+        $available_gateways[$payment_method]->complete_payment($result, $order);
 
     }
 

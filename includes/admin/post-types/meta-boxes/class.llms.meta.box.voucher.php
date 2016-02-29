@@ -150,7 +150,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                                        name="llms_voucher_code[]">
                                 <input type="hidden" name="llms_voucher_code_id[]" value="<?php echo $code->id ?>">
                             </td>
-                            <td><span><?php echo $code->used ?> / </span><input type="text" value="<?php echo $code->redemption_count ?>"
+                            <td><span><?php echo $code->used ?> / </span><input type="number" min="1" value="<?php echo $code->redemption_count ?>"
                                                         placeholder="Uses" class="llms-voucher-uses"
                                                         name="llms_voucher_uses[]"></td>
                             <td>
