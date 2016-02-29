@@ -1,5 +1,5 @@
 === LifterLMS ===
-Contributors: therealmarknelson, thomasplevy, chrisbadgett, kathy11, lifterlms, jackyliao888, codeboxllc
+Contributors: therealmarknelson, thomasplevy, chrisbadgett, kathy11, lifterlms, jackyliao888, anecieto, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 3.8
@@ -161,7 +161,14 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-= v2.1.0 - 2016/02/15 =
+= v2.1.2 - 2016/02/15 =
+-----------------------
+
++ Add `the_content` filter to the content of emails sent by LifterLMS
++ Fixed a typo in filter associated with modifying the registration of the lesson post type (`lifterlms_register_post_type_lesson`)
+
+
+= v2.1.1 - 2016/02/15 =
 -----------------------
 
 ##### System Report
