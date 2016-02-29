@@ -236,7 +236,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
      */
     public static function save($post_id, $post)
     {
-        if (empty($_POST['lifterlms_meta_nonce']) || !wp_verify_nonce($_POST['lifterlms_meta_nonce'], 'lifterlms_save_data')) {
+        if (!empty($_POST['llms_generate_export']) || empty($_POST['lifterlms_meta_nonce']) || !wp_verify_nonce($_POST['lifterlms_meta_nonce'], 'lifterlms_save_data')) {
             return false;
         }
 
