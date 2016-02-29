@@ -1,10 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! defined( 'LLMS_Admin_Metabox' ) )
-{
-	// Include the file for the parent class
-	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
-}
 
 /**
 * Meta Box Builder
@@ -236,7 +231,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					array(
 						'type'		=> 'text',
 						'label'		=> 'SKU',
-						'desc' 		=> 'Enter an SKU for your course.',
+						'desc' 		=> 'Enter a SKU for your course.',
 						'id' 		=> self::$prefix . 'sku',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
