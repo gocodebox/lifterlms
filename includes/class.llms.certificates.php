@@ -82,9 +82,4 @@ class LLMS_Certificates {
 		$certificate->trigger( $person_id, $certificate_id, $engagement_id );
 	}
 
-
-
 }
-
-
-
