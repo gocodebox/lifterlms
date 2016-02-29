@@ -6,7 +6,10 @@
 + Add `the_content` filter to the content of emails sent by LifterLMS
 + Fixed a typo in filter associated with modifying the registration of the lesson post type (`lifterlms_register_post_type_lesson`)
 + Updated Courses settings retrieval function to retrieve the correct "shop" page id
-
++ Fixed an issue on the system report that prevented the "Courses Page" from being reported properly
++ Fixed some CSS issues on Voucher screens
++ Fixed a grammatical error in a Membership restriction message
++ Fixed a syntax error in "/templates/course/outline-list-small.php" that prevented the `done` CSS class from being properly applied to completed lessons
 
 = v2.1.1 - 2016/02/15 =
 -----------------------
