@@ -46,9 +46,6 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			<?php if (array_key_exists('multi', $this->field) && $this->field['multi']): ?>
 				multiple="multiple"
 			<?php endif; ?>
-			<?php if (array_key_exists('required', $this->field) && $this->field['required']): ?>
-				required="required"
-			<?php endif; ?>
 		>
 			<option value="">None</option>
 
