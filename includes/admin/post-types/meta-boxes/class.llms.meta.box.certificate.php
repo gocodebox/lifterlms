@@ -1,14 +1,9 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! defined( 'LLMS_Admin_Metabox' ) ) 
-{
-	// Include the file for the parent class
-	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
-}
 
 /**
 * Meta Box Builder
-* 
+*
 * Generates main metabox and builds forms
 */
 class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
@@ -18,20 +13,20 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 * 
+	 *
 	 * @param object $post WP global post object
 	 * @return void
 	 */
 	public static function output ( $post ) {
 		global $post;
 		parent::new_output( $post, self::metabox_options() );
-	}	
+	}
 
 	/**
 	 * Builds array of metabox options.
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
-	 * 
+	 *
 	 * @return array [md array of metabox fields]
 	 */
 	public static function metabox_options() {
@@ -73,7 +68,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
 						'desc_class'=> 'd-all',
 						'group' 	=> '',
 						'value' 	=> '<p>Use the text editor above to add content to your certificate.
-										You can include any of the following merge fields. 
+										You can include any of the following merge fields.
 										<br>{site_title}
 										<br>{user_login}
 										<br>{site_url}
@@ -84,14 +79,14 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
 										</p>',
 					),
 				)
-			),						
+			),
 		);
 
 		if(has_filter('llms_meta_fields_certificate')) {
 			//Add Fields to the achievement Meta Box
 			$meta_fields_certificate = apply_filters('llms_meta_fields_certificate', $meta_fields_certificate);
-		} 
-		
+		}
+
 		return $meta_fields_certificate;
 	}
 
@@ -99,16 +94,16 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		
+
 
 	}
 

@@ -56,6 +56,8 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_llms_question_meta', 'LLMS_Meta_Box_Question_General::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_coupon_meta', 'LLMS_Meta_Box_Coupon_Options::save', 10, 2 );
 
+		add_action( 'lifterlms_process_llms_review_meta', 'LLMS_Meta_Box_Review::save', 10, 2 );
+
         add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher::save', 10, 2 );
         add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
 
@@ -144,6 +146,8 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-voucher-settings', __( 'Voucher Settings', 'lifterlms' ), 'LLMS_Meta_Box_Voucher::output', 'llms_voucher', 'normal', 'high' );
 		add_meta_box( 'lifterlms-quiz-settings', __( 'Quiz Settings', 'lifterlms' ), 'LLMS_Meta_Box_Quiz::output', 'llms_quiz', 'normal', 'high' );
 
+		add_meta_box( 'lifterlms-review-settings', __( 'Review Settings', 'lifterlms' ), 'LLMS_Meta_Box_Review::output', 'llms_review', 'normal', 'high' );
+
 		//===================================
 		// Old meta box style
 		//===================================
@@ -212,7 +216,7 @@ class LLMS_Admin_Meta_Boxes {
 	}
 
 	public function is_llms_post_type( $post ) {
-		if ( in_array( $post->post_type, array( 'course', 'section', 'lesson', 'order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement', 'llms_membership', 'llms_quiz', 'llms_question', 'llms_coupon', 'llms_voucher' ) ) ) {
+		if ( in_array( $post->post_type, array( 'course', 'section', 'lesson', 'order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement', 'llms_membership', 'llms_review', 'llms_quiz', 'llms_question', 'llms_coupon', 'llms_voucher' ) ) ) {
 			return true;
 		}
 	}
@@ -226,12 +230,11 @@ class LLMS_Admin_Meta_Boxes {
 	public function save_meta_boxes( $post_id, $post ) {
 		if ( LLMS_Admin_Meta_Boxes::validate_post( $post_id, $post ) ) {
 			if ( LLMS_Admin_Meta_Boxes::is_llms_post_type( $post ) ) {
+				remove_action( 'save_post', array( $this, 'save_meta_boxes' ), 10, 2 ); //unhook action to prevent endless loop if editing post in any of save fuctions
 				do_action( 'lifterlms_process_' . $post->post_type . '_meta', $post_id, $post );
-				do_action( 'lifterlms_process_membership_access', $post_id, $post );
+				add_action( 'save_post', array( $this, 'save_meta_boxes' ), 10, 2 ); //rehook action
 			}
-			else{
-				do_action( 'lifterlms_process_membership_access', $post_id, $post );
-			}
+			do_action( 'lifterlms_process_membership_access', $post_id, $post );
 		}
 
 	}
