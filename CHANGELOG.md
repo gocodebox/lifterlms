@@ -17,6 +17,7 @@
 + Fixed a few typos and grammatical errors on the Course and Membership settings metaboxes
 + fixed an undefined variable in "templates/course/syllabus.php"
 + added a CSS class for various syllabus outputs that notes that the lesson has an icon. Previously CSS relied on "is-complete" to output styles for having an icon but with the addition of placeholders the "is-complete" is used only to note that the lesson is completed and "has-icon" is a more semantic class that applies to both complete and incomplete lessons with an icon.
++ fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
 
 = v2.1.1 - 2016/02/15 =
 -----------------------
