@@ -91,7 +91,7 @@ gulp.task('build', ['jscs', 'lint'], function() {
 /**
  * Rebuild task to do everything in one fell swoop
  */
-gulp.task('rebuild',['process-scripts','process-frontend-styles','process-admin-styles'],function(){});
+gulp.task('rebuild',['process-scripts','process-frontend-styles','process-frontend-certificates-styles','process-admin-styles'],function(){});
 
 /**
  * Compile front end SASS files
@@ -111,6 +111,27 @@ gulp.task( 'process-frontend-styles', function () {
             title: 'Front End Styles',
             message: 'Successfully Built Front End Styles'
         }));
+
+});
+
+/**
+ * Compile certificates SASS files
+ */
+gulp.task( 'process-frontend-certificates-styles', function () {
+
+	return sass( '_private/scss/frontend/certificates.scss', {
+		cacheLocation: '_private/scss/.sass-cache',
+		style: 'expanded'
+	})
+			.pipe( autoprefixer( 'last 2 version' ) )
+			.pipe( gulp.dest( 'assets/css/' ) )
+			.pipe( rename( { suffix: '.min' } ) )
+			.pipe( minifycss() )
+			.pipe( gulp.dest( 'assets/css/') )
+			.pipe(notify({
+				title: 'Front End Certificates Styles',
+				message: 'Successfully Built Front End Certificates Styles'
+			}));
 
 });
 

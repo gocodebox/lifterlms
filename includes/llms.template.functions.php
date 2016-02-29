@@ -1487,3 +1487,21 @@ function llms_shuffle_assoc( &$array ) {
 
 	return true;
 }
+
+/**
+ * Get Image size for custom image sizes
+ * @param  string $name
+ * @param  arrray $default
+ * @return array
+ */
+if ( ! function_exists( 'llms_get_image_size' ) ) {
+	function llms_get_image_size($name, $default = array())
+	{
+		global $_wp_additional_image_sizes;
+
+		if (isset($_wp_additional_image_sizes[$name]))
+			return $_wp_additional_image_sizes[$name];
+
+		return $default;
+	}
+}

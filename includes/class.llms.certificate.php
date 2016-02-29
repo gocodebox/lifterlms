@@ -21,7 +21,7 @@ class LLMS_Certificate {
 
 			// Settings TODO Refoactor: theses can come from the email post now
 			$this->email_type     	= 'html';
-			$this->enabled   		= get_option( 'enabled' );
+			//$this->enabled   		= get_option( 'enabled' );
 
 			$this->find = array( '{blogname}', '{site_title}' );
 			$this->replace = array( $this->get_blogname(), $this->get_blogname() );
@@ -32,7 +32,7 @@ class LLMS_Certificate {
 	 * @return boolean [certificate enabled]
 	 */
 	function is_enabled() {
-		$enabled = $this->enabled == "yes" ? true : false;
+		//$enabled = $this->enabled == "yes" ? true : false;
 		return true;
 	}
 
@@ -106,8 +106,8 @@ class LLMS_Certificate {
 		);
 
 		foreach ($user_metadatas as $key => $value) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-				array( 
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				array(
 					'user_id' 			=> $this->userid,
 					'post_id' 			=> $this->lesson_id,
 					'meta_key'			=> $key,
@@ -116,7 +116,7 @@ class LLMS_Certificate {
 				)
 			);
 		}
-		
+
 	}
 
 }
