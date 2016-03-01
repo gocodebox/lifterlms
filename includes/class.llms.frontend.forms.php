@@ -338,6 +338,11 @@ class LLMS_Frontend_Forms
 
         if (empty($coupon_post)) {
             return llms_add_notice(sprintf(__('Coupon code <strong>%s</strong> was not found.', 'lifterlms'), $coupon->coupon_code), 'error');
+        } else {
+            $products = get_post_meta($coupon_post[0]->ID, '_llms_coupon_products', true);
+            if(!empty($products) && !in_array($coupon->product_id, $products)) {
+                return llms_add_notice(sprintf(__("Coupon code <strong>%s</strong> can't be applied to this product.", 'lifterlms'), $coupon->coupon_code), 'error');
+            }
         }
 
         foreach ($coupon_post as $cp) {
@@ -357,7 +362,7 @@ class LLMS_Frontend_Forms
         if ($coupon->type == 'percent') {
             $coupon->name = ($coupon->title . ': ' . $coupon->amount . '% coupon');
         } elseif ($coupon->type == 'dollar') {
-            $coupon->name = ($coupon->title . ': ' . '$' . $coupon->amount . ' coupon');
+            $coupon->name = ($coupon->title . ': ' . get_lifterlms_currency_symbol() . $coupon->amount . ' coupon');
         }
 
         //if coupon limit is not unlimited deduct 1 from limit

@@ -45,7 +45,7 @@ if($coupon_session) {
 
 	$info_message = sprintf( __( 'Coupon code "%s" has been applied to your order', 'lifterlms' ), $coupon_session->coupon_code );
 
-	$savings = ($coupon_session->type == 'percent') ? $coupon_session->amount.'%' : '$'.$coupon_session->amount;
+	$savings = ($coupon_session->type == 'percent') ? $coupon_session->amount.'%' : get_lifterlms_currency_symbol().$coupon_session->amount;
 
 	$info_message .= ' '.sprintf( __( '(%s off)', 'lifterlms' ), $savings );
 } else {
@@ -206,10 +206,10 @@ if($coupon_session) {
 
 			<div class="llms-clear-box llms-center-content">
 				<?php if ( count( $available_gateways ) ) : ?>
-				<input class="llms-button" 
-					type="submit" 
-					class="button" 
-					name="create_order_details" 
+				<input class="llms-button"
+					type="submit"
+					class="button"
+					name="create_order_details"
 					<?php echo (is_user_logged_in() ? '' : 'disabled="disabled"'); ?>
 					value="<?php _e( 'Buy Now', 'lifterlms' ); ?>" />
 				<?php endif; ?>
