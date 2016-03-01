@@ -1,12 +1,17 @@
 == Changelog ==
 
-= v2.2.0 - 2016/02/15 =
------------------------
+= v2.2.0-1 - 2016/03/07 - PreRelease =
+--------------------------------------
 
 ##### Certificate Background Images
 
 _We've completely rewritten the certificates template (but it's all backwards compatible)._
 
+##### Coupon Updates
+
++ Coupons can now be restricted to specific courses and/or memberships
++ Percentage based coupons can no longer be created with a value larger than 100%
++ Fixed a few instances where hardcoded a US Dollar symbol ($) where a dynamic currency symbol should have been displayed.
 
 ##### Wow Bad Syntax, Very Typo, Such Grammar, So Undefined
 
@@ -18,7 +23,7 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Fixed an issue on the system report that prevented the "Courses Page" from being reported properly
 + Fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
 
-##### Additional Updates
+##### Additional, less exciting updates
 
 + Added `the_content` filter to the content of emails sent by LifterLMS
 + Fixed some CSS issues on Voucher screens
