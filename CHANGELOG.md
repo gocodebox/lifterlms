@@ -8,7 +8,6 @@
 + We've updated our .pot file for the first time in quite a while. We're really sorry for de-emphasizing translation. An updated .pot file will now accompany each version of LifterLMS whenever a translatable string is adjusted or when a new string is added.
 + We've also made it easier to include custom translations. Read our knowledge base article on the matter here: [adsfadsfasdf]
 
-
 ##### Certificate Background Images
 
 _We've completely rewritten the certificates template (but it's all backwards compatible)._
@@ -28,6 +27,7 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Fixed an undefined variable in "templates/course/syllabus.php"
 + Fixed an issue on the system report that prevented the "Courses Page" from being reported properly
 + Fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
++ Fixed an installation warning where we were referencing an undefined variable
 
 ##### Additional, less exciting updates
 
