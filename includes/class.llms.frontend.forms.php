@@ -23,6 +23,7 @@ class LLMS_Frontend_Forms
     {
         add_action('template_redirect', array($this, 'save_account_details'));
         add_action('init', array($this, 'apply_coupon'));
+        add_action('init', array($this, 'remove_coupon'));
         add_action('init', array($this, 'coupon_check'));
         add_action('init', array($this, 'voucher_check'));
         add_action('init', array($this, 'create_order'));
@@ -382,6 +383,19 @@ class LLMS_Frontend_Forms
         LLMS()->session->set('llms_coupon', $coupon);
         return llms_add_notice(sprintf(__('Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms'), $coupon->coupon_code), 'success');
 
+    }
+
+    public function remove_coupon()
+    {
+
+        if (!isset($_POST['llms_remove_coupon'])) {
+            return;
+        }
+
+        $coupon = LLMS()->session->get('llms_coupon');
+
+        LLMS()->session->set('llms_coupon', null);
+        return llms_add_notice(sprintf(__('Coupon code <strong>%s</strong> has been removed from your order.', 'lifterlms'), $coupon->coupon_code), 'success');
     }
 
     /**
