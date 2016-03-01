@@ -1,23 +1,34 @@
 == Changelog ==
 
-= v2.1.2 - 2016/02/15 =
+= v2.2.0 - 2016/02/15 =
 -----------------------
 
-+ Add `the_content` filter to the content of emails sent by LifterLMS
+##### Certificate Background Images
+
+_We've completely rewritten the certificates template (but it's all backwards compatible)._
+
+
+##### Wow Bad Syntax, Very Typo, Such Grammar, So Undefined
+
 + Fixed a typo in filter associated with modifying the registration of the lesson post type (`lifterlms_register_post_type_lesson`)
-+ Updated Courses settings retrieval function to retrieve the correct "shop" page id
-+ Fixed an issue on the system report that prevented the "Courses Page" from being reported properly
-+ Fixed some CSS issues on Voucher screens
 + Fixed a grammatical error in a Membership restriction message
 + Fixed a syntax error in "/templates/course/outline-list-small.php" that prevented the `done` CSS class from being properly applied to completed lessons
++ Fixed a few typos and grammatical errors on the Course and Membership settings metaboxes
++ Fixed an undefined variable in "templates/course/syllabus.php"
++ Fixed an issue on the system report that prevented the "Courses Page" from being reported properly
++ Fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
+
+##### Additional Updates
+
++ Added `the_content` filter to the content of emails sent by LifterLMS
++ Fixed some CSS issues on Voucher screens
++ Updated Courses settings retrieval function to retrieve the correct "shop" page id
 + Added translation functions to voucher export meta box class
 + Vouchers Export metabox will only allow export after a voucher has been published. This prevent's an issue caused by attempting to export voucher codes before they were saved in the database via the publish / save action.
 + Vouchers can no longer be saved with a use of "0"
 + Sale price now allows saving of a sale without an end date
-+ Fixed a few typos and grammatical errors on the Course and Membership settings metaboxes
-+ fixed an undefined variable in "templates/course/syllabus.php"
 + added a CSS class for various syllabus outputs that notes that the lesson has an icon. Previously CSS relied on "is-complete" to output styles for having an icon but with the addition of placeholders the "is-complete" is used only to note that the lesson is completed and "has-icon" is a more semantic class that applies to both complete and incomplete lessons with an icon.
-+ fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
+
 
 = v2.1.1 - 2016/02/15 =
 -----------------------
