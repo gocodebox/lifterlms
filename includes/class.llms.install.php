@@ -349,7 +349,7 @@ class LLMS_Install {
 	 */
 	public function create_options() {
 		//store installed version
-		add_option('lifterlms_current_version', $this->version);
+		add_option('lifterlms_current_version', LLMS_VERSION);
 		add_option('lifterlms_is_activated', '');
 		add_option('lifterlms_update_key', '');
 		add_option('lifterlms_authkey', 'YA5j24mKX38yyLZf2CD6YX6i78Kr94tg');
