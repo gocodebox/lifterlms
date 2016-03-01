@@ -27,7 +27,7 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Fixed an undefined variable in "templates/course/syllabus.php"
 + Fixed an issue on the system report that prevented the "Courses Page" from being reported properly
 + Fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
-+ Fixed an installation warning where we were referencing an undefined variable
++ Fixed an installation warning caused by a reference to an undefined class variable
 
 ##### Additional, less exciting updates
 
