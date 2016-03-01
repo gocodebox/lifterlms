@@ -429,8 +429,14 @@ final class LifterLMS {
 	 */
 	public function localize() {
 
+		// load locale
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'lifterlms' );
+
+		// load a lifterlms specific locale file if one exists
+		load_textdomain( 'lifterlms', WP_LANG_DIR . '/lifterlms/lifterlms-' . $locale . '.mo' );
+
 		// load localization files
-		load_plugin_textdomain('lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( 'lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 	}
 
