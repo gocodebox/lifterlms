@@ -40,6 +40,27 @@
   color: #fefefe;
 }
 
+.llms-button-text,
+input.llms-button-text,
+input[type="reset"].llms-button-text,
+input[type="submit"].llms-button-text {
+  background: none;
+  border: 0;
+  color: #e5554e;
+  display: inline-block;
+  padding: 0;
+  text-decoration: none;
+}
+.llms-button-text:focus, .llms-button-text:hover,
+input.llms-button-text:focus,
+input.llms-button-text:hover,
+input[type="reset"].llms-button-text:focus,
+input[type="reset"].llms-button-text:hover,
+input[type="submit"].llms-button-text:focus,
+input[type="submit"].llms-button-text:hover {
+  background: none;
+}
+
 .course-link .llms-button {
   color: #fefefe;
   text-decoration: none;
@@ -1053,6 +1074,10 @@ svg .llms-animated-circle {
 
 .llms-question-count {
   margin-bottom: 20px;
+}
+
+.llms-remove-coupon {
+  float: right;
 }
 
 .llms-pagination ul {
