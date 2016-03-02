@@ -24,10 +24,21 @@ class LLMS_Meta_Box_Product {
 		do_action( 'lifterlms_before_save_product_meta_box', $post_id, $post );
 
 		// Update post meta
-		if ( isset( $_POST['_regular_price'] ) )
+		if ( isset( $_POST['_regular_price'] ) ) {
+
+			/**
+			 * @todo  deprecate '_price' b/c all this logic should be handled from the Product Class
+			 */
 			update_post_meta( $post_id, '_regular_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
-		if ( isset( $_POST['_sale_price'] ) )
+			update_post_meta( $post_id, '_price', ( $_POST['_regular_price'] === '' ) ? '' : llms_format_decimal( $_POST['_regular_price'] ) );
+
+		}
+
+		if ( isset( $_POST['_sale_price'] ) ) {
+
 			update_post_meta( $post_id, '_sale_price', ( $_POST['_sale_price'] === '' ? '' : llms_format_decimal( $_POST['_sale_price'] ) ) );
+
+		}
 
 
 		//Update Sales Price Dates
@@ -43,24 +54,17 @@ class LLMS_Meta_Box_Product {
 			$date_from = LLMS_Date::db_date(strtotime('NOW', current_time('timestamp')));
 		}
 
-		// Update price if on sale
-		if (isset( $_POST['_sale_price'] ) ) {
-			if ( $_POST['_sale_price'] !== '' && $date_to == '' && $date_from == '' ) {
-				update_post_meta($post_id, '_price', llms_format_decimal($_POST['_sale_price']));
-			} elseif ( $_POST['_sale_price'] !== '' && $date_from && strtotime( $date_from ) < strtotime( 'NOW', current_time( 'timestamp' ) ) && $date_to == '' ) {
-				update_post_meta($post_id, '_price', llms_format_decimal($_POST['_sale_price']));
-			} elseif ( !$date_to || ($date_to && strtotime( $date_to ) > strtotime( 'NOW', current_time( 'timestamp' ) ) ) ) {
-				update_post_meta( $post_id, '_price', ( $_POST['_sale_price'] === '' ) ? '' : llms_format_decimal( $_POST['_sale_price'] ) );
-			} else {
-				update_post_meta($post_id, '_price', ($_POST['_regular_price'] === '') ? '' : llms_format_decimal($_POST['_regular_price']));
-			}
-		}
 
-		if (isset( $_POST['_on_sale'])) {
+		// can't be on sale without a sale price
+		if ( isset( $_POST['_on_sale'] ) && !empty( $_POST['_sale_price'] ) ) {
+
 			$on_sale = llms_clean($_POST['_on_sale']);
 			update_post_meta( $post_id, '_on_sale', $on_sale );
+
 		} else {
+
 			update_post_meta( $post_id, '_on_sale', '' );
+
 		}
 
 

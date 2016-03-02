@@ -12,8 +12,18 @@
 
 _We've completely rewritten the certificates template (but it's all backwards compatible)._
 
+##### Course and Membership Sales
+
++ Sale price start and end date are now completely optional.
+	+ Provide neither a start date nor an end date to have a sale run indefinetly
+	+ Provide a start date with no end date to have a sale start at a pre-determined time with no pre-determined ending
+	+ Provide an end date with no start date to have a sale end a a pre-determined date but start immediately
+	+ Provide a start date and an end date to have a sale run for a pre-determined period of time
++ Optimized the `LLMS_Product` class to provide more reliable and extenable use of the class
+
 ##### Coupon Updates
 
++ Coupons can (finally) be removed after being applied!
 + Coupons can now be restricted to specific courses and/or memberships
 + Percentage based coupons can no longer be created with a value larger than 100%
 + Fixed a few instances where hardcoded a US Dollar symbol ($) where a dynamic currency symbol should have been displayed.
@@ -37,7 +47,6 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Added translation functions to voucher export meta box class
 + Vouchers Export metabox will only allow export after a voucher has been published. This prevent's an issue caused by attempting to export voucher codes before they were saved in the database via the publish / save action.
 + Vouchers can no longer be saved with a use of "0"
-+ Sale price now allows saving of a sale without an end date
 + added a CSS class for various syllabus outputs that notes that the lesson has an icon. Previously CSS relied on "is-complete" to output styles for having an icon but with the addition of placeholders the "is-complete" is used only to note that the lesson is completed and "has-icon" is a more semantic class that applies to both complete and incomplete lessons with an icon.
 
 
