@@ -77,7 +77,7 @@ class LLMS_Certificates {
 		if ( ! $person_id )
 			return;
 
-		$certificate = $this->emails['LLMS_Certificate_User'];
+		$certificate = $this->certs['LLMS_Certificate_User'];
 
 		$certificate->trigger( $person_id, $certificate_id, $engagement_id );
 	}
