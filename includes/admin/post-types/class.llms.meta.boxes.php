@@ -125,8 +125,12 @@ class LLMS_Admin_Meta_Boxes {
 		$operator = 'and';
 		$post_types = get_post_types( $args, $output, $operator );
 
+		$hide_membership_access_box = array('llms_certificate', 'llms_membership');
+
 		foreach ( $post_types  as $post_type ) {
-			add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', $post_type, 'side' );
+			if (!in_array($post_type, $hide_membership_access_box)) {
+				add_meta_box('lifterlms-membership-access', __('Membership Access', 'lifterlms'), 'LLMS_Meta_Box_Access::output', $post_type, 'side');
+			}
 			array_push($public_post_types, $post_type);
 		}
 
