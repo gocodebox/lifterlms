@@ -108,15 +108,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				),
 
 				array(
-					'title'         => __( 'Hard Crop?', 'lifterlms' ),
-					'id'            => 'lifterlms_certificate_bg_img_crop',
-					'desc'          => __( 'Automatically crop images to above dimensions', 'lifterlms' ),
-					'default'       => 'yes',
-					'type'          => 'checkbox',
-					'autoload'      => false
-				),
-
-				array(
 					'title'         => __( 'Legacy compatibility', 'lifterlms' ),
 					'desc'          => __( 'Use legacy certificate image sizes.', 'lifterlms' ) .
 									   '<br><em>' . __( 'Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image.', 'lifterlms' ) . '</em>',

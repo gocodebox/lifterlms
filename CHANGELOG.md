@@ -3,7 +3,7 @@
 = v2.2.0-2 - 2016/03/07 - PreRelease =
 --------------------------------------
 
-##### Tranlations
+##### Translations
 
 + We've updated our .pot file for the first time in quite a while. We're really sorry for de-emphasizing translation. An updated .pot file will now accompany each version of LifterLMS whenever a translatable string is adjusted or when a new string is added.
 + We've also made it easier to include custom translations. Read our knowledge base article on the matter here: [adsfadsfasdf]
@@ -11,6 +11,9 @@
 ##### Certificate Background Images
 
 _We've completely rewritten the certificates template (but it's all backwards compatible)._
+
++ New filters are available to make customizing the certificate template easier for developers. All new filters are documented at [https://lifterlms.readme.io/docs/functions-certificates](https://lifterlms.readme.io/docs/functions-certificates).
++ A new WordPress Image Size is now available and will be used for generating the image used by default when uploading certificates to the media library. Fore more information on these new settings visit [https://lifterlms.com/docs/certificate-background-image-sizes/](https://lifterlms.com/docs/certificate-background-image-sizes/).
 
 ##### Course and Membership Sales
 
@@ -41,6 +44,7 @@ _We've completely rewritten the certificates template (but it's all backwards co
 
 ##### Additional, less exciting updates
 
++ The "Emails" LifterLMS Settings Tab has been renamed "Engagements." All Email settings are found under this tab as well as some new settings related to other kinds of LifterLMS engagements.
 + Added `the_content` filter to the content of emails sent by LifterLMS
 + Fixed some CSS issues on Voucher screens
 + Updated Courses settings retrieval function to retrieve the correct "shop" page id

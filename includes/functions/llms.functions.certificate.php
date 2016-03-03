@@ -1,6 +1,10 @@
 <?php
 /**
- * Certificate related functions
+ * LifterLMS Certificate Functions
+ *
+ * @author LifterLMS
+ * @category  Core
+ * @package  LifterLMS/Functions
  * @since  2.2.0
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -30,7 +34,7 @@ function llms_get_certificate_content( $id = 0 )
 
 	$content = apply_filters('the_content', $certificate_content);
 
-	return apply_filters( 'lifterlms_certificate_content', $content );
+	return apply_filters( 'lifterlms_certificate_content', $content, $id );
 
 }
 
@@ -57,14 +61,14 @@ function llms_get_certificate_image( $id = 0 )
 
 	if ( ! $src ) {
 
-		$height = apply_filters( 'lifterlms_certificate_background_image_placeholder_height', 616 );
-		$width = apply_filters( 'lifterlms_certificate_background_image_placeholder_width', 800 );
+		$height = apply_filters( 'lifterlms_certificate_background_image_placeholder_height', 616, $id );
+		$width = apply_filters( 'lifterlms_certificate_background_image_placeholder_width', 800, $id );
 		$src = apply_filters( 'lifterlms_certificate_background_image_placeholder_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png', $id );
 
 	} else {
 
-		$height = apply_filters( 'lifterlms_certificate_background_image_height', $src[2] );
-		$width = apply_filters( 'lifterlms_certificate_background_image_width', $src[1] );
+		$height = apply_filters( 'lifterlms_certificate_background_image_height', $src[2], $id );
+		$width = apply_filters( 'lifterlms_certificate_background_image_width', $src[1], $id );
 		$src = apply_filters( 'lifterlms_certificate_background_image_src', $src[0], $id );
 
 	}
@@ -88,7 +92,7 @@ function llms_get_certificate_title( $id = 0 )
 
 	$id = ( $id ) ? $id : get_the_ID();
 
-	return apply_filters( 'lifterlms_certificate_title', get_post_meta( $id, '_llms_certificate_title', true ) );
+	return apply_filters( 'lifterlms_certificate_title', get_post_meta( $id, '_llms_certificate_title', true ), $id );
 
 }
 
@@ -102,9 +106,8 @@ function llms_register_certificate_image_size()
 
 	$width  = get_option( 'lifterlms_certificate_bg_img_width', '800' );
 	$height = get_option( 'lifterlms_certificate_bg_img_height', '616' );
-	$crop =   ( 'yes' === get_option( 'lifterlms_certificate_bg_img_crop' ) ) ? true : false;
 
-	add_image_size( 'print_certificate', $width, $height, true );
+	add_image_size( 'lifterlms_certificate_background', $width, $height, true );
 
 }
 add_action( 'init', 'llms_register_certificate_image_size' );
