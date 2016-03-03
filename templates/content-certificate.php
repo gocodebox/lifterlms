@@ -26,12 +26,12 @@ $image = llms_get_certificate_image();
 
 					<?php llms_print_notices(); ?>
 
-					<?php do_action('before_lifterlms_certificate_main_content'); ?>
+					<?php do_action( 'before_lifterlms_certificate_main_content' ); ?>
 
 					<h1><?php echo llms_get_certificate_title(); ?></h1>
 					<?php echo llms_get_certificate_content(); ?>
 
-					<?php do_action('after_lifterlms_certificate_main_content'); ?>
+					<?php do_action( 'after_lifterlms_certificate_main_content' ); ?>
 
 				</div>
 			</div>

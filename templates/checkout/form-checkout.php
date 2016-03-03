@@ -132,7 +132,7 @@ if ($coupon_session) {
 
 		<!-- Coupon code entry form -->
 		<div class="llms-coupon-entry llms-notice-box">
-			<?php if ( $coupon_session ): ?>
+			<?php if ( $coupon_session ) : ?>
 				<form class="llms-remove-coupon" id="llms-remove-coupon" method="post">
 					<div class="llms-center-content">
 						<input type="submit" class="llms-button-text" name="llms_remove_coupon" value="[<?php _e( 'Remove', 'lifterlms' ); ?>]" />
