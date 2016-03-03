@@ -32,7 +32,7 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 			value="<?php echo ! empty( $this->meta ) ? LLMS_Date::pretty_date( $this->meta ) : ''; ?>" size="30"
 		/>
 		<?php
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 

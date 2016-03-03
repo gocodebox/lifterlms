@@ -48,7 +48,7 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 				<small> <a href="#" id="<?php echo $this->field['id']; ?>" class="llms_<?php echo $this->field['class']; ?>_clear_image_button">Remove Image</a></small>
 				<br /><span class="description"><?php echo $this->field['desc']; ?></span>
 		<?php
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 

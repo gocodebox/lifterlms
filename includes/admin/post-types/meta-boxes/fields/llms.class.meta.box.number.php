@@ -36,7 +36,7 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		/>
 
 		<?php
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 

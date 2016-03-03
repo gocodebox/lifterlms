@@ -28,7 +28,7 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 		<textarea name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" cols="60" rows="4"><?php echo $this->meta; ?></textarea>
 		<br /><span class="description"><?php echo $this->field['desc']; ?></span>
 		<?php
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 

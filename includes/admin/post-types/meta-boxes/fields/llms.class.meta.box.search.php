@@ -44,7 +44,7 @@ class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			<?php endforeach; ?>
  		</select>
 		<?php
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 

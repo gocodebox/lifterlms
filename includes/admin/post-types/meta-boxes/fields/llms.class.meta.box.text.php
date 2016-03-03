@@ -32,7 +32,7 @@ class LLMS_Metabox_Text_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 		/>
 
 		<?php
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 

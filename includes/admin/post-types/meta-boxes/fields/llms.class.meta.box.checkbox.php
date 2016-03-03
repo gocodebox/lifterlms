@@ -45,7 +45,7 @@ class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box
 			<label for="<?php echo $this->field['id'] ?>"></label>
 		</div>
 		<?php
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 

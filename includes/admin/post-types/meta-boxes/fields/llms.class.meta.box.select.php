@@ -51,23 +51,23 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 			<?php foreach ($this->field['value'] as $option) :
 
-				$selectedText = '';
+				$selected_text = '';
 				if (is_array( $selected )) {
 					if (in_array( $option['key'], $selected )) {
-						$selectedText = ' selected="selected" ';
+						$selected_text = ' selected="selected" ';
 					}
 				} elseif ($option['key'] == $selected) {
-					$selectedText = ' selected="selected" ';
+					$selected_text = ' selected="selected" ';
 				}
 
 				?>
 				<option value="<?php echo $option['key']; ?>"
-					<?php echo $selectedText ?>><?php echo $option['title']; ?></option>
+					<?php echo $selected_text ?>><?php echo $option['title']; ?></option>
 
 			<?php endforeach; ?>
 		</select>
 		<?php
-		parent::Closeoutput();
+		parent::close_output();
 	}
 
 }

@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 *
@@ -10,17 +10,18 @@ class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field implements Meta
 	 * Class constructor
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct($_field)
-	{
+	function __construct( $_field ) {
+
 		$this->field = $_field;
+
 	}
 
 	/**
 	 * outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function output()
-	{
+	public function output() {
+
 		global $post;
 
 		parent::output();
@@ -33,14 +34,12 @@ class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field implements Meta
 				'theme_advanced_buttons2' => '',
 			),
 			'editor_css'	=> '<style>#wp-content-editor-container .wp-editor-area{height:300px; width:100%;}</style>',
-			'drag_drop_upload' => true
+			'drag_drop_upload' => true,
 		);
 
-		wp_editor( htmlspecialchars_decode(
-			$post->post_content ),
-			'content', apply_filters( 'lifterlms_course_full_description_editor_settings', $settings ) );
+		wp_editor( htmlspecialchars_decode( $post->post_content ), 'content', apply_filters( 'lifterlms_course_full_description_editor_settings', $settings ) );
 
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 

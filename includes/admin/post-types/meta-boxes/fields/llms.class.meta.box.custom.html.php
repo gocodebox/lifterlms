@@ -25,7 +25,7 @@ class LLMS_Metabox_Custom_Html_Field extends LLMS_Metabox_Field implements Meta_
 
 		parent::output();
 		echo $this->field['value'];
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 

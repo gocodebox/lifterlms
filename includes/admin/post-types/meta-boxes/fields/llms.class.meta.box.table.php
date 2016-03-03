@@ -24,24 +24,24 @@ class LLMS_Metabox_Table_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 		global $post;
 
 		parent::output(); ?>
-            <table class="form-table">
-                <thead>
-                    <?php foreach ( $this->field['titles'] as $title  ) : ?>
-                        <th><?php echo $title; ?></th>
-                    <?php endforeach; ?>
-                </thead>
-                <tbody>
-                    <?php foreach ( $this->field['table_data'] as $row  ) : ?>
-                        <tr>
-                            <?php foreach ( $row as $column  ) : ?>
-                                <td><?php echo $column; ?></td>
-                            <?php endforeach; ?>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php
-		parent::Closeoutput();
+			<table class="form-table">
+				<thead>
+					<?php foreach ( $this->field['titles'] as $title  ) : ?>
+						<th><?php echo $title; ?></th>
+					<?php endforeach; ?>
+				</thead>
+				<tbody>
+					<?php foreach ( $this->field['table_data'] as $row  ) : ?>
+						<tr>
+							<?php foreach ( $row as $column  ) : ?>
+								<td><?php echo $column; ?></td>
+							<?php endforeach; ?>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php
+		parent::close_output();
 	}
 }
 

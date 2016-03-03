@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 *
@@ -10,8 +10,7 @@ class LLMS_Metabox_Post_Excerpt_Field extends LLMS_Metabox_Field implements Meta
 	 * Class constructor
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct($_field)
-	{
+	function __construct( $_field ) {
 		$this->field = $_field;
 	}
 
@@ -19,8 +18,8 @@ class LLMS_Metabox_Post_Excerpt_Field extends LLMS_Metabox_Field implements Meta
 	 * outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function output()
-	{
+	public function output() {
+
 		global $post;
 
 		parent::output();
@@ -34,15 +33,15 @@ class LLMS_Metabox_Post_Excerpt_Field extends LLMS_Metabox_Field implements Meta
 			),
 			'editor_class' => 'llms-post-editor',
 			'editor_css'	=> '<style>#excerpt_ifr{height:300px}#wp-excerpt-editor-container .wp-editor-area{height:300px; width:100%;}</style>',
-			'drag_drop_upload' => true
+			'drag_drop_upload' => true,
 		);
 
-		wp_editor( htmlspecialchars_decode(
-			$post->post_excerpt ),
-			'excerpt', apply_filters( 'lifterlms_course_short_description_editor_settings', $settings ) );
+		wp_editor( htmlspecialchars_decode( $post->post_excerpt ), 'excerpt', apply_filters( 'lifterlms_course_short_description_editor_settings', $settings ) );
 
-		?> <div class="clear"></div> <?php
-		parent::Closeoutput();
+		echo '<div class="clear"></div>';
+
+		parent::close_output();
+
 	}
 }
 

@@ -9,8 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 * @author codeBOX
 * @project lifterLMS
 */
-abstract class LLMS_Metabox_Field
-{
+abstract class LLMS_Metabox_Field {
+
 	/**
 	 * Global array used in class instance to store field information
 	 * @var array
@@ -23,26 +23,6 @@ abstract class LLMS_Metabox_Field
 	 */
 	public $meta;
 
-	/**
-	 * Returns the information for a certain value in $field
-	 * @param string $name Key to lookup in $field
-	 * @return object
-	 */
-	public function GetField( $name ) {
-
-		return $this->field[ $name ];
-	}
-
-	/**
-	 * Updates a value inside $field
-	 * @param string $name  Key to reference in $field
-	 * @param object $value Updated value for key
-	 * @return void
-	 */
-	public function SetField( $name, $value ) {
-
-		$this->field[ $name ] = $value;
-	}
 
 	/**
 	 * outputs the head for each of the field types
@@ -77,9 +57,10 @@ abstract class LLMS_Metabox_Field
 	/**
 	 * outputs the tail for each of the field types
 	 */
-	public function Closeoutput() {
+	public function close_output() {
 
-		?> <div class="clear"></div></li> <?php
+		echo '<div class="clear"></div></li>';
+
 	}
 
 	/**

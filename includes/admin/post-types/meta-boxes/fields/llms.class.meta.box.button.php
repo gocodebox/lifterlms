@@ -32,7 +32,7 @@ class LLMS_Metabox_Button_Field extends LLMS_Metabox_Field implements Meta_Box_F
  			<?php echo esc_attr( $this->field['value'] ); ?>
  		</button>
 		<?php
-		parent::Closeoutput();
+		parent::close_output();
 	}
 }
 
