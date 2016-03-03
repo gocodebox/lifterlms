@@ -40,14 +40,14 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 		global $post;
 
 		$voucher = new LLMS_Voucher( $post->ID );
-		$selectedProducts = $voucher->get_products();
+		$selected_products = $voucher->get_products();
 
 		$courses = LLMS_Analytics::get_posts( 'course' );
 
-		$coursesSelect = array();
+		$courses_select = array();
 		if ( ! empty( $courses )) {
 			foreach ($courses as $course) {
-				$coursesSelect[] = array(
+				$courses_select[] = array(
 					'key' => $course->ID,
 					'title' => $course->post_title,
 				);
@@ -56,10 +56,10 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 
 		$memberships = LLMS_Analytics::get_posts( 'llms_membership' );
 
-		$membershipsSelect = array();
+		$membership_select = array();
 		if ( ! empty( $memberships )) {
 			foreach ($memberships as $membership) {
-				$membershipsSelect[] = array(
+				$membership_select[] = array(
 					'key' => $membership->ID,
 					'title' => $membership->post_title,
 				);
@@ -75,18 +75,18 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 						'label' => 'Courses',
 						'id' => self::$prefix . 'llms_voucher_courses',
 						'class' => 'input-full llms-meta-select',
-						'value' => $coursesSelect,
+						'value' => $courses_select,
 						'multi' => true,
-						'selected' => $selectedProducts,
+						'selected' => $selected_products,
 					),
 					array(
 						'type' => 'select',
 						'label' => 'Membership',
 						'id' => self::$prefix . 'llms_voucher_membership',
 						'class' => 'input-full llms-meta-select',
-						'value' => $membershipsSelect,
+						'value' => $membership_select,
 						'multi' => true,
-						'selected' => $selectedProducts,
+						'selected' => $selected_products,
 					),
 					array(
 						'type' => 'custom-html',
@@ -137,8 +137,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                 </tr>
                 </thead>
 
-                <?php $deleteIcon = LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' ); ?>
-                <script>var deleteIcon = '<?php echo $deleteIcon ?>';</script>
+                <?php $delete_icon = LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' ); ?>
+                <script>var delete_icon = '<?php echo $delete_icon ?>';</script>
 
                 <tbody id="llms_voucher_tbody">
                 <?php if ( ! empty( $codes )) :
@@ -155,7 +155,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                                                         name="llms_voucher_uses[]"></td>
                             <td>
                                 <a href="#" data-id="<?php echo $code->id ?>" class="llms-voucher-delete">
-                                    <?php echo $deleteIcon; ?>
+                                    <?php echo $delete_icon; ?>
                                 </a>
                             </td>
                         </tr>
@@ -185,7 +185,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 
 		$pid = $post->ID;
 		$voucher = new LLMS_Voucher( $pid );
-		$redeemedCodes = $voucher->get_redeemed_codes();
+		$redeemed_codes = $voucher->get_redeemed_codes();
 		ob_start(); ?>
 
         <div class="llms-voucher-redemption-wrapper">
@@ -201,16 +201,16 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                 </thead>
 
                 <tbody>
-                <?php if ( ! empty( $redeemedCodes )) :
-					foreach ($redeemedCodes as $redeemedCode) :
+                <?php if ( ! empty( $redeemed_codes )) :
+					foreach ($redeemed_codes as $redeemed_code) :
 
-						$user = get_user_by( 'id', $redeemedCode->user_id );
+						$user = get_user_by( 'id', $redeemed_code->user_id );
 						?>
                         <tr>
                             <td><?php echo $user->data->display_name ?></td>
                             <td><?php echo $user->data->user_email ?></td>
-                            <td><?php echo $redeemedCode->redemption_date ?></td>
-                            <td><?php echo $redeemedCode->code ?></td>
+                            <td><?php echo $redeemed_code->redemption_date ?></td>
+                            <td><?php echo $redeemed_code->code ?></td>
                         </tr>
                     <?php endforeach;
 				endif;

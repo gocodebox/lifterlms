@@ -387,7 +387,7 @@ function find_prerequisite( $user_id, $post ) {
 	$p = $course->get_prerequisite();
 
 	$prerequisite_exists = false;
-	$initialPrereq = false;
+	$initial_prereq = false;
 
 	if ($prerequisite_id = $course->get_prerequisite()) {
 		$prerequisite_exists = true;
@@ -404,7 +404,7 @@ function find_prerequisite( $user_id, $post ) {
 				}
 			}
 		}
-		$initialPrereq = $prerequisite_exists;
+		$initial_prereq = $prerequisite_exists;
 	}
 	if ($prerequisite_id = $course->get_prerequisite_track()) {
 		$prerequisite_exists = true;
@@ -444,7 +444,7 @@ function find_prerequisite( $user_id, $post ) {
 		}
 	}
 
-	return ($initialPrereq || $prerequisite_exists);
+	return ($initial_prereq || $prerequisite_exists);
 
 }
 
@@ -469,8 +469,8 @@ function llms_get_course_enrolled_date( $user_id, $post_id ) {
 	}
 
 		$start_date = '';
-		$llmsPerson = new LLMS_Person();
-		$user_postmetas = $llmsPerson->get_user_postmeta_data( $user_id, $course_id );
+		$llms_person = new LLMS_Person();
+		$user_postmetas = $llms_person->get_user_postmeta_data( $user_id, $course_id );
 
 	if ( isset( $user_postmetas['_status'] ) ) {
 		if ( $user_postmetas['_status']->meta_value == 'Enrolled' ) {

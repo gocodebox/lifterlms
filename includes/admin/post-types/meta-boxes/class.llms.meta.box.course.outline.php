@@ -15,26 +15,26 @@ class LLMS_Meta_Box_Course_Outline {
 	public static function section_tile( $section_id ) {
 
 		$section = get_post( $section_id );
-		$sectionObj = new LLMS_Section( $section->ID );
+		$section_obj = new LLMS_Section( $section->ID );
 
 		$html = '<li class="ui-state-default llms-section">';
 
 		$html .= '<div class="section-content-wrapper d-all t-all m-all">';
 		$html .= '<div class="description d-3of4 t-3of4 m-all">';
 		$html .= LLMS_Svg::get_icon( 'llms-icon-circle', 'Section', 'Section', 'tree-icon' );
-		$html .= ' ' . __( 'Section', 'lifterlms' ) . ' <span class="llms-section-order">' . $sectionObj->get_order() . '</span>: 
+		$html .= ' ' . __( 'Section', 'lifterlms' ) . ' <span class="llms-section-order">' . $section_obj->get_order() . '</span>:
 			<span class="llms-section-title">' . $section->post_title . '</span>';
 		$html .= '</div>';
 
 		$html .= '<div class="list-options d-1of4 t-1of4 m-all last-col">';
 
 		//delete link
-		$html .= '<a href="#" class="llms-delete-section-link" 
+		$html .= '<a href="#" class="llms-delete-section-link"
    			data-modal_id="llms-delete-section-modal" data-modal_title="Delete Section">';
 		$html .= LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' );
 		$html .= '</a>';
 		//edit link
-		$html .= '<a href="#" class="llms-edit-section-link" 
+		$html .= '<a href="#" class="llms-edit-section-link"
    			data-modal_id="llms-edit-section-modal" data-modal_title="Edit Section">';
 		$html .= LLMS_Svg::get_icon( 'llms-icon-gear', 'Edit Section', 'Edit Section', 'button-icon' );
 		$html .= '</a>';
@@ -42,14 +42,14 @@ class LLMS_Meta_Box_Course_Outline {
 		$html .= '</div>';
 
 		$html .= '<input type="hidden" name="llms_section_id[]" value="' . $section->ID . '">';
-			$html .= '<input type="hidden" name="llms_section_order[]" value="' . $sectionObj->get_order() . '">';
+			$html .= '<input type="hidden" name="llms_section_order[]" value="' . $section_obj->get_order() . '">';
 
 			$html .= '</div>'; //end section content
 			$html .= '<div class="clear"></div>';
 			//lesson tree
 			$html .= '<ul id="llms_section_tree_' . $section->ID . '" class="llms-lesson-tree">';
 
-			$lessons = $sectionObj->get_children_lessons();
+			$lessons = $section_obj->get_children_lessons();
 		foreach ( $lessons as $lesson ) {
 			$html .= self::lesson_tile( $lesson->ID, $section->ID );
 		}
@@ -74,7 +74,7 @@ class LLMS_Meta_Box_Course_Outline {
 		$html .= '<div class="description d-2of3 t-2of3 m-all">';
 
 		$html .= LLMS_Svg::get_icon( 'llms-icon-circle-empty', 'Lesson', 'Lesson', 'tree-icon' );
-		$html .= ' ' . __( 'Lesson', 'lifterlms' ) . ' <span class="llms-lesson-order">' . $lesson->get_order() . '</span>: 
+		$html .= ' ' . __( 'Lesson', 'lifterlms' ) . ' <span class="llms-lesson-order">' . $lesson->get_order() . '</span>:
 		<span class="llms-lesson-title">' . $lesson->post->post_title . '</span>';
 
 		$html .= '<p class="llms-lesson-excerpt">';
@@ -91,7 +91,7 @@ class LLMS_Meta_Box_Course_Outline {
 		$html .= LLMS_Svg::get_icon( 'llms-icon-close', 'Remove Lesson', 'Remove Lesson', 'button-icon' );
 		$html .= '</a>';
 		//edit link
-		$html .= '<a href="#" class="llms-edit-lesson-link" 
+		$html .= '<a href="#" class="llms-edit-lesson-link"
    			data-modal_id="llms-edit-lesson-modal" data-modal_title="Edit Lesson">';
 		$html .= LLMS_Svg::get_icon( 'llms-icon-gear', 'Edit Lesson', 'Edit Lesson', 'button-icon' );
 		$html .= '</a>';
@@ -132,7 +132,7 @@ class LLMS_Meta_Box_Course_Outline {
 
 		$html .= '<form>';
 		$html .= '<label>' . LLMS_Language::output( 'Start by entering the title of a course:' ) . '</label>';
-		$html .= '<input type="text" name="llms-course-name" id="llms-course-name" 
+		$html .= '<input type="text" name="llms-course-name" id="llms-course-name"
 			placeholder="' . LLMS_Language::output( 'Enter a name for your course' ) . '">';
 		$html .= '<input type="hidden" name="llms-course-setup" id="llms-course-setup value="yes">';
 		$html .= '<input type="submit" class="llms-button-primary full" id="llms-create-course-submit" value="'
@@ -275,7 +275,7 @@ class LLMS_Meta_Box_Course_Outline {
 	    $html .= '<div id="llms-add-existing-lesson" class="llms-modal-form">';
 	    $html .= '<h3>' . LLMS_Language::output( 'Add an existing lesson' ) . '</h3>';
 	    $html .= '<p>';
-	    $html .= LLMS_Language::output('You can add any lesson you have previously created. 
+	    $html .= LLMS_Language::output('You can add any lesson you have previously created.
 	    	If the lesson is already assigned to a course a duplicate lesson will be created for you.');
 	    $html .= '</p>';
 	    //form
@@ -386,13 +386,13 @@ class LLMS_Meta_Box_Course_Outline {
 			$html .= __( 'Add New Section', 'lifterlms' );
 			$html .= '</a>';
 
-			$html .= '<a href="#" class="llms-modal-new-lesson-link" 
+			$html .= '<a href="#" class="llms-modal-new-lesson-link"
    			data-modal_id="llms-add-new-lesson-modal" data-modal_title="Create Lesson">';
 			$html .= LLMS_Svg::get_icon( 'llms-icon-new-lesson', 'Add New Lesson', 'Add a new lesson.', 'menu-icon' );
 			$html .= 'Add New Lesson';
 			$html .= '</a>';
 
-			$html .= '<a href="#" class="llms-modal-existing-lesson-link menu_bottom" 
+			$html .= '<a href="#" class="llms-modal-existing-lesson-link menu_bottom"
    			data-modal_id="llms-add-existing-lesson-modal" data-modal_title="Add Existing Lesson">';
 			$html .= LLMS_Svg::get_icon( 'llms-icon-existing-lesson', 'Add Existing Lesson', 'Add an existing lesson.', 'menu-icon' );
 			$html .= 'Add Existing Lesson';
@@ -441,7 +441,7 @@ class LLMS_Meta_Box_Course_Outline {
 			$tooltip = LLMS_Language::output( 'No Prerequisite' );
 		}
 
-			$html .= '<a href="#" class="tooltip" 
+			$html .= '<a href="#" class="tooltip"
 				title="' . $tooltip . '">
 				<span title="">';
 				$html .= LLMS_Svg::get_icon( 'llms-icon-lock', 'Prerequisite', $tooltip, $icon_class );
@@ -455,7 +455,7 @@ class LLMS_Meta_Box_Course_Outline {
 			$tooltip = LLMS_Language::output( 'No Assigned Quiz' );
 		}
 
-			$html .= '<a href="#" class="tooltip" 
+			$html .= '<a href="#" class="tooltip"
 				title="' . $tooltip . '">
 				<span title="">';
 				$html .= LLMS_Svg::get_icon( 'llms-icon-question', 'Quiz', $tooltip, $icon_class );
@@ -469,7 +469,7 @@ class LLMS_Meta_Box_Course_Outline {
 			$tooltip = LLMS_Language::output( 'No Drip Delay' );
 		}
 
-			$html .= '<a href="#" class="tooltip" 
+			$html .= '<a href="#" class="tooltip"
 				title="' . $tooltip . '">
 				<span title="">';
 				$html .= LLMS_Svg::get_icon( 'llms-icon-calendar', 'Drip Content', $tooltip, $icon_class );
@@ -483,7 +483,7 @@ class LLMS_Meta_Box_Course_Outline {
 			$tooltip = LLMS_Language::output( 'No Lesson Content' );
 		}
 
-			$html .= '<a href="#" class="tooltip" 
+			$html .= '<a href="#" class="tooltip"
 				title="' . $tooltip . '">
 				<span title="">';
 				$html .= LLMS_Svg::get_icon( 'llms-icon-paper', 'Lesson Content', $tooltip, $icon_class );

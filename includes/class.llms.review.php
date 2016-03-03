@@ -10,18 +10,18 @@ class LLMS_Reviews
 	/**
 	 * This is the constructor for this class. It takes care of attaching
 	 * the functions in this file to the appropriate actions. These actions are:
-	 * 1) Output after course info
-	 * 2) Output after membership info
+	 * 1) output after course info
+	 * 2) output after membership info
 	 * 3 & 4) Add function call to the proper AJAX call
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
-		add_filter( 'lifterlms_single_course_after_summary', array( $this, 'Output' ),30 );
-		add_filter( 'lifterlms_single_membership_after_summary', array( $this, 'Output' ),30 );
-		add_action( 'wp_ajax_LLMSSubmitReview', array( $this, 'ProcessReview' ) );
-		add_action( 'wp_ajax_nopriv_LLMSSubmitReview', array( $this, 'ProcessReview' ) );
+		add_filter( 'lifterlms_single_course_after_summary', array( $this, 'output' ),30 );
+		add_filter( 'lifterlms_single_membership_after_summary', array( $this, 'output' ),30 );
+		add_action( 'wp_ajax_LLMSSubmitReview', array( $this, 'process_review' ) );
+		add_action( 'wp_ajax_nopriv_LLMSSubmitReview', array( $this, 'process_review' ) );
 	}
 
 	/**
@@ -30,7 +30,7 @@ class LLMS_Reviews
 	 * if not, nothing will happen. This function also checks to
 	 * see if a user is allowed to review more than once.
 	 */
-	public static function Output() {
+	public static function output() {
 
 		/**
 		 * Check to see if we are supposed to output the code at all
@@ -72,7 +72,7 @@ class LLMS_Reviews
 				<?php
 			}
 			?>
-			<hr>	
+			<hr>
 			</div>
 			<?php
 		}
@@ -117,8 +117,8 @@ class LLMS_Reviews
 					<?php wp_nonce_field( 'submit_review','submit_review_nonce_code' ); ?>
 					<input name="action" value="submit_review" type="hidden">
 					<input name="post_ID" value="<?php echo get_the_ID() ?>" type="hidden" id="post_ID">
-					<input type="submit" class="button" value="Leave Review" id="llms_review_submit_button">	
-				<!--</form>	-->		
+					<input type="submit" class="button" value="Leave Review" id="llms_review_submit_button">
+				<!--</form>	-->
 				</div>
 				<div id="thank_you_box" style="display:none;">
 					<h2><?php echo apply_filters( 'llms_review_thank_you_text',__( 'Thank you for your review!','lifterlms' ) ); ?></h2>
@@ -136,7 +136,7 @@ class LLMS_Reviews
 	 *
 	 * @return void
 	 */
-	public function ProcessReview() {
+	public function process_review() {
 
 		$post = array(
 		  'post_content'   => $_POST['review_text'], // The full text of the post.

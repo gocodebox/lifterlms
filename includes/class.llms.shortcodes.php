@@ -31,7 +31,7 @@ class LLMS_Shortcodes {
 			'lifterlms_regiration' => __CLASS__ . '::registration',
 			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
-			'lifterlms_related_courses' => __CLASS__ . '::RelatedCourses',
+			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
 			'lifterlms_memberships' => __CLASS__ . '::memberships',
 		);
 
@@ -344,7 +344,7 @@ class LLMS_Shortcodes {
 	*
 	* @return array
 	*/
-	public static function RelatedCourses( $atts ) {
+	public static function related_courses( $atts ) {
 
 	    ob_start();
 

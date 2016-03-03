@@ -452,11 +452,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
-		$postId = (string) $post->ID;
 
 		if (isset( $_POST['_llms_course_membership'] )) {
 			foreach ($_POST['_llms_course_membership'] as $course_id) {
-				$memberships = array_merge( get_post_meta( $course_id, '_llms_restricted_levels', true ), array( $postId ) );
+				$memberships = array_merge( get_post_meta( $course_id, '_llms_restricted_levels', true ), array( $post_id ) );
 
 				update_post_meta( $course_id, '_llms_is_restricted', true );
 				update_post_meta( $course_id, '_llms_restricted_levels', $memberships );
@@ -465,7 +464,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 		if (isset( $_POST['_llms_remove_course_membership'] )) {
 			foreach ($_POST['_llms_remove_course_membership'] as $course_id) {
-				$memberships = array_diff( get_post_meta( $course_id, '_llms_restricted_levels', true ), array( $postId ) );
+				$memberships = array_diff( get_post_meta( $course_id, '_llms_restricted_levels', true ), array( $post_id ) );
 
 				if ( ! count( $memberships )) {
 					update_post_meta( $course_id, '_llms_is_restricted', false );

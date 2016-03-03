@@ -41,10 +41,10 @@ class LLMS_Meta_Box_Lesson_Tree {
 
 		$html .= '</label>';
 
-			$html .= '<select data-placeholder="Choose a section..." 
-				style="width:350px;" 
-				id="associated_section" 
-				single name="associated_section" 
+			$html .= '<select data-placeholder="Choose a section..."
+				style="width:350px;"
+				id="associated_section"
+				single name="associated_section"
 				class="chosen-select">';
 			$html .= '<option value="" selected>Select a section...</option>';
 
@@ -77,8 +77,8 @@ class LLMS_Meta_Box_Lesson_Tree {
 
 			if ( $sections ) {
 				foreach ( $sections as $section ) {
-					$sectionObj = new LLMS_Section( $section->ID );
-					$lessons = $sectionObj->get_children_lessons();
+					$section_obj = new LLMS_Section( $section->ID );
+					$lessons = $section_obj->get_children_lessons();
 
 					//section list start
 					$html .= '<ul class="llms-lesson-list">';

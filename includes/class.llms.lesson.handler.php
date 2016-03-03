@@ -98,9 +98,9 @@ class LLMS_Lesson_Handler {
 			return false;
 		}
 
-		$postObj = get_post( $post_id );
+		$post_obj = get_post( $post_id );
 		//last check...
-		if ( ! isset( $postObj ) || $postObj == null ) {
+		if ( ! isset( $post_obj ) || $post_obj == null ) {
 			return false;
 		}
 
@@ -108,19 +108,19 @@ class LLMS_Lesson_Handler {
 
 		//create duplicate post
 		$args = array(
-			'comment_status' => $postObj->comment_status,
-			'ping_status'    => $postObj->ping_status,
-			'post_author'    => $postObj->post_author,
-			'post_content'   => $postObj->post_content,
-			'post_excerpt'   => $postObj->post_excerpt,
-			'post_name'      => $postObj->post_name,
-			'post_parent'    => $postObj->post_parent,
+			'comment_status' => $post_obj->comment_status,
+			'ping_status'    => $post_obj->ping_status,
+			'post_author'    => $post_obj->post_author,
+			'post_content'   => $post_obj->post_content,
+			'post_excerpt'   => $post_obj->post_excerpt,
+			'post_name'      => $post_obj->post_name,
+			'post_parent'    => $post_obj->post_parent,
 			'post_status'    => 'publish',
-			'post_title'     => $postObj->post_title,
-			'post_type'      => $postObj->post_type,
-			'to_ping'        => $postObj->to_ping,
-			'menu_order'     => $postObj->menu_order,
-			'post_password'  => $postObj->post_password,
+			'post_title'     => $post_obj->post_title,
+			'post_type'      => $post_obj->post_type,
+			'to_ping'        => $post_obj->to_ping,
+			'menu_order'     => $post_obj->menu_order,
+			'post_password'  => $post_obj->post_password,
 		);
 
 		//create the duplicate post
@@ -129,9 +129,9 @@ class LLMS_Lesson_Handler {
 		if ( $new_post_id ) {
 
 			//get all current post terms and set them to the new post
-			$taxonomies = get_object_taxonomies( $postObj->post_type );
+			$taxonomies = get_object_taxonomies( $post_obj->post_type );
 			foreach ($taxonomies as $taxonomy) {
-				$post_terms = wp_get_object_terms( $postObj->ID, $taxonomy, array( 'fields' => 'slugs' ) );
+				$post_terms = wp_get_object_terms( $post_obj->ID, $taxonomy, array( 'fields' => 'slugs' ) );
 				wp_set_object_terms( $new_post_id, $post_terms, $taxonomy, false );
 			}
 

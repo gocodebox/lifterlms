@@ -89,8 +89,8 @@ class LLMS_Meta_Box_Lesson_Options {
 		update_post_meta( $post_id, '_days_before_avalailable', ( $days === '' ) ? '' : $days );
 
 		// Free lesson checkbox
-		$freeLesson = ( isset( $_POST['_llms_free_lesson'] ) ? true : false );
-		update_post_meta( $post_id, '_llms_free_lesson', ( $freeLesson === '' ) ? '' : $freeLesson );
+		$free_lesson = ( isset( $_POST['_llms_free_lesson'] ) ? true : false );
+		update_post_meta( $post_id, '_llms_free_lesson', ( $free_lesson === '' ) ? '' : $free_lesson );
 
 		if ( isset( $_POST['_llms_assigned_quiz'] ) ) {
 			//update assigned quiz select

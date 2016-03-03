@@ -40,7 +40,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox{
 		 * Array of the possible types of engagements
 		 * @var array
 		 */
-		$engagementTypes = array(
+		$engagement_types = array(
 			array(
 				'key' 	=> 'email',
 				'title' => 'Send Email',
@@ -59,7 +59,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox{
 		 * Array of the possible event triggers
 		 * @var array
 		 */
-		$eventTriggers  = array(
+		$event_triggers  = array(
 			array(
 				'key' 	=> 'lesson_completed',
 				'title' => 'Lesson Completed',
@@ -99,7 +99,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox{
 						'class' 	=> 'llms-chosen-select',
 						'desc_class' => 'd-all',
 						'group' 	=> '',
-						'value' 	=> $engagementTypes,
+						'value' 	=> $engagement_types,
 					),
 					array(
 						'label'  	=> 'Engagement Delay (in days)',
@@ -121,7 +121,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox{
 						'class' 	=> 'llms-chosen-select',
 						'desc_class' => 'd-all',
 						'group' 	=> 'event-trigger-top',
-						'value' 	=> $eventTriggers,
+						'value' 	=> $event_triggers,
 					),
 					array(
 						'label'  	=> 'Event Trigger',
@@ -132,7 +132,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox{
 						'class' 	=> 'llms-chosen-select',
 						'desc_class' => 'd-all',
 						'group' 	=> 'bottom event-trigger-bottom',
-						'value' 	=> $eventTriggers,
+						'value' 	=> $event_triggers,
 					),
 				),
 			),

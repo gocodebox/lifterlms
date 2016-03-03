@@ -58,12 +58,12 @@ abstract class LLMS_Admin_Metabox {
 
 				<ul>
 					<?php foreach ( $meta_box['fields'] as $field ) :
-						$fieldClassName = str_replace('{TOKEN}',
+						$field_class_name = str_replace('{TOKEN}',
 							ucfirst( strtr( preg_replace_callback( '/(\w+)/', create_function( '$m','return ucfirst($m[1]);' ), $field['type'] ),'-','_' ) ),
 						'LLMS_Metabox_{TOKEN}_Field');
-						$fieldClass = new $fieldClassName($field);
-						$fieldClass->Output();
-						unset( $fieldClass );
+						$field_class = new $field_class_name($field);
+						$field_class->Output();
+						unset( $field_class );
 					endforeach; ?>
 				</ul>
 

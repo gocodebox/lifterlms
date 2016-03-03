@@ -24,11 +24,11 @@ class LLMS_Admin_Reviews
 	 */
 	public function __construct() {
 
-		add_action( 'manage_llms_review_posts_columns',array( $this, 'Init' ) );
-		add_action( 'manage_edit-llms_review_sortable_columns',array( $this, 'MakeColumnsSortable' ) );
-		add_action( 'manage_llms_review_posts_custom_column',array( $this, 'GenerateColumnData' ),10,2 );
-		add_action( 'llms_meta_fields_course_main', array( $this, 'AddReviewMetaBoxes' ) );
-		add_action( 'save_post', array( $this, 'SaveReviewMetaBoxes' ) );
+		add_action( 'manage_llms_review_posts_columns',array( $this, 'init' ) );
+		add_action( 'manage_edit-llms_review_sortable_columns',array( $this, 'make_columns_sortable' ) );
+		add_action( 'manage_llms_review_posts_custom_column',array( $this, 'generate_column_data' ),10,2 );
+		add_action( 'llms_meta_fields_course_main', array( $this, 'add_review_meta_boxes' ) );
+		add_action( 'save_post', array( $this, 'save_review_meta_boxes' ) );
 	}
 
 	/**
@@ -40,7 +40,7 @@ class LLMS_Admin_Reviews
 	 *
 	 * @return array The updated array of columns.
 	 */
-	public function Init( $columns ) {
+	public function init( $columns ) {
 
 		unset( $columns['date'] );
 		unset( $columns['comments'] );
@@ -56,7 +56,7 @@ class LLMS_Admin_Reviews
 	 * @param array $columns Array of sortable columns
 	 * @return array Updated column array.
 	 */
-	public function MakeColumnsSortable( $columns ) {
+	public function make_columns_sortable( $columns ) {
 
 		$columns['course'] = 'course';
 		return $columns;
@@ -69,17 +69,15 @@ class LLMS_Admin_Reviews
 	 * required.
 	 *
 	 * @param string $column  Type of column being worked on
-	 * @param int $post_ID ID of comment
+	 * @param int $post_id ID of comment
 	 *
 	 * @return void
 	 */
-	public function GenerateColumnData( $column, $post_ID ) {
+	public function generate_column_data( $column, $post_id ) {
 
 		switch ( $column ) {
 			case 'course':
-				echo (wp_get_post_parent_id( $post_ID ) != 0) ?
-				 get_the_title( wp_get_post_parent_id( $post_ID ) ) :
-				 '';
+				echo ( wp_get_post_parent_id( $post_id ) != 0 ) ? get_the_title( wp_get_post_parent_id( $post_id ) ) : '';
 			break;
 		}
 	}
@@ -93,7 +91,7 @@ class LLMS_Admin_Reviews
 	 *
 	 * @return array Updated array of meta fields
 	 */
-	public function AddReviewMetaBoxes( $content ) {
+	public function add_review_meta_boxes( $content ) {
 
 		/**
 		 * This array is what holds the updated fields.
@@ -149,11 +147,11 @@ class LLMS_Admin_Reviews
 			$fields = apply_filters( 'llms_review_fields', $fields );
 		}
 
-		$metaBoxTab = array(
+		$metaboxtab = array(
 			'title' => 'Reviews',
 			'fields' => $fields,
 		);
-		array_push( $content, $metaBoxTab );
+		array_push( $content, $metaboxtab );
 		return $content;
 	}
 
@@ -165,7 +163,7 @@ class LLMS_Admin_Reviews
 	 *
 	 * @return void
 	 */
-	public function SaveReviewMetaBoxes() {
+	public function save_review_meta_boxes() {
 
 		$enabled = (isset( $_POST['_llms_reviews_enabled'] )) ? $_POST['_llms_reviews_enabled'] : '';
 		$display = (isset( $_POST['_llms_display_reviews'] )) ? $_POST['_llms_display_reviews'] : '';

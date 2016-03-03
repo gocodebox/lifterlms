@@ -37,7 +37,7 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_course_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'lifterlms_course_track_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
-		add_action( 'lifterlms_course_completed_notification',array( $this, 'MaybeFireEngagement' ),10,2 );
+		add_action( 'lifterlms_course_completed_notification',array( $this, 'maybe_fire_engagement' ),10,2 );
 		//add_action( 'init', array( $this, 'llms_user_register' ), 10, 1 );
 	}
 
@@ -175,14 +175,14 @@ class LLMS_Engagements {
 	 * @param int $user_id   ID of user to check
 	 * @param int $course_id ID of course
 	 */
-	function MaybeFireEngagement( $user_id, $course_id ) {
+	function maybe_fire_engagement( $user_id, $course_id ) {
 
 		/**
 		 * This variable is what will store the list of classes
 		 * for each track that this class is a member of
 		 * @var array
 		 */
-		$coursesInTrack = array();
+		$courses_in_track = array();
 
 		// Get Track Information
 		// This gets the information about all the tracks that
@@ -195,7 +195,7 @@ class LLMS_Engagements {
 			 * Variable that stores if the track has been completed
 			 * @var boolean
 			 */
-			$completedTrack = false;
+			$completed_track = false;
 
 			$args = array(
 				'posts_per_page' 	=> 1000,
@@ -231,36 +231,36 @@ class LLMS_Engagements {
 					 * Create a variable to store whether or not the class is completed
 					 * @var boolean
 					 */
-					$hasCompleted = false;
+					$has_completed = false;
 
 					// Run through each of the meta values in the array
 				    foreach ($data as $key => $object) {
 						// Check to see is the current object is the '_is_complete'
 				        if (is_object( $object ) && $object->meta_key == '_is_complete' && $object->meta_value == 'yes') {
 							// If so, the course has been completed
-				        	$hasCompleted = true;
+				        	$has_completed = true;
 				        	break;
 				        }
 				    }
 
 				   	// If the course is completed keep an update going
-				   	if ($hasCompleted) {
-						$completedTrack = true;
+				   	if ($has_completed) {
+						$completed_track = true;
 				   	}
 				} // If data is empty, break out of the loop because the
 				// user has not enrolled in that course
 				else {
-					$completedTrack = false;
+					$completed_track = false;
 					break;
 				}
 			}
 
 			// If completed at the end of the track loop do the action
-			if ($completedTrack) {
+			if ($completed_track) {
 				do_action( 'lifterlms_course_track_completed',$user_id,$track->term_id );
 			}
 
-			$coursesInTrack[ $id ] = $courses;
+			$courses_in_track[ $id ] = $courses;
 		}
 	}
 }

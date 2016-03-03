@@ -305,7 +305,10 @@ class LLMS_Admin_System_Report {
 	public static function get_theme_box() {
 		include_once( ABSPATH . 'wp-admin/includes/theme-install.php' );
 		$active_theme = wp_get_theme();
+		// @codingStandardsIgnoreStart
 		$theme_version = $active_theme->Version;
+		$theme_template = $active_theme->Template;
+		// @codingStandardsIgnoreEnd
 		?>
 
         <div class="llms-widget-full top">
@@ -325,7 +328,7 @@ class LLMS_Admin_System_Report {
                         </li>
                         <?php
 						if ( is_child_theme() ) :
-							$parent_theme = wp_get_theme( $active_theme->Template );
+							$parent_theme = wp_get_theme( $theme_template );
 							?>
                             <li>
                                 <p><?php _e( 'Parent Theme', 'lifterlms' ); ?>: <strong><?php echo $parent_theme; ?></strong></p>

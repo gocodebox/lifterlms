@@ -77,8 +77,6 @@ class LLMS_Meta_Box_Course_Syllabus {
 			    'nopaging' 		=> true,
 			);
 
-			$lessonId = $lesson_id;
-
 			$query = null;
 			$query = get_posts( $args );
 			$lesson_position = $lesson_position + 1;
@@ -121,7 +119,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 				<th><label>Course Availabilty</label></th>
 				<td>
 				<?php
-					echo '	
+					echo '
 					Begins <input type="text" class="datepicker short" name="_course_dates_from" id="_course_dates_from" value="' . esc_attr( $course_dates_from ) . '" placeholder="' . _x( 'From&hellip;', 'placeholder', 'lifterlms' ) . ' YYYY-MM-DD" maxlength="10" />
 					Ends <input type="text" class="datepicker short" name="_course_dates_to" id="_course_dates_tp" value="' . esc_attr( $course_dates_to ) . '" placeholder="' . _x( 'To&hellip;', 'placeholder', 'lifterlms' ) . '  YYYY-MM-DD" maxlength="10" />';
 				?>
@@ -156,7 +154,7 @@ class LLMS_Meta_Box_Course_Syllabus {
 				        	}
 				    	}
 				   		?>
-					</select>  
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -169,27 +167,27 @@ class LLMS_Meta_Box_Course_Syllabus {
 		</tbody>
 	</table>
 
-	
+
     <h2><?php _e( 'Create Course Syllabus', 'lifterlms' ); ?></h2>
     <a href="#" class="button" id="addNewSection"/><?php _e( 'Add a new Section', 'lifterlms' ); ?></a>
-    <div id="spinner"><img id="loading" alt="WordPress loading spinner" src="<?php echo admin_url( 'images/spinner.gif' ); ?>"></div>		
-    <div id="syllabus" data-post_id="<?php echo $post->ID ?>"> 
+    <div id="spinner"><img id="loading" alt="WordPress loading spinner" src="<?php echo admin_url( 'images/spinner.gif' ); ?>"></div>
+    <div id="syllabus" data-post_id="<?php echo $post->ID ?>">
 
 	<?php
 
 	if (is_array( $syllabus[0] )) {
 
 		foreach ($syllabus[0] as $key => $value ) {
-			echo '<div id="' . $syllabus[0][ $key ]['position'] . '" class="course-section"> 
+			echo '<div id="' . $syllabus[0][ $key ]['position'] . '" class="course-section">
 					<p class="title"><label class="order">Section ' . $syllabus[0][ $key ]['position'] . ': </label>
 						' . get_sections_select( $syllabus[0][ $key ]['section_id'] ) . '
 						<a href="' . get_edit_post_link( $syllabus[0][ $key ]['section_id'] ) . '"><i class="fa fa-pencil-square-o llms-fa-edit-lesson"></i></a>
 						<i class="fa fa-bars llms-fa-move-lesson"></i>
 						<i data-code="f153" data-section_id="' . $syllabus[0][ $key ]['position'] . '" class="dashicons dashicons-dismiss section-dismiss"></i>
-					</p> 
-					<table class="wp-list-table widefat fixed posts dad-list"> 
-					<thead><tr><th>Name</th><th></th></tr></thead> 
-					<tfoot><tr><th>Name</th><th></th></tr> 
+					</p>
+					<table class="wp-list-table widefat fixed posts dad-list">
+					<thead><tr><th>Name</th><th></th></tr></thead>
+					<tfoot><tr><th>Name</th><th></th></tr>
 					</tfoot><tbody>';
 
 			if (isset( $syllabus[0][ $key ]['lessons'] )) {

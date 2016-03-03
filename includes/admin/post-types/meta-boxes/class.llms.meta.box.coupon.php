@@ -40,7 +40,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 		 * Array containing the different types of discounts
 		 * @var array
 		 */
-		$discountTypes = array(
+		$discount_types = array(
 			array(
 				'key' 	=> 'percent',
 				'title' => '% Discount',
@@ -53,10 +53,10 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 
 		$courses = LLMS_Analytics::get_posts( 'course' );
 
-		$coursesSelect = array();
+		$courses_select = array();
 		if ( ! empty( $courses )) {
 			foreach ($courses as $course) {
-				$coursesSelect[] = array(
+				$courses_select[] = array(
 						'key' => $course->ID,
 						'title' => $course->post_title,
 				);
@@ -65,17 +65,17 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 
 		$memberships = LLMS_Analytics::get_posts( 'llms_membership' );
 
-		$membershipsSelect = array();
+		$memberships_select = array();
 		if ( ! empty( $memberships )) {
 			foreach ($memberships as $membership) {
-				$membershipsSelect[] = array(
+				$memberships_select[] = array(
 						'key' => $membership->ID,
 						'title' => $membership->post_title,
 				);
 			}
 		}
 
-		$selectedProducts = get_post_meta( $post->ID, '_llms_coupon_products', true );
+		$selected_products = get_post_meta( $post->ID, '_llms_coupon_products', true );
 
 		$meta_fields_coupon = array(
 			array(
@@ -99,18 +99,18 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'desc' => "Limit coupon to courses and/or memberships, if none selected coupon won't be restricted.",
 						'id' => self::$prefix . 'llms_coupon_courses',
 						'class' => 'input-full llms-meta-select',
-						'value' => $coursesSelect,
+						'value' => $courses_select,
 						'multi' => true,
-						'selected' => $selectedProducts,
+						'selected' => $selected_products,
 					),
 					array(
 						'type' => 'select',
 						'label' => 'Membership',
 						'id' => self::$prefix . 'llms_coupon_membership',
 						'class' => 'input-full llms-meta-select',
-						'value' => $membershipsSelect,
+						'value' => $memberships_select,
 						'multi' => true,
-						'selected' => $selectedProducts,
+						'selected' => $selected_products,
 					),
 					array(
 						'type'		=> 'select',
@@ -118,7 +118,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'desc' 		=> 'Select a dollar or percentage discount.',
 						'id' 		=> self::$prefix . 'llms_discount_type',
 						'class' 	=> 'llms-chosen-select',
-						'value' 	=> $discountTypes,
+						'value' 	=> $discount_types,
 						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
