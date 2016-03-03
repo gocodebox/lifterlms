@@ -41,9 +41,11 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Fixed an issue on the system report that prevented the "Courses Page" from being reported properly
 + Fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
 + Fixed an installation warning caused by a reference to an undefined class variable
++ Fixed an HTML character encoding issue that caused `&ndash;` to display on the admin panel when viewing LifterLMS Orders
 
 ##### Additional, less exciting updates
 
++ Added input type restrictions to course & membership price fields.
 + The "Emails" LifterLMS Settings Tab has been renamed "Engagements." All Email settings are found under this tab as well as some new settings related to other kinds of LifterLMS engagements.
 + Added `the_content` filter to the content of emails sent by LifterLMS
 + Fixed some CSS issues on Voucher screens
@@ -52,7 +54,7 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Vouchers Export metabox will only allow export after a voucher has been published. This prevent's an issue caused by attempting to export voucher codes before they were saved in the database via the publish / save action.
 + Vouchers can no longer be saved with a use of "0"
 + added a CSS class for various syllabus outputs that notes that the lesson has an icon. Previously CSS relied on "is-complete" to output styles for having an icon but with the addition of placeholders the "is-complete" is used only to note that the lesson is completed and "has-icon" is a more semantic class that applies to both complete and incomplete lessons with an icon.
-
++ Removed the membership restriction metabox from some post types where it shouldn't have been displaying.
 
 = v2.1.1 - 2016/02/15 =
 -----------------------
