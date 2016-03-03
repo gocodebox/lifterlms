@@ -42,6 +42,7 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
 + Fixed an installation warning caused by a reference to an undefined class variable
 + Fixed an HTML character encoding issue that caused `&ndash;` to display on the admin panel when viewing LifterLMS Orders
++ Fixed an undefined variable found during engagment triggering for non-email engagements.
 
 ##### Additional, less exciting updates
 
