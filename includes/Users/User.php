@@ -1,5 +1,5 @@
 <?php
-
+// @codingStandardsIgnoreFile
 namespace LLMS\Users;
 
 class User
