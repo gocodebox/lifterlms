@@ -162,8 +162,8 @@ class LLMS_AJAX {
 			'previous_question'			=> false,
 			'complete_quiz'				=> false,
 			'get_all_posts'				=> false,
-			'get_lessons'				=> false,
-			'get_sections'				=> false,
+			'get_lessons_alt'			=> false,
+			'get_sections_alt'			=> false,
 			'get_students'              => false,
 			'get_enrolled_students'     => false,
 			'check_voucher_duplicate'	=> false,
@@ -213,7 +213,7 @@ class LLMS_AJAX {
 	 *
 	 * @return array Array of lessons
 	 */
-	public function get_lessons() {
+	public function get_lessons_alt() {
 
 		$args = array(
 			'post_type' 	=> 'lesson',
@@ -261,7 +261,7 @@ class LLMS_AJAX {
 	 *
 	 * @return array Array of sections
 	 */
-	public function get_sections() {
+	public function get_sections_alt() {
 
 		$args = array(
 			'post_type' 	=> 'section',

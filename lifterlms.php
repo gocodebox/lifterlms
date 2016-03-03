@@ -177,7 +177,6 @@ final class LifterLMS {
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php' );
 			include_once( 'includes/admin/llms.class.admin.metabox.php' );
 			include_once( 'includes/admin/class.llms.admin.php' );
-			include_once( 'includes/admin/class.llms.admin.forms.php' );
 			include_once( 'includes/class.llms.analytics.php' );
 			include_once( 'includes/admin/class.llms.admin.reviews.php' );
 		}

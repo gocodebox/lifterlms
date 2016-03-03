@@ -24,14 +24,14 @@ jQuery('.metabox_submit').click(function(e) {
 get_all_lessons = function() {
 	//var ajax = new Ajax('post', {'action':'get_all_posts', 'post_type' : 'lesson'}, true);
 	//ajax.get_all_posts( post_type );
-	var ajax = new Ajax('post', {'action':'get_lessons'}, true);
+	var ajax = new Ajax('post', {'action':'get_lessons_alt'}, true);
 	ajax.getLessons();
 }
 
 get_all_sections = function() {
 	//var ajax = new Ajax('post', {'action':'get_all_posts', 'post_type' : 'section'}, true);
 	//ajax.get_all_posts( post_type );
-	var ajax = new Ajax('post', {'action':'get_sections'}, true);
+	var ajax = new Ajax('post', {'action':'get_sections_alt'}, true);
 	ajax.getSections();
 }
 
