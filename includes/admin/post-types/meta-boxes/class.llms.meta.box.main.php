@@ -259,7 +259,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
                         'group' 	=> 'bottom llms-custom-single-price-bottom',
                     ),
 					array(
-						'type'		=> 'text',
+						'type'		=> 'number',
 						'label'		=> 'Single Payment Price ( ' . get_lifterlms_currency_symbol() . ' )',
 						'desc' 		=> 'Enter a price to offer your course for a one time purchase.',
 						'id' 		=> self::$prefix . 'regular_price',
@@ -279,7 +279,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'group' 	=> '',
 					),
 					array(
-						'type'		=> 'text',
+						'type'		=> 'number',
 						'label'		=> 'Sale Price ( ' . get_lifterlms_currency_symbol() . ' )',
 						'desc' 		=> 'Enter a sale price for the course.',
 						'id' 		=> self::$prefix . 'sale_price',
@@ -324,7 +324,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'group' 	=> '',
 					),
 					array(
-						'type'		=> 'text',
+						'type'		=> 'number',
 						'label'		=> 'Recurring Payment ( ' . get_lifterlms_currency_symbol() . ' )',
 						'desc' 		=> 'Enter the amount you will bill at set intervals.',
 						'id' 		=> self::$prefix . 'llms_subscription_price',
@@ -334,7 +334,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'group' 	=> '',
 					),
 					array(
-						'type'		=> 'text',
+						'type'		=> 'number',
 						'label'		=> 'First Payment ( ' . get_lifterlms_currency_symbol() . ' )',
 						'desc' 		=> 'Enter the payment amount you will charge on product purchase. This can be 0 to give users a free trial period.',
 						'id' 		=> self::$prefix . 'llms_subscription_first_payment',
