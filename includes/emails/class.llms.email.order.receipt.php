@@ -1,13 +1,13 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * New Registration Email Class
 * Custom email class to send Welcome email to new users
-* REFACTOR: Remove class and add welcome email to new user registration engagement. 
-* 
-* Generates and sends welcome email on new user registration action. 
+* REFACTOR: Remove class and add welcome email to new user registration engagement.
+*
+* Generates and sends welcome email on new user registration action.
 */
 class LLMS_Email_Person_New extends LLMS_Email {
 
@@ -18,7 +18,7 @@ class LLMS_Email_Person_New extends LLMS_Email {
 	/**
 	 * Constructor
 	 * Inherits parent constructor
-	 * Queries data needed to generate welcome email. 
+	 * Queries data needed to generate welcome email.
 	 */
 	function __construct() {
 		global $wpdb;
@@ -34,8 +34,8 @@ class LLMS_Email_Person_New extends LLMS_Email {
 		    ORDER BY $wpdb->posts.post_date DESC LIMIT 1
 		 ";
 
- 		$email_content = $wpdb->get_results($querystr, OBJECT);
- 		$email_meta = get_post_meta( $email_content[0]->ID );
+			$email_content = $wpdb->get_results( $querystr, OBJECT );
+			$email_meta = get_post_meta( $email_content[0]->ID );
 
 		$this->id 				= 'person_new_account';
 		$this->title 			= __( 'New account', 'lifterlms' );
@@ -51,11 +51,11 @@ class LLMS_Email_Person_New extends LLMS_Email {
 
 	/**
 	 * [trigger description]
-	 * 
+	 *
 	 * @param  int  $user_id            				[ID of the user recieving the email]
-	 * DEPRECIATED @param  string  $user_pass           [Password if password generation is active] 
+	 * DEPRECIATED @param  string  $user_pass           [Password if password generation is active]
 	 * DEPRECIATED @param  boolean $password_generated  [If password generation setting is active]
-	 * 
+	 *
 	 * @return void
 	 */
 	function trigger( $user_id, $user_pass = '', $password_generated = false ) {
@@ -70,8 +70,8 @@ class LLMS_Email_Person_New extends LLMS_Email {
 			$this->password_generated = $password_generated;
 		}
 
-		if ( ! $this->is_enabled() || ! $this->get_recipient() )
-			return;
+		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
+			return; }
 
 		$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
 	}
@@ -83,16 +83,18 @@ class LLMS_Email_Person_New extends LLMS_Email {
 	 */
 	function get_content_html() {
 
-		$this->find = array( 
-			'{site_title}', 
-			'{user_login}', 
-			'{site_url}' );
-		$this->replace = array( 
-			$this->get_blogname(), 
-			$this->user_login, 
-			$this->account_link );
+		$this->find = array(
+			'{site_title}',
+			'{user_login}',
+			'{site_url}',
+		);
+		$this->replace = array(
+			$this->get_blogname(),
+			$this->user_login,
+			$this->account_link,
+		);
 
-		$content = $this->format_string($this->email_content);
+		$content = $this->format_string( $this->email_content );
 
 		ob_start();
 		llms_get_template( $this->template_html, array(
@@ -103,7 +105,7 @@ class LLMS_Email_Person_New extends LLMS_Email {
 			'password_generated' => $this->password_generated,
 			'email_message' 	 => $content,
 			'sent_to_admin' => false,
-			'plain_text'    => false
+			'plain_text'    => false,
 		) );
 		return ob_get_clean();
 	}

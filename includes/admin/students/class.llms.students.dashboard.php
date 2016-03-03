@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin students Page, sales Tab
@@ -28,21 +28,20 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 	 * Main students page builder
 	 * Collects elements and calls get_page_contents to wrap html
 	 * Called from html.admin.students to build page.
-	 * 
+	 *
 	 * @return [html]
 	 */
 	public function get_students() {
 		$search = LLMS()->session->get( 'llms_students_search' );
 		//var_dump( $search);
 		$title = __( 'Students', 'lifterlms' );
-		
+
 		//search form
 		$html = $this->search_form();
 
 		if ( $search ) {
 			$html .= self::full_width_widget( $this->student_search_results( $search ) );
 		}
-
 
 		//return contents
 		return $this->get_page_contents( $title, $html );
@@ -63,14 +62,14 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 		//start building html
 		$html = '<div class="llms-search-form-wrapper">';
 
-		//Product Select ( Courses and Memberships ) 
+		//Product Select ( Courses and Memberships )
 		$html .= '<div class="llms-select">';
 		$html .= '<label>' . __( 'Select a product', 'lifterlms' ) . '</label>';
 		$html .= '<select id="llms-product-select" name="llms_product_select" class="chosen-select-width">';
 
 		//all products option
 		$html .= '<option value="all_products" ' . ( $product_id == 'all_products' ? 'selected' : '' ) . '>' . __( 'All Products', 'lifterlms' ) . '</option>';
-		
+
 		//loop through posts
 		if ( $products ) {
 			$html .= '<optgroup label="' . __( 'Courses', 'lifterlms' ) . '">';
@@ -80,7 +79,7 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 						' . ( $product_id == $product->ID  ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';
 					//unset the objects so I don't loop over them again
-					unset( $products[$key] );
+					unset( $products[ $key ] );
 				}
 			}
 			$html .= '</optgroup>';
@@ -91,12 +90,12 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 						' . ( $product_id == $product->ID ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';
 					//no real reason except the array means nothing anymore.
-					unset( $products[$key] );
+					unset( $products[ $key ] );
 				}
 			}
 			$html .= '</optgroup>';
 		}
-		
+
 		$html .= '</select>';
 		$html .= '</div>';
 
@@ -104,12 +103,7 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 		$html .= '<div id="include_expired_users" class="llms-checkbox">';
 		$html .= '<input id="exp_users_filter" type="checkbox" name="llms_include_expired_users" ' .  ( $include_expired ? 'checked' : '' ) . '>' . __( 'Include Expired Students', 'lifterlms' );
 		$html .= '</div>';
-		
 
-		
-
-
-		
 		$html .= wp_nonce_field( 'search_analytics_sales', '_wpnonce', true, false );
 		$html .= '<input type="hidden" name="action" value="llms-students-search" />';
 
@@ -117,8 +111,6 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 		$html .= '<div class="llms-search-button">';
 		$html .= get_submit_button( 'Search Students', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
 		$html .= '</div>';
-
-		
 
 		$html .= '</div>';
 
@@ -139,17 +131,15 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 			//array_unshift($students, $headers);
 		}
 
-		
-
 		$html = '<p class="llms-label">' . __( 'Students', 'lifterlms' ) . '</p>';
-		
-		if ( !empty( $student_arrays ) ) {
+
+		if ( ! empty( $student_arrays ) ) {
 
 			$html .= '<script>
-				var students_search_result_large = ' . json_encode($student_arrays['large']) . '
+				var students_search_result_large = ' . json_encode( $student_arrays['large'] ) . '
 				</script>';
 			$html .= '<div id="student_search_results" class="llms-chart"></div>';
-		
+
 		}
 
 		return $html;
@@ -210,8 +200,8 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 
 
 
-	
-	
+
+
 	/**
 	 * save students to the database
 	 *
@@ -221,7 +211,7 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 		$students = $this->get_students();
 
 		LLMS_Admin_Students::save_search_fields( $students );
-		
+
 	}
 
 	/**
@@ -232,7 +222,7 @@ class LLMS_Students_Dashboard extends LLMS_Students_Page {
 	public function output() {
 		$students = $this->get_students( );
 
- 		LLMS_Admin_Students::output_html( $students );
+			LLMS_Admin_Students::output_html( $students );
 	}
 
 }

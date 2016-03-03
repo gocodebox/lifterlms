@@ -32,7 +32,7 @@ class LLMS_Shortcodes {
 			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::RelatedCourses',
-			'lifterlms_memberships' => __CLASS__ . '::memberships'
+			'lifterlms_memberships' => __CLASS__ . '::memberships',
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -62,23 +62,23 @@ class LLMS_Shortcodes {
 	*/
 	public static function shortcode_wrapper(
 		$function,
-		$atts    = array(),
+		$atts = array(),
 		$wrapper = array(
 			'class'  => 'lifterlms',
 			'before' => null,
-			'after'  => null
-	) ) {
+			'after'  => null,
+		) ) {
 
-		ob_start();
+			ob_start();
 
-		$before 	= empty( $wrapper['before'] ) ? '<div class="' . esc_attr( $wrapper['class'] ) . '">' : $wrapper['before'];
-		$after 		= empty( $wrapper['after'] ) ? '</div>' : $wrapper['after'];
+			$before 	= empty( $wrapper['before'] ) ? '<div class="' . esc_attr( $wrapper['class'] ) . '">' : $wrapper['before'];
+			$after 		= empty( $wrapper['after'] ) ? '</div>' : $wrapper['after'];
 
-		echo $before;
-		call_user_func( $function, $atts );
-		echo $after;
+			echo $before;
+			call_user_func( $function, $atts );
+			echo $after;
 
-		return ob_get_clean();
+			return ob_get_clean();
 	}
 
 	/**
@@ -126,21 +126,21 @@ class LLMS_Shortcodes {
 	*/
 	public static function memberships( $atts ) {
 
-	    if( isset( $atts['category'] ) ) {
-			$tax = 	array(
+	    if ( isset( $atts['category'] ) ) {
+			$tax = array(
 				array(
 					'taxonomy' => 'course_cat',
 					'field' => 'slug',
 					'terms' => $atts['category'],
-				)
+				),
 			);
 	    }
 
 	    $query = new WP_Query( array(
-	    	'paged' => get_query_var('paged'),
+	    	'paged' => get_query_var( 'paged' ),
 	        'post_type' => 'llms_membership',
 	        'post_status' => 'publish',
-	        'posts_per_page' => isset($atts['posts_per_page']) ? $atts['posts_per_page'] : -1,
+	        'posts_per_page' => isset( $atts['posts_per_page'] ) ? $atts['posts_per_page'] : -1,
 	        'order' => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
 	        'orderby' => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
 	        'tax_query' => isset( $tax ) ? $tax : '',
@@ -164,15 +164,15 @@ class LLMS_Shortcodes {
 
 			echo '<nav class="llms-pagination">';
 			echo paginate_links( array(
-					'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link(999999) ) ),
-					'format'       => '?page=%#%',
-					'total'        => $query->max_num_pages,
-					'current'      => max( 1, get_query_var('paged') ),
-					'prev_next'    => true,
-					'prev_text'    => '«' . __( 'Previous', 'lifterlms' ),
-					'next_text'    => __( 'Next', 'lifterlms') . '»',
-					'type'         => 'list'
-				) );
+				'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+				'format'       => '?page=%#%',
+				'total'        => $query->max_num_pages,
+				'current'      => max( 1, get_query_var( 'paged' ) ),
+				'prev_next'    => true,
+				'prev_text'    => '«' . __( 'Previous', 'lifterlms' ),
+				'next_text'    => __( 'Next', 'lifterlms' ) . '»',
+				'type'         => 'list',
+			) );
 			echo '</nav>';
 
 			do_action( 'lifterlms_after_memberships_loop' );
@@ -195,10 +195,8 @@ class LLMS_Shortcodes {
 	public static function my_achievements( $atts ) {
 
 		extract( shortcode_atts( array(
-
 			'count' => null,
-			'user_id' => 0
-
+			'user_id' => 0,
 		), $atts, 'lifterlms_my_achievements' ) );
 
 		ob_start();
@@ -225,12 +223,12 @@ class LLMS_Shortcodes {
 
 	}
 
-	public static function hide_content($atts, $content = null) {
+	public static function hide_content( $atts, $content = null ) {
 		extract(shortcode_atts(array(
 			'membership' => '', // course, lesson, section
 		),$atts));
 
-		if (llms_is_user_member(get_current_user_id(), $membership)) {
+		if (llms_is_user_member( get_current_user_id(), $membership )) {
 			return $content;
 		}
 	}
@@ -244,14 +242,14 @@ class LLMS_Shortcodes {
 
 		if ( is_course() ) {
 			$course_id = get_the_ID();
-		} elseif( is_lesson() ) {
+		} elseif ( is_lesson() ) {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();
 		} else {
 			return self::_warn( 'shortcode [ lifter_lms_course_progress_bar ] can only be displayed on course or lesson posts!' );
 		}
 
-		$course = new LLMS_Course ( $course_id );
+		$course = new LLMS_Course( $course_id );
 
 		$course_progress = $course->get_percent_complete();
 
@@ -267,8 +265,7 @@ class LLMS_Shortcodes {
 		if ( is_lesson() ) {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();
-		}
-		else {
+		} else {
 			return self::_warn( 'shortcode [ lifterlms_course_title ] can only be displayed on lesson posts!' );
 		}
 		return get_the_title( $course_id );
@@ -287,29 +284,29 @@ class LLMS_Shortcodes {
 
 	    ob_start();
 
-	    if(isset($atts['category'])) {
-			$tax = 	array(
+	    if (isset( $atts['category'] )) {
+			$tax = array(
 				array(
 					'taxonomy' => 'course_cat',
 					'field' => 'slug',
 					'terms' => $atts['category'],
-				)
+				),
 			);
 	    }
 
 	    $query = new WP_Query( array(
-	    	'paged' => get_query_var('paged'),
+	    	'paged' => get_query_var( 'paged' ),
 	        'post_type' => 'course',
 	        'post_status' => 'publish',
-	        'posts_per_page' => isset($atts['posts_per_page']) ? $atts['posts_per_page'] : -1,
-	        'order' => isset($atts['order']) ? $atts['order'] : 'ASC',
-	        'orderby' => isset($atts['orderby']) ? $atts['orderby'] : 'title',
-	        'tax_query' => isset($tax) ? $tax : '',
+	        'posts_per_page' => isset( $atts['posts_per_page'] ) ? $atts['posts_per_page'] : -1,
+	        'order' => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
+	        'orderby' => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
+	        'tax_query' => isset( $tax ) ? $tax : '',
 	    ) );
 
 	    if ( $query->have_posts() ) {
 
-	       lifterlms_course_loop_start();
+			lifterlms_course_loop_start();
 
 			while ( $query->have_posts() ) : $query->the_post();
 
@@ -321,15 +318,15 @@ class LLMS_Shortcodes {
 
 			echo '<nav class="llms-pagination">';
 			echo paginate_links( array(
-					'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link(999999) ) ),
-					'format'       => '?page=%#%',
-					'total'        => $query->max_num_pages,
-					'current'      => max( 1, get_query_var('paged') ),
-					'prev_next'    => true,
-					'prev_text'    => '«' . __( 'Previous', 'lifterlms' ),
-					'next_text'    => __( 'Next', 'lifterlms') . '»',
-					'type'         => 'list'
-				) );
+				'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+				'format'       => '?page=%#%',
+				'total'        => $query->max_num_pages,
+				'current'      => max( 1, get_query_var( 'paged' ) ),
+				'prev_next'    => true,
+				'prev_text'    => '«' . __( 'Previous', 'lifterlms' ),
+				'next_text'    => __( 'Next', 'lifterlms' ) . '»',
+				'type'         => 'list',
+			) );
 			echo '</nav>';
 
 	    	$courses = ob_get_clean();
@@ -351,31 +348,30 @@ class LLMS_Shortcodes {
 
 	    ob_start();
 
-	    if(isset($atts['category'])) {
-			$tax = 	array(
+	    if (isset( $atts['category'] )) {
+			$tax = array(
 						array(
 							'taxonomy' => 'course_cat',
 							'field' => 'slug',
 							'terms' => $atts['category'],
-						)
+						),
 					);
 	    }
 
 	    $query = new WP_Query( array(
 	        'post_type' => 'course',
 	        'post_status' => 'publish',
-	        'posts_per_page' => isset($atts['per_page']) ? $atts['per_page'] : -1,
-	        'order' => isset($atts['order']) ? $atts['order'] : 'ASC',
-	        'orderby' => isset($atts['orderby']) ? $atts['orderby'] : 'title',
-	        'tax_query' => isset($tax) ? $tax : '',
+	        'posts_per_page' => isset( $atts['per_page'] ) ? $atts['per_page'] : -1,
+	        'order' => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
+	        'orderby' => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
+	        'tax_query' => isset( $tax ) ? $tax : '',
 	    ) );
 
 	    if ( $query->have_posts() ) {
 
-	       lifterlms_course_loop_start();
+			lifterlms_course_loop_start();
 
 			while ( $query->have_posts() ) : $query->the_post();
-
 
 				llms_get_template_part( 'content', 'course' );
 
@@ -398,11 +394,11 @@ class LLMS_Shortcodes {
 	public static function user_statistics( $atts ) {
 		extract(shortcode_atts(array(
 			'type' => 'course', // course, lesson, section
-			'stat' => 'completed' // completed, enrolled
+			'stat' => 'completed',// completed, enrolled
 		),$atts));
 
 		// setup the meta key to search on
-		switch($stat) {
+		switch ($stat) {
 			case 'completed':
 				$key = '_is_complete';
 				$val = false;
@@ -420,30 +416,30 @@ class LLMS_Shortcodes {
 		// init person class
 		$person = new LLMS_Person();
 		// get results
-		$results = $person->get_user_postmetas_by_key($uid,$key);
+		$results = $person->get_user_postmetas_by_key( $uid,$key );
 
 		// pp_dump($results,$uid,$key);
 
-		if($results) {
+		if ($results) {
 			// unset all items that are not courses
-			foreach($results as $key=>$obj) {
-				if(get_post_type($obj->post_id) != $type) {
-					unset($results[$key]);
+			foreach ($results as $key => $obj) {
+				if (get_post_type( $obj->post_id ) != $type) {
+					unset( $results[ $key ] );
 				}
 			}
 		}
 
 		// filter by value if set
-		if(is_array($results) && $val)  {
-			foreach($results as $key=>$obj) {
+		if (is_array( $results ) && $val) {
+			foreach ($results as $key => $obj) {
 				// remove from the results array if $val doesn't match
-				if($obj->meta_value != $val) {
-					unset($results[$key]);
+				if ($obj->meta_value != $val) {
+					unset( $results[ $key ] );
 				}
 			}
 		}
 
-		$count = (is_array($results)) ? count($results) : 0;
+		$count = (is_array( $results )) ? count( $results ) : 0;
 
 		return $count . ' ' . _n( $type, $type.'s', $count, 'lifterlms' );
 	}
@@ -459,15 +455,15 @@ class LLMS_Shortcodes {
 		extract(shortcode_atts(array(
 			'course_id' => false,
 			'outline_type' => 'full', // course, lesson, section
-			'view_type' => 'list' // completed, enrolled
+			'view_type' => 'list',// completed, enrolled
 		),$atts));
 
 		// If no course id is passed try to get course id
-		if (!$course_id) {
+		if ( ! $course_id) {
 
 			if ( is_course() ) {
 				$course_id = get_the_ID();
-			} elseif( is_lesson() ) {
+			} elseif ( is_lesson() ) {
 				$lesson = new LLMS_Lesson( get_the_ID() );
 				$course_id = $lesson->get_parent_course();
 			} else {
@@ -476,7 +472,7 @@ class LLMS_Shortcodes {
 
 		}
 
-		$course = new LLMS_Course ( $course_id );
+		$course = new LLMS_Course( $course_id );
 
 		$course_syllabus = $course->get_syllabus();
 		//var_dump($course_syllabus);
@@ -486,16 +482,16 @@ class LLMS_Shortcodes {
 		if ($outline_type === 'current_section') {
 
 			$next_lesson = $course->get_next_uncompleted_lesson();
-			$next_lesson = new LLMS_Lesson($next_lesson);
+			$next_lesson = new LLMS_Lesson( $next_lesson );
 
 			foreach ( $syllabus->sections as $section ) {
 
-				if ((int)$next_lesson->get_parent_section() === (int)$section['id']) {
+				if ((int) $next_lesson->get_parent_section() === (int) $section['id']) {
 
 					$args = array(
 								'course' => $course,
-								'sections' => array($section),
-								'syllabus' => $syllabus
+								'sections' => array( $section ),
+								'syllabus' => $syllabus,
 							);
 
 					break;
@@ -509,12 +505,12 @@ class LLMS_Shortcodes {
 			$args = array(
 						'course' => $course,
 						'sections' => $syllabus->sections,
-						'syllabus' => $syllabus
+						'syllabus' => $syllabus,
 					);
 
 		}
 
-		llms_get_template('course/outline-list-small.php', $args );
+		llms_get_template( 'course/outline-list-small.php', $args );
 	}
 
 }

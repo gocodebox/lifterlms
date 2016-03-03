@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Question Class
@@ -33,16 +33,12 @@ class LLMS_Question {
 			$this->id   = absint( $question );
 			$this->post = get_post( $this->id );
 
-		}
-
-		elseif ( $question instanceof LLMS_Question ) {
+		} elseif ( $question instanceof LLMS_Question ) {
 
 			$this->id   = absint( $question->id );
 			$this->post = $question;
 
-		}
-
-		elseif ( isset( $question->ID ) ) {
+		} elseif ( isset( $question->ID ) ) {
 
 			$this->id   = absint( $question->ID );
 			$this->post = $question;
@@ -99,7 +95,7 @@ class LLMS_Question {
 	public function get_correct_option() {
 		$options = $this->get_options();
 		foreach ($options as $option) {
-			if($option['correct_option']) {
+			if ($option['correct_option']) {
 				return $option;
 			}
 		}

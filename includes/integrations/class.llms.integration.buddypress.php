@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * BuddyPress Integration
@@ -22,8 +22,8 @@ class LLMS_Integration_Buddypress {
 
 		$this->enabled = ($this->available && $this->installed) ? true : false;
 
-		if($this->enabled) {
-			add_action('bp_setup_nav',array($this,'add_profile_nav_items'));
+		if ($this->enabled) {
+			add_action( 'bp_setup_nav',array( $this, 'add_profile_nav_items' ) );
 		}
 	}
 
@@ -39,9 +39,9 @@ class LLMS_Integration_Buddypress {
 			'name' => __( 'Courses', 'lifterlms' ),
 			'slug' => 'courses',
 			'position' => 20,
-			'screen_function' => array($this,'courses_screen'),
+			'screen_function' => array( $this,'courses_screen' ),
 			'show_for_displayed_user' => false,
-			'default_subnav_slug' => 'courses'
+			'default_subnav_slug' => 'courses',
 		));
 
 		$parent_url = $bp->loggedin_user->domain.'courses/';
@@ -53,8 +53,8 @@ class LLMS_Integration_Buddypress {
 			'slug'            => 'courses',
 			'parent_slug'     => 'courses',
 			'parent_url'      => $parent_url,
-			'screen_function' => array($this,'courses_screen'),
-			'user_has_access' => $is_my_profile
+			'screen_function' => array( $this,'courses_screen' ),
+			'user_has_access' => $is_my_profile,
 		));
 
 		bp_core_new_subnav_item(array(
@@ -62,7 +62,7 @@ class LLMS_Integration_Buddypress {
 			'slug'            => 'achievements',
 			'parent_slug'     => 'courses',
 			'parent_url'      => $parent_url,
-			'screen_function' => array($this,'achievements_screen'),
+			'screen_function' => array( $this,'achievements_screen' ),
 			'user_has_access' => $is_my_profile,
 		));
 
@@ -71,7 +71,7 @@ class LLMS_Integration_Buddypress {
 			'slug'            => 'certificates',
 			'parent_slug'     => 'courses',
 			'parent_url'      => $parent_url,
-			'screen_function' => array($this,'certificates_screen'),
+			'screen_function' => array( $this,'certificates_screen' ),
 			'user_has_access' => $is_my_profile,
 		));
 	}
@@ -82,7 +82,7 @@ class LLMS_Integration_Buddypress {
 	 * @return boolean
 	 */
 	public function is_available() {
-		if(get_option('lifterlms_buddypress_enabled') == 'yes') {
+		if (get_option( 'lifterlms_buddypress_enabled' ) == 'yes') {
 			return true;
 		}
 		return false;
@@ -94,7 +94,7 @@ class LLMS_Integration_Buddypress {
 	 * @return boolean
 	 */
 	public function is_installed() {
-		if(class_exists('BuddyPress')) {
+		if (class_exists( 'BuddyPress' )) {
 			return true;
 		}
 		return false;
@@ -109,7 +109,7 @@ class LLMS_Integration_Buddypress {
 	 */
 	public function achievements_screen() {
 		// add_action('bp_template_title', array($this,'achievements_title'));
-		add_action('bp_template_content', array($this,'achievements_content'));
+		add_action( 'bp_template_content', array( $this, 'achievements_content' ) );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
@@ -117,9 +117,9 @@ class LLMS_Integration_Buddypress {
 		 * "Achievements" profile screen content
 		 * @return null
 		 */
-		public function achievements_content() {
-			llms_get_template('myaccount/my-achievements.php');
-		}
+	public function achievements_content() {
+		llms_get_template( 'myaccount/my-achievements.php' );
+	}
 
 
 
@@ -129,7 +129,7 @@ class LLMS_Integration_Buddypress {
 	 */
 	public function certificates_screen() {
 		// add_action('bp_template_title', array($this,'certificates_title'));
-		add_action('bp_template_content', array($this,'certificates_content'));
+		add_action( 'bp_template_content', array( $this, 'certificates_content' ) );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
@@ -137,9 +137,9 @@ class LLMS_Integration_Buddypress {
 		 * "Certificates" profile screen content
 		 * @return null
 		 */
-		public function certificates_content() {
-			llms_get_template('myaccount/my-certificates.php');
-		}
+	public function certificates_content() {
+		llms_get_template( 'myaccount/my-certificates.php' );
+	}
 
 
 
@@ -149,7 +149,7 @@ class LLMS_Integration_Buddypress {
 	 */
 	public function courses_screen() {
 		// add_action('bp_template_title', array($this,'courses_title'));
-		add_action('bp_template_content', array($this,'courses_content'));
+		add_action( 'bp_template_content', array( $this, 'courses_content' ) );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
@@ -157,9 +157,9 @@ class LLMS_Integration_Buddypress {
 		 * "Courses" profile screen content
 		 * @return null
 		 */
-		public function courses_content() {
-			llms_get_template('myaccount/my-courses.php');
-		}
+	public function courses_content() {
+		llms_get_template( 'myaccount/my-courses.php' );
+	}
 
 
 
@@ -170,9 +170,9 @@ class LLMS_Integration_Buddypress {
 	 * @return string / permalink
 	 */
 	public function get_registration_permalink() {
-		$option = get_option('bp-pages');
-		if(array_key_exists('register', $option)) {
-			return get_the_permalink($option['register']);
+		$option = get_option( 'bp-pages' );
+		if (array_key_exists( 'register', $option )) {
+			return get_the_permalink( $option['register'] );
 		}
 	}
 

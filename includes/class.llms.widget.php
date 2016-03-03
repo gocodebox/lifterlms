@@ -35,9 +35,9 @@ class LLMS_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Echo Widget content. 
+	 * Echo Widget content.
 	 * This is called in widget()
-	 * 
+	 *
 	 * @return void
 	 */
 	public function widget_contents() {}
@@ -56,7 +56,7 @@ class LLMS_Widget extends WP_Widget {
 		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
-		<?php 
+		<?php
 	}
 
 	/**

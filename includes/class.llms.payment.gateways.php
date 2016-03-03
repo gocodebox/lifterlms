@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Payment Gateway class
@@ -43,40 +43,40 @@ class LLMS_Payment_Gateways {
 
 	/**
 	 * Get all payment gateways
-	 * 
+	 *
 	 * @return array $_available_gateways [private array of all payment gateways]
 	 */
-    function payment_gateways() {
+	function payment_gateways() {
 		$_available_gateways = array();
-		if ( sizeof( $this->payment_gateways ) > 0 )
-			foreach ( $this->payment_gateways as $gateway )
-				$_available_gateways[ $gateway->id ] = $gateway;
+		if ( sizeof( $this->payment_gateways ) > 0 ) {
+			foreach ( $this->payment_gateways as $gateway ) {
+				$_available_gateways[ $gateway->id ] = $gateway; } }
 
 		return $_available_gateways;
 	}
 
 	/**
 	 * Initialize payment gateways
-	 * 
+	 *
 	 * @return void
 	 */
 	function init() {
-    	$load_gateways = apply_filters( 'lifterlms_payment_gateways', array(
+		$load_gateways = apply_filters( 'lifterlms_payment_gateways', array(
 			'LLMS_Payment_Gateway_Paypal'
-    	) );
+		) );
 
 		$order_end 	= 999;
 		foreach ($load_gateways as $gateway) :
 
 			$load_gateway = new $gateway();
 
-				$this->payment_gateways[$order_end] = $load_gateway;
+				$this->payment_gateways[ $order_end ] = $load_gateway;
 				$order_end++;
 
 		endforeach;
 
 		ksort( $this->payment_gateways );
-    }
+	}
 
 	/**
 	 * Get available gateways.
@@ -89,8 +89,8 @@ class LLMS_Payment_Gateways {
 
 		foreach ( $this->payment_gateways as $gateway ) :
 			if ( $gateway->is_available() ) {
-					$_available_gateways[$gateway->id] = $gateway;
-				}
+					$_available_gateways[ $gateway->id ] = $gateway;
+			}
 
 		endforeach;
 
@@ -99,7 +99,7 @@ class LLMS_Payment_Gateways {
 
 	/**
 	 * Check if payment gateway can process recurring payments
-	 * 
+	 *
 	 * @return bool [can gateway handle recurring payments]
 	 */
 	public function can_process_recurring() {

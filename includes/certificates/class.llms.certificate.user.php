@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Certificate Class
@@ -18,7 +18,6 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 */
 	function __construct() {
 
-
 		parent::__construct();
 	}
 
@@ -31,14 +30,14 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 *
 	 * @return void
 	 */
-	public function init($email_id, $person_id, $lesson_id) {
+	public function init( $email_id, $person_id, $lesson_id ) {
 		global $wpdb;
 
- 		$email_content = get_post($email_id);
- 		$email_meta = get_post_meta( $email_content->ID );
+			$email_content = get_post( $email_id );
+			$email_meta = get_post_meta( $email_content->ID );
 
- 		$this->certificate_template_id	= $email_id;
- 		$this->lesson_id    			= $lesson_id;
+			$this->certificate_template_id	= $email_id;
+			$this->lesson_id    			= $lesson_id;
 		$this->title 					= $email_content->post_title;
 		$this->certificate_title 		= $email_meta['_llms_certificate_title'][0];
 		$this->content 					= $email_content->post_content;
@@ -67,7 +66,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * @return void
 	 */
 	function trigger( $user_id, $email_id, $lesson_id ) {
-		$this->init($email_id, $user_id, $lesson_id);
+		$this->init( $email_id, $user_id, $lesson_id );
 
 		if ( $user_id ) {
 			$this->object				= new WP_User( $user_id );
@@ -76,8 +75,8 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 
 		}
 
-		if ( ! $this->is_enabled() )
-			return;
+		if ( ! $this->is_enabled() ) {
+			return; }
 
 		$this->create( $this->get_content() );
 	}
@@ -92,11 +91,12 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		$this->find = array(
 			'{site_title}',
 			'{user_login}',
-			'{site_url}' ,
+			'{site_url}',
 			'{first_name}',
 			'{last_name}',
 			'{email_address}',
-			'{current_date}');
+			'{current_date}',
+		);
 		$this->replace = array(
 			$this->get_blogname(),
 			$this->user_login,
@@ -104,10 +104,10 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 			$this->user_firstname,
 			$this->user_lastname,
 			$this->user_email,
-			date(get_option('date_format'), strtotime(current_time('mysql'))),
+			date( get_option( 'date_format' ), strtotime( current_time( 'mysql' ) ) ),
 		);
 
-		$content = $this->format_string($this->content);
+		$content = $this->format_string( $this->content );
 
 		ob_start();
 		llms_get_template( $this->template_html, array(

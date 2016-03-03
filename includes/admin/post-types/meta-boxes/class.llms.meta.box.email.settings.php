@@ -1,9 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Meta Box Certificate Options
-* 
+*
 * displays email settings metabox. only dislays on email post
 */
 class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
@@ -25,7 +25,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 	 * Builds array of metabox options.
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
-	 * 
+	 *
 	 * @return array [md array of metabox fields]
 	 */
 	public static function metabox_options() {
@@ -34,7 +34,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 
 		$email_subject = get_post_meta( $post->ID, '_email_subject', true );
 		$email_heading = get_post_meta( $post->ID, '_email_heading', true );
-	
+
 		$meta_fields_email_settings = array(
 			array(
 				'title' 	=> 'Settings',
@@ -46,7 +46,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 						'id' 		=> self::$prefix .'email_subject',
 						'class' 	=> 'code',
 						'value' 	=> $email_subject,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> 'top',
 					),
 					array(
@@ -56,7 +56,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 						'id' 		=> self::$prefix . 'email_heading',
 						'class' 	=> 'code',
 						'value' 	=> $email_heading,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> 'bottom',
 					),
 					array(
@@ -64,10 +64,10 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 						'label'		=> '',
 						'desc' 		=> '',
 						'id' 		=> '',
-						'class' 	=> '',						
-						'desc_class'=> 'd-all',
+						'class' 	=> '',
+						'desc_class' => 'd-all',
 						'group' 	=> 'bottom',
-						'value' 	=> 	'<p>Use the text editor above to add content to your email. 
+						'value' 	=> '<p>Use the text editor above to add content to your email. 
 										You can include any of the following merge fields to give the email a personal touch.
 										<br>{site_title}
 										<br>{user_login}
@@ -78,15 +78,15 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 										<br>{current_date}</p>
 									',
 					),
-				)
+				),
 			),
 		);
 
-		if(has_filter('llms_meta_fields_email_settings')) {
+		if (has_filter( 'llms_meta_fields_email_settings' )) {
 			//Add Fields to the email settings Meta Box
-			$meta_fields_email_settings = apply_filters('llms_meta_fields_email_settings', $meta_fields_email_settings);
-		} 
-		
+			$meta_fields_email_settings = apply_filters( 'llms_meta_fields_email_settings', $meta_fields_email_settings );
+		}
+
 		return $meta_fields_email_settings;
 	}
 
@@ -94,10 +94,10 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
@@ -105,16 +105,16 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 
 		if ( isset( $_POST['_email_subject'] ) ) {
 			//update email subject textbox
-			$subject = ( llms_clean( $_POST['_email_subject']  ) );
+			$subject = ( llms_clean( $_POST['_email_subject'] ) );
 			update_post_meta( $post_id, '_email_subject', ( $subject === '' ) ? '' : $subject );
-			
+
 		}
 
 		if ( isset( $_POST['_email_heading'] ) ) {
 			//update heading textbox
-			$heading = ( llms_clean( $_POST['_email_heading']  ) );
+			$heading = ( llms_clean( $_POST['_email_heading'] ) );
 			update_post_meta( $post_id, '_email_heading', ( $heading === '' ) ? '' : $heading );
-			
+
 		}
 	}
 

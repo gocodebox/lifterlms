@@ -45,23 +45,19 @@ class LLMS_Shortcode_Checkout {
 				__( '<a href="%1$s">Login or create an account to purchase this course</a>.', 'lifterlms' ) . ' ',
 				$account_redirect
 			));
-			
-		}
 
-		else {
+		} else {
 
 			if ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
 				self::confirm_payment();
-			} 
+			} else {
 
-			else {
-
-			apply_filters('lifterlms_checkout_user_logged_in_output', self::checkout( $atts ));
+				apply_filters( 'lifterlms_checkout_user_logged_in_output', self::checkout( $atts ) );
 
 			}
 		}
-		
+
 	}
 
 	/**
@@ -83,8 +79,8 @@ class LLMS_Shortcode_Checkout {
 	* @return void
 	*/
 	private static function confirm_payment() {
-		llms_get_template( 'checkout/form-confirm-payment.php', array( 
-			'current_user' => get_user_by( 'id', get_current_user_id() ) 
+		llms_get_template( 'checkout/form-confirm-payment.php', array(
+			'current_user' => get_user_by( 'id', get_current_user_id() ),
 		) );
 	}
 

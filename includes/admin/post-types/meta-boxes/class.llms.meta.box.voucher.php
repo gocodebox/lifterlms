@@ -1,8 +1,8 @@
 <?php
-if (!defined('ABSPATH')) exit;
-if (!defined('LLMS_Admin_Metabox')) {
-    // Include the file for the parent class
-    include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
+if ( ! defined( 'ABSPATH' )) { exit; }
+if ( ! defined( 'LLMS_Admin_Metabox' )) {
+	// Include the file for the parent class
+	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
 }
 
 /**
@@ -13,118 +13,118 @@ if (!defined('LLMS_Admin_Metabox')) {
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 {
 
-    public static $prefix = '_';
+	public static $prefix = '_';
 
-    /**
-     * Function to field WP::output() method call
-     * Passes output instruction to parent
-     *
-     * @param object $post WP global post object
-     * @return void
-     */
-    public static function output($post)
-    {
-        global $post;
-        parent::new_output($post, self::metabox_options());
-    }
+	/**
+	 * Function to field WP::output() method call
+	 * Passes output instruction to parent
+	 *
+	 * @param object $post WP global post object
+	 * @return void
+	 */
+	public static function output( $post ) {
 
-    /**
-     * Builds array of metabox options.
-     * Array is called in output method to display options.
-     * Appropriate fields are generated based on type.
-     *
-     * @return array [md array of metabox fields]
-     */
-    public static function metabox_options()
-    {
-        global $post;
+		global $post;
+		parent::new_output( $post, self::metabox_options() );
+	}
 
-        $voucher = new LLMS_Voucher($post->ID);
-        $selectedProducts = $voucher->get_products();
+	/**
+	 * Builds array of metabox options.
+	 * Array is called in output method to display options.
+	 * Appropriate fields are generated based on type.
+	 *
+	 * @return array [md array of metabox fields]
+	 */
+	public static function metabox_options() {
 
-        $courses = LLMS_Analytics::get_posts('course');
+		global $post;
 
-        $coursesSelect = array();
-        if (!empty($courses)) {
-            foreach ($courses as $course) {
-                $coursesSelect[] = array(
-                    'key' => $course->ID,
-                    'title' => $course->post_title
-                );
-            }
-        }
+		$voucher = new LLMS_Voucher( $post->ID );
+		$selectedProducts = $voucher->get_products();
 
-        $memberships = LLMS_Analytics::get_posts('llms_membership');
+		$courses = LLMS_Analytics::get_posts( 'course' );
 
-        $membershipsSelect = array();
-        if (!empty($memberships)) {
-            foreach ($memberships as $membership) {
-                $membershipsSelect[] = array(
-                    'key' => $membership->ID,
-                    'title' => $membership->post_title
-                );
-            }
-        }
+		$coursesSelect = array();
+		if ( ! empty( $courses )) {
+			foreach ($courses as $course) {
+				$coursesSelect[] = array(
+					'key' => $course->ID,
+					'title' => $course->post_title,
+				);
+			}
+		}
 
-        $meta_fields_voucher = array(
-            array(
-                'title' => 'General',
-                'fields' => array(
-                    array(
-                        'type' => 'select',
-                        'label' => 'Courses',
-                        'id' => self::$prefix . 'llms_voucher_courses',
-                        'class' => 'input-full llms-meta-select',
-                        'value' => $coursesSelect,
-                        'multi' => true,
-                        'selected' => $selectedProducts
-                    ),
-                    array(
-                        'type' => 'select',
-                        'label' => 'Membership',
-                        'id' => self::$prefix . 'llms_voucher_membership',
-                        'class' => 'input-full llms-meta-select',
-                        'value' => $membershipsSelect,
-                        'multi' => true,
-                        'selected' => $selectedProducts
-                    ),
-                    array(
-                        'type' => 'custom-html',
-                        'label' => 'Codes',
-                        'id' => '',
-                        'class' => '',
-                        'value' => self::codes_section_html()
-                    ),
-                )
-            ),
-            array(
-                'title' => 'Redemptions',
-                'fields' => array(
-                    array(
-                        'type' => 'custom-html',
-                        'label' => 'Redemptions',
-                        'id' => '',
-                        'class' => '',
-                        'value' => self::redemption_section_html()
-                    ),
-                )
-            )
-        );
+		$memberships = LLMS_Analytics::get_posts( 'llms_membership' );
 
-        if (has_filter('llms_meta_fields_voucher')) {
-            $meta_fields_voucher = apply_filters('llms_meta_fields_voucher', $meta_fields_voucher);
-        }
+		$membershipsSelect = array();
+		if ( ! empty( $memberships )) {
+			foreach ($memberships as $membership) {
+				$membershipsSelect[] = array(
+					'key' => $membership->ID,
+					'title' => $membership->post_title,
+				);
+			}
+		}
 
-        return $meta_fields_voucher;
-    }
+		$meta_fields_voucher = array(
+			array(
+				'title' => 'General',
+				'fields' => array(
+					array(
+						'type' => 'select',
+						'label' => 'Courses',
+						'id' => self::$prefix . 'llms_voucher_courses',
+						'class' => 'input-full llms-meta-select',
+						'value' => $coursesSelect,
+						'multi' => true,
+						'selected' => $selectedProducts,
+					),
+					array(
+						'type' => 'select',
+						'label' => 'Membership',
+						'id' => self::$prefix . 'llms_voucher_membership',
+						'class' => 'input-full llms-meta-select',
+						'value' => $membershipsSelect,
+						'multi' => true,
+						'selected' => $selectedProducts,
+					),
+					array(
+						'type' => 'custom-html',
+						'label' => 'Codes',
+						'id' => '',
+						'class' => '',
+						'value' => self::codes_section_html(),
+					),
+				),
+			),
+			array(
+				'title' => 'Redemptions',
+				'fields' => array(
+					array(
+						'type' => 'custom-html',
+						'label' => 'Redemptions',
+						'id' => '',
+						'class' => '',
+						'value' => self::redemption_section_html(),
+					),
+				),
+			),
+		);
 
-    private static function codes_section_html()
-    {
-        global $post;
-        $voucher = new LLMS_Voucher($post->ID);
-        $codes = $voucher->get_voucher_codes();
+		if (has_filter( 'llms_meta_fields_voucher' )) {
+			$meta_fields_voucher = apply_filters( 'llms_meta_fields_voucher', $meta_fields_voucher );
+		}
 
-        ob_start(); ?>
+		return $meta_fields_voucher;
+	}
+
+	private static function codes_section_html() {
+
+		global $post;
+		$voucher = new LLMS_Voucher( $post->ID );
+		$codes = $voucher->get_voucher_codes();
+
+		ob_start(); ?>
         <div class="llms-voucher-codes-wrapper" id="llms-form-wrapper">
             <table>
 
@@ -141,8 +141,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                 <script>var deleteIcon = '<?php echo $deleteIcon ?>';</script>
 
                 <tbody id="llms_voucher_tbody">
-                <?php if (!empty($codes)):
-                    foreach ($codes as $code): ?>
+                <?php if ( ! empty( $codes )) :
+					foreach ($codes as $code) : ?>
                         <tr>
                             <td></td>
                             <td>
@@ -160,7 +160,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                             </td>
                         </tr>
                     <?php endforeach;
-                endif; ?>
+				endif; ?>
                 </tbody>
 
             </table>
@@ -176,17 +176,17 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
         </div>
 
         <?php
-        return ob_get_clean();
-    }
+		return ob_get_clean();
+	}
 
-    private static function redemption_section_html()
-    {
-        global $post;
+	private static function redemption_section_html() {
 
-        $pid = $post->ID;
-        $voucher = new LLMS_Voucher($pid);
-        $redeemedCodes = $voucher->get_redeemed_codes();
-        ob_start(); ?>
+		global $post;
+
+		$pid = $post->ID;
+		$voucher = new LLMS_Voucher( $pid );
+		$redeemedCodes = $voucher->get_redeemed_codes();
+		ob_start(); ?>
 
         <div class="llms-voucher-redemption-wrapper">
             <table>
@@ -201,11 +201,11 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                 </thead>
 
                 <tbody>
-                <?php if (!empty($redeemedCodes)):
-                    foreach ($redeemedCodes as $redeemedCode):
+                <?php if ( ! empty( $redeemedCodes )) :
+					foreach ($redeemedCodes as $redeemedCode) :
 
-                        $user = get_user_by('id', $redeemedCode->user_id);
-                        ?>
+						$user = get_user_by( 'id', $redeemedCode->user_id );
+						?>
                         <tr>
                             <td><?php echo $user->data->display_name ?></td>
                             <td><?php echo $user->data->user_email ?></td>
@@ -213,112 +213,112 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
                             <td><?php echo $redeemedCode->code ?></td>
                         </tr>
                     <?php endforeach;
-                endif;
-                ?>
+				endif;
+				?>
                 </tbody>
 
             </table>
         </div>
 
         <?php
-        return ob_get_clean();
-    }
+		return ob_get_clean();
+	}
 
-    /**
-     * Static save method
-     *
-     * cleans variables and saves using update_post_meta
-     *
-     * @param  int $post_id [id of post object]
-     * @param  object $post [WP post object]
-     *
-     * @return void
-     */
-    public static function save($post_id, $post)
-    {
-        if (!empty($_POST['llms_generate_export']) || empty($_POST['lifterlms_meta_nonce']) || !wp_verify_nonce($_POST['lifterlms_meta_nonce'], 'lifterlms_save_data')) {
-            return false;
-        }
+	/**
+	 * Static save method
+	 *
+	 * cleans variables and saves using update_post_meta
+	 *
+	 * @param  int $post_id [id of post object]
+	 * @param  object $post [WP post object]
+	 *
+	 * @return void
+	 */
+	public static function save( $post_id, $post ) {
 
-        // CODES SAVE
-        $codes = array();
+		if ( ! empty( $_POST['llms_generate_export'] ) || empty( $_POST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_meta_nonce'], 'lifterlms_save_data' )) {
+			return false;
+		}
 
-        $llms_codes = isset( $_POST['llms_voucher_code'] ) ? $_POST['llms_voucher_code'] : false;
-        $llms_uses = isset( $_POST['llms_voucher_uses'] ) ? $_POST['llms_voucher_uses'] : false;
-        $llms_voucher_code_id = isset( $_POST['llms_voucher_code_id'] ) ? $_POST['llms_voucher_code_id'] : false;
+		// CODES SAVE
+		$codes = array();
 
-        $voucher = new LLMS_Voucher($post_id);
+		$llms_codes = isset( $_POST['llms_voucher_code'] ) ? $_POST['llms_voucher_code'] : false;
+		$llms_uses = isset( $_POST['llms_voucher_uses'] ) ? $_POST['llms_voucher_uses'] : false;
+		$llms_voucher_code_id = isset( $_POST['llms_voucher_code_id'] ) ? $_POST['llms_voucher_code_id'] : false;
 
-        if (isset($llms_codes) && !empty($llms_codes) && isset($llms_uses) && !empty($llms_uses)) {
+		$voucher = new LLMS_Voucher( $post_id );
 
-            foreach ($llms_codes as $k => $code) {
-                if (isset($code) && !empty($code) && isset($llms_uses[$k]) && !empty($llms_uses[$k])) {
+		if (isset( $llms_codes ) && ! empty( $llms_codes ) && isset( $llms_uses ) && ! empty( $llms_uses )) {
 
-                    if (isset($llms_voucher_code_id[$k])) {
+			foreach ($llms_codes as $k => $code) {
+				if (isset( $code ) && ! empty( $code ) && isset( $llms_uses[ $k ] ) && ! empty( $llms_uses[ $k ] )) {
 
-                        $data = array(
-                            'code' => $code,
-                            'redemption_count' => intval($llms_uses[$k])
-                        );
+					if (isset( $llms_voucher_code_id[ $k ] )) {
 
-                        if ( intval( $llms_voucher_code_id[$k] ) ) {
-                            $data['id'] = intval($llms_voucher_code_id[$k]);
-                        }
+						$data = array(
+							'code' => $code,
+							'redemption_count' => intval( $llms_uses[ $k ] ),
+						);
 
-                        $codes[] = $data;
-                    }
-                }
-            }
-        }
+						if ( intval( $llms_voucher_code_id[ $k ] ) ) {
+							$data['id'] = intval( $llms_voucher_code_id[ $k ] );
+						}
 
-        if (!empty($codes)) {
-            foreach ($codes as $code) {
+						$codes[] = $data;
+					}
+				}
+			}
+		}
 
-                if (isset($code['id'])) {
-                    $voucher->update_voucher_code($code);
-                } else {
-                    $voucher->save_voucher_code($code);
-                }
-            }
-        }
+		if ( ! empty( $codes )) {
+			foreach ($codes as $code) {
 
-        // Courses and membership save
+				if (isset( $code['id'] )) {
+					$voucher->update_voucher_code( $code );
+				} else {
+					$voucher->save_voucher_code( $code );
+				}
+			}
+		}
 
-        $courses = isset( $_POST['_llms_voucher_courses'] ) ? $_POST['_llms_voucher_courses'] : false;
-        $memberships = isset( $_POST['_llms_voucher_membership'] ) ? $_POST['_llms_voucher_membership'] : false;
-        $products = array();
+		// Courses and membership save
 
-        if (isset($courses) && !empty($courses)) {
-            foreach ($courses as $item) {
-                $products[] = intval($item);
-            }
-        }
+		$courses = isset( $_POST['_llms_voucher_courses'] ) ? $_POST['_llms_voucher_courses'] : false;
+		$memberships = isset( $_POST['_llms_voucher_membership'] ) ? $_POST['_llms_voucher_membership'] : false;
+		$products = array();
 
-        if (isset($memberships) && !empty($memberships)) {
-            foreach ($memberships as $item) {
-                $products[] = intval($item);
-            }
-        }
+		if (isset( $courses ) && ! empty( $courses )) {
+			foreach ($courses as $item) {
+				$products[] = intval( $item );
+			}
+		}
 
-        // remove old products
-        $voucher->delete_products();
+		if (isset( $memberships ) && ! empty( $memberships )) {
+			foreach ($memberships as $item) {
+				$products[] = intval( $item );
+			}
+		}
 
-        // save new ones
-        if (!empty($products)) {
-            foreach ($products as $item) {
-                $voucher->save_product($item);
-            }
-        }
+		// remove old products
+		$voucher->delete_products();
 
-        // set old codes as deleted
-        if (isset($_POST['delete_ids']) && !empty($_POST['delete_ids'])) {
-            $delete_ids = explode(',', $_POST['delete_ids']);
+		// save new ones
+		if ( ! empty( $products )) {
+			foreach ($products as $item) {
+				$voucher->save_product( $item );
+			}
+		}
 
-            if (!empty($delete_ids)) {
-                foreach ($delete_ids as $id) {
-                    $voucher->delete_voucher_code($id);
-                }
-            }
-        }
-    }
+		// set old codes as deleted
+		if (isset( $_POST['delete_ids'] ) && ! empty( $_POST['delete_ids'] )) {
+			$delete_ids = explode( ',', $_POST['delete_ids'] );
+
+			if ( ! empty( $delete_ids )) {
+				foreach ($delete_ids as $id) {
+					$voucher->delete_voucher_code( $id );
+				}
+			}
+		}
+	}
 }

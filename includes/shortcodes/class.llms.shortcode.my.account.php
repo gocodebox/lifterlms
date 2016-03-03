@@ -29,7 +29,7 @@ class LLMS_Shortcode_My_Account {
 	public static function output( $atts ) {
 		global $lifterlms, $wp;
 
-		do_action('lifterlms_before_my_account_shortcode');
+		do_action( 'lifterlms_before_my_account_shortcode' );
 
 		// If user is not logged in
 		if ( ! is_user_logged_in() ) {
@@ -44,9 +44,7 @@ class LLMS_Shortcode_My_Account {
 			if ( isset( $wp->query_vars['lost-password'] ) ) {
 
 				self::lost_password();
-			}
-
-			else {
+			} else {
 
 				llms_get_template( 'myaccount/form-login.php' );
 
@@ -55,26 +53,21 @@ class LLMS_Shortcode_My_Account {
 					llms_get_template( 'myaccount/form-registration.php' );
 				}
 
-
 			}
 
-		}
-
-		// If user is logged in, display the correct page
+		} // If user is logged in, display the correct page
 		else {
 
 			// edit account page
 			if ( isset( $wp->query_vars['edit-account'] ) ) {
 
 				self::edit_account();
-			}
-			// vouchers redemption
-			elseif( isset( $wp->query_vars['redeem-voucher'] ) ) {
+			} // vouchers redemption
+			elseif ( isset( $wp->query_vars['redeem-voucher'] ) ) {
 
 				self::redeem_voucher();
 
-			}
-			// default
+			} // default
 			else {
 
 				self::my_account( $atts );
@@ -82,7 +75,7 @@ class LLMS_Shortcode_My_Account {
 			}
 		}
 
-		do_action('lifterlms_after_my_account_shortcode');
+		do_action( 'lifterlms_after_my_account_shortcode' );
 	}
 
 	/**
@@ -105,7 +98,7 @@ class LLMS_Shortcode_My_Account {
 	*/
 	private static function edit_account() {
 		llms_get_template( 'myaccount/form-edit-account.php', array(
-			'user' => get_user_by( 'id', get_current_user_id() )
+			'user' => get_user_by( 'id', get_current_user_id() ),
 		) );
 	}
 
@@ -113,11 +106,10 @@ class LLMS_Shortcode_My_Account {
 	 * Redeem Voucher template
 	 * @return void
 	 */
-	private static function redeem_voucher()
-	{
+	private static function redeem_voucher() {
 
 		llms_get_template( 'myaccount/form-redeem-voucher.php', array(
-			'user' => get_user_by( 'id', get_current_user_id() )
+			'user' => get_user_by( 'id', get_current_user_id() ),
 		) );
 
 	}
@@ -139,18 +131,16 @@ class LLMS_Shortcode_My_Account {
 			$user = self::check_password_reset_key( $_GET['key'], $_GET['login'] );
 
 			// reset key / login is correct, display reset password form with hidden key / login values
-			if( is_object( $user ) ) {
+			if ( is_object( $user ) ) {
 				$args['form'] = 'reset_password';
 				$args['key'] = esc_attr( $_GET['key'] );
 				$args['login'] = esc_attr( $_GET['login'] );
 			}
 
-		}
-
-		elseif ( isset( $_GET['reset'] ) ) {
+		} elseif ( isset( $_GET['reset'] ) ) {
 
 			llms_add_notice( apply_filters( 'lifterlms_password_reset_login_message', __( 'Your password has been reset.', 'lifterlms' )
-				. ' <a href="' . get_permalink( llms_get_page_id( 'myaccount' ) ) . '">' . __( 'Log in', 'lifterlms' ) . '</a>' ) );
+			. ' <a href="' . get_permalink( llms_get_page_id( 'myaccount' ) ) . '">' . __( 'Log in', 'lifterlms' ) . '</a>' ) );
 
 		}
 

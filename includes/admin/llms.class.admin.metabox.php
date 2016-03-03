@@ -1,10 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 // include all classes for each of the metabox types
-foreach (glob(LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/*.php') as $filename)
-{
-    include_once $filename;
+foreach (glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/*.php' ) as $filename) {
+	include_once $filename;
 }
 
 /**
@@ -58,13 +57,13 @@ abstract class LLMS_Admin_Metabox {
 			<div id="tab-<?php echo $i; ?>" class="tab-content <?php echo $i === 1 ? 'current' : ''; ?>">
 
 				<ul>
-					<?php foreach( $meta_box['fields'] as $field ) :
-						$fieldClassName = str_replace("{TOKEN}",
-							ucfirst(strtr(preg_replace_callback('/(\w+)/', create_function('$m','return ucfirst($m[1]);'), $field['type']),'-','_')),
-							"LLMS_Metabox_{TOKEN}_Field");
+					<?php foreach ( $meta_box['fields'] as $field ) :
+						$fieldClassName = str_replace('{TOKEN}',
+							ucfirst( strtr( preg_replace_callback( '/(\w+)/', create_function( '$m','return ucfirst($m[1]);' ), $field['type'] ),'-','_' ) ),
+						'LLMS_Metabox_{TOKEN}_Field');
 						$fieldClass = new $fieldClassName($field);
 						$fieldClass->Output();
-						unset($fieldClass);
+						unset( $fieldClass );
 					endforeach; ?>
 				</ul>
 

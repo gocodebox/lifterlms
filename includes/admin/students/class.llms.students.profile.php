@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin analytics Page, sales Tab
@@ -66,15 +66,12 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 			//total money spent
 			$html .= self::quarter_width_widget( self::total_money_spent( $user ) );
 
-
-
 			$html .= '</div>'; //end widget row
 
 			//course list
 			$html .= self::full_width_widget( $this->student_course_list( $user ) );
 
 			$html .= self::full_width_widget( $this->student_membership_list( $user ) );
-
 
 			return $this->get_page_contents( $title, $html );
 
@@ -83,10 +80,8 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 		//$search = LLMS()->session->get( 'llms_student_search' );
 		//var_dump( $search);
 
-
 		//search form
 		//$html = $this->search_form();
-
 
 		// //WIDGET ROW
 		// $html .= '<div class="llms-widget-row">';
@@ -141,11 +136,10 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 		//last login date
 		$last_login_date = LLMS_Date::get_last_login_date( $user->id );
 		if ( $last_login_date ) {
-			$user->last_login = LLMS_Date::pretty_date(  LLMS_Date::get_last_login_date( $user->id ) );
+			$user->last_login = LLMS_Date::pretty_date( LLMS_Date::get_last_login_date( $user->id ) );
 		} else {
 			$user->last_login = '';
 		}
-
 
 		//get enrollment data
 		$enrollments = LLMS_Analytics::get_user_enrollments( $user->id );
@@ -272,11 +266,9 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 			//array_unshift($students, $headers);
 		}
 
-
-
 		$html = '<p class="llms-label">' . __( 'Courses', 'lifterlms' ) . '</p>';
 		$html .= '<script>
-			var student_course_list = ' . json_encode($courses_arrays) . '
+			var student_course_list = ' . json_encode( $courses_arrays ) . '
 			</script>';
 		$html .= '<div id="student_course_table" class="llms-chart"></div>';
 
@@ -295,7 +287,7 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 
 		$html = '<p class="llms-label">' . __( 'Memberships', 'lifterlms' ) . '</p>';
 		$html .= '<script>
-			var student_membership_list = ' . json_encode($memberships_arrays) . '
+			var student_membership_list = ' . json_encode( $memberships_arrays ) . '
 			</script>';
 		$html .= '<div id="student_membership_table" class="llms-chart"></div>';
 
@@ -379,7 +371,7 @@ class LLMS_Students_Profile extends LLMS_Students_Page {
 	public function output() {
 		$students = $this->get_students( );
 
- 		LLMS_Admin_Students::output_html( $students );
+			LLMS_Admin_Students::output_html( $students );
 	}
 
 }

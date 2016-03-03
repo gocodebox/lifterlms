@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Certificates Class
@@ -16,8 +16,8 @@ class LLMS_Certificates {
 	protected static $_instance = null;
 
 	public static function instance() {
-		if ( is_null( self::$_instance ) )
-			self::$_instance = new self();
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self(); }
 		return self::$_instance;
 	}
 
@@ -56,8 +56,8 @@ class LLMS_Certificates {
 	 */
 	function lesson_completed( $person_id, $cert_id, $lesson_id ) {
 
-		if ( ! $person_id )
-			return;
+		if ( ! $person_id ) {
+			return; }
 
 		$certificate = $this->certs['LLMS_Certificate_User'];
 		$certificate->trigger( $person_id, $cert_id, $lesson_id );
@@ -74,8 +74,8 @@ class LLMS_Certificates {
 	 * @return [type]            [description]
 	 */
 	function custom_certificate_earned( $person_id, $certificate_id, $engagement_id ) {
-		if ( ! $person_id )
-			return;
+		if ( ! $person_id ) {
+			return; }
 
 		$certificate = $this->certs['LLMS_Certificate_User'];
 

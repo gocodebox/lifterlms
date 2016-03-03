@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Achievements Base Class
@@ -24,8 +24,8 @@ class LLMS_Achievements {
 	protected static $_instance = null;
 
 	public static function instance() {
-		if ( is_null( self::$_instance ) )
-			self::$_instance = new self();
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self(); }
 		return self::$_instance;
 	}
 
@@ -62,8 +62,8 @@ class LLMS_Achievements {
 	 * @return [type]            [description]
 	 */
 	function lesson_completed( $person_id, $id, $lesson_id ) {
-		if ( ! $person_id )
-			return;
+		if ( ! $person_id ) {
+			return; }
 
 		$achievement = $this->achievements['LLMS_Achievement_User'];
 
@@ -81,8 +81,8 @@ class LLMS_Achievements {
 	 * @return [type]            [description]
 	 */
 	function custom_achievement_earned( $person_id, $achievement_id, $engagement_id ) {
-		if ( ! $person_id )
-			return;
+		if ( ! $person_id ) {
+			return; }
 
 		$achievement = $this->achievements['LLMS_Achievement_User'];
 

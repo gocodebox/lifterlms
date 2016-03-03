@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Reset Password Email Class
 * Custom email class to send email reset link to users email
-* 
+*
 * Generates and sends password reset email
 */
 class LLMS_Email_Reset_Password extends LLMS_Email {
@@ -31,8 +31,8 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 		$this->title 			= __( 'Reset password', 'lifterlms' );
 		$this->description		= __( 'Customer reset password emails are sent when a customer resets their password.', 'lifterlms' );
 		$this->template_html 	= 'emails/reset-password.php';
-		$this->subject 			= __( 'Password Reset for {site_title}', 'lifterlms');
-		$this->heading      	= __( 'Password Reset Instructions', 'lifterlms');
+		$this->subject 			= __( 'Password Reset for {site_title}', 'lifterlms' );
+		$this->heading      	= __( 'Password Reset Instructions', 'lifterlms' );
 
 		// Trigger
 		add_action( 'lifterlms_reset_password_notification', array( $this, 'trigger' ), 10, 2 );
@@ -43,10 +43,10 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 
 	/**
 	 * Sets class variables and sends email
-	 * 
+	 *
 	 * @param  id $user_login [ID of user requesting password reset email]
 	 * @param  string $reset_key  [string passed in http request to validate user]
-	 * 
+	 *
 	 * @return void
 	 */
 	function trigger( $user_login = '', $reset_key = '' ) {
@@ -80,7 +80,7 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 			'reset_key'		=> $this->reset_key,
 			'blogname'		=> $this->get_blogname(),
 			'sent_to_admin' => false,
-			'plain_text'    => false
+			'plain_text'    => false,
 		) );
 		return ob_get_clean();
 	}
@@ -98,7 +98,7 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 			'reset_key'		=> $this->reset_key,
 			'blogname'		=> $this->get_blogname(),
 			'sent_to_admin' => false,
-			'plain_text'    => true
+			'plain_text'    => true,
 		) );
 		return ob_get_clean();
 	}

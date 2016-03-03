@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Page functions
 *
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return string
  */
 function llms_lostpassword_url() {
-    return llms_get_endpoint_url( 'lost-password', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
+	return llms_get_endpoint_url( 'lost-password', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 }
 add_filter( 'lostpassword_url',  'llms_lostpassword_url', 10, 0 );
 
@@ -30,8 +30,8 @@ add_filter( 'lostpassword_url',  'llms_lostpassword_url', 10, 0 );
  * @return string
  */
 function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
-	if ( ! $permalink )
-		$permalink = get_permalink();
+	if ( ! $permalink ) {
+		$permalink = get_permalink(); }
 
 	// Map endpoint to options
 	$endpoint = isset( LLMS()->query->query_vars[ $endpoint ] ) ? LLMS()->query->query_vars[ $endpoint ] : $endpoint;
@@ -48,7 +48,6 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	} else {
 		$url = add_query_arg( $endpoint, $value, $permalink );
 	}
-
 
 	return apply_filters( 'lifterlms_get_endpoint_url', $url );
 }

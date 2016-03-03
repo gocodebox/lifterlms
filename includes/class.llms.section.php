@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Section Class
@@ -37,16 +37,12 @@ class LLMS_Section {
 			$this->id   = absint( $section );
 			$this->post = get_post( $this->id );
 
-		} 
-
-		elseif ( $section instanceof LLMS_Section ) {
+		} elseif ( $section instanceof LLMS_Section ) {
 
 			$this->id   = absint( $section->id );
 			$this->post = $section;
 
-		} 
-
-		elseif ( $section instanceof LLMS_Post || isset( $section->ID ) ) {
+		} elseif ( $section instanceof LLMS_Post || isset( $section->ID ) ) {
 
 			$this->id   = absint( $section->ID );
 			$this->post = $section;
@@ -100,16 +96,16 @@ class LLMS_Section {
 
 		$updated_values = array();
 
-		foreach( $data as $key => $value ) {
+		foreach ( $data as $key => $value ) {
 			$method = 'set_' . $key;
 
-			if ( method_exists($this, $method) ) {
+			if ( method_exists( $this, $method ) ) {
 				$updated_value = $this->$method($value);
 
-				$updated_values[$key] = $updated_value;
+				$updated_values[ $key ] = $updated_value;
 
 			}
-			
+
 		}
 
 		return $updated_values;
@@ -125,14 +121,14 @@ class LLMS_Section {
 	 */
 	public function set_order( $order ) {
 
-		return update_post_meta( $this->id, '_llms_order', $order);
+		return update_post_meta( $this->id, '_llms_order', $order );
 
 	}
 
 	public function set_title( $title ) {
 
 		return LLMS_Post_Handler::update_title( $this->id, $title );
-		  
+
 	}
 
 	/**
@@ -146,7 +142,7 @@ class LLMS_Section {
 
 		//hard delete post
 		return wp_delete_post( $this->id, true );
-		
+
 	}
 
 	/**
@@ -161,13 +157,13 @@ class LLMS_Section {
 		//if any lessons are found remove metadata that associates them with the section and course
 		//remove the order as well
 		if ( $lessons ) {
-			foreach( $lessons as $lesson ) {
+			foreach ( $lessons as $lesson ) {
 
 				$this->remove_child_lesson( $lesson->ID );
-				
+
 			}
 		}
-		
+
 	}
 
 	/**
@@ -180,12 +176,12 @@ class LLMS_Section {
 		$post_data = array(
 			'parent_course' => '',
 			'parent_section' => '',
-			'order'	=> ''
+			'order'	=> '',
 		);
 
-		$lesson = new LLMS_Lesson($lesson_id);
-		
-		return $lesson->update($post_data);
+		$lesson = new LLMS_Lesson( $lesson_id );
+
+		return $lesson->update( $post_data );
 
 	}
 
@@ -205,11 +201,11 @@ class LLMS_Section {
 				array(
 					'key' 		=> '_parent_section',
 	      			'value' 	=> $this->id,
-	      			'compare' 	=> '='
-      			)
+	      			'compare' 	=> '=',
+	  			),
 		  	),
 		);
-		 
+
 		$lessons = get_posts( $args );
 		return $lessons;
 	}
@@ -221,7 +217,7 @@ class LLMS_Section {
 	public function count_children_lessons() {
 
 		$lessons = $this->get_children_lessons();
-		return count($lessons);
+		return count( $lessons );
 	}
 
 	/**
@@ -266,11 +262,11 @@ class LLMS_Section {
 
 		$total_completed_lessons = 0;
 
-		foreach($lessons as $lesson) {
+		foreach ($lessons as $lesson) {
 
 			$user = new LLMS_Person;
 			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->ID );
-			if ( !empty($user_postmetas['_is_complete']) ) {
+			if ( ! empty( $user_postmetas['_is_complete'] ) ) {
 				if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
 					$total_completed_lessons++;
 
@@ -278,9 +274,9 @@ class LLMS_Section {
 			}
 		}
 
-		$percent_complete = ($total_lessons != 0) ? round(100 / ( ( $total_lessons / $total_completed_lessons ) ), 0 ) : 0;
+		$percent_complete = ($total_lessons != 0) ? round( 100 / ( ( $total_lessons / $total_completed_lessons ) ), 0 ) : 0;
 
 		return $percent_complete;
 	}
 
-} //end LLMS_Section 
+} //end LLMS_Section

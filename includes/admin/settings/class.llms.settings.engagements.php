@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin Settings Page, Email Tab
@@ -15,7 +15,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	* executes settings tab actions
 	*/
 	public function __construct() {
-		apply_filters('debug', 'This is a checkpoint');
+		apply_filters( 'debug', 'This is a checkpoint' );
 
 		$this->id    = 'engagements';
 		$this->label = __( 'Engagements', 'lifterlms' );
@@ -32,22 +32,22 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 */
 	public function get_settings() {
 		// Get email page
-			$email_page_id = llms_get_page_id('email');
+			$email_page_id = llms_get_page_id( 'email' );
 
 			$base_slug = ($email_page_id > 0 && get_page( $email_page_id )) ? get_page_uri( $email_page_id ) : 'email';
 
 			return apply_filters( 'lifterlms_course_settings', array(
 
-				array( 'type' => 'sectionstart', 'id' => 'email_options', 'class' =>'top' ),
+				array( 'type' => 'sectionstart', 'id' => 'email_options', 'class' => 'top' ),
 
-				array(	'title' => __( 'Email Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Manage email settings.', 'id' => 'email_options' ),
+				array( 'title' => __( 'Email Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Manage email settings.', 'id' => 'email_options' ),
 
 				array(
 					'title' => __( 'Senders Email Address', 'lifterlms' ),
 					'desc' 		=> __( 'Email Address displayed in the From field', 'lifterlms' ),
 					'id' 		=> 'lifterlms_email_from_address',
 					'type' 		=> 'email',
-					'default'	=> get_option('admin_email'),
+					'default'	=> get_option( 'admin_email' ),
 					'desc_tip'	=> true,
 				),
 				array(
@@ -55,7 +55,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'desc' 		=> __( 'Name to be displayed in From field', 'lifterlms' ),
 					'id' 		=> 'lifterlms_email_from_name',
 					'type' 		=> 'text',
-					'default'	=> esc_attr(get_bloginfo('title')),
+					'default'	=> esc_attr( get_bloginfo( 'title' ) ),
 					'desc_tip'	=> true,
 				),
 				array(
@@ -68,25 +68,24 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				),
 				array(
 					'title' => __( 'Header Image', 'lifterlms' ),
-					'desc' 		=> sprintf(__( 'Enter the url for the email header (logo).<a href="%s">Upload an image</a>.', 'lifterlms' ), admin_url('media-new.php')),
+					'desc' 		=> sprintf( __( 'Enter the url for the email header (logo).<a href="%s">Upload an image</a>.', 'lifterlms' ), admin_url( 'media-new.php' ) ),
 					'id' 		=> 'lifterlms_email_header_image',
 					'type' 		=> 'text',
 					'default'	=> '',
-					'autoload'  => false
+					'autoload'  => false,
 				),
 
-				array( 'type' => 'sectionend', 'id' => 'email_options'),
+				array( 'type' => 'sectionend', 'id' => 'email_options' ),
 
-				array( 'type' => 'sectionstart', 'id' => 'certificates_options', 'class' =>'top' ),
+				array( 'type' => 'sectionstart', 'id' => 'certificates_options', 'class' => 'top' ),
 
-				array(	'title' => __( 'Certificates Settings', 'lifterlms' ), 'type' => 'title','desc' => '', 'id' => 'certificates_options' ),
-
+				array( 'title' => __( 'Certificates Settings', 'lifterlms' ), 'type' => 'title','desc' => '', 'id' => 'certificates_options' ),
 
 				array(
 					'type' => 'desc',
 					'desc' => '<strong>' . __( 'Background Image Settings' ,'lifterlms' ) . '</strong><br>' .
 							  __( 'Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.' ,'lifterlms' ),
-					'id' => 'cert_bg_image_settings'
+					'id' => 'cert_bg_image_settings',
 				),
 
 				array(
@@ -95,7 +94,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'id'            => 'lifterlms_certificate_bg_img_width',
 					'default'       => '800',
 					'type'          => 'number',
-					'autoload'      => false
+					'autoload'      => false,
 				),
 
 				array(
@@ -104,7 +103,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'desc'          => __( 'in pixels', 'lifterlms' ),
 					'default'       => '616',
 					'type'          => 'number',
-					'autoload'      => false
+					'autoload'      => false,
 				),
 
 				array(
@@ -114,13 +113,13 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'id'            => 'lifterlms_certificate_legacy_image_size',
 					'default'       => 'yes',
 					'type'          => 'checkbox',
-					'autoload'      => false
+					'autoload'      => false,
 				),
 
-				array( 'type' => 'sectionend', 'id' => 'certificates_options'),
+				array( 'type' => 'sectionend', 'id' => 'certificates_options' ),
 
-			)
-		);
+				)
+			);
 	}
 
 	/**
@@ -143,7 +142,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	public function output() {
 		$settings = $this->get_settings( );
 
- 		LLMS_Admin_Settings::output_fields( $settings );
+			LLMS_Admin_Settings::output_fields( $settings );
 	}
 
 }

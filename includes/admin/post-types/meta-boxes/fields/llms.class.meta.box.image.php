@@ -1,8 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
-* 
+*
 */
 class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
 {
@@ -10,39 +10,36 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 	 * Class constructor
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct($_field)
-	{
+	function __construct( $_field ) {
+
 		$this->field = $_field;
 	}
 
 	/**
 	 * Outputs the Html for the given field
-	 * @return HTML 
+	 * @return HTML
 	 */
-	public function Output()
-	{
+	public function Output() {
+
 		global $post;
 		$image;
 		$imgclass;
-		
-		parent::Output(); 
-					
-		if($this->field['section'] === 'achievement_meta_box')
-		{
+
+		parent::Output();
+
+		if ($this->field['section'] === 'achievement_meta_box') {
 			$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' ); ?>
 			<img id="<?php echo $this->field['id']; ?>" class="llms_achievement_default_image" style="display:none" src="<?php echo $image; ?>">
 			<?php
 			$imgclass = 'llms_achievement_image';
-		}
-		else 
-		{
+		} else {
 			$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png' ); ?>
 			<img id="<?php echo $this->field['id']; ?>" class="llms_certificate_default_image" style="display:none" src="<?php echo $image; ?>">
 			<?php
 			$imgclass = 'llms_certificate_image';
 		} //Check existing field and if numeric
-		if (is_numeric($this->meta)) { 
-			$image = wp_get_attachment_image_src($this->meta, 'medium'); 
+		if (is_numeric( $this->meta )) {
+			$image = wp_get_attachment_image_src( $this->meta, 'medium' );
 			$image = $image[0];
 		} ?>
 				<img src="<?php echo $image; ?>" id="<?php echo $this->field['id']; ?>" class="<?php echo $imgclass; ?>" /><br />
@@ -51,7 +48,7 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 				<small> <a href="#" id="<?php echo $this->field['id']; ?>" class="llms_<?php echo $this->field['class']; ?>_clear_image_button">Remove Image</a></small>
 				<br /><span class="description"><?php echo $this->field['desc']; ?></span>		
 		<?php
-		parent::CloseOutput();				
+		parent::CloseOutput();
 	}
 }
 

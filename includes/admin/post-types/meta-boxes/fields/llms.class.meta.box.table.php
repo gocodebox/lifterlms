@@ -1,29 +1,29 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  *
  */
 class LLMS_Metabox_Table_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
 {
-    /**
-     * Class constructor
-     * @param array $_field Array containing information about field
-     */
-    function __construct($_field)
-    {
-        $this->field = $_field;
-    }
+	/**
+	 * Class constructor
+	 * @param array $_field Array containing information about field
+	 */
+	function __construct( $_field ) {
 
-    /**
-     * Outputs the Html for the given field
-     * @return HTML
-     */
-    public function Output()
-    {
-        global $post;
+		$this->field = $_field;
+	}
 
-        parent::Output(); ?>
+	/**
+	 * Outputs the Html for the given field
+	 * @return HTML
+	 */
+	public function Output() {
+
+		global $post;
+
+		parent::Output(); ?>
             <table class="form-table">
                 <thead>
                     <?php foreach ( $this->field['titles'] as $title  ) : ?>
@@ -41,7 +41,7 @@ class LLMS_Metabox_Table_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
                 </tbody>
             </table>
         <?php
-        parent::CloseOutput();
-    }
+		parent::CloseOutput();
+	}
 }
 

@@ -1,7 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! defined( 'LLMS_Admin_Metabox' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'LLMS_Admin_Metabox' ) ) {
 	// Include the file for the parent class
 	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
 }
@@ -52,31 +51,31 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 			),
 		);
 
-		$courses = LLMS_Analytics::get_posts('course');
+		$courses = LLMS_Analytics::get_posts( 'course' );
 
 		$coursesSelect = array();
-		if (!empty($courses)) {
+		if ( ! empty( $courses )) {
 			foreach ($courses as $course) {
 				$coursesSelect[] = array(
 						'key' => $course->ID,
-						'title' => $course->post_title
+						'title' => $course->post_title,
 				);
 			}
 		}
 
-		$memberships = LLMS_Analytics::get_posts('llms_membership');
+		$memberships = LLMS_Analytics::get_posts( 'llms_membership' );
 
 		$membershipsSelect = array();
-		if (!empty($memberships)) {
+		if ( ! empty( $memberships )) {
 			foreach ($memberships as $membership) {
 				$membershipsSelect[] = array(
 						'key' => $membership->ID,
-						'title' => $membership->post_title
+						'title' => $membership->post_title,
 				);
 			}
 		}
 
-		$selectedProducts = get_post_meta($post->ID, '_llms_coupon_products', true);
+		$selectedProducts = get_post_meta( $post->ID, '_llms_coupon_products', true );
 
 		$meta_fields_coupon = array(
 			array(
@@ -89,7 +88,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_coupon_title',
 						'section' 	=> 'coupon_meta_box',
 						'class' 	=> 'code input-full',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
 						'required'	=> true,
@@ -102,7 +101,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'class' => 'input-full llms-meta-select',
 						'value' => $coursesSelect,
 						'multi' => true,
-						'selected' => $selectedProducts
+						'selected' => $selectedProducts,
 					),
 					array(
 						'type' => 'select',
@@ -111,7 +110,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'class' => 'input-full llms-meta-select',
 						'value' => $membershipsSelect,
 						'multi' => true,
-						'selected' => $selectedProducts
+						'selected' => $selectedProducts,
 					),
 					array(
 						'type'		=> 'select',
@@ -120,7 +119,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_discount_type',
 						'class' 	=> 'llms-chosen-select',
 						'value' 	=> $discountTypes,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -130,7 +129,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'id'    	=> self::$prefix . 'llms_coupon_amount',
 						'section' 	=> 'coupon_meta_box',
 						'class' 	=> 'code input-full',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
 					),
@@ -141,16 +140,16 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'id'    	=> self::$prefix . 'llms_usage_limit',
 						'section' 	=> 'coupon_meta_box',
 						'class' 	=> 'code input-full',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
 					),
-				)
+				),
 			),
 		);
 
-		if(has_filter('llms_meta_fields_coupon')) {
-			$meta_fields_coupon = apply_filters('llms_meta_fields_coupon', $meta_fields_coupon);
+		if (has_filter( 'llms_meta_fields_coupon' )) {
+			$meta_fields_coupon = apply_filters( 'llms_meta_fields_coupon', $meta_fields_coupon );
 		}
 
 		return $meta_fields_coupon;

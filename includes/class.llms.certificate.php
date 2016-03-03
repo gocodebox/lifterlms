@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Certificate Class
@@ -67,9 +67,9 @@ class LLMS_Certificate {
 	 */
 	function get_content() {
 
-	$this->sending = true;
+		$this->sending = true;
 
-	$email_content = $this->get_content_html();
+		$email_content = $this->get_content_html();
 
 		return $email_content;
 	}
@@ -85,7 +85,7 @@ class LLMS_Certificate {
 	 * @param  string $content [html formatted post content]
 	 * @return void
 	 */
-	public function create($content) {
+	public function create( $content ) {
 		global $wpdb;
 
 		$new_user_certificate = apply_filters( 'lifterlms_new_page', array(
@@ -112,7 +112,7 @@ class LLMS_Certificate {
 					'post_id' 			=> $this->lesson_id,
 					'meta_key'			=> $key,
 					'meta_value'		=> $value,
-					'updated_date'		=> current_time('mysql'),
+					'updated_date'		=> current_time( 'mysql' ),
 				)
 			);
 		}

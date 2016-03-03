@@ -1,5 +1,5 @@
 <?php
-if (!defined('ABSPATH')) exit;
+if ( ! defined( 'ABSPATH' )) { exit; }
 
 /**
  *
@@ -11,8 +11,8 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	 * Class constructor
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct($_field)
-	{
+	function __construct( $_field ) {
+
 		$this->field = $_field;
 	}
 
@@ -20,20 +20,20 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	 * Outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function Output()
-	{
+	public function Output() {
+
 		global $post;
 
 		parent::Output();
 
-		$id = $name = esc_attr($this->field['id']);
+		$id = $name = esc_attr( $this->field['id'] );
 
-		if (array_key_exists('multi', $this->field)) {
+		if (array_key_exists( 'multi', $this->field )) {
 			$name .= '[]';
 		}
 
 		$selected = $this->meta;
-		if (array_key_exists('selected', $this->field)) {
+		if (array_key_exists( 'selected', $this->field )) {
 			$selected = $this->field['selected'];
 		}
 
@@ -42,8 +42,8 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		<select
 			id="<?php echo $id; ?>"
 			name="<?php echo $name; ?>"
-			class="<?php echo esc_attr($this->field['class']); ?>"
-			<?php if (array_key_exists('multi', $this->field) && $this->field['multi']): ?>
+			class="<?php echo esc_attr( $this->field['class'] ); ?>"
+			<?php if (array_key_exists( 'multi', $this->field ) && $this->field['multi']) : ?>
 				multiple="multiple"
 			<?php endif; ?>
 		>
@@ -52,8 +52,8 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			<?php foreach ($this->field['value'] as $option) :
 
 				$selectedText = '';
-				if (is_array($selected)) {
-					if (in_array($option['key'], $selected)) {
+				if (is_array( $selected )) {
+					if (in_array( $option['key'], $selected )) {
 						$selectedText = ' selected="selected" ';
 					}
 				} elseif ($option['key'] == $selected) {

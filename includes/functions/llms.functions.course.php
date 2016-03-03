@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Course Functions
 *
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Get page object
  *
  * @param string $the_course = false, $args = array()
- * @return array 
+ * @return array
  */
 function get_course( $the_course = false, $args = array() ) {
 
@@ -41,8 +41,8 @@ function get_lesson( $the_lesson = false, $args = array() ) {
  * @return int
  */
 function llms_get_page_id( $page ) {
-	
-	$page = apply_filters( 'lifterlms_get_' . $page . '_page_id', get_option('lifterlms_' . $page . '_page_id' ) );
+
+	$page = apply_filters( 'lifterlms_get_' . $page . '_page_id', get_option( 'lifterlms_' . $page . '_page_id' ) );
 
 	return $page ? $page : -1;
 }

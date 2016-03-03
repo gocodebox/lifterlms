@@ -1,9 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Language Class
-* 
+*
 * Manages formatting languange translation strings
 */
 class LLMS_Language {

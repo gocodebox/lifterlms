@@ -23,13 +23,15 @@ LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and pro
 
 Do not use phpcs directly from the command line, use the gulp task.
 
-`gulp phpcs` to run on all php files
-`gulp phpcs --file path/to/file.php` to run on a specific file
-`gulp phpcs --file valid/glob/*.php` pass a valid glob to run on a group of files
++ `gulp phpcs` to run on all php files
++ `gulp phpcs --file path/to/file.php` to run on a specific file
++ `gulp phpcs --file valid/glob/*.php` pass a valid glob to run on a group of files
++ `gulp phpcs --warning 0` to ignore PHPCS warnings, or any valid phpcs warning severity level (1-8)
 
 ### Running phpcbf
 
-`./vendor/bin/phpcbf --standard=./phpcs.xml`
++ `./vendor/bin/phpcbf` to run on all php files
++ `./vendor/bin/phpcbf path/to/file.php` to run on a specific file
 
 ### Contributing
 

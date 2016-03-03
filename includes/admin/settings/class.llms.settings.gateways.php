@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin Settings Page, Gateways Tab
@@ -30,13 +30,13 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 	 */
 	public function get_settings() {
 		// Get gateways page
-			$gateways_page_id = llms_get_page_id('gateways');
+			$gateways_page_id = llms_get_page_id( 'gateways' );
 
 			$base_slug = ($gateways_page_id > 0 && get_page( $gateways_page_id )) ? get_page_uri( $gateways_page_id ) : 'gateways';
 
 			return apply_filters( 'lifterlms_gateway_settings', array(
 
-				array( 'type' => 'sectionstart', 'id' => 'gateways_options', 'class' =>'top' ),
+				array( 'type' => 'sectionstart', 'id' => 'gateways_options', 'class' => 'top' ),
 
 				array( 'title' => __( 'Paypal Settings', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Enable Paypal payment gateway', 'lifterlms' ), 'id' => 'gateway_paypal_options' ),
 
@@ -46,7 +46,7 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'start',
-				'autoload'      => false
+				'autoload'      => false,
 				),
 
 				array(
@@ -55,17 +55,17 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => '',
-				'autoload'      => false
+				'autoload'      => false,
 				),
 
-                array(
-                    'desc'          => __( 'Enable Debug Mode. <i>Display Response Messages on Checkout Screen</i>', 'lifterlms' ),
-                    'id'            => 'lifterlms_gateways_paypal_enable_debug',
-                    'default'       => false,
-                    'type'          => 'checkbox',
-                    'checkboxgroup' => 'end',
-                    'autoload'      => false
-                ),
+				array(
+					'desc'          => __( 'Enable Debug Mode. <i>Display Response Messages on Checkout Screen</i>', 'lifterlms' ),
+					'id'            => 'lifterlms_gateways_paypal_enable_debug',
+					'default'       => false,
+					'type'          => 'checkbox',
+					'checkboxgroup' => 'end',
+					'autoload'      => false,
+				),
 
 				array(
 				'title' => __( 'API Username', 'lifterlms' ),
@@ -94,9 +94,9 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 				),
 
-				array( 'type' => 'sectionend', 'id' => 'gateways_options'),
-			)
-		);
+				array( 'type' => 'sectionend', 'id' => 'gateways_options' ),
+				)
+			);
 	}
 
 	/**
@@ -119,7 +119,7 @@ class LLMS_Settings_Gateways extends LLMS_Settings_Page {
 	public function output() {
 		$settings = $this->get_settings( );
 
- 		LLMS_Admin_Settings::output_fields( $settings );
+			LLMS_Admin_Settings::output_fields( $settings );
 	}
 
 }

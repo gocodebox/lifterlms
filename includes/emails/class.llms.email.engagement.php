@@ -1,11 +1,11 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Engagement Email Class
 * Child Class. Extends from LLMS_Email.
-* 
+*
 * Generates emails and sends to user. Triggered from engagement.
 */
 class LLMS_Email_Engagement extends LLMS_Email {
@@ -25,8 +25,8 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	public function init( $email_id, $user_id ) {
 		global $wpdb;
 
- 		$email_content = get_post($email_id);
- 		$email_meta = get_post_meta( $email_content->ID );
+			$email_content = get_post( $email_id );
+			$email_meta = get_post_meta( $email_content->ID );
 
 		$this->id 					= 'engagement email';
 		$this->title 				= __( 'Engagement Email', 'lifterlms' );
@@ -40,10 +40,10 @@ class LLMS_Email_Engagement extends LLMS_Email {
 
 	/**
 	 * [trigger description]
-	 * 
+	 *
 	 * @param  int $user_id  [ID of the user recieving the email]
 	 * @param  int $email_id [ID of the Email post]
-	 * 
+	 *
 	 * @return void
 	 */
 	function trigger( $user_id, $email_id ) {
@@ -58,11 +58,11 @@ class LLMS_Email_Engagement extends LLMS_Email {
 			$this->recipient          = $this->user_email;
 			$this->user_firstname	  = stripslashes( $this->object->first_name );
 			$this->user_lastname	  = stripslashes( $this->object->last_name );
-			
+
 		}
 
-		if ( ! $this->is_enabled() || ! $this->get_recipient() )
-			return;
+		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
+			return; }
 
 		$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
 	}
@@ -77,11 +77,12 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$this->find = array(
 			'{site_title}',
 			'{user_login}',
-			'{site_url}' ,
+			'{site_url}',
 			'{first_name}',
 			'{last_name}',
 			'{email_address}',
-			'{current_date}');
+			'{current_date}',
+		);
 		$this->replace = array(
 			$this->get_blogname(),
 			$this->user_login,
@@ -89,10 +90,10 @@ class LLMS_Email_Engagement extends LLMS_Email {
 			$this->user_firstname,
 			$this->user_lastname,
 			$this->user_email,
-			date('M d, Y', strtotime(current_time('mysql'))),
+			date( 'M d, Y', strtotime( current_time( 'mysql' ) ) ),
 		);
 
-		$content = $this->format_string($this->email_content);
+		$content = $this->format_string( $this->email_content );
 
 		ob_start();
 		llms_get_template( $this->template_html, array(
@@ -102,7 +103,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 			'blogname'           => $this->get_blogname(),
 			'email_message' 	 => $content,
 			'sent_to_admin' => false,
-			'plain_text'    => false
+			'plain_text'    => false,
 		) );
 		return ob_get_clean();
 	}

@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * lifterLMS AJAX Event Handler
@@ -23,7 +23,6 @@ class LLMS_AJAX_Handler {
 
 		$html = LLMS_Meta_Box_Course_Outline::section_tile( $section_id );
 
-
 		return $html;
 
 	}
@@ -38,11 +37,11 @@ class LLMS_AJAX_Handler {
 
 	public static function create_lesson( $request ) {
 
-		$lesson_id = LLMS_Post_Handler::create_lesson( 
-			$request['post_id'], 
+		$lesson_id = LLMS_Post_Handler::create_lesson(
+			$request['post_id'],
 			$request['section_id'],
-			$request['title'], 
-			$request['excerpt'] 
+			$request['title'],
+			$request['excerpt']
 		);
 
 		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
@@ -64,7 +63,7 @@ class LLMS_AJAX_Handler {
 		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
 
 		return $html;
-	
+
 	}
 
 	public static function get_course_section( $request ) {
@@ -89,7 +88,7 @@ class LLMS_AJAX_Handler {
 
 		$post_data = array(
 			'title' => $request['title'],
-			'excerpt' => $request['excerpt']
+			'excerpt' => $request['excerpt'],
 		);
 
 		$lesson = new LLMS_Lesson( $request['lesson_id'] );
@@ -103,7 +102,7 @@ class LLMS_AJAX_Handler {
 		$post_data = array(
 			'parent_course' => '',
 			'parent_section' => '',
-			'order'	=> ''
+			'order'	=> '',
 		);
 
 		$lesson = new LLMS_Lesson( $request['lesson_id'] );
@@ -121,36 +120,36 @@ class LLMS_AJAX_Handler {
 	public static function update_section_order( $request ) {
 
 		$updated_data;
-		
-		foreach( $request['sections'] as $key => $value ) {
+
+		foreach ( $request['sections'] as $key => $value ) {
 
 			$section = new LLMS_Section( $key );
-			$updated_data[$key] = $section->update(array('order' => $value));
+			$updated_data[ $key ] = $section->update( array( 'order' => $value ) );
 
 		}
 
 		return $updated_data;
-	
+
 	}
 
 	public static function update_lesson_order( $request ) {
 
 		$updated_data;
-		
-		foreach( $request['lessons'] as $key => $value ) {
+
+		foreach ( $request['lessons'] as $key => $value ) {
 
 			$lesson = new LLMS_Lesson( $key );
-			$updated_data[$key] = $lesson->update(
+			$updated_data[ $key ] = $lesson->update(
 				array(
 					'parent_section' => $value['parent_section'],
-					'order' => $value['order']
+					'order' => $value['order'],
 				)
 			);
 
 		}
 
 		return $updated_data;
-	
+
 	}
 
 

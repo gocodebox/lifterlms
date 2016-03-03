@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 *
@@ -7,8 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
 {
 
-	function __construct($_field)
-	{
+	function __construct( $_field ) {
+
 		$this->field = $_field;
 	}
 
@@ -16,23 +16,23 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	 * Outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function Output()
-	{
+	public function Output() {
+
 		global $post;
 
 		parent::Output(); ?>
 
 		<input type="number"
 		<?php
-			if (isset($this->field['min'])) {
-				echo 'min="' . $this->field['min'] . '"';
-			}
+		if (isset( $this->field['min'] )) {
+			echo 'min="' . $this->field['min'] . '"';
+		}
 		?>
 			name="<?php echo $this->field['id']; ?>"
 			id="<?php echo $this->field['id']; ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
 			value="<?php echo $this->meta; ?>" size="30"
-			step="<?php echo isset($this->field['meta']) ? $this->field['meta'] : 'any'; ?>"
+			step="<?php echo isset( $this->field['meta'] ) ? $this->field['meta'] : 'any'; ?>"
 		/>
 
 		<?php

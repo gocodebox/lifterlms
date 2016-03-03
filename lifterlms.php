@@ -83,7 +83,6 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
-		//add_action( 'init', array( 'LLMS_Widgets', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ) );
 
 		// load localization files
@@ -254,8 +253,6 @@ final class LifterLMS {
 		include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
 
 		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
-
-		//include_once( 'includes/widgets/class.llms.widget.progress.php' );
 	}
 
 	/**

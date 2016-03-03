@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin Settings Page, Courses Tab
@@ -30,15 +30,15 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	 */
 	public function get_settings() {
 		// Get shop page
-		$shop_page_id = llms_get_page_id('shop');
+		$shop_page_id = llms_get_page_id( 'shop' );
 
 		$base_slug = ($shop_page_id > 0 && get_page( $shop_page_id )) ? get_page_uri( $shop_page_id ) : 'llms_shop';
 
 		return apply_filters( 'lifterlms_course_settings', array(
 
-			array( 'type' => 'sectionstart', 'id' => 'course_archive_options', 'class' =>'top' ),
+			array( 'type' => 'sectionstart', 'id' => 'course_archive_options', 'class' => 'top' ),
 
-			array(	'title' => __( 'Archive Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your courses for a unique user experience.', 'id' => 'course_options' ),
+			array( 'title' => __( 'Archive Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your courses for a unique user experience.', 'id' => 'course_options' ),
 
 			array(
 				'title' => __( 'Courses Page', 'lifterlms' ),
@@ -60,28 +60,27 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 			array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
 
-
 			array( 'type' => 'sectionstart', 'id' => 'course_display_options' ),
 
 			array( 'title' => __( 'Display Settings', 'lifterlms' ), 'type' => 'title', 'id' => 'course_options' ),
 
-            array(
-                'title' => __( 'Course Purchase Button Text', 'lifterlms' ),
-                'desc' 		=> '<br/>' . sprintf( __( 'Enter custom text to display on the Course Purchase Button.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
-                'id' 		=> 'lifterlms_button_purchase_course_custom_text',
-                'type' 		=> 'text',
-                'default'	=> 'Take This Course',
-                'css' 		=> 'min-width:200px;',
-            ),
+			array(
+				'title' => __( 'Course Purchase Button Text', 'lifterlms' ),
+				'desc' 		=> '<br/>' . sprintf( __( 'Enter custom text to display on the Course Purchase Button.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'id' 		=> 'lifterlms_button_purchase_course_custom_text',
+				'type' 		=> 'text',
+				'default'	=> 'Take This Course',
+				'css' 		=> 'min-width:200px;',
+			),
 
-            array(
-                'title' => __( 'Membership Signup Button Text', 'lifterlms' ),
-                'desc' 		=> '<br/>' . sprintf( __( 'Enter custom text to display on Membership sign up button (displays on course page).', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
-                'id' 		=> 'lifterlms_button_purchase_membership_custom_text',
-                'type' 		=> 'text',
-                'default'	=> 'Become a Member',
-                'css' 		=> 'min-width:200px;',
-            ),
+			array(
+				'title' => __( 'Membership Signup Button Text', 'lifterlms' ),
+				'desc' 		=> '<br/>' . sprintf( __( 'Enter custom text to display on Membership sign up button (displays on course page).', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'id' 		=> 'lifterlms_button_purchase_membership_custom_text',
+				'type' 		=> 'text',
+				'default'	=> 'Become a Member',
+				'css' 		=> 'min-width:200px;',
+			),
 
 			array(
 				'title'         => __( 'Course Display', 'lifterlms' ),
@@ -90,7 +89,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'start',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array(
@@ -99,7 +98,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => '',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array(
@@ -108,7 +107,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => '',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array(
@@ -117,9 +116,8 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => '',
-				'autoload'      => false
+				'autoload'      => false,
 			),
-
 
 			array(
 				'desc'          => __( 'Display Lesson excerpts in lesson navigation', 'lifterlms' ),
@@ -127,9 +125,8 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'end',
-				'autoload'      => false
+				'autoload'      => false,
 			),
-
 
 			// course outline settings
 			array(
@@ -139,7 +136,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'start',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array(
@@ -148,7 +145,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => '',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array(
@@ -175,7 +172,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'id'            => 'lifterlms_autoadvance',
 				'default'       => 'no',
 				'type'          => 'checkbox',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'course_display_options' ),
@@ -203,7 +200,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	public function output() {
 		$settings = $this->get_settings( );
 
- 		LLMS_Admin_Settings::output_fields( $settings );
+			LLMS_Admin_Settings::output_fields( $settings );
 	}
 
 }

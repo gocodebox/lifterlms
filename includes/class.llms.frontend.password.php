@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Front End Password handler
@@ -25,26 +25,22 @@ class LLMS_Frontend_Password {
 
 			llms_add_notice( __( 'Enter a username or e-mail address.', 'lifterlms' ), 'error' );
 
-		} 
-
-		elseif ( strpos( $_POST['user_login'], '@' ) && apply_filters( 'lifterlms_get_username_from_email', true ) ) {
+		} elseif ( strpos( $_POST['user_login'], '@' ) && apply_filters( 'lifterlms_get_username_from_email', true ) ) {
 
 			$user_data = get_user_by( 'email', trim( $_POST['user_login'] ) );
 
-			if ( empty( $user_data ) )
+			if ( empty( $user_data ) ) {
 
-				llms_add_notice( __( 'The email address entered is not associated with an account.', 'lifterlms' ), 'error' );
+				llms_add_notice( __( 'The email address entered is not associated with an account.', 'lifterlms' ), 'error' ); }
 
-		} 
-
-		else {
+		} else {
 
 			$login = trim( $_POST['user_login'] );
 
 			$user_data = get_user_by( 'login', $login );
 		}
 
-		do_action('lostpassword_post');
+		do_action( 'lostpassword_post' );
 
 		if ( llms_notice_count( 'error' ) > 0 ) {
 
@@ -61,9 +57,9 @@ class LLMS_Frontend_Password {
 		$user_login = $user_data->user_login;
 		$user_email = $user_data->user_email;
 
-		do_action('retrieve_password', $user_login);
+		do_action( 'retrieve_password', $user_login );
 
-		$allow = apply_filters('allow_password_reset', true, $user_data->ID);
+		$allow = apply_filters( 'allow_password_reset', true, $user_data->ID );
 
 		if ( ! $allow ) {
 
@@ -71,9 +67,7 @@ class LLMS_Frontend_Password {
 
 			return false;
 
-		} 
-
-		elseif ( is_wp_error( $allow ) ) {
+		} elseif ( is_wp_error( $allow ) ) {
 
 			llms_add_notice( $allow->get_error_message, 'error' );
 
@@ -88,7 +82,7 @@ class LLMS_Frontend_Password {
 			// Generate something random for a key...
 			$key = wp_generate_password( 20, false );
 
-			do_action('retrieve_password_key', $user_login, $key);
+			do_action( 'retrieve_password_key', $user_login, $key );
 
 			// Now insert the new md5 key into the db
 			$wpdb->update( $wpdb->users, array( 'user_activation_key' => $key ), array( 'user_login' => $user_login ) );

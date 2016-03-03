@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin analytics Page, sales Tab
@@ -27,14 +27,14 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	 * Main Analytics page builder
 	 * Collects elements and calls get_page_contents to wrap html
 	 * Called from html.admin.analytics to build page.
-	 * 
+	 *
 	 * @return [html]
 	 */
 	public function get_analytics() {
 		$search = LLMS()->session->get( 'llms_analytics_membership' );
 		//var_dump( $search);
 		$title = __( 'Membership Analytics', 'lifterlms' );
-		
+
 		//search form
 		$html = $this->search_form();
 
@@ -63,7 +63,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 				//$html .= self::full_width_widget( $this->lesson_completion_chart( $search ) );
 				$html .= self::full_width_widget( $this->membership_member_table( $search ) );
 			}
-			
+
 		}
 
 		//return contents
@@ -89,14 +89,14 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 		//start building html
 		$html = '<div class="llms-search-form-wrapper">';
 
-		//Product Select ( Memberships ) 
+		//Product Select ( Memberships )
 		$html .= '<div class="llms-select">';
 		$html .= '<label>' . __( 'Select a Membership', 'lifterlms' ) . '</label>';
 		$html .= '<select id="llms-product-select" name="llms_product_select" class="chosen-select-width">';
 
 		//all products option
 		$html .= '<option value="all_memberships" ' . ( $product_id == 'all_memberships' ? 'selected' : '' ) . '>' . __( 'All Memberships', 'lifterlms' ) . '</option>';
-		
+
 		//loop through posts
 		if ( $products ) {
 			foreach ( $products as $key => $product ) {
@@ -107,7 +107,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 				}
 			}
 		}
-		
+
 		$html .= '</select>';
 		$html .= '</div>';
 
@@ -149,8 +149,6 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 		$html .= get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
 		$html .= '</div>';
 
-		
-
 		$html .= '</div>';
 
 		return $html;
@@ -163,7 +161,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 
 		$headers = array( 'Date' );
 
-		if ( $search && isset($search->members) ) {
+		if ( $search && isset( $search->members ) ) {
 
 			//add each course name to headers
 			if ( ! empty( $search->memberships ) ) {
@@ -174,16 +172,16 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 
 				$total_members_by_day = LLMS_Analytics::get_total_enrolled_by_day( $search );
 
-				array_unshift($total_members_by_day, $headers);
+				array_unshift( $total_members_by_day, $headers );
 
 			}
-			
+
 		} else {
 			$total_members_by_day = array();
 		}
-	
+
 		$html = '<p class="llms-label">' . __( 'Membership Enrollment by Day', 'lifterlms' ) . '</p>';
-		$html .= '<script>var enrolled_members = ' . json_encode($total_members_by_day) . '</script>';
+		$html .= '<script>var enrolled_members = ' . json_encode( $total_members_by_day ) . '</script>';
 		$html .= '<div id="enrolled_members_chart" class="llms-chart"></div>';
 
 		return $html;
@@ -197,11 +195,11 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 
 			$lesson_completion_percent = LLMS_Analytics::get_lesson_completion_avg( $search );
 
-			array_unshift($lesson_completion_percent, $headers);
+			array_unshift( $lesson_completion_percent, $headers );
 		}
 
 		$html = '<p class="llms-label">' . __( 'Lesson Completion Percentage', 'lifterlms' ) . '</p>';
-		$html .= '<script>var lesson_completion_percent = ' . json_encode($lesson_completion_percent) . '</script>';
+		$html .= '<script>var lesson_completion_percent = ' . json_encode( $lesson_completion_percent ) . '</script>';
 		$html .= '<div id="lesson-completion-chart" class="llms-chart"></div>';
 
 		return $html;
@@ -220,8 +218,8 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 
 		$html = '<p class="llms-label">' . __( 'Members', 'lifterlms' ) . '</p>';
 		$html .= '<script>
-				var members_result_large = ' . json_encode($members_arrays['large']) . '
-				var members_result_small = ' . json_encode($members_arrays['small']) . '
+				var members_result_large = ' . json_encode( $members_arrays['large'] ) . '
+				var members_result_small = ' . json_encode( $members_arrays['small'] ) . '
 			</script>';
 		$html .= '<div id="members_table" class="llms-chart"></div>';
 
@@ -235,7 +233,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	 * @return [html]
 	 */
 	public function total_members_all_time( $search ) {
-		$total = isset($search->members) ? LLMS_Analytics::get_total_users($search->members) : '0';
+		$total = isset( $search->members ) ? LLMS_Analytics::get_total_users( $search->members ) : '0';
 		$html = '<p class="llms-label">' . __( 'All Members', 'lifterlms' ) . '</p>';
 		$html .= '<h1>' . $total . '</h1>';
 
@@ -248,7 +246,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	 * @return [html]
 	 */
 	public function total_current_members( $search ) {
-		$total = isset($search->members) ? LLMS_Analytics::get_total_current_enrolled_users($search->members) : '0';
+		$total = isset( $search->members ) ? LLMS_Analytics::get_total_current_enrolled_users( $search->members ) : '0';
 		$html = '<p class="llms-label">' . __( 'Current Members', 'lifterlms' ) . '</p>';
 		$html .= '<h1>' . $total . '</h1>';
 
@@ -261,7 +259,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	 * @return [html]
 	 */
 	public function membership_retention( $search ) {
-		$total = isset($search->members) ? LLMS_Number::whole_number( LLMS_Analytics::get_membership_retention( $search->members ) ) : '0'; 
+		$total = isset( $search->members ) ? LLMS_Number::whole_number( LLMS_Analytics::get_membership_retention( $search->members ) ) : '0';
 		$html = '<p class="llms-label">' . __( 'Retention %', 'lifterlms' ) . '</p>';
 		$html .= '<h1>' .  $total . '%</h1>';
 
@@ -275,7 +273,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	 */
 	public function expired_members( $search ) {
 
-		$total = isset($search->members) ? LLMS_Analytics::get_total_current_expired_users( $search->members ) : '0';
+		$total = isset( $search->members ) ? LLMS_Analytics::get_total_current_expired_users( $search->members ) : '0';
 		$html = '<p class="llms-label">' . __( 'Expired Members', 'lifterlms' ) . '</p>';
 		$html .= '<h1>' . $total . '</h1>';
 
@@ -284,8 +282,8 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 
 
 
-	
-	
+
+
 	/**
 	 * save analytics to the database
 	 *
@@ -295,7 +293,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 		$analytics = $this->get_analytics();
 
 		LLMS_Admin_Analytics::save_search_fields( $analytics );
-		
+
 	}
 
 	/**
@@ -306,7 +304,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	public function output() {
 		$analytics = $this->get_analytics( );
 
- 		LLMS_Admin_Analytics::output_html( $analytics );
+			LLMS_Admin_Analytics::output_html( $analytics );
 	}
 
 }

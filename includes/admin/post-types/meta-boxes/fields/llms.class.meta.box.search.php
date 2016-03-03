@@ -1,8 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
-* 
+*
 */
 class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
 {
@@ -10,19 +10,19 @@ class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	 * Class constructor
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct($_field)
-	{
+	function __construct( $_field ) {
+
 		$this->field = $_field;
 	}
 
 	/**
 	 * Outputs the Html for the given field
-	 * @return HTML 
+	 * @return HTML
 	 */
-	public function Output()
-	{
+	public function Output() {
+
 		global $post;
-		
+
 		parent::Output(); ?>
 					
 		<select 
@@ -32,7 +32,7 @@ class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		>
 		    <!--<option value="">None</option>-->
 
-			<?php foreach ( $this->field['value'] as $option  ) : 
+			<?php foreach ( $this->field['value'] as $option  ) :
 				if ( $option['key'] == $this->meta ) :
 			?>
 				<!--<option value="<?php echo $option['key']; ?>" selected="selected"><?php echo $option['title']; ?></option>-->
@@ -44,7 +44,7 @@ class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			<?php endforeach; ?>
  		</select>			
 		<?php
-		parent::CloseOutput();				
+		parent::CloseOutput();
 	}
 }
 

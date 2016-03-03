@@ -1,7 +1,7 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
+if ( ! defined( 'ABSPATH' ) ) { exit; // Exit if accessed directly
+}
 class LLMS_Email_Person_New extends LLMS_Email {
 
 	var $user_login;
@@ -24,8 +24,8 @@ class LLMS_Email_Person_New extends LLMS_Email {
 		    ORDER BY $wpdb->posts.post_date DESC LIMIT 1
 		 ";
 
- 		$email_content = $wpdb->get_results($querystr, OBJECT);
- 		$email_meta = get_post_meta( $email_content[0]->ID );
+			$email_content = $wpdb->get_results( $querystr, OBJECT );
+			$email_meta = get_post_meta( $email_content[0]->ID );
 		$this->id 				= 'person_new_account';
 		$this->title 			= __( 'New account', 'lifterlms' );
 		$this->description		= __( 'Person new account emails are sent when a person signs up via the checkout or My Account page.', 'lifterlms' );
@@ -33,7 +33,7 @@ class LLMS_Email_Person_New extends LLMS_Email {
 		$this->template_html 	= 'emails/template.php';
 
 		$this->subject 			= $email_meta['_email_subject'][0];
-		$this->heading      	= isset($email_meta['_email_heading'][0]) ? $email_meta['_email_heading'][0] : __( 'Welcome to {site_title}', 'lifterlms');//__( 'Welcome to {site_title}', 'lifterlms');
+		$this->heading      	= isset( $email_meta['_email_heading'][0] ) ? $email_meta['_email_heading'][0] : __( 'Welcome to {site_title}', 'lifterlms' );//__( 'Welcome to {site_title}', 'lifterlms');
 		$this->email_content	= $email_content[0]->post_content;
 		$this->account_link 	= get_permalink( llms_get_page_id( 'myaccount' ) );
 
@@ -59,11 +59,11 @@ class LLMS_Email_Person_New extends LLMS_Email {
 			$this->user_email         = stripslashes( $this->object->user_email );
 			$this->recipient          = $this->user_email;
 			$this->password_generated = $password_generated;
-			
+
 		}
 
-		if ( ! $this->is_enabled() || ! $this->get_recipient() )
-			return;
+		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
+			return; }
 
 		$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
 	}
@@ -75,25 +75,26 @@ class LLMS_Email_Person_New extends LLMS_Email {
 	 */
 	function get_content_html() {
 
-		$this->find = array( 
-			'{site_title}', 
-			'{user_login}', 
-			'{site_url}' ,
+		$this->find = array(
+			'{site_title}',
+			'{user_login}',
+			'{site_url}',
 			'{first_name}',
 			'{last_name}',
 			'{email_address}',
-			'{current_date}');
-		$this->replace = array( 
-			$this->get_blogname(), 
-			$this->user_login, 
+			'{current_date}',
+		);
+		$this->replace = array(
+			$this->get_blogname(),
+			$this->user_login,
 			$this->account_link,
 			$this->user_firstname,
 			$this->user_lastname,
 			$this->user_email,
-			date('M d, Y', strtotime(current_time('mysql'))),
+			date( 'M d, Y', strtotime( current_time( 'mysql' ) ) ),
 		);
 
-		$content = $this->format_string($this->email_content);
+		$content = $this->format_string( $this->email_content );
 
 		ob_start();
 		llms_get_template( $this->template_html, array(
@@ -104,7 +105,7 @@ class LLMS_Email_Person_New extends LLMS_Email {
 			'password_generated' => $this->password_generated,
 			'email_message' 	 => $content,
 			'sent_to_admin' => false,
-			'plain_text'    => false
+			'plain_text'    => false,
 		) );
 		return ob_get_clean();
 	}

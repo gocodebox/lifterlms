@@ -3,16 +3,16 @@
 <h1 class="llms-page-header"><?php _e( 'Analytics', 'lifterlms' ); ?></h1>
 
 	<form method="post" id="llms-form-wrapper">
-<?php 
+<?php
 global $submenu;
 
 ?>
 		<h2 class="llms-nav-tab-wrapper">
 			<?php
-				foreach ( $tabs as $name => $label ) 
+			foreach ( $tabs as $name => $label ) {
 
-					echo '<a href="' . admin_url( 'admin.php?page=llms-analytics&tab=' . $name ) . '" class="llms-button-primary llms-nav-tab ' 
-					. ( $current_tab == $name ? 'llms-nav-tab-active' : '' ) . '">' . $label . '</a>';
+				echo '<a href="' . admin_url( 'admin.php?page=llms-analytics&tab=' . $name ) . '" class="llms-button-primary llms-nav-tab '
+				. ( $current_tab == $name ? 'llms-nav-tab-active' : '' ) . '">' . $label . '</a>'; }
 
 				do_action( 'lifterlms_analytics_tabs' );
 			?>

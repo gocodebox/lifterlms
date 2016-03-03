@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Handle custom oEmbed Providers
@@ -15,8 +15,7 @@ class LLMS_OEmbed {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		/**
 		 * Add oEmbed Provider for Wistia

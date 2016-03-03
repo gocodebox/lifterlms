@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Emails Class
@@ -30,7 +30,7 @@ class LLMS_Emails {
 	private $_from_address;
 
 	/**
-	 * private from name 
+	 * private from name
 	 * @var string
 	 */
 	private $_from_name;
@@ -52,8 +52,8 @@ class LLMS_Emails {
 	 * @var object self
 	 */
 	public static function instance() {
-		if ( is_null( self::$_instance ) )
-			self::$_instance = new self();
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self(); }
 		return self::$_instance;
 	}
 
@@ -107,8 +107,8 @@ class LLMS_Emails {
 	 * @return [type] [description]
 	 */
 	function get_from_name() {
-		if ( ! $this->_from_name )
-			$this->_from_name = get_option( 'lifterlms_email_from_name' );
+		if ( ! $this->_from_name ) {
+			$this->_from_name = get_option( 'lifterlms_email_from_name' ); }
 
 		return wp_specialchars_decode( $this->_from_name );
 	}
@@ -118,8 +118,8 @@ class LLMS_Emails {
 	 * @return string [From email option in settings->email]
 	 */
 	function get_from_address() {
-		if ( ! $this->_from_address )
-			$this->_from_address = get_option( 'lifterlms_email_from_address' );
+		if ( ! $this->_from_address ) {
+			$this->_from_address = get_option( 'lifterlms_email_from_address' ); }
 
 		return $this->_from_address;
 	}
@@ -152,11 +152,11 @@ class LLMS_Emails {
 	/**
 	 * Wrap email content
 	 * Adds wpautop and wptexturize to content
-	 * 
+	 *
 	 * @param  string  $email_heading [email heading string]
 	 * @param  string  $message       [message string (email content)]
 	 * @param  bool  $plain_text      [If plain text then just return content unwrapped]
-	 * 
+	 *
 	 * @return [type]                 [description]
 	 */
 	function wrap_message( $email_heading, $message, $plain_text = false ) {
@@ -178,18 +178,18 @@ class LLMS_Emails {
 	/**
 	 * Send email
 	 * Sends email using wp_mail
-	 * 
+	 *
 	 * @param  string $to           [email address of recipient]
 	 * @param  string $subject      [email subject]
 	 * @param  string $message      [email message]
 	 * @param  string $headers      [email headers]
 	 * @param  string $attachments  [Email Attachements]
 	 * @param  string $content_type [Email content type: html or text]
-	 * 
+	 *
 	 * @return void
-	 * 
+	 *
 	 */
-	function send( $to, $subject, $message, $headers = "Content-Type: text/html\r\n", $attachments = "", $content_type = 'text/html' ) {
+	function send( $to, $subject, $message, $headers = "Content-Type: text/html\r\n", $attachments = '', $content_type = 'text/html' ) {
 
 		// Set content type
 		$this->_content_type = $content_type;
@@ -210,16 +210,16 @@ class LLMS_Emails {
 
 	/**
 	 * Send email when new account is created
-	 * 
+	 *
 	 * @param id $person_id [ID of the user created]
 	 * @param array $new_person_data [array of new user information]
 	 * DEPRECIATED @param  boolean $password_generated [Was a password generaated for the user?]
-	 * 
+	 *
 	 * @return void
 	 */
 	function person_new_account( $person_id, $new_person_data = array(), $password_generated = false ) {
-		if ( ! $person_id )
-			return;
+		if ( ! $person_id ) {
+			return; }
 
 		$user_pass = ! empty( $new_person_data['user_pass'] ) ? $new_person_data['user_pass'] : '';
 		$email = $this->emails['LLMS_Email_Person_New'];
@@ -229,14 +229,14 @@ class LLMS_Emails {
 	/**
 	 * Send email when lesson completed
 	 * Triggered by engagement
-	 * 
+	 *
 	 * @param int $person_id [ID of the user created]
 	 * @param  int $email_id [ID of the email template]
 	 * @return void
 	 */
 	function lesson_completed( $person_id, $email_id ) {
-		if ( ! $person_id )
-			return;
+		if ( ! $person_id ) {
+			return; }
 
 		$user_pass = ! empty( $new_person_data['user_pass'] ) ? $new_person_data['user_pass'] : '';
 		$email = $this->emails['LLMS_Email_Engagement'];
@@ -254,8 +254,8 @@ class LLMS_Emails {
 	 * @return [type]            [description]
 	 */
 	function custom_email_earned( $person_id, $email_id, $engagement_id ) {
-		if ( ! $person_id )
-			return;
+		if ( ! $person_id ) {
+			return; }
 
 		$email = $this->emails['LLMS_Email_Engagement'];
 

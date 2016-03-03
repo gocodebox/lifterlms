@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Meta Box Coupon Options
@@ -26,7 +26,6 @@ class LLMS_Meta_Box_Coupon_Options {
 		global $post;
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
-
 		$coupon_creator_meta_fields = self::metabox_options();
 
 		ob_start(); ?>
@@ -34,12 +33,12 @@ class LLMS_Meta_Box_Coupon_Options {
 		<table class="form-table">
 		<?php foreach ($coupon_creator_meta_fields as $field) {
 
-			$meta = get_post_meta($post->ID, $field['id'], true); ?>
+			$meta = get_post_meta( $post->ID, $field['id'], true ); ?>
 
 				<tr>
 					<th><label for="<?php echo $field['id']; ?>"><?php echo $field['label']; ?></label></th>
 					<td>
-					<?php switch($field['type']) {
+					<?php switch ($field['type']) {
 						// text
 						case 'text':?>
 
@@ -65,7 +64,7 @@ class LLMS_Meta_Box_Coupon_Options {
 						case 'dropdown': ?>
 
 							<select name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>">
-							<option value="" disabled selected><?php _e('Please select an option...', 'lifterlms'); ?></option>
+							<option value="" disabled selected><?php _e( 'Please select an option...', 'lifterlms' ); ?></option>
 							<?php foreach ($field['options'] as $id => $option) :
 								if ($meta == $id) : ?>
 								<option value="<?php echo $id; ?>" selected><?php echo $option; ?></option>
@@ -83,8 +82,8 @@ class LLMS_Meta_Box_Coupon_Options {
 							$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_coupon.png' ); ?>
 							<img id="<?php echo $field['id']; ?>" class="llms_achievement_default_image" style="display:none" src="<?php echo $image; ?>">
 							<?php //Check existing field and if numeric
-							if (is_numeric($meta)) {
-								$image = wp_get_attachment_image_src($meta, 'medium');
+							if (is_numeric( $meta )) {
+								$image = wp_get_attachment_image_src( $meta, 'medium' );
 								$image = $image[0];
 							} ?>
 									<img src="<?php echo $image; ?>" id="<?php echo $field['id']; ?>" class="llms_achievement_image" /><br />
@@ -97,23 +96,23 @@ class LLMS_Meta_Box_Coupon_Options {
 						// color
 						case 'color': ?>
 							<?php //Check if Values and If None, then use default
-								if (!$meta) {
-									$meta = $field['value'];
-								}
+							if ( ! $meta) {
+								$meta = $field['value'];
+							}
 							?>
 							<input class="color-picker" type="text" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="<?php echo $meta; ?>" data-default-color="<?php echo $field['value']; ?>"/>
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
 
 					<?php break;
 
-						} //end switch
+} //end switch
 
 					?>
 				</td></tr>
 		<?php
 			//endif; //end if in section check
 
-		} // end foreach ?>
+} // end foreach ?>
 			</table>
 	<?php
 	echo ob_get_clean();
@@ -136,7 +135,7 @@ class LLMS_Meta_Box_Coupon_Options {
 				'desc' => 'Enter a code that users will enter to apply this coupon to thier item.',
 				'id' => $prefix . 'coupon_title',
 				'type'  => 'text',
-				'section' => 'coupon_meta_box'
+				'section' => 'coupon_meta_box',
 			),
 			// Discount type select
 			array(
@@ -147,8 +146,8 @@ class LLMS_Meta_Box_Coupon_Options {
 				'section' => 'coupon_meta_box',
 				'options' => array(
 						'percent' => '% Discount',
-						'dollar' => sprintf( __( '%s Discount', 'lifterlms' ), get_lifterlms_currency_symbol() )
-					)
+						'dollar' => sprintf( __( '%s Discount', 'lifterlms' ), get_lifterlms_currency_symbol() ),
+					),
 			),
 			//Coupon amount text field
 			array(
@@ -156,7 +155,7 @@ class LLMS_Meta_Box_Coupon_Options {
 				'desc' => 'The value of the coupon. do not include symbols such as $ or %.',
 				'id'    => $prefix . 'coupon_amount',
 				'type'  => 'text',
-				'section' => 'coupon_meta_box'
+				'section' => 'coupon_meta_box',
 			),
 			//Usage limit text field
 			array(
@@ -164,17 +163,17 @@ class LLMS_Meta_Box_Coupon_Options {
 				'desc' => 'The amount of times this coupon can be used. Leave empty if unlimited.',
 				'id'    => $prefix . 'usage_limit',
 				'type'  => 'text',
-				'section' => 'coupon_meta_box'
+				'section' => 'coupon_meta_box',
 			),
 		) );
 
-		if(has_filter('llms_meta_fields')) {
+		if (has_filter( 'llms_meta_fields' )) {
 			//Add Fields to the coupon Creator Meta Box
-			$coupon_creator_meta_fields = apply_filters('llms_meta_fields', $coupon_creator_meta_fields);
+			$coupon_creator_meta_fields = apply_filters( 'llms_meta_fields', $coupon_creator_meta_fields );
 		}
 
 		return $coupon_creator_meta_fields;
-		}
+	}
 
 	/**
 	 * Static save method
@@ -196,27 +195,27 @@ class LLMS_Meta_Box_Coupon_Options {
 		$limit = $prefix 	. 'usage_limit';
 		$products_meta_key = $prefix 	. 'coupon_products';
 
-		if (isset($_POST[$title])) {
+		if (isset( $_POST[ $title ] )) {
 			//update title
-			$update_title = ( llms_clean( $_POST[$title]  ) );
+			$update_title = ( llms_clean( $_POST[ $title ] ) );
 			update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
 		}
-		if (isset($_POST[$type])) {
+		if (isset( $_POST[ $type ] )) {
 			//update discount type
-			$update_type = ( llms_clean( $_POST[$type]  ) );
+			$update_type = ( llms_clean( $_POST[ $type ] ) );
 			update_post_meta( $post_id, $type, ( $update_type === '' ) ? '' : $update_type );
 		}
-		if (isset($_POST[$amount])) {
+		if (isset( $_POST[ $amount ] )) {
 			//update coupon amount
-			$update_amount = ( llms_clean( $_POST[$amount]  ) );
-			if($update_type == 'percent' && $update_amount > 100) {
+			$update_amount = ( llms_clean( $_POST[ $amount ] ) );
+			if ($update_type == 'percent' && $update_amount > 100) {
 				$update_amount = 100;
 			}
 			update_post_meta( $post_id, $amount, ( $update_amount === '' ) ? '' : $update_amount );
 		}
-		if (isset($_POST[$limit])) {
+		if (isset( $_POST[ $limit ] )) {
 			//update usage limit
-			$update_limit = ( llms_clean( $_POST[$limit]  ) );
+			$update_limit = ( llms_clean( $_POST[ $limit ] ) );
 			update_post_meta( $post_id, $limit, ( $update_limit === '' ) ? '' : $update_limit );
 		}
 
@@ -225,20 +224,20 @@ class LLMS_Meta_Box_Coupon_Options {
 
 		$products = array();
 
-		if (isset($courses) && !empty($courses)) {
+		if (isset( $courses ) && ! empty( $courses )) {
 			foreach ($courses as $item) {
-				$products[] = intval($item);
+				$products[] = intval( $item );
 			}
 		}
 
-		if (isset($memberships) && !empty($memberships)) {
+		if (isset( $memberships ) && ! empty( $memberships )) {
 			foreach ($memberships as $item) {
-				$products[] = intval($item);
+				$products[] = intval( $item );
 			}
 		}
 
-		if (!empty($products)) {
-			update_post_meta( $post_id, $products_meta_key, ( empty($products) ) ? '' : $products );
+		if ( ! empty( $products )) {
+			update_post_meta( $post_id, $products_meta_key, ( empty( $products ) ) ? '' : $products );
 		}
 
 		//save coupon action

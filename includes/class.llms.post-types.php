@@ -7,7 +7,7 @@
  * @author codeBOX
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * LLMS_Post_Types
@@ -29,12 +29,11 @@ class LLMS_Post_Types {
 	 *
 	 * @since  1.4.4
 	 */
-	public static function pre_get_posts( $query )
-	{
+	public static function pre_get_posts( $query ) {
 
-		if( !is_admin() && $query->is_main_query() ) {
+		if ( ! is_admin() && $query->is_main_query() ) {
 
-			if( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
+			if ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 
 				$query->set( 'post_type', array( 'course', 'llms_membership' ) );
 
@@ -64,7 +63,7 @@ class LLMS_Post_Types {
 		            'show_in_nav_menus' => false,
 		            'query_var' 		=> is_admin(),
 		            'rewrite'			=> false,
-		            'public'    		=> false
+		            'public'    		=> false,
 					)
 				)
 			);
@@ -85,7 +84,7 @@ class LLMS_Post_Types {
 		                    'edit_item' 		=> __( 'Edit Course Category', 'lifterlms' ),
 		                    'update_item' 		=> __( 'Update Course Category', 'lifterlms' ),
 		                    'add_new_item' 		=> __( 'Add New Course Category', 'lifterlms' ),
-		                    'new_item_name' 	=> __( 'New Course Category Name', 'lifterlms' )
+		                    'new_item_name' 	=> __( 'New Course Category Name', 'lifterlms' ),
 		            	),
 		            'show_ui' 				=> true,
 		            'query_var' 			=> true,
@@ -113,7 +112,7 @@ class LLMS_Post_Types {
 		                    'edit_item' 		=> __( 'Edit Course Track', 'lifterlms' ),
 		                    'update_item' 		=> __( 'Update Course Track', 'lifterlms' ),
 		                    'add_new_item' 		=> __( 'Add New Course Track', 'lifterlms' ),
-		                    'new_item_name' 	=> __( 'New Course Track Name', 'lifterlms' )
+		                    'new_item_name' 	=> __( 'New Course Track Name', 'lifterlms' ),
 		            	),
 		            'show_ui' 				=> true,
 		            'query_var' 			=> true,
@@ -126,7 +125,7 @@ class LLMS_Post_Types {
 		    );
 
 			register_taxonomy( 'course_tag',
-		        apply_filters( 'lifterlms_taxonomy_objects_course_tag', array( 'course') ),
+		        apply_filters( 'lifterlms_taxonomy_objects_course_tag', array( 'course' ) ),
 		        apply_filters( 'lifterlms_taxonomy_args_course_tag', array(
 		            'hierarchical' 			=> false,
 		            'label' 				=> __( 'Course Tags', 'lifterlms' ),
@@ -141,13 +140,13 @@ class LLMS_Post_Types {
 		                    'edit_item' 		=> __( 'Edit Course Tag', 'lifterlms' ),
 		                    'update_item' 		=> __( 'Update Course Tag', 'lifterlms' ),
 		                    'add_new_item' 		=> __( 'Add New Course Tag', 'lifterlms' ),
-		                    'new_item_name' 	=> __( 'New Course Tag Name', 'lifterlms' )
+		                    'new_item_name' 	=> __( 'New Course Tag Name', 'lifterlms' ),
 		            	),
 		            'show_ui' 				=> true,
 		            'query_var' 			=> true,
 		            'rewrite' 				=> array(
 						'slug'       => empty( $permalinks['tag_base'] ) ? _x( 'course-tag', 'slug', 'lifterlms' ) : $permalinks['tag_base'],
-						'with_front' => false
+						'with_front' => false,
 		            ),
 		        ) )
 		    );
@@ -168,7 +167,7 @@ class LLMS_Post_Types {
 		                    'edit_item' 		=> __( 'Edit Course Difficulty', 'lifterlms' ),
 		                    'update_item' 		=> __( 'Update Course Difficulty', 'lifterlms' ),
 		                    'add_new_item' 		=> __( 'Add New Course Difficulty', 'lifterlms' ),
-		                    'new_item_name' 	=> __( 'New Course Difficulty Name', 'lifterlms' )
+		                    'new_item_name' 	=> __( 'New Course Difficulty Name', 'lifterlms' ),
 		            	),
 		            'show_ui' 				=> true,
 		            'query_var' 			=> true,
@@ -200,7 +199,7 @@ class LLMS_Post_Types {
 		                    'edit_item' 		=> __( 'Edit Membership Category', 'lifterlms' ),
 		                    'update_item' 		=> __( 'Update Membership Category', 'lifterlms' ),
 		                    'add_new_item' 		=> __( 'Add New Membership Category', 'lifterlms' ),
-		                    'new_item_name' 	=> __( 'New Membership Category Name', 'lifterlms' )
+		                    'new_item_name' 	=> __( 'New Membership Category Name', 'lifterlms' ),
 		            	),
 		            'show_ui' 				=> true,
 		            'show_in_menu' 			=> true,
@@ -229,14 +228,14 @@ class LLMS_Post_Types {
 		                    'edit_item' 		=> __( 'Edit Membership Tag', 'lifterlms' ),
 		                    'update_item' 		=> __( 'Update Membership Tag', 'lifterlms' ),
 		                    'add_new_item' 		=> __( 'Add New Membership Tag', 'lifterlms' ),
-		                    'new_item_name' 	=> __( 'New Membership Tag Name', 'lifterlms' )
+		                    'new_item_name' 	=> __( 'New Membership Tag Name', 'lifterlms' ),
 		            	),
 		            'show_ui' 				=> true,
 		            'show_in_menu' 			=> 'lifterlms',
 		            'query_var' 			=> true,
 		            'rewrite' 				=> array(
 						'slug'       => empty( $permalinks['tag_base'] ) ? _x( 'membership-tag', 'slug', 'lifterlms' ) : $permalinks['tag_base'],
-						'with_front' => false
+						'with_front' => false,
 		            ),
 		        ) )
 		    );
@@ -247,13 +246,11 @@ class LLMS_Post_Types {
 	 * Register Post Types
 	 */
 	public static function register_post_types() {
-		if ( post_type_exists('course') ) {
+		if ( post_type_exists( 'course' ) ) {
 			return;
-		}
-		elseif ( post_type_exists('section') ) {
+		} elseif ( post_type_exists( 'section' ) ) {
 			return;
-		}
-		elseif ( post_type_exists('lesson') ) {
+		} elseif ( post_type_exists( 'lesson' ) ) {
 			return;
 		}
 
@@ -266,7 +263,7 @@ class LLMS_Post_Types {
 		 */
 		$course_permalink = empty( $permalinks['course_base'] ) ? _x( 'course', 'slug', 'lifterlms' ) : $permalinks['course_base'];
 
-		register_post_type( "course",
+		register_post_type( 'course',
 			apply_filters( 'lifterlms_register_post_type_course',
 				array(
 					'labels' => array(
@@ -283,7 +280,7 @@ class LLMS_Post_Types {
 							'search_items' 			=> __( 'Search Courses', 'lifterlms' ),
 							'not_found' 			=> __( 'No Courses found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Courses found in trash', 'lifterlms' ),
-							'parent' 				=> __( 'Parent Course', 'lifterlms' )
+							'parent' 				=> __( 'Parent Course', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where you can add new courses.', 'lifterlms' ),
 					'public' 				=> true,
@@ -297,27 +294,26 @@ class LLMS_Post_Types {
 					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
 					'has_archive' 			=> ( $shop_page_id = llms_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
 					'show_in_nav_menus' 	=> true,
-					'menu_position'         => 53
+					'menu_position'         => 53,
 				)
 			)
 		);
 
-		register_post_type( "course_variation",
+		register_post_type( 'course_variation',
 			apply_filters( 'lifterlms_register_post_type_course_variation',
 				array(
 					'label'        => __( 'Variations', 'lifterlms' ),
 					'public'       => false,
 					'hierarchical' => false,
-					'supports'     => false
+					'supports'     => false,
 				)
 			)
 		);
 
-
 		/**
 		 * Section Post Type
 		 */
-	    register_post_type( "section",
+	    register_post_type( 'section',
 		    apply_filters( 'lifterlms_register_post_type_section',
 				array(
 					'labels' => array(
@@ -334,7 +330,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Sections found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Sections found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Sections', 'lifterlms' ),
-							'menu_name'				=> _x('Sections', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'Sections', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where sections are stored.', 'lifterlms' ),
 					'public' 				=> false,
@@ -357,7 +353,7 @@ class LLMS_Post_Types {
 		 */
 		$lesson_permalink = empty( $permalinks['lesson_base'] ) ? _x( 'lesson', 'slug', 'lifterlms' ) : $permalinks['lesson_base'];
 
-	    register_post_type( "lesson",
+	    register_post_type( 'lesson',
 		    apply_filters( 'lifterlms_register_post_type_lesson',
 				array(
 					'labels' => array(
@@ -374,7 +370,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Lessons found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Lessons found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Lessons', 'lifterlms' ),
-							'menu_name'				=> _x('Lessons', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'Lessons', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where you can view all of the lessons.', 'lifterlms' ),
 					'public' 				=> true,
@@ -395,7 +391,7 @@ class LLMS_Post_Types {
 		/**
 		 * Order post type
 		 */
-	    register_post_type( "order",
+	    register_post_type( 'order',
 		    apply_filters( 'lifterlms_register_post_type_order',
 				array(
 					'labels' => array(
@@ -412,7 +408,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Orders found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Orders found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Orders', 'lifterlms' ),
-							'menu_name'				=> _x('Orders', 'Admin menu name', 'lifterlms' ),
+							'menu_name'				=> _x( 'Orders', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where orders are managed', 'lifterlms' ),
 					'public' 				=> false,
@@ -425,11 +421,11 @@ class LLMS_Post_Types {
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
-					'supports' 				=> array('' ),
+					'supports' 				=> array( '' ),
 					'has_archive' 			=> false,
 					'capabilities' => array(
-    					'create_posts' => false,
-  					)
+						'create_posts' => false,
+						),
 				)
 			)
 		);
@@ -437,7 +433,7 @@ class LLMS_Post_Types {
 		/**
 		 * Email Post Type
 		 */
-	    register_post_type( "llms_email",
+	    register_post_type( 'llms_email',
 		    apply_filters( 'lifterlms_register_post_type_llms_email',
 				array(
 					'labels' => array(
@@ -454,7 +450,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Emails found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Emails found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Emails', 'lifterlms' ),
-							'menu_name'				=> _x('Emails', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'Emails', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where emails are stored.', 'lifterlms' ),
 					'public' 				=> false,
@@ -478,8 +474,7 @@ class LLMS_Post_Types {
 		 */
 		$certificate_permalink = empty( $permalinks['certificate_base'] ) ? _x( 'certificate', 'slug', 'lifterlms' ) : $permalinks['certificate_base'];
 
-
-	    register_post_type( "llms_certificate",
+	    register_post_type( 'llms_certificate',
 		    apply_filters( 'lifterlms_register_post_type_llms_certificate',
 				array(
 					'labels' => array(
@@ -496,7 +491,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Certificates found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Certificates found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Certificates', 'lifterlms' ),
-							'menu_name'				=> _x('Certificates', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'Certificates', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 					'public' 				=> true,
@@ -517,7 +512,7 @@ class LLMS_Post_Types {
 		/**
 		 * Achievement Post type
 		 */
-	    register_post_type( "llms_achievement",
+	    register_post_type( 'llms_achievement',
 		    apply_filters( 'lifterlms_register_post_type_llms_achievement',
 				array(
 					'labels' => array(
@@ -534,7 +529,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Achievement found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Achievement found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Achievement', 'lifterlms' ),
-							'menu_name'				=> _x('Achievements', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'Achievements', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where achievements are stored.', 'lifterlms' ),
 					'public' 				=> false,
@@ -556,7 +551,7 @@ class LLMS_Post_Types {
 		/**
 		 * Engagement Post type
 		 */
-	    register_post_type( "llms_engagement",
+	    register_post_type( 'llms_engagement',
 		    apply_filters( 'lifterlms_register_post_type_llms_engagement',
 				array(
 					'labels' => array(
@@ -573,7 +568,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Engagement found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Engagement found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Engagement', 'lifterlms' ),
-							'menu_name'				=> _x('Engagements', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'Engagements', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where engagements are stored.', 'lifterlms' ),
 					'public' 				=> false,
@@ -596,7 +591,7 @@ class LLMS_Post_Types {
 		 * User specific certificate
 		 */
 		$my_certificate_permalink = empty( $permalinks['my_certificate_base'] ) ? _x( 'my_certificate', 'slug', 'lifterlms' ) : $permalinks['my_certificate_base'];
-	    register_post_type( "llms_my_certificate",
+	    register_post_type( 'llms_my_certificate',
 		    apply_filters( 'lifterlms_register_post_type_llms_my_certificate',
 				array(
 					'labels' => array(
@@ -613,7 +608,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No My Certificates found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No My Certificates found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent My Certificates', 'lifterlms' ),
-							'menu_name'				=> _x('My Certificates', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'My Certificates', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 					'public' 				=> true,
@@ -635,7 +630,7 @@ class LLMS_Post_Types {
 		 * Membership Post Type
 		 */
 		$membership_permalink = empty( $permalinks['membership_base'] ) ? _x( 'membership', 'slug', 'lifterlms' ) : $permalinks['membership_base'];
-		register_post_type( "llms_membership",
+		register_post_type( 'llms_membership',
 			apply_filters( 'lifterlms_register_post_type_membership',
 				array(
 					'labels' => array(
@@ -652,7 +647,7 @@ class LLMS_Post_Types {
 							'search_items' 			=> __( 'Search Memberships', 'lifterlms' ),
 							'not_found' 			=> __( 'No Memberships found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Memberships found in trash', 'lifterlms' ),
-							'parent' 				=> __( 'Parent Membership', 'lifterlms' )
+							'parent' 				=> __( 'Parent Membership', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where you can add new Membership levels.', 'lifterlms' ),
 					'public' 				=> true,
@@ -667,7 +662,7 @@ class LLMS_Post_Types {
 					'supports' 				=> array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
 					'has_archive' 			=> ( $membership_page_id = llms_get_page_id( 'memberships' ) ) && get_page( $membership_page_id ) ? get_page_uri( $membership_page_id ) : 'memberships',
 					'show_in_nav_menus' 	=> true,
-					'menu_position'         => 54
+					'menu_position'         => 54,
 				)
 			)
 		);
@@ -676,7 +671,7 @@ class LLMS_Post_Types {
 		 * Quiz Post Type
 		 */
 		$quiz_permalink = empty( $permalinks['quiz_base'] ) ? _x( 'llms_quiz', 'slug', 'lifterlms' ) : $permalinks['quiz_base'];
-	    register_post_type( "llms_quiz",
+	    register_post_type( 'llms_quiz',
 		    apply_filters( 'lifterlms_register_post_type_section',
 				array(
 					'labels' => array(
@@ -693,7 +688,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Quizzes found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Quizzes found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Quizzes', 'lifterlms' ),
-							'menu_name'				=> _x('Quizzes', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'Quizzes', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where you can view all of the quizzes.', 'lifterlms' ),
 					'public' 				=> true,
@@ -706,7 +701,7 @@ class LLMS_Post_Types {
 					'rewrite' 				=> $quiz_permalink ? array( 'slug' => untrailingslashit( $quiz_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'author'),
+					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'author' ),
 				)
 			)
 		);
@@ -715,7 +710,7 @@ class LLMS_Post_Types {
 		 * Quiz Question Post Type
 		 */
 		$question_permalink = empty( $permalinks['question_base'] ) ? _x( 'llms_question', 'slug', 'lifterlms' ) : $permalinks['question_base'];
-	    register_post_type( "llms_question",
+	    register_post_type( 'llms_question',
 		    apply_filters( 'lifterlms_register_post_type_section',
 				array(
 					'labels' => array(
@@ -732,7 +727,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Questions found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Questions found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Questions', 'lifterlms' ),
-							'menu_name'				=> _x('Quiz Questions', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'Quiz Questions', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where you can view all of the Quiz Questions.', 'lifterlms' ),
 					'public' 				=> true,
@@ -753,7 +748,7 @@ class LLMS_Post_Types {
 		/**
 		 * Coupon Post type
 		 */
-	    register_post_type( "llms_coupon",
+	    register_post_type( 'llms_coupon',
 		    apply_filters( 'lifterlms_register_post_type_llms_coupon',
 				array(
 					'labels' => array(
@@ -770,7 +765,7 @@ class LLMS_Post_Types {
 							'not_found' 			=> __( 'No Coupon found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Coupon found in trash', 'lifterlms' ),
 							'parent' 				=> __( 'Parent Coupon', 'lifterlms' ),
-							'menu_name'				=> _x('Coupons', 'Admin menu name', 'lifterlms' )
+							'menu_name'				=> _x( 'Coupons', 'Admin menu name', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where coupons are stored.', 'lifterlms' ),
 					'public' 				=> false,
@@ -792,7 +787,7 @@ class LLMS_Post_Types {
 		/**
 		 * Voucher Post type
 		 */
-		register_post_type( "llms_voucher",
+		register_post_type( 'llms_voucher',
 			apply_filters( 'lifterlms_register_post_type_llms_voucher',
 				array(
 					'labels' => array(
@@ -809,7 +804,7 @@ class LLMS_Post_Types {
 						'not_found' 			=> __( 'No Voucher found', 'lifterlms' ),
 						'not_found_in_trash' 	=> __( 'No Voucher found in trash', 'lifterlms' ),
 						'parent' 				=> __( 'Parent Voucher', 'lifterlms' ),
-						'menu_name'				=> _x('Vouchers', 'Admin menu name', 'lifterlms' )
+						'menu_name'				=> _x( 'Vouchers', 'Admin menu name', 'lifterlms' ),
 					),
 					'description' 			=> __( 'This is where voucher are stored.', 'lifterlms' ),
 					'public' 				=> false,
@@ -832,7 +827,7 @@ class LLMS_Post_Types {
 		 * Review Post Type
 		 */
 		//$review_permalink = empty( $permalinks['review_base'] ) ? _x( 'review', 'slug', 'lifterlms' ) : $permalinks['review_base'];
-		register_post_type( "llms_review",
+		register_post_type( 'llms_review',
 			apply_filters( 'lifterlms_register_post_type_review',
 				array(
 					'labels' => array(
@@ -849,7 +844,7 @@ class LLMS_Post_Types {
 							'search_items' 			=> __( 'Search Reviews', 'lifterlms' ),
 							'not_found' 			=> __( 'No Reviews found', 'lifterlms' ),
 							'not_found_in_trash' 	=> __( 'No Reviews found in trash', 'lifterlms' ),
-							'parent' 				=> __( 'Parent Review', 'lifterlms' )
+							'parent' 				=> __( 'Parent Review', 'lifterlms' ),
 						),
 					'description' 			=> __( 'This is where you can add new reviews.', 'lifterlms' ),
 					'public' 				=> false,

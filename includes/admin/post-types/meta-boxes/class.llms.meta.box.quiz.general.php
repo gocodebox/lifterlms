@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Quiz General Settings
@@ -14,9 +14,9 @@ class LLMS_Meta_Box_Quiz_General {
 	 * Displays MetaBox
 	 * Calls static class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
-	 * 
+	 *
 	 * @param  object $post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function output( $post ) {
@@ -88,83 +88,83 @@ class LLMS_Meta_Box_Quiz_General {
 				</td>
 			</tr>
 			<tr>
-				<th><label for="_llms_show_results"><?php _e('Display last quiz results', 'lifterlms'); ?></label></th>
+				<th><label for="_llms_show_results"><?php _e( 'Display last quiz results', 'lifterlms' ); ?></label></th>
 				<td>
-					<input type="checkbox" name="_llms_show_results" <?php if( $show_result == true ) { ?>checked="checked"<?php } ?> />
-					<br /><span class="description"><?php _e('Checking this box will show result summary to students.', 'lifterms'); ?></span>
+					<input type="checkbox" name="_llms_show_results" <?php if ( $show_result == true ) { ?>checked="checked"<?php } ?> />
+					<br /><span class="description"><?php _e( 'Checking this box will show result summary to students.', 'lifterms' ); ?></span>
 				</td>
 			</tr>
 			<tr>
-				<th><label for="_llms_show_correct_answer"><?php _e('Show Correct Answers', 'lifterlms'); ?></label></th>
+				<th><label for="_llms_show_correct_answer"><?php _e( 'Show Correct Answers', 'lifterlms' ); ?></label></th>
 				<td>
-					<input type="checkbox" name="_llms_show_correct_answer" <?php if( $show_correct_answer == true ) { ?>checked="checked"<?php } ?> />
-					<br /><span class="description"><?php _e('Checking this box will show correct answer on incorrect questions.', 'lifterms'); ?></span>
+					<input type="checkbox" name="_llms_show_correct_answer" <?php if ( $show_correct_answer == true ) { ?>checked="checked"<?php } ?> />
+					<br /><span class="description"><?php _e( 'Checking this box will show correct answer on incorrect questions.', 'lifterms' ); ?></span>
 				</td>
 			</tr>
 			<tr>
-				<th><label for="_llms_show_options_description_wrong_answer"><?php _e('Show description on wrong answers', 'lifterlms'); ?></label></th>
+				<th><label for="_llms_show_options_description_wrong_answer"><?php _e( 'Show description on wrong answers', 'lifterlms' ); ?></label></th>
 				<td>
-					<input type="checkbox" name="_llms_show_options_description_wrong_answer" <?php if( $show_option_description_wrong_answer == true ) { ?>checked="checked"<?php } ?> />
-					<br /><span class="description"><?php _e('Checking this box will show  description on incorrect questions', 'lifterms'); ?></span>
+					<input type="checkbox" name="_llms_show_options_description_wrong_answer" <?php if ( $show_option_description_wrong_answer == true ) { ?>checked="checked"<?php } ?> />
+					<br /><span class="description"><?php _e( 'Checking this box will show  description on incorrect questions', 'lifterms' ); ?></span>
 				</td>
 			</tr>
 			<tr>
-				<th><label for="_llms_show_options_description_right_answer"><?php _e('Show description on right answers', 'lifterlms'); ?></label></th>
+				<th><label for="_llms_show_options_description_right_answer"><?php _e( 'Show description on right answers', 'lifterlms' ); ?></label></th>
 				<td>
-					<input type="checkbox" name="_llms_show_options_description_right_answer" <?php if( $show_option_description_right_answer == true ) { ?>checked="checked"<?php } ?> />
-					<br /><span class="description"><?php _e('Checking this box will show  description on correct questions', 'lifterms'); ?></span>
+					<input type="checkbox" name="_llms_show_options_description_right_answer" <?php if ( $show_option_description_right_answer == true ) { ?>checked="checked"<?php } ?> />
+					<br /><span class="description"><?php _e( 'Checking this box will show  description on correct questions', 'lifterms' ); ?></span>
 				</td>
 			</tr>
 		</tbody>
 		</table>
 
-		<?php  
+		<?php
 	}
 
 	/**
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
 		if ( isset( $_POST['_llms_allowed_attempts'] ) ) {
-			$allowed_attempts = ( llms_clean( $_POST['_llms_allowed_attempts']  ) );
+			$allowed_attempts = ( llms_clean( $_POST['_llms_allowed_attempts'] ) );
 			update_post_meta( $post_id, '_llms_allowed_attempts', ( $allowed_attempts === '' ) ? '' : $allowed_attempts );
 		}
 		if ( isset( $_POST['_llms_passing_percent'] ) ) {
-			$passing_percent = ( llms_clean( $_POST['_llms_passing_percent']  ) );
+			$passing_percent = ( llms_clean( $_POST['_llms_passing_percent'] ) );
 			update_post_meta( $post_id, '_llms_passing_percent', ( $passing_percent === '' ) ? '0' : $passing_percent );
 		}
 		if ( isset( $_POST['_llms_time_limit'] ) ) {
-			$time_limit = ( llms_clean( $_POST['_llms_time_limit']  ) );
+			$time_limit = ( llms_clean( $_POST['_llms_time_limit'] ) );
 			update_post_meta( $post_id, '_llms_time_limit', $time_limit );
 		}
 
 		$random_answers = ( isset( $_POST['_llms_random_answers'] ) ? true : false );
 		update_post_meta( $post_id, '_llms_random_answers', ( $random_answers === '' ) ? '' : $random_answers );
-		
+
 		$show_result = ( isset( $_POST['_llms_show_results'] ) ? true : false );
 		update_post_meta( $post_id, '_llms_show_results', ( $show_result === '' ) ? '' : $show_result );
 
 		$show_correct_answer = ( isset( $_POST['_llms_show_correct_answer'] ) ? true : false );
 		update_post_meta( $post_id, '_llms_show_correct_answer', ( $show_correct_answer === '' )
-			? '' : $show_correct_answer );
+		? '' : $show_correct_answer );
 
 		$show_option_description_wrong_answer = ( isset( $_POST['_llms_show_options_description_wrong_answer'] )
 			? true : false );
 		update_post_meta($post_id, '_llms_show_options_description_wrong_answer',
-			( $show_option_description_wrong_answer === '') ? '' : $show_option_description_wrong_answer);
+		( $show_option_description_wrong_answer === '') ? '' : $show_option_description_wrong_answer);
 
 		$show_option_description_right_answer = ( isset( $_POST['_llms_show_options_description_right_answer'] )
 			? true : false );
 		update_post_meta($post_id, '_llms_show_options_description_right_answer',
-			( $show_option_description_right_answer === '') ? '' : $show_option_description_right_answer);
+		( $show_option_description_right_answer === '') ? '' : $show_option_description_right_answer);
 	}
 }

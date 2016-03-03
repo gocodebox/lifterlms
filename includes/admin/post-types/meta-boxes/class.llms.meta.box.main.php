@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Meta Box Builder
@@ -39,48 +39,48 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 			if ( $c_post->ID != $post->ID ) {
 				$course_options[] = array(
 					'key' 	=> $c_post->ID,
-					'title' => $c_post->post_title
+					'title' => $c_post->post_title,
 				);
 			}
 		}
 
-		$course_tracks_options = get_terms('course_track', 'hide_empty=0');
+		$course_tracks_options = get_terms( 'course_track', 'hide_empty=0' );
 		$course_tracks = array();
-		foreach( (array)$course_tracks_options as $term ) {
+		foreach ( (array) $course_tracks_options as $term ) {
 			$course_tracks[] = array(
 				'key' 	=> $term->term_id,
-				'title' => $term->name
+				'title' => $term->name,
 			);
 		}
 
 		//setup course difficulty select options
-		$difficulty_terms = get_terms('course_difficulty', 'hide_empty=0');
+		$difficulty_terms = get_terms( 'course_difficulty', 'hide_empty=0' );
 		$difficulty_options = array();
-		foreach( $difficulty_terms as $term ) {
+		foreach ( $difficulty_terms as $term ) {
 			$difficulty_options[] = array(
 				'key' 	=> $term->slug,
-				'title' => $term->name
+				'title' => $term->name,
 			);
 		}
 
 		//billing period options
 		////needs to move to paypal class
 		$billing_periods = array(
-			array (
+			array(
 				'key' 	=> 'day',
-				'title' => 'Day'
+				'title' => 'Day',
 			),
-			array (
+			array(
 				'key' 	=> 'week',
-				'title' => 'Week'
+				'title' => 'Week',
 			),
-			array (
+			array(
 				'key' 	=> 'month',
-				'title' => 'Month'
+				'title' => 'Month',
 			),
-			array (
+			array(
 				'key' 	=> 'year',
-				'title' => 'Year'
+				'title' => 'Year',
 			),
 		);
 
@@ -97,7 +97,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> '',
 						'class' 	=> '',
 						'value' 	=> '',
-						'desc_class'=> '',
+						'desc_class' => '',
 						'group' 	=> '',
 					),
 					array(
@@ -110,10 +110,10 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> '',
 						'class' 	=> '',
 						'value' 	=> '',
-						'desc_class'=> '',
+						'desc_class' => '',
 						'group' 	=> '',
-					)
-				)
+					),
+				),
 			),
 			array(
 				'title' 	=> 'General',
@@ -125,7 +125,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'lesson_length',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> 'top',
 					),
 					array(
@@ -135,7 +135,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'post_course_difficulty',
 						'class' 	=> 'llms-chosen-select',
 						'value' 	=> $difficulty_options,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> 'bottom',
 					),
 					array(
@@ -145,7 +145,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'video_embed',
 						'class' 	=> 'code input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -155,10 +155,10 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'audio_embed',
 						'class' 	=> 'code input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
-					)
-				)
+					),
+				),
 			),
 			array(
 				'title' 	=> 'Restrictions',
@@ -170,7 +170,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'has_prerequisite',
 						'class' 	=> '',
 						'value' 	=> '1',
-						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
 						'group' 	=> 'llms-prereq-top',
 					),
 					array(
@@ -180,7 +180,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'prerequisite',
 						'class' 	=> 'llms-chosen-select',
 						'value' 	=> $course_options,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> 'bottom llms-prereq-bottom no-border',
 					),
 					array(
@@ -190,7 +190,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'prerequisite_track',
 						'class' 	=> 'llms-chosen-select',
 						'value' 	=> $course_tracks,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> 'bottom llms-prereq-bottom',
 					),
 					array(
@@ -200,7 +200,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'lesson_max_user',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -210,7 +210,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'course_dates_from',
 						'class' 	=> 'datepicker input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -220,10 +220,10 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'course_dates_to',
 						'class' 	=> 'datepicker input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
-				)
+				),
 			),
 			array(
 				'title' 	=> 'Price Single',
@@ -235,29 +235,29 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'sku',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
-                    array(
-                        'type'		=> 'checkbox',
-                        'label'		=> 'Display Custom Text for Price',
-                        'desc' 		=> 'Enable this to display custom text as the single price on the course page.',
-                        'id' 		=> self::$prefix . 'is_custom_single_price',
-                        'class' 	=> '',
-                        'value' 	=> '1',
-                        'desc_class'=> 'd-3of4 t-3of4 m-1of2',
-                        'group' 	=> 'bottom llms-custom-single-price-top',
-                    ),
-                    array(
-                        'type'		=> 'text',
-                        'label'		=> 'Custom Single Price Text',
-                        'desc' 		=> 'Enter custom text to display on the course page. IE: Free!.',
-                        'id' 		=> self::$prefix . 'custom_single_price_html',
-                        'class' 	=> 'input-full',
-                        'value' 	=> '',
-                        'desc_class'=> 'd-all',
-                        'group' 	=> 'bottom llms-custom-single-price-bottom',
-                    ),
+					array(
+						'type'		=> 'checkbox',
+						'label'		=> 'Display Custom Text for Price',
+						'desc' 		=> 'Enable this to display custom text as the single price on the course page.',
+						'id' 		=> self::$prefix . 'is_custom_single_price',
+						'class' 	=> '',
+						'value' 	=> '1',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
+						'group' 	=> 'bottom llms-custom-single-price-top',
+					),
+					array(
+						'type'		=> 'text',
+						'label'		=> 'Custom Single Price Text',
+						'desc' 		=> 'Enter custom text to display on the course page. IE: Free!.',
+						'id' 		=> self::$prefix . 'custom_single_price_html',
+						'class' 	=> 'input-full',
+						'value' 	=> '',
+						'desc_class' => 'd-all',
+						'group' 	=> 'bottom llms-custom-single-price-bottom',
+					),
 					array(
 						'type'		=> 'number',
 						'label'		=> 'Single Payment Price ( ' . get_lifterlms_currency_symbol() . ' )',
@@ -265,7 +265,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'regular_price',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -275,7 +275,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'on_sale',
 						'class' 	=> '',
 						'value' 	=> '1',
-						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
 						'group' 	=> '',
 					),
 					array(
@@ -285,7 +285,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'sale_price',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -295,7 +295,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'sale_price_dates_from',
 						'class' 	=> 'datepicker input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -305,10 +305,10 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'sale_price_dates_to',
 						'class' 	=> 'datepicker input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
-				)
+				),
 			),
 			array(
 				'title' 	=> 'Price Recurring',
@@ -320,7 +320,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_recurring_enabled',
 						'class' 	=> '',
 						'value' 	=> '1',
-						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
 						'group' 	=> '',
 					),
 					array(
@@ -330,7 +330,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_subscription_price',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -340,7 +340,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_subscription_first_payment',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -350,7 +350,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_billing_period',
 						'class' 	=> 'input-full',
 						'value' 	=> $billing_periods,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -360,7 +360,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_billing_freq',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -370,10 +370,10 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_billing_cycle',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
-					)
-				)
+					),
+				),
 			),
 			array(
 				'title' 	=> 'Students',
@@ -385,7 +385,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id'		=> self::$prefix . 'add_new_user',
 						'class'		=> 'add-student-select',
 						'value' 	=> array(),
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 						'multi'		=> true,
 					),
@@ -396,7 +396,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'add_student_submit',
 						'class' 	=> 'llms-button-primary',
 						'value' 	=> 'Add Student',
-						'desc_class'=> '',
+						'desc_class' => '',
 						'group' 	=> '',
 					),
 					array(
@@ -406,7 +406,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id'		=> self::$prefix . 'remove_student',
 						'class' 	=> 'remove-student-select',
 						'value' 	=> array(),
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 						'multi'		=> true,
 					),
@@ -417,16 +417,16 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'remove_student_submit',
 						'class' 	=> 'llms-button-primary',
 						'value' 	=> 'Remove Student',
-						'desc_class'=> '',
+						'desc_class' => '',
 						'group' 	=> '',
-					)
-				)
+					),
+				),
 			),
 		);
 
-		if(has_filter('llms_meta_fields_course_main')) {
+		if (has_filter( 'llms_meta_fields_course_main' )) {
 			//Add Fields to the course main Meta Box
-			$meta_fields_course_main = apply_filters('llms_meta_fields_course_main', $meta_fields_course_main);
+			$meta_fields_course_main = apply_filters( 'llms_meta_fields_course_main', $meta_fields_course_main );
 		}
 
 		return $meta_fields_course_main;

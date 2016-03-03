@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Meta Box Product info.
@@ -40,25 +40,23 @@ class LLMS_Meta_Box_Product {
 
 		}
 
-
 		//Update Sales Price Dates
 		$date_from = isset( $_POST['_sale_price_dates_from'] ) && $_POST['_sale_price_dates_from'] ? LLMS_Date::db_date( $_POST['_sale_price_dates_from'] ) : '';
-		$date_to = isset( $_POST['_sale_price_dates_to'] ) && $_POST['_sale_price_dates_to'] ? LLMS_Date::db_date($_POST['_sale_price_dates_to'] ) : '';
+		$date_to = isset( $_POST['_sale_price_dates_to'] ) && $_POST['_sale_price_dates_to'] ? LLMS_Date::db_date( $_POST['_sale_price_dates_to'] ) : '';
 
 		// Dates
 		update_post_meta( $post_id, '_sale_price_dates_from', $date_from );
 		update_post_meta( $post_id, '_sale_price_dates_to', $date_to );
 
-		if ( $date_to && !$date_from ) {
-			update_post_meta($post_id, '_sale_price_dates_from', LLMS_Date::db_date(strtotime('NOW', current_time('timestamp'))));
-			$date_from = LLMS_Date::db_date(strtotime('NOW', current_time('timestamp')));
+		if ( $date_to && ! $date_from ) {
+			update_post_meta( $post_id, '_sale_price_dates_from', LLMS_Date::db_date( strtotime( 'NOW', current_time( 'timestamp' ) ) ) );
+			$date_from = LLMS_Date::db_date( strtotime( 'NOW', current_time( 'timestamp' ) ) );
 		}
 
-
 		// can't be on sale without a sale price
-		if ( isset( $_POST['_on_sale'] ) && !empty( $_POST['_sale_price'] ) ) {
+		if ( isset( $_POST['_on_sale'] ) && ! empty( $_POST['_sale_price'] ) ) {
 
-			$on_sale = llms_clean($_POST['_on_sale']);
+			$on_sale = llms_clean( $_POST['_on_sale'] );
 			update_post_meta( $post_id, '_on_sale', $on_sale );
 
 		} else {
@@ -67,16 +65,15 @@ class LLMS_Meta_Box_Product {
 
 		}
 
-
 		//Update Recurring Payments
-		if ( isset($_POST['_llms_recurring_enabled'])
-			&& !empty($_POST['_llms_subscription_price'])
-			&& isset($_POST['_llms_billing_period'])
-			&& !empty($_POST['_llms_billing_freq']))  {
+		if ( isset( $_POST['_llms_recurring_enabled'] )
+			&& ! empty( $_POST['_llms_subscription_price'] )
+			&& isset( $_POST['_llms_billing_period'] )
+			&& ! empty( $_POST['_llms_billing_freq'] )) {
 
 			$recurring_enabled 			= llms_clean( $_POST['_llms_recurring_enabled'] );
 			$subscription_price 		= llms_clean( $_POST['_llms_subscription_price'] );
-			$subscription_first_payment = (!$_POST['_llms_subscription_first_payment'] == '' ? llms_clean( $_POST['_llms_subscription_first_payment']) : '0' );
+			$subscription_first_payment = ( ! $_POST['_llms_subscription_first_payment'] == '' ? llms_clean( $_POST['_llms_subscription_first_payment'] ) : '0' );
 			$billing_period 			= llms_clean( $_POST['_llms_billing_period'] );
 			$billing_freq 				= llms_clean( $_POST['_llms_billing_freq'] );
 			$billing_cycle				= llms_clean( $_POST['_llms_billing_cycle'] );
@@ -100,9 +97,7 @@ class LLMS_Meta_Box_Product {
 			$llms_subs[] = $llms_sub;
 			update_post_meta( $post_id, '_llms_subscriptions', $llms_subs );
 
-
-		}
-		else {
+		} else {
 			update_post_meta( $post_id, '_llms_recurring_enabled', '' );
 			update_post_meta( $post_id, '_llms_subscription_price', '' );
 			update_post_meta( $post_id, '_llms_subscription_first_payment', '' );
@@ -113,7 +108,6 @@ class LLMS_Meta_Box_Product {
 			$llms_subs = array();
 			update_post_meta( $post_id, '_llms_subscriptions', $llms_subs );
 		}
-
 
 		// Unique SKU
 		if ( isset( $_POST['_sku'] ) ) {
@@ -147,20 +141,17 @@ class LLMS_Meta_Box_Product {
 			}
 		}
 
-        // custom text for price checkbox
-        if (isset($_POST['_is_custom_single_price']) &&
-            (isset($_POST['_custom_single_price_html']) && strlen(trim($_POST['_custom_single_price_html'])) > 0))
-        {
-            $is_custom_single_price = llms_clean($_POST['_is_custom_single_price']);
-            $custom_single_price = llms_clean($_POST['_custom_single_price_html']);
-            update_post_meta( $post_id, '_is_custom_single_price', $is_custom_single_price );
-            update_post_meta( $post_id, '_custom_single_price_html', $custom_single_price );
-        }
-        else
-        {
-            update_post_meta( $post_id, '_is_custom_single_price', '' );
-            update_post_meta( $post_id, '_custom_single_price_html', '' );
-        }
+		// custom text for price checkbox
+		if (isset( $_POST['_is_custom_single_price'] ) &&
+			(isset( $_POST['_custom_single_price_html'] ) && strlen( trim( $_POST['_custom_single_price_html'] ) ) > 0)) {
+			$is_custom_single_price = llms_clean( $_POST['_is_custom_single_price'] );
+			$custom_single_price = llms_clean( $_POST['_custom_single_price_html'] );
+			update_post_meta( $post_id, '_is_custom_single_price', $is_custom_single_price );
+			update_post_meta( $post_id, '_custom_single_price_html', $custom_single_price );
+		} else {
+			update_post_meta( $post_id, '_is_custom_single_price', '' );
+			update_post_meta( $post_id, '_custom_single_price_html', '' );
+		}
 
 		do_action( 'lifterlms_after_save_product_meta_box', $post_id, $post );
 	}

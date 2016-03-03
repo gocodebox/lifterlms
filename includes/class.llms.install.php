@@ -6,7 +6,7 @@
 
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * LLMS_Install Class
@@ -30,8 +30,8 @@ class LLMS_Install {
 		add_action( 'init', array( $this, 'install_settings' ) );
 		add_action( 'admin_init', array( $this, 'update_relationships' ) );
 		add_action( 'admin_init', array( $this, 'update_course_outline' ) );
-		add_action( 'init', array( $this, 'register_post_types') );
-		add_action( 'init', array( $this, 'init_query') );
+		add_action( 'init', array( $this, 'register_post_types' ) );
+		add_action( 'init', array( $this, 'init_query' ) );
 		//add_action( 'init', array( $this, 'update_courses_archive' ) );
 
 		add_action( 'admin_init', array( $this, 'create_voucher_tables' ) );
@@ -41,18 +41,18 @@ class LLMS_Install {
 	 * custom error notice ~ this needs to be moved to it's own class / factory
 	 * @return string [error message]
 	 */
-	public function custom_error_notice(){
-     	global $current_screen;
-     	if ( $current_screen->parent_base == 'plugins' )
-         	echo '<div class="error"><p>Warning - LifterLMS is only compatable with Wordpress version '
-         		. $this->min_wp_version . ' or higher. Your current version of Wordpress is ' . $this->current_wp_version  .
-         		'. You may experience issues with this plugin until you upgrade your version of Wordpress.</p></div>';
+	public function custom_error_notice() {
+	 	global $current_screen;
+	 	if ( $current_screen->parent_base == 'plugins' ) {
+		 	echo '<div class="error"><p>Warning - LifterLMS is only compatable with Wordpress version '
+		 		. $this->min_wp_version . ' or higher. Your current version of Wordpress is ' . $this->current_wp_version  .
+		 		'. You may experience issues with this plugin until you upgrade your version of Wordpress.</p></div>'; }
 	}
 
 	public function first_time_setup() {
 		if ( ! get_option( 'lifterlms_first_time_setup' ) ) {
 
-			add_action( 'admin_notices', array( $this, 'welcome_message' ));
+			add_action( 'admin_notices', array( $this, 'welcome_message' ) );
 
 		}
 	}
@@ -60,9 +60,9 @@ class LLMS_Install {
 	public function welcome_message() {
 		global $current_screen;
 
-     	if ( $current_screen->base !== 'lifterlms_page_llms-settings' ) {
+	 	if ( $current_screen->base !== 'lifterlms_page_llms-settings' ) {
 
-         	echo '<div id="welcome-panel" class="welcome-panel">
+		 	echo '<div id="welcome-panel" class="welcome-panel">
          	<div class="welcome-panel-content">
 					<h3>Welcome to LifterLMS!</h3>
 					<p class="about-description">Before you start building your course check out our
@@ -76,7 +76,7 @@ class LLMS_Install {
 				</div>
 				</div>';
 
-     	}
+	 	}
 	}
 
 	/**
@@ -85,7 +85,7 @@ class LLMS_Install {
 	public function check_wp_version() {
 		if ( version_compare( get_bloginfo( 'version' ), $this->min_wp_version, '<' ) ) {
 
-			add_action( 'admin_notices', array( $this, 'custom_error_notice' ));
+			add_action( 'admin_notices', array( $this, 'custom_error_notice' ) );
 		}
 	}
 
@@ -100,8 +100,8 @@ class LLMS_Install {
 		$courses_archive = get_option( 'lifterlms_shop_page_id', '' );
 
 		if ($courses_archive) {
-			update_option('lifterlms_courses_page_id', $courses_archive);
-			delete_option('lifterlms_shop_page_id');
+			update_option( 'lifterlms_courses_page_id', $courses_archive );
+			delete_option( 'lifterlms_shop_page_id' );
 			flush_rewrite_rules();
 		}
 
@@ -116,27 +116,27 @@ class LLMS_Install {
 	 */
 	public function update_relationships() {
 		$relationship_updated = get_option( 'lifterlms_relationship_update', 'no' ) === 'yes' ? true : false;
-		if (!$relationship_updated) {
+		if ( ! $relationship_updated) {
 			$course_args = array(
 				'posts_per_page'   => -1,
 				'orderby'          => 'title',
 				'order'            => 'ASC',
 				'post_type'        => 'course',
-				'suppress_filters' => true
+				'suppress_filters' => true,
 			);
-			$courses = get_posts($course_args);
-			foreach($courses as $course) {
-				$syllabus = get_post_meta($course->ID, '_sections');
+			$courses = get_posts( $course_args );
+			foreach ($courses as $course) {
+				$syllabus = get_post_meta( $course->ID, '_sections' );
 				if ($syllabus) {
-					foreach($syllabus as $keys => $values) {
-						if (isset($values)) {
-							foreach($values as $k => $v) {
+					foreach ($syllabus as $keys => $values) {
+						if (isset( $values )) {
+							foreach ($values as $k => $v) {
 								if ($v['section_id']) {
-									update_post_meta($v['section_id'], '_parent_course', $course->ID);
-									foreach($v['lessons'] as $lk => $lv) {
-										if($v['lessons']) {
-											update_post_meta($lv['lesson_id'], '_parent_course', $course->ID);
-											update_post_meta($lv['lesson_id'], '_parent_section', $v['section_id']);
+									update_post_meta( $v['section_id'], '_parent_course', $course->ID );
+									foreach ($v['lessons'] as $lk => $lv) {
+										if ($v['lessons']) {
+											update_post_meta( $lv['lesson_id'], '_parent_course', $course->ID );
+											update_post_meta( $lv['lesson_id'], '_parent_section', $v['section_id'] );
 										}
 									}
 								}
@@ -151,7 +151,7 @@ class LLMS_Install {
 
 	public function update_course_outline() {
 		$course_outline_updated = get_option( 'lifterlms_course_outline_updated', 'no' ) === 'yes' ? true : false;
-		if (!$course_outline_updated) {
+		if ( ! $course_outline_updated) {
 
 			//get all courses _sections
 			$args = array(
@@ -161,46 +161,44 @@ class LLMS_Install {
 			'meta_query' 		=> array(
 				array(
 				    'key' => '_sections',
-				    'compare' => '='
-				    )
-				)
+				    'compare' => '=',
+				    ),
+				),
 			);
 			$courses = get_posts( $args );
 
 			if ( $courses ) {
 
 				foreach ( $courses as $course ) {
-					$syllabus = get_post_meta($course->ID, '_sections', true);
+					$syllabus = get_post_meta( $course->ID, '_sections', true );
 
-					if ( !empty($syllabus)) {
+					if ( ! empty( $syllabus )) {
 
 						//set sections and lessons to post meta
-						foreach( $syllabus as $section ) {
+						foreach ( $syllabus as $section ) {
 
 							$section_id = $section['section_id'];
 							$section_order = $section['position'];
 							$lessons = $section['lessons'];
 
 							//update parent_course and llms_order for sections
-							update_post_meta($section_id, '_parent_course', $course->ID);
-							update_post_meta($section_id, '_llms_order', $section_order);
-
+							update_post_meta( $section_id, '_parent_course', $course->ID );
+							update_post_meta( $section_id, '_llms_order', $section_order );
 
 							//loop through lessons and update llms_order, parent_section and parent_course
-							if ( !empty($lessons) ) {
+							if ( ! empty( $lessons ) ) {
 
-								foreach( $lessons as $lesson ) {
+								foreach ( $lessons as $lesson ) {
 
 									$lesson_id = $lesson['lesson_id'];
 									$lesson_order = $lesson['position'];
 
-									update_post_meta($lesson_id, '_parent_course', $course->ID);
-									update_post_meta($lesson_id, '_parent_section', $section_id);
-									update_post_meta($lesson_id, '_llms_order', $lesson_order);
+									update_post_meta( $lesson_id, '_parent_course', $course->ID );
+									update_post_meta( $lesson_id, '_parent_section', $section_id );
+									update_post_meta( $lesson_id, '_llms_order', $lesson_order );
 								}
 
 							}
-
 
 						}
 
@@ -226,15 +224,13 @@ class LLMS_Install {
 	public function install() {
 		$this->create_options();
 		$this->create_tables();
-        $this->create_voucher_tables();
+		$this->create_voucher_tables();
 		$this->create_roles();
 
 		// Register Post Types
 		include_once( 'class.llms.post-types.php' );
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
-
-
 
 		$this->register_post_types();
 		$this->cron();
@@ -338,8 +334,8 @@ class LLMS_Install {
 			'post_author'   => 1,
 		) );
 		$new_user_email_id = wp_insert_post( $new_user_email, true );
-		update_post_meta($new_user_email_id,'_event_id', 'email_new_user');
-		update_post_meta($new_user_email_id,'_email_subject', 'Welcome to {site_title}');
+		update_post_meta( $new_user_email_id,'_event_id', 'email_new_user' );
+		update_post_meta( $new_user_email_id,'_email_subject', 'Welcome to {site_title}' );
 	}
 
 	/**
@@ -349,10 +345,10 @@ class LLMS_Install {
 	 */
 	public function create_options() {
 		//store installed version
-		add_option('lifterlms_current_version', LLMS_VERSION);
-		add_option('lifterlms_is_activated', '');
-		add_option('lifterlms_update_key', '');
-		add_option('lifterlms_authkey', 'YA5j24mKX38yyLZf2CD6YX6i78Kr94tg');
+		add_option( 'lifterlms_current_version', LLMS_VERSION );
+		add_option( 'lifterlms_is_activated', '' );
+		add_option( 'lifterlms_update_key', '' );
+		add_option( 'lifterlms_authkey', 'YA5j24mKX38yyLZf2CD6YX6i78Kr94tg' );
 
 		include_once( 'admin/class.llms.admin.settings.php' );
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
@@ -376,10 +372,10 @@ class LLMS_Install {
 		$wpdb->hide_errors();
 		$collate = '';
 		if ( $wpdb->has_cap( 'collation' ) ) {
-			if ( ! empty($wpdb->charset ) ) {
+			if ( ! empty( $wpdb->charset ) ) {
 				$collate .= "DEFAULT CHARACTER SET $wpdb->charset";
 			}
-			if ( ! empty($wpdb->collate ) ) {
+			if ( ! empty( $wpdb->collate ) ) {
 				$collate .= " COLLATE $wpdb->collate";
 			}
 		}
@@ -409,39 +405,36 @@ class LLMS_Install {
 			  KEY post_id (post_id)
 			) $collate;
 		";
-		try
-		{
-		$conn = dbDelta( $lifterlms_tables );
-		}
-		catch (Exception $e)
-		{
-		 throw new Exception( 'Instalation failed. Error creating lifterLMS tables in database.', 0, $e);
+		try {
+			$conn = dbDelta( $lifterlms_tables );
+		} catch (Exception $e) {
+			throw new Exception( 'Instalation failed. Error creating lifterLMS tables in database.', 0, $e );
 		}
 	}
 
-    /**
-     * Create voucher tables
-     */
-    public function create_voucher_tables()
-    {
-        $tables_created = (get_option('lifterlms_voucher_tables_installed', 'no') == 'yes') ? true : false;
+	/**
+	 * Create voucher tables
+	 */
+	public function create_voucher_tables() {
 
-        if (!$tables_created) {
-            global $wpdb;
+		$tables_created = (get_option( 'lifterlms_voucher_tables_installed', 'no' ) == 'yes') ? true : false;
 
-            $wpdb->hide_errors();
-            $collate = '';
-            if ( $wpdb->has_cap( 'collation' ) ) {
-                if ( ! empty($wpdb->charset ) ) {
-                    $collate .= "DEFAULT CHARACTER SET $wpdb->charset";
-                }
-                if ( ! empty($wpdb->collate ) ) {
-                    $collate .= " COLLATE $wpdb->collate";
-                }
-            }
-            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-            //lifterLMS Tables
-            $lifterlms_tables = "
+		if ( ! $tables_created) {
+			global $wpdb;
+
+			$wpdb->hide_errors();
+			$collate = '';
+			if ( $wpdb->has_cap( 'collation' ) ) {
+				if ( ! empty( $wpdb->charset ) ) {
+					$collate .= "DEFAULT CHARACTER SET $wpdb->charset";
+				}
+				if ( ! empty( $wpdb->collate ) ) {
+					$collate .= " COLLATE $wpdb->collate";
+				}
+			}
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			//lifterLMS Tables
+			$lifterlms_tables = "
 			CREATE TABLE `{$wpdb->prefix}lifterlms_product_to_voucher` (
                 `product_id` bigint(20) NOT NULL,
                 `voucher_id` bigint(20) NOT NULL,
@@ -471,17 +464,14 @@ class LLMS_Install {
             ) $collate;
 
 		";
-            try
-            {
-                $conn = dbDelta( $lifterlms_tables );
+			try {
+				$conn = dbDelta( $lifterlms_tables );
 				update_option( 'lifterlms_voucher_tables_installed', 'yes' );
-            }
-            catch (Exception $e)
-            {
-                throw new Exception( 'Instalation failed. Error creating lifterLMS voucher tables in database.', 0, $e);
-            }
-        }
-    }
+			} catch (Exception $e) {
+				throw new Exception( 'Instalation failed. Error creating lifterLMS voucher tables in database.', 0, $e );
+			}
+		}
+	}
 
 	/**
 	 * Create lifterLMS user roles
@@ -499,7 +489,7 @@ class LLMS_Install {
 				'student',
 				__( 'Student', 'lifterlms' ),
 				array(
-					'read' => true
+					'read' => true,
 				)
 			);
 
@@ -509,11 +499,11 @@ class LLMS_Install {
 			 * @since  v1.0.6
 			 */
 			$persons = new WP_User_Query( array( 'role' => 'person' ) );
-			if( ! empty( $persons->results ) ) {
+			if ( ! empty( $persons->results ) ) {
 				foreach ( $persons->results as $user ) {
-					$user->add_role('student');
-					$user->remove_role('person');
-					$user->remove_cap('person');
+					$user->add_role( 'student' );
+					$user->remove_role( 'person' );
+					$user->remove_cap( 'person' );
 				}
 			}
 			update_option( 'lifterlms_student_role_created', 'yes' );
@@ -526,8 +516,8 @@ class LLMS_Install {
 	 */
 	public function cron() {
 
-		if ( ! wp_next_scheduled('llms_check_for_expired_memberships')) {
-  			wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
+		if ( ! wp_next_scheduled( 'llms_check_for_expired_memberships' )) {
+				wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
 		}
 
 	}

@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * WooCommerce Integration
@@ -18,8 +18,7 @@ class LLMS_Integration_Woocommerce
 	 * Ensure Integration is enabled and available
 	 * Add actions and filters
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		$this->available = $this->is_available();
 		$this->installed = $this->is_installed();
@@ -34,7 +33,7 @@ class LLMS_Integration_Woocommerce
 			add_action( 'woocommerce_after_my_account', array( $this, 'wc_my_courses_content' ) );
 
 			// redirect LLMS registration & login to the WC Account page
-			add_filter( 'lifterlms_registration_redirect', array( $this, 'llms_login_redirect' ), 10, 1);
+			add_filter( 'lifterlms_registration_redirect', array( $this, 'llms_login_redirect' ), 10, 1 );
 
 			// redirect llms checkout requests to the wc cart
 			add_action( 'wp', array( $this, 'llms_checkout_redirect' ) );
@@ -50,8 +49,7 @@ class LLMS_Integration_Woocommerce
 	 * @param  string $sku  product sku to search by
 	 * @return mixed        false if not found OR a WC_Product instance
 	 */
-	function get_wc_product_by_sku( $sku )
-	{
+	function get_wc_product_by_sku( $sku ) {
 
 		global $wpdb;
 
@@ -63,7 +61,7 @@ class LLMS_Integration_Woocommerce
 			$sku
 		) );
 
-		if( is_numeric( $id ) ) {
+		if ( is_numeric( $id ) ) {
 			return new WC_Product( $id );
 		} else {
 			return false;
@@ -77,13 +75,11 @@ class LLMS_Integration_Woocommerce
 	 * @param  string $sku    sku to search by
 	 * @return mixed          false if none found, post_id if found
 	 */
-	function get_llms_product_by_sku( $sku )
-	{
+	function get_llms_product_by_sku( $sku ) {
 
 		$r = new WP_Query( array(
-
 			'meta_query' => array(
-				array(
+			array(
 					'compare' => '=',
 					'key' => '_sku',
 					'value' => $sku,
@@ -91,10 +87,9 @@ class LLMS_Integration_Woocommerce
 			),
 			'post_type' => array( 'course', 'llms_membership' ),
 			'posts_per_page' => 1,
-
 		) );
 
-		if( $r->have_posts() ) {
+		if ( $r->have_posts() ) {
 
 			return $r->posts[0]->ID;
 
@@ -109,10 +104,9 @@ class LLMS_Integration_Woocommerce
 	 * Checks checks if the LLMS WooCommerce integration is enabled
 	 * @return boolean
 	 */
-	public function is_available()
-	{
+	public function is_available() {
 
-		return ( get_option('lifterlms_woocommerce_enabled') == 'yes' ) ? true : false;
+		return ( get_option( 'lifterlms_woocommerce_enabled' ) == 'yes' ) ? true : false;
 
 	}
 
@@ -121,10 +115,9 @@ class LLMS_Integration_Woocommerce
 	 * Checks if the WooCommerce plugin is installed & activated
 	 * @return boolean
 	 */
-	public function is_installed()
-	{
+	public function is_installed() {
 
-		return ( class_exists('WooCommerce') ) ? true : false;
+		return ( class_exists( 'WooCommerce' ) ) ? true : false;
 
 	}
 
@@ -137,11 +130,10 @@ class LLMS_Integration_Woocommerce
 	 *
 	 * @return void
 	 */
-	public function llms_checkout_redirect( )
-	{
+	public function llms_checkout_redirect() {
 
 		// only run this if we're on the is_llms_checkout page
-		if( !is_llms_checkout() && !is_llms_account_page() ) {
+		if ( ! is_llms_checkout() && ! is_llms_account_page() ) {
 			return;
 		}
 
@@ -150,11 +142,11 @@ class LLMS_Integration_Woocommerce
 		$course = new LLMS_Course( $_GET['product-id'] );
 		$sku = $course->get_sku();
 
-		if( $sku ) {
+		if ( $sku ) {
 
 			$product = $this->get_wc_product_by_sku( $sku );
 
-			if( $product ) {
+			if ( $product ) {
 
 				WC()->cart->add_to_cart( $product->id, 1 );
 
@@ -173,8 +165,8 @@ class LLMS_Integration_Woocommerce
 	 * @param  string $redirect_to 	url of page to redirect to
 	 * @return string
 	 */
-	function llms_login_redirect($redirect_to)
-	{
+	function llms_login_redirect( $redirect_to ) {
+
 		$myaccount_page_id = get_option( 'woocommerce_myaccount_page_id' );
 
 		if ( $myaccount_page_id ) {
@@ -209,16 +201,14 @@ class LLMS_Integration_Woocommerce
 			return;
 		}
 
-		foreach ( $wc_order->get_items() as $item )
-		{
-
+		foreach ( $wc_order->get_items() as $item ) {
 			$product = new WC_Product( $item['product_id'] );
 			$sku = $product->get_sku();
 
 			$llms_product_id = $this->get_llms_product_by_sku( $sku );
 
 			// continue if no associated llms product
-			if( !$llms_product_id ) {
+			if ( ! $llms_product_id ) {
 				continue;
 			}
 
@@ -234,7 +224,7 @@ class LLMS_Integration_Woocommerce
 			}
 
 			// if user is enrolled, continue
-			if( $enrolled ) {
+			if ( $enrolled ) {
 				continue;
 			}
 
@@ -250,7 +240,6 @@ class LLMS_Integration_Woocommerce
 			$llms_order->currency 		 = $wc_order->get_order_currency();
 			$llms_order->product_id 	 = $llms_product_id;
 			$llms_order->product_sku 	 = $sku;
-
 
 			$llms_checkout = LLMS()->checkout();
 			$llms_checkout->process_order( $llms_order );
@@ -268,14 +257,13 @@ class LLMS_Integration_Woocommerce
 	 * Add some LifterLMS content to the WC My Account Page
 	 * @return void
 	 */
-	public function wc_my_courses_content()
-	{
+	public function wc_my_courses_content() {
 
 		llms_get_template( 'myaccount/my-courses.php' );
 		llms_get_template( 'myaccount/my-certificates.php' );
 		llms_get_template( 'myaccount/my-achievements.php' );
 
-		if( get_option( 'lifterlms_enable_myaccount_memberships_list', 'no' ) === 'yes' ) {
+		if ( get_option( 'lifterlms_enable_myaccount_memberships_list', 'no' ) === 'yes' ) {
 
 			llms_get_template( 'myaccount/my-memberships.php' );
 

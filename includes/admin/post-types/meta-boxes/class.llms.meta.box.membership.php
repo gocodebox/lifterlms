@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Meta Box Builder
@@ -53,36 +53,36 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		//billing period options
 		////needs to move to paypal class
 		$billing_periods = array(
-			array (
+			array(
 				'key' 	=> 'day',
-				'title' => 'Day'
+				'title' => 'Day',
 			),
-			array (
+			array(
 				'key' 	=> 'week',
-				'title' => 'Week'
+				'title' => 'Week',
 			),
-			array (
+			array(
 				'key' 	=> 'month',
-				'title' => 'Month'
+				'title' => 'Month',
 			),
-			array (
+			array(
 				'key' 	=> 'year',
-				'title' => 'Year'
+				'title' => 'Year',
 			),
 		);
 
 		$membership_expiration_periods = array(
-			array (
+			array(
 				'key' 	=> 'day',
-				'title' => 'Day'
+				'title' => 'Day',
 			),
-			array (
+			array(
 				'key' 	=> 'month',
-				'title' => 'Month'
+				'title' => 'Month',
 			),
-			array (
+			array(
 				'key' 	=> 'year',
-				'title' => 'Year'
+				'title' => 'Year',
 			),
 		);
 
@@ -99,7 +99,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> '',
 						'class' 	=> '',
 						'value' 	=> '',
-						'desc_class'=> '',
+						'desc_class' => '',
 						'group' 	=> '',
 					),
 					array(
@@ -112,10 +112,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> '',
 						'class' 	=> '',
 						'value' 	=> '',
-						'desc_class'=> '',
+						'desc_class' => '',
 						'group' 	=> '',
-					)
-				)
+					),
+				),
 			),
 			array(
 				'title' 	=> 'Price Single',
@@ -127,7 +127,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'sku',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -137,7 +137,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'regular_price',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -147,7 +147,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'on_sale',
 						'class' 	=> '',
 						'value' 	=> '1',
-						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
 						'group' 	=> '',
 					),
 					array(
@@ -157,7 +157,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'sale_price',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -167,7 +167,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'sale_price_dates_from',
 						'class' 	=> 'datepicker input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -177,10 +177,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'sale_price_dates_to',
 						'class' 	=> 'datepicker input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
-				)
+				),
 			),
 			array(
 				'title' 	=> 'Price Recurring',
@@ -192,7 +192,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_recurring_enabled',
 						'class' 	=> '',
 						'value' 	=> '1',
-						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
 						'group' 	=> '',
 					),
 					array(
@@ -202,7 +202,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_subscription_price',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -212,7 +212,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_subscription_first_payment',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -222,7 +222,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_billing_period',
 						'class' 	=> 'input-full',
 						'value' 	=> $billing_periods,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -232,7 +232,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_billing_freq',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -242,10 +242,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_billing_cycle',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
-					)
-				)
+					),
+				),
 			),
 			array(
 				'title' 	=> 'Expiration',
@@ -257,7 +257,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'type'  	=> 'text',
 						'section' 	=> 'expiration_interval',
 						'group' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'class' 	=> 'input-full',
 					),
 					array(
@@ -268,10 +268,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'section' 	=> 'expiration_period',
 						'value' 	=> $membership_expiration_periods,
 						'group' 	=> '',
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'class' 	=> 'input-full',
-					)
-				)
+					),
+				),
 			),
 			array(
 				'title' 	=> 'Enrollment',
@@ -284,7 +284,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'value' 	=> self::get_courses_not_in_membership_list(),
 						'group' 	=> '',
 						'multi'		=> true,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'class' 	=> 'input-full add-course-to-membership',
 					),
 					array(
@@ -294,7 +294,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'add_course_submit',
 						'class' 	=> 'llms-button-primary',
 						'value' 	=> 'Add Courses',
-						'desc_class'=> '',
+						'desc_class' => '',
 						'group' 	=> '',
 					),
 					array(
@@ -305,7 +305,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'value' 	=> self::get_courses_in_membership_list(),
 						'group' 	=> '',
 						'multi'		=> true,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'class' 	=> 'input-full remove-course-from-membership',
 					),
 					array(
@@ -315,7 +315,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'remove_course_submit',
 						'class' 	=> 'llms-button-primary',
 						'value' 	=> 'Remove Courses',
-						'desc_class'=> '',
+						'desc_class' => '',
 						'group' 	=> '',
 					),
 					array(
@@ -324,17 +324,17 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_course_membership_table',
 						'titles'	=> array( 'Course Name', 'Auto Enroll' ),
 						'type'  	=> 'table',
-						'table_data'=> self::get_courses_table_data(),
+						'table_data' => self::get_courses_table_data(),
 						'group' 	=> '',
 						'class' 	=> '',
-					)
-				)
-			)
+					),
+				),
+			),
 		);
 
-		if(has_filter('llms_meta_fields_llms_membership_settings')) {
+		if (has_filter( 'llms_meta_fields_llms_membership_settings' )) {
 			//Add Fields to the membership Meta Box
-			$llms_meta_fields_llms_membership_settings = apply_filters('llms_meta_fields_llms_membership_settings', $llms_meta_fields_llms_membership_settings);
+			$llms_meta_fields_llms_membership_settings = apply_filters( 'llms_meta_fields_llms_membership_settings', $llms_meta_fields_llms_membership_settings );
 		}
 
 		return $llms_meta_fields_llms_membership_settings;
@@ -352,10 +352,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 		$courses = get_posts( $args );
 
-		foreach($courses as $course) {
+		foreach ($courses as $course) {
 			$courses_list[] = array(
 				'key' => $course->ID,
-				'title' => $course->post_title
+				'title' => $course->post_title,
 			);
 		}
 		return $courses_list;
@@ -364,7 +364,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	public static function get_courses_not_in_membership_list() {
 
 		$exclude = array();
-		foreach( self::get_courses_in_membership_list() as $c ) {
+		foreach ( self::get_courses_in_membership_list() as $c ) {
 
 			$exclude[] = $c['key'];
 
@@ -382,10 +382,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 		$courses = get_posts( $args );
 
-		foreach($courses as $course) {
+		foreach ($courses as $course) {
 			$courses_list[] = array(
 				'key' => $course->ID,
-				'title' => $course->post_title
+				'title' => $course->post_title,
 			);
 		}
 		return $courses_list;
@@ -405,12 +405,12 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 					WHERE $posts_table.post_type = 'course'
 					AND $postmeta.meta_key = '_llms_restricted_levels'
 					AND $postmeta.meta_value LIKE '$postmeta_select'";
-		$courses = $wpdb->get_results($select_courses);
+		$courses = $wpdb->get_results( $select_courses );
 
-		foreach($courses as $course) {
+		foreach ($courses as $course) {
 			$courses_list[] = array(
 				'key' => $course->ID,
-				'title' => $course->post_title
+				'title' => $course->post_title,
 			);
 		}
 
@@ -422,18 +422,18 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		$membership_courses = self::get_courses_in_membership_list();
 
 		$table_data = array();
-		$auto_enroll_checkboxes = get_post_meta( $post->ID, '_llms_auto_enroll', true);
+		$auto_enroll_checkboxes = get_post_meta( $post->ID, '_llms_auto_enroll', true );
 
-		if( !$auto_enroll_checkboxes ) {
+		if ( ! $auto_enroll_checkboxes ) {
 			$auto_enroll_checkboxes = array();
 		}
 
-		foreach($membership_courses as $course) {
-			$auto_enroll_checkbox = in_array($course['key'], $auto_enroll_checkboxes) ? 'checked' : '';
+		foreach ($membership_courses as $course) {
+			$auto_enroll_checkbox = in_array( $course['key'], $auto_enroll_checkboxes ) ? 'checked' : '';
 
 			$table_data[] = array(
-				'<a href="' . admin_url( 'post.php?post=' . $course['key'] . '&action=edit' ) . ' ">' . $course['title'] . '</a>' ,
-				'<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"'
+				'<a href="' . admin_url( 'post.php?post=' . $course['key'] . '&action=edit' ) . ' ">' . $course['title'] . '</a>',
+				'<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"',
 			);
 		}
 
@@ -454,27 +454,27 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	public static function save( $post_id, $post ) {
 		$postId = (string) $post->ID;
 
-		if (isset($_POST['_llms_course_membership'])) {
+		if (isset( $_POST['_llms_course_membership'] )) {
 			foreach ($_POST['_llms_course_membership'] as $course_id) {
-				$memberships = array_merge(get_post_meta($course_id, '_llms_restricted_levels', true), array( $postId ) );
+				$memberships = array_merge( get_post_meta( $course_id, '_llms_restricted_levels', true ), array( $postId ) );
 
-				update_post_meta($course_id, '_llms_is_restricted', true);
-				update_post_meta($course_id, '_llms_restricted_levels', $memberships);
+				update_post_meta( $course_id, '_llms_is_restricted', true );
+				update_post_meta( $course_id, '_llms_restricted_levels', $memberships );
 			}
 		}
 
-		if (isset($_POST['_llms_remove_course_membership'])) {
+		if (isset( $_POST['_llms_remove_course_membership'] )) {
 			foreach ($_POST['_llms_remove_course_membership'] as $course_id) {
-				$memberships = array_diff(get_post_meta($course_id, '_llms_restricted_levels', true), array( $postId ) );
+				$memberships = array_diff( get_post_meta( $course_id, '_llms_restricted_levels', true ), array( $postId ) );
 
-				if (!count($memberships)) {
-					update_post_meta($course_id, '_llms_is_restricted', false);
+				if ( ! count( $memberships )) {
+					update_post_meta( $course_id, '_llms_is_restricted', false );
 				}
-				update_post_meta($course_id, '_llms_restricted_levels', $memberships);
+				update_post_meta( $course_id, '_llms_restricted_levels', $memberships );
 			}
 		}
 
-		$auto_enroll = isset($_POST['autoEnroll']) ? $_POST['autoEnroll'] : array();
+		$auto_enroll = isset( $_POST['autoEnroll'] ) ? $_POST['autoEnroll'] : array();
 		update_post_meta( $post->ID, '_llms_auto_enroll', $auto_enroll );
 	}
 

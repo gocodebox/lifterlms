@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin Assets Class
@@ -22,10 +22,10 @@ class LLMS_Admin_Menus {
 		add_filter( 'custom_menu_order', array( $this, 'submenu_order' ) );
 
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
-		add_action( 'admin_menu', array( $this, 'display_settings_menu') );
-		add_action( 'admin_menu', array( $this, 'display_analytics_menu') );
-		add_action( 'admin_menu', array( $this, 'display_students_menu') );
-		add_action( 'admin_menu', array( $this, 'display_system_report_menu') );
+		add_action( 'admin_menu', array( $this, 'display_settings_menu' ) );
+		add_action( 'admin_menu', array( $this, 'display_analytics_menu' ) );
+		add_action( 'admin_menu', array( $this, 'display_students_menu' ) );
+		add_action( 'admin_menu', array( $this, 'display_system_report_menu' ) );
 	}
 
 	/**
@@ -37,14 +37,12 @@ class LLMS_Admin_Menus {
 	public function submenu_order( $menu_ord ) {
 		global $submenu;
 
-		if( isset( $submenu['lifterlms'] ) ) {
+		if ( isset( $submenu['lifterlms'] ) ) {
 
 			$arr = array();
 
-			foreach( $submenu['lifterlms'] as $sm )
-			{
-
-				switch( $sm[0] ) {
+			foreach ( $submenu['lifterlms'] as $sm ) {
+				switch ( $sm[0] ) {
 
 					case 'Settings':	 	$i = 0;  break;
 					case 'Analytics':	 	$i = 1;  break;
@@ -61,7 +59,7 @@ class LLMS_Admin_Menus {
 
 				}
 
-				$arr[$i] = $sm;
+				$arr[ $i ] = $sm;
 
 			}
 
@@ -88,9 +86,9 @@ class LLMS_Admin_Menus {
 
 		if ( current_user_can( apply_filters( 'lifterlms_admin_menu_access', 'manage_options' ) ) ) {
 
-			$menu[51] = array( '', 'read', "llms-separator",'','wp-menu-separator' );
+			$menu[51] = array( '', 'read', 'llms-separator','','wp-menu-separator' );
 
-			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', 'llms_homepage', plugin_dir_url(LLMS_PLUGIN_FILE) . 'assets/images/lifterLMS-wp-menu-icon.png', 52 );
+			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', 'llms_homepage', plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', 52 );
 
 			function llms_homepage() {}
 
@@ -130,7 +128,7 @@ class LLMS_Admin_Menus {
 	public function display_analytics_menu() {
 
 		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ),
-			'llms-analytics', array( $this, 'analytics_page_init' ) );
+		'llms-analytics', array( $this, 'analytics_page_init' ) );
 	}
 
 	/**

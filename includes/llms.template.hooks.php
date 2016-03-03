@@ -3,7 +3,7 @@
 * Template Add Actions
 */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 //Main Content Wrappers
 add_action( 'lifterlms_before_main_content', 'lifterlms_output_content_wrapper', 10 );

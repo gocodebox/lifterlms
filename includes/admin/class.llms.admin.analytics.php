@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin analytics Class
@@ -33,7 +33,7 @@ class LLMS_Admin_Analytics {
 	private static $messages = array();
 
 	/**
-    * Inits $analytics and includes analytics base class.
+	* Inits $analytics and includes analytics base class.
 	*
 	* @return self::$analytics array
 	*/
@@ -53,7 +53,7 @@ class LLMS_Admin_Analytics {
 
 			}
 			if ( ! get_option( 'lifterlms_analytics_disable_courses' ) ) {
-			
+
 				$analytics[] = include( 'analytics/class.llms.analytics.courses.php' );
 			}
 
@@ -62,14 +62,14 @@ class LLMS_Admin_Analytics {
 				$analytics[] = include( 'analytics/class.llms.analytics.memberships.php' );
 
 			}
-			
+
 		}
 
 		return self::$analytics;
 	}
 
 	/**
-    * Save method. Saves all fields on current tab
+	* Save method. Saves all fields on current tab
 	*
 	* @return void
 	*/
@@ -90,7 +90,7 @@ class LLMS_Admin_Analytics {
 	}
 
 	/**
-    * set message to messages array
+	* set message to messages array
 	*
 	* @param string $message
 	* @return void
@@ -100,7 +100,7 @@ class LLMS_Admin_Analytics {
 	}
 
 	/**
-    * set message to messages array
+	* set message to messages array
 	*
 	* @param string $message
 	* @return void
@@ -110,7 +110,7 @@ class LLMS_Admin_Analytics {
 	}
 
 	/**
-    * display messages in analytics
+	* display messages in analytics
 	*
 	* @return void
 	*/
@@ -126,7 +126,7 @@ class LLMS_Admin_Analytics {
 	}
 
 	/**
-    * analytics Page output tabs
+	* analytics Page output tabs
 	*
 	* @return void
 	*/
@@ -139,11 +139,11 @@ class LLMS_Admin_Analytics {
 
 		$current_tab = empty( $_GET['tab'] ) ? 'sales' : sanitize_title( $_GET['tab'] );
 
-	    if ( ! empty( $_POST ) )
-	    	self::save();
+	    if ( ! empty( $_POST ) ) {
+	    	self::save(); }
 
-	    if ( ! empty( $_GET['llms_error'] ) )
-	    	self::set_error( stripslashes( $_GET['llms_error'] ) );
+	    if ( ! empty( $_GET['llms_error'] ) ) {
+	    	self::set_error( stripslashes( $_GET['llms_error'] ) ); }
 
 	    self::display_messages_html();
 
@@ -153,7 +153,7 @@ class LLMS_Admin_Analytics {
 	}
 
 	/**
-    * Output html for analytics tabs.
+	* Output html for analytics tabs.
 	*
 	* @return void
 	*/
@@ -167,31 +167,31 @@ class LLMS_Admin_Analytics {
 	 * Loops though the lifterlms options array and outputs each field.
 	 *
 	 * @param array $settings Opens array to output
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function save_search_fields( $analytics ) {
-	    if ( empty( $_POST ) )
-	    	return false;
+	    if ( empty( $_POST ) ) {
+	    	return false; }
 
 	    //sales analytics
-	    if ( !empty( $_POST[ 'action' ] ) && ( 'llms-analytics-sales' === $_POST[ 'action' ] ) && !empty( $_POST['_wpnonce'] ) ) {
+	    if ( ! empty( $_POST['action'] ) && ( 'llms-analytics-sales' === $_POST['action'] ) && ! empty( $_POST['_wpnonce'] ) ) {
 
 	 		$search = new stdClass;
 
 	 		//validate fields
-	 		if ( empty( $_POST[ 'llms_product_select' ] ) ) {
+	 		if ( empty( $_POST['llms_product_select'] ) ) {
 	 			self::set_error( __( 'You must choose a product option.' , 'lifterlms' ) );
 	 		}
-	 		if ( empty( $_POST[ 'llms_date_filter' ] ) ) {
+	 		if ( empty( $_POST['llms_date_filter'] ) ) {
 	 			self::set_error( __( 'You must choose a date filter.' , 'lifterlms' ) );
 	 		}
-	 		if ( $_POST[ 'llms_date_filter' ] === 'none' && ( empty( $_POST[ 'llms-start-date' ] ) || empty( $_POST[ 'llms-start-date' ] ) ) ) {
+	 		if ( $_POST['llms_date_filter'] === 'none' && ( empty( $_POST['llms-start-date'] ) || empty( $_POST['llms-start-date'] ) ) ) {
 	 			self::set_error( __( 'You must enter a start and end date.' , 'lifterlms' ) );
 	 		}
 
-	 		$search->product_id = llms_clean( $_POST[ 'llms_product_select' ] );
-	 		$search->date_filter = llms_clean( $_POST[ 'llms_date_filter' ] );
+	 		$search->product_id = llms_clean( $_POST['llms_product_select'] );
+	 		$search->date_filter = llms_clean( $_POST['llms_date_filter'] );
 	 		//$search->exclude_coupons = ( isset( $_POST[ 'llms_exclude_coupons' ] ) ? $_POST[ 'llms_exclude_coupons' ] : false );
 
 	 		//get start and end date for date filter
@@ -201,26 +201,26 @@ class LLMS_Admin_Analytics {
 	 			$search->date_range = $date_range;
 	 			$search->start_date = $date_range['start_date'];
 	 			$search->end_date = $date_range['end_date'];
-	 			$search->end_date_plus_one = LLMS_Date::db_date( $date_range['end_date'] . '+ 1 day');
+	 			$search->end_date_plus_one = LLMS_Date::db_date( $date_range['end_date'] . '+ 1 day' );
 
 	 		} else {
 
-	 			$search->start_date = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-start-date' ] ) );
-	 			$search->end_date = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-end-date' ] ) );
-	 			$search->end_date_plus_one = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-end-date' ] ) . '+ 1 day');
+	 			$search->start_date = LLMS_Date::db_date( llms_clean( $_POST['llms-start-date'] ) );
+	 			$search->end_date = LLMS_Date::db_date( llms_clean( $_POST['llms-end-date'] ) );
+	 			$search->end_date_plus_one = LLMS_Date::db_date( llms_clean( $_POST['llms-end-date'] ) . '+ 1 day' );
 	 		}
 
 	 		//set up search arguments
-			$values = array( 
+			$values = array(
 				'0' => array(
-				 	'key' => '_llms_order_date', 
-					'value' => $search->start_date, 
-					'compare' => '>=' 
-				), 
+				 	'key' => '_llms_order_date',
+					'value' => $search->start_date,
+					'compare' => '>=',
+				),
 				'1' => array(
-				 	'key' => '_llms_order_date', 
-					'value' => $search->end_date_plus_one, 
-					'compare' => '<=' 
+				 	'key' => '_llms_order_date',
+					'value' => $search->end_date_plus_one,
+					'compare' => '<=',
 				),
 			);
 
@@ -228,39 +228,39 @@ class LLMS_Admin_Analytics {
 			if ( $search->product_id !== 'all_products' ) {
 
 				$product_value = array(
-				 	'key' => '_llms_order_product_id', 
-					'value' => $search->product_id, 
-					'compare' => '=' 
+				 	'key' => '_llms_order_product_id',
+					'value' => $search->product_id,
+					'compare' => '=',
 				);
 				array_push( $values, $product_value );
 
 			}
-	 		
+
 			//get results and save to search object
 	 		$search->results = LLMS_Analytics::get_orders( $values );
-	 		
+
 	 		//set search object as session object
 		    LLMS()->session->set( 'llms_analytics_sales', $search );
 	    }
 
 	    //course analytics
-	    if ( !empty( $_POST[ 'action' ] ) && ( 'llms-analytics-course' === $_POST[ 'action' ] ) && !empty( $_POST['_wpnonce'] ) ) {
+	    if ( ! empty( $_POST['action'] ) && ( 'llms-analytics-course' === $_POST['action'] ) && ! empty( $_POST['_wpnonce'] ) ) {
 
 	 		$search = new stdClass;
 
 	 		//validate fields
-	 		if ( empty( $_POST[ 'llms_product_select' ] ) ) {
+	 		if ( empty( $_POST['llms_product_select'] ) ) {
 	 			self::set_error( __( 'You must choose a product option.' , 'lifterlms' ) );
 	 		}
-	 		if ( empty( $_POST[ 'llms_date_filter' ] ) ) {
+	 		if ( empty( $_POST['llms_date_filter'] ) ) {
 	 			self::set_error( __( 'You must choose a date filter.' , 'lifterlms' ) );
 	 		}
-	 		if ( $_POST[ 'llms_date_filter' ] === 'none' && ( empty( $_POST[ 'llms-start-date' ] ) || empty( $_POST[ 'llms-start-date' ] ) ) ) {
+	 		if ( $_POST['llms_date_filter'] === 'none' && ( empty( $_POST['llms-start-date'] ) || empty( $_POST['llms-start-date'] ) ) ) {
 	 			self::set_error( __( 'You must enter a start and end date.' , 'lifterlms' ) );
 	 		}
 
-	 		$search->product_id = llms_clean( $_POST[ 'llms_product_select' ] );
-	 		$search->date_filter = llms_clean( $_POST[ 'llms_date_filter' ] );
+	 		$search->product_id = llms_clean( $_POST['llms_product_select'] );
+	 		$search->date_filter = llms_clean( $_POST['llms_date_filter'] );
 	 		//$search->exclude_coupons = ( isset( $_POST[ 'llms_exclude_coupons' ] ) ? $_POST[ 'llms_exclude_coupons' ] : false );
 
 	 		//get start and end date for date filter
@@ -273,12 +273,10 @@ class LLMS_Admin_Analytics {
 
 	 		} else {
 
-	 			$search->start_date = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-start-date' ] ) );
-	 			$search->end_date = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-end-date' ] ) );
+	 			$search->start_date = LLMS_Date::db_date( llms_clean( $_POST['llms-start-date'] ) );
+	 			$search->end_date = LLMS_Date::db_date( llms_clean( $_POST['llms-end-date'] ) );
 
 	 		}
-
-	 		
 
 			// if product id is not "all" then add product id to values
 			if ( $search->product_id === 'all_courses' ) {
@@ -300,7 +298,7 @@ class LLMS_Admin_Analytics {
 					$search->students = $students;
 				}
 
-			// else get the individual course data
+				// else get the individual course data
 			} else {
 
 				//get course data
@@ -320,36 +318,35 @@ class LLMS_Admin_Analytics {
 				$search->lessons = array();
 				foreach ( $lesson_ids as $id ) {
 
-					array_push( $search->lessons, get_post($id));
+					array_push( $search->lessons, get_post( $id ) );
 
 				}
 				//$search->test_student_progress = $course_obj->get_student_progress( '147' );
-				
 
 			}
-	 		
+
 	 		//set search object as session object
 		    LLMS()->session->set( 'llms_analytics_course', $search );
 	    }
 
 	    //membership analytics
-	    if ( !empty( $_POST[ 'action' ] ) && ( 'llms-analytics-membership' === $_POST[ 'action' ] ) && !empty( $_POST['_wpnonce'] ) ) {
+	    if ( ! empty( $_POST['action'] ) && ( 'llms-analytics-membership' === $_POST['action'] ) && ! empty( $_POST['_wpnonce'] ) ) {
 
 	 		$search = new stdClass;
 
 	 		//validate fields
-	 		if ( empty( $_POST[ 'llms_product_select' ] ) ) {
+	 		if ( empty( $_POST['llms_product_select'] ) ) {
 	 			self::set_error( __( 'You must choose a product option.' , 'lifterlms' ) );
 	 		}
-	 		if ( empty( $_POST[ 'llms_date_filter' ] ) ) {
+	 		if ( empty( $_POST['llms_date_filter'] ) ) {
 	 			self::set_error( __( 'You must choose a date filter.' , 'lifterlms' ) );
 	 		}
-	 		if ( $_POST[ 'llms_date_filter' ] === 'none' && ( empty( $_POST[ 'llms-start-date' ] ) || empty( $_POST[ 'llms-start-date' ] ) ) ) {
+	 		if ( $_POST['llms_date_filter'] === 'none' && ( empty( $_POST['llms-start-date'] ) || empty( $_POST['llms-start-date'] ) ) ) {
 	 			self::set_error( __( 'You must enter a start and end date.' , 'lifterlms' ) );
 	 		}
 
-	 		$search->product_id = llms_clean( $_POST[ 'llms_product_select' ] );
-	 		$search->date_filter = llms_clean( $_POST[ 'llms_date_filter' ] );
+	 		$search->product_id = llms_clean( $_POST['llms_product_select'] );
+	 		$search->date_filter = llms_clean( $_POST['llms_date_filter'] );
 	 		//$search->exclude_coupons = ( isset( $_POST[ 'llms_exclude_coupons' ] ) ? $_POST[ 'llms_exclude_coupons' ] : false );
 
 	 		//get start and end date for date filter
@@ -362,12 +359,10 @@ class LLMS_Admin_Analytics {
 
 	 		} else {
 
-	 			$search->start_date = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-start-date' ] ) );
-	 			$search->end_date = LLMS_Date::db_date( llms_clean( $_POST[ 'llms-end-date' ] ) );
+	 			$search->start_date = LLMS_Date::db_date( llms_clean( $_POST['llms-start-date'] ) );
+	 			$search->end_date = LLMS_Date::db_date( llms_clean( $_POST['llms-end-date'] ) );
 
 	 		}
-
-	 		
 
 			// if product id is not "all" then add product id to values
 			if ( $search->product_id === 'all_memberships' ) {
@@ -389,7 +384,7 @@ class LLMS_Admin_Analytics {
 					$search->members = $members;
 				}
 
-			// else get the individual course data
+				// else get the individual course data
 			} else {
 
 				//get course data
@@ -400,19 +395,13 @@ class LLMS_Admin_Analytics {
 				$search->members = $enrolled_users;
 				$search->memberships = $membership;
 
-				
 				//$search->test_student_progress = $course_obj->get_student_progress( '147' );
-				
 
 			}
-	 		
+
 	 		//set search object as session object
 		    LLMS()->session->set( 'llms_analytics_membership', $search );
 	    }
-
-
-	   
-
 
 	}
 

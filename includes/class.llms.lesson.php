@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Lesson Class
@@ -37,16 +37,12 @@ class LLMS_Lesson {
 			$this->id   = absint( $lesson );
 			$this->post = get_post( $this->id );
 
-		} 
-
-		elseif ( $lesson instanceof LLMS_Lesson ) {
+		} elseif ( $lesson instanceof LLMS_Lesson ) {
 
 			$this->id   = absint( $lesson->id );
 			$this->post = $lesson;
 
-		} 
-
-		elseif ( $lesson instanceof LLMS_Post || isset( $lesson->ID ) ) {
+		} elseif ( $lesson instanceof LLMS_Post || isset( $lesson->ID ) ) {
 
 			$this->id   = absint( $lesson->ID );
 			$this->post = $lesson;
@@ -94,11 +90,9 @@ class LLMS_Lesson {
 
 			return '';
 
-		}
+		} else {
 
-		else {
-
-			return wp_oembed_get($this->video_embed);
+			return wp_oembed_get( $this->video_embed );
 
 		}
 
@@ -115,11 +109,9 @@ class LLMS_Lesson {
 
 			return '';
 
-		}
+		} else {
 
-		else {
-
-			return do_shortcode('[audio src="'. $this->audio_embed . '"]');
+			return do_shortcode( '[audio src="'. $this->audio_embed . '"]' );
 
 		}
 
@@ -129,16 +121,16 @@ class LLMS_Lesson {
 
 		$updated_values = array();
 
-		foreach( $data as $key => $value ) {
+		foreach ( $data as $key => $value ) {
 			$method = 'set_' . $key;
 
-			if ( method_exists($this, $method) ) {
+			if ( method_exists( $this, $method ) ) {
 				$updated_value = $this->$method($value);
 
-				$updated_values[$key] = $updated_value;
+				$updated_values[ $key ] = $updated_value;
 
 			}
-			
+
 		}
 
 		return $updated_values;
@@ -148,13 +140,13 @@ class LLMS_Lesson {
 	public function set_title( $title ) {
 
 		return LLMS_Post_Handler::update_title( $this->id, $title );
-		  
+
 	}
 
 	public function set_excerpt( $excerpt ) {
 
 		return LLMS_Post_Handler::update_excerpt( $this->id, $excerpt );
-		  
+
 	}
 
 	/**
@@ -179,7 +171,7 @@ class LLMS_Lesson {
 	 */
 	public function set_order( $order ) {
 
-		return update_post_meta( $this->id, '_llms_order', $order);
+		return update_post_meta( $this->id, '_llms_order', $order );
 
 	}
 
@@ -210,11 +202,11 @@ class LLMS_Lesson {
 	/**
 	 * Get the parent section
 	 * Finds and returns parent section id
-	 * 
+	 *
 	 * @return int [ID of parent section]
 	 */
-	public function get_parent_section() 
-	{
+	public function get_parent_section() {
+
 		return $this->parent_section;
 	}
 
@@ -233,7 +225,7 @@ class LLMS_Lesson {
 
 	/**
 	 * Get the lesson prerequisite
-	 * 
+	 *
 	 * @return int [ID of the prerequisite post]
 	 */
 	public function get_prerequisite() {
@@ -241,15 +233,14 @@ class LLMS_Lesson {
 		if ( $this->has_prerequisite ) {
 
 			return $this->prerequisite;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
 
 	/**
 	 * Get the lesson prerequisite
-	 * 
+	 *
 	 * @return int [ID of the prerequisite post]
 	 */
 	public function get_assigned_quiz() {
@@ -257,15 +248,14 @@ class LLMS_Lesson {
 		if ( $this->llms_assigned_quiz ) {
 
 			return $this->llms_assigned_quiz;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
 
 	/**
 	 * Get the lesson drip days
-	 * 
+	 *
 	 * @return int [ID of the prerequisite post]
 	 */
 	public function get_drip_days() {
@@ -274,16 +264,16 @@ class LLMS_Lesson {
 			return $this->days_before_avalailable;
 		} else {
 			return 0;
-		}		
+		}
 	}
 
-	public function get_is_free()
-	{
+	public function get_is_free() {
+
 		return $this->llms_free_lesson;
 	}
 
 	public function has_content() {
-		if ( !empty($this->post->post_content) ) {
+		if ( ! empty( $this->post->post_content ) ) {
 			return true;
 		} else {
 			return false;
@@ -293,7 +283,7 @@ class LLMS_Lesson {
 	/**
 	 * Get Next lesson
 	 * Finds and returns next lesson id
-	 * 
+	 *
 	 * @return int [ID of next lesson]
 	 */
 	public function get_next_lesson() {
@@ -312,14 +302,14 @@ class LLMS_Lesson {
 				array(
 				    'key' => '_parent_section',
 				    'value' => $parent_section,
-				    'compare' => '='
+				    'compare' => '=',
 			    ),
 			    array(
 				    'key' => '_llms_order',
 				    'value' => $next_position,
-				    'compare' => '='
+				    'compare' => '=',
 			    )
-			)                   
+			),
 		);
 		$lessons = get_posts( $args );
 
@@ -329,7 +319,7 @@ class LLMS_Lesson {
 		} else {
 			// See if there is another section after this section and get first lesson there
 			$parent_course = $this->get_parent_course();
-			$cursection = new LLMS_Section($this->get_parent_section());
+			$cursection = new LLMS_Section( $this->get_parent_section() );
 			$current_position = $cursection->get_order();
 			$next_position = $current_position + 1;
 
@@ -344,36 +334,33 @@ class LLMS_Lesson {
 					array(
 					    'key' => '_parent_course',
 					    'value' => $parent_course,
-					    'compare' => '='
+					    'compare' => '=',
 				    ),
 				    array(
 					    'key' => '_llms_order',
 					    'value' => $next_position,
-					    'compare' => '='
+					    'compare' => '=',
 				    )
-				)                   
+				),
 			);
 			$sections = get_posts( $args );
 
-			if ($sections)
-			{
-				$newsection = new LLMS_Section($sections[0]->ID);
+			if ($sections) {
+				$newsection = new LLMS_Section( $sections[0]->ID );
 				$lessons = $newsection->get_children_lessons();
 				return $lessons[0]->ID;
-			}
-			else
-			{
+			} else {
 				return false;
 			}
-		}		
+		}
 	}
 
 	/**
 	 * Get previous lesson id
 	 * @return int [ID of previous lesson]
 	 */
-	public function get_previous_lesson() 
-	{
+	public function get_previous_lesson() {
+
 		$parent_section = $this->get_parent_section();
 		$current_position = $this->get_order();
 
@@ -391,14 +378,14 @@ class LLMS_Lesson {
 					array(
 					    'key' => '_parent_section',
 					    'value' => $parent_section,
-					    'compare' => '='
+					    'compare' => '=',
 				    ),
 				    array(
 					    'key' => '_llms_order',
 					    'value' => $previous_position,
-					    'compare' => '='
+					    'compare' => '=',
 				    )
-				)                   
+				),
 			);
 			$lessons = get_posts( $args );
 
@@ -408,17 +395,14 @@ class LLMS_Lesson {
 			} else {
 				return false;
 			}
-		}
-		else
-		{
+		} else {
 			// See if there is a previous section
 			$parent_course = $this->get_parent_course();
-			$cursection = new LLMS_Section($this->get_parent_section());
+			$cursection = new LLMS_Section( $this->get_parent_section() );
 			$current_position = $cursection->get_order();
 			$previous_position = $current_position - 1;
 
-			if ($previous_position != 0)
-			{
+			if ($previous_position != 0) {
 				$args = array(
 					'post_type' 		=> 'section',
 					'posts_per_page'	=> 500,
@@ -430,25 +414,22 @@ class LLMS_Lesson {
 						array(
 						    'key' => '_parent_course',
 						    'value' => $parent_course,
-						    'compare' => '='
+						    'compare' => '=',
 					    ),
 					    array(
 						    'key' => '_llms_order',
 						    'value' => $previous_position,
-						    'compare' => '='
+						    'compare' => '=',
 					    )
-					)                   
+					),
 				);
 				$sections = get_posts( $args );
 
-				if ($sections)
-				{
-					$newsection = new LLMS_Section($sections[0]->ID);
+				if ($sections) {
+					$newsection = new LLMS_Section( $sections[0]->ID );
 					$lessons = $newsection->get_children_lessons();
-					return $lessons[count($lessons)-1]->ID;
-				}
-				else
-				{
+					return $lessons[ count( $lessons ) -1 ]->ID;
+				} else {
 					return false;
 				}
 			}
@@ -463,23 +444,22 @@ class LLMS_Lesson {
 		$user = new LLMS_Person;
 		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $this->id );
 
-		if ( empty($user_postmetas) ) {
+		if ( empty( $user_postmetas ) ) {
 			return false;
 		}
 
-		foreach( $user_postmetas as $key => $value ) {
+		foreach ( $user_postmetas as $key => $value ) {
 
-			if ( isset($user_postmetas['_is_complete']) && $user_postmetas['_is_complete']->post_id == $this->id) {
+			if ( isset( $user_postmetas['_is_complete'] ) && $user_postmetas['_is_complete']->post_id == $this->id) {
 				return true;
-			}
-			else {
+			} else {
 				return false;
 
 			}
 		}
 
 		return $user_postmetas;
-	}	
+	}
 
 	/**
 	 * Text to display on Mark Complete button
@@ -491,49 +471,45 @@ class LLMS_Lesson {
 
 	/**
 	 * Mark lesson as complete
-	 * 
+	 *
 	 * @param  int $user_id [ID of user]
 	 * @return void
 	 */
 	public function mark_complete( $user_id ) {
 		global $wpdb;
 
-			
 		$user = new LLMS_Person;
 		$user_postmetas = $user->get_user_postmeta_data( $user_id, $this->id );
 
 		if ( empty( $user_id ) ) {
 			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
-		}
-		elseif ( ! empty($user_postmetas) ) {
-		
+		} elseif ( ! empty( $user_postmetas ) ) {
+
 			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
 				return;
 			}
-		}
-		else {
+		} else {
 
 			$key = '_is_complete';
 			$value = 'yes';
 
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-				array( 
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				array(
 					'user_id' 			=> $user_id,
 					'post_id' 			=> $this->id,
 					'meta_key'			=> $key,
 					'meta_value'		=> $value,
-					'updated_date'		=> current_time('mysql'),
+					'updated_date'		=> current_time( 'mysql' ),
 				)
 			);
-			do_action( 'lifterlms_lesson_completed', $user_id, $this->id);
-	
-			llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title($this->id) ) );
+			do_action( 'lifterlms_lesson_completed', $user_id, $this->id );
 
+			llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $this->id ) ) );
 
-			$course = new LLMS_Course($this->get_parent_course());
-			$section = new LLMS_Section($this->get_parent_section());
-			$section_completion = $section->get_percent_complete($this->id);
-			
+			$course = new LLMS_Course( $this->get_parent_course() );
+			$section = new LLMS_Section( $this->get_parent_section() );
+			$section_completion = $section->get_percent_complete( $this->id );
+
 			if ( $section_completion == '100' ) {
 
 				$key = '_is_complete';
@@ -546,18 +522,18 @@ class LLMS_Lesson {
 	    			}
 	    		}
 
-				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-					array( 
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+					array(
 						'user_id' 			=> $user_id,
 						'post_id' 			=> $section->id,
 						'meta_key'			=> $key,
 						'meta_value'		=> $value,
-						'updated_date'		=> current_time('mysql'),
+						'updated_date'		=> current_time( 'mysql' ),
 					)
 				);
 
-				do_action('lifterlms_section_completed', $user_id, $section->id );
-	
+				do_action( 'lifterlms_section_completed', $user_id, $section->id );
+
 			}
 
 			$course_completion = $course->get_percent_complete();
@@ -574,22 +550,22 @@ class LLMS_Lesson {
 	    			}
 	    		}
 
-				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-					array( 
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+					array(
 						'user_id' 			=> $user_id,
 						'post_id' 			=> $course->id,
 						'meta_key'			=> $key,
 						'meta_value'		=> $value,
-						'updated_date'		=> current_time('mysql'),
+						'updated_date'		=> current_time( 'mysql' ),
 					)
 				);
 
-				do_action('lifterlms_course_completed', $user_id, $course->id );
-	
-			} elseif (get_option('lifterlms_autoadvance', false)) {
+				do_action( 'lifterlms_course_completed', $user_id, $course->id );
+
+			} elseif (get_option( 'lifterlms_autoadvance', false )) {
 				$next_lession_id = $this->get_next_lesson();
-				if($next_lession_id) {
-					wp_redirect(get_permalink($next_lession_id));
+				if ($next_lession_id) {
+					wp_redirect( get_permalink( $next_lession_id ) );
 					exit;
 				}
 			}
@@ -597,4 +573,4 @@ class LLMS_Lesson {
 		}
 	}
 
-} //end LLMS_Lesson 
+} //end LLMS_Lesson

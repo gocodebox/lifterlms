@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin Settings Page, Accounts Tab
@@ -32,7 +32,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 		return apply_filters( 'lifterlms_' . $this->id . '_settings', array(
 
-			array( 'type' => 'sectionstart', 'id' => 'course_account_options', 'class' =>'top' ),
+			array( 'type' => 'sectionstart', 'id' => 'course_account_options', 'class' => 'top' ),
 
 			array( 'title' => __( 'Account Settings', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Customize your users account and sign up experience.', 'lifterlms' ), 'id' => 'account_page_options' ),
 
@@ -52,7 +52,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'start',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'course_account_options' ),
@@ -79,7 +79,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-
 			array(
 				'title' => __( 'Lost Password', 'lifterlms' ),
 				'desc' 		=> __( 'Lost Password page', 'lifterlms' ),
@@ -98,7 +97,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-
 			array(
 				'title' => __( 'Logout', 'lifterlms' ),
 				'desc' 		=> __( 'Custom Link: yoursite.com/?person-logout=true', 'lifterlms' ),
@@ -110,9 +108,9 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 			array( 'type' => 'sectionend', 'id' => 'account_page_options' ),
 
-			array( 'type' => 'sectionstart', 'id' => 'account_registration_options'),
+			array( 'type' => 'sectionstart', 'id' => 'account_registration_options' ),
 
-			array(	'title' => __( 'User Registration Options', 'lifterlms' ), 'type' => 'title', 'id' => 'Customize the registration experience for users.' ),
+			array( 'title' => __( 'User Registration Options', 'lifterlms' ), 'type' => 'title', 'id' => 'Customize the registration experience for users.' ),
 
 			array(
 				'desc'          => __( 'Enable user registration on login page.', 'lifterlms' ),
@@ -120,7 +118,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'start',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array(
@@ -130,7 +128,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'middle',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array(
@@ -140,7 +138,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'middle',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 
 			array(
@@ -150,7 +148,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'middle',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 			array(
 				'title'         => __( 'Account Creation', 'lifterlms' ),
@@ -159,7 +157,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'       => 'yes',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'middle',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 			array(
 				'title'         => __( 'Account Creation', 'lifterlms' ),
@@ -168,7 +166,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'middle',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 			array(
 				'title'         => __( 'Account Creation', 'lifterlms' ),
@@ -177,7 +175,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'       => 'no',
 				'type'          => 'checkbox',
 				'checkboxgroup' => 'middle',
-				'autoload'      => false
+				'autoload'      => false,
 			),
 			array(
 				'title' => __( 'Terms and Conditions Page', 'lifterlms' ),
@@ -190,7 +188,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'account_registration_options'),
+			array( 'type' => 'sectionend', 'id' => 'account_registration_options' ),
 
 		)); // End pages settings
 	}

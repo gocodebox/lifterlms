@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Meta Box Lesson Tree
@@ -12,7 +12,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 	 * Static output class.
 	 *
 	 * Displays MetaBox
-	 * 
+	 *
 	 * @param  object $post [WP post object]
 	 * @return void
 	 */
@@ -23,7 +23,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 		$parent_section_id = get_post_meta( $post->ID, '_parent_section', true );
 		$parent_section_id = $parent_section_id ? $parent_section_id : '';
 
-		$parent_course_id = get_post_meta($post->ID, '_parent_course', true);
+		$parent_course_id = get_post_meta( $post->ID, '_parent_course', true );
 		$parent_course_id = $parent_course_id ? $parent_course_id : '';
 
 		$all_sections = LLMS_Post_handler::get_posts( 'section' );
@@ -33,10 +33,10 @@ class LLMS_Meta_Box_Lesson_Tree {
 		$html .= '<div id="llms-access-options">';
 		$html = '<div class="llms-access-option">';
 		$html .= '<label class="llms-access-levels-title">' .
-			LLMS_Language::output('Associated Section');
+			LLMS_Language::output( 'Associated Section' );
 
 		if ( $parent_section_id ) {
-			$html .= ': ' . get_the_title($parent_section_id);
+			$html .= ': ' . get_the_title( $parent_section_id );
 		}
 
 		$html .= '</label>';
@@ -47,38 +47,33 @@ class LLMS_Meta_Box_Lesson_Tree {
 				single name="associated_section" 
 				class="chosen-select">';
 			$html .= '<option value="" selected>Select a section...</option>';
-			
-			foreach($all_sections as $key => $value) { 
-				if ($value->ID == $parent_section_id) {
-			
-					$html .= '<option value="' . $value->ID . '" selected >' . $value->post_title . '</option>';
-				
-				} else { 
-					$section_option = new LLMS_Section( $value->ID );
-					$parent_course_title = get_the_title($section_option->get_parent_course());
-				
+
+		foreach ($all_sections as $key => $value) {
+			if ($value->ID == $parent_section_id) {
+
+				$html .= '<option value="' . $value->ID . '" selected >' . $value->post_title . '</option>';
+
+			} else {
+				$section_option = new LLMS_Section( $value->ID );
+				$parent_course_title = get_the_title( $section_option->get_parent_course() );
+
 				$html .= '<option value="' . $value->ID . '">' . $value->post_title . ' ( ' . $parent_course_title . ' )</option>';
-			 	
-			 	} 
-			} 
-			
+
+			}
+		}
+
 			$html .= '</select>';
 		$html .= '</div>';
 
-
-
-		
 		$html .= '<div class="llms-access-levels">';
-		
+
 		if ( $parent_course_id ) {
 			$course = new LLMS_Course( $parent_course_id );
 			$sections = $course->get_children_sections();
 
-			$html .= '<span class="llms-access-levels-title"><a href="' . get_edit_post_link($course->id) . '">' 
-			. $course->post->post_title . '</a> ' 
-			. LLMS_Language::output('Outline') . '</span>';
-			
-			
+			$html .= '<span class="llms-access-levels-title"><a href="' . get_edit_post_link( $course->id ) . '">'
+			. $course->post->post_title . '</a> '
+			. LLMS_Language::output( 'Outline' ) . '</span>';
 
 			if ( $sections ) {
 				foreach ( $sections as $section ) {
@@ -93,31 +88,28 @@ class LLMS_Meta_Box_Lesson_Tree {
 							//lesson list start
 							$html .= '<ul class="llms-lesson-list">';
 
-								if ( $lessons ) {
-									foreach ( $lessons as $lesson ) {
+					if ( $lessons ) {
+						foreach ( $lessons as $lesson ) {
 
-										if ($lesson->ID == $post->ID) {
-											$html .= '<li><span>' . LLMS_Svg::get_icon( 'llms-icon-existing-lesson', 'Lesson', 'Lesson', 'list-icon off' )
-											. ' ' . $lesson->post_title . '</span></li>';
-										}
-										else {
-											$html .= '<li><span><a href="' . get_edit_post_link($lesson->ID) . '">'
-												. LLMS_Svg::get_icon( 'llms-icon-existing-lesson', 'Lesson', 'Lesson', 'list-icon on' ) . ' ' . $lesson->post_title . '</a></span></li>';
-										}
-									}
-								}
+							if ($lesson->ID == $post->ID) {
+								$html .= '<li><span>' . LLMS_Svg::get_icon( 'llms-icon-existing-lesson', 'Lesson', 'Lesson', 'list-icon off' )
+								. ' ' . $lesson->post_title . '</span></li>';
+							} else {
+								$html .= '<li><span><a href="' . get_edit_post_link( $lesson->ID ) . '">'
+									. LLMS_Svg::get_icon( 'llms-icon-existing-lesson', 'Lesson', 'Lesson', 'list-icon on' ) . ' ' . $lesson->post_title . '</a></span></li>';
+							}
+						}
+					}
 
 							$html .= '</ul>';
 
 					$html .= '</li>'; //end section
-				$html .= '</ul>'; //end outline
+					$html .= '</ul>'; //end outline
+				}
+
 			}
 
 		}
-
-		
-
-		} 
 
 		$html .= '</div>';
 
@@ -129,10 +121,10 @@ class LLMS_Meta_Box_Lesson_Tree {
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
@@ -141,9 +133,9 @@ class LLMS_Meta_Box_Lesson_Tree {
 		if ( isset( $_POST['associated_section'] ) ) {
 			$parent_section = llms_clean( $_POST['associated_section'] );
 			$parent_course = get_post_meta( $parent_section, '_parent_course', true );
-			$current_parent_section = get_post_meta($post_id, '_parent_section', true);
-			
-			if( $current_parent_section !== $parent_section ) {
+			$current_parent_section = get_post_meta( $post_id, '_parent_section', true );
+
+			if ( $current_parent_section !== $parent_section ) {
 
 				if ( $parent_course ) {
 					LLMS_Lesson_Handler::assign_to_course( $parent_course, $parent_section, $post_id, false );
@@ -151,9 +143,9 @@ class LLMS_Meta_Box_Lesson_Tree {
 				} else {
 
 					LLMS_Admin_Meta_Boxes::get_error( __( 'There was an error assigning the lesson to a section. Please be sure a section is assigned to a course.', 'lifterlms' ) );
-				
+
 				}
-			}					
+			}
 		}
 	}
 }

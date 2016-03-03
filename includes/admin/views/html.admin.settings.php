@@ -4,10 +4,10 @@
 
 		<h2 class="llms-nav-tab-wrapper">
 			<?php
-				foreach ( $tabs as $name => $label )
+			foreach ( $tabs as $name => $label ) {
 
-					echo '<a href="' . admin_url( 'admin.php?page=llms-settings&tab=' . $name ) . '" class="llms-button-primary llms-nav-tab-settings '
-					. ( $current_tab == $name ? 'llms-nav-tab-active' : '' ) . '">' . $label . '</a>';
+				echo '<a href="' . admin_url( 'admin.php?page=llms-settings&tab=' . $name ) . '" class="llms-button-primary llms-nav-tab-settings '
+				. ( $current_tab == $name ? 'llms-nav-tab-active' : '' ) . '">' . $label . '</a>'; }
 
 				do_action( 'lifterlms_settings_tabs' );
 			?>
@@ -20,7 +20,7 @@
 		?>
 		<div id="llms-form-wrapper">
 		 <p class="submit">
-		    <?php if ( $current_tab != "general" || ! get_option( 'lifterlms_first_time_setup' ) ) : ?>
+		    <?php if ( $current_tab != 'general' || ! get_option( 'lifterlms_first_time_setup' ) ) : ?>
         	    <input name="save" class="button-primary" type="submit" value="<?php _e( 'Save Changes', 'lifterlms' ); ?>" />
 		    <?php endif; ?>
         	<input type="hidden" name="subtab" id="last_tab" />

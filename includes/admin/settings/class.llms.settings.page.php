@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin Settings Page Base Class
@@ -78,8 +78,8 @@ class LLMS_Settings_Page {
 		$settings = $this->get_settings();
 		LLMS_Admin_Settings::save_fields( $settings );
 
-		 if ( $current_section )
-	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section );
+		if ( $current_section ) {
+	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section ); }
 
 	}
 

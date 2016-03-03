@@ -1,9 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Dates Class
-* 
+*
 * Manages formatting dates for I/O and display
 */
 class LLMS_Svg {
@@ -18,7 +18,7 @@ class LLMS_Svg {
 	/**
 	 * Get SVG
 	 * Returns svg icon from svg sprite file
-	 * 
+	 *
 	 * @param  string $id    [svg id value]
 	 * @param  string $title [optional: title]
 	 * @param  string $desc  [optional: description]
@@ -32,19 +32,19 @@ class LLMS_Svg {
 		if ( isset( $id ) ) {
 
 			$html .= '<svg class="icon ' . $class . '" role="img" aria-labelledby="title desc">';
-		  
+
 			$html .= '<title id="title">' . sprintf( __( '%s', 'lifterlms' ), $title ) . '</title>';
-		  
+
 		  	$html .= '<desc id="desc">' . sprintf( __( '%s', 'lifterlms' ), $desc ) . '</desc>';
 
 		  	$html .= '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' . LLMS_SVG_DIR . '#' . $id . '"></use>';
-			
+
 			$html .= '</svg>';
 
 		}
 
 		return $html;
-		
+
 	}
 
 }

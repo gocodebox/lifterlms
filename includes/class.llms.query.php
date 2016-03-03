@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Query base class.
@@ -24,8 +24,8 @@ class LLMS_Query {
 
 		if ( ! is_admin() ) {
 
-			add_filter( 'query_vars', array( $this, 'set_query_vars'), 0 );
-			add_action( 'parse_request', array( $this, 'parse_request'), 0 );
+			add_filter( 'query_vars', array( $this, 'set_query_vars' ), 0 );
+			add_action( 'parse_request', array( $this, 'parse_request' ), 0 );
 
 		}
 
@@ -67,9 +67,9 @@ class LLMS_Query {
 	 */
 	public function set_query_vars( $vars ) {
 
-		foreach ( $this->query_vars as $key => $var )
+		foreach ( $this->query_vars as $key => $var ) {
 
-			$vars[] = $key;
+			$vars[] = $key; }
 
 		return $vars;
 
@@ -89,9 +89,7 @@ class LLMS_Query {
 
 				$wp->query_vars[ $key ] = $_GET[ $var ];
 
-			}
-
-			elseif ( isset( $wp->query_vars[ $var ] ) ) {
+			} elseif ( isset( $wp->query_vars[ $var ] ) ) {
 
 				$wp->query_vars[ $key ] = $wp->query_vars[ $var ];
 
@@ -105,8 +103,8 @@ class LLMS_Query {
 	 * @param $vars [array of WP query variables available for query]
 	 */
 	public function add_query_vars( $vars ) {
-		foreach ( $this->query_vars as $key => $var )
-			$vars[] = $key;
+		foreach ( $this->query_vars as $key => $var ) {
+			$vars[] = $key; }
 
 		return $vars;
 	}
@@ -115,8 +113,8 @@ class LLMS_Query {
 	 * Add Query Endpoints
 	 */
 	public function add_endpoints() {
-		foreach ( $this->query_vars as $key => $var )
-			add_rewrite_endpoint( $var, EP_PAGES );
+		foreach ( $this->query_vars as $key => $var ) {
+			add_rewrite_endpoint( $var, EP_PAGES ); }
 	}
 
 }

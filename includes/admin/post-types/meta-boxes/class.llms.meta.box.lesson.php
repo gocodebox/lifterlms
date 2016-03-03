@@ -1,14 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
-if ( ! defined( 'LLMS_Admin_Metabox' ) ) 
-{
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'LLMS_Admin_Metabox' ) ) {
 	// Include the file for the parent class
 	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
 }
 
 /**
 * Meta Box Builder
-* 
+*
 * Generates main metabox and builds forms
 */
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
@@ -18,25 +17,25 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 * 
+	 *
 	 * @param object $post WP global post object
 	 * @return void
 	 */
 	public static function output ( $post ) {
 		global $post;
 		parent::new_output( $post, self::metabox_options() );
-	}	
+	}
 
 	/**
 	 * Builds array of metabox options.
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
-	 * 
+	 *
 	 * @return array [md array of metabox fields]
 	 */
 	public static function metabox_options() {
 		global $post;
-	
+
 		//setup lesson select options
 		$lesson_options = array();
 		$lesson_posts = LLMS_Post_Handler::get_posts( 'lesson' );
@@ -44,9 +43,9 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 			if ( $l_post->ID != $post->ID ) {
 				$lesson_options[] = array(
 					'key' 	=> $l_post->ID,
-					'title' => $l_post->post_title
+					'title' => $l_post->post_title,
 				);
-			}			
+			}
 		}
 
 		//setup quiz select options
@@ -56,15 +55,15 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 			if ( $quiz->ID != $post->ID ) {
 				$quiz_array[] = array(
 					'key' 	=> $quiz->ID,
-					'title' => $quiz->post_title
+					'title' => $quiz->post_title,
 				);
-			}			
+			}
 		}
 
 		$days_before_avalailable = get_post_meta( $post->ID, '_days_before_avalailable', true );
-    	$assigned_quiz = get_post_meta( $post->ID, '_llms_assigned_quiz', true );
-    	$require_passing_grade = get_post_meta( $post->ID, '_llms_require_passing_grade', true );
-    	$video_embed = get_post_meta( $post->ID, '_video_embed', true );
+		$assigned_quiz = get_post_meta( $post->ID, '_llms_assigned_quiz', true );
+		$require_passing_grade = get_post_meta( $post->ID, '_llms_require_passing_grade', true );
+		$video_embed = get_post_meta( $post->ID, '_video_embed', true );
 		$audio_embed = get_post_meta( $post->ID, '_audio_embed', true );
 
 		$meta_fields_lesson = array(
@@ -78,7 +77,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'video_embed',
 						'class' 	=> 'code input-full',
 						'value' 	=> $video_embed,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -88,7 +87,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'audio_embed',
 						'class' 	=> 'code input-full',
 						'value' 	=> $audio_embed,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -98,10 +97,10 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_free_lesson',
 						'class' 	=> '',
 						'value' 	=> '1',
-						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
 						'group' 	=> 'top',
 					),
-				)
+				),
 			),
 			array(
 				'title' 	=> 'Quiz',
@@ -113,7 +112,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_assigned_quiz',
 						'class' 	=> 'llms-chosen-select',
 						'value' 	=> $quiz_array,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -123,10 +122,10 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'llms_require_passing_grade',
 						'class' 	=> '',
 						'value' 	=> '1',
-						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
 						'group' 	=> 'top',
 					),
-				)
+				),
 			),
 			array(
 				'title' 	=> 'Restrictions',
@@ -138,7 +137,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'days_before_avalailable',
 						'class' 	=> 'input-full',
 						'value' 	=> $days_before_avalailable,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> '',
 					),
 					array(
@@ -148,7 +147,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'has_prerequisite',
 						'class' 	=> '',
 						'value' 	=> '1',
-						'desc_class'=> 'd-3of4 t-3of4 m-1of2',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
 						'group' 	=> 'llms-prereq-top',
 					),
 					array(
@@ -158,18 +157,18 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 						'id' 		=> self::$prefix . 'prerequisite',
 						'class' 	=> 'llms-chosen-select',
 						'value' 	=> $lesson_options,
-						'desc_class'=> 'd-all',
+						'desc_class' => 'd-all',
 						'group' 	=> 'bottom llms-prereq-bottom',
 					),
-				)				
-			),			
+				),
+			),
 		);
 
-		if(has_filter('llms_meta_fields_lesson')) {
+		if (has_filter( 'llms_meta_fields_lesson' )) {
 			//Add Fields to the course main Meta Box
-			$meta_fields_lesson = apply_filters('llms_meta_fields_lesson', $meta_fields_lesson);
-		} 
-		
+			$meta_fields_lesson = apply_filters( 'llms_meta_fields_lesson', $meta_fields_lesson );
+		}
+
 		return $meta_fields_lesson;
 	}
 
@@ -177,16 +176,14 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
-
-		
 
 	}
 

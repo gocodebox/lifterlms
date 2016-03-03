@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin base MetaBox Class
@@ -56,8 +56,8 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_llms_question_meta', 'LLMS_Meta_Box_Question_General::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_coupon_meta', 'LLMS_Meta_Box_Coupon_Options::save', 10, 2 );
 
-        add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher::save', 10, 2 );
-        add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
+		add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher::save', 10, 2 );
+		add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
 
 		//Error handling
 		add_action( 'admin_notices', array( $this, 'display_errors' ) );
@@ -125,13 +125,13 @@ class LLMS_Admin_Meta_Boxes {
 		$operator = 'and';
 		$post_types = get_post_types( $args, $output, $operator );
 
-		$hide_membership_access_box = array('llms_certificate', 'llms_membership');
+		$hide_membership_access_box = array( 'llms_certificate', 'llms_membership' );
 
 		foreach ( $post_types  as $post_type ) {
-			if (!in_array($post_type, $hide_membership_access_box)) {
-				add_meta_box('lifterlms-membership-access', __('Membership Access', 'lifterlms'), 'LLMS_Meta_Box_Access::output', $post_type, 'side');
+			if ( ! in_array( $post_type, $hide_membership_access_box )) {
+				add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', $post_type, 'side' );
 			}
-			array_push($public_post_types, $post_type);
+			array_push( $public_post_types, $post_type );
 		}
 
 		//===================================
@@ -160,7 +160,7 @@ class LLMS_Admin_Meta_Boxes {
 		//add_meta_box( 'lifterlms-certificate-options', __( 'Certificate Options', 'lifterlms' ), 'LLMS_Meta_Box_Certificate_Options::output', 'llms_certificate', 'normal' );
 		//add_meta_box( 'lifterlms-achievement-options', __( 'Achievement Options', 'lifterlms' ), 'LLMS_Meta_Box_Achievement_Options::output', 'llms_achievement', 'normal' );
 		add_meta_box( 'lifterlms-engagement-options', __( 'Engagement Options', 'lifterlms' ), 'LLMS_Meta_Box_Engagement_Options::output', 'llms_engagement', 'normal' );
-        add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
+		add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
 		//add_meta_box( 'lifterlms-expiration-options', __( 'Membership Expiration', 'lifterlms' ), 'LLMS_Meta_Box_Expiration::output', 'llms_membership', 'normal' );
 		add_meta_box( 'lifterlms-order-general', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order::output', 'order', 'normal', 'high' );
 		//add_meta_box( 'lifterlms-quiz-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_Quiz_General::output', 'llms_quiz', 'normal' );
@@ -176,7 +176,7 @@ class LLMS_Admin_Meta_Boxes {
 	*/
 	public function hide_meta_boxes() {
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
-		remove_meta_box('tagsdiv-course_difficulty','course','side');
+		remove_meta_box( 'tagsdiv-course_difficulty','course','side' );
 	}
 
 	/**
@@ -198,17 +198,13 @@ class LLMS_Admin_Meta_Boxes {
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return false;
-		}
-		elseif ( empty( $post_id ) || empty( $post ) ) {
+		} elseif ( empty( $post_id ) || empty( $post ) ) {
 			return false;
-		}
-		elseif ( defined( 'DOING_AUTOSAVE' ) || is_int( wp_is_post_revision( $post ) ) || is_int( wp_is_post_autosave( $post ) ) ) {
+		} elseif ( defined( 'DOING_AUTOSAVE' ) || is_int( wp_is_post_revision( $post ) ) || is_int( wp_is_post_autosave( $post ) ) ) {
 			return false;
-		}
-		elseif ( empty( $_POST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_meta_nonce'], 'lifterlms_save_data' ) ) {
+		} elseif ( empty( $_POST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_meta_nonce'], 'lifterlms_save_data' ) ) {
 			return false;
-		}
-		elseif ( empty( $_POST['post_ID'] ) || $_POST['post_ID'] != $post_id ) {
+		} elseif ( empty( $_POST['post_ID'] ) || $_POST['post_ID'] != $post_id ) {
 			return false;
 		}
 
@@ -232,8 +228,7 @@ class LLMS_Admin_Meta_Boxes {
 			if ( LLMS_Admin_Meta_Boxes::is_llms_post_type( $post ) ) {
 				do_action( 'lifterlms_process_' . $post->post_type . '_meta', $post_id, $post );
 				do_action( 'lifterlms_process_membership_access', $post_id, $post );
-			}
-			else{
+			} else {
 				do_action( 'lifterlms_process_membership_access', $post_id, $post );
 			}
 		}

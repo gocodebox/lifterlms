@@ -1,8 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
-* 
+*
 */
 class LLMS_Metabox_Color_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
 {
@@ -10,29 +10,29 @@ class LLMS_Metabox_Color_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 	 * Class constructor
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct($_field)
-	{
+	function __construct( $_field ) {
+
 		$this->field = $_field;
 	}
 
 	/**
 	 * Outputs the Html for the given field
-	 * @return HTML 
+	 * @return HTML
 	 */
-	public function Output()
-	{
+	public function Output() {
+
 		global $post;
-		
+
 		parent::Output();
-					
-		if (!$this->meta) {
+
+		if ( ! $this->meta) {
 			$this->meta = $this->field['value'];
 		}
 		?>
 		<input class="color-picker" type="text" name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" value="<?php echo $this->meta; ?>" data-default-color="<?php echo $this->field['value']; ?>"/>
 			<br /><span class="description"><?php echo $this->field['desc']; ?></span>			
 		<?php
-		parent::CloseOutput();				
+		parent::CloseOutput();
 	}
 }
 

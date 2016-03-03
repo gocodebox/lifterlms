@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin Settings Page, Integrations Tab
@@ -37,7 +37,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 		return apply_filters( 'lifterlms_integrations_settings', array(
 
-			array( 'type' => 'sectionstart', 'id' => 'integration_options', 'class' =>'top' ),
+			array( 'type' => 'sectionstart', 'id' => 'integration_options', 'class' => 'top' ),
 
 			array( 'title' => __( 'Integration Settings', 'lifterlms' ), 'type' => 'title', 'desc' => '', 'id' => 'integrations_options' ),
 
@@ -59,7 +59,6 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'integration_options' ),
-
 
 		) );
 	}

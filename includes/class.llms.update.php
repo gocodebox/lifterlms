@@ -1,8 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
-* Update base class. 
+* Update base class.
 *
 * Handles query objects
 *
@@ -25,25 +25,25 @@ class LLMS_Update {
 	}
 
 	public function update_check() {
-	
+
 	}
 
 	public function check_version() {
-		$current_version = get_option('lifterlms_current_version');
+		$current_version = get_option( 'lifterlms_current_version' );
 		$this->available_version = $this->update['version'];
-		
+
 		if ( version_compare( $current_version, $this->available_version, '<' ) ) {
-			add_action( 'admin_notices', array( $this, 'update_alert' ));
+			add_action( 'admin_notices', array( $this, 'update_alert' ) );
 		}
 	}
 
-	public function update_alert(){
+	public function update_alert() {
 
-     	global $current_screen;
-         	echo '<div class="update-nag"><p>';
-         	echo '<a href="' . $this->update['homepage']. '">lifterLMS</a> ' . $this->available_version . ' is available. <a href="' . $this->update['download_url']  . '">Please update now</a></p>';
-         	echo '<p class="llms-update-alert">' . $this->update['upgrade_notice'] . '</p>';
-         	echo '</div>';
+	 	global $current_screen;
+		 	echo '<div class="update-nag"><p>';
+		 	echo '<a href="' . $this->update['homepage']. '">lifterLMS</a> ' . $this->available_version . ' is available. <a href="' . $this->update['download_url']  . '">Please update now</a></p>';
+		 	echo '<p class="llms-update-alert">' . $this->update['upgrade_notice'] . '</p>';
+		 	echo '</div>';
 	}
 
 }

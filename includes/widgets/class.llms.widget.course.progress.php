@@ -16,7 +16,7 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 		WP_Widget::__construct(
 			'course_progress',
 			__( 'Course Progress', 'lifterlms' ),
-			array( 'description' => __( 'Displays Course Progress on Course or Lesson', 'lifterlms' ), )
+			array( 'description' => __( 'Displays Course Progress on Course or Lesson', 'lifterlms' ) )
 		);
 
 	}
@@ -24,12 +24,12 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	/**
 	 * Widget Content
 	 * Overrides parent class
-	 * 
+	 *
 	 * @see  LLMS_Widget()
 	 * @return echo
 	 */
 	public function widget_contents() {
-		echo do_shortcode('[lifterlms_course_progress]');
+		echo do_shortcode( '[lifterlms_course_progress]' );
 	}
 
 }

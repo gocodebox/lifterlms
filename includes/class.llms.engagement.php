@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Email Class
@@ -11,6 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 */
 class LLMS_Engagement {
 
-	
+
 }
 

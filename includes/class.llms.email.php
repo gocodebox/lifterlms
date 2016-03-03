@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Email Class
@@ -37,13 +37,13 @@ class LLMS_Email {
 	}
 
 	/**
-	 * Checks if email is enabled. 
-	 * REFACTOR: currently always returns true. 
-	 * 
+	 * Checks if email is enabled.
+	 * REFACTOR: currently always returns true.
+	 *
 	 * @return boolean [Is email enabled]
 	 */
 	function is_enabled() {
-		$enabled = $this->enabled == "yes" ? true : false;
+		$enabled = $this->enabled == 'yes' ? true : false;
 		return true;
 	}
 
@@ -57,8 +57,8 @@ class LLMS_Email {
 
 	/**
 	 * Get the content type
-	 * REFACTOR: currently always returns text/html. 
-	 * 
+	 * REFACTOR: currently always returns text/html.
+	 *
 	 * @return string [always returns text/html]
 	 */
 	function get_content_type() {
@@ -102,13 +102,13 @@ class LLMS_Email {
 	 * @return string [Returns email headers as formatted string]
 	 */
 	function get_headers() {
-		return apply_filters( 'lifterlms_email_headers', "Content-Type: " . $this->get_content_type() . "\r\n", $this->id, $this->object );
+		return apply_filters( 'lifterlms_email_headers', 'Content-Type: ' . $this->get_content_type() . "\r\n", $this->id, $this->object );
 	}
 
 	/**
 	 *  Format string method
 	 *  Finds and replaces merge fields with appropriate data
-	 *  
+	 *
 	 * @param  string $string [string to be formatted]
 	 * @return string         [Formatted string with raw data in replace of merge fields]
 	 */
@@ -127,35 +127,35 @@ class LLMS_Email {
 	/**
 	 * Get email content
 	 * Cals get_html_content to format then returns it wordwrapped
-	 * 
+	 *
 	 * @return string [html formatted string. This is the final output for the email content before sending.]
 	 */
 	function get_content() {
 
-	$this->sending = true;
+		$this->sending = true;
 
-	$email_content = $this->get_content_html();
+		$email_content = $this->get_content_html();
 
 		return wordwrap( $email_content, 70 );
 	}
 
 	/**
-	 * Format the content 
-	 * Wrap content in appropriate html for sending email. 
+	 * Format the content
+	 * Wrap content in appropriate html for sending email.
 	 * Child class overrides this method.
-	 * 
+	 *
 	 * @return string $return [HTML formatted string]
 	 */
 	function get_content_html() {}
 
 	/**
 	 * Send email
-	 * 
+	 *
 	 * @param  string $to      [to email address]
 	 * @param  string $subject [the email subject]
 	 * @param  string $message [the html formatted message]
 	 * @param  string $headers [the email headers]
-	 * 
+	 *
 	 * @return bool $return [Whether or not the email was sent successfully]
 	 */
 	function send( $to, $subject, $message, $headers ) {
@@ -169,7 +169,7 @@ class LLMS_Email {
 		remove_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
 		remove_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
 		remove_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
-		
+
 		return $return;
 	}
 

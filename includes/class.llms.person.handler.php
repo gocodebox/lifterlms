@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Person Handler Class
@@ -10,6 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 */
 class LLMS_Person_Handler {
 
-	
+
 
 } //end LLMS_POST_Handler

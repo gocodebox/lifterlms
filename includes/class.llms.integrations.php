@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Integrations
@@ -40,7 +40,7 @@ class LLMS_Integrations {
 	public function init() {
 		$load_integrations = apply_filters( 'lifterlms_integrations', array(
 			'LLMS_Integration_Buddypress',
-			'LLMS_Integration_Woocommerce'
+			'LLMS_Integration_Woocommerce',
 		) );
 
 		$order_end = 999;
@@ -49,7 +49,7 @@ class LLMS_Integrations {
 
 			$load_integration = new $integration();
 
-			$this->integrations[$order_end] = $load_integration;
+			$this->integrations[ $order_end ] = $load_integration;
 			$order_end++;
 
 		endforeach;
@@ -71,8 +71,8 @@ class LLMS_Integrations {
 
 			if ( $integration->is_available() ) {
 
-					$_available_integrations[$integration->id] = $integration;
-				}
+					$_available_integrations[ $integration->id ] = $integration;
+			}
 
 		endforeach;
 
@@ -81,16 +81,16 @@ class LLMS_Integrations {
 
 	/**
 	 * Get all available integrations
-	 * 
+	 *
 	 * @return array [array of all integrations]
 	 */
-    function integrations() {
+	function integrations() {
 
 		$_available_integrations = array();
 
-		if ( sizeof( $this->integrations ) > 0 )
-			foreach ( $this->integrations as $integration )
-				$_available_integrations[ $integration->id ] = $integration;
+		if ( sizeof( $this->integrations ) > 0 ) {
+			foreach ( $this->integrations as $integration ) {
+				$_available_integrations[ $integration->id ] = $integration; } }
 
 		return $_available_integrations;
 	}

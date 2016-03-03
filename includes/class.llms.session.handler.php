@@ -37,7 +37,7 @@ class LLMS_Session_Handler extends LLMS_Session {
 	* @access private
 	* @var bool
 	*/
-	private $_has_cookie = false; 
+	private $_has_cookie = false;
 
 	/**
 	* Constructor
@@ -65,10 +65,8 @@ class LLMS_Session_Handler extends LLMS_Session {
 				if ( false === get_option( $session_expiry_option ) ) {
 
 					add_option( $session_expiry_option, $this->_session_expiration, '', 'no' );
-				
-				} 
 
-				else {
+				} else {
 
 					update_option( $session_expiry_option, $this->_session_expiration );
 
@@ -76,9 +74,7 @@ class LLMS_Session_Handler extends LLMS_Session {
 
 			}
 
-		} 
-
-		else {
+		} else {
 
 			$this->set_session_expiration();
 			$this->_person_id = $this->generate_person_id();
@@ -87,19 +83,19 @@ class LLMS_Session_Handler extends LLMS_Session {
 
 		$this->_data = $this->get_session_data();
 
-    	add_action( 'lifterlms_cleanup_sessions', array( $this, 'cleanup_sessions' ), 10 );
-    	add_action( 'shutdown', array( $this, 'save_data' ), 20 );
-    }
+		add_action( 'lifterlms_cleanup_sessions', array( $this, 'cleanup_sessions' ), 10 );
+		add_action( 'shutdown', array( $this, 'save_data' ), 20 );
+	}
 
 
-    /**
+	/**
 	 * Sets session cookie
 	 *
 	 * @return void
 	 */
-    public function set_person_session_cookie( $set ) {
+	public function set_person_session_cookie( $set ) {
 
-    	if ( $set ) {
+		if ( $set ) {
 	    	// Set/renew our cookie
 			$to_hash           = $this->_person_id . $this->_session_expiration;
 			$cookie_hash       = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
@@ -111,31 +107,31 @@ class LLMS_Session_Handler extends LLMS_Session {
 
 	    }
 
-    }
+	}
 
-   /**
+	/**
 	 * Returns true if user has active session
 	 *
 	 * @return void
 	 */
-    public function has_session() {
-    	return isset( $_COOKIE[ $this->_cookie ] ) || $this->_has_cookie || is_user_logged_in();
-    }
+	public function has_session() {
+		return isset( $_COOKIE[ $this->_cookie ] ) || $this->_has_cookie || is_user_logged_in();
+	}
 
-    /**
+	/**
 	 * Set session expiration
 	 *
 	 * @return void
 	 */
-    public function set_session_expiration() {
+	public function set_session_expiration() {
 	    $this->_session_expiring    = time() + intval( apply_filters( 'llms_session_expiring', 60 * 60 * 47 ) ); // 47 Hours
 		$this->_session_expiration  = time() + intval( apply_filters( 'llms_session_expiration', 60 * 60 * 48 ) ); // 48 Hours
-    }
+	}
 
 	/**
 	 * If user is not logged in create a user id and store it in the cookie
 	 *
-	 * TODO: Having issues checking if user is logged in. This method is currently broken. 
+	 * TODO: Having issues checking if user is logged in. This method is currently broken.
 	 *
 	 * @return string
 	 */
@@ -184,14 +180,14 @@ class LLMS_Session_Handler extends LLMS_Session {
 
 	}
 
-   /**
+	/**
 	 * Save the session data
 	 *
 	 * @return void
 	 */
-    public function save_data() {
+	public function save_data() {
 
-    	if ( $this->_dirty && $this->has_session() ) {
+		if ( $this->_dirty && $this->has_session() ) {
 
 			$session_option = '_llms_session_' . $this->_person_id;
 			$session_expiry_option = '_llms_session_expires_' . $this->_person_id;
@@ -201,18 +197,16 @@ class LLMS_Session_Handler extends LLMS_Session {
 	    		add_option( $session_option, $this->_data, '', 'no' );
 		    	add_option( $session_expiry_option, $this->_session_expiration, '', 'no' );
 
-	    	} 
-
-	    	else {
+	    	} else {
 
 		    	update_option( $session_option, $this->_data );
 
 	    	}
 	    }
 
-    }
+	}
 
-    /**
+	/**
 	 * Clean up the expired session data
 	 *
 	 * @return void
@@ -233,7 +227,7 @@ class LLMS_Session_Handler extends LLMS_Session {
 					$session_id         = substr( $llms_session_expire->option_name, 20 );
 					$expired_sessions[] = $llms_session_expire->option_name;  // Expires key
 					$expired_sessions[] = "_llms_session_$session_id"; // Session key
-				
+
 				}
 
 			}
@@ -246,20 +240,20 @@ class LLMS_Session_Handler extends LLMS_Session {
 
 					$option_names = implode( "','", $chunk );
 					$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name IN ('$option_names')" );
-				
+
 				}
-			
+
 			}
-		
+
 		}
-	
+
 	}
 
-    public function delete_all_session_data()
-    {
-        global $wpdb;
+	public function delete_all_session_data() {
 
-        $wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '_llms_session%'" );
-    }
+		global $wpdb;
+
+		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '_llms_session%'" );
+	}
 
 }

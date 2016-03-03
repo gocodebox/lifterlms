@@ -1,5 +1,5 @@
 <?php
-if (!defined('ABSPATH')) exit;
+if ( ! defined( 'ABSPATH' )) { exit; }
 
 /**
  * Meta Box Voucher Export
@@ -7,26 +7,26 @@ if (!defined('ABSPATH')) exit;
 class LLMS_Meta_Box_Voucher_Export
 {
 
-    public static $prefix = '_';
+	public static $prefix = '_';
 
-    public function __construct() {}
+	public function __construct() {}
 
-    /**
-     * Function to field WP::output() method call
-     * Passes output instruction to parent
-     *
-     * @param object $post WP global post object
-     * @return void
-     */
-    public static function output($post)
-    {
-        global $post;
-        if($post->post_status !== 'publish') {
-            _e( 'You need to publish this post before you can generate a CSV.', 'lifterlms' );
-            return;
-        }
-        ob_start();
-        ?>
+	/**
+	 * Function to field WP::output() method call
+	 * Passes output instruction to parent
+	 *
+	 * @param object $post WP global post object
+	 * @return void
+	 */
+	public static function output( $post ) {
+
+		global $post;
+		if ($post->post_status !== 'publish') {
+			_e( 'You need to publish this post before you can generate a CSV.', 'lifterlms' );
+			return;
+		}
+		ob_start();
+		?>
         <div class="llms-voucher-export-wrapper" id="llms-form-wrapper">
 
             <div class="llms-voucher-export-type">
@@ -51,179 +51,177 @@ class LLMS_Meta_Box_Voucher_Export
             </div>
 
             <button type="submit" name="llms_generate_export" value="generate" class="button-primary"><?php _e( 'Generate Export', 'lifterlms' ); ?></button>
-            <?php wp_nonce_field('lifterlms_csv_export_data', 'lifterlms_export_nonce'); ?>
+            <?php wp_nonce_field( 'lifterlms_csv_export_data', 'lifterlms_export_nonce' ); ?>
         </div>
         <?php
 
-        echo ob_get_clean();
-    }
+		echo ob_get_clean();
+	}
 
-    public static function export()
-    {
-        if (empty($_POST['llms_generate_export']) || empty($_POST['lifterlms_export_nonce']) || !wp_verify_nonce($_POST['lifterlms_export_nonce'], 'lifterlms_csv_export_data')) {
-            return false;
-        }
+	public static function export() {
 
-        $type = ( isset( $_POST['llms_voucher_export_type'] ) ) ? $_POST['llms_voucher_export_type'] : false;
-        if (isset($type) && !empty($type)) {
+		if (empty( $_POST['llms_generate_export'] ) || empty( $_POST['lifterlms_export_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_export_nonce'], 'lifterlms_csv_export_data' )) {
+			return false;
+		}
 
-            if ($type === 'vouchers' || $type === 'redeemed') {
+		$type = ( isset( $_POST['llms_voucher_export_type'] ) ) ? $_POST['llms_voucher_export_type'] : false;
+		if (isset( $type ) && ! empty( $type )) {
 
-                // export CSV
+			if ($type === 'vouchers' || $type === 'redeemed') {
 
-                $csv = array();
-                $fileName = '';
+				// export CSV
 
-                global $post;
-                $voucher = new LLMS_Voucher($post->ID);
+				$csv = array();
+				$fileName = '';
 
-                switch ($type) {
-                    case 'vouchers':
+				global $post;
+				$voucher = new LLMS_Voucher( $post->ID );
 
-                        $voucher = new LLMS_Voucher($post->ID);
-                        $codes = $voucher->get_voucher_codes('ARRAY_A');
+				switch ($type) {
+					case 'vouchers':
 
-                        if( !$codes ) {
-                            /**
-                             * @todo  error handling here
-                             */
-                            return;
-                        }
+						$voucher = new LLMS_Voucher( $post->ID );
+						$codes = $voucher->get_voucher_codes( 'ARRAY_A' );
 
-                        foreach ( $codes as $k=>$v )
-                        {
-                            unset($codes[$k]['id']);
-                            unset($codes[$k]['voucher_id']);
-                            $codes[$k]['count'] = $codes[$k]['redemption_count'];
-                            $codes[$k]['used'] = $codes[$k]['used'];
-                            $codes[$k]['created'] = $codes[$k]['created_at'];
-                            $codes[$k]['updated'] = $codes[$k]['updated_at'];
-                            unset($codes[$k]['redemption_count']);
-                            unset($codes[$k]['created_at']);
-                            unset($codes[$k]['updated_at']);
-                            unset($codes[$k]['is_deleted']);
+						if ( ! $codes ) {
+							/**
+							 * @todo  error handling here
+							 */
+							return;
+						}
 
-                        }
-                        $csv = self::array_to_csv($codes);
+						foreach ( $codes as $k => $v ) {
+							unset( $codes[ $k ]['id'] );
+							unset( $codes[ $k ]['voucher_id'] );
+							$codes[ $k ]['count'] = $codes[ $k ]['redemption_count'];
+							$codes[ $k ]['used'] = $codes[ $k ]['used'];
+							$codes[ $k ]['created'] = $codes[ $k ]['created_at'];
+							$codes[ $k ]['updated'] = $codes[ $k ]['updated_at'];
+							unset( $codes[ $k ]['redemption_count'] );
+							unset( $codes[ $k ]['created_at'] );
+							unset( $codes[ $k ]['updated_at'] );
+							unset( $codes[ $k ]['is_deleted'] );
 
-                        $fileName = 'vouchers.csv';
-                    break;
+						}
+						$csv = self::array_to_csv( $codes );
 
-                    case 'redeemed':
+						$fileName = 'vouchers.csv';
+					break;
 
-                        $redeemedCodes = $voucher->get_redeemed_codes('ARRAY_A');
+					case 'redeemed':
 
-                        if( !$redeemedCodes ) {
-                            /**
-                             * @todo  error handling here
-                             */
-                            return;
-                        }
+						$redeemedCodes = $voucher->get_redeemed_codes( 'ARRAY_A' );
 
-                        foreach ( $redeemedCodes as $k=>$v )
-                        {
-                            unset($redeemedCodes[$k]['id']);
-                            unset($redeemedCodes[$k]['code_id']);
-                            unset($redeemedCodes[$k]['voucher_id']);
-                            unset($redeemedCodes[$k]['redemption_count']);
-                            unset($redeemedCodes[$k]['user_id']);
+						if ( ! $redeemedCodes ) {
+							/**
+							 * @todo  error handling here
+							 */
+							return;
+						}
 
-                        }
+						foreach ( $redeemedCodes as $k => $v ) {
+							unset( $redeemedCodes[ $k ]['id'] );
+							unset( $redeemedCodes[ $k ]['code_id'] );
+							unset( $redeemedCodes[ $k ]['voucher_id'] );
+							unset( $redeemedCodes[ $k ]['redemption_count'] );
+							unset( $redeemedCodes[ $k ]['user_id'] );
 
-                        $csv = self::array_to_csv($redeemedCodes);
+						}
 
-                        $fileName = 'redeemed_codes.csv';
+						$csv = self::array_to_csv( $redeemedCodes );
 
-                    break;
-                }
+						$fileName = 'redeemed_codes.csv';
 
-                $sendEmail = isset( $_POST['llms_voucher_export_send_email'] ) ? $_POST['llms_voucher_export_send_email'] : false;
+					break;
+				}
 
-                if (isset($sendEmail) && !empty($sendEmail) && $sendEmail == true) {
+				$sendEmail = isset( $_POST['llms_voucher_export_send_email'] ) ? $_POST['llms_voucher_export_send_email'] : false;
 
-                    // send email
-                    $emailText = trim($_POST['llms_voucher_export_email']);
-                    if (isset($emailText) && !empty($emailText)) {
+				if (isset( $sendEmail ) && ! empty( $sendEmail ) && $sendEmail == true) {
 
-                        $emails = explode(',', $emailText);
+					// send email
+					$emailText = trim( $_POST['llms_voucher_export_email'] );
+					if (isset( $emailText ) && ! empty( $emailText )) {
 
-                        if (!empty($emails)) {
+						$emails = explode( ',', $emailText );
 
-                            $voucher = new LLMS_Voucher($post->ID);
+						if ( ! empty( $emails )) {
 
-                            self::send_email($csv, $emails, $voucher->get_voucher_title());
-                        }
-                    }
+							$voucher = new LLMS_Voucher( $post->ID );
 
-                    return false;
-                }
+							self::send_email( $csv, $emails, $voucher->get_voucher_title() );
+						}
+					}
 
-                self::download_csv($csv, $fileName);
-            }
-        }
+					return false;
+				}
 
-    }
+				self::download_csv( $csv, $fileName );
+			}
+		}
 
-    public static function array_to_csv($data, $delimiter = ',', $enclosure = '"')
-    {
-        $handle = fopen('php://temp', 'r+');
-        $contents = '';
+	}
 
-        $names = array();
+	public static function array_to_csv( $data, $delimiter = ',', $enclosure = '"' ) {
 
-        foreach ($data[0] as $name => $item) {
-            $names[] = $name;
-        }
+		$handle = fopen( 'php://temp', 'r+' );
+		$contents = '';
 
-        fputcsv($handle, $names, $delimiter, $enclosure);
+		$names = array();
 
-        foreach ($data as $line) {
-            fputcsv($handle, $line, $delimiter, $enclosure);
-        }
-        rewind($handle);
-        while (!feof($handle)) {
-            $contents .= fread($handle, 8192);
-        }
-        fclose($handle);
-        return $contents;
-    }
+		foreach ($data[0] as $name => $item) {
+			$names[] = $name;
+		}
 
-    public static function download_csv($csv, $name)
-    {
-        header('Content-Type: application/csv');
-        header('Content-Disposition: attachement; filename="' . $name . '";');
+		fputcsv( $handle, $names, $delimiter, $enclosure );
 
-        echo $csv;
-        exit;
-    }
+		foreach ($data as $line) {
+			fputcsv( $handle, $line, $delimiter, $enclosure );
+		}
+		rewind( $handle );
+		while ( ! feof( $handle )) {
+			$contents .= fread( $handle, 8192 );
+		}
+		fclose( $handle );
+		return $contents;
+	}
 
-    public static function send_email($csv, $emails)
-    {
-        $subject = 'Your LifterLMS Voucher Export';
-        $message = 'Please find the attached voucher csv export for ' . $title . '.';
+	public static function download_csv( $csv, $name ) {
 
-        // create temp file
-        $temp = tempnam('/tmp', 'vouchers');
+		header( 'Content-Type: application/csv' );
+		header( 'Content-Disposition: attachement; filename="' . $name . '";' );
 
-        // write csv
-        $handle = fopen($temp, 'w');
-        fwrite($handle, $csv);
+		echo $csv;
+		exit;
+	}
 
-        // prepare filename
-        $tempData = stream_get_meta_data($handle);
-        $tempFilename = $tempData['uri'];
+	public static function send_email( $csv, $emails ) {
 
-        $newFilename = substr_replace($tempFilename, '', 13) . '.csv';
-        rename($tempFilename, $newFilename);
+		$subject = 'Your LifterLMS Voucher Export';
+		$message = 'Please find the attached voucher csv export for ' . $title . '.';
 
-        // send email/s
-        $mail = wp_mail($emails, $subject, $message, '', $newFilename);
+		// create temp file
+		$temp = tempnam( '/tmp', 'vouchers' );
 
-        // and remove it
-        fclose($handle);
-        unlink($newFilename);
+		// write csv
+		$handle = fopen( $temp, 'w' );
+		fwrite( $handle, $csv );
 
-        return $mail;
-    }
+		// prepare filename
+		$tempData = stream_get_meta_data( $handle );
+		$tempFilename = $tempData['uri'];
+
+		$newFilename = substr_replace( $tempFilename, '', 13 ) . '.csv';
+		rename( $tempFilename, $newFilename );
+
+		// send email/s
+		$mail = wp_mail( $emails, $subject, $message, '', $newFilename );
+
+		// and remove it
+		fclose( $handle );
+		unlink( $newFilename );
+
+		return $mail;
+	}
 
 }

@@ -1,28 +1,28 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
-* 
+*
 */
 class LLMS_Metabox_Button_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
-{	
+{
 	/**
 	 * Class constructor
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct($_field)
-	{
+	function __construct( $_field ) {
+
 		$this->field = $_field;
 	}
 
 	/**
 	 * Outputs the Html for the given field
-	 * @return HTML 
+	 * @return HTML
 	 */
-	public function Output()
-	{
+	public function Output() {
+
 		global $post;
-		
+
 		parent::Output(); ?>
 					
 		<button 
@@ -32,7 +32,7 @@ class LLMS_Metabox_Button_Field extends LLMS_Metabox_Field implements Meta_Box_F
  			<?php echo esc_attr( $this->field['value'] ); ?>
  		</button>			
 		<?php
-		parent::CloseOutput();				
+		parent::CloseOutput();
 	}
 }
 

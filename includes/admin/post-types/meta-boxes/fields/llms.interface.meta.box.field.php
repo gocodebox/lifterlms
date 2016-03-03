@@ -1,6 +1,6 @@
 <?php
 
-Interface Meta_Box_Field_Interface
+interface Meta_Box_Field_Interface
 {
 	public function Output();
 }

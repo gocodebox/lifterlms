@@ -16,7 +16,7 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 		WP_Widget::__construct(
 			'course_syllabus',
 			__( 'Course Syllabus', 'lifterlms' ),
-			array( 'description' => __( 'Displays All Course lessons on Course or Lesson page', 'lifterlms' ), )
+			array( 'description' => __( 'Displays All Course lessons on Course or Lesson page', 'lifterlms' ) )
 		);
 
 	}
@@ -24,12 +24,12 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 	/**
 	 * Widget Content
 	 * Overrides parent class
-	 * 
+	 *
 	 * @see  LLMS_Widget()
 	 * @return echo
 	 */
 	public function widget_contents() {
-		echo do_shortcode('[lifterlms_course_outline]');
+		echo do_shortcode( '[lifterlms_course_outline]' );
 	}
 
 }

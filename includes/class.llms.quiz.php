@@ -2,7 +2,7 @@
 
 use LLMS\Users\User;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Question Class
@@ -35,16 +35,12 @@ class LLMS_Quiz {
 			$this->id   = absint( $quiz );
 			$this->post = get_post( $this->id );
 
-		}
-
-		elseif ( $quiz instanceof LLMS_Quiz ) {
+		} elseif ( $quiz instanceof LLMS_Quiz ) {
 
 			$this->id   = absint( $quiz->id );
 			$this->post = $quiz;
 
-		}
-
-		elseif ( isset( $quiz->ID ) ) {
+		} elseif ( isset( $quiz->ID ) ) {
 
 			$this->id   = absint( $quiz->ID );
 			$this->post = $quiz;
@@ -81,8 +77,8 @@ class LLMS_Quiz {
 		return $value;
 	}
 
-	public function get_id()
-	{
+	public function get_id() {
+
 		return $this->id;
 	}
 
@@ -140,11 +136,11 @@ class LLMS_Quiz {
 	/**
 	 * Get Grade
 	 * Multiply total points earned by total point wieght
-	 * 
+	 *
 	 * @param  int $points [total points earned]
 	 * @return int [numeric representation of grade percentage]
 	 */
-	public function get_grade($points) {
+	public function get_grade( $points ) {
 		return $points * $this->get_point_weight();
 	}
 
@@ -156,7 +152,6 @@ class LLMS_Quiz {
 	public function get_user_grade( $user_id ) {
 		$grade = 0;
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
-
 
 		if ( ! $quiz ) {
 			return;
@@ -170,13 +165,13 @@ class LLMS_Quiz {
 
 			}
 		}
-		return round($grade);
+		return round( $grade );
 	}
 
 	/**
 	 * Get Best Grade
 	 * Finds best grade in grades array
-	 * 
+	 *
 	 * @param  int $user_id [ID of user]
 	 * @return int [best grade]
 	 */
@@ -197,7 +192,7 @@ class LLMS_Quiz {
 		}
 
 		$highest_grade = ( empty( $grades ) ? 0 : max( $grades ) );
-		return round($highest_grade);
+		return round( $highest_grade );
 	}
 
 	/**
@@ -228,14 +223,14 @@ class LLMS_Quiz {
 			}
 
 		}
-		
+
 		return $unique_id;
 	}
 
 	/**
 	 * Get total time spent on quiz
 	 * Subtract starttime from endtime
-	 * 
+	 *
 	 * @param  int $user_id [ID of user]
 	 * @param  string $unique_id [wpnonce of quiz submit]
 	 * @return string [formatted string representing total minutes]
@@ -249,15 +244,14 @@ class LLMS_Quiz {
 					if ( $value['end_date'] ) {
 						$start_date = strtotime( $value['start_date'] );
 						$end_date = strtotime( $this->get_end_date( $user_id, $unique_id ) );
-						$total_time = round( round( abs( $end_date - $start_date ) / 60, 2 ) ) . " minutes";
+						$total_time = round( round( abs( $end_date - $start_date ) / 60, 2 ) ) . ' minutes';
 					}
 					break;
-				}
-				elseif ( $value['id'] == $this->id ) {
+				} elseif ( $value['id'] == $this->id ) {
 					if ( $value['end_date'] ) {
 						$start_date = strtotime( $value['start_date'] );
 						$end_date = strtotime( $this->get_end_date( $user_id ) );
-						$total_time = round( round( abs( $end_date - $start_date ) / 60, 2 ) ) . " minutes";
+						$total_time = round( round( abs( $end_date - $start_date ) / 60, 2 ) ) . ' minutes';
 					}
 				}
 			}
@@ -267,7 +261,7 @@ class LLMS_Quiz {
 
 	/**
 	 * Check if quiz score is passing grade
-	 * 
+	 *
 	* @param  int $user_id [ID of user]
 	 * @return bool [is grade > required passing percent]
 	 */
@@ -283,8 +277,7 @@ class LLMS_Quiz {
 			if ( $value['wpnonce'] == $unique_id ) {
 				$end_date = $value['end_date'];
 				break;
-			}
-			elseif ( $value['id'] == $this->id ) {
+			} elseif ( $value['id'] == $this->id ) {
 				$end_date = $value['end_date'];
 			}
 		}
@@ -293,10 +286,10 @@ class LLMS_Quiz {
 
 	/**
 	 * Get Quiz Start Time
-	 * 
+	 *
 	 * @param  int $user_id [ID of user]
 	 * @param  string $unique_id [quiz wpnonce]
-	 * 
+	 *
 	 * @return datetime [time user started quiz]
 	 */
 	public function get_start_date( $user_id, $unique_id = '' ) {
@@ -306,21 +299,19 @@ class LLMS_Quiz {
 
 		if ( $quiz ) {
 
-			foreach ( $quiz as $key => $value ) { 
+			foreach ( $quiz as $key => $value ) {
 				if ( $value['wpnonce'] == $unique_id ) {
 					$start_date = $value['start_date'];
 					break;
-				}
-				elseif ( $value['id'] == $this->id ) {
+				} elseif ( $value['id'] == $this->id ) {
 					$start_date = $value['start_date'];
 				}
 			}
-		
 
 		}
 
 		return $start_date;
-		
+
 	}
 
 	/**
@@ -329,7 +320,7 @@ class LLMS_Quiz {
 	 * @return int [ID of associated lesson with quiz attempt]
 	 */
 	public function get_assoc_lesson( $user_id ) {
-		
+
 		$lesson = false;
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 
@@ -374,18 +365,18 @@ class LLMS_Quiz {
 		$attempts_allowed = $this->get_total_allowed_attempts();
 		$attempts = $this->get_total_attempts_by_user( $user_id );
 
-		if ( !empty( $attempts_allowed ) ) {
+		if ( ! empty( $attempts_allowed ) ) {
 
-			if ( empty($attempts) ) {
+			if ( empty( $attempts ) ) {
 
 				$attempts = 0;
 			}
 
 			$total_attempts_remaining = ($attempts_allowed - $attempts);
-		
+
 		} else {
 
-			$total_attempts_remaining = __('unlimited','lifterlms');
+			$total_attempts_remaining = __( 'unlimited','lifterlms' );
 
 		}
 
@@ -429,8 +420,7 @@ class LLMS_Quiz {
 							$count++;
 						}
 					}
-				}
-				elseif ( $value['id'] == $this->id && $wpnonce == '' ) {
+				} elseif ( $value['id'] == $this->id && $wpnonce == '' ) {
 					$count = 0;
 					foreach ( $value['questions'] as $k => $v ) {
 						if ( $v['correct'] ) {
@@ -448,7 +438,7 @@ class LLMS_Quiz {
 	 * @param  int $question_id [ID of question]
 	 * @return key [key of question in questions array]
 	 */
-	public function get_question_key ($question_id) {
+	public function get_question_key ( $question_id ) {
 		foreach ($this->get_questions() as $key => $value) {
 			if ($key == $quiz_id) {
 				$question_key = $key;
@@ -465,10 +455,10 @@ class LLMS_Quiz {
 	 * @return void
 	 */
 	public static function start_quiz( $quiz_id, $user_id ) {
-		
+
 		$quiz = LLMS()->session->get( 'llms_quiz' );
 
-		if( $quiz->id == $quiz_id && $quiz->user_id == $user_id ) {
+		if ( $quiz->id == $quiz_id && $quiz->user_id == $user_id ) {
 
 			$quiz->start_date = current_time( 'mysql' );
 			$quiz->end_date   = '';
@@ -481,10 +471,10 @@ class LLMS_Quiz {
 			//count previous attempts and set quiz attempt to +1 of quiz attempt count
 			$attempts = 0;
 
-			if( $quiz_data ) {
+			if ( $quiz_data ) {
 
-				foreach( $quiz_data as $key => $value ) {
-					if( $value[ 'id' ] == $quiz->id ) {
+				foreach ( $quiz_data as $key => $value ) {
+					if ( $value['id'] == $quiz->id ) {
 						$attempts++;
 					}
 				}
@@ -499,25 +489,23 @@ class LLMS_Quiz {
 			//$all_questions = array();
 			$questions = $quiz_obj->get_questions();
 
-			if( $questions ) {
-				foreach( $questions as $key => $value ) {
-					$questions[ $key ][ 'answer' ]  = '';
-					$questions[ $key ][ 'correct' ] = false;
+			if ( $questions ) {
+				foreach ( $questions as $key => $value ) {
+					$questions[ $key ]['answer']  = '';
+					$questions[ $key ]['correct'] = false;
 				}
 
 				$quiz->questions = $questions;
-			}
-			else {
+			} else {
 				return llms_add_notice( __( 'There are no questions associated with this quiz.', 'lifterlms' ), 'error' );
 			}
 
 			//save quiz object to usermeta
-			$quiz_array = (array)$quiz;
+			$quiz_array = (array) $quiz;
 
-			if( $quiz_data ) {
+			if ( $quiz_data ) {
 				array_push( $quiz_data, $quiz_array );
-			}
-			else {
+			} else {
 				$quiz_data    = array();
 				$quiz_data[] = $quiz_array;
 			}
@@ -528,10 +516,9 @@ class LLMS_Quiz {
 			LLMS()->session->set( 'llms_quiz', $quiz );
 
 			//return first question in quiz
-			return $quiz->questions[ 0 ][ 'id' ];
+			return $quiz->questions[0]['id'];
 
-		}
-		else {
+		} else {
 
 			$response['message'] = __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' );
 			return $response;
@@ -546,79 +533,77 @@ class LLMS_Quiz {
 	 *
 	 * @return void
 	 */
-	public static function answer_question( $quiz_id, $question_id, $question_type, $answer,  $complete ) {
+	public static function answer_question( $quiz_id, $question_id, $question_type, $answer, $complete ) {
 
 			//get quiz object from session
 			$quiz = LLMS()->session->get( 'llms_quiz' );
 
 			//if quiz session does not exist return an error message to the user.
-			if( empty( $quiz ) ) {
+		if ( empty( $quiz ) ) {
 
-				$response['message'] = __( 'There was an error finding the associated quiz. Please return to the lesson and begin quiz again.', 'lifterlms' );
-				return $response;
+			$response['message'] = __( 'There was an error finding the associated quiz. Please return to the lesson and begin quiz again.', 'lifterlms' );
+			return $response;
 
-			}
+		}
 
 			//get question meta data
 			$correct_option   = '';
 			$question_options = get_post_meta( $question_id, '_llms_question_options', true );
 
-			foreach( $question_options as $key => $value ) {
-				if( $value[ 'correct_option' ] ) {
-					$correct_option = $key;
-				}
+		foreach ( $question_options as $key => $value ) {
+			if ( $value['correct_option'] ) {
+				$correct_option = $key;
 			}
+		}
 
 			//update quiz object
-			foreach( (array)$quiz->questions as $key => $value ) {
+		foreach ( (array) $quiz->questions as $key => $value ) {
 
-				if( $value[ 'id' ] == $question_id ) {
+			if ( $value['id'] == $question_id ) {
 
-					$current_question = $value[ 'id' ];
+				$current_question = $value['id'];
 
-					$quiz->questions[ $key ][ 'answer' ] = $answer;
+				$quiz->questions[ $key ]['answer'] = $answer;
 
-					if( $answer == $correct_option ) {
-						$quiz->questions[ $key ][ 'correct' ] = true;
-					}
-					else {
-						$quiz->questions[ $key ][ 'correct' ] = false;
-					}
-
+				if ( $answer == $correct_option ) {
+					$quiz->questions[ $key ]['correct'] = true;
+				} else {
+					$quiz->questions[ $key ]['correct'] = false;
 				}
+
 			}
+		}
 
 			LLMS()->session->set( 'llms_quiz', $quiz );
 
 			//update quiz user meta data
 			$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
 
-			foreach( $quiz_data as $key => $value ) {
+		foreach ( $quiz_data as $key => $value ) {
 
-				if( $value[ 'wpnonce' ] == $quiz->wpnonce ) {
+			if ( $value['wpnonce'] == $quiz->wpnonce ) {
 
-					foreach( $quiz_data[ $key ][ 'questions' ] as $id => $data ) {
-						if( $data[ 'id' ] == $question_id ) {
+				foreach ( $quiz_data[ $key ]['questions'] as $id => $data ) {
+					if ( $data['id'] == $question_id ) {
 
-							$quiz_data[ $key ][ 'questions' ][ $id ][ 'answer' ]  = $quiz->questions[ $id ][ 'answer' ];
-							$quiz_data[ $key ][ 'questions' ][ $id ][ 'correct' ] = $quiz->questions[ $id ][ 'correct' ];
+						$quiz_data[ $key ]['questions'][ $id ]['answer']  = $quiz->questions[ $id ]['answer'];
+						$quiz_data[ $key ]['questions'][ $id ]['correct'] = $quiz->questions[ $id ]['correct'];
 
-						}
 					}
 				}
-
 			}
-	
+
+		}
+
 		update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
 
-
 		//if another question exists in lessons array then take user to next question
-		foreach( (array)$quiz->questions as $k => $q ) {
-			if( $q[ 'id' ] == $current_question ) {
+		foreach ( (array) $quiz->questions as $k => $q ) {
+			if ( $q['id'] == $current_question ) {
 				$next_question = $k + 1;
 			}
-			if( !empty( $next_question ) && $k == $next_question ) {
-				$next_question_id = $q[ 'id' ];
+			if ( ! empty( $next_question ) && $k == $next_question ) {
+				$next_question_id = $q['id'];
 			}
 		}
 
@@ -626,62 +611,59 @@ class LLMS_Quiz {
 		$response = array();
 
 		//if there is not a next querstion end the quiz
-		if( empty( $next_question_id ) || $complete ) {
+		if ( empty( $next_question_id ) || $complete ) {
 
 			$quiz->end_date = current_time( 'mysql' );
 			//$quiz->attempts = ( $quiz->attempts - 1 );
 
 			//save quiz object to usermeta
-			$quiz_array = (array)$quiz;
+			$quiz_array = (array) $quiz;
 
-			if( $quiz_data ) {
+			if ( $quiz_data ) {
 
-				foreach( $quiz_data as $id => $q ) {
+				foreach ( $quiz_data as $id => $q ) {
 
-					if( $q[ 'wpnonce' ] == $quiz->wpnonce ) {
+					if ( $q['wpnonce'] == $quiz->wpnonce ) {
 
 						$points = 0;
 						$grade  = 0;
 
 						//set the end time
-						$quiz_data[ $id ][ 'end_date' ] = $quiz->end_date;
+						$quiz_data[ $id ]['end_date'] = $quiz->end_date;
 
 						$quiz_obj = new LLMS_Quiz( $quiz->id );
 
 						//get grade
 						//get total points earned
-						foreach( $q[ 'questions' ] as $key => $value ) {
-							if( $value[ 'correct' ] ) {
-								$points += $value[ 'points' ];
+						foreach ( $q['questions'] as $key => $value ) {
+							if ( $value['correct'] ) {
+								$points += $value['points'];
 							}
 						}
 
 						//calculate grade
-						if( $points == 0 ) {
-							$quiz_data[ $id ][ 'grade' ] = 0;
-						}
-						else {
-							$quiz_data[ $id ][ 'grade' ] = $quiz_obj->get_grade( $points );
+						if ( $points == 0 ) {
+							$quiz_data[ $id ]['grade'] = 0;
+						} else {
+							$quiz_data[ $id ]['grade'] = $quiz_obj->get_grade( $points );
 
 							update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
 
-							$quiz_data[ $id ][ 'passed' ] = $quiz_obj->is_passing_score( $quiz->user_id );
+							$quiz_data[ $id ]['passed'] = $quiz_obj->is_passing_score( $quiz->user_id );
 							update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
 
 							LLMS()->session->set( 'llms_quiz', $quiz );
 						}
 
-						if( $quiz_data[ $id ][ 'passed' ] ) {
+						if ( $quiz_data[ $id ]['passed'] ) {
 							$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
 							$lesson->mark_complete( $quiz->user_id );
 						}
 
 					}
 
-
 				}
-			}
-			else {
+			} else {
 
 				$response['message'] = __( 'There was an error with your quiz.', 'lifterlms' );
 				return $response;
@@ -691,8 +673,7 @@ class LLMS_Quiz {
 			$response['redirect'] = get_permalink( $quiz->id );
 			return $response;
 
-		}
-		else {
+		} else {
 
 			$response['next_question_id'] = $next_question_id;
 			return $response;
@@ -711,51 +692,49 @@ class LLMS_Quiz {
 
 		$quiz = LLMS()->session->get( 'llms_quiz' );
 
-		foreach( (array)$quiz->questions as $key => $value ) {
-			if( $value[ 'id' ] == $question_id ) {
+		foreach ( (array) $quiz->questions as $key => $value ) {
+			if ( $value['id'] == $question_id ) {
 				$previous_question_key = ( $key - 1 );
-				if( $previous_question_key >= 0 ) {
-					$prev_question_link = get_permalink( $quiz->questions[ $previous_question_key ][ 'id' ] );
+				if ( $previous_question_key >= 0 ) {
+					$prev_question_link = get_permalink( $quiz->questions[ $previous_question_key ]['id'] );
 					$redirect           = get_permalink( $prev_question_link );
 
-					return $quiz->questions[ $previous_question_key ][ 'id' ];
+					return $quiz->questions[ $previous_question_key ]['id'];
 
 				}
 			}
 		}
 	}
 
-	public function show_quiz_results()
-	{
+	public function show_quiz_results() {
+
 		return $this->llms_show_results;
 	}
 
-	public function show_correct_answer()
-	{
+	public function show_correct_answer() {
+
 		return $this->llms_show_correct_answer;
 	}
 
-	public function show_description_wrong_answer()
-	{
+	public function show_description_wrong_answer() {
+
 		return $this->llms_show_options_description_wrong_answer;
 	}
 
-	public function show_description_right_answer()
-	{
+	public function show_description_right_answer() {
+
 		return $this->llms_show_options_description_right_answer;
 	}
 
-	public function get_users_last_attempt(User $user)
-	{
+	public function get_users_last_attempt( $user ) {
+
 		$quiz_data = $user->get_quiz_data();
 
 		$last_attempt = array();
 
-		foreach ((array)$quiz_data as $quiz)
-		{
-			if (isset($quiz['id']) && (int)$quiz['id'] === (int)$this->get_id()
-				&& (int)$this->get_total_attempts_by_user($user->get_id()) === (int)$quiz['attempt'])
-			{
+		foreach ((array) $quiz_data as $quiz) {
+			if (isset( $quiz['id'] ) && (int) $quiz['id'] === (int) $this->get_id()
+				&& (int) $this->get_total_attempts_by_user( $user->get_id() ) === (int) $quiz['attempt']) {
 				$last_attempt = $quiz;
 			}
 		}
@@ -763,8 +742,8 @@ class LLMS_Quiz {
 		return $last_attempt;
 	}
 
-	public function get_show_random_answers()
-	{
+	public function get_show_random_answers() {
+
 		return $this->llms_random_answers;
 	}
 

@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Metabox_Field Parent Class
@@ -28,9 +28,9 @@ abstract class LLMS_Metabox_Field
 	 * @param string $name Key to lookup in $field
 	 * @return object
 	 */
-	public function GetField($name)
-	{
-		return $this->field[$name];
+	public function GetField( $name ) {
+
+		return $this->field[ $name ];
 	}
 
 	/**
@@ -39,29 +39,29 @@ abstract class LLMS_Metabox_Field
 	 * @param object $value Updated value for key
 	 * @return void
 	 */
-	public function SetField($name, $value)
-	{
-		$this->field[$name] = $value;
+	public function SetField( $name, $value ) {
+
+		$this->field[ $name ] = $value;
 	}
 
 	/**
 	 * Outputs the head for each of the field types
 	 * @todo  all the unset variables here should be defaulted somewhere else probably
 	 */
-	public function Output()
-	{
-		global $post;
-		$this->meta = self::get_post_meta($post->ID, $this->field['id']);
+	public function Output() {
 
-		if( !isset( $this->field['group'] ) ) {
+		global $post;
+		$this->meta = self::get_post_meta( $post->ID, $this->field['id'] );
+
+		if ( ! isset( $this->field['group'] ) ) {
 			$this->field['group'] = '';
 		}
 
-		if( !isset( $this->field['desc_class'] ) ) {
+		if ( ! isset( $this->field['desc_class'] ) ) {
 			$this->field['desc_class'] = '';
 		}
 
-		if( !isset( $this->field['desc'] ) ) {
+		if ( ! isset( $this->field['desc'] ) ) {
 			$this->field['desc'] = '';
 		}
 
@@ -77,8 +77,8 @@ abstract class LLMS_Metabox_Field
 	/**
 	 * Outputs the tail for each of the field types
 	 */
-	public function CloseOutput()
-	{
+	public function CloseOutput() {
+
 		?> <div class="clear"></div></li> <?php
 	}
 
@@ -90,17 +90,17 @@ abstract class LLMS_Metabox_Field
 	 * @param  [type]
 	 * @return [type]
 	 */
-	public static function get_post_meta($post_id, $field_id) {
+	public static function get_post_meta( $post_id, $field_id ) {
 
 		if ( $field_id === '_post_course_difficulty' ) {
-			$difficulties = wp_get_object_terms($post_id, 'course_difficulty');
+			$difficulties = wp_get_object_terms( $post_id, 'course_difficulty' );
 
 			if ( $difficulties ) {
 				return $difficulties[0]->slug;
 			}
 
 		} else {
-			return get_post_meta($post_id, $field_id, true);
+			return get_post_meta( $post_id, $field_id, true );
 		}
 
 	}

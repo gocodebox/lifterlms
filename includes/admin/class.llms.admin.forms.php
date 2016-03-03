@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Front End Forms Class
@@ -18,7 +18,7 @@ class LLMS_Admin_Forms {
 	*/
 	public function __construct() {
 
-		add_filter('redirect',  array( $this, 'updateAdminCourse'));
+		add_filter( 'redirect',  array( $this, 'updateAdminCourse' ) );
 
 	}
 

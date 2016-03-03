@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin Class
@@ -37,7 +37,7 @@ class LLMS_Admin {
 
 	public function skip_first_time_setup() {
 
-		if ( empty( $_POST[ 'action' ] ) || ( 'llms-skip-setup' !== $_POST[ 'action' ] ) || empty( $_POST['_wpnonce'] ) ) {
+		if ( empty( $_POST['action'] ) || ( 'llms-skip-setup' !== $_POST['action'] ) || empty( $_POST['_wpnonce'] ) ) {
 
 			return;
 		}

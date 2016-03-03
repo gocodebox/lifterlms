@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Product Class
@@ -36,16 +36,12 @@ class LLMS_Product {
 			$this->id   = absint( $product );
 			$this->post = get_post( $this->id );
 
-		}
-
-		elseif ( $product instanceof LLMS_Product ) {
+		} elseif ( $product instanceof LLMS_Product ) {
 
 			$this->id   = absint( $product->id );
 			$this->post = $product;
 
-		}
-
-		elseif ( isset( $product->ID ) ) {
+		} elseif ( isset( $product->ID ) ) {
 
 			$this->id   = absint( $product->ID );
 			$this->post = $product;
@@ -106,12 +102,12 @@ class LLMS_Product {
 		$options = array();
 
 		if ($this->get_price()) {
-			array_push($options, 'single');
+			array_push( $options, 'single' );
 		}
 		if ($this->is_recurring()) {
-			array_push($options, 'recurring');
+			array_push( $options, 'recurring' );
 		}
-		return apply_filters( 'lifterlms_product_get_payment_options', $options);
+		return apply_filters( 'lifterlms_product_get_payment_options', $options );
 	}
 
 	/**
@@ -127,7 +123,7 @@ class LLMS_Product {
 	 * @param  int $sub [id of the subscription]
 	 * @return int [billing period id]
 	 */
-	public function get_billing_period($sub) {
+	public function get_billing_period( $sub ) {
 		return $sub['billing_period'];
 	}
 
@@ -136,7 +132,7 @@ class LLMS_Product {
 	 * @param  int $sub [id of subscription]
 	 * @return int [billing frequency]
 	 */
-	public function get_billing_freq($sub) {
+	public function get_billing_freq( $sub ) {
 		return $sub['billing_freq'];
 	}
 
@@ -145,7 +141,7 @@ class LLMS_Product {
 	 * @param  int $sub [sub id]
 	 * @return int [billing cycles]
 	 */
-	public function get_billing_cycle($sub) {
+	public function get_billing_cycle( $sub ) {
 		return $sub['billing_cycle'];
 	}
 
@@ -156,7 +152,7 @@ class LLMS_Product {
 	 * @param  int $sub [sub id]
 	 * @return int [total price]
 	 */
-	public function get_subscription_total_price($sub) {
+	public function get_subscription_total_price( $sub ) {
 		return $sub['total_price'];
 	}
 
@@ -165,7 +161,7 @@ class LLMS_Product {
 	 * @param  int $sub [sub id]
 	 * @return int [first payment amount]
 	 */
-	public function get_subscription_first_payment($sub) {
+	public function get_subscription_first_payment( $sub ) {
 		return $sub['first_payment'];
 	}
 
@@ -174,7 +170,7 @@ class LLMS_Product {
 	 * @param int $sub [sub id]
 	 * @return int     [recurring sub price amount]
 	 */
-	public function get_subscription_payment_price($sub) {
+	public function get_subscription_payment_price( $sub ) {
 		return $sub['sub_price'];
 	}
 
@@ -183,26 +179,23 @@ class LLMS_Product {
 	 * @param  int $sub [sub id]
 	 * @return string [formatted dollar amount]
 	 */
-	public function get_subscription_price_html($sub) {
+	public function get_subscription_price_html( $sub ) {
 
 		$price = '';
 		$currency_symbol = get_lifterlms_currency_symbol();
-		$sub_price = $this->adjusted_price( $this->get_subscription_payment_price($sub) );
-		$sub_first_payment = $this->adjusted_price( $this->get_subscription_first_payment($sub) );
-
+		$sub_price = $this->adjusted_price( $this->get_subscription_payment_price( $sub ) );
+		$sub_first_payment = $this->adjusted_price( $this->get_subscription_first_payment( $sub ) );
 
 		$suffix = $this->get_price_suffix_html();
 		$display_price = ($currency_symbol . $sub_price);
-		$billing_period = $this->get_billing_period($sub);
-		$billing_freq = $this->get_billing_freq($sub);
-		$billing_cycle = $this->get_billing_cycle($sub);
-
+		$billing_period = $this->get_billing_period( $sub );
+		$billing_freq = $this->get_billing_freq( $sub );
+		$billing_cycle = $this->get_billing_cycle( $sub );
 
 		// display billing period based on frequency
 		if ($billing_freq > 1) {
 			$billing_period_html = 'every ' . $billing_freq . ' ' . $billing_period . 's';
-		}
-		else {
+		} else {
 			$billing_period_html = 'per ' . $billing_period;
 		}
 
@@ -213,12 +206,9 @@ class LLMS_Product {
 
 		if ( $billing_cycle == 0 ) {
 			$price .= ($display_price . ' ' . $billing_period_html);
-		}
-
-		elseif ( $billing_cycle > 1 ) {
+		} elseif ( $billing_cycle > 1 ) {
 			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's');
-		}
-		else {
+		} else {
 			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
 		}
 
@@ -233,7 +223,7 @@ class LLMS_Product {
 	public function get_checkout_url() {
 
 		$checkout_page_id = llms_get_page_id( 'checkout' );
-		$checkout_url =  apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
+		$checkout_url = apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
 
 		return add_query_arg( 'product-id', $this->id, $checkout_url );
 
@@ -248,22 +238,18 @@ class LLMS_Product {
 
 		$suffix 				= $this->get_price_suffix_html();
 		$currency_symbol 		= get_lifterlms_currency_symbol() != '' ? get_lifterlms_currency_symbol() : '';
-		$display_price 			= $this->adjusted_price($this->get_price());
+		$display_price 			= $this->adjusted_price( $this->get_price() );
 		$display_base_price 	= $this->get_regular_price();
 		$display_sale_price    	= $this->get_sale_price();
 
 		if ( $this->get_price() > 0 ) {
-			$price = $this->set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price);
+			$price = $this->set_price_html_as_value( $suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price );
 
-		}
-
-		elseif ( $this->get_price() === '' ) {
+		} elseif ( $this->get_price() === '' ) {
 
 			$price = apply_filters( 'lifterlms_empty_price_html', '', $this );
 
-		}
-
-		elseif ( $this->get_price() == 0 ) {
+		} elseif ( $this->get_price() == 0 ) {
 
 			$price = $this->set_price_html_as_free();
 
@@ -289,19 +275,16 @@ class LLMS_Product {
 		$recurring_price = $this->get_recurring_price();
 		$recurring_first_payment = $this->get_recurring_first_payment();
 
-
 		$suffix = $this->get_price_suffix_html();
 		$display_price = ($currency_symbol . $recurring_price);
 		$billing_period = $this->get_billing_period();
 		$billing_freq = $this->get_billing_freq();
 		$billing_cycle = $this->get_billing_cycle();
 
-
 		// display billing period based on frequency
 		if ($billing_freq > 1) {
 			$billing_period_html = 'every ' . $billing_freq . ' ' . $billing_period . 's';
-		}
-		else {
+		} else {
 			$billing_period_html = 'per ' . $billing_period;
 		}
 
@@ -312,13 +295,10 @@ class LLMS_Product {
 
 		if ( $billing_cycle == 0 ) {
 			$price .= ($display_price . ' ' . $billing_period_html);
-		}
-
-		elseif ( $billing_cycle > 1 ) {
+		} elseif ( $billing_cycle > 1 ) {
 			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's');
-		}
-		else {
-		$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
+		} else {
+			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
 		}
 
 		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );;
@@ -330,8 +310,7 @@ class LLMS_Product {
 	 *
 	 * @return string
 	 */
-	public function set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price) {
-
+	public function set_price_html_as_value( $suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price ) {
 
 		// Check if price is on sale and base price exists
 		if ( $this->is_on_sale() && $this->get_regular_price() ) {
@@ -343,9 +322,7 @@ class LLMS_Product {
 
 			$price = apply_filters( 'lifterlms_sale_price_html', $price, $this );
 
-		}
-
-		else {
+		} else {
 
 			//generate price with formatting and suffix
 			$price = $currency_symbol;
@@ -373,9 +350,7 @@ class LLMS_Product {
 
 			$price .= apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
 
-		}
-
-		else {
+		} else {
 
 			$price = __( 'Free!', 'lifterlms' );
 
@@ -387,15 +362,15 @@ class LLMS_Product {
 
 	}
 
-    public function is_custom_single_price()
-    {
-        return $this->is_custom_single_price;
-    }
+	public function is_custom_single_price() {
 
-    public function get_custom_single_price_html()
-    {
-        return $this->custom_single_price_html;
-    }
+		return $this->is_custom_single_price;
+	}
+
+	public function get_custom_single_price_html() {
+
+		return $this->custom_single_price_html;
+	}
 
 	/**
 	 * Check: Is the sale price different than the base price and is the sale price equal to the price returned from get_price().
@@ -404,8 +379,7 @@ class LLMS_Product {
 	 */
 	public function is_on_sale() {
 
-
-		if( $this->on_sale ) {
+		if ( $this->on_sale ) {
 
 			$now = current_time( 'timestamp' );
 
@@ -413,24 +387,21 @@ class LLMS_Product {
 			$end = $this->get_sale_end_date() . ' 23:23:59'; // make the end of the day
 
 			// start and end
-			if( $start && $end ) {
+			if ( $start && $end ) {
 
 				return ( $now < strtotime( $end ) && $now > strtotime( $start ) );
 
-			}
-			// only start
-			elseif( $start && ! $end ) {
+			} // only start
+			elseif ( $start && ! $end ) {
 
 				return ( $now > strtotime( $start ) );
 
-			}
-			// only end
-			elseif( !$start && $end ) {
+			} // only end
+			elseif ( ! $start && $end ) {
 
 				return ( $now < strtotime( $end ) );
 
-			}
-			// neither start nor end
+			} // neither start nor end
 			else {
 
 				return true;
@@ -443,25 +414,24 @@ class LLMS_Product {
 
 	}
 
-	public function get_coupon_discount_total($price = '') {
+	public function get_coupon_discount_total( $price = '' ) {
 		$adjustment = llms_get_coupon();
 	    $total = $price;
 
-		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
+		if ( ! empty( $adjustment ) && $adjustment->amount > 0 ) {
 			if ($this->id == $adjustment->product_id) {
 				if ( ( $adjustment->limit >= 0 ) || ( $adjustment->limit === 'unlimited' ) ) {
 				    if ($adjustment->type == 'percent') {
 
-						$amount =  ($adjustment->amount / 100);
+						$amount = ($adjustment->amount / 100);
 
 						$total = ($price * $amount);
-						$total = sprintf('%0.2f', $total);
+						$total = sprintf( '%0.2f', $total );
 
-				    }
-				    elseif ($adjustment->type == 'dollar') {
+				    } elseif ($adjustment->type == 'dollar') {
 						$amount = round( $adjustment->amount, 2 );
 						$total = ($amount);
-						$total = sprintf('%0.2f', $total);
+						$total = sprintf( '%0.2f', $total );
 				    }
 				}
 			}
@@ -475,25 +445,24 @@ class LLMS_Product {
 	 * @param  string $price [product price]
 	 * @return string       [adjusted product price]
 	 */
-	public function adjusted_price($price = '') {
+	public function adjusted_price( $price = '' ) {
 		$adjustment = llms_get_coupon();
 		$total = $price;
 
-		if ( !empty( $adjustment ) && $adjustment->amount > 0 ) {
+		if ( ! empty( $adjustment ) && $adjustment->amount > 0 ) {
 			if ($this->id == $adjustment->product_id) {
 
 				if ( ( $adjustment->limit >= 0 ) || ( $adjustment->limit === 'unlimited' ) ) {
 					if ($adjustment->type == 'percent') {
 
-						$amount =  (1 - ($adjustment->amount / 100));
+						$amount = (1 - ($adjustment->amount / 100));
 
 						$total = ($price * $amount);
-						$total = sprintf('%0.2f', $total);
-					}
-					elseif ($adjustment->type == 'dollar') {
+						$total = sprintf( '%0.2f', $total );
+					} elseif ($adjustment->type == 'dollar') {
 						$amount = round( $adjustment->amount, 2 );
 						$total = ($price - $amount);
-						$total = sprintf('%0.2f', $total);
+						$total = sprintf( '%0.2f', $total );
 					}
 				}
 			}
@@ -509,7 +478,7 @@ class LLMS_Product {
 	 */
 	public function get_price() {
 
-		if( $this->is_on_sale() ) {
+		if ( $this->is_on_sale() ) {
 
 			$price = $this->sale_price;
 
@@ -537,7 +506,7 @@ class LLMS_Product {
 	 */
 	public function get_recurring_first_payment() {
 
-		return apply_filters( 'lifterlms_get_recurring_first_price', $this->adjusted_price($this->llms_subscription_first_payment), $this );
+		return apply_filters( 'lifterlms_get_recurring_first_price', $this->adjusted_price( $this->llms_subscription_first_payment ), $this );
 	}
 
 	/**
@@ -546,25 +515,25 @@ class LLMS_Product {
 	 * @param  int $sub [sub id]
 	 * @return datetime [date of next payment]
 	 */
-	public function get_recurring_next_payment_date($sub) {
+	public function get_recurring_next_payment_date( $sub ) {
 
-		$billing_period = $this->get_billing_period($sub);
+		$billing_period = $this->get_billing_period( $sub );
 
-		$billing_freq = $this->get_billing_freq($sub);
+		$billing_freq = $this->get_billing_freq( $sub );
 		$billing_freq = $billing_freq > 0 ? $billing_freq : 1;
 
-		switch($billing_period) {
+		switch ($billing_period) {
 			case 'day':
-				$next_payment_date = date('Y-m-d', strtotime(' +' . $billing_freq . ' day'));
+				$next_payment_date = date( 'Y-m-d', strtotime( ' +' . $billing_freq . ' day' ) );
 				break;
 			case 'week':
-				$next_payment_date = date('Y-m-d', strtotime(' +' . $billing_freq . ' week'));
+				$next_payment_date = date( 'Y-m-d', strtotime( ' +' . $billing_freq . ' week' ) );
 				break;
 			case 'month':
-				$next_payment_date = date('Y-m-d', strtotime(' +' . $billing_freq . ' month'));
+				$next_payment_date = date( 'Y-m-d', strtotime( ' +' . $billing_freq . ' month' ) );
 				break;
 			case 'year':
-				$next_payment_date = date('Y-m-d', strtotime(' +' . $billing_freq . ' year'));
+				$next_payment_date = date( 'Y-m-d', strtotime( ' +' . $billing_freq . ' year' ) );
 				break;
 
 		}
@@ -622,7 +591,6 @@ class LLMS_Product {
 	 */
 	public function get_price_suffix_html() {
 
-
 		$price_display_suffix  = get_option( 'lifterlms_price_display_suffix' );
 
 		if ( $price_display_suffix ) {
@@ -652,8 +620,7 @@ class LLMS_Product {
 	 * Retrive the sale start date
 	 * @return string
 	 */
-	public function get_sale_start_date()
-	{
+	public function get_sale_start_date() {
 
 		return $this->sale_price_dates_from;
 
@@ -663,8 +630,7 @@ class LLMS_Product {
 	 * Retrive the sale end date
 	 * @return string
 	 */
-	public function get_sale_end_date()
-	{
+	public function get_sale_end_date() {
 
 		return $this->sale_price_dates_to;
 

@@ -32,9 +32,9 @@ class User
 	*
 	* @param string $item
 	*/
-	public function __isset($item) 
-	{
-		return metadata_exists('user', $this->id, 'llms_' . $item);
+	public function __isset( $item ) {
+
+		return metadata_exists( 'user', $this->id, 'llms_' . $item );
 	}
 
 	/**
@@ -45,12 +45,11 @@ class User
 	* @param string $item
 	* @return string $value
 	*/
-	public function __get($item) 
-	{
+	public function __get( $item ) {
+
 		$value = get_user_meta( $this->id, 'llms_' . $item, true );
-		
-		if (!$value) 
-		{
+
+		if ( ! $value) {
 			$value = get_user_meta( $this->id, $item, true );
 		}
 
@@ -62,19 +61,19 @@ class User
 	 * @param string $key meta key
 	 * @param mixed  $value  [description]
 	 */
-	public function set($key, $value) 
-	{
+	public function set( $key, $value ) {
+
 		$this->$key = $value;
-		return update_user_meta($this->id, 'llms_' . $key, $value);
-		
+		return update_user_meta( $this->id, 'llms_' . $key, $value );
+
 	}
 
 	/**
 	 * Public get Id method
 	 * @return int
 	 */
-	public function get_id()
-	{
+	public function get_id() {
+
 		return $this->id;
 	}
 
@@ -82,23 +81,23 @@ class User
 	 * Get quiz serialized array
 	 * @return array
 	 */
-	public function get_quiz_data()
-	{
+	public function get_quiz_data() {
+
 		return $this->quiz_data;
 	}
 
-	public function get_first_name()
-	{
+	public function get_first_name() {
+
 		return $this->first_name;
 	}
 
-	public function get_last_name()
-	{
+	public function get_last_name() {
+
 		return $this->last_name;
 	}
 
-	public function get_full_name()
-	{
+	public function get_full_name() {
+
 		return $this->first_name . ' ' . $this->last_name;
 	}
 

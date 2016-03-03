@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin analytics Page, sales Tab
@@ -28,14 +28,14 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 	 * Main Analytics page builder
 	 * Collects elements and calls get_page_contents to wrap html
 	 * Called from html.admin.analytics to build page.
-	 * 
+	 *
 	 * @return [html]
 	 */
 	public function get_analytics() {
 		$search = LLMS()->session->get( 'llms_analytics_sales' );
 
 		$title = __( 'Sales Analytics', 'lifterlms' );
-		
+
 		//search form
 		$html = $this->search_form();
 
@@ -59,7 +59,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 
 			//sales volumn line chart
 			$html .= self::full_width_widget( $this->sales_chart( $search ) );
-			
+
 		}
 
 		//return contents
@@ -88,7 +88,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		//start building html
 		$html = '<div class="llms-search-form-wrapper">';
 
-		//Product Select ( Courses and Memberships ) 
+		//Product Select ( Courses and Memberships )
 		$html .= '<div class="llms-select">';
 		$html .= '<label>' . __( 'Select a product', 'lifterlms' ) . '</label>';
 		$html .= '<select id="llms-product-select" name="llms_product_select" class="chosen-select-width">';
@@ -97,7 +97,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		$html .= '<option value="all_products" ' . ( $product_id == 'all_products' ? 'selected' : '' ) . '>' . __( 'All Products', 'lifterlms' ) . '</option>';
 		//$html .= '<option value="all_courses" ' . ( $product_id == 'all_courses' ? 'selected' : '' ) . '>' . __( 'All Courses', 'lifterlms' ) . '</option>';
 		//$html .= '<option value="all_memberships" ' . ( $product_id == 'all_memberships' ? 'selected' : '' ) . '>' . __( 'All Memberships', 'lifterlms' ) . '</option>';
-		
+
 		//loop through posts
 		if ( $products ) {
 			$html .= '<optgroup label="' . __( 'Courses', 'lifterlms' ) . '">';
@@ -107,7 +107,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 						' . ( $product_id == $product->ID  ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';
 					//unset the objects so I don't loop over them again
-					unset( $products[$key] );
+					unset( $products[ $key ] );
 				}
 			}
 			$html .= '</optgroup>';
@@ -118,16 +118,16 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 						' . ( $product_id == $product->ID ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';
 					//no real reason except the array means nothing anymore.
-					unset( $products[$key] );
+					unset( $products[ $key ] );
 				}
 			}
 			$html .= '</optgroup>';
 		}
-		
+
 		$html .= '</select>';
 		$html .= '</div>';
 
-		//Date filters ( Courses and Memberships ) 
+		//Date filters ( Courses and Memberships )
 		$html .= '<div class="llms-select">';
 		$html .= '<label>' . __( 'Filter Date Range', 'lifterlms' ) . '</label>';
 		$html .= '<select id="llms-date-filter-select" name="llms_date_filter" class="chosen-select-width">';
@@ -164,7 +164,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		// $html .= '<div class="llms-checkbox">';
 		// $html .= '<input type="checkbox" name="llms_exclude_coupons" ' .  ( $inc_coupons === 'on' ? 'checked' : '' ) . '>' . __( 'Exclude Coupons', 'lifterlms' );
 		// $html .= '</div>';
-		
+
 		// $html .= '</div>'; //end filter options
 
 		$html .= wp_nonce_field( 'search_analytics_sales', '_wpnonce', true, false );
@@ -175,8 +175,6 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		//$html .= '<input type="submit" name="llms_search" class="button button-primary" id="llms_analytics_search" value="Filter Results" />';
 		$html .= get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
 		$html .= '</div>';
-
-		
 
 		$html .= '</div>';
 
@@ -193,9 +191,9 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		if ( $search ) {
 
 			$total_sold_by_day = LLMS_Analytics::get_total_sold_by_day( $search->results, $search->start_date, $search->end_date );
-		
+
 			if ( ! empty( $total_sold_by_day ) ) {
-				array_unshift($total_sold_by_day, $headers);
+				array_unshift( $total_sold_by_day, $headers );
 			} else {
 				$total_sold_by_day = array();
 			}
@@ -203,10 +201,10 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		} else {
 			$total_sold_by_day = array();
 		}
-		
+
 		$html = '<p class="llms-label">' . __( 'Sales Volume', 'lifterlms' ) . '</p>';
 
-		$html .= '<script>var myJson = ' . json_encode($total_sold_by_day) . '</script>';
+		$html .= '<script>var myJson = ' . json_encode( $total_sold_by_day ) . '</script>';
 
 		$html .= '<div id="chart_div" class="llms-chart"></div>';
 
@@ -267,8 +265,8 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 
 
 
-	
-	
+
+
 	/**
 	 * save analytics to the database
 	 *
@@ -278,7 +276,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		$analytics = $this->get_analytics();
 
 		LLMS_Admin_Analytics::save_search_fields( $analytics );
-		
+
 	}
 
 	/**
@@ -289,7 +287,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 	public function output() {
 		$analytics = $this->get_analytics( );
 
- 		LLMS_Admin_Analytics::output_html( $analytics );
+			LLMS_Admin_Analytics::output_html( $analytics );
 	}
 
 }

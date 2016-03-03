@@ -8,27 +8,27 @@
 			<?php
 				$search = LLMS()->session->get( 'llms_students_search' );
 
-				if ( ! empty( $search ) && isset( $search->last_student_viewed ) ) {
-					
-					foreach ( $tabs as $name => $label )  {
+			if ( ! empty( $search ) && isset( $search->last_student_viewed ) ) {
 
-						if ( $name !== 'dashboard' ) {
-							$student_var = '&student=' . $search->last_student_viewed;
-						} else {
-							$student_var = '';
-						}
+				foreach ( $tabs as $name => $label ) {
 
-						echo '<a href="' . admin_url( 'admin.php?page=llms-students&tab=' . $name . $student_var ) . '" class="llms-button-primary llms-nav-tab ' 
-							. ( $current_tab == $name ? 'llms-nav-tab-active' : '' ) . '">' . $label . '</a>';
-
+					if ( $name !== 'dashboard' ) {
+						$student_var = '&student=' . $search->last_student_viewed;
+					} else {
+						$student_var = '';
 					}
-						do_action( 'lifterlms_students_tabs' );
-				} else {
-					echo '<a href="' . admin_url( 'admin.php?page=llms-students&tab=dashboard' ) . '" class="llms-button-primary llms-nav-tab ' 
-							. ( $current_tab == 'dashboard' ? 'llms-nav-tab-active' : '' ) . '">Dashboard</a>';
+
+					echo '<a href="' . admin_url( 'admin.php?page=llms-students&tab=' . $name . $student_var ) . '" class="llms-button-primary llms-nav-tab '
+						. ( $current_tab == $name ? 'llms-nav-tab-active' : '' ) . '">' . $label . '</a>';
+
 				}
-				
-				
+					do_action( 'lifterlms_students_tabs' );
+			} else {
+				echo '<a href="' . admin_url( 'admin.php?page=llms-students&tab=dashboard' ) . '" class="llms-button-primary llms-nav-tab '
+						. ( $current_tab == 'dashboard' ? 'llms-nav-tab-active' : '' ) . '">Dashboard</a>';
+			}
+
+
 			?>
 		</h2>
 

@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin Settings Page, Membership Tab
@@ -30,15 +30,15 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 	 */
 	public function get_settings() {
 		// Get shop page
-		$memberships_page_id = llms_get_page_id('memberships');
+		$memberships_page_id = llms_get_page_id( 'memberships' );
 
 		$base_slug = ($memberships_page_id > 0 && get_page( $memberships_page_id )) ? get_page_uri( $memberships_page_id ) : 'memberships';
 
 		return apply_filters( 'lifterlms_membership_settings', array(
 
-			array( 'type' => 'sectionstart', 'id' => 'membership_options', 'class' =>'top' ),
+			array( 'type' => 'sectionstart', 'id' => 'membership_options', 'class' => 'top' ),
 
-			array(	'title' => __( 'Membership Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your membership for a unique user experience.', 'id' => 'membership_options' ),
+			array( 'title' => __( 'Membership Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your membership for a unique user experience.', 'id' => 'membership_options' ),
 
 			array(
 				'title' => __( 'Membership Page', 'lifterlms' ),
@@ -66,11 +66,11 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'membership_options'),
+			array( 'type' => 'sectionend', 'id' => 'membership_options' ),
 
-		) ); 
+		) );
 	}
-	
+
 	/**
 	 * save settings to the database
 	 *
@@ -80,7 +80,7 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 		$settings = $this->get_settings();
 
 		LLMS_Admin_Settings::save_fields( $settings );
-		
+
 	}
 
 	/**
@@ -91,7 +91,7 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 	public function output() {
 		$settings = $this->get_settings( );
 
- 		LLMS_Admin_Settings::output_fields( $settings );
+			LLMS_Admin_Settings::output_fields( $settings );
 	}
 
 }

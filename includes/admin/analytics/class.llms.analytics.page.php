@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Admin analytics Page Base Class
@@ -48,7 +48,7 @@ class LLMS_Analytics_Page {
 		$array_keys = array_keys( $sections );
 
 		foreach ( $sections as $id => $label ) {
-			echo '<li><a href="' . admin_url( 'admin.php?page=' . $this->id . '&section=' . sanitize_title( $id ) ) 
+			echo '<li><a href="' . admin_url( 'admin.php?page=' . $this->id . '&section=' . sanitize_title( $id ) )
 			. '"class="' . ($current_section == $id ? 'current' : '' ) . '">' . ( end( $array_keys ) == $id ? '' : '|' ) . '</li>';
 
 			echo '</ul><br class="clear" />';
@@ -66,7 +66,7 @@ class LLMS_Analytics_Page {
 
 		$html = '<div id="llms-options-page-contents">';
 
-		$html .= '<h2>' . sprintf ( __( '%s', 'lifterlms' ), $title ) . '</h2>';
+		$html .= '<h2>' . sprintf( __( '%s', 'lifterlms' ), $title ) . '</h2>';
 
 		$html .= $contents;
 
@@ -77,7 +77,7 @@ class LLMS_Analytics_Page {
 	}
 
 	public static function full_width_widget( $content ) {
-		
+
 		$html = '<div class="llms-widget-full">';
 		$html .= '<div class="llms-widget">';
 
@@ -125,9 +125,9 @@ class LLMS_Analytics_Page {
 		$analytics = $this->get_analytics();
 		LLMS_Admin_Analytics::save_fields( $analytics );
 
-		 if ( $current_section )
-	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section );
-	    
+		if ( $current_section ) {
+	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section ); }
+
 	}
-	
+
 }

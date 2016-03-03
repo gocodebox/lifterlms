@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Achievement Class
@@ -27,18 +27,18 @@ class LLMS_Achievement {
 
 	/**
 	 * Checks if achievement is enabled
-	 * REFACTOR: returning true always. Need to build setting to disable / enable 
+	 * REFACTOR: returning true always. Need to build setting to disable / enable
 	 * @return bool [is achievement enabled]
 	 */
 	function is_enabled() {
-		$enabled = $this->enabled == "yes" ? true : false;
+		$enabled = $this->enabled == 'yes' ? true : false;
 		return true;
 	}
 
 	/**
 	 * Get Blog name
 	 * Used by achievement merge fields
-	 * 
+	 *
 	 * @return string [Blogname from options]
 	 */
 	function get_blogname() {
@@ -56,7 +56,7 @@ class LLMS_Achievement {
 
 
 	/**
-	 * Queries Achievement title postmeta 
+	 * Queries Achievement title postmeta
 	 * @return string [display title of the achievement]
 	 */
 	function get_title() {
@@ -65,12 +65,12 @@ class LLMS_Achievement {
 
 	/**
 	 * Get the content of the Achievement
-	 * 
+	 *
 	 * @return array $achievement_content [data needed to generate achievement]
 	 */
 	function get_content() {
 
-	$achievement_content = $this->content;
+		$achievement_content = $this->content;
 
 		return $achievement_content;
 	}
@@ -78,13 +78,13 @@ class LLMS_Achievement {
 	/**
 	 * Generate HTML output of achievement
 	 * Converts merge fields to raw data sources and wraps content in HTML
-	 * then saves new achivement post and updates user_postmeta table. 
-	 * 
+	 * then saves new achivement post and updates user_postmeta table.
+	 *
 	 * @return [type] [description]
 	 */
 	function get_content_html() {}
 
-	public function create($content) {
+	public function create( $content ) {
 		global $wpdb;
 
 		$new_user_achievement = apply_filters( 'lifterlms_new_page', array(
@@ -99,24 +99,24 @@ class LLMS_Achievement {
 
 		update_post_meta( $new_user_achievement_id,'_llms_achievement_title', $this->achievement_title );
 		update_post_meta( $new_user_achievement_id,'_llms_achievement_image', $this->image );
-        update_post_meta( $new_user_achievement_id,'_llms_achievement_content', $this->content );
+		update_post_meta( $new_user_achievement_id,'_llms_achievement_content', $this->content );
 
 		$user_metadatas = array(
 			'_achievement_earned' => $new_user_achievement_id,
 		);
 
 		foreach ($user_metadatas as $key => $value) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta', 
-				array( 
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				array(
 					'user_id' 			=> $this->userid,
 					'post_id' 			=> $this->lesson_id,
 					'meta_key'			=> $key,
 					'meta_value'		=> $value,
-					'updated_date'		=> current_time('mysql'),
+					'updated_date'		=> current_time( 'mysql' ),
 				)
 			);
 		}
-		
+
 	}
 
 }

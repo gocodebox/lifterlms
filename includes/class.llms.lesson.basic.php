@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Basic lesson class
 *
-* Basic lesson is the standard, single lesson. 
+* Basic lesson is the standard, single lesson.
 *
 * @author codeBOX
 */
@@ -30,7 +30,7 @@ class LLMS_Lesson_Basic extends LLMS_Lesson {
 
 		$this->lesson_type = 'basic';
 		parent::__construct( $lesson );
-		
+
 	}
 
 }

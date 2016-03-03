@@ -1,9 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Number Class
-* 
+*
 * Manages formatting numbers for I/O and display
 */
 class LLMS_Number {
@@ -22,8 +22,8 @@ class LLMS_Number {
 	 */
 	public static function format_money( $number ) {
 
-		return get_lifterlms_currency_symbol() . number_format( (int)$number, 2, '.', ',' );
-		
+		return get_lifterlms_currency_symbol() . number_format( (int) $number, 2, '.', ',' );
+
 	}
 
 	/**
@@ -42,7 +42,7 @@ class LLMS_Number {
 	 */
 	public static function whole_number( $decimal ) {
 
-			return round( $decimal * 100 ); 
+			return round( $decimal * 100 );
 
 	}
 

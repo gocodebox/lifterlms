@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Quiz General Settings
@@ -14,9 +14,9 @@ class LLMS_Meta_Box_Question_General {
 	 * Displays MetaBox
 	 * Calls static class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
-	 * 
+	 *
 	 * @param  object $post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function output( $post ) {
@@ -36,7 +36,7 @@ class LLMS_Meta_Box_Question_General {
 			echo $label;
 			?>
 
-			<a href="#" class="button" id="add_new_option"/><?php _e('Add a new option', 'lifterlms'); ?></a>
+			<a href="#" class="button" id="add_new_option"/><?php _e( 'Add a new option', 'lifterlms' ); ?></a>
 			<div id="llms-single-options">
 				<table class="wp-list-table widefat fixed posts dad-list ui-sortable">
 					<tbody>
@@ -50,11 +50,11 @@ class LLMS_Meta_Box_Question_General {
 									<td>
 									<i class="fa fa-bars llms-fa-move-lesson"></i>
 									<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i>
-									<input type="radio" name="correct_option" value="<?php echo $key; ?>" <?php echo (empty($value['correct_option']) == '1')? '':'checked'; ?> ><label><?php _e('Correct Answer', 'lifterlms'); ?></label>
+									<input type="radio" name="correct_option" value="<?php echo $key; ?>" <?php echo (empty( $value['correct_option'] ) == '1')? '':'checked'; ?> ><label><?php _e( 'Correct Answer', 'lifterlms' ); ?></label>
 									<textarea name ="option_text[]" class="option-text"><?php echo $value['option_text']; ?></textarea>
 									<br>
-									<label><?php _e('Explanation Field', 'lifterlms'); ?></label>
-									<textarea name ="option_description[]" class="option-text"><?php echo array_key_exists('option_description', $value) ? $value['option_description'] : ''; ?></textarea>
+									<label><?php _e( 'Explanation Field', 'lifterlms' ); ?></label>
+									<textarea name ="option_description[]" class="option-text"><?php echo array_key_exists( 'option_description', $value ) ? $value['option_description'] : ''; ?></textarea>
 									</td>
 									</tr>
 								<?php
@@ -68,17 +68,17 @@ class LLMS_Meta_Box_Question_General {
 			</div>
 		</div>
 
-	<?php  
+	<?php
 	}
 
 	/**
 	 * Static save method
 	 *
 	 * cleans variables and saves using update_post_meta
-	 * 
+	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
@@ -87,24 +87,24 @@ class LLMS_Meta_Box_Question_General {
 		$question_options = array();
 
 		//add options to array
-		if ( isset($_POST['option_text']) || isset($_POST['correct_option'])) {
-		foreach ($_POST['option_text'] as $key => $value) {
-			$option_data = array();
-			$correct_option = false;
+		if ( isset( $_POST['option_text'] ) || isset( $_POST['correct_option'] )) {
+			foreach ($_POST['option_text'] as $key => $value) {
+				$option_data = array();
+				$correct_option = false;
 
-			$option_text = llms_clean( $value );
+				$option_text = llms_clean( $value );
 
-			if($_POST['correct_option'] == $key) {
-				$correct_option = true;
+				if ($_POST['correct_option'] == $key) {
+					$correct_option = true;
+				}
+				$option_data['option_text'] = $option_text;
+				$option_data['correct_option'] = $correct_option;
+				$option_data['option_description'] = $_POST['option_description'][ $key ];
+				$question_options[ $key ] = $option_data;
 			}
-			$option_data['option_text'] = $option_text;
-			$option_data['correct_option'] = $correct_option;
-			$option_data['option_description'] = $_POST['option_description'][$key];
-			$question_options[$key] = $option_data;
-		}
 
-		update_post_meta( $post_id, '_llms_question_type', 'single_choice');	
-		//update_post_meta( $post_id, '_llms_question_options', $question_options);
+			update_post_meta( $post_id, '_llms_question_type', 'single_choice' );
+			//update_post_meta( $post_id, '_llms_question_options', $question_options);
 			update_post_meta( $post_id, '_llms_question_options', ( $question_options === '' ) ? '' : $question_options );
 		}
 

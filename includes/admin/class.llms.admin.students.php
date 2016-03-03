@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 
 /**
@@ -34,7 +34,7 @@ class LLMS_Admin_Students {
 	private static $messages = array();
 
 	/**
-    * Inits $students and includes students base class.
+	* Inits $students and includes students base class.
 	*
 	* @return self::$students array
 	*/
@@ -58,7 +58,7 @@ class LLMS_Admin_Students {
 	}
 
 	/**
-    * Save method. Saves all fields on current tab
+	* Save method. Saves all fields on current tab
 	*
 	* @return void
 	*/
@@ -79,7 +79,7 @@ class LLMS_Admin_Students {
 	}
 
 	/**
-    * set message to messages array
+	* set message to messages array
 	*
 	* @param string $message
 	* @return void
@@ -89,7 +89,7 @@ class LLMS_Admin_Students {
 	}
 
 	/**
-    * set message to messages array
+	* set message to messages array
 	*
 	* @param string $message
 	* @return void
@@ -99,7 +99,7 @@ class LLMS_Admin_Students {
 	}
 
 	/**
-    * display messages in students
+	* display messages in students
 	*
 	* @return void
 	*/
@@ -115,7 +115,7 @@ class LLMS_Admin_Students {
 	}
 
 	/**
-    * students Page output tabs
+	* students Page output tabs
 	*
 	* @return void
 	*/
@@ -128,11 +128,11 @@ class LLMS_Admin_Students {
 
 		$current_tab = empty( $_GET['tab'] ) ? 'dashboard' : sanitize_title( $_GET['tab'] );
 
-	    if ( ! empty( $_POST ) )
-	    	self::save();
+	    if ( ! empty( $_POST ) ) {
+	    	self::save(); }
 
-	    if ( ! empty( $_GET['llms_error'] ) )
-	    	self::set_error( stripslashes( $_GET['llms_error'] ) );
+	    if ( ! empty( $_GET['llms_error'] ) ) {
+	    	self::set_error( stripslashes( $_GET['llms_error'] ) ); }
 
 	    self::display_messages_html();
 
@@ -142,7 +142,7 @@ class LLMS_Admin_Students {
 	}
 
 	/**
-    * Output html for students tabs.
+	* Output html for students tabs.
 	*
 	* @return void
 	*/
@@ -156,28 +156,28 @@ class LLMS_Admin_Students {
 	 * Loops though the lifterlms options array and outputs each field.
 	 *
 	 * @param array $settings Opens array to output
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function save_search_fields( $students ) {
-	    if ( empty( $_POST ) )
-	    	return false;
+	    if ( empty( $_POST ) ) {
+	    	return false; }
 
 	    //sales analytics
-	    if ( !empty( $_POST[ 'action' ] ) && ( 'llms-students-search' === $_POST[ 'action' ] ) && !empty( $_POST['_wpnonce'] ) ) {
+	    if ( ! empty( $_POST['action'] ) && ( 'llms-students-search' === $_POST['action'] ) && ! empty( $_POST['_wpnonce'] ) ) {
 
 	 		$search = new stdClass;
 
 	 		//validate fields
-	 		if ( empty( $_POST[ 'llms_product_select' ] ) ) {
+	 		if ( empty( $_POST['llms_product_select'] ) ) {
 	 			self::set_error( __( 'You must choose a product option.' , 'lifterlms' ) );
 	 		}
 
-	 		$search->product_id = llms_clean( $_POST[ 'llms_product_select' ] );
-	 		$search->include_expired = isset( $_POST[ 'llms_include_expired_users' ] ) ? true : false;
+	 		$search->product_id = llms_clean( $_POST['llms_product_select'] );
+	 		$search->include_expired = isset( $_POST['llms_include_expired_users'] ) ? true : false;
 
 	 		$search->students = LLMS_Analytics::get_users( $search->product_id, $search->include_expired );
-	 		
+
 	 		//set search object as session object
 		    LLMS()->session->set( 'llms_students_search', $search );
 	    }
