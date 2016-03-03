@@ -52,7 +52,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 						<p>' . __( 'We need to set up your pages. Ya, we know, more pages... That\'s just the way Wordpress works. We\'ve already installed them. You just need to set them.', 'lifterlms' ) . '</p>
 						' . __( 'When you installed LifterLMS we created a few pages for you. You can select those pages or use different ones. Your choice.', 'lifterlms' ) . '</p>
 						<p>' . __( 'The first page you need is the Student Account page. This is the page users will go to register, login and access their accounts. We installed a page called My Courses. You can use that or select a different page. If you happen to select a different page you will need to add this shortcode to the page:', 'lifterlms' ) . ' [lifterlms_my_account]</p>',
-					'id' => 'welcome_options_setup' ),
+					'id' => 'welcome_options_setup'
+				),
 
 				array(
 					'title' => __( 'Account Access Page', 'lifterlms' ),
@@ -66,67 +67,71 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 				array(
 					'type' => 'desc',
+					'desc' => '<p>' . __( 'Next we need a checkout page so people can buy your courses and memberships. If you are a true philanthropist and don\'t plan on selling anything you can skip setting up this page. We created a page called "Purchase you can use that or select a different page.', 'lifterlms' ) . '</p>',
+					'id' => 'welcome_options_setup'
+				),
+
+				array(
+					'title' => __( 'Checkout Page', 'lifterlms' ),
+					'desc' 		=> __( 'We suggest you choose "Purchase"', 'lifterlms' ),
+					'id' 		=> 'lifterlms_checkout_page_id',
+					'type' 		=> 'single_select_page',
+					'default'	=> '',
+					'class'		=> 'chosen_select_nostd',
+					'desc_tip'	=> __( 'This sets the base page of the checkout page', 'lifterlms' ),
+				),
+
+
+
+				array(
+					'type' => 'desc',
 					'desc' => '
-					<p>' . __( 'Next we need a checkout page so people can buy your courses and memberships. If you are a true philanthropist and don\'t plan on selling anything you can skip setting up this page. We created a page called "Purchase you can use that or select a different page.', 'lifterlms' ) . '</p>
-	',
-					'id' => 'welcome_options_setup' ),
-
-
-
+					<p>' . __( 'If you are going to sell your courses you should probably pick a currency.', 'lifterlms' ) . '</p>',
+					'id' => 'welcome_options_setup'
+				),
 
 				array(
-						'title' => __( 'Checkout Page', 'lifterlms' ),
-						'desc' 		=> __( 'We suggest you choose "Purchase"', 'lifterlms' ),
-						'id' 		=> 'lifterlms_checkout_page_id',
-						'type' 		=> 'single_select_page',
-						'default'	=> '',
-						'class'		=> 'chosen_select_nostd',
-						'desc_tip'	=> __( 'This sets the base page of the checkout page', 'lifterlms' ),
-					),
-
-
-
-				array(
-								'type' => 'desc',
-								'desc' => '
-								<p>' . __( 'If you are going to sell your courses you should probably pick a currency.', 'lifterlms' ) . '</p>
-				',
-								'id' => 'welcome_options_setup' ),
+					'title' 	=> __( 'Default Currency', 'lifterlms' ),
+					'desc' 		=> __( 'Default currency type.', 'lifterlms' ),
+					'id' 		=> 'lifterlms_currency',
+					'default'	=> 'USD',
+					'type' 		=> 'select',
+					'class'		=> 'chosen_select',
+					'desc_tip'	=>  true,
+					'options'   => $currency_code_options
+				),
 
 				array(
-								'title' 	=> __( 'Default Currency', 'lifterlms' ),
-								'desc' 		=> __( 'Default currency type.', 'lifterlms' ),
-								'id' 		=> 'lifterlms_currency',
-								'default'	=> 'USD',
-								'type' 		=> 'select',
-								'class'		=> 'chosen_select',
-								'desc_tip'	=>  true,
-								'options'   => $currency_code_options
-							),
+					'type' => 'desc',
+					'desc' => '
+						<p>' . __( 'There are a lot of other settings but those were the important ones to get you started. You can access all of the other settings from the big blue menu at the top of the page.', 'liftelrms' ) . '</p>
+						<p>' . __( 'If you have any questions or want to request a feature head on over to our', 'lifterlms' ) . ' <a href="https://lifterlms.com/forums/">' . __( 'Support Forums.', 'lifterlms' ) . '</a></p>
+						<p>' . __( 'That\'s all there is to it. Your ready to start building courses and changing the world!', 'lifterlms' ) . '</p>
+						<p>' . __( 'Click "Save Changes" below to save your settings and get started.', 'lifterlms' ) . '</p>',
+					'id' => 'welcome_options_setup'
+				),
 
+				/**
+				 * Hidden Values
+				 */
+
+				// first time setup is complete
 				array(
-								'type' => 'desc',
-								'desc' => '
+					'type' => 'hidden',
+					'value' => 'yes',
+					'id' => 'lifterlms_first_time_setup'
+				),
 
-								<p>' . __( 'There are a lot of other settings but those were the important ones to get you started. You can access all of the other settings from the big blue menu at the top of the page.', 'liftelrms' ) . '</p>
-
-								<p>' . __( 'If you have any questions or want to request a feature head on over to our', 'lifterlms' ) . ' <a href="https://lifterlms.com/forums/">' . __( 'Support Forums.', 'lifterlms' ) . '</a></p>
-
-								<p>' . __( 'That\'s all there is to it. Your ready to start building courses and changing the world!', 'lifterlms' ) . '</p>
-								<p>' . __( 'Click "Save Changes" below to save your settings and get started.', 'lifterlms' ) . '</p>
-				',
-								'id' => 'welcome_options_setup' ),
-
+				// don't enable legacy cert settings for a new installation!
 				array(
-								'type' => 'hidden',
-								'value' => 'yes',
-
-								'id' => 'lifterlms_first_time_setup' ),
+					'type' => 'hidden',
+					'value' => 'no',
+					'id' => 'lifterlms_certificate_legacy_image_size'
+				),
 
 				array( 'type' => 'sectionend', 'id' => 'welcome_options_activate' ),
 
-				)
-			);
+			) );
 
 		} else {
 

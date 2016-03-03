@@ -62,13 +62,15 @@ $sections = $course->get_children_sections();
 					if ( $lesson->is_complete() ) {
 						$check = '<span class="llms-lesson-complete"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
 						$complete = ' is-complete';
-					} elseif ($course->is_user_enrolled( get_current_user_id() ) && get_option( 'lifterlms_display_lesson_complete_placeholders' ) === 'yes') {
+					} elseif ( $course->is_user_enrolled( get_current_user_id() ) && get_option( 'lifterlms_display_lesson_complete_placeholders' ) === 'yes') {
+						$complete = ' has-icon';
 						$check = '<span class="llms-lesson-complete-placeholder"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
-					} elseif ($lesson->get_is_free()) {
-						$check = LLMS_Svg::get_icon( 'llms-icon-free', '', '', 'llms-free-lesson-svg' );
-						$complete = ' is-complete';
+					elseif ( $lesson->get_is_free() ) {
+						$check = LLMS_Svg::get_icon('llms-icon-free', '', '', 'llms-free-lesson-svg');
+						$complete = ' is-complete has-icon';
 					} else {
-						$complete = $check = '';
+						$complete = '';
+						$check = '';
 					}
 
 					//set permalink

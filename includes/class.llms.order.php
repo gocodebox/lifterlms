@@ -48,7 +48,7 @@
 
 		$order_data = apply_filters( 'lifterlms_new_order', array(
 			'post_type' 	=> 'order',
-			'post_title' 	=> sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ) ) ),
+			'post_title' 	=> sprintf( __( 'Order - %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ) ) ),
 			'post_status' 	=> 'publish',
 			'ping_status'	=> 'closed',
 			'post_author' 	=> 1,

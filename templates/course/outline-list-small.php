@@ -4,9 +4,9 @@
  */
 ?>
 <div class="llms-widget-syllabus">
-	
+
 	<ul>
-		
+
 		<?php //get section data
 		foreach ( $sections as $section ) : ?>
 
@@ -18,9 +18,9 @@
 				foreach ( $syllabus->lessons as $lesson ) :
 
 					if ( $lesson['parent_id'] == $section['id'] ) : ?>
-				
+
 						<ul>
-							
+
 							<li>
 
 								<span class="llms-lesson-complete <?php echo ( $lesson['is_complete'] ? 'done' : '' ); ?>">
@@ -29,12 +29,12 @@
 
 								</span>
 
-								<span class="lesson-title '<?php echo ( $lesson['is_complete'] ? 'done' : '' ); ?>">
+								<span class="lesson-title <?php echo ( $lesson['is_complete'] ? 'done' : '' ); ?>">
 
 									<?php if ( LLMS_Course::check_enrollment( $course->id, get_current_user_id() ) ) : ?>
 
 										<a href="<?php echo get_permalink( $lesson['id'] ); ?>"><?php echo $lesson['title']; ?></a>
-			
+
 									<?php else :
 
 										echo $lesson['title'];
@@ -42,17 +42,17 @@
 									endif; ?>
 
 								</span>
-					
+
 							</li>
-						
+
 						</ul>
-					
+
 					<?php endif;
 
 				endforeach; ?>
-				
+
 			</li>
-		
+
 		<?php endforeach; ?>
 
 	</ul>

@@ -132,6 +132,16 @@ if ($coupon_session) {
 
 		<!-- Coupon code entry form -->
 		<div class="llms-coupon-entry llms-notice-box">
+			<?php if ( $coupon_session ): ?>
+				<form class="llms-remove-coupon" id="llms-remove-coupon" method="post">
+					<div class="llms-center-content">
+						<input type="submit" class="llms-button-text" name="llms_remove_coupon" value="[<?php _e( 'Remove', 'lifterlms' ); ?>]" />
+						<input type="hidden" name="product_id" value="<?php echo $product->ID; ?>" />
+					</div>
+					<div class="clear"></div>
+					<?php wp_nonce_field( 'llms-remove-coupon' ); ?>
+				</form>
+			<?php endif; ?>
 			<?php llms_print_notice( $info_message, 'notice' ); ?>
 			<form id="llms-checkout-coupon" method="post" style="display:none">
 				<input type="text" name="coupon_code" class="llms-input-text" placeholder="<?php _e( 'Enter coupon code', 'lifterlms' ); ?>" id="coupon_code" value="" />

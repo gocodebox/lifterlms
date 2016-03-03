@@ -20,6 +20,7 @@ if ($product_obj->is_custom_single_price()) {
 } else if ($product_obj->get_price()) {
 	$single_html_price = sprintf( __( apply_filters( 'lifterlms_single_payment_text','single payment of %s' ), 'lifterlms' ), $product_obj->get_price_html() );
 }
+
 //$recurring_html_price = $product_obj->get_recurring_price_html();
 $payment_options = $product_obj->get_payment_options();
 $single_payment_exists = false;
@@ -40,13 +41,9 @@ if ( ( ! $payment_options || strcmp( $payment_options[0], 'single' ) !== 0) && $
 			<?php endif; ?>
 
 			<?php if ( 'recurring' == $value ) : ?>
-				<?php $subs = $product_obj->get_subscriptions();
-
-
-				?>
+				<?php $subs = $product_obj->get_subscriptions(); ?>
 				<?php foreach ($subs as $id => $sub) : ?>
 					<?php echo $single_payment_exists ? 'or' : ''; ?>
-
 					<h4 class="llms-price"><span><?php echo $product_obj->get_subscription_price_html( $sub ); ?></span></h4>
 				<?php endforeach; ?>
 			<?php endif; ?>

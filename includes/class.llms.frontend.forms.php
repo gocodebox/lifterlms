@@ -23,6 +23,7 @@ class LLMS_Frontend_Forms
     {
         add_action('template_redirect', array($this, 'save_account_details'));
         add_action('init', array($this, 'apply_coupon'));
+        add_action('init', array($this, 'remove_coupon'));
         add_action('init', array($this, 'coupon_check'));
         add_action('init', array($this, 'voucher_check'));
         add_action('init', array($this, 'create_order'));
@@ -267,6 +268,10 @@ class LLMS_Frontend_Forms
         wp_verify_nonce($_POST['_wpnonce'], 'lifterlms_create_order_details');
 
         $order = LLMS()->session->get('llms_order', array());
+        if (empty($order)) {
+            return;
+        }
+
         $payment_method = $order->payment_method;
         $available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 
@@ -274,7 +279,7 @@ class LLMS_Frontend_Forms
 
         $errors = new WP_Error();
 
-        $process_result = $available_gateways[$payment_method]->complete_payment($result, $order);
+        $available_gateways[$payment_method]->complete_payment($result, $order);
 
     }
 
@@ -334,6 +339,11 @@ class LLMS_Frontend_Forms
 
         if (empty($coupon_post)) {
             return llms_add_notice(sprintf(__('Coupon code <strong>%s</strong> was not found.', 'lifterlms'), $coupon->coupon_code), 'error');
+        } else {
+            $products = get_post_meta($coupon_post[0]->ID, '_llms_coupon_products', true);
+            if(!empty($products) && !in_array($coupon->product_id, $products)) {
+                return llms_add_notice(sprintf(__("Coupon code <strong>%s</strong> can't be applied to this product.", 'lifterlms'), $coupon->coupon_code), 'error');
+            }
         }
 
         foreach ($coupon_post as $cp) {
@@ -353,7 +363,7 @@ class LLMS_Frontend_Forms
         if ($coupon->type == 'percent') {
             $coupon->name = ($coupon->title . ': ' . $coupon->amount . '% coupon');
         } elseif ($coupon->type == 'dollar') {
-            $coupon->name = ($coupon->title . ': ' . '$' . $coupon->amount . ' coupon');
+            $coupon->name = ($coupon->title . ': ' . get_lifterlms_currency_symbol() . $coupon->amount . ' coupon');
         }
 
         //if coupon limit is not unlimited deduct 1 from limit
@@ -373,6 +383,19 @@ class LLMS_Frontend_Forms
         LLMS()->session->set('llms_coupon', $coupon);
         return llms_add_notice(sprintf(__('Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms'), $coupon->coupon_code), 'success');
 
+    }
+
+    public function remove_coupon()
+    {
+
+        if (!isset($_POST['llms_remove_coupon'])) {
+            return;
+        }
+
+        $coupon = LLMS()->session->get('llms_coupon');
+
+        LLMS()->session->set('llms_coupon', null);
+        return llms_add_notice(sprintf(__('Coupon code <strong>%s</strong> has been removed from your order.', 'lifterlms'), $coupon->coupon_code), 'success');
     }
 
     /**
@@ -763,7 +786,7 @@ class LLMS_Frontend_Forms
                 $membership = get_post($membership);
                 $membership_title = $membership->post_title;
                 $membership_url = get_permalink($membership->ID);
-                llms_add_notice(apply_filters('lifterlms_membership_restricted_message', sprintf(__('<a href="%s">%s</a> membership level allows access this content.', 'lifterlms'), $membership_url, $membership_title)));
+                llms_add_notice(apply_filters('lifterlms_membership_restricted_message', sprintf(__('<a href="%s">%s</a> membership level allows access to this content.', 'lifterlms'), $membership_url, $membership_title)));
                 break;
             case 'membership':
                 $memberships = llms_get_post_memberships($post_id);
@@ -775,7 +798,7 @@ class LLMS_Frontend_Forms
                         $link = get_permalink($membership->ID);
                         llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
                             '<a href="' . $link . '">' . $membership_title . '</a> '
-                            . LLMS_Language::output('membership level allows access this content.')));
+                            . LLMS_Language::output('membership level allows access to this content.')));
                     }
                 } else {
                     llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
@@ -790,7 +813,7 @@ class LLMS_Frontend_Forms
                     $link = get_permalink($membership->ID);
                     llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
                         '<a href="' . $link . '">' . $membership_title . '</a> '
-                        . LLMS_Language::output('membership level allows access this content.')));
+                        . LLMS_Language::output('membership level allows access to this content.')));
                 }
                 break;
             case 'prerequisite' :

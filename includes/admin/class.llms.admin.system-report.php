@@ -259,7 +259,7 @@ class LLMS_Admin_System_Report {
     public static function get_lifterlms_pages_box() {
 
         $pages = array(
-            'llms_shop' => 'Courses',
+            'shop' => 'Courses',
             'memberships' => 'Memberships',
             'myaccount' => 'My Account',
             'checkout' => 'Checkout'
@@ -267,7 +267,7 @@ class LLMS_Admin_System_Report {
 
         echo '<div class="llms-widget-full top">
                 <div class="llms-widget settings-box">
-                    <p class="llms-label">' . __( 'Active Plugins', 'lifterlms' ) . '</p>
+                    <p class="llms-label">' . __( 'LifterLMS Pages', 'lifterlms' ) . '</p>
                     <div class="llms-list">
                         <ul>';
 

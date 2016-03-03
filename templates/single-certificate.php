@@ -15,8 +15,3 @@ while ( have_posts() ) : the_post();
 	llms_get_template_part( 'content', 'certificate' );
 
 endwhile;
-?>
-
-<?php
-
-?>

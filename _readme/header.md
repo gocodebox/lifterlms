@@ -1,10 +1,10 @@
 === LifterLMS ===
-Contributors: therealmarknelson, thomasplevy, chrisbadgett, kathy11, lifterlms, jackyliao888, codeboxllc
+Contributors: therealmarknelson, thomasplevy, chrisbadgett, kathy11, lifterlms, jackyliao888, anecieto, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 3.8
 Tested up to: 4.4.2
-Stable tag: 2.1.0
+Stable tag: 2.2.0-2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

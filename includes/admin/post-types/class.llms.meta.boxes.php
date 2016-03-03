@@ -125,8 +125,12 @@ class LLMS_Admin_Meta_Boxes {
 		$operator = 'and';
 		$post_types = get_post_types( $args, $output, $operator );
 
+		$hide_membership_access_box = array('llms_certificate', 'llms_membership');
+
 		foreach ( $post_types  as $post_type ) {
-			add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', $post_type, 'side' );
+			if (!in_array($post_type, $hide_membership_access_box)) {
+				add_meta_box('lifterlms-membership-access', __('Membership Access', 'lifterlms'), 'LLMS_Meta_Box_Access::output', $post_type, 'side');
+			}
 			array_push($public_post_types, $post_type);
 		}
 
@@ -157,7 +161,6 @@ class LLMS_Admin_Meta_Boxes {
 		//add_meta_box( 'lifterlms-achievement-options', __( 'Achievement Options', 'lifterlms' ), 'LLMS_Meta_Box_Achievement_Options::output', 'llms_achievement', 'normal' );
 		add_meta_box( 'lifterlms-engagement-options', __( 'Engagement Options', 'lifterlms' ), 'LLMS_Meta_Box_Engagement_Options::output', 'llms_engagement', 'normal' );
         add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
-		//add_meta_box( 'lifterlms-membership-data', __( 'Membership Data', 'lifterlms' ), apply_filters('lifterlms_product_meta_box', 'LLMS_Meta_Box_Product::output'), 'llms_membership', 'normal', 'high' );
 		//add_meta_box( 'lifterlms-expiration-options', __( 'Membership Expiration', 'lifterlms' ), 'LLMS_Meta_Box_Expiration::output', 'llms_membership', 'normal' );
 		add_meta_box( 'lifterlms-order-general', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order::output', 'order', 'normal', 'high' );
 		//add_meta_box( 'lifterlms-quiz-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_Quiz_General::output', 'llms_quiz', 'normal' );

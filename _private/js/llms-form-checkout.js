@@ -48,9 +48,9 @@ display_coupon_form = function() {
 display_current_price = function() {
 	var target_id = $(this).attr('id');
 
-	var price = $('#' + target_id).parent().find('label').text();
+	var price = $('#' + target_id).parent().find('label').html();
 
-	$('.llms-final-price').text(price);
+	$('.llms-final-price').html(price);
 
 	// Hide the show coupon link
 	// $(this).hide();
@@ -65,9 +65,9 @@ get_current_price = function() {
 	var price = $('.llms-payment-options input[type=radio]:checked');
 	var target_id = $(price).attr('id');
 
-	var price = $('#' + target_id).parent().find('label').text();
+	var price = $('#' + target_id).parent().find('label').html();
 
-	$('.llms-final-price').text(price);
+	$('.llms-final-price').html(price);
 
 	// Hide the show coupon link
 	// $(this).hide();
