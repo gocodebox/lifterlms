@@ -21,6 +21,10 @@
 		-->
 		<exclude name="WordPress.Files.FileName" />
 
+		<!--
+		@todo definetly fix this, there's just soo many non yodas...
+		-->
+		<exclude name="WordPress.PHP.YodaConditions"/>
 
 		<!--
 		We may want a middle ground though. The best way to do this is add the
@@ -29,7 +33,6 @@
 		different Sniffs, as their rules are broken. From here, we can opt to
 		exclude problematic sniffs like so.
 		-->
-
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing" />
 		<exclude name="WordPress.XSS.EscapeOutput" />
 	</rule>

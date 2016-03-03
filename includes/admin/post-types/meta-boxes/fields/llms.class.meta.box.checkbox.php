@@ -16,15 +16,15 @@ class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box
 	}
 
 	/**
-	 * Outputs the Html for the given field
+	 * outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function Output() {
+	public function output() {
 
 		global $post;
 
-		parent::Output(); ?>
-					
+		parent::output(); ?>
+
 		<div class="llms-switch d-1of4 t-1of4 m-1of2">
 		<div class="llms-toggle-icon-on">
 			<?php echo LLMS_Svg::get_icon( 'llms-icon-checkmark', 'Off', 'Off', 'toggle-icon' ); ?>
@@ -33,19 +33,19 @@ class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box
 			<?php echo LLMS_Svg::get_icon( 'llms-icon-close', 'Off', 'Off', 'toggle-icon' ); ?>
 			</div>
 
-				<input 
+				<input
 					name="<?php echo esc_attr( $this->field['id'] ); ?>"
 					id="<?php echo esc_attr( $this->field['id'] ); ?>"
-					class="llms-toggle llms-toggle-round" 
+					class="llms-toggle llms-toggle-round"
 					type="checkbox"
 					value="<?php echo esc_attr( $this->field['value'] ); ?>"
 					<?php echo $this->meta ? 'checked' : ''; ?>
-				/> 
+				/>
 
 			<label for="<?php echo $this->field['id'] ?>"></label>
-		</div>			
+		</div>
 		<?php
-		parent::CloseOutput();
+		parent::Closeoutput();
 	}
 }
 

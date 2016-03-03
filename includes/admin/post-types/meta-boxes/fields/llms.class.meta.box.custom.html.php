@@ -16,16 +16,16 @@ class LLMS_Metabox_Custom_Html_Field extends LLMS_Metabox_Field implements Meta_
 	}
 
 	/**
-	 * Outputs the Html for the given field
+	 * outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function Output() {
+	public function output() {
 
 		global $post;
 
-		parent::Output();
+		parent::output();
 		echo $this->field['value'];
-		parent::CloseOutput();
+		parent::Closeoutput();
 	}
 }
 

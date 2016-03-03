@@ -16,23 +16,23 @@ class LLMS_Metabox_Button_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	}
 
 	/**
-	 * Outputs the Html for the given field
+	 * outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function Output() {
+	public function output() {
 
 		global $post;
 
-		parent::Output(); ?>
-					
-		<button 
- 			id="<?php echo esc_attr( $this->field['id'] ); ?>" 
+		parent::output(); ?>
+
+		<button
+ 			id="<?php echo esc_attr( $this->field['id'] ); ?>"
  			class="<?php echo esc_attr( $this->field['class'] ); ?>"
  		>
  			<?php echo esc_attr( $this->field['value'] ); ?>
- 		</button>			
+ 		</button>
 		<?php
-		parent::CloseOutput();
+		parent::Closeoutput();
 	}
 }
 

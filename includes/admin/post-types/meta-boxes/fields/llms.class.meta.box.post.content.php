@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* 
+*
 */
 class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
 {
@@ -16,14 +16,14 @@ class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field implements Meta
 	}
 
 	/**
-	 * Outputs the Html for the given field
-	 * @return HTML 
+	 * outputs the Html for the given field
+	 * @return HTML
 	 */
-	public function Output()
+	public function output()
 	{
 		global $post;
-		
-		parent::Output();
+
+		parent::output();
 
 		$settings = array(
 			'textarea_name'	=> 'content',
@@ -36,11 +36,11 @@ class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field implements Meta
 			'drag_drop_upload' => true
 		);
 
-		wp_editor( htmlspecialchars_decode( 
-			$post->post_content ), 
+		wp_editor( htmlspecialchars_decode(
+			$post->post_content ),
 			'content', apply_filters( 'lifterlms_course_full_description_editor_settings', $settings ) );
-		
-		parent::CloseOutput();				
+
+		parent::Closeoutput();
 	}
 }
 

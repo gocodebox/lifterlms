@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
-* 
+*
 */
 class LLMS_Metabox_Post_Excerpt_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
 {
@@ -16,15 +16,15 @@ class LLMS_Metabox_Post_Excerpt_Field extends LLMS_Metabox_Field implements Meta
 	}
 
 	/**
-	 * Outputs the Html for the given field
-	 * @return HTML 
+	 * outputs the Html for the given field
+	 * @return HTML
 	 */
-	public function Output()
+	public function output()
 	{
 		global $post;
 
-		parent::Output();
-		
+		parent::output();
+
 		$settings = array(
 			'textarea_name'	=> 'excerpt',
 			'quicktags' 	=> array( 'buttons' => 'em,strong,link' ),
@@ -37,12 +37,12 @@ class LLMS_Metabox_Post_Excerpt_Field extends LLMS_Metabox_Field implements Meta
 			'drag_drop_upload' => true
 		);
 
-		wp_editor( htmlspecialchars_decode( 
-			$post->post_excerpt ), 
+		wp_editor( htmlspecialchars_decode(
+			$post->post_excerpt ),
 			'excerpt', apply_filters( 'lifterlms_course_short_description_editor_settings', $settings ) );
 
 		?> <div class="clear"></div> <?php
-		parent::CloseOutput();				
+		parent::Closeoutput();
 	}
 }
 

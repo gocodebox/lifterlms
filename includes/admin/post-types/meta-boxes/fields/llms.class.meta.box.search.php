@@ -16,17 +16,17 @@ class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	}
 
 	/**
-	 * Outputs the Html for the given field
+	 * outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function Output() {
+	public function output() {
 
 		global $post;
 
-		parent::Output(); ?>
-					
-		<select 
-			id="<?php echo esc_attr( $this->field['id'] ); ?>" 
+		parent::output(); ?>
+
+		<select
+			id="<?php echo esc_attr( $this->field['id'] ); ?>"
 			name="<?php echo esc_attr( $this->field['id'] ); ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
 		>
@@ -42,9 +42,9 @@ class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 			<?php endif; ?>
 			<?php endforeach; ?>
- 		</select>			
+ 		</select>
 		<?php
-		parent::CloseOutput();
+		parent::Closeoutput();
 	}
 }
 

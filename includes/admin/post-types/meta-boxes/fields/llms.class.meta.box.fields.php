@@ -45,10 +45,10 @@ abstract class LLMS_Metabox_Field
 	}
 
 	/**
-	 * Outputs the head for each of the field types
+	 * outputs the head for each of the field types
 	 * @todo  all the unset variables here should be defaulted somewhere else probably
 	 */
-	public function Output() {
+	public function output() {
 
 		global $post;
 		$this->meta = self::get_post_meta( $post->ID, $this->field['id'] );
@@ -75,9 +75,9 @@ abstract class LLMS_Metabox_Field
 	}
 
 	/**
-	 * Outputs the tail for each of the field types
+	 * outputs the tail for each of the field types
 	 */
-	public function CloseOutput() {
+	public function Closeoutput() {
 
 		?> <div class="clear"></div></li> <?php
 	}

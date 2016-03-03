@@ -2,5 +2,5 @@
 
 interface Meta_Box_Field_Interface
 {
-	public function Output();
+	public function output();
 }

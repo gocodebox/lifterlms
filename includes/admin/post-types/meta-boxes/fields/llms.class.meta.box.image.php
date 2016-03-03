@@ -16,16 +16,16 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 	}
 
 	/**
-	 * Outputs the Html for the given field
+	 * outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function Output() {
+	public function output() {
 
 		global $post;
 		$image;
 		$imgclass;
 
-		parent::Output();
+		parent::output();
 
 		if ($this->field['section'] === 'achievement_meta_box') {
 			$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' ); ?>
@@ -43,12 +43,12 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 			$image = $image[0];
 		} ?>
 				<img src="<?php echo $image; ?>" id="<?php echo $this->field['id']; ?>" class="<?php echo $imgclass; ?>" /><br />
-				<input name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" type="hidden" class="upload_<?php echo $this->field['class']; ?>_image" type="text" size="36" name="ad_image" value="<?php echo $this->meta; ?>" /> 
+				<input name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" type="hidden" class="upload_<?php echo $this->field['class']; ?>_image" type="text" size="36" name="ad_image" value="<?php echo $this->meta; ?>" />
 				<input id="<?php echo $this->field['id']; ?>" class="button <?php echo $this->field['class']; ?>_image_button" type="button" value="Upload Image" />
 				<small> <a href="#" id="<?php echo $this->field['id']; ?>" class="llms_<?php echo $this->field['class']; ?>_clear_image_button">Remove Image</a></small>
-				<br /><span class="description"><?php echo $this->field['desc']; ?></span>		
+				<br /><span class="description"><?php echo $this->field['desc']; ?></span>
 		<?php
-		parent::CloseOutput();
+		parent::Closeoutput();
 	}
 }
 

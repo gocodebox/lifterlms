@@ -11,7 +11,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 	public static $prefix = '_';
 
 	/**
-	 * Outputs the Meta Box on the page
+	 * outputs the Meta Box on the page
 	 * @param object $post Global WP Post Object
 	 * @param array The array returned by the local metabox_options() function
 	 * @return void
@@ -67,7 +67,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 						'class' 	=> '',
 						'desc_class' => 'd-all',
 						'group' 	=> 'bottom',
-						'value' 	=> '<p>Use the text editor above to add content to your email. 
+						'value' 	=> '<p>Use the text editor above to add content to your email.
 										You can include any of the following merge fields to give the email a personal touch.
 										<br>{site_title}
 										<br>{user_login}

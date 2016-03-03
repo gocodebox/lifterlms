@@ -65,27 +65,27 @@ $sections = $course->get_children_sections();
 					} elseif ( $course->is_user_enrolled( get_current_user_id() ) && get_option( 'lifterlms_display_lesson_complete_placeholders' ) === 'yes') {
 						$complete = ' has-icon';
 						$check = '<span class="llms-lesson-complete-placeholder"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
-						elseif ( $lesson->get_is_free() ) {
-							$check = LLMS_Svg::get_icon( 'llms-icon-free', '', '', 'llms-free-lesson-svg' );
-							$complete = ' is-complete has-icon';
-						} else {
-							$complete = '';
-							$check = '';
-						}
+					} elseif ( $lesson->get_is_free() ) {
+						$check = LLMS_Svg::get_icon( 'llms-icon-free', '', '', 'llms-free-lesson-svg' );
+						$complete = ' is-complete has-icon';
+					} else {
+						$complete = '';
+						$check = '';
+					}
 
-						//set permalink
-						$permalink = 'javascript:void(0)';
-						$page_restricted = llms_page_restricted( $course->id );
-						$title = '';
-						$linkclass = '';
+					//set permalink
+					$permalink = 'javascript:void(0)';
+					$page_restricted = llms_page_restricted( $course->id );
+					$title = '';
+					$linkclass = '';
 
-						if ( ! $page_restricted['is_restricted'] || $lesson->get_is_free()) {
-							$permalink = get_permalink( $lesson->id );
-							$linkclass = 'llms-lesson-link';
-						} else {
-							$title = LLMS_Language::output( 'Take this course to unlock this lesson' );
-							$linkclass = 'llms-lesson-link-locked';
-						}
+					if ( ! $page_restricted['is_restricted'] || $lesson->get_is_free()) {
+						$permalink = get_permalink( $lesson->id );
+						$linkclass = 'llms-lesson-link';
+					} else {
+						$title = LLMS_Language::output( 'Take this course to unlock this lesson' );
+						$linkclass = 'llms-lesson-link-locked';
+					}
 					?>
 
 					<div class="llms-lesson-preview<?php echo $complete; ?>">

@@ -432,6 +432,11 @@ final class LifterLMS {
 }
 
 /**
+ * shame shame shame...
+ * http://i.giphy.com/c2YyNySJ1CbFC.gif
+ */
+// @codingStandardsIgnoreStart
+/**
  * Returns the main instance of LLMS
  *
  * @return LifterLMS
@@ -439,5 +444,5 @@ final class LifterLMS {
 function LLMS() {
 	return LifterLMS::instance();
 }
-
+// @codingStandardsIgnoreEnd
 return new LifterLMS();

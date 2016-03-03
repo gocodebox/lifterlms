@@ -17,14 +17,14 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	}
 
 	/**
-	 * Outputs the Html for the given field
+	 * outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function Output() {
+	public function output() {
 
 		global $post;
 
-		parent::Output();
+		parent::output();
 
 		$id = $name = esc_attr( $this->field['id'] );
 
@@ -67,7 +67,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			<?php endforeach; ?>
 		</select>
 		<?php
-		parent::CloseOutput();
+		parent::Closeoutput();
 	}
 
 }

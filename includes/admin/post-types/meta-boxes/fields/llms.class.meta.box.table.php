@@ -16,14 +16,14 @@ class LLMS_Metabox_Table_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 	}
 
 	/**
-	 * Outputs the Html for the given field
+	 * outputs the Html for the given field
 	 * @return HTML
 	 */
-	public function Output() {
+	public function output() {
 
 		global $post;
 
-		parent::Output(); ?>
+		parent::output(); ?>
             <table class="form-table">
                 <thead>
                     <?php foreach ( $this->field['titles'] as $title  ) : ?>
@@ -41,7 +41,7 @@ class LLMS_Metabox_Table_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
                 </tbody>
             </table>
         <?php
-		parent::CloseOutput();
+		parent::Closeoutput();
 	}
 }
 
