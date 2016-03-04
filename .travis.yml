@@ -30,6 +30,7 @@ matrix:
 cache:
   directories:
     - vendor
+    - node_modules
     - $HOME/.composer/cache
 
 before_script:
