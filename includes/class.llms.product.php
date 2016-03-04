@@ -100,18 +100,21 @@ class LLMS_Product {
 	 */
 	public function get_payment_options() {
 
-		$single = $this->get_price();
-		$recurring = $this->is_recurring();
-
 		$options = array();
 
-		if ($this->get_price()) {
-			array_push($options, 'single');
+		if( $this->is_free() ) {
+			array_push( $options, 'free' );
 		}
-		if ($this->is_recurring()) {
-			array_push($options, 'recurring');
+
+		if ( $this->get_price() ) {
+			array_push( $options, 'single' );
 		}
-		return apply_filters( 'lifterlms_product_get_payment_options', $options);
+
+		if ( $this->is_recurring() ) {
+			array_push( $options, 'recurring' );
+		}
+
+		return apply_filters( 'lifterlms_product_get_payment_options', $options, $this );
 	}
 
 	/**
@@ -239,12 +242,24 @@ class LLMS_Product {
 
 	}
 
+
 	/**
-	 * Get price in html format
+	 * Retrive the HTML for a single purchase of a product
 	 *
-	 * @return string
+	 * @since  2.2.0
+	 *
+	 * @param  string $price [description]
+	 * @return [type]        [description]
 	 */
-	public function get_price_html( $price = '' ) {
+	public function get_single_price_html( $price = '' )
+	{
+
+		if( $this->is_custom_single_price() ) {
+
+			return $this->get_custom_single_price_html();
+
+		}
+
 
 		$suffix 				= $this->get_price_suffix_html();
 		$currency_symbol 		= get_lifterlms_currency_symbol() != '' ? get_lifterlms_currency_symbol() : '';
@@ -253,6 +268,7 @@ class LLMS_Product {
 		$display_sale_price    	= $this->get_sale_price();
 
 		if ( $this->get_price() > 0 ) {
+
 			$price = $this->set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price);
 
 		}
@@ -269,8 +285,37 @@ class LLMS_Product {
 
 		}
 
-		return apply_filters( 'lifterlms_get_price_html', $price, $this );
+
+		/**
+		 * @todo eventually deprecate this filter in favor of the single price equivalent
+		 */
+		$price = apply_filters( 'lifterlms_get_price_html', $price, $this );
+
+		if( ! $this->is_free() ) {
+
+			$price = __( 'single payment of', 'lifterlms' ) . ' ' . $price;
+
+		}
+
+		return apply_filters( 'lifterlms_get_single_price_html', $price, $this );
+
 	}
+
+	/**
+	 * Get price in html format
+	 *
+	 * @todo  eventually deprecate this in favor of get_single_price_html()
+	 *
+	 * @return string
+	 */
+	public function get_price_html( $price = '' ) {
+
+		return $this->get_single_price_html();
+
+	}
+
+
+
 
 	public function get_recurring_price() {
 		return apply_filters( 'lifterlms_get_recurring_price', $this->llms_subscription_price, $this );
@@ -373,9 +418,7 @@ class LLMS_Product {
 
 			$price .= apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
 
-		}
-
-		else {
+		} else {
 
 			$price = __( 'Free!', 'lifterlms' );
 
@@ -387,14 +430,21 @@ class LLMS_Product {
 
 	}
 
-    public function is_custom_single_price()
-    {
+	/**
+	 * Determine if custom price output is enabled
+	 * @return boolean
+	 */
+    public function is_custom_single_price() {
         return $this->is_custom_single_price;
     }
 
-    public function get_custom_single_price_html()
-    {
-        return $this->custom_single_price_html;
+
+    /**
+     * Retrive the value of the custom price output
+     * @return string
+     */
+    public function get_custom_single_price_html() {
+        return apply_filters( 'lifterlms_get_custom_single_price_html', $this->custom_single_price_html, $this );
     }
 
 	/**
@@ -669,6 +719,19 @@ class LLMS_Product {
 		return $this->sale_price_dates_to;
 
 	}
+
+
+
+	/**
+	 * Determine if a product is free
+	 * @return boolean
+	 */
+	public function is_free() {
+
+		return ( ! $this->get_price() && ! $this->is_recurring() );
+
+	}
+
 
 
 	/**
