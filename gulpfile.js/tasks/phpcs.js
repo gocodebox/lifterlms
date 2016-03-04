@@ -43,6 +43,9 @@ gulp.task( 'phpcs', function () {
 		} ) )
 
 		// Log all problems that were found
-		.pipe( phpcs.reporter( 'log' ) );
+		.pipe( phpcs.reporter( 'log' ) )
+
+		// report an error if any found
+		.pipe( phpcs.reporter( 'fail' ) );
 
 } );
