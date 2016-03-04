@@ -1,8 +1,6 @@
 LifterLMS [![Build Status](https://travis-ci.com/gocodebox/lifterlms.svg?token=cynuTFxuKtxvAs4e2hNZ&branch=master)](https://travis-ci.com/gocodebox/lifterlms)
 ==========
 
-
-
 LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
 
 ### [Changelog](./CHANGELOG.md)
