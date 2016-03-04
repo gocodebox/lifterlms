@@ -53,7 +53,7 @@ before_script:
 
 script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L . -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
-- if [[ "$PHPLINT" == "1" ]]; then vendor/bin/phpcs -v; fi
+# - if [[ "$PHPLINT" == "1" ]]; then vendor/bin/phpcs -v; fi
 - if [[ "$PHPCS" == "1" ]]; then npm install -g gulp && npm install --no-optional && gulp phpcs --warning 0; fi
 # - if [[ "$COVERAGE" == "1" ]]; then phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; else phpunit -c phpunit.xml; fi
 # - if [[ "$COVERAGE" == "1" ]]; then vendor/bin/test-reporter; fi

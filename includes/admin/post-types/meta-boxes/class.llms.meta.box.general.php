@@ -37,13 +37,14 @@ class LLMS_Meta_Box_General {
 			<tr class="llms_select_prerequisite">
 				<?php
 				$prerquisite_args = array(
-				'posts_per_page'   => -1,
-				'orderby'          => 'title',
-				'order'            => 'ASC',
-				'post_type'        => $post->post_type,
-				'post__not_in'	   => array( $post->ID ),
-				'suppress_filters' => true,
-				); ,?>
+					'posts_per_page'   => -1,
+					'orderby'          => 'title',
+					'order'            => 'ASC',
+					'post_type'        => $post->post_type,
+					'post__not_in'	   => array( $post->ID ),
+					'suppress_filters' => true,
+				);
+				?>
 
 				<?php
 				$all_posts = get_posts( $prerquisite_args );
