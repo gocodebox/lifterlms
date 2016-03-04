@@ -195,8 +195,31 @@ class LLMS_Voucher
                     $order = new LLMS_Order();
                     $order->create($user_id, $product, 'Voucher');
 
-                    if (get_post_type($product) === 'llms_membership') {
+                    if ('llms_membership' === get_post_type($product)) {
                         $membership_levels[] = $product;
+
+                        $autoenroll_courses = get_post_meta( $product, '_llms_auto_enroll', true );
+
+                        foreach($autoenroll_courses as $course_id) {
+                            $user_metadatas = array(
+                                '_start_date' => 'yes',
+                                '_status'     => 'Enrolled',
+                            );
+
+                            foreach( $user_metadatas as $key => $value ) {
+                                $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+                                    array(
+                                        'user_id'      => $user_id,
+                                        'post_id'      => $course_id,
+                                        'meta_key'     => $key,
+                                        'meta_value'   => $value,
+                                        'updated_date' => current_time( 'mysql' ),
+                                    )
+                                );
+                            }
+                        }
+
+                        do_action( 'llms_user_added_to_membership_level', $user_id, $product );
                     }
 
                     // update user postmeta
@@ -222,6 +245,8 @@ class LLMS_Voucher
                 if (!empty($membership_levels)) {
                     update_user_meta($user_id, '_llms_restricted_levels', $membership_levels);
                 }
+
+                do_action( 'llms_user_enrolled_in_course', $user_id, $product );
 
                 if($notices) {
                     llms_add_notice("Voucher used successfully!");
