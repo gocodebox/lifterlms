@@ -237,9 +237,8 @@ class LLMS_Meta_Box_Coupon_Options {
 			}
 		}
 
-		if (!empty($products)) {
-			update_post_meta( $post_id, $products_meta_key, ( empty($products) ) ? '' : $products );
-		}
+		update_post_meta( $post_id, $products_meta_key, ( empty( $products ) ) ? '' : $products );
+
 
 		//save coupon action
 		do_action( 'lifterlms_after_save_coupon_meta_box', $post_id, $post );
