@@ -31,6 +31,8 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Coupons can (finally) be removed after being applied!
 + Coupons can now be restricted to specific courses and/or memberships
 + Percentage based coupons can no longer be created with a value larger than 100%
++ Added numeric restrictions to usage and coupon amount fieds on the admin panel
++ Fixed a programmatic error that prevented product restrictions from being entirely removed
 + Fixed a few instances where hardcoded a US Dollar symbol ($) where a dynamic currency symbol should have been displayed.
 
 ##### Wow Bad Syntax, Very Typo, Such Grammar, So Undefined
@@ -58,6 +60,8 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Vouchers can no longer be saved with a use of "0"
 + added a CSS class for various syllabus outputs that notes that the lesson has an icon. Previously CSS relied on "is-complete" to output styles for having an icon but with the addition of placeholders the "is-complete" is used only to note that the lesson is completed and "has-icon" is a more semantic class that applies to both complete and incomplete lessons with an icon.
 + Removed the membership restriction metabox from some post types where it shouldn't have been displaying.
++ admin select fields now have an option `allow_null` (default to "true") which can be set to `false` in order to prevent the output of the default "None" option
+
 
 = v2.1.1 - 2016/02/15 =
 -----------------------
