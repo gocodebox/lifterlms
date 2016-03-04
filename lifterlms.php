@@ -32,6 +32,8 @@ require 'vendor/autoload.php';
  */
 final class LifterLMS {
 
+	public $NonSense = false;
+
 	public $version = '2.2.0-2';
 
 	protected static $_instance = null;
