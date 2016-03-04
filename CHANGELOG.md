@@ -1,7 +1,7 @@
 == Changelog ==
 
-= v2.2.0-2 - 2016/03/07 - PreRelease =
---------------------------------------
+= v2.2.0 - 2016/03/04
+---------------------
 
 ##### Translations
 
@@ -15,7 +15,7 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + New filters are available to make customizing the certificate template easier for developers. All new filters are documented at [https://lifterlms.readme.io/docs/functions-certificates](https://lifterlms.readme.io/docs/functions-certificates).
 + A new WordPress Image Size is now available and will be used for generating the image used by default when uploading certificates to the media library. Fore more information on these new settings visit [https://lifterlms.com/docs/certificate-background-image-sizes/](https://lifterlms.com/docs/certificate-background-image-sizes/).
 
-##### Course and Membership Sales
+##### Course and Membership Pricing & Sales
 
 + Sale price start and end date are now completely optional.
 	+ Provide neither a start date nor an end date to have a sale run indefinetly
@@ -23,6 +23,8 @@ _We've completely rewritten the certificates template (but it's all backwards co
 	+ Provide an end date with no start date to have a sale end a a pre-determined date but start immediately
 	+ Provide a start date and an end date to have a sale run for a pre-determined period of time
 + Optimized the `LLMS_Product` class to provide more reliable and extenable use of the class
++ The templates related to pricing functions have been refactored. Affected templates include: "templates/course/price.php", "templates/loop/price.php", "templates/membership/price.php"
++ Many people complained about the size of the `.llms-price` element on course and membership tiles on loop pages. We removed the inflated size and will now default to your theme for sizing. You selector remains the same if you wish to customize the size of the price text.
 
 ##### Coupon Updates
 
