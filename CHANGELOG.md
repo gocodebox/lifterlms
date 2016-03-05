@@ -6,7 +6,7 @@
 ##### Translations
 
 + We've updated our .pot file for the first time in quite a while. We're really sorry for de-emphasizing translation. An updated .pot file will now accompany each version of LifterLMS whenever a translatable string is adjusted or when a new string is added.
-+ We've also made it easier to include custom translations. Read our knowledge base article on the matter here: [adsfadsfasdf]
++ We've also made it easier to include custom translations. Read our [Translation Guide](https://lifterlms.readme.io/v2.2.0/docs/getting-started-with-translation).
 
 ##### Certificate Background Images
 
