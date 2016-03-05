@@ -1,10 +1,10 @@
 === LifterLMS ===
-Contributors: therealmarknelson, thomasplevy, chrisbadgett, kathy11, lifterlms, jackyliao888, codeboxllc
+Contributors: therealmarknelson, thomasplevy, chrisbadgett, kathy11, lifterlms, jackyliao888, anecieto, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 3.8
 Tested up to: 4.4.2
-Stable tag: 2.1.1
+Stable tag: 2.2.0-2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -161,7 +161,57 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-= v2.1.0 - 2016/02/15 =
+= v2.2.0-2 - 2016/03/07 - PreRelease =
+--------------------------------------
+
+##### Tranlations
+
++ We've updated our .pot file for the first time in quite a while. We're really sorry for de-emphasizing translation. An updated .pot file will now accompany each version of LifterLMS whenever a translatable string is adjusted or when a new string is added.
++ We've also made it easier to include custom translations. Read our knowledge base article on the matter here: [adsfadsfasdf]
+
+##### Certificate Background Images
+
+_We've completely rewritten the certificates template (but it's all backwards compatible)._
+
+##### Course and Membership Sales
+
++ Sale price start and end date are now completely optional.
+	+ Provide neither a start date nor an end date to have a sale run indefinetly
+	+ Provide a start date with no end date to have a sale start at a pre-determined time with no pre-determined ending
+	+ Provide an end date with no start date to have a sale end a a pre-determined date but start immediately
+	+ Provide a start date and an end date to have a sale run for a pre-determined period of time
++ Optimized the `LLMS_Product` class to provide more reliable and extenable use of the class
+
+##### Coupon Updates
+
++ Coupons can (finally) be removed after being applied!
++ Coupons can now be restricted to specific courses and/or memberships
++ Percentage based coupons can no longer be created with a value larger than 100%
++ Fixed a few instances where hardcoded a US Dollar symbol ($) where a dynamic currency symbol should have been displayed.
+
+##### Wow Bad Syntax, Very Typo, Such Grammar, So Undefined
+
++ Fixed a typo in filter associated with modifying the registration of the lesson post type (`lifterlms_register_post_type_lesson`)
++ Fixed a grammatical error in a Membership restriction message
++ Fixed a syntax error in "/templates/course/outline-list-small.php" that prevented the `done` CSS class from being properly applied to completed lessons
++ Fixed a few typos and grammatical errors on the Course and Membership settings metaboxes
++ Fixed an undefined variable in "templates/course/syllabus.php"
++ Fixed an issue on the system report that prevented the "Courses Page" from being reported properly
++ Fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
++ Fixed an installation warning caused by a reference to an undefined class variable
+
+##### Additional, less exciting updates
+
++ Added `the_content` filter to the content of emails sent by LifterLMS
++ Fixed some CSS issues on Voucher screens
++ Updated Courses settings retrieval function to retrieve the correct "shop" page id
++ Added translation functions to voucher export meta box class
++ Vouchers Export metabox will only allow export after a voucher has been published. This prevent's an issue caused by attempting to export voucher codes before they were saved in the database via the publish / save action.
++ Vouchers can no longer be saved with a use of "0"
++ added a CSS class for various syllabus outputs that notes that the lesson has an icon. Previously CSS relied on "is-complete" to output styles for having an icon but with the addition of placeholders the "is-complete" is used only to note that the lesson is completed and "has-icon" is a more semantic class that applies to both complete and incomplete lessons with an icon.
+
+
+= v2.1.1 - 2016/02/15 =
 -----------------------
 
 ##### System Report

@@ -37,15 +37,13 @@ $product_obj = new LLMS_Product($product);
 $payment_options = $product_obj->get_payment_options();
 
 
-$single_html_price = sprintf( __( apply_filters('lifterlms_single_payment_text','Single payment of %s'), 'lifterlms' ), $product_obj->get_price_html() );
-
 $coupon_session = LLMS()->session->get( 'llms_coupon', array() );
 
 if($coupon_session) {
 
 	$info_message = sprintf( __( 'Coupon code "%s" has been applied to your order', 'lifterlms' ), $coupon_session->coupon_code );
 
-	$savings = ($coupon_session->type == 'percent') ? $coupon_session->amount.'%' : '$'.$coupon_session->amount;
+	$savings = ($coupon_session->type == 'percent') ? $coupon_session->amount.'%' : get_lifterlms_currency_symbol().$coupon_session->amount;
 
 	$info_message .= ' '.sprintf( __( '(%s off)', 'lifterlms' ), $savings );
 } else {
@@ -89,9 +87,7 @@ if($coupon_session) {
 							/>
 							<label for="llms-payment-option_<?php echo $value; ?>">
 								<span class="llms-radio"></span>
-								<?php
-									echo $single_html_price;
-								?>
+								<?php echo ucfirst( $product_obj->get_price_html() ); ?>
 							</label>
 						</p>
 					<?php
@@ -135,6 +131,16 @@ if($coupon_session) {
 
 		<!-- Coupon code entry form -->
 		<div class="llms-coupon-entry llms-notice-box">
+			<?php if ( $coupon_session ): ?>
+				<form class="llms-remove-coupon" id="llms-remove-coupon" method="post">
+					<div class="llms-center-content">
+						<input type="submit" class="llms-button-text" name="llms_remove_coupon" value="[<?php _e( 'Remove', 'lifterlms' ); ?>]" />
+						<input type="hidden" name="product_id" value="<?php echo $product->ID; ?>" />
+					</div>
+					<div class="clear"></div>
+					<?php wp_nonce_field( 'llms-remove-coupon' ); ?>
+				</form>
+			<?php endif; ?>
 			<?php llms_print_notice( $info_message, 'notice' ); ?>
 			<form id="llms-checkout-coupon" method="post" style="display:none">
 				<input type="text" name="coupon_code" class="llms-input-text" placeholder="<?php _e( 'Enter coupon code', 'lifterlms' ); ?>" id="coupon_code" value="" />
@@ -206,10 +212,10 @@ if($coupon_session) {
 
 			<div class="llms-clear-box llms-center-content">
 				<?php if ( count( $available_gateways ) ) : ?>
-				<input class="llms-button" 
-					type="submit" 
-					class="button" 
-					name="create_order_details" 
+				<input class="llms-button"
+					type="submit"
+					class="button"
+					name="create_order_details"
 					<?php echo (is_user_logged_in() ? '' : 'disabled="disabled"'); ?>
 					value="<?php _e( 'Buy Now', 'lifterlms' ); ?>" />
 				<?php endif; ?>

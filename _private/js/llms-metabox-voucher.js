@@ -17,7 +17,7 @@
             changeNotSaved = true;
 
             if ($.isNumeric(qty) && $.isNumeric(uses)) {
-                if (parseInt(qty) > 0) {
+                if (parseInt(qty) > 0 && parseInt(uses) > 0) {
 
                     if(qty > 50) {
                         alert("You can only generate 50 rows at a time");

@@ -4,6 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
 <?php do_action( 'lifterlms_email_header', $email_heading ); ?>
 
-<p><?php echo $email_message; ?></p>
+<?php echo apply_filters( 'the_content', $email_message ); ?>
 
 <?php do_action( 'lifterlms_email_footer' ); ?>

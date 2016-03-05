@@ -10,13 +10,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 get_header( );
 
-while ( have_posts() ) : the_post(); 
+while ( have_posts() ) : the_post();
 
-	llms_get_template_part( 'content', 'certificate' ); 
+	llms_get_template_part( 'content', 'certificate' );
 
 endwhile;
-?>
-
-<?php
-
 ?>

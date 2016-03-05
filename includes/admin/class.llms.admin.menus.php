@@ -35,39 +35,43 @@ class LLMS_Admin_Menus {
 	 * @return [array]           [modified sub menu array]
 	 */
 	public function submenu_order( $menu_ord ) {
-	    global $submenu;
+		global $submenu;
 
-	    $arr = array();
+		if( isset( $submenu['lifterlms'] ) ) {
 
-	    foreach( $submenu['lifterlms'] as $sm )
-	    {
+			$arr = array();
 
-	    	switch( $sm[0] ) {
+			foreach( $submenu['lifterlms'] as $sm )
+			{
 
-	    		case 'Settings':	 	$i = 0;  break;
-	    		case 'Analytics':	 	$i = 1;  break;
-	    		case 'Students':	 	$i = 2;  break;
-	    		case 'Emails':		 	$i = 3;  break;
-	    		case 'Engagements':	 	$i = 4;  break;
-	    		case 'Achievements': 	$i = 5;  break;
-	    		case 'Certificates': 	$i = 6;  break;
-	    		case 'Reviews':		 	$i = 7;  break;
-	    		case 'Orders':		 	$i = 8;  break;
-	    		case 'Coupons':		 	$i = 9;  break;
-	    		case 'Vouchers':	 	$i = 10; break;
-	    		case 'System Report':	$i = 11; break;
+				switch( $sm[0] ) {
 
-	    	}
+					case 'Settings':	 	$i = 0;  break;
+					case 'Analytics':	 	$i = 1;  break;
+					case 'Students':	 	$i = 2;  break;
+					case 'Emails':		 	$i = 3;  break;
+					case 'Engagements':	 	$i = 4;  break;
+					case 'Achievements': 	$i = 5;  break;
+					case 'Certificates': 	$i = 6;  break;
+					case 'Reviews':		 	$i = 7;  break;
+					case 'Orders':		 	$i = 8;  break;
+					case 'Coupons':		 	$i = 9;  break;
+					case 'Vouchers':	 	$i = 10; break;
+					case 'System Report':	$i = 11; break;
 
-	    	$arr[$i] = $sm;
+				}
 
-	    }
+				$arr[$i] = $sm;
 
-	    ksort( $arr );
+			}
 
-	    $submenu['lifterlms'] = $arr;
+			ksort( $arr );
 
-	    return $menu_ord;
+			$submenu['lifterlms'] = $arr;
+
+		}
+
+		return $menu_ord;
 	}
 
 	/**
@@ -126,7 +130,7 @@ class LLMS_Admin_Menus {
 	public function display_analytics_menu() {
 
 		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ),
-		 	'llms-analytics', array( $this, 'analytics_page_init' ) );
+			'llms-analytics', array( $this, 'analytics_page_init' ) );
 	}
 
 	/**

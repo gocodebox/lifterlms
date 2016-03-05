@@ -15,12 +15,14 @@ class LLMS_Product {
 	*/
 	public $id;
 
+
 	/**
 	* Post Object
 	* @access public
 	* @var array
 	*/
 	public $post;
+
 
 	/**
 	* Constructor
@@ -80,6 +82,7 @@ class LLMS_Product {
 		return $value;
 	}
 
+
 	/**
 	 * Get SKU
 	 *
@@ -97,18 +100,21 @@ class LLMS_Product {
 	 */
 	public function get_payment_options() {
 
-		$single = $this->get_price();
-		$recurring = $this->is_recurring();
-
 		$options = array();
 
-		if ($this->get_price()) {
-			array_push($options, 'single');
+		if( $this->is_free() ) {
+			array_push( $options, 'free' );
 		}
-		if ($this->is_recurring()) {
-			array_push($options, 'recurring');
-		}	
-		return apply_filters( 'lifterlms_product_get_payment_options', $options);
+
+		if ( $this->get_price() ) {
+			array_push( $options, 'single' );
+		}
+
+		if ( $this->is_recurring() ) {
+			array_push( $options, 'recurring' );
+		}
+
+		return apply_filters( 'lifterlms_product_get_payment_options', $options, $this );
 	}
 
 	/**
@@ -149,7 +155,7 @@ class LLMS_Product {
 	/**
 	 * Get subscription total price
 	 * Total price of the subscription
-	 * 
+	 *
 	 * @param  int $sub [sub id]
 	 * @return int [total price]
 	 */
@@ -203,7 +209,7 @@ class LLMS_Product {
 			$billing_period_html = 'per ' . $billing_period;
 		}
 
-		// if first payment is different from recurring payment display first payment. 
+		// if first payment is different from recurring payment display first payment.
 		if ($sub_first_payment != $sub_price) {
 			$price = $currency_symbol . $sub_first_payment . ' then ';
 		}
@@ -231,25 +237,38 @@ class LLMS_Product {
 
 		$checkout_page_id = llms_get_page_id( 'checkout' );
 		$checkout_url =  apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
-		
+
 		return add_query_arg( 'product-id', $this->id, $checkout_url );
 
 	}
 
+
 	/**
-	 * Get price in html format
+	 * Retrive the HTML for a single purchase of a product
 	 *
-	 * @return string
+	 * @since  2.2.0
+	 *
+	 * @param  string $price [description]
+	 * @return [type]        [description]
 	 */
-	public function get_price_html( $price = '' ) {
+	public function get_single_price_html( $price = '' )
+	{
+
+		if( $this->is_custom_single_price() ) {
+
+			return $this->get_custom_single_price_html();
+
+		}
+
 
 		$suffix 				= $this->get_price_suffix_html();
 		$currency_symbol 		= get_lifterlms_currency_symbol() != '' ? get_lifterlms_currency_symbol() : '';
 		$display_price 			= $this->adjusted_price($this->get_price());
-		$display_base_price 	= $this->get_base_price();
+		$display_base_price 	= $this->get_regular_price();
 		$display_sale_price    	= $this->get_sale_price();
 
 		if ( $this->get_price() > 0 ) {
+
 			$price = $this->set_price_html_as_value($suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price);
 
 		}
@@ -266,8 +285,37 @@ class LLMS_Product {
 
 		}
 
-		return apply_filters( 'lifterlms_get_price_html', $price, $this );
+
+		/**
+		 * @todo eventually deprecate this filter in favor of the single price equivalent
+		 */
+		$price = apply_filters( 'lifterlms_get_price_html', $price, $this );
+
+		if( ! $this->is_free() ) {
+
+			$price = __( 'single payment of', 'lifterlms' ) . ' ' . $price;
+
+		}
+
+		return apply_filters( 'lifterlms_get_single_price_html', $price, $this );
+
 	}
+
+	/**
+	 * Get price in html format
+	 *
+	 * @todo  eventually deprecate this in favor of get_single_price_html()
+	 *
+	 * @return string
+	 */
+	public function get_price_html( $price = '' ) {
+
+		return $this->get_single_price_html();
+
+	}
+
+
+
 
 	public function get_recurring_price() {
 		return apply_filters( 'lifterlms_get_recurring_price', $this->llms_subscription_price, $this );
@@ -275,8 +323,8 @@ class LLMS_Product {
 
 	/**
 	 * Get recurring price html output
-	 * Formatted string representation of recurring price, cycle, frequency and first payment 
-	 * 
+	 * Formatted string representation of recurring price, cycle, frequency and first payment
+	 *
 	 * @return string [formatted string representing price]
 	 */
 	public function get_recurring_price_html() {
@@ -302,7 +350,7 @@ class LLMS_Product {
 			$billing_period_html = 'per ' . $billing_period;
 		}
 
-		// if first payment is different from recurring payment display first payment. 
+		// if first payment is different from recurring payment display first payment.
 		if ($recurring_first_payment != $recurring_price) {
 			$price = $currency_symbol . $recurring_first_payment . ' then ';
 		}
@@ -331,7 +379,7 @@ class LLMS_Product {
 
 
 		// Check if price is on sale and base price exists
-		if ( $this->is_on_sale() && $this->get_base_price() ) {
+		if ( $this->is_on_sale() && $this->get_regular_price() ) {
 
 			//generate price with formatting and suffix
 			$price = $currency_symbol;
@@ -364,15 +412,13 @@ class LLMS_Product {
 	 */
 	public function set_price_html_as_free() {
 
-		if ( $this->is_on_sale() && $this->get_base_price() ) {
+		if ( $this->is_on_sale() && $this->get_regular_price() ) {
 
 			$price .= $this->get_price_variations_html( $display_base_price, __( 'Free!', 'lifterlms' ) );
 
 			$price .= apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
 
-		}
-
-		else {
+		} else {
 
 			$price = __( 'Free!', 'lifterlms' );
 
@@ -384,14 +430,21 @@ class LLMS_Product {
 
 	}
 
-    public function is_custom_single_price()
-    {
+	/**
+	 * Determine if custom price output is enabled
+	 * @return boolean
+	 */
+    public function is_custom_single_price() {
         return $this->is_custom_single_price;
     }
 
-    public function get_custom_single_price_html()
-    {
-        return $this->custom_single_price_html;
+
+    /**
+     * Retrive the value of the custom price output
+     * @return string
+     */
+    public function get_custom_single_price_html() {
+        return apply_filters( 'lifterlms_get_custom_single_price_html', $this->custom_single_price_html, $this );
     }
 
 	/**
@@ -401,7 +454,42 @@ class LLMS_Product {
 	 */
 	public function is_on_sale() {
 
-		return ( $this->get_sale_price() != $this->get_base_price() && $this->get_sale_price() == $this->get_price() );
+
+		if( $this->on_sale ) {
+
+			$now = current_time( 'timestamp' );
+
+			$start = $this->get_sale_start_date() . ' 00:00:00';
+			$end = $this->get_sale_end_date() . ' 23:23:59'; // make the end of the day
+
+			// start and end
+			if( $start && $end ) {
+
+				return ( $now < strtotime( $end ) && $now > strtotime( $start ) );
+
+			}
+			// only start
+			elseif( $start && ! $end ) {
+
+				return ( $now > strtotime( $start ) );
+
+			}
+			// only end
+			elseif( !$start && $end ) {
+
+				return ( $now < strtotime( $end ) );
+
+			}
+			// neither start nor end
+			else {
+
+				return true;
+
+			}
+
+		}
+
+		return false;
 
 	}
 
@@ -418,7 +506,7 @@ class LLMS_Product {
 
 						$total = ($price * $amount);
 						$total = sprintf('%0.2f', $total);
-				        
+
 				    }
 				    elseif ($adjustment->type == 'dollar') {
 						$amount = round( $adjustment->amount, 2 );
@@ -433,7 +521,7 @@ class LLMS_Product {
 
 	/**
 	 * Adjust price using coupon
-	 * 
+	 *
 	 * @param  string $price [product price]
 	 * @return string       [adjusted product price]
 	 */
@@ -470,7 +558,18 @@ class LLMS_Product {
 	 * @return void
 	 */
 	public function get_price() {
-		return apply_filters( 'lifterlms_get_price', $this->price, $this );
+
+		if( $this->is_on_sale() ) {
+
+			$price = $this->sale_price;
+
+		} else {
+
+			$price = $this->regular_price;
+
+		}
+
+		return apply_filters( 'lifterlms_get_price', $price, $this );
 
 	}
 
@@ -479,7 +578,7 @@ class LLMS_Product {
 	 * @return int [single purchase price]
 	 */
 	public function get_single_price() {
-		return apply_filters( 'lifterlms_get_single_price', $this->price, $this );
+		return apply_filters( 'lifterlms_get_single_price', $this->get_price(), $this );
 	}
 
 	/**
@@ -493,7 +592,7 @@ class LLMS_Product {
 
 	/**
 	 * Get next recurring payment date
-	 * 
+	 *
 	 * @param  int $sub [sub id]
 	 * @return datetime [date of next payment]
 	 */
@@ -549,9 +648,9 @@ class LLMS_Product {
 	 *
 	 * @return void
 	 */
-	public function get_base_price( $price = '' ) {
+	public function get_regular_price( $price = '' ) {
 
-		$price = $price;
+		return $this->regular_price;
 
 	}
 
@@ -562,7 +661,7 @@ class LLMS_Product {
 	 */
 	public function get_sale_price( $price = '' ) {
 
-		$price = $price;
+		return $this->sale_price;
 
 	}
 
@@ -598,9 +697,46 @@ class LLMS_Product {
 
 	}
 
+
+	/**
+	 * Retrive the sale start date
+	 * @return string
+	 */
+	public function get_sale_start_date()
+	{
+
+		return $this->sale_price_dates_from;
+
+	}
+
+	/**
+	 * Retrive the sale end date
+	 * @return string
+	 */
+	public function get_sale_end_date()
+	{
+
+		return $this->sale_price_dates_to;
+
+	}
+
+
+
+	/**
+	 * Determine if a product is free
+	 * @return boolean
+	 */
+	public function is_free() {
+
+		return ( ! $this->get_price() && ! $this->is_recurring() );
+
+	}
+
+
+
 	/**
 	 * Retrieves all relivent post meta for order
-	 * 
+	 *
 	 * @param  [int] $id [Id of order]
 	 * @return [object]     [Object containing all post meta relivent to oreder]
 	 */
@@ -614,7 +750,7 @@ class LLMS_Product {
 
 		$order->id = $id;
 		$order->user_id = isset( $pm['_llms_user_id'][0] ) ? $pm['_llms_user_id'][0] : '';
-		
+
 		//product information
 		$order->product_id = isset( $pm['_llms_order_product_id'][0] ) ? $pm['_llms_order_product_id'][0] : '';
 		$order->product_title = get_the_title( $order->id );
@@ -639,7 +775,7 @@ class LLMS_Product {
 		$order->payment_type = isset( $pm['_llms_payment_type'][0] ) ? $pm['_llms_payment_type'][0] : '';
 		$order->payment_method = isset( $pm['_llms_payment_method'][0] ) ? $pm['_llms_payment_method'][0] : '';
 		$order->order_total = isset( $pm['_llms_order_total'][0] ) ? $pm['_llms_order_total'][0] : 0;
-		
+
 		//coupon information
 		$order->coupon_id = isset( $pm['_llms_order_coupon_id'][0] ) ? $pm['_llms_order_coupon_id'][0] : '';
 		$order->coupon_type = isset( $pm['_llms_order_coupon_type'][0] ) ? $pm['_llms_order_coupon_type'][0] : '';
@@ -655,6 +791,5 @@ class LLMS_Product {
 
 		return $order;
 	}
-
 
 }

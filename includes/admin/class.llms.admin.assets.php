@@ -74,7 +74,8 @@ class LLMS_Admin_Assets {
 	    	'edit-llms_question',
 
             'llms_voucher',
-            'edit-llms_voucher'
+            'edit-llms_voucher',
+            'llms_coupon'
 	    ));
 	}
 

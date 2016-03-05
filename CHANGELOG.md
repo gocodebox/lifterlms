@@ -1,6 +1,69 @@
 == Changelog ==
 
-= v2.1.0 - 2016/02/15 =
+= v2.2.0 - 2016/03/04
+---------------------
+
+##### Translations
+
++ We've updated our .pot file for the first time in quite a while. We're really sorry for de-emphasizing translation. An updated .pot file will now accompany each version of LifterLMS whenever a translatable string is adjusted or when a new string is added.
++ We've also made it easier to include custom translations. Read our [Translation Guide](https://lifterlms.readme.io/v2.2.0/docs/getting-started-with-translation).
+
+##### Certificate Background Images
+
+_We've completely rewritten the certificates template (but it's all backwards compatible)._
+
++ New filters are available to make customizing the certificate template easier for developers. All new filters are documented at [https://lifterlms.readme.io/docs/functions-certificates](https://lifterlms.readme.io/docs/functions-certificates).
++ A new WordPress Image Size is now available and will be used for generating the image used by default when uploading certificates to the media library. Fore more information on these new settings visit [https://lifterlms.com/docs/certificate-background-image-sizes/](https://lifterlms.com/docs/certificate-background-image-sizes/).
+
+##### Course and Membership Pricing & Sales
+
++ Sale price start and end date are now completely optional.
+	+ Provide neither a start date nor an end date to have a sale run indefinetly
+	+ Provide a start date with no end date to have a sale start at a pre-determined time with no pre-determined ending
+	+ Provide an end date with no start date to have a sale end a a pre-determined date but start immediately
+	+ Provide a start date and an end date to have a sale run for a pre-determined period of time
++ Optimized the `LLMS_Product` class to provide more reliable and extenable use of the class
++ The templates related to pricing functions have been refactored. Affected templates include: "templates/course/price.php", "templates/loop/price.php", "templates/membership/price.php"
++ Many people complained about the size of the `.llms-price` element on course and membership tiles on loop pages. We removed the inflated size and will now default to your theme for sizing. You selector remains the same if you wish to customize the size of the price text.
+
+##### Coupon Updates
+
++ Coupons can (finally) be removed after being applied!
++ Coupons can now be restricted to specific courses and/or memberships
++ Percentage based coupons can no longer be created with a value larger than 100%
++ Added numeric restrictions to usage and coupon amount fieds on the admin panel
++ Fixed a programmatic error that prevented product restrictions from being entirely removed
++ Fixed a few instances where hardcoded a US Dollar symbol ($) where a dynamic currency symbol should have been displayed.
+
+##### Wow Bad Syntax, Very Typo, Such Grammar, So Undefined
+
++ Fixed a typo in filter associated with modifying the registration of the lesson post type (`lifterlms_register_post_type_lesson`)
++ Fixed a grammatical error in a Membership restriction message
++ Fixed a syntax error in "/templates/course/outline-list-small.php" that prevented the `done` CSS class from being properly applied to completed lessons
++ Fixed a few typos and grammatical errors on the Course and Membership settings metaboxes
++ Fixed an undefined variable in "templates/course/syllabus.php"
++ Fixed an issue on the system report that prevented the "Courses Page" from being reported properly
++ Fixed an issue that caused PHP warnings on the admin panel for students or WP users with no LifterLMS menu permissions
++ Fixed an installation warning caused by a reference to an undefined class variable
++ Fixed an HTML character encoding issue that caused `&ndash;` to display on the admin panel when viewing LifterLMS Orders
++ Fixed an undefined variable found during engagment triggering for non-email engagements.
+
+##### Additional, less exciting updates
+
++ Added input type restrictions to course & membership price fields.
++ The "Emails" LifterLMS Settings Tab has been renamed "Engagements." All Email settings are found under this tab as well as some new settings related to other kinds of LifterLMS engagements.
++ Added `the_content` filter to the content of emails sent by LifterLMS
++ Fixed some CSS issues on Voucher screens
++ Updated Courses settings retrieval function to retrieve the correct "shop" page id
++ Added translation functions to voucher export meta box class
++ Vouchers Export metabox will only allow export after a voucher has been published. This prevent's an issue caused by attempting to export voucher codes before they were saved in the database via the publish / save action.
++ Vouchers can no longer be saved with a use of "0"
++ added a CSS class for various syllabus outputs that notes that the lesson has an icon. Previously CSS relied on "is-complete" to output styles for having an icon but with the addition of placeholders the "is-complete" is used only to note that the lesson is completed and "has-icon" is a more semantic class that applies to both complete and incomplete lessons with an icon.
++ Removed the membership restriction metabox from some post types where it shouldn't have been displaying.
++ admin select fields now have an option `allow_null` (default to "true") which can be set to `false` in order to prevent the output of the default "None" option
+
+
+= v2.1.1 - 2016/02/15 =
 -----------------------
 
 ##### System Report

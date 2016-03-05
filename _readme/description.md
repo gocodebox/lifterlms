@@ -67,5 +67,5 @@ When you download LifterLMS, you join a thriving community of education entrepre
 
 If you’re interested in contributing to LifterLMS, head over to the [LifterLMS GitHub Repository](https://github.com/gocodebox/lifterlms/) to find out how you can pitch in.
 
-Want to add a new language to LifterLMS? Swell! You can contribute via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/woocommerce).
+Want to add a new language to LifterLMS? Swell! You can contribute via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/lifterlms).
 

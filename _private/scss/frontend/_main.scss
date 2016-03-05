@@ -17,6 +17,22 @@
     color: $color-white;
   }
 }
+
+.llms-button-text,
+input.llms-button-text,
+input[type="reset"].llms-button-text,
+input[type="submit"].llms-button-text {
+  background: none;
+  border: 0;
+  color: $color-red;
+  display: inline-block;
+  padding: 0;
+  text-decoration: none;
+  &:focus,&:hover {
+    background: none;
+  }
+}
+
 .course-link .llms-button {
   color: $color-white;
   text-decoration: none;
@@ -129,8 +145,8 @@
 .llms-membership-list .memberships li .llms-price {
   display: block;
   font-weight: 700;
-  margin-bottom: .5em;
-  font-size: 24px;
+  // margin-bottom: .5em;
+  // font-size: 24px;
   text-decoration: none;
   line-height: 30px;
 }
@@ -224,8 +240,8 @@
 .llms-course-list .courses li .llms-price {
   display: block;
   font-weight: 700;
-  margin-bottom: .5em;
-  font-size: 24px;
+  // margin-bottom: .5em;
+  // font-size: 24px;
   text-decoration: none;
   line-height: 30px;
 }
@@ -312,7 +328,8 @@
     width: 100%;
   }
 
-  &.is-complete .llms-lesson-information {
+  &.has-icon .llms-lesson-information {
+  // &.is-complete .llms-lesson-information {
     width: calc( 100% - 55px );
   }
 
@@ -1103,4 +1120,9 @@ svg .llms-animated-circle {
 }
 .llms-question-count {
   margin-bottom: 20px;
+}
+
+
+.llms-remove-coupon {
+  float: right;
 }
