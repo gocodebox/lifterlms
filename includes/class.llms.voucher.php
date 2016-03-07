@@ -240,13 +240,19 @@ class LLMS_Voucher
                             )
                         );
                     }
+
+                    do_action( 'llms_user_enrolled_in_course', $user_id, $product );
+
                 }
 
                 if (!empty($membership_levels)) {
+
                     update_user_meta($user_id, '_llms_restricted_levels', $membership_levels);
+
                 }
 
-                do_action( 'llms_user_enrolled_in_course', $user_id, $product );
+
+                do_action( 'llms_voucher_used', $voucher->id, $user_id );
 
                 if($notices) {
                     llms_add_notice("Voucher used successfully!");
