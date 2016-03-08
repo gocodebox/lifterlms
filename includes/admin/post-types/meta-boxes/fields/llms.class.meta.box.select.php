@@ -30,7 +30,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		$allow_null = ( isset( $this->field['allow_null'] ) ) ? $this->field['allow_null'] : true;
 
-		if (array_key_exists('multi', $this->field)) {
+		if (array_key_exists( 'multi', $this->field )) {
 			$name .= '[]';
 		}
 
@@ -49,7 +49,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 				multiple="multiple"
 			<?php endif; ?>
 		>
-			<?php if( $allow_null ): ?>
+			<?php if ( $allow_null ) : ?>
 				<option value="">None</option>
 			<?php endif; ?>
 

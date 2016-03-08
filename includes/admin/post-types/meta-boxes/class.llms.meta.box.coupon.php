@@ -132,7 +132,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 						'class' 	=> 'code input-full',
 						'desc_class' => 'd-all',
 						'group' 	=> '',
-						'value' 	=> ''
+						'value' 	=> '',
 					),
 					array(
 						'type'  	=> 'number',

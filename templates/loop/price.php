@@ -1,17 +1,20 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 global $post;
+
 $llms_product = new LLMS_Product( $post->ID );
 ?>
 
-<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $post->id ) ) : ?>
+<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $post->ID ) ) : ?>
+
 	<div class="llms-price-wrapper">
-		<?php foreach ($payment_options as $key => $value) : ?>
+
+		<?php foreach ( $llms_product->get_payment_options() as $option ) : ?>
 
 			<?php if ( 'single' == $option || 'free' == $option ) : ?>
 
-				<h4 class="llms-price"><span><?php echo apply_filters('lifterlms_single_payment_text', $llms_product->get_single_price_html(), $llms_product ); ?></span></h4>
+				<h4 class="llms-price"><span><?php echo apply_filters( 'lifterlms_single_payment_text', $llms_product->get_single_price_html(), $llms_product ); ?></span></h4>
 
 			<?php elseif ( $option == 'recurring' ) : ?>
 
@@ -24,7 +27,6 @@ $llms_product = new LLMS_Product( $post->ID );
 					<?php endif; ?>
 
 					<h4 class="llms-price"><span><?php echo $llms_product->get_subscription_price_html( $sub ); ?></span></h4>
-
 
 				<?php endforeach; ?>
 
@@ -41,4 +43,5 @@ $llms_product = new LLMS_Product( $post->ID );
 		<?php endforeach; ?>
 
 	</div>
-<?php endif;
+
+<?php endif; ?>
