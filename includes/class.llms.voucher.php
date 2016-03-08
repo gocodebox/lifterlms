@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' )) { exit; }
+if (!defined('ABSPATH')) exit;
 
 /**
  * Voucher Class
@@ -9,244 +9,276 @@ if ( ! defined( 'ABSPATH' )) { exit; }
  */
 class LLMS_Voucher
 {
-	protected $id;
+    protected $id;
 
-	protected static $codes_table_name = 'lifterlms_vouchers_codes';
-	protected static $redemptions_table = 'lifterlms_voucher_code_redemptions';
-	protected static $product_to_voucher_table = 'lifterlms_product_to_voucher';
+    protected static $codes_table_name = 'lifterlms_vouchers_codes';
+    protected static $redemptions_table = 'lifterlms_voucher_code_redemptions';
+    protected static $product_to_voucher_table = 'lifterlms_product_to_voucher';
 
-	protected function get_codes_table_name() {
+    protected function get_codes_table_name()
+    {
+        global $wpdb;
 
-		global $wpdb;
+        return $wpdb->prefix . self::$codes_table_name;
+    }
 
-		return $wpdb->prefix . self::$codes_table_name;
-	}
+    protected function get_redemptions_table_name()
+    {
+        global $wpdb;
 
-	protected function get_redemptions_table_name() {
+        return $wpdb->prefix . self::$redemptions_table;
+    }
 
-		global $wpdb;
+    protected function get_product_to_voucher_table_name()
+    {
+        global $wpdb;
 
-		return $wpdb->prefix . self::$redemptions_table;
-	}
+        return $wpdb->prefix . self::$product_to_voucher_table;
+    }
 
-	protected function get_product_to_voucher_table_name() {
+    public function __construct($id = null)
+    {
+        $this->id = $id;
+    }
 
-		global $wpdb;
+    public function get_voucher_title()
+    {
+        global $wpdb;
 
-		return $wpdb->prefix . self::$product_to_voucher_table;
-	}
+        $table = $wpdb->prefix . 'posts';
 
-	public function __construct( $id = null ) {
+        $query = "SELECT post_title FROM $table WHERE `ID` = $this->id LIMIT 1";
+        return reset($wpdb->get_row($query));
+    }
 
-		$this->id = $id;
-	}
+    // Get single voucher code
+    public function get_voucher_by_voucher_id()
+    {
+        global $wpdb;
 
-	public function get_voucher_title() {
+        $table = $this->get_codes_table_name();
 
-		global $wpdb;
 
-		$table = $wpdb->prefix . 'posts';
+        $query = "SELECT * FROM $table WHERE `voucher_id` = $this->id AND `is_deleted` = 0 LIMIT 1";
+        return $wpdb->get_row($query);
+    }
 
-		$query = "SELECT post_title FROM $table WHERE `ID` = $this->id LIMIT 1";
-		return reset( $wpdb->get_row( $query ) );
-	}
+    // Get single voucher code by code
+    public function get_voucher_by_code($code)
+    {
+        global $wpdb;
 
-	// Get single voucher code
-	public function get_voucher_by_voucher_id() {
+        $table = $this->get_codes_table_name();
+        $redeemed_table = $this->get_redemptions_table_name();
 
-		global $wpdb;
-
-		$table = $this->get_codes_table_name();
-
-		$query = "SELECT * FROM $table WHERE `voucher_id` = $this->id AND `is_deleted` = 0 LIMIT 1";
-		return $wpdb->get_row( $query );
-	}
-
-	// Get single voucher code by code
-	public function get_voucher_by_code( $code ) {
-
-		global $wpdb;
-
-		$table = $this->get_codes_table_name();
-		$redeemed_table = $this->get_redemptions_table_name();
-
-		$query = "SELECT c.*, count(r.id) as used
+        $query = "SELECT c.*, count(r.id) as used
                   FROM $table as c
                   LEFT JOIN $redeemed_table as r
                   ON c.`id` = r.`code_id`
                   WHERE `code` = '$code' AND `is_deleted` = 0
                   GROUP BY c.id
                   LIMIT 1";
-		return $wpdb->get_row( $query );
-	}
+        return $wpdb->get_row($query);
+    }
 
-	public function get_voucher_codes( $format = 'OBJECT' ) {
+    public function get_voucher_codes($format = 'OBJECT')
+    {
+        global $wpdb;
 
-		global $wpdb;
+        $table = $this->get_codes_table_name();
+        $redeemed_table = $this->get_redemptions_table_name();
 
-		$table = $this->get_codes_table_name();
-		$redeemed_table = $this->get_redemptions_table_name();
-
-		$query = "SELECT c.*, count(r.id) as used
+        $query = "SELECT c.*, count(r.id) as used
                   FROM $table as c
                   LEFT JOIN $redeemed_table as r
                   ON c.`id` = r.`code_id`
                   WHERE `voucher_id` = $this->id AND `is_deleted` = 0
                   GROUP BY c.id";
-		return $wpdb->get_results( $query, $format );
-	}
+        return $wpdb->get_results($query, $format);
+    }
 
-	public function get_voucher_code_by_code_id( $code_id ) {
+    public function get_voucher_code_by_code_id($code_id)
+    {
+        global $wpdb;
 
-		global $wpdb;
+        $table = $this->get_codes_table_name();
 
-		$table = $this->get_codes_table_name();
+        $query = "SELECT * FROM $table WHERE `id` = $code_id AND `is_deleted` = 0 LIMIT 1";
+        return $wpdb->get_row($query);
+    }
 
-		$query = "SELECT * FROM $table WHERE `id` = $code_id AND `is_deleted` = 0 LIMIT 1";
-		return $wpdb->get_row( $query );
-	}
+    public function save_voucher_code($data)
+    {
+        global $wpdb;
 
-	public function save_voucher_code( $data ) {
+        $data['voucher_id'] = $this->id;
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $data['updated_at'] = date('Y-m-d H:i:s');
 
-		global $wpdb;
+        return $wpdb->insert($this->get_codes_table_name(), $data);
+    }
 
-		$data['voucher_id'] = $this->id;
-		$data['created_at'] = date( 'Y-m-d H:i:s' );
-		$data['updated_at'] = date( 'Y-m-d H:i:s' );
+    public function update_voucher_code($data)
+    {
+        global $wpdb;
 
-		return $wpdb->insert( $this->get_codes_table_name(), $data );
-	}
+        $data['updated_at'] = date('Y-m-d H:i:s');
 
-	public function update_voucher_code( $data ) {
+        $where = array('id' => $data['id']);
+        unset($data['id']);
+        return $wpdb->update($this->get_codes_table_name(), $data, $where);
+    }
 
-		global $wpdb;
+    public function delete_voucher_code($id)
+    {
+        global $wpdb;
 
-		$data['updated_at'] = date( 'Y-m-d H:i:s' );
+        $data['updated_at'] = date('Y-m-d H:i:s');
+        $data['is_deleted'] = 1;
 
-		$where = array( 'id' => $data['id'] );
-		unset( $data['id'] );
-		return $wpdb->update( $this->get_codes_table_name(), $data, $where );
-	}
+        $where = array('id' => $id);
+        unset($data['id']);
+        return $wpdb->update($this->get_codes_table_name(), $data, $where);
+    }
 
-	public function delete_voucher_code( $id ) {
+    public function check_voucher($code)
+    {
+        $voucher = $this->get_voucher_by_code($code);
 
-		global $wpdb;
+        if (empty($voucher) || $voucher->redemption_count <= $voucher->used) {
+            $voucher = false;
+        }
 
-		$data['updated_at'] = date( 'Y-m-d H:i:s' );
-		$data['is_deleted'] = 1;
+        return $voucher;
+    }
 
-		$where = array( 'id' => $id );
-		unset( $data['id'] );
-		return $wpdb->update( $this->get_codes_table_name(), $data, $where );
-	}
+    public function use_voucher($code, $user_id, $notices = true)
+    {
+        $voucher = $this->check_voucher($code);
 
-	public function check_voucher( $code ) {
+        if ($voucher) {
+            global $wpdb;
 
-		$voucher = $this->get_voucher_by_code( $code );
+            $this->id = $voucher->voucher_id;
 
-		if (empty( $voucher ) || $voucher->redemption_count <= $voucher->used) {
-			$voucher = false;
-		}
-
-		return $voucher;
-	}
-
-	public function use_voucher( $code, $user_id, $notices = true ) {
-
-		$voucher = $this->check_voucher( $code );
-
-		if ($voucher) {
-			global $wpdb;
-
-			$this->id = $voucher->voucher_id;
-
-			$postmeta_table = $wpdb->prefix . 'lifterlms_user_postmeta';
-			$select_vouchers = "SELECT meta_value FROM $postmeta_table
+            $postmeta_table = $wpdb->prefix . 'lifterlms_user_postmeta';
+            $select_vouchers = "SELECT meta_value FROM $postmeta_table
                 WHERE $postmeta_table.user_id = $user_id
                 AND $postmeta_table.meta_key = '_voucher'
                 AND $postmeta_table.meta_value = $voucher->id
  			    LIMIT 1000";
-			$used_voucher = $wpdb->get_results( $select_vouchers, ARRAY_A );
+            $used_voucher = $wpdb->get_results($select_vouchers, ARRAY_A);
 
-			if ( count( $used_voucher ) ) {
-				if ($notices) {
-					llms_add_notice( 'You have already used this voucher.', 'error' );
-				}
-				return $voucher->voucher_id;
-			}
+            if( count( $used_voucher ) ) {
+                if($notices) {
+                    llms_add_notice('You have already used this voucher.', 'error');
+                }
+                return $voucher->voucher_id;
+            }
 
-			// use voucher code
-			$data = array(
-				'user_id' => $user_id,
-				'code_id' => $voucher->id,
-			);
+            // use voucher code
+            $data = array(
+                'user_id' => $user_id,
+                'code_id' => $voucher->id
+            );
 
-			$this->save_redeemed_code( $data );
+            $this->save_redeemed_code($data);
 
-			// create order for products linked to voucher
-			$products = $this->get_products();
+            // create order for products linked to voucher
+            $products = $this->get_products();
 
-			if ( ! empty( $products )) {
+            if (!empty($products)) {
 
-				$membership_levels = array();
+                $membership_levels = array();
 
-				foreach ($products as $product) {
-					$order = new LLMS_Order();
-					$order->create( $user_id, $product, 'Voucher' );
+                foreach ($products as $product) {
+                    $order = new LLMS_Order();
+                    $order->create($user_id, $product, 'Voucher');
 
-					if (get_post_type( $product ) === 'llms_membership') {
-						$membership_levels[] = $product;
-					}
+                    if ('llms_membership' === get_post_type($product)) {
+                        $membership_levels[] = $product;
 
-					// update user postmeta
-					$user_metadatas = array(
-						'_start_date' => 'yes',
-						'_status' => 'Enrolled',
-						'_voucher' => $voucher->id,
-					);
+                        $autoenroll_courses = get_post_meta( $product, '_llms_auto_enroll', true );
 
-					foreach ($user_metadatas as $key => $value) {
-						$wpdb->insert($wpdb->prefix . 'lifterlms_user_postmeta',
-							array(
-								'user_id' => $user_id,
-								'post_id' => $product,
-								'meta_key' => $key,
-								'meta_value' => $value,
-								'updated_date' => current_time( 'mysql' ),
-							)
-						);
-					}
-				}
+                        foreach($autoenroll_courses as $course_id) {
+                            $user_metadatas = array(
+                                '_start_date' => 'yes',
+                                '_status'     => 'Enrolled',
+                            );
 
-				if ( ! empty( $membership_levels )) {
-					update_user_meta( $user_id, '_llms_restricted_levels', $membership_levels );
-				}
+                            foreach( $user_metadatas as $key => $value ) {
+                                $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+                                    array(
+                                        'user_id'      => $user_id,
+                                        'post_id'      => $course_id,
+                                        'meta_key'     => $key,
+                                        'meta_value'   => $value,
+                                        'updated_date' => current_time( 'mysql' ),
+                                    )
+                                );
+                            }
+                        }
 
-				if ($notices) {
-					llms_add_notice( 'Voucher used successfully!' );
-				}
-			}
-		} else {
-			if ($notices) {
-				llms_add_notice( 'Voucher could not be used. Please check that you have valid voucher.', 'error' );
-			}
-		}
+                        do_action( 'llms_user_added_to_membership_level', $user_id, $product );
+                    }
 
-		return $voucher;
-	}
+                    // update user postmeta
+                    $user_metadatas = array(
+                        '_start_date' => 'yes',
+                        '_status' => 'Enrolled',
+                        '_voucher' => $voucher->id,
+                    );
 
-	/**
-	 * Redeemed Codes
-	 */
-	public function get_redeemed_codes( $format = 'OBJECT' ) {
+                    foreach ($user_metadatas as $key => $value) {
+                        $wpdb->insert($wpdb->prefix . 'lifterlms_user_postmeta',
+                            array(
+                                'user_id' => $user_id,
+                                'post_id' => $product,
+                                'meta_key' => $key,
+                                'meta_value' => $value,
+                                'updated_date' => current_time('mysql'),
+                            )
+                        );
+                    }
 
-		global $wpdb;
+                    do_action( 'llms_user_enrolled_in_course', $user_id, $product );
 
-		$table = $this->get_codes_table_name();
-		$redeemed_table = $this->get_redemptions_table_name();
-		$users_table = $wpdb->prefix . 'users';
+                }
 
-		$query = "SELECT r.`id`, c.`id` as code_id, c.`voucher_id`, c.`code`, c.`redemption_count`, r.`user_id`, u.`user_email`, r.`redemption_date`
+                if (!empty($membership_levels)) {
+
+                    update_user_meta($user_id, '_llms_restricted_levels', $membership_levels);
+
+                }
+
+
+                do_action( 'llms_voucher_used', $voucher->id, $user_id );
+
+                if($notices) {
+                    llms_add_notice("Voucher used successfully!");
+                }
+            }
+        } else {
+            if($notices) {
+                llms_add_notice("Voucher could not be used. Please check that you have valid voucher.", 'error');
+            }
+        }
+
+        return $voucher;
+    }
+
+    /**
+     * Redeemed Codes
+     */
+    public function get_redeemed_codes($format = 'OBJECT')
+    {
+        global $wpdb;
+
+        $table = $this->get_codes_table_name();
+        $redeemed_table = $this->get_redemptions_table_name();
+        $users_table = $wpdb->prefix . 'users';
+
+        $query = "SELECT r.`id`, c.`id` as code_id, c.`voucher_id`, c.`code`, c.`redemption_count`, r.`user_id`, u.`user_email`, r.`redemption_date`
                   FROM $table as c
                   JOIN $redeemed_table as r
                   ON c.`id` = r.`code_id`
@@ -254,93 +286,93 @@ class LLMS_Voucher
                   ON r.`user_id` = u.`ID`
                   WHERE c.`is_deleted` = 0 AND c.`voucher_id` = $this->id";
 
-		return $wpdb->get_results( $query, $format );
-	}
+        return $wpdb->get_results($query, $format);
+    }
 
-	public function save_redeemed_code( $data ) {
+    public function save_redeemed_code($data)
+    {
+        global $wpdb;
 
-		global $wpdb;
+        $data['redemption_date'] = date('Y-m-d H:i:s');
 
-		$data['redemption_date'] = date( 'Y-m-d H:i:s' );
+        return $wpdb->insert($this->get_redemptions_table_name(), $data);
+    }
 
-		return $wpdb->insert( $this->get_redemptions_table_name(), $data );
-	}
+    /**
+     * Product 2 Voucher
+     */
 
-	/**
-	 * Product 2 Voucher
-	 */
+    public function get_products()
+    {
+        global $wpdb;
 
-	public function get_products() {
+        $table = $this->get_product_to_voucher_table_name();
 
-		global $wpdb;
+        $query = "SELECT * FROM $table WHERE `voucher_id` = $this->id";
 
-		$table = $this->get_product_to_voucher_table_name();
+        $results = $wpdb->get_results($query);
 
-		$query = "SELECT * FROM $table WHERE `voucher_id` = $this->id";
+        $products = array();
+        if (!empty($results)) {
+            foreach ($results as $item) {
+                $products[] = intval($item->product_id);
+            }
+        }
 
-		$results = $wpdb->get_results( $query );
+        return $products;
+    }
 
-		$products = array();
-		if ( ! empty( $results )) {
-			foreach ($results as $item) {
-				$products[] = intval( $item->product_id );
-			}
-		}
+    public function is_product_to_voucher_link_valid($code, $product_id)
+    {
+        $voucher = $this->check_voucher($code);
 
-		return $products;
-	}
+        if ($voucher) {
+            $this->id = $voucher->voucher_id;
 
-	public function is_product_to_voucher_link_valid( $code, $product_id ) {
+            $products = $this->get_products();
 
-		$voucher = $this->check_voucher( $code );
+            if (!empty($products) && in_array($product_id, $products)) {
+                return true;
+            }
+        }
 
-		if ($voucher) {
-			$this->id = $voucher->voucher_id;
+        return false;
+    }
 
-			$products = $this->get_products();
+    public function is_code_duplicate($codes)
+    {
+        global $wpdb;
+        $table = $this->get_codes_table_name();
 
-			if ( ! empty( $products ) && in_array( $product_id, $products )) {
-				return true;
-			}
-		}
+        $codes_as_string = join('","' , $codes);
 
-		return false;
-	}
-
-	public function is_code_duplicate( $codes ) {
-
-		global $wpdb;
-		$table = $this->get_codes_table_name();
-
-		$codes_as_string = join( '","' , $codes );
-
-		$query = 'SELECT code
+        $query = 'SELECT code
                   FROM ' . $table . '
                   WHERE code IN ("' . $codes_as_string . '")
                   AND voucher_id != ' . $this->id;
-		$codes = $wpdb->get_results( $query, ARRAY_A );
+        $codes = $wpdb->get_results($query, ARRAY_A);
 
-		if (count( $codes )) {
-			return $codes;
-		}
+        if(count($codes)) {
+            return $codes;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function save_product( $product_id ) {
+    public function save_product($product_id)
+    {
+        global $wpdb;
 
-		global $wpdb;
+        $data['voucher_id'] = $this->id;
+        $data['product_id'] = $product_id;
 
-		$data['voucher_id'] = $this->id;
-		$data['product_id'] = $product_id;
+        return $wpdb->insert($this->get_product_to_voucher_table_name(), $data);
+    }
 
-		return $wpdb->insert( $this->get_product_to_voucher_table_name(), $data );
-	}
+    public function delete_products()
+    {
+        global $wpdb;
 
-	public function delete_products() {
-
-		global $wpdb;
-
-		return $wpdb->delete( $this->get_product_to_voucher_table_name(), array( 'voucher_id' => $this->id ) );
-	}
+        return $wpdb->delete($this->get_product_to_voucher_table_name(), array('voucher_id' => $this->id));
+    }
 }

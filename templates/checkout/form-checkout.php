@@ -33,9 +33,6 @@ $product_obj = new LLMS_Product( $product );
 
 $payment_options = $product_obj->get_payment_options();
 
-
-$single_html_price = sprintf( __( apply_filters( 'lifterlms_single_payment_text','Single payment of %s' ), 'lifterlms' ), $product_obj->get_price_html() );
-
 $coupon_session = LLMS()->session->get( 'llms_coupon', array() );
 
 if ($coupon_session) {
@@ -86,9 +83,7 @@ if ($coupon_session) {
 							/>
 							<label for="llms-payment-option_<?php echo $value; ?>">
 								<span class="llms-radio"></span>
-								<?php
-									echo $single_html_price;
-								?>
+								<?php echo ucfirst( $product_obj->get_price_html() ); ?>
 							</label>
 						</p>
 					<?php
