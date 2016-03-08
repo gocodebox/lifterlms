@@ -400,9 +400,13 @@ td.llms-table-options {
 	border: inherit;
 }
 
-
 #lifterlms-course-outline.postbox {
 	.inside {
 		overflow: visible;
 	}
+}
+
+//fix overflow for different dropdowns
+.postbox .inside {
+	overflow: visible;
 }

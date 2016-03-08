@@ -2126,6 +2126,10 @@ td.llms-table-select select, th.llms-table-select select {
   overflow: visible;
 }
 
+.postbox .inside {
+  overflow: visible;
+}
+
 .wrap h2.llms-nav-tab-wrapper {
   background: #33b1cb;
   padding: 0;
