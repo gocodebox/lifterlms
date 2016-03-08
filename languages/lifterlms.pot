@@ -1,16 +1,26 @@
 # Copyright (C) 2016 LifterLMS
 # This file is distributed under the same license as the LifterLMS package.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: LifterLMS 2.2.0-2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-03-05 01:01:02+00:00\n"
+"POT-Creation-Date: 2016-03-08 11:57+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: vendor\n"
+"X-Poedit-SearchPathExcluded-1: tests\n"
+"X-Poedit-SearchPathExcluded-2: _private\n"
+"X-Poedit-SearchPathExcluded-3: _readme\n"
 
 #: includes/admin/analytics/class.llms.analytics.courses.php:20
 #: includes/admin/analytics/class.llms.analytics.sales.php:103
@@ -143,6 +153,7 @@ msgstr ""
 #: includes/admin/students/class.llms.students.profile.php:50
 #: includes/class.llms.language.php:20 includes/class.llms.svg.php:36
 #: includes/class.llms.svg.php:38 templates/quiz/next-question.php:33
+#, php-format
 msgid "%s"
 msgstr ""
 
@@ -213,6 +224,11 @@ msgstr ""
 msgid "You must enter a start and end date."
 msgstr ""
 
+#: includes/admin/class.llms.admin.post-types.php:84
+#, php-format
+msgid " updated. <a href=\"%s\">View "
+msgstr ""
+
 #: includes/admin/class.llms.admin.post-types.php:85
 msgid "Custom field updated."
 msgstr ""
@@ -221,8 +237,41 @@ msgstr ""
 msgid "Custom field deleted."
 msgstr ""
 
+#: includes/admin/class.llms.admin.post-types.php:87
+msgid " updated."
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:88
+#, php-format
+msgid " restored to revision from %s"
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:89
+#, php-format
+msgid " published. <a href=\"%s\">View "
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:90
+msgid " saved."
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:91
+#, php-format
+msgid " submitted. <a target=\"_blank\" href=\"%s\">Preview "
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:92
+#, php-format
+msgid " scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview "
+msgstr ""
+
 #: includes/admin/class.llms.admin.post-types.php:93
 msgid "M j, Y @ G:i"
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:94
+#, php-format
+msgid " draft updated. <a target=\"_blank\" href=\"%s\">Preview "
 msgstr ""
 
 #: includes/admin/class.llms.admin.post-types.php:113
@@ -251,6 +300,7 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.post-types.php:152
 #: includes/admin/class.llms.admin.post-types.php:155
+#, php-format
 msgid "%s%0.2f"
 msgstr ""
 
@@ -280,10 +330,12 @@ msgstr ""
 #: includes/admin/class.llms.admin.post-types.php:282
 #: includes/admin/class.llms.admin.post-types.php:295
 #: includes/admin/class.llms.admin.post-types.php:361
+#, php-format
 msgid "<a href=\"%s\">%s</a>"
 msgstr ""
 
 #: includes/admin/class.llms.admin.post-types.php:312
+#, php-format
 msgid "%s "
 msgstr ""
 
@@ -348,6 +400,7 @@ msgid "Wordpress Memory Limit"
 msgstr ""
 
 #: includes/admin/class.llms.admin.system-report.php:58
+#, php-format
 msgid "%s - We recommend setting memory to at least 64MB. See: %s"
 msgstr ""
 
@@ -376,6 +429,7 @@ msgid "PHP Version"
 msgstr ""
 
 #: includes/admin/class.llms.admin.system-report.php:94
+#, php-format
 msgid "%s - We recommend a minimum PHP version of 5.3."
 msgstr ""
 
@@ -404,6 +458,7 @@ msgid "Default Timezone is UTC"
 msgstr ""
 
 #: includes/admin/class.llms.admin.system-report.php:119
+#, php-format
 msgid "Default timezone is %s - it should be UTC"
 msgstr ""
 
@@ -440,6 +495,7 @@ msgid "Visit plugin homepage"
 msgstr ""
 
 #: includes/admin/class.llms.admin.system-report.php:200
+#, php-format
 msgctxt "Version info"
 msgid "%s is available"
 msgstr ""
@@ -449,6 +505,7 @@ msgid "Network enabled"
 msgstr ""
 
 #: includes/admin/class.llms.admin.system-report.php:207
+#, php-format
 msgctxt "by author"
 msgid "by %s"
 msgstr ""
@@ -631,6 +688,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.options.php:150
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:51
+#, php-format
 msgid "%s Discount"
 msgstr ""
 
@@ -922,6 +980,10 @@ msgstr ""
 msgid "Total Points: "
 msgstr ""
 
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.section.tree.php:96
+msgid "Associated Course "
+msgstr ""
+
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.section.tree.php:111
 msgid "Lessons in this section"
 msgstr ""
@@ -931,7 +993,7 @@ msgid "Add"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.students.php:85
-#: templates/checkout/form-checkout.php:137
+#: templates/checkout/form-checkout.php:141
 msgid "Remove"
 msgstr ""
 
@@ -1272,6 +1334,7 @@ msgid "Header Image"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.engagements.php:71
+#, php-format
 msgid "Enter the url for the email header (logo).<a href=\"%s\">Upload an image</a>."
 msgstr ""
 
@@ -1554,10 +1617,12 @@ msgid "%b %d, %Y @ %I:%M %p"
 msgstr ""
 
 #: includes/class.llms.date.php:189
+#, php-format
 msgid "%d %s "
 msgstr ""
 
 #: includes/class.llms.date.php:200
+#, php-format
 msgid "%d %s"
 msgstr ""
 
@@ -1805,6 +1870,7 @@ msgid "User cannot be found."
 msgstr ""
 
 #: includes/class.llms.lesson.php:530
+#, php-format
 msgid "Congratulations! You have completed %s"
 msgstr ""
 
@@ -1818,6 +1884,7 @@ msgid "%b %d, %Y @ %I:%M %p"
 msgstr ""
 
 #: includes/class.llms.order.php:183
+#, php-format
 msgid "Order - %s, %s"
 msgstr ""
 
@@ -2958,7 +3025,7 @@ msgstr ""
 msgid "single payment of"
 msgstr ""
 
-#: includes/class.llms.product.php:417 includes/class.llms.product.php:423
+#: includes/class.llms.product.php:372 includes/class.llms.product.php:380
 msgid "Free!"
 msgstr ""
 
@@ -3059,6 +3126,7 @@ msgid "Password Reset Instructions"
 msgstr ""
 
 #: includes/functions/llms.functions.access.php:708
+#, php-format
 msgid "%s membership is required to view this content."
 msgstr ""
 
@@ -4215,19 +4283,23 @@ msgid "Vietnamese Dong"
 msgstr ""
 
 #: includes/llms.template.functions.php:865
+#, php-format
 msgid "Search Results: &ldquo;%s&rdquo;"
 msgstr ""
 
 #: includes/llms.template.functions.php:868
+#, php-format
 msgid "&nbsp;&ndash; Page %s"
 msgstr ""
 
 #: includes/llms.template.functions.php:974
 #: templates/myaccount/my-courses.php:62 templates/quiz/results.php:59
+#, php-format
 msgid "%s%%"
 msgstr ""
 
 #: includes/llms.template.functions.php:982
+#, php-format
 msgid "Continue (%s%%)"
 msgstr ""
 
@@ -4236,6 +4308,7 @@ msgid "You cannot apply dollar based discounts to recurring orders."
 msgstr ""
 
 #: includes/shortcodes/class.llms.shortcode.checkout.php:45
+#, php-format
 msgid "<a href=\"%1$s\">Login or create an account to purchase this course</a>."
 msgstr ""
 
@@ -4280,11 +4353,11 @@ msgstr ""
 msgid "Product not found."
 msgstr ""
 
-#: templates/checkout/form-checkout.php:44
+#: templates/checkout/form-checkout.php:46
 msgid "Coupon code \"%s\" has been applied to your order"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:48
+#: templates/checkout/form-checkout.php:50
 msgid "(%s off)"
 msgstr ""
 
@@ -4302,23 +4375,23 @@ msgstr ""
 msgid "Confirm Purchase"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:146
+#: templates/checkout/form-checkout.php:150
 msgid "Enter coupon code"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:148
+#: templates/checkout/form-checkout.php:152
 msgid "Apply Coupon"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:159
+#: templates/checkout/form-checkout.php:163
 msgid "You Pay:"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:206
+#: templates/checkout/form-checkout.php:210
 msgid "Payment processing is currently disabled."
 msgstr ""
 
-#: templates/checkout/form-checkout.php:220
+#: templates/checkout/form-checkout.php:224
 msgid "Buy Now"
 msgstr ""
 
@@ -4335,6 +4408,7 @@ msgid "Take Quiz"
 msgstr ""
 
 #: templates/course/difficulty.php:12
+#, php-format
 msgid "Difficulty: <span class=\"difficulty\">%s</span>"
 msgstr ""
 
@@ -4354,10 +4428,12 @@ msgid "Next Lesson"
 msgstr ""
 
 #: templates/course/lesson_length.php:20
+#, php-format
 msgid "Estimated Time: <span class=\"length\">%s</span>"
 msgstr ""
 
 #: templates/course/parent_course.php:13
+#, php-format
 msgid "<p class=\"llms-parent-course-link\">Back to: <a class=\"llms-lesson-link\" href=\"%s\">%s</a></p>"
 msgstr ""
 
@@ -4372,6 +4448,7 @@ msgid "Course is no longer available"
 msgstr ""
 
 #: templates/course/purchase-link.php:174
+#, php-format
 msgid "Course %s%% Complete!"
 msgstr ""
 
@@ -4384,6 +4461,7 @@ msgid "Password reset"
 msgstr ""
 
 #: templates/emails/reset-password.php:7
+#, php-format
 msgid "Username: %s"
 msgstr ""
 
@@ -4489,6 +4567,7 @@ msgid "Voucher Code"
 msgstr ""
 
 #: templates/global/form-registration.php:149
+#, php-format
 msgid "I have read and agree to the <a href=\"%s\">Terms and Conditions</a>"
 msgstr ""
 
@@ -4497,10 +4576,12 @@ msgid "Anti-spam"
 msgstr ""
 
 #: templates/loop/difficulty.php:8
+#, php-format
 msgid "Difficulty: %s"
 msgstr ""
 
 #: templates/loop/length.php:8
+#, php-format
 msgid "Course length: %s"
 msgstr ""
 
@@ -4576,6 +4657,7 @@ msgid "Save"
 msgstr ""
 
 #: templates/myaccount/my-account.php:18
+#, php-format
 msgid "<h3>Hello <strong>%1$s</strong></h3>"
 msgstr ""
 
@@ -4592,6 +4674,7 @@ msgid "Courses In-Progress"
 msgstr ""
 
 #: templates/myaccount/my-courses.php:30
+#, php-format
 msgid "<p class=\"author\">Author: <span>%s</span></p>"
 msgstr ""
 
@@ -4612,10 +4695,12 @@ msgid "My Memberships"
 msgstr ""
 
 #: templates/myaccount/my-memberships.php:24
+#, php-format
 msgid "Enrolled: %s"
 msgstr ""
 
 #: templates/myaccount/my-memberships.php:25
+#, php-format
 msgid "Status: %s"
 msgstr ""
 
@@ -4636,6 +4721,7 @@ msgid "Sign out"
 msgstr ""
 
 #: templates/quiz/attempts.php:23
+#, php-format
 msgid "Attempts Remaining: <span class=\"llms-content llms-attempts\">%s</span>"
 msgstr ""
 
@@ -4648,6 +4734,7 @@ msgid "Next Question"
 msgstr ""
 
 #: templates/quiz/passing-percent.php:19
+#, php-format
 msgid "A score of  <span class=\"llms-content llms-pass-perc\">%s%%</span> or more is required to pass this test."
 msgstr ""
 
@@ -4656,22 +4743,27 @@ msgid "Previous Question"
 msgstr ""
 
 #: templates/quiz/question-count.php:32
+#, php-format
 msgid "Question %d of %d"
 msgstr ""
 
 #: templates/quiz/results.php:69
+#, php-format
 msgid "Your Score: %d%%"
 msgstr ""
 
 #: templates/quiz/results.php:80 templates/quiz/results.php:107
+#, php-format
 msgid "%d / %d correct answers"
 msgstr ""
 
 #: templates/quiz/results.php:81 templates/quiz/results.php:108
+#, php-format
 msgid "Date: <span class=\"llms_content_block\">%s</span>"
 msgstr ""
 
 #: templates/quiz/results.php:82 templates/quiz/results.php:109
+#, php-format
 msgid "Total time: %s"
 msgstr ""
 
@@ -4680,10 +4772,12 @@ msgid "View Summary"
 msgstr ""
 
 #: templates/quiz/results.php:96
+#, php-format
 msgid "Best Score: %d%%"
 msgstr ""
 
 #: templates/quiz/return-to-lesson.php:40
+#, php-format
 msgid "<a href=\"%s\">Return to Lesson</a>"
 msgstr ""
 
@@ -4696,24 +4790,6 @@ msgid "<p>You are not able take this quiz</p>"
 msgstr ""
 
 #: templates/quiz/time-limit.php:17
+#, php-format
 msgid "Time Limit: <span class=\"llms-content\">%s</span>"
-msgstr ""
-#. Plugin Name of the plugin/theme
-msgid "LifterLMS"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "https://lifterlms.com/"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid "LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "Mark Nelson, Thomas Patrick Levy, codeBOX, LLC"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://gocodebox.com"
 msgstr ""
