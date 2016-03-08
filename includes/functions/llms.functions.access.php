@@ -32,6 +32,7 @@ function llms_page_restricted( $post_id ) {
 			$restricted = true;
 			$reason = 'membership';
 		} elseif ( is_single() && $post->post_type == 'lesson' ) {
+
 			$l = new LLMS_Lesson( $post_id );
 			if ( ! $l->get_is_free()) {
 				if ( parent_page_restricted_by_membership( $post_id ) ) {
@@ -118,9 +119,13 @@ function site_restricted_by_membership( $post_id ) {
 
 	// if this is a course and the user is already enrolled, ignore the sitewide restriction
 	// this allows users to buy a course that's available on it's own OR with a membership
-	if ( get_post_type( $post_id ) == 'course' && llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+	if ( 'course' == get_post_type( $post_id ) || 'lesson' == get_post_type( $post_id ) ) {
 
-		return false;
+		if( llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+
+			return false;
+
+		}
 
 	}
 
@@ -201,13 +206,17 @@ function page_restricted_by_membership( $post_id ) {
 	$restrict_access = false;
 	$membership_id = '';
 
-	if (is_single() || is_page()) {
+	if ( is_single() || is_page() ) {
 
 		// if this is a course and the user is already enrolled, ignore the sitewide restriction
 		// this allows users to buy a course that's available on it's own OR with a membership
-		if ( get_post_type( $post_id ) == 'course' && llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+		if ( 'course' == get_post_type( $post_id ) || 'lesson' == get_post_type( $post_id ) ) {
 
-			return false;
+			if( llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+
+				return false;
+
+			}
 
 		}
 

@@ -1,10 +1,11 @@
 == Changelog ==
 
 
-= v2.2.1 - 2016/03/07 =
+= v2.2.2 - 2016/03/?? =
 -----------------------
 
 + Composer updates to include php52 support
++ Fixed a restriction issue that would happen when individual lessons were restricted to a membership level
 
 
 = v2.2.1 - 2016/03/07 =
