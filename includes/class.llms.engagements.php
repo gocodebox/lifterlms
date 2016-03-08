@@ -29,7 +29,7 @@ class LLMS_Engagements {
 	 * Adds actions to events that trigger engagements
 	 */
 	public function __construct() {
-		
+
 	 	$this->init();
 
 		add_action( 'lifterlms_lesson_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
@@ -56,7 +56,7 @@ class LLMS_Engagements {
 	 * Lesson completed engagements
 	 * Triggers appropriate engagement when lesson is completed
 	 * REFACTOR: lesson, section and course triggers this method. RENAME
-	 * 
+	 *
 	 * @param  int $person_id [ID of the current user]
 	 * @param  int $lesson_id [ID of the lesson, course or section]
 	 * @return void
@@ -69,9 +69,14 @@ class LLMS_Engagements {
 		if ($hooks = get_post_meta( $lesson_id, '_llms_engagement_trigger' )) {
 
 			foreach ( $hooks as $key => $value ) {
-				
+
 				$engagement_meta = get_post_meta($value);
 				$engagement_id = $engagement_meta['_llms_engagement'][0];
+
+                //if engagement or certificate status isn't "publish", don't do anything
+                if ( get_post_status ( $value ) !== 'publish' || get_post_status ( $engagement_id ) !== 'publish' ) {
+                    continue;
+                }
 
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
 					do_action( 'lifterlms_lesson_completed_engagement', $person_id, $engagement_id);
@@ -106,13 +111,13 @@ class LLMS_Engagements {
 			'post_status'	   => 'publish',
 			'orderby'          => 'title',
 			'post_type'        => 'llms_engagement',
-			); 
+			);
 
 		$all_posts = get_posts($args);
 
 		if ($all_posts) :
 
-			foreach ( $all_posts as $p  ) : 
+			foreach ( $all_posts as $p  ) :
 				array_push($engagement_ids, $p->ID);
 			endforeach;
 		endif;
@@ -124,7 +129,7 @@ class LLMS_Engagements {
 	 * new user registered engagement method
 	 * Called when new user is registered
 	 * Overridable by child classes
-	 * 
+	 *
 	 * @param  object $user [Current user data]
 	 * @return void
 	 */
@@ -145,14 +150,14 @@ class LLMS_Engagements {
 					'value'   => 'user_registration',
 					)
 				)
-			); 
+			);
 
 		$all_posts = get_posts($args);
 
 		if ($all_posts) {
 
 			foreach ( $all_posts as $key => $value ) {
-				
+
 				$engagement_meta = get_post_meta($value->ID);
 				$achievement_id = $engagement_meta['_llms_engagement'][0];
 
@@ -174,7 +179,7 @@ class LLMS_Engagements {
 					do_action( 'lifterlms_external_engagement', $user, $achievement_id, $value->ID);
 				}
 			}
-		}		
+		}
 	}
 
 	/**
@@ -184,28 +189,28 @@ class LLMS_Engagements {
 	 * @param int $course_id ID of course
 	 */
 	function MaybeFireEngagement($user_id, $course_id)
-	{	
+	{
 		/**
 		 * This variable is what will store the list of classes
 		 * for each track that this class is a member of
 		 * @var array
 		 */
 		$coursesInTrack = array();
-		
+
 		// Get Track Information
 		// This gets the information about all the tracks that
 		// this course is a part of
 		$tracks = wp_get_post_terms($course_id,'course_track',array("fields" => "all"));
 
-		// Run through each of the tracks that this course is a member of 
-		foreach ((array)$tracks as $id => $track) 
+		// Run through each of the tracks that this course is a member of
+		foreach ((array)$tracks as $id => $track)
 		{
 			/**
 			 * Variable that stores if the track has been completed
 			 * @var boolean
 			 */
 			$completedTrack = false;
-			
+
 			$args = array(
 				'posts_per_page' 	=> 1000,
 				'post_type' 		=> 'course',
@@ -220,22 +225,22 @@ class LLMS_Engagements {
 						'field'		=> 'term_id',
 						'terms'		=> $track->term_id,
 					)
-				) 
+				)
 			);
 			$courses = get_posts( $args );
-			
-			// Run through each of the courses that is in the track 
+
+			// Run through each of the courses that is in the track
 			// to see if all of the courses are completed
-			foreach ($courses as $key => $course) 
+			foreach ($courses as $key => $course)
 			{
 				/**
 				 * This variable stores the information about each course
-				 * in the track 
+				 * in the track
 				 * @var array
 				 */
 				$data = LLMS_Course::get_user_post_data($course->ID, $user_id);
-				
-				// If there is data about the course, parse it 
+
+				// If there is data about the course, parse it
 				if ($data !== array())
 				{
 					/**
@@ -244,8 +249,8 @@ class LLMS_Engagements {
 					 */
 					$hasCompleted = false;
 
-					// Run through each of the meta values in the array				
-				    foreach ($data as $key => $object) 
+					// Run through each of the meta values in the array
+				    foreach ($data as $key => $object)
 				    {
 				        // Check to see is the current object is the '_is_complete'
 				        if (is_object($object) && $object->meta_key == '_is_complete' && $object->meta_value == 'yes')
@@ -260,9 +265,9 @@ class LLMS_Engagements {
 				   	if ($hasCompleted)
 				   	{
 				   		$completedTrack = true;
-				   	}				
+				   	}
 				}
-				// If data is empty, break out of the loop because the 
+				// If data is empty, break out of the loop because the
 				// user has not enrolled in that course
 				else
 				{
@@ -278,6 +283,6 @@ class LLMS_Engagements {
 			}
 
 			$coursesInTrack[$id] = $courses;
-		}	
+		}
 	}
 }
