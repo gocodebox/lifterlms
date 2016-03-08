@@ -23,7 +23,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-require 'vendor/autoload.php';
+require 'vendor/autoload_52.php';
 
 /**
  * Main LifterLMS Class
