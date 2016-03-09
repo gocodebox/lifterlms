@@ -554,7 +554,7 @@ class LLMS_Quiz {
 			}
 		}
 
-			//update quiz object
+		//update quiz object
 		foreach ( (array) $quiz->questions as $key => $value ) {
 
 			if ( $value['id'] == $question_id ) {
@@ -646,8 +646,6 @@ class LLMS_Quiz {
 							$quiz_data[ $id ]['grade'] = $quiz_obj->get_grade( $points );
 
 							$quiz_data[ $id ]['passed'] = $quiz_obj->is_passing_score( $quiz->user_id );
-
-							LLMS()->session->set( 'llms_quiz', $quiz );
 						}
 
 						if ( $quiz_data[ $id ]['passed'] ) {
@@ -655,7 +653,7 @@ class LLMS_Quiz {
 							$lesson->mark_complete( $quiz->user_id );
 						}
 						update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
-
+						LLMS()->session->set( 'llms_quiz', $quiz );
 					}
 
 				}
