@@ -2,10 +2,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LifterLMS\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-03-03 07:52+0100\n"
-"PO-Revision-Date: 2016-03-03 09:25+0100\n"
+"POT-Creation-Date: 2016-03-08 16:34+0100\n"
+"PO-Revision-Date: 2016-03-08 17:25+0100\n"
 "Last-Translator: andreas blumberg\n"
-"Language-Team: codeBOX <support@gocodebox.com>, netzstrategen <akademie@netzstrategen.com>\n"
+"Language-Team: codeBOX <support@gocodebox.com>, netzstrategen <hallo@netzstrategen.com>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +147,9 @@ msgstr "Ehemalige Teilnehmer"
 #: includes/admin/students/class.llms.students.page.php:87
 #: includes/admin/students/class.llms.students.profile.php:50
 #: includes/class.llms.language.php:20 includes/class.llms.svg.php:36
-#: includes/class.llms.svg.php:38 templates/quiz/next-question.php:33
+#: includes/class.llms.svg.php:38 templates/course/price.php:20
+#: templates/quiz/next-question.php:33
+#, php-format
 msgid "%s"
 msgstr "%s"
 
@@ -218,6 +220,11 @@ msgstr "Sie müssen einen Datum auswählen."
 msgid "You must enter a start and end date."
 msgstr "Sie müssen ein Startdatum eingeben."
 
+#: includes/admin/class.llms.admin.post-types.php:84
+#, php-format
+msgid " updated. <a href=\"%s\">View "
+msgstr " aktualisiert. <a href=\"%s\">Anzeigen "
+
 #: includes/admin/class.llms.admin.post-types.php:85
 msgid "Custom field updated."
 msgstr "Benutzerdefiniertes Feld aktualisiert."
@@ -226,12 +233,44 @@ msgstr "Benutzerdefiniertes Feld aktualisiert."
 msgid "Custom field deleted."
 msgstr "Benutzerdefiniertes Feld gelöscht."
 
+#: includes/admin/class.llms.admin.post-types.php:87
+msgid " updated."
+msgstr " aktualisiert."
+
+#: includes/admin/class.llms.admin.post-types.php:88
+#, php-format
+msgid " restored to revision from %s"
+msgstr "Version vom %s wiederhergestellt"
+
+#: includes/admin/class.llms.admin.post-types.php:89
+#, php-format
+msgid " published. <a href=\"%s\">View "
+msgstr " veröffentlicht. <a href=\"%s\">Anzeigen "
+
+#: includes/admin/class.llms.admin.post-types.php:90
+msgid " saved."
+msgstr " gespeichert."
+
+#: includes/admin/class.llms.admin.post-types.php:91
+#, php-format
+msgid " submitted. <a target=\"_blank\" href=\"%s\">Preview "
+msgstr " eingereicht. <a target=\"_blank\" href=\"%s\">Vorschau "
+
+#: includes/admin/class.llms.admin.post-types.php:92
+#, php-format
+msgid " scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview "
+msgstr " geplant für: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Vorschau "
+
 #: includes/admin/class.llms.admin.post-types.php:93
 msgid "M j, Y @ G:i"
 msgstr "d.n.j, @ G:i"
 
-#: includes/admin/class.llms.admin.post-types.php:113
-#: includes/class.llms.post-types.php:403
+#: includes/admin/class.llms.admin.post-types.php:94
+#, php-format
+msgid " draft updated. <a target=\"_blank\" href=\"%s\">Preview "
+msgstr " Entwurf aktualisiert. <a target=\"_blank\" href=\"%s\">Vorschau "
+
+#: includes/admin/class.llms.admin.post-types.php:113 includes/class.llms.post-types.php:403
 msgid "Order"
 msgstr "Bestellung"
 
@@ -256,6 +295,7 @@ msgstr "Unbekannt"
 
 #: includes/admin/class.llms.admin.post-types.php:152
 #: includes/admin/class.llms.admin.post-types.php:155
+#, php-format
 msgid "%s%0.2f"
 msgstr "%s%0.2f"
 
@@ -285,14 +325,16 @@ msgstr "Erforderliche Mitgliedschaften"
 #: includes/admin/class.llms.admin.post-types.php:282
 #: includes/admin/class.llms.admin.post-types.php:295
 #: includes/admin/class.llms.admin.post-types.php:361
+#, php-format
 msgid "<a href=\"%s\">%s</a>"
 msgstr "<a href=\"%s\">%s</a>"
 
 #: includes/admin/class.llms.admin.post-types.php:312
+#, php-format
 msgid "%s "
 msgstr "%s "
 
-#: includes/admin/class.llms.admin.reviews.php:47
+#: includes/admin/class.llms.admin.reviews.php:47 includes/class.llms.review.php:120
 msgid "Review Title"
 msgstr "Titel der Bewertung"
 
@@ -353,6 +395,7 @@ msgid "Wordpress Memory Limit"
 msgstr "Wordpress Speicher Limit"
 
 #: includes/admin/class.llms.admin.system-report.php:58
+#, php-format
 msgid "%s - We recommend setting memory to at least 64MB. See: %s"
 msgstr "%s - Wir empfehlen eine Speichergröße von mindestens 64MB. Siehe %s"
 
@@ -381,14 +424,13 @@ msgid "PHP Version"
 msgstr "PHP Version"
 
 #: includes/admin/class.llms.admin.system-report.php:94
+#, php-format
 msgid "%s - We recommend a minimum PHP version of 5.3."
 msgstr "%s - Wir empfehlen mindestens PHP Version 5.3."
 
 #: includes/admin/class.llms.admin.system-report.php:99
 msgid "Couldn't determine PHP version because phpversion() doesn't exist."
-msgstr ""
-"Die PHP Version konnte nicht ermittelt werden da phpversion() nicht "
-"existiert."
+msgstr "Die PHP Version konnte nicht ermittelt werden da phpversion() nicht existiert."
 
 #: includes/admin/class.llms.admin.system-report.php:104
 msgid "PHP Max Post Size"
@@ -411,6 +453,7 @@ msgid "Default Timezone is UTC"
 msgstr "Default Zeitzone ist UTC"
 
 #: includes/admin/class.llms.admin.system-report.php:119
+#, php-format
 msgid "Default timezone is %s - it should be UTC"
 msgstr "Default Zeitzone ist %s - es sollte UTC sein"
 
@@ -447,6 +490,7 @@ msgid "Visit plugin homepage"
 msgstr "Zur Plugin Seite"
 
 #: includes/admin/class.llms.admin.system-report.php:200
+#, php-format
 msgctxt "Version info"
 msgid "%s is available"
 msgstr "%s ist verfügbar"
@@ -456,6 +500,7 @@ msgid "Network enabled"
 msgstr "Netzwerk aktiviert"
 
 #: includes/admin/class.llms.admin.system-report.php:207
+#, php-format
 msgctxt "by author"
 msgid "by %s"
 msgstr "von %s"
@@ -640,6 +685,7 @@ msgstr "Bitte wählen Sie eine Option..."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.options.php:150
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:51
+#, php-format
 msgid "%s Discount"
 msgstr "%s Rabatt"
 
@@ -678,11 +724,11 @@ msgstr "An&hellip;"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.syllabus.php:131
 msgid ""
-"Enter a Begin and/or End date for the course if it will only be available "
-"for a set period of time."
+"Enter a Begin and/or End date for the course if it will only be available for a set "
+"period of time."
 msgstr ""
-"Bitte geben Sie einen Anfang und/oder ein Enddatum für den Kurs an, sofern "
-"dieser nur in einer bestimmten Zeit verfügbar sein soll."
+"Bitte geben Sie einen Anfang und/oder ein Enddatum für den Kurs an, sofern dieser nur in "
+"einer bestimmten Zeit verfügbar sein soll."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.syllabus.php:170
 msgid "Limit the number of users that can enroll in this course."
@@ -746,11 +792,11 @@ msgstr "Inhalt verzögert freigeben (in Tagen)"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:42
 msgid ""
-"Number of days before lesson is available after course begins (date of "
-"purchase or set start date)"
+"Number of days before lesson is available after course begins (date of purchase or set "
+"start date)"
 msgstr ""
-"Anzahl der Tage bevor die Lektion verfügbar ist nachdem der Kurs beginnt(Tag "
-"des Kaufes oder des Startdatums)"
+"Anzahl der Tage bevor die Lektion verfügbar ist nachdem der Kurs beginnt(Tag des Kaufes "
+"oder des Startdatums)"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:47
 msgid "Assigned Quiz"
@@ -766,18 +812,17 @@ msgstr "Voraussetzung Bestandenes Quiz"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:65
 msgid ""
-"Checking this box will require students to get a passing score on the above "
-"quiz to complete the lesson."
-msgstr ""
-"Aktiviert kann die Lektion nur mit Bestandenem Quiz abgeschlossen werden."
+"Checking this box will require students to get a passing score on the above quiz to "
+"complete the lesson."
+msgstr "Aktiviert kann die Lektion nur mit Bestandenem Quiz abgeschlossen werden."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.tree.php:153
 msgid ""
-"There was an error assigning the lesson to a section. Please be sure a "
-"section is assigned to a course."
+"There was an error assigning the lesson to a section. Please be sure a section is "
+"assigned to a course."
 msgstr ""
-"Es gab einen Fehler bei der Zuweisung der Lektion zu einer Sektion. Bitte "
-"stelle sicher, dass die Sektion einem Kurs zugewiesen ist."
+"Es gab einen Fehler bei der Zuweisung der Lektion zu einer Sektion. Bitte stelle sicher, "
+"dass die Sektion einem Kurs zugewiesen ist."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:74
 msgid "General Details"
@@ -861,10 +906,9 @@ msgstr "Verbleibende Gutschein-Einsätze"
 msgid "No"
 msgstr "Nein"
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:135
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:139
 msgid "The SKU used already exists. Please create a unique SKU."
-msgstr ""
-"Die Artikelnummer existiert bereits. Die Artikelnummer muss eindeutig sein."
+msgstr "Die Artikelnummer existiert bereits. Die Artikelnummer muss eindeutig sein."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.question.general.php:35
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:44
@@ -897,8 +941,8 @@ msgstr "Bestehensquote in %"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:67
 msgid ""
-"Enter the percent required to pass quiz. DO NOT USE % (IE: enter 50 to have "
-"a passing requirement of 50%."
+"Enter the percent required to pass quiz. DO NOT USE % (IE: enter 50 to have a passing "
+"requirement of 50%."
 msgstr ""
 "Gib die Quote in % an bei der das Quiz als bestanden gelten soll.(Wert ohen "
 "Prozentzeichen)"
@@ -908,11 +952,8 @@ msgid "Time Limit"
 msgstr "Zeit Limit"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:85
-msgid ""
-"Enter a time limit for quiz completion in minutes. Leave empty if no time "
-"limit."
-msgstr ""
-"Gib das Zeitlimit in Minuten für das Quiz an. Leer entspricht unendlich."
+msgid "Enter a time limit for quiz completion in minutes. Leave empty if no time limit."
+msgstr "Gib das Zeitlimit in Minuten für das Quiz an. Leer entspricht unendlich."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:91
 msgid "Display last quiz results"
@@ -954,6 +995,10 @@ msgstr "Neue Frage hinzufügen"
 msgid "Total Points: "
 msgstr "Punkte gesamt:"
 
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.section.tree.php:96
+msgid "Associated Course "
+msgstr "Verbundener Kurs"
+
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.section.tree.php:111
 msgid "Lessons in this section"
 msgstr "Lektionen in diesem Modul"
@@ -963,6 +1008,7 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.students.php:85
+#: templates/checkout/form-checkout.php:141
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -984,8 +1030,7 @@ msgstr "Füge den Embed Code für der extern gehosteten Audio-Datei ein."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:25
 msgid "You need to publish this post before you can generate a CSV."
-msgstr ""
-"Du musst diesen Beitrag veröffentlichen bevor du eine CSV generieren kannst."
+msgstr "Du musst diesen Beitrag veröffentlichen bevor du eine CSV generieren kannst."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:34
 msgid "Vouchers only"
@@ -993,9 +1038,7 @@ msgstr "Nur Gutscheine"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:35
 msgid "Generates a CSV of voucher codes, uses, and remaining uses."
-msgstr ""
-"Generiert eine CVS mit Gutschein Codes, Einlösungen und verbleibenden "
-"Einlösungen."
+msgstr "Generiert eine CVS mit Gutschein Codes, Einlösungen und verbleibenden Einlösungen."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:40
 msgid "Redeemed codes"
@@ -1003,8 +1046,7 @@ msgstr "Eingelöste Codes"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:41
 msgid "Generated a CSV of student emails, redemption date, and used code."
-msgstr ""
-"Generiert eine CVS mit Emailadressen, Einlösedatum und den verwendeten Codes."
+msgstr "Generiert eine CVS mit Emailadressen, Einlösedatum und den verwendeten Codes."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:48
 msgid "Email CSV"
@@ -1012,8 +1054,7 @@ msgstr "Email CSV"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:50
 msgid "Send to multiple emails by separating emails addresses with commas."
-msgstr ""
-"Separate Emails versenden durch separieren der Email Adressen mit Komata."
+msgstr "Separate Emails versenden durch separieren der Email Adressen mit Komata."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:53
 msgid "Generate Export"
@@ -1039,11 +1080,10 @@ msgstr "Seite Kontozugang"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:41
 msgid ""
-"Page used for login / my account access. You can also place this shortcode "
-"on any page: "
+"Page used for login / my account access. You can also place this shortcode on any page: "
 msgstr ""
-"Seite für Login / Kontoeinstellungen. Es ist möglich diesen Platzhalter auf "
-"anderen Seiten einzubinden: "
+"Seite für Login / Kontoeinstellungen. Es ist möglich diesen Platzhalter auf anderen "
+"Seiten einzubinden: "
 
 #: includes/admin/settings/class.llms.settings.accounts.php:62
 msgid "Account Page Slugs"
@@ -1131,9 +1171,7 @@ msgid "Add phone number field to user registration."
 msgstr "Telefonnummernfeld bei Registrierung anzeigen."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:175
-msgid ""
-"Add a required \"I Agree to the Terms and Conditions\" checkbox on user "
-"registration"
+msgid "Add a required \"I Agree to the Terms and Conditions\" checkbox on user registration"
 msgstr "Sie müssen die AGBs akzeptieren."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:183
@@ -1180,9 +1218,7 @@ msgstr "Währungseinstellungen"
 
 #: includes/admin/settings/class.llms.settings.checkout.php:71
 msgid "The following options affect how prices are displayed on the frontend."
-msgstr ""
-"Die folgenden Einstellungen regeln, wie Preise im Frontend dargestellt "
-"werden."
+msgstr "Die folgenden Einstellungen regeln, wie Preise im Frontend dargestellt werden."
 
 #: includes/admin/settings/class.llms.settings.checkout.php:74
 #: includes/admin/settings/class.llms.settings.general.php:97
@@ -1231,12 +1267,10 @@ msgid "Membership Signup Button Text"
 msgstr "Mitgliedschafts-Anmeldungs-Button Text"
 
 #: includes/admin/settings/class.llms.settings.courses.php:79
-msgid ""
-"Enter custom text to display on Membership sign up button (displays on "
-"course page)."
+msgid "Enter custom text to display on Membership sign up button (displays on course page)."
 msgstr ""
-"Gib den Text für den Mitgleischafts-Anmeldungs-Button ein (wird auf "
-"Mitgliedschafts-Seite angezeigt)."
+"Gib den Text für den Mitgleischafts-Anmeldungs-Button ein (wird auf Mitgliedschafts-Seite "
+"angezeigt)."
 
 #: includes/admin/settings/class.llms.settings.courses.php:87
 msgid "Course Display"
@@ -1275,10 +1309,8 @@ msgid "Display lesson featured images in outline"
 msgstr "Beitragsbilder in Kursgliederung anzeigen"
 
 #: includes/admin/settings/class.llms.settings.courses.php:164
-msgid ""
-"Enrolled students will see greyed out checkmarks on uncompleted lessons."
-msgstr ""
-"Teilnehmer sehen ausgegraute Checkboxen für nicht abgeschlossene Lektionen."
+msgid "Enrolled students will see greyed out checkmarks on uncompleted lessons."
+msgstr "Teilnehmer sehen ausgegraute Checkboxen für nicht abgeschlossene Lektionen."
 
 #: includes/admin/settings/class.llms.settings.courses.php:173
 msgid "Auto-Advance Lessons"
@@ -1286,11 +1318,10 @@ msgstr "Automatische Lektionsweiterleitung"
 
 #: includes/admin/settings/class.llms.settings.courses.php:174
 msgid ""
-"Automatically advance to the next lesson when a student clicks the Mark "
-"Complete button."
+"Automatically advance to the next lesson when a student clicks the Mark Complete button."
 msgstr ""
-"Studenten automatisch zur nächsten Lektion Weiterleiten wenn die aktuelle "
-"Lektion als erledigt markiert wird."
+"Studenten automatisch zur nächsten Lektion Weiterleiten wenn die aktuelle Lektion als "
+"erledigt markiert wird."
 
 #: includes/admin/settings/class.llms.settings.engagements.php:21
 #: includes/class.llms.post-types.php:563
@@ -1326,11 +1357,9 @@ msgid "Header Image"
 msgstr "Header Bild"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:71
-msgid ""
-"Enter the url for the email header (logo).<a href=\"%s\">Upload an image</a>."
-msgstr ""
-"Gib die URL für den Email Header (Logo) ein.<a href=\"%s\">Bild hochladen</"
-"a>."
+#, php-format
+msgid "Enter the url for the email header (logo).<a href=\"%s\">Upload an image</a>."
+msgstr "Gib die URL für den Email Header (Logo) ein.<a href=\"%s\">Bild hochladen</a>."
 
 #: includes/admin/settings/class.llms.settings.engagements.php:82
 msgid "Certificates Settings"
@@ -1342,14 +1371,13 @@ msgstr "Hintergrundbild Einstellungen"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:88
 msgid ""
-"Use these sizes to determine the dimensions of certificate background "
-"images. After changing these settings, you may need to <a href=\"http://"
-"wordpress.org/extend/plugins/regenerate-thumbnails/\" target=\"_blank"
-"\">regenerate your thumbnails</a>."
+"Use these sizes to determine the dimensions of certificate background images. After "
+"changing these settings, you may need to <a href=\"http://wordpress.org/extend/plugins/"
+"regenerate-thumbnails/\" target=\"_blank\">regenerate your thumbnails</a>."
 msgstr ""
-"Lege die Größe der Hintergrundbilder für Zertifikate fest. Nach Änderung der "
-"Werte musst du die Miniaturbilder <a href=\"http://wordpress.org/extend/"
-"plugins/regenerate-thumbnails/\" target=\"_blank\">neu generieren</a>."
+"Lege die Größe der Hintergrundbilder für Zertifikate fest. Nach Änderung der Werte musst "
+"du die Miniaturbilder <a href=\"http://wordpress.org/extend/plugins/regenerate-thumbnails/"
+"\" target=\"_blank\">neu generieren</a>."
 
 #: includes/admin/settings/class.llms.settings.engagements.php:93
 msgid "Image Width"
@@ -1370,9 +1398,7 @@ msgstr "Hart abschneiden?"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:113
 msgid "Automatically crop images to above dimensions"
-msgstr ""
-"Automatisches beschneiden der Bilder entsprechend der oben definierten "
-"Dimensionen"
+msgstr "Automatisches beschneiden der Bilder entsprechend der oben definierten Dimensionen"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:120
 msgid "Legacy compatibility"
@@ -1384,12 +1410,11 @@ msgstr "Nutze die alten Zertifikatsgrößen."
 
 #: includes/admin/settings/class.llms.settings.engagements.php:122
 msgid ""
-"Enabling this will override the above dimension settings and set the image "
-"dimensions to match the dimensions of the uploaded image."
+"Enabling this will override the above dimension settings and set the image dimensions to "
+"match the dimensions of the uploaded image."
 msgstr ""
-"Aktiviere diese Einstellung um die Dimensionseinstellungen oben zu "
-"überschreiben und die Dimensionen anhand der hochgeladenen Bilder "
-"festzulegen."
+"Aktiviere diese Einstellung um die Dimensionseinstellungen oben zu überschreiben und die "
+"Dimensionen anhand der hochgeladenen Bilder festzulegen."
 
 #: includes/admin/settings/class.llms.settings.gateways.php:19
 msgid "Gateways"
@@ -1405,9 +1430,7 @@ msgstr "Aktiviere die Paypal Zahlungsschnittstelle"
 
 #: includes/admin/settings/class.llms.settings.gateways.php:62
 msgid "Enable Debug Mode. <i>Display Response Messages on Checkout Screen</i>"
-msgstr ""
-"Debug Modus aktivieren. <i>Anzeige der Antwort Nachrichten auf der "
-"Kassenseite</i>"
+msgstr "Debug Modus aktivieren. <i>Anzeige der Antwort Nachrichten auf der Kassenseite</i>"
 
 #: includes/admin/settings/class.llms.settings.gateways.php:71
 #: includes/admin/settings/class.llms.settings.gateways.php:72
@@ -1438,42 +1461,39 @@ msgstr "Einführung in LifterLMS"
 
 #: includes/admin/settings/class.llms.settings.general.php:51
 msgid ""
-"Before you start creating courses, making lots of money and building the "
-"best (insert your business here) online there are a few setup items we need "
-"to address."
+"Before you start creating courses, making lots of money and building the best (insert "
+"your business here) online there are a few setup items we need to address."
 msgstr ""
 "Bevor wir anfangen Kurse zu erstekllen, viel Geld zu verdienen und die beste "
 "netzstratehen Akademie aufbauen, gibt es ein paar Einstellungen zu erledigen."
 
 #: includes/admin/settings/class.llms.settings.general.php:52
 msgid ""
-"We need to set up your pages. Ya, we know, more pages... That's just the way "
-"Wordpress works. We've already installed them. You just need to set them."
+"We need to set up your pages. Ya, we know, more pages... That's just the way Wordpress "
+"works. We've already installed them. You just need to set them."
 msgstr ""
-"Wir müssen deine Seiten einrichten. Ja noch mehr Seiten… So funktioniert "
-"Wordpress. Wir haben diese bereits installiert. Du musst Sie nur hinterlegen."
+"Wir müssen deine Seiten einrichten. Ja noch mehr Seiten… So funktioniert Wordpress. Wir "
+"haben diese bereits installiert. Du musst Sie nur hinterlegen."
 
 #: includes/admin/settings/class.llms.settings.general.php:53
 msgid ""
-"When you installed LifterLMS we created a few pages for you. You can select "
-"those pages or use different ones. Your choice."
+"When you installed LifterLMS we created a few pages for you. You can select those pages "
+"or use different ones. Your choice."
 msgstr ""
-"Bei der Installation von LifterLMS wurden bereits Seiten angelegt. Du kannst "
-"diese nutzten oder eigene auswählen."
+"Bei der Installation von LifterLMS wurden bereits Seiten angelegt. Du kannst diese "
+"nutzten oder eigene auswählen."
 
 #: includes/admin/settings/class.llms.settings.general.php:54
 msgid ""
-"The first page you need is the Student Account page. This is the page users "
-"will go to register, login and access their accounts. We installed a page "
-"called My Courses. You can use that or select a different page. If you "
-"happen to select a different page you will need to add this shortcode to the "
-"page:"
+"The first page you need is the Student Account page. This is the page users will go to "
+"register, login and access their accounts. We installed a page called My Courses. You can "
+"use that or select a different page. If you happen to select a different page you will "
+"need to add this shortcode to the page:"
 msgstr ""
-"Die erste Seite die benötigt wird ist die Studenten Account Seite. Hier "
-"werden sich die Benutzer registieren und anmelden. Es wurde eine Seite My "
-"Courses angelegt. Diese kannst du nutzten oder eine neue anlegen. Fall du "
-"eine andere Seite nutzten möchtest muss der folgende Shortcode auf der Seite "
-"eingefügt werden:"
+"Die erste Seite die benötigt wird ist die Studenten Account Seite. Hier werden sich die "
+"Benutzer registieren und anmelden. Es wurde eine Seite My Courses angelegt. Diese kannst "
+"du nutzten oder eine neue anlegen. Fall du eine andere Seite nutzten möchtest muss der "
+"folgende Shortcode auf der Seite eingefügt werden:"
 
 #: includes/admin/settings/class.llms.settings.general.php:59
 msgid "We suggest you choose \"My Courses\""
@@ -1481,38 +1501,33 @@ msgstr "Wir empfehlen \"My Courses\" zu nutzten"
 
 #: includes/admin/settings/class.llms.settings.general.php:70
 msgid ""
-"Next we need a checkout page so people can buy your courses and memberships. "
-"If you are a true philanthropist and don't plan on selling anything you can "
-"skip setting up this page. We created a page called \"Purchase you can use "
-"that or select a different page."
+"Next we need a checkout page so people can buy your courses and memberships. If you are a "
+"true philanthropist and don't plan on selling anything you can skip setting up this page. "
+"We created a page called \"Purchase you can use that or select a different page."
 msgstr ""
-"Als nächstes benötigen wir eine Checkout Seite damit die Benutzer Kurse und "
-"Lehrgänge kaufen können. Solltest du ein wahrer Menschenfreund sein und "
-"keine Kurse zum kauf anbieten wollen kannst du diesen Schritt überspringen. "
-"Wir haben eine Seite namens \"Purchase\" angelegt die genutzt werden kann."
+"Als nächstes benötigen wir eine Checkout Seite damit die Benutzer Kurse und Lehrgänge "
+"kaufen können. Solltest du ein wahrer Menschenfreund sein und keine Kurse zum kauf "
+"anbieten wollen kannst du diesen Schritt überspringen. Wir haben eine Seite namens "
+"\"Purchase\" angelegt die genutzt werden kann."
 
 #: includes/admin/settings/class.llms.settings.general.php:79
 msgid "We suggest you choose \"Purchase\""
 msgstr "Wir empfehlen \"Purchase\" zu nutzten"
 
 #: includes/admin/settings/class.llms.settings.general.php:92
-msgid ""
-"If you are going to sell your courses you should probably pick a currency."
-msgstr ""
-"Wenn Kurse verkauft werden sollen muss eine Währung eingestellt werden."
+msgid "If you are going to sell your courses you should probably pick a currency."
+msgstr "Wenn Kurse verkauft werden sollen muss eine Währung eingestellt werden."
 
 #: includes/admin/settings/class.llms.settings.general.php:111
 msgid ""
-"There are a lot of other settings but those were the important ones to get "
-"you started. You can access all of the other settings from the big blue menu "
-"at the top of the page."
+"There are a lot of other settings but those were the important ones to get you started. "
+"You can access all of the other settings from the big blue menu at the top of the page."
 msgstr ""
-"Die Gundeinstellungen sind geschafft. Weitere Einstellungen befinden sich in "
-"den dem blauen Menü oberhalb."
+"Die Gundeinstellungen sind geschafft. Weitere Einstellungen befinden sich in den dem "
+"blauen Menü oberhalb."
 
 #: includes/admin/settings/class.llms.settings.general.php:113
-msgid ""
-"If you have any questions or want to request a feature head on over to our"
+msgid "If you have any questions or want to request a feature head on over to our"
 msgstr "Bei Fragen oder einen Featurerequest besuchen sie uns unter "
 
 #: includes/admin/settings/class.llms.settings.general.php:113
@@ -1521,11 +1536,8 @@ msgstr "Hilfe Foren"
 
 #: includes/admin/settings/class.llms.settings.general.php:115
 msgid ""
-"That's all there is to it. Your ready to start building courses and changing "
-"the world!"
-msgstr ""
-"Das wars. Nun kannst du anfangen Kurse zu produzieren und die Welt zu "
-"verändern!"
+"That's all there is to it. Your ready to start building courses and changing the world!"
+msgstr "Das wars. Nun kannst du anfangen Kurse zu produzieren und die Welt zu verändern!"
 
 #: includes/admin/settings/class.llms.settings.general.php:116
 msgid "Click \"Save Changes\" below to save your settings and get started."
@@ -1549,11 +1561,11 @@ msgstr "https://lifterlms.com/contact/"
 
 #: includes/admin/settings/class.llms.settings.general.php:161
 msgid ""
-"Looking for a quickstart guide, shortcodes, or developer documentation? "
-"Visit our documentation portal at "
+"Looking for a quickstart guide, shortcodes, or developer documentation? Visit our "
+"documentation portal at "
 msgstr ""
-"Du suchst Tutorials, Sportcodes oder eine Entwickler-Dokumentation? Besuche "
-"unser Dokumentationsportal unter "
+"Du suchst Tutorials, Sportcodes oder eine Entwickler-Dokumentation? Besuche unser "
+"Dokumentationsportal unter "
 
 #: includes/admin/settings/class.llms.settings.general.php:161
 msgid "https://lifterlms.readme.io/"
@@ -1573,15 +1585,13 @@ msgstr "Sitzungsmanagement"
 
 #: includes/admin/settings/class.llms.settings.general.php:171
 msgid ""
-"Manage User Sessions. LifterLMS creates custom user sessions to manage, "
-"payment processing, quizzes and user registration. If you are experiencing "
-"issues or incorrect error messages are displaying. Clearing out all of the "
-"user session data may help."
+"Manage User Sessions. LifterLMS creates custom user sessions to manage, payment "
+"processing, quizzes and user registration. If you are experiencing issues or incorrect "
+"error messages are displaying. Clearing out all of the user session data may help."
 msgstr ""
-"Management der Benutzersitzungen. LifterLMS erstellt benutzerdefinierte "
-"Sitzungen um Bezahlprozesse, Quizzes und Registrierungen zu verwalten. Wenn "
-"Probleme in diesem Bereich auftreten, kann es helfen alle Benutzersitzungen "
-"zurück zusetzen."
+"Management der Benutzersitzungen. LifterLMS erstellt benutzerdefinierte Sitzungen um "
+"Bezahlprozesse, Quizzes und Registrierungen zu verwalten. Wenn Probleme in diesem Bereich "
+"auftreten, kann es helfen alle Benutzersitzungen zurück zusetzen."
 
 #: includes/admin/settings/class.llms.settings.general.php:175
 msgid "Clear All User Session Data"
@@ -1613,8 +1623,7 @@ msgid "Integration Settings"
 msgstr "Erweiterungenseinstellungen"
 
 #: includes/admin/settings/class.llms.settings.membership.php:19
-#: includes/class.llms.post-types.php:642
-#: includes/class.llms.post-types.php:643
+#: includes/class.llms.post-types.php:642 includes/class.llms.post-types.php:643
 msgid "Membership"
 msgstr "Mitgliedschaft"
 
@@ -1632,11 +1641,11 @@ msgstr "Seite nach Mitglieds-Status beschränken"
 
 #: includes/admin/settings/class.llms.settings.membership.php:53
 msgid ""
-"Only allow access to site to users with a specific membership level. Users "
-"will be able to view and purchase membership level."
+"Only allow access to site to users with a specific membership level. Users will be able "
+"to view and purchase membership level."
 msgstr ""
-"Erlaube den Zugriff zur Seite nur Benutzern mit einem speziellen "
-"Mitgliedsstatus. Nutzer werden Mitgliedsstati sehen und kaufen können."
+"Erlaube den Zugriff zur Seite nur Benutzern mit einem speziellen Mitgliedsstatus. Nutzer "
+"werden Mitgliedsstati sehen und kaufen können."
 
 #: includes/admin/settings/class.llms.settings.membership.php:61
 msgid "Redirect members to checkout"
@@ -1644,8 +1653,7 @@ msgstr "Benutzer zur Kasse umleiten"
 
 #: includes/admin/settings/class.llms.settings.membership.php:62
 msgid "Automatically redirect users to checkout after selecting membership."
-msgstr ""
-"Benutzer nach wählen einer Mitgliedschaft automatisch zur Kasse weiterleiten."
+msgstr "Benutzer nach wählen einer Mitgliedschaft automatisch zur Kasse weiterleiten."
 
 #: includes/admin/students/class.llms.students.dashboard.php:19
 msgid "Dashboard"
@@ -1695,223 +1703,230 @@ msgid "%b %d, %Y @ %I:%M %p"
 msgstr "%b %d, %Y @ %I:%M %p"
 
 #: includes/class.llms.date.php:189
+#, php-format
 msgid "%d %s "
 msgstr "%d %s "
 
 #: includes/class.llms.date.php:200
+#, php-format
 msgid "%d %s"
 msgstr "%d %s"
 
-#: includes/class.llms.frontend.forms.php:340
+#: includes/class.llms.frontend.forms.php:341
+#, php-format
 msgid "Coupon code <strong>%s</strong> was not found."
 msgstr "Gutschein Code <strong>%s</strong> wurde nicht gefunden."
 
-#: includes/class.llms.frontend.forms.php:344
+#: includes/class.llms.frontend.forms.php:345
+#, php-format
 msgid "Coupon code <strong>%s</strong> can't be applied to this product."
-msgstr ""
-"Rabatt Code <strong>%s</strong> kann nicht für dieses Produkt verwendet "
-"werden."
+msgstr "Rabatt Code <strong>%s</strong> kann nicht für dieses Produkt verwendet werden."
 
-#: includes/class.llms.frontend.forms.php:373
+#: includes/class.llms.frontend.forms.php:374
+#, php-format
 msgid "Coupon code <strong>%s</strong> cannot be applied to this order."
-msgstr ""
-"Gutschein Code <strong>%s</strong> kann nicht für diese Bestellung genutzt "
-"werden."
+msgstr "Gutschein Code <strong>%s</strong> kann nicht für diese Bestellung genutzt werden."
 
-#: includes/class.llms.frontend.forms.php:383
+#: includes/class.llms.frontend.forms.php:384
+#, php-format
 msgid "Coupon code <strong>%s</strong> has been applied to your order."
-msgstr ""
-"Der Gutschein Code <strong>%s</strong> wurde für Deine Bestellung verwendet."
+msgstr "Der Gutschein Code <strong>%s</strong> wurde für Deine Bestellung verwendet."
 
-#: includes/class.llms.frontend.forms.php:498
+#: includes/class.llms.frontend.forms.php:398
+#, php-format
+msgid "Coupon code <strong>%s</strong> has been removed from your order."
+msgstr "Gutschein Code <strong>%s</strong> wurde von deinem Kauf entfernt."
+
+#: includes/class.llms.frontend.forms.php:512
 msgid "Please select a credit card type."
 msgstr "Bitte wähle einen Kreditkarten-Typ."
 
-#: includes/class.llms.frontend.forms.php:501
+#: includes/class.llms.frontend.forms.php:515
 msgid "Please enter a credit card number."
 msgstr "Kreditkarten-Nr. eingeben"
 
-#: includes/class.llms.frontend.forms.php:504
+#: includes/class.llms.frontend.forms.php:518
 msgid "Please select an expiration month."
 msgstr "Bitte wähle den Ablaufmonat."
 
-#: includes/class.llms.frontend.forms.php:507
+#: includes/class.llms.frontend.forms.php:521
 msgid "Please select an expiration year."
 msgstr "Bitte wähle das Ablaufjahr."
 
-#: includes/class.llms.frontend.forms.php:510
+#: includes/class.llms.frontend.forms.php:524
 msgid "Please enter the credit card CVV2 number"
 msgstr "Bitte gib den Prüfnummer der Kreditkarte ein."
 
-#: includes/class.llms.frontend.forms.php:539
+#: includes/class.llms.frontend.forms.php:553
 msgid "Only percent based coupons can be applied to payment plans."
 msgstr "Bei dieser Zahlweise können nur Rabattgutscheine angewendet werden."
 
-#: includes/class.llms.frontend.forms.php:685
+#: includes/class.llms.frontend.forms.php:699
 msgid "Please confirm your payment."
 msgstr "Bitte bestätige Deine Zahlung."
 
-#: includes/class.llms.frontend.forms.php:712
+#: includes/class.llms.frontend.forms.php:726
+#, php-format
 msgid "Congratulations! You have enrolled in <strong>%s</strong>"
 msgstr "Glückwunsch! Du bist jetzt für <strong>%s</strong> eingeschrieben."
 
-#: includes/class.llms.frontend.forms.php:715
+#: includes/class.llms.frontend.forms.php:729
+#, php-format
 msgid "Congratulations! Your new membership level is <strong>%s</strong>"
 msgstr "Glückwunsch! Dein neuer Mitgliedsstatus ist <strong>%s</strong>"
 
-#: includes/class.llms.frontend.forms.php:718
+#: includes/class.llms.frontend.forms.php:732
+#, php-format
 msgid "You have successfully purchased <strong>%s</strong>"
 msgstr "Du hast erfolgreich <strong>%s</strong> gekauft"
 
-#: includes/class.llms.frontend.forms.php:739
+#: includes/class.llms.frontend.forms.php:753
 msgid "You already own this course. You cannot purchase it again."
 msgstr "Du besitzt diesen Kurs bereits. Du kannst ihn nicht erneut kaufen."
 
-#: includes/class.llms.frontend.forms.php:754
+#: includes/class.llms.frontend.forms.php:768
+#, php-format
 msgid "This content is not available until %s"
 msgstr "Dieser Inhalt ist bis %s nicht verfügbar"
 
-#: includes/class.llms.frontend.forms.php:775
+#: includes/class.llms.frontend.forms.php:789
+#, php-format
 msgid "<a href=\"%s\">%s</a> membership level allows access to this content."
 msgstr "In <a href=\"%s\">%s</a> enthalten."
 
-#: includes/class.llms.frontend.forms.php:812
-#: includes/class.llms.frontend.forms.php:871
+#: includes/class.llms.frontend.forms.php:826 includes/class.llms.frontend.forms.php:885
+#, php-format
 msgid ""
-"You must complete <strong><a href=\"%s\" alt=\"%s\">%s</strong></a> before "
-"accessing this content"
+"You must complete <strong><a href=\"%s\" alt=\"%s\">%s</strong></a> before accessing this "
+"content"
 msgstr ""
-"Du musst <strong><a href=\"%s\" alt=\"%s\">%s</strong></a> fertig machen, "
-"bevor Du diesen Inhalt nutzen kannst"
+"Du musst <strong><a href=\"%s\" alt=\"%s\">%s</strong></a> fertig machen, bevor Du diesen "
+"Inhalt nutzen kannst"
 
-#: includes/class.llms.frontend.forms.php:837
-#: includes/class.llms.frontend.forms.php:894
+#: includes/class.llms.frontend.forms.php:851 includes/class.llms.frontend.forms.php:908
+#, php-format
 msgid ""
-"You must complete the following course track before accessing this content: "
-"<strong>%s</strong>"
+"You must complete the following course track before accessing this content: <strong>%s</"
+"strong>"
 msgstr ""
-"DU musst erste die vorangestellten Kurse abgeschlossen haben um mit diesen "
-"Inhalt zu beginnen: <strong>%s</strong>"
+"DU musst erste die vorangestellten Kurse abgeschlossen haben um mit diesen Inhalt zu "
+"beginnen: <strong>%s</strong>"
 
-#: includes/class.llms.frontend.forms.php:839
-#: includes/class.llms.frontend.forms.php:896
+#: includes/class.llms.frontend.forms.php:853 includes/class.llms.frontend.forms.php:910
 msgid "Courses remaining:"
 msgstr "verbleibende Kurse:"
 
-#: includes/class.llms.frontend.forms.php:848
-#: includes/class.llms.frontend.forms.php:854
-#: includes/class.llms.frontend.forms.php:905
-#: includes/class.llms.frontend.forms.php:911
+#: includes/class.llms.frontend.forms.php:862 includes/class.llms.frontend.forms.php:868
+#: includes/class.llms.frontend.forms.php:919 includes/class.llms.frontend.forms.php:925
+#, php-format
 msgid "<strong><a href=\"%s\" alt=\"%s\">%s</strong></a>"
 msgstr "<strong><a href=\"%s\" alt=\"%s\">%s</strong></a>"
 
-#: includes/class.llms.frontend.forms.php:921
+#: includes/class.llms.frontend.forms.php:935
+#, php-format
 msgid "Lesson is not available until %s."
 msgstr "Lektion ist bis %s nicht verfügbar."
 
-#: includes/class.llms.frontend.forms.php:927
+#: includes/class.llms.frontend.forms.php:941
+#, php-format
 msgid "Course is not available until %s."
 msgstr "Kurs ist bis %s nicht verfügbar."
 
-#: includes/class.llms.frontend.forms.php:932
+#: includes/class.llms.frontend.forms.php:946
+#, php-format
 msgid "Course ended %s."
 msgstr "Kurs endete %s."
 
-#: includes/class.llms.frontend.forms.php:935
+#: includes/class.llms.frontend.forms.php:949
+#, php-format
 msgid ""
-"You do not have access to the quiz questions. <a href=\"%s\">Return to "
-"Account page</a>."
-msgstr ""
-"Du hast keinen Zugriff auf die Quizfragen. <a href=\"%s\">Zurück zum Konto</"
-"a>."
+"You do not have access to the quiz questions. <a href=\"%s\">Return to Account page</a>."
+msgstr "Du hast keinen Zugriff auf die Quizfragen. <a href=\"%s\">Zurück zum Konto</a>."
 
-#: includes/class.llms.frontend.forms.php:1022
+#: includes/class.llms.frontend.forms.php:1036
 #: includes/functions/llms.functions.person.php:107
 msgid "Please enter your name."
 msgstr "Bitte gebe Deinen Namen ein."
 
-#: includes/class.llms.frontend.forms.php:1028
+#: includes/class.llms.frontend.forms.php:1042
 #: includes/functions/llms.functions.person.php:68
 msgid "Please provide a valid email address."
 msgstr "Bitte gebe eine gültige E-Mail-Adresse ein."
 
-#: includes/class.llms.frontend.forms.php:1032
+#: includes/class.llms.frontend.forms.php:1046
 msgid "The email entered is associated with another account."
 msgstr "Die E-Mail-Adresse ist mit einem anderen Konto verknüpft."
 
-#: includes/class.llms.frontend.forms.php:1038
+#: includes/class.llms.frontend.forms.php:1052
 msgid "Please re-enter your password."
 msgstr "Bitte gib Dein Passwort erneut ein."
 
-#: includes/class.llms.frontend.forms.php:1042
-#: includes/class.llms.frontend.forms.php:1302
+#: includes/class.llms.frontend.forms.php:1056 includes/class.llms.frontend.forms.php:1316
 msgid "Passwords do not match."
 msgstr "Passwörter stimmen nicht überein."
 
-#: includes/class.llms.frontend.forms.php:1046
+#: includes/class.llms.frontend.forms.php:1060
 #: includes/functions/llms.functions.person.php:114
 msgid "Please enter your billing address."
 msgstr "Bitte gib Deine Rechnungsadresse an."
 
-#: includes/class.llms.frontend.forms.php:1049
+#: includes/class.llms.frontend.forms.php:1063
 #: includes/functions/llms.functions.person.php:117
 msgid "Please enter your billing city."
 msgstr "Bitte gib Deinen Wohnort ein."
 
-#: includes/class.llms.frontend.forms.php:1052
+#: includes/class.llms.frontend.forms.php:1066
 #: includes/functions/llms.functions.person.php:120
 msgid "Please enter your billing state."
 msgstr "Bitte gib Dein Bundesland ein."
 
-#: includes/class.llms.frontend.forms.php:1055
+#: includes/class.llms.frontend.forms.php:1069
 #: includes/functions/llms.functions.person.php:123
 msgid "Please enter your billing zip code."
 msgstr "Bitte gib Deine Postleitzahl ein."
 
-#: includes/class.llms.frontend.forms.php:1058
+#: includes/class.llms.frontend.forms.php:1072
 #: includes/functions/llms.functions.person.php:126
 msgid "Please enter your billing country."
 msgstr "Bitte gib Dein Land ein."
 
-#: includes/class.llms.frontend.forms.php:1100
+#: includes/class.llms.frontend.forms.php:1114
 msgid "Account details were changed successfully."
 msgstr "Konto-Details wurden erfolgreich geändert."
 
-#: includes/class.llms.frontend.forms.php:1133
-#: includes/class.llms.frontend.forms.php:1139
-#: includes/class.llms.frontend.forms.php:1145
-#: includes/class.llms.frontend.forms.php:1159
-#: includes/class.llms.frontend.forms.php:1414
-#: includes/class.llms.lesson.php:506
+#: includes/class.llms.frontend.forms.php:1147 includes/class.llms.frontend.forms.php:1153
+#: includes/class.llms.frontend.forms.php:1159 includes/class.llms.frontend.forms.php:1173
+#: includes/class.llms.frontend.forms.php:1428 includes/class.llms.lesson.php:506
 msgid "Error"
 msgstr "Fehler"
 
-#: includes/class.llms.frontend.forms.php:1139
+#: includes/class.llms.frontend.forms.php:1153
 msgid "Username is required."
 msgstr "Benutzername wird benötigt."
 
-#: includes/class.llms.frontend.forms.php:1145
+#: includes/class.llms.frontend.forms.php:1159
 msgid "Password is required."
 msgstr "Passwort wird benötigt."
 
-#: includes/class.llms.frontend.forms.php:1159
+#: includes/class.llms.frontend.forms.php:1173
 msgid "A user could not be found with this email address."
 msgstr "Zu dieser E-Mail-Adresse konnte kein Nutzer gefunden werden."
 
-#: includes/class.llms.frontend.forms.php:1195
+#: includes/class.llms.frontend.forms.php:1209
+#, php-format
 msgid "You are now logged in as <strong>%s</strong>"
 msgstr "Du bist jetzt als <strong>%s</strong> angemeldet"
 
-#: includes/class.llms.frontend.forms.php:1295
+#: includes/class.llms.frontend.forms.php:1309
 msgid "Please enter your password."
 msgstr "Bitte gib Dein Passwort ein."
 
-#: includes/class.llms.frontend.forms.php:1449
+#: includes/class.llms.frontend.forms.php:1463
 #: includes/functions/llms.functions.person.php:199
 msgid "ERROR"
 msgstr "Feheler"
 
-#: includes/class.llms.frontend.forms.php:1449
+#: includes/class.llms.frontend.forms.php:1463
 msgid "Anti-spam field was filled in."
 msgstr "Anti-Spam Feld wurde ausgefüllt."
 
@@ -1959,10 +1974,12 @@ msgid "User cannot be found."
 msgstr "Benutzer kann nicht gefunden werrden."
 
 #: includes/class.llms.lesson.php:530
+#, php-format
 msgid "Congratulations! You have completed %s"
 msgstr "Super! Du hast %s geschafft."
 
 #: includes/class.llms.order.php:51
+#, php-format
 msgid "Order &ndash; %s"
 msgstr "Bestellen &ndash; %s"
 
@@ -1972,6 +1989,7 @@ msgid "%b %d, %Y @ %I:%M %p"
 msgstr "%b %d, %Y @ %I:%M %p"
 
 #: includes/class.llms.order.php:183
+#, php-format
 msgid "Order - %s, %s"
 msgstr "bestellen - %s, %s"
 
@@ -2025,8 +2043,7 @@ msgctxt "slug"
 msgid "course-category"
 msgstr "kurs-kategorien"
 
-#: includes/class.llms.post-types.php:104
-#: includes/class.llms.post-types.php:107
+#: includes/class.llms.post-types.php:104 includes/class.llms.post-types.php:107
 msgid "Course Track"
 msgstr "Kurspfad"
 
@@ -2076,8 +2093,7 @@ msgctxt "slug"
 msgid "course-track"
 msgstr "kurs-pfad"
 
-#: includes/class.llms.post-types.php:132
-#: includes/class.llms.post-types.php:134
+#: includes/class.llms.post-types.php:132 includes/class.llms.post-types.php:134
 msgid "Course Tags"
 msgstr "Kurs Tags"
 
@@ -2085,8 +2101,7 @@ msgstr "Kurs Tags"
 msgid "Course Tag"
 msgstr "Kurs Tag"
 
-#: includes/class.llms.post-types.php:136
-#: includes/class.llms.post-types.php:224
+#: includes/class.llms.post-types.php:136 includes/class.llms.post-types.php:224
 msgctxt "Admin menu name"
 msgid "Tags"
 msgstr "Tags"
@@ -2128,8 +2143,7 @@ msgctxt "slug"
 msgid "course-tag"
 msgstr "kurs-tag"
 
-#: includes/class.llms.post-types.php:159
-#: includes/class.llms.post-types.php:161
+#: includes/class.llms.post-types.php:159 includes/class.llms.post-types.php:161
 msgid "Course Difficulties"
 msgstr "Kurs Schwierigkeitsgrade"
 
@@ -2179,8 +2193,7 @@ msgctxt "slug"
 msgid "course-difficulty"
 msgstr "kurs-grad"
 
-#: includes/class.llms.post-types.php:191
-#: includes/class.llms.post-types.php:193
+#: includes/class.llms.post-types.php:191 includes/class.llms.post-types.php:193
 msgid "Membership Categories"
 msgstr "Mitgleidschaftskathegorien"
 
@@ -2225,8 +2238,7 @@ msgctxt "slug"
 msgid "membership-category"
 msgstr "mitgliedschaft-kathegorie"
 
-#: includes/class.llms.post-types.php:220
-#: includes/class.llms.post-types.php:222
+#: includes/class.llms.post-types.php:220 includes/class.llms.post-types.php:222
 msgid "Membership Tags"
 msgstr "Mitgleidschafts-Tags"
 
@@ -2293,20 +2305,13 @@ msgstr "Kurs hinzufügen"
 msgid "Add New Course"
 msgstr "Neuen Kurs hinzufügen"
 
-#: includes/class.llms.post-types.php:278
-#: includes/class.llms.post-types.php:328
-#: includes/class.llms.post-types.php:368
-#: includes/class.llms.post-types.php:406
-#: includes/class.llms.post-types.php:448
-#: includes/class.llms.post-types.php:490
-#: includes/class.llms.post-types.php:528
-#: includes/class.llms.post-types.php:567
-#: includes/class.llms.post-types.php:607
-#: includes/class.llms.post-types.php:647
-#: includes/class.llms.post-types.php:687
-#: includes/class.llms.post-types.php:726
-#: includes/class.llms.post-types.php:764
-#: includes/class.llms.post-types.php:803
+#: includes/class.llms.post-types.php:278 includes/class.llms.post-types.php:328
+#: includes/class.llms.post-types.php:368 includes/class.llms.post-types.php:406
+#: includes/class.llms.post-types.php:448 includes/class.llms.post-types.php:490
+#: includes/class.llms.post-types.php:528 includes/class.llms.post-types.php:567
+#: includes/class.llms.post-types.php:607 includes/class.llms.post-types.php:647
+#: includes/class.llms.post-types.php:687 includes/class.llms.post-types.php:726
+#: includes/class.llms.post-types.php:764 includes/class.llms.post-types.php:803
 #: includes/class.llms.post-types.php:844
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -2319,9 +2324,8 @@ msgstr "Kurs bearbeiten"
 msgid "New Course"
 msgstr "Neuer Kurs"
 
-#: includes/class.llms.post-types.php:281
-#: includes/class.llms.post-types.php:282 templates/loop/view-link.php:19
-#: templates/myaccount/my-courses.php:69
+#: includes/class.llms.post-types.php:281 includes/class.llms.post-types.php:282
+#: templates/loop/view-link.php:19 templates/myaccount/my-courses.php:69
 msgid "View Course"
 msgstr "Kurs ansehen"
 
@@ -2365,8 +2369,7 @@ msgstr "Modul bearbeiten"
 msgid "New Section"
 msgstr "Neues Modul"
 
-#: includes/class.llms.post-types.php:331
-#: includes/class.llms.post-types.php:332
+#: includes/class.llms.post-types.php:331 includes/class.llms.post-types.php:332
 msgid "View Section"
 msgstr "Modul ansehen"
 
@@ -2420,8 +2423,7 @@ msgstr "Lektion bearbeiten"
 msgid "New Lesson"
 msgstr "Neue Lektion"
 
-#: includes/class.llms.post-types.php:371
-#: includes/class.llms.post-types.php:372
+#: includes/class.llms.post-types.php:371 includes/class.llms.post-types.php:372
 msgid "View Lesson"
 msgstr "Lektion ansehen"
 
@@ -2470,8 +2472,7 @@ msgstr "Bestellung bearbeiten"
 msgid "New Order"
 msgstr "Neue Bestellung"
 
-#: includes/class.llms.post-types.php:409
-#: includes/class.llms.post-types.php:410
+#: includes/class.llms.post-types.php:409 includes/class.llms.post-types.php:410
 msgid "View Order"
 msgstr "Bestellung ansehen"
 
@@ -2524,8 +2525,7 @@ msgstr "E-Mail bearbeiten"
 msgid "New Email"
 msgstr "Neue E-Mail"
 
-#: includes/class.llms.post-types.php:451
-#: includes/class.llms.post-types.php:452
+#: includes/class.llms.post-types.php:451 includes/class.llms.post-types.php:452
 msgid "View Email"
 msgstr "E-Mail ansehen"
 
@@ -2584,8 +2584,7 @@ msgstr "Zertifikat bearbeiten"
 msgid "New Certificate"
 msgstr "Neues Zertifikat"
 
-#: includes/class.llms.post-types.php:493
-#: includes/class.llms.post-types.php:494
+#: includes/class.llms.post-types.php:493 includes/class.llms.post-types.php:494
 #: templates/myaccount/my-certificates.php:28
 msgid "View Certificate"
 msgstr "Zertifikat ansehen"
@@ -2611,8 +2610,7 @@ msgctxt "Admin menu name"
 msgid "Certificates"
 msgstr "Certificates"
 
-#: includes/class.llms.post-types.php:501
-#: includes/class.llms.post-types.php:618
+#: includes/class.llms.post-types.php:501 includes/class.llms.post-types.php:618
 msgid "This is where you can view all of the certificates."
 msgstr "Hier kannst Du alle Zertifikate sehen."
 
@@ -2641,8 +2639,7 @@ msgstr "Auszeichnung bearbeiten"
 msgid "New Achievement"
 msgstr "Neue Auszeichnung"
 
-#: includes/class.llms.post-types.php:531
-#: includes/class.llms.post-types.php:532
+#: includes/class.llms.post-types.php:531 includes/class.llms.post-types.php:532
 msgid "View Achievement"
 msgstr "Auszeichnung ansehen"
 
@@ -2691,8 +2688,7 @@ msgstr "Auslöser bearbeiten"
 msgid "New Engagement"
 msgstr "Neuer Auslöser"
 
-#: includes/class.llms.post-types.php:570
-#: includes/class.llms.post-types.php:571
+#: includes/class.llms.post-types.php:570 includes/class.llms.post-types.php:571
 msgid "View Engagement"
 msgstr "Auslöser anzeigen"
 
@@ -2726,8 +2722,7 @@ msgctxt "slug"
 msgid "my_certificate"
 msgstr "meine-zertifikate"
 
-#: includes/class.llms.post-types.php:603
-#: templates/myaccount/my-certificates.php:12
+#: includes/class.llms.post-types.php:603 templates/myaccount/my-certificates.php:12
 msgid "My Certificates"
 msgstr "Meine Zertifikate"
 
@@ -2751,8 +2746,7 @@ msgstr "Zertifikate bearbeiten"
 msgid "New My Certificate"
 msgstr "Neues Zertifikat "
 
-#: includes/class.llms.post-types.php:610
-#: includes/class.llms.post-types.php:611
+#: includes/class.llms.post-types.php:610 includes/class.llms.post-types.php:611
 msgid "View My Certificate"
 msgstr "Meine Zertifikate anzeigen"
 
@@ -2803,8 +2797,7 @@ msgstr "Mitgliedschaft bearbeiten"
 msgid "New Membership"
 msgstr "Neue Mitgliedschaft"
 
-#: includes/class.llms.post-types.php:650
-#: includes/class.llms.post-types.php:651
+#: includes/class.llms.post-types.php:650 includes/class.llms.post-types.php:651
 msgid "View Membership"
 msgstr "Mitgliedschaft ansehen"
 
@@ -2857,8 +2850,7 @@ msgstr "Quiz bearbeiten"
 msgid "New Quiz"
 msgstr "Neues Quiz"
 
-#: includes/class.llms.post-types.php:690
-#: includes/class.llms.post-types.php:691
+#: includes/class.llms.post-types.php:690 includes/class.llms.post-types.php:691
 msgid "View Quiz"
 msgstr "Quiz ansehen"
 
@@ -2916,8 +2908,7 @@ msgstr "Quizfrage bearbeiten"
 msgid "New Question"
 msgstr "Neue Quizfrage"
 
-#: includes/class.llms.post-types.php:729
-#: includes/class.llms.post-types.php:730
+#: includes/class.llms.post-types.php:729 includes/class.llms.post-types.php:730
 msgid "View Question"
 msgstr "Quizfrage ansehen"
 
@@ -2970,8 +2961,7 @@ msgstr "Coupon bearbeiten"
 msgid "New Coupon"
 msgstr "Neuer Coupon"
 
-#: includes/class.llms.post-types.php:767
-#: includes/class.llms.post-types.php:768
+#: includes/class.llms.post-types.php:767 includes/class.llms.post-types.php:768
 msgid "View Coupon"
 msgstr "Coupon ansehen"
 
@@ -3024,8 +3014,7 @@ msgstr "Gutschein bearbeiten"
 msgid "New Voucher"
 msgstr "Neuer Gutschein"
 
-#: includes/class.llms.post-types.php:806
-#: includes/class.llms.post-types.php:807
+#: includes/class.llms.post-types.php:806 includes/class.llms.post-types.php:807
 msgid "View Voucher"
 msgstr "Gutschein anzeigen"
 
@@ -3083,8 +3072,7 @@ msgstr "Bewertung bearbeiten"
 msgid "New Review"
 msgstr "Neue Bewertung"
 
-#: includes/class.llms.post-types.php:847
-#: includes/class.llms.post-types.php:848
+#: includes/class.llms.post-types.php:847 includes/class.llms.post-types.php:848
 msgid "View Review"
 msgstr "Bewertung anzeigen"
 
@@ -3108,7 +3096,43 @@ msgstr "Eltern Bewertung"
 msgid "This is where you can add new reviews."
 msgstr "Hier kannst du neue Bewertungen hinzufügen."
 
-#: includes/class.llms.product.php:369 includes/class.llms.product.php:377
+#: includes/class.llms.product.php:203 includes/class.llms.product.php:302
+#, php-format
+msgctxt "billing recurrence interval"
+msgid "every %s %ss"
+msgstr "jedes %s %ss"
+
+#: includes/class.llms.product.php:206 includes/class.llms.product.php:305
+#, php-format
+msgctxt "billing frquency interval"
+msgid "per %s"
+msgstr "pro %s"
+
+#: includes/class.llms.product.php:211
+#, php-format
+msgctxt "billing first payment"
+msgid "%s%s then "
+msgstr "%s%s anschließend "
+
+#: includes/class.llms.product.php:219 includes/class.llms.product.php:318
+#, php-format
+msgctxt "billing cycle"
+msgid "%s %s for %s %ss"
+msgstr "%s %s für %s %ss"
+
+#: includes/class.llms.product.php:222 includes/class.llms.product.php:321
+#, php-format
+msgctxt "billing without cycle"
+msgid "%s %s for %s %s"
+msgstr "%s %s für %s %s"
+
+#: includes/class.llms.product.php:310
+#, php-format
+msgctxt "billing second payment"
+msgid "%s%s then "
+msgstr "%s%s anschließend "
+
+#: includes/class.llms.product.php:372 includes/class.llms.product.php:380
 msgid "Free!"
 msgstr "Gratis!"
 
@@ -3121,47 +3145,72 @@ msgid "There are no questions associated with this quiz."
 msgstr "Es gibt keine Quizsfragen zu diesem Quiz."
 
 #: includes/class.llms.quiz.php:536
-msgid ""
-"There was an error starting the quiz. Please return to the lesson and begin "
-"again."
+msgid "There was an error starting the quiz. Please return to the lesson and begin again."
 msgstr ""
-"Das Quiz konnte nicht gestarted werden. Kehre zur Lektion zurück und starte "
-"das Quiz erneut."
+"Das Quiz konnte nicht gestarted werden. Kehre zur Lektion zurück und starte das Quiz "
+"erneut."
 
 #: includes/class.llms.quiz.php:557
 msgid ""
-"There was an error finding the associated quiz. Please return to the lesson "
-"and begin quiz again."
+"There was an error finding the associated quiz. Please return to the lesson and begin "
+"quiz again."
 msgstr ""
-"Das Quiz konnte nicht gefunden werden. Kehre zur Lektion zurück und starte "
-"das Quiz erneut."
+"Das Quiz konnte nicht gefunden werden. Kehre zur Lektion zurück und starte das Quiz "
+"erneut."
 
 #: includes/class.llms.quiz.php:686
 msgid "There was an error with your quiz."
 msgstr "Es gibt einen Fehler mit Deinem Quiz."
 
+#: includes/class.llms.review.php:42
+msgid "<h3>What Others Have Said</h3>"
+msgstr "<h3>Was andere Kunden sagen</h3>"
+
+#: includes/class.llms.review.php:72
+msgctxt "author"
+msgid "By: "
+msgstr "Von: "
+
 #: includes/class.llms.review.php:110 includes/class.llms.review.php:131
 msgid "Thank you for your review!"
 msgstr "Vielen Dank für deine Bewertung!"
 
-#: includes/class.llms.shortcodes.php:172
-#: includes/class.llms.shortcodes.php:329 templates/course-pagination.php:19
+#: includes/class.llms.review.php:118
+msgid "<h3>Write a Review</h3>"
+msgstr "<h3>Bewertung schreiben</h3>"
+
+#: includes/class.llms.review.php:121
+msgid "Review Title is required."
+msgstr "Titel der Bewertung ist Pflicht."
+
+#: includes/class.llms.review.php:122
+msgid "Review Text"
+msgstr "Text der Bewertung"
+
+#: includes/class.llms.review.php:123
+msgid "Review Text is required."
+msgstr "Bewertungstext ist Pflicht."
+
+#: includes/class.llms.review.php:127
+msgid "Leave Review"
+msgstr "Bewertung absenden"
+
+#: includes/class.llms.shortcodes.php:172 includes/class.llms.shortcodes.php:329
+#: templates/course-pagination.php:19
 msgid "Previous"
 msgstr "Vorheriger"
 
-#: includes/class.llms.shortcodes.php:173
-#: includes/class.llms.shortcodes.php:330 templates/course-pagination.php:20
+#: includes/class.llms.shortcodes.php:173 includes/class.llms.shortcodes.php:330
+#: templates/course-pagination.php:20
 msgid "Next"
 msgstr "Nächster"
 
 #: includes/class.llms.shortcodes.php:474
 msgid "Course outline can only be displayed on course or lesson posts!"
-msgstr ""
-"Der Kursüberblick kann nur in einem Kurs oder einer Lektion angezeigt werden."
+msgstr "Der Kursüberblick kann nur in einem Kurs oder einer Lektion angezeigt werden."
 
 #: includes/class.llms.sidebars.php:40 includes/class.llms.sidebars.php:50
-msgid ""
-"Widgets in this area will be shown on posts with the post type of lesson."
+msgid "Widgets in this area will be shown on posts with the post type of lesson."
 msgstr "Widgets in diesem Bereich werden bei Posts des Typs Lektion angezeigt."
 
 #: includes/class.llms.sidebars.php:48
@@ -3169,8 +3218,7 @@ msgid "Lesson Sidebar"
 msgstr "Lektion Sidebar"
 
 #: includes/class.llms.sidebars.php:71 includes/class.llms.sidebars.php:81
-msgid ""
-"Widgets in this area will be shown on posts with the post type of course."
+msgid "Widgets in this area will be shown on posts with the post type of course."
 msgstr "Widgets in diesem Bereich werden bei Posts des Typs Kurs angezeigt."
 
 #: includes/class.llms.sidebars.php:79
@@ -3197,10 +3245,9 @@ msgstr "Neues Konto"
 #: includes/emails/class.llms.email.order.receipt.php:42
 #: includes/emails/class.llms.email.person.new.php:31
 msgid ""
-"Person new account emails are sent when a person signs up via the checkout "
-"or My Account page."
-msgstr ""
-"Die Email neuer Benutzer wird versendet, wenn sich jemand neu anmeldet."
+"Person new account emails are sent when a person signs up via the checkout or My Account "
+"page."
+msgstr "Die Email neuer Benutzer wird versendet, wenn sich jemand neu anmeldet."
 
 #: includes/emails/class.llms.email.person.new.php:36
 msgid "Welcome to {site_title}"
@@ -3211,9 +3258,7 @@ msgid "Reset password"
 msgstr "Passwort zurücksetzen"
 
 #: includes/emails/class.llms.email.reset.password.php:32
-msgid ""
-"Customer reset password emails are sent when a customer resets their "
-"password."
+msgid "Customer reset password emails are sent when a customer resets their password."
 msgstr "Passwort zurücksetzten Emails werden vom Kunden angefordert."
 
 #: includes/emails/class.llms.email.reset.password.php:34
@@ -3225,6 +3270,7 @@ msgid "Password Reset Instructions"
 msgstr "Anleitung um das Passwort zurückzusetzen"
 
 #: includes/functions/llms.functions.access.php:708
+#, php-format
 msgid "%s membership is required to view this content."
 msgstr "%s Mitgliedschaft wird benötigt, um diesen Inhalt zu sehen."
 
@@ -3234,20 +3280,15 @@ msgstr "Deine E-Mail-Adressen stimmen nicht überein."
 
 #: includes/functions/llms.functions.person.php:76
 msgid "An account is already registered with your email address. Please login."
-msgstr ""
-"Es existiert bereits ein Konto mit dieser E-Mail-Adresse. Bitte logge Dich "
-"ein."
+msgstr "Es existiert bereits ein Konto mit dieser E-Mail-Adresse. Bitte logge Dich ein."
 
 #: includes/functions/llms.functions.person.php:85
 msgid "Please enter a valid account username."
 msgstr "Bitte gib einen gültigen Benutzernamen ein."
 
 #: includes/functions/llms.functions.person.php:89
-msgid ""
-"An account is already registered with that username. Please choose another."
-msgstr ""
-"Es existiert bereits ein Konto mit diesem Benutzernamen. Bitte wähle einen "
-"anderen."
+msgid "An account is already registered with that username. Please choose another."
+msgstr "Es existiert bereits ein Konto mit diesem Benutzernamen. Bitte wähle einen anderen."
 
 #: includes/functions/llms.functions.person.php:135
 msgid "You must agree to the Terms and Conditions."
@@ -3263,11 +3304,10 @@ msgstr "Deine Passwörter stimmen nicht überein."
 
 #: includes/functions/llms.functions.person.php:199
 msgid ""
-"Couldn&#8217;t register you&hellip; please contact us if you continue to "
-"have problems."
+"Couldn&#8217;t register you&hellip; please contact us if you continue to have problems."
 msgstr ""
-"Registrierung fehlgeschlagen, bitte kontaktieren Sie uns sollte weiterhin "
-"keine Registrierung möglich sein."
+"Registrierung fehlgeschlagen, bitte kontaktieren Sie uns sollte weiterhin keine "
+"Registrierung möglich sein."
 
 #: includes/functions/llms.functions.person.php:263
 msgid "Membership Levels"
@@ -4390,19 +4430,23 @@ msgid "Vietnamese Dong"
 msgstr "Vietnamese Dong"
 
 #: includes/llms.template.functions.php:865
+#, php-format
 msgid "Search Results: &ldquo;%s&rdquo;"
 msgstr "Suchergebnisse: &ldquo;%s&rdquo;"
 
 #: includes/llms.template.functions.php:868
+#, php-format
 msgid "&nbsp;&ndash; Page %s"
 msgstr "&nbsp;&ndash; Seite %s"
 
-#: includes/llms.template.functions.php:974
-#: templates/myaccount/my-courses.php:62 templates/quiz/results.php:59
+#: includes/llms.template.functions.php:974 templates/myaccount/my-courses.php:62
+#: templates/quiz/results.php:59
+#, php-format
 msgid "%s%%"
 msgstr "%s%%"
 
 #: includes/llms.template.functions.php:982
+#, php-format
 msgid "Continue (%s%%)"
 msgstr "Fortfahren (%s%%)"
 
@@ -4411,11 +4455,10 @@ msgid "You cannot apply dollar based discounts to recurring orders."
 msgstr "Wertgutscheine können nicht auf Abos angewendet werden. "
 
 #: includes/shortcodes/class.llms.shortcode.checkout.php:45
-msgid ""
-"<a href=\"%1$s\">Login or create an account to purchase this course</a>."
+#, php-format
+msgid "<a href=\"%1$s\">Login or create an account to purchase this course</a>."
 msgstr ""
-"<a href=\"%1$s\">Logge Dich ein oder erstelle ein Konto, um diesen Kurs zu "
-"kaufen</a>."
+"<a href=\"%1$s\">Logge Dich ein oder erstelle ein Konto, um diesen Kurs zu kaufen</a>."
 
 #: includes/shortcodes/class.llms.shortcode.my.account.php:152
 msgid "Your password has been reset."
@@ -4453,16 +4496,17 @@ msgstr "Zeigt alle Lektionen des Kurses beim Kurs oder der Lektionsseite"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: templates/checkout/form-checkout.php:32
-#: templates/checkout/form-confirm-payment.php:22
+#: templates/checkout/form-checkout.php:32 templates/checkout/form-confirm-payment.php:22
 msgid "Product not found."
 msgstr "Produkt nicht gefunden."
 
 #: templates/checkout/form-checkout.php:46
+#, php-format
 msgid "Coupon code \"%s\" has been applied to your order"
 msgstr "Der Gutschein-Code \"%s\" wurde für Deine Bestellung genutzt."
 
 #: templates/checkout/form-checkout.php:50
+#, php-format
 msgid "(%s off)"
 msgstr "(%s Rabatt)"
 
@@ -4474,29 +4518,28 @@ msgstr "Hast Du einen Gutschein?"
 msgid "Click here to enter your code"
 msgstr "Klicke hier, um Deinen Code einzugeben"
 
-#: templates/checkout/form-checkout.php:62
-#: templates/checkout/form-confirm-payment.php:42
+#: templates/checkout/form-checkout.php:62 templates/checkout/form-confirm-payment.php:42
 #: templates/checkout/form-confirm-payment.php:81
 msgid "Confirm Purchase"
 msgstr "Kauf bestätigen"
 
-#: templates/checkout/form-checkout.php:140
+#: templates/checkout/form-checkout.php:150
 msgid "Enter coupon code"
 msgstr "Gutschein-Code eingeben"
 
-#: templates/checkout/form-checkout.php:142
+#: templates/checkout/form-checkout.php:152
 msgid "Apply Coupon"
 msgstr "Gutschein verwenden"
 
-#: templates/checkout/form-checkout.php:153
+#: templates/checkout/form-checkout.php:163
 msgid "You Pay:"
 msgstr "Du zahlst:"
 
-#: templates/checkout/form-checkout.php:200
+#: templates/checkout/form-checkout.php:210
 msgid "Payment processing is currently disabled."
 msgstr "Zahlungsvorgang ist zurzeit deaktiviert."
 
-#: templates/checkout/form-checkout.php:214
+#: templates/checkout/form-checkout.php:224
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
@@ -4513,35 +4556,47 @@ msgid "Take Quiz"
 msgstr "Quiz starten"
 
 #: templates/course/difficulty.php:12
+#, php-format
 msgid "Difficulty: <span class=\"difficulty\">%s</span>"
 msgstr "Schwierigkeitsgrad: <span class=\"difficulty\">%s</span>"
 
-#: templates/course/lesson-navigation.php:23
-#: templates/course/lesson-navigation.php:24
+#: templates/course/lesson-navigation.php:23 templates/course/lesson-navigation.php:24
 msgid "Previous Lesson"
 msgstr "Vorherige Lektion"
 
-#: templates/course/lesson-navigation.php:39
-#: templates/course/lesson-navigation.php:40
+#: templates/course/lesson-navigation.php:39 templates/course/lesson-navigation.php:40
 msgid "Back to Course"
 msgstr "Zurück zum Kurs"
 
-#: templates/course/lesson-navigation.php:52
-#: templates/course/lesson-navigation.php:53 templates/quiz/start-button.php:40
+#: templates/course/lesson-navigation.php:52 templates/course/lesson-navigation.php:53
+#: templates/quiz/start-button.php:40
 msgid "Next Lesson"
 msgstr "Nächste Lektion"
 
 #: templates/course/lesson_length.php:20
+#, php-format
 msgid "Estimated Time: <span class=\"length\">%s</span>"
 msgstr "Voraussichtlich benötigte Zeit: <span class=\"length\">%s</span>"
 
 #: templates/course/parent_course.php:13
+#, php-format
 msgid ""
-"<p class=\"llms-parent-course-link\">Back to: <a class=\"llms-lesson-link\" "
-"href=\"%s\">%s</a></p>"
+"<p class=\"llms-parent-course-link\">Back to: <a class=\"llms-lesson-link\" href=\"%s\">"
+"%s</a></p>"
 msgstr ""
-"<p class=\"llms-parent-course-link\">Zurück zu: <a class=\"llms-lesson-link"
-"\" href=\"%s\">%s</a></p>"
+"<p class=\"llms-parent-course-link\">Zurück zu: <a class=\"llms-lesson-link\" href=\"%s\">"
+"%s</a></p>"
+
+#: templates/course/price.php:24
+#, php-format
+msgid "Single payment of %s"
+msgstr "Einmalige Zahlung von %s"
+
+#: templates/course/price.php:53 templates/loop/price.php:37
+#: templates/membership/price.php:36
+msgctxt "pricing_seperator"
+msgid "or"
+msgstr "oder"
 
 #: templates/course/purchase-link.php:81 templates/course/purchase-link.php:132
 #: templates/course/purchase-link.php:161
@@ -4549,6 +4604,7 @@ msgid "Course is no longer available"
 msgstr "Kurs ist nicht mehr verfügbar"
 
 #: templates/course/purchase-link.php:174
+#, php-format
 msgid "Course %s%% Complete!"
 msgstr "Gratuliere! Kurs %s%% vollständig!"
 
@@ -4561,6 +4617,7 @@ msgid "Password reset"
 msgstr "Passwort zurücksetzen"
 
 #: templates/emails/reset-password.php:7
+#, php-format
 msgid "Username: %s"
 msgstr "Benutzername: %s"
 
@@ -4572,13 +4629,11 @@ msgstr "Um Dein Passwort zurückzusetzen, klicken den untenstehenden Link."
 msgid "Click here to reset your password"
 msgstr "Klick hier, um Dein Passwort zurückzusetzen."
 
-#: templates/global/form-login.php:15
-#: templates/myaccount/form-lost-password.php:13
+#: templates/global/form-login.php:15 templates/myaccount/form-lost-password.php:13
 msgid "Username or email"
 msgstr "Benutzername oder E-Mail-Adresse"
 
-#: templates/global/form-login.php:19
-#: templates/global/form-registration.php:109
+#: templates/global/form-login.php:19 templates/global/form-registration.php:109
 #: templates/myaccount/form-login.php:36
 msgid "Password"
 msgstr "Passwort"
@@ -4596,8 +4651,7 @@ msgstr "Angemeldet bleiben?"
 msgid "Lost your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/global/form-registration.php:20
-#: templates/global/form-registration.php:167
+#: templates/global/form-registration.php:20 templates/global/form-registration.php:167
 msgid "Register"
 msgstr "Registrierung"
 
@@ -4617,38 +4671,31 @@ msgstr "Nachname"
 msgid "Phone"
 msgstr "Telefonnummer"
 
-#: templates/global/form-registration.php:60
-#: templates/myaccount/form-edit-account.php:65
+#: templates/global/form-registration.php:60 templates/myaccount/form-edit-account.php:65
 msgid "Billing Address 1"
 msgstr "Straße + Hausnr."
 
-#: templates/global/form-registration.php:64
-#: templates/myaccount/form-edit-account.php:69
+#: templates/global/form-registration.php:64 templates/myaccount/form-edit-account.php:69
 msgid "Billing Address 2"
 msgstr "Zusätze"
 
-#: templates/global/form-registration.php:68
-#: templates/myaccount/form-edit-account.php:73
+#: templates/global/form-registration.php:68 templates/myaccount/form-edit-account.php:73
 msgid "Billing City"
 msgstr "Stadt"
 
-#: templates/global/form-registration.php:72
-#: templates/myaccount/form-edit-account.php:77
+#: templates/global/form-registration.php:72 templates/myaccount/form-edit-account.php:77
 msgid "Billing State"
 msgstr "Bundesland"
 
-#: templates/global/form-registration.php:76
-#: templates/myaccount/form-edit-account.php:81
+#: templates/global/form-registration.php:76 templates/myaccount/form-edit-account.php:81
 msgid "Billing Zip"
 msgstr "PLZ"
 
-#: templates/global/form-registration.php:80
-#: templates/myaccount/form-edit-account.php:85
+#: templates/global/form-registration.php:80 templates/myaccount/form-edit-account.php:85
 msgid "Billing Country"
 msgstr "Land"
 
-#: templates/global/form-registration.php:93
-#: templates/myaccount/form-edit-account.php:26
+#: templates/global/form-registration.php:93 templates/myaccount/form-edit-account.php:26
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
@@ -4656,30 +4703,39 @@ msgstr "E-Mail-Adresse"
 msgid "Re-enter your email address"
 msgstr "E-Mail-Adresse wiederholen"
 
-#: templates/global/form-registration.php:114
-#: templates/myaccount/form-lost-password.php:25
+#: templates/global/form-registration.php:114 templates/myaccount/form-lost-password.php:25
 msgid "Re-enter new password"
 msgstr "Neues Passwort wiederholen"
 
-#: templates/global/form-registration.php:138
+#: templates/global/form-registration.php:135
+msgid "Have a Voucher?"
+msgstr "Haben sie einen Gutschein?"
+
+#: templates/global/form-registration.php:138 templates/global/form-registration.php:139
+#: templates/myaccount/form-redeem-voucher.php:18
+#: templates/myaccount/form-redeem-voucher.php:19
 msgid "Voucher Code"
 msgstr "Gutschein Code"
 
 #: templates/global/form-registration.php:149
-msgid "I have read and agree to the <a href=\"%s\">Terms and Conditions</a>"
+#, php-format
+msgid ""
+"I have read and agree to the <a href=\"%s\" target=\"_blank\">Terms and Conditions</a>"
 msgstr ""
-"I habe die <a href=\"%s\">Allgemeinen Geschäftsbedingungen</a> gelesen und "
-"stimme ihnen zu."
+"Ich habe die <a href=\"%s\" target=\"_blank\">Allgemeinen Geschäftsbedingungen</a> "
+"gelesen und stimme ihnen zu."
 
 #: templates/global/form-registration.php:159
 msgid "Anti-spam"
 msgstr "Anti-Spam"
 
 #: templates/loop/difficulty.php:8
+#, php-format
 msgid "Difficulty: %s"
 msgstr "Schwierigkeitsgrad: %s"
 
 #: templates/loop/length.php:8
+#, php-format
 msgid "Course length: %s"
 msgstr "Kurslänge: %s"
 
@@ -4691,10 +4747,8 @@ msgstr "Zu Deiner Auswahl wurden keine Produkte gefunden."
 msgid "Learn More"
 msgstr "Erfahre mehr"
 
-#: templates/membership/purchase-link.php:43
-#: templates/membership/purchase-link.php:52
-#: templates/membership/purchase-link.php:61
-#: templates/membership/purchase-link.php:75
+#: templates/membership/purchase-link.php:43 templates/membership/purchase-link.php:52
+#: templates/membership/purchase-link.php:61 templates/membership/purchase-link.php:75
 msgid "Sign Up"
 msgstr "Registrier Dich!"
 
@@ -4736,11 +4790,10 @@ msgstr "Benutzername oder E-Mail-Adresse"
 
 #: templates/myaccount/form-lost-password.php:11
 msgid ""
-"Lost your password? Enter your email address and we will send you a link to "
-"reset it."
+"Lost your password? Enter your email address and we will send you a link to reset it."
 msgstr ""
-"Passwort vergessen? Gib Deine E-Mail-Adresse ein und wir senden Dir einen "
-"Link, um es zurückzusetzen."
+"Passwort vergessen? Gib Deine E-Mail-Adresse ein und wir senden Dir einen Link, um es "
+"zurückzusetzen."
 
 #: templates/myaccount/form-lost-password.php:18
 msgid "Enter a new password below."
@@ -4758,13 +4811,22 @@ msgstr "Passwort zurücksetzen"
 msgid "Save"
 msgstr "Speichern"
 
+#: templates/myaccount/form-redeem-voucher.php:22 templates/myaccount/my-navigation.php:20
+msgid "Redeem a Voucher"
+msgstr "Gutschein einlösen"
+
 #: templates/myaccount/my-account.php:18
+#, php-format
 msgid "<h3>Hello <strong>%1$s</strong></h3>"
 msgstr "<h3>Hallo <strong>%1$s</strong></h3>"
 
 #: templates/myaccount/my-account.php:22
 msgid "What would you like to learn today?"
 msgstr "Was möchtest Du heute lernen?"
+
+#: templates/myaccount/my-achievements.php:14
+msgid "My Achievements"
+msgstr "Meine Auszeichnungen"
 
 #: templates/myaccount/my-certificates.php:39
 msgid "Complete courses and lessons to earn certificates."
@@ -4775,8 +4837,9 @@ msgid "Courses In-Progress"
 msgstr "Kurse in Bearbeitung"
 
 #: templates/myaccount/my-courses.php:30
+#, php-format
 msgid "<p class=\"author\">Author: <span>%s</span></p>"
-msgstr "<p class=\"author\">Autor: %s</p>"
+msgstr "<p class=\"author\">Autor: <span>%s</span></p>"
 
 #: templates/myaccount/my-courses.php:43
 msgid "Status:"
@@ -4795,10 +4858,12 @@ msgid "My Memberships"
 msgstr "Meine Lehrgänge"
 
 #: templates/myaccount/my-memberships.php:24
+#, php-format
 msgid "Enrolled: %s"
 msgstr "Fortschritt: %s"
 
 #: templates/myaccount/my-memberships.php:25
+#, php-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
@@ -4810,19 +4875,14 @@ msgstr "Du bist momentan für keine Lehrgänge eingeschrieben."
 msgid "My Account"
 msgstr "Meine Akademie"
 
-#: templates/myaccount/my-navigation.php:20
-msgid "Redeem a Voucher"
-msgstr "Gutschein einlösen"
-
 #: templates/myaccount/my-navigation.php:23
 msgid "Sign out"
 msgstr "Abmelden"
 
 #: templates/quiz/attempts.php:23
-msgid ""
-"Attempts Remaining: <span class=\"llms-content llms-attempts\">%s</span>"
-msgstr ""
-"Verfügbare Versuche: <span class=\"llms-content llms-attempts\">%s</span>"
+#, php-format
+msgid "Attempts Remaining: <span class=\"llms-content llms-attempts\">%s</span>"
+msgstr "Verfügbare Versuche: <span class=\"llms-content llms-attempts\">%s</span>"
 
 #: templates/quiz/next-question.php:25
 msgid "Complete Quiz"
@@ -4833,34 +4893,40 @@ msgid "Next Question"
 msgstr "Nächste Frage"
 
 #: templates/quiz/passing-percent.php:19
+#, php-format
 msgid ""
-"A score of  <span class=\"llms-content llms-pass-perc\">%s%%</span> or more "
-"is required to pass this test."
+"A score of  <span class=\"llms-content llms-pass-perc\">%s%%</span> or more is required "
+"to pass this test."
 msgstr ""
-"Eine Punktzahl von <span class=\"llms-content llms-pass-perc\">%s%%</span> "
-"oder mehr wird benötigt, um dieses Quiz zu schaffen."
+"Eine Punktzahl von <span class=\"llms-content llms-pass-perc\">%s%%</span> oder mehr wird "
+"benötigt, um dieses Quiz zu schaffen."
 
 #: templates/quiz/previous-question.php:25
 msgid "Previous Question"
 msgstr "Vorherige Frage"
 
 #: templates/quiz/question-count.php:32
+#, php-format
 msgid "Question %d of %d"
 msgstr "Frage %d von %d"
 
 #: templates/quiz/results.php:69
+#, php-format
 msgid "Your Score: %d%%"
 msgstr "Deine Punktzahl: %d%%"
 
 #: templates/quiz/results.php:80 templates/quiz/results.php:107
+#, php-format
 msgid "%d / %d correct answers"
 msgstr "%d / %d richtige Antworten"
 
 #: templates/quiz/results.php:81 templates/quiz/results.php:108
+#, php-format
 msgid "Date: <span class=\"llms_content_block\">%s</span>"
 msgstr "Datum: <span class=\"llms_content_block\">%s</span>"
 
 #: templates/quiz/results.php:82 templates/quiz/results.php:109
+#, php-format
 msgid "Total time: %s"
 msgstr "Benötigte Zeit: %s"
 
@@ -4869,10 +4935,12 @@ msgid "View Summary"
 msgstr "Zusammenfassung anzeigen"
 
 #: templates/quiz/results.php:96
+#, php-format
 msgid "Best Score: %d%%"
 msgstr "Beste Punktzahl: %d%%"
 
 #: templates/quiz/return-to-lesson.php:40
+#, php-format
 msgid "<a href=\"%s\">Return to Lesson</a>"
 msgstr "<a href=\"%s\">Zurück zur Lektion</a>"
 
@@ -4885,282 +4953,256 @@ msgid "<p>You are not able take this quiz</p>"
 msgstr "<p>Du kannst an diesem Quiz nicht mehr teilnehmen.</p>"
 
 #: templates/quiz/time-limit.php:17
+#, php-format
 msgid "Time Limit: <span class=\"llms-content\">%s</span>"
 msgstr "Zeit Limit: <span class=\"llms-content\">%s</span>"
 
-#. Plugin Name of the plugin/theme
-msgid "LifterLMS"
-msgstr "LifterLMS"
-
-#. Plugin URI of the plugin/theme
-msgid "https://lifterlms.com/"
-msgstr "https://lifterlms.com/"
-
-#. Description of the plugin/theme
-msgid ""
-"LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and "
-"protect engaging online courses."
-msgstr ""
-"LifterLMS, die #1 WordPress LMS Lösung, macht es einfach bezaubernde Online "
-"Kurse zu erstellen, zu verkaufen und abzusichern."
-
-#. Author of the plugin/theme
-msgid "Mark Nelson, Thomas Patrick Levy, codeBOX, LLC"
-msgstr "Mark Nelson, Thomas Patrick Levy, codeBOX, LLC"
-
-#. Author URI of the plugin/theme
-msgid "http://gocodebox.com"
-msgstr "http://gocodebox.com"
+#~ msgid "I have read and agree to the <a href=\"%s\">Terms and Conditions</a>"
+#~ msgstr ""
+#~ "Ich habe die <a href=\"%s\">Allgemeinen Geschäftsbedingungen</a> gelesen und stimme "
+#~ "ihnen zu."
 
-msgid "Dashboard Options"
-msgstr "Dashboard Optionen"
+#~ msgctxt "billing seperater"
+#~ msgid "or"
+#~ msgstr "oder"
 
-msgid "Plugin Activation"
-msgstr "Plugin Aktivierung"
+#~ msgid "LifterLMS"
+#~ msgstr "LifterLMS"
 
-msgid ""
-"Enter your activation key to recieve important updates and new features "
-"when they are available."
-msgstr ""
-"Geben Sie Ihren Aktivierungsschlüssel ein um wichtige Updates und neue "
-"Features zu erhalten sobald diese Verfügbar sind."
-
-msgid "Activation Key"
-msgstr "Aktivierungsschlüssel"
-
-msgid " updated. <a href=\"%s\">View "
-msgstr " aktualisiert. <a href=\"%s\">Anzeigen "
-
-msgid " updated."
-msgstr " aktualisiert."
-
-msgid " restored to revision from %s"
-msgstr "Version vom %s wiederhergestellt"
-
-msgid " published. <a href=\"%s\">View "
-msgstr " veröffentlicht. <a href=\"%s\">Anzeigen "
-
-msgid " saved."
-msgstr " gespeichert."
-
-msgid " submitted. <a target=\"_blank\" href=\"%s\">Preview "
-msgstr " eingereicht. <a target=\"_blank\" href=\"%s\">Vorschau "
-
-msgid ""
-" scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s"
-"\">Preview "
-msgstr ""
-" geplant für: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s"
-"\">Vorschau "
-
-msgid " draft updated. <a target=\"_blank\" href=\"%s\">Preview "
-msgstr " Entwurf aktualisiert. <a target=\"_blank\" href=\"%s\">Vorschau "
-
-msgid "Single Payment Options"
-msgstr "Optionen Einmalzahlung"
-
-msgid "Sale Price Dates"
-msgstr "Angebotsdatum"
-
-msgid "Recurring Payment Options"
-msgstr "Optionen wiederkehrende Zahlung"
-
-msgid "Associated Course "
-msgstr "Verbundener Kurs"
-
-msgid "Display Section Title on Syllabus"
-msgstr "Sektionsüberschrifen in ZUsammenfassung anzeigen"
-
-msgid "Display Course Outline on Course page"
-msgstr "Kursstruktur auf Kursseite anzeigen"
-
-msgid "Deactivate LifterLMS."
-msgstr "LifterLMS deaktivieren."
-
-msgid ""
-"First things first. We need to activate your plugin. Enter the activation "
-"key you were given when you purchased LifterLMS. If you don't have a key "
-"that's ok. Go ahead and continue the setup. You can activate the plugin "
-"later."
-msgstr ""
-"Zuerst einige Einstellungen. Dein Plugin muss aktiviert werden. Gib "
-"deinen Aktivierungsschlüssel ein den du beim Kauf von LifterLMS erhalten "
-"hast. Solltest du keinen haben, kannst du das Plugin auch später "
-"aktivieren."
-
-msgid ""
-"Next we need to set up your pages. Ya, we know, more pages... That's just "
-"the way Wordpress works. We've already installed them. You just need to "
-"set them."
-msgstr ""
-"Nun müssen Seiten erstellt werden. Wenn diese bereits angelegt wurden "
-"kannst du diese nun zuweisen."
+#~ msgid "https://lifterlms.com/"
+#~ msgstr "https://lifterlms.com/"
+
+#~ msgid ""
+#~ "LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect "
+#~ "engaging online courses."
+#~ msgstr ""
+#~ "LifterLMS, die #1 WordPress LMS Lösung, macht es einfach bezaubernde Online Kurse zu "
+#~ "erstellen, zu verkaufen und abzusichern."
 
-msgid "Thank you for choosing"
-msgstr "Vielen Dank das Sie sich für "
+#~ msgid "Mark Nelson, Thomas Patrick Levy, codeBOX, LLC"
+#~ msgstr "Mark Nelson, Thomas Patrick Levy, codeBOX, LLC"
 
-msgid "as your Learning Management Solution."
-msgstr "als Lernplattform entschieden haben."
+#~ msgid "http://gocodebox.com"
+#~ msgstr "http://gocodebox.com"
 
-msgid "Support:"
-msgstr "Support"
+#~ msgid "Dashboard Options"
+#~ msgstr "Dashboard Optionen"
 
-msgid "https://lifterlms.com/forums/"
-msgstr "https://lifterlms.com/forums/"
+#~ msgid "Plugin Activation"
+#~ msgstr "Plugin Aktivierung"
 
-msgid "Blog:"
-msgstr "Blog"
+#~ msgid ""
+#~ "Enter your activation key to recieve important updates and new features when they are "
+#~ "available."
+#~ msgstr ""
+#~ "Geben Sie Ihren Aktivierungsschlüssel ein um wichtige Updates und neue Features zu "
+#~ "erhalten sobald diese Verfügbar sind."
 
-msgid "Tutorials:"
-msgstr "Tutorials:"
+#~ msgid "Activation Key"
+#~ msgstr "Aktivierungsschlüssel"
 
-msgid "http://demo.lifterlms.com/"
-msgstr "http://demo.lifterlms.com/"
+#~ msgid "Single Payment Options"
+#~ msgstr "Optionen Einmalzahlung"
 
-msgid ""
-"Enter your activation key to recieve important updates and new features "
-"when they are available.\n"
-"\t\t\t\t\t\tNeed an activation key? <a href=\"http://lifterlms.com\">Get "
-"one here</a>"
-msgstr ""
-"Gib deinen aktivierungsschläüssel ein um Updates und neue Features zu "
-"erhalten, sobald diese verfügbar sind.\n"
-"Noch keinen <a href=\"lifterlms.com\">Aktivierungsschlüssel?</a>"
-
-msgid "Update Activation"
-msgstr "Aktivierung aktualisieren"
-
-msgid ""
-"<a href=\"%s\">%s</a> membership level is required to access this content."
-msgstr ""
-"<a href=\"%s\">%s</a> Mitglieds-Status wird benötigt, um diesen Inhalt "
-"anzuzeigen."
-
-msgid "This course does not have any lessons."
-msgstr "Dieser Kurs enthält keine Lektionen."
-
-msgid "Take This Course"
-msgstr "Kurs beginnen"
-
-msgid ""
-"<a class=\"llms-nav-link signout\" href=\"%1$s\">Sign out</a>  &middot;  "
-msgstr ""
-"<a class=\"llms-nav-link signout\" href=\"%1$s\">Abmelden</a>  &middot;  "
+#~ msgid "Sale Price Dates"
+#~ msgstr "Angebotsdatum"
 
-msgid "<a class=\"llms-nav-link my-courses\" href=\"%s\">My Courses</a>"
-msgstr "<a class=\"llms-nav-link my-courses\" href=\"%s\">Meine Kurse</a>"
-
-msgid ""
-"<a class=\"llms-nav-link account-settings\" href=\"%s\">Account Settings</"
-"a>"
-msgstr ""
-"<a class=\"llms-nav-link account-settings\" href=\"%s\">Konto-"
-"Einstellungen</a>"
+#~ msgid "Recurring Payment Options"
+#~ msgstr "Optionen wiederkehrende Zahlung"
 
-msgid "http://lifterlms.com/"
-msgstr "http://lifterlms.com/"
+#~ msgid "Display Section Title on Syllabus"
+#~ msgstr "Sektionsüberschrifen in ZUsammenfassung anzeigen"
 
-msgid ""
-"LifterLMS is the easiest way for anyone to create a Learning Management "
-"System on the Wordpress platform."
-msgstr ""
-"LifterLMS ist der einfachste Weg für jeden um ein LMS System in Wordpress "
-"aufzubauen. "
+#~ msgid "Display Course Outline on Course page"
+#~ msgstr "Kursstruktur auf Kursseite anzeigen"
 
-msgid "codeBOX"
-msgstr "codeBOX"
+#~ msgid "Deactivate LifterLMS."
+#~ msgstr "LifterLMS deaktivieren."
 
-msgid "Course Short Description"
-msgstr "Kurs Short Description"
+#~ msgid ""
+#~ "First things first. We need to activate your plugin. Enter the activation key you were "
+#~ "given when you purchased LifterLMS. If you don't have a key that's ok. Go ahead and "
+#~ "continue the setup. You can activate the plugin later."
+#~ msgstr ""
+#~ "Zuerst einige Einstellungen. Dein Plugin muss aktiviert werden. Gib deinen "
+#~ "Aktivierungsschlüssel ein den du beim Kauf von LifterLMS erhalten hast. Solltest du "
+#~ "keinen haben, kannst du das Plugin auch später aktivieren."
 
-msgid "Course Data"
-msgstr "Kurs Data"
+#~ msgid ""
+#~ "Next we need to set up your pages. Ya, we know, more pages... That's just the way "
+#~ "Wordpress works. We've already installed them. You just need to set them."
+#~ msgstr ""
+#~ "Nun müssen Seiten erstellt werden. Wenn diese bereits angelegt wurden kannst du diese "
+#~ "nun zuweisen."
 
-msgid "Featured Media"
-msgstr "Unterstützte Medien"
+#~ msgid "Thank you for choosing"
+#~ msgstr "Vielen Dank das Sie sich für "
 
-msgid "General Settings"
-msgstr "Allgemeine Einstellungen"
+#~ msgid "as your Learning Management Solution."
+#~ msgstr "als Lernplattform entschieden haben."
 
-msgid "Student Settings"
-msgstr "Teilnehmer Settings"
+#~ msgid "Support:"
+#~ msgstr "Support"
 
-msgid "Lesson Options"
-msgstr "Lektion Options"
+#~ msgid "https://lifterlms.com/forums/"
+#~ msgstr "https://lifterlms.com/forums/"
 
-msgid "Certificate Options"
-msgstr "Zertifikat Options"
+#~ msgid "Blog:"
+#~ msgstr "Blog"
 
-msgid "Achievement Options"
-msgstr "Auszeichnung Options"
+#~ msgid "Tutorials:"
+#~ msgstr "Tutorials:"
 
-msgid "Membership Data"
-msgstr "Mitgliedschaft Data"
+#~ msgid "http://demo.lifterlms.com/"
+#~ msgstr "http://demo.lifterlms.com/"
 
-msgid "Membership Expiration"
-msgstr "Mitgliedschaft Ablauf"
+#~ msgid ""
+#~ "Enter your activation key to recieve important updates and new features when they are "
+#~ "available.\n"
+#~ "\t\t\t\t\t\tNeed an activation key? <a href=\"http://lifterlms.com\">Get one here</a>"
+#~ msgstr ""
+#~ "Gib deinen aktivierungsschläüssel ein um Updates und neue Features zu erhalten, sobald "
+#~ "diese verfügbar sind.\n"
+#~ "Noch keinen <a href=\"lifterlms.com\">Aktivierungsschlüssel?</a>"
 
-msgid "Coupon Options"
-msgstr "Gutschein Options"
+#~ msgid "Update Activation"
+#~ msgstr "Aktivierung aktualisieren"
 
-msgid "Email Subject"
-msgstr "E-Mail Betreff"
+#~ msgid "<a href=\"%s\">%s</a> membership level is required to access this content."
+#~ msgstr ""
+#~ "<a href=\"%s\">%s</a> Mitglieds-Status wird benötigt, um diesen Inhalt anzuzeigen."
 
-msgid ""
-"This will be used for the subject line of your email. The Subject allows "
-"mergefields."
-msgstr ""
-"Dieser Text wird als Betreffzeile für die Email genutzt. Platzhalter "
-"werdenunterstützt."
+#~ msgid "This course does not have any lessons."
+#~ msgstr "Dieser Kurs enthält keine Lektionen."
 
-msgid "Email Heading"
-msgstr "Email Überschrift"
+#~ msgid "Take This Course"
+#~ msgstr "Kurs beginnen"
 
-msgid ""
-"This is the heading for your email. It will display above the content."
-msgstr ""
-"Diese Überschrift wird in der Email oberhalb des Ingaltes angezeigt."
+#~ msgid "<a class=\"llms-nav-link signout\" href=\"%1$s\">Sign out</a>  &middot;  "
+#~ msgstr "<a class=\"llms-nav-link signout\" href=\"%1$s\">Abmelden</a>  &middot;  "
 
-msgid ""
-"Use the text editor above to add content to your email. \n"
-"\t\tYou can include any of the following merge fields to give the email a "
-"personal touch."
-msgstr ""
-"Nutzten Sie den Texteditor oberhalb um Inhalt der Email zu erstellen. \n"
-"\t\tSie können die folgenden Platzhalter verwenden um die Email "
-"persönlich zu gestalten."
+#~ msgid "<a class=\"llms-nav-link my-courses\" href=\"%s\">My Courses</a>"
+#~ msgstr "<a class=\"llms-nav-link my-courses\" href=\"%s\">Meine Kurse</a>"
 
-msgid "Associated Section "
-msgstr "Verbundenes Modul"
+#~ msgid "<a class=\"llms-nav-link account-settings\" href=\"%s\">Account Settings</a>"
+#~ msgstr "<a class=\"llms-nav-link account-settings\" href=\"%s\">Konto-Einstellungen</a>"
 
-msgid "Lessons in associated section"
-msgstr "Lektionen im verbundenen Modul"
+#~ msgid "http://lifterlms.com/"
+#~ msgstr "http://lifterlms.com/"
 
-msgid "Number of allowed attempts. Must be at least 1."
-msgstr "Anzahl der erlaubten Versuche. Min. 1."
+#~ msgid ""
+#~ "LifterLMS is the easiest way for anyone to create a Learning Management System on the "
+#~ "Wordpress platform."
+#~ msgstr ""
+#~ "LifterLMS ist der einfachste Weg für jeden um ein LMS System in Wordpress aufzubauen. "
 
-msgid "You must answer the question to continue."
-msgstr "Du musst die Fragen beantworten um fortzufahren."
+#~ msgid "codeBOX"
+#~ msgstr "codeBOX"
 
-msgid "%s membership level is required to access this content."
-msgstr "%s Mitglieds-Status wird benötigt, um diesen Inhalt zu nutzen."
+#~ msgid "Course Short Description"
+#~ msgstr "Kurs Short Description"
 
-msgid "Course progress can only be displayed on course or lesson posts!"
-msgstr ""
-"Der Kurs-Fortschritt kann nur beim Kurs oder Lektions-Beiträgen angezeigt "
-"werden!"
+#~ msgid "Course Data"
+#~ msgstr "Kurs Data"
 
-msgid "Single payment of %s"
-msgstr "Einmalige Zahlung von %s"
+#~ msgid "Featured Media"
+#~ msgstr "Unterstützte Medien"
 
-msgid "My Achievements"
-msgstr "Meine Auszeichnungen"
+#~ msgid "General Settings"
+#~ msgstr "Allgemeine Einstellungen"
 
-msgid "Complete courses and lessons to earn achievements."
-msgstr "Schließe Kurse und Lektionen ab, um Auszeichnungen zu erhalten."
+#~ msgid "Student Settings"
+#~ msgstr "Teilnehmer Settings"
 
-msgid "Passed"
-msgstr "Geschafft!"
+#~ msgid "Lesson Options"
+#~ msgstr "Lektion Options"
 
-msgid "Failed"
-msgstr "Nicht geschafft!"
+#~ msgid "Certificate Options"
+#~ msgstr "Zertifikat Options"
+
+#~ msgid "Achievement Options"
+#~ msgstr "Auszeichnung Options"
+
+#~ msgid "Membership Data"
+#~ msgstr "Mitgliedschaft Data"
+
+#~ msgid "Membership Expiration"
+#~ msgstr "Mitgliedschaft Ablauf"
+
+#~ msgid "Coupon Options"
+#~ msgstr "Gutschein Options"
+
+#~ msgid "Email Subject"
+#~ msgstr "E-Mail Betreff"
+
+#~ msgid ""
+#~ "This will be used for the subject line of your email. The Subject allows mergefields."
+#~ msgstr ""
+#~ "Dieser Text wird als Betreffzeile für die Email genutzt. Platzhalter werdenunterstützt."
+
+#~ msgid "Email Heading"
+#~ msgstr "Email Überschrift"
+
+#~ msgid "This is the heading for your email. It will display above the content."
+#~ msgstr "Diese Überschrift wird in der Email oberhalb des Ingaltes angezeigt."
+
+#~ msgid ""
+#~ "Use the text editor above to add content to your email. \n"
+#~ "\t\tYou can include any of the following merge fields to give the email a personal "
+#~ "touch."
+#~ msgstr ""
+#~ "Nutzten Sie den Texteditor oberhalb um Inhalt der Email zu erstellen. \n"
+#~ "\t\tSie können die folgenden Platzhalter verwenden um die Email persönlich zu "
+#~ "gestalten."
+
+#~ msgid "Associated Section "
+#~ msgstr "Verbundenes Modul"
+
+#~ msgid "Lessons in associated section"
+#~ msgstr "Lektionen im verbundenen Modul"
+
+#~ msgid "Number of allowed attempts. Must be at least 1."
+#~ msgstr "Anzahl der erlaubten Versuche. Min. 1."
+
+#~ msgid "You must answer the question to continue."
+#~ msgstr "Du musst die Fragen beantworten um fortzufahren."
+
+#~ msgid "%s membership level is required to access this content."
+#~ msgstr "%s Mitglieds-Status wird benötigt, um diesen Inhalt zu nutzen."
+
+#~ msgid "Course progress can only be displayed on course or lesson posts!"
+#~ msgstr ""
+#~ "Der Kurs-Fortschritt kann nur beim Kurs oder Lektions-Beiträgen angezeigt werden!"
+
+#~ msgid "Complete courses and lessons to earn achievements."
+#~ msgstr "Schließe Kurse und Lektionen ab, um Auszeichnungen zu erhalten."
+
+#~ msgid "Passed"
+#~ msgstr "Geschafft!"
+
+#~ msgid "Failed"
+#~ msgstr "Nicht geschafft!"
+
+#~ msgid "every"
+#~ msgstr "je"
+
+#~ msgid "per"
+#~ msgstr "pro"
+
+#~ msgid "then"
+#~ msgstr "danach"
+
+#~ msgid "for"
+#~ msgstr "für"
+
+#~ msgid "or"
+#~ msgstr "oder"
+
+#~ msgid "year"
+#~ msgstr "Jahr"
+
+#~ msgid "month"
+#~ msgstr "Monat"
+
+#~ msgid "day"
+#~ msgstr "Tag"

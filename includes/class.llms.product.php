@@ -197,22 +197,23 @@ class LLMS_Product {
 
 		// display billing period based on frequency
 		if ($billing_freq > 1) {
-			$billing_period_html = 'every ' . $billing_freq . ' ' . $billing_period . 's';
-		} else {
-			$billing_period_html = 'per ' . $billing_period;
+			$billing_period_html = sprintf( _x( 'every %s %ss', 'billing recurrence interval', 'lifterlms' ), $billing_freq, $billing_period );
+		}
+		else {
+			$billing_period_html = sprintf( _x( 'per %s', 'billing frquency interval', 'lifterlms' ), $billing_period );
 		}
 
 		// if first payment is different from recurring payment display first payment.
 		if ($sub_first_payment != $sub_price) {
-			$price = $currency_symbol . $sub_first_payment . ' then ';
+			$price = sprintf( _x('%s%s then ','billing first payment','lifterlms'), $currency_symbol, $sub_first_payment );
 		}
 
 		if ( $billing_cycle == 0 ) {
 			$price .= ($display_price . ' ' . $billing_period_html);
 		} elseif ( $billing_cycle > 1 ) {
-			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's');
+			$price .= sprintf( _x('%s %s for %s %ss', 'billing cycle'), $display_price, $billing_period_html, $billing_cycle, $billing_period );
 		} else {
-			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
+			$price .= sprintf( _x('%s %s for %s %s', 'billing without cycle', 'lifterlms'), $display_price, $billing_period_html, $billing_cycle, $billing_period);
 		}
 
 		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );;
@@ -325,22 +326,22 @@ class LLMS_Product {
 
 		// display billing period based on frequency
 		if ($billing_freq > 1) {
-			$billing_period_html = 'every ' . $billing_freq . ' ' . $billing_period . 's';
+			$billing_period_html = sprintf( _x( 'every %s %ss', 'billing recurrence interval', 'lifterlms' ), $billing_freq, $billing_period );
 		} else {
-			$billing_period_html = 'per ' . $billing_period;
+			$billing_period_html = sprintf( _x( 'per %s', 'billing frquency interval', 'lifterlms' ), $billing_period );
 		}
 
 		// if first payment is different from recurring payment display first payment.
 		if ($recurring_first_payment != $recurring_price) {
-			$price = $currency_symbol . $recurring_first_payment . ' then ';
+			$price = sprintf( _x( '%s%s then ', 'billing second payment', 'lifterlms' ), $currency_symbol, $recurring_first_payment );
 		}
 
 		if ( $billing_cycle == 0 ) {
 			$price .= ($display_price . ' ' . $billing_period_html);
 		} elseif ( $billing_cycle > 1 ) {
-			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's');
+			$price .= sprintf( _x( '%s %s for %s %ss', 'billing cycle', 'lifterlms' ), $display_price, $billing_period_html, $billing_cycle, $billing_period );
 		} else {
-			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
+			$price .= sprintf( _x( '%s %s for %s %s', 'billing without cycle', 'lifterlms'), $display_price, $billing_period_html, $billing_cycle, $billing_period );
 		}
 
 		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );;
