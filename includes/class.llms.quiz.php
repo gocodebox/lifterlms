@@ -244,12 +244,12 @@ class LLMS_Quiz {
 				if ( $unique_id == $value['wpnonce'] ) {
 					//best attempt
 					if ( $value['end_date'] ) {
-						$total_time = $this->get_date_diff($value['start_date'], $this->get_end_date( $user_id, $unique_id ));
+						$total_time = $this->get_date_diff( $value['start_date'], $this->get_end_date( $user_id, $unique_id ) );
 					}
 					break;
 				} elseif ( $value['id'] == $this->id ) {
 					if ( $value['end_date'] ) {
-						$total_time = $this->get_date_diff($value['start_date'], $this->get_end_date( $user_id ));
+						$total_time = $this->get_date_diff( $value['start_date'], $this->get_end_date( $user_id ) );
 					}
 				}
 			}
@@ -278,7 +278,7 @@ class LLMS_Quiz {
 				$end_date = $value['end_date'];
 			}
 		}
-		
+
 		return $end_date;
 	}
 
@@ -728,7 +728,7 @@ class LLMS_Quiz {
 
 		$last_attempt = array();
 
-		foreach ((array) $quiz_data as $quiz) {
+		foreach ( (array) $quiz_data as $quiz) {
 			if (isset( $quiz['id'] ) && (int) $quiz['id'] === (int) $this->get_id()
 				&& (int) $this->get_total_attempts_by_user( $user->get_id() ) === (int) $quiz['attempt']) {
 				$last_attempt = $quiz;
@@ -762,20 +762,20 @@ class LLMS_Quiz {
 	 */
 	private function get_date_diff( $time1, $time2, $precision = 2 ) {
 		// If not numeric then convert timestamps
-		if( !is_int( $time1 ) ) {
+		if ( ! is_int( $time1 ) ) {
 			$time1 = strtotime( $time1 );
 		}
-		if( !is_int( $time2 ) ) {
+		if ( ! is_int( $time2 ) ) {
 			$time2 = strtotime( $time2 );
 		}
 		// If time1 > time2 then swap the 2 values
-		if( $time1 > $time2 ) {
+		if ( $time1 > $time2 ) {
 			list( $time1, $time2 ) = array( $time2, $time1 );
 		}
 		// Set up intervals and diffs arrays
 		$intervals = array( 'year', 'month', 'day', 'hour', 'minute', 'second' );
 		$diffs = array();
-		foreach( $intervals as $interval ) {
+		foreach ( $intervals as $interval ) {
 			// Create temp time from time1 and interval
 			$ttime = strtotime( '+1 ' . $interval, $time1 );
 			// Set initial values
@@ -785,31 +785,31 @@ class LLMS_Quiz {
 			while ( $time2 >= $ttime ) {
 				// Create new temp time from time1 and interval
 				$add++;
-				$ttime = strtotime( "+" . $add . " " . $interval, $time1 );
+				$ttime = strtotime( '+' . $add . ' ' . $interval, $time1 );
 				$looped++;
 			}
-			$time1 = strtotime( "+" . $looped . " " . $interval, $time1 );
+			$time1 = strtotime( '+' . $looped . ' ' . $interval, $time1 );
 			$diffs[ $interval ] = $looped;
 		}
 		$count = 0;
 		$times = array();
-		foreach( $diffs as $interval => $value ) {
+		foreach ( $diffs as $interval => $value ) {
 			// Break if we have needed precission
-			if( $count >= $precision ) {
+			if ( $count >= $precision ) {
 				break;
 			}
 			// Add value and interval if value is bigger than 0
-			if( $value > 0 ) {
-				if( $value != 1 ){
-					$interval .= "s";
+			if ( $value > 0 ) {
+				if ( $value != 1 ) {
+					$interval .= 's';
 				}
 				// Add value and interval to times array
-				$times[] = $value . " " . $interval;
+				$times[] = $value . ' ' . $interval;
 				$count++;
 			}
 		}
 		// Return string with times
-		return implode( ", ", $times );
+		return implode( ', ', $times );
 	}
 
 }
