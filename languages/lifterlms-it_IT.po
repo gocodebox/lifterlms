@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-03-08 23:09+0100\n"
+"PO-Revision-Date: 2016-03-09 23:44+0100\n"
 "Language-Team: \n"
 "X-Generator: Poedit 1.8.7\n"
 "Last-Translator: Andrea <a.barghigiani@gmail.com>\n"
@@ -727,365 +727,385 @@ msgstr "Per favore seleziona un post…"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:164
 msgid "Select the event to trigger the engagement on."
-msgstr ""
+msgstr "Selezionare l’evento per attivare l’avvio."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:223
 msgid "Please select an engagement type..."
-msgstr ""
+msgstr "Per favore seleziona un tipo di coinvolgimento…"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.general.php:31
 msgid "Has a Prerequisite"
-msgstr ""
+msgstr "Ha come prerequisito"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.general.php:51
 msgid "Select a prerequisite"
-msgstr ""
+msgstr "Seleziona un prerequisito"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:39
 msgid "Drip Content (in days)"
-msgstr ""
+msgstr "Sgocciola il Contenuto (in giorni)"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:42
 msgid ""
 "Number of days before lesson is available after course begins (date of "
 "purchase or set start date)"
 msgstr ""
+"Numero di giorni prima che la lezione sia disponibile dopo l’inizio del "
+"corso (data di acquisto o di inizio)"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:47
 msgid "Assigned Quiz"
-msgstr ""
+msgstr "Quiz Assegnato"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:57
 msgid "Quiz will be required to complete lesson."
-msgstr ""
+msgstr "Il Quiz sarà richiesto per completare la lezione."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:62
 msgid "Require Passing Grade"
-msgstr ""
+msgstr "Valutazione Richiesta per il Passaggio"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:65
 msgid ""
 "Checking this box will require students to get a passing score on the above "
 "quiz to complete the lesson."
 msgstr ""
+"Selezionando questa casella si richiede agli studenti di passare il quiz "
+"precedente con il punteggio assegnato per completare la lezione."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.tree.php:153
 msgid ""
 "There was an error assigning the lesson to a section. Please be sure a "
 "section is assigned to a course."
 msgstr ""
+"C’è stato un errore assegnando la lezione a una sezione. Per favore "
+"assicurati che la sezione sia assegnata al corso."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:74
 msgid "General Details"
-msgstr ""
+msgstr "Dettagli Generali"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:87
 msgid "Order Date"
-msgstr ""
+msgstr "Data Ordine"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:91
 #: templates/checkout/form-confirm-payment.php:74
 msgid "Payment Method"
-msgstr ""
+msgstr "Metodo di Pagamento"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:95
 msgid "Product Title"
-msgstr ""
+msgstr "Titolo del Prodotto"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:99
 msgid "Purchase Total"
-msgstr ""
+msgstr "Acquisto Totale"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:103
 msgid "Buyer Name"
-msgstr ""
+msgstr "Nome dell’Acquirente"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:107
 msgid "Buyer Email"
-msgstr ""
+msgstr "Email dell’Acquirente"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:111
 msgid "Payment Type"
-msgstr ""
+msgstr "Tipo di Pagamento"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:118
 msgid "First Payment (paid)"
-msgstr ""
+msgstr "Primo Pagamento (pagato)"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:122
 msgid "Billing Amount"
-msgstr ""
+msgstr "Quantità Fatturazione"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:126
 msgid "Billing Period"
-msgstr ""
+msgstr "Periodo Fatturazione"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:130
 msgid "Billing Frequency"
-msgstr ""
+msgstr "Frequenza Fatturazione"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:134
 msgid "Billing Start Date"
-msgstr ""
+msgstr "Inizio Fatturazione"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:143
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:164
 msgid "Coupon Used?"
-msgstr ""
+msgstr "Uso Coupon?"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:144
 msgid "Yes"
-msgstr ""
+msgstr "Sì"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:147
 msgid "Coupon Name"
-msgstr ""
+msgstr "Nome Coupon"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:151
 msgid "Coupon Code"
-msgstr ""
+msgstr "Codice Coupon"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:155
 msgid "Coupon Amount"
-msgstr ""
+msgstr "Importo Coupon"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:159
 msgid "Remaining coupon uses"
-msgstr ""
+msgstr "Utilizzi coupon rimasti"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.php:165
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:139
 msgid "The SKU used already exists. Please create a unique SKU."
-msgstr ""
+msgstr "Questo SKU esiste di già. Per favore usare un SKU unico."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.question.general.php:35
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:44
 msgid "Question Options"
-msgstr ""
+msgstr "Opzioni Domanda"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.question.general.php:39
 msgid "Add a new option"
-msgstr ""
+msgstr "Aggiungi una nuova opzione"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.question.general.php:53
 msgid "Correct Answer"
-msgstr ""
+msgstr "Risposta Corretta"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.question.general.php:56
 msgid "Explanation Field"
-msgstr ""
+msgstr "Campo di spiegazione"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:41
 msgid "Allowed Attempts"
-msgstr ""
+msgstr "Tentativi Concessi"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:49
 msgid "Number of allowed attempts. Leave blank for unlimited attempts."
-msgstr ""
+msgstr "Numero di tentativi concessi. Lascia vuoto per tentativi illimitati."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:59
 msgid "Passing Percentage"
-msgstr ""
+msgstr "Percentuale di Passaggio"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:67
 msgid ""
 "Enter the percent required to pass quiz. DO NOT USE % (IE: enter 50 to have "
 "a passing requirement of 50%."
 msgstr ""
+"Inserisci la percentuale richiesta per passare il quiz. NON USARE LA % (ES: "
+"inserisci 50 per avere una percentuale richiesta del 50%.)"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:77
 msgid "Time Limit"
-msgstr ""
+msgstr "Tempo Limite"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:85
 msgid ""
 "Enter a time limit for quiz completion in minutes. Leave empty if no time "
 "limit."
 msgstr ""
+"Inserisci un tempo limite in minuti per completare il quiz. Lascia vuoto se "
+"non vuoi impostare un limite."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:91
 msgid "Display last quiz results"
-msgstr ""
+msgstr "Mostra i risultati dell’ultimo quiz"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:94
 msgid "Checking this box will show result summary to students."
 msgstr ""
+"Selezionando questa casella i risultati verranno mostrati agli studenti."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:98
 msgid "Show Correct Answers"
-msgstr ""
+msgstr "Mostra la Risposta Corretta"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:101
 msgid "Checking this box will show correct answer on incorrect questions."
-msgstr ""
+msgstr "Selezionando questa casella la risposta corretta verrà mostrata."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:105
 msgid "Show description on wrong answers"
-msgstr ""
+msgstr "Mostra la descrizione per le risposte sbagliate"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:108
 msgid "Checking this box will show  description on incorrect questions"
 msgstr ""
+"Selezionando questa casella verrà mostrata la descrizione per le risposte "
+"sbagliate"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:112
 msgid "Show description on right answers"
-msgstr ""
+msgstr "Mostra la descrizione per le risposte corrette"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:115
 msgid "Checking this box will show  description on correct questions"
 msgstr ""
+"Selezionando questa casella verrà mostrata la descrizione per le risposte "
+"corrette"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:48
 msgid "Add a new question"
-msgstr ""
+msgstr "Aggiungi una nuova domanda"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:95
 msgid "Total Points: "
-msgstr ""
+msgstr "Punteggio Totale:"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.section.tree.php:111
 msgid "Lessons in this section"
-msgstr ""
+msgstr "Lezioni in questa sezione"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.students.php:73
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.students.php:85
 #: templates/checkout/form-checkout.php:137
 msgid "Remove"
-msgstr ""
+msgstr "Rimuovi"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.video.php:36
 msgid "Video Embed Code"
-msgstr ""
+msgstr "Codice per Embed Video"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.video.php:44
 msgid "Paste the url for your Wistia, Vimeo or Youtube videos."
-msgstr ""
+msgstr "Incolla la URL per i tuoi video Wistia, Vimeo o YouTube"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.video.php:54
 msgid "Audio Embed Code"
-msgstr ""
+msgstr "Codice per Embed Audio"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.video.php:62
 msgid "Paste the embed code for your externally hosted audio."
-msgstr ""
+msgstr "Incolla il codice di embed per il tuo audio esterno."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:25
 msgid "You need to publish this post before you can generate a CSV."
-msgstr ""
+msgstr "Devi pubblicare questo post prima di poter generare un CSV."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:34
 msgid "Vouchers only"
-msgstr ""
+msgstr "Soltanto Voucher"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:35
 msgid "Generates a CSV of voucher codes, uses, and remaining uses."
 msgstr ""
+"Genera un CSV per i codici voucher, usati e quelli che restano da usare."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:40
 msgid "Redeemed codes"
-msgstr ""
+msgstr "Codici riscattati"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:41
 msgid "Generated a CSV of student emails, redemption date, and used code."
 msgstr ""
+"Genera un CSV delle email degli studenti, la data di riscatto e del codice "
+"usato."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:48
 msgid "Email CSV"
-msgstr ""
+msgstr "CSV Email"
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:50
 msgid "Send to multiple emails by separating emails addresses with commas."
-msgstr ""
+msgstr "Invia email multiple separando gli indirizzi email con una virgola."
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.export.php:53
 msgid "Generate Export"
-msgstr ""
+msgstr "Esportazione Generale"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:19
 msgid "Accounts"
-msgstr ""
+msgstr "Account"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:37
 #: templates/myaccount/my-navigation.php:17
 msgid "Account Settings"
-msgstr ""
+msgstr "Impostazioni Account"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:37
 msgid "Customize your users account and sign up experience."
-msgstr ""
+msgstr "Personalizza l’esperienza di registrazione agli account."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:40
 #: includes/admin/settings/class.llms.settings.general.php:59
 msgid "Account Access Page"
-msgstr ""
+msgstr "Pagina di Accesso Account"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:41
 msgid ""
 "Page used for login / my account access. You can also place this shortcode "
 "on any page: "
 msgstr ""
+"Pagina usata per l’accesso al login o alla pagina account. Puoi anche "
+"inserire questo shortcode in qualsiasi pagina."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:62
 msgid "Account Page Slugs"
-msgstr ""
+msgstr "Abbreviazione Pagina Account"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:62
 msgid "These slugs represent different actions in the user account."
-msgstr ""
+msgstr "Questa abbreviazione rappresenta diverse azione per l’account utente."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:65
 msgid "My Courses"
-msgstr ""
+msgstr "Miei Corsi"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:66
 msgid "Purchased courses page"
-msgstr ""
+msgstr "Pagina corsi acquistati"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:74
 msgid "Edit Account Info"
-msgstr ""
+msgstr "Modifica Informazioni Account"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:75
 msgid "Edit Account page"
-msgstr ""
+msgstr "Modifica Pagina Account"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:84
 msgid "Lost Password"
-msgstr ""
+msgstr "Password Persa"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:85
 msgid "Lost Password page"
-msgstr ""
+msgstr "Pagina Password Persa"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:93
 msgid "Redeem Vouchers"
-msgstr ""
+msgstr "Voucher Riscattati"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:94
 msgid "Redeem vouchers page"
-msgstr ""
+msgstr "Pagina riscatto voucher"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:103
 msgid "Logout"
-msgstr ""
+msgstr "Esci"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:104
 msgid "Custom Link: yoursite.com/?person-logout=true"
-msgstr ""
+msgstr "Link Personalizzato: yoursite.com/?person-logout=true"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:115
 msgid "User Registration Options"
-msgstr ""
+msgstr "Opzioni per la Registrazione Utente"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:118
 msgid "Enable user registration on login page."
-msgstr ""
+msgstr "Permetti la registrazione nella pagina di login."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:127
 #: includes/admin/settings/class.llms.settings.accounts.php:137
@@ -1094,228 +1114,243 @@ msgstr ""
 #: includes/admin/settings/class.llms.settings.accounts.php:165
 #: includes/admin/settings/class.llms.settings.accounts.php:174
 msgid "Account Creation"
-msgstr ""
+msgstr "Creazione Account"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:128
 msgid "Use email addresses for usernames."
-msgstr ""
+msgstr "Usa gli indirizzi email per i nomi utente."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:138
 msgid "Require users to enter their email address twice for accuracy"
 msgstr ""
+"Richiedi all’utente di inserire due volte il proprio indirizzo email per "
+"precisione"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:148
 msgid "Require First and Last name on user registration."
-msgstr ""
+msgstr "Richiedi Nome e Cognome alla registrazione dell’utente."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:157
 msgid "Require Billing Address on user registration."
-msgstr ""
+msgstr "Richiedi l’Indirizzo di Fatturazione alla registrazione dell’utente."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:166
 msgid "Add phone number field to user registration."
 msgstr ""
+"Aggiungi il campo per il numero telefonico alla registrazione dell’utente."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:175
 msgid ""
 "Add a required \"I Agree to the Terms and Conditions\" checkbox on user "
 "registration"
 msgstr ""
+"Aggiungi la voce “Accetto i Termini e Condizioni” alla registrazione "
+"dell’utente."
 
 #: includes/admin/settings/class.llms.settings.accounts.php:183
 msgid "Terms and Conditions Page"
-msgstr ""
+msgstr "Pagina Termini e Condizioni"
 
 #: includes/admin/settings/class.llms.settings.accounts.php:184
 msgid "Select the page where your Terms and Conditions are described."
-msgstr ""
+msgstr "Seleziona la pagina dove sono descritti i tuoi Termini e Condizioni."
 
 #: includes/admin/settings/class.llms.settings.checkout.php:19
 msgid "Checkout"
-msgstr ""
+msgstr "Checkout"
 
 #: includes/admin/settings/class.llms.settings.checkout.php:47
 msgid "Checkout Settings"
-msgstr ""
+msgstr "Impostazioni Checkout"
 
 #: includes/admin/settings/class.llms.settings.checkout.php:50
 #: includes/admin/settings/class.llms.settings.general.php:75
 msgid "Checkout Page"
-msgstr ""
+msgstr "Pagina Checkout"
 
 #: includes/admin/settings/class.llms.settings.checkout.php:51
 msgid "Page used for displaying the checkout form."
-msgstr ""
+msgstr "Pagina usata per mostrare il modulo di checkout."
 
 #: includes/admin/settings/class.llms.settings.checkout.php:56
 #: includes/admin/settings/class.llms.settings.general.php:81
 msgid "This sets the base page of the checkout page"
-msgstr ""
+msgstr "Questa imposta la pagina base di checkout"
 
 #: includes/admin/settings/class.llms.settings.checkout.php:59
 msgid "Confirm Payment"
-msgstr ""
+msgstr "Conferma Pagamento"
 
 #: includes/admin/settings/class.llms.settings.checkout.php:60
 msgid "Payment Confirmation Page"
-msgstr ""
+msgstr "Pagina Conferma Pagamento"
 
 #: includes/admin/settings/class.llms.settings.checkout.php:71
 msgid "Currency Options"
-msgstr ""
+msgstr "Opzioni di Valuta"
 
 #: includes/admin/settings/class.llms.settings.checkout.php:71
 msgid "The following options affect how prices are displayed on the frontend."
 msgstr ""
+"Le seguenti opzioni modificano come i prezzi vengono visualizzati nel "
+"frontend."
 
 #: includes/admin/settings/class.llms.settings.checkout.php:74
 #: includes/admin/settings/class.llms.settings.general.php:94
 msgid "Default Currency"
-msgstr ""
+msgstr "Valuta Predefinita"
 
 #: includes/admin/settings/class.llms.settings.checkout.php:75
 #: includes/admin/settings/class.llms.settings.general.php:95
 msgid "Default currency type."
-msgstr ""
+msgstr "Tipo Valuta Predefinita."
 
 #: includes/admin/settings/class.llms.settings.courses.php:41
 msgid "Archive Settings"
-msgstr ""
+msgstr "Impostazioni di Archivio"
 
 #: includes/admin/settings/class.llms.settings.courses.php:44
 msgid "Courses Page"
-msgstr ""
+msgstr "Pagina Corsi"
 
 #: includes/admin/settings/class.llms.settings.courses.php:45
 msgid "Page used for displaying courses."
-msgstr ""
+msgstr "La pagina usata per mostrare i corsi."
 
 #: includes/admin/settings/class.llms.settings.courses.php:53
 msgid "Courses per page"
-msgstr ""
+msgstr "Corsi per pagina"
 
 #: includes/admin/settings/class.llms.settings.courses.php:54
 msgid "To show all courses on one page, enter -1"
-msgstr ""
+msgstr "Per mostrare tutti i corsi in una pagina, inserire -1"
 
 #: includes/admin/settings/class.llms.settings.courses.php:66
 msgid "Display Settings"
-msgstr ""
+msgstr "Impostazioni Interfaccia"
 
 #: includes/admin/settings/class.llms.settings.courses.php:69
 msgid "Course Purchase Button Text"
-msgstr ""
+msgstr "Testo del Bottone per Acquisto Corso"
 
 #: includes/admin/settings/class.llms.settings.courses.php:70
 msgid "Enter custom text to display on the Course Purchase Button."
-msgstr ""
+msgstr "Inserisci un testo da mostrare sul Bottone per Acquisto Corso."
 
 #: includes/admin/settings/class.llms.settings.courses.php:78
 msgid "Membership Signup Button Text"
-msgstr ""
+msgstr "Testo per Bottone Iscrizione Abbonamento"
 
 #: includes/admin/settings/class.llms.settings.courses.php:79
 msgid ""
 "Enter custom text to display on Membership sign up button (displays on "
 "course page)."
 msgstr ""
+"Inserisci un testo da mostrare sul Bottone per la registrazione alla "
+"Membership (verrà mostrato nella pagina del corso)."
 
 #: includes/admin/settings/class.llms.settings.courses.php:87
 msgid "Course Display"
-msgstr ""
+msgstr "Interfaccia Corso"
 
 #: includes/admin/settings/class.llms.settings.courses.php:88
 msgid "Display author name on course."
-msgstr ""
+msgstr "Mostra il nome autore del corso."
 
 #: includes/admin/settings/class.llms.settings.courses.php:97
 msgid "Display featured image as course banner."
-msgstr ""
+msgstr "Mostra l’immagine in evidenza come banner del corso."
 
 #: includes/admin/settings/class.llms.settings.courses.php:106
 msgid "Display Difficulty on course."
-msgstr ""
+msgstr "Mostra la Difficoltà del corso."
 
 #: includes/admin/settings/class.llms.settings.courses.php:115
 msgid "Display Estimated Time on course."
-msgstr ""
+msgstr "Mostra il Tempo Stimato del corso."
 
 #: includes/admin/settings/class.llms.settings.courses.php:125
 msgid "Display Lesson excerpts in lesson navigation"
-msgstr ""
+msgstr "Mostra il riassunto della lezione nella navigazione della lezione"
 
 #: includes/admin/settings/class.llms.settings.courses.php:137
 msgid "Display course outline on the course page"
-msgstr ""
+msgstr "Mostra il programma del corso nella pagina corso."
 
 #: includes/admin/settings/class.llms.settings.courses.php:146
 msgid "Display  section titles in outline"
-msgstr ""
+msgstr "Mostra i titoli delle sezioni nel programma"
 
 #: includes/admin/settings/class.llms.settings.courses.php:155
 msgid "Display lesson featured images in outline"
-msgstr ""
+msgstr "Mostra le immagine in evidenza delle lezioni nel programma"
 
 #: includes/admin/settings/class.llms.settings.courses.php:164
 msgid ""
 "Enrolled students will see greyed out checkmarks on uncompleted lessons."
 msgstr ""
+"Gli studenti iscritti vedranno un segno di spunta grigio nelle lezioni non "
+"completate."
 
 #: includes/admin/settings/class.llms.settings.courses.php:173
 msgid "Auto-Advance Lessons"
-msgstr ""
+msgstr "Avanzamento Automatico Lezioni"
 
 #: includes/admin/settings/class.llms.settings.courses.php:174
 msgid ""
 "Automatically advance to the next lesson when a student clicks the Mark "
 "Complete button."
 msgstr ""
+"Avanza automaticamente alla prossima lezione quando lo studente clicca sul "
+"bottone Segna come Completato."
 
 #: includes/admin/settings/class.llms.settings.engagements.php:21
 #: includes/class.llms.post-types.php:563
 msgid "Engagements"
-msgstr ""
+msgstr "Coinvolgimenti"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:46
 msgid "Senders Email Address"
-msgstr ""
+msgstr "Indirizzo Email del Mittente"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:47
 msgid "Email Address displayed in the From field"
-msgstr ""
+msgstr "L’indirizzo email verrà mostrato nel campo Da"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:54
 msgid "Name of Sender"
-msgstr ""
+msgstr "Nome del Mittente"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:55
 msgid "Name to be displayed in From field"
-msgstr ""
+msgstr "Il nome del mittente verrà mostrato nel campo Da"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:62
 msgid "Email Footer Text"
-msgstr ""
+msgstr "Testo Piè di Pagina della Email"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:63
 msgid "Text you would like displayed in the footer of all emails."
-msgstr ""
+msgstr "Il testo che vorresti mostrare nel piè di pagina delle tue email."
 
 #: includes/admin/settings/class.llms.settings.engagements.php:70
 msgid "Header Image"
-msgstr ""
+msgstr "Immagine della Testata"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:71
 msgid ""
 "Enter the url for the email header (logo).<a href=\"%s\">Upload an image</a>."
 msgstr ""
+"Inserisci la URL per l’immagine della testata della tua email (logo).<a href="
+"\"%s\">Carica un’immagine</a>."
 
 #: includes/admin/settings/class.llms.settings.engagements.php:82
 msgid "Certificates Settings"
-msgstr ""
+msgstr "Impostazioni Certificati"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:87
 msgid "Background Image Settings"
-msgstr ""
+msgstr "Impostazioni Immagine di Sfondo"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:88
 msgid ""
@@ -1324,76 +1359,84 @@ msgid ""
 "wordpress.org/extend/plugins/regenerate-thumbnails/\" target=\"_blank"
 "\">regenerate your thumbnails</a>."
 msgstr ""
+"Usa questa misura per determinare le dimensioni dello sfondo dei "
+"certificati. Dopo aver cambiato queste impostazioni avrai bisogno di <a href="
+"\"http://wordpress.org/extend/plugins/regenerate-thumbnails/\" target="
+"\"_blank\">rigenerare le tue thumbnails</a>."
 
 #: includes/admin/settings/class.llms.settings.engagements.php:93
 msgid "Image Width"
-msgstr ""
+msgstr "Larghezza Immagine"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:94
 #: includes/admin/settings/class.llms.settings.engagements.php:104
 msgid "in pixels"
-msgstr ""
+msgstr "in pixel"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:102
 msgid "Image Height"
-msgstr ""
+msgstr "Altezza Immagine"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:111
 msgid "Legacy compatibility"
-msgstr ""
+msgstr "Compatibilità"
 
 #: includes/admin/settings/class.llms.settings.engagements.php:112
 msgid "Use legacy certificate image sizes."
-msgstr ""
+msgstr "Usa queste dimensioni per l’immagine del certificato."
 
 #: includes/admin/settings/class.llms.settings.engagements.php:113
 msgid ""
 "Enabling this will override the above dimension settings and set the image "
 "dimensions to match the dimensions of the uploaded image."
 msgstr ""
+"Abilitando questa opzione andrai a sovrascrivere le dimensioni sopra e "
+"verranno utilizzate quelle dell’immagine caricata."
 
 #: includes/admin/settings/class.llms.settings.gateways.php:19
 msgid "Gateways"
-msgstr ""
+msgstr "Gateways"
 
 #: includes/admin/settings/class.llms.settings.gateways.php:41
 msgid "Paypal Settings"
-msgstr ""
+msgstr "Impostazioni Paypal"
 
 #: includes/admin/settings/class.llms.settings.gateways.php:41
 msgid "Enable Paypal payment gateway"
-msgstr ""
+msgstr "Abilita il gateway di pagamento Paypal"
 
 #: includes/admin/settings/class.llms.settings.gateways.php:62
 msgid "Enable Debug Mode. <i>Display Response Messages on Checkout Screen</i>"
 msgstr ""
+"Abilita Modalità Debug. <i>Mostra i Messaggi di Risposta nelle Schermate di "
+"Checkout.</i>"
 
 #: includes/admin/settings/class.llms.settings.gateways.php:71
 #: includes/admin/settings/class.llms.settings.gateways.php:72
 msgid "API Username"
-msgstr ""
+msgstr "Username API"
 
 #: includes/admin/settings/class.llms.settings.gateways.php:80
 #: includes/admin/settings/class.llms.settings.gateways.php:81
 msgid "API Password"
-msgstr ""
+msgstr "Password API"
 
 #: includes/admin/settings/class.llms.settings.gateways.php:89
 #: includes/admin/settings/class.llms.settings.gateways.php:90
 msgid "API Signature"
-msgstr ""
+msgstr "Firma API"
 
 #: includes/admin/settings/class.llms.settings.general.php:19
 msgid "General"
-msgstr ""
+msgstr "Generale"
 
 #: includes/admin/settings/class.llms.settings.general.php:47
 msgid "Welcome to LifterLMS"
-msgstr ""
+msgstr "Benvenuto in LifterLMS"
 
 #: includes/admin/settings/class.llms.settings.general.php:50
 msgid "Getting Started with LifterLMS"
-msgstr ""
+msgstr "Inizia con LifterLMS"
 
 #: includes/admin/settings/class.llms.settings.general.php:51
 msgid ""
@@ -1401,18 +1444,26 @@ msgid ""
 "best (insert your business here) online there are a few setup items we need "
 "to address."
 msgstr ""
+"Prima di iniziare a creare i corsi, fare un sacco di soldi e creare il "
+"miglior (inserisci il nome della tua attività) online ci sono alcuni punti "
+"che dobbiamo sistemare."
 
 #: includes/admin/settings/class.llms.settings.general.php:52
 msgid ""
 "We need to set up your pages. Ya, we know, more pages... That's just the way "
 "Wordpress works. We've already installed them. You just need to set them."
 msgstr ""
+"Abbiamo bisogno di impostare le tue pagine. Sì, lo sappiamo, ancora pagine… "
+"Questo è il modo in cui funziona Wordpress. Le abbiamo già installate per "
+"te. Dobbiamo soltanto impostarle."
 
 #: includes/admin/settings/class.llms.settings.general.php:53
 msgid ""
 "When you installed LifterLMS we created a few pages for you. You can select "
 "those pages or use different ones. Your choice."
 msgstr ""
+"Quando hai installato LifterLMS abbiamo creato alcune pagine per te. Puoi "
+"selezionarle o usarne di diverse. La scelta è tua."
 
 #: includes/admin/settings/class.llms.settings.general.php:54
 msgid ""
@@ -1422,10 +1473,15 @@ msgid ""
 "happen to select a different page you will need to add this shortcode to the "
 "page:"
 msgstr ""
+"La prima pagina che ti servirà sarà la pagina Account per i tuoi Studenti. "
+"Questa pagina serve per far registrare e accedere i tuoi utenti al proprio "
+"account. Abbiamo installato una pagina chiamata Miei Corsi. Puoi usare "
+"questa o selezionarne una diversa. Se ne vuoi selezionare una diversa ti "
+"chiediamo di aggiungere questo shortcode alla pagina:"
 
 #: includes/admin/settings/class.llms.settings.general.php:60
 msgid "We suggest you choose \"My Courses\""
-msgstr ""
+msgstr "Ti suggeriamo di scegliere “Miei Corsi”"
 
 #: includes/admin/settings/class.llms.settings.general.php:70
 msgid ""
@@ -1434,15 +1490,21 @@ msgid ""
 "skip setting up this page. We created a page called \"Purchase you can use "
 "that or select a different page."
 msgstr ""
+"Successivamente abbiamo bisogno di una pagina di checkout così le persone "
+"potranno acquistare i tuoi corsi e le membership. Se sei un vero filantropo "
+"e non pensi di vendere niente puoi saltare l’impostazione di questa pagina. "
+"Noi abbiamo creato una pagina che si chiama “Acquista”, puoi usare questa o "
+"selezionarne una diversa."
 
 #: includes/admin/settings/class.llms.settings.general.php:76
 msgid "We suggest you choose \"Purchase\""
-msgstr ""
+msgstr "Ti suggeriamo di scegliere “Acquista”"
 
 #: includes/admin/settings/class.llms.settings.general.php:89
 msgid ""
 "If you are going to sell your courses you should probably pick a currency."
 msgstr ""
+"Se venderai dei corsi probabilmente ti conviene selezionare una valuta."
 
 #: includes/admin/settings/class.llms.settings.general.php:107
 msgid ""
@@ -1450,63 +1512,75 @@ msgid ""
 "you started. You can access all of the other settings from the big blue menu "
 "at the top of the page."
 msgstr ""
+"Ci sono un sacco di altre impostazioni ma quelle importanti per farti "
+"iniziare sono state impostate. Puoi accedere alle restanti dal grande menu "
+"blu che trovi in alto alla pagina."
 
 #: includes/admin/settings/class.llms.settings.general.php:108
 msgid ""
 "If you have any questions or want to request a feature head on over to our"
 msgstr ""
+"Se hai qualsiasi domanda o vuoi richiedere una feature vieni a trovarci nel "
+"nostro"
 
 #: includes/admin/settings/class.llms.settings.general.php:108
 msgid "Support Forums."
-msgstr ""
+msgstr "Forum di Supporto."
 
 #: includes/admin/settings/class.llms.settings.general.php:109
 msgid ""
 "That's all there is to it. Your ready to start building courses and changing "
 "the world!"
 msgstr ""
+"Questo è tutto quello che c’era da fare. Puoi iniziare a creare i tuoi corsi "
+"e cambiare il mondo!"
 
 #: includes/admin/settings/class.llms.settings.general.php:110
 msgid "Click \"Save Changes\" below to save your settings and get started."
 msgstr ""
+"Clicca su “Salva Cambiamenti” qua sotto per salvare le tue impostazioni e "
+"iniziare."
 
 #: includes/admin/settings/class.llms.settings.general.php:157
 msgid "Quick Links"
-msgstr ""
+msgstr "Link Veloci"
 
 #: includes/admin/settings/class.llms.settings.general.php:164
 msgid "Version:"
-msgstr ""
+msgstr "Versione:"
 
 #: includes/admin/settings/class.llms.settings.general.php:165
 msgid "Need help? Send us a support request at "
-msgstr ""
+msgstr "Bisogno di Aiuto? Invia una richiesta di supporto a"
 
 #: includes/admin/settings/class.llms.settings.general.php:165
 msgid "https://lifterlms.com/contact/"
-msgstr ""
+msgstr "https://lifterlms.com/contact/"
 
 #: includes/admin/settings/class.llms.settings.general.php:166
 msgid ""
 "Looking for a quickstart guide, shortcodes, or developer documentation? "
 "Visit our documentation portal at "
 msgstr ""
+"In cerca di una guida veloce, degli shortcode o la documentazione per lo "
+"sviluppatore? Visita il nostro portale di documentazione a"
 
 #: includes/admin/settings/class.llms.settings.general.php:166
 msgid "https://lifterlms.readme.io/"
-msgstr ""
+msgstr "https://lifterlms.readme.io/"
 
 #: includes/admin/settings/class.llms.settings.general.php:167
 msgid "Get LifterLMS news, updates, and more on our blog at "
 msgstr ""
+"Ottieni le novità gli aggiornamenti e molto altro nel blog di LifterLMS"
 
 #: includes/admin/settings/class.llms.settings.general.php:167
 msgid "http://blog.lifterlms.com/"
-msgstr ""
+msgstr "http://blog.lifterlms.com/"
 
 #: includes/admin/settings/class.llms.settings.general.php:176
 msgid "Session Management"
-msgstr ""
+msgstr "Gestione Sessioni"
 
 #: includes/admin/settings/class.llms.settings.general.php:176
 msgid ""
@@ -1515,67 +1589,76 @@ msgid ""
 "issues or incorrect error messages are displaying. Clearing out all of the "
 "user session data may help."
 msgstr ""
+"Gestione Sessione Utente. LifterLMS crea delle sessioni per gestire i "
+"processi di pagamento, i quiz e le registrazioni dei tuoi utenti. Se hai "
+"qualche problema o ci sono dei messaggi di errore sbagliati che vengono "
+"mostrati. Il più delle volte pulire le sessioni utente può aiutare."
 
 #: includes/admin/settings/class.llms.settings.general.php:180
 msgid "Clear All User Session Data"
-msgstr ""
+msgstr "Pulisci Tutte le Sessioni Utente"
 
 #: includes/admin/settings/class.llms.settings.general.php:231
 msgid "Course Enrollments This Week"
-msgstr ""
+msgstr "Iscrizioni ai Corsi di questa Settimana"
 
 #: includes/admin/settings/class.llms.settings.general.php:234
 msgid "New Members This Week"
-msgstr ""
+msgstr "Nuovi Membri questo Mese"
 
 #: includes/admin/settings/class.llms.settings.general.php:237
 msgid "Lessons Completed This Week"
-msgstr ""
+msgstr "Lezioni Completate questa Settimana"
 
 #: includes/admin/settings/class.llms.settings.general.php:240
 msgid "Total Sales This Week"
-msgstr ""
+msgstr "Vendite Totali questa Settimana"
 
 #: includes/admin/settings/class.llms.settings.integrations.php:19
 #: includes/admin/settings/class.llms.settings.integrations.php:45
 msgid "Integrations"
-msgstr ""
+msgstr "Integrazioni"
 
 #: includes/admin/settings/class.llms.settings.integrations.php:42
 msgid "Integration Settings"
-msgstr ""
+msgstr "Impostazioni Integrazioni"
 
 #: includes/admin/settings/class.llms.settings.membership.php:19
 #: includes/class.llms.post-types.php:642
 #: includes/class.llms.post-types.php:643
 msgid "Membership"
-msgstr ""
+msgstr "Abbonamenti"
 
 #: includes/admin/settings/class.llms.settings.membership.php:44
 msgid "Membership Page"
-msgstr ""
+msgstr "Pagina Abbonamenti"
 
 #: includes/admin/settings/class.llms.settings.membership.php:45
 msgid "Page used for displaying memberships."
-msgstr ""
+msgstr "Pagina usata per mostrare gli abbonamenti."
 
 #: includes/admin/settings/class.llms.settings.membership.php:52
 msgid "Restrict site by membership level"
-msgstr ""
+msgstr "Limita l’accesso al sito per gli abbonamenti di livello"
 
 #: includes/admin/settings/class.llms.settings.membership.php:53
 msgid ""
 "Only allow access to site to users with a specific membership level. Users "
 "will be able to view and purchase membership level."
 msgstr ""
+"L’accesso al sito è limitato agli utenti con uno specifico livello di "
+"abbonamento. Gli utenti saranno in grado di vedere e acquistare il livello "
+"di abbonamento."
 
 #: includes/admin/settings/class.llms.settings.membership.php:61
 msgid "Redirect members to checkout"
-msgstr ""
+msgstr "Reindirizza i membri al checkout"
 
 #: includes/admin/settings/class.llms.settings.membership.php:62
 msgid "Automatically redirect users to checkout after selecting membership."
 msgstr ""
+"Reindirizza automaticamente gli utenti al checkout dopo aver selezionato "
+"l’abbonamento."
 
 #: includes/admin/students/class.llms.students.dashboard.php:19
 msgid "Dashboard"
