@@ -129,7 +129,7 @@ class LLMS_Shortcodes {
 	    if ( isset( $atts['category'] ) ) {
 			$tax = array(
 				array(
-					'taxonomy' => 'course_cat',
+					'taxonomy' => 'membership_cat',
 					'field' => 'slug',
 					'terms' => $atts['category'],
 				),
