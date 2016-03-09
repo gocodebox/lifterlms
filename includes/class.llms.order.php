@@ -308,6 +308,8 @@ class LLMS_Order {
 
 		}
 
+		do_action( 'llms_user_purchased_product', $order->user_id );
+
 		//kill sessions
 		unset( LLMS()->session->llms_coupon );
 		unset( LLMS()->session->llms_order );
