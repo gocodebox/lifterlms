@@ -121,7 +121,7 @@ function site_restricted_by_membership( $post_id ) {
 	// this allows users to buy a course that's available on it's own OR with a membership
 	if ( 'course' == get_post_type( $post_id ) || 'lesson' == get_post_type( $post_id ) ) {
 
-		if( llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+		if ( llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
 
 			return false;
 
@@ -212,7 +212,7 @@ function page_restricted_by_membership( $post_id ) {
 		// this allows users to buy a course that's available on it's own OR with a membership
 		if ( 'course' == get_post_type( $post_id ) || 'lesson' == get_post_type( $post_id ) ) {
 
-			if( llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
+			if ( llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
 
 				return false;
 
