@@ -108,7 +108,7 @@ class LLMS_Reviews
 			} else {
 				?>
 				<div class="review_box" id="review_box">
-				<?php _e('<h3>Write a Review</h3>', 'lifterlms')?>
+				<h3><?php _e('Write a Review', 'lifterlms')?></h3>
 				<!--<form method="post" name="review_form" id="review_form">-->
 					<input style="margin:10px 0px" type="text" name="review_title" placeholder="<?php _e( 'Review Title', 'lifterlms' ); ?>" id="review_title">
 					<h5 style="color:red; display:none" id="review_title_error"><?php _e( 'Review Title is required.', 'lifterlms' ); ?></h5>
