@@ -29,8 +29,8 @@
     "xrstf/composer-php52": "^1.0.19"
 	},
 	"require-dev": {
-		"squizlabs/php_codesniffer": "2.*",
-    "wp-coding-standards/wpcs": "dev-master"
+      "squizlabs/php_codesniffer": "2.*",
+      "wp-coding-standards/wpcs": "dev-master"
   },
   "scripts": {
     "post-install-cmd": [
