@@ -12,8 +12,6 @@ LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and pro
 1. Composer
   + `curl -sS https://getcomposer.org/installer | php`
   + `php composer.phar install`
-  + install phpcs: https://github.com/squizlabs/PHP_CodeSniffer#installation
-  + install WordPress Coding Standards: https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards#standalone
 
 2. Node
   + Install node
