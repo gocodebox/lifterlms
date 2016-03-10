@@ -6,6 +6,8 @@
 
 + Composer updates to include php52 support
 + Fixed a restriction issue that would happen when individual lessons were restricted to a membership level
++ Fixed an issue with the `[lifterlms_my_account]` shortcode that was preventing the shortcode from working on the Divi theme.
+
 
 
 = v2.2.1 - 2016/03/07 =
