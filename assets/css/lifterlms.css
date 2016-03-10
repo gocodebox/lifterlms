@@ -307,7 +307,7 @@ input[type="submit"].llms-button-text:hover {
   width: 100%;
 }
 .llms-lesson-preview.has-icon .llms-lesson-information {
-  width: calc( 100% - 55px );
+  width: calc( 100% - 60px );
 }
 .llms-lesson-preview .llms-lesson-thumbnail {
   margin-bottom: 15px;
