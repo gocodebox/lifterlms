@@ -73,10 +73,10 @@ class LLMS_Engagements {
 				$engagement_meta = get_post_meta( $value );
 				$engagement_id = $engagement_meta['_llms_engagement'][0];
 
-                //if engagement or certificate status isn't "publish", don't do anything
-                if ( get_post_status ( $value ) !== 'publish' || get_post_status ( $engagement_id ) !== 'publish' ) {
-                    continue;
-                }
+				//if engagement or certificate status isn't "publish", don't do anything
+				if ( get_post_status( $value ) !== 'publish' || get_post_status( $engagement_id ) !== 'publish' ) {
+					continue;
+				}
 
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
 					do_action( 'lifterlms_lesson_completed_engagement', $person_id, $engagement_id );
