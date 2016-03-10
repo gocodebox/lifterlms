@@ -66,7 +66,7 @@ class LLMS_Reviews
 				?>
 				<div class="llms_review" style="margin:20px 0px; background-color:<?php echo $styles['background-color']; ?>; padding:10px">
 					<h5 style="font-size:17px; color:<?php echo $styles['title-color']; ?>;" style="margin:3px 0px"><strong><?php echo get_the_title($post->ID);?></strong></h5>
-					<h6 style="font-size:13px; color:<?php echo $styles['text-color']; ?>;"><?php _e( 'By: ', 'lifterlms' ); echo get_the_author_meta('display_name',get_post_field('post_author', $post->ID));?></h5>
+					<h6 style="font-size:13px; color:<?php echo $styles['text-color']; ?>;"><?php echo sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta('display_name', get_post_field('post_author', $post->ID))); ?></h5>
 					<p style="font-size:15px; color:<?php echo $styles['text-color']; ?>;"><?php echo get_post_field('post_content', $post->ID);?></p>
 				</div>
 				<?php
