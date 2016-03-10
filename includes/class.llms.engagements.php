@@ -73,6 +73,11 @@ class LLMS_Engagements {
 				$engagement_meta = get_post_meta( $value );
 				$engagement_id = $engagement_meta['_llms_engagement'][0];
 
+				//if engagement or certificate status isn't "publish", don't do anything
+				if ( get_post_status( $value ) !== 'publish' || get_post_status( $engagement_id ) !== 'publish' ) {
+					continue;
+				}
+
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
 					do_action( 'lifterlms_lesson_completed_engagement', $person_id, $engagement_id );
 				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
@@ -176,7 +181,6 @@ class LLMS_Engagements {
 	 * @param int $course_id ID of course
 	 */
 	function maybe_fire_engagement( $user_id, $course_id ) {
-
 		/**
 		 * This variable is what will store the list of classes
 		 * for each track that this class is a member of
@@ -217,7 +221,7 @@ class LLMS_Engagements {
 
 			// Run through each of the courses that is in the track
 			// to see if all of the courses are completed
-			foreach ($courses as $key => $course) {
+			foreach ( $courses as $key => $course ) {
 				/**
 				 * This variable stores the information about each course
 				 * in the track
@@ -248,6 +252,7 @@ class LLMS_Engagements {
 						$completed_track = true;
 				   	}
 				} // If data is empty, break out of the loop because the
+
 				// user has not enrolled in that course
 				else {
 					$completed_track = false;
@@ -261,6 +266,7 @@ class LLMS_Engagements {
 			}
 
 			$courses_in_track[ $id ] = $courses;
+
 		}
 	}
 }
