@@ -259,6 +259,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				array(
 						'title' => 'Convert Kit',
 						'image' => LLMS()->plugin_url() . '/assets/images/convertkit.png',
+						'link'	=> 'https://lifterlms.com/product/lifterlms-convertkit/?utm_source=Plugin&utm_medium=Plugin%2BDashboard&utm_content=Plugin%2BAd&utm_campaign=Plugin'
 				),
 		);
 
