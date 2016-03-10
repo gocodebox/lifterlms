@@ -38,11 +38,9 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 			<?php
 			//determine if grade, best grade or none should be shown.
 			if (isset( $grade ) && isset( $best_grade )) :
-
 			 	$graph_grade = empty( $grade ) ? $best_grade : $grade;
-
 			?>
-				<input type="hidden" id="llms-grade-value" name="llms_grade" value="<?php echo $grade; ?>" />
+				<input type="hidden" id="llms-grade-value" name="llms_grade" value="<?php echo $graph_grade; ?>" />
 				<div class="llms-progress-circle">
 				  <svg>
 			      <g>
