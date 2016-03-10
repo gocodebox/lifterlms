@@ -33,7 +33,7 @@ $certificates = $user->get_user_postmetas_by_key( get_current_user_id(), $meta_k
 		<?php endforeach; ?>
 
 		</ul>
-	<?php else: ?>
+	<?php else : ?>
 		<?php echo  '<p>' .__( 'Complete courses and lessons to earn certificates.', 'lifterlms' ) . '</p>'; ?>
 	<?php endif; ?>
 </div>
