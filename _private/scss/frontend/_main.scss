@@ -424,6 +424,7 @@ input[type="submit"].llms-button-text {
 }
 /* My Quizes */
 .llms-quiz-results {
+  @extend %cf;
   font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
   position: relative;
 }
@@ -1053,6 +1054,7 @@ svg .llms-animated-circle {
     list-style-type: none;
     float: left;
     li {
+      list-style-type: none;
       font-size: 20px;
     }
   }
