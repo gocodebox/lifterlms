@@ -137,7 +137,7 @@ class LLMS_Integration_Woocommerce
 			return;
 		}
 
-		if( ! isset( $_GET['product-id'] ) ) {
+		if ( ! isset( $_GET['product-id'] ) ) {
 			return;
 		}
 

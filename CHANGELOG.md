@@ -18,12 +18,15 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 + Quizzes will now display hours, minutes, and seconds depending on the time it took to take the quiz
 + Timing calculations are more accurate and quizzes that are completed in less than 60 seconds will not bug out and display incredibly long lengths
 + Resolved an issue that occassionally prevented quiz data from saving during the last question causing the quiz to hang in an uncompletable state
++ Quiz questions now have a default point value of 1, thanks @atimmer
++ Quiz question answers now accept valid HTML as per `wp_kses_post`, thanks again to @atimmer
 
 ##### Translations
 
-+ Thanks to TKTKTKTKTKTKT LifterLMS now ships with Italian language files!
++ Thanks to @AndreaBarghigiani and the team at [codeat](http://codeat.co/) LifterLMS now ships with Italian language files!
 
-##### Issue and bug resolutions
+
+##### Issue and bug resolutigons
 
 + Composer updates to include php52 support
 + Fixed a restriction issue that would happen when individual lessons were restricted to a membership level
@@ -37,6 +40,8 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 + Fixed an undefined variable warning in the WooCommerce integration class
 + Fixed a few templating issues related to certificates
 + Added a few new CSS rules that should make certificates more compatible across various themes
++ Added a css class to LifterLMS Next Lesson buttons, `llms-next-lesson`
+
 
 = v2.2.1 - 2016/03/07 =
 -----------------------
