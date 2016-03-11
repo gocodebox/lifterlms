@@ -34,7 +34,7 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 + When restricting an entire site to a membership level the page selected as the "Terms and Conditions" page in LifterLMS settings will automatically bypass Membership restriction settings. This will allow your unregistered users to actually read the T&C that they're confirming during registration.
 + CSS fix for `has-icon` class on course syllabus
 + Fixed a PHP warning that displayed when purchasing a membership with no auto-enrollment courses
-
++ Fixed an undefined variable warning in the WooCommerce integration class
 
 
 = v2.2.1 - 2016/03/07 =

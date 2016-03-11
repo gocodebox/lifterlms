@@ -137,6 +137,10 @@ class LLMS_Integration_Woocommerce
 			return;
 		}
 
+		if( ! isset( $_GET['product-id'] ) ) {
+			return;
+		}
+
 		$type = get_post_type( $_GET['product-id'] );
 
 		$course = new LLMS_Course( $_GET['product-id'] );
