@@ -19,4 +19,3 @@ if ( $time_limit ) {
 		</h4>
 	</div>
 <?php } ?>
-
