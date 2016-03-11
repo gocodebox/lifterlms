@@ -130,7 +130,7 @@ function site_restricted_by_membership( $post_id ) {
 	}
 
 	$terms_page = get_option( 'lifterlms_terms_page_id' );
-	if($post_id === (int) $terms_page) {
+	if ($post_id === (int) $terms_page) {
 		return false;
 	}
 
