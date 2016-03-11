@@ -72,7 +72,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 							<li>
 								<span class="llms-quiz-summary-label user-answer">
-								<?php echo LLMS_Language::output( 'Your answer:' . $options[ $question['answer'] ]['option_text'] ); ?>
+								<?php echo LLMS_Language::output( 'Your answer:' . wp_kses_post( $options[ $question['answer'] ]['option_text'] ) ); ?>
 								</span>
 							</li>
 
@@ -82,7 +82,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 							if ($quiz->show_correct_answer()) {
 								echo '<li><span class="llms-quiz-summary-label correct-answer">';
-									echo 'Correct answer: ' . $correct_option['option_text'];
+									echo 'Correct answer: ' . wp_kses_post( $correct_option['option_text'] );
 								echo '</span></li>';
 							}
 

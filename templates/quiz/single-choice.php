@@ -60,7 +60,7 @@ if ( ! empty( $quiz_session->questions ) ) {
 			<input type="radio" name="llms_option_selected" value="<?php echo $key; ?>" <?php echo $checked; ?>/>
 			<input type="hidden" name="question_type" value="single_choice" />
 			<input type="hidden" name="question_id" value="<?php echo $question->id ?>" />
-			<?php echo $option; ?>
+			<?php echo wp_kses_post( $option ); ?>
 		</label>
 	</div>
 	<?php
