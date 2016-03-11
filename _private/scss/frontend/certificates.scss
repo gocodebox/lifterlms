@@ -19,13 +19,17 @@ body {
   background: none;
 }
 
-.hentry {
+.hentry,
+.llms_certificate.hentry,
+.llms_my_certificate.hentry {
   margin-bottom: 40px !important;
   padding: 50px 90px !important;
   background: none;
+  border: none;
 }
 
-.site-header {
+.site-header,
+.site-footer {
   display: none;
 }
 
@@ -70,6 +74,7 @@ body {
 
 
 @media print {
+  @page { size: landscape; }
   .no-print, .no-print * {
     display: none !important;
   }
