@@ -144,7 +144,6 @@ Ajax.prototype.start_quiz = function (quiz_id, user_id) {
 				LLMS.Quiz.answer_question();
 
 				return false;
-
 			});
 		}
 	});
@@ -158,8 +157,8 @@ Ajax.prototype.answer_question = function ( quiz_id, question_type, question_id,
         cache		: this.cache,
         dataType	: this.dataType,
 		beforeSend: function() {
-		jQuery('#llms-quiz-question-wrapper').empty();
-		jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Next Question...</div>' );
+			jQuery('#llms-quiz-question-wrapper').empty();
+			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Next Question...</div>' );
 		},
 		success: function( response ) {
 

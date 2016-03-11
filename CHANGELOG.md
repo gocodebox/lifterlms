@@ -4,7 +4,21 @@
 = v2.2.2 - 2016/03/?? =
 -----------------------
 
-+ Massive syntatical update to almost every file in the codebase for a (finally) unified and clearly defined coding standard. This puts us one step closer to beginning to open our GitHub repo publicly and accepting pull requests and contributions from developers everywhere.
+##### One step closer to a public GitHub repository
+
+We've made a assive syntatical update to almost every file in the codebase for a (finally) unified and clearly defined coding standard. This puts us one step closer to beginning to open our GitHub repo publicly and accepting pull requests and contributions from developers everywhere.
+
+Okay, we haven't exactly _clearly_ defined it yet. We're working off a modified version of the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/).
+
+Notable exceptions are related to file names because Thomas Levy didn't have the energy to rename a bunch of files as well as ignoring the Yoda Conditions standards. We'll be fixing these deviations in the future.
+
+
+##### Translations
+
++ Thanks to TKTKTKTKTKTKT LifterLMS now ships with Italian language files!
+
+##### Issue and bug resolutions
+
 + Composer updates to include php52 support
 + Fixed a restriction issue that would happen when individual lessons were restricted to a membership level
 + Fixed an issue with the `[lifterlms_my_account]` shortcode that was preventing the shortcode from working on the Divi theme.
@@ -14,6 +28,8 @@
 + When restricting an entire site to a membership level the page selected as the "Terms and Conditions" page in LifterLMS settings will automatically bypass Membership restriction settings. This will allow your unregistered users to actually read the T&C that they're confirming during registration.
 + CSS fix for `has-icon` class on course syllabus
 + Fixed a PHP warning that displayed when purchasing a membership with no auto-enrollment courses
+
+
 
 = v2.2.1 - 2016/03/07 =
 -----------------------
