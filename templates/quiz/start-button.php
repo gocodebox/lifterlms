@@ -35,7 +35,7 @@ if ( empty( $quiz ) || 'unlimited' === $attempts || $attempts > 0 || '' == $quiz
 	 	if ($lesson->get_next_lesson() && $quiz->is_passing_score( $user_id )) {
 			$t = $lesson->get_next_lesson();
 	 		?>
-	 		<a href="<?php echo get_permalink( $lesson->get_next_lesson() );?>" class="button" style="text-decoration:none; display:inline;"><?php _e( 'Next Lesson','lifterlms' ); ?></a>
+	 		<a href="<?php echo get_permalink( $lesson->get_next_lesson() );?>" class="button llms-next-lesson" style="text-decoration:none; display:inline;"><?php _e( 'Next Lesson','lifterlms' ); ?></a>
 	 		<?php
 	 	}
 	 	?>
