@@ -35,7 +35,8 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 + CSS fix for `has-icon` class on course syllabus
 + Fixed a PHP warning that displayed when purchasing a membership with no auto-enrollment courses
 + Fixed an undefined variable warning in the WooCommerce integration class
-
++ Fixed a few templating issues related to certificates
++ Added a few new CSS rules that should make certificates more compatible across various themes
 
 = v2.2.1 - 2016/03/07 =
 -----------------------
