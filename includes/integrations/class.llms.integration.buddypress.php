@@ -24,6 +24,7 @@ class LLMS_Integration_Buddypress {
 
 		if ($this->enabled) {
 			add_action( 'bp_setup_nav',array( $this, 'add_profile_nav_items' ) );
+			add_action( 'bp_core_signup_user', array( $this, 'new_user_registered' ) );
 		}
 	}
 
@@ -76,7 +77,6 @@ class LLMS_Integration_Buddypress {
 		));
 	}
 
-
 	/**
 	 * Checks checks if the LLMS BuddyPress integration is enabled
 	 * @return boolean
@@ -87,7 +87,6 @@ class LLMS_Integration_Buddypress {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Checks if the BuddyPress plugin is installed & activated
@@ -100,9 +99,6 @@ class LLMS_Integration_Buddypress {
 		return false;
 	}
 
-
-
-
 	/**
 	 * Callback for "Achievements" profile screen
 	 * @return null
@@ -113,15 +109,13 @@ class LLMS_Integration_Buddypress {
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
-		/**
-		 * "Achievements" profile screen content
-		 * @return null
-		 */
+	/**
+	 * "Achievements" profile screen content
+	 * @return null
+	 */
 	public function achievements_content() {
 		llms_get_template( 'myaccount/my-achievements.php' );
 	}
-
-
 
 	/**
 	 * Callback for "Certificates" profile screen
@@ -133,15 +127,13 @@ class LLMS_Integration_Buddypress {
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
-		/**
-		 * "Certificates" profile screen content
-		 * @return null
-		 */
+	/**
+	 * "Certificates" profile screen content
+	 * @return null
+	 */
 	public function certificates_content() {
 		llms_get_template( 'myaccount/my-certificates.php' );
 	}
-
-
 
 	/**
 	 * Callback for "Courses" profile screen
@@ -153,17 +145,13 @@ class LLMS_Integration_Buddypress {
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
-		/**
-		 * "Courses" profile screen content
-		 * @return null
-		 */
+	/**
+	 * "Courses" profile screen content
+	 * @return null
+	 */
 	public function courses_content() {
 		llms_get_template( 'myaccount/my-courses.php' );
 	}
-
-
-
-
 
 	/**
 	 * Returns a permalink for the registration page as selected in buddypress options
@@ -176,4 +164,11 @@ class LLMS_Integration_Buddypress {
 		}
 	}
 
+	/**
+	 * Call action when new user is registered
+	 * @return null
+	 */
+	public function new_user_registered( $user_id ) {
+		do_action( 'lifterlms_user_registered', $user_id );
+	}
 }
