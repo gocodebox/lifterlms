@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LifterLMS\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-03-11 09:03+0100\n"
-"PO-Revision-Date: 2016-03-11 09:06+0100\n"
+"POT-Creation-Date: 2016-03-11 15:21+0100\n"
+"PO-Revision-Date: 2016-03-11 15:21+0100\n"
 "Last-Translator: andreas blumberg\n"
 "Language-Team: codeBOX <support@gocodebox.com>, netzstrategen "
 "<hallo@netzstrategen.com>\n"
@@ -3228,15 +3228,15 @@ msgstr "%s%s anschließend "
 msgid "Free!"
 msgstr "Gratis!"
 
-#: includes/class.llms.quiz.php:379
+#: includes/class.llms.quiz.php:377
 msgid "unlimited"
 msgstr "unendlich"
 
-#: includes/class.llms.quiz.php:500
+#: includes/class.llms.quiz.php:498
 msgid "There are no questions associated with this quiz."
 msgstr "Es gibt keine Quizsfragen zu diesem Quiz."
 
-#: includes/class.llms.quiz.php:523
+#: includes/class.llms.quiz.php:521
 msgid ""
 "There was an error starting the quiz. Please return to the lesson and begin "
 "again."
@@ -3244,7 +3244,7 @@ msgstr ""
 "Das Quiz konnte nicht gestarted werden. Kehre zur Lektion zurück und starte "
 "das Quiz erneut."
 
-#: includes/class.llms.quiz.php:544
+#: includes/class.llms.quiz.php:542
 msgid ""
 "There was an error finding the associated quiz. Please return to the lesson "
 "and begin quiz again."
@@ -3252,7 +3252,7 @@ msgstr ""
 "Das Quiz konnte nicht gefunden werden. Kehre zur Lektion zurück und starte "
 "das Quiz erneut."
 
-#: includes/class.llms.quiz.php:668
+#: includes/class.llms.quiz.php:662
 msgid "There was an error with your quiz."
 msgstr "Es gibt einen Fehler mit Deinem Quiz."
 
@@ -3369,7 +3369,7 @@ msgstr "Passwort zurücksetzen für {site_title}"
 msgid "Password Reset Instructions"
 msgstr "Anleitung um das Passwort zurückzusetzen"
 
-#: includes/functions/llms.functions.access.php:606
+#: includes/functions/llms.functions.access.php:611
 #, php-format
 msgid "%s membership is required to view this content."
 msgstr "%s Mitgliedschaft wird benötigt, um diesen Inhalt zu sehen."
@@ -4546,7 +4546,7 @@ msgid "&nbsp;&ndash; Page %s"
 msgstr "&nbsp;&ndash; Seite %s"
 
 #: includes/llms.template.functions.php:957
-#: templates/myaccount/my-courses.php:62 templates/quiz/results.php:59
+#: templates/myaccount/my-courses.php:62 templates/quiz/results.php:57
 #, php-format
 msgid "%s%%"
 msgstr "%s%%"
@@ -4957,7 +4957,7 @@ msgstr "Meine Auszeichnungen"
 msgid "Complete courses and lessons to earn achievements."
 msgstr "Schließe Kurse und Lektionen ab, um Auszeichnungen zu erhalten."
 
-#: templates/myaccount/my-certificates.php:38
+#: templates/myaccount/my-certificates.php:37
 msgid "Complete courses and lessons to earn certificates."
 msgstr "Schließe Kurse und Lektionen ab, um Zertifikate zu erhalten."
 
@@ -5045,31 +5045,31 @@ msgstr "Vorherige Frage"
 msgid "Question %d of %d"
 msgstr "Frage %d von %d"
 
-#: templates/quiz/results.php:69
+#: templates/quiz/results.php:67
 #, php-format
 msgid "Your Score: %d%%"
 msgstr "Deine Punktzahl: %d%%"
 
-#: templates/quiz/results.php:79 templates/quiz/results.php:105
+#: templates/quiz/results.php:77 templates/quiz/results.php:103
 #, php-format
 msgid "%d / %d correct answers"
 msgstr "%d / %d richtige Antworten"
 
-#: templates/quiz/results.php:80 templates/quiz/results.php:106
+#: templates/quiz/results.php:78 templates/quiz/results.php:104
 #, php-format
 msgid "Date: <span class=\"llms_content_block\">%s</span>"
 msgstr "Datum: <span class=\"llms_content_block\">%s</span>"
 
-#: templates/quiz/results.php:81 templates/quiz/results.php:107
+#: templates/quiz/results.php:79 templates/quiz/results.php:105
 #, php-format
 msgid "Total time: %s"
 msgstr "Benötigte Zeit: %s"
 
-#: templates/quiz/results.php:84
+#: templates/quiz/results.php:82
 msgid "View Summary"
 msgstr "Zusammenfassung anzeigen"
 
-#: templates/quiz/results.php:95
+#: templates/quiz/results.php:93
 #, php-format
 msgid "Best Score: %d%%"
 msgstr "Beste Punktzahl: %d%%"
@@ -5087,7 +5087,7 @@ msgstr "Quiz starten"
 msgid "<p>You are not able take this quiz</p>"
 msgstr "<p>Du kannst an diesem Quiz nicht mehr teilnehmen.</p>"
 
-#: templates/quiz/time-limit.php:17
+#: templates/quiz/time-limit.php:18
 #, php-format
 msgid "Time Limit: <span class=\"llms-content\">%s</span>"
 msgstr "Zeit Limit: <span class=\"llms-content\">%s</span>"
