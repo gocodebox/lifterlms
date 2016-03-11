@@ -1,7 +1,7 @@
 == Changelog ==
 
 
-= v2.2.2-1 - 2016/03/?? =
+= v2.2.2-2 - 2016/03/?? =
 --------------------------
 
 ##### One step closer to a public GitHub repository
