@@ -2,7 +2,7 @@
 Contributors: therealmarknelson, thomasplevy, chrisbadgett, kathy11, lifterlms, jackyliao888, anecieto, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
-Requires at least: 3.8
+Requires at least: 4.0
 Tested up to: 4.4.2
 Stable tag: 2.2.1
 License: GPLv2 or later
@@ -165,7 +165,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 = v2.2.1 - 2016/03/07 =
 -----------------------
 
-+ Added a few actions to the `class.llms.voucher.php` class
++ Added a few actions to the `class.llms.voucher.php` class.
 
 
 = v2.2.0 - 2016/03/04 =
@@ -174,7 +174,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 ##### Translations
 
 + We've updated our .pot file for the first time in quite a while. We're really sorry for de-emphasizing translation. An updated .pot file will now accompany each version of LifterLMS whenever a translatable string is adjusted or when a new string is added.
-+ We've also made it easier to include custom translations. Read our [Translation Guide](https://lifterlms.readme.io/v2.2.0/docs/getting-started-with-translation).
++ We've also made it easier to include custom translations. Read our [Translation Guide](https://lifterlms.readme.io/docs/getting-started-with-translation).
 
 ##### Certificate Background Images
 
