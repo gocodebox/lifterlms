@@ -124,7 +124,7 @@ class LLMS_Meta_Box_Quiz_Questions {
 
 				if ( ! empty( $question_id ) ) {
 					$question_data['id'] = $question_id;
-					$question_data['points'] = ($_POST['_llms_points'][ $key ] == '' ? 0 : $_POST['_llms_points'][ $key ]);
+					$question_data['points'] = ($_POST['_llms_points'][ $key ] == '' ? 1 : $_POST['_llms_points'][ $key ]);
 
 					$questions[ $key ] = $question_data;
 				}
