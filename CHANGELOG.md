@@ -1,8 +1,8 @@
 == Changelog ==
 
 
-= v2.2.2 - 2016/03/?? =
------------------------
+= v2.2.2-1 - 2016/03/?? =
+--------------------------
 
 ##### One step closer to a public GitHub repository
 
@@ -12,6 +12,12 @@ Okay, we haven't exactly _clearly_ defined it yet. We're working off a modified 
 
 Notable exceptions are related to file names because Thomas Levy didn't have the energy to rename a bunch of files as well as ignoring the Yoda Conditions standards. We'll be fixing these deviations in the future.
 
+##### Quizzes
+
++ Created new time calculation and humanizing functions related to the display of quiz time on quiz results pages
++ Quizzes will now display hours, minutes, and seconds depending on the time it took to take the quiz
++ Timing calculations are more accurate and quizzes that are completed in less than 60 seconds will not bug out and display incredibly long lengths
++ Resolved an issue that occassionally prevented quiz data from saving during the last question causing the quiz to hang in an uncompletable state
 
 ##### Translations
 

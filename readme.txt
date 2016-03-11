@@ -4,11 +4,12 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 4.0
 Tested up to: 4.4.2
-Stable tag: 2.2.1
+Stable tag: 2.2.2-1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
+
 
 == Description ==
 
@@ -160,6 +161,42 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+
+= v2.2.2-1 - 2016/03/?? =
+--------------------------
+
+##### One step closer to a public GitHub repository
+
+We've made a assive syntatical update to almost every file in the codebase for a (finally) unified and clearly defined coding standard. This puts us one step closer to beginning to open our GitHub repo publicly and accepting pull requests and contributions from developers everywhere.
+
+Okay, we haven't exactly _clearly_ defined it yet. We're working off a modified version of the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/).
+
+Notable exceptions are related to file names because Thomas Levy didn't have the energy to rename a bunch of files as well as ignoring the Yoda Conditions standards. We'll be fixing these deviations in the future.
+
+##### Quizzes
+
++ Created new time calculation and humanizing functions related to the display of quiz time on quiz results pages
++ Quizzes will now display hours, minutes, and seconds depending on the time it took to take the quiz
++ Timing calculations are more accurate and quizzes that are completed in less than 60 seconds will not bug out and display incredibly long lengths
++ Resolved an issue that occassionally prevented quiz data from saving during the last question causing the quiz to hang in an uncompletable state
+
+##### Translations
+
++ Thanks to TKTKTKTKTKTKT LifterLMS now ships with Italian language files!
+
+##### Issue and bug resolutions
+
++ Composer updates to include php52 support
++ Fixed a restriction issue that would happen when individual lessons were restricted to a membership level
++ Fixed an issue with the `[lifterlms_my_account]` shortcode that was preventing the shortcode from working on the Divi theme.
++ Engagements will now only be triggered if they are "Published". Resolves an issue where draft or trashed engagements were still firing.
++ Fixed CSS overflow on LifterLMS Meta boxes. Fixes an issue where select boxes would be hidden inside a metabox.
++ Changed the ConvertKit extension banner image on the LifterLMS general settings page and replaced added a link to the extension now that it's available.
++ When restricting an entire site to a membership level the page selected as the "Terms and Conditions" page in LifterLMS settings will automatically bypass Membership restriction settings. This will allow your unregistered users to actually read the T&C that they're confirming during registration.
++ CSS fix for `has-icon` class on course syllabus
++ Fixed a PHP warning that displayed when purchasing a membership with no auto-enrollment courses
+
 
 
 = v2.2.1 - 2016/03/07 =
@@ -844,3 +881,4 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 -----------------------
 
 + Updated activation endpoint url to point towards live server rather than dev
+
