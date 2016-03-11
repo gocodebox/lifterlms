@@ -1,4 +1,4 @@
-.llms-lesson-preview .llms-lesson-link:after, .llms-my-achievements ul.listing-achievements:after, .llms-pagination ul:after {
+.llms-lesson-preview .llms-lesson-link:after, .llms-quiz-results:after, .llms-my-achievements ul.listing-achievements:after, .llms-pagination ul:after {
   content: "";
   display: table;
   clear: both;
@@ -1007,6 +1007,7 @@ svg .llms-animated-circle {
   float: left;
 }
 .llms-quiz-result-details ul li {
+  list-style-type: none;
   font-size: 20px;
 }
 
