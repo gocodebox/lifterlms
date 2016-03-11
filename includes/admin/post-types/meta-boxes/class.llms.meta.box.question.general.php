@@ -51,7 +51,7 @@ class LLMS_Meta_Box_Question_General {
 									<i class="fa fa-bars llms-fa-move-lesson"></i>
 									<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i>
 									<input type="radio" name="correct_option" value="<?php echo $key; ?>" <?php echo (empty( $value['correct_option'] ) == '1')? '':'checked'; ?> ><label><?php _e( 'Correct Answer', 'lifterlms' ); ?></label>
-									<textarea name ="option_text[]" class="option-text"><?php echo $value['option_text']; ?></textarea>
+									<textarea name ="option_text[]" class="option-text"><?php echo esc_textarea( $value['option_text'] ); ?></textarea>
 									<br>
 									<label><?php _e( 'Explanation Field', 'lifterlms' ); ?></label>
 									<textarea name ="option_description[]" class="option-text"><?php echo array_key_exists( 'option_description', $value ) ? $value['option_description'] : ''; ?></textarea>
@@ -92,12 +92,10 @@ class LLMS_Meta_Box_Question_General {
 				$option_data = array();
 				$correct_option = false;
 
-				$option_text = llms_clean( $value );
-
 				if ($_POST['correct_option'] == $key) {
 					$correct_option = true;
 				}
-				$option_data['option_text'] = $option_text;
+				$option_data['option_text'] = $value;
 				$option_data['correct_option'] = $correct_option;
 				$option_data['option_description'] = $_POST['option_description'][ $key ];
 				$question_options[ $key ] = $option_data;
