@@ -237,21 +237,19 @@ class LLMS_Quiz {
 	 */
 	public function get_total_time( $user_id, $unique_id = '' ) {
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+
 		$total_time = 0;
 		if ( $quiz ) {
 			foreach ( $quiz as $key => $value ) {
 				if ( $unique_id == $value['wpnonce'] ) {
+					//best attempt
 					if ( $value['end_date'] ) {
-						$start_date = strtotime( $value['start_date'] );
-						$end_date = strtotime( $this->get_end_date( $user_id, $unique_id ) );
-						$total_time = round( round( abs( $end_date - $start_date ) / 60, 2 ) ) . ' minutes';
+						$total_time = $this->get_date_diff( $value['start_date'], $this->get_end_date( $user_id, $unique_id ) );
 					}
 					break;
 				} elseif ( $value['id'] == $this->id ) {
 					if ( $value['end_date'] ) {
-						$start_date = strtotime( $value['start_date'] );
-						$end_date = strtotime( $this->get_end_date( $user_id ) );
-						$total_time = round( round( abs( $end_date - $start_date ) / 60, 2 ) ) . ' minutes';
+						$total_time = $this->get_date_diff( $value['start_date'], $this->get_end_date( $user_id ) );
 					}
 				}
 			}
@@ -275,12 +273,12 @@ class LLMS_Quiz {
 
 		foreach ( $quiz as $key => $value ) {
 			if ( $value['wpnonce'] == $unique_id ) {
-				$end_date = $value['end_date'];
-				break;
+				return $value['end_date'];
 			} elseif ( $value['id'] == $this->id ) {
 				$end_date = $value['end_date'];
 			}
 		}
+
 		return $end_date;
 	}
 
@@ -300,9 +298,9 @@ class LLMS_Quiz {
 		if ( $quiz ) {
 
 			foreach ( $quiz as $key => $value ) {
+				//best
 				if ( $value['wpnonce'] == $unique_id ) {
-					$start_date = $value['start_date'];
-					break;
+					return  $value['start_date'];
 				} elseif ( $value['id'] == $this->id ) {
 					$start_date = $value['start_date'];
 				}
@@ -376,7 +374,7 @@ class LLMS_Quiz {
 
 		} else {
 
-			$total_attempts_remaining = __( 'unlimited','lifterlms' );
+			$total_attempts_remaining = __( 'unlimited', 'lifterlms' );
 
 		}
 
@@ -546,9 +544,9 @@ class LLMS_Quiz {
 
 		}
 
-			//get question meta data
-			$correct_option   = '';
-			$question_options = get_post_meta( $question_id, '_llms_question_options', true );
+		//get question meta data
+		$correct_option   = '';
+		$question_options = get_post_meta( $question_id, '_llms_question_options', true );
 
 		foreach ( $question_options as $key => $value ) {
 			if ( $value['correct_option'] ) {
@@ -556,7 +554,7 @@ class LLMS_Quiz {
 			}
 		}
 
-			//update quiz object
+		//update quiz object
 		foreach ( (array) $quiz->questions as $key => $value ) {
 
 			if ( $value['id'] == $question_id ) {
@@ -574,10 +572,10 @@ class LLMS_Quiz {
 			}
 		}
 
-			LLMS()->session->set( 'llms_quiz', $quiz );
+		LLMS()->session->set( 'llms_quiz', $quiz );
 
-			//update quiz user meta data
-			$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
+		//update quiz user meta data
+		$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
 
 		foreach ( $quiz_data as $key => $value ) {
 
@@ -647,19 +645,15 @@ class LLMS_Quiz {
 						} else {
 							$quiz_data[ $id ]['grade'] = $quiz_obj->get_grade( $points );
 
-							update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
-
 							$quiz_data[ $id ]['passed'] = $quiz_obj->is_passing_score( $quiz->user_id );
-							update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
-
-							LLMS()->session->set( 'llms_quiz', $quiz );
 						}
 
 						if ( $quiz_data[ $id ]['passed'] ) {
 							$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
 							$lesson->mark_complete( $quiz->user_id );
 						}
-
+						update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
+						LLMS()->session->set( 'llms_quiz', $quiz );
 					}
 
 				}
@@ -732,7 +726,7 @@ class LLMS_Quiz {
 
 		$last_attempt = array();
 
-		foreach ((array) $quiz_data as $quiz) {
+		foreach ( (array) $quiz_data as $quiz) {
 			if (isset( $quiz['id'] ) && (int) $quiz['id'] === (int) $this->get_id()
 				&& (int) $this->get_total_attempts_by_user( $user->get_id() ) === (int) $quiz['attempt']) {
 				$last_attempt = $quiz;
@@ -745,6 +739,75 @@ class LLMS_Quiz {
 	public function get_show_random_answers() {
 
 		return $this->llms_random_answers;
+	}
+
+	/**
+	 * Get human readable time difference between 2 dates
+	 *
+	 * Return difference between 2 dates in year, month, hour, minute or second
+	 * The $precision caps the number of time units used: for instance if
+	 * $time1 - $time2 = 3 days, 4 hours, 12 minutes, 5 seconds
+	 * - with precision = 1 : 3 days
+	 * - with precision = 2 : 3 days, 4 hours
+	 * - with precision = 3 : 3 days, 4 hours, 12 minutes
+	 *
+	 * From: http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
+	 *
+	 * @param mixed $time1 a time (string or timestamp)
+	 * @param mixed $time2 a time (string or timestamp)
+	 * @param integer $precision Optional precision
+	 * @return string time difference
+	 */
+	private function get_date_diff( $time1, $time2, $precision = 2 ) {
+		// If not numeric then convert timestamps
+		if ( ! is_int( $time1 ) ) {
+			$time1 = strtotime( $time1 );
+		}
+		if ( ! is_int( $time2 ) ) {
+			$time2 = strtotime( $time2 );
+		}
+		// If time1 > time2 then swap the 2 values
+		if ( $time1 > $time2 ) {
+			list( $time1, $time2 ) = array( $time2, $time1 );
+		}
+		// Set up intervals and diffs arrays
+		$intervals = array( 'year', 'month', 'day', 'hour', 'minute', 'second' );
+		$diffs = array();
+		foreach ( $intervals as $interval ) {
+			// Create temp time from time1 and interval
+			$ttime = strtotime( '+1 ' . $interval, $time1 );
+			// Set initial values
+			$add = 1;
+			$looped = 0;
+			// Loop until temp time is smaller than time2
+			while ( $time2 >= $ttime ) {
+				// Create new temp time from time1 and interval
+				$add++;
+				$ttime = strtotime( '+' . $add . ' ' . $interval, $time1 );
+				$looped++;
+			}
+			$time1 = strtotime( '+' . $looped . ' ' . $interval, $time1 );
+			$diffs[ $interval ] = $looped;
+		}
+		$count = 0;
+		$times = array();
+		foreach ( $diffs as $interval => $value ) {
+			// Break if we have needed precission
+			if ( $count >= $precision ) {
+				break;
+			}
+			// Add value and interval if value is bigger than 0
+			if ( $value > 0 ) {
+				if ( $value != 1 ) {
+					$interval .= 's';
+				}
+				// Add value and interval to times array
+				$times[] = $value . ' ' . $interval;
+				$count++;
+			}
+		}
+		// Return string with times
+		return implode( ', ', $times );
 	}
 
 }
