@@ -2122,7 +2122,7 @@ td.llms-table-select select, th.llms-table-select select {
   border: inherit;
 }
 
-#lifterlms-course-outline.postbox .inside {
+div[id^="lifterlms-"] .inside {
   overflow: visible;
 }
 
