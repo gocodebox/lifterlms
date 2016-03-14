@@ -33,11 +33,11 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	public function init( $email_id, $person_id, $lesson_id ) {
 		global $wpdb;
 
-			$email_content = get_post( $email_id );
-			$email_meta = get_post_meta( $email_content->ID );
+		$email_content = get_post( $email_id );
+		$email_meta = get_post_meta( $email_content->ID );
 
-			$this->certificate_template_id	= $email_id;
-			$this->lesson_id    			= $lesson_id;
+		$this->certificate_template_id	= $email_id;
+		$this->lesson_id    			= $lesson_id;
 		$this->title 					= $email_content->post_title;
 		$this->certificate_title 		= $email_meta['_llms_certificate_title'][0];
 		$this->content 					= $email_content->post_content;

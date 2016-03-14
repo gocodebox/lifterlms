@@ -54,7 +54,7 @@ if ( ! empty( $quiz_session->questions ) ) {
 			<input type="hidden" name="question_type" id="question-type" value="single_choice" />
 			<input type="hidden" name="question_id" id="question-id" value="<?php echo $question->id ?>" />
 			<input type="hidden" name="quiz_id" id="quiz-id" value="<?php echo $quiz->id ?>" />
-			<?php echo $option; ?>
+			<?php echo wp_kses_post( $option ); ?>
 		</label>
 	</div>
 	<?php

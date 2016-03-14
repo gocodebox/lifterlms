@@ -56,12 +56,12 @@ single_question_template = function (response) {
 	jQuery('<tr class="list_item" id="question_' + order + '" data-order="' + order + '" style="display: table-row;"><td class="llms-table-select"> \
 	<select id="question_select_' + order + '" name="_llms_question[]" data-placeholder="Choose a Section" class="chosen-select question-select"></select> \
 	</td> \
-	<td class="llms-table-points"><input type="text" class="llms-points" name="_llms_points[]" id="llms_points[]" value=""/> \
+	<td class="llms-table-points"><input type="text" class="llms-points" name="_llms_points[]" id="llms_points[]" value="1" /> \
 	</td><td class="llms-table-options"> \
 	<i class="fa fa-bars llms-fa-move"></i><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i> \
 	</td></tr>').appendTo('#llms-single-options .question-list tbody').hide().fadeIn(300);
 
-	
+
 	jQuery('.llms-points').blur(function () {
     var sum = 0;
     jQuery('.llms-points').each(function() {
@@ -83,7 +83,7 @@ single_question_template = function (response) {
 	jQuery(select).prepend('<option value="" selected >None</option>');
 	jQuery('.question-select').chosen();
 	jQuery('#question_' + order  + ' .question-select').change(function() { get_edit_link(jQuery(this)); });
-	
+
 	delete_option();
 	order_single_options();
 	jQuery('.llms-points').blur(function () {
@@ -128,9 +128,7 @@ single_option_sortable = function() {
             var end_pos = jQuery(ui.item).index();
             jQuery(ui.item).attr("data-order", end_pos);
             order_single_options();
-
-            
-        } 
+        }
     });
 }
 
@@ -179,6 +177,4 @@ add_edit_link = function(post, question_id, row_id) {
 	edit_link.appendChild(edit_icon);
 	jQuery('#' + row_id).parent().parent().find('.llms-fa-edit').hide();
 	jQuery('#' + row_id).parent().next().next().append(edit_link);
-
-	
 }
