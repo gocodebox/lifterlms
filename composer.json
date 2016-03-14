@@ -25,24 +25,14 @@
 			"LLMS\\": "includes"
 		}
   },
-  "require": {
-    "xrstf/composer-php52": "^1.0.19"
-	},
 	"require-dev": {
       "squizlabs/php_codesniffer": "2.*",
       "wp-coding-standards/wpcs": "dev-master"
   },
   "scripts": {
     "post-install-cmd": [
-      "xrstf\\Composer52\\Generator::onPostInstallCmd",
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs",
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
-    ],
-    "post-update-cmd": [
-        "xrstf\\Composer52\\Generator::onPostInstallCmd"
-    ],
-    "post-autoload-dump": [
-        "xrstf\\Composer52\\Generator::onPostInstallCmd"
     ]
   }
 }

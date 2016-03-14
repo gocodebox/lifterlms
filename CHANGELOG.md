@@ -1,7 +1,7 @@
 == Changelog ==
 
 
-= v2.2.2-2 - 2016/03/?? =
+= v2.2.2-3 - 2016/03/?? =
 --------------------------
 
 ##### One step closer to a public GitHub repository
@@ -28,7 +28,6 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 
 ##### Issue and bug resolutigons
 
-+ Composer updates to include php52 support
 + Fixed a restriction issue that would happen when individual lessons were restricted to a membership level
 + Fixed an issue with the `[lifterlms_my_account]` shortcode that was preventing the shortcode from working on the Divi theme.
 + Engagements will now only be triggered if they are "Published". Resolves an issue where draft or trashed engagements were still firing.
