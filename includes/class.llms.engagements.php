@@ -38,7 +38,7 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_course_track_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
 		add_action( 'lifterlms_course_completed_notification', array( $this, 'maybe_fire_engagement' ),10, 2 );
-		add_action( 'llms_user_purchased_product', array( $this, 'product_purchased_engagement' ),10, 3 );
+		add_action( 'llms_user_purchased_product_notification', array( $this, 'product_purchased_engagement' ), 10, 3 );
 		//add_action( 'init', array( $this, 'llms_user_register' ), 10, 1 );
 	}
 
@@ -275,7 +275,7 @@ class LLMS_Engagements {
 	 * This function triggers engagement on product purchase
 	 * @param int $user_id   ID of user to check
 	 */
-	function product_purchased_engagement( $user, $course_id ) {
+	function product_purchased_engagement( $user, $product_id ) {
 		if ( ! $user ) {
 			return; }
 
@@ -285,11 +285,17 @@ class LLMS_Engagements {
 				'orderby'          => 'title',
 				'post_type'        => 'llms_engagement',
 				'meta_query' => array(
+						'relation' => 'OR',
 						array(
 								'key'       => '_llms_trigger_type',
 								'compare'   => '=',
 								'value'   => 'course_purchased',
 						),
+						array(
+								'key'       => '_llms_trigger_type',
+								'compare'   => '=',
+								'value'   => 'membership_purchased',
+						)
 				),
 		);
 
@@ -299,16 +305,20 @@ class LLMS_Engagements {
 
 			foreach ( $all_posts as $key => $value ) {
 				$engagement_meta = get_post_meta( $value->ID );
-var_dump($engagement_meta); die();
+
+				if ( $engagement_meta['_llms_engagement_trigger_post'][0] != (string) $product_id ) {
+					continue;
+				}
+
 				$achievement_id = $engagement_meta['_llms_engagement'][0];
 
-				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
+				if ( $engagement_meta['_llms_engagement_type'][0] == 'email' ) {
 
 					do_action( 'lifterlms_custom_engagement', $user, $achievement_id, $value->ID );
-				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
+				} elseif ( $engagement_meta['_llms_engagement_type'][0] == 'certificate' ) {
 					LLMS()->certificates();
 					do_action( 'lifterlms_custom_certificate', $user, $achievement_id, $value->ID );
-				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
+				} elseif ( $engagement_meta['_llms_engagement_type'][0] == 'achievement' ) {
 					LLMS()->achievements();
 
 					do_action( 'lifterlms_custom_achievement', $user, $achievement_id, $value->ID );

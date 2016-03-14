@@ -288,6 +288,7 @@ final class LifterLMS {
 			'lifterlms_course_completed',
 			'user_register',
 			'lifterlms_course_track_completed',
+			'llms_user_purchased_product',
 		);
 
 		foreach ( $engagement_actions as $action ) {
