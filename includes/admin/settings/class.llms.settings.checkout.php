@@ -80,6 +80,15 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 						'desc_tip'	=> true,
 						'options'   => $currency_code_options,
 				),
+				// Dispay additional tax infrmation behind pricing
+				array(
+					'title'		=> __( 'Tax Information', 'lifterlms' ),
+					'desc' 		=> __( 'Tax informations displayed behind price', 'lifterlms' ),
+					'id' 		=> 'lifterlms_tax_text',
+					'type' 		=> 'text',
+					'default'	=> '',
+					'desc_tip'	=> true,
+				),
 
 				array( 'type' => 'sectionend', 'id' => 'general_options' ),
 
