@@ -708,7 +708,7 @@ class LLMS_Product {
 	 */
 	public function get_lifterlms_tax_text() {
 
-		return get_option( 'lifterlms_tax_text', '');
+		return get_option( 'lifterlms_tax_text', '' );
 
 	}
 
