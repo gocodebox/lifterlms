@@ -275,7 +275,7 @@ class LLMS_Engagements {
 	 * This function triggers engagement on product purchase
 	 * @param int $user_id   ID of user to check
 	 */
-	function product_purchased_engagement( $user ) {
+	function product_purchased_engagement( $user, $course_id ) {
 		if ( ! $user ) {
 			return; }
 
@@ -288,7 +288,7 @@ class LLMS_Engagements {
 						array(
 								'key'       => '_llms_trigger_type',
 								'compare'   => '=',
-								'value'   => 'product_purchased',
+								'value'   => 'course_purchased',
 						),
 				),
 		);
@@ -298,8 +298,8 @@ class LLMS_Engagements {
 		if ($all_posts) {
 
 			foreach ( $all_posts as $key => $value ) {
-
 				$engagement_meta = get_post_meta( $value->ID );
+var_dump($engagement_meta); die();
 				$achievement_id = $engagement_meta['_llms_engagement'][0];
 
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {

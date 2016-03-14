@@ -58,7 +58,7 @@ class LLMS_Meta_Box_Engagement_Options {
 			<tbody>
 				<tr>
 					<th><label for="_llms_engagement_type"><?php _e( 'Engagement Type', 'lifterlms' ); ?></label></th>
-					<td>					
+					<td>
 						<select id="_llms_engagement_type" name="_llms_engagement_type">
 							<option value="" selected disabled>Please select an engagement type...</option>
 								<?php foreach ( (array) $engagement_types as $key => $value  ) :
@@ -72,7 +72,7 @@ class LLMS_Meta_Box_Engagement_Options {
 								<?php } ?>
 								<?php endforeach; ?>
 					 	</select>
-						<br><span class="description"><?php _e( 'Select the type of engagement you want to create.', 'lifterlms' ); ?></span>	
+						<br><span class="description"><?php _e( 'Select the type of engagement you want to create.', 'lifterlms' ); ?></span>
 					</td>
 				</tr>
 
@@ -93,7 +93,7 @@ class LLMS_Meta_Box_Engagement_Options {
 
 					?>
 					<th><label for="engagement-select"><?php _e( 'Engagement Title', 'lifterlms' ); ?></label></th>
-					<td>					
+					<td>
 						<select id="engagement-select" class="chosen-select chosen select section-select" name="_llms_engagement">
 							<option value="" selected disabled>Please select an engagement type...</option>
 							<?php foreach ( $engagement_types as $key => $value  ) :
@@ -107,7 +107,7 @@ class LLMS_Meta_Box_Engagement_Options {
 
 							<?php } ?>
 							<?php endforeach; ?>
-						</select>	
+						</select>
 					</td>
 					<?php } ?>
 				</tr>
@@ -137,6 +137,8 @@ class LLMS_Meta_Box_Engagement_Options {
 					'lesson_completed' => 'Lesson Completed',
 					'section_completed' => 'Section Completed',
 					'course_completed' => 'Course Completed',
+					'course_purchased' => "Course Purchased",
+					'membership_purchased' => "Membership Purchased",
 					'user_registration' => 'New User Registration',
 					'days_since_login' => 'Days since user last logged in',
 					'course_track_completed' => 'Course Track Completed',
@@ -146,7 +148,7 @@ class LLMS_Meta_Box_Engagement_Options {
 
 				<tr>
 					<th><label for="_llms_trigger_type"><?php _e( 'Event Trigger', 'lifterlms' ); ?></label></th>
-					<td>	
+					<td>
 						<select id="_llms_trigger_type" name="_llms_trigger_type">
 							<option value="" selected disabled><?php _e( 'Please select a post...' ); ?></option>
 							<?php foreach ( $triggers as $key => $value  ) :
@@ -181,8 +183,14 @@ class LLMS_Meta_Box_Engagement_Options {
 						case 'course_completed' :
 							$post_type = 'course';
 							break;
+						case 'course_completed' :
+							$post_type = 'course';
+							break;
 						case 'course_purchased' :
 							$post_type = 'course';
+							break;
+						case 'membership_purchased' :
+							$post_type = 'llms_membership';
 							break;
 						case 'course_track_completed' :
 							$post_type = 'course_track';
@@ -199,7 +207,7 @@ class LLMS_Meta_Box_Engagement_Options {
 
 							$postslist = get_posts( $args );
 						} else {
-							$trackslist = get_terms( 'course_track',array( 'hide_empty' => '0' ) );
+							$trackslist = get_terms( 'course_track', array( 'hide_empty' => '0' ) );
 
 							foreach ((array) $trackslist as $num => $track) {
 								$postslist[] = (object) array(
