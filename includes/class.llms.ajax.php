@@ -145,6 +145,7 @@ class LLMS_AJAX {
 
 		$ajax_events = array(
 			'get_courses'				=> false,
+			'get_memberships'			=> false,
 			'get_course_tracks'			=> false,
 			'get_sections'				=> false,
 			'get_lesson'				=> false,
@@ -315,6 +316,28 @@ class LLMS_AJAX {
 			'post_status'   => 'publish',
 
 		 );
+
+		$postslist = get_posts( $args );
+
+		echo json_encode( $postslist );
+
+		die();
+	}
+
+	/**
+	 * Return array of memberships (id => name)
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_memberships() {
+
+		$args = array(
+				'post_type' 	=> 'llms_membership',
+				'nopaging' 		=> true,
+				'post_status'   => 'publish',
+
+		);
 
 		$postslist = get_posts( $args );
 

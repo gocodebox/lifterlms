@@ -26,6 +26,11 @@ jQuery(document).ready(function($) {
 			var courses = get_all_courses();
 			console.log('LLMS Engagement: End Course Query');
 		}
+		else if (triggerValueSelected == 'membership_purchased') {
+			console.log('LLMS Engagement: Begin Memebership Query');
+			var courses = get_all_memberships();
+			console.log('LLMS Engagement: End Membership Query');
+		}
 		else if (triggerValueSelected == 'course_track_completed') {
 			console.log('LLMS Engagement: Begin Course Track Query');
 			var course_tracks = get_all_course_tracks();
@@ -55,7 +60,7 @@ jQuery(document).ready(function($) {
 			}
 
 		});
-	
+
 });
 
 return_data = function (response) {
@@ -74,12 +79,12 @@ return_data = function (response) {
 		select.setAttribute('id', 'trigger-select');
 		select.setAttribute('class', 'chosen-select chosen select section-select');
 		select.setAttribute('name', '_llms_engagement_trigger');
-		
+
 		td.appendChild(select);
 		jQuery(select).chosen({width:"300px"});
 
 		if (!jQuery('#trigger-select').length) {
-	
+
 			// populate select with sections.
 			jQuery(select).append('<option value="" selected disabled>Please select a post...</option>');
 			for (var key in response) {
@@ -88,9 +93,9 @@ return_data = function (response) {
 			    	jQuery(select).append(option);
 			    }
 			}
-		
+
 			jQuery('.engagement-option').append(th);
-				
+
 			jQuery('.engagement-option').append(td);
 		}
 
@@ -114,13 +119,13 @@ return_engagement_data = function (response) {
 		select.setAttribute('id', 'engagement-select');
 		select.setAttribute('class', 'chosen-select chosen select section-select');
 		select.setAttribute('name', '_llms_engagement');
-		
+
 		td.appendChild(select);
 		jQuery(select).chosen({width:"300px"});
 
 		if (!jQuery('#engagement-select').length) {
-		
-		
+
+
 			// populate select with sections.
 			jQuery(select).append('<option value="" selected disabled>Please select an engagement...</option>');
 			for (var key in response) {
@@ -129,9 +134,9 @@ return_engagement_data = function (response) {
 			    	jQuery(select).append(option);
 			    }
 			}
-		
-			
-				
+
+
+
 			jQuery('.engagement-posts').append(th);
 
 			jQuery('.engagement-posts').append(td);
