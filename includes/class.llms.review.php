@@ -38,7 +38,7 @@ class LLMS_Reviews
 		if (get_post_meta( get_the_ID(),'_llms_display_reviews',true )) {
 		?>
 			<div id="old_reviews">
-			<h3><?php echo apply_filters( 'lifterlms_reviews_section_title', _e( 'What Others Have Said', 'lifterlms' )); ?></h3>
+			<h3><?php echo apply_filters( 'lifterlms_reviews_section_title', _e( 'What Others Have Said', 'lifterlms' ) ); ?></h3>
 			<?php
 			$args = array(
 				'posts_per_page'   => get_post_meta( get_the_ID(),'_llms_num_reviews',true ),
@@ -66,7 +66,7 @@ class LLMS_Reviews
 				?>
 				<div class="llms_review" style="margin:20px 0px; background-color:<?php echo $styles['background-color']; ?>; padding:10px">
 					<h5 style="font-size:17px; color:<?php echo $styles['title-color']; ?>;" style="margin:3px 0px"><strong><?php echo get_the_title( $post->ID );?></strong></h5>
-					<h6 style="font-size:13px; color:<?php echo $styles['text-color']; ?>;"><?php echo sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID))); ?></h5>
+					<h6 style="font-size:13px; color:<?php echo $styles['text-color']; ?>;"><?php echo sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ); ?></h5>
 					<p style="font-size:15px; color:<?php echo $styles['text-color']; ?>;"><?php echo get_post_field( 'post_content', $post->ID );?></p>
 				</div>
 				<?php
@@ -102,7 +102,7 @@ class LLMS_Reviews
 			if (get_post_meta( get_the_ID(),'_llms_multiple_reviews_disabled',true ) && $posts_array) {
 			?>
 				<div id="thank_you_box">
-					<h2><?php echo apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!','lifterlms' )); ?></h2>
+					<h2><?php echo apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!','lifterlms' ) ); ?></h2>
 				</div>
 				<?php
 			} else {
@@ -114,14 +114,14 @@ class LLMS_Reviews
 					<h5 style="color:red; display:none" id="review_title_error"><?php _e( 'Review Title is required.', 'lifterlms' ); ?></h5>
 					<textarea name="review_text" placeholder="<?php _e( 'Review Text', 'lifterlms' ); ?>" id="review_text"></textarea>
 					<h5 style="color:red; display:none" id="review_text_error"><?php _e( 'Review Text is required.', 'lifterlms' ); ?></h5>
-					<?php wp_nonce_field('submit_review','submit_review_nonce_code'); ?>
+					<?php wp_nonce_field( 'submit_review','submit_review_nonce_code' ); ?>
 					<input name="action" value="submit_review" type="hidden">
 					<input name="post_ID" value="<?php echo get_the_ID() ?>" type="hidden" id="post_ID">
 					<input type="submit" class="button" value="<?php _e( 'Leave Review', 'lifterlms' ); ?>" id="llms_review_submit_button">	
 				<!--</form>	-->		
 				</div>
 				<div id="thank_you_box" style="display:none;">
-					<h2><?php echo apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!','lifterlms' )); ?></h2>
+					<h2><?php echo apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!','lifterlms' ) ); ?></h2>
 				</div>
 				<?php
 			}
