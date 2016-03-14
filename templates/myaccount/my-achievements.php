@@ -38,7 +38,7 @@ $achievements = $user->get_user_achievements( $count, $user_id );
 			<?php endforeach; ?>
 		</ul>
 	<?php else : ?>
-		<p><?php echo apply_filters( 'lifterlms_no_achievements_text', __( 'Complete courses and lessons to earn achievements.', 'lifterlms') ); ?></p>
+		<p><?php echo apply_filters( 'lifterlms_no_achievements_text', __( 'Complete courses and lessons to earn achievements.', 'lifterlms' ) ); ?></p>
 	<?php endif; ?>
 
 	<?php do_action( 'lifterlms_after_achievements' ); ?>
