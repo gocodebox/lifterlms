@@ -209,7 +209,7 @@ class LLMS_Product {
 		}
 
 		if ( $billing_cycle == 0 ) {
-			$price .= ($display_price . ' ' . $billing_period_html . ' ' . $lifterlms_tax_text . ' ' . $lifterlms_tax_text);
+			$price .= ($display_price . ' ' . $billing_period_html . ' ' . $lifterlms_tax_text);
 		} elseif ( $billing_cycle > 1 ) {
 			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's' . ' ' . $lifterlms_tax_text);
 		} else {
