@@ -186,6 +186,7 @@ class LLMS_Product {
 
 		$price = '';
 		$currency_symbol = get_lifterlms_currency_symbol();
+		$lifterlms_tax_text	= $this->get_lifterlms_tax_text();
 		$sub_price = $this->adjusted_price( $this->get_subscription_payment_price( $sub ) );
 		$sub_first_payment = $this->adjusted_price( $this->get_subscription_first_payment( $sub ) );
 
@@ -208,11 +209,11 @@ class LLMS_Product {
 		}
 
 		if ( $billing_cycle == 0 ) {
-			$price .= ($display_price . ' ' . $billing_period_html);
+			$price .= ($display_price . ' ' . $billing_period_html . ' ' . $lifterlms_tax_text);
 		} elseif ( $billing_cycle > 1 ) {
-			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's');
+			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's' . ' ' . $lifterlms_tax_text);
 		} else {
-			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
+			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . ' ' . $lifterlms_tax_text);
 		}
 
 		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );;
@@ -251,6 +252,7 @@ class LLMS_Product {
 
 		$suffix 				= $this->get_price_suffix_html();
 		$currency_symbol 		= get_lifterlms_currency_symbol() != '' ? get_lifterlms_currency_symbol() : '';
+		$lifterlms_tax_text	= $this->get_lifterlms_tax_text();
 		$display_price 			= $this->adjusted_price( $this->get_price() );
 		$display_base_price 	= $this->get_regular_price();
 		$display_sale_price    	= $this->get_sale_price();
@@ -276,7 +278,7 @@ class LLMS_Product {
 
 		if ( ! $this->is_free() ) {
 
-			$price = __( 'single payment of', 'lifterlms' ) . ' ' . $price;
+			$price = __( 'single payment of', 'lifterlms' ) . ' ' . $price . ' ' . $lifterlms_tax_text;
 
 		}
 
@@ -314,6 +316,7 @@ class LLMS_Product {
 
 		$price = '';
 		$currency_symbol = get_lifterlms_currency_symbol();
+		$lifterlms_tax_text		= $this->get_lifterlms_tax_text();
 		$recurring_price = $this->get_recurring_price();
 		$recurring_first_payment = $this->get_recurring_first_payment();
 
@@ -336,11 +339,11 @@ class LLMS_Product {
 		}
 
 		if ( $billing_cycle == 0 ) {
-			$price .= ($display_price . ' ' . $billing_period_html);
+			$price .= ($display_price . ' ' . $billing_period_html  . ' ' . $lifterlms_tax_text);
 		} elseif ( $billing_cycle > 1 ) {
-			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's');
+			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period . 's'  . ' ' . $lifterlms_tax_text);
 		} else {
-			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period);
+			$price .= ($display_price . ' ' . $billing_period_html . ' for ' . $billing_cycle . ' ' . $billing_period  . ' ' . $lifterlms_tax_text);
 		}
 
 		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );;
@@ -694,6 +697,18 @@ class LLMS_Product {
 	public function is_free() {
 
 		return ( ! $this->get_price() && ! $this->is_recurring() );
+
+	}
+
+
+
+	/**
+	 * Retrive tax text displayed behind pricing
+	 * @return boolean
+	 */
+	public function get_lifterlms_tax_text() {
+
+		return get_option( 'lifterlms_tax_text', '' );
 
 	}
 
