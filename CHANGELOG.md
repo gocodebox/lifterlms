@@ -1,8 +1,8 @@
 == Changelog ==
 
 
-= v2.2.2-3 - 2016/03/?? =
---------------------------
+= v2.2.2 - 2016/03/15 =
+-----------------------
 
 ##### One step closer to a public GitHub repository
 
@@ -25,14 +25,14 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 
 + Thanks to @AndreaBarghigiani and the team at [codeat](http://codeat.co/) LifterLMS now ships with Italian language files!
 
-
-##### Issue and bug resolutigons
+##### Issue and bug resolutions
 
 + Fixed a restriction issue that would happen when individual lessons were restricted to a membership level
 + Fixed an issue with the `[lifterlms_my_account]` shortcode that was preventing the shortcode from working on the Divi theme.
 + Engagements will now only be triggered if they are "Published". Resolves an issue where draft or trashed engagements were still firing.
 + Fixed CSS overflow on LifterLMS Meta boxes. Fixes an issue where select boxes would be hidden inside a metabox.
 + Changed the ConvertKit extension banner image on the LifterLMS general settings page and replaced added a link to the extension now that it's available.
++ Added a link to the new ConvertKit extension to the .org readme
 + When restricting an entire site to a membership level the page selected as the "Terms and Conditions" page in LifterLMS settings will automatically bypass Membership restriction settings. This will allow your unregistered users to actually read the T&C that they're confirming during registration.
 + CSS fix for `has-icon` class on course syllabus
 + Fixed a PHP warning that displayed when purchasing a membership with no auto-enrollment courses
@@ -40,7 +40,7 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 + Fixed a few templating issues related to certificates
 + Added a few new CSS rules that should make certificates more compatible across various themes
 + Added a css class to LifterLMS Next Lesson buttons, `llms-next-lesson`
-
++ Updated the scheduled event name for cleaning up LifterLMS session data from the WP database. It had a conflicting name with the scheduled event for expiring LifterLMS memberships.
 
 = v2.2.1 - 2016/03/07 =
 -----------------------
