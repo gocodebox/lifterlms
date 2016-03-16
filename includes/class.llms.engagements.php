@@ -38,7 +38,7 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_course_track_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
 		add_action( 'lifterlms_course_completed_notification',array( $this, 'maybe_fire_engagement' ),10,2 );
-		add_action( 'trigger_delayed_engagement_notification',array( $this, 'trigger_delayed_engagement' ),10,2 );
+		add_action( 'trigger_delayed_engagement_notification', array( $this, 'trigger_delayed_engagement' ), 10, 2 );
 		//add_action( 'init', array( $this, 'llms_user_register' ), 10, 1 );
 	}
 
@@ -167,8 +167,10 @@ class LLMS_Engagements {
 
 				$engagement_delay = $engagement_meta['_llms_engagement_delay'][0];
 
+				$engagement_id = $value->ID;
+
 				if ( $engagement_delay ) {
-					$this->handle_delay($user, null, $engagement_meta, $engagement_delay);
+					$this->handle_delay($user, $engagement_id, $engagement_meta, $engagement_delay);
 					continue;
 				}
 
@@ -294,9 +296,9 @@ class LLMS_Engagements {
 	 */
 	private function handle_delay($user_id, $product_id, $engagement_meta, $delay) {
 
-		$trigger_date = strtotime("+ " . $delay . " day");
+		$trigger_date = strtotime( '+ ' . $delay . ' day' );
 
-		wp_schedule_single_event( $trigger_date, 'trigger_delayed_engagement', array( $user_id, $product_id, $engagement_meta ) );
+		wp_schedule_single_event( $trigger_date, 'llms_trigger_delayed_engagement', array( $user_id, $product_id, $engagement_meta ) );
 	}
 
 	/**
@@ -305,7 +307,24 @@ class LLMS_Engagements {
 	 * @param int $product_id
 	 * @param array $engagement_meta
 	 */
-	private function trigger_delayed_engagement( $user_id, $product_id, $engagement_meta ) {
+	public function trigger_delayed_engagement( $args ) {
 
+		$user_id = $args[0];
+		$product_id = $args[1];
+		$engagement_meta = $args[2];
+
+		$achievement_id = $engagement_meta['_llms_engagement'][0];
+
+		if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
+			do_action( 'lifterlms_custom_engagement', $user_id, $achievement_id, $product_id );
+		} elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
+			LLMS()->certificates();
+			do_action( 'lifterlms_custom_certificate', $user_id, $achievement_id, $product_id );
+		} elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
+			LLMS()->achievements();
+			do_action( 'lifterlms_custom_achievement', $user_id, $achievement_id, $product_id );
+		} else {
+			do_action( 'lifterlms_external_engagement', $user_id, $achievement_id, $product_id );
+		}
 	}
 }

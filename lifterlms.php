@@ -297,7 +297,7 @@ final class LifterLMS {
 			add_action( $action, array( $this, 'trigger_engagement' ), 10, 10 );
 		}
 
-		add_action( 'trigger_delayed_engagement', array( $this, 'trigger_delayed_engagement' ), 10, 10 );
+		add_action( 'llms_trigger_delayed_engagement', array( $this, 'trigger_delayed_engagement' ), 10, 10 );
 
 		do_action( 'lifterlms_init' );
 
@@ -331,8 +331,8 @@ final class LifterLMS {
 	 */
 	public function trigger_delayed_engagement( $user_id, $product_id, $engagement_meta ) {
 		$this->engagements();
-		$args = func_get_args();
-		do_action_ref_array( current_filter() . '_notification', $args );
+
+		do_action( 'trigger_delayed_engagement_notification', array($user_id, $product_id, $engagement_meta) );
 	}
 
 	/**

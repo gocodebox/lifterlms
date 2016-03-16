@@ -47,7 +47,7 @@ class LLMS_Achievements {
 	function init() {
 		include_once( 'class.llms.achievement.php' );
 
-		$this->achievements['LLMS_Achievement_User']  = include_once( 'achievements/class.llms.achievement.user.php' );
+		$this->achievements['LLMS_Achievement_User'] = include_once( 'achievements/class.llms.achievement.user.php' );
 
 	}
 
