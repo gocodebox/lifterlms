@@ -3,6 +3,15 @@
 = v2.2.3-1 - 2016/03/15 =
 -------------------------
 
+##### Translations
+
++ Added translation functions around quite a few untranslated strings. Thanks to the team at [Netzstrategen](http://netzstrategen.com)
++ Added German translation .mo and .po files again thanks to the team at [Netzstrategen](http://netzstrategen.com)
+
+##### Bug and Issue fixes
+
++ New lines are now preserved in the quiz question clarification text areas, thanks to @atimmer
++ Escape HTML in the quiz question description fields on the admin panel to allow outputting html without rendering it, thanks @atimmer
 + Fixed an issue related to the outputting of restricted course and membership content which caused errors on certain themes
 
 
