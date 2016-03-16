@@ -73,6 +73,13 @@ class LLMS_Engagements {
 				$engagement_meta = get_post_meta( $value );
 				$engagement_id = $engagement_meta['_llms_engagement'][0];
 
+				$engagement_delay = $engagement_meta['_llms_engagement_delay'][0];
+
+				if ( $engagement_delay ) {
+					$this->handle_delay($person_id, $lesson_id, $engagement_meta, $engagement_delay);
+					continue;
+				}
+
 				//if engagement or certificate status isn't "publish", don't do anything
 				if ( get_post_status( $value ) !== 'publish' || get_post_status( $engagement_id ) !== 'publish' ) {
 					continue;
@@ -156,6 +163,13 @@ class LLMS_Engagements {
 
 				$engagement_meta = get_post_meta( $value->ID );
 				$achievement_id = $engagement_meta['_llms_engagement'][0];
+
+				$engagement_delay = $engagement_meta['_llms_engagement_delay'][0];
+
+				if ( $engagement_delay ) {
+					$this->handle_delay($user, null, $engagement_meta, $engagement_delay);
+					continue;
+				}
 
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
 
@@ -268,5 +282,16 @@ class LLMS_Engagements {
 			$courses_in_track[ $id ] = $courses;
 
 		}
+	}
+
+	private function handle_delay($user_id, $product_id, $engagement_meta, $delay) {
+
+		$trigger_date = strtotime("+ " . $delay . " day");
+		$dealy = array( 'user_id' => $user_id, 'product_id' => $product_id, 'engagement_meta' => $engagement_meta, 'trigger_date' => $trigger_date );
+
+		$delays = get_option( 'lifterlms_engagement_delays', array() );
+		$delays[] = $dealy;
+
+		update_option( 'lifterlms_engagement_delays', $delays );
 	}
 }
