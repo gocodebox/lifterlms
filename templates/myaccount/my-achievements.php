@@ -11,7 +11,7 @@ $user_id = ( empty( $user_id ) ) ? get_current_user_id() : $user_id;
 $achievements = $user->get_user_achievements( $count, $user_id );
 ?>
 <div class="llms-my-achievements">
-	<h3 class="llms-my-achievements-title"><?php echo __( apply_filters( 'lifterlms_my_achievements_title', 'My Achievements' ), 'lifterlms' ); ?></h3>
+	<h3 class="llms-my-achievements-title"><?php echo apply_filters( 'lifterlms_my_achievements_title', __( 'My Achievements', 'lifterlms' ) ); ?></h3>
 
 	<?php do_action( 'lifterlms_before_achievements' ); ?>
 
@@ -38,7 +38,7 @@ $achievements = $user->get_user_achievements( $count, $user_id );
 			<?php endforeach; ?>
 		</ul>
 	<?php else : ?>
-		<p><?php echo __( apply_filters( 'lifterlms_no_achievements_text', 'Complete courses and lessons to earn achievements.' ), 'lifterlms' ); ?></p>
+		<p><?php echo apply_filters( 'lifterlms_no_achievements_text', __( 'Complete courses and lessons to earn achievements.', 'lifterlms' ) ); ?></p>
 	<?php endif; ?>
 
 	<?php do_action( 'lifterlms_after_achievements' ); ?>

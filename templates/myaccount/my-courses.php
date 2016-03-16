@@ -27,7 +27,7 @@ if ( $my_courses ) {?>
 
 				$course_author = '';
 				if (get_option( 'lifterlms_course_display_author' ) == 'yes') {
-					$course_author = sprintf( __( '<p class="author">Author: <span>%s</span></p>' ), $author_name );
+					$course_author = sprintf( __( '<p class="author">Author: <span>%s</span></p>', 'lifterlms' ), $author_name );
 				}
 				?>
 
