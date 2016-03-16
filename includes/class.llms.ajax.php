@@ -46,7 +46,7 @@ class LLMS_AJAX {
 		$response = LLMS_AJAX_Handler::$request['action']( $request );
 
 		if ( $response instanceof WP_Error ) {
-			$this->send_error( $response );
+			self::send_error( $response );
 		}
 
 		wp_send_json_success( $response );
@@ -131,7 +131,7 @@ class LLMS_AJAX {
 	 *
 	 * @param WP_Error $error
 	 */
-	private function send_error( $error ) {
+	private static function send_error( $error ) {
 		wp_send_json(array(
 			'code' => $error->get_error_code(),
 			'message' => $error->get_error_message(),
