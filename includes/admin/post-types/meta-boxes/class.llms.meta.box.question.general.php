@@ -54,7 +54,7 @@ class LLMS_Meta_Box_Question_General {
 									<textarea name ="option_text[]" class="option-text"><?php echo esc_textarea( $value['option_text'] ); ?></textarea>
 									<br>
 									<label><?php _e( 'Explanation Field', 'lifterlms' ); ?></label>
-									<textarea name ="option_description[]" class="option-text"><?php echo array_key_exists( 'option_description', $value ) ? $value['option_description'] : ''; ?></textarea>
+									<textarea name ="option_description[]" class="option-text"><?php echo array_key_exists( 'option_description', $value ) ? esc_textarea( $value['option_description'] ) : ''; ?></textarea>
 									</td>
 									</tr>
 								<?php
