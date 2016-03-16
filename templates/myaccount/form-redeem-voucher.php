@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		<input type="text" placeholder="<?php _e( 'Voucher Code', 'lifterlms' ); ?>" name="llms_voucher_code" required="required">
 	</p>
 
-	<button type="submit"><?php _ex( 'Submit', 'Vouher Code', 'lifterlms' ); ?></button>
+	<button type="submit"><?php _ex( 'Submit', 'Voucher Code', 'lifterlms' ); ?></button>
 
 	<?php wp_nonce_field( 'lifterlms_voucher_check', 'lifterlms_voucher_nonce' ); ?>
 
