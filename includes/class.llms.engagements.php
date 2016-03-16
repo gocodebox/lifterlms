@@ -82,7 +82,7 @@ class LLMS_Engagements {
 				$engagement_delay = $engagement_meta['_llms_engagement_delay'][0];
 
 				if ( $engagement_delay ) {
-					$this->handle_delay($person_id, $lesson_id, $engagement_meta, $engagement_delay);
+					$this->handle_delay( $person_id, $lesson_id, $engagement_meta, $engagement_delay );
 					continue;
 				}
 
@@ -170,7 +170,7 @@ class LLMS_Engagements {
 				$engagement_id = $value->ID;
 
 				if ( $engagement_delay ) {
-					$this->handle_delay($user, $engagement_id, $engagement_meta, $engagement_delay);
+					$this->handle_delay( $user, $engagement_id, $engagement_meta, $engagement_delay );
 					continue;
 				}
 
@@ -294,7 +294,7 @@ class LLMS_Engagements {
 	 * @param array $engagement_meta
 	 * @param int $delay
 	 */
-	private function handle_delay($user_id, $product_id, $engagement_meta, $delay) {
+	private function handle_delay( $user_id, $product_id, $engagement_meta, $delay ) {
 
 		$trigger_date = strtotime( '+ ' . $delay . ' day' );
 

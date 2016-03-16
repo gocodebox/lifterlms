@@ -332,7 +332,7 @@ final class LifterLMS {
 	public function trigger_delayed_engagement( $user_id, $product_id, $engagement_meta ) {
 		$this->engagements();
 
-		do_action( 'trigger_delayed_engagement_notification', array($user_id, $product_id, $engagement_meta) );
+		do_action( 'trigger_delayed_engagement_notification', array( $user_id, $product_id, $engagement_meta ) );
 	}
 
 	/**
