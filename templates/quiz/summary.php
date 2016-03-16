@@ -90,7 +90,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 								if ($quiz->show_description_right_answer()) {
 									if (array_key_exists( 'option_description', $options[ $question['answer'] ] )) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
-											LLMS_Language::output( 'Clarification: ' . $options[ $question['answer'] ]['option_description'] )
+											LLMS_Language::output( 'Clarification: ' . wpautop( $options[ $question['answer'] ]['option_description'] ) )
 										. '</span></li>';
 									}
 								}
@@ -98,7 +98,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 								if ($quiz->show_description_wrong_answer()) {
 									if (array_key_exists( 'option_description', $options[ $question['answer'] ] )) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
-											LLMS_Language::output( 'Clarification: ' . $options[ $question['answer'] ]['option_description'] )
+											LLMS_Language::output( 'Clarification: ' . wpautop( $options[ $question['answer'] ]['option_description'] ) )
 										. '</span></li>';
 									}
 								}
