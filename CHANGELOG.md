@@ -1,5 +1,10 @@
 == Changelog ==
 
+= v2.2.3-1 - 2016/03/15 =
+-------------------------
+
++ Fixed an issue related to the outputting of restricted course and membership content which caused errors on certain themes
+
 
 = v2.2.2 - 2016/03/15 =
 -----------------------
