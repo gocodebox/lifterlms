@@ -36,11 +36,13 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 		switch ( $post->post_type ) {
 			case 'course':
 				if ( $page_restricted['is_restricted'] ) {
+
+
 					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
 
+
 					if ($post->post_excerpt) {
-						add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_short_description', 10 );
-						$content = '';
+						$content = llms_get_excerpt( $post->ID );
 					}
 				}
 				$template_before  = llms_get_template_part_contents( 'content', 'single-course-before' );
@@ -81,8 +83,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
 
 					if ($post->post_excerpt) {
-						add_action( 'lifterlms_single_membership_before_summary', 'lifterlms_template_single_short_description', 10 );
-						$content = '';
+						$content = llms_get_excerpt( $post->ID );
 					}
 				}
 				$template_before  = llms_get_template_part_contents( 'content', 'single-membership-before' );
