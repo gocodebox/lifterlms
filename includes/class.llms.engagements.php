@@ -38,6 +38,7 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_course_track_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
 		add_action( 'lifterlms_course_completed_notification',array( $this, 'maybe_fire_engagement' ),10,2 );
+		add_action( 'trigger_delayed_engagement_notification',array( $this, 'trigger_delayed_engagement' ),10,2 );
 		//add_action( 'init', array( $this, 'llms_user_register' ), 10, 1 );
 	}
 
@@ -73,15 +74,15 @@ class LLMS_Engagements {
 				$engagement_meta = get_post_meta( $value );
 				$engagement_id = $engagement_meta['_llms_engagement'][0];
 
+				//if engagement or certificate status isn't "publish", don't do anything
+				if ( get_post_status( $value ) !== 'publish' || get_post_status( $engagement_id ) !== 'publish' ) {
+					continue;
+				}
+
 				$engagement_delay = $engagement_meta['_llms_engagement_delay'][0];
 
 				if ( $engagement_delay ) {
 					$this->handle_delay($person_id, $lesson_id, $engagement_meta, $engagement_delay);
-					continue;
-				}
-
-				//if engagement or certificate status isn't "publish", don't do anything
-				if ( get_post_status( $value ) !== 'publish' || get_post_status( $engagement_id ) !== 'publish' ) {
 					continue;
 				}
 
@@ -284,14 +285,27 @@ class LLMS_Engagements {
 		}
 	}
 
+	/**
+	 * Schedule event to be triggered after delay
+	 * @param int $user_id
+	 * @param int $product_id
+	 * @param array $engagement_meta
+	 * @param int $delay
+	 */
 	private function handle_delay($user_id, $product_id, $engagement_meta, $delay) {
 
 		$trigger_date = strtotime("+ " . $delay . " day");
-		$dealy = array( 'user_id' => $user_id, 'product_id' => $product_id, 'engagement_meta' => $engagement_meta, 'trigger_date' => $trigger_date );
 
-		$delays = get_option( 'lifterlms_engagement_delays', array() );
-		$delays[] = $dealy;
+		wp_schedule_single_event( $trigger_date, 'trigger_delayed_engagement', array( $user_id, $product_id, $engagement_meta ) );
+	}
 
-		update_option( 'lifterlms_engagement_delays', $delays );
+	/**
+	 * Function that gets triggered after delay
+	 * @param int $user_id
+	 * @param int $product_id
+	 * @param array $engagement_meta
+	 */
+	private function trigger_delayed_engagement( $user_id, $product_id, $engagement_meta ) {
+
 	}
 }
