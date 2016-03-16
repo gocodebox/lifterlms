@@ -13,6 +13,7 @@
 + New lines are now preserved in the quiz question clarification text areas, thanks to @atimmer
 + Escape HTML in the quiz question description fields on the admin panel to allow outputting html without rendering it, thanks @atimmer
 + Fixed an issue related to the outputting of restricted course and membership content which caused errors on certain themes
++ added a clearfix to the `.llms-lesson-preview` element on the course syllabus template
 
 
 = v2.2.2 - 2016/03/15 =
