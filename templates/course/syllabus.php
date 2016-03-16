@@ -101,6 +101,7 @@ $sections = $course->get_children_sections();
 								<span class="llms-lesson-counter"><?php echo $lesson->get_order(); ?> <?php _e( 'of' , 'lifterlms' ); ?> <?php echo count( $lessons ); ?></span>
 								<p class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->id ); ?></p>
 							</div>
+							<div class="clear"></div>
 						</a>
 					</div>
 
