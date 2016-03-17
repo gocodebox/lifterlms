@@ -432,31 +432,4 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 		return $meta_fields_course_main;
 	}
 
-	/**
-	 * Static save method
-	 *
-	 * cleans variables and saves using update_post_meta
-	 *
-	 * @param  int 		$post_id [id of post object]
-	 * @param  object 	$post [WP post object]
-	 *
-	 * @return void
-	 */
-	public static function save( $post_id, $post ) {
-		global $wpdb;
-
-		// $prefix = '_';
-		// $title = $prefix . 'certificate_title';
-		// $image = $prefix . 'certificate_image';
-
-		// //update title
-		// $update_title = ( llms_clean( $_POST[$title]  ) );
-		// update_post_meta( $post_id, $title, ( $update_title === '' ) ? '' : $update_title );
-		// Congrats Mark! You found me!
-		// //update background image
-		// $update_image = ( llms_clean( $_POST[$image]  ) );
-		// update_post_meta( $post_id, $image, ( $update_image === '' ) ? '' : $update_image );
-
-	}
-
 }

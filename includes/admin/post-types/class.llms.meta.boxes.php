@@ -36,8 +36,6 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Students::save', 10, 2 );
 		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Course_Outline::save', 10, 2 );
 
-		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Main::save', 10, 2 );
-
 		add_action( 'lifterlms_process_section_meta', 'LLMS_Meta_Box_Section_Tree::save', 10, 2 );
 		add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Lesson_Tree::save', 10, 2 );
 		add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Video::save', 10, 2 );
