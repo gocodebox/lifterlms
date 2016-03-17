@@ -33,7 +33,7 @@ This also addresses an issue that prevented the `llms_user_enrolled_in_course` a
 + added a clearfix to the `.llms-lesson-preview` element on the course syllabus template
 + Removed the `class.llms.person.handler.php` file as it wasn't actually being used by anything anywhere and contained no functions
 + Removed some unused and depreacted class functions from the LLMS Student Metabox class
-
++ Fixed an undefined javascript error resulting from code cleanup in 2.2.2. This issue prevented Vouchers from being published. The code has been further cleaned.
 
 = v2.2.2 - 2016/03/15 =
 -----------------------
