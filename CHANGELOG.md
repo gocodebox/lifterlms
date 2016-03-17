@@ -26,11 +26,13 @@ This also addresses an issue that prevented the `llms_user_enrolled_in_course` a
 
 ##### Bug and Issue fixes
 
++ Fixed an inconsistency in the way membership IDs were being saved to the postmeta table that would cause courses to not *appear* restricted on the Membership Enrollment tab, even though they were actually restricted and functioning correctly.
 + New lines are now preserved in the quiz question clarification text areas, thanks to @atimmer
 + Escape HTML in the quiz question description fields on the admin panel to allow outputting html without rendering it, thanks @atimmer
 + Fixed an issue related to the outputting of restricted course and membership content which caused errors on certain themes
 + added a clearfix to the `.llms-lesson-preview` element on the course syllabus template
 + Removed the `class.llms.person.handler.php` file as it wasn't actually being used by anything anywhere and contained no functions
+
 
 = v2.2.2 - 2016/03/15 =
 -----------------------
