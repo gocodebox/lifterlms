@@ -32,6 +32,7 @@ This also addresses an issue that prevented the `llms_user_enrolled_in_course` a
 + Fixed an issue related to the outputting of restricted course and membership content which caused errors on certain themes
 + added a clearfix to the `.llms-lesson-preview` element on the course syllabus template
 + Removed the `class.llms.person.handler.php` file as it wasn't actually being used by anything anywhere and contained no functions
++ Removed some unused and depreacted class functions from the LLMS Student Metabox class
 
 
 = v2.2.2 - 2016/03/15 =

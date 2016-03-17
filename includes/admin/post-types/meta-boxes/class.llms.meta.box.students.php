@@ -26,7 +26,7 @@ class LLMS_Meta_Box_Students {
 		self::create_order( $user_id, $post_id );
 
 		// enroll the student
-		llms_enroll_student( $user_id, $post_id  );
+		llms_enroll_student( $user_id, $post_id );
 
 		// trigger an action
 		do_action( 'lifterlms_student_added_by_admin', $user_id, $post_id );
@@ -55,7 +55,7 @@ class LLMS_Meta_Box_Students {
 
 		$table_name = $wpdb->prefix . 'lifterlms_order';
 
-		$order_id = $wpdb->get_results( $wpdb->prepare( 'SELECT order_post_id FROM '.$table_name.' WHERE user_id = %s and product_id = %d', $user_id, $post_id) );
+		$order_id = $wpdb->get_results( $wpdb->prepare( 'SELECT order_post_id FROM '.$table_name.' WHERE user_id = %s and product_id = %d', $user_id, $post_id ) );
 
 		foreach ($order_id as $key => $value) {
 			if ($order_id[ $key ]->order_post_id) {

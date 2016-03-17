@@ -450,7 +450,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		if (isset( $_POST['_llms_course_membership'] )) {
 			foreach ($_POST['_llms_course_membership'] as $course_id) {
 				$levels = get_post_meta( $course_id, '_llms_restricted_levels', true );
-				if( ! $levels ) {
+				if ( ! $levels ) {
 					$levels = array();
 				}
 				$memberships = array_merge( $levels, array( ( string ) $post_id ) );
