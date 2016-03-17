@@ -1,10 +1,10 @@
 === LifterLMS ===
-Contributors: therealmarknelson, thomasplevy, chrisbadgett, kathy11, lifterlms, jackyliao888, anecieto, codeboxllc
+Contributors: therealmarknelson, thomasplevy, psmolic, chrisbadgett, kathy11, lifterlms, codeboxllc, jackyliao888, anecieto
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 4.0
 Tested up to: 4.4.2
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -162,6 +162,40 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v2.2.3 - 2016/03/15 =
+-----------------------
+
+##### Translations
+
++ Added translation functions around quite a few untranslated strings. Thanks to the team at [Netzstrategen](http://netzstrategen.com)
++ Added German translation .mo and .po files again thanks to the team at [Netzstrategen](http://netzstrategen.com)
+
+##### Student Enrollment Functions
+
+We've refactored a bit of our code related to how to programmatically enroll a student in a course or membership during registration and purchase.
+
+A new class `LLMS_Student` makes working with a LifterLMS student (user) a bit easier. We'll begin exposing user meta data through this class as we continue to improve the usability of the codebase for other developers.
+
+We've also created a simple enrollment function `llms_enroll_student()` which enables programmatic enrollment to LifterLMS courses or memberships. This was previously handled in a pretty schizophrenic manner and this unifies various ways of enrollment into one clean function. All enrollment moving forward will use this functions.
+
+The enrollment function calls a new action as well as calling existing enrollment-related actions:
+
++ `before_llms_user_enrollment` - called immediately prior to begining the user enrollment function
++ `llms_user_enrolled_in_course` (previously existing)
++ `llms_user_added_to_membership_level` (previously existing)
+
+This also addresses an issue that prevented the `llms_user_enrolled_in_course` action from being called when a user was auto-enrolled in a course because they joined a membership level that included auto-enrollment in one or more courses.
+
+##### Bug and Issue fixes
+
++ Fixed an inconsistency in the way membership IDs were being saved to the postmeta table that would cause courses to not *appear* restricted on the Membership Enrollment tab, even though they were actually restricted and functioning correctly.
++ New lines are now preserved in the quiz question clarification text areas, thanks to @atimmer
++ Escape HTML in the quiz question description fields on the admin panel to allow outputting html without rendering it, thanks @atimmer
++ Fixed an issue related to the outputting of restricted course and membership content which caused errors on certain themes
++ added a clearfix to the `.llms-lesson-preview` element on the course syllabus template
++ Removed the `class.llms.person.handler.php` file as it wasn't actually being used by anything anywhere and contained no functions
++ Removed some unused and depreacted class functions from the LLMS Student Metabox class
++ Fixed an undefined javascript error resulting from code cleanup in 2.2.2. This issue prevented Vouchers from being published. The code has been further cleaned.
 
 = v2.2.2 - 2016/03/15 =
 -----------------------

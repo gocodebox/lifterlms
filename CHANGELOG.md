@@ -1,7 +1,7 @@
 == Changelog ==
 
-= v2.2.3-1 - 2016/03/15 =
--------------------------
+= v2.2.3 - 2016/03/15 =
+-----------------------
 
 ##### Translations
 
@@ -14,7 +14,7 @@ We've refactored a bit of our code related to how to programmatically enroll a s
 
 A new class `LLMS_Student` makes working with a LifterLMS student (user) a bit easier. We'll begin exposing user meta data through this class as we continue to improve the usability of the codebase for other developers.
 
-We've also created a simple enrollment function `llms_enroll_student()` (see **TKTKTKTTK** for usage documentation) which enables programmatic enrollment to LifterLMS courses or memberships. This was previously handled in a pretty schizophrenic manner and this unifies various ways of enrollment into one clean function. All enrollment moving forward will use this functions.
+We've also created a simple enrollment function `llms_enroll_student()` which enables programmatic enrollment to LifterLMS courses or memberships. This was previously handled in a pretty schizophrenic manner and this unifies various ways of enrollment into one clean function. All enrollment moving forward will use this functions.
 
 The enrollment function calls a new action as well as calling existing enrollment-related actions:
 
