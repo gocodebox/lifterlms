@@ -127,12 +127,13 @@ class LLMS_Order {
 		}
 	}
 
+
 	/**
-		 * Complete order processing
-		 *
-		 * @accepts $order (object)
-		 * @return Created Order post Id
-		 */
+	 * Complete order processing
+	 *
+	 * @accepts $order (object)
+	 * @return Created Order post Id
+	 */
 	public function update_order( $order ) {
 		global $wpdb;
 
@@ -245,72 +246,7 @@ class LLMS_Order {
 			update_post_meta( $order_post_id, '_llms_order_billing_start_date', $order->billing_start_date );
 		}
 
-		//enroll user in course
-		$user_metadatas = array(
-			'_start_date' => 'yes',
-			'_status'     => 'Enrolled',
-		);
-
-		foreach ( $user_metadatas as $key => $value ) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-				array(
-					'user_id'      => $order->user_id,
-					'post_id'      => $order->product_id,
-					'meta_key'     => $key,
-					'meta_value'   => $value,
-					'updated_date' => current_time( 'mysql' ),
-				)
-			);
-		}
-
-		do_action( 'llms_user_enrolled_in_course', $order->user_id, $order->product_id );
-
-		wp_reset_postdata();
-		wp_reset_query();
-
-		$post_obj = get_post( $order->product_id );
-
-		//add membership level to user
-		if ( $post_obj->post_type == 'llms_membership' ) {
-			$membership_levels = get_user_meta( $order->user_id, '_llms_restricted_levels', true );
-			if ( ! empty( $membership_levels ) ) {
-				array_push( $membership_levels, $order->product_id );
-
-			} else {
-				$membership_levels = array();
-				array_push( $membership_levels, $order->product_id );
-			}
-
-			update_user_meta( $order->user_id, '_llms_restricted_levels', $membership_levels );
-
-			$autoenroll_courses = get_post_meta( $order->product_id, '_llms_auto_enroll', true );
-
-			if ( $autoenroll_courses ) {
-
-				foreach ($autoenroll_courses as $course_id) {
-					$user_metadatas = array(
-						'_start_date' => 'yes',
-						'_status'     => 'Enrolled',
-					);
-
-					foreach ( $user_metadatas as $key => $value ) {
-						$wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-							array(
-								'user_id'      => $order->user_id,
-								'post_id'      => $course_id,
-								'meta_key'     => $key,
-								'meta_value'   => $value,
-								'updated_date' => current_time( 'mysql' ),
-							)
-						);
-					}
-				}
-
-			}
-
-			do_action( 'llms_user_added_to_membership_level', $order->user_id, $order->product_id );
-
-		}
+		llms_enroll_student( $order->user_id, $order->product_id );
 
 		//kill sessions
 		unset( LLMS()->session->llms_coupon );

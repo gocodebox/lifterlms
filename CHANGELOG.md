@@ -8,6 +8,22 @@
 + Added translation functions around quite a few untranslated strings. Thanks to the team at [Netzstrategen](http://netzstrategen.com)
 + Added German translation .mo and .po files again thanks to the team at [Netzstrategen](http://netzstrategen.com)
 
+##### Student Enrollment Functions
+
+We've refactored a bit of our code related to how to programmatically enroll a student in a course or membership during registration and purchase.
+
+A new class `LLMS_Student` makes working with a LifterLMS student (user) a bit easier. We'll begin exposing user meta data through this class as we continue to improve the usability of the codebase for other developers.
+
+We've also created a simple enrollment function `llms_enroll_student()` (see **TKTKTKTTK** for usage documentation) which enables programmatic enrollment to LifterLMS courses or memberships. This was previously handled in a pretty schizophrenic manner and this unifies various ways of enrollment into one clean function. All enrollment moving forward will use this functions.
+
+The enrollment function calls a new action as well as calling existing enrollment-related actions:
+
++ `before_llms_user_enrollment` - called immediately prior to begining the user enrollment function
++ `llms_user_enrolled_in_course` (previously existing)
++ `llms_user_added_to_membership_level` (previously existing)
+
+This also addresses an issue that prevented the `llms_user_enrolled_in_course` action from being called when a user was auto-enrolled in a course because they joined a membership level that included auto-enrollment in one or more courses.
+
 ##### Bug and Issue fixes
 
 + New lines are now preserved in the quiz question clarification text areas, thanks to @atimmer
