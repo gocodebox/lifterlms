@@ -15,11 +15,11 @@ class LLMS_Email_Person_New extends LLMS_Email {
 		global $wpdb;
 
 		 $querystr = "
-		    SELECT $wpdb->posts.* 
+		    SELECT $wpdb->posts.*
 		    FROM $wpdb->posts, $wpdb->postmeta
-		    WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id 
-		    AND $wpdb->postmeta.meta_value = 'email_new_user' 
-		    AND $wpdb->posts.post_status = 'publish' 
+		    WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id
+		    AND $wpdb->postmeta.meta_value = 'email_new_user'
+		    AND $wpdb->posts.post_status = 'publish'
 		    AND $wpdb->posts.post_type = 'llms_email'
 		    ORDER BY $wpdb->posts.post_date DESC LIMIT 1
 		 ";
@@ -60,6 +60,10 @@ class LLMS_Email_Person_New extends LLMS_Email {
 			$this->recipient          = $this->user_email;
 			$this->password_generated = $password_generated;
 
+		}
+
+		if ( empty( $this->email_content ) ) {
+			$this->enabled = false;
 		}
 
 		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
