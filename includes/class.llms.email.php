@@ -33,6 +33,7 @@ class LLMS_Email {
 		$this->email_type     	= 'html';
 		$this->find 			= array( '{blogname}', '{site_title}' );
 		$this->replace 			= array( $this->get_blogname(), $this->get_blogname() );
+
 	}
 
 	/**

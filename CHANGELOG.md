@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.2.4 - 2016/03/15 =
+-----------------------
+
++ Removed the unused `LLMS_Engagements` class and file
+
+
 = v2.2.3 - 2016/03/15 =
 -----------------------
 
@@ -34,6 +40,7 @@ This also addresses an issue that prevented the `llms_user_enrolled_in_course` a
 + Removed the `class.llms.person.handler.php` file as it wasn't actually being used by anything anywhere and contained no functions
 + Removed some unused and depreacted class functions from the LLMS Student Metabox class
 + Fixed an undefined javascript error resulting from code cleanup in 2.2.2. This issue prevented Vouchers from being published. The code has been further cleaned.
+
 
 = v2.2.2 - 2016/03/15 =
 -----------------------

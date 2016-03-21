@@ -283,7 +283,8 @@ final class LifterLMS {
 		);
 
 		foreach ( $email_actions as $action ) {
-			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 ); }
+			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 );
+		}
 
 		$engagement_actions = array(
 			'lifterlms_lesson_completed',
