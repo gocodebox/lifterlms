@@ -777,8 +777,8 @@ function llms_expire_membership() {
 
 			//if a date parse causes exp date to be unmodified then return.
 			if ( $exp_date == $start_date[0]->updated_date ) {
-				return;
 				LLMS_log( 'An error occured modifying the date value. Function: llms_expire_membership, interval: ' .  $interval . ' period: ' . $period );
+				continue;
 			}
 
 			//compare expiration date to current date.
