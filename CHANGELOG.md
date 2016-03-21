@@ -1,5 +1,15 @@
 == Changelog ==
 
+= v2.2.4 - 2016/03/15 =
+-----------------------
+
++ Added an additional check before sending emails or triggering any engagments that will prevent the achievement from being awarded or the email from being sent if the post is in not published. This fixes an issue that caused emails in the trash from still being emailed.
++ Fixed a ton of issues related to the triggering of engagements and cleaned up a lot of classes and functions associated with them.
++ Properly instatiate `LifterLMS` singleton via LLMS() function and prevent direct instantiation of the class via `new LifterLMS()`.
++ Removed the deprecated 'class.llms.email.person.new.php' file as it was rendered useless a long time ago and caused some duplicate emails.
++ Removed the unused `LLMS_Engagements` class and file
+
+
 = v2.2.3 - 2016/03/15 =
 -----------------------
 
@@ -34,6 +44,7 @@ This also addresses an issue that prevented the `llms_user_enrolled_in_course` a
 + Removed the `class.llms.person.handler.php` file as it wasn't actually being used by anything anywhere and contained no functions
 + Removed some unused and depreacted class functions from the LLMS Student Metabox class
 + Fixed an undefined javascript error resulting from code cleanup in 2.2.2. This issue prevented Vouchers from being published. The code has been further cleaned.
+
 
 = v2.2.2 - 2016/03/15 =
 -----------------------

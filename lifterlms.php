@@ -68,7 +68,8 @@ final class LifterLMS {
 	 * @access public
 	 * @return LifterLMS
 	 */
-	public function __construct() {
+	private function __construct() {
+
 		if ( function_exists( '__autoload' ) ) {
 			spl_autoload_register( '__autoload' );
 		}
@@ -283,7 +284,8 @@ final class LifterLMS {
 		);
 
 		foreach ( $email_actions as $action ) {
-			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 ); }
+			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 );
+		}
 
 		$engagement_actions = array(
 			'lifterlms_lesson_completed',
@@ -447,4 +449,4 @@ function LLMS() {
 	return LifterLMS::instance();
 }
 // @codingStandardsIgnoreEnd
-return new LifterLMS();
+return LLMS();

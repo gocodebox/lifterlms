@@ -68,7 +68,6 @@ class LLMS_Emails {
 
 		add_action( 'lifterlms_email_header', array( $this, 'email_header' ) );
 		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
-		add_action( 'lifterlms_created_person_notification', array( $this, 'person_new_account' ), 10, 3 );
 		add_action( 'lifterlms_lesson_completed_engagement_notification', array( $this, 'lesson_completed' ), 10, 3 );
 		add_action( 'lifterlms_custom_engagement_notification', array( $this, 'custom_email_earned' ), 10, 3 );
 
@@ -85,8 +84,6 @@ class LLMS_Emails {
 		include_once( 'class.llms.email.php' );
 
 		// Include email child classes
-		$this->emails['LLMS_Email_Person_Reset_Password']   = include_once( 'emails/class.llms.email.reset.password.php' );
-		$this->emails['LLMS_Email_Person_New']     			= include_once( 'emails/class.llms.email.person.new.php' );
 		$this->emails['LLMS_Email_Engagement']      		= include_once( 'emails/class.llms.email.engagement.php' );
 		$this->emails['LLMS_Email_Reset_Password']   		= include_once( 'emails/class.llms.email.reset.password.php' );
 
@@ -209,24 +206,6 @@ class LLMS_Emails {
 	}
 
 	/**
-	 * Send email when new account is created
-	 *
-	 * @param id $person_id [ID of the user created]
-	 * @param array $new_person_data [array of new user information]
-	 * DEPRECIATED @param  boolean $password_generated [Was a password generaated for the user?]
-	 *
-	 * @return void
-	 */
-	function person_new_account( $person_id, $new_person_data = array(), $password_generated = false ) {
-		if ( ! $person_id ) {
-			return; }
-
-		$user_pass = ! empty( $new_person_data['user_pass'] ) ? $new_person_data['user_pass'] : '';
-		$email = $this->emails['LLMS_Email_Person_New'];
-		$email->trigger( $person_id, $user_pass, $password_generated );
-	}
-
-	/**
 	 * Send email when lesson completed
 	 * Triggered by engagement
 	 *
@@ -263,6 +242,3 @@ class LLMS_Emails {
 	}
 
 }
-
-
-

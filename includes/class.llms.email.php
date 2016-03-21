@@ -15,7 +15,7 @@ class LLMS_Email {
 	 * Returns if email template is enabled.
 	 * @var bool
 	 */
-	var $enabled;
+	var $enabled = true;
 
 	/**
 	 * Email heading
@@ -31,9 +31,9 @@ class LLMS_Email {
 
 		// Settings TODO Refoactor: theses can come from the email post now
 		$this->email_type     	= 'html';
-		$this->enabled   		= get_option( 'enabled' );
 		$this->find 			= array( '{blogname}', '{site_title}' );
 		$this->replace 			= array( $this->get_blogname(), $this->get_blogname() );
+
 	}
 
 	/**
@@ -43,8 +43,7 @@ class LLMS_Email {
 	 * @return boolean [Is email enabled]
 	 */
 	function is_enabled() {
-		$enabled = $this->enabled == 'yes' ? true : false;
-		return true;
+		return $this->enabled;
 	}
 
 	/**
