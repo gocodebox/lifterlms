@@ -340,27 +340,11 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		return $llms_meta_fields_llms_membership_settings;
 	}
 
-	public static function get_courses_list() {
-		$args = array(
-			'post_type' 	=> 'course',
-			'nopaging'		=> true,
-			'post_status'   => 'publish',
-			'number'		=> 1000,
-		);
 
-		$courses_list = array();
-
-		$courses = get_posts( $args );
-
-		foreach ($courses as $course) {
-			$courses_list[] = array(
-				'key' => $course->ID,
-				'title' => $course->post_title,
-			);
-		}
-		return $courses_list;
-	}
-
+	/**
+	 * Retrieve a list of courses that are not currently restricted to the membership
+	 * @return array
+	 */
 	public static function get_courses_not_in_membership_list() {
 
 		$exclude = array();
@@ -382,22 +366,28 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 
 		$courses = get_posts( $args );
 
-		foreach ($courses as $course) {
+		foreach ( $courses as $course ) {
 			$courses_list[] = array(
 				'key' => $course->ID,
 				'title' => $course->post_title,
 			);
 		}
+
 		return $courses_list;
+
 	}
 
+	/**
+	 * Retrive a list of courses that are currently restricted by the membership
+	 * @return array
+	 */
 	public static function get_courses_in_membership_list() {
 		global $wpdb, $post;
 		$courses_list = array();
 		$posts_table = $wpdb->prefix . 'posts';
 		$postmeta = $wpdb->prefix . 'postmeta';
 
-		$postmeta_select = '%:"' . $post->ID . '";%';
+		$postmeta_select = '%"' . $post->ID . '"%';
 
 		$select_courses = "SELECT ID, post_title FROM $posts_table
 					JOIN $postmeta
@@ -417,6 +407,11 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 		return $courses_list;
 	}
 
+
+	/**
+	 * Retrieve the HTML for the "Courses" table on the enrollment tab
+	 * @return array
+	 */
 	public static function get_courses_table_data() {
 		global $post;
 		$membership_courses = self::get_courses_in_membership_list();
@@ -452,10 +447,13 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
-
 		if (isset( $_POST['_llms_course_membership'] )) {
 			foreach ($_POST['_llms_course_membership'] as $course_id) {
-				$memberships = array_merge( get_post_meta( $course_id, '_llms_restricted_levels', true ), array( $post_id ) );
+				$levels = get_post_meta( $course_id, '_llms_restricted_levels', true );
+				if ( ! $levels ) {
+					$levels = array();
+				}
+				$memberships = array_merge( $levels, array( ( string ) $post_id ) );
 
 				update_post_meta( $course_id, '_llms_is_restricted', true );
 				update_post_meta( $course_id, '_llms_restricted_levels', $memberships );

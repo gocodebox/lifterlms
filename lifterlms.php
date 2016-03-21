@@ -3,7 +3,7 @@
 * Plugin Name: LifterLMS
 * Plugin URI: https://lifterlms.com/
 * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
-* Version: 2.2.2-2
+* Version: 2.2.3
 * Author: Mark Nelson, Thomas Patrick Levy, codeBOX, LLC
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
@@ -23,7 +23,10 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-require 'vendor/autoload_52.php';
+/**
+ * Autoloader
+ */
+require_once 'vendor/autoload.php';
 
 /**
  * Main LifterLMS Class
@@ -32,7 +35,7 @@ require 'vendor/autoload_52.php';
  */
 final class LifterLMS {
 
-	public $version = '2.2.2-2';
+	public $version = '2.2.3';
 
 	protected static $_instance = null;
 
@@ -65,7 +68,8 @@ final class LifterLMS {
 	 * @access public
 	 * @return LifterLMS
 	 */
-	public function __construct() {
+	private function __construct() {
+
 		if ( function_exists( '__autoload' ) ) {
 			spl_autoload_register( '__autoload' );
 		}
@@ -208,6 +212,7 @@ final class LifterLMS {
 		// Classes
 		include_once( 'includes/class.llms.product.php' );
 		include_once( 'includes/class.llms.course.php' );
+		include_once( 'includes/class.llms.student.php' );
 		include_once( 'includes/class.llms.section.php' );
 		include_once( 'includes/class.llms.lesson.php' );
 		include_once( 'includes/class.llms.lesson.handler.php' );
@@ -218,7 +223,6 @@ final class LifterLMS {
 
 		//handler classes
 		include_once( 'includes/class.llms.post.handler.php' );
-		include_once( 'includes/class.llms.person.handler.php' );
 
 		include_once( 'includes/class.llms.widgets.php' );
 		include_once( 'includes/class.llms.widget.php' );
@@ -274,21 +278,20 @@ final class LifterLMS {
 
 		// Email Actions
 		$email_actions = array(
-			'lifterlms_created_person',
-			'lifterlms_lesson_completed_engagement',
 			'lifterlms_custom_engagement',
 		);
 
 		foreach ( $email_actions as $action ) {
-			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 ); }
+			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 );
+		}
 
 		$engagement_actions = array(
 			'lifterlms_lesson_completed',
 			'lifterlms_section_completed',
 			'lifterlms_course_completed',
-			'user_register',
 			'lifterlms_course_track_completed',
-			'llms_user_purchased_product',
+			'lifterlms_user_purchased_product',
+			'lifterlms_created_person',
 		);
 
 		foreach ( $engagement_actions as $action ) {
@@ -306,6 +309,9 @@ final class LifterLMS {
 	public function send_transactional_email() {
 		$this->mailer();
 		$args = func_get_args();
+		llms_log( '====== SEND TRANSACTION EMAIL =======' );
+		llms_log( json_encode( func_get_args() ) );
+		llms_log( current_filter() . '_notification' );
 		do_action_ref_array( current_filter() . '_notification', $args );
 	}
 
@@ -316,6 +322,9 @@ final class LifterLMS {
 	public function trigger_engagement() {
 		$this->engagements();
 		$args = func_get_args();
+		llms_log( '====== TRIGGER ENGAGEMENT =======' );
+		llms_log( json_encode( func_get_args() ) );
+		llms_log( current_filter() . '_notification' );
 		do_action_ref_array( current_filter() . '_notification', $args );
 	}
 
@@ -445,4 +454,4 @@ function LLMS() {
 	return LifterLMS::instance();
 }
 // @codingStandardsIgnoreEnd
-return new LifterLMS();
+return LLMS();

@@ -132,11 +132,11 @@ llms_print_notices();
                 } );
                 </script>
 
-                <a href="#" class="voucher-expand-button" id="llms-voucher-expand">Have a Voucher?</a>
+                <a href="#" class="voucher-expand-button" id="llms-voucher-expand"><?php _e( 'Have a Voucher?', 'lifterlms' ); ?></a>
 
                 <div class="voucher-expand">
                     <label for="llms_voucher_code"><?php _e( 'Voucher Code', 'lifterlms' ); ?></label>
-                    <input type="text" id="llms_voucher_code" placeholder="Voucher Code" name="llms_voucher_code">
+                    <input type="text" id="llms_voucher_code" placeholder="<?php _e( 'Voucher Code', 'lifterlms' ); ?>" name="llms_voucher_code">
                 </div>
             </div>
         <?php endif; ?>

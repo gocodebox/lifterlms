@@ -190,55 +190,13 @@ class LLMS_Voucher
 
 				$membership_levels = array();
 
-				foreach ($products as $product) {
+				foreach ( $products as $product ) {
+
 					$order = new LLMS_Order();
+
 					$order->create( $user_id, $product, 'Voucher' );
 
-					if ('llms_membership' === get_post_type( $product )) {
-						$membership_levels[] = $product;
-
-						$autoenroll_courses = get_post_meta( $product, '_llms_auto_enroll', true );
-
-						foreach ($autoenroll_courses as $course_id) {
-							$user_metadatas = array(
-								'_start_date' => 'yes',
-								'_status'     => 'Enrolled',
-							);
-
-							foreach ( $user_metadatas as $key => $value ) {
-								$wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-									array(
-										'user_id'      => $user_id,
-										'post_id'      => $course_id,
-										'meta_key'     => $key,
-										'meta_value'   => $value,
-										'updated_date' => current_time( 'mysql' ),
-									)
-								);
-							}
-						}
-
-						do_action( 'llms_user_added_to_membership_level', $user_id, $product );
-					}
-
-					// update user postmeta
-					$user_metadatas = array(
-						'_start_date' => 'yes',
-						'_status' => 'Enrolled',
-						'_voucher' => $voucher->id,
-					);
-
-					foreach ($user_metadatas as $key => $value) {
-						$wpdb->insert($wpdb->prefix . 'lifterlms_user_postmeta',
-							array(
-								'user_id' => $user_id,
-								'post_id' => $product,
-								'meta_key' => $key,
-								'meta_value' => $value,
-								'updated_date' => current_time( 'mysql' ),
-							)
-						);
-					}
+					llms_enroll_student( $user_id, $product );
 
 					do_action( 'llms_user_enrolled_in_course', $user_id, $product );
 
@@ -256,10 +214,15 @@ class LLMS_Voucher
 					llms_add_notice( 'Voucher used successfully!' );
 				}
 			}
+
 		} else {
+
 			if ($notices) {
+
 				llms_add_notice( 'Voucher could not be used. Please check that you have valid voucher.', 'error' );
+
 			}
+
 		}
 
 		return $voucher;

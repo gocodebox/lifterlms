@@ -4,42 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cef54c933a82021d04303f1c992ab0d9",
-    "content-hash": "3962c88714e1d81c8e73fc61411901bc",
-    "packages": [
-        {
-            "name": "xrstf/composer-php52",
-            "version": "v1.0.19",
-            "source": {
-                "type": "hg",
-                "url": "https://bitbucket.org/xrstf/composer-php52",
-                "reference": "9a4a9c46d0347b39bf9159815301dc66fc25324e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://bitbucket.org/xrstf/composer-php52/get/9a4a9c46d0347b39bf9159815301dc66fc25324e.zip",
-                "reference": "9a4a9c46d0347b39bf9159815301dc66fc25324e",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-default": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "xrstf\\Composer52": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "homepage": "http://www.xrstf.de/",
-            "time": "2015-10-01 14:11:58"
-        }
-    ],
+    "hash": "96b6d688afe077e47b3efe5d3999dd2c",
+    "content-hash": "810b0ee881fe94d2506300deabfbd445",
+    "packages": [],
     "packages-dev": [
         {
             "name": "squizlabs/php_codesniffer",

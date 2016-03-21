@@ -62,14 +62,12 @@ class LLMS_Emails {
 	 * Initializes class
 	 * Adds actions to trigger emails off of events
 	 */
-	function __construct() {
+	public function __construct() {
 
 		$this->init();
 
 		add_action( 'lifterlms_email_header', array( $this, 'email_header' ) );
 		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
-		add_action( 'lifterlms_created_person_notification', array( $this, 'person_new_account' ), 10, 3 );
-		add_action( 'lifterlms_lesson_completed_engagement_notification', array( $this, 'lesson_completed' ), 10, 3 );
 		add_action( 'lifterlms_custom_engagement_notification', array( $this, 'custom_email_earned' ), 10, 3 );
 
 		do_action( 'lifterlms_email', $this );
@@ -80,13 +78,11 @@ class LLMS_Emails {
 	 * Include all email child classes
 	 * @return void
 	 */
-	function init() {
+	public function init() {
 		// Include email base class
 		include_once( 'class.llms.email.php' );
 
 		// Include email child classes
-		$this->emails['LLMS_Email_Person_Reset_Password']   = include_once( 'emails/class.llms.email.reset.password.php' );
-		$this->emails['LLMS_Email_Person_New']     			= include_once( 'emails/class.llms.email.person.new.php' );
 		$this->emails['LLMS_Email_Engagement']      		= include_once( 'emails/class.llms.email.engagement.php' );
 		$this->emails['LLMS_Email_Reset_Password']   		= include_once( 'emails/class.llms.email.reset.password.php' );
 
@@ -98,7 +94,7 @@ class LLMS_Emails {
 	 * Get all email objects
 	 * @return array [Array of all email objects]
 	 */
-	function get_emails() {
+	public function get_emails() {
 		return $this->emails;
 	}
 
@@ -106,7 +102,7 @@ class LLMS_Emails {
 	 * [get_from_name description]
 	 * @return [type] [description]
 	 */
-	function get_from_name() {
+	public function get_from_name() {
 		if ( ! $this->_from_name ) {
 			$this->_from_name = get_option( 'lifterlms_email_from_name' ); }
 
@@ -117,7 +113,7 @@ class LLMS_Emails {
 	 * Get from email option data
 	 * @return string [From email option in settings->email]
 	 */
-	function get_from_address() {
+	public function get_from_address() {
 		if ( ! $this->_from_address ) {
 			$this->_from_address = get_option( 'lifterlms_email_from_address' ); }
 
@@ -128,7 +124,7 @@ class LLMS_Emails {
 	 * Get the content type
 	 * @return string [always returns text/html]
 	 */
-	function get_content_type() {
+	public function get_content_type() {
 		return $this->_content_type;
 	}
 
@@ -137,7 +133,7 @@ class LLMS_Emails {
 	 * @param  string $email_heading [text email heading option]
 	 * @return string [email heading]
 	 */
-	function email_header( $email_heading ) {
+	public function email_header( $email_heading ) {
 		llms_get_template( 'emails/header.php', array( 'email_heading' => $email_heading ) );
 	}
 
@@ -145,7 +141,7 @@ class LLMS_Emails {
 	 * get email footer string
 	 * @return string [Email footer option as string]
 	 */
-	function email_footer() {
+	public function email_footer() {
 		llms_get_template( 'emails/footer.php' );
 	}
 
@@ -159,7 +155,7 @@ class LLMS_Emails {
 	 *
 	 * @return [type]                 [description]
 	 */
-	function wrap_message( $email_heading, $message, $plain_text = false ) {
+	public function wrap_message( $email_heading, $message, $plain_text = false ) {
 		// Buffer
 		ob_start();
 
@@ -189,7 +185,7 @@ class LLMS_Emails {
 	 * @return void
 	 *
 	 */
-	function send( $to, $subject, $message, $headers = "Content-Type: text/html\r\n", $attachments = '', $content_type = 'text/html' ) {
+	public function send( $to, $subject, $message, $headers = "Content-Type: text/html\r\n", $attachments = '', $content_type = 'text/html' ) {
 
 		// Set content type
 		$this->_content_type = $content_type;
@@ -209,42 +205,7 @@ class LLMS_Emails {
 	}
 
 	/**
-	 * Send email when new account is created
-	 *
-	 * @param id $person_id [ID of the user created]
-	 * @param array $new_person_data [array of new user information]
-	 * DEPRECIATED @param  boolean $password_generated [Was a password generaated for the user?]
-	 *
-	 * @return void
-	 */
-	function person_new_account( $person_id, $new_person_data = array(), $password_generated = false ) {
-		if ( ! $person_id ) {
-			return; }
-
-		$user_pass = ! empty( $new_person_data['user_pass'] ) ? $new_person_data['user_pass'] : '';
-		$email = $this->emails['LLMS_Email_Person_New'];
-		$email->trigger( $person_id, $user_pass, $password_generated );
-	}
-
-	/**
-	 * Send email when lesson completed
-	 * Triggered by engagement
-	 *
-	 * @param int $person_id [ID of the user created]
-	 * @param  int $email_id [ID of the email template]
-	 * @return void
-	 */
-	function lesson_completed( $person_id, $email_id ) {
-		if ( ! $person_id ) {
-			return; }
-
-		$user_pass = ! empty( $new_person_data['user_pass'] ) ? $new_person_data['user_pass'] : '';
-		$email = $this->emails['LLMS_Email_Engagement'];
-		$email->trigger( $person_id, $email_id );
-	}
-
-	/**
-	 * Earn a custom email which is no associated with a specific lesson
+	 * Send a custom engagement email
 	 * Calls tigger method passing arguments
 	 *
 	 * @param  int $person_id [ID of the current user]
@@ -253,16 +214,16 @@ class LLMS_Emails {
 	 *
 	 * @return [type]            [description]
 	 */
-	function custom_email_earned( $person_id, $email_id, $engagement_id ) {
+	public function custom_email_earned( $person_id, $email_id, $engagement_id ) {
+
 		if ( ! $person_id ) {
-			return; }
+			return;
+		}
 
 		$email = $this->emails['LLMS_Email_Engagement'];
+
 
 		$email->trigger( $person_id, $email_id );
 	}
 
 }
-
-
-

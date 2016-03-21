@@ -15,11 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 <form method="POST">
 
 	<p class="form-row form-row-first">
-		<label for="account_first_name">Voucher Code</label>
-		<input type="text" placeholder="Voucher Code" name="llms_voucher_code" required="required">
+		<label for="account_first_name"><?php _e( 'Voucher Code', 'lifterlms' ); ?></label>
+		<input type="text" placeholder="<?php _e( 'Voucher Code', 'lifterlms' ); ?>" name="llms_voucher_code" required="required">
 	</p>
 
-	<button type="submit">Submit</button>
+	<button type="submit"><?php _ex( 'Submit', 'Voucher Code', 'lifterlms' ); ?></button>
 
 	<?php wp_nonce_field( 'lifterlms_voucher_check', 'lifterlms_voucher_nonce' ); ?>
 

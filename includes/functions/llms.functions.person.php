@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Person Functions
 *
-* Functions for managing users in the lifterLMS system
+* Functions for managing users in the LifterLMS system
 *
 * @author codeBOX
 * @project lifterLMS
@@ -181,6 +181,25 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
 
 	return $person_id;
 }
+
+
+
+/**
+ * Enroll a WordPress user in a course or membership
+ * @param  int $user_id    WP User ID
+ * @param  int $product_id WP Post ID of the Course or Membership
+ * @return bool
+ *
+ * @since  2.2.3
+ */
+function llms_enroll_student( $user_id, $product_id ) {
+
+	$student = new LLMS_Student( $user_id );
+	return $student->enroll( $product_id );
+
+}
+
+
 
 /**
  * Sets user auth cookie by id

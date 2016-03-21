@@ -22,7 +22,7 @@ $llms_product = new LLMS_Product( $post->ID );
 
 					<?php if ( count( $llms_product->get_payment_options() ) > 1 ) : ?>
 
-						<span class="llms-price-option-separator"><?php echo apply_filters( 'lifterlms_price_option_separator', __( 'or', 'lifterlms' ), $llms_product ); ?></span>
+						<span class="llms-price-option-separator"><?php echo apply_filters( 'lifterlms_price_option_separator', _x( 'or', 'pricing seperator', 'lifterlms' ), $llms_product ); ?></span>
 
 					<?php endif; ?>
 

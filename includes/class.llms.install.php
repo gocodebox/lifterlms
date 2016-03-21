@@ -516,7 +516,7 @@ class LLMS_Install {
 	 */
 	public function cron() {
 
-		if ( ! wp_next_scheduled( 'llms_check_for_expired_memberships' )) {
+		if ( ! wp_next_scheduled( 'lifterlms_cleanup_sessions' )) {
 				wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
 		}
 

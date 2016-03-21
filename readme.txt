@@ -1,10 +1,10 @@
 === LifterLMS ===
-Contributors: therealmarknelson, thomasplevy, chrisbadgett, kathy11, lifterlms, jackyliao888, anecieto, codeboxllc
+Contributors: therealmarknelson, thomasplevy, psmolic, chrisbadgett, kathy11, lifterlms, codeboxllc, jackyliao888, anecieto
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning
 Requires at least: 4.0
 Tested up to: 4.4.2
-Stable tag: 2.2.2-2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell,
 >
 >Premium LifterLMS themes also come with LifterLMS Pro.
 >
->You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/) and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
+>You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
 
 Take a look at the explanation videos of LifterLMS. These 17 tutorial videos are included in the [free LifterLMS demo course](http://demo.lifterlms.com).
 
@@ -162,9 +162,43 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v2.2.3 - 2016/03/15 =
+-----------------------
 
-= v2.2.2-2 - 2016/03/?? =
---------------------------
+##### Translations
+
++ Added translation functions around quite a few untranslated strings. Thanks to the team at [Netzstrategen](http://netzstrategen.com)
++ Added German translation .mo and .po files again thanks to the team at [Netzstrategen](http://netzstrategen.com)
+
+##### Student Enrollment Functions
+
+We've refactored a bit of our code related to how to programmatically enroll a student in a course or membership during registration and purchase.
+
+A new class `LLMS_Student` makes working with a LifterLMS student (user) a bit easier. We'll begin exposing user meta data through this class as we continue to improve the usability of the codebase for other developers.
+
+We've also created a simple enrollment function `llms_enroll_student()` which enables programmatic enrollment to LifterLMS courses or memberships. This was previously handled in a pretty schizophrenic manner and this unifies various ways of enrollment into one clean function. All enrollment moving forward will use this functions.
+
+The enrollment function calls a new action as well as calling existing enrollment-related actions:
+
++ `before_llms_user_enrollment` - called immediately prior to begining the user enrollment function
++ `llms_user_enrolled_in_course` (previously existing)
++ `llms_user_added_to_membership_level` (previously existing)
+
+This also addresses an issue that prevented the `llms_user_enrolled_in_course` action from being called when a user was auto-enrolled in a course because they joined a membership level that included auto-enrollment in one or more courses.
+
+##### Bug and Issue fixes
+
++ Fixed an inconsistency in the way membership IDs were being saved to the postmeta table that would cause courses to not *appear* restricted on the Membership Enrollment tab, even though they were actually restricted and functioning correctly.
++ New lines are now preserved in the quiz question clarification text areas, thanks to @atimmer
++ Escape HTML in the quiz question description fields on the admin panel to allow outputting html without rendering it, thanks @atimmer
++ Fixed an issue related to the outputting of restricted course and membership content which caused errors on certain themes
++ added a clearfix to the `.llms-lesson-preview` element on the course syllabus template
++ Removed the `class.llms.person.handler.php` file as it wasn't actually being used by anything anywhere and contained no functions
++ Removed some unused and depreacted class functions from the LLMS Student Metabox class
++ Fixed an undefined javascript error resulting from code cleanup in 2.2.2. This issue prevented Vouchers from being published. The code has been further cleaned.
+
+= v2.2.2 - 2016/03/15 =
+-----------------------
 
 ##### One step closer to a public GitHub repository
 
@@ -187,15 +221,14 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 
 + Thanks to @AndreaBarghigiani and the team at [codeat](http://codeat.co/) LifterLMS now ships with Italian language files!
 
+##### Issue and bug resolutions
 
-##### Issue and bug resolutigons
-
-+ Composer updates to include php52 support
 + Fixed a restriction issue that would happen when individual lessons were restricted to a membership level
 + Fixed an issue with the `[lifterlms_my_account]` shortcode that was preventing the shortcode from working on the Divi theme.
 + Engagements will now only be triggered if they are "Published". Resolves an issue where draft or trashed engagements were still firing.
 + Fixed CSS overflow on LifterLMS Meta boxes. Fixes an issue where select boxes would be hidden inside a metabox.
 + Changed the ConvertKit extension banner image on the LifterLMS general settings page and replaced added a link to the extension now that it's available.
++ Added a link to the new ConvertKit extension to the .org readme
 + When restricting an entire site to a membership level the page selected as the "Terms and Conditions" page in LifterLMS settings will automatically bypass Membership restriction settings. This will allow your unregistered users to actually read the T&C that they're confirming during registration.
 + CSS fix for `has-icon` class on course syllabus
 + Fixed a PHP warning that displayed when purchasing a membership with no auto-enrollment courses
@@ -203,7 +236,7 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 + Fixed a few templating issues related to certificates
 + Added a few new CSS rules that should make certificates more compatible across various themes
 + Added a css class to LifterLMS Next Lesson buttons, `llms-next-lesson`
-
++ Updated the scheduled event name for cleaning up LifterLMS session data from the WP database. It had a conflicting name with the scheduled event for expiring LifterLMS memberships.
 
 = v2.2.1 - 2016/03/07 =
 -----------------------
