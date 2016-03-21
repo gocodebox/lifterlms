@@ -760,7 +760,6 @@ function llms_expire_membership() {
 
 		foreach ( $enrolled_users as $user ) {
 
-			$start_date = $user->updated_date;
 			$user_id = $user->user_id;
 			$meta_key_start_date = '_start_date';
 			$meta_value_start_date = 'yes';
@@ -784,14 +783,14 @@ function llms_expire_membership() {
 			//compare expiration date to current date.
 			if ( $exp_date < $today ) {
 				$set_user_expired = array(
-				'post_id' => $post->ID,
-				'user_id' => $user_id,
-				'meta_key' => '_status',
+					'post_id' => $post->ID,
+					'user_id' => $user_id,
+					'meta_key' => '_status',
 				);
 
 				$status_update = array(
-				'meta_value' => 'Expired',
-				'updated_date' => current_time( 'mysql' ),
+					'meta_value' => 'Expired',
+					'updated_date' => current_time( 'mysql' ),
 				);
 
 				// change enrolled to expired in user_postmeta
