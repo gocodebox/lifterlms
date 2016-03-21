@@ -173,6 +173,7 @@ input[type="submit"].llms-button-text:hover {
   padding: 30px;
   display: inline-block;
   width: 100%;
+  box-sizing: border-box;
 }
 .llms-course-list .llms-course-link {
   display: block;
@@ -223,6 +224,9 @@ input[type="submit"].llms-button-text:hover {
 }
 
 @media screen and (max-width: 641px) {
+  .llms-course-list {
+    padding: 30px 10px;
+  }
   .llms-course-list .courses li {
     width: auto;
   }
