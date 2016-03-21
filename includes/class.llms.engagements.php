@@ -159,7 +159,7 @@ class LLMS_Engagements {
 				$achievement_id = $engagement_meta['_llms_engagement'][0];
 
 				// ensure that the achievement is published before triggering the engagement
-				if( 'publish' !== get_post_status( $achievement_id ) ) {
+				if ( 'publish' !== get_post_status( $achievement_id ) ) {
 
 					continue;
 
