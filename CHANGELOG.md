@@ -3,6 +3,10 @@
 = v2.2.4 - 2016/03/15 =
 -----------------------
 
++ Added an additional check before sending emails or triggering any engagments that will prevent the achievement from being awarded or the email from being sent if the post is in not published. This fixes an issue that caused emails in the trash from still being emailed.
++ Fixed a ton of issues related to the triggering of engagements and cleaned up a lot of classes and functions associated with them.
++ Properly instatiate `LifterLMS` singleton via LLMS() function and prevent direct instantiation of the class via `new LifterLMS()`.
++ Removed the deprecated 'class.llms.email.person.new.php' file as it was rendered useless a long time ago and caused some duplicate emails.
 + Removed the unused `LLMS_Engagements` class and file
 
 

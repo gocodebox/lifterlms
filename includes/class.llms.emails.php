@@ -84,8 +84,6 @@ class LLMS_Emails {
 		include_once( 'class.llms.email.php' );
 
 		// Include email child classes
-		$this->emails['LLMS_Email_Person_Reset_Password']   = include_once( 'emails/class.llms.email.reset.password.php' );
-		$this->emails['LLMS_Email_Person_New']     			= include_once( 'emails/class.llms.email.person.new.php' );
 		$this->emails['LLMS_Email_Engagement']      		= include_once( 'emails/class.llms.email.engagement.php' );
 		$this->emails['LLMS_Email_Reset_Password']   		= include_once( 'emails/class.llms.email.reset.password.php' );
 
@@ -244,6 +242,3 @@ class LLMS_Emails {
 	}
 
 }
-
-
-

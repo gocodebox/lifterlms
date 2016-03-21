@@ -38,7 +38,7 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_course_track_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
 		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
 		add_action( 'lifterlms_course_completed_notification',array( $this, 'maybe_fire_engagement' ),10,2 );
-		//add_action( 'init', array( $this, 'llms_user_register' ), 10, 1 );
+
 	}
 
 	/**
@@ -151,8 +151,6 @@ class LLMS_Engagements {
 
 		$all_posts = get_posts( $args );
 
-		llms_log( '========== ENGAGEMENT =========' );
-
 		if ( $all_posts ) {
 
 			foreach ( $all_posts as $key => $value ) {
@@ -160,12 +158,16 @@ class LLMS_Engagements {
 				$engagement_meta = get_post_meta( $value->ID );
 				$achievement_id = $engagement_meta['_llms_engagement'][0];
 
+				// ensure that the achievement is published before triggering the engagement
+				if( 'publish' !== get_post_status( $achievement_id ) ) {
+
+					continue;
+
+				}
+
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
 
 					do_action( 'lifterlms_custom_engagement', $user, $achievement_id, $value->ID );
-					llms_log( '$user:' . $user );
-					llms_log( '$achievement_id:' . $achievement_id );
-					llms_log( '$value->ID:' . $value->ID );
 
 				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
 

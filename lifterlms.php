@@ -68,7 +68,8 @@ final class LifterLMS {
 	 * @access public
 	 * @return LifterLMS
 	 */
-	public function __construct() {
+	private function __construct() {
+
 		if ( function_exists( '__autoload' ) ) {
 			spl_autoload_register( '__autoload' );
 		}
@@ -448,4 +449,4 @@ function LLMS() {
 	return LifterLMS::instance();
 }
 // @codingStandardsIgnoreEnd
-return new LifterLMS();
+return LLMS();
