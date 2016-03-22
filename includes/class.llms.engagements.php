@@ -53,6 +53,8 @@ class LLMS_Engagements {
 
 	}
 
+
+
 	/**
 	 * Lesson completed engagements
 	 * Triggers appropriate engagement when lesson is completed
@@ -80,13 +82,12 @@ class LLMS_Engagements {
 				}
 
 				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
-					do_action( 'lifterlms_lesson_completed_engagement', $person_id, $engagement_id );
+					do_action( 'lifterlms_custom_engagement', $person_id, $engagement_id );
 				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
 					LLMS()->certificates();
 					do_action( 'lifterlms_lesson_completed_certificate', $person_id, $engagement_id, $lesson_id );
 				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
 					LLMS()->achievements();
-
 					do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id );
 				} else {
 					do_action( 'lifterlms_external_engagement', $person_id, $engagement_id, $lesson_id );
@@ -95,32 +96,6 @@ class LLMS_Engagements {
 		}
 	}
 
-	/**
-	 * Get the engagement hooks
-	 * @param  [type] $lesson_id [lesson, section or course id that triggered the engagment]
-	 * @return array [array of all engagement post ids]
-	 */
-	public function get_engagement_hooks( $lesson_id ) {
-		$engagement_ids = array();
-
-		$args = array(
-			'posts_per_page'   => -1,
-			'post_status'	   => 'publish',
-			'orderby'          => 'title',
-			'post_type'        => 'llms_engagement',
-			);
-
-		$all_posts = get_posts( $args );
-
-		if ($all_posts) :
-
-			foreach ( $all_posts as $p  ) :
-				array_push( $engagement_ids, $p->ID );
-			endforeach;
-		endif;
-
-		return $engagement_ids;
-	}
 
 	/**
 	 * new user registered engagement method
@@ -291,7 +266,8 @@ class LLMS_Engagements {
 	 */
 	function product_purchased_engagement( $user, $product_id ) {
 		if ( ! $user ) {
-			return; }
+			return;
+		}
 
 		$args = array(
 				'posts_per_page'   => 100,
@@ -299,17 +275,17 @@ class LLMS_Engagements {
 				'orderby'          => 'title',
 				'post_type'        => 'llms_engagement',
 				'meta_query' => array(
-						'relation' => 'OR',
-						array(
-								'key'       => '_llms_trigger_type',
-								'compare'   => '=',
-								'value'   => 'course_purchased',
-						),
-						array(
-								'key'       => '_llms_trigger_type',
-								'compare'   => '=',
-								'value'   => 'membership_purchased',
-						)
+					'relation' => 'OR',
+					array(
+							'key'       => '_llms_trigger_type',
+							'compare'   => '=',
+							'value'   => 'course_purchased',
+					),
+					array(
+							'key'       => '_llms_trigger_type',
+							'compare'   => '=',
+							'value'   => 'membership_purchased',
+					)
 				),
 		);
 

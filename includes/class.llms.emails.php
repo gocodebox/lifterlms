@@ -68,7 +68,8 @@ class LLMS_Emails {
 
 		add_action( 'lifterlms_email_header', array( $this, 'email_header' ) );
 		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
-		add_action( 'lifterlms_custom_engagement_notification', array( $this, 'custom_email_earned' ), 10, 3 );
+
+		add_action( 'lifterlms_custom_engagement_notification', array( $this, 'send_email' ), 10, 3 );
 
 		do_action( 'lifterlms_email', $this );
 
@@ -214,7 +215,7 @@ class LLMS_Emails {
 	 *
 	 * @return [type]            [description]
 	 */
-	public function custom_email_earned( $person_id, $email_id, $engagement_id ) {
+	public function send_email( $person_id, $email_id, $engagement_id ) {
 
 		if ( ! $person_id ) {
 			return;
