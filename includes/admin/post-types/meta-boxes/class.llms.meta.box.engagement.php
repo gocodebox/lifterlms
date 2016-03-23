@@ -77,6 +77,14 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox{
 				'title' => 'New User Registration',
 			),
 			array(
+				'key' 	=> 'course_purchased',
+				'title' => 'Course Purchased',
+			),
+			array(
+				'key' 	=> 'membership_purchased',
+				'title' => 'Membership Purchased',
+			),
+			array(
 				'key' 	=> 'days_since_login',
 				'title' => 'Days since user last logged in',
 			),

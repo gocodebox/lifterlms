@@ -20,7 +20,8 @@ class LLMS_Engagements {
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self(); }
+			self::$_instance = new self();
+		}
 		return self::$_instance;
 	}
 
@@ -28,18 +29,47 @@ class LLMS_Engagements {
 	 * Constructor
 	 * Adds actions to events that trigger engagements
 	 */
-	public function __construct() {
+	private function __construct() {
 
+		$this->add_actions();
 	 	$this->init();
 
-		add_action( 'lifterlms_lesson_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
-		add_action( 'lifterlms_section_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
-		add_action( 'lifterlms_course_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
-		add_action( 'lifterlms_course_track_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
-		add_action( 'user_register_notification', array( $this, 'llms_user_register' ), 10, 1 );
-		add_action( 'lifterlms_course_completed_notification',array( $this, 'maybe_fire_engagement' ),10,2 );
+	}
+
+
+	/**
+	 * Register all actions that trigger engagements
+	 *
+	 * @return  void
+	 *
+	 * @since  2.3.0
+	 */
+	private function add_actions() {
+
+		$actions = apply_filters( 'lifterlms_engagement_actions', array(
+
+			'lifterlms_course_completed',
+			'lifterlms_course_track_completed',
+			'lifterlms_created_person',
+			'lifterlms_lesson_completed',
+			'lifterlms_product_purchased',
+			'lifterlms_section_completed',
+
+		) );
+
+		foreach ( $actions as $action ) {
+
+			add_action( $action, array( $this, 'maybe_trigger_engagement' ), 777, 3 );
+
+		}
+
+		add_action( 'lifterlms_engagement_send_email', array( $this, 'handle_email' ), 10, 1 );
+		add_action( 'lifterlms_engagement_award_achievement', array( $this, 'handle_achievement' ), 10, 1 );
+		add_action( 'lifterlms_engagement_award_certificate', array( $this, 'handle_certificate' ), 10, 1 );
 
 	}
+
+
 
 	/**
 	 * Include engagement types (excluding email)
@@ -52,235 +82,286 @@ class LLMS_Engagements {
 
 	}
 
+
 	/**
-	 * Lesson completed engagements
-	 * Triggers appropriate engagement when lesson is completed
-	 * REFACTOR: lesson, section and course triggers this method. RENAME
+	 * Award an achievement
 	 *
-	 * @param  int $person_id [ID of the current user]
-	 * @param  int $lesson_id [ID of the lesson, course or section]
+	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class
+	 *
+	 * @param array $args  indexed array of args
+	 *                     0 => WP User ID
+	 *                     1 => WP Post ID of the email post
+	 *                     2 => WP Post ID of the related post that triggered the award
+	 *
 	 * @return void
+	 *
+	 * @since 2.3.0
 	 */
-	public function lesson_completed( $person_id, $lesson_id ) {
+	public function handle_achievement( $args ) {
+		$a = LLMS()->achievements();
+		$a->trigger_engagement( $args[0], $args[1], $args[2] );
+	}
 
-		if ( ! $person_id ) {
-			return; }
 
-		if ($hooks = get_post_meta( $lesson_id, '_llms_engagement_trigger' )) {
+	/**
+	 * Award a certificate
+	 *
+	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class
+	 *
+	 * @param array $args  indexed array of args
+	 *                     0 => WP User ID
+	 *                     1 => WP Post ID of the email post
+	 *                     2 => WP Post ID of the related post that triggered the award
+	 *
+	 * @return void
+	 *
+	 * @since 2.3.0
+	 */
+	public function handle_certificate( $args ) {
+		$c = LLMS()->certificates();
+		$c->trigger_engagement( $args[0], $args[1], $args[2] );
+	}
 
-			foreach ( $hooks as $key => $value ) {
 
-				$engagement_meta = get_post_meta( $value );
-				$engagement_id = $engagement_meta['_llms_engagement'][0];
+	/**
+	 * Send an email engagement
+	 *
+	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class
+	 *
+	 * @param array $args  indexed array of args
+	 *                     0 => WP User ID
+	 *                     1 => WP Post ID of the email post
+	 *
+	 * @return void
+	 *
+	 * @since 2.3.0
+	 */
+	public function handle_email( $args ) {
+		$m = LLMS()->mailer();
+		$m->trigger_engagement( $args[0], $args[1] );
+	}
 
-				//if engagement or certificate status isn't "publish", don't do anything
-				if ( get_post_status( $value ) !== 'publish' || get_post_status( $engagement_id ) !== 'publish' ) {
-					continue;
-				}
 
-				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
-					do_action( 'lifterlms_lesson_completed_engagement', $person_id, $engagement_id );
-				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
-					LLMS()->certificates();
-					do_action( 'lifterlms_lesson_completed_certificate', $person_id, $engagement_id, $lesson_id );
-				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
-					LLMS()->achievements();
+	/**
+	 * Handles all actions that could potentially trigger an engagement
+	 *
+	 * It will fire or schedule the actions after gathering all necessary data
+	 *
+	 * @return void
+	 *
+	 * @since  2.3.0
+	 */
+	public function maybe_trigger_engagement() {
 
-					do_action( 'lifterlms_lesson_completed_achievement', $person_id, $engagement_id, $lesson_id );
-				} else {
-					do_action( 'lifterlms_external_engagement', $person_id, $engagement_id, $lesson_id );
-				}
-			}
+		$action = current_filter();
+		$args = func_get_args();
+
+		// llms_log( '======= __maybe_trigger_engagement ========' );
+		// llms_log( '$action: ' . $action );
+		// llms_log( '$args: ' . json_encode( $args ) );
+
+		// setup variables used in queries and triggers based on the action
+		switch ( $action ) {
+
+			case 'lifterlms_created_person' :
+
+				$user_id = intval( $args[0] );
+				$trigger_type = 'user_registration';
+				$related_post_id = '';
+
+			break;
+
+			case 'lifterlms_course_completed' :
+			case 'lifterlms_course_track_completed' :
+			case 'lifterlms_lesson_completed' :
+			case 'lifterlms_section_completed' :
+
+				$user_id = intval( $args[0] );
+				$related_post_id = intval( $args[1] );
+				$trigger_type = str_replace( 'lifterlms_', '', $action );
+
+			break;
+
+			case 'lifterlms_product_purchased' :
+
+				$user_id = intval( $args[0] );
+				$related_post_id = intval( $args[1] );
+				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
+
+			break;
+
+			// allow extensions to hook into our engagments
+			default :
+
+				extract( apply_filters( 'lifterlms_external_engagement_query_arguments' ), array(
+					'related_post_id' => null,
+					'trigger_type' => null,
+					'user_id' => null,
+				) );
+
 		}
-	}
 
-	/**
-	 * Get the engagement hooks
-	 * @param  [type] $lesson_id [lesson, section or course id that triggered the engagment]
-	 * @return array [array of all engagement post ids]
-	 */
-	public function get_engagement_hooks( $lesson_id ) {
-		$engagement_ids = array();
-
-		$args = array(
-			'posts_per_page'   => -1,
-			'post_status'	   => 'publish',
-			'orderby'          => 'title',
-			'post_type'        => 'llms_engagement',
-			);
-
-		$all_posts = get_posts( $args );
-
-		if ($all_posts) :
-
-			foreach ( $all_posts as $p  ) :
-				array_push( $engagement_ids, $p->ID );
-			endforeach;
-		endif;
-
-		return $engagement_ids;
-	}
-
-	/**
-	 * new user registered engagement method
-	 * Called when new user is registered
-	 * Overridable by child classes
-	 *
-	 * @param  object $user [Current user data]
-	 * @return void
-	 */
-	public function llms_user_register( $user ) {
-
-		if ( ! $user ) {
+		// we need a user and a trigger to proceed, related_post is optional though
+		if ( ! $user_id || ! $trigger_type ) {
 			return;
 		}
 
-		$args = array(
-			'posts_per_page'   => 100,
-			'post_status'	   => 'publish',
-			'orderby'          => 'title',
-			'post_type'        => 'llms_engagement',
-			'meta_query' => array(
-				array(
-					'key'       => '_llms_trigger_type',
-					'compare'   => '=',
-					'value'   => 'user_registration',
-				),
-			),
-		);
+		// gather triggerable engagements matching the supplied criteria
+		$engagements = $this->get_engagements( $trigger_type, $related_post_id );
 
-		$all_posts = get_posts( $args );
+		// llms_log( '$engagements: ' . json_encode( $engagements ) );
 
-		if ( $all_posts ) {
+		// only trigger engagements if there are engagements
+		if ( $engagements ) {
 
-			foreach ( $all_posts as $key => $value ) {
+			// loop through the engagements
+			foreach ( $engagements as $e ) {
 
-				$engagement_meta = get_post_meta( $value->ID );
-				$achievement_id = $engagement_meta['_llms_engagement'][0];
+				$handler_action = null;
+				$handler_args = null;
 
-				// ensure that the achievement is published before triggering the engagement
-				if ( 'publish' !== get_post_status( $achievement_id ) ) {
+				// do actions based on the event type
+				switch ( $e->event_type ) {
 
+					case 'achievement' :
+
+						$handler_action = 'lifterlms_engagement_award_achievement';
+						$handler_args = array( $user_id, $e->engagement_id, $related_post_id );
+
+					break;
+
+					case 'certificate' :
+
+						/**
+						 * @todo  fix this
+						 * if there's no related post id we have to send one anyway for certs to work
+						 * this would only be for registration events @ version 2.3.0
+						 * we'll just send the engagement_id twice until we find a better solution
+						 */
+						$related_post_id = ( ! $related_post_id ) ? $e->engagement_id : $related_post_id;
+
+						$handler_action = 'lifterlms_engagement_award_certificate';
+						$handler_args = array( $user_id, $e->engagement_id, $related_post_id );
+
+					break;
+
+					case 'email' :
+
+						$handler_action = 'lifterlms_engagement_send_email';
+						$handler_args = array( $user_id, $e->engagement_id );
+
+					break;
+
+					// allow extensions to hook into our engagments
+					default :
+
+						extract( apply_filters( 'lifterlms_external_engagement_handler_arguments' ), array(
+							'handler_action' => $handler_action,
+							'handler_args' => $handler_args,
+						) );
+
+				}
+
+				// can't proceed without an action and a handler
+				if ( ! $handler_action && ! $handler_args ) {
 					continue;
+				}
+
+				// if we have a delay, schedule the engagement handler
+				$delay = intval( $e->delay );
+				// llms_log( '$delay: ' . $delay );
+				// llms_log( '$handler_action: ' . $handler_action );
+				// llms_log( '$handler_args: ' . json_encode( $handler_args ) );
+				if ( $delay ) {
+
+					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, $handler_args );
+
+				} // otherwise trigger it now
+				else {
+
+					do_action( $handler_action, $handler_args );
 
 				}
 
-				if ($engagement_meta['_llms_engagement_type'][0] == 'email') {
-
-					do_action( 'lifterlms_custom_engagement', $user, $achievement_id, $value->ID );
-
-				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'certificate') {
-
-					LLMS()->certificates();
-					do_action( 'lifterlms_custom_certificate', $user, $achievement_id, $value->ID );
-
-				} elseif ($engagement_meta['_llms_engagement_type'][0] == 'achievement') {
-
-					LLMS()->achievements();
-					do_action( 'lifterlms_custom_achievement', $user, $achievement_id, $value->ID );
-
-				} else {
-
-					do_action( 'lifterlms_external_engagement', $user, $achievement_id, $value->ID );
-
-				}
 			}
+
 		}
+
 	}
+
+
+
 
 	/**
-	 * This function is responsible for deciding wether or not to fire
-	 * the 'course_track_completed' action.
-	 * @param int $user_id   ID of user to check
-	 * @param int $course_id ID of course
+	 * Retreive engagements based on the trigger type
+	 *
+	 * Joins rather than nested loops and sub queries ftw
+	 *
+	 * @param  string $trigger_type  name of the trigger to look for
+	 * @return array
+	 *
+	 * @since  2.3.0
 	 */
-	function maybe_fire_engagement( $user_id, $course_id ) {
-		/**
-		 * This variable is what will store the list of classes
-		 * for each track that this class is a member of
-		 * @var array
-		 */
-		$courses_in_track = array();
+	private function get_engagements( $trigger_type, $related_post_id = '' ) {
 
-		// Get Track Information
-		// This gets the information about all the tracks that
-		// this course is a part of
-		$tracks = wp_get_post_terms( $course_id,'course_track',array( 'fields' => 'all' ) );
+		global $wpdb;
 
-		// Run through each of the tracks that this course is a member of
-		foreach ((array) $tracks as $id => $track) {
-			/**
-			 * Variable that stores if the track has been completed
-			 * @var boolean
-			 */
-			$completed_track = false;
+		if ( $related_post_id ) {
 
-			$args = array(
-				'posts_per_page' 	=> 1000,
-				'post_type' 		=> 'course',
-				'nopaging' 			=> true,
-				'post_status' 		=> 'publish',
-				'orderby'          	=> 'post_title',
-				'order'            	=> 'ASC',
-				'suppress_filters' 	=> true,
-				'tax_query' => array(
-					array(
-						'taxonomy' 	=> 'course_track',
-						'field'		=> 'term_id',
-						'terms'		=> $track->term_id,
-					),
-				),
-			);
-			$courses = get_posts( $args );
+			$related_select = ', relation_meta.meta_value AS related_post_id';
+			$related_join = "LEFT JOIN $wpdb->postmeta AS relation_meta ON triggers.ID = relation_meta.post_id";
+			$related_where = 'AND relation_meta.meta_value = %d';
 
-			// Run through each of the courses that is in the track
-			// to see if all of the courses are completed
-			foreach ( $courses as $key => $course ) {
-				/**
-				 * This variable stores the information about each course
-				 * in the track
-				 * @var array
-				 */
-				$data = LLMS_Course::get_user_post_data( $course->ID, $user_id );
+		} else {
 
-				// If there is data about the course, parse it
-				if ($data !== array()) {
-					/**
-					 * Create a variable to store whether or not the class is completed
-					 * @var boolean
-					 */
-					$has_completed = false;
-
-					// Run through each of the meta values in the array
-				    foreach ($data as $key => $object) {
-						// Check to see is the current object is the '_is_complete'
-				        if (is_object( $object ) && $object->meta_key == '_is_complete' && $object->meta_value == 'yes') {
-							// If so, the course has been completed
-				        	$has_completed = true;
-				        	break;
-				        }
-				    }
-
-				   	// If the course is completed keep an update going
-				   	if ($has_completed) {
-						$completed_track = true;
-				   	}
-				} // If data is empty, break out of the loop because the
-
-				// user has not enrolled in that course
-				else {
-					$completed_track = false;
-					break;
-				}
-			}
-
-			// If completed at the end of the track loop do the action
-			if ($completed_track) {
-				do_action( 'lifterlms_course_track_completed',$user_id,$track->term_id );
-			}
-
-			$courses_in_track[ $id ] = $courses;
+			$related_select = '';
+			$related_join = '';
+			$related_where = '';
 
 		}
+
+		$r = $wpdb->get_results( $wpdb->prepare(
+			// the query
+			"SELECT
+				  triggers.ID AS trigger_id
+				, triggers_meta.meta_value AS engagement_id
+				, engagements_meta.meta_value AS trigger_event
+				, event_meta.meta_value AS event_type
+				, delay.meta_value AS delay
+				$related_select
+
+			FROM $wpdb->postmeta AS engagements_meta
+
+			LEFT JOIN $wpdb->posts AS triggers ON triggers.ID = engagements_meta.post_id
+			LEFT JOIN $wpdb->postmeta AS triggers_meta ON triggers.ID = triggers_meta.post_id
+			LEFT JOIN $wpdb->posts AS engagements ON engagements.ID = triggers_meta.meta_value
+			LEFT JOIN $wpdb->postmeta AS event_meta ON triggers.ID = event_meta.post_id
+			LEFT JOIN $wpdb->postmeta AS delay ON triggers.ID = delay.post_id
+			$related_join
+
+			WHERE
+				    triggers.post_type = 'llms_engagement'
+				AND triggers.post_status = 'publish'
+				AND triggers_meta.meta_key = '_llms_engagement'
+
+				AND engagements_meta.meta_key = '_llms_trigger_type'
+				AND engagements_meta.meta_value = %s
+				AND engagements.post_status = 'publish'
+
+				AND event_meta.meta_key = '_llms_engagement_type'
+
+				AND delay.meta_key = '_llms_engagement_delay'
+
+				$related_where
+			",
+			// prepare variables
+			$trigger_type, $related_post_id
+		), OBJECT );
+
+		// llms_log( $wpdb->last_query );
+
+		return $r;
+
 	}
+
 }

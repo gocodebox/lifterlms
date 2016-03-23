@@ -3,7 +3,7 @@
 * Plugin Name: LifterLMS
 * Plugin URI: https://lifterlms.com/
 * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
-* Version: 2.2.3
+* Version: 2.3.0-1
 * Author: Mark Nelson, Thomas Patrick Levy, codeBOX, LLC
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '2.2.3';
+	public $version = '2.3.0-1';
 
 	protected static $_instance = null;
 
@@ -276,53 +276,9 @@ final class LifterLMS {
 			$this->person = new LLMS_Person();
 		}
 
-		// Email Actions
-		$email_actions = array(
-			'lifterlms_created_person',
-			'lifterlms_lesson_completed_engagement',
-			'lifterlms_custom_engagement',
-		);
-
-		foreach ( $email_actions as $action ) {
-			add_action( $action, array( $this, 'send_transactional_email' ), 10, 10 );
-		}
-
-		$engagement_actions = array(
-			'lifterlms_lesson_completed',
-			'lifterlms_section_completed',
-			'lifterlms_course_completed',
-			'user_register',
-			'lifterlms_course_track_completed',
-		);
-
-		foreach ( $engagement_actions as $action ) {
-			add_action( $action, array( $this, 'trigger_engagement' ), 10, 10 );
-		}
-
 		do_action( 'lifterlms_init' );
 
 	}
-
-	/**
-	 * Send Transactional Email
-	 * @return void
-	 */
-	public function send_transactional_email() {
-		$this->mailer();
-		$args = func_get_args();
-		do_action_ref_array( current_filter() . '_notification', $args );
-	}
-
-	/**
-	 * Trigger Engagemnt
-	 * @return [type] [description]
-	 */
-	public function trigger_engagement() {
-		$this->engagements();
-		$args = func_get_args();
-		do_action_ref_array( current_filter() . '_notification', $args );
-	}
-
 
 	/**
 	 * Get the plugin url.

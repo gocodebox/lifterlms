@@ -248,6 +248,8 @@ class LLMS_Order {
 
 		llms_enroll_student( $order->user_id, $order->product_id );
 
+		do_action( 'lifterlms_product_purchased', $order->user_id, $order->product_id );
+
 		//kill sessions
 		unset( LLMS()->session->llms_coupon );
 		unset( LLMS()->session->llms_order );
