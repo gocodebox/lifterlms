@@ -1,6 +1,6 @@
 == Changelog ==
 
-= v2.3.0-1 - 2016/03/22 =
+= v2.3.0-2 - 2016/03/22 =
 -------------------------
 
 ##### Engagements Refactoring (lots of bugfixes, performance improvements, more hook & filter friendly)
