@@ -1,8 +1,9 @@
 == Changelog ==
 
-= v2.2.4 - 2016/03/15 =
------------------------
+= v2.3.0-1 - 2016/03/22 =
+-------------------------
 
++ Fixed a function that should have been called statically in `LLMS_Ajax` class
 + Added an additional check before sending emails or triggering any engagments that will prevent the achievement from being awarded or the email from being sent if the post is in not published. This fixes an issue that caused emails in the trash from still being emailed.
 + Fixed a ton of issues related to the triggering of engagements and cleaned up a lot of classes and functions associated with them.
 + Properly instatiate `LifterLMS` singleton via LLMS() function and prevent direct instantiation of the class via `new LifterLMS()`.
