@@ -276,6 +276,8 @@ final class LifterLMS {
 			$this->person = new LLMS_Person();
 		}
 
+		$this->engagements();
+
 		do_action( 'lifterlms_init' );
 
 	}
