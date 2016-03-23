@@ -23,6 +23,8 @@
 
 ##### Bug and Issue fixes
 
++ Fixed a CSS issue that caused some weirdness on the course archive page on mobile devices
++ Fixed an issue with automated membership expirations
 + Fixed a function that should have been called statically in `LLMS_Ajax` class
 + Fixed a ton of issues related to the triggering of engagements and cleaned up a lot of classes and functions associated with them.
 + Properly instatiate `LifterLMS` singleton via LLMS() function and prevent direct instantiation of the class via `new LifterLMS()`.
