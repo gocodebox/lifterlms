@@ -62,15 +62,17 @@ class LLMS_Emails {
 	 * Initializes class
 	 * Adds actions to trigger emails off of events
 	 */
-	public function __construct() {
+	private function __construct() {
 
 		$this->init();
 
 		add_action( 'lifterlms_email_header', array( $this, 'email_header' ) );
 		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
 
-		add_action( 'lifterlms_custom_engagement_notification', array( $this, 'send_email' ), 10, 3 );
-
+		/**
+		 * @todo  figure out why this is here and what it does...
+		 *        there's probably no good reason, if that's the case remove it
+		 */
 		do_action( 'lifterlms_email', $this );
 
 	}
@@ -80,6 +82,7 @@ class LLMS_Emails {
 	 * @return void
 	 */
 	public function init() {
+
 		// Include email base class
 		include_once( 'class.llms.email.php' );
 
@@ -91,6 +94,7 @@ class LLMS_Emails {
 
 	}
 
+
 	/**
 	 * Get all email objects
 	 * @return array [Array of all email objects]
@@ -98,6 +102,7 @@ class LLMS_Emails {
 	public function get_emails() {
 		return $this->emails;
 	}
+
 
 	/**
 	 * [get_from_name description]
@@ -110,6 +115,7 @@ class LLMS_Emails {
 		return wp_specialchars_decode( $this->_from_name );
 	}
 
+
 	/**
 	 * Get from email option data
 	 * @return string [From email option in settings->email]
@@ -121,6 +127,7 @@ class LLMS_Emails {
 		return $this->_from_address;
 	}
 
+
 	/**
 	 * Get the content type
 	 * @return string [always returns text/html]
@@ -128,6 +135,7 @@ class LLMS_Emails {
 	public function get_content_type() {
 		return $this->_content_type;
 	}
+
 
 	/**
 	 * Get email header option
@@ -138,6 +146,7 @@ class LLMS_Emails {
 		llms_get_template( 'emails/header.php', array( 'email_heading' => $email_heading ) );
 	}
 
+
 	/**
 	 * get email footer string
 	 * @return string [Email footer option as string]
@@ -145,6 +154,7 @@ class LLMS_Emails {
 	public function email_footer() {
 		llms_get_template( 'emails/footer.php' );
 	}
+
 
 	/**
 	 * Wrap email content
@@ -171,6 +181,7 @@ class LLMS_Emails {
 
 		return $message;
 	}
+
 
 	/**
 	 * Send email
@@ -205,26 +216,21 @@ class LLMS_Emails {
 		remove_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
 	}
 
-	/**
-	 * Send a custom engagement email
-	 * Calls tigger method passing arguments
-	 *
-	 * @param  int $person_id [ID of the current user]
-	 * @param  int $email  [email template post ID]
-	 * @param  int $engagement_id  [Engagment trigger post ID]
-	 *
-	 * @return [type]            [description]
-	 */
-	public function send_email( $person_id, $email_id, $engagement_id ) {
 
-		if ( ! $person_id ) {
-			return;
-		}
+	/**
+	 * Send an email related to an engagement
+	 * Calls trigger method passing arguments
+	 *
+	 * @param  int $person_id      WP User ID
+	 * @param  int $email          WP Post ID of the Email Post to send
+	 *
+	 * @return void
+	 */
+	public function trigger_engagement( $person_id, $email_id ) {
 
 		$email = $this->emails['LLMS_Email_Engagement'];
-
-
 		$email->trigger( $person_id, $email_id );
+
 	}
 
 }

@@ -32,11 +32,9 @@ class LLMS_Achievements {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
-		$this->init();
+	public function __construct() {
 
-		add_action( 'lifterlms_lesson_completed_achievement', array( $this, 'lesson_completed' ), 10, 3 );
-		add_action( 'lifterlms_custom_achievement', array( $this, 'custom_achievement_earned' ), 10, 3 );
+		$this->init();
 
 	}
 
@@ -44,49 +42,27 @@ class LLMS_Achievements {
 	 * Includes achivement class
 	 * @return void
 	 */
-	function init() {
+	public function init() {
 		include_once( 'class.llms.achievement.php' );
 
 		$this->achievements['LLMS_Achievement_User']  = include_once( 'achievements/class.llms.achievement.user.php' );
 
 	}
 
-	/**
-	 * Lesson completed trigger for generating achievements
-	 * Calls tigger method passing arguments
-	 *
-	 * @param  int $person_id [ID of the current user]
-	 * @param  int $id  [Achivement template post ID]
-	 * @param  int $lesson_id [Associated lesson with achievement]
-	 *
-	 * @return [type]            [description]
-	 */
-	function lesson_completed( $person_id, $id, $lesson_id ) {
-		if ( ! $person_id ) {
-			return; }
-
-		$achievement = $this->achievements['LLMS_Achievement_User'];
-
-		$achievement->trigger( $person_id, $id, $lesson_id );
-	}
 
 	/**
-	 * Earn a custom achievement which is no associated with a specific lesson
-	 * Calls tigger method passing arguments
+	 * Award an achievement to a user
+	 * Calls trigger method passing arguments
 	 *
-	 * @param  int $person_id [ID of the current user]
-	 * @param  int $achievement  [Achivement template post ID]
-	 * @param  int $engagement_id  [Engagment trigger post ID]
+	 * @param  int $person_id        [ID of the current user]
+	 * @param  int $achievement      [Achivement template post ID]
+	 * @param  int $related_post_id  Post ID of the related engagment (eg lesson id)
 	 *
-	 * @return [type]            [description]
+	 * @return void
 	 */
-	function custom_achievement_earned( $person_id, $achievement_id, $engagement_id ) {
-		if ( ! $person_id ) {
-			return; }
-
+	public function trigger_engagement( $person_id, $achievement_id, $related_post_id ) {
 		$achievement = $this->achievements['LLMS_Achievement_User'];
-
-		$achievement->trigger( $person_id, $achievement_id, $engagement_id );
+		$achievement->trigger( $person_id, $achievement_id, $related_post_id );
 	}
 
 }
