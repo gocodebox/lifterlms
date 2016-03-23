@@ -563,10 +563,6 @@ class LLMS_Lesson {
 
 				do_action( 'lifterlms_course_completed', $user_id, $course->id );
 
-
-
-
-
 				/**
 				 * This variable is what will store the list of classes
 				 * for each track that this class is a member of

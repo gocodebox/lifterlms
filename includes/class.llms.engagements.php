@@ -34,17 +34,6 @@ class LLMS_Engagements {
 		$this->add_actions();
 	 	$this->init();
 
-
-
-
-		// add_action( 'lifterlms_lesson_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
-		// add_action( 'lifterlms_section_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
-		// add_action( 'lifterlms_course_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
-		// add_action( 'lifterlms_course_track_completed_notification', array( $this, 'lesson_completed' ), 10, 2 );
-		// add_action( 'lifterlms_course_completed_notification', array( $this, 'maybe_fire_engagement' ),10, 2 );
-		// add_action( 'lifterlms_user_purchased_product_notification', array( $this, 'product_purchased_engagement' ), 10, 3 );
-		// add_action( 'lifterlms_created_person_notification', array( $this, 'llms_user_register' ), 10, 1 );
-
 	}
 
 
@@ -68,7 +57,7 @@ class LLMS_Engagements {
 
 		) );
 
-		foreach( $actions as $action ) {
+		foreach ( $actions as $action ) {
 
 			add_action( $action, array( $this, 'maybe_trigger_engagement' ), 777, 3 );
 
@@ -182,7 +171,6 @@ class LLMS_Engagements {
 
 			break;
 
-
 			case 'lifterlms_course_completed' :
 			case 'lifterlms_course_track_completed' :
 			case 'lifterlms_lesson_completed' :
@@ -194,7 +182,6 @@ class LLMS_Engagements {
 
 			break;
 
-
 			case 'lifterlms_product_purchased' :
 
 				$user_id = intval( $args[0] );
@@ -202,7 +189,6 @@ class LLMS_Engagements {
 				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
 
 			break;
-
 
 			// allow extensions to hook into our engagments
 			default :
@@ -277,7 +263,7 @@ class LLMS_Engagements {
 				}
 
 				// can't proceed without an action and a handler
-				if ( !$handler_action && !$handler_args ) {
+				if ( ! $handler_action && ! $handler_args ) {
 					continue;
 				}
 
@@ -290,8 +276,7 @@ class LLMS_Engagements {
 
 					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, $handler_args );
 
-				}
-				// otherwise trigger it now
+				} // otherwise trigger it now
 				else {
 
 					do_action( $handler_action, $handler_args );
@@ -325,7 +310,7 @@ class LLMS_Engagements {
 
 			$related_select = ', relation_meta.meta_value AS related_post_id';
 			$related_join = "LEFT JOIN $wpdb->postmeta AS relation_meta ON triggers.ID = relation_meta.post_id";
-			$related_where = "AND relation_meta.meta_value = %d";
+			$related_where = 'AND relation_meta.meta_value = %d';
 
 		} else {
 
@@ -336,7 +321,6 @@ class LLMS_Engagements {
 		}
 
 		$r = $wpdb->get_results( $wpdb->prepare(
-
 			// the query
 			"SELECT
 				  triggers.ID AS trigger_id
@@ -370,10 +354,8 @@ class LLMS_Engagements {
 
 				$related_where
 			",
-
 			// prepare variables
 			$trigger_type, $related_post_id
-
 		), OBJECT );
 
 		// llms_log( $wpdb->last_query );
