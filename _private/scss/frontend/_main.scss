@@ -158,6 +158,7 @@ input[type="submit"].llms-button-text {
   // border-radius: 2px;
   display: inline-block;
   width: 100%;
+  box-sizing: border-box;
 
   .llms-course-link {
     @extend %llms-element;
@@ -215,8 +216,12 @@ input[type="submit"].llms-button-text {
   text-align: left;
 }
 @media screen and (max-width: $break-small) {
-  .llms-course-list .courses li {
-    width: auto;
+  .llms-course-list {
+    padding: 30px 10px;
+
+    .courses li {
+      width: auto;
+    }
   }
 }
 

@@ -1,5 +1,37 @@
 == Changelog ==
 
+= v2.3.0 - 2016/03/24 =
+-----------------------
+
+##### Engagements Refactoring (lots of bugfixes, performance improvements, more hook & filter friendly)
+
++ We've completely rewritten the LifterLMS Engagement Handler methods (`class LLMS_Engagements`) and added some new engagement actions.
++ The rewrite unifies engagement handling into one function that can be easily hooked into by plugin and theme developers.
++ We've moved any engagment related data out of the main `LifterLMS` class
++ Fixed the broken engagement delay functionality which now runs of `wp_schedule_single_event`. This makes the function more reliable and also keeps it within the traditional WordPress architecture.
++ Added an additional check before sending emails or triggering any engagments that will prevent the achievement from being awarded or the email from being sent if the post is in not published. This fixes an issue that caused emails in the trash from still being emailed.
++ Removed the unused `LLMS_Engagements` class and file
++ Added two new engagment trigger events "Membership Purchased" and "Course Purchased"
++ Deprecated actions -- Removes some redundancy because the triggering actions (`lifterlms_course_completed` triggered the notification action, instead `lifterlms_course_completed` simply triggers the engagement now).
+  + `lifterlms_lesson_completed_notification`
+  + `lifterlms_section_completed_notification`
+  + `lifterlms_course_completed_notification`
+  + `lifterlms_course_track_completed_notification`
+  + `lifterlms_course_completed_notification`
+  + `lifterlms_user_purchased_product_notification`
+  + `lifterlms_created_person_notification`
+
+##### Bug and Issue fixes
+
++ Adjusted the size of the LifterLMS Admin Menu Icon. It was super big because of, perhaps, some overcompensation. It caused an issue on Gravity Forms admin pages for some reason (we didn't ever determine why) but we've resolved it by using an appropriately sized icon.
++ Fixed a CSS issue that caused some weirdness on the course archive page on mobile devices
++ Fixed an issue with automated membership expirations
++ Fixed a function that should have been called statically in `LLMS_Ajax` class
++ Fixed a ton of issues related to the triggering of engagements and cleaned up a lot of classes and functions associated with them.
++ Properly instatiate `LifterLMS` singleton via LLMS() function and prevent direct instantiation of the class via `new LifterLMS()`.
++ Removed the deprecated 'class.llms.email.person.new.php' file as it was rendered useless a long time ago and caused some duplicate emails.
+
+
 = v2.2.3 - 2016/03/15 =
 -----------------------
 
@@ -34,6 +66,7 @@ This also addresses an issue that prevented the `llms_user_enrolled_in_course` a
 + Removed the `class.llms.person.handler.php` file as it wasn't actually being used by anything anywhere and contained no functions
 + Removed some unused and depreacted class functions from the LLMS Student Metabox class
 + Fixed an undefined javascript error resulting from code cleanup in 2.2.2. This issue prevented Vouchers from being published. The code has been further cleaned.
+
 
 = v2.2.2 - 2016/03/15 =
 -----------------------

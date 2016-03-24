@@ -20,12 +20,12 @@
     "issues": "https://github.com/gocodebox/lifterlms/issues",
     "source": "https://github.com/gocodebox/lifterlms"
   },
-	"autoload": {
-		"psr-4": {
-			"LLMS\\": "includes"
-		}
+  "autoload": {
+    "psr-4": {
+      "LLMS\\": "includes"
+    }
   },
-	"require-dev": {
+  "require-dev": {
       "squizlabs/php_codesniffer": "2.*",
       "wp-coding-standards/wpcs": "dev-master"
   },
@@ -33,6 +33,7 @@
     "post-install-cmd": [
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs",
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
-    ]
+    ],
+    "remove-dev": "rm -rf .editorconfig .gitignore .idea .jscsrc .jshintrc .travis.yml _private _readme bin/ composer.lock composer.phar gulpfile.js package.json phpcs.xml phpunit.xml README.md tests/ vendor/"
   }
 }

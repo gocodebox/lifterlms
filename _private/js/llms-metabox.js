@@ -40,6 +40,11 @@ get_all_courses = function() {
 	ajax.get_all_posts();
 }
 
+get_all_memberships = function() {
+	var ajax = new Ajax('post', {'action':'get_memberships'}, true);
+	ajax.get_all_posts();
+}
+
 get_all_course_tracks = function() {
 	var ajax = new Ajax('post', {'action':'get_course_tracks'}, true);
 	ajax.get_course_tracks();

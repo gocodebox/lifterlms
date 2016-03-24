@@ -25,8 +25,8 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	public function init( $email_id, $user_id ) {
 		global $wpdb;
 
-			$email_content = get_post( $email_id );
-			$email_meta = get_post_meta( $email_content->ID );
+		$email_content = get_post( $email_id );
+		$email_meta = get_post_meta( $email_content->ID );
 
 		$this->id 					= 'engagement email';
 		$this->title 				= __( 'Engagement Email', 'lifterlms' );
@@ -62,7 +62,8 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		}
 
 		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
-			return; }
+			return;
+		}
 
 		$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
 	}
