@@ -1,7 +1,7 @@
 == Changelog ==
 
-= v2.3.0-2 - 2016/03/22 =
--------------------------
+= v2.3.0 - 2016/03/24 =
+-----------------------
 
 ##### Engagements Refactoring (lots of bugfixes, performance improvements, more hook & filter friendly)
 
@@ -23,6 +23,7 @@
 
 ##### Bug and Issue fixes
 
++ Adjusted the size of the LifterLMS Admin Menu Icon. It was super big because of, perhaps, some overcompensation. It caused an issue on Gravity Forms admin pages for some reason (we didn't ever determine why) but we've resolved it by using an appropriately sized icon.
 + Fixed a CSS issue that caused some weirdness on the course archive page on mobile devices
 + Fixed an issue with automated membership expirations
 + Fixed a function that should have been called statically in `LLMS_Ajax` class
