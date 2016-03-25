@@ -260,11 +260,14 @@ class LLMS_Quiz {
 	/**
 	 * Check if quiz score is passing grade
 	 *
-	* @param  int $user_id [ID of user]
+	 * @param  int $user_id [ID of user]
+	 * @param int $grade grade for current quiz
 	 * @return bool [is grade > required passing percent]
 	 */
-	public function is_passing_score( $user_id ) {
-		return ( $this->get_passing_percent() <= $this->get_best_grade( $user_id ) );
+	public function is_passing_score( $user_id, $grade ) {
+		$biggest_score = max( $this->get_best_grade( $user_id ), $grade );
+
+		return ( $this->get_passing_percent() <= $biggest_score );
 	}
 
 	public function get_end_date( $user_id, $unique_id = '' ) {
@@ -438,7 +441,7 @@ class LLMS_Quiz {
 	 */
 	public function get_question_key ( $question_id ) {
 		foreach ($this->get_questions() as $key => $value) {
-			if ($key == $quiz_id) {
+			if ($key == $question_id) {
 				$question_key = $key;
 			}
 		}
@@ -643,7 +646,7 @@ class LLMS_Quiz {
 						} else {
 							$quiz_data[ $id ]['grade'] = $quiz_obj->get_grade( $points );
 
-							$quiz_data[ $id ]['passed'] = $quiz_obj->is_passing_score( $quiz->user_id );
+							$quiz_data[ $id ]['passed'] = $quiz_obj->is_passing_score( $quiz->user_id, $quiz_data[ $id ]['grade'] );
 						}
 
 						do_action( 'lifterlms_quiz_completed', $quiz->user_id, $quiz_data[ $id ] );
