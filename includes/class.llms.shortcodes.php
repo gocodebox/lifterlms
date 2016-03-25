@@ -233,6 +233,10 @@ class LLMS_Shortcodes {
 		} elseif ( is_lesson() ) {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();
+		} elseif ( is_quiz() ) {
+			$quiz = LLMS()->session->get( 'llms_quiz' );
+			$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
+			$course_id = $lesson->get_parent_course();
 		} else {
 			return '';
 		}
@@ -258,8 +262,6 @@ class LLMS_Shortcodes {
 		}
 		return get_the_title( $course_id );
 	}
-
-
 
 	/**
 	* courses shortcode
@@ -406,8 +408,6 @@ class LLMS_Shortcodes {
 		// get results
 		$results = $person->get_user_postmetas_by_key( $uid,$key );
 
-		// pp_dump($results,$uid,$key);
-
 		if ($results) {
 			// unset all items that are not courses
 			foreach ($results as $key => $obj) {
@@ -454,6 +454,10 @@ class LLMS_Shortcodes {
 			} elseif ( is_lesson() ) {
 				$lesson = new LLMS_Lesson( get_the_ID() );
 				$course_id = $lesson->get_parent_course();
+			} elseif ( is_quiz() ) {
+				$quiz = LLMS()->session->get( 'llms_quiz' );
+				$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
+				$course_id = $lesson->get_parent_course();
 			} else {
 				return '';
 			}
@@ -461,9 +465,6 @@ class LLMS_Shortcodes {
 		}
 
 		$course = new LLMS_Course( $course_id );
-
-		$course_syllabus = $course->get_syllabus();
-		//var_dump($course_syllabus);
 
 		$syllabus = $course->get_student_progress();
 
