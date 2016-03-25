@@ -3,6 +3,7 @@
 = v2.3.1 - 2016/03/?? =
 -----------------------
 
++ Course Progress and Course Syllabus shortcodes (and widgets) now work on Quiz pages
 + Removed a warning message that would display on sidebars when a shortcode was being displayed in a place that it couldn't function. We now simply don't display any content if the shortcode can't function.
 
 
