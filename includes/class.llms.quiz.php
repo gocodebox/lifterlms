@@ -533,8 +533,8 @@ class LLMS_Quiz {
 	 */
 	public static function answer_question( $quiz_id, $question_id, $question_type, $answer, $complete ) {
 
-			//get quiz object from session
-			$quiz = LLMS()->session->get( 'llms_quiz' );
+		//get quiz object from session
+		$quiz = LLMS()->session->get( 'llms_quiz' );
 
 			//if quiz session does not exist return an error message to the user.
 		if ( empty( $quiz ) ) {
