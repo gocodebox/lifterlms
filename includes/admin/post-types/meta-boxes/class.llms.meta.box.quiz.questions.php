@@ -26,7 +26,7 @@ class LLMS_Meta_Box_Quiz_Questions {
 
 		// $question_type = get_post_meta( $post->ID, '_llms_question_type', true );
 		 $questions_selected = get_post_meta( $post->ID, '_llms_questions', true );
-		//
+
 		$question_args = array(
 			'posts_per_page'   => 1000,
 			'post_status'      => 'publish',
@@ -48,7 +48,7 @@ class LLMS_Meta_Box_Quiz_Questions {
 			<a href="#" class="button" id="add_new_question"/><?php _e( 'Add a new question', 'lifterlms' ); ?></a>
 			<div id="llms-single-options">
 				<table class="wp-list-table widefat fixed posts question-list ui-sortable">
-					
+
 					<thead>
 						<tr>
 							<th class="llms-table-select">Name</th>
@@ -57,7 +57,7 @@ class LLMS_Meta_Box_Quiz_Questions {
 						</tr>
 					</thead>
 					<tbody>
-						
+
 						<?php
 						if ($questions_selected) {
 							foreach ($questions_selected as $key => $value) { ?>
@@ -67,7 +67,6 @@ class LLMS_Meta_Box_Quiz_Questions {
 											<?php
 											if ($questions) {
 												foreach ($questions as $pkey => $pvalue) {
-
 													$selected = ($pvalue->ID == $value['id'] ? 'selected' : ''); ?>
 													<option <?php echo $selected ?> value="<?php echo $pvalue->ID; ?>"><?php echo $pvalue->post_title; ?></option>
 												<?php }
@@ -80,10 +79,10 @@ class LLMS_Meta_Box_Quiz_Questions {
 									<td class="llms-table-options">
 									<a href="<?php echo get_edit_post_link( $value['id'] ); ?>"><i class="fa fa-pencil-square-o llms-fa-edit"></i></a>
 										<i class="fa fa-bars llms-fa-move"></i>
-										<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i> 
+										<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i>
 									</td>
 								</tr>
-		
+
 							<?php
 							}
 						}

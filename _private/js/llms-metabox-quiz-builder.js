@@ -13,6 +13,11 @@ jQuery(document).ready(function($) {
     	llms_total_points();
 	});
 
+	question_changed();
+	jQuery('.question-select').change(function() {
+		question_changed();
+	});
+
 	delete_option();
 	single_option_sortable();
 	order_single_options();
@@ -70,19 +75,24 @@ single_question_template = function (response) {
 	    });
 	});
 
+	var selectedQuestions = jQuery("[name='_llms_question[]']")
+			.map(function(){ return jQuery(this).val(); }).get();
 
 	for (var key in questions ) {
-
 	    if (questions.hasOwnProperty(key)) {
+			var disabled = (jQuery.inArray(questions[key]['ID'].toString(), selectedQuestions) !== -1) ? 'disabled' : '';
     		var select = jQuery('#question_' + order + ' #question_select_' + order);
-    		var option = '<option value="' + questions[key]['ID'] + '">' +  questions[key]['post_title'] + '</option>'
+    		var option = '<option value="' + questions[key]['ID'] + '" ' + disabled + '>' +  questions[key]['post_title'] + '</option>'
     		jQuery(select).append(option);
-    		//jQuery(select).prepend('<option value="" selected disabled>Please select a lesson...</option>');
 	    }
 	}
 	jQuery(select).prepend('<option value="" selected >None</option>');
 	jQuery('.question-select').chosen();
 	jQuery('#question_' + order  + ' .question-select').change(function() { get_edit_link(jQuery(this)); });
+
+	jQuery('#question_' + order  + ' .question-select').change(function() {
+		question_changed();
+	});
 
 	delete_option();
 	order_single_options();
@@ -96,6 +106,8 @@ delete_option = function() {
 	    var contentPanelId = jQuery(this).attr("class");
 	    jQuery(this).parent().parent().remove();
 	    order_single_options();
+
+		question_changed();
 	});
 }
 
@@ -151,22 +163,12 @@ get_questions = function() {
 }
 
 get_edit_link = function(element) {
-	console.log('get edit link called');
-	console.log(element);
 	var question_id = jQuery(element).val();
 	var element_id = jQuery(element).attr('id');
-	console.log('element_id');
-	console.log(element_id);
-
-	console.log(question_id);
 	var ajax = new Ajax('post', {'action':'get_question', 'question_id' : question_id}, true);
 	ajax.get_question(question_id, element_id);
 }
 add_edit_link = function(post, question_id, row_id) {
-	console.log('add_edit_link called');
-	console.log(question_id);
-	console.log(post);
-	console.log(row_id);
 
 	var edit_link = document.createElement('a');
 	edit_link.setAttribute('href', encodeURI(post.edit_url));
@@ -177,4 +179,24 @@ add_edit_link = function(post, question_id, row_id) {
 	edit_link.appendChild(edit_icon);
 	jQuery('#' + row_id).parent().parent().find('.llms-fa-edit').hide();
 	jQuery('#' + row_id).parent().next().next().append(edit_link);
+}
+
+question_changed = function() {
+
+	var questions = jQuery("[name='_llms_question[]'] option");
+	var selectedQuestions = jQuery("[name='_llms_question[]']")
+			.map(function(){ return jQuery(this).val(); }).get();
+
+	jQuery.each( questions, function( index, value ) {
+
+		var element = jQuery(value);
+		var elementId = element.attr('value').toString();
+		if (elementId != '' && jQuery.inArray(elementId, selectedQuestions) !== -1 && !element.attr('selected')) {
+			element.attr('disabled', 'disabled');
+		} else {
+			element.removeAttr('disabled');
+		}
+
+		jQuery("[name='_llms_question[]']").trigger("chosen:updated");
+	});
 }
