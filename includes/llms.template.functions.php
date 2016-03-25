@@ -1065,7 +1065,6 @@ if ( ! function_exists( 'is_lesson' ) ) {
 }
 
 
-
 /**
  * Product Short Description Template Include
  * @return void

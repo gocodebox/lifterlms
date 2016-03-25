@@ -333,6 +333,7 @@ class LLMS_Quiz {
 				$lesson = $value['assoc_lesson'];
 			}
 		}
+
 		return $lesson;
 	}
 
@@ -440,8 +441,8 @@ class LLMS_Quiz {
 	 * @return key [key of question in questions array]
 	 */
 	public function get_question_key ( $question_id ) {
-		foreach ($this->get_questions() as $key => $value) {
-			if ($key == $question_id) {
+		foreach ( $this->get_questions() as $key => $value ) {
+			if ( $key == $question_id ) {
 				$question_key = $key;
 			}
 		}
@@ -653,7 +654,7 @@ class LLMS_Quiz {
 
 						if ( $quiz_data[ $id ]['passed'] ) {
 							$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
-							$lesson->mark_complete( $quiz->user_id );
+							$lesson->mark_complete( $quiz->user_id, true );
 
 							do_action( 'lifterlms_quiz_passed', $quiz->user_id, $quiz_data[ $id ] );
 						} else {
