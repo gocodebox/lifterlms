@@ -186,12 +186,12 @@ question_changed = function() {
 	var questions = jQuery("[name='_llms_question[]'] option");
 	var selectedQuestions = jQuery("[name='_llms_question[]']")
 			.map(function(){ return jQuery(this).val(); }).get();
-	
+
 	jQuery.each( questions, function( index, value ) {
 
 		var element = jQuery(value);
 		var elementId = element.attr('value').toString();
-		if (elementId != '' && jQuery.inArray(elementId, selectedQuestions) !== -1) {
+		if (elementId != '' && jQuery.inArray(elementId, selectedQuestions) !== -1 && !element.attr('selected')) {
 			element.attr('disabled', 'disabled');
 		} else {
 			element.removeAttr('disabled');
