@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.3.1 - 2016/03/?? =
+-----------------------
+
++ Removed a warning message that would display on sidebars when a shortcode was being displayed in a place that it couldn't function. We now simply don't display any content if the shortcode can't function.
+
+
 = v2.3.0 - 2016/03/24 =
 -----------------------
 

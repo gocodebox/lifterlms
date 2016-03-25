@@ -44,18 +44,6 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	 * Output onscreen messages when shortcodes encounter errors
-	 * @param string / $message / warning notice to display
-	 * @return html
-	 */
-	private static function _warn( $message = 'There was an error outputting your shortcode!' ) {
-
-		return '<p style="color: red;">' . $message . '</p>';
-
-	}
-
-
-	/**
 	* Creates a wrapper for shortcode.
 	*
 	* @return void
@@ -245,8 +233,12 @@ class LLMS_Shortcodes {
 		} elseif ( is_lesson() ) {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();
+		} elseif ( is_quiz() ) {
+			$quiz = LLMS()->session->get( 'llms_quiz' );
+			$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
+			$course_id = $lesson->get_parent_course();
 		} else {
-			return self::_warn( 'shortcode [ lifter_lms_course_progress_bar ] can only be displayed on course or lesson posts!' );
+			return '';
 		}
 
 		$course = new LLMS_Course( $course_id );
@@ -266,12 +258,10 @@ class LLMS_Shortcodes {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();
 		} else {
-			return self::_warn( 'shortcode [ lifterlms_course_title ] can only be displayed on lesson posts!' );
+			return '';
 		}
 		return get_the_title( $course_id );
 	}
-
-
 
 	/**
 	* courses shortcode
@@ -418,8 +408,6 @@ class LLMS_Shortcodes {
 		// get results
 		$results = $person->get_user_postmetas_by_key( $uid,$key );
 
-		// pp_dump($results,$uid,$key);
-
 		if ($results) {
 			// unset all items that are not courses
 			foreach ($results as $key => $obj) {
@@ -466,16 +454,17 @@ class LLMS_Shortcodes {
 			} elseif ( is_lesson() ) {
 				$lesson = new LLMS_Lesson( get_the_ID() );
 				$course_id = $lesson->get_parent_course();
+			} elseif ( is_quiz() ) {
+				$quiz = LLMS()->session->get( 'llms_quiz' );
+				$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
+				$course_id = $lesson->get_parent_course();
 			} else {
-				return _e( 'Course outline can only be displayed on course or lesson posts!' );
+				return '';
 			}
 
 		}
 
 		$course = new LLMS_Course( $course_id );
-
-		$course_syllabus = $course->get_syllabus();
-		//var_dump($course_syllabus);
 
 		$syllabus = $course->get_student_progress();
 
