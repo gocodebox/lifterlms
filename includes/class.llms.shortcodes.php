@@ -44,18 +44,6 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	 * Output onscreen messages when shortcodes encounter errors
-	 * @param string / $message / warning notice to display
-	 * @return html
-	 */
-	private static function _warn( $message = 'There was an error outputting your shortcode!' ) {
-
-		return '<p style="color: red;">' . $message . '</p>';
-
-	}
-
-
-	/**
 	* Creates a wrapper for shortcode.
 	*
 	* @return void
@@ -246,7 +234,7 @@ class LLMS_Shortcodes {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();
 		} else {
-			return self::_warn( 'shortcode [ lifter_lms_course_progress_bar ] can only be displayed on course or lesson posts!' );
+			return '';
 		}
 
 		$course = new LLMS_Course( $course_id );
@@ -266,7 +254,7 @@ class LLMS_Shortcodes {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();
 		} else {
-			return self::_warn( 'shortcode [ lifterlms_course_title ] can only be displayed on lesson posts!' );
+			return '';
 		}
 		return get_the_title( $course_id );
 	}
@@ -467,7 +455,7 @@ class LLMS_Shortcodes {
 				$lesson = new LLMS_Lesson( get_the_ID() );
 				$course_id = $lesson->get_parent_course();
 			} else {
-				return _e( 'Course outline can only be displayed on course or lesson posts!' );
+				return '';
 			}
 
 		}
