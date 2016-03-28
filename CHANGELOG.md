@@ -1,8 +1,9 @@
 == Changelog ==
 
-= v2.3.1 - 2016/03/?? =
+= v2.4.0 - 2016/03/?? =
 -----------------------
 
++ Fixed a bunch of undefined variables that would produce PHP warnings in various quiz templates
 + Added validation to quiz questions on the admin panel to prevent the same question from being added to a quiz multiple times.
 + Fixed an issue that prevented quizzes from correctly marking the lesson as completed when the quiz was passed.
 + Added three new actions now available for developers to hook into.
@@ -10,7 +11,9 @@
   + `lifterlms_quiz_passed` called when a quiz is completed with a passing grade
   + `lifterlms_quiz_failed` called when a quiz is completed with a failing grade
 + Course Progress and Course Syllabus shortcodes (and widgets) now work on Quiz pages
+
 + Removed a warning message that would display on sidebars when a shortcode was being displayed in a place that it couldn't function. We now simply don't display any content if the shortcode can't function.
++ Resolved an issue that prevent users from "purchasing" products when using a 100% coupon and the Stripe payment gateway. Users experiencing this issue should also update to Stripe 3.0.1.
 
 
 = v2.3.0 - 2016/03/24 =

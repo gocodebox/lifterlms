@@ -13,6 +13,7 @@ $question = new LLMS_Question( $args['question_id'] );
 
 
 $options = $question->get_options();
+
 $question_key = isset( $quiz ) ? $quiz->get_question_key : 0;
 
 $quiz_session = $quiz = LLMS()->session->get( 'llms_quiz' );
