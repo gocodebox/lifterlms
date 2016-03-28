@@ -33,9 +33,9 @@ class LLMS_Meta_Box_Quiz_Questions {
 				<table class="wp-list-table widefat fixed posts question-list ui-sortable">
 					<thead>
 						<tr>
-							<th class="llms-table-select">Name</th>
-							<th class="llms-table-points">Points</th>
-							<th class="llms-table-options">Actions</th>
+							<th class="llms-table-select"><?php _e( 'Question Name', 'lifterlms' ); ?></th>
+							<th class="llms-table-points"><?php _e( 'Points', 'lifterlms' ); ?></th>
+							<th class="llms-table-options"><?php _e( 'Actions', 'lifterlms' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -54,7 +54,7 @@ class LLMS_Meta_Box_Quiz_Questions {
 					<tfoot>
 						<tr>
 							<td><?php _e( 'Total Points: ', 'lifterlms' ) ?> <span id="llms_points_total"></span></td>
-							<td colspan="2"><a href="#" class="button" id="add_new_question"/><?php _e( 'Add a new question', 'lifterlms' ); ?></a></td>
+							<td class="new-question-button" colspan="2"><a href="#" class="button" id="add_new_question"/><?php _e( 'Add a new question', 'lifterlms' ); ?></a></td>
 						</tr>
 					</tfoot>
 				</table>
