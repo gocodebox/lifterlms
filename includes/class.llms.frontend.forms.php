@@ -451,36 +451,33 @@ class LLMS_Frontend_Forms
 
 		global $wpdb;
 
-		if (isset( $_POST['llms-checkout-coupon'] )) {
-			return;
-		}
 		// check if session already exists. if it does assign it.
 		$current_order = LLMS()->session->get( 'llms_order', array() );
 
+		// ensure POST is set
 		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
-		if ('POST' !== $request_method) {
+		if ( 'POST' !== $request_method ) {
 			return;
 		}
 
-		if (empty( $_POST['action'] ) || ('create_order_details' !== $_POST['action']) || empty( $_POST['_wpnonce'] )) {
-
+		if ( empty( $_POST['action'] ) || ( 'create_order_details' !== $_POST['action'] ) || empty( $_POST['_wpnonce'] ) ) {
 			return;
 		}
 
 		// noonnce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
+		// get started
 		$order = new stdClass();
 		$errors = new WP_Error();
 
+		// can't proceed without a user
 		$order->user_id = (int) get_current_user_id();
-
-		if (empty( $order->user_id )) {
+		if ( empty( $order->user_id ) ) {
 			return;
 		}
 
 		$user_meta = get_user_meta( $order->user_id );
-
 		$order->billing_address_1 = ( ! empty( $user_meta['llms_billing_address_1'][0] ) ? $user_meta['llms_billing_address_1'][0] : '');
 		$order->billing_address_2 = ( ! empty( $user_meta['llms_billing_address_2'][0] ) ? $user_meta['llms_billing_address_2'][0] : '');
 		$order->billing_city = ( ! empty( $user_meta['llms_billing_city'][0] ) ? $user_meta['llms_billing_city'][0] : '');
@@ -491,41 +488,14 @@ class LLMS_Frontend_Forms
 		//get POST data
 		$order->product_id = ! empty( $_POST['product_id'] ) ? llms_clean( $_POST['product_id'] ) : '';
 		$order->product_title = $_POST['product_title'];
-		//$order->payment_method	= $_POST['payment_method'];
 
 		$payment_method_data = explode( '_', $_POST['payment_method'] );
 		$order->payment_type = $payment_method_data[0];
-
-		if (count( $payment_method_data ) > 1) {
+		if ( count( $payment_method_data ) > 1 ) {
 			$order->payment_method = $payment_method_data[1];
 		}
 
-		$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
-
-		if ($order->payment_type == 'creditcard' && empty( $_POST['use_existing_card'] )) {
-			if (empty( $_POST['cc_type'] )) {
-				llms_add_notice( __( 'Please select a credit card type.', 'lifterlms' ), 'error' );
-			}
-			if (empty( $_POST['cc_number'] )) {
-				llms_add_notice( __( 'Please enter a credit card number.', 'lifterlms' ), 'error' );
-			}
-			if (empty( $_POST['cc_exp_month'] )) {
-				llms_add_notice( __( 'Please select an expiration month.', 'lifterlms' ), 'error' );
-			}
-			if (empty( $_POST['cc_exp_year'] )) {
-				llms_add_notice( __( 'Please select an expiration year.', 'lifterlms' ), 'error' );
-			}
-			if (empty( $_POST['cc_cvv'] )) {
-				llms_add_notice( __( 'Please enter the credit card CVV2 number', 'lifterlms' ), 'error' );
-			}
-			if (llms_notice_count( 'error' )) {
-				return;
-			}
-
-		}
-
 		$order->use_existing_card = empty( $_POST['use_existing_card'] ) ? '' : $_POST['use_existing_card'];
-
 		$order->cc_type = ( ! empty( $_POST['cc_type'] ) ? $_POST['cc_type'] : '');
 		$order->cc_number = ( ! empty( $_POST['cc_number'] ) ? $_POST['cc_number'] : '');
 		$order->cc_exp_month = ( ! empty( $_POST['cc_exp_month'] ) ? $_POST['cc_exp_month'] : '');
@@ -579,11 +549,6 @@ class LLMS_Frontend_Forms
 			}
 		}
 
-		if ($order->user_id <= 0) {
-
-			return;
-		}
-
 		$order->currency = get_lifterlms_currency();
 		$order->return_url = $this->llms_confirm_payment_url();
 		$order->cancel_url = $this->llms_cancel_payment_url();
@@ -606,12 +571,37 @@ class LLMS_Frontend_Forms
 				unset( $order_session->cc_type, $order_session->cc_number, $order_session->cc_exp_month, $order_session->cc_exp_year, $order_session->cc_cvv );
 				LLMS()->session->set( 'llms_order', $order_session );
 
+				// this will return false if it's an order that needs payment
 				$order_discounted_to_free = $this->process_free_order();
 
 				if ( ! $order_discounted_to_free) {
 
+					if ( $order->payment_type == 'creditcard' && empty( $_POST['use_existing_card'] ) ) {
+
+						if (empty( $_POST['cc_type'] )) {
+							llms_add_notice( __( 'Please select a credit card type.', 'lifterlms' ), 'error' );
+						}
+						if (empty( $_POST['cc_number'] )) {
+							llms_add_notice( __( 'Please enter a credit card number.', 'lifterlms' ), 'error' );
+						}
+						if (empty( $_POST['cc_exp_month'] )) {
+							llms_add_notice( __( 'Please select an expiration month.', 'lifterlms' ), 'error' );
+						}
+						if (empty( $_POST['cc_exp_year'] )) {
+							llms_add_notice( __( 'Please select an expiration year.', 'lifterlms' ), 'error' );
+						}
+						if (empty( $_POST['cc_cvv'] )) {
+							llms_add_notice( __( 'Please enter the credit card CVV2 number', 'lifterlms' ), 'error' );
+						}
+						if (llms_notice_count( 'error' )) {
+							return;
+						}
+
+					}
+
 					$lifterlms_checkout = LLMS()->checkout();
 					$lifterlms_checkout->process_order( $order );
+					$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 					$result = $available_gateways[ $order->payment_method ]->process_payment( $order );
 
 				} else {

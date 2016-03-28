@@ -1,180 +1,387 @@
-jQuery(document).ready(function($) {
+( function( $ ) {
 
-	$('#add_new_question').click(function() {
-		get_questions();
-		return false;
-	});
+	window.llms = window.llms || {};
 
-	$('#publish').click(function() {
-		update_question_options();
-	});
+	/**
+	 * Retrieve the Question ID from any element inside a tr.llms-question element
+	 *
+	 * @example      var id = $( '.element' ).getQuestionId();
+	 *
+	 * @return int
+	 *
+	 * @since  2.4.0
+	 */
+	$.fn.getQuestionId = function() {
 
-	$('.llms-points').blur(function () {
-    	llms_total_points();
-	});
+		var $q = this.closest( 'tr.llms-question' );
 
-	delete_option();
-	single_option_sortable();
-	order_single_options();
-	llms_total_points();
-
-	//only display quiz results options if show results field is checked
-	if ( $( '#_llms_show_results').attr('checked') ) {
-		$( '#_llms_show_correct_answer' ).parent().parent().show();
-		$( '#_llms_show_options_description_right_answer ').parent().parent().show();
-		$( '#_llms_show_options_description_wrong_answer').parent().parent().show();
-	}
-
-	$( '#_llms_show_results').on('change', function() {
-		if( $( '#_llms_show_results').attr('checked')) {
-			$( '#_llms_show_correct_answer' ).parent().parent().fadeIn(300);
-			$( '#_llms_show_options_description_right_answer ').parent().parent().fadeIn(300);
-			$( '#_llms_show_options_description_wrong_answer').parent().parent().fadeIn(300);
-		} else {
-			$( '#_llms_show_correct_answer' ).parent().parent().fadeOut(300);
-			$( '#_llms_show_options_description_right_answer ').parent().parent().fadeOut(300);
-			$( '#_llms_show_options_description_wrong_answer').parent().parent().fadeOut(300);
+		if ( ! $q.length ) {
+			return 0;
 		}
-	});
-});
 
-llms_total_points = function() {
-	var sum = 0;
-    jQuery('.llms-points').each(function() {
-        sum += Number(jQuery(this).val());
-        jQuery('#llms_points_total').text(sum);
-	});
-}
+		return $q.attr( 'data-question-id' );
 
- /**
- * Generate single choice question template
- */
-single_question_template = function (response) {
-	var order = (jQuery("#llms-single-options tr").length);
-	var questions = response;
-
-	jQuery('<tr class="list_item" id="question_' + order + '" data-order="' + order + '" style="display: table-row;"><td class="llms-table-select"> \
-	<select id="question_select_' + order + '" name="_llms_question[]" data-placeholder="Choose a Section" class="chosen-select question-select"></select> \
-	</td> \
-	<td class="llms-table-points"><input type="text" class="llms-points" name="_llms_points[]" id="llms_points[]" value="1" /> \
-	</td><td class="llms-table-options"> \
-	<i class="fa fa-bars llms-fa-move"></i><i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i> \
-	</td></tr>').appendTo('#llms-single-options .question-list tbody').hide().fadeIn(300);
+	};
 
 
-	jQuery('.llms-points').blur(function () {
-    var sum = 0;
-    jQuery('.llms-points').each(function() {
-        sum += Number(jQuery(this).val());
-        jQuery('#llms_total_points').val(sum);
-	    });
-	});
+	/**
+	 * Initialize select2 on select elements
+	 *
+	 * @return obj
+	 *
+	 * @since  2.4.0
+	 */
+	$.fn.select2ify = function() {
 
+		this.select2({
+			allowClear: false,
+			ajax: {
+				dataType: 'JSON',
+				delay: 250,
+				method: 'POST',
+				url: window.ajaxurl,
+				data: function( params ) {
+					return {
+						term: params.term,
+						page: params.page,
+						action: 'query_quiz_questions',
+						post_id: self.quiz_id,
+					};
+				},
+				processResults: function( data, params ) {
+					return {
+						results: $.map( data.items, function( item ) {
 
-	for (var key in questions ) {
+							return {
+								text: item.name,
+								id: item.id,
+							};
 
-	    if (questions.hasOwnProperty(key)) {
-    		var select = jQuery('#question_' + order + ' #question_select_' + order);
-    		var option = '<option value="' + questions[key]['ID'] + '">' +  questions[key]['post_title'] + '</option>'
-    		jQuery(select).append(option);
-    		//jQuery(select).prepend('<option value="" selected disabled>Please select a lesson...</option>');
-	    }
-	}
-	jQuery(select).prepend('<option value="" selected >None</option>');
-	jQuery('.question-select').chosen();
-	jQuery('#question_' + order  + ' .question-select').change(function() { get_edit_link(jQuery(this)); });
+						} ),
+						pagination: {
+							more: data.more
+						}
+					};
 
-	delete_option();
-	order_single_options();
-	jQuery('.llms-points').blur(function () {
-    	llms_total_points();
-	});
-};
-
-delete_option = function() {
-	jQuery('.deleteBtn').click(function() {
-	    var contentPanelId = jQuery(this).attr("class");
-	    jQuery(this).parent().parent().remove();
-	    order_single_options();
-	});
-}
-
-/**
- * Sortable function
- */
-single_option_sortable = function() {
-
-    jQuery('.question-list').sortable({
-    	items		: '.list_item',
-    	axis 		: 'y',
-    	placeholder : "placeholder",
-    	cursor		: "move",
-    	forcePlaceholderSize:true,
-    	helper 		: function(e, tr) {
-		    var jQueryoriginals = tr.children();
-		    var jQueryhelper = tr.clone();
-		    jQueryhelper.children().each(function(index)
-		    {
-		      jQuery(this).width(jQueryoriginals.eq(index).width())
-		    });
-		    return jQueryhelper;
-		},
-        start 		: function(event, ui) {
-			var start_pos = ui.item.index();
-			ui.item.data('start_pos', start_pos);
-		},
-        update		: function(event, ui) {
-            var start_pos = ui.item.data('start_pos');
-            var end_pos = jQuery(ui.item).index();
-            jQuery(ui.item).attr("data-order", end_pos);
-            order_single_options();
-        }
-    });
-}
-
-order_single_options = function() {
-	jQuery("#llms-single-options tr").each( function(index) {
-		jQuery(this).attr("data-order", index);
-		jQuery(this).attr("id", 'question_' + index);
-		jQuery(this).find('.question-select').each( function() {
-			jQuery(this).attr("id", 'question_select_' + index);
+				},
+			},
+			cache: true,
+			placeholder: 'Select a Question',
+			multiple: false,
+			width: '100%',
 		});
-	});
-}
 
-/**
- * Returns array of all questions
- */
-get_questions = function() {
-	var ajax = new Ajax('post', {'action':'get_questions'}, true);
-	ajax.get_questions();
-}
+		return this;
 
-get_edit_link = function(element) {
-	console.log('get edit link called');
-	console.log(element);
-	var question_id = jQuery(element).val();
-	var element_id = jQuery(element).attr('id');
-	console.log('element_id');
-	console.log(element_id);
+	};
 
-	console.log(question_id);
-	var ajax = new Ajax('post', {'action':'get_question', 'question_id' : question_id}, true);
-	ajax.get_question(question_id, element_id);
-}
-add_edit_link = function(post, question_id, row_id) {
-	console.log('add_edit_link called');
-	console.log(question_id);
-	console.log(post);
-	console.log(row_id);
+	/**
+	 * UI for managing the quiz settings
+	 *
+	 * @since  2.4.0
+	 */
+	window.llms.metabox_quiz_settings = function() {
 
-	var edit_link = document.createElement('a');
-	edit_link.setAttribute('href', encodeURI(post.edit_url));
+		if ( $( '#_llms_show_results').attr('checked') ) {
+			$( '#_llms_show_correct_answer' ).parent().parent().show();
+			$( '#_llms_show_options_description_right_answer ').parent().parent().show();
+			$( '#_llms_show_options_description_wrong_answer').parent().parent().show();
+		}
 
-	var edit_icon = document.createElement('i');
-	edit_icon.setAttribute('class', 'fa fa-pencil-square-o llms-fa-edit ');
+		$( '#_llms_show_results').on('change', function() {
+			if( $( '#_llms_show_results' ).attr( 'checked' ) ) {
+				$( '#_llms_show_correct_answer' ).parent().parent().fadeIn(300);
+				$( '#_llms_show_options_description_right_answer ').parent().parent().fadeIn(300);
+				$( '#_llms_show_options_description_wrong_answer').parent().parent().fadeIn(300);
+			} else {
+				$( '#_llms_show_correct_answer' ).parent().parent().fadeOut(300);
+				$( '#_llms_show_options_description_right_answer ').parent().parent().fadeOut(300);
+				$( '#_llms_show_options_description_wrong_answer').parent().parent().fadeOut(300);
+			}
+		});
 
-	edit_link.appendChild(edit_icon);
-	jQuery('#' + row_id).parent().parent().find('.llms-fa-edit').hide();
-	jQuery('#' + row_id).parent().next().next().append(edit_link);
-}
+	};
+
+
+
+
+	/**
+	 * UI for adding and removing questions from the quiz
+	 *
+	 * @since  2.4.0
+	 */
+	window.llms.metabox_quiz_builder = function() {
+
+		/**
+		 * WordPress Post ID of the Quiz
+		 * @type int
+		 *
+		 * @since  2.4.0
+		 */
+		this.quiz_id = null;
+
+		/**
+		 * Initialize
+		 * @return void
+		 *
+		 * @since  2.4.0
+		 */
+		this.init = function() {
+
+			// bind dom events
+			this.bind();
+			this.bind_sortable();
+
+			// set the total points on load
+			this.set_total_points();
+
+			this.quiz_id = $( '#post_ID' ).val();
+
+		};
+
+
+		/**
+		 * Bind DOM Events
+		 * @return void
+		 *
+		 * @since  2.4.0
+		 */
+		this.bind = function() {
+
+			var self = this,
+				$delegate = $( '#llms-single-options' );
+
+			// setup all existing (php loaded) questions as select2 elements
+			$delegate.find( '.llms-question select' ).select2ify();
+
+			// update points whenever points change
+			$( '.llms-points' ).blur( function ( e ) {
+
+				e.preventDefault();
+				self.set_total_points();
+
+			} );
+
+			// add a new question on question click
+			$( '#add_new_question' ).on( 'click', function( e ) {
+
+				e.preventDefault();
+				self.add_new_question( $( this ) );
+
+			} );
+
+			/**
+			 * When a select item changes update an HTML data-attr with the ID of the question
+			 * Allows easy access to the question id from any element inside a question tr
+			 */
+			$delegate.on( 'change', '.llms-question-select', function( ) {
+
+				var $el = $( this );
+				$el.closest( 'tr.llms-question' ).attr( 'data-question-id', $el.val() );
+
+			} );
+
+			// handle click event for the edit icon
+			$delegate.on( 'click', '.llms-fa-edit', function( e ) {
+
+				e.preventDefault();
+				window.open( self.get_question_edit_link( $( this ).getQuestionId() ) );
+
+			} );
+
+			$delegate.on( 'click', '.llms-remove-question', function( e ) {
+
+				$( this ).closest( 'tr.llms-question' ).remove();
+				self.set_total_points();
+
+			} );
+
+			// when the # of points changes, update total points
+			$delegate.on( 'keyup', '.llms-points', function( ) {
+
+				self.set_total_points();
+
+			} );
+
+
+			// prevent selecting the same question multiple times on one quiz
+			$delegate.on( 'select2:selecting', 'select', function( e ) {
+
+				var this_id = e.params.args.data.id,
+					selected_ids = self.get_selected_question_ids();
+
+				if ( selected_ids.indexOf( this_id ) !== -1 ) {
+
+					e.preventDefault();
+					alert( 'You cannot select the same question more than once per quiz.' );
+
+				}
+
+			} );
+
+		};
+
+		/**
+		 * Bind the UI Sortable event
+		 * @return void
+		 *
+		 * @since  2.4.0
+		 */
+		this.bind_sortable = function() {
+
+			$( '.question-list' ).sortable( {
+
+				axis: 'y',
+				cursor: 'move',
+				forcePlaceholderSize: true,
+				placeholder: 'placeholder',
+				items: '.list_item',
+
+				helper: function( e, tr ) {
+
+					var $originals = tr.children(),
+						$helper = tr.clone();
+
+					$helper.children().each( function( i ) {
+
+						$( this ).width( $originals.eq( i ).width() );
+
+					} );
+
+					return $helper;
+
+				},
+
+				start: function( e, ui ) {
+
+					ui.item.data( 'start_pos', ui.item.index() );
+
+				}
+
+			} );
+
+		};
+
+
+
+		/**
+		 * Handle the click even for adding a new question
+		 * @param obj   $btn   jQuery selector of the clicked button
+		 *
+		 * @since  2.4.0
+		 */
+		this.add_new_question = function( $btn ) {
+
+			var self = this,
+				$html = self.get_question_html();
+
+			$html.find( 'select' ).select2ify( );
+
+			$html.appendTo( '#llms-single-options .question-list tbody' ).hide().fadeIn( 300 );
+
+			this.set_total_points();
+
+		};
+
+
+		/**
+		 * Retrieve the URL to edit a question post type
+		 * @param  int    question_id   WP Post ID of the question
+		 * @return string
+		 *
+		 * @since  2.4.0
+		 */
+		this.get_question_edit_link = function( question_id ) {
+
+			var link = window.llms.admin_url + 'post.php?action=edit&post=' + question_id;
+
+			return link;
+
+		};
+
+
+		/**
+		 * Retrieve the total points of all questions currently in a quiz
+		 * @return int       total points
+		 *
+		 * @since  2.4.0
+		 */
+		this.get_total_points = function() {
+
+			var sum = 0;
+			$( '#llms-single-options .llms-points' ).each( function() {
+				sum += Number( $( this ).val() );
+			} );
+
+			return sum;
+
+		};
+
+
+		/**
+		 * Retrieve the number of questions currently in the quiz
+		 * @return int
+		 *
+		 * @since  2.4.0
+		 */
+		this.get_total_questions = function() {
+
+			return $( '#llms-single-options tbody tr' ).length;
+
+		};
+
+
+		// move this into PHP so it can be translated and be more dry with the actual template
+		this.get_question_html = function() {
+
+			return $( $( '#llms-single-question-template' ).html() ).find( 'tr' );
+
+		}
+
+
+		/**
+		 * Retrieve an array of currently selected question ids
+		 * @return array
+		 *
+		 * @since  2.4.0
+		 */
+		this.get_selected_question_ids = function() {
+
+			var r = [];
+
+			$( '#llms-single-options .llms-question' ).each( function() {
+
+				var id = $( this ).attr( 'data-question-id' );
+
+				if ( id && '0' !== id ) {
+
+					r.push( id );
+
+				}
+
+			} );
+
+			return r;
+
+		};
+
+		/**
+		 * Update the total points element total
+		 *
+		 * @since  2.4.0
+		 */
+		this.set_total_points = function() {
+
+			$( '#llms_points_total' ).text( this.get_total_points() );
+
+		};
+
+		// go
+		this.init();
+
+	};
+
+	var a = new window.llms.metabox_quiz_builder(),
+		b = new window.llms.metabox_quiz_settings();
+
+} )( jQuery );

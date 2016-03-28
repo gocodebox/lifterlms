@@ -1,0 +1,20 @@
+#llms-question-container {
+	position: relative;
+	min-height: 100px;
+
+	// hide the edit link when there's no question selected on the row
+	tr.llms-question[data-question-id="0"] .llms-fa-edit {
+		display: none;
+	}
+
+	.new-question-button {
+		text-align: right;
+	}
+
+	td.llms-table-points, th.llms-table-points {
+		width: 10%;
+		input[type="number"] {
+			width: 100%;
+		}
+	}
+}

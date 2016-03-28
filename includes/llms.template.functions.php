@@ -1064,7 +1064,17 @@ if ( ! function_exists( 'is_lesson' ) ) {
 
 }
 
+/**
+ * Determine if current post is a lifterLMS Quiz
+ * @return boolean
+ */
+if ( ! function_exists( 'is_quiz' ) ) {
 
+	function is_quiz() {
+		return ( get_post_type() == 'llms_quiz' ) ? true : false;
+	}
+
+}
 
 /**
  * Product Short Description Template Include

@@ -40,7 +40,7 @@ class LLMS_Meta_Box_Question_General {
 			<div id="llms-single-options">
 				<table class="wp-list-table widefat fixed posts dad-list ui-sortable">
 					<tbody>
-						
+
 							<?php
 							if ($question_options) {
 								foreach ($question_options as $key => $value) {
@@ -61,8 +61,8 @@ class LLMS_Meta_Box_Question_General {
 								}
 							}
 							?>
-							
-						
+
+
 					</tbody>
 				</table>
 			</div>

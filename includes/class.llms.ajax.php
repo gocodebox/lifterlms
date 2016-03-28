@@ -43,7 +43,7 @@ class LLMS_AJAX {
 
 		$request = self::scrub_request( $_REQUEST );
 
-		$response = LLMS_AJAX_Handler::$request['action']( $request );
+		$response = call_user_func( 'LLMS_AJAX_Handler::' . $request['action'], $request );
 
 		if ( $response instanceof WP_Error ) {
 			self::send_error( $response );
@@ -156,7 +156,6 @@ class LLMS_AJAX {
 			'update_syllabus'			=> false,
 			'get_associated_lessons'	=> false,
 			'get_question'				=> false,
-			'get_questions'				=> false,
 			'get_quiz_questions'		=> false,
 			'start_quiz'				=> false,
 			'answer_question'			=> false,
@@ -168,6 +167,7 @@ class LLMS_AJAX {
 			'get_students'              => false,
 			'get_enrolled_students'     => false,
 			'check_voucher_duplicate'	=> false,
+			'query_quiz_questions'      => false,
 			//'test_ajax_call'			=> false,
 		);
 
@@ -470,28 +470,6 @@ class LLMS_AJAX {
 		die();
 	}
 
-	/**
-	 * Return array of questions (id => name)
-	 *
-	 * @param string
-	 * @return array
-	 */
-	public function get_questions() {
-
-		$args = array(
-			'posts_per_page' 	=> -1,
-			'post_type' 		=> 'llms_question',
-			'nopaging' 			=> true,
-			'post_status'   	=> 'publish',
-		);
-		$postslist = get_posts( $args );
-
-		foreach ($postslist as $key => $value) {
-			$value->edit_url = get_edit_post_link( $value->ID, false );
-		}
-		echo json_encode( $postslist );
-		die();
-	}
 
 	/**
 	 * Return array of lessons (id => name)
@@ -1048,6 +1026,70 @@ class LLMS_AJAX {
 		) );
 
 		wp_die();
+	}
+
+
+
+
+	/**
+	 * Retrieve Quiz Questions
+	 *
+	 * Used by Select2 AJAX functions to load paginated quiz questions
+	 * Also allows querying by question title
+	 *
+	 * @return json
+	 */
+	public function query_quiz_questions() {
+
+		// grab the search term if it exists
+		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+
+		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+
+		global $wpdb;
+
+		$limit = 30;
+		$start = $limit * $page;
+
+		if ( $term ) {
+			$like = " AND post_title LIKE '%s'";
+			$vars = array( '%' . $term . '%', $start, $limit );
+		} else {
+			$like = '';
+			$vars = array( $start, $limit );
+		}
+
+		$questions = $wpdb->get_results( $wpdb->prepare(
+			"SELECT ID, post_title
+			 FROM $wpdb->posts
+			 WHERE
+			 	    post_type = 'llms_question'
+			 	AND post_status = 'publish'
+			 	$like
+			 ORDER BY post_title
+			 LIMIT %d, %d
+			",
+			$vars
+		) );
+
+		$r = array();
+		foreach ( $questions as $q ) {
+
+			$r[] = array(
+				'id' => $q->ID,
+				'name' => $q->post_title . ' (' . $q->ID . ')',
+			);
+
+		}
+
+		echo json_encode( array(
+			'items' => $r,
+			'more' => count( $r ) === $limit,
+			'success' => true,
+		) );
+
+		wp_die();
+
 	}
 
 }

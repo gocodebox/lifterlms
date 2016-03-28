@@ -14,6 +14,7 @@ $lesson = new LLMS_Lesson( $lessonid );
 
 if ( $quiz ) {
 	$attempts = $quiz->get_remaining_attempts_by_user( $user_id );
+	$grade = $quiz->get_user_grade( $user_id );
 }
 ?>
 
@@ -32,7 +33,7 @@ if ( empty( $quiz ) || 'unlimited' === $attempts || $attempts > 0 || '' == $quiz
 	 	<input type="hidden" name="action" value="llms_start_quiz" />
 
 	 	<?php
-	 	if ($lesson->get_next_lesson() && $quiz->is_passing_score( $user_id )) {
+	 	if ($lesson->get_next_lesson() && $quiz->is_passing_score( $user_id, $grade )) {
 			$t = $lesson->get_next_lesson();
 	 		?>
 	 		<a href="<?php echo get_permalink( $lesson->get_next_lesson() );?>" class="button llms-next-lesson" style="text-decoration:none; display:inline;"><?php _e( 'Next Lesson','lifterlms' ); ?></a>

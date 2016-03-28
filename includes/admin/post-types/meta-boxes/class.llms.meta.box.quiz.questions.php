@@ -18,86 +18,53 @@ class LLMS_Meta_Box_Quiz_Questions {
 	 * @param  object $post [WP post object]
 	 *
 	 * @return void
+	 *
+	 * @updated 2.4.0
 	 */
 	public static function output( $post ) {
 		global $post;
 
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
-		// $question_type = get_post_meta( $post->ID, '_llms_question_type', true );
-		 $questions_selected = get_post_meta( $post->ID, '_llms_questions', true );
-		//
-		$question_args = array(
-			'posts_per_page'   => 1000,
-			'post_status'      => 'publish',
-			'orderby'          => 'title',
-			'order'            => 'ASC',
-			'post_type'        => 'llms_question',
-			'suppress_filters' => true,
-		);
-		$questions = get_posts( $question_args );
+		$questions_selected = get_post_meta( $post->ID, '_llms_questions', true );
 		?>
 
 		<div id="llms-question-container">
-			<?php
-			$label  = '';
-			$label .= '<h3>' . __( 'Question Options', 'lifterlms' ) . '</h3> ';
-			echo $label;
-			?>
 
-			<a href="#" class="button" id="add_new_question"/><?php _e( 'Add a new question', 'lifterlms' ); ?></a>
 			<div id="llms-single-options">
 				<table class="wp-list-table widefat fixed posts question-list ui-sortable">
-					
 					<thead>
 						<tr>
-							<th class="llms-table-select">Name</th>
-							<th class="llms-table-points">Points</th>
-							<th class="llms-table-options"></th>
+							<th class="llms-table-select"><?php _e( 'Question Name', 'lifterlms' ); ?></th>
+							<th class="llms-table-points"><?php _e( 'Points', 'lifterlms' ); ?></th>
+							<th class="llms-table-options"><?php _e( 'Actions', 'lifterlms' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
-						
 						<?php
-						if ($questions_selected) {
-							foreach ($questions_selected as $key => $value) { ?>
-								<tr class="list_item" id="question_<?php echo $key; ?>" data-order="<?php echo $key; ?>" style="display: table-row;">
-									<td class="llms-table-select">
-										<select id="question_select_<?php echo $key; ?>" name="_llms_question[]" class="chosen-select question-select">
-											<?php
-											if ($questions) {
-												foreach ($questions as $pkey => $pvalue) {
+						if ( $questions_selected ) {
 
-													$selected = ($pvalue->ID == $value['id'] ? 'selected' : ''); ?>
-													<option <?php echo $selected ?> value="<?php echo $pvalue->ID; ?>"><?php echo $pvalue->post_title; ?></option>
-												<?php }
-											} ?>
-										</select>
-									</td>
-									<td class="llms-table-points">
-										<input type="text" class="llms-points" name="_llms_points[]" id="llms_points_<?php echo $key; ?>" value="<?php echo $value['points']; ?>"/>
-									</td>
-									<td class="llms-table-options">
-									<a href="<?php echo get_edit_post_link( $value['id'] ); ?>"><i class="fa fa-pencil-square-o llms-fa-edit"></i></a>
-										<i class="fa fa-bars llms-fa-move"></i>
-										<i data-code="f153" class="dashicons dashicons-dismiss deleteBtn single-option-delete"></i> 
-									</td>
-								</tr>
-		
-							<?php
+							foreach ( $questions_selected as $q ) {
+
+								echo self::get_question_html_template( $q['id'], $q['points'] );
+
 							}
+
 						}
 						?>
-						</tbody>
-							<tfoot>
-								<tr>
-								<td>
-									<?php _e( 'Total Points: ', 'lifterlms' ) ?> <span id="llms_points_total"></span>
-								</td>
-							</tr>
-						</tfoot>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td><?php _e( 'Total Points: ', 'lifterlms' ) ?> <span id="llms_points_total"></span></td>
+							<td class="new-question-button" colspan="2"><a href="#" class="button" id="add_new_question"/><?php _e( 'Add a new question', 'lifterlms' ); ?></a></td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
+
+			<!-- This is a template for a single question used by Javascript to create new questions -->
+			<table id="llms-single-question-template" style="display: none !important;"><?php echo self::get_question_html_template(); ?></table>
+
 		</div>
 	<?php
 	}
@@ -134,6 +101,38 @@ class LLMS_Meta_Box_Quiz_Questions {
 				}
 			}
 		}
+
+	}
+
+
+	/**
+	 * Retrieve the HTML for a single question row
+	 * @param  integer $id     WP Post ID of the question
+	 * @param  integer $points Number of points awarded for the question
+	 * @return string
+	 *
+	 * @since  2.4.0
+	 */
+	private static function get_question_html_template( $id = 0, $points = 1 ) {
+
+		// lookup the title and output an option if we have an ID
+		$option = ( $id ) ? '<option selected="selected" value="'. $id .'">' . get_the_title( $id ) . ' (' . $id . ')</option>' : '';
+
+		return '
+			<tr class="list_item llms-question" data-question-id="' . $id . '">
+				<td class="llms-table-select">
+					<select class="llms-question-select" name="_llms_question[]" data-placeholder="' . __( 'Choose a Question', 'lifterlms' ) . '">' . $option . '</select>
+				</td>
+				<td class="llms-table-points">
+					<input type="number" class="llms-points" min="1" name="_llms_points[]" step="1" value="' . $points . '" />
+				</td>
+				<td class="llms-table-options">
+					<i class="fa fa-pencil-square-o llms-fa-edit"></i>
+					<i class="fa fa-bars llms-fa-move"></i>
+					<i data-code="f153" class="dashicons dashicons-dismiss llms-remove-question deleteBtn single-option-delete"></i>
+				</td>
+			</tr>
+		';
 
 	}
 
