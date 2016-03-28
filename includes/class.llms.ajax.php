@@ -1051,7 +1051,7 @@ class LLMS_AJAX {
 		$limit = 30;
 		$start = $limit * $page;
 
-		if( $term ) {
+		if ( $term ) {
 			$like = " AND post_title LIKE '%s'";
 			$vars = array( '%' . $term . '%', $start, $limit );
 		} else {
@@ -1060,7 +1060,6 @@ class LLMS_AJAX {
 		}
 
 		$questions = $wpdb->get_results( $wpdb->prepare(
-
 			"SELECT ID, post_title
 			 FROM $wpdb->posts
 			 WHERE
@@ -1071,7 +1070,6 @@ class LLMS_AJAX {
 			 LIMIT %d, %d
 			",
 			$vars
-
 		) );
 
 		$r = array();

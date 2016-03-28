@@ -561,7 +561,6 @@ class LLMS_Frontend_Forms
 
 			$order = apply_filters( 'lifterlms_before_order_process', $order );
 
-
 			if ($order->total == 0) {
 				$lifterlms_checkout = LLMS()->checkout();
 				$lifterlms_checkout->process_order( $order );
