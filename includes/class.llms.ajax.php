@@ -43,7 +43,7 @@ class LLMS_AJAX {
 
 		$request = self::scrub_request( $_REQUEST );
 
-		$response = LLMS_AJAX_Handler::$request['action']( $request );
+		$response = call_user_func( 'LLMS_AJAX_Handler::' . $request['action'], $request );
 
 		if ( $response instanceof WP_Error ) {
 			self::send_error( $response );
