@@ -7,6 +7,10 @@
 		display: none;
 	}
 
+	.new-question-button {
+		text-align: right;
+	}
+
 	td.llms-table-points, th.llms-table-points {
 		width: 10%;
 		input[type="number"] {

@@ -2120,6 +2120,9 @@ div[id^="lifterlms-"] .inside {
 #llms-question-container tr.llms-question[data-question-id="0"] .llms-fa-edit {
   display: none;
 }
+#llms-question-container .new-question-button {
+  text-align: right;
+}
 #llms-question-container td.llms-table-points, #llms-question-container th.llms-table-points {
   width: 10%;
 }
