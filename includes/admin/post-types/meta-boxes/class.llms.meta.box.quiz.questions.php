@@ -18,6 +18,8 @@ class LLMS_Meta_Box_Quiz_Questions {
 	 * @param  object $post [WP post object]
 	 *
 	 * @return void
+	 *
+	 * @updated 2.4.0
 	 */
 	public static function output( $post ) {
 		global $post;
@@ -61,9 +63,7 @@ class LLMS_Meta_Box_Quiz_Questions {
 			</div>
 
 			<!-- This is a template for a single question used by Javascript to create new questions -->
-			<table id="llms-single-question-template" style="display: none !important;">
-				<?php echo self::get_question_html_template(); ?>
-			</table>
+			<table id="llms-single-question-template" style="display: none !important;"><?php echo self::get_question_html_template(); ?></table>
 
 		</div>
 	<?php
