@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.4.2
-Stable tag: 2.3.0
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -161,6 +161,36 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v2.4.0 - 2016/03/29 =
+-----------------------
+
+##### Performance Improvements on the LifterLMS Quiz Builder
+
++ Completely rewrote Javascript associated with building a LifterLMS Quiz. Our users have been identifying some performance issues and slowness when working with larger databases. We've refactored the Javascript and our related database queries to allow faster quiz building and fewer timeouts when working in the quiz builder.
++ Fixed a bunch of undefined variables that would produce PHP warnings in various quiz templates
++ Added validation to quiz questions on the admin panel to prevent the same question from being added to a quiz multiple times.
++ Fixed an issue that prevented quizzes from correctly marking the lesson as completed when the quiz was passed.
++ Added three new actions now available for developers to hook into.
+  + `lifterlms_quiz_completed` called upon completion of a quiz (regardless of grade)
+  + `lifterlms_quiz_passed` called when a quiz is completed with a passing grade
+  + `lifterlms_quiz_failed` called when a quiz is completed with a failing grade
++ Course Progress and Course Syllabus shortcodes (and widgets) now work on Quiz pages
++ Completed Metabox refactor for the LifterLMS Quiz post type and removed `LLMS_Meta_Box_Quiz_General` class. All functions now exist in `LLMS_Meta_Box_Quiz`
++ Added validation to the Quiz general settings
+  + Cannot only enter numbers in attempts, percentage, and time limit fields
+  + Cannot enter a negative number or a number greater than 100 in the percentage field
++ Removed the membership restriction metabox from quiz admin and question admin screens
+
+##### Other fixes
+
++ Fixed an issue that caused multiple certificates awarded for the same Course or Lesson to not properly display on the My Account page.
++ Removed an event bound to the publishing of a LifterLMS Question that called a function that didn't exist and caused a Javascript error on the console (but didn't actually cause any problems)
++ Removed a warning message that would display on sidebars when a shortcode was being displayed in a place that it couldn't function. We now simply don't display any content if the shortcode can't function.
++ Resolved an issue that prevent users from "purchasing" products when using a 100% coupon and the Stripe payment gateway. Users experiencing this issue should also update to Stripe 3.0.1.
++ Fixed an AJAX related issue that was incompatible with PHP7
++ Added the ability to have a "max" value on LifterLMS Admin Metabox number fields
+
 
 = v2.3.0 - 2016/03/24 =
 -----------------------
