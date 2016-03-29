@@ -5,14 +5,10 @@ $('#add_new_option').click(function() {
 	return false;
 });
 
-$('#publish').click(function() {
-	update_question_options();
-});
-
 delete_option();
 single_option_sortable();
 
-	
+
 });
 
  /**
@@ -34,7 +30,7 @@ single_course_template = function () {
 				</td>
 			</tr>
 				').appendTo('#llms-single-options .dad-list tbody').hide().fadeIn(300);
-	
+
 	delete_option();
 };
 
@@ -70,7 +66,7 @@ single_option_sortable = function() {
 			var start_pos = ui.item.index();
 			ui.item.data('start_pos', start_pos);
 			var radio_checked= {};
- 
+
             var radio_checked= {};
             jQuery('input[type="radio"]', this).each(function(){
                 if(jQuery(this).is(':checked'))
@@ -82,8 +78,8 @@ single_option_sortable = function() {
             var start_pos = ui.item.data('start_pos');
             var end_pos = jQuery(ui.item).index();
             jQuery(ui.item).attr("data-order", end_pos);
-            
-        } 
+
+        }
     }).bind('sortstop', function (event, ui) {
         var radio_restore = jQuery(document).data('radio_checked');
         jQuery.each(radio_restore, function(index, value){

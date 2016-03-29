@@ -40,7 +40,7 @@
 // Tablets and smaller laptops
 @media only screen and (min-width: 768px) {
 	@import "admin/breakpoints/768up";
-} 
+}
 
 // Desktops
 @media only screen and (min-width: 1030px) {
@@ -60,6 +60,9 @@
 }
 
 @import "admin/main";
+
+@import "admin/metaboxes/metabox-quiz-builder";
+
 @import "admin/tabs";
 @import "admin/fonts";
 

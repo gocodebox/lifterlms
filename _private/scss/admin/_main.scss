@@ -325,13 +325,9 @@ tbody tr td .llms-fa-edit-lesson:active {
 
 #llms-single-options {
   position: relative;
-  min-height: 100px;
   padding: 10px 0;
 }
-#llms-question-container {
-	position: relative;
-	min-height: 100px;
-}
+
 .llms-single-options table textarea {
   width: 96%;
   margin: 8px;
@@ -350,12 +346,6 @@ tbody tr td .llms-fa-edit-lesson:active {
 .single-option-delete:hover {
 	cursor: pointer;
 	color: #d54e21;
-}
-td.llms-table-points, th.llms-table-points {
-	width: 10%;
-	input[type=text] {
-		width: 100%;
-	}
 }
 td.llms-table-select, th.llms-table-select {
 	width: 70%;

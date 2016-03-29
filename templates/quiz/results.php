@@ -14,14 +14,14 @@ $quiz_session = LLMS()->session->get( 'llms_quiz' );
 
 if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 
-	$quiz->is_passing_score( $user_id );
+	$grade = $quiz->get_user_grade( $user_id );
+	$quiz->is_passing_score( $user_id, $grade );
 	$passing_percent = $quiz->get_passing_percent();
 
 	$start_date = $quiz->get_start_date( $user_id );
 
-	$grade = $quiz->get_user_grade( $user_id );
 
-	$is_passing_score = $quiz->is_passing_score( $user_id );
+	$is_passing_score = $quiz->is_passing_score( $user_id, $grade );
 	$best_grade = $quiz->get_best_grade( $user_id );
 	$time = $quiz->get_total_time( $user_id );
 	$start_date = date( 'M d, Y', strtotime( $quiz->get_start_date( $user_id ) ) );

@@ -477,7 +477,7 @@ class LLMS_Lesson {
 	 * @param  int $user_id [ID of user]
 	 * @return void
 	 */
-	public function mark_complete( $user_id ) {
+	public function mark_complete( $user_id, $prevent_autoadvance = false ) {
 		global $wpdb;
 
 		$user = new LLMS_Person;
@@ -651,7 +651,7 @@ class LLMS_Lesson {
 
 				}
 
-			} elseif ( get_option( 'lifterlms_autoadvance', false ) ) {
+			} elseif ( ! $prevent_autoadvance && get_option( 'lifterlms_autoadvance', false ) ) {
 
 				$next_lession_id = $this->get_next_lesson();
 				if ($next_lession_id) {
