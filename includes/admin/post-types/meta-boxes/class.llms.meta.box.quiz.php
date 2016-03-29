@@ -10,7 +10,7 @@ if ( ! defined( 'LLMS_Admin_Metabox' ) ) {
 *
 * Generates main metabox and builds forms
 */
-class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
+class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox {
 
 	public static $prefix = '_';
 
@@ -41,7 +41,7 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 				'title' 	=> 'General',
 				'fields' 	=> array(
 					array(
-						'type'  	=> 'text',
+						'type'  	=> 'number',
 						'label' 	=> 'Allowed Attempts',
 						'desc' 		=> 'Number of allowed attempts. Leave blank for unlimited attempts.',
 						'id' 		=> self::$prefix . 'llms_allowed_attempts',
@@ -52,12 +52,14 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 						'value' 	=> '',
 					),
 					array(
-						'type'  	=> 'text',
+						'type'  	=> 'number',
 						'label'  	=> 'Passing Percentage',
-						'desc'  	=> 'Enter the percent required to pass quiz. DO NOT USE % (IE: enter 50 to have a passing requirement of 50%.)',
+						'desc'  	=> 'Enter the percent required to pass quiz.',
 						'id'    	=> self::$prefix . 'llms_passing_percent',
 						'section' 	=> 'quiz_meta_box',
 						'class' 	=> 'code input-full',
+						'min'       => 0,
+						'max'       => 100,
 						'desc_class' => 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
@@ -152,5 +154,37 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox{
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
+		if ( isset( $_POST['_llms_allowed_attempts'] ) ) {
+			$allowed_attempts = ( llms_clean( $_POST['_llms_allowed_attempts'] ) );
+			update_post_meta( $post_id, '_llms_allowed_attempts', ( $allowed_attempts === '' ) ? '' : $allowed_attempts );
+		}
+		if ( isset( $_POST['_llms_passing_percent'] ) ) {
+			$passing_percent = ( llms_clean( $_POST['_llms_passing_percent'] ) );
+			update_post_meta( $post_id, '_llms_passing_percent', ( $passing_percent === '' ) ? '0' : $passing_percent );
+		}
+		if ( isset( $_POST['_llms_time_limit'] ) ) {
+			$time_limit = ( llms_clean( $_POST['_llms_time_limit'] ) );
+			update_post_meta( $post_id, '_llms_time_limit', $time_limit );
+		}
+
+		$random_answers = ( isset( $_POST['_llms_random_answers'] ) ? true : false );
+		update_post_meta( $post_id, '_llms_random_answers', ( $random_answers === '' ) ? '' : $random_answers );
+
+		$show_result = ( isset( $_POST['_llms_show_results'] ) ? true : false );
+		update_post_meta( $post_id, '_llms_show_results', ( $show_result === '' ) ? '' : $show_result );
+
+		$show_correct_answer = ( isset( $_POST['_llms_show_correct_answer'] ) ? true : false );
+		update_post_meta( $post_id, '_llms_show_correct_answer', ( $show_correct_answer === '' )
+		? '' : $show_correct_answer );
+
+		$show_option_description_wrong_answer = ( isset( $_POST['_llms_show_options_description_wrong_answer'] )
+			? true : false );
+		update_post_meta($post_id, '_llms_show_options_description_wrong_answer',
+		( $show_option_description_wrong_answer === '') ? '' : $show_option_description_wrong_answer);
+
+		$show_option_description_right_answer = ( isset( $_POST['_llms_show_options_description_right_answer'] )
+			? true : false );
+		update_post_meta($post_id, '_llms_show_options_description_right_answer',
+		( $show_option_description_right_answer === '') ? '' : $show_option_description_right_answer);
 	}
 }
