@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LifterLMS 2.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-03-29 21:53:32+00:00\n"
+"POT-Creation-Date: 2016-03-29 21:56:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -602,19 +602,11 @@ msgstr ""
 msgid "Order Details"
 msgstr ""
 
-<<<<<<< HEAD
-#: includes/admin/post-types/class.llms.meta.boxes.php:165
-msgid "Quiz Questions"
-msgstr ""
-
-#: includes/admin/post-types/class.llms.meta.boxes.php:166
-=======
 #: includes/admin/post-types/class.llms.meta.boxes.php:164
 msgid "Quiz Questions"
 msgstr ""
 
 #: includes/admin/post-types/class.llms.meta.boxes.php:165
->>>>>>> 8df8da477960ef03ee30568e2787e7d0701c01b4
 msgid "Question Settings"
 msgstr ""
 
@@ -884,7 +876,6 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:59
 msgid "Add a new question"
 msgstr ""
-
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:124
 msgid "Choose a Question"
@@ -1568,17 +1559,6 @@ msgstr ""
 msgid "Please confirm your payment."
 msgstr ""
 
-<<<<<<< HEAD
-#: includes/class.llms.frontend.forms.php:715
-msgid "Congratulations! You have enrolled in <strong>%s</strong>"
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:718
-msgid "Congratulations! Your new membership level is <strong>%s</strong>"
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:721
-=======
 #: includes/class.llms.frontend.forms.php:705
 msgid "Congratulations! You have enrolled in <strong>%s</strong>"
 msgstr ""
@@ -1588,7 +1568,6 @@ msgid "Congratulations! Your new membership level is <strong>%s</strong>"
 msgstr ""
 
 #: includes/class.llms.frontend.forms.php:711
->>>>>>> 8df8da477960ef03ee30568e2787e7d0701c01b4
 msgid "You have successfully purchased <strong>%s</strong>"
 msgstr ""
 
@@ -1596,23 +1575,6 @@ msgstr ""
 msgid "You already own this course. You cannot purchase it again."
 msgstr ""
 
-<<<<<<< HEAD
-#: includes/class.llms.frontend.forms.php:756
-msgid "This content is not available until %s"
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:777
-msgid "<a href=\"%s\">%s</a> membership level allows access to this content."
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:814
-#: includes/class.llms.frontend.forms.php:873
-msgid "You must complete <strong><a href=\"%s\" alt=\"%s\">%s</strong></a> before accessing this content"
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:839
-#: includes/class.llms.frontend.forms.php:896
-=======
 #: includes/class.llms.frontend.forms.php:746
 msgid "This content is not available until %s"
 msgstr ""
@@ -1628,7 +1590,6 @@ msgstr ""
 
 #: includes/class.llms.frontend.forms.php:829
 #: includes/class.llms.frontend.forms.php:886
->>>>>>> 8df8da477960ef03ee30568e2787e7d0701c01b4
 msgid "You must complete the following course track before accessing this content: <strong>%s</strong>"
 msgstr ""
 
@@ -1637,28 +1598,6 @@ msgstr ""
 msgid "Courses remaining:"
 msgstr ""
 
-<<<<<<< HEAD
-#: includes/class.llms.frontend.forms.php:850
-#: includes/class.llms.frontend.forms.php:856
-#: includes/class.llms.frontend.forms.php:907
-#: includes/class.llms.frontend.forms.php:913
-msgid "<strong><a href=\"%s\" alt=\"%s\">%s</strong></a>"
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:923
-msgid "Lesson is not available until %s."
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:929
-msgid "Course is not available until %s."
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:934
-msgid "Course ended %s."
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:937
-=======
 #: includes/class.llms.frontend.forms.php:840
 #: includes/class.llms.frontend.forms.php:846
 #: includes/class.llms.frontend.forms.php:897
@@ -1679,7 +1618,6 @@ msgid "Course ended %s."
 msgstr ""
 
 #: includes/class.llms.frontend.forms.php:927
->>>>>>> 8df8da477960ef03ee30568e2787e7d0701c01b4
 msgid "You do not have access to the quiz questions. <a href=\"%s\">Return to Account page</a>."
 msgstr ""
 
@@ -1756,11 +1694,7 @@ msgstr ""
 msgid "A user could not be found with this email address."
 msgstr ""
 
-<<<<<<< HEAD
-#: includes/class.llms.frontend.forms.php:1194
-=======
 #: includes/class.llms.frontend.forms.php:1184
->>>>>>> 8df8da477960ef03ee30568e2787e7d0701c01b4
 msgid "You are now logged in as <strong>%s</strong>"
 msgstr ""
 
@@ -1820,11 +1754,7 @@ msgstr ""
 msgid "User cannot be found."
 msgstr ""
 
-<<<<<<< HEAD
-#: includes/class.llms.lesson.php:507
-=======
 #: includes/class.llms.lesson.php:509
->>>>>>> 8df8da477960ef03ee30568e2787e7d0701c01b4
 msgid "Congratulations! You have completed %s"
 msgstr ""
 
@@ -3118,11 +3048,7 @@ msgstr ""
 msgid "Password Reset Instructions"
 msgstr ""
 
-<<<<<<< HEAD
 #: includes/functions/llms.functions.access.php:612
-=======
-#: includes/functions/llms.functions.access.php:611
->>>>>>> 8df8da477960ef03ee30568e2787e7d0701c01b4
 msgid "%s membership is required to view this content."
 msgstr ""
 
@@ -4335,11 +4261,7 @@ msgstr ""
 msgid "Displays All Course lessons on Course or Lesson page"
 msgstr ""
 
-<<<<<<< HEAD
-#: lifterlms.php:407
-=======
 #: lifterlms.php:367
->>>>>>> 8df8da477960ef03ee30568e2787e7d0701c01b4
 msgid "Settings"
 msgstr ""
 
