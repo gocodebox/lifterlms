@@ -3,22 +3,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 global $post;
 
-$user_id = get_current_user_id();
-$memberships_required = get_post_meta( $post->ID, '_llms_restricted_levels', true );
-
-if ($memberships_required) {
-	foreach ($memberships_required as $membership_id) {
-		if (llms_is_user_member($user_id, $membership_id)) {
-			$user_is_member = true;
-			break;
-		}
-	}
-}
-
 $llms_product = new LLMS_Product( $post->ID );
 ?>
 
-<?php if ( ! ( llms_is_user_enrolled( get_current_user_id(), $post->ID ) || $user_is_member ) ) : ?>
+<?php if ( ! ( llms_is_user_enrolled( get_current_user_id(), $post->ID ) || llms_does_user_memberships_contain_course( get_current_user_id(), $post->ID ) ) ) : ?>
 
 	<div class="llms-price-wrapper">
 

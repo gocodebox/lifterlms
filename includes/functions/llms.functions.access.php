@@ -665,19 +665,37 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 function llms_is_user_member( $user_id, $post_id ) {
 	$user_memberships = get_user_meta( $user_id, '_llms_restricted_levels', true );
 
-	$is_member = false;
-
 	if ( empty( $user_memberships ) ) {
-		$is_member = false;
-
+		return false;
 	} else {
-		foreach ( $user_memberships as $key => $value ) {
+		foreach ( $user_memberships as $value ) {
 
-			if ( $post_id == $value) {
-				$is_member = true;
-
+			if ( $post_id == $value ) {
+				return true;
 			}
 		}
 	}
-	return $is_member;
+}
+
+/**
+ * Checks if user has the membership level required to enroll in course
+ *
+ * @param  int $user_id [ID of the current user]
+ * @param  int $post_id [ID of the course]
+ *
+ * @return bool $is_member [Does the user have the required membership level required to enroll in course?]
+ */
+function llms_does_user_memberships_contain_course( $user_id, $post_id ) {
+	$memberships_required = get_post_meta( $post_id, '_llms_restricted_levels', true );
+
+	if ( empty( $memberships_required ) ) {
+		return false;
+	} else {
+		foreach ( $memberships_required as $membership_id ) {
+
+			if ( llms_is_user_member( $user_id, $membership_id ) ) {
+				return true;
+			}
+		}
+	}
 }
