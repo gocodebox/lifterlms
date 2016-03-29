@@ -17,6 +17,7 @@
 
 ##### Other fixes
 
++ Fixed an issue that caused multiple certificates awarded for the same Course or Lesson to not properly display on the My Account page.
 + Removed an event bound to the publishing of a LifterLMS Question that called a function that didn't exist and caused a Javascript error on the console (but didn't actually cause any problems)
 + Removed a warning message that would display on sidebars when a shortcode was being displayed in a place that it couldn't function. We now simply don't display any content if the shortcode can't function.
 + Resolved an issue that prevent users from "purchasing" products when using a 100% coupon and the Stripe payment gateway. Users experiencing this issue should also update to Stripe 3.0.1.
