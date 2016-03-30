@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the LifterLMS package.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 2.4.0-1\n"
+"Project-Id-Version: LifterLMS 2.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-03-28 22:02:07+00:00\n"
+"POT-Creation-Date: 2016-03-29 21:53:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -602,11 +602,11 @@ msgstr ""
 msgid "Order Details"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:165
+#: includes/admin/post-types/class.llms.meta.boxes.php:164
 msgid "Quiz Questions"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:166
+#: includes/admin/post-types/class.llms.meta.boxes.php:165
 msgid "Question Settings"
 msgstr ""
 
@@ -855,62 +855,6 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.question.general.php:56
 msgid "Explanation Field"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:41
-msgid "Allowed Attempts"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:49
-msgid "Number of allowed attempts. Leave blank for unlimited attempts."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:59
-msgid "Passing Percentage"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:67
-msgid "Enter the percent required to pass quiz. DO NOT USE % (IE: enter 50 to have a passing requirement of 50%."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:77
-msgid "Time Limit"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:85
-msgid "Enter a time limit for quiz completion in minutes. Leave empty if no time limit."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:91
-msgid "Display last quiz results"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:94
-msgid "Checking this box will show result summary to students."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:98
-msgid "Show Correct Answers"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:101
-msgid "Checking this box will show correct answer on incorrect questions."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:105
-msgid "Show description on wrong answers"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:108
-msgid "Checking this box will show  description on incorrect questions"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:112
-msgid "Show description on right answers"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.general.php:115
-msgid "Checking this box will show  description on correct questions"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:38
@@ -2438,7 +2382,7 @@ msgstr ""
 
 #: includes/class.llms.post-types.php:488
 #: includes/class.llms.post-types.php:489
-#: templates/myaccount/my-certificates.php:28
+#: templates/myaccount/my-certificates.php:27
 msgid "View Certificate"
 msgstr ""
 
@@ -2579,7 +2523,7 @@ msgid "my_certificate"
 msgstr ""
 
 #: includes/class.llms.post-types.php:598
-#: templates/myaccount/my-certificates.php:12
+#: templates/myaccount/my-certificates.php:13
 msgid "My Certificates"
 msgstr ""
 
@@ -4657,7 +4601,7 @@ msgstr ""
 msgid "Complete courses and lessons to earn achievements."
 msgstr ""
 
-#: templates/myaccount/my-certificates.php:37
+#: templates/myaccount/my-certificates.php:33
 msgid "Complete courses and lessons to earn certificates."
 msgstr ""
 
