@@ -681,7 +681,59 @@ function llms_is_user_member( $user_id, $post_id ) {
 	return $is_member;
 }
 
-function llms_get_courses_in_membership( $membership_id) {
+function llms_on_transition_post_status( $new_status, $old_status, $post ) {
+	if ( $post->post_type == 'llms_membership' ) {
+		if ( 'trash' == $new_status && $old_status != $new_status ) {
+			llms_on_trash_memebership( $post );
+		} elseif ( 'trash' == $old_status && $old_status != $new_status ) {
+			llms_on_restore_memebership( $post );
+		}
+	}
+}
+
+add_action( 'transition_post_status', 'llms_on_transition_post_status', 10, 3 );
+
+function llms_on_trash_memebership( $post ) {
+	$membership_id = (string) $post->ID;
+	$courses = llms_get_courses_in_membership( $membership_id );
+	$restricted_content = array();
+
+	foreach ( $courses as $course ) {
+		$restricted_content[] = $course->ID;
+		$levels = get_post_meta( $course->ID, '_llms_restricted_levels', true );
+		if ( ! $levels ) {
+			$levels = array();
+		}
+
+		unset( $levels[ array_search( $membership_id, $levels ) ] );
+
+		if ( empty( $levels ) ) {
+			update_post_meta( $course->ID, '_llms_is_restricted', false );
+		}
+
+		update_post_meta( $course->ID, '_llms_restricted_levels', $levels );
+	}
+
+	update_post_meta( $post->ID, '_llms_resetricted_content_before_trash', $restricted_content );
+}
+
+function llms_on_restore_memebership( $post ) {
+	$restricted_content = get_post_meta( $post->ID, '_llms_resetricted_content_before_trash', true );
+
+	foreach ( $restricted_content as $content_id) {
+		$levels = get_post_meta( (int) $content_id, '_llms_restricted_levels', true );
+
+		if ( ! $levels ) {
+			$levels = array();
+		}
+		$memberships = array_merge( $levels, array( ( string ) $post->ID ) );
+
+		update_post_meta( $content_id, '_llms_is_restricted', true );
+		update_post_meta( $content_id, '_llms_restricted_levels', $memberships );
+	}
+}
+
+function llms_get_courses_in_membership( $membership_id ) {
 	global $wpdb;
 
 	$posts_table = $wpdb->prefix . 'posts';
