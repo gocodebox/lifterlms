@@ -209,7 +209,6 @@ function page_restricted_by_membership( $post_id ) {
 	$membership_required = get_option( 'lifterlms_membership_required', '' );
 
 	$restrict_access = false;
-	$membership_id = '';
 
 	if ( is_single() || is_page() ) {
 
@@ -300,6 +299,7 @@ function is_topic_restricted( $post ) {
  */
 function llms_get_post_memberships( $post_id ) {
 	$memberships = get_post_meta( $post_id, '_llms_restricted_levels', true );
+
 	return $memberships;
 }
 
@@ -314,6 +314,7 @@ function llms_get_parent_post_memberships( $post_id ) {
 	$lesson = new LLMS_Lesson( $post_id );
 	$parent_id = $lesson->get_parent_course();
 	$memberships = get_post_meta( $parent_id, '_llms_restricted_levels', true );
+
 	return $memberships;
 }
 
@@ -398,7 +399,6 @@ function find_prerequisite( $user_id, $post ) {
 	$user = new LLMS_Person;
 
 	$course = new LLMS_Course( $post->id );
-	$p = $course->get_prerequisite();
 
 	$prerequisite_exists = false;
 	$initial_prereq = false;
@@ -421,7 +421,6 @@ function find_prerequisite( $user_id, $post ) {
 		$initial_prereq = $prerequisite_exists;
 	}
 	if ($prerequisite_id = $course->get_prerequisite_track()) {
-		$prerequisite_exists = true;
 
 		$args = array(
 			'posts_per_page' 	=> 1000,
@@ -680,4 +679,23 @@ function llms_is_user_member( $user_id, $post_id ) {
 		}
 	}
 	return $is_member;
+}
+
+function llms_get_courses_in_membership( $membership_id) {
+	global $wpdb;
+
+	$posts_table = $wpdb->prefix . 'posts';
+	$postmeta = $wpdb->prefix . 'postmeta';
+
+	$postmeta_select = '%"' . $membership_id . '"%';
+
+	$select_courses = "SELECT ID FROM $posts_table
+					JOIN $postmeta
+					ON $posts_table.ID = $postmeta.post_id
+					WHERE $posts_table.post_type = 'course'
+					AND $postmeta.meta_key = '_llms_restricted_levels'
+					AND $postmeta.meta_value LIKE '$postmeta_select'";
+	$courses = $wpdb->get_results( $select_courses );
+
+	return $courses;
 }
