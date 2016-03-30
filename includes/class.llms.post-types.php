@@ -15,10 +15,39 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Post_Types {
 
 	public function __construct () {
-		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
-		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
+		add_action( 'init', array( $this, 'register_taxonomies' ), 5 );
+		add_action( 'init', array( $this, 'register_post_types' ), 5 );
+		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
+		add_action( 'after_setup_theme', array( $this, 'add_thumbnail_support' ), 777 );
+	}
 
-		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
+
+
+	/**
+	 * Ensure LifterLMS Post Types have thumbnail support
+	 * @return void
+	 *
+	 * @since  2.4.1
+	 */
+	public function add_thumbnail_support() {
+
+		// ensure theme support exists for LifterLMS post types
+		if ( ! current_theme_supports( 'post-thumbnails' ) ) {
+			add_theme_support( 'post-thumbnails' );
+		}
+
+		$thumbnail_post_types = array(
+			'course',
+			'lesson',
+			'llms_membership',
+		);
+
+		foreach ( $thumbnail_post_types as $p ) {
+
+			add_post_type_support( $p, 'thumbnail' );
+
+		}
+
 	}
 
 
@@ -29,7 +58,7 @@ class LLMS_Post_Types {
 	 *
 	 * @since  1.4.4
 	 */
-	public static function pre_get_posts( $query ) {
+	public function pre_get_posts( $query ) {
 
 		if ( ! is_admin() && $query->is_main_query() ) {
 
@@ -46,7 +75,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Taxonomies
 	 */
-	public static function register_taxonomies () {
+	public function register_taxonomies () {
 
 		if ( ! taxonomy_exists( 'course_type' ) ) {
 
@@ -245,7 +274,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Post Types
 	 */
-	public static function register_post_types() {
+	public function register_post_types() {
 		if ( post_type_exists( 'course' ) ) {
 			return;
 		} elseif ( post_type_exists( 'section' ) ) {
@@ -865,4 +894,4 @@ class LLMS_Post_Types {
 	}
 }
 
-new LLMS_Post_types();
+new LLMS_Post_Types();

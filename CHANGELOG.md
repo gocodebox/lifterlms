@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v2.4.1 - 2016/04/?? =
+-----------------------
+
++ Adjusted some static functions to be non static in `class.llms.post-types.php`
++ Added a function to ensure support for post thumbnails on LifterLMS custom post types
+
+
+
 = v2.4.0 - 2016/03/29 =
 -----------------------
 
