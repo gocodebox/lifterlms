@@ -16,7 +16,7 @@ if ( ! $product ) {
 
 $single_price = $product->get_single_price();
 $rec_price = $product->get_recurring_price();
-$memberships_required = get_post_meta( $product->id, '_llms_restricted_levels', true );
+$memberships_required = is_membership_required( $product->id );
 
 ?>
 <div class="llms-purchase-link-wrapper">
@@ -39,7 +39,7 @@ if ( ! is_user_logged_in() ) {
 			$membership_url = get_permalink( $memberships_required[0] );
 		}
 		?>
-		<a href="<?php echo $membership_url; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Sign Up', 'lifterlms' ); ?></a>	
+		<a href="<?php echo $membership_url; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Sign Up', 'lifterlms' ); ?></a>
 			<?php
 	} else {
 		$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
