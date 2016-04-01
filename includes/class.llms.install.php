@@ -345,6 +345,7 @@ class LLMS_Install {
 	 */
 	public function create_options() {
 		//store installed version
+		add_option( 'lifterlms_membership_restricted_box', array( 'course', 'page' ) );
 		add_option( 'lifterlms_current_version', LLMS_VERSION );
 		add_option( 'lifterlms_is_activated', '' );
 		add_option( 'lifterlms_update_key', '' );

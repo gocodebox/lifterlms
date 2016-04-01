@@ -181,7 +181,7 @@ class LLMS_Admin_Settings {
 
 		$custom_attributes_field = array_key_exists( 'custom_attributes', $field ) ? $field['custom_attributes'] : array();
 		// setup custom attributes
-			$custom_attributes = self::format_field_custom_attributes( $custom_attributes_field );
+		$custom_attributes = self::format_field_custom_attributes( $custom_attributes_field );
 
 		// setup field description and tooltip
 		// this will return an associative array of with the keys "description" and "tooltip"

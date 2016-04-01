@@ -114,22 +114,9 @@ class LLMS_Admin_Meta_Boxes {
 	*/
 	public function get_meta_boxes() {
 
-		//get all public registered post types
-		$public_post_types = array();
-		$args = array(
-		   'public'   => true,
-		);
-		$output = 'names';
-		$operator = 'and';
-		$post_types = get_post_types( $args, $output, $operator );
-
-		$hide_membership_access_box = array( 'llms_certificate', 'llms_membership', 'llms_question', 'llms_quiz' );
-
-		foreach ( $post_types  as $post_type ) {
-			if ( ! in_array( $post_type, $hide_membership_access_box )) {
-				add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', $post_type, 'side' );
-			}
-			array_push( $public_post_types, $post_type );
+		$post_types = get_option( 'lifterlms_membership_restricted_box', array( 'course', 'page' ) );
+		foreach ( $post_types  as $key => $post_type ) {
+			add_meta_box( 'lifterlms-membership-access', __( 'Membership Access', 'lifterlms' ), 'LLMS_Meta_Box_Access::output', $post_type, 'side' );
 		}
 
 		//===================================

@@ -10,6 +10,7 @@ jQuery(document).ready(function($) {
 	//needs to be put into the infusionsoft plugin
 	$('#lifterlms_gateway_is_accepted_cards').chosen({width: '350px'});
 
+	$('.select2').select2();
 });
 
 

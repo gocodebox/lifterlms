@@ -210,13 +210,15 @@ function page_restricted_by_membership( $post_id ) {
 	$membership_required = get_option( 'lifterlms_membership_required', '' );
 
 	$restrict_access = false;
-	$membership_id = '';
 
 	if ( is_single() || is_page() ) {
 
+		$post_type = get_post_type( $post_id );
+		$post_types = get_option( 'lifterlms_membership_restricted_box', array( 'course', 'page' ) );
+
 		// if this is a course and the user is already enrolled, ignore the sitewide restriction
 		// this allows users to buy a course that's available on it's own OR with a membership
-		if ( 'course' == get_post_type( $post_id ) || 'lesson' == get_post_type( $post_id ) ) {
+		if ( 'course' == $post_type || 'lesson' == $post_type ) {
 
 			if ( llms_is_user_enrolled( get_current_user_id(), $post_id ) ) {
 
@@ -227,7 +229,11 @@ function page_restricted_by_membership( $post_id ) {
 		}
 
 		//are there membership restictions on page
-		$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );
+		if ( in_array( $post_type, $post_types ) ) {
+			$page_restrictions = get_post_meta($post_id, '_llms_restricted_levels', true);
+		} else {
+			$page_restrictions = array();
+		}
 
 		if ( ! $page_restrictions) {
 			//check if page is a topic and restict if parent is restricted (bbpress)
