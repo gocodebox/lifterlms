@@ -11,11 +11,13 @@ Option Page Widgets
 	margin-bottom: 20px;
 	padding: 0 20px 20px;
 	box-sizing: border-box;
+	position: relative;
 
 	h1 {
 		font-size:  2.4em;
+	}
 
-	}p {
+	p {
 		&.llms-label {
 			text-align: center;
 			color: $color-grey;
@@ -27,7 +29,9 @@ Option Page Widgets
 			margin: 10px 0;
 			box-sizing: border-box;
 		}
-	}.llms-chart {
+	}
+
+	.llms-chart {
 		width: 100%;
 		padding: 10px;
 		box-sizing: border-box;
@@ -38,9 +42,74 @@ Option Page Widgets
 	}
 
 
-}.llms-widget-1-4 {
+	.spinner {
+		float: none;
+		left: 50%;
+		margin: -10px 0 0 -10px;
+		position: absolute;
+		top: 50%;
+		z-index: 2;
+	}
+
+	&.is-loading {
+
+		&:before {
+			background: $color-white;
+			bottom: 0;
+			content: '';
+			left: 0;
+			opacity: 0.9;
+			position: absolute;
+			right: 0;
+			top: 0;
+			z-index: 1;
+		}
+
+		.spinner {
+			visibility: visible;
+		}
+
+	}
+
+
+}
+
+.llms-widget-1-3,
+.llms-widget-1-4 {
 	text-align: center;
 }
+
+
+.llms-widget:hover .llms-widget-info {
+	display: block;
+}
+.llms-widget-info {
+	background: $color-cinder;
+	color: $color-white;
+	bottom: -50px;
+	display: none;
+	padding: 15px;
+	position: absolute;
+	text-align: center;
+	left: 10px;
+	right: 15px;
+	z-index: 3;
+	&:before {
+		content: '';
+		border: 12px solid transparent;
+		border-bottom-color: $color-cinder;
+		left: 50%;
+		margin-left: -12px;
+		position: absolute;
+		top: -24px;
+	}
+
+	p {
+		margin: 0;
+	}
+
+}
+
 
 .llms-user-profile {
 	padding: 0 20px;
@@ -50,12 +119,6 @@ Option Page Widgets
 	padding-top: 20px;
 	img { display: block; }
 	// padding: 5px;
-}
-
-.llms-widget-row {
-	div[class*="llms-widget-"] {
-		vertical-align: top;
-	}
 }
 
 .llms-widget-row .no-padding {

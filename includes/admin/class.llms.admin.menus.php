@@ -56,6 +56,7 @@ class LLMS_Admin_Menus {
 					case 'Coupons':		 	$i = 9;  break;
 					case 'Vouchers':	 	$i = 10; break;
 					case 'System Report':	$i = 11; break;
+					case 'Analytics (New)': $i = 12; break;
 
 				}
 
@@ -127,8 +128,12 @@ class LLMS_Admin_Menus {
 	*/
 	public function display_analytics_menu() {
 
-		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ),
+		add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ),
 		'llms-analytics', array( $this, 'analytics_page_init' ) );
+
+		add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics (New)', apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ),
+		'llms-analytics-new', array( $this, 'reporting_page_init' ) );
+
 	}
 
 	/**
@@ -140,6 +145,16 @@ class LLMS_Admin_Menus {
 		include_once( 'class.llms.admin.analytics.php' );
 		LLMS_Admin_Analytics::output();
 	}
+
+	/**
+	 * Init LLMS_Admin_Analytics
+	 *
+	 * @return void
+	 */
+	public function reporting_page_init() {
+		include LLMS_PLUGIN_DIR . 'includes/admin/analytics/class.llms.view.analytics.php';
+	}
+
 
 	/**
 	* Students Menu Item
