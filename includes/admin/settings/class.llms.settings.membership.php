@@ -33,14 +33,14 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 		$protected_post_types = array( 'lesson', 'llms_certificate', 'llms_my_certificate', 'llms_question', 'llms_quiz' );
 
 		$args = array(
-			'public' => true
+			'public' => true,
 		);
 
 		$post_types = get_post_types( $args );
 
-		foreach( $post_types as $key => $type ) {
-			if ( in_array($type, $protected_post_types) ) {
-				unset( $post_types[$key] );
+		foreach ( $post_types as $key => $type ) {
+			if ( in_array( $type, $protected_post_types ) ) {
+				unset( $post_types[ $key ] );
 			}
 		}
 
@@ -77,17 +77,8 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 			),
 
 			array(
-				'title' => __( 'Select the post types that you would like to have the ability to restrict to membership level\'s on an individual basis', 'lifterlms' ),
-				'desc' 		=> '<br/>' . sprintf( __( 'Automatically redirect users to checkout after selecting membership.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
-				'id' 		=> 'redirect_to_checkout',
-				'type' 		=> 'checkbox',
-				'default'	=> 'no',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' => __( 'Membership Page', 'lifterlms' ),
-				'desc' 		=> '<br/>' . sprintf( __( 'Page used for displaying memberships.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'title' => __( 'Post types with membership restriction box', 'lifterlms' ),
+				'desc' 		=> '<br/>' . sprintf( __( 'Select the post types that you would like to have the ability to restrict to membership level\'s on an individual basis.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
 				'id' 		=> 'lifterlms_membership_restricted_box',
 				'type' 		=> 'multiselect',
 				'options'	=> $post_types,
