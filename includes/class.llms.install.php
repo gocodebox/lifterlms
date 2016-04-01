@@ -229,8 +229,6 @@ class LLMS_Install {
 
 		// Register Post Types
 		include_once( 'class.llms.post-types.php' );
-		LLMS_Post_Types::register_post_types();
-		LLMS_Post_Types::register_taxonomies();
 
 		$this->register_post_types();
 		$this->cron();
@@ -252,8 +250,6 @@ class LLMS_Install {
 	 */
 	public function register_post_types() {
 		include_once( 'class.llms.post-types.php' );
-		LLMS_Post_Types::register_post_types();
-		LLMS_Post_Types::register_taxonomies();
 
 		include_once( 'class.llms.sidebars.php' );
 		LLMS_Sidebars::register_lesson_sidebars();
