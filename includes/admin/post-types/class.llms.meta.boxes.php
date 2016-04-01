@@ -49,7 +49,7 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Expiration::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Membership::save', 10, 2 );
 		add_action( 'lifterlms_process_membership_access', 'LLMS_Meta_Box_Access::save', 10, 2 );
-		add_action( 'lifterlms_process_llms_quiz_meta', 'LLMS_Meta_Box_Quiz_General::save', 10, 2 );
+		add_action( 'lifterlms_process_llms_quiz_meta', 'LLMS_Meta_Box_Quiz::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_quiz_meta', 'LLMS_Meta_Box_Quiz_Questions::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_question_meta', 'LLMS_Meta_Box_Question_General::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_coupon_meta', 'LLMS_Meta_Box_Coupon_Options::save', 10, 2 );
@@ -123,7 +123,7 @@ class LLMS_Admin_Meta_Boxes {
 		$operator = 'and';
 		$post_types = get_post_types( $args, $output, $operator );
 
-		$hide_membership_access_box = array( 'llms_certificate', 'llms_membership' );
+		$hide_membership_access_box = array( 'llms_certificate', 'llms_membership', 'llms_question', 'llms_quiz' );
 
 		foreach ( $post_types  as $post_type ) {
 			if ( ! in_array( $post_type, $hide_membership_access_box )) {
@@ -161,7 +161,6 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
 		//add_meta_box( 'lifterlms-expiration-options', __( 'Membership Expiration', 'lifterlms' ), 'LLMS_Meta_Box_Expiration::output', 'llms_membership', 'normal' );
 		add_meta_box( 'lifterlms-order-general', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order::output', 'order', 'normal', 'high' );
-		//add_meta_box( 'lifterlms-quiz-general', __( 'General Settings', 'lifterlms' ), 'LLMS_Meta_Box_Quiz_General::output', 'llms_quiz', 'normal' );
 		add_meta_box( 'lifterlms-quiz-questions', __( 'Quiz Questions', 'lifterlms' ), 'LLMS_Meta_Box_Quiz_Questions::output', 'llms_quiz', 'normal' );
 		add_meta_box( 'lifterlms-question-general', __( 'Question Settings', 'lifterlms' ), 'LLMS_Meta_Box_Question_General::output', 'llms_question', 'normal' );
 		//add_meta_box( 'lifterlms-coupon-options', __( 'Coupon Options', 'lifterlms' ), 'LLMS_Meta_Box_Coupon_Options::output', 'llms_coupon', 'normal' );

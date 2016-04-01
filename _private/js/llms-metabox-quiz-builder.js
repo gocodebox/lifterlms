@@ -31,7 +31,7 @@
 	 *
 	 * @since  2.4.0
 	 */
-	$.fn.select2ify = function() {
+	$.fn.llmsSelect2ify = function() {
 
 		this.select2({
 			allowClear: false,
@@ -152,7 +152,7 @@
 				$delegate = $( '#llms-single-options' );
 
 			// setup all existing (php loaded) questions as select2 elements
-			$delegate.find( '.llms-question select' ).select2ify();
+			$delegate.find( '.llms-question select' ).llmsSelect2ify();
 
 			// update points whenever points change
 			$( '.llms-points' ).blur( function ( e ) {
@@ -275,7 +275,7 @@
 			var self = this,
 				$html = self.get_question_html();
 
-			$html.find( 'select' ).select2ify( );
+			$html.find( 'select' ).llmsSelect2ify( );
 
 			$html.appendTo( '#llms-single-options .question-list tbody' ).hide().fadeIn( 300 );
 

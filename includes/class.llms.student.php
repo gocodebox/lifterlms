@@ -123,6 +123,33 @@ class LLMS_Student {
 	}
 
 
+
+
+	/**
+	 * Retrieve certificates that a user has earned
+	 * @param  string $orderby field to order the returned results by
+	 * @param  string $order   ordering method for returned results (ASC or DESC)
+	 * @return array           array of objects
+	 *
+	 * @since  2.4.0
+	 */
+	public function get_certificates( $orderby = 'updated_date', $order = 'DESC' ) {
+
+		$orderby = esc_sql( $orderby );
+		$order = esc_sql( $order );
+
+		global $wpdb;
+
+		$r = $wpdb->get_results( $wpdb->prepare(
+			"SELECT post_id, meta_value AS certificate_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_certificate_earned' ORDER BY $orderby $order",
+			$this->get_id()
+		) );
+
+		return $r;
+
+	}
+
+
 	/**
 	 * Retrive an array of Membership Levels for a user
 	 * @return array

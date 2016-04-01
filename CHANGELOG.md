@@ -1,6 +1,14 @@
 == Changelog ==
 
-= v2.4.0 - 2016/03/?? =
+= v2.4.1 - 2016/04/?? =
+-----------------------
+
++ Adjusted some static functions to be non static in `class.llms.post-types.php`
++ Added a function to ensure support for post thumbnails on LifterLMS custom post types
+
+
+
+= v2.4.0 - 2016/03/29 =
 -----------------------
 
 ##### Performance Improvements on the LifterLMS Quiz Builder
@@ -14,13 +22,21 @@
   + `lifterlms_quiz_passed` called when a quiz is completed with a passing grade
   + `lifterlms_quiz_failed` called when a quiz is completed with a failing grade
 + Course Progress and Course Syllabus shortcodes (and widgets) now work on Quiz pages
++ Completed Metabox refactor for the LifterLMS Quiz post type and removed `LLMS_Meta_Box_Quiz_General` class. All functions now exist in `LLMS_Meta_Box_Quiz`
++ Added validation to the Quiz general settings
+  + Cannot only enter numbers in attempts, percentage, and time limit fields
+  + Cannot enter a negative number or a number greater than 100 in the percentage field
++ Removed the membership restriction metabox from quiz admin and question admin screens
 
 ##### Other fixes
 
++ Fixed an issue that caused multiple certificates awarded for the same Course or Lesson to not properly display on the My Account page.
 + Removed an event bound to the publishing of a LifterLMS Question that called a function that didn't exist and caused a Javascript error on the console (but didn't actually cause any problems)
 + Removed a warning message that would display on sidebars when a shortcode was being displayed in a place that it couldn't function. We now simply don't display any content if the shortcode can't function.
 + Resolved an issue that prevent users from "purchasing" products when using a 100% coupon and the Stripe payment gateway. Users experiencing this issue should also update to Stripe 3.0.1.
 + Fixed an AJAX related issue that was incompatible with PHP7
++ Added the ability to have a "max" value on LifterLMS Admin Metabox number fields
+
 
 = v2.3.0 - 2016/03/24 =
 -----------------------
