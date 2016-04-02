@@ -13,7 +13,6 @@ LLMS.Rest = {
 	 * loads class methods
 	 */
 	init: function() {
-		console.log('Initializing Rest Methods ');
 		this.bind();
 	},
 
@@ -23,7 +22,6 @@ LLMS.Rest = {
 	 * @return {[type]} [description]
 	 */
 	bind: function() {
-		console.log('Rest Methods Bound');
 	},
 
 	/**

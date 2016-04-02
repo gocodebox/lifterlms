@@ -30,13 +30,7 @@ abstract class LLMS_Analytics_Widget {
 	abstract protected function format_response();
 	abstract protected function set_query();
 
-	public function __construct() {
-
-		$this->set_query();
-		$this->query();
-		$this->response = $this->format_response();
-
-	}
+	public function __construct() {}
 
 	protected function get_posted_dates() {
 
@@ -116,6 +110,10 @@ abstract class LLMS_Analytics_Widget {
 
 
 	public function output() {
+
+		$this->set_query();
+		$this->query();
+		$this->response = $this->format_response();
 
 		header( 'Content-Type: application/json' );
 		echo json_encode( $this );

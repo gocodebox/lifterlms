@@ -20,6 +20,8 @@ class LLMS_Analytics_View {
 
 		$current_range = $this->get_current_range();
 
+		$current_students = $this->get_current_students();
+
 		$widget_data = $this->get_widgets();
 
 		$range_dates = $this->get_dates( $current_range );
@@ -51,14 +53,14 @@ class LLMS_Analytics_View {
 
 	private function get_date_start() {
 
-		return ( isset( $_GET['date-start'] ) ) ? $_GET['date-start'] : '';
+		return ( isset( $_GET['date_start'] ) ) ? $_GET['date_start'] : '';
 
 	}
 
 
 	private function get_date_end() {
 
-		return ( isset( $_GET['date-end'] ) ) ? $_GET['date-end'] : '';
+		return ( isset( $_GET['date_end'] ) ) ? $_GET['date_end'] : '';
 
 	}
 
@@ -68,6 +70,14 @@ class LLMS_Analytics_View {
 		return ( isset( $_GET['range'] ) ) ? $_GET['range'] : 'last-7-days';
 
 	}
+
+
+	private function get_current_students() {
+
+		return ( isset( $_GET['student_ids'] ) ) ? $_GET['student_ids'] : '';
+
+	}
+
 
 	private function get_dates( $range ) {
 

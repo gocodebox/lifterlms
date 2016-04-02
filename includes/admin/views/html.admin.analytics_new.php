@@ -20,13 +20,32 @@
 
 		<form action="<?php echo admin_url( 'admin.php' ); ?>" class="llms-button-secondary llms-nav-tab-filters<?php echo ( $current_range == 'custom' ) ? ' llms-nav-tab-active' : ''; ?>" method="GET">
 			<label><?php _e( 'Custom', 'lifterlms' ); ?></label>
-			<input type="text" name="date-start" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo $date_start; ?>"> -
-			<input type="text" name="date-end" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo $date_end; ?>">
+			<input type="text" name="date_start" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo $date_start; ?>"> -
+			<input type="text" name="date_end" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo $date_end; ?>">
 			<button class="llms-button-secondary" type="submit"><?php _e( 'Go', 'lifterlms' ); ?></button>
 
 			<input type="hidden" name="range" value="custom">
 			<input type="hidden" name="page" value="llms-analytics-new">
 			<input type="hidden" name="tab" value="<?php echo $current_tab; ?>">
+		</form>
+
+	</h2>
+
+	<h2 class="llms-nav-tab-wrapper llms-skin--light">
+
+		<form action="<?php echo admin_url( 'admin.php' ); ?>" class="llms-button-secondary llms-nav-tab-filters<?php echo ( $current_range == 'custom' ) ? ' llms-nav-tab-active' : ''; ?>" method="GET">
+			<label><?php _e( 'Products', 'lifterlms' ); ?></label>
+
+			<select id="llms-students-ids-filter" name="student_ids[]" multiple="multiple"></select>
+
+			<button class="llms-button-secondary" type="submit"><?php _e( 'Go', 'lifterlms' ); ?></button>
+
+			<input type="hidden" name="range" value="<?php echo $current_range; ?>">
+			<input type="hidden" name="page" value="llms-analytics-new">
+			<input type="hidden" name="tab" value="<?php echo $current_tab; ?>">
+
+			<?php var_dump( $current_students ); ?>
+
 		</form>
 
 	</h2>
@@ -54,6 +73,8 @@
 			<?php endforeach; ?>
 			</div>
 		<?php endforeach; ?>
+
+		<div class="llms-charts-wrapper" id="llms-charts-wrapper"></div>
 
 	</div>
 
