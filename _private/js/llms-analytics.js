@@ -38,7 +38,7 @@
 			$( '#llms-students-ids-filter' ).llmsStudentsSelect2( {
 				multiple: true,
 				placeholder: 'Filter by Student(s)',
-				width: '280px',
+				width: '78%',
 			} );
 
 		};
@@ -78,7 +78,8 @@
 
 				data: {
 					action: 'llms_widget_' + method,
-					dates: self.data.dates
+					dates: self.data.dates,
+					students: self.data.students,
 				},
 				method: 'POST',
 				timeout: self.timeout,

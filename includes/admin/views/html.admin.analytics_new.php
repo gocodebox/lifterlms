@@ -33,18 +33,28 @@
 
 	<h2 class="llms-nav-tab-wrapper llms-skin--light">
 
-		<form action="<?php echo admin_url( 'admin.php' ); ?>" class="llms-button-secondary llms-nav-tab-filters<?php echo ( $current_range == 'custom' ) ? ' llms-nav-tab-active' : ''; ?>" method="GET">
-			<label><?php _e( 'Products', 'lifterlms' ); ?></label>
+		<form action="<?php echo admin_url( 'admin.php' ); ?>" class="llms-button-secondary llms-nav-tab-filters llms-filter-students" method="GET">
 
-			<select id="llms-students-ids-filter" name="student_ids[]" multiple="multiple"></select>
+			<label><?php _e( 'Students', 'lifterlms' ); ?></label>
+
+			<select id="llms-students-ids-filter" name="student_ids[]" multiple="multiple">
+				<?php
+				/**
+				 * todo: do a better job on this loop for scalability...
+				 */
+				?>
+				<?php foreach( $current_students as $id ) : ?>
+					<?php $s = get_user_by( 'id', $id ); ?>
+					<option value="<?php echo $id; ?>" selected="selected"><?php echo $s->display_name; ?> &lt;<?php echo $s->user_email; ?>&gt;</option>
+				<?php endforeach; ?>
+
+			</select>
 
 			<button class="llms-button-secondary" type="submit"><?php _e( 'Go', 'lifterlms' ); ?></button>
 
 			<input type="hidden" name="range" value="<?php echo $current_range; ?>">
 			<input type="hidden" name="page" value="llms-analytics-new">
 			<input type="hidden" name="tab" value="<?php echo $current_tab; ?>">
-
-			<?php var_dump( $current_students ); ?>
 
 		</form>
 

@@ -31,9 +31,10 @@ class LLMS_Analytics_View {
 		// json to pass to the view to be accessible by javascript
 		$json = json_encode( array(
 
-			'tab' => $current_tab,
-			'range' => $current_range,
 			'dates' => $range_dates,
+			'range' => $current_range,
+			'students' => $current_students,
+			'tab' => $current_tab,
 
 		) );
 

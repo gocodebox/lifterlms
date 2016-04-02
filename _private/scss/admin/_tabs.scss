@@ -81,6 +81,36 @@
 
 		}
 
+		.llms-filter-students {
+
+			text-align: left;
+			float: left;
+
+			label {
+				float: left;
+				margin-top: 6px;
+			}
+
+			.select2-container .select2-selection--multiple .select2-selection__rendered {
+				display: block;
+			}
+
+			.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+				max-height: 70px;
+				overflow-y: scroll;
+			}
+
+			.select2-container--default.select2-container--focus .select2-selection--multiple {
+				border-color: #aaa;
+			}
+
+			button {
+				margin-top: 6px;
+				vertical-align: top;
+			}
+
+		}
+
 		a {
 			letter-spacing: 3px;
 			&:hover,
@@ -103,3 +133,5 @@
 .llms-nav-tab-wrapper .llms-button-primary {
 	box-shadow: none !important;
 }
+
+

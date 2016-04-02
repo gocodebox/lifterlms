@@ -32,10 +32,16 @@ abstract class LLMS_Analytics_Widget {
 
 	public function __construct() {}
 
+
 	protected function get_posted_dates() {
 
 		return ( isset( $_POST['dates'] ) ) ? $_POST['dates'] : '';
 
+	}
+
+	protected function get_posted_students() {
+
+		return ( isset( $_POST['students'] ) ) ? $_POST['students'] : array();
 
 	}
 

@@ -1750,6 +1750,13 @@ ul.tabs li {
   form.llms-nav-tab-filters {
     width: auto;
   }
+
+  form.llms-filter-students {
+    width: 50%;
+  }
+  form.llms-filter-students label {
+    width: 12%;
+  }
 }
 .dad-list, .dad-list .title {
   border: 1px solid #dfdfdf;
@@ -2271,6 +2278,28 @@ div[id^="lifterlms-"] .inside {
 }
 .wrap h2.llms-nav-tab-wrapper .llms-nav-tab-filters.llms-nav-tab-active label {
   letter-spacing: 4px;
+}
+.wrap h2.llms-nav-tab-wrapper .llms-filter-students {
+  text-align: left;
+  float: left;
+}
+.wrap h2.llms-nav-tab-wrapper .llms-filter-students label {
+  float: left;
+  margin-top: 6px;
+}
+.wrap h2.llms-nav-tab-wrapper .llms-filter-students .select2-container .select2-selection--multiple .select2-selection__rendered {
+  display: block;
+}
+.wrap h2.llms-nav-tab-wrapper .llms-filter-students .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  max-height: 70px;
+  overflow-y: scroll;
+}
+.wrap h2.llms-nav-tab-wrapper .llms-filter-students .select2-container--default.select2-container--focus .select2-selection--multiple {
+  border-color: #aaa;
+}
+.wrap h2.llms-nav-tab-wrapper .llms-filter-students button {
+  margin-top: 6px;
+  vertical-align: top;
 }
 .wrap h2.llms-nav-tab-wrapper a {
   letter-spacing: 3px;
