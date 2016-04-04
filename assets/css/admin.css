@@ -1080,7 +1080,15 @@ Option Page Widgets
   text-align: center;
 }
 
-.llms-widget:hover .llms-widget-info {
+.llms-widget .llms-widget-info-toggle {
+  color: #ccc;
+  cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  right: 25px;
+  top: 13px;
+}
+.llms-widget.info-showing .llms-widget-info {
   display: block;
 }
 

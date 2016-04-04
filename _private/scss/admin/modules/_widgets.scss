@@ -80,8 +80,21 @@ Option Page Widgets
 }
 
 
-.llms-widget:hover .llms-widget-info {
-	display: block;
+.llms-widget {
+	.llms-widget-info-toggle {
+		color: $color-lightgrey;
+		cursor: pointer;
+		font-size: 16px;
+		position: absolute;
+		right: 25px;
+		top: 13px;
+	}
+
+	&.info-showing {
+		.llms-widget-info {
+			display: block;
+		}
+	}
 }
 .llms-widget-info {
 	background: $color-cinder;

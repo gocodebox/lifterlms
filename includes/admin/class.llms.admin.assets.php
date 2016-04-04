@@ -174,6 +174,9 @@ class LLMS_Admin_Assets {
 
 			if( 'lifterlms_page_llms-analytics-new' == $screen->base ) {
 
+
+				wp_enqueue_style('wp-pointer');
+				wp_enqueue_script('wp-pointer');
 				wp_enqueue_script( 'llms-select2' );
 				wp_enqueue_script( 'llms-analytics', plugins_url( '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-admin-scripts' ), '', true );
 

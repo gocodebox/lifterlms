@@ -74,9 +74,11 @@
 
 						<span class="spinner"></span>
 
+						<i class="fa fa-info-circle llms-widget-info-toggle"></i>
 						<div class="llms-widget-info">
 							<p><?php echo $opts['info']; ?></p>
 						</div>
+
 					</div>
 				</div>
 

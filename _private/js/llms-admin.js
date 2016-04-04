@@ -2,6 +2,62 @@
 
 	window.llms = window.llms || {};
 
+
+	window.llms.widgets = function() {
+
+		this.$widgets = $( '.llms-widget' );
+		this.$info_toggles = $( '.llms-widget-info-toggle' );
+
+		this.init = function() {
+
+			this.bind();
+
+		};
+
+		this.bind = function() {
+
+			var self = this;
+
+			this.$info_toggles.on( 'hover', function() {
+
+// $(this).pointer({
+//         content: '<h3>what</h3><p>whateverasdf 9asdf0asdf lasdfiasdfp asdfkasdfl asdflasdf lasdfl asdf lasdf lasdfl asdf</p>',
+//         position: 'top',
+//         buttons: function() {
+//         	return '';
+//         }
+//       }).pointer('open');
+
+				// var $toggle = $( this ),
+				// 	$widget = $toggle.closest( '.llms-widget' ),
+				// 	$info = $widget.find( '.llms-widget-info' ),
+				// 	action = ( $widget.hasClass( 'info-showing' ) ) ? 'hide' : 'show';
+
+				// self.$widgets.removeClass( 'info-showing' );
+
+				// if ( 'show' === action ) {
+
+				// 	$widget.addClass( 'info-showing' );
+
+				// }
+
+			} );
+
+		}
+
+
+
+
+		// go
+		this.init();
+
+		return this;
+
+	};
+
+	var llms_widgets = new window.llms.widgets();
+
+
 	$.fn.llmsStudentsSelect2 = function( options ) {
 
 		var defaults = {
