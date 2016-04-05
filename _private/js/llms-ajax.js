@@ -107,6 +107,7 @@ Ajax.prototype.start_quiz = function (quiz_id, user_id) {
 		beforeSend: function() {
 
 			jQuery( '#llms_start_quiz' ).hide();
+			jQuery( '.llms-next-lesson' ).hide();
 			jQuery('html, body').stop().animate({scrollTop: 0}, 500);
 			jQuery('#llms-quiz-wrapper').empty();
 
