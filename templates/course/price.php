@@ -6,7 +6,7 @@ global $post;
 $llms_product = new LLMS_Product( $post->ID );
 ?>
 
-<?php if ( ! llms_is_user_enrolled( get_current_user_id(), $post->ID ) ) : ?>
+<?php if ( ! ( llms_is_user_enrolled( get_current_user_id(), $post->ID ) || llms_does_user_memberships_contain_course( get_current_user_id(), $post->ID ) ) ) : ?>
 
 	<div class="llms-price-wrapper">
 
