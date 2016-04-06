@@ -3,10 +3,15 @@
 = v2.4.1 - 2016/04/?? =
 -----------------------
 
++ Added translation functions to LifterLMS Menu Items. Resolves an issue where translated LifterLMS installations might not see all the menu items under the LifterLMS Icon.
++ Italian translation updates curtosey of [@AndreaBarghigiani](https://github.com/AndreaBarghigiani)
++ On some themes the "Next Lesson" button was displayed while quizzes were being taken. We now *always* hide the next lesson button when a quiz is being taken.
 + Adjusted some static functions to be non static in `class.llms.post-types.php`
 + Added a function to ensure support for post thumbnails on LifterLMS custom post types
-
-
++ If a user views a course that is available to them because it belongs to a membership level they are a member of, course pricing information will no longer be visible. This addresses a confusing user experience issue. Previously it _appeared_ like payment for a course was still required even though it really wasn't.
++ Fixed undefined variable warning on quiz summary screen
++ Resolve an issue with quiz timer that caused issues on time display if the time limit was set to a fraction of a minute (eg 1.5 minutes)
++ resolved an undefined variable warning resulting from courses still holding a reference to a membership after the membership has been deleted or trashed
 
 = v2.4.0 - 2016/03/29 =
 -----------------------
