@@ -768,10 +768,16 @@ class LLMS_Frontend_Forms
 				break;
 			case 'membership':
 				$memberships = llms_get_post_memberships( $post_id );
-
 				if ($memberships) {
 					foreach ($memberships as $key => $value) {
 						$membership = get_post( $value );
+
+						// handle memberships that weren't removed from a post when they were deleted
+						// this issue is resolved in another PR, I think
+						if ( !$membership ) {
+							continue;
+						}
+
 						$membership_title = $membership->post_title;
 						$link = get_permalink( $membership->ID );
 						llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
