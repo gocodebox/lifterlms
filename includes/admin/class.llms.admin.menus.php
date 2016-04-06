@@ -44,26 +44,26 @@ class LLMS_Admin_Menus {
 			foreach ( $submenu['lifterlms'] as $sm ) {
 				switch ( $sm[0] ) {
 
-					case 'Settings':	 	$i = 0;  break;
-					case 'Analytics':	 	$i = 1;  break;
-					case 'Students':	 	$i = 2;  break;
-					case 'Emails':		 	$i = 3;  break;
-					case 'Engagements':	 	$i = 4;  break;
-					case 'Achievements': 	$i = 5;  break;
-					case 'Certificates': 	$i = 6;  break;
-					case 'Reviews':		 	$i = 7;  break;
-					case 'Orders':		 	$i = 8;  break;
-					case 'Coupons':		 	$i = 9;  break;
-					case 'Vouchers':	 	$i = 10; break;
-					case 'System Report':	$i = 11; break;
-
+					case __( 'Settings', 'lifterlms' ):	 	$i = 0;  break;
+					case __( 'Analytics', 'lifterlms' ):	$i = 1;  break;
+					case __( 'Students', 'lifterlms' ):	 	$i = 2;  break;
+					case __( 'Emails', 'lifterlms' ):		$i = 3;  break;
+					case __( 'Engagements', 'lifterlms' ):	$i = 4;  break;
+					case __( 'Achievements', 'lifterlms' ): $i = 5;  break;
+					case __( 'Certificates', 'lifterlms' ): $i = 6;  break;
+					case __( 'Reviews', 'lifterlms' ):		$i = 7;  break;
+					case __( 'Orders', 'lifterlms' ):		$i = 8;  break;
+					case __( 'Coupons', 'lifterlms' ):		$i = 9;  break;
+					case __( 'Vouchers', 'lifterlms' ):	 	$i = 10; break;
+					case __( 'System Report', 'lifterlms' ):$i = 11; break;
 				}
 
 				$arr[ $i ] = $sm;
-
 			}
 
 			ksort( $arr );
+
+			array_merge( $arr, $submenu['lifterlms'] );
 
 			$submenu['lifterlms'] = $arr;
 
@@ -105,7 +105,7 @@ class LLMS_Admin_Menus {
 	*/
 	public function display_settings_menu() {
 
-		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Settings', 'Settings', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'llms-settings', array( $this, 'settings_page_init' ) );
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Settings', __( 'Settings', 'lifterlms' ), apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'llms-settings', array( $this, 'settings_page_init' ) );
 	}
 
 	/**
@@ -127,7 +127,7 @@ class LLMS_Admin_Menus {
 	*/
 	public function display_analytics_menu() {
 
-		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ),
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', __( 'Analytics', 'lifterlms' ), apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ),
 		'llms-analytics', array( $this, 'analytics_page_init' ) );
 	}
 
@@ -150,7 +150,7 @@ class LLMS_Admin_Menus {
 	*/
 	public function display_students_menu() {
 
-		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Students', 'Students', apply_filters( 'lifterlms_admin_students_access', 'manage_options' ), 'llms-students', array( $this, 'students_page_init' ) );
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Students', __( 'Students', 'lifterlms' ), apply_filters( 'lifterlms_admin_students_access', 'manage_options' ), 'llms-students', array( $this, 'students_page_init' ) );
 	}
 
 	/**
@@ -172,7 +172,7 @@ class LLMS_Admin_Menus {
 	 */
 	public function display_system_report_menu() {
 
-		$settings = add_submenu_page( 'lifterlms', 'LifterLMS System report', 'System Report', apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
+		$settings = add_submenu_page( 'lifterlms', 'LifterLMS System report', __( 'System Report', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
 	}
 
 	/**

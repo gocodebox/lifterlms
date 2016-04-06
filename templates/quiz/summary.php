@@ -67,7 +67,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 						<br>
 
 						<ul>
-						<?php if (array_key_exists( 'option_text', $options[ $question['answer'] ] )) {
+						<?php if ( is_array( $options[ $question['answer'] ] ) && array_key_exists( 'option_text', $options[ $question['answer'] ] ) ) {
 							?>
 
 							<li>

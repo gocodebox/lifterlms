@@ -157,18 +157,18 @@ class LLMS_Date {
 	}
 
 	public static function convert_to_hours_minutes_string( $time ) {
-	    settype( $time, 'integer' );
-	    if ($time < 1) {
-	        return;
-	    }
-	    $hours = floor( $time / 60 );
-	    $minutes = ($time % 60);
+		$decimal_part = $time - floor( $time );
+		settype( $time, 'integer' );
+		if ( $time < 1 ) {
+			return;
+		}
+		$hours = floor( $time / 60 );
+		$minutes = ($time % 60);
+		$seconds = (60 * $decimal_part);
 
-	  	$hour_desc = '';
-	  	$minute_desc = '';
-
-	  	$hours_string = '';
+		$hours_string = '';
 	  	$minutes_string = '';
+		$seconds_string = '';
 
 	    //determine hours vs hour in string
 	    if ( ! empty( $hours ) ) {
@@ -179,7 +179,18 @@ class LLMS_Date {
 	    	}
 
 	    	$hours_string = sprintf( __( '%d %s ', 'lifterlms' ), $hours, $hour_desc );
-	    }
+	    } else {
+			if ( ! empty( $seconds ) ) {
+				if ( $seconds > 1 ) {
+					$second_desc = 'seconds';
+				} else {
+					$second_desc = 'second';
+				}
+
+				$seconds_string = sprintf( __( ' %d %s', 'lifterlms' ), $seconds, $second_desc );
+
+			}
+		}
 
 	    //determine minutes vs minute in string
 	    if ( ! empty( $minutes ) ) {
@@ -189,11 +200,11 @@ class LLMS_Date {
 	    		$minute_desc = 'minute';
 	    	}
 
-	    	$minutes_string = sprintf( __( '%d %s', 'lifterlms' ), $minutes, $minute_desc );
+	    	$minutes_string = sprintf( __( ' %d %s', 'lifterlms' ), $minutes, $minute_desc );
 
 	    }
 
-	    return $hours_string . $minutes_string;
+	    return $hours_string . $minutes_string . $seconds_string;
 	}
 
 
