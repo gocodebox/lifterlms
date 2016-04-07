@@ -523,7 +523,7 @@ class LLMS_Course {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					'SELECT * FROM '.$table_name.
-						' WHERE post_id = %s 
+						' WHERE post_id = %s
 							AND user_id = %s',
 					$course_id, $user_id
 				)
@@ -605,7 +605,7 @@ class LLMS_Course {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					'SELECT * FROM '.$table_name.
-						' WHERE post_id = %s 
+						' WHERE post_id = %s
 							AND user_id = %s',
 					$post_id, $user_id
 				)
@@ -750,5 +750,6 @@ class LLMS_Course {
 		return apply_filters( 'lifterlms_get_price', $this->price, $this );
 
 	}
+
 
 }

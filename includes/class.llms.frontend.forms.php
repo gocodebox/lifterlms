@@ -655,7 +655,6 @@ class LLMS_Frontend_Forms
 		}
 
 		return $redirect;
-
 	}
 
 	/**
@@ -671,7 +670,7 @@ class LLMS_Frontend_Forms
 
 		llms_add_notice( __( 'Please confirm your payment.', 'lifterlms' ) );
 
-		wp_redirect( apply_filters( 'lifterlms_order_process_pending_redirect', $url ) );
+		wp_redirect( apply_filters( 'lifterlms_order_process_pending_redirect', $redirect ) );
 		exit;
 
 	}
@@ -947,19 +946,12 @@ class LLMS_Frontend_Forms
 	 */
 	public function save_account_details() {
 
-		if ( ! $_SERVER['REQUEST_METHOD'] === 'POST') {
-			return;
-		}
-
 		if ('POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] )) {
-
 			return;
 		}
 
 		if (empty( $_POST['action'] ) || ('save_account_details' !== $_POST['action']) || empty( $_POST['_wpnonce'] )) {
-
 			return;
-
 		}
 
 		wp_verify_nonce( $_POST['_wpnonce'], 'save_account_details' );
@@ -972,9 +964,7 @@ class LLMS_Frontend_Forms
 		$current_user = get_user_by( 'id', $user->ID );
 
 		if ($user->ID <= 0) {
-
 			return;
-
 		}
 
 		$account_first_name = ! empty( $_POST['account_first_name'] ) ? llms_clean( $_POST['account_first_name'] ) : '';
@@ -1002,9 +992,7 @@ class LLMS_Frontend_Forms
 		}
 
 		if ($pass1) {
-
 			$user->user_pass = $pass1;
-
 		}
 
 		if (empty( $account_first_name ) || empty( $account_last_name )) {
