@@ -451,9 +451,6 @@ class LLMS_Frontend_Forms
 
 		global $wpdb;
 
-		// check if session already exists. if it does assign it.
-		$current_order = LLMS()->session->get( 'llms_order', array() );
-
 		// ensure POST is set
 		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
 		if ( 'POST' !== $request_method ) {
@@ -553,9 +550,6 @@ class LLMS_Frontend_Forms
 		$order->return_url = $this->llms_confirm_payment_url();
 		$order->cancel_url = $this->llms_cancel_payment_url();
 
-		$url = isset( $_POST['redirect'] ) ? llms_clean( $_POST['redirect'] ) : '';
-		$redirect = LLMS_Frontend_Forms::llms_get_redirect( $url );
-
 		// if no errors were returned save the data
 		if (llms_notice_count( 'error' ) == 0) {
 
@@ -602,7 +596,7 @@ class LLMS_Frontend_Forms
 					$lifterlms_checkout = LLMS()->checkout();
 					$lifterlms_checkout->process_order( $order );
 					$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
-					$result = $available_gateways[ $order->payment_method ]->process_payment( $order );
+					$available_gateways[ $order->payment_method ]->process_payment( $order );
 
 				} else {
 					return llms_add_notice( sprintf( 'There was an error processing the payment with coupon <strong>%s</strong>.', $order_discounted_to_free ), 'error' );

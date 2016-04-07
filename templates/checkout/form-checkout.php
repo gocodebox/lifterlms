@@ -12,8 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 llms_print_notices();
 
-
-
 // moved above login to enable more performance friendly translation of i18n strings on this page
 do_action( 'lifterlms_before_checkout_form' );
 
