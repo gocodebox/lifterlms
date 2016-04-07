@@ -774,7 +774,7 @@ class LLMS_Frontend_Forms
 
 						// handle memberships that weren't removed from a post when they were deleted
 						// this issue is resolved in another PR, I think
-						if ( !$membership ) {
+						if ( ! $membership ) {
 							continue;
 						}
 
