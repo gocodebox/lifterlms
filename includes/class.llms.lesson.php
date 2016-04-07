@@ -651,11 +651,11 @@ class LLMS_Lesson {
 
 				}
 
-			} elseif ( ! $prevent_autoadvance && get_option( 'lifterlms_autoadvance', false ) ) {
+			} elseif ( ! $prevent_autoadvance && get_option( 'lifterlms_autoadvance', false ) == 'yes' ) {
 
-				$next_lession_id = $this->get_next_lesson();
-				if ($next_lession_id) {
-					wp_redirect( get_permalink( $next_lession_id ) );
+				$next_lesson_id = $this->get_next_lesson();
+				if ( $next_lesson_id ) {
+					wp_redirect( get_permalink( $next_lesson_id ) );
 					exit;
 				}
 
