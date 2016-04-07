@@ -227,8 +227,7 @@ class LLMS_Course {
 		$checkout_page_id = llms_get_page_id( 'checkout' );
 		$checkout_url = apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
 
-		return add_query_arg( 'product-id', $this->id, $checkout_url );
-
+		return apply_filters( 'lifterlms_product_purchase_checkout_redirect', add_query_arg( 'product-id', $this->id, $checkout_url ) );
 	}
 
 	/**
@@ -751,5 +750,16 @@ class LLMS_Course {
 
 	}
 
+	public function get_membership_link() {
+		$memberships_required = get_post_meta( $this->id, '_llms_restricted_levels', true );
 
+		if (count( $memberships_required ) > 1) {
+			$membership_url = get_permalink( llms_get_page_id( 'memberships' ) );
+		} //if only 1 membership level is assigned take visitor to the membership page
+		else {
+			$membership_url = get_permalink( $memberships_required[0] );
+		}
+
+		return apply_filters( 'lifterlms_product_purchase_redirect_membership_required', $membership_url );
+	}
 }
