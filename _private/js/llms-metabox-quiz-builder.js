@@ -43,7 +43,7 @@
 				data: function( params ) {
 					return {
 						term: params.term,
-						page: params.page,
+						page: ( params.page ) ? params.page - 1 : 0, // 0 index the pages to make it simpler for the database query
 						action: 'query_quiz_questions',
 						post_id: self.quiz_id,
 					};
