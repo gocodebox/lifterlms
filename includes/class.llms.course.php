@@ -224,7 +224,11 @@ class LLMS_Course {
 	 */
 	public function get_checkout_url() {
 
-		$checkout_page_id = llms_get_page_id( 'checkout' );
+		if( get_option( 'lifterlms_secondary_checkout_process', false ) || is_user_logged_in() ) {
+			$checkout_page_id = llms_get_page_id('checkout');
+		} else {
+			$checkout_page_id = llms_get_page_id('myaccount');
+		}
 		$checkout_url = apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
 
 		return apply_filters( 'lifterlms_product_purchase_checkout_redirect', add_query_arg( 'product-id', $this->id, $checkout_url ) );

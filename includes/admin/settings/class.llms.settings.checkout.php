@@ -65,12 +65,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				),
 
 				array(
-						'title'         => __( 'Secodary payment process', 'lifterlms' ),
-						'desc'          => __( 'Register users while paying.', 'lifterlms' ),
-						'id'            => 'lifterlms_secondary_checkout_process',
-						'default'       => 'no',
-						'type'          => 'checkbox',
-						'autoload'      => true,
+					'title'         => __( 'Secondary payment process', 'lifterlms' ),
+					'desc'          => __( 'Register users while paying.', 'lifterlms' ),
+					'id'            => 'lifterlms_secondary_checkout_process',
+					'default'       => 'no',
+					'type'          => 'checkbox',
+					'autoload'      => true,
 				),
 
 				array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),

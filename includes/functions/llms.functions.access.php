@@ -676,6 +676,8 @@ function llms_is_user_member( $user_id, $post_id ) {
 			}
 		}
 	}
+
+	return false;
 }
 
 /**
@@ -699,4 +701,6 @@ function llms_does_user_memberships_contain_course( $user_id, $post_id ) {
 			}
 		}
 	}
+
+	return false;
 }

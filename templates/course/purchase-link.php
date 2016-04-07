@@ -33,6 +33,9 @@ if ( $user_postmetas  ) {
 $single_price = $product->get_single_price();
 $rec_price = $product->get_recurring_price();
 $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', true );
+
+$user_id = get_current_user_id();
+$user_is_member = llms_does_user_memberships_contain_course( $user_id, $course->id );
 ?>
 
 <div class="llms-purchase-link-wrapper">
@@ -47,8 +50,6 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 		if ($memberships_required) {
 
 			//if there is more than 1 membership that can view the content then redirect to memberships page
-
-
 			if (($single_price > 0 || $rec_price > 0)) {
 			?>
             <a href="<?php echo $course->get_checkout_url(); ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_button_text() ); ?></a>
@@ -69,17 +70,6 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 	<?php
 	} //User is not enrolled
 	elseif ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
-		$user_id = get_current_user_id();
-		$user_is_member = false;
-
-		//check if user has required membership to take course
-		if ($memberships_required) {
-			foreach ($memberships_required as $key => $value) {
-				if (llms_is_user_member( $user_id, $value )) {
-					$user_is_member = true;
-				}
-			}
-		}
 
 		//if a user is not a member and the product has a price > 0
 		//if course can be purchased and user is not member redirect to checkout page
@@ -99,14 +89,14 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 
 			<?php } else { _e( 'Course is no longer available', 'lifterlms' );
 			}
-		} else if ( ! $user_is_member && $memberships_required) {
+		} else if ( ! $user_is_member && $memberships_required ) {
 		?>
             <a href="<?php echo $course->get_membership_link(); ?>" class="button llms-button llms-purchase-button"><?php printf( '%s', $course->get_purchase_membership_button_text() ); ?></a>
         <?php
 		} else {
 
 			?>
-			<?php if (check_course_capacity()) { ?>
+			<?php if ( check_course_capacity() ) { ?>
 				<form action="" method="post">
 
 					<input type="hidden" name="product_id" value="<?php echo $course->id; ?>" />
@@ -129,8 +119,8 @@ $memberships_required = get_post_meta( $course->id, '_llms_restricted_levels', t
 	} elseif ( isset( $next_lesson )  ) {
 		$next_lesson = $course->get_next_uncompleted_lesson();
 
-		lifterlms_course_progress_bar( $course_progress,get_permalink( $next_lesson ) );
+		lifterlms_course_progress_bar( $course_progress, get_permalink( $next_lesson ) );
 	} else { ?>
-	<h5 class="llms-h5"><?php printf( __( 'Course %s%% Complete!', 'lifterlms' ), $course_progress ); ?></h5>
-<?php	} ?>
+		<h5 class="llms-h5"><?php printf( __( 'Course %s%% Complete!', 'lifterlms' ), $course_progress ); ?></h5>
+<?php } ?>
 </div>
