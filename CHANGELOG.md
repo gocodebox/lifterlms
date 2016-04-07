@@ -1,8 +1,9 @@
 == Changelog ==
 
-= v2.4.1 - 2016/04/?? =
+= v2.4.1 - 2016/04/07 =
 -----------------------
 
++ Tested and compatible with WordPress 4.5 Release Candidate.
 + Fixed a pagination issue related to updates to the quiz builder from 2.4.0 which would cause results to return incorrect results on the last page of paginated results in the "Add Question" dropdown.
 + Added translation functions to LifterLMS Menu Items. Resolves an issue where translated LifterLMS installations might not see all the menu items under the LifterLMS Icon.
 + Italian translation updates curtosey of [@AndreaBarghigiani](https://github.com/AndreaBarghigiani)
