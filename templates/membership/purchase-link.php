@@ -9,9 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $post, $product;
 
 if ( ! $product ) {
-
 	$product = new LLMS_Product( $post->ID );
-
 }
 
 $single_price = $product->get_single_price();
@@ -39,7 +37,7 @@ if ( ! is_user_logged_in() ) {
 			$membership_url = get_permalink( $memberships_required[0] );
 		}
 		?>
-		<a href="<?php echo $membership_url; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Sign Up', 'lifterlms' ); ?></a>	
+		<a href="<?php echo $membership_url; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Sign Up', 'lifterlms' ); ?></a>
 			<?php
 	} else {
 		$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );

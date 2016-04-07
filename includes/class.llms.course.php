@@ -183,6 +183,8 @@ class LLMS_Course {
 	public function get_user_postmeta_data( $post_id ) {
 		global $wpdb;
 
+		$user_id = get_current_user_id();
+
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
