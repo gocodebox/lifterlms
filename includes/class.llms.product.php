@@ -316,7 +316,7 @@ class LLMS_Product {
 		$currency_symbol = get_lifterlms_currency_symbol();
 		$recurring_price = $this->get_recurring_price();
 		$recurring_first_payment = $this->get_recurring_first_payment();
-		
+
 		$display_price = ($currency_symbol . $recurring_price);
 		$billing_period = $this->get_billing_period();
 		$billing_freq = $this->get_billing_freq();
@@ -757,7 +757,29 @@ class LLMS_Product {
 	}
 
 	public function get_membership_checkout_url() {
+		$memberships_required = get_post_meta( $this->id, '_llms_restricted_levels', true );
 
+		if ( $memberships_required ) {
+
+			//if there is more than 1 membership that can view the content then redirect to memberships page
+			if ( count( $memberships_required ) > 1) {
+				return get_permalink( llms_get_page_id( 'memberships' ) );
+			} //if only 1 membership level is assigned take visitor to the membership page
+			else {
+				return get_permalink( $memberships_required[0] );
+			}
+		} else {
+
+			if( get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes' || is_user_logged_in() ) {
+				$checkout_page_id = llms_get_page_id( 'checkout' );
+			} else {
+				$checkout_page_id = llms_get_page_id( 'myaccount' );
+			}
+
+			$account_url = get_permalink( $checkout_page_id );
+
+			return add_query_arg( 'product-id', $this->id, $account_url );
+		}
 	}
 
 }

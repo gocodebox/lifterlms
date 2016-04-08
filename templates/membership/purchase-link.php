@@ -14,7 +14,6 @@ if ( ! $product ) {
 
 $single_price = $product->get_single_price();
 $rec_price = $product->get_recurring_price();
-$memberships_required = get_post_meta( $product->id, '_llms_restricted_levels', true );
 
 ?>
 <div class="llms-purchase-link-wrapper">
@@ -25,29 +24,11 @@ if ( ! is_user_logged_in() ) {
 
 	if ( ! empty( $message ) ) {
 	}
+	?>
 
-	//if membership required to take course
-	if ($memberships_required) {
+	<a href="<?php echo $product->get_membership_checkout_url(); ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Sign Up', 'lifterlms' ); ?></a>
 
-		//if there is more than 1 membership that can view the content then redirect to memberships page
-		if (count( $memberships_required ) > 1) {
-			$membership_url = get_permalink( llms_get_page_id( 'memberships' ) );
-		} //if only 1 membership level is assigned take visitor to the membership page
-		else {
-			$membership_url = get_permalink( $memberships_required[0] );
-		}
-		?>
-		<a href="<?php echo $membership_url; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Sign Up', 'lifterlms' ); ?></a>
-			<?php
-	} else {
-		$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
-
-		$account_redirect = add_query_arg( 'product-id', get_the_ID(), $account_url );
-		?>
-		<a href="<?php echo $account_redirect; ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Sign Up', 'lifterlms' ); ?></a>
-
-			<?php
-	}
+	<?php
 } elseif ( ! llms_is_user_member( get_current_user_id(), $product->id ) ) {
 
 	if ( $single_price > 0 || $rec_price > 0) {
