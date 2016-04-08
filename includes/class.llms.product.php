@@ -225,11 +225,29 @@ class LLMS_Product {
 	 */
 	public function get_checkout_url() {
 
-		$checkout_page_id = llms_get_page_id( 'checkout' );
-		$checkout_url = apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
+		$memberships_required = get_post_meta( $this->id, '_llms_restricted_levels', true );
 
-		return add_query_arg( 'product-id', $this->id, $checkout_url );
+		if ( $memberships_required ) {
 
+			//if there is more than 1 membership that can view the content then redirect to memberships page
+			if ( count( $memberships_required ) > 1) {
+				return get_permalink( llms_get_page_id( 'memberships' ) );
+			} //if only 1 membership level is assigned take visitor to the membership page
+			else {
+				return get_permalink( $memberships_required[0] );
+			}
+		} else {
+
+			if( get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes' || is_user_logged_in() ) {
+				$checkout_page_id = llms_get_page_id( 'checkout' );
+			} else {
+				$checkout_page_id = llms_get_page_id( 'myaccount' );
+			}
+
+			$account_url = get_permalink( $checkout_page_id );
+
+			return add_query_arg( 'product-id', $this->id, $account_url );
+		}
 	}
 
 
@@ -296,9 +314,6 @@ class LLMS_Product {
 		return $this->get_single_price_html();
 
 	}
-
-
-
 
 	public function get_recurring_price() {
 		return apply_filters( 'lifterlms_get_recurring_price', $this->llms_subscription_price, $this );
@@ -754,32 +769,6 @@ class LLMS_Product {
 		}
 
 		return $order;
-	}
-
-	public function get_membership_checkout_url() {
-		$memberships_required = get_post_meta( $this->id, '_llms_restricted_levels', true );
-
-		if ( $memberships_required ) {
-
-			//if there is more than 1 membership that can view the content then redirect to memberships page
-			if ( count( $memberships_required ) > 1) {
-				return get_permalink( llms_get_page_id( 'memberships' ) );
-			} //if only 1 membership level is assigned take visitor to the membership page
-			else {
-				return get_permalink( $memberships_required[0] );
-			}
-		} else {
-
-			if( get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes' || is_user_logged_in() ) {
-				$checkout_page_id = llms_get_page_id( 'checkout' );
-			} else {
-				$checkout_page_id = llms_get_page_id( 'myaccount' );
-			}
-
-			$account_url = get_permalink( $checkout_page_id );
-
-			return add_query_arg( 'product-id', $this->id, $account_url );
-		}
 	}
 
 }
