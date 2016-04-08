@@ -388,9 +388,9 @@ class LLMS_Product {
 
 		if ( $this->is_on_sale() && $this->get_regular_price() ) {
 
-			$price .= $this->get_price_variations_html( $display_base_price, __( 'Free!', 'lifterlms' ) );
+			$price = $this->get_price_variations_html( $this->get_regular_price(), __( 'Free!', 'lifterlms' ) );
 
-			$price .= apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
+			$price = apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
 
 		} else {
 
@@ -755,6 +755,10 @@ class LLMS_Product {
 		}
 
 		return $order;
+	}
+
+	public function get_membership_checkout_url() {
+
 	}
 
 }
