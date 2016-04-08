@@ -316,8 +316,7 @@ class LLMS_Product {
 		$currency_symbol = get_lifterlms_currency_symbol();
 		$recurring_price = $this->get_recurring_price();
 		$recurring_first_payment = $this->get_recurring_first_payment();
-
-		$suffix = $this->get_price_suffix_html();
+		
 		$display_price = ($currency_symbol . $recurring_price);
 		$billing_period = $this->get_billing_period();
 		$billing_freq = $this->get_billing_freq();
@@ -646,7 +645,7 @@ class LLMS_Product {
 
 			$price_display_suffix = ' <small class="lifterlms-price-suffix">' . $price_display_suffix . '</small>';
 
-			$price_display_suffix = str_replace( $find, $replace, $price_display_suffix );
+			//$price_display_suffix = str_replace( $find, $replace, $price_display_suffix );
 
 		}
 
