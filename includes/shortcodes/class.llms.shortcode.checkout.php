@@ -69,7 +69,7 @@ class LLMS_Shortcode_Checkout {
 	private static function checkout( $atts ) {
 
 		if( get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes' && ! is_user_logged_in() ) {
-			llms_get_template('global/form-registration.php');
+			llms_get_template('checkout/form-login-register.php');
 		}
 
 		llms_get_template( 'checkout/form-checkout.php', array(
