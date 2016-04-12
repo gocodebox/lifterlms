@@ -694,12 +694,8 @@ class LLMS_Product {
 	 * @return string
 	 */
 	public function get_sale_end_date() {
-
 		return $this->sale_price_dates_to;
-
 	}
-
-
 
 	/**
 	 * Determine if a product is free
@@ -710,8 +706,6 @@ class LLMS_Product {
 		return ( ! $this->get_price() && ! $this->is_recurring() );
 
 	}
-
-
 
 	/**
 	 * Retrieves all relivent post meta for order
