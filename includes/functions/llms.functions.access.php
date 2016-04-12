@@ -704,3 +704,7 @@ function llms_does_user_memberships_contain_course( $user_id, $post_id ) {
 
 	return false;
 }
+
+function is_alternative_checkout_enabled() {
+	return get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes';
+}
