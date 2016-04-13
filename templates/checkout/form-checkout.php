@@ -48,6 +48,12 @@ if ($coupon_session) {
 ?>
 
 <form action="" method="post" id="llms-product-purchase-form">
+
+	<?php
+	if( is_alternative_checkout_enabled() && ! is_user_logged_in() ) {
+		llms_get_template('checkout/form-login-register.php');
+	} ?>
+
 	<div class="llms-checkout-wrapper">
 		<div class="llms-checkout">
 		<?php echo  '<h4>' .
@@ -209,7 +215,7 @@ if ($coupon_session) {
 					type="submit"
 					class="button"
 					name="create_order_details"
-					<?php echo (is_user_logged_in() ? '' : 'disabled="disabled"'); ?>
+					<?php echo (is_user_logged_in() || is_alternative_checkout_enabled() ? '' : 'disabled="disabled"'); ?>
 					value="<?php _e( 'Buy Now', 'lifterlms' ); ?>" />
 				<?php endif; ?>
 			</div>

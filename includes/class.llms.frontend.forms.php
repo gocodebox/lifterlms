@@ -464,6 +464,18 @@ class LLMS_Frontend_Forms
 		// noonnce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
+		if ( !is_user_logged_in() && is_alternative_checkout_enabled() ) {
+			$new_person = LLMS_Person::create_new_person();
+
+			if (is_wp_error( $new_person )) {
+
+				llms_add_notice( $new_person->get_error_message(), 'error' );
+				return;
+
+			}
+			llms_set_person_auth_cookie( $new_person );
+		}
+
 		// get started
 		$order = new stdClass();
 		$errors = new WP_Error();

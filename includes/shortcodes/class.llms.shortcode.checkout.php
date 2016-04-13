@@ -27,7 +27,7 @@ class LLMS_Shortcode_Checkout {
 	* @return array $messages
 	*/
 	public static function output( $atts ) {
-		global $lifterlms, $wp;
+		global $wp;
 
 		if ( ! is_user_logged_in() && ! is_alternative_checkout_enabled() ) {
 
@@ -67,10 +67,6 @@ class LLMS_Shortcode_Checkout {
 	* @return void
 	*/
 	private static function checkout( $atts ) {
-
-		if( is_alternative_checkout_enabled() && ! is_user_logged_in() ) {
-			llms_get_template('checkout/form-login-register.php');
-		}
 
 		llms_get_template( 'checkout/form-checkout.php', array(
 			'current_user' 	=> get_user_by( 'id', get_current_user_id() ),
