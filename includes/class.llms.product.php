@@ -238,7 +238,7 @@ class LLMS_Product {
 			}
 		} else {
 
-			if( get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes' || is_user_logged_in() ) {
+			if ( get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes' || is_user_logged_in() ) {
 				$checkout_page_id = llms_get_page_id( 'checkout' );
 			} else {
 				$checkout_page_id = llms_get_page_id( 'myaccount' );

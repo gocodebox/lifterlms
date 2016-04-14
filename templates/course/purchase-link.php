@@ -37,8 +37,8 @@ $user_is_member = llms_does_user_memberships_contain_course( $user_id, $course->
 
 <div class="llms-purchase-link-wrapper">
 	<?php
-	if (! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
-		if ( (! is_user_logged_in() || ! $product->is_free() ) && ! $user_is_member ) {
+	if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) {
+		if ( ( ! is_user_logged_in() || ! $product->is_free() ) && ! $user_is_member ) {
 			$message = apply_filters( 'lifterlms_checkout_message', '' );
 
 			if ( ! empty( $message ) ) {
@@ -89,7 +89,7 @@ $user_is_member = llms_does_user_memberships_contain_course( $user_id, $course->
 					</form>
 				<?php } else {
 					_e( 'Course is no longer available', 'lifterlms' );
-				} ?>
+} ?>
 
 		<?php }
 	} elseif ( isset( $next_lesson )  ) {

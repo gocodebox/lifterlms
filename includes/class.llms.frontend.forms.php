@@ -292,7 +292,6 @@ class LLMS_Frontend_Forms
 
 		global $wpdb;
 
-
 		if ( ! isset( $_POST['llms_apply_coupon'] )) {
 			return;
 		}
@@ -465,10 +464,10 @@ class LLMS_Frontend_Forms
 		// noonnce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
-		if ( !is_user_logged_in() && is_alternative_checkout_enabled() ) {
+		if ( ! is_user_logged_in() && is_alternative_checkout_enabled() ) {
 			$coupon = LLMS()->session->get( 'llms_coupon', array() );
 
-			var_dump($coupon); die();
+			var_dump( $coupon ); die();
 			$new_person = LLMS_Person::create_new_person();
 
 			if (is_wp_error( $new_person )) {

@@ -246,19 +246,19 @@ class LLMS_Person {
 
 			$validation_error = new WP_Error();
 			$validation_error = apply_filters('lifterlms_user_registration_errors',
-					$validation_error,
-					$_username,
-					$_firstname,
-					$_lastname,
-					$_password,
-					$_password2,
-					$_POST['email'],
-					$_billing_address_1,
-					$_billing_city,
-					$_billing_state,
-					$_billing_zip,
-					$_billing_country,
-					$_agree_to_terms
+				$validation_error,
+				$_username,
+				$_firstname,
+				$_lastname,
+				$_password,
+				$_password2,
+				$_POST['email'],
+				$_billing_address_1,
+				$_billing_city,
+				$_billing_state,
+				$_billing_zip,
+				$_billing_country,
+				$_agree_to_terms
 			);
 
 			if ($validation_error->get_error_code()) {
@@ -304,21 +304,21 @@ class LLMS_Person {
 		}
 
 		$new_person = llms_create_new_person(
-				$email,
-				$email2,
-				$username,
-				$firstname,
-				$lastname,
-				$password,
-				$password2,
-				$billing_address_1,
-				$billing_address_2,
-				$billing_city,
-				$billing_state,
-				$billing_zip,
-				$billing_country,
-				$agree_to_terms,
-				$phone
+			$email,
+			$email2,
+			$username,
+			$firstname,
+			$lastname,
+			$password,
+			$password2,
+			$billing_address_1,
+			$billing_address_2,
+			$billing_city,
+			$billing_state,
+			$billing_zip,
+			$billing_country,
+			$agree_to_terms,
+			$phone
 		);
 
 		do_action( 'lifterlms_user_registered', $new_person );
