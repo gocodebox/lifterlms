@@ -292,6 +292,7 @@ class LLMS_Frontend_Forms
 
 		global $wpdb;
 
+
 		if ( ! isset( $_POST['llms_apply_coupon'] )) {
 			return;
 		}
@@ -314,8 +315,8 @@ class LLMS_Frontend_Forms
 		$coupon->user_id = (int) get_current_user_id();
 		$coupon->product_id = $_POST['product_id'];
 
-		if (empty( $coupon->user_id )) {
-			return;
+		if ( empty( $coupon->user_id ) ) {
+			//return;
 		}
 
 		$coupon->coupon_code = llms_clean( $_POST['coupon_code'] );
@@ -465,6 +466,9 @@ class LLMS_Frontend_Forms
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
 		if ( !is_user_logged_in() && is_alternative_checkout_enabled() ) {
+			$coupon = LLMS()->session->get( 'llms_coupon', array() );
+
+			var_dump($coupon); die();
 			$new_person = LLMS_Person::create_new_person();
 
 			if (is_wp_error( $new_person )) {
@@ -474,6 +478,11 @@ class LLMS_Frontend_Forms
 
 			}
 			llms_set_person_auth_cookie( $new_person );
+
+			if ( $coupon ) {
+				$coupon->user_id = $new_person;
+				LLMS()->session->set( 'llms_coupon', $coupon );
+			}
 		}
 
 		// get started
@@ -519,9 +528,9 @@ class LLMS_Frontend_Forms
 		$order->payment_option = $payment_option_data[0];
 		$order->payment_option_id = $payment_option_data[1];
 
+		$coupon = LLMS()->session->get( 'llms_coupon', array() );
 		//if $ based coupon and recurring order return error and clear session variables
 		if ($order->payment_option == 'recurring' && ! empty( $coupon )) {
-			$coupon = LLMS()->session->get( 'llms_coupon', array() );
 			if ($coupon->type === 'dollar') {
 				return llms_add_notice( __( 'Only percent based coupons can be applied to payment plans.', 'lifterlms' ), 'error' );
 			}
