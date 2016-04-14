@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v2.4.2 - 2016/04/07 =
+-----------------------
+
++ Fixed a few small issues with engagements as they related to external engagements triggered by other plugins and LifterLMS extensions.
+
+
+
 = v2.4.1 - 2016/04/07 =
 -----------------------
 
@@ -14,6 +21,7 @@
 + Fixed undefined variable warning on quiz summary screen
 + Resolve an issue with quiz timer that caused issues on time display if the time limit was set to a fraction of a minute (eg 1.5 minutes)
 + resolved an undefined variable warning resulting from courses still holding a reference to a membership after the membership has been deleted or trashed
+
 
 = v2.4.0 - 2016/03/29 =
 -----------------------

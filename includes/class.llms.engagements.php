@@ -156,9 +156,9 @@ class LLMS_Engagements {
 		$action = current_filter();
 		$args = func_get_args();
 
-		llms_log( '======= __maybe_trigger_engagement ========' );
-		llms_log( '$action: ' . $action );
-		llms_log( '$args: ' . json_encode( $args ) );
+		// llms_log( '======= start maybe_trigger_engagement ========' );
+		// llms_log( '$action: ' . $action );
+		// llms_log( '$args: ' . json_encode( $args ) );
 
 		// setup variables used in queries and triggers based on the action
 		switch ( $action ) {
@@ -207,9 +207,9 @@ class LLMS_Engagements {
 		}
 
 		// gather triggerable engagements matching the supplied criteria
-		$engagements = $this->get_engagements( $trigger_type, $related_post_id );
+		$engagements = apply_filters( 'lifterlms_get_engagements' , $this->get_engagements( $trigger_type, $related_post_id ), $trigger_type, $related_post_id );
 
-		llms_log( '$engagements: ' . json_encode( $engagements ) );
+		// llms_log( '$engagements: ' . json_encode( $engagements ) );
 
 		// only trigger engagements if there are engagements
 		if ( $engagements ) {
@@ -255,10 +255,10 @@ class LLMS_Engagements {
 					// allow extensions to hook into our engagments
 					default :
 
-						extract( apply_filters( 'lifterlms_external_engagement_handler_arguments' ), array(
+						extract( apply_filters( 'lifterlms_external_engagement_handler_arguments' , array(
 							'handler_action' => $handler_action,
 							'handler_args' => $handler_args,
-						) );
+						), $e, $user_id, $related_post_id, $trigger_type ) );
 
 				}
 
@@ -269,9 +269,9 @@ class LLMS_Engagements {
 
 				// if we have a delay, schedule the engagement handler
 				$delay = intval( $e->delay );
-				llms_log( '$delay: ' . $delay );
-				llms_log( '$handler_action: ' . $handler_action );
-				llms_log( '$handler_args: ' . json_encode( $handler_args ) );
+				// llms_log( '$delay: ' . $delay );
+				// llms_log( '$handler_action: ' . $handler_action );
+				// llms_log( '$handler_args: ' . json_encode( $handler_args ) );
 				if ( $delay ) {
 
 					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, $handler_args );
@@ -287,6 +287,8 @@ class LLMS_Engagements {
 
 		}
 
+		// llms_log( '======= end maybe_trigger_engagement ========' );
+
 	}
 
 
@@ -298,7 +300,16 @@ class LLMS_Engagements {
 	 * Joins rather than nested loops and sub queries ftw
 	 *
 	 * @param  string $trigger_type  name of the trigger to look for
-	 * @return array
+	 * @return array of objects
+	 *				Array(
+		 *				    [0] => stdClass Object (
+	 *         				[engagement_id] => 123, // WordPress Post ID of the event post (email, certificate, achievement, etc...)
+	 *         		  		[trigger_id]    => 123, // this is the Post ID of the llms_engagement post
+	 *         			    [trigger_event] => 'user_registration', // triggering action
+	 *         			    [event_type]    => 'certificate', // engagment event action
+	 *         			    [delay]         => 0, // time in days to delay the engagment
+	 *         		     )
+	 *         		)
 	 *
 	 * @since  2.3.0
 	 */
