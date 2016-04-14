@@ -682,9 +682,8 @@ class LLMS_Frontend_Forms
 
 		llms_add_notice( __( 'Please confirm your payment.', 'lifterlms' ) );
 
-		wp_redirect( apply_filters( 'lifterlms_order_process_pending_redirect', $redirect ) );
-		exit;
-
+		wp_redirect( html_entity_decode( apply_filters( 'lifterlms_order_process_pending_redirect', $redirect ) ) );
+		exit();
 	}
 
 	/**
