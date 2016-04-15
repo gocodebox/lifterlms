@@ -4,7 +4,7 @@
 -----------------------
 
 + Fixed a few small issues with engagements as they related to external engagements triggered by other plugins and LifterLMS extensions.
-
++ Fixed various javascript issues, mostly removed `console.log()` statements.
 
 
 = v2.4.1 - 2016/04/07 =
