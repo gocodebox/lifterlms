@@ -22,7 +22,7 @@ class LLMS_Session {
 	 * @var bool
 	 * @access private
 	 */
-	private $use_php_sessions = false;
+	private $use_php_sessions = true;
 
 	/**
 	 * Session prefix
@@ -48,10 +48,6 @@ class LLMS_Session {
 			add_action( 'init', array( $this, 'maybe_start_session' ), -2 );
 
 		} else {
-
-			if ( ! $this->should_start_session() ) {
-				return;
-			}
 
 			// Use WP_Session (default)
 			if ( ! defined( 'WP_SESSION_COOKIE' ) ) {
@@ -163,6 +159,8 @@ class LLMS_Session {
 	 * @return bool
 	 */
 	public function use_php_sessions() {
+
+		return true;
 
 		$ret = false;
 

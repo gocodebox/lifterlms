@@ -30,11 +30,11 @@ $rec_price = $product->get_recurring_price();
 	<?php
 	} elseif ( ! llms_is_user_member( get_current_user_id(), $product->id ) ) {
 
-        if ( ! $product->is_free() ) {
-            ?>
+		if ( ! $product->is_free() ) {
+			?>
             <a href="<?php echo $product->get_checkout_url(); ?>" class="button llms-button llms-purchase-button"><?php echo _e( 'Sign Up', 'lifterlms' ); ?></a>
             <?php
-        } else { ?>
+		} else { ?>
 
             <form action="" method="post">
                 <input type="hidden" name="payment_option" value="none_0" />
@@ -51,7 +51,7 @@ $rec_price = $product->get_recurring_price();
                 <input type="hidden" name="action" value="create_order_details" />
             </form>
         <?php
-        }
+		}
 	}
 	?>
 </div>
