@@ -11,7 +11,7 @@ if ( is_user_logged_in() ) {
 
 	<?php if ( $message ) { echo wpautop( wptexturize( $message ) ); } ?>
 
-	<?php llms_get_template('global/form-login-inner.php'); ?>
+	<?php llms_get_template( 'global/form-login-inner.php' ); ?>
 
 	<?php do_action( 'lifterlms_login_form' ); ?>
 

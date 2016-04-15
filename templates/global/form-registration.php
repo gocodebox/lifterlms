@@ -23,7 +23,7 @@ llms_print_notices();
 
         <?php do_action( 'lifterlms_register_form_start' ); ?>
 
-        <?php llms_get_template('global/form-registration-inner.php'); ?>
+        <?php llms_get_template( 'global/form-registration-inner.php' ); ?>
 
         <?php do_action( 'lifterlms_register_form_end' ); ?>
 

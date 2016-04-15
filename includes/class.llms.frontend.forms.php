@@ -254,7 +254,7 @@ class LLMS_Frontend_Forms
 		}
 
 		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
-		if ('POST' !== $request_method) {
+		if ( 'POST' !== $request_method ) {
 			return;
 		}
 
@@ -266,7 +266,7 @@ class LLMS_Frontend_Forms
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
 		$order = LLMS()->session->get( 'llms_order', array() );
-		if (empty( $order )) {
+		if ( empty( $order ) ) {
 			return;
 		}
 
@@ -278,7 +278,6 @@ class LLMS_Frontend_Forms
 		$errors = new WP_Error();
 
 		$available_gateways[ $payment_method ]->complete_payment( $result, $order );
-
 	}
 
 	/**
@@ -289,9 +288,6 @@ class LLMS_Frontend_Forms
 	 * @return void
 	 */
 	public function apply_coupon() {
-
-		global $wpdb;
-
 		if ( ! isset( $_POST['llms_apply_coupon'] )) {
 			return;
 		}
@@ -308,6 +304,27 @@ class LLMS_Frontend_Forms
 
 		wp_verify_nonce( $_POST['_wpnonce'], 'llms-checkout-coupon' );
 
+		$coupon = $this->check_coupon();
+
+		LLMS()->session->set( 'llms_coupon', $coupon );
+
+		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
+	}
+
+	public function remove_coupon() {
+
+		if ( ! isset( $_POST['llms_remove_coupon'] )) {
+			return;
+		}
+
+		$coupon = LLMS()->session->get( 'llms_coupon' );
+
+		LLMS()->session->set( 'llms_coupon', null );
+
+		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been removed from your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
+	}
+
+	private function check_coupon() {
 		$coupon = new stdClass();
 		$errors = new WP_Error();
 
@@ -319,23 +336,22 @@ class LLMS_Frontend_Forms
 		}
 
 		$coupon->coupon_code = llms_clean( $_POST['coupon_code'] );
-		$coupon->product_id = $_POST['product_id'];
 
 		$args = array(
-			'posts_per_page' => 1,
-			'post_type' => 'llms_coupon',
-			'nopaging' => true,
-			'post_status' => 'publish',
-			'meta_query' => array(
-				array(
-					'key' => '_llms_coupon_title',
-					'value' => $coupon->coupon_code,
+				'posts_per_page' => 1,
+				'post_type' => 'llms_coupon',
+				'nopaging' => true,
+				'post_status' => 'publish',
+				'meta_query' => array(
+						array(
+								'key' => '_llms_coupon_title',
+								'value' => $coupon->coupon_code,
+						),
 				),
-			),
 		);
 		$coupon_post = get_posts( $args );
 
-		if (empty( $coupon_post )) {
+		if ( empty( $coupon_post ) ) {
 			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> was not found.', 'lifterlms' ), $coupon->coupon_code ), 'error' );
 		} else {
 			$products = get_post_meta( $coupon_post[0]->ID, '_llms_coupon_products', true );
@@ -378,21 +394,7 @@ class LLMS_Frontend_Forms
 			}
 		}
 
-		LLMS()->session->set( 'llms_coupon', $coupon );
-		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
-
-	}
-
-	public function remove_coupon() {
-
-		if ( ! isset( $_POST['llms_remove_coupon'] )) {
-			return;
-		}
-
-		$coupon = LLMS()->session->get( 'llms_coupon' );
-
-		LLMS()->session->set( 'llms_coupon', null );
-		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been removed from your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
+		return $coupon;
 	}
 
 	/**
@@ -464,10 +466,10 @@ class LLMS_Frontend_Forms
 		// noonnce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
 
-		if ( ! is_user_logged_in() && is_alternative_checkout_enabled() ) {
-			$coupon = LLMS()->session->get( 'llms_coupon', array() );
+		$coupon = LLMS()->session->get( 'llms_coupon', array() );
 
-			var_dump( $coupon ); die();
+		if ( ! is_user_logged_in() && is_alternative_checkout_enabled() ) {
+
 			$new_person = LLMS_Person::create_new_person();
 
 			if (is_wp_error( $new_person )) {
@@ -478,10 +480,8 @@ class LLMS_Frontend_Forms
 			}
 			llms_set_person_auth_cookie( $new_person );
 
-			if ( $coupon ) {
-				$coupon->user_id = $new_person;
-				LLMS()->session->set( 'llms_coupon', $coupon );
-			}
+			$coupon->user_id = $new_person;
+			$coupon = LLMS()->session->set( 'llms_coupon', $coupon );
 		}
 
 		// get started
@@ -527,7 +527,6 @@ class LLMS_Frontend_Forms
 		$order->payment_option = $payment_option_data[0];
 		$order->payment_option_id = $payment_option_data[1];
 
-		$coupon = LLMS()->session->get( 'llms_coupon', array() );
 		//if $ based coupon and recurring order return error and clear session variables
 		if ($order->payment_option == 'recurring' && ! empty( $coupon )) {
 			if ($coupon->type === 'dollar') {

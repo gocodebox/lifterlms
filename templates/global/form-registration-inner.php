@@ -55,7 +55,7 @@
         <label for="billing_country"><?php _e( 'Billing Country', 'lifterlms' ); ?> <span class="required">*</span></label>
         <select id="llms_country_options" required name="billing_country">
             <?php $country_options = get_lifterlms_countries();
-            foreach ( $country_options as $code => $name ) { ?>
+			foreach ( $country_options as $code => $name ) { ?>
                 <option value="<?php echo $code; ?>"><?php echo $name; ?></option>
             <?php } ?>
         </select>
@@ -94,10 +94,10 @@
 
     <div class="llms-form-item-wrapper voucher-wrapper">
         <?php
-        /**
-         * @todo  move JS to it's own file, it's here b/c this is the only JS that needs to run on this page and it seemed wasteful
-         */
-        ?>
+		/**
+		 * @todo  move JS to it's own file, it's here b/c this is the only JS that needs to run on this page and it seemed wasteful
+		 */
+		?>
         <script type="text/javascript">
             jQuery( document ).on( 'ready', function() {
                 jQuery( '#llms-voucher-expand' ).on( 'click', function( e ) {

@@ -64,6 +64,10 @@ if ($coupon_session) {
 			<h4 class="llms-title"><?php echo $product->post_title; ?></h4>
 		</div>
 
+		<?php if ( $coupon_session ) : ?>
+			<input type="hidden" name="coupon_code" value="<?php echo $coupon_session->coupon_code; ?>" />
+		<?php endif; ?>
+
 		<?php do_action( 'lifterlms_after_checkout_form_title' ); ?>
 
 		<!-- pricing options -->
