@@ -23,7 +23,6 @@ class LLMS_Admin_Post_Types {
 		add_filter( 'post_updated_messages', array( $this, 'llms_post_updated_messages' ) );
 
 		add_filter( 'pre_get_posts', array( $this, 'modify_admin_search' ), 10, 1 );
-		add_filter( 'display_post_states', array( $this, 'post_states' ), 10, 2 );
 
 		add_filter( 'manage_order_posts_columns', array( $this, 'llms_add_order_columns' ), 10, 1 );
 		add_action( 'manage_order_posts_custom_column', array( $this, 'llms_manage_order_columns' ), 10, 2 );
@@ -487,32 +486,6 @@ class LLMS_Admin_Post_Types {
 		}
 
 		return $query;
-
-	}
-
-	/**
-	 * Filter the "Post State" language on admin posts tables
-	 * @param  array $states  associative array of post states & related language
-	 * @param  obj   $post    WP_Post object
-	 * @return array
-	 *
-	 * @since  2.5.0
-	 */
-	public function post_states( $states, $post) {
-
-		if ( 'order' === $post->post_type ) {
-
-			// if order is password protected (which they all are) unset the language
-			// because it's ugly and insignificant
-			if ( isset( $states['protected'] ) ) {
-
-				unset( $states['protected'] );
-
-			}
-
-		}
-
-		return $states;
 
 	}
 
