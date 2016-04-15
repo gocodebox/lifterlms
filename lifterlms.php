@@ -201,6 +201,7 @@ final class LifterLMS {
 
 		// Payment Gateway
 		include_once( 'includes/class.llms.payment.gateway.php' );
+		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
 
 		// Ajax
 		include_once( 'includes/class.llms.ajax.php' );
