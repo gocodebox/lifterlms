@@ -441,6 +441,7 @@ class LLMS_Shortcodes {
 		global $post;
 
 		extract(shortcode_atts(array(
+			'collapse' => 0, // output collapsible syllabus
 			'course_id' => false,
 			'outline_type' => 'full', // course, lesson, section
 			'view_type' => 'list',// completed, enrolled
@@ -468,10 +469,10 @@ class LLMS_Shortcodes {
 
 		$syllabus = $course->get_student_progress();
 
+
 		if ($outline_type === 'current_section') {
 
-			$next_lesson = $course->get_next_uncompleted_lesson();
-			$next_lesson = new LLMS_Lesson( $next_lesson );
+			$next_lesson = new LLMS_Lesson( $course->get_next_uncompleted_lesson() );
 
 			foreach ( $syllabus->sections as $section ) {
 
@@ -491,15 +492,37 @@ class LLMS_Shortcodes {
 
 		} else {
 
+			$post_type = get_post_type();
+
+			if ( 'lesson' === $post_type ) {
+
+				$lesson = new LLMS_Lesson( get_the_ID() );
+				$current_section = $lesson->get_parent_section();
+
+			} elseif( 'course' === $post_type ) {
+
+				$lesson = new LLMS_Lesson( $course->get_next_uncompleted_lesson() );
+				$current_section = $lesson->get_parent_section();
+
+			} else {
+
+				$current_section = false;
+
+			}
+
 			$args = array(
-						'course' => $course,
-						'sections' => $syllabus->sections,
-						'syllabus' => $syllabus,
-					);
+				'collapse' => $collapse,
+				'course' => $course,
+				'current_section' => $current_section,
+				'sections' => $syllabus->sections,
+				'syllabus' => $syllabus,
+			);
 
 		}
 
+		ob_start();
 		llms_get_template( 'course/outline-list-small.php', $args );
+		return ob_get_clean();
 	}
 
 }

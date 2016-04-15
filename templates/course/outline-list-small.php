@@ -3,23 +3,38 @@
  * Course Outline Small List
  */
 ?>
-<div class="llms-widget-syllabus">
+<div class="llms-widget-syllabus<?php echo ( $collapse ) ? ' llms-widget-syllabus--collapsible' : ''; ?>">
 
-	<ul>
+	<ul class="llms-course-outline">
 
 		<?php //get section data
 		foreach ( $sections as $section ) : ?>
 
-			<li>
+			<li class="llms-section<?php echo ( $collapse ) ? ( $current_section && $section['id'] == $current_section ) ? ' llms-section--opened' : ' llms-section--closed' : ''; ?>">
 
-				<span class="section-title"><?php echo $section['title']; ?></span>
+				<div class="section-header">
+
+					<?php if ( $collapse ) : ?>
+
+						<span class="llms-collapse-toggle">
+
+							<i class="fa fa-caret-down"></i>
+							<i class="fa fa-caret-right"></i>
+
+						</span>
+
+					<?php endif; ?>
+
+					<span class="section-title"><?php echo $section['title']; ?></span>
+
+				</div>
 
 				<?php //loop through sections
 				foreach ( $syllabus->lessons as $lesson ) :
 
 					if ( $lesson['parent_id'] == $section['id'] ) : ?>
 
-						<ul>
+						<ul class="llms-lesson">
 
 							<li>
 
