@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the LifterLMS package.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 2.4.1\n"
+"Project-Id-Version: LifterLMS 2.5.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-04-07 19:14:43+00:00\n"
+"POT-Creation-Date: 2016-04-15 22:24:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -137,8 +137,7 @@ msgid "Expired Members"
 msgstr ""
 
 #: includes/admin/analytics/class.llms.analytics.page.php:69
-#: includes/admin/class.llms.admin.post-types.php:139
-#: includes/admin/class.llms.admin.post-types.php:157
+#: includes/admin/class.llms.admin.post-types.php:237
 #: includes/admin/students/class.llms.students.page.php:87
 #: includes/admin/students/class.llms.students.profile.php:50
 #: includes/class.llms.language.php:20 includes/class.llms.svg.php:36
@@ -213,143 +212,161 @@ msgstr ""
 msgid "You must enter a start and end date."
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:47
-#: includes/admin/class.llms.admin.menus.php:108 lifterlms.php:367
+#: includes/admin/class.llms.admin.menus.php:48
+#: includes/admin/class.llms.admin.menus.php:120 lifterlms.php:368
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:48
-#: includes/admin/class.llms.admin.menus.php:130
+#: includes/admin/class.llms.admin.menus.php:50
+#: includes/admin/class.llms.admin.menus.php:142
 #: includes/admin/views/html.admin.analytics.php:3
 msgid "Analytics"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:49
-#: includes/admin/class.llms.admin.menus.php:153
+#: includes/admin/class.llms.admin.menus.php:52
+#: includes/admin/class.llms.admin.menus.php:164
 #: includes/admin/students/class.llms.students.dashboard.php:37
 #: includes/admin/students/class.llms.students.dashboard.php:134
 #: includes/admin/views/html.admin.students.php:3
 msgid "Students"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:50
+#: includes/admin/class.llms.admin.menus.php:54
 #: includes/class.llms.post-types.php:469
 msgid "Emails"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:51
+#: includes/admin/class.llms.admin.menus.php:56
 #: includes/admin/settings/class.llms.settings.engagements.php:21
 #: includes/class.llms.post-types.php:587
 msgid "Engagements"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:52
+#: includes/admin/class.llms.admin.menus.php:58
 #: includes/class.llms.post-types.php:548
 #: includes/integrations/class.llms.integration.buddypress.php:61
 msgid "Achievements"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:53
+#: includes/admin/class.llms.admin.menus.php:60
 #: includes/class.llms.post-types.php:510
 #: includes/integrations/class.llms.integration.buddypress.php:70
 msgid "Certificates"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:54
+#: includes/admin/class.llms.admin.menus.php:62
 #: includes/class.llms.post-types.php:863
 msgid "Reviews"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:55
+#: includes/admin/class.llms.admin.menus.php:64
 #: includes/class.llms.post-types.php:427
 msgid "Orders"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:56
+#: includes/admin/class.llms.admin.menus.php:66
 #: includes/class.llms.post-types.php:784
 msgid "Coupons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:57
+#: includes/admin/class.llms.admin.menus.php:68
 #: includes/class.llms.post-types.php:823
 msgid "Vouchers"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:58
-#: includes/admin/class.llms.admin.menus.php:175
+#: includes/admin/class.llms.admin.menus.php:70
+#: includes/admin/class.llms.admin.menus.php:186
 msgid "System Report"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:85
+#: includes/admin/class.llms.admin.post-types.php:88
 msgid "Custom field updated."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:86
+#: includes/admin/class.llms.admin.post-types.php:89
 msgid "Custom field deleted."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:93
+#: includes/admin/class.llms.admin.post-types.php:96
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:112
+#: includes/admin/class.llms.admin.post-types.php:115
 #: includes/class.llms.post-types.php:428
 msgid "Order"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:113
+#: includes/admin/class.llms.admin.post-types.php:117
 msgid "Product"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:114
+#: includes/admin/class.llms.admin.post-types.php:119
 msgid "Total"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:115
-#: includes/admin/class.llms.admin.post-types.php:231
-#: includes/admin/class.llms.admin.post-types.php:314
+#: includes/admin/class.llms.admin.post-types.php:120
+#: includes/admin/class.llms.admin.post-types.php:312
+#: includes/admin/class.llms.admin.post-types.php:395
 msgid "Date"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:139
-#: includes/admin/class.llms.admin.post-types.php:157
+#: includes/admin/class.llms.admin.post-types.php:143
+msgctxt "order number display"
+msgid "#%d"
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:147
+msgid "by"
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:155
+#: includes/admin/class.llms.admin.post-types.php:177
+msgid "Unkown"
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:191
+#: includes/admin/class.llms.admin.post-types.php:237
 msgid "Unknown"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:148
-msgid "%s%0.2f"
+#: includes/admin/class.llms.admin.post-types.php:219
+msgid "Free"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:226
-#: includes/admin/class.llms.admin.post-types.php:312
+#: includes/admin/class.llms.admin.post-types.php:224
+msgid "via %s"
+msgstr ""
+
+#: includes/admin/class.llms.admin.post-types.php:307
+#: includes/admin/class.llms.admin.post-types.php:393
 msgid "Lesson Title"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:227
-#: includes/admin/class.llms.admin.post-types.php:313
+#: includes/admin/class.llms.admin.post-types.php:308
+#: includes/admin/class.llms.admin.post-types.php:394
 msgid "Assigned Course"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:228
+#: includes/admin/class.llms.admin.post-types.php:309
 msgid "Assigned Section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:229
+#: includes/admin/class.llms.admin.post-types.php:310
 msgid "Prerequisite"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:230
+#: includes/admin/class.llms.admin.post-types.php:311
 msgid "Memberships Required"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:255
-#: includes/admin/class.llms.admin.post-types.php:265
-#: includes/admin/class.llms.admin.post-types.php:275
-#: includes/admin/class.llms.admin.post-types.php:337
+#: includes/admin/class.llms.admin.post-types.php:336
+#: includes/admin/class.llms.admin.post-types.php:346
+#: includes/admin/class.llms.admin.post-types.php:356
+#: includes/admin/class.llms.admin.post-types.php:418
 msgid "<a href=\"%s\">%s</a>"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:291
+#: includes/admin/class.llms.admin.post-types.php:372
 msgid "%s "
 msgstr ""
 
