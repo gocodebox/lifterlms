@@ -178,7 +178,6 @@ class LLMS_Admin_Post_Types {
 
 					}
 
-
 				}
 
 			break;
@@ -213,7 +212,6 @@ class LLMS_Admin_Post_Types {
 
 				}
 
-
 				$total = '';
 
 				if ( empty( $order_total ) ) {
@@ -226,7 +224,6 @@ class LLMS_Admin_Post_Types {
 					$total .= ' <small>' . sprintf( __( 'via %s', 'lifterlms' ), $method ) . '</small>';
 
 				}
-
 
 				echo apply_filters( 'lifterlms_order_posts_table_column_total', $total, $post_id );
 
@@ -444,7 +441,7 @@ class LLMS_Admin_Post_Types {
 			$s = $query->query_vars['s'];
 
 			// if the term is an email, find orders for the user
-			if( is_email( $s ) ) {
+			if ( is_email( $s ) ) {
 
 				// get the user obj
 				$user = get_user_by( 'email', $s );
@@ -471,7 +468,7 @@ class LLMS_Admin_Post_Types {
 					// @note we're not super proud of this incredible piece of duct tape
 					add_filter( 'get_search_query', function( $q ) {
 
-						if( '' === $q ) {
+						if ( '' === $q ) {
 
 							return $_GET['s'];
 
