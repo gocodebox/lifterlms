@@ -22,7 +22,7 @@ class LLMS_Session {
 	 * @var bool
 	 * @access private
 	 */
-	private $use_php_sessions = true;
+	private $use_php_sessions = false;
 
 	/**
 	 * Session prefix
@@ -52,6 +52,15 @@ class LLMS_Session {
 			// Use WP_Session (default)
 			if ( ! defined( 'WP_SESSION_COOKIE' ) ) {
 				define( 'WP_SESSION_COOKIE', 'llms_wp_session' );
+			}
+
+			if ( ! class_exists( 'Recursive_ArrayAccess' ) ) {
+				require_once LLMS_PLUGIN_DIR . 'includes/libraries/class-recursive-arrayaccess.php';
+			}
+
+			if ( ! class_exists( 'WP_Session' ) ) {
+				require_once LLMS_PLUGIN_DIR . 'includes/libraries/class-wp-session.php';
+				require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-session.php';
 			}
 
 			add_filter( 'wp_session_expiration_variant', array( $this, 'set_expiration_variant_time' ), 99999 );
@@ -159,8 +168,6 @@ class LLMS_Session {
 	 * @return bool
 	 */
 	public function use_php_sessions() {
-
-		return true;
 
 		$ret = false;
 
