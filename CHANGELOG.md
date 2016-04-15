@@ -1,11 +1,30 @@
 == Changelog ==
 
-= v2.4.2 - 2016/04/07 =
+= v2.5.0 - 2016/04/15 =
 -----------------------
 
+**Admin Panel Order Table Updates**
+
++ Several visual improvements to the table
++ Exposed the following fields on the table
+  + Order number
+  + Customer name (with a link to their WP profile)
+  + Customer email (mailto link)
+  + Payment gateway used (this is filterable per gateway as well so gateways can improve the functionality here in the future)
++ Added a link to the product edit page from the product column
++ Free orders will now display as "Free" as opposed to {currency}0.00
++ Removed the not-so-useful "Order" column which was a long ugly string of data that was displayed in other columns already
++ Removed the "Password Protected" flag since *all* orders are always automatically password protected for added security. This flag distracts from the interface so we've removed it. Orders _are_ still password protected though.
++ Numerous strings that were previously not translatable have been made translatable on this screen
++ A few new strings that previously didn't exist are now available for translation
+
+**Fixes and other small changes**
+
++ Fixed a translation issue on the LifterLMS menu that we thought we fixed in the last release but have now really fixed (probably).
 + Fixed a few small issues with engagements as they related to external engagements triggered by other plugins and LifterLMS extensions.
-+ Fixed various javascript issues, mostly removed `console.log()` statements.
 + Tired of seeing a banner for a plugin you've already installed? We have your back! The general settings area will now only display banners for plugins that aren't installed.
++ Fixed various javascript issues, mostly removed `console.log()` statements.
++ Fixed a spelling error on the membership admin panel settings screen
 
 
 = v2.4.1 - 2016/04/07 =
