@@ -3,9 +3,9 @@
 = v2.4.2 - 2016/04/07 =
 -----------------------
 
-+ Tired of seeing a banner for a plugin you've already installed? We have your back, the general settings area will now only display banners for plugins that aren't installed.
 + Fixed a few small issues with engagements as they related to external engagements triggered by other plugins and LifterLMS extensions.
 + Fixed various javascript issues, mostly removed `console.log()` statements.
++ Tired of seeing a banner for a plugin you've already installed? We have your back! The general settings area will now only display banners for plugins that aren't installed.
 
 
 = v2.4.1 - 2016/04/07 =
