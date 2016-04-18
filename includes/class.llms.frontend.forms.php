@@ -470,18 +470,31 @@ class LLMS_Frontend_Forms
 
 		if ( ! is_user_logged_in() && is_alternative_checkout_enabled() ) {
 
-			$new_person = LLMS_Person::create_new_person();
+			if ( true ) {
+				try {
+					$user = LLMS_Person::login_user();
+					wp_set_current_user( $user->ID );
 
-			if (is_wp_error( $new_person )) {
+					$user = get_current_user_id();
+				} catch ( Exception $e ) {
+					llms_add_notice( apply_filters( 'login_errors', $e->getMessage() ), 'error' );
+				}
+			} else {
+				$user = LLMS_Person::create_new_person();
 
-				llms_add_notice( $new_person->get_error_message(), 'error' );
-				return;
+				if ( is_wp_error( $user ) ) {
 
+					llms_add_notice( $user->get_error_message(), 'error' );
+					return;
+
+				}
+				llms_set_person_auth_cookie( $user );
 			}
-			llms_set_person_auth_cookie( $new_person );
 
-			$coupon->user_id = $new_person;
-			$coupon = LLMS()->session->set( 'llms_coupon', $coupon );
+			if ( ! empty( $coupon ) ) {
+				$coupon->user_id = $user;
+				$coupon = LLMS()->session->set( 'llms_coupon', $coupon );
+			}
 		}
 
 		// get started
@@ -1117,54 +1130,7 @@ class LLMS_Frontend_Forms
 
 			try {
 
-				$creds = array();
-
-				$validation_error = new WP_Error();
-
-				$validation_error = apply_filters( 'lifterlms_login_errors', $validation_error, $_POST['username'], $_POST['password'] );
-
-				if ($validation_error->get_error_code()) {
-
-					throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . $validation_error->get_error_message() );
-
-				}
-
-				if (empty( $_POST['username'] )) {
-
-					throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'Username is required.', 'lifterlms' ) );
-
-				}
-
-				if (empty( $_POST['password'] )) {
-
-					throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'Password is required.', 'lifterlms' ) );
-
-				}
-
-				if (is_email( $_POST['username'] ) && apply_filters( 'lifterlms_get_username_from_email', true )) {
-
-					$user = get_user_by( 'email', $_POST['username'] );
-
-					if (isset( $user->user_login )) {
-
-						$creds['user_login'] = $user->user_login;
-
-					} else {
-
-						throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'A user could not be found with this email address.', 'lifterlms' ) );
-
-					}
-
-				} else {
-
-					$creds['user_login'] = $_POST['username'];
-
-				}
-
-				$creds['user_password'] = $_POST['password'];
-				$creds['remember'] = isset( $_POST['rememberme'] );
-				$secure_cookie = is_ssl() ? true : false;
-				$user = wp_signon( apply_filters( 'lifterlms_login_credentials', $creds ), $secure_cookie );
+				$user = LLMS_Person::login_user();
 
 				if (is_wp_error( $user )) {
 

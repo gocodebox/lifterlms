@@ -326,4 +326,56 @@ class LLMS_Person {
 		return $new_person;
 	}
 
+	public static function login_user() {
+		$creds = array();
+
+		$validation_error = new WP_Error();
+
+		$validation_error = apply_filters( 'lifterlms_login_errors', $validation_error, $_POST['username'], $_POST['password'] );
+
+		if ($validation_error->get_error_code()) {
+
+			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . $validation_error->get_error_message() );
+
+		}
+
+		if (empty( $_POST['username'] )) {
+
+			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'Username is required.', 'lifterlms' ) );
+
+		}
+
+		if (empty( $_POST['password'] )) {
+
+			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'Password is required.', 'lifterlms' ) );
+
+		}
+
+		if (is_email( $_POST['username'] ) && apply_filters( 'lifterlms_get_username_from_email', true )) {
+
+			$user = get_user_by( 'email', $_POST['username'] );
+
+			if (isset( $user->user_login )) {
+
+				$creds['user_login'] = $user->user_login;
+
+			} else {
+
+				throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'A user could not be found with this email address.', 'lifterlms' ) );
+
+			}
+
+		} else {
+
+			$creds['user_login'] = $_POST['username'];
+
+		}
+
+		$creds['user_password'] = $_POST['password'];
+		$creds['remember'] = isset( $_POST['rememberme'] );
+		$secure_cookie = is_ssl() ? true : false;
+
+		return wp_signon( apply_filters( 'lifterlms_login_credentials', $creds ), $secure_cookie );
+	}
+
 }
