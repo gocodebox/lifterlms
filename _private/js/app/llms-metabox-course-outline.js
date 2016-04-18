@@ -115,19 +115,19 @@ LLMS.MB_Course_Outline = {
 
             this.setup_course();
 
-            $(window).click(function (e) {
-                if (e.target.id !== 'llms-outline-add' && $('#llms-outline-add').hasClass('clicked')) {
-                    $('#llms-outline-menu').css('display', 'none');
-                    reset();
-                }
-            });
-
             function reset() {
                 $('#llms-outline-add').removeClass('clicked');
                 $('#llms-outline-add').addClass('bt');
                 $('#llms-outline-menu').removeClass('fade-in');
                 $('#triangle').show();
             }
+
+            $(window).click(function (e) {
+                if (e.target.id !== 'llms-outline-add' && $('#llms-outline-add').hasClass('clicked')) {
+                    $('#llms-outline-menu').css('display', 'none');
+                    reset();
+                }
+            });
 
             $(window).scroll(function () {
                 if ($('#llms-outline-add').hasClass('clicked')) {

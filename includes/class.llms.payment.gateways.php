@@ -97,6 +97,30 @@ class LLMS_Payment_Gateways {
 		return apply_filters( 'lifterlms_available_payment_gateways', $_available_gateways );
 	}
 
+
+	/**
+	 * Retrive a payment gateway object by the payment gateway ID
+	 *
+	 * @param  string $id  id of the gateway (paypal, stripe, etc...)
+	 * @return mixed       instance of the gateway object OR false
+	 *
+	 * @since  2.5.0
+	 */
+	function get_gateway_by_id( $id ) {
+
+		$gateways = $this->payment_gateways();
+
+		if ( array_key_exists( $id, $gateways ) ) {
+
+			return $gateways[ $id ];
+
+		}
+
+		return false;
+
+	}
+
+
 	/**
 	 * Check if payment gateway can process recurring payments
 	 *

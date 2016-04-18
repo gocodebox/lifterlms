@@ -9,24 +9,6 @@
 LLMS.Rest = {
 
 	/**
-	 * init
-	 * loads class methods
-	 */
-	init: function() {
-		console.log('Initializing Rest Methods ');
-		this.bind();
-	},
-
-	/**
-	 * Bind Method
-	 * Handles dom binding on load
-	 * @return {[type]} [description]
-	 */
-	bind: function() {
-		console.log('Rest Methods Bound');
-	},
-
-	/**
 	 * Searches for string matches in url path
 	 * @param  {Array}  strings [Array of strings to search for matches]
 	 * @return {Boolean}         [Was a match found?]

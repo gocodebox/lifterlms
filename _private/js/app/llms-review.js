@@ -9,7 +9,7 @@ LLMS.Review = {
 	 */
 	init: function()
 	{
-		console.log('Initializing Review ');
+		// console.log('Initializing Review ');
 		this.bind();
 	},
 
@@ -78,5 +78,5 @@ LLMS.Review = {
 		});
 
 		console.log('Review Methods Bound');
-	},	
+	},
 };

@@ -162,9 +162,13 @@ gulp.task( 'process-admin-styles', function () {
 gulp.task( 'process-scripts', function () {
 
 	return gulp.src( '_private/js/*.js' )
-		.pipe(include())
+		.pipe( include() )
 		.pipe( rename( { suffix: '.min' } ) )
-		.pipe( uglify() )
+		.pipe( uglify().on('error',notify.onError({
+			message: '<%= error.message %>',
+			sound: 'Funk',
+			title: 'JS Uglify Error'
+        } ) ) )
 		.pipe( gulp.dest( 'assets/js/' ) );
 
 });

@@ -1,8 +1,37 @@
 == Changelog ==
 
-= v2.4.1 - 2016/04/?? =
+= v2.5.0 - 2016/04/15 =
 -----------------------
 
+**Admin Panel Order Table Updates**
+
++ Several visual improvements to the table
++ Exposed the following fields on the table
+  + Order number
+  + Customer name (with a link to their WP profile)
+  + Customer email (mailto link)
+  + Payment gateway used (this is filterable per gateway as well so gateways can improve the functionality here in the future)
++ Added a link to the product edit page from the product column
++ Free orders will now display as "Free" as opposed to {currency}0.00
++ Removed the not-so-useful "Order" column which was a long ugly string of data that was displayed in other columns already
++ Removed the "Password Protected" flag since *all* orders are always automatically password protected for added security. This flag distracts from the interface so we've removed it. Orders _are_ still password protected though.
++ Numerous strings that were previously not translatable have been made translatable on this screen
++ A few new strings that previously didn't exist are now available for translation
+
+**Fixes and other small changes**
+
++ Fixed a translation issue on the LifterLMS menu that we thought we fixed in the last release but have now really fixed (probably).
++ Fixed a few small issues with engagements as they related to external engagements triggered by other plugins and LifterLMS extensions.
++ Tired of seeing a banner for a plugin you've already installed? We have your back! The general settings area will now only display banners for plugins that aren't installed.
++ Fixed various javascript issues, mostly removed `console.log()` statements.
++ Fixed a spelling error on the membership admin panel settings screen
+
+
+= v2.4.1 - 2016/04/07 =
+-----------------------
+
++ Tested and compatible with WordPress 4.5 Release Candidate.
++ Fixed a pagination issue related to updates to the quiz builder from 2.4.0 which would cause results to return incorrect results on the last page of paginated results in the "Add Question" dropdown.
 + Added translation functions to LifterLMS Menu Items. Resolves an issue where translated LifterLMS installations might not see all the menu items under the LifterLMS Icon.
 + Italian translation updates curtosey of [@AndreaBarghigiani](https://github.com/AndreaBarghigiani)
 + On some themes the "Next Lesson" button was displayed while quizzes were being taken. We now *always* hide the next lesson button when a quiz is being taken.
@@ -12,6 +41,7 @@
 + Fixed undefined variable warning on quiz summary screen
 + Resolve an issue with quiz timer that caused issues on time display if the time limit was set to a fraction of a minute (eg 1.5 minutes)
 + resolved an undefined variable warning resulting from courses still holding a reference to a membership after the membership has been deleted or trashed
+
 
 = v2.4.0 - 2016/03/29 =
 -----------------------

@@ -366,7 +366,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 					array(
 						'type'		=> 'text',
 						'label'		=> 'Billing Cycles',
-						'desc' 		=> 'Enter 0 to charge indefinately. IE: 12 would bill for 12 months.',
+						'desc' 		=> 'Enter 0 to charge indefinitely. IE: 12 would bill for 12 months.',
 						'id' 		=> self::$prefix . 'llms_billing_cycle',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
