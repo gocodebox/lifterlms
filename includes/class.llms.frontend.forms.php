@@ -484,8 +484,8 @@ class LLMS_Frontend_Forms
 
 					$user = get_current_user_id();
 				} catch ( Exception $e ) {
-					var_dump( $e->getMessage()); die();
 					llms_add_notice( apply_filters( 'login_errors', $e->getMessage() ), 'error' );
+
 					return;
 				}
 			} elseif ( $_POST['llms-registration'] ) {

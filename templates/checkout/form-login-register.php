@@ -8,22 +8,3 @@
     <input type="hidden" name="llms-registration" value="1">
     <a href="#" class="llms-toggle" data-parent="llms-register-fields" data-target="llms-login-fields">Login</a>
 </div>
-
-<script type="text/javascript">
-    (function($) {
-        $('#llms-register-fields input').attr('disabled', true);
-
-        $('.llms-toggle').on('click', function(e) {
-            e.preventDefault();
-
-            var parent = $(e.currentTarget).data('parent');
-            var target = $(e.currentTarget).data('target');
-
-            $('#' + parent).slideUp();
-            $('#' + target).slideDown();
-
-            $('#' + target + ' input').removeAttr('disabled');
-            $('#' + parent + ' input').attr('disabled', true);
-        })
-    })(jQuery);
-</script>

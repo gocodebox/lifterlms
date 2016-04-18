@@ -21,6 +21,20 @@ jQuery(document).ready(function($) {
 
 	//$('.llms-price-option-radio').on('change', display_current_price );
 
+	$('#llms-register-fields input').attr('disabled', true);
+
+	$('.llms-toggle').on('click', function(e) {
+		e.preventDefault();
+
+		var parent = $(e.currentTarget).data('parent');
+		var target = $(e.currentTarget).data('target');
+
+		$('#' + parent).slideUp();
+		$('#' + target).slideDown();
+
+		$('#' + target + ' input').removeAttr('disabled');
+		$('#' + parent + ' input').attr('disabled', true);
+	})
 });
 
 (function($){
@@ -75,3 +89,4 @@ get_current_price = function() {
 	// return false;
 };
 })(jQuery);
+
