@@ -470,23 +470,32 @@ class LLMS_Frontend_Forms
 
 		if ( ! is_user_logged_in() && is_alternative_checkout_enabled() ) {
 
-			if ( true ) {
+			if ( isset( $_POST['llms-login'] ) ) {
 				try {
 					$user = LLMS_Person::login_user();
 					wp_set_current_user( $user->ID );
 
+					if ( is_wp_error( $user ) ) {
+
+						llms_add_notice( $user->get_error_message(), 'error' );
+
+						return;
+					}
+
 					$user = get_current_user_id();
 				} catch ( Exception $e ) {
+					var_dump( $e->getMessage()); die();
 					llms_add_notice( apply_filters( 'login_errors', $e->getMessage() ), 'error' );
+					return;
 				}
-			} else {
+			} elseif ( $_POST['llms-registration'] ) {
 				$user = LLMS_Person::create_new_person();
 
 				if ( is_wp_error( $user ) ) {
 
 					llms_add_notice( $user->get_error_message(), 'error' );
-					return;
 
+					return;
 				}
 				llms_set_person_auth_cookie( $user );
 			}

@@ -49,15 +49,14 @@ if ($coupon_session) {
 
 <form action="" method="post" id="llms-product-purchase-form">
 
-	<?php
-	if ( is_alternative_checkout_enabled() && ! is_user_logged_in() ) {
-		llms_get_template( 'checkout/form-login-register.php' );
-	} ?>
-
 	<div class="llms-checkout-wrapper">
 		<div class="llms-checkout">
 		<?php echo  '<h4>' .
 			apply_filters( 'lifterlms_checkout_form_title', __( 'Confirm Purchase', 'lifterlms' ) ) . '</h4>'; ?>
+
+		<?php if ( is_alternative_checkout_enabled() && ! is_user_logged_in() ) {
+			llms_get_template( 'checkout/form-login-register.php' );
+		} ?>
 
 		<!-- Product information -->
 		<div class="llms-title-wrapper">
