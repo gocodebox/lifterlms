@@ -482,26 +482,40 @@ class LLMS_Frontend_Forms
 						return;
 					}
 
-					$user = get_current_user_id();
+					$user_id = get_current_user_id();
 				} catch ( Exception $e ) {
 					llms_add_notice( apply_filters( 'login_errors', $e->getMessage() ), 'error' );
 
 					return;
 				}
 			} elseif ( $_POST['llms-registration'] ) {
-				$user = LLMS_Person::create_new_person();
+				$user_id = LLMS_Person::create_new_person();
 
-				if ( is_wp_error( $user ) ) {
+				if ( is_wp_error( $user_id ) ) {
 
-					llms_add_notice( $user->get_error_message(), 'error' );
+					llms_add_notice( $user_id->get_error_message(), 'error' );
 
 					return;
 				}
-				llms_set_person_auth_cookie( $user );
+				llms_set_person_auth_cookie( $user_id );
+			}
+
+			if ( $user_id ) {
+				$user = new LLMS_Person();
+				$product_id = ! empty( $_POST['product_id'] ) ? llms_clean( $_POST['product_id'] ) : '';
+				$user_postmetas = $user->get_user_postmeta_data( $user_id, $product_id );
+				$user_is_member = llms_does_user_memberships_contain_course( $user_id, $product_id );
+
+				if ( $user_postmetas || $user_is_member ) {
+					llms_add_notice( __( 'You already have access to this product!' ), 'error' );
+					wp_safe_redirect( get_permalink( $product_id ) );
+
+					exit;
+				}
 			}
 
 			if ( ! empty( $coupon ) ) {
-				$coupon->user_id = $user;
+				$coupon->user_id = $user_id;
 				$coupon = LLMS()->session->set( 'llms_coupon', $coupon );
 			}
 		}
