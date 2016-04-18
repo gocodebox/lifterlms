@@ -196,10 +196,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	public function register_hooks() {
 
 		if ( isset( $_POST['save'] ) && strtolower( $_POST['save'] ) == 'clear all user session data') {
-			$session_handler = new LLMS_Session_Handler();
-
-			$session_handler->delete_all_session_data();
-
+			//do we still need something like this?
+			session_unset();
 		}
 	}
 
