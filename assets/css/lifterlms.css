@@ -670,6 +670,10 @@ h1, h2, h3, h4, h5, h6 {
   margin: 20px;
   font-size: 16px;
 }
+.llms-checkout-wrapper .llms-checkout .llms-form-wrapper {
+  padding: 0 10px;
+  margin: 10px 0;
+}
 
 .llms-option {
   display: block;
