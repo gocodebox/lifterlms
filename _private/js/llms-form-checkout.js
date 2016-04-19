@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 
-	$('#llms_country_options').chosen();
+	$('#llms_country_options').chosen({width:"300px"});
 
 	//display coupon redemption form on link click
 	get_current_price();
