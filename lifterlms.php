@@ -234,9 +234,6 @@ final class LifterLMS {
 
 		$this->course_factory = new LLMS_Course_Factory();
 
-		$session_class = apply_filters( 'lifterlms_session_handler', 'LLMS_Session_Handler' );
-		$this->session = new $session_class();
-
 		if ( ! is_admin() ) {
 			$this->frontend_includes();
 		}
@@ -272,6 +269,9 @@ final class LifterLMS {
 	public function init() {
 
 		do_action( 'before_lifterlms_init' );
+
+		$session_class = apply_filters( 'lifterlms_session_handler', 'LLMS_Session_Handler' );
+		$this->session = new $session_class();
 
 		if ( ! is_admin() ) {
 			$this->person = new LLMS_Person();

@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.5.1 - 2016/04/?? =
+-----------------------
+
++ Fixed session handler initilization as it was being initialized prior to user data availability.
+
+
 = v2.5.0 - 2016/04/15 =
 -----------------------
 
