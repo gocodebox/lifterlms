@@ -58,7 +58,18 @@ if ($coupon_session) {
 
 		<?php if ( is_alternative_checkout_enabled() && ! is_user_logged_in() ) {
 			llms_get_template( 'checkout/form-login-register.php' );
-		} ?>
+} elseif ( is_alternative_checkout_enabled() && is_user_logged_in() ) {
+	$current_user = wp_get_current_user();
+	?>
+	<div class="llms-notice-box">
+		<?php
+		_e( 'You are logged in as ', 'lifterlms' );
+		echo $current_user->user_email; ?>
+				, <a href="<?php echo wp_logout_url( add_query_arg( $_GET, get_permalink() ) ); ?>" title="<?php _e( 'Logout?', 'lifterlms' ); ?>">
+					<?php _e( 'Logout?', 'lifterlms' ); ?>
+				</a>
+			</div>
+		<?php } ?>
 
 		<!-- Product information -->
 		<div class="llms-title-wrapper">
