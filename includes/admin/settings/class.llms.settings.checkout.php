@@ -65,8 +65,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				),
 
 				array(
-					'title'         => __( 'Secondary payment process', 'lifterlms' ),
-					'desc'          => __( 'Register users while paying.', 'lifterlms' ),
+					'title'         => __( 'Enable Quick Checkout', 'lifterlms' ),
+					'desc'          => __( 'Allow customers to register and login on the same screen as the payment form.', 'lifterlms' ),
 					'id'            => 'lifterlms_secondary_checkout_process',
 					'default'       => 'no',
 					'type'          => 'checkbox',
