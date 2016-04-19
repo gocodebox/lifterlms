@@ -10,8 +10,6 @@ global $lifterlms;
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-llms_print_notices();
-
 // moved above login to enable more performance friendly translation of i18n strings on this page
 do_action( 'lifterlms_before_checkout_form' );
 
@@ -25,7 +23,11 @@ if ( get_query_var( 'product-id' ) ) {
 	$product = get_post( $product_id );
 } else {
 	llms_add_notice( __( 'Product not found.', 'lifterlms' ) );
+	llms_print_notices();
+	return;
 }
+
+llms_print_notices();
 
 $product_obj = new LLMS_Product( $product );
 
@@ -56,7 +58,7 @@ if ($coupon_session) {
 
 		<?php if ( is_alternative_checkout_enabled() && ! is_user_logged_in() ) {
 			llms_get_template( 'checkout/form-login-register.php' );
-} ?>
+		} ?>
 
 		<!-- Product information -->
 		<div class="llms-title-wrapper">
