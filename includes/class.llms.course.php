@@ -757,6 +757,11 @@ class LLMS_Course {
 
 	}
 
+	/**
+	 * Get url to membership checkout page, depends on it is user logged in and is alternative checkout on.
+	 *
+	 * @return string
+	 */
 	public function get_membership_link() {
 		$memberships_required = get_post_meta( $this->id, '_llms_restricted_levels', true );
 

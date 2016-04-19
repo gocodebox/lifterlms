@@ -196,6 +196,11 @@ class LLMS_Person {
 		return $results;
 	}
 
+	/**
+	 * Register new user and return his id
+	 *
+	 * @return int | Error
+	 */
 	public static function create_new_person() {
 
 		if ('no' === get_option( 'lifterlms_registration_generate_username' )) {
@@ -326,6 +331,11 @@ class LLMS_Person {
 		return $new_person;
 	}
 
+	/**
+	 * Login user and return user data
+	 *
+	 * @return object | Error
+	 */
 	public static function login_user() {
 		$creds = array();
 
