@@ -56,7 +56,7 @@ if ($coupon_session) {
 
 		<?php if ( is_alternative_checkout_enabled() && ! is_user_logged_in() ) {
 			llms_get_template( 'checkout/form-login-register.php' );
-		} ?>
+} ?>
 
 		<!-- Product information -->
 		<div class="llms-title-wrapper">
