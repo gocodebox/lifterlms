@@ -308,7 +308,12 @@ class LLMS_Frontend_Forms
 
 		LLMS()->session->set( 'llms_coupon', $coupon );
 
-		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
+		if ( $coupon ) {
+
+			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
+
+		}
+
 	}
 
 	public function remove_coupon() {
@@ -468,20 +473,22 @@ class LLMS_Frontend_Forms
 
 		$coupon = LLMS()->session->get( 'llms_coupon', array() );
 
-		if ( ! is_user_logged_in() && is_alternative_checkout_enabled() ) {
+		if ( ! is_user_logged_in() && llms_is_alternative_checkout_enabled() ) {
 
 			if ( isset( $_POST['llms-login'] ) ) {
 				try {
+
 					$user = LLMS_Person::login_user();
-					wp_set_current_user( $user->ID );
 
 					if ( is_wp_error( $user ) ) {
 
 						llms_add_notice( $user->get_error_message(), 'error' );
 
 						return;
+
 					}
 
+					wp_set_current_user( $user->ID );
 					$user_id = get_current_user_id();
 				} catch ( Exception $e ) {
 					llms_add_notice( apply_filters( 'login_errors', $e->getMessage() ), 'error' );

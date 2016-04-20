@@ -226,7 +226,7 @@ class LLMS_Course {
 	 */
 	public function get_checkout_url() {
 
-		if ( is_alternative_checkout_enabled() || is_user_logged_in() ) {
+		if ( llms_is_alternative_checkout_enabled() || is_user_logged_in() ) {
 			$checkout_page_id = llms_get_page_id( 'checkout' );
 		} else {
 			$checkout_page_id = llms_get_page_id( 'myaccount' );

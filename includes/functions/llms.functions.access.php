@@ -710,6 +710,6 @@ function llms_does_user_memberships_contain_course( $user_id, $post_id ) {
  *
  * @return bool
  */
-function is_alternative_checkout_enabled() {
+function llms_is_alternative_checkout_enabled() {
 	return get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes';
 }
