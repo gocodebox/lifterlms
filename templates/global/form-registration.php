@@ -7,9 +7,6 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
-$product_id = get_query_var( 'product-id' );
-global $wpdb;
 llms_print_notices();
 ?>
 

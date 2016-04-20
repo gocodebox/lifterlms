@@ -114,6 +114,7 @@
             <input type="text" id="llms_voucher_code" placeholder="<?php _e( 'Voucher Code', 'lifterlms' ); ?>" name="llms_voucher_code">
         </div>
     </div>
+
 <?php endif; ?>
 
 <?php if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms' ) && get_option( 'lifterlms_terms_page_id' ) ) : ?>
@@ -128,7 +129,9 @@
 
 <?php endif; ?>
 
-<input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
+<?php if ( isset( $_GET['product-id'] ) ) : ?>
+	<input type="hidden" name="product_id" value="<?php echo $_GET['product-id']; ?>" />
+<?php endif; ?>
 
 <!-- Used as anti-spam blocker -->
 <div style="left:-999em; position:absolute;"><label for="trap"><?php _e( 'Anti-spam', 'lifterlms' ); ?></label><input type="text" name="email_2" id="trap" tabindex="-1" /></div>
