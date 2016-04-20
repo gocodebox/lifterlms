@@ -1,5 +1,15 @@
 == Changelog ==
 
+= v2.5.1 - 2016/04/15 =
+-----------------------
+
++ Added a number of CSS classes to various areas in the Checkout template at "templates/checkout/form-checkout.php"
++ Added a "Cancel" button that allows you to hide the coupon form if the user decides not to add a coupon
++ Removed jQuery animations from the coupon form toggle in favor of a CSS class toggle. If you decide you want some animations on the form add some CSS transitions to the `.llms-coupon-entry` element (and children) to change when the class `.active` is added or removed from the element.
++ Refactored JavaScript related to LifterLMS Checkout. Improvements are minimal (if any) but the file is now smaller and more readable! Yay code stuff.
+
+
+
 = v2.5.0 - 2016/04/15 =
 -----------------------
 
