@@ -45,7 +45,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 					<h4 class="panel-title">
 
-						<?php echo LLMS_Language::output( 'Question' . ($key + 1) ); ?>
+						<?php echo sprintf( __( 'Question', 'lifterlms' ), ($key + 1) ); ?>
 
 						<?php echo LLMS_Svg::get_icon( $icon, 'Lesson', 'Lesson', 'tree-icon' ); ?>
 
@@ -72,7 +72,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 							<li>
 								<span class="llms-quiz-summary-label user-answer">
-								<?php echo LLMS_Language::output( 'Your answer:' . wp_kses_post( $options[ $question['answer'] ]['option_text'] ) ); ?>
+								<?php echo sprintf( __( 'Your answer:%s', 'lifterlms' ), wp_kses_post( $options[ $question['answer'] ]['option_text'] ) ); ?>
 								</span>
 							</li>
 
@@ -82,7 +82,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 							if ($quiz->show_correct_answer()) {
 								echo '<li><span class="llms-quiz-summary-label correct-answer">';
-									echo 'Correct answer: ' . wp_kses_post( $correct_option['option_text'] );
+									echo sprintf( __( 'Correct answer: %s', 'lifterlsm' ), wp_kses_post( $correct_option['option_text'] ) );
 								echo '</span></li>';
 							}
 
@@ -90,7 +90,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 								if ($quiz->show_description_right_answer()) {
 									if (array_key_exists( 'option_description', $options[ $question['answer'] ] )) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
-											LLMS_Language::output( 'Clarification: ' . wpautop( $options[ $question['answer'] ]['option_description'] ) )
+											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $options[ $question['answer'] ]['option_description'] ) )
 										. '</span></li>';
 									}
 								}
@@ -98,7 +98,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 								if ($quiz->show_description_wrong_answer()) {
 									if (array_key_exists( 'option_description', $options[ $question['answer'] ] )) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
-											LLMS_Language::output( 'Clarification: ' . wpautop( $options[ $question['answer'] ]['option_description'] ) )
+											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $options[ $question['answer'] ]['option_description'] ) )
 										. '</span></li>';
 									}
 								}

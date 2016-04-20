@@ -34,7 +34,7 @@ $sections = $course->get_children_sections();
 
 	<?php if ( ! $sections ) : ?>
 
-		<?php echo LLMS_Language::output( 'This course does not have any sections.' ); ?>
+		<?php echo __( 'This course does not have any sections.', 'lifterlms' ); ?>
 
 	<?php else : ?>
 
@@ -48,7 +48,7 @@ $sections = $course->get_children_sections();
 			<?php $lessons = $section->get_children_lessons(); ?>
 			<?php if ( ! $lessons ) : ?>
 
-				<?php echo LLMS_Language::output( 'This section does not have any lessons.' ); ?>
+				<?php echo __( 'This section does not have any lessons.', 'lifterlms' ); ?>
 
 			<?php else : ?>
 				<?php foreach ( $lessons as $lesson_child ) : ?>
@@ -83,7 +83,7 @@ $sections = $course->get_children_sections();
 						$permalink = get_permalink( $lesson->id );
 						$linkclass = 'llms-lesson-link';
 					} else {
-						$title = LLMS_Language::output( 'Take this course to unlock this lesson' );
+						$title = __( 'Take this course to unlock this lesson', 'lifterlms' );
 						$linkclass = 'llms-lesson-link-locked';
 					}
 					?>

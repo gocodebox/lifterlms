@@ -211,7 +211,7 @@ class LLMS_Meta_Box_Course_Outline {
 	    //form
 	    $html .= '<form id="llms_delete_section">';
 
-	    $html .= '<p>' . __( 'Are you sure you want to delete this section?', 'lifterlms')
+	    $html .= '<p>' . __( 'Are you sure you want to delete this section?', 'lifterlms' )
 	    	. '</p>';
 	    $html .= '<p>' . __(
 		'Deleting this section will remove all associated lessons from the course. Associated lessons will NOT be deleted.', 'lifterlms' )
@@ -462,7 +462,7 @@ class LLMS_Meta_Box_Course_Outline {
 
 		if ( $lesson->get_drip_days() ) {
 			$icon_class = 'detail-icon on';
-			$tooltip = sprintf( __( 'Drip Delay: %s'), $lesson->get_drip_days() . ' days' );
+			$tooltip = sprintf( __( 'Drip Delay: %s' ), $lesson->get_drip_days() . ' days' );
 		} else {
 			$icon_class = 'detail-icon off';
 			$tooltip = __( 'No Drip Delay', 'lifterlms' );
