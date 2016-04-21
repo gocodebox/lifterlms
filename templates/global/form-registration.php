@@ -8,6 +8,11 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+//Don't show the form if user is logged in
+if ( is_user_logged_in() ) {
+	return; }
+?>
+
 $product_id = get_query_var( 'product-id' );
 global $wpdb;
 llms_print_notices();
