@@ -622,14 +622,14 @@ function llms_get_template_override( $template = '' ) {
  * @param  string $replacement function to use in it's place (optional)
  * @return void
  */
-function llms_deprecated_function( $function, $version, $replacement = NULL ) {
+function llms_deprecated_function( $function, $version, $replacement = null ) {
 
 	// only warn if debug is enabled
-	if( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 
-		if( function_exists( '__' ) ) {
+		if ( function_exists( '__' ) ) {
 
-			if( ! is_null( $replacement ) ) {
+			if ( ! is_null( $replacement ) ) {
 				$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'lifterlms' ), $function, $version, $replacement );
 			} else {
 				$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
@@ -637,7 +637,7 @@ function llms_deprecated_function( $function, $version, $replacement = NULL ) {
 
 		} else {
 
-			if( ! is_null( $replacement ) ) {
+			if ( ! is_null( $replacement ) ) {
 				$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement );
 			} else {
 				$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
@@ -645,16 +645,15 @@ function llms_deprecated_function( $function, $version, $replacement = NULL ) {
 
 		}
 
-
 		// warn on screen
-		if ( defined( 'WP_DEBUG_DISPLAY') && WP_DEBUG_DISPLAY ) {
+		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
 
 			echo '<br>' . $string . '<br>';
 
 		}
 
 		// log to the error logger
-		if ( defined( 'WP_DEBUG_DISPLAY') && WP_DEBUG_DISPLAY ) {
+		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
 
 			llms_log( $string );
 
