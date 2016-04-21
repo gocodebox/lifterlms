@@ -4,6 +4,9 @@
 -----------------------
 
 + Fixed session handler initilization as it was being initialized prior to user data availability.
++ Staged `LLMS_Language` class  for deprecation in favor of WordPress translation functions `__()`, `_e()`, etc... **If you're a developer you'll start seeing warning's on screen or in your logs if you're using this function, it will be completely removed in the next MAJOR release (3.0.0)**
++ Added a new function to handle the deprecation warning above (`llms_deprecated_function`) and now that we have this function we'll start deprecating all the things. Just kidding, or am I?
++ This gives translators access to 69 new strings that were previously untranslatable! However, this number might be innacurate +/- 5 strings. I only counted it once and I don't feel like the exact number is important enough for a recount to ensure accuracy. /shrug
 
 
 = v2.5.0 - 2016/04/15 =

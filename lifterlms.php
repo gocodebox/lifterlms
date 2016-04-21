@@ -188,6 +188,7 @@ final class LifterLMS {
 		// Date, Number and language formatting
 		include_once( 'includes/class.llms.date.php' );
 		include_once( 'includes/class.llms.number.php' );
+		include_once( 'includes/deprecated/class.llms.language.php' );
 
 		// oembed
 		include_once( 'includes/class.llms.oembed.php' );
@@ -407,4 +408,8 @@ function LLMS() {
 	return LifterLMS::instance();
 }
 // @codingStandardsIgnoreEnd
+
+add_action( 'init', function() {
+	echo LLMS_Language::output( 'whatever' );
+} );
 return LLMS();
