@@ -408,8 +408,4 @@ function LLMS() {
 	return LifterLMS::instance();
 }
 // @codingStandardsIgnoreEnd
-
-add_action( 'init', function() {
-	echo LLMS_Language::output( 'whatever' );
-} );
 return LLMS();
