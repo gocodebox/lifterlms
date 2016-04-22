@@ -361,7 +361,7 @@ class LLMS_Admin_System_Report {
 				$(".llms-widget.settings-box").each( function( index, element ) {
 
 					var title = $(this).find('.llms-label').text();
-					var val = $(this).find('li').text().replace(/  /g, '').replace(/\n\n/g, '\n');
+					var val = $(this).find('li').text().replace(/  /g, '').replace(/\t/g, '').replace(/\n\n/g, '\n');
 					$textArea.val($textArea.val() + title + '\n' + val + '\n\n');
 				});
 
