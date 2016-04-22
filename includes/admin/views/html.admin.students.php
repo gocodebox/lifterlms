@@ -38,8 +38,8 @@
 			do_action( 'lifterlms_students_tabs_' . $current_tab );
 		?>
 
-    	<input type="hidden" name="subtab" id="last_tab" />
-    	<?php wp_nonce_field( 'lifterlms-students' ); ?>
+		<input type="hidden" name="subtab" id="last_tab" />
+		<?php wp_nonce_field( 'lifterlms-students' ); ?>
 
 	</form>
 </div>

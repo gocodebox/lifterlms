@@ -27,33 +27,33 @@ class LLMS_Meta_Box_Voucher_Export
 		}
 		ob_start();
 		?>
-        <div class="llms-voucher-export-wrapper" id="llms-form-wrapper">
+		<div class="llms-voucher-export-wrapper" id="llms-form-wrapper">
 
-            <div class="llms-voucher-export-type">
-                <input type="radio" name="llms_voucher_export_type" id="vouchers_only_type" value="vouchers">
-                <label for="vouchers_only_type"><strong><?php _e( 'Vouchers only', 'lifterlms' ); ?></strong></label>
-                <p><?php _e( 'Generates a CSV of voucher codes, uses, and remaining uses.', 'lifterlms' ); ?></p>
-            </div>
+			<div class="llms-voucher-export-type">
+				<input type="radio" name="llms_voucher_export_type" id="vouchers_only_type" value="vouchers">
+				<label for="vouchers_only_type"><strong><?php _e( 'Vouchers only', 'lifterlms' ); ?></strong></label>
+				<p><?php _e( 'Generates a CSV of voucher codes, uses, and remaining uses.', 'lifterlms' ); ?></p>
+			</div>
 
-            <div class="llms-voucher-export-type">
-                <input type="radio" name="llms_voucher_export_type" id="redeemed_codes_type" value="redeemed">
-                <label for="redeemed_codes_type"><strong><?php _e( 'Redeemed codes', 'lifterlms' ); ?></strong></label>
-                <p><?php _e( 'Generated a CSV of student emails, redemption date, and used code.', 'lifterlms' ); ?></p>
-            </div>
+			<div class="llms-voucher-export-type">
+				<input type="radio" name="llms_voucher_export_type" id="redeemed_codes_type" value="redeemed">
+				<label for="redeemed_codes_type"><strong><?php _e( 'Redeemed codes', 'lifterlms' ); ?></strong></label>
+				<p><?php _e( 'Generated a CSV of student emails, redemption date, and used code.', 'lifterlms' ); ?></p>
+			</div>
 
 
-            <div class="llms-voucher-email-wrapper">
-                <input type="checkbox" name="llms_voucher_export_send_email" id="llms_voucher_export_send_email"
-                       value="true">
-                <label for="llms_voucher_export_send_email"><?php _e( 'Email CSV', 'lifterlms' ); ?></label>
-                <input type="text" placeholder="Email" name="llms_voucher_export_email">
-                <p><?php _e( 'Send to multiple emails by separating emails addresses with commas.', 'lifterlms' ); ?></p>
-            </div>
+			<div class="llms-voucher-email-wrapper">
+				<input type="checkbox" name="llms_voucher_export_send_email" id="llms_voucher_export_send_email"
+					   value="true">
+				<label for="llms_voucher_export_send_email"><?php _e( 'Email CSV', 'lifterlms' ); ?></label>
+				<input type="text" placeholder="Email" name="llms_voucher_export_email">
+				<p><?php _e( 'Send to multiple emails by separating emails addresses with commas.', 'lifterlms' ); ?></p>
+			</div>
 
-            <button type="submit" name="llms_generate_export" value="generate" class="button-primary"><?php _e( 'Generate Export', 'lifterlms' ); ?></button>
-            <?php wp_nonce_field( 'lifterlms_csv_export_data', 'lifterlms_export_nonce' ); ?>
-        </div>
-        <?php
+			<button type="submit" name="llms_generate_export" value="generate" class="button-primary"><?php _e( 'Generate Export', 'lifterlms' ); ?></button>
+			<?php wp_nonce_field( 'lifterlms_csv_export_data', 'lifterlms_export_nonce' ); ?>
+		</div>
+		<?php
 
 		echo ob_get_clean();
 	}

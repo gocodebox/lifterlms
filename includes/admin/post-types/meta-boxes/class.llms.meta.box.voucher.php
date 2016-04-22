@@ -125,57 +125,57 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 		$codes = $voucher->get_voucher_codes();
 
 		ob_start(); ?>
-        <div class="llms-voucher-codes-wrapper" id="llms-form-wrapper">
-            <table>
+		<div class="llms-voucher-codes-wrapper" id="llms-form-wrapper">
+			<table>
 
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Code</th>
-                    <th>Uses</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
+				<thead>
+				<tr>
+					<th></th>
+					<th>Code</th>
+					<th>Uses</th>
+					<th>Actions</th>
+				</tr>
+				</thead>
 
-                <?php $delete_icon = LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' ); ?>
-                <script>var delete_icon = '<?php echo $delete_icon ?>';</script>
+				<?php $delete_icon = LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' ); ?>
+				<script>var delete_icon = '<?php echo $delete_icon ?>';</script>
 
-                <tbody id="llms_voucher_tbody">
-                <?php if ( ! empty( $codes )) :
+				<tbody id="llms_voucher_tbody">
+				<?php if ( ! empty( $codes )) :
 					foreach ($codes as $code) : ?>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <input type="text" maxlength="20" placeholder="Code" value="<?php echo $code->code ?>"
-                                       name="llms_voucher_code[]">
-                                <input type="hidden" name="llms_voucher_code_id[]" value="<?php echo $code->id ?>">
-                            </td>
-                            <td><span><?php echo $code->used ?> / </span><input type="number" min="1" value="<?php echo $code->redemption_count ?>"
-                                                        placeholder="Uses" class="llms-voucher-uses"
-                                                        name="llms_voucher_uses[]"></td>
-                            <td>
-                                <a href="#" data-id="<?php echo $code->id ?>" class="llms-voucher-delete">
-                                    <?php echo $delete_icon; ?>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach;
+						<tr>
+							<td></td>
+							<td>
+								<input type="text" maxlength="20" placeholder="Code" value="<?php echo $code->code ?>"
+									   name="llms_voucher_code[]">
+								<input type="hidden" name="llms_voucher_code_id[]" value="<?php echo $code->id ?>">
+							</td>
+							<td><span><?php echo $code->used ?> / </span><input type="number" min="1" value="<?php echo $code->redemption_count ?>"
+														placeholder="Uses" class="llms-voucher-uses"
+														name="llms_voucher_uses[]"></td>
+							<td>
+								<a href="#" data-id="<?php echo $code->id ?>" class="llms-voucher-delete">
+									<?php echo $delete_icon; ?>
+								</a>
+							</td>
+						</tr>
+					<?php endforeach;
 				endif; ?>
-                </tbody>
+				</tbody>
 
-            </table>
+			</table>
 
-            <div class="llms-voucher-add-codes">
-                <p>Add <input type="number" max="50" placeholder="#" id="llms_voucher_add_quantity"> new code(s) with <input
-                        type="number" placeholder="#" id="llms_voucher_add_uses"> use(s) per code
-                    <button id="llms_voucher_add_codes" class="button-primary">Add</button>
-                </p>
-            </div>
+			<div class="llms-voucher-add-codes">
+				<p>Add <input type="number" max="50" placeholder="#" id="llms_voucher_add_quantity"> new code(s) with <input
+						type="number" placeholder="#" id="llms_voucher_add_uses"> use(s) per code
+					<button id="llms_voucher_add_codes" class="button-primary">Add</button>
+				</p>
+			</div>
 
-            <input type="hidden" name="delete_ids" id="delete_ids">
-        </div>
+			<input type="hidden" name="delete_ids" id="delete_ids">
+		</div>
 
-        <?php
+		<?php
 		return ob_get_clean();
 	}
 
@@ -188,39 +188,39 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 		$redeemed_codes = $voucher->get_redeemed_codes();
 		ob_start(); ?>
 
-        <div class="llms-voucher-redemption-wrapper">
-            <table>
+		<div class="llms-voucher-redemption-wrapper">
+			<table>
 
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Redemption Date</th>
-                    <th>Code</th>
-                </tr>
-                </thead>
+				<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Redemption Date</th>
+					<th>Code</th>
+				</tr>
+				</thead>
 
-                <tbody>
-                <?php if ( ! empty( $redeemed_codes )) :
+				<tbody>
+				<?php if ( ! empty( $redeemed_codes )) :
 					foreach ($redeemed_codes as $redeemed_code) :
 
 						$user = get_user_by( 'id', $redeemed_code->user_id );
 						?>
-                        <tr>
-                            <td><?php echo $user->data->display_name ?></td>
-                            <td><?php echo $user->data->user_email ?></td>
-                            <td><?php echo $redeemed_code->redemption_date ?></td>
-                            <td><?php echo $redeemed_code->code ?></td>
-                        </tr>
-                    <?php endforeach;
+						<tr>
+							<td><?php echo $user->data->display_name ?></td>
+							<td><?php echo $user->data->user_email ?></td>
+							<td><?php echo $redeemed_code->redemption_date ?></td>
+							<td><?php echo $redeemed_code->code ?></td>
+						</tr>
+					<?php endforeach;
 				endif;
 				?>
-                </tbody>
+				</tbody>
 
-            </table>
-        </div>
+			</table>
+		</div>
 
-        <?php
+		<?php
 		return ob_get_clean();
 	}
 

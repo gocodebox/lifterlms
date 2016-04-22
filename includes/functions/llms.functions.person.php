@@ -241,7 +241,7 @@ function llms_membership_settings( $user ) {
 	$membership_levels = get_posts( $membership_levels_args );
 
 	?>
-    <table class="form-table">
+	<table class="form-table">
 		<tbody>
 			<?php
 			//get all existing membership levels

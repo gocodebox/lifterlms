@@ -33,7 +33,7 @@ class LLMS_Meta_Box_Lesson_Options {
 		$quizzes = get_posts( $quiz_args );
 		?>
 
-    	<table class="form-table">
+		<table class="form-table">
 			<tbody>
 				<tr>
 					<th><label for="'_days_before_avalailable'"><?php _e( 'Drip Content (in days)', 'lifterlms' ); ?></label></th>
@@ -69,7 +69,7 @@ class LLMS_Meta_Box_Lesson_Options {
 			</tbody>
 		</table>
 
-    <?php
+	<?php
 	}
 
 	/**
