@@ -782,7 +782,7 @@ class LLMS_Frontend_Forms
 						$link = get_permalink( $membership->ID );
 						llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
 							'<a href="' . $link . '">' . $membership_title . '</a> '
-						. LLMS_Language::output( 'membership level allows access to this content.' )));
+						. __( 'membership level allows access to this content.', 'lifterlms' )));
 					}
 				} else {
 					llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
@@ -797,7 +797,7 @@ class LLMS_Frontend_Forms
 					$link = get_permalink( $membership->ID );
 					llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
 						'<a href="' . $link . '">' . $membership_title . '</a> '
-					. LLMS_Language::output( 'membership level allows access to this content.' )));
+					. __( 'membership level allows access to this content.', 'lifterlms' )));
 				}
 				break;
 			case 'prerequisite' :
@@ -938,9 +938,9 @@ class LLMS_Frontend_Forms
 				$title = get_the_title( $parent_course );
 				$link = get_permalink( $parent_course );
 				llms_add_notice(apply_filters('lifterlms_lesson_enrollment_restricted_message',
-					LLMS_Language::output( 'You must enroll in' )
+					__( 'You must enroll in', 'lifterlms' )
 					. ' <a href="' . $link . '">'
-				. $title . '</a> ' . LLMS_Language::output( 'to view this lesson' )));
+				. $title . '</a> ' . __( 'to view this lesson', 'lifterlms' )));
 				break;
 		}
 

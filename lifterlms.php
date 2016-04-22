@@ -3,7 +3,7 @@
 * Plugin Name: LifterLMS
 * Plugin URI: https://lifterlms.com/
 * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
-* Version: 2.5.0
+* Version: 2.5.1
 * Author: Mark Nelson, Thomas Patrick Levy, codeBOX, LLC
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '2.5.0';
+	public $version = '2.5.1';
 
 	protected static $_instance = null;
 
@@ -188,7 +188,7 @@ final class LifterLMS {
 		// Date, Number and language formatting
 		include_once( 'includes/class.llms.date.php' );
 		include_once( 'includes/class.llms.number.php' );
-		include_once( 'includes/class.llms.language.php' );
+		include_once( 'includes/deprecated/class.llms.language.php' );
 
 		// oembed
 		include_once( 'includes/class.llms.oembed.php' );
@@ -234,9 +234,6 @@ final class LifterLMS {
 
 		$this->course_factory = new LLMS_Course_Factory();
 
-		$session_class = apply_filters( 'lifterlms_session_handler', 'LLMS_Session_Handler' );
-		$this->session = new $session_class();
-
 		if ( ! is_admin() ) {
 			$this->frontend_includes();
 		}
@@ -272,6 +269,9 @@ final class LifterLMS {
 	public function init() {
 
 		do_action( 'before_lifterlms_init' );
+
+		$session_class = apply_filters( 'lifterlms_session_handler', 'LLMS_Session_Handler' );
+		$this->session = new $session_class();
 
 		if ( ! is_admin() ) {
 			$this->person = new LLMS_Person();

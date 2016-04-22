@@ -24,6 +24,7 @@ function llms_get_coupon() {
 	  return $coupon;
 }
 
+
 /**
  * Get Countries array for Select list
  * @return array [Countries list]
@@ -609,6 +610,57 @@ function llms_get_template_override( $template = '' ) {
 		}
 
 		return false;
+}
+
+/**
+ * Provide deprecation warnings
+ *
+ * Very similar to https://developer.wordpress.org/reference/functions/_deprecated_function/
+ *
+ * @param  string $function    name of the deprecated class or function
+ * @param  string $version     version deprecation ocurred
+ * @param  string $replacement function to use in it's place (optional)
+ * @return void
+ */
+function llms_deprecated_function( $function, $version, $replacement = null ) {
+
+	// only warn if debug is enabled
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+
+		if ( function_exists( '__' ) ) {
+
+			if ( ! is_null( $replacement ) ) {
+				$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'lifterlms' ), $function, $version, $replacement );
+			} else {
+				$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
+			}
+
+		} else {
+
+			if ( ! is_null( $replacement ) ) {
+				$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement );
+			} else {
+				$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
+			}
+
+		}
+
+		// warn on screen
+		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
+
+			echo '<br>' . $string . '<br>';
+
+		}
+
+		// log to the error logger
+		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
+
+			llms_log( $string );
+
+		}
+
+	}
+
 }
 
 /**
