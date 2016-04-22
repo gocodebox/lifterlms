@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the LifterLMS package.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 2.5.0\n"
+"Project-Id-Version: LifterLMS 2.5.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-04-15 22:24:25+00:00\n"
+"POT-Creation-Date: 2016-04-22 17:53:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -140,8 +140,9 @@ msgstr ""
 #: includes/admin/class.llms.admin.post-types.php:237
 #: includes/admin/students/class.llms.students.page.php:87
 #: includes/admin/students/class.llms.students.profile.php:50
-#: includes/class.llms.language.php:20 includes/class.llms.svg.php:36
-#: includes/class.llms.svg.php:38 templates/quiz/next-question.php:33
+#: includes/class.llms.svg.php:36 includes/class.llms.svg.php:38
+#: includes/deprecated/class.llms.language.php:25
+#: templates/quiz/next-question.php:33
 msgid "%s"
 msgstr ""
 
@@ -666,6 +667,7 @@ msgstr ""
 
 #: includes/admin/post-types/class.llms.meta.boxes.php:152
 #: includes/admin/post-types/class.llms.meta.boxes.php:154
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:365
 #: includes/admin/settings/class.llms.settings.courses.php:133
 msgid "Course Outline"
 msgstr ""
@@ -728,9 +730,191 @@ msgstr ""
 msgid "Lesson"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:386
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:131
+msgid "Ready to create a course?"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:134
+msgid "Start by entering the title of a course:"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:136
+msgid "Enter a name for your course"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:139
+msgid "Create Course"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:154
+msgid "Add a new section"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:158
+msgid "Enter the title of your new section"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:160
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:187
+msgid "Enter a title for the section"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:162
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:190
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:221
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:256
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:289
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:322
+msgid "Cancel"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:163
+msgid "Create Section"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:181
+msgid "Edit section title"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:185
+msgid "Edit the section title"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:191
+msgid "Update Section"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:209
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:222
+msgid "Delete Section"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:214
+msgid "Are you sure you want to delete this section?"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:216
+msgid "Deleting this section will remove all associated lessons from the course. Associated lessons will NOT be deleted."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:240
+msgid "Add a new lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:245
+msgid "Enter the title of your new lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:247
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:315
+msgid "Enter a title for the lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:249
+msgid "Enter the short description"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:251
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:319
+msgid "Enter a brief description of the lesson..."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:253
+msgid "Select the section to place your new lesson in"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:257
+msgid "Create Lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:275
+msgid "Add an existing lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:277
+msgid ""
+"You can add any lesson you have previously created.\n"
+"\t    \tIf the lesson is already assigned to a course a duplicate lesson will be created for you."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:283
+msgid "Select the lesson you would like to add."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:286
+msgid "Select the section to place your lesson in"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:290
+#: includes/class.llms.post-types.php:391
+msgid "Add Lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:308
+#: includes/class.llms.post-types.php:394
+msgid "Edit Lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:313
+msgid "Update the title of the lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:317
+msgid "Update the short description"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:323
+msgid "Update Lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:374
+msgid "Add"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:385
 #: includes/class.llms.post-types.php:352
 msgid "Add New Section"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:391
+#: includes/class.llms.post-types.php:392
+msgid "Add New Lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:397
+msgid "Add Existing Lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:437
+msgid "Prerequisite: %s"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:440
+msgid "No Prerequisite"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:451
+msgid "Assigned Quiz: %s"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:454
+msgid "No Assigned Quiz"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:465
+msgid "Drip Delay: %s"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:468
+msgid "No Drip Delay"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:479
+msgid "Lesson has content"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:482
+msgid "No Lesson Content"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.syllabus.php:112
@@ -833,6 +1017,14 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.options.php:65
 msgid "Checking this box will require students to get a passing score on the above quiz to complete the lesson."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.tree.php:36
+msgid "Associated Section"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.tree.php:76
+msgid "Outline"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.tree.php:145
@@ -1567,6 +1759,12 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
+#: includes/class.llms.ajax.php:240 includes/class.llms.ajax.php:288
+#: includes/class.llms.lesson.handler.php:31
+#: includes/class.llms.post.handler.php:196
+msgid "unassigned"
+msgstr ""
+
 #: includes/class.llms.date.php:156
 msgctxt "Localized Order DateTime"
 msgid "%b %d, %Y @ %I:%M %p"
@@ -1652,6 +1850,11 @@ msgstr ""
 msgid "<a href=\"%s\">%s</a> membership level allows access to this content."
 msgstr ""
 
+#: includes/class.llms.frontend.forms.php:785
+#: includes/class.llms.frontend.forms.php:800
+msgid "membership level allows access to this content."
+msgstr ""
+
 #: includes/class.llms.frontend.forms.php:810
 #: includes/class.llms.frontend.forms.php:869
 msgid "You must complete <strong><a href=\"%s\" alt=\"%s\">%s</strong></a> before accessing this content"
@@ -1688,6 +1891,14 @@ msgstr ""
 
 #: includes/class.llms.frontend.forms.php:933
 msgid "You do not have access to the quiz questions. <a href=\"%s\">Return to Account page</a>."
+msgstr ""
+
+#: includes/class.llms.frontend.forms.php:941
+msgid "You must enroll in"
+msgstr ""
+
+#: includes/class.llms.frontend.forms.php:943
+msgid "to view this lesson"
 msgstr ""
 
 #: includes/class.llms.frontend.forms.php:1018
@@ -2271,18 +2482,6 @@ msgstr ""
 msgid "Lessons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:391
-msgid "Add Lesson"
-msgstr ""
-
-#: includes/class.llms.post-types.php:392
-msgid "Add New Lesson"
-msgstr ""
-
-#: includes/class.llms.post-types.php:394
-msgid "Edit Lesson"
-msgstr ""
-
 #: includes/class.llms.post-types.php:395
 msgid "New Lesson"
 msgstr ""
@@ -2745,7 +2944,7 @@ msgstr ""
 msgid "Questions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:747
+#: includes/class.llms.post-types.php:747 templates/quiz/summary.php:48
 msgid "Question"
 msgstr ""
 
@@ -3133,1116 +3332,1124 @@ msgstr ""
 msgid "Last Login"
 msgstr ""
 
-#: includes/llms.functions.core.php:35
+#: includes/llms.functions.core.php:36
 msgid "United States"
 msgstr ""
 
-#: includes/llms.functions.core.php:36
+#: includes/llms.functions.core.php:37
 msgid "Afghanistan"
 msgstr ""
 
-#: includes/llms.functions.core.php:37
+#: includes/llms.functions.core.php:38
 msgid "Albania"
 msgstr ""
 
-#: includes/llms.functions.core.php:38
+#: includes/llms.functions.core.php:39
 msgid "Algeria"
 msgstr ""
 
-#: includes/llms.functions.core.php:39
+#: includes/llms.functions.core.php:40
 msgid "American Samoa"
 msgstr ""
 
-#: includes/llms.functions.core.php:40
+#: includes/llms.functions.core.php:41
 msgid "Andorra"
 msgstr ""
 
-#: includes/llms.functions.core.php:41
+#: includes/llms.functions.core.php:42
 msgid "Angola"
 msgstr ""
 
-#: includes/llms.functions.core.php:42
+#: includes/llms.functions.core.php:43
 msgid "Anguilla"
 msgstr ""
 
-#: includes/llms.functions.core.php:43
+#: includes/llms.functions.core.php:44
 msgid "Antarctica"
 msgstr ""
 
-#: includes/llms.functions.core.php:44
+#: includes/llms.functions.core.php:45
 msgid "Antigua And Barbuda"
 msgstr ""
 
-#: includes/llms.functions.core.php:45
+#: includes/llms.functions.core.php:46
 msgid "Argentina"
 msgstr ""
 
-#: includes/llms.functions.core.php:46
+#: includes/llms.functions.core.php:47
 msgid "Armenia"
 msgstr ""
 
-#: includes/llms.functions.core.php:47
+#: includes/llms.functions.core.php:48
 msgid "Aruba"
 msgstr ""
 
-#: includes/llms.functions.core.php:48
+#: includes/llms.functions.core.php:49
 msgid "Australia"
 msgstr ""
 
-#: includes/llms.functions.core.php:49
+#: includes/llms.functions.core.php:50
 msgid "Austria"
 msgstr ""
 
-#: includes/llms.functions.core.php:50
+#: includes/llms.functions.core.php:51
 msgid "Azerbaijan"
 msgstr ""
 
-#: includes/llms.functions.core.php:51
+#: includes/llms.functions.core.php:52
 msgid "Bahamas"
 msgstr ""
 
-#: includes/llms.functions.core.php:52
+#: includes/llms.functions.core.php:53
 msgid "Bahrain"
 msgstr ""
 
-#: includes/llms.functions.core.php:53
+#: includes/llms.functions.core.php:54
 msgid "Bangladesh"
 msgstr ""
 
-#: includes/llms.functions.core.php:54
+#: includes/llms.functions.core.php:55
 msgid "Barbados"
 msgstr ""
 
-#: includes/llms.functions.core.php:55
+#: includes/llms.functions.core.php:56
 msgid "Belarus"
 msgstr ""
 
-#: includes/llms.functions.core.php:56
+#: includes/llms.functions.core.php:57
 msgid "Belgium"
 msgstr ""
 
-#: includes/llms.functions.core.php:57
+#: includes/llms.functions.core.php:58
 msgid "Belize"
 msgstr ""
 
-#: includes/llms.functions.core.php:58
+#: includes/llms.functions.core.php:59
 msgid "Benin"
 msgstr ""
 
-#: includes/llms.functions.core.php:59
+#: includes/llms.functions.core.php:60
 msgid "Bermuda"
 msgstr ""
 
-#: includes/llms.functions.core.php:60
+#: includes/llms.functions.core.php:61
 msgid "Bhutan"
 msgstr ""
 
-#: includes/llms.functions.core.php:61
+#: includes/llms.functions.core.php:62
 msgid "Bolivia"
 msgstr ""
 
-#: includes/llms.functions.core.php:62
+#: includes/llms.functions.core.php:63
 msgid "Bosnia And Herzegowina"
 msgstr ""
 
-#: includes/llms.functions.core.php:63
+#: includes/llms.functions.core.php:64
 msgid "Botswana"
 msgstr ""
 
-#: includes/llms.functions.core.php:64
+#: includes/llms.functions.core.php:65
 msgid "Bouvet Island"
 msgstr ""
 
-#: includes/llms.functions.core.php:65
+#: includes/llms.functions.core.php:66
 msgid "Brazil"
 msgstr ""
 
-#: includes/llms.functions.core.php:66
+#: includes/llms.functions.core.php:67
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: includes/llms.functions.core.php:67
+#: includes/llms.functions.core.php:68
 msgid "Brunei Darussalam"
 msgstr ""
 
-#: includes/llms.functions.core.php:68
+#: includes/llms.functions.core.php:69
 msgid "Bulgaria"
 msgstr ""
 
-#: includes/llms.functions.core.php:69
+#: includes/llms.functions.core.php:70
 msgid "Burkina Faso"
 msgstr ""
 
-#: includes/llms.functions.core.php:70
+#: includes/llms.functions.core.php:71
 msgid "Burundi"
 msgstr ""
 
-#: includes/llms.functions.core.php:71
+#: includes/llms.functions.core.php:72
 msgid "Cambodia"
 msgstr ""
 
-#: includes/llms.functions.core.php:72
+#: includes/llms.functions.core.php:73
 msgid "Cameroon"
 msgstr ""
 
-#: includes/llms.functions.core.php:73
+#: includes/llms.functions.core.php:74
 msgid "Canada"
 msgstr ""
 
-#: includes/llms.functions.core.php:74
+#: includes/llms.functions.core.php:75
 msgid "Cape Verde"
 msgstr ""
 
-#: includes/llms.functions.core.php:75
+#: includes/llms.functions.core.php:76
 msgid "Cayman Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:76
+#: includes/llms.functions.core.php:77
 msgid "Central African Republic"
 msgstr ""
 
-#: includes/llms.functions.core.php:77
+#: includes/llms.functions.core.php:78
 msgid "Chad"
 msgstr ""
 
-#: includes/llms.functions.core.php:78
+#: includes/llms.functions.core.php:79
 msgid "Chile"
 msgstr ""
 
-#: includes/llms.functions.core.php:79
+#: includes/llms.functions.core.php:80
 msgid "China"
 msgstr ""
 
-#: includes/llms.functions.core.php:80
+#: includes/llms.functions.core.php:81
 msgid "Christmas Island"
 msgstr ""
 
-#: includes/llms.functions.core.php:81
+#: includes/llms.functions.core.php:82
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:82
+#: includes/llms.functions.core.php:83
 msgid "Colombia"
 msgstr ""
 
-#: includes/llms.functions.core.php:83
+#: includes/llms.functions.core.php:84
 msgid "Comoros"
 msgstr ""
 
-#: includes/llms.functions.core.php:84
+#: includes/llms.functions.core.php:85
 msgid "Congo"
 msgstr ""
 
-#: includes/llms.functions.core.php:85
+#: includes/llms.functions.core.php:86
 msgid "Congo, The Democratic Republic Of The"
 msgstr ""
 
-#: includes/llms.functions.core.php:86
+#: includes/llms.functions.core.php:87
 msgid "Cook Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:87
+#: includes/llms.functions.core.php:88
 msgid "Costa Rica"
 msgstr ""
 
-#: includes/llms.functions.core.php:88
+#: includes/llms.functions.core.php:89
 msgid "Cote D'Ivoire"
 msgstr ""
 
-#: includes/llms.functions.core.php:89
+#: includes/llms.functions.core.php:90
 msgid "Croatia"
 msgstr ""
 
-#: includes/llms.functions.core.php:90
+#: includes/llms.functions.core.php:91
 msgid "Cuba"
 msgstr ""
 
-#: includes/llms.functions.core.php:91
+#: includes/llms.functions.core.php:92
 msgid "Cyprus"
 msgstr ""
 
-#: includes/llms.functions.core.php:92
+#: includes/llms.functions.core.php:93
 msgid "Czech Republic"
 msgstr ""
 
-#: includes/llms.functions.core.php:93
+#: includes/llms.functions.core.php:94
 msgid "Denmark"
 msgstr ""
 
-#: includes/llms.functions.core.php:94
+#: includes/llms.functions.core.php:95
 msgid "Djibouti"
 msgstr ""
 
-#: includes/llms.functions.core.php:95
+#: includes/llms.functions.core.php:96
 msgid "Dominica"
 msgstr ""
 
-#: includes/llms.functions.core.php:96
+#: includes/llms.functions.core.php:97
 msgid "Dominican Republic"
 msgstr ""
 
-#: includes/llms.functions.core.php:97
+#: includes/llms.functions.core.php:98
 msgid "East Timor"
 msgstr ""
 
-#: includes/llms.functions.core.php:98
+#: includes/llms.functions.core.php:99
 msgid "Ecuador"
 msgstr ""
 
-#: includes/llms.functions.core.php:99
+#: includes/llms.functions.core.php:100
 msgid "Egypt"
 msgstr ""
 
-#: includes/llms.functions.core.php:100
+#: includes/llms.functions.core.php:101
 msgid "El Salvador"
 msgstr ""
 
-#: includes/llms.functions.core.php:101
+#: includes/llms.functions.core.php:102
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: includes/llms.functions.core.php:102
+#: includes/llms.functions.core.php:103
 msgid "Eritrea"
 msgstr ""
 
-#: includes/llms.functions.core.php:103
+#: includes/llms.functions.core.php:104
 msgid "Estonia"
 msgstr ""
 
-#: includes/llms.functions.core.php:104
+#: includes/llms.functions.core.php:105
 msgid "Ethiopia"
 msgstr ""
 
-#: includes/llms.functions.core.php:105
+#: includes/llms.functions.core.php:106
 msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
-#: includes/llms.functions.core.php:106
+#: includes/llms.functions.core.php:107
 msgid "Faroe Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:107
+#: includes/llms.functions.core.php:108
 msgid "Fiji"
 msgstr ""
 
-#: includes/llms.functions.core.php:108
+#: includes/llms.functions.core.php:109
 msgid "Finland"
 msgstr ""
 
-#: includes/llms.functions.core.php:109
+#: includes/llms.functions.core.php:110
 msgid "France"
 msgstr ""
 
-#: includes/llms.functions.core.php:110
+#: includes/llms.functions.core.php:111
 msgid "France, Metropolitan"
 msgstr ""
 
-#: includes/llms.functions.core.php:111
+#: includes/llms.functions.core.php:112
 msgid "French Guiana"
 msgstr ""
 
-#: includes/llms.functions.core.php:112
+#: includes/llms.functions.core.php:113
 msgid "French Polynesia"
 msgstr ""
 
-#: includes/llms.functions.core.php:113
+#: includes/llms.functions.core.php:114
 msgid "French Southern Territories"
 msgstr ""
 
-#: includes/llms.functions.core.php:114
+#: includes/llms.functions.core.php:115
 msgid "Gabon"
 msgstr ""
 
-#: includes/llms.functions.core.php:115
+#: includes/llms.functions.core.php:116
 msgid "Gambia"
 msgstr ""
 
-#: includes/llms.functions.core.php:116
+#: includes/llms.functions.core.php:117
 msgid "Georgia"
 msgstr ""
 
-#: includes/llms.functions.core.php:117
+#: includes/llms.functions.core.php:118
 msgid "Germany"
 msgstr ""
 
-#: includes/llms.functions.core.php:118
+#: includes/llms.functions.core.php:119
 msgid "Ghana"
 msgstr ""
 
-#: includes/llms.functions.core.php:119
+#: includes/llms.functions.core.php:120
 msgid "Gibraltar"
 msgstr ""
 
-#: includes/llms.functions.core.php:120
+#: includes/llms.functions.core.php:121
 msgid "Greece"
 msgstr ""
 
-#: includes/llms.functions.core.php:121
+#: includes/llms.functions.core.php:122
 msgid "Greenland"
 msgstr ""
 
-#: includes/llms.functions.core.php:122
+#: includes/llms.functions.core.php:123
 msgid "Grenada"
 msgstr ""
 
-#: includes/llms.functions.core.php:123
+#: includes/llms.functions.core.php:124
 msgid "Guadeloupe"
 msgstr ""
 
-#: includes/llms.functions.core.php:124
+#: includes/llms.functions.core.php:125
 msgid "Guam"
 msgstr ""
 
-#: includes/llms.functions.core.php:125
+#: includes/llms.functions.core.php:126
 msgid "Guatemala"
 msgstr ""
 
-#: includes/llms.functions.core.php:126
+#: includes/llms.functions.core.php:127
 msgid "Guinea"
 msgstr ""
 
-#: includes/llms.functions.core.php:127
+#: includes/llms.functions.core.php:128
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: includes/llms.functions.core.php:128
+#: includes/llms.functions.core.php:129
 msgid "Guyana"
 msgstr ""
 
-#: includes/llms.functions.core.php:129
+#: includes/llms.functions.core.php:130
 msgid "Haiti"
 msgstr ""
 
-#: includes/llms.functions.core.php:130
+#: includes/llms.functions.core.php:131
 msgid "Heard And Mc Donald Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:131
+#: includes/llms.functions.core.php:132
 msgid "Holy See (Vatican City State)"
 msgstr ""
 
-#: includes/llms.functions.core.php:132
+#: includes/llms.functions.core.php:133
 msgid "Honduras"
 msgstr ""
 
-#: includes/llms.functions.core.php:133
+#: includes/llms.functions.core.php:134
 msgid "Hong Kong"
 msgstr ""
 
-#: includes/llms.functions.core.php:134
+#: includes/llms.functions.core.php:135
 msgid "Hungary"
 msgstr ""
 
-#: includes/llms.functions.core.php:135
+#: includes/llms.functions.core.php:136
 msgid "Iceland"
 msgstr ""
 
-#: includes/llms.functions.core.php:136
+#: includes/llms.functions.core.php:137
 msgid "India"
 msgstr ""
 
-#: includes/llms.functions.core.php:137
+#: includes/llms.functions.core.php:138
 msgid "Indonesia"
 msgstr ""
 
-#: includes/llms.functions.core.php:138
+#: includes/llms.functions.core.php:139
 msgid "Iran (Islamic Republic Of)"
 msgstr ""
 
-#: includes/llms.functions.core.php:139
+#: includes/llms.functions.core.php:140
 msgid "Iraq"
 msgstr ""
 
-#: includes/llms.functions.core.php:140
+#: includes/llms.functions.core.php:141
 msgid "Ireland"
 msgstr ""
 
-#: includes/llms.functions.core.php:141
+#: includes/llms.functions.core.php:142
 msgid "Israel"
 msgstr ""
 
-#: includes/llms.functions.core.php:142
+#: includes/llms.functions.core.php:143
 msgid "Italy"
 msgstr ""
 
-#: includes/llms.functions.core.php:143
+#: includes/llms.functions.core.php:144
 msgid "Jamaica"
 msgstr ""
 
-#: includes/llms.functions.core.php:144
+#: includes/llms.functions.core.php:145
 msgid "Japan"
 msgstr ""
 
-#: includes/llms.functions.core.php:145
+#: includes/llms.functions.core.php:146
 msgid "Jordan"
 msgstr ""
 
-#: includes/llms.functions.core.php:146
+#: includes/llms.functions.core.php:147
 msgid "Kazakhstan"
 msgstr ""
 
-#: includes/llms.functions.core.php:147
+#: includes/llms.functions.core.php:148
 msgid "Kenya"
 msgstr ""
 
-#: includes/llms.functions.core.php:148
+#: includes/llms.functions.core.php:149
 msgid "Kiribati"
 msgstr ""
 
-#: includes/llms.functions.core.php:149
+#: includes/llms.functions.core.php:150
 msgid "Korea, Democratic People's Republic Of"
 msgstr ""
 
-#: includes/llms.functions.core.php:150
+#: includes/llms.functions.core.php:151
 msgid "Korea, Republic Of"
 msgstr ""
 
-#: includes/llms.functions.core.php:151
+#: includes/llms.functions.core.php:152
 msgid "Kuwait"
 msgstr ""
 
-#: includes/llms.functions.core.php:152
+#: includes/llms.functions.core.php:153
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: includes/llms.functions.core.php:153
+#: includes/llms.functions.core.php:154
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: includes/llms.functions.core.php:154
+#: includes/llms.functions.core.php:155
 msgid "Latvia"
 msgstr ""
 
-#: includes/llms.functions.core.php:155
+#: includes/llms.functions.core.php:156
 msgid "Lebanon"
 msgstr ""
 
-#: includes/llms.functions.core.php:156
+#: includes/llms.functions.core.php:157
 msgid "Lesotho"
 msgstr ""
 
-#: includes/llms.functions.core.php:157
+#: includes/llms.functions.core.php:158
 msgid "Liberia"
 msgstr ""
 
-#: includes/llms.functions.core.php:158
+#: includes/llms.functions.core.php:159
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
-#: includes/llms.functions.core.php:159
+#: includes/llms.functions.core.php:160
 msgid "Liechtenstein"
 msgstr ""
 
-#: includes/llms.functions.core.php:160
+#: includes/llms.functions.core.php:161
 msgid "Lithuania"
 msgstr ""
 
-#: includes/llms.functions.core.php:161
+#: includes/llms.functions.core.php:162
 msgid "Luxembourg"
 msgstr ""
 
-#: includes/llms.functions.core.php:162
+#: includes/llms.functions.core.php:163
 msgid "Macau"
 msgstr ""
 
-#: includes/llms.functions.core.php:163
+#: includes/llms.functions.core.php:164
 msgid "Macedonia, Former Yugoslav Republic Of"
 msgstr ""
 
-#: includes/llms.functions.core.php:164
+#: includes/llms.functions.core.php:165
 msgid "Madagascar"
 msgstr ""
 
-#: includes/llms.functions.core.php:165
+#: includes/llms.functions.core.php:166
 msgid "Malawi"
 msgstr ""
 
-#: includes/llms.functions.core.php:166
+#: includes/llms.functions.core.php:167
 msgid "Malaysia"
 msgstr ""
 
-#: includes/llms.functions.core.php:167
+#: includes/llms.functions.core.php:168
 msgid "Maldives"
 msgstr ""
 
-#: includes/llms.functions.core.php:168
+#: includes/llms.functions.core.php:169
 msgid "Mali"
 msgstr ""
 
-#: includes/llms.functions.core.php:169
+#: includes/llms.functions.core.php:170
 msgid "Malta"
 msgstr ""
 
-#: includes/llms.functions.core.php:170
+#: includes/llms.functions.core.php:171
 msgid "Marshall Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:171
+#: includes/llms.functions.core.php:172
 msgid "Martinique"
 msgstr ""
 
-#: includes/llms.functions.core.php:172
+#: includes/llms.functions.core.php:173
 msgid "Mauritania"
 msgstr ""
 
-#: includes/llms.functions.core.php:173
+#: includes/llms.functions.core.php:174
 msgid "Mauritius"
 msgstr ""
 
-#: includes/llms.functions.core.php:174
+#: includes/llms.functions.core.php:175
 msgid "Mayotte"
 msgstr ""
 
-#: includes/llms.functions.core.php:175
+#: includes/llms.functions.core.php:176
 msgid "Mexico"
 msgstr ""
 
-#: includes/llms.functions.core.php:176
+#: includes/llms.functions.core.php:177
 msgid "Micronesia, Federated States Of"
 msgstr ""
 
-#: includes/llms.functions.core.php:177
+#: includes/llms.functions.core.php:178
 msgid "Moldova, Republic Of"
 msgstr ""
 
-#: includes/llms.functions.core.php:178
+#: includes/llms.functions.core.php:179
 msgid "Monaco"
 msgstr ""
 
-#: includes/llms.functions.core.php:179
+#: includes/llms.functions.core.php:180
 msgid "Mongolia"
 msgstr ""
 
-#: includes/llms.functions.core.php:180
+#: includes/llms.functions.core.php:181
 msgid "Montserrat"
 msgstr ""
 
-#: includes/llms.functions.core.php:181
+#: includes/llms.functions.core.php:182
 msgid "Morocco"
 msgstr ""
 
-#: includes/llms.functions.core.php:182
+#: includes/llms.functions.core.php:183
 msgid "Mozambique"
 msgstr ""
 
-#: includes/llms.functions.core.php:183
+#: includes/llms.functions.core.php:184
 msgid "Myanmar"
 msgstr ""
 
-#: includes/llms.functions.core.php:184
+#: includes/llms.functions.core.php:185
 msgid "Namibia"
 msgstr ""
 
-#: includes/llms.functions.core.php:185
+#: includes/llms.functions.core.php:186
 msgid "Nauru"
 msgstr ""
 
-#: includes/llms.functions.core.php:186
+#: includes/llms.functions.core.php:187
 msgid "Nepal"
 msgstr ""
 
-#: includes/llms.functions.core.php:187
+#: includes/llms.functions.core.php:188
 msgid "Netherlands"
 msgstr ""
 
-#: includes/llms.functions.core.php:188
+#: includes/llms.functions.core.php:189
 msgid "Netherlands Antilles"
 msgstr ""
 
-#: includes/llms.functions.core.php:189
+#: includes/llms.functions.core.php:190
 msgid "New Caledonia"
 msgstr ""
 
-#: includes/llms.functions.core.php:190
+#: includes/llms.functions.core.php:191
 msgid "New Zealand"
 msgstr ""
 
-#: includes/llms.functions.core.php:191
+#: includes/llms.functions.core.php:192
 msgid "Nicaragua"
 msgstr ""
 
-#: includes/llms.functions.core.php:192
+#: includes/llms.functions.core.php:193
 msgid "Niger"
 msgstr ""
 
-#: includes/llms.functions.core.php:193
+#: includes/llms.functions.core.php:194
 msgid "Nigeria"
 msgstr ""
 
-#: includes/llms.functions.core.php:194
+#: includes/llms.functions.core.php:195
 msgid "Niue"
 msgstr ""
 
-#: includes/llms.functions.core.php:195
+#: includes/llms.functions.core.php:196
 msgid "Norfolk Island"
 msgstr ""
 
-#: includes/llms.functions.core.php:196
+#: includes/llms.functions.core.php:197
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:197
+#: includes/llms.functions.core.php:198
 msgid "Norway"
 msgstr ""
 
-#: includes/llms.functions.core.php:198
+#: includes/llms.functions.core.php:199
 msgid "Oman"
 msgstr ""
 
-#: includes/llms.functions.core.php:199
+#: includes/llms.functions.core.php:200
 msgid "Pakistan"
 msgstr ""
 
-#: includes/llms.functions.core.php:200
+#: includes/llms.functions.core.php:201
 msgid "Palau"
 msgstr ""
 
-#: includes/llms.functions.core.php:201
+#: includes/llms.functions.core.php:202
 msgid "Panama"
 msgstr ""
 
-#: includes/llms.functions.core.php:202
+#: includes/llms.functions.core.php:203
 msgid "Papua New Guinea"
 msgstr ""
 
-#: includes/llms.functions.core.php:203
+#: includes/llms.functions.core.php:204
 msgid "Paraguay"
 msgstr ""
 
-#: includes/llms.functions.core.php:204
+#: includes/llms.functions.core.php:205
 msgid "Peru"
 msgstr ""
 
-#: includes/llms.functions.core.php:205
+#: includes/llms.functions.core.php:206
 msgid "Philippines"
 msgstr ""
 
-#: includes/llms.functions.core.php:206
+#: includes/llms.functions.core.php:207
 msgid "Pitcairn"
 msgstr ""
 
-#: includes/llms.functions.core.php:207
+#: includes/llms.functions.core.php:208
 msgid "Poland"
 msgstr ""
 
-#: includes/llms.functions.core.php:208
+#: includes/llms.functions.core.php:209
 msgid "Portugal"
 msgstr ""
 
-#: includes/llms.functions.core.php:209
+#: includes/llms.functions.core.php:210
 msgid "Puerto Rico"
 msgstr ""
 
-#: includes/llms.functions.core.php:210
+#: includes/llms.functions.core.php:211
 msgid "Qatar"
 msgstr ""
 
-#: includes/llms.functions.core.php:211
+#: includes/llms.functions.core.php:212
 msgid "Reunion"
 msgstr ""
 
-#: includes/llms.functions.core.php:212
+#: includes/llms.functions.core.php:213
 msgid "Romania"
 msgstr ""
 
-#: includes/llms.functions.core.php:213
+#: includes/llms.functions.core.php:214
 msgid "Russian Federation"
 msgstr ""
 
-#: includes/llms.functions.core.php:214
+#: includes/llms.functions.core.php:215
 msgid "Rwanda"
 msgstr ""
 
-#: includes/llms.functions.core.php:215
+#: includes/llms.functions.core.php:216
 msgid "Saint Kitts And Nevis"
 msgstr ""
 
-#: includes/llms.functions.core.php:216
+#: includes/llms.functions.core.php:217
 msgid "Saint Lucia"
 msgstr ""
 
-#: includes/llms.functions.core.php:217
+#: includes/llms.functions.core.php:218
 msgid "Saint Vincent And The Grenadines"
 msgstr ""
 
-#: includes/llms.functions.core.php:218
+#: includes/llms.functions.core.php:219
 msgid "Samoa"
 msgstr ""
 
-#: includes/llms.functions.core.php:219
+#: includes/llms.functions.core.php:220
 msgid "San Marino"
 msgstr ""
 
-#: includes/llms.functions.core.php:220
+#: includes/llms.functions.core.php:221
 msgid "Sao Tome And Principe"
 msgstr ""
 
-#: includes/llms.functions.core.php:221
+#: includes/llms.functions.core.php:222
 msgid "Saudi Arabia"
 msgstr ""
 
-#: includes/llms.functions.core.php:222
+#: includes/llms.functions.core.php:223
 msgid "Senegal"
 msgstr ""
 
-#: includes/llms.functions.core.php:223
+#: includes/llms.functions.core.php:224
 msgid "Seychelles"
 msgstr ""
 
-#: includes/llms.functions.core.php:224
+#: includes/llms.functions.core.php:225
 msgid "Sierra Leone"
 msgstr ""
 
-#: includes/llms.functions.core.php:225
+#: includes/llms.functions.core.php:226
 msgid "Singapore"
 msgstr ""
 
-#: includes/llms.functions.core.php:226
+#: includes/llms.functions.core.php:227
 msgid "Slovakia (Slovak Republic)"
 msgstr ""
 
-#: includes/llms.functions.core.php:227
+#: includes/llms.functions.core.php:228
 msgid "Slovenia"
 msgstr ""
 
-#: includes/llms.functions.core.php:228
+#: includes/llms.functions.core.php:229
 msgid "Solomon Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:229
+#: includes/llms.functions.core.php:230
 msgid "Somalia"
 msgstr ""
 
-#: includes/llms.functions.core.php:230
+#: includes/llms.functions.core.php:231
 msgid "South Africa"
 msgstr ""
 
-#: includes/llms.functions.core.php:231
+#: includes/llms.functions.core.php:232
 msgid "South Georgia, South Sandwich Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:232
+#: includes/llms.functions.core.php:233
 msgid "Spain"
 msgstr ""
 
-#: includes/llms.functions.core.php:233
+#: includes/llms.functions.core.php:234
 msgid "Sri Lanka"
 msgstr ""
 
-#: includes/llms.functions.core.php:234
+#: includes/llms.functions.core.php:235
 msgid "St. Helena"
 msgstr ""
 
-#: includes/llms.functions.core.php:235
+#: includes/llms.functions.core.php:236
 msgid "St. Pierre And Miquelon"
 msgstr ""
 
-#: includes/llms.functions.core.php:236
+#: includes/llms.functions.core.php:237
 msgid "Sudan"
 msgstr ""
 
-#: includes/llms.functions.core.php:237
+#: includes/llms.functions.core.php:238
 msgid "Suriname"
 msgstr ""
 
-#: includes/llms.functions.core.php:238
+#: includes/llms.functions.core.php:239
 msgid "Svalbard And Jan Mayen Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:239
+#: includes/llms.functions.core.php:240
 msgid "Swaziland"
 msgstr ""
 
-#: includes/llms.functions.core.php:240
+#: includes/llms.functions.core.php:241
 msgid "Sweden"
 msgstr ""
 
-#: includes/llms.functions.core.php:241
+#: includes/llms.functions.core.php:242
 msgid "Switzerland"
 msgstr ""
 
-#: includes/llms.functions.core.php:242
+#: includes/llms.functions.core.php:243
 msgid "Syrian Arab Republic"
 msgstr ""
 
-#: includes/llms.functions.core.php:243
+#: includes/llms.functions.core.php:244
 msgid "Taiwan"
 msgstr ""
 
-#: includes/llms.functions.core.php:244
+#: includes/llms.functions.core.php:245
 msgid "Tajikistan"
 msgstr ""
 
-#: includes/llms.functions.core.php:245
+#: includes/llms.functions.core.php:246
 msgid "Tanzania, United Republic Of"
 msgstr ""
 
-#: includes/llms.functions.core.php:246
+#: includes/llms.functions.core.php:247
 msgid "Thailand"
 msgstr ""
 
-#: includes/llms.functions.core.php:247
+#: includes/llms.functions.core.php:248
 msgid "Togo"
 msgstr ""
 
-#: includes/llms.functions.core.php:248
+#: includes/llms.functions.core.php:249
 msgid "Tokelau"
 msgstr ""
 
-#: includes/llms.functions.core.php:249
+#: includes/llms.functions.core.php:250
 msgid "Tonga"
 msgstr ""
 
-#: includes/llms.functions.core.php:250
+#: includes/llms.functions.core.php:251
 msgid "Trinidad And Tobago"
 msgstr ""
 
-#: includes/llms.functions.core.php:251
+#: includes/llms.functions.core.php:252
 msgid "Tunisia"
 msgstr ""
 
-#: includes/llms.functions.core.php:252
+#: includes/llms.functions.core.php:253
 msgid "Turkey"
 msgstr ""
 
-#: includes/llms.functions.core.php:253
+#: includes/llms.functions.core.php:254
 msgid "Turkmenistan"
 msgstr ""
 
-#: includes/llms.functions.core.php:254
+#: includes/llms.functions.core.php:255
 msgid "Turks And Caicos Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:255
+#: includes/llms.functions.core.php:256
 msgid "Tuvalu"
 msgstr ""
 
-#: includes/llms.functions.core.php:256
+#: includes/llms.functions.core.php:257
 msgid "Uganda"
 msgstr ""
 
-#: includes/llms.functions.core.php:257
+#: includes/llms.functions.core.php:258
 msgid "Ukraine"
 msgstr ""
 
-#: includes/llms.functions.core.php:258
+#: includes/llms.functions.core.php:259
 msgid "United Arab Emirates"
 msgstr ""
 
-#: includes/llms.functions.core.php:259
+#: includes/llms.functions.core.php:260
 msgid "United Kingdom"
 msgstr ""
 
-#: includes/llms.functions.core.php:260
+#: includes/llms.functions.core.php:261
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:261
+#: includes/llms.functions.core.php:262
 msgid "Uruguay"
 msgstr ""
 
-#: includes/llms.functions.core.php:262
+#: includes/llms.functions.core.php:263
 msgid "Uzbekistan"
 msgstr ""
 
-#: includes/llms.functions.core.php:263
+#: includes/llms.functions.core.php:264
 msgid "Vanuatu"
 msgstr ""
 
-#: includes/llms.functions.core.php:264
+#: includes/llms.functions.core.php:265
 msgid "Venezuela"
 msgstr ""
 
-#: includes/llms.functions.core.php:265
+#: includes/llms.functions.core.php:266
 msgid "Viet Nam"
 msgstr ""
 
-#: includes/llms.functions.core.php:266
+#: includes/llms.functions.core.php:267
 msgid "Virgin Islands (British)"
 msgstr ""
 
-#: includes/llms.functions.core.php:267
+#: includes/llms.functions.core.php:268
 msgid "Virgin Islands (U.S.)"
 msgstr ""
 
-#: includes/llms.functions.core.php:268
+#: includes/llms.functions.core.php:269
 msgid "Wallis And Futuna Islands"
 msgstr ""
 
-#: includes/llms.functions.core.php:269
+#: includes/llms.functions.core.php:270
 msgid "Western Sahara"
 msgstr ""
 
-#: includes/llms.functions.core.php:270
+#: includes/llms.functions.core.php:271
 msgid "Yemen"
 msgstr ""
 
-#: includes/llms.functions.core.php:271
+#: includes/llms.functions.core.php:272
 msgid "Yugoslavia"
 msgstr ""
 
-#: includes/llms.functions.core.php:272
+#: includes/llms.functions.core.php:273
 msgid "Zambia"
 msgstr ""
 
-#: includes/llms.functions.core.php:273
+#: includes/llms.functions.core.php:274
 msgid "Zimbabwe"
 msgstr ""
 
-#: includes/llms.functions.core.php:295
+#: includes/llms.functions.core.php:296
 msgid "United Arab Emirates Dirham"
 msgstr ""
 
-#: includes/llms.functions.core.php:296
+#: includes/llms.functions.core.php:297
 msgid "Australian Dollars"
 msgstr ""
 
-#: includes/llms.functions.core.php:297
+#: includes/llms.functions.core.php:298
 msgid "Bangladeshi Taka"
 msgstr ""
 
-#: includes/llms.functions.core.php:298
+#: includes/llms.functions.core.php:299
 msgid "Brazilian Real"
 msgstr ""
 
-#: includes/llms.functions.core.php:299
+#: includes/llms.functions.core.php:300
 msgid "Bulgarian Lev"
 msgstr ""
 
-#: includes/llms.functions.core.php:300
+#: includes/llms.functions.core.php:301
 msgid "Canadian Dollars"
 msgstr ""
 
-#: includes/llms.functions.core.php:301
+#: includes/llms.functions.core.php:302
 msgid "Chilean Peso"
 msgstr ""
 
-#: includes/llms.functions.core.php:302
+#: includes/llms.functions.core.php:303
 msgid "Chinese Yuan"
 msgstr ""
 
-#: includes/llms.functions.core.php:303
+#: includes/llms.functions.core.php:304
 msgid "Czech Koruna"
 msgstr ""
 
-#: includes/llms.functions.core.php:304
+#: includes/llms.functions.core.php:305
 msgid "Danish Krone"
 msgstr ""
 
-#: includes/llms.functions.core.php:305
+#: includes/llms.functions.core.php:306
 msgid "Euros"
 msgstr ""
 
-#: includes/llms.functions.core.php:306
+#: includes/llms.functions.core.php:307
 msgid "Hong Kong Dollar"
 msgstr ""
 
-#: includes/llms.functions.core.php:307
+#: includes/llms.functions.core.php:308
 msgid "Croatia kuna"
 msgstr ""
 
-#: includes/llms.functions.core.php:308
+#: includes/llms.functions.core.php:309
 msgid "Hungarian Forint"
 msgstr ""
 
-#: includes/llms.functions.core.php:309
+#: includes/llms.functions.core.php:310
 msgid "Icelandic krona"
 msgstr ""
 
-#: includes/llms.functions.core.php:310
+#: includes/llms.functions.core.php:311
 msgid "Indonesia Rupiah"
 msgstr ""
 
-#: includes/llms.functions.core.php:311
+#: includes/llms.functions.core.php:312
 msgid "Indian Rupee"
 msgstr ""
 
-#: includes/llms.functions.core.php:312
+#: includes/llms.functions.core.php:313
 msgid "Israeli Shekel"
 msgstr ""
 
-#: includes/llms.functions.core.php:313
+#: includes/llms.functions.core.php:314
 msgid "Japanese Yen"
 msgstr ""
 
-#: includes/llms.functions.core.php:314
+#: includes/llms.functions.core.php:315
 msgid "South Korean Won"
 msgstr ""
 
-#: includes/llms.functions.core.php:315
+#: includes/llms.functions.core.php:316
 msgid "Malaysian Ringgits"
 msgstr ""
 
-#: includes/llms.functions.core.php:316
+#: includes/llms.functions.core.php:317
 msgid "Mexican Peso"
 msgstr ""
 
-#: includes/llms.functions.core.php:317
+#: includes/llms.functions.core.php:318
 msgid "Nigerian Naira"
 msgstr ""
 
-#: includes/llms.functions.core.php:318
+#: includes/llms.functions.core.php:319
 msgid "Norwegian Krone"
 msgstr ""
 
-#: includes/llms.functions.core.php:319
+#: includes/llms.functions.core.php:320
 msgid "New Zealand Dollar"
 msgstr ""
 
-#: includes/llms.functions.core.php:320
+#: includes/llms.functions.core.php:321
 msgid "Philippine Pesos"
 msgstr ""
 
-#: includes/llms.functions.core.php:321
+#: includes/llms.functions.core.php:322
 msgid "Polish Zloty"
 msgstr ""
 
-#: includes/llms.functions.core.php:322
+#: includes/llms.functions.core.php:323
 msgid "Pounds Sterling"
 msgstr ""
 
-#: includes/llms.functions.core.php:323
+#: includes/llms.functions.core.php:324
 msgid "Romanian Leu"
 msgstr ""
 
-#: includes/llms.functions.core.php:324
+#: includes/llms.functions.core.php:325
 msgid "Russian Ruble"
 msgstr ""
 
-#: includes/llms.functions.core.php:325
+#: includes/llms.functions.core.php:326
 msgid "Singapore Dollar"
 msgstr ""
 
-#: includes/llms.functions.core.php:326
+#: includes/llms.functions.core.php:327
 msgid "South African rand"
 msgstr ""
 
-#: includes/llms.functions.core.php:327
+#: includes/llms.functions.core.php:328
 msgid "Swedish Krona"
 msgstr ""
 
-#: includes/llms.functions.core.php:328
+#: includes/llms.functions.core.php:329
 msgid "Swiss Franc"
 msgstr ""
 
-#: includes/llms.functions.core.php:329
+#: includes/llms.functions.core.php:330
 msgid "Taiwan New Dollars"
 msgstr ""
 
-#: includes/llms.functions.core.php:330
+#: includes/llms.functions.core.php:331
 msgid "Thai Baht"
 msgstr ""
 
-#: includes/llms.functions.core.php:331
+#: includes/llms.functions.core.php:332
 msgid "Turkish Lira"
 msgstr ""
 
-#: includes/llms.functions.core.php:332
+#: includes/llms.functions.core.php:333
 msgid "US Dollars"
 msgstr ""
 
-#: includes/llms.functions.core.php:333
+#: includes/llms.functions.core.php:334
 msgid "Vietnamese Dong"
+msgstr ""
+
+#: includes/llms.functions.core.php:633
+msgid "%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."
+msgstr ""
+
+#: includes/llms.functions.core.php:635
+msgid "%1$s is <strong>deprecated</strong> since version %2$s!"
 msgstr ""
 
 #: includes/llms.template.functions.php:857
@@ -4404,6 +4611,18 @@ msgstr ""
 
 #: templates/course/purchase-link.php:160
 msgid "Course %s%% Complete!"
+msgstr ""
+
+#: templates/course/syllabus.php:37
+msgid "This course does not have any sections."
+msgstr ""
+
+#: templates/course/syllabus.php:51
+msgid "This section does not have any lessons."
+msgstr ""
+
+#: templates/course/syllabus.php:86
+msgid "Take this course to unlock this lesson"
 msgstr ""
 
 #: templates/course/syllabus.php:101
@@ -4748,6 +4967,18 @@ msgstr ""
 
 #: templates/quiz/start-button.php:49
 msgid "<p>You are not able take this quiz</p>"
+msgstr ""
+
+#: templates/quiz/summary.php:75
+msgid "Your answer:%s"
+msgstr ""
+
+#: templates/quiz/summary.php:85
+msgid "Correct answer: %s"
+msgstr ""
+
+#: templates/quiz/summary.php:93 templates/quiz/summary.php:101
+msgid "Clarification: %s"
 msgstr ""
 
 #: templates/quiz/time-limit.php:18
