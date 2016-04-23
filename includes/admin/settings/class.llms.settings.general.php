@@ -239,51 +239,100 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		return preg_replace( '~>\s+<~', '><', $html );
 	}
 
+	/**
+	 * Output the set of two-column banners
+	 * @return string
+	 */
 	public static function get_big_banners() {
-		$big_banners = array(
-				array(
-						'title' => 'Stripe Plugin',
-						'image' => LLMS()->plugin_url() . '/assets/images/stripe-w-desc.png',
-						'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Stripe+Ad+001',
-				),
-				array(
-						'title' => 'Mailchimp Plugin',
-						'image' => LLMS()->plugin_url() . '/assets/images/mailchimp-w-desc.png',
-						'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Mailchimp+Ad+001',
-				),
-				array(
-						'title' => 'Lifter LMS Pro',
-						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-pro.png',
-						'link' => 'https://lifterlms.com/product/lifterlms-pro?ims=kujno&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=LifterLMS+Pro+Ad+001',
-				),
-				array(
-						'title' => 'Convert Kit',
-						'image' => LLMS()->plugin_url() . '/assets/images/convertkit.png',
-						'link'	=> 'https://lifterlms.com/product/lifterlms-convertkit/?utm_source=Plugin&utm_medium=Plugin%2BDashboard&utm_content=Plugin%2BAd&utm_campaign=Plugin',
-				),
+
+		$banners = array(
+			'lifterlms-pro' => array(
+				'type' => 'service',
+				'title' => 'Lifter LMS Pro',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-pro.png',
+				'link' => 'https://lifterlms.com/product/lifterlms-pro?ims=kujno&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=LifterLMS+Pro+Ad+001',
+			),
+			'lifterlms-launchpad' => array(
+				'type' => 'theme',
+				'title' => 'LifterLMS LaunchPad Theme',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-launchpad.png',
+				'link' => 'https://lifterlms.com/launchpad/?utm_source=Plugin&utm_medium=Plugin%20Ad&utm_campaign=Plugin%20to%20LaunchPad',
+			),
+			'lifterlms-stripe' => array(
+				'type' => 'plugin',
+				'title' => 'Stripe Plugin',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/stripe-w-desc.png',
+				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Stripe+Ad+001',
+			),
+			'lifterlms-mailchimp' => array(
+				'type' => 'plugin',
+				'title' => 'Mailchimp Plugin',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/mailchimp-w-desc.png',
+				'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Mailchimp+Ad+001',
+			),
+			'lifterlms-convertkit' => array(
+				'type' => 'plugin',
+				'title' => 'ConvertKit',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/convertkit.png',
+				'link'	=> 'https://lifterlms.com/product/lifterlms-convertkit/?utm_source=Plugin&utm_medium=Plugin%2BDashboard&utm_content=Plugin%2BAd&utm_campaign=Plugin',
+			),
+			'lifterlms-boost' => array(
+				'type' => 'service',
+				'title' => 'Boost',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/boost.png',
+				'link'	=> 'https://lifterlms.com/boost?utm_source=Plugin%20&utm_medium=Plugin%20Ad&utm_campaign=Plugin%20to%20Boost',
+			),
+			'lifterlms-turbo-boost' => array(
+				'type' => 'service',
+				'title' => 'Turbo Boost',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/turbo-boost.png',
+				'link'	=> 'https://lifterlms.com/boost?utm_source=Plugin%20&utm_medium=Plugin%20Ad&utm_campaign=Plugin%20to%20Boost',
+			),
 		);
+
+		// get installed themes and plugins
+		// only show banners for products that aren't installed
+		$plugins = array_keys( get_plugins() );
+		$themes = array_keys( wp_get_themes() );
 
 		$html = '<div class="llms-widget-row">';
 
-		foreach ($big_banners as $banner) {
+		foreach ( $banners as $slug => $banner ) {
 
-			$html .= '<div class="llms-widget-1-2">
-							<div class="llms-widget llms-banner-image">
-					';
+			// if the product has been installed don't show the banner
+			switch ( $banner['type'] ) {
+
+				case 'plugin':
+					if ( in_array( $slug . DIRECTORY_SEPARATOR . $slug .'.php', $plugins ) ) {
+						continue 2;
+					}
+				break;
+
+				// case 'service':
+				// break;
+
+				case 'theme':
+					if ( in_array( $slug , $themes ) ) {
+						continue 2;
+					}
+				break;
+
+			}
+
+			$html .= '<div class="llms-widget-1-2"><div class="llms-widget llms-banner-image">';
 
 			if ( isset( $banner['link'] ) ) {
 				$html .= '<a href="' . $banner['link'] . '" target="_blank">';
 			}
 
-					$html .= '<img width="100%" src="' . $banner['image'] . '" alt="' . $banner['image'] . '">';
+			$html .= '<img width="100%" src="' . $banner['image'] . '" alt="' . $banner['image'] . '">';
 
 			if ( isset( $banner['link'] ) ) {
 				$html .= '</a>';
 			}
 
-					$html .= '
-							</div>
-						</div>';
+			$html .= '</div></div>';
+
 		}
 
 		$html .= '</div>';
@@ -295,22 +344,22 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		$small_banners = array(
 				array(
 						'title' => 'Ultimate Course Creation Framework',
-						'image' => LLMS()->plugin_url() . '/assets/images/online-course.jpg',
-						'link' => 'https://lifterlms.com/courseclinic?ims=uayij&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=UCCF+Ad+001',
+						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/online-course.jpg',
+						'link' => 'http://courseclinic.com/?utm_source=Plugin&utm_medium=Plugin+Settings&utm_campaign=Plugin+to+Course+Clinic+Opt-in',
 				),
 				array(
 						'title' => 'LifterLMS Demo Course',
-						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-expert.jpg',
+						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-expert.jpg',
 						'link' => 'http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?ims=phyxo&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Demo+Ad+001',
 				),
 				array(
 						'title' => 'Course Blueprint',
-						'image' => LLMS()->plugin_url() . '/assets/images/students-engaged.jpg',
+						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/students-engaged.jpg',
 						'link' => 'https://lifterlms.com/free-lifterlms-course?ims=aympo&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=CBP+Ad+001',
 				),
 				array(
 						'title' => 'LifterLMS Optin',
-						'image' => LLMS()->plugin_url() . '/assets/images/lifterlms-optin.png',
+						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-optin.png',
 						'link' => 'http://lifterlms.com/fast-start?ims=pfckn&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=FS+Ad+001',
 				),
 		);

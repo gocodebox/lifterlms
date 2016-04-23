@@ -33,7 +33,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 		$html .= '<div id="llms-access-options">';
 		$html = '<div class="llms-access-option">';
 		$html .= '<label class="llms-access-levels-title">' .
-			LLMS_Language::output( 'Associated Section' );
+			__( 'Associated Section', 'lifterlms' );
 
 		if ( $parent_section_id ) {
 			$html .= ': ' . get_the_title( $parent_section_id );
@@ -73,7 +73,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 
 			$html .= '<span class="llms-access-levels-title"><a href="' . get_edit_post_link( $course->id ) . '">'
 			. $course->post->post_title . '</a> '
-			. LLMS_Language::output( 'Outline' ) . '</span>';
+			. __( 'Outline', 'lifterlms' ) . '</span>';
 
 			if ( $sections ) {
 				foreach ( $sections as $section ) {
