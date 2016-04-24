@@ -1566,6 +1566,9 @@ svg .llms-animated-circle {
 .llms-widget-syllabus--collapsible .llms-section.llms-section--closed .llms-lesson {
   display: none;
 }
+.llms-widget-syllabus--collapsible .llms-syllabus-footer {
+  text-align: left;
+}
 
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome

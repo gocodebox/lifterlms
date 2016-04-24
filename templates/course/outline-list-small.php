@@ -70,11 +70,12 @@
 
 		<?php endforeach; ?>
 
-		<?php if ( $collapse && $toggles ): ?>
+		<?php if ( $collapse && $toggles ) : ?>
 
-			<li class="llms-section">
+			<li class="llms-section llms-syllabus-footer">
 
 				<a class="llms-button-text llms-collapse-toggle" data-action="open" href="#"><?php _e( 'Open All', 'lifterlms' ); ?></a>
+				<span>&middot;</span>
 				<a class="llms-button-text llms-collapse-toggle" data-action="close" href="#"><?php _e( 'Close All', 'lifterlms' ); ?></a>
 
 			</li>

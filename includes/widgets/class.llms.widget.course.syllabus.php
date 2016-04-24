@@ -34,36 +34,24 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 		parent::form( $instance );
 
 		$collapse = ( ! empty( $instance['collapse'] ) ) ? $instance['collapse'] : 0;
-		$toggles =  ( ! empty( $instance['toggles'] ) ) ? $instance['toggles'] : 0;
+		$toggles = ( ! empty( $instance['toggles'] ) ) ? $instance['toggles'] : 0;
 		$toggle_display = ( ! $collapse ) ? ' style="display:none;"' : '';
 		?>
 		<p>
-			<input <?php checked( 1, $collapse ); ?> class="checkbox" id="<?php echo $this->get_field_id( 'collapse' ); ?>" name="<?php echo $this->get_field_name( 'collapse' ); ?>" type="checkbox" value="1">
+			<input <?php checked( 1, $collapse ); ?> class="checkbox llms-course-outline-collapse" id="<?php echo $this->get_field_id( 'collapse' ); ?>" name="<?php echo $this->get_field_name( 'collapse' ); ?>" type="checkbox" value="1">
 			<label for="<?php echo $this->get_field_id( 'collapse' ); ?>">
 				<?php _e( 'Make outline collapsible?', 'lifterlms' ); ?><br>
 				<em><?php _e( 'Allow students to hide lessons within a section by clicking the section titles.', 'lifterlms' ); ?></em>
 			</label>
 		</p>
 
-		<p id="<?php echo $this->get_field_id( 'toggles' ); ?>-wrapper"<?php echo $toggle_display; ?>>
+		<p class="llms-course-outline-toggle-wrapper"<?php echo $toggle_display; ?>>
 			<input <?php checked( 1, $toggles ); ?> class="checkbox" id="<?php echo $this->get_field_id( 'toggles' ); ?>" name="<?php echo $this->get_field_name( 'toggles' ); ?>" type="checkbox" value="1">
 			<label for="<?php echo $this->get_field_id( 'toggles' ); ?>">
 				<?php _e( 'Display open and close all toggles', 'lifterlms' ); ?><br>
 				<em><?php _e( 'Display "Open All" and "Close All" toggles at the bottom of the outline.', 'lifterlms' ); ?></em>
 			</label>
 		</p>
-
-		<script style="text/javascript">
-		( function( $ ) {
-			$( '#<?php echo $this->get_field_id( 'collapse' ); ?>' ).on( 'change', function() {
-
-				$( '#<?php echo $this->get_field_id( 'toggles' ); ?>-wrapper' ).toggle();
-
-			} );
-
-			// $( '#<?php echo $this->get_field_id( 'collapse' ); ?>' ).change();
-		} )( jQuery );
-		</script>
 		<?php
 	}
 
