@@ -444,6 +444,7 @@ class LLMS_Shortcodes {
 			'collapse' => 0, // output collapsible syllabus
 			'course_id' => false,
 			'outline_type' => 'full', // course, lesson, section
+			'toggles' => 0,
 			'view_type' => 'list',// completed, enrolled
 		),$atts));
 
@@ -468,7 +469,6 @@ class LLMS_Shortcodes {
 		$course = new LLMS_Course( $course_id );
 
 		$syllabus = $course->get_student_progress();
-
 
 		if ($outline_type === 'current_section') {
 
@@ -499,7 +499,7 @@ class LLMS_Shortcodes {
 				$lesson = new LLMS_Lesson( get_the_ID() );
 				$current_section = $lesson->get_parent_section();
 
-			} elseif( 'course' === $post_type ) {
+			} elseif ( 'course' === $post_type ) {
 
 				$lesson = new LLMS_Lesson( $course->get_next_uncompleted_lesson() );
 				$current_section = $lesson->get_parent_section();
@@ -516,6 +516,7 @@ class LLMS_Shortcodes {
 				'current_section' => $current_section,
 				'sections' => $syllabus->sections,
 				'syllabus' => $syllabus,
+				'toggles' => $toggles,
 			);
 
 		}
