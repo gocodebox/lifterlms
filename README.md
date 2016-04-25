@@ -1,12 +1,54 @@
 LifterLMS [![Build Status](https://travis-ci.com/gocodebox/lifterlms.svg?token=cynuTFxuKtxvAs4e2hNZ&branch=master)](https://travis-ci.com/gocodebox/lifterlms)
 ==========
 
-LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
+[LifterLMS](https://lifterlms.com), the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
+
 
 ### [Changelog](./CHANGELOG.md)
 
 
-### [Documentation](https://lifterlms.readme.io)
+### Documentation
++ [https://lifterlms.com/docs/](https://lifterlms.com/docs/)
++ [https://lifterlms.readme.io](https://lifterlms.readme.io)
+
+
+### Support
+
+This is a developer's portal for the LifterLMS team and any members of the community who wish to contribute to LifterLMS.
+
+This is _not_ a support form. If you require support please visit the [forums](https://wordpress.org/support/plugin/lifterlms) or become a [LifterLMS Pro Member](https://lifterlms.com/product/lifterlms-pro) and submit a [support ticket](https://lifterlms.com/my-account/my-tickets).
+
+
+### Reporting a Bug
+
+Bugs can be reported at [https://github.com/gocodebox/lifterlms/issues/new](https://github.com/gocodebox/lifterlms/issues/new).
+
+Before reporting a bug, [search existing issues](https://github.com/gocodebox/lifterlms/issues) and ensure you're not creating a duplicate. If the issue already exists you can add your information to the existing report.
+
+Also check our [known issues and conflicts]() for possible resolutions.
+
+Please include as much of the following information as possible:
+
+1. Reproduction Steps
+  + Include clear and detailed step by step instructions on how the issue can be reliably reproduced
+  + Include screenshots where applicable
+  + Record a video if possible
+2. Expected Behavior
+  + Include a concise description of what you expected to happen (but didn't)
+3. Error Messages
+  + Include any error messages reported on screen (or in your logs)
+4. Version Information
+  + Many issues are the result of theme or plugin conflicts. Including information about your WordPress version, your plugins (and their versions), and your theme (and its version) will help us resolve conflicts.
+  + We've created the LifterLMS System report to help with this. See details on using and obtaining the system report at [https://lifterlms.com/docs/how-to-use-the-lifterlms-system-report/](https://lifterlms.com/docs/how-to-use-the-lifterlms-system-report/)
+5. Server Details
+  + Operating system of your webserver
+  + Webserver in use (Apache, NGINX, IIS, other) and what version
+  + PHP Version and (extensions if applicable)
+  + MySQL Version
+6. Browser, Device, and Operating System
+  + If the bug occurs in a specific browser, it is very useful in helping us track down the specifics using this information (as well as version numbers)
+
+Providing as much of this information as possible will help us resolve issues as quickly as possible.
 
 
 ### Installing for Development
