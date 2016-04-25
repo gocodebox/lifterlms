@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.5
-Stable tag: 2.5.1
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -161,6 +161,22 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v2.6.0 - 2016/04/?? =
+-----------------------
+
+##### Collapsibe Course Outline Widget
+
++ By request we've added an option to make your course outline widgets collapsible!
++ View feature [Documentation](https://lifterlms.com/docs/course-syllabus-widget/)
+
+
+##### Bug Fixes
+
++ Removed an unused CSS selector that caused some issues on the admin panel. This resolves an issue identified with the Page Builder by SiteOrigin plugin. The selector was very generic (`.title`) and may have caused issues with other themes or plugins using that class.
++ Resolved an issue that prevented post update, save, and publishing messages for core post types (posts, pages) from displaying properly.
+
+
 
 = v2.5.1 - 2016/04/22 =
 -----------------------
