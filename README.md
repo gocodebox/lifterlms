@@ -25,7 +25,7 @@ Bugs can be reported at [https://github.com/gocodebox/lifterlms/issues/new](http
 
 Before reporting a bug, [search existing issues](https://github.com/gocodebox/lifterlms/issues) and ensure you're not creating a duplicate. If the issue already exists you can add your information to the existing report.
 
-Also check our [known issues and conflicts]() for possible resolutions.
+Also check our [known issues and conflicts](https://lifterlms.com/doc-category/lifterlms/known-conflicts/) for possible resolutions.
 
 Please include as much of the following information as possible:
 
