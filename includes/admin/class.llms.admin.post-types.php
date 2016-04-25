@@ -62,7 +62,7 @@ class LLMS_Admin_Post_Types {
 	*
 	* @return array $messages
 	*/
-	public function llms_post_updated_messages() {
+	public function llms_post_updated_messages( $messages ) {
 		global $post;
 
 		$llms_post_types = array(

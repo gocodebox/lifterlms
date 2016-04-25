@@ -15,15 +15,16 @@
 overflow: visible;
 }
 
-.title {
-	padding: 10px;
-	line-height: 1;
-	border-color: gray;
-	background-color: #f1f1f1;
-	border: 1px solid #f1f1f1;
-	margin: 0;
-	position: relative;
-}
+// todo determine if this is necessary still
+// .title {
+// 	padding: 10px;
+// 	line-height: 1;
+// 	border-color: gray;
+// 	background-color: #f1f1f1;
+// 	border: 1px solid #f1f1f1;
+// 	margin: 0;
+// 	position: relative;
+// }
 .title .order {
 	margin-right: 10px;
 	font-weight: bold;

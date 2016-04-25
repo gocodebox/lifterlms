@@ -1,5 +1,21 @@
 == Changelog ==
 
+= v2.6.0 - 2016/04/?? =
+-----------------------
+
+##### Collapsibe Course Outline Widget
+
++ By request we've added an option to make your course outline widgets collapsible!
++ View feature [Documentation](https://lifterlms.com/docs/course-syllabus-widget/)
+
+
+##### Bug Fixes
+
++ Removed an unused CSS selector that caused some issues on the admin panel. This resolves an issue identified with the Page Builder by SiteOrigin plugin. The selector was very generic (`.title`) and may have caused issues with other themes or plugins using that class.
++ Resolved an issue that prevented post update, save, and publishing messages for core post types (posts, pages) from displaying properly.
+
+
+
 = v2.5.1 - 2016/04/22 =
 -----------------------
 
