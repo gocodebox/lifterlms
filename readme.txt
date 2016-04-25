@@ -165,7 +165,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 = v2.6.0 - 2016/04/25 =
 -----------------------
 
-##### Collapsibe Course Outline Widget
+##### Collapsible Course Outline Widget
 
 + By request we've added an option to make your course outline widgets collapsible!
 + View feature [Documentation](https://lifterlms.com/docs/course-syllabus-widget/)
