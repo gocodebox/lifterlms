@@ -17,7 +17,7 @@ LLMS.Quiz = {
 		var $R = LLMS.Rest,
 			post_type = ['llms_quiz'];
 
-		if ( $R.is_path(post_type) ) {
+		if ( $R.is_path( post_type ) || $( 'body' ).hasClass( 'single-llms_quiz' ) ) {
 			this.bind();
 		}
 
