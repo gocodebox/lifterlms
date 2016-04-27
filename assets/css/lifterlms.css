@@ -1557,10 +1557,10 @@ svg .llms-animated-circle {
 .llms-widget-syllabus--collapsible .llms-section .section-header {
   cursor: pointer;
 }
-.llms-widget-syllabus--collapsible .llms-section.llms-section--opened .llms-collapse-toggle .fa-caret-right {
+.llms-widget-syllabus--collapsible .llms-section.llms-section--opened .llms-collapse-caret .fa-caret-right {
   display: none;
 }
-.llms-widget-syllabus--collapsible .llms-section.llms-section--closed .llms-collapse-toggle .fa-caret-down {
+.llms-widget-syllabus--collapsible .llms-section.llms-section--closed .llms-collapse-caret .fa-caret-down {
   display: none;
 }
 .llms-widget-syllabus--collapsible .llms-section.llms-section--closed .llms-lesson {

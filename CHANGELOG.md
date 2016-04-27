@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.6.1 - 2016/04/26 =
+-----------------------
+
++ Fix class conflict in collapsible course outline widget template which caused some UX issues.
+
+
 = v2.6.0 - 2016/04/25 =
 -----------------------
 

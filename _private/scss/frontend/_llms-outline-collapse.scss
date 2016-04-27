@@ -10,7 +10,7 @@
 
 		&.llms-section--opened {
 
-			.llms-collapse-toggle {
+			.llms-collapse-caret {
 				.fa-caret-right { display: none; }
 			}
 
@@ -18,7 +18,7 @@
 
 		&.llms-section--closed {
 
-			.llms-collapse-toggle {
+			.llms-collapse-caret {
 				.fa-caret-down { display: none; }
 			}
 

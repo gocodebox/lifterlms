@@ -16,7 +16,7 @@
 
 					<?php if ( $collapse ) : ?>
 
-						<span class="llms-collapse-toggle">
+						<span class="llms-collapse-caret">
 
 							<i class="fa fa-caret-down"></i>
 							<i class="fa fa-caret-right"></i>

@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.5
-Stable tag: 2.6.0
+Stable tag: 2.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -162,10 +162,16 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v2.6.1 - 2016/04/26 =
+-----------------------
+
++ Fix class conflict in collapsible course outline widget template which caused some UX issues.
+
+
 = v2.6.0 - 2016/04/25 =
 -----------------------
 
-##### Collapsibe Course Outline Widget
+##### Collapsible Course Outline Widget
 
 + By request we've added an option to make your course outline widgets collapsible!
 + View feature [Documentation](https://lifterlms.com/docs/course-syllabus-widget/)
