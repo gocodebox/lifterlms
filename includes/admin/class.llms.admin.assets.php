@@ -102,6 +102,12 @@ class LLMS_Admin_Assets {
 		$screen = get_current_screen();
 		wp_enqueue_script( 'chart', 'https://www.google.com/jsapi' );
 
+		if ( 'widgets' === $screen->id ) {
+
+			wp_enqueue_script( 'llms-widget-syllabus', plugins_url( '/assets/js/llms-widget-syllabus' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
+
+		}
+
 		if ( in_array( $screen->id, LLMS_Admin_Assets::get_llms_admin_page_ids() ) ) {
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );

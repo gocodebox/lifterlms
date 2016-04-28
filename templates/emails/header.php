@@ -38,13 +38,13 @@ $blog_title = get_bloginfo( 'name' );
 				<table cellpadding="0" cellspacing="0" border="0" align="center">
 					<tr>
 						<td align="center" valign="top" width="600">
-                		<?php
+						<?php
 						if ( $blog_logo = get_option( 'lifterlms_email_header_image' ) ) {
 
 							echo '<img class="image_fix" src="' . esc_url( $blog_logo ) . '" alt="' . get_bloginfo( 'name' ) . '"/>';
 						}
 						?>
-                		</td>
+						</td>
 					</tr>
 					<tr>
 						<td align="center" width="600">

@@ -28,7 +28,7 @@ class LLMS_Lesson_Handler {
 				if ( $parent_course ) {
 					$title = $value->post_title . ' ( ' . get_the_title( $parent_course ) . ' )';
 				} else {
-					$title = $value->post_title . ' ( ' . LLMS_Language::output( 'unassigned' ) . ' )';
+					$title = $value->post_title . ' ( ' . __( 'unassigned', 'lifterlms' ) . ' )';
 				}
 
 				$options[ $value->ID ] = $title;

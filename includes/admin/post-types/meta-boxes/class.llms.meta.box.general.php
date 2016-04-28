@@ -25,7 +25,7 @@ class LLMS_Meta_Box_General {
 		$prerequisite = get_post_meta( $post->ID, '_prerequisite', true );
 	?>
 
-    <table class="form-table">
+	<table class="form-table">
 		<tbody>
 			<tr>
 				<th><label for="_has_prerequisite"><?php _e( 'Has a Prerequisite', 'lifterlms' ); ?></label></th>

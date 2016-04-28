@@ -2,10 +2,9 @@
 /**
  * Registration Form
  *
- * @author 		lifterLMS
- * @package 	lifterLMS/Templates
+ * @author 		LifterLMS
+ * @package 	LifterLMS/Templates
  */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 llms_print_notices();
 ?>
@@ -30,7 +29,7 @@ llms_print_notices();
             <?php wp_nonce_field( 'lifterlms-register', 'register' ); ?>
             <input type="submit" class="button" name="register" value="<?php _e( 'Register', 'lifterlms' ); ?>" />
         </div>
+
     </form>
 
 </div>
-

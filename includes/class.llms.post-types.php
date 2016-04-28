@@ -81,7 +81,9 @@ class LLMS_Post_Types {
 
 			do_action( 'lifterlms_register_taxonomy' );
 
-		    //no permalinks yet... soon
+		    /**
+		     * @todo this option doesn't exist...
+		     */
 			$permalinks = get_option( 'lifterlms_permalinks' );
 
 			register_taxonomy( 'course_type',

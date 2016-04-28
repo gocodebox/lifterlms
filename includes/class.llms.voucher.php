@@ -192,9 +192,8 @@ class LLMS_Voucher
 
 				foreach ( $products as $product ) {
 
-					$order = new LLMS_Order();
-
-					$order->create( $user_id, $product, 'Voucher' );
+					$checkout = LLMS()->checkout();
+					$checkout->create( $user_id, $product, 'Voucher' );
 
 					llms_enroll_student( $user_id, $product );
 

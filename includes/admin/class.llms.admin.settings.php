@@ -294,18 +294,18 @@ class LLMS_Admin_Settings {
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
 					</th>
-                    <td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
-                    	<input
-                    		name="<?php echo esc_attr( $field['id'] ); ?>"
-                    		id="<?php echo esc_attr( $field['id'] ); ?>"
-                    		type="<?php echo esc_attr( $type ); ?>"
-                    		style="<?php echo esc_attr( $field['css'] ); ?>"
-                    		value="<?php echo esc_attr( $option_value ); ?>"
-                    		class="<?php echo esc_attr( $field['class'] ); ?>"
-                    		<?php echo implode( ' ', $custom_attributes ); ?>
-                    		/> <?php echo $description; ?>
-                    </td>
-                </tr><?php
+					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+						<input
+							name="<?php echo esc_attr( $field['id'] ); ?>"
+							id="<?php echo esc_attr( $field['id'] ); ?>"
+							type="<?php echo esc_attr( $type ); ?>"
+							style="<?php echo esc_attr( $field['css'] ); ?>"
+							value="<?php echo esc_attr( $option_value ); ?>"
+							class="<?php echo esc_attr( $field['class'] ); ?>"
+							<?php echo implode( ' ', $custom_attributes ); ?>
+							/> <?php echo $description; ?>
+					</td>
+				</tr><?php
 			break;
 
 			// Textarea
@@ -316,18 +316,18 @@ class LLMS_Admin_Settings {
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
 					</th>
-                    <td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
-                    	<?php echo $description; ?>
+					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+						<?php echo $description; ?>
 
-                        <textarea
-                        	name="<?php echo esc_attr( $field['id'] ); ?>"
-                        	id="<?php echo esc_attr( $field['id'] ); ?>"
-                        	style="<?php echo esc_attr( $field['css'] ); ?>"
-                        	class="<?php echo esc_attr( $field['class'] ); ?>"
-                        	<?php echo implode( ' ', $custom_attributes ); ?>
-                        	><?php echo esc_textarea( $option_value );  ?></textarea>
-                    </td>
-                </tr><?php
+						<textarea
+							name="<?php echo esc_attr( $field['id'] ); ?>"
+							id="<?php echo esc_attr( $field['id'] ); ?>"
+							style="<?php echo esc_attr( $field['css'] ); ?>"
+							class="<?php echo esc_attr( $field['class'] ); ?>"
+							<?php echo implode( ' ', $custom_attributes ); ?>
+							><?php echo esc_textarea( $option_value );  ?></textarea>
+					</td>
+				</tr><?php
 			break;
 
 			// Select boxes
@@ -338,15 +338,15 @@ class LLMS_Admin_Settings {
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
 					</th>
-                    <td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
-                    	<select
-                    		name="<?php echo esc_attr( $field['id'] ); ?><?php if ( $field['type'] == 'multiselect' ) { echo '[]'; } ?>"
-                    		id="<?php echo esc_attr( $field['id'] ); ?>"
-                    		style="<?php echo esc_attr( $field['css'] ); ?>"
-                    		class="<?php echo esc_attr( $field['class'] ); ?>"
-                    		<?php echo implode( ' ', $custom_attributes ); ?>
-                    		<?php if ( $field['type'] == 'multiselect' ) { echo 'multiple="multiple"'; } ?>
-                    		>
+					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+						<select
+							name="<?php echo esc_attr( $field['id'] ); ?><?php if ( $field['type'] == 'multiselect' ) { echo '[]'; } ?>"
+							id="<?php echo esc_attr( $field['id'] ); ?>"
+							style="<?php echo esc_attr( $field['css'] ); ?>"
+							class="<?php echo esc_attr( $field['class'] ); ?>"
+							<?php echo implode( ' ', $custom_attributes ); ?>
+							<?php if ( $field['type'] == 'multiselect' ) { echo 'multiple="multiple"'; } ?>
+							>
 	                    	<?php
 							foreach ( $field['options'] as $key => $val ) {
 								?>
@@ -359,9 +359,9 @@ class LLMS_Admin_Settings {
 		                        	<?php
 							}
 		                    ?>
-                       </select> <?php echo $description; ?>
-                    </td>
-                </tr><?php
+					   </select> <?php echo $description; ?>
+					</td>
+				</tr><?php
 			break;
 
 			// Radio inputs
@@ -372,11 +372,11 @@ class LLMS_Admin_Settings {
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
 					</th>
-                    <td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
-                    	<fieldset>
-                    		<?php echo $description; ?>
-                    		<ul>
-                    		<?php
+					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+						<fieldset>
+							<?php echo $description; ?>
+							<ul>
+							<?php
 							foreach ( $field['options'] as $key => $val ) {
 								?>
 								<li>
@@ -393,10 +393,10 @@ class LLMS_Admin_Settings {
 		                        	<?php
 							}
 							?>
-                    		</ul>
-                    	</fieldset>
-                    </td>
-                </tr><?php
+							</ul>
+						</fieldset>
+					</td>
+				</tr><?php
 			break;
 
 			// Checkbox input
@@ -430,13 +430,13 @@ class LLMS_Admin_Settings {
 				} else {
 					?>
 	            		<fieldset class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?>">
-            		<?php
+					<?php
 				}
 
 				if ( ! empty( $field['title'] ) ) {
 					?>
-            			<legend class="screen-reader-text"><span><?php echo esc_html( $field['title'] ) ?></span></legend>
-            		<?php
+						<legend class="screen-reader-text"><span><?php echo esc_html( $field['title'] ) ?></span></legend>
+					<?php
 				}
 
 				?>
@@ -483,11 +483,11 @@ class LLMS_Admin_Settings {
 					$args = wp_parse_args( $field['args'], $args ); }
 
 				?><tr valign="top" class="single_select_page">
-                    <th><?php echo esc_html( $field['title'] ) ?> <?php echo $tooltip; ?></th>
-                    <td class="forminp">
+					<th><?php echo esc_html( $field['title'] ) ?> <?php echo $tooltip; ?></th>
+					<td class="forminp">
 			        	<?php echo str_replace( ' id=', " data-placeholder='" . __( 'Select a page&hellip;', 'lifterlms' ) .  "' style='" . $field['css'] . "' class='" . $field['class'] . "' id=", wp_dropdown_pages( $args ) ); ?> <?php echo $description; ?>
 			        </td>
-               	</tr><?php
+			   	</tr><?php
 			break;
 
 			// Single page selects
@@ -508,8 +508,8 @@ class LLMS_Admin_Settings {
 				}
 
 				?><tr valign="top" class="single_select_membership">
-                    <th><?php echo esc_html( $field['title'] ) ?> <?php echo $tooltip; ?></th>
-                    <td class="forminp">
+					<th><?php echo esc_html( $field['title'] ) ?> <?php echo $tooltip; ?></th>
+					<td class="forminp">
 	                    <select class="<?php echo $args['class']; ?>" style="<?php echo $field['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
 	                    	<option value=""> <?php _e( 'None', 'lifterlms' ); ?></option>
 		                    <?php foreach ( $posts as $post ) : setup_postdata( $post );
@@ -523,7 +523,7 @@ class LLMS_Admin_Settings {
 						<?php endforeach; ?>
 						</select>
 			        </td>
-               	</tr><?php
+			   	</tr><?php
 			break;
 
 			// Default: run an action

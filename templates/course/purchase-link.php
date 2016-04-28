@@ -89,7 +89,7 @@ $user_is_member = llms_does_user_memberships_contain_course( $user_id, $course->
 					</form>
 				<?php } else {
 					_e( 'Course is no longer available', 'lifterlms' );
-} ?>
+		} ?>
 
 		<?php }
 	} elseif ( isset( $next_lesson )  ) {

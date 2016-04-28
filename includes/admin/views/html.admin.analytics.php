@@ -24,8 +24,8 @@ global $submenu;
 			do_action( 'lifterlms_analytics_tabs_' . $current_tab );
 		?>
 
-    	<input type="hidden" name="subtab" id="last_tab" />
-    	<?php wp_nonce_field( 'lifterlms-analytics' ); ?>
+		<input type="hidden" name="subtab" id="last_tab" />
+		<?php wp_nonce_field( 'lifterlms-analytics' ); ?>
 
 	</form>
 </div>

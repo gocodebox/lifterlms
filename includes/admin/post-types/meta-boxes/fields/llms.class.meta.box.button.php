@@ -26,11 +26,11 @@ class LLMS_Metabox_Button_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		parent::output(); ?>
 
 		<button
- 			id="<?php echo esc_attr( $this->field['id'] ); ?>"
- 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
- 		>
- 			<?php echo esc_attr( $this->field['value'] ); ?>
- 		</button>
+				id="<?php echo esc_attr( $this->field['id'] ); ?>"
+				class="<?php echo esc_attr( $this->field['class'] ); ?>"
+			>
+				<?php echo esc_attr( $this->field['value'] ); ?>
+			</button>
 		<?php
 		parent::close_output();
 	}

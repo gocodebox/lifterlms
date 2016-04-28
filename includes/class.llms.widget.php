@@ -1,11 +1,9 @@
 <?php
-
 /**
-* Course progress widget
-* Displays course progress
+* Base LifterLMS Widget Class
 *
 * @author codeBOX
-* @project lifterLMS
+* @project LifterLMS
 */
 class LLMS_Widget extends WP_Widget {
 
@@ -29,7 +27,7 @@ class LLMS_Widget extends WP_Widget {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
 		}
 
-		$this->widget_contents();
+		$this->widget_contents( $args, $instance );
 
 		echo $args['after_widget'];
 	}
@@ -40,7 +38,7 @@ class LLMS_Widget extends WP_Widget {
 	 *
 	 * @return void
 	 */
-	public function widget_contents() {}
+	public function widget_contents( $args, $instance ) {}
 
 	/**
 	 * Back-end widget form.
@@ -50,10 +48,10 @@ class LLMS_Widget extends WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 */
 	public function form( $instance ) {
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'New title', 'text_domain' );
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
 		?>
 		<p>
-		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<?php

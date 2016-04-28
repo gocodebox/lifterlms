@@ -55,12 +55,12 @@ class LLMS_Session {
 			}
 
 			if ( ! class_exists( 'Recursive_ArrayAccess' ) ) {
-				require_once LLMS_PLUGIN_DIR . 'includes/libraries/class-recursive-arrayaccess.php';
+				require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-session/class-recursive-arrayaccess.php';
 			}
 
 			if ( ! class_exists( 'WP_Session' ) ) {
-				require_once LLMS_PLUGIN_DIR . 'includes/libraries/class-wp-session.php';
-				require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-session.php';
+				require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-session/class-wp-session.php';
+				require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-session/wp-session.php';
 			}
 
 			add_filter( 'wp_session_expiration_variant', array( $this, 'set_expiration_variant_time' ), 99999 );

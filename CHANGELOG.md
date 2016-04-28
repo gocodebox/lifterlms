@@ -1,14 +1,52 @@
 == Changelog ==
 
-= v2.5.1 - 2016/04/15 =
+
+= v2.7.0 - 2016/05/?? =
 -----------------------
 
 + Added a number of CSS classes to various areas in the Checkout template at "templates/checkout/form-checkout.php"
 + Added a "Cancel" button that allows you to hide the coupon form if the user decides not to add a coupon
 + Removed jQuery animations from the coupon form toggle in favor of a CSS class toggle. If you decide you want some animations on the form add some CSS transitions to the `.llms-coupon-entry` element (and children) to change when the class `.active` is added or removed from the element.
 + Refactored JavaScript related to LifterLMS Checkout. Improvements are minimal (if any) but the file is now smaller and more readable! Yay code stuff.
++ Fixed some redundant text on single payment confirmation screen. ("Single payment of single payment of")
++ Added a link to memberships listed under "My Memberships" on the LifterLMS Account Screen
+
+= v2.6.2 - 2016/04/27 =
+-----------------------
+
++ Fix class conflict in collapsible course outline widget template which caused some UX issues.
 
 
+= v2.6.1 - 2016/04/26 =
+-----------------------
+
++ Fix class conflict in collapsible course outline widget template which caused some UX issues.
+
+
+= v2.6.0 - 2016/04/25 =
+-----------------------
+
+##### Collapsible Course Outline Widget
+
++ By request we've added an option to make your course outline widgets collapsible!
++ View feature [Documentation](https://lifterlms.com/docs/course-syllabus-widget/)
++ New translations available related to feature. I think it's 4 strings.
+
+##### Bug Fixes
+
++ Removed an unused CSS selector that caused some issues on the admin panel. This resolves an issue identified with the Page Builder by SiteOrigin plugin. The selector was very generic (`.title`) and may have caused issues with other themes or plugins using that class.
++ Resolved an issue that prevented post update, save, and publishing messages for core post types (posts, pages) from displaying properly.
+
+
+= v2.5.1 - 2016/04/22 =
+-----------------------
+
++ Fixed session handler initilization as it was being initialized prior to user data availability.
++ Staged `LLMS_Language` class  for deprecation in favor of WordPress translation functions `__()`, `_e()`, etc... **If you're a developer you'll start seeing warning's on screen or in your logs if you're using this function, it will be completely removed in the next MAJOR release (3.0.0)**
++ Added a new function to handle the deprecation warning above (`llms_deprecated_function`) and now that we have this function we'll start deprecating all the things. Just kidding, or am I?
++ This gives translators access to 69 new strings that were previously untranslatable! However, this number might be innacurate +/- 5 strings. I only counted it once and I don't feel like the exact number is important enough for a recount to ensure accuracy. /shrug
+
+>>>>>>> e7f8cb2f80a6ebf99848af85bd9207ef7b7de88a
 
 = v2.5.0 - 2016/04/15 =
 -----------------------

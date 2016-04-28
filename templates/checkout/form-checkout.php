@@ -149,7 +149,7 @@ if ($coupon_session) {
 		<!-- Coupon code entry form -->
 		<div class="llms-coupon-entry llms-notice-box">
 			<?php if ( $coupon_session ) : ?>
-				<form class="llms-remove-coupon" id="llms-remove-coupon" method="post">
+				<form action="" class="llms-remove-coupon" id="llms-remove-coupon" method="POST">
 					<div class="llms-center-content">
 						<input type="submit" class="llms-button-text" name="llms_remove_coupon" value="[<?php _e( 'Remove', 'lifterlms' ); ?>]" />
 						<input type="hidden" name="product_id" value="<?php echo $product->ID; ?>" />
@@ -159,7 +159,7 @@ if ($coupon_session) {
 				</form>
 			<?php endif; ?>
 			<?php llms_print_notice( $info_message, 'notice' ); ?>
-			<form class="llms-checkout-coupon" id="llms-checkout-coupon" method="post">
+			<form action="" class="llms-checkout-coupon" id="llms-checkout-coupon" method="POST">
 				<input type="text" name="coupon_code" class="llms-input-text" placeholder="<?php _e( 'Enter coupon code', 'lifterlms' ); ?>" id="coupon_code" required="required">
 				<div class="llms-clear-box llms-center-content">
 					<input type="submit" class="button llms-button" name="llms_apply_coupon" value="<?php _e( 'Apply Coupon', 'lifterlms' ); ?>" />
