@@ -25,6 +25,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 		<?php
 
 		foreach ( (array) $last_attempt['questions'] as $key => $question) {
+
 			$background = $question['correct'] ? 'right' : 'wrong';
 
 			$icon = $question['correct'] ? 'llms-icon-checkmark' :  'llms-icon-close';
@@ -35,6 +36,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 			$correct_option = $question_object->get_correct_option();
 
+			$answer = $options[ $question['answer'] ];
 			?>
 
 			<div class="panel panel-default">
@@ -67,12 +69,12 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 						<br>
 
 						<ul>
-						<?php if ( is_array( $options[ $question['answer'] ] ) && array_key_exists( 'option_text', $options[ $question['answer'] ] ) ) {
+						<?php if ( is_array( $answer ) && array_key_exists( 'option_text', $answer ) ) {
 							?>
 
 							<li>
 								<span class="llms-quiz-summary-label user-answer">
-								<?php echo sprintf( __( 'Your answer:%s', 'lifterlms' ), wp_kses_post( $options[ $question['answer'] ]['option_text'] ) ); ?>
+								<?php echo sprintf( __( 'Your answer: %s', 'lifterlms' ), wp_kses_post( $answer['option_text'] ) ); ?>
 								</span>
 							</li>
 
@@ -88,17 +90,17 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 							if ($question['correct']) {
 								if ($quiz->show_description_right_answer()) {
-									if (array_key_exists( 'option_description', $options[ $question['answer'] ] )) {
+									if ( is_array( $answer ) && array_key_exists( 'option_description', $answer ) ) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
-											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $options[ $question['answer'] ]['option_description'] ) )
+											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $answer['option_description'] ) )
 										. '</span></li>';
 									}
 								}
 							} else {
 								if ($quiz->show_description_wrong_answer()) {
-									if (array_key_exists( 'option_description', $options[ $question['answer'] ] )) {
+									if ( is_array( $answer ) && array_key_exists( 'option_description', $answer ) ) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
-											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $options[ $question['answer'] ]['option_description'] ) )
+											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $answer['option_description'] ) )
 										. '</span></li>';
 									}
 								}

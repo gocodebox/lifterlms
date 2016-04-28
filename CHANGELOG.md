@@ -7,7 +7,9 @@
 + Added new filters run during course & lesson sidebar registration to allow customization of LifterLMS sidebars
   + `lifterlms_register_course_sidebar`
   + `lifterlms_register_lesson_sidebar`
-
++ Removed a stray logging function.
++ Cleaned up some undefined variable warnings & notices on the quiz summary template
++
 
 = v2.6.1 - 2016/04/26 =
 -----------------------
