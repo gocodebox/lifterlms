@@ -369,7 +369,7 @@ class LLMS_Engagements {
 			$trigger_type, $related_post_id
 		), OBJECT );
 
-		llms_log( '$wpdb->last_query' . $wpdb->last_query );
+		// llms_log( '$wpdb->last_query' . $wpdb->last_query );
 
 		return $r;
 
