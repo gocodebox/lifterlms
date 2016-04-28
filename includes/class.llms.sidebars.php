@@ -33,21 +33,21 @@ class LLMS_Sidebars {
 
 		// If theme is genesis or a genesis child theme
 		if ($theme->template == 'genesis') {
-			genesis_register_sidebar( array(
+			genesis_register_sidebar( apply_filters( 'lifterlms_register_lesson_sidebar', array(
 				'id' => 'llms-lesson-sidebar',
 				'name' => 'Lesson Sidebar',
 				'description' => __( 'Widgets in this area will be shown on posts with the post type of lesson.', 'lifterlms' ),
-			) );
+			) ) );
 
 			add_action( 'get_header',array( 'LLMS_Sidebars', 'cd_change_genesis_lesson_sidebar' ) );
 		} else {
-			register_sidebar( array(
+			register_sidebar( apply_filters( 'lifterlms_register_lesson_sidebar', array(
 				'name' => __( 'Lesson Sidebar', 'lifterlms' ),
 				'id' => 'llms_lesson_widgets_side',
 				'description' => __( 'Widgets in this area will be shown on posts with the post type of lesson.', 'lifterlms' ),
 				'before_title' => '<h1>',
 				'after_title' => '</h1>',
-			) );
+			) ) );
 		}
 	}
 
@@ -61,21 +61,21 @@ class LLMS_Sidebars {
 
 		// If theme is genesis or a genesis child theme
 		if ($theme->template == 'genesis') {
-			genesis_register_sidebar( array(
+			genesis_register_sidebar( apply_filters( 'lifterlms_register_course_sidebar', array(
 				'id' => 'llms-course-sidebar',
 				'name' => 'Course Sidebar',
 				'description' => __( 'Widgets in this area will be shown on posts with the post type of course.', 'lifterlms' ),
-			) );
+			) ) );
 
 			add_action( 'get_header', array( 'LLMS_Sidebars', 'cd_change_genesis_course_sidebar' ) );
 		} else {
-			register_sidebar( array(
+			register_sidebar( apply_filters( 'lifterlms_register_course_sidebar', array(
 				'name' => __( 'Course Sidebar', 'lifterlms' ),
 				'id' => 'llms_course_widgets_side',
 				'description' => __( 'Widgets in this area will be shown on posts with the post type of course.', 'lifterlms' ),
 				'before_title' => '<h1>',
 				'after_title' => '</h1>',
-			) );
+			) ) );
 		}
 	}
 

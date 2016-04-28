@@ -4,6 +4,9 @@
 -----------------------
 
 + Fix class conflict in collapsible course outline widget template which caused some UX issues.
++ Added new filters run during course & lesson sidebar registration to allow customization of LifterLMS sidebars
+  + `lifterlms_register_course_sidebar`
+  + `lifterlms_register_lesson_sidebar`
 
 
 = v2.6.1 - 2016/04/26 =
