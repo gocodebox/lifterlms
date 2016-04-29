@@ -250,8 +250,6 @@ class LLMS_Integration_Woocommerce
 			$llms_checkout->process_order( $llms_order );
 			$llms_checkout->update_order( $llms_order );
 
-			do_action( 'lifterlms_order_process_success', $llms_order );
-
 		}
 
 	}

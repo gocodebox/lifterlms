@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.6.3 - 2016/04/?? =
+-----------------------
+
++ Removed redirecting action from WooCommerce integration that was causing issues on mutliple product purchase checkouts with larger databases.
+
+
 = v2.6.2 - 2016/04/27 =
 -----------------------
 
