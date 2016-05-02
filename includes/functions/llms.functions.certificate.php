@@ -53,7 +53,7 @@ function llms_get_certificate_image( $id = 0 ) {
 	$img_id = get_post_meta( $id, '_llms_certificate_image', true );
 
 	// don't retrieve a size if legacy mode is enabled
-	$size = ( 'yes' === get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? '' : 'print_certificate';
+	$size = ( 'yes' === get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? '' : 'lifterlms_certificate_background';
 
 	$src = wp_get_attachment_image_src( $img_id, $size );
 
@@ -106,6 +106,4 @@ function llms_register_certificate_image_size() {
 	add_image_size( 'lifterlms_certificate_background', $width, $height, true );
 
 }
-add_action( 'init', 'llms_register_certificate_image_size' );
-
-
+add_action( 'after_setup_theme', 'llms_register_certificate_image_size' );

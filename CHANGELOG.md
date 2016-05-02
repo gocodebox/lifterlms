@@ -1,9 +1,11 @@
 == Changelog ==
 
-= v2.6.3 - 2016/04/?? =
+= v2.6.3 - 2016/05/02 =
 -----------------------
 
 + Removed redirecting action from WooCommerce integration that was causing issues on mutliple product purchase checkouts with larger databases.
++ Added a new payment action `lifterlms_order_complete` which runs at the same time as some previous actions during payment processing but servers a different purpose. This is mostly in preparation for a forthcoming AffiliateWP integration.
++ Fixed an issue with LifterLMS certificate background image that caused the wrong dimensions to be returned when outputing a LifterLMS certificate background image
 
 
 = v2.6.2 - 2016/04/27 =
