@@ -29,10 +29,20 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 	 * @return array
 	 */
 	public function get_settings() {
-		// Get shop page
-		$memberships_page_id = llms_get_page_id( 'memberships' );
 
-		$base_slug = ($memberships_page_id > 0 && get_page( $memberships_page_id )) ? get_page_uri( $memberships_page_id ) : 'memberships';
+		$protected_post_types = array( 'lesson', 'llms_certificate', 'llms_my_certificate', 'llms_question', 'llms_quiz' );
+
+		$args = array(
+			'public' => true,
+		);
+
+		$post_types = get_post_types( $args );
+
+		foreach ( $post_types as $key => $type ) {
+			if ( in_array( $type, $protected_post_types ) ) {
+				unset( $post_types[ $key ] );
+			}
+		}
 
 		return apply_filters( 'lifterlms_membership_settings', array(
 
@@ -66,6 +76,17 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
+			array(
+				'title' => __( 'Post types with membership restriction box', 'lifterlms' ),
+				'desc' 		=> '<br/>' . sprintf( __( 'Select the post types that you would like to have the ability to restrict to membership level\'s on an individual basis.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'id' 		=> 'lifterlms_membership_restricted_box',
+				'type' 		=> 'multiselect',
+				'options'	=> $post_types,
+				'default'	=> '',
+				'class'		=> 'select2',
+				'multi'		=> true,
+			),
+
 			array( 'type' => 'sectionend', 'id' => 'membership_options' ),
 
 		) );
@@ -91,7 +112,7 @@ class LLMS_Settings_Membership extends LLMS_Settings_Page {
 	public function output() {
 		$settings = $this->get_settings( );
 
-			LLMS_Admin_Settings::output_fields( $settings );
+		LLMS_Admin_Settings::output_fields( $settings );
 	}
 
 }
