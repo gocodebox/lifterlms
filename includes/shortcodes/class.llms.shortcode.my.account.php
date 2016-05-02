@@ -49,7 +49,7 @@ class LLMS_Shortcode_My_Account {
 				llms_get_template( 'myaccount/form-login.php' );
 
 				//can be enabled / disabled on options page.
-				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' || get_query_var( 'product-id' ) ) {
+				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) {
 					llms_get_template( 'myaccount/form-registration.php' );
 				}
 
