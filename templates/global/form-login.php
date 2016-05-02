@@ -1,10 +1,4 @@
 <?php
-/**
- * Login Form
- *
- * @author 		lifterLMS
- * @package 	lifterLMS/Templates
- */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
