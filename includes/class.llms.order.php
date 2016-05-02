@@ -246,8 +246,13 @@ class LLMS_Order {
 			update_post_meta( $order_post_id, '_llms_order_billing_start_date', $order->billing_start_date );
 		}
 
+		// trigger order complete action
+		do_action( 'lifterlms_order_complete', $order_post_id );
+
+		// enroll student
 		llms_enroll_student( $order->user_id, $order->product_id );
 
+		// trigger purchase action
 		do_action( 'lifterlms_product_purchased', $order->user_id, $order->product_id );
 
 		//kill sessions
@@ -255,5 +260,7 @@ class LLMS_Order {
 		unset( LLMS()->session->llms_order );
 
 		return $order_post_id;
+
 	}
+
 }
