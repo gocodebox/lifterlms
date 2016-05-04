@@ -274,6 +274,53 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 				),
 			),
 			array(
+				'title' 	=> 'Students',
+				'fields' 	=> array(
+					array(
+						'type'		=> 'select',
+						'label'		=> 'Add Student',
+						'desc'		=> 'Add a user to the course.',
+						'id'		=> self::$prefix . 'add_new_user',
+						'class'		=> 'add-student-select',
+						'value' 	=> array(),
+						'desc_class' => 'd-all',
+						'group' 	=> '',
+						'multi'		=> true,
+					),
+					array(
+						'type'		=> 'button',
+						'label'		=> '',
+						'desc' 		=> '',
+						'id' 		=> self::$prefix . 'add_student_submit',
+						'class' 	=> 'llms-button-primary',
+						'value' 	=> 'Add Student',
+						'desc_class' => '',
+						'group' 	=> '',
+					),
+					array(
+						'type'		=> 'select',
+						'label'		=> 'Remove Student',
+						'desc'		=> 'Remove a user from the course.',
+						'id'		=> self::$prefix . 'remove_student',
+						'class' 	=> 'remove-student-select',
+						'value' 	=> array(),
+						'desc_class' => 'd-all',
+						'group' 	=> '',
+						'multi'		=> true,
+					),
+					array(
+						'type'		=> 'button',
+						'label'		=> '',
+						'desc' 		=> '',
+						'id' 		=> self::$prefix . 'remove_student_submit',
+						'class' 	=> 'llms-button-primary',
+						'value' 	=> 'Remove Student',
+						'desc_class' => '',
+						'group' 	=> '',
+					),
+				),
+			),
+			array(
 				'title' 	=> 'Enrollment',
 				'fields' 	=> array(
 					array(
