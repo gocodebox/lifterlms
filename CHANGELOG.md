@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.7.0 - 2016/05/?? =
+-----------------------
+
++ Added the ability for students to edit their phone number via their account settings page if the phone number registration option is enabled on the site.
+
+
 = v2.6.3 - 2016/05/02 =
 -----------------------
 

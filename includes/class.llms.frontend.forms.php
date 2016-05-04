@@ -1373,7 +1373,7 @@ class LLMS_Frontend_Forms
 				$_billing_country = '';
 			}
 
-			if ('yes' == get_option( 'lifterlms_registration_add_phone' )) {
+			if ( 'yes' == get_option( 'lifterlms_registration_add_phone' ) ) {
 				$_phone = $_POST['phone'];
 			}
 

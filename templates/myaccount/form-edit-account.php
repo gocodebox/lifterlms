@@ -59,6 +59,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 			$billing_state      = ( get_user_meta( $user_id, 'llms_billing_state' ) )          ? get_user_meta( $user_id, 'llms_billing_state', true )     : '';
 			$billing_zip        = ( get_user_meta( $user_id, 'llms_billing_zip' ) )            ? get_user_meta( $user_id, 'llms_billing_zip', true )       : '';
 			$billing_country    = ( get_user_meta( $user_id, 'llms_billing_country' ) )        ? get_user_meta( $user_id, 'llms_billing_country', true )   : '';
+
+			$phone              = ( get_user_meta( $user_id, 'llms_phone' ) )                  ? get_user_meta( $user_id, 'llms_phone', true )             : '';
 			?>
 
 			<p>
@@ -95,6 +97,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 				</select>
 			</p>
 
+		</div>
+	<?php endif; ?>
+
+	<?php if ( 'yes' === get_option( 'lifterlms_registration_add_phone' ) ) : ?>
+		<div class="llms-form-item-wrapper phone">
+			<label for="llms_phone"><?php _e( 'Phone', 'lifterlms' ); ?></label>
+			<input type="text" class="input-text llms-input-text" name="phone" id="llms_phone" value="<?php echo $phone; ?>" />
 		</div>
 	<?php endif; ?>
 
