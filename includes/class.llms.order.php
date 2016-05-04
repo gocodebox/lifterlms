@@ -82,14 +82,15 @@ class LLMS_Order {
 
 		update_post_meta( $order_post_id,'_llms_user_id', $user_id );
 		if (empty( $payment_method )) {
-			$payment_method = 'assinged_by_admin';
+			$payment_method = 'assigned_by_admin'; // previously was typoed "assigned_by_admin" preserving in case we need to migrate later
 		}
 		update_post_meta( $order_post_id, '_llms_payment_method', $payment_method );
-		update_post_meta( $order_post_id,'_llms_product_title', $post->post_title );
-		update_post_meta( $order_post_id,'_llms_order_total', '0' );
-		update_post_meta( $order_post_id,'_llms_product_sku', $sku );
-		update_post_meta( $order_post_id,'_llms_order_currency', get_lifterlms_currency_symbol() );
-		update_post_meta( $order_post_id,'_llms_order_product_id', $post_id );
+		update_post_meta( $order_post_id, '_llms_product_title', $post->post_title );
+		update_post_meta( $order_post_id, '_llms_order_total', '0' );
+		update_post_meta( $order_post_id, '_llms_product_sku', $sku );
+		update_post_meta( $order_post_id, '_llms_order_currency', get_lifterlms_currency_symbol() );
+		update_post_meta( $order_post_id, '_llms_order_product_id', $post_id );
+		update_post_meta( $order_post_id, '_llms_order_date', current_time( 'mysql' ) );
 	}
 
 	/**
