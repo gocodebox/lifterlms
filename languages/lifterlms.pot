@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the LifterLMS package.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 2.6.3\n"
+"Project-Id-Version: LifterLMS 2.7.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-05-02 21:39:50+00:00\n"
+"POT-Creation-Date: 2016-05-05 21:36:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -96,7 +96,7 @@ msgstr ""
 #: includes/admin/students/class.llms.students.dashboard.php:86
 #: includes/admin/students/class.llms.students.profile.php:226
 #: includes/admin/students/class.llms.students.profile.php:288
-#: includes/functions/llms.functions.person.php:372
+#: includes/functions/llms.functions.person.php:228
 msgid "Memberships"
 msgstr ""
 
@@ -137,7 +137,6 @@ msgid "Expired Members"
 msgstr ""
 
 #: includes/admin/analytics/class.llms.analytics.page.php:69
-#: includes/admin/class.llms.admin.post-types.php:237
 #: includes/admin/students/class.llms.students.page.php:87
 #: includes/admin/students/class.llms.students.profile.php:50
 #: includes/class.llms.svg.php:36 includes/class.llms.svg.php:38
@@ -214,7 +213,7 @@ msgid "You must enter a start and end date."
 msgstr ""
 
 #: includes/admin/class.llms.admin.menus.php:48
-#: includes/admin/class.llms.admin.menus.php:120 lifterlms.php:368
+#: includes/admin/class.llms.admin.menus.php:120 lifterlms.php:372
 msgid "Settings"
 msgstr ""
 
@@ -306,8 +305,8 @@ msgid "Total"
 msgstr ""
 
 #: includes/admin/class.llms.admin.post-types.php:120
-#: includes/admin/class.llms.admin.post-types.php:312
-#: includes/admin/class.llms.admin.post-types.php:395
+#: includes/admin/class.llms.admin.post-types.php:315
+#: includes/admin/class.llms.admin.post-types.php:398
 msgid "Date"
 msgstr ""
 
@@ -322,9 +321,6 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.post-types.php:155
 #: includes/admin/class.llms.admin.post-types.php:177
-msgid "Unkown"
-msgstr ""
-
 #: includes/admin/class.llms.admin.post-types.php:191
 #: includes/admin/class.llms.admin.post-types.php:237
 msgid "Unknown"
@@ -338,36 +334,36 @@ msgstr ""
 msgid "via %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:307
-#: includes/admin/class.llms.admin.post-types.php:393
+#: includes/admin/class.llms.admin.post-types.php:310
+#: includes/admin/class.llms.admin.post-types.php:396
 msgid "Lesson Title"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:308
-#: includes/admin/class.llms.admin.post-types.php:394
+#: includes/admin/class.llms.admin.post-types.php:311
+#: includes/admin/class.llms.admin.post-types.php:397
 msgid "Assigned Course"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:309
+#: includes/admin/class.llms.admin.post-types.php:312
 msgid "Assigned Section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:310
+#: includes/admin/class.llms.admin.post-types.php:313
 msgid "Prerequisite"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:311
+#: includes/admin/class.llms.admin.post-types.php:314
 msgid "Memberships Required"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:336
-#: includes/admin/class.llms.admin.post-types.php:346
-#: includes/admin/class.llms.admin.post-types.php:356
-#: includes/admin/class.llms.admin.post-types.php:418
+#: includes/admin/class.llms.admin.post-types.php:339
+#: includes/admin/class.llms.admin.post-types.php:349
+#: includes/admin/class.llms.admin.post-types.php:359
+#: includes/admin/class.llms.admin.post-types.php:421
 msgid "<a href=\"%s\">%s</a>"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:372
+#: includes/admin/class.llms.admin.post-types.php:375
 msgid "%s "
 msgstr ""
 
@@ -623,76 +619,120 @@ msgstr ""
 msgid "Copy for Support"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:130
+#: includes/admin/class.llms.admin.user.custom.fields.php:51
+#: templates/global/form-registration.php:60
+#: templates/myaccount/form-edit-account.php:68
+msgid "Billing Address 1"
+msgstr ""
+
+#: includes/admin/class.llms.admin.user.custom.fields.php:58
+#: templates/global/form-registration.php:64
+#: templates/myaccount/form-edit-account.php:72
+msgid "Billing Address 2"
+msgstr ""
+
+#: includes/admin/class.llms.admin.user.custom.fields.php:65
+#: templates/global/form-registration.php:68
+#: templates/myaccount/form-edit-account.php:76
+msgid "Billing City"
+msgstr ""
+
+#: includes/admin/class.llms.admin.user.custom.fields.php:72
+#: templates/global/form-registration.php:72
+#: templates/myaccount/form-edit-account.php:80
+msgid "Billing State"
+msgstr ""
+
+#: includes/admin/class.llms.admin.user.custom.fields.php:79
+msgid "Billing Zip Code"
+msgstr ""
+
+#: includes/admin/class.llms.admin.user.custom.fields.php:86
+#: templates/global/form-registration.php:80
+#: templates/myaccount/form-edit-account.php:88
+msgid "Billing Country"
+msgstr ""
+
+#: includes/admin/class.llms.admin.user.custom.fields.php:93
+#: templates/global/form-registration.php:52
+#: templates/myaccount/form-edit-account.php:106
+msgid "Phone"
+msgstr ""
+
+#: includes/admin/class.llms.admin.user.custom.fields.php:212
+msgid "Required field \"%s\" is missing."
+msgstr ""
+
+#: includes/admin/post-types/class.llms.meta.boxes.php:133
 msgid "Membership Access"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:138
+#: includes/admin/post-types/class.llms.meta.boxes.php:141
 msgid "Course Options"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:139
+#: includes/admin/post-types/class.llms.meta.boxes.php:142
 #: includes/admin/settings/class.llms.settings.engagements.php:43
 msgid "Email Settings"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:140
+#: includes/admin/post-types/class.llms.meta.boxes.php:143
 #: includes/admin/settings/class.llms.settings.membership.php:41
 msgid "Membership Settings"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:141
+#: includes/admin/post-types/class.llms.meta.boxes.php:144
 msgid "Lesson Settings"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:142
+#: includes/admin/post-types/class.llms.meta.boxes.php:145
 msgid "Achievement Settings"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:143
+#: includes/admin/post-types/class.llms.meta.boxes.php:146
 msgid "Certificate Settings"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:145
+#: includes/admin/post-types/class.llms.meta.boxes.php:148
 msgid "Coupon Settings"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:146
+#: includes/admin/post-types/class.llms.meta.boxes.php:149
 msgid "Voucher Settings"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:147
+#: includes/admin/post-types/class.llms.meta.boxes.php:150
 msgid "Quiz Settings"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:152
-#: includes/admin/post-types/class.llms.meta.boxes.php:154
+#: includes/admin/post-types/class.llms.meta.boxes.php:155
+#: includes/admin/post-types/class.llms.meta.boxes.php:157
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:365
 #: includes/admin/settings/class.llms.settings.courses.php:133
 msgid "Course Outline"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:153
+#: includes/admin/post-types/class.llms.meta.boxes.php:156
 msgid "Section Tree"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:160
+#: includes/admin/post-types/class.llms.meta.boxes.php:163
 msgid "Engagement Options"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:161
+#: includes/admin/post-types/class.llms.meta.boxes.php:164
 msgid "Export CSV"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:163
+#: includes/admin/post-types/class.llms.meta.boxes.php:166
 msgid "Order Details"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:164
+#: includes/admin/post-types/class.llms.meta.boxes.php:167
 msgid "Quiz Questions"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:165
+#: includes/admin/post-types/class.llms.meta.boxes.php:168
 msgid "Question Settings"
 msgstr ""
 
@@ -2047,7 +2087,7 @@ msgctxt "Order date parsed by strftime"
 msgid "%b %d, %Y @ %I:%M %p"
 msgstr ""
 
-#: includes/class.llms.order.php:173
+#: includes/class.llms.order.php:174
 msgid "Order - %s, %s"
 msgstr ""
 
@@ -3320,11 +3360,7 @@ msgstr ""
 msgid "Couldn&#8217;t register you&hellip; please contact us if you continue to have problems."
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:252
-msgid "Membership Levels"
-msgstr ""
-
-#: includes/functions/llms.functions.person.php:371
+#: includes/functions/llms.functions.person.php:227
 msgid "Last Login"
 msgstr ""
 
@@ -4521,6 +4557,14 @@ msgstr ""
 msgid "Display \"Open All\" and \"Close All\" toggles at the bottom of the outline."
 msgstr ""
 
+#: templates/admin/user-edit.php:15
+msgid "LifterLMS Extra Information"
+msgstr ""
+
+#: templates/admin/user-edit.php:26
+msgid "required"
+msgstr ""
+
 #: templates/checkout/form-checkout.php:29
 #: templates/checkout/form-confirm-payment.php:20
 msgid "Product not found."
@@ -4706,42 +4750,13 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: templates/global/form-registration.php:52
-msgid "Phone"
-msgstr ""
-
-#: templates/global/form-registration.php:60
-#: templates/myaccount/form-edit-account.php:65
-msgid "Billing Address 1"
-msgstr ""
-
-#: templates/global/form-registration.php:64
-#: templates/myaccount/form-edit-account.php:69
-msgid "Billing Address 2"
-msgstr ""
-
-#: templates/global/form-registration.php:68
-#: templates/myaccount/form-edit-account.php:73
-msgid "Billing City"
-msgstr ""
-
-#: templates/global/form-registration.php:72
-#: templates/myaccount/form-edit-account.php:77
-msgid "Billing State"
-msgstr ""
-
 #: templates/global/form-registration.php:76
-#: templates/myaccount/form-edit-account.php:81
+#: templates/myaccount/form-edit-account.php:84
 msgid "Billing Zip"
 msgstr ""
 
-#: templates/global/form-registration.php:80
-#: templates/myaccount/form-edit-account.php:85
-msgid "Billing Country"
-msgstr ""
-
 #: templates/global/form-registration.php:93
-#: templates/myaccount/form-edit-account.php:26
+#: templates/myaccount/form-edit-account.php:40
 msgid "Email address"
 msgstr ""
 
@@ -4800,35 +4815,35 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:15
+#: templates/myaccount/form-edit-account.php:29
 msgid "Basic Information"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:18
+#: templates/myaccount/form-edit-account.php:32
 msgid "First name"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:22
+#: templates/myaccount/form-edit-account.php:36
 msgid "Last name"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:34
+#: templates/myaccount/form-edit-account.php:48
 msgid "Change Password"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:37
+#: templates/myaccount/form-edit-account.php:51
 msgid "Password (leave blank to leave unchanged)"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:41
+#: templates/myaccount/form-edit-account.php:55
 msgid "Confirm new password"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:52
+#: templates/myaccount/form-edit-account.php:66
 msgid "Billing Information"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:104
+#: templates/myaccount/form-edit-account.php:114
 msgid "Save changes"
 msgstr ""
 
