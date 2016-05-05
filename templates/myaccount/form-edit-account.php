@@ -1,5 +1,19 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+$user_id = get_current_user_id();
+
+if ( 'yes' === get_option( 'lifterlms_registration_require_address' ) ) {
+	$billing_address_1  = ( get_user_meta( $user_id, 'llms_billing_address_1' ) )      ? get_user_meta( $user_id, 'llms_billing_address_1', true ) : '';
+	$billing_address_2  = ( get_user_meta( $user_id, 'llms_billing_address_2' )  )     ? get_user_meta( $user_id, 'llms_billing_address_2', true ) : '';
+	$billing_city       = ( get_user_meta( $user_id, 'llms_billing_city' ) )           ? get_user_meta( $user_id, 'llms_billing_city', true )      : '';
+	$billing_state      = ( get_user_meta( $user_id, 'llms_billing_state' ) )          ? get_user_meta( $user_id, 'llms_billing_state', true )     : '';
+	$billing_zip        = ( get_user_meta( $user_id, 'llms_billing_zip' ) )            ? get_user_meta( $user_id, 'llms_billing_zip', true )       : '';
+	$billing_country    = ( get_user_meta( $user_id, 'llms_billing_country' ) )        ? get_user_meta( $user_id, 'llms_billing_country', true )   : '';
+}
+
+if ( 'yes' === get_option( 'lifterlms_registration_add_phone' ) ) {
+	$phone              = ( get_user_meta( $user_id, 'llms_phone' ) )                  ? get_user_meta( $user_id, 'llms_phone', true )             : '';
+}
 ?>
 
 <?php llms_print_notices(); ?>
@@ -50,17 +64,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		<div class="llms-billing-information">
 
 			<h3><?php _e( 'Billing Information', 'lifterlms' ) ?></h3>
-			<?php
-			$user_id = get_current_user_id();
-
-			$billing_address_1  = ( get_user_meta( $user_id, 'llms_billing_address_1' ) )      ? get_user_meta( $user_id, 'llms_billing_address_1', true ) : '';
-			$billing_address_2  = ( get_user_meta( $user_id, 'llms_billing_address_2' )  )     ? get_user_meta( $user_id, 'llms_billing_address_2', true ) : '';
-			$billing_city       = ( get_user_meta( $user_id, 'llms_billing_city' ) )           ? get_user_meta( $user_id, 'llms_billing_city', true )      : '';
-			$billing_state      = ( get_user_meta( $user_id, 'llms_billing_state' ) )          ? get_user_meta( $user_id, 'llms_billing_state', true )     : '';
-			$billing_zip        = ( get_user_meta( $user_id, 'llms_billing_zip' ) )            ? get_user_meta( $user_id, 'llms_billing_zip', true )       : '';
-			$billing_country    = ( get_user_meta( $user_id, 'llms_billing_country' ) )        ? get_user_meta( $user_id, 'llms_billing_country', true )   : '';
-			?>
-
 			<p>
 				<label for="billing_address_1"><?php _e( 'Billing Address 1', 'lifterlms' ); ?> <span class="required">*</span></label>
 				<input type="text" class="input-text llms-input-text" name="billing_address_1" id="billing_address_1" value="<?php echo $billing_address_1; ?>" />
@@ -95,6 +98,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 				</select>
 			</p>
 
+		</div>
+	<?php endif; ?>
+
+	<?php if ( 'yes' === get_option( 'lifterlms_registration_add_phone' ) ) : ?>
+		<div class="llms-form-item-wrapper phone">
+			<label for="llms_phone"><?php _e( 'Phone', 'lifterlms' ); ?></label>
+			<input type="text" class="input-text llms-input-text" name="phone" id="llms_phone" value="<?php echo $phone; ?>" />
 		</div>
 	<?php endif; ?>
 

@@ -123,8 +123,6 @@ class LLMS_Student {
 	}
 
 
-
-
 	/**
 	 * Retrieve certificates that a user has earned
 	 * @param  string $orderby field to order the returned results by

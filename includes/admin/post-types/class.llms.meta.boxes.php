@@ -36,6 +36,11 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Students::save', 10, 2 );
 		add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Course_Outline::save', 10, 2 );
 
+		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Product::save', 10, 2 );
+		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Expiration::save', 10, 2 );
+		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Membership::save', 10, 2 );
+		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Students::save', 10, 2 );
+
 		add_action( 'lifterlms_process_section_meta', 'LLMS_Meta_Box_Section_Tree::save', 10, 2 );
 		add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Lesson_Tree::save', 10, 2 );
 		add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Video::save', 10, 2 );
@@ -45,9 +50,7 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_llms_certificate_meta', 'LLMS_Meta_Box_Certificate_Options::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_achievement_meta', 'LLMS_Meta_Box_Achievement_Options::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_engagement_meta', 'LLMS_Meta_Box_Engagement_Options::save', 10, 2 );
-		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Product::save', 10, 2 );
-		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Expiration::save', 10, 2 );
-		add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Membership::save', 10, 2 );
+
 		add_action( 'lifterlms_process_membership_access', 'LLMS_Meta_Box_Access::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_quiz_meta', 'LLMS_Meta_Box_Quiz::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_quiz_meta', 'LLMS_Meta_Box_Quiz_Questions::save', 10, 2 );
@@ -221,12 +224,18 @@ class LLMS_Admin_Meta_Boxes {
 	* @param $post, $post_id
 	*/
 	public function save_meta_boxes( $post_id, $post ) {
+
 		if ( LLMS_Admin_Meta_Boxes::validate_post( $post_id, $post ) ) {
+
 			if ( LLMS_Admin_Meta_Boxes::is_llms_post_type( $post ) ) {
+
 				do_action( 'lifterlms_process_' . $post->post_type . '_meta', $post_id, $post );
 				do_action( 'lifterlms_process_membership_access', $post_id, $post );
+
 			} else {
+
 				do_action( 'lifterlms_process_membership_access', $post_id, $post );
+
 			}
 		}
 
