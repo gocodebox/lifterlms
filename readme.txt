@@ -162,7 +162,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-= v2.7.0 - 2016/05/?? =
+= v2.7.0 - 2016/05/05 =
 -----------------------
 
 ##### LifterLMS Custom User Fields Exposed

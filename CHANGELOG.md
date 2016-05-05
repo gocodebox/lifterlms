@@ -1,6 +1,6 @@
 == Changelog ==
 
-= v2.7.0 - 2016/05/?? =
+= v2.7.0 - 2016/05/05 =
 -----------------------
 
 ##### LifterLMS Custom User Fields Exposed
