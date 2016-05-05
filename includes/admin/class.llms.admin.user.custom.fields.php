@@ -28,6 +28,8 @@ class LLMS_Admin_User_Custom_Fields {
 		add_action( 'show_user_profile', array( $this, 'output_custom_fields' ), 10, 1 );
 		add_action( 'edit_user_profile', array( $this, 'output_custom_fields' ), 10, 1 );
 
+		// allow errors to be output before saving field data
+		// save the data if no errors are encountered
 		add_action( 'user_profile_update_errors', array( $this, 'save_custom_fields'), 10, 3 );
 
 	}
@@ -124,7 +126,7 @@ class LLMS_Admin_User_Custom_Fields {
 
 		foreach ( $this->fields as $field => $data ) {
 
-			$this->fields[ $field ]['value'] = $user->get( $field );
+			$this->fields[ $field ]['value'] = apply_filters( 'lifterlms_get_user_custom_field_value_' . $field, $user->get( $field ), $user, $field );
 
 		}
 
@@ -183,7 +185,7 @@ class LLMS_Admin_User_Custom_Fields {
 		// save data
 		foreach ( $this->fields as $field => $data ) {
 
-			update_user_meta( $user->ID, $field, sanitize_text_field( $_POST[ $field ] ) );
+			update_user_meta( $user->ID, $field, sanitize_text_field( apply_filters( 'lifterlms_save_custom_user_field_' . $field, $_POST[ $field ], $user, $field ) ) );
 
 		}
 
