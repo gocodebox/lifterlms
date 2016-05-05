@@ -3,7 +3,25 @@
 = v2.7.0 - 2016/05/?? =
 -----------------------
 
+##### LifterLMS Custom User Fields Exposed
+
++ Custom fields added during registration via LifterLMS account settings are now exposed on the admin panel via the student's WordPress user profile
++ All custom fields that are available (billing and phone) are editable on the WordPress user profile by anyone with profile edit access regardless of LifterLMS settings. If the settings are disabled (eg not required for registration) you can still add this information manually to a user's profile. This is useful if you require the information and then disable it later, you would still be able to access the information on the admin panel but would no longer be required for user's during registration.
+
+##### Membership Manual Add & Remove Student Functions
+
++ Duplicated "Students" tab from the Course admin screen to Memberships
+  + Students can be manually added to a membership by an admin
+  + Students can be removed manually from a membership by an admin
+
+##### Updates
+
 + Added the ability for students to edit their phone number via their account settings page if the phone number registration option is enabled on the site.
+
+##### Fixes
+
++ Fixed a few spelling errors on LifterLMS admin panel order screens
++ Fixed a typo on meta data for LifterLMS admin created (manual) orders
 
 
 = v2.6.3 - 2016/05/02 =
