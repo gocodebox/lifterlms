@@ -30,7 +30,7 @@ class LLMS_Admin_User_Custom_Fields {
 
 		// allow errors to be output before saving field data
 		// save the data if no errors are encountered
-		add_action( 'user_profile_update_errors', array( $this, 'save_custom_fields'), 10, 3 );
+		add_action( 'user_profile_update_errors', array( $this, 'save_custom_fields' ), 10, 3 );
 
 	}
 
@@ -116,7 +116,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 */
 	public function get_fields_with_data( $user ) {
 
-		if( is_numeric( $user ) ) {
+		if ( is_numeric( $user ) ) {
 
 			$user = new WP_User( $user );
 
@@ -174,7 +174,7 @@ class LLMS_Admin_User_Custom_Fields {
 
 		$error = $this->validate_fields( $user );
 
-		if( $error ) {
+		if ( $error ) {
 
 			$errors->add( '', $error, '' );
 
@@ -211,9 +211,7 @@ class LLMS_Admin_User_Custom_Fields {
 
 				return sprintf( __( 'Required field "%s" is missing.', 'lifterlms' ), $data['label'] );
 
-			}
-
-			// allow additional validation to be run on the custom field
+			} // allow additional validation to be run on the custom field
 			else {
 
 				/**
