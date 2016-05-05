@@ -7,6 +7,7 @@
 
 + Custom fields added during registration via LifterLMS account settings are now exposed on the admin panel via the student's WordPress user profile
 + All custom fields that are available (billing and phone) are editable on the WordPress user profile by anyone with profile edit access regardless of LifterLMS settings. If the settings are disabled (eg not required for registration) you can still add this information manually to a user's profile. This is useful if you require the information and then disable it later, you would still be able to access the information on the admin panel but would no longer be required for user's during registration.
++ A few new filters added to help developers customize the experience here. Check out the documentation at [https://lifterlms.com/docs/lifterlms-filters/#admin-user-custom-fields](https://lifterlms.com/docs/lifterlms-filters/#admin-user-custom-fields)
 
 ##### Membership Manual Add & Remove Student Functions
 
