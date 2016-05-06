@@ -10,7 +10,10 @@
 + Fixed some redundant text on single payment confirmation screen. ("Single payment of single payment of")
 + Added a link to memberships listed under "My Memberships" on the LifterLMS Account Screen
 
+##### Install Script
 
++ Removed some legacy default options that were being created and are no longer required for new installations.
++
 
 
 = v2.7.0 - 2016/05/05 =

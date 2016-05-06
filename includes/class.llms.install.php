@@ -35,6 +35,7 @@ class LLMS_Install {
 		//add_action( 'init', array( $this, 'update_courses_archive' ) );
 
 		add_action( 'admin_init', array( $this, 'create_voucher_tables' ) );
+
 	}
 
 	/**
@@ -222,6 +223,7 @@ class LLMS_Install {
 	 * @return void
 	 */
 	public function install() {
+
 		$this->create_options();
 		$this->create_tables();
 		$this->create_voucher_tables();
@@ -342,9 +344,6 @@ class LLMS_Install {
 	public function create_options() {
 		//store installed version
 		add_option( 'lifterlms_current_version', LLMS_VERSION );
-		add_option( 'lifterlms_is_activated', '' );
-		add_option( 'lifterlms_update_key', '' );
-		add_option( 'lifterlms_authkey', 'YA5j24mKX38yyLZf2CD6YX6i78Kr94tg' );
 
 		include_once( 'admin/class.llms.admin.settings.php' );
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
@@ -356,6 +355,7 @@ class LLMS_Install {
 				}
 			}
 		}
+
 	}
 
 	/**
