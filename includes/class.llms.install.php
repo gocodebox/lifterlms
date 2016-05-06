@@ -16,6 +16,10 @@ class LLMS_Install {
 	protected $min_wp_version = '3.5';
 	public $current_wp_version;
 
+	private $db_updates = array(
+		'2.8.0' => 'updates/lifterlms-update-2.8.0.php',
+	);
+
 	/**
 	 * LLMS_Install Constructor.
 	 *
@@ -32,8 +36,9 @@ class LLMS_Install {
 		add_action( 'admin_init', array( $this, 'update_course_outline' ) );
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'init', array( $this, 'init_query' ) );
-
 		add_action( 'admin_init', array( $this, 'create_voucher_tables' ) );
+
+		add_action( 'admin_init', array( $this, 'db_updates' ) );
 
 	}
 
@@ -48,6 +53,53 @@ class LLMS_Install {
 		 		. $this->min_wp_version . ' or higher. Your current version of Wordpress is ' . $this->current_wp_version  .
 		 		'. You may experience issues with this plugin until you upgrade your version of Wordpress.</p></div>'; }
 	}
+
+
+	/**
+	 * Check available database updates and run them if db is less than the update version
+	 *
+	 * @return void
+	 *
+	 * @since  2.8.0
+	 */
+	public function db_updates() {
+
+		$current_db_version = get_option( 'lifterlms_db_version' );
+
+		foreach ( $this->db_updates as $version => $updater ) {
+
+			if ( version_compare( $current_db_version, $version, '<' ) ) {
+
+				// if the $updater file returns "success" as a string
+				// update the database version
+				// otherwise try to run it again
+				if ( 'success' === include( $updater ) ) {
+
+					$this->update_db_version( $version );
+
+				}
+
+			}
+
+		}
+
+		$this->update_db_version();
+
+	}
+
+	/**
+	 * Update the LifterLMS DB record to the latest version
+	 * @param  string $version version number
+	 * @return void
+	 *
+	 * @since  2.8.0
+	 */
+	private function update_db_version( $version = null ) {
+		delete_option( 'lifterlms_db_version' );
+		add_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
+	}
+
+
 
 	public function first_time_setup() {
 		if ( ! get_option( 'lifterlms_first_time_setup' ) ) {
