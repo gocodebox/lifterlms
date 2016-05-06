@@ -24,8 +24,10 @@ class LLMS_Order {
 
 	}
 
+
 	public function get_id() {
 		return $this->id;
+
 	}
 
 	public function get_post() {
@@ -40,8 +42,11 @@ class LLMS_Order {
 
 	private function get( $key, $single = true, $with_order = true ) {
 
+
 		$order = ( $with_order ) ? 'order_' : '';
 		return get_post_meta( $this->get_id(), '_llms_' . $order . $key, $single );
+
+		return $order_post_id;
 
 	}
 

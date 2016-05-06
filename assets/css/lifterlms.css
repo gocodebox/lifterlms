@@ -1601,6 +1601,22 @@ svg .llms-animated-circle {
   text-align: left;
 }
 
+.llms-widget-syllabus--collapsible .llms-section .section-header {
+  cursor: pointer;
+}
+.llms-widget-syllabus--collapsible .llms-section.llms-section--opened .llms-collapse-caret .fa-caret-right {
+  display: none;
+}
+.llms-widget-syllabus--collapsible .llms-section.llms-section--closed .llms-collapse-caret .fa-caret-down {
+  display: none;
+}
+.llms-widget-syllabus--collapsible .llms-section.llms-section--closed .llms-lesson {
+  display: none;
+}
+.llms-widget-syllabus--collapsible .llms-syllabus-footer {
+  text-align: left;
+}
+
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

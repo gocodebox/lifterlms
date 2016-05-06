@@ -235,7 +235,8 @@ class LLMS_Integration_Woocommerce
 			// create the order
 			$llms_order = new stdClass();
 			$llms_order->user_id         = $user_id;
-			$llms_order->payment_method	 = 'woocommerce';
+			$llms_order->payment_method	 = 'WooCommerce';
+			$llms_order->payment_type    = 'woocommerce';
 			$llms_order->product_title	 = $item['name'];
 			$llms_order->product_price	 = $item['line_total'];
 			$llms_order->order_completed = 'yes';
@@ -248,8 +249,6 @@ class LLMS_Integration_Woocommerce
 			$llms_checkout = LLMS()->checkout();
 			$llms_checkout->process_order( $llms_order );
 			$llms_checkout->update_order( $llms_order );
-
-			do_action( 'lifterlms_order_process_success', $llms_order );
 
 		}
 

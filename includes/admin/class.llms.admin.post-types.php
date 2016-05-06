@@ -152,7 +152,7 @@ class LLMS_Admin_Post_Types {
 
 				if ( empty( $user_id ) ) {
 
-					_e( 'Unkown', 'lifterlms' );
+					_e( 'Unknown', 'lifterlms' );
 
 				} else {
 
@@ -174,7 +174,7 @@ class LLMS_Admin_Post_Types {
 
 					} else {
 
-						_e( 'Unkown', 'lifterlms' );
+						_e( 'Unknown', 'lifterlms' );
 
 					}
 
@@ -234,7 +234,10 @@ class LLMS_Admin_Post_Types {
 				$order_date = get_post_meta( $post_id, '_llms_order_date', true );
 
 				if ( empty( $order_date ) ) {
-					echo __( 'Unknown' ); } else { 					printf( __( '%s' ), $order_date ); }
+					echo __( 'Unknown' );
+				} else {
+					echo $order_date;
+				}
 
 				break;
 

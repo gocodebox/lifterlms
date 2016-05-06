@@ -1049,7 +1049,7 @@ class LLMS_Frontend_Forms
 		}
 
 		if ('yes' == get_option( 'lifterlms_registration_add_phone' )) {
-			$phone = llms_clean( $_POST['phone'] );
+			$phone = ( ! empty( $_POST['phone'] ) ) ? llms_clean( $_POST['phone'] ) : '';
 		}
 
 		if ($pass1) {

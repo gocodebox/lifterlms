@@ -23,13 +23,6 @@ llms_print_notices();
 
         <?php do_action( 'lifterlms_register_form_end' ); ?>
 
-        <?php do_action( 'lifterlms_after_person_register_form' ); ?>
-
-        <div class="llms-form-item-wrapper llms-submit-wrapper">
-            <?php wp_nonce_field( 'lifterlms-register', 'register' ); ?>
-            <input type="submit" class="button" name="register" value="<?php _e( 'Register', 'lifterlms' ); ?>" />
-        </div>
-
-    </form>
+	</form>
 
 </div>
