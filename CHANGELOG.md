@@ -13,7 +13,7 @@
 ##### Install Script
 
 + Removed some legacy default options that were being created and are no longer required for new installations.
-+
++ Removed unused `update_courses_archive()` function & related hook
 
 
 = v2.7.0 - 2016/05/05 =
