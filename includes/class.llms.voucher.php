@@ -9,47 +9,89 @@ if ( ! defined( 'ABSPATH' )) { exit; }
  */
 class LLMS_Voucher
 {
+
+	/**
+	 * ID of the voucher
+	 * This will be a LifterLMS Voucher custom post type Post ID
+	 * @var int
+	 */
 	protected $id;
 
-	protected static $codes_table_name = 'lifterlms_vouchers_codes';
-	protected static $redemptions_table = 'lifterlms_voucher_code_redemptions';
-	protected static $product_to_voucher_table = 'lifterlms_product_to_voucher';
 
+	/**
+	 * Unprefixed name of the vouchers codes table
+	 * @var string
+	 */
+
+	protected $codes_table_name = 'lifterlms_vouchers_codes';
+
+	/**
+	 * Unprefixed name of the product to voucher xref table
+	 * @var string
+	 */
+	protected $product_to_voucher_table = 'lifterlms_product_to_voucher';
+
+	/**
+	 * Unprefixed name of the voucher redemptions table
+	 * @var string
+	 */
+	protected $redemptions_table = 'lifterlms_voucher_code_redemptions';
+
+
+	/**
+	 * Constructor
+	 * @param id
+	 */
+	public function __construct( $id = null ) {
+		$this->id = $id;
+	}
+
+
+	/**
+	 * Retrieve the prefixed database table name for the table where voucher codes are stored
+	 * @return string
+	 */
 	protected function get_codes_table_name() {
 
 		global $wpdb;
 
-		return $wpdb->prefix . self::$codes_table_name;
+		return $wpdb->prefix . $this->codes_table_name;
+
 	}
 
-	protected function get_redemptions_table_name() {
-
-		global $wpdb;
-
-		return $wpdb->prefix . self::$redemptions_table;
-	}
-
+	/**
+	 * Retrieve the prefixed database table name where voucher to product relationships are stored
+	 * @return [type] [description]
+	 */
 	protected function get_product_to_voucher_table_name() {
 
 		global $wpdb;
 
-		return $wpdb->prefix . self::$product_to_voucher_table;
+		return $wpdb->prefix . $this->product_to_voucher_table;
+
 	}
 
-	public function __construct( $id = null ) {
-
-		$this->id = $id;
-	}
-
-	public function get_voucher_title() {
+	/**
+	 * Retrieve the prefixed database table name where voucher redemptions are stored
+	 * @return string
+	 */
+	protected function get_redemptions_table_name() {
 
 		global $wpdb;
 
-		$table = $wpdb->prefix . 'posts';
+		return $wpdb->prefix . $this->redemptions_table;
 
-		$query = "SELECT post_title FROM $table WHERE `ID` = $this->id LIMIT 1";
-		return reset( $wpdb->get_row( $query ) );
 	}
+
+
+
+	public function get_voucher_title() {
+
+		return get_title( $this->id );
+
+	}
+
+
 
 	// Get single voucher code
 	public function get_voucher_by_voucher_id() {
@@ -151,75 +193,75 @@ class LLMS_Voucher
 		return $voucher;
 	}
 
+	/**
+	 * Attempt to redeem a voucher for a user with a code
+	 * @param  string  $code    voucher code of the voucher being redeemd
+	 * @param  int     $user_id user id of the redeeming user
+	 * @param  boolean $notices if true, output llms notices
+	 * @return mixed
+	 */
 	public function use_voucher( $code, $user_id, $notices = true ) {
 
 		$voucher = $this->check_voucher( $code );
 
-		if ($voucher) {
-			global $wpdb;
+		if ( $voucher ) {
 
 			$this->id = $voucher->voucher_id;
 
-			$postmeta_table = $wpdb->prefix . 'lifterlms_user_postmeta';
-			$select_vouchers = "SELECT meta_value FROM $postmeta_table
-                WHERE $postmeta_table.user_id = $user_id
-                AND $postmeta_table.meta_key = '_voucher'
-                AND $postmeta_table.meta_value = $voucher->id
- 			    LIMIT 1000";
-			$used_voucher = $wpdb->get_results( $select_vouchers, ARRAY_A );
+			// ensure the user hasn't already redeemed this voucher
+			if ( $this->get_redemptions_for_code_by_user( $voucher->id, $user_id ) ) {
 
-			if ( count( $used_voucher ) ) {
-				if ($notices) {
-					llms_add_notice( 'You have already used this voucher.', 'error' );
+				if ( $notices ) {
+
+					llms_add_notice( __( 'You have already used this voucher.', 'lifterlms' ), 'error' );
+
 				}
+
 				return $voucher->voucher_id;
+
 			}
 
-			// use voucher code
-			$data = array(
-				'user_id' => $user_id,
-				'code_id' => $voucher->id,
-			);
-
-			$this->save_redeemed_code( $data );
-
-			// create order for products linked to voucher
+			// get products linked to the voucher
 			$products = $this->get_products();
 
-			if ( ! empty( $products )) {
+			if ( ! empty( $products ) ) {
 
-				$membership_levels = array();
-
+				// loop through all of them and attempt enrollment
 				foreach ( $products as $product ) {
 
-					$order = new LLMS_Order();
+					// if enrollment was sucessfull, create an order
+					if ( llms_enroll_student( $user_id, $product ) ) {
 
-					$order->create( $user_id, $product, 'Voucher' );
+						$order = new LLMS_Order();
+						$order->create( $user_id, $product, 'Voucher' );
 
-					llms_enroll_student( $user_id, $product );
-
-					do_action( 'llms_user_enrolled_in_course', $user_id, $product );
-
-				}
-
-				if ( ! empty( $membership_levels )) {
-
-					update_user_meta( $user_id, '_llms_restricted_levels', $membership_levels );
+					}
 
 				}
 
 				do_action( 'llms_voucher_used', $voucher->id, $user_id );
 
-				if ($notices) {
-					llms_add_notice( 'Voucher used successfully!' );
+				if ( $notices ) {
+
+					llms_add_notice( __( 'Voucher redeemed successfully!', 'lifterlms' ) );
+
 				}
+
+				// use voucher code
+				$data = array(
+					'user_id' => $user_id,
+					'code_id' => $voucher->id,
+				);
+				$this->save_redeemed_code( $data );
+
 			}
+
 
 		} else {
 
 			if ($notices) {
 
-				llms_add_notice( 'Voucher could not be used. Please check that you have valid voucher.', 'error' );
+				llms_add_notice( __( 'Voucher could not be used. Please check that you have a valid voucher.', 'lifterlms' ), 'error' );
 
 			}
 
@@ -250,6 +292,25 @@ class LLMS_Voucher
 		return $wpdb->get_results( $query, $format );
 	}
 
+	/**
+	 * Retrieve the number of times a voucher was redeemed by a specific user
+	 * Hint, it should always be 1 or 0
+	 *
+	 * @param  int $code_id Voucher Code ID from wp_lifterlms_vouchers_codes table
+	 * @param  int $user_id User ID from wp_users tables
+	 * @return int
+	 */
+	public function get_redemptions_for_code_by_user( $code_id, $user_id ) {
+
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare(
+			"SELECT count(id) FROM {$this->get_redemptions_table_name()} WHERE user_id = %d and code_id = %d",
+			array( $user_id, $code_id )
+		) );
+
+	}
+
 	public function save_redeemed_code( $data ) {
 
 		global $wpdb;
@@ -262,7 +323,6 @@ class LLMS_Voucher
 	/**
 	 * Product 2 Voucher
 	 */
-
 	public function get_products() {
 
 		global $wpdb;
