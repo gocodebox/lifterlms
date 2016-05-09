@@ -16,7 +16,7 @@
 ##### Bugs & Fixes
 
 + Fix javascript dependency & enqueueing issue on admin panel which prevented LifterLMS settings from saving correctly in various places
-
++ Removed inline CSS from "next lesson button" on quiz completion / summary screen. This was overriding some default styles and making the button very thin and gross.
 
 
 = v2.7.0 - 2016/05/05 =
