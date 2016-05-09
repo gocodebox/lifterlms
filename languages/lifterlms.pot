@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the LifterLMS package.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 2.7.0\n"
+"Project-Id-Version: LifterLMS 2.7.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-05-05 21:36:51+00:00\n"
+"POT-Creation-Date: 2016-05-09 23:07:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3300,6 +3300,18 @@ msgstr ""
 msgid "Course Sidebar"
 msgstr ""
 
+#: includes/class.llms.voucher.php:216
+msgid "You have already used this voucher."
+msgstr ""
+
+#: includes/class.llms.voucher.php:246
+msgid "Voucher redeemed successfully!"
+msgstr ""
+
+#: includes/class.llms.voucher.php:263
+msgid "Voucher could not be used. Please check that you have a valid voucher."
+msgstr ""
+
 #: includes/class.llms.widget.php:54
 msgid "Title:"
 msgstr ""
@@ -4643,7 +4655,7 @@ msgid "Back to Course"
 msgstr ""
 
 #: templates/course/lesson-navigation.php:52
-#: templates/course/lesson-navigation.php:53 templates/quiz/start-button.php:39
+#: templates/course/lesson-navigation.php:53 templates/quiz/start-button.php:37
 msgid "Next Lesson"
 msgstr ""
 
@@ -5000,7 +5012,7 @@ msgstr ""
 msgid "Start Quiz"
 msgstr ""
 
-#: templates/quiz/start-button.php:49
+#: templates/quiz/start-button.php:45
 msgid "<p>You are not able take this quiz</p>"
 msgstr ""
 
