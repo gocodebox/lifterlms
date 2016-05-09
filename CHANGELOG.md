@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v2.7.1 - 2016/05/09 =
+-----------------------
+
++ Fix javascript dependency & enqueueing issue on admin panel which prevented LifterLMS settings from saving correctly in various places
++
+
+
 = v2.7.0 - 2016/05/05 =
 -----------------------
 
