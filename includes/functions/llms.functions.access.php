@@ -624,32 +624,37 @@ add_action( 'lifterlms_content_restricted_by_membership', 'page_restricted_by_me
  * @return bool $enrolled [Is user currently enrolled in the course?]
  */
 function llms_is_user_enrolled( $user_id, $product_id ) {
-	global $wpdb;
-	$enrolled = false;
 
-	$post = get_post( $product_id );
-	if ( ! $post->post_type == 'lesson' || ! $post->post_type == 'course') {
-		return true; }
+	$enrolled = false;
 
 	if ( ! empty( $user_id ) && ! empty( $product_id ) ) {
 
+		$product_type = get_post_type( $product_id );
+
+		// only check the following post types
+		if ( ! in_array( $product_type, array( 'course', 'lesson', 'llms_membership' ) ) ) {
+			return false;
+		}
+
 		$user = new LLMS_Person;
 
-		if ( $post->post_type == 'lesson' ) {
-			$lesson = new LLMS_Lesson( $post->ID );
+		// get course ID if we're looking at a lesson
+		if ( 'lesson' === $product_type ) {
+
+			$lesson = new LLMS_Lesson( $product_id );
 			$product_id = $lesson->get_parent_course();
+
 		}
 
+		// retrieve user postmeta data for the product
 		$user_postmetas = $user->get_user_postmeta_data( $user_id, $product_id );
 
-		if (isset( $user_postmetas['_status'] )) {
-			$course_status = $user_postmetas['_status']->meta_value;
-
-			if ( $course_status == 'Enrolled' ) {
-				$enrolled = true;
-			}
+		// if status is returned
+		if ( isset( $user_postmetas['_status'] ) && 'Enrolled' === $user_postmetas['_status']->meta_value ) {
+			$enrolled = true;
 
 		}
+
 	}
 
 	return $enrolled;
