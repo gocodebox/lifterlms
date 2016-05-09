@@ -3,8 +3,20 @@
 = v2.7.1 - 2016/05/09 =
 -----------------------
 
+##### Enrollment & Voucher Checks
+
++ Enrollment functions will now automatically check to ensure that users are not already enrolled in a course or membership before enrolling. This addresses an issue which would create double enrollment for user redeeming a voucher for a product they were already enrolled in.
++ Vouchers will now automatically check to see if the user has already redeemed this voucher before allowing the user to redeem it. This would have caused multiple enrollments and would allow one user to eat up an entire voucher by using it over and over again for funsies. A voucher can now *only* be redeemed once by a user as intended.
++ `llms_is_user_enrolled()` now allows developers to check membership enrollment. Previously this function would only check enrollemnt of Courses despite what the documentation stated.
+
+##### Translation
+
++ 3 strings have had translation functions added to them. This makes LifterLMS voucher reemptions translatable!
+
+##### Bugs & Fixes
+
 + Fix javascript dependency & enqueueing issue on admin panel which prevented LifterLMS settings from saving correctly in various places
-+
+
 
 
 = v2.7.0 - 2016/05/05 =

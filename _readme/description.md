@@ -2,13 +2,17 @@
 
 LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
 
->**LifterLMS Pro**
+>**LifterLMS Pro, LaunchPad theme, Boost and More**
 >
->Users looking for more timely/in-depth support are encouraged to check out [LifterLMS Pro](https://lifterlms.com/product/lifterlms-pro). One-on-one LifterLMS Pro support is responded to within 12 business hours.
+>Users looking for more timely/in-depth support are encouraged to check out LifterLMS Pro. One-on-one LifterLMS Pro support is responded to within 12 business hours.
 >
->Premium LifterLMS themes also come with LifterLMS Pro.
+>6 achievement badge packs and 6 premium certificate backgrounds graphic assets also come with [LifterLMS Pro](https://lifterlms.com/product/lifterlms-pro/).
+>
+>If you are looking for the best WordPress theme to pair with LifterLMS, check out the [LifterLMS LaunchPad Theme](https://lifterlms.com/product/launchpad/).
 >
 >You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
+>
+>If you'd like to be up and running with a beautiful and professional WordPress LMS website in just 5 days, you can also explore our signature "done for you" white glove service called [Boost](https://lifterlms.com/boost/).
 
 Take a look at the explanation videos of LifterLMS. These 17 tutorial videos are included in the [free LifterLMS demo course](http://demo.lifterlms.com).
 
