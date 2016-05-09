@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.5
-Stable tag: 2.7.0
+Stable tag: 2.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,13 +15,17 @@ LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and pro
 
 LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
 
->**LifterLMS Pro**
+>**LifterLMS Pro, LaunchPad theme, Boost and More**
 >
->Users looking for more timely/in-depth support are encouraged to check out [LifterLMS Pro](https://lifterlms.com/product/lifterlms-pro). One-on-one LifterLMS Pro support is responded to within 12 business hours.
+>Users looking for more timely/in-depth support are encouraged to check out LifterLMS Pro. One-on-one LifterLMS Pro support is responded to within 12 business hours.
 >
->Premium LifterLMS themes also come with LifterLMS Pro.
+>6 achievement badge packs and 6 premium certificate backgrounds graphic assets also come with [LifterLMS Pro](https://lifterlms.com/product/lifterlms-pro/).
+>
+>If you are looking for the best WordPress theme to pair with LifterLMS, check out the [LifterLMS LaunchPad Theme](https://lifterlms.com/product/launchpad/).
 >
 >You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
+>
+>If you'd like to be up and running with a beautiful and professional WordPress LMS website in just 5 days, you can also explore our signature "done for you" white glove service called [Boost](https://lifterlms.com/boost/).
 
 Take a look at the explanation videos of LifterLMS. These 17 tutorial videos are included in the [free LifterLMS demo course](http://demo.lifterlms.com).
 
@@ -161,6 +165,25 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v2.7.1 - 2016/05/09 =
+-----------------------
+
+##### Enrollment & Voucher Checks
+
++ Enrollment functions will now automatically check to ensure that users are not already enrolled in a course or membership before enrolling. This addresses an issue which would create double enrollment for user redeeming a voucher for a product they were already enrolled in.
++ Vouchers will now automatically check to see if the user has already redeemed this voucher before allowing the user to redeem it. This would have caused multiple enrollments and would allow one user to eat up an entire voucher by using it over and over again for funsies. A voucher can now *only* be redeemed once by a user as intended.
++ `llms_is_user_enrolled()` now allows developers to check membership enrollment. Previously this function would only check enrollemnt of Courses despite what the documentation stated.
+
+##### Translation
+
++ 3 strings have had translation functions added to them. This makes LifterLMS voucher reemptions translatable!
+
+##### Bugs & Fixes
+
++ Fix javascript dependency & enqueueing issue on admin panel which prevented LifterLMS settings from saving correctly in various places
++ Removed inline CSS from "next lesson button" on quiz completion / summary screen. This was overriding some default styles and making the button very thin and gross.
+
 
 = v2.7.0 - 2016/05/05 =
 -----------------------
