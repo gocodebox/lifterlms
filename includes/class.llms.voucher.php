@@ -256,7 +256,6 @@ class LLMS_Voucher
 
 			}
 
-
 		} else {
 
 			if ($notices) {
