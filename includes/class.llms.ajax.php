@@ -76,7 +76,7 @@ class LLMS_AJAX {
 	public function register_script() {
 
 		// script will only register once
-		wp_register_script( 'llms',  plugins_url( '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ) );
+		wp_register_script( 'llms',  plugins_url( '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 		wp_localize_script( 'llms', 'wp_ajax_data', $this->get_ajax_data() );
 		wp_enqueue_script( 'llms' );
 	}

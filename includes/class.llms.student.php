@@ -80,6 +80,22 @@ class LLMS_Student {
 
 		do_action( 'before_llms_user_enrollment', $this->get_id(), $product_id );
 
+		// can only be enrolled in the following post types
+		$product_type = get_post_type( $product_id );
+		if ( ! in_array( $product_type, array( 'course', 'llms_membership' ) ) ) {
+
+			return false;
+
+		}
+
+		// check enrollemnt before enrolling
+		// this will prevent duplicate enrollments
+		if ( llms_is_user_enrolled( $this->get_id(), $product_id ) ) {
+
+			return false;
+
+		}
+
 		// add the user postmeta for the enrollment
 		if ( $this->insert_enrollment_postmeta( $product_id ) ) {
 

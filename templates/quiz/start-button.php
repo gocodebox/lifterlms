@@ -32,14 +32,10 @@ if ( empty( $quiz ) || 'unlimited' === $attempts || $attempts > 0 || '' == $quiz
 	 	<input id="llms_start_quiz" type="button" class="button" name="llms_start_quiz" value="<?php _e( 'Start Quiz', 'lifterlms' ); ?>" />
 	 	<input type="hidden" name="action" value="llms_start_quiz" />
 
-	 	<?php
-	 	if ($lesson->get_next_lesson() && $quiz->is_passing_score( $user_id, $grade )) {
-			$t = $lesson->get_next_lesson();
-	 		?>
-	 		<a href="<?php echo get_permalink( $lesson->get_next_lesson() );?>" class="button llms-next-lesson" style="text-decoration:none; display:inline;"><?php _e( 'Next Lesson','lifterlms' ); ?></a>
-	 		<?php
-	 	}
-	 	?>
+	 	<?php if ( $lesson->get_next_lesson() && $quiz->is_passing_score( $user_id, $grade ) ) :
+			$t = $lesson->get_next_lesson(); ?>
+	 		<a href="<?php echo get_permalink( $lesson->get_next_lesson() );?>" class="button llms-button llms-next-lesson"><?php _e( 'Next Lesson','lifterlms' ); ?></a>
+	 	<?php endif; ?>
 
 	 	<?php wp_nonce_field( 'llms_start_quiz' ); ?>
 		<?php do_action( 'lifterlms_after_start_quiz' ); ?>
