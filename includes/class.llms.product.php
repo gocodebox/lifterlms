@@ -225,11 +225,29 @@ class LLMS_Product {
 	 */
 	public function get_checkout_url() {
 
-		$checkout_page_id = llms_get_page_id( 'checkout' );
-		$checkout_url = apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
+		$memberships_required = get_post_meta( $this->id, '_llms_restricted_levels', true );
 
-		return add_query_arg( 'product-id', $this->id, $checkout_url );
+		if ( $memberships_required ) {
 
+			//if there is more than 1 membership that can view the content then redirect to memberships page
+			if ( count( $memberships_required ) > 1) {
+				return get_permalink( llms_get_page_id( 'memberships' ) );
+			} //if only 1 membership level is assigned take visitor to the membership page
+			else {
+				return get_permalink( $memberships_required[0] );
+			}
+		} else {
+
+			if ( get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes' || is_user_logged_in() ) {
+				$checkout_page_id = llms_get_page_id( 'checkout' );
+			} else {
+				$checkout_page_id = llms_get_page_id( 'myaccount' );
+			}
+
+			$account_url = get_permalink( $checkout_page_id );
+
+			return add_query_arg( 'product-id', $this->id, $account_url );
+		}
 	}
 
 
@@ -297,9 +315,6 @@ class LLMS_Product {
 
 	}
 
-
-
-
 	public function get_recurring_price() {
 		return apply_filters( 'lifterlms_get_recurring_price', $this->llms_subscription_price, $this );
 	}
@@ -317,7 +332,6 @@ class LLMS_Product {
 		$recurring_price = $this->get_recurring_price();
 		$recurring_first_payment = $this->get_recurring_first_payment();
 
-		$suffix = $this->get_price_suffix_html();
 		$display_price = ($currency_symbol . $recurring_price);
 		$billing_period = $this->get_billing_period();
 		$billing_freq = $this->get_billing_freq();
@@ -388,9 +402,9 @@ class LLMS_Product {
 
 		if ( $this->is_on_sale() && $this->get_regular_price() ) {
 
-			$price .= $this->get_price_variations_html( $display_base_price, __( 'Free!', 'lifterlms' ) );
+			$price = $this->get_price_variations_html( $this->get_regular_price(), __( 'Free!', 'lifterlms' ) );
 
-			$price .= apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
+			$price = apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
 
 		} else {
 
@@ -646,7 +660,7 @@ class LLMS_Product {
 
 			$price_display_suffix = ' <small class="lifterlms-price-suffix">' . $price_display_suffix . '</small>';
 
-			$price_display_suffix = str_replace( $find, $replace, $price_display_suffix );
+			//$price_display_suffix = str_replace( $find, $replace, $price_display_suffix );
 
 		}
 
@@ -680,12 +694,8 @@ class LLMS_Product {
 	 * @return string
 	 */
 	public function get_sale_end_date() {
-
 		return $this->sale_price_dates_to;
-
 	}
-
-
 
 	/**
 	 * Determine if a product is free
@@ -696,8 +706,6 @@ class LLMS_Product {
 		return ( ! $this->get_price() && ! $this->is_recurring() );
 
 	}
-
-
 
 	/**
 	 * Retrieves all relivent post meta for order

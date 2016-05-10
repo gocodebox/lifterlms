@@ -166,6 +166,23 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+
+= v2.8.0 - 2016/05/?? =
+-----------------------
+
++ Added a number of CSS classes to various areas in the Checkout template at "templates/checkout/form-checkout.php"
++ Added a "Cancel" button that allows you to hide the coupon form if the user decides not to add a coupon
++ Removed jQuery animations from the coupon form toggle in favor of a CSS class toggle. If you decide you want some animations on the form add some CSS transitions to the `.llms-coupon-entry` element (and children) to change when the class `.active` is added or removed from the element.
++ Refactored JavaScript related to LifterLMS Checkout. Improvements are minimal (if any) but the file is now smaller and more readable! Yay code stuff.
++ Fixed some redundant text on single payment confirmation screen. ("Single payment of single payment of")
++ Added a link to memberships listed under "My Memberships" on the LifterLMS Account Screen
+
+##### Install Script
+
++ Removed some legacy default options that were being created and are no longer required for new installations.
++ Removed unused `update_courses_archive()` function & related hook
+
+
 = v2.7.1 - 2016/05/09 =
 -----------------------
 
@@ -467,10 +484,10 @@ _We've completely rewritten the certificates template (but it's all backwards co
 ##### Course and Membership Pricing & Sales
 
 + Sale price start and end date are now completely optional.
-	+ Provide neither a start date nor an end date to have a sale run indefinetly
-	+ Provide a start date with no end date to have a sale start at a pre-determined time with no pre-determined ending
-	+ Provide an end date with no start date to have a sale end a a pre-determined date but start immediately
-	+ Provide a start date and an end date to have a sale run for a pre-determined period of time
+  + Provide neither a start date nor an end date to have a sale run indefinetly
+  + Provide a start date with no end date to have a sale start at a pre-determined time with no pre-determined ending
+  + Provide an end date with no start date to have a sale end a a pre-determined date but start immediately
+  + Provide a start date and an end date to have a sale run for a pre-determined period of time
 + Optimized the `LLMS_Product` class to provide more reliable and extenable use of the class
 + The templates related to pricing functions have been refactored. Affected templates include: "templates/course/price.php", "templates/loop/price.php", "templates/membership/price.php"
 + Many people complained about the size of the `.llms-price` element on course and membership tiles on loop pages. We removed the inflated size and will now default to your theme for sizing. You selector remains the same if you wish to customize the size of the price text.
@@ -718,8 +735,8 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + updated readme file to remove incomplete documentation
 + Added Chosen multi-select options to admin panel metaboxes (settings and posts)
 + Added two new actions that developers can hook into:
-	+ `llms_user_enrolled_in_course`, called when users are enrolled in a course. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_enrolled_in_course).
-	+ `llms_user_added_to_membership_level`, called when users are added to a membership level. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_added_to_membership_level).
+  + `llms_user_enrolled_in_course`, called when users are enrolled in a course. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_enrolled_in_course).
+  + `llms_user_added_to_membership_level`, called when users are added to a membership level. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_added_to_membership_level).
 
 = v1.4.4 - 2015/12/21 =
 -----------------------

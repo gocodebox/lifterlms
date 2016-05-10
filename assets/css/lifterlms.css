@@ -636,41 +636,6 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 16px;
 }
 
-/* checkout form */
-.llms-checkout-wrapper {
-  border: 1px solid #f5f5f5;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-.llms-checkout-wrapper .llms-checkout {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-top: 6px solid #e5554e;
-}
-.llms-checkout-wrapper .llms-checkout > h4 {
-  background-color: #f5f5f5;
-  padding: 6px 10px;
-  margin: 0;
-}
-.llms-checkout-wrapper .llms-checkout .llms-title-wrapper {
-  display: block;
-  width: 100%;
-  border-bottom: 2px solid #f5f5f5;
-}
-.llms-checkout-wrapper .llms-checkout .llms-title-wrapper p {
-  padding: 0 10px;
-  margin: 10px 0;
-}
-.llms-checkout-wrapper .llms-checkout .llms-title-wrapper h4 {
-  padding: 0 10px;
-  margin: 10px 0;
-}
-.llms-checkout-wrapper .llms-checkout .llms-price-wrapper {
-  margin: 20px;
-  font-size: 16px;
-}
-
 .llms-option {
   display: block;
   position: relative;
@@ -1552,6 +1517,88 @@ svg .llms-animated-circle {
 
 .voucher-expand {
   display: none;
+}
+
+/* checkout form */
+.llms-checkout-wrapper {
+  border: 1px solid #f5f5f5;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.llms-checkout-wrapper .llms-checkout {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-top: 6px solid #e5554e;
+}
+.llms-checkout-wrapper .llms-checkout > h4 {
+  background-color: #f5f5f5;
+  padding: 6px 10px;
+  margin: 0;
+}
+.llms-checkout-wrapper .llms-checkout .llms-title-wrapper {
+  border-bottom: 2px solid #f5f5f5;
+  display: block;
+  width: 100%;
+}
+.llms-checkout-wrapper .llms-checkout .llms-title-wrapper p {
+  padding: 0 10px;
+  margin: 10px 0;
+}
+.llms-checkout-wrapper .llms-checkout .llms-title-wrapper h4 {
+  padding: 0 10px;
+  margin: 10px 0;
+}
+.llms-checkout-wrapper .llms-checkout .llms-price {
+  margin-bottom: 0;
+}
+.llms-checkout-wrapper .llms-checkout .llms-price-wrapper {
+  margin: 20px;
+  font-size: 16px;
+}
+.llms-checkout-wrapper .llms-checkout .llms-form-wrapper {
+  padding: 0 10px;
+  margin: 10px 0;
+  border-bottom: 2px solid #f5f5f5;
+}
+.llms-checkout-wrapper .llms-login-fields,
+.llms-checkout-wrapper .llms-register-fields {
+  display: none;
+}
+.llms-checkout-wrapper .llms-login-fields.active,
+.llms-checkout-wrapper .llms-register-fields.active {
+  display: block;
+}
+
+.llms-coupon-entry .llms-checkout-coupon {
+  display: none;
+  margin-top: 10px;
+}
+.llms-coupon-entry .llms-clear-box {
+  margin-bottom: 5px;
+  padding: 5px 0 0;
+}
+.llms-coupon-entry.active .llms-info .llms-coupon-toggle-button {
+  display: none;
+}
+.llms-coupon-entry.active .llms-checkout-coupon {
+  display: block;
+}
+
+.llms-widget-syllabus--collapsible .llms-section .section-header {
+  cursor: pointer;
+}
+.llms-widget-syllabus--collapsible .llms-section.llms-section--opened .llms-collapse-caret .fa-caret-right {
+  display: none;
+}
+.llms-widget-syllabus--collapsible .llms-section.llms-section--closed .llms-collapse-caret .fa-caret-down {
+  display: none;
+}
+.llms-widget-syllabus--collapsible .llms-section.llms-section--closed .llms-lesson {
+  display: none;
+}
+.llms-widget-syllabus--collapsible .llms-syllabus-footer {
+  text-align: left;
 }
 
 .llms-widget-syllabus--collapsible .llms-section .section-header {

@@ -183,6 +183,8 @@ class LLMS_Course {
 	public function get_user_postmeta_data( $post_id ) {
 		global $wpdb;
 
+		$user_id = get_current_user_id();
+
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
@@ -224,11 +226,15 @@ class LLMS_Course {
 	 */
 	public function get_checkout_url() {
 
-		$checkout_page_id = llms_get_page_id( 'checkout' );
+		if ( llms_is_alternative_checkout_enabled() || is_user_logged_in() ) {
+			$checkout_page_id = llms_get_page_id( 'checkout' );
+		} else {
+			$checkout_page_id = llms_get_page_id( 'myaccount' );
+		}
+
 		$checkout_url = apply_filters( 'lifterlms_get_checkout_url', $checkout_page_id ? get_permalink( $checkout_page_id ) : '' );
 
-		return add_query_arg( 'product-id', $this->id, $checkout_url );
-
+		return apply_filters( 'lifterlms_product_purchase_checkout_redirect', add_query_arg( 'product-id', $this->id, $checkout_url ) );
 	}
 
 	/**
@@ -523,7 +529,7 @@ class LLMS_Course {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					'SELECT * FROM '.$table_name.
-						' WHERE post_id = %s 
+						' WHERE post_id = %s
 							AND user_id = %s',
 					$course_id, $user_id
 				)
@@ -605,7 +611,7 @@ class LLMS_Course {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					'SELECT * FROM '.$table_name.
-						' WHERE post_id = %s 
+						' WHERE post_id = %s
 							AND user_id = %s',
 					$post_id, $user_id
 				)
@@ -751,4 +757,21 @@ class LLMS_Course {
 
 	}
 
+	/**
+	 * Get url to membership checkout page, depends on it is user logged in and is alternative checkout on.
+	 *
+	 * @return string
+	 */
+	public function get_membership_link() {
+		$memberships_required = get_post_meta( $this->id, '_llms_restricted_levels', true );
+
+		if (count( $memberships_required ) > 1) {
+			$membership_url = get_permalink( llms_get_page_id( 'memberships' ) );
+		} //if only 1 membership level is assigned take visitor to the membership page
+		else {
+			$membership_url = get_permalink( $memberships_required[0] );
+		}
+
+		return apply_filters( 'lifterlms_product_purchase_redirect_membership_required', $membership_url );
+	}
 }

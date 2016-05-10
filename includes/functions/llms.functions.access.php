@@ -681,6 +681,8 @@ function llms_is_user_member( $user_id, $post_id ) {
 			}
 		}
 	}
+
+	return false;
 }
 
 /**
@@ -704,4 +706,15 @@ function llms_does_user_memberships_contain_course( $user_id, $post_id ) {
 			}
 		}
 	}
+
+	return false;
+}
+
+/**
+ * Checks if alternative checkout is enabled
+ *
+ * @return bool
+ */
+function llms_is_alternative_checkout_enabled() {
+	return get_option( 'lifterlms_secondary_checkout_process', false ) === 'yes';
 }

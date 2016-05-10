@@ -39,7 +39,7 @@ final class LifterLMS {
 
 	protected static $_instance = null;
 
-	public   $session = null;
+	public $session = null;
 
 	public $person = null;
 
@@ -174,7 +174,6 @@ final class LifterLMS {
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
 		include_once( 'includes/class.llms.session.php' );
-		include_once( 'includes/class.llms.session.handler.php' );
 
 		if ( is_admin() ) {
 
@@ -238,6 +237,8 @@ final class LifterLMS {
 
 		$this->course_factory = new LLMS_Course_Factory();
 
+		$this->session = new LLMS_Session();
+
 		if ( ! is_admin() ) {
 			$this->frontend_includes();
 		}
@@ -273,9 +274,6 @@ final class LifterLMS {
 	public function init() {
 
 		do_action( 'before_lifterlms_init' );
-
-		$session_class = apply_filters( 'lifterlms_session_handler', 'LLMS_Session_Handler' );
-		$this->session = new $session_class();
 
 		if ( ! is_admin() ) {
 			$this->person = new LLMS_Person();
@@ -357,7 +355,7 @@ final class LifterLMS {
 	 * @return array
 	 */
 	public function checkout() {
-		return LLMS_Order::instance();
+		return LLMS_Checkout::instance();
 	}
 
 	/**

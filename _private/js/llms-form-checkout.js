@@ -1,77 +1,163 @@
-jQuery(document).ready(function($) {
+( function( $ ) {
 
-	$('#llms_country_options').chosen();
+	window.llms = window.llms || {};
 
-	//display coupon redemption form on link click
-	get_current_price();
+	window.llms.checkout = function() {
 
-	$('#show-coupon').on( 'click', display_coupon_form );
 
-	$('.llms-payment-options input[type=radio]').change(display_current_price);
+		/**
+		 * Init
+		 * @return void
+		 */
+		this.init = function() {
 
-	if ($('.llms-payment-methods input[type=radio]').length) {
-		if ($('.llms-payment-methods input[type=radio]:checked').data('payment-type') == 'creditcard') {
+			this.bind();
 
-			$('.llms-creditcard-fields').show();
-		}
+			// set price on init
+			this.set_price();
 
-	}
+			// trigger gateay change on load
+			$( '.llms-payment-methods input[type=radio]:checked' ).change();
 
-	$('.llms-payment-methods input[type=radio]').change(display_credit_card_fields);
+			// ensure user fields are set correctly on init
+			this.init_user_fields();
 
-	//$('.llms-price-option-radio').on('change', display_current_price );
+		};
 
-});
 
-(function($){
-display_credit_card_fields = function() {
-	if ($(this).data('payment-type') == 'creditcard') {
-		$('.llms-creditcard-fields').slideDown('fast');
-	}
-	else {
-		$('.llms-creditcard-fields').slideUp('fast');
-	}
-};
-})(jQuery);
 
-(function($){
-display_coupon_form = function() {
 
-	// Hide the show coupon link
-	$(this).hide();
-	$('#llms-checkout-coupon').show().slideDown('slow');
-	return false;
-};
-})(jQuery);
+		this.bind = function() {
 
-(function($){
-display_current_price = function() {
-	var target_id = $(this).attr('id');
+			var self = this;
 
-	var price = $('#' + target_id).parent().find('label').html();
+			// initialize chosen on the country fields
+			$( '#llms_country_options' ).chosen( {
+				width: "100%",
+			} );
 
-	$('.llms-final-price').html(price);
+			// change display price when price radio element changes
+			$( '.llms-payment-options input[type=radio]' ).on( 'change', function() {
+				self.set_price();
+			} );
 
-	// Hide the show coupon link
-	// $(this).hide();
-	// $('#llms-checkout-coupon').show();
-	// return false;
-};
-})(jQuery);
+			// toggle the display of the coupon area
+			$( '.llms-coupon-toggle-button' ).on( 'click', function( e ) {
+				e.preventDefault();
 
-(function($){
-get_current_price = function() {
+				var $el = $( this ),
+					$box = $el.closest( '.llms-coupon-entry' );
 
-	var price = $('.llms-payment-options input[type=radio]:checked');
-	var target_id = $(price).attr('id');
+				$box.toggleClass( 'active' );
 
-	var price = $('#' + target_id).parent().find('label').html();
+			} );
 
-	$('.llms-final-price').html(price);
+			// maybe display additional information based on the payment gateway
+			$('.llms-payment-methods input[type=radio]').on( 'change', function() {
 
-	// Hide the show coupon link
-	// $(this).hide();
-	// $('#llms-checkout-coupon').show();
-	// return false;
-};
-})(jQuery);
+				var $el = $( this );
+
+				// trigger an event that extensions can hook into to hide or show their forms / necessary data
+				$( document ).trigger( 'llms-payment-method-change', {
+					gateway: $el.val(),
+					type: $el.attr( 'data-payment-type' ),
+				} );
+
+			} );
+
+			$( '.llms-toggle' ).on( 'click', function( e ) {
+
+				e.preventDefault();
+				self.toggle_user_fields( $( this ) );
+
+			} );
+
+			/**
+			 * This piece of code (or something like it) should be what other gateways use to hide or show their forms
+			 *
+			 */
+			$( document ).on( 'llms-payment-method-change', function( e, data ) {
+
+				// this is being used for infusionsoft only at this very moment
+				// @todo at a certain point this should be added to Infusionsoft & removed
+				if ( 'creditcard' === data.type ) {
+
+					$('.llms-creditcard-fields').slideDown( 400 );
+
+				} else {
+
+					$('.llms-creditcard-fields').slideUp( 400 );
+
+				}
+
+			} );
+
+		};
+
+		this.hide_user_fields = function( $fields ) {
+
+			$fields.removeClass( 'active' ).find( 'input', 'select', 'textarea' ).attr( 'disabled', true );
+
+		};
+
+		this.init_user_fields = function() {
+
+			var self = this;
+
+			$( '.llms-user-fields' ).each( function() {
+
+				var $el = $( this );
+
+				if( $el.hasClass( 'active' ) ) {
+
+					self.show_user_fields( $el );
+
+				} else {
+
+					self.hide_user_fields( $el );
+
+				}
+
+			} );
+
+		};
+
+		this.show_user_fields = function( $fields ) {
+
+			$fields.addClass( 'active' ).find( 'input', 'select', 'textarea' ).removeAttr( 'disabled' );
+
+		};
+
+		this.toggle_user_fields = function( $btn ) {
+
+			var current = $btn.closest( '.llms-user-fields' ).attr('id'),
+				$hide = $( '#' + current ),
+				$show = ( 'llms-login-fields' === current ) ? $( '#llms-register-fields' ) : $( '#llms-login-fields' );
+
+			this.hide_user_fields( $hide );
+			this.show_user_fields( $show );
+
+		};
+
+
+		/**
+		 * Set the price next to "You pay" based on the value of currently checked price option
+		 */
+		this.set_price = function() {
+
+			var $selected = $( '.llms-payment-options input[type=radio]:checked' ),
+				price = $selected.parent().find('label').html();
+
+			$( '.llms-final-price' ).html( price );
+
+		};
+
+		this.init();
+
+		return this;
+
+	};
+
+	var a = new window.llms.checkout();
+
+} )( jQuery );

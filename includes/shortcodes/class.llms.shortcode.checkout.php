@@ -27,9 +27,9 @@ class LLMS_Shortcode_Checkout {
 	* @return array $messages
 	*/
 	public static function output( $atts ) {
-		global $lifterlms, $wp;
+		global $wp;
 
-		if ( ! is_user_logged_in() ) {
+		if ( ! is_user_logged_in() && ! llms_is_alternative_checkout_enabled() ) {
 
 			$message = apply_filters( 'lifterlms_checkout_message', '' );
 

@@ -11,15 +11,7 @@ if ( is_user_logged_in() ) {
 
 	<?php if ( $message ) { echo wpautop( wptexturize( $message ) ); } ?>
 
-	<p class="form-row form-row-first">
-		<label for="username"><?php _e( 'Username or email', 'lifterlms' ); ?> <span class="required">*</span></label>
-		<input type="text" class="input-text" name="username" id="username" />
-	</p>
-	<p class="form-row form-row-last">
-		<label for="password"><?php _e( 'Password', 'lifterlms' ); ?> <span class="required">*</span></label>
-		<input class="input-text" type="password" name="password" id="password" />
-	</p>
-	<div class="clear"></div>
+	<?php llms_get_template( 'global/form-login-inner.php' ); ?>
 
 	<?php do_action( 'lifterlms_login_form' ); ?>
 

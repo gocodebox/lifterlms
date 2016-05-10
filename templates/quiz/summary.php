@@ -1,5 +1,4 @@
 <?php
-
 use LLMS\Users\User;
 
 global $quiz;

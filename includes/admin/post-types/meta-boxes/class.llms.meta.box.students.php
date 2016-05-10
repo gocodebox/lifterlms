@@ -86,7 +86,6 @@ class LLMS_Meta_Box_Students {
 	 */
 	public static function create_order( $user_id, $post_id ) {
 
-		$order = new LLMS_Order();
 		$handle = LLMS()->checkout();
 		$handle->create( $user_id, $post_id );
 

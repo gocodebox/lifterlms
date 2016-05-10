@@ -215,7 +215,6 @@ function llms_set_person_auth_cookie( $person_id ) {
 	wp_set_auth_cookie( $person_id, true );
 }
 
-
 /**
  * Add Custom Columns to the Admin Users Table Screen
  *

@@ -10,10 +10,6 @@ global $lifterlms;
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-llms_print_notices();
-
-
-
 // moved above login to enable more performance friendly translation of i18n strings on this page
 do_action( 'lifterlms_before_checkout_form' );
 
@@ -27,7 +23,11 @@ if ( get_query_var( 'product-id' ) ) {
 	$product = get_post( $product_id );
 } else {
 	llms_add_notice( __( 'Product not found.', 'lifterlms' ) );
+	llms_print_notices();
+	return;
 }
+
+llms_print_notices();
 
 $product_obj = new LLMS_Product( $product );
 
@@ -44,21 +44,42 @@ if ($coupon_session) {
 	$info_message .= ' '.sprintf( __( '(%s off)', 'lifterlms' ), $savings );
 } else {
 	$info_message = apply_filters( 'lifterlms_checkout_coupon_message', __( 'Have a coupon?', 'lifterlms' ) );
-	$info_message .= ' <a href="#" id="show-coupon">' . __( 'Click here to enter your code', 'lifterlms' ) . '</a>';
+	$info_message .= ' <a href="#" class="llms-coupon-toggle-button llms-button-text" id="show-coupon">' . __( 'Click here to enter your code', 'lifterlms' ) . '</a>';
 }
 
 ?>
 
 <form action="" method="post" id="llms-product-purchase-form">
+
 	<div class="llms-checkout-wrapper">
 		<div class="llms-checkout">
 		<?php echo  '<h4>' .
 			apply_filters( 'lifterlms_checkout_form_title', __( 'Confirm Purchase', 'lifterlms' ) ) . '</h4>'; ?>
 
+		<?php if ( llms_is_alternative_checkout_enabled() && ! is_user_logged_in() ) {
+			llms_get_template( 'checkout/form-login-register.php' );
+} elseif ( llms_is_alternative_checkout_enabled() && is_user_logged_in() ) {
+	$current_user = wp_get_current_user();
+	?>
+		<div class="llms-form-wrapper">
+			<div class="llms-notice-box">
+				<?php _e( 'You are logged in as ', 'lifterlms' ); ?>
+				<?php echo $current_user->user_email; ?>,
+				<a href="<?php echo wp_logout_url( add_query_arg( $_GET, get_permalink() ) ); ?>" title="<?php _e( 'Logout?', 'lifterlms' ); ?>">
+					<?php _e( 'Logout?', 'lifterlms' ); ?>
+				</a>
+			</div>
+		</div>
+<?php } ?>
+
 		<!-- Product information -->
 		<div class="llms-title-wrapper">
-			<h4 class="llms-title"><?php echo $product->post_title; ?></h4>
+			<h4 class="llms-title"><span><?php _e( 'Purchasing:', 'lifterlms' ); ?> </span><?php echo $product->post_title; ?></h4>
 		</div>
+
+		<?php if ( $coupon_session ) : ?>
+			<input type="hidden" name="coupon_code" value="<?php echo $coupon_session->coupon_code; ?>" />
+		<?php endif; ?>
 
 		<?php do_action( 'lifterlms_after_checkout_form_title' ); ?>
 
@@ -128,7 +149,7 @@ if ($coupon_session) {
 		<!-- Coupon code entry form -->
 		<div class="llms-coupon-entry llms-notice-box">
 			<?php if ( $coupon_session ) : ?>
-				<form class="llms-remove-coupon" id="llms-remove-coupon" method="post">
+				<form action="" class="llms-remove-coupon" id="llms-remove-coupon" method="POST">
 					<div class="llms-center-content">
 						<input type="submit" class="llms-button-text" name="llms_remove_coupon" value="[<?php _e( 'Remove', 'lifterlms' ); ?>]" />
 						<input type="hidden" name="product_id" value="<?php echo $product->ID; ?>" />
@@ -138,10 +159,11 @@ if ($coupon_session) {
 				</form>
 			<?php endif; ?>
 			<?php llms_print_notice( $info_message, 'notice' ); ?>
-			<form id="llms-checkout-coupon" method="post" style="display:none">
-				<input type="text" name="coupon_code" class="llms-input-text" placeholder="<?php _e( 'Enter coupon code', 'lifterlms' ); ?>" id="coupon_code" value="" />
+			<form action="" class="llms-checkout-coupon" id="llms-checkout-coupon" method="POST">
+				<input type="text" name="coupon_code" class="llms-input-text" placeholder="<?php _e( 'Enter coupon code', 'lifterlms' ); ?>" id="coupon_code" required="required">
 				<div class="llms-clear-box llms-center-content">
 					<input type="submit" class="button llms-button" name="llms_apply_coupon" value="<?php _e( 'Apply Coupon', 'lifterlms' ); ?>" />
+					<a class="llms-coupon-toggle-button llms-button-text" href="#"><?php _e( 'Cancel', 'lifterlms' ); ?></a>
 					<input type="hidden" name="product_id" value="<?php echo $product->ID; ?>" />
 				</div>
 				<div class="clear"></div>
@@ -211,7 +233,7 @@ if ($coupon_session) {
 					type="submit"
 					class="button"
 					name="create_order_details"
-					<?php echo (is_user_logged_in() ? '' : 'disabled="disabled"'); ?>
+					<?php echo (is_user_logged_in() || llms_is_alternative_checkout_enabled() ? '' : 'disabled="disabled"'); ?>
 					value="<?php _e( 'Buy Now', 'lifterlms' ); ?>" />
 				<?php endif; ?>
 			</div>

@@ -708,55 +708,6 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 16px;
 }
 
-/* checkout form */
-.llms-checkout-wrapper {
-  border: 1px solid #f5f5f5;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-
-  .llms-checkout {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-
-    border-top:6px solid $color-red;
-
-
-    > h4 {
-      background-color: #f5f5f5;
-      padding: 6px 10px;
-      margin: 0;
-    }
-
-    .llms-title-wrapper {
-      display: block;
-      width: 100%;
-      border-bottom: 2px solid #f5f5f5;
-
-      p {
-        padding: 0 10px;
-        margin: 10px 0;
-      }
-      h4 {
-        padding: 0 10px;
-        margin: 10px 0;
-      }
-    }
-
-    .llms-price-wrapper {
-      margin: 20px;
-      font-size: 16px;
-      //background:#fff;
-
-
-
-      .llms-payment-options {
-
-      }
-    }
-  }
-}
-
 .llms-option {
   display: block;
   position: relative;
@@ -1116,6 +1067,7 @@ svg .llms-animated-circle {
 .llms-question-wrapper {
   margin: 40px 0 20px 0;
 }
+
 .llms-error{
   width: 100%;
   background: #e5554e;

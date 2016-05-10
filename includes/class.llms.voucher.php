@@ -232,8 +232,8 @@ class LLMS_Voucher
 					// if enrollment was sucessfull, create an order
 					if ( llms_enroll_student( $user_id, $product ) ) {
 
-						$order = new LLMS_Order();
-						$order->create( $user_id, $product, 'Voucher' );
+						$checkout = LLMS()->checkout();
+						$checkout->create( $user_id, $product, 'Voucher' );
 
 					}
 

@@ -1,267 +1,381 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * LifterLMS Order Class
+ *
+ * Handle all data related to an Order
+ *
+ * @package     LifterLMS/Classes
+ * @category    Class
+ * @author      LifterLMS
+ * @since  2.7.0
+ */
 
-	/**
-	 * Order class
-	 *
-	 * Manages Ordering process.
-	 */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Order {
 
-	/**
-		 * protected instance of class
-		 * @var null
-		 */
-	protected static $_instance = null;
+	private $prefix = '_llms_';
 
 	/**
-		 * Set private instance of class
-		 * @return self
-		 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-
-			self::$_instance = new self();
-
-		}
-
-		return self::$_instance;
-	}
-
-	/**
-	 * Creates a order post to associate with the enrollment of the user.
-	 * Used to create order and skip checkout process
+	 * Constructor
 	 *
-	 * @param int $user_id [ID of the user]
-	 * @param int $post_id [ID of the post]
-	 * @param string $payment_method
-	 * @return void
-	 */
-	public function create( $user_id, $post_id, $payment_method = '' ) {
-		global $wpdb;
-
-		$post = get_post( $post_id );
-
-		$sku = get_post_meta( $post_id, '_sku', true );
-
-		$order_data = apply_filters( 'lifterlms_new_order', array(
-			'post_type' 	=> 'order',
-			'post_title' 	=> sprintf( __( 'Order - %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ) ) ),
-			'post_status' 	=> 'publish',
-			'ping_status'	=> 'closed',
-			'post_author' 	=> 1,
-			'post_password'	=> uniqid( 'order_' ),
-		) );
-
-		$order_post_id = wp_insert_post( $order_data, true );
-
-		$result = $wpdb->insert( $wpdb->prefix .'lifterlms_order',
-			array(
-				'user_id'			=> $user_id,
-				'created_date' 		=> current_time( 'mysql' ),
-				'completed_date' 	=> current_time( 'mysql' ),
-				'order_completed' 	=> 'yes',
-				'product_id'		=> $post_id,
-				'order_post_id'		=> $order_post_id,
-			)
-		);
-
-		$result = $wpdb->update( $wpdb->prefix .'lifterlms_order',
-			array(
-				'completed_date' 	=> current_time( 'mysql' ),
-				'order_completed' 	=> 'yes',
-				'order_post_id'		=> $order_post_id,
-			),
-			array(
-				'user_id' 			=> $user_id,
-				'product_id' 		=> $post_id,
-			)
-		);
-
-		update_post_meta( $order_post_id,'_llms_user_id', $user_id );
-		if (empty( $payment_method )) {
-			$payment_method = 'assigned_by_admin'; // previously was typoed "assigned_by_admin" preserving in case we need to migrate later
-		}
-		update_post_meta( $order_post_id, '_llms_payment_method', $payment_method );
-		update_post_meta( $order_post_id, '_llms_product_title', $post->post_title );
-		update_post_meta( $order_post_id, '_llms_order_total', '0' );
-		update_post_meta( $order_post_id, '_llms_product_sku', $sku );
-		update_post_meta( $order_post_id, '_llms_order_currency', get_lifterlms_currency_symbol() );
-		update_post_meta( $order_post_id, '_llms_order_product_id', $post_id );
-		update_post_meta( $order_post_id, '_llms_order_date', current_time( 'mysql' ) );
-	}
-
-	/**
-		 * Process order
-		 *
-		 * Inserts order details in database
-		 *
-		 * @param  object $order [order data object]
-		 *
-		 * @return void
-		 */
-	public function process_order( $order ) {
-		global $wpdb;
-
-		if ( isset( $order ) ) {
-			$order = $order;
-		} elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
-			$order = LLMS()->session->get( 'llms_order', array() );
-		} else {
-			return false;
-		}
-
-		$order_exists = $wpdb->get_results( 'SELECT user_id, product_id, order_completed
-            FROM ' . $wpdb->prefix . 'lifterlms_order
-            WHERE user_id = ' . $order->user_id . ' AND product_id = ' . $order->product_id );
-
-		if ( ! $order_exists ) {
-			$result = $wpdb->insert( $wpdb->prefix . 'lifterlms_order', array(
-				'user_id'         => $order->user_id,
-				'created_date'    => current_time( 'mysql' ),
-				'order_completed' => $order->order_completed,
-				'product_id'      => $order->product_id,
-
-			) );
-		}
-	}
-
-
-	/**
-	 * Complete order processing
+	 * @param mixed  Order Post ID, Instance of LLMS_Order, Instance of WP_Post
 	 *
-	 * @accepts $order (object)
-	 * @return Created Order post Id
+	 * @return  void
+	 *
+	 * @since  2.7.0
 	 */
-	public function update_order( $order ) {
-		global $wpdb;
+	public function __construct( $order ) {
 
-		//check if user is already enrolled in the course.
-		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-		$meta_key   = '_status';
-		$meta_value = 'Enrolled';
+		if ( is_numeric( $order ) ) {
 
-		$user_enrolled = $wpdb->get_results( $wpdb->prepare(
-			'SELECT * FROM ' . $table_name . ' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC',
-		$order->user_id, $order->product_id, $meta_key, $meta_value ) );
+			$this->id   = absint( $order );
+			$this->post = get_post( $this->id );
 
-		if ( ! empty( $user_enrolled ) ) {
-			return;
+		} elseif ( $order instanceof LLMS_Order ) {
+
+			$this->id   = absint( $order->id );
+			$this->post = $order->post;
+
+		} elseif ( isset( $order->ID ) ) {
+
+			$this->id   = absint( $order->ID );
+			$this->post = $order;
+
 		}
 
-		if ( isset( $order ) ) {
-			$order = $order;
-		} elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
-			$order = LLMS()->session->get( 'llms_order', array() );
-		} else {
-			return false;
-		}
+	}
 
-		//get the type of product ( course / membership )Dange
+	/**
+	 * Getter
+	 * @param  string $key key to retrieve
+	 * @return mixed
+	 */
+	public function __get( $key ) {
 
-		$product_obj = get_post( $order->product_id );
-		if ( $product_obj->post_type === 'course' ) {
-			$order->product_type = 'course';
-		} elseif ( $product_obj->post_type === 'llms_membership' ) {
-			$order->product_type = 'membership';
-		}
+		$value = get_post_meta( $this->id, $this->prefix . $key, true );
 
-		// create order post
-		$order_data = apply_filters( 'lifterlms_new_order', array(
-			'post_type'     => 'order',
-			'post_title'    => sprintf( __( 'Order - %s, %s', 'lifterlms' ), $order->product_type, LLMS_Date::get_localized_date_string() ),
-			'post_status'   => 'publish',
-			'ping_status'   => 'closed',
-			'post_author'   => 1,
-			'post_password' => uniqid( 'order_' ),
-		) );
+		return $value;
 
-		$order_post_id = wp_insert_post( $order_data, true );
+	}
 
-		$result = $wpdb->update( $wpdb->prefix . 'lifterlms_order',
-			array(
-				'completed_date'  => current_time( 'mysql' ),
-				'order_completed' => 'yes',
-				'order_post_id'   => $order_post_id,
-			),
-			array(
-				'user_id'    => $order->user_id,
-				'product_id' => $order->product_id,
-			)
-		);
+	public function __isset( $key ) {
+		return metadata_exists( 'post', $this->id, $this->prefix . $key );
+	}
 
-		//update coupon post meta
-		$coupon = LLMS()->session->get( 'llms_coupon', array() );
-		if ( ! empty( $coupon ) ) {
-			update_post_meta( $order_post_id, '_llms_order_coupon_id', $coupon->id );
-			update_post_meta( $order_post_id, '_llms_order_coupon_type', $coupon->type );
-			update_post_meta( $order_post_id, '_llms_order_coupon_amount', $coupon->amount );
-			update_post_meta( $order_post_id, '_llms_order_coupon_limit', $coupon->limit );
-			update_post_meta( $order_post_id, '_llms_order_coupon_code', $coupon->coupon_code );
+	/**
+	 * Get billing cycle
+	 * @return int
+	 */
+	public function get_billing_cycle() {
+		return apply_filters( 'lifterlms_order_billing_cycle', $this->billing_cycle, $this );
+	}
 
-			//now that the coupon has been used. post the new coupon limit
-			if ( $coupon->limit !== 'unlimited' ) {
-				update_post_meta( $coupon->id, '_llms_usage_limit', $coupon->limit );
+	/**
+	 * Retrieve the email of the customer
+	 * @return string
+	 */
+	public function get_billing_email() {
+		/**
+		 * Prior to 2.8.0 billing information was not stored on the order
+		 */
+		if ( ! isset( $this->billing_email ) ) {
+			$user = $this->get_user();
+			if ( $user ) {
+				$email = $user->user_email;
 			}
-		}
-
-		// Add order metadata to the order post
-		update_post_meta( $order_post_id, '_llms_user_id', $order->user_id );
-		if (isset( $order->payment_method )) {
-			update_post_meta( $order_post_id, '_llms_payment_method', $order->payment_method );
-		}
-		update_post_meta( $order_post_id, '_llms_product_title', $order->product_title );
-
-		//calculate order total based on coupon
-		if ( ! empty( $coupon ) ) {
-			$product = new LLMS_Product( $order->product_id );
-
-			$order->adjusted_price = $product->adjusted_price( $order->total );
-
-			//set total to adjusted price and save coupon total
-			update_post_meta( $order_post_id, '_llms_order_total', $product->adjusted_price( $order->total ) );
-			update_post_meta( $order_post_id, '_llms_order_coupon_value', $product->get_coupon_discount_total( $order->total ) );
-
 		} else {
-			update_post_meta( $order_post_id, '_llms_order_total', $order->total );
+			$email = $this->billing_email;
 		}
-		update_post_meta( $order_post_id, '_llms_order_product_price', $order->product_price );
-		update_post_meta( $order_post_id, '_llms_order_original_total', $order->total );
+		return apply_filters( 'lifterlms_order_billing_email', $email );
+	}
 
-		update_post_meta( $order_post_id, '_llms_product_sku', $order->product_sku );
-		update_post_meta( $order_post_id, '_llms_order_currency', $order->currency );
-		update_post_meta( $order_post_id, '_llms_order_product_id', $order->product_id );
-		update_post_meta( $order_post_id, '_llms_order_date', current_time( 'mysql' ) );
-		update_post_meta( $order_post_id, '_llms_order_type', $order->payment_option );
-		update_post_meta( $order_post_id, '_llms_payment_type', $order->payment_type );
-		update_post_meta( $order_post_id, '_llms_product_type', $order->product_type );
-
-		if ( $order->payment_option == 'recurring' ) {
-			update_post_meta( $order_post_id, '_llms_order_recurring_price', $order->product_price );
-			update_post_meta( $order_post_id, '_llms_order_first_payment', $order->first_payment );
-			update_post_meta( $order_post_id, '_llms_order_billing_period', $order->billing_period );
-			update_post_meta( $order_post_id, '_llms_order_billing_cycle', $order->billing_cycle );
-			update_post_meta( $order_post_id, '_llms_order_billing_freq', $order->billing_freq );
-			update_post_meta( $order_post_id, '_llms_order_billing_start_date', $order->billing_start_date );
+	/**
+	 * Retrieve the first name of the customer
+	 * @return string
+	 */
+	public function get_billing_first_name() {
+		/**
+		 * Prior to 2.8.0 billing information was not stored on the order
+		 */
+		if ( ! isset( $this->billing_first_name ) ) {
+			$user = $this->get_user();
+			if ( $user ) {
+				$name = $user->first_name;
+			}
+		} else {
+			$name = $this->billing_first_name;
 		}
+		return apply_filters( 'lifterlms_order_billing_first_name', $name );
+	}
 
-		// trigger order complete action
-		do_action( 'lifterlms_order_complete', $order_post_id );
+	/**
+	 * Get billing freq
+	 * @return int
+	 */
+	public function get_billing_frequency() {
+		return apply_filters( 'lifterlms_order_billing_frequency', $this->billing_frequency, $this );
+	}
 
-		// enroll student
-		llms_enroll_student( $order->user_id, $order->product_id );
+	/**
+	 * Retrieve the first name of the customer
+	 * @return string
+	 */
+	public function get_billing_last_name() {
+		/**
+		 * Prior to 2.8.0 billing information was not stored on the order
+		 */
+		if ( ! isset( $this->billing_last_name ) ) {
+			$user = $this->get_user();
+			if ( $user ) {
+				$name = $user->last_name;
+			}
+		} else {
+			$name = $this->billing_last_name;
+		}
+		return apply_filters( 'lifterlms_order_billing_last_name', $name );
+	}
 
-		// trigger purchase action
-		do_action( 'lifterlms_product_purchased', $order->user_id, $order->product_id );
+	/**
+	 * Get the full name (first and last) of the customer
+	 * @return string
+	 */
+	public function get_billing_name() {
+		$name = $this->get_billing_first_name() . ' ' . $this->get_billing_last_name();
+		return apply_filters( 'lifterlms_order_billing_name', $name );
+	}
 
-		//kill sessions
-		unset( LLMS()->session->llms_coupon );
-		unset( LLMS()->session->llms_order );
+	/**
+	 * Get billing period
+	 * eg: month, week, year
+	 * @return string
+	 */
+	public function get_billing_period() {
+		return apply_filters( 'lifterlms_order_billing_period', $this->billing_period, $this );
+	}
 
-		return $order_post_id;
+	/**
+	 * Get billing start date
+	 * @return string
+	 */
+	public function get_billing_start_date() {
+		return apply_filters( 'lifterlms_order_billing_start_date', $this->billing_start_date, $this );
+	}
 
+	/**
+	 * Get coupon amount
+	 * @return int
+	 */
+	public function get_coupon_amount() {
+		return apply_filters( 'lifterlms_order_coupon_amount', $this->coupon_amount, $this );
+	}
+
+	/**
+	 * Get used coupon code
+	 * @return string
+	 */
+	public function get_coupon_code() {
+		return apply_filters( 'lifterlms_order_coupon_code', $this->coupon_code, $this );
+	}
+
+	/**
+	 * Get used LifterLMS Coupon Post ID
+	 * @return int
+	 */
+	public function get_coupon_id() {
+		return absint( $this->coupon_id );
+	}
+
+	/**
+	 * Get remaining coupon limit at time of order
+	 * @return int|string
+	 */
+	public function get_coupon_limit() {
+		return apply_filters( 'lifterlms_order_coupon_limit', $this->coupon_limit, $this );
+	}
+
+	/**
+	 * Get the type of coupon used
+	 * Eg: perecent or dollar
+	 * @return string
+	 */
+	public function get_coupon_type() {
+		return apply_filters( 'lifterlms_order_coupon_type', $this->coupon_type, $this );
+	}
+
+	/**
+	 * Get the value of the used coupon
+	 * This will be the calculated amount discounted based on
+	 * the coupon amount, coupon type, and product amount
+	 * @return float
+	 */
+	public function get_coupon_value() {
+		return apply_filters( 'lifterlms_order_coupon_value', $this->coupon_value, $this );
+	}
+
+	/**
+	 * Get currency of transaction
+	 * @return string
+	 */
+	public function get_currency() {
+		return apply_filters( 'lifterlms_order_currency', $this->currency, $this );
+	}
+
+	/**
+	 * Get the date the order was placed
+	 * @return string
+	 */
+	public function get_date() {
+		return apply_filters( 'lifterlms_order_date', $this->date, $this );
+	}
+
+	/**
+	 * Get the amount of the first payment
+	 * Applies to recurring transactions only
+	 * @return float
+	 */
+	public function get_first_payment() {
+		return apply_filters( 'lifterlms_order_first_payment', $this->first_payment, $this );
+	}
+
+	/**
+	 * Retrieve the formatted coupon amount
+	 * includes the percentage or currency symbol depending on the type of coupon
+	 * @return string
+	 */
+	public function get_formatted_coupon_amount() {
+		$amount = $this->get_coupon_amount();
+		if ( 'percent' === $this->get_coupon_type() ) {
+			$amount = $amount . '%';
+		} elseif ( 'dollar' === $coupon_type ) {
+			$amount = get_lifterlms_currency_symbol( $this->get_currency() ) . $amount;
+		}
+		return apply_filters( 'lifterlms_order_formatted_coupon_amount', $amount, $this );
+	}
+
+	/**
+	 * Get the Order ID
+	 * @return int
+	 */
+	public function get_id() {
+		return absint( $this->id );
+	}
+
+	/**
+	 * Get the total before coupon adjustments
+	 * @return float
+	 */
+	public function get_original_total() {
+		return apply_filters( 'lifterlms_order_original_total', $this->original_total, $this );
+	}
+
+	/**
+	 * Get the payment method
+	 * Eg: gateway id (paypal, stripe)
+	 * @return string
+	 */
+	public function get_payment_method() {
+		return apply_filters( 'lifterlms_order_payment_method', $this->payment_method, $this );
+	}
+
+	/**
+	 * Get the payment type
+	 * Eg: credit card, paypal, WooCommerce
+	 * @return string
+	 */
+	public function get_payment_type() {
+		return apply_filters( 'lifterlms_order_payment_type', $this->payment_type, $this );
+	}
+
+	/**
+	 * Get the post ID of the LifterLMS Product (course or membership)
+	 * @return int
+	 */
+	public function get_product_id() {
+		return absint( $this->product_id );
+	}
+
+	/**
+	 * Get the SKU of the LifterLMS Product (course or membership)
+	 * @return string
+	 */
+	public function get_product_sku() {
+		return apply_filters( 'lifterlms_order_product_sku', $this->product_sku, $this );
+	}
+
+	/**
+	 * Get the price of the LifterLMS Product (course or membership)
+	 * @return float
+	 */
+	public function get_product_price() {
+		return apply_filters( 'lifterlms_order_product_price', $this->product_price, $this );
+	}
+
+	/**
+	 * Get the title of the LifterLMS Product (course or membership)
+	 * @return string
+	 */
+	public function get_product_title() {
+		return apply_filters( 'lifterlms_order_product_title', $this->product_title, $this );
+	}
+
+	/**
+	 * Get the type of LifterLMS Product
+	 * Eg: course or membership
+	 * @return string
+	 */
+	public function get_product_type() {
+		return apply_filters( 'lifterlms_order_product_type', $this->product_type, $this );
+	}
+
+	/**
+	 * Get the WP_Post object for the related Order post
+	 * @return obj   Instance of WP_Post
+	 */
+	public function get_post_data() {
+		return $this->post;
+	}
+
+	/**
+	 * Get the recurring payments price
+	 * Applies only to recurring orders
+	 * @return float
+	 */
+	public function get_recurring_price() {
+		return apply_filters( 'lifterlms_order_recurring_price', $this->recurring_price, $this );
+	}
+
+	/**
+	 * Get the actual order total after adjustments
+	 * @return float
+	 */
+	public function get_total() {
+		return apply_filters( 'lifterlms_order_total', $this->total, $this );
+	}
+
+	/**
+	 * Get the order type
+	 * Eg: recurring, single
+	 * @return string
+	 */
+	public function get_type() {
+		return apply_filters( 'lifterlms_order_type', $this->type, $this );
+	}
+
+	/**
+	 * Get the associated WordPress User
+	 * @return false|obj      false if no user found or an instance of WP_User
+	 */
+	public function get_user() {
+		return $this->get_user_id() ? get_user_by( 'id', $this->get_user_id() ) : false;
+	}
+
+	/**
+	 * Get user id
+	 * @return int
+	 */
+	public function get_user_id() {
+		return absint( $this->user_id );
 	}
 
 }
