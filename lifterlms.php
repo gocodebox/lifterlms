@@ -82,6 +82,9 @@ final class LifterLMS {
 		//Include required files
 		$this->includes();
 
+		// setup session stuff
+		$this->session = new LLMS_Session();
+
 		//Hooks
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
@@ -115,6 +118,8 @@ final class LifterLMS {
 			$path = $this->plugin_path() . '/includes/widgets/';
 		} elseif ( strpos( $class, 'llms_integration_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/integrations/';
+		} elseif ( strpos( $class, 'llms_controller_' ) === 0 ) {
+			$path = $this->plugin_path() . '/includes/controllers/';
 		} elseif ( strpos( $class, 'llms_gateway_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/payment_gateways/';
 		} elseif (strpos( $class, 'llms_' ) === 0 ) {
@@ -186,6 +191,8 @@ final class LifterLMS {
 
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
 
+			include_once( 'includes/controllers/class.llms.controller.subscriptions.paypal.php' );
+
 		}
 
 		// Date, Number and language formatting
@@ -233,11 +240,12 @@ final class LifterLMS {
 
 		include_once( 'includes/class.llms.query.php' );
 
+		// controllers
+		include_once( 'includes/controllers/class.llms.controller.orders.php' );
+
 		$this->query = new LLMS_Query();
 
 		$this->course_factory = new LLMS_Course_Factory();
-
-		$this->session = new LLMS_Session();
 
 		if ( ! is_admin() ) {
 			$this->frontend_includes();
@@ -249,16 +257,17 @@ final class LifterLMS {
 	 * Include required frontend classes.
 	 */
 	public function frontend_includes() {
+		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
+
 		include_once( 'includes/class.llms.template.loader.php' );
 		include_once( 'includes/class.llms.frontend.assets.php' );
 		include_once( 'includes/class.llms.frontend.forms.php' );
 		include_once( 'includes/class.llms.frontend.password.php' );
 		include_once( 'includes/class.llms.person.php' );
 		include_once( 'includes/class.llms.shortcodes.php' );
+
 		include_once( 'includes/shortcodes/class.llms.shortcode.my.account.php' );
 		include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
-
-		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
 	}
 
 	/**
