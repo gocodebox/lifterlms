@@ -58,7 +58,7 @@ class LLMS_Person {
 	 * @param string $user_login [User login id]
 	 * @param object $user       [User data object]
 	 */
-	public function set_user_login_timestamp ( $user_login, $user ) {
+	public function set_user_login_timestamp( $user_login, $user ) {
 		$now = current_time( 'timestamp' );
 		update_user_meta( $user->ID, 'llms_last_login', $now );
 	}
@@ -69,7 +69,7 @@ class LLMS_Person {
 	 *
 	 * @param int $user_id
 	 */
-	public function set_user_login_timestamp_on_register ( $user_id ) {
+	public function set_user_login_timestamp_on_register( $user_id ) {
 		$now = current_time( 'timestamp' );
 		update_user_meta( $user_id, 'llms_last_login', $now );
 	}
