@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v2.7.2 - 2016/05/19 =
+-----------------------
+
++ In course syllabus widget & shortcodes free lessons will now be clickable links.
++ Record `llms_last_login` timestamp in usermeta when a user registers.
+
+
 = v2.7.1 - 2016/05/09 =
 -----------------------
 
