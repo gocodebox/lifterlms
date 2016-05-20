@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v2.7.3 - 2016/05/?? =
+-----------------------
+
++ Added a separate filter for login redirects `lifterlms_login_redirect` and added the user_id as a second parameter available to the filter
++ Added second parameter to `lifterlms_registration_redirect` to allow access to the registered users's user_id
+
+
 = v2.7.2 - 2016/05/19 =
 -----------------------
 
