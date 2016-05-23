@@ -62,8 +62,6 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'transition', plugins_url( 'assets/js/vendor/transition.js', LLMS_PLUGIN_FILE ) );
 
 		wp_register_script( 'llms', plugins_url( '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
-		// TODO: move this translatable string to some better place.
-		wp_localize_script( 'llms', 'quiz_translations', array( 'enter_answer' => __( 'You must enter an answer to continue.' ) ) );
 		wp_enqueue_script( 'llms' );
 
 		wp_enqueue_script( 'llms-ajax', plugins_url( '/assets/js/llms-ajax' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
@@ -83,6 +81,8 @@ class LLMS_Frontend_Assets {
 
 		//register ajax
 		echo '<script type="text/javascript">window.llms = window.llms || {};window.llms.ajaxurl = "'.admin_url( 'admin-ajax.php' ).'";</script>';
+		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
+		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_l10n::get_js_strings( true ) . ';</script>';
 	}
 }
 
