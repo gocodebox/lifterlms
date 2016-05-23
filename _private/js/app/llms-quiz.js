@@ -113,7 +113,7 @@ LLMS.Quiz = {
 
 			$('#llms-quiz-question-wrapper .llms-error').remove();
 			$('#llms-quiz-question-wrapper')
-				.prepend( '<div class="llms-error">You must enter an answer to continue.</div>' );
+				.prepend( '<div class="llms-error">' + quiz_translations.enter_answer + '</div>' );
 
 		} else {
 

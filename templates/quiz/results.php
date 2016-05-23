@@ -68,9 +68,9 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 						<h5 class="llms-content-block">
 							<?php
 							if ( $is_passing_score ) {
-								_e( apply_filters( 'lifterlms_quiz_passed','Passed' ), 'lifterlms' );
+								echo apply_filters( 'lifterlms_quiz_passed', __( 'Passed', 'lifterlms' ) );
 							} else {
-								_e( apply_filters( 'lifterlms_quiz_failed','Failed' ), 'lifterlms' );
+								echo apply_filters( 'lifterlms_quiz_failed', __( 'Failed', 'lifterlms' ) );
 							}
 							?>
 						</h5>
@@ -94,9 +94,9 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 						<h5>
 							<?php
 							if ( $is_passing_score ) {
-								_e( apply_filters( 'lifterlms_quiz_passed','Passed' ), 'lifterlms' );
+								echo apply_filters( 'lifterlms_quiz_passed', __( 'Passed', 'lifterlms' ) );
 							} else {
-								_e( apply_filters( 'lifterlms_quiz_failed','Failed' ), 'lifterlms' );
+								echo apply_filters( 'lifterlms_quiz_failed', __( 'Failed', 'lifterlms' ) );
 							}
 							?>
 						</h5>
