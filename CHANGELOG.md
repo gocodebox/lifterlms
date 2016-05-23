@@ -1,12 +1,13 @@
 == Changelog ==
 
-= v2.7.3 - 2016/05/?? =
+= v2.7.3 - 2016/05/23 =
 -----------------------
 
 + Added a separate filter for login redirects `lifterlms_login_redirect` and added the user_id as a second parameter available to the filter
 + Added second parameter to `lifterlms_registration_redirect` to allow access to the registered users's user_id
 + Fixed a timestamp conversion issue on Course sale price checks that caused indefinite sales (those with no date restrictions) to appear not on sale during certain periods of time. The period would differe depending on the server's timezone settings and the time of visit.
-
++ Added a "Pointer" when hovering quiz summary accordion to allow for a slightly more obvious user experience that the elements are expandable.
++ Added some new localization methods to ensure strings that only appear in Javascript files will be translator friendly. This initially fixes a few issues on the Quiz Summary page and during quiz taking where strings only appeared in Javascript and were, therefore, completely inaccessible to translators.
 
 
 = v2.7.2 - 2016/05/19 =
