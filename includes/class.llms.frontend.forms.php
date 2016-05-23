@@ -1229,7 +1229,7 @@ class LLMS_Frontend_Forms
 							unset( LLMS()->session->llms_order );
 						}
 
-						wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect ) );
+						wp_redirect( apply_filters( 'lifterlms_login_redirect', $redirect, $user->ID ) );
 						exit;
 					}
 				}
@@ -1493,7 +1493,7 @@ class LLMS_Frontend_Forms
 					$valid = $voucher->is_product_to_voucher_link_valid( $code, $product_id );
 
 					if ($valid) {
-						wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect ) );
+						wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect, $new_person ) );
 						exit;
 					}
 				}
@@ -1522,7 +1522,7 @@ class LLMS_Frontend_Forms
 					exit;
 				}
 			} else {
-				wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect ) );
+				wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect, $new_person ) );
 				exit;
 			}
 
