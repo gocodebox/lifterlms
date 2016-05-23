@@ -5,6 +5,8 @@
 
 + Added a separate filter for login redirects `lifterlms_login_redirect` and added the user_id as a second parameter available to the filter
 + Added second parameter to `lifterlms_registration_redirect` to allow access to the registered users's user_id
++ Fixed a timestamp conversion issue on Course sale price checks that caused indefinite sales (those with no date restrictions) to appear not on sale during certain periods of time. The period would differe depending on the server's timezone settings and the time of visit.
+
 
 
 = v2.7.2 - 2016/05/19 =
