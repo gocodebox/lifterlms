@@ -3,6 +3,8 @@
  * Localization Functions
  * Currently only used to translate strings output by Javascript functions
  * More robust features will be added in the future
+ *
+ * @since  2.7.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -19,6 +21,8 @@ class LLMS_l10n {
 	 *
 	 * @param  boolean $json if true, convert to JSON, otherwise return the array
 	 * @return string|array
+	 *
+	 * @since 2.7.3
 	 */
 	public static function get_js_strings( $json = true ) {
 
