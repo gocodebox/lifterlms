@@ -30,8 +30,8 @@ class LLMS_l10n {
 			 * file: _private/js/app/llms-quiz.js
 			 */
 			__( 'Hide Summary', 'lifterlms' ),
-			__( 'You must enter an answer to continue.', 'lifterlms' ),
 			__( 'View Summary', 'lifterlms' ),
+			__( 'You must enter an answer to continue.', 'lifterlms' ),
 		);
 
 		// allow filtering so extensions don't have to implement their own l10n functions
