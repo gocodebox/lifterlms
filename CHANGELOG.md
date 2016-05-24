@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v2.7.4 - 2016/05/23 =
+-----------------------
+
++ Removed bundled it_IT translation files in favor of official language pack available at [https://translate.wordpress.org/projects/wp-plugins/lifterlms/language-packs](https://translate.wordpress.org/projects/wp-plugins/lifterlms/language-packs).
++ Removed bundled en_US translation files because LifterLMS is in English so the files are unnecessary.
+
+
 = v2.7.3 - 2016/05/23 =
 -----------------------
 
