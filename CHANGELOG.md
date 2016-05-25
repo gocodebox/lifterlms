@@ -1,7 +1,6 @@
 == Changelog ==
 
-
-= v3.0.0 - 2016/05/?? =
+= v3.0.0 - 2016/06/?? =
 -----------------------
 
 **This is a massive update which _breaks_ backwards compatibility for many LifterLMS features. A database migration is also necessary for upgrading users to reformat certain pieces of information which are being accessed differently in 3.0.0**
@@ -36,6 +35,24 @@
 + The "Coupon Code" field has been removed in favor of the WordPress Coupon Post Title being utilized as the code. After upgrading, an automated database migration will move all coupon code fields to the title. The title previously functioned as the coupon description. During the migration the existing title will be moved to the new description field.
 
 
+##### Orders
+
++ Added Order Statuses
+  + Completed - Single payment only. Denotes a sucessful transaction
+  + Active - Recurring only. Denotes the subscription is active with no issues
+  + Expired - Recurring only. Denotes the subscription has ended and is no longer active
+  + Refunded - Denotes the order has been refunded.
+  + Cancelled - Denotes the order has been cancelled manually by an admin.
+  + Failed - Denotes payment has failed. For subscriptions a failed payment will switch from "active" to "failed"
+  + Pending - Denotes that the order has been created but payment has not been completed yet
++ Admin panel order table new features:
+  + The following columns are now sortable in ascending and descending orders: Order, Product, and Date
+  + Added totals based on order type (single or recurring) to the "Total" column
+  + Added an order status column for quick status review
+
+
+
+
 ##### New Functions
 + `llms_confirm_payment_url()` - Retreive the URL used for confirming LifterLMS Payments
 + `llms_cancel_payment_url()`  - Retreive the URL users are directed to when cancelling a payment
@@ -54,6 +71,15 @@
 + Filter `lifterlms_order_process_pending_redirect` has been replaced with `lifterlms_order_process_payment_redirect`
 + Action `lifterlms_order_process_begin` has been replaced with `lifterlms_order_process_payment_redirect`
 + Removed  `lifterlms_order_process_complete` action
++ Replaced `LLMS_Course::check_enrollment()` with various new utilities. See `llms_is_user_enrolled()` for fastest use.
++ Officially removed the `LLMS_Language` class
++ Officially removed the `PluginUpdateChecker` class stubs we created to prevent updating issues with LifterLMS extensions during our transition to 2.0.0. This library has caused nothing but pain for everyone on our team and many of our users. It's gone now, forever.
+
+= v2.7.2 - 2016/05/19 =
+-----------------------
+
++ In course syllabus widget & shortcodes free lessons will now be clickable links.
++ Record `llms_last_login` timestamp in usermeta when a user registers.
 
 
 = v2.7.1 - 2016/05/09 =
