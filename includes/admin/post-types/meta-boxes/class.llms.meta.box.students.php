@@ -26,7 +26,7 @@ class LLMS_Meta_Box_Students {
 		self::create_order( $user_id, $post_id );
 
 		// enroll the student
-		llms_enroll_student( $user_id, $post_id );
+		llms_enroll_student( $user_id, $post_id, 'manual' );
 
 		// trigger an action
 		do_action( 'lifterlms_student_added_by_admin', $user_id, $post_id );
