@@ -19,8 +19,34 @@ class LLMS_Sidebars {
 	 */
 	public function __construct() {
 
+		add_filter( 'sidebars_widgets', array( __CLASS__, 'replace_default_sidebars' ) );
 		add_action( 'widgets_init', array( __CLASS__, 'register_lesson_sidebars' ), 5 );
 		add_action( 'widgets_init', array( __CLASS__, 'register_course_sidebars' ), 5 );
+
+	}
+
+	/**
+	 * Display lesson and course custom sidebars
+	 *
+	 * @param  array $sidebars_widgets [WP array of widgets in sidebar]
+	 * @return array $sidebars_widgets [Filtered WP array of widgets in sidebar]
+	 */
+	public static function replace_default_sidebars( $sidebars_widgets ) {
+		if (is_singular( 'course' ) && array_key_exists( 'llms_course_widgets_side', $sidebars_widgets )) {
+			$sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_course_widgets_side'];
+			$sidebars_widgets['layers-right-sidebar'] = $sidebars_widgets['llms_course_widgets_side'];
+			$sidebars_widgets['main-sidebar'] = $sidebars_widgets['llms_course_widgets_side'];
+			$sidebars_widgets['single-sidebar'] = $sidebars_widgets['llms_course_widgets_side'];
+			$sidebars_widgets['primary'] = $sidebars_widgets['llms_course_widgets_side']; // woocanvas
+		} elseif (is_singular( 'lesson' ) && array_key_exists( 'llms_lesson_widgets_side', $sidebars_widgets )) {
+			$sidebars_widgets['sidebar-1'] = $sidebars_widgets['llms_lesson_widgets_side'];
+			$sidebars_widgets['layers-right-sidebar'] = $sidebars_widgets['llms_lesson_widgets_side'];
+			$sidebars_widgets['single-sidebar'] = $sidebars_widgets['llms_lesson_widgets_side'];
+			$sidebars_widgets['main-sidebar'] = $sidebars_widgets['llms_course_widgets_side'];
+			$sidebars_widgets['primary'] = $sidebars_widgets['llms_lesson_widgets_side']; // woocanvas
+		}
+		return $sidebars_widgets;
+
 	}
 
 	/**
