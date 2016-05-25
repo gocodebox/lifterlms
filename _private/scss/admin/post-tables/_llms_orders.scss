@@ -1,0 +1,18 @@
+.llms-order-status-icon {
+	&.llms-active,
+	&.llms-completed {
+		color: green;
+	}
+
+	&.llms-failed,
+	&.llms-expired,
+	&.llms-cancelled {
+		color: red;
+	}
+
+	&.llms-pending,
+	&.llms-refunded {
+		color: orange;
+	}
+
+}

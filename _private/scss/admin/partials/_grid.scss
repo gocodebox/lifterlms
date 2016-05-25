@@ -21,6 +21,18 @@ Grids for Breakpoints
     clear: both;
 }
 
+%cf,
+%clearfix {
+	&:before,
+	&:after {
+	    content: " ";
+	    display: table;
+	}
+
+	&:after {
+    	clear: both;
+	}
+}
 
 /*
 Mobile Grid Styles
@@ -60,7 +72,7 @@ them however you see fit.
     @include grid-col;
     width: 75%;
   }
-	
+
 	.m-right {
 		text-align: center;
 	}
@@ -137,7 +149,7 @@ them however you see fit.
     @include grid-col;
     width: 80%;
   }
-	
+
 	.d-right {
 		text-align: right;
 	}
@@ -263,7 +275,7 @@ them however you see fit.
     @include grid-col;
     width: 8.33%;
   }
-	
+
 	.d-right {
 		text-align: right;
 	}

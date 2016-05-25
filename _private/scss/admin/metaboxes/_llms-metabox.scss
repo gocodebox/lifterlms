@@ -1,0 +1,72 @@
+#poststuff .llms-metabox {
+
+	@extend %cf;
+	padding: 5px;
+
+	h2, h3, h6 {
+		font-weight: 300;
+		margin: 0;
+		padding: 0;
+	}
+
+	h2 {
+		font-size: 22px;
+	}
+
+	h3 {
+		color: #777;
+		font-size: 16px;
+	}
+
+	h4 {
+		border-bottom: 1px solid #e5e5e5;
+		padding: 0;
+		margin: 0;
+	}
+
+	.llms-transaction-test-mode {
+		background: #ffffd7;
+		font-style: italic;
+		left: 0;
+		padding: 1px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		text-align: center;
+	}
+
+
+}
+
+.llms-metabox-section {
+
+	margin-top: 25px;
+
+	&.no-top-margin {
+		margin-top: 0;
+	}
+
+	.llms-metabox-field {
+		margin: 15px 0;
+		label {
+			color: #777;
+			display: block;
+			margin-bottom: 5px;
+			font-weight: 500;
+			vertical-align: baseline;
+		}
+
+		select {
+			width: 100%;
+		}
+
+		input.md-text {
+			width: 105px;
+		}
+
+		input.sm-text {
+			width: 45px;
+		}
+
+	}
+}

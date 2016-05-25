@@ -61,7 +61,12 @@
 
 @import "admin/main";
 
+// metabox related
+@import "admin/metaboxes/llms-metabox";
 @import "admin/metaboxes/metabox-quiz-builder";
+@import "admin/metaboxes/metabox-orders";
+
+@import "admin/post-tables/llms_orders";
 
 @import "admin/tabs";
 @import "admin/fonts";

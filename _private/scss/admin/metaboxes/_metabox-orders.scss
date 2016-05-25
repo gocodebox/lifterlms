@@ -1,0 +1,10 @@
+.post-type-llms_order #post-body-content { display: none; }
+#lifterlms-order-details {
+	.handlediv.button-link,
+	.hndle.ui-sortable-handle { display: none;}
+	.inside {
+		padding: 20px;
+		margin-top: 0;
+
+	}
+}
