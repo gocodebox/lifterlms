@@ -7,32 +7,17 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( get_query_var( 'product' ) ) {
-
-	$product = get_post( get_query_var( 'product' ) );
-
-} elseif ( LLMS()->session->get( 'llms_order', array() ) ) {
-
-	$session = LLMS()->session->get( 'llms_order', array() );
-	$product_id = $session->product_id;
-	$product = get_post( $product_id );
-
-} else {
-
-	llms_add_notice( __( 'Product not found.', 'lifterlms' ) );
-
+$session = LLMS()->session->get( 'llms_order' );
+if ( $session ) {
+	$order = llms_get_order_by_key( $session );
+	if ( $order ) {
+		$product = new LLMS_Product( $order->get_product_id() );
+	}
 }
 
-$product_obj = new LLMS_Product( $product );
-
-$subs = $product_obj->get_subscriptions();
-if ( $subs ) {
-	foreach ( $subs as $id => $sub ) {
-		if ( $session->payment_option_id == $id ) {
-			$recurring_html_price = $product_obj->get_subscription_price_html( $sub );
-			break;
-		}
-	}
+if ( ! $product || ! $order ) {
+	llms_add_notice( __( 'The order for this transaction could not be located.', 'lifterlms' ) );
+	return;
 }
 ?>
 
@@ -48,7 +33,7 @@ if ( $subs ) {
 
 		<!-- Product information -->
 		<div class="llms-title-wrapper">
-			<p class="llms-title"><?php echo $product->post_title; ?></p>
+			<p class="llms-title"><?php echo $product->get_title(); ?></p>
 		</div>
 
 		<?php do_action( 'lifterlms_checkout_confirm_after_title' ); ?>
@@ -57,28 +42,28 @@ if ( $subs ) {
 		<div class="llms-price-wrapper">
 			<div class="llms-payment-options llms-notice-box">
 
-				<?php if ( 'recurring' == $session->payment_option ) : ?>
+				<?php if ( 'recurring' == $order->get_type() ) : ?>
 
 					<label><?php _e( 'Payment Terms:', 'lifterlms' ); ?></label>
-					<strong><?php echo apply_filters( 'lifterlms_confirm_payment_get_recurring_price_html', ucfirst( $recurring_html_price ) ); ?></strong>
+					<strong><?php echo apply_filters( 'lifterlms_confirm_payment_get_recurring_price_html', ucfirst( $product->get_subscription_price_html( $order->get_product_subscription_array( false ), $order->get_coupon_id() ) ) ); ?></strong>
 
-				<?php elseif ( 'single' == $session->payment_option ) : ?>
+				<?php elseif ( 'single' == $order->get_type() ) : ?>
 
 					<label><?php _e( 'Price:', 'lifterlms' ); ?></label>
-					<strong><?php echo apply_filters( 'lifterlms_confirm_payment_get_single_price_html', ucfirst( $product_obj->get_price_html() ) ); ?></strong>
+					<strong><?php echo apply_filters( 'lifterlms_confirm_payment_get_single_price_html', ucfirst( $product->get_single_price_html( $order->get_coupon_id() ) ) ); ?></strong>
 
 				<?php else : ?>
 					<?php
 					/**
 					 * Allow themes / plugins / extensions to create custom confirmation messages
 					 */
-					do_action( 'lifterlms_checkout_confirm_html_'.$session->payment_option, $session );
+					do_action( 'lifterlms_checkout_confirm_html_' . $order->get_type(), $order );
 					?>
 				<?php endif; ?>
 
 				<br />
 				<label><?php echo __( 'Payment Method', 'lifterlms' ); ?>:</label>
-				<strong><?php echo apply_filters( 'lifterlms_confirm_payment_method_text', $session->payment_type ); ?></strong>
+				<strong><?php echo apply_filters( 'lifterlms_confirm_payment_method_text', $order->get_payment_gateway_title() ); ?></strong>
 
 			</div>
 
@@ -87,12 +72,12 @@ if ( $subs ) {
 		<form action="" method="POST">
 
 			<div class="llms-clear-box llms-center-content">
-				<input type="submit" class="button llms-button" name="process_order" value="<?php _e( 'Confirm Purchase', 'lifterlms' ); ?>" />
+				<input type="submit" class="button llms-button" name="llms_confirm_order" value="<?php _e( 'Confirm Purchase', 'lifterlms' ); ?>" />
 			</div>
 
-			<?php wp_nonce_field( 'process_order' ); ?>
+			<?php wp_nonce_field( 'llms_confirm_order' ); ?>
 
-			 <input type="hidden" name="action" value="process_order" />
+			 <input type="hidden" name="action" value="llms_confirm_order" />
 
 		</form>
 

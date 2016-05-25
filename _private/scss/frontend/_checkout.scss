@@ -38,14 +38,14 @@
 		}
 
 		.llms-price-wrapper {
-			margin: 20px;
+			margin: 10px;
 			font-size: 16px;
-
 		}
 
 		.llms-form-wrapper {
 			padding: 0 10px;
-			margin: 10px 0;border-bottom: 2px solid #f5f5f5;
+			margin: 10px 0;
+			border-bottom: 2px solid #f5f5f5;
 		}
 	}
 
@@ -62,6 +62,8 @@
 
 
 .llms-coupon-entry {
+
+	position: relative;
 
 	.llms-checkout-coupon {
 		display: none;

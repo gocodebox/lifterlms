@@ -21,6 +21,11 @@ llms_print_notices();
 
         <?php llms_get_template( 'global/form-registration-inner.php' ); ?>
 
+		<div class="llms-form-item-wrapper llms-submit-wrapper">
+			<?php wp_nonce_field( 'lifterlms-register', 'register' ); ?>
+			<input type="submit" class="button" name="register" value="<?php _e( 'Register', 'lifterlms' ); ?>" />
+		</div>
+
         <?php do_action( 'lifterlms_register_form_end' ); ?>
 
 	</form>
