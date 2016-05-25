@@ -80,14 +80,14 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				array( 'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
 
 				array(
-						'title' 	=> __( 'Default Currency', 'lifterlms' ),
-						'desc' 		=> __( 'Default currency type.', 'lifterlms' ),
-						'id' 		=> 'lifterlms_currency',
-						'default'	=> 'USD',
-						'type' 		=> 'select',
-						'class'		=> 'chosen_select',
-						'desc_tip'	=> true,
-						'options'   => $currency_code_options,
+					'title' 	=> __( 'Default Currency', 'lifterlms' ),
+					'desc' 		=> __( 'Default currency type.', 'lifterlms' ),
+					'id' 		=> 'lifterlms_currency',
+					'default'	=> 'USD',
+					'type' 		=> 'select',
+					'class'		=> 'chosen_select',
+					'desc_tip'	=> true,
+					'options'   => $currency_code_options,
 				),
 
 				array( 'type' => 'sectionend', 'id' => 'general_options' ),
