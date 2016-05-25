@@ -23,6 +23,7 @@ class LLMS_Admin_Meta_Boxes {
 	 * Constructor
 	 */
 	public function __construct() {
+
 		add_action( 'add_meta_boxes', array( $this, 'hide_meta_boxes' ), 10 );
 		add_action( 'add_meta_boxes', array( $this, 'refresh_meta_boxes' ), 10 );
 		add_action( 'add_meta_boxes', array( $this, 'get_meta_boxes' ), 10 );
@@ -55,22 +56,25 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'lifterlms_process_llms_quiz_meta', 'LLMS_Meta_Box_Quiz::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_quiz_meta', 'LLMS_Meta_Box_Quiz_Questions::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_question_meta', 'LLMS_Meta_Box_Question_General::save', 10, 2 );
-		add_action( 'lifterlms_process_llms_coupon_meta', 'LLMS_Meta_Box_Coupon_Options::save', 10, 2 );
+		add_action( 'lifterlms_process_llms_coupon_meta', 'LLMS_Meta_Box_Coupon::save', 10, 2 );
 
 		add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher::save', 10, 2 );
 		add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
 
+		add_action( 'lifterlms_process_llms_order_meta', 'LLMS_Meta_Box_Order_Submit::save', 10, 2 );
+
 		//Error handling
 		add_action( 'admin_notices', array( $this, 'display_errors' ) );
 		add_action( 'shutdown', array( $this, 'set_errors' ) );
+
 	}
 
 	/**
-	 * Get error messages from metaboxes
+	 * Add error messages from metaboxes
 	 *
 	 * @param string $text
 	 */
-	public static function get_error( $text ) {
+	public static function add_error( $text ) {
 		self::$errors[] = $text;
 	}
 
@@ -149,6 +153,14 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-voucher-settings', __( 'Voucher Settings', 'lifterlms' ), 'LLMS_Meta_Box_Voucher::output', 'llms_voucher', 'normal', 'high' );
 		add_meta_box( 'lifterlms-quiz-settings', __( 'Quiz Settings', 'lifterlms' ), 'LLMS_Meta_Box_Quiz::output', 'llms_quiz', 'normal', 'high' );
 
+
+		// orders
+		add_meta_box( 'lifterlms-order-details', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order_Details::output', 'llms_order', 'side', 'high' );
+		add_meta_box( 'lifterlms-order-submit', __( 'Order Actions', 'lifterlms' ), 'LLMS_Meta_Box_Order_Submit::output', 'llms_order', 'side', 'high' );
+		add_meta_box( 'lifterlms-order-refunds', __( 'Process a Refund', 'lifterlms' ), 'LLMS_Meta_Box_Order_Refunds::output', 'llms_order', 'side', 'normal' );
+		remove_meta_box( 'submitdiv', 'llms_order', 'side' ); // remove the default submit box in favor of our custom box
+
+
 		//===================================
 		// Old meta box style
 		//===================================
@@ -163,10 +175,11 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-engagement-options', __( 'Engagement Options', 'lifterlms' ), 'LLMS_Meta_Box_Engagement_Options::output', 'llms_engagement', 'normal' );
 		add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
 		//add_meta_box( 'lifterlms-expiration-options', __( 'Membership Expiration', 'lifterlms' ), 'LLMS_Meta_Box_Expiration::output', 'llms_membership', 'normal' );
-		add_meta_box( 'lifterlms-order-general', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order::output', 'order', 'normal', 'high' );
 		add_meta_box( 'lifterlms-quiz-questions', __( 'Quiz Questions', 'lifterlms' ), 'LLMS_Meta_Box_Quiz_Questions::output', 'llms_quiz', 'normal' );
 		add_meta_box( 'lifterlms-question-general', __( 'Question Settings', 'lifterlms' ), 'LLMS_Meta_Box_Question_General::output', 'llms_question', 'normal' );
-		//add_meta_box( 'lifterlms-coupon-options', __( 'Coupon Options', 'lifterlms' ), 'LLMS_Meta_Box_Coupon_Options::output', 'llms_coupon', 'normal' );
+
+
+
 	}
 
 	/**
@@ -212,7 +225,7 @@ class LLMS_Admin_Meta_Boxes {
 	}
 
 	public function is_llms_post_type( $post ) {
-		if ( in_array( $post->post_type, array( 'course', 'section', 'lesson', 'order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement', 'llms_membership', 'llms_quiz', 'llms_question', 'llms_coupon', 'llms_voucher' ) ) ) {
+		if ( in_array( $post->post_type, array( 'course', 'section', 'lesson', 'llms_order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement', 'llms_membership', 'llms_quiz', 'llms_question', 'llms_coupon', 'llms_voucher' ) ) ) {
 			return true;
 		}
 	}
