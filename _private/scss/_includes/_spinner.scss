@@ -1,0 +1,35 @@
+.llms-spinning {
+	background: rgba( 250, 250, 250, 0.7 );
+	bottom: 0;
+	display: none;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.llms-spinner {
+	animation: llms-spinning 1.5s linear infinite;
+	box-sizing: border-box;
+	border: 4px solid #313131;
+	border-radius: 50%;
+	height: 40px;
+	left: 50%;
+	margin-left: -20px;
+	margin-top: -20px;
+	position: absolute;
+	top: 50%;
+	width: 40px;
+}
+
+@keyframes llms-spinning{
+	0% {
+		transform: rotate(0deg)
+	}
+	50% {
+		border-radius: 5%;
+	}
+	100% {
+		transform: rotate(220deg)
+	}
+}
