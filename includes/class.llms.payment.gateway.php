@@ -1,40 +1,50 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Payment Gateway class
 *
 * Class for managing payment gateways
 */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Payment_Gateway {
-
-	/**
-	 * Payment gateway id
-	 * @var int
-	 */
-	var $id;
-
-	/**
-	 * Title
-	 * @var string
-	 */
-	var $title;
 
 	/**
 	 * Chosen payment gateway
 	 * @var int
 	 */
-	var $chosen;
+	public $chosen;
 
 	/**
 	 * Gateway enabled check
 	 * @var bool
 	 */
-	var $enabled;
+	public $enabled;
+
+	/**
+	 * Payment gateway id
+	 * @var int
+	 */
+	public $id;
+
+	/**
+	 * List of features the gateway supports
+	 * @var array
+	 * @since 3.0.0
+	 */
+	public $supports = array(
+		'refunds' => false,
+		'recurring' => false,
+		'recurring_sync' => false,
+	);
+
+	/**
+	 * Title
+	 * @var string
+	 */
+	public $title;
 
 	/**
 	 * Checks if payment gateway is enabled
-	 * REFACTOR - stubbed out for paypal only.
 	 *
 	 * @return boolean [description]
 	 */
@@ -46,24 +56,17 @@ class LLMS_Payment_Gateway {
 		} else {
 			return false;
 		}
-	}
 
-
-	/**
-	 * Get Payment Gateway
-	 * @return void
-	 */
-	public function get() {
-		get_option( $option, $default );
 	}
 
 	/**
-	 * Set current chosen payment gateway
+	 * Get the Payment Gateway's ID
+	 * @return string
 	 *
-	 * @return bool [is payment gateway chosen]
+	 * @since  3.0.0
 	 */
-	public function set_current() {
-		$this->chosen = true;
+	public function get_id() {
+		return $this->id;
 	}
 
 	/**
@@ -75,13 +78,64 @@ class LLMS_Payment_Gateway {
 	}
 
 	/**
-	 * Validate Credit Card
-	 * Overridable by child classes
+	 * Complete Payment
+	 * Overridable by child class
 	 *
-	 * @return bool [If card valid]
+	 * @param  array $request [Payment gateway API request array]
+	 * @param  object $order   [order data object]
+	 *
+	 * @return [type]          [description]
 	 */
-	public function validate_card() {
+	public function complete_payment( $request, $order ) {}
 
+	/**
+	 * Confirm Payment
+	 * Overridable by child class
+	 *
+	 * @param  array $response [array of payment gateway process payment response]
+	 *
+	 * @return void
+	 */
+	public function confirm_payment( $response ) {}
+
+	/**
+	 * This should return a URL that links to the specificed customer on the Gateway's website
+	 *
+	 * If the gateway doesn't implement a custom URL function simply return the customer_id
+	 *
+	 * @param  string $customer_id   Customer ID
+	 * @return string
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_customer_url( $customer_id ) {
+		return $customer_id;
+	}
+
+	/**
+	 * This should return a URL that links to the subscription on the Gateway's website
+	 *
+	 * If the gateway doesn't implement a custom URL function simply return the transaction_id
+	 *
+	 * @param  string $transaction_id   Transaction ID
+	 * @return string
+	 * @since  3.0.0
+	 */
+	public function get_subscription_url( $subscription_id ) {
+		return $subscription_id;
+	}
+
+	/**
+	 * This should return a URL that links to the transaction on the Gateway's website
+	 *
+	 * If the gateway doesn't implement a custom URL function simply return the transaction_id
+	 *
+	 * @param  string $transaction_id   Transaction ID
+	 * @return string
+	 * @since  3.0.0
+	 */
+	public function get_transaction_url( $transaction_id ) {
+		return $transaction_id;
 	}
 
 	/**
@@ -92,30 +146,32 @@ class LLMS_Payment_Gateway {
 	 *
 	 * @return void
 	 */
-	public function process_payment( $order ) {
+	public function process_payment( $order ) {}
+
+	/**
+	 * Set current chosen payment gateway
+	 *
+	 * @return bool [is payment gateway chosen]
+	 */
+	public function set_current() {
+		$this->chosen = true;
 	}
 
 	/**
-	 * Confirm Payment
-	 * Overridable by child class
+	 * Determine whether or not the gateway supports a particular feature
 	 *
-	 * @param  array $response [array of payment gateway process payment response]
+	 * @see  $this->supports
 	 *
-	 * @return void
+	 * @param  string $feature key of the feature
+	 * @return bool
+	 *
+	 * @since  3.0.0
 	 */
-	public function confirm_payment( $response ) {
-	}
-
-	/**
-	 * Complete Payment
-	 * Overridable by child class
-	 *
-	 * @param  array $request [Payment gateway API request array]
-	 * @param  object $order   [order data object]
-	 *
-	 * @return [type]          [description]
-	 */
-	public function complete_payment( $request, $order ) {
+	public function supports( $feature ) {
+		if ( isset( $this->supports[$feature] ) ) {
+			return $this->supports[$feature];
+		}
+		return false;
 	}
 
 	/**
@@ -124,17 +180,11 @@ class LLMS_Payment_Gateway {
 	 *
 	 * @return void
 	 */
-	public function update_order() {
-	}
+	public function update_order() {}
 
-	/**
-	 * Get Cards available for processing
-	 * Overridable by child class
-	 *
-	 * @return array [card ids available for payment gateway]
-	 */
-	public function get_accepted_cards() {
-	}
+
+
+
 
 	/**
 	 * Get CC Expirations Months
@@ -175,5 +225,21 @@ class LLMS_Payment_Gateway {
 		}
 		return $years;
 	}
+
+	/**
+	 * Get Cards available for processing
+	 * Overridable by child class
+	 *
+	 * @return array [card ids available for payment gateway]
+	 */
+	public function get_accepted_cards() {}
+
+	/**
+	 * Validate Credit Card
+	 * Overridable by child classes
+	 *
+	 * @return bool [If card valid]
+	 */
+	public function validate_card() {}
 
 }
