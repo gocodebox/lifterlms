@@ -33,6 +33,8 @@ class LLMS_Admin {
 		include_once( 'class.llms.admin.menus.php' );
 		include_once( 'class.llms.admin.post-types.php' );
 		include_once( 'class.llms.admin.assets.php' );
+		include_once( 'post-types/class.llms.post.tables.php' );
+
 	}
 
 	public function skip_first_time_setup() {
