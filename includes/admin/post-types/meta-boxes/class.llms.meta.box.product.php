@@ -54,7 +54,7 @@ class LLMS_Meta_Box_Product {
 		}
 
 		// can't be on sale without a sale price
-		if ( isset( $_POST['_on_sale'] ) && ! empty( $_POST['_sale_price'] ) ) {
+		if ( isset( $_POST['_on_sale'] ) && isset( $_POST['_sale_price'] ) ) {
 
 			$on_sale = llms_clean( $_POST['_on_sale'] );
 			update_post_meta( $post_id, '_on_sale', $on_sale );
@@ -130,7 +130,7 @@ class LLMS_Meta_Box_Product {
 						 ", $new_sku ) )
 						) {
 
-						LLMS_Admin_Meta_Boxes::get_error( __( 'The SKU used already exists. Please create a unique SKU.', 'lifterlms' ) );
+						LLMS_Admin_Meta_Boxes::add_error( __( 'The SKU used already exists. Please create a unique SKU.', 'lifterlms' ) );
 
 					} else {
 						update_post_meta( $post_id, '_sku', $new_sku );
