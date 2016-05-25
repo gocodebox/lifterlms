@@ -26,16 +26,17 @@ class LLMS_Frontend_Forms
 		add_action( 'init', array( $this, 'remove_coupon' ) );
 		add_action( 'init', array( $this, 'coupon_check' ) );
 		add_action( 'init', array( $this, 'voucher_check' ) );
-		add_action( 'init', array( $this, 'create_order' ) );
-		add_action( 'init', array( $this, 'confirm_order' ) );
 		add_action( 'init', array( $this, 'login' ) );
 		add_action( 'init', array( $this, 'user_registration' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
 		add_action( 'init', array( $this, 'take_quiz' ) );
-		add_action( 'lifterlms_order_process_begin', array( $this, 'order_processing' ), 10, 1 );
-		add_action( 'lifterlms_order_process_success', array( $this, 'order_success' ), 10, 1 );
-		add_action( 'lifterlms_order_process_complete', array( $this, 'order_complete' ), 10, 1 );
+
+
+
+
+
+
 		add_action( 'lifterlms_content_restricted', array( $this, 'restriction_alert' ), 10, 2 );
 
 	}
@@ -233,54 +234,6 @@ class LLMS_Frontend_Forms
 	}
 
 	/**
-	 * Confirm order form post
-	 * User clicks confirm order
-	 *
-	 * Executes payment gateway confirm order method and completes order.
-	 * Redirects user to appropriate page / post
-	 *
-	 * @return void
-	 */
-	public function confirm_order() {
-
-		global $wpdb;
-
-		$paypal_enabled = get_option( 'lifterlms_gateways_paypal_enabled', '' );
-		if ( ! empty( $paypal_enabled )) {
-			if ( ! isset( $_REQUEST['token'] )) {
-				return;
-			}
-		}
-
-		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
-		if ( 'POST' !== $request_method ) {
-			return;
-		}
-
-		if (empty( $_POST['action'] ) || ('process_order' !== $_POST['action']) || empty( $_POST['_wpnonce'] )) {
-			return;
-		}
-
-		// noonnce the post
-		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
-
-		$order = LLMS()->session->get( 'llms_order', array() );
-		if ( empty( $order ) ) {
-			return;
-		}
-
-		$payment_method = $order->payment_method;
-		$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
-
-		$result = $available_gateways[ $payment_method ]->confirm_payment( $_REQUEST );
-
-		$errors = new WP_Error();
-
-		$complete = $available_gateways[ $payment_method ]->complete_payment( $result, $order );
-
-	}
-
-	/**
 	 * Apply Coupon to order form post
 	 * Applies coupon value to session
 	 * Sets price html output to discounted value
@@ -306,10 +259,10 @@ class LLMS_Frontend_Forms
 
 		$coupon = $this->check_coupon();
 
-		LLMS()->session->set( 'llms_coupon', $coupon );
 
 		if ( $coupon ) {
 
+			LLMS()->session->set( 'llms_coupon', $coupon );
 			return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been applied to your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
 
 		}
@@ -322,11 +275,9 @@ class LLMS_Frontend_Forms
 			return;
 		}
 
-		$coupon = LLMS()->session->get( 'llms_coupon' );
-
 		LLMS()->session->set( 'llms_coupon', null );
 
-		return llms_add_notice( sprintf( __( 'Coupon code <strong>%s</strong> has been removed from your order.', 'lifterlms' ), $coupon->coupon_code ), 'success' );
+		return llms_add_notice( __( 'The coupon has been removed from your order.', 'lifterlms' ), 'success' );
 	}
 
 	private function check_coupon() {
@@ -443,255 +394,6 @@ class LLMS_Frontend_Forms
 		}
 	}
 
-
-	/**
-	 * Create order
-	 * Payment step 1 form submission
-	 * Creates order object and order session object.
-	 * passes data to payment gateway if price exists
-	 * If no price exists passes order to order
-	 * Redirects user to appropriate page / post
-	 *
-	 * @return void
-	 */
-	public function create_order() {
-
-		global $wpdb;
-
-		// ensure POST is set
-		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
-		if ( 'POST' !== $request_method ) {
-			return;
-		}
-
-		if ( empty( $_POST['action'] ) || ( 'create_order_details' !== $_POST['action'] ) || empty( $_POST['_wpnonce'] ) ) {
-			return;
-		}
-
-		// noonnce the post
-		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_order_details' );
-
-		$coupon = LLMS()->session->get( 'llms_coupon', array() );
-
-		if ( ! is_user_logged_in() && llms_is_alternative_checkout_enabled() ) {
-
-			if ( isset( $_POST['llms-login'] ) ) {
-				try {
-
-					$user = LLMS_Person::login_user();
-
-					if ( is_wp_error( $user ) ) {
-
-						llms_add_notice( $user->get_error_message(), 'error' );
-
-						return;
-
-					}
-
-					wp_set_current_user( $user->ID );
-					$user_id = get_current_user_id();
-				} catch ( Exception $e ) {
-					llms_add_notice( apply_filters( 'login_errors', $e->getMessage() ), 'error' );
-
-					return;
-				}
-			} elseif ( $_POST['llms-registration'] ) {
-				$user_id = LLMS_Person::create_new_person();
-
-				if ( is_wp_error( $user_id ) ) {
-
-					llms_add_notice( $user_id->get_error_message(), 'error' );
-
-					return;
-				}
-				llms_set_person_auth_cookie( $user_id );
-			}
-
-			if ( $user_id ) {
-				$user = new LLMS_Person();
-				$product_id = ! empty( $_POST['product_id'] ) ? llms_clean( $_POST['product_id'] ) : '';
-				$user_postmetas = $user->get_user_postmeta_data( $user_id, $product_id );
-				$user_is_member = llms_does_user_memberships_contain_course( $user_id, $product_id );
-
-				if ( $user_postmetas || $user_is_member ) {
-					llms_add_notice( __( 'You already have access to this product!' ), 'error' );
-					wp_safe_redirect( get_permalink( $product_id ) );
-
-					exit;
-				}
-			}
-
-			if ( ! empty( $coupon ) ) {
-				$coupon->user_id = $user_id;
-				$coupon = LLMS()->session->set( 'llms_coupon', $coupon );
-			}
-		}
-
-		// get started
-		$order = new stdClass();
-		$errors = new WP_Error();
-
-		// can't proceed without a user
-		$order->user_id = (int) get_current_user_id();
-		if ( empty( $order->user_id ) ) {
-			return;
-		}
-
-		$user_meta = get_user_meta( $order->user_id );
-		$order->billing_address_1 = ( ! empty( $user_meta['llms_billing_address_1'][0] ) ? $user_meta['llms_billing_address_1'][0] : '');
-		$order->billing_address_2 = ( ! empty( $user_meta['llms_billing_address_2'][0] ) ? $user_meta['llms_billing_address_2'][0] : '');
-		$order->billing_city = ( ! empty( $user_meta['llms_billing_city'][0] ) ? $user_meta['llms_billing_city'][0] : '');
-		$order->billing_state = ( ! empty( $user_meta['llms_billing_state'][0] ) ? $user_meta['llms_billing_state'][0] : '');
-		$order->billing_zip = ( ! empty( $user_meta['llms_billing_zip'][0] ) ? $user_meta['llms_billing_zip'][0] : '');
-		$order->billing_country = ( ! empty( $user_meta['llms_billing_country'][0] ) ? $user_meta['llms_billing_country'][0] : '');
-
-		//get POST data
-		$order->product_id = ! empty( $_POST['product_id'] ) ? llms_clean( $_POST['product_id'] ) : '';
-		$order->product_title = $_POST['product_title'];
-
-		$payment_method_data = explode( '_', $_POST['payment_method'] );
-		$order->payment_type = $payment_method_data[0];
-		if ( count( $payment_method_data ) > 1 ) {
-			$order->payment_method = $payment_method_data[1];
-		}
-
-		$order->use_existing_card = empty( $_POST['use_existing_card'] ) ? '' : $_POST['use_existing_card'];
-		$order->cc_type = ( ! empty( $_POST['cc_type'] ) ? $_POST['cc_type'] : '');
-		$order->cc_number = ( ! empty( $_POST['cc_number'] ) ? $_POST['cc_number'] : '');
-		$order->cc_exp_month = ( ! empty( $_POST['cc_exp_month'] ) ? $_POST['cc_exp_month'] : '');
-		$order->cc_exp_year = ( ! empty( $_POST['cc_exp_year'] ) ? $_POST['cc_exp_year'] : '');
-		$order->cc_cvv = ( ! empty( $_POST['cc_cvv'] ) ? $_POST['cc_cvv'] : '');
-
-		$order->order_completed = 'no';
-
-		$product = new LLMS_Product( $order->product_id );
-
-		$payment_option_data = explode( '_', $_POST['payment_option'] );
-		$order->payment_option = $payment_option_data[0];
-		$order->payment_option_id = $payment_option_data[1];
-
-		//if $ based coupon and recurring order return error and clear session variables
-		if ($order->payment_option == 'recurring' && ! empty( $coupon )) {
-			if ($coupon->type === 'dollar') {
-				return llms_add_notice( __( 'Only percent based coupons can be applied to payment plans.', 'lifterlms' ), 'error' );
-			}
-		}
-
-		$order->product_sku = $product->get_sku();
-		$order->total = 0;
-		$order->product_price = 0;
-		//get product price (could be single or recurring)
-		if (property_exists( $order, 'payment_option' )) {
-			if ($order->payment_option == 'single') {
-				$order->product_price = $product->get_single_price();
-				$order->total = $order->product_price;
-			} elseif ($order->payment_option == 'recurring') {
-
-				$subs = $product->get_subscriptions();
-
-				foreach ($subs as $id => $sub) {
-
-					if ($id == $order->payment_option_id) {
-						$order->product_price = $product->get_subscription_payment_price( $sub );
-						$order->total = $product->get_subscription_total_price( $sub );
-						$order->first_payment = $product->get_subscription_first_payment( $sub );
-						$order->billing_period = $product->get_billing_period( $sub );
-						$order->billing_freq = $product->get_billing_freq( $sub );
-						$order->billing_cycle = $product->get_billing_cycle( $sub );
-						$order->billing_start_date = $product->get_recurring_next_payment_date( $sub );
-					}
-
-				}
-			} elseif ($order->payment_option == 'none') {
-				$order->product_price = 0;
-				$order->total = 0;
-			}
-		}
-
-		$order->currency = get_lifterlms_currency();
-		$order->return_url = $this->llms_confirm_payment_url();
-		$order->cancel_url = $this->llms_cancel_payment_url();
-
-		// if no errors were returned save the data
-		if (llms_notice_count( 'error' ) == 0) {
-
-			$order = apply_filters( 'lifterlms_before_order_process', $order );
-
-			if ($order->total == 0) {
-				$lifterlms_checkout = LLMS()->checkout();
-				$lifterlms_checkout->process_order( $order );
-				$lifterlms_checkout->update_order( $order );
-				do_action( 'lifterlms_order_process_success', $order );
-			} else {
-				$order_session = clone $order;
-				unset( $order_session->cc_type, $order_session->cc_number, $order_session->cc_exp_month, $order_session->cc_exp_year, $order_session->cc_cvv );
-				LLMS()->session->set( 'llms_order', $order_session );
-
-				// this will return false if it's an order that needs payment
-				$order_discounted_to_free = $this->process_free_order();
-
-				if ( ! $order_discounted_to_free) {
-
-					if ( $order->payment_type == 'creditcard' && empty( $_POST['use_existing_card'] ) ) {
-
-						if (empty( $_POST['cc_type'] )) {
-							llms_add_notice( __( 'Please select a credit card type.', 'lifterlms' ), 'error' );
-						}
-						if (empty( $_POST['cc_number'] )) {
-							llms_add_notice( __( 'Please enter a credit card number.', 'lifterlms' ), 'error' );
-						}
-						if (empty( $_POST['cc_exp_month'] )) {
-							llms_add_notice( __( 'Please select an expiration month.', 'lifterlms' ), 'error' );
-						}
-						if (empty( $_POST['cc_exp_year'] )) {
-							llms_add_notice( __( 'Please select an expiration year.', 'lifterlms' ), 'error' );
-						}
-						if (empty( $_POST['cc_cvv'] )) {
-							llms_add_notice( __( 'Please enter the credit card CVV2 number', 'lifterlms' ), 'error' );
-						}
-						if (llms_notice_count( 'error' )) {
-							return;
-						}
-
-					}
-
-					$lifterlms_checkout = LLMS()->checkout();
-					$lifterlms_checkout->process_order( $order );
-					$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
-					$available_gateways[ $order->payment_method ]->process_payment( $order );
-
-				} else {
-					return llms_add_notice( sprintf( 'There was an error processing the payment with coupon <strong>%s</strong>.', $order_discounted_to_free ), 'error' );
-				}
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * Get url for redirect when user confirms payment
-	 * @return string [url to redirect user to on form post]
-	 */
-	function llms_confirm_payment_url() {
-
-		$confirm_payment_url = llms_get_endpoint_url( 'confirm-payment', '', get_permalink( llms_get_page_id( 'checkout' ) ) );
-
-		return apply_filters( 'lifterlms_checkout_confirm_payment_url', $confirm_payment_url );
-	}
-
-	/**
-	 * Get url for when user cancels payment
-	 * @return string [url to redirect user to on form post]
-	 */
-	function llms_cancel_payment_url() {
-
-		$cancel_payment_url = esc_url( get_permalink( llms_get_page_id( 'checkout' ) ) );
-
-		return apply_filters( 'lifterlms_checkout_confirm_payment_url', $cancel_payment_url );
-	}
-
 	/**
 	 * Get redirect url method
 	 * Safe redirect: If there is no referer then redirect user to myaccount
@@ -719,74 +421,7 @@ class LLMS_Frontend_Forms
 		return $redirect;
 	}
 
-	/**
-	 * Redirect user to confirm payment page
-	 *
-	 * @param  string $url [url to redirect user to]
-	 *
-	 * @return void
-	 */
-	public function order_processing( $url ) {
 
-		$redirect = esc_url( $url );
-
-		llms_add_notice( __( 'Please confirm your payment.', 'lifterlms' ) );
-
-		wp_redirect( html_entity_decode( apply_filters( 'lifterlms_order_process_pending_redirect', $redirect ) ) );
-		exit();
-	}
-
-	/**
-	 * Redirect user on order success
-	 * If order is returned successful from payment gateway
-	 * Chooses the appropriate url based on order data.
-	 *
-	 * @param  object $order [order object]
-	 *
-	 * @return void
-	 */
-	public function order_success( $order ) {
-
-		$product_title = $order->product_title;
-		$post_obj = get_post( $order->product_id );
-
-		if ($post_obj->post_type == 'course') {
-			//if post type is course then redirect user back to course
-			// $course = new LLMS_Course($order->product_id);
-			// $next_lesson = $course->get_next_uncompleted_lesson();
-
-			$redirect = esc_url( get_permalink( $order->product_id ) );
-			llms_add_notice( sprintf( __( 'Congratulations! You have enrolled in <strong>%s</strong>', 'lifterlms' ), $product_title ) );
-		} elseif ($post_obj->post_type == 'llms_membership') {
-			$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-			llms_add_notice( sprintf( __( 'Congratulations! Your new membership level is <strong>%s</strong>', 'lifterlms' ), $product_title ) );
-		} else {
-			$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-			llms_add_notice( sprintf( __( 'You have successfully purchased <strong>%s</strong>', 'lifterlms' ), $product_title ) );
-		}
-
-		wp_redirect( apply_filters( 'lifterlms_order_process_success_redirect', $redirect ) );
-
-		exit;
-
-	}
-
-	/**
-	 * Redirect user on completed order
-	 *
-	 * @param  int $user_id [ID of current user]
-	 *
-	 * @return void
-	 */
-	public function order_complete( $user_id ) {
-
-		$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-
-		llms_add_notice( __( 'You already own this course. You cannot purchase it again.', 'lifterlms' ) );
-
-		wp_redirect( apply_filters( 'lifterlms_order_process_complete_redirect', $redirect ) );
-
-	}
 
 	/**
 	 * Alert message when course / lesson is restricted by start date.
