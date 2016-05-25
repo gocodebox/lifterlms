@@ -22,7 +22,7 @@ class LLMS_Analytics {
 	public static function get_orders( $values ) {
 
 		$args = array(
-		  'post_type' 		=> 'order',
+		  'post_type' 		=> 'llms_order',
 		  'posts_per_page'	=> 5000,
 		  'meta_query' 		=> array(),
 		);
@@ -384,7 +384,7 @@ class LLMS_Analytics {
 
 		$total = 0;
 		$args = array(
-				'post_type' 		=> 'order',
+				'post_type' 		=> 'llms_order',
 				'posts_per_page'	=> 5000,
 				'meta_query' 		=> array(),
 				'date_query' => array(
