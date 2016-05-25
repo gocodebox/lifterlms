@@ -49,7 +49,7 @@ class LLMS_Checkout {
 		$sku = get_post_meta( $post_id, '_sku', true );
 
 		$order_data = apply_filters( 'lifterlms_new_order', array(
-			'post_type' 	=> 'order',
+			'post_type' 	=> 'llms_order',
 			'post_title' 	=> sprintf( __( 'Order - %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ) ) ),
 			'post_status' 	=> 'publish',
 			'ping_status'	=> 'closed',
@@ -172,7 +172,7 @@ class LLMS_Checkout {
 
 		// create order post
 		$order_data = apply_filters( 'lifterlms_new_order', array(
-			'post_type'     => 'order',
+			'post_type'     => 'llms_order',
 			'post_title'    => sprintf( __( 'Order - %s, %s', 'lifterlms' ), $order->product_type, LLMS_Date::get_localized_date_string() ),
 			'post_status'   => 'publish',
 			'ping_status'   => 'closed',
@@ -253,7 +253,7 @@ class LLMS_Checkout {
 		do_action( 'lifterlms_order_complete', $order_post_id );
 
 		// enroll student
-		llms_enroll_student( $order->user_id, $order->product_id );
+		llms_enroll_student( $order->user_id, $order->product_id, 'order_' . $order_post_id );
 
 		// trigger purchase action
 		do_action( 'lifterlms_product_purchased', $order->user_id, $order->product_id );
