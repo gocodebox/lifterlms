@@ -62,9 +62,18 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			array( 'title' => __( 'Account Page Slugs', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'These slugs represent different actions in the user account.', 'lifterlms' ), 'id' => 'account_endpoint_options' ),
 
 			array(
-				'title' => __( 'My Courses', 'lifterlms' ),
+				'title' => __( 'Dashboard', 'lifterlms' ),
 				'desc' 		=> __( 'Purchased courses page', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_my_courses_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'my-account',
+				'desc_tip'	=> true,
+			),
+
+			array(
+				'title' => __( 'My Courses', 'lifterlms' ),
+				'desc' 		=> __( 'Purchased courses page', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_courses_endpoint',
 				'type' 		=> 'text',
 				'default'	=> 'my-courses',
 				'desc_tip'	=> true,
