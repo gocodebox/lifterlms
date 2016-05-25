@@ -3,7 +3,7 @@
 * Plugin Name: LifterLMS
 * Plugin URI: https://lifterlms.com/
 * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
-* Version: 2.7.1
+* Version: 2.7.2
 * Author: Mark Nelson, Thomas Patrick Levy, codeBOX, LLC
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '2.7.1';
+	public $version = '2.7.2';
 
 	protected static $_instance = null;
 
@@ -95,8 +95,13 @@ final class LifterLMS {
 		// load localization files
 		add_action( 'plugins_loaded', array( $this, 'localize' ) );
 
+		// PayPal related Crons
+		add_action( 'wp', array( 'LLMS_Payment_Gateway_Paypal', 'schedule_sync' ) );
+		add_action( 'lifterlms_paypal_order_sync', array( new LLMS_Payment_Gateway_Paypal, 'sync_order_statuses' ), 10, 1 );
+
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
+
 	}
 
 	/**
@@ -157,24 +162,12 @@ final class LifterLMS {
 			define( 'LLMS_SVG_DIR', plugins_url( '/assets/svg/svg.svg', LLMS_PLUGIN_FILE ) );
 		}
 
-		if ( ! defined( 'LLMS_LOAD_DEPRECATED' ) ) {
-
-			define( 'LLMS_LOAD_DEPRECATED', true );
-
-		}
-
 	}
 
 	/**
 	 * Include required core classes
 	 */
 	private function includes() {
-
-		if ( LLMS_LOAD_DEPRECATED ) {
-
-			include_once( 'includes/llms.deprecated.php' );
-
-		}
 
 		include_once( 'includes/llms.functions.core.php' );
 		include_once( 'includes/class.llms.install.php' );
@@ -191,14 +184,11 @@ final class LifterLMS {
 
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
 
-			include_once( 'includes/controllers/class.llms.controller.subscriptions.paypal.php' );
-
 		}
 
 		// Date, Number and language formatting
 		include_once( 'includes/class.llms.date.php' );
 		include_once( 'includes/class.llms.number.php' );
-		include_once( 'includes/deprecated/class.llms.language.php' );
 
 		// oembed
 		include_once( 'includes/class.llms.oembed.php' );
