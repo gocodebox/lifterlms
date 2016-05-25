@@ -1,18 +1,22 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! defined( 'LLMS_Admin_Metabox' ) ) {
-	// Include the file for the parent class
-	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
-}
-
 /**
 * Meta Box Builder
 *
 * Generates main metabox and builds forms
+*
+* @version  3.0.0
 */
-class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 
-	public static $prefix = '_';
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+// Include the file for the parent class
+if ( ! defined( 'LLMS_Admin_Metabox' ) ) {
+	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
+}
+
+class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
+
+	public static $prefix = '_llms_';
 
 	/**
 	 * Function to field WP::output() method call
@@ -21,7 +25,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 	 * @param object $post WP global post object
 	 * @return void
 	 */
-	public static function output ( $post ) {
+	public static function output( $post ) {
 		global $post;
 		parent::new_output( $post, self::metabox_options() );
 	}
@@ -31,9 +35,12 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
 	 *
-	 * @return array [md array of metabox fields]
+	 * @return array array of metabox fields
+	 *
+	 * @version  3.0.0
 	 */
 	public static function metabox_options() {
+
 		global $post;
 
 		/**
@@ -43,11 +50,22 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 		$discount_types = array(
 			array(
 				'key' 	=> 'percent',
-				'title' => '% Discount',
+				'title' => __( 'Percentage Discount', '%' ),
 			),
 			array(
 				'key' 	=> 'dollar',
 				'title' => sprintf( __( '%s Discount', 'lifterlms' ), get_lifterlms_currency_symbol() ),
+			),
+		);
+
+		$payment_types = array(
+			array(
+				'key' 	=> 'single',
+				'title' => __( 'Single Payments', '%' ),
+			),
+			array(
+				'key' 	=> 'recurring',
+				'title' => __( 'Recurring Payments', '%' ),
 			),
 		);
 
@@ -78,45 +96,15 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 		$selected_products = get_post_meta( $post->ID, '_llms_coupon_products', true );
 
 		$meta_fields_coupon = array(
+
 			array(
 				'title' 	=> 'General',
 				'fields' 	=> array(
 					array(
-						'type'  	=> 'text',
-						'label' 	=> 'Coupon Code',
-						'desc' 		=> 'Enter a code that users will enter to apply this coupon to their item.',
-						'id' 		=> self::$prefix . 'llms_coupon_title',
-						'section' 	=> 'coupon_meta_box',
-						'class' 	=> 'code input-full',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-						'value' 	=> '',
-						'required'	=> true,
-					),
-					array(
-						'type' => 'select',
-						'label' => 'Courses',
-						'desc' => "Limit coupon to courses and/or memberships, if none selected coupon won't be restricted.",
-						'id' => self::$prefix . 'llms_coupon_courses',
-						'class' => 'input-full llms-meta-select',
-						'value' => $courses_select,
-						'multi' => true,
-						'selected' => $selected_products,
-					),
-					array(
-						'type' => 'select',
-						'label' => 'Membership',
-						'id' => self::$prefix . 'llms_coupon_membership',
-						'class' => 'input-full llms-meta-select',
-						'value' => $memberships_select,
-						'multi' => true,
-						'selected' => $selected_products,
-					),
-					array(
 						'type'		=> 'select',
-						'label'		=> 'Discount Type',
-						'desc' 		=> 'Select a dollar or percentage discount.',
-						'id' 		=> self::$prefix . 'llms_discount_type',
+						'label'		=> __( 'Discount Type', 'lifterlms' ),
+						'desc' 		=> __( 'Select a dollar or percentage discount.', 'lifterlms' ),
+						'id' 		=> self::$prefix . 'discount_type',
 						'class' 	=> 'llms-chosen-select',
 						'value' 	=> $discount_types,
 						'desc_class' => 'd-all',
@@ -125,9 +113,9 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 					),
 					array(
 						'type'  	=> 'number',
-						'label'  	=> 'Coupon Amount',
-						'desc'  	=> 'The value of the coupon. Do not include symbols such as $ or %.',
-						'id'    	=> self::$prefix . 'llms_coupon_amount',
+						'label'  	=> __( 'Single Payment Discount Amount', 'lifterlms' ),
+						'desc'  	=> sprintf( __( 'The value of the coupon for single payment purchases. If left blank, no discount will be applied to single payment purchases. Do not include symbols such as %s or %%.', 'lifterlms' ), get_lifterlms_currency_symbol() ),
+						'id'    	=> self::$prefix . 'coupon_amount',
 						'section' 	=> 'coupon_meta_box',
 						'class' 	=> 'code input-full',
 						'desc_class' => 'd-all',
@@ -136,14 +124,88 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 					),
 					array(
 						'type'  	=> 'number',
-						'label'  	=> 'Usage Limit',
-						'desc'  	=> 'The amount of times this coupon can be used. Leave empty if unlimited.',
-						'id'    	=> self::$prefix . 'llms_usage_limit',
+						'label'  	=> __( 'First Payment Discount Amount', 'lifterlms' ),
+						'desc'  	=> sprintf( __( 'The value of the coupon for the first payment of a recurring subscription. If left blank, no discount will be applied to the first payment. Do not include symbols such as %s or %%.', 'lifterlms' ), get_lifterlms_currency_symbol() ),
+						'id'    	=> self::$prefix . 'recurring_first_payment_amount',
 						'section' 	=> 'coupon_meta_box',
 						'class' 	=> 'code input-full',
 						'desc_class' => 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
+					),
+					array(
+						'type'  	=> 'number',
+						'label'  	=> __( 'Recurring Payments Discount Amount', 'lifterlms' ),
+						'desc'  	=> sprintf( __( 'The value of the coupon for recurring payments on a subscription. If left blank, no discount will be applied to recurring payments. Do not include symbols such as %s or %%.', 'lifterlms' ), get_lifterlms_currency_symbol() ),
+						'id'    	=> self::$prefix . 'recurring_payments_amount',
+						'section' 	=> 'coupon_meta_box',
+						'class' 	=> 'code input-full',
+						'desc_class' => 'd-all',
+						'group' 	=> '',
+						'value' 	=> '',
+					),
+				),
+			),
+
+			array(
+				'title'  => __( 'Restrictions', 'lifterlms' ),
+				'fields' => array(
+					array(
+						'type'  => 'select',
+						'label' => __( 'Courses', 'lifterlms' ),
+						'desc'  => __( 'Limit coupon to the following courses.', 'lifterlms' ),
+						'id'    => self::$prefix . 'coupon_courses',
+						'class' => 'input-full llms-meta-select',
+						'value' => $courses_select,
+						'multi' => true,
+						'selected' => $selected_products,
+					),
+					array(
+						'type'  => 'select',
+						'label' => __( 'Membership', 'lifterlms' ),
+						'desc'  => __( 'Limit coupon to the following memberships.', 'lifterlms' ),
+						'id'    => self::$prefix . 'coupon_membership',
+						'class' => 'input-full llms-meta-select',
+						'value' => $memberships_select,
+						'multi' => true,
+						'selected' => $selected_products,
+					),
+					array(
+						'type'		=> 'date',
+						'label'		=> __( 'Coupon Expiration Date' ),
+						'desc' 		=> __( 'Coupon will no longer be usable after this date. Leave blank for no expiration.', 'lifterlms' ),
+						'id' 		=> self::$prefix . 'expiration_date',
+						'class' 	=> 'llms-datepicker input-full',
+						'value' 	=> '',
+						'desc_class' => 'd-all',
+						'group' 	=> '',
+					),
+					array(
+						'type'  	=> 'number',
+						'label'  	=> __( 'Usage Limit', 'lifterlms' ),
+						'desc'  	=> __( 'The amount of times this coupon can be used. Leave empty if unlimited.', 'lifterlms' ),
+						'id'    	=> self::$prefix . 'usage_limit',
+						'section' 	=> 'coupon_meta_box',
+						'class' 	=> 'code input-full',
+						'desc_class' => 'd-all',
+						'group' 	=> '',
+						'value' 	=> '',
+					),
+				)
+			),
+
+			array(
+				'title' => __( 'Description', 'lifterlms' ),
+				'fields' => array(
+					array(
+						'type'  	=> 'textarea',
+						'label' 	=> __( 'Description', 'lifterlms' ),
+						'desc' 		=> __( 'Optional description for internal notes. This is never displayed to your students.', 'lifterlms' ),
+						'id' 		=> self::$prefix . 'description',
+						'desc_class' => 'd-all',
+						'group' 	=> '',
+						'value' 	=> '',
+						'required'	=> false,
 					),
 				),
 			),
@@ -159,14 +221,52 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox{
 	/**
 	 * Static save method
 	 *
-	 * cleans variables and saves using update_post_meta
+	 * cleans variables and saves using LLMS_Coupon Model
 	 *
 	 * @param  int 		$post_id [id of post object]
 	 * @param  object 	$post [WP post object]
 	 *
 	 * @return void
+	 *
+	 * @version  3.0.0
 	 */
 	public static function save( $post_id, $post ) {
+
+		$c = new LLMS_Coupon( $post );
+
+		// dupcheck title
+		if( $c->find_by_code( $post->post_title, $post_id ) ) {
+
+			LLMS_Admin_Meta_Boxes::add_error( __( 'Coupon code already exists. Customers will use the most recently created coupon with this code.', 'lifterlms' ) );
+
+		}
+
+		// discount type (percent/dollar)
+		$c->discount_type = isset( $_POST[ self::$prefix . 'discount_type' ] ) ? llms_clean( $_POST[ self::$prefix . 'discount_type' ] ) : 'percent';
+
+		// single payment amount
+		$c->coupon_amount = isset( $_POST[ self::$prefix . 'coupon_amount' ] ) ? llms_clean( $_POST[ self::$prefix . 'coupon_amount' ] ) : '';
+
+		// recurring payment amounts
+		$c->recurring_first_payment_amount = isset( $_POST[ self::$prefix . 'recurring_first_payment_amount' ] ) ? llms_clean( $_POST[ self::$prefix . 'recurring_first_payment_amount' ] ) : '';
+		$c->recurring_payments_amount = isset( $_POST[ self::$prefix . 'recurring_payments_amount' ] ) ? llms_clean( $_POST[ self::$prefix . 'recurring_payments_amount' ] ) : '';
+
+		// product restrictions
+		$courses = isset( $_POST['_llms_coupon_courses' ] ) ? $_POST[ self::$prefix . 'coupon_courses' ] : array();
+		$memberships = isset( $_POST[ self::$prefix . 'coupon_membership' ] ) ? $_POST[ self::$prefix . 'coupon_membership' ] : array();
+		$c->coupon_products = array_merge( $courses, $memberships );
+
+		// expiration date
+		$c->expiration_date = isset( $_POST[ self::$prefix . 'expiration_date' ] ) ? llms_clean( $_POST[ self::$prefix . 'expiration_date' ] ) : '';
+
+		// usage limit
+		$c->usage_limit = isset( $_POST[ self::$prefix . 'usage_limit' ] ) ? llms_clean( $_POST[ self::$prefix . 'usage_limit' ] ) : '';
+
+		// description
+		$c->description = isset( $_POST[ self::$prefix . 'description' ] ) ? strip_tags( llms_clean( $_POST[ self::$prefix . 'description' ] ) ) : '';
+
+		// save coupon action
+		do_action( 'lifterlms_after_save_coupon_meta_box', $post_id, $post );
 
 	}
 
