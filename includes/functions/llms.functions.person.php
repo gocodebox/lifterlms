@@ -186,17 +186,37 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
 
 /**
  * Enroll a WordPress user in a course or membership
- * @param  int $user_id    WP User ID
- * @param  int $product_id WP Post ID of the Course or Membership
+ * @param  int     $user_id    WP User ID
+ * @param  int     $product_id WP Post ID of the Course or Membership
+ * @param  string  $trigger    String describing the event that triggered the enrollment
  * @return bool
  *
+ * @see  LLMS_Student->enroll() the class method wrapped by this function
+ *
  * @since  2.2.3
+ * @version 2.8.0 added $trigger parameter
  */
-function llms_enroll_student( $user_id, $product_id ) {
-
+function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
-	return $student->enroll( $product_id );
+	return $student->enroll( $product_id, $trigger );
+}
 
+/**
+ * Remove a LifterLMS Student from a course or membership
+ * @param  int     $user_id     WP User ID
+ * @param  int     $product_id  WP Post ID of the Course or Membership
+ * @param  string  $new_status  the value to update the new status with after removal is complete
+ * @param  string  $trigger     only remove the student if the original enrollment trigger matches the submitted value
+ *                              "any" will remove regardless of enrollment trigger
+ * @return boolean
+ *
+ * @see  LLMS_Student->unenroll() the class method wrapped by this function
+ *
+ * @since  3.0.0
+ */
+function llms_unenroll_student( $user_id, $product_id, $new_status = 'Expired', $trigger = 'any' ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->unenroll( $product_id, $trigger, $new_status );
 }
 
 
