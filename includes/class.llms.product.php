@@ -78,6 +78,15 @@ class LLMS_Product {
 		return $value;
 	}
 
+	/**
+	 * Get the Product ID
+	 * @return int
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_id() {
+		return absint( $this->id );
+	}
 
 	/**
 	 * Get SKU
@@ -85,9 +94,17 @@ class LLMS_Product {
 	 * @return string
 	 */
 	public function get_sku() {
-
 		return $this->sku;
+	}
 
+	/**
+	 * Get the product type (course or membership)
+	 * @return string
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_type() {
+		return $this->post->post_type;
 	}
 
 	/**
@@ -102,7 +119,7 @@ class LLMS_Product {
 			array_push( $options, 'free' );
 		}
 
-		if ( $this->get_price() ) {
+		if ( $this->get_regular_price() ) {
 			array_push( $options, 'single' );
 		}
 
@@ -182,15 +199,37 @@ class LLMS_Product {
 	 * @param  int $sub [sub id]
 	 * @return string [formatted dollar amount]
 	 */
-	public function get_subscription_price_html( $sub ) {
+	public function get_subscription_price_html( $sub, $coupon_id = null ) {
 
 		$price = '';
-		$currency_symbol = get_lifterlms_currency_symbol();
-		$sub_price = $this->adjusted_price( $this->get_subscription_payment_price( $sub ) );
-		$sub_first_payment = $this->adjusted_price( $this->get_subscription_first_payment( $sub ) );
 
-		$suffix = $this->get_price_suffix_html();
-		$display_price = ($currency_symbol . $sub_price);
+		$sub_price = $this->get_subscription_payment_price( $sub );
+		$sub_first_payment = $this->get_subscription_first_payment( $sub );
+
+		if ( $coupon_id ) {
+
+			$adjusted_sub_price = $this->get_coupon_adjusted_price( $sub_price, $coupon_id, 'recurring' );
+			$adjusted_sub_first_payment = $this->get_coupon_adjusted_price( $sub_first_payment, $coupon_id, 'first' );
+
+			if ( $adjusted_sub_price != $sub_price ) {
+				$sub_price = $this->get_adjusted_price_html( $sub_price, $adjusted_sub_price );
+			} else {
+				$sub_price = $this->get_formatted_price( $sub_price );
+			}
+
+			if ( $adjusted_sub_first_payment != $sub_first_payment ) {
+				$sub_first_payment = $this->get_adjusted_price_html( $sub_first_payment, $adjusted_sub_first_payment );
+			} else {
+				$sub_first_payment = $this->get_formatted_price( $sub_first_payment );
+			}
+
+		} else {
+
+			$sub_price = $this->get_formatted_price( $sub_price );
+			$sub_first_payment = $this->get_formatted_price( $sub_first_payment );
+
+		}
+
 		$billing_period = $this->get_billing_period( $sub );
 		$billing_freq = $this->get_billing_freq( $sub );
 		$billing_cycle = $this->get_billing_cycle( $sub );
@@ -203,16 +242,26 @@ class LLMS_Product {
 		}
 
 		// if first payment is different from recurring payment display first payment.
-		if ($sub_first_payment != $sub_price) {
-			$price = sprintf( _x( '%s%s then ', 'billing first payment', 'lifterlms' ), $currency_symbol, $sub_first_payment );
+		if ( $sub_first_payment != $sub_price) {
+
+			if ( $sub_first_payment ) {
+
+				$price = sprintf( _x( '%s then ', 'billing first payment', 'lifterlms' ), $sub_first_payment );
+
+			} else {
+
+				$price = sprintf( _x( 'First %s free then ', 'billing first payment', 'lifterlms' ), $billing_period );
+
+			}
+
 		}
 
 		if ( $billing_cycle == 0 ) {
-			$price .= ($display_price . ' ' . $billing_period_html);
+			$price .= ($sub_price . ' ' . $billing_period_html);
 		} elseif ( $billing_cycle > 1 ) {
-			$price .= sprintf( _x( '%s %s for %s %ss', 'billing cycle', 'lifterlms' ), $display_price, $billing_period_html, $billing_cycle, $billing_period );
+			$price .= sprintf( _x( '%s %s for %s %ss', 'billing cycle', 'lifterlms' ), $sub_price, $billing_period_html, $billing_cycle, $billing_period );
 		} else {
-			$price .= sprintf( _x( '%s %s for %s %s', 'billing without cycle', 'lifterlms' ), $display_price, $billing_period_html, $billing_cycle, $billing_period );
+			$price .= sprintf( _x( '%s %s for %s %s', 'billing without cycle', 'lifterlms' ), $sub_price, $billing_period_html, $billing_cycle, $billing_period );
 		}
 
 		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );;
@@ -253,13 +302,18 @@ class LLMS_Product {
 
 	/**
 	 * Retrive the HTML for a single purchase of a product
+	 * optionally adjusted by a coupon discount
 	 *
-	 * @since  2.2.0
+	 * @param  int   $coupon_id  (optional) WP Post ID of a LifterLMS Coupon
+	 *                           If submitted, will adjust the price by settings
+	 *                           Defined by the Coupon
 	 *
-	 * @param  string $price [description]
-	 * @return [type]        [description]
+	 * @return string
+	 *
+	 * @since    2.2.0
+	 * @version  3.0.0
 	 */
-	public function get_single_price_html( $price = '' ) {
+	public function get_single_price_html( $coupon_id = null ) {
 
 		if ( $this->is_custom_single_price() ) {
 
@@ -267,31 +321,48 @@ class LLMS_Product {
 
 		}
 
-		$suffix 				= $this->get_price_suffix_html();
-		$currency_symbol 		= get_lifterlms_currency_symbol() != '' ? get_lifterlms_currency_symbol() : '';
-		$display_price 			= $this->adjusted_price( $this->get_price() );
-		$display_base_price 	= $this->get_regular_price();
-		$display_sale_price    	= $this->get_sale_price();
+		$regular_price = $this->get_regular_price();
+		$sale_price = $this->get_sale_price();
+		$currency_symbol = get_lifterlms_currency_symbol();
+		$adjusted_price = false;
 
-		if ( $this->get_price() > 0 ) {
+		if ( $regular_price > 0 ) {
 
-			$price = $this->set_price_html_as_value( $suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price );
+			// make coupon adjustments
+			if ( $coupon_id && $regular_price ) {
 
-		} elseif ( $this->get_price() === '' ) {
+				$adjusted_price = apply_filters( 'lifterlms_coupon_price_html', $this->get_coupon_adjusted_price( $this->get_regular_price(), $coupon_id ), $this );
 
-			$price = apply_filters( 'lifterlms_empty_price_html', '', $this );
+			}
 
-		} elseif ( $this->get_price() == 0 ) {
+			// Check if price is on sale and base price exists
+			elseif ( $this->is_on_sale() && $regular_price ) {
+
+				$adjusted_price = apply_filters( 'lifterlms_sale_price_html', $this->get_sale_price(), $this );
+
+			}
+
+			if ( false !== $adjusted_price && $regular_price != $adjusted_price ) {
+
+				$price = $this->get_adjusted_price_html( $regular_price, $adjusted_price );
+
+			} else {
+
+				$price = $regular_price;
+
+			}
+
+		} elseif ( ! $regular_price ) { // empty or 0
 
 			$price = $this->set_price_html_as_free();
 
+		} else {
+
+			$price = $regular_price;
+
 		}
 
-		/**
-		 * @todo eventually deprecate this filter in favor of the single price equivalent
-		 */
-		$price = apply_filters( 'lifterlms_get_price_html', $price, $this );
-
+		// add display text prefix
 		if ( ! $this->is_free() ) {
 
 			$price = __( 'single payment of', 'lifterlms' ) . ' ' . $price;
@@ -322,6 +393,8 @@ class LLMS_Product {
 	/**
 	 * Get recurring price html output
 	 * Formatted string representation of recurring price, cycle, frequency and first payment
+	 *
+	 * @todo  potentially deprecate
 	 *
 	 * @return string [formatted string representing price]
 	 */
@@ -357,41 +430,9 @@ class LLMS_Product {
 			$price .= sprintf( _x( '%s %s for %s %s', 'billing without cycle', 'lifterlms' ), $display_price, $billing_period_html, $billing_cycle, $billing_period );
 		}
 
-		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );;
+		return apply_filters( 'lifterlms_recurring_price_html', $price, $this );
 	}
 
-
-	/**
-	 * Set price html to a decimal value with currency and suffix.
-	 *
-	 * @return string
-	 */
-	public function set_price_html_as_value( $suffix, $currency_symbol, $display_price, $display_base_price, $display_sale_price ) {
-
-		// Check if price is on sale and base price exists
-		if ( $this->is_on_sale() && $this->get_regular_price() ) {
-
-			//generate price with formatting and suffix
-			$price = $currency_symbol;
-
-			$price .= $this->get_price_variations_html( $display_base_price, $display_price ) . $suffix;
-
-			$price = apply_filters( 'lifterlms_sale_price_html', $price, $this );
-
-		} else {
-
-			//generate price with formatting and suffix
-			$price = $currency_symbol;
-
-			$price .= llms_price( $display_price ) . $suffix;
-
-			$price = apply_filters( 'lifterlms_price_html', $price, $this );
-
-		}
-
-		return $price;
-
-	}
 
 	/**
 	 * Set price html to Free is ocurse is 0
@@ -402,7 +443,7 @@ class LLMS_Product {
 
 		if ( $this->is_on_sale() && $this->get_regular_price() ) {
 
-			$price = $this->get_price_variations_html( $this->get_regular_price(), __( 'Free!', 'lifterlms' ) );
+			$price = $this->get_adjusted_price_html( $this->get_regular_price(), __( 'Free!', 'lifterlms' ) );
 
 			$price = apply_filters( 'lifterlms_free_sale_price_html', $price, $this );
 
@@ -503,40 +544,75 @@ class LLMS_Product {
 	}
 
 	/**
-	 * Adjust price using coupon
+	 * Adjust the price of a product based on a supplied coupon
+	 * @param  float           $price     Price being adjusted
+	 * @param  int|string|obj  $coupon_id Coupon ID, Coupon String, LLMS_Coupon Instance, WP_Post instance of an LLMS Coupon
+	 * @param  string          $type      Payment type (single, recurring, first recurring)
+	 * @return float
 	 *
-	 * @param  string $price [product price]
-	 * @return string       [adjusted product price]
+	 * @version  3.0.0
 	 */
-	public function adjusted_price( $price = '' ) {
-		$adjustment = llms_get_coupon();
-		$total = $price;
+	public function get_coupon_adjusted_price( $price, $coupon_id, $type = 'single' ) {
 
-		if ( ! empty( $adjustment ) && $adjustment->amount > 0 ) {
-			if ($this->id == $adjustment->product_id) {
+		// instatiate the coupon
+		$coupon = new LLMS_Coupon( $coupon_id );
 
-				if ( ( $adjustment->limit >= 0 ) || ( $adjustment->limit === 'unlimited' ) ) {
-					if ($adjustment->type == 'percent') {
+		// if the coupon is valid, make adjustments
+		if ( ! is_wp_error( $coupon->is_valid( $this->get_id() ) ) ) {
 
-						$amount = (1 - ($adjustment->amount / 100));
+			// get the discount amount based on payment type
+			switch( $type ) {
 
-						$total = ($price * $amount);
-						$total = sprintf( '%0.2f', $total );
-					} elseif ($adjustment->type == 'dollar') {
-						$amount = round( $adjustment->amount, 2 );
-						$total = ($price - $amount);
-						$total = sprintf( '%0.2f', $total );
-					}
-				}
+				case 'first':
+					$discount = $coupon->get_recurring_first_payment_amount();
+				break;
+
+				case 'recurring':
+					$discount = $coupon->get_recurring_payments_amount();
+				break;
+
+				case 'single':
+					$discount = $coupon->get_single_amount();
+				break;
+
+				default:
+					/**
+					 * Allow filtering of the price if the payment type is not defined above
+					 * @var float
+					 */
+					$discount = apply_filters( 'lifterlms_get_coupon_adjusted_price_for_' . $type . '_payment', 0, $this, $coupon );
+
 			}
+
+			// make sure we have a float we can work with
+			$price = floatval( $price );
+
+			// discount type
+			$discount_type = $coupon->get_discount_type();
+			if ( 'percent' === $discount_type ) {
+
+				$price = $price - ( $price * ( $discount / 100 ) );
+
+			} elseif ( 'dollar' === $discount_type ) {
+
+				$price = $price - $discount;
+
+			}
+
+			// adjust negative prices to be FREE
+			// we're not paying folks to use our coupons, are we?
+			$price = ( $price < 0 ) ? 0 : round( $price, 2 );
+
 		}
-		return $total;
+
+		return $price;
+
 	}
+
 
 	/**
 	 * Get function for price value.
 	 *
-	 *DEPRECIATED
 	 * @return void
 	 */
 	public function get_price() {
@@ -569,7 +645,7 @@ class LLMS_Product {
 	 */
 	public function get_recurring_first_payment() {
 
-		return apply_filters( 'lifterlms_get_recurring_first_price', $this->adjusted_price( $this->llms_subscription_first_payment ), $this );
+		return apply_filters( 'lifterlms_get_recurring_first_price', $this->get_coupon_adjusted_price( $this->llms_subscription_first_payment ), $this );
 	}
 
 	/**
@@ -648,33 +724,19 @@ class LLMS_Product {
 	}
 
 	/**
-	 * creates the price suffix html
-	 *
-	 * @return void
-	 */
-	public function get_price_suffix_html() {
-
-		$price_display_suffix  = get_option( 'lifterlms_price_display_suffix' );
-
-		if ( $price_display_suffix ) {
-
-			$price_display_suffix = ' <small class="lifterlms-price-suffix">' . $price_display_suffix . '</small>';
-
-			//$price_display_suffix = str_replace( $find, $replace, $price_display_suffix );
-
-		}
-
-		return apply_filters( 'lifterlms_get_price_suffix_html', $price_display_suffix, $this );
-	}
-
-	/**
 	 * Returns base price and sale price in html format.
 	 *
 	 * @return string
 	 */
-	public function get_price_variations_html( $base, $sale ) {
+	public function get_adjusted_price_html( $base, $adjusted ) {
 
-		return '<del>' . ( ( is_numeric( $base ) ) ? llms_price( $base ) : $base ) . '</del> <ins>' . ( ( is_numeric( $sale ) ) ? llms_price( $sale ) : $sale ) . '</ins>';
+		if ( 0 == absint( $adjusted ) ) {
+
+			$adjusted = __( 'Free!', 'lifterlms' );
+
+		}
+
+		return '<del>' . $this->get_formatted_price( $base ) . '</del> <ins>' . $this->get_formatted_price( $adjusted ) . '</ins>';
 
 	}
 
@@ -706,6 +768,36 @@ class LLMS_Product {
 		return ( ! $this->get_price() && ! $this->is_recurring() );
 
 	}
+
+	/**
+	 * Retrieve a price formatted by llms_price for this product
+	 *
+	 * @param  mixed  $price  numeric price
+	 * @return string
+	 */
+	public function get_formatted_price( $price ) {
+
+		if ( ! is_numeric( $price ) ) {
+			return $price;
+		}
+
+		$price_args = apply_filters( 'lifterlms_product_price_display_arguments', array(
+			'with_currency' => true,
+			'decimal_places' => 2,
+			'trim_zeros' => false,
+		), $this );
+
+		return llms_price( $price, $price_args );
+
+	}
+
+
+
+	public function get_title() {
+		return $this->post->post_title;
+	}
+
+
 
 	/**
 	 * Retrieves all relivent post meta for order
