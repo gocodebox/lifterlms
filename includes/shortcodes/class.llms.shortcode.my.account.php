@@ -44,6 +44,7 @@ class LLMS_Shortcode_My_Account {
 			if ( isset( $wp->query_vars['lost-password'] ) ) {
 
 				self::lost_password();
+
 			} else {
 
 				llms_get_template( 'myaccount/form-login.php' );
@@ -59,9 +60,16 @@ class LLMS_Shortcode_My_Account {
 		else {
 
 			// edit account page
-			if ( isset( $wp->query_vars['edit-account'] ) ) {
+			if ( isset( $wp->query_vars['my-courses'] ) ) {
+
+				self::my_courses();
+
+			}
+			// edit account page
+			elseif ( isset( $wp->query_vars['edit-account'] ) ) {
 
 				self::edit_account();
+
 			} // vouchers redemption
 			elseif ( isset( $wp->query_vars['redeem-voucher'] ) ) {
 
@@ -86,9 +94,36 @@ class LLMS_Shortcode_My_Account {
 	*/
 	private static function my_account( $atts ) {
 
+		$student = new LLMS_Student();
+		$courses = $student->get_courses( array(
+			'status' => 'enrolled',
+			'limit' => 3,
+		) );
+
 		llms_get_template( 'myaccount/my-account.php', array(
 			'current_user' 	=> get_user_by( 'id', get_current_user_id() ),
+			'student' => $student,
+			'courses' => $courses,
 		) );
+	}
+
+	private static function my_courses() {
+
+		llms_get_template( 'myaccount/my-navigation.php' );
+
+		$student = new LLMS_Student();
+		$courses = $student->get_courses( array(
+			'limit' => ( ! isset( $_GET['limit'] ) ) ? 10 : $_GET['limit'],
+			'skip' => ( ! isset( $_GET['skip'] ) ) ? 0 : $_GET['skip'],
+			'status' => 'enrolled',
+		) );
+
+		llms_get_template( 'myaccount/my-courses.php', array(
+			'student' => $student,
+			'courses' => $courses,
+			'pagination' => $courses['more'],
+		) );
+
 	}
 
 	/**

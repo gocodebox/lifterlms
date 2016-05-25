@@ -25,7 +25,10 @@ llms_print_notices();
 
 <?php do_action( 'lifterlms_before_my_account' ); ?>
 
-<?php llms_get_template( 'myaccount/my-courses.php' ); ?>
+<?php llms_get_template( 'myaccount/my-courses.php', array(
+	'courses' => $courses,
+	'student' => $student,
+) ); ?>
 
 <?php llms_get_template( 'myaccount/my-certificates.php' ); ?>
 

@@ -11,7 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 	<?php do_action( 'lifterlms_before_my_account_navigation' ); ?>
 
-	<a class="llms-nav-link my-account" href="<?php echo get_permalink( llms_get_page_id( 'myaccount' ) ); ?>"><?php _e( 'My Account', 'lifterlms' ); ?></a>
+	<a class="llms-nav-link my-account" href="<?php echo get_permalink( llms_get_page_id( 'myaccount' ) ); ?>"><?php _e( 'Dashboard', 'lifterlms' ); ?></a>
+	<?php echo apply_filters( 'lifterlms_my_account_navigation_link_separator', '&middot;' ); ?>
+
+	<a class="llms-nav-link my-courses" href="<?php echo llms_person_my_courses_url(); ?>"><?php _e( 'My Courses', 'lifterlms' ); ?></a>
 	<?php echo apply_filters( 'lifterlms_my_account_navigation_link_separator', '&middot;' ); ?>
 
 	<a class="llms-nav-link account-settings" href="<?php echo llms_person_edit_account_url(); ?>"><?php _e( 'Account Settings', 'lifterlms' ); ?></a>

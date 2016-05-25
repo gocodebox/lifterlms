@@ -760,20 +760,6 @@ function llms_setup_lesson_data( $post ) {
 }
 add_action( 'the_post', 'llms_setup_lesson_data' );
 
-
-/**
- * Get Price
- *
- * @param  int $price [product price]
- * @param  array  $args  [array of price arguments]
- *
- * @return int $price [formatted price]
- */
-function llms_price( $price, $args = array() ) {
-
-	return $price;
-}
-
 /**
  * Returns post array of data for sections associated with a course
  *
@@ -1332,6 +1318,21 @@ function llms_person_redeem_voucher_url() {
 	return apply_filters( 'lifterlms_person_redeem_voucher_url', $url );
 
 }
+
+/**
+ * Get the link to the My Courses endpoint
+ * @return string
+ *
+ * @since  3.0.0
+ */
+function llms_person_my_courses_url() {
+
+	$url = llms_get_endpoint_url( 'my-courses', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
+
+	return apply_filters( 'lifterlms_person_my_courses_url', $url );
+
+}
+
 
 /**
  * Get Product Query Var

@@ -45,6 +45,7 @@ class LLMS_Query {
 			'lost-password' => get_option( 'lifterlms_myaccount_lost_password_endpoint', 'lost-password' ),
 			'person-logout' => get_option( 'lifterlms_logout_endpoint', 'person-logout' ),
 			'redeem-voucher' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint', 'redeem-voucher' ),
+			'my-courses' => get_option( 'lifterlms_myaccount_courses_endpoint', 'my-courses' ),
 		);
 
 	}
