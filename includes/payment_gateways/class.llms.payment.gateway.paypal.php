@@ -7,21 +7,35 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 * Class for managing Paypal API transactions
 *
 * @author codeBOX
-* @project lifterLMS
+* @project LifterLMS
+*
+* @version  3.0.0
 */
 class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
 	/**
-	 * PayPal API Version
-	 * @string
+	 * Can be set for debugging. print_r()
 	 */
-	public $version;
+	public $debug_info = array();
 
 	/**
-	 * PayPal account username
-	 * @string
+	 * Saves the full response once a request succeed
+	 * @mixed
 	 */
-	public $user;
+	public $full_response = false;
+
+	/**
+	 * Determine of PayPal is in Debug Mode
+	 * @var boolean
+	 */
+	private $is_debug = false;
+
+	/**
+	 * Number of orders to query during each check
+	 * @var integer
+	 * @since  3.0.0
+	 */
+	public $orders_per_sync = 100;
 
 	/**
 	 * PayPal account password
@@ -30,40 +44,10 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 	public $password;
 
 	/**
-	 * PayPal account signature
-	 * @string
-	 */
-	public $signature;
-
-	/**
-	 * Period of time (in seconds) after which the connection ends
-	 * @integer
-	 */
-	public $time_out = 60;
-
-	/**
-	 * Requires SSL Verification
-	 * @boolean
-	 */
-	public $ssl_verify;
-
-	/**
-	 * PayPal API Server
-	 * @string
-	 */
-	private $server;
-
-	/**
 	 * PayPal API Redirect URL
 	 * @string
 	 */
 	private $redirect_url;
-
-	/**
-	 * Real world PayPal API Server
-	 * @string
-	 */
-	private $real_server = 'https://api-3t.paypal.com/nvp';
 
 	/**
 	 * Read world PayPal redirect URL
@@ -72,16 +56,28 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 	private $real_redirect_url = 'https://www.paypal.com/cgi-bin/webscr';
 
 	/**
-	 * Sandbox PayPal Server
+	 * Real world PayPal API Server
 	 * @string
 	 */
-	private $sandbox_server = 'https://api-3t.sandbox.paypal.com/nvp';
+	private $real_server = 'https://api-3t.paypal.com/nvp';
 
 	/**
 	 * Sandbox PayPal redirect URL
 	 * @string
 	 */
 	private $sandbox_redirect_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+
+	/**
+	 * Sandbox PayPal Server
+	 * @string
+	 */
+	private $sandbox_server = 'https://api-3t.sandbox.paypal.com/nvp';
+
+	/**
+	 * PayPal API Server
+	 * @string
+	 */
+	private $server;
 
 	/**
 	 * Array representing the supported short-terms
@@ -98,6 +94,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 		'product_name' => 'L_PAYMENTREQUEST_0_NAME0',
 		'product_price' => 'L_PAYMENTREQUEST_0_AMT0',
 		'product_sku' => 'L_PAYMENTREQUEST_0_NUMBER0',
+		'profile_id' => 'PROFILEID',
 		'item_category' => 'L_PAYMENTREQUEST_0_ITEMCATEGORY0',
 		'billing_type' => 'L_BILLINGTYPE0',
 		'billing_agreement_desc' => 'L_BILLINGAGREEMENTDESCRIPTION0',
@@ -110,27 +107,65 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 		'init_payment_fail' => 'FAILEDINITAMTACTION',
 		'max_failed_payments' => 'MAXFAILEDPAYMENTS',
 		'total_billing_cycles' => 'TOTALBILLINGCYCLES',
-
 	);
 
 	/**
-	 *Can be set for debugging. print_r()
+	 * PayPal account signature
+	 * @string
 	 */
-	public $debug_info = array();
+	public $signature;
 
 	/**
-	 * Saves the full response once a request succeed
-	 * @mixed
+	 * Requires SSL Verification
+	 * @boolean
 	 */
-	public $full_response = false;
+	public $ssl_verify;
 
-	private $is_debug = false;
+	/**
+	 * Features supported by PayPal
+	 * @var array
+	 *
+	 * @since  3.0.0
+	 */
+	public $supports = array(
+		'refunds' => true,
+		'recurring' => true,
+		'recurring_sync' => true,
+	);
+
+	/**
+	 * Frequency to run the check
+	 * Accepts any valid recurrance that can be passed to wp_schdule_event
+	 * Defaults are hourly, twicedaily, or daily but custom recurrances
+	 * can be defined by using the `cron_schedules` filter
+	 * @var string
+	 * @since  3.0.0
+	 */
+	public $sync_frequency = 'hourly';
+
+	/**
+	 * Period of time (in seconds) after which the connection ends
+	 * @integer
+	 */
+	public $time_out = 60;
+
+	/**
+	 * PayPal account username as defined in LifterLMS PayPal Settings
+	 * @string
+	 */
+	public $user;
+
+	/**
+	 * PayPal API Version
+	 * @string
+	 */
+	public $version;
 
 	/**
 	 * Creates a new PayPal gateway object
-	 * @param boolean $sandbox Set to true if you want to enable the Sandbox mode
 	 */
 	public function __construct() {
+
 		// Set the SSL Verification
 		$this->ssl_verify   = apply_filters( 'https_local_ssl_verify', false );
 
@@ -148,98 +183,160 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 		// get the debug status for displaying error messages.
 		$this->is_debug = $this->get_debug_status();
 
+		// allow filtering of short to long-term mapping
+		$this->short_term = apply_filters( 'lifterlms_paypal_short_terms', $this->short_term );
+
+		// allow filtering of sync frequency
+		$this->sync_frequency = apply_filters( 'lifterlms_paypal_order_sync_frequency', $this->sync_frequency );
+
+		// allow filtering of orders / sync
+		$this->orders_per_sync = absint( apply_filters( 'lifterlms_paypal_orders_per_sync', $this->orders_per_sync ) );
+
 		 // Set the Server and Redirect URL
-		if ($this->sandbox) {
+		if ( $this->sandbox ) {
+
 			$this->server = $this->sandbox_server;
 			$this->redirect_url = $this->sandbox_redirect_url;
+
 		} else {
+
 			$this->server = $this->real_server;
 			$this->redirect_url = $this->real_redirect_url;
+
 		}
 
-	}
-
-	private function get_debug_status() {
-
-		$debug = get_option( 'lifterlms_gateways_paypal_enable_debug', 'no' );
-
-		return strcmp( $debug, 'yes' ) === 0 ? true : false;
 	}
 
 	/**
-	 * Process method.
-	 * @param boolean $sandbox Set to true if you want to enable the Sandbox mode
+	 * Builds the request array from the object, param and type parameters
+	 * @param string $type
+	 * @param array $param
+	 * @return array $body
 	 */
-	public function process_payment( $order ) {
+	private function build_request( $type, $param ) {
+		// Request Body
 
-		// Create a new PayPal class instance, and set the sandbox mode to true
-		// $paypal = new LLMS_Payment_Gateway_Paypal ();
+		$body = $param;
+		$body['METHOD'] = $type;
+		$body['VERSION'] = $this->version;
+		$body['USER'] = $this->user;
+		$body['PWD'] = $this->password;
+		$body['SIGNATURE'] = $this->signature;
+		//$body['CUSTOM'] = 'a custom field.come back to me';
 
-		//apply coupon to order total
-		$coupon = LLMS()->session->get( 'llms_coupon' );
-		if ( $coupon ) {
-			$product = new LLMS_Product( $order->product_id );
-			$order->total = ( $order->total - $product->get_coupon_discount_total( $order->total ) );
+		// Request Array
+		$request = array(
+			'body' => $body,
+			'httpversion' => '1.1',
+			'method' => 'POST',
+			'sslverify' => $this->ssl_verify,
+			'timeout' => $this->time_out,
+		);
 
-			if ( $order->payment_option == 'recurring' ) {
-				if ($coupon->type == 'percent') {
-					$order->first_payment = ( $order->first_payment - $product->get_coupon_discount_total( $order->first_payment ) );
-					$order->product_price = ( $order->product_price - $product->get_coupon_discount_total( $order->product_price ) );
-				} else {
-					return llms_add_notice( __( 'You cannot apply dollar based discounts to recurring orders.', 'lifterlms' ) );
-				}
-			} elseif ( $order->payment_option == 'single' ) {
-				$order->product_price = ( $order->product_price - $product->get_coupon_discount_total( $order->product_price ) );
-			}
+		return $request;
+
+	}
+
+	/**
+	 * Complete payment cleanup
+	 * Sets all variables needed to create lifterLMS order
+	 * Updates required tables to associate user with course or membership purchased
+	 *
+	 * @param  array $request [Paypal getExpressCheckout response]
+	 * @param  object $order   [order object that stores all details of order]
+	 *
+	 * @return void
+	 *
+	 * @version  3.0.0
+	 */
+	public function complete_payment( $request, $order ) {
+
+		if ( 'llms-failed' !== $order->get_status() && 'llms-pending' !== $order->get_status() ) {
+
+			return $this->return_error( 'This order has already been completed and cannot be purchased again.' );
+
 		}
 
-		if ( $order->payment_option == 'single' ) {
+		if( isset( $request['PAYERID'] ) ) {
+			$order->transaction_customer_id = $request['PAYERID'];
+		}
+		$order->transaction_api_mode = ( $this->sandbox ) ? 'test' : 'live';
+
+
+		if ( 'single' === $order->get_type() && strcmp( $request['ACK'], 'Failure' ) !== 0 ) {
 
 			$param = array(
-				'amount' => $order->total,
-				'currency_code' => $order->currency,
-				'return_url' => $order->return_url,
-				'cancel_url' => $order->cancel_url,
-				'product_name' => $order->product_title,
-				'product_sku' => $order->product_sku,
-				'product_price' => $order->product_price,
+				'amount' => $request['AMT'],
+				'currency_code' => $request['CURRENCYCODE'],
+				'payer_id' => $request['PAYERID'],
+				'token' => $request['TOKEN'],
 			);
-		}
 
-		if ( $order->payment_option == 'recurring' ) {
+			if ( $this->doExpressCheckout( $param ) ) {
+
+				$response = $this->getResponse();
+
+			}
+
+		}
+		// recurring
+		elseif ( 'recurring' === $order->get_type() && strcmp( $request['ACK'], 'Failure' ) !== 0 ) {
 
 			$param = array(
-				'amount' => $order->first_payment,
-				'recurring_amount' => $order->product_price,
-				'currency_code' => $order->currency,
-				'return_url' => $order->return_url,
-				'cancel_url' => $order->cancel_url,
-				'product_name' => $order->product_title,
-				'product_sku' => $order->product_sku,
-				'product_price' => $order->first_payment,
-				//'item_category' => 'Digital',
-				'billing_type' => 'RecurringPayments',
-				'billing_agreement_desc' => trim( $order->product_title ),
-				'profile_start_date' => $order->billing_start_date,
-				'billing_period' => $order->billing_period,
-				'billing_freq' => $order->billing_freq,
-				'total_billing_cycles' => $order->billing_freq,
+				'init_payment' => $order->get_first_payment_total(),
+				'profile_start_date' => gmdate( 'Y-m-d\TH:i:s\Z', strtotime( $order->get_billing_start_date() ) ),
+				'description' => $this->get_subscription_description( $order ),
+				'billing_agreement_desc' => $this->get_subscription_description( $order ),
+				'billing_period' => $this->get_billing_period( $order->get_billing_period() ),
+				'billing_freq' => $order->get_billing_frequency(),
+				'recurring_amount' => $order->get_recurring_payment_total(),
+				'currency_code' => $request['CURRENCYCODE'],
+				'token' => $request['TOKEN'],
+				'payer_id' => $request['PAYERID'],
+				'total_billing_cycles' => $order->get_billing_cycle(),
 				'max_failed_payments' => '1',
-				'total_billing_cycles' => $order->billing_cycle,
 			);
+
+			if ( $this->createRecurringPaymentsProfile( $param ) ) {
+
+				$response = $this->getResponse();
+
+			}
 		}
 
-		if ($this->setExpressCheckout( $param )) {
+		if ( isset( $response ) && 'Success' == $response['ACK'] ) {
 
-			$redirect_url = $this->getRedirectURL();
-			if ($redirect_url) {
-				do_action( 'lifterlms_order_process_begin', $redirect_url );
-			} else {
-				return $this->return_error( 'There was an error connecting to the payment gateway.' );
+			// mark order as completed
+			switch( $order->get_type() ) {
+				case 'single' :
+					$order->update_status( 'completed' );
+					// save fee to metadata if available
+					if ( isset( $response['PAYMENTINFO_0_FEEAMT'] ) ) {
+						$order->transaction_fee = $response['PAYMENTINFO_0_FEEAMT'];
+					}
+					// save transaction id if available
+					if( isset( $response['PAYMENTINFO_0_TRANSACTIONID'] ) ) {
+						$order->transaction_id = $response['PAYMENTINFO_0_TRANSACTIONID'];
+					}
+				break;
+
+				case 'recurring' :
+					$order->update_status( 'active' );
+					// save transaction id if available
+					if( isset( $response['PROFILEID'] ) ) {
+						$order->subscription_id = $response['PROFILEID'];
+					}
+				break;
 			}
+
+			do_action( 'lifterlms_order_process_success', $order );
 
 		} else {
-			return $this->return_error( 'There was an error connecting to the payment gateway.' );
+
+			$order->update_status( 'failed' );
+			do_action( 'lifterlms_order_process_error', $order->user_id );
+			return $this->return_error( 'There was an error processing your payment.' );
+
 		}
 
 	}
@@ -253,133 +350,116 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 	 */
 	public function confirm_payment( $response ) {
 
-		//$paypal = new LLMS_Payment_Gateway_Paypal ();
-
 		$param = array(
 			'token' => $response['token'],
 		);
-		if ($this->getExpressCheckout( $param )) {
+
+		if ( $this->getExpressCheckout( $param ) ) {
 
 			return $this->getResponse();
+
 		} else {
-			return $this->return_error( 'There was an error connecting to the payment gateway.' );
+
+			return $this->return_error( 'There was an error connecting to the payment gateway.', 'lifterlms' );
+
 		}
 
 	}
 
 	/**
-	 * Complete payment cleanup
-	 * Sets all variables needed to create lifterLMS order
-	 * Updates required tables to associate user with course or membership purchased
-	 *
-	 * @param  array $request [Paypal getExpressCheckout response]
-	 * @param  object $order   [order object that stores all details of order]
-	 *
-	 * @return void
+	 * Executes a doExpressCheckout command
+	 * @param array $param
+	 * @return boolean
 	 */
-	public function complete_payment( $request, $order ) {
-		//$this = new LLMS_Payment_Gateway_Paypal ();
+	public function createRecurringPaymentsProfile( $param ) {
+		return $this->requestExpressCheckout( 'CreateRecurringPaymentsProfile', $param );
+	}
 
-		if ($order->payment_option == 'recurring' ) {
+	/**
+	 * Executes a doExpressCheckout command
+	 * @param array $param
+	 * @return boolean
+	 */
+	public function doExpressCheckout( $param ) {
+		return $this->requestExpressCheckout( 'DoExpressCheckoutPayment', $param );
+	}
 
-			$billing_period = $this->get_billing_period( $order->billing_period );
+	/**
+	 * Determine if CLI is being used
+	 * @return boolean
+	 */
+	public static function is_cli() {
+		return (PHP_SAPI == 'cli' && empty( $_SERVER['REMOTE_ADDR'] ));
+	}
 
-			//only do initial billing if 1st payment is not 0
-			if ($request['AMT'] > 0) {
+	/**
+	 * Executes a getExpressCheckout command
+	 * @param array $param
+	 * @return boolean
+	 */
+	public function getExpressCheckout( $param ) {
+		return $this->requestExpressCheckout( 'GetExpressCheckoutDetails', $param );
+	}
 
-				$init_param = array(
-					'amount' => $request['AMT'],
-					'currency_code' => $request['CURRENCYCODE'],
-					'payer_id' => $request['PAYERID'],
-					'token' => $request['TOKEN'],
-				);
+	/**
+	 * Executes a GetRecurringPaymentsProfileDetails commad
+	 * @param  array $param pameters to pass to the command
+	 * @return boolean
+	 */
+	public function getRecurringPaymentsProfileDetails( $param ) {
+		return $this->requestExpressCheckout( 'GetRecurringPaymentsProfileDetails', $param );
+	}
 
-				if ($this->doExpressCheckout( $init_param )) {
-
-					$init_response = $this->getResponse();
-
-					if ( ! $init_response || $init_response['ACK'] === 'Failure') {
-						return $this->return_error( 'There was an error connecting to the payment gateway.' );
-					}
-
-				} else {
-					return $this->return_error( 'There was an error connecting to the payment gateway.' );
-				}
-			}
-
-			$coupon = LLMS()->session->get( 'llms_coupon' );
-			if ( $coupon ) {
-				$product = new LLMS_Product( $order->product_id );
-
-				if ( $order->payment_option == 'recurring' ) {
-					if ($coupon->type == 'percent') {
-						$order->product_price = ( $order->product_price - $product->get_coupon_discount_total( $order->product_price ) );
-					}
-				}
-			}
-
-			$param = array(
-				'profile_start_date' => strtotime( $order->billing_start_date ),
-				'description' => trim( $order->product_title ),
-				'billing_period' => $billing_period,
-				'billing_freq' => $order->billing_freq,
-				'recurring_amount' => $order->product_price,
-				'currency_code' => $request['CURRENCYCODE'],
-				'token' => $request['TOKEN'],
-				'payer_id' => $request['PAYERID'],
-				'total_billing_cycles' => $order->billing_cycle,
-				'max_failed_payments' => '1',
+	/**
+	 * Returns the redirect URL
+	 * @return string $url
+	 */
+	public function getRedirectURL() {
+		$output = $this->getResponse();
+		if ($output['ACK'] === 'Success') {
+			$query_data = array(
+				'cmd' => '_express-checkout',
+				'token' => $output['TOKEN'],
 			);
-
-			if ($this->createRecurringPaymentsProfile( $param )) {
-				$response = $this->getResponse();
-
-				if ( ! $response || $response['ACK'] === 'Failure') {
-					return $this->return_error( 'There was an error connecting to the payment gateway.' );
-				}
-			} else {
-				return $this->return_error( 'There was an error connecting to the payment gateway.' );
-			}
-		}
-
-		if ( $order->payment_option == 'single' && strcmp( $request['ACK'], 'Failure' ) !== 0) {
-
-			$param = array(
-				'amount' => $request['AMT'],
-				'currency_code' => $request['CURRENCYCODE'],
-				'payer_id' => $request['PAYERID'],
-				'token' => $request['TOKEN'],
-			);
-
-			if ($this->doExpressCheckout( $param )) {
-
-				$response = $this->getResponse();
-
-				if ( ! $response || $response['ACK'] === 'Failure') {
-					return $this->return_error( 'There was an error connecting to the payment gateway.' );
-				}
-
-			} else {
-				return $this->return_error( 'There was an error connecting to the payment gateway.' );
-			}
-		}
-
-		if (isset( $response ) && $response['ACK'] == 'Success') {
-
-			$lifterlms_checkout = LLMS()->checkout();
-			$result = $lifterlms_checkout->update_order( $order );
-
-			if ( $order->payment_option == 'recurring' ) {
-				update_post_meta( $result,'_llms_order_paypal_profile_id', $response['PROFILEID'] );
-			}
-
-			do_action( 'lifterlms_order_process_success', $order );
+			$url = $this->redirect_url . '?' . http_build_query( $query_data );
+			return $url;
 		} else {
-
-			do_action( 'lifterlms_order_process_error', $order->user_id );
-			return $this->return_error( 'There was an error connecting to the payment gateway.' );
+			$this->debug_info = $output;
 		}
 
+		return false;
+	}
+
+	/**
+	 * Returns the PayPal Body response
+	 * @return array $reponse
+	 */
+	public function getResponse() {
+		if ($this->full_response) {
+			parse_str( urldecode( $this->full_response['body'] ), $output );
+
+			if ($output && strcmp( $output['ACK'], 'Failure' ) === 0) {
+				$this->debug_info = $output;
+			}
+
+			return $output;
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the response Token
+	 * @return string $token
+	 */
+	public function getToken() {
+		$output = $this->getResponse();
+		if ($output['ACK'] === 'Success') {
+			return $output['TOKEN'];
+		} else {
+			$this->debug_info = $output;
+		}
+
+		return false;
 	}
 
 	/**
@@ -402,39 +482,160 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 	}
 
 	/**
-	 * Executes a setExpressCheckout command
-	 * @param array $param
-	 * @return boolean
+	 * Determine whether or not the debug mode option is enabled from the gateway
+	 * @return bool
 	 */
-	public function setExpressCheckout( $param ) {
-		return $this->requestExpressCheckout( 'SetExpressCheckout', $param );
+	private function get_debug_status() {
+
+		$debug = get_option( 'lifterlms_gateways_paypal_enable_debug', 'no' );
+
+		return strcmp( $debug, 'yes' ) === 0 ? true : false;
 	}
 
 	/**
-	 * Executes a getExpressCheckout command
-	 * @param array $param
-	 * @return boolean
+	 * Retrieve Details for a Recurring Profile by Profile ID
+	 * @param  string $profile_id PayPal Recurring Billing Profile ID
+	 * @return mixed              array or false if no results found
+	 * @since  3.0.0
 	 */
-	public function getExpressCheckout( $param ) {
-		return $this->requestExpressCheckout( 'GetExpressCheckoutDetails', $param );
+	public function get_recurring_profile_details( $profile_id ) {
+		$params =  array( 'profile_id' => $profile_id );
+		if ( $this->getRecurringPaymentsProfileDetails( $params ) ) {
+			return $this->getResponse();
+		} else {
+			return false;
+		}
 	}
 
 	/**
-	 * Executes a doExpressCheckout command
-	 * @param array $param
-	 * @return boolean
+	 * Get the description that can be passed with the terms and title of the description
+	 * @param  obj    $order Instance of an LLMS_Order
+	 * @return string
+	 *
+	 * @since  3.0.0
 	 */
-	public function doExpressCheckout( $param ) {
-		return $this->requestExpressCheckout( 'DoExpressCheckoutPayment', $param );
+	public function get_subscription_description( $order ) {
+		$product = new LLMS_Product( $order->get_product_id() );
+		$desc = sprintf( __( 'Subscription to %s', 'lifterlms' ), $order->get_product_title() );
+		return trim( apply_filters( 'lifterlms_paypal_subscription_description', $desc, $order ) );
 	}
 
 	/**
-	 * Executes a doExpressCheckout command
-	 * @param array $param
-	 * @return boolean
+	 * Output error messages
+	 * @param  mixed $debug_info  debug info
+	 * @return string
 	 */
-	public function createRecurringPaymentsProfile( $param ) {
-		return $this->requestExpressCheckout( 'CreateRecurringPaymentsProfile', $param );
+	public function outputError( $debug_info ) {
+		return 'Paypal Gateway Error: ' . $this->pr( $debug_info ) . PHP_EOL;
+	}
+
+	/**
+	 * Debug function for printing the content of an object or array
+	 *
+	 * @param [mixes] $obj
+	 */
+	public function pr( $obj ) {
+		ob_start();
+		$pr = '';
+		if ( ! self::is_cli()) {
+			$pr .= '<pre style="word-wrap: break-word">'; }
+		if (is_object( $obj )) {
+			$pr .= $this->sprint_r( $obj ); } elseif (is_array( $obj )) {
+			$pr .= $this->sprint_r( $obj ); } else { 			$pr .= $obj; }
+			if ( ! self::is_cli()) {
+				$pr .= '</pre>'; }
+
+			return $pr;
+	}
+
+	/**
+	 * Setup payment processing and pass express checkout params to PayPal
+	 * Redirects user to PayPal to login & do the PayPal Thing
+	 * After login they'll be redirected back to LifterLMS Confirm Screen
+	 *
+	 * If an error is encountered the user will be returned to the purchase screen
+	 * with the error message displayed
+	 *
+	 * @param  obj    $order Instance of the pending LLMS_Order
+	 * @return void
+	 *
+	 * @version  3.0.0
+	 */
+	public function process_payment( $order ) {
+
+		// default parameters
+		$params = array(
+			'cancel_url' => llms_cancel_payment_url(),
+			'currency_code' => $order->get_currency(),
+			'return_url' => llms_confirm_payment_url(),
+			'product_name' => $order->get_product_title(),
+			'product_sku' => $order->get_product_sku(),
+		);
+
+		// additional parameters based on order type
+		switch( $order->get_type() ) {
+			case 'single':
+				$additional_params = array(
+					'amount' => $order->get_total(),
+					'product_price' => $order->get_total(),
+				);
+			break;
+
+			case 'recurring':
+				$additional_params = array(
+					'init_payment' => $order->get_first_payment_total(),
+					'recurring_amount' => $order->get_recurring_payment_total(),
+					'product_price' => $order->get_first_payment_total(),
+					'billing_type' => 'RecurringPayments',
+					'description' => $this->get_subscription_description( $order ),
+					'billing_agreement_desc' => $this->get_subscription_description( $order ),
+					'profile_start_date' => gmdate( 'Y-m-d\TH:i:s\Z', strtotime( $order->get_billing_start_date() ) ),
+					'billing_period' => $this->get_billing_period( $order->get_billing_period() ),
+					'billing_freq' => $order->get_billing_frequency(),
+					'max_failed_payments' => '1',
+					'total_billing_cycles' => $order->get_billing_cycle(),
+				);
+			break;
+		}
+
+		// merge & filter
+		$params = apply_filters( 'lifterlms_process_payment_parameters', array_merge( $params, $additional_params ), $order );
+
+		if ( $this->setExpressCheckout( $params ) ) {
+
+			$redirect_url = $this->getRedirectURL();
+
+			if ( $redirect_url ) {
+
+				do_action( 'lifterlms_payment_processing_redirect', $redirect_url );
+
+			} else {
+
+				return $this->return_error( 'There was an error connecting to the payment gateway.' );
+
+			}
+
+		} else {
+
+			return $this->return_error( 'There was an error connecting to the payment gateway.' );
+
+		}
+
+	}
+
+	/**
+	 * Replace the Parameters short terms
+	 * @param array $param The given parameters array
+	 * @return array $param
+	 */
+	private function replace_short_terms( $param ) {
+		foreach ($this->short_term as $short_term => $long_term) {
+			if (array_key_exists( $short_term, $param )) {
+				$param[ $long_term ] = $param[ $short_term ];
+				unset( $param[ $short_term ] );
+			}
+		}
+		return $param;
 	}
 
 	/**
@@ -472,151 +673,151 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 	}
 
 	/**
-	 * Replace the Parameters short terms
-	 * @param array $param The given parameters array
-	 * @return array $param
+	 * Return an error message
+	 * @param  string $message error message
+	 * @return void
 	 */
-	private function replace_short_terms( $param ) {
-		foreach ($this->short_term as $short_term => $long_term) {
-			if (array_key_exists( $short_term, $param )) {
-				$param[ $long_term ] = $param[ $short_term ];
-				unset( $param[ $short_term ] );
-			}
-		}
-		return $param;
-	}
-
-	/**
-	 * Builds the request array from the object, param and type parameters
-	 * @param string $type
-	 * @param array $param
-	 * @return array $body
-	 */
-	private function build_request( $type, $param ) {
-		// Request Body
-
-		$body = $param;
-		$body['METHOD'] = $type;
-		$body['VERSION'] = $this->version;
-		$body['USER'] = $this->user;
-		$body['PWD'] = $this->password;
-		$body['SIGNATURE'] = $this->signature;
-		//$body['CUSTOM'] = 'a custom field.come back to me';
-
-		// Request Array
-		$request = array(
-			'body' => $body,
-			'httpversion' => '1.1',
-			'method' => 'POST',
-			'sslverify' => $this->ssl_verify,
-			'timeout' => $this->time_out,
-		);
-
-		return $request;
-
-	}
-
-	/**
-	 * Returns the PayPal Body response
-	 * @return array $reponse
-	 */
-	public function getResponse() {
-		if ($this->full_response) {
-			parse_str( urldecode( $this->full_response['body'] ), $output );
-
-			if ($output && strcmp( $output['ACK'], 'Failure' ) === 0) {
-				$this->debug_info = $output;
-			}
-
-			return $output;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns the redirect URL
-	 * @return string $url
-	 */
-	public function getRedirectURL() {
-		$output = $this->getResponse();
-		if ($output['ACK'] === 'Success') {
-			$query_data = array(
-				'cmd' => '_express-checkout',
-				'token' => $output['TOKEN'],
-			);
-			$url = $this->redirect_url . '?' . http_build_query( $query_data );
-			return $url;
-		} else {
-			$this->debug_info = $output;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Returns the response Token
-	 * @return string $token
-	 */
-	public function getToken() {
-		$output = $this->getResponse();
-		if ($output['ACK'] === 'Success') {
-			return $output['TOKEN'];
-		} else {
-			$this->debug_info = $output;
-		}
-
-		return false;
-	}
-
 	public function return_error( $message ) {
+		llms_add_notice( $message, 'error' );
+		if ( $this->is_debug ) {
+			llms_add_notice( $this->outputError( $this->debug_info ) );
+		}
+		return;
+	}
 
-		if ($this->is_debug) {
-			return llms_add_notice( $this->outputError( $this->debug_info ) );
-		} else {
-			return llms_add_notice( $message, 'error' );
+	/**
+	 * Schedule cron actions for order syncing
+	 * @return void
+	 * @since  3.0.0
+	 */
+	public static function schedule_sync() {
+		if ( ! wp_next_scheduled( 'lifterlms_paypal_order_sync' )) {
+			wp_schedule_event( time(), $this->sync_frequency, 'lifterlms_paypal_order_sync' );
 		}
 	}
 
 	/**
-	 * Debug function for printing the content of an object or array
-	 *
-	 * @param [mixes] $obj
+	 * Executes a setExpressCheckout command
+	 * @param array $param
+	 * @return boolean
 	 */
-	public function pr( $obj ) {
-		ob_start();
-		$pr = '';
-		if ( ! self::is_cli()) {
-			$pr .= '<pre style="word-wrap: break-word">'; }
-		if (is_object( $obj )) {
-			$pr .= $this->sprint_r( $obj ); } elseif (is_array( $obj )) {
-			$pr .= $this->sprint_r( $obj ); } else { 			$pr .= $obj; }
-			if ( ! self::is_cli()) {
-				$pr .= '</pre>'; }
-
-			return $pr;
-	}
-
-	public static function is_cli() {
-		return (PHP_SAPI == 'cli' && empty( $_SERVER['REMOTE_ADDR'] ));
+	public function setExpressCheckout( $param ) {
+		return $this->requestExpressCheckout( 'SetExpressCheckout', apply_filters( 'lifterlms_set_express_checkout_params', $param ) );
 	}
 
 	/**
-	 * Outputs Error messages
-	 * @param  [obj] $XeroOAuth [Xero API call object]
-	 * @return [obj]            [Prints errors using pr method]
+	 * Record the output of print_r for returning in a debug message
+	 * @param  mixed $var a variable to print_r
+	 * @return string
 	 */
-	public function outputError( $debug_info ) {
-
-		return 'Paypal Gateway Error: ' . $this->pr( $debug_info ) . PHP_EOL;
-
-	}
-
 	public function sprint_r( $var ) {
 		ob_start();
 		print_r( $var );
 		$output = ob_get_contents();
 		ob_end_clean();
 		return $output;
+	}
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * Query Active PayPal Subscriptions and check their status to ensure
+	 * they're still active in PayPal
+	 *
+	 * Update statuses if status is not pending or active
+	 *
+	 * @param  int    $count   Optionally pass a number which determines how many orders to query
+	 *                         This is used on the admin panel to force sync of an individual order
+	 *                         in this scenario, the last sync is reset to 0
+	 *                         and this function is called with a $count of 1 which
+	 *                         ensures the order we're looking at will be synced immediately
+	 * @return void
+	 */
+	public function sync_order_statuses( $count = null ) {
+
+		// if gateway not enabled, skip
+		if ( ! $this->is_available() ) {
+			return;
+		}
+
+		// set the count if count supplied
+		if ( $count ) {
+			$this->orders_per_sync = $count;
+		}
+
+		global $wpdb;
+
+		// query
+		$orders = $wpdb->get_results( $wpdb->prepare(
+			"SELECT
+				  p.ID AS id
+				, m.meta_value AS profile_id
+				, m2.meta_value AS last_sync
+			 FROM {$wpdb->posts} AS p
+			 JOIN {$wpdb->postmeta} AS m ON m.post_id = p.ID
+			 LEFT JOIN {$wpdb->postmeta} AS m2 ON m2.post_id = p.ID
+			 LEFT JOIN {$wpdb->postmeta} AS m3 ON m3.post_id = p.ID
+			 WHERE p.post_status = 'llms-active'
+			   AND m.meta_key = '_llms_subscription_id'
+			   AND m2.meta_key = '_llms_subscription_last_sync'
+			   AND m3.meta_key = '_llms_payment_gateway'
+			   AND m3.meta_value = %s
+			 ORDER BY last_sync ASC
+			 LIMIT %d
+			;",
+			array( $this->id, $this->orders_per_sync )
+		) );
+
+		// loop through orders
+		foreach( $orders as $order ) {
+
+			// get details from API
+			$res = $this->get_recurring_profile_details( $order->profile_id );
+
+			// if successful
+			if ( $res && isset( $res['ACK'] ) && 'Success' === $res['ACK'] ) {
+
+				// update the last sync to now
+				$order = new LLMS_Order( $order->id );
+				$order->subscription_last_sync = current_time( 'timestamp' );
+
+				// update the status
+				if ( isset( $res['STATUS'] ) ) {
+
+					switch( $res['STATUS'] ) {
+
+						// leave it active
+						case 'Active':
+						// pending is before the transaction is complete
+						// we can't really do much about this and paypal can be slow
+						// to activate so we'll allow pending transactions access
+						case 'Pending':
+						break;
+
+						case 'Expired':
+						case 'Suspended':
+							$order->update_status( 'expired' );
+						break;
+
+						case 'Cancelled':
+							$order->update_status( 'cancelled' );
+						break;
+
+					}
+
+				}
+
+			}
+
+		}
+
 	}
 
 }
