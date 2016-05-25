@@ -230,7 +230,7 @@ class LLMS_Voucher
 				foreach ( $products as $product ) {
 
 					// if enrollment was sucessfull, create an order
-					if ( llms_enroll_student( $user_id, $product ) ) {
+					if ( llms_enroll_student( $user_id, $product, 'voucher' ) ) {
 
 						$checkout = LLMS()->checkout();
 						$checkout->create( $user_id, $product, 'Voucher' );
