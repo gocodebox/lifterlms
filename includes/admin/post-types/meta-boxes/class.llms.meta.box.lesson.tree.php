@@ -142,7 +142,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 
 				} else {
 
-					LLMS_Admin_Meta_Boxes::get_error( __( 'There was an error assigning the lesson to a section. Please be sure a section is assigned to a course.', 'lifterlms' ) );
+					LLMS_Admin_Meta_Boxes::add_error( __( 'There was an error assigning the lesson to a section. Please be sure a section is assigned to a course.', 'lifterlms' ) );
 
 				}
 			}
