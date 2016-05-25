@@ -153,6 +153,103 @@ class LLMS_AJAX_Handler {
 	}
 
 
+	public static function remove_coupon_code( $request ) {
+
+		ob_start();
+		llms_get_template( 'checkout/form-coupon.php' );
+		$coupon_html = ob_get_clean();
+
+		ob_start();
+		llms_get_template( 'checkout/form-pricing.php', array(
+			'product' => new LLMS_Product( $request['product_id'] ),
+		) );
+		$pricing_html = ob_get_clean();
+
+		return array(
+			'coupon_html' => $coupon_html,
+			'pricing_html' => $pricing_html,
+		);
+
+	}
+
+	/**
+	 * Validate a Coupon via the Checkout Form
+	 *
+	 * @since  3.0.0
+	 */
+	public static function validate_coupon_code( $request ) {
+
+		$error = new WP_Error();
+
+		// validate for required fields
+		if ( empty( $request['code'] ) ) {
+
+			$error->add( 'error', __( 'Please enter a coupon code.', 'lifterlms' ) );
+
+		// this shouldn't be possible...
+		} elseif ( empty( $request['product_id'] ) ) {
+
+			$error->add( 'error', __( 'Please enter a product ID.', 'lifterlms' ) );
+
+		}
+		// all required fields found
+		else {
+
+			$c = new LLMS_Coupon( $request['code'] );
+			$valid = $c->is_valid( $request['product_id'] );
+
+			if( is_wp_error( $valid ) ) {
+
+				$error = $valid;
+
+			} else {
+
+				$coupon = array(
+					'code' => $request['code'],
+					'discounts' => array(
+						'single'    => $c->get_single_amount(),
+						'first'     => $c->get_recurring_first_payment_amount(),
+						'recurring' => $c->get_recurring_payments_amount(),
+					),
+					'type'      => $c->get_discount_type(),
+				);
+
+				ob_start();
+				llms_get_template( 'checkout/form-coupon.php', array(
+					'coupon' => $c,
+				) );
+				$coupon_html = ob_get_clean();
+
+				ob_start();
+				llms_get_template( 'checkout/form-pricing.php', array(
+					'coupon' => $c,
+					'product' => new LLMS_Product( $request['product_id'] ),
+				) );
+				$pricing_html = ob_get_clean();
+
+				$success = array_merge( $coupon, array(
+					'coupon_html' => $coupon_html,
+					'pricing_html' => $pricing_html,
+				) );
+
+			}
+
+		}
+
+		// if there are errors, return them
+		if ( $error->get_error_messages() ) {
+
+			return $error;
+
+		} else {
+
+			return $success;
+
+		}
+
+	}
+
+
 }
 
 new LLMS_AJAX_Handler();
