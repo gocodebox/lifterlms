@@ -174,6 +174,13 @@ class LLMS_Admin_Settings {
 	}
 
 
+	/**
+	 * Output fields
+	 * @param  array $field array of field settings
+	 * @return void
+	 *
+	 * @version  3.0.0
+	 */
 	public static function output_field( $field ) {
 
 		// set missing values with defaults
@@ -225,7 +232,7 @@ class LLMS_Admin_Settings {
 
 			case 'custom-html':
 				if ( ! empty( $field['value'] ) ) {
-				    echo $field['value'];
+				    echo '<tr valign="top"><td colspan="2">' . $field['value'] . '</tr></td>';
 				}
 			break;
 
