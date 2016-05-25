@@ -81,6 +81,39 @@ class LLMS_Course {
 	}
 
 	/**
+	 * Get WP user object for the course author
+	 * @return obj   instance of WP_User
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_author() {
+		return new WP_User( $this->get_author_id() );
+	}
+
+
+	/**
+	 * Get the course author's WP User ID
+	 * @return int
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_author_id() {
+		return $this->post->post_author;
+	}
+
+
+	/**
+	 * Get a the Display Name of the course author
+	 * @return string
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_author_name() {
+		$author = $this->get_author();
+		return $author->display_name;
+	}
+
+	/**
 	 * Get SKU
 	 *
 	 * @return string
@@ -90,6 +123,37 @@ class LLMS_Course {
 		return $this->sku;
 
 	}
+
+	/**
+	 * Get the ID
+	 * @return int
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
+	 * Get the Title
+	 * @return int
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_title() {
+		return get_the_title( $this->get_id() );
+	}
+
+	/**
+	 * Get the course permalink
+	 * @return string
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_permalink() {
+		return get_permalink( $this->get_id() );
+	}
+
 
 	public function get_purchase_button_text() {
 
@@ -509,6 +573,62 @@ class LLMS_Course {
 
 	}
 
+
+
+	public function get_user_enroll_date( $user_id = '' ) {
+
+		$enrolled_date = '';
+
+		//if no user get current user
+		if ( empty( $user_id ) ) {
+			$user_id = get_current_user_id();
+		}
+
+		if ( $this->is_user_enrolled( $user_id = '' ) ) {
+
+			$user_post_data = self::get_user_post_data( $this->id, $user_id );
+
+			foreach ( $user_post_data as $upd ) {
+				if ( $upd->meta_value === 'Enrolled' ) {
+					$enrolled_date = $upd->updated_date;
+				}
+			}
+
+		}
+
+		return $enrolled_date;
+
+	}
+
+	public static function get_user_post_data( $post_id, $user_id = '' ) {
+		global $wpdb;
+
+		$results = false;
+
+		if ( ! empty( $post_id ) ) {
+
+			// if user id is empty get current user id
+			if ( empty( $user_id ) ) {
+
+				$user_id = get_current_user_id();
+			}
+
+			// query user postmeta table
+			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					'SELECT * FROM '.$table_name.
+						' WHERE post_id = %s
+							AND user_id = %s',
+					$post_id, $user_id
+				)
+			);
+		}
+
+		return $results;
+
+	}
+
 	public static function check_enrollment( $course_id, $user_id = '' ) {
 		global $wpdb;
 
@@ -565,60 +685,6 @@ class LLMS_Course {
 		}
 
 		return $enrolled;
-
-	}
-
-	public function get_user_enroll_date( $user_id = '' ) {
-
-		$enrolled_date = '';
-
-		//if no user get current user
-		if ( empty( $user_id ) ) {
-			$user_id = get_current_user_id();
-		}
-
-		if ( $this->is_user_enrolled( $user_id = '' ) ) {
-
-			$user_post_data = self::get_user_post_data( $this->id, $user_id );
-
-			foreach ( $user_post_data as $upd ) {
-				if ( $upd->meta_value === 'Enrolled' ) {
-					$enrolled_date = $upd->updated_date;
-				}
-			}
-
-		}
-
-		return $enrolled_date;
-
-	}
-
-	public static function get_user_post_data( $post_id, $user_id = '' ) {
-		global $wpdb;
-
-		$results = false;
-
-		if ( ! empty( $post_id ) ) {
-
-			// if user id is empty get current user id
-			if ( empty( $user_id ) ) {
-
-				$user_id = get_current_user_id();
-			}
-
-			// query user postmeta table
-			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-			$results = $wpdb->get_results(
-				$wpdb->prepare(
-					'SELECT * FROM '.$table_name.
-						' WHERE post_id = %s
-							AND user_id = %s',
-					$post_id, $user_id
-				)
-			);
-		}
-
-		return $results;
 
 	}
 
