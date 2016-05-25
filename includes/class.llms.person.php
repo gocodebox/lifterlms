@@ -37,6 +37,7 @@ class LLMS_Person {
 		// When leaving or ending page load, store data
 		add_action( 'shutdown', array( $this, 'save_data' ), 10 );
 		add_action( 'wp_login', array( $this, 'set_user_login_timestamp' ), 10, 2 );
+		add_action( 'user_register', array( $this, 'set_user_login_timestamp_on_register' ), 10, 2 );
 	}
 
 	/**
@@ -54,12 +55,23 @@ class LLMS_Person {
 	 * Set user login timestamp on login
 	 * Update login timestamp on user login
 	 *
-	 * @param stirng $user_login [User login id]
+	 * @param string $user_login [User login id]
 	 * @param object $user       [User data object]
 	 */
-	public function set_user_login_timestamp ( $user_login, $user ) {
+	public function set_user_login_timestamp( $user_login, $user ) {
 		$now = current_time( 'timestamp' );
 		update_user_meta( $user->ID, 'llms_last_login', $now );
+	}
+
+	/**
+	 * Set user login timestamp on registration
+	 * Update login timestamp on user registration
+	 *
+	 * @param int $user_id
+	 */
+	public function set_user_login_timestamp_on_register( $user_id ) {
+		$now = current_time( 'timestamp' );
+		update_user_meta( $user_id, 'llms_last_login', $now );
 	}
 
 
