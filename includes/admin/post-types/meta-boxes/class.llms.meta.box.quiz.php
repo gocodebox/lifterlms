@@ -21,7 +21,7 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox {
 	 * @param object $post WP global post object
 	 * @return void
 	 */
-	public static function output ( $post ) {
+	public static function output( $post ) {
 		global $post;
 		parent::new_output( $post, self::metabox_options() );
 	}
