@@ -19,7 +19,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 */
 	public static function output( $post ) {
 
-		$order = new LLMS_Order ( $post );
+		$order = new LLMS_Order( $post );
 		llms_get_template( 'admin/post-types/order.php', array( 'order' => $order ) );
 
 	}

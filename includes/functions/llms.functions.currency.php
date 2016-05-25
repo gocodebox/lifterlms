@@ -44,7 +44,6 @@ function llms_price( $price, $args = array() ) {
 		'with_currency'  => false,
 	), $args ) );
 
-
 	if ( $trim_zeros || $decimal_places ) {
 		$price = llms_format_decimal( $price, $decimal_places, $trim_zeros );
 	}
@@ -52,8 +51,7 @@ function llms_price( $price, $args = array() ) {
 	// if true, add default currency symbol to price
 	if ( true === $with_currency ) {
 		$price = get_lifterlms_currency_symbol() . $price;
-	}
-	// if it's a string, assume that's the supplied currency symbol
+	} // if it's a string, assume that's the supplied currency symbol
 	elseif ( is_string( $with_currency ) ) {
 		$price = $with_currency . $price;
 	}

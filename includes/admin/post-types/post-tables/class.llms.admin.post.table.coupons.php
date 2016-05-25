@@ -52,7 +52,7 @@ class LLMS_Admin_Post_Table_Coupons {
 		global $post;
 		$c = new LLMS_Coupon( $post );
 
-		switch( $column ) {
+		switch ( $column ) {
 
 			case 'amount':
 
@@ -62,13 +62,13 @@ class LLMS_Admin_Post_Table_Coupons {
 					echo '<br>';
 				}
 
-				if( $c->get_recurring_first_payment_amount() ) {
+				if ( $c->get_recurring_first_payment_amount() ) {
 					_e( 'Recurring First Payment: ', 'lifterlms' );
 					echo $c->get_formatted_recurring_first_payment_amount();
 					echo '<br>';
 				}
 
-				if( $c->get_recurring_payments_amount() ) {
+				if ( $c->get_recurring_payments_amount() ) {
 					_e( 'Recurring Payments: ', 'lifterlms' );
 					echo $c->get_formatted_recurring_payments_amount();
 				}

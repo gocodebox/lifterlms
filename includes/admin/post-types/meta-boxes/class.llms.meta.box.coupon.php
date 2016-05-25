@@ -191,7 +191,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 						'group' 	=> '',
 						'value' 	=> '',
 					),
-				)
+				),
 			),
 
 			array(
@@ -235,7 +235,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 		$c = new LLMS_Coupon( $post );
 
 		// dupcheck title
-		if( $c->find_by_code( $post->post_title, $post_id ) ) {
+		if ( $c->find_by_code( $post->post_title, $post_id ) ) {
 
 			LLMS_Admin_Meta_Boxes::add_error( __( 'Coupon code already exists. Customers will use the most recently created coupon with this code.', 'lifterlms' ) );
 
@@ -252,7 +252,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 		$c->recurring_payments_amount = isset( $_POST[ self::$prefix . 'recurring_payments_amount' ] ) ? llms_clean( $_POST[ self::$prefix . 'recurring_payments_amount' ] ) : '';
 
 		// product restrictions
-		$courses = isset( $_POST['_llms_coupon_courses' ] ) ? $_POST[ self::$prefix . 'coupon_courses' ] : array();
+		$courses = isset( $_POST['_llms_coupon_courses'] ) ? $_POST[ self::$prefix . 'coupon_courses' ] : array();
 		$memberships = isset( $_POST[ self::$prefix . 'coupon_membership' ] ) ? $_POST[ self::$prefix . 'coupon_membership' ] : array();
 		$c->coupon_products = array_merge( $courses, $memberships );
 

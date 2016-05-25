@@ -257,11 +257,10 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
 		}
 
-		if( isset( $request['PAYERID'] ) ) {
+		if ( isset( $request['PAYERID'] ) ) {
 			$order->transaction_customer_id = $request['PAYERID'];
 		}
 		$order->transaction_api_mode = ( $this->sandbox ) ? 'test' : 'live';
-
 
 		if ( 'single' === $order->get_type() && strcmp( $request['ACK'], 'Failure' ) !== 0 ) {
 
@@ -278,8 +277,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 
 			}
 
-		}
-		// recurring
+		} // recurring
 		elseif ( 'recurring' === $order->get_type() && strcmp( $request['ACK'], 'Failure' ) !== 0 ) {
 
 			$param = array(
@@ -307,7 +305,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 		if ( isset( $response ) && 'Success' == $response['ACK'] ) {
 
 			// mark order as completed
-			switch( $order->get_type() ) {
+			switch ( $order->get_type() ) {
 				case 'single' :
 					$order->update_status( 'completed' );
 					// save fee to metadata if available
@@ -315,7 +313,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 						$order->transaction_fee = $response['PAYMENTINFO_0_FEEAMT'];
 					}
 					// save transaction id if available
-					if( isset( $response['PAYMENTINFO_0_TRANSACTIONID'] ) ) {
+					if ( isset( $response['PAYMENTINFO_0_TRANSACTIONID'] ) ) {
 						$order->transaction_id = $response['PAYMENTINFO_0_TRANSACTIONID'];
 					}
 				break;
@@ -323,7 +321,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 				case 'recurring' :
 					$order->update_status( 'active' );
 					// save transaction id if available
-					if( isset( $response['PROFILEID'] ) ) {
+					if ( isset( $response['PROFILEID'] ) ) {
 						$order->subscription_id = $response['PROFILEID'];
 					}
 				break;
@@ -499,7 +497,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 	 * @since  3.0.0
 	 */
 	public function get_recurring_profile_details( $profile_id ) {
-		$params =  array( 'profile_id' => $profile_id );
+		$params = array( 'profile_id' => $profile_id );
 		if ( $this->getRecurringPaymentsProfileDetails( $params ) ) {
 			return $this->getResponse();
 		} else {
@@ -573,7 +571,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 		);
 
 		// additional parameters based on order type
-		switch( $order->get_type() ) {
+		switch ( $order->get_type() ) {
 			case 'single':
 				$additional_params = array(
 					'amount' => $order->get_total(),
@@ -776,7 +774,7 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 		) );
 
 		// loop through orders
-		foreach( $orders as $order ) {
+		foreach ( $orders as $order ) {
 
 			// get details from API
 			$res = $this->get_recurring_profile_details( $order->profile_id );
@@ -791,13 +789,13 @@ class LLMS_Payment_Gateway_Paypal extends LLMS_Payment_Gateway {
 				// update the status
 				if ( isset( $res['STATUS'] ) ) {
 
-					switch( $res['STATUS'] ) {
+					switch ( $res['STATUS'] ) {
 
 						// leave it active
 						case 'Active':
-						// pending is before the transaction is complete
-						// we can't really do much about this and paypal can be slow
-						// to activate so we'll allow pending transactions access
+							// pending is before the transaction is complete
+							// we can't really do much about this and paypal can be slow
+							// to activate so we'll allow pending transactions access
 						case 'Pending':
 						break;
 

@@ -186,19 +186,18 @@ class LLMS_AJAX_Handler {
 
 			$error->add( 'error', __( 'Please enter a coupon code.', 'lifterlms' ) );
 
-		// this shouldn't be possible...
+			// this shouldn't be possible...
 		} elseif ( empty( $request['product_id'] ) ) {
 
 			$error->add( 'error', __( 'Please enter a product ID.', 'lifterlms' ) );
 
-		}
-		// all required fields found
+		} // all required fields found
 		else {
 
 			$c = new LLMS_Coupon( $request['code'] );
 			$valid = $c->is_valid( $request['product_id'] );
 
-			if( is_wp_error( $valid ) ) {
+			if ( is_wp_error( $valid ) ) {
 
 				$error = $valid;
 

@@ -23,7 +23,7 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 ?>
 <div class="llms-metabox">
 
-	<?php if ( 'test' === $order->get_transaction_api_mode() ): ?>
+	<?php if ( 'test' === $order->get_transaction_api_mode() ) : ?>
 		<h6 class="llms-transaction-test-mode"><?php _e( 'This order was processed in the gateway\'s testing mode', 'lifterlms' ); ?></h6>
 	<?php endif; ?>
 
@@ -48,7 +48,7 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 			<?php echo llms_get_formatted_order_status( $order->get_status() ); ?>
 		</div>
 
-		<?php if ( $gateway->supports( 'recurring_sync' ) && 'llms-active' === $order->get_status() && isset( $order->subscription_last_sync ) ): ?>
+		<?php if ( $gateway->supports( 'recurring_sync' ) && 'llms-active' === $order->get_status() && isset( $order->subscription_last_sync ) ) : ?>
 			<div class="llms-metabox-field">
 				<label><?php _e( 'Last Gateway Sync:', 'lifterlms' ) ?></label>
 				<?php echo $order->get_subscription_last_sync( 'm/d/Y h:ia' ); ?>
@@ -96,7 +96,7 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 		<?php do_action( 'lifterlms_order_meta_box_after_customer_information', $order ); ?>
 	</div>
 
-	<?php if ( 'single' === $type ): ?>
+	<?php if ( 'single' === $type ) : ?>
 
 		<?php do_action( 'lifterlms_order_meta_box_before_single_payment_information', $order ); ?>
 
@@ -104,7 +104,7 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 
 			<h4><?php _e( 'Payment Information', 'lifterlms' ); ?></h4>
 
-			<?php if ( $discount ): ?>
+			<?php if ( $discount ) : ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Original Total:', 'lifterlms' ) ?></label>
 					<?php echo $order->format_price( $order->get_original_total() ); ?>
@@ -126,7 +126,7 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 
 		</div>
 
-	<?php elseif( 'recurring' === $type ): ?>
+	<?php elseif ( 'recurring' === $type ) : ?>
 
 		<?php do_action( 'lifterlms_order_meta_box_before_recurring_payment_information', $order ); ?>
 
@@ -142,7 +142,7 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 				<?php endif; ?>
 			</div>
 
-			<?php if ( $discount ): ?>
+			<?php if ( $discount ) : ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Original First Payment:', 'lifterlms' ) ?></label>
 					<?php echo $order->format_price( $order->get_first_payment_original_total() ); ?>
@@ -160,7 +160,7 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 				<?php echo $order->format_price( $order->get_first_payment_total() ); ?>
 			</div>
 
-			<?php if ( $discount ): ?>
+			<?php if ( $discount ) : ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Original Recurring Payment:', 'lifterlms' ) ?></label>
 					<?php echo $order->format_price( $order->get_recurring_payment_original_total() ); ?>
@@ -188,7 +188,7 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 
 	<?php do_action( 'lifterlms_order_meta_box_before_coupon_information', $order ); ?>
 
-	<?php if( 'coupon' === $discount ): ?>
+	<?php if ( 'coupon' === $discount ) : ?>
 
 		<div class="llms-metabox-section d-1of3 last-col">
 
@@ -217,7 +217,7 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 			<small>(<?php echo ucfirst( $order->get_product_type() ); ?>)</small>
 		</div>
 
-		<?php if ( isset ( $order->product_sku ) ): ?>
+		<?php if ( isset( $order->product_sku ) ) : ?>
 			<div class="llms-metabox-field">
 				<label><?php _e( 'SKU:', 'lifterlms' ); ?></label>
 				<?php echo $order->get_product_sku(); ?>
@@ -246,9 +246,9 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 				<?php $transaction = $gateway->get_transaction_url( $order->get_transaction_id() ); ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Transaction ID:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $transaction, FILTER_VALIDATE_URL ) ): ?>
+					<?php if ( false === filter_var( $transaction, FILTER_VALIDATE_URL ) ) : ?>
 						<?php echo $transaction; ?>
-					<?php else: ?>
+					<?php else : ?>
 						<a href="<?php echo $transaction; ?>" target="_blank"><?php echo $order->get_transaction_id(); ?></a>
 					<?php endif; ?>
 				</div>
@@ -259,9 +259,9 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 				<?php $customer = $gateway->get_customer_url( $order->get_transaction_customer_id() ); ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Customer ID:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $customer, FILTER_VALIDATE_URL ) ): ?>
+					<?php if ( false === filter_var( $customer, FILTER_VALIDATE_URL ) ) : ?>
 						<?php echo $customer; ?>
-					<?php else: ?>
+					<?php else : ?>
 						<a href="<?php echo $customer; ?>" target="_blank"><?php echo $order->get_transaction_customer_id(); ?></a>
 					<?php endif; ?>
 				</div>
@@ -271,9 +271,9 @@ if ( isset( $_GET['llms_subscription_sync'] ) ) {
 				<?php $subscription = $gateway->get_subscription_url( $order->get_subscription_id() ); ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Subscription ID:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $subscription, FILTER_VALIDATE_URL ) ): ?>
+					<?php if ( false === filter_var( $subscription, FILTER_VALIDATE_URL ) ) : ?>
 						<?php echo $subscription; ?>
-					<?php else: ?>
+					<?php else : ?>
 						<a href="<?php echo $subscription; ?>" target="_blank"><?php echo $order->get_subscription_id(); ?></a>
 					<?php endif; ?>
 				</div>

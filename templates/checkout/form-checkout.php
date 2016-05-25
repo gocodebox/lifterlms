@@ -50,11 +50,11 @@ $available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways
 
 			<h4 class="llms-checkout-title"><?php echo apply_filters( 'lifterlms_checkout_form_title', __( 'Confirm Purchase', 'lifterlms' ) ); ?></h4>
 
-			<?php if ( llms_is_alternative_checkout_enabled() && ! is_user_logged_in() ): ?>
+			<?php if ( llms_is_alternative_checkout_enabled() && ! is_user_logged_in() ) : ?>
 
 				<?php llms_get_template( 'checkout/form-login-register.php' ); ?>
 
-			<?php elseif ( llms_is_alternative_checkout_enabled() && is_user_logged_in() ): ?>
+			<?php elseif ( llms_is_alternative_checkout_enabled() && is_user_logged_in() ) : ?>
 
 				<div class="llms-form-wrapper">
 					<div class="llms-notice-box">
@@ -86,9 +86,9 @@ $available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways
 
 				<div class="llms-payment-methods llms-notice-box">
 
-					<?php if ( ! $available_gateways ): ?>
+					<?php if ( ! $available_gateways ) : ?>
 						<p><?php _e( 'Payment processing is currently disabled.', 'lifterlms' ); ?></p>
-					<?php else: $ii = 0; current( $available_gateways )->set_current(); ?>
+					<?php else : $ii = 0; current( $available_gateways )->set_current(); ?>
 						<?php foreach ( $available_gateways as $gateway ) : $ii++; ?>
 							<?php
 							$checked = '';

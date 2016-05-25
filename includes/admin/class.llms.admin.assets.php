@@ -120,7 +120,6 @@ class LLMS_Admin_Assets {
 			wp_register_style( 'jquery-ui', 'https://code.jquery.com/ui/1.11.2/themes/flick/jquery-ui.css' );
 			wp_enqueue_style( 'jquery-ui' );
 
-
 			wp_register_script( 'llms',  plugins_url( '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 			wp_register_script( 'llms-metaboxes',  plugins_url( '/assets/js/llms-metaboxes' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-datepicker' ), '', true );
 
@@ -180,7 +179,6 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'llms-options-analytics', plugins_url( '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
 			wp_enqueue_script( 'top-modal', plugins_url( '/assets/js/vendor/topModal.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
-
 
 			wp_enqueue_script( 'llms' );
 			wp_enqueue_script( 'llms-metaboxes' );

@@ -102,7 +102,6 @@ class LLMS_Controller_Orders {
 	 */
 	public function create_pending_order() {
 
-
 		// only run this if the correct action has been posted
 		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || ( 'create_pending_order' !== $_POST['action'] ) || empty( $_POST['_wpnonce'] ) ) {
 			return;
@@ -156,7 +155,6 @@ class LLMS_Controller_Orders {
 		} else {
 			$coupon = false;
 		}
-
 
 		// credit card validations for creditcard gateways
 		if ( 'creditcard' === $payment_type && empty( $_POST['use_existing_card'] ) ) {
@@ -235,7 +233,7 @@ class LLMS_Controller_Orders {
 		}
 
 		// can't proceed without a user id
-		if ( empty ( $user_id ) ) {
+		if ( empty( $user_id ) ) {
 
 			llms_add_notice( __( 'You must login or register to purchase this product', 'lifterlms' ), 'error' );
 			return;
@@ -269,7 +267,7 @@ class LLMS_Controller_Orders {
 		$payment_option_id = $payment_option_data[1];
 
 		// subscription data
-		if( 'recurring' === $order->get_type() ) {
+		if ( 'recurring' === $order->get_type() ) {
 
 			$subscriptions = $product->get_subscriptions();
 
@@ -298,7 +296,7 @@ class LLMS_Controller_Orders {
 		 */
 
 		// if a valid coupon is used
-		if( $coupon ) {
+		if ( $coupon ) {
 
 			// set all coupon data
 			$order->coupon_id = $coupon->get_id();
@@ -306,7 +304,7 @@ class LLMS_Controller_Orders {
 			$order->coupon_type = $coupon->get_discount_type();
 			$order->discount_type = 'coupon';
 
-			if( 'single' === $order->get_type() ) {
+			if ( 'single' === $order->get_type() ) {
 
 				$order->original_total = $this->format_price( $product->get_regular_price() );
 				$order->total = $this->format_price( $product->get_coupon_adjusted_price( $product->get_single_price(), $coupon, 'single' ) );
@@ -315,7 +313,7 @@ class LLMS_Controller_Orders {
 
 			} elseif ( 'recurring' === $order->get_type() ) {
 
-				$order->first_payment_orignal_total =  $this->format_price( $subscription_data['first_payment'] );
+				$order->first_payment_orignal_total = $this->format_price( $subscription_data['first_payment'] );
 				$order->first_payment_total = $this->format_price( $product->get_coupon_adjusted_price( $subscription_data['first_payment'], $coupon, 'first' ) );
 				$order->coupon_first_payment_amount = $coupon->get_formatted_recurring_first_payment_amount();
 				$order->coupon_first_payment_value = floatval( $order->get_first_payment_original_total() ) - floatval( $order->get_first_payment_total() );
@@ -327,9 +325,7 @@ class LLMS_Controller_Orders {
 
 			}
 
-		}
-
-		// if it's a single and it's on sale (recurring payment sales don't exist)
+		} // if it's a single and it's on sale (recurring payment sales don't exist)
 		elseif ( 'single' === $order->get_type() && $product->is_on_sale() ) {
 
 			$order->original_total = $this->format_price( $product->get_regular_price() );
@@ -337,11 +333,10 @@ class LLMS_Controller_Orders {
 			$order->sale_value = $this->format_price( floatval( $order->get_original_total() ) - floatval( $order->get_total() ) );
 			$order->discount_type = 'sale';
 
-		}
-		// otherwise do default stuff
+		} // otherwise do default stuff
 		else {
 
-			if( 'single' === $order->get_type() ) {
+			if ( 'single' === $order->get_type() ) {
 
 				$order->total = $this->format_price( $product->get_regular_price() );
 
@@ -387,8 +382,7 @@ class LLMS_Controller_Orders {
 			$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
 			$available_gateways[ $order->get_payment_gateway() ]->process_payment( $order );
 
-		}
-		// order creation failed
+		} // order creation failed
 		else {
 
 			llms_add_notice( sprintf( 'There was an error creating your order, please try again.' ), 'error' );
@@ -500,7 +494,7 @@ class LLMS_Controller_Orders {
 	 */
 	public function unenroll( $order ) {
 
-		switch( current_filter() ) {
+		switch ( current_filter() ) {
 
 			case 'lifterlms_order_status_refunded':
 				$status = 'Refunded';

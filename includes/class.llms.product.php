@@ -333,9 +333,7 @@ class LLMS_Product {
 
 				$adjusted_price = apply_filters( 'lifterlms_coupon_price_html', $this->get_coupon_adjusted_price( $this->get_regular_price(), $coupon_id ), $this );
 
-			}
-
-			// Check if price is on sale and base price exists
+			} // Check if price is on sale and base price exists
 			elseif ( $this->is_on_sale() && $regular_price ) {
 
 				$adjusted_price = apply_filters( 'lifterlms_sale_price_html', $this->get_sale_price(), $this );
@@ -561,7 +559,7 @@ class LLMS_Product {
 		if ( ! is_wp_error( $coupon->is_valid( $this->get_id() ) ) ) {
 
 			// get the discount amount based on payment type
-			switch( $type ) {
+			switch ( $type ) {
 
 				case 'first':
 					$discount = $coupon->get_recurring_first_payment_amount();

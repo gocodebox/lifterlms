@@ -153,13 +153,11 @@ class LLMS_Admin_Meta_Boxes {
 		add_meta_box( 'lifterlms-voucher-settings', __( 'Voucher Settings', 'lifterlms' ), 'LLMS_Meta_Box_Voucher::output', 'llms_voucher', 'normal', 'high' );
 		add_meta_box( 'lifterlms-quiz-settings', __( 'Quiz Settings', 'lifterlms' ), 'LLMS_Meta_Box_Quiz::output', 'llms_quiz', 'normal', 'high' );
 
-
 		// orders
 		add_meta_box( 'lifterlms-order-details', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order_Details::output', 'llms_order', 'side', 'high' );
 		add_meta_box( 'lifterlms-order-submit', __( 'Order Actions', 'lifterlms' ), 'LLMS_Meta_Box_Order_Submit::output', 'llms_order', 'side', 'high' );
 		add_meta_box( 'lifterlms-order-refunds', __( 'Process a Refund', 'lifterlms' ), 'LLMS_Meta_Box_Order_Refunds::output', 'llms_order', 'side', 'normal' );
 		remove_meta_box( 'submitdiv', 'llms_order', 'side' ); // remove the default submit box in favor of our custom box
-
 
 		//===================================
 		// Old meta box style
@@ -177,8 +175,6 @@ class LLMS_Admin_Meta_Boxes {
 		//add_meta_box( 'lifterlms-expiration-options', __( 'Membership Expiration', 'lifterlms' ), 'LLMS_Meta_Box_Expiration::output', 'llms_membership', 'normal' );
 		add_meta_box( 'lifterlms-quiz-questions', __( 'Quiz Questions', 'lifterlms' ), 'LLMS_Meta_Box_Quiz_Questions::output', 'llms_quiz', 'normal' );
 		add_meta_box( 'lifterlms-question-general', __( 'Question Settings', 'lifterlms' ), 'LLMS_Meta_Box_Question_General::output', 'llms_question', 'normal' );
-
-
 
 	}
 

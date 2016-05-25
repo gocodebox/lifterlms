@@ -73,7 +73,7 @@ class LLMS_Student {
 
 		// remove the user from the membership level
 		$membership_levels = $this->get_membership_levels();
-		unset( $membership_levels[$membership_id] );
+		unset( $membership_levels[ $membership_id ] );
 		update_user_meta( $this->get_id(), '_llms_restricted_levels', $membership_levels );
 
 		global $wpdb;
@@ -88,12 +88,11 @@ class LLMS_Student {
 		if ( $courses ) {
 
 			// loop through all the courses and update the enrollment status
-			foreach( $courses  as $course_id ) {
+			foreach ( $courses  as $course_id ) {
 				$this->unenroll( $course_id, $status );
 			}
 
 		}
-
 
 	}
 
@@ -502,9 +501,7 @@ class LLMS_Student {
 
 			$update = true;
 
-		}
-
-		// else we'll check out the trigger
+		} // else we'll check out the trigger
 		else {
 
 			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
@@ -514,9 +511,7 @@ class LLMS_Student {
 
 				$update = apply_filters( 'lifterlms_legacy_unenrollment_action', true );
 
-			}
-
-			// trigger matches the enrollment trigger so unenroll
+			} // trigger matches the enrollment trigger so unenroll
 			elseif ( $enrollment_trigger == $trigger ) {
 
 				$update = true;
@@ -532,7 +527,7 @@ class LLMS_Student {
 			if ( $this->insert_status_postmeta( $product_id, $new_status ) ) {
 
 				// trigger actions based on product type
-				switch( get_post_type( $product_id ) ) {
+				switch ( get_post_type( $product_id ) ) {
 
 					case 'course':
 						do_action( 'llms_user_removed_from_course', $this->get_id(), $product_id );

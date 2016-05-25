@@ -88,4 +88,3 @@ if ( ! $product || ! $order ) {
 </div>
 
 <?php do_action( 'lifterlms_after_checkout_confirm_form' ); ?>
-

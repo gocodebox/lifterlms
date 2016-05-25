@@ -168,8 +168,8 @@ class LLMS_Payment_Gateway {
 	 * @since  3.0.0
 	 */
 	public function supports( $feature ) {
-		if ( isset( $this->supports[$feature] ) ) {
-			return $this->supports[$feature];
+		if ( isset( $this->supports[ $feature ] ) ) {
+			return $this->supports[ $feature ];
 		}
 		return false;
 	}

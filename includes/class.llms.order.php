@@ -106,7 +106,7 @@ class LLMS_Order {
 	public function __get( $key ) {
 
 		// can't update the ID
-		if( 'id' === $key ) {
+		if ( 'id' === $key ) {
 
 			$value = $this->id;
 
@@ -214,7 +214,7 @@ class LLMS_Order {
 		$this->order_key = apply_filters( 'lifterlms_generate_order_key', uniqid( 'llms_order_' ) );
 
 		// look through all properties and save them to the database
-		foreach( $this as $key => $val ) {
+		foreach ( $this as $key => $val ) {
 
 			if ( ! empty( $val ) && ! in_array( $key, $exclude ) ) {
 
@@ -542,7 +542,7 @@ class LLMS_Order {
 
 		switch ( $payment ) {
 			case 'single':
- 				$amount = $this->get_coupon_amount();
+					$amount = $this->get_coupon_amount();
 			break;
 
 			case 'first':
@@ -866,7 +866,6 @@ class LLMS_Order {
 			'decimal_places' => $dp,
 			'with_currency'  => $currency,
 		) );
-
 
 	}
 

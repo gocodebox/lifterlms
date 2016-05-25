@@ -12,11 +12,11 @@ global $wp_query;
 <div class="llms-my-courses">
 	<h3><?php echo apply_filters( 'lifterlms_my_courses_title', __( 'Courses In-Progress', 'lifterlms' ) ); ?></h3>
 
-	<?php if ( ! $courses ): ?>
+	<?php if ( ! $courses ) : ?>
 		<p><?php _e( 'You are not enrolled in any courses.', 'lifterlms' ); ?></p>
-	<?php else: ?>
+	<?php else : ?>
 		<ul class="listing-courses">
-			<?php foreach( $courses['results'] as $c ) : $c = new LLMS_Course( $c ); ?>
+			<?php foreach ( $courses['results'] as $c ) : $c = new LLMS_Course( $c ); ?>
 
 				<li class="course-item">
 				    <article class="course">
@@ -39,7 +39,7 @@ global $wp_query;
 
 								<h3><a href="<?php echo $c->get_permalink(); ?>"><?php echo $c->get_title(); ?></a></h3>
 
-								<?php if ( 'yes' === get_option( 'lifterlms_course_display_author' ) ): ?>
+								<?php if ( 'yes' === get_option( 'lifterlms_course_display_author' ) ) : ?>
 									<p class="author"><?php printf( __( 'Author: %s', 'lifterlms' ), '<span>' . $c->get_author_name() . '</span>' ); ?></p>
 								<?php endif; ?>
 							</div>
@@ -67,18 +67,18 @@ global $wp_query;
 		</ul>
 
 		<footer class="llms-my-courses-pagination">
-			<?php if ( ! isset( $wp_query->query_vars['my-courses'] ) ): ?>
+			<?php if ( ! isset( $wp_query->query_vars['my-courses'] ) ) : ?>
 				<a class="llms-button-text" href="<?php echo llms_person_my_courses_url(); ?>"><?php _e( 'All Courses', 'lifterlms' ); ?></a>
-			<?php else: ?>
+			<?php else : ?>
 
-				<?php if ( $courses['skip'] > 0 ): ?>
+				<?php if ( $courses['skip'] > 0 ) : ?>
 					<a class="llms-button-text" href="<?php echo add_query_arg( array(
 						'limit' => $courses['limit'],
 						'skip' => $courses['skip'] - $courses['limit'],
 					), llms_person_my_courses_url() ); ?>"><?php _e( 'Back', 'lifterlms' ); ?></a>
 				<?php endif; ?>
 
-				<?php if( $courses['more'] || 0 == $courses['skip'] ): ?>
+				<?php if ( $courses['more'] || 0 == $courses['skip'] ) : ?>
 					<a class="llms-button-text" href="<?php echo add_query_arg( array(
 						'limit' => $courses['limit'],
 						'skip' => $courses['skip'] + $courses['limit'],

@@ -32,11 +32,6 @@ class LLMS_Frontend_Forms
 		add_action( 'init', array( $this, 'mark_complete' ) );
 		add_action( 'init', array( $this, 'take_quiz' ) );
 
-
-
-
-
-
 		add_action( 'lifterlms_content_restricted', array( $this, 'restriction_alert' ), 10, 2 );
 
 	}
@@ -258,7 +253,6 @@ class LLMS_Frontend_Forms
 		wp_verify_nonce( $_POST['_wpnonce'], 'llms-checkout-coupon' );
 
 		$coupon = $this->check_coupon();
-
 
 		if ( $coupon ) {
 

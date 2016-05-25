@@ -65,7 +65,6 @@ class LLMS_Admin_Post_Table_Orders {
 
 		switch ( $column ) {
 
-
 			case 'order' :
 
 				echo '<a href="' . admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '">';
@@ -84,7 +83,7 @@ class LLMS_Admin_Post_Table_Orders {
 
 				$status = $order->get_status();
 
-				switch( $status ) {
+				switch ( $status ) {
 					case 'llms-active':
 					case 'llms-completed':
 						$icon = 'dashicons dashicons-yes';
@@ -116,7 +115,6 @@ class LLMS_Admin_Post_Table_Orders {
 
 			break;
 
-
 			case 'product' :
 
 				echo '<a href="' . admin_url( 'post.php?post=' . $order->get_product_id() . '&action=edit' ) . '">' . $order->get_product_title() . '</a>';
@@ -124,10 +122,9 @@ class LLMS_Admin_Post_Table_Orders {
 
 			break;
 
-
 			case 'total' :
 
-				switch( $order->get_type() ) {
+				switch ( $order->get_type() ) {
 
 					case 'recurring':
 
@@ -136,7 +133,6 @@ class LLMS_Admin_Post_Table_Orders {
 						printf( __( 'Recurring: %s', 'lifterlms' ), $order->format_price( $order->get_recurring_payment_total() ) );
 
 					break;
-
 
 					case 'single':
 
@@ -148,12 +144,9 @@ class LLMS_Admin_Post_Table_Orders {
 
 						_e( 'Free', 'lifterlms' );
 
-
 				}
 
 				echo ' <small>' . sprintf( _x( 'via %s', 'payment gateway used to complete transaction', 'lifterlms' ), $order->get_payment_gateway_title() ) . '</small>';
-
-
 
 				// echo apply_filters( 'lifterlms_order_posts_table_column_total', $total, $post_id );
 
@@ -214,8 +207,7 @@ class LLMS_Admin_Post_Table_Orders {
 						'orderby' => 'ID',
 					)
 				);
-			}
-			// order product
+			} // order product
 			elseif ( isset( $vars['orderby'] ) && 'product' == $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars,
@@ -224,8 +216,7 @@ class LLMS_Admin_Post_Table_Orders {
 						'orderby' => 'meta_value',
 					)
 				);
-			}
-			// date field
+			} // date field
 			elseif ( isset( $vars['orderby'] ) && 'order_date' == $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars,
@@ -234,7 +225,6 @@ class LLMS_Admin_Post_Table_Orders {
 					)
 				);
 			}
-
 
 		}
 

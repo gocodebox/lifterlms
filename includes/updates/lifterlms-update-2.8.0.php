@@ -119,7 +119,7 @@ $coupon_title_metas = $wpdb->get_results(
 	 WHERE meta_key = '_llms_coupon_title';"
 );
 
-foreach( $coupon_title_metas as $obj ) {
+foreach ( $coupon_title_metas as $obj ) {
 
 	// update new description field with the title b/c the title previously acted as a description
 	update_post_meta( $obj->post_id, '_llms_description', get_the_title( $obj->post_id ) );

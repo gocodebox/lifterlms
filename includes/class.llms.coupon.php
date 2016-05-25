@@ -61,7 +61,7 @@ class LLMS_Coupon {
 	public function __get( $key ) {
 
 		// can't update the ID
-		if( 'id' === $key ) {
+		if ( 'id' === $key ) {
 
 			$value = $this->id;
 
@@ -190,7 +190,7 @@ class LLMS_Coupon {
 	 * @return string
 	 */
 	public function get_formatted_discount_type() {
-		switch( $this->get_discount_type() ) {
+		switch ( $this->get_discount_type() ) {
 			case 'percent':
 				return __( 'Percentage Discount', 'lifterlms' );
 			break;
@@ -207,7 +207,7 @@ class LLMS_Coupon {
 	public function get_formatted_recurring_first_payment_amount() {
 		$amount = $this->get_recurring_first_payment_amount();
 		if ( $amount ) {
-			switch( $this->get_discount_type() ) {
+			switch ( $this->get_discount_type() ) {
 				case 'percent':
 					$amount += '%';
 				break;
@@ -226,7 +226,7 @@ class LLMS_Coupon {
 	public function get_formatted_recurring_payments_amount() {
 		$amount = $this->get_recurring_payments_amount();
 		if ( $amount ) {
-			switch( $this->get_discount_type() ) {
+			switch ( $this->get_discount_type() ) {
 				case 'percent':
 					$amount += '%';
 				break;
@@ -245,7 +245,7 @@ class LLMS_Coupon {
 	public function get_formatted_single_amount() {
 		$amount = $this->get_single_amount();
 		if ( $amount ) {
-			switch( $this->get_discount_type() ) {
+			switch ( $this->get_discount_type() ) {
 				case 'percent':
 					$amount = $amount . '%';
 				break;
@@ -303,8 +303,7 @@ class LLMS_Coupon {
 
 			return _x( 'Unlimited', 'Remaining coupon uses', 'lifterlms' );
 
-		}
-		// check usages against allowed uses
+		} // check usages against allowed uses
 		else {
 
 			return $limit - $this->get_uses();
@@ -332,7 +331,7 @@ class LLMS_Coupon {
 
 		$q = new WP_Query( array(
 			'meta_query' => array(
-				array(
+			array(
 					'key' => $this->prefix . 'coupon_code',
 					'value' => $this->get_code(),
 				),
@@ -406,8 +405,7 @@ class LLMS_Coupon {
 		// no product restrictions
 		if ( empty( $products ) ) {
 			return true;
-		}
-		// check against the array of products
+		} // check against the array of products
 		else {
 			return in_array( $product_id, $products );
 		}
@@ -473,20 +471,17 @@ class LLMS_Coupon {
 
 			$msg = __( 'Coupon code not found.', 'lifterlms' );
 
-		}
-		// any uses remaining?
+		} // any uses remaining?
 		elseif ( ! $this->has_remaining_uses() ) {
 
 			$msg = __( 'This coupon has reached its usage limit and can no longer be used.', 'lifterlms' );
 
-		}
-		// expired?
+		} // expired?
 		elseif ( $this->is_expired() ) {
 
 			$msg = sprintf( __( 'This coupon expired on %s and can no longer be used.', 'lifterlms' ), $this->get_expiration_date() );
 
-		}
-		// can be applied to the submitted product?
+		} // can be applied to the submitted product?
 		elseif ( ! $this->applies_to_product( $product_id ) ) {
 
 			$msg = sprintf( __( 'This coupon cannot be used to purchase "%s".', 'lifterlms' ), get_the_title( $product_id ) );

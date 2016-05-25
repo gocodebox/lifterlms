@@ -337,7 +337,6 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 		break;
 	}
 
-
 	return $statuses;
 }
 
@@ -350,8 +349,8 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  */
 function llms_get_formatted_order_status( $status ) {
 	$statuses = llms_get_order_statuses();
-	if ( is_array( $statuses ) && isset( $statuses[$status] ) ) {
-		$status = $statuses[$status];
+	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
+		$status = $statuses[ $status ];
 	}
 	return apply_filters( 'lifterlms_get_formatted_order_status', $status );
 }

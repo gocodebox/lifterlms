@@ -64,8 +64,7 @@ class LLMS_Shortcode_My_Account {
 
 				self::my_courses();
 
-			}
-			// edit account page
+			} // edit account page
 			elseif ( isset( $wp->query_vars['edit-account'] ) ) {
 
 				self::edit_account();

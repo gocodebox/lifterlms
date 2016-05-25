@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 			<?php if ( $coupon ) : ?>
 				<?php printf( __( 'Coupon code "%s" has been applied to your order.', 'lifterlms' ), $coupon->get_code() ); ?>
 				<a href="#" class="llms-button-text" id="llms-remove-coupon">[<?php _e( 'Remove', 'lifterlms' ); ?>]</a>
-			<?php else: ?>
+			<?php else : ?>
 				<?php echo apply_filters( 'lifterlms_checkout_coupon_message', __( 'Have a coupon?', 'lifterlms' ) ); ?>
 				<a href="#" class="llms-coupon-toggle-button llms-button-text" id="show-coupon"><?php _e( 'Click here to enter your code', 'lifterlms' ); ?></a>
 			<?php endif; ?>
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 			<input type="hidden" name="coupon_code" value="<?php echo $coupon->get_code(); ?>">
 
-		<?php else: ?>
+		<?php else : ?>
 
 			<div class="llms-checkout-coupon" id="llms-checkout-coupon">
 				<input disabled="disabled" type="text" name="coupon_code" class="llms-input-text" placeholder="<?php _e( 'Enter coupon code', 'lifterlms' ); ?>" id="llms-coupon-code" required="required">

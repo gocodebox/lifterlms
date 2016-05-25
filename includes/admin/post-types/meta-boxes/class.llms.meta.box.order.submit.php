@@ -32,7 +32,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 				<div class="llms-metabox-field">
 					<label for="_llms_order_status"><?php _e( 'Update Order Status:', 'lifterlms' ) ?></label>
 					<select id="_llms_order_status" name="_llms_order_status">
-						<?php foreach( $statuses as $key => $val ): ?>
+						<?php foreach ( $statuses as $key => $val ) : ?>
 							<option value="<?php echo $key; ?>"<?php selected( $key, $current_status ); ?>><?php echo $val; ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -82,16 +82,13 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 						'post_status' => $new_status,
 					) );
 
-				}
-
-				// otherwise use the order's update status method
+				} // otherwise use the order's update status method
 				// which will trigger enrollment actions
 				else {
 
 					$order->update_status( $new_status );
 
 				}
-
 
 			}
 
