@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 *
 * Generates main metabox and builds forms
 */
-class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
+class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
 	public static $prefix = '_';
 
@@ -17,7 +17,7 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 	 * @param object $post WP global post object
 	 * @return void
 	 */
-	public static function output ( $post ) {
+	public static function output( $post ) {
 		global $post;
 		parent::new_output( $post, self::metabox_options() );
 	}
@@ -226,156 +226,6 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 				),
 			),
 			array(
-				'title' 	=> 'Price Single',
-				'fields' 	=> array(
-					array(
-						'type'		=> 'text',
-						'label'		=> 'SKU',
-						'desc' 		=> 'Enter a SKU for your course.',
-						'id' 		=> self::$prefix . 'sku',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'checkbox',
-						'label'		=> 'Display Custom Text for Price',
-						'desc' 		=> 'Enable this to display custom text as the single price on the course page.',
-						'id' 		=> self::$prefix . 'is_custom_single_price',
-						'class' 	=> '',
-						'value' 	=> '1',
-						'desc_class' => 'd-3of4 t-3of4 m-1of2',
-						'group' 	=> 'bottom llms-custom-single-price-top',
-					),
-					array(
-						'type'		=> 'text',
-						'label'		=> 'Custom Single Price Text',
-						'desc' 		=> 'Enter custom text to display on the course page. IE: Free!.',
-						'id' 		=> self::$prefix . 'custom_single_price_html',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> 'bottom llms-custom-single-price-bottom',
-					),
-					array(
-						'type'		=> 'number',
-						'label'		=> 'Single Payment Price ( ' . get_lifterlms_currency_symbol() . ' )',
-						'desc' 		=> 'Enter a price to offer your course for a one time purchase.',
-						'id' 		=> self::$prefix . 'regular_price',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'checkbox',
-						'label'		=> 'Course is on sale',
-						'desc' 		=> 'Enable single payment sale for this course.',
-						'id' 		=> self::$prefix . 'on_sale',
-						'class' 	=> '',
-						'value' 	=> '1',
-						'desc_class' => 'd-3of4 t-3of4 m-1of2',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'number',
-						'label'		=> 'Sale Price ( ' . get_lifterlms_currency_symbol() . ' )',
-						'desc' 		=> 'Enter a sale price for the course.',
-						'id' 		=> self::$prefix . 'sale_price',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'date',
-						'label'		=> 'Sale Price Start Date',
-						'desc' 		=> 'Enter the date your sale will begin.',
-						'id' 		=> self::$prefix . 'sale_price_dates_from',
-						'class' 	=> 'llms-datepicker input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'date',
-						'label'		=> 'Sale Price End Date',
-						'desc' 		=> 'Enter the date your sale will end.',
-						'id' 		=> self::$prefix . 'sale_price_dates_to',
-						'class' 	=> 'llms-datepicker input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-				),
-			),
-			array(
-				'title' 	=> 'Price Recurring',
-				'fields' 	=> array(
-					array(
-						'type'		=> 'checkbox',
-						'label'		=> 'Enable Recurring Payment',
-						'desc' 		=> 'Enable recurring payment options.',
-						'id' 		=> self::$prefix . 'llms_recurring_enabled',
-						'class' 	=> '',
-						'value' 	=> '1',
-						'desc_class' => 'd-3of4 t-3of4 m-1of2',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'number',
-						'label'		=> 'Recurring Payment ( ' . get_lifterlms_currency_symbol() . ' )',
-						'desc' 		=> 'Enter the amount you will bill at set intervals.',
-						'id' 		=> self::$prefix . 'llms_subscription_price',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'number',
-						'label'		=> 'First Payment ( ' . get_lifterlms_currency_symbol() . ' )',
-						'desc' 		=> 'Enter the payment amount you will charge on product purchase. This can be 0 to give users a free trial period.',
-						'id' 		=> self::$prefix . 'llms_subscription_first_payment',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'select',
-						'label'		=> 'Billing Period',
-						'desc' 		=> 'Combine billing period and billing frequency set billing interval. IE: Billing period =  week and frequency 2 will bill every 2 weeks.',
-						'id' 		=> self::$prefix . 'llms_billing_period',
-						'class' 	=> 'input-full',
-						'value' 	=> $billing_periods,
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'text',
-						'label'		=> 'Billing Frequency',
-						'desc' 		=> 'Use with billing period to set billing interval',
-						'id' 		=> self::$prefix . 'llms_billing_freq',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'text',
-						'label'		=> 'Billing Cycles',
-						'desc' 		=> 'Enter 0 to charge indefinitely. IE: 12 would bill for 12 months.',
-						'id' 		=> self::$prefix . 'llms_billing_cycle',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-				),
-			),
-			array(
 				'title' 	=> 'Students',
 				'fields' 	=> array(
 					array(
@@ -424,10 +274,12 @@ class LLMS_Meta_Box_Main extends LLMS_Admin_Metabox{
 			),
 		);
 
-		if (has_filter( 'llms_meta_fields_course_main' )) {
-			//Add Fields to the course main Meta Box
-			$meta_fields_course_main = apply_filters( 'llms_meta_fields_course_main', $meta_fields_course_main );
-		}
+		/**
+		 * @todo remove this deprecated filter
+		 */
+		$meta_fields_course_main = apply_filters( 'llms_meta_fields_course_main', $meta_fields_course_main );
+		// keep this new filter
+		$meta_fields_course_main = apply_filters( 'llms_meta_fields_course_options', $meta_fields_course_main );
 
 		return $meta_fields_course_main;
 	}
