@@ -14,10 +14,8 @@ LLMS.MB_Course_Outline = {
 	 */
 	init: function() {
 
-		if ($('#llms_post_edit_type').length ) {
-			if ($('#llms_post_edit_type').val() === 'course') {
-				this.bind();
-			}
+		if ( 'course' === window.llms.post.post_type ) {
+			this.bind();
 		}
 
 	},
@@ -315,7 +313,6 @@ LLMS.MB_Course_Outline = {
 	},
 
 	updateSectionOrder: function( section_tree ) {
-		console.log(section_tree);
 		LLMS.Ajax.call({
 	    	data: {
 	    		action: 'update_section_order',
@@ -323,14 +320,12 @@ LLMS.MB_Course_Outline = {
 	    	},
 	    	beforeSend: function() {
 	    	},
-	    	success: function(r) {
-	    		console.log(r);
+	    	success: function() {
 	    	}
 	    });
 	},
 
 	updateLessonOrder: function( lesson_tree ) {
-		console.log(lesson_tree);
 		LLMS.Ajax.call({
 	    	data: {
 	    		action: 'update_lesson_order',
@@ -338,9 +333,7 @@ LLMS.MB_Course_Outline = {
 	    	},
 	    	beforeSend: function() {
 	    	},
-	    	success: function(r) {
-	    		console.log(r);
-
+	    	success: function() {
 	    	}
 	    });
 	},
@@ -363,7 +356,6 @@ LLMS.MB_Course_Outline = {
     			//set the new order
     			$(this).find('[name="llms_lesson_order[]"]').val(i);
     			$(this).find('.llms-lesson-order').html(i);
-    			console.log(parentSection);
 
     			//save parent section and order to object
     			var id = $(this).find('[name="llms_lesson_id[]"]').val();
@@ -389,8 +381,6 @@ LLMS.MB_Course_Outline = {
 	    	beforeSend: function() {
 	    	},
 	    	success: function(r) {
-	    		console.log(r);
-
 	    		if ( r.success === true ) {
 
 	    			$('#llms_course_outline_sort').append(r.data);
@@ -494,7 +484,6 @@ LLMS.MB_Course_Outline = {
 	    	beforeSend: function() {
 	    	},
 	    	success: function(r) {
-	    		console.log(r);
 
 	    		if ( r.success === true ) {
 
@@ -502,11 +491,7 @@ LLMS.MB_Course_Outline = {
 	    			$( '.llms-section' ).each( function() {
 
 						var input_value = $(this).find('[name="llms_section_id[]"]').val();
-						console.log(input_value);
 						if ( input_value === values.llms_section ) {
-							console.log('found one');
-							console.log($(this));
-							console.log($(this).find('.llms_lesson_tree'));
 							$(this).find( '#llms_section_tree_' + values.llms_section ).append(r.data);
 						}
 
@@ -542,7 +527,6 @@ LLMS.MB_Course_Outline = {
 	    			$( '.llms-section' ).each( function() {
 
 						var input_value = $(this).find('[name="llms_section_id[]"]').val();
-						console.log(input_value);
 						if ( input_value === values.llms_section ) {
 							$(this).find( '#llms_section_tree_' + values.llms_section ).append(r.data);
 						}
@@ -587,7 +571,6 @@ LLMS.MB_Course_Outline = {
 	},
 
 	getSection: function( section_id ) {
-		console.log(section_id);
 		LLMS.Ajax.call({
 	    	data: {
 	    		action: 'get_course_section',
@@ -605,7 +588,6 @@ LLMS.MB_Course_Outline = {
 	},
 
 	getLesson: function( lesson_id ) {
-console.log(lesson_id);
 		LLMS.Ajax.call({
 	    	data: {
 	    		action: 'get_course_lesson',
@@ -640,11 +622,7 @@ console.log(lesson_id);
 	    			$( '.llms-section' ).each( function() {
 
 						var input_value = $(this).find('[name="llms_section_id[]"]').val();
-						console.log(input_value);
 						if ( input_value === values.llms_section_edit_id ) {
-							console.log('found one');
-							console.log($(this));
-							console.log($(this).find('.llms-section-title'));
 							$(this).find( '.llms-section-title' ).html(r.data.title);
 						}
 
@@ -678,7 +656,6 @@ console.log(lesson_id);
 	    			$( '.llms-lesson' ).each( function() {
 
 						var input_value = $(this).find('[name="llms_lesson_id[]"]').val();
-						console.log(input_value);
 						if ( input_value === values.llms_lesson_edit_id ) {
 							$(this).find( '.llms-lesson-title' ).html(r.data.title.title);
 							$(this).find( '.llms-lesson-excerpt' ).html(r.data.excerpt.post_excerpt);
@@ -711,7 +688,6 @@ console.log(lesson_id);
 	    			$( '.llms-lesson' ).each( function() {
 
 						var input_value = $(this).find('[name="llms_lesson_id[]"]').val();
-						console.log(input_value);
 						if ( input_value === lesson_id ) {
 							$(this).remove();
 							LLMS.MB_Course_Outline.resortLessons();
@@ -738,7 +714,6 @@ console.log(lesson_id);
 	    			$( '.llms-section' ).each( function() {
 
 						var input_value = $(this).find('[name="llms_section_id[]"]').val();
-						console.log(input_value);
 						if ( input_value === values.llms_section_delete_id ) {
 							$(this).remove();
 							LLMS.MB_Course_Outline.resortSections();
