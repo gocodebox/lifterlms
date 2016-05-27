@@ -15,12 +15,11 @@ LLMS.l10n = LLMS.l10n || {};
 
 LLMS.l10n.translate = function ( string ) {
 
-	var self = this,
-		index = self.strings.indexOf( string );
+	var self = this;
 
-	if ( -1 !== index ) {
+	if ( self.strings[string] ) {
 
-		return self.strings[index];
+		return self.strings[string];
 
 	} else {
 

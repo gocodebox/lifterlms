@@ -112,8 +112,8 @@ LLMS.Quiz = {
 		if ( $( 'input[name=llms_option_selected]:checked' ).length <= 0 ){
 
 			$('#llms-quiz-question-wrapper .llms-error').remove();
-			$('#llms-quiz-question-wrapper')
-				.prepend( '<div class="llms-error">' + LLMS.l10n.translate( 'You must enter an answer to continue.' ) + '</div>' );
+			var string = LLMS.l10n.translate( 'You must enter an answer to continue.' );
+			$('#llms-quiz-question-wrapper').prepend( '<div class="llms-error">' + string + '</div>' );
 
 		} else {
 
