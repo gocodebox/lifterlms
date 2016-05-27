@@ -1,10 +1,17 @@
 == Changelog ==
 
-= v2.7.4 - 2016/05/23 =
+
+= v2.7.4 - 2016/05/26 =
 -----------------------
 
++ Fixed a bug with the new localization methods from 2.7.3
 + Removed bundled it_IT translation files in favor of official language pack available at [https://translate.wordpress.org/projects/wp-plugins/lifterlms/language-packs](https://translate.wordpress.org/projects/wp-plugins/lifterlms/language-packs).
 + Removed bundled en_US translation files because LifterLMS is in English so the files are unnecessary.
++ Fixed a few mis-labled filters applied when registering LifterLMS Custom Post Types
++ Adjusted the default supported features of LifterLMS Quizzes and Questions
+  + Quizzes now support custom fields as per user request
+  + Commenting, thumbnails, and excerpts are no longer "supported" as they were never intended to be and were never correctly implemented.
+    + If you are relying on any of these features for your quizzes or questions please use the following filters to re-implement these features: `lifterlms_register_post_type_quiz` or `lifterlms_register_post_type_question`. These will allow you filter the default arguments LifterLMS passes to the WordPress function `register_post_type()`
 
 
 = v2.7.3 - 2016/05/23 =
