@@ -12,11 +12,23 @@ Grids for Breakpoints
   clear: both;
 }
 
-#poststuff .llms-metabox:before, #poststuff .llms-metabox:after {
+#poststuff .llms-metabox:before, #poststuff .llms-metabox:after,
+.llms-collapsible:before,
+.llms-collapsible .llms-collapsible-header:before,
+.llms-collapsible .llms-collapsible-body:before,
+.llms-access-plans:before,
+.llms-collapsible:after,
+.llms-collapsible .llms-collapsible-header:after,
+.llms-collapsible .llms-collapsible-body:after,
+.llms-access-plans:after {
   content: " ";
   display: table;
 }
-#poststuff .llms-metabox:after {
+#poststuff .llms-metabox:after,
+.llms-collapsible:after,
+.llms-collapsible .llms-collapsible-header:after,
+.llms-collapsible .llms-collapsible-body:after,
+.llms-access-plans:after {
   clear: both;
 }
 
@@ -2131,6 +2143,10 @@ div[id^="lifterlms-"] .inside {
   padding: 0;
   margin: 0;
 }
+#poststuff .llms-metabox .llms-button-primary {
+  cursor: pointer;
+  padding: 8px 18px;
+}
 #poststuff .llms-metabox .llms-transaction-test-mode {
   background: #ffffd7;
   font-style: italic;
@@ -2143,6 +2159,7 @@ div[id^="lifterlms-"] .inside {
 }
 
 .llms-metabox-section {
+  background: #fff;
   margin-top: 25px;
 }
 .llms-metabox-section.no-top-margin {
@@ -2158,7 +2175,10 @@ div[id^="lifterlms-"] .inside {
   font-weight: 500;
   vertical-align: baseline;
 }
-.llms-metabox-section .llms-metabox-field select {
+.llms-metabox-section .llms-metabox-field select,
+.llms-metabox-section .llms-metabox-field textarea,
+.llms-metabox-section .llms-metabox-field input[type="text"],
+.llms-metabox-section .llms-metabox-field input[type="number"] {
   width: 100%;
 }
 .llms-metabox-section .llms-metabox-field input.md-text {
@@ -2166,6 +2186,46 @@ div[id^="lifterlms-"] .inside {
 }
 .llms-metabox-section .llms-metabox-field input.sm-text {
   width: 45px;
+}
+
+.llms-collapsible {
+  border: 1px solid #e5e5e5;
+  margin-top: 0;
+  margin-bottom: -1px;
+}
+.llms-collapsible:last-child {
+  margin-bottom: 0;
+}
+.llms-collapsible.opened .llms-collapsible-header .dashicons-arrow-down {
+  display: none;
+}
+.llms-collapsible.opened .llms-collapsible-header .dashicons-arrow-up {
+  display: inline;
+}
+.llms-collapsible .llms-collapsible-header {
+  padding: 10px;
+}
+.llms-collapsible .llms-collapsible-header .dashicons-arrow-up {
+  display: inline;
+}
+.llms-collapsible .llms-collapsible-header .dashicons-arrow-up {
+  display: none;
+}
+.llms-collapsible .llms-collapsible-header .dashicons {
+  color: #777;
+  cursor: pointer;
+  -webkit-transition: color .4s ease;
+          transition: color .4s ease;
+}
+.llms-collapsible .llms-collapsible-header .dashicons:hover {
+  color: #069cb5;
+}
+.llms-collapsible .llms-collapsible-header .dashicons.dashicons-no:hover {
+  color: #e26049;
+}
+.llms-collapsible .llms-collapsible-body {
+  display: none;
+  padding: 10px;
 }
 
 #llms-question-container {
@@ -2196,6 +2256,31 @@ div[id^="lifterlms-"] .inside {
 #lifterlms-order-details .inside {
   padding: 20px;
   margin-top: 0;
+}
+
+#llms-new-access-plan-model {
+  display: none;
+}
+
+.llms-access-plans {
+  margin-top: 25px;
+}
+.llms-access-plans > p {
+  display: none;
+}
+.llms-access-plans > p:last-child {
+  display: block;
+}
+.llms-access-plans.dragging {
+  background: #efefef;
+  box-shadow: inset 0 0 0 1px #e5e5e5;
+}
+
+.llms-access-plan [data-controller] {
+  display: none;
+}
+.llms-access-plan .llms-metabox-field {
+  margin: 5px 0;
 }
 
 .llms-order-status-icon.llms-active, .llms-order-status-icon.llms-completed {

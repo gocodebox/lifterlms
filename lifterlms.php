@@ -95,10 +95,6 @@ final class LifterLMS {
 		// load localization files
 		add_action( 'plugins_loaded', array( $this, 'localize' ) );
 
-		// PayPal related Crons
-		add_action( 'wp', array( 'LLMS_Payment_Gateway_Paypal', 'schedule_sync' ) );
-		add_action( 'lifterlms_paypal_order_sync', array( new LLMS_Payment_Gateway_Paypal, 'sync_order_statuses' ), 10, 1 );
-
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
 
@@ -125,8 +121,6 @@ final class LifterLMS {
 			$path = $this->plugin_path() . '/includes/integrations/';
 		} elseif ( strpos( $class, 'llms_controller_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/controllers/';
-		} elseif ( strpos( $class, 'llms_gateway_' ) === 0 ) {
-			$path = $this->plugin_path() . '/includes/payment_gateways/';
 		} elseif (strpos( $class, 'llms_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/';
 		}
@@ -200,8 +194,7 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.post-types.php' );
 
 		// Payment Gateway
-		include_once( 'includes/class.llms.payment.gateway.php' );
-		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
+		require_once 'includes/abstracts/abstract.llms.payment.gateway.php';
 
 		// Ajax
 		include_once( 'includes/class.llms.ajax.php' );
@@ -210,8 +203,13 @@ final class LifterLMS {
 		// Hooks
 		include_once( 'includes/llms.template.hooks.php' );
 
+		// Custom Post Type Models
+		require_once 'includes/abstracts/abstract.llms.post.model.php';
+		require_once 'includes/models/model.llms.access.plan.php';
+		require_once 'includes/models/model.llms.product.php';
+
 		// Classes
-		include_once( 'includes/class.llms.product.php' );
+		// include_once( 'includes/class.llms.product.php' );
 		include_once( 'includes/class.llms.course.php' );
 		include_once( 'includes/class.llms.student.php' );
 		include_once( 'includes/class.llms.section.php' );
@@ -247,8 +245,6 @@ final class LifterLMS {
 	 * Include required frontend classes.
 	 */
 	public function frontend_includes() {
-		include_once( 'includes/payment_gateways/class.llms.payment.gateway.paypal.php' );
-
 		include_once( 'includes/class.llms.template.loader.php' );
 		include_once( 'includes/class.llms.frontend.assets.php' );
 		include_once( 'includes/class.llms.frontend.forms.php' );
@@ -264,7 +260,9 @@ final class LifterLMS {
 	 * Load Hooks
 	 */
 	public function include_template_functions() {
-		include_once( 'includes/llms.template.functions.php' );
+		if ( ! is_admin() ) {
+			include_once( 'includes/llms.template.functions.php' );
+		}
 	}
 
 	/**

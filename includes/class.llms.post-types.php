@@ -292,8 +292,9 @@ class LLMS_Post_Types {
 			return;
 		}
 
-		do_action( 'lifterlms_register_post_type' );
-
+		/**
+		 * @todo this doesn't exist or do anything (i think)
+		 */
 		$permalinks = get_option( 'lifterlms_permalinks' );
 
 		/**
@@ -862,7 +863,6 @@ class LLMS_Post_Types {
 		/**
 		 * Review Post Type
 		 */
-		//$review_permalink = empty( $permalinks['review_base'] ) ? _x( 'review', 'slug', 'lifterlms' ) : $permalinks['review_base'];
 		register_post_type( 'llms_review',
 			apply_filters( 'lifterlms_register_post_type_review',
 				array(
@@ -898,6 +898,46 @@ class LLMS_Post_Types {
 				)
 			)
 		);
+
+
+		/**
+		 * Access Plan Post Type
+		 */
+	    register_post_type( 'llms_access_plan',
+		    apply_filters( 'lifterlms_register_post_type_access_plan',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Access Plans', 'lifterlms' ),
+							'singular_name' 		=> __( 'Access Plan', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Access Plan', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Access Plan', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Access Plan', 'lifterlms' ),
+							'new_item' 				=> __( 'New Access Plan', 'lifterlms' ),
+							'view' 					=> __( 'View Access Plan', 'lifterlms' ),
+							'view_item' 			=> __( 'View Access Plan', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Access Plans', 'lifterlms' ),
+							'not_found' 			=> __( 'No Access Plans found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Access Plans found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Access Plans', 'lifterlms' ),
+							'menu_name'				=> _x( 'Access Plans', 'Admin menu name', 'lifterlms' ),
+						),
+					'description' 			=> __( 'This is where access plans are stored.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> false,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title' ),
+					'has_archive' 			=> false,
+				)
+			)
+		);
+
 	}
 
 
