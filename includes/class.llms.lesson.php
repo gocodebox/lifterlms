@@ -349,7 +349,7 @@ class LLMS_Lesson {
 				$newsection = new LLMS_Section( $sections[0]->ID );
 				$lessons = $newsection->get_children_lessons();
 
-				if( $lessons ){
+				if ( $lessons ){
 					return $lessons[0]->ID;
 				} else {
 					return false;
