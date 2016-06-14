@@ -1420,6 +1420,15 @@ function llms_courses_per_page( $query ) {
 add_filter( 'pre_get_posts', 'llms_courses_per_page' );
 
 
+/**
+ * Retrieve an excerpt
+ *
+ * @todo  deprecate this, I have no idea why this is being done this way...
+ *
+ * @param  int $post_id WordPress post id
+ * @return string
+ * @version  2.7.5
+ */
 function llms_get_excerpt( $post_id ) {
 	global $post;
 
