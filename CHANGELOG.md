@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.7.5 - 2016/05/26 =
+-----------------------
+
++ Thanks to [@kjohnson](https://github.com/kjohnson) who fixed undefined index warnings & errors which occurred when viewing the last lesson in a section when the next section contained no lessons.
++ Resolved an issue where formatting for "Restricted Access Description" content would not display proper formatting.
+
 
 = v2.7.4 - 2016/05/26 =
 -----------------------
