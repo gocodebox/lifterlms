@@ -24,7 +24,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 	$is_passing_score = $quiz->is_passing_score( $user_id, $grade );
 	$best_grade = $quiz->get_best_grade( $user_id );
 	$time = $quiz->get_total_time( $user_id );
-	$start_date = date_l18n( 'M d, Y', strtotime( $quiz->get_start_date( $user_id ) ) );
+	$start_date = date_i18n( 'M d, Y', strtotime( $quiz->get_start_date( $user_id ) ) );
 
 	$best = $quiz->get_best_quiz_attempt( $user_id );
 	$best_time = $quiz->get_total_time( $user_id, $best );
