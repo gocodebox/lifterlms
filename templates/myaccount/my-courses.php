@@ -22,8 +22,15 @@ if ( $my_courses ) {?>
 
 				$permalink = get_post_permalink( $course->id );
 
-				$date_formatted = date( 'M d, Y', strtotime( $course_item->updated_date ) );
+				$date_formatted = date_i18n( 'M d, Y', strtotime( $course_item->updated_date ) );
 				$course_status = $course_item->meta_value;
+				/**
+				 * @todo  this data needs to be identified via keys rather than storing the string directly to the database
+				 *        this is also, i think, the only string we store here currently...
+				 */
+				if ( 'Enrolled' === $course_status ) {
+					$course_status = __( 'Enrolled', 'lifterlms' );
+				}
 
 				$course_author = '';
 				if (get_option( 'lifterlms_course_display_author' ) == 'yes') {
