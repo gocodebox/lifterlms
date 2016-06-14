@@ -3,8 +3,20 @@
 = v2.7.5 - 2016/05/26 =
 -----------------------
 
+##### New features
++ Added an "id" parameter to both LifterLMS Courses and LifterLMS Memberships shortcodes
+
+##### i18n
++ Allow date translation on quiz results screen by using `date_i18n()` instead of `date()`
++ Allow date translation on my courses screen by using `date_i18n()` instead of `date()`
++ Ensure course status "Enrolled" is translatable on my courses screen
+
+##### Fixes
 + Thanks to [@kjohnson](https://github.com/kjohnson) who fixed undefined index warnings & errors which occurred when viewing the last lesson in a section when the next section contained no lessons.
-+ Resolved an issue where formatting for "Restricted Access Description" content would not display proper formatting.
++ Resolved an issue where formatting for "Restricted Access Description" course content would not display proper formatting.
++ Fixed an issue with the "FREE" stamp for a free lesson caused layout issues.
++ Removed the "is-complete" css class from incorrectly being added to lesson preview tiles for free lessons
++ Fix an escaping issue when rendering Course titles inside LifterLMS notices. Prevents "\'s" from displaying when "'s" should be displaying (and similar issues).
 
 
 = v2.7.4 - 2016/05/26 =
