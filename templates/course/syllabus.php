@@ -66,8 +66,8 @@ $sections = $course->get_children_sections();
 						$complete = ' has-icon';
 						$check = '<span class="llms-lesson-complete-placeholder"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
 					} elseif ( $lesson->get_is_free() ) {
-						$check = LLMS_Svg::get_icon( 'llms-icon-free', '', '', 'llms-free-lesson-svg' );
-						$complete = ' is-complete has-icon';
+						$check = '<span class="llms-free-lesson">' . LLMS_Svg::get_icon( 'llms-icon-free', '', '', 'llms-free-lesson-svg' ) .'</span>';
+						$complete = ' has-icon';
 					} else {
 						$complete = '';
 						$check = '';

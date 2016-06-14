@@ -293,7 +293,9 @@ input[type="submit"].llms-button-text {
     }
   }
 
-  .llms-lesson-complete, .llms-lesson-complete-placeholder {
+  .llms-free-lesson,
+  .llms-lesson-complete,
+  .llms-lesson-complete-placeholder {
     color: $color-red;
     float: left;
     font-size: 3em;
@@ -306,10 +308,9 @@ input[type="submit"].llms-button-text {
   }
 
   .llms-free-lesson-svg {
-    @extend .llms-lesson-complete;
     fill: currentColor;
-    width:50px;
-    height: 50px;
+    width:46px;
+    height: 46px;
     margin-top: -10px;
   }
 
