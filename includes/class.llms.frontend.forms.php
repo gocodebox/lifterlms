@@ -690,10 +690,11 @@ class LLMS_Frontend_Forms
 	 * @param  object $order [order object]
 	 *
 	 * @return void
+	 * @version  2.7.5
 	 */
 	public function order_success( $order ) {
 
-		$product_title = $order->product_title;
+		$product_title = get_the_title( $order->product_id );
 		$post_obj = get_post( $order->product_id );
 
 		if ($post_obj->post_type == 'course') {
