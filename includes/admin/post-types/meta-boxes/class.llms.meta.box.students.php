@@ -74,6 +74,23 @@ class LLMS_Meta_Box_Students {
 			);
 		}
 
+		// handle restricted level usermeta updates for memberships
+		if ( 'llms_membership' === get_post_type( $post_id ) ) {
+
+			$levels = get_user_meta( $user_id, '_llms_restricted_levels', true );
+			if ( is_array( $levels ) ) {
+				$key = array_search( $post_id, $levels );
+				if ( false !== $key ) {
+					unset( $levels[$key] );
+				}
+			} else {
+				$levels = array();
+			}
+
+			update_user_meta( $user_id, '_llms_restricted_levels', $levels );
+
+		}
+
 		do_action( 'lifterlms_student_removed_by_admin', $user_id, $post_id );
 	}
 
