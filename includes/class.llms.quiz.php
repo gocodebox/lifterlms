@@ -781,6 +781,22 @@ class LLMS_Quiz {
 		}
 		// Set up intervals and diffs arrays
 		$intervals = array( 'year', 'month', 'day', 'hour', 'minute', 'second' );
+		$l18n_singular = array(
+			'year' => __( 'year', 'lifterlms' ),
+			'month' => __( 'month', 'lifterlms' ),
+			'day' => __( 'day', 'lifterlms' ),
+			'hour' => __( 'hour', 'lifterlms' ),
+			'minute' => __( 'minute', 'lifterlms' ),
+			'second' => __( 'second', 'lifterlms' ),
+		);
+		$l18n_plural = array(
+			'year' => __( 'years', 'lifterlms' ),
+			'month' => __( 'months', 'lifterlms' ),
+			'day' => __( 'days', 'lifterlms' ),
+			'hour' => __( 'hours', 'lifterlms' ),
+			'minute' => __( 'minutes', 'lifterlms' ),
+			'second' => __( 'seconds', 'lifterlms' ),
+		);
 		$diffs = array();
 		foreach ( $intervals as $interval ) {
 			// Create temp time from time1 and interval
@@ -808,10 +824,12 @@ class LLMS_Quiz {
 			// Add value and interval if value is bigger than 0
 			if ( $value > 0 ) {
 				if ( $value != 1 ) {
-					$interval .= 's';
+					$text = $l18n_plural[$interval];
+				} else {
+					$text = $l18n_singular[$interval];
 				}
 				// Add value and interval to times array
-				$times[] = $value . ' ' . $interval;
+				$times[] = $value . ' ' . $text;
 				$count++;
 			}
 		}
