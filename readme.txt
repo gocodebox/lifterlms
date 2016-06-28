@@ -3,8 +3,8 @@ Contributors: therealmarknelson, thomasplevy, psmolic, chrisbadgett, kathy11, li
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.5
-Stable tag: 2.7.5
+Tested up to: 4.5.3
+Stable tag: 2.7.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,7 +29,7 @@ LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell,
 
 Take a look at the explanation videos of LifterLMS. These 17 tutorial videos are included in the [free LifterLMS demo course](http://demo.lifterlms.com).
 
-https://www.youtube.com/watch?v=ceZkibkaoEo&index=1&list=PLx4tNLSmgY6uTTr1Ie4kdC8ytL4heWqDq
+https://www.youtube.com/watch?v=CY1u-elqudg
 
 More information at [LifterLMS.com](https://lifterlms.com).
 
@@ -166,7 +166,17 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-= v2.7.5 - 2016/05/26 =
+= v2.7.5 - 2016/06/28 =
+-----------------------
+
++ Students manually removed by Memberships by using the "Students" tab of a LifterLMS Membership will now be fully removed from the membership.
++ Updated a few time-related strings to be l18n friendly. These items were all around Quiz time reporting and quiz time limits.
++ Updated testing information, tested up to WP 4.5.3
++ Fixed date of last release on changelog. It had the wrong date. Does that really matter?
++ Updated readme.txt description area, we have a new youtube video! Yassss.
+
+
+= v2.7.5 - 2016/06/13 =
 -----------------------
 
 ##### New features
