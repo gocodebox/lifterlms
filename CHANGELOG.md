@@ -1,6 +1,16 @@
 == Changelog ==
 
-= v2.7.5 - 2016/05/26 =
+= v2.7.5 - 2016/06/28 =
+-----------------------
+
++ Students manually removed by Memberships by using the "Students" tab of a LifterLMS Membership will now be fully removed from the membership.
++ Updated a few time-related strings to be l18n friendly. These items were all around Quiz time reporting and quiz time limits.
++ Updated testing information, tested up to WP 4.5.3
++ Fixed date of last release on changelog. It had the wrong date. Does that really matter?
++ Updated readme.txt description area, we have a new youtube video! Yassss.
+
+
+= v2.7.5 - 2016/06/13 =
 -----------------------
 
 ##### New features
