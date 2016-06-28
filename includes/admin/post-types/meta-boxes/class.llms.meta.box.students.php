@@ -81,7 +81,7 @@ class LLMS_Meta_Box_Students {
 			if ( is_array( $levels ) ) {
 				$key = array_search( $post_id, $levels );
 				if ( false !== $key ) {
-					unset( $levels[$key] );
+					unset( $levels[ $key ] );
 				}
 			} else {
 				$levels = array();

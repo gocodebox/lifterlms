@@ -824,9 +824,9 @@ class LLMS_Quiz {
 			// Add value and interval if value is bigger than 0
 			if ( $value > 0 ) {
 				if ( $value != 1 ) {
-					$text = $l18n_plural[$interval];
+					$text = $l18n_plural[ $interval ];
 				} else {
-					$text = $l18n_singular[$interval];
+					$text = $l18n_singular[ $interval ];
 				}
 				// Add value and interval to times array
 				$times[] = $value . ' ' . $text;
