@@ -1,5 +1,25 @@
 == Changelog ==
 
+= v2.7.7 - 2016/07/01 =
+-----------------------
+
+##### Russiona
+
++ LifterLMS is now 100% Translated into Russian thanks to our new Russian Translation Editor [@kellerpt](https://profiles.wordpress.org/kellerpt/)
+
+##### l18n
+
++ All transition messages between questions during a Quiz are now translatable.
++ LifterLMS subpages below the LifterLMS icon on the admin panel will now always display regardless of how you've chosen to translate the menu items. Hopefully puts to rest a long-standing i18n issue.
+
+###### Bug fixes
+
++ Attempting to access a quiz when not enrolled in the associated course and having not properly started the quiz now results in a useful error message rather than a PHP warning.
++ We've adjusted the way we're adding a admin panel "seperator" to reduce conflicts with other plugins that have menu items with the same position as our seperator (51).
++ Added new logic to display an error message (instead of nothing) if there's an error during question loading.
++ Resolve issue with course progress bar when added to a quiz sidebar (assuming your theme has sidebar support on your quizzes).
+
+
 = v2.7.5 - 2016/06/28 =
 -----------------------
 
