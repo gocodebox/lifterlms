@@ -241,7 +241,7 @@ class LLMS_Shortcodes {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			$course_id = $lesson->get_parent_course();
 		} elseif ( is_quiz() ) {
-			$quiz = LLMS()->session->get( 'llms_quiz' );
+			$quiz = new LLMS_Quiz( get_the_ID() );
 			$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
 			$course_id = $lesson->get_parent_course();
 		} else {
