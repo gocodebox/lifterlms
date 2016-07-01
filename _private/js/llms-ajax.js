@@ -111,7 +111,7 @@ Ajax.prototype.start_quiz = function (quiz_id, user_id) {
 			jQuery('html, body').stop().animate({scrollTop: 0}, 500);
 			jQuery('#llms-quiz-wrapper').empty();
 
-			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Question...</div>' );
+			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">' + LLMS.l10n.translate( 'Loading Question...' ) + '</div>' );
 
 		},
 		success: function( html ) {
@@ -148,7 +148,7 @@ Ajax.prototype.answer_question = function ( quiz_id, question_type, question_id,
         dataType	: this.dataType,
 		beforeSend: function() {
 			jQuery('#llms-quiz-question-wrapper').empty();
-			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Next Question...</div>' );
+			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">' + LLMS.l10n.translate( 'Loading Question...' ) + '</div>' );
 		},
 		success: function( response ) {
 
@@ -189,7 +189,7 @@ Ajax.prototype.previous_question = function (quiz_id, question_id) {
 		beforeSend: function() {
 
 			jQuery('#llms-quiz-question-wrapper').empty();
-			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Question...</div>' );
+			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">' + LLMS.l10n.translate( 'Loading Question...' ) + '</div>' );
 
 		},
 		success: function( html ) {
@@ -222,7 +222,7 @@ Ajax.prototype.complete_quiz = function ( quiz_id, question_id, question_type, a
 		beforeSend: function() {
 
 			jQuery('#llms-quiz-question-wrapper').empty();
-			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">Loading Quiz Results...</div>' );
+			jQuery('#llms-quiz-question-wrapper').append( '<div id="loader">' + LLMS.l10n.translate( 'Loading Quiz Results...' ) + '</div>' );
 
 		},
 		success: function( response ) {
