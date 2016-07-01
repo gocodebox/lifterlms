@@ -30,6 +30,13 @@ class LLMS_l10n {
 		// alphabatize the array so we can quickly find strings
 		// include references to the JS file where the string is used so we can cleanup if needed in the future
 		$strings = array(
+
+			/**
+			 * file: _private/js/llms-ajax.js
+			 */
+			'Loading Question...' => __( 'Loading Question...', 'lifterlms' ),
+			'Loading Quiz Results...' => __( 'Loading Quiz Results...', 'lifterlms' ),
+
 			/**
 			 * file: _private/js/app/llms-quiz.js
 			 */
