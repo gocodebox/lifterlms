@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the LifterLMS package.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 2.7.6\n"
+"Project-Id-Version: LifterLMS 2.7.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-06-28 20:35:05+00:00\n"
+"POT-Creation-Date: 2016-07-01 22:24:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -212,70 +212,70 @@ msgstr ""
 msgid "You must enter a start and end date."
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:48
-#: includes/admin/class.llms.admin.menus.php:120 lifterlms.php:372
+#: includes/admin/class.llms.admin.menus.php:53
+#: includes/admin/class.llms.admin.menus.php:138 lifterlms.php:372
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:50
-#: includes/admin/class.llms.admin.menus.php:142
+#: includes/admin/class.llms.admin.menus.php:55
+#: includes/admin/class.llms.admin.menus.php:160
 #: includes/admin/views/html.admin.analytics.php:3
 msgid "Analytics"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:52
-#: includes/admin/class.llms.admin.menus.php:164
+#: includes/admin/class.llms.admin.menus.php:57
+#: includes/admin/class.llms.admin.menus.php:182
 #: includes/admin/students/class.llms.students.dashboard.php:37
 #: includes/admin/students/class.llms.students.dashboard.php:134
 #: includes/admin/views/html.admin.students.php:3
 msgid "Students"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:54
+#: includes/admin/class.llms.admin.menus.php:59
 #: includes/class.llms.post-types.php:471
 msgid "Emails"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:56
+#: includes/admin/class.llms.admin.menus.php:61
 #: includes/admin/settings/class.llms.settings.engagements.php:21
 #: includes/class.llms.post-types.php:589
 msgid "Engagements"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:58
+#: includes/admin/class.llms.admin.menus.php:63
 #: includes/class.llms.post-types.php:550
 #: includes/integrations/class.llms.integration.buddypress.php:61
 msgid "Achievements"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:60
+#: includes/admin/class.llms.admin.menus.php:65
 #: includes/class.llms.post-types.php:512
 #: includes/integrations/class.llms.integration.buddypress.php:70
 msgid "Certificates"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:62
+#: includes/admin/class.llms.admin.menus.php:67
 #: includes/class.llms.post-types.php:865
 msgid "Reviews"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:64
+#: includes/admin/class.llms.admin.menus.php:69
 #: includes/class.llms.post-types.php:429
 msgid "Orders"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:66
+#: includes/admin/class.llms.admin.menus.php:71
 #: includes/class.llms.post-types.php:786
 msgid "Coupons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:68
+#: includes/admin/class.llms.admin.menus.php:73
 #: includes/class.llms.post-types.php:825
 msgid "Vouchers"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:70
-#: includes/admin/class.llms.admin.menus.php:186
+#: includes/admin/class.llms.admin.menus.php:75
+#: includes/admin/class.llms.admin.menus.php:204
 msgid "System Report"
 msgstr ""
 
@@ -1810,11 +1810,11 @@ msgctxt "Localized Order DateTime"
 msgid "%b %d, %Y @ %I:%M %p"
 msgstr ""
 
-#: includes/class.llms.date.php:176 includes/class.llms.quiz.php:796
+#: includes/class.llms.date.php:176 includes/class.llms.quiz.php:797
 msgid "hours"
 msgstr ""
 
-#: includes/class.llms.date.php:178 includes/class.llms.quiz.php:788
+#: includes/class.llms.date.php:178 includes/class.llms.quiz.php:789
 msgid "hour"
 msgstr ""
 
@@ -1822,19 +1822,19 @@ msgstr ""
 msgid "%d %s "
 msgstr ""
 
-#: includes/class.llms.date.php:185 includes/class.llms.quiz.php:798
+#: includes/class.llms.date.php:185 includes/class.llms.quiz.php:799
 msgid "seconds"
 msgstr ""
 
-#: includes/class.llms.date.php:187 includes/class.llms.quiz.php:790
+#: includes/class.llms.date.php:187 includes/class.llms.quiz.php:791
 msgid "second"
 msgstr ""
 
-#: includes/class.llms.date.php:198 includes/class.llms.quiz.php:797
+#: includes/class.llms.date.php:198 includes/class.llms.quiz.php:798
 msgid "minutes"
 msgstr ""
 
-#: includes/class.llms.date.php:200 includes/class.llms.quiz.php:789
+#: includes/class.llms.date.php:200 includes/class.llms.quiz.php:790
 msgid "minute"
 msgstr ""
 
@@ -1950,7 +1950,7 @@ msgid "Course ended %s."
 msgstr ""
 
 #: includes/class.llms.frontend.forms.php:934
-msgid "You do not have access to the quiz questions. <a href=\"%s\">Return to Account page</a>."
+msgid "You do not have access to quizzes. <a href=\"%s\">Return to Account page</a>."
 msgstr ""
 
 #: includes/class.llms.frontend.forms.php:942
@@ -2086,15 +2086,23 @@ msgstr ""
 msgid "Student"
 msgstr ""
 
-#: includes/class.llms.l10n.php:36
-msgid "Hide Summary"
-msgstr ""
-
-#: includes/class.llms.l10n.php:37 templates/quiz/results.php:82
-msgid "View Summary"
+#: includes/class.llms.l10n.php:37
+msgid "Loading Question..."
 msgstr ""
 
 #: includes/class.llms.l10n.php:38
+msgid "Loading Quiz Results..."
+msgstr ""
+
+#: includes/class.llms.l10n.php:43
+msgid "Hide Summary"
+msgstr ""
+
+#: includes/class.llms.l10n.php:44 templates/quiz/results.php:82
+msgid "View Summary"
+msgstr ""
+
+#: includes/class.llms.l10n.php:45
 msgid "You must enter an answer to continue."
 msgstr ""
 
@@ -3262,39 +3270,39 @@ msgstr ""
 msgid "There are no questions associated with this quiz."
 msgstr ""
 
-#: includes/class.llms.quiz.php:525
+#: includes/class.llms.quiz.php:526
 msgid "There was an error starting the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.quiz.php:546
+#: includes/class.llms.quiz.php:547
 msgid "There was an error finding the associated quiz. Please return to the lesson and begin quiz again."
 msgstr ""
 
-#: includes/class.llms.quiz.php:671
+#: includes/class.llms.quiz.php:672
 msgid "There was an error with your quiz."
 msgstr ""
 
-#: includes/class.llms.quiz.php:785
+#: includes/class.llms.quiz.php:786
 msgid "year"
 msgstr ""
 
-#: includes/class.llms.quiz.php:786
+#: includes/class.llms.quiz.php:787
 msgid "month"
 msgstr ""
 
-#: includes/class.llms.quiz.php:787
+#: includes/class.llms.quiz.php:788
 msgid "day"
 msgstr ""
 
-#: includes/class.llms.quiz.php:793
+#: includes/class.llms.quiz.php:794
 msgid "years"
 msgstr ""
 
-#: includes/class.llms.quiz.php:794
+#: includes/class.llms.quiz.php:795
 msgid "months"
 msgstr ""
 
-#: includes/class.llms.quiz.php:795
+#: includes/class.llms.quiz.php:796
 msgid "days"
 msgstr ""
 
@@ -3392,7 +3400,7 @@ msgstr ""
 msgid "Password Reset Instructions"
 msgstr ""
 
-#: includes/functions/llms.functions.access.php:612
+#: includes/functions/llms.functions.access.php:611
 msgid "%s membership is required to view this content."
 msgstr ""
 
