@@ -460,7 +460,7 @@ class LLMS_Quiz {
 
 		$quiz = LLMS()->session->get( 'llms_quiz' );
 
-		if ( $quiz->id == $quiz_id && $quiz->user_id == $user_id ) {
+		if ( $quiz && $quiz->id == $quiz_id && $quiz->user_id == $user_id ) {
 
 			$quiz->start_date = current_time( 'mysql' );
 			$quiz->end_date   = '';
@@ -522,8 +522,9 @@ class LLMS_Quiz {
 
 		} else {
 
-			$response['message'] = __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' );
-			return $response;
+			return array(
+				'message' => __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' )
+			);
 
 		}
 
