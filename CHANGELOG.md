@@ -18,9 +18,10 @@
 + We've adjusted the way we're adding a admin panel "seperator" to reduce conflicts with other plugins that have menu items with the same position as our seperator (51).
 + Added new logic to display an error message (instead of nothing) if there's an error during question loading.
 + Resolve issue with course progress bar when added to a quiz sidebar (assuming your theme has sidebar support on your quizzes).
++ Updated version number in the changelog for last version (it was supposed to be 2.7.6)
 
 
-= v2.7.5 - 2016/06/28 =
+= v2.7.6 - 2016/06/28 =
 -----------------------
 
 + Students manually removed by Memberships by using the "Students" tab of a LifterLMS Membership will now be fully removed from the membership.
