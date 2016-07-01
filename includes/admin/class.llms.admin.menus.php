@@ -33,14 +33,19 @@ class LLMS_Admin_Menus {
 	 * All new sub menu items need to be added to this method
 	 * @param  [array] $menu_ord [sub menu array]
 	 * @return [array]           [modified sub menu array]
+	 * @version  2.7.7
 	 */
 	public function submenu_order( $menu_ord ) {
 		global $submenu;
 
 		if ( isset( $submenu['lifterlms'] ) ) {
 
-			$arr = array();
+			 // anything that doesn't get caught because of l18n will start here
+			 // we'll increment everytime the default is used
+			 // so we ensure we get everything
+			$default = 12;
 
+			$arr = array();
 			foreach ( $submenu['lifterlms'] as $sm ) {
 				switch ( $sm[0] ) {
 
@@ -68,6 +73,7 @@ class LLMS_Admin_Menus {
 					case __( 'Vouchers', 'lifterlms' ):	 	$i = 10; break;
 					case 'System Report':
 					case __( 'System Report', 'lifterlms' ):$i = 11; break;
+					default 							   :$i = $default; $default++; break;
 				}
 
 				$arr[ $i ] = $sm;
@@ -98,10 +104,22 @@ class LLMS_Admin_Menus {
 
 		if ( current_user_can( apply_filters( 'lifterlms_admin_menu_access', 'manage_options' ) ) ) {
 
-			$menu[51] = array( '', 'read', 'llms-separator','','wp-menu-separator' );
+			// ensure we don't overwrite an existing menu item
+			$pos = 51;
 
-			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', 'llms_homepage', plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', 52 );
+			while ( true ) {
 
+				if ( isset( $menu[ $pos ] ) ) {
+					$pos++;
+				} else {
+					break;
+				}
+
+			}
+
+			$menu[ $pos ] = array( '', 'read', 'llms-separator','','wp-menu-separator' );
+
+			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', 'llms_homepage', plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', $pos );
 			function llms_homepage() {}
 
 		}
