@@ -931,7 +931,7 @@ class LLMS_Frontend_Forms
 				llms_add_notice( sprintf( __( 'Course ended %s.', 'lifterlms' ), $end_date ) );
 				break;
 			case 'quiz_restricted' :
-				llms_add_notice( sprintf( __( 'You do not have access to the quiz questions. <a href="%s">Return to Account page</a>.', 'lifterlms' ), get_permalink( llms_get_page_id( 'myaccount' ) ) ) );
+				llms_add_notice( sprintf( __( 'You do not have access to quizzes. <a href="%s">Return to Account page</a>.', 'lifterlms' ), get_permalink( llms_get_page_id( 'myaccount' ) ) ) );
 				break;
 			case 'enrollment_lesson' :
 				$lesson = new LLMS_Lesson( $post_id );

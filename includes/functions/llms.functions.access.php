@@ -68,7 +68,7 @@ function llms_page_restricted( $post_id ) {
 				$restricted = true;
 				$reason = 'course_end_date';
 			}
-		} elseif ( is_single() && $post->post_type == 'llms_question' ) {
+		} elseif ( is_single() && ( $post->post_type == 'llms_question' || $post->post_type == 'llms_quiz' ) ) {
 			if ( quiz_restricted() ) {
 				$restricted = true;
 				$reason = 'quiz_restricted';
@@ -99,7 +99,6 @@ function llms_page_restricted( $post_id ) {
 function quiz_restricted() {
 
 	$quiz = LLMS()->session->get( 'llms_quiz' );
-
 	if ( $quiz && $quiz->end_date == '' ) {
 		return false;
 	} else {
