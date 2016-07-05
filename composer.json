@@ -35,9 +35,8 @@
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
     ],
     "clean-trunk": "git branch -D trunk && git push origin :trunk",
-    "pre-dist-install": "composer install --no-dev --no-scripts",
+    "pre-dist-install": "git checkout -B trunk && composer install --no-dev --no-scripts",
     "remove-dev": "rm -rf .editorconfig .gitignore .idea .jscsrc .jshintrc .travis.yml _private _readme bin/ composer.lock composer.phar gulpfile.js package.json phpcs.xml phpunit.xml README.md tests/ vendor/",
-    "post-dist": "git checkout -B trunk",
     "dist": [
       "@clean-trunk",
       "@remove-dev",
