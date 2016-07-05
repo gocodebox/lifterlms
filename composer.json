@@ -34,13 +34,14 @@
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs",
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
     ],
-    "remove-dev": "rm -rf .editorconfig .gitignore .idea .jscsrc .jshintrc .travis.yml _private _readme bin/ composer.lock composer.phar gulpfile.js package.json phpcs.xml phpunit.xml README.md tests/ vendor/",
     "clean-trunk": "git branch -D trunk && git push origin :trunk",
     "pre-dist-install": "composer install --no-dev --no-scripts",
+    "remove-dev": "rm -rf .editorconfig .gitignore .idea .jscsrc .jshintrc .travis.yml _private _readme bin/ composer.lock composer.phar gulpfile.js package.json phpcs.xml phpunit.xml README.md tests/ vendor/",
+    "post-dist": "git checkout -B trunk",
     "dist": [
       "@clean-trunk",
       "@remove-dev",
       "@pre-dist-install"
-    ],
+    ]
   }
 }
