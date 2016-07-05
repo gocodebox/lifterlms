@@ -523,7 +523,7 @@ class LLMS_Quiz {
 		} else {
 
 			return array(
-				'message' => __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' )
+				'message' => __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ),
 			);
 
 		}
