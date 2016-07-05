@@ -166,10 +166,16 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v2.7.8 - 2016/07/05 =
+-----------------------
+
++ Bugfix: Restore access to quiz results on quiz completion
+
+
 = v2.7.7 - 2016/07/01 =
 -----------------------
 
-##### Russiona
+##### Russian
 
 + LifterLMS is now 100% Translated into Russian thanks to our new Russian Translation Editor [@kellerpt](https://profiles.wordpress.org/kellerpt/)
 
