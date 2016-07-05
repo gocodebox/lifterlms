@@ -97,9 +97,7 @@ function llms_page_restricted( $post_id ) {
  * @return bool [Can user view quiz]
  */
 function quiz_restricted() {
-
-	$quiz = LLMS()->session->get( 'llms_quiz' );
-	if ( $quiz && $quiz->end_date == '' ) {
+	if ( LLMS()->session->get( 'llms_quiz' ) ) {
 		return false;
 	} else {
 		return true;
