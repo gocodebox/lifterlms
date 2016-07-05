@@ -23,11 +23,12 @@ class LLMS_Shortcodes {
 			'lifterlms_my_achievements' => __CLASS__ . '::my_achievements',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
 			'lifterlms_courses' => __CLASS__ . '::courses', // added here so that we can deprecate the non-prefixed "courses" (maybe)
-				'courses' => __CLASS__ . '::courses', // should be deprecated at some point
+			'courses' => __CLASS__ . '::courses', // should be deprecated at some point
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
 			'lifterlms_registration' => __CLASS__ . '::registration',
+			'lifterlms_login' => __CLASS__ . '::login',
 			'lifterlms_regiration' => __CLASS__ . '::registration',
 			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
@@ -100,7 +101,23 @@ class LLMS_Shortcodes {
 
 	}
 
+	/**
+	 * Login shortcode
+	 * Used to seperate registration from login
+	 * @param  [atts] $atts [no atts are allowed]
+	 * @return [html]       [login template html]
+	 */
+	public static function login( $atts ) {
 
+		ob_start();
+
+		include( llms_get_template_part_contents( 'global/form', 'login' ) );
+
+		$html = ob_get_clean();
+
+		return $html;
+
+	}
 
 	/**
 	* Memberships Shortcode
