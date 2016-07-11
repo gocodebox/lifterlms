@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.5.3
-Stable tag: 2.7.8
+Stable tag: 2.7.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,17 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v2.7.9 - 2016/07/11 =
+-----------------------
+
++ We are now properly storing delayed engagment trigger data.
++ Fixed an issue with our engagment query functions that caused, in very rare circumstances, the extra engagements to be triggered during an engagment trigger due to a lack of specificity in our query
++ Fixed an undefined property notice related to email engagments when the email had no subject or header
++ Fixed a typo in the description of a translation function.
++ Added an engagment debug logging function. You can log all sorts of data related to engagements by adding `define( 'LLMS_ENGAGEMENT_DEBUG', true );` to your `wp-config.php` file.
++ Allow course title shortcode to be used on course pages (and quizzes too). Documentation incorrectly said it was available on courses so we've fixed the function to allow for use on courses.
+
 
 = v2.7.8 - 2016/07/05 =
 -----------------------
