@@ -9,6 +9,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Engagements {
 
 	/**
+	 * Enable debug logging
+	 * @var  boolean
+	 * @since  2.7.9
+	 */
+	private $debug = false;
+
+	/**
 	 * protected instance of class
 	 * @var null
 	 */
@@ -31,11 +38,14 @@ class LLMS_Engagements {
 	 */
 	private function __construct() {
 
+		if ( defined( 'LLMS_ENGAGEMENT_DEBUG' ) && LLMS_ENGAGEMENT_DEBUG ) {
+			$this->debug = true;
+		}
+
 		$this->add_actions();
 	 	$this->init();
 
 	}
-
 
 	/**
 	 * Register all actions that trigger engagements
@@ -98,6 +108,8 @@ class LLMS_Engagements {
 	 * @since 2.3.0
 	 */
 	public function handle_achievement( $args ) {
+		$this->log( '======== handle_achievement() =======' );
+		$this->log( $args );
 		$a = LLMS()->achievements();
 		$a->trigger_engagement( $args[0], $args[1], $args[2] );
 	}
@@ -118,6 +130,8 @@ class LLMS_Engagements {
 	 * @since 2.3.0
 	 */
 	public function handle_certificate( $args ) {
+		$this->log( '======== handle_certificate() =======' );
+		$this->log( $args );
 		$c = LLMS()->certificates();
 		$c->trigger_engagement( $args[0], $args[1], $args[2] );
 	}
@@ -137,10 +151,29 @@ class LLMS_Engagements {
 	 * @since 2.3.0
 	 */
 	public function handle_email( $args ) {
+		$this->log( '======== handle_email() =======' );
+		$this->log( $args );
 		$m = LLMS()->mailer();
 		$m->trigger_engagement( $args[0], $args[1] );
 	}
 
+
+	/**
+	 * Log debug data to the WordPress debug.log file
+	 * @param    mixed     $log  data to write to the log
+	 * @return   void
+	 * @since    2.7.9
+	 * @version  2.7.9
+	 */
+	public function log( $log ) {
+
+		if ( $this->debug ) {
+
+			llms_log( $log );
+
+		}
+
+	}
 
 	/**
 	 * Handles all actions that could potentially trigger an engagement
@@ -156,9 +189,9 @@ class LLMS_Engagements {
 		$action = current_filter();
 		$args = func_get_args();
 
-		// llms_log( '======= start maybe_trigger_engagement ========' );
-		// llms_log( '$action: ' . $action );
-		// llms_log( '$args: ' . json_encode( $args ) );
+		$this->log( '======= start maybe_trigger_engagement ========' );
+		$this->log( '$action: ' . $action );
+		$this->log( '$args: ' . json_encode( $args ) );
 
 		// setup variables used in queries and triggers based on the action
 		switch ( $action ) {
@@ -209,7 +242,7 @@ class LLMS_Engagements {
 		// gather triggerable engagements matching the supplied criteria
 		$engagements = apply_filters( 'lifterlms_get_engagements' , $this->get_engagements( $trigger_type, $related_post_id ), $trigger_type, $related_post_id );
 
-		// llms_log( '$engagements: ' . json_encode( $engagements ) );
+		$this->log( '$engagements: ' . json_encode( $engagements ) );
 
 		// only trigger engagements if there are engagements
 		if ( $engagements ) {
@@ -269,12 +302,12 @@ class LLMS_Engagements {
 
 				// if we have a delay, schedule the engagement handler
 				$delay = intval( $e->delay );
-				// llms_log( '$delay: ' . $delay );
-				// llms_log( '$handler_action: ' . $handler_action );
-				// llms_log( '$handler_args: ' . json_encode( $handler_args ) );
+				$this->log( '$delay: ' . $delay );
+				$this->log( '$handler_action: ' . $handler_action );
+				$this->log( '$handler_args: ' . json_encode( $handler_args ) );
 				if ( $delay ) {
 
-					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, $handler_args );
+					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, array( $handler_args ) );
 
 				} // otherwise trigger it now
 				else {
@@ -287,7 +320,7 @@ class LLMS_Engagements {
 
 		}
 
-		// llms_log( '======= end maybe_trigger_engagement ========' );
+		$this->log( '======= end maybe_trigger_engagement ========' );
 
 	}
 
@@ -321,7 +354,7 @@ class LLMS_Engagements {
 
 			$related_select = ', relation_meta.meta_value AS related_post_id';
 			$related_join = "LEFT JOIN $wpdb->postmeta AS relation_meta ON triggers.ID = relation_meta.post_id";
-			$related_where = 'AND relation_meta.meta_value = %d';
+			$related_where = "AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND relation_meta.meta_value = %d";
 
 		} else {
 
@@ -369,7 +402,7 @@ class LLMS_Engagements {
 			$trigger_type, $related_post_id
 		), OBJECT );
 
-		// llms_log( '$wpdb->last_query' . $wpdb->last_query );
+		$this->log( '$wpdb->last_query' . $wpdb->last_query );
 
 		return $r;
 
