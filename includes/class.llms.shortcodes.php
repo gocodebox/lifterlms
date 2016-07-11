@@ -44,6 +44,27 @@ class LLMS_Shortcodes {
 	}
 
 	/**
+	 * Retrieve the course ID from within a course, lesson, or quiz
+	 * @return   int
+	 * @since    2.7.9
+	 * @version  2.7.9
+	 */
+	private static function get_course_id() {
+		if ( is_course() ) {
+			return get_the_ID();
+		} elseif ( is_lesson() ) {
+			$lesson = new LLMS_Lesson( get_the_ID() );
+			return $lesson->get_parent_course();
+		} elseif ( is_quiz() ) {
+			$quiz = new LLMS_Quiz( get_the_ID() );
+			$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
+			return $lesson->get_parent_course();
+		} else {
+			return 0;
+		}
+	}
+
+	/**
 	* Creates a wrapper for shortcode.
 	*
 	* @return void
@@ -235,16 +256,8 @@ class LLMS_Shortcodes {
 	 */
 	public static function course_progress( $atts ) {
 
-		if ( is_course() ) {
-			$course_id = get_the_ID();
-		} elseif ( is_lesson() ) {
-			$lesson = new LLMS_Lesson( get_the_ID() );
-			$course_id = $lesson->get_parent_course();
-		} elseif ( is_quiz() ) {
-			$quiz = new LLMS_Quiz( get_the_ID() );
-			$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
-			$course_id = $lesson->get_parent_course();
-		} else {
+		$course_id = self::get_course_id();
+		if ( ! $course_id ) {
 			return '';
 		}
 
@@ -256,15 +269,14 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	 * Course Progress Bar Shortcode
-	 * @param  [type] $atts [description]
-	 * @return [type]       [description]
+	 * Retrieve the Course Title
+	 * @param  array  $atts  accepts no arguments
+	 * @return string
+	 * @version  2.7.9
 	 */
 	public static function course_title( $atts ) {
-		if ( is_lesson() ) {
-			$lesson = new LLMS_Lesson( get_the_ID() );
-			$course_id = $lesson->get_parent_course();
-		} else {
+		$course_id = self::get_course_id();
+		if ( ! $course_id ) {
 			return '';
 		}
 		return get_the_title( $course_id );
