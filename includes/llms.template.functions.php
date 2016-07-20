@@ -1450,7 +1450,7 @@ function llms_get_excerpt( $post_id ) {
  * @return [object]       [query object]
  */
 function llms_custom_archive_order( $vars ) {
-	if ( ! is_admin() && isset( $vars['post_type'] ) && post_type_supports( $vars['post_type'], 'page-attributes' ) ) {
+	if ( ! is_admin() && isset( $vars['post_type'] ) ) {
 
 		if ( $vars['post_type'] === 'course' || $vars['post_type'] === 'membership' ) {
 			$vars['orderby'] = 'menu_order';
