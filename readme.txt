@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.5.3
-Stable tag: 2.7.9
+Stable tag: 2.7.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v2.7.10 - 2016/07/19 =
+------------------------
+
++ Fix undefined noticed related to LifterLMS custom post type archive filtering
++ Fix filter which was supposed to allow custom engagment types to be queried & triggered by engagements automatically but was passing data incorrectly
 
 = v2.7.9 - 2016/07/11 =
 -----------------------
