@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the LifterLMS package.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 2.7.7\n"
+"Project-Id-Version: LifterLMS 2.7.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git\n"
-"POT-Creation-Date: 2016-07-01 22:24:10+00:00\n"
+"POT-Creation-Date: 2016-07-11 22:00:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3338,13 +3338,13 @@ msgstr ""
 msgid "Leave Review"
 msgstr ""
 
-#: includes/class.llms.shortcodes.php:167
-#: includes/class.llms.shortcodes.php:333 templates/course-pagination.php:19
+#: includes/class.llms.shortcodes.php:188
+#: includes/class.llms.shortcodes.php:345 templates/course-pagination.php:19
 msgid "Previous"
 msgstr ""
 
-#: includes/class.llms.shortcodes.php:168
-#: includes/class.llms.shortcodes.php:334 templates/course-pagination.php:20
+#: includes/class.llms.shortcodes.php:189
+#: includes/class.llms.shortcodes.php:346 templates/course-pagination.php:20
 msgid "Next"
 msgstr ""
 
@@ -3400,7 +3400,7 @@ msgstr ""
 msgid "Password Reset Instructions"
 msgstr ""
 
-#: includes/functions/llms.functions.access.php:611
+#: includes/functions/llms.functions.access.php:609
 msgid "%s membership is required to view this content."
 msgstr ""
 
@@ -4740,7 +4740,7 @@ msgid "<p class=\"llms-parent-course-link\">Back to: <a class=\"llms-lesson-link
 msgstr ""
 
 #: templates/course/price.php:25
-msgctxt "pricing seperator"
+msgctxt "pricing separator"
 msgid "or"
 msgstr ""
 
