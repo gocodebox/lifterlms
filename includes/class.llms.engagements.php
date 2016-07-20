@@ -226,11 +226,11 @@ class LLMS_Engagements {
 			// allow extensions to hook into our engagments
 			default :
 
-				extract( apply_filters( 'lifterlms_external_engagement_query_arguments' ), array(
+				extract( apply_filters( 'lifterlms_external_engagement_query_arguments' , array(
 					'related_post_id' => null,
 					'trigger_type' => null,
 					'user_id' => null,
-				) );
+				), $action, $args ) );
 
 		}
 
