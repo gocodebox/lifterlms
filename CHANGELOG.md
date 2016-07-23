@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.7.11 - 2016/07/22 =
+------------------------
+
++ Using a function that obeys overrides for registration form include
+
+
 = v2.7.10 - 2016/07/19 =
 ------------------------
 
