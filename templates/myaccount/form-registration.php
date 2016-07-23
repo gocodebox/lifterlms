@@ -12,6 +12,6 @@ llms_print_notices();
 
 if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) :
 
-	include( llms_get_template_part_contents( 'global/form', 'registration' ) );
+	llms_get_template( 'global/form-registration.php' );
 
 endif;
