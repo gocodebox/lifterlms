@@ -885,6 +885,24 @@ function check_course_capacity() {
 }
 
 /**
+ * Add a complete / incomple class to lessons
+ * @param    array $classes array of classes to be applied to the post element
+ * @return   array
+ * @since    2.7.11
+ * @version  2.7.11
+ */
+function llms_lesson_complete_class( $classes ) {
+	global $post;
+	if ( 'lesson' === get_post_type( $post->ID ) ) {
+		$lesson = new LLMS_Lesson( $post );
+		$classes[] = $lesson->is_complete() ? 'llms-complete' : 'llms-incomplete';
+	}
+	return $classes;
+
+}
+add_filter( 'post_class', 'llms_lesson_complete_class', 10, 1 );
+
+/**
  * Display lesson and course custom sidebars
  *
  * @param  array $sidebars_widgets [WP array of widgets in sidebar]
