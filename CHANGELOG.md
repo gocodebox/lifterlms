@@ -3,7 +3,9 @@
 = v2.7.11 - 2016/07/22 =
 ------------------------
 
-+ Using a function that obeys overrides for registration form include
++ Removed a duplicate action hook on course archive loop.
++ Switched registration template include to use a more sane function
++ Added updated banner adds with prettier ones. Wooooooo.
 
 
 = v2.7.10 - 2016/07/19 =
