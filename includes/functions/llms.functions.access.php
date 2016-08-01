@@ -210,7 +210,6 @@ function page_restricted_by_membership( $post_id ) {
 	$membership_required = get_option( 'lifterlms_membership_required', '' );
 
 	$restrict_access = false;
-	$membership_id = '';
 
 	if ( is_single() || is_page() ) {
 
@@ -301,6 +300,7 @@ function is_topic_restricted( $post ) {
  */
 function llms_get_post_memberships( $post_id ) {
 	$memberships = get_post_meta( $post_id, '_llms_restricted_levels', true );
+
 	return $memberships;
 }
 
@@ -315,6 +315,7 @@ function llms_get_parent_post_memberships( $post_id ) {
 	$lesson = new LLMS_Lesson( $post_id );
 	$parent_id = $lesson->get_parent_course();
 	$memberships = get_post_meta( $parent_id, '_llms_restricted_levels', true );
+
 	return $memberships;
 }
 
@@ -399,7 +400,6 @@ function find_prerequisite( $user_id, $post ) {
 	$user = new LLMS_Person;
 
 	$course = new LLMS_Course( $post->id );
-	$p = $course->get_prerequisite();
 
 	$prerequisite_exists = false;
 	$initial_prereq = false;
@@ -422,7 +422,6 @@ function find_prerequisite( $user_id, $post ) {
 		$initial_prereq = $prerequisite_exists;
 	}
 	if ($prerequisite_id = $course->get_prerequisite_track()) {
-		$prerequisite_exists = true;
 
 		$args = array(
 			'posts_per_page' 	=> 1000,
@@ -704,4 +703,75 @@ function llms_does_user_memberships_contain_course( $user_id, $post_id ) {
 			}
 		}
 	}
+}
+
+function llms_on_transition_post_status( $new_status, $old_status, $post ) {
+	if ( $post->post_type == 'llms_membership' ) {
+		if ( 'trash' == $new_status && $old_status != $new_status ) {
+			llms_on_trash_memebership( $post );
+		} elseif ( 'trash' == $old_status && $old_status != $new_status ) {
+			llms_on_restore_memebership( $post );
+		}
+	}
+}
+
+add_action( 'transition_post_status', 'llms_on_transition_post_status', 10, 3 );
+
+function llms_on_trash_memebership( $post ) {
+	$membership_id = (string) $post->ID;
+	$courses = llms_get_courses_in_membership( $membership_id );
+	$restricted_content = array();
+
+	foreach ( $courses as $course ) {
+		$restricted_content[] = $course->ID;
+		$levels = get_post_meta( $course->ID, '_llms_restricted_levels', true );
+		if ( ! $levels ) {
+			$levels = array();
+		}
+
+		unset( $levels[ array_search( $membership_id, $levels ) ] );
+
+		if ( empty( $levels ) ) {
+			update_post_meta( $course->ID, '_llms_is_restricted', false );
+		}
+
+		update_post_meta( $course->ID, '_llms_restricted_levels', $levels );
+	}
+
+	update_post_meta( $post->ID, '_llms_resetricted_content_before_trash', $restricted_content );
+}
+
+function llms_on_restore_memebership( $post ) {
+	$restricted_content = get_post_meta( $post->ID, '_llms_resetricted_content_before_trash', true );
+
+	foreach ( $restricted_content as $content_id) {
+		$levels = get_post_meta( (int) $content_id, '_llms_restricted_levels', true );
+
+		if ( ! $levels ) {
+			$levels = array();
+		}
+		$memberships = array_merge( $levels, array( ( string ) $post->ID ) );
+
+		update_post_meta( $content_id, '_llms_is_restricted', true );
+		update_post_meta( $content_id, '_llms_restricted_levels', $memberships );
+	}
+}
+
+function llms_get_courses_in_membership( $membership_id ) {
+	global $wpdb;
+
+	$posts_table = $wpdb->prefix . 'posts';
+	$postmeta = $wpdb->prefix . 'postmeta';
+
+	$postmeta_select = '%"' . $membership_id . '"%';
+
+	$select_courses = "SELECT ID FROM $posts_table
+					JOIN $postmeta
+					ON $posts_table.ID = $postmeta.post_id
+					WHERE $posts_table.post_type = 'course'
+					AND $postmeta.meta_key = '_llms_restricted_levels'
+					AND $postmeta.meta_value LIKE '$postmeta_select'";
+	$courses = $wpdb->get_results( $select_courses );
+
+	return $courses;
 }

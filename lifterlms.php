@@ -395,7 +395,6 @@ final class LifterLMS {
 		load_plugin_textdomain( 'lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 	}
-
 }
 
 /**
