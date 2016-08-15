@@ -1,11 +1,15 @@
-%cf {
+%cf,
+%clearfix {
+	&:before,
 	&:after {
-		content: "";
-		display: table;
-		clear: both;
+	    content: " ";
+	    display: table;
+	}
+
+	&:after {
+    	clear: both;
 	}
 }
-
 
 
 

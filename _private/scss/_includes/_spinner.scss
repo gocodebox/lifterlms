@@ -20,6 +20,14 @@
 	position: absolute;
 	top: 50%;
 	width: 40px;
+
+	&.small {
+		border-width: 2px;
+		height: 20px;
+		margin-left: -10px;
+		margin-top: -10px;
+		width: 20px;
+	}
 }
 
 @keyframes llms-spinning{
