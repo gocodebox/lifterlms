@@ -2,7 +2,10 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 global $post;
-
+/**
+ * @todo  handle this template
+ */
+return;
 $llms_product = new LLMS_Product( $post->ID );
 ?>
 
