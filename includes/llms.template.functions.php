@@ -3,23 +3,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Front end template functions
 */
-add_action( 'init', 'update_portfolio_restrictions' );
-function update_portfolio_restrictions() {
 
-	$args = array(
-		'posts_per_page' 	=> -1,
-		'post_type' 		=> 'portfolio',
-		'nopaging' 			=> true,
-		'fields' 			=> 'ids',
-	);
-	$postslist = get_posts( $args );
 
-	 $memberships = get_postmeta( 2408, '_llms_restricted_levels', true );
 
-	foreach ($postslist as $key => $value) {
-	 	update_postmeta( $value, '_llms_restricted_levels', $memberships );
-	}
-}
 /**
  * Post Template Include
  * Appends LLMS content above and below post content
@@ -29,20 +15,30 @@ function update_portfolio_restrictions() {
 if ( ! function_exists( 'llms_get_post_content' ) ) {
 
 	function llms_get_post_content( $content ) {
-		$page_restricted = llms_page_restricted( get_the_id() );
+
 
 		global $post;
-		if ( ! $post instanceof WP_Post ) { return $content; }
+
+		if ( ! $post instanceof WP_Post ) {
+
+			return $content;
+
+		}
+
+		$page_restricted = llms_page_restricted( get_the_id() );
+
 		switch ( $post->post_type ) {
+
 			case 'course':
+
 				if ( $page_restricted['is_restricted'] ) {
 
 					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
-
-					if ($post->post_excerpt) {
+					if ( $post->post_excerpt ) {
 						$content = llms_get_excerpt( $post->ID );
 					}
 				}
+
 				$template_before  = llms_get_template_part_contents( 'content', 'single-course-before' );
 				$template_after  = llms_get_template_part_contents( 'content', 'single-course-after' );
 
@@ -54,7 +50,9 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 				load_template( $template_after, false );
 				$output_after = ob_get_clean();
 
-			return do_shortcode( $output_before . $content . $output_after );
+				return do_shortcode( $output_before . $content . $output_after );
+
+			break;
 
 			case 'lesson':
 				if ( $page_restricted['is_restricted'] ) {
@@ -112,8 +110,14 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			return do_shortcode( $output_before . $content . $output_after );
 
 			default:
-		  return $content;
 		}
+		if ( $page_restricted['is_restricted'] ) {
+
+			$content = apply_filters( 'llms_get_restricted_post_content',  llms_get_notices(), $page_restricted );
+
+		}
+
+		return $content;
 	}
 }
 add_filter( 'the_content', 'llms_get_post_content' );
@@ -218,50 +222,108 @@ if ( ! function_exists( 'lifterlms_template_single_membership_full_description' 
 }
 
 /**
- * Single Price Template Include
+ * Include pricing table for a LifterLMS Product (course or membership)
+ * @param int $post_id  WP Post ID of the product
  * @return void
+ * @since  3.0.0
  */
-if ( ! function_exists( 'lifterlms_template_single_price' ) ) {
+if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
+	function lifterlms_template_pricing_table( $post_id = null ) {
 
-	function lifterlms_template_single_price() {
-		global $post;
-
-		if ($post->post_type == 'course') {
-			llms_get_template( 'course/price.php' );
-		} elseif ($post->post_type == 'llms_membership') {
-
-			llms_get_template( 'membership/price.php' );
+		if ( ! $post_id ) {
+			global $post;
+		} else {
+			$post = get_post( $post_id );
 		}
+
+		llms_get_template( 'product/pricing-table.php', array(
+			'product' => new LLMS_Product( $post->ID ),
+		) );
+
+	}
+}
+/**
+ * Open the course meta information wrapper
+ * @since   3.0.0
+ * @version 3.0.0
+ */
+if ( ! function_exists( 'lifterlms_template_single_meta_wrapper_start' ) ) {
+	function lifterlms_template_single_meta_wrapper_start() {
+		llms_get_template( 'course/meta-wrapper-start.php' );
+	}
+}
+/**
+ * Close the course meta information wrapper
+ * @since   3.0.0
+ * @version 3.0.0
+ */
+if ( ! function_exists( 'lifterlms_template_single_meta_wrapper_end' ) ) {
+	function lifterlms_template_single_meta_wrapper_end() {
+		llms_get_template( 'course/meta-wrapper-end.php' );
+	}
+}
+
+
+/**
+ * Course Estimated Length Template
+ * replaced 'lifterlms_template_single_lesson_length()' which was misnamed as being related to a lesson
+ * when it was actually related to a course
+ * @return  void
+ * @since   3.0.0
+ * @version 3.0.0
+ */
+if ( ! function_exists( 'lifterlms_template_single_length' ) ) {
+	function lifterlms_template_single_length() {
+
+		llms_get_template( 'course/length.php' );
 	}
 }
 
 /**
- * Lesson Length Template Include
- * @return void
+ * Display a list of course categories
+ * @return  void
+ * @since   3.0.0
+ * @version 3.0.0
  */
-if ( ! function_exists( 'lifterlms_template_single_lesson_length' ) ) {
-
-	function lifterlms_template_single_lesson_length() {
-
-		llms_get_template( 'course/lesson_length.php' );
+if ( ! function_exists( 'lifterlms_template_single_course_categories' ) ) {
+	function lifterlms_template_single_course_categories() {
+		llms_get_template( 'course/categories.php' );
 	}
 }
 
 /**
- * Purchase Link Template Include
- * @return void
+ * Display a list of course tags
+ * @return  void
+ * @since   3.0.0
+ * @version 3.0.0
  */
-if ( ! function_exists( 'lifterlms_template_single_purchase_link' ) ) {
+if ( ! function_exists( 'lifterlms_template_single_course_tags' ) ) {
+	function lifterlms_template_single_course_tags() {
+		llms_get_template( 'course/tags.php' );
+	}
+}
 
-	function lifterlms_template_single_purchase_link() {
-		global $post;
+/**
+ * Display a list of course tracks
+ * @return  void
+ * @since   3.0.0
+ * @version 3.0.0
+ */
+if ( ! function_exists( 'lifterlms_template_single_course_tracks' ) ) {
+	function lifterlms_template_single_course_tracks() {
+		llms_get_template( 'course/tracks.php' );
+	}
+}
 
-		if ($post->post_type == 'course') {
-			llms_get_template( 'course/purchase-link.php' );
-		} elseif ($post->post_type == 'llms_membership') {
-
-			llms_get_template( 'membership/purchase-link.php' );
-		}
+/**
+ * Display a list of course tags
+ * @return  void
+ * @since   3.0.0
+ * @version 3.0.0
+ */
+if ( ! function_exists( 'lifterlms_template_single_course_tags' ) ) {
+	function lifterlms_template_single_course_tags() {
+		llms_get_template( 'course/tags.php' );
 	}
 }
 
@@ -322,6 +384,20 @@ if ( ! function_exists( 'lifterlms_template_single_difficulty' ) ) {
 	function lifterlms_template_single_difficulty() {
 
 		llms_get_template( 'course/difficulty.php' );
+	}
+}
+
+/**
+ * Course Difficulty Template Include
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_single_prerequisites' ) ) {
+
+	function lifterlms_template_single_prerequisites() {
+
+		global $post;
+		llms_get_template( 'course/prerequisites.php', array( 'course' => new LLMS_Course( $post ) ) );
+
 	}
 }
 
@@ -620,7 +696,8 @@ if ( ! function_exists( 'lifterlms_template_quiz_summary' ) ) {
 function llms_setup_course_data( $post ) {
 	if ( ! is_admin() ) {
 
-		if ($post && $post->post_type == 'course') {
+		if ( $post && 'course' === $post->post_type ) {
+
 			unset( $GLOBALS['course'] );
 
 			if ( is_int( $post ) ) {
@@ -631,9 +708,10 @@ function llms_setup_course_data( $post ) {
 				return;
 			}
 
-			$GLOBALS['course'] = get_course( $post );
+			$GLOBALS['course'] = new LLMS_Course( $post );
 
 			return $GLOBALS['course'];
+
 		}
 
 	}
@@ -1269,7 +1347,7 @@ if ( ! function_exists( 'lifterlms_template_my_account_navigation' ) ) {
  */
 if ( ! function_exists( 'is_lifterlms' ) ) {
 	function is_lifterlms() {
-		return apply_filters( 'is_lifterlms', ( is_llms_shop() || is_course_taxonomy() || is_course() || is_lesson() ) ? true : false );
+		return apply_filters( 'is_lifterlms', ( is_llms_shop() || is_course_taxonomy() || is_course() || is_lesson() || is_membership() ) ? true : false );
 	}
 }
 
@@ -1293,6 +1371,18 @@ if ( ! function_exists( 'is_course' ) ) {
 
 	function is_course() {
 		return is_singular( array( 'course' ) );
+	}
+}
+
+/**
+ * Is Membership Check
+ * @return bool
+ * @since 3.0.0
+ */
+if ( ! function_exists( 'is_membership' ) ) {
+
+	function is_membership() {
+		return is_singular( array( 'llms_membership' ) );
 	}
 }
 
@@ -1493,4 +1583,18 @@ if ( ! function_exists( 'llms_get_image_size' ) ) {
 
 		return $default;
 	}
+}
+
+
+
+
+if ( ! function_exists( 'llms_get_login_form' ) ) {
+
+	function llms_get_login_form( $message = null, $redirect = null ) {
+		llms_get_template( 'global/form-login.php', array(
+			'message' => $message,
+			'redirect' => $redirect,
+		) );
+	}
+
 }
