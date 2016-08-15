@@ -364,6 +364,10 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id ) {
 	}
 
 }
+
+/**
+ * @todo  deprecate remaining functions in this file
+ */
 return;
 
 
@@ -391,67 +395,53 @@ return;
 
 
 
+// course_end_date_in_past()
+// course_start_date_in_future()
+function llms_check_course_date_restrictions( $course_id ) {
+
+	$course = new LLMS_Course( $course_id );
+
+	$start = $course->get_start_date( $post_id );
+	$end = $course->get_end_date( $post_id );
+
+	$now = current_time( 'timestamp' );
+
+
+
+		if ( $end_date != '' ) {
+			$todays_date = current_time( 'mysql' );
+
+			if ($todays_date > $end_date) {
+				$course_in_past = true;
+			}
+		}
+
+		// break out and display an error
+		// TODO should this take the drip feed into account, I would assume so...
+		if ($course_in_past) {
+			$end_date_formatted = LLMS_Date::pretty_date( $end_date );
+			do_action( 'lifterlms_content_restricted_by_end_date', $end_date_formatted );
+		}
+
+		return $course_in_past;
+	}
 
 
 
 
+		$course = new LLMS_Course( $post_id );
+		$start_date =
 
+		$course_in_future = false;
 
+		if (current_time( 'mysql' ) < $start_date) {
+			$course_in_future = true;
+		}
 
+		return $course_in_future;
+	}
 
-
-
-
-
-
-
-// // course_end_date_in_past()
-// // course_start_date_in_future()
-// function llms_check_course_date_restrictions( $course_id ) {
-
-// 	$course = new LLMS_Course( $course_id );
-
-// 	$start = $course->get_start_date( $post_id );
-// 	$end = $course->get_end_date( $post_id );
-
-// 	$now = current_time( 'timestamp' );
-
-
-
-// 		if ( $end_date != '' ) {
-// 			$todays_date = current_time( 'mysql' );
-
-// 			if ($todays_date > $end_date) {
-// 				$course_in_past = true;
-// 			}
-// 		}
-
-// 		// break out and display an error
-// 		// TODO should this take the drip feed into account, I would assume so...
-// 		if ($course_in_past) {
-// 			$end_date_formatted = LLMS_Date::pretty_date( $end_date );
-// 			do_action( 'lifterlms_content_restricted_by_end_date', $end_date_formatted );
-// 		}
-
-// 		return $course_in_past;
-// 	}
-
-
-
-
-// 		$course = new LLMS_Course( $post_id );
-// 		$start_date =
-
-// 		$course_in_future = false;
-
-// 		if (current_time( 'mysql' ) < $start_date) {
-// 			$course_in_future = true;
-// 		}
-
-// 		return $course_in_future;
-// 	}
-
-// }
+}
 
 /**
  * Checks if user has ability to view quiz
