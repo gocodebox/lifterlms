@@ -1,10 +1,10 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Add, Customize, and Manage LifterLMS Coupon Post Table Columns
  *
  * @since  3.0.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Admin_Post_Table_Coupons {
 
 	/**
@@ -56,37 +56,30 @@ class LLMS_Admin_Post_Table_Coupons {
 
 			case 'amount':
 
-				if ( $c->get_single_amount() ) {
-					_e( 'Single Payments: ', 'lifterlms' );
-					echo $c->get_formatted_single_amount();
-					echo '<br>';
-				}
+				_e( 'Discount: ', 'lifterlms' );
+				echo $c->get_formatted_amount();
+				echo '<br>';
 
-				if ( $c->get_recurring_first_payment_amount() ) {
-					_e( 'Recurring First Payment: ', 'lifterlms' );
-					echo $c->get_formatted_recurring_first_payment_amount();
+				if ( $c->has_trial_discount() ) {
+					_e( 'Trial Discount: ', 'lifterlms' );
+					echo $c->get_formatted_amount( 'trial_amount' );
 					echo '<br>';
-				}
-
-				if ( $c->get_recurring_payments_amount() ) {
-					_e( 'Recurring Payments: ', 'lifterlms' );
-					echo $c->get_formatted_recurring_payments_amount();
 				}
 
 			break;
 
 			case 'desc':
-				echo $c->get_description();
+				echo $c->get( 'description' );
 			break;
 
 			case 'usage':
 				echo $c->get_uses();
 				echo ' / ';
-				echo ( '' !== $c->get_usage_limit() ) ? $c->get_usage_limit() : '&infin;';
+				echo ( $c->get( 'usage_limit' ) ) ? $c->get( 'usage_limit' ) : '&infin;';
 			break;
 
 			case 'expiry':
-				echo $c->get_expiration_date() ? $c->get_expiration_date() : '&ndash;';
+				echo $c->get( 'expiration_date' ) ? $c->get_date( 'expiration_date', 'F d, Y' ) : '&ndash;';
 			break;
 
 		}

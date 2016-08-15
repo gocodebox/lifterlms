@@ -24,6 +24,7 @@ class LLMS_Admin_Post_Table_Orders {
 		add_action( 'manage_llms_order_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
 		add_filter( 'manage_edit-llms_order_sortable_columns', array( $this, 'sortable_columns' ) );
 		add_filter( 'pre_get_posts', array( $this, 'modify_admin_search' ), 10, 1 );
+		add_filter( 'post_row_actions', array( $this, 'modify_actions' ), 10, 2 );
 
 	}
 
@@ -40,9 +41,11 @@ class LLMS_Admin_Post_Table_Orders {
 	    $columns = array(
 			'cb' => '<input type="checkbox" />',
 			'order' => __( 'Order', 'lifterlms' ),
-			'status' => __( 'Status', 'lifterlms' ),
+			'payment_status' => __( 'Payment Status', 'lifterlms' ),
+			'access_status' => __( 'Access Status', 'lifterlms' ),
 			'product' => __( 'Product', 'lifterlms' ),
-			'total' => __( 'Total', 'lifterlms' ),
+			'revenue' => __( 'Revenue', 'lifterlms' ),
+			'type' => __( 'Order Type' ),
 			'order_date' => __( 'Date', 'lifterlms' ),
 		);
 
@@ -74,14 +77,14 @@ class LLMS_Admin_Post_Table_Orders {
 				_e( 'by', 'lifterlms' );
 				echo ' ';
 
-				echo '<a href="' . get_edit_user_link( $order->get_user_id() ) . '">' . $order->get_billing_name() . '</a><br>';
-				echo '<a href="mailto:' . $order->get_billing_email() . '">' . $order->get_billing_email() . '</a>';
+				echo '<a href="' . get_edit_user_link( $order->get( 'user_id' ) ) . '">' . $order->get_customer_name() . '</a><br>';
+				echo '<a href="mailto:' . $order->get( 'billing_email' ) . '">' . $order->get( 'billing_email' ) . '</a>';
 
 			break;
 
-			case 'status' :
+			case 'payment_status' :
 
-				$status = $order->get_status();
+				$status = $order->get( 'status' );
 
 				switch ( $status ) {
 					case 'llms-active':
@@ -111,50 +114,69 @@ class LLMS_Admin_Post_Table_Orders {
 				}
 
 				echo apply_filters( 'lifterlms_order_status_icon', '<span class="llms-order-status-icon ' . $status . ' ' . $icon . '"></span>' );
-				echo ' <small>' . llms_get_formatted_order_status( $status ) . '</small>';
+				echo ' <small>' . llms_get_order_status_name( $status ) . '</small>';
+
+			break;
+
+			case 'access_status':
+
+				$date = $order->get_access_expiration_date( 'F j, Y' );
+				$ts = strtotime( $date );
+
+				// timestamp will be false if date is not a date
+				if ( $ts ) {
+
+					if ( $ts < current_time( 'timestamp' ) ) {
+						_ex( 'Expired:', 'access plan expiration', 'lifterlms' );
+					} else {
+						_ex( 'Expires:', 'access plan expiration', 'lifterlms' );
+					}
+
+					echo ' ' . $date;
+
+				}
+				// display the string -- this would be a Lifetime or possibly custom plan
+				else {
+
+					echo $date;
+
+				}
 
 			break;
 
 			case 'product' :
 
-				echo '<a href="' . admin_url( 'post.php?post=' . $order->get_product_id() . '&action=edit' ) . '">' . $order->get_product_title() . '</a>';
-				echo ' (' . ucfirst( $order->get_product_type() ) . ')';
+				echo '<a href="' . admin_url( 'post.php?post=' . $order->get( 'product_id' ) . '&action=edit' ) . '">' . $order->get( 'product_title' ) . '</a>';
+				echo ' (' . ucfirst( $order->get( 'product_type' ) ) . ')';
 
 			break;
 
-			case 'total' :
+			case 'revenue' :
 
-				switch ( $order->get_type() ) {
+				$grosse = $order->get_revenue( 'grosse' );
+				$net = $order->get_revenue( 'net' );
 
-					case 'recurring':
-
-						printf( __( 'First: %s', 'lifterlms' ), $order->format_price( $order->get_first_payment_total() ) );
-						echo '<br>';
-						printf( __( 'Recurring: %s', 'lifterlms' ), $order->format_price( $order->get_recurring_payment_total() ) );
-
-					break;
-
-					case 'single':
-
-						echo $order->format_price( $order->get_total() );
-
-					break;
-
-					default:
-
-						_e( 'Free', 'lifterlms' );
-
+				if ( $grosse !== $net ) {
+					echo '<del>' . llms_price( $grosse ) . '</del> ';
 				}
 
-				echo ' <small>' . sprintf( _x( 'via %s', 'payment gateway used to complete transaction', 'lifterlms' ), $order->get_payment_gateway_title() ) . '</small>';
+				echo llms_price( $net );
 
-				// echo apply_filters( 'lifterlms_order_posts_table_column_total', $total, $post_id );
+			break;
+
+			case 'type':
+
+				if ( $order->is_recurring() ) {
+					_e( 'Recurring', 'lifterlms' );
+				} else {
+					_e( 'One-time', 'lifterlms' );
+				}
 
 			break;
 
 			case 'order_date' :
 
-				echo $order->get_date();
+				echo $order->get_date( 'date' );
 
 			break;
 
@@ -230,6 +252,27 @@ class LLMS_Admin_Post_Table_Orders {
 
 		return $vars;
 	}
+
+	/**
+	 * Modify the actions for the orders
+	 * @param    array     $actions   existing actions
+	 * @param    obj       $post      WP_Post Object
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function modify_actions( $actions, $post ) {
+
+		if ( 'llms_order' !== $post->post_type ) {
+			return $actions;
+		}
+
+		unset( $actions['inline hide-if-no-js'] );
+
+		return $actions;
+
+	}
+
 
 	/**
 	 * Modify the search query for varios post types before retriving posts
