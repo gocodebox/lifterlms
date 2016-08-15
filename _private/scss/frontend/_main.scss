@@ -262,145 +262,6 @@ input[type="submit"].llms-button-text {
 
 
 
-.llms-syllabus-wrapper {
-  padding: 15px;
-  text-align: center;
-  h3 { margin-bottom: 0;
-  }
-}
-
-//
-// LESSON PREVIEW
-//
-.llms-lesson-preview {
-  display: inline-block;
-  margin: 15px;
-  text-align: left;
-  vertical-align: top;
-  width: 500px;
-  max-width: 100%;
-  max-width: calc(100% - 30px);
-
-  // &.is-complete .llms-lesson-link {
-  //   padding-left: 75px;
-  // }
-
-  .llms-lesson-link {
-    @extend %cf;
-    @extend %llms-element;
-    &:visited {
-      color: inherit;
-    }
-  }
-
-  .llms-lesson-complete, .llms-lesson-complete-placeholder {
-    color: $color-red;
-    float: left;
-    font-size: 3em;
-    line-height: 1;
-    margin-right: .25em;
-  }
-
-  .llms-lesson-complete-placeholder {
-    color: $el-background-hover;
-  }
-
-  .llms-free-lesson-svg {
-    @extend .llms-lesson-complete;
-    fill: currentColor;
-    width:50px;
-    height: 50px;
-    margin-top: -10px;
-  }
-
-  .llms-lesson-title {
-    padding-right: 60px;
-    margin: 0 0 .25em 0;
-  }
-
-  .llms-lesson-counter {
-    @include absolute(top 0 right 0);
-  }
-
-  .llms-lesson-excerpt {
-    clear: both;
-    margin-bottom: 0;
-  }
-
-  .llms-lesson-information {
-    position: relative;
-    float: left;
-    width: 100%;
-  }
-
-  &.has-icon .llms-lesson-information {
-  // &.is-complete .llms-lesson-information {
-    width: calc( 100% - 60px );
-  }
-
-  .llms-lesson-thumbnail {
-    margin-bottom: 15px;
-    img {
-      display: block;
-      width: 100%;
-    }
-  }
-
-}
-
-.llms-course-navigation .llms-lesson-preview.previous {
-  float: left;
-  width: 50%;
-  margin: 0;
-  max-width: 300px;
-
-  h5 {
-    margin: 0;
-  }
-
-  p {
-    font-size: .8em;
-  }
-}
-.llms-course-navigation .llms-lesson-preview.next {
-  float: right;
-  width: 50%;
-  margin: 0;
-  max-width: 300px;
-
-  h5 {
-    margin: 0;
-  }
-
-  p {
-    font-size: .8em;
-  }
-}
-
-
-//
-// Course Navigation
-//
-.llms-course-navigation {
-  // @extend %cf;
-
-  text-align: center;
-  padding: 30px 0;
-
-  .prev-lesson,
-  .next-lesson,
-  .parent-course {
-    display: inline-block;
-    width: 28%;
-    margin: 0;
-  }
-  .parent-course {
-    @media screen and (max-width: $break-medium) {
-      display: none;
-    }
-  }
-}
-
 
 
 
@@ -411,22 +272,8 @@ input[type="submit"].llms-button-text {
 .llms-featured-image {
   text-align: center;
 }
-.llms-featured-image > img {
-}
 
-.llms-purchase-link-wrapper {
-  text-align: center;
-  width: 100%;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-.llms-length-wrapper {
-  margin-top: 20px;
-}
 
-.llms-length-wrapper p {
-  margin: 0;
-}
 /* My Quizes */
 .llms-quiz-results {
   @extend %cf;
@@ -1064,15 +911,21 @@ svg .llms-animated-circle {
   margin: 40px 0 20px 0;
 }
 
-.llms-error{
-  width: 100%;
-  background: #e5554e;
-  padding: 10px 20px;
-  color: #fff;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  list-style-type: none;
+.lifterlms {
+	.llms-error{
+	  width: 100%;
+	  background: #e5554e;
+	  padding: 10px 20px;
+	  color: #fff;
+	  border-radius: 5px;
+	  margin: 0 0 10px;
+	  list-style-type: none;
+	  li {
+	  	list-style-type: none;
+	  }
+	}
 }
+
 .llms-question-count {
   margin-bottom: 20px;
 }

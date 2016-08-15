@@ -1,46 +1,38 @@
-.llms-lesson-link-locked, .llms-lesson-link-locked:hover   {
-  background: #f1f1f1;
-  box-shadow: 0 1px 2px 0 rgba(1, 1, 1, 0.4);
-  display: block;
-  color: #a6a6a6;
-  min-height: 85px;
-  padding: 15px;
-  text-decoration: none;
-  position: relative;
-}
+.llms-tooltip {
 
-.llms-lesson-preview.is-complete .llms-lesson-link-locked {
-  padding-left: 75px;
-}
+	background: #2a2a2a;
+	border-radius: 4px;
+	color: #fff;
+	font-size: 14px;
+	line-height: 1.2;
+	opacity: 0;
+	top: -20px;
+	padding: 8px 12px;
+	left: 50%;
+	position: absolute;
+	pointer-events: none;
+	transform: translateX( -50% );
+	transition: opacity .2s ease, top .2s ease;
+	max-width: 320px;
 
-.llms-lesson-tooltip { 	display: none;
-				position:absolute; 
-				color: #000000;
-				background-color: #c0c0c0;
-				padding:.25em;
-				border-radius: 2px;
-				z-index: 100;				
- 				top:0;
-    			left:50%; 
-    			text-align: center;
-    			-webkit-transform: translateX(-50%) translateY(-100%); 
-    			        transform: translateX(-50%) translateY(-100%);
-			}
+	&.show {
+		top: -28px;
+		opacity: 1;
+	}
 
-/* arrows - :after */
-.llms-lesson-tooltip:after {
-    content: ""; 
-    width: 0; 
-    height: 0; 
-    border-top: 8px solid #c0c0c0; 
-    border-left: 8px solid transparent; 
-    border-right: 8px solid transparent; 
-    position:absolute; 
-    bottom:-8px; 
-    left:50%; 
-    transform: translateX(-50%);
-}
+	&:after {
 
-.llms-lesson-tooltip.active {
-  display: inline-block;
+		bottom: -8px;
+		border-top: 8px solid #2a2a2a;
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent;
+		content: '';
+		height: 0;
+		left: 50%;
+		position: absolute;
+		transform: translateX( -50% );
+		width: 0;
+
+	}
+
 }
