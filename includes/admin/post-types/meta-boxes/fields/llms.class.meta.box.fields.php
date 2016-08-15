@@ -31,7 +31,14 @@ abstract class LLMS_Metabox_Field {
 	public function output() {
 
 		global $post;
-		$this->meta = self::get_post_meta( $post->ID, $this->field['id'] );
+		if ( ! metadata_exists( 'post', $post->ID, $this->field['id'] ) && ! empty( $this->field['default'] ) ) {
+			$this->meta = $this->field['default'];
+		} else {
+			$this->meta = self::get_post_meta( $post->ID, $this->field['id'] );
+		}
+
+		$controller = isset( $this->field['controller'] ) ? ' data-controller="' . $this->field['controller'] . '"' : '';
+		$controller_value = isset( $this->field['controller_value'] ) ? ' data-controller-value="' . $this->field['controller_value'] . '"' : '';
 
 		if ( ! isset( $this->field['group'] ) ) {
 			$this->field['group'] = '';
@@ -46,11 +53,12 @@ abstract class LLMS_Metabox_Field {
 		}
 
 		?>
-		<li class="llms-mb-list <?php echo $this->field['group']; ?>">
+		<li class="llms-mb-list <?php echo $this->field['group']; ?>"<?php echo $controller . $controller_value; ?>>
 		<!--label and description-->
 		<div class="description <?php echo $this->field['desc_class']; ?>">
 			<label for="<?php echo $this->field['id']; ?>"><?php echo $this->field['label']; ?></label>
 			<?php echo $this->field['desc'] ?>
+			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ): ?><em>(required)</em><?php endif; ?>
 		</div> <?php
 	}
 

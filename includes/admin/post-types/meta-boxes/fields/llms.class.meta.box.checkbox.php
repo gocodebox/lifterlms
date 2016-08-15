@@ -23,6 +23,9 @@ class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box
 
 		global $post;
 
+		$controls = isset( $this->field['controls'] ) ? 'data-controls="' . $this->field['controls'] . '"' : '';
+		$controller = isset( $this->field['is_controller'] ) ? 'data-is-controller="true"' : '';
+
 		parent::output(); ?>
 
 		<div class="llms-switch d-1of4 t-1of4 m-1of2">
@@ -34,12 +37,14 @@ class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box
 			</div>
 
 				<input
+					<?php echo $controls; ?>
+					<?php echo $controller; ?>
 					name="<?php echo esc_attr( $this->field['id'] ); ?>"
 					id="<?php echo esc_attr( $this->field['id'] ); ?>"
 					class="llms-toggle llms-toggle-round"
 					type="checkbox"
 					value="<?php echo esc_attr( $this->field['value'] ); ?>"
-					<?php echo $this->meta ? 'checked' : ''; ?>
+					<?php echo ( $this->field['value'] === $this->meta ) ? 'checked' : ''; ?>
 				/>
 
 			<label for="<?php echo $this->field['id'] ?>"></label>

@@ -30,6 +30,8 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		$allow_null = ( isset( $this->field['allow_null'] ) ) ? $this->field['allow_null'] : true;
 
+		$controls = isset( $this->field['is_controller'] ) ? 'data-is-controller="true"' : '';
+
 		if (array_key_exists( 'multi', $this->field )) {
 			$name .= '[]';
 		}
@@ -39,15 +41,19 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			$selected = $this->field['selected'];
 		}
 
+		$attrs = isset( $this->field['data_attributes'] ) ? $this->field['data_attributes'] : array();
+
 		?>
 
 		<select
+			<?php echo $controls; ?>
 			id="<?php echo $id; ?>"
 			name="<?php echo $name; ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
 			<?php if (array_key_exists( 'multi', $this->field ) && $this->field['multi']) : ?>
 				multiple="multiple"
 			<?php endif; ?>
+			<?php foreach( $attrs as $attr => $attr_val ) { echo ' data-' . $attr . '="' . $attr_val . '"'; } ?>
 		>
 			<?php if ( $allow_null ) : ?>
 				<option value="">None</option>

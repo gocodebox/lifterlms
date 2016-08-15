@@ -28,7 +28,10 @@ class LLMS_Metabox_Text_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 				required="required"
 			<?php endif; ?>
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
-			value="<?php echo $this->meta; ?>" size="30"
+			value="<?php echo htmlentities( $this->meta ); ?>" size="30"
+			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ): ?>
+			required="required"
+			<?php endif; ?>
 		/>
 
 		<?php
