@@ -50,27 +50,15 @@ class LLMS_Admin_Menus {
 					case __( 'Analytics', 'lifterlms' ):	$i = 1;  break;
 					case 'Students':
 					case __( 'Students', 'lifterlms' ):	 	$i = 2;  break;
-					case 'Emails':
-					case __( 'Emails', 'lifterlms' ):		$i = 3;  break;
-					case 'Engagements':
-					case __( 'Engagements', 'lifterlms' ):	$i = 4;  break;
-					case 'Achievements':
-					case __( 'Achievements', 'lifterlms' ): $i = 5;  break;
-					case 'Certificates':
-					case __( 'Certificates', 'lifterlms' ): $i = 6;  break;
-					case 'Reviews':
-					case __( 'Reviews', 'lifterlms' ):		$i = 7;  break;
-					case 'Orders':
-					case __( 'Orders', 'lifterlms' ):		$i = 8;  break;
-					case 'Coupons':
-					case __( 'Coupons', 'lifterlms' ):		$i = 9;  break;
-					case 'Vouchers':
-					case __( 'Vouchers', 'lifterlms' ):	 	$i = 10; break;
 					case 'System Report':
-					case __( 'System Report', 'lifterlms' ):$i = 11; break;
+					case __( 'System Report', 'lifterlms' ):$i = 3; break;
+
 				}
 
-				$arr[ $i ] = $sm;
+				if ( isset( $i ) ) {
+					$arr[ $i ] = $sm;
+				}
+
 			}
 
 			ksort( $arr );
@@ -87,9 +75,6 @@ class LLMS_Admin_Menus {
 	/**
 	 * Admin Menu
 	 *
-	 * Sets main (parent) lifterLMS menu item
-	 * TODO: Remove llms_homepage function and replace with actual page reference like settings.
-	 *
 	 * @return void
 	 */
 	public function display_admin_menu() {
@@ -100,9 +85,7 @@ class LLMS_Admin_Menus {
 
 			$menu[51] = array( '', 'read', 'llms-separator','','wp-menu-separator' );
 
-			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', 'llms_homepage', plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', 52 );
-
-			function llms_homepage() {}
+			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', array( $this, 'settings_page_init' ), plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', 52 );
 
 		}
 
