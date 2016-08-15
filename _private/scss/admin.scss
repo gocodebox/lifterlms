@@ -2,6 +2,9 @@
 // Main Admin CSS File
 //
 
+@import "_includes/vars";
+@import "_includes/extends";
+
 // grid layout for breakpoints
 @import "admin/partials/grid";
 
@@ -61,10 +64,14 @@
 
 @import "admin/main";
 
+@import "admin/llms-table";
+@import "admin/modules/llms-order-note";
+
 // metabox related
 @import "admin/metaboxes/llms-metabox";
 @import "admin/metaboxes/metabox-quiz-builder";
 @import "admin/metaboxes/metabox-orders";
+@import "admin/metaboxes/metabox-product";
 
 @import "admin/post-tables/llms_orders";
 
@@ -72,3 +79,5 @@
 @import "admin/fonts";
 
 @import "_includes/vendor/_font-awesome";
+
+@import "_includes/spinner";
