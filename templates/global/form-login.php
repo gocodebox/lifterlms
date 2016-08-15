@@ -1,34 +1,38 @@
 <?php
-
+/**
+ * LifterLMS Login Form
+ * @version  3.0.0
+ */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( is_user_logged_in() ) {
-	return; }
+if ( ! isset( $redirect ) ) {
+	$redirect = get_permalink();
+}
+
+if ( is_user_logged_in() ) { return; }
 ?>
-<form method="post" class="login" <?php if ( $hidden ) { echo 'style="display:none;"'; } ?>>
+<?php if ( ! empty( $message ) ) : ?>
+	<?php llms_print_notice( $message, 'notice' ); ?>
+<?php endif; ?>
 
-	<?php do_action( 'lifterlms_login_form_start' ); ?>
+<form action="" class="llms-login" method="POST">
 
-	<?php if ( $message ) { echo wpautop( wptexturize( $message ) ); } ?>
+	<h4 class="llms-form-heading"><?php _e( 'Login', 'lifterlms' ); ?></h4>
 
-	<?php llms_get_template( 'global/form-login-inner.php' ); ?>
+	<div class="llms-form-fields">
 
-	<?php do_action( 'lifterlms_login_form' ); ?>
+		<?php do_action( 'lifterlms_login_form_start' ); ?>
 
-	<p class="form-row">
-		<?php wp_nonce_field( 'lifterlms-login' ); ?>
-		<input type="submit" class="button" name="login" value="<?php _e( 'Login', 'lifterlms' ); ?>" />
+		<?php foreach( LLMS_Person_Handler::get_login_fields() as $field ): ?>
+			<?php llms_form_field( $field ); ?>
+		<?php endforeach; ?>
+
+		<?php wp_nonce_field( 'llms_login_user' ); ?>
 		<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ) ?>" />
-		<label for="rememberme" class="inline">
-			<input name="rememberme" type="checkbox" id="rememberme" value="forever" /> <?php _e( 'Remember me', 'lifterlms' ); ?>
-		</label>
-	</p>
-	<p class="lost_password">
-		<a href="<?php echo esc_url( llms_lostpassword_url() ); ?>"><?php _e( 'Lost your password?', 'lifterlms' ); ?></a>
-	</p>
+		<input type="hidden" name="action" value="llms_login_user" />
 
-	<div class="clear"></div>
+		<?php do_action( 'lifterlms_login_form_end' ); ?>
 
-	<?php do_action( 'lifterlms_login_form_end' ); ?>
+	</div>
 
 </form>

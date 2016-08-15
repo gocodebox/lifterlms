@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+?>
+
+
 <?php if ( 'no' === get_option( 'lifterlms_registration_generate_username' ) ) : ?>
 
     <div class="llms-form-item-wrapper username">
