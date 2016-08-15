@@ -79,6 +79,7 @@ class LLMS_AJAX {
 		wp_register_script( 'llms',  plugins_url( '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 		wp_localize_script( 'llms', 'wp_ajax_data', $this->get_ajax_data() );
 		wp_enqueue_script( 'llms' );
+
 	}
 
 	 /**
@@ -168,7 +169,7 @@ class LLMS_AJAX {
 			'get_enrolled_students'     => false,
 			'check_voucher_duplicate'	=> false,
 			'query_quiz_questions'      => false,
-			//'test_ajax_call'			=> false,
+			'select2_query_posts'       => false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
