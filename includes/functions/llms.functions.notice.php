@@ -54,7 +54,8 @@ function llms_add_notice( $message, $notice_type = 'success' ) {
 	$notices = LLMS()->session->get( 'llms_notices', array() );
 
 	if ( 'success' === $notice_type ) {
-		$message = apply_filters( 'lifterlms_add_message', $message ); }
+		$message = apply_filters( 'lifterlms_add_message', $message );
+	}
 
 	$notices[ $notice_type ][] = apply_filters( 'lifterlms_add_' . $notice_type, $message );
 
@@ -74,15 +75,23 @@ function llms_clear_notices() {
 	LLMS()->session->set( 'llms_notices', null );
 }
 
+
+function llms_get_notice_types() {
+	return apply_filters( 'lifterlms_notice_types', array( 'debug', 'error', 'notice', 'success' ) );
+}
+
 /**
- * Prints messages and errors which are stored in the session, then clears them.
- *
- * @return void
+ * Gets messages and errors which are stored in the session, then clears them.
+ * @return   string
+ * @since    3.0.0
+ * @version  3.0.0
  */
-function llms_print_notices() {
+function llms_get_notices() {
 
 	$all_notices  = apply_filters( 'lifterlms_print_notices', LLMS()->session->get( 'llms_notices', array() ) );
-	$notice_types = apply_filters( 'lifterlms_notice_types', array( 'error', 'success', 'notice' ) );
+	$notice_types = llms_get_notice_types();
+
+	ob_start();
 
 	foreach ( $notice_types as $notice_type ) {
 		if ( llms_notice_count( $notice_type ) > 0 ) {
@@ -93,6 +102,22 @@ function llms_print_notices() {
 	}
 
 	llms_clear_notices();
+
+	return ob_get_clean();
+
+}
+
+
+/**
+ * Prints messages and errors which are stored in the session, then clears them.
+ * @return void
+ * @since  1.0.0
+ * @version 3.0.0
+ */
+function llms_print_notices() {
+
+	echo llms_get_notices();
+
 }
 add_action( 'lifterlms_before_shop_loop', 'llms_print_notices', 10 );
 add_action( 'lifterlms_before_single_course', 'llms_print_notices', 10 );

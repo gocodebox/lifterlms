@@ -1,18 +1,17 @@
 <?php
 /**
- * Show error messages
+ * Show regular (info) notices
  *
- * @author 		lifterLMS
- * @package 	lifterlms/Templates
+ * @author 		LifterLMS
+ * @package 	Lifterlms/Templates
+ * @since       1.0.0
+ * @version     1.0.0
  */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 if ( ! $messages ) { return; }
 ?>
-
+<?php do_action( 'lifterlms_before_notices' ); ?>
 <?php foreach ( $messages as $message ) : ?>
-
-	<div class="llms-info"><?php echo wp_kses_post( $message ); ?></div>
-	
+	<div class="llms-notice"><?php print_r( $message ); ?></div>
 <?php endforeach; ?>
+<?php do_action( 'lifterlms_after_notices' ); ?>
