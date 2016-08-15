@@ -34,7 +34,7 @@ global $wp_query;
 								); ?>
 
 								<?php echo apply_filters('lifterlms_my_courses_start_date_html',
-									'<p class="llms-start-date">' .  __( 'Course Started','lifterlms' ) . ' - ' . $student->get_enrollment_date( $c->get_id() ) . '</p>'
+									'<p class="llms-start-date">' .  __( 'Course Started','lifterlms' ) . ' - ' . $student->get_enrollment_date( $c->get_id(), 'enrolled' ) . '</p>'
 								); ?>
 
 								<h3><a href="<?php echo $c->get_permalink(); ?>"><?php echo $c->get_title(); ?></a></h3>
