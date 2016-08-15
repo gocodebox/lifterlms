@@ -22,6 +22,7 @@ class LLMS_Shortcodes {
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
 			'lifterlms_my_achievements' => __CLASS__ . '::my_achievements',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
+			'lifterlms_course_info' => __CLASS__ . '::course_info',
 			'lifterlms_courses' => __CLASS__ . '::courses', // added here so that we can deprecate the non-prefixed "courses" (maybe)
 				'courses' => __CLASS__ . '::courses', // should be deprecated at some point
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
@@ -33,6 +34,7 @@ class LLMS_Shortcodes {
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
 			'lifterlms_memberships' => __CLASS__ . '::memberships',
+			'lifterlms_membership_link' => __CLASS__ . '::membership_link',
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -74,7 +76,7 @@ class LLMS_Shortcodes {
 	*
 	* Used for displaying account.
 	*
-	* @return self::shortcode_wrapper
+	* @return self::shortcode_wrappers
 	*/
 	public static function my_account( $atts ) {
 
@@ -100,7 +102,24 @@ class LLMS_Shortcodes {
 
 	}
 
+	/**
+	 * Output an achor link for a membership
+	 * @param    array     $atts  shortcode atts
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public static function membership_link( $atts ) {
 
+		extract( shortcode_atts( array(
+			'id' => get_the_ID(),
+		), $atts, 'lifterlms_membership_link' ) );
+
+		$text = apply_filters( 'lifterlms_membership_link_text', get_the_title( $id ), $id );
+
+		return apply_filters( 'lifterlms_membership_link_shortcode', '<a href="' . get_permalink( $id ) . '">' . $text . '</a>', $atts );
+
+	}
 
 	/**
 	* Memberships Shortcode
@@ -219,6 +238,47 @@ class LLMS_Shortcodes {
 		if (llms_is_user_member( get_current_user_id(), $membership )) {
 			return $content;
 		}
+	}
+
+	/**
+	 * Output various pieces of metadata about a course
+	 * @param    array     $atts  array of user-submitted shortcode attributes
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public static function course_info( $atts ) {
+		extract( shortcode_atts( array(
+			'date_format' => 'F j, Y', // if $type is date, a custom date format can be supplied
+			'id' => get_the_ID(),
+			'key' => '',
+			'type' => '', // date, price
+		), $atts, 'lifterlms_course_info' ) );
+
+		$r = '';
+
+		if ( $key ) {
+
+			$course = new LLMS_Course( $id );
+
+			switch ( $type ) {
+
+				case 'date':
+					$r = $course->get_date( $key, $date_format );
+				break;
+
+				case 'price':
+					$r = $course->get_price( $key );
+				break;
+
+				default:
+					$r = $course->get( $key );
+
+			}
+
+		}
+
+		return apply_filters( 'llms_shortcode_course_info', $r, $atts );
 	}
 
 	/**
