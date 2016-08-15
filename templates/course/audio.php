@@ -8,8 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post, $course;
 
-$course_not_class = get_post_custom( $post->ID );
-
 if ( ! $course->get_audio() ) { return; }
 ?>
 
@@ -17,5 +15,4 @@ if ( ! $course->get_audio() ) { return; }
 	<div class="center-audio">
 		<?php echo $course->get_audio(); ?>
 	</div>
-
 </div>

@@ -12,8 +12,10 @@ if ( ! $lesson ) {
 
 	$lesson = new LLMS_Lesson( $post->ID );
 
+
 }
-if ( is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson->parent_course ) ) {
+
+if ( is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson->get_parent_course() ) ) {
 	$user = new LLMS_Person;
 	$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->id );
 

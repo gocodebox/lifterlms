@@ -1,13 +1,19 @@
 <?php
 /**
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * Course difficulty template
+ * @author 		LifterLMS
+ * @package 	LifterLMS/Templates
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post, $course;
+
+if ( 'yes' !== get_option( 'lifterlms_course_display_difficulty' ) || ! $course->get_difficulty() ) {
+	return;
+}
 ?>
-<?php if ( $difficulty = $course->get_difficulty() ) : ?>
-<p class="llms-difficulty"><?php printf( __( 'Difficulty: <span class="difficulty">%s</span>', 'lifterlms' ), $difficulty ); ?></p>
-<?php endif; ?>
+
+<div class="llms-meta llms-difficulty">
+	<p><?php printf( __( 'Difficulty: <span class="difficulty">%s</span>', 'lifterlms' ), $course->get_difficulty() ); ?></p>
+</div>
