@@ -10,6 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 class LLMS_Student {
 
+	private $meta_prefix = 'llms_';
+
+	/**
+	 * Instance of WP_User
+	 * @var obj
+	 */
+	private $user;
+
 	/**
 	 * Student's WordPress User ID
 	 * @var int
@@ -37,7 +45,59 @@ class LLMS_Student {
 
 		$this->user_id = intval( $user_id );
 
+		$this->user = new WP_User( $this->user_id );
+
 	}
+
+	/**
+	 * Magic Getter for User Data
+	 * Mapped directly to the WP_User class
+	 * @since   3.0.0
+	 * @version 3.0.0
+	 * @param   string $key key of the property to get a value for
+	 * @return  mixed
+	 */
+	public function __get( $key ) {
+
+		// array of items we should *not* add the $this->meta_prefix to
+		$unprefixed = array(
+			'description',
+			'display_name',
+			'first_name',
+			'last_name',
+			'nickname',
+			'user_login',
+			'user_nicename',
+			'user_email',
+			'user_registered',
+		);
+
+		// add the meta prefix to things that aren't in the above array
+		// only if the meta prefix isn't already there
+		// this means that the following will output the same data
+		// $this->get( 'llms_billing_address_1')
+		// $this->get( 'billing_address_1')
+		if ( false === strpos( $key, $this->meta_prefix ) && ! in_array( $key, $unprefixed ) ) {
+			$key = $this->meta_prefix . $key;
+		}
+
+		return $this->user->get( $key );
+
+	}
+
+
+
+	/**
+	 * Allows direct access to WP_User object for retrieving user data from the user or usermeta tables
+	 * @since   3.0.0
+	 * @version 3.0.0
+	 * @param   string $key key of the property to get a value for
+	 * @return  mixed
+	 */
+	public function get( $key ) {
+		return $this->$key;
+	}
+
 
 
 	/**
@@ -68,8 +128,15 @@ class LLMS_Student {
 
 	}
 
-
-	private function remove_membership_level( $membership_id, $status = 'Expired' ) {
+	/**
+	 * Remove a student from a membership level
+	 * @param    int        $membership_id  WP Post ID of the membership
+	 * @param    string     $status         status to update the removal to
+	 * @return   void
+	 * @since    ?
+	 * @version  3.0.0
+	 */
+	private function remove_membership_level( $membership_id, $status = 'expired' ) {
 
 		// remove the user from the membership level
 		$membership_levels = $this->get_membership_levels();
@@ -79,7 +146,7 @@ class LLMS_Student {
 		global $wpdb;
 		// locate all enrollments triggered by this membership level
 		$q = $wpdb->get_results( $wpdb->prepare(
-			"SELECT post_id AS FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_enrollment_trigger' AND meta_value = %s",
+			"SELECT post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_enrollment_trigger' AND meta_value = %s",
 			array( $this->get_id(), 'membership_' . $membership_id )
 		), 'OBJECT_K' );
 
@@ -105,8 +172,8 @@ class LLMS_Student {
 	 *
 	 * @see  llms_enroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
-	 * @since  2.2.3
-	 * @version  2.8.0  added $trigger parameter
+	 * @since    2.2.3
+	 * @version  3.0.0  added $trigger parameter
 	 */
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
 
@@ -128,8 +195,22 @@ class LLMS_Student {
 
 		}
 
+		// if the student has been previously enrolled, simply update don't run a full enrollment
+		if ( $this->get_enrollment_status( $product_id ) ) {
+
+			$insert = $this->insert_status_postmeta( $product_id, 'enrolled' );
+
+		}
+
+		// otherwise insert all enrollment postmeta (full enrollment)
+		else {
+
+			$insert = $this->insert_enrollment_postmeta( $product_id, $trigger );
+
+		}
+
 		// add the user postmeta for the enrollment
-		if ( $this->insert_enrollment_postmeta( $product_id, $trigger ) ) {
+		if ( ! empty ( $insert ) ) {
 
 			// trigger additional actions based off post type
 			switch ( get_post_type( $product_id ) ) {
@@ -157,6 +238,62 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Retrieve the order which enrolled a studnet in a given course or membership
+	 * Retrieves the most recently updated order for the given product
+	 *
+	 * @param    int        $product_id  WP Post ID of the LifterLMS Product (course, lesson, or membership)
+	 * @return   obj|false               Instance of the LLMS_Order or false if none found
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_enrollment_order( $product_id ) {
+
+		// if a lesson id was passed in, cascade up to the course for order retrieval
+		if ( 'lesson' === get_post_type( $product_id ) ) {
+			$lesson = new LLMS_Lesson( $product_id );
+			$product_id = $lesson->get_parent_course();
+		}
+
+		// attempt to locate the order via the enrollment trigger
+		$trigger = $this->get_enrollment_trigger( $product_id );
+		if ( strpos( $trigger, 'order_' ) !== false ) {
+
+			$id = str_replace( 'order_', '', $trigger );
+			if ( is_numeric( $id ) ) {
+				return new LLMS_Order( $id );
+			}
+
+		}
+
+		// couldn't find via enrollment trigger, do a WP_Query
+		$q = new WP_Query( array(
+			'order' => 'DESC',
+			'orderby' => 'modified',
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key' => '_llms_user_id',
+					'value' => $this->get_id(),
+				),
+				array(
+					'key' => '_llms_product_id',
+					'value' => $product_id,
+				),
+			),
+			'posts_per_page' => 1,
+			// 'post_status' => $statuses,
+			'post_type' => 'llms_order',
+		) );
+
+		if ( $q->have_posts() ) {
+			return new LLMS_Order( $q->posts[0] );
+		}
+
+		// couldn't find an order, return false
+		return false;
+
+	}
 
 	/**
 	 * Retrive the student's user id
@@ -274,39 +411,37 @@ class LLMS_Student {
 
 
 	/**
-	 * Get the formatted date when a user initially enrolled in a product
-	 * This will retrieve the *oldest* date in the database for the product
-	 * @param  int    $product_id  WP Post ID of a course or membership
-	 * @param  string $format      date format as accepted by php date()
-	 * @return false|string        will return false if the user is not enrolled
+	 * Get the formatted date when a user initially enrolled in a product or when they were last updated
+	 * @param   int    $product_id  WP Post ID of a course or membership
+	 * @param   string $date        "enrolled" will get the most recent start date, "updated" will get the most recent status change date
+	 * @param   string $format      date format as accepted by php date()
+	 * @return  false|string        will return false if the user is not enrolled
+	 * @since   3.0.0
+	 * @version 3.0.0
 	 */
-	public function get_enrollment_date( $product_id, $format = 'M d, Y' ) {
-
-		if ( ! $this->is_enrolled( $product_id ) ) {
-			return false;
-		}
+	public function get_enrollment_date( $product_id, $date = 'enrolled', $format = 'M d, Y' ) {
 
 		global $wpdb;
 
+		$key = ( 'enrolled' == $date ) ? '_start_date' : '_status';
+
 		// get the oldest recorded Enrollment date
 		$q = $wpdb->get_var( $wpdb->prepare(
-			"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date ASC LIMIT 1",
+			"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '$key' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
 			array( $this->get_id(), $product_id )
 		) );
 
-		return ( $q ) ? date( $format, strtotime( $q ) ) : false;
+		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
 
 	}
-
 
 	/**
 	 * Get the current enrollment status of a student for a particular product
 	 *
 	 * @param  int $product_id WP Post ID of a Course, Lesson, or Membership
-	 *
 	 * @return false|string
-	 *
 	 * @since  3.0.0
+	 * @version 3.0.0
 	 */
 	public function get_enrollment_status( $product_id ) {
 
@@ -359,8 +494,8 @@ class LLMS_Student {
 	/**
 	 * Retrive an array of Membership Levels for a user
 	 * @return array
-	 *
-	 * @since  2.2.3
+	 * @since   2.2.3
+	 * @version 2.2.3
 	 */
 	public function get_membership_levels() {
 
@@ -377,6 +512,95 @@ class LLMS_Student {
 	}
 
 
+	public function get_progress( $object_id, $type = 'course' ) {
+
+		$total = 0;
+		$completed = 0;
+
+		if ( 'course' === $type ) {
+
+			$course = new LLMS_Course( $object_id );
+			$lessons = $course->get_children_lessons();
+			$total = count( $lessons );
+			foreach( $lessons as $lesson ) {
+				if ( $this->is_complete( $lesson->ID, 'lesson' ) ) {
+					$completed++;
+				}
+			}
+
+		} elseif ( 'track' === $type ) {
+
+			$track = new LLMS_Track( $object_id );
+			$courses = $track->get_courses();
+			$total = count( $courses );
+			foreach( $courses as $course ) {
+				if ( $this->is_complete( $course->ID, 'course' ) ) {
+					$completed++;
+				}
+			}
+
+		}
+
+		return ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
+
+	}
+
+
+	/**
+	 * Determine if the student has completed a course, track, or lesson
+	 *
+	 * @param    int     $object_id  WP Post ID of a course or lesson or the term id of the track
+	 * @param    string     $type    Object type (course, lesson, or track)
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_complete( $object_id, $type = 'course' ) {
+		global $wpdb;
+
+		switch( $type ) {
+
+			case 'course':
+			case 'track':
+				return ( 100 == $this->get_progress( $object_id, $type ) );
+			break;
+
+			case 'lesson':
+				$q = $wpdb->get_var( $wpdb->prepare(
+					"SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND post_id = %d AND meta_key = '_is_complete' AND meta_value = 'yes'",
+					array( $this->get_id(), $object_id )
+				) );
+				return ( 1 == $q );
+			break;
+
+		}
+
+
+	}
+
+
+
+	public function has_access( $product_id ) {
+
+		$enrolled = $this->is_enrolled( $product_id );
+
+		$order = $this->get_enrollment_order( $product_id );
+		// if we have an order, check the access status
+		if ( $order && $order instanceof LLMS_Order ) {
+
+			// true if access is active and student is enrolled
+			return ( $order->has_access() && $enrolled );
+
+		}
+
+		// no order found
+		// backwards compatibility
+		// and manual enrollment by admin, voucher enrollment, etc... (?)
+		return $enrolled;
+
+	}
+
+
 	/**
 	 * Add student postmeta data for enrollment into a course or membership
 	 * @param  int        $product_id   WP Post ID of the course or membership
@@ -384,7 +608,7 @@ class LLMS_Student {
 	 * @return boolean
 	 *
 	 * @since  2.2.3
-	 * @version  2.8.0  added $trigger parameter
+	 * @version  3.0.0  added $trigger parameter
 	 */
 	private function insert_enrollment_postmeta( $product_id, $trigger = 'unspecified' ) {
 
@@ -394,7 +618,7 @@ class LLMS_Student {
 		$user_metadatas = array(
 			'_enrollment_trigger' => $trigger,
 			'_start_date'         => 'yes',
-			'_status'             => 'Enrolled',
+			'_status'             => 'enrolled',
 		);
 
 		foreach ( $user_metadatas as $key => $value ) {
@@ -469,7 +693,7 @@ class LLMS_Student {
 	public function is_enrolled( $product_id ) {
 
 		$status = $this->get_enrollment_status( $product_id );
-		return ( 'Enrolled' === $status ) ? true : false;
+		return ( 'enrolled' === strtolower( $status ) ) ? true : false;
 
 	}
 
@@ -486,7 +710,7 @@ class LLMS_Student {
 	 *
 	 * @since  3.0.0
 	 */
-	public function unenroll( $product_id, $trigger = 'any', $new_status = 'Expired' ) {
+	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
 		// can only unenroll those are a currently enrolled
 		if ( ! $this->is_enrolled( $product_id ) ) {
@@ -523,7 +747,7 @@ class LLMS_Student {
 		// update if we can
 		if ( $update ) {
 
-			// update enrollemtn for the product
+			// update enrollment for the product
 			if ( $this->insert_status_postmeta( $product_id, $new_status ) ) {
 
 				// trigger actions based on product type
