@@ -10,6 +10,8 @@
 */
 class LLMS_Shortcode_Checkout {
 
+	public static $uid;
+
 	/**
 	* Get shortcode content
 	*
@@ -17,7 +19,11 @@ class LLMS_Shortcode_Checkout {
 	* @return array $messages
 	*/
 	public static function get( $atts ) {
+
+		$atts['cols'] = isset( $atts['cols'] ) ? $atts['cols'] : 1;
+
 		return LLMS_Shortcodes::shortcode_wrapper( array( __CLASS__, 'output' ), $atts );
+
 	}
 
 	/**
@@ -27,38 +33,133 @@ class LLMS_Shortcode_Checkout {
 	* @return array $messages
 	*/
 	public static function output( $atts ) {
+
 		global $wp;
 
-		if ( ! is_user_logged_in() && ! llms_is_alternative_checkout_enabled() ) {
+		self::$uid = get_current_user_id();
 
-			$message = apply_filters( 'lifterlms_checkout_message', '' );
+		$atts['gateways'] = LLMS()->payment_gateways()->get_enabled_payment_gateways();
+		$atts['selected_gateway'] = LLMS()->payment_gateways()->get_default_gateway();
 
-			if ( ! empty( $message ) ) {
+		$atts['field_data'] = array();
+		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) {
+			$atts['field_data'] = $_POST;
+		} elseif ( self::$uid ) {
+			$atts['field_data'] = get_current_user_id();
+		}
+
+
+		echo '<div class="llms-checkout-wrapper">';
+
+		// allow gateways to throw errors before outputting anything else
+		// useful if you need to check for extra session or query string data
+		$err = apply_filters( 'lifterlms_pre_checkout_error', false );
+		if ( $err ) {
+			return self::error( $err );
+		}
+
+		llms_print_notices();
+
+		// purchase step 1
+		if ( isset( $_GET['plan'] ) && is_numeric( $_GET['plan'] ) ) {
+
+			$coupon = LLMS()->session->get( 'llms_coupon' );
+			if ( isset( $coupon['coupon_id'] ) && isset( $coupon['plan_id'] ) ) {
+				if ( $coupon['plan_id'] == $_GET['plan'] ) {
+					$atts['coupon'] = new LLMS_Coupon( $coupon['coupon_id'] );
+				} else {
+					LLMS()->session->set( 'llms_coupon', false );
+					$atts['coupon'] = false;
+				}
+			} else {
+				$atts['coupon'] = false;
 			}
 
-			$product_id = get_query_var( 'product-id' );
-			$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
+			$atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
+			$atts['product'] = $atts['plan']->get_product();
 
-			$account_redirect = add_query_arg( 'product-id', $product_id, $account_url );
+			self::checkout( $atts );
 
-			echo apply_filters('lifterlms_checkout_user_not_logged_in_output', sprintf(
-				__( '<a href="%1$s">Login or create an account to purchase this course</a>.', 'lifterlms' ) . ' ',
-				$account_redirect
-			));
+		}
+
+		// purchase confirmation where applicable
+		elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
+
+			// $atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
+
+			if ( ! isset( $_GET['order'] ) ) {
+
+				return self::error( __( 'Could not locate an order to confirm.', 'lifterlms' ) );
+
+			}
+
+			$order = llms_get_order_by_key( $_GET['order'] );
+			$atts['plan'] = new LLMS_Access_Plan( $order->get( 'plan_id' ) );
+			$atts['product'] = $atts['plan']->get_product();
+
+			if ( $order->get( 'coupon_id' ) ) {
+				$atts['coupon'] = new LLMS_Coupon( $order->get( 'coupon_id' ) );
+			} else {
+				$atts['coupon'] = false;
+			}
+
+			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $atts['selected_gateway' ] );
+
+			self::confirm_payment( $atts );
 
 		} else {
 
-			if ( isset( $wp->query_vars['confirm-payment'] ) ) {
+			return self::error( sprintf( __( 'Your cart is currently empty. Click <a href="%s">here</a> to get started.', 'lifterlms' ), llms_get_page_url( 'courses' ) ) );
 
-				self::confirm_payment();
-			} else {
-
-				apply_filters( 'lifterlms_checkout_user_logged_in_output', self::checkout( $atts ) );
-
-			}
 		}
 
+		echo '</div><!-- .llms-checkout-wrapper -->';
+
+		// if ( ! isset( $atts['plan'] ) ) {
+
+		// 	echo apply_filters( 'llms_checkout_error_output', self::error() );
+
+		// } else {
+
+
+		// }
+
+
+
+		// if ( ! is_user_logged_in() && ! llms_is_alternative_checkout_enabled() ) {
+
+		// 	$message = apply_filters( 'lifterlms_checkout_message', '' );
+
+		// 	if ( ! empty( $message ) ) {
+		// 	}
+
+		// 	$product_id = get_query_var( 'product-id' );
+		// 	$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
+
+		// 	$account_redirect = add_query_arg( 'product-id', $product_id, $account_url );
+
+		// 	echo apply_filters('lifterlms_checkout_user_not_logged_in_output', sprintf(
+		// 		__( '<a href="%1$s">Login or create an account to purchase this course</a>.', 'lifterlms' ) . ' ',
+		// 		$account_redirect
+		// 	));
+
+		// } else {
+
+		// 	if ( isset( $wp->query_vars['confirm-payment'] ) ) {
+
+		// 		self::confirm_payment();
+		// 	} else {
+
+		// 		apply_filters( 'lifterlms_checkout_user_logged_in_output', self::checkout( $atts ) );
+
+		// 	}
+		// }
+
 	}
+
+
+
+
 
 	/**
 	* My Checkout page template
@@ -68,9 +169,15 @@ class LLMS_Shortcode_Checkout {
 	*/
 	private static function checkout( $atts ) {
 
-		llms_get_template( 'checkout/form-checkout.php', array(
-			'current_user' 	=> get_user_by( 'id', get_current_user_id() ),
-		) );
+		if ( self::$uid ) {
+			$user = get_userdata( self::$uid );
+			llms_print_notice( sprintf( __( 'You are currently logged in as <em>%s</em>. <a href="%s">Click here to logout</a>' ), $user->user_email, wp_logout_url( $atts['plan']->get_checkout_url() ) ), 'notice' );
+		} else {
+			llms_get_login_form( sprintf( __( 'Already have an account? <a href="%s">Click here to login</a>', 'lifterlms' ), '#llms-show-login' ), $atts['plan']->get_checkout_url() );
+		}
+
+		llms_get_template( 'checkout/form-checkout.php', $atts );
+
 	}
 
 	/**
@@ -78,10 +185,20 @@ class LLMS_Shortcode_Checkout {
 	*
 	* @return void
 	*/
-	private static function confirm_payment() {
-		llms_get_template( 'checkout/form-confirm-payment.php', array(
-			'current_user' => get_user_by( 'id', get_current_user_id() ),
-		) );
+	private static function confirm_payment( $atts ) {
+		llms_get_template( 'checkout/form-confirm-payment.php', $atts );
+	}
+
+
+	/**
+	 * Get error messages to display related to checkout
+	 * @return string
+	 * @since 3.0.0
+	 */
+	private static function error( $message ) {
+
+		echo apply_filters( 'llms_checkout_error_output', $message );
+
 	}
 
 }
