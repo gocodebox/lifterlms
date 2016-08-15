@@ -9,6 +9,31 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 	/**
+	 * Configure the metabox settings
+	 * @return void
+	 * @since  3.0.0
+	 */
+	public function configure() {
+
+		$this->id = 'lifterlms-order-submit';
+		$this->title = __( 'Order Status', 'lifterlms' );
+		$this->screens = array(
+			'llms_order',
+		);
+		$this->context = 'side';
+		$this->priority = 'high';
+
+	}
+
+	/**
+	 * Not used because our metabox doesn't use the standard fields api
+	 * @return array
+	 *
+	 * @since  3.0.0
+	 */
+	public function get_fields() {}
+
+	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
 	 *
@@ -17,13 +42,12 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 *
 	 * @version  3.0.0
 	 */
-	public static function output( $post ) {
+	public function output() {
 
-		$order = new LLMS_Order( $post );
-		$current_status = $order->get_status();
+		$order = new LLMS_Order( $this->post );
+		$current_status = $order->get( 'status' );
 
-		$statuses = llms_get_order_statuses( $order->get_type() );
-
+		$statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'single'  );
 		?>
 		<div class="llms-metabox">
 
@@ -38,19 +62,8 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 					</select>
 				</div>
 
-				<div class="llms-metabox-field">
-					<label><?php _e( 'Student Enrollment Action:', 'lifterlms' ) ?></label>
-					<span class="show-conditionally default"><?php _e( 'No action' ); ?></span>
-					<span class="show-conditionally llms-active llms-completed"><?php _e( 'Enroll Student' ); ?></span>
-					<span class="show-conditionally llms-expired llms-refunded llms-cancelled"><?php _e( 'Unenroll Student' ); ?></span>
-				</div>
-
-				<div class="llms-metabox-field">
-					<label for="_llms_skip_enrollment_actions"><input name="_llms_skip_enrollment_actions" id="_llms_skip_enrollment_actions" type="checkbox" value="1"> <?php _e( 'Skip Student Enrollment Action', 'lifterlms' ) ?></label>
-				</div>
-
 				<div class="llms-metabox-field" style="text-align: right;">
-					<input name="save" type="submit" class="button button-primary button-large" id="publish" value="<?php _e( 'Update Status' ); ?>">
+					<input name="save" type="submit" class="button button-primary button-large" id="publish" value="<?php _e( 'Update Status', 'lifterlms' ); ?>">
 				</div>
 
 			</div>
@@ -61,34 +74,29 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 	}
 
+	/**
+	 * Save action, update order status
+	 * @param    int     $post_id  WP Post ID of the Order
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function save( $post_id ) {
 
-	public static function save( $post_id, $post ) {
-
-		$order = new LLMS_Order( $post );
+		$order = new LLMS_Order( $post_id );
 
 		if ( isset( $_POST['_llms_order_status'] ) ) {
 
 			$new_status = $_POST['_llms_order_status'];
+			$old_status = $order->get( 'status' );
 
-			// if status has changed
-			if ( $order->get_status() !== $new_status ) {
+			if ( $old_status !== $new_status ) {
 
-				// if skipping enrollment actions
-				// update the post using direct WP update functions
-				if ( isset( $_POST['_llms_skip_enrollment_actions'] ) ) {
+				// add a note
+				$order->add_note( sprintf( __( 'Order Status changed from %s to %s', 'lifterlms' ), llms_get_order_status_name( $old_status ), llms_get_order_status_name( $new_status ) ), true );
 
-					wp_update_post( array(
-						'ID' => $post_id,
-						'post_status' => $new_status,
-					) );
-
-				} // otherwise use the order's update status method
-				// which will trigger enrollment actions
-				else {
-
-					$order->update_status( $new_status );
-
-				}
+				// update the status
+				$order->set( 'status', $new_status );
 
 			}
 

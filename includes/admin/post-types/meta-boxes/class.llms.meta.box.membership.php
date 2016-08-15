@@ -1,101 +1,60 @@
 <?php
+/**
+ * Membership Settings Metabox
+ * @since   1.0.0
+ * @version 3.0.0
+ */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* Meta Box Builder
-*
-* Generates main metabox and builds forms
-*/
-class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
-
-	public static $prefix = '_';
+class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 	/**
-	 * Function to field WP::output() method call
-	 * Passes output instruction to parent
+	 * This function allows extending classes to configure required class properties
+	 * $this->id, $this->title, and $this->screens should be configured in this function
 	 *
-	 * @param object $post WP global post object
 	 * @return void
+	 * @since  3.0.0
 	 */
-	public static function output ( $post ) {
-		global $post;
-		parent::new_output( $post, self::metabox_options() );
+	public function configure() {
+
+		$this->id = 'lifterlms-membership';
+		$this->title = __( 'Membership Settings', 'lifterlms' );
+		$this->screens = array(
+			'llms_membership',
+		);
+		$this->priority = 'high';
+
 	}
 
+
 	/**
-	 * Builds array of metabox options.
-	 * Array is called in output method to display options.
-	 * Appropriate fields are generated based on type.
+	 * This function is where extending classes can configure all the fields within the metabox
+	 * The function must return an array which can be consumed by the "output" function
 	 *
-	 * @return array [md array of metabox fields]
+	 * @return array
 	 */
-	public static function metabox_options() {
-		global $post, $wpdb, $thepostid;
+	public function get_fields() {
 
-		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
+		$membership = new LLMS_Membership( $this->post );
 
-		$thepostid = $post->ID;
+		$redirect_options = array();
+		$redirect_page_id = $membership->get( 'redirect_page_id' );
+		if ( $redirect_page_id ) {
+			$redirect_options[] = array(
+				'key' => $redirect_page_id,
+				'title' => get_the_title( $redirect_page_id ) . '(ID#' . $redirect_page_id . ')',
+			);
+		}
 
-		$sku = get_post_meta( $thepostid, '_sku', true );
-		$regular_price = get_post_meta( $thepostid, '_regular_price', true );
-		$sale_price = get_post_meta( $thepostid, '_sale_price', true );
-
-		$sale_price_dates_from 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_from', true ) ) ? $date : '';
-		$sale_price_dates_to 	= ( $date = get_post_meta( $thepostid, '_sale_price_dates_to', true ) ) ? $date : '';
-
-		$recurring_enabled  		= get_post_meta( $thepostid, '_llms_recurring_enabled', true );
-		$subscription_price 		= get_post_meta( $thepostid, '_llms_subscription_price', true );
-		$subscription_first_payment = get_post_meta( $thepostid, '_llms_subscription_first_payment', true );
-		$billing_period 			= get_post_meta( $thepostid, '_llms_billing_period', true );
-		$billing_freq 				= get_post_meta( $thepostid, '_llms_billing_freq', true );
-		$billing_cycle				= get_post_meta( $thepostid, '_llms_billing_cycle', true );
-
-		//billing period options
-		////needs to move to paypal class
-		$billing_periods = array(
+		return array(
 			array(
-				'key' 	=> 'day',
-				'title' => 'Day',
-			),
-			array(
-				'key' 	=> 'week',
-				'title' => 'Week',
-			),
-			array(
-				'key' 	=> 'month',
-				'title' => 'Month',
-			),
-			array(
-				'key' 	=> 'year',
-				'title' => 'Year',
-			),
-		);
-
-		$membership_expiration_periods = array(
-			array(
-				'key' 	=> 'day',
-				'title' => 'Day',
-			),
-			array(
-				'key' 	=> 'month',
-				'title' => 'Month',
-			),
-			array(
-				'key' 	=> 'year',
-				'title' => 'Year',
-			),
-		);
-
-		$llms_meta_fields_llms_membership_settings = array(
-			array(
-				'title' 	=> 'Description',
+				'title' 	=> __( 'Description', 'lifterlms' ),
 				'fields' 	=> array(
 					array(
 						'type'		=> 'post-content',
-						'label'		=> 'Enrolled user and non-enrolled visitor description',
-						'desc' 		=> 'This content will be displayed to enrolled users. If the non-enrolled users description
-							field is left blank the content will be displayed to both enrolled users and non-logged / restricted
-							visitors.',
+						'label'		=> __( 'Members Description', 'lifterlms' ),
+						'desc' 		=> __( 'If the Non-Members area below is left blank, this content will be displayed to all visitors, otherwise this content will only be displayed to active members.', 'lifterlms' ),
 						'id' 		=> '',
 						'class' 	=> '',
 						'value' 	=> '',
@@ -104,11 +63,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 					),
 					array(
 						'type'		=> 'post-excerpt',
-						'label'		=> 'Restricted Access Description',
-						'desc' 		=> 'Enter content in this field if you would like visitors that
-							are not enrolled or are restricted to view different content from
-							enrolled users. Visitors who are not enrolled in the course
-							or are restricted from the course will see this description if it contains content.',
+						'label'		=> __( 'Non-Members Description', 'lifterlms' ),
+						'desc' 		=> __( 'This content will only be shown to vistors who do not have access to this membership.', 'lifterlms' ),
 						'id' 		=> '',
 						'class' 	=> '',
 						'value' 	=> '',
@@ -117,409 +73,121 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox{
 					),
 				),
 			),
+
 			array(
-				'title' 	=> 'Price Single',
+				'title' 	=> __( 'Restriction Behavior', 'lifterlms' ),
 				'fields' 	=> array(
 					array(
-						'type'		=> 'text',
-						'label'		=> 'SKU',
-						'desc' 		=> 'Enter a SKU for your membership.',
-						'id' 		=> self::$prefix . 'sku',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'number',
-						'label'		=> 'Single Payment Price ( ' . get_lifterlms_currency_symbol() . ' )',
-						'desc' 		=> 'Enter a price to offer your membership for a one time purchase.',
-						'id' 		=> self::$prefix . 'regular_price',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'checkbox',
-						'label'		=> 'Membership is on sale',
-						'desc' 		=> 'Enable single payment sale for this membership.',
-						'id' 		=> self::$prefix . 'on_sale',
+						'allow_null' => false,
 						'class' 	=> '',
-						'value' 	=> '1',
+						'desc' 		=> __( 'When a non-member attempts to access content restricted to this membership', 'lifterlms' ),
+						'id' 		=> $this->prefix . 'restriction_redirect_type',
+						'is_controller' => true,
+						'type'		=> 'select',
+						'label'		=> __( 'Restricted Access Redirect', 'lifterlms' ),
+						'value'   => array(
+							array(
+								'key' => 'none',
+								'title' => __( 'Stay on page', 'lifterlms' ),
+							),
+							array(
+								'key' => 'membership',
+								'title' => __( 'Redirect to this membership page', 'lifterlms' ),
+							),
+							array(
+								'key' => 'page',
+								'title' => __( 'Redirect to a WordPress page', 'lifterlms' ),
+							),
+							array(
+								'key' => 'custom',
+								'title' => __( 'Redirect to a Custom URL', 'lifterlms' ),
+							),
+						),
+					),
+					array(
+						'class' 	=> '',
+						'controller' => '#' . $this->prefix . 'restriction_redirect_type',
+						'controller_value' => 'page',
+						'data_attributes' => array(
+							'post-type' => 'page'
+						),
+						'id' 		=> $this->prefix . 'redirect_page_id',
+						'label'		=> __( 'Select a WordPress Page', 'lifterlms' ),
+						'type'		=> 'select',
+						'class'     => 'llms-select2-post',
+						'value'   => $redirect_options
+					),
+					array(
+						'class' 	=> '',
+						'controller' => '#' . $this->prefix . 'restriction_redirect_type',
+						'controller_value' => 'custom',
+						'id' 		=> $this->prefix . 'redirect_custom_url',
+						'label'		=> __( 'Enter a Custom URL', 'lifterlms' ),
+						'type'		=> 'text',
+						'value'   => 'test',
+					),
+					array(
+						'class' 	=> '',
+						'controls' => '#' . $this->prefix . 'restriction_notice',
+						'default'   => 'yes',
+						'desc' 		=> __( 'Check this box to output a message after redirecting. If no redirect is selected this message will replace the normal content that would be displayed.', 'lifterlms' ),
 						'desc_class' => 'd-3of4 t-3of4 m-1of2',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'number',
-						'label'		=> 'Sale Price ( ' . get_lifterlms_currency_symbol() . ' )',
-						'desc' 		=> 'Enter a sale price for the membership.',
-						'id' 		=> self::$prefix . 'sale_price',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'date',
-						'label'		=> 'Sale Price Start Date',
-						'desc' 		=> 'Enter the date your sale will begin.',
-						'id' 		=> self::$prefix . 'sale_price_dates_from',
-						'class' 	=> 'llms-datepicker input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'date',
-						'label'		=> 'Sale Price End Date',
-						'desc' 		=> 'Enter the date your sale will end.',
-						'id' 		=> self::$prefix . 'sale_price_dates_to',
-						'class' 	=> 'llms-datepicker input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-				),
-			),
-			array(
-				'title' 	=> 'Price Recurring',
-				'fields' 	=> array(
-					array(
+						'id' 		=> $this->prefix . 'restriction_add_notice',
+						'label'		=> __( 'Display a Message', 'lifterlms' ),
 						'type'		=> 'checkbox',
-						'label'		=> 'Enable Recurring Payment',
-						'desc' 		=> 'Enable recurring payment options.',
-						'id' 		=> self::$prefix . 'llms_recurring_enabled',
-						'class' 	=> '',
-						'value' 	=> '1',
-						'desc_class' => 'd-3of4 t-3of4 m-1of2',
-						'group' 	=> '',
+						'value'   => 'yes',
 					),
 					array(
-						'type'		=> 'number',
-						'label'		=> 'Recurring Payment ( ' . get_lifterlms_currency_symbol() . ' )',
-						'desc' 		=> 'Enter the amount you will bill at set intervals.',
-						'id' 		=> self::$prefix . 'llms_subscription_price',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'number',
-						'label'		=> 'First Payment ( ' . get_lifterlms_currency_symbol() . ' )',
-						'desc' 		=> 'Enter the payment amount you will charge on product purchase. This can be 0 to give users a free trial period.',
-						'id' 		=> self::$prefix . 'llms_subscription_first_payment',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'select',
-						'label'		=> 'Billing Period',
-						'desc' 		=> 'Combine billing period and billing frequency set billing interval. IE: Billing period =  week and frequency 2 will bill every 2 weeks.',
-						'id' 		=> self::$prefix . 'llms_billing_period',
-						'class' 	=> 'input-full',
-						'value' 	=> $billing_periods,
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
+						'class' 	=> 'full-width',
+						'desc' 		=> sprintf( __( 'Shortcodes like %s can be used in this message', 'lifterlms' ), '[lifterlms_membership_link id="' . $this->post->ID . '"]' ),
+						'default'   => sprintf( __( 'You must belong to the %s membership to access this content.', 'lifterlms' ), '[lifterlms_membership_link id="' . $this->post->ID . '"]' ),
+						'id' 		=> $this->prefix . 'restriction_notice',
+						'label'		=> __( 'Restricted Content Notice', 'lifterlms' ),
 						'type'		=> 'text',
-						'label'		=> 'Billing Frequency',
-						'desc' 		=> 'Use with billing period to set billing interval',
-						'id' 		=> self::$prefix . 'llms_billing_freq',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'text',
-						'label'		=> 'Billing Cycles',
-						'desc' 		=> 'Enter 0 to charge indefinitely. IE: 12 would bill for 12 months.',
-						'id' 		=> self::$prefix . 'llms_billing_cycle',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-					),
-				),
-			),
-			array(
-				'title' 	=> 'Expiration',
-				'fields' 	=> array(
-					array(
-						'label' 	=> 'Interval',
-						'desc' 		=> 'Enter the interval. IE: enter 1 and select year below to set expiration to 1 year.',
-						'id' 		=> self::$prefix . 'llms_expiration_interval',
-						'type'  	=> 'text',
-						'section' 	=> 'expiration_interval',
-						'group' 	=> '',
-						'desc_class' => 'd-all',
-						'class' 	=> 'input-full',
-					),
-					array(
-						'label' 	=> 'Expiration Period',
-						'desc' 		=> 'Combine the period with the interval above to set an expiration time line.',
-						'id' 		=> self::$prefix . 'llms_expiration_period',
-						'type'  	=> 'select',
-						'section' 	=> 'expiration_period',
-						'value' 	=> $membership_expiration_periods,
-						'group' 	=> '',
-						'desc_class' => 'd-all',
-						'class' 	=> 'input-full',
-					),
-				),
-			),
-			array(
-				'title' 	=> 'Students',
-				'fields' 	=> array(
-					array(
-						'type'		=> 'select',
-						'label'		=> 'Add Student',
-						'desc'		=> 'Add a user to the course.',
-						'id'		=> self::$prefix . 'add_new_user',
-						'class'		=> 'add-student-select',
-						'value' 	=> array(),
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-						'multi'		=> true,
-					),
-					array(
-						'type'		=> 'button',
-						'label'		=> '',
-						'desc' 		=> '',
-						'id' 		=> self::$prefix . 'add_student_submit',
-						'class' 	=> 'llms-button-primary',
-						'value' 	=> 'Add Student',
-						'desc_class' => '',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'select',
-						'label'		=> 'Remove Student',
-						'desc'		=> 'Remove a user from the course.',
-						'id'		=> self::$prefix . 'remove_student',
-						'class' 	=> 'remove-student-select',
-						'value' 	=> array(),
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-						'multi'		=> true,
-					),
-					array(
-						'type'		=> 'button',
-						'label'		=> '',
-						'desc' 		=> '',
-						'id' 		=> self::$prefix . 'remove_student_submit',
-						'class' 	=> 'llms-button-primary',
-						'value' 	=> 'Remove Student',
-						'desc_class' => '',
-						'group' 	=> '',
-					),
-				),
-			),
-			array(
-				'title' 	=> 'Enrollment',
-				'fields' 	=> array(
-					array(
-						'label' 	=> 'Courses',
-						'desc' 		=> 'Add course to membership.',
-						'id' 		=> self::$prefix . 'llms_course_membership',
-						'type'  	=> 'select',
-						'value' 	=> self::get_courses_not_in_membership_list(),
-						'group' 	=> '',
-						'multi'		=> true,
-						'desc_class' => 'd-all',
-						'class' 	=> 'input-full add-course-to-membership',
-					),
-					array(
-						'type'		=> 'button',
-						'label'		=> '',
-						'desc' 		=> '',
-						'id' 		=> self::$prefix . 'add_course_submit',
-						'class' 	=> 'llms-button-primary',
-						'value' 	=> 'Add Courses',
-						'desc_class' => '',
-						'group' 	=> '',
-					),
-					array(
-						'label' 	=> 'Added Courses',
-						'desc' 		=> 'Remove course from membership.',
-						'id' 		=> self::$prefix . 'llms_remove_course_membership',
-						'type'  	=> 'select',
-						'value' 	=> self::get_courses_in_membership_list(),
-						'group' 	=> '',
-						'multi'		=> true,
-						'desc_class' => 'd-all',
-						'class' 	=> 'input-full remove-course-from-membership',
-					),
-					array(
-						'type'		=> 'button',
-						'label'		=> '',
-						'desc' 		=> '',
-						'id' 		=> self::$prefix . 'remove_course_submit',
-						'class' 	=> 'llms-button-primary',
-						'value' 	=> 'Remove Courses',
-						'desc_class' => '',
-						'group' 	=> '',
-					),
-					array(
-						'label' 	=> 'Courses',
-						'desc' 		=> 'Automatically enroll users in the selected courses on successful membership registration',
-						'id' 		=> self::$prefix . 'llms_course_membership_table',
-						'titles'	=> array( 'Course Name', 'Auto Enroll' ),
-						'type'  	=> 'table',
-						'table_data' => self::get_courses_table_data(),
-						'group' 	=> '',
-						'class' 	=> '',
 					),
 				),
 			),
 		);
-
-		if (has_filter( 'llms_meta_fields_llms_membership_settings' )) {
-			//Add Fields to the membership Meta Box
-			$llms_meta_fields_llms_membership_settings = apply_filters( 'llms_meta_fields_llms_membership_settings', $llms_meta_fields_llms_membership_settings );
-		}
-
-		return $llms_meta_fields_llms_membership_settings;
-	}
-
-
-	/**
-	 * Retrieve a list of courses that are not currently restricted to the membership
-	 * @return array
-	 */
-	public static function get_courses_not_in_membership_list() {
-
-		$exclude = array();
-		foreach ( self::get_courses_in_membership_list() as $c ) {
-
-			$exclude[] = $c['key'];
-
-		}
-
-		$args = array(
-			'post_type' 	=> 'course',
-			'nopaging'		=> true,
-			'post_status'   => 'publish',
-			'number'		=> 1000,
-			'exclude'		=> $exclude,
-		);
-
-		$courses_list = array();
-
-		$courses = get_posts( $args );
-
-		foreach ( $courses as $course ) {
-			$courses_list[] = array(
-				'key' => $course->ID,
-				'title' => $course->post_title,
-			);
-		}
-
-		return $courses_list;
-
 	}
 
 	/**
-	 * Retrive a list of courses that are currently restricted by the membership
-	 * @return array
-	 */
-	public static function get_courses_in_membership_list() {
-		global $wpdb, $post;
-		$courses_list = array();
-		$posts_table = $wpdb->prefix . 'posts';
-		$postmeta = $wpdb->prefix . 'postmeta';
-
-		$postmeta_select = '%"' . $post->ID . '"%';
-
-		$select_courses = "SELECT ID, post_title FROM $posts_table
-					JOIN $postmeta
-					ON $posts_table.ID = $postmeta.post_id
-					WHERE $posts_table.post_type = 'course'
-					AND $postmeta.meta_key = '_llms_restricted_levels'
-					AND $postmeta.meta_value LIKE '$postmeta_select'";
-		$courses = $wpdb->get_results( $select_courses );
-
-		foreach ($courses as $course) {
-			$courses_list[] = array(
-				'key' => $course->ID,
-				'title' => $course->post_title,
-			);
-		}
-
-		return $courses_list;
-	}
-
-
-	/**
-	 * Retrieve the HTML for the "Courses" table on the enrollment tab
-	 * @return array
-	 */
-	public static function get_courses_table_data() {
-		global $post;
-		$membership_courses = self::get_courses_in_membership_list();
-
-		$table_data = array();
-		$auto_enroll_checkboxes = get_post_meta( $post->ID, '_llms_auto_enroll', true );
-
-		if ( ! $auto_enroll_checkboxes ) {
-			$auto_enroll_checkboxes = array();
-		}
-
-		foreach ($membership_courses as $course) {
-			$auto_enroll_checkbox = in_array( $course['key'], $auto_enroll_checkboxes ) ? 'checked' : '';
-
-			$table_data[] = array(
-				'<a href="' . admin_url( 'post.php?post=' . $course['key'] . '&action=edit' ) . ' ">' . $course['title'] . '</a>',
-				'<input type="checkbox" name="autoEnroll[]" ' . $auto_enroll_checkbox . ' value="' . $course['key'] . '"',
-			);
-		}
-
-		return $table_data;
-
-	}
-
-	/**
-	 * Static save method
-	 *
-	 * cleans variables and saves using update_post_meta
-	 *
-	 * @param  int 		$post_id [id of post object]
-	 * @param  object 	$post [WP post object]
-	 *
+	 * Save field data
+	 * Called by $this->save_actions()
+	 * @param  int   $post_id   WP Post ID of the post being saved
 	 * @return void
+	 * @since  3.0.0
 	 */
-	public static function save( $post_id, $post ) {
-		if (isset( $_POST['_llms_course_membership'] )) {
-			foreach ($_POST['_llms_course_membership'] as $course_id) {
-				$levels = get_post_meta( $course_id, '_llms_restricted_levels', true );
-				if ( ! $levels ) {
-					$levels = array();
-				}
-				$memberships = array_merge( $levels, array( ( string ) $post_id ) );
+	public function save( $post_id ) {
 
-				update_post_meta( $course_id, '_llms_is_restricted', true );
-				update_post_meta( $course_id, '_llms_restricted_levels', $memberships );
-			}
+		$membership = new LLMS_Membership( $post_id );
+
+		if ( ! isset( $_POST[ $this->prefix . 'restriction_add_notice' ] ) ) {
+			$_POST[ $this->prefix . 'restriction_add_notice' ] = 'no';
 		}
 
-		if (isset( $_POST['_llms_remove_course_membership'] )) {
-			foreach ($_POST['_llms_remove_course_membership'] as $course_id) {
-				$memberships = array_diff( get_post_meta( $course_id, '_llms_restricted_levels', true ), array( $post_id ) );
-
-				if ( ! count( $memberships )) {
-					update_post_meta( $course_id, '_llms_is_restricted', false );
-				}
-				update_post_meta( $course_id, '_llms_restricted_levels', $memberships );
-			}
+		// add an error if there's no redirect action and no message
+		if ( 'no' === $_POST[ $this->prefix . 'restriction_add_notice' ] && 'none' === $_POST[ $this->prefix . 'restriction_redirect_type' ] ) {
+			$this->add_error( __( 'With your current settings, non-members will see a blank page when attempting to access restricted content. We recommend adjusting your Restriction Behavior settings to at least display a message to non-members.', 'lifterlms' ) );
 		}
 
-		$auto_enroll = isset( $_POST['autoEnroll'] ) ? $_POST['autoEnroll'] : array();
-		update_post_meta( $post->ID, '_llms_auto_enroll', $auto_enroll );
+		// save all the fields
+		$fields = array(
+			'restriction_redirect_type',
+			'redirect_page_id',
+			'redirect_custom_url',
+			'restriction_add_notice',
+			'restriction_notice',
+		);
+		foreach( $fields as $field ) {
+
+			if ( isset( $_POST[ $this->prefix . $field ] ) ) {
+
+				$membership->set( $field, $_POST[ $this->prefix . $field ] );
+
+			}
+
+		}
+
 	}
 
 }

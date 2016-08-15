@@ -1,190 +1,201 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! defined( 'LLMS_Admin_Metabox' ) ) {
-	// Include the file for the parent class
-	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
-}
-
 /**
-* Meta Box Builder
-*
-* Generates main metabox and builds forms
-*/
-class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox{
+ * Lesson Settings Metabox
+ *
+ * @since    1.0.0
+ * @version  3.0.0
+ */
 
-	public static $prefix = '_';
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
 	/**
-	 * Function to field WP::output() method call
-	 * Passes output instruction to parent
+	 * This function allows extending classes to configure required class properties
+	 * $this->id, $this->title, and $this->screens should be configured in this function
 	 *
-	 * @param object $post WP global post object
-	 * @return void
+	 * @return  void
+	 * @since   3.0.0
+	 * @version 3.0.0
 	 */
-	public static function output ( $post ) {
-		global $post;
-		parent::new_output( $post, self::metabox_options() );
+	public function configure() {
+
+		$this->id = 'lifterlms-lesson';
+		$this->title = __( 'Lesson Settings', 'lifterlms' );
+		$this->screens = array(
+			'lesson',
+		);
+		$this->priority = 'high';
+
 	}
 
 	/**
-	 * Builds array of metabox options.
-	 * Array is called in output method to display options.
-	 * Appropriate fields are generated based on type.
+	 * This function is where extending classes can configure all the fields within the metabox
+	 * The function must return an array which can be consumed by the "output" function
 	 *
-	 * @return array [md array of metabox fields]
+	 * @return array
+	 * @since   3.0.0
+	 * @version 3.0.0
 	 */
-	public static function metabox_options() {
-		global $post;
+	public function get_fields() {
 
-		//setup lesson select options
-		$lesson_options = array();
-		$lesson_posts = LLMS_Post_Handler::get_posts( 'lesson' );
-		foreach ( $lesson_posts as $l_post ) {
-			if ( $l_post->ID != $post->ID ) {
-				$lesson_options[] = array(
-					'key' 	=> $l_post->ID,
-					'title' => $l_post->post_title,
-				);
-			}
-		}
-
-		//setup quiz select options
-		$quiz_array = array();
-		$quizzes = LLMS_Post_Handler::get_posts( 'llms_quiz' );
-		foreach ( $quizzes as $quiz ) {
-			if ( $quiz->ID != $post->ID ) {
-				$quiz_array[] = array(
-					'key' 	=> $quiz->ID,
-					'title' => $quiz->post_title,
-				);
-			}
-		}
-
-		$days_before_avalailable = get_post_meta( $post->ID, '_days_before_avalailable', true );
-		$assigned_quiz = get_post_meta( $post->ID, '_llms_assigned_quiz', true );
-		$require_passing_grade = get_post_meta( $post->ID, '_llms_require_passing_grade', true );
-		$video_embed = get_post_meta( $post->ID, '_video_embed', true );
-		$audio_embed = get_post_meta( $post->ID, '_audio_embed', true );
-
-		$meta_fields_lesson = array(
+		return array(
 			array(
-				'title' 	=> 'General',
+				'title' 	=> __( 'General', 'lifterlms' ),
 				'fields' 	=> array(
 					array(
-						'type'		=> 'text',
-						'label'		=> 'Video Embed Url',
-						'desc' 		=> 'Paste the url for a Wistia, Vimeo or Youtube video.',
-						'id' 		=> self::$prefix . 'video_embed',
 						'class' 	=> 'code input-full',
-						'value' 	=> $video_embed,
+						'desc' 		=> __( 'Paste the url for a Wistia, Vimeo or Youtube video.', 'lifterlms' ),
 						'desc_class' => 'd-all',
-						'group' 	=> '',
+						'id' 		=> '_video_embed', // doesn't follow pattern b/c consistency is boring
+						'label'		=> __( 'Video Embed Url', 'lifterlms' ),
+						'type'		=> 'text',
 					),
 					array(
-						'type'		=> 'text',
-						'label'		=> 'Audio Embed Url',
-						'desc' 		=> 'Paste the url for an externally hosted audio file.',
-						'id' 		=> self::$prefix . 'audio_embed',
 						'class' 	=> 'code input-full',
-						'value' 	=> $audio_embed,
+						'desc' 		=> __( 'Paste the url for an externally hosted audio file.', 'lifterlms' ),
 						'desc_class' => 'd-all',
-						'group' 	=> '',
+						'id' 		=> '_audio_embed', // doesn't follow pattern b/c consistency is boring
+						'type'		=> 'text',
+						'label'		=> __( 'Audio Embed Url', 'lifterlms' ),
 					),
 					array(
-						'type'		=> 'checkbox',
-						'label'		=> 'Free Lesson',
-						'desc' 		=> 'Checking this box will allow guests to view the content of this lesson without registering or signing up for the course.',
-						'id' 		=> self::$prefix . 'llms_free_lesson',
 						'class' 	=> '',
-						'value' 	=> '1',
+						'desc' 		=> __( 'Checking this box will allow guests to view the content of this lesson without registering or signing up for the course.', 'lifterlms' ),
 						'desc_class' => 'd-3of4 t-3of4 m-1of2',
-						'group' 	=> 'top',
+						'id' 		=> $this->prefix . 'free_lesson',
+						'is_controller' => true,
+						'label'		=> __( 'Free Lesson', 'lifterlms' ),
+						'type'		=> 'checkbox',
+						'value' 	=> '1',
 					),
 				),
 			),
 			array(
-				'title' 	=> 'Quiz',
+				'title' 	=> __( 'Quiz', 'lifterlms' ),
 				'fields' 	=> array(
 					array(
+						'controller' => '#' . $this->prefix . 'free_lesson',
+						'controller_value' => '1',
+						'id' => 'free-lesson-quiz-error',
+						'label' => '',
+						'type' => 'custom-html',
+						'value' => __( 'Quizzes cannot be assigned to free lessons.', 'lifterlms' )
+					),
+					array(
+						'class' 	=> 'llms-select2-post',
+						'controller' => '#' . $this->prefix . 'free_lesson',
+						'controller_value' => 'false',
+						'data_attributes' => array(
+							'allow-clear' => true,
+							'placeholder' => __( 'Select a Quiz', 'lifterlms' ),
+							'post-type' => 'llms_quiz',
+						),
+						'desc' 		=> __( 'Quiz will be required to complete lesson.', 'lifterlms' ),
+						'desc_class' => 'd-all',
+						'id' 		=> $this->prefix . 'assigned_quiz',
+						'label'		=> __( 'Assigned Quiz', 'lifterlms' ),
 						'type'		=> 'select',
-						'label'		=> 'Assigned Quiz',
-						'desc' 		=> 'Quiz will be required to complete lesson.',
-						'id' 		=> self::$prefix . 'llms_assigned_quiz',
-						'class' 	=> 'llms-chosen-select',
-						'value' 	=> $quiz_array,
-						'desc_class' => 'd-all',
-						'group' 	=> '',
+						'value' 	=> llms_make_select2_post_array( array( get_post_meta( $this->post->ID, $this->prefix . 'assigned_quiz', true ) ) ),
 					),
 					array(
-						'type'		=> 'checkbox',
-						'label'		=> 'Require Passing Grade',
-						'desc' 		=> 'Checking this box will require students to get a passing score on the above quiz to complete the lesson.',
-						'id' 		=> self::$prefix . 'llms_require_passing_grade',
-						'class' 	=> '',
-						'value' 	=> '1',
+						'controller' => '#' . $this->prefix . 'free_lesson',
+						'controller_value' => 'false',
+						'desc' 		=> __( 'Checking this box will require students to get a passing score on the above quiz to complete the lesson.', 'lifterlms' ),
 						'desc_class' => 'd-3of4 t-3of4 m-1of2',
-						'group' 	=> 'top',
+						'id' 		=> $this->prefix . 'require_passing_grade',
+						'label'		=> __( 'Require Passing Grade', 'lifterlms' ),
+						'type'		=> 'checkbox',
+						'value' 	=> '1',
 					),
 				),
 			),
+
 			array(
-				'title' 	=> 'Restrictions',
+				'title' 	=> __( 'Drip Settings', 'lifterlms' ),
 				'fields' 	=> array(
 					array(
-						'type'		=> 'text',
-						'label'		=> 'Drip Content (in days)',
-						'desc' 		=> 'Number of days before lesson is available after course begins (date of purchase or set start date)',
-						'id' 		=> self::$prefix . 'days_before_avalailable',
+						'class' 	=> 'llms-select2',
+						'desc' 		=> __( 'Choose a method to determine how to drip this lesson to enrolled students', 'lifterlms' ),
+						'desc_class' => 'd-all',
+						'id' 		=> $this->prefix . 'drip_method',
+						'is_controller' => true,
+						'label'		=> __( 'Drip Method', 'lifterlms' ),
+						'type'		=> 'select',
+						'value'     => array(
+							array(
+								'key' => 'date',
+								'title' => __( 'Available on a specific date', 'lifterlms' ),
+							),
+							array(
+								'key' => 'enrollment',
+								'title' => __( 'Available # of days after after enrollment in the course', 'lifterlms' ),
+							),
+							array(
+								'key' => 'start',
+								'title' => __( 'Available # of days after course start date', 'lifterlms' ),
+							),
+						),
+					),
+					array(
+						'controller' => '#' . $this->prefix . 'drip_method',
+						'controller_value' => 'lesson,enrollment,start',
 						'class' 	=> 'input-full',
-						'value' 	=> $days_before_avalailable,
-						'desc_class' => 'd-all',
-						'group' 	=> '',
+						'id' 		=> $this->prefix . 'days_before_available',
+						'label'		=> __( 'Number of days ', 'lifterlms' ),
+						'type'		=> 'number',
 					),
 					array(
-						'type'		=> 'checkbox',
-						'label'		=> 'Enable Prerequisite',
-						'desc' 		=> 'Enable to choose a prerequisite Lesson',
-						'id' 		=> self::$prefix . 'has_prerequisite',
+						'controller' => '#' . $this->prefix . 'drip_method',
+						'controller_value' => 'date',
+						'class' 	=> 'llms-datepicker',
+						'id' 		=> $this->prefix . 'date_available',
+						'label'		=> __( 'Date Available', 'lifterlms' ),
+						'type'		=> 'date',
+					),
+					array(
+						'controller' => '#' . $this->prefix . 'drip_method',
+						'controller_value' => 'date',
 						'class' 	=> '',
-						'value' 	=> '1',
+						'desc'      => __( 'Optionally enter a time when the lesson should become available. If no time supplied, leson will be available at 12:00 AM on the date supplied above. Format must be HH:MM AM', 'lifterlms' ),
+						'id' 		=> $this->prefix . 'time_available',
+						'label'		=> __( 'Time Available', 'lifterlms' ),
+						'type'		=> 'text',
+					),
+				),
+			),
+
+			array(
+				'title' 	=> __( 'Restrictions', 'lifterlms' ),
+				'fields' 	=> array(
+
+					array(
+						'class' 	=> '',
+						'controls' => '#' . $this->prefix . 'prerequisite',
+						'desc' 		=> __( 'Enable to choose a prerequisite Lesson', 'lifterlms' ),
 						'desc_class' => 'd-3of4 t-3of4 m-1of2',
-						'group' 	=> 'llms-prereq-top',
+						'id' 		=> $this->prefix . 'has_prerequisite',
+						'label'		=> __( 'Enable Prerequisite', 'lifterlms' ),
+						'type'		=> 'checkbox',
+						'value' 	=> '1',
 					),
 					array(
-						'type'		=> 'select',
-						'label'		=> 'Choose Prerequisite',
-						'desc' 		=> 'Select the prerequisite lesson',
-						'id' 		=> self::$prefix . 'prerequisite',
-						'class' 	=> 'llms-chosen-select',
-						'value' 	=> $lesson_options,
+						'class' 	 => 'llms-select2-post',
+						'data_attributes' => array(
+							'allow-clear' => true,
+							'placeholder' => __( 'Select a Prerequisite Lesson', 'lifterlms' ),
+							'post-type' => 'lesson',
+						),
+						'desc' 		 => __( 'Select the prerequisite lesson', 'lifterlms' ),
 						'desc_class' => 'd-all',
-						'group' 	=> 'bottom llms-prereq-bottom',
+						'id' 		 => $this->prefix . 'prerequisite',
+						'label'		 => __( 'Choose Prerequisite', 'lifterlms' ),
+						'type'		 => 'select',
+						'value' 	=> llms_make_select2_post_array( array( get_post_meta( $this->post->ID, $this->prefix . 'prerequisite', true ) ) ),
 					),
 				),
 			),
 		);
-
-		if (has_filter( 'llms_meta_fields_lesson' )) {
-			//Add Fields to the course main Meta Box
-			$meta_fields_lesson = apply_filters( 'llms_meta_fields_lesson', $meta_fields_lesson );
-		}
-
-		return $meta_fields_lesson;
-	}
-
-	/**
-	 * Static save method
-	 *
-	 * cleans variables and saves using update_post_meta
-	 *
-	 * @param  int 		$post_id [id of post object]
-	 * @param  object 	$post [WP post object]
-	 *
-	 * @return void
-	 */
-	public static function save( $post_id, $post ) {
-		global $wpdb;
-
 	}
 
 }
