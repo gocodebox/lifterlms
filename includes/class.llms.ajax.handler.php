@@ -11,11 +11,227 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 */
 class LLMS_AJAX_Handler {
 
-	public static function test_ajax_call() {
+	/**
+	 * Move a Product Access Plan to the trash
+	 * @since  3.0.0
+	 * @version  3.0.0
+	 * @param  array $request $_REQUEST object
+	 * @return mixed      WP_Error on error, true if successful
+	 */
+	public static function delete_access_plan( $request ) {
 
-		return $_REQUEST;
+		// shouldn't be possible
+		if ( empty( $request['plan_id'] ) ) {
+
+			die();
+
+		}
+
+		if ( ! wp_trash_post( $request['plan_id'] ) ) {
+
+			$err = new WP_Error();
+			$err->add( 'error', __( 'There was a problem deleting your access plan, please try again.', 'lifterlms' ) );
+			return $err;
+
+		}
+
+		return true;
 
 	}
+
+	/**
+	 * Remove a coupon from an order during checkout
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 * @return  string/json
+	 */
+	public static function remove_coupon_code( $request ) {
+
+		LLMS()->session->set( 'llms_coupon', false );
+
+		$plan = new LLMS_Access_Plan( $request['plan_id'] );
+
+		ob_start();
+		llms_get_template( 'checkout/form-coupon.php' );
+		$coupon_html = ob_get_clean();
+
+		ob_start();
+		llms_get_template( 'checkout/form-summary.php', array(
+			'coupon' => $c,
+			'plan' => $plan,
+			'product' => $plan->get_product(),
+		) );
+		$summary_html = ob_get_clean();
+
+		return array(
+			'coupon_html' => $coupon_html,
+			'summary_html' => $summary_html,
+		);
+
+	}
+
+	/**
+	 * Handle Select2 Search boxes for WordPress Posts by Post Type
+	 * @since 3.0.0
+	 * @version 3.0.0
+	 * @return  string/json
+	 */
+	public static function select2_query_posts() {
+
+		// grab the search term if it exists
+		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+
+		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+
+		global $wpdb;
+
+		$limit = 30;
+		$start = $limit * $page;
+
+		if ( $term ) {
+			$like = " AND post_title LIKE '%s'";
+			$vars = array( $_REQUEST['post_type'], '%' . $term . '%', $start, $limit );
+		} else {
+			$like = '';
+			$vars = array( $_REQUEST['post_type'], $start, $limit );
+		}
+
+		$posts = $wpdb->get_results( $wpdb->prepare(
+			"SELECT ID, post_title
+			 FROM $wpdb->posts
+			 WHERE
+			 	    post_type = %s
+			 	AND post_status = 'publish'
+			 	$like
+			 ORDER BY post_title
+			 LIMIT %d, %d
+			",
+			$vars
+		) );
+
+		$r = array();
+
+		foreach ( $posts as $p ) {
+
+			$r[] = array(
+				'id' => $p->ID,
+				'name' => $p->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $p->ID . ')',
+			);
+
+		}
+
+		echo json_encode( array(
+			'items' => $r,
+			'more' => count( $r ) === $limit,
+			'success' => true,
+		) );
+
+		wp_die();
+	}
+
+	/**
+	 * Validate a Coupon via the Checkout Form
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 * @return  string/json
+	 */
+	public static function validate_coupon_code( $request ) {
+
+		$error = new WP_Error();
+
+		// validate for required fields
+		if ( empty( $request['code'] ) ) {
+
+			$error->add( 'error', __( 'Please enter a coupon code.', 'lifterlms' ) );
+
+			// this shouldn't be possible...
+		} elseif ( empty( $request['plan_id'] ) ) {
+
+			$error->add( 'error', __( 'Please enter a plan ID.', 'lifterlms' ) );
+
+		} // all required fields found
+		else {
+
+			$cid = llms_find_coupon( $request['code'] );
+
+			if ( ! $cid ) {
+
+				$error->add( 'error', sprintf( __( 'Coupon code "%s" not found.', 'lifterlms' ), $request['code'] ) );
+
+			} else {
+
+				$c = new LLMS_Coupon( $cid );
+
+				$valid = $c->is_valid( $request['plan_id'] );
+
+				if ( is_wp_error( $valid ) ) {
+
+					$error = $valid;
+
+				} else {
+
+					LLMS()->session->set( 'llms_coupon', array(
+						'plan_id' => $request['plan_id'],
+						'coupon_id' => $c->get( 'id' ),
+					) );
+
+					$plan = new LLMS_Access_Plan( $request['plan_id'] );
+
+					ob_start();
+					llms_get_template( 'checkout/form-coupon.php', array(
+						'coupon' => $c,
+					) );
+					$coupon_html = ob_get_clean();
+
+					ob_start();
+					llms_get_template( 'checkout/form-summary.php', array(
+						'coupon' => $c,
+						'plan' => $plan,
+						'product' => $plan->get_product(),
+					) );
+					$summary_html = ob_get_clean();
+
+					$success = array(
+						'code' => $c->get( 'title' ),
+						'coupon_html' => $coupon_html,
+						'summary_html' => $summary_html,
+					);
+
+				}
+
+			}
+
+		}
+
+		// if there are errors, return them
+		if ( $error->get_error_messages() ) {
+
+			return $error;
+
+		} else {
+
+			return $success;
+
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * @todo organize and docblock remaining class functions
+	 */
 
 	public static function create_section( $request ) {
 
@@ -151,103 +367,6 @@ class LLMS_AJAX_Handler {
 		return $updated_data;
 
 	}
-
-
-	public static function remove_coupon_code( $request ) {
-
-		ob_start();
-		llms_get_template( 'checkout/form-coupon.php' );
-		$coupon_html = ob_get_clean();
-
-		ob_start();
-		llms_get_template( 'checkout/form-pricing.php', array(
-			'product' => new LLMS_Product( $request['product_id'] ),
-		) );
-		$pricing_html = ob_get_clean();
-
-		return array(
-			'coupon_html' => $coupon_html,
-			'pricing_html' => $pricing_html,
-		);
-
-	}
-
-	/**
-	 * Validate a Coupon via the Checkout Form
-	 *
-	 * @since  3.0.0
-	 */
-	public static function validate_coupon_code( $request ) {
-
-		$error = new WP_Error();
-
-		// validate for required fields
-		if ( empty( $request['code'] ) ) {
-
-			$error->add( 'error', __( 'Please enter a coupon code.', 'lifterlms' ) );
-
-			// this shouldn't be possible...
-		} elseif ( empty( $request['product_id'] ) ) {
-
-			$error->add( 'error', __( 'Please enter a product ID.', 'lifterlms' ) );
-
-		} // all required fields found
-		else {
-
-			$c = new LLMS_Coupon( $request['code'] );
-			$valid = $c->is_valid( $request['product_id'] );
-
-			if ( is_wp_error( $valid ) ) {
-
-				$error = $valid;
-
-			} else {
-
-				$coupon = array(
-					'code' => $request['code'],
-					'discounts' => array(
-						'single'    => $c->get_single_amount(),
-						'first'     => $c->get_recurring_first_payment_amount(),
-						'recurring' => $c->get_recurring_payments_amount(),
-					),
-					'type'      => $c->get_discount_type(),
-				);
-
-				ob_start();
-				llms_get_template( 'checkout/form-coupon.php', array(
-					'coupon' => $c,
-				) );
-				$coupon_html = ob_get_clean();
-
-				ob_start();
-				llms_get_template( 'checkout/form-pricing.php', array(
-					'coupon' => $c,
-					'product' => new LLMS_Product( $request['product_id'] ),
-				) );
-				$pricing_html = ob_get_clean();
-
-				$success = array_merge( $coupon, array(
-					'coupon_html' => $coupon_html,
-					'pricing_html' => $pricing_html,
-				) );
-
-			}
-
-		}
-
-		// if there are errors, return them
-		if ( $error->get_error_messages() ) {
-
-			return $error;
-
-		} else {
-
-			return $success;
-
-		}
-
-	}
-
 
 }
 
