@@ -21,18 +21,23 @@ class LLMS_Frontend_Forms
 	 */
 	public function __construct() {
 
+		add_action( 'init', array( $this, 'login' ) );
+
+
+
+
+
 		add_action( 'template_redirect', array( $this, 'save_account_details' ) );
 		add_action( 'init', array( $this, 'apply_coupon' ) );
 		add_action( 'init', array( $this, 'remove_coupon' ) );
 		add_action( 'init', array( $this, 'coupon_check' ) );
 		add_action( 'init', array( $this, 'voucher_check' ) );
-		add_action( 'init', array( $this, 'login' ) );
 		add_action( 'init', array( $this, 'user_registration' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
 		add_action( 'init', array( $this, 'take_quiz' ) );
 
-		add_action( 'lifterlms_content_restricted', array( $this, 'restriction_alert' ), 10, 2 );
+
 
 	}
 
@@ -431,205 +436,6 @@ class LLMS_Frontend_Forms
 	}
 
 	/**
-	 * Alert message when page / post is restricted
-	 *
-	 * @param  int $post_id [ID of the current post / page]
-	 * @param  string $reason [string code of reason]
-	 * @return void
-	 */
-	public function restriction_alert( $post_id, $reason ) {
-
-		$post = get_post( $post_id );
-
-		switch ($reason) {
-			case 'site_wide_membership':
-				$membership = get_option( 'lifterlms_membership_required', '' );
-				$membership = get_post( $membership );
-				$membership_title = $membership->post_title;
-				$membership_url = get_permalink( $membership->ID );
-				llms_add_notice( apply_filters( 'lifterlms_membership_restricted_message', sprintf( __( '<a href="%s">%s</a> membership level allows access to this content.', 'lifterlms' ), $membership_url, $membership_title ) ) );
-				break;
-			case 'membership':
-				$memberships = llms_get_post_memberships( $post_id );
-				if ($memberships) {
-					foreach ($memberships as $key => $value) {
-						$membership = get_post( $value );
-
-						// handle memberships that weren't removed from a post when they were deleted
-						// this issue is resolved in another PR, I think
-						if ( ! $membership ) {
-							continue;
-						}
-
-						$membership_title = $membership->post_title;
-						$link = get_permalink( $membership->ID );
-						llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
-							'<a href="' . $link . '">' . $membership_title . '</a> '
-						. __( 'membership level allows access to this content.', 'lifterlms' )));
-					}
-				} else {
-					llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
-					'You do not have permission to view this page.'));
-				}
-				break;
-			case 'parent_membership' :
-				$memberships = llms_get_parent_post_memberships( $post_id );
-				foreach ($memberships as $key => $value) {
-					$membership = get_post( $value );
-					$membership_title = $membership->post_title;
-					$link = get_permalink( $membership->ID );
-					llms_add_notice(apply_filters('lifterlms_membership_restricted_message',
-						'<a href="' . $link . '">' . $membership_title . '</a> '
-					. __( 'membership level allows access to this content.', 'lifterlms' )));
-				}
-				break;
-			case 'prerequisite' :
-				if ($post->post_type == 'course') {
-					// Handle course prerequisite
-					$prerequisite = LLMS_Post_Handler::get_prerequisite( $post_id ); //llms_get_prerequisite(get_current_user_id(), $post_id);
-					$link = get_permalink( $prerequisite );
-
-					if ($prerequisite != '') {
-						llms_add_notice(sprintf(__( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ),
-						$link, get_the_title( $prerequisite ), get_the_title( $prerequisite )));
-					}
-
-					// Handle Track prerequisite
-					$course = new LLMS_Course( $post_id );
-					if ($prerequisite_id = $course->get_prerequisite_track()) {
-						$args = array(
-							'posts_per_page' => 1000,
-							'post_type' => 'course',
-							'nopaging' => true,
-							'post_status' => 'publish',
-							'orderby' => 'post_title',
-							'order' => 'ASC',
-							'suppress_filters' => true,
-							'tax_query' => array(
-								array(
-									'taxonomy' => 'course_track',
-									'field' => 'term_id',
-									'terms' => $prerequisite_id,
-								),
-							),
-						);
-						$term = get_term( $prerequisite_id, 'course_track' );
-						$prerequisites = get_posts( $args );
-						llms_add_notice(sprintf(__( 'You must complete the following course track before accessing this content: <strong>%s</strong>', 'lifterlms' ),
-						$term->name));
-						llms_add_notice( sprintf( __( 'Courses remaining:', 'lifterlms' ) ) );
-						foreach ($prerequisites as $prerequisite) {
-							$user = new LLMS_Person;
-							$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $prerequisite->ID );
-
-							if (isset( $user_postmetas )) {
-								foreach ($user_postmetas as $key => $value) {
-									if ( ! isset( $user_postmetas['_is_complete'] ) && $user_postmetas['_is_complete']->post_id == $prerequisite_id) {
-										$link = get_permalink( $prerequisite->ID );
-										llms_add_notice(sprintf(__( '<strong><a href="%s" alt="%s">%s</strong></a>', 'lifterlms' ),
-										$link, get_the_title( $prerequisite ), get_the_title( $prerequisite )));
-									}
-								}
-							} else {
-								$link = get_permalink( $prerequisite->ID );
-								llms_add_notice(sprintf(__( '<strong><a href="%s" alt="%s">%s</strong></a>', 'lifterlms' ),
-								$link, get_the_title( $prerequisite ), get_the_title( $prerequisite )));
-							}
-						}
-					}
-				} else {
-					$current_post = new LLMS_Lesson( $post->ID );
-					$parent_course_id = $current_post->get_parent_course();
-					$course = new LLMS_Course( $parent_course_id );
-					$prerequisite = LLMS_Post_Handler::get_prerequisite( $post->ID ); //llms_get_prerequisite(get_current_user_id(), $post_id);
-					if ( ! $prerequisite) {
-						$prerequisite = LLMS_Post_Handler::get_prerequisite( $parent_course_id );
-					}
-
-					if ($prerequisite) {
-						$link = get_permalink( $prerequisite );
-
-						llms_add_notice(sprintf(__( 'You must complete <strong><a href="%s" alt="%s">%s</strong></a> before accessing this content', 'lifterlms' ),
-						$link, get_the_title( $prerequisite ), get_the_title( $prerequisite )));
-					}
-
-					if ($prerequisite_id = $course->get_prerequisite_track()) {
-						$args = array(
-							'posts_per_page' => 1000,
-							'post_type' => 'course',
-							'nopaging' => true,
-							'post_status' => 'publish',
-							'orderby' => 'post_title',
-							'order' => 'ASC',
-							'suppress_filters' => true,
-							'tax_query' => array(
-								array(
-									'taxonomy' => 'course_track',
-									'field' => 'term_id',
-									'terms' => $prerequisite_id,
-								),
-							),
-						);
-						$term = get_term( $prerequisite_id, 'course_track' );
-						$prerequisites = get_posts( $args );
-						llms_add_notice(sprintf(__( 'You must complete the following course track before accessing this content: <strong>%s</strong>', 'lifterlms' ),
-						$term->name));
-						llms_add_notice( sprintf( __( 'Courses remaining:', 'lifterlms' ) ) );
-						foreach ($prerequisites as $prerequisite) {
-							$user = new LLMS_Person;
-							$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $prerequisite->ID );
-
-							if (isset( $user_postmetas )) {
-								foreach ($user_postmetas as $key => $value) {
-									if ( ! isset( $user_postmetas['_is_complete'] ) && $user_postmetas['_is_complete']->post_id == $prerequisite_id) {
-										$link = get_permalink( $prerequisite->ID );
-										llms_add_notice(sprintf(__( '<strong><a href="%s" alt="%s">%s</strong></a>', 'lifterlms' ),
-										$link, get_the_title( $prerequisite ), get_the_title( $prerequisite )));
-									}
-								}
-							} else {
-								$link = get_permalink( $prerequisite->ID );
-								llms_add_notice(sprintf(__( '<strong><a href="%s" alt="%s">%s</strong></a>', 'lifterlms' ),
-								$link, get_the_title( $prerequisite ), get_the_title( $prerequisite )));
-							}
-						}
-					}
-				}
-				break;
-			case 'lesson_start_date' :
-				$start_date = llms_get_lesson_start_date( get_current_user_id(), $post_id );
-
-				llms_add_notice( sprintf( __( 'Lesson is not available until %s.', 'lifterlms' ), $start_date ) );
-				break;
-			case 'course_start_date' :
-				$course = new LLMS_Course( $post_id );
-				$start_date = LLMS_Date::pretty_date( $course->get_start_date( $post_id ) );
-				//$start_date = llms_get_course_start_date($post_id);
-				llms_add_notice( sprintf( __( 'Course is not available until %s.', 'lifterlms' ), $start_date ) );
-				break;
-			case 'course_end_date' :
-				$course = new LLMS_Course( $post_id );
-				$end_date = LLMS_Date::pretty_date( $course->get_end_date( $post_id ) );
-				llms_add_notice( sprintf( __( 'Course ended %s.', 'lifterlms' ), $end_date ) );
-				break;
-			case 'quiz_restricted' :
-				llms_add_notice( sprintf( __( 'You do not have access to the quiz questions. <a href="%s">Return to Account page</a>.', 'lifterlms' ), get_permalink( llms_get_page_id( 'myaccount' ) ) ) );
-				break;
-			case 'enrollment_lesson' :
-				$lesson = new LLMS_Lesson( $post_id );
-				$parent_course = $lesson->get_parent_course();
-				$title = get_the_title( $parent_course );
-				$link = get_permalink( $parent_course );
-				llms_add_notice(apply_filters('lifterlms_lesson_enrollment_restricted_message',
-					__( 'You must enroll in', 'lifterlms' )
-					. ' <a href="' . $link . '">'
-				. $title . '</a> ' . __( 'to view this lesson', 'lifterlms' )));
-				break;
-		}
-
-	}
-
-	/**
 	 * Account details form
 	 *
 	 * @return void
@@ -777,93 +583,32 @@ class LLMS_Frontend_Forms
 	}
 
 	/**
-	 * login form
+	 * Handle Login Form Submissipn
 	 *
 	 * @return void
+	 * @version  3.0.0
 	 */
 	public function login() {
 
-		if ( ! empty( $_POST['login'] ) && ! empty( $_POST['_wpnonce'] )) {
+		if ( ! empty( $_POST['action'] ) && 'llms_login_user' === $_POST['action'] && ! empty( $_POST['_wpnonce'] ) ) {
 
-			wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms-login' );
+			wp_verify_nonce( $_POST['_wpnonce'], 'llms_login_user' );
 
-			try {
+			$login = LLMS_Person_Handler::login( $_POST );
 
-				$user = LLMS_Person::login_user();
-
-				if (is_wp_error( $user )) {
-
-					throw new Exception( $user->get_error_message() );
-
-				} else {
-
-					if ( ! empty( $_POST['redirect'] )) {
-
-						$redirect = esc_url( $_POST['redirect'] );
-
-					} elseif (wp_get_referer()) {
-
-						$redirect = esc_url( wp_get_referer() );
-
-					} else {
-
-						$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-
-					}
-
-					// Feedback
-					llms_add_notice( sprintf( __( 'You are now logged in as <strong>%s</strong>', 'lifterlms' ), $user->display_name ) );
-
-					if ( ! empty( $_POST['product_id'] )) {
-
-						$product_id = $_POST['product_id'];
-
-						$course = new LLMS_Course( $product_id );
-						$user_object = new LLMS_Person( $user->ID );
-						$product = new LLMS_Product( $product_id );
-						$single_price = $product->get_single_price();
-						$rec_price = $product->get_recurring_price();
-
-						$user_postmetas = $user_object->get_user_postmeta_data( $user->ID, $course->id );
-						if ( ! empty( $user_postmetas['_status'] )) {
-							$course_status = $user_postmetas['_status']->meta_value;
-						} else {
-							$course_status = '';
-						}
-
-						if (($single_price > 0 || $rec_price > 0) && $course_status != 'Enrolled') {
-
-							$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
-							$checkout_redirect = add_query_arg( 'product-id', $product_id, $checkout_url );
-
-							wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect ) );
-							exit;
-						} else {
-							$checkout_url = get_permalink( $course->post->ID );
-
-							wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_url ) );
-							exit;
-						}
-					} else {
-
-						//if order or coupon sessions were created destroy them
-						if (LLMS()->session->llms_coupon) {
-							unset( LLMS()->session->llms_coupon );
-						}
-						if (LLMS()->session->llms_order) {
-							unset( LLMS()->session->llms_order );
-						}
-
-						wp_redirect( apply_filters( 'lifterlms_login_redirect', $redirect, $user->ID ) );
-						exit;
-					}
+			// validation or registration issues
+			if ( is_wp_error( $login ) ) {
+				foreach( $login->get_error_messages() as $msg ) {
+					llms_add_notice( $msg, 'error' );
 				}
-
-			} catch (Exception $e) {
-
-				llms_add_notice( apply_filters( 'login_errors', $e->getMessage() ), 'error' );
-
+				return;
 			}
+
+			$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : get_permalink( llms_get_page_id( 'myaccount' ) );
+
+			wp_redirect( apply_filters( 'lifterlms_login_redirect', $redirect, $login ) );
+			exit;
+
 		}
 
 	}

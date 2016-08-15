@@ -1,58 +1,52 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Order processing and related actions controller
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Controller_Orders {
 
 	public function __construct() {
 
 		// form actions
 		add_action( 'init', array( $this, 'create_pending_order' ) );
-		add_action( 'init', array( $this, 'confirm_order' ) );
+		add_action( 'init', array( $this, 'confirm_pending_order' ) );
 
-		// called by a gateway's "process_payment" method and should redirect user to a confirmation page
-		add_action( 'lifterlms_payment_processing_redirect', array( $this, 'processing_redirect' ), 10, 1 );
-		add_action( 'lifterlms_order_process_begin', array( $this, 'processing_redirect' ), 10, 1 ); // @todo deprecate
+		// this action adds our lifterlms specific actions when order & transaction statuses change
+		add_action( 'transition_post_status', array( $this, 'transition_status' ), 10, 3 );
 
-		// called by a gateway's "complete_payment" method and redirects user to the course, membership, etc...
-		// this action results in a redirect and should not be used to watch for "completion" of an order
-		// if you're looking to watch for order completion, use "status" actions found in the "LLMS_Order::update_status()" method instead
-		add_action( 'lifterlms_payment_process_success', array( $this, 'processing_success_redirect' ), 10, 1 );
-		add_action( 'lifterlms_order_process_success', array( $this, 'processing_success_redirect' ), 10, 1 ); // @todo deprecate
+		/**
+		 * Status Change Actions for Orders and Transactions
+		 */
+
+		// transaction status changes cascade up to the order to change the order status
+		add_action( 'lifterlms_transaction_status_failed', array( $this, 'transaction_failed' ), 10, 1 );
+		add_action( 'lifterlms_transaction_status_refunded', array( $this, 'transaction_refunded' ), 10, 1 );
+		add_action( 'lifterlms_transaction_status_succeeded', array( $this, 'transaction_succeeded' ), 10, 1 );
 
 		// status changes for orders to enroll students and trigger completion actions
-		add_action( 'lifterlms_order_status_completed', array( $this, 'order_complete' ), 10, 1 );
-		add_action( 'lifterlms_order_status_active', array( $this, 'order_complete' ), 10, 1 );
+		add_action( 'lifterlms_order_status_completed', array( $this, 'complete_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_active', array( $this, 'complete_order' ), 10, 1 );
 
 		// status changes for orders to unenroll students upon purchase
-		add_action( 'lifterlms_order_status_refunded', array( $this, 'unenroll' ), 10, 1 );
-		add_action( 'lifterlms_order_status_cancelled', array( $this, 'unenroll' ), 10, 1 );
-		add_action( 'lifterlms_order_status_expired', array( $this, 'unenroll' ), 10, 1 );
+		add_action( 'lifterlms_order_status_refunded', array( $this, 'error_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_cancelled', array( $this, 'error_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_expired', array( $this, 'error_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_failed', array( $this, 'error_order' ), 10, 1 );
+
+		/**
+		 * Recurring Charge Actions called by the scheduler
+		 */
+		add_action( 'llms_charge_recurring_payment', array( $this, 'recurring_charge' ), 10, 1 );
 
 	}
 
 
-	/**
-	 * Format a price with default settings for this class
-	 * @param  float $price price to format
-	 * @return string
-	 * @since  3.0.0
-	 */
-	public function format_price( $price ) {
 
-		return llms_price( $price, array(
-			'with_currency' => false,
-			'decimal_places' => 2,
-			'trim_zeros' => false,
-		) );
-
-	}
 
 
 	/**
 	 * Confirm order form post
-	 * User clicks confirm order
+	 * User clicks confirm order or gateway determines the order is confirmed
 	 *
 	 * Executes payment gateway confirm order method and completes order.
 	 * Redirects user to appropriate page / post
@@ -61,26 +55,62 @@ class LLMS_Controller_Orders {
 	 *
 	 * @version 3.0.0
 	 */
-	public function confirm_order() {
+	public function confirm_pending_order() {
 
-		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || 'llms_confirm_order' !== $_POST['action'] || empty( $_POST['_wpnonce'] ) ) { return; }
+		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || 'confirm_pending_order' !== $_POST['action'] || empty( $_POST['_wpnonce'] ) ) { return; }
 
 		// noonnce the post
-		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_confirm_order' );
+		wp_verify_nonce( $_POST['_wpnonce'], 'confirm_pending_order' );
 
-		$session = LLMS()->session->get( 'llms_order' );
-		if ( empty( $session ) ) {
-			return;
+		// ensure we have an order key we can locate the order with
+		$key = isset( $_POST['llms_order_key'] ) ? $_POST['llms_order_key'] : false;
+		if ( ! $key ) {
+			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
 		}
 
-		$order = llms_get_order_by_key( $session );
+		// lookup the order & return error if not found
+		$order = llms_get_order_by_key( $key );
+		if ( ! $order || ! $order instanceof LLMS_Order ) {
+			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
+		}
 
-		$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
-		$result = $available_gateways[ $order->get_payment_gateway() ]->confirm_payment( $_REQUEST );
-		$complete = $available_gateways[ $order->get_payment_gateway() ]->complete_payment( $result, $order );
+		// ensure the order is pending
+		if ( 'llms-pending' !== $order->get( 'status' ) ) {
+			return llms_add_notice( __( 'Only pending orders can be confirmed.', 'lifterlms' ), 'error' );
+		}
+
+		// get the gateway
+		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
+
+		// pass the order to the gateway
+		$gateway->confirm_pending_order( $order );
 
 	}
 
+
+	/**
+	 * Perform actions on a succesful order completion
+	 * @param  obj    $order  Instance of an LLMS_Order
+	 * @return void
+	 *
+	 * @version  3.0.0
+	 */
+	public function complete_order( $order ) {
+
+		$order_id = $order->get( 'id' );
+		$product_id = $order->get( 'product_id' );
+		$user_id = $order->get( 'user_id' );
+
+		// trigger order complete action
+		do_action( 'lifterlms_order_complete', $order_id ); // @todo used by AffiliateWP only, can remove after updating AffiliateWP
+
+		// enroll student
+		llms_enroll_student( $user_id, $product_id, 'order_' . $order_id );
+
+		// trigger purchase action, used by engagements
+		do_action( 'lifterlms_product_purchased', $user_id, $product_id );
+
+	}
 
 
 	/**
@@ -94,7 +124,7 @@ class LLMS_Controller_Orders {
 	 * 		If errors, returns error on screen to user
 	 * 		If success, passes to the selected gateways "process_payment" method
 	 * 			the process_payment method should complete by returning an error or
-	 * 			triggering the "lifterlms_process_payment_redirect"
+	 * 			triggering the "lifterlms_process_payment_redirect" // todo check this last statement
 	 *
 	 * @return void
 	 *
@@ -111,406 +141,387 @@ class LLMS_Controller_Orders {
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_pending_order' );
 
 		/**
-		 * Do a bunch of validation
+		 * Allow gateways, extensions, etc to do their own validation prior to standard validation
+		 * If this returns a truthy, we'll stop processing
+		 * The extension should add a notice in addition to returning the truthy
 		 */
-
-		if ( empty( $_POST['product_id'] ) ) {
-			llms_add_notice( __( 'Missing a product id.', 'lifterlms' ), 'error' );
-		}
-
-		if ( empty( $_POST['payment_option'] ) ) {
-			llms_add_notice( __( 'No payment option selected.', 'lifterlms' ), 'error' );
-		}
-
-		if ( empty( $_POST['payment_method'] ) ) {
-			llms_add_notice( __( 'No payment method selected.', 'lifterlms' ), 'error' );
-		}
-
-		// check out & validate the payment method
-		$payment_method_data = explode( '_', $_POST['payment_method'] );
-		$payment_type = $payment_method_data[0];
-		if ( count( $payment_method_data ) > 1 ) {
-			$payment_gateway = $payment_method_data[1];
-			$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $payment_gateway );
-			if ( ! $gateway || ! $gateway->is_available() ) {
-				llms_add_notice( __( 'Invalid payment gateway selected.', 'lifterlms' ), 'error' );
-			}
-
-		} else {
-
-			$payment_gateway = __( 'Unknown', 'lifterlms' );
-
-		}
-
-		// if coupon code submitted, validate it
-		if ( isset( $_POST['coupon_code'] ) ) {
-			$coupon = new LLMS_Coupon( $_POST['coupon_code'] );
-			$valid = $coupon->is_valid( $_POST['product_id'] );
-			if ( is_wp_error( $valid ) ) {
-
-				llms_add_notice( $valid->get_error_message(), 'error' );
-				return;
-
-			}
-		} else {
-			$coupon = false;
-		}
-
-		// credit card validations for creditcard gateways
-		if ( 'creditcard' === $payment_type && empty( $_POST['use_existing_card'] ) ) {
-
-			if (empty( $_POST['cc_type'] )) {
-				llms_add_notice( __( 'Please select a credit card type.', 'lifterlms' ), 'error' );
-			}
-			if (empty( $_POST['cc_number'] )) {
-				llms_add_notice( __( 'Please enter a credit card number.', 'lifterlms' ), 'error' );
-			}
-			if (empty( $_POST['cc_exp_month'] )) {
-				llms_add_notice( __( 'Please select an expiration month.', 'lifterlms' ), 'error' );
-			}
-			if (empty( $_POST['cc_exp_year'] )) {
-				llms_add_notice( __( 'Please select an expiration year.', 'lifterlms' ), 'error' );
-			}
-			if (empty( $_POST['cc_cvv'] )) {
-				llms_add_notice( __( 'Please enter the credit card CVV2 number', 'lifterlms' ), 'error' );
-			}
-
-		}
-
-		// return if there were any noticies
-		if ( llms_notice_count( 'error' ) ) {
+		if ( apply_filters( 'llms_before_checkout_validation', false ) ) {
 			return;
 		}
 
-		// if there's no user AND alternate checkout is enabled
-		// attempt to either login or register the user
-		if ( ! is_user_logged_in() && llms_is_alternative_checkout_enabled() ) {
-
-			if ( isset( $_POST['llms-login'] ) ) {
-
-				try {
-
-					$user = LLMS_Person::login_user();
-
-					if ( is_wp_error( $user ) ) {
-
-						llms_add_notice( $user->get_error_message(), 'error' );
-
-						return;
-
-					}
-
-					wp_set_current_user( $user->ID );
-					$user_id = get_current_user_id();
-
-				} catch ( Exception $e ) {
-
-					llms_add_notice( apply_filters( 'login_errors', $e->getMessage() ), 'error' );
-
-					return;
-				}
-
-			} elseif ( $_POST['llms-registration'] ) {
-
-				$user_id = LLMS_Person::create_new_person();
-
-				if ( is_wp_error( $user_id ) ) {
-
-					llms_add_notice( $user_id->get_error_message(), 'error' );
-
-					return;
-
-				}
-
-				llms_set_person_auth_cookie( $user_id );
-
+		// check t & c if configured
+		if ( llms_are_terms_and_conditions_required() ) {
+			if ( ! isset( $_POST['llms_agree_to_terms'] ) || 'yes' !== $_POST['llms_agree_to_terms'] ) {
+				return llms_add_notice( sprintf( __( 'You must agree to the %s to continue.', 'lifterlms' ), get_the_title( get_option( 'lifterlms_terms_page_id') ) ), 'error' );
 			}
+		}
 
+		// we must have a plan_id to proceed
+		if ( empty( $_POST['llms_plan_id'] ) ) {
+			return llms_add_notice( __( 'Missing an Access Plan ID.', 'lifterlms' ), 'error' );
 		} else {
-
-			$user_id = get_current_user_id();
-
-		}
-
-		// can't proceed without a user id
-		if ( empty( $user_id ) ) {
-
-			llms_add_notice( __( 'You must login or register to purchase this product', 'lifterlms' ), 'error' );
-			return;
-
-		}
-
-		// make sure the user isn't already enrolled in the course or membership
-		if ( llms_is_user_enrolled( $user_id, $_POST['product_id'] ) ) {
-
-			llms_add_notice( __( 'You already have access to this product!' ), 'error' );
-			return;
-
-		}
-
-		// var_dump( $_POST );
-
-		// create a new order & fill it up with all the data
-		$order = new LLMS_Order();
-
-		$product = new LLMS_Product( $_POST['product_id'] );
-
-		// product data
-		$order->product_id = $_POST['product_id']; // already validated
-		$order->product_title = $product->get_title();
-		$order->product_sku = $product->get_sku();
-		$order->product_type = $product->get_type();
-
-	 	// payment options
-		$payment_option_data = explode( '_', $_POST['payment_option'] );
-		$order->type = $payment_option_data[0];
-		$payment_option_id = $payment_option_data[1];
-
-		// subscription data
-		if ( 'recurring' === $order->get_type() ) {
-
-			$subscriptions = $product->get_subscriptions();
-
-			// validate the subscription plan
-			if ( ! isset( $subscriptions[ $payment_option_id ] ) ) {
-
-				llms_add_notice( __( 'The selected subscription is invalid.' ), 'error' ); // this should never happen
-				return;
-
+			$plan = new LLMS_Access_Plan( $_POST['llms_plan_id'] );
+			if ( ! $plan->get( 'id' ) ) {
+				return llms_add_notice( __( 'Invalid Access Plan ID.', 'lifterlms' ), 'error' );
 			} else {
-
-				$subscription_data = $subscriptions[ $payment_option_id ];
-				$order->billing_start_date = $product->get_recurring_next_payment_date( $subscription_data );
-				$order->billing_period = $subscription_data['billing_period'];
-				$order->billing_frequency = $subscription_data['billing_freq'];
-				$order->billing_cycle = $subscription_data['billing_cycle'];
-				$order->subscription_last_sync = current_time( 'timestamp' );
-
+				$product = $plan->get_product();
 			}
-
 		}
 
 		/**
-		 * Set totals depending on discounts
-		 * Set coupon and sale fields where applicable
+		 * @todo  figure out free orders and how that affects this validation below
 		 */
-
-		// if a valid coupon is used
-		if ( $coupon ) {
-
-			// set all coupon data
-			$order->coupon_id = $coupon->get_id();
-			$order->coupon_code = $coupon->get_code();
-			$order->coupon_type = $coupon->get_discount_type();
-			$order->discount_type = 'coupon';
-
-			if ( 'single' === $order->get_type() ) {
-
-				$order->original_total = $this->format_price( $product->get_regular_price() );
-				$order->total = $this->format_price( $product->get_coupon_adjusted_price( $product->get_single_price(), $coupon, 'single' ) );
-				$order->coupon_amount = $coupon->get_formatted_single_amount();
-				$order->coupon_value = $this->format_price( floatval( $order->get_original_total() ) - floatval( $order->get_total() ) );
-
-			} elseif ( 'recurring' === $order->get_type() ) {
-
-				$order->first_payment_orignal_total = $this->format_price( $subscription_data['first_payment'] );
-				$order->first_payment_total = $this->format_price( $product->get_coupon_adjusted_price( $subscription_data['first_payment'], $coupon, 'first' ) );
-				$order->coupon_first_payment_amount = $coupon->get_formatted_recurring_first_payment_amount();
-				$order->coupon_first_payment_value = floatval( $order->get_first_payment_original_total() ) - floatval( $order->get_first_payment_total() );
-
-				$order->recurring_payment_original_total = $this->format_price( $subscription_data['sub_price'] );
-				$order->recurring_payment_total = $this->format_price( $product->get_coupon_adjusted_price( $subscription_data['sub_price'], $coupon, 'recurring' ) );
-				$order->coupon_recurring_payment_amount = $coupon->get_formatted_recurring_payments_amount();
-				$order->coupon_recurring_payment_value = floatval( $order->get_recurring_payment_original_total() ) - floatval( $order->get_recurring_payment_total() );
-
-			}
-
-		} // if it's a single and it's on sale (recurring payment sales don't exist)
-		elseif ( 'single' === $order->get_type() && $product->is_on_sale() ) {
-
-			$order->original_total = $this->format_price( $product->get_regular_price() );
-			$order->total = $this->format_price( $product->get_sale_price() );
-			$order->sale_value = $this->format_price( floatval( $order->get_original_total() ) - floatval( $order->get_total() ) );
-			$order->discount_type = 'sale';
-
-		} // otherwise do default stuff
-		else {
-
-			if ( 'single' === $order->get_type() ) {
-
-				$order->total = $this->format_price( $product->get_regular_price() );
-
-			} elseif ( 'recurring' === $order->get_type() ) {
-
-				$order->first_payment_total = $this->format_price( $subscription_data['first_payment'] );
-				$order->recurring_payment_total = $this->format_price( $subscription_data['sub_price'] );
-
-			}
-
-		}
-
-		// paymet meta data
-		$order->payment_gateway = $payment_gateway;
-		$order->payment_type = $payment_type;
-		$order->currency = get_lifterlms_currency();
-
-		// user data
-		$order->user_id = $user_id;
-		$user = $order->get_user();
-		$order->billing_first_name = $user->first_name;
-		$order->billing_last_name = $user->last_name;
-		$order->billing_email = $user->user_email;
-		$order->billing_address_1 = $user->llms_billing_address_1;
-		$order->billing_address_2 = $user->llms_billing_address_2;
-		$order->billing_city = $user->llms_billing_city;
-		$order->billing_state = $user->llms_billing_state;
-		$order->billing_zip = $user->llms_billing_zip;
-		$order->billing_country = $user->llms_billing_country;
-		$order->user_ip_address = llms_get_ip_address();
-
-		$order = apply_filters( 'lifterlms_before_order_creation', $order );
-
-		$order->create();
-
-		// order sucessfully created, pass to the gateway
-		if ( $order->get_id() ) {
-
-			// set the order to the session so gateway can retrieve order details
-			LLMS()->session->set( 'llms_order', $order->get_order_key() );
-
-			// pass to the gateway to start processing
-			$available_gateways = LLMS()->payment_gateways()->get_available_payment_gateways();
-			$available_gateways[ $order->get_payment_gateway() ]->process_payment( $order );
-
-		} // order creation failed
-		else {
-
-			llms_add_notice( sprintf( 'There was an error creating your order, please try again.' ), 'error' );
-			return;
-
-		}
-
-	}
-
-
-	/**
-	 * Perform actions on a succesful order completion
-	 * @param  obj    $order  Instance of an LLMS_Order
-	 * @return void
-	 *
-	 * @version  3.0.0
-	 */
-	public function order_complete( $order ) {
-
-		// trigger order complete action
-		do_action( 'lifterlms_order_complete', $order->get_id() ); // @todo used by AffiliateWP only, can remove after updating AffiliateWP
-
-		// enroll student
-		llms_enroll_student( $order->user_id, $order->get_product_id(), 'order_' . $order->get_id() );
-
-		// trigger purchase action, used by engagements
-		do_action( 'lifterlms_product_purchased', $order->user_id, $order->get_product_id() );
-
-	}
-
-
-	/**
-	 * Redirect user to payment confirmation page
-	 *
-	 * Triggered by action: lifterlms_order_process_payment_redirect
-	 *
-	 * @param  string $url  URL to redirect user to
-	 *
-	 * @return void
-	 *
-	 * @version  3.0.0
-	 */
-	public function processing_redirect( $url ) {
-
-		// deprecated action hook
-		if ( 'lifterlms_order_process_begin' === current_filter() ) {
-			llms_deprecated_function( 'lifterlms_order_process_begin', '3.0.0', 'lifterlms_process_payment_redirect' );
-		}
-
-		$redirect = esc_url( $url );
-
-		llms_add_notice( __( 'Please confirm your payment.', 'lifterlms' ) );
-
-		wp_redirect( html_entity_decode( apply_filters( 'lifterlms_order_process_payment_redirect', $redirect ) ) );
-
-		exit();
-
-	}
-
-
-	/**
-	 * Redirect user on order success
-	 * If order is returned successful from payment gateway
-	 * Chooses the appropriate url based on order data.
-	 *
-	 * @note DO NOT USE THIS METHOD to watch for completion of an order, instead use STATUS actions
-	 *       which can be found in LLMS_Order::update_status()
-	 *
-	 * @param  object $order instance of an LLMS_Order
-	 *
-	 * @return void
-	 *
-	 * @version  3.0.0
-	 */
-	public function processing_success_redirect( $order ) {
-
-		// deprecated action hook
-		if ( 'lifterlms_order_process_success' === current_filter() ) {
-			llms_deprecated_function( 'lifterlms_order_process_success', '3.0.0', 'lifterlms_payment_process_success' );
-		}
-
-		$product_title = $order->product_title;
-		$post_obj = get_post( $order->product_id );
-
-		if ($post_obj->post_type == 'course') {
-			$redirect = esc_url( get_permalink( $order->product_id ) );
-			llms_add_notice( sprintf( __( 'Congratulations! You have enrolled in <strong>%s</strong>', 'lifterlms' ), $product_title ) );
-		} elseif ($post_obj->post_type == 'llms_membership') {
-			$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-			llms_add_notice( sprintf( __( 'Congratulations! Your new membership level is <strong>%s</strong>', 'lifterlms' ), $product_title ) );
+		// verify we have a gateway & it's valid & enabled
+		if ( empty( $_POST['llms_payment_gateway'] ) ) {
+			return llms_add_notice( __( 'No payment method selected.', 'lifterlms' ), 'error' );
 		} else {
-			$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-			llms_add_notice( sprintf( __( 'You have successfully purchased <strong>%s</strong>', 'lifterlms' ), $product_title ) );
+			$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $_POST['llms_payment_gateway'] );
+			if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
+				// gateway must be enabled
+				if ( ! $gateway->is_enabled() ) {
+					return llms_add_notice( __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ), 'error' );
+				}
+				// if it's a recurring, ensure gateway supports recurring
+				elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
+					return llms_add_notice( sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
+				// if it's single, ensure gateway supports singles
+				} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
+					return llms_add_notice( sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
+				}
+			} else {
+				return llms_add_notice( __( 'An invalid payment method was selected.', 'lifterlms' ), 'error' );
+			}
 		}
 
-		wp_redirect( apply_filters( 'lifterlms_order_process_success_redirect', $redirect ) );
+		// if coupon code submitted, validate it
+		if ( ! empty( $_POST['llms_coupon_code'] ) ) {
 
-		exit;
+			$coupon_id = llms_find_coupon( $_POST['llms_coupon_code'] );
+
+			if ( ! $coupon_id ) {
+				return llms_add_notice( sprintf( __( 'Coupon code "%s" not found.', 'lifterlms' ), $_POST['llms_coupon_code'] ), 'error' );
+			}
+
+			$coupon = new LLMS_Coupon( $coupon_id );
+			$valid = $coupon->is_valid( $_POST['llms_plan_id'] );
+
+			// if the coupon has a validation error, return an error message
+			if ( is_wp_error( $valid ) ) {
+
+				return llms_add_notice( $valid->get_error_message(), 'error' );
+
+			}
+
+		}
+		// no coupon, proceed
+		else {
+
+			$coupon = false;
+
+		}
+
+		// attempt to update the user (performs validations)
+		if ( get_current_user_id() ) {
+			$person_id = LLMS_Person_Handler::update( $_POST, 'checkout' );
+		}
+		// attempt to register new user (performs validations)
+		else {
+			$person_id = LLMS_Person_Handler::register( $_POST, 'checkout' );
+		}
+
+		// validation or registration issues
+		if ( is_wp_error( $person_id ) ) {
+			foreach( $person_id->get_error_messages() as $msg ) {
+				llms_add_notice( $msg, 'error' );
+			}
+			return;
+		}
+		// register should be a user_id at this point, if we're not numeric we have a problem...
+		elseif ( ! is_numeric( $person_id ) ) {
+			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.' ), 'error' );
+		}
+		// make sure the user isn't already enrolled in the course or membership
+		// @todo test & possibly revisit this function
+		elseif ( llms_is_user_enrolled( $person_id, $product->get( 'id' ) ) ) {
+
+			return llms_add_notice( __( 'You already have access to this product!' ), 'error' );
+
+		} else {
+			$person = new LLMS_Student( $person_id );
+		}
+
+		// @todo add validation for members only pricing here!
+
+
+		/**
+		 * Allow gateways, extensions, etc to do their own validation
+		 * after all standard validations are succesfuly
+		 * If this returns a truthy, we'll stop processing
+		 * The extension should add a notice in addition to returning the truthy
+		 */
+		if ( apply_filters( 'llms_after_checkout_validation', false ) ) {
+			return;
+		}
+
+		// create a new order
+		$order = new LLMS_Order( 'new' );
+
+		// if there's no id we can't proceed, return an error
+		if( ! $order->get( 'id' ) ) {
+			return llms_add_notice( sprintf( 'There was an error creating your order, please try again.' ), 'error' );
+		}
+
+		// user related information
+		$order->set( 'user_id', $person_id );
+		$order->set( 'user_ip_address', llms_get_ip_address() );
+		$order->set( 'billing_address_1', $person->get( 'billing_address_1' ) );
+		$order->set( 'billing_address_2', $person->get( 'billing_address_2' ) );
+ 		$order->set( 'billing_city', $person->get( 'billing_city' ) );
+ 		$order->set( 'billing_country', $person->get( 'billing_country' ) );
+ 		$order->set( 'billing_email', $person->get( 'user_email' ) );
+ 		$order->set( 'billing_first_name', $person->get( 'first_name' ) );
+ 		$order->set( 'billing_last_name', $person->get( 'last_name' ) );
+ 		$order->set( 'billing_state', $person->get( 'billing_state' ) );
+ 		$order->set( 'billing_zip', $person->get( 'billing_zip' ) );
+
+ 		// access plan data
+ 		$order->set( 'plan_id', $plan->get( 'id' ) );
+		$order->set( 'plan_title', $plan->get( 'title' ) );
+		$order->set( 'plan_sku', $plan->get( 'sku' ) );
+
+ 		// product data
+		$order->set( 'product_id', $product->get( 'id' ) );
+		$order->set( 'product_title', $product->get( 'title' ) );
+		$order->set( 'product_sku', $product->get( 'sku' ) );
+		$order->set( 'product_type', $plan->get_product_type() );
+
+ 		// order metadata
+ 		$order->set( 'payment_gateway', $gateway->get_id() );
+ 		$order->set( 'gateway_api_mode', $gateway->get_api_mode() );
+		$order->set( 'currency', get_lifterlms_currency() );
+
+		// trial data
+		if ( $plan->has_trial() ) {
+			$order->set( 'trial_offer', 'yes' );
+			$order->set( 'trial_length', $plan->get( 'trial_length' ) );
+			$order->set( 'trial_period', $plan->get( 'trial_period' ) );
+			$trial_price = $plan->get_price( 'trial_price', array(), 'float' );
+			$order->set( 'trial_original_total', $trial_price );
+			$trial_total = $coupon ? $plan->get_price_with_coupon( 'trial_price', $coupon, array(), 'float' ) : $trial_price;
+			$order->set( 'trial_total', $trial_total );
+		} else {
+			$order->set( 'trial_offer', 'no' );
+		}
+
+		$price = $plan->get_price( 'price', array(), 'float' );
+
+		// price data
+		if ( $plan->is_on_sale() ) {
+			$price_key = 'sale_price';
+			$order->set( 'on_sale', 'yes' );
+			$sale_price = $plan->get( 'sale_price', array(), 'float' );
+			$order->set( 'sale_price', $sale_price );
+			$order->set( 'sale_value', $price - $sale_price );
+		} else {
+			$price_key = 'price';
+			$order->set( 'on_sale', 'no' );
+		}
+
+		// store original total before any discounts
+		$order->set( 'original_total', $price );
+
+		// get the actual total due after discounts if any are applicable
+		$total = $coupon ? $plan->get_price_with_coupon( $price_key, $coupon, array(), 'float' ) : $$price_key;
+		$order->set( 'total', $total );
+
+		// coupon data
+		if ( $coupon ) {
+			$order->set( 'coupon_id', $coupon->get( 'id' ) );
+			$order->set( 'coupon_amount', $coupon->get( 'coupon_amount' ) );
+			$order->set( 'coupon_code', $coupon->get( 'title' ) );
+			$order->set( 'coupon_type', $coupon->get( 'discount_type' ) );
+			$order->set( 'coupon_used', 'yes' );
+			$order->set( 'coupon_value', $$price_key - $total );
+			if ( $plan->has_trial() && $coupon->has_trial_discount() ) {
+				$order->set( 'coupon_amount_trial', $coupon->get( 'trial_amount' ) );
+				$order->set( 'coupon_value_trial', $trial_price - $trial_total );
+			}
+		} else {
+			$order->set( 'coupon_used', 'no' );
+		}
+
+		// get all billing schedule related information
+		$order->set( 'billing_frequency', $plan->get( 'frequency' ) );
+		if ( $plan->is_recurring() ) {
+			$order->set( 'billing_length', $plan->get( 'length' ) );
+			$order->set( 'billing_period', $plan->get( 'period' ) );
+			$order->set( 'order_type', 'recurring' );
+		} else {
+			$order->set( 'order_type', 'single' );
+		}
+
+		$order->set( 'access_expiration', $plan->get( 'access_expiration' ) );
+		// get access related data so when payment is complete we can calculate the actual expiration date
+		if ( $plan->can_expire() ) {
+			$order->set( 'access_expires', $plan->get( 'access_expires' ) );
+			$order->set( 'access_length', $plan->get( 'access_length' ) );
+			$order->set( 'access_period', $plan->get( 'access_period' ) );
+		}
+
+		do_action( 'lifterlms_new_pending_order', $order, $person );
+
+		// pass to the gateway to start processing
+		$gateway->handle_pending_order( $order, $plan, $person, $coupon );
 
 	}
 
-
 	/**
-	 * Unenroll students during various order status changes
+	 * Called when an order's status changes to refunded, cancelled, expired, or failed
+	 *
 	 * @param  obj    $order  instance of an LLMS_Order
 	 * @return void
 	 *
 	 * @since  3.0.0
 	 */
-	public function unenroll( $order ) {
+	public function error_order( $order ) {
 
 		switch ( current_filter() ) {
 
 			case 'lifterlms_order_status_refunded':
-				$status = 'Refunded';
+				$status = 'cancelled';
 			break;
 
 			case 'lifterlms_order_status_cancelled':
-				$status = 'Cancelled';
+				$status = 'cancelled';
 			break;
 
 			case 'lifterlms_order_status_expired':
 			default:
-				$status = 'Expired';
+				$status = 'expired';
 
 		}
 
-		llms_unenroll_student( $order->get_user_id(), $order->get_product_id(), $status, 'order_' . $order->get_id() );
+		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
+
+	}
+
+
+	public function recurring_charge( $order_id ) {
+
+		$order = new LLMS_Order( $order_id );
+		$gateway = $order->get_gateway();
+
+		// ensure the gateway is still installed & available
+		if ( ! is_wp_error( $gateway ) ) {
+
+			// ensure the gateway still supports recurring payments
+			if ( $gateway->supports( 'recurring_payments' ) ) {
+
+				$gateway->handle_recurring_transaction( $order );
+
+			}
+			// log an error and do notifications
+			else {
+				llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed because the gateway no longer supports recurring payments', 'recurring-payments' );
+				/**
+				 * @todo  notifications....
+				 */
+			}
+		}
+		// record and error and do notifications
+		else {
+
+			llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed', 'recurring-payments' );
+			llms_log( $gateway->get_error_message(), 'recurring-payments' );
+
+			/**
+			 * @todo  notifications....
+			 */
+
+		}
+
+
+	}
+
+	/**
+	 * When a transaction fails, update the parent order's status
+	 * @param    obj     $txn  Instance of the LLMS_Transaction
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function transaction_failed( $txn ) {
+
+		$order = $txn->get_order();
+		$order->set( 'status', 'llms-failed' );
+
+	}
+
+	/**
+	 * When a transaction is refunded, update the parent order's status
+	 * @param    obj     $txn  Instance of the LLMS_Transaction
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function transaction_refunded( $txn ) {
+
+		$order = $txn->get_order();
+		$order->set( 'status', 'llms-refunded' );
+
+	}
+
+	/**
+	 * When a transaction succeeds, update the parent order's status
+	 * @param    obj     $txn  Instance of the LLMS_Transaction
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function transaction_succeeded( $txn ) {
+
+		// get the order
+		$order = $txn->get_order();
+
+		// update the status based on the order type
+		$status = $order->is_recurring() ? 'llms-active' : 'llms-completed';
+		$order->set( 'status', $status );
+
+		// maybe schedule a payment
+		$order->maybe_schedule_payment();
+
+	}
+
+	/**
+	 * Trigger actions when the status of LifterLMS Orders and LifterLMS Transactions change status
+	 * @param    string     $new_status  new status
+	 * @param    string     $old_status  old status
+	 * @param    ojb        $post        WP_Post isntance
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function transition_status( $new_status, $old_status, $post ) {
+
+		// don't do anything if the status hasn't changed
+		if ( $new_status === $old_status ) {
+			return;
+		}
+
+		// we're only concerned with order post statuses here
+		if ( 'llms_order' !== $post->post_type && 'llms_transaction' !== $post->post_type ) {
+			return;
+		}
+
+		// remove prefixes from all the things
+		$new_status = str_replace( array( 'llms-', 'txn-' ), '', $new_status );
+		$old_status = str_replace( array( 'llms-', 'txn-' ), '', $old_status );
+		$post_type = str_replace( 'llms_', '', $post->post_type );
+
+		$obj = 'order' === $post_type ? new LLMS_Order( $post ) : new LLMS_Transaction( $post );
+
+		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj );
+		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj );
 
 	}
 
