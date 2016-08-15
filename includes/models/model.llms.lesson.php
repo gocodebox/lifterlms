@@ -1,83 +1,274 @@
 <?php
+/**
+* LifterLMS Lesson Model
+*
+* @since    1.0.0
+* @version  3.0.0
+*/
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* Base Lesson Class
-*
-* Class used for instantiating lesson object
-*
-* @author codeBOX
-*/
-class LLMS_Lesson {
+class LLMS_Lesson extends LLMS_Post_Model {
+
+	protected $db_post_type = 'lesson';
+	protected $model_post_type = 'lesson';
 
 	/**
-	* ID
-	* @access public
-	* @var int
-	*/
-	public $id;
+	 * Get the date a course became or will become available according to
+	 * lesson drip settings
+	 *
+	 * If there are no drip settings, the published date of the lesson will be returned
+	 *
+	 * @param    string     $format  date format (passed to date_i18n() )
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_available_date( $format = 'F j, Y h:i A' ) {
 
-	/**
-	* Post Object
-	* @access public
-	* @var array
-	*/
-	public $post;
+		$drip_method = $this->get( 'drip_method' );
 
+		$days = $this->get( 'days_before_available' ) * DAY_IN_SECONDS;
 
-	/**
-	* Constructor
-	*
-	* initializes the lesson object based on post data
-	*/
-	public function __construct( $lesson ) {
+		switch ( $drip_method ) {
 
-		if ( is_numeric( $lesson ) ) {
+			// available on a specific date / time
+			case 'date':
 
-			$this->id   = absint( $lesson );
-			$this->post = get_post( $this->id );
+				$date = $this->get( 'date_available' );
+				$time = $this->get( 'time_available' );
 
-		} elseif ( $lesson instanceof LLMS_Lesson ) {
+				if ( ! $time ) {
+					$time = '12:00 AM';
+				}
 
-			$this->id   = absint( $lesson->id );
-			$this->post = $lesson;
+				$available = strtotime( $date . ' ' . $time );
 
-		} elseif ( $lesson instanceof LLMS_Post || isset( $lesson->ID ) ) {
+			break;
 
-			$this->id   = absint( $lesson->ID );
-			$this->post = $lesson;
+			// available # of days after enrollment in course
+			case 'enrollment':
+				$student = new LLMS_Student();
+				$available = $days + $student->get_enrollment_date( $this->get_parent_course(), 'enrolled', 'U' );
+			break;
+
+			// available # of days after course start date
+			case 'start':
+				$course = new LLMS_Course( $this->get_parent_course() );
+				$available = $days + $course->get_date( 'start_date', 'U' );
+			break;
+
+			default:
+				$available = $this->get_date( 'date', 'U' );
 
 		}
 
-	}
-
-	/**
-	* __isset function
-	*
-	* checks if metadata exists
-	*
-	* @param string $item
-	*/
-	public function __isset( $key ) {
-
-		return metadata_exists( 'post', $this->id, '_' . $key );
+		return date_i18n( $format, $available );
 
 	}
 
 	/**
-	* __get function
-	*
-	* initializes the course object based on post data
-	*
-	* @param string $item
-	* @return string $value
-	*/
-	public function __get( $key ) {
+	 * Retrieve an instance of LLMS_Course for the lesson's parent course
+	 * @return   obj
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_course() {
+		return new LLMS_Course( $this->get( 'parent_course' ) );
+	}
 
-		$value = get_post_meta( $this->id, '_' . $key, true );
-		return $value;
+	/**
+	 * Get parent course id
+	 * @return  int
+	 * @since   1.0.0
+	 * @version 3.0.0
+	 * @todo  refactor to use new api after a migration is written
+	 */
+	public function get_parent_course() {
+		return absint( get_post_meta( $this->get( 'id' ), '_parent_course', true ) );
+	}
+
+	/**
+	 * Get parent section id
+	 * @return  int
+	 * @since   1.0.0
+	 * @version 3.0.0
+	 * @todo  refactor to use new api after a migration is written
+	 */
+	public function get_parent_section() {
+		return  absint( get_post_meta( $this->get( 'id' ), '_parent_section', true ) );
+	}
+
+	/**
+	 * Get CSS classes to display on the course syllabus .llms-lesson-preview element
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_preview_classes() {
+
+		$classes = '';
+
+		if ( $this->is_complete() ) {
+			$classes = ' is-complete has-icon';
+		} elseif ( 'yes' === get_option( 'lifterlms_display_lesson_complete_placeholders' ) && llms_is_user_enrolled( get_current_user_id(), $this->get( 'id' ) ) ) {
+			$classes = ' is-incomplete has-icon';
+		} elseif ( $this->is_free() ) {
+			$classes = ' is-free has-icon';
+		} else {
+			$classes = ' is-incomplete';
+		}
+
+		return apply_filters( 'llms_get_preview_classes ', $classes );
+	}
+
+	/**
+	 * Get HTML of the icon to display in the .llms-lesson-preview element on the syllabus
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_preview_icon_html() {
+
+		$html = '';
+
+		if ( llms_is_user_enrolled( get_current_user_id(), $this->get( 'id' ) ) ) {
+
+			if ( $this->is_complete( ) || 'yes' === get_option( 'lifterlms_display_lesson_complete_placeholders' ) ) {
+
+				$html = '<span class="llms-lesson-complete"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
+
+			}
+
+		} elseif ( $this->is_free() ) {
+
+			$html = LLMS_Svg::get_icon( 'llms-icon-free', '', '', 'llms-free-lesson-svg' );
+
+		}
+
+		return apply_filters( 'llms_get_preview_icon_html', $html );
 
 	}
+
+	/**
+	 * Get a property's data type for scrubbing
+	 * used by $this->scrub() to determine how to scrub the property
+	 * @param   string $key  property key
+	 * @return  string
+	 * @since   3.0.0
+	 * @version 3.0.0
+	 */
+	protected function get_property_type( $key ) {
+
+		switch( $key ) {
+
+			case 'prerequisite':
+			case 'days_before_available':
+			case 'parent_course':
+				$type = 'absint';
+			break;
+
+			case 'has_prerequisite':
+			default:
+				$type = 'text';
+
+		}
+
+		return $type;
+
+	}
+
+	/**
+	 * Determine if lesson prereq is enabled and a prereq lesson is selected
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function has_prerequisite() {
+
+		return ( 1 == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
+
+	}
+
+	/**
+	 * Determine if a course is available based on drip settings
+	 * If no settings, this will return true if the lesson's published
+	 * date is in the past
+	 *
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_available() {
+
+		$drip_method = $this->get( 'drip_method' );
+
+		// drip is no enabled, so the course is available
+		if ( ! $drip_method ) {
+			return true;
+		}
+
+		$available = $this->get_available_date( 'U' );
+		$now = current_time( 'timestamp' );
+
+		return ( $now > $available );
+
+	}
+
+	/**
+	 * Determine if the lesson has been completed by a specific user
+	 * @param   int    $user_id  WP_User ID of a student
+	 * @return  bool
+	 * @since   1.0.0
+	 * @version 3.0.0  refactored to utilize LLMS_Student->is_complete()
+	 *                 added $user_id param
+	 */
+	public function is_complete( $user_id = null ) {
+
+		$user_id = $user_id ? $user_id : get_current_user_id();
+
+		// incomplete b/c no user
+		if ( ! $user_id ) {
+			return false;
+		}
+
+		$student = new LLMS_Student( $user_id );
+
+		return $student->is_complete( $this->get( 'id' ), 'lesson' );
+
+	}
+
+	/**
+	 * Determine if a the lesson is marked as "free"
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_free() {
+		return $this->get( 'free_lesson' ) ? true : false;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Get Video (oembed)
@@ -188,27 +379,8 @@ class LLMS_Lesson {
 
 	}
 
-	/**
-	 * Get parent course
-	 *
-	 * @return string
-	 */
-	public function get_parent_course() {
-		//$this->parent_course = get_post_meta( $this->ID, '_parent_course', true );
-		return $this->parent_course;
 
-	}
 
-	/**
-	 * Get the parent section
-	 * Finds and returns parent section id
-	 *
-	 * @return int [ID of parent section]
-	 */
-	public function get_parent_section() {
-
-		return $this->parent_section;
-	}
 
 	/**
 	 * Get Order
@@ -440,30 +612,7 @@ class LLMS_Lesson {
 		}
 	}
 
-	/**
-	 * Check if lesson is complete
-	 * @return bool [Is lesson marked complete for user]
-	 */
-	public function is_complete() {
-		$user = new LLMS_Person;
-		$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $this->id );
 
-		if ( empty( $user_postmetas ) ) {
-			return false;
-		}
-
-		foreach ( $user_postmetas as $key => $value ) {
-
-			if ( isset( $user_postmetas['_is_complete'] ) && $user_postmetas['_is_complete']->post_id == $this->id) {
-				return true;
-			} else {
-				return false;
-
-			}
-		}
-
-		return $user_postmetas;
-	}
 
 	/**
 	 * Text to display on Mark Complete button
@@ -668,4 +817,4 @@ class LLMS_Lesson {
 		}
 	}
 
-} //end LLMS_Lesson
+}

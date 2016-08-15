@@ -1,84 +1,379 @@
 <?php
+/**
+* LifterLMS Course Model
+*
+* @since    1.0.0
+* @version  3.0.0
+*
+* @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
+* @property $content_restricted_message  (string)  Message displayed when non-enrolled visitors try to access lessons/quizzes directly
+* @property $course_closed_message  (string)  Message displayed to visitors when the course is accessed after the Course End Date has passed. Only applicable when $time_period is 'yes'
+* @property $course_opens_message  (string)  Message displayed to visitors when the course is accessed before the Course Start Date has passed. Only applicable when $time_period is 'yes'
+* @property $enrollment_closed_message  (string)  Message displayed to non-enrolled visitors when the course is accessed after the Enrollment End Date has passed. Only applicable when $enrollment_period is 'yes'
+* @property $enrollment_end_date   (string)  After this date, registration closes
+* @property $enrollment_opens_message  (string)  Message displayed to non-enrolled visitorswhen the course is accessed before the Enrollment Start Date has passed. Only applicable when $enrollment_period is 'yes'
+* @property $enrollment_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
+* @property $enrollment_start_date  (string)  Before this date, registration is closed
+* @property $end_date   (string)  Date when a course closes. Students may no longer view content or complete lessons / quizzes after this date.
+* @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
+* @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
+*/
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* Base Course Class
-*
-* Class used for instantiating course object
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
-*/
-class LLMS_Course {
+class LLMS_Course extends LLMS_Post_Model {
+
+	protected $db_post_type = 'course';
+	protected $model_post_type = 'course';
 
 	/**
-	* ID
-	* @access public
-	* @var int
-	*/
-	public $id;
+	 * Get a property's data type for scrubbing
+	 * used by $this->scrub() to determine how to scrub the property
+	 * @param   string $key  property key
+	 * @return  string
+	 * @since   3.0.0
+	 * @version 3.0.0
+	 */
+	protected function get_property_type( $key ) {
+
+		switch( $key ) {
+
+			case 'capacity':
+				$type = 'absint';
+			break;
+
+			case 'end_date';
+			case 'start_date';
+			default:
+				$type = 'text';
+
+		}
+
+		return $type;
+
+	}
 
 	/**
-	* Post Object
-	* @access public
-	* @var array
-	*/
-	public $post;
+	 * Get course's prerequisite id based on the type of prerequsite
+	 * @param  string     $type  Type of prereq to retrieve id for [course|track]
+	 * @return int|false         Post ID of a course, taxonomy ID of a track, or false if none found
+	 */
+	public function get_prerequisite_id( $type = 'course' ) {
+
+		if ( $this->has_prerequisite() ) {
+
+			switch ( $type ) {
+
+				case 'course':
+					$key = 'prerequisite';
+				break;
+
+				case 'track':
+					$key = 'prerequisite_track';
+				break;
+
+			}
+
+			if ( isset( $key ) ) {
+				return $this->get( $key );
+			}
+
+		}
+
+		return false;
+
+	}
 
 	/**
-	* Constructor
-	*
-	* initializes the course object based on post data
-	*/
-	public function __construct( $course ) {
+	 * Attempt to get oEmbed for an audio provider
+	 * Falls back to the [audio] shortcode if the oEmbed fails
+	 *
+	 * @return string
+	 * @since   1.0.0
+	 * @version 3.0.0 -- updated to utilize oEmbed and fallback to audio shortcode
+	 */
+	public function get_audio() {
 
-		if ( is_numeric( $course ) ) {
+		if ( ! isset( $this->audio_embed ) ) {
 
-			$this->id   = absint( $course );
-			$this->post = get_post( $this->id );
+			return '';
 
-		} elseif ( $course instanceof LLMS_Course ) {
+		} else {
 
-			$this->id   = absint( $course->id );
-			$this->post = $course;
+			$r = wp_oembed_get( $this->get( 'audio_embed' ) );
 
-		} elseif ( isset( $course->ID ) ) {
+			if ( ! $r ) {
 
-			$this->id   = absint( $course->ID );
-			$this->post = $course;
+				$r = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
+
+			}
+
+			return $r;
 
 		}
 
 	}
 
 	/**
-	* __isset function
-	*
-	* checks if metadata exists
-	*
-	* @param string $item
-	*/
-	public function __isset( $item ) {
+	 * Get Difficulty
+	 *
+	 * @return string
+	 */
+	public function get_difficulty() {
 
-		return metadata_exists( 'post', $this->id, '_' . $item );
+		$terms = get_the_terms( $this->get( 'id' ), 'course_difficulty' );
+
+		if ( $terms === false ) {
+
+			return '';
+
+		} else {
+
+			foreach ( $terms as $term ) {
+
+				return $term->name;
+
+			}
+
+		}
 
 	}
 
 	/**
-	* __get function
-	*
-	* initializes the course object based on post data
-	*
-	* @param string $item
-	* @return string $value
-	*/
-	public function __get( $item ) {
+	 * Retrieve an array of students currently enrolled in the course
+	 * @return   array
+	 * @since    1.0.0
+	 * @version  3.0.0 - updated the function to be less complicated
+	 */
+	public function get_enrolled_students() {
 
-		$value = get_post_meta( $this->id, '_' . $item, true );
+		global $wpdb;
 
-		return $value;
+		return $wpdb->get_results(
+			"SELECT ID, display_name, user_email
+			 FROM {$wpdb->prefix}users AS users
+			 JOIN {$wpdb->prefix}lifterlms_user_postmeta AS meta ON users.ID = meta.user_id
+			 WHERE meta.post_id = $this->id
+			   AND meta.meta_key = '_status'
+			   AND ( meta.meta_value = 'Enrolled' OR meta.meta_value = 'enrolled' )
+			"
+		);
+
 	}
+
+	/**
+	 * Get a user's percentage completion through the course
+	 * @return  float
+	 * @since   1.0.0
+	 * @version 3.0.0 - updated to use LLMS_Student->get_progress()
+	 */
+	public function get_percent_complete( $user_id = '' ) {
+
+		$student = new LLMS_Student( $user_id );
+		return $student->get_progress( $this->get( 'id' ), 'course' );
+
+	}
+
+	/**
+	 * Attempt to get oEmbed for a video provider
+	 * Falls back to the [video] shortcode if the oEmbed fails
+	 *
+	 * @return string
+	 * @since   1.0.0
+	 * @version 3.0.0 -- added fallback to video shortcode when oEmbed fails
+	 */
+	public function get_video() {
+
+		if ( ! isset( $this->video_embed ) ) {
+
+			return '';
+
+		} else {
+
+			$r = wp_oembed_get( $this->get( 'video_embed' ) );
+
+			if ( ! $r ) {
+
+				$r = do_shortcode( '[video src="' . $this->get( 'audio_embed' ) . '"]' );
+
+			}
+
+			return $r;
+
+		}
+
+	}
+
+	/**
+	 * Compare a course meta info date to the current date and get a bool
+	 * @param    string     $date_key  property key, eg "start_date" or "enrollment_end_date"
+	 * @return   boolean               true when the date is in the past
+	 *                                 false when the date is in the future
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function has_date_passed( $date_key ) {
+
+		$now = current_time( 'timestamp' );
+		$date = $this->get_date( $date_key, 'U' );
+
+		// if there's no date, we can't make a comparison
+		// so assume it's unset and unnecessary
+		// so return 'false'
+		if ( ! $date ) {
+
+			return false;
+
+		} else {
+
+			return $now > $date;
+
+		}
+
+	}
+
+	/**
+	 * Determine if the course is at capacity based on course capacity serttings
+	 * @return   boolean    true if not at capacity, false if at or over capacity
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function has_capacity() {
+
+		if ( 'yes' !== $this->get( 'enable_capacity') ) {
+			return true;
+		}
+
+		$capacity = $this->get( 'capacity' );
+		if ( ! $capacity ) {
+			return true;
+		} else {
+			return ( count( $this->get_enrolled_students() ) < $capacity );
+		}
+	}
+
+	/**
+	 * Determine if prerequisites are enabled and there are prereqs configured
+	 *
+	 * @return   boolean   Returns true if prereq is enabled and there is a prerequisite course or track
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function has_prerequisite() {
+
+		if ( 'yes' === $this->get( 'has_prerequisite' ) ) {
+
+			return ( $this->get( 'prerequisite' ) || $this->get( 'prerequisite_track' ) );
+
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Determine if students can access course content based on the current date
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_enrollment_open() {
+
+		// if no period is set, enrollment is automatically open
+		if ( 'yes' !== $this->get( 'enrollment_period' ) ) {
+			return true;
+		}
+
+		// time period exists, check against the current date
+		else {
+
+			return ( $this->has_date_passed( 'enrollment_start_date' ) && ! $this->has_date_passed( 'enrollment_end_date' ) );
+
+		}
+
+	}
+
+	/**
+	 * Determine if students can access course content based on the current date
+	 *
+	 * Note that enrollment does not affect the outcome of this check as regardless
+	 * of enrollment, once a course closes content is locked
+	 *
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_open() {
+
+		// if a course time period is not enabled, just return true (content is accessible)
+		if ( 'yes' !== $this->get( 'time_period' ) ) {
+
+			return true;
+
+		}
+
+		// time period exists, check against the current date
+		else {
+
+			return ( $this->has_date_passed( 'start_date' ) && ! $this->has_date_passed( 'end_date' ) );
+
+		}
+
+	}
+
+	/**
+	 * Determine if a prerequesite is completed for a student
+	 * @param    string     $type  type of prereq [course|track]
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_prerequisite_complete( $type = 'course' ) {
+
+		// no user or no prereqs so no reason to proceed
+		if ( ! get_current_user_id() || ! $this->has_prerequisite() ) {
+			return false;
+		}
+
+		$prereq_id = $this->get_prerequisite_id( $type );
+
+		// no prereq id of this type, no need to proceed
+		if ( ! $prereq_id ) {
+			return false;
+		}
+
+		// setup student
+		$student = new LLMS_Student();
+
+		return $student->is_complete( $prereq_id, $type );
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Get WP user object for the course author
@@ -222,24 +517,6 @@ class LLMS_Course {
 	}
 
 	/**
-	 * Get Lesson Length
-	 *
-	 * @return string
-	 */
-	public function get_lesson_length() {
-
-		$enabled = get_option( 'lifterlms_course_display_length' );
-		if ( 'yes' != $enabled ) {
-			return false;
-		} elseif ($this->lesson_length == '') {
-			return false;
-		}
-
-		return $this->lesson_length;
-
-	}
-
-	/**
 	 * Return array of objects containing user meta data for a single post.
 	 *
 	 * @return  array
@@ -301,29 +578,12 @@ class LLMS_Course {
 		return apply_filters( 'lifterlms_product_purchase_checkout_redirect', add_query_arg( 'product-id', $this->id, $checkout_url ) );
 	}
 
-	/**
-	 * Get Video (oembed)
-	 *
-	 * @return mixed (default: '')
-	 */
-	public function get_video() {
 
-		if ( ! isset( $this->video_embed ) ) {
-
-			return '';
-
-		} else {
-
-			return wp_oembed_get( $this->video_embed );
-
-		}
-
-	}
 
 	public function get_start_date() {
 
-		if ( $this->course_dates_from ) {
-			return $this->course_dates_from;
+		if ( $this->start_date ) {
+			return $this->start_date;
 		} else {
 			return $this->post->post_date;
 		}
@@ -331,107 +591,7 @@ class LLMS_Course {
 	}
 
 	public function get_end_date() {
-		return $this->course_dates_to;
-	}
-
-	/**
-	 * Get Audio (wp shortcode)
-	 *
-	 * @return mixed (default: '')
-	 */
-	public function get_audio() {
-
-		if ( ! isset( $this->audio_embed ) ) {
-
-			return '';
-
-		} else {
-
-			return do_shortcode( '[audio src="'. $this->audio_embed . '"]' );
-
-		}
-
-	}
-
-	/**
-	 * Get Difficulty
-	 *
-	 * @return string
-	 */
-	public function get_difficulty() {
-
-		$enabled = get_option( 'lifterlms_course_display_difficulty' );
-
-		if ( 'yes' != $enabled ) {
-			return false;
-		}
-
-		$terms = get_the_terms( $this->id, 'course_difficulty' );
-
-		if ( $terms === false ) {
-
-			return '';
-
-		} else {
-
-			foreach ( $terms as $term ) {
-
-				return $term->name;
-			}
-
-		}
-
-	}
-
-	/**
-	 * Get course prerequisite
-	 * @return mixed [Returns prerequisite course id or false if none exists]
-	 */
-	public function get_prerequisite() {
-
-		if ( ! empty( $this->has_prerequisite ) ) {
-
-			return $this->prerequisite;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Get course prerequisite
-	 * @return mixed [Returns prerequisite course id or false if none exists]
-	 */
-	public function get_prerequisite_track() {
-
-		if ( ! empty( $this->has_prerequisite ) ) {
-
-			return $this->prerequisite_track;
-		} else {
-			return false;
-		}
-	}
-
-	public function get_enrolled_students() {
-		$enrolled_students = array();
-
-		global $wpdb;
-		global $current_page_city;
-		$user_table = $wpdb->prefix . 'users';
-		$usermeta = $wpdb->prefix . 'lifterlms_user_postmeta';
-
-		$select_user = "SELECT ID, display_name, user_email FROM $user_table
-			JOIN $usermeta ON $user_table.ID = $usermeta.user_id
-			WHERE $usermeta.post_id = $this->id
-			AND $usermeta.meta_key = '_status'
-			AND meta_value = 'Enrolled'";
-		$all_users = $wpdb->get_results( $select_user );
-
-		foreach ( $all_users as $value  ) :
-		    $enrolled_students[] = $value;
-
-		endforeach;
-
-		return $enrolled_students;
+		return $this->end_date;
 	}
 
 	/**
@@ -494,41 +654,7 @@ class LLMS_Course {
 		return $lessons;
 	}
 
-	/**
-	 * Get the current percent complete by user
-	 * @return int [numerical representation of % completion in course]
-	 */
-	public function get_percent_complete( $user_id = '' ) {
 
-		if ($user_id == '') {
-			$user_id = get_current_user_id();
-		}
-
-		$lesson_ids = $this->get_children_lessons();
-
-		$array = array();
-		$i = 0;
-
-		$user = new LLMS_Person;
-
-		foreach ( $lesson_ids as $lesson ) {
-			array_push( $array, $lesson->ID );
-		}
-
-		foreach ( $array as $key => $value ) {
-			$user_postmetas = $user->get_user_postmeta_data( $user_id, $value );
-			if ( isset( $user_postmetas['_is_complete'] ) ) {
-				if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-					$i++;
-				}
-			}
-		}
-
-		$percent_complete = ($i != 0) ? round( 100 / ( ( count( $lesson_ids ) / $i ) ), 0 ) : 0;
-
-		return $percent_complete;
-
-	}
 
 	/**
 	 * Get all sections
@@ -809,17 +935,6 @@ class LLMS_Course {
 		}
 
 		return $obj;
-
-	}
-
-	/**
-	 * Get function for price value.
-	 *
-	 * @return void
-	 */
-	public function get_price() {
-
-		return apply_filters( 'lifterlms_get_price', $this->price, $this );
 
 	}
 
