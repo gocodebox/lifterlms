@@ -111,13 +111,13 @@ class LLMS_Admin_Settings {
 		if ( sizeof( self::$errors ) > 0 ) {
 
 			foreach ( self::$errors as $error ) {
-				echo '<div class="error"><p><strong>' . esc_html( $error ) . '</strong></p></div>';
+				echo '<div class="error"><p><strong>' . $error . '</strong></p></div>';
 			}
 
 		} elseif ( sizeof( self::$messages ) > 0 ) {
 
 			foreach ( self::$messages as $message ) {
-				echo '<div class="updated"><p><strong>' . esc_html( $message ) . '</strong></p></div>';
+				echo '<div class="updated"><p><strong>' . $message . '</strong></p></div>';
 			}
 		}
 	}
@@ -220,6 +220,17 @@ class LLMS_Admin_Settings {
 
 					do_action( 'lifterlms_settings_' . sanitize_title( $field['id'] ) );
 
+				}
+			break;
+
+			case 'subtitle':
+				if ( ! empty( $field['title'] ) ) {
+				    echo '<tr valign="top"><td colspan="2">
+				    	<h3 class="llms-subtitle">' . $field['title'] . '</h3>';
+				    if ( ! empty( $field['desc'] ) ) {
+				    	echo '<p>' . $field['desc'] . '</p>';
+				    }
+				    echo '</tr></td>';
 				}
 			break;
 
@@ -367,6 +378,41 @@ class LLMS_Admin_Settings {
 							}
 		                    ?>
 					   </select> <?php echo $description; ?>
+					</td>
+				</tr><?php
+			break;
+
+			// Radio inputs
+			case 'radio' :
+
+				?><tr valign="top">
+					<th>
+						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+						<?php echo $tooltip; ?>
+					</th>
+					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+						<fieldset>
+							<?php echo $description; ?>
+							<ul>
+							<?php
+							foreach ( $field['options'] as $key => $val ) {
+								?>
+								<li>
+									<label><input
+										name="<?php echo esc_attr( $field['id'] ); ?>"
+										value="<?php echo $key; ?>"
+										type="radio"
+										style="<?php echo esc_attr( $field['css'] ); ?>"
+										class="<?php echo esc_attr( $field['class'] ); ?>"
+										<?php echo implode( ' ', $custom_attributes ); ?>
+										<?php checked( $key, $option_value ); ?>
+										/> <?php echo $val ?></label>
+		                        	</li>
+		                        	<?php
+							}
+							?>
+							</ul>
+						</fieldset>
 					</td>
 				</tr><?php
 			break;
