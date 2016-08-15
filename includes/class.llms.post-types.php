@@ -19,16 +19,29 @@ class LLMS_Post_Types {
 	 */
 	public function __construct () {
 
-		add_action( 'init', array( $this, 'register_taxonomies' ), 5 );
+		add_action( 'init', array( $this, 'add_membership_restriction_support' ) );
 		add_action( 'init', array( $this, 'register_post_types' ), 5 );
 		add_action( 'init', array( $this, 'register_post_statuses' ), 9 );
+		add_action( 'init', array( $this, 'register_taxonomies' ), 5 );
 
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
 		add_action( 'after_setup_theme', array( $this, 'add_thumbnail_support' ), 777 );
 
 	}
 
-
+	/**
+	 * Add post type support for membership restrictions
+	 * This enables the "Membership Access" metabox to display
+	 *
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function add_membership_restriction_support() {
+		$post_types = apply_filters( 'llms_membership_restricted_post_types', array( 'post', 'page' ) );
+		foreach( $post_types as $post_type ) {
+			add_post_type_support( 'page', 'llms-membership-restrictions' );
+		}
+	}
 
 	/**
 	 * Ensure LifterLMS Post Types have thumbnail support
@@ -134,30 +147,29 @@ class LLMS_Post_Types {
 		        ) )
 		    );
 
-			register_taxonomy( 'course_track',
-		        apply_filters( 'lifterlms_taxonomy_objects_course_track', array( 'course' ) ),
-		        apply_filters( 'lifterlms_taxonomy_args_course_track', array(
-		            'hierarchical' 			=> true,
-		            'label' 				=> __( 'Course Track', 'lifterlms' ),
+			register_taxonomy( 'course_difficulty',
+		        apply_filters( 'lifterlms_taxonomy_objects_course_difficulty', array( 'course' ) ),
+		        apply_filters( 'lifterlms_taxonomy_args_course_difficulty', array(
+		            'hierarchical' 			=> false,
+		            'label' 				=> __( 'Course Difficulties', 'lifterlms' ),
 		            'labels' => array(
-		                    'name' 				=> __( 'Course Tracks', 'lifterlms' ),
-		                    'singular_name' 	=> __( 'Course Track', 'lifterlms' ),
-							'menu_name'			=> _x( 'Tracks', 'Admin menu name', 'lifterlms' ),
-		                    'search_items' 		=> __( 'Search Course Tracks', 'lifterlms' ),
-		                    'all_items' 		=> __( 'All Course Tracks', 'lifterlms' ),
-		                    'parent_item' 		=> __( 'Parent Course Track', 'lifterlms' ),
-		                    'parent_item_colon' => __( 'Parent Course Track:', 'lifterlms' ),
-		                    'edit_item' 		=> __( 'Edit Course Track', 'lifterlms' ),
-		                    'update_item' 		=> __( 'Update Course Track', 'lifterlms' ),
-		                    'add_new_item' 		=> __( 'Add New Course Track', 'lifterlms' ),
-		                    'new_item_name' 	=> __( 'New Course Track Name', 'lifterlms' ),
+		                    'name' 				=> __( 'Course Difficulties', 'lifterlms' ),
+		                    'singular_name' 	=> __( 'Course Difficulty', 'lifterlms' ),
+							'menu_name'			=> _x( 'Difficulties', 'Admin menu name', 'lifterlms' ),
+		                    'search_items' 		=> __( 'Search Course Difficulties', 'lifterlms' ),
+		                    'all_items' 		=> __( 'All Course Difficulties', 'lifterlms' ),
+		                    'parent_item' 		=> __( 'Parent Course Difficulty', 'lifterlms' ),
+		                    'parent_item_colon' => __( 'Parent Course Difficulty:', 'lifterlms' ),
+		                    'edit_item' 		=> __( 'Edit Course Difficulty', 'lifterlms' ),
+		                    'update_item' 		=> __( 'Update Course Difficulty', 'lifterlms' ),
+		                    'add_new_item' 		=> __( 'Add New Course Difficulty', 'lifterlms' ),
+		                    'new_item_name' 	=> __( 'New Course Difficulty Name', 'lifterlms' ),
 		            	),
 		            'show_ui' 				=> true,
 		            'query_var' 			=> true,
 		            'rewrite' 				=> array(
-						'slug'         => empty( $permalinks['track_base'] ) ? _x( 'course-track', 'slug', 'lifterlms' ) : $permalinks['track_base'],
+						'slug'         => empty( $permalinks['difficulty_base'] ) ? _x( 'course-difficulty', 'slug', 'lifterlms' ) : $permalinks['difficulty_base'],
 						'with_front'   => false,
-						'hierarchical' => true,
 		            ),
 		        ) )
 		    );
@@ -189,32 +201,34 @@ class LLMS_Post_Types {
 		        ) )
 		    );
 
-			register_taxonomy( 'course_difficulty',
-		        apply_filters( 'lifterlms_taxonomy_objects_course_difficulty', array( 'course' ) ),
-		        apply_filters( 'lifterlms_taxonomy_args_course_difficulty', array(
-		            'hierarchical' 			=> false,
-		            'label' 				=> __( 'Course Difficulties', 'lifterlms' ),
+			register_taxonomy( 'course_track',
+		        apply_filters( 'lifterlms_taxonomy_objects_course_track', array( 'course' ) ),
+		        apply_filters( 'lifterlms_taxonomy_args_course_track', array(
+		            'hierarchical' 			=> true,
+		            'label' 				=> __( 'Course Track', 'lifterlms' ),
 		            'labels' => array(
-		                    'name' 				=> __( 'Course Difficulties', 'lifterlms' ),
-		                    'singular_name' 	=> __( 'Course Difficulty', 'lifterlms' ),
-							'menu_name'			=> _x( 'Difficulties', 'Admin menu name', 'lifterlms' ),
-		                    'search_items' 		=> __( 'Search Course Difficulties', 'lifterlms' ),
-		                    'all_items' 		=> __( 'All Course Difficulties', 'lifterlms' ),
-		                    'parent_item' 		=> __( 'Parent Course Difficulty', 'lifterlms' ),
-		                    'parent_item_colon' => __( 'Parent Course Difficulty:', 'lifterlms' ),
-		                    'edit_item' 		=> __( 'Edit Course Difficulty', 'lifterlms' ),
-		                    'update_item' 		=> __( 'Update Course Difficulty', 'lifterlms' ),
-		                    'add_new_item' 		=> __( 'Add New Course Difficulty', 'lifterlms' ),
-		                    'new_item_name' 	=> __( 'New Course Difficulty Name', 'lifterlms' ),
+		                    'name' 				=> __( 'Course Tracks', 'lifterlms' ),
+		                    'singular_name' 	=> __( 'Course Track', 'lifterlms' ),
+							'menu_name'			=> _x( 'Tracks', 'Admin menu name', 'lifterlms' ),
+		                    'search_items' 		=> __( 'Search Course Tracks', 'lifterlms' ),
+		                    'all_items' 		=> __( 'All Course Tracks', 'lifterlms' ),
+		                    'parent_item' 		=> __( 'Parent Course Track', 'lifterlms' ),
+		                    'parent_item_colon' => __( 'Parent Course Track:', 'lifterlms' ),
+		                    'edit_item' 		=> __( 'Edit Course Track', 'lifterlms' ),
+		                    'update_item' 		=> __( 'Update Course Track', 'lifterlms' ),
+		                    'add_new_item' 		=> __( 'Add New Course Track', 'lifterlms' ),
+		                    'new_item_name' 	=> __( 'New Course Track Name', 'lifterlms' ),
 		            	),
 		            'show_ui' 				=> true,
 		            'query_var' 			=> true,
 		            'rewrite' 				=> array(
-						'slug'         => empty( $permalinks['difficulty_base'] ) ? _x( 'course-difficulty', 'slug', 'lifterlms' ) : $permalinks['difficulty_base'],
+						'slug'         => empty( $permalinks['track_base'] ) ? _x( 'course-track', 'slug', 'lifterlms' ) : $permalinks['track_base'],
 						'with_front'   => false,
+						'hierarchical' => true,
 		            ),
 		        ) )
 		    );
+
 		}
 
 		if ( ! taxonomy_exists( 'membership_cat' ) ) {
@@ -324,6 +338,7 @@ class LLMS_Post_Types {
 					'description' 			=> __( 'This is where you can add new courses.', 'lifterlms' ),
 					'public' 				=> true,
 					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_courses_access', 'manage_options' ) ) ) ? true : false,
+					'menu_icon'             => 'dashicons-welcome-learn-more',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> true,
@@ -451,11 +466,52 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where orders are managed', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> true,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_options' ) ) ) ? true : false,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'menu_icon'             => 'dashicons-cart',
+					'menu_position'         => 56,
+					'exclude_from_search' 	=> true,
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title', 'comments', 'custom-fields' ),
+					'has_archive' 			=> false,
+					'capabilities'  	    => array( 'create_posts' => false ),
+				)
+			)
+		);
+
+	    /**
+	     * Transaction Post Type
+	     */
+	    register_post_type( 'llms_transaction',
+		    apply_filters( 'lifterlms_register_post_type_transaction',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Transactions', 'lifterlms' ),
+							'singular_name' 		=> __( 'Transaction', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Transaction', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Transaction', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Transaction', 'lifterlms' ),
+							'new_item' 				=> __( 'New Transaction', 'lifterlms' ),
+							'view' 					=> __( 'View Transaction', 'lifterlms' ),
+							'view_item' 			=> __( 'View Transaction', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Transactions', 'lifterlms' ),
+							'not_found' 			=> __( 'No Transactions found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Transactions found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Transactions', 'lifterlms' ),
+							'menu_name'				=> _x( 'Orders', 'Admin menu name', 'lifterlms' ),
+						),
+					'description' 			=> __( 'This is where single and recurring order transactions are stored', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
-					'show_in_menu' 			=> 'lifterlms',
+					'show_in_menu' 			=> false,
 					'hierarchical' 			=> false,
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
@@ -463,124 +519,6 @@ class LLMS_Post_Types {
 					'supports' 				=> array( '' ),
 					'has_archive' 			=> false,
 					'capabilities'  	    => array( 'create_posts' => false ),
-				)
-			)
-		);
-
-		/**
-		 * Email Post Type
-		 */
-	    register_post_type( 'llms_email',
-		    apply_filters( 'lifterlms_register_post_type_llms_email',
-				array(
-					'labels' => array(
-							'name' 					=> __( 'Emails', 'lifterlms' ),
-							'singular_name' 		=> __( 'Email', 'lifterlms' ),
-							'add_new' 				=> __( 'Add Email', 'lifterlms' ),
-							'add_new_item' 			=> __( 'Add New Email', 'lifterlms' ),
-							'edit' 					=> __( 'Edit', 'lifterlms' ),
-							'edit_item' 			=> __( 'Edit Email', 'lifterlms' ),
-							'new_item' 				=> __( 'New Email', 'lifterlms' ),
-							'view' 					=> __( 'View Email', 'lifterlms' ),
-							'view_item' 			=> __( 'View Email', 'lifterlms' ),
-							'search_items' 			=> __( 'Search Emails', 'lifterlms' ),
-							'not_found' 			=> __( 'No Emails found', 'lifterlms' ),
-							'not_found_in_trash' 	=> __( 'No Emails found in trash', 'lifterlms' ),
-							'parent' 				=> __( 'Parent Emails', 'lifterlms' ),
-							'menu_name'				=> _x( 'Emails', 'Admin menu name', 'lifterlms' ),
-						),
-					'description' 			=> __( 'This is where emails are stored.', 'lifterlms' ),
-					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_emails_access', 'manage_options' ) ) ) ? true : false,
-					'map_meta_cap'			=> true,
-					'publicly_queryable' 	=> false,
-					'exclude_from_search' 	=> true,
-					'show_in_menu' 			=> 'lifterlms',
-					'hierarchical' 			=> false,
-					'show_in_nav_menus' 	=> false,
-					'rewrite' 				=> false,
-					'query_var' 			=> false,
-					'supports' 				=> array( 'title', 'editor' ),
-					'has_archive' 			=> false,
-				)
-			)
-		);
-
-		/**
-		 * Certificate Post type
-		 */
-		$certificate_permalink = empty( $permalinks['certificate_base'] ) ? _x( 'certificate', 'slug', 'lifterlms' ) : $permalinks['certificate_base'];
-
-	    register_post_type( 'llms_certificate',
-		    apply_filters( 'lifterlms_register_post_type_llms_certificate',
-				array(
-					'labels' => array(
-							'name' 					=> __( 'Certificates', 'lifterlms' ),
-							'singular_name' 		=> __( 'Certificate', 'lifterlms' ),
-							'add_new' 				=> __( 'Add Certificate', 'lifterlms' ),
-							'add_new_item' 			=> __( 'Add New Certificate', 'lifterlms' ),
-							'edit' 					=> __( 'Edit', 'lifterlms' ),
-							'edit_item' 			=> __( 'Edit Certificate', 'lifterlms' ),
-							'new_item' 				=> __( 'New Certificate', 'lifterlms' ),
-							'view' 					=> __( 'View Certificate', 'lifterlms' ),
-							'view_item' 			=> __( 'View Certificate', 'lifterlms' ),
-							'search_items' 			=> __( 'Search Certificates', 'lifterlms' ),
-							'not_found' 			=> __( 'No Certificates found', 'lifterlms' ),
-							'not_found_in_trash' 	=> __( 'No Certificates found in trash', 'lifterlms' ),
-							'parent' 				=> __( 'Parent Certificates', 'lifterlms' ),
-							'menu_name'				=> _x( 'Certificates', 'Admin menu name', 'lifterlms' ),
-						),
-					'description' 			=> __( 'This is where you can view all of the certificates.', 'lifterlms' ),
-					'public' 				=> true,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_options' ) ) ) ? true : false,
-					'map_meta_cap'			=> true,
-					'publicly_queryable' 	=> ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_options' ) ) ) ? true : false,
-					'exclude_from_search' 	=> true,
-					'show_in_menu' 			=> 'lifterlms',
-					'hierarchical' 			=> false,
-					'rewrite' 				=> $certificate_permalink ? array( 'slug' => untrailingslashit( $certificate_permalink ), 'with_front' => false, 'feeds' => true ) : false,
-					'show_in_nav_menus' 	=> false,
-					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor' ),
-				)
-			)
-		);
-
-		/**
-		 * Achievement Post type
-		 */
-	    register_post_type( 'llms_achievement',
-		    apply_filters( 'lifterlms_register_post_type_llms_achievement',
-				array(
-					'labels' => array(
-							'name' 					=> __( 'Achievements', 'lifterlms' ),
-							'singular_name' 		=> __( 'Achievement', 'lifterlms' ),
-							'add_new' 				=> __( 'Add Achievement', 'lifterlms' ),
-							'add_new_item' 			=> __( 'Add New Achievement', 'lifterlms' ),
-							'edit' 					=> __( 'Edit', 'lifterlms' ),
-							'edit_item' 			=> __( 'Edit Achievement', 'lifterlms' ),
-							'new_item' 				=> __( 'New Achievement', 'lifterlms' ),
-							'view' 					=> __( 'View Achievement', 'lifterlms' ),
-							'view_item' 			=> __( 'View Achievement', 'lifterlms' ),
-							'search_items' 			=> __( 'Search Achievement', 'lifterlms' ),
-							'not_found' 			=> __( 'No Achievement found', 'lifterlms' ),
-							'not_found_in_trash' 	=> __( 'No Achievement found in trash', 'lifterlms' ),
-							'parent' 				=> __( 'Parent Achievement', 'lifterlms' ),
-							'menu_name'				=> _x( 'Achievements', 'Admin menu name', 'lifterlms' ),
-						),
-					'description' 			=> __( 'This is where achievements are stored.', 'lifterlms' ),
-					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_achievements_access', 'manage_options' ) ) ) ? true : false,
-					'map_meta_cap'			=> true,
-					'publicly_queryable' 	=> false,
-					'exclude_from_search' 	=> true,
-					'show_in_menu' 			=> 'lifterlms',
-					'hierarchical' 			=> false,
-					'show_in_nav_menus' 	=> false,
-					'rewrite' 				=> false,
-					'query_var' 			=> false,
-					'supports' 				=> array( 'title' ),
-					'has_archive' 			=> false,
 				)
 			)
 		);
@@ -613,13 +551,95 @@ class LLMS_Post_Types {
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
-					'show_in_menu' 			=> 'lifterlms',
+					// 'show_in_menu' 			=> 'lifterlms',
+					'menu_position'         => 55,
+					'menu_icon'             => 'dashicons-awards',
 					'hierarchical' 			=> false,
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
 					'supports' 				=> array( 'title' ),
 					'has_archive' 			=> false,
+				)
+			)
+		);
+
+		/**
+		 * Achievement Post type
+		 */
+	    register_post_type( 'llms_achievement',
+		    apply_filters( 'lifterlms_register_post_type_llms_achievement',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Achievements', 'lifterlms' ),
+							'singular_name' 		=> __( 'Achievement', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Achievement', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Achievement', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Achievement', 'lifterlms' ),
+							'new_item' 				=> __( 'New Achievement', 'lifterlms' ),
+							'view' 					=> __( 'View Achievement', 'lifterlms' ),
+							'view_item' 			=> __( 'View Achievement', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Achievement', 'lifterlms' ),
+							'not_found' 			=> __( 'No Achievement found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Achievement found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Achievement', 'lifterlms' ),
+							'menu_name'				=> _x( 'Achievements', 'Admin menu name', 'lifterlms' ),
+						),
+					'description' 			=> __( 'This is where achievements are stored.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_achievements_access', 'manage_options' ) ) ) ? true : false,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'edit.php?post_type=llms_engagement',
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title' ),
+					'has_archive' 			=> false,
+				)
+			)
+		);
+
+
+		/**
+		 * Certificate Post type
+		 */
+		$certificate_permalink = empty( $permalinks['certificate_base'] ) ? _x( 'certificate', 'slug', 'lifterlms' ) : $permalinks['certificate_base'];
+
+	    register_post_type( 'llms_certificate',
+		    apply_filters( 'lifterlms_register_post_type_llms_certificate',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Certificates', 'lifterlms' ),
+							'singular_name' 		=> __( 'Certificate', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Certificate', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Certificate', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Certificate', 'lifterlms' ),
+							'new_item' 				=> __( 'New Certificate', 'lifterlms' ),
+							'view' 					=> __( 'View Certificate', 'lifterlms' ),
+							'view_item' 			=> __( 'View Certificate', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Certificates', 'lifterlms' ),
+							'not_found' 			=> __( 'No Certificates found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Certificates found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Certificates', 'lifterlms' ),
+							'menu_name'				=> _x( 'Certificates', 'Admin menu name', 'lifterlms' ),
+						),
+					'description' 			=> __( 'This is where you can view all of the certificates.', 'lifterlms' ),
+					'public' 				=> true,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_options' ) ) ) ? true : false,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_options' ) ) ) ? true : false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'edit.php?post_type=llms_engagement',
+					'hierarchical' 			=> false,
+					'rewrite' 				=> $certificate_permalink ? array( 'slug' => untrailingslashit( $certificate_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'show_in_nav_menus' 	=> false,
+					'query_var' 			=> true,
+					'supports' 				=> array( 'title', 'editor' ),
 				)
 			)
 		);
@@ -664,6 +684,45 @@ class LLMS_Post_Types {
 		);
 
 		/**
+		 * Email Post Type
+		 */
+	    register_post_type( 'llms_email',
+		    apply_filters( 'lifterlms_register_post_type_llms_email',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Emails', 'lifterlms' ),
+							'singular_name' 		=> __( 'Email', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Email', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Email', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Email', 'lifterlms' ),
+							'new_item' 				=> __( 'New Email', 'lifterlms' ),
+							'view' 					=> __( 'View Email', 'lifterlms' ),
+							'view_item' 			=> __( 'View Email', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Emails', 'lifterlms' ),
+							'not_found' 			=> __( 'No Emails found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Emails found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Emails', 'lifterlms' ),
+							'menu_name'				=> _x( 'Emails', 'Admin menu name', 'lifterlms' ),
+						),
+					'description' 			=> __( 'This is where emails are stored.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_emails_access', 'manage_options' ) ) ) ? true : false,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					'show_in_menu' 			=> 'edit.php?post_type=llms_engagement',
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title', 'editor' ),
+					'has_archive' 			=> false,
+				)
+			)
+		);
+
+		/**
 		 * Membership Post Type
 		 */
 		$membership_permalink = empty( $permalinks['membership_base'] ) ? _x( 'membership', 'slug', 'lifterlms' ) : $permalinks['membership_base'];
@@ -690,6 +749,7 @@ class LLMS_Post_Types {
 					'public' 				=> true,
 					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_membership_access', 'manage_options' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
+					'menu_icon'             => 'dashicons-groups',
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,
 					'show_in_menu' 			=> true,
@@ -810,7 +870,7 @@ class LLMS_Post_Types {
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
-					'show_in_menu' 			=> 'lifterlms',
+					'show_in_menu' 			=> 'edit.php?post_type=llms_order',
 					'hierarchical' 			=> false,
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
@@ -849,7 +909,7 @@ class LLMS_Post_Types {
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
-					'show_in_menu' 			=> 'lifterlms',
+					'show_in_menu' 			=> 'edit.php?post_type=llms_order',
 					'hierarchical' 			=> false,
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
@@ -888,7 +948,7 @@ class LLMS_Post_Types {
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
-					'show_in_menu' 			=> 'lifterlms',
+					'show_in_menu' 			=> 'edit.php?post_type=course',
 					'hierarchical' 			=> false,
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
@@ -1009,9 +1069,46 @@ class LLMS_Post_Types {
 			)
 		);
 
-		foreach ( $order_statuses as $order_status => $values ) {
+		$txn_statuses = apply_filters( 'lifterlms_register_transaction_post_statuses',
+			array(
+				'llms-txn-failed'  => array(
+					'label'                     => _x( 'Failed', 'Transaction status', 'lifterlms' ),
+					'public'                    => true,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					'label_count'               => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'lifterlms' ),
+				),
+				'llms-txn-pending'  => array(
+					'label'                     => _x( 'Pending', 'Transaction status', 'lifterlms' ),
+					'public'                    => true,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', 'lifterlms' ),
+				),
+				'llms-txn-refunded'  => array(
+					'label'                     => _x( 'Refunded', 'Transaction status', 'lifterlms' ),
+					'public'                    => true,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'lifterlms' ),
+				),
+				'llms-txn-succeeded'  => array(
+					'label'                     => _x( 'Succeeded', 'Transaction status', 'lifterlms' ),
+					'public'                    => true,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					'label_count'               => _n_noop( 'Succeeded <span class="count">(%s)</span>', 'Succeeded <span class="count">(%s)</span>', 'lifterlms' ),
+				),
+			)
+		);
 
-			register_post_status( $order_status, $values );
+		foreach ( array_merge( $order_statuses, $txn_statuses ) as $status => $values ) {
+
+			register_post_status( $status, $values );
 
 		}
 
