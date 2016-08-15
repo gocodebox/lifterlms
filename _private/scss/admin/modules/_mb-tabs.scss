@@ -48,7 +48,12 @@ ul.tabs li.current{
     }
 }
 
-.container .tab-content{
+// free space up if the metabox is on the side
+#side-sortables .tab-content {
+	padding: 0;
+}
+
+.llms-mb-container .tab-content{
     display: none;
     background: $color-white;
     padding: 15px;
@@ -56,7 +61,7 @@ ul.tabs li.current{
     ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results)  {
         margin: 0;
 
-        >li {
+        > li {
             padding: 20px 0;
             margin: 0;
             border-bottom: 1px solid $color-lightgrey;
@@ -65,13 +70,17 @@ ul.tabs li.current{
                 border: 0;
                 padding-bottom: 0;
 
-            }&.top {
+            }
+
+            &.top {
                 border-bottom: 0;
                 padding-bottom: 0;
             }
 
         }
     }
+
+    .full-width { width: 100%; }
 
     #wp-content-editor-tools {
         background: none;
@@ -129,14 +138,16 @@ ul.tabs li.current{
 
     }
 
-}.container .tab-content.current{
+}
+
+.llms-mb-container .tab-content.current{
     display: inherit;
 }
+
 ul.chosen-results li {
     border: 0;
 }
 
-.container .tab-content .no-border
-{
+.llms-mb-container .tab-content .no-border {
     border-bottom: 0px;
 }
