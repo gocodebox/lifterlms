@@ -1,11 +1,11 @@
 <?php
 /**
- * Update LifterLMS Database to 2.8.0
+ * Update LifterLMS Database to 3.0.0
  *
  * @author   LifterLMS
  * @category Admin
  * @package  LifterLMS/Admin/Updates
- * @version  2.8.0
+ * @version  3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -22,6 +22,102 @@ delete_option( 'lifterlms_is_activated' );
 delete_option( 'lifterlms_update_key' );
 delete_option( 'lifterlms_authkey' );
 delete_option( 'lifterlms_activation_key' );
+
+/**
+ * Run Install files which was added in 3.0.0
+ */
+LLMS_Install::create_files();
+
+
+/**
+ * Migrate deprecated account field related options to new ones
+ */
+	$email_confirm = get_option( 'lifterlms_registration_confirm_email' );
+	if ( 'yes' === $email_confirm ) {
+		$email_confirm = 'yes';
+	} elseif ( 'no' === $email_confirm ) {
+		$email_confirm = 'no';
+	} else {
+		$email_confirm = false;
+	}
+
+	$names = get_option( 'lifterlms_registration_require_name' );
+	if ( 'yes' === $names ) {
+		$names = 'required';
+	} elseif ( 'no' === $names ) {
+		$names = 'hidden';
+	} else {
+		$names = false;
+	}
+
+	$addresses = get_option( 'lifterlms_registration_require_address' );
+	if ( 'yes' === $addresses ) {
+		$addresses = 'required';
+	} elseif ( 'no' === $addresses ) {
+		$addresses = 'hidden';
+	} else {
+		$addresses = false;
+	}
+
+	$phone = get_option( 'lifterlms_registration_add_phone' );
+	if ( 'yes' === $phone ) {
+		$phone = 'optional';
+	} elseif ( 'no' === $phone ) {
+		$phone = 'hidden';
+	} else {
+		$phone = false;
+	}
+
+	foreach( array( 'checkout', 'registration', 'account' ) as $screen ) {
+
+		if ( $email_confirm ) {
+			update_option( 'lifterlms_user_info_field_email_confirmation_' . $screen . '_visibility', $email_confirm );
+		}
+		if ( $names ) {
+			update_option( 'lifterlms_user_info_field_names_' . $screen . '_visibility', $names );
+		}
+		if ( $addresses ) {
+			update_option( 'lifterlms_user_info_field_address_' . $screen . '_visibility', $addresses );
+		}
+		if ( $phone ) {
+			update_option( 'lifterlms_user_info_field_phone_' . $screen . '_visibility', $phone );
+		}
+
+	}
+
+	delete_option( 'lifterlms_registration_confirm_email' );
+	delete_option( 'lifterlms_registration_require_name' );
+	delete_option( 'lifterlms_registration_require_address' );
+	delete_option( 'lifterlms_registration_add_phone' );
+
+	unset( $screen );
+	unset( $email_confirm );
+	unset( $address );
+	unset( $phone );
+/**
+ * end
+ */
+
+
+
+return $r;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Update postmeta data for LifterLMS Orders
