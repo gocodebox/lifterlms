@@ -82,8 +82,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		// only save here if a process refund button was used to submit the form
 		if ( ! isset( $_POST['llms_process_refund'] ) ) {
 			return;
-		}
-		// can't proceed with a txn id
+		} // can't proceed with a txn id
 		elseif ( empty( $_POST['llms_refund_txn_id'] ) ) {
 			return $this->add_error( __( 'Refund Error: Missing a transaction ID', 'lifterlms' ) );
 		} elseif ( empty( $_POST['llms_refund_amount'] ) ) {

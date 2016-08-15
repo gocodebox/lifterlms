@@ -64,8 +64,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
 
-
-
 			array( 'type' => 'sectionstart', 'id' => 'general_options' ),
 
 			array( 'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
@@ -91,7 +89,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 					'right' => 'Right (' . sprintf( '%2$s%1$s', get_lifterlms_currency_symbol(), 99.99 ) . ')',
 					'left_space' => 'Left with Space (' . sprintf( '%1$s&nbsp;%2$s', get_lifterlms_currency_symbol(), 99.99 ) . ')',
 					'right_space' => 'Right with Space (' . sprintf( '%2$s&nbsp;%1$s', get_lifterlms_currency_symbol(), 99.99 ) . ')',
-				)
+				),
 			),
 
 			array(
@@ -140,7 +138,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
 		$total = count( $gateways );
 		$i = 1;
-		foreach( $gateways as $id => $g ) {
+		foreach ( $gateways as $id => $g ) {
 
 			$settings = array_merge( $settings, $g->get_admin_settings_fields() );
 

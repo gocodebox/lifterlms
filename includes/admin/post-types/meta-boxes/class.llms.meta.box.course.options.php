@@ -191,7 +191,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'type'		=> 'text',
 					),
 
-
 					array(
 						'type'		    => 'checkbox',
 						'label'		    => __( 'Enable Course Time Period', 'lifterlms' ),
@@ -240,7 +239,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'type'		=> 'text',
 					),
 
-
 					array(
 						'is_controller' => true,
 						'type'		=> 'checkbox',
@@ -282,7 +280,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'is_controller' => true,
 						'type'		=> 'checkbox',
 						'label'		=> __( 'Enable Course Capacity', 'lifterlms' ),
-						'desc' 		=> __(  'Limit the number of users that can enroll in this course.', 'lifterlms' ),
+						'desc' 		=> __( 'Limit the number of users that can enroll in this course.', 'lifterlms' ),
 						'id' 		=> $this->prefix . 'enable_capacity',
 						'class' 	=> '',
 						'value' 	=> 'yes',

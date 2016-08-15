@@ -30,13 +30,13 @@ add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single
 /**
  * After Course Summary
  */
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_start', 5  );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_start', 5 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_length',             10 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_difficulty',         20 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tracks',      25 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_categories',  30 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tags',        35 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end',   40  );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end',   40 );
 
 
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table',        50 );

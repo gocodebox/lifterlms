@@ -48,7 +48,6 @@ class LLMS_Shortcode_Checkout {
 			$atts['field_data'] = get_current_user_id();
 		}
 
-
 		echo '<div class="llms-checkout-wrapper">';
 
 		// allow gateways to throw errors before outputting anything else
@@ -80,9 +79,7 @@ class LLMS_Shortcode_Checkout {
 
 			self::checkout( $atts );
 
-		}
-
-		// purchase confirmation where applicable
+		} // purchase confirmation where applicable
 		elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
 			// $atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
@@ -103,7 +100,7 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
-			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $atts['selected_gateway' ] );
+			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $atts['selected_gateway'] );
 
 			self::confirm_payment( $atts );
 
@@ -121,10 +118,7 @@ class LLMS_Shortcode_Checkout {
 
 		// } else {
 
-
 		// }
-
-
 
 		// if ( ! is_user_logged_in() && ! llms_is_alternative_checkout_enabled() ) {
 

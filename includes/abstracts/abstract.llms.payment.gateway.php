@@ -290,7 +290,7 @@ abstract class LLMS_Payment_Gateway {
 
 		if ( 'yes' === $this->get_logging_enabled() ) {
 
-			foreach( func_get_args() as $data ) {
+			foreach ( func_get_args() as $data ) {
 
 				llms_log( $data, $this->get_id() );
 
@@ -530,7 +530,7 @@ abstract class LLMS_Payment_Gateway {
 
 		$supports = $this->get_supported_features();
 
-		if ( isset( $supports[$feature] ) && $supports[$feature] ) {
+		if ( isset( $supports[ $feature ] ) && $supports[ $feature ] ) {
 			return true;
 		}
 

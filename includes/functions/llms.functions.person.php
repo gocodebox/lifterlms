@@ -105,7 +105,7 @@ function llms_get_minimum_password_strength() {
  */
 function llms_get_minimum_password_strength_name() {
 	$strength = llms_get_minimum_password_strength();
-	switch( $strength ) {
+	switch ( $strength ) {
 		case 'strong':
 			$r = __( 'strong', 'lifterlms' );
 		break;

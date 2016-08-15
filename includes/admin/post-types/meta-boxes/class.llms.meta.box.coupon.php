@@ -42,13 +42,13 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
 			$c = new LLMS_Coupon( $this->post );
 
-			foreach( $c->get_array( 'coupon_courses' ) as $course_id ) {
+			foreach ( $c->get_array( 'coupon_courses' ) as $course_id ) {
 				$courses[] = array(
 					'key' => $course_id,
 					'title' => get_the_title( $course_id ) . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $course_id . ')',
 				);
 			}
-			foreach( $c->get_array( 'coupon_membership' ) as $membership_id ) {
+			foreach ( $c->get_array( 'coupon_membership' ) as $membership_id ) {
 				$memberships[] = array(
 					'key' => $membership_id,
 					'title' => get_the_title( $membership_id ) . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $membership_id . ')',
@@ -158,7 +158,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 						'multi' => true,
 						'selected' => $c ? $c->get_array( 'coupon_courses' ) : array(),
 						'data_attributes' => array(
-							'post-type' => 'course'
+							'post-type' => 'course',
 						),
 					),
 					array(
@@ -171,7 +171,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 						'multi' => true,
 						'selected' => $c ? $c->get_array( 'coupon_membership' ) : array(),
 						'data_attributes' => array(
-							'post-type' => 'llms_membership'
+							'post-type' => 'llms_membership',
 						),
 					),
 					array(
@@ -234,22 +234,22 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 		}
 
 		// trial validation
-		$trial = isset( $_POST[$this->prefix . 'enable_trial_discount'] ) ? $_POST[$this->prefix . 'enable_trial_discount'] : false;
+		$trial = isset( $_POST[ $this->prefix . 'enable_trial_discount' ] ) ? $_POST[ $this->prefix . 'enable_trial_discount' ] : false;
 		if ( ! $trial ) {
-			$_POST[$this->prefix . 'enable_trial_discount'] = 'no';
-		} elseif ( 'yes' === $trial && empty( $_POST[$this->prefix . 'trial_amount'] ) ) {
+			$_POST[ $this->prefix . 'enable_trial_discount' ] = 'no';
+		} elseif ( 'yes' === $trial && empty( $_POST[ $this->prefix . 'trial_amount' ] ) ) {
 
 			$this->add_error( __( 'A Trial Discount Amount was not supplied. Trial Pricing Discount has automatically been disabled. Please re-enable Trial Pricing Discount and enter a Trial Discount Amount, then save this coupon again.', 'lifterlms' ) );
-			$_POST[$this->prefix . 'enable_trial_discount'] = 'no';
+			$_POST[ $this->prefix . 'enable_trial_discount' ] = 'no';
 
 		}
 
-		if ( ! isset( $_POST[$this->prefix . 'coupon_courses'] ) ) {
-			$_POST[$this->prefix . 'coupon_courses'] = array();
+		if ( ! isset( $_POST[ $this->prefix . 'coupon_courses' ] ) ) {
+			$_POST[ $this->prefix . 'coupon_courses' ] = array();
 		}
 
-		if ( ! isset( $_POST[$this->prefix . 'coupon_membership'] ) ) {
-			$_POST[$this->prefix . 'coupon_membership'] = array();
+		if ( ! isset( $_POST[ $this->prefix . 'coupon_membership' ] ) ) {
+			$_POST[ $this->prefix . 'coupon_membership' ] = array();
 		}
 
 		// save all the fields
@@ -265,7 +265,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 			'expiration_date',
 			'plan_type',
 		);
-		foreach( $fields as $field ) {
+		foreach ( $fields as $field ) {
 
 			if ( isset( $_POST[ $this->prefix . $field ] ) ) {
 

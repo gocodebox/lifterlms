@@ -134,8 +134,7 @@ class LLMS_Admin_Post_Table_Orders {
 
 					echo ' ' . $date;
 
-				}
-				// display the string -- this would be a Lifetime or possibly custom plan
+				} // display the string -- this would be a Lifetime or possibly custom plan
 				else {
 
 					echo $date;

@@ -28,7 +28,7 @@ class LLMS_Template_Loader {
 			'sitewide_membership',
 		) );
 
-		foreach( $reasons as $reason ) {
+		foreach ( $reasons as $reason ) {
 			add_action( 'llms_content_restricted_by_' . $reason, array( $this, 'restricted_by_' . $reason ), 10, 1 );
 		}
 
@@ -199,7 +199,7 @@ class LLMS_Template_Loader {
 			$redirect = '';
 
 			// get the redirect based on the redirect type (if set)
-			switch( $membership->get( 'restriction_redirect_type' ) ) {
+			switch ( $membership->get( 'restriction_redirect_type' ) ) {
 
 				case 'custom':
 					$redirect = $membership->get( 'redirect_custom_url' );
@@ -270,23 +270,22 @@ class LLMS_Template_Loader {
 			// so for these post types we'll return the regular template
 			if ( 'course' === $post_type || 'llms_membership' === $post_type ) {
 				return $template;
-			}
-			// otherwise return the no-access template in case no redirects are specified by the specific restriction action
+			} // otherwise return the no-access template in case no redirects are specified by the specific restriction action
 			else {
 				$template = 'single-no-access.php';
 			}
 
-		// } elseif ( is_single() && get_post_type() == 'llms_membership' ) {
+			// } elseif ( is_single() && get_post_type() == 'llms_membership' ) {
 
-		// 	return $template;
+			// 	return $template;
 
-		// } elseif ( is_single() && get_post_type() == 'course' ) {
+			// } elseif ( is_single() && get_post_type() == 'course' ) {
 
-		// 	return $template;
+			// 	return $template;
 
-		// } elseif ( is_single() && get_post_type() == 'lesson' ) {
+			// } elseif ( is_single() && get_post_type() == 'lesson' ) {
 
-		// 	return $template;
+			// 	return $template;
 
 		} elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'llms_shop' ) ) ) {
 

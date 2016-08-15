@@ -200,9 +200,7 @@ class LLMS_Student {
 
 			$insert = $this->insert_status_postmeta( $product_id, 'enrolled' );
 
-		}
-
-		// otherwise insert all enrollment postmeta (full enrollment)
+		} // otherwise insert all enrollment postmeta (full enrollment)
 		else {
 
 			$insert = $this->insert_enrollment_postmeta( $product_id, $trigger );
@@ -210,7 +208,7 @@ class LLMS_Student {
 		}
 
 		// add the user postmeta for the enrollment
-		if ( ! empty ( $insert ) ) {
+		if ( ! empty( $insert ) ) {
 
 			// trigger additional actions based off post type
 			switch ( get_post_type( $product_id ) ) {
@@ -522,7 +520,7 @@ class LLMS_Student {
 			$course = new LLMS_Course( $object_id );
 			$lessons = $course->get_children_lessons();
 			$total = count( $lessons );
-			foreach( $lessons as $lesson ) {
+			foreach ( $lessons as $lesson ) {
 				if ( $this->is_complete( $lesson->ID, 'lesson' ) ) {
 					$completed++;
 				}
@@ -533,7 +531,7 @@ class LLMS_Student {
 			$track = new LLMS_Track( $object_id );
 			$courses = $track->get_courses();
 			$total = count( $courses );
-			foreach( $courses as $course ) {
+			foreach ( $courses as $course ) {
 				if ( $this->is_complete( $course->ID, 'course' ) ) {
 					$completed++;
 				}
@@ -558,7 +556,7 @@ class LLMS_Student {
 	public function is_complete( $object_id, $type = 'course' ) {
 		global $wpdb;
 
-		switch( $type ) {
+		switch ( $type ) {
 
 			case 'course':
 			case 'track':
@@ -574,7 +572,6 @@ class LLMS_Student {
 			break;
 
 		}
-
 
 	}
 

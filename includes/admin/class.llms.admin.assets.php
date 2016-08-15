@@ -132,7 +132,6 @@ class LLMS_Admin_Assets {
 
 			wp_register_script( 'llms',  plugins_url( '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
-
 			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
 			wp_enqueue_script( 'llms-ajax', plugins_url( '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
@@ -189,7 +188,7 @@ class LLMS_Admin_Assets {
 
 				wp_enqueue_script( 'llms-metabox-voucher', plugins_url( '/assets/js/llms-metabox-voucher' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 			}
-			if( 'llms_coupon' == $post_type ) {
+			if ( 'llms_coupon' == $post_type ) {
 				wp_enqueue_script( 'llms-select2' );
 			}
 

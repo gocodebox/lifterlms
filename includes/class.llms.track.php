@@ -60,8 +60,8 @@ class LLMS_Track {
 					'include_children' => false,
 					'taxonomy' => $this->taxonomy,
 					'terms' => $this->term->term_id,
-				)
-			)
+				),
+			),
 		) );
 
 		// return posts

@@ -137,7 +137,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				'autoload'      => false,
 			),
 
-
 			array(
 				'desc'          => __( 'Display Course Tracks list on course', 'lifterlms' ),
 				'id'            => 'lifterlms_course_display_tracks',

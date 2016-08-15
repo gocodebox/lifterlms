@@ -39,7 +39,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	public function localize_js() {
 		$p = new LLMS_Product( $this->post );
 		$limit = $p->get_access_plan_limit();
-		echo "<script>window.llms = window.llms || {}; window.llms.product = { access_plan_limit: " . $limit . " };</script>";
+		echo '<script>window.llms = window.llms || {}; window.llms.product = { access_plan_limit: ' . $limit . ' };</script>';
 	}
 
 	/**
@@ -64,7 +64,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 				'aligncenter',
 				'alignright',
 				'undo',
-				'redo'
+				'redo',
 			);
 
 		}
@@ -130,7 +130,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 		}
 
-		foreach( $plans as $data ) {
+		foreach ( $plans as $data ) {
 
 			// required fields
 			if ( empty( $data['title'] ) ) {
@@ -169,7 +169,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 				$plan->set( 'featured', 'no' );
 			}
 
-			foreach( $data as $key => $val ) {
+			foreach ( $data as $key => $val ) {
 				$plan->set( $key, $val );
 			}
 

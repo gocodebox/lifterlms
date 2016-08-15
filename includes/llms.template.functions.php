@@ -16,7 +16,6 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 
 	function llms_get_post_content( $content ) {
 
-
 		global $post;
 
 		if ( ! $post instanceof WP_Post ) {

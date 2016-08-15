@@ -121,7 +121,7 @@ abstract class LLMS_Admin_Metabox {
 		add_action( 'add_meta_boxes', array( $this, 'register' ) );
 
 		// register save actions for applicable screens (post types)
-		foreach( $this->get_screens() as $screen ) {
+		foreach ( $this->get_screens() as $screen ) {
 			add_action( 'save_post_' . $screen, array( $this, 'save_actions' ), 10, 1 );
 		}
 
@@ -242,7 +242,7 @@ abstract class LLMS_Admin_Metabox {
 
 		$this->total_tabs = count( $fields );
 
-		foreach( $fields as $i => $tab ) {
+		foreach ( $fields as $i => $tab ) {
 
 			$i++;
 			$current = 1 === $i ? ' current' : '';
@@ -251,8 +251,8 @@ abstract class LLMS_Admin_Metabox {
 
 			$this->content .= '<div id="tab-' .$i . '" class="tab-content' . $current . '"><ul>';
 
-			foreach ( $tab['fields'] as $field )  {
-				$field_class_name = str_replace('{TOKEN}', ucfirst( strtr( preg_replace_callback( '/(\w+)/', create_function( '$m','return ucfirst($m[1]);' ), $field['type'] ),'-','_' ) ), 'LLMS_Metabox_{TOKEN}_Field');
+			foreach ( $tab['fields'] as $field ) {
+				$field_class_name = str_replace( '{TOKEN}', ucfirst( strtr( preg_replace_callback( '/(\w+)/', create_function( '$m','return ucfirst($m[1]);' ), $field['type'] ),'-','_' ) ), 'LLMS_Metabox_{TOKEN}_Field' );
 				$field_class = new $field_class_name($field);
 				ob_start();
 				$field_class->Output();
@@ -302,13 +302,13 @@ abstract class LLMS_Admin_Metabox {
 		}
 
 		// loop thorugh the fields
-		foreach( $fields as $group => $data ) {
+		foreach ( $fields as $group => $data ) {
 
 			// find the fields in each tab
 			if ( isset( $data['fields'] ) && is_array( $data['fields'] ) ) {
 
 				// loop through the fields
-				foreach( $data['fields'] as $field ) {
+				foreach ( $data['fields'] as $field ) {
 
 					// don't save things that don't have an ID
 					if ( isset( $field['id'] ) ) {
@@ -318,9 +318,7 @@ abstract class LLMS_Admin_Metabox {
 
 							$val = $_POST[ $field['id'] ];
 
-						}
-
-						// checkboxes with no post data are not checked
+						} // checkboxes with no post data are not checked
 						elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
 
 							$val = '';

@@ -43,26 +43,22 @@ function llms_page_restricted( $post_id ) {
 	if ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id ) ) {
 		$restriction_id = $membership_id;
 		$reason = 'sitewide_membership';
-	}
-	// content is restricted by a membership
+	} // content is restricted by a membership
 	elseif ( $membership_id = llms_is_post_restricted_by_membership( $post_id ) ) {
 		$restriction_id = $membership_id;
 		$reason = 'membership';
-	}
-	// checks for lessons
+	} // checks for lessons
 	elseif ( is_singular() && 'lesson' === $post_type ) {
 		$lesson = new LLMS_Lesson( $post_id );
 		// if lesson is free, return accessible results and skip the rest of this function
 		if ( $lesson->is_free() ) {
 			return $results;
-		}
-		// must be enrolled b/c it's a lesson, alright?
+		} // must be enrolled b/c it's a lesson, alright?
 		else {
 			$restriction_id = $lesson->get_parent_course();
 			$reason = 'enrollment_lesson';
 		}
-	}
-	// checks for course
+	} // checks for course
 	elseif ( is_singular() && 'course' === $post_type ) {
 		$restriction_id = $post_id;
 		$reason = 'enrollment_course';
@@ -153,13 +149,11 @@ function llms_is_post_restricted_by_drip_settings( $post_id ) {
 	// if we're on a lesson, lesson id is the post id
 	if ( 'lesson' === $post_type ) {
 		$lesson_id = $post_id;
-	}
-	// quizzes need to cascade up to get lesson id
+	} // quizzes need to cascade up to get lesson id
 	elseif ( 'llms_quiz' == $post_type ) {
 		$quiz = new LLMS_Quiz( $post_id );
 		$lesson_id = $quiz->get_assoc_lesson( get_current_user_id() );
-	}
-	// dont pass other post types in here dumb dumb
+	} // dont pass other post types in here dumb dumb
 	else {
 		return false;
 	}
@@ -189,17 +183,14 @@ function llms_is_post_restricted_by_prerequisite( $post_id ) {
 	// if we're on a lesson, lesson id is the post id
 	if ( 'lesson' === $post_type ) {
 		$lesson_id = $post_id;
-	}
-	// quizzes need to cascade up to get lesson id
+	} // quizzes need to cascade up to get lesson id
 	elseif ( 'llms_quiz' == $post_type ) {
 		$quiz = new LLMS_Quiz( $post_id );
 		$lesson_id = $quiz->get_assoc_lesson( get_current_user_id() );
-	}
-	// dont pass other post types in here dumb dumb
+	} // dont pass other post types in here dumb dumb
 	else {
 		return false;
 	}
-
 
 	$lesson = new LLMS_Lesson( $lesson_id );
 
@@ -212,8 +203,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id ) {
 		// not logged in, so send the prereq id back
 		if ( ! $uid ) {
 			return $prerequisite_id;
-		}
-		// student is logged in, check completion of the preq
+		} // student is logged in, check completion of the preq
 		// if incomplete, send the prereq id
 		// otherwise return false
 		else {
@@ -246,22 +236,19 @@ function llms_is_post_restricted_by_time_period( $post_id ) {
 		$lesson = new LLMS_Lesson( $post_id );
 		$course_id = $lesson->get_parent_course();
 
-	}
-	// quizzes need to cascade up to get course info
+	} // quizzes need to cascade up to get course info
 	elseif ( 'llms_quiz' == $post_type ) {
 
 		$quiz = new LLMS_Quiz( $post_id );
 		$lesson = new LLMS_Lesson( $quiz->get_assoc_lesson( get_current_user_id() ) );
 		$course_id = $lesson->get_parent_course();
 
-	}
-	// course id is the post id
+	} // course id is the post id
 	elseif ( 'course' == $post_type ) {
 
 		$course_id = $post_id;
 
-	}
-	// don't pass any other post types into this function, dumb dumb
+	} // don't pass any other post types into this function, dumb dumb
 	else {
 
 		return false;
@@ -355,8 +342,7 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id ) {
 
 		return $membership_id;
 
-	}
-	// site is note restricted to a membership
+	} // site is note restricted to a membership
 	else {
 
 		return false;

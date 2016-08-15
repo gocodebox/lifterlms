@@ -38,7 +38,7 @@ class LLMS_Post_Types {
 	 */
 	public function add_membership_restriction_support() {
 		$post_types = apply_filters( 'llms_membership_restricted_post_types', array( 'post', 'page' ) );
-		foreach( $post_types as $post_type ) {
+		foreach ( $post_types as $post_type ) {
 			add_post_type_support( 'page', 'llms-membership-restrictions' );
 		}
 	}
@@ -603,7 +603,6 @@ class LLMS_Post_Types {
 			)
 		);
 
-
 		/**
 		 * Certificate Post type
 		 */
@@ -958,7 +957,6 @@ class LLMS_Post_Types {
 				)
 			)
 		);
-
 
 		/**
 		 * Access Plan Post Type

@@ -380,13 +380,13 @@ class LLMS_Install {
 			array(
 				'base' 		=> LLMS_LOG_DIR,
 				'file' 		=> '.htaccess',
-				'content' 	=> 'deny from all'
+				'content' 	=> 'deny from all',
 			),
 			array(
 				'base' 		=> LLMS_LOG_DIR,
 				'file' 		=> 'index.html',
-				'content' 	=> ''
-			)
+				'content' 	=> '',
+			),
 		);
 		foreach ( $files as $file ) {
 			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {

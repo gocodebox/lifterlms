@@ -48,8 +48,6 @@ class LLMS_Admin_Meta_Boxes {
 		// add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Product::save', 10, 2 );
 		// add_action( 'lifterlms_process_llms_membership_meta', 'LLMS_Meta_Box_Product::save', 10, 2 );
 
-
-
 		add_action( 'add_meta_boxes', array( $this, 'hide_meta_boxes' ), 10 );
 		add_action( 'add_meta_boxes', array( $this, 'refresh_meta_boxes' ), 10 );
 		add_action( 'add_meta_boxes', array( $this, 'get_meta_boxes' ), 10 );
@@ -158,9 +156,6 @@ class LLMS_Admin_Meta_Boxes {
 		// add_meta_box( 'lifterlms-order-details', __( 'Order Details', 'lifterlms' ), 'LLMS_Meta_Box_Order_Details::output', 'llms_order', 'side', 'high' );
 		// add_meta_box( 'lifterlms-order-submit', __( 'Order Actions', 'lifterlms' ), 'LLMS_Meta_Box_Order_Submit::output', 'llms_order', 'side', 'high' );
 		// add_meta_box( 'lifterlms-order-refunds', __( 'Process a Refund', 'lifterlms' ), 'LLMS_Meta_Box_Order_Refunds::output', 'llms_order', 'side', 'normal' );
-
-
-
 
 		/**
 		 * @todo  transition to new style metaboxes

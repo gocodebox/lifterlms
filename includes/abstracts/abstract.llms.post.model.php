@@ -106,9 +106,7 @@ abstract class LLMS_Post_Model {
 
 			return absint( $this->$key );
 
-		}
-
-		// if it's a WP Post Property, grab it from the object we already have and apply appropriate filters
+		} // if it's a WP Post Property, grab it from the object we already have and apply appropriate filters
 		elseif ( in_array( $key, $this->get_post_properties() ) ) {
 
 			$post_key = 'post_' . $key;
@@ -140,22 +138,17 @@ abstract class LLMS_Post_Model {
 
 			}
 
-		}
-
-		// regular meta data
+		} // regular meta data
 		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
 
 			$val = get_post_meta( $this->id, $this->meta_prefix . $key, true );
 
-		}
-
-		// invalid or unsettable, just return whatever we have (which might be null)
+		} // invalid or unsettable, just return whatever we have (which might be null)
 		else {
 
 			return $this->$key;
 
 		}
-
 
 		// if we found a valid, apply default llms get get filter and return the value
 		if ( isset( $val ) ) {
@@ -203,13 +196,13 @@ abstract class LLMS_Post_Model {
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
-	public function __( $key ) {
+	public function translate( $key ) {
 		$val = $this->get( $key );
 		// ******* example *******
 		// switch( $key ) {
 		// 	case 'example_key':
 		// 		if ( 'example-val' === $val ) {
-		// 			return __( 'Example Key', 'lifterlms' );
+		// 			return translate( 'Example Key', 'lifterlms' );
 		// 		}
 		// 	break;
 		// 	default:
@@ -220,7 +213,7 @@ abstract class LLMS_Post_Model {
 	}
 
 	/**
-	 * Wrapper for the $this->__() that echos the result rather than returning it
+	 * Wrapper for the $this->translate() that echos the result rather than returning it
 	 * @param    string     $key  key to retrieve
 	 * @return   string
 	 * @since    3.0.0
@@ -451,7 +444,7 @@ abstract class LLMS_Post_Model {
 	 */
 	protected function scrub( $key, $val ) {
 
-		switch( $key ) {
+		switch ( $key ) {
 
 			case 'menu_order':
 				$type = 'absint';
@@ -488,7 +481,7 @@ abstract class LLMS_Post_Model {
 			$val = strip_tags( $val );
 		}
 
-		switch( $type ) {
+		switch ( $type ) {
 
 			case 'absint':
 				$val = absint( $val );
@@ -569,8 +562,7 @@ abstract class LLMS_Post_Model {
 				'ID' => $this->get( 'id' ),
 			);
 
-			$args[$post_key] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
-
+			$args[ $post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
 
 			if ( wp_update_post( $args ) ) {
 				return true;
@@ -578,9 +570,7 @@ abstract class LLMS_Post_Model {
 				return false;
 			}
 
-		}
-
-		// if the property is not unsettable, update the meta value
+		} // if the property is not unsettable, update the meta value
 		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
 
 			$u = update_post_meta( $this->id, $this->meta_prefix . $key, apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this ) );
@@ -590,9 +580,7 @@ abstract class LLMS_Post_Model {
 				return false;
 			}
 
-		}
-
-		// we have a problem...
+		} // we have a problem...
 		else {
 
 			return false;

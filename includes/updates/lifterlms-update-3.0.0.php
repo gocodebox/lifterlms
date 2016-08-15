@@ -33,57 +33,57 @@ LLMS_Install::create_files();
  * Migrate deprecated account field related options to new ones
  */
 	$email_confirm = get_option( 'lifterlms_registration_confirm_email' );
-	if ( 'yes' === $email_confirm ) {
-		$email_confirm = 'yes';
-	} elseif ( 'no' === $email_confirm ) {
-		$email_confirm = 'no';
-	} else {
-		$email_confirm = false;
-	}
+if ( 'yes' === $email_confirm ) {
+	$email_confirm = 'yes';
+} elseif ( 'no' === $email_confirm ) {
+	$email_confirm = 'no';
+} else {
+	$email_confirm = false;
+}
 
 	$names = get_option( 'lifterlms_registration_require_name' );
-	if ( 'yes' === $names ) {
-		$names = 'required';
-	} elseif ( 'no' === $names ) {
-		$names = 'hidden';
-	} else {
-		$names = false;
-	}
+if ( 'yes' === $names ) {
+	$names = 'required';
+} elseif ( 'no' === $names ) {
+	$names = 'hidden';
+} else {
+	$names = false;
+}
 
 	$addresses = get_option( 'lifterlms_registration_require_address' );
-	if ( 'yes' === $addresses ) {
-		$addresses = 'required';
-	} elseif ( 'no' === $addresses ) {
-		$addresses = 'hidden';
-	} else {
-		$addresses = false;
-	}
+if ( 'yes' === $addresses ) {
+	$addresses = 'required';
+} elseif ( 'no' === $addresses ) {
+	$addresses = 'hidden';
+} else {
+	$addresses = false;
+}
 
 	$phone = get_option( 'lifterlms_registration_add_phone' );
-	if ( 'yes' === $phone ) {
-		$phone = 'optional';
-	} elseif ( 'no' === $phone ) {
-		$phone = 'hidden';
-	} else {
-		$phone = false;
+if ( 'yes' === $phone ) {
+	$phone = 'optional';
+} elseif ( 'no' === $phone ) {
+	$phone = 'hidden';
+} else {
+	$phone = false;
+}
+
+foreach ( array( 'checkout', 'registration', 'account' ) as $screen ) {
+
+	if ( $email_confirm ) {
+		update_option( 'lifterlms_user_info_field_email_confirmation_' . $screen . '_visibility', $email_confirm );
+	}
+	if ( $names ) {
+		update_option( 'lifterlms_user_info_field_names_' . $screen . '_visibility', $names );
+	}
+	if ( $addresses ) {
+		update_option( 'lifterlms_user_info_field_address_' . $screen . '_visibility', $addresses );
+	}
+	if ( $phone ) {
+		update_option( 'lifterlms_user_info_field_phone_' . $screen . '_visibility', $phone );
 	}
 
-	foreach( array( 'checkout', 'registration', 'account' ) as $screen ) {
-
-		if ( $email_confirm ) {
-			update_option( 'lifterlms_user_info_field_email_confirmation_' . $screen . '_visibility', $email_confirm );
-		}
-		if ( $names ) {
-			update_option( 'lifterlms_user_info_field_names_' . $screen . '_visibility', $names );
-		}
-		if ( $addresses ) {
-			update_option( 'lifterlms_user_info_field_address_' . $screen . '_visibility', $addresses );
-		}
-		if ( $phone ) {
-			update_option( 'lifterlms_user_info_field_phone_' . $screen . '_visibility', $phone );
-		}
-
-	}
+}
 
 	delete_option( 'lifterlms_registration_confirm_email' );
 	delete_option( 'lifterlms_registration_require_name' );

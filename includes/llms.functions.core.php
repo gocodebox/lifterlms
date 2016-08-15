@@ -467,7 +467,7 @@ function llms_get_page_url( $page, $args = array() ) {
  * @since    3.0.0
  * @version  3.0.0
  */
-function llms_get_transaction_statuses( ) {
+function llms_get_transaction_statuses() {
 	return apply_filters( 'llms_get_transaction_statuses', array(
 		'llms-txn-failed',
 		'llms-txn-pending',
@@ -578,9 +578,8 @@ function llms_form_field( $field = array(), $echo = true ) {
 	$field['name'] = ! $field['name'] ? $field['id'] : $field['name'];
 
 	// duplicate label to placeholder if none is specified
- 	$field['placeholder'] = ! $field['placeholder'] ? $field['label'] : $field['placeholder'];
- 	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
-
+		$field['placeholder'] = ! $field['placeholder'] ? $field['label'] : $field['placeholder'];
+		$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
 
 	// add space to classes
 	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
@@ -597,55 +596,54 @@ function llms_form_field( $field = array(), $echo = true ) {
 	$required_span = $field['required'] ? ' <span class="llms-required">' . $required_char . '</span>' : '';
 	$required_attr = $field['required'] ? ' required="required"' : '';
 
-
 	// setup the label
 	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span. '</label>' : '';
 
 	$r  = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
 
-		if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
+	if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
+		$r .= $label;
+	}
+
+	switch ( $field['type'] ) {
+
+		case 'button':
+		case 'reset':
+		case 'submit':
+			$r .= '<button class="llms-field-button' . $field['classes'] . '"id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '">' . $field['value'] . '</button>';
+			break;
+
+		case 'checkbox':
+		case 'radio':
+			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
+			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '"' . $checked . $required_attr . $value_attr . '>';
 			$r .= $label;
-		}
-
-		switch( $field['type'] ) {
-
-			case 'button':
-			case 'reset':
-			case 'submit':
-				$r .= '<button class="llms-field-button' . $field['classes'] . '"id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '">' . $field['value'] . '</button>';
 			break;
 
-			case 'checkbox':
-			case 'radio':
-				$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
-				$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '"' . $checked . $required_attr . $value_attr . '>';
-				$r .= $label;
+		case 'html':
+			$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '"></div>';
 			break;
 
-			case 'html':
-				$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '"></div>';
+		case 'select':
+			$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '"' . $required_attr . '>';
+			foreach ( $field['options'] as $k => $v ) {
+				$r .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
+			}
+			$r .= '</select>';
 			break;
 
-			case 'select':
-				$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '"' . $required_attr . '>';
-				foreach( $field['options'] as $k => $v ) {
-					$r .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
-				}
-				$r .= '</select>';
+		case 'textarea':
+			$r .= '<textrea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '"' . $required_attr . '>' . $field['value'] . '</textarea>';
 			break;
 
-			case 'textarea':
-				$r .= '<textrea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '"' . $required_attr . '>' . $field['value'] . '</textarea>';
-			break;
+		default:
+			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $required_attr . $value_attr . '>';
 
-			default:
-				$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $required_attr . $value_attr . '>';
+	}
 
-		}
-
-		if ( 'hidden' !== $field['type'] ) {
-			$r .= $desc;
-		}
+	if ( 'hidden' !== $field['type'] ) {
+		$r .= $desc;
+	}
 
 	$r .= '</div>';
 
@@ -660,7 +658,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 		echo $r;
 		return;
 
-	}  else {
+	} else {
 
 		return $r;
 
@@ -732,7 +730,7 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 	}
 
 	$r = array();
-	foreach( $post_ids as $id ) {
+	foreach ( $post_ids as $id ) {
 
 		$title = str_replace( array( '{title}', '{id}' ), array( get_the_title( $id ), $id ), $template );
 

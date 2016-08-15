@@ -109,13 +109,13 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'controller' => '#' . $this->prefix . 'restriction_redirect_type',
 						'controller_value' => 'page',
 						'data_attributes' => array(
-							'post-type' => 'page'
+							'post-type' => 'page',
 						),
 						'id' 		=> $this->prefix . 'redirect_page_id',
 						'label'		=> __( 'Select a WordPress Page', 'lifterlms' ),
 						'type'		=> 'select',
 						'class'     => 'llms-select2-post',
-						'value'   => $redirect_options
+						'value'   => $redirect_options,
 					),
 					array(
 						'class' 	=> '',
@@ -178,7 +178,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			'restriction_add_notice',
 			'restriction_notice',
 		);
-		foreach( $fields as $field ) {
+		foreach ( $fields as $field ) {
 
 			if ( isset( $_POST[ $this->prefix . $field ] ) ) {
 

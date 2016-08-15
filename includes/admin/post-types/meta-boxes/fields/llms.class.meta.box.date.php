@@ -30,7 +30,7 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 			id="<?php echo $this->field['id']; ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
 			value="<?php echo ! empty( $this->meta ) ? LLMS_Date::pretty_date( $this->meta ) : ''; ?>" size="30"
-			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ): ?>
+			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ) : ?>
 			required="required"
 			<?php endif; ?>
 		/>

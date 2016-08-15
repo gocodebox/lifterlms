@@ -53,7 +53,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			<?php if (array_key_exists( 'multi', $this->field ) && $this->field['multi']) : ?>
 				multiple="multiple"
 			<?php endif; ?>
-			<?php foreach( $attrs as $attr => $attr_val ) { echo ' data-' . $attr . '="' . $attr_val . '"'; } ?>
+			<?php foreach ( $attrs as $attr => $attr_val ) { echo ' data-' . $attr . '="' . $attr_val . '"'; } ?>
 		>
 			<?php if ( $allow_null ) : ?>
 				<option value="">None</option>

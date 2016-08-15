@@ -58,7 +58,7 @@ abstract class LLMS_Metabox_Field {
 		<div class="description <?php echo $this->field['desc_class']; ?>">
 			<label for="<?php echo $this->field['id']; ?>"><?php echo $this->field['label']; ?></label>
 			<?php echo $this->field['desc'] ?>
-			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ): ?><em>(required)</em><?php endif; ?>
+			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ) : ?><em>(required)</em><?php endif; ?>
 		</div> <?php
 	}
 

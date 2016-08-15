@@ -27,7 +27,7 @@ class LLMS_Membership extends LLMS_Post_Model {
 	 */
 	protected function get_property_type( $key ) {
 
-		switch( $key ) {
+		switch ( $key ) {
 
 			case 'redirect_page_id':
 				$type = 'absint';

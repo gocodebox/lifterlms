@@ -152,7 +152,7 @@ class LLMS_Controller_Orders {
 		// check t & c if configured
 		if ( llms_are_terms_and_conditions_required() ) {
 			if ( ! isset( $_POST['llms_agree_to_terms'] ) || 'yes' !== $_POST['llms_agree_to_terms'] ) {
-				return llms_add_notice( sprintf( __( 'You must agree to the %s to continue.', 'lifterlms' ), get_the_title( get_option( 'lifterlms_terms_page_id') ) ), 'error' );
+				return llms_add_notice( sprintf( __( 'You must agree to the %s to continue.', 'lifterlms' ), get_the_title( get_option( 'lifterlms_terms_page_id' ) ) ), 'error' );
 			}
 		}
 
@@ -180,11 +180,10 @@ class LLMS_Controller_Orders {
 				// gateway must be enabled
 				if ( ! $gateway->is_enabled() ) {
 					return llms_add_notice( __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ), 'error' );
-				}
-				// if it's a recurring, ensure gateway supports recurring
+				} // if it's a recurring, ensure gateway supports recurring
 				elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
 					return llms_add_notice( sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
-				// if it's single, ensure gateway supports singles
+					// if it's single, ensure gateway supports singles
 				} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
 					return llms_add_notice( sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
 				}
@@ -212,8 +211,7 @@ class LLMS_Controller_Orders {
 
 			}
 
-		}
-		// no coupon, proceed
+		} // no coupon, proceed
 		else {
 
 			$coupon = false;
@@ -223,24 +221,21 @@ class LLMS_Controller_Orders {
 		// attempt to update the user (performs validations)
 		if ( get_current_user_id() ) {
 			$person_id = LLMS_Person_Handler::update( $_POST, 'checkout' );
-		}
-		// attempt to register new user (performs validations)
+		} // attempt to register new user (performs validations)
 		else {
 			$person_id = LLMS_Person_Handler::register( $_POST, 'checkout' );
 		}
 
 		// validation or registration issues
 		if ( is_wp_error( $person_id ) ) {
-			foreach( $person_id->get_error_messages() as $msg ) {
+			foreach ( $person_id->get_error_messages() as $msg ) {
 				llms_add_notice( $msg, 'error' );
 			}
 			return;
-		}
-		// register should be a user_id at this point, if we're not numeric we have a problem...
+		} // register should be a user_id at this point, if we're not numeric we have a problem...
 		elseif ( ! is_numeric( $person_id ) ) {
 			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.' ), 'error' );
-		}
-		// make sure the user isn't already enrolled in the course or membership
+		} // make sure the user isn't already enrolled in the course or membership
 		// @todo test & possibly revisit this function
 		elseif ( llms_is_user_enrolled( $person_id, $product->get( 'id' ) ) ) {
 
@@ -251,7 +246,6 @@ class LLMS_Controller_Orders {
 		}
 
 		// @todo add validation for members only pricing here!
-
 
 		/**
 		 * Allow gateways, extensions, etc to do their own validation
@@ -267,7 +261,7 @@ class LLMS_Controller_Orders {
 		$order = new LLMS_Order( 'new' );
 
 		// if there's no id we can't proceed, return an error
-		if( ! $order->get( 'id' ) ) {
+		if ( ! $order->get( 'id' ) ) {
 			return llms_add_notice( sprintf( 'There was an error creating your order, please try again.' ), 'error' );
 		}
 
@@ -276,28 +270,28 @@ class LLMS_Controller_Orders {
 		$order->set( 'user_ip_address', llms_get_ip_address() );
 		$order->set( 'billing_address_1', $person->get( 'billing_address_1' ) );
 		$order->set( 'billing_address_2', $person->get( 'billing_address_2' ) );
- 		$order->set( 'billing_city', $person->get( 'billing_city' ) );
- 		$order->set( 'billing_country', $person->get( 'billing_country' ) );
- 		$order->set( 'billing_email', $person->get( 'user_email' ) );
- 		$order->set( 'billing_first_name', $person->get( 'first_name' ) );
- 		$order->set( 'billing_last_name', $person->get( 'last_name' ) );
- 		$order->set( 'billing_state', $person->get( 'billing_state' ) );
- 		$order->set( 'billing_zip', $person->get( 'billing_zip' ) );
+			$order->set( 'billing_city', $person->get( 'billing_city' ) );
+			$order->set( 'billing_country', $person->get( 'billing_country' ) );
+			$order->set( 'billing_email', $person->get( 'user_email' ) );
+			$order->set( 'billing_first_name', $person->get( 'first_name' ) );
+			$order->set( 'billing_last_name', $person->get( 'last_name' ) );
+			$order->set( 'billing_state', $person->get( 'billing_state' ) );
+			$order->set( 'billing_zip', $person->get( 'billing_zip' ) );
 
- 		// access plan data
- 		$order->set( 'plan_id', $plan->get( 'id' ) );
+			// access plan data
+			$order->set( 'plan_id', $plan->get( 'id' ) );
 		$order->set( 'plan_title', $plan->get( 'title' ) );
 		$order->set( 'plan_sku', $plan->get( 'sku' ) );
 
- 		// product data
+			// product data
 		$order->set( 'product_id', $product->get( 'id' ) );
 		$order->set( 'product_title', $product->get( 'title' ) );
 		$order->set( 'product_sku', $product->get( 'sku' ) );
 		$order->set( 'product_type', $plan->get_product_type() );
 
- 		// order metadata
- 		$order->set( 'payment_gateway', $gateway->get_id() );
- 		$order->set( 'gateway_api_mode', $gateway->get_api_mode() );
+			// order metadata
+			$order->set( 'payment_gateway', $gateway->get_id() );
+			$order->set( 'gateway_api_mode', $gateway->get_api_mode() );
 		$order->set( 'currency', get_lifterlms_currency() );
 
 		// trial data
@@ -419,16 +413,14 @@ class LLMS_Controller_Orders {
 
 				$gateway->handle_recurring_transaction( $order );
 
-			}
-			// log an error and do notifications
+			} // log an error and do notifications
 			else {
 				llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed because the gateway no longer supports recurring payments', 'recurring-payments' );
 				/**
 				 * @todo  notifications....
 				 */
 			}
-		}
-		// record and error and do notifications
+		} // record and error and do notifications
 		else {
 
 			llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed', 'recurring-payments' );
@@ -439,7 +431,6 @@ class LLMS_Controller_Orders {
 			 */
 
 		}
-
 
 	}
 

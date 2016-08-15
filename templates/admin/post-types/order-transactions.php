@@ -46,7 +46,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 
 					</td>
 					<td><?php echo llms_price( $refund_amount * -1 ); ?></td>
-					<td class="expandable closed"><?php echo $txn->__( 'payment_type' ); ?></td>
+					<td class="expandable closed"><?php echo $txn->translate( 'payment_type' ); ?></td>
 					<td class="expandable closed"><?php echo $gateway->get_admin_title(); ?></td>
 					<td class="expandable closed">
 						<?php echo $txn->get( 'gateway_source_description' ); ?>

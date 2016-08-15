@@ -23,10 +23,6 @@ class LLMS_Frontend_Forms
 
 		add_action( 'init', array( $this, 'login' ) );
 
-
-
-
-
 		add_action( 'template_redirect', array( $this, 'save_account_details' ) );
 		add_action( 'init', array( $this, 'apply_coupon' ) );
 		add_action( 'init', array( $this, 'remove_coupon' ) );
@@ -36,8 +32,6 @@ class LLMS_Frontend_Forms
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
 		add_action( 'init', array( $this, 'take_quiz' ) );
-
-
 
 	}
 
@@ -598,7 +592,7 @@ class LLMS_Frontend_Forms
 
 			// validation or registration issues
 			if ( is_wp_error( $login ) ) {
-				foreach( $login->get_error_messages() as $msg ) {
+				foreach ( $login->get_error_messages() as $msg ) {
 					llms_add_notice( $msg, 'error' );
 				}
 				return;

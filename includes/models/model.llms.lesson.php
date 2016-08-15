@@ -160,7 +160,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	protected function get_property_type( $key ) {
 
-		switch( $key ) {
+		switch ( $key ) {
 
 			case 'prerequisite':
 			case 'days_before_available':

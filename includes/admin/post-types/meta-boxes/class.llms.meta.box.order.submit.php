@@ -47,7 +47,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 		$order = new LLMS_Order( $this->post );
 		$current_status = $order->get( 'status' );
 
-		$statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'single'  );
+		$statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'single' );
 		?>
 		<div class="llms-metabox">
 

@@ -190,7 +190,6 @@ class LLMS_Person_Handler {
 			);
 		}
 
-
 		$address = get_option( 'lifterlms_user_info_field_address_' . $screen . '_visibility' );
 		if ( 'hidden' !== $address ) {
 			$fields[] = array(
@@ -281,20 +280,20 @@ class LLMS_Person_Handler {
 	 */
 	private static function fill_fields( $fields, $data ) {
 
-		if ( is_numeric ( $data ) ) {
+		if ( is_numeric( $data ) ) {
 			$user = new WP_User( $data );
 		}
 
-		foreach( $fields as &$field ) {
+		foreach ( $fields as &$field ) {
 
 			if ( 'password' === $field['type'] ) {
 				continue;
 			}
 
 			$name = isset( $field['name'] ) ? $field['name'] : $field['id'];
-			if ( isset( $data[$name] ) ) {
-				$field['value'] = $data[$name];
-			} elseif( isset( $user ) ) {
+			if ( isset( $data[ $name ] ) ) {
+				$field['value'] = $data[ $name ];
+			} elseif ( isset( $user ) ) {
 				$field['value'] = $user->{$name};
 			}
 		}
@@ -305,7 +304,6 @@ class LLMS_Person_Handler {
 
 
 	private static function insert_data( $data = array(), $action = 'registration' ) {
-
 
 		if ( 'registration' === $action ) {
 			$insert_data = array(
@@ -337,7 +335,6 @@ class LLMS_Person_Handler {
 				'user_pass',
 			);
 
-
 			$insert_func = 'wp_update_user';
 			$meta_func = 'update_user_meta';
 
@@ -345,10 +342,9 @@ class LLMS_Person_Handler {
 			return new WP_Error( 'invalid', __( 'Invalid action' ) );
 		}
 
-
-		foreach( $extra_data as $field ) {
+		foreach ( $extra_data as $field ) {
 			if ( isset( $data[ $field ] ) ) {
-				$insert_data[ $field ] = $data[$field];
+				$insert_data[ $field ] = $data[ $field ];
 			}
 		}
 
@@ -375,15 +371,15 @@ class LLMS_Person_Handler {
 			self::$meta_prefix . 'phone',
 		);
 		$insert_metas = array();
-		foreach( $possible_metas as $meta ) {
+		foreach ( $possible_metas as $meta ) {
 			if ( isset( $data[ $meta ] ) ) {
-				$insert_metas[ $meta ] = $data[$meta];
+				$insert_metas[ $meta ] = $data[ $meta ];
 			}
 		}
 
 		// record all meta values
 		$metas = apply_filters( 'lifterlms_user_' . $action . '_insert_user_meta', $insert_metas, $data, $action );
-		foreach( $metas as $key => $val ) {
+		foreach ( $metas as $key => $val ) {
 			$meta_func( $person_id, $key, $val );
 		}
 
@@ -411,8 +407,7 @@ class LLMS_Person_Handler {
 
 			return apply_filters( 'lifterlms_user_login_errors', $valid, $data );
 
-		}
-		// log the user in
+		} // log the user in
 		else {
 
 			$creds = array();
@@ -504,9 +499,7 @@ class LLMS_Person_Handler {
 
 			return apply_filters( 'lifterlms_user_registration_errors', $valid, $data, $screen );
 
-		}
-
-		// register the user
+		} // register the user
 		else {
 
 			do_action( 'lifterlms_user_registration_after_validation', $data, $screen );
@@ -588,9 +581,7 @@ class LLMS_Person_Handler {
 
 			return apply_filters( 'lifterlms_user_update_errors', $valid, $data, $screen );
 
-		}
-
-		// update the user
+		} // update the user
 		else {
 
 			do_action( 'lifterlms_user_update_after_validation', $data, $screen );
@@ -648,7 +639,6 @@ class LLMS_Person_Handler {
 
 		}
 
-
 		// $data['user_login'] = 'admin';
 		// $data['email_address'] = 'thomas@gocodebox.com';
 		// $data['email_address'] = 'asdf';
@@ -660,12 +650,12 @@ class LLMS_Person_Handler {
 
 		$matched_values = array();
 
-		foreach( $fields as $field ) {
+		foreach ( $fields as $field ) {
 
 			$name = isset( $field['name'] ) ? $field['name'] : $field['id'];
 			$label = isset( $field['label'] ) ? $field['label'] : $name;
 
-			$val = isset( $data[$name] ) ? $data[$name] : '';
+			$val = isset( $data[ $name ] ) ? $data[ $name ] : '';
 
 			// ensure required fields are submitted
 			if ( isset( $field['required'] ) && $field['required'] && empty( $val ) ) {
@@ -705,7 +695,7 @@ class LLMS_Person_Handler {
 			// scrub and check field data types
 			if ( isset( $field['type'] ) ) {
 
-				switch( $field['type'] ) {
+				switch ( $field['type'] ) {
 
 					// add the opposite value if not set
 					case 'checkbox':
@@ -757,12 +747,11 @@ class LLMS_Person_Handler {
 
 				if ( ! $match || $val !== $match ) {
 
-					$e->add( $field['id'], sprintf( __( '%s must match %s', 'lifterlms' ), $matched_values[$field['id']], $label ), 'match' );
+					$e->add( $field['id'], sprintf( __( '%s must match %s', 'lifterlms' ), $matched_values[ $field['id'] ], $label ), 'match' );
 
 				}
 
 			}
-
 
 		}
 

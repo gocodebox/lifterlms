@@ -36,7 +36,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 */
 	protected function get_property_type( $key ) {
 
-		switch( $key ) {
+		switch ( $key ) {
 
 			case 'capacity':
 				$type = 'absint';
@@ -240,7 +240,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 */
 	public function has_capacity() {
 
-		if ( 'yes' !== $this->get( 'enable_capacity') ) {
+		if ( 'yes' !== $this->get( 'enable_capacity' ) ) {
 			return true;
 		}
 
@@ -282,9 +282,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		// if no period is set, enrollment is automatically open
 		if ( 'yes' !== $this->get( 'enrollment_period' ) ) {
 			return true;
-		}
-
-		// time period exists, check against the current date
+		} // time period exists, check against the current date
 		else {
 
 			return ( $this->has_date_passed( 'enrollment_start_date' ) && ! $this->has_date_passed( 'enrollment_end_date' ) );
@@ -310,9 +308,7 @@ class LLMS_Course extends LLMS_Post_Model {
 
 			return true;
 
-		}
-
-		// time period exists, check against the current date
+		} // time period exists, check against the current date
 		else {
 
 			return ( $this->has_date_passed( 'start_date' ) && ! $this->has_date_passed( 'end_date' ) );

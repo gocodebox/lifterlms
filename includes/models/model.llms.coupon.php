@@ -128,12 +128,11 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 */
 	protected function get_property_type( $key ) {
 
-		switch( $key ) {
+		switch ( $key ) {
 			case 'coupon_amount':
 			case 'trial_amount':
 				$type = 'float';
 			break;
-
 
 			case 'usage_limit':
 				$type = 'absint';
@@ -265,20 +264,17 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 			$msg = __( 'This coupon has reached its usage limit and can no longer be used.', 'lifterlms' );
 
-		}
-		// expired?
+		} // expired?
 		elseif ( $this->is_expired() ) {
 
 			$msg = sprintf( __( 'This coupon expired on %s and can no longer be used.', 'lifterlms' ), $this->get_date( 'expiration_date', 'F d, Y' ) );
 
-		}
-		// can be applied to the submitted product?
+		} // can be applied to the submitted product?
 		elseif ( ! $this->applies_to_product( $plan->get( 'product_id' ) ) ) {
 
 			$msg = sprintf( __( 'This coupon cannot be used to purchase "%s".', 'lifterlms' ), get_the_title( $plan->get( 'product_id' ) ) );
 
-		}
-		elseif ( ! $this->applies_to_plan( $plan ) ) {
+		} elseif ( ! $this->applies_to_plan( $plan ) ) {
 
 			$msg = sprintf( __( 'This coupon cannot be used to purchase "%s".', 'lifterlms' ), $plan->get( 'title' ) );
 

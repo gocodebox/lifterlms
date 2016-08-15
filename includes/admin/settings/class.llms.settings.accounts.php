@@ -123,11 +123,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 			array( 'type' => 'sectionend', 'id' => 'account_page_options' ),
 
-
-
-
-
-
 			// start user info fields options
 			array(
 				'id' => 'user_info_field_options',
@@ -136,7 +131,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			array(
 				'title' => __( 'User Information Options', 'lifterlms' ),
 				'type' => 'title',
-				'id' => 'user_info_field_options_title'
+				'id' => 'user_info_field_options_title',
 			),
 
 			array(
@@ -188,7 +183,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-
 			array(
 				'desc' => __( 'Customize the user information fields available on the checkout screen.', 'lifterlms' ),
 				'title' => __( 'Checkout Fields', 'lifterlms' ),
@@ -226,7 +220,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'title'         => __( 'Email Confirmation', 'lifterlms' ),
 				'type'          => 'checkbox',
 			),
-
 
 			array(
 				'desc' => __( 'Customize the user information fields available on the open registration screen.', 'lifterlms' ),
@@ -272,7 +265,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'title'         => __( 'Email Confirmation', 'lifterlms' ),
 				'type'          => 'checkbox',
 			),
-
 
 			array(
 				'desc' => __( 'Customize the user information fields available on the account update screen.', 'lifterlms' ),

@@ -36,12 +36,11 @@ class LLMS_Product extends LLMS_Post_Model {
 		// if we have plans, setup access plan instances
 		if ( $q->have_posts() ) {
 			$plans = array();
-			foreach( $q->posts as $post ) {
+			foreach ( $q->posts as $post ) {
 				$plans[] = new LLMS_Access_Plan( $post );
 			}
 			return $plans;
-		}
-		// else return an empty array
+		} // else return an empty array
 		else {
 			return array();
 		}
@@ -51,7 +50,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	public function get_pricing_table_columns_count() {
 		$count = count( $this->get_access_plans() );
 
-		switch( $count ) {
+		switch ( $count ) {
 
 			case 0:
 				$cols = 1;
@@ -107,7 +106,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 */
 	protected function get_property_type( $key ) {
 
-		switch( $key ) {
+		switch ( $key ) {
 
 			case 'access_length':
 			case 'frequency':

@@ -53,11 +53,11 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @return array
 	 * @since  3.0.0
 	 */
-	protected function get_creation_args( $title = '') {
+	protected function get_creation_args( $title = '' ) {
 
 		return array_merge( parent::get_creation_args( $title ), array(
 			'post_status' 	 => 'publish',
- 		) );
+		) );
 
 	}
 
@@ -162,8 +162,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			// simple subtraction
 			if ( 'dollar' === $discount_type ) {
 				$price = $price - $coupon_amount;
-			}
-			// calculate the amount and subtract
+			} // calculate the amount and subtract
 			elseif ( 'percent' === $discount_type ) {
 				$price = $price - ( $price * ( $coupon_amount / 100 ) );
 			}
@@ -262,7 +261,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 			case 'limited-period':
 
-				$r = sprintf( _nx( '%s %s of access', '%s %ss of access', $this->get( 'access_length'), 'Access period', 'lifterlms' ), $this->get( 'access_length'), $this->get( 'access_period') );
+				$r = sprintf( _nx( '%s %s of access', '%s %ss of access', $this->get( 'access_length' ), 'Access period', 'lifterlms' ), $this->get( 'access_length' ), $this->get( 'access_period' ) );
 
 			break;
 
@@ -280,7 +279,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	protected function get_property_type( $key ) {
 
-		switch( $key ) {
+		switch ( $key ) {
 
 			case 'access_length':
 			case 'frequency':
@@ -434,7 +433,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			$now = current_time( 'timestamp' );
 
 			$start = $this->get( 'sale_start' );
-			$end = $this->get( 'sale_end');
+			$end = $this->get( 'sale_end' );
 
 			// no dates, the product is indefinitely on sale
 			if ( ! $start && ! $end ) {

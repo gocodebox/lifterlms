@@ -80,7 +80,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'id' => 'free-lesson-quiz-error',
 						'label' => '',
 						'type' => 'custom-html',
-						'value' => __( 'Quizzes cannot be assigned to free lessons.', 'lifterlms' )
+						'value' => __( 'Quizzes cannot be assigned to free lessons.', 'lifterlms' ),
 					),
 					array(
 						'class' 	=> 'llms-select2-post',

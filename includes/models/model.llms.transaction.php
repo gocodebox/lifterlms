@@ -39,7 +39,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 		$val = $this->get( $key );
 
-		switch( $key ) {
+		switch ( $key ) {
 
 			case 'payment_type':
 				if ( 'single' === $val ) {
@@ -71,8 +71,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		// can't refund failed or pending transactions
 		if ( 'llms-txn-failed' === $status || 'llms-txn-pending' === $status ) {
 			return false;
-		}
-		// if we've already refunded the full amount, we can't refund anymore
+		} // if we've already refunded the full amount, we can't refund anymore
 		elseif ( $this->get_refundable_amount( array(), 'float' ) <= 0 ) {
 			return false;
 		}
@@ -164,7 +163,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 */
 	protected function get_property_type( $key ) {
 
-		switch( $key ) {
+		switch ( $key ) {
 
 			case 'id':
 			case 'order_id':
@@ -226,7 +225,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		}
 
 		// validate the method & process the refund
-		switch( $method ) {
+		switch ( $method ) {
 
 			// we're okay here
 			case 'manual':
@@ -251,7 +250,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 			break;
 
-
 			default:
 				/**
 				 * Allow custom refund methods for fancy developer folk
@@ -261,15 +259,12 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 		}
 
-
 		// ouput an error
 		if ( is_wp_error( $refund_id ) ) {
 
 			return $refund_id;
 
-		}
-
-		// if we actually have a refund
+		} // if we actually have a refund
 		elseif ( is_string( $refund_id ) ) {
 
 			// filter the note before recording it
@@ -308,9 +303,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 			return $refund_id;
 
-		}
-
-		// wut happened?
+		} // wut happened?
 		else {
 
 			return new WP_Error( 'error', __( 'An unknown error occurred during refund processing', 'lifterlms' ) );

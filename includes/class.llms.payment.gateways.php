@@ -51,7 +51,7 @@ class LLMS_Payment_Gateways {
 			$order = absint( $load_gateway->get_display_order() );
 
 			// if the order already exists increment it by 1
-			if ( isset( $this->payment_gateways[$order] ) ) {
+			if ( isset( $this->payment_gateways[ $order ] ) ) {
 				$order++;
 			}
 
@@ -134,8 +134,6 @@ class LLMS_Payment_Gateways {
 
 
 	public function supports( $feature ) {
-
-
 
 	}
 
