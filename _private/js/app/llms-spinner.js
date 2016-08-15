@@ -1,13 +1,10 @@
 /* global LLMS, $ */
 
-/**
- * Main Ajax class
- * Handles Primary Ajax connection
- * @type {Object}
- */
 LLMS.Spinner = {
 
-	get: function( $el ) {
+	// default is 40px spinner (pass null for size)
+	// small is 20px spinner (pass "small")
+	get: function( $el, size ) {
 
 		// look for an existing spinner
 		var $spinner = $el.find( '.llms-spinning' ).first();
@@ -15,8 +12,10 @@ LLMS.Spinner = {
 		// no spinner inside $el
 		if ( !$spinner.length ) {
 
+			size = ' ' + size || '';
+
 			// create the spinner
-			$spinner = $( '<div class="llms-spinning"><i class="llms-spinner"></i></div>' );
+			$spinner = $( '<div class="llms-spinning"><i class="llms-spinner' + size + '"></i></div>' );
 
 			// add it to the dom
 			$el.append( $spinner );
@@ -28,9 +27,9 @@ LLMS.Spinner = {
 
 	},
 
-	start: function( $el ) {
+	start: function( $el, size ) {
 
-		this.get( $el ).show();
+		this.get( $el, size ).show();
 
 	},
 
