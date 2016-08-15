@@ -4,22 +4,50 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "db037c6982a64d6b5a2da571d3db5820",
-    "content-hash": "810b0ee881fe94d2506300deabfbd445",
-    "packages": [],
-    "packages-dev": [
+    "hash": "a63d1f62398c8d71203f6fd2cae26c81",
+    "content-hash": "ec9c4baf4fa4add7bd4b716fa84ef58b",
+    "packages": [
         {
-            "name": "squizlabs/php_codesniffer",
-            "version": "2.6.0",
+            "name": "gocodebox/action-scheduler",
+            "version": "dev-bleeding_branch",
             "source": {
                 "type": "git",
-                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "1bcdf03b068a530ac1962ce671dead356eeba43b"
+                "url": "https://github.com/gocodebox/action-scheduler.git",
+                "reference": "504800d1c11468eefeaf0e0858c4c709412183d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/1bcdf03b068a530ac1962ce671dead356eeba43b",
-                "reference": "1bcdf03b068a530ac1962ce671dead356eeba43b",
+                "url": "https://api.github.com/repos/gocodebox/action-scheduler/zipball/504800d1c11468eefeaf0e0858c4c709412183d8",
+                "reference": "504800d1c11468eefeaf0e0858c4c709412183d8",
+                "shasum": ""
+            },
+            "type": "library",
+            "authors": [
+                {
+                    "name": "Thomas Patrick Levy",
+                    "email": "thomasplevy@gmail.com"
+                }
+            ],
+            "description": "Fork of https://github.com/Prospress/action-scheduler",
+            "support": {
+                "source": "https://github.com/gocodebox/action-scheduler/tree/bleeding_branch"
+            },
+            "time": "2016-07-08 22:08:55"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "squizlabs/php_codesniffer",
+            "version": "2.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "fb72ed32f8418db5e7770be1653e62e0d6f5dd3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/fb72ed32f8418db5e7770be1653e62e0d6f5dd3d",
+                "reference": "fb72ed32f8418db5e7770be1653e62e0d6f5dd3d",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +112,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-04-03 22:58:34"
+            "time": "2016-05-30 22:24:32"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -92,12 +120,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git",
-                "reference": "b415094aa5fd24da6eba2295323bcff840902dd3"
+                "reference": "f50ccffe5ef3a77e84b3be9487cb7a477248a8ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/b415094aa5fd24da6eba2295323bcff840902dd3",
-                "reference": "b415094aa5fd24da6eba2295323bcff840902dd3",
+                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/f50ccffe5ef3a77e84b3be9487cb7a477248a8ea",
+                "reference": "f50ccffe5ef3a77e84b3be9487cb7a477248a8ea",
                 "shasum": ""
             },
             "require": {
@@ -120,12 +148,13 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2016-02-01 16:14:59"
+            "time": "2016-05-02 03:33:03"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "gocodebox/action-scheduler": 20,
         "wp-coding-standards/wpcs": 20
     },
     "prefer-stable": false,
