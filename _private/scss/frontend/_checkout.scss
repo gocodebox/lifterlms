@@ -1,95 +1,246 @@
-/* checkout form */
 .llms-checkout-wrapper {
-	border: 1px solid #f5f5f5;
-	width: 100%;
-	max-width: 800px;
-	margin: 0 auto;
-
-	.llms-checkout {
-		border-top-left-radius: 4px;
-		border-top-right-radius: 4px;
-
-		border-top:6px solid $color-red;
-
-
-		> h4 {
-			background-color: #f5f5f5;
-			padding: 6px 10px;
-			margin: 0;
-		}
-
-		.llms-title-wrapper {
-			border-bottom: 2px solid #f5f5f5;
-			display: block;
-			width: 100%;
-
-			p {
-				padding: 0 10px;
-				margin: 10px 0;
-			}
-			h4 {
-				padding: 0 10px;
-				margin: 10px 0;
-			}
-		}
-
-		.llms-price {
-			margin-bottom: 0;
-		}
-
-		.llms-price-wrapper {
-			margin: 10px;
-			font-size: 16px;
-		}
-
-		.llms-form-wrapper {
-			padding: 0 10px;
-			margin: 10px 0;
-			border-bottom: 2px solid #f5f5f5;
-		}
-	}
-
-	.llms-login-fields,
-	.llms-register-fields {
+	form.llms-login {
+		border: 3px solid $color-aqua;
 		display: none;
-
-		&.active {
-			display: block;
-		}
+		margin-bottom: 10px;
+		// padding: 15px 5px 5px;
 	}
-
+	.llms-form-heading {
+		background: $color-aqua;
+		color: #fff;
+		margin: 0 0 5px;
+		padding: 10px;
+	}
 }
 
-
-.llms-coupon-entry {
-
+.llms-checkout {
+	background: #fff;
 	position: relative;
+}
 
-	.llms-checkout-coupon {
-		display: none;
-		margin-top: 10px;
-	}
+.llms-checkout-cols-2 {
+	@extend %clearfix;
 
-	.llms-clear-box	{
-		margin-bottom: 5px;
-		padding: 5px 0 0;
-	}
+	@media all and (min-width: 800px) {
 
-	&.active {
+		.llms-checkout-col {
+			float: left;
 
-		.llms-info {
-
-			.llms-coupon-toggle-button {
-				display: none;
+			&.llms-col-1 {
+				margin-right: 5px;
+				width: calc( 58% - 5px );
 			}
+			&.llms-col-2 {
+				margin-left: 5px;
+				width: calc( 42% - 5px );
 
-		}
-
-
-		.llms-checkout-coupon {
-			display: block;
+				button {
+					width: 100%;
+				}
+			}
 		}
 
 	}
 
 }
+
+	.llms-checkout-section {
+		border: 3px solid $color-aqua;
+		margin-bottom: 10px;
+	}
+
+		.llms-checkout-section-content {
+			margin: 10px;
+			&.llms-form-fields {
+				margin: 0px;
+			}
+
+			.llms-label {
+				font-weight: 400;
+				font-variant: small-caps;
+				text-transform: lowercase;
+			}
+
+			.llms-order-summary {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+
+				li { list-style-type: none; }
+
+				&.on-sale,
+				&.has-coupon {
+					.price-regular { text-decoration: line-through; }
+				}
+
+			}
+
+			.llms-coupon-wrapper {
+				border-top: 1px solid #dadada;
+				margin-top: 10px;
+				padding-top: 10px;
+
+				.llms-coupon-entry {
+					display: none;
+					margin-top: 10px;
+				}
+			}
+
+		}
+
+		.llms-payment-gateway-option {
+			.llms-description {
+				margin-left: 5px;
+			}
+		}
+
+		.llms-gateway-icon,
+		.llms-payment-gateway-option .llms-description {
+			img {
+				max-height: 52px;
+				vertical-align: middle;
+			}
+		}
+
+
+		ul.llms-payment-gateways {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+
+			.llms-payment-gateway {
+				list-style-type: none;
+
+				.llms-form-field {
+					padding-bottom: 0;
+				}
+			}
+
+				.llms-gateway-fields,
+				.llms-gateway-description {
+					margin-left: 40px;
+				}
+
+			.llms-payment-gateway-error {
+				padding: 0 10px;
+			}
+		}
+
+		.llms-checkout-confirm {
+			border-top: 1px solid #dadada;
+			margin: 10px 10px 0;
+			padding-top: 10px;
+		}
+
+		.llms-payment-method {
+			margin: 10px 10px 0;
+		}
+
+		.llms-gateway-description {
+			p {
+				margin-bottom: 0;
+			}
+		}
+
+// /* checkout form */
+// .llms-checkout-wrapper {
+// 	background: #f1f1f1;
+// 	border: 2px solid $color-aqua;
+// 	width: 100%;
+// 	max-width: 800px;
+// 	margin: 0 auto;
+
+// 	.llms-checkout {
+
+// 		.llms-checkout-title {
+// 			background: $color-aqua;
+// 			color: #fff;
+// 			margin: 0;
+// 			padding: 10px;
+// 		}
+
+// 		.llms-title-wrapper {
+// 			display: block;
+// 			width: 100%;
+
+// 			p {
+// 				padding: 0 10px;
+// 				margin: 10px 0;
+// 			}
+// 			h4 {
+// 				padding: 0 10px;
+// 				margin: 10px 0;
+// 			}
+// 		}
+
+// 		.llms-price {
+// 			margin-bottom: 0;
+// 		}
+
+// 		.llms-price-wrapper {
+// 			margin: 10px;
+// 			font-size: 16px;
+// 		}
+
+// 		.llms-form-wrapper {
+// 			padding: 0 10px;
+// 			margin: 10px 0;
+// 			border-bottom: 2px solid #f5f5f5;
+// 		}
+
+// 		.llms-notice-box {
+// 			border-radius: 0;
+// 			background: #fff;
+// 		}
+// 	}
+
+// 	.llms-login-fields,
+// 	.llms-register-fields {
+// 		display: none;
+
+// 		&.active {
+// 			display: block;
+// 		}
+// 	}
+
+// 	.llms-inner-fields {
+// 		background: #fff;
+// 		border: 1px solid #ccc;
+// 		padding: 15px 20px;
+// 	}
+
+// }
+
+
+// .llms-coupon-entry {
+
+// 	position: relative;
+
+// 	.llms-checkout-coupon {
+// 		display: none;
+// 		margin-top: 10px;
+// 	}
+
+// 	.llms-clear-box	{
+// 		margin-bottom: 5px;
+// 		padding: 5px 0 0;
+// 	}
+
+// 	&.active {
+
+// 		.llms-info {
+
+// 			.llms-coupon-toggle-button {
+// 				display: none;
+// 			}
+
+// 		}
+
+
+// 		.llms-checkout-coupon {
+// 			display: block;
+// 		}
+
+// 	}
+
+// }
