@@ -709,7 +709,7 @@ class LLMS_Post_Types {
 		 */
 		$quiz_permalink = empty( $permalinks['quiz_base'] ) ? _x( 'llms_quiz', 'slug', 'lifterlms' ) : $permalinks['quiz_base'];
 	    register_post_type( 'llms_quiz',
-		    apply_filters( 'lifterlms_register_post_type_section',
+		    apply_filters( 'lifterlms_register_post_type_quiz',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'Quizzes', 'lifterlms' ),
@@ -738,7 +738,7 @@ class LLMS_Post_Types {
 					'rewrite' 				=> $quiz_permalink ? array( 'slug' => untrailingslashit( $quiz_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'author' ),
+					'supports' 				=> array( 'title', 'editor', 'author', 'custom-fields' ),
 				)
 			)
 		);
@@ -748,7 +748,7 @@ class LLMS_Post_Types {
 		 */
 		$question_permalink = empty( $permalinks['question_base'] ) ? _x( 'llms_question', 'slug', 'lifterlms' ) : $permalinks['question_base'];
 	    register_post_type( 'llms_question',
-		    apply_filters( 'lifterlms_register_post_type_section',
+		    apply_filters( 'lifterlms_register_post_type_question',
 				array(
 					'labels' => array(
 							'name' 					=> __( 'Questions', 'lifterlms' ),
@@ -777,7 +777,7 @@ class LLMS_Post_Types {
 					'rewrite' 				=> $question_permalink ? array( 'slug' => untrailingslashit( $question_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments' ),
+					'supports' 				=> array( 'title', 'editor' ),
 				)
 			)
 		);

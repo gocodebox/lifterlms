@@ -485,28 +485,31 @@ class LLMS_Product {
 
 			$now = current_time( 'timestamp' );
 
-			$start = $this->get_sale_start_date() . ' 00:00:00';
-			$end = $this->get_sale_end_date() . ' 23:23:59'; // make the end of the day
+			$start = $this->get_sale_start_date();
+			$end = $this->get_sale_end_date();
+
+			// no dates, the product is indefinitely on sale
+			if ( ! $start && ! $end ) {
+				return true;
+			}
+
+			$start = ( $start ) ? strtotime( $start . ' 00:00:00' ) : $start;
+			$end = ( $end ) ? strtotime( $end . ' 23:23:59' ) : $end;
 
 			// start and end
 			if ( $start && $end ) {
 
-				return ( $now < strtotime( $end ) && $now > strtotime( $start ) );
+				return ( $now < $end && $now > $start );
 
 			} // only start
 			elseif ( $start && ! $end ) {
 
-				return ( $now > strtotime( $start ) );
+				return ( $now > $start );
 
 			} // only end
 			elseif ( ! $start && $end ) {
 
-				return ( $now < strtotime( $end ) );
-
-			} // neither start nor end
-			else {
-
-				return true;
+				return ( $now < $end );
 
 			}
 

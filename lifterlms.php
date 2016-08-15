@@ -3,7 +3,7 @@
 * Plugin Name: LifterLMS
 * Plugin URI: https://lifterlms.com/
 * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
-* Version: 2.7.2
+* Version: 3.0.0
 * Author: Mark Nelson, Thomas Patrick Levy, codeBOX, LLC
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '2.7.2';
+	public $version = '3.0.0';
 
 	protected static $_instance = null;
 
@@ -156,6 +156,11 @@ final class LifterLMS {
 			define( 'LLMS_SVG_DIR', plugins_url( '/assets/svg/svg.svg', LLMS_PLUGIN_FILE ) );
 		}
 
+		if ( ! defined( 'LLMS_LOG_DIR' ) ) {
+			$upload_dir = wp_upload_dir();
+			define( 'LLMS_LOG_DIR', $upload_dir['basedir'] . '/llms-logs/' );
+		}
+
 	}
 
 	/**
@@ -167,14 +172,17 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.install.php' );
 		include_once( 'includes/class.llms.session.php' );
 
+		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
+
 		if ( is_admin() ) {
 
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php' );
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php' );
-			include_once( 'includes/admin/llms.class.admin.metabox.php' );
 			include_once( 'includes/admin/class.llms.admin.php' );
 			include_once( 'includes/class.llms.analytics.php' );
 			include_once( 'includes/admin/class.llms.admin.reviews.php' );
+
+			require 'includes/abstracts/abstract.llms.admin.metabox.php';
 
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
 
@@ -205,15 +213,13 @@ final class LifterLMS {
 
 		// Custom Post Type Models
 		require_once 'includes/abstracts/abstract.llms.post.model.php';
-		require_once 'includes/models/model.llms.access.plan.php';
-		require_once 'includes/models/model.llms.product.php';
+		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/models/*.php', GLOB_NOSORT ) as $model ) {
+			require_once $model;
+		}
 
 		// Classes
-		// include_once( 'includes/class.llms.product.php' );
-		include_once( 'includes/class.llms.course.php' );
 		include_once( 'includes/class.llms.student.php' );
 		include_once( 'includes/class.llms.section.php' );
-		include_once( 'includes/class.llms.lesson.php' );
 		include_once( 'includes/class.llms.lesson.handler.php' );
 		include_once( 'includes/class.llms.quiz.php' );
 		include_once( 'includes/class.llms.question.php' );
@@ -221,7 +227,8 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.review.php' );
 
 		//handler classes
-		include_once( 'includes/class.llms.post.handler.php' );
+		require_once 'includes/class.llms.person.handler.php';
+		require_once 'includes/class.llms.post.handler.php';
 
 		include_once( 'includes/class.llms.widgets.php' );
 		include_once( 'includes/class.llms.widget.php' );
@@ -230,6 +237,9 @@ final class LifterLMS {
 
 		// controllers
 		include_once( 'includes/controllers/class.llms.controller.orders.php' );
+
+		// comments
+		include_once( 'includes/class.llms.comments.php' );
 
 		$this->query = new LLMS_Query();
 

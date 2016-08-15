@@ -45,11 +45,11 @@ LLMS.Quiz = {
 			if(accordion.hasClass('hidden')) {
 				accordion.fadeIn(300);
 				accordion.removeClass('hidden');
-				$(this).text('Hide Summary');
+				$(this).text( LLMS.l10n.translate( 'Hide Summary' ) );
 			} else{
 				accordion.fadeOut(300);
 				accordion.addClass('hidden');
-				$(this).text('View Summary');
+				$(this).text( LLMS.l10n.translate( 'View Summary' ) );
 			}
 		});
 
@@ -112,8 +112,8 @@ LLMS.Quiz = {
 		if ( $( 'input[name=llms_option_selected]:checked' ).length <= 0 ){
 
 			$('#llms-quiz-question-wrapper .llms-error').remove();
-			$('#llms-quiz-question-wrapper')
-				.prepend( '<div class="llms-error">You must enter an answer to continue.</div>' );
+			var string = LLMS.l10n.translate( 'You must enter an answer to continue.' );
+			$('#llms-quiz-question-wrapper').prepend( '<div class="llms-error">' + string + '</div>' );
 
 		} else {
 

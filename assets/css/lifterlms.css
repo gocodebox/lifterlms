@@ -1231,6 +1231,7 @@ svg .llms-animated-circle {
   padding: 15px;
 }
 .quiz-summary .accordion .panel-heading {
+  cursor: pointer;
   padding: 10px 15px;
   border-bottom: 1px solid transparent;
   border-top-left-radius: 3px;

@@ -23,19 +23,19 @@ ul.tabs li{
 	.llms-select {
 		width: 50%;
 		max-width: 500px;
-	
+
 	}.llms-filter-options {
 		width: 50%;
 		//display: inline-block;
 		max-width: 500px;
-	
+
 	}.llms-date-select {
 		width: 47.5%;
-		
+
 		&:first-child {
 			margin-right: 5%
 		}
-		
+
 	}
 }
 
@@ -57,7 +57,13 @@ ul.tabs li{
 	select,
 	textarea, {
 		width: 50%;
-	}.form-table th {
+
+		&.medium { width: 30%; }
+		&.small { width: 20%; }
+		&.tiny { width: 10%; }
+	}
+
+	.form-table th {
 		width: 140px;
 	}
 

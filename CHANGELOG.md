@@ -1,7 +1,7 @@
-== Changelog ==
+== Changelog =
 
-= v3.0.0 - 2016/06/?? =
------------------------
+= v3.0.0-alpha.1 - 2016/08/15 =
+-------------------------------
 
 **This is a massive update which _breaks_ backwards compatibility for many LifterLMS features. A database migration is also necessary for upgrading users to reformat certain pieces of information which are being accessed differently in 3.0.0**
 
@@ -69,11 +69,44 @@
 + Removed `add_query_var_course_id()` function
 + Removed `displaying_sidebar_in_post_types()` function with the `LLMS_Sidebars::replace_default_sidebars()` function
 + Filter `lifterlms_order_process_pending_redirect` has been replaced with `lifterlms_order_process_payment_redirect`
-+ Action `lifterlms_order_process_begin` has been replaced with `lifterlms_order_process_payment_redirect`
++ Action `lifterlms_order_process_begin` has been deprecated
 + Removed  `lifterlms_order_process_complete` action
 + Replaced `LLMS_Course::check_enrollment()` with various new utilities. See `llms_is_user_enrolled()` for fastest use.
 + Officially removed the `LLMS_Language` class
 + Officially removed the `PluginUpdateChecker` class stubs we created to prevent updating issues with LifterLMS extensions during our transition to 2.0.0. This library has caused nothing but pain for everyone on our team and many of our users. It's gone now, forever.
++ Removed function `lifterlms_template_single_price()` and replacted with `lifterlms_template_pricing_table()`
++ Removed templates at "includes/course/price.php" and "includes/membership/price.php" in favor of "includes/product/pricing-table.php"
+
++ Removed `LLMS_Person::create_new_person()` in favor of `LLMS_Person_Handler::register()` or `llms_create_new_person()`
++ Removed `LLMS_Person->set_user_login_timestamp_on_register()` and are simply adding the metadata during registration
++ Removed `lifterlms_register_post` action hook which fired after new user registration validation, this has been replaced with `lifterlms_user_registration_after_validation`
++ Removed `lifterlms_new_person_data` and `lifterlms_new_person_address` filters, replaced with `lifterlms_user_registration_data`
+
++ Removed `LLMS_Person::login_user()` in favor of `LLMS_Person_Handler::login()`
+
+
+= v2.7.4 - 2016/05/26 =
+-----------------------
+
++ Fixed a bug with the new localization methods from 2.7.3
++ Removed bundled it_IT translation files in favor of official language pack available at [https://translate.wordpress.org/projects/wp-plugins/lifterlms/language-packs](https://translate.wordpress.org/projects/wp-plugins/lifterlms/language-packs).
++ Removed bundled en_US translation files because LifterLMS is in English so the files are unnecessary.
++ Fixed a few mis-labled filters applied when registering LifterLMS Custom Post Types
++ Adjusted the default supported features of LifterLMS Quizzes and Questions
+  + Quizzes now support custom fields as per user request
+  + Commenting, thumbnails, and excerpts are no longer "supported" as they were never intended to be and were never correctly implemented.
+    + If you are relying on any of these features for your quizzes or questions please use the following filters to re-implement these features: `lifterlms_register_post_type_quiz` or `lifterlms_register_post_type_question`. These will allow you filter the default arguments LifterLMS passes to the WordPress function `register_post_type()`
+
+
+= v2.7.3 - 2016/05/23 =
+-----------------------
+
++ Added a separate filter for login redirects `lifterlms_login_redirect` and added the user_id as a second parameter available to the filter
++ Added second parameter to `lifterlms_registration_redirect` to allow access to the registered users's user_id
++ Fixed a timestamp conversion issue on Course sale price checks that caused indefinite sales (those with no date restrictions) to appear not on sale during certain periods of time. The period would differe depending on the server's timezone settings and the time of visit.
++ Added a "Pointer" when hovering quiz summary accordion to allow for a slightly more obvious user experience that the elements are expandable.
++ Added some new localization methods to ensure strings that only appear in Javascript files will be translator friendly. This initially fixes a few issues on the Quiz Summary page and during quiz taking where strings only appeared in Javascript and were, therefore, completely inaccessible to translators.
+
 
 = v2.7.2 - 2016/05/19 =
 -----------------------
