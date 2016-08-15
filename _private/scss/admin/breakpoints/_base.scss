@@ -4,7 +4,7 @@ Base Mobile
 
 ******************************************************************/
 
-   
+
 .llms-nav-tab {
 	display: block;
 	width: 100%;
@@ -20,16 +20,16 @@ Base Mobile
 	.llms-select {
 		width: 100%;
 		margin-bottom: 20px;
-	
+
 	}.llms-checkbox {
 		display: inline-block;
 		width: 100%;
 		text-align: left;
-			
+
 	}.llms-filter-options {
 		width: 100%;
 		//margin-bottom: 20px;
-	
+
 	}.llms-date-select {
 		width: 100%;
 		display: inline-block;
@@ -37,7 +37,7 @@ Base Mobile
 		input[type="text"] {
 			width: 100%;
 		}
-	
+
 	}.llms-search-button {
 		//display: inline-block;
 		//width: 30%;
@@ -47,7 +47,7 @@ Base Mobile
 	}
 
 	}
-	
+
 }
 
 .llms-widget-full {
@@ -58,6 +58,18 @@ Base Mobile
 .llms-widget {
 	.form-table td {
 		padding: 15px 0;
+		ul { margin: 5px 0 0; }
+
+
+		.conditional-field {
+			display: none;
+			margin-left: 25px;
+		}
+		.conditional-radio:checked ~ .conditional-field {
+			display: block;
+		}
+
+
 	}
 }
 

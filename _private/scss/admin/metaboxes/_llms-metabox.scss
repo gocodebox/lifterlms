@@ -24,6 +24,11 @@
 		margin: 0;
 	}
 
+	.llms-button-primary {
+	    cursor: pointer;
+	    padding: 8px 18px;
+	}
+
 	.llms-transaction-test-mode {
 		background: #ffffd7;
 		font-style: italic;
@@ -40,6 +45,7 @@
 
 .llms-metabox-section {
 
+	background: #fff;
 	margin-top: 25px;
 
 	&.no-top-margin {
@@ -48,6 +54,7 @@
 
 	.llms-metabox-field {
 		margin: 15px 0;
+		position: relative;
 		label {
 			color: #777;
 			display: block;
@@ -56,7 +63,10 @@
 			vertical-align: baseline;
 		}
 
-		select {
+		select,
+		textarea,
+		input[type="text"],
+		input[type="number"] {
 			width: 100%;
 		}
 
@@ -69,4 +79,60 @@
 		}
 
 	}
+}
+
+.llms-collapsible {
+
+	@extend %clearfix;
+
+	border: 1px solid #e5e5e5;
+	position: relative;
+	margin-top: 0;
+	margin-bottom: -1px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	&.opened .llms-collapsible-header {
+		.dashicons-arrow-down {
+			display: none;
+		}
+		.dashicons-arrow-up {
+			display: inline;
+		}
+	}
+
+	.llms-collapsible-header {
+		@extend %clearfix;
+		padding: 10px;
+
+		.dashicons-arrow-up {
+			display: inline;
+		}
+		.dashicons-arrow-up {
+			display: none;
+		}
+
+		.dashicons {
+			color: #777;
+			cursor: pointer;
+			transition: color .4s ease;
+			&:hover {
+				color: #069cb5;
+			}
+
+			&.dashicons-no:hover {
+				color: #e26049;
+			}
+		}
+
+	}
+
+	.llms-collapsible-body {
+		@extend %clearfix;
+		display: none;
+		padding: 10px;
+	}
+
 }

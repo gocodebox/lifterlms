@@ -1,0 +1,38 @@
+#llms-new-access-plan-model {
+	display: none;
+}
+
+#llms-delete-plan-modal {
+	.llms-button-danger {
+		display: block;
+		margin: 0 auto;
+		text-align: center;
+		width: 60px;
+	}
+}
+
+.llms-access-plans {
+	@extend %clearfix;
+	margin-top: 25px;
+
+	> p { display: none; }
+	> p:last-child { display: block; }
+
+	&.dragging {
+		background: #efefef;
+		box-shadow: inset 0 0 0 1px #e5e5e5;
+	}
+
+}
+
+.llms-access-plan {
+
+	[data-controller] {
+		display: none;
+	}
+
+	.llms-metabox-field {
+		margin: 5px 0;
+	}
+
+}
