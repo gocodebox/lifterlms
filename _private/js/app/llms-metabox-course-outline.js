@@ -14,7 +14,7 @@ LLMS.MB_Course_Outline = {
 	 */
 	init: function() {
 
-		if ( 'course' === window.llms.post.post_type ) {
+		if ( window.llms.post && 'course' === window.llms.post.post_type ) {
 			this.bind();
 		}
 

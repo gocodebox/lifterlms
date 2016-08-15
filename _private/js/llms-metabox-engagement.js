@@ -1,40 +1,40 @@
 jQuery(document).ready(function($) {
 
 	$('#_llms_trigger_type').change(function() {
-		console.log('LLMS Engagement Trigger Changed');
+		// console.log('LLMS Engagement Trigger Changed');
 
 		var triggerOptionSelected = $("option:selected", this);
     	var triggerValueSelected = this.value;
 
 		if (triggerValueSelected == 'lesson_completed') {
-			console.log('LLMS Engagement: Begin Lesson Query');
+			// console.log('LLMS Engagement: Begin Lesson Query');
 			var lessons = get_all_lessons();
-			console.log('LLMS Engagement: End Lesson Query');
+			// console.log('LLMS Engagement: End Lesson Query');
 		}
 		else if (triggerValueSelected == 'section_completed') {
-			console.log('LLMS Engagement: Begin Section Query');
+			// console.log('LLMS Engagement: Begin Section Query');
 			var sections = get_all_sections();
-			console.log('LLMS Engagement: End Section Query');
+			// console.log('LLMS Engagement: End Section Query');
 		}
 		else if (triggerValueSelected == 'course_completed') {
-			console.log('LLMS Engagement: Begin Course Query');
+			// console.log('LLMS Engagement: Begin Course Query');
 			var courses = get_all_courses();
-			console.log('LLMS Engagement: End Course Query');
+			// console.log('LLMS Engagement: End Course Query');
 		}
 		else if (triggerValueSelected == 'course_purchased') {
-			console.log('LLMS Engagement: Begin Course Query');
+			// console.log('LLMS Engagement: Begin Course Query');
 			var courses = get_all_courses();
-			console.log('LLMS Engagement: End Course Query');
+			// console.log('LLMS Engagement: End Course Query');
 		}
 		else if (triggerValueSelected == 'membership_purchased') {
-			console.log('LLMS Engagement: Begin Memebership Query');
+			// console.log('LLMS Engagement: Begin Memebership Query');
 			var courses = get_all_memberships();
-			console.log('LLMS Engagement: End Membership Query');
+			// console.log('LLMS Engagement: End Membership Query');
 		}
 		else if (triggerValueSelected == 'course_track_completed') {
-			console.log('LLMS Engagement: Begin Course Track Query');
+			// console.log('LLMS Engagement: Begin Course Track Query');
 			var course_tracks = get_all_course_tracks();
-			console.log('LLMS Engagement: End Course Track Query');
+			// console.log('LLMS Engagement: End Course Track Query');
 		}
 		else {
 			clear_trigger_select();
@@ -103,7 +103,7 @@ return_data = function (response) {
 }
 
 return_engagement_data = function (response) {
-	console.log(response);
+	// console.log(response);
 	clear_engagement_select();
 
 		var th = document.createElement('th');
