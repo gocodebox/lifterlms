@@ -33,16 +33,3 @@ function get_lesson( $the_lesson = false, $args = array() ) {
 	return LLMS()->course_factory->get_lesson( $the_lesson, $args );
 
 }
-
-/**
- * Retrieve page ids
- *
- * @param string $page
- * @return int
- */
-function llms_get_page_id( $page ) {
-
-	$page = apply_filters( 'lifterlms_get_' . $page . '_page_id', get_option( 'lifterlms_' . $page . '_page_id' ) );
-
-	return $page ? $page : -1;
-}
