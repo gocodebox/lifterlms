@@ -1,11 +1,10 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Core functions file
 *
 * Misc functions used by lifterLMS core.
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 //include other function files
 include( 'functions/llms.functions.access.php' );
@@ -277,13 +276,67 @@ function llms_expire_membership() {
 add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
 
 /**
- * Get Coupon
- * @todo  deprecate
+ * Get a coupon
+ * @todo  deprecate (maybe...)
  * @return object [coupon session object]
  */
 function llms_get_coupon() {
 	$coupon = LLMS()->session->get( 'llms_coupon', array() );
 	return $coupon;
+}
+
+/**
+ * Get a list of available course / membership enrollment statuses
+ * @return   array
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+function llms_get_enrollment_statuses() {
+	return apply_filters( 'llms_get_enrollment_statuses', array(
+		'cancelled' => __( 'Cancelled', 'lifterlms' ),
+		'enrolled' => __( 'Enrolled', 'lifterlms' ),
+		'expired' => __( 'Expired', 'lifterlms' ),
+	) );
+}
+
+/**
+ * Get the human readable (and translated) name of an enrollment status
+ * @param    string     $status  enrollment status key
+ * @return   string
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+function llms_get_enrollment_status_name( $status ) {
+	$status = strtolower( $status ); // backwards compatibility
+	$statuses = llms_get_enrollment_statuses();
+	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
+		$status = $statuses[ $status ];
+	}
+	return apply_filters( 'lifterlms_get_enrollment_status_name ', $status );
+}
+
+/**
+ * Get the most recently created coupon ID for a given code
+ * @since   3.0.0
+ * @version 3.0.0
+ * @param   string $code        the coupon's code (title)
+ * @param   int    $dupcheck_id an optional coupon id that can be passed which will be excluded during the query
+ *                              this is used to dupcheck the coupon code during coupon creation
+ * @return  int
+ */
+function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
+	global $wpdb;
+	return $wpdb->get_var( $wpdb->prepare(
+		"SELECT id
+		 FROM {$wpdb->posts}
+		 WHERE post_title = %s
+		 AND post_type = 'llms_coupon'
+		 AND post_status = 'publish'
+		 AND ID != %d
+		 ORDER BY ID desc;
+		",
+		array( $code, $dupcheck_id )
+	) );
 }
 
 /**
@@ -315,7 +368,7 @@ function llms_get_ip_address() {
  */
 function llms_get_order_statuses( $order_type = 'any' ) {
 
-	$statuses = apply_filters( 'llms_get_order_statuses', array(
+	$statuses = array(
 		'llms-active'    => __( 'Active', 'lifterlms' ),
 		'llms-cancelled' => __( 'Cancelled', 'lifterlms' ),
 		'llms-completed' => __( 'Completed', 'lifterlms' ),
@@ -323,7 +376,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 		'llms-failed'    => __( 'Failed', 'lifterlms' ),
 		'llms-pending'   => __( 'Pending', 'lifterlms' ),
 		'llms-refunded'  => __( 'Refunded', 'lifterlms' ),
-	), $order_type );
+	);
 
 	// remove types depending on order type
 	switch ( $order_type ) {
@@ -337,7 +390,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 		break;
 	}
 
-	return $statuses;
+	return apply_filters( 'llms_get_order_statuses', $statuses, $order_type );
 }
 
 /**
@@ -347,14 +400,13 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  *
  * @since  3.0.0
  */
-function llms_get_formatted_order_status( $status ) {
+function llms_get_order_status_name( $status ) {
 	$statuses = llms_get_order_statuses();
 	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
 		$status = $statuses[ $status ];
 	}
-	return apply_filters( 'lifterlms_get_formatted_order_status', $status );
+	return apply_filters( 'lifterlms_get_order_status_name ', $status );
 }
-
 
 /**
  * Retrive an LLMS Order ID by the associated order_key
@@ -378,23 +430,320 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
 
 }
 
+
 /**
- * LLMS debug function
- *
- * @param  mixed $message [array or object]
- * @return logs message to wp log file
+ * Retrieve the WordPress Page ID of a LifterLMS Page
+ * EG: 'checkout', 'memberships', etc...
+ * @param  string $page name of the page
+ * @return int
  */
-function llms_log( $message ) {
+function llms_get_page_id( $page ) {
 
-	if ( WP_DEBUG === true ) {
+	// normalize some pages to make more sense without having to migrate options
+	if ( 'courses' === $page ) {
+		$page = 'shop';
+	}
 
-		if ( is_array( $message ) || is_object( $message ) ) {
+	$page = apply_filters( 'lifterlms_get_' . $page . '_page_id', get_option( 'lifterlms_' . $page . '_page_id' ) );
+	return $page ? absint( $page ) : -1;
+}
 
-			error_log( print_r( $message, true ) );
+/**
+ * Retrive the URL for a LifterLMS Page
+ * EG: 'checkout', 'memberships', etc...
+ * @param  string $page name of the page
+ * @param  array  $args optional array of query arguments that can be passed to add_query_arg()
+ * @return string
+ * @since  3.0.0
+ */
+function llms_get_page_url( $page, $args = array() ) {
+	$url = add_query_arg( $args, get_permalink( llms_get_page_id( $page ) ) );
+	return $url ? $url : '';
+}
 
+/**
+ * Retrieve an array of existing transaction statuses
+ * @return   array
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+function llms_get_transaction_statuses( ) {
+	return apply_filters( 'llms_get_transaction_statuses', array(
+		'llms-txn-failed',
+		'llms-txn-pending',
+		'llms-txn-refunded',
+		'llms-txn-succeeded',
+	) );
+}
+
+/**
+ * Trim a string and append a suffix.
+ * @param  string  $string  input string
+ * @param  int     $chars   max number of characters
+ * @param  string  $suffix  optionally append a suffix
+ * @return string
+ * @since  3.0.0
+ * @version  3.0.0
+ * @source thank you WooCommerce <3
+ */
+function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
+	if ( strlen( $string ) > $chars ) {
+		if ( function_exists( 'mb_substr' ) ) {
+			$string = mb_substr( $string, 0, ( $chars - mb_strlen( $suffix ) ) ) . $suffix;
 		} else {
-
-			error_log( $message );
+			$string = substr( $string, 0, ( $chars - strlen( $suffix ) ) ) . $suffix;
 		}
 	}
+	return $string;
 }
+
+
+function llms_are_terms_and_conditions_required() {
+
+	$enabled = get_option( 'lifterlms_registration_require_agree_to_terms' );
+	$page_id = get_option( 'lifterlms_terms_page_id', false );
+
+	return ( $enabled && $page_id );
+
+}
+
+
+if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
+
+	function llms_agree_to_terms_form_field( $echo = true ) {
+
+		if ( llms_are_terms_and_conditions_required() ) {
+
+			$page_id = get_option( 'lifterlms_terms_page_id', false );
+
+			llms_form_field( array(
+				'columns' => 12,
+				'description' => '',
+				'default' => 'no',
+				'id' => 'llms_agree_to_terms',
+				'label' => wp_kses( sprintf( _x( 'I have read and agree to the <a href="%s" target="_blank">%s</a>.', 'terms and conditions checkbox', 'lifterlms' ), get_the_permalink( $page_id ), get_the_title( $page_id ) ), array(
+					'a' => array(
+						'href' => array(),
+						'target' => array(),
+					),
+					'b' => array(),
+					'em' => array(),
+					'i' => array(),
+					'strong' => array(),
+				) ),
+				'last_column' => true,
+				'required' => true,
+				'type'  => 'checkbox',
+				'value' => 'yes',
+			), $echo );
+
+		}
+	}
+
+}
+
+
+
+
+function llms_form_field( $field = array(), $echo = true ) {
+
+	$field = array_merge( array(
+		'columns' => 12,
+		'classes' => '',
+		'description' => '',
+		'default' => '',
+		'id' => '',
+		'label' => '',
+		'last_column' => true,
+		'match' => '',
+		'name' => '',
+		'options' => array(),
+		'placeholder' => '',
+		'required' => false,
+		'selected' => '',
+		'type'  => 'text',
+		'value' => '',
+		'wrapper_classes' => '',
+	), $field );
+
+	// setup the field value (if one exists)
+	if ( '' !== $field['value'] ) {
+		$field['value'] = $field['value'];
+	} elseif ( '' !== $field['default'] ) {
+		$field['value'] = $field['default'];
+	}
+	$value_attr = ( '' !== $field['value'] ) ? ' value="' . $field['value'] . '"' : '';
+
+	// use id as the name if name isn't specified
+	$field['name'] = ! $field['name'] ? $field['id'] : $field['name'];
+
+	// duplicate label to placeholder if none is specified
+ 	$field['placeholder'] = ! $field['placeholder'] ? $field['label'] : $field['placeholder'];
+ 	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
+
+
+	// add space to classes
+	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
+	$field['classes'] = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
+
+	// add column information to the warpper
+	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
+	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
+
+	$desc = $field['description'] ? '<span class="llms-description">' . $field['description'] . '</span>' : '';
+
+	// required attributes and content
+	$required_char = apply_filters( 'lifterlms_form_field_required_character', '*', $field );
+	$required_span = $field['required'] ? ' <span class="llms-required">' . $required_char . '</span>' : '';
+	$required_attr = $field['required'] ? ' required="required"' : '';
+
+
+	// setup the label
+	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span. '</label>' : '';
+
+	$r  = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
+
+		if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
+			$r .= $label;
+		}
+
+		switch( $field['type'] ) {
+
+			case 'button':
+			case 'reset':
+			case 'submit':
+				$r .= '<button class="llms-field-button' . $field['classes'] . '"id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '">' . $field['value'] . '</button>';
+			break;
+
+			case 'checkbox':
+			case 'radio':
+				$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
+				$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '"' . $checked . $required_attr . $value_attr . '>';
+				$r .= $label;
+			break;
+
+			case 'html':
+				$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '"></div>';
+			break;
+
+			case 'select':
+				$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '"' . $required_attr . '>';
+				foreach( $field['options'] as $k => $v ) {
+					$r .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
+				}
+				$r .= '</select>';
+			break;
+
+			case 'textarea':
+				$r .= '<textrea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '"' . $required_attr . '>' . $field['value'] . '</textarea>';
+			break;
+
+			default:
+				$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $required_attr . $value_attr . '>';
+
+		}
+
+		if ( 'hidden' !== $field['type'] ) {
+			$r .= $desc;
+		}
+
+	$r .= '</div>';
+
+	if ( $field['last_column'] ) {
+		$r .= '<div class="clear"></div>';
+	}
+
+	$r = apply_filters( 'llms_form_field', $r, $field );
+
+	if ( $echo ) {
+
+		echo $r;
+		return;
+
+	}  else {
+
+		return $r;
+
+	}
+
+}
+
+
+
+
+/**
+ * Retrive the full path to the log file for a given log handle
+ * @param    string  $handle  log handle
+ * @return   string
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+function llms_get_log_path( $handle ) {
+	return trailingslashit( LLMS_LOG_DIR ) . $handle . '-' . sanitize_file_name( wp_hash( $handle ) ) . '.log';
+}
+
+/**
+ * Log arbitrary messages to a log file
+ *
+ *
+ * @param  mixed   $message   data to log
+ * @param  string  $handle    allow creation of multiple log files by handle
+ * @return boolean
+ * @since  1.0.0
+ * @version  3.0.0
+ */
+function llms_log( $message, $handle = 'llms' ) {
+
+	$r = false;
+
+	// open the file (creates it if it doesn't already exist)
+	if ( $fh = fopen( llms_get_log_path( $handle ), 'a' ) ) {
+
+		// print array or objects with print_r
+		if ( is_array( $message ) || is_object( $message ) ) {
+			$message = print_r( $message, true );
+		}
+
+		$r = fwrite( $fh, date_i18n( 'm-d-Y @ H:i:s -' ) . ' ' . $message . "\n" );
+
+		fclose( $fh );
+
+	}
+
+	return $r;
+
+}
+
+/**
+ * Create an array that can be passed to metabox select elements
+ * configured as an llms-select2-post query-ier
+ * @param    array      $post_ids  indexed array of WordPress Post IDs
+ * @param    string     $template  an optional template to customize the way the results look
+ *                                 {title} and {id} can be passed into the template
+ *                                 and will be replaced with the post title and post id respectively
+ * @return   array
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
+
+	if ( ! $template ) {
+		$template = '{title} (' . __( 'ID#', 'lifterlms' ) . ' {id})';
+	}
+
+	$r = array();
+	foreach( $post_ids as $id ) {
+
+		$title = str_replace( array( '{title}', '{id}' ), array( get_the_title( $id ), $id ), $template );
+
+		$r[] = array(
+			'key' => $id,
+			'title' => $title,
+		);
+	}
+	return apply_filters( 'llms_make_select2_post_array', $r, $post_ids );
+
+}
+
+
+

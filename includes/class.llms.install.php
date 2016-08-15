@@ -17,7 +17,7 @@ class LLMS_Install {
 	public $current_wp_version;
 
 	private $db_updates = array(
-		'2.8.0' => 'updates/lifterlms-update-2.8.0.php',
+		'3.0.0' => 'updates/lifterlms-update-3.0.0.php',
 	);
 
 	/**
@@ -37,7 +37,6 @@ class LLMS_Install {
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'init', array( $this, 'init_query' ) );
 		add_action( 'admin_init', array( $this, 'create_voucher_tables' ) );
-
 		add_action( 'admin_init', array( $this, 'db_updates' ) );
 
 	}
@@ -60,11 +59,11 @@ class LLMS_Install {
 	 *
 	 * @return void
 	 *
-	 * @since  2.8.0
+	 * @since  3.0.0
 	 */
 	public function db_updates() {
 
-		$current_db_version = get_option( 'lifterlms_db_version' );
+		$current_db_version = get_option( 'lifterlms_db_version', 0 );
 
 		foreach ( $this->db_updates as $version => $updater ) {
 
@@ -92,7 +91,7 @@ class LLMS_Install {
 	 * @param  string $version version number
 	 * @return void
 	 *
-	 * @since  2.8.0
+	 * @since  3.0.0
 	 */
 	private function update_db_version( $version = null ) {
 		delete_option( 'lifterlms_db_version' );
@@ -285,7 +284,6 @@ class LLMS_Install {
 	 */
 	public function register_post_types() {
 		include_once( 'class.llms.post-types.php' );
-
 		include_once( 'class.llms.sidebars.php' );
 		LLMS_Sidebars::register_lesson_sidebars();
 		LLMS_Sidebars::register_course_sidebars();
@@ -304,6 +302,7 @@ class LLMS_Install {
 		if ( ! $installation_complete ) {
 			self::create_pages();
 			self::create_posts();
+			self::create_files();
 			update_option( 'lifterlms_settings_installed', 'yes' );
 		}
 	}
@@ -367,6 +366,36 @@ class LLMS_Install {
 		$new_user_email_id = wp_insert_post( $new_user_email, true );
 		update_post_meta( $new_user_email_id,'_event_id', 'email_new_user' );
 		update_post_meta( $new_user_email_id,'_email_subject', 'Welcome to {site_title}' );
+	}
+
+	/**
+	 * Create files needed by LifterLMS
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public static function create_files() {
+		$upload_dir      = wp_upload_dir();
+		$files = array(
+			array(
+				'base' 		=> LLMS_LOG_DIR,
+				'file' 		=> '.htaccess',
+				'content' 	=> 'deny from all'
+			),
+			array(
+				'base' 		=> LLMS_LOG_DIR,
+				'file' 		=> 'index.html',
+				'content' 	=> ''
+			)
+		);
+		foreach ( $files as $file ) {
+			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
+				if ( $file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ) ) {
+					fwrite( $file_handle, $file['content'] );
+					fclose( $file_handle );
+				}
+			}
+		}
 	}
 
 	/**

@@ -22,7 +22,8 @@ class LLMS_l10n {
 	 * @param  boolean $json if true, convert to JSON, otherwise return the array
 	 * @return string|array
 	 *
-	 * @since 2.7.3
+	 * @since   2.7.3
+	 * @version 3.0.0 - added new strings
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -30,8 +31,45 @@ class LLMS_l10n {
 		// alphabatize the array so we can quickly find strings
 		// include references to the JS file where the string is used so we can cleanup if needed in the future
 		$strings = array(
+
+			/**
+			 * file: _private/js/llms-metabox-product.js
+			 * @since    3.0.0
+			 * @version  3.0.0
+			 */
+			'There was an error loading the necessary resources. Please try again.' => __( 'There was an error loading the necessary resources. Please try again.', 'lifterlms' ),
+
+			/**
+			 * file: _private/js/llms-metaboxes.js
+			 * @since    3.0.0
+			 * @version  3.0.0
+			 */
+			'Cancel' => __( 'Cancel', 'lifterlms' ),
+			'Refund' => __( 'Refund', 'lifterlms' ),
+
+			/**
+			 * file: _private/js/app/llms-password-strength.js
+			 * @since    3.0.0
+			 * @version  3.0.0
+			 */
+			'Medium' => _x( 'Medium', 'password strength meter', 'lifterlms' ),
+			'Mismatch' => _x( 'Mismatch', 'password strength meter', 'lifterlms' ),
+			'Strong' => _x( 'Strong', 'password strength meter', 'lifterlms' ),
+			'Too Short' => _x( 'Too Short', 'password length validation', 'lifterlms' ),
+			'Very Weak' => _x( 'Very Weak', 'password strength meter', 'lifterlms' ),
+			'Weak' => _x( 'Weak', 'password strength meter', 'lifterlms' ),
+
+			/**
+			 * file: _private/js/app/llms-syllabus.js
+			 * @since   3.0.0
+			 * @version 3.0.0
+			 */
+			'You must enroll in this course to unlock this lesson' => __( 'You must enroll in this course to unlock this lesson', 'lifterlms' ),
+
 			/**
 			 * file: _private/js/app/llms-quiz.js
+			 * @since   2.7.3
+			 * @version 2.7.4
 			 */
 			'Hide Summary' => __( 'Hide Summary', 'lifterlms' ),
 			'View Summary' => __( 'View Summary', 'lifterlms' ),
