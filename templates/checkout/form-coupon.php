@@ -1,47 +1,67 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
- * Coupon Form Part
- *
- * Included via "checkout/form-checkout.php"
- * and returned by AJAX when applying or removing a coupon
+ * Coupon area of the checkout form
  *
  * @author 		LifterLMS
  * @package 	LifterLMS/Templates
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 ?>
+<div class="llms-coupon-wrapper">
 
-<div class="llms-form-wrapper" id="llms-coupon-form">
-	<div class="llms-coupon-entry llms-notice-box">
+	<?php if ( ! $coupon ): ?>
 
-		<div class="llms-coupon-notice">
-			<?php if ( $coupon ) : ?>
-				<?php printf( __( 'Coupon code "%s" has been applied to your order.', 'lifterlms' ), $coupon->get_code() ); ?>
-				<a href="#" class="llms-button-text" id="llms-remove-coupon">[<?php _e( 'Remove', 'lifterlms' ); ?>]</a>
-			<?php else : ?>
-				<?php echo apply_filters( 'lifterlms_checkout_coupon_message', __( 'Have a coupon?', 'lifterlms' ) ); ?>
-				<a href="#" class="llms-coupon-toggle-button llms-button-text" id="show-coupon"><?php _e( 'Click here to enter your code', 'lifterlms' ); ?></a>
-			<?php endif; ?>
+		<?php _e( 'Have a coupon?', 'lifterlms' ); ?>
+		<a href="#llms-coupon-toggle"><?php _e( 'Click here to enter your code', 'lifterlms' ); ?></a>
+
+		<div class="llms-coupon-entry llms-form-fields flush">
+
+			<div class="llms-coupon-messages"></div>
+
+			<?php llms_form_field( array(
+
+				'columns' => 12,
+				'id' => 'llms_coupon_code',
+				'placeholder' => __( 'Coupon Code', 'lifterlms' ),
+				'last_column' => true,
+				'required' => false,
+				'type'  => 'text',
+
+			) ); ?>
+			<?php llms_form_field( array(
+
+				'columns' => 12,
+				'classes' => 'llms-button-secondary',
+				'id' => 'llms-apply-coupon',
+				'value' => __( 'Apply Coupon', 'lifterlms' ),
+				'last_column' => true,
+				'required' => false,
+				'type'  => 'button',
+
+			) ); ?>
 		</div>
 
-		<?php if ( $coupon ) : ?>
+	<?php else: ?>
 
-			<input type="hidden" name="coupon_code" value="<?php echo $coupon->get_code(); ?>">
+		<?php llms_print_notice( sprintf( __( 'Coupon code "%s" has been applied to your order.', 'lifterlms' ), $coupon->get( 'title' ) ), 'success' ); ?>
 
-		<?php else : ?>
+		<div class="llms-form-fields flush">
+			<?php llms_form_field( array(
 
-			<div class="llms-checkout-coupon" id="llms-checkout-coupon">
-				<input disabled="disabled" type="text" name="coupon_code" class="llms-input-text" placeholder="<?php _e( 'Enter coupon code', 'lifterlms' ); ?>" id="llms-coupon-code" required="required">
-				<div class="llms-clear-box llms-center-content">
-					<button type="button" class="button llms-button" id="llms-apply-coupon"><?php _e( 'Apply Coupon', 'lifterlms' ); ?></button>
-					<a class="llms-coupon-toggle-button llms-button-text" href="#"><?php _e( 'Cancel', 'lifterlms' ); ?></a>
-				</div>
-				<div class="clear"></div>
-			</div>
+				'columns' => 12,
+				'classes' => 'llms-button-secondary',
+				'id' => 'llms-remove-coupon',
+				'value' => __( 'Remove Coupon', 'lifterlms' ),
+				'last_column' => true,
+				'required' => false,
+				'type'  => 'button',
 
-		<?php endif; ?>
+			) ); ?>
 
-	</div><!-- .llms-coupon-entry.llms-notice-box -->
+		</div>
 
-</div><!-- .llms-form-wrapper -->
+		<input name="llms_coupon_code" type="hidden" value="<?php echo $coupon->get( 'title' ); ?>">
+
+	<?php endif; ?>
+
+</div>
