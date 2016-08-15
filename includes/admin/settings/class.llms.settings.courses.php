@@ -120,6 +120,34 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 			),
 
 			array(
+				'desc'          => __( 'Display Course Categories list on course', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_categories',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'checkboxgroup' => '',
+				'autoload'      => false,
+			),
+
+			array(
+				'desc'          => __( 'Display Course Tags list on course', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_tags',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'checkboxgroup' => '',
+				'autoload'      => false,
+			),
+
+
+			array(
+				'desc'          => __( 'Display Course Tracks list on course', 'lifterlms' ),
+				'id'            => 'lifterlms_course_display_tracks',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'checkboxgroup' => '',
+				'autoload'      => false,
+			),
+
+			array(
 				'desc'          => __( 'Display Lesson excerpts in lesson navigation', 'lifterlms' ),
 				'id'            => 'lifterlms_lesson_nav_display_excerpt',
 				'default'       => 'no',

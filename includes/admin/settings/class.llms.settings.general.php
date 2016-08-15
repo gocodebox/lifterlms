@@ -127,13 +127,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					'id' => 'lifterlms_certificate_legacy_image_size',
 				),
 
-				// enable alternative checkout settings for a new installation!
-				array(
-					'type' => 'hidden',
-					'value' => 'yes',
-					'id' => 'lifterlms_secondary_checkout_process',
-				),
-
 				array( 'type' => 'sectionend', 'id' => 'welcome_options_activate' ),
 
 			) );
