@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 * Payment Gateway class
 *
 * Class for managing payment gateways
+*
+* @version  3.0.0
 */
 class LLMS_Payment_Gateways {
 
@@ -12,90 +14,137 @@ class LLMS_Payment_Gateways {
 	 * Payment Gateways
 	 * @var array
 	 */
-	var $payment_gateways;
+	public $payment_gateways = array();
 
 	/**
 	 * private instance of class
 	 * @var null
 	 */
-	protected static $_instance = null;
+	private static $_instance = null;
 
 	/**
 	 * Create instance of class
 	 * @return self
 	 */
 	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
 
+		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
 
 		return self::$_instance;
+
 	}
 
 	/**
 	 * Constructor
-	 * initializes class
+	 * @version  3.0.0
 	 */
 	public function __construct() {
-		$this->init();
-	}
 
-	/**
-	 * Get all payment gateways
-	 *
-	 * @return array $_available_gateways [private array of all payment gateways]
-	 */
-	function payment_gateways() {
-		$_available_gateways = array();
-		if ( sizeof( $this->payment_gateways ) > 0 ) {
-			foreach ( $this->payment_gateways as $gateway ) {
-				$_available_gateways[ $gateway->id ] = $gateway; } }
+		$gateways = apply_filters( 'lifterlms_payment_gateways', $this->payment_gateways );
 
-		return $_available_gateways;
-	}
-
-	/**
-	 * Initialize payment gateways
-	 *
-	 * @return void
-	 */
-	function init() {
-		$load_gateways = apply_filters( 'lifterlms_payment_gateways', array(
-			'LLMS_Payment_Gateway_Paypal'
-		) );
-
-		$order_end 	= 999;
-		foreach ($load_gateways as $gateway) :
+		foreach ( $gateways as $gateway ) {
 
 			$load_gateway = new $gateway();
 
-				$this->payment_gateways[ $order_end ] = $load_gateway;
-				$order_end++;
+			$order = absint( $load_gateway->get_display_order() );
 
-		endforeach;
+			// if the order already exists increment it by 1
+			if ( isset( $this->payment_gateways[$order] ) ) {
+				$order++;
+			}
+
+			$this->payment_gateways[ $order ] = $load_gateway;
+		}
 
 		ksort( $this->payment_gateways );
+
 	}
 
 	/**
-	 * Get available gateways.
+	 * Get only enabled payment gateways
 	 *
 	 * @access public
 	 * @return array
+	 * @version  3.0.0
 	 */
-	function get_available_payment_gateways() {
-		$_available_gateways = array();
+	public function get_enabled_payment_gateways() {
 
-		foreach ( $this->payment_gateways as $gateway ) :
-			if ( $gateway->is_available() ) {
-					$_available_gateways[ $gateway->id ] = $gateway;
+		$gateways = array();
+		foreach ( $this->get_payment_gateways() as $gateway ) {
+			if ( $gateway->is_enabled() ) {
+				$gateways[ $gateway->get_id() ] = $gateway;
 			}
+		}
 
-		endforeach;
+		return apply_filters( 'lifterlms_enabled_payment_gateways', $gateways );
 
-		return apply_filters( 'lifterlms_available_payment_gateways', $_available_gateways );
 	}
+
+	/**
+	 * Get the ID of the default payment gateway
+	 * This will always be the FIRST gateway from the list of all enabled gateways
+	 * @return string
+	 * @since 3.0.0
+	 */
+	public function get_default_gateway() {
+
+		$gateways = $this->get_enabled_payment_gateways();
+		$ids = array_keys( $gateways );
+
+		return array_shift( $ids );
+
+	}
+
+	/**
+	 * Get all registered payment gateways
+	 * @return array
+	 * @version  3.0.0
+	 */
+	public function get_payment_gateways() {
+
+		$gateways = array();
+
+		foreach ( $this->payment_gateways as $gateway ) {
+
+			$gateways[ $gateway->id ] = $gateway;
+
+		}
+
+		return $gateways;
+
+	}
+
+	/**
+	 * Determine if any payment gateways are registered
+	 * @param boolean  $enabled   if true, will check only enabled gateways
+	 * @return boolean
+	 * @since  3.0.0
+	 */
+	public function has_gateways( $enabled = false ) {
+
+		if ( $enabled ) {
+			return ( count( $this->get_enabled_payment_gateways() ) ) ? true : false;
+		} else {
+			return ( count( $this->get_payment_gateways() ) ) ? true : false;
+		}
+
+	}
+
+
+	public function supports( $feature ) {
+
+
+
+	}
+
+
+
+
+
+
+
 
 
 	/**
@@ -108,7 +157,7 @@ class LLMS_Payment_Gateways {
 	 */
 	function get_gateway_by_id( $id ) {
 
-		$gateways = $this->payment_gateways();
+		$gateways = $this->get_payment_gateways();
 
 		if ( array_key_exists( $id, $gateways ) ) {
 
@@ -118,17 +167,6 @@ class LLMS_Payment_Gateways {
 
 		return false;
 
-	}
-
-
-	/**
-	 * Check if payment gateway can process recurring payments
-	 *
-	 * @return bool [can gateway handle recurring payments]
-	 */
-	public function can_process_recurring() {
-		$is_available = true;
-		return $is_available;
 	}
 
 }
