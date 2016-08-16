@@ -173,21 +173,21 @@ class LLMS_Date {
 	    //determine hours vs hour in string
 	    if ( ! empty( $hours ) ) {
 	    	if ( $hours > 1 ) {
-	    		$hour_desc = 'hours';
+	    		$hour_desc = __( 'hours', 'lifterlms' );
 	    	} else {
-	    		$hour_desc = 'hour';
+	    		$hour_desc = __( 'hour', 'lifterlms' );
 	    	}
 
 	    	$hours_string = sprintf( __( '%d %s ', 'lifterlms' ), $hours, $hour_desc );
 	    } else {
 			if ( ! empty( $seconds ) ) {
 				if ( $seconds > 1 ) {
-					$second_desc = 'seconds';
+					$second_desc = __( 'seconds', 'lifterlms' );
 				} else {
-					$second_desc = 'second';
+					$second_desc = __( 'second', 'lifterlms' );
 				}
 
-				$seconds_string = sprintf( __( ' %d %s', 'lifterlms' ), $seconds, $second_desc );
+				$seconds_string = sprintf( ' %d %s', $seconds, $second_desc );
 
 			}
 		}
@@ -195,12 +195,12 @@ class LLMS_Date {
 	    //determine minutes vs minute in string
 	    if ( ! empty( $minutes ) ) {
 	    	if ( $minutes > 1 ) {
-	    		$minute_desc = 'minutes';
+	    		$minute_desc = __( 'minutes', 'lifterlms' );
 	    	} else {
-	    		$minute_desc = 'minute';
+	    		$minute_desc = __( 'minute', 'lifterlms' );
 	    	}
 
-	    	$minutes_string = sprintf( __( ' %d %s', 'lifterlms' ), $minutes, $minute_desc );
+	    	$minutes_string = sprintf( ' %d %s', $minutes, $minute_desc );
 
 	    }
 

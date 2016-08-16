@@ -357,7 +357,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				),
 				array(
 						'title' => 'LifterLMS Optin',
-						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-optin.png',
+						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-optin.jpg',
 						'link' => 'http://lifterlms.com/fast-start?ims=pfckn&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=FS+Ad+001',
 				),
 		);

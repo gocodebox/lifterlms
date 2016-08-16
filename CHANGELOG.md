@@ -154,6 +154,86 @@ Now utilizing a forked version of Select2 to prevent 3.5.x conflicts we've been 
 
 + Removed `LLMS_Person::login_user()` in favor of `LLMS_Person_Handler::login()`
 
+= v2.7.11 - 2016/07/22 =
+------------------------
+
++ Removed a duplicate action hook on course archive loop.
++ Switched registration template include to use a more sane function
++ Added updated banner adds with prettier ones. Wooooooo.
+
+
+= v2.7.10 - 2016/07/19 =
+------------------------
+
++ Fix undefined noticed related to LifterLMS custom post type archive filtering
++ Fix filter which was supposed to allow custom engagment types to be queried & triggered by engagements automatically but was passing data incorrectly
+
+= v2.7.9 - 2016/07/11 =
+-----------------------
+
++ We are now properly storing delayed engagment trigger data.
++ Fixed an issue with our engagment query functions that caused, in very rare circumstances, the extra engagements to be triggered during an engagment trigger due to a lack of specificity in our query
++ Fixed an undefined property notice related to email engagments when the email had no subject or header
++ Fixed a typo in the description of a translation function.
++ Added an engagment debug logging function. You can log all sorts of data related to engagements by adding `define( 'LLMS_ENGAGEMENT_DEBUG', true );` to your `wp-config.php` file.
++ Allow course title shortcode to be used on course pages (and quizzes too). Documentation incorrectly said it was available on courses so we've fixed the function to allow for use on courses.
+
+
+= v2.7.8 - 2016/07/05 =
+-----------------------
+
++ Bugfix: Restore access to quiz results on quiz completion
+
+
+= v2.7.7 - 2016/07/01 =
+-----------------------
+
+##### Russian
+
++ LifterLMS is now 100% Translated into Russian thanks to our new Russian Translation Editor [@kellerpt](https://profiles.wordpress.org/kellerpt/)
+
+##### l18n
+
++ All transition messages between questions during a Quiz are now translatable.
++ LifterLMS subpages below the LifterLMS icon on the admin panel will now always display regardless of how you've chosen to translate the menu items. Hopefully puts to rest a long-standing i18n issue.
+
+###### Bug fixes
+
++ Attempting to access a quiz when not enrolled in the associated course and having not properly started the quiz now results in a useful error message rather than a PHP warning.
++ We've adjusted the way we're adding a admin panel "seperator" to reduce conflicts with other plugins that have menu items with the same position as our seperator (51).
++ Added new logic to display an error message (instead of nothing) if there's an error during question loading.
++ Resolve issue with course progress bar when added to a quiz sidebar (assuming your theme has sidebar support on your quizzes).
++ Updated version number in the changelog for last version (it was supposed to be 2.7.6)
+
+
+= v2.7.6 - 2016/06/28 =
+-----------------------
+
++ Students manually removed by Memberships by using the "Students" tab of a LifterLMS Membership will now be fully removed from the membership.
++ Updated a few time-related strings to be l18n friendly. These items were all around Quiz time reporting and quiz time limits.
++ Updated testing information, tested up to WP 4.5.3
++ Fixed date of last release on changelog. It had the wrong date. Does that really matter?
++ Updated readme.txt description area, we have a new youtube video! Yassss.
+
+
+= v2.7.5 - 2016/06/13 =
+-----------------------
+
+##### New features
++ Added an "id" parameter to both LifterLMS Courses and LifterLMS Memberships shortcodes
+
+##### i18n
++ Allow date translation on quiz results screen by using `date_i18n()` instead of `date()`
++ Allow date translation on my courses screen by using `date_i18n()` instead of `date()`
++ Ensure course status "Enrolled" is translatable on my courses screen
+
+##### Fixes
++ Thanks to [@kjohnson](https://github.com/kjohnson) who fixed undefined index warnings & errors which occurred when viewing the last lesson in a section when the next section contained no lessons.
++ Resolved an issue where formatting for "Restricted Access Description" course content would not display proper formatting.
++ Fixed an issue with the "FREE" stamp for a free lesson caused layout issues.
++ Removed the "is-complete" css class from incorrectly being added to lesson preview tiles for free lessons
++ Fix an escaping issue when rendering Course titles inside LifterLMS notices. Prevents "\'s" from displaying when "'s" should be displaying (and similar issues).
+
 
 = v2.7.4 - 2016/05/26 =
 -----------------------

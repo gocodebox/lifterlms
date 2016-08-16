@@ -762,6 +762,11 @@ class LLMS_AJAX {
 		//call start quiz method
 		$question_id = LLMS_Quiz::start_quiz( $quiz_id, $user_id );
 
+		if ( is_array( $question_id ) && isset( $question_id['message'] ) ) {
+			echo json_encode( $question_id['message'] );
+			die();
+		}
+
 		//get requst variables
 		$args = array(
 			'quiz_id' => $quiz_id,

@@ -33,6 +33,12 @@ class LLMS_l10n {
 		$strings = array(
 
 			/**
+			 * file: _private/js/llms-ajax.js
+			 */
+			'Loading Question...' => __( 'Loading Question...', 'lifterlms' ),
+			'Loading Quiz Results...' => __( 'Loading Quiz Results...', 'lifterlms' ),
+
+			/**
 			 * file: _private/js/llms-metabox-product.js
 			 * @since    3.0.0
 			 * @version  3.0.0
