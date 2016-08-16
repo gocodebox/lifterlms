@@ -1,6 +1,6 @@
 == Changelog =
 
-= v3.0.0-alpha.1 - 2016/08/15 =
+= v3.0.0-beta.1 - 2016/08/15 =
 -------------------------------
 
 **This is a massive update which _breaks_ backwards compatibility for many LifterLMS features. A database migration is also necessary for upgrading users to reformat certain pieces of information which are being accessed differently in 3.0.0**
