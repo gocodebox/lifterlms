@@ -1,11 +1,12 @@
 <?php
 /**
- * LifterLMS Loop End Wrapper
+ * LifterLMS Loop Author Info
  *
- * @since   1.0.0
+ * @since   3.0.0
  * @version 3.0.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
+
+echo llms_get_author( array( 'avatar_size' => 28 ) );
 ?>
-	</ul>
-</div><!-- .llms-loop -->
+

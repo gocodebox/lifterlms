@@ -1,0 +1,257 @@
+.llms-loop-list {
+	@extend %clearfix;
+
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	@media all and (min-width: 600px) {
+		$cols: 1;
+		@while $cols <= 6 {
+			&.cols-#{$cols} .llms-loop-item {
+				width: 100% / $cols;
+			}
+			$cols: $cols + 1;
+		}
+	}
+
+
+}
+
+.llms-loop-item {
+	float: left;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+
+	.llms-loop-item-content {
+		background: #f1f1f1;
+		padding-bottom: 10px;
+		margin: 10px;
+
+		&:hover {
+			background: #eaeaea;
+		}
+
+		.llms-loop-link {
+			color: #212121;
+			display: block;
+			&:visited {
+				color: #212121;
+			}
+		}
+
+		.llms-loop-title {
+			margin-top: 5px;
+			&:hover {
+				color: $color-aqua;
+			}
+		}
+
+		.llms-meta,
+		.llms-author,
+		.llms-loop-title {
+			padding: 0 10px;
+		}
+
+		.llms-meta,
+		.llms-author {
+			color: #444;
+			display: block;
+			font-size: 13px;
+			margin-bottom: 3px;
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.llms-featured-img-wrap {
+			overflow: hidden;
+		}
+
+		p {
+			margin-bottom: 0;
+		}
+
+		.llms-progress {
+			margin: 0;
+			height: .4em;
+
+			.progress__indicator {
+				display: none;
+			}
+
+			.llms-progress-bar {
+				background-color: #f6f6f6;
+				right: 0;
+				top: 0;
+			}
+		}
+
+	}
+
+
+
+// .llms-membership-list .memberships {
+//   border-top: 1px solid #f6f6f6;
+//   width: 100%;
+//   display: inline-block;
+//   text-align: center;
+//   list-style: none;
+//   clear: both;
+//   margin: 0;
+//   padding: 0;
+// }
+
+
+
+// .llms-course-list {
+
+//   .llms-membership-link {
+//     @extend %llms-element;
+
+//     display: block
+//   }
+
+//   .llms-membership-footer {
+//     border-top: 3px solid $color-white;
+//     margin: 15px -15px 0;
+//     padding: 15px 15px 0;
+//     text-align: center;
+//   }
+
+// }
+
+
+
+
+// .llms-membership-list .memberships li {
+//   width: 300px;
+//   margin: 15px;
+//   list-style: none;
+//   vertical-align: top;
+//   display: inline-block;
+//   text-align: left;
+// }
+
+// .llms-membership-list .memberships li.first {
+//   margin-left: 0;
+// }
+
+// .llms-membership-list .memberships li.last {
+//   margin-right: 15px;
+// }
+
+// .llms-membership-list .memberships li .llms-title {
+//   display: block;
+//   font-weight: 700;
+//   margin-bottom: .5em;
+//   font-size: 18px;
+//   text-decoration: none;
+//   line-height: 30px;
+// }
+
+// .llms-membership-list .memberships li .llms-price {
+//   display: block;
+//   font-weight: 700;
+//   // margin-bottom: .5em;
+//   // font-size: 24px;
+//   text-decoration: none;
+//   line-height: 30px;
+// }
+
+// .llms-course-list {
+//   //margin: 30px 0;
+//   padding: 30px;
+//   //background: #FFF;
+//   // border-radius: 2px;
+//   display: inline-block;
+//   width: 100%;
+//   box-sizing: border-box;
+
+//   .llms-course-link {
+//     @extend %llms-element;
+
+//     display: block
+//   }
+
+//   .llms-course-footer {
+//     border-top: 3px solid $color-white;
+//     margin: 15px -15px 0;
+//     padding: 15px 15px 0;
+//     text-align: center;
+//   }
+
+//   .llms-progress {
+//     margin-top: 0;
+//     // .progress-bar {
+//     // background-color: $color-white;
+//     // }
+//   }
+
+// }
+
+// .llms-course-list .courses {
+//   //border-top: 1px solid #f6f6f6;
+//   width: 100%;
+//   display: inline-block;
+//   text-align: center;
+//   list-style: none;
+//   clear: both;
+//   margin: 0;
+//   padding: 0;
+// }
+
+// .llms-course-list .courses li {
+//   width: 300px;
+//   padding-top: 0; // twentyfifteen compat
+//   margin: 15px;
+//   list-style: none;
+//   vertical-align: top;
+//   display: inline-block;
+//   text-align: left;
+// }
+// @media screen and (max-width: $break-small) {
+//   .llms-course-list {
+//     padding: 30px 10px;
+
+//     .courses li {
+//       width: auto;
+//     }
+//   }
+// }
+
+// // .llms-course-list .courses li.first {
+// // 	margin-left: 0;
+// // }
+
+// .llms-course-list .courses li.last {
+//   margin-right: 15px;
+// }
+
+// .llms-course-list .courses li .llms-title {
+//   display: block;
+//   font-weight: 700;
+//   margin-bottom: .5em;
+//   font-size: 18px;
+//   text-decoration: none;
+//   line-height: 30px;
+// }
+
+// .llms-course-list .courses li .llms-price {
+//   display: block;
+//   font-weight: 700;
+//   // margin-bottom: .5em;
+//   // font-size: 24px;
+//   text-decoration: none;
+//   line-height: 30px;
+// }
+
+
+
+
+// .courses a.llms-course-link:hover {
+//   text-decoration: none;
+// }

@@ -1,0 +1,53 @@
+<?php
+/**
+ * The Template for displaying all single courses.
+ *
+ * @author 		codeBOX
+ * @package 	LifterLMS/Templates
+ * @since       1.0.0
+ * @version     3.0.0
+ */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+?>
+<li <?php post_class( 'llms-loop-item' ); ?>>
+	<div class="llms-loop-item-content">
+
+	<?php
+		/**
+		 * lifterlms_before_loop_item
+		 * @hooked lifterlms_loop_link_start - 10
+		 */
+		do_action( 'lifterlms_before_loop_item' );
+	?>
+
+	<?php
+		/**
+		 * lifterlms_before_loop_item_title
+		 * @hooked lifterlms_template_loop_thumbnail - 10
+		 * @hooked lifterlms_template_loop_progress - 15
+		 */
+		do_action( 'lifterlms_before_loop_item_title' );
+	?>
+
+	<h4 class="llms-loop-title"><?php the_title(); ?></h4>
+
+	<?php
+		/**
+		 * lifterlms_after_loop_item_title
+		 * @hooked lifterlms_template_loop_author - 10
+		 * @hooked lifterlms_template_loop_length - 15
+		 * @hooked lifterlms_template_loop_difficulty - 20
+		 */
+		do_action( 'lifterlms_after_loop_item_title' );
+	?>
+
+	<?php
+		/**
+		 * lifterlms_after_loop_item
+		 * @hooked lifterlms_loop_link_end - 5
+		 */
+		do_action( 'lifterlms_after_loop_item' );
+	?>
+
+	</div><!-- .llms-loop-item-content -->
+</li><!-- .llms-loop-item -->
