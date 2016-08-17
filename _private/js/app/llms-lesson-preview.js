@@ -1,7 +1,7 @@
 /* global LLMS, $ */
 
 /**
- * Handle the Collpasible Syllabus Widget / Shortcode
+ * Handle Lesson Preview Elements
  */
 LLMS.LessonPreview = {
 
