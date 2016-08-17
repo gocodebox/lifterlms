@@ -7,8 +7,11 @@
 @import "_includes/mixins";
 
 @import "frontend/main";
+@import "frontend/loop";
 @import "frontend/course";
 @import "frontend/syllabus";
+@import "frontend/llms-progress";
+@import "frontend/llms-author";
 
 @import "frontend/notices";
 @import "frontend/llms-pagination";
