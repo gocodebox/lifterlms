@@ -33,18 +33,16 @@ class LLMS_Product extends LLMS_Post_Model {
 			'status' => 'publish',
 		), $this ) );
 
+		$plans = array();
+
 		// if we have plans, setup access plan instances
 		if ( $q->have_posts() ) {
-			$plans = array();
 			foreach ( $q->posts as $post ) {
 				$plans[] = new LLMS_Access_Plan( $post );
 			}
-			return $plans;
-		} // else return an empty array
-		else {
-			return array();
 		}
 
+		return $plans;
 	}
 
 	public function get_pricing_table_columns_count() {

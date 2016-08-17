@@ -62,7 +62,7 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'transition', plugins_url( 'assets/js/vendor/transition.js', LLMS_PLUGIN_FILE ) );
 
 		wp_register_script( 'llms-jquery-matchheight', plugins_url( 'assets/js/vendor/jquery.matchHeight.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
-		if ( is_course() || is_membership() || is_lesson() ) {
+		if ( is_course() || is_membership() || is_lesson() || is_memberships() || is_courses() ) {
 			wp_enqueue_script( 'llms-jquery-matchheight' );
 		}
 
