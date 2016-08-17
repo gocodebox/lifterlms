@@ -42,20 +42,38 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Courses Page', 'lifterlms' ),
-				'desc' 		=> '<br/>' . sprintf( __( 'Page used for displaying courses.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'desc' 		=> '<br/>' . __( 'Page used for displaying courses.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_shop_page_id',
-				'type' 		=> 'single_select_page',
-				'default'	=> '',
-				'class'		=> 'chosen_select_nostd',
+				'type' 		=> 'select',
+				'class'		=> 'llms-select2-post',
+				'custom_attributes' => array(
+					'data-post-type' => 'page',
+				),
+				'options' => llms_make_select2_post_array( get_option( 'lifterlms_shop_page_id', '' ) ),
 			),
 
 			array(
 				'title' => __( 'Courses per page', 'lifterlms' ),
-				'desc' 		=> '<br/>' . sprintf( __( 'To show all courses on one page, enter -1', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'desc' 		=> '<br/>' . __( 'To show all courses on one page, enter -1', 'lifterlms' ),
 				'id' 		=> 'lifterlms_shop_courses_per_page',
 				'type' 		=> 'text',
 				'default'	=> '10',
 				'css' 		=> 'min-width:200px;',
+			),
+
+			array(
+				'default' => 'menu_order',
+				'desc'  => '<br />' . __( 'Determines the display order for courses on the courses page.', 'lifterlms' ),
+				'id'    => 'lifterlms_shop_ordering',
+				'options' => array(
+					'menu_order,ASC' => __( 'Order (Low to High)', 'lifterlms' ),
+					'title,ASC' => __( 'Title (A - Z)', 'lifterlms' ),
+					'title,DESC' => __( 'Title (Z - A)', 'lifterlms' ),
+					'date,DESC' => __( 'Most Recent', 'lifterlms' ),
+				),
+				'title' => __( 'Courses Sorting', 'lifterlms' ),
+				'type' => 'select',
+
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
@@ -66,7 +84,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Course Purchase Button Text', 'lifterlms' ),
-				'desc' 		=> '<br/>' . sprintf( __( 'Enter custom text to display on the Course Purchase Button.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'desc' 		=> '<br/>' . __( 'Enter custom text to display on the Course Purchase Button.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_button_purchase_course_custom_text',
 				'type' 		=> 'text',
 				'default'	=> 'Take This Course',
@@ -75,7 +93,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Membership Signup Button Text', 'lifterlms' ),
-				'desc' 		=> '<br/>' . sprintf( __( 'Enter custom text to display on Membership sign up button (displays on course page).', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'desc' 		=> '<br/>' . __( 'Enter custom text to display on Membership sign up button (displays on course page).', 'lifterlms' ),
 				'id' 		=> 'lifterlms_button_purchase_membership_custom_text',
 				'type' 		=> 'text',
 				'default'	=> 'Become a Member',
