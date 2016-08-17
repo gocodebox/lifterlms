@@ -88,6 +88,26 @@ class LLMS_Post_Types {
 
 			}
 
+			if ( is_post_type_archive( 'course') || $query->get( 'page_id' ) == llms_get_page_id( 'courses' ) ) {
+				$query->set( 'posts_per_page', get_option( 'lifterlms_shop_courses_per_page', 10 ) );
+
+				$sorting = explode( ',', get_option( 'lifterlms_shop_ordering', 'menu_order,ASC' ) );
+
+				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $sorting[0] ) );
+				$query->set( 'order', apply_filters( 'llms_courses_order', $sorting[1] ) );
+
+			} elseif ( is_post_type_archive( 'membership' ) || $query->get( 'page_id' ) == llms_get_page_id( 'memberships' ) ) {
+
+				$query->set( 'posts_per_page', get_option( 'lifterlms_memberships_per_page', 10 ) );
+
+				$sorting = explode( ',', get_option( 'lifterlms_memberships_ordering', 'menu_order,ASC' ) );
+
+				$query->set( 'orderby', apply_filters( 'llms_memberships_orderby', $sorting[0] ) );
+				$query->set( 'order', apply_filters( 'llms_memberships_order', $sorting[1] ) );
+
+			}
+
+
 		}
 
 	}
