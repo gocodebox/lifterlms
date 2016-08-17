@@ -727,6 +727,10 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 		$template = '{title} (' . __( 'ID#', 'lifterlms' ) . ' {id})';
 	}
 
+	if ( ! is_array( $post_ids ) ) {
+		$post_ids = array( $post_ids );
+	}
+
 	$r = array();
 	foreach ( $post_ids as $id ) {
 
@@ -740,24 +744,3 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 	return apply_filters( 'llms_make_select2_post_array', $r, $post_ids );
 
 }
-
-
-/**
- * Add a complete / incomple class to lessons
- * @param    array $classes array of classes to be applied to the post element
- * @return   array
- * @since    2.7.11
- * @version  2.7.11
- */
-function llms_lesson_complete_class( $classes ) {
-	global $post;
-	if ( 'lesson' === get_post_type( $post->ID ) ) {
-		$lesson = new LLMS_Lesson( $post );
-		$classes[] = $lesson->is_complete() ? 'llms-complete' : 'llms-incomplete';
-	}
-	return $classes;
-
-}
-add_filter( 'post_class', 'llms_lesson_complete_class', 10, 1 );
-
-
