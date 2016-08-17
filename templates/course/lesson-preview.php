@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 			<?php endif; ?>
 			<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'id' ) ) ?></h5>
 			<?php if ( llms_get_excerpt( $lesson->get( 'id' ) ) ): ?>
-				<p class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->get( 'id' ) ); ?></p>
+				<div class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->get( 'id' ) ); ?></div>
 			<?php endif; ?>
 		</section>
 

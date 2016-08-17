@@ -53,7 +53,7 @@
 		}
 
 		&:visited {
-			color: inherit;
+			color: #212121;
 		}
 
 	}
@@ -83,9 +83,17 @@
 		text-align: left;
 	}
 
-	// .llms-main {}
+	.llms-main {
+		float: left;
+		width: 100%;
+	}
 	.llms-extra {
 		float: right;
+		width: 15%;
+	}
+
+	.llms-extra + .llms-main {
+		width: 85%;
 	}
 
 	.llms-lesson-counter,
@@ -127,113 +135,3 @@
 	}
 
 }
-
-
-// %llms-element {
-// 	background: $el-background;
-// 	box-shadow: $el-box-shadow;
-// 	display: block;
-//
-// 	min-height: 85px;
-// 	padding: 15px;
-//
-// 	position: relative;
-// 	transition: background .4s ease;
-
-// 	&:hover {
-// 		background: $el-background-hover;
-// 	}
-// }
-
-//
-// LESSON PREVIEW
-//
-// .llms-lesson-preview {
-//
-//   margin: 15px;
-//   text-align: left;
-//   vertical-align: top;
-//   max-width: 100%;
-//   max-width: calc(100% - 30px);
-
-//   // &.is-complete .llms-lesson-link {
-//   //   padding-left: 75px;
-//   // }
-
-//   .llms-lesson-link {
-//     @extend %cf;
-//     @extend %llms-element;
-
-//   }
-
-//   .llms-lesson-complete, .llms-lesson-complete-placeholder {
-//     color: $color-red;
-//     float: left;
-//     font-size: 3em;
-//     line-height: 1;
-//     margin-right: .25em;
-//   }
-
-//   .llms-lesson-complete-placeholder {
-//     color: $el-background-hover;
-//   }
-
-
-
-//   .llms-lesson-title {
-//     padding-right: 60px;
-//     margin: 0 0 .25em 0;
-//   }
-
-//   .llms-lesson-counter {
-//     @include absolute(top 0 right 0);
-//   }
-
-//   .llms-lesson-excerpt {
-//     clear: both;
-//     margin-bottom: 0;
-//   }
-
-//   .llms-lesson-information {
-//     position: relative;
-//     float: left;
-//     width: 100%;
-//   }
-
-//   &.has-icon .llms-lesson-information {
-//   // &.is-complete .llms-lesson-information {
-//     width: calc( 100% - 60px );
-//   }
-
-
-
-// }
-
-// .llms-course-navigation .llms-lesson-preview.previous {
-//   float: left;
-//   width: 50%;
-//   margin: 0;
-//   max-width: 300px;
-
-//   h5 {
-//     margin: 0;
-//   }
-
-//   p {
-//     font-size: .8em;
-//   }
-// }
-// .llms-course-navigation .llms-lesson-preview.next {
-//   float: right;
-//   width: 50%;
-//   margin: 0;
-//   max-width: 300px;
-
-//   h5 {
-//     margin: 0;
-//   }
-
-//   p {
-//     font-size: .8em;
-//   }
-// }
