@@ -81,7 +81,6 @@ add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_difficul
 
 
 add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
-add_action( 'lifterlms_after_loop_item', 'lifterlms_template_loop_plans', 10 );
 
 
 

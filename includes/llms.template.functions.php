@@ -1170,16 +1170,6 @@ if ( ! function_exists( 'lifterlms_template_loop_author' ) ) {
 	}
 }
 
-/**
- * product Price Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_loop_plans' ) ) {
-
-	function lifterlms_template_loop_plans() {
-		llms_get_template( 'loop/plans.php' );
-	}
-}
 
 /**
  * Lesson Length Template Include
