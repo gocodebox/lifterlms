@@ -30,9 +30,12 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tracks',      25 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_categories',  30 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tags',        35 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end',   40 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table',             50 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus',           80 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_course_author',             40 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end',   50 );
+
+
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table',             60 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus',           90 );
 
 /**
  * Called by lifterlms_template_pricing_table if the product is purchasable

@@ -1,5 +1,11 @@
 == Changelog =
 
+= v3.0.0-beta.2 - 2016/08/?? =
+-------------------------------
+
+
+
+
 = v3.0.0-beta.1 - 2016/08/15 =
 -------------------------------
 
@@ -30,7 +36,7 @@
 **NOTE: at this release, LifterLMS PayPal is the only payment gateway that will work with this release. We haven't started working on Stripe 4.0.0 which will work with LifterLMS 3.0.0**
 
 + Payment gateways powered by a new abstract gateway class
-+
++ PayPal has been removed from LifterLMS and is available as premium extension
 
 
 ##### Frontend Notices
@@ -153,6 +159,7 @@ Now utilizing a forked version of Select2 to prevent 3.5.x conflicts we've been 
 + Removed `lifterlms_new_person_data` and `lifterlms_new_person_address` filters, replaced with `lifterlms_user_registration_data`
 
 + Removed `LLMS_Person::login_user()` in favor of `LLMS_Person_Handler::login()`
+
 
 = v2.7.11 - 2016/07/22 =
 ------------------------

@@ -1016,6 +1016,9 @@ svg .llms-animated-circle {
 .llms-author .avatar {
   border-radius: 50%;
 }
+.llms-author .bio {
+  margin-top: 5px;
+}
 
 .llms-notice {
   background: rgba(53, 187, 170, 0.3);

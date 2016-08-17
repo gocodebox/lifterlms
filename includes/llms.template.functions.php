@@ -1163,6 +1163,18 @@ if ( ! function_exists( 'is_quiz' ) ) {
  * Get loop item author template
  * @return void
  */
+if ( ! function_exists( 'lifterlms_template_course_author' ) ) {
+
+	function lifterlms_template_course_author() {
+		llms_get_template( 'course/author.php' );
+	}
+}
+
+
+/**
+ * Get loop item author template
+ * @return void
+ */
 if ( ! function_exists( 'lifterlms_template_loop_author' ) ) {
 
 	function lifterlms_template_loop_author() {
