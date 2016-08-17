@@ -367,14 +367,24 @@ class LLMS_Admin_Settings {
 							>
 	                    	<?php
 							foreach ( $field['options'] as $key => $val ) {
+
+								// convert an array from llms_make_select2_post_array()
+								if ( is_array( $val ) ) {
+									$key = $val['key'];
+									$val = $val['title'];
+								}
+
 								?>
 								<option value="<?php echo esc_attr( $key ); ?>" <?php
 
 								if ( is_array( $option_value ) ) {
-									selected( in_array( $key, $option_value ), true ); } else { 										selected( $option_value, $key ); }
+									selected( in_array( $key, $option_value ), true );
+								} else {
+									selected( $option_value, $key );
+								}
 
-		                        	?>><?php echo $val ?></option>
-		                        	<?php
+								?>><?php echo $val ?></option>
+								<?php
 							}
 		                    ?>
 					   </select> <?php echo $description; ?>
