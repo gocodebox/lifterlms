@@ -5,7 +5,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
-$is_enrolled = llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) )
+$is_enrolled = llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) );
 ?>
 
 <?php if ( $product->is_purchasable() && ! $is_enrolled ): ?>
