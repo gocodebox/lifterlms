@@ -1,31 +1,26 @@
 <?php
-if ( ! defined( 'ABSPATH' )) { exit; }
-if ( ! defined( 'LLMS_Admin_Metabox' )) {
-	// Include the file for the parent class
-	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
-}
-
 /**
- * Meta Box Builder
- *
- * Generates main metabox and builds forms
+ * Vouchers Metabox
  */
-class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
-{
 
-	public static $prefix = '_';
+if ( ! defined( 'ABSPATH' )) { exit; }
+
+class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
 	/**
-	 * Function to field WP::output() method call
-	 * Passes output instruction to parent
-	 *
-	 * @param object $post WP global post object
+	 * Configure the metabox settings
 	 * @return void
+	 * @since  3.0.0
 	 */
-	public static function output( $post ) {
+	public function configure() {
 
-		global $post;
-		parent::new_output( $post, self::metabox_options() );
+		$this->id = 'lifterlms-voucher';
+		$this->title = __( 'Voucher Settings', 'lifterlms' );
+		$this->screens = array(
+			'llms_voucher',
+		);
+		$this->priority = 'high';
+
 	}
 
 	/**
@@ -33,64 +28,48 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
 	 *
-	 * @return array [md array of metabox fields]
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
 	 */
-	public static function metabox_options() {
+	public function get_fields() {
 
-		global $post;
+		$voucher = new LLMS_Voucher( $this->post->ID );
 
-		$voucher = new LLMS_Voucher( $post->ID );
-		$selected_products = $voucher->get_products();
+		$selected_couses = $voucher->get_products( 'course' );
+		$selected_memberships = $voucher->get_products( 'llms_membership' );
 
-		$courses = LLMS_Analytics::get_posts( 'course' );
-
-		$courses_select = array();
-		if ( ! empty( $courses )) {
-			foreach ($courses as $course) {
-				$courses_select[] = array(
-					'key' => $course->ID,
-					'title' => $course->post_title,
-				);
-			}
-		}
-
-		$memberships = LLMS_Analytics::get_posts( 'llms_membership' );
-
-		$membership_select = array();
-		if ( ! empty( $memberships )) {
-			foreach ($memberships as $membership) {
-				$membership_select[] = array(
-					'key' => $membership->ID,
-					'title' => $membership->post_title,
-				);
-			}
-		}
-
-		$meta_fields_voucher = array(
+		return array(
 			array(
-				'title' => 'General',
+				'title' => __( 'General', 'lifterlms' ),
 				'fields' => array(
 					array(
+						'data_attributes' => array(
+							'post-type' => 'course'
+						),
 						'type' => 'select',
-						'label' => 'Courses',
-						'id' => self::$prefix . 'llms_voucher_courses',
-						'class' => 'input-full llms-meta-select',
-						'value' => $courses_select,
+						'label' => __( 'Courses', 'lifterlms' ),
+						'id' => $this->prefix . 'voucher_courses',
+						'class' => 'input-full llms-select2-post',
+						'selected' => $selected_couses,
+						'value' => llms_make_select2_post_array( $selected_couses ),
 						'multi' => true,
-						'selected' => $selected_products,
 					),
 					array(
+						'data_attributes' => array(
+							'post-type' => 'llms_membership'
+						),
 						'type' => 'select',
-						'label' => 'Membership',
-						'id' => self::$prefix . 'llms_voucher_membership',
-						'class' => 'input-full llms-meta-select',
-						'value' => $membership_select,
+						'label' => __( 'Membership', 'lifterlms' ),
+						'id' => $this->prefix . 'voucher_membership',
+						'class' => 'input-full llms-select2-post',
+						'selected' => $selected_memberships,
+						'value' => llms_make_select2_post_array( $selected_memberships ),
 						'multi' => true,
-						'selected' => $selected_products,
 					),
 					array(
 						'type' => 'custom-html',
-						'label' => 'Codes',
+						'label' => __( 'Codes', 'lifterlms' ),
 						'id' => '',
 						'class' => '',
 						'value' => self::codes_section_html(),
@@ -98,11 +77,11 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 				),
 			),
 			array(
-				'title' => 'Redemptions',
+				'title' => __( 'Redemptions', 'lifterlms' ),
 				'fields' => array(
 					array(
 						'type' => 'custom-html',
-						'label' => 'Redemptions',
+						'label' => __( 'Redemptions', 'lifterlms' ),
 						'id' => '',
 						'class' => '',
 						'value' => self::redemption_section_html(),
@@ -111,14 +90,9 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 			),
 		);
 
-		if (has_filter( 'llms_meta_fields_voucher' )) {
-			$meta_fields_voucher = apply_filters( 'llms_meta_fields_voucher', $meta_fields_voucher );
-		}
-
-		return $meta_fields_voucher;
 	}
 
-	private static function codes_section_html() {
+	private function codes_section_html() {
 
 		global $post;
 		$voucher = new LLMS_Voucher( $post->ID );
@@ -179,7 +153,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 		return ob_get_clean();
 	}
 
-	private static function redemption_section_html() {
+	private function redemption_section_html() {
 
 		global $post;
 
@@ -225,16 +199,17 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox
 	}
 
 	/**
-	 * Static save method
+	 * save method
 	 *
 	 * cleans variables and saves using update_post_meta
 	 *
 	 * @param  int $post_id [id of post object]
-	 * @param  object $post [WP post object]
 	 *
 	 * @return void
+	 *
+	 * @versin 3.0.0
 	 */
-	public static function save( $post_id, $post ) {
+	public function save( $post_id ) {
 
 		if ( ! empty( $_POST['llms_generate_export'] ) || empty( $_POST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_meta_nonce'], 'lifterlms_save_data' )) {
 			return false;

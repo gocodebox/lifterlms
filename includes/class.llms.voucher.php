@@ -320,23 +320,33 @@ class LLMS_Voucher
 	}
 
 	/**
-	 * Product 2 Voucher
+	 * Get an  array of IDs for products associated with this voucher
+	 * @param  string   $post_type  allows filtering of products by post type
+	 * @return array
+	 * @version 3.0.0
 	 */
-	public function get_products() {
+	public function get_products( $post_type = 'any' ) {
 
 		global $wpdb;
 
 		$table = $this->get_product_to_voucher_table_name();
 
-		$query = "SELECT * FROM $table WHERE `voucher_id` = $this->id";
+		$products = $wpdb->get_col( $wpdb->prepare( "SELECT product_id FROM {$table} WHERE `voucher_id` = %d;", $this->id ) );
 
-		$results = $wpdb->get_results( $query );
+		if ( ! empty( $products ) ) {
 
-		$products = array();
-		if ( ! empty( $results )) {
-			foreach ($results as $item) {
-				$products[] = intval( $item->product_id );
+			// filter any products that don't match the supplied post type
+			if ( 'any' !== $post_type ) {
+				foreach ( $products as $i => $id ) {
+					if ( $post_type !== get_post_type( $id ) ) {
+						unset( $products[ $i ] );
+					}
+				}
 			}
+
+			// convert all elements to ints
+			$products = array_map( 'intval', $products );
+
 		}
 
 		return $products;
