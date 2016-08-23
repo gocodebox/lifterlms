@@ -1,29 +1,28 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! defined( 'LLMS_Admin_Metabox' ) ) {
-	// Include the file for the parent class
-	include_once LLMS_PLUGIN_DIR . '/includes/admin/llms.class.admin.metabox.php';
-}
-
 /**
-* Meta Box Builder
-*
-* Generates main metabox and builds forms
-*/
-class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
+ * Certificates metabox
+ * @since    1.0.0
+ * @version  3.0.0
+ */
 
-	public static $prefix = '_';
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 
 	/**
-	 * Function to field WP::output() method call
-	 * Passes output instruction to parent
-	 *
-	 * @param object $post WP global post object
+	 * Configure the metabox settings
 	 * @return void
+	 * @since  3.0.0
 	 */
-	public static function output ( $post ) {
-		global $post;
-		parent::new_output( $post, self::metabox_options() );
+	public function configure() {
+
+		$this->id = 'lifterlms-certificate';
+		$this->title = __( 'Certificate Settings', 'lifterlms' );
+		$this->screens = array(
+			'llms_certificate',
+		);
+		$this->priority = 'high';
+
 	}
 
 	/**
@@ -32,18 +31,19 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
 	 * Appropriate fields are generated based on type.
 	 *
 	 * @return array [md array of metabox fields]
+	 *
+	 * @version 3.0.0
 	 */
-	public static function metabox_options() {
-		global $post;
+	public function get_fields() {
 
-		$meta_fields_certificate = array(
+		 return array(
 			array(
 				'title' 	=> 'General',
 				'fields' 	=> array(
 					array(
-						'label' 	=> 'Certificate Title',
-						'desc' 		=> 'Enter a title for your certificate. EG: Certificate of Completion',
-						'id' 		=> self::$prefix . 'llms_certificate_title',
+						'label' 	=> __( 'Certificate Title', 'lifterlms' ),
+						'desc' 		=> __( 'Enter a title for your certificate. EG: Certificate of Completion', 'lifterlms' ),
+						'id' 		=> $this->prefix . 'certificate_title',
 						'type'  	=> 'text',
 						'section' 	=> 'certificate_meta_box',
 						'class' 	=> 'code input-full',
@@ -52,9 +52,9 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
 						'value' 	=> '',
 					),
 					array(
-						'label'  	=> 'Background Image',
-						'desc'  	=> 'Select an Image to use for the certificate.',
-						'id'    	=> self::$prefix . 'llms_certificate_image',
+						'label'  	=> __( 'Background Image', 'lifterlms' ),
+						'desc'  	=> __( 'Select an Image to use for the certificate.', 'lifterlms' ),
+						'id'    	=> $this->prefix . 'certificate_image',
 						'type'  	=> 'image',
 						'section' 	=> 'certificate_meta_box',
 						'class' 	=> 'certificate',
@@ -65,14 +65,13 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
 					array(
 						'label'  	=> '',
 						'desc'  	=> '',
-						'id'    	=> self::$prefix . 'llms_help',
+						'id'    	=> $this->prefix . 'help',
 						'type'  	=> 'custom-html',
 						'section' 	=> 'certificate_meta_box',
 						'class' 	=> 'code input-full',
 						'desc_class' => 'd-all',
 						'group' 	=> '',
-						'value' 	=> '<p>Use the text editor above to add content to your certificate.
-										You can include any of the following merge fields. 
+						'value' 	=> '<p>' . __( 'Use the text editor above to add content to your certificate. You can include any of the following merge fields.', 'lifterlms' ) . '
 										<br>{site_title}
 										<br>{user_login}
 										<br>{site_url}
@@ -85,28 +84,6 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox{
 				),
 			),
 		);
-
-		if (has_filter( 'llms_meta_fields_certificate' )) {
-			//Add Fields to the achievement Meta Box
-			$meta_fields_certificate = apply_filters( 'llms_meta_fields_certificate', $meta_fields_certificate );
-		}
-
-		return $meta_fields_certificate;
-	}
-
-	/**
-	 * Static save method
-	 *
-	 * cleans variables and saves using update_post_meta
-	 *
-	 * @param  int 		$post_id [id of post object]
-	 * @param  object 	$post [WP post object]
-	 *
-	 * @return void
-	 */
-	public static function save( $post_id, $post ) {
-		global $wpdb;
-
 	}
 
 }
