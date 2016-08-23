@@ -63,18 +63,9 @@ class LLMS_Quiz {
 		// string for "unlimited" or number of attempts
 		if ( ! is_numeric( $remaining ) || $remaining > 0 ) {
 
-
 			return true;
 
 		}
-		// no idea what this is for
-		// @todo consult mark & cleanup
-		// https://github.com/gocodebox/lifterlms/blob/3.0.0/includes/class.llms.quiz.php#L273-L286
-		// elseif ( '' == $this->get_end_date( $user_id ) ) {
-
-		// 	return true;
-
-		// }
 
 		return false;
 
