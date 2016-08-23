@@ -12,6 +12,13 @@
 + display 0 instead of negative attempts on quiz summary
 + updated logic in start button template
 
+##### Emails (for engagements)
+
++ Admin metabox updated to new API
++ Postmeta data migration:
+  + `_email_subject` renamed to `_llms_email_subject`
+  + `_email_heading` renamed to `_llms_email_heading`
+
 
 = v3.0.0-beta.1 - 2016/08/15 =
 -------------------------------

@@ -24,10 +24,9 @@ delete_option( 'lifterlms_authkey' );
 delete_option( 'lifterlms_activation_key' );
 
 /**
- * Run Install files which was added in 3.0.0
+ * Run Install files which were added in 3.0.0
  */
 LLMS_Install::create_files();
-
 
 /**
  * Migrate deprecated account field related options to new ones
