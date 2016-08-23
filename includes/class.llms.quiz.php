@@ -50,6 +50,38 @@ class LLMS_Quiz {
 	}
 
 	/**
+	 * Determine if a student can take the quiz
+	 * @param    int      $user_id   WP User ID
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_open( $user_id ) {
+
+		$remaining = $this->get_remaining_attempts_by_user( $user_id );
+
+		// string for "unlimited" or number of attempts
+		if ( ! is_numeric( $remaining ) || $remaining > 0 ) {
+
+
+			return true;
+
+		}
+		// no idea what this is for
+		// @todo consult mark & cleanup
+		// https://github.com/gocodebox/lifterlms/blob/3.0.0/includes/class.llms.quiz.php#L273-L286
+		// elseif ( '' == $this->get_end_date( $user_id ) ) {
+
+		// 	return true;
+
+		// }
+
+		return false;
+
+	}
+
+
+	/**
 	* __isset function
 	*
 	* checks if metadata exists
@@ -362,6 +394,8 @@ class LLMS_Quiz {
 	 * Get remaining quiz attempts
 	 * @param  int $user_id [ID of user]
 	 * @return int [number of attempts user has remaining]
+	 *
+	 * @version 3.0.0 -- display 0 instead of negative attempts
 	 */
 	public function get_remaining_attempts_by_user( $user_id ) {
 		$attempts_allowed = $this->get_total_allowed_attempts();
@@ -374,11 +408,18 @@ class LLMS_Quiz {
 				$attempts = 0;
 			}
 
-			$total_attempts_remaining = ($attempts_allowed - $attempts);
+			$total_attempts_remaining = ( $attempts_allowed - $attempts );
+
+			// don't show negative attmepts
+			if ( $total_attempts_remaining < 0 ) {
+
+				$total_attempts_remaining = 0;
+
+			}
 
 		} else {
 
-			$total_attempts_remaining = __( 'unlimited', 'lifterlms' );
+			$total_attempts_remaining = _x( 'Unlimited', 'quiz attempts remaining', 'lifterlms' );
 
 		}
 

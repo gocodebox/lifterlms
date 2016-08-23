@@ -1,32 +1,61 @@
 <?php
+/**
+ * Quiz Questions Metabox
+ *
+ * Interface for assigning questions to a quiz
+ *
+ * @version  3.0.0
+ */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* Quiz Questions
-*
-* Allows users to assign questions to a quiz.
-*/
-class LLMS_Meta_Box_Quiz_Questions {
+class LLMS_Meta_Box_Quiz_Questions extends LLMS_Admin_Metabox {
 
 	/**
-	 * Static output class.
+	 * Configure the metabox settings
+	 * @return void
+	 * @since  3.0.0
+	 */
+	public function configure() {
+
+		$this->id = 'lifterlms-quiz-questions';
+		$this->title = __( 'Quiz Questions', 'lifterlms' );
+		$this->screens = array(
+			'llms_quiz',
+		);
+		$this->priority = 'high';
+
+	}
+
+
+	/**
+	 * Not used
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_fields() {
+		return array();
+	}
+
+	/**
+	 * output class.
 	 *
 	 * Displays MetaBox
-	 * Calls static class metabox_options
+	 * Calls class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
 	 *
 	 * @param  object $post [WP post object]
 	 *
 	 * @return void
 	 *
-	 * @updated 2.4.0
+	 * @version  3.0.0
 	 */
-	public static function output( $post ) {
-		global $post;
+	public function output() {
 
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
-		$questions_selected = get_post_meta( $post->ID, '_llms_questions', true );
+		$questions_selected = get_post_meta( $this->post->ID, '_llms_questions', true );
 		?>
 
 		<div id="llms-question-container">
@@ -70,17 +99,17 @@ class LLMS_Meta_Box_Quiz_Questions {
 	}
 
 	/**
-	 * Static save method
+	 * save method
 	 *
 	 * cleans variables and saves using update_post_meta
 	 *
 	 * @param  int 		$post_id [id of post object]
-	 * @param  object 	$post [WP post object]
 	 *
 	 * @return void
+	 *
+	 * @version  3.0.0
 	 */
-	public static function save( $post_id, $post ) {
-		global $wpdb;
+	public function save( $post_id ) {
 
 		$questions = array();
 
@@ -111,9 +140,10 @@ class LLMS_Meta_Box_Quiz_Questions {
 	 * @param  integer $points Number of points awarded for the question
 	 * @return string
 	 *
-	 * @since  2.4.0
+	 * @since    2.4.0
+	 * @version  2.4.0
 	 */
-	private static function get_question_html_template( $id = 0, $points = 1 ) {
+	private function get_question_html_template( $id = 0, $points = 1 ) {
 
 		// lookup the title and output an option if we have an ID
 		$option = ( $id ) ? '<option selected="selected" value="'. $id .'">' . get_the_title( $id ) . ' (' . $id . ')</option>' : '';

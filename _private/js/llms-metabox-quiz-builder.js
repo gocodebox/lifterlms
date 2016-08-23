@@ -76,36 +76,6 @@
 	};
 
 	/**
-	 * UI for managing the quiz settings
-	 *
-	 * @since  2.4.0
-	 */
-	window.llms.metabox_quiz_settings = function() {
-
-		if ( $( '#_llms_show_results').attr('checked') ) {
-			$( '#_llms_show_correct_answer' ).parent().parent().show();
-			$( '#_llms_show_options_description_right_answer ').parent().parent().show();
-			$( '#_llms_show_options_description_wrong_answer').parent().parent().show();
-		}
-
-		$( '#_llms_show_results').on('change', function() {
-			if( $( '#_llms_show_results' ).attr( 'checked' ) ) {
-				$( '#_llms_show_correct_answer' ).parent().parent().fadeIn(300);
-				$( '#_llms_show_options_description_right_answer ').parent().parent().fadeIn(300);
-				$( '#_llms_show_options_description_wrong_answer').parent().parent().fadeIn(300);
-			} else {
-				$( '#_llms_show_correct_answer' ).parent().parent().fadeOut(300);
-				$( '#_llms_show_options_description_right_answer ').parent().parent().fadeOut(300);
-				$( '#_llms_show_options_description_wrong_answer').parent().parent().fadeOut(300);
-			}
-		});
-
-	};
-
-
-
-
-	/**
 	 * UI for adding and removing questions from the quiz
 	 *
 	 * @since  2.4.0
@@ -381,7 +351,6 @@
 
 	};
 
-	var a = new window.llms.metabox_quiz_builder(),
-		b = new window.llms.metabox_quiz_settings();
+	var a = new window.llms.metabox_quiz_builder();
 
 } )( jQuery );

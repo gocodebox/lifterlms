@@ -1,9 +1,16 @@
 == Changelog =
 
-= v3.0.0-beta.2 - 2016/08/?? =
+= v3.0.0-beta.2 - 2016/08/23 =
 -------------------------------
 
++ Updated (and semi-finished) analytics
 
+
+##### Quizzes
+
++ Updated admin metaboxes to use new metabox abstract class
++ display 0 instead of negative attempts on quiz summary
++ updated logic in start button template
 
 
 = v3.0.0-beta.1 - 2016/08/15 =
