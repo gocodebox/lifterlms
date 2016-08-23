@@ -168,8 +168,10 @@ class LLMS_AJAX {
 			'get_students'              => false,
 			'get_enrolled_students'     => false,
 			'check_voucher_duplicate'	=> false,
+			'query_students' 			=> false,
 			'query_quiz_questions'      => false,
 			'select2_query_posts'       => false,
+
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -1032,6 +1034,142 @@ class LLMS_AJAX {
 		) );
 
 		wp_die();
+	}
+
+
+
+
+
+
+	/**
+	 * Retrieve Students
+	 *
+	 * Used by Select2 AJAX functions to load paginated quiz questions
+	 * Also allows querying by:
+	 * 		first name
+	 * 		last name
+	 * 		email
+	 *
+	 * @return json
+	 */
+	public function query_students() {
+
+		// grab the search term if it exists
+		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+
+		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+
+		global $wpdb;
+
+		$limit = 30;
+		$start = $limit * $page;
+
+		// there was a search query
+		if ( $term ) {
+
+			// email only
+			if( false !== strpos( $term, '@' ) ) {
+
+				$query = "SELECT
+							  ID AS id
+							, user_email AS email
+							, display_name AS name
+						  FROM $wpdb->users
+						  WHERE user_email LIKE '%s'
+						  ORDER BY display_name
+						  LIMIT %d, %d;";
+
+				$vars = array(
+					'%' . $term . '%',
+					$start,
+					$limit,
+				);
+
+			}
+
+			// search for FIRST and LAST names
+			elseif ( false !== strpos( $term, ' ' ) ) {
+
+				$term = explode( ' ', $term );
+
+				$query = "SELECT
+							  users.ID AS id
+							, users.user_email AS email
+							, users.display_name AS name
+						  FROM $wpdb->users AS users
+						  LEFT JOIN wp_usermeta AS fname ON fname.user_id = users.ID
+						  LEFT JOIN wp_usermeta AS lname ON lname.user_id = users.ID
+						  WHERE
+						  	( fname.meta_key = 'first_name' AND fname.meta_value LIKE '%s' )
+						  	AND
+						  	( lname.meta_key = 'last_name' AND lname.meta_value LIKE '%s' )
+						  ORDER BY users.display_name
+						  LIMIT %d, %d;";
+
+				$vars = array(
+					'%' . $term[0] . '%', // first name
+					'%' . $term[1] . '%', // last name
+					$start,
+					$limit,
+				);
+
+			}
+
+			// search for login, display name, or email
+			else {
+
+				$query = "SELECT
+							  ID AS id
+							, user_email AS email
+							, display_name AS name
+						  FROM $wpdb->users
+						  WHERE
+						  	user_email LIKE '%s'
+						  	OR user_login LIKE '%s'
+						  	OR display_name LIKE '%s'
+						  ORDER BY display_name
+						  LIMIT %d, %d;";
+
+				$vars = array(
+					'%' . $term . '%',
+					'%' . $term . '%',
+					'%' . $term . '%',
+					$start,
+					$limit,
+				);
+
+
+			}
+
+		}
+		// no search query
+		else {
+
+			$query = "SELECT
+						  ID AS id
+						, user_email AS email
+						, display_name AS name
+					  FROM $wpdb->users
+					  ORDER BY display_name
+					  LIMIT %d, %d;";
+
+			$vars = array(
+				$start,
+				$limit,
+			);
+
+		}
+
+		$r = $wpdb->get_results( $wpdb->prepare( $query, $vars ) );
+
+		echo json_encode( array(
+			'items' => $r,
+			'more' => count( $r ) === $limit,
+			'success' => true,
+		) );
+
+		wp_die();
+
 	}
 
 

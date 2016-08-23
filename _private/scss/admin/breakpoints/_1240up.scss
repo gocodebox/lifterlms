@@ -4,7 +4,12 @@ large Monitor Stylsheet
 
 ******************************************************************/
 
+.llms-nav-tab-wrapper {
+	@include clearfix;
+}
+
+.llms-nav-tab-filters,
 .llms-nav-tab-settings {
-	display: inline-block;
+	float: left;
 	width: 12.5%;
 }

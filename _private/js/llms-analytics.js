@@ -1,296 +1,161 @@
-jQuery(document).ready(function($) {
+( function( $ ) {
 
+	window.llms = window.llms || {};
 
-	var chosen_config = {
-      '.chosen-select'           : {},
-      '.chosen-select-deselect'  : {allow_single_deselect:true},
-      '.chosen-select-no-single' : {disable_search_threshold:10},
-      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-      '.chosen-select-width'     : {width:"100%"}
-    };
 
-    for ( var selector in chosen_config ) {
-      $( selector).chosen(chosen_config[selector] );
-    }
+	window.llms.analytics = function() {
 
-    $( '.llms-date-range-select-start' ).datepicker();
-    $( '.llms-date-range-select-end' ).datepicker();
+		this.charts_ready = false;
+		this.data = $.parseJSON( $( '#llms-analytics-json' ).text() );
+		this.timeout = 5000;
 
+		this.$widgets = $( '.llms-widget' );
 
 
+		this.init = function() {
 
+			google.charts.load( 'current', {
+				packages: [
+					'corechart'
+				]
+			} );
+      		google.charts.setOnLoadCallback( this.charts_ready );
 
+			this.bind();
+			this.load_widgets();
 
+		};
 
-    var query_vars = get_query_var();
-    if ( ( query_vars.page === 'llms-analytics' && query_vars.tab === 'sales' ) ||
-      ( query_vars.page === 'llms-analytics' && ! ( 'tab' in query_vars ) )  ) {
 
-        google.setOnLoadCallback(drawChart);
+		this.bind = function() {
 
-        $(window).resize(function(){
-            drawChart();
-        });
+			$( '.llms-datepicker' ).datepicker( {
+				dateFormat: 'yy-mm-dd',
+				maxDate: 0,
+			} );
 
-    } else if ( query_vars.page === 'llms-analytics' && query_vars.tab === 'courses' ) {
 
-        google.setOnLoadCallback(drawChart2);
-        google.setOnLoadCallback(drawChart3);
+			$( '#llms-students-ids-filter' ).llmsStudentsSelect2( {
+				multiple: true,
+				placeholder: LLMS.l10n.translate( 'Filter by Student(s)' ),
+				width: '90%'
+			} );
 
+		};
 
+		this.charts_ready = function() {
 
-        if ( $( window ).width() <= 768 ) {
-            google.setOnLoadCallback(drawTableSmall);
-        } else {
-             google.setOnLoadCallback(drawTable);
-        }
+			console.log( 'ready' );
 
-        $(window).resize(function(){
-            if ( $( window ).width() <= 768 ) {
-               drawTableSmall();
-            } else {
-                drawTable();
-            }
+		}
 
-            drawChart2();
-            drawChart3();
 
-        });
+		this.load_widgets = function() {
 
-    } else if ( query_vars.page === 'llms-analytics' && query_vars.tab === 'memberships' ) {
+			var self = this;
 
-        google.setOnLoadCallback( draw_enrolled_members_chart );
+			this.$widgets.each( function() {
 
-        if ( $( window ).width() <= 768 ) {
-            google.setOnLoadCallback( draw_member_table_small );
-        } else {
-             google.setOnLoadCallback( draw_member_table );
-        }
+				self.load_widget( $( this ) );
 
-        $(window).resize(function(){
-            if ( $( window ).width() <= 768 ) {
-               draw_member_table_small();
-            } else {
-                draw_member_table();
-            }
+			} );
 
-            draw_enrolled_members_chart();
+		};
 
-        });
 
-    } else if ( ( query_vars.page === 'llms-students' && ! ( 'tab' in query_vars ) )
-        || ( query_vars.page === 'llms-students' && query_vars.tab === 'dashboard' ) ) {
+		this.load_widget = function( $widget ) {
 
-        //manage expired users checkbox for students search screen
-        //if all products is selected then hide and uncheck the show expired users filter
-        if ( $( '.chosen-select-width').chosen().val() === 'all_products' ) {
-             $( '#include_expired_users' ).hide();
-             $( '#exp_users_filter' ).attr('checked', false);
-        }
-        //on checkbox selection if the expired users filter is hidden then display it.
-        $( '.chosen-select-width').chosen().change( function() {
-            if ( $( '.chosen-select-width').chosen().val() == 'all_products' ) {
-                $( '#include_expired_users' ).hide();
-                $( '#exp_users_filter' ).attr('checked', false);
-            } else {
-                $( '#include_expired_users' ).show();
-            }
-        });
+			var self = this,
+				method = $widget.attr( 'data-method' ),
+				$content = $widget.find( 'h1' ),
+				$retry = $widget.find( '.llms-reload-widget' ),
+				content_text = LLMS.l10n.translate( 'Error' ),
+				status;
 
-        //get search results table
-        google.setOnLoadCallback( draw_student_search_results_table );
+			$widget.addClass( 'is-loading' );
 
-        $(window).resize(function(){
+			$.ajax( {
 
-            draw_student_search_results_table()
+				data: {
+					action: 'llms_widget_' + method,
+					dates: self.data.dates,
+					courses: self.data.courses,
+					memberships: self.data.memberships,
+					students: self.data.students,
+				},
+				method: 'POST',
+				timeout: self.timeout,
+				url: window.ajaxurl,
+				success: function( r ) {
 
-        });
+					status = 'success';
 
-    } else if ( query_vars.page === 'llms-students' && query_vars.tab === 'profile' ) {
+					if( 'undefined' !== typeof r.response ) {
 
-        google.setOnLoadCallback( draw_student_course_table );
-        google.setOnLoadCallback( draw_student_membership_table );
+						content_text = r.response;
 
-        $(window).resize(function(){
-            draw_student_course_table()
-        });
+					}
 
-    }
 
+				},
+				error: function( r ) {
 
+					status = 'error';
 
-});
+				},
+				complete: function( r ) {
 
-google.load("visualization", "1", {packages:["corechart", "table"]});
+					console.log( r );
 
-get_query_var = function() {
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++) {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = hash[1];
-    }
-    return vars;
-}
+					if ( 'error' === status ) {
 
+						if( 'timeout' === r.statusText ) {
 
+							content_text = LLMS.l10n.translate( 'Request timed out' );
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(myJson);
+						} else {
 
-        var options = {
-          title: 'Sales Volume',
-          hAxis: {title: 'Date Range',  titleTextStyle: {color: '#333'}},
-          vAxis: {minValue: 0}
-        };
+							content_text = LLMS.l10n.translate( 'Error' );
 
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
+						}
 
-      function drawChart2() {
-        var data = google.visualization.arrayToDataTable(enrolled_students);
 
-        var options = {
-          title: 'Student Enrollment',
-          //curveType: 'function',
-          legend: { position: 'bottom' }
-        };
+						if ( ! $retry.length ) {
 
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+							$retry = $( '<a class="llms-reload-widget" href="#">' + LLMS.l10n.translate( 'Retry' ) + '</a>' );
+							$retry.on( 'click', function( e ) {
 
-        chart.draw(data, options);
-      }
+								e.preventDefault();
+								self.load_widget( $widget );
 
-      function drawChart3() {
-        var chart_height = ( ( lesson_completion_percent.length * 50 ) + 100 );
-        var data = google.visualization.arrayToDataTable(lesson_completion_percent);
+							} );
 
-        var options = {
-          title: 'Lesson Completion Percentage',
-          legend: { position: 'bottom' },
-          height: chart_height,
-          hAxis: {title: 'Percentage',  titleTextStyle: {color: '#333'}, minValue: 0, maxValue: 100 },
-          vAxis: { title: 'Lesson' }
-        };
+							$widget.append( $retry );
 
-        var chart = new google.visualization.BarChart(document.getElementById('lesson-completion-chart'));
-        chart.draw(data, options);
-      }
+						}
 
+					}
 
-      function drawTable() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Last');
-        data.addColumn('string', 'First');
-        data.addColumn('string', 'Enrolled');
-        data.addColumn('string', 'Completion');
-        data.addColumn('string', 'Last Lesson Completed');
-        data.addColumn('string', 'View');
-        data.addRows(students_result_large);
+					$widget.removeClass( 'is-loading' );
+					$content.text( content_text );
 
-        var table = new google.visualization.Table(document.getElementById('table_div'));
+				}
 
-        table.draw(data, {showRowNumber: true, allowHtml: true});
-      }
+			} );
 
-      function drawTableSmall() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Last');
-        data.addColumn('string', 'First');
-        data.addColumn('string', 'View');
-        data.addRows(students_result_small);
+		};
 
-        var table = new google.visualization.Table(document.getElementById('table_div'));
 
-        table.draw(data, {showRowNumber: true, allowHtml: true});
-      }
+		this.init();
 
+		return this;
 
+	};
 
-      function draw_enrolled_members_chart() {
-        var data = google.visualization.arrayToDataTable(enrolled_members);
 
-        var options = {
-          title: 'Membership Enrollment by Day',
-          //curveType: 'function',
-          legend: { position: 'bottom' }
-        };
+	new window.llms.analytics();
 
-        var chart = new google.visualization.LineChart(document.getElementById('enrolled_members_chart'));
+} )( jQuery );
 
-        chart.draw(data, options);
-      }
 
 
-
-      function draw_member_table() {
-
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Last');
-        data.addColumn('string', 'First');
-        data.addColumn('string', 'Enrolled');
-        data.addColumn('string', 'Expires');
-        data.addColumn('string', 'View');
-        data.addRows(members_result_large);
-
-        var table = new google.visualization.Table(document.getElementById('members_table'));
-
-        table.draw(data, {showRowNumber: true, allowHtml: true});
-      }
-
-      function draw_member_table_small() {
-
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Last');
-        data.addColumn('string', 'First');
-        data.addColumn('string', 'View');
-        data.addRows(members_result_small);
-
-        var table = new google.visualization.Table(document.getElementById('members_table'));
-
-        table.draw(data, {showRowNumber: true, allowHtml: true});
-      }
-
-
-      function draw_student_search_results_table() {
-
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Last');
-        data.addColumn('string', 'First');
-        data.addColumn('string', 'Email');
-        data.addColumn('string', 'View');
-        data.addRows(students_search_result_large);
-
-        var table = new google.visualization.Table(document.getElementById('student_search_results'));
-
-        table.draw(data, {showRowNumber: true, allowHtml: true});
-      }
-
-       function draw_student_course_table() {
-
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Course');
-        data.addColumn('string', 'Enrolled Date');
-        data.addColumn('string', 'Status');
-        data.addColumn('string', 'Progress');
-        data.addRows(student_course_list);
-
-        var table = new google.visualization.Table(document.getElementById('student_course_table'));
-
-        table.draw(data, {showRowNumber: true, allowHtml: true});
-      }
-
-      function draw_student_membership_table() {
-
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'membership');
-        data.addColumn('string', 'Enrolled Date');
-        data.addColumn('string', 'Status');
-        data.addRows(student_membership_list);
-
-        var table = new google.visualization.Table(document.getElementById('student_membership_table'));
-
-        table.draw(data, {showRowNumber: true, allowHtml: true});
-      }

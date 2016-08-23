@@ -4,10 +4,24 @@ Base Mobile
 
 ******************************************************************/
 
-
-.llms-nav-tab {
+.llms-nav-tab,
+.llms-nav-tab-filters {
 	display: block;
 	width: 100%;
+}
+
+form.llms-nav-tab-filters.full-width {
+	width: 100%;
+
+	label {
+		display: inline-block;
+		width: 10%;
+		text-align: left;
+	}
+
+	.select2-container {
+		width: 85% !important;
+	}
 }
 
 .llms-nav-tab-settings {

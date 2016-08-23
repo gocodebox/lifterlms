@@ -766,6 +766,19 @@ function llms_price( $price, $args = array() ) {
 }
 
 /**
+ * Get a simple string (no html) based on the output of llms_price
+ * @param  int    $price Price to display
+ * @param  array  $args  array of arguments
+ * @return string
+ * @version  3.0.0
+ */
+function llms_price_raw( $price, $args = array() ) {
+
+	return html_entity_decode( strip_tags( llms_price( $price, $args ) ) );
+
+}
+
+/**
  * Trim trailing zeros off a price
  * @param mixed $price
  * @return string

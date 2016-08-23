@@ -43,7 +43,6 @@ class LLMS_Admin_Menus {
 
 			foreach ( $submenu['lifterlms'] as $sm ) {
 				switch ( $sm[0] ) {
-
 					case 'Settings':
 					case __( 'Settings', 'lifterlms' ):	 	$i = 0;  break;
 					case 'Analytics':
@@ -52,7 +51,7 @@ class LLMS_Admin_Menus {
 					case __( 'Students', 'lifterlms' ):	 	$i = 2;  break;
 					case 'System Report':
 					case __( 'System Report', 'lifterlms' ):$i = 3; break;
-
+					case 'Analytics (New)': $i = 4; break;
 				}
 
 				if ( isset( $i ) ) {
@@ -122,7 +121,15 @@ class LLMS_Admin_Menus {
 	 */
 	public function display_analytics_menu() {
 
+
 		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Analytics', __( 'Analytics', 'lifterlms' ), apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ), 'llms-analytics', array( $this, 'analytics_page_init' ) );
+
+		add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ),
+		'llms-analytics', array( $this, 'analytics_page_init' ) );
+
+		add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics (New)', apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ),
+		'llms-analytics-new', array( $this, 'reporting_page_init' ) );
+
 	}
 
 	/**
@@ -142,6 +149,18 @@ class LLMS_Admin_Menus {
 	 *
 	 * @return void
 	 */
+	public function reporting_page_init() {
+		include LLMS_PLUGIN_DIR . 'includes/admin/analytics/class.llms.view.analytics.php';
+	}
+
+
+	/**
+	* Students Menu Item
+	*
+	* Sub menu item to Admin Menu
+	*
+	* @return void
+	*/
 	public function display_students_menu() {
 
 		$settings = add_submenu_page( 'lifterlms', 'LifterLMS Students', __( 'Students', 'lifterlms' ), apply_filters( 'lifterlms_admin_students_access', 'manage_options' ), 'llms-students', array( $this, 'students_page_init' ) );

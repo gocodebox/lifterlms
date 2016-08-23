@@ -9,6 +9,22 @@
 LLMS.Rest = {
 
 	/**
+	 * init
+	 * loads class methods
+	 */
+	init: function() {
+		this.bind();
+	},
+
+	/**
+	 * Bind Method
+	 * Handles dom binding on load
+	 * @return {[type]} [description]
+	 */
+	bind: function() {
+	},
+
+	/**
 	 * Searches for string matches in url path
 	 * @param  {Array}  strings [Array of strings to search for matches]
 	 * @return {Boolean}         [Was a match found?]

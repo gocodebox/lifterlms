@@ -82,6 +82,27 @@ class LLMS_l10n {
 			'You must enter an answer to continue.' => __( 'You must enter an answer to continue.', 'lifterlms' ),
 		);
 
+		// add strings that should only be translated on the admin panel
+		if ( is_admin() ) {
+
+			$admin_strings = array(
+
+				/**
+				 * file: _private/js/llms-analytics.js
+				 * @since   3.0.0
+				 * @version 3.0.0
+				 */
+				'Error' => __( 'Error', 'lifterlms' ),
+				'Filter by Student(s)' => __( 'Filter by Student(s)', 'lifterlms' ),
+				'Request timed out' => __( 'Request timed out', 'lifterlms' ),
+				'Retry' => __( 'Retry', 'lifterlms' ),
+
+			);
+
+			$strings = array_merge( $strings, apply_filters( 'lifterlms_js_l10n_admin', $admin_strings ) );
+
+		}
+
 		// allow filtering so extensions don't have to implement their own l10n functions
 		$strings = apply_filters( 'lifterlms_js_l10n', $strings );
 

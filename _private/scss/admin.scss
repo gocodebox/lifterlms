@@ -2,8 +2,20 @@
 // Main Admin CSS File
 //
 
+
 @import "_includes/vars";
 @import "_includes/extends";
+
+@mixin clearfix() {
+	&:before,
+	&:after {
+	    content: " ";
+	    display: table;
+	}
+	&:after {
+	    clear: both;
+	}
+}
 
 // grid layout for breakpoints
 @import "admin/partials/grid";

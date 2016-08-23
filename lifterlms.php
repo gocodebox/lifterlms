@@ -176,14 +176,13 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 
+			include_once( 'includes/admin/analytics/widgets/class.llms.analytics.widget.ajax.php' );
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php' );
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php' );
 			include_once( 'includes/admin/class.llms.admin.php' );
 			include_once( 'includes/class.llms.analytics.php' );
 			include_once( 'includes/admin/class.llms.admin.reviews.php' );
-
 			require 'includes/abstracts/abstract.llms.admin.metabox.php';
-
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
 
 		}
