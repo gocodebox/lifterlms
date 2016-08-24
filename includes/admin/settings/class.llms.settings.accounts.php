@@ -46,10 +46,15 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'title' => __( 'Account Access Page', 'lifterlms' ),
 				'desc' 		=> '<br>' . __( 'Page used for login / my account access. You can also place this shortcode on any page: ', 'lifterlms' ) . ' [' . apply_filters( 'lifterlms_my_account_shortcode_tag', 'lifterlms_my_account' ) . ']',
 				'id' 		=> 'lifterlms_myaccount_page_id',
-				'type' 		=> 'single_select_page',
 				'default'	=> '',
 				'class'		=> 'chosen_select_nostd',
 				'desc_tip'	=> true,
+				'class'		=> 'llms-select2-post',
+				'type' 		=> 'select',
+				'custom_attributes' => array(
+					'data-post-type' => 'page',
+				),
+				'options' => llms_make_select2_post_array( get_option( 'lifterlms_myaccount_page_id', '' ) ),
 			),
 
 			array(
@@ -69,7 +74,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Dashboard', 'lifterlms' ),
-				'desc' 		=> __( 'Purchased courses page', 'lifterlms' ),
+				'desc' 		=> __( 'Account Dashboard and Overview', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_my_courses_endpoint',
 				'type' 		=> 'text',
 				'default'	=> 'my-account',
@@ -77,7 +82,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			array(
-				'title' => __( 'My Courses', 'lifterlms' ),
+				'title' => __( 'View Courses', 'lifterlms' ),
 				'desc' 		=> __( 'Purchased courses page', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_courses_endpoint',
 				'type' 		=> 'text',
@@ -112,6 +117,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
+			// @todo this doesn't do anything...
 			array(
 				'title' => __( 'Logout', 'lifterlms' ),
 				'desc' 		=> __( 'Custom Link: yoursite.com/?person-logout=true', 'lifterlms' ),
@@ -176,11 +182,14 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			array(
 				'desc' 		=> '<br>' . __( 'Select the page where your Terms and Conditions are described.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_terms_page_id',
-				'type' 		=> 'single_select_page',
-				'default'	=> 0,
-				'class'		=> 'chosen_select_nostd',
-				'css' 		=> 'min-width:200px;',
+				'default'	=> '',
 				'desc_tip'	=> true,
+				'class'		=> 'llms-select2-post',
+				'type' 		=> 'select',
+				'custom_attributes' => array(
+					'data-post-type' => 'page',
+				),
+				'options' => llms_make_select2_post_array( get_option( 'lifterlms_terms_page_id', '' ) ),
 			),
 
 			array(
@@ -264,6 +273,17 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'id'            => 'lifterlms_user_info_field_email_confirmation_registration_visibility',
 				'title'         => __( 'Email Confirmation', 'lifterlms' ),
 				'type'          => 'checkbox',
+			),
+			array(
+				'autoload'      => false,
+				'default'       => 'optional',
+				'desc'          => '<br>' . __( 'If required, users can only use open registration with a voucher.', 'lifterlms' ) .
+								   '<br>' . __( 'If optional, users may redeem a voucher during open registration.', 'lifterlms' ) .
+								   '<br>' . __( 'If hidden, users can only redeem vouchers on their dashboard.', 'lifterlms' ),
+				'id'            => 'lifterlms_voucher_field_registration_visibility',
+				'title'         => __( 'Voucher', 'lifterlms' ),
+				'type'          => 'select',
+				'options'       => $field_options,
 			),
 
 			array(
