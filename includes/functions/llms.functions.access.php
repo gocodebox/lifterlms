@@ -264,8 +264,6 @@ function llms_is_post_restricted_by_time_period( $post_id ) {
 
 }
 
-
-
 /**
  * Determine if a WordPress post (of any type) is restricted to at least one LifterLMS Membership level
  *
