@@ -6,6 +6,10 @@
 	padding: 10px;
 	margin-bottom: 10px;
 
+	li {
+		list-style-type: none;
+	}
+
 	&.llms-debug {
 		background: rgba( #cacaca, .3 );
 		border-color: #cacaca;
@@ -14,9 +18,6 @@
 	&.llms-error {
 		background: rgba( $color-red, .3 );
 		border-color: $color-red;
-		li:first-child:last-child {
-			list-style-type: none;
-		}
 	}
 
 	&.llms-success {
