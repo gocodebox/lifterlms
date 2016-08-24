@@ -5,6 +5,20 @@
 
 + Updated (and semi-finished) analytics
 + achievemnt metabox converted
++ minor updates to voucher class
+
+##### Open Enrollment
+
++ Open Enrollment allows users to register on the account dashboard without purchasing a course
++ Voucher settings are available to customize whether vouchers should be optional or required during open registration
++ Better error reporting around voucher usage during enrollment
+
+##### Deprecated Functions
+
++ `llms_get_coupon()`
++ `get_section_id()`
++ `check_course_capacity()`
+
 
 ##### Quizzes
 
