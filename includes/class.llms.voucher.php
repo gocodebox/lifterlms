@@ -182,12 +182,29 @@ class LLMS_Voucher
 		return $wpdb->update( $this->get_codes_table_name(), $data, $where );
 	}
 
+	/**
+	 * Determie if a voucher is valid
+	 * @param    string       $code  voucher code
+	 * @return   WP_Error|object     WP_Error if invalid or not redeemable OR a voucher data object
+	 * @since    ??
+	 * @version  3.0.0
+	 */
 	public function check_voucher( $code ) {
 
 		$voucher = $this->get_voucher_by_code( $code );
 
-		if (empty( $voucher ) || $voucher->redemption_count <= $voucher->used) {
-			$voucher = false;
+		if ( empty( $voucher ) ) {
+
+			return new WP_Error( 'not-found', sprintf( __( 'Voucher code "%s" could not be found.', 'lifterlms' ), $code ) );
+
+		} elseif ( $voucher->redemption_count <= $voucher->used ) {
+
+			return new WP_Error( 'max', sprintf( __( 'Voucher code "%s" has already been redeemed the maximum number of times.', 'lifterlms' ), $code ) );
+
+		} elseif ( '1' === $voucher->is_deleted ) {
+
+			return new WP_Error( 'deleted', sprintf( __( 'Voucher code "%s" is no longer valid.', 'lifterlms' ), $code ) );
+
 		}
 
 		return $voucher;
@@ -195,29 +212,26 @@ class LLMS_Voucher
 
 	/**
 	 * Attempt to redeem a voucher for a user with a code
-	 * @param  string  $code    voucher code of the voucher being redeemd
-	 * @param  int     $user_id user id of the redeeming user
-	 * @param  boolean $notices if true, output llms notices
-	 * @return mixed
+	 * @param  string  $code     voucher code of the voucher being redeemd
+	 * @param  int     $user_id  user id of the redeeming user
+	 * @return bool|WP_Error     true on success or WP_Error on failure
+	 * @since    ??
+	 * @version  3.0.0
 	 */
-	public function use_voucher( $code, $user_id, $notices = true ) {
+	public function use_voucher( $code, $user_id ) {
+
+		$code = sanitize_text_field( $code );
 
 		$voucher = $this->check_voucher( $code );
 
-		if ( $voucher ) {
+		if ( ! is_wp_error( $voucher ) ) {
 
 			$this->id = $voucher->voucher_id;
 
 			// ensure the user hasn't already redeemed this voucher
 			if ( $this->get_redemptions_for_code_by_user( $voucher->id, $user_id ) ) {
 
-				if ( $notices ) {
-
-					llms_add_notice( __( 'You have already used this voucher.', 'lifterlms' ), 'error' );
-
-				}
-
-				return $voucher->voucher_id;
+				return new WP_Error( 'error', __( 'You have already redeemed this voucher.', 'lifterlms' ) );
 
 			}
 
@@ -229,23 +243,11 @@ class LLMS_Voucher
 				// loop through all of them and attempt enrollment
 				foreach ( $products as $product ) {
 
-					// if enrollment was sucessfull, create an order
-					if ( llms_enroll_student( $user_id, $product, 'voucher' ) ) {
-
-						$checkout = LLMS()->checkout();
-						$checkout->create( $user_id, $product, 'Voucher' );
-
-					}
+					llms_enroll_student( $user_id, $product, 'voucher' );
 
 				}
 
 				do_action( 'llms_voucher_used', $voucher->id, $user_id );
-
-				if ( $notices ) {
-
-					llms_add_notice( __( 'Voucher redeemed successfully!', 'lifterlms' ) );
-
-				}
 
 				// use voucher code
 				$data = array(
@@ -254,19 +256,16 @@ class LLMS_Voucher
 				);
 				$this->save_redeemed_code( $data );
 
+				return true;
+
 			}
 
 		} else {
 
-			if ($notices) {
-
-				llms_add_notice( __( 'Voucher could not be used. Please check that you have a valid voucher.', 'lifterlms' ), 'error' );
-
-			}
+			return $voucher ;
 
 		}
 
-		return $voucher;
 	}
 
 	/**

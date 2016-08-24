@@ -5,6 +5,198 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 */
 
 
+/**
+ * Get the HTML for the Terms field displayed on reg forms
+ * @param    boolean    $echo  [description]
+ * @param    boolean    $echo   echo the data if true, return otherwise
+ * @return   void|string
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
+
+	function llms_agree_to_terms_form_field( $echo = true ) {
+
+		$r = '';
+
+		if ( llms_are_terms_and_conditions_required() ) {
+
+			$page_id = get_option( 'lifterlms_terms_page_id', false );
+
+			$r = llms_form_field( array(
+				'columns' => 12,
+				'description' => '',
+				'default' => 'no',
+				'id' => 'llms_agree_to_terms',
+				'label' => wp_kses( sprintf( _x( 'I have read and agree to the <a href="%s" target="_blank">%s</a>.', 'terms and conditions checkbox', 'lifterlms' ), get_the_permalink( $page_id ), get_the_title( $page_id ) ), array(
+					'a' => array(
+						'href' => array(),
+						'target' => array(),
+					),
+					'b' => array(),
+					'em' => array(),
+					'i' => array(),
+					'strong' => array(),
+				) ),
+				'last_column' => true,
+				'required' => true,
+				'type'  => 'checkbox',
+				'value' => 'yes',
+			), false );
+
+		}
+
+		$r =  apply_filters( 'llms_agree_to_terms_form_field', $r );
+
+		if ( $echo ) {
+
+			echo $r;
+			return;
+
+		} else {
+
+			return $r;
+
+		}
+
+	}
+
+}
+
+
+/**
+ * Generate the HTML for a form field
+ *
+ * @param    array      $field  field data
+ * @param    boolean    $echo   echo the data if true, return otherwise
+ * @return   void|string
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+function llms_form_field( $field = array(), $echo = true ) {
+
+	$field = wp_parse_args( $field, array(
+		'columns' => 12,
+		'classes' => '',
+		'description' => '',
+		'default' => '',
+		'id' => '',
+		'label' => '',
+		'last_column' => true,
+		'match' => '',
+		'name' => '',
+		'options' => array(),
+		'placeholder' => '',
+		'required' => false,
+		'selected' => '',
+		'style' => '',
+		'type'  => 'text',
+		'value' => '',
+		'wrapper_classes' => '',
+	) );
+
+	// setup the field value (if one exists)
+	if ( '' !== $field['value'] ) {
+		$field['value'] = $field['value'];
+	} elseif ( '' !== $field['default'] ) {
+		$field['value'] = $field['default'];
+	}
+	$value_attr = ( '' !== $field['value'] ) ? ' value="' . $field['value'] . '"' : '';
+
+	// use id as the name if name isn't specified
+	$field['name'] = ! $field['name'] ? $field['id'] : $field['name'];
+
+	// duplicate label to placeholder if none is specified
+	$field['placeholder'] = ! $field['placeholder'] ? $field['label'] : $field['placeholder'];
+	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
+
+	// add inline css if set
+	$field['style'] = ( $field['style'] ) ? ' style="' . $field['style'] . '"' : '';
+
+	// add space to classes
+	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
+	$field['classes'] = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
+
+	// add column information to the warpper
+	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
+	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
+
+	$desc = $field['description'] ? '<span class="llms-description">' . $field['description'] . '</span>' : '';
+
+	// required attributes and content
+	$required_char = apply_filters( 'lifterlms_form_field_required_character', '*', $field );
+	$required_span = $field['required'] ? ' <span class="llms-required">' . $required_char . '</span>' : '';
+	$required_attr = $field['required'] ? ' required="required"' : '';
+
+	// setup the label
+	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span. '</label>' : '';
+
+	$r  = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
+
+	if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
+		$r .= $label;
+	}
+
+	switch ( $field['type'] ) {
+
+		case 'button':
+		case 'reset':
+		case 'submit':
+			$r .= '<button class="llms-field-button' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '"' . $field['style'] . '>' . $field['value'] . '</button>';
+			break;
+
+		case 'checkbox':
+		case 'radio':
+			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
+			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '"' . $checked . $required_attr . $value_attr . $field['style'] . '>';
+			$r .= $label;
+			break;
+
+		case 'html':
+			$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '"></div>';
+			break;
+
+		case 'select':
+			$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '"' . $required_attr . $field['style'] . '>';
+			foreach ( $field['options'] as $k => $v ) {
+				$r .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
+			}
+			$r .= '</select>';
+			break;
+
+		case 'textarea':
+			$r .= '<textrea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '"' . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
+			break;
+
+		default:
+			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $required_attr . $value_attr . $field['style'] . '>';
+
+	}
+
+	if ( 'hidden' !== $field['type'] ) {
+		$r .= $desc;
+	}
+
+	$r .= '</div>';
+
+	if ( $field['last_column'] ) {
+		$r .= '<div class="clear"></div>';
+	}
+
+	$r = apply_filters( 'llms_form_field', $r, $field );
+
+	if ( $echo ) {
+
+		echo $r;
+		return;
+
+	} else {
+
+		return $r;
+
+	}
+
+}
 
 /**
  * Post Template Include

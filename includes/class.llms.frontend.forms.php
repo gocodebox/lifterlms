@@ -23,12 +23,12 @@ class LLMS_Frontend_Forms
 
 		add_action( 'init', array( $this, 'login' ) );
 
+		add_action( 'init', array( $this, 'apply_coupon' ) ); // @todo remove?
+		add_action( 'init', array( $this, 'remove_coupon' ) );  // @todo remove?
+		add_action( 'init', array( $this, 'coupon_check' ) );  // @todo remove?
+
 		add_action( 'template_redirect', array( $this, 'save_account_details' ) );
-		add_action( 'init', array( $this, 'apply_coupon' ) );
-		add_action( 'init', array( $this, 'remove_coupon' ) );
-		add_action( 'init', array( $this, 'coupon_check' ) );
 		add_action( 'init', array( $this, 'voucher_check' ) );
-		add_action( 'init', array( $this, 'user_registration' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
 		add_action( 'init', array( $this, 'take_quiz' ) );
@@ -380,9 +380,18 @@ class LLMS_Frontend_Forms
 
 		if ( isset( $_POST['llms_voucher_code'] ) && ! empty( $_POST['llms_voucher_code'] ) ) {
 
-			$code = llms_clean( $_POST['llms_voucher_code'] );
 			$voucher = new LLMS_Voucher();
-			$voucher->use_voucher( $code, get_current_user_id() );
+			$redeemed = $voucher->use_voucher( $_POST['llms_voucher_code'], get_current_user_id() );
+
+			if ( is_wp_error( $redeemed ) ) {
+
+				llms_add_notice( $redeemed->get_error_message(), 'error' );
+
+			} else {
+
+				llms_add_notice( __( 'Voucher redeemed sucessfully!', 'lifterlms' ), 'success' );
+
+			}
 
 		}
 	}
@@ -689,87 +698,7 @@ class LLMS_Frontend_Forms
 
 	}
 
-	/**
-	 * User Registration form
-	 *
-	 * @return void
-	 */
-	public function user_registration() {
 
-		if ( ! empty( $_POST['register'] )) {
-
-			wp_verify_nonce( $_POST['register'], 'lifterlms-register' );
-
-			do_action( 'lifterlms_new_user_registration', array( $this, $_POST ) );
-
-			$new_person = LLMS_Person::create_new_person();
-
-			if (is_wp_error( $new_person )) {
-
-				llms_add_notice( $new_person->get_error_message(), 'error' );
-				return;
-
-			}
-
-			llms_set_person_auth_cookie( $new_person );
-
-			// Redirect
-			if (wp_get_referer()) {
-
-				$redirect = esc_url( wp_get_referer() );
-			} else {
-
-				$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-
-			}
-
-			// Check if voucher exists and if valid and use it
-			if (isset( $_POST['llms_voucher_code'] ) && ! empty( $_POST['llms_voucher_code'] )) {
-				$code = llms_clean( $_POST['llms_voucher_code'] );
-
-				$voucher = new LLMS_Voucher();
-				$voucher->use_voucher( $code, $new_person, false );
-
-				if ( ! empty( $_POST['product_id'] )) {
-					$product_id = $_POST['product_id'];
-					$valid = $voucher->is_product_to_voucher_link_valid( $code, $product_id );
-
-					if ($valid) {
-						wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect, $new_person ) );
-						exit;
-					}
-				}
-			}
-
-			if ( ! empty( $_POST['product_id'] )) {
-
-				$product_id = $_POST['product_id'];
-
-				$product = new LLMS_Product( $product_id );
-				$single_price = $product->get_single_price();
-				$rec_price = $product->get_recurring_price();
-
-				if ($single_price > 0 || $rec_price > 0) {
-
-					$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
-					$checkout_redirect = add_query_arg( 'product-id', $product_id, $checkout_url );
-
-					wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect ) );
-					exit;
-				} else {
-					$checkout_url = get_permalink( $product_id );
-
-					wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_url ) );
-					exit;
-				}
-			} else {
-				wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect, $new_person ) );
-				exit;
-			}
-
-		}
-
-	}
 
 }
 

@@ -1,8 +1,19 @@
 <?php
+/**
+ * User Handling for login and registration (mostly)
+ *
+ * @since  3.0.0
+ * @version  3.0.0
+ */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Person_Handler {
 
+	/**
+	 * Prefix for all user meta field keys
+	 * @var  string
+	 * @since  3.0.0
+	 * @version  3.0.0
+	 */
 	private static $meta_prefix = 'llms_';
 
 	/**
@@ -10,6 +21,7 @@ class LLMS_Person_Handler {
 	 * @param  string $email user's email address
 	 * @return string
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	private static function generate_username( $email ) {
 
@@ -86,6 +98,19 @@ class LLMS_Person_Handler {
 	}
 
 
+	/**
+	 * Retreive an array of fields for a specific screen
+	 *
+	 * Each array represents a form field that can be passed to llms_form_field()
+	 *
+	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields()
+	 *
+	 * @param    string     $screen  name os the screen [update|checkout|registration]
+	 * @param    array|int  $data    array of data to fill fields with or a WP User ID
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function get_available_fields( $screen = 'registration', $data = array() ) {
 
 		$uid = get_current_user_id();
@@ -191,6 +216,7 @@ class LLMS_Person_Handler {
 		}
 
 		$address = get_option( 'lifterlms_user_info_field_address_' . $screen . '_visibility' );
+
 		if ( 'hidden' !== $address ) {
 			$fields[] = array(
 				'columns' => 8,
@@ -257,6 +283,29 @@ class LLMS_Person_Handler {
 			);
 		}
 
+		$voucher = get_option( 'lifterlms_voucher_field_' . $screen . '_visibility', '' );
+		if ( 'hidden' !== $voucher ) {
+
+			$toggleable = apply_filters( 'llms_voucher_toggleable', ( 'required' === $voucher ) ? false : true );
+			$voucher_label = __( 'Have a voucher?', 'lifterlms' );
+			if ( $toggleable ) {
+				$voucher_label = '<a class="llms-voucher-toggle" id="llms-voucher-toggle" href="#">' . $voucher_label . '</a>';
+				add_action( 'wp_print_footer_scripts', array( __CLASS__, 'voucher_toggle_script' ) );
+			}
+
+			$fields[] = array(
+				'columns' => 12,
+				'id' => self::$meta_prefix . 'voucher',
+				'label' => $voucher_label,
+				'last_column' => true,
+				'placeholder' => __( 'Voucher Code', 'lifterlms' ),
+				'required' => ( 'required' === $voucher ) ? true : false,
+				'style' => $toggleable ? 'display: none;' : '',
+				'type'  => 'text',
+			);
+
+		}
+
 		$fields = apply_filters( 'lifterlms_get_person_fields', $fields, $screen );
 
 		// populate fields with data, if we have any
@@ -275,8 +324,8 @@ class LLMS_Person_Handler {
 	 * @param  array $fields array of fields from self::get_available_fields()
 	 * @param  array $data   array of data (from a $_POST or function)
 	 * @return array
-	 *
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	private static function fill_fields( $fields, $data ) {
 
@@ -303,6 +352,14 @@ class LLMS_Person_Handler {
 	}
 
 
+	/**
+	 * Insert user data during registrations and updates
+	 * @param    array      $data    array of user data to be passed to WP core functions
+	 * @param    string     $action  either registration or update
+	 * @return   WP_Error|int        WP_Error on error or the WP User ID
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	private static function insert_data( $data = array(), $action = 'registration' ) {
 
 		if ( 'registration' === $action ) {
@@ -339,7 +396,9 @@ class LLMS_Person_Handler {
 			$meta_func = 'update_user_meta';
 
 		} else {
+
 			return new WP_Error( 'invalid', __( 'Invalid action' ) );
+
 		}
 
 		foreach ( $extra_data as $field ) {
@@ -394,7 +453,7 @@ class LLMS_Person_Handler {
 
 	}
 
-
+	// @todo check this function....
 	public static function login( $data ) {
 
 		do_action( 'lifterlms_before_user_login', $data );
@@ -455,7 +514,7 @@ class LLMS_Person_Handler {
 
 
 	/**
-	 * Perform validations according to the registration screen and register a user
+	 * Perform validations according to the registration screen and registers a user
 	 *
 	 * @see  llms_register_user() for a classless wrapper for this function
 	 *
@@ -479,8 +538,8 @@ class LLMS_Person_Handler {
 	 * @param  string $screen  screen to perform validations for, accepts "registration" or "checkout"
 	 * @param  bool   $signon  if true, also signon the newly created user
 	 * @return int|WP_Error
-	 *
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
 
@@ -554,8 +613,8 @@ class LLMS_Person_Handler {
 	 *                        )
 	 * @param  string $screen  screen to perform validations for, accepts "update" or "checkout"
 	 * @return int|WP_Error
-	 *
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	public static function update( $data = array(), $screen = 'update' ) {
 
@@ -624,8 +683,8 @@ class LLMS_Person_Handler {
 	 *                        )
 	 * @param  string $screen screen to validate fields against, accepts "checkout", "registration", or "update"
 	 * @return true|WP_Error
-	 *
-	 * @since  3.0.0 [<description>]
+	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 
@@ -638,13 +697,6 @@ class LLMS_Person_Handler {
 			$fields = self::get_available_fields( $screen );
 
 		}
-
-		// $data['user_login'] = 'admin';
-		// $data['email_address'] = 'thomas@gocodebox.com';
-		// $data['email_address'] = 'asdf';
-		// unset( $data['password_confirm'] );
-		// $data['password_confirm'] = 'asdfa9df';
-		// $data['llms_billing_country'] = 'asdflkioasdf';
 
 		$e = new WP_Error();
 
@@ -687,6 +739,17 @@ class LLMS_Person_Handler {
 				} elseif ( username_exists( $val ) ) {
 
 					$e->add( $field['id'], sprintf( __( 'An account with the username "%s" already exists.', 'lifterlms' ), $val ), 'username-exists' );
+
+				}
+
+			}
+
+			if ( 'llms_voucher' === $name ) {
+
+				$v = new LLMS_Voucher();
+				if ( ! $v->check_voucher( $val ) ) {
+
+					$e->add( $field['id'], sprintf( __( 'Voucher code "%s" could not be found or is invalid.', 'lifterlms' ), $val ), 'invalid-voucher' );
 
 				}
 
@@ -763,6 +826,25 @@ class LLMS_Person_Handler {
 		}
 
 		return true;
+
+	}
+
+
+	/**
+	 * Output Voucher toggle JS in a quick and shameful manner...
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public static function voucher_toggle_script() {
+		echo "<script type=\"text/javascript\">
+		( function( $ ) {
+			$( '#llms-voucher-toggle' ).on( 'click', function( e ) {
+				e.preventDefault();
+				$( '#llms_voucher' ).toggle();
+			} );
+		} )( jQuery );
+		</script>";
 
 	}
 

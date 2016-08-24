@@ -236,6 +236,7 @@ final class LifterLMS {
 
 		// controllers
 		include_once( 'includes/controllers/class.llms.controller.orders.php' );
+		include_once( 'includes/controllers/class.llms.controller.registration.php' );
 
 		// comments
 		include_once( 'includes/class.llms.comments.php' );

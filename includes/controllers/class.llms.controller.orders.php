@@ -1,8 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Order processing and related actions controller
+ *
+ * @since   3.0.0
+ * @version 3.0.0
  */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Controller_Orders {
 
 	public function __construct() {
@@ -223,7 +227,7 @@ class LLMS_Controller_Orders {
 			$person_id = LLMS_Person_Handler::update( $_POST, 'checkout' );
 		} // attempt to register new user (performs validations)
 		else {
-			$person_id = LLMS_Person_Handler::register( $_POST, 'checkout' );
+			$person_id = llms_register_user( $_POST, 'checkout', true );
 		}
 
 		// validation or registration issues
@@ -234,12 +238,12 @@ class LLMS_Controller_Orders {
 			return;
 		} // register should be a user_id at this point, if we're not numeric we have a problem...
 		elseif ( ! is_numeric( $person_id ) ) {
-			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.' ), 'error' );
+			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lirterlms' ), 'error' );
 		} // make sure the user isn't already enrolled in the course or membership
 		// @todo test & possibly revisit this function
 		elseif ( llms_is_user_enrolled( $person_id, $product->get( 'id' ) ) ) {
 
-			return llms_add_notice( __( 'You already have access to this product!' ), 'error' );
+			return llms_add_notice( __( 'You already have access to this product!', 'lirterlms' ), 'error' );
 
 		} else {
 			$person = new LLMS_Student( $person_id );
@@ -262,7 +266,7 @@ class LLMS_Controller_Orders {
 
 		// if there's no id we can't proceed, return an error
 		if ( ! $order->get( 'id' ) ) {
-			return llms_add_notice( sprintf( 'There was an error creating your order, please try again.' ), 'error' );
+			return llms_add_notice( __( 'There was an error creating your order, please try again.', 'lirterlms' ), 'error' );
 		}
 
 		// user related information
