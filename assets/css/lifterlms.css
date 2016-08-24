@@ -750,19 +750,6 @@ svg .llms-animated-circle {
   margin: 40px 0 20px 0;
 }
 
-.lifterlms .llms-error {
-  width: 100%;
-  background: #e5554e;
-  padding: 10px 20px;
-  color: #fff;
-  border-radius: 5px;
-  margin: 0 0 10px;
-  list-style-type: none;
-}
-.lifterlms .llms-error li {
-  list-style-type: none;
-}
-
 .llms-question-count {
   margin-bottom: 20px;
 }
@@ -1028,6 +1015,9 @@ svg .llms-animated-circle {
   padding: 10px;
   margin-bottom: 10px;
 }
+.llms-notice li {
+  list-style-type: none;
+}
 .llms-notice.llms-debug {
   background: rgba(202, 202, 202, 0.3);
   border-color: #cacaca;
@@ -1035,9 +1025,6 @@ svg .llms-animated-circle {
 .llms-notice.llms-error {
   background: rgba(229, 85, 78, 0.3);
   border-color: #e5554e;
-}
-.llms-notice.llms-error li:first-child:last-child {
-  list-style-type: none;
 }
 .llms-notice.llms-success {
   background: rgba(131, 195, 115, 0.3);
