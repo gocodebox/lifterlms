@@ -508,12 +508,17 @@ class LLMS_Controller_Orders {
 			return;
 		}
 
+		$post_type = str_replace( 'llms_', '', $post->post_type );
+		$obj = 'order' === $post_type ? new LLMS_Order( $post ) : new LLMS_Transaction( $post );
+
+		// record order status changes as notes
+		if ( 'order' === $post_type ) {
+			$order->add_note( sprintf( __( 'Order status changed from %s to %s', 'lifterlms' ), llms_get_order_status_name( $old ), llms_get_order_status_name( $new ) ) );
+		}
+
 		// remove prefixes from all the things
 		$new_status = str_replace( array( 'llms-', 'txn-' ), '', $new_status );
 		$old_status = str_replace( array( 'llms-', 'txn-' ), '', $old_status );
-		$post_type = str_replace( 'llms_', '', $post->post_type );
-
-		$obj = 'order' === $post_type ? new LLMS_Order( $post ) : new LLMS_Transaction( $post );
 
 		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj );
 		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj );

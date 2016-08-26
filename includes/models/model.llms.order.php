@@ -77,6 +77,16 @@ class LLMS_Order extends LLMS_Post_Model {
 	protected $db_post_type = 'llms_order'; // maybe fix this
 	protected $model_post_type = 'order';
 
+	/**
+	 * Add an admin-only note to the order visible on the admin panel
+	 * notes are recorded using the wp comments API & DB
+	 *
+	 * @param    string     $note           note content
+	 * @param    boolean    $added_by_user  if this is an admin-submitted note adds user info to note meta
+	 * @return   null|int                   null on error or WP_Comment ID of the note
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function add_note( $note, $added_by_user = false ) {
 
 		if ( ! $note ) {

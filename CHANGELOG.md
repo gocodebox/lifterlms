@@ -1,5 +1,11 @@
 == Changelog =
 
+= v3.0.0-beta.3 - 2016/08/?? =
+-------------------------------
+
++ all order status changes recorded as order notes
+
+
 = v3.0.0-beta.2 - 2016/08/23 =
 -------------------------------
 
