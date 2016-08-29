@@ -18,6 +18,21 @@
 		position: relative;
 		width: 100%;
 
+		&.valid {
+			input[type="date"], input[type="time"], input[type="datetime-local"], input[type="week"], input[type="month"], input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], textarea, select {
+				background: rgba( #83c373, .3 );
+				border-color: #83c373;
+			}
+		}
+
+		&.error,
+		&.invalid {
+			input[type="date"], input[type="time"], input[type="datetime-local"], input[type="week"], input[type="month"], input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], textarea, select {
+				background: rgba( $color-red, .3 );
+				border-color: $color-red;
+			}
+		}
+
 		&.align-right {
 			text-align: right;
 		}
@@ -80,11 +95,6 @@
 				background-position: 0 0;
 				background-image: radial-gradient(ellipse at center,  $color-aqua 0%,$color-aqua 40%, #fafafa 45%);
 			}
-
-
-				// left: -2px;
-				// position: absolute;
-				// top: 0;
 
 		}
 
