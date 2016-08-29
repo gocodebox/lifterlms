@@ -1669,6 +1669,7 @@ svg .llms-animated-circle {
 .llms-checkout-section {
   border: 3px solid #35bbaa;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .llms-checkout-section-content {
@@ -1706,10 +1707,14 @@ svg .llms-animated-circle {
 .llms-payment-gateway-option .llms-description {
   margin-left: 5px;
 }
-
-.llms-gateway-icon img,
+.llms-payment-gateway-option .llms-description a {
+  border: none;
+  box-shadow: none;
+  text-decoration: none;
+}
 .llms-payment-gateway-option .llms-description img {
-  max-height: 52px;
+  display: inline;
+  max-height: 22px;
   vertical-align: middle;
 }
 
@@ -1719,14 +1724,31 @@ ul.llms-payment-gateways {
   padding: 0;
 }
 ul.llms-payment-gateways .llms-payment-gateway {
+  margin-bottom: 5px;
   list-style-type: none;
+}
+ul.llms-payment-gateways .llms-payment-gateway:last-child {
+  margin-bottom: none;
+}
+ul.llms-payment-gateways .llms-payment-gateway.is-selected .llms-payment-gateway-option label {
+  font-weight: 700;
+}
+ul.llms-payment-gateways .llms-payment-gateway.is-selected .llms-gateway-fields {
+  display: block;
+}
+ul.llms-payment-gateways .llms-payment-gateway.is-selected .llms-gateway-fields .llms-notice {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 ul.llms-payment-gateways .llms-payment-gateway .llms-form-field {
   padding-bottom: 0;
 }
-ul.llms-payment-gateways .llms-gateway-fields,
 ul.llms-payment-gateways .llms-gateway-description {
   margin-left: 40px;
+}
+ul.llms-payment-gateways .llms-gateway-fields {
+  display: none;
+  margin: 5px 0 20px;
 }
 ul.llms-payment-gateways .llms-payment-gateway-error {
   padding: 0 10px;
@@ -1743,6 +1765,8 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 }
 
 .llms-gateway-description p {
+  font-size: 85%;
+  font-style: italic;
   margin-bottom: 0;
 }
 
@@ -1759,6 +1783,14 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   padding: 0 10px 10px;
   position: relative;
   width: 100%;
+}
+.llms-form-field.valid input[type="date"], .llms-form-field.valid input[type="time"], .llms-form-field.valid input[type="datetime-local"], .llms-form-field.valid input[type="week"], .llms-form-field.valid input[type="month"], .llms-form-field.valid input[type="text"], .llms-form-field.valid input[type="email"], .llms-form-field.valid input[type="url"], .llms-form-field.valid input[type="password"], .llms-form-field.valid input[type="search"], .llms-form-field.valid input[type="tel"], .llms-form-field.valid input[type="number"], .llms-form-field.valid textarea, .llms-form-field.valid select {
+  background: rgba(131, 195, 115, 0.3);
+  border-color: #83c373;
+}
+.llms-form-field.error input[type="date"], .llms-form-field.error input[type="time"], .llms-form-field.error input[type="datetime-local"], .llms-form-field.error input[type="week"], .llms-form-field.error input[type="month"], .llms-form-field.error input[type="text"], .llms-form-field.error input[type="email"], .llms-form-field.error input[type="url"], .llms-form-field.error input[type="password"], .llms-form-field.error input[type="search"], .llms-form-field.error input[type="tel"], .llms-form-field.error input[type="number"], .llms-form-field.error textarea, .llms-form-field.error select, .llms-form-field.invalid input[type="date"], .llms-form-field.invalid input[type="time"], .llms-form-field.invalid input[type="datetime-local"], .llms-form-field.invalid input[type="week"], .llms-form-field.invalid input[type="month"], .llms-form-field.invalid input[type="text"], .llms-form-field.invalid input[type="email"], .llms-form-field.invalid input[type="url"], .llms-form-field.invalid input[type="password"], .llms-form-field.invalid input[type="search"], .llms-form-field.invalid input[type="tel"], .llms-form-field.invalid input[type="number"], .llms-form-field.invalid textarea, .llms-form-field.invalid select {
+  background: rgba(229, 85, 78, 0.3);
+  border-color: #e5554e;
 }
 .llms-form-field.align-right {
   text-align: right;
