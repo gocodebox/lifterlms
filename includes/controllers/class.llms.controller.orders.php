@@ -238,12 +238,12 @@ class LLMS_Controller_Orders {
 			return;
 		} // register should be a user_id at this point, if we're not numeric we have a problem...
 		elseif ( ! is_numeric( $person_id ) ) {
-			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lirterlms' ), 'error' );
+			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ), 'error' );
 		} // make sure the user isn't already enrolled in the course or membership
 		// @todo test & possibly revisit this function
 		elseif ( llms_is_user_enrolled( $person_id, $product->get( 'id' ) ) ) {
 
-			return llms_add_notice( __( 'You already have access to this product!', 'lirterlms' ), 'error' );
+			return llms_add_notice( __( 'You already have access to this product!', 'lifterlms' ), 'error' );
 
 		} else {
 			$person = new LLMS_Student( $person_id );
@@ -261,41 +261,54 @@ class LLMS_Controller_Orders {
 			return;
 		}
 
-		// create a new order
-		$order = new LLMS_Order( 'new' );
+		$order_id = 'new';
+
+		// get order ID by Key if it exists
+		if ( ! empty ( $_POST['llms_order_key'] ) ) {
+			$locate = llms_get_order_by_key( $_POST['llms_order_key'], 'id' );
+			if ( $locate ) {
+				$order_id = $locate;
+			}
+		}
+
+		// instantiate the order
+		$order = new LLMS_Order( $order_id );
 
 		// if there's no id we can't proceed, return an error
 		if ( ! $order->get( 'id' ) ) {
-			return llms_add_notice( __( 'There was an error creating your order, please try again.', 'lirterlms' ), 'error' );
+			return llms_add_notice( __( 'There was an error creating your order, please try again.', 'lifterlms' ), 'error' );
 		}
+
+		// add order key to globals so the order can be retried if processing errors occur
+		$_POST['llms_order_key'] = $order->get( 'order_key' );
 
 		// user related information
 		$order->set( 'user_id', $person_id );
 		$order->set( 'user_ip_address', llms_get_ip_address() );
 		$order->set( 'billing_address_1', $person->get( 'billing_address_1' ) );
 		$order->set( 'billing_address_2', $person->get( 'billing_address_2' ) );
-			$order->set( 'billing_city', $person->get( 'billing_city' ) );
-			$order->set( 'billing_country', $person->get( 'billing_country' ) );
-			$order->set( 'billing_email', $person->get( 'user_email' ) );
-			$order->set( 'billing_first_name', $person->get( 'first_name' ) );
-			$order->set( 'billing_last_name', $person->get( 'last_name' ) );
-			$order->set( 'billing_state', $person->get( 'billing_state' ) );
-			$order->set( 'billing_zip', $person->get( 'billing_zip' ) );
+		$order->set( 'billing_city', $person->get( 'billing_city' ) );
+		$order->set( 'billing_country', $person->get( 'billing_country' ) );
+		$order->set( 'billing_email', $person->get( 'user_email' ) );
+		$order->set( 'billing_first_name', $person->get( 'first_name' ) );
+		$order->set( 'billing_last_name', $person->get( 'last_name' ) );
+		$order->set( 'billing_state', $person->get( 'billing_state' ) );
+		$order->set( 'billing_zip', $person->get( 'billing_zip' ) );
 
-			// access plan data
-			$order->set( 'plan_id', $plan->get( 'id' ) );
+		// access plan data
+		$order->set( 'plan_id', $plan->get( 'id' ) );
 		$order->set( 'plan_title', $plan->get( 'title' ) );
 		$order->set( 'plan_sku', $plan->get( 'sku' ) );
 
-			// product data
+		// product data
 		$order->set( 'product_id', $product->get( 'id' ) );
 		$order->set( 'product_title', $product->get( 'title' ) );
 		$order->set( 'product_sku', $product->get( 'sku' ) );
 		$order->set( 'product_type', $plan->get_product_type() );
 
-			// order metadata
-			$order->set( 'payment_gateway', $gateway->get_id() );
-			$order->set( 'gateway_api_mode', $gateway->get_api_mode() );
+		// order metadata
+		$order->set( 'payment_gateway', $gateway->get_id() );
+		$order->set( 'gateway_api_mode', $gateway->get_api_mode() );
 		$order->set( 'currency', get_lifterlms_currency() );
 
 		// trial data
@@ -513,7 +526,7 @@ class LLMS_Controller_Orders {
 
 		// record order status changes as notes
 		if ( 'order' === $post_type ) {
-			$order->add_note( sprintf( __( 'Order status changed from %s to %s', 'lifterlms' ), llms_get_order_status_name( $old ), llms_get_order_status_name( $new ) ) );
+			$obj->add_note( sprintf( __( 'Order status changed from %s to %s', 'lifterlms' ), llms_get_order_status_name( $old_status ), llms_get_order_status_name( $new_status ) ) );
 		}
 
 		// remove prefixes from all the things

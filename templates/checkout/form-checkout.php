@@ -85,6 +85,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 	<?php wp_nonce_field( 'create_pending_order' ); ?>
 	<input name="action" type="hidden" value="create_pending_order">
 	<input id="llms-plan-id" name="llms_plan_id" type="hidden" value="<?php echo $plan->get( 'id' ); ?>">
+	<input id="llms-order-key" name="llms_order_key" type="hidden" value="<?php echo $order_key; ?>">
 
 	<?php do_action( 'lifterlms_after_checkout_form' ); ?>
 

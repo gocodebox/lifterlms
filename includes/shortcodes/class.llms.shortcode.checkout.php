@@ -41,6 +41,8 @@ class LLMS_Shortcode_Checkout {
 		$atts['gateways'] = LLMS()->payment_gateways()->get_enabled_payment_gateways();
 		$atts['selected_gateway'] = LLMS()->payment_gateways()->get_default_gateway();
 
+		$atts['order_key'] = '';
+
 		$atts['field_data'] = array();
 		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) {
 			$atts['field_data'] = $_POST;
@@ -74,6 +76,10 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
+			if ( isset( $_REQUEST['llms_order_key'] ) ) {
+				$atts['order_key'] = sanitize_text_field( $_REQUEST['llms_order_key'] );
+			}
+
 			$atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
 			$atts['product'] = $atts['plan']->get_product();
 
@@ -100,7 +106,7 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
-			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $atts['selected_gateway'] );
+			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
 
 			self::confirm_payment( $atts );
 
@@ -111,43 +117,6 @@ class LLMS_Shortcode_Checkout {
 		}
 
 		echo '</div><!-- .llms-checkout-wrapper -->';
-
-		// if ( ! isset( $atts['plan'] ) ) {
-
-		// 	echo apply_filters( 'llms_checkout_error_output', self::error() );
-
-		// } else {
-
-		// }
-
-		// if ( ! is_user_logged_in() && ! llms_is_alternative_checkout_enabled() ) {
-
-		// 	$message = apply_filters( 'lifterlms_checkout_message', '' );
-
-		// 	if ( ! empty( $message ) ) {
-		// 	}
-
-		// 	$product_id = get_query_var( 'product-id' );
-		// 	$account_url = get_permalink( llms_get_page_id( 'myaccount' ) );
-
-		// 	$account_redirect = add_query_arg( 'product-id', $product_id, $account_url );
-
-		// 	echo apply_filters('lifterlms_checkout_user_not_logged_in_output', sprintf(
-		// 		__( '<a href="%1$s">Login or create an account to purchase this course</a>.', 'lifterlms' ) . ' ',
-		// 		$account_redirect
-		// 	));
-
-		// } else {
-
-		// 	if ( isset( $wp->query_vars['confirm-payment'] ) ) {
-
-		// 		self::confirm_payment();
-		// 	} else {
-
-		// 		apply_filters( 'lifterlms_checkout_user_logged_in_output', self::checkout( $atts ) );
-
-		// 	}
-		// }
 
 	}
 
