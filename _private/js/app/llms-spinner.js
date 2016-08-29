@@ -29,13 +29,25 @@ LLMS.Spinner = {
 
 	start: function( $el, size ) {
 
-		this.get( $el, size ).show();
+		var self = this;
+
+		$el.each( function() {
+
+			self.get( $( this ), size ).show();
+
+		} );
 
 	},
 
 	stop: function( $el ) {
 
-		this.get( $el ).hide();
+		var self = this;
+
+		$el.each( function() {
+
+			self.get( $( this ) ).hide();
+
+		} );
 
 	}
 
