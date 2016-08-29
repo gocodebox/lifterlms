@@ -17,13 +17,6 @@ abstract class LLMS_Payment_Gateway {
 	public $admin_title = '';
 
 	/**
-	 * Chosen payment Gateway ID
-	 * @var bool
-	 * @since  3.0.0
-	 */
-	public $chosen = false;
-
-	/**
 	 * Optional gateway description for the frontend
 	 * Can be modified by User on Settings Page
 	 * @var string
@@ -47,13 +40,6 @@ abstract class LLMS_Payment_Gateway {
 	public $enabled = 'no';
 
 	/**
-	 * Whether or not fields should be shown on the checkout screen
-	 * @var boolean
-	 * @since  3.0.0
-	 */
-	public $has_fields = false;
-
-	/**
 	 * Optional icon displayed on the frontend
 	 * @var string
 	 * @since  3.0.0
@@ -68,18 +54,12 @@ abstract class LLMS_Payment_Gateway {
 	public $id;
 
 	/**
-	 * Minimum transaction amount
-	 * @var float
-	 * @since  3.0.0
+	 * Logging status
+	 * @var      string
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
-	public $min_amount = 0;
-
-	/**
-	 * Maximum transaction amount, zero functions as no maximum
-	 * @var float
-	 * @since  3.0.0
-	 */
-	public $max_amount = 0;
+	public $logging_enabled = '';
 
 	/**
 	 * Array of supported gateway features
@@ -87,7 +67,7 @@ abstract class LLMS_Payment_Gateway {
 	 * @since  3.0.0
 	 */
 	public $supports = array(
-		'cc_form' => false,
+		'checkout_fields' => false,
 		'cc_save' => false,
 		'refunds' => false,
 		'single_payments' => false,
@@ -129,177 +109,88 @@ abstract class LLMS_Payment_Gateway {
 	public $title = '';
 
 	/**
-	 * If HTTPS connection is required for processing
-	 * @var boolean
-	 * @since  3.0.0
-	 */
-	public $ssl_required = false;
-
-	/**
-	 * Option URL to view a transaction
-	 * @var string
-	 * @since  3.0.0
-	 */
-	public $view_customer_url = '';
-
-	/**
-	 * Option URL to view a customer
-	 * @var string
-	 * @since  3.0.0
-	 */
-	public $view_transaction_url = '';
-
-
-
-	/**
-	 * Get the value of an option from the database & fallback to default value if none found
-	 * @param  string $key option key, ie "title"
-	 * @return mixed
-	 */
-	public function get_option( $key ) {
-
-		$name = $this->get_option_name( $key );
-		$val = get_option( $name, $this->$key );
-
-		return apply_filters( 'llms_get_gateway_' . $key, $val, $this->id );
-
-	}
-
-	/**
-	 * Retrieve an option name specific to the gateway
-	 * Used to retrieve options from the wp_options table where applicable
-	 * @param  string $key option key, ie "title"
-	 * @return string
-	 */
-	public function get_option_name( $key ) {
-		return 'llms_gateway_' . $this->id . '_' . $key;
-	}
-
-
-
-
-
-
-
-
-
-	public function get_api_mode() {
-		if ( $this->supports( 'test_mode' ) && $this->is_test_mode_enabled() ) {
-			return 'test';
-		}
-		return 'live';
-	}
-
-
-	public function get_admin_title() {
-		return apply_filters( 'llms_get_gateway_admin_title', $this->admin_title, $this->id );
-	}
-	public function get_admin_description() {
-		return apply_filters( 'llms_get_gateway_admin_description', $this->admin_description, $this->id );
-	}
-	public function get_display_order() {
-		return $this->get_option( 'display_order' );
-	}
-	public function get_description() {
-		return $this->get_option( 'description' );
-	}
-
-
-
-	// public function get_chosen() {}
-
-	public function get_enabled() {
-		return $this->get_option( 'enabled' );
-	}
-
-
-	public function get_icon() {
-		return $this->icon;
-	}
-	public function get_id() {
-		return $this->id;
-	}
-
-	// output payment fields
-	public function get_fields() {
-		return '';
-	}
-
-	public function get_min_amount() {
-		return $this->min_amount;
-	}
-	public function get_max_amount() {
-		return $this->max_amount;
-	}
-
-	public function get_supported_features() {
-		return apply_filters( 'llms_get_gateway_supported_features', $this->supports, $this->id );
-	}
-
-	public function get_logging_enabled() {
-		return $this->get_option( 'logging_enabled' );
-	}
-
-	public function get_test_mode_enabled() {
-		return $this->get_option( 'test_mode_enabled' );
-	}
-
-	public function get_test_mode_description() {
-		return $this->test_mode_description;
-	}
-
-	public function get_test_mode_title() {
-		return $this->test_mode_title;
-	}
-
-	public function get_title() {
-		return $this->get_option( 'title' );
-	}
-	public function get_ssl_required() {}
-	public function get_view_customer_url() {}
-	public function get_view_transaction_url() {}
-
-
-	public function has_fields() {
-		return $this->has_fields;
-	}
-
-
-	public function is_default_gateway() {
-		return ( $this->get_id() === LLMS()->payment_gateways()->get_default_gateway() );
-	}
-
-	public function is_enabled() {
-		return ( 'yes' === $this->get_enabled() ) ? true : false;
-	}
-
-	public function is_test_mode_enabled() {
-		return ( 'yes' === $this->get_test_mode_enabled() ) ? true : false;
-	}
-
-
-
-	/**
-	 * Log messages if logging is enabled
-	 * @param    mixed     $data  data to log (accepts any number of $data to be logged)
+	 * This should be called by the gateway after verifying the transaction was completed successfully
+	 *
+	 * @param    obj        $order   Instance of an LLMS_Order object
+	 * @param    string     $msg     optional message to display on the redirect screen
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
-	public function log() {
+	public function complete_transaction( $order, $msg = '' ) {
 
-		if ( 'yes' === $this->get_logging_enabled() ) {
+		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order, $msg );
 
-			foreach ( func_get_args() as $data ) {
+		// redirect to the product's permalink
+		$redirect = get_permalink( $order->get( 'product_id' ) );
 
-				llms_log( $data, $this->get_id() );
-
-			}
-
+		// fallback to the account page if we don't have a url for some reason
+		if ( ! $redirect ) {
+			$redirect = get_permalink( llms_get_page_id( 'myaccount' ) );
 		}
+
+		$redirect = apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order );
+
+		// default message if non is supplied
+		if ( ! $msg ) {
+			$msg = sprintf( __( 'Congratulations! Your purchase was successful and you\'ve been enrolled in %s.', 'lifterlms' ), $order->get( 'product_title' ) );
+		}
+
+		// filter the notice
+		$msg = apply_filters( 'lifterlms_completed_transaction_message', $msg, $order );
+
+		// ouput the notice
+		llms_add_notice( $msg, 'success' );
+
+		$this->log( $this->get_admin_title() . ' `complete_transaction()` finished', $redirect, $order, $msg );
+
+		// execute a redirect
+		wp_redirect( $redirect );
+		exit();
 
 	}
 
+	/**
+	 * Confirm a Payment
+	 * Called by LLMS_Controller_Orders->confirm_pending_order() on confirm form submission
+	 * Some validation is performed before passing to this function, as it's not required
+	 * gateways will likely doing further validations as are needed
+	 *
+	 * Not required if a confirmation isn't required by the Gateway
+	 * Stripe doesn't require this whereas PayPal does
+	 * @param   obj       $order   Instance LLMS_Order for the order being processed
+	 * @return  void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function confirm_pending_order( $order ) {}
+
+	/**
+	 * Get admin desrcription for the gateway
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_admin_description() {
+		return apply_filters( 'llms_get_gateway_admin_description', $this->admin_description, $this->id );
+	}
+
+	/**
+	 * Get the admin title for the gateway
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_admin_title() {
+		return apply_filters( 'llms_get_gateway_admin_title', $this->admin_title, $this->id );
+	}
+
+	/**
+	 * Get default dageway admin settinds fields
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function get_admin_settings_fields() {
 
 		$fields = array();
@@ -373,6 +264,20 @@ abstract class LLMS_Payment_Gateway {
 	}
 
 	/**
+	 * Get API mode
+	 * if test is not surropted will return "live"
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_api_mode() {
+		if ( $this->supports( 'test_mode' ) && $this->is_test_mode_enabled() ) {
+			return 'test';
+		}
+		return 'live';
+	}
+
+	/**
 	 * Gateways can override this to return a URL to a customer permalink on the gateway's website
 	 * If this is not defined, it will just return the supplied ID
 	 * @param    string     $customer_id  Gateway's customer ID
@@ -383,6 +288,77 @@ abstract class LLMS_Payment_Gateway {
 	 */
 	public function get_customer_url( $customer_id, $api_mode = 'live' ) {
 		return $customer_id;
+	}
+
+	/**
+	 * Get the frontend desrcription setting
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_description() {
+		return $this->get_option( 'description' );
+	}
+
+	/**
+	 * Get the display order setting
+	 * @return   int
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_display_order() {
+		return absint( $this->get_option( 'display_order' ) );
+	}
+
+	/**
+	 * Get the value of the enabled setting
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_enabled() {
+		return $this->get_option( 'enabled' );
+	}
+
+	/**
+	 * Get fields displayed on the checkout form
+	 * Gateways rhould define this function if the gateway supports fields
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_fields() {
+		return apply_filters( 'llms_get_gateway_fields', '', $this->id );
+	}
+
+	/**
+	 * Get the icon displayed on the checkout form
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_icon() {
+		return apply_filters( 'llms_get_gateway_icon', $this->icon, $this->id );
+	}
+
+	/**
+	 * Get the gateway's ID
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
+	 * Get the value of the logging setting
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_logging_enabled() {
+		return $this->get_option( 'logging_enabled' );
 	}
 
 	/**
@@ -409,6 +385,56 @@ abstract class LLMS_Payment_Gateway {
 	 */
 	public function get_subscription_url( $subscription_id, $api_mode = 'live' ) {
 		return $subscription_id;
+	}
+
+	/**
+	 * Get an array of features the gateway supports
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_supported_features() {
+		return apply_filters( 'llms_get_gateway_supported_features', $this->supports, $this->id );
+	}
+
+	/**
+	 * Get the desrcription of test mode displayed on the admin panel
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_test_mode_description() {
+		return $this->test_mode_description;
+	}
+
+	/**
+	 * Get value of the test mode enabled setting
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_test_mode_enabled() {
+		return $this->get_option( 'test_mode_enabled' );
+	}
+
+	/**
+	 * Get the title of test mode displayed on the admin panel
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_test_mode_title() {
+		return $this->test_mode_title;
+	}
+
+	/**
+	 * Get gateway title setting
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_title() {
+		return $this->get_option( 'title' );
 	}
 
 	/**
@@ -440,63 +466,6 @@ abstract class LLMS_Payment_Gateway {
 	abstract public function handle_pending_order( $order, $plan, $person, $coupon = false );
 
 	/**
-	 * This should be called by the gateway after verifying the transaction was completed successfully
-	 *
-	 * @param    obj        $order   Instance of an LLMS_Order object
-	 * @param    string     $msg     optional message to display on the redirect screen
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function complete_transaction( $order, $msg = '' ) {
-
-		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order, $msg );
-
-		// redirect to the product's permalink
-		$redirect = get_permalink( $order->get( 'product_id' ) );
-
-		// fallback to the account page if we don't have a url for some reason
-		if ( ! $redirect ) {
-			$redirect = get_permalink( llms_get_page_id( 'myaccount' ) );
-		}
-
-		$redirect = apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order );
-
-		// default message if non is supplied
-		if ( ! $msg ) {
-			$msg = sprintf( __( 'Congratulations! Your purchase was successful and you\'ve been enrolled in %s.', 'lifterlms' ), $order->get( 'product_title' ) );
-		}
-
-		// filter the notice
-		$msg = apply_filters( 'lifterlms_completed_transaction_message', $msg, $order );
-
-		// ouput the notice
-		llms_add_notice( $msg, 'success' );
-
-		$this->log( $this->get_admin_title() . ' `complete_transaction()` finished', $redirect, $order, $msg );
-
-		// execute a redirect
-		wp_redirect( $redirect );
-		exit();
-
-	}
-
-	/**
-	 * Confirm a Payment
-	 * Called by LLMS_Controller_Orders->confirm_pending_order() on confirm form submission
-	 * Some validation is performed before passing to this function, as it's not required
-	 * gateways will likely doing further validations as are needed
-	 *
-	 * Not required if a confirmation isn't required by the Gateway
-	 * Stripe doesn't require this whereas PayPal does
-	 * @param   obj       $order   Instance LLMS_Order for the order being processed
-	 * @return  void
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function confirm_pending_order( $order ) {}
-
-	/**
 	 * Called by scheduled actions to charge an order for a scheduled recurring transaction
 	 * This function must be defined by gateways which support recurring transactions
 	 * @param    obj       $order   Instance LLMS_Order for the order being processed
@@ -505,6 +474,81 @@ abstract class LLMS_Payment_Gateway {
 	 * @version  3.0.0
 	 */
 	public function handle_recurring_transaction( $order ) {}
+
+	/**
+	 * Determine if the gateway is the default gateway
+	 * This will be the FIRST gateway in the gateways that are enabled
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_default_gateway() {
+		return ( $this->get_id() === LLMS()->payment_gateways()->get_default_gateway() );
+	}
+
+	/**
+	 * Determine if the gateway is enabled according to admin settings checkbox
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_enabled() {
+		return ( 'yes' === $this->get_enabled() ) ? true : false;
+	}
+
+	/**
+	 * Determine if test mode is enabled
+	 * Returns false if gateway doesn't support test mode
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_test_mode_enabled() {
+		return ( 'yes' === $this->get_test_mode_enabled() ) ? true : false;
+	}
+
+	/**
+	 * Log messages if logging is enabled
+	 * @param    mixed     $data  data to log (accepts any number of $data to be logged)
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function log() {
+		if ( 'yes' === $this->get_logging_enabled() ) {
+			foreach ( func_get_args() as $data ) {
+				llms_log( $data, $this->get_id() );
+			}
+		}
+	}
+
+	/**
+	 * Get the value of an option from the database & fallback to default value if none found
+	 * @param  string $key option key, ie "title"
+	 * @return mixed
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_option( $key ) {
+
+		$name = $this->get_option_name( $key );
+		$val = get_option( $name, $this->$key );
+
+		return apply_filters( 'llms_get_gateway_' . $key, $val, $this->id );
+
+	}
+
+	/**
+	 * Retrieve an option name specific to the gateway
+	 * Used to retrieve options from the wp_options table where applicable
+	 * @param  string $key option key, ie "title"
+	 * @return string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_option_name( $key ) {
+		return 'llms_gateway_' . $this->id . '_' . $key;
+	}
 
 	/**
 	 * Called when refunding via a Gateway
