@@ -23,6 +23,54 @@
 
 				this.bind_coupon();
 
+				// add class and trigger watchable event when gateway selection changes
+				$( 'input[name="llms_payment_gateway"]' ).on( 'change', function() {
+
+	 				$( 'input[name="llms_payment_gateway"]' ).each( function() {
+
+						var $el = $( this ),
+							$parent = $el.closest( '.llms-payment-gateway' ),
+							$fields = $parent.find( '.llms-gateway-fields' ).find( 'input, textarea, select' ),
+							checked = $el.is( ':checked' ),
+							display_func = ( checked ) ? 'addClass' : 'removeClass';
+
+						$parent[ display_func ]( 'is-selected' );
+
+						if ( checked ) {
+
+							// enable fields
+							$fields.removeAttr( 'disabled' );
+
+							// emit a watchable event for extensions to hook onto
+							$( '.llms-payment-gateways' ).trigger( 'llms-gateway-selected', {
+								id: $el.val(),
+								$selector: $parent,
+							} );
+
+						} else {
+
+							// disable fields
+							$fields.attr( 'disabled', 'disabled' );
+
+						}
+
+					} );
+
+				} );
+
+				// enable / disable buttons depending on field validation status
+				$( '.llms-payment-gateways' ).on( 'llms-gateway-selected', function( e, data ) {
+
+					var $submit = $( '#llms_create_pending_order' );
+
+					if ( data.$selector && data.$selector.find( '.llms-gateway-fields .invalid' ).length ) {
+						$submit.attr( 'disabled', 'disabled' );
+					} else {
+						$submit.removeAttr( 'disabled' );
+					}
+
+				} );
+
 			}
 
 		};
