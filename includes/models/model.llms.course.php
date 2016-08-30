@@ -60,7 +60,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 */
 	public function get_prerequisite_id( $type = 'course' ) {
 
-		if ( $this->has_prerequisite() ) {
+		if ( $this->has_prerequisite( $type  ) ) {
 
 			switch ( $type ) {
 
@@ -254,16 +254,29 @@ class LLMS_Course extends LLMS_Post_Model {
 
 	/**
 	 * Determine if prerequisites are enabled and there are prereqs configured
-	 *
-	 * @return   boolean   Returns true if prereq is enabled and there is a prerequisite course or track
+	 * @param    string   $type  determine if a specific type of prereq exists [any|course|track]
+	 * @return   boolean         Returns true if prereq is enabled and there is a prerequisite course or track
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
-	public function has_prerequisite() {
+	public function has_prerequisite( $type = 'any' ) {
 
 		if ( 'yes' === $this->get( 'has_prerequisite' ) ) {
 
-			return ( $this->get( 'prerequisite' ) || $this->get( 'prerequisite_track' ) );
+			if ( 'any' === $type ) {
+
+				return ( $this->get( 'prerequisite' ) || $this->get( 'prerequisite_track' ) );
+
+			} elseif ( 'course' === $type ) {
+
+				return ( $this->get( 'prerequisite' ) );
+
+			} elseif ( 'track' === $type ) {
+
+				return ( $this->get( 'prerequisite_track' ) );
+
+			}
+
 
 		}
 
@@ -327,7 +340,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	public function is_prerequisite_complete( $type = 'course' ) {
 
 		// no user or no prereqs so no reason to proceed
-		if ( ! get_current_user_id() || ! $this->has_prerequisite() ) {
+		if ( ! get_current_user_id() || ! $this->has_prerequisite( $type ) ) {
 			return false;
 		}
 

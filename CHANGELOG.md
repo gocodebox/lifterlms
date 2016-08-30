@@ -1,6 +1,11 @@
 == Changelog =
 
-= v3.0.0-beta.3 - 2016/08/?? =
+= v3.0.0-beta.4 - 2016/08/?? =
+-------------------------------
+
++ fix issue with course prereq checks
+
+= v3.0.0-beta.3 - 2016/08/29 =
 -------------------------------
 
 + all order status changes recorded as order notes
