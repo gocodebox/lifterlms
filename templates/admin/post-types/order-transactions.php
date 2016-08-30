@@ -61,11 +61,11 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					</td>
 					<td class="expandable closed">
 						<?php if ( $txn_id = $txn->get( 'gateway_transaction_id' ) ): ?>
-							<?php $source = $gateway->get_source_url( $txn_id  ); ?>
-							<?php if ( false === filter_var( $source, FILTER_VALIDATE_URL ) ) : ?>
-								<?php echo $source; ?>
+							<?php $txn_url = $gateway->get_transaction_url( $txn_id ); ?>
+							<?php if ( false === filter_var( $txn_url, FILTER_VALIDATE_URL ) ) : ?>
+								<?php echo $txn_id; ?>
 							<?php else : ?>
-								<a href="<?php echo $source; ?>" target="_blank"><?php echo $txn_id; ?></a>
+								<a href="<?php echo $txn_url; ?>" target="_blank"><?php echo $txn_id; ?></a>
 							<?php endif; ?>
 						<?php endif; ?>
 					</td>
