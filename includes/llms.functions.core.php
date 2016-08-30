@@ -180,6 +180,8 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
 
 	global $wpdb;
 
+	$key = sanitize_text_field( $key );
+
 	$id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->prefix}postmeta WHERE meta_key = '_llms_order_key' AND meta_value = %s", $key ) );
 
 	if ( 'order' === $return ) {
