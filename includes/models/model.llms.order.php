@@ -37,6 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  *
  * @property   $gateway_api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
  * @property   $gateway_customer_id  (string)  Gateway's unique ID for the customer who placed the order
+ * @property   $gateway_source_id  (string)  Gateway's unique ID for the card or source to be used for recurring subscriptions (if recurring is supported)
  * @property   $gateway_subscription_id  (string)  Gateway's unique ID for the recurring subscription (if recurring is supported)
  *
  * @property   $id  (int)  WP Post ID of the order
