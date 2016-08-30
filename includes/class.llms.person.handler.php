@@ -284,7 +284,7 @@ class LLMS_Person_Handler {
 		}
 
 		$voucher = get_option( 'lifterlms_voucher_field_' . $screen . '_visibility', '' );
-		if ( 'hidden' !== $voucher ) {
+		if ( 'registration' === $screen && 'hidden' !== $voucher ) {
 
 			$toggleable = apply_filters( 'llms_voucher_toggleable', ( 'required' === $voucher ) ? false : true );
 			$voucher_label = __( 'Have a voucher?', 'lifterlms' );
