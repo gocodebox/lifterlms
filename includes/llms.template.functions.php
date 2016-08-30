@@ -80,10 +80,13 @@ function llms_form_field( $field = array(), $echo = true ) {
 		'classes' => '',
 		'description' => '',
 		'default' => '',
+		'disabled' => false,
 		'id' => '',
 		'label' => '',
 		'last_column' => true,
 		'match' => '',
+		'max_length' => '',
+		'min_length' => '',
 		'name' => '',
 		'options' => array(),
 		'placeholder' => '',
@@ -104,7 +107,15 @@ function llms_form_field( $field = array(), $echo = true ) {
 	$value_attr = ( '' !== $field['value'] ) ? ' value="' . $field['value'] . '"' : '';
 
 	// use id as the name if name isn't specified
-	$field['name'] = ! $field['name'] ? $field['id'] : $field['name'];
+	$field['name'] = ( '' === $field['name'] ) ? $field['id'] : $field['name'];
+
+	// allow items to not have a name attr (eg: not be posted via form submission)
+	// example use case found in Stripe CC fields
+	if ( false === $field['name'] ) {
+		$name_attr = '';
+	} else {
+		$name_attr = ' name="' . $field['name'] . '"';
+	}
 
 	// duplicate label to placeholder if none is specified
 	$field['placeholder'] = ! $field['placeholder'] ? $field['label'] : $field['placeholder'];
@@ -137,18 +148,23 @@ function llms_form_field( $field = array(), $echo = true ) {
 		$r .= $label;
 	}
 
+	$disabled_attr = ( $field['disabled'] ) ? ' disabled="disabled"' : '';
+
+	$min_attr = ( $field['min_length'] ) ? ' minlength="' . $field['min_length'] . '"' : '';
+	$max_attr = ( $field['max_length'] ) ? ' maxlength="' . $field['max_length'] . '"' : '';
+
 	switch ( $field['type'] ) {
 
 		case 'button':
 		case 'reset':
 		case 'submit':
-			$r .= '<button class="llms-field-button' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '"' . $field['style'] . '>' . $field['value'] . '</button>';
+			$r .= '<button class="llms-field-button' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $field['style'] . '>' . $field['value'] . '</button>';
 			break;
 
 		case 'checkbox':
 		case 'radio':
 			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
-			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" type="' . $field['type'] . '"' . $checked . $required_attr . $value_attr . $field['style'] . '>';
+			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $checked . $disabled_attr . $name_attr . $required_attr . $value_attr . $field['style'] . '>';
 			$r .= $label;
 			break;
 
@@ -157,7 +173,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 			break;
 
 		case 'select':
-			$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '"' . $required_attr . $field['style'] . '>';
+			$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" ' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>';
 			foreach ( $field['options'] as $k => $v ) {
 				$r .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
 			}
@@ -165,11 +181,11 @@ function llms_form_field( $field = array(), $echo = true ) {
 			break;
 
 		case 'textarea':
-			$r .= '<textrea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '"' . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
+			$r .= '<textrea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
 			break;
 
 		default:
-			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $required_attr . $value_attr . $field['style'] . '>';
+			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $min_attr . $max_attr . $required_attr . $value_attr . $field['style'] . '>';
 
 	}
 
