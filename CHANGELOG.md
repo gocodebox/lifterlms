@@ -4,6 +4,9 @@
 -------------------------------
 
 + all order status changes recorded as order notes
++ pending orders can be completed after failed payments
++ better handling for gateways with fields
++ JS spinners support multiples via start & stop!
 
 
 = v3.0.0-beta.2 - 2016/08/23 =
