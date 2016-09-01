@@ -8,6 +8,11 @@
 
 $.extend( LLMS.PasswordStrength, {
 
+	$pass: $( '.llms-password' ),
+	$conf: $( '.llms-password-confirm' ),
+	$meter: $( '.llms-password-strength-meter' ),
+	$form: null,
+
 	/**
 	 * init
 	 * loads class methods
@@ -18,7 +23,9 @@ $.extend( LLMS.PasswordStrength, {
 			return;
 		}
 
-		if ( $( '.llms-password-strength-meter' ).length ) {
+		if ( this.$meter.length ) {
+
+			this.$form = this.$pass.closest( 'form' );
 
 			// our asset enqueue is all screwed up and I'm too tired to fix it
 			// so we're going to run this little dependency check
@@ -64,108 +71,79 @@ $.extend( LLMS.PasswordStrength, {
 	 */
 	bind: function() {
 
-		var self = this,
-			$pass = $( '.llms-password' ),
-			$conf = $( '.llms-password-confirm' ),
-			$meter = $( '.llms-password-strength-meter' );
+		var self = this;
 
-		// determine if password meets minimum strength before submitting
-		$pass.closest( 'form' ).on( 'submit', function( e ) {
-			e.preventDefault();
-
-			var options = [ 'too-short', 'mismatch', 'very-weak', 'weak', 'medium', 'strong' ],
-				strength = options.indexOf( self.check_strength( $pass, $conf, $meter ) ),
-				min = options.indexOf( self.get_minimum_strength() );
-
-			// if the password is good, submit the form
-			if ( strength >= min ) {
-				$( this ).off( 'submit' );
-				$( this ).submit();
-			} else {
-			// otherwise scroll to the meter and flash it
-				$( 'html, body' ).animate( {
-					scrollTop: $meter.offset().top - 100,
-				}, 200 );
-				$meter.hide();
-				setTimeout( function() {
-					$meter.fadeIn( 400 );
-				}, 220 );
-			}
-
-		} );
+		// add submission event handlers when not on a checkout form
+		if ( !this.$form.hasClass( 'llms-checkout' ) ) {
+			this.$form.on( 'submit', self, self.submit );
+		}
 
 		// check password strength on keyup
-		$pass.add( $conf ).on( 'keyup', function() {
-			self.check_strength( $pass, $conf, $meter );
+		self.$pass.add( self.$conf ).on( 'keyup', function() {
+			self.check_strength();
 		} );
 
 	},
 
 	/**
 	 * Check the strength of a user entered password
-	 * @param  obj   $pass   jQuery Selector for the password input
-	 * @param  obj   $conf   jQuery Selector for the password confirm input
-	 * @param  obj   $meter  jQuery Selector for the meter element
-	 * @return string        string describing either the strength or error of the password
+	 * and update elements depending on the current strength
+	 * @return void
 	 * @since 3.0.0
+	 * @version 3.0.0
 	 */
-	check_strength: function( $pass, $conf, $meter ) {
+	check_strength: function() {
 
-		var pass = $pass.val(),
-			conf = $conf.val(),
-			strength = wp.passwordStrength.meter( pass, this.get_blacklist(), conf ),
-			css_class = '',
-			text = '';
+		var $pass_field = this.$pass.closest( '.llms-form-field' ),
+			$conf_field = this.$conf.closest( '.llms-form-field' ),
+			pass_length = this.$pass.val().length,
+			conf_length = this.$conf.val().length;
 
-		if ( !pass.length && !conf.length ) {
-			$meter.hide();
+		// hide the meter if both fields are empty
+		if ( !pass_length && !conf_length ) {
+			$pass_field.removeClass( 'valid invalid' );
+			$conf_field.removeClass( 'valid invalid' );
+			this.$meter.hide();
 			return;
 		}
 
-		if ( pass.length < 6 ) {
-			strength = -1;
+		if ( this.get_current_strength_status() ) {
+			$pass_field.removeClass( 'invalid' ).addClass( 'valid' );
+			if ( conf_length ) {
+				$conf_field.removeClass( 'invalid' ).addClass( 'valid' );
+			}
+		} else {
+			$pass_field.removeClass( 'valid' ).addClass( 'invalid' );
+			if ( conf_length ) {
+				$conf_field.removeClass( 'valid' ).addClass( 'invalid' );
+			}
 		}
 
-		switch ( strength ) {
+		this.$meter.removeClass( 'too-short very-weak weak medium strong mismatch' );
+		this.$meter.show().addClass( this.get_current_strength( 'slug' ) );
+		this.$meter.html( this.get_current_strength( 'text' ) );
 
-			case -1:
-				css_class = 'too-short';
-				text = 'Too Short';
-			break;
+	},
 
-			case 0:
-			case 1:
-				css_class = 'very-weak';
-				text = 'Very Weak';
-			break;
+	/**
+	 * form submission action called during registration on checkout screen
+	 * @param    obj       self      instance of this class
+	 * @param    Function  callback  callback function, passes error message or success back to checkout handler
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	checkout: function( self, callback ) {
 
-			case 2:
-				css_class = 'weak';
-				text = 'Weak';
-			break;
+		if ( self.get_current_strength_status() ) {
 
-			case 3:
-				css_class = 'medium';
-				text = 'Medium';
-			break;
+			callback( true );
 
-			case 4:
-				css_class = 'strong';
-				text = 'Strong';
-			break;
+		} else {
 
-			case 5:
-				css_class = 'mismatch';
-				text = 'Mismatch';
-			break;
+			callback( LLMS.l10n.translate( 'There is an issue with your chosen password.' ) );
 
 		}
-
-		$meter.removeClass( 'too-short very-weak weak medium strong mismatch' );
-		$meter.show().addClass( css_class );
-		$meter.html( LLMS.l10n.translate( text ) );
-
-		return css_class;
 
 	},
 
@@ -178,6 +156,146 @@ $.extend( LLMS.PasswordStrength, {
 	get_blacklist: function() {
 		var blacklist = wp.passwordStrength.userInputBlacklist();
 		return blacklist;
+	},
+
+	/**
+	 * Retrieve current strength as a number, a slug, or a translated text string
+	 * @param    string   format  derifed return format [int|slug|text] defaults to int
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	get_current_strength: function( format ) {
+
+		format = format || 'int';
+		var pass = this.$pass.val(),
+			conf = this.$conf.val(),
+			val;
+
+		// enforce custom length requirement
+		if ( pass.length < 6 ) {
+			val = -1;
+		} else {
+			val = wp.passwordStrength.meter( pass, this.get_blacklist(), conf );
+			// 0 & 1 are both very-weak
+			if ( 0 === val ) {
+				val = 1;
+			}
+		}
+
+		if ( 'slug' === format ) {
+			return this.get_strength_slug( val );
+		} else if ( 'text' === format ) {
+			return this.get_strength_text( val );
+		} else {
+			return val;
+		}
+	},
+
+	/**
+	 * Determines if the current password strength meets the user-defined
+	 * minimum password strength requirements
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	get_current_strength_status: function() {
+		var curr = this.get_current_strength(),
+			min = this.get_strength_value( this.get_minimum_strength() );
+		return ( 5 === curr ) ? false : ( curr >= min );
+	},
+
+	/**
+	 * Get the slug associated with a strength value
+	 * @param    int   strength_val  strength value number
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	get_strength_slug: function( strength_val ) {
+
+		var slugs = {
+			'-1': 'too-short',
+			1: 'very-weak',
+			2: 'weak',
+			3: 'medium',
+			4: 'strong',
+			5: 'mismatch',
+		};
+
+		return ( slugs[ strength_val ] ) ? slugs[ strength_val ] : slugs[5];
+
+	},
+
+	/**
+	 * Gets the translated text associated with a strength value
+	 * @param    int  strength_val  strength value
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	get_strength_text: function( strength_val ) {
+
+		var texts = {
+			'-1': LLMS.l10n.translate( 'Too Short' ),
+			1: LLMS.l10n.translate( 'Very Weak' ),
+			2: LLMS.l10n.translate( 'Weak' ),
+			3: LLMS.l10n.translate( 'Medium' ),
+			4: LLMS.l10n.translate( 'Strong' ),
+			5: LLMS.l10n.translate( 'Mismatch' ),
+		};
+
+		return ( texts[ strength_val ] ) ? texts[ strength_val ] : texts[5];
+
+	},
+
+	/**
+	 * Get the value associated with a strength slug
+	 * @param    string   strength_slug  a strength slug
+	 * @return   int
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	get_strength_value: function( strength_slug ) {
+
+		var values = {
+			'too-short': -1,
+			'very-weak': 1,
+			weak: 2,
+			medium: 3,
+			strong: 4,
+			mismatch: 5,
+		};
+
+		return ( values[ strength_slug ] ) ? values[ strength_slug ] : values.mismatch;
+
+	},
+
+	/**
+	 * Form submission handler for registration and update forms
+	 * @param    obj    e         event data
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	submit: function( e ) {
+
+		var self = e.data;
+		e.preventDefault();
+		self.$pass.trigger( 'keyup' );
+
+		if ( self.get_current_strength_status() ) {
+			self.$form.off( 'submit', self.submit );
+			self.$form.trigger( 'submit' );
+		} else {
+			$( 'html, body' ).animate( {
+				scrollTop: self.$meter.offset().top - 100,
+			}, 200 );
+			self.$meter.hide();
+			setTimeout( function() {
+				self.$meter.fadeIn( 400 );
+			}, 220 );
+		}
 	}
 
 } );
