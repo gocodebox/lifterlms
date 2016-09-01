@@ -61,6 +61,7 @@ class LLMS_l10n {
 			'Medium' => _x( 'Medium', 'password strength meter', 'lifterlms' ),
 			'Mismatch' => _x( 'Mismatch', 'password strength meter', 'lifterlms' ),
 			'Strong' => _x( 'Strong', 'password strength meter', 'lifterlms' ),
+			'There is an issue with your chosen password.' => __( 'There is an issue with your chosen password.', 'lifterlms' ),
 			'Too Short' => _x( 'Too Short', 'password length validation', 'lifterlms' ),
 			'Very Weak' => _x( 'Very Weak', 'password strength meter', 'lifterlms' ),
 			'Weak' => _x( 'Weak', 'password strength meter', 'lifterlms' ),
