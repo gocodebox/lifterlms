@@ -1723,6 +1723,12 @@ ul.llms-payment-gateways {
   margin: 0;
   padding: 0;
 }
+ul.llms-payment-gateways li:last-child:after {
+  border-bottom: 1px solid #dadada;
+  content: '';
+  display: block;
+  margin: 10px;
+}
 ul.llms-payment-gateways .llms-payment-gateway {
   margin-bottom: 5px;
   list-style-type: none;
@@ -1755,9 +1761,7 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 }
 
 .llms-checkout-confirm {
-  border-top: 1px solid #dadada;
-  margin: 10px 10px 0;
-  padding-top: 10px;
+  margin: 0 10px;
 }
 
 .llms-payment-method {
