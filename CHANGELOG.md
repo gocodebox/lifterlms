@@ -1,9 +1,30 @@
 == Changelog =
 
-= v3.0.0-beta.4 - 2016/08/?? =
+= v3.0.0-beta.4 - 2016/09/01 =
 -------------------------------
 
 + fix issue with course prereq checks
++ next payment due date visible on order admin view
++ trial end date visible on order admin view
+
+##### Free Access Plans
+
++ "Free" access plans now defined as such based on a checkbox rather than by entering 0 into the price
++ Only single payment access plans can be free (a free recurring payment makes no sense but we can certainly discuss this if you disagree with me)
++ trials are disabled with free plans (because trials only apply to recurring plans)
++ sales are disabled for free access plans
+
+##### Checkout Form JS API
+
++ unified JS checkout handler
++ allows extensions to enqueue validation or pre-submission JS functions that should run prior to checkout form submission
+
+##### Manual Payment Gateway
+
+**NOTE: currently doesn't do anything on the frontend when enabled**
+
++ handles purchase of access plans marked ar FREE & orders that are discounted to 100% via coupons
+
 
 = v3.0.0-beta.3 - 2016/08/29 =
 -------------------------------
