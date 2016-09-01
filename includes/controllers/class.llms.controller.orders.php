@@ -91,7 +91,6 @@ class LLMS_Controller_Orders {
 
 	}
 
-
 	/**
 	 * Perform actions on a succesful order completion
 	 * @param  obj    $order  Instance of an LLMS_Order
@@ -144,6 +143,9 @@ class LLMS_Controller_Orders {
 		// nonce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_pending_order' );
 
+		// prevent timeout
+		@set_time_limit( 0 );
+
 		/**
 		 * Allow gateways, extensions, etc to do their own validation prior to standard validation
 		 * If this returns a truthy, we'll stop processing
@@ -172,30 +174,6 @@ class LLMS_Controller_Orders {
 			}
 		}
 
-		/**
-		 * @todo  figure out free orders and how that affects this validation below
-		 */
-		// verify we have a gateway & it's valid & enabled
-		if ( empty( $_POST['llms_payment_gateway'] ) ) {
-			return llms_add_notice( __( 'No payment method selected.', 'lifterlms' ), 'error' );
-		} else {
-			$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $_POST['llms_payment_gateway'] );
-			if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
-				// gateway must be enabled
-				if ( ! $gateway->is_enabled() ) {
-					return llms_add_notice( __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ), 'error' );
-				} // if it's a recurring, ensure gateway supports recurring
-				elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
-					return llms_add_notice( sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
-					// if it's single, ensure gateway supports singles
-				} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
-					return llms_add_notice( sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
-				}
-			} else {
-				return llms_add_notice( __( 'An invalid payment method was selected.', 'lifterlms' ), 'error' );
-			}
-		}
-
 		// if coupon code submitted, validate it
 		if ( ! empty( $_POST['llms_coupon_code'] ) ) {
 
@@ -217,9 +195,30 @@ class LLMS_Controller_Orders {
 
 		} // no coupon, proceed
 		else {
-
+			$coupon_id = null;
 			$coupon = false;
+		}
 
+		// if payment is required, verify we have a gateway & it's valid & enabled
+		if ( $plan->requires_payment( $coupon_id ) && empty( $_POST['llms_payment_gateway'] ) ) {
+			return llms_add_notice( __( 'No payment method selected.', 'lifterlms' ), 'error' );
+		} else {
+			$gid = empty ( $_POST['llms_payment_gateway'] ) ? 'manual' : $_POST['llms_payment_gateway'];
+			$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gid );
+			if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
+				// gateway must be enabled
+				if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
+					return llms_add_notice( __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ), 'error' );
+				} // if it's a recurring, ensure gateway supports recurring
+				elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
+					return llms_add_notice( sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
+					// if it's single, ensure gateway supports singles
+				} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
+					return llms_add_notice( sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
+				}
+			} else {
+				return llms_add_notice( __( 'An invalid payment method was selected.', 'lifterlms' ), 'error' );
+			}
 		}
 
 		// attempt to update the user (performs validations)
@@ -306,10 +305,8 @@ class LLMS_Controller_Orders {
 		$order->set( 'product_sku', $product->get( 'sku' ) );
 		$order->set( 'product_type', $plan->get_product_type() );
 
-		// order metadata
 		$order->set( 'payment_gateway', $gateway->get_id() );
 		$order->set( 'gateway_api_mode', $gateway->get_api_mode() );
-		$order->set( 'currency', get_lifterlms_currency() );
 
 		// trial data
 		if ( $plan->has_trial() ) {
@@ -325,6 +322,7 @@ class LLMS_Controller_Orders {
 		}
 
 		$price = $plan->get_price( 'price', array(), 'float' );
+		$order->set( 'currency', get_lifterlms_currency() );
 
 		// price data
 		if ( $plan->is_on_sale() ) {
@@ -372,6 +370,7 @@ class LLMS_Controller_Orders {
 		}
 
 		$order->set( 'access_expiration', $plan->get( 'access_expiration' ) );
+
 		// get access related data so when payment is complete we can calculate the actual expiration date
 		if ( $plan->can_expire() ) {
 			$order->set( 'access_expires', $plan->get( 'access_expires' ) );
