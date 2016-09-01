@@ -354,111 +354,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	}
 
-
-	/**
-	 * Retrieve an array of transactions associated with the order according to supplied arguments
-	 * @param    array      $args  array of query argument data, see example of arguments below
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function get_transactions( $args = array() ) {
-
-		extract( wp_parse_args( $args, array(
-			'status' => 'any', // string or array or post statuses
-			'type' => 'any',   // string or array of transaction types [recurring|single|trial]
-			'per_page' => 50,  // int, number of transactions to return
-			'paged' => 1,      // int, page number of transactions to return
-			'order' => 'DESC',    //
-			'orderby' => 'date',  // field to order results by
-		) ) );
-
-		// assume any and use this to check for valid statuses
-		$statuses = llms_get_transaction_statuses();
-
-		// check statuses
-		if ( 'any' !== $statuses  ) {
-
-			// if status is a string, ensure it's a valid status
-			if ( is_string( $status ) && in_array( $status, $statuses ) ) {
-				$statuses = array( $status );
-			} elseif ( is_array( $status ) ) {
-				$temp = array();
-				foreach( $status as $s ) {
-					if ( in_array( $s, $statuses ) ) {
-						$temp[] = $s;
-					}
-				}
-				$statuses = $temp;
-			}
-
-		}
-
-		// setup type meta query
-		$types = array(
-			'relation' => 'OR',
-		);
-
-		if ( 'any' === $type ) {
-			$types[] = array(
-				'key' => $this->meta_prefix . 'payment_type',
-				'value' => 'recurring',
-			);
-			$types[] = array(
-				'key' => $this->meta_prefix . 'payment_type',
-				'value' => 'single',
-			);
-			$types[] = array(
-				'key' => $this->meta_prefix . 'payment_type',
-				'value' => 'trial',
-			);
-		} elseif ( is_string( $type ) ) {
-			$types[] = array(
-				'key' => $this->meta_prefix . 'payment_type',
-				'value' => $type,
-			);
-		} elseif ( is_array( $type ) ) {
-			foreach( $type as $t ) {
-				$types[] = array(
-					'key' => $this->meta_prefix . 'payment_type',
-					'value' => $t,
-				);
-			}
-		}
-
-		// execute the query
-		$query = new WP_Query( apply_filters( 'llms_order_get_transactions_query', array(
-			'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					'key' => $this->meta_prefix . 'order_id',
-					'value' => $this->get( 'id' ),
-				),
-				$types,
-			),
-			'order' => $order,
-			'orderby' => $orderby,
-			'post_status' => $statuses,
-			'post_type' => 'llms_transaction',
-			'posts_per_page' => $per_page,
-			'paged' => $paged,
-		) ), $this, $status );
-
-		$transactions = array();
-
-		foreach( $query->posts as $post ) {
-			$transactions[$post->ID] = new LLMS_Transaction( $post );
-		}
-
-		return array(
-			'count' => count( $query->posts ),
-			'page' => $paged,
-			'pages' => $query->max_num_pages,
-			'transactions' => $transactions,
-		);
-
-	}
-
 	/**
 	 * Get a property's data type for scrubbing
 	 * used by $this->scrub() to determine how to scrub the property
@@ -620,10 +515,19 @@ class LLMS_Order extends LLMS_Post_Model {
 			$last_date = current_time( 'timestamp' );
 		}
 
-		$period = $this->get( 'billing_period' );
-		$frequency = $this->get( 'billing_frequency' );
+		// if
+		if ( $this->has_trial() && ! $this->has_trial_ended() ) {
 
-		$next = strtotime( '+' . $frequency . ' ' . $period, $last_date );
+			$next = $this->get_trial_end_date( 'U' );
+
+		} else {
+
+			$period = $this->get( 'billing_period' );
+			$frequency = $this->get( 'billing_frequency' );
+
+			$next = strtotime( '+' . $frequency . ' ' . $period, $last_date );
+
+		}
 
 		return date_i18n( $format, apply_filters( 'llms_order_get_next_payment_due_date', $next, $this ) );
 
@@ -670,6 +574,166 @@ class LLMS_Order extends LLMS_Post_Model {
 		return floatval( $grosse );
 	}
 
+	/**
+	 * Get the start date for the order
+	 * gets the date of the first initially successful transaction
+	 * if none found, uses the created date of the order
+	 * @param    string     $format  desired return format of the date
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_start_date( $format = 'Y-m-d H:i:s' ) {
+		// get the first recorded transaction
+		// refunds are okay b/c that would have initially given the user access
+		$txns = $this->get_transactions( array(
+			'order' => 'ASC',
+			'orderby' => 'date',
+			'per_page' => 1,
+			'status' => array( 'llms-txn-succeeded', 'llms-txn-refunded' ),
+			'type' => 'any',
+		) );
+		if ( $txns['count'] ) {
+			$txn = array_pop( $txns['transactions'] );
+			$date = $txn->get_date( 'date', $format );
+		} else {
+			$date = $this->get_date( 'date', $format );
+		}
+		return apply_filters( 'llms_order_get_start_date', $date, $this );
+	}
+
+	/**
+	 * Retrieve an array of transactions associated with the order according to supplied arguments
+	 * @param    array      $args  array of query argument data, see example of arguments below
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_transactions( $args = array() ) {
+
+		extract( wp_parse_args( $args, array(
+			'status' => 'any', // string or array or post statuses
+			'type' => 'any',   // string or array of transaction types [recurring|single|trial]
+			'per_page' => 50,  // int, number of transactions to return
+			'paged' => 1,      // int, page number of transactions to return
+			'order' => 'DESC',    //
+			'orderby' => 'date',  // field to order results by
+		) ) );
+
+		// assume any and use this to check for valid statuses
+		$statuses = llms_get_transaction_statuses();
+
+		// check statuses
+		if ( 'any' !== $statuses  ) {
+
+			// if status is a string, ensure it's a valid status
+			if ( is_string( $status ) && in_array( $status, $statuses ) ) {
+				$statuses = array( $status );
+			} elseif ( is_array( $status ) ) {
+				$temp = array();
+				foreach( $status as $s ) {
+					if ( in_array( $s, $statuses ) ) {
+						$temp[] = $s;
+					}
+				}
+				$statuses = $temp;
+			}
+
+		}
+
+		// setup type meta query
+		$types = array(
+			'relation' => 'OR',
+		);
+
+		if ( 'any' === $type ) {
+			$types[] = array(
+				'key' => $this->meta_prefix . 'payment_type',
+				'value' => 'recurring',
+			);
+			$types[] = array(
+				'key' => $this->meta_prefix . 'payment_type',
+				'value' => 'single',
+			);
+			$types[] = array(
+				'key' => $this->meta_prefix . 'payment_type',
+				'value' => 'trial',
+			);
+		} elseif ( is_string( $type ) ) {
+			$types[] = array(
+				'key' => $this->meta_prefix . 'payment_type',
+				'value' => $type,
+			);
+		} elseif ( is_array( $type ) ) {
+			foreach( $type as $t ) {
+				$types[] = array(
+					'key' => $this->meta_prefix . 'payment_type',
+					'value' => $t,
+				);
+			}
+		}
+
+		// execute the query
+		$query = new WP_Query( apply_filters( 'llms_order_get_transactions_query', array(
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key' => $this->meta_prefix . 'order_id',
+					'value' => $this->get( 'id' ),
+				),
+				$types,
+			),
+			'order' => $order,
+			'orderby' => $orderby,
+			'post_status' => $statuses,
+			'post_type' => 'llms_transaction',
+			'posts_per_page' => $per_page,
+			'paged' => $paged,
+		) ), $this, $status );
+
+		$transactions = array();
+
+		foreach( $query->posts as $post ) {
+			$transactions[$post->ID] = new LLMS_Transaction( $post );
+		}
+
+		return array(
+			'count' => count( $query->posts ),
+			'page' => $paged,
+			'pages' => $query->max_num_pages,
+			'transactions' => $transactions,
+		);
+
+	}
+
+	/**
+	 * Retrieve the date when a trial will end
+	 * @param    string     $format  date return format
+	 * @return   bool|string         returns false if order has no trial or the date string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_trial_end_date( $format = 'Y-m-d H:i:s' ) {
+
+		if ( ! $this->has_trial() ) {
+
+			$r = false;
+
+		} else {
+
+			$start = $this->get_start_date( 'U' );
+
+			$length = $this->get( 'trial_length' );
+			$period = $this->get( 'trial_period' );
+
+			$end = strtotime( '+' . $length . ' ' . $period, $start );
+
+			$r = date_i18n( $format, $end );
+		}
+
+		return apply_filters( 'llms_order_get_trial_end_date', $r, $this );
+
+	}
 
 	public function get_revenue( $type = 'net', $deduct = null ) {
 
@@ -739,6 +803,16 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Determine if the trial period has ended for the order
+	 * @return   boolean     true if ended, false if not ended
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function has_trial_ended() {
+		return ( current_time( 'timestamp' ) >= $this->get_trial_end_date( 'U' ) );
+	}
+
+	/**
 	 * Determine if the order is recurring or singular
 	 * @return   boolean      true if recurring, false if not
 	 * @since    3.0.0
@@ -748,6 +822,13 @@ class LLMS_Order extends LLMS_Post_Model {
 		return $this->get( 'order_type' ) === 'recurring';
 	}
 
+	/**
+	 * Schedules the next payment due on a recurring order
+	 * Can be called witnout consequence on a single payment order
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function maybe_schedule_payment() {
 
 		if ( ! $this->is_recurring() ) {
