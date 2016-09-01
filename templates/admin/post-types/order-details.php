@@ -6,6 +6,9 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
+
+var_dump( $order->has_trial_ended() );
+
 ?>
 <div class="llms-metabox">
 
@@ -102,6 +105,11 @@ if ( ! is_admin() ) { exit; }
 				<?php echo $order->get_price( 'trial_total' ); ?>
 				<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'trial_length' ), 'lifterlms' ), $order->get( 'trial_length' ), $order->get( 'trial_period' ) ); ?>
 			</div>
+
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Trial End Date:', 'lifterlms' ); ?></label>
+				<?php echo $order->get_trial_end_date( 'm/d/Y h:ia' ); ?>
+			</div>
 		<?php endif; ?>
 
 		<h4><?php _e( 'Payment Information', 'lifterlms' ); ?></h4>
@@ -142,6 +150,13 @@ if ( ! is_admin() ) { exit; }
 				<?php _e( 'One-time', 'lifterlms' ); ?>
 			<?php endif; ?>
 		</div>
+
+		<?php if ( $order->is_recurring() ): ?>
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Next Payment Due Date:', 'lifterlms' ); ?></label>
+				<?php echo $order->get_next_payment_due_date( 'm/d/Y h:ia' ); ?>
+			</div>
+		<?php endif; ?>
 
 		<?php do_action( 'lifterlms_order_meta_box_after_payment_information', $order ); ?>
 
