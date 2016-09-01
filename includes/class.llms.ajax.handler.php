@@ -41,9 +41,9 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Remove a coupon from an order during checkout
+	 * @return  string/json
 	 * @since    3.0.0
 	 * @version  3.0.0
-	 * @return  string/json
 	 */
 	public static function remove_coupon_code( $request ) {
 
@@ -56,8 +56,17 @@ class LLMS_AJAX_Handler {
 		$coupon_html = ob_get_clean();
 
 		ob_start();
+		llms_get_template( 'checkout/form-gateways.php', array(
+			'coupon' => false,
+			'gateways' => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
+			'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+			'plan' => $plan,
+		) );
+		$gateways_html = ob_get_clean();
+
+		ob_start();
 		llms_get_template( 'checkout/form-summary.php', array(
-			'coupon' => $c,
+			'coupon' => false,
 			'plan' => $plan,
 			'product' => $plan->get_product(),
 		) );
@@ -65,6 +74,7 @@ class LLMS_AJAX_Handler {
 
 		return array(
 			'coupon_html' => $coupon_html,
+			'gateways_html' => $gateways_html,
 			'summary_html' => $summary_html,
 		);
 
@@ -131,9 +141,9 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Validate a Coupon via the Checkout Form
+	 * @return  string/json
 	 * @since    3.0.0
 	 * @version  3.0.0
-	 * @return  string/json
 	 */
 	public static function validate_coupon_code( $request ) {
 
@@ -183,6 +193,17 @@ class LLMS_AJAX_Handler {
 					) );
 					$coupon_html = ob_get_clean();
 
+
+					ob_start();
+					llms_get_template( 'checkout/form-gateways.php', array(
+						'coupon' => $c,
+						'gateways' => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
+						'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+						'plan' => $plan,
+					) );
+					$gateways_html = ob_get_clean();
+
+
 					ob_start();
 					llms_get_template( 'checkout/form-summary.php', array(
 						'coupon' => $c,
@@ -194,6 +215,7 @@ class LLMS_AJAX_Handler {
 					$success = array(
 						'code' => $c->get( 'title' ),
 						'coupon_html' => $coupon_html,
+						'gateways_html' => $gateways_html,
 						'summary_html' => $summary_html,
 					);
 

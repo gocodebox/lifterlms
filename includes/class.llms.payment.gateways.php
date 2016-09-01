@@ -42,6 +42,8 @@ class LLMS_Payment_Gateways {
 	 */
 	public function __construct() {
 
+		add_filter( 'lifterlms_payment_gateways', array( $this, 'add_core_gateways' ) );
+
 		$gateways = apply_filters( 'lifterlms_payment_gateways', $this->payment_gateways );
 
 		foreach ( $gateways as $gateway ) {
@@ -60,6 +62,17 @@ class LLMS_Payment_Gateways {
 
 		ksort( $this->payment_gateways );
 
+	}
+
+	/**
+	 * Register core gateways
+	 * @param    array     $gateways  array of gateways
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function add_core_gateways( $gateways ) {
+		$gateways[] = 'LLMS_Payment_Gateway_Manual';
+		return $gateways;
 	}
 
 	/**

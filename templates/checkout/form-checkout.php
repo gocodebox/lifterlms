@@ -44,7 +44,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 					'product' => $product,
 				) ); ?>
 
-				<?php llms_get_template( 'checkout/form-coupon.php', array( 'coupon' => $coupon ) ); ?>
+				<?php llms_get_template( 'checkout/form-coupon.php', array(
+					'coupon' => $coupon,
+					'plan' => $plan,
+				) ); ?>
 
 			</div>
 
@@ -56,6 +59,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 			<div class="llms-checkout-section-content llms-form-fields">
 
 				<?php llms_get_template( 'checkout/form-gateways.php', array(
+					'coupon' => $coupon,
 					'gateways' => $gateways,
 					'selected_gateway' => $selected_gateway,
 					'plan' => $plan,

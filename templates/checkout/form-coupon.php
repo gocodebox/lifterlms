@@ -6,10 +6,15 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @author 		LifterLMS
  * @package 	LifterLMS/Templates
  */
+
+// don't display if the plan is marked as free
+if ( isset ( $plan ) && $plan->is_free() ) {
+	return;
+}
 ?>
 <div class="llms-coupon-wrapper">
 
-	<?php if ( ! $coupon ): ?>
+	<?php if ( empty( $coupon ) ): ?>
 
 		<?php _e( 'Have a coupon?', 'lifterlms' ); ?>
 		<a href="#llms-coupon-toggle"><?php _e( 'Click here to enter your code', 'lifterlms' ); ?></a>
