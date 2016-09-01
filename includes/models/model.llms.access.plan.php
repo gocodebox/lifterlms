@@ -3,7 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * LifterLMS Access Plan Model
- * @since  3.0.0
+ * @since    3.0.0
+ * @version  3.0.0
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -16,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $featured (string)  Feature the plan on the pricing table [yes|no]
  * @property  $frequency  (int)  Frequency of billing. 0 = a one-time payment [0-6]
  * @property  $id  (int)  Post ID
+ * @property  $is_free  (string)  Whether or not the plan requires payment [yes|no]
  * @property  $length  (int)  Number of intervals to run payment for, combine with $period & $frequency. 0 = forever / until cancelled. Only applicable if $frequency is not 0.
  * @property  $menu_order  (int)  Order to display access plans in when listing them. Displayed in ascending order.
  * @property  $on_sale  (string)  Enable or disable plan sale pricing [yes|no]
@@ -52,6 +54,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param  string  $title   Title to create the post with
 	 * @return array
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	protected function get_creation_args( $title = '' ) {
 
@@ -65,6 +68,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Retrieve the full URL to the checkout screen for the plan
 	 * @return string
 	 * @since 3.0.0
+	 * @version  3.0.0
 	 */
 	public function get_checkout_url() {
 		return llms_get_page_url( 'checkout', array( 'plan' => $this->get( 'id' ) ) );
@@ -72,10 +76,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Get a string to use for 0 dollar amount prices rather than 0
-	 * @since 3.0.0
-	 * @version 3.0.0
 	 * @param   string $format format to display the price in
 	 * @return  string
+	 * @since 3.0.0
+	 * @version 3.0.0
 	 */
 	public function get_free_pricing_text( $format = 'html' ) {
 		$text = __( 'FREE', 'lifterlms' );
@@ -91,11 +95,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Getter for price strings with optional formatting options
-	 * @since  3.0.0
 	 * @param  string $key         property key
 	 * @param  array  $price_args  optional array of arguments that can be passed to llms_price()
 	 * @param  string $format      optional format conversion method [html|raw|float]
 	 * @return mixed
+	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
@@ -116,13 +121,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Apply a coupon to a price
-	 * @since   3.0.0
-	 * @version 3.0.0
 	 * @param   string $key        price to retrieve, "price", "sale_price", or "trial_price"
 	 * @param   int    $coupon_id  LifterLMS Coupon Post ID
 	 * @param   array  $price_args optional arguments to be passed to llms_price()
 	 * @param   string $format     optionl return format as passed to llms_price()
 	 * @return  mixed
+	 * @since   3.0.0
+	 * @version 3.0.0
 	 */
 	public function get_price_with_coupon( $key, $coupon_id, $price_args = array(), $format = 'html' ) {
 
@@ -197,6 +202,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Retrieve an instance of the associated LLMS_Product
 	 * @return obj
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	public function get_product() {
 		return new LLMS_Product( $this->get( 'product_id' ) );
@@ -206,6 +212,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Retrieve the product type (course or membership) for the associated product
 	 * @return string
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	public function get_product_type() {
 		$product = $this->get_product();
@@ -217,6 +224,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Uses optional user submitted text and falls back to LifterLMS defaults if none is supplied
 	 * @return string
 	 * @since 3.0.0
+	 * @version  3.0.0
 	 */
 	public function get_enroll_text() {
 
@@ -246,6 +254,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining plan expiration details
 	 * @return string
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	public function get_expiration_details() {
 
@@ -276,6 +285,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param  string $key  property key
 	 * @return string
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	protected function get_property_type( $key ) {
 
@@ -305,6 +315,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			case 'availability':
 			case 'enroll_text':
 			case 'featured':
+			case 'is_free':
 			case 'on_sale':
 			case 'period':
 			case 'sale_end':
@@ -325,6 +336,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining the plan's payment schedule
 	 * @return string
 	 * @since 3.0.0
+	 * @version  3.0.0
 	 */
 	public function get_schedule_details() {
 
@@ -371,6 +383,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining the plan's trial offer
 	 * @return string
 	 * @since 3.0.0
+	 * @version  3.0.0
 	 */
 	public function get_trial_details() {
 
@@ -393,6 +406,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Availability must be set to "members" and at least one membership must be selected
 	 * @return boolean
 	 * @since 3.0.0
+	 * @version  3.0.0
 	 */
 	public function has_availability_restrictions() {
 		return ( 'course' === $this->get_product_type() && 'members' === $this->get( 'availability' ) && $this->get_array( 'availability_restrictions' ) );
@@ -403,6 +417,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * One-time payments can't have a trial, so the plan must have a frequency greater than 0
 	 * @return boolean
 	 * @since 3.0.0
+	 * @version  3.0.0
 	 */
 	public function has_trial() {
 		if ( $this->get( 'frequency' ) > 0 ) {
@@ -416,15 +431,29 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Determine if the plan is marked as "featured"
 	 * @return boolean
 	 * @since 3.0.0
+	 * @version  3.0.0
 	 */
 	public function is_featured() {
-		return 'yes' === $this->get( 'featured' ) ? true : false;
+		return ( 'yes' === $this->get( 'featured' ) );
+	}
+
+	/**
+	 * Determines if a plan is marked ar free
+	 * This only returns the value of the setting and should not
+	 * be used to check if payment is required (when using a coupon for example)
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_free() {
+		return ( 'yes' === $this->get( 'is_free' ) );
 	}
 
 	/**
 	 * Determine if a plan is *currently* on sale
 	 * @return boolean
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	public function is_on_sale() {
 
@@ -468,12 +497,50 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the Access Plan has recurring payments
+	 * @return  boolean   true if it is recurring, false otherwise
 	 * @since 3.0.0
 	 * @version 3.0.0
-	 * @return  boolean   true if it is recurring, false otherwise
 	 */
 	public function is_recurring() {
-		return ( 0 === $this->get( 'frequency' ) ) ? false : true;
+		return ( 0 !== $this->get( 'frequency' ) );
+	}
+
+	/**
+	 * Determine if the access plan requires payment
+	 * accounts for coupons and whether the plan is marked as free
+	 * @param    int     $coupon_id  WP_Post ID of an LLMS_Coupon
+	 * @return   boolean             true if payment required, false otherwise
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function requires_payment( $coupon_id = null ) {
+
+		if ( $this->is_free() ) {
+			return false;
+		}
+
+		if ( $coupon_id ) {
+
+			if ( $this->has_trial() && $this->get_price_with_coupon( 'trial_price', $coupon_id, array(), 'float' ) > 0 ) {
+				return true;
+			} elseif ( $this->is_on_sale() && $this->get_price_with_coupon( 'sale_price', $coupon_id, array(), 'float' ) > 0 ) {
+				return true;
+			} elseif ( $this->get_price_with_coupon( 'price', $coupon_id, array(), 'float' ) ) {
+				return true;
+			}
+
+		} else {
+
+			if ( $this->has_trial() && $this->get_price( 'trial_price', array(), 'float' ) > 0 ) {
+				return true;
+			} elseif ( $this->is_on_sale() && $this->get_price( 'sale_price', array(), 'float' ) > 0 ) {
+				return true;
+			} elseif ( $this->get_price( 'price', array(), 'float' ) > 0 ) {
+				return true;
+			}
+
+		}
+
 	}
 
 }
