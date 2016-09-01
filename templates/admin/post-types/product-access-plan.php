@@ -27,6 +27,7 @@ if ( ! isset( $plan ) ) {
 	$trial_offer = $plan->get( 'trial_offer' );
 	$on_sale = $plan->get( 'on_sale' );
 	$availability = $plan->get( 'availability' );
+
 }
 ?>
 
@@ -67,75 +68,85 @@ if ( ! isset( $plan ) ) {
 			<input name="_llms_plans[<?php echo $order; ?>][enroll_text]" placeholder="<?php _e( 'Enroll, Join, Buy...'); ?>" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'enroll_text' ) . '"' : ' disabled="disabled"'; ?>>
 		</div>
 
-		<div class="llms-metabox-field d-1of3">
+		<div class="llms-metabox-field d-1of6">
 			<label><?php _e( 'Featured', 'lifterlms' ) ?></label>
 			<input name="_llms_plans[<?php echo $order; ?>][featured]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'featured' ) : 'no' ); ?>>
-			<em><?php _e( 'Highlight this access plan', 'lifterlms' ); ?></em>
+			<em><?php _e( 'Highlight this plan', 'lifterlms' ); ?></em>
+		</div>
+
+		<div class="llms-metabox-field d-1of6">
+			<label><?php _e( 'Is Free', 'lifterlms' ) ?></label>
+			<input data-controller-id="llms-plan-is-free" name="_llms_plans[<?php echo $order; ?>][is_free]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'is_free' ) : 'no' ); ?>>
+			<em><?php _e( 'No payment required', 'lifterlms' ); ?></em>
 		</div>
 
 		<div class="clear"></div>
 
-		<div class="llms-metabox-field d-1of4">
-			<label><?php _e( 'Price', 'lifterlms' ) ?></label>
-			<input name="_llms_plans[<?php echo $order; ?>][price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'price' ) . '"' : ' disabled="disabled"'; ?>>
-		</div>
-
-		<div class="llms-metabox-field d-1of4">
-			<label><?php _e( 'Frequency', 'lifterlms' ) ?></label>
-			<select data-controller-id="llms-plan-frequency" name="_llms_plans[<?php echo $order; ?>][frequency]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-				<option value="0"<?php selected( '0', ( $plan ) ? $frequency : null ); ?>><?php _e( 'one-time payment', 'lifterlms' ); ?></option>
-				<option value="1"<?php selected( '1', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every', 'lifterlms' ); ?></option>
-				<option value="2"<?php selected( '2', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 2nd', 'lifterlms' ); ?></option>
-				<option value="3"<?php selected( '3', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 3rd', 'lifterlms' ); ?></option>
-				<option value="4"<?php selected( '4', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 4th', 'lifterlms' ); ?></option>
-				<option value="5"<?php selected( '5', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 5th', 'lifterlms' ); ?></option>
-				<option value="6"<?php selected( '6', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 6th', 'lifterlms' ); ?></option>
-			</select>
-		</div>
-
-
-		<?php // recurring plan options ?>
-		<div data-controller="llms-plan-frequency" data-value-is-not="0">
+		<div data-controller="llms-plan-is-free" data-value-is-not="yes">
 
 			<div class="llms-metabox-field d-1of4">
-				<label><?php _e( 'Plan Period', 'lifterlms' ) ?></label>
-				<select data-controller-id="llms-plan-period" name="_llms_plans[<?php echo $order; ?>][period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="year"<?php selected( 'year', ( $plan && 0 != $frequency ) ? $period : null ); ?>><?php _e( 'year', 'lifterlms' ); ?></option>
-					<option value="month"<?php selected( 'month', ( $plan && 0 != $frequency ) ? $period : null ); ?>><?php _e( 'month', 'lifterlms' ); ?></option>
-					<option value="week"<?php selected( 'week', ( $plan && 0 != $frequency ) ? $period : null ); ?>><?php _e( 'week', 'lifterlms' ); ?></option>
-					<option value="day"<?php selected( 'day', ( $plan && 0 != $frequency ) ? $period : null ); ?>><?php _e( 'day', 'lifterlms' ); ?></option>
-				</select>
+				<label><?php _e( 'Price', 'lifterlms' ) ?></label>
+				<input name="_llms_plans[<?php echo $order; ?>][price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'price' ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
 			<div class="llms-metabox-field d-1of4">
-				<label><?php _e( 'Plan Length', 'lifterlms' ) ?></label>
-				<select data-controller="llms-plan-period" data-value-is="year" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="0"<?php selected( 0, ( $plan && 'year' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
-					<?php $i = 1; while( $i <= 6 ): ?>
-						<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'year' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s year', 'for %s years', $i, 'lifterlms' ), $i ); ?></option>
-					<?php $i++; endwhile; ?>
+				<label><?php _e( 'Frequency', 'lifterlms' ) ?></label>
+				<select data-controller-id="llms-plan-frequency" name="_llms_plans[<?php echo $order; ?>][frequency]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+					<option value="0"<?php selected( '0', ( $plan ) ? $frequency : null ); ?>><?php _e( 'one-time payment', 'lifterlms' ); ?></option>
+					<option value="1"<?php selected( '1', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every', 'lifterlms' ); ?></option>
+					<option value="2"<?php selected( '2', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 2nd', 'lifterlms' ); ?></option>
+					<option value="3"<?php selected( '3', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 3rd', 'lifterlms' ); ?></option>
+					<option value="4"<?php selected( '4', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 4th', 'lifterlms' ); ?></option>
+					<option value="5"<?php selected( '5', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 5th', 'lifterlms' ); ?></option>
+					<option value="6"<?php selected( '6', ( $plan ) ? $frequency : null ); ?>><?php _e( 'every 6th', 'lifterlms' ); ?></option>
 				</select>
+			</div>
 
-				<select data-controller="llms-plan-period" data-value-is="month" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="0"<?php selected( 0, ( $plan && 'month' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
-					<?php $i = 1; while( $i <= 24 ): ?>
-						<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'month' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s month', 'for %s months', $i, 'lifterlms' ), $i ); ?></option>
-					<?php $i++; endwhile; ?>
-				</select>
 
-				<select data-controller="llms-plan-period" data-value-is="week" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="0"<?php selected( 0, ( $plan && 'week' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
-					<?php $i = 1; while( $i <= 52 ): ?>
-						<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'week' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s week', 'for %s weeks', $i, 'lifterlms' ), $i ); ?></option>
-					<?php $i++; endwhile; ?>
-				</select>
+			<?php // recurring plan options ?>
+			<div data-controller="llms-plan-frequency" data-value-is-not="0">
 
-				<select data-controller="llms-plan-period" data-value-is="day" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="0"<?php selected( 0, ( $plan && 'day' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
-					<?php $i = 1; while( $i <= 90 ): ?>
-						<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'day' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s day', 'for %s days', $i, 'lifterlms' ), $i ); ?></option>
-					<?php $i++; endwhile; ?>
-				</select>
+				<div class="llms-metabox-field d-1of4">
+					<label><?php _e( 'Plan Period', 'lifterlms' ) ?></label>
+					<select data-controller-id="llms-plan-period" name="_llms_plans[<?php echo $order; ?>][period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+						<option value="year"<?php selected( 'year', ( $plan && 0 != $frequency ) ? $period : null ); ?>><?php _e( 'year', 'lifterlms' ); ?></option>
+						<option value="month"<?php selected( 'month', ( $plan && 0 != $frequency ) ? $period : null ); ?>><?php _e( 'month', 'lifterlms' ); ?></option>
+						<option value="week"<?php selected( 'week', ( $plan && 0 != $frequency ) ? $period : null ); ?>><?php _e( 'week', 'lifterlms' ); ?></option>
+						<option value="day"<?php selected( 'day', ( $plan && 0 != $frequency ) ? $period : null ); ?>><?php _e( 'day', 'lifterlms' ); ?></option>
+					</select>
+				</div>
+
+				<div class="llms-metabox-field d-1of4">
+					<label><?php _e( 'Plan Length', 'lifterlms' ) ?></label>
+					<select data-controller="llms-plan-period" data-value-is="year" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+						<option value="0"<?php selected( 0, ( $plan && 'year' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
+						<?php $i = 1; while( $i <= 6 ): ?>
+							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'year' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s year', 'for %s years', $i, 'lifterlms' ), $i ); ?></option>
+						<?php $i++; endwhile; ?>
+					</select>
+
+					<select data-controller="llms-plan-period" data-value-is="month" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+						<option value="0"<?php selected( 0, ( $plan && 'month' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
+						<?php $i = 1; while( $i <= 24 ): ?>
+							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'month' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s month', 'for %s months', $i, 'lifterlms' ), $i ); ?></option>
+						<?php $i++; endwhile; ?>
+					</select>
+
+					<select data-controller="llms-plan-period" data-value-is="week" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+						<option value="0"<?php selected( 0, ( $plan && 'week' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
+						<?php $i = 1; while( $i <= 52 ): ?>
+							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'week' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s week', 'for %s weeks', $i, 'lifterlms' ), $i ); ?></option>
+						<?php $i++; endwhile; ?>
+					</select>
+
+					<select data-controller="llms-plan-period" data-value-is="day" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+						<option value="0"<?php selected( 0, ( $plan && 'day' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
+						<?php $i = 1; while( $i <= 90 ): ?>
+							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'day' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s day', 'for %s days', $i, 'lifterlms' ), $i ); ?></option>
+						<?php $i++; endwhile; ?>
+					</select>
+				</div>
+
 			</div>
 
 		</div>
@@ -236,27 +247,29 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
-		<div class="llms-metabox-field d-1of5">
-			<label><?php _e( 'Sale Pricing', 'lifterlms' ) ?></label>
-			<select data-controller-id="llms-on-sale" name="_llms_plans[<?php echo $order; ?>][on_sale]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-				<option value="no"<?php selected( 'no', $plan ? $on_sale : '' ); ?>><?php _e( 'Not on sale', 'lifterlms' ); ?></option>
-				<option value="yes"<?php selected( 'yes', $plan ? $on_sale : '' ); ?>><?php _e( 'On Sale', 'lifterlms' ); ?></option>
-			</select>
-		</div>
+		<div data-controller="llms-plan-is-free" data-value-is-not="yes">
+			<div class="llms-metabox-field d-1of5">
+				<label><?php _e( 'Sale Pricing', 'lifterlms' ) ?></label>
+				<select data-controller-id="llms-on-sale" name="_llms_plans[<?php echo $order; ?>][on_sale]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+					<option value="no"<?php selected( 'no', $plan ? $on_sale : '' ); ?>><?php _e( 'Not on sale', 'lifterlms' ); ?></option>
+					<option value="yes"<?php selected( 'yes', $plan ? $on_sale : '' ); ?>><?php _e( 'On Sale', 'lifterlms' ); ?></option>
+				</select>
+			</div>
 
-		<div class="llms-metabox-field d-1of6" data-controller="llms-on-sale" data-value-is="yes">
-			<label><?php _e( 'Sale Price', 'lifterlms' ) ?></label>
-			<input name="_llms_plans[<?php echo $order; ?>][sale_price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="text"<?php echo ( $plan && 'yes' === $on_sale ) ? ' value="' . $plan->get( 'sale_price' ) . '"' : ' disabled="disabled"'; ?>>
-		</div>
+			<div class="llms-metabox-field d-1of6" data-controller="llms-on-sale" data-value-is="yes">
+				<label><?php _e( 'Sale Price', 'lifterlms' ) ?></label>
+				<input name="_llms_plans[<?php echo $order; ?>][sale_price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="text"<?php echo ( $plan && 'yes' === $on_sale ) ? ' value="' . $plan->get( 'sale_price' ) . '"' : ' disabled="disabled"'; ?>>
+			</div>
 
-		<div class="llms-metabox-field d-1of6" data-controller="llms-on-sale" data-value-is="yes">
-			<label><?php _e( 'Sale Start Date', 'lifterlms' ); ?></label>
-			<input class="llms-access-plan-datepicker" name="_llms_plans[<?php echo $order; ?>][sale_start]" placeholder="MM/DD/YYYY" type="text"<?php echo ($plan && 'yes' === $on_sale ) ? ' value="' . $plan->get_date( 'sale_start', 'm/d/Y' ) . '"' : ' disabled="disabled"'; ?>>
-		</div>
+			<div class="llms-metabox-field d-1of6" data-controller="llms-on-sale" data-value-is="yes">
+				<label><?php _e( 'Sale Start Date', 'lifterlms' ); ?></label>
+				<input class="llms-access-plan-datepicker" name="_llms_plans[<?php echo $order; ?>][sale_start]" placeholder="MM/DD/YYYY" type="text"<?php echo ($plan && 'yes' === $on_sale ) ? ' value="' . $plan->get_date( 'sale_start', 'm/d/Y' ) . '"' : ' disabled="disabled"'; ?>>
+			</div>
 
-		<div class="llms-metabox-field d-1of6" data-controller="llms-on-sale" data-value-is="yes">
-			<label><?php _e( 'Sale End Date', 'lifterlms' ); ?></label>
-			<input class="llms-access-plan-datepicker" name="_llms_plans[<?php echo $order; ?>][sale_end]" placeholder="MM/DD/YYYY" type="text"<?php echo ($plan && 'yes' === $on_sale ) ? ' value="' . $plan->get_date( 'sale_end', 'm/d/Y' ) . '"' : ' disabled="disabled"'; ?>>
+			<div class="llms-metabox-field d-1of6" data-controller="llms-on-sale" data-value-is="yes">
+				<label><?php _e( 'Sale End Date', 'lifterlms' ); ?></label>
+				<input class="llms-access-plan-datepicker" name="_llms_plans[<?php echo $order; ?>][sale_end]" placeholder="MM/DD/YYYY" type="text"<?php echo ($plan && 'yes' === $on_sale ) ? ' value="' . $plan->get_date( 'sale_end', 'm/d/Y' ) . '"' : ' disabled="disabled"'; ?>>
+			</div>
 		</div>
 
 		<div class="clear"></div>
