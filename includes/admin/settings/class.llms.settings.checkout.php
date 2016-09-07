@@ -37,6 +37,11 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			$currency_code_options[ $code ] = $name . ' (' . get_lifterlms_currency_symbol( $code ) . ')';
 		}
 
+		$country_options = get_lifterlms_countries();
+		foreach ( $country_options as $code => $name ) {
+			$country_options[ $code ] = $name . ' (' . $code .')';
+		}
+
 		$settings = array(
 
 			array( 'type' => 'sectionstart', 'id' => 'course_archive_options', 'class' => 'top' ),
@@ -49,8 +54,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'id' 		=> 'lifterlms_checkout_page_id',
 				'type' 		=> 'single_select_page',
 				'default'	=> '',
-				'class'		=> 'chosen_select_nostd',
+				'class'		=> 'llms-select2',
 				'desc_tip'	=> __( 'This sets the base page of the checkout page', 'lifterlms' ),
+				'custom_attributes' => array(
+					'data-post-type' => 'page',
+				),
+				'options' => llms_make_select2_post_array( get_option( 'lifterlms_checkout_page_id', '' ) ),
 			),
 
 			array(
@@ -69,6 +78,18 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array( 'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
 
 			array(
+				'class'     => 'llms-select2',
+				'title' 	=> __( 'Country', 'lifterlms' ),
+				'desc'      => '<br>' . __( 'Select the country LifterLMS should use as the default during transactions and registrations.', 'lifterlms' ),
+				'id' 		=> 'lifterlms_country',
+				'default'	=> 'US',
+				'type' 		=> 'select',
+				'desc_tip'	=> false,
+				'options'   => $country_options,
+			),
+
+			array(
+				'class'     => 'llms-select2',
 				'title' 	=> __( 'Currency', 'lifterlms' ),
 				'desc'      => '<br>' . __( 'Select the currency LifterLMS should use to display prices and process transactions.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_currency',

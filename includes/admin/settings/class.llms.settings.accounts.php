@@ -38,13 +38,21 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 		return apply_filters( 'lifterlms_' . $this->id . '_settings', array(
 
-			array( 'type' => 'sectionstart', 'id' => 'course_account_options', 'class' => 'top' ),
-
-			array( 'title' => __( 'Account Settings', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'Customize your users account and sign up experience.', 'lifterlms' ), 'id' => 'account_page_options' ),
+			array(
+				'class' => 'top',
+				'id' => 'course_account_options',
+				'type' => 'sectionstart',
+			),
 
 			array(
-				'title' => __( 'Account Access Page', 'lifterlms' ),
-				'desc' 		=> '<br>' . __( 'Page used for login / my account access. You can also place this shortcode on any page: ', 'lifterlms' ) . ' [' . apply_filters( 'lifterlms_my_account_shortcode_tag', 'lifterlms_my_account' ) . ']',
+				'id' => 'account_page_options',
+				'title' => __( 'Account Dashboard', 'lifterlms' ),
+				'type' => 'title',
+			),
+
+			array(
+				'title' => __( 'Dashboard Page', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Page where students can view and manage their current enrollments, earned certificates and acheivements, account information, and purchase history.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_page_id',
 				'default'	=> '',
 				'class'		=> 'chosen_select_nostd',
@@ -57,33 +65,18 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'options' => llms_make_select2_post_array( get_option( 'lifterlms_myaccount_page_id', '' ) ),
 			),
 
-			array(
-				'desc'          => __( 'Display Student Memberships on Account Page', 'lifterlms' ),
-				'id'            => 'lifterlms_enable_myaccount_memberships_list',
-				'default'       => 'yes',
-				'type'          => 'checkbox',
-				'checkboxgroup' => 'start',
-				'autoload'      => false,
-			),
-
-			array( 'type' => 'sectionend', 'id' => 'course_account_options' ),
-
-			array( 'type' => 'sectionstart', 'id' => 'account_page_options' ),
-
-			array( 'title' => __( 'Account Page Slugs', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'These slugs represent different actions in the user account.', 'lifterlms' ), 'id' => 'account_endpoint_options' ),
-
-			array(
-				'title' => __( 'Dashboard', 'lifterlms' ),
-				'desc' 		=> __( 'Account Dashboard and Overview', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_my_courses_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'my-account',
-				'desc_tip'	=> true,
-			),
+			// array(
+			// 	'title' => __( 'Dashboard', 'lifterlms' ),
+			// 	'desc' 		=> __( 'Account Dashboard and Overview', 'lifterlms' ),
+			// 	'id' 		=> 'lifterlms_myaccount_my_courses_endpoint',
+			// 	'type' 		=> 'text',
+			// 	'default'	=> 'my-account',
+			// 	'desc_tip'	=> true,
+			// ),
 
 			array(
 				'title' => __( 'View Courses', 'lifterlms' ),
-				'desc' 		=> __( 'Purchased courses page', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'List of all the student\'s courses', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_courses_endpoint',
 				'type' 		=> 'text',
 				'default'	=> 'my-courses',
@@ -91,8 +84,8 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			array(
-				'title' => __( 'Edit Account Info', 'lifterlms' ),
-				'desc' 		=> __( 'Edit Account page', 'lifterlms' ),
+				'title' => __( 'Edit Account', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Edit Account page', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_edit_account_endpoint',
 				'type' 		=> 'text',
 				'default'	=> 'edit-account',
@@ -101,7 +94,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Lost Password', 'lifterlms' ),
-				'desc' 		=> __( 'Lost Password page', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Lost Password page', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_lost_password_endpoint',
 				'type' 		=> 'text',
 				'default'	=> 'lost-password',
@@ -110,7 +103,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Redeem Vouchers', 'lifterlms' ),
-				'desc' 		=> __( 'Redeem vouchers page', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Redeem vouchers page', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_redeem_vouchers_endpoint',
 				'type' 		=> 'text',
 				'default'	=> 'redeem-voucher',
@@ -118,16 +111,19 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			// @todo this doesn't do anything...
-			array(
-				'title' => __( 'Logout', 'lifterlms' ),
-				'desc' 		=> __( 'Custom Link: yoursite.com/?person-logout=true', 'lifterlms' ),
-				'id' 		=> 'lifterlms_logout_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'logout',
-				'desc_tip'	=> true,
-			),
+			// array(
+			// 	'title' => __( 'Logout', 'lifterlms' ),
+			// 	'desc' 		=> __( 'Custom Link: yoursite.com/?person-logout=true', 'lifterlms' ),
+			// 	'id' 		=> 'lifterlms_logout_endpoint',
+			// 	'type' 		=> 'text',
+			// 	'default'	=> 'logout',
+			// 	'desc_tip'	=> true,
+			// ),
 
-			array( 'type' => 'sectionend', 'id' => 'account_page_options' ),
+			array(
+				'id' => 'course_account_options',
+				'type' => 'sectionend',
+			),
 
 			// start user info fields options
 			array(

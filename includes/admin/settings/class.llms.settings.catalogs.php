@@ -108,7 +108,7 @@ class LLMS_Settings_Catalogs extends LLMS_Settings_Page {
 					'data-placeholder' => __( 'Select a page', 'lifterlms' ),
 				),
 				'default'	=> '',
-				'desc' => '<br/>' . __( 'Page used for displaying memberships.', 'lifterlms' ),
+				'desc' => '<br/>' . __( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ),
 				'id' => 'lifterlms_memberships_page_id',
 				'options' => llms_make_select2_post_array( get_option( 'lifterlms_memberships_page_id', '' ) ),
 				'title' => __( 'Memberships Page', 'lifterlms' ),
@@ -139,8 +139,9 @@ class LLMS_Settings_Catalogs extends LLMS_Settings_Page {
 
 			),
 
+			// @todo this setting doesn't belong here
 			array(
-				'class'		=> 'llms-select2-post',
+				'class' => 'llms-select2-post',
 				'custom_attributes' => array(
 					'data-allow-clear' => true,
 					'data-post-type' => 'llms_membership',
