@@ -26,6 +26,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	protected $db_post_type = 'course';
 	protected $model_post_type = 'course';
 
+
 	/**
 	 * Get a property's data type for scrubbing
 	 * used by $this->scrub() to determine how to scrub the property
@@ -456,17 +457,6 @@ class LLMS_Course extends LLMS_Post_Model {
 	 */
 	public function get_permalink() {
 		return get_permalink( $this->get_id() );
-	}
-
-
-	public function get_purchase_button_text() {
-
-		return get_option( 'lifterlms_button_purchase_course_custom_text', 'Take This Course' );
-	}
-
-	public function get_purchase_membership_button_text() {
-
-		return get_option( 'lifterlms_button_purchase_membership_custom_text', 'Become a Member' );
 	}
 
 	public function get_children_sections() {

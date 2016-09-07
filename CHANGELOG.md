@@ -1,5 +1,11 @@
 == Changelog =
 
+= v3.0.0-beta.5 - 2016/09/?? =
+-------------------------------
+
++ deprecated functions and options for "Course Purchase Button Text" and "Membership Signup Button Text"
+
+
 = v3.0.0-beta.4 - 2016/09/01 =
 -------------------------------
 

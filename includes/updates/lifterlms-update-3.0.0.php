@@ -22,6 +22,8 @@ delete_option( 'lifterlms_is_activated' );
 delete_option( 'lifterlms_update_key' );
 delete_option( 'lifterlms_authkey' );
 delete_option( 'lifterlms_activation_key' );
+delete_option( 'lifterlms_button_purchase_course_custom_text' );
+delete_option( 'lifterlms_button_purchase_membership_custom_text' );
 
 /**
  * Run Install files which were added in 3.0.0

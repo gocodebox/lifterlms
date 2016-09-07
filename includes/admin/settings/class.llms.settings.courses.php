@@ -41,8 +41,8 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 			array( 'title' => __( 'Archive Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Customize your courses for a unique user experience.', 'id' => 'course_options' ),
 
 			array(
-				'title' => __( 'Courses Page', 'lifterlms' ),
-				'desc' 		=> '<br/>' . __( 'Page used for displaying courses.', 'lifterlms' ),
+				'title' => __( 'Course Catalog', 'lifterlms' ),
+				'desc' 		=> '<br/>' . sprintf( __( 'This page is where your visitors will find a list of all your available courses. %sMore information%s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-catalog/" target="_blank">', '</a>' ),
 				'id' 		=> 'lifterlms_shop_page_id',
 				'type' 		=> 'select',
 				'class'		=> 'llms-select2-post',
@@ -71,7 +71,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'title,DESC' => __( 'Title (Z - A)', 'lifterlms' ),
 					'date,DESC' => __( 'Most Recent', 'lifterlms' ),
 				),
-				'title' => __( 'Courses Sorting', 'lifterlms' ),
+				'title' => __( 'Catalog Sorting', 'lifterlms' ),
 				'type' => 'select',
 
 			),
@@ -81,24 +81,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 			array( 'type' => 'sectionstart', 'id' => 'course_display_options' ),
 
 			array( 'title' => __( 'Display Settings', 'lifterlms' ), 'type' => 'title', 'id' => 'course_options' ),
-
-			array(
-				'title' => __( 'Course Purchase Button Text', 'lifterlms' ),
-				'desc' 		=> '<br/>' . __( 'Enter custom text to display on the Course Purchase Button.', 'lifterlms' ),
-				'id' 		=> 'lifterlms_button_purchase_course_custom_text',
-				'type' 		=> 'text',
-				'default'	=> 'Take This Course',
-				'css' 		=> 'min-width:200px;',
-			),
-
-			array(
-				'title' => __( 'Membership Signup Button Text', 'lifterlms' ),
-				'desc' 		=> '<br/>' . __( 'Enter custom text to display on Membership sign up button (displays on course page).', 'lifterlms' ),
-				'id' 		=> 'lifterlms_button_purchase_membership_custom_text',
-				'type' 		=> 'text',
-				'default'	=> 'Become a Member',
-				'css' 		=> 'min-width:200px;',
-			),
 
 			array(
 				'title'         => __( 'Course Display', 'lifterlms' ),
