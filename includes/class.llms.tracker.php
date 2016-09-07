@@ -10,7 +10,7 @@ class LLMS_Tracker {
 	/**
 	 * URL endpoint where we'll receive the data
 	 */
-	const API_URL = 'https://lifterlms.com.dev/llms-api/tracking';
+	const API_URL = 'https://lifterlms.com/llms-api/tracking';
 
 	public static function init() {
 		add_action( 'llms_send_tracking_data', array( __CLASS__, 'send_data' ) );
@@ -54,9 +54,8 @@ class LLMS_Tracker {
 		// record a last send time
 		update_option( 'llms_tracker_last_send_time', time() );
 
-		// wp_safe_remote_post( self::API_URL, array(
 		$r = wp_remote_post( self::API_URL, array(
-			'sslverify'   => false,
+			// 'sslverify'   => false,
 			'body'        => array( 'data' => json_encode( LLMS_Data::get_data( 'tracker' ) ) ),
 			'cookies'     => array(),
 			'headers'     => array(
