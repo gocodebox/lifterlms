@@ -20,8 +20,6 @@ class LLMS_Shortcode_Checkout {
 	*/
 	public static function get( $atts ) {
 
-		$atts['cols'] = isset( $atts['cols'] ) ? $atts['cols'] : 1;
-
 		return LLMS_Shortcodes::shortcode_wrapper( array( __CLASS__, 'output' ), $atts );
 
 	}
@@ -35,6 +33,8 @@ class LLMS_Shortcode_Checkout {
 	public static function output( $atts ) {
 
 		global $wp;
+
+		$atts['cols'] = isset( $atts['cols'] ) ? $atts['cols'] : 2;
 
 		self::$uid = get_current_user_id();
 
