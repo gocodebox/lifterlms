@@ -22,8 +22,27 @@ delete_option( 'lifterlms_is_activated' );
 delete_option( 'lifterlms_update_key' );
 delete_option( 'lifterlms_authkey' );
 delete_option( 'lifterlms_activation_key' );
-delete_option( 'lifterlms_button_purchase_course_custom_text' );
+
+/**
+ * Delete course and memberhip display & related options
+ * these are now filters or can be handled with action hooks
+ * moving forward
+ */
 delete_option( 'lifterlms_button_purchase_membership_custom_text' );
+delete_option( 'lifterlms_course_display_outline_lesson_thumbnails' );
+delete_option( 'lifterlms_course_display_author' );
+delete_option( 'lifterlms_course_display_banner' );
+delete_option( 'lifterlms_course_display_difficulty' );
+delete_option( 'lifterlms_course_display_length' );
+delete_option( 'lifterlms_course_display_categories' );
+delete_option( 'lifterlms_course_display_tags' );
+delete_option( 'lifterlms_course_display_tracks' );
+delete_option( 'lifterlms_lesson_nav_display_excerpt' );
+delete_option( 'lifterlms_course_display_outline' );
+delete_option( 'lifterlms_course_display_outline_titles' );
+delete_option( 'lifterlms_course_display_outline_lesson_thumbnails' );
+delete_option( 'lifterlms_display_lesson_complete_placeholders' );
+delete_option( 'redirect_to_checkout' );
 
 /**
  * Run Install files which were added in 3.0.0

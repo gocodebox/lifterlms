@@ -111,7 +111,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		if ( $this->is_complete() ) {
 			$classes = ' is-complete has-icon';
-		} elseif ( 'yes' === get_option( 'lifterlms_display_lesson_complete_placeholders' ) && llms_is_user_enrolled( get_current_user_id(), $this->get( 'id' ) ) ) {
+		} elseif ( apply_filters( 'lifterlms_display_lesson_complete_placeholders', true ) && llms_is_user_enrolled( get_current_user_id(), $this->get( 'id' ) ) ) {
 			$classes = ' is-incomplete has-icon';
 		} elseif ( $this->is_free() ) {
 			$classes = ' is-free has-icon';
@@ -134,7 +134,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		if ( llms_is_user_enrolled( get_current_user_id(), $this->get( 'id' ) ) ) {
 
-			if ( $this->is_complete( ) || 'yes' === get_option( 'lifterlms_display_lesson_complete_placeholders' ) ) {
+			if ( $this->is_complete() || apply_filters( 'lifterlms_display_lesson_complete_placeholders', true ) ) {
 
 				$html = '<span class="llms-lesson-complete"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
 
@@ -804,7 +804,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 				}
 
-			} elseif ( ! $prevent_autoadvance && get_option( 'lifterlms_autoadvance', false ) == 'yes' ) {
+			} elseif ( ! $prevent_autoadvance && apply_filters( 'lifterlms_autoadvance', true ) ) {
 
 				$next_lesson_id = $this->get_next_lesson();
 				if ( $next_lesson_id ) {

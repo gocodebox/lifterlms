@@ -3,7 +3,26 @@
 = v3.0.0-beta.5 - 2016/09/?? =
 -------------------------------
 
-+ deprecated functions and options for "Course Purchase Button Text" and "Membership Signup Button Text"
+Deprecated options (and related functons where applicaple) for the following course & membership options:
+
+  + `lifterlms_button_purchase_membership_custom_text`
+  + `lifterlms_course_display_outline_lesson_thumbnails`
+  + `lifterlms_course_display_author`
+  + `lifterlms_course_display_banner`
+  + `lifterlms_course_display_difficulty`
+  + `lifterlms_course_display_length`
+  + `lifterlms_course_display_categories`
+  + `lifterlms_course_display_tags`
+  + `lifterlms_course_display_tracks`
+  + `lifterlms_lesson_nav_display_excerpt`
+  + `lifterlms_course_display_outline`
+  + `lifterlms_course_display_outline_titles`
+  + `lifterlms_course_display_outline_lesson_thumbnails`
+  + `lifterlms_display_lesson_complete_placeholders`
+  + `redirect_to_checkout`
+
+In all scenarions either a `add_filter` (returning false) or a `remove_action()` can be used to replicate the option.
+
 
 
 = v3.0.0-beta.4 - 2016/09/01 =

@@ -10,15 +10,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-// cease execution if the course outline is disabled
-if ( get_option( 'lifterlms_course_display_outline' ) === 'no' ) {
-	return;
-}
-
 global $post, $course;
-
-// get options
-$display_titles = get_option( 'lifterlms_course_display_outline_titles', 'yes' );
 
 // retrieve sections to use in the template
 $sections = $course->get_children_sections();
@@ -36,7 +28,7 @@ $sections = $course->get_children_sections();
 
 		<?php foreach ( $sections as $s ) : $section = new LLMS_Section( $s->ID ); ?>
 
-			<?php if ( 'yes' === $display_titles ) : ?>
+			<?php if ( apply_filters( 'llms_display_outline_section_titles', true ) ) : ?>
 				<h3 class="llms-h3 llms-section-title"><?php echo get_the_title( $s->ID ); ?></h3>
 			<?php endif; ?>
 

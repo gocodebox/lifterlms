@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 		<?php if ( 'course' === get_post_type( get_the_ID() ) ): ?>
 
-			<?php  if ( 'yes' === get_option( 'lifterlms_course_display_outline_lesson_thumbnails', 'no' ) && $thumb = get_the_post_thumbnail( $lesson->get( 'id' ) ) ) : ?>
+			<?php  if ( apply_filters( 'llms_display_outline_thumbnails', true )  && $thumb = get_the_post_thumbnail( $lesson->get( 'id' ) ) ) : ?>
 				<div class="llms-lesson-thumbnail"><?php echo $thumb; ?></div>
 			<?php endif; ?>
 
