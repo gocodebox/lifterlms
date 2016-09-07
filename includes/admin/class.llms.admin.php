@@ -30,10 +30,17 @@ class LLMS_Admin {
 	*/
 	public function include_admin_classes() {
 
+		require_once 'llms.functions.admin.php';
 		include_once( 'class.llms.admin.menus.php' );
 		include_once( 'class.llms.admin.post-types.php' );
 		include_once( 'class.llms.admin.assets.php' );
 		include_once( 'post-types/class.llms.post.tables.php' );
+
+		if ( ! empty( $_GET['page'] ) && 'llms-setup' === $_GET['page'] ) {
+
+			require_once 'class.llms.admin.setup.wizard.php';
+
+		}
 
 	}
 
