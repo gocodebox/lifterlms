@@ -140,7 +140,7 @@ gulp.task( 'process-frontend-certificates-styles', function () {
  */
 gulp.task( 'process-admin-styles', function () {
 
-	return sass( '_private/scss/admin.scss', {
+	return sass( '_private/scss/admin*.scss', {
 		cacheLocation: '_private/scss/.sass-cache',
 		style: 'expanded'
 		})

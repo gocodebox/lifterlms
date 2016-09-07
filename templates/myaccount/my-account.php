@@ -34,10 +34,6 @@ llms_print_notices();
 
 <?php llms_get_template( 'myaccount/my-achievements.php' ); ?>
 
-<?php if ( get_option( 'lifterlms_enable_myaccount_memberships_list', 'no' ) === 'yes' ) : ?>
-
-	<?php llms_get_template( 'myaccount/my-memberships.php' ); ?>
-
-<?php endif; ?>
+<?php llms_get_template( 'myaccount/my-memberships.php' ); ?>
 
 <?php do_action( 'lifterlms_after_my_account' ); ?>
