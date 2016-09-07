@@ -1,7 +1,14 @@
 == Changelog =
 
-= v3.0.0-beta.5 - 2016/09/?? =
+= v3.0.0-beta.5 - 2016/09/07 =
 -------------------------------
+
++ A bunch of settings pages updated and a bunch of settings deprecated
++ Gateways setting page removed
++ Memberships & Courses page combined into "Catalogs" settings
++ Added a data getting class used by the tracker class
++ added a new page creation function witn better intelligence that (hopefully) prevents duplicate pages from being created during core page installation
++ new default country setting
 
 Deprecated options (and related functons where applicaple) for the following course & membership options:
 
@@ -22,7 +29,6 @@ Deprecated options (and related functons where applicaple) for the following cou
   + `redirect_to_checkout`
 
 In all scenarions either a `add_filter` (returning false) or a `remove_action()` can be used to replicate the option.
-
 
 
 = v3.0.0-beta.4 - 2016/09/01 =
