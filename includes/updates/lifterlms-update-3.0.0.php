@@ -14,6 +14,9 @@ global $wpdb;
 
 $r = 'success';
 
+// we want everyone to see the first time run again upgrading even if they've already seen it
+// update_option( 'lifterlms_first_time_setup', 'no' );
+
 /**
  * Delete legacy options related to LifterLMS updating
  * prior to 2.0 release. this is long overdue

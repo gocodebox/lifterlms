@@ -118,7 +118,7 @@ class LLMS_Admin_Assets {
 		wp_register_script( 'llms-metaboxes',  plugins_url( '/assets/js/llms-metaboxes' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-datepicker' ), '', true );
 		wp_register_script( 'llms-select2', plugins_url( '/assets/select2/js/select2' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
-		if ( post_type_exists( $screen->id ) && post_type_supports( $screen->id, 'llms-membership-restrictions' ) ) {
+		if ( ( post_type_exists( $screen->id ) && post_type_supports( $screen->id, 'llms-membership-restrictions' ) ) || 'dashboard_page_llms-setup' === $screen->id ) {
 
 			wp_enqueue_script( 'llms-select2' );
 			wp_enqueue_script( 'llms-metaboxes' );

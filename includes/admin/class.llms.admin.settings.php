@@ -45,11 +45,9 @@ class LLMS_Admin_Settings {
 			include_once( 'settings/class.llms.settings.page.php' );
 
 			$settings[] = include( 'settings/class.llms.settings.general.php' );
-			$settings[] = include( 'settings/class.llms.settings.courses.php' );
-			$settings[] = include( 'settings/class.llms.settings.membership.php' );
+			$settings[] = include( 'settings/class.llms.settings.catalogs.php' );
 			$settings[] = include( 'settings/class.llms.settings.accounts.php' );
 			$settings[] = include( 'settings/class.llms.settings.checkout.php' );
-			$settings[] = include( 'settings/class.llms.settings.gateways.php' );
 			$settings[] = include( 'settings/class.llms.settings.engagements.php' );
 			$settings[] = include( 'settings/class.llms.settings.integrations.php' );
 
@@ -247,6 +245,12 @@ class LLMS_Admin_Settings {
 				}
 			break;
 
+			case 'custom-html-no-wrap':
+				if ( ! empty( $field['value'] ) ) {
+				    echo $field['value'];
+				}
+			break;
+
 			case 'sectionstart':
 				if ( ! empty( $field['id'] ) ) {
 
@@ -279,6 +283,9 @@ class LLMS_Admin_Settings {
 			break;
 
 			case 'button':
+
+				$name = isset( $field['name'] ) ? $field['name'] : 'save';
+
 				echo '<tr valign="top"><th>
             		<label for="' . esc_attr( $field['id'] ) . '">' . esc_html( $field['title'] ) . '</label>
 						' . $tooltip . '
@@ -286,7 +293,8 @@ class LLMS_Admin_Settings {
 
 				echo '<td class="forminp forminp-' . sanitize_title( $field['type'] ) . '">';
 				echo '<div id="llms-form-wrapper">';
-				echo '<input name="save" class="button-primary" type="submit" value="' . esc_attr( $field['value'] ) . '" />';
+				echo $description . '<br><br>';
+				echo '<input name="' .  $name . '" class="button-primary" type="submit" value="' . esc_attr( $field['value'] ) . '" />';
 				echo '</div>';
 				echo '</td></tr>';
 				//get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
