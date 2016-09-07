@@ -42,6 +42,24 @@ class LLMS_Install {
 	}
 
 	/**
+	 * Create LifterLMS cron jobs
+	 * @return  void
+	 * @since   1.0.0
+	 * @version 3.0.0
+	 */
+	public function cron() {
+
+		if ( ! wp_next_scheduled( 'lifterlms_cleanup_sessions' )) {
+			wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
+		}
+
+		if ( ! wp_next_scheduled( 'llms_send_tracking_data' )) {
+			wp_schedule_event( time(), apply_filters( 'llms_tracker_schedule_interval', 'daily' ), 'llms_send_tracking_data' );
+		}
+
+	}
+
+	/**
 	 * custom error notice ~ this needs to be moved to it's own class / factory
 	 * @return string [error message]
 	 */
@@ -56,10 +74,9 @@ class LLMS_Install {
 
 	/**
 	 * Check available database updates and run them if db is less than the update version
-	 *
 	 * @return void
-	 *
 	 * @since  3.0.0
+	 * @version  3.0.0
 	 */
 	public function db_updates() {
 
@@ -94,40 +111,24 @@ class LLMS_Install {
 	 * @since  3.0.0
 	 */
 	private function update_db_version( $version = null ) {
-		delete_option( 'lifterlms_db_version' );
-		add_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
+		update_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
 	}
 
 
-
+	/**
+	 * Redirects users to the setup wizard
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.0.0
+	 */
 	public function first_time_setup() {
-		if ( ! get_option( 'lifterlms_first_time_setup' ) ) {
 
-			add_action( 'admin_notices', array( $this, 'welcome_message' ) );
+		if ( 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
+
+			wp_redirect( admin_url() . '?page=llms-setup' );
+			exit;
 
 		}
-	}
-
-	public function welcome_message() {
-		global $current_screen;
-
-	 	if ( $current_screen->base !== 'lifterlms_page_llms-settings' ) {
-
-		 	echo '<div id="welcome-panel" class="welcome-panel">
-         	<div class="welcome-panel-content">
-					<h3>Welcome to LifterLMS!</h3>
-					<p class="about-description">Before you start building your course check out our
-					<a href="' . get_admin_url() . '/admin.php?page=llms-settings' . '">Quick Setup Guide</a></p>
-
-					<form method="post" id="llms-skip-setup-form">
-					<input type="hidden" name="action" value="llms-skip-setup" />
-					' . wp_nonce_field( 'llms_skip_setup', '_wpnonce', true, false ) . '
-					<p><input type="submit" class="llms-admin-link" name="llms-skip-setup" value="No thanks, I know what I\'m doing" /></p>
-					</form>
-				</div>
-				</div>';
-
-	 	}
 	}
 
 	/**
@@ -137,6 +138,7 @@ class LLMS_Install {
 		if ( version_compare( get_bloginfo( 'version' ), $this->min_wp_version, '<' ) ) {
 
 			add_action( 'admin_notices', array( $this, 'custom_error_notice' ) );
+
 		}
 	}
 
@@ -267,6 +269,7 @@ class LLMS_Install {
 		$this->register_post_types();
 		$this->cron();
 		flush_rewrite_rules();
+
 	}
 
 	/**
@@ -291,65 +294,69 @@ class LLMS_Install {
 
 	/**
 	 * Install Settings
-	 * Only fires once.
-	 *
-	 * Creates posts and pages used by lifterLMS
-	 *
 	 * @return void
+	 * @since  1.0.0
+	 * @version 3.0.0
 	 */
 	public function install_settings() {
-		$installation_complete = get_option( 'lifterlms_settings_installed', 'no' ) === 'yes' ? true : false;
-		if ( ! $installation_complete ) {
+
+		if ( 'no' === get_option( 'lifterlms_settings_installed', 'no' ) ) {
+
 			self::create_pages();
-			self::create_posts();
+			// self::create_posts();
 			self::create_files();
 			update_option( 'lifterlms_settings_installed', 'yes' );
+
 		}
+
+		$this->cron();
+
 	}
 
 	/**
-	 * Create starter pages
-	 *
-	 * TODO: This could be refactored to loop through and gen the pages.
+	 * Create essential starter pages
+	 * @return   boolean    false on error, true on success
+	 * @since    1.0.0
+	 * @version  3.0.0
 	 */
 	public static function create_pages() {
-		$membership_page = apply_filters( 'lifterlms_new_page', array(
-			'post_type' 	=> 'page',
-			'post_title' 	=> 'Memberships',
-			'post_author' 	=> 1,
-			'post_status'   => 'publish',
-			'post_content'  => '',
+		$pages = apply_filters( 'llms_install_create_pages', array(
+			array(
+				'content' => '',
+				'option' => 'lifterlms_shop_page_id',
+				'slug' => 'courses',
+				'title' => __( 'Course Catalog', 'lifterlms' ),
+			),
+			array(
+				'content' => '',
+				'option' => 'lifterlms_memberships_page_id',
+				'slug' => 'memberships',
+				'title' => __( 'Membership Catalog', 'lifterlms' ),
+			),
+			array(
+				'content' => '[lifterlms_checkout]',
+				'option' => 'lifterlms_checkout_page_id',
+				'slug' => 'purchase',
+				'title' => __( 'Purchase', 'lifterlms' ),
+			),
+			array(
+				'content' => '[lifterlms_my_account]',
+				'option' => 'lifterlms_myaccount_page_id',
+				'slug' => 'my-courses',
+				'title' => __( 'My Courses', 'lifterlms' ),
+			),
 		) );
-		$shop_page = apply_filters( 'lifterlms_new_page', array(
-			'post_type' 	=> 'page',
-			'post_title' 	=> 'Courses',
-			'post_author' 	=> 1,
-			'post_status'   => 'publish',
-			'post_content'  => '',
-		) );
-		$checkout_page = apply_filters( 'lifterlms_new_page', array(
-			'post_type' 	=> 'page',
-			'post_title' 	=> 'Purchase',
-			'post_author' 	=> 1,
-			'post_status'   => 'publish',
-			'post_content'  => '[lifterlms_checkout]',
-		) );
-		$account_page = apply_filters( 'lifterlms_new_page', array(
-			'post_type' 	=> 'page',
-			'post_title' 	=> 'My Courses',
-			'post_author' 	=> 1,
-			'post_status'   => 'publish',
-			'post_content'  => '[lifterlms_my_account]',
-		) );
-		$membership_page_id = wp_insert_post( $membership_page, true );
-		$shop_page_id = wp_insert_post( $shop_page, true );
-		$checkout_page_id = wp_insert_post( $checkout_page, true );
-		$account_page_id = wp_insert_post( $account_page, true );
+		foreach ( $pages as $page ) {
+			if ( ! llms_create_page( $page['slug'], $page['title'], $page['content'], $page['option'] ) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
 	 * create any posts needed by lifterLMS
-	 *
+	 * @todo  fix this...
 	 * @return void
 	 */
 	public function create_posts() {
@@ -566,18 +573,6 @@ class LLMS_Install {
 			}
 			update_option( 'lifterlms_student_role_created', 'yes' );
 		}
-	}
-
-	/**
-	 * Create lifterLMS cron jobs
-	 * @return  void
-	 */
-	public function cron() {
-
-		if ( ! wp_next_scheduled( 'lifterlms_cleanup_sessions' )) {
-				wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
-		}
-
 	}
 
 }
