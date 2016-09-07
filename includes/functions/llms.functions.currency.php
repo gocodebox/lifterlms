@@ -45,7 +45,6 @@ function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
  */
 function get_lifterlms_countries() {
 	return array_unique( apply_filters( 'lifterlms_countries', array(
-		'US' => __( 'United States', 'lifterlms' ),
 		'AF' => __( 'Afghanistan', 'lifterlms' ),
 		'AL' => __( 'Albania', 'lifterlms' ),
 		'DZ' => __( 'Algeria', 'lifterlms' ),
@@ -270,6 +269,7 @@ function get_lifterlms_countries() {
 		'UA' => __( 'Ukraine', 'lifterlms' ),
 		'AE' => __( 'United Arab Emirates', 'lifterlms' ),
 		'GB' => __( 'United Kingdom', 'lifterlms' ),
+		'US' => __( 'United States', 'lifterlms' ),
 		'UM' => __( 'United States Minor Outlying Islands', 'lifterlms' ),
 		'UY' => __( 'Uruguay', 'lifterlms' ),
 		'UZ' => __( 'Uzbekistan', 'lifterlms' ),
@@ -288,11 +288,23 @@ function get_lifterlms_countries() {
 }
 
 /**
+ * Get the default LLMS country
+ * @return   string     country code
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+function get_lifterlms_country() {
+	return apply_filters( 'lifterlms_country', get_option( 'lifterlms_country', 'US' ) );
+}
+
+/**
  * Get the currency selected
- * @return string
+ * @return string      currency code
+ * @since  1.0.0
+ * @version 3.0.0 - added USD default
  */
 function get_lifterlms_currency() {
-	return apply_filters( 'lifterlms_currency', get_option( 'lifterlms_currency' ) );
+	return apply_filters( 'lifterlms_currency', get_option( 'lifterlms_currency', 'USD' ) );
 }
 
 /**
