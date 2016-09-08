@@ -302,7 +302,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'default' 	=> __( 'Enrollment has closed because the maximum number of allowed students has been reached.', 'lifterlms' ),
 						'desc'      => __( 'This message will be displayed to non-enrolled visitors once the Course Capacity has been reached. ', 'lifterlms' ),
 						'id' 		=> $this->prefix . 'capacity_message',
-						'label'		=> __( 'Enrollment Closed Message', 'lifterlms' ),
+						'label'		=> __( 'Capacity Reached Message', 'lifterlms' ),
 						'type'		=> 'text',
 					),
 				),
