@@ -166,7 +166,113 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog =
 
-= v3.0.0-alpha.1 - 2016/08/15 =
+= v3.0.0-beta.6 - 2016/09/08 =
+-------------------------------
+
++ Install & activation overhauls. Resolves [#179](https://github.com/gocodebox/lifterlms/issues/179)
++ jQuery MatchHeight lib unignored
+
+= v3.0.0-beta.5 - 2016/09/07 =
+-------------------------------
+
++ A bunch of settings pages updated and a bunch of settings deprecated
++ Gateways setting page removed
++ Memberships & Courses page combined into "Catalogs" settings
++ Added a data getting class used by the tracker class
++ added a new page creation function witn better intelligence that (hopefully) prevents duplicate pages from being created during core page installation
++ new default country setting
+
+Deprecated options (and related functons where applicaple) for the following course & membership options:
+
+  + `lifterlms_button_purchase_membership_custom_text`
+  + `lifterlms_course_display_outline_lesson_thumbnails`
+  + `lifterlms_course_display_author`
+  + `lifterlms_course_display_banner`
+  + `lifterlms_course_display_difficulty`
+  + `lifterlms_course_display_length`
+  + `lifterlms_course_display_categories`
+  + `lifterlms_course_display_tags`
+  + `lifterlms_course_display_tracks`
+  + `lifterlms_lesson_nav_display_excerpt`
+  + `lifterlms_course_display_outline`
+  + `lifterlms_course_display_outline_titles`
+  + `lifterlms_course_display_outline_lesson_thumbnails`
+  + `lifterlms_display_lesson_complete_placeholders`
+  + `redirect_to_checkout`
+
+In all scenarions either a `add_filter` (returning false) or a `remove_action()` can be used to replicate the option.
+
+
+= v3.0.0-beta.4 - 2016/09/01 =
+-------------------------------
+
++ fix issue with course prereq checks
++ next payment due date visible on order admin view
++ trial end date visible on order admin view
+
+##### Free Access Plans
+
++ "Free" access plans now defined as such based on a checkbox rather than by entering 0 into the price
++ Only single payment access plans can be free (a free recurring payment makes no sense but we can certainly discuss this if you disagree with me)
++ trials are disabled with free plans (because trials only apply to recurring plans)
++ sales are disabled for free access plans
+
+##### Checkout Form JS API
+
++ unified JS checkout handler
++ allows extensions to enqueue validation or pre-submission JS functions that should run prior to checkout form submission
+
+##### Manual Payment Gateway
+
+**NOTE: currently doesn't do anything on the frontend when enabled**
+
++ handles purchase of access plans marked ar FREE & orders that are discounted to 100% via coupons
+
+
+= v3.0.0-beta.3 - 2016/08/29 =
+-------------------------------
+
++ all order status changes recorded as order notes
++ pending orders can be completed after failed payments
++ better handling for gateways with fields
++ JS spinners support multiples via start & stop!
+
+
+= v3.0.0-beta.2 - 2016/08/23 =
+-------------------------------
+
++ Updated (and semi-finished) analytics
++ achievemnt metabox converted
++ minor updates to voucher class
+
+##### Open Enrollment
+
++ Open Enrollment allows users to register on the account dashboard without purchasing a course
++ Voucher settings are available to customize whether vouchers should be optional or required during open registration
++ Better error reporting around voucher usage during enrollment
+
+##### Deprecated Functions
+
++ `llms_get_coupon()`
++ `get_section_id()`
++ `check_course_capacity()`
+
+
+##### Quizzes
+
++ Updated admin metaboxes to use new metabox abstract class
++ display 0 instead of negative attempts on quiz summary
++ updated logic in start button template
+
+##### Emails (for engagements)
+
++ Admin metabox updated to new API
++ Postmeta data migration:
+  + `_email_subject` renamed to `_llms_email_subject`
+  + `_email_heading` renamed to `_llms_email_heading`
+
+
+= v3.0.0-beta.1 - 2016/08/15 =
 -------------------------------
 
 **This is a massive update which _breaks_ backwards compatibility for many LifterLMS features. A database migration is also necessary for upgrading users to reformat certain pieces of information which are being accessed differently in 3.0.0**
@@ -196,7 +302,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 **NOTE: at this release, LifterLMS PayPal is the only payment gateway that will work with this release. We haven't started working on Stripe 4.0.0 which will work with LifterLMS 3.0.0**
 
 + Payment gateways powered by a new abstract gateway class
-+
++ PayPal has been removed from LifterLMS and is available as premium extension
 
 
 ##### Frontend Notices
@@ -319,6 +425,7 @@ Now utilizing a forked version of Select2 to prevent 3.5.x conflicts we've been 
 + Removed `lifterlms_new_person_data` and `lifterlms_new_person_address` filters, replaced with `lifterlms_user_registration_data`
 
 + Removed `LLMS_Person::login_user()` in favor of `LLMS_Person_Handler::login()`
+
 
 = v2.7.11 - 2016/07/22 =
 ------------------------
