@@ -3,7 +3,7 @@
 * Plugin Name: LifterLMS
 * Plugin URI: https://lifterlms.com/
 * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
-* Version: 3.0.0-beta.5
+* Version: 3.0.0-beta.6
 * Author: Mark Nelson, Thomas Patrick Levy, codeBOX LLC
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.0.0-beta.5';
+	public $version = '3.0.0-beta.6';
 
 	protected static $_instance = null;
 
@@ -86,6 +86,7 @@ final class LifterLMS {
 		$this->session = new LLMS_Session();
 
 		//Hooks
+		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
@@ -170,6 +171,8 @@ final class LifterLMS {
 
 	/**
 	 * Include required core classes
+	 * @since   1.0.0
+	 * @version 3.0.0
 	 */
 	private function includes() {
 
@@ -181,10 +184,18 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 
+			require_once 'includes/admin/llms.functions.admin.php';
+			include_once 'includes/admin/class.llms.admin.menus.php';
+			include_once 'includes/admin/class.llms.admin.post-types.php';
+			include_once 'includes/admin/class.llms.admin.assets.php';
+			include_once 'includes/admin/post-types/class.llms.post.tables.php';
+			if ( ! empty( $_GET['page'] ) && 'llms-setup' === $_GET['page'] ) {
+				require_once 'includes/admin/class.llms.admin.setup.wizard.php';
+			}
+
 			include_once( 'includes/admin/analytics/widgets/class.llms.analytics.widget.ajax.php' );
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php' );
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php' );
-			include_once( 'includes/admin/class.llms.admin.php' );
 			include_once( 'includes/class.llms.analytics.php' );
 			include_once( 'includes/admin/class.llms.admin.reviews.php' );
 			require 'includes/abstracts/abstract.llms.admin.metabox.php';
@@ -252,24 +263,19 @@ final class LifterLMS {
 		$this->course_factory = new LLMS_Course_Factory();
 
 		if ( ! is_admin() ) {
-			$this->frontend_includes();
+
+			include_once( 'includes/class.llms.template.loader.php' );
+			include_once( 'includes/class.llms.frontend.assets.php' );
+			include_once( 'includes/class.llms.frontend.forms.php' );
+			include_once( 'includes/class.llms.frontend.password.php' );
+			include_once( 'includes/class.llms.person.php' );
+			include_once( 'includes/class.llms.shortcodes.php' );
+
+			include_once( 'includes/shortcodes/class.llms.shortcode.my.account.php' );
+			include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
+
 		}
 
-	}
-
-	/**
-	 * Include required frontend classes.
-	 */
-	public function frontend_includes() {
-		include_once( 'includes/class.llms.template.loader.php' );
-		include_once( 'includes/class.llms.frontend.assets.php' );
-		include_once( 'includes/class.llms.frontend.forms.php' );
-		include_once( 'includes/class.llms.frontend.password.php' );
-		include_once( 'includes/class.llms.person.php' );
-		include_once( 'includes/class.llms.shortcodes.php' );
-
-		include_once( 'includes/shortcodes/class.llms.shortcode.my.account.php' );
-		include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
 	}
 
 	/**

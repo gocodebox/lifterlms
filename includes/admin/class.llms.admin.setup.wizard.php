@@ -18,14 +18,12 @@ class LLMS_Admin_Setup_Wizard {
 	 */
 	public function __construct() {
 
-		if ( apply_filters( 'llms_enable_setup_wizard', true ) && current_user_can( apply_filters( 'llms_setup_wizard_access', 'manage_options' ) ) ) {
+		if ( apply_filters( 'llms_enable_setup_wizard', true ) ) {
 
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'admin_init', array( $this, 'save' ) );
         	add_action( 'admin_print_footer_scripts', array( $this, 'scripts' ) );
-
-			wp_register_style( 'llms-admin-setup', plugins_url( '/assets/css/admin-setup.min.css', LLMS_PLUGIN_FILE ), array(), LLMS()->version, 'all' );
-        	wp_enqueue_style( 'llms-admin-setup' );
 
 		}
 
@@ -39,10 +37,15 @@ class LLMS_Admin_Setup_Wizard {
 	 */
 	public function admin_menu() {
 
-		add_dashboard_page( '', '', current_user_can( apply_filters( 'llms_setup_wizard_access', 'manage_options' ) ), 'llms-setup', array( $this, 'output' ) );
+		add_dashboard_page( '', '', apply_filters( 'llms_setup_wizard_access', 'install_plugins' ), 'llms-setup', array( $this, 'output' ) );
 
 		update_option( 'lifterlms_first_time_setup', 'yes' );
 
+	}
+
+	public function enqueue() {
+		wp_register_style( 'llms-admin-setup', plugins_url( '/assets/css/admin-setup.min.css', LLMS_PLUGIN_FILE ), array(), LLMS()->version, 'all' );
+		wp_enqueue_style( 'llms-admin-setup' );
 	}
 
 	/**

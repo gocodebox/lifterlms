@@ -27,6 +27,11 @@ delete_option( 'lifterlms_authkey' );
 delete_option( 'lifterlms_activation_key' );
 
 /**
+ * Legacy option no longer needed
+ */
+delete_option( 'lifterlms_student_role_created' );
+
+/**
  * Delete course and memberhip display & related options
  * these are now filters or can be handled with action hooks
  * moving forward

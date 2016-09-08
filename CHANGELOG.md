@@ -1,5 +1,11 @@
 == Changelog =
 
+= v3.0.0-beta.6 - 2016/09/08 =
+-------------------------------
+
++ Install & activation overhauls. Resolves [#179](https://github.com/gocodebox/lifterlms/issues/179)
+
+
 = v3.0.0-beta.5 - 2016/09/07 =
 -------------------------------
 
