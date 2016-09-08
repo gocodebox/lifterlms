@@ -68,7 +68,9 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 
 /**
  * Retrieve the WordPress Page ID of a LifterLMS Page
- * EG: 'checkout', 'memberships', etc...
+ *
+ * core pages: myaccount, checkout, memberships, courses
+ *
  * @param  string $page name of the page
  * @return int
  */
