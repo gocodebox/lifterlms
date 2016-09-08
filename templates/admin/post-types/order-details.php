@@ -6,9 +6,6 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
-
-var_dump( $order->has_trial_ended() );
-
 ?>
 <div class="llms-metabox">
 
