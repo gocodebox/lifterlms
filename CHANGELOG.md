@@ -4,7 +4,7 @@
 -------------------------------
 
 + Install & activation overhauls. Resolves [#179](https://github.com/gocodebox/lifterlms/issues/179)
-
++ jQuery MatchHeight lib unignored
 
 = v3.0.0-beta.5 - 2016/09/07 =
 -------------------------------

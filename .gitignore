@@ -29,4 +29,4 @@ idea/
 
 # Composer
 composer.phar
-vendor/
+vendor/*
