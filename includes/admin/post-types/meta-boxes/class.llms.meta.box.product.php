@@ -80,6 +80,8 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 */
 	public function output() {
 
+		ob_start();
+
 		$gateways = LLMS()->payment_gateways();
 		$product = new LLMS_Product( $this->post );
 
@@ -113,6 +115,10 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 			);
 
 		}
+
+		$html = ob_get_clean();
+
+		echo apply_filters( 'llms_metabox_product_output', $html, $this );
 
 	}
 
