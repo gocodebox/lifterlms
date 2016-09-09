@@ -5,7 +5,7 @@
 
 + Added a "post state" visible on the Pages posts table identifying if the page is saved as a LifterLMS page (EG: Checkout Page)
 + Fixed copy/paste error of duplicate enrollment closed message on course restrictions tab
-
++ Removed WC integration in favor of WC
 
 = v3.0.0-beta.6 - 2016/09/08 =
 -------------------------------
