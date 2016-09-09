@@ -49,14 +49,6 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				'default'	=> 'no',
 				'desc_tip'	=> true,
 			),
-			array(
-				// 'title' => __( 'Enable BuddyPress', 'lifterlms' ),
-				'desc' 		=> __( 'Enable WooCommerce', 'lifterlms' ),
-				'id' 		=> 'lifterlms_woocommerce_enabled',
-				'type' 		=> 'checkbox',
-				'default'	=> 'no',
-				'desc_tip'	=> true,
-			),
 
 			array( 'type' => 'sectionend', 'id' => 'integration_options' ),
 
