@@ -476,7 +476,7 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
 
 	function lifterlms_template_single_parent_course() {
 
-		llms_get_template( 'course/parent_course.php' );
+		llms_get_template( 'course/parent-course.php' );
 	}
 }
 
