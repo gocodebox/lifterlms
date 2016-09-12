@@ -343,8 +343,6 @@ class LLMS_Admin_Settings {
 						<?php echo $tooltip; ?>
 					</th>
 					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
-						<?php echo $description; ?>
-
 						<textarea
 							name="<?php echo esc_attr( $field['id'] ); ?>"
 							id="<?php echo esc_attr( $field['id'] ); ?>"
@@ -352,6 +350,7 @@ class LLMS_Admin_Settings {
 							class="<?php echo esc_attr( $field['class'] ); ?>"
 							<?php echo implode( ' ', $custom_attributes ); ?>
 							><?php echo esc_textarea( $option_value );  ?></textarea>
+						<?php echo $description; ?>
 					</td>
 				</tr><?php
 			break;
@@ -631,7 +630,7 @@ class LLMS_Admin_Settings {
 
 		}
 
-		if ( $description && in_array( $field['type'], array( 'textarea', 'radio' ) ) ) {
+		if ( $description && in_array( $field['type'], array( 'radio' ) ) ) {
 
 			$description = '<p style="margin-top:0">' . wp_kses_post( $description ) . '</p>';
 
