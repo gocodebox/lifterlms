@@ -22,6 +22,8 @@ class LLMS_Query {
 	 */
 	public function __construct() {
 
+		add_action( 'init', array( $this, 'add_endpoints' ) );
+
 		if ( ! is_admin() ) {
 
 			add_filter( 'query_vars', array( $this, 'set_query_vars' ), 0 );
