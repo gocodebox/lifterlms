@@ -435,41 +435,6 @@ class LLMS_Admin_Settings {
 				</tr><?php
 			break;
 
-			// Radio inputs
-			case 'radio' :
-
-				?><tr valign="top">
-					<th>
-						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
-						<?php echo $tooltip; ?>
-					</th>
-					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
-						<fieldset>
-							<?php echo $description; ?>
-							<ul>
-							<?php
-							foreach ( $field['options'] as $key => $val ) {
-								?>
-								<li>
-									<label><input
-										name="<?php echo esc_attr( $field['id'] ); ?>"
-										value="<?php echo $key; ?>"
-										type="radio"
-										style="<?php echo esc_attr( $field['css'] ); ?>"
-										class="<?php echo esc_attr( $field['class'] ); ?>"
-										<?php echo implode( ' ', $custom_attributes ); ?>
-										<?php checked( $key, $option_value ); ?>
-										/> <?php echo $val ?></label>
-		                        	</li>
-		                        	<?php
-							}
-							?>
-							</ul>
-						</fieldset>
-					</td>
-				</tr><?php
-			break;
-
 			// Checkbox input
 			case 'checkbox' :
 
