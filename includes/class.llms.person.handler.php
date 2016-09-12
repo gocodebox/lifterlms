@@ -33,7 +33,7 @@ class LLMS_Person_Handler {
 			return $custom_username;
 		}
 
-		$username = sanitize_user( current( explode( '@', $email ) ) );
+		$username = sanitize_user( current( explode( '@', $email ) ), true );
 		$orig_username = $username;
 		$i = 1;
 		while ( username_exists( $username ) ) {
