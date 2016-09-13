@@ -5,9 +5,8 @@ $person = new LLMS_Person();
 $memberships = $person->get_user_memberships_data( get_current_user_id(), '_status' );
 ?>
 
-<div class="llms-my-memberships">
-
-	<h3><?php echo apply_filters( 'lifterlms_my_memberships_title', __( 'My Memberships', 'lifterlms' ) ); ?></h3>
+<div class="llms-sd-section llms-my-memberships">
+	<h3 class="llms-sd-section-title"><?php echo apply_filters( 'lifterlms_my_memberships_title', __( 'My Memberships', 'lifterlms' ) ); ?></h3>
 
 	<?php do_action( 'lifterlms_before_my_memberships' ); ?>
 

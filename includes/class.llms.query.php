@@ -43,11 +43,8 @@ class LLMS_Query {
 
 		$this->query_vars = array(
 			'confirm-payment' => get_option( 'lifterlms_myaccount_confirm_payment_endpoint', 'confirm-payment' ),
-			'edit-account' => get_option( 'lifterlms_myaccount_edit_account_endpoint', 'edit-account' ),
 			'lost-password' => get_option( 'lifterlms_myaccount_lost_password_endpoint', 'lost-password' ),
 			'person-logout' => get_option( 'lifterlms_logout_endpoint', 'person-logout' ),
-			'redeem-voucher' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint', 'redeem-voucher' ),
-			'my-courses' => get_option( 'lifterlms_myaccount_courses_endpoint', 'my-courses' ),
 		);
 
 	}
@@ -59,7 +56,7 @@ class LLMS_Query {
 	 */
 	public function get_query_vars() {
 
-		return $this->query_vars;
+		return apply_filters( 'llms_get_endpoints', $this->query_vars );
 
 	}
 
@@ -70,7 +67,7 @@ class LLMS_Query {
 	 */
 	public function set_query_vars( $vars ) {
 
-		foreach ( $this->query_vars as $key => $var ) {
+		foreach ( $this->get_query_vars() as $key => $var ) {
 
 			$vars[] = $key; }
 
@@ -86,7 +83,7 @@ class LLMS_Query {
 	public function parse_request() {
 		global $wp;
 
-		foreach ( $this->query_vars as $key => $var ) {
+		foreach ( $this->get_query_vars() as $key => $var ) {
 
 			if ( isset( $_GET[ $var ] ) ) {
 
@@ -106,7 +103,7 @@ class LLMS_Query {
 	 * @param $vars [array of WP query variables available for query]
 	 */
 	public function add_query_vars( $vars ) {
-		foreach ( $this->query_vars as $key => $var ) {
+		foreach ( $this->get_query_vars() as $key => $var ) {
 			$vars[] = $key; }
 
 		return $vars;
@@ -116,7 +113,7 @@ class LLMS_Query {
 	 * Add Query Endpoints
 	 */
 	public function add_endpoints() {
-		foreach ( $this->query_vars as $key => $var ) {
+		foreach ( $this->get_query_vars() as $key => $var ) {
 			add_rewrite_endpoint( $var, EP_PAGES ); }
 	}
 

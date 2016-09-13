@@ -65,15 +65,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'options' => llms_make_select2_post_array( get_option( 'lifterlms_myaccount_page_id', '' ) ),
 			),
 
-			// array(
-			// 	'title' => __( 'Dashboard', 'lifterlms' ),
-			// 	'desc' 		=> __( 'Account Dashboard and Overview', 'lifterlms' ),
-			// 	'id' 		=> 'lifterlms_myaccount_my_courses_endpoint',
-			// 	'type' 		=> 'text',
-			// 	'default'	=> 'my-account',
-			// 	'desc_tip'	=> true,
-			// ),
-
 			array(
 				'title' => __( 'View Courses', 'lifterlms' ),
 				'desc' 		=> '<br>' . __( 'List of all the student\'s courses', 'lifterlms' ),
@@ -109,6 +100,16 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'	=> 'redeem-voucher',
 				'desc_tip'	=> true,
 			),
+
+			array(
+				'title' => __( 'Orders History', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Students can review order history on this page', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_orders_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'orders',
+				'desc_tip'	=> true,
+			),
+
 
 			// @todo this doesn't do anything...
 			// array(

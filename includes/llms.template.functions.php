@@ -1446,20 +1446,6 @@ if ( ! function_exists( 'lifterlms_get_sidebar' ) ) {
 
 
 /**
- * Product Short Description Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_my_account_navigation' ) ) {
-
-	function lifterlms_template_my_account_navigation() {
-		llms_get_template( 'myaccount/my-navigation.php' );
-	}
-}
-
-
-
-
-/**
  * Is LifterLMS check
  * Checks if archive post type is associated with lifterLMS
  * @return [type] [description]
@@ -1792,3 +1778,63 @@ function llms_get_loop_list_classes() {
 	return ' ' . implode( ' ', apply_filters( 'llms_get_loop_list_classes', $classes ) );
 
 }
+
+
+
+
+
+
+
+
+/**
+ * Dashboard Navigation template
+ * @return void
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+if ( ! function_exists( 'lifterlms_template_student_dashboard_navigation' ) ) {
+	function lifterlms_template_student_dashboard_navigation() {
+		llms_get_template( 'myaccount/navigation.php' );
+	}
+}
+
+/**
+ * Dashboard Navigation template
+ * @return void
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+if ( ! function_exists( 'lifterlms_template_student_dashboard_title' ) ) {
+	function lifterlms_template_student_dashboard_title() {
+		$data = LLMS_Student_Dashboard::get_current_tab();
+		$title = isset( $data['title'] ) ? $data['title'] : '';
+		echo apply_filters( 'lifterlms_student_dashboard_title', '<h3 class="llms-sd-title">' . $title . '</h3>' );
+	}
+}
+
+/**
+ * output the student dashboard wrapper opening tags
+ * @return   void
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) :
+	function lifterlms_template_student_dashboard_wrapper_open() {
+		echo '<div class="llms-student-dashboard">';
+	}
+endif;
+
+/**
+ * output the student dashboard wrapper opening tags
+ * @return   void
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_close' ) ) :
+	function lifterlms_template_student_dashboard_wrapper_close() {
+		echo '</div><!-- .llms-student-dashboard -->';
+	}
+endif;
+
+
+

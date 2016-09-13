@@ -9,8 +9,8 @@ $s = new LLMS_Student();
 $certificates = $s->get_certificates();
 ?>
 
-<div class="llms-my-certificates">
-	<?php echo '<h3>' . apply_filters( 'lifterlms_my_certificates_title', __( 'My Certificates', 'lifterlms' ) ) . '</h3>'; ?>
+<div class="llms-sd-section llms-my-certificates">
+	<h3 class="llms-sd-section-title"><?php echo apply_filters( 'lifterlms_my_certificates_title', __( 'My Certificates', 'lifterlms' ) ); ?></h3>
 	<?php if ( $certificates ) : ?>
 		<ul class="listing-certificates">
 		<?php foreach ( $certificates as $c ) : ?>

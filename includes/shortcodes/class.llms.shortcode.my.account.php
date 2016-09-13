@@ -17,7 +17,9 @@ class LLMS_Shortcode_My_Account {
 	* @return array $messages
 	*/
 	public static function get( $atts ) {
+
 		return LLMS_Shortcodes::shortcode_wrapper( array( __CLASS__, 'output' ), $atts );
+
 	}
 
 	/**
@@ -27,9 +29,10 @@ class LLMS_Shortcode_My_Account {
 	* @return array $messages
 	*/
 	public static function output( $atts ) {
-		global $lifterlms, $wp;
 
-		do_action( 'lifterlms_before_my_account_shortcode' );
+		global $wp;
+
+		do_action( 'lifterlms_before_student_dashboard' );
 
 		// If user is not logged in
 		if ( ! is_user_logged_in() ) {
@@ -49,104 +52,51 @@ class LLMS_Shortcode_My_Account {
 
 				llms_get_template( 'global/form-login.php' );
 
-				//can be enabled / disabled on options page.
+				// can be enabled / disabled on options page.
 				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) {
+
 					llms_get_template( 'myaccount/form-registration.php' );
+
 				}
 
 			}
 
-		} // If user is logged in, display the correct page
-		else {
-
-			// edit account page
-			if ( isset( $wp->query_vars['my-courses'] ) ) {
-
-				self::my_courses();
-
-			} // edit account page
-			elseif ( isset( $wp->query_vars['edit-account'] ) ) {
-
-				self::edit_account();
-
-			} // vouchers redemption
-			elseif ( isset( $wp->query_vars['redeem-voucher'] ) ) {
-
-				self::redeem_voucher();
-
-			} // default
-			else {
-
-				self::my_account( $atts );
-
-			}
 		}
 
-		do_action( 'lifterlms_after_my_account_shortcode' );
+		// If user is logged in, display the correct page
+		else {
+
+			$tabs = LLMS_Student_Dashboard::get_tabs();
+
+			$current_tab = LLMS_Student_Dashboard::get_current_tab( 'slug' );
+
+			/**
+			 * @hooked lifterlms_template_my_account_navigation - 10
+			 * @hooked lifterlms_template_student_dashboard_title - 20
+			 */
+			do_action( 'lifterlms_before_student_dashboard_content' );
+
+			if ( isset( $tabs[ $current_tab ] ) && isset( $tabs[ $current_tab ]['content'] ) && is_callable( $tabs[ $current_tab ]['content'] ) ) {
+
+				call_user_func( $tabs[ $current_tab ]['content'] );
+
+			}
+
+		}
+
+		do_action( 'lifterlms_after_student_dashboard' );
 	}
 
-	/**
-	* My Account page template
-	*
-	* @param array $atts
-	* @return void
-	*/
-	private static function my_account( $atts ) {
 
-		$student = new LLMS_Student();
-		$courses = $student->get_courses( array(
-			'status' => 'enrolled',
-			'limit' => 3,
-		) );
 
-		llms_get_template( 'myaccount/my-account.php', array(
-			'current_user' 	=> get_user_by( 'id', get_current_user_id() ),
-			'student' => $student,
-			'courses' => $courses,
-		) );
-	}
 
-	private static function my_courses() {
 
-		llms_get_template( 'myaccount/my-navigation.php' );
 
-		$student = new LLMS_Student();
-		$courses = $student->get_courses( array(
-			'limit' => ( ! isset( $_GET['limit'] ) ) ? 10 : $_GET['limit'],
-			'skip' => ( ! isset( $_GET['skip'] ) ) ? 0 : $_GET['skip'],
-			'status' => 'enrolled',
-		) );
 
-		llms_get_template( 'myaccount/my-courses.php', array(
-			'student' => $student,
-			'courses' => $courses,
-			'pagination' => $courses['more'],
-		) );
 
-	}
 
-	/**
-	* Edit Account template
-	*
-	* @return void
-	*/
-	private static function edit_account() {
-		llms_get_template( 'myaccount/form-edit-account.php', array(
-			'user' => get_user_by( 'id', get_current_user_id() ),
-		) );
-	}
 
-	/**
-	 * Redeem Voucher template
-	 * @return void
-	 */
-	private static function redeem_voucher() {
 
-		llms_get_template( 'myaccount/form-redeem-voucher.php', array(
-			'user' => get_user_by( 'id', get_current_user_id() ),
-		) );
-
-	}
 
 	/**
 	* Lost password template

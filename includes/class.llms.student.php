@@ -509,7 +509,63 @@ class LLMS_Student {
 
 	}
 
+	public function get_orders( $params = array() ) {
 
+		$params = wp_parse_args( $params, array(
+
+			'count' => 25,
+			'page' => 1,
+			'statuses' => array_keys( llms_get_order_statuses() ),
+
+		) );
+
+		extract( $params );
+
+		$q = new WP_Query( array(
+			'order' => 'DESC',
+			'orderby' => 'date',
+			'meta_query' => array(
+				array(
+					'key' => '_llms_user_id',
+					'value' => $this->get_id(),
+				),
+			),
+			'paged' => $page,
+			'posts_per_page' => $count,
+			'post_status' => $statuses,
+			'post_type' => 'llms_order',
+		) );
+
+
+		$orders = array();
+
+		if ( $q->have_posts() ) {
+
+			foreach ( $q->posts as $post ) {
+
+				$orders[ $post->ID ] = new LLMS_Order( $post );
+
+			}
+
+		}
+
+		return array(
+			'count' => count( $q->posts ),
+			'page' => $page,
+			'pages' => $q->max_num_pages,
+			'orders' => $orders,
+		);
+
+	}
+
+	/**
+	 * Get students progress through a course or track
+	 * @param    int        $object_id  course or track id
+	 * @param    string     $type       object type [course|track]
+	 * @return   float
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function get_progress( $object_id, $type = 'course' ) {
 
 		$total = 0;

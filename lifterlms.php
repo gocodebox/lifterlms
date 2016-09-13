@@ -241,6 +241,7 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.question.php' );
 		include_once( 'includes/class.llms.course.factory.php' );
 		include_once( 'includes/class.llms.review.php' );
+		include_once( 'includes/class.llms.student.dashboard.php' );
 
 		//handler classes
 		require_once 'includes/class.llms.person.handler.php';

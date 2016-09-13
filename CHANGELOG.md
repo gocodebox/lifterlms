@@ -10,6 +10,11 @@
 + Renamed `course/parent_course.php` to `course/parent-course.php` for template naming consistency
 + use `strict` when auto generating usernames when creating from email addresses, resolves [#182](https://github.com/gocodebox/lifterlms/issues/182)
 
+##### Student Dashboard Upgrades
+
++ More sane template hooks and functions
++ Pagination on Courses endpoint (view only a preview on the mian dashboard)
++ Orders history & view orders screens!
 
 = v3.0.0-beta.6 - 2016/09/08 =
 -------------------------------

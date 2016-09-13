@@ -1,23 +1,26 @@
-.llms-quiz-results:before, .llms-my-achievements ul.listing-achievements:before, .llms-pagination ul:before, .llms-quiz-results:after, .llms-my-achievements ul.listing-achievements:after, .llms-pagination ul:after,
+.llms-quiz-results:before, .llms-pagination ul:before, .llms-my-achievements ul.listing-achievements:before, .llms-quiz-results:after, .llms-pagination ul:after, .llms-my-achievements ul.listing-achievements:after,
 .llms-loop-list:before,
 .llms-course-navigation:before,
 .llms-access-plans:before,
 .llms-checkout-cols-2:before,
 .llms-form-fields:before,
+.llms-student-dashboard .llms-sd-items:before,
 .llms-loop-list:after,
 .llms-course-navigation:after,
 .llms-access-plans:after,
 .llms-checkout-cols-2:after,
-.llms-form-fields:after {
+.llms-form-fields:after,
+.llms-student-dashboard .llms-sd-items:after {
   content: " ";
   display: table;
 }
-.llms-quiz-results:after, .llms-my-achievements ul.listing-achievements:after, .llms-pagination ul:after,
+.llms-quiz-results:after, .llms-pagination ul:after, .llms-my-achievements ul.listing-achievements:after,
 .llms-loop-list:after,
 .llms-course-navigation:after,
 .llms-access-plans:after,
 .llms-checkout-cols-2:after,
-.llms-form-fields:after {
+.llms-form-fields:after,
+.llms-student-dashboard .llms-sd-items:after {
   clear: both;
 }
 
@@ -154,202 +157,6 @@ input[type="submit"].llms-button-text:hover {
 .llms-quiz-results > h3 {
   background-color: #f5f5f5;
   padding: 4px;
-}
-
-/* My Courses */
-.llms-my-courses {
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-}
-
-.llms-my-courses a {
-  -webkit-filter: brightness(100%);
-  -webkit-transition: all .5s ease;
-  transition: all .5s ease;
-}
-
-.llms-my-courses ul.listing-courses {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.llms-my-courses > h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
-}
-
-.llms-my-courses ul.listing-courses li.course-item {
-  margin: 10px 0;
-  padding: 10px 0;
-  list-style-type: none;
-  width: 100%;
-  border-bottom: 2px solid #f5f5f5;
-}
-
-.llms-my-courses ul.listing-courses li.course-item:first-child {
-  border-bottom: 2px solid #f5f5f5;
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .course-image {
-  float: left;
-  margin-right: 20px;
-  border: 1px solid #f5f5f5;
-  padding: 4px;
-  overflow: hidden;
-}
-@media screen and (max-width: 641px) {
-  .llms-my-courses ul.listing-courses li.course-item .course .course-image {
-    width: 100%;
-  }
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .course-image img {
-  -webkit-filter: brightness(100%);
-  -webkit-transition: all 1s ease;
-  transition: all 1s ease;
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .course-image img:hover {
-  -webkit-filter: brightness(80%);
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course h3 {
-  margin: 10px 0;
-  display: block;
-  clear: none;
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course p {
-  margin: 0;
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .info {
-  float: left;
-  width: 100%;
-}
-
-.llms-sts-enrollment {
-  display: inline-block;
-}
-
-.llms-sts-enrollment .llms-sts-current {
-  font-weight: 400;
-}
-
-.llms-start-date {
-  float: right;
-  text-align: right;
-}
-@media screen and (max-width: 641px) {
-  .llms-start-date {
-    float: none;
-    text-align: left;
-  }
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .course-message {
-  border-radius: 3px;
-  z-index: 10;
-  margin: 10px 0;
-  padding: 15px 20px;
-  border: 1px solid #ccc;
-}
-
-.course-message p {
-  margin: 0;
-}
-
-.course-link {
-  text-align: center;
-}
-
-.account-links {
-  text-align: left;
-  margin-bottom: 40px;
-}
-
-/* my certificates grid */
-.llms-my-certificates {
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-}
-.llms-my-certificates h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
-}
-.llms-my-certificates ul.listing-certificates {
-  width: 100%;
-  margin: 0;
-}
-.llms-my-certificates ul.listing-certificates li.certificate-item {
-  border-radius: 3px;
-  z-index: 10;
-  margin: 10px 0;
-  padding: 15px 20px;
-  border: 1px solid #ccc;
-  list-style-type: none;
-  width: 100%;
-  overflow: auto;
-}
-.llms-my-certificates ul.listing-certificates li.certificate-item div {
-  display: block;
-  width: 30%;
-  float: left;
-  text-align: right;
-}
-.llms-my-certificates ul.listing-certificates li.certificate-item div p, .llms-my-certificates ul.listing-certificates li.certificate-item div h4 {
-  margin: 0;
-}
-.llms-my-certificates ul.listing-certificates li.certificate-item div:first-child {
-  width: 40%;
-  text-align: left;
-}
-
-.llms-my-achievements {
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-}
-.llms-my-achievements h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
-}
-.llms-my-achievements ul.listing-achievements {
-  margin: 0;
-  width: 100%;
-}
-.llms-my-achievements ul.listing-achievements li.achievement-item {
-  border-radius: 3px;
-  margin: 1% 1% 0 0;
-  padding: 15px 20px;
-  border: 1px solid #ccc;
-  list-style-type: none;
-  width: 32.333%;
-  overflow: auto;
-  min-width: 200px;
-  z-index: 10;
-  float: left;
-  text-align: center;
-}
-.llms-my-achievements ul.listing-achievements li.achievement-item p, .llms-my-achievements ul.listing-achievements li.achievement-item h4 {
-  margin: 0;
-}
-
-/* my certificates grid */
-.llms-my-memberships {
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-}
-.llms-my-memberships h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
-}
-.llms-my-memberships ul.listing-memberships {
-  width: 100%;
-  margin: 0;
-}
-.llms-my-memberships ul.listing-memberships li.membership-item {
-  padding: 15px 20px;
-  border: 1px solid #ccc;
-  list-style-type: none;
-  width: 100%;
-  overflow: auto;
 }
 
 /* Genisis Overrides */
@@ -1014,6 +821,9 @@ svg .llms-animated-circle {
   border-width: 3px;
   padding: 10px;
   margin-bottom: 10px;
+}
+.llms-notice p:last-child, .llms-notice ul:last-child {
+  margin-bottom: 0;
 }
 .llms-notice li {
   list-style-type: none;
@@ -1959,6 +1769,251 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 }
 .llms-widget-syllabus--collapsible .llms-syllabus-footer {
   text-align: left;
+}
+
+.llms-student-dashboard .llms-sd-title {
+  margin: 25px 0;
+}
+.llms-student-dashboard .llms-sd-items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.llms-student-dashboard .llms-sd-item {
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+.llms-student-dashboard .llms-sd-item:last-child .llms-sep {
+  display: none;
+}
+.llms-student-dashboard .llms-sd-item .llms-sep {
+  color: #333;
+  margin: 0 5px;
+}
+.llms-student-dashboard .llms-sd-link {
+  color: #35bbaa;
+}
+.llms-student-dashboard .llms-sd-section {
+  margin-bottom: 25px;
+}
+.llms-student-dashboard .orders-table {
+  border-color: #efefef;
+  border-style: solid;
+  border-width: 1px 1px 0 1px;
+}
+.llms-student-dashboard .orders-table td {
+  border-color: #efefef;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  padding: 5px 10px;
+}
+.llms-student-dashboard .llms-status {
+  color: #fff;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 85%;
+  padding: 3px 8px;
+}
+.llms-student-dashboard .llms-status.llms-active, .llms-student-dashboard .llms-status.llms-completed {
+  background-color: #83c373;
+}
+.llms-student-dashboard .llms-status.llms-failed, .llms-student-dashboard .llms-status.llms-expired, .llms-student-dashboard .llms-status.llms-cancelled {
+  background-color: #e5554e;
+}
+.llms-student-dashboard .llms-status.llms-pending, .llms-student-dashboard .llms-status.llms-refunded {
+  background-color: orange;
+}
+
+/* My Courses */
+.llms-my-courses {
+  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+}
+
+.llms-my-courses a {
+  -webkit-filter: brightness(100%);
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease;
+}
+
+.llms-my-courses ul.listing-courses {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.llms-my-courses > h3 {
+  background-color: #f5f5f5;
+  padding: 4px;
+}
+
+.llms-my-courses ul.listing-courses li.course-item {
+  margin: 10px 0;
+  padding: 10px 0;
+  list-style-type: none;
+  width: 100%;
+  border-bottom: 2px solid #f5f5f5;
+}
+
+.llms-my-courses ul.listing-courses li.course-item:first-child {
+  border-bottom: 2px solid #f5f5f5;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .course-image {
+  float: left;
+  margin-right: 20px;
+  border: 1px solid #f5f5f5;
+  padding: 4px;
+  overflow: hidden;
+}
+@media screen and (max-width: 641px) {
+  .llms-my-courses ul.listing-courses li.course-item .course .course-image {
+    width: 100%;
+  }
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .course-image img {
+  -webkit-filter: brightness(100%);
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .course-image img:hover {
+  -webkit-filter: brightness(80%);
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course h3 {
+  margin: 10px 0;
+  display: block;
+  clear: none;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course p {
+  margin: 0;
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .info {
+  float: left;
+  width: 100%;
+}
+
+.llms-sts-enrollment {
+  display: inline-block;
+}
+
+.llms-sts-enrollment .llms-sts-current {
+  font-weight: 400;
+}
+
+.llms-start-date {
+  float: right;
+  text-align: right;
+}
+@media screen and (max-width: 641px) {
+  .llms-start-date {
+    float: none;
+    text-align: left;
+  }
+}
+
+.llms-my-courses ul.listing-courses li.course-item .course .course-message {
+  border-radius: 3px;
+  z-index: 10;
+  margin: 10px 0;
+  padding: 15px 20px;
+  border: 1px solid #ccc;
+}
+
+.course-message p {
+  margin: 0;
+}
+
+.course-link {
+  text-align: center;
+}
+
+/* my certificates grid */
+.llms-my-certificates {
+  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+}
+.llms-my-certificates h3 {
+  background-color: #f5f5f5;
+  padding: 4px;
+}
+.llms-my-certificates ul.listing-certificates {
+  width: 100%;
+  margin: 0;
+}
+.llms-my-certificates ul.listing-certificates li.certificate-item {
+  border-radius: 3px;
+  z-index: 10;
+  margin: 10px 0;
+  padding: 15px 20px;
+  border: 1px solid #ccc;
+  list-style-type: none;
+  width: 100%;
+  overflow: auto;
+}
+.llms-my-certificates ul.listing-certificates li.certificate-item div {
+  display: block;
+  width: 30%;
+  float: left;
+  text-align: right;
+}
+.llms-my-certificates ul.listing-certificates li.certificate-item div p, .llms-my-certificates ul.listing-certificates li.certificate-item div h4 {
+  margin: 0;
+}
+.llms-my-certificates ul.listing-certificates li.certificate-item div:first-child {
+  width: 40%;
+  text-align: left;
+}
+
+.llms-my-achievements {
+  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+}
+.llms-my-achievements h3 {
+  background-color: #f5f5f5;
+  padding: 4px;
+}
+.llms-my-achievements ul.listing-achievements {
+  margin: 0;
+  width: 100%;
+}
+.llms-my-achievements ul.listing-achievements li.achievement-item {
+  border-radius: 3px;
+  margin: 1% 1% 0 0;
+  padding: 15px 20px;
+  border: 1px solid #ccc;
+  list-style-type: none;
+  width: 32.333%;
+  overflow: auto;
+  min-width: 200px;
+  z-index: 10;
+  float: left;
+  text-align: center;
+}
+.llms-my-achievements ul.listing-achievements li.achievement-item p, .llms-my-achievements ul.listing-achievements li.achievement-item h4 {
+  margin: 0;
+}
+
+/* my certificates grid */
+.llms-my-memberships {
+  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+}
+.llms-my-memberships h3 {
+  background-color: #f5f5f5;
+  padding: 4px;
+}
+.llms-my-memberships ul.listing-memberships {
+  width: 100%;
+  margin: 0;
+}
+.llms-my-memberships ul.listing-memberships li.membership-item {
+  padding: 15px 20px;
+  border: 1px solid #ccc;
+  list-style-type: none;
+  width: 100%;
+  overflow: auto;
 }
 
 /*!

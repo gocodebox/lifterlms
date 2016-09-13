@@ -155,10 +155,14 @@ add_action( 'lifterlms_single_question_after_summary', 'lifterlmslifterlms_templ
 
 
 /**
- * MY ACCOUNT
+ * Student Dashboard
  */
-add_action( 'lifterlms_my_account_navigation', 'lifterlms_template_my_account_navigation', 10 );
+add_action( 'lifterlms_before_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_open', 10 );
 
+add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_student_dashboard_navigation', 10 );
+add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_student_dashboard_title', 20 );
+
+add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
 
 
 add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar' );

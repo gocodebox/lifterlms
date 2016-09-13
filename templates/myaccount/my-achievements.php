@@ -10,8 +10,8 @@ $count = ( empty( $count ) ) ? 1000 : $count; // shortcodes will define $count a
 $user_id = ( empty( $user_id ) ) ? get_current_user_id() : $user_id;
 $achievements = $user->get_user_achievements( $count, $user_id );
 ?>
-<div class="llms-my-achievements">
-	<h3 class="llms-my-achievements-title"><?php echo apply_filters( 'lifterlms_my_achievements_title', __( 'My Achievements', 'lifterlms' ) ); ?></h3>
+<div class="llms-sd-section llms-my-achievements">
+	<h3 class="llms-sd-section-title llms-my-achievements-title"><?php echo apply_filters( 'lifterlms_my_achievements_title', __( 'My Achievements', 'lifterlms' ) ); ?></h3>
 
 	<?php do_action( 'lifterlms_before_achievements' ); ?>
 

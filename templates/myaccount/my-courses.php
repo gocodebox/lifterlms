@@ -9,8 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $wp_query;
 ?>
 
-<div class="llms-my-courses">
-	<h3><?php echo apply_filters( 'lifterlms_my_courses_title', __( 'Courses In-Progress', 'lifterlms' ) ); ?></h3>
+<div class="llms-sd-section llms-my-courses">
+	<h3 class="llms-sd-section-title"><?php echo apply_filters( 'lifterlms_my_courses_title', __( 'Courses In-Progress', 'lifterlms' ) ); ?></h3>
 
 	<?php if ( ! $courses ) : ?>
 		<p><?php _e( 'You are not enrolled in any courses.', 'lifterlms' ); ?></p>
@@ -66,9 +66,9 @@ global $wp_query;
 			<?php endforeach; ?>
 		</ul>
 
-		<footer class="llms-my-courses-pagination">
+		<footer class="llms-sd-pagination llms-my-courses-pagination">
 			<?php if ( ! isset( $wp_query->query_vars['my-courses'] ) ) : ?>
-				<a class="llms-button-text" href="<?php echo llms_person_my_courses_url(); ?>"><?php _e( 'All Courses', 'lifterlms' ); ?></a>
+				<a href="<?php echo llms_person_my_courses_url(); ?>"><?php _e( 'All Courses', 'lifterlms' ); ?></a>
 			<?php else : ?>
 
 				<?php if ( $courses['skip'] > 0 ) : ?>
