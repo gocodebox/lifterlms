@@ -235,6 +235,31 @@
 
 			} );
 
+			$( 'button[name="llms-manual-txn-toggle"]' ).on( 'click', function() {
+
+				var $btn = $( this ),
+					$row = $btn.closest( 'tr' ),
+					$new_row = $( '#llms-manual-txn-model .llms-manual-txn-form' ).clone();
+
+				// configure and add the form
+				if ( 'remove' !== $btn.attr( 'data-action' ) ) {
+
+					$btn.text( LLMS.l10n.translate( 'Cancel' ) );
+					$btn.attr( 'data-action', 'remove' );
+					$new_row.find( 'input' ).removeAttr( 'disabled' );
+
+					$row.after( $new_row );
+
+				} else {
+
+					$btn.text( LLMS.l10n.translate( 'Record a Manual Payment' ) );
+					$btn.attr( 'data-action', '' );
+					$row.next( 'tr' ).remove();
+
+				}
+
+			} );
+
 		};
 
 		/**

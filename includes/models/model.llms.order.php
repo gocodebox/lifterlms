@@ -456,14 +456,15 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Retrieve the date of the last (most recent) transaction
 	 * @param    array|string  $status  filter by status (see transaction statuses)
 	 * @param    array|string  $type    filter by type [recurring|single|trial]
+	 * @param    string        $format  date format of the return
 	 * @return   string|false           date or false if none found
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
-	public function get_last_transaction_date( $status = 'llms-txn-succeeded', $type = 'any' ) {
+	public function get_last_transaction_date( $status = 'llms-txn-succeeded', $type = 'any', $format = 'Y-m-d H:i:s' ) {
 		$txn = $this->get_last_transaction( $status, $type );
 		if ( $txn ) {
-			return $txn->get_date( 'date', 'Y-m-d H:i:s' );
+			return $txn->get_date( 'date', $format );
 		} else {
 			return false;
 		}
@@ -752,6 +753,27 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Get a link to view the order on the student dashboard
+	 * Checks permissions, only the purchasing viewer or an admin should be able to view
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_view_link() {
+
+		$link = '';
+
+		if ( current_user_can( apply_filters( 'llms_order_get_view_link_permission', 'manage_options' ) ) || get_current_user_id() === $this->get( 'user_id' ) ) {
+
+			$link = llms_get_endpoint_url( 'orders', $this->get( 'id' ), llms_get_page_url( 'myaccount' ) );
+
+		}
+
+		return apply_filters( 'llms_order_get_view_link', $link, $this );
+
+	}
+
+	/**
 	 * Determine if the student associated with this order has access
 	 * @return   boolean
 	 * @since    3.0.0
@@ -790,6 +812,17 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function has_sale() {
 		return ( 'yes' === $this->get( 'on_sale' ) );
+	}
+
+	/**
+	 * Determine if theres a payment scheduled for the order
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function has_scheduled_payment() {
+		$date = $this->get_next_payment_due_date();
+		return is_wp_error( $date ) ? false : true;
 	}
 
 	/**
@@ -862,6 +895,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				'source_description' => '',
 				'transaction_id' => '',
 				'status' => 'llms-txn-succeeded',
+				'payment_gateway' => $this->get( 'payment_gateway' ),
 				'payment_type' => 'single',
 			),
 			$data
@@ -879,7 +913,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		$txn->set( 'gateway_source_description', $source_description );
 		$txn->set( 'gateway_transaction_id', $transaction_id );
 		$txn->set( 'order_id', $this->get( 'id' ) );
-		$txn->set( 'payment_gateway', $this->get( 'payment_gateway' ) );
+		$txn->set( 'payment_gateway', $payment_gateway );
 		$txn->set( 'payment_type', $payment_type );
 		$txn->set( 'status', $status );
 

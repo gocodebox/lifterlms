@@ -263,7 +263,7 @@ class LLMS_Controller_Orders {
 		$order_id = 'new';
 
 		// get order ID by Key if it exists
-		if ( ! empty ( $_POST['llms_order_key'] ) ) {
+		if ( ! empty( $_POST['llms_order_key'] ) ) {
 			$locate = llms_get_order_by_key( $_POST['llms_order_key'], 'id' );
 			if ( $locate ) {
 				$order_id = $locate;

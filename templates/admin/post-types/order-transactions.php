@@ -94,6 +94,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					<a class="button" href="<?php echo $all_url; ?>"><?php printf( __( 'View all', 'lifterlms' ), '&raquo;' ); ?></a>
 				<?php endif; ?>
 
+				<button class="button" name="llms-manual-txn-toggle" type="button"><?php _e( 'Record a Manual Payment', 'lifterlms' ); ?></button>
 				<button class="button" data-text="<?php _e( 'Show Less Info', 'lifterlms' ); ?>" name="llms-expand-table" type="button"><?php _e( 'Show More Info', 'lifterlms' ); ?></button>
 			</th>
 		</tr>
@@ -122,6 +123,45 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 			</div>
 
 			<input disabled="disabled" type="hidden" name="llms_refund_txn_id">
+
+			<div class="clear"></div>
+
+		</div>
+
+	</div>
+	</td></tr>
+</table>
+
+
+<table id="llms-manual-txn-model" style="display:none;">
+	<tr class="llms-manual-txn-form"><td colspan="10">
+	<div class="llms-metabox">
+
+		<div class="llms-metabox-section">
+
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Payment Amount:', 'lifterlms' ) ?></label>
+				<input disabled="disabled" name="llms_txn_amount" min="0" step="<?php echo $price_step; ?>" type="number">
+			</div>
+
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Payment Source (optional):', 'lifterlms' ) ?></label>
+				<input disabled="disabled" name="llms_txn_source" type="text">
+			</div>
+
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Payment Transaction ID (optional):', 'lifterlms' ) ?></label>
+				<input disabled="disabled" name="llms_txn_id" type="text">
+			</div>
+
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Payment Note (optional):', 'lifterlms' ) ?></label>
+				<input disabled="disabled" name="llms_txn_note" type="text">
+			</div>
+
+			<div class="llms-metabox-field">
+				<button class="button button-primary" name="llms_record_txn" value="llms_record_txn"><?php _e( 'Record Payment' ); ?></button>
+			</div>
 
 			<div class="clear"></div>
 

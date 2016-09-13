@@ -51,6 +51,7 @@ class LLMS_l10n {
 			 * @version  3.0.0
 			 */
 			'Cancel' => __( 'Cancel', 'lifterlms' ),
+			'Record a Manual Payment' => __( 'Record a Manual Payment', 'lifterlms' ),
 			'Refund' => __( 'Refund', 'lifterlms' ),
 
 			/**

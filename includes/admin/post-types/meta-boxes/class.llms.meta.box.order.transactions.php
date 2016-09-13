@@ -71,7 +71,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Save method, processes refunds
+	 * Save method, processes refunds / records manual txns
 	 * @param    int     $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
@@ -79,11 +79,33 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 */
 	public function save( $post_id ) {
 
-		// only save here if a process refund button was used to submit the form
-		if ( ! isset( $_POST['llms_process_refund'] ) ) {
+		// only save here if a process refund button or record manual txn button was used to submit the form
+		if ( ! isset( $_POST['llms_process_refund'] ) && ! isset( $_POST['llms_record_txn'] ) ) {
 			return;
-		} // can't proceed with a txn id
-		elseif ( empty( $_POST['llms_refund_txn_id'] ) ) {
+		}
+
+		if ( isset( $_POST['llms_process_refund'] ) ) {
+
+			$this->save_refund( $post_id );
+
+		} elseif ( isset( $_POST['llms_record_txn'] ) ) {
+
+			$this->save_transaction( $post_id );
+
+		}
+
+	}
+
+	/**
+	 * Save method, processes refunds
+	 * @param    int     $post_id  Post ID of the Order
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	private function save_refund( $post_id ) {
+		// can't proceed with a txn id
+		if ( empty( $_POST['llms_refund_txn_id'] ) ) {
 			return $this->add_error( __( 'Refund Error: Missing a transaction ID', 'lifterlms' ) );
 		} elseif ( empty( $_POST['llms_refund_amount'] ) ) {
 			return $this->add_error( __( 'Refund Error: Missing or invalid refund amount', 'lifterlms' ) );
@@ -96,7 +118,39 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		if ( is_wp_error( $refund ) ) {
 			$this->add_error( sprintf( _x( 'Refund Error: %s', 'admin error message', 'lifterlms' ), $refund->get_error_message() ) );
 		}
+	}
 
+
+	/**
+	 * Save method, records manual transactions
+	 * @param    int     $post_id  Post ID of the Order
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	private function save_transaction( $post_id ) {
+		if ( empty( $_POST['llms_txn_amount'] ) ) {
+			return $this->add_error( __( 'Refund Error: Missing or invalid payment amount', 'lifterlms' ) );
+		}
+
+		$order = new LLMS_Order( $post_id );
+
+		$txn = $order->record_transaction( array(
+			'amount' => floatval( $_POST['llms_txn_amount'] ),
+			'source_description' => sanitize_text_field( $_POST['llms_txn_source'] ),
+			'transaction_id' => sanitize_text_field( $_POST['llms_txn_id'] ),
+			'status' => 'llms-txn-succeeded',
+			'payment_gateway' => 'manual',
+			'payment_type' => 'single',
+		) );
+
+		if ( ! empty( $_POST['llms_txn_note'] ) ) {
+			$order->add_note( sanitize_text_field( $_POST['llms_txn_note'] ), true );
+		}
+
+		if ( is_wp_error( $txn ) ) {
+			$this->add_error( sprintf( _x( 'Refund Error: %s', 'admin error message', 'lifterlms' ), $refund->get_error_message() ) );
+		}
 	}
 
 }

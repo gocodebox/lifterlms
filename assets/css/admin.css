@@ -2510,17 +2510,28 @@ div[id^="lifterlms-"] .inside {
   border-bottom-color: rgba(255, 165, 0, 0.5);
 }
 
-.llms-txn-refund-form .llms-metabox-section {
+.llms-txn-refund-form .llms-metabox-section,
+.llms-manual-txn-form .llms-metabox-section {
   margin-top: 0;
 }
-.llms-txn-refund-form .llms-metabox-field {
+.llms-txn-refund-form .llms-metabox-field,
+.llms-manual-txn-form .llms-metabox-field {
   text-align: right;
 }
-.llms-txn-refund-form .llms-metabox-field input[type="number"] {
+.llms-txn-refund-form .llms-metabox-field input[type="number"],
+.llms-manual-txn-form .llms-metabox-field input[type="number"] {
   max-width: 100px;
 }
-.llms-txn-refund-form .llms-metabox-field input[type="text"] {
+.llms-txn-refund-form .llms-metabox-field input[type="text"],
+.llms-manual-txn-form .llms-metabox-field input[type="text"] {
   max-width: 340px;
+}
+
+.llms-manual-txn-form {
+  background-color: #eaeaea;
+}
+.llms-manual-txn-form .llms-metabox-section {
+  background-color: #eaeaea;
 }
 
 #llms-new-access-plan-model {

@@ -76,8 +76,8 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
-			if ( isset( $_REQUEST['llms_order_key'] ) ) {
-				$atts['order_key'] = sanitize_text_field( $_REQUEST['llms_order_key'] );
+			if ( isset( $_POST['llms_order_key'] ) ) {
+				$atts['order_key'] = sanitize_text_field( $_POST['llms_order_key'] );
 			}
 
 			$atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
