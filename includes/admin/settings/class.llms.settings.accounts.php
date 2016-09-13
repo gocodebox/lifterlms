@@ -110,7 +110,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc_tip'	=> true,
 			),
 
-
 			// @todo this doesn't do anything...
 			// array(
 			// 	'title' => __( 'Logout', 'lifterlms' ),

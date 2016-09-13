@@ -83,7 +83,7 @@ if ( ! is_admin() ) { exit; }
 
 			<h4><?php _e( 'Trial Information', 'lifterlms' ); ?></h4>
 
-			<?php if ( $order->has_coupon() && $order->get( 'coupon_amount_trial' ) ): ?>
+			<?php if ( $order->has_coupon() && $order->get( 'coupon_amount_trial' ) ) : ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Original Total:', 'lifterlms' ) ?></label>
 					<?php echo $order->get_price( 'trial_original_total' ); ?>
@@ -117,7 +117,7 @@ if ( ! is_admin() ) { exit; }
 				<?php echo $order->get_price( 'original_total' ); ?>
 			</div>
 
-			<?php if ( $order->has_sale() ): ?>
+			<?php if ( $order->has_sale() ) : ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Sale Discount:', 'lifterlms' ) ?></label>
 					<?php echo $order->get_price( 'sale_price' ); ?>
@@ -125,7 +125,7 @@ if ( ! is_admin() ) { exit; }
 				</div>
 			<?php endif; ?>
 
-			<?php if ( $order->has_coupon() ): ?>
+			<?php if ( $order->has_coupon() ) : ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Coupon Discount:', 'lifterlms' ) ?></label>
 					<?php echo $order->get_coupon_amount( 'regular' ); ?>
@@ -138,17 +138,17 @@ if ( ! is_admin() ) { exit; }
 		<div class="llms-metabox-field">
 			<label><?php _e( 'Total:', 'lifterlms' ); ?></label>
 			<?php echo $order->get_price( 'total' ); ?>
-			<?php if ( $order->is_recurring() ): ?>
+			<?php if ( $order->is_recurring() ) : ?>
 				<?php printf( _n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ), $order->get( 'billing_frequency' ), $order->get( 'billing_period' ) ); ?>
 				<?php if ( $order->get( 'billing_cycle' ) > 0 ) : ?>
 					<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_cycle' ), 'lifterlms' ), $order->get( 'billing_cycle' ), $order->get( 'billing_period' ) ); ?>
 				<?php endif; ?>
-			<?php else: ?>
+			<?php else : ?>
 				<?php _e( 'One-time', 'lifterlms' ); ?>
 			<?php endif; ?>
 		</div>
 
-		<?php if ( $order->is_recurring() ): ?>
+		<?php if ( $order->is_recurring() ) : ?>
 			<div class="llms-metabox-field">
 				<label><?php _e( 'Next Payment Due Date:', 'lifterlms' ); ?></label>
 				<?php echo $order->get_next_payment_due_date( 'm/d/Y h:ia' ); ?>
@@ -256,6 +256,6 @@ if ( ! is_admin() ) { exit; }
 
 	<?php endif; ?>
 
- 	<?php do_action( 'lifterlms_after_order_meta_box', $order ); ?>
+		<?php do_action( 'lifterlms_after_order_meta_box', $order ); ?>
 
 </div>

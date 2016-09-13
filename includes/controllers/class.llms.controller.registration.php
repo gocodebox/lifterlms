@@ -60,9 +60,8 @@ class LLMS_Controller_Registration {
 		// already logged in can't register!
 		// this shouldn't happen but let's check anyway
 		if ( get_current_user_id() ) {
-			return llms_add_notice( __( 'Already logged in! Please log out and try again.', 'lifterlms'  ), 'error' );
-		}
-		// attempt to register new user (performs validations)
+			return llms_add_notice( __( 'Already logged in! Please log out and try again.', 'lifterlms' ), 'error' );
+		} // attempt to register new user (performs validations)
 		else {
 			$person_id = llms_register_user( $_POST, 'registration', true );
 		}
@@ -73,8 +72,7 @@ class LLMS_Controller_Registration {
 				llms_add_notice( $msg, 'error' );
 			}
 			return;
-		}
-		// register should be a user_id at this point, if we're not numeric we have a problem...
+		} // register should be a user_id at this point, if we're not numeric we have a problem...
 		elseif ( ! is_numeric( $person_id ) ) {
 
 			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lirterlms' ), 'error' );
@@ -86,22 +84,6 @@ class LLMS_Controller_Registration {
 			exit;
 
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		$new_person = LLMS_Person::create_new_person();
 

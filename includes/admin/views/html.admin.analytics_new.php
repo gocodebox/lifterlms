@@ -46,7 +46,7 @@
 				 * todo: do a better job on this loop for scalability...
 				 */
 				?>
-				<?php foreach( $current_students as $id ) : ?>
+				<?php foreach ( $current_students as $id ) : ?>
 					<?php $s = get_user_by( 'id', $id ); ?>
 					<option value="<?php echo $id; ?>" selected="selected"><?php echo $s->display_name; ?> &lt;<?php echo $s->user_email; ?>&gt;</option>
 				<?php endforeach; ?>
@@ -67,7 +67,7 @@
 			<label><?php _e( 'Courses', 'lifterlms' ); ?></label>
 
 			<select class="llms-select2-post" data-placeholder="<?php _e( 'Filter by Course(s)', 'lifterlms' ); ?>" data-post-type="course" id="llms-course-ids-filter" name="course_ids[]" multiple="multiple">
-				<?php foreach( $current_courses as $course_id ): ?>
+				<?php foreach ( $current_courses as $course_id ) : ?>
 					<option value="<?php echo $course_id; ?>" selected><?php echo get_the_title( $course_id ); ?> <?php printf( __( '(ID# %d)', 'lifterlms' ), $course_id ); ?></option>
 				<?php endforeach; ?>
 			</select>
@@ -86,7 +86,7 @@
 			<label><?php _e( 'Memberships', 'lifterlms' ); ?></label>
 
 			<select class="llms-select2-post" data-placeholder="<?php _e( 'Filter by Memberships(s)', 'lifterlms' ); ?>" data-post-type="llms_membership" id="llms-membership-ids-filter" name="membership_ids[]" multiple="multiple">
-				<?php foreach( $current_memberships as $membership_id ): ?>
+				<?php foreach ( $current_memberships as $membership_id ) : ?>
 					<option value="<?php echo $membership_id; ?>" selected><?php echo get_the_title( $membership_id ); ?> <?php printf( __( '(ID# %d)', 'lifterlms' ), $membership_id ); ?></option>
 				<?php endforeach; ?>
 			</select>
@@ -104,9 +104,9 @@
 
 	<div class="llms-options-page-contents">
 
-		<?php foreach( $widget_data as $row => $widgets ) : ?>
+		<?php foreach ( $widget_data as $row => $widgets ) : ?>
 			<div class="llms-widget-row llms-widget-row-<?php $row; ?>">
-			<?php foreach( $widgets as $id => $opts ) : ?>
+			<?php foreach ( $widgets as $id => $opts ) : ?>
 
 				<div class="llms-widget-<?php echo $opts['cols']; ?>">
 					<div class="llms-widget is-loading" data-method="<?php echo $id; ?>" id="llms-widget-<?php echo $id; ?>">

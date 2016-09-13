@@ -46,7 +46,7 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 
 		}
 
-		$r =  apply_filters( 'llms_agree_to_terms_form_field', $r );
+		$r = apply_filters( 'llms_agree_to_terms_form_field', $r );
 
 		if ( $echo ) {
 

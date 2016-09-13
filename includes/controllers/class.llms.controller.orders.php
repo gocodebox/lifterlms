@@ -203,7 +203,7 @@ class LLMS_Controller_Orders {
 		if ( $plan->requires_payment( $coupon_id ) && empty( $_POST['llms_payment_gateway'] ) ) {
 			return llms_add_notice( __( 'No payment method selected.', 'lifterlms' ), 'error' );
 		} else {
-			$gid = empty ( $_POST['llms_payment_gateway'] ) ? 'manual' : $_POST['llms_payment_gateway'];
+			$gid = empty( $_POST['llms_payment_gateway'] ) ? 'manual' : $_POST['llms_payment_gateway'];
 			$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gid );
 			if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
 				// gateway must be enabled

@@ -127,12 +127,12 @@ class LLMS_Data {
 		$data['registration_address'] = get_option( 'lifterlms_user_info_field_address_registration_visibility' );
 		$data['registration_phone'] = get_option( 'lifterlms_user_info_field_phone_registration_visibility' );
 		$data['registration_voucher'] = get_option( 'lifterlms_voucher_field_registration_visibility' );
-		$data['registration_email_confirmation'] = get_option( 'lifterlms_user_info_field_email_confirmation_registration_visibility', 'no');
+		$data['registration_email_confirmation'] = get_option( 'lifterlms_user_info_field_email_confirmation_registration_visibility', 'no' );
 
 		$data['account_names'] = get_option( 'lifterlms_user_info_field_names_account_visibility' );
 		$data['account_address'] = get_option( 'lifterlms_user_info_field_address_account_visibility' );
 		$data['account_phone'] = get_option( 'lifterlms_user_info_field_phone_account_visibility' );
-		$data['account_email_confirmation'] = get_option( 'lifterlms_user_info_field_email_confirmation_account_visibility', 'no');
+		$data['account_email_confirmation'] = get_option( 'lifterlms_user_info_field_email_confirmation_account_visibility', 'no' );
 
 		$data['checkout_page'] = self::get_page_data( 'lifterlms_checkout_page_id' );
 		$data['confirmation_endpoint'] = get_option( 'lifterlms_myaccount_confirm_payment_endpoint' );
@@ -314,7 +314,10 @@ class LLMS_Data {
 	private static function get_theme_data() {
 
 		$data = array();
-
+		/**
+		 * thanks wp core...
+		 */
+		// @codingStandardsIgnoreStart
 		$theme_data = wp_get_theme();
 		$data['name'] = $theme_data->Name;
 		$data['version'] = $theme_data->Version;
@@ -323,6 +326,7 @@ class LLMS_Data {
 		$data['template'] = $theme_data->Template;
 		$data['child_theme'] = is_child_theme() ? 'Yes' : 'No';
 		$data['llms_support'] = ( ! current_theme_supports( 'lifterlms' ) ) ? 'No' : 'Yes';
+		// @codingStandardsIgnoreEnd
 
 		return $data;
 
@@ -357,7 +361,7 @@ class LLMS_Data {
 
 		$data = array();
 
-		$data['debug_mode'] = ( defined('WP_DEBUG') && WP_DEBUG ) ? 'Yes' : 'No';
+		$data['debug_mode'] = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No';
 		$data['locale'] = get_locale();
 		$data['multisite'] = is_multisite() ? 'Yes' : 'No';
 		$data['page_for_posts'] = self::get_page_data( 'page_for_posts' );

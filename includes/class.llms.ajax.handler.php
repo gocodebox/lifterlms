@@ -193,7 +193,6 @@ class LLMS_AJAX_Handler {
 					) );
 					$coupon_html = ob_get_clean();
 
-
 					ob_start();
 					llms_get_template( 'checkout/form-gateways.php', array(
 						'coupon' => $c,
@@ -202,7 +201,6 @@ class LLMS_AJAX_Handler {
 						'plan' => $plan,
 					) );
 					$gateways_html = ob_get_clean();
-
 
 					ob_start();
 					llms_get_template( 'checkout/form-summary.php', array(

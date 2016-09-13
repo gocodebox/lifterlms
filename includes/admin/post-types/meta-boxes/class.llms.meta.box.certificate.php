@@ -83,7 +83,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 					),
 				),
 			),
-		);
+		 );
 	}
 
 }

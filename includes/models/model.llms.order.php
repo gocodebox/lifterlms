@@ -1,5 +1,4 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Order Model
  * @since  3.0.0
@@ -73,6 +72,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property   $user_id   (int)  customer WP User ID
  * @property   $user_ip_address  (string)  customer's IP address at time of purchase
  */
+
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Order extends LLMS_Post_Model {
 
 	protected $db_post_type = 'llms_order'; // maybe fix this
@@ -102,9 +105,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$author = $user->display_name;
 			$author_email = $user->user_email;
 
-		}
-
-		// added by the system during a transaction or scheduled action
+		} // added by the system during a transaction or scheduled action
 		else {
 
 			$user_id = 0;
@@ -115,7 +116,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		}
 
-		$note_id = wp_insert_comment( apply_filters( '', array(
+		$note_id = wp_insert_comment( apply_filters( 'llms_add_order_note_content', array(
 			'comment_post_ID' => $this->get( 'id' ),
 			'comment_author' => $author,
 			'comment_author_email' => $author_email,
@@ -124,9 +125,9 @@ class LLMS_Order extends LLMS_Post_Model {
 			'comment_type' => 'llms_order_note',
 			'comment_parent' => 0,
 			'user_id' => $user_id,
-			'comment_agent' => 'LifterLMS',
-			'comment_date' => current_time('mysql'),
 			'comment_approved' => 1,
+			'comment_agent' => 'LifterLMS',
+			'comment_date' => current_time( 'mysql' ),
 		) ) );
 
 		do_action( 'llms_new_order_note_added', $note_id, $this );
@@ -157,8 +158,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @version  3.0.0
 	 */
 	public function get_access_expiration_date( $format = 'Y-m-d' ) {
-		$type =  $this->get( 'access_expiration' );
-		switch( $type ) {
+		$type = $this->get( 'access_expiration' );
+		switch ( $type ) {
 			case 'lifetime':
 				$r = __( 'Lifetime Access', 'lifterlms' );
 			break;
@@ -364,7 +365,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	protected function get_property_type( $key ) {
 
-		switch( $key ) {
+		switch ( $key ) {
 
 			case 'coupon_amount':
 			case 'coupon_amout_trial':
@@ -483,8 +484,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		// single payments will never have a next payment date
 		if ( ! $this->is_recurring() ) {
 			return new WP_Error( 'not-recurring', __( 'Order is not recurring', 'lifterlms' ) );
-		}
-		// only active, failed, or pending subscriptions can have a next payment date
+		} // only active, failed, or pending subscriptions can have a next payment date
 		elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-pending' ) ) ) {
 			return new WP_Error( 'invalid-status', __( 'Invalid order status', 'lifterlms' ), $this->get( 'status' ) );
 		}
@@ -550,7 +550,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		$post_statuses = '';
-		foreach( $statuses as $i => $status ) {
+		foreach ( $statuses as $i => $status ) {
 			$post_statuses .= " p.post_status = '$status'";
 			if ( $i + 1 < count( $statuses ) ) {
 				$post_statuses .= 'OR';
@@ -569,8 +569,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			   AND m1.meta_value = %d
 			   AND m2.meta_key = '{$this->meta_prefix}{$type}'
 			;"
-			, array( $this->get( 'id' )
-		) ) );
+		, array( $this->get( 'id' ) ) ) );
 
 		return floatval( $grosse );
 	}
@@ -632,7 +631,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				$statuses = array( $status );
 			} elseif ( is_array( $status ) ) {
 				$temp = array();
-				foreach( $status as $s ) {
+				foreach ( $status as $s ) {
 					if ( in_array( $s, $statuses ) ) {
 						$temp[] = $s;
 					}
@@ -666,7 +665,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				'value' => $type,
 			);
 		} elseif ( is_array( $type ) ) {
-			foreach( $type as $t ) {
+			foreach ( $type as $t ) {
 				$types[] = array(
 					'key' => $this->meta_prefix . 'payment_type',
 					'value' => $t,
@@ -694,8 +693,8 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$transactions = array();
 
-		foreach( $query->posts as $post ) {
-			$transactions[$post->ID] = new LLMS_Transaction( $post );
+		foreach ( $query->posts as $post ) {
+			$transactions[ $post->ID ] = new LLMS_Transaction( $post );
 		}
 
 		return array(

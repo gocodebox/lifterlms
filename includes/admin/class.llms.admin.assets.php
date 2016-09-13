@@ -127,7 +127,6 @@ class LLMS_Admin_Assets {
 
 		if ( in_array( $screen->id, LLMS_Admin_Assets::get_llms_admin_page_ids() ) ) {
 
-
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 
@@ -139,7 +138,6 @@ class LLMS_Admin_Assets {
 
 			wp_register_script( 'llms',  plugins_url( '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 			wp_enqueue_script( 'llms-google-charts', 'https://www.gstatic.com/charts/loader.js' );
-
 
 			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
@@ -203,8 +201,7 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-select2' );
 			}
 
-			if( 'lifterlms_page_llms-analytics-new' == $screen->base ) {
-
+			if ( 'lifterlms_page_llms-analytics-new' == $screen->base ) {
 
 				// wp_enqueue_style('wp-pointer');
 				// wp_enqueue_script('wp-pointer');
@@ -213,8 +210,6 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-metaboxes' );
 
 			}
-
-
 
 			wp_enqueue_script( 'top-modal' );
 

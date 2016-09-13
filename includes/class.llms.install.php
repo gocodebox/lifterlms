@@ -334,7 +334,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 		$db_version = get_option( 'lifterlms_db_version', null );
 
 		// trigger first time run redirect
-		if ( ( is_null ( $version ) && is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
+		if ( ( is_null( $version ) && is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
 
 			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
 
@@ -371,7 +371,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 				exit;
 
 			}
-
 
 		}
 

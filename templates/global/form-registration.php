@@ -21,17 +21,17 @@ llms_print_notices();
 
 <div class="col-2 llms-new-person-form-wrapper">
 
-    <h2 class="llms-title llms-h2"><?php _e( 'Register', 'lifterlms' ); ?></h2>
+	<h2 class="llms-title llms-h2"><?php _e( 'Register', 'lifterlms' ); ?></h2>
 
-    <form method="post" class="llms-new-person-form register">
+	<form method="post" class="llms-new-person-form register">
 
-        <?php do_action( 'lifterlms_register_form_start' ); ?>
+		<?php do_action( 'lifterlms_register_form_start' ); ?>
 
 		<div class="llms-form-fields">
 
 			<?php do_action( 'lifterlms_before_registration_fields' ); ?>
 
-			<?php foreach( LLMS_Person_Handler::get_available_fields( 'registration', $field_data ) as $field ): ?>
+			<?php foreach ( LLMS_Person_Handler::get_available_fields( 'registration', $field_data ) as $field ) : ?>
 				<?php llms_form_field( $field ); ?>
 			<?php endforeach; ?>
 
@@ -61,7 +61,7 @@ llms_print_notices();
 
 		</footer>
 
-        <?php do_action( 'lifterlms_register_form_end' ); ?>
+		<?php do_action( 'lifterlms_register_form_end' ); ?>
 
 	</form>
 

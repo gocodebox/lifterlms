@@ -33,9 +33,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 					<td><?php echo $order->get_date( 'date', 'F j, Y' ); ?></td>
 					<td><?php echo $order->get_access_expiration_date( 'F j, Y' ); ?></td>
 					<td>
-						<?php if ( $order->has_scheduled_payment() ): ?>
+						<?php if ( $order->has_scheduled_payment() ) : ?>
 							<?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?>
-						<?php else: ?>
+						<?php else : ?>
 							&ndash;
 						<?php endif; ?>
 					</td>

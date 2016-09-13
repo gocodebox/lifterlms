@@ -159,12 +159,11 @@ abstract class LLMS_Analytics_Widget {
 			$this->query_vars[] = $this->format_date( $dates['end'], 'end' );
 		}
 
-
 		// setup post status conditions in the where clause
 		$post_statuses = '';
 		if ( $statuses ) {
 			$post_statuses .= ' AND ( ';
-			foreach( $statuses as $i => $status ) {
+			foreach ( $statuses as $i => $status ) {
 				if ( $i > 0 ) {
 					$post_statuses .= ' OR ';
 				}
@@ -176,7 +175,7 @@ abstract class LLMS_Analytics_Widget {
 
 		// setup the select clause
 		$select_clause = '';
-		foreach( $select as $i => $s ) {
+		foreach ( $select as $i => $s ) {
 			if ( $i > 0 ) {
 				$select_clause .= ', ';
 			}
@@ -184,12 +183,12 @@ abstract class LLMS_Analytics_Widget {
 		}
 
 		$joins_clause = '';
-		foreach( $joins as $join ) {
+		foreach ( $joins as $join ) {
 			$joins_clause .= $join . "\r\n";
 		}
 
 		$wheres_clause = '';
-		foreach( $wheres as $where ) {
+		foreach ( $wheres as $where ) {
 			$wheres_clause .= $where . "\r\n";
 		}
 
@@ -221,12 +220,10 @@ abstract class LLMS_Analytics_Widget {
 		// no output options
 		if ( in_array( $this->query_function, array( 'get_var', 'get_col' ) ) ) {
 			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ) );
-		}
-		// output options
+		} // output options
 		else {
 			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ), $this->output_type );
 		}
-
 
 		$this->prepared_query = trim( str_replace( array( "\r", "\n", "\t", '  ' ), ' ', $wpdb->last_query ) );
 

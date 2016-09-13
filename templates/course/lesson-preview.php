@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 <div class="llms-lesson-preview<?php echo $lesson->get_preview_classes(); ?>">
 	<a class="llms-lesson-link" href="<?php echo (  $lesson->is_free() || llms_is_user_enrolled( get_current_user_id(), $lesson->get_parent_course() ) ) ? get_permalink( $lesson->get( 'id' ) ) : '#llms-lesson-locked'; ?>">
 
-		<?php if ( 'course' === get_post_type( get_the_ID() ) ): ?>
+		<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
 
 			<?php  if ( apply_filters( 'llms_display_outline_thumbnails', true )  && $thumb = get_the_post_thumbnail( $lesson->get( 'id' ) ) ) : ?>
 				<div class="llms-lesson-thumbnail"><?php echo $thumb; ?></div>
@@ -30,11 +30,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		<?php endif; ?>
 
 		<section class="llms-main">
-			<?php if ( 'lesson' === get_post_type( get_the_ID() ) ): ?>
+			<?php if ( 'lesson' === get_post_type( get_the_ID() ) ) : ?>
 				<h6 class="llms-pre-text"><?php echo $pre_text; ?></h6>
 			<?php endif; ?>
 			<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'id' ) ) ?></h5>
-			<?php if ( llms_get_excerpt( $lesson->get( 'id' ) ) ): ?>
+			<?php if ( llms_get_excerpt( $lesson->get( 'id' ) ) ) : ?>
 				<div class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->get( 'id' ) ); ?></div>
 			<?php endif; ?>
 		</section>

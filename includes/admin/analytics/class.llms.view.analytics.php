@@ -164,7 +164,6 @@ class LLMS_Analytics_View {
 
 		}
 
-
 		return $dates;
 
 	}
@@ -196,7 +195,7 @@ class LLMS_Analytics_View {
 
 		$current_tab = $this->get_current_tab();
 
-		switch( $current_tab ) {
+		switch ( $current_tab ) {
 			case 'sales':
 				$widgets = array(
 					array(
@@ -222,7 +221,7 @@ class LLMS_Analytics_View {
 							'title' => __( 'Grosse Revenue', 'lifterlms' ),
 							'cols' => '1-4',
 							'content' => __( 'loading...', 'lifterlms' ),
-							'info' => __( 'Total of all transactions minus all refunds processed during this period', 'lifterlms' )
+							'info' => __( 'Total of all transactions minus all refunds processed during this period', 'lifterlms' ),
 						),
 					),
 					array(
@@ -230,13 +229,13 @@ class LLMS_Analytics_View {
 							'title' => __( '# of Coupons Used', 'lifterlms' ),
 							'cols' => '1-4',
 							'content' => __( 'loading...', 'lifterlms' ),
-							'info' => __( 'Number of orders completed using coupons during this period', 'lifterlms' )
+							'info' => __( 'Number of orders completed using coupons during this period', 'lifterlms' ),
 						),
 						'discounts' => array(
 							'title' => __( 'Amount of Coupons', 'lifterlms' ),
 							'cols' => '1-4',
 							'content' => __( 'loading...', 'lifterlms' ),
-							'info' => __( 'Total amount of coupons used during this period', 'lifterlms' )
+							'info' => __( 'Total amount of coupons used during this period', 'lifterlms' ),
 						),
 						// 'whatever3' => array(
 						// 	'title' => 'test title',

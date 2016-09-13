@@ -27,8 +27,8 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 		</tr>
 	</thead>
 	<tbody>
-		<?php if ( $transactions['transactions'] ): ?>
-			<?php foreach( $transactions['transactions'] as $txn ): ?>
+		<?php if ( $transactions['transactions'] ) : ?>
+			<?php foreach ( $transactions['transactions'] as $txn ) : ?>
 				<?php $gateway = $txn->get_gateway(); ?>
 				<?php $refund_amount = $txn->get_price( 'refund_amount', array(), 'float' ); ?>
 				<tr class="<?php echo $txn->get( 'status' ); ?>" data-transaction-id="<?php echo $txn->get( 'id' ); ?>">
@@ -50,8 +50,8 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					<td class="expandable closed"><?php echo $gateway->get_admin_title(); ?></td>
 					<td class="expandable closed">
 						<?php echo $txn->get( 'gateway_source_description' ); ?>
-						<?php if ( $source_id = $txn->get( 'gateway_source_id' ) ): ?>
-							<?php $source = $gateway->get_source_url( $source_id  ); ?>
+						<?php if ( $source_id = $txn->get( 'gateway_source_id' ) ) : ?>
+							<?php $source = $gateway->get_source_url( $source_id ); ?>
 							<?php if ( false === filter_var( $source, FILTER_VALIDATE_URL ) ) : ?>
 								(<?php echo $source; ?>)
 							<?php else : ?>
@@ -60,7 +60,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 						<?php endif; ?>
 					</td>
 					<td class="expandable closed">
-						<?php if ( $txn_id = $txn->get( 'gateway_transaction_id' ) ): ?>
+						<?php if ( $txn_id = $txn->get( 'gateway_transaction_id' ) ) : ?>
 							<?php $txn_url = $gateway->get_transaction_url( $txn_id ); ?>
 							<?php if ( false === filter_var( $txn_url, FILTER_VALIDATE_URL ) ) : ?>
 								<?php echo $txn_id; ?>
@@ -70,7 +70,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 						<?php endif; ?>
 					</td>
 					<td>
-						<?php if ( $txn->can_be_refunded() ): ?>
+						<?php if ( $txn->can_be_refunded() ) : ?>
 							<button class="button" data-gateway="<?php echo $gateway->get_admin_title(); ?>" data-gateway-supports="<?php echo ( $gateway->supports( 'refunds' ) ); ?>" data-refundable="<?php echo $txn->get_refundable_amount(); ?>" name="llms-refund-toggle" type="button"><?php _e( 'Refund', 'lifterlms' ); ?></button>
 						<?php endif; ?>
 					</td>

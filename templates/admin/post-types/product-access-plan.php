@@ -39,7 +39,7 @@ if ( ! isset( $plan ) ) {
 			<?php if ( $plan ) : ?>
 				<span class="llms-plan-title" data-default="<?php _e( 'Unnamed Access Plan', 'lifterlms' ); ?>"><?php echo $plan->get( 'title' ); ?></span>
 				<small>(<?php printf( _x( 'ID# %s', 'Product Access Plan ID', 'lifterlms' ), $plan->get( 'id' ) ); ?>)</small>
-			<?php else: ?>
+			<?php else : ?>
 				<span class="llms-plan-title" data-default="<?php _e( 'New Access Plan', 'lifterlms' ); ?>"><?php _e( 'New Access Plan', 'lifterlms' ); ?></span>
 			<?php endif; ?>
 		</h3>
@@ -65,7 +65,7 @@ if ( ! isset( $plan ) ) {
 
 		<div class="llms-metabox-field d-1of6">
 			<label><?php _e( 'Enroll Text', 'lifterlms' ) ?></label>
-			<input name="_llms_plans[<?php echo $order; ?>][enroll_text]" placeholder="<?php _e( 'Enroll, Join, Buy...'); ?>" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'enroll_text' ) . '"' : ' disabled="disabled"'; ?>>
+			<input name="_llms_plans[<?php echo $order; ?>][enroll_text]" placeholder="<?php _e( 'Enroll, Join, Buy...' ); ?>" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'enroll_text' ) . '"' : ' disabled="disabled"'; ?>>
 		</div>
 
 		<div class="llms-metabox-field d-1of6">
@@ -119,30 +119,30 @@ if ( ! isset( $plan ) ) {
 				<div class="llms-metabox-field d-1of4">
 					<label><?php _e( 'Plan Length', 'lifterlms' ) ?></label>
 					<select data-controller="llms-plan-period" data-value-is="year" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-						<option value="0"<?php selected( 0, ( $plan && 'year' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
-						<?php $i = 1; while( $i <= 6 ): ?>
-							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'year' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s year', 'for %s years', $i, 'lifterlms' ), $i ); ?></option>
+						<option value="0"<?php selected( 0, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
+						<?php $i = 1; while ( $i <= 6 ) : ?>
+							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s year', 'for %s years', $i, 'lifterlms' ), $i ); ?></option>
 						<?php $i++; endwhile; ?>
 					</select>
 
 					<select data-controller="llms-plan-period" data-value-is="month" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-						<option value="0"<?php selected( 0, ( $plan && 'month' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
-						<?php $i = 1; while( $i <= 24 ): ?>
-							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'month' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s month', 'for %s months', $i, 'lifterlms' ), $i ); ?></option>
+						<option value="0"<?php selected( 0, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
+						<?php $i = 1; while ( $i <= 24 ) : ?>
+							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s month', 'for %s months', $i, 'lifterlms' ), $i ); ?></option>
 						<?php $i++; endwhile; ?>
 					</select>
 
 					<select data-controller="llms-plan-period" data-value-is="week" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-						<option value="0"<?php selected( 0, ( $plan && 'week' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
-						<?php $i = 1; while( $i <= 52 ): ?>
-							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'week' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s week', 'for %s weeks', $i, 'lifterlms' ), $i ); ?></option>
+						<option value="0"<?php selected( 0, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
+						<?php $i = 1; while ( $i <= 52 ) : ?>
+							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s week', 'for %s weeks', $i, 'lifterlms' ), $i ); ?></option>
 						<?php $i++; endwhile; ?>
 					</select>
 
 					<select data-controller="llms-plan-period" data-value-is="day" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-						<option value="0"<?php selected( 0, ( $plan && 'day' === $period ) ? $plan->get( 'length') : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
-						<?php $i = 1; while( $i <= 90 ): ?>
-							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'day' === $period ) ? $plan->get( 'length') : '' ); ?>><?php printf( _n( 'for %s day', 'for %s days', $i, 'lifterlms' ), $i ); ?></option>
+						<option value="0"<?php selected( 0, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
+						<?php $i = 1; while ( $i <= 90 ) : ?>
+							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s day', 'for %s days', $i, 'lifterlms' ), $i ); ?></option>
 						<?php $i++; endwhile; ?>
 					</select>
 				</div>
@@ -186,7 +186,7 @@ if ( ! isset( $plan ) ) {
 
 		</div>
 
-		<?php if ( $course ): ?>
+		<?php if ( $course ) : ?>
 
 			<div class="d-1of2">
 
@@ -201,8 +201,8 @@ if ( ! isset( $plan ) ) {
 				<div class="llms-metabox-field d-2of3" data-controller="llms-availability" data-value-is="members">
 					<label><?php _e( 'Memberships', 'lifterlms' ) ?></label>
 					<select class="llms-availability-restrictions" data-post-type="llms_membership" multiple="multiple" name="_llms_plans[<?php echo $order; ?>][availability_restrictions][]" required="required" style="width:100%; height: 25px;" <?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-						<?php if ( $plan ): ?>
-							<?php foreach( $plan->get_array( 'availability_restrictions' ) as $membership_id ) : ?>
+						<?php if ( $plan ) : ?>
+							<?php foreach ( $plan->get_array( 'availability_restrictions' ) as $membership_id ) : ?>
 								<option value="<?php echo $membership_id; ?>" selected="selected"><?php echo get_the_title( $membership_id ); ?> (<?php printf( __( 'ID# %d', 'lifterlms' ), $membership_id ); ?>)</option>
 							<?php endforeach; ?>
 						<?php endif; ?>
@@ -237,10 +237,10 @@ if ( ! isset( $plan ) ) {
 			<div class="llms-metabox-field d-1of6" data-controller="llms-trial-offer" data-value-is="yes">
 				<label>&nbsp;</label>
 				<select name="_llms_plans[<?php echo $order; ?>][trial_period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="year"<?php selected( 'year', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ): '' ) ; ?>><?php _e( 'year(s)', 'lifterlms' ); ?></option>
-					<option value="month"<?php selected( 'month', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ): '' ) ; ?>><?php _e( 'month(s)', 'lifterlms' ); ?></option>
-					<option value="week"<?php selected( 'week', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ): '' ) ; ?>><?php _e( 'week(s)', 'lifterlms' ); ?></option>
-					<option value="day"<?php selected( 'day', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ): '' ) ; ?>><?php _e( 'day(s)', 'lifterlms' ); ?></option>
+					<option value="year"<?php selected( 'year', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ): '' ); ?>><?php _e( 'year(s)', 'lifterlms' ); ?></option>
+					<option value="month"<?php selected( 'month', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ): '' ); ?>><?php _e( 'month(s)', 'lifterlms' ); ?></option>
+					<option value="week"<?php selected( 'week', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ): '' ); ?>><?php _e( 'week(s)', 'lifterlms' ); ?></option>
+					<option value="day"<?php selected( 'day', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ): '' ); ?>><?php _e( 'day(s)', 'lifterlms' ); ?></option>
 				</select>
 			</div>
 		</div>

@@ -36,7 +36,7 @@ $gateway = $order->get_gateway();
 				</tr>
 
 				<?php if ( $order->has_trial() ) : ?>
-					<?php if ( $order->has_coupon() && $order->get( 'coupon_amount_trial' ) ): ?>
+					<?php if ( $order->has_coupon() && $order->get( 'coupon_amount_trial' ) ) : ?>
 						<tr>
 							<td><strong><?php _e( 'Original Total', 'lifterlms' ) ?></strong></td>
 							<td><?php echo $order->get_price( 'trial_original_total' ); ?></td>
@@ -67,7 +67,7 @@ $gateway = $order->get_gateway();
 						<td><?php echo $order->get_price( 'original_total' ); ?></td>
 					</tr>
 
-					<?php if ( $order->has_sale() ): ?>
+					<?php if ( $order->has_sale() ) : ?>
 						<tr>
 							<td><strong><?php _e( 'Sale Discount', 'lifterlms' ) ?></strong></td>
 							<td>
@@ -77,7 +77,7 @@ $gateway = $order->get_gateway();
 						</tr>
 					<?php endif; ?>
 
-					<?php if ( $order->has_coupon() ): ?>
+					<?php if ( $order->has_coupon() ) : ?>
 						<tr>
 							<td><strong><?php _e( 'Coupon Discount', 'lifterlms' ) ?></strong></td>
 							<td>
@@ -93,12 +93,12 @@ $gateway = $order->get_gateway();
 					<td><strong><?php _e( 'Total', 'lifterlms' ); ?></strong></td>
 					<td>
 						<?php echo $order->get_price( 'total' ); ?>
-						<?php if ( $order->is_recurring() ): ?>
+						<?php if ( $order->is_recurring() ) : ?>
 							<?php printf( _n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ), $order->get( 'billing_frequency' ), $order->get( 'billing_period' ) ); ?>
 							<?php if ( $order->get( 'billing_cycle' ) > 0 ) : ?>
 								<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_cycle' ), 'lifterlms' ), $order->get( 'billing_cycle' ), $order->get( 'billing_period' ) ); ?>
 							<?php endif; ?>
-						<?php else: ?>
+						<?php else : ?>
 							<?php _e( 'One-time', 'lifterlms' ); ?>
 						<?php endif; ?>
 					</td>
@@ -109,7 +109,7 @@ $gateway = $order->get_gateway();
 					<td>
 						<?php if ( is_wp_error( $gateway ) ) : ?>
 							<?php echo $order->get( 'payment_gateway' ); ?>
-						<?php else: ?>
+						<?php else : ?>
 							<?php echo $gateway->get_title(); ?>
 						<?php endif; ?>
 					</td>

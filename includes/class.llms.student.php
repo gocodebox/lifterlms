@@ -536,7 +536,6 @@ class LLMS_Student {
 			'post_type' => 'llms_order',
 		) );
 
-
 		$orders = array();
 
 		if ( $q->have_posts() ) {

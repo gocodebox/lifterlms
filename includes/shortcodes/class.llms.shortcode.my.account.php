@@ -61,9 +61,7 @@ class LLMS_Shortcode_My_Account {
 
 			}
 
-		}
-
-		// If user is logged in, display the correct page
+		} // If user is logged in, display the correct page
 		else {
 
 			$tabs = LLMS_Student_Dashboard::get_tabs();

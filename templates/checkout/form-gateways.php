@@ -10,12 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 $show_gateways = true;
 
 // don't display if the plan is marked as free
-if ( isset ( $plan ) && $plan->is_free() ) {
+if ( isset( $plan ) && $plan->is_free() ) {
 	$show_gateways = false;
 }
 
 // if the plan doesn't require payment due to coupon application
-if ( ! empty ( $coupon ) && ! $plan->requires_payment( $coupon->get( 'id' ) ) ) {
+if ( ! empty( $coupon ) && ! $plan->requires_payment( $coupon->get( 'id' ) ) ) {
 	$show_gateways = false;
 }
 
@@ -23,12 +23,12 @@ $supports = $plan->is_recurring() ? 'recurring_payments' : 'single_payments';
 $supporting_gateways = 0;
 ?>
 <ul class="llms-payment-gateways">
-	<?php if ( $show_gateways ): ?>
-		<?php if ( ! $gateways ): ?>
+	<?php if ( $show_gateways ) : ?>
+		<?php if ( ! $gateways ) : ?>
 			<li class="llms-payment-gateway-error"><?php _e( 'Payment processing is currently disabled.', 'lifterlms' ); ?></li>
-		<?php else: ?>
-			<?php foreach( $gateways as $gateway ): ?>
-				<?php if ( $gateway->supports( $supports ) ): ?>
+		<?php else : ?>
+			<?php foreach ( $gateways as $gateway ) : ?>
+				<?php if ( $gateway->supports( $supports ) ) : ?>
 					<li class="llms-payment-gateway <?php echo $gateway->get_id(); ?><?php echo ( $selected_gateway === $gateway->get_id() ) ? ' is-selected' : ''; ?>">
 					<?php llms_form_field( array(
 						'columns' => 12,

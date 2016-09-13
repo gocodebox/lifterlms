@@ -29,8 +29,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 	// Search for an existing page with the specified page content like a shortcode
 	if ( strlen( $content ) > 0 ) {
 		$page_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' ) AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
-	}
-	// Search for an existing page with the specified page slug
+	} // Search for an existing page with the specified page slug
 	else {
 		$page_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' )  AND post_name = %s LIMIT 1;", $slug ) );
 	}
@@ -46,8 +45,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 	// look in the trashd trashed page by content
 	if ( strlen( $content ) > 0 ) {
 		$trashed_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
-	}
-	// look in the trashd trashed page by slug
+	} // look in the trashd trashed page by slug
 	else {
 		$trashed_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_name = %s LIMIT 1;", $slug ) );
 	}
@@ -60,8 +58,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 			'post_status'    => 'publish',
 		);
 	 	wp_update_post( $page_data );
-	}
-	// otherwise create it
+	} // otherwise create it
 	else {
 		$page_data = array(
 			'post_status'    => 'publish',

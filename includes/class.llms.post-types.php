@@ -88,7 +88,7 @@ class LLMS_Post_Types {
 
 			}
 
-			if ( is_post_type_archive( 'course') || $query->get( 'page_id' ) == llms_get_page_id( 'courses' ) ) {
+			if ( is_post_type_archive( 'course' ) || $query->get( 'page_id' ) == llms_get_page_id( 'courses' ) ) {
 				$query->set( 'posts_per_page', get_option( 'lifterlms_shop_courses_per_page', 10 ) );
 
 				$sorting = explode( ',', get_option( 'lifterlms_shop_ordering', 'menu_order,ASC' ) );
@@ -106,7 +106,6 @@ class LLMS_Post_Types {
 				$query->set( 'order', apply_filters( 'llms_memberships_order', $sorting[1] ) );
 
 			}
-
 
 		}
 

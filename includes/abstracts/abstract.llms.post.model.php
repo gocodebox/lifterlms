@@ -220,7 +220,7 @@ abstract class LLMS_Post_Model {
 	 * @version  3.0.0
 	 */
 	public function _e( $key ) {
-		echo $this->__( $key );
+		echo $this->translate( $key );
 	}
 
 	/**

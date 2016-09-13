@@ -18,7 +18,7 @@ $next_id = $lesson->get_next_lesson();
 
 <nav class="llms-course-navigation">
 
-	<?php if ( $prev_id ): ?>
+	<?php if ( $prev_id ) : ?>
 
 		<div class="llms-course-nav llms-prev-lesson">
 			<?php llms_get_template( 'course/lesson-preview.php', array(
@@ -29,7 +29,7 @@ $next_id = $lesson->get_next_lesson();
 
 	<?php endif; ?>
 
-	<?php if ( ! $prev_id || ! $next_id ): ?>
+	<?php if ( ! $prev_id || ! $next_id ) : ?>
 		<div class="llms-course-nav llms-back-to-course">
 			<div class="llms-lesson-preview">
 				<a class="llms-lesson-link" href="<?php echo get_permalink( $lesson->get_parent_course() ); ?>">
@@ -42,7 +42,7 @@ $next_id = $lesson->get_next_lesson();
 		</div>
 	<?php endif; ?>
 
-	<?php if ( $next_id ): ?>
+	<?php if ( $next_id ) : ?>
 
 		<div class="llms-course-nav llms-next-lesson">
 			<?php llms_get_template( 'course/lesson-preview.php', array(
@@ -104,5 +104,3 @@ if ( $lesson->get_next_lesson() ) {
 	</div>
 
 <?php } ?>
-
-

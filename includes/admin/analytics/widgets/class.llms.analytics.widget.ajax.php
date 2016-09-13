@@ -13,7 +13,7 @@ class LLMS_Analytics_Widget_Ajax {
 	public function __construct() {
 
 		// only proceed if we're doing ajax
-		if( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
+		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 
 			return;
 
@@ -40,7 +40,7 @@ class LLMS_Analytics_Widget_Ajax {
 		/**
 		 * @todo  is there a way to only register the function being called during this request?
 		 */
-		foreach( $methods as $method ) {
+		foreach ( $methods as $method ) {
 
 			$file = LLMS_PLUGIN_DIR . 'includes/admin/analytics/widgets/class.llms.analytics.widget.' . $method . '.php';
 

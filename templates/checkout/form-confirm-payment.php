@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 			<div class="llms-checkout-section-content">
 				<?php do_action( 'lifterlms_checkout_confirm_before_billing_info' ); ?>
-				<?php foreach( LLMS_Person_Handler::get_available_fields( 'checkout', $field_data ) as $field ): ?>
+				<?php foreach ( LLMS_Person_Handler::get_available_fields( 'checkout', $field_data ) as $field ) : ?>
 					<span class="llms-field-display <?php echo $field['id']; ?>"><?php echo $field['value']; ?></span><?php echo $field['last_column'] ? '<br>' : ' '; ?>
 				<?php endforeach; ?>
 				<?php do_action( 'lifterlms_checkout_confirm_after_billing_info' ); ?>
@@ -56,7 +56,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 				<div class="llms-payment-method">
 					<?php do_action( 'lifterlms_checkout_confirm_before_payment_method', $selected_gateway->get_id() ); ?>
 					<span class="llms-gateway-title"><span class="llms-label"><?php _e( 'Payment Method:', 'lifterlms' ); ?></span> <?php echo $selected_gateway->get_title(); ?></span>
-					<?php if( $selected_gateway->get_icon() ): ?>
+					<?php if ( $selected_gateway->get_icon() ) : ?>
 						<span class="llms-gateway-icon"><?php echo $selected_gateway->get_icon(); ?></span>
 					<?php endif; ?>
 					<?php if ( $selected_gateway->get_description() ) : ?>

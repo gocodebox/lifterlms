@@ -15,10 +15,10 @@ if ( ! is_admin() ) { exit; }
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
 		<p class="no-plans-message"><?php printf( __( 'No access plans exist for your %s.', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></p>
-		<?php foreach( $product->get_access_plans() as $plan ): ?>
+		<?php foreach ( $product->get_access_plans() as $plan ) : ?>
 			<?php llms_get_template( 'admin/post-types/product-access-plan.php', array(
 				'course' => $course,
-				'plan' => $plan
+				'plan' => $plan,
 			) ); ?>
 		<?php endforeach; ?>
 	</section>

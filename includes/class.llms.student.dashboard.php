@@ -29,7 +29,7 @@ class LLMS_Student_Dashboard {
 
 		$endpoints = array();
 
-		foreach( self::get_tabs() as $var => $data ) {
+		foreach ( self::get_tabs() as $var => $data ) {
 
 			if ( empty( $data['endpoint'] ) ) {
 				continue;
@@ -61,13 +61,11 @@ class LLMS_Student_Dashboard {
 
 		}
 
-
 		if ( 'data' === $return ) {
 			return $tabs[ $current_tab ];
 		} else {
 			return $current_tab;
 		}
-
 
 	}
 

@@ -61,7 +61,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 */
 	public function get_prerequisite_id( $type = 'course' ) {
 
-		if ( $this->has_prerequisite( $type  ) ) {
+		if ( $this->has_prerequisite( $type ) ) {
 
 			switch ( $type ) {
 
@@ -277,7 +277,6 @@ class LLMS_Course extends LLMS_Post_Model {
 				return ( $this->get( 'prerequisite_track' ) );
 
 			}
-
 
 		}
 

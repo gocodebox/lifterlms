@@ -39,7 +39,7 @@ if ( ! empty( $quiz ) ) {
 			<?php endif; ?>
 		</form>
 
-	<?php else: ?>
+	<?php else : ?>
 
 		<p><?php _e( 'You are not able take this quiz', 'lifterlms' ); ?></p>
 

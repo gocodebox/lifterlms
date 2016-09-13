@@ -27,7 +27,6 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 			$product_ids .= 'AND post_id IN ( ' . implode( ', ', $products ) . ' )';
 		}
 
-
 		$this->query_function = 'get_var';
 
 		$this->query = "SELECT COUNT(meta_id)

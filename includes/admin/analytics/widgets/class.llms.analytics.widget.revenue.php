@@ -43,13 +43,11 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 				$txn_meta_join = "JOIN {$wpdb->postmeta} AS txn_meta ON txn_meta.post_id = txns.ID";
 				$txn_meta_where .= " AND txn_meta.meta_key = '_llms_order_id'";
 				$txn_meta_where .= ' AND txn_meta.meta_value IN ( ' . implode( ', ', $order_ids ) . ' )';
-			}
-
-			// no orders we're found, do a fake query to return 0 automatically
+			} // no orders we're found, do a fake query to return 0 automatically
 			else {
 
 				$this->query_function = 'get_var';
-				$this->query = "SELECT 0";
+				$this->query = 'SELECT 0';
 				return;
 
 			}
@@ -62,8 +60,6 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 			$this->format_date( $dates['start'], 'start' ),
 			$this->format_date( $dates['end'], 'end' ),
 		);
-
-
 
 		$this->query_function = 'get_var';
 
@@ -91,8 +87,6 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 							AND txns.post_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME )
 							{$txn_meta_where}
 						;";
-
-
 
 	}
 

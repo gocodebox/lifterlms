@@ -45,7 +45,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 				'fields' => array(
 					array(
 						'data_attributes' => array(
-							'post-type' => 'course'
+							'post-type' => 'course',
 						),
 						'type' => 'select',
 						'label' => __( 'Courses', 'lifterlms' ),
@@ -57,7 +57,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 					),
 					array(
 						'data_attributes' => array(
-							'post-type' => 'llms_membership'
+							'post-type' => 'llms_membership',
 						),
 						'type' => 'select',
 						'label' => __( 'Membership', 'lifterlms' ),

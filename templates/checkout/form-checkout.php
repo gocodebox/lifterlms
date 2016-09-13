@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 			<div class="llms-checkout-section-content llms-form-fields">
 				<?php do_action( 'lifterlms_checkout_before_billing_fields' ); ?>
-				<?php foreach( LLMS_Person_Handler::get_available_fields( 'checkout', $field_data ) as $field ): ?>
+				<?php foreach ( LLMS_Person_Handler::get_available_fields( 'checkout', $field_data ) as $field ) : ?>
 					<?php llms_form_field( $field ); ?>
 				<?php endforeach; ?>
 				<?php do_action( 'lifterlms_checkout_after_billing_fields' ); ?>

@@ -8,13 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 
 // don't display if the plan is marked as free
-if ( isset ( $plan ) && $plan->is_free() ) {
+if ( isset( $plan ) && $plan->is_free() ) {
 	return;
 }
 ?>
 <div class="llms-coupon-wrapper">
 
-	<?php if ( empty( $coupon ) ): ?>
+	<?php if ( empty( $coupon ) ) : ?>
 
 		<?php _e( 'Have a coupon?', 'lifterlms' ); ?>
 		<a href="#llms-coupon-toggle"><?php _e( 'Click here to enter your code', 'lifterlms' ); ?></a>
@@ -46,7 +46,7 @@ if ( isset ( $plan ) && $plan->is_free() ) {
 			) ); ?>
 		</div>
 
-	<?php else: ?>
+	<?php else : ?>
 
 		<?php llms_print_notice( sprintf( __( 'Coupon code "%s" has been applied to your order.', 'lifterlms' ), $coupon->get( 'title' ) ), 'success' ); ?>
 

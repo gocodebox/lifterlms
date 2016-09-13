@@ -59,7 +59,7 @@ class LLMS_Tracker {
 			'body'        => array( 'data' => json_encode( LLMS_Data::get_data( 'tracker' ) ) ),
 			'cookies'     => array(),
 			'headers'     => array(
-				'user-agent' => 'LifterLMS_Tracker/' . md5( esc_url( home_url( '/' ) ) ) . ';'
+				'user-agent' => 'LifterLMS_Tracker/' . md5( esc_url( home_url( '/' ) ) ) . ';',
 			),
 			'method'      => 'POST',
 			'redirection' => 5,

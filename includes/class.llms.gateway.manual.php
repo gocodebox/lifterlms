@@ -4,7 +4,7 @@
 *
 * @version 3.0.0
 */
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 	/**
@@ -21,7 +21,6 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 		$this->title = __( 'Manual', 'lifterlms' );
 		$this->description = __( 'Pay manually via check', 'lifterlms' );
 		$this->payment_instructions = ''; // fields
-
 
 		$this->supports = array(
 			'checkout_fields' => false,

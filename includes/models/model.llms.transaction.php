@@ -28,37 +28,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	protected $model_post_type = 'transaction';
 
 	/**
-	 * Wrapper for $this-get() which allows translation of the database value before outputting on screen
-	 * @param    string     $key  key to retrieve
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function __( $key ) {
-
-		$val = $this->get( $key );
-
-		switch ( $key ) {
-
-			case 'payment_type':
-				if ( 'single' === $val ) {
-					$val = __( 'Single', 'lifterlms' );
-				} elseif ( 'recurring' === $val ) {
-					$val = __( 'Recurring', 'lifterlms' );
-				} elseif ( 'trial' === $val ) {
-					$val = __( 'Trial', 'lifterlms' );
-				}
-			break;
-
-			default:
-				$val = $val;
-		}
-
-		return $val;
-
-	}
-
-	/**
 	 * Determine if the transaction can be refunded
 	 * Status must not be "failed" and total refunded amount must be less than order amount
 	 * @return   boolean
@@ -308,6 +277,37 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			return new WP_Error( 'error', __( 'An unknown error occurred during refund processing', 'lifterlms' ) );
 
 		}
+
+	}
+
+	/**
+	 * Wrapper for $this-get() which allows translation of the database value before outputting on screen
+	 * @param    string     $key  key to retrieve
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function translate( $key ) {
+
+		$val = $this->get( $key );
+
+		switch ( $key ) {
+
+			case 'payment_type':
+				if ( 'single' === $val ) {
+					$val = __( 'Single', 'lifterlms' );
+				} elseif ( 'recurring' === $val ) {
+					$val = __( 'Recurring', 'lifterlms' );
+				} elseif ( 'trial' === $val ) {
+					$val = __( 'Trial', 'lifterlms' );
+				}
+			break;
+
+			default:
+				$val = $val;
+		}
+
+		return $val;
 
 	}
 

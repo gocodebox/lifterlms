@@ -1068,7 +1068,7 @@ class LLMS_AJAX {
 		if ( $term ) {
 
 			// email only
-			if( false !== strpos( $term, '@' ) ) {
+			if ( false !== strpos( $term, '@' ) ) {
 
 				$query = "SELECT
 							  ID AS id
@@ -1085,9 +1085,7 @@ class LLMS_AJAX {
 					$limit,
 				);
 
-			}
-
-			// search for FIRST and LAST names
+			} // search for FIRST and LAST names
 			elseif ( false !== strpos( $term, ' ' ) ) {
 
 				$term = explode( ' ', $term );
@@ -1113,9 +1111,7 @@ class LLMS_AJAX {
 					$limit,
 				);
 
-			}
-
-			// search for login, display name, or email
+			} // search for login, display name, or email
 			else {
 
 				$query = "SELECT
@@ -1138,11 +1134,9 @@ class LLMS_AJAX {
 					$limit,
 				);
 
-
 			}
 
-		}
-		// no search query
+		} // no search query
 		else {
 
 			$query = "SELECT

@@ -49,7 +49,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 					array(
 						'label' 	=> __( 'Achievement Title', 'lifterlms' ),
 						'desc' 		=> __( 'Enter a title for your achievement. IE: Achievement of Completion', 'lifterlms' ),
-						'id' 		=>  $this->prefix . 'achievement_title',
+						'id' 		=> $this->prefix . 'achievement_title',
 						'type'  	=> 'text',
 						'section' 	=> 'achievement_meta_box',
 						'class' 	=> 'code input-full',
@@ -61,7 +61,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 					array(
 						'label' 	=> __( 'Achievement Content', 'lifterlms' ),
 						'desc' 		=> __( 'Enter any information you would like to display on the achievement.', 'lifterlms' ),
-						'id' 		=>  $this->prefix . 'achievement_content',
+						'id' 		=> $this->prefix . 'achievement_content',
 						'type'  	=> 'textarea_w_tags',
 						'section' 	=> 'achievement_meta_box',
 						'class' 	=> 'code input-full',
@@ -73,7 +73,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 					array(
 						'label'  	=> __( 'Background Image', 'lifterlms' ),
 						'desc'  	=> __( 'Select an Image to use for the achievement.', 'lifterlms' ),
-						'id'    	=>  $this->prefix . 'achievement_image',
+						'id'    	=> $this->prefix . 'achievement_image',
 						'type'  	=> 'image',
 						'section' 	=> 'achievement_meta_box',
 						'class' 	=> 'achievement',

@@ -23,7 +23,7 @@ if ( is_user_logged_in() ) { return; }
 
 		<?php do_action( 'lifterlms_login_form_start' ); ?>
 
-		<?php foreach( LLMS_Person_Handler::get_login_fields() as $field ): ?>
+		<?php foreach ( LLMS_Person_Handler::get_login_fields() as $field ) : ?>
 			<?php llms_form_field( $field ); ?>
 		<?php endforeach; ?>
 

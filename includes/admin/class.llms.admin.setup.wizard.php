@@ -23,7 +23,7 @@ class LLMS_Admin_Setup_Wizard {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'admin_init', array( $this, 'save' ) );
-        	add_action( 'admin_print_footer_scripts', array( $this, 'scripts' ) );
+			add_action( 'admin_print_footer_scripts', array( $this, 'scripts' ) );
 
 		}
 
@@ -191,7 +191,7 @@ class LLMS_Admin_Setup_Wizard {
 				</h1>
 
 				<ul class="llms-setup-progress">
-					<?php foreach( $steps as $slug => $name ) : ?>
+					<?php foreach ( $steps as $slug => $name ) : ?>
 						<li<?php echo ( $slug === $current ) ? ' class="current"' : ''; ?>><?php echo $name; ?></li>
 					<?php endforeach; ?>
 				</ul>
@@ -210,15 +210,15 @@ class LLMS_Admin_Setup_Wizard {
 								<a href="<?php echo esc_url( admin_url() ); ?>" class="button button-large"><?php _e( 'Skip setup', 'lifterlms' ); ?></a>
 								<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="button button-large button-primary"><?php _e( 'Get Started Now', 'lifterlms' ); ?></a>
 							<?php elseif ( 'finish' === $current ) : ?>
-								<?php if ( $prev = $this->get_prev_step() ): ?>
+								<?php if ( $prev = $this->get_prev_step() ) : ?>
 									<a href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
 								<?php endif; ?>
 								<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="button button-large button-primary"><?php _e( 'Create your first course!', 'lifterlms' ); ?></a>
-							<?php else: ?>
-								<?php if ( $prev = $this->get_prev_step() ): ?>
+							<?php else : ?>
+								<?php if ( $prev = $this->get_prev_step() ) : ?>
 									<a href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
 								<?php endif; ?>
-								<?php if ( $next = $this->get_next_step() ): ?>
+								<?php if ( $next = $this->get_next_step() ) : ?>
 									<a href="<?php echo $this->get_step_url( $next ); ?>" class="button button-large"><?php echo $this->get_skip_text( $current ); ?></a>
 								<?php endif; ?>
 								<button class="button button-large button-primary" type="submit"><?php echo $this->get_save_text( $current ); ?></button>
@@ -321,7 +321,7 @@ class LLMS_Admin_Setup_Wizard {
 							<p><label for="llms_country"><?php _e( 'Which country should be used as the default for student registrations?', 'lifterlms' );?></label></p>
 							<p>
 								<select id="llms_country" name="country" class="llms-select2">
-								<?php foreach ( get_lifterlms_countries() as $code => $name ): ?>
+								<?php foreach ( get_lifterlms_countries() as $code => $name ) : ?>
 									<option value="<?php echo $code; ?>"<?php selected( $code, $country ); ?>><?php echo $name; ?> (<?php echo $code; ?>)</option>
 								<?php endforeach; ?>
 								</select>
@@ -333,7 +333,7 @@ class LLMS_Admin_Setup_Wizard {
 							<p><label for="llms_currency"><?php _e( 'Which currency should be used for payment processing?', 'lifterlms' );?></label></p>
 							<p>
 								<select id="llms_currency" name="currency" class="llms-select2">
-								<?php foreach ( get_lifterlms_currencies() as $code => $name ): ?>
+								<?php foreach ( get_lifterlms_currencies() as $code => $name ) : ?>
 									<option value="<?php echo $code; ?>"<?php selected( $code, $currency ); ?>><?php echo $name; ?> (<?php echo get_lifterlms_currency_symbol( $code ); ?>)</option>
 								<?php endforeach; ?>
 								</select>
@@ -352,7 +352,6 @@ class LLMS_Admin_Setup_Wizard {
 				<?php
 			break;
 
-
 		}
 
 	}
@@ -365,7 +364,7 @@ class LLMS_Admin_Setup_Wizard {
 	 */
 	public function save() {
 
-		if ( ! isset( $_POST['llms_setup_nonce'] ) || ! wp_verify_nonce( $_POST['llms_setup_nonce'], 'llms_setup_save' ) || empty ( $_POST['llms_setup_save'] ) ) {
+		if ( ! isset( $_POST['llms_setup_nonce'] ) || ! wp_verify_nonce( $_POST['llms_setup_nonce'], 'llms_setup_save' ) || empty( $_POST['llms_setup_save'] ) ) {
 			return;
 		}
 
