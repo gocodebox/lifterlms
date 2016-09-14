@@ -32,15 +32,10 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tags',        35 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_course_author',             40 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end',   50 );
-
-
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_prerequisites',      55 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table',             60 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus',           90 );
 
-/**
- * Called by lifterlms_template_pricing_table if the product is purchasable
- */
-add_action( 'lifterlms_before_access_plans', 'lifterlms_template_single_prerequisites', 5 );
 
 
 

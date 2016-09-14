@@ -1,5 +1,13 @@
 == Changelog =
 
+= v3.0.0-beta.8 - 2016/09/?? =
+-------------------------------
+
++ Check course restrictions automatically when checking lesson
++ Added user_id to all access function checks to allow for checks for non current user
++ course restriction messages display regardless of enrollment status
+
+
 = v3.0.0-beta.7 - 2016/09/13 =
 -------------------------------
 

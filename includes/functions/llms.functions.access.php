@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @since    1.0.0
  * @version  3.0.0
  */
-function llms_page_restricted( $post_id ) {
+function llms_page_restricted( $post_id, $user_id = null ) {
 
 	$results = array(
 		'content_id' => $post_id,
@@ -28,9 +28,13 @@ function llms_page_restricted( $post_id ) {
 		'restriction_id' => 0,
 	);
 
+	if ( ! $user_id ) {
+		$user_id = get_current_user_id();
+	}
+
 	$student = false;
-	if ( get_current_user_id() ) {
-		$student = new LLMS_Student();
+	if ( $user_id ) {
+		$student = new LLMS_Student( $user_id );
 	}
 
 	$post_type = get_post_type( $post_id );
@@ -40,11 +44,11 @@ function llms_page_restricted( $post_id ) {
 	 */
 
 	// content is restricted by a sitewide membership
-	if ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id ) ) {
+	if ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id ) ) {
 		$restriction_id = $membership_id;
 		$reason = 'sitewide_membership';
 	} // content is restricted by a membership
-	elseif ( $membership_id = llms_is_post_restricted_by_membership( $post_id ) ) {
+	elseif ( $membership_id = llms_is_post_restricted_by_membership( $post_id, $user_id ) ) {
 		$restriction_id = $membership_id;
 		$reason = 'membership';
 	} // checks for lessons
@@ -95,7 +99,7 @@ function llms_page_restricted( $post_id ) {
 
 		if ( 'lesson' === $post_type || 'llms_quiz' === $post_type ) {
 
-			if ( $course_id = llms_is_post_restricted_by_time_period( $post_id ) ) {
+			if ( $course_id = llms_is_post_restricted_by_time_period( $post_id, $user_id ) ) {
 
 				$results['is_restricted'] = true;
 				$results['reason'] = 'course_time_period';
@@ -104,7 +108,7 @@ function llms_page_restricted( $post_id ) {
 
 			}
 
-			if ( $lesson_id = llms_is_post_restricted_by_prerequisite( $post_id ) ) {
+			if ( $lesson_id = llms_is_post_restricted_by_prerequisite( $post_id, $user_id ) ) {
 
 				$results['is_restricted'] = true;
 				$results['reason'] = 'lesson_prerequisite';
@@ -117,7 +121,7 @@ function llms_page_restricted( $post_id ) {
 
 		if ( 'lesson' === $post_type ) {
 
-			if ( $lesson_id = llms_is_post_restricted_by_drip_settings( $post_id ) ) {
+			if ( $lesson_id = llms_is_post_restricted_by_drip_settings( $post_id, $user_id ) ) {
 
 				$results['is_restricted'] = true;
 				$results['reason'] = 'lesson_drip';
@@ -135,6 +139,19 @@ function llms_page_restricted( $post_id ) {
 }
 
 /**
+ * Get a boolean out of llms_page_restricted for easy if checks
+ * @param    int     $post_id   WordPress Post ID of the
+ * @param    int     $user_id   optional user id (will use get_current_user_id() if none supplied)
+ * @return   bool
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+function llms_is_page_restricted( $post_id, $user_id ) {
+	$restrictions = llms_page_restricted( $post_id, $user_id );
+	return $restrictions['is_restricted'];
+}
+
+/**
  * Determine if a lesson/quiz is restricted by drip settings
  * @param    int     $post_id  WP Post ID of a lesson or quiz
  * @return   int|false         false if the lesson is available
@@ -142,7 +159,7 @@ function llms_page_restricted( $post_id ) {
  * @since    3.0.0
  * @version  3.0.0
  */
-function llms_is_post_restricted_by_drip_settings( $post_id ) {
+function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 
 	$post_type = get_post_type( $post_id );
 
@@ -152,7 +169,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id ) {
 	} // quizzes need to cascade up to get lesson id
 	elseif ( 'llms_quiz' == $post_type ) {
 		$quiz = new LLMS_Quiz( $post_id );
-		$lesson_id = $quiz->get_assoc_lesson( get_current_user_id() );
+		$lesson_id = $quiz->get_assoc_lesson( $user_id );
 	} // dont pass other post types in here dumb dumb
 	else {
 		return false;
@@ -176,7 +193,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id ) {
  * @since    3.0.0
  * @version  3.0.0
  */
-function llms_is_post_restricted_by_prerequisite( $post_id ) {
+function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	$post_type = get_post_type( $post_id );
 
@@ -186,29 +203,44 @@ function llms_is_post_restricted_by_prerequisite( $post_id ) {
 	} // quizzes need to cascade up to get lesson id
 	elseif ( 'llms_quiz' == $post_type ) {
 		$quiz = new LLMS_Quiz( $post_id );
-		$lesson_id = $quiz->get_assoc_lesson( get_current_user_id() );
+		$lesson_id = $quiz->get_assoc_lesson( $user_id );
 	} // dont pass other post types in here dumb dumb
 	else {
 		return false;
 	}
 
 	$lesson = new LLMS_Lesson( $lesson_id );
+	$course = $lesson->get_course();
+
+	// get an array of all possible prereqs
+	$prerequisites = array();
+
+	if ( $course->has_prerequisite( 'course' ) ) {
+		$prerequisites[ $course->get_prerequisite_id( 'course' ) ] = 'course';
+	}
+
+	if ( $course->has_prerequisite( 'track' ) ) {
+		$prerequisites[ $course->get_prerequisite_id( 'track' ) ] = 'track';
+	}
 
 	if ( $lesson->has_prerequisite() ) {
+		$prerequisites[ $lesson->get_prerequisite() ] = 'lesson';
+	}
 
-		$uid = get_current_user_id();
+	// prereqs exist and user is not logged in
+	// return the first prereq id
+	if ( $prerequisites && ! $user_id ) {
+		return array_shift( array_keys( $prerequisites ) );
+	} // student is logged in, check completion of the preq
+	// if incomplete, send the prereq id
+	// otherwise return false
+	else {
 
-		$prerequisite_id = $lesson->get( 'prerequisite' );
-
-		// not logged in, so send the prereq id back
-		if ( ! $uid ) {
-			return $prerequisite_id;
-		} // student is logged in, check completion of the preq
-		// if incomplete, send the prereq id
-		// otherwise return false
-		else {
-			$student = new LLMS_Student( $uid );
-			return ( ! $student->is_complete( $prerequisite_id, 'lesson' ) ) ? $prerequisite_id : false;
+		$student = new LLMS_Student( $user_id );
+		foreach ( $prerequisites as $obj_id => $obj_type ) {
+			if ( ! $student->is_complete( $obj_id, $obj_type ) ) {
+				return $obj_id;
+			}
 		}
 
 	}
@@ -226,7 +258,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id ) {
  * @since    3.0.0
  * @version  3.0.0
  */
-function llms_is_post_restricted_by_time_period( $post_id ) {
+function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 
 	$post_type = get_post_type( $post_id );
 
@@ -240,7 +272,7 @@ function llms_is_post_restricted_by_time_period( $post_id ) {
 	elseif ( 'llms_quiz' == $post_type ) {
 
 		$quiz = new LLMS_Quiz( $post_id );
-		$lesson = new LLMS_Lesson( $quiz->get_assoc_lesson( get_current_user_id() ) );
+		$lesson = new LLMS_Lesson( $quiz->get_assoc_lesson( $user_id ) );
 		$course_id = $lesson->get_parent_course();
 
 	} // course id is the post id
@@ -275,7 +307,7 @@ function llms_is_post_restricted_by_time_period( $post_id ) {
  * @since    3.0.0
  * @version  3.0.0
  */
-function llms_is_post_restricted_by_membership( $post_id ) {
+function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
 	// don't check these posts types
 	$skip = apply_filters( 'llms_is_post_restricted_by_membership_skip_post_types', array(
@@ -316,7 +348,7 @@ function llms_is_post_restricted_by_membership( $post_id ) {
  * @since    3.0.0
  * @version  3.0.0
  */
-function llms_is_post_restricted_by_sitewide_membership( $post_id ) {
+function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = null ) {
 
 	$membership_id = absint( get_option( 'lifterlms_membership_required', '' ) );
 
@@ -457,7 +489,7 @@ function membership_page_restricted() {
 
 	if (is_single() && $post->post_type === 'llms_membership') {
 		if ( is_user_logged_in() ) {
-			$user_memberships = get_user_meta( get_current_user_id(), '_llms_restricted_levels', true );
+			$user_memberships = get_user_meta( $user_id, '_llms_restricted_levels', true );
 
 			if ( $user_memberships && in_array( $post->ID, $user_memberships ) ) {
 				$restricted = false;

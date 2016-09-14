@@ -74,7 +74,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @version  3.0.0
 	 */
 	public function get_course() {
-		return new LLMS_Course( $this->get( 'parent_course' ) );
+		return new LLMS_Course( $this->get_parent_course() );
 	}
 
 	/**

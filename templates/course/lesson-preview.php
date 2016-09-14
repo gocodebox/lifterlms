@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 ?>
 
 <div class="llms-lesson-preview<?php echo $lesson->get_preview_classes(); ?>">
-	<a class="llms-lesson-link" href="<?php echo (  $lesson->is_free() || llms_is_user_enrolled( get_current_user_id(), $lesson->get_parent_course() ) ) ? get_permalink( $lesson->get( 'id' ) ) : '#llms-lesson-locked'; ?>">
+	<a class="llms-lesson-link" href="<?php echo ( ! llms_is_page_restricted( $lesson->get( 'id' ), get_current_user_id() ) ) ? get_permalink( $lesson->get( 'id' ) ) : '#llms-lesson-locked'; ?>">
 
 		<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
 

@@ -337,10 +337,14 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
-	public function is_prerequisite_complete( $type = 'course' ) {
+	public function is_prerequisite_complete( $type = 'course', $student_id = null ) {
+
+		if ( ! $student_id ) {
+			$student_id = get_current_user_id();
+		}
 
 		// no user or no prereqs so no reason to proceed
-		if ( ! get_current_user_id() || ! $this->has_prerequisite( $type ) ) {
+		if ( ! $student_id || ! $this->has_prerequisite( $type ) ) {
 			return false;
 		}
 
@@ -352,7 +356,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		}
 
 		// setup student
-		$student = new LLMS_Student();
+		$student = new LLMS_Student( $student_id );
 
 		return $student->is_complete( $prereq_id, $type );
 
