@@ -248,8 +248,6 @@ class LLMS_Controller_Orders {
 			$person = new LLMS_Student( $person_id );
 		}
 
-		// @todo add validation for members only pricing here!
-
 		/**
 		 * Allow gateways, extensions, etc to do their own validation
 		 * after all standard validations are succesfuly

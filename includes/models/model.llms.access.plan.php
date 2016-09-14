@@ -71,7 +71,28 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @version  3.0.0
 	 */
 	public function get_checkout_url() {
-		return llms_get_page_url( 'checkout', array( 'plan' => $this->get( 'id' ) ) );
+
+		$access = true;
+
+		// if theres membership restrictions, check the user is in at least one membership
+		if ( $this->has_availability_restrictions() ) {
+			$access = false;
+			foreach ( $this->get_array( 'availability_restrictions' ) as $mid ) {
+
+				// once we find a membership, exit
+				if ( llms_is_user_enrolled( get_current_user_id(), $mid ) ) {
+					$access = true;
+					break;
+				}
+
+			}
+		}
+
+		if ( $access ) {
+			return llms_get_page_url( 'checkout', array( 'plan' => $this->get( 'id' ) ) );
+		} else {
+			return '#llms-plan-locked';
+		}
 	}
 
 	/**

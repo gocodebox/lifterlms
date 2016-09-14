@@ -6,7 +6,7 @@
 + Check course restrictions automatically when checking lesson
 + Added user_id to all access function checks to allow for checks for non current user
 + course restriction messages display regardless of enrollment status
-
++ check memberships and lock purchase of members only access plans
 
 = v3.0.0-beta.7 - 2016/09/13 =
 -------------------------------

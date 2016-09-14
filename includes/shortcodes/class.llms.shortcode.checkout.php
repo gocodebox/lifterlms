@@ -132,12 +132,31 @@ class LLMS_Shortcode_Checkout {
 	*/
 	private static function checkout( $atts ) {
 
+		// if theres membership restrictions, check the user is in at least one membership
+		// this is to combat CHEATERS
+		if ( $atts['plan']->has_availability_restrictions() ) {
+			$access = false;
+			foreach ( $atts['plan']->get_array( 'availability_restrictions' ) as $mid ) {
+
+				// once we find a membership, exit
+				if ( llms_is_user_enrolled( self::$uid, $mid ) ) {
+					$access = true;
+					break;
+				}
+			}
+			if ( ! $access ) {
+				llms_print_notice( 'You must be a member in order to purchase this access plan.', 'error' );
+				return;
+			}
+		}
+
 		if ( self::$uid ) {
 			$user = get_userdata( self::$uid );
 			llms_print_notice( sprintf( __( 'You are currently logged in as <em>%s</em>. <a href="%s">Click here to logout</a>' ), $user->user_email, wp_logout_url( $atts['plan']->get_checkout_url() ) ), 'notice' );
 		} else {
 			llms_get_login_form( sprintf( __( 'Already have an account? <a href="%s">Click here to login</a>', 'lifterlms' ), '#llms-show-login' ), $atts['plan']->get_checkout_url() );
 		}
+
 
 		llms_get_template( 'checkout/form-checkout.php', $atts );
 

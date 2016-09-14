@@ -157,6 +157,14 @@
 		padding: 10px;
 		margin: 0 2px 2px 2px;
 
+		.llms-button {
+			position: relative;
+			.llms-tooltip {
+				min-width: 280px;
+				z-index: 1;
+			}
+		}
+
 		.llms-access-plan-pricing {
 			padding: 0 0 10px;
 		}
