@@ -44,10 +44,6 @@ class LLMS_Controller_Orders {
 
 	}
 
-
-
-
-
 	/**
 	 * Confirm order form post
 	 * User clicks confirm order or gateway determines the order is confirmed
