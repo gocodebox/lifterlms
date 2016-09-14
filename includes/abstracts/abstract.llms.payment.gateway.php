@@ -129,6 +129,10 @@ abstract class LLMS_Payment_Gateway {
 			$redirect = get_permalink( llms_get_page_id( 'myaccount' ) );
 		}
 
+		$redirect = add_query_arg( array(
+			'order-complete' => $order->get( 'order_key' ),
+		), $redirect );
+
 		$redirect = apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order );
 
 		// default message if non is supplied
