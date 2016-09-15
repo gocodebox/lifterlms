@@ -1,6 +1,6 @@
 == Changelog =
 
-= v3.0.0-beta.8 - 2016/09/?? =
+= v3.0.0-beta.8 - 2016/09/15 =
 -------------------------------
 
 + Check course restrictions automatically when checking lesson
