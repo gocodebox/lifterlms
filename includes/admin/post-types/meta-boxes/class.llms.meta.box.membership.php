@@ -75,7 +75,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			),
 
 			array(
-				'title' 	=> __( 'Restriction Behavior', 'lifterlms' ),
+				'title' 	=> __( 'Restriction', 'lifterlms' ),
 				'fields' 	=> array(
 					array(
 						'allow_null' => false,
