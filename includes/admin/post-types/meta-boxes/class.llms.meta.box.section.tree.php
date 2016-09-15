@@ -46,7 +46,7 @@ class LLMS_Meta_Box_Section_Tree {
 			foreach ($courses as $key => $value) {
 
 				$course = new LLMS_Course( $value->ID );
-				$sections = $course->get_sections();
+				$sections = $course->get_syllabus_sections();
 
 				if ( ! empty( $sections )) {
 					if (in_array( $post->ID, $sections )) {
@@ -105,8 +105,8 @@ class LLMS_Meta_Box_Section_Tree {
 			</div>
 
 			<div class="llms-access-levels">
-			
-				<span class="llms-access-levels-title"><?php _e( 'Lessons in this section', 'lifterlms' ) ?></span> 
+
+				<span class="llms-access-levels-title"><?php _e( 'Lessons in this section', 'lifterlms' ) ?></span>
 					<?php
 					if ($lessons) :
 						foreach ($lessons as $key => $value) :
@@ -163,7 +163,7 @@ class LLMS_Meta_Box_Section_Tree {
 					$courses = get_posts( $course_args );
 					foreach ($courses as $key => $value) {
 						$course = new LLMS_Course( $value->ID );
-						$sections = $course->get_sections();
+						$sections = $course->get_syllabus_sections();
 
 						if ( ! empty( $sections )) {
 							if (in_array( $post->ID, $sections )) {
@@ -179,7 +179,7 @@ class LLMS_Meta_Box_Section_Tree {
 				if ($prev_parent && $prev_parent != $parent_course) {
 
 					$prev_course = new LLMS_Course( $prev_parent );
-					$sections = $prev_course->get_sections();
+					$sections = $prev_course->get_syllabus_sections();
 
 					if (in_array( $post_id, $sections )) {
 						$pc_syllabus = $prev_course->get_syllabus();
@@ -218,8 +218,8 @@ class LLMS_Meta_Box_Section_Tree {
 					$lesson_ids = $wpdb->get_col( $wpdb->prepare(
 						"
 						SELECT post_id
-						FROM $wpdb->postmeta 
-						WHERE meta_key = '_parent_section' 
+						FROM $wpdb->postmeta
+						WHERE meta_key = '_parent_section'
 							AND meta_value = '%s'
 						",
 						$post_id

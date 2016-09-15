@@ -1,143 +1,99 @@
 <?php
+/**
+* Students Metabox for Courses & Memberships
+*
+* Add & remove
+*/
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* Meta Box Students
-*
-* Allows users to add and remove students from a course. Only displays on course post.
-*/
-class LLMS_Meta_Box_Students {
+class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
+
 
 	/**
-	 * Enroll a student in the course
-	 *
-	 * @param int $user_id  WP User ID of the student
-	 * @param int $post_id  WP Post ID of the course
-	 *
+	 * Configure the metabox settings
 	 * @return void
+	 * @since  3.0.0
 	 */
-	public static function add_student( $user_id, $post_id ) {
+	public function configure() {
 
-		if ( empty( $user_id ) || empty( $post_id ) ) {
-			return false;
-		}
-
-		// create a free order
-		self::create_order( $user_id, $post_id );
-
-		// enroll the student
-		llms_enroll_student( $user_id, $post_id, 'manual' );
-
-		// trigger an action
-		do_action( 'lifterlms_student_added_by_admin', $user_id, $post_id );
+		$this->id = 'lifterlms-students';
+		$this->title = __( 'Student Management', 'lifterlms' );
+		$this->screens = array(
+			'course',
+			'llms_membership',
+		);
+		$this->priority = 'default';
 
 	}
 
-
 	/**
-	 * Removes the student from the course by setting the date to 0:00:00
-	 * @param int $user_id [ID of the user]
-	 * @param int $post_id [ID of the post]
-	 *
-	 * @return void
+	 * Unused with our custom metabox output
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
 	 */
-	public static function remove_student( $user_id, $post_id ) {
-		global $wpdb;
+	public function get_fields() {
+		return array();
+	}
 
-		if ( empty( $user_id ) || empty( $post_id ) ) {
-				return;
-		}
+	public static function get_students_data( $post, $page = 1 ) {
 
-		$user_metadatas = array(
-			'_start_date' => 'yes',
-			'_status' => 'Enrolled',
+		$object = false;
+
+		$limit = 20;
+		$skip = ( $page - 1 ) * $limit;
+		$query_limit = $limit + 1; // get an extra result to check if we have more pages
+
+		$students = array(
+			'more' => false,
+			'page' => intval( $page ),
+			'students' => array(),
 		);
 
-		$table_name = $wpdb->prefix . 'lifterlms_order';
+		$results = llms_get_enrolled_students( $post->ID, array_keys( llms_get_enrollment_statuses() ), $query_limit, $skip );
 
-		$order_id = $wpdb->get_results( $wpdb->prepare( 'SELECT order_post_id FROM '.$table_name.' WHERE user_id = %s and product_id = %d', $user_id, $post_id ) );
-
-		foreach ($order_id as $key => $value) {
-			if ($order_id[ $key ]->order_post_id) {
-				wp_delete_post( $order_id[ $key ]->order_post_id );
-			}
+		// if we have more results than the true limit, we have another page to grab
+		if ( count( $results ) > $limit ) {
+			$students['more'] = true;
+			// remove the extra result
+			array_pop( $results );
 		}
 
-		foreach ( $user_metadatas as $key => $value ) {
-			$update_user_postmeta = $wpdb->delete( $wpdb->prefix .'lifterlms_user_postmeta',
-				array(
-				'user_id' 			=> $user_id,
-				'post_id' 			=> $post_id,
-				'meta_key'			=> $key,
-				'meta_value'		=> $value,
-				)
-			);
-		}
+		$students['students'] = $results;
 
-		// handle restricted level usermeta updates for memberships
-		if ( 'llms_membership' === get_post_type( $post_id ) ) {
+		return $students;
 
-			$levels = get_user_meta( $user_id, '_llms_restricted_levels', true );
-			if ( is_array( $levels ) ) {
-				$key = array_search( $post_id, $levels );
-				if ( false !== $key ) {
-					unset( $levels[ $key ] );
-				}
-			} else {
-				$levels = array();
-			}
-
-			update_user_meta( $user_id, '_llms_restricted_levels', $levels );
-
-		}
-
-		do_action( 'lifterlms_student_removed_by_admin', $user_id, $post_id );
 	}
 
 	/**
-	 * Creates a order post to associate with the enrollment of the user.
-	 * @param int $user_id [ID of the user]
-	 * @param int $post_id [ID of the post]
-	 *
-	 * @return void
+	 * Custom metabox output function
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
 	 */
-	public static function create_order( $user_id, $post_id ) {
+	public function output() {
 
-		$handle = LLMS()->checkout();
-		$handle->create( $user_id, $post_id );
+		$screen = get_current_screen();
 
-	}
+		if ( 'add' === $screen->action ) {
 
+			_e( 'You must publish this post before you can manage students.', 'lifterlms' );
 
-	/**
-	 * Static save method
-	 *
-	 * Triggers add or remove method based on selection values.
-	 *
-	 * @param  int 		$post_id [id of post object]
-	 * @param  object 	$post [WP post object]
-	 *
-	 * @return void
-	 */
-	public static function save( $post_id, $post ) {
+		} else {
 
-		if ( isset( $_POST['_add_new_user'] ) && $_POST['_add_new_user'] != '') {
+			global $post;
 
-			//triggers add_student static method
-			foreach ($_POST['_add_new_user'] as $user_id) {
-				self::add_student( $user_id, $post_id );
-			}
+			$page = isset( $_GET['llms-students'] ) ? $_GET['llms-students'] : 1;
+
+			llms_get_template( 'admin/post-types/students.php', array(
+				'page' => $page,
+				'post_id' => $post->ID,
+				'students' => self::get_students_data( $post, $page ),
+			) );
 
 		}
 
-		if ( isset( $_POST['_remove_student'] ) && $_POST['_remove_student'] != '') {
-
-			//triggers remove_student static method
-			foreach ($_POST['_remove_student'] as $user_id) {
-				self::remove_student( $user_id, $post_id );
-			}
-
-		}
 
 	}
 

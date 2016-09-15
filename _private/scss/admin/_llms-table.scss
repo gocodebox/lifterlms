@@ -26,4 +26,21 @@
 		border-bottom: none;
 	}
 
+	&.zebra tbody tr:nth-child( even ) td {
+		background-color: #fafafa;
+	}
+
+	.llms-action-icon {
+		color: #777;
+		text-decoration: none;
+
+		.tooltip {
+			cursor: pointer;
+		}
+
+		&:hover {
+			color: $color-blue;
+		}
+	}
+
 }

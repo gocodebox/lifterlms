@@ -198,7 +198,7 @@ class LLMS_Student {
 		// if the student has been previously enrolled, simply update don't run a full enrollment
 		if ( $this->get_enrollment_status( $product_id ) ) {
 
-			$insert = $this->insert_status_postmeta( $product_id, 'enrolled' );
+			$insert = $this->insert_status_postmeta( $product_id, 'enrolled', $trigger );
 
 		} // otherwise insert all enrollment postmeta (full enrollment)
 		else {
@@ -257,9 +257,14 @@ class LLMS_Student {
 		$trigger = $this->get_enrollment_trigger( $product_id );
 		if ( strpos( $trigger, 'order_' ) !== false ) {
 
-			$id = str_replace( 'order_', '', $trigger );
+			$id = str_replace( array( 'order_', 'wc_' ), '', $trigger );
 			if ( is_numeric( $id ) ) {
-				return new LLMS_Order( $id );
+				if ( 'llms_order' === get_post_type( $id ) ) {
+					return new LLMS_Order( $id );
+				} else {
+
+					return get_post( $id );
+				}
 			}
 
 		}
@@ -305,7 +310,6 @@ class LLMS_Student {
 
 	}
 
-
 	/**
 	 * Retrieve certificates that a user has earned
 	 * @param  string $orderby field to order the returned results by
@@ -329,7 +333,6 @@ class LLMS_Student {
 		return $r;
 
 	}
-
 
 	/**
 	 * Retrieve IDs of user's courses based on supplied criteria
@@ -488,6 +491,48 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Get the enrollment trigger id for a the student's enrollment in a course
+	 * @param  int  $product_id  WP Post ID of the course or membership
+	 * @return int|false
+	 */
+	public function get_enrollment_trigger_id( $product_id ) {
+
+		$trigger = $this->get_enrollment_trigger( $product_id );
+		$id = false;
+		if ( $trigger && false !== strpos( $trigger, 'order_' ) ) {
+			$trigger_obj = $this->get_enrollment_order( $product_id );
+			if ( $trigger_obj instanceof LLMS_Order ) {
+				$id = $trigger_obj->get( 'id' );
+			} elseif ( $trigger_obj instanceof WP_Post ) {
+				$id = $trigger_obj->ID;
+			}
+		}
+		return $id;
+
+	}
+
+	/**
+	 * Get the students last completed lesson in a course
+	 * @param    int     $course_id    WP_Post ID of the course
+	 * @return   int                   WP_Post ID of the lesson or false if no progress has been made
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_last_completed_lesson( $course_id ) {
+
+		$course = new LLMS_Course( $course_id );
+		$lessons = array_reverse( $course->get_lessons( 'ids' ) );
+
+		foreach( $lessons as $lesson ) {
+			if ( $this->is_complete( $lesson, 'lesson' ) ) {
+				return $lesson;
+			}
+		}
+
+		return false;
+
+	}
 
 	/**
 	 * Retrive an array of Membership Levels for a user
@@ -573,10 +618,10 @@ class LLMS_Student {
 		if ( 'course' === $type ) {
 
 			$course = new LLMS_Course( $object_id );
-			$lessons = $course->get_children_lessons();
+			$lessons = $course->get_lessons( 'ids' );
 			$total = count( $lessons );
 			foreach ( $lessons as $lesson ) {
-				if ( $this->is_complete( $lesson->ID, 'lesson' ) ) {
+				if ( $this->is_complete( $lesson, 'lesson' ) ) {
 					$completed++;
 				}
 			}
@@ -700,12 +745,13 @@ class LLMS_Student {
 
 	/**
 	 * Add a new status record to the user postmeta table for a specific product
-	 * @param  int    $product_id  WP Post ID of the course or membership
-	 * @param  string $status      string describing the new status
+	 * @param  int    $product_id   WP Post ID of the course or membership
+	 * @param  string $status       string describing the new status
+	 * @param  string     $trigger  String describing the reason for enrollment (optional)
 	 * @return boolean
 	 * @since  3.0.0
 	 */
-	private function insert_status_postmeta( $product_id, $status = '' ) {
+	private function insert_status_postmeta( $product_id, $status = '', $trigger = null ) {
 
 		global $wpdb;
 
@@ -719,6 +765,26 @@ class LLMS_Student {
 			),
 			array( '%d', '%d', '%s', '%s', '%s' )
 		);
+
+		if ( $update ) {
+
+			if ( $trigger ) {
+
+				$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+					array(
+						'user_id'      => $this->get_id(),
+						'post_id'      => $product_id,
+						'meta_key'     => '_enrollment_trigger',
+						'meta_value'   => $trigger,
+						'updated_date' => current_time( 'mysql' ),
+					),
+					array( '%d', '%d', '%s', '%s', '%s' )
+				);
+
+			}
+
+		}
+
 
 		if ( ! $update ) {
 

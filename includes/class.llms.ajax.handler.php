@@ -12,6 +12,32 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_AJAX_Handler {
 
 	/**
+	 * Add or remove a student from a course or memberhip
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public static function bulk_enroll_students( $request ) {
+
+		if ( empty( $request['post_id'] ) || empty( $request['student_ids'] ) || ! is_array( $request['student_ids'] ) ) {
+			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
+		}
+
+		$post_id = intval( $request['post_id'] );
+
+		foreach ( $request['student_ids'] as $id ) {
+			llms_enroll_student( intval( $id ), $post_id, 'admin_' .  get_current_user_id() );
+		}
+
+		ob_start();
+		llms_get_template( 'admin/post-types/student-table.php', array(
+			'post_id' => $post_id,
+			'students' => LLMS_Meta_Box_Students::get_students_data( get_post( $post_id ), $request['page'] ),
+		) );
+		return ob_get_clean();
+
+	}
+
+	/**
 	 * Move a Product Access Plan to the trash
 	 * @since  3.0.0
 	 * @version  3.0.0
@@ -36,6 +62,131 @@ class LLMS_AJAX_Handler {
 		}
 
 		return true;
+
+	}
+
+	/**
+	 * Retrieve Students
+	 *
+	 * Used by Select2 AJAX functions to load paginated quiz questions
+	 * Also allows querying by:
+	 * 		first name
+	 * 		last name
+	 * 		email
+	 *
+	 * @return json
+	 */
+	public static function query_students() {
+
+		// grab the search term if it exists
+		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+
+		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+
+		global $wpdb;
+
+		$limit = 30;
+		$start = $limit * $page;
+
+		// there was a search query
+		if ( $term ) {
+
+			// email only
+			if ( false !== strpos( $term, '@' ) ) {
+
+				$query = "SELECT
+							  ID AS id
+							, user_email AS email
+							, display_name AS name
+						  FROM $wpdb->users
+						  WHERE user_email LIKE '%s'
+						  ORDER BY display_name
+						  LIMIT %d, %d;";
+
+				$vars = array(
+					'%' . $term . '%',
+					$start,
+					$limit,
+				);
+
+			} // search for FIRST and LAST names
+			elseif ( false !== strpos( $term, ' ' ) ) {
+
+				$term = explode( ' ', $term );
+
+				$query = "SELECT
+							  users.ID AS id
+							, users.user_email AS email
+							, users.display_name AS name
+						  FROM $wpdb->users AS users
+						  LEFT JOIN wp_usermeta AS fname ON fname.user_id = users.ID
+						  LEFT JOIN wp_usermeta AS lname ON lname.user_id = users.ID
+						  WHERE
+						  	( fname.meta_key = 'first_name' AND fname.meta_value LIKE '%s' )
+						  	AND
+						  	( lname.meta_key = 'last_name' AND lname.meta_value LIKE '%s' )
+						  ORDER BY users.display_name
+						  LIMIT %d, %d;";
+
+				$vars = array(
+					'%' . $term[0] . '%', // first name
+					'%' . $term[1] . '%', // last name
+					$start,
+					$limit,
+				);
+
+			} // search for login, display name, or email
+			else {
+
+				$query = "SELECT
+							  ID AS id
+							, user_email AS email
+							, display_name AS name
+						  FROM $wpdb->users
+						  WHERE
+						  	user_email LIKE '%s'
+						  	OR user_login LIKE '%s'
+						  	OR display_name LIKE '%s'
+						  ORDER BY display_name
+						  LIMIT %d, %d;";
+
+				$vars = array(
+					'%' . $term . '%',
+					'%' . $term . '%',
+					'%' . $term . '%',
+					$start,
+					$limit,
+				);
+
+			}
+
+		} // no search query
+		else {
+
+			$query = "SELECT
+						  ID AS id
+						, user_email AS email
+						, display_name AS name
+					  FROM $wpdb->users
+					  ORDER BY display_name
+					  LIMIT %d, %d;";
+
+			$vars = array(
+				$start,
+				$limit,
+			);
+
+		}
+
+		$r = $wpdb->get_results( $wpdb->prepare( $query, $vars ) );
+
+		echo json_encode( array(
+			'items' => $r,
+			'more' => count( $r ) === $limit,
+			'success' => true,
+		) );
+
+		wp_die();
 
 	}
 
@@ -137,6 +288,36 @@ class LLMS_AJAX_Handler {
 		) );
 
 		wp_die();
+	}
+
+	/**
+	 * Add or remove a student from a course or memberhip
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public static function update_student_enrollment( $request ) {
+
+		if ( empty( $request['student_id'] ) || empty( $request['status'] ) ) {
+			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
+		}
+
+		if ( ! in_array( $request['status'], array( 'add', 'remove' ) ) ) {
+			return new WP_Error( 400, __( 'Invalid status', 'lifterlms' ) );
+		}
+
+		if ( 'add' === $request['status'] ) {
+			llms_enroll_student( $request['student_id'], $request['post_id'], 'admin_' .  get_current_user_id() );
+		} elseif ( 'remove' === $request['status'] ) {
+			llms_unenroll_student( $request['student_id'], $request['post_id'], 'cancelled', 'any' );
+		}
+
+		ob_start();
+		llms_get_template( 'admin/post-types/student-row.php', array(
+			'post_id' => $request['post_id'],
+			'student' => new LLMS_Student( $request['student_id'] ),
+		) );
+		return ob_get_clean();
+
 	}
 
 	/**

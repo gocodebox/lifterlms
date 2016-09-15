@@ -87,6 +87,67 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 }
 
 /**
+* Get an array of student IDs based on enrollment status a course or memebership
+* @param    int           $post_id   WP_Post id of a course or memberhip
+* @param    string|array  $statuses  list of enrollment statuses to query by
+*                                    status query is an OR relationship
+* @param    integer    $limit        number of results
+* @param    integer    $skip         number of results to skip (for pagination)
+* @return   array
+* @since    3.0.0
+* @version  3.0.0
+*/
+function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
+
+	global $wpdb;
+
+	// ensure we have an array if only one status is being queried
+	if ( ! is_array( $statuses ) ) {
+		$statuses = array( $statuses );
+	}
+
+	// drop invalid statuses
+	foreach ( $statuses as $key => $status ) {
+		if ( ! in_array( $status, array_keys( llms_get_enrollment_statuses() ) ) ) {
+			unset( $statuses[ $key ] );
+		}
+	}
+
+	$vars = array( $post_id );
+
+	if ( $statuses ) {
+		$status_and = 'AND ( ';
+
+		foreach ( $statuses as $i => $status ) {
+			$status_and .= 'meta.meta_value = %s';
+			$vars[] = $status;
+			if ( $i + 1 !== count( $statuses ) ) {
+				$status_and .= ' OR ';
+			}
+		}
+
+		$status_and .= ' )';
+	} else {
+		$status_and = '';
+	}
+
+	$vars[] = $skip;
+	$vars[] = $limit;
+
+	return $wpdb->get_col( $wpdb->prepare(
+		"SELECT users.ID
+		 FROM {$wpdb->prefix}users AS users
+		 JOIN {$wpdb->prefix}lifterlms_user_postmeta AS meta ON users.ID = meta.user_id
+		 WHERE meta.post_id = %d
+		   AND meta.meta_key = '_status'
+		   {$status_and}
+		   GROUP BY users.ID, meta.post_id
+		   LIMIT %d, %d
+		", $vars
+	) );
+}
+
+/**
  * Get the most recently created coupon ID for a given code
  * @param   string $code        the coupon's code (title)
  * @param   int    $dupcheck_id an optional coupon id that can be passed which will be excluded during the query

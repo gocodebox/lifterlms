@@ -151,7 +151,9 @@ if ( ! is_admin() ) { exit; }
 		<?php if ( $order->is_recurring() ) : ?>
 			<div class="llms-metabox-field">
 				<label><?php _e( 'Next Payment Due Date:', 'lifterlms' ); ?></label>
-				<?php echo $order->get_next_payment_due_date( 'm/d/Y h:ia' ); ?>
+				<?php if ( $date = $order->get_next_payment_due_date( 'm/d/Y h:ia' ) ) : ?>
+					<?php echo ( is_wp_error( $date ) ) ? '&ndash;' : $date; ?>
+				<?php endif; ?>
 			</div>
 		<?php endif; ?>
 
@@ -214,13 +216,13 @@ if ( ! is_admin() ) { exit; }
 
 
 			<?php if ( isset( $order->transaction_id ) ) : ?>
-				<?php $transaction = $gateway->get_transaction_url( $order->get_transaction_id() ); ?>
+				<?php $transaction = $gateway->get_transaction_url( $order->get( 'transaction_id' ) ); ?>
 				<div class="llms-metabox-field d-1of4">
 					<label><?php _e( 'Transaction ID:', 'lifterlms' ); ?></label>
 					<?php if ( false === filter_var( $transaction, FILTER_VALIDATE_URL ) ) : ?>
 						<?php echo $transaction; ?>
 					<?php else : ?>
-						<a href="<?php echo $transaction; ?>" target="_blank"><?php echo $order->get_transaction_id(); ?></a>
+						<a href="<?php echo $transaction; ?>" target="_blank"><?php echo $order->get( 'transaction_id' ); ?></a>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>

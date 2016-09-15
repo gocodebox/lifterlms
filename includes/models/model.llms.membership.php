@@ -19,6 +19,22 @@ class LLMS_Membership extends LLMS_Post_Model {
 	protected $model_post_type = 'membership';
 
 	/**
+	 * Get an array of student IDs based on enrollment status in the membership
+	 * @param    string|array  $statuses  list of enrollment statuses to query by
+	 *                                    status query is an OR relationship
+	 * @param    integer    $limit        number of results
+	 * @param    integer    $skip         number of results to skip (for pagination)
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
+
+		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
+
+	}
+
+	/**
 	 * Get a property's data type for scrubbing
 	 * used by $this->scrub() to determine how to scrub the property
 	 * @param  string $key  property key

@@ -40,13 +40,17 @@
 		text-align: center;
 	}
 
+	.llms-error {
+		color: $color-red;
+		font-style: italic;
+	}
 
 }
 
 .llms-metabox-section {
-
 	background: #fff;
 	margin-top: 25px;
+	position: relative;
 
 	&.no-top-margin {
 		margin-top: 0;

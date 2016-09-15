@@ -40,6 +40,7 @@ class LLMS_Admin_Meta_Boxes {
 
 		// courses & memberships
 		new LLMS_Meta_Box_Product();
+		new LLMS_Meta_Box_Students();
 
 		// lessons
 		new LLMS_Meta_Box_Lesson();

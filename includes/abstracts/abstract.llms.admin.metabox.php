@@ -238,7 +238,7 @@ abstract class LLMS_Admin_Metabox {
 		 * Add a filter so extending classes don't have to
 		 * so we don't have too many filters running
 		 */
-		$fields = apply_filters( 'llms_metabox_fields_' . $this->id, $this->get_fields() );
+		$fields = apply_filters( 'llms_metabox_fields_' . str_replace( '-', '_', $this->id ), $this->get_fields() );
 
 		$this->total_tabs = count( $fields );
 

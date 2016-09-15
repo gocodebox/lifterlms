@@ -50,27 +50,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			);
 		}
 
-		//billing period options
-		////needs to move to paypal class
-		$billing_periods = array(
-			array(
-				'key' 	=> 'day',
-				'title' => 'Day',
-			),
-			array(
-				'key' 	=> 'week',
-				'title' => 'Week',
-			),
-			array(
-				'key' 	=> 'month',
-				'title' => 'Month',
-			),
-			array(
-				'key' 	=> 'year',
-				'title' => 'Year',
-			),
-		);
-
 		$fields = array(
 			array(
 				'title' 	=> __( 'Description', 'lifterlms' ),
@@ -307,62 +286,10 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					),
 				),
 			),
-			array(
-				'title' 	=> __( 'Students', 'lifterlms' ),
-				'fields' 	=> array(
-					array(
-						'type'		=> 'select',
-						'label'		=> __( 'Add Student', 'lifterlms' ),
-						'desc'		=> 'Add a user to the course.',
-						'id'		=> $this->prefix . 'add_new_user',
-						'class'		=> 'add-student-select',
-						'value' 	=> array(),
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-						'multi'		=> true,
-					),
-					array(
-						'type'		=> 'button',
-						'label'		=> __( '', 'lifterlms' ),
-						'desc' 		=> '',
-						'id' 		=> $this->prefix . 'add_student_submit',
-						'class' 	=> 'llms-button-primary',
-						'value' 	=> 'Add Student',
-						'desc_class' => '',
-						'group' 	=> '',
-					),
-					array(
-						'type'		=> 'select',
-						'label'		=> __( 'Remove Student', 'lifterlms' ),
-						'desc'		=> 'Remove a user from the course.',
-						'id'		=> $this->prefix . 'remove_student',
-						'class' 	=> 'remove-student-select',
-						'value' 	=> array(),
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-						'multi'		=> true,
-					),
-					array(
-						'type'		=> 'button',
-						'label'		=> __( '', 'lifterlms' ),
-						'desc' 		=> '',
-						'id' 		=> $this->prefix . 'remove_student_submit',
-						'class' 	=> 'llms-button-primary',
-						'value' 	=> 'Remove Student',
-						'desc_class' => '',
-						'group' 	=> '',
-					),
-				),
-			),
 		);
 
-		/**
-		 * @todo remove this deprecated filter
-		 * content is now filterd by the parent class automatically
-		 */
-		$fields = apply_filters( 'llms_meta_fields_course_main', $fields );
-
 		return $fields;
+
 	}
 
 	/**

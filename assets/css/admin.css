@@ -2333,6 +2333,19 @@ div[id^="lifterlms-"] .inside {
   padding: 8px;
   border-bottom: none;
 }
+.llms-table.zebra tbody tr:nth-child(even) td {
+  background-color: #fafafa;
+}
+.llms-table .llms-action-icon {
+  color: #777;
+  text-decoration: none;
+}
+.llms-table .llms-action-icon .tooltip {
+  cursor: pointer;
+}
+.llms-table .llms-action-icon:hover {
+  color: #069cb5;
+}
 
 .llms-order-note .llms-order-note-content {
   background: #efefef;
@@ -2397,10 +2410,15 @@ div[id^="lifterlms-"] .inside {
   top: 0;
   text-align: center;
 }
+#poststuff .llms-metabox .llms-error {
+  color: #e5554e;
+  font-style: italic;
+}
 
 .llms-metabox-section {
   background: #fff;
   margin-top: 25px;
+  position: relative;
 }
 .llms-metabox-section.no-top-margin {
   margin-top: 0;
@@ -2564,6 +2582,19 @@ div[id^="lifterlms-"] .inside {
 }
 .llms-access-plan .llms-metabox-field {
   margin: 5px 0;
+}
+
+.llms-metabox-students .llms-table tbody tr td:first-child {
+  text-align: left;
+}
+.llms-metabox-students .llms-add-student:hover {
+  color: #83c373;
+}
+.llms-metabox-students .llms-remove-student:hover {
+  color: #e5554e;
+}
+.llms-metabox-students .llms-error {
+  padding-right: 20px;
 }
 
 .llms-order-status-icon.llms-active, .llms-order-status-icon.llms-completed {

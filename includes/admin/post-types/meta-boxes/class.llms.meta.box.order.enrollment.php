@@ -50,12 +50,10 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 		$order = new LLMS_Order( $this->post );
 		$student = new LLMS_Student( $order->get( 'user_id' ) );
-
 		$current_status = $student->get_enrollment_status( $order->get( 'product_id' ) );
-
 		$select = '<select name="llms_student_new_enrollment_status">';
 		foreach ( llms_get_enrollment_statuses() as $val => $name ) {
-			$select .= '<option value="' . $val . '"' . selected( $val, $current_status, false ) . '>' . $name . '</option>';
+			$select .= '<option value="' . $val . '"' . selected( $val, strtolower( $current_status ), false ) . '>' . $name . '</option>';
 		}
 		$select .= '</select>';
 

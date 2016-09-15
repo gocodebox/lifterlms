@@ -8,6 +8,10 @@
 + course restriction messages display regardless of enrollment status
 + check memberships and lock purchase of members only access plans
 
+##### Deprecated
+
++ filter: `llms_meta_fields_course_main`, replace with `llms_metabox_fields_lifterlms_course_options`
+
 = v3.0.0-beta.7 - 2016/09/13 =
 -------------------------------
 

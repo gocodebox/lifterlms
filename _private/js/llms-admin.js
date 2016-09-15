@@ -54,7 +54,7 @@
 
 		var defaults = {
 			multiple: false,
-			placeholder: 'Select a product',
+			placeholder: 'Select a student',
 			width: '100%',
 		};
 
@@ -72,6 +72,7 @@
 						term: params.term,
 						page: params.page,
 						action: 'query_students',
+						_ajax_nonce: wp_ajax_data.nonce,
 					};
 				},
 				processResults: function( data, params ) {

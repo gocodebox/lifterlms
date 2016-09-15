@@ -141,24 +141,98 @@ class LLMS_Course extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Get course lessons
+	 * @param    string     $return  type of return [ids|posts|sections]
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_lessons( $return = 'lessons' ) {
+
+		$lessons = array();
+		foreach ( $this->get_sections( 'sections' ) as $section ) {
+			$lessons = array_merge( $lessons, $section->get_children_lessons() );
+		}
+
+		if ( $return === 'ids' ) {
+			$r = wp_list_pluck( $lessons, 'ID' );
+		} elseif ( $return === 'posts' ) {
+			$r = $lessons;
+		} else {
+			$r = array();
+			foreach ( $lessons as $p ) {
+				$r[] = new LLMS_Lesson( $p );
+			}
+		}
+		return $r;
+
+	}
+
+	/**
+	 * Get course sections
+	 * @param    string  $return  type of return [ids|posts|sections]
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_sections( $return = 'sections' ) {
+
+		$q = new WP_Query( array(
+			'meta_key' => '_llms_order',
+			'meta_query' => array(
+				array(
+					'key' => '_parent_course',
+						'value' => $this->id,
+					),
+				),
+			'order' => 'ASC',
+			'orderby' => 'meta_value_num',
+			'post_type' => 'section',
+			'posts_per_page' => 500,
+		) );
+
+		if ( $return === 'ids' ) {
+			$r = wp_list_pluck( $q->posts, 'ID' );
+		} elseif ( $return === 'posts' ) {
+			$r = $q->posts;
+		} else {
+			$r = array();
+			foreach ( $q->posts as $p ) {
+				$r[] = new LLMS_Section( $p );
+			}
+		}
+
+		return $r;
+
+	}
+
+	/**
+	 * Get an array of student IDs based on enrollment status in the course
+	 * @param    string|array  $statuses  list of enrollment statuses to query by
+	 *                                    status query is an OR relationship
+	 * @param    integer    $limit        number of results
+	 * @param    integer    $skip         number of results to skip (for pagination)
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
+
+		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
+
+	}
+
+	/**
 	 * Retrieve an array of students currently enrolled in the course
+	 * @param    integer    $limit   number of results
+	 * @param    integer    $skip    number of results to skip (for pagination)
 	 * @return   array
 	 * @since    1.0.0
 	 * @version  3.0.0 - updated the function to be less complicated
 	 */
-	public function get_enrolled_students() {
+	public function get_enrolled_students( $limit, $skip ) {
 
-		global $wpdb;
-
-		return $wpdb->get_results(
-			"SELECT ID, display_name, user_email
-			 FROM {$wpdb->prefix}users AS users
-			 JOIN {$wpdb->prefix}lifterlms_user_postmeta AS meta ON users.ID = meta.user_id
-			 WHERE meta.post_id = $this->id
-			   AND meta.meta_key = '_status'
-			   AND ( meta.meta_value = 'Enrolled' OR meta.meta_value = 'enrolled' )
-			"
-		);
+		return $this->get_students( 'enrolled', $limit, $skip );
 
 	}
 
@@ -249,7 +323,26 @@ class LLMS_Course extends LLMS_Post_Model {
 		if ( ! $capacity ) {
 			return true;
 		} else {
-			return ( count( $this->get_enrolled_students() ) < $capacity );
+			// don't query more than 5k records at a time
+			$total = 0;
+			$skip = 0;
+			$limit = 5000;
+			while ( true ) {
+				$s = count( $this->get_enrolled_students( $limit, $skip ) );
+				$total = $s + $total;
+				$skip = $skip + $limit;
+				// once capacity is exceeded no reason to make any more queries
+				if ( $total >= $capacity ) {
+					return false;
+				}
+				// once our results dont match our limit we're done
+				if ( $s < $limit ) {
+					break;
+				}
+			}
+
+			// compare results
+			return ( $total < $capacity );
 		}
 	}
 
@@ -375,6 +468,37 @@ class LLMS_Course extends LLMS_Post_Model {
 
 
 
+	/**
+	 * @todo DEPRECATE
+	 */
+	public function get_children_sections() {
+
+		llms_deprecated_function( 'LLMS::get_children_sections', '3.0.0', "LLMS::get_sections( 'posts' )" );
+		return $this->get_sections( 'posts' );
+
+	}
+
+	/**
+	 * @todo DEPRECATE
+	 */
+	public function get_children_lessons() {
+
+		llms_deprecated_function( 'LLMS::get_children_lessons', '3.0.0', "LLMS::get_lessons( 'posts' )" );
+		return $this->get_sections( 'posts' );
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -462,61 +586,9 @@ class LLMS_Course extends LLMS_Post_Model {
 		return get_permalink( $this->get_id() );
 	}
 
-	public function get_children_sections() {
 
-		$args = array(
-			'post_type' 		=> 'section',
-			'posts_per_page'	=> 500,
-			'meta_key'			=> '_llms_order',
-			'order'				=> 'ASC',
-			'orderby'			=> 'meta_value_num',
-			'meta_query' 		=> array(
-				array(
-					'key' 		=> '_parent_course',
-	      			'value' 	=> $this->id,
-	      			'compare' 	=> '=',
-	  			),
-		  	),
-		);
 
-		$sections = get_posts( $args );
 
-		return $sections;
-
-	}
-
-	public function get_children_lessons() {
-
-		$lessons = array();
-
-		$args = array(
-			'post_type' 		=> 'section',
-			'posts_per_page'	=> 500,
-			'meta_key'			=> '_llms_order',
-			'order'				=> 'ASC',
-			'orderby'			=> 'meta_value_num',
-			'meta_query' 		=> array(
-				array(
-					'key' 		=> '_parent_course',
-	      			'value' 	=> $this->id,
-	      			'compare' 	=> '=',
-	  			),
-		  	),
-		);
-
-		$sections = get_posts( $args );
-
-		foreach ($sections as $s) {
-
-			$section = new LLMS_Section( $s->ID );
-
-			$lessons = array_merge( $lessons, $section->get_children_lessons() );
-
-		}
-
-		return $lessons;
-
-	}
 
 	/**
 	 * Return array of objects containing user meta data for a single post.
@@ -660,9 +732,10 @@ class LLMS_Course extends LLMS_Post_Model {
 
 	/**
 	 * Get all sections
+	 * renamed in 3.0
 	 * @return array $sections [Returns array of all sections associated with a course.]
 	 */
-	public function get_sections() {
+	public function get_syllabus_sections() {
 		$syllabus = $this->get_syllabus();
 		$sections = array();
 		if ($syllabus) {
