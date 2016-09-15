@@ -8,6 +8,10 @@
 + course restriction messages display regardless of enrollment status
 + check memberships and lock purchase of members only access plans
 
+##### Student Management on Courses and Memberships
+
++ All new and improved student management interface for managing student enrollments from courses and memberhips
+
 ##### Deprecated
 
 + filter: `llms_meta_fields_course_main`, replace with `llms_metabox_fields_lifterlms_course_options`
