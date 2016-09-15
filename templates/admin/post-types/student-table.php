@@ -25,7 +25,7 @@ if ( ! is_admin() ) { exit; }
 		</tr>
 	</thead>
 	<tbody>
-		<?php if ( $students['students'] ): ?>
+		<?php if ( $students['students'] ) : ?>
 			<?php foreach ( $students['students'] as $sid ) : ?>
 				<?php llms_get_template( 'admin/post-types/student-row.php', array(
 					'post_id' => $post_id,
@@ -39,10 +39,10 @@ if ( ! is_admin() ) { exit; }
 	<tfoot>
 		<tr>
 			<th colspan="7">
-				<?php if ( $students['page'] > 1 ): ?>
+				<?php if ( $students['page'] > 1 ) : ?>
 					<a class="button" href="<?php echo add_query_arg( 'llms-students', ( $students['page'] - 1 ), get_edit_post_link( $post_id ) ); ?>#lifterlms-students"><?php _e( 'Back', 'lifterlms' ); ?></a>
 				<?php endif; ?>
-				<?php if ( $students['more'] ): ?>
+				<?php if ( $students['more'] ) : ?>
 					<a class="button" href="<?php echo add_query_arg( 'llms-students', ( $students['page'] + 1 ), get_edit_post_link( $post_id ) ); ?>#lifterlms-students"><?php _e( 'Next', 'lifterlms' ); ?></a>
 				<?php endif; ?>
 			</th>

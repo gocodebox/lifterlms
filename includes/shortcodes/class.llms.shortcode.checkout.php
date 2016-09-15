@@ -157,7 +157,6 @@ class LLMS_Shortcode_Checkout {
 			llms_get_login_form( sprintf( __( 'Already have an account? <a href="%s">Click here to login</a>', 'lifterlms' ), '#llms-show-login' ), $atts['plan']->get_checkout_url() );
 		}
 
-
 		llms_get_template( 'checkout/form-checkout.php', $atts );
 
 	}

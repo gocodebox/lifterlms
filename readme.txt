@@ -166,6 +166,47 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog =
 
+= v3.0.0-beta.8 - 2016/09/15 =
+-------------------------------
+
++ Check course restrictions automatically when checking lesson
++ Added user_id to all access function checks to allow for checks for non current user
++ course restriction messages display regardless of enrollment status
++ check memberships and lock purchase of members only access plans
+
+##### Student Management on Courses and Memberships
+
++ All new and improved student management interface for managing student enrollments from courses and memberhips
+
+##### Deprecated
+
++ filter: `llms_meta_fields_course_main`, replace with `llms_metabox_fields_lifterlms_course_options`
+
+= v3.0.0-beta.7 - 2016/09/13 =
+-------------------------------
+
++ Added a "post state" visible on the Pages posts table identifying if the page is saved as a LifterLMS page (EG: Checkout Page)
++ Fixed copy/paste error of duplicate enrollment closed message on course restrictions tab
++ Removed WC integration in favor of WC
++ Upgade "back to course" template to new lesson API
++ Renamed `course/parent_course.php` to `course/parent-course.php` for template naming consistency
++ use `strict` when auto generating usernames when creating from email addresses, resolves [#182](https://github.com/gocodebox/lifterlms/issues/182)
+
+##### Manual Payments
+
++ Manual Payment Gateway can now be enabled on the frontend!
++ When a manual payment is recorded the user will be redirected to a view order page where they will be prompted to make a manual payment
++ Define the payment instructions on the admin panel "Checkout Settings"
++ Once you verify payment, head to the pending order and hit the "Record a Manual Payment" button to record the transaction
++ Upon recording the order status will be upgraded to "Complete" and the user will be enrolled automatically
+
+##### Student Dashboard Upgrades
+
++ More sane template hooks and functions
++ Pagination on Courses endpoint (view only a preview on the mian dashboard)
++ Orders history & view orders screens!
+
+
 = v3.0.0-beta.6 - 2016/09/08 =
 -------------------------------
 

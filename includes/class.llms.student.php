@@ -524,7 +524,7 @@ class LLMS_Student {
 		$course = new LLMS_Course( $course_id );
 		$lessons = array_reverse( $course->get_lessons( 'ids' ) );
 
-		foreach( $lessons as $lesson ) {
+		foreach ( $lessons as $lesson ) {
 			if ( $this->is_complete( $lesson, 'lesson' ) ) {
 				return $lesson;
 			}
@@ -784,7 +784,6 @@ class LLMS_Student {
 			}
 
 		}
-
 
 		if ( ! $update ) {
 
