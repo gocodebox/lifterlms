@@ -272,7 +272,7 @@ class LLMS_Admin_Setup_Wizard {
 				?>
 				<h1><?php _e( 'Welcome to LifterLMS!', 'lifterlms' ); ?></h1>
 
-				<p><?php _e( 'Thanks for choosing LifterLMS to power your online courses! This short setup wizard will guide you through the basic settings and configure LifterLMS for you so you can get started creatong courses faster!', 'lifterlms' ); ?></p>
+				<p><?php _e( 'Thanks for choosing LifterLMS to power your online courses! This short setup wizard will guide you through the basic settings and configure LifterLMS so you can get started creating courses faster!', 'lifterlms' ); ?></p>
 				<p><?php _e( 'It will only take a few minutes and it is completely optional. If you don\'t have the time now, come back later.', 'lifterlms' ); ?></p>
 				<?php
 			break;
@@ -302,7 +302,7 @@ class LLMS_Admin_Setup_Wizard {
 					</tr>
 				</table>
 
-				<p><?php printf( __( 'After setup, you can mannage these pages from the admin dashboard on the %sPages screen%s and you can control which pages display on your menu(s) via %sAppearance > Menus%s.', 'lifterlms' ), '<a href="' . esc_url( admin_url( 'edit.php?post_type=page' ) ) . '" target="_blank">', '</a>', '<a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" target="_blank">', '</a>' ); ?></p>
+				<p><?php printf( __( 'After setup, you can manage these pages from the admin dashboard on the %sPages screen%s and you can control which pages display on your menu(s) via %sAppearance > Menus%s.', 'lifterlms' ), '<a href="' . esc_url( admin_url( 'edit.php?post_type=page' ) ) . '" target="_blank">', '</a>', '<a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" target="_blank">', '</a>' ); ?></p>
 				<?php
 			break;
 
