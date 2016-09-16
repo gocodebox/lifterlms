@@ -778,9 +778,9 @@ class LLMS_AJAX {
 		);
 
 		$first_question = llms_get_template_ajax( 'content-single-question.php', $args );
-
 		echo json_encode( $first_question );
 		die();
+
 	}
 
 	/**

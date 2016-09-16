@@ -696,11 +696,12 @@ if ( ! function_exists( 'lifterlms_template_single_single_choice_ajax' ) ) {
  * Question Wrapper Start Template Include
  * @return void
  */
-if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_start' ) ) {
+if ( ! function_exists( 'lifterlms_template_question_wrapper_start' ) ) {
 
-	function lifterlmslifterlms_template_question_wrapper_start( $args ) {
+	function lifterlms_template_question_wrapper_start( $args ) {
 
 		llms_get_template( 'quiz/wrapper-start.php', $args );
+
 	}
 }
 
@@ -708,9 +709,9 @@ if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_start' ) )
  * Question Wrapper End Template Include
  * @return void
  */
-if ( ! function_exists( 'lifterlmslifterlms_template_question_wrapper_end' ) ) {
+if ( ! function_exists( 'lifterlms_template_question_wrapper_end' ) ) {
 
-	function lifterlmslifterlms_template_question_wrapper_end( $args ) {
+	function lifterlms_template_question_wrapper_end( $args ) {
 
 		llms_get_template( 'quiz/wrapper-end.php', $args );
 	}

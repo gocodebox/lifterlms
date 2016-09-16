@@ -139,14 +139,14 @@ add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_quiz_ques
 
 
 //Before Question Summary
-add_action( 'lifterlms_single_question_before_summary', 'lifterlmslifterlms_template_question_wrapper_start', 10 );
+add_action( 'lifterlms_single_question_before_summary', 'lifterlms_template_question_wrapper_start', 10 );
 add_action( 'lifterlms_single_question_before_summary', 'lifterlms_template_single_question_count', 10 );
 
 //After Question Summary
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_single_choice_ajax', 10 );
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_prev_question', 10 );
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_next_question', 10 );
-add_action( 'lifterlms_single_question_after_summary', 'lifterlmslifterlms_template_question_wrapper_end', 10 );
+add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_question_wrapper_end', 10 );
 
 
 /**
@@ -161,7 +161,6 @@ add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_das
 
 
 add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar' );
-
 
 
 

@@ -1,44 +1,36 @@
 <?php
 /**
  * The Template for displaying the quiz.
- *
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
- *
+ * @since  1.0.0
+ * @version 3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 llms_print_notices();
 
-$html = '';
-$query_args = array(
-	'post_type' => array( 'llms_question' ),
-	'orderby' => 'ASC',
-	'post__in' => array( $args['question_id'] ),
-);
-
-$loop = new WP_Query( $query_args );
+$loop = new WP_Query( array(
+	'post_type' => 'llms_question' ,
+	'p' => $args['question_id'],
+	'posts_per_page' => 1,
+) );
 
 if ( ! $loop->have_posts() ) {
-		get_template_part( 'content', 'none' );
+
+	_e( 'No question found.', 'lifterlms' );
+
 } else {
-	while ($loop->have_posts()) : $loop->the_post();
-		ob_start();
-			do_action( 'lifterlms_single_question_before_summary', $args );
-			$html .= ob_get_contents();
-		ob_clean();
 
-		ob_start();
-			the_content();
-			$html .= ob_get_contents();
-		ob_clean();
+	while ( $loop->have_posts() ) { $loop->the_post();
 
-		ob_start();
-			do_action( 'lifterlms_single_question_after_summary', $args );
-			$html .= ob_get_contents();
-		ob_clean();
+		do_action( 'lifterlms_single_question_before_summary', $args );
 
-		endwhile;
+		the_content();
+
+		do_action( 'lifterlms_single_question_after_summary', $args );
+
+	}
+
 }
-	echo $html;
-	wp_reset_postdata();
+
+wp_reset_postdata();
