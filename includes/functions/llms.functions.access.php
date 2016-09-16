@@ -327,11 +327,12 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 		return false;
 	}
 
-	$page_restrictions = get_post_meta( $post_id, '_llms_restricted_levels', true );
+	$memberships = get_post_meta( $post_id, '_llms_restricted_levels', true );
+	$restricted = get_post_meta( $post_id, '_llms_is_restricted', true );
 
-	if ( $page_restrictions && is_array( $page_restrictions ) ) {
+	if ( 'yes' === $restricted && $memberships && is_array( $memberships ) ) {
 
-		return absint( array_shift( $page_restrictions ) );
+		return absint( array_shift( $memberships ) );
 
 	}
 
