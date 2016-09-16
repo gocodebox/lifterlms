@@ -676,12 +676,19 @@ class LLMS_Student {
 	}
 
 
-
+	/**
+	 * Determine if a student has access to a product's content
+	 * @param    int     $product_id    WP Post ID of a course or membership
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function has_access( $product_id ) {
 
 		$enrolled = $this->is_enrolled( $product_id );
 
 		$order = $this->get_enrollment_order( $product_id );
+
 		// if we have an order, check the access status
 		if ( $order && $order instanceof LLMS_Order ) {
 
