@@ -66,12 +66,15 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	elseif ( is_singular() && 'course' === $post_type ) {
 		$restriction_id = $post_id;
 		$reason = 'enrollment_course';
-	}
+	} else {
 
-	/**
-	 * Allow filtering of results before checking if the student has access
-	 */
-	$results = apply_filters( 'llms_page_restricted_before_check_access', $results, $post_id );
+		/**
+		 * Allow filtering of results before checking if the student has access
+		 */
+		$results = apply_filters( 'llms_page_restricted_before_check_access', $results, $post_id );
+		extract( $results );
+
+	}
 
 	/**
 	 * Content should be restricted, so we'll do the restriction checks
@@ -80,7 +83,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	 * this is run if we have a restriction and a reason for restriction
 	 * and we either don't have a logged in student or the logged in student doesn't have access
 	 */
-	if ( isset( $restriction_id ) && isset( $reason ) && ( ! $student || ! $student->has_access( $restriction_id ) ) ) {
+	if ( ! empty( $restriction_id ) && ! empty( $reason ) && ( ! $student || ! $student->has_access( $restriction_id ) ) ) {
 
 		$results['is_restricted'] = true;
 		$results['reason'] = $reason;
