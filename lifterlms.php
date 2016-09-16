@@ -4,7 +4,7 @@
 * Plugin URI: https://lifterlms.com/
 * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
 * Version: 3.0.0-beta.8
-* Author: Mark Nelson, Thomas Patrick Levy, codeBOX LLC
+* Author: Thomas Patrick Levy, codeBOX LLC, Mark Nelson
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
 * Domain Path: /languages
