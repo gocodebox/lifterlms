@@ -1,4 +1,10 @@
-== Changelog =
+== Changelog ==
+
+= v3.0.0-beta.9 - 2016/09/?? =
+-------------------------------
+
++ Fixed titles of course closed and open messages on the course restrictions options
+
 
 = v3.0.0-beta.8 - 2016/09/15 =
 -------------------------------
@@ -15,6 +21,7 @@
 ##### Deprecated
 
 + filter: `llms_meta_fields_course_main`, replace with `llms_metabox_fields_lifterlms_course_options`
+
 
 = v3.0.0-beta.7 - 2016/09/13 =
 -------------------------------
@@ -46,6 +53,7 @@
 
 + Install & activation overhauls. Resolves [#179](https://github.com/gocodebox/lifterlms/issues/179)
 + jQuery MatchHeight lib unignored
+
 
 = v3.0.0-beta.5 - 2016/09/07 =
 -------------------------------

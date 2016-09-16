@@ -204,7 +204,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'default' 	=> sprintf( __( 'This course opens on [lifterlms_course_info id="%d" key="start_date"].', 'lifterlms' ), $this->post->ID ),
 						'desc'      => sprintf( __( 'This message will be displayed to non-enrolled visitors before the Course Start Date. You may use shortcodes like [lifterlms_course_info id="%d" key="start_date"] in this message.', 'lifterlms' ), $this->post->ID ),
 						'id' 		=> $this->prefix . 'course_opens_message',
-						'label'		=> __( 'Enrollment Opens Message', 'lifterlms' ),
+						'label'		=> __( 'Course Opens Message', 'lifterlms' ),
 						'type'		=> 'text',
 					),
 					array(
@@ -214,7 +214,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'default' 	=> sprintf( __( 'This course closed on [lifterlms_course_info id="%d" key="end_date"].', 'lifterlms' ), $this->post->ID ),
 						'desc'      => sprintf( __( 'This message will be displayed to non-enrolled visitors once the Course End Date has passed. You may use shortcodes like [lifterlms_course_info id="%d" key="end_date"] in this message.', 'lifterlms' ), $this->post->ID ),
 						'id' 		=> $this->prefix . 'course_closed_message',
-						'label'		=> __( 'Enrollment Closed Message', 'lifterlms' ),
+						'label'		=> __( 'Course Closed Message', 'lifterlms' ),
 						'type'		=> 'text',
 					),
 
