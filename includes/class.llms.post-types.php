@@ -39,7 +39,7 @@ class LLMS_Post_Types {
 	public function add_membership_restriction_support() {
 		$post_types = apply_filters( 'llms_membership_restricted_post_types', array( 'post', 'page' ) );
 		foreach ( $post_types as $post_type ) {
-			add_post_type_support( 'page', 'llms-membership-restrictions' );
+			add_post_type_support( $post_type, 'llms-membership-restrictions' );
 		}
 	}
 

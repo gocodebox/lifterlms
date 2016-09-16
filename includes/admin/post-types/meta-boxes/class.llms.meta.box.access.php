@@ -38,7 +38,7 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 
 		$post_type = get_post_type_object( $this->post->post_type );
 
-		$restrictions = get_post_meta( $this->post->ID, $this->prefix . 'llms_level', true );
+		$restrictions = get_post_meta( $this->post->ID, $this->prefix . 'restricted_levels', true );
 
 		if ( ! $restrictions ) {
 			$restrictions = array();
@@ -50,7 +50,7 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 				'title' => __( 'Membership Access', 'lifterlms' ),
 				'fields' => array(
 					array(
-						'controls'   => '#' . $this->prefix . 'llms_level',
+						'controls'   => '#' . $this->prefix . 'restricted_levels',
 						'desc_class' => 'd-1of2 t-1of2 m-1of2',
 						'id' 		 => $this->prefix . 'is_restricted',
 						'label'		 => sprintf( _x( 'Restrict this %s', 'apply membership restriction to post type', 'lifterlms' ), $post_type->labels->singular_name ),
@@ -63,7 +63,7 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 							'post-type' => 'llms_membership',
 						),
 						'desc'       => sprintf( __( 'Visitors must belong to one of these memberships to access this %s', 'lifterlms' ), strtolower( $post_type->labels->singular_name ) ),
-						'id' 		 => $this->prefix . 'llms_level',
+						'id' 		 => $this->prefix . 'restricted_levels',
 						'label'		 => __( 'Memberships', 'lifterlms' ),
 						'multi'      => true,
 						'type'		 => 'select',
@@ -87,6 +87,7 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 	 * @version  3.0.0
 	 */
 	public function get_screens() {
+
 		$screens = array();
 
 		// get all public post types
@@ -96,7 +97,7 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 			// check if the post type supports membership restrictions
 			if ( post_type_supports( $post_type, 'llms-membership-restrictions' ) ) {
 
-				$screens = array( $post_type );
+				$screens[] = $post_type;
 
 			}
 
