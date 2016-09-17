@@ -4,6 +4,12 @@
 -------------------------------
 
 + Fixed titles of course closed and open messages on the course restrictions options
++ record a start date for access plans based off when order mobes to complete or active for the first time
++ automatically expire limited access plans
+
+##### bbPress
+
++ Restrict individual forums (and their topics) to LifterLMS Membership levels
 
 
 = v3.0.0-beta.8 - 2016/09/15 =

@@ -59,6 +59,8 @@
  * @property   $sale_price  (float)  Sale price before coupon adjustments
  * @property   $sale_value  (float)  $original_total - $sale_price
  *
+ * @property   $start_date  (string)  date when access was initially granted; this is used to determine when access expires
+ *
  * @property   $title  (string)  Post Title
  * @property   $total  (float)  Actual price of the order, after applicable sale & coupon adjustments
  *
@@ -150,15 +152,19 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine the date when access will expire
 	 * based on the access settings of the access plan
-	 * at the time of purchase
+	 * at the $start_date of acess
 	 *
 	 * @param    string     $format  date format
-	 * @return   string              date string or "Lifetime Access" for plans with lifetime access
+	 * @return   string              date string
+	 *                               "Lifetime Access" for plans with lifetime access
+	 *                               "To be Determined" for limited date when access hasn't started yet
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function get_access_expiration_date( $format = 'Y-m-d' ) {
+
 		$type = $this->get( 'access_expiration' );
+
 		switch ( $type ) {
 			case 'lifetime':
 				$r = __( 'Lifetime Access', 'lifterlms' );
@@ -169,7 +175,11 @@ class LLMS_Order extends LLMS_Post_Model {
 			break;
 
 			case 'limited-period':
-				$r = date_i18n( $format, strtotime( '+' . $this->get( 'access_length' ) . ' ' . $this->get( 'access_period' ), $this->get_date( 'date', 'U' ) ) );
+				if ( $this->get( 'start_date' ) ) {
+					$r = date_i18n( $format, strtotime( '+' . $this->get( 'access_length' ) . ' ' . $this->get( 'access_period' ), $this->get_date( 'start_date', 'U' ) ) );
+				} else {
+					$r = __( 'To be Determined', 'lifterlms' );
+				}
 			break;
 
 			default:
@@ -917,6 +927,35 @@ class LLMS_Order extends LLMS_Post_Model {
 		$txn->set( 'status', $status );
 
 		return $txn;
+
+	}
+
+	/**
+	 * Record the start date of the access plan and schedule expiration
+	 * if expiration is required in the future
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function start_access() {
+
+		// only start access if access isn't already started
+		$date = $this->get( 'start_date' );
+		if ( ! $date ) {
+
+			// set the start date to now
+			$date = current_time(  'mysql' );
+			$this->set( 'start_date', $date );
+
+			// get epiration date based on setting
+			$expires = $this->get_access_expiration_date( 'U' );
+
+			// will return a timestamp or "Lifetime Access as a string"
+			if ( is_numeric( $expires ) ) {
+				wc_schedule_single_action( $expires, 'llms_access_plan_expiration', array( 'order_id' => $this->get( 'id' ) ) );
+			}
+
+		}
 
 	}
 

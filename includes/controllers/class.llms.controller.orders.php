@@ -38,9 +38,14 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_order_status_failed', array( $this, 'error_order' ), 10, 1 );
 
 		/**
-		 * Recurring Charge Actions called by the scheduler
+		 * Scheduler Actiions
 		 */
+
+		// charge recurring payments
 		add_action( 'llms_charge_recurring_payment', array( $this, 'recurring_charge' ), 10, 1 );
+
+		// expire access plans
+		add_action( 'llms_access_plan_expiration', array( $this, 'expire_access' ), 10, 1 );
 
 	}
 
@@ -95,6 +100,9 @@ class LLMS_Controller_Orders {
 	 * @version  3.0.0
 	 */
 	public function complete_order( $order ) {
+
+		// record access start time & maybe schedule expiration
+		$order->start_access();
 
 		$order_id = $order->get( 'id' );
 		$product_id = $order->get( 'product_id' );
@@ -391,17 +399,16 @@ class LLMS_Controller_Orders {
 
 		switch ( current_filter() ) {
 
+			case 'lifterlms_order_status_cancelled':
 			case 'lifterlms_order_status_refunded':
 				$status = 'cancelled';
 			break;
 
-			case 'lifterlms_order_status_cancelled':
-				$status = 'cancelled';
-			break;
-
 			case 'lifterlms_order_status_expired':
+			case 'lifterlms_order_status_failed':
 			default:
 				$status = 'expired';
+			break;
 
 		}
 
@@ -409,7 +416,30 @@ class LLMS_Controller_Orders {
 
 	}
 
+	/**
+	 * Expires the enrollment associated with an order that has a limited access plan
+	 * @param    int  $order_id  WP Post ID of the LLMS Order
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function expire_access( $order_id ) {
 
+		$order = new LLMS_Order( $order_id );
+		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), 'expired', 'order_' . $order->get( 'id' ) );
+		$order->add_note( sprintf( __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' ) ) );
+		// @todo allow engagements to hook into expiration
+
+	}
+
+	/**
+	 * Trigger a recrurring payment
+	 * Called by action scheduler
+	 * @param    int     $order_id  WP Post ID of the order
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function recurring_charge( $order_id ) {
 
 		$order = new LLMS_Order( $order_id );
