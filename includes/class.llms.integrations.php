@@ -39,6 +39,7 @@ class LLMS_Integrations {
 	 */
 	public function init() {
 		$load_integrations = apply_filters( 'lifterlms_integrations', array(
+			'LLMS_Integration_bbPress',
 			'LLMS_Integration_Buddypress',
 		) );
 

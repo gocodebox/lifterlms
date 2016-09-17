@@ -42,8 +42,17 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 			array( 'title' => __( 'Integration Settings', 'lifterlms' ), 'type' => 'title', 'desc' => '', 'id' => 'integrations_options' ),
 
 			array(
-				'title' => __( 'Integrations', 'lifterlms' ),
-				'desc' 		=> __( 'Enable BuddyPress', 'lifterlms' ),
+				'title' => __( 'bbPress', 'lifterlms' ),
+				'desc' 		=> __( 'Enable / Disable', 'lifterlms' ),
+				'id' 		=> 'lifterlms_bbpress_enabled',
+				'type' 		=> 'checkbox',
+				'default'	=> 'no',
+				'desc_tip'	=> true,
+			),
+
+			array(
+				'title' => __( 'BuddyPress', 'lifterlms' ),
+				'desc' 		=> __( 'Enable / Disable', 'lifterlms' ),
 				'id' 		=> 'lifterlms_buddypress_enabled',
 				'type' 		=> 'checkbox',
 				'default'	=> 'no',
