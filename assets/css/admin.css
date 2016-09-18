@@ -900,6 +900,12 @@ a.llms-remove-lesson-link {
 .llms-button-secondary:focus {
   color: #fff;
 }
+.llms-button-danger.small,
+.llms-button-primary.small,
+.llms-button-secondary.small {
+  font-size: 13px;
+  padding: 8px 14px;
+}
 
 .llms-button-primary {
   background: #069cb5;
@@ -912,13 +918,19 @@ a.llms-remove-lesson-link {
 }
 
 .llms-button-secondary {
-  background: #999;
+  background: #e1e1e1;
+  color: #414141;
 }
 .llms-button-secondary:hover {
-  background: #858585;
+  color: #414141;
+  background: #cdcdcd;
 }
 .llms-button-secondary:active {
-  background: #a3a3a3;
+  color: #414141;
+  background: #ebebeb;
+}
+.llms-button-secondary:focus {
+  color: #414141;
 }
 
 .llms-button-danger {

@@ -79,6 +79,12 @@
 
 			var self = this;
 
+			// save access plans button
+			// @todo convert to ajax method that doesn't reload the whole dealie
+			$( '#llms-save-access-plans' ).on( 'click', function() {
+				$( '#publish' ).trigger( 'click' );
+			} );
+
 			// bind change events to form element that controls another form element
 			$( '#llms-access-plans' ).on( 'change', '[data-controller-id]', function() {
 				self.controller_change( $( this ) );

@@ -10,8 +10,23 @@ if ( ! is_admin() ) { exit; }
 ?>
 <div class="llms-metabox" id="llms-product-options-access-plans">
 
-	<h2><?php printf( __( '%s Access Plans', 'lifterlms' ), $product->get_post_type_label( 'singular_name' ) ); ?></h2>
-	<h3><?php printf( __( 'Access plans define the payment options available for this %s during checkout', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></h3>
+	<header class="llms-metabox-section d-all no-top-margin">
+
+		<div class="d-2of3">
+
+			<h2><?php printf( __( '%s Access Plans', 'lifterlms' ), $product->get_post_type_label( 'singular_name' ) ); ?></h2>
+			<h3><?php printf( __( 'Access plans define the payment options available for this %s during checkout', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></h3>
+
+		</div>
+
+		<div class="d-1of3 d-right last-col">
+			<button class="llms-button-secondary small" id="llms-new-access-plan" type="button"><?php _e( 'Add Access Plan', 'lifterlms' ); ?></button>
+			<p style="display:none;"><em><?php printf( __( 'You cannot create more than %d access plans for each product.', 'lifterlms' ), $product->get_access_plan_limit() ); ?></em></p>
+		</div>
+
+	</header>
+
+	<div class="clear"></div>
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
 		<p class="no-plans-message"><?php printf( __( 'No access plans exist for your %s.', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></p>
@@ -23,13 +38,14 @@ if ( ! is_admin() ) { exit; }
 		<?php endforeach; ?>
 	</section>
 
+	<div class="llms-metabox-section d-all d-right">
+		<button class="llms-button-primary small" id="llms-save-access-plans" type="button"><?php _e( 'Save Access Plans', 'lifterlms' ); ?></button>
+		<p style="display:none;"><em><?php printf( __( 'You cannot create more than %d access plans for each product.', 'lifterlms' ), $product->get_access_plan_limit() ); ?></em></p>
+	</div>
+
 	<?php // model of an access plan we'll clone when clicking the "add" button ?>
 	<?php llms_get_template( 'admin/post-types/product-access-plan.php', array( 'course' => $course ) ); ?>
 
-	<div class="llms-metabox-section d-all d-right">
-		<button class="llms-button-primary bt" id="llms-new-access-plan" type="button"><?php _e( 'New Access Plan', 'lifterlms' ); ?></button>
-		<p style="display:none;"><em><?php printf( __( 'You cannot create more than %d access plans for each product.', 'lifterlms' ), $product->get_access_plan_limit() ); ?></em></p>
-	</div>
 
 	<div id="llms-delete-plan-modal" class="topModal">
 		<div class="llms-modal-header"><?php _e( 'Confirm Your Action', 'lifterlms' ); ?></div>
