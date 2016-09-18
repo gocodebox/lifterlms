@@ -2,30 +2,36 @@
 
 	<form method="post" id="mainform" action="" enctype="multipart/form-data">
 
-		<h2 class="llms-nav-tab-wrapper">
-			<?php
-			foreach ( $tabs as $name => $label ) {
+		<nav class="llms-nav-tab-wrapper">
 
-				echo '<a href="' . admin_url( 'admin.php?page=llms-settings&tab=' . $name ) . '" class="llms-button-primary llms-nav-tab-settings '
-				. ( $current_tab == $name ? 'llms-nav-tab-active' : '' ) . '">' . $label . '</a>'; }
+			<?php do_action( 'lifterlms_before_settings_tabs' ); ?>
 
-				do_action( 'lifterlms_settings_tabs' );
-			?>
-		</h2>
+			<ul class="llms-nav-items">
+			<?php foreach ( $tabs as $name => $label ) : $active = ( $current_tab == $name ) ? ' llms-active' : ''; ?>
+
+				<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-settings&tab=' . $name ); ?>"><?php echo $label; ?></a></li>
+
+			<?php endforeach; ?>
+			</ul>
+
+			<?php do_action( 'lifterlms_after_settings_tabs' ); ?>
+
+		</nav>
 
 		<?php
 			do_action( 'lifterlms_sections_' . $current_tab );
 			do_action( 'lifterlms_settings_' . $current_tab );
 			do_action( 'lifterlms_settings_tabs_' . $current_tab );
 		?>
+
 		<div id="llms-form-wrapper">
-		 <p class="submit">
-		    <?php if ( $current_tab != 'general' || ! get_option( 'lifterlms_first_time_setup' ) ) : ?>
-			    <input name="save" class="button-primary" type="submit" value="<?php _e( 'Save Changes', 'lifterlms' ); ?>" />
+
+		    <?php if ( 'general' !== $current_tab ) : ?>
+			    <input name="save" class="llms-button-primary" type="submit" value="<?php _e( 'Save Changes', 'lifterlms' ); ?>" />
 		    <?php endif; ?>
-			<input type="hidden" name="subtab" id="last_tab" />
+
 			<?php wp_nonce_field( 'lifterlms-settings' ); ?>
-		</p>
+
 		</div>
 
 	</form>

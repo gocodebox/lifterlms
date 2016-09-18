@@ -1,141 +1,197 @@
-.wrap {
-	h2.llms-nav-tab-wrapper {
-		background: $color-lightblue;
-		padding: 0;
 
-		&.llms-skin--light {
-			background: $color-white;
-			border: 1px solid $color-lightgrey;
-		}
 
-		.llms-nav-tab,
-		.llms-nav-tab-settings {
-			background: $color-lightblue;
-			border: 0;
-			color: #fff;
-			font-size: 15px;
-			font-weight: 300;
-			line-height: 24px;
+.llms-nav-tab-wrapper {
+	background: $color-blue;
+	margin: 20px 0;
+
+	.llms-nav-items {
+		@include clearfix;
+		margin: 0;
+	}
+
+		.llms-nav-item {
 			margin: 0;
-			padding: 10px 0;
-			text-decoration: none;
-			text-align: center;
-			transition: .8s;
 
-			&:hover {
-				background: $color-blue;
-			}
-
-			&:active,
-			&.llms-nav-tab-active {
+			.llms-nav-link:hover,
+			&.llms-active .llms-nav-link {
 				background: $color-darkblue;
 			}
 
-		}
-
-		.llms-nav-tab-filters {
-			box-sizing: border-box;
-			box-shadow: none;
-			border: 0;
-			font-size: 13px;
-			font-weight: 300;
-			line-height: 24px;
-			margin: 0;
-			padding: 8px 0;
-			text-decoration: none;
-			text-align: center;
-			transition: .8s;
-
-			&:hover {
-				background: darken( $color-white, 3 );
+			&.llms-active .llms-nav-link {
+				font-weight: 400;
 			}
 
-			&:active,
-			&.llms-nav-tab-active {
-				background: darken( $color-white, 3 );
-			}
-		}
-
-		.llms-nav-tab-filters {
-			padding-left: 15px;
-			padding-right: 15px;
-
-			label {
-				letter-spacing: 3px;
-				vertical-align: baseline;
-			}
-
-			input {
-				border: none;
-				background: transparent;
-				box-shadow: none;
-				margin: 0;
-				width: 100px;
-			}
-
-			&.llms-nav-tab-active {
-				label {
-					letter-spacing: 4px;
-				}
+			@media only screen and (min-width: 768px) {
+				float: left;
 			}
 
 		}
 
-		.custom-date-filters {
-			width: auto;
-		}
+			.llms-nav-link {
 
-		// .llms-filter-students {
+				color: #fff;
+				cursor: pointer;
+				display: block;
+				font-weight: 300;
+				font-size: 16px;
+				padding: 14px 28px;
+				text-align: center;
+				text-decoration: none;
+				transition: all .3s ease;
 
-		// 	text-align: left;
-		// 	float: left;
-
-		// 	label {
-		// 		float: left;
-		// 		margin-top: 6px;
-		// 	}
-
-		// 	.select2-container .select2-selection--multiple .select2-selection__rendered {
-		// 		display: block;
-		// 	}
-
-		// 	.select2-container--default .select2-selection--multiple .select2-selection__rendered {
-		// 		max-height: 70px;
-		// 		overflow-y: scroll;
-		// 	}
-
-		// 	.select2-container--default.select2-container--focus .select2-selection--multiple {
-		// 		border-color: #aaa;
-		// 	}
-
-		// 	button {
-		// 		margin-top: 6px;
-		// 		vertical-align: top;
-		// 	}
-
-		// }
-
-		a {
-			letter-spacing: 3px;
-			&:hover,
-			&.llms-nav-tab-active {
-				letter-spacing: 4px;
 			}
-		}
-
-	}
 }
 
-.llms-button-primary,
-.llms-button-secondary {
-	border:none !important;
-	text-shadow: none !important;
-	border: none !important;
-	outline: none !important;
-}
 
-.llms-nav-tab-wrapper .llms-button-primary {
-	box-shadow: none !important;
-}
+
+
+
+
+
+
+
+
+
+
+
+// .wrap {
+// 	h2.llms-nav-tab-wrapper {
+// 		background: $color-lightblue;
+// 		padding: 0;
+
+// 		&.llms-skin--light {
+// 			background: $color-white;
+// 			border: 1px solid $color-lightgrey;
+// 		}
+
+// 		.llms-nav-tab,
+// 		.llms-nav-tab-settings {
+// 			background: $color-lightblue;
+// 			border: 0;
+// 			color: #fff;
+// 			font-size: 15px;
+// 			font-weight: 300;
+// 			line-height: 24px;
+// 			margin: 0;
+// 			padding: 10px 0;
+// 			text-decoration: none;
+// 			text-align: center;
+// 			transition: .8s;
+
+// 			&:hover {
+// 				background: $color-blue;
+// 			}
+
+// 			&:active,
+// 			&.llms-nav-tab-active {
+// 				background: $color-darkblue;
+// 			}
+
+// 		}
+
+// 		.llms-nav-tab-filters {
+// 			box-sizing: border-box;
+// 			box-shadow: none;
+// 			border: 0;
+// 			font-size: 13px;
+// 			font-weight: 300;
+// 			line-height: 24px;
+// 			margin: 0;
+// 			padding: 8px 0;
+// 			text-decoration: none;
+// 			text-align: center;
+// 			transition: .8s;
+
+// 			&:hover {
+// 				background: darken( $color-white, 3 );
+// 			}
+
+// 			&:active,
+// 			&.llms-nav-tab-active {
+// 				background: darken( $color-white, 3 );
+// 			}
+// 		}
+
+// 		.llms-nav-tab-filters {
+// 			padding-left: 15px;
+// 			padding-right: 15px;
+
+// 			label {
+// 				letter-spacing: 3px;
+// 				vertical-align: baseline;
+// 			}
+
+// 			input {
+// 				border: none;
+// 				background: transparent;
+// 				box-shadow: none;
+// 				margin: 0;
+// 				width: 100px;
+// 			}
+
+// 			&.llms-nav-tab-active {
+// 				label {
+// 					letter-spacing: 4px;
+// 				}
+// 			}
+
+// 		}
+
+// 		.custom-date-filters {
+// 			width: auto;
+// 		}
+
+// 		// .llms-filter-students {
+
+// 		// 	text-align: left;
+// 		// 	float: left;
+
+// 		// 	label {
+// 		// 		float: left;
+// 		// 		margin-top: 6px;
+// 		// 	}
+
+// 		// 	.select2-container .select2-selection--multiple .select2-selection__rendered {
+// 		// 		display: block;
+// 		// 	}
+
+// 		// 	.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+// 		// 		max-height: 70px;
+// 		// 		overflow-y: scroll;
+// 		// 	}
+
+// 		// 	.select2-container--default.select2-container--focus .select2-selection--multiple {
+// 		// 		border-color: #aaa;
+// 		// 	}
+
+// 		// 	button {
+// 		// 		margin-top: 6px;
+// 		// 		vertical-align: top;
+// 		// 	}
+
+// 		// }
+
+// 		a {
+// 			letter-spacing: 3px;
+// 			&:hover,
+// 			&.llms-nav-tab-active {
+// 				letter-spacing: 4px;
+// 			}
+// 		}
+
+// 	}
+// }
+
+// .llms-button-primary,
+// .llms-button-secondary {
+// 	border:none !important;
+// 	text-shadow: none !important;
+// 	border: none !important;
+// 	outline: none !important;
+// }
+
+// .llms-nav-tab-wrapper .llms-button-primary {
+// 	box-shadow: none !important;
+// }
 
 

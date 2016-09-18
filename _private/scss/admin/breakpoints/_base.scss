@@ -64,28 +64,28 @@ form.llms-nav-tab-filters.full-width {
 
 }
 
-.llms-widget-full {
-	&.top {
-		margin-top: 20px;
-	}
-}
-.llms-widget {
-	.form-table td {
-		padding: 15px 0;
-		ul { margin: 5px 0 0; }
+// .llms-widget-full {
+// 	&.top {
+// 		margin-top: 20px;
+// 	}
+// }
+// .llms-widget {
+// 	.form-table td {
+// 		padding: 15px 0;
+// 		ul { margin: 5px 0 0; }
 
 
-		.conditional-field {
-			display: none;
-			margin-left: 25px;
-		}
-		.conditional-radio:checked ~ .conditional-field {
-			display: block;
-		}
+// 		.conditional-field {
+// 			display: none;
+// 			margin-left: 25px;
+// 		}
+// 		.conditional-radio:checked ~ .conditional-field {
+// 			display: block;
+// 		}
 
 
-	}
-}
+// 	}
+// }
 
 ul.tabs li{
       display: block;

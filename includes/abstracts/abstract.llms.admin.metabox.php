@@ -195,7 +195,7 @@ abstract class LLMS_Admin_Metabox {
 		echo '<div class="llms-mb-container">';
 		// only show tabbed navigation when there's more than 1 tab
 		if ( $this->total_tabs > 1 ) {
-			echo '<ul class="tabs">' . $this->navigation . '</ul>';
+			echo '<nav class="llms-nav-tab-wrapper"><ul class="tabs llms-nav-items">' . $this->navigation . '</ul></nav>';
 		}
 		do_action( 'llms_metabox_before_content', $this->id );
 		echo $this->content;
@@ -245,9 +245,9 @@ abstract class LLMS_Admin_Metabox {
 		foreach ( $fields as $i => $tab ) {
 
 			$i++;
-			$current = 1 === $i ? ' current' : '';
+			$current = 1 === $i ? ' llms-active' : '';
 
-			$this->navigation .= '<li class="tab-link d-1of6 t-1of2 m-all' . $current . '" data-tab="tab-' . $i . '">' . $tab['title'] . '</li>';
+			$this->navigation .= '<li class="llms-nav-item tab-link ' . $current . '" data-tab="tab-' . $i . '"><span class="llms-nav-link">' . $tab['title'] . '</span></li>';
 
 			$this->content .= '<div id="tab-' .$i . '" class="tab-content' . $current . '"><ul>';
 

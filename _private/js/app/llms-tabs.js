@@ -13,7 +13,7 @@ LLMS.Tabs = {
 	 * loads class methods
 	 */
 	init: function() {
-			this.bind();
+		this.bind();
 	},
 
 	/**
@@ -22,16 +22,16 @@ LLMS.Tabs = {
 	 * @return {[type]} [description]
 	 */
 	bind: function() {
-		//var that = this;
 
 		$('ul.tabs li').click(function(){
 			var tab_id = $(this).attr('data-tab');
 
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
+			$('ul.tabs li').removeClass('llms-active');
+			$('.tab-content').removeClass('llms-active');
 
-			$(this).addClass('current');
-				$('#' + tab_id).addClass('current');
+			$(this).addClass('llms-active');
+			$('#' + tab_id).addClass('llms-active');
+
 		});
 
 	}

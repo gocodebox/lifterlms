@@ -16,12 +16,6 @@ Course Outline
         position: relative;
         border-radius: 4px 4px 0 0;
 
-        .llms-button-primary {
-            padding: 8px 18px;
-            margin-top: 2px;
-
-        }
-
         .outline-body {
             width: 100%;
             padding: 20px;
@@ -30,9 +24,6 @@ Course Outline
     }
 }
 
-.llms-button-primary.clicked {
-    background: $color-darkblue;
-}
 
 .clear-fix:after
 {

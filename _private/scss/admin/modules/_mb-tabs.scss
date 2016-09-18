@@ -4,50 +4,6 @@ Metabox Tabs
 
 ******************************************************************/
 
-/**
- * Metabox Tabs
- */
-
-ul.tabs{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    background: $color-lightblue;
-    width: 100%;
-    display: block;
-    overflow: hidden;
-
-}ul.tabs li{
-    background: $color-lightblue;
-    color: $color-white;
-    display: inline-block;
-    padding: 10px 0;
-    cursor: pointer;
-    margin: 0;
-    transition: ease .3s all;
-    white-space: nowrap;
-    text-align: center;
-
-    &:hover {
-    background: $color-lightblue;
-
-    }
-}
-
-ul.tabs li.tab-link:hover {
-    background: $color-blue;
-}
-
-ul.tabs li.current{
-    background: $color-darkblue;
-    color: $color-white;
-
-    &:hover {
-        background: $color-darkblue;
-
-    }
-}
-
 // free space up if the metabox is on the side
 #side-sortables .tab-content {
 	padding: 0;
@@ -140,7 +96,7 @@ ul.tabs li.current{
 
 }
 
-.llms-mb-container .tab-content.current{
+.llms-mb-container .tab-content.llms-active{
     display: inherit;
 }
 
