@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 abstract class LLMS_Analytics_Widget {
 
+	public $charts = false;
 	public $success = false;
 	public $message = '';
 	public $response;
@@ -25,13 +26,30 @@ abstract class LLMS_Analytics_Widget {
 	protected $output_type;
 	// protected $prepared_query;
 
-	private $results = array();
+	public $results = array();
 
 	abstract protected function format_response();
 	abstract protected function set_query();
+	protected function get_chart_data() {
+		return array(
+			'type' => 'count',
+			'header' => array(
+				'id' => '',
+				'label' => '',
+				'type' => 'string',
+			)
+		);
+	}
 
 	public function __construct() {}
 
+	// protected function get_date_range_difference() {
+	// 	$dates = $this->get_posted_dates();
+	// 	if ( $dates ) {
+	// 		return strtotime( $dates['end'] ) - strtotime( $dates['start'] );
+	// 	}
+	// 	return 0;
+	// }
 
 	protected function get_posted_dates() {
 
@@ -122,6 +140,8 @@ abstract class LLMS_Analytics_Widget {
 			'joins' => array(), // array of JOIN statements
 			'statuses' => array(), // array of order statuses to query
 			'wheres' => array(), // array of "WHERE" statements
+			'order' => 'ASC',
+			'orderby' => '',
 
 		) ) );
 
@@ -192,6 +212,10 @@ abstract class LLMS_Analytics_Widget {
 			$wheres_clause .= $where . "\r\n";
 		}
 
+		if ( $order && $orderby ) {
+			$order_clause = 'ORDER BY ' . $orderby . ' ' . $order;
+		}
+
 		$this->query = "SELECT {$select_clause}
 						FROM {$wpdb->posts} AS orders
 						{$students_join}
@@ -203,6 +227,7 @@ abstract class LLMS_Analytics_Widget {
 							{$students_where}
 							{$products_where}
 							{$wheres_clause}
+						{$order_clause}
 						;";
 
 	}
@@ -216,7 +241,6 @@ abstract class LLMS_Analytics_Widget {
 	protected function query() {
 
 		global $wpdb;
-
 		// no output options
 		if ( in_array( $this->query_function, array( 'get_var', 'get_col' ) ) ) {
 			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ) );
@@ -245,6 +269,10 @@ abstract class LLMS_Analytics_Widget {
 		$this->set_query();
 		$this->query();
 		$this->response = $this->format_response();
+
+		if ( $this->charts ) {
+			$this->chart_data = $this->get_chart_data();
+		}
 
 		header( 'Content-Type: application/json' );
 		echo json_encode( $this );

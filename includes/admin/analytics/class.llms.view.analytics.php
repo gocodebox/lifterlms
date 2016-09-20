@@ -44,7 +44,7 @@ class LLMS_Analytics_View {
 
 		) );
 
-		include LLMS_PLUGIN_DIR . 'includes/admin/views/html.admin.analytics_new.php';
+		include LLMS_PLUGIN_DIR . 'templates/admin/analytics/analytics.php';
 
 	}
 
@@ -182,9 +182,9 @@ class LLMS_Analytics_View {
 
 			'sales' => __( 'Sales', 'lifterlms' ),
 			'enrollments' => __( 'Enrollments', 'lifterlms' ),
-			'students' => __( 'Students', 'lifterlms' ),
-			'engagements' => __( 'Engagements', 'lifterlms' ),
-			'quizzes' => __( 'Quizzes', 'lifterlms' ),
+			// 'students' => __( 'Students', 'lifterlms' ),
+			// 'engagements' => __( 'Engagements', 'lifterlms' ),
+			// 'quizzes' => __( 'Quizzes', 'lifterlms' ),
 
 		) );
 
@@ -205,6 +205,12 @@ class LLMS_Analytics_View {
 							'content' => __( 'loading...', 'lifterlms' ),
 							'info' => __( 'Number of new active or completed orders placed within this period', 'lifterlms' ),
 						),
+						'sold' => array(
+							'title' => __( 'Net Sales', 'lifterlms' ),
+							'cols' => '1-4',
+							'content' => __( 'loading...', 'lifterlms' ),
+							'info' => __( 'Total of all successful transactions during this period', 'lifterlms' ),
+						),
 						'refunds' => array(
 							'title' => __( '# of Refunds', 'lifterlms' ),
 							'cols' => '1-4',
@@ -217,14 +223,14 @@ class LLMS_Analytics_View {
 							'content' => __( 'loading...', 'lifterlms' ),
 							'info' => __( 'Total of all transactions refunded during this period', 'lifterlms' ),
 						),
-						'revenue' => array(
-							'title' => __( 'Grosse Revenue', 'lifterlms' ),
-							'cols' => '1-4',
-							'content' => __( 'loading...', 'lifterlms' ),
-							'info' => __( 'Total of all transactions minus all refunds processed during this period', 'lifterlms' ),
-						),
 					),
 					array(
+						// 'revenue' => array(
+						// 	'title' => __( 'Grosse Revenue', 'lifterlms' ),
+						// 	'cols' => '1-4',
+						// 	'content' => __( 'loading...', 'lifterlms' ),
+						// 	'info' => __( 'Total of all transactions minus all refunds processed during this period', 'lifterlms' ),
+						// ),
 						'coupons' => array(
 							'title' => __( '# of Coupons Used', 'lifterlms' ),
 							'cols' => '1-4',

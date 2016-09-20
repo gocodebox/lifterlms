@@ -9,6 +9,20 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 
+
+	public $charts = true;
+
+	protected function get_chart_data() {
+		return array(
+			'type' => 'count', // type of field
+			'header' => array(
+				'id' => 'enrollments',
+				'label' => __( '# of Enrollments', 'lifterlms' ),
+				'type' => 'number',
+			),
+		);
+	}
+
 	public function set_query() {
 
 		global $wpdb;
@@ -27,9 +41,10 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 			$product_ids .= 'AND post_id IN ( ' . implode( ', ', $products ) . ' )';
 		}
 
-		$this->query_function = 'get_var';
+		$this->query_function = 'get_results';
+		$this->output_type = OBJECT ;
 
-		$this->query = "SELECT COUNT(meta_id)
+		$this->query = "SELECT updated_date AS date
 						FROM {$wpdb->prefix}lifterlms_user_postmeta
 						WHERE
 							    meta_key = '_status'
@@ -50,7 +65,7 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 
 		if ( ! $this->is_error() ) {
 
-			return intval( $this->get_results() );
+			return count( $this->get_results() );
 
 		}
 

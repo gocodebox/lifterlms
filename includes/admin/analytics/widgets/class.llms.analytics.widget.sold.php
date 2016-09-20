@@ -1,8 +1,8 @@
 <?php
 /**
-* Refunded Amount Widget
+* Sold Amount Widget
 *
-* Retrieves the total amount of all refunded transactions
+* Retrieves the total amount of all successful transactions
 * according to active filters
 *
 * @since  3.0.0
@@ -11,7 +11,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
+class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;
 
@@ -20,8 +20,8 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 			'type' => 'amount', // type of field
 			'key' => 'amount', // key of result field to add when counting
 			'header' => array(
-				'id' => 'refunded',
-				'label' => __( 'Amount Refunded', 'lifterlms' ),
+				'id' => 'sold',
+				'label' => __( 'Net Sales', 'lifterlms' ),
 				'type' => 'number',
 			),
 		);
@@ -80,15 +80,15 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 
 		$this->query = "SELECT
 							  txns.post_modified AS date
-							, refund.meta_value AS amount
+							, sales.meta_value AS amount
 						FROM {$wpdb->posts} AS txns
 						{$txn_meta_join}
-						JOIN {$wpdb->postmeta} AS refund ON refund.post_id = txns.ID
+						JOIN {$wpdb->postmeta} AS sales ON sales.post_id = txns.ID
 						WHERE
-						        ( txns.post_status = 'llms-txn-succeeded' OR txns.post_status = 'llms-txn-refunded' )
+						        ( txns.post_status = 'llms-txn-succeeded' )
 						    AND txns.post_type = 'llms_transaction'
 							AND txns.post_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME )
-							AND refund.meta_key = '_llms_refund_amount'
+							AND sales.meta_key = '_llms_amount'
 							{$txn_meta_where}
 							ORDER BY txns.post_modified ASC
 						;";

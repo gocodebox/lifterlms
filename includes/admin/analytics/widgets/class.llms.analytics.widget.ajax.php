@@ -28,6 +28,7 @@ class LLMS_Analytics_Widget_Ajax {
 			'refunds',
 			'revenue',
 			'sales',
+			'sold',
 
 			// enrollments
 			'enrollments',

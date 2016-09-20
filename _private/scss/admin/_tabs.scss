@@ -4,6 +4,33 @@
 	background: $color-blue;
 	margin: 20px 0;
 
+	&.llms-nav-secondary {
+		background: #e1e1e1;
+
+		.llms-nav-item {
+			margin: 0;
+
+			.llms-nav-link:hover,
+			&.llms-active .llms-nav-link {
+				background: darken( #e1e1e1, 8 );
+			}
+
+		}
+
+		.llms-nav-link {
+			color: #414141;
+			font-size: 13px;
+			padding: 8px 14px;
+
+			.dashicons {
+				font-size: 15px;
+				height: 15px;
+				width: 15px;
+			}
+		}
+
+	}
+
 	.llms-nav-items {
 		@include clearfix;
 		margin: 0;
@@ -23,6 +50,10 @@
 
 			@media only screen and (min-width: 768px) {
 				float: left;
+
+				&.llms-nav-item-right {
+					float: right;
+				}
 			}
 
 		}

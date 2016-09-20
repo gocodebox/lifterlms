@@ -2517,6 +2517,25 @@ div[id^="lifterlms-"] .inside {
   background: #069cb5;
   margin: 20px 0;
 }
+.llms-nav-tab-wrapper.llms-nav-secondary {
+  background: #e1e1e1;
+}
+.llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item {
+  margin: 0;
+}
+.llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item .llms-nav-link:hover, .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link {
+  background: #cdcdcd;
+}
+.llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-link {
+  color: #414141;
+  font-size: 13px;
+  padding: 8px 14px;
+}
+.llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-link .dashicons {
+  font-size: 15px;
+  height: 15px;
+  width: 15px;
+}
 .llms-nav-tab-wrapper .llms-nav-items {
   margin: 0;
 }
@@ -2540,6 +2559,9 @@ div[id^="lifterlms-"] .inside {
   .llms-nav-tab-wrapper .llms-nav-item {
     float: left;
   }
+  .llms-nav-tab-wrapper .llms-nav-item.llms-nav-item-right {
+    float: right;
+  }
 }
 .llms-nav-tab-wrapper .llms-nav-link {
   color: #fff;
@@ -2554,17 +2576,50 @@ div[id^="lifterlms-"] .inside {
           transition: all .3s ease;
 }
 
-h1.llms-page-header {
-  color: #999;
-  font-weight: 500;
-  letter-spacing: 2px;
-}
-
 #llms-options-page-contents h2 {
   color: #999;
   font-weight: 500;
   letter-spacing: 2px;
   border-bottom: 1px solid #999;
+}
+
+.llms-analytics-wrap .llms-analytics-nav {
+  margin-bottom: 20px;
+}
+.llms-analytics-wrap .llms-analytics-nav .llms-nav-tab-wrapper {
+  margin: 0;
+}
+.llms-analytics-wrap .llms-nav-item.llms-analytics-form {
+  color: #414141;
+  font-size: 13px;
+  padding: 6px 14px;
+}
+.llms-analytics-wrap .llms-nav-item.llms-analytics-form input {
+  border: 0;
+  font-size: 13px;
+  margin: 0;
+  padding: 3px 6px;
+  vertical-align: middle;
+}
+.llms-analytics-wrap .llms-nav-item.llms-analytics-form .select2-container input {
+  width: 100% !important;
+}
+.llms-analytics-wrap .button.small {
+  height: 23px;
+  line-height: 23px;
+}
+.llms-analytics-wrap .llms-analytics-filters {
+  display: none;
+}
+.llms-analytics-wrap .llms-analytics-filters .llms-nav-item {
+  box-sizing: border-box;
+  width: 100%;
+}
+.llms-analytics-wrap .llms-analytics-filters .llms-nav-item label {
+  display: block;
+}
+.llms-analytics-wrap .llms-analytics-filters .button {
+  float: right;
 }
 
 /*!

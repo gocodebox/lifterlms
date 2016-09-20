@@ -13,14 +13,27 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Analytics_Coupons_Widget extends LLMS_Analytics_Widget {
 
+	public $charts = true;
+
+	protected function get_chart_data() {
+		return array(
+			'type' => 'count',
+			'header' => array(
+				'id' => 'coupons',
+				'label' => __( '# of Coupons Used', 'lifterlms' ),
+				'type' => 'number',
+			),
+		);
+	}
+
 	public function set_query() {
 
 		global $wpdb;
 
 		$this->set_order_data_query( array(
-			'query_function' => 'get_var',
+			'query_function' => 'get_results',
 			'select' => array(
-				'COUNT( orders.ID )',
+				'orders.post_date AS date',
 			),
 			'joins' => array(
 				"JOIN {$wpdb->postmeta} AS coupons ON orders.ID = coupons.post_id"
