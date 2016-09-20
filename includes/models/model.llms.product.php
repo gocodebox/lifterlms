@@ -11,6 +11,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * for this product
 	 * @return int
 	 * @since 3.0.0
+	 * @version 3.0.0
 	 */
 	public function get_access_plan_limit() {
 		return apply_filters( 'llms_get_product_access_plan_limit', 6, $this );
@@ -18,12 +19,14 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	/**
 	 * Get all access plans for the product
+	 * @param    boolean    $free_only  only include free access plans if true
 	 * @return array of LLMS_Access_Plans instances
 	 * @since  3.0.0
+	 * @version 3.0.0
 	 */
-	public function get_access_plans() {
+	public function get_access_plans( $free_only = false ) {
 
-		$q = new WP_Query( apply_filters( 'llms_get_product_access_plans_args ', array(
+		$args = array(
 			'meta_key' => '_llms_product_id',
 			'meta_value' => $this->get( 'id' ),
 			'order' => 'ASC',
@@ -31,7 +34,20 @@ class LLMS_Product extends LLMS_Post_Model {
 			'post_per_page' => $this->get_access_plan_limit(),
 			'post_type' => 'llms_access_plan',
 			'status' => 'publish',
-		), $this ) );
+		);
+
+		if ( $free_only ) {
+
+			$args['meta_query'] = array(
+				array(
+					'key' => '_llms_is_free',
+					'value' => 'yes',
+				),
+			);
+
+		}
+
+		$q = new WP_Query( apply_filters( 'llms_get_product_access_plans_args ', $args, $this, $free_only ) );
 
 		$plans = array();
 
@@ -45,8 +61,16 @@ class LLMS_Product extends LLMS_Post_Model {
 		return $plans;
 	}
 
-	public function get_pricing_table_columns_count() {
-		$count = count( $this->get_access_plans() );
+	/**
+	 * Get the number of columns for the pricing table
+	 * @param    boolean    $free_only  only include free access plans if true
+	 * @return   int
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_pricing_table_columns_count( $free_only = false ) {
+
+		$count = count( $this->get_access_plans( $free_only ) );
 
 		switch ( $count ) {
 
@@ -61,7 +85,17 @@ class LLMS_Product extends LLMS_Post_Model {
 			default:
 				$cols = $count;
 		}
-		return apply_filters( 'llms_get_product_pricing_table_columns_count', $cols, $this, $count );
+		return apply_filters( 'llms_get_product_pricing_table_columns_count', $cols, $this, $count, $free_only );
+	}
+
+	/**
+	 * Determine if the product has at least one free access plan
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function has_free_access_plan() {
+		return ( $this->get_access_plans( true ) );
 	}
 
 	/**
@@ -87,10 +121,8 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		}
 
-		if ( $gateways->has_gateways( true ) && $this->get_access_plans() ) {
-			return true;
-		}
-		return false;
+		return ( $this->get_access_plans() && $gateways->has_gateways( true ) );
+
 	}
 
 
@@ -101,6 +133,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * @param  string $key  property key
 	 * @return string
 	 * @since  3.0.0
+	 * @version 3.0.0
 	 */
 	protected function get_property_type( $key ) {
 

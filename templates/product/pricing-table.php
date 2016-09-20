@@ -6,17 +6,20 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 $is_enrolled = llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) );
+$purchaseable = $product->is_purchasable();
+$has_free = $product->has_free_access_plan();
+$free_only = ( $has_free && ! $purchaseable );
 ?>
 
-<?php if ( $product->is_purchasable() && ! $is_enrolled ) : ?>
+<?php if ( ! $is_enrolled && ( $purchaseable || $has_free ) ) : ?>
 
 	<?php do_action( 'lifterlms_before_access_plans', $product->get( 'id' ) ); ?>
 
-	<section class="llms-access-plans cols-<?php echo $product->get_pricing_table_columns_count() ?>">
+	<section class="llms-access-plans cols-<?php echo $product->get_pricing_table_columns_count( $free_only ) ?>">
 
 		<?php do_action( 'lifterlms_before_access_plans_loop', $product->get( 'id' ) ); ?>
 
-		<?php foreach ( $product->get_access_plans() as $i => $plan ) : ?>
+		<?php foreach ( $product->get_access_plans( $free_only ) as $i => $plan ) : ?>
 
 			<div class="llms-access-plan<?php echo $plan->is_featured() ? ' featured' : ''; ?><?php echo $plan->is_on_sale() ? ' on-sale' : '' ?>" id="llms-access-plan-<?php echo $plan->get( 'id' ); ?>">
 
