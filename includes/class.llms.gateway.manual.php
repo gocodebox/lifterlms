@@ -133,19 +133,13 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 	}
 
-		/**
+	/**
 	 * Determine if the gateway is enabled according to admin settings checkbox
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function is_enabled() {
-
-		// always enabled on admin panel
-		if ( ! defined( 'DOING_AJAX' ) && is_admin() ) {
-			return true;
-		}
-
 		return ( 'yes' === $this->get_enabled() ) ? true : false;
 	}
 
