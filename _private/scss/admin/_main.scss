@@ -394,3 +394,10 @@ td.llms-table-options {
 div[id^="lifterlms-"] .inside {
 	overflow: visible;
 }
+
+.llms-admin-notice {
+	position: relative;
+	.notice-dismiss {
+		text-decoration: none;
+	}
+}

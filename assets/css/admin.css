@@ -2220,6 +2220,13 @@ div[id^="lifterlms-"] .inside {
   overflow: visible;
 }
 
+.llms-admin-notice {
+  position: relative;
+}
+.llms-admin-notice .notice-dismiss {
+  text-decoration: none;
+}
+
 .llms-table {
   border-collapse: collapse;
   width: 100%;
