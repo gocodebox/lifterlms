@@ -115,7 +115,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	public function get_gateway() {
 		$gateways = LLMS()->payment_gateways();
 		$gateway = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
-		if ( $gateway && $gateway->is_enabled() ) {
+		if ( $gateway && $gateway->is_enabled() || is_admin() ) {
 			return $gateway;
 		} else {
 			return new WP_Error( 'error', sprintf( __( 'Payment gateway %s could not be located or is no longer enabled', 'lifterlms' ), $this->get( 'payment_gateway' ) ) );
