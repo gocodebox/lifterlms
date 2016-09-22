@@ -2575,10 +2575,12 @@ div[id^="lifterlms-"] .inside {
   cursor: pointer;
   display: block;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 14px;
+  letter-spacing: 2px;
   padding: 14px 28px;
   text-align: center;
   text-decoration: none;
+  text-transform: uppercase;
   -webkit-transition: all .3s ease;
           transition: all .3s ease;
 }
