@@ -85,36 +85,17 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 		$gateways = LLMS()->payment_gateways();
 		$product = new LLMS_Product( $this->post );
 
-		if ( $gateways->has_gateways( true ) ) {
+		add_filter( 'teeny_mce_buttons', array( $this, 'mce_buttons' ), 10, 2 );
 
-			add_filter( 'teeny_mce_buttons', array( $this, 'mce_buttons' ), 10, 2 );
+		$course = ( 'course' === $product->get( 'type' ) ) ? new LLMS_Course( $product->post ) : false;
 
-			$course = ( 'course' === $product->get( 'type' ) ) ? new LLMS_Course( $product->post ) : false;
+		llms_get_template( 'admin/post-types/product.php', array(
+			'course' => $course,
+			'gateways' => $gateways,
+			'product' => $product,
+		) );
 
-			llms_get_template( 'admin/post-types/product.php', array(
-				'course' => $course,
-				'gateways' => $gateways,
-				'product' => $product,
-			) );
-
-			remove_filter( 'teeny_mce_buttons', array( $this, 'mce_buttons' ), 10, 2 );
-
-		} else {
-
-			printf(
-				wp_kses(
-					__( 'There are no LifterLMS Payment Gateways currently installed or configured. To start charging for access you must install and configure a <a href="%s" target="_blank">LifterLMS Payment Gateway.</a>', 'lifterlms' ),
-					array(
-						'a' => array(
-							'href' => array(),
-							'target' => array(),
-						),
-					)
-				),
-				'https://lifterlms.com/product-category/plugins/e-commerce/'
-			);
-
-		}
+		remove_filter( 'teeny_mce_buttons', array( $this, 'mce_buttons' ), 10, 2 );
 
 		$html = ob_get_clean();
 
