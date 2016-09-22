@@ -12,7 +12,6 @@ add_action( 'lifterlms_after_main_content', 'lifterlms_output_content_wrapper_en
 /**
  * COURSE
  */
-//Before Course Summary
 add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_featured_image', 10 );
 add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_video', 10 );
 add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_audio', 10 );
@@ -22,6 +21,10 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_purchase_link', 10 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus', 10 );
 
+
+
+
+
 //Before Course Archive Loop Item Title
 add_action( 'lifterlms_before_shop_loop_item_title', 'lifterlms_template_loop_course_thumbnail', 10 );
 
@@ -30,6 +33,11 @@ add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_pri
 add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_length', 10 );
 add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_difficulty', 10 );
 add_action( 'lifterlms_after_shop_loop_item_title', 'lifterlms_template_loop_view_link', 10 );
+
+
+
+
+
 
 /**
  * LESSON

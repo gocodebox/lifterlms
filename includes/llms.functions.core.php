@@ -792,7 +792,7 @@ function llms_expire_membership() {
 		$period = get_post_meta( $post->ID, '_llms_expiration_period', true );
 
 		if ( empty( $interval ) || empty( $period ) ) {
-			return;
+			continue;
 		}
 
 		// query postmeta table and find all users enrolled

@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v2.7.12 - 2016/09/22 =
+------------------------
+
++ Added a new filter on content returned after port permission checks
++ Added additional information to plugin update message in preparation for major 3.0 release
++ Updated plugin contributor metadata
+
+
 = v2.7.11 - 2016/07/22 =
 ------------------------
 

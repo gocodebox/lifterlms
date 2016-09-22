@@ -1,5 +1,5 @@
 === LifterLMS ===
-Contributors: therealmarknelson, thomasplevy, psmolic, chrisbadgett, kathy11, lifterlms, codeboxllc, jackyliao888
+Contributors: codeboxllc, thomasplevy, chrisbadgett, therealmarknelson, kathy11, lifterlms
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
@@ -165,6 +165,14 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v2.7.12 - 2016/09/22 =
+------------------------
+
++ Added a new filter on content returned after port permission checks
++ Added additional information to plugin update message in preparation for major 3.0 release
++ Updated plugin contributor metadata
+
 
 = v2.7.11 - 2016/07/22 =
 ------------------------
