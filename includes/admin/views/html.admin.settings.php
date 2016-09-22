@@ -1,5 +1,4 @@
 <div class="wrap lifterlms">
-	<h1 style="display:none;"></h1>
 	<form method="post" id="mainform" action="" enctype="multipart/form-data">
 
 		<nav class="llms-nav-tab-wrapper">
@@ -17,6 +16,8 @@
 			<?php do_action( 'lifterlms_after_settings_tabs' ); ?>
 
 		</nav>
+
+		<h1 style="display:none;"></h1>
 
 		<?php
 			do_action( 'lifterlms_sections_' . $current_tab );

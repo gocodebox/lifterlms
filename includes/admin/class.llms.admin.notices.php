@@ -37,9 +37,26 @@ class LLMS_Admin_Notices {
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
-	public static function add_notice( $notice_id, $html ) {
+	public static function add_notice( $notice_id, $html, $options = array() ) {
+
+		// dont add the notice if we've already dismissed of delayed it
+		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ) {
+			return;
+		}
+
+		$options = wp_parse_args( $options, array(
+			'dismissible' => true,
+			'dismiss_for_days' => 7,
+			'remind_in_days' => 7,
+			'remindable' => false,
+			'type' => 'info',
+		) );
+
+		$options['html'] = wp_kses_post( $html );
+
 		self::$notices = array_unique( array_merge( self::get_notices(), array( $notice_id ) ) );
-		update_option( 'llms_admin_notice_' . $notice_id, wp_kses_post( $html ) );
+		update_option( 'llms_admin_notice_' . $notice_id, $options );
+
 	}
 
 	/**
@@ -49,40 +66,32 @@ class LLMS_Admin_Notices {
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
-	public static function delete_notice( $notice_id ) {
+	public static function delete_notice( $notice_id, $trigger = 'delete' ) {
 		self::$notices = array_diff( self::get_notices(), array( $notice_id ) );
+		$notice = self::get_notice( $notice_id );
 		delete_option( 'llms_admin_notice_' . $notice_id );
-	}
-
-	/**
-	 * Get the HTML of a single notice
-	 * @param    string     $notice_id  unique id of the notice
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public static function get_notice_html( $notice_id ) {
-		return apply_filters( 'llms_admin_notice_' . $notice_id, get_option( 'llms_admin_notice_' . $notice_id, '' ) );
-	}
-
-	/**
-	 * Determine the type of notice
-	 * Pass ${id}__{$notice_type} into the id to set the type
-	 * defaults to info (blue)
-	 * @param    string $notice_id  notice id
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public static function get_notice_type( $notice_id ) {
-		$exp = explode( '__', $notice_id );
-		$class = array_pop( $exp );
-
-		if ( ! in_array( $class, array( 'error', 'info', 'success', 'warning' ) ) ) {
-			$class = 'info';
+		if ( 'remind' === $trigger && $notice['remindable'] ) {
+			$delay = $notice['dismiss_for_days'];
+		} elseif ( 'hide' === $trigger ) {
+			$delay = $notice['remind_in_days'];
+		} else {
+			$delay = 0;
 		}
+		if ( $delay ) {
+			set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $notice['remind_in_days'] );
+		}
+		do_action( 'lifterlms_' . $trigger . '_' . $notice_id  . '_notice' );
+	}
 
-		return 'notice-' . $class;
+	/**
+	 * Get notice details array from the DB
+	 * @param    string  $notice_id  notice id
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public static function get_notice( $notice_id ) {
+		return get_option( 'llms_admin_notice_' . $notice_id, '' );
 	}
 
 	/**
@@ -106,17 +115,29 @@ class LLMS_Admin_Notices {
 		return in_array( $notice_id, self::get_notices() );
 	}
 
+	/**
+	 * Called when "Dismiss X" or "Remind Me" is clicked on a notice
+	 * Validates request and deletes the notice
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function hide_notices() {
-		if ( isset( $_GET['llms-hide-notice'] ) && isset( $_GET['_llms_notice_nonce'] ) ) {
+		if ( ( isset( $_GET['llms-hide-notice'] ) || isset( $_GET['llms-remind-notice'] ) ) && isset( $_GET['_llms_notice_nonce'] ) ) {
 			if ( ! wp_verify_nonce( $_GET['_llms_notice_nonce'], 'llms_hide_notices_nonce' ) ) {
 				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 			}
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 			}
-			$hide_notice = sanitize_text_field( $_GET['llms-hide-notice'] );
-			self::delete_notice( $hide_notice );
-			do_action( 'lifterlms_hide_' . $hide_notice . '_notice' );
+			if ( isset( $_GET['llms-hide-notice'] ) ) {
+				$notice = sanitize_text_field( $_GET['llms-hide-notice'] );
+				$action = 'hide';
+			} elseif ( isset( $_GET['llms-remind-notice'] ) ) {
+				$notice = sanitize_text_field( $_GET['llms-remind-notice'] );
+				$action = 'remind';
+			}
+			self::delete_notice( $notice, $action );
 		}
 	}
 
@@ -129,17 +150,20 @@ class LLMS_Admin_Notices {
 	 */
 	public static function output_notice( $notice_id ) {
 		if ( current_user_can( 'manage_options' ) ) {
-			$html = self::get_notice_html( $notice_id );
-			if ( $html ) {
+			$notice = self::get_notice( $notice_id );
 			?>
-				<div class="notice <?php echo self::get_notice_type( $notice_id ); ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>">
+			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>">
+				<?php if ( $notice['dismissible'] ): ?>
 					<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
 						<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
 					</a>
-					<?php echo wp_kses_post( wpautop( $html ) ); ?>
-				</div>
+				<?php endif; ?>
+				<?php echo wp_kses_post( wpautop( $notice['html'] ) ); ?>
+				<?php if ( $notice['remindable'] ) : ?>
+					<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
+				<?php endif; ?>
+			</div>
 			<?php
-			}
 		}
 	}
 
