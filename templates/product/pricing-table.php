@@ -93,7 +93,7 @@ $free_only = ( $has_free && ! $purchaseable );
 						<?php endif; ?>
 					</div>
 
-					<a class="llms-button button" href="<?php echo $plan->get_checkout_url(); ?>"><?php echo $plan->get_enroll_text(); ?></a>
+					<a class="llms-button-action button" href="<?php echo $plan->get_checkout_url(); ?>"><?php echo $plan->get_enroll_text(); ?></a>
 
 				</div>
 

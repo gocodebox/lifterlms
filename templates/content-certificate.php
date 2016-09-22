@@ -29,5 +29,5 @@ $image = llms_get_certificate_image();
 	</div>
 </div>
 <div id="llms-print-certificate" class="no-print">
-	<input type="button" class="llms-button" onClick="window.print()" value="<?php echo _e( 'Print Certificate', 'lifterlms' ) ?>"/>
+	<input type="button" class="llms-button-primary" onClick="window.print()" value="<?php echo _e( 'Print Certificate', 'lifterlms' ) ?>"/>
 </div>

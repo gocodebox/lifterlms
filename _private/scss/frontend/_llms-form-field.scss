@@ -93,7 +93,7 @@
 			input[type="radio"]:checked + label:before {
 				transition: background-position .2s .15s cubic-bezier(0, 0, .2, 1);
 				background-position: 0 0;
-				background-image: radial-gradient(ellipse at center,  $color-aqua 0%,$color-aqua 40%, #fafafa 45%);
+				background-image: radial-gradient(ellipse at center,  $color-brand-blue 0%,$color-brand-blue 40%, #fafafa 45%);
 			}
 
 		}

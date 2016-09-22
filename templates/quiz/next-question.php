@@ -30,6 +30,6 @@ foreach ( $quiz->questions as $key => $value ) :
 endforeach;
 ?>
 
-<input id="llms_answer_question" type="submit" class="button" name="llms_answer_question" value="<?php printf( __( '%s', 'lifterlms' ), $btn_text ); ?>" />
+<input id="llms_answer_question" type="submit" class="button llms-button-action" name="llms_answer_question" value="<?php printf( __( '%s', 'lifterlms' ), $btn_text ); ?>" />
 <input type="hidden" name="action" value="llms_answer_question" />
 <?php wp_nonce_field( 'llms_answer_question' ); ?>

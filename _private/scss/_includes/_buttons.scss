@@ -1,3 +1,4 @@
+.llms-button-action,
 .llms-button-danger,
 .llms-button-primary,
 .llms-button-secondary {
@@ -9,6 +10,7 @@
 	font-weight: 300;
 	text-decoration: none;
 	text-shadow: none;
+	line-height: 1;
 	margin: 0;
 	padding: 12px 24px;
 	transition: all .5s ease;
@@ -31,15 +33,15 @@
 }
 
 .llms-button-primary {
-	background: $color-blue;
+	background: $color-brand-blue;
 	&:hover,
 	&.clicked {
-		background: $color-darkblue;
+		background: $color-brand-blue-dark;
 	}
+	&:focus,
 	&:active {
-		background: $color-lightblue;
+		background: $color-brand-blue-light;
 	}
-
 }
 
 .llms-button-secondary {
@@ -49,12 +51,22 @@
 		color: #414141;
 		background: darken( #e1e1e1, 8 );
 	}
+	&:focus,
 	&:active {
 		color: #414141;
 		background: lighten( #e1e1e1, 4 );
 	}
-	&:focus {
-		color: #414141;
+}
+
+.llms-button-action {
+	background: $color-brand-orange;
+	&:hover,
+	&.clicked {
+		background: $color-brand-orange-dark;
+	}
+	&:focus,
+	&:active {
+		background: $color-brand-orange-light;
 	}
 }
 
@@ -63,6 +75,7 @@
 	&:hover {
 		background: darken( $color-danger, 8 );
 	}
+	&:focus,
 	&:active {
 		background: lighten( $color-danger, 4 );
 	}

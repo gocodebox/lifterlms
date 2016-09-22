@@ -1,18 +1,57 @@
+// ----- LifterLMS Brand Colors ----- \\
+$color-brand-dark-blue: #243c56;
+
+$color-brand-blue: #2295ff;
+$color-brand-blue-dark: darken( $color-brand-blue, 12 );
+$color-brand-blue-light: lighten( $color-brand-blue, 8 );
+
+$color-brand-orange: #f8954f;
+$color-brand-orange-dark: #f67d28;
+$color-brand-orange-light: lighten( $color-brand-orange, 8 );
+
+$color-brand-aqua: #17bebb;
+
+$color-brand-pink: #ef476f;
+
+
+
+// ----- name our versions of common colors ----- \\
 $color-black: #010101;
-
-$color-blue: #2295ff;
-
+$color-green: #83c373;
+$color-blue: $color-brand-blue;
+$color-red: #e5554e;
+$color-white: #fefefe;
 $color-aqua: #35bbaa;
 
-$color-red: #e5554e;
 $color-red-hover: darken($color-red,5);
 
-$color-white: #fefefe;
 
-$color-danger: #e26049;
+// ----- state / action names ----- \\
+$color-success: $color-green;
+$color-danger: $color-red;
+// $color-danger: #e26049;
 
 
-$color-green: #83c373;
+
+
+
+
+
+
+$color-lightgrey:		#ccc;
+$color-grey: 			#999;
+$color-darkgrey:		#666;
+$color-cinder:			#444;
+$color-lightblue:		#33b1cb;
+$color-darkblue:		#0185a3;
+
+
+
+
+
+
+
+
 
 
 

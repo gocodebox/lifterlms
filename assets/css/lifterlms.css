@@ -24,94 +24,94 @@
   clear: both;
 }
 
-.llms-button {
+.llms-button-action,
+.llms-button-danger,
+.llms-button-primary,
+.llms-button-secondary {
+  border: none;
+  border-radius: 0;
+  color: #fefefe;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 300;
+  text-decoration: none;
+  text-shadow: none;
+  line-height: 1;
+  margin: 0;
+  padding: 12px 24px;
+  -webkit-transition: all .5s ease;
+          transition: all .5s ease;
+}
+.llms-button-action:disabled,
+.llms-button-danger:disabled,
+.llms-button-primary:disabled,
+.llms-button-secondary:disabled {
+  opacity: 0.5;
+}
+.llms-button-action:hover, .llms-button-action:active,
+.llms-button-danger:hover,
+.llms-button-danger:active,
+.llms-button-primary:hover,
+.llms-button-primary:active,
+.llms-button-secondary:hover,
+.llms-button-secondary:active {
+  color: #fefefe;
+}
+.llms-button-action:focus,
+.llms-button-danger:focus,
+.llms-button-primary:focus,
+.llms-button-secondary:focus {
+  color: #fefefe;
+}
+.llms-button-action.small,
+.llms-button-danger.small,
+.llms-button-primary.small,
+.llms-button-secondary.small {
+  font-size: 13px;
+  padding: 8px 14px;
+}
+
+.llms-button-primary {
+  background: #2295ff;
+}
+.llms-button-primary:hover, .llms-button-primary.clicked {
+  background: #0077e4;
+}
+.llms-button-primary:focus, .llms-button-primary:active {
+  background: #4ba9ff;
+}
+
+.llms-button-secondary {
+  background: #e1e1e1;
+  color: #414141;
+}
+.llms-button-secondary:hover {
+  color: #414141;
+  background: #cdcdcd;
+}
+.llms-button-secondary:focus, .llms-button-secondary:active {
+  color: #414141;
+  background: #ebebeb;
+}
+
+.llms-button-action {
+  background: #f8954f;
+}
+.llms-button-action:hover, .llms-button-action.clicked {
+  background: #f67d28;
+}
+.llms-button-action:focus, .llms-button-action:active {
+  background: #faad76;
+}
+
+.llms-button-danger {
   background: #e5554e;
-  border-radius: 3px;
-  color: #fefefe;
-  display: inline-block;
-  padding: 10px 20px;
-  text-decoration: none;
-  -webkit-transition: background .4s ease;
-          transition: background .4s ease;
 }
-.llms-button:visited {
-  color: #fefefe;
-  text-decoration: none;
+.llms-button-danger:hover {
+  background: #e0332a;
 }
-.llms-button:hover {
-  background: #e24038;
-  text-decoration: none;
-  color: #fefefe;
-}
-
-.llms-button-text,
-input.llms-button-text,
-input[type="reset"].llms-button-text,
-input[type="submit"].llms-button-text {
-  background: none;
-  border: 0;
-  color: #e5554e;
-  display: inline-block;
-  padding: 0;
-  text-decoration: none;
-}
-.llms-button-text:focus, .llms-button-text:hover,
-input.llms-button-text:focus,
-input.llms-button-text:hover,
-input[type="reset"].llms-button-text:focus,
-input[type="reset"].llms-button-text:hover,
-input[type="submit"].llms-button-text:focus,
-input[type="submit"].llms-button-text:hover {
-  background: none;
-}
-
-.course-link .llms-button {
-  color: #fefefe;
-  text-decoration: none;
-}
-.course-link .llms-button:hover {
-  color: #fefefe;
-  text-decoration: none;
-}
-
-.llms-purchase-link-wrapper .llms-purchase-button.llms-button {
-  color: #fefefe;
-  text-decoration: none;
-  margin-top: 10px;
-}
-.llms-purchase-link-wrapper .llms-purchase-button.llms-button:visited {
-  color: #fefefe;
-  text-decoration: none;
-}
-.llms-purchase-link-wrapper .llms-purchase-button.llms-button:hover {
-  color: #fefefe;
-  text-decoration: none;
-}
-
-.course-link .llms-button {
-  color: #fefefe;
-  text-decoration: none;
-}
-.course-link .llms-button:visited {
-  color: #fefefe;
-  text-decoration: none;
-}
-.course-link .llms-button:hover {
-  color: #fefefe;
-  text-decoration: none;
-}
-
-.hentry .course-link .llms-button {
-  color: #fefefe;
-  text-decoration: none;
-}
-.hentry .course-link .llms-button:visited {
-  color: #fefefe;
-  text-decoration: none;
-}
-.hentry .course-link .llms-button:hover {
-  color: #fefefe;
-  text-decoration: none;
+.llms-button-danger:focus, .llms-button-danger:active {
+  background: #e86660;
 }
 
 .llms-membership-image {
@@ -618,7 +618,7 @@ svg .llms-animated-circle {
   margin-top: 5px;
 }
 .llms-loop-item-content .llms-loop-title:hover {
-  color: #35bbaa;
+  color: #2295ff;
 }
 .llms-loop-item-content .llms-meta,
 .llms-loop-item-content .llms-author,
@@ -706,6 +706,13 @@ svg .llms-animated-circle {
   padding: 15px;
   text-decoration: none;
 }
+.llms-lesson-preview .llms-lesson-link:before, .llms-lesson-preview .llms-lesson-link:after {
+  content: " ";
+  display: table;
+}
+.llms-lesson-preview .llms-lesson-link:after {
+  clear: both;
+}
 .llms-lesson-preview .llms-lesson-link:hover {
   background: #eaeaea;
 }
@@ -752,10 +759,17 @@ svg .llms-animated-circle {
   font-size: 32px;
   margin-bottom: 15px;
 }
-.llms-lesson-preview.is-free .llms-free-lesson-svg,
-.llms-lesson-preview.is-free .llms-lesson-complete, .llms-lesson-preview.is-complete .llms-free-lesson-svg,
-.llms-lesson-preview.is-complete .llms-lesson-complete {
-  color: #35bbaa;
+.llms-lesson-preview.is-free .llms-lesson-complete, .llms-lesson-preview.is-complete .llms-lesson-complete {
+  color: #2295ff;
+}
+.llms-lesson-preview .llms-icon-free {
+  background: #2295ff;
+  border-radius: 4px;
+  color: #f1f1f1;
+  display: inline-block;
+  padding: 5px 6px 4px;
+  line-height: 1;
+  font-size: 14px;
 }
 .llms-lesson-preview.is-incomplete .llms-lesson-complete {
   color: #cacaca;
@@ -792,7 +806,7 @@ svg .llms-animated-circle {
 }
 
 .llms-progress .progress-bar-complete {
-  background-color: #35bbaa;
+  background-color: #ef476f;
   position: absolute;
   height: 100%;
 }
@@ -816,8 +830,8 @@ svg .llms-animated-circle {
 }
 
 .llms-notice {
-  background: rgba(53, 187, 170, 0.3);
-  border-color: #35bbaa;
+  background: rgba(34, 149, 255, 0.3);
+  border-color: #2295ff;
   border-style: solid;
   border-width: 3px;
   padding: 10px;
@@ -1332,21 +1346,21 @@ svg .llms-animated-circle {
   background: #f1f1f1;
 }
 .llms-access-plan.featured .llms-access-plan-featured {
-  background: #4cccbc;
+  background: #4ba9ff;
 }
 .llms-access-plan.featured .llms-access-plan-footer,
 .llms-access-plan.featured .llms-access-plan-content {
-  border-left: 3px solid #35bbaa;
-  border-right: 3px solid #35bbaa;
+  border-left: 3px solid #2295ff;
+  border-right: 3px solid #2295ff;
 }
 .llms-access-plan.featured .llms-access-plan-footer {
-  border-bottom-color: #35bbaa;
+  border-bottom-color: #2295ff;
 }
 .llms-access-plan.on-sale .price-regular {
   text-decoration: line-through;
 }
 .llms-access-plan .stamp {
-  background: #35bbaa;
+  background: #2295ff;
   color: #fff;
   font-size: 11px;
   font-style: normal;
@@ -1370,7 +1384,7 @@ svg .llms-animated-circle {
 }
 
 .llms-access-plan-title {
-  background: #35bbaa;
+  background: #2295ff;
   color: #fff;
   margin-bottom: 0;
   padding: 10px;
@@ -1451,12 +1465,12 @@ svg .llms-animated-circle {
 }
 
 .llms-checkout-wrapper form.llms-login {
-  border: 3px solid #35bbaa;
+  border: 3px solid #2295ff;
   display: none;
   margin-bottom: 10px;
 }
 .llms-checkout-wrapper .llms-form-heading {
-  background: #35bbaa;
+  background: #2295ff;
   color: #fff;
   margin: 0 0 5px;
   padding: 10px;
@@ -1485,7 +1499,7 @@ svg .llms-animated-circle {
 }
 
 .llms-checkout-section {
-  border: 3px solid #35bbaa;
+  border: 3px solid #2295ff;
   margin-bottom: 10px;
   position: relative;
 }
@@ -1695,8 +1709,8 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   -webkit-transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
           transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
   background-position: 0 0;
-  background-image: -webkit-radial-gradient(center, ellipse, #35bbaa 0%, #35bbaa 40%, #fafafa 45%);
-  background-image: radial-gradient(ellipse at center, #35bbaa 0%, #35bbaa 40%, #fafafa 45%);
+  background-image: -webkit-radial-gradient(center, ellipse, #2295ff 0%, #2295ff 40%, #fafafa 45%);
+  background-image: radial-gradient(ellipse at center, #2295ff 0%, #2295ff 40%, #fafafa 45%);
 }
 .llms-form-field.type-reset button, .llms-form-field.type-button button, .llms-form-field.type-submit button {
   width: 100%;
@@ -1800,7 +1814,7 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   margin: 0 5px;
 }
 .llms-student-dashboard .llms-sd-link {
-  color: #35bbaa;
+  color: #2295ff;
 }
 .llms-student-dashboard .llms-sd-section {
   margin-bottom: 25px;

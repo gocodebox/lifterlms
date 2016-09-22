@@ -142,7 +142,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		} elseif ( $this->is_free() ) {
 
-			$html = LLMS_Svg::get_icon( 'llms-icon-free', '', '', 'llms-free-lesson-svg' );
+			$html = '<span class="llms-icon-free">' . __( 'FREE', 'lifterlms' ) . '</span>';
 
 		}
 

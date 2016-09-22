@@ -71,6 +71,7 @@ class LLMS_Person_Handler {
 			),
 			array(
 				'columns' => 3,
+				'classes' => 'llms-button-action',
 				'id' => 'llms_login_button',
 				'value' => __( 'Login', 'lifterlms' ),
 				'last_column' => false,

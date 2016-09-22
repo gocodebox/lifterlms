@@ -70,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 					<?php llms_agree_to_terms_form_field(); ?>
 					<?php llms_form_field( array(
 						'columns' => 12,
-						'classes' => 'llms-button-primary',
+						'classes' => 'llms-button-action',
 						'id' => 'llms_create_pending_order',
 						'value' => apply_filters( 'lifterlms_checkout_buy_button_text', __( 'Buy Now', 'lifterlms' ) ),
 						'last_column' => true,

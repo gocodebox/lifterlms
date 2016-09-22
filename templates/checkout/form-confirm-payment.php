@@ -69,7 +69,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 					<?php llms_form_field( array(
 						'columns' => 12,
-						'classes' => 'llms-button-primary',
+						'classes' => 'llms-button-action',
 						'id' => 'llms_confirm_pending_order',
 						'value' => apply_filters( 'lifterlms_checkout_confirm_button_text', __( 'Confirm Payment', 'lifterlms' ) ),
 						'last_column' => true,
@@ -184,7 +184,7 @@ if ( ! $product || ! $order ) {
 		<form action="" method="POST">
 
 			<div class="llms-clear-box llms-center-content">
-				<input type="submit" class="button llms-button" name="llms_confirm_order" value="<?php _e( 'Confirm Purchase', 'lifterlms' ); ?>" />
+				<input type="submit" class="button llms-button-primary" name="llms_confirm_order" value="<?php _e( 'Confirm Purchase', 'lifterlms' ); ?>" />
 			</div>
 
 			<?php wp_nonce_field( 'llms_confirm_order' ); ?>

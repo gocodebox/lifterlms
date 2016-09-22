@@ -28,17 +28,17 @@
 	&.featured {
 
 		.llms-access-plan-featured {
-			background: lighten( $color-aqua, 8 );
+			background: lighten( $color-brand-blue, 8 );
 		}
 
 		.llms-access-plan-footer,
 		.llms-access-plan-content {
-			border-left: 3px solid $color-aqua;
-			border-right: 3px solid $color-aqua;
+			border-left: 3px solid $color-brand-blue;
+			border-right: 3px solid $color-brand-blue;
 		}
 
 		.llms-access-plan-footer {
-			border-bottom-color: $color-aqua;
+			border-bottom-color: $color-brand-blue;
 		}
 
 	}
@@ -48,7 +48,7 @@
 	}
 
 	.stamp {
-		background: $color-aqua;
+		background: $color-brand-blue;
 		color: #fff;
 		font-size: 11px;
 		font-style: normal;
@@ -74,7 +74,7 @@
 	}
 
 		.llms-access-plan-title {
-			background: $color-aqua;
+			background: $color-brand-blue;
 			color: #fff;
 			margin-bottom: 0;
 			padding: 10px;
@@ -146,10 +146,6 @@
 					list-style-type: none;
 				}
 			}
-			// a {
-			// 	color: $color-aqua;
-			// 	&:hover { color: darken( $color-aqua, 4 ); }
-			// }
 		}
 
 	.llms-access-plan-footer {

@@ -1103,7 +1103,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 			</div>';
 
 		if ($button) {
-			$r .= '<' . $tag . ' class="llms-button llms-purchase-button"'. $href .'>' . sprintf( __( 'Continue (%s%%)', 'lifterlms' ), $progress ) . '</' . $tag . '>';
+			$r .= '<' . $tag . ' class="llms-button-primary llms-purchase-button"'. $href .'>' . sprintf( __( 'Continue (%s%%)', 'lifterlms' ), $progress ) . '</' . $tag . '>';
 		}
 
 		if ( $echo ) {

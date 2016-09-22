@@ -26,7 +26,7 @@ if ( ! empty( $quiz ) ) {
 			<?php if ( $quiz->is_open( $user_id ) ) : ?>
 				<input id="llms-user" name="llms-user_id" type="hidden" value="<?php echo $user_id; ?>"/>
 				<input id="llms-quiz" name="llms-quiz_id" type="hidden" value="<?php echo $quiz->id; ?>"/>
-				<input id="llms_start_quiz" type="button" class="button" name="llms_start_quiz" value="<?php _e( 'Start Quiz', 'lifterlms' ); ?>" />
+				<input id="llms_start_quiz" type="button" class="llms-button-action" name="llms_start_quiz" value="<?php _e( 'Start Quiz', 'lifterlms' ); ?>" />
 				<input type="hidden" name="action" value="llms_start_quiz" />
 
 				 	<?php wp_nonce_field( 'llms_start_quiz' ); ?>
@@ -35,7 +35,7 @@ if ( ! empty( $quiz ) ) {
 			<?php endif; ?>
 
 			<?php if ( $lesson->get_next_lesson() && ! empty( $quiz ) && $quiz->is_passing_score( $user_id, $quiz->get_user_grade( $user_id ) ) ) : ?>
-				<a href="<?php echo get_permalink( $lesson->get_next_lesson() );?>" class="button llms-button llms-next-lesson"><?php _e( 'Next Lesson','lifterlms' ); ?></a>
+				<a href="<?php echo get_permalink( $lesson->get_next_lesson() );?>" class="button llms-button-primary llms-next-lesson"><?php _e( 'Next Lesson','lifterlms' ); ?></a>
 			<?php endif; ?>
 		</form>
 

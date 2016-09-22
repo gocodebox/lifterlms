@@ -47,7 +47,7 @@ llms_print_notices();
 
 			<?php llms_form_field( array(
 				'columns' => 3,
-				'classes' => 'llms-button-primary',
+				'classes' => 'llms-button-action',
 				'id' => 'llms_register_person',
 				'value' => apply_filters( 'lifterlms_registration_button_text', __( 'Register', 'lifterlms' ) ),
 				'last_column' => true,

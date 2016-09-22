@@ -56,7 +56,7 @@ global $wp_query;
 						</div>
 
 						<div class="course-link">
-							<a href="<?php echo $c->get_permalink(); ?>" class="button llms-button"><?php echo apply_filters( 'lifterlms_my_courses_course_button_text', __( 'View Course', 'lifterlms' ) ); ?></a>
+							<a href="<?php echo $c->get_permalink(); ?>" class="button llms-button-primary"><?php echo apply_filters( 'lifterlms_my_courses_course_button_text', __( 'View Course', 'lifterlms' ) ); ?></a>
 					 	</div>
 
 					  	<div class="clear"></div>

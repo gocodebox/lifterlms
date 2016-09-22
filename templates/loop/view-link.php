@@ -16,7 +16,7 @@ global $post, $course;
 <?php
 if ( 'course' == $post->post_type ) :
 	if ( ! llms_is_user_enrolled( get_current_user_id(), $course->id ) ) : ?>
-			<span class="llms-button llms-purchase-button"><?php _e( 'View Course', 'lifterlms' ); ?></span>
+			<span class="llms-button-primary llms-purchase-button"><?php _e( 'View Course', 'lifterlms' ); ?></span>
 
 		<?php
 		else :
@@ -31,7 +31,7 @@ if ( 'course' == $post->post_type ) :
 
 if ( 'llms_membership' == $post->post_type ) : ?>
 
-<span class="llms-button llms-purchase-button"><?php _e( 'Learn More', 'lifterlms' ); ?></span>
+<span class="llms-button-primary llms-purchase-button"><?php _e( 'Learn More', 'lifterlms' ); ?></span>
 <?php endif;?>
 
 </footer>

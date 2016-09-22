@@ -1,4 +1,5 @@
-<div class="wrap lifterlms">
+<div class="wrap lifterlms lifterlms-settings">
+
 	<form method="post" id="mainform" action="" enctype="multipart/form-data">
 
 		<nav class="llms-nav-tab-wrapper">

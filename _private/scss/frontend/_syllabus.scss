@@ -33,7 +33,6 @@
 }
 
 .llms-lesson-preview {
-
 	display: inline-block;
 	margin-top: 15px;
 	max-width: 100%;
@@ -47,6 +46,8 @@
 		// height: 100%;
 		padding: 15px;
 		text-decoration: none;
+
+		@include clearfix();
 
 		&:hover {
 			background: #eaeaea;
@@ -107,10 +108,19 @@
 
 	&.is-free,
 	&.is-complete {
-		.llms-free-lesson-svg,
 		.llms-lesson-complete {
-			color: $color-aqua;
+			color: $color-brand-blue;
 		}
+	}
+
+	.llms-icon-free {
+		background: $color-brand-blue;
+		border-radius: 4px;
+		color: #f1f1f1;
+		display: inline-block;
+		padding: 5px 6px 4px;
+		line-height: 1;
+		font-size: 14px;
 	}
 
 	&.is-incomplete {
