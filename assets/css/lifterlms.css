@@ -775,6 +775,7 @@ svg .llms-animated-circle {
 
 /* progress bar */
 .llms-progress {
+  clear: both;
   position: relative;
   height: 1em;
   width: 100%;

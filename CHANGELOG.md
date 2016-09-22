@@ -19,7 +19,7 @@
 
 ##### notices
 
-+ Admin notices class
++ Admin notices class for managing admin notices, it's pretty neat!
 
 
 = v3.0.0-beta.8 - 2016/09/15 =

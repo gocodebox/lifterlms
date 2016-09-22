@@ -1,12 +1,12 @@
 <?php
+/**
+ * BuddyPress Integration
+ * @since    1.0.0
+ * @version  3.0.0
+ */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* BuddyPress Integration
-*
-* @author codeBOX
-* @project lifterLMS
-*/
 class LLMS_Integration_Buddypress {
 	public $id = 'bp';
 	public $title = 'BuddyPress';
@@ -54,6 +54,15 @@ class LLMS_Integration_Buddypress {
 			'parent_slug'     => 'courses',
 			'parent_url'      => $parent_url,
 			'screen_function' => array( $this,'courses_screen' ),
+			'user_has_access' => $is_my_profile,
+		));
+
+		bp_core_new_subnav_item(array(
+			'name'            => __( 'Memberships', 'lifterlms' ),
+			'slug'            => 'memberships',
+			'parent_slug'     => 'courses',
+			'parent_url'      => $parent_url,
+			'screen_function' => array( $this,'memberships_screen' ),
 			'user_has_access' => $is_my_profile,
 		));
 
@@ -153,27 +162,57 @@ class LLMS_Integration_Buddypress {
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
-		/**
-		 * "Courses" profile screen content
-		 * @return null
-		 */
+	/**
+	 * "Courses" profile screen content
+	 * @return null
+	 */
 	public function courses_content() {
-		llms_get_template( 'myaccount/my-courses.php' );
+		$student = new LLMS_Student();
+		$courses = $student->get_courses( array(
+			'limit' => ( ! isset( $_GET['limit'] ) ) ? 10 : $_GET['limit'],
+			'skip' => ( ! isset( $_GET['skip'] ) ) ? 0 : $_GET['skip'],
+			'status' => 'enrolled',
+		) );
+
+		llms_get_template( 'myaccount/my-courses.php', array(
+			'student' => $student,
+			'courses' => $courses,
+			'pagination' => $courses['more'],
+		) );
 	}
-
-
 
 
 
 	/**
-	 * Returns a permalink for the registration page as selected in buddypress options
-	 * @return string / permalink
+	 * Callback for "memberships" profile screen
+	 * @return null
 	 */
-	public function get_registration_permalink() {
-		$option = get_option( 'bp-pages' );
-		if (array_key_exists( 'register', $option )) {
-			return get_the_permalink( $option['register'] );
-		}
+	public function memberships_screen() {
+		// add_action('bp_template_title', array($this,'memberships_title'));
+		add_action( 'bp_template_content', array( $this, 'memberships_content' ) );
+		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
+
+	/**
+	 * "memberships" profile screen content
+	 * @return null
+	 */
+	public function memberships_content() {
+		llms_get_template( 'myaccount/my-memberships.php' );
+	}
+
+
+
+
+	// /**
+	//  * Returns a permalink for the registration page as selected in buddypress options
+	//  * @return string / permalink
+	//  */
+	// public function get_registration_permalink() {
+	// 	$option = get_option( 'bp-pages' );
+	// 	if (array_key_exists( 'register', $option )) {
+	// 		return get_the_permalink( $option['register'] );
+	// 	}
+	// }
 
 }

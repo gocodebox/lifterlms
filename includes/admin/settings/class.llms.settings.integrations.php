@@ -37,13 +37,28 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 		return apply_filters( 'lifterlms_integrations_settings', array(
 
-			array( 'type' => 'sectionstart', 'id' => 'integration_options', 'class' => 'top' ),
+			array(
+				'class' => 'top',
+				'id' => 'integration_options',
+				'type' => 'sectionstart',
+			),
 
-			array( 'title' => __( 'Integration Settings', 'lifterlms' ), 'type' => 'title', 'desc' => '', 'id' => 'integrations_options' ),
+			array(
+				'title' => __( 'Integration Settings', 'lifterlms' ),
+				'type' => 'title',
+				'id' => 'integrations_options'
+			),
+
+			array(
+				'desc' => __( 'Extend LifterLMS functionality to any of the following popular plugins', 'lifterlms' ),
+				'title' => __( 'Enable Integrations', 'lifterlms' ),
+				'type' => 'subtitle',
+			),
 
 			array(
 				'title' => __( 'bbPress', 'lifterlms' ),
-				'desc' 		=> __( 'Enable / Disable', 'lifterlms' ),
+				'desc' 		=> __( 'Enable', 'lifterlms' ) . '<br>' .
+							   sprintf( __( 'Restrict forums and topics within forums to LifterLMS memberships. %sLearn More%s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-bbpress/" target="_blank">', '</a>' ),
 				'id' 		=> 'lifterlms_bbpress_enabled',
 				'type' 		=> 'checkbox',
 				'default'	=> 'no',
@@ -52,14 +67,18 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'BuddyPress', 'lifterlms' ),
-				'desc' 		=> __( 'Enable / Disable', 'lifterlms' ),
+				'desc' 		=> __( 'Enable', 'lifterlms' ) . '<br>' .
+							   sprintf( __( 'Add LifterLMS information to BuddyPress profiles. %sLearn More%s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' ),
 				'id' 		=> 'lifterlms_buddypress_enabled',
 				'type' 		=> 'checkbox',
 				'default'	=> 'no',
 				'desc_tip'	=> true,
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'integration_options' ),
+			array(
+				'id' => 'integration_options',
+				'type' => 'sectionend',
+			),
 
 		) );
 	}
