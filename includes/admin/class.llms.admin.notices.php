@@ -153,7 +153,7 @@ class LLMS_Admin_Notices {
 			$notice = self::get_notice( $notice_id );
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>">
-				<?php if ( $notice['dismissible'] ): ?>
+				<?php if ( $notice['dismissible'] ) : ?>
 					<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
 						<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
 					</a>

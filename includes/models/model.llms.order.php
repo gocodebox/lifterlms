@@ -944,7 +944,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( ! $date ) {
 
 			// set the start date to now
-			$date = current_time(  'mysql' );
+			$date = current_time( 'mysql' );
 			$this->set( 'start_date', $date );
 
 			// get epiration date based on setting

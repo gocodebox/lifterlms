@@ -10,12 +10,17 @@
 
 ##### Analytcis
 
-+ Charts!
++ Charts! I'm really excited about this. I know we still need more data but please say nice things to me, I worked really hard on these little charts.
 + Updated styles & interface
 
 ##### bbPress
 
 + Restrict individual forums (and their topics) to LifterLMS Membership levels
+
+##### BuddyPress
+
++ Fixes broken course display on bp profile
++ Adds memberships subpage to bp profile
 
 ##### notices
 

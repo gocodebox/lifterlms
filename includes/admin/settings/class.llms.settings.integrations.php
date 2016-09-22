@@ -46,7 +46,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 			array(
 				'title' => __( 'Integration Settings', 'lifterlms' ),
 				'type' => 'title',
-				'id' => 'integrations_options'
+				'id' => 'integrations_options',
 			),
 
 			array(

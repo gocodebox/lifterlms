@@ -37,7 +37,7 @@ abstract class LLMS_Analytics_Widget {
 				'id' => '',
 				'label' => '',
 				'type' => 'string',
-			)
+			),
 		);
 	}
 
