@@ -52,9 +52,11 @@ class LLMS_Payment_Gateways {
 
 			$order = absint( $load_gateway->get_display_order() );
 
-			// if the order already exists increment it by 1
+			// if the order already exists create a new order for it
 			if ( isset( $this->payment_gateways[ $order ] ) ) {
-				$order++;
+
+				$order = max( array_keys( $this->payment_gateways ) ) + 1;
+
 			}
 
 			$this->payment_gateways[ $order ] = $load_gateway;
