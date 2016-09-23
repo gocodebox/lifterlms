@@ -294,7 +294,7 @@ class LLMS_Admin_Settings {
 				echo '<td class="forminp forminp-' . sanitize_title( $field['type'] ) . '">';
 				echo '<div id="llms-form-wrapper">';
 				echo $description . '<br><br>';
-				echo '<input name="' .  $name . '" class="button-primary" type="submit" value="' . esc_attr( $field['value'] ) . '" />';
+				echo '<input name="' .  $name . '" class="llms-button-primary" type="submit" value="' . esc_attr( $field['value'] ) . '" />';
 				echo '</div>';
 				echo '</td></tr>';
 				//get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );

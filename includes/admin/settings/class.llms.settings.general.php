@@ -62,10 +62,10 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 					<div class="llms-list">
 						<ul>
-							<li><p>' . __( 'Version:', 'lifterlms' ) . ' ' . LLMS()->version . '</p></li>
-							<li><p>' . __( 'Need help? Send us a support request at ', 'lifterlms' ) . ' <a href="https://lifterlms.com/contact/" target="_blank">' . __( 'https://lifterlms.com/contact/' ) . '</a>.</p></li>
-							<li><p>' . __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Visit our documentation portal at ', 'lifterlms' ) . ' <a href="https://lifterlms.readme.io/" target="_blank">' . __( 'https://lifterlms.readme.io/' ) . '</a>.</p></li>
-							<li><p>' . __( 'Get LifterLMS news, updates, and more on our blog at ', 'lifterlms' ) . ' <a href="http://blog.lifterlms.com/" target="_blank">' . __( 'http://blog.lifterlms.com/' ) . '</a></p></li>
+							<li><p>' . sprintf( __( 'Version: %s', 'lifterlms' ), LLMS()->version ) . '</p></li>
+							<li><p>' . sprintf( __( 'Need help? Get support on the %sforums%s', 'lifterlms' ), '<a href="https://wordpress.org/support/plugin/lifterlms" target="_blank">' , '</a>' ) . '</p></li>
+							<li><p>' . sprintf( __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Get started at %s', 'lifterlms' ), '<a href="https://lifterlms.com/docs" target="_blank">https://lifterlms.com/docs</a>' ) . '</p></li>
+							<li><p>' . sprintf( __( 'Get LifterLMS news, updates, and more on our %sblog%s', 'lifterlms' ), '<a href="http://blog.lifterlms.com/" target="_blank">', '</a>' ) . '</p></li>
 						</ul>
 					</div>',
 				'id' => 'activation_options',
@@ -107,7 +107,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					<div id="llms-form-wrapper">
 						<span class="description">'. __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ) .'</span>
 						<br><br>
-						<a class="button-primary" href="' . admin_url() . '?page=llms-setup">' . __( 'Return to Setup Wizard', 'lifterlms' ) . '</a>
+						<a class="llms-button-primary" href="' . admin_url() . '?page=llms-setup">' . __( 'Return to Setup Wizard', 'lifterlms' ) . '</a>
 					</div>
 					</td></tr>
 				',
