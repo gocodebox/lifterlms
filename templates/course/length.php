@@ -13,7 +13,7 @@ if ( ! $course  || ! is_object( $course ) ) {
 	$course = new LLMS_Course( $post->ID );
 }
 
-if ( 'yes' !== get_option( 'lifterlms_course_display_length' ) || ! $course->get( 'length' ) ) {
+if ( ! $course->get( 'length' ) ) {
 	return;
 }
 ?>

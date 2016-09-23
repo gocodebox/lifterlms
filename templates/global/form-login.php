@@ -15,24 +15,28 @@ if ( is_user_logged_in() ) { return; }
 	<?php llms_print_notice( $message, 'notice' ); ?>
 <?php endif; ?>
 
-<form action="" class="llms-login" method="POST">
+<div class="col-1 llms-person-login-form-wrapper">
 
-	<h4 class="llms-form-heading"><?php _e( 'Login', 'lifterlms' ); ?></h4>
+	<form action="" class="llms-login" method="POST">
 
-	<div class="llms-form-fields">
+		<h4 class="llms-form-heading"><?php _e( 'Login', 'lifterlms' ); ?></h4>
 
-		<?php do_action( 'lifterlms_login_form_start' ); ?>
+		<div class="llms-form-fields">
 
-		<?php foreach ( LLMS_Person_Handler::get_login_fields() as $field ) : ?>
-			<?php llms_form_field( $field ); ?>
-		<?php endforeach; ?>
+			<?php do_action( 'lifterlms_login_form_start' ); ?>
 
-		<?php wp_nonce_field( 'llms_login_user' ); ?>
-		<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ) ?>" />
-		<input type="hidden" name="action" value="llms_login_user" />
+			<?php foreach ( LLMS_Person_Handler::get_login_fields() as $field ) : ?>
+				<?php llms_form_field( $field ); ?>
+			<?php endforeach; ?>
 
-		<?php do_action( 'lifterlms_login_form_end' ); ?>
+			<?php wp_nonce_field( 'llms_login_user' ); ?>
+			<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ) ?>" />
+			<input type="hidden" name="action" value="llms_login_user" />
 
-	</div>
+			<?php do_action( 'lifterlms_login_form_end' ); ?>
 
-</form>
+		</div>
+
+	</form>
+
+</div>

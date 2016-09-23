@@ -8,9 +8,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post, $course;
-if ( 'yes' !== get_option( 'lifterlms_course_display_tags' ) ) {
-	return;
-}
 ?>
 
 <div class="llms-meta llms-tags">

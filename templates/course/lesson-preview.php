@@ -11,10 +11,11 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+$locked = llms_is_page_restricted( $lesson->get( 'id' ), get_current_user_id() );
 ?>
 
 <div class="llms-lesson-preview<?php echo $lesson->get_preview_classes(); ?>">
-	<a class="llms-lesson-link" href="<?php echo ( ! llms_is_page_restricted( $lesson->get( 'id' ), get_current_user_id() ) ) ? get_permalink( $lesson->get( 'id' ) ) : '#llms-lesson-locked'; ?>">
+	<a class="llms-lesson-link<?php echo $locked ? ' llms-lesson-link-locked' : ''; ?>" href="<?php echo ( ! $locked ) ? get_permalink( $lesson->get( 'id' ) ) : '#llms-lesson-locked'; ?>">
 
 		<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
 

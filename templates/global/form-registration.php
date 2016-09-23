@@ -21,7 +21,7 @@ llms_print_notices();
 
 <div class="col-2 llms-new-person-form-wrapper">
 
-	<h2 class="llms-title llms-h2"><?php _e( 'Register', 'lifterlms' ); ?></h2>
+	<h4 class="llms-form-heading"><?php _e( 'Register', 'lifterlms' ); ?></h4>
 
 	<form method="post" class="llms-new-person-form register">
 

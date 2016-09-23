@@ -31,15 +31,17 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 	<h4 class="llms-loop-title"><?php the_title(); ?></h4>
 
-	<?php
-		/**
-		 * lifterlms_after_loop_item_title
-		 * @hooked lifterlms_template_loop_author - 10
-		 * @hooked lifterlms_template_loop_length - 15
-		 * @hooked lifterlms_template_loop_difficulty - 20
-		 */
-		do_action( 'lifterlms_after_loop_item_title' );
-	?>
+	<footer class="llms-loop-item-footer">
+		<?php
+			/**
+			 * lifterlms_after_loop_item_title
+			 * @hooked lifterlms_template_loop_author - 10
+			 * @hooked lifterlms_template_loop_length - 15
+			 * @hooked lifterlms_template_loop_difficulty - 20
+			 */
+			do_action( 'lifterlms_after_loop_item_title' );
+		?>
+	</footer>
 
 	<?php
 		/**

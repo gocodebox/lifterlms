@@ -15,6 +15,8 @@ llms_print_notices();
 
 	<?php printf( __( '<p>Hello <strong>%1$s</strong></p>', 'lifterlms' ), $current_user->display_name ); ?>
 
+	<?php echo apply_filters( 'lifterlms_account_greeting', '' ); ?>
+
 	<?php
 	llms_get_template( 'myaccount/my-courses.php', array(
 		'courses' => $courses,
