@@ -30,6 +30,12 @@
 		background-color: #fafafa;
 	}
 
+	&.text-left {
+		td, th {
+			text-align: left;
+		}
+	}
+
 	.llms-action-icon {
 		color: #777;
 		text-decoration: none;
@@ -40,6 +46,10 @@
 
 		&:hover {
 			color: $color-blue;
+		}
+
+		&.danger:hover {
+			color: $color-danger;
 		}
 	}
 

@@ -39,6 +39,7 @@
   line-height: 1;
   margin: 0;
   padding: 12px 24px;
+  position: relative;
   -webkit-transition: all .5s ease;
           transition: all .5s ease;
 }
