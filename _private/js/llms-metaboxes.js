@@ -193,9 +193,64 @@
 
 		};
 
+		/**
+		 * Actions for memberships
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
+		this.bind_llms_membership = function() {
+
+			$( 'a[href="#llms-course-remove"]' ).on( 'click', function( e ) {
+
+				e.preventDefault();
+
+				var $el = $( this ),
+					$row = $el.closest( 'tr' ),
+					$container = $el.closest( '.llms-mb-list' );
+
+				LLMS.Spinner.start( $container );
+
+				window.LLMS.Ajax.call( {
+					data: {
+						action: 'membership_remove_auto_enroll_course',
+						course_id: $el.attr( 'data-id' ),
+					},
+					beforeSend: function() {
+
+						$container.find( 'p.error' ).remove();
+
+					},
+					success: function( r ) {
+
+						if ( r.success ) {
+
+							$row.fadeOut( 200 );
+							setTimeout( function() {
+								$row.remove();
+							}, 400 );
+
+						} else {
+
+							$container.prepend( '<p class="error">' + r.message + '</p>' );
+
+						}
+
+						LLMS.Spinner.stop( $container );
+					},
+				} );
 
 
+			} );
 
+		};
+
+		/**
+		 * Actions for ORDERS
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.bind_llms_order = function() {
 
 			$( 'button[name="llms-refund-toggle"]' ).on( 'click', function() {
