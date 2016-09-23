@@ -55,7 +55,7 @@ class LLMS_Shortcode_My_Account {
 				// can be enabled / disabled on options page.
 				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) {
 
-					llms_get_template( 'myaccount/form-registration.php' );
+					llms_get_template( 'global/form-registration.php' );
 
 				}
 

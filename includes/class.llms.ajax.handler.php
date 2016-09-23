@@ -66,6 +66,26 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Remove a course from the list of membership auto enrollment courses
+	 * called from "Auto Enrollment" tab of LLMS Membership Metaboxes
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public static function membership_remove_auto_enroll_course( $request ) {
+
+		if ( empty( $request['post_id'] ) || empty( $request['course_id'] ) ) {
+			return new WP_Error( 'error', __( 'Missing required parameters.', 'lifterlms' ) );
+		}
+
+		$membership = new LLMS_Membership( $request['post_id'] );
+
+		if ( ! $membership->remove_auto_enroll_course( intval( $request['course_id'] ) ) ) {
+			return new WP_Error( 'error', __( 'There was an error removing the course, please try again.', 'lifterlms' ) );
+		}
+
+	}
+
+	/**
 	 * Retrieve Students
 	 *
 	 * Used by Select2 AJAX functions to load paginated quiz questions

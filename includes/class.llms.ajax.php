@@ -160,6 +160,7 @@ class LLMS_AJAX {
 			'get_question'				=> false,
 			'get_quiz_questions'		=> false,
 			'start_quiz'				=> false,
+			'membership_remove_auto_enroll_course' => false,
 			'answer_question'			=> false,
 			'previous_question'			=> false,
 			'complete_quiz'				=> false,

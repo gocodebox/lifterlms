@@ -7,6 +7,15 @@
 + record a start date for access plans based off when order mobes to complete or active for the first time
 + automatically expire limited access plans
 + gave a quick facelift & unification to a lot of admin panel elements
++ Color consistency updated according to LLMS brand guide
++ Unified frint and backend button classes
++ Updated all frontend buttons to have consistent classes
++ Removed the "FREE" lesson SVG in favor of simple text which allows translating
+
+##### Auto Enrollment
+
++ Course auto enrollment for Memberships has been restored
++ Works exactly the same as previously except auto-enrollment is not dependent on a course "belonging to" the membership via membership restrictions. This is because membership restrictions no longer apply to courses
 
 ##### Analytcis
 
