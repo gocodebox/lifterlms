@@ -19,6 +19,7 @@ class LLMS_Install {
 	 * @var  array
 	 */
 	private static $db_updates = array(
+		'3.0.0-beta.10' => 'updates/lifterlms-update-3.0.0-beta.10.php',
 		'3.0.0' => 'updates/lifterlms-update-3.0.0.php',
 	);
 

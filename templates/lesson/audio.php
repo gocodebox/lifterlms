@@ -6,12 +6,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post;
-
-$course_not_class = get_post_custom( $post->ID );
-if ( ! isset( $lesson )) {
-	$lesson = new LLMS_Lesson( $post->ID );
-}
+global $post, $lesson;
 
 if ( ! $lesson->get_audio() ) { return; }
 ?>
@@ -20,5 +15,4 @@ if ( ! $lesson->get_audio() ) { return; }
 	<div class="center-audio">
 		<?php echo $lesson->get_audio(); ?>
 	</div>
-
 </div>
