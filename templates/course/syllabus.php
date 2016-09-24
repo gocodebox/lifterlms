@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $post, $course;
 
 // retrieve sections to use in the template
-$sections = $course->get_children_sections();
+$sections = $course->get_sections( 'posts' );
 ?>
 
 <div class="clear"></div>

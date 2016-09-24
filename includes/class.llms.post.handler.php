@@ -98,7 +98,7 @@ class LLMS_Post_Handler {
 		//set the section_order variable
 		//get the count of sections in the course and add 1
 		$course = new LLMS_Course( $course_id );
-		$sections = $course->get_children_sections();
+		$sections = $course->get_sections( 'posts' );
 		$section_order = count( $sections ) + 1;
 
 		$title = isset( $title ) ? $title : 'New Section';

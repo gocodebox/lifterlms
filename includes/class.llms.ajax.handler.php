@@ -467,7 +467,7 @@ class LLMS_AJAX_Handler {
 	public static function get_course_sections( $request ) {
 
 		$course = new LLMS_Course( $request['post_id'] );
-		$sections = $course->get_children_sections();
+		$sections = $course->get_sections( 'posts' );
 
 		return $sections;
 	}

@@ -473,7 +473,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 */
 	public function get_children_sections() {
 
-		llms_deprecated_function( 'LLMS::get_children_sections', '3.0.0', "LLMS::get_sections( 'posts' )" );
+		llms_deprecated_function( 'LLMS_Course::get_children_sections()', '3.0.0', "LLMS_Course::get_sections( 'posts' )" );
 		return $this->get_sections( 'posts' );
 
 	}
@@ -483,7 +483,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 */
 	public function get_children_lessons() {
 
-		llms_deprecated_function( 'LLMS::get_children_lessons', '3.0.0', "LLMS::get_lessons( 'posts' )" );
+		llms_deprecated_function( 'LLMS_Course::get_children_lessons()', '3.0.0', "LLMS_Course::get_lessons( 'posts' )" );
 		return $this->get_sections( 'posts' );
 
 	}

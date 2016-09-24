@@ -69,7 +69,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 
 		if ( $parent_course_id ) {
 			$course = new LLMS_Course( $parent_course_id );
-			$sections = $course->get_children_sections();
+			$sections = $course->get_sections( 'posts' );
 
 			$html .= '<span class="llms-access-levels-title"><a href="' . get_edit_post_link( $course->id ) . '">'
 			. $course->post->post_title . '</a> '

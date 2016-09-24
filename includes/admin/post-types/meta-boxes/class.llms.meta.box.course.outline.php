@@ -341,7 +341,7 @@ class LLMS_Meta_Box_Course_Outline {
 	public static function output( $post ) {
 
 		$course = new LLMS_Course( $post->ID );
-		$sections = $course->get_children_sections();
+		$sections = $course->get_sections( 'posts' );
 
 		$html = '';
 
