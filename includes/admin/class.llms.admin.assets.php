@@ -44,11 +44,9 @@ class LLMS_Admin_Assets {
 	    	$screen_id . '_page_llms-settings',
 	    	'llms-settings',
 	    	$screen_id . '_page_llms-analytics',
-	    	$screen_id . '_page_llms-analytics-new',
 	    	'llms-analytics',
 	    	$screen_id . '_page_llms-students',
 	    	'admin_page_llms-analytics',
-	    	'admin_page_llms-analytics-new',
 	    	'llms-students',
 	    	'course',
 	    	'edit-course',
@@ -200,7 +198,7 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-select2' );
 			}
 
-			if ( 'lifterlms_page_llms-analytics-new' == $screen->base ) {
+			if ( 'lifterlms_page_llms-analytics' == $screen->base ) {
 
 				// wp_enqueue_style('wp-pointer');
 				// wp_enqueue_script('wp-pointer');

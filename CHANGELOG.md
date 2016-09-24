@@ -1,6 +1,6 @@
 == Changelog ==
 
-= v3.0.0-beta.9 - 2016/09/?? =
+= v3.0.0-beta.9 - 2016/09/23 =
 -------------------------------
 
 + Fixed titles of course closed and open messages on the course restrictions options
