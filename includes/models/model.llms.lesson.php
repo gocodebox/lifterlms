@@ -439,11 +439,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 	}
 
-	public function get_is_free() {
-
-		return $this->llms_free_lesson;
-	}
-
 	public function has_content() {
 		if ( ! empty( $this->post->post_content ) ) {
 			return true;

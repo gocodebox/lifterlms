@@ -48,7 +48,7 @@
 
 									<?php $l = new LLMS_Lesson( $lesson['id'] ); ?>
 
-									<?php if ( '1' == $l->get_is_free() || llms_is_user_enrolled( get_current_user_id(), $course->id ) ) : ?>
+									<?php if ( $l->is_free() || llms_is_user_enrolled( get_current_user_id(), $course->id ) ) : ?>
 
 										<a href="<?php echo get_permalink( $lesson['id'] ); ?>"><?php echo $lesson['title']; ?></a>
 
