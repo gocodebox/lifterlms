@@ -31,7 +31,7 @@ class LLMS_Metabox_Table_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 					<?php endforeach; ?>
 				</thead>
 				<tbody>
-					<?php if ( $this->field['table_data'] ): ?>
+					<?php if ( $this->field['table_data'] ) : ?>
 						<?php foreach ( $this->field['table_data'] as $row  ) : ?>
 							<tr>
 								<?php foreach ( $row as $column  ) : ?>

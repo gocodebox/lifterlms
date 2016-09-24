@@ -28,7 +28,7 @@ class LLMS_Membership extends LLMS_Post_Model {
 	 */
 	public function add_auto_enroll_courses( $course_ids ) {
 
-		if ( ! is_array ( $course_ids ) ) {
+		if ( ! is_array( $course_ids ) ) {
 			$course_ids = array( $course_ids );
 		}
 
