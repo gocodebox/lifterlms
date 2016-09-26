@@ -23,7 +23,7 @@ class LLMS_Person_Handler {
 	 * @since  3.0.0
 	 * @version  3.0.0
 	 */
-	private static function generate_username( $email ) {
+	public static function generate_username( $email ) {
 
 		/**
 		 * Allow custom username generation
