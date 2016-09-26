@@ -99,7 +99,12 @@
 
 			// add a new empty plan interface on new plan button click
 			$( '#llms-new-access-plan' ).on( 'click', function() {
+				var $el = $( this );
 				self.init_plan();
+				$el.attr( 'disabled', 'disabled' );
+				setTimeout( function() {
+					$el.removeAttr( 'disabled' );
+				}, 500 );
 			} );
 
 			$( '#llms-access-plans' ).sortable( {
