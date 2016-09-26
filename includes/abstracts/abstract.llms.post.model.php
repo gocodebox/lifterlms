@@ -52,14 +52,14 @@ abstract class LLMS_Post_Model {
 	 * Setup ID and related post property
 	 *
 	 * @param int|obj    $model   WP post id, instance of an extending class, instance of WP_Post
-	 * @param  string    $title   Title to create the post, only applies when $model is 'new'
+	 * @param  array     $args    args to create the post, only applies when $model is 'new'
 	 * @return  void
 	 * @since  3.0.0
 	 */
-	public function __construct( $model, $title = '' ) {
+	public function __construct( $model, $args = array() ) {
 
 		if ( 'new' === $model ) {
-			$model = $this->create( $title );
+			$model = $this->create( $args );
 			$created = true;
 		} else {
 			$created = false;
@@ -368,21 +368,36 @@ abstract class LLMS_Post_Model {
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
 	 * This *should* be overridden by child classes
-	 * @param  string  $title   Title to create the post with
+	 * @param  array  $args   args of data to be passed to wp_insert_post
 	 * @return array
 	 * @since  3.0.0
 	 */
-	protected function get_creation_args( $title = '' ) {
-		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', array(
+	protected function get_creation_args( $args = null ) {
+
+		// allow nothing to be passed in
+		if ( empty( $args ) ) {
+			$args = array();
+		}
+
+		// backwards compat to original 3.0.0 format when just a title was passed in
+		if ( is_string( $args ) ) {
+			$args = array(
+				'title' => $args,
+			);
+		}
+
+		$args = wp_parse_args( $args, array(
 			'comment_status' => 'closed',
 			'ping_status'	 => 'closed',
 			'post_author' 	 => 1,
 			'post_content'   => '',
 			'post_excerpt'   => '',
 			'post_status' 	 => 'draft',
-			'post_title'     => $title,
+			'post_title'     => '',
 			'post_type' 	 => $this->get( 'db_post_type' ),
-		), $this );
+		) );
+
+		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
 	}
 
 	/**
