@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v3.0.0-beta.10 - 2016/09/?? =
+-------------------------------
+
++ Fix setup wizard styles to follow update admin panel styles
++ add links to last step of setup wizard for documentation and demo
+
+
+
 = v3.0.0-beta.9 - 2016/09/23 =
 -------------------------------
 

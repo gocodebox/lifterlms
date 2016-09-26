@@ -8,23 +8,6 @@
   width: 100%;
   z-index: 777777;
 }
-#llms-setup-wizard .button-large {
-  font-size: 18px;
-  height: auto;
-  padding: 8px 12px;
-}
-#llms-setup-wizard .button {
-  border-color: #ccc;
-  box-shadow: none;
-  text-shadow: none;
-}
-#llms-setup-wizard .button-primary {
-  background-color: #069cb5;
-  border-color: #05879c;
-}
-#llms-setup-wizard .button-primary:hover {
-  background-color: #068fa6;
-}
 
 .select2-container {
   z-index: 7777777;
@@ -57,8 +40,8 @@ a.dashboard-return {
 .llms-setup-content h1, .llms-setup-content h2, .llms-setup-content h3, .llms-setup-content h4, .llms-setup-content h5, .llms-setup-content h6 {
   color: #444;
 }
-.llms-setup-content a {
-  color: #069cb5;
+.llms-setup-content a:not(.llms-button-primary):not(.llms-button-secondary) {
+  color: #2295ff;
 }
 .llms-setup-content p, .llms-setup-content li {
   color: #666;
@@ -72,7 +55,11 @@ a.dashboard-return {
   font-weight: 500;
 }
 .llms-setup-content .llms-setup-actions {
+  margin-top: 40px;
   text-align: right;
+}
+.llms-setup-content .back-link {
+  margin-right: 10px;
 }
 .llms-setup-content table {
   border-bottom: 1px solid #f1f1f1;
@@ -96,8 +83,8 @@ a.dashboard-return {
   margin: 20px 0;
 }
 .llms-setup-progress li {
-  border-bottom: 4px solid #069cb5;
-  color: #069cb5;
+  border-bottom: 4px solid #2295ff;
+  color: #2295ff;
   display: inline-block;
   font-size: 14px;
   padding-bottom: 10px;
@@ -106,10 +93,10 @@ a.dashboard-return {
   width: 20%;
 }
 .llms-setup-progress li:after {
-  background: #069cb5;
+  background: #2295ff;
   bottom: 0;
   content: '';
-  border: 4px solid #069cb5;
+  border: 4px solid #2295ff;
   border-radius: 100%;
   height: 4px;
   position: absolute;

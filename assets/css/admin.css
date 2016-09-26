@@ -65,6 +65,14 @@
   font-size: 13px;
   padding: 8px 14px;
 }
+.llms-button-action.large,
+.llms-button-danger.large,
+.llms-button-primary.large,
+.llms-button-secondary.large {
+  font-size: 18px;
+  line-height: 1.2;
+  padding: 16px 32px;
+}
 
 .llms-button-primary {
   background: #2295ff;
