@@ -5,18 +5,26 @@
 * @since    1.0.0
 * @version  3.0.0
 *
+* @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
+* @property $capacity_message  (string)  Message displayed when capacity has been reached
 * @property $content_restricted_message  (string)  Message displayed when non-enrolled visitors try to access lessons/quizzes directly
 * @property $course_closed_message  (string)  Message displayed to visitors when the course is accessed after the Course End Date has passed. Only applicable when $time_period is 'yes'
 * @property $course_opens_message  (string)  Message displayed to visitors when the course is accessed before the Course Start Date has passed. Only applicable when $time_period is 'yes'
+* @property $enable_capacity  (string)  Whether capacity restrictions are enabled [yes|no]
 * @property $enrollment_closed_message  (string)  Message displayed to non-enrolled visitors when the course is accessed after the Enrollment End Date has passed. Only applicable when $enrollment_period is 'yes'
 * @property $enrollment_end_date   (string)  After this date, registration closes
 * @property $enrollment_opens_message  (string)  Message displayed to non-enrolled visitorswhen the course is accessed before the Enrollment Start Date has passed. Only applicable when $enrollment_period is 'yes'
 * @property $enrollment_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
 * @property $enrollment_start_date  (string)  Before this date, registration is closed
 * @property $end_date   (string)  Date when a course closes. Students may no longer view content or complete lessons / quizzes after this date.
+* @property $has_prerequisite   (string)  Determine if prerequisites are enabled [yes|no]
+* @property $prerequisite   (int)  WP Post ID of a the prerequisite course
+* @property $prerequisite_track   (int)  WP Tax ID of a the prerequisite track
 * @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
+* @property $length  (string)  User defined coure length
 * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
+* @property $video_embed  (string)  URL to an oEmbed enable video URL
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -25,7 +33,6 @@ class LLMS_Course extends LLMS_Post_Model {
 
 	protected $db_post_type = 'course';
 	protected $model_post_type = 'course';
-
 
 	/**
 	 * Get a property's data type for scrubbing
@@ -40,13 +47,34 @@ class LLMS_Course extends LLMS_Post_Model {
 		switch ( $key ) {
 
 			case 'capacity':
+			case 'prerequisite':
+			case 'prerequisite_track':
 				$type = 'absint';
 			break;
 
-			case 'end_date';
-			case 'start_date';
+			case 'enable_capacity':
+			case 'enrollment_period':
+			case 'has_prerequisite':
+			case 'time_period':
+				$type = 'yesno';
+			break;
+
+			case 'audio_embed':
+			case 'capacity_message':
+			case 'content_restricted_message':
+			case 'course_closed_message':
+			case 'course_opens_message':
+			case 'enrollment_closed_message':
+			case 'enrollment_end_date':
+			case 'enrollment_opens_message':
+			case 'enrollment_start_date':
+			case 'end_date':
+			case 'length':
+			case 'start_date':
+			case 'video_embed':
 			default:
 				$type = 'text';
+
 
 		}
 
