@@ -1,10 +1,23 @@
 <?php
 /**
-* LifterLMS Lesson Model
-*
-* @since    1.0.0
-* @version  3.0.0
-*/
+ * LifterLMS Lesson Model
+ *
+ * @since    1.0.0
+ * @version  3.0.0
+ *
+ * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
+ * @property  $audio_embed  (string)  Audio embed URL
+ * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
+ * @property  $days_before_available  (int)  The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
+ * @property  $drip_method  (string) What sort of drip method to utilize [''(none)|date|enrollment|start]
+ * @property  $free_lesson  (yesno)  Yes if the lesson is free
+ * @property  $has_prerequisite  (yesno)  Yes if the lesson has a prereq lesson
+ * @property  $order (int)  Lesson's order within its parent section
+ * @property  $prerequisite  (int)  WP Post ID of the prerequisite lesson, only if $has_prequisite is 'yes'
+ * @property  $require_passing_grade  (yesno)  Whether of not students have to pass the quiz to advance to the next lesson
+ * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
+ * @property  $video_embed  (string)  Video embed URL
+ */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -12,6 +25,36 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 	protected $db_post_type = 'lesson';
 	protected $model_post_type = 'lesson';
+
+	/**
+	 * Attempt to get oEmbed for an audio provider
+	 * Falls back to the [audio] shortcode if the oEmbed fails
+	 *
+	 * @return string
+	 * @since   1.0.0
+	 * @version 3.0.0 -- updated to utilize oEmbed and fallback to audio shortcode
+	 */
+	public function get_audio() {
+
+		if ( ! isset( $this->audio_embed ) ) {
+
+			return '';
+
+		} else {
+
+			$r = wp_oembed_get( $this->get( 'audio_embed' ) );
+
+			if ( ! $r ) {
+
+				$r = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
+
+			}
+
+			return $r;
+
+		}
+
+	}
 
 	/**
 	 * Get the date a course became or will become available according to
@@ -75,6 +118,17 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function get_course() {
 		return new LLMS_Course( $this->get_parent_course() );
+	}
+
+	/**
+	 * Retrieves the lesson's order within its parent section
+	 * @todo  this should be deprecated
+	 * @return int
+	 * @since  1.0.0
+	 * @version  3.0.0
+	 */
+	public function get_order() {
+		return $this->get( 'order' );
 	}
 
 	/**
@@ -179,6 +233,36 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Attempt to get oEmbed for a video provider
+	 * Falls back to the [video] shortcode if the oEmbed fails
+	 *
+	 * @return string
+	 * @since   1.0.0
+	 * @version 3.0.0 -- added fallback to video shortcode when oEmbed fails
+	 */
+	public function get_video() {
+
+		if ( ! isset( $this->video_embed ) ) {
+
+			return '';
+
+		} else {
+
+			$r = wp_oembed_get( $this->get( 'video_embed' ) );
+
+			if ( ! $r ) {
+
+				$r = do_shortcode( '[video src="' . $this->get( 'audio_embed' ) . '"]' );
+
+			}
+
+			return $r;
+
+		}
+
+	}
+
+	/**
 	 * Determine if lesson prereq is enabled and a prereq lesson is selected
 	 * @return   boolean
 	 * @since    3.0.0
@@ -186,7 +270,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function has_prerequisite() {
 
-		return ( 1 == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
+		return ( 'yes' == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
 
 	}
 
@@ -270,43 +354,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 
 
-	/**
-	 * Get Video (oembed)
-	 *
-	 * @return mixed (default: '')
-	 */
-	public function get_video() {
-
-		if ( ! isset( $this->video_embed ) ) {
-
-			return '';
-
-		} else {
-
-			return wp_oembed_get( $this->video_embed );
-
-		}
-
-	}
-
-	/**
-	 * Get Audio (wp shortcode)
-	 *
-	 * @return mixed (default: '')
-	 */
-	public function get_audio() {
-
-		if ( ! isset( $this->audio_embed ) ) {
-
-			return '';
-
-		} else {
-
-			return do_shortcode( '[audio src="'. $this->audio_embed . '"]' );
-
-		}
-
-	}
 
 	public function update( $data ) {
 
@@ -382,18 +429,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 
 
-	/**
-	 * Get Order
-	 * retrieves the lesson order in the section
-	 * @return [type] [description]
-	 */
-	public function get_order() {
 
-		$order = get_post_meta( $this->id, '_llms_order', true );
-
-		return $order;
-
-	}
 
 	/**
 	 * Get the lesson prerequisite
