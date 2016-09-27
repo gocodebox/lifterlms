@@ -1456,16 +1456,22 @@ svg .llms-animated-circle {
   line-height: 14px;
   list-style-type: none;
 }
+.llms-access-plan-restrictions a {
+  color: #f8954f;
+}
+.llms-access-plan-restrictions a:hover {
+  color: #f67d28;
+}
 
 .llms-access-plan-footer {
   border-bottom: 3px solid #f1f1f1;
   padding: 10px;
   margin: 0 2px 2px 2px;
 }
-.llms-access-plan-footer .llms-button {
+.llms-access-plan-footer .llms-button-action {
   position: relative;
 }
-.llms-access-plan-footer .llms-button .llms-tooltip {
+.llms-access-plan-footer .llms-button-action .llms-tooltip {
   min-width: 280px;
   z-index: 1;
 }

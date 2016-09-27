@@ -146,6 +146,12 @@
 					list-style-type: none;
 				}
 			}
+			a {
+				color: $color-brand-orange;
+				&:hover {
+					color: $color-brand-orange-dark;
+				}
+			}
 		}
 
 	.llms-access-plan-footer {
@@ -153,7 +159,7 @@
 		padding: 10px;
 		margin: 0 2px 2px 2px;
 
-		.llms-button {
+		.llms-button-action {
 			position: relative;
 			.llms-tooltip {
 				min-width: 280px;
