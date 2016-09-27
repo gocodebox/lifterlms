@@ -218,6 +218,9 @@ final class LifterLMS {
 		// Post types
 		include_once( 'includes/class.llms.post-types.php' );
 
+		// sidebars
+		require_once 'includes/class.llms.sidebars.php';
+
 		// Payment Gateway
 		require_once 'includes/abstracts/abstract.llms.payment.gateway.php';
 		require_once 'includes/class.llms.gateway.manual.php';
