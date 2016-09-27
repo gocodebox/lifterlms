@@ -89,7 +89,7 @@ LLMS.Pricing_Tables = {
 	 * @version  3.0.0
 	 */
 	get_tooltip: function() {
-		var msg = LLMS.l10n.translate( 'This plan is for members only' ),
+		var msg = LLMS.l10n.translate( 'This plan is for members only. Click the links above to learn more.' ),
 			$el = $( '<div class="llms-tooltip" />' );
 
 		$el.append( '<div class="llms-tooltip-content">' + msg + '</div>' );
