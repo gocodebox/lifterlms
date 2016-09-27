@@ -15,8 +15,6 @@ require_once 'functions/llms.functions.page.php';
 require_once 'functions/llms.functions.person.php';
 require_once 'functions/llms.functions.template.php';
 
-
-
 /**
  * Determine if Terms & Conditions agreement is required during registration
  * according to global settings
@@ -84,6 +82,26 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 
 	}
 
+}
+
+/**
+ * Get themes natively supported by LifterLMS
+ * @return array
+ * @since 3.0.0
+ * @version 3.0.0
+ */
+function llms_get_core_supported_themes() {
+	return array(
+		'canvas',
+		'genesis',
+		'twentysixteen',
+		'twentyfifteen',
+		'twentyfourteen',
+		'twentythirteen',
+		'twentyeleven',
+		'twentytwelve',
+		'twentyten',
+	);
 }
 
 /**
