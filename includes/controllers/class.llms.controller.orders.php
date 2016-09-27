@@ -108,6 +108,8 @@ class LLMS_Controller_Orders {
 		$product_id = $order->get( 'product_id' );
 		$user_id = $order->get( 'user_id' );
 
+		unset( LLMS()->session->llms_coupon );
+
 		// trigger order complete action
 		do_action( 'lifterlms_order_complete', $order_id ); // @todo used by AffiliateWP only, can remove after updating AffiliateWP
 
