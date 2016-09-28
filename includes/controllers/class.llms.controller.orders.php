@@ -36,6 +36,7 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_order_status_cancelled', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_expired', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_failed', array( $this, 'error_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_trash', array( $this, 'error_order' ), 10, 1 );
 
 		/**
 		 * Scheduler Actiions
@@ -118,6 +119,9 @@ class LLMS_Controller_Orders {
 
 		// trigger purchase action, used by engagements
 		do_action( 'lifterlms_product_purchased', $user_id, $product_id );
+
+		// maybe schedule a payment
+		$order->maybe_schedule_payment();
 
 	}
 
@@ -400,6 +404,7 @@ class LLMS_Controller_Orders {
 
 		switch ( current_filter() ) {
 
+			case 'lifterlms_order_status_trash':
 			case 'lifterlms_order_status_cancelled':
 			case 'lifterlms_order_status_refunded':
 				$status = 'cancelled';
@@ -412,6 +417,8 @@ class LLMS_Controller_Orders {
 			break;
 
 		}
+
+		$order->unschedule_recurring_payment();
 
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
 
@@ -429,6 +436,7 @@ class LLMS_Controller_Orders {
 		$order = new LLMS_Order( $order_id );
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), 'expired', 'order_' . $order->get( 'id' ) );
 		$order->add_note( sprintf( __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' ) ) );
+		$order->unschedule_recurring_payment();
 		// @todo allow engagements to hook into expiration
 
 	}

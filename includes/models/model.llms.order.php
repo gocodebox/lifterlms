@@ -526,7 +526,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			$last_date = current_time( 'timestamp' );
 		}
 
-		// if
 		if ( $this->has_trial() && ! $this->has_trial_ended() ) {
 
 			$next = $this->get_trial_end_date( 'U' );
@@ -867,6 +866,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Schedules the next payment due on a recurring order
 	 * Can be called witnout consequence on a single payment order
+	 * Will always unschedule the scheduled action (if one exists) before scheduling anothes
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -879,8 +879,14 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$date = $this->get_next_payment_due_date( 'U' );
 
-		if ( $date ) {
+		if ( $date && ! is_wp_error( $date ) ) {
+
+			// unschedule the next action (does nothing if no action scheduled)
+			$this->unschedule_recurring_payment();
+
+			// schedule the payment
 			wc_schedule_single_action( $date, 'llms_charge_recurring_payment', array( 'order_id' => $this->get( 'id' ) ) );
+
 		}
 
 	}
@@ -957,6 +963,19 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		}
 
+	}
+
+	/**
+	 * Cancels a scheduled recurring payment action
+	 * does nothing if no payments are scheduled
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function unschedule_recurring_payment() {
+		if ( wc_next_scheduled_action( 'llms_charge_recurring_payment', array( 'order_id' => $this->get( 'id' ) ) ) ) {
+			wc_unschedule_action( 'llms_charge_recurring_payment', array( 'order_id' => $this->get( 'id' ) ) );
+		}
 	}
 
 }

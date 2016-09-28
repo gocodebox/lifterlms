@@ -92,9 +92,6 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 			if ( $old_status !== $new_status ) {
 
-				// add a note
-				$order->add_note( sprintf( __( 'Order Status changed from %s to %s', 'lifterlms' ), llms_get_order_status_name( $old_status ), llms_get_order_status_name( $new_status ) ), true );
-
 				// update the status
 				$order->set( 'status', $new_status );
 
