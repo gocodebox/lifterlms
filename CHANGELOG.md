@@ -6,7 +6,7 @@
 + Fix setup wizard styles to follow update admin panel styles
 + add links to last step of setup wizard for documentation and demo
 + removed a bunch of deprecated coupon-related functions
-
++ added a "force ssl" option to ensure checkout is secured
 
 
 = v3.0.0-beta.9 - 2016/09/23 =

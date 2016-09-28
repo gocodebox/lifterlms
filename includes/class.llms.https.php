@@ -1,16 +1,17 @@
 <?php
 /**
- * Localization Functions
- * Currently only used to translate strings output by Javascript functions
- * More robust features will be added in the future
- *
- * @since  2.7.3
+ * Handle HTTPS related redirects
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_HTTPS {
 
+	/**
+	 * Constructor
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function __construct() {
 
 		if ( 'yes' === get_option( 'lifterlms_checkout_force_ssl' ) ) {
@@ -20,10 +21,14 @@ class LLMS_HTTPS {
 
 		}
 
-		// var_dump(llms_is_site_https());
-
 	}
 
+	/**
+	 * Redircet to https checkout page is force is enabled
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function force_https_redirect() {
 
 		if ( ! is_ssl() && ( is_llms_checkout() || apply_filters( 'llms_force_ssl_checkout', false ) ) ) {
@@ -44,6 +49,12 @@ class LLMS_HTTPS {
 
 	}
 
+	/**
+	 * Redirect back to http when not on checkout if force ssl is enabled and the site isn't fully ssl'd
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function unforce_https_redirect() {
 
 		if ( ! llms_is_site_https() && is_ssl() && $_SERVER['REQUEST_URI'] && ! is_llms_checkout() && ! is_ajax() && apply_filters( 'llms_unforce_ssl_checkout', true ) ) {
