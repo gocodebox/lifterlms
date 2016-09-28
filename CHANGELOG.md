@@ -5,6 +5,7 @@
 
 + Fix setup wizard styles to follow update admin panel styles
 + add links to last step of setup wizard for documentation and demo
++ removed a bunch of deprecated coupon-related functions
 
 
 

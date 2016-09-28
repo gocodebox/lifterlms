@@ -270,6 +270,8 @@ final class LifterLMS {
 
 		if ( ! is_admin() ) {
 
+			require_once 'includes/class.llms.https.php';
+
 			include_once( 'includes/class.llms.template.loader.php' );
 			include_once( 'includes/class.llms.frontend.assets.php' );
 			include_once( 'includes/class.llms.frontend.forms.php' );

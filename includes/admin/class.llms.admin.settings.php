@@ -77,6 +77,9 @@ class LLMS_Admin_Settings {
 		self::set_message( __( 'Your settings have been saved.', 'lifterlms' ) );
 
 		do_action( 'lifterlms_settings_saved' );
+	   	do_action( 'lifterlms_settings_saved_' . $current_tab );
+
+
 	}
 
 	/**

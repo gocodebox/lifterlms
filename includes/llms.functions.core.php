@@ -489,6 +489,17 @@ function llms_get_transaction_statuses() {
 }
 
 /**
+ * Check if the home URL is https. If it is, we don't need to do things such as 'force ssl'.
+ * @thanks woocommerce <3
+ * @return   bool
+ * @since    3.0.0
+ * @version  3.0.0
+ */
+function llms_is_site_https() {
+	return false !== strstr( get_option( 'home' ), 'https:' );
+}
+
+/**
  * Create an array that can be passed to metabox select elements
  * configured as an llms-select2-post query-ier
  * @param    array      $post_ids  indexed array of WordPress Post IDs
