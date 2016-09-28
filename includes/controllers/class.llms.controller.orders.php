@@ -245,7 +245,6 @@ class LLMS_Controller_Orders {
 		elseif ( ! is_numeric( $person_id ) ) {
 			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ), 'error' );
 		} // make sure the user isn't already enrolled in the course or membership
-		// @todo test & possibly revisit this function
 		elseif ( llms_is_user_enrolled( $person_id, $product->get( 'id' ) ) ) {
 
 			return llms_add_notice( __( 'You already have access to this product!', 'lifterlms' ), 'error' );
