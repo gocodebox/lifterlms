@@ -24,8 +24,25 @@ class LLMS_Admin_Notices {
 		self::$notices = get_option( 'llms_admin_notices', array() );
 
 		add_action( 'wp_loaded', array( __CLASS__, 'hide_notices' ) );
+		add_action( 'current_screen', array( __CLASS__, 'add_output_actions' ) );
 		add_action( 'shutdown', array( __CLASS__, 'save_notices' ) );
-		add_action( 'admin_print_styles', array( __CLASS__, 'output_notices' ) );
+
+	}
+
+	/**
+	 * Add output notice actioins depending on the current sceen
+	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public static function add_output_actions() {
+
+		$screen = get_current_screen();
+		if ( ! empty ( $screen->base ) && 'lifterlms_page_llms-settings' === $screen->base ) {
+			add_action( 'lifterlms_settings_notices', array( __CLASS__, 'output_notices' ) );
+		} else {
+			add_action( 'admin_print_styles', array( __CLASS__, 'output_notices' ) );
+		}
 
 	}
 
