@@ -9,6 +9,24 @@
 + added a "force ssl" option to ensure checkout is secured
 + added settings and options around recurring payments and staging sites to prevent duplicate charges when testing on a cloned site
 
+##### Deprecated
+
++ function `llms_is_user_member()`, use `llms_is_user_enrolled()` instead
++ function `llms_check_course_date_restrictions()`
++ function `quiz_restricted()`
++ function `membership_page_restricted()`
++ function `is_topic_restricted()`
++ function `llms_get_post_memberships()`
++ function `llms_get_parent_post_memberships()`
++ function `parent_page_restricted_by_membership()`
++ function `outstanding_prerequisite_exists()`
++ function `find_prerequisite()`
++ function `llms_get_course_enrolled_date()`
++ function `llms_get_lesson_start_date()`
++ function `lesson_start_date_in_future()`
++ function `page_restricted_by_membership_alert()`
++ function `llms_does_user_memberships_contain_course()`
+
 
 = v3.0.0-beta.9 - 2016/09/23 =
 -------------------------------

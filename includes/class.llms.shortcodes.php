@@ -263,7 +263,7 @@ class LLMS_Shortcodes {
 			'membership' => '', // course, lesson, section
 		),$atts));
 
-		if (llms_is_user_member( get_current_user_id(), $membership )) {
+		if (llms_is_user_enrolled( get_current_user_id(), $membership )) {
 			return $content;
 		}
 	}
