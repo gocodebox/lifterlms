@@ -454,7 +454,13 @@ class LLMS_Person_Handler {
 
 	}
 
-	// @todo check this function....
+	/**
+	 * Login a user
+	 * @param    array     $data    array of login data
+	 * @return   mixed              WP_Error on error or the ID of the user
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function login( $data ) {
 
 		do_action( 'lifterlms_before_user_login', $data );
@@ -497,9 +503,7 @@ class LLMS_Person_Handler {
 			$creds['user_password'] = $_POST['llms_password'];
 			$creds['remember'] = isset( $_POST['llms_remember'] );
 
-			$ssl = is_ssl() ? true : false;
-
-			$signon = wp_signon( apply_filters( 'lifterlms_login_credentials', $creds ), $ssl );
+			$signon = wp_signon( apply_filters( 'lifterlms_login_credentials', $creds ), is_ssl() );
 
 			if ( is_wp_error( $signon ) ) {
 				$e = apply_filters( 'lifterlms_user_login_errors', $e, $data );
