@@ -73,6 +73,36 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 			array( 'type' => 'sectionend', 'id' => 'general_information' ),
 
+
+
+			array(
+				'id' => 'section_features',
+				'type' => 'sectionstart',
+			),
+
+			array(
+				'id' => 'features',
+				'title' => __( 'Features', 'lifterlms' ),
+				'type' => 'title',
+			),
+
+			array(
+				'type' => 'custom-html',
+				'value' => sprintf(
+					__( 'Automatic Recurring Payments: <strong>%s</strong>', 'lifterlms' ),
+					LLMS_Site::get_feature( 'recurring_payments' ) ? __( 'Enabled', 'lifterlms' ) : __( 'Disabled', 'lifterlms' )
+				),
+			),
+
+			array(
+				'id' => 'section_tools',
+				'type' => 'sectionend',
+			),
+
+
+
+
+
 			array(
 				'id' => 'section_tools',
 				'type' => 'sectionstart',
@@ -82,6 +112,14 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'id' => 'tools_utilities',
 				'title' => __( 'Tools and Utilities', 'lifterlms' ),
 				'type' => 'title',
+			),
+
+			array(
+				'desc' => __( 'Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site.', 'lifterlms' ),
+				'name' => 'automatic-payments',
+				'title' => __( 'Automatic Paymets', 'lifterlms' ),
+				'type' 		=> 'button',
+				'value' => __( 'Reset Automatic Payments', 'lifterlms' ),
 			),
 
 			array(
@@ -138,6 +176,12 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		if ( isset( $_POST['reset-tracking'] ) ) {
 			update_option( 'llms_allow_tracking', 'no' );
+		}
+
+		// deletes the "ignore" url so the staging modal will re-appear
+		if ( isset( $_POST['automatic-payments'] ) ) {
+			LLMS_Site::clear_lock_url();
+			update_option( 'llms_site_url_ignore', 'no' );
 		}
 
 	}
