@@ -457,8 +457,9 @@ class LLMS_Controller_Orders {
 		// ensure the gateway is still installed & available
 		if ( ! is_wp_error( $gateway ) ) {
 
-			// ensure the gateway still supports recurring payments
-			if ( $gateway->supports( 'recurring_payments' ) ) {
+			// ensure that recurring payments feature is enabled
+			// & that the gateway still supports recurring payments
+			if ( LLMS_Site::get_feature( 'recurring_payments' ) && $gateway->supports( 'recurring_payments' ) ) {
 
 				$gateway->handle_recurring_transaction( $order );
 
