@@ -343,6 +343,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		self::db_updates();
 		self::update_llms_version();
+		LLMS_Site::set_lock_url();
 
 		flush_rewrite_rules();
 
