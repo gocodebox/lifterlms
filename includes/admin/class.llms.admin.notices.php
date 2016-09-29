@@ -38,7 +38,7 @@ class LLMS_Admin_Notices {
 	public static function add_output_actions() {
 
 		$screen = get_current_screen();
-		if ( ! empty ( $screen->base ) && 'lifterlms_page_llms-settings' === $screen->base ) {
+		if ( ! empty( $screen->base ) && 'lifterlms_page_llms-settings' === $screen->base ) {
 			add_action( 'lifterlms_settings_notices', array( __CLASS__, 'output_notices' ) );
 		} else {
 			add_action( 'admin_print_styles', array( __CLASS__, 'output_notices' ) );

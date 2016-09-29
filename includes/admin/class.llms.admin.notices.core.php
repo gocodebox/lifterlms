@@ -34,7 +34,7 @@ class LLMS_Admin_Notices_Core {
 	public static function add_init_actions() {
 
 		$screen = get_current_screen();
-		if ( ! empty ( $screen->base ) && 'lifterlms_page_llms-settings' === $screen->base ) {
+		if ( ! empty( $screen->base ) && 'lifterlms_page_llms-settings' === $screen->base ) {
 			$action = 'lifterlms_settings_notices';
 			$priority = 5;
 		} else {

@@ -73,8 +73,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 			array( 'type' => 'sectionend', 'id' => 'general_information' ),
 
-
-
 			array(
 				'id' => 'section_features',
 				'type' => 'sectionstart',
@@ -98,10 +96,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'id' => 'section_tools',
 				'type' => 'sectionend',
 			),
-
-
-
-
 
 			array(
 				'id' => 'section_tools',

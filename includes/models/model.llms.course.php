@@ -75,7 +75,6 @@ class LLMS_Course extends LLMS_Post_Model {
 			default:
 				$type = 'text';
 
-
 		}
 
 		return $type;
