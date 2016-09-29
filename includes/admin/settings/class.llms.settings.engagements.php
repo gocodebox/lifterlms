@@ -111,7 +111,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'desc'          => __( 'Use legacy certificate image sizes.', 'lifterlms' ) .
 									   '<br><em>' . __( 'Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image.', 'lifterlms' ) . '</em>',
 					'id'            => 'lifterlms_certificate_legacy_image_size',
-					'default'       => 'yes',
+					'default'       => 'no',
 					'type'          => 'checkbox',
 					'autoload'      => false,
 				),
