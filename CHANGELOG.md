@@ -7,6 +7,7 @@
 + add links to last step of setup wizard for documentation and demo
 + removed a bunch of deprecated coupon-related functions
 + added a "force ssl" option to ensure checkout is secured
++ added settings and options around recurring payments and staging sites to prevent duplicate charges when testing on a cloned site
 
 
 = v3.0.0-beta.9 - 2016/09/23 =
