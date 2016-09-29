@@ -53,6 +53,8 @@
 
 			$( '.llms-collapsible-group' ).llmsCollapsible();
 
+			this.bind_tabs();
+
 			// bind all datepickers if datepickers exist
 			if ( $( '.llms-datepicker' ).length ) {
 				this.bind_datepickers();
@@ -315,6 +317,29 @@
 
 			} );
 
+		};
+
+		/**
+		 * Bind metabox tabs
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
+		this.bind_tabs = function() {
+			$( '.llms-nav-tab-wrapper .tabs li' ).on( 'click', function() {
+
+				var $btn = $( this ),
+					$metabox = $btn.closest( '.llms-mb-container' ),
+					tab_id = $btn.attr( 'data-tab' );
+
+				$btn.siblings().removeClass( 'llms-active' );
+
+				$metabox.find( '.tab-content' ).removeClass( 'llms-active' );
+
+				$btn.addClass( 'llms-active' );
+				$( '#' + tab_id ).addClass( 'llms-active' );
+
+			} );
 		};
 
 		/**

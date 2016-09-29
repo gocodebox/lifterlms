@@ -247,9 +247,9 @@ abstract class LLMS_Admin_Metabox {
 			$i++;
 			$current = 1 === $i ? ' llms-active' : '';
 
-			$this->navigation .= '<li class="llms-nav-item tab-link ' . $current . '" data-tab="' . $this->id . 'tab-' . $i . '"><span class="llms-nav-link">' . $tab['title'] . '</span></li>';
+			$this->navigation .= '<li class="llms-nav-item tab-link ' . $current . '" data-tab="' . $this->id . '-tab-' . $i . '"><span class="llms-nav-link">' . $tab['title'] . '</span></li>';
 
-			$this->content .= '<div id="' . $this->id . 'tab-' . $i . '" class="tab-content' . $current . '"><ul>';
+			$this->content .= '<div id="' . $this->id . '-tab-' . $i . '" class="tab-content' . $current . '"><ul>';
 
 			foreach ( $tab['fields'] as $field ) {
 				$field_class_name = str_replace( '{TOKEN}', ucfirst( strtr( preg_replace_callback( '/(\w+)/', create_function( '$m','return ucfirst($m[1]);' ), $field['type'] ),'-','_' ) ), 'LLMS_Metabox_{TOKEN}_Field' );
