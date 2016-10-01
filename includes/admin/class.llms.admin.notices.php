@@ -66,10 +66,20 @@ class LLMS_Admin_Notices {
 			'dismiss_for_days' => 7,
 			'remind_in_days' => 7,
 			'remindable' => false,
-			'type' => 'info',
+			'type' => 'info', // info, warning, success, error
+			'template' => false,
 		) );
 
-		$options['html'] = wp_kses_post( $html );
+		if ( $options['template'] ) {
+
+			$options['html'] = llms_get_template_ajax( 'admin/notices/' . $html );
+
+		} else {
+
+			$options['html'] = wp_kses_post( $html );
+
+		}
+
 
 		self::$notices = array_unique( array_merge( self::get_notices(), array( $notice_id ) ) );
 		update_option( 'llms_admin_notice_' . $notice_id, $options );
@@ -88,14 +98,14 @@ class LLMS_Admin_Notices {
 		$notice = self::get_notice( $notice_id );
 		delete_option( 'llms_admin_notice_' . $notice_id );
 		if ( 'remind' === $trigger && $notice['remindable'] ) {
-			$delay = $notice['dismiss_for_days'];
-		} elseif ( 'hide' === $trigger ) {
 			$delay = $notice['remind_in_days'];
+		} elseif ( 'hide' === $trigger ) {
+			$delay = $notice['dismiss_for_days'];
 		} else {
 			$delay = 0;
 		}
 		if ( $delay ) {
-			set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $notice['remind_in_days'] );
+			set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $delay );
 		}
 		do_action( 'lifterlms_' . $trigger . '_' . $notice_id  . '_notice' );
 	}
@@ -175,7 +185,7 @@ class LLMS_Admin_Notices {
 						<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
 					</a>
 				<?php endif; ?>
-				<?php echo wp_kses_post( wpautop( $notice['html'] ) ); ?>
+				<?php echo wpautop( $notice['html'] ); ?>
 				<?php if ( $notice['remindable'] ) : ?>
 					<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
 				<?php endif; ?>
