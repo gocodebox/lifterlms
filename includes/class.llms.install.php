@@ -7,19 +7,16 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+// @todo why is this here?
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 class LLMS_Install {
 
-	protected $min_wp_version = '3.5';
-	public $current_wp_version;
-
 	/**
-	 * [$db_updates description]
+	 * Array of databse updates to be run
 	 * @var  array
 	 */
 	private static $db_updates = array(
-		'3.0.0-beta.10' => 'updates/lifterlms-update-3.0.0-beta.10.php',
 		'3.0.0' => 'updates/lifterlms-update-3.0.0.php',
 	);
 
@@ -34,6 +31,7 @@ class LLMS_Install {
 
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 		add_action( 'admin_init', array( __CLASS__, 'wizard_redirect' ) );
+		add_action( 'init', array( __CLASS__, 'db_updates' ), 5 );
 
 	}
 
@@ -218,26 +216,65 @@ class LLMS_Install {
 	 */
 	public static function db_updates() {
 
-		$current_db_version = get_option( 'lifterlms_db_version', 0 );
+		// start the updater if the run button was clicked
+		if ( isset( $_GET['llms-db-update'] ) ) {
+			if ( ! wp_verify_nonce( $_GET['llms-db-update'], 'do_db_updates' ) ) {
+				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
+			}
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
+			}
 
-		foreach ( self::$db_updates as $version => $updater ) {
+			LLMS_Admin_Notices::delete_notice( 'db-update' );
 
-			if ( version_compare( $current_db_version, $version, '<' ) ) {
+			$do_update = 'yes';
+			update_option( 'llms_doing_database_update', $do_update );
 
-				// if the $updater file returns "success" as a string
-				// update the database version
-				// otherwise try to run it again
-				if ( 'success' === include( $updater ) ) {
+		}
+		// get the current state of the updates
+		else {
 
-					self::update_db_version( $version );
+			$do_update = get_option( 'llms_doing_database_update', 'no' );
+
+		}
+
+		// if we're in the midst of an update keep going
+		if ( 'yes' === $do_update ) {
+
+			$current_db_version = get_option( 'lifterlms_db_version', 0 );
+
+			$finished = true;
+
+			include_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.update.php';
+
+			foreach ( self::$db_updates as $version => $updater ) {
+
+				if ( version_compare( $current_db_version, $version, '<' ) ) {
+
+					$u = include_once $updater;
+					$finished = false;
 
 				}
 
 			}
 
+			// if there are no more updates to run output an admin notice
+			if ( $finished ) {
+
+				// this runs on init so this may not be available
+				include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+				LLMS_Admin_Notices::add_notice( 'llms_bg_updates_complete', __( 'LifterLMS background update completed!', 'lifterlms' ), array(
+					'dismissible' => true,
+					'dismiss_for_days' => 0,
+				) );
+
+				do_action( 'lifterlms_background_updates_complete' );
+				update_option( 'llms_doing_database_update', 'no' );
+
+			}
+
 		}
 
-		self::update_db_version();
 
 	}
 
@@ -319,6 +356,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		do_action( 'lifterlms_before_install' );
 
+		LLMS_Site::set_lock_url();
 		self::create_options();
 		self::create_tables();
 		self::create_roles();
@@ -341,9 +379,27 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		}
 
-		self::db_updates();
+		if ( 'no' === get_option( 'llms_doing_database_update', 'no' ) ) {
+
+			if ( ! is_null( $db_version ) && version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
+
+				// may not be available since this runs on init
+				include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+				LLMS_Admin_Notices::add_notice( 'db-update', 'db-update.php', array(
+					'dismissible' => false,
+					'template' => true,
+				) );
+
+			} else {
+
+				self::update_db_version();
+
+			}
+
+		}
+
+
 		self::update_llms_version();
-		LLMS_Site::set_lock_url();
 
 		flush_rewrite_rules();
 
@@ -385,7 +441,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 *
 	 * @since  3.0.0
 	 */
-	private static function update_db_version( $version = null ) {
+	public static function update_db_version( $version = null ) {
 		update_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
 	}
 
