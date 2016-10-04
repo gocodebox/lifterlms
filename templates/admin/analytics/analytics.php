@@ -122,6 +122,8 @@ if ( ! is_admin() ) { exit; }
 
 	</form>
 
+	<h1 style="display:none;"></h1><!-- find a home for admin notices -->
+
 	<div class="llms-options-page-contents">
 
 		<?php foreach ( $widget_data as $row => $widgets ) : ?>

@@ -45,7 +45,7 @@ class LLMS_Admin_Menus {
 					case 'Analytics':
 					case __( 'Analytics', 'lifterlms' ):	$i = 1;  break;
 					case 'System Report':
-					case __( 'System Report', 'lifterlms' ):$i = 3; break;
+					case __( 'System Report', 'lifterlms' ):$i = 2; break;
 					case 'Analytics (New)': $i = 4; break;
 				}
 
@@ -79,7 +79,7 @@ class LLMS_Admin_Menus {
 
 			$menu[51] = array( '', 'read', 'llms-separator','','wp-menu-separator' );
 
-			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', array( $this, 'settings_page_init' ), plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', 52 );
+			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', array( $this, 'settings_page_init' ), plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', 51 );
 
 			add_submenu_page( 'lifterlms', 'LifterLMS Settings', __( 'Settings', 'lifterlms' ), apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'llms-settings', array( $this, 'settings_page_init' ) );
 
