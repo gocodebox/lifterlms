@@ -35,6 +35,9 @@ class LLMS_Admin_Meta_Boxes {
 		// membership restriction metabox
 		new LLMS_Meta_Box_Access();
 
+		// courses
+		new LLMS_Meta_Box_Course_Options();
+
 		// memberships
 		new LLMS_Meta_Box_Membership();
 
@@ -45,7 +48,7 @@ class LLMS_Admin_Meta_Boxes {
 		// lessons
 		new LLMS_Meta_Box_Lesson();
 
-		new LLMS_Meta_Box_Course_Options();
+		// coupons
 		new LLMS_Meta_Box_Coupon();
 
 		// orders
@@ -73,7 +76,6 @@ class LLMS_Admin_Meta_Boxes {
 		// Save Course Meta Boxes
 		// add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Video::save', 10, 2 );
 		// add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Course_Syllabus::save', 10, 2 );
-		// add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_General::save', 10, 2 );
 		// add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Students::save', 10, 2 );
 		// add_action( 'lifterlms_process_course_meta', 'LLMS_Meta_Box_Course_Outline::save', 10, 2 );
 
@@ -85,7 +87,6 @@ class LLMS_Admin_Meta_Boxes {
 
 		add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Lesson_Tree::save', 10, 2 );
 		// add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Video::save', 10, 2 );
-		// add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_General::save', 10, 2 );
 		// add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Lesson_Options::save', 10, 2 );
 
 		// add_action( 'lifterlms_process_llms_email_meta', 'LLMS_Meta_Box_Email_Settings::save', 10, 2 );
