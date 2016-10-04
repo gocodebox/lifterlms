@@ -19,10 +19,10 @@ class LLMS_Update_300 extends LLMS_Update {
 	 */
 	protected $functions = array(
 
+		'create_access_plans',
 		'del_deprecated_options',
-
-		'migrate_accont_field_options',
-
+		'migrate_account_field_options',
+		'migrate_course_postmeta',
 		'migrate_coupon_data',
 		'migrate_email_postmeta',
 		'migrate_lesson_postmeta',
@@ -36,6 +36,263 @@ class LLMS_Update_300 extends LLMS_Update {
 	protected $version = '3.0.0';
 
 
+	/**
+	 * Creates access plans for each course & membership
+	 * @param    array     $page   page of resuts so query
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function create_access_plans( $page = 1 ) {
+
+		$this->log( 'function `create_access_plans()` started' );
+
+		$args = array(
+			'paged' => $page,
+			'post_type' => array( 'course', 'llms_membership' ),
+			'posts_per_page' => 25,
+			'status' => 'any',
+		);
+
+		$courses = new WP_Query( $args );
+
+		if ( $courses->have_posts() ) {
+			foreach ( $courses->posts as $post ) {
+				$this->create_plans( $post );
+			}
+		}
+
+		// schedule another go of the function if theres more results
+		if ( $args['paged'] < $courses->max_num_pages ) {
+
+			$this->schedule_function( 'create_access_plans', array( $args['paged'] + 1 ) );
+
+		} // finished
+		else {
+
+			$this->function_complete( 'create_access_plans' );
+
+		}
+
+	}
+
+	/**
+	 * Create access plans for the requested post
+	 *
+	 * Creates up to 3 plans per course and up to two plans per membership
+	 *
+	 * Migrates price & subscription data to a single & recurring plan where applicable
+	 *
+	 * if course is restricted to a membership a free members only plan will be created
+	 * in addition to paid open recurring & single plans
+	 *
+	 * if course is restrcited to a membership and no price is found
+	 * only one free members only plan will be created
+	 *
+	 * @param    obj   $post  instance of WP_Post
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	private function create_plans( $post ) {
+
+		$meta = get_post_meta( $post->ID );
+
+		$is_free = ( ! $meta['_price'][0] || floatval( 0 ) === floatval( $meta['_price'][0] ) );
+		$has_recurring = ( 1 == $meta['_llms_recurring_enabled'][0] );
+		if ( 'course' === $post->post_type ) {
+			$members_only = ( 'on' === $meta['_llms_is_restricted'][0] && $meta['_llms_restricted_levels'][0] );
+		} else {
+			$members_only = false;
+		}
+
+
+		// base plan for single & recurring
+		$base_plan = array(
+
+			'access_expiration' => 'lifetime',
+			'availability' => 'open',
+			'availability_restrictions' => array(),
+			'content' => '',
+			'enroll_text' => ( 'course' === $post->post_type ) ? __( 'Enroll', 'lifterlms' ) : __( 'Join', 'lifterlms' ),
+			'featured' => 'no',
+			'frequency' => 0,
+			'is_free' => 'no',
+			'product_id' => $post->ID,
+			'sku' => $meta['_sku'][0],
+			'trial_offer' => 'no',
+
+		);
+
+		$single = array_merge( array(
+			'price' => $meta['_price'][0],
+		), $base_plan );
+
+		$recurring = array_merge( array(
+			'price' => $meta['_llms_subscription_price'][0],
+		), $base_plan );
+
+
+		/**
+		 * determine what kinds of plans to create
+		 */
+
+ 		// free and members only, only available to members
+		if ( $is_free && $members_only ) {
+
+			$free_members_only = true;
+			$single_paid_open = false;
+			$single_free_open = false;
+			$recurring_paid = false;
+
+		} // is paid and members only, available to members for free & everyone ala carte
+		elseif ( ! $is_free && $members_only ) {
+
+			$free_members_only = true;
+			$single_paid_open = true;
+			$single_free_open = false;
+			$recurring_paid = $has_recurring;
+
+		} // no restrictions, normal settings apply
+		else {
+
+			$free_members_only = false;
+			$single_paid_open = ! $is_free ? true : false;
+			$single_free_open = $is_free ? true : false;
+			$recurring_paid = $has_recurring;
+
+		}
+
+
+
+		$order = 1;
+
+		/**
+		 * CREATE THE PLANS
+		 */
+		if ( $free_members_only ) {
+
+			$plan = $single;
+			$plan['menu_order'] = $order;
+			$plan['is_free'] = 'yes';
+			$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-membersonly' : '';
+			$plan['availability'] = 'members';
+			$plan['availability_restrictions'] = unserialize( $meta['_llms_restricted_levels'][0] );
+
+			$this->insert_plan( __( 'Members Only', 'lifterlms' ), $plan );
+
+			unset( $plan );
+			$order++;
+
+		}
+
+		if ( $single_paid_open ) {
+
+			$plan = $single;
+			$plan['menu_order'] = $order;
+			$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-onetime' : '';
+ 			$plan['on_sale'] = isset( $meta['_sale_price'][0] ) ? 'yes' : 'no';
+
+ 			if ( 'yes' === $plan['on_sale'] ) {
+
+	 			$plan['sale_end'] = isset( $meta['_sale_price_dates_to'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_to'][0] ) ) : '';
+	 			$plan['sale_start'] = isset( $meta['_sale_price_dates_from'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_from'][0] ) ) : '';
+	 			$plan['sale_price'] = $meta['_sale_price'][0];
+
+ 			}
+
+ 			$this->insert_plan( __( 'One-Time Payment', 'lifterlms' ), $plan );
+
+			unset( $plan );
+			$order++;
+
+		}
+
+		if ( $single_free_open ) {
+
+			$plan = $single;
+			$plan['menu_order'] = $order;
+			$plan['is_free'] = 'yes';
+			$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-free' : '';
+
+			$this->insert_plan( __( 'Free', 'lifterlms' ), $plan );
+
+			unset( $plan );
+			$order++;
+
+		}
+
+		if ( $recurring_paid ) {
+
+			$plan = $recurring;
+			$plan['menu_order'] = $order;
+			$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-subscription' : '';
+
+			if (isset( $meta['_llms_subscription_first_payment'][0] ) && $meta['_llms_subscription_first_payment'][0] != $meta['_llms_subscription_price'][0] ) {
+				$plan['trial_offer'] = 'yes';
+				$plan['trial_length'] = $meta['_llms_billing_freq'][0];
+				$plan['trial_period'] = $meta['_llms_billing_period'][0];
+				$plan['trial_price'] = $meta['_llms_subscription_first_payment'][0];
+			}
+
+			$plan['frequency'] = $meta['_llms_billing_freq'][0];
+			$plan['length'] = $meta['_llms_billing_cycle'][0];
+			$plan['period'] = $meta['_llms_billing_period'][0];
+
+			$this->insert_plan( __( 'Subscription', 'lifterlms' ), $plan );
+
+			unset( $plan );
+			$order++;
+
+		}
+
+		$this->del_product_meta( $post->ID );
+
+	}
+
+
+	// public function migrate_order_data() {}
+	// public function migrate_membership_postmeta() {} // maybe?
+
+	/**
+	 * Deletes meta keys from the database related to product data
+	 * this stuff all belongs on an access plan now
+	 * @param    int     $post_id  WP Post ID
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	private function del_product_meta( $post_id ) {
+
+		$keys = array(
+			'_regular_price',
+			'_price',
+			'_sale_price',
+			'_sale_price_dates_from',
+			'_sale_price_dates_to',
+			'_on_sale',
+			'_llms_recurring_enabled',
+			'_llms_subscription_price',
+			'_llms_subscription_first_payment',
+			'_llms_billing_period',
+			'_llms_billing_freq',
+			'_llms_billing_cycle',
+			'_llms_subscriptions',
+			'_sku',
+			'_is_custom_single_price',
+			'_custom_single_price_html',
+			'_llms_is_restricted',
+			'_llms_restricted_levels',
+
+			'_llms_expiration_interval',
+			'_llms_expiration_period',
+		);
+
+		foreach ( $keys as $key ) {
+			delete_post_meta( $post_id, $key );
+		}
+
+	}
 
 	/**
 	 * Delete deprecated options that are no longer used by LifterLMS after 3.0.0
@@ -88,14 +345,31 @@ class LLMS_Update_300 extends LLMS_Update {
 	}
 
 	/**
+	 * Inserts a single access plan and metadata based on plan settings
+	 * @param    string   $title  title of the access plan
+	 * @param    array     $data  array of plan metadata
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	private function insert_plan( $title, $data ) {
+
+		$plan = new LLMS_Access_Plan( 'new', $title );
+		foreach( $data as $key => $val ) {
+			$plan->set( $key, $val );
+		}
+
+	}
+
+	/**
 	 * Migrate deprecated account field related options to new ones
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
-	public function migrate_accont_field_options() {
+	public function migrate_account_field_options() {
 
-		$this->log( 'function `migrate_accont_field_options` started' );
+		$this->log( 'function `migrate_account_field_options` started' );
 
 		$email_confirm = get_option( 'lifterlms_registration_confirm_email' );
 		if ( 'yes' === $email_confirm ) {
@@ -156,7 +430,7 @@ class LLMS_Update_300 extends LLMS_Update {
 		delete_option( 'lifterlms_registration_add_phone' );
 
 		// finished
-		$this->function_complete( 'migrate_accont_field_options' );
+		$this->function_complete( 'migrate_account_field_options' );
 
 	}
 
@@ -200,6 +474,87 @@ class LLMS_Update_300 extends LLMS_Update {
 	}
 
 	/**
+	 * Update keys of course meta fields for consistency
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function migrate_course_postmeta() {
+
+		$this->log( 'function `migrate_course_postmeta` started' );
+
+		global $wpdb;
+
+		// rekey meta fields
+		$this->rekey_meta( 'course', '_llms_audio_embed', '_audio_embed' );
+		$this->rekey_meta( 'course', '_llms_video_embed', '_video_embed' );
+		$this->rekey_meta( 'course', '_llms_has_prerequisite', '_has_prerequisite' );
+		$this->rekey_meta( 'course', '_llms_length', '_lesson_length' );
+		$this->rekey_meta( 'course', '_llms_capacity', '_lesson_max_user' );
+		$this->rekey_meta( 'course', '_llms_prerequisite', '_prerequisite' );
+		$this->rekey_meta( 'course', '_llms_prerequisite_track', '_prerequisite_track' );
+
+		$this->rekey_meta( 'course', '_llms_start_date', '_course_dates_from' );
+		$this->rekey_meta( 'course', '_llms_end_date', '_course_dates_to' );
+
+		// updates course enrollment settings and reformats existing dates
+		$dates = $wpdb->get_results(
+			"SELECT m.meta_id, m.post_id, m.meta_value
+			 FROM {$wpdb->postmeta} AS m
+			 INNER JOIN {$wpdb->posts} AS p ON p.ID = m.post_ID
+		 	 WHERE p.post_type = 'course' AND ( m.meta_key = '_llms_start_date' OR m.meta_key = '_llms_end_date' );"
+		);
+		foreach ( $dates as $r ) {
+			$wpdb->update( $wpdb->postmeta,
+				array(
+					'meta_value' => date( 'm/d/Y', strtotime( $r->meta_value ) )
+				),
+				array(
+					'meta_id' => $r->meta_id
+				)
+			);
+			add_post_meta( $r->post_id, '_llms_time_period', 'yes' );
+			// add_post_meta( $r->post_id, '_llms_course_opens_message', sprintf( __( 'This course opens on [lifterlms_course_info id="%d" key="start_date"].', 'lifterlms' ), $r->post_id ) );
+			// add_post_meta( $r->post_id, '_llms_course_closed_message', sprintf( __( 'This course closed on [lifterlms_course_info id="%d" key="end_date"].', 'lifterlms' ), $r->post_id ) );
+		}
+
+		// update course capacity bool and related settings
+		$capacity = $wpdb->get_results(
+			"SELECT m.post_id, m.meta_value
+			 FROM {$wpdb->postmeta} AS m
+			 INNER JOIN {$wpdb->posts} AS p ON p.ID = m.post_ID
+		 	 WHERE p.post_type = 'course' AND m.meta_key = '_llms_capacity';"
+		);
+		foreach ( $capacity as $r ) {
+			if ( $r->meta_value ) {
+				add_post_meta( $r->post_id, '_llms_enable_capacity', 'yes' );
+				add_post_meta( $r->post_id, '_llms_capacity_message', __( 'Enrollment has closed because the maximum number of allowed students has been reached.', 'lifterlms' ) );
+			}
+		}
+
+		// convert numeric has_preqeq to "yes"
+		$prereq = $wpdb->query(
+			"UPDATE {$wpdb->prefix}postmeta AS m
+			 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
+			 SET m.meta_value = 'yes'
+		 	 WHERE p.post_type = 'course' AND m.meta_key = '_llms_has_prerequisite' AND m.meta_value = 1;"
+		);
+
+		// convert empty has_prereq to "no"
+		$prereq = $wpdb->query(
+			"UPDATE {$wpdb->prefix}postmeta AS m
+			 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
+			 SET m.meta_value = 'no'
+		 	 WHERE p.post_type = 'course' AND m.meta_key = '_llms_has_prerequisite' AND m.meta_value = '';"
+		);
+
+		// finished
+		$this->function_complete( 'migrate_course_postmeta' );
+
+	}
+
+
+	/**
 	 * Update keys of email meta fields for consistency
 	 * @return   void
 	 * @since    3.0.0
@@ -211,19 +566,8 @@ class LLMS_Update_300 extends LLMS_Update {
 
 		global $wpdb;
 
-		$emails_subject = $wpdb->query(
-			"UPDATE {$wpdb->prefix}postmeta AS m
-			 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
-			 SET m.meta_key = '_llms_email_subject'
-		 	 WHERE p.post_type = 'llms_email' AND m.meta_key = '_email_subject';"
-		);
-
-		$emails_heading = $wpdb->query(
-			"UPDATE {$wpdb->prefix}postmeta AS m
-			 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
-			 SET m.meta_key = '_llms_email_heading'
-		 	 WHERE p.post_type = 'llms_email' AND m.meta_key = '_email_heading';"
-		);
+		$this->rekey_meta( 'llms_email', '_llms_email_subject', '_email_subject' );
+		$this->rekey_meta( 'llms_email', '_llms_email_heading', '_email_heading' );
 
 		// finished
 		$this->function_complete( 'migrate_email_postmeta' );
@@ -242,25 +586,80 @@ class LLMS_Update_300 extends LLMS_Update {
 
 		global $wpdb;
 
-		$audios = $wpdb->query(
+		$this->rekey_meta( 'lesson', '_llms_audio_embed', '_audio_embed' );
+		$this->rekey_meta( 'lesson', '_llms_video_embed', '_video_embed' );
+		$this->rekey_meta( 'lesson', '_llms_has_prerequisite', '_has_prerequisite' );
+		$this->rekey_meta( 'lesson', '_llms_prerequisite', '_prerequisite' );
+		$this->rekey_meta( 'lesson', '_llms_days_before_available', '_days_before_avalailable' );
+
+		// convert numeric has_preqeq to "yes"
+		// convert numeric free_lesson to "yes"
+		// convert numeric require_passing_grade to "yes"
+		$wpdb->query(
 			"UPDATE {$wpdb->prefix}postmeta AS m
 			 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
-			 SET m.meta_key = '_llms_audio_embed'
-		 	 WHERE p.post_type = 'lesson' AND m.meta_key = '_audio_embed';"
+			 SET m.meta_value = 'yes'
+		 	 WHERE p.post_type = 'lesson' AND (
+		 	 	   ( m.meta_key = '_llms_has_prerequisite' AND m.meta_value = 1 )
+		 	 	OR ( m.meta_key = '_llms_free_lesson' AND m.meta_value = 1 )
+		 	 	OR ( m.meta_key = '_llms_require_passing_grade' AND m.meta_value = 1 )
+		 	 );"
 		);
 
-		$videos = $wpdb->query(
+		// convert empty has_prereq to "no"
+		// convert empty free_lesson to "no"
+		// convert empty require_passing_grade to "no"
+		$wpdb->query(
 			"UPDATE {$wpdb->prefix}postmeta AS m
 			 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
-			 SET m.meta_key = '_llms_video_embed'
-		 	 WHERE p.post_type = 'lesson' AND m.meta_key = '_video_embed';"
+			 SET m.meta_value = 'no'
+		 	 WHERE p.post_type = 'lesson' AND (
+		 	 	   ( m.meta_key = '_llms_has_prerequisite' AND m.meta_value = '' )
+		 	 	OR ( m.meta_key = '_llms_free_lesson' AND m.meta_value = '' )
+		 	 	OR ( m.meta_key = '_llms_require_passing_grade' AND m.meta_value = '' )
+		 	 );"
 		);
+
+		// updates course enrollment settings and reformats existing dates
+		$drips = $wpdb->get_results(
+			"SELECT m.post_id
+			 FROM {$wpdb->postmeta} AS m
+			 INNER JOIN {$wpdb->posts} AS p ON p.ID = m.post_ID
+		 	 WHERE p.post_type = 'lesson' AND m.meta_key = '_llms_days_before_available';"
+		);
+		foreach ( $drips as $r ) {
+			add_post_meta( $r->post_id, '_llms_drip_method', 'enrollment' );
+		}
+
 
 		// finished
 		$this->function_complete( 'migrate_lesson_postmeta' );
 
 	}
 
+	/**
+	 * Update the key of a postmeta item
+	 * @param    string     $post_type   post type
+	 * @param    string     $new_key     new postmeta key
+	 * @param    string     $old_key     old postmeta key
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	private function rekey_meta( $post_type, $new_key, $old_key ) {
+
+		global $wpdb;
+
+		// rekey course length
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->prefix}postmeta AS m
+			 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
+			 SET m.meta_key = %s
+		 	 WHERE p.post_type = %s AND m.meta_key = %s;",
+		 	 array( $new_key, $post_type, $old_key )
+		) );
+
+	}
 
 }
 
