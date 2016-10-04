@@ -373,7 +373,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 		$db_version = get_option( 'lifterlms_db_version', null );
 
 		// trigger first time run redirect
-		if ( ( is_null( $version ) && is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
+		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
 
 			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
 
@@ -381,7 +381,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		if ( 'no' === get_option( 'llms_doing_database_update', 'no' ) ) {
 
-			if ( ! is_null( $db_version ) && version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
+			if ( version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
 
 				// may not be available since this runs on init
 				include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
