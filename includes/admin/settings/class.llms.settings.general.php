@@ -265,7 +265,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/mailchimp-w-desc.png',
 				'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Mailchimp+Ad+001',
 			),
-			'lifterlms-integration-gravityforms' => array(
+			'lifterlms-integration-gravity-forms' => array(
 				'type' => 'plugin',
 				'title' => 'GravityForms Plugin',
 				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/gravityforms.jpg',
