@@ -70,7 +70,7 @@ abstract class LLMS_Update {
 
 		foreach ( $this->functions as $func ) {
 
-			add_action( $this->get_hook( $func ), array( $this, $func ) );
+			add_action( $this->get_hook( $func ), array( $this, $func ), 10, 1 );
 
 		}
 
@@ -181,12 +181,14 @@ abstract class LLMS_Update {
 	/**
 	 * Schedules a function
 	 * @param    string     $func  function name / callable
+	 * @param    assay      $args  array of arguments to pass to the function
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
-	protected function schedule_function( $func ) {
-		wc_schedule_single_action( time(), $this->get_hook( $func ), array(), 'llms_update_' . $this->version );
+	protected function schedule_function( $func, $args = array() ) {
+		$this->log( sprintf( 'function `%s()` scheduled with arguments: %s', $func, json_encode( $args ) ) );
+		wc_schedule_single_action( time(), $this->get_hook( $func ), $args, 'llms_update_' . $this->version );
 	}
 
 	/**
