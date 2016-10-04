@@ -262,6 +262,7 @@ class LLMS_Person_Handler {
 			);
 			$fields[] = array(
 				'columns' => 12,
+				'default' => get_lifterlms_country(),
 				'id' => self::$meta_prefix . 'billing_country',
 				'label' => __( 'Country', 'lifterlms' ),
 				'last_column' => true,
