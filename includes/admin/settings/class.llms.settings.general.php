@@ -299,7 +299,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 				case 'plugin':
 					if ( in_array( $slug . DIRECTORY_SEPARATOR . $slug .'.php', $plugins ) ) {
-						// continue 2;
+						continue 2;
 					}
 				break;
 
