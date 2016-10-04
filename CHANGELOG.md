@@ -3,11 +3,22 @@
 = v3.0.0-beta.10 - 2016/09/?? =
 -------------------------------
 
++ background updater
++ system report facelift + inclusion of all new settings via `LLMS_Data` class
 + Fix setup wizard styles to follow update admin panel styles
 + add links to last step of setup wizard for documentation and demo
 + removed a bunch of deprecated coupon-related functions
 + added a "force ssl" option to ensure checkout is secured
 + added settings and options around recurring payments and staging sites to prevent duplicate charges when testing on a cloned site
+
+##### 3.0.0 Auto Upgrader
+
++ lots of postmeta data rekeyed
++ intelligently generated defaults for various peices of new meta data on courses, lessons, and memberships
++ automatically generate access plans from existing course and membership data
++ update existing orders to pull semi-accurate data into analytics based on new database structure
++ cleans database of a ton of deprecated options and postmeta data
+
 
 ##### Deprecated
 

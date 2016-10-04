@@ -382,7 +382,7 @@ abstract class LLMS_Post_Model {
 		// backwards compat to original 3.0.0 format when just a title was passed in
 		if ( is_string( $args ) ) {
 			$args = array(
-				'title' => $args,
+				'post_title' => $args,
 			);
 		}
 
