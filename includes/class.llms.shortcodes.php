@@ -179,23 +179,55 @@ class LLMS_Shortcodes {
 
 		}
 
+		if (isset( $atts['category'] )) {
+			$tax = array(
+				array(
+					'taxonomy' => 'course_cat',
+					'field' => 'slug',
+					'terms' => $atts['category'],
+				),
+			);
+		}
+
+		$args = array(
+			'paged' => get_query_var( 'paged' ),
+			'post_type' => 'course',
+			'post_status' => 'publish',
+			'posts_per_page' => isset( $atts['posts_per_page'] ) ? $atts['posts_per_page'] : -1,
+			'order' => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
+			'orderby' => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
+			'tax_query' => isset( $tax ) ? $tax : '',
+		);
+
+		if ( isset( $atts['id'] ) ) {
+
+			$args['p'] = $atts['id'];
+
+		}
+
 		$query = new WP_Query( $args );
 
 		ob_start();
 
-		if ( $query->have_posts() ) {
+		if ( $query->have_posts() ) :
 
-			do_action( 'lifterlms_before_memberships_loop' );
-
-			lifterlms_membership_loop_start();
+			/**
+			 * lifterlms_before_loop hook
+			 * @hooked lifterlms_loop_start - 10
+			 */
+			do_action( 'lifterlms_before_loop' );
 
 			while ( $query->have_posts() ) : $query->the_post();
 
-				llms_get_template_part( 'content', 'llms_membership' );
+				llms_get_template_part( 'loop/content', get_post_type() );
 
 			endwhile;
 
-			lifterlms_membership_loop_end();
+			/**
+			 * lifterlms_before_loop hook
+			 * @hooked lifterlms_loop_end - 10
+			 */
+			do_action( 'lifterlms_after_loop' );
 
 			echo '<nav class="llms-pagination">';
 			echo paginate_links( array(
@@ -210,13 +242,11 @@ class LLMS_Shortcodes {
 			) );
 			echo '</nav>';
 
-			do_action( 'lifterlms_after_memberships_loop' );
+		else :
 
-		} else {
+			llms_get_template( 'loop/none-found.php' );
 
-			llms_get_template( 'loop/no-courses-found.php' );
-
-		}
+		endif;
 
 		wp_reset_postdata();
 
@@ -353,8 +383,6 @@ class LLMS_Shortcodes {
 	*/
 	public static function courses( $atts ) {
 
-		ob_start();
-
 		if (isset( $atts['category'] )) {
 			$tax = array(
 				array(
@@ -383,17 +411,27 @@ class LLMS_Shortcodes {
 
 		$query = new WP_Query( $args );
 
-		if ( $query->have_posts() ) {
+		ob_start();
 
-			lifterlms_course_loop_start();
+		if ( $query->have_posts() ) :
+
+			/**
+			 * lifterlms_before_loop hook
+			 * @hooked lifterlms_loop_start - 10
+			 */
+			do_action( 'lifterlms_before_loop' );
 
 			while ( $query->have_posts() ) : $query->the_post();
 
-				llms_get_template_part( 'content', 'course' );
+				llms_get_template_part( 'loop/content', get_post_type() );
 
 			endwhile;
 
-			lifterlms_course_loop_end();
+			/**
+			 * lifterlms_before_loop hook
+			 * @hooked lifterlms_loop_end - 10
+			 */
+			do_action( 'lifterlms_after_loop' );
 
 			echo '<nav class="llms-pagination">';
 			echo paginate_links( array(
@@ -408,11 +446,15 @@ class LLMS_Shortcodes {
 			) );
 			echo '</nav>';
 
-			$courses = ob_get_clean();
-			wp_reset_postdata();
-			return $courses;
+		else :
 
-		}
+			llms_get_template( 'loop/none-found.php' );
+
+		endif;
+
+		wp_reset_postdata();
+
+		return ob_get_clean();
 
 	}
 
