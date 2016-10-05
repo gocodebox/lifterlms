@@ -1453,7 +1453,7 @@ if ( ! function_exists( 'lifterlms_get_sidebar' ) ) {
  */
 if ( ! function_exists( 'is_lifterlms' ) ) {
 	function is_lifterlms() {
-		return apply_filters( 'is_lifterlms', ( is_courses() || is_course_taxonomy() || is_course() || is_lesson() || is_membership() ) ? true : false );
+		return apply_filters( 'is_lifterlms', ( is_courses() || is_course_taxonomy() || is_course() || is_lesson() || is_membership() || is_memberships() || is_quiz() ) );
 	}
 }
 
