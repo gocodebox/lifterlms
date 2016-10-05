@@ -47,7 +47,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 		$order = new LLMS_Order( $this->post );
 		$current_status = $order->get( 'status' );
 
-		if ( 'publish' === $current_status ) {
+		if ( $order->is_legacy() ) {
 
 			_e( 'The status of a Legacy order cannot be changed.', 'lifterlms' );
 			return;
