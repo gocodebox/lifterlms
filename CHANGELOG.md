@@ -18,7 +18,6 @@
 + automatically generate access plans from existing course and membership data
 + update existing orders to pull semi-accurate data into analytics based on new database structure
 + cleans database of a ton of deprecated options and postmeta data
-1
 
 ##### Deprecated
 

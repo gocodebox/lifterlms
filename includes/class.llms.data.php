@@ -130,7 +130,7 @@ class LLMS_Data {
 
 		$i = LLMS()->integrations();
 
-		foreach( $i->integrations() as $id => $obj ) {
+		foreach ( $i->integrations() as $id => $obj ) {
 
 			// @todo upgrade this when integration absrtact is finished
 			if ( method_exists( $obj, 'is_available' ) ) {

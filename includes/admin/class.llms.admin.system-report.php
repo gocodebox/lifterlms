@@ -14,7 +14,7 @@ class LLMS_Admin_System_Report {
 	 * Output the system report
 	 * @return   void
 	 * @since    2.1.0
- 	 * @version  3.0.0
+		 * @version  3.0.0
 	 */
 	public static function output() {
 
@@ -22,7 +22,7 @@ class LLMS_Admin_System_Report {
 
 		self::output_copy_box();
 
-		foreach( LLMS_Data::get_data( 'system_report' ) as $key => $data ) {
+		foreach ( LLMS_Data::get_data( 'system_report' ) as $key => $data ) {
 
 			if ( is_array( $data ) ) {
 
@@ -39,7 +39,7 @@ class LLMS_Admin_System_Report {
 	/**
 	 * Output the copy for support box
 	 * @since    2.1.0
- 	 * @version  3.0.0
+		 * @version  3.0.0
 	 */
 	public static function output_copy_box() {
 		?>
@@ -110,7 +110,7 @@ class LLMS_Admin_System_Report {
 							<li><p>
 							<?php if ( 'plugins' === $section_title ) : ?>
 								<?php self::plugin_item( $val ); ?>
-							<?php else: ?>
+							<?php else : ?>
 								<?php self::title( $key ); ?>: <strong><?php self::value( $val ); ?></strong>
 							<?php endif; ?>
 							</p></li>

@@ -107,7 +107,6 @@ class LLMS_Update_300 extends LLMS_Update {
 			$members_only = false;
 		}
 
-
 		// base plan for single & recurring
 		$base_plan = array(
 
@@ -133,12 +132,11 @@ class LLMS_Update_300 extends LLMS_Update {
 			'price' => $meta['_llms_subscription_price'][0],
 		), $base_plan );
 
-
 		/**
 		 * determine what kinds of plans to create
 		 */
 
- 		// free and members only, only available to members
+			// free and members only, only available to members
 		if ( $is_free && $members_only ) {
 
 			$free_members_only = true;
@@ -163,8 +161,6 @@ class LLMS_Update_300 extends LLMS_Update {
 			$recurring_paid = $has_recurring;
 
 		}
-
-
 
 		$order = 1;
 
@@ -192,17 +188,17 @@ class LLMS_Update_300 extends LLMS_Update {
 			$plan = $single;
 			$plan['menu_order'] = $order;
 			$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-onetime' : '';
- 			$plan['on_sale'] = isset( $meta['_sale_price'][0] ) ? 'yes' : 'no';
+				$plan['on_sale'] = isset( $meta['_sale_price'][0] ) ? 'yes' : 'no';
 
- 			if ( 'yes' === $plan['on_sale'] ) {
+			if ( 'yes' === $plan['on_sale'] ) {
 
 	 			$plan['sale_end'] = isset( $meta['_sale_price_dates_to'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_to'][0] ) ) : '';
 	 			$plan['sale_start'] = isset( $meta['_sale_price_dates_from'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_from'][0] ) ) : '';
 	 			$plan['sale_price'] = $meta['_sale_price'][0];
 
- 			}
+			}
 
- 			$this->insert_plan( __( 'One-Time Payment', 'lifterlms' ), $plan );
+				$this->insert_plan( __( 'One-Time Payment', 'lifterlms' ), $plan );
 
 			unset( $plan );
 			$order++;
@@ -352,7 +348,7 @@ class LLMS_Update_300 extends LLMS_Update {
 	private function insert_plan( $title, $data ) {
 
 		$plan = new LLMS_Access_Plan( 'new', $title );
-		foreach( $data as $key => $val ) {
+		foreach ( $data as $key => $val ) {
 			$plan->set( $key, $val );
 		}
 
@@ -504,10 +500,10 @@ class LLMS_Update_300 extends LLMS_Update {
 		foreach ( $dates as $r ) {
 			$wpdb->update( $wpdb->postmeta,
 				array(
-					'meta_value' => date( 'm/d/Y', strtotime( $r->meta_value ) )
+					'meta_value' => date( 'm/d/Y', strtotime( $r->meta_value ) ),
 				),
 				array(
-					'meta_id' => $r->meta_id
+					'meta_id' => $r->meta_id,
 				)
 			);
 			add_post_meta( $r->post_id, '_llms_time_period', 'yes' );
@@ -628,7 +624,6 @@ class LLMS_Update_300 extends LLMS_Update {
 			add_post_meta( $r->post_id, '_llms_drip_method', 'enrollment' );
 		}
 
-
 		// finished
 		$this->function_complete( 'migrate_lesson_postmeta' );
 
@@ -689,7 +684,6 @@ class LLMS_Update_300 extends LLMS_Update {
 
 		}
 
-
 		$args = array(
 			'paged' => $page,
 			'post_type' => array( 'llms_order' ),
@@ -716,7 +710,6 @@ class LLMS_Update_300 extends LLMS_Update {
 			$this->function_complete( 'update_orders' );
 
 		}
-
 
 	}
 
@@ -803,7 +796,6 @@ class LLMS_Update_300 extends LLMS_Update {
 		delete_post_meta( $post->ID, '_llms_order_coupon_value' );
 		delete_post_meta( $post->ID, '_llms_order_original_total' );
 
-
 	}
 
 	/**
@@ -825,7 +817,7 @@ class LLMS_Update_300 extends LLMS_Update {
 			 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
 			 SET m.meta_key = %s
 		 	 WHERE p.post_type = %s AND m.meta_key = %s;",
-		 	 array( $new_key, $post_type, $old_key )
+			array( $new_key, $post_type, $old_key )
 		) );
 
 	}

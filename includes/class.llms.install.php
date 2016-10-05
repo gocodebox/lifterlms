@@ -230,8 +230,7 @@ class LLMS_Install {
 			$do_update = 'yes';
 			update_option( 'llms_doing_database_update', $do_update );
 
-		}
-		// get the current state of the updates
+		} // get the current state of the updates
 		else {
 
 			$do_update = get_option( 'llms_doing_database_update', 'no' );
@@ -274,7 +273,6 @@ class LLMS_Install {
 			}
 
 		}
-
 
 	}
 
@@ -397,7 +395,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 			}
 
 		}
-
 
 		self::update_llms_version();
 

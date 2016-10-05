@@ -227,9 +227,9 @@ abstract class LLMS_Update {
 	 */
 	protected function log( $msg ) {
 
- 		if ( defined( 'LLMS_BG_UPDATE_LOG' ) && LLMS_BG_UPDATE_LOG ) {
+		if ( defined( 'LLMS_BG_UPDATE_LOG' ) && LLMS_BG_UPDATE_LOG ) {
 			llms_log( $msg, 'updater' );
- 		}
+		}
 
 	}
 

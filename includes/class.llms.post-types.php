@@ -625,8 +625,6 @@ class LLMS_Post_Types {
 			)
 		);
 
-
-
 		/**
 		 * Achievement Post type
 		 */
@@ -783,8 +781,6 @@ class LLMS_Post_Types {
 				)
 			)
 		);
-
-
 
 		/**
 		 * Quiz Post Type

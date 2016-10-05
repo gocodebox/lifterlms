@@ -80,7 +80,6 @@ class LLMS_Admin_Notices {
 
 		}
 
-
 		self::$notices = array_unique( array_merge( self::get_notices(), array( $notice_id ) ) );
 		update_option( 'llms_admin_notice_' . $notice_id, $options );
 
