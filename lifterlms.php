@@ -377,15 +377,6 @@ final class LifterLMS {
 	}
 
 	/**
-	 * Process order class
-	 *
-	 * @return array
-	 */
-	public function checkout() {
-		return LLMS_Checkout::instance();
-	}
-
-	/**
 	 * Add Action Links
 	 * Settings action links
 	 *

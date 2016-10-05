@@ -166,64 +166,6 @@ class LLMS_Frontend_Forms
 	}
 
 	/**
-	 * Processes orders that, calculated with a coupon, result in a free amount
-	 * and bypass the payment gateway.
-	 */
-	public function process_free_order() {
-
-		/** Coupon data */
-		$coupon = LLMS()->session->get( 'llms_coupon', array() );
-		/** Order data */
-		$order = LLMS()->session->get( 'llms_order', array() );
-		/** Don't do anything if no coupon has been applied */
-		if ( ! isset( $coupon->id ) || ! $coupon->id) {
-			return false;
-		}
-
-		//don't do anything if coupon amount does not = 100% off.
-		if (($coupon->amount != '100' && $coupon->type === 'percent')
-			|| ($coupon->type === 'dollar' && (($order->total - $coupon->amount) > 0))
-		) {
-			return false;
-		}
-
-		$coupon_type = get_post_meta( $coupon->id, '_llms_discount_type', true );
-		$coupon_amount = get_post_meta( $coupon->id, '_llms_coupon_amount', true );
-		$coupon_is_valid = true;
-
-		/** Check if coupon is valid and actually results in 0 total */
-		if ($coupon_amount !== $coupon->amount) {
-
-			$coupon_is_valid = false;
-		}
-		if ($coupon_type == 'percent' && $coupon_amount != 100) {
-
-			$coupon_is_valid = false;
-		} elseif ($coupon_type == 'dollar' && (($order->total - $coupon_amount) > 0)) {
-
-			$coupon_is_valid = false;
-		}
-		if ( ! $coupon_is_valid) {
-			/** Clear session */
-			LLMS()->session->set( 'llms_coupon', '' );
-			return $coupon->coupon_code;
-		}
-
-		/** Insert order into database */
-		$lifterlms_checkout = LLMS()->checkout();
-		$handle->process_order( $order );
-		$handle->update_order( $order );
-
-		/** Clear session */
-		unset( LLMS()->session->llms_coupon );
-		unset( LLMS()->session->llms_order );
-
-		/** Redirect to success page */
-		do_action( 'lifterlms_order_process_success', $order );
-
-	}
-
-	/**
 	 *
 	 * Check voucher and use it if valid
 	 *
