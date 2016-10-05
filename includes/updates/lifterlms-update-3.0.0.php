@@ -26,6 +26,7 @@ class LLMS_Update_300 extends LLMS_Update {
 		'migrate_coupon_data',
 		'migrate_email_postmeta',
 		'migrate_lesson_postmeta',
+		'update_orders',
 
 	);
 
@@ -50,7 +51,7 @@ class LLMS_Update_300 extends LLMS_Update {
 		$args = array(
 			'paged' => $page,
 			'post_type' => array( 'course', 'llms_membership' ),
-			'posts_per_page' => 25,
+			'posts_per_page' => 50,
 			'status' => 'any',
 		);
 
@@ -249,10 +250,6 @@ class LLMS_Update_300 extends LLMS_Update {
 		$this->del_product_meta( $post->ID );
 
 	}
-
-
-	// public function migrate_order_data() {}
-	// public function migrate_membership_postmeta() {} // maybe?
 
 	/**
 	 * Deletes meta keys from the database related to product data
@@ -634,6 +631,178 @@ class LLMS_Update_300 extends LLMS_Update {
 
 		// finished
 		$this->function_complete( 'migrate_lesson_postmeta' );
+
+	}
+
+	/**
+	 * Change the post type of orders and rekey meta fields
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	private function migrate_order_data() {
+
+		global $wpdb;
+
+		// prefix the old unprefixed order post type
+		$wpdb->query(
+			"UPDATE {$wpdb->posts}
+			 SET post_type = 'llms_order'
+			 WHERE post_type = 'order';"
+		);
+
+		// rekey postmetas
+		$this->rekey_meta( 'llms_order', '_llms_payment_gateway', '_llms_payment_method' );
+		$this->rekey_meta( 'llms_order', '_llms_product_id', '_llms_order_product_id' );
+		$this->rekey_meta( 'llms_order', '_llms_currency', '_llms_order_currency' );
+		$this->rekey_meta( 'llms_order', '_llms_coupon_id', '_llms_order_coupon_id' );
+		$this->rekey_meta( 'llms_order', '_llms_coupon_code', '_llms_order_coupon_code' );
+		$this->rekey_meta( 'llms_order', '_llms_coupon_type', '_llms_order_coupon_type' );
+		$this->rekey_meta( 'llms_order', '_llms_coupon_amount', '_llms_order_coupon_amount' );
+
+		$this->rekey_meta( 'llms_order', '_llms_billing_frequency', '_llms_order_billing_freq' );
+		$this->rekey_meta( 'llms_order', '_llms_billing_length', '_llms_order_billing_cycle' );
+		$this->rekey_meta( 'llms_order', '_llms_billing_period', '_llms_order_billing_period' );
+
+		$this->rekey_meta( 'llms_order', '_llms_gateway_api_mode', '_llms_stripe_api_mode' );
+		$this->rekey_meta( 'llms_order', '_llms_gateway_subscription_id', '_llms_stripe_subscription_id' );
+		$this->rekey_meta( 'llms_order', '_llms_gateway_customer_id', '_llms_stripe_customer_id' );
+
+		$this->rekey_meta( 'llms_order', '_llms_trial_total', '_llms_order_first_payment' );
+
+		$this->rekey_meta( 'llms_order', '_llms_start_date', '_llms_order_date' );
+
+	}
+
+	/**
+	 * Loop function for updating orders
+	 * @param    integer    $page    page of results to update for larger databases
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function update_orders( $page = 1 ) {
+
+		if ( 1 === $page ) {
+
+			$this->migrate_order_data();
+
+		}
+
+
+		$args = array(
+			'paged' => $page,
+			'post_type' => array( 'llms_order' ),
+			'posts_per_page' => 50,
+			'status' => 'publish',
+		);
+
+		$orders = new WP_Query( $args );
+
+		if ( $orders->have_posts() ) {
+			foreach ( $orders->posts as $post ) {
+				$this->update_order( $post );
+			}
+		}
+
+		// schedule another go of the function if theres more results
+		if ( $args['paged'] < $orders->max_num_pages ) {
+
+			$this->schedule_function( 'update_orders', array( $args['paged'] + 1 ) );
+
+		} // finished
+		else {
+
+			$this->function_complete( 'update_orders' );
+
+		}
+
+
+	}
+
+	/**
+	 * Migrate a single order
+	 * @param    obj     $post  Instance of a WP Post
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	private function update_order( $post ) {
+
+		$order = new LLMS_Order( $post );
+
+		// add an order key
+		$order->set( 'order_key', $order->generate_order_key() );
+
+		$order->set( 'access_expiration', 'lifetime' );
+
+		// add coupon used info
+		$coupon_used = $order->get( 'coupon_id' ) ? 'yes' : 'no';
+		$order->set( 'coupon_used', $coupon_used );
+
+		// add data about the user to the order if we can find it
+		if ( isset( $order->user_id ) ) {
+
+			$id = $order->get( 'user_id' );
+
+			if ( $id && get_user_by( 'ID', $id ) ) {
+
+				$student = new LLMS_Student( $id );
+
+				$metas = array(
+					'billing_address_1' => 'billing_address_1',
+					'billing_address_2' => 'billing_address_2',
+					'billing_city' => 'billing_city',
+					'billing_country' => 'billing_country',
+					'billing_email' => 'user_email',
+					'billing_first_name' => 'first_name',
+					'billing_last_name' => 'last_name',
+					'billing_state' => 'billing_state',
+					'billing_zip' => 'billing_zip',
+				);
+
+				foreach ( $metas as $ordermeta => $usermeta ) {
+
+					if ( $v = $student->$usermeta ) {
+
+						$order->set( $ordermeta, $v );
+
+					}
+
+				}
+			}
+
+		}
+
+		// setup trial info if there was a first payment recorded
+		if ( $order->get( 'trial_total' ) ) {
+
+			$order->set( 'trial_offer', 'yes' );
+			$order->set( 'trial_length', $order->get( 'billing_length' ) );
+			$order->set( 'trial_period', $order->get( 'billing_period' ) );
+			$order->set( 'trial_original_total', $order->get( 'trial_total' ) );
+
+		} else {
+
+			$order->set( 'trial_offer', 'no' );
+
+		}
+
+		$total = $order->is_recurring() ? get_post_meta( $post->ID, '_llms_order_recurring_price', true ) : get_post_meta( $post->ID, '_llms_order_total', true );
+		$order->set( 'original_total', $total );
+		$order->set( 'total', $total );
+
+		$order->add_note( sprintf( __( 'This order was migrated to the LifterLMS 3.0 data structure. %sLearn more%s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-orders#migration" target="_blank">', '</a>' ) );
+
+		// remove deprecated
+		delete_post_meta( $post->ID, '_llms_order_recurring_price' );
+		delete_post_meta( $post->ID, '_llms_order_total' );
+		delete_post_meta( $post->ID, '_llms_order_coupon_limit' );
+		delete_post_meta( $post->ID, '_llms_order_product_price' );
+		delete_post_meta( $post->ID, '_llms_order_billing_start_date' );
+		delete_post_meta( $post->ID, '_llms_order_coupon_value' );
+		delete_post_meta( $post->ID, '_llms_order_original_total' );
+
 
 	}
 
