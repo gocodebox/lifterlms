@@ -47,6 +47,13 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 		$order = new LLMS_Order( $this->post );
 		$current_status = $order->get( 'status' );
 
+		if ( 'publish' === $current_status ) {
+
+			_e( 'The status of a Legacy order cannot be changed.', 'lifterlms' );
+			return;
+
+		}
+
 		$statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'single' );
 		?>
 		<div class="llms-metabox">
