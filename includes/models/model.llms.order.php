@@ -864,6 +864,16 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Determine if the order is a legacy order migrated from 2.x
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function is_legacy() {
+		return ( 'publish' === $this->get( 'status' ) );
+	}
+
+	/**
 	 * Determine if the order is recurring or singular
 	 * @return   boolean      true if recurring, false if not
 	 * @since    3.0.0

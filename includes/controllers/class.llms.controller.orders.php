@@ -494,6 +494,10 @@ class LLMS_Controller_Orders {
 	public function transaction_failed( $txn ) {
 
 		$order = $txn->get_order();
+
+		// halt if legacy
+		if ( $order->is_legacy() ) { return; }
+
 		$order->set( 'status', 'llms-failed' );
 
 	}
@@ -508,6 +512,10 @@ class LLMS_Controller_Orders {
 	public function transaction_refunded( $txn ) {
 
 		$order = $txn->get_order();
+
+		// halt if legacy
+		if ( $order->is_legacy() ) { return; }
+
 		$order->set( 'status', 'llms-refunded' );
 
 	}
@@ -523,6 +531,9 @@ class LLMS_Controller_Orders {
 
 		// get the order
 		$order = $txn->get_order();
+
+		// halt if legacy
+		if ( $order->is_legacy() ) { return; }
 
 		// update the status based on the order type
 		$status = $order->is_recurring() ? 'llms-active' : 'llms-completed';
