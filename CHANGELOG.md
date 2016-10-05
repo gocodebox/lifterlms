@@ -36,6 +36,9 @@
 + function `lesson_start_date_in_future()`
 + function `page_restricted_by_membership_alert()`
 + function `llms_does_user_memberships_contain_course()`
++ class `LLMS_Checkout`
++ function `LLMS()->checkout()`
+
 
 
 = v3.0.0-beta.9 - 2016/09/23 =
