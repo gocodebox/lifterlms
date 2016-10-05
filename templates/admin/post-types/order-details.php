@@ -17,7 +17,7 @@ if ( ! is_admin() ) { exit; }
 
 
 	<h2><?php printf( __( 'Order #%s', 'lifterlms' ), $order->get( 'id' ) ); ?></h2>
-	<h3><?php printf( __( 'Processed by %s', 'lifterlms' ), $gateway->get_admin_title() ); ?></h3>
+	<h3><?php printf( __( 'Processed by %s', 'lifterlms' ), is_wp_error( $gateway ) ? $order->get( 'payment_gateway' ) : $gateway->get_admin_title() ); ?></h3>
 
 
 	<?php do_action( 'lifterlms_order_meta_box_after_header', $order ); ?>
@@ -41,18 +41,22 @@ if ( ! is_admin() ) { exit; }
 
 		<?php do_action( 'lifterlms_order_meta_box_before_plan_information', $order ); ?>
 
-		<h4><?php _e( 'Access Plan Information', 'lifterlms' ); ?></h4>
+		<?php if ( $order->get( 'plan_id' ) ) : ?>
 
-		<div class="llms-metabox-field">
-			<label><?php _e( 'Name:', 'lifterlms' ); ?></label>
-			<?php echo $order->get( 'plan_title' ); ?>
-			<small>(#<?php echo $order->get( 'plan_id' ); ?>)</small>
-		</div>
+			<h4><?php _e( 'Access Plan Information', 'lifterlms' ); ?></h4>
 
-		<div class="llms-metabox-field">
-			<label><?php _e( 'SKU:', 'lifterlms' ); ?></label>
-			<?php echo $order->get( 'plan_sku' ); ?>
-		</div>
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Name:', 'lifterlms' ); ?></label>
+				<?php echo $order->get( 'plan_title' ); ?>
+				<small>(#<?php echo $order->get( 'plan_id' ); ?>)</small>
+			</div>
+
+			<div class="llms-metabox-field">
+				<label><?php _e( 'SKU:', 'lifterlms' ); ?></label>
+				<?php echo $order->get( 'plan_sku' ); ?>
+			</div>
+
+		<?php endif; ?>
 
 		<?php do_action( 'lifterlms_order_meta_box_after_plan_information', $order ); ?>
 
@@ -211,12 +215,12 @@ if ( ! is_admin() ) { exit; }
 
 			<div class="llms-metabox-field d-1of4">
 				<label><?php _e( 'Name:', 'lifterlms' ); ?></label>
-				<?php echo $gateway->get_admin_title(); ?>
+				<?php echo is_wp_error( $gateway ) ? $order->get( 'payment_gateway' ) : $gateway->get_admin_title(); ?>
 			</div>
 
 
 			<?php if ( isset( $order->transaction_id ) ) : ?>
-				<?php $transaction = $gateway->get_transaction_url( $order->get( 'transaction_id' ) ); ?>
+				<?php $transaction = is_wp_error( $gateway ) ? $order->get( 'transaction_id' ) : $gateway->get_transaction_url( $order->get( 'transaction_id' ) ); ?>
 				<div class="llms-metabox-field d-1of4">
 					<label><?php _e( 'Transaction ID:', 'lifterlms' ); ?></label>
 					<?php if ( false === filter_var( $transaction, FILTER_VALIDATE_URL ) ) : ?>
@@ -229,7 +233,7 @@ if ( ! is_admin() ) { exit; }
 
 
 			<?php if ( isset( $order->gateway_customer_id ) ) : ?>
-				<?php $customer = $gateway->get_customer_url( $order->get( 'gateway_customer_id' ), $order->get( 'gateway_api_mode' ) ); ?>
+				<?php $customer = is_wp_error( $gateway ) ? $order->get( 'gateway_customer_id' ) : $gateway->get_customer_url( $order->get( 'gateway_customer_id' ), $order->get( 'gateway_api_mode' ) ); ?>
 				<div class="llms-metabox-field d-1of4">
 					<label><?php _e( 'Customer ID:', 'lifterlms' ); ?></label>
 					<?php if ( false === filter_var( $customer, FILTER_VALIDATE_URL ) ) : ?>
@@ -241,7 +245,7 @@ if ( ! is_admin() ) { exit; }
 			<?php endif; ?>
 
 			<?php if ( isset( $order->gateway_subscription_id ) ) : ?>
-				<?php $subscription = $gateway->get_subscription_url( $order->get( 'gateway_subscription_id' ), $order->get( 'gateway_api_mode' ) ); ?>
+				<?php $subscription = is_wp_error( $gateway ) ? $order->get( 'gateway_subscription_id' ) : $gateway->get_subscription_url( $order->get( 'gateway_subscription_id' ), $order->get( 'gateway_api_mode' ) ); ?>
 				<div class="llms-metabox-field d-1of4">
 					<label><?php _e( 'Subscription ID:', 'lifterlms' ); ?></label>
 					<?php if ( false === filter_var( $subscription, FILTER_VALIDATE_URL ) ) : ?>
