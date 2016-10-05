@@ -146,7 +146,17 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	protected function after_create() {
 		// add a random key that can be passed in the URL and whatever
-		$this->set( 'order_key', apply_filters( 'lifterlms_generate_order_key', uniqid( 'order-' ) ) );
+		$this->set( 'order_key', $this->generate_order_key() );
+	}
+
+	/**
+	 * Generate an order key for the order
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function generate_order_key() {
+		return apply_filters( 'lifterlms_generate_order_key', uniqid( 'order-' ) );
 	}
 
 	/**
