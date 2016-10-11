@@ -10,8 +10,7 @@ LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell,
 >
 >If you are looking for the best WordPress theme to pair with LifterLMS, check out the [LifterLMS LaunchPad Theme](https://lifterlms.com/product/launchpad/).
 >
->You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS PayPal](), [LifterLMS WooCommerce](
-https://lifterlms.com/product/woocommerce-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
+>You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS PayPal](https://lifterlms.com/product/paypal-extension/), [LifterLMS WooCommerce](https://lifterlms.com/product/woocommerce-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
 >
 >You can save big and get all the products made by LifterLMS with the [Universe Bundle](https://lifterlms.com/product/universe-bundle/)
 >
