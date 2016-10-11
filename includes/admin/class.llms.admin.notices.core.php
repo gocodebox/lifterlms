@@ -19,10 +19,6 @@ class LLMS_Admin_Notices_Core {
 
 		add_action( 'current_screen', array( __CLASS__, 'add_init_actions' ) );
 
-		// theme sidebar support
-		add_action( 'switch_theme', array( __CLASS__, 'sidebar_support' ) );
-		add_action( 'lifterlms_updated', array( __CLASS__, 'sidebar_support' ) );
-
 	}
 
 	/**
@@ -42,8 +38,9 @@ class LLMS_Admin_Notices_Core {
 			$priority = 10;
 		}
 
-		add_action( $action, array( __CLASS__, 'gateways' ) );
-		add_action( $action, array( __CLASS__, 'check_staging' ), 5 );
+		add_action( $action, array( __CLASS__, 'sidebar_support' ), $priority );
+		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
+		add_action( $action, array( __CLASS__, 'check_staging' ), $priority );
 
 	}
 
@@ -135,9 +132,10 @@ class LLMS_Admin_Notices_Core {
 	 */
 	public static function sidebar_support() {
 
-		$id = 'sidebars';
+		$template = get_option( 'template' );
+		$id = 'sidebars-' . $template;
 
-		if ( ! current_theme_supports( 'lifterlms-sidebars' ) && ! in_array( get_option( 'template' ), llms_get_core_supported_themes() ) ) {
+		if ( ! current_theme_supports( 'lifterlms-sidebars' ) && ! in_array( $template, llms_get_core_supported_themes() ) ) {
 
 			$msg = sprintf(
 				__( '<strong>Your theme does not declare support for LifterLMS Sidebars.</strong> Please see our %sintegration guide%s or check out our %sLaunchPad%s theme which is designed specifically for use with LifterLMS', 'lifterlms' ),
@@ -147,7 +145,7 @@ class LLMS_Admin_Notices_Core {
 
 			LLMS_Admin_Notices::add_notice( $id, $msg, array(
 				'dismissible' => true,
-				'dismiss_for_days' => 365,
+				'dismiss_for_days' => 7,
 				'remindable' => false,
 				'type' => 'warning',
 			) );
