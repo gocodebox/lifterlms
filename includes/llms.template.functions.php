@@ -166,6 +166,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			return do_shortcode( $output_before . $content . $output_after );
 
 			default:
+				return apply_filters( 'llms_get_post_content', $content );
 		}
 		if ( $page_restricted['is_restricted'] ) {
 

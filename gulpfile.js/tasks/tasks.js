@@ -35,7 +35,7 @@ gulp.task('jscs', function() {
         .on('error',notify.onError({
 			message: '<%= error.message %>',
 			sound: 'Funk',
-			title: 'JS Hint Error'
+			title: 'JSCS Error'
         } ) );
 
         /* Alternatively for Windows:

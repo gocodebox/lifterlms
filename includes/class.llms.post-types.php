@@ -97,7 +97,6 @@ class LLMS_Post_Types {
 				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
 				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
 
-
 				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $order ) );
 				$query->set( 'order', apply_filters( 'llms_courses_order', $orderby ) );
 
@@ -109,7 +108,6 @@ class LLMS_Post_Types {
 
 				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
 				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
-
 
 				$query->set( 'orderby', apply_filters( 'llms_memberships_orderby', $order ) );
 				$query->set( 'order', apply_filters( 'llms_memberships_order', $orderby ) );
