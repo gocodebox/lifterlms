@@ -53,7 +53,7 @@ class LLMS_Sidebars {
 	 * Get the theme default sidebar that will be replaced by course and lesson sidebars
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.0.1
 	 */
 	private static function get_theme_default_sidebar() {
 

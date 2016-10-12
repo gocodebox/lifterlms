@@ -88,7 +88,7 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
  * Get themes natively supported by LifterLMS
  * @return array
  * @since 3.0.0
- * @version 3.0.0
+ * @version 3.0.1
  */
 function llms_get_core_supported_themes() {
 	return array(
