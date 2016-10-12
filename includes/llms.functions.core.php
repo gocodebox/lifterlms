@@ -93,6 +93,7 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 function llms_get_core_supported_themes() {
 	return array(
 		'canvas',
+		'Divi',
 		'genesis',
 		'twentysixteen',
 		'twentyfifteen',

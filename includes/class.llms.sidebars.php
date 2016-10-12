@@ -65,6 +65,7 @@ class LLMS_Sidebars {
 				$id = 'primary';
 			break;
 
+			case 'Divi':
 			case 'twentyeleven':
 			case 'twentyfifteen':
 			case 'twentyfourteen':
