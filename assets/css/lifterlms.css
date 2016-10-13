@@ -676,6 +676,11 @@ svg .llms-animated-circle {
 .course .llms-meta-info .llms-meta span {
   font-weight: 700;
 }
+.course .llms-course-progress {
+  margin: 40px auto;
+  max-width: 480px;
+  text-align: center;
+}
 
 .llms-syllabus-wrapper {
   margin: 15px;
