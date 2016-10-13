@@ -556,6 +556,28 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Get the next lesson a student needs to complete in a course
+	 * @param    int     $course_id    WP_Post ID of the course
+	 * @return   int                   WP_Post ID of the lesson or false if all courses are complete
+	 * @since    3.0.1
+	 * @version  3.0.1
+	 */
+	public function get_next_lesson( $course_id ) {
+
+		$course = new LLMS_Course( $course_id );
+		$lessons = $course->get_lessons( 'ids' );
+
+		foreach ( $lessons as $lesson ) {
+			if ( ! $this->is_complete( $lesson, 'lesson' ) ) {
+				return $lesson;
+			}
+		}
+
+		return false;
+
+	}
+
 	public function get_orders( $params = array() ) {
 
 		$params = wp_parse_args( $params, array(
