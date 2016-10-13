@@ -140,7 +140,9 @@ class LLMS_Student {
 
 		// remove the user from the membership level
 		$membership_levels = $this->get_membership_levels();
-		unset( $membership_levels[ $membership_id ] );
+		if ( ( $key = array_search( $membership_id, $membership_levels ) ) !== false) {
+			unset( $membership_levels[ $key ] );
+		}
 		update_user_meta( $this->get_id(), '_llms_restricted_levels', $membership_levels );
 
 		global $wpdb;
