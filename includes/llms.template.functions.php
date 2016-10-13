@@ -279,6 +279,19 @@ if ( ! function_exists( 'lifterlms_template_single_membership_full_description' 
 }
 
 /**
+ * Add a course progress bar with a continue button
+ * @return   void
+ * @since    3.0.1
+ * @version  3.0.1
+ */
+if ( ! function_exists( 'lifterlms_template_single_course_progress' ) ) {
+	function lifterlms_template_single_course_progress() {
+		llms_get_template( 'course/progress.php' );
+	}
+}
+
+
+/**
  * Include pricing table for a LifterLMS Product (course or membership)
  * @param int $post_id  WP Post ID of the product
  * @return void
