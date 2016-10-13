@@ -7,7 +7,7 @@
 + Fix student unenrollment from memberships which was leaving a trace of enrollment in the user_meta table
 + Update student dashboard nav list items to have more specific no styles to prevent "double discs" on various themes
 + Return course progress bar and "continue" button which was accidentally removed
-
++ Added core support for "Divi" theme sidebars
 
 = v3.0.0 - 2016/10/10 =
 -----------------------

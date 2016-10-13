@@ -370,11 +370,11 @@ msgstr ""
 msgid "<strong>Your theme does not declare support for LifterLMS Sidebars.</strong> Please see our %sintegration guide%s or check out our %sLaunchPad%s theme which is designed specifically for use with LifterLMS"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.php:184
+#: includes/admin/class.llms.admin.notices.php:191
 msgid "Dismiss"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.php:189
+#: includes/admin/class.llms.admin.notices.php:196
 msgid "Remind me later"
 msgstr ""
 
@@ -775,7 +775,7 @@ msgstr ""
 msgid "Use the text editor above to add content to your certificate. You can include any of the following merge fields."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:299, includes/llms.functions.core.php:516
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:299, includes/llms.functions.core.php:527
 msgid "ID#"
 msgstr ""
 
@@ -4278,19 +4278,19 @@ msgid_plural "$type.s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.sidebars.php:170
+#: includes/class.llms.sidebars.php:171
 msgid "Widgets in this area will be shown on LifterLMS courses."
 msgstr ""
 
-#: includes/class.llms.sidebars.php:171
+#: includes/class.llms.sidebars.php:172
 msgid "Course Sidebar"
 msgstr ""
 
-#: includes/class.llms.sidebars.php:174
+#: includes/class.llms.sidebars.php:175
 msgid "Widgets in this area will be shown on LifterLMS lessons."
 msgstr ""
 
-#: includes/class.llms.sidebars.php:176
+#: includes/class.llms.sidebars.php:177
 msgid "Lesson Sidebar"
 msgstr ""
 
@@ -6044,35 +6044,35 @@ msgstr ""
 msgid "%1$s is <strong>deprecated</strong> since version %2$s!"
 msgstr ""
 
-#: includes/llms.functions.core.php:356, includes/llms.functions.core.php:453
+#: includes/llms.functions.core.php:367, includes/llms.functions.core.php:464
 msgid "Cancelled"
 msgstr ""
 
-#: includes/llms.functions.core.php:357
+#: includes/llms.functions.core.php:368
 msgid "Enrolled"
 msgstr ""
 
-#: includes/llms.functions.core.php:358, includes/llms.functions.core.php:455
+#: includes/llms.functions.core.php:369, includes/llms.functions.core.php:466
 msgid "Expired"
 msgstr ""
 
-#: includes/llms.functions.core.php:452
+#: includes/llms.functions.core.php:463
 msgid "Active"
 msgstr ""
 
-#: includes/llms.functions.core.php:454
+#: includes/llms.functions.core.php:465
 msgid "Completed"
 msgstr ""
 
-#: includes/llms.functions.core.php:456, templates/quiz/results.php:73, templates/quiz/results.php:99
+#: includes/llms.functions.core.php:467, templates/quiz/results.php:73, templates/quiz/results.php:99
 msgid "Failed"
 msgstr ""
 
-#: includes/llms.functions.core.php:457
+#: includes/llms.functions.core.php:468
 msgid "Pending"
 msgstr ""
 
-#: includes/llms.functions.core.php:458, templates/admin/post-types/order-transactions.php:21
+#: includes/llms.functions.core.php:469, templates/admin/post-types/order-transactions.php:21
 msgid "Refunded"
 msgstr ""
 
@@ -6081,19 +6081,19 @@ msgctxt "terms and conditions checkbox"
 msgid "I have read and agree to the <a href=\"%s\" target=\"_blank\">%s</a>."
 msgstr ""
 
-#: includes/llms.template.functions.php:979
+#: includes/llms.template.functions.php:992
 msgid "Search Results: &ldquo;%s&rdquo;"
 msgstr ""
 
-#: includes/llms.template.functions.php:982
+#: includes/llms.template.functions.php:995
 msgid "&nbsp;&ndash; Page %s"
 msgstr ""
 
-#: includes/llms.template.functions.php:1100, templates/myaccount/my-courses.php:52
+#: includes/llms.template.functions.php:1113, templates/myaccount/my-courses.php:52
 msgid "%s%%"
 msgstr ""
 
-#: includes/llms.template.functions.php:1107
+#: includes/llms.template.functions.php:1120
 msgid "Continue (%s%%)"
 msgstr ""
 
@@ -7057,6 +7057,18 @@ msgstr ""
 
 #: templates/course/prerequisites.php:19
 msgid "Before starting this course you must complete the required prerequisite track: %s"
+msgstr ""
+
+#: templates/course/progress.php:33
+msgid "Course Complete"
+msgstr ""
+
+#: templates/course/progress.php:43
+msgid "Get Started"
+msgstr ""
+
+#: templates/course/progress.php:47
+msgid "Continue"
 msgstr ""
 
 #: templates/course/syllabus.php:25
