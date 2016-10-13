@@ -57,7 +57,7 @@ class LLMS_HTTPS {
 	 */
 	public function unforce_https_redirect() {
 
-		if ( ! llms_is_site_https() && is_ssl() && $_SERVER['REQUEST_URI'] && ! is_llms_checkout() && ! is_ajax() && apply_filters( 'llms_unforce_ssl_checkout', true ) ) {
+		if ( ! llms_is_site_https() && is_ssl() && $_SERVER['REQUEST_URI'] && ! is_llms_checkout() && ! llms_is_ajax() && apply_filters( 'llms_unforce_ssl_checkout', true ) ) {
 
 			if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
 

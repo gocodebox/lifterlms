@@ -167,6 +167,16 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 }
 
 /**
+ * Determine is request is an ajax request
+ * @return   bool
+ * @since    3.0.1
+ * @version  3.0.1
+ */
+function llms_is_ajax() {
+	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+}
+
+/**
  * Get the most recently created coupon ID for a given code
  * @param   string $code        the coupon's code (title)
  * @param   int    $dupcheck_id an optional coupon id that can be passed which will be excluded during the query
