@@ -172,11 +172,18 @@ class LLMS_Admin_Notices {
 	 * @param    string     $notice_id  notice id
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.0.1
 	 */
 	public static function output_notice( $notice_id ) {
+
 		if ( current_user_can( 'manage_options' ) ) {
+
 			$notice = self::get_notice( $notice_id );
+
+			// delete empty notices
+			if ( ! isset ( $notice['html'] ) ) {
+				delete_notice( $notice_id );
+			}
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>">
 				<?php if ( $notice['dismissible'] ) : ?>
@@ -191,6 +198,7 @@ class LLMS_Admin_Notices {
 			</div>
 			<?php
 		}
+
 	}
 
 	/**
