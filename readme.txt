@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,15 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.0.1 - 2016/10/13 =
+-----------------------
+
++ Properly prefix `llms_is_ajax()` to prevent 500 errors when leaving HTTPS forced checkout screen
++ Fix student unenrollment from memberships which was leaving a trace of enrollment in the user_meta table
++ Update student dashboard nav list items to have more specific no styles to prevent "double discs" on various themes
++ Return course progress bar and "continue" button which was accidentally removed
++ Added core support for "Divi" theme sidebars
 
 = v3.0.0 - 2016/10/10 =
 -----------------------
