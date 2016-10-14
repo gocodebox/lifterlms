@@ -182,7 +182,7 @@ class LLMS_Admin_Notices {
 
 			// delete empty notices
 			if ( ! isset( $notice['html'] ) ) {
-				delete_notice( $notice_id );
+				self::delete_notice( $notice_id );
 			}
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>">
