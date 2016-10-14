@@ -1,0 +1,31 @@
+[
+    {
+        "name": "gocodebox/action-scheduler",
+        "version": "dev-bleeding_branch",
+        "version_normalized": "dev-bleeding_branch",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gocodebox/action-scheduler.git",
+            "reference": "504800d1c11468eefeaf0e0858c4c709412183d8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gocodebox/action-scheduler/zipball/504800d1c11468eefeaf0e0858c4c709412183d8",
+            "reference": "504800d1c11468eefeaf0e0858c4c709412183d8",
+            "shasum": ""
+        },
+        "time": "2016-07-08 22:08:55",
+        "type": "library",
+        "installation-source": "source",
+        "authors": [
+            {
+                "name": "Thomas Patrick Levy",
+                "email": "thomasplevy@gmail.com"
+            }
+        ],
+        "description": "Fork of https://github.com/Prospress/action-scheduler",
+        "support": {
+            "source": "https://github.com/gocodebox/action-scheduler/tree/bleeding_branch"
+        }
+    }
+]
