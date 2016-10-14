@@ -383,9 +383,15 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 				// may not be available since this runs on init
 				include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
-				LLMS_Admin_Notices::add_notice( 'db-update', 'db-update.php', array(
+
+				// if a notice already exists clear it out and add the most current one
+				if ( LLMS_Admin_Notices::has_notice( 'db-update' ) ) {
+					LLMS_Admin_Notices::delete_notice( 'db-update' );
+				}
+
+				LLMS_Admin_Notices::add_notice( 'db-update', array(
 					'dismissible' => false,
-					'template' => true,
+					'template' => 'admin/notices/db-update.php',
 				) );
 
 			} else {

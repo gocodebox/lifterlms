@@ -1,6 +1,8 @@
 <?php
 /**
  * LifterLMS Admin Notices
+ * @since    3.0.0
+ * @version  3.0.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -47,38 +49,46 @@ class LLMS_Admin_Notices {
 	}
 
 	/**
-	 * Add a notice and save it's HTML to the database
-	 * @param    string     $notice_id  unique id of the notice
-	 * @param    string     $html       html content of the notice
+	 * Add a notice
+	 * Saves options to the database to be output later
+	 * @param    string     $notice_id        unique id of the notice
+	 * @param    string     $html_or_options  html content of the notice for short notices that don't need a template
+	 *                                          or array of options, html of the notice will be in a template
+	 *                                        	passed as the "template" param of this array
+	 * @param    array      $options          array of options, when passing html directly via $html_or_options
+	 *                                          notice options should be passed in this array
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.0.2 - added better API for serving templates
 	 */
-	public static function add_notice( $notice_id, $html, $options = array() ) {
+	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
 
 		// dont add the notice if we've already dismissed of delayed it
 		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ) {
 			return;
 		}
 
-		$options = wp_parse_args( $options, array(
-			'dismissible' => true,
-			'dismiss_for_days' => 7,
-			'remind_in_days' => 7,
-			'remindable' => false,
-			'type' => 'info', // info, warning, success, error
-			'template' => false,
-		) );
+		if ( is_array( $html_or_options ) ) {
 
-		if ( $options['template'] ) {
-
-			$options['html'] = llms_get_template_ajax( 'admin/notices/' . $html );
+			$options = $html_or_options;
 
 		} else {
 
-			$options['html'] = wp_kses_post( $html );
-
+			$options['html'] = $html_or_options;
 		}
+
+		$options = wp_parse_args( $options, array(
+			'dismissible' => true,
+			'dismiss_for_days' => 7,
+			'html' => '',
+			'remind_in_days' => 7,
+			'remindable' => false,
+			'type' => 'info', // info, warning, success, error
+			'template' => false, // template name, eg "admin/notices/notice.php"
+			'template_path' => '', // allow override of default LLMS()->template_path()
+			'default_path' => '', // allow override of default path LLMS()->plugin_path() . '/templates/'
+								  // an addon may add a notice and pass it's own path in here
+		) );
 
 		self::$notices = array_unique( array_merge( self::get_notices(), array( $notice_id ) ) );
 		update_option( 'llms_admin_notice_' . $notice_id, $options );
@@ -96,17 +106,19 @@ class LLMS_Admin_Notices {
 		self::$notices = array_diff( self::get_notices(), array( $notice_id ) );
 		$notice = self::get_notice( $notice_id );
 		delete_option( 'llms_admin_notice_' . $notice_id );
-		if ( 'remind' === $trigger && $notice['remindable'] ) {
-			$delay = $notice['remind_in_days'];
-		} elseif ( 'hide' === $trigger ) {
-			$delay = $notice['dismiss_for_days'];
-		} else {
-			$delay = 0;
+		if ( $notice ) {
+			if ( 'remind' === $trigger && $notice['remindable'] ) {
+				$delay = isset( $notice['remind_in_days'] ) ? $notice['remind_in_days'] : false;
+			} elseif ( 'hide' === $trigger ) {
+				$delay = isset( $notice['dismiss_for_days'] ) ? $notice['dismiss_for_days'] : 7;
+			} else {
+				$delay = 0;
+			}
+			if ( $delay ) {
+				set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $delay );
+			}
+			do_action( 'lifterlms_' . $trigger . '_' . $notice_id  . '_notice' );
 		}
-		if ( $delay ) {
-			set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $delay );
-		}
-		do_action( 'lifterlms_' . $trigger . '_' . $notice_id  . '_notice' );
 	}
 
 	/**
@@ -172,7 +184,9 @@ class LLMS_Admin_Notices {
 	 * @param    string     $notice_id  notice id
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.1
+	 * @version  3.0.2 - no longer storing template content in db
+	 *           		 fixes nonce issues related to storing the nonce
+	 *           		 in the db
 	 */
 	public static function output_notice( $notice_id ) {
 
@@ -180,10 +194,13 @@ class LLMS_Admin_Notices {
 
 			$notice = self::get_notice( $notice_id );
 
-			// delete empty notices
-			if ( ! isset( $notice['html'] ) ) {
-				self::delete_notice( $notice_id );
+			// don't output those rogue empty notices I can't find
+			// @todo find the source
+			if ( empty( $notice['template'] ) && empty( $notice['html'] ) ) {
+				// self::delete_notice( $notice_id );
+				var_dump( 'delete' );
 			}
+
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>">
 				<?php if ( $notice['dismissible'] ) : ?>
@@ -191,7 +208,17 @@ class LLMS_Admin_Notices {
 						<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
 					</a>
 				<?php endif; ?>
-				<?php echo wpautop( $notice['html'] ); ?>
+
+				<?php if ( ! empty( $notice['template'] ) ) : ?>
+
+					<?php llms_get_template( $notice['template'], $notice['template_path'], $notice['default_path'] ); ?>
+
+				<?php elseif ( ! empty( $notice['html'] ) ) : ?>
+
+					<?php echo wpautop( wp_kses_post( $notice['html'] ) ); ?>
+
+				<?php endif; ?>
+
 				<?php if ( $notice['remindable'] ) : ?>
 					<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
 				<?php endif; ?>

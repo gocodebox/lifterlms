@@ -79,23 +79,11 @@ class LLMS_Admin_Notices_Core {
 
 		if ( ! LLMS_Site::is_clone_ignored() && ! LLMS_Admin_Notices::has_notice( $id ) && ( LLMS_Site::is_clone() ) ) {
 
-			$html = '<strong>' . __( 'It looks like you may have installed LifterLMS on a staging site!', 'lifterlms' ) . '</strong>';
-			$html .= '<br><br>';
-			$html .= __( 'LifterLMS watches for potential signs of a staging site and disables automatic payments so that your students do not receive duplicate charges.', 'lifterlms' );
-			$html .= '<br><br>';
-			$html .= sprintf(
-				__( 'You can choose to enable automatic recurring payments using the buttons below. If you\'re not sure what to do, you can learn more %shere%s. You can always change your mind later by clicking "Reset Automatic Payments" on the LifterLMS General Settings screen under Tools and Utilities.', 'lifterlms' ),
-				'<a href="https://lifterlms.com/docs/staging-sites-and-lifterlms-recurring-payments" target="_blank">', '</a>'
-			);
-			$html .= '<br><br>';
-			$html .= '<a class="button-primary" href="' . esc_url( wp_nonce_url( add_query_arg( 'llms-staging-status', 'disable' ), 'llms_staging_status', '_llms_staging_nonce' ) ) . '">' . __( 'Leave Automatic Payments Disabled', 'lifterlms' ) . '</a>';
-			$html .= '&nbsp;&nbsp;';
-			$html .= '<a class="button" href="' . esc_url( wp_nonce_url( add_query_arg( 'llms-staging-status', 'enable' ), 'llms_staging_status', '_llms_staging_nonce' ) ) . '">' . __( 'Enable Automatic Payments', 'lifterlms' ) . '</a>';
-
-			LLMS_Admin_Notices::add_notice( $id, $html, array(
+			LLMS_Admin_Notices::add_notice( $id, array(
 				'type' => 'info',
 				'dismissible' => false,
 				'remindable' => false,
+				'template' => 'admin/notices/staging.php',
 			) );
 
 		}
@@ -128,7 +116,7 @@ class LLMS_Admin_Notices_Core {
 	 * Check theme support for LifterLMS Sidebars
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.0.2
 	 */
 	public static function sidebar_support() {
 
@@ -145,7 +133,7 @@ class LLMS_Admin_Notices_Core {
 
 			LLMS_Admin_Notices::add_notice( $id, $msg, array(
 				'dismissible' => true,
-				'dismiss_for_days' => 7,
+				'dismiss_for_days' => 730, // @todo there should be a "forever" setting
 				'remindable' => false,
 				'type' => 'warning',
 			) );
