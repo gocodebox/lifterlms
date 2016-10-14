@@ -470,7 +470,7 @@ class LLMS_Update_300 extends LLMS_Update {
 	 * Update keys of course meta fields for consistency
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.0.2
 	 */
 	public function migrate_course_postmeta() {
 
