@@ -197,8 +197,7 @@ class LLMS_Admin_Notices {
 			// don't output those rogue empty notices I can't find
 			// @todo find the source
 			if ( empty( $notice['template'] ) && empty( $notice['html'] ) ) {
-				// self::delete_notice( $notice_id );
-				var_dump( 'delete' );
+				self::delete_notice( $notice_id );
 			}
 
 			?>
