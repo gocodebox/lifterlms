@@ -349,6 +349,38 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 
 
+	/**
+	 * Get the quiz associated with the lesson
+	 * @deprecated use $this->get( 'assigned_quiz' ) instead
+	 * @return  false|int
+	 * @since   1.0.0
+	 * @version 3.0.2
+	 */
+	public function get_assigned_quiz() {
+
+		llms_deprecated_function( 'LLMS_Lesson::get_assigned_quiz()', '3.0.2', "LLMS_Lesson::get( 'assigned_quiz' )" );
+
+		$id = $this->get( 'assigned_quiz' );
+		if ( $id ) {
+			return $id;
+		} else {
+			return false;
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -446,20 +478,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 	}
 
-	/**
-	 * Get the lesson prerequisite
-	 *
-	 * @return int [ID of the prerequisite post]
-	 */
-	public function get_assigned_quiz() {
-
-		if ( $this->llms_assigned_quiz ) {
-
-			return $this->llms_assigned_quiz;
-		} else {
-			return false;
-		}
-	}
 
 	/**
 	 * Get the lesson drip days
