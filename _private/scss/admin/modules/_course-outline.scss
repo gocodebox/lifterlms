@@ -156,7 +156,7 @@ h1.outline-title {
 }
 .ui-state-default.llms-lesson {
     position: relative;
-    padding: 0 10px 10px 27px;
+    padding: 10px 10px 10px 27px;
     margin: 0 0 0 6px;
     border: 0;
     background: $color-white;
@@ -173,15 +173,6 @@ h1.outline-title {
 .llms-section {
     position: relative;
     padding: 10px;
-}
-.llms-lesson:before {
-    content: "";
-    position: absolute;
-    top: -23px;
-    bottom: 0;
-    border-left: 1px #BBBBBB solid;
-    left: 0;
-    z-index: 10;
 }
 .llms-lesson-order:before {
     content: "";
@@ -222,24 +213,39 @@ h1.outline-title {
     .list-lesson-details {
         margin-top: 10px;
     }
-    .llms-edit-section-link, .llms-edit-lesson-link, a.llms-edit-lesson-content-link, a.llms-delete-section-link {
-        //width: 20px;
-        /* height: 30px; */
-        background: $color-lightblue;
-        display: block;
-        padding: 5px;
-        float: right;
-        color: $color-white !important;
-        margin-left: 10px;
-        margin-top: 10px;
-        transition: ease .3s all;
 
-        &:hover {
-            background: $color-darkblue;
-        }
-        .icon.button-icon {
-            fill: $color-white;
-        }
+    .llms-edit-section-link,
+    .llms-edit-lesson-link,
+    a.llms-remove-lesson-link,
+    a.llms-edit-lesson-content-link,
+    a.llms-delete-section-link {
+		color: $color-white !important;
+		margin-left: 3px;
+		float: right;
+
+		.dashicons {
+			// height: 16px;
+			// font-size: 16px;
+			vertical-align: middle;
+			// width: 16px;
+		}
+
+    //     //width: 20px;
+    //     /* height: 30px; */
+    //     background: $color-lightblue;
+    //     display: block;
+    //     padding: 5px;
+
+    //     margin-left: 10px;
+    //     margin-top: 10px;
+    //     transition: ease .3s all;
+
+    //     &:hover {
+    //         background: $color-darkblue;
+    //     }
+    //     .icon.button-icon {
+    //         fill: $color-white;
+    //     }
     }
     a.llms-delete-section-link {
         margin-right: 10px;
@@ -247,11 +253,9 @@ h1.outline-title {
 
 }
 
-a.llms-voucher-delete,
-a.llms-delete-section-link,
-a.llms-remove-lesson-link {
-    //width: 20px;
-    /* height: 30px; */
+a.llms-voucher-delete {
+// a.llms-delete-section-link,
+// a.llms-remove-lesson-link {
     display: block;
     padding: 5px;
     background: #e26049;
@@ -268,16 +272,27 @@ a.llms-remove-lesson-link {
     }
 }
 
-a.llms-delete-section-link,
-a.llms-remove-lesson-link {
-    margin-top: 10px;
-    margin-left: 10px;
-}
+// a.llms-delete-section-link,
+// a.llms-remove-lesson-link {
+//     margin-top: 10px;
+//     margin-left: 10px;
+// }
 
 .llms-lesson-tree {
-    width: 100%;
+	position: relative;
     margin: 0;
     min-height: 10px;
+    width: 100%;
+
+    &:before {
+		content: "";
+		position: absolute;
+		top: -23px;
+		bottom: 61px;
+		border-left: 1px #bbb solid;
+		left: 6px;
+		z-index: 10;
+    }
 }
 
 /**
@@ -340,7 +355,7 @@ a.llms-remove-lesson-link {
 .placeholder {
     border: 1px solid $color-blue;
     border-left: 1px solid #bbb;
-    background: $color-lightblue;
+    background: $color-blue;
     margin-left: 6px;
 }
 
