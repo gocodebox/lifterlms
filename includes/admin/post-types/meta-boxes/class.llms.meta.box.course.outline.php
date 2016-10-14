@@ -475,7 +475,6 @@ class LLMS_Meta_Box_Course_Outline {
 
 			}
 
-
 		} else {
 			$icon_class = 'detail-icon off';
 			$tooltip = __( 'No Drip Delay', 'lifterlms' );

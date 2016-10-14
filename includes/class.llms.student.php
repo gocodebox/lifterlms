@@ -728,7 +728,6 @@ class LLMS_Student {
 
 			}
 
-
 		}
 
 		// no order found
