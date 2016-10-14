@@ -716,8 +716,18 @@ class LLMS_Student {
 		// if we have an order, check the access status
 		if ( $order && $order instanceof LLMS_Order ) {
 
-			// true if access is active and student is enrolled
-			return ( $order->has_access() && $enrolled );
+			// legacy orders should return the original enrollment status
+			if ( $order->is_legacy() ) {
+
+				return $enrolled;
+
+			} else {
+
+				// true if access is active and student is enrolled
+				return ( $order->has_access() && $enrolled );
+
+			}
+
 
 		}
 
