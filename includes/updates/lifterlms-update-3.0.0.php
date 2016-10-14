@@ -93,7 +93,7 @@ class LLMS_Update_300 extends LLMS_Update {
 	 * @param    obj   $post  instance of WP_Post
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.0.2
 	 */
 	private function create_plans( $post ) {
 
@@ -188,17 +188,17 @@ class LLMS_Update_300 extends LLMS_Update {
 			$plan = $single;
 			$plan['menu_order'] = $order;
 			$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-onetime' : '';
-				$plan['on_sale'] = isset( $meta['_sale_price'][0] ) ? 'yes' : 'no';
+			$plan['on_sale'] = ! empty( $meta['_sale_price'][0] ) ? 'yes' : 'no';
 
 			if ( 'yes' === $plan['on_sale'] ) {
 
-	 			$plan['sale_end'] = isset( $meta['_sale_price_dates_to'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_to'][0] ) ) : '';
-	 			$plan['sale_start'] = isset( $meta['_sale_price_dates_from'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_from'][0] ) ) : '';
+	 			$plan['sale_end'] = ! empty( $meta['_sale_price_dates_to'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_to'][0] ) ) : '';
+	 			$plan['sale_start'] = ! empty( $meta['_sale_price_dates_from'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_from'][0] ) ) : '';
 	 			$plan['sale_price'] = $meta['_sale_price'][0];
 
 			}
 
-				$this->insert_plan( __( 'One-Time Payment', 'lifterlms' ), $plan );
+			$this->insert_plan( __( 'One-Time Payment', 'lifterlms' ), $plan );
 
 			unset( $plan );
 			$order++;
