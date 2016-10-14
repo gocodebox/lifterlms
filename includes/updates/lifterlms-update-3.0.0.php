@@ -498,6 +498,8 @@ class LLMS_Update_300 extends LLMS_Update {
 		 	 WHERE p.post_type = 'course' AND ( m.meta_key = '_llms_start_date' OR m.meta_key = '_llms_end_date' );"
 		);
 		foreach ( $dates as $r ) {
+			// if no value in the field skip it otherwise we end up with start of the epoch
+			if ( ! $r->meta_value ) { continue; }
 			$wpdb->update( $wpdb->postmeta,
 				array(
 					'meta_value' => date( 'm/d/Y', strtotime( $r->meta_value ) ),
@@ -507,8 +509,8 @@ class LLMS_Update_300 extends LLMS_Update {
 				)
 			);
 			add_post_meta( $r->post_id, '_llms_time_period', 'yes' );
-			// add_post_meta( $r->post_id, '_llms_course_opens_message', sprintf( __( 'This course opens on [lifterlms_course_info id="%d" key="start_date"].', 'lifterlms' ), $r->post_id ) );
-			// add_post_meta( $r->post_id, '_llms_course_closed_message', sprintf( __( 'This course closed on [lifterlms_course_info id="%d" key="end_date"].', 'lifterlms' ), $r->post_id ) );
+			add_post_meta( $r->post_id, '_llms_course_opens_message', sprintf( __( 'This course opens on [lifterlms_course_info id="%d" key="start_date"].', 'lifterlms' ), $r->post_id ) );
+			add_post_meta( $r->post_id, '_llms_course_closed_message', sprintf( __( 'This course closed on [lifterlms_course_info id="%d" key="end_date"].', 'lifterlms' ), $r->post_id ) );
 		}
 
 		// update course capacity bool and related settings
