@@ -58,12 +58,24 @@
 .llms-button-secondary:focus {
   color: #fefefe;
 }
+.llms-button-action.square,
+.llms-button-danger.square,
+.llms-button-primary.square,
+.llms-button-secondary.square {
+  padding: 12px;
+}
 .llms-button-action.small,
 .llms-button-danger.small,
 .llms-button-primary.small,
 .llms-button-secondary.small {
   font-size: 13px;
   padding: 8px 14px;
+}
+.llms-button-action.small.square,
+.llms-button-danger.small.square,
+.llms-button-primary.small.square,
+.llms-button-secondary.small.square {
+  padding: 8px;
 }
 .llms-button-action.large,
 .llms-button-danger.large,
@@ -72,6 +84,12 @@
   font-size: 18px;
   line-height: 1.2;
   padding: 16px 32px;
+}
+.llms-button-action.large.square,
+.llms-button-danger.large.square,
+.llms-button-primary.large.square,
+.llms-button-secondary.large.square {
+  padding: 16px;
 }
 
 .llms-button-primary {
@@ -775,7 +793,7 @@ h1.outline-title {
 
 .ui-state-default.llms-lesson {
   position: relative;
-  padding: 0 10px 10px 27px;
+  padding: 10px 10px 10px 27px;
   margin: 0 0 0 6px;
   border: 0;
   background: #fefefe;
@@ -795,16 +813,6 @@ h1.outline-title {
 .llms-section {
   position: relative;
   padding: 10px;
-}
-
-.llms-lesson:before {
-  content: "";
-  position: absolute;
-  top: -23px;
-  bottom: 0;
-  border-left: 1px #BBBBBB solid;
-  left: 0;
-  z-index: 10;
 }
 
 .llms-lesson-order:before {
@@ -842,32 +850,35 @@ h1.outline-title {
 .llms-section .list-lesson-details, .llms-lesson .list-lesson-details {
   margin-top: 10px;
 }
-.llms-section .llms-edit-section-link, .llms-section .llms-edit-lesson-link, .llms-section a.llms-edit-lesson-content-link, .llms-section a.llms-delete-section-link, .llms-lesson .llms-edit-section-link, .llms-lesson .llms-edit-lesson-link, .llms-lesson a.llms-edit-lesson-content-link, .llms-lesson a.llms-delete-section-link {
-  /* height: 30px; */
-  background: #33b1cb;
-  display: block;
-  padding: 5px;
-  float: right;
+.llms-section .llms-edit-section-link,
+.llms-section .llms-edit-lesson-link,
+.llms-section a.llms-remove-lesson-link,
+.llms-section a.llms-edit-lesson-content-link,
+.llms-section a.llms-delete-section-link, .llms-lesson .llms-edit-section-link,
+.llms-lesson .llms-edit-lesson-link,
+.llms-lesson a.llms-remove-lesson-link,
+.llms-lesson a.llms-edit-lesson-content-link,
+.llms-lesson a.llms-delete-section-link {
   color: #fefefe !important;
-  margin-left: 10px;
-  margin-top: 10px;
-  -webkit-transition: ease .3s all;
-          transition: ease .3s all;
+  margin-left: 3px;
+  float: right;
 }
-.llms-section .llms-edit-section-link:hover, .llms-section .llms-edit-lesson-link:hover, .llms-section a.llms-edit-lesson-content-link:hover, .llms-section a.llms-delete-section-link:hover, .llms-lesson .llms-edit-section-link:hover, .llms-lesson .llms-edit-lesson-link:hover, .llms-lesson a.llms-edit-lesson-content-link:hover, .llms-lesson a.llms-delete-section-link:hover {
-  background: #0185a3;
-}
-.llms-section .llms-edit-section-link .icon.button-icon, .llms-section .llms-edit-lesson-link .icon.button-icon, .llms-section a.llms-edit-lesson-content-link .icon.button-icon, .llms-section a.llms-delete-section-link .icon.button-icon, .llms-lesson .llms-edit-section-link .icon.button-icon, .llms-lesson .llms-edit-lesson-link .icon.button-icon, .llms-lesson a.llms-edit-lesson-content-link .icon.button-icon, .llms-lesson a.llms-delete-section-link .icon.button-icon {
-  fill: #fefefe;
+.llms-section .llms-edit-section-link .dashicons,
+.llms-section .llms-edit-lesson-link .dashicons,
+.llms-section a.llms-remove-lesson-link .dashicons,
+.llms-section a.llms-edit-lesson-content-link .dashicons,
+.llms-section a.llms-delete-section-link .dashicons, .llms-lesson .llms-edit-section-link .dashicons,
+.llms-lesson .llms-edit-lesson-link .dashicons,
+.llms-lesson a.llms-remove-lesson-link .dashicons,
+.llms-lesson a.llms-edit-lesson-content-link .dashicons,
+.llms-lesson a.llms-delete-section-link .dashicons {
+  vertical-align: middle;
 }
 .llms-section a.llms-delete-section-link, .llms-lesson a.llms-delete-section-link {
   margin-right: 10px;
 }
 
-a.llms-voucher-delete,
-a.llms-delete-section-link,
-a.llms-remove-lesson-link {
-  /* height: 30px; */
+a.llms-voucher-delete {
   display: block;
   padding: 5px;
   background: #e26049;
@@ -876,27 +887,27 @@ a.llms-remove-lesson-link {
   -webkit-transition: ease .3s all;
           transition: ease .3s all;
 }
-a.llms-voucher-delete:hover,
-a.llms-delete-section-link:hover,
-a.llms-remove-lesson-link:hover {
+a.llms-voucher-delete:hover {
   background: #af3a26;
 }
-a.llms-voucher-delete .icon.button-icon,
-a.llms-delete-section-link .icon.button-icon,
-a.llms-remove-lesson-link .icon.button-icon {
+a.llms-voucher-delete .icon.button-icon {
   fill: #fefefe;
 }
 
-a.llms-delete-section-link,
-a.llms-remove-lesson-link {
-  margin-top: 10px;
-  margin-left: 10px;
-}
-
 .llms-lesson-tree {
-  width: 100%;
+  position: relative;
   margin: 0;
   min-height: 10px;
+  width: 100%;
+}
+.llms-lesson-tree:before {
+  content: "";
+  position: absolute;
+  top: -23px;
+  bottom: 61px;
+  border-left: 1px #bbb solid;
+  left: 6px;
+  z-index: 10;
 }
 
 /**
@@ -958,7 +969,7 @@ a.llms-remove-lesson-link {
 .placeholder {
   border: 1px solid #2295ff;
   border-left: 1px solid #bbb;
-  background: #33b1cb;
+  background: #2295ff;
   margin-left: 6px;
 }
 

@@ -64,12 +64,24 @@
 .llms-button-secondary:focus {
   color: #fefefe;
 }
+.llms-button-action.square,
+.llms-button-danger.square,
+.llms-button-primary.square,
+.llms-button-secondary.square {
+  padding: 12px;
+}
 .llms-button-action.small,
 .llms-button-danger.small,
 .llms-button-primary.small,
 .llms-button-secondary.small {
   font-size: 13px;
   padding: 8px 14px;
+}
+.llms-button-action.small.square,
+.llms-button-danger.small.square,
+.llms-button-primary.small.square,
+.llms-button-secondary.small.square {
+  padding: 8px;
 }
 .llms-button-action.large,
 .llms-button-danger.large,
@@ -78,6 +90,12 @@
   font-size: 18px;
   line-height: 1.2;
   padding: 16px 32px;
+}
+.llms-button-action.large.square,
+.llms-button-danger.large.square,
+.llms-button-primary.large.square,
+.llms-button-secondary.large.square {
+  padding: 16px;
 }
 
 .llms-button-primary {
