@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,27 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v3.0.2 - 2016/10/14 =
+-----------------------
+
++ Added action `lifterlms_before_student_dashboard_tab`
++ Added action `lifterlms_after_student_dashboard_greeting`
++ Added action `lifterlms_after_student_dashboard_tab`
++ Added action `lifterlms_sd_before_membership`
++ Added action `lifterlms_sd_after_membership`
++ Fix membership shortcode
++ Fix issue that prevented "Student Dashboard" from rendering if the page was set as the child of another page
++ Fix undefined function error in admin notices
++ Fix nonce errors resulting from admin notice html being served from the database rather than being dynamically generated
++ Fix db ugrade script which was enabling course time period for restrictions for all courses regardless of their pre 3.0 restriction settings
++ Fix db uprgade script that was causing empty sale dates to show start of unix epoch b/c they were empty strings
++ Fix Javascript parse error prevnting section & lesson editing from within the course outling on the admin panel
++ Fix lesson icons from highlighting lesson settings like drip delay & quiz association
++ Updated course outline color scheme to match the 3.0 admin color scheme overhaul
++ `LLMS_Lesson::get_assigned_quiz()` will output depecation warnings for those using debug mode. LLMS core no longer uses this function and will be deprecated in the next major release.
++ Handle enrollment status of legacy orders based on enrollment rather than enrollment AND order status
+
+
 = v3.0.1 - 2016/10/13 =
 -----------------------
 
@@ -174,6 +195,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Update student dashboard nav list items to have more specific no styles to prevent "double discs" on various themes
 + Return course progress bar and "continue" button which was accidentally removed
 + Added core support for "Divi" theme sidebars
+
 
 = v3.0.0 - 2016/10/10 =
 -----------------------
