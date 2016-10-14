@@ -179,32 +179,6 @@ class LLMS_Shortcodes {
 
 		}
 
-		if (isset( $atts['category'] )) {
-			$tax = array(
-				array(
-					'taxonomy' => 'course_cat',
-					'field' => 'slug',
-					'terms' => $atts['category'],
-				),
-			);
-		}
-
-		$args = array(
-			'paged' => get_query_var( 'paged' ),
-			'post_type' => 'course',
-			'post_status' => 'publish',
-			'posts_per_page' => isset( $atts['posts_per_page'] ) ? $atts['posts_per_page'] : -1,
-			'order' => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
-			'orderby' => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
-			'tax_query' => isset( $tax ) ? $tax : '',
-		);
-
-		if ( isset( $atts['id'] ) ) {
-
-			$args['p'] = $atts['id'];
-
-		}
-
 		$query = new WP_Query( $args );
 
 		ob_start();
