@@ -46,6 +46,25 @@ class LLMS_Shortcodes {
 	}
 
 	/**
+	 * Allows shortcodes to enqueue a script by handle
+	 * Ensures the handle is registered and that it hasn't already been enqueued
+	 * @param    [type]     $handle  script handle used to register the script
+	 *                               the script should be registered in `LLMS_Frontend_Assets`
+	 * @return   void
+	 * @since    3.0.2
+	 * @version  3.0.2
+	 */
+	private static function enqueue_script( $handle ) {
+
+		if ( wp_script_is( $handle, 'registered' ) && ! wp_script_is( $handle, 'enqueued' ) ) {
+
+			wp_enqueue_script( $handle );
+
+		}
+
+	}
+
+	/**
 	 * Retrieve the course ID from within a course, lesson, or quiz
 	 * @return   int
 	 * @since    2.7.9
@@ -65,6 +84,10 @@ class LLMS_Shortcodes {
 			return 0;
 		}
 	}
+
+
+
+
 
 	/**
 	* Creates a wrapper for shortcode.
@@ -148,10 +171,13 @@ class LLMS_Shortcodes {
 	* @param array $atts   associative array of shortcode attributes
 	* @return string
 	*
-	* @since  1.4.4
-	* @version  2.7.5
+	* @since    1.4.4
+	* @version  3.0.2
 	*/
 	public static function memberships( $atts ) {
+
+		// enqueue match height so the loop isn't all messed up visually
+		self::enqueue_script( 'llms-jquery-matchheight' );
 
 		if ( isset( $atts['category'] ) ) {
 			$tax = array(
@@ -349,13 +375,14 @@ class LLMS_Shortcodes {
 	/**
 	* courses shortcode
 	*
-	* Used for courses [courses]
-	*
-	* @return array
-	* @since  1.0.0
-	* @version  2.7.5
+	* @return   array
+	* @since    1.0.0
+	* @version  3.0.2
 	*/
 	public static function courses( $atts ) {
+
+		// enqueue match height so the loop isn't all messed up visually
+		self::enqueue_script( 'llms-jquery-matchheight' );
 
 		if (isset( $atts['category'] )) {
 			$tax = array(
