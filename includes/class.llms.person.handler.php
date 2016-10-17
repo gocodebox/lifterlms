@@ -17,6 +17,14 @@ class LLMS_Person_Handler {
 	private static $meta_prefix = 'llms_';
 
 	/**
+	 * Prevents the hacky voucher script from being output multiple times
+	 * @var  boolean
+	 * @since  3.0.2
+	 * @version  3.0.2
+	 */
+	private static $voucher_script_output = false;
+
+	/**
 	 * Generate a unique login based on the user's email address
 	 * @param  string $email user's email address
 	 * @return string
@@ -366,7 +374,7 @@ class LLMS_Person_Handler {
 
 		if ( 'registration' === $action ) {
 			$insert_data = array(
-				'role' => 'studnet',
+				'role' => 'student',
 				'show_admin_bar_front' => false,
 				'user_email' => $data['email_address'],
 				'user_login' => $data['user_login'],
@@ -843,14 +851,22 @@ class LLMS_Person_Handler {
 	 * @version  3.0.0
 	 */
 	public static function voucher_toggle_script() {
-		echo "<script type=\"text/javascript\">
-		( function( $ ) {
-			$( '#llms-voucher-toggle' ).on( 'click', function( e ) {
-				e.preventDefault();
-				$( '#llms_voucher' ).toggle();
-			} );
-		} )( jQuery );
-		</script>";
+
+		if ( empty( self::$voucher_script_output ) ) {
+
+			self::$voucher_script_output = true;
+
+			echo "<script type=\"text/javascript\">
+			( function( $ ) {
+				$( '#llms-voucher-toggle' ).on( 'click', function( e ) {
+					e.preventDefault();
+					$( '#llms_voucher' ).toggle();
+				} );
+			} )( jQuery );
+			</script>";
+
+		}
+
 
 	}
 
