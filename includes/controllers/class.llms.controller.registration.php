@@ -48,7 +48,7 @@ class LLMS_Controller_Registration {
 	 * Handle submission of user registrration forms
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.0.2
 	 */
 	public function register() {
 
@@ -57,6 +57,7 @@ class LLMS_Controller_Registration {
 		wp_verify_nonce( $_POST['_wpnonce'], 'llms_register_person' );
 
 		do_action( 'lifterlms_before_new_user_registration' );
+
 		// already logged in can't register!
 		// this shouldn't happen but let's check anyway
 		if ( get_current_user_id() ) {
@@ -82,70 +83,6 @@ class LLMS_Controller_Registration {
 			// handle redirect
 			wp_safe_redirect( apply_filters( 'lifterlms_registration_redirect', llms_get_page_url( 'myaccount' ) ) );
 			exit;
-
-		}
-
-		$new_person = LLMS_Person::create_new_person();
-
-		if (is_wp_error( $new_person )) {
-
-			llms_add_notice( $new_person->get_error_message(), 'error' );
-			return;
-
-		}
-
-		llms_set_person_auth_cookie( $new_person );
-
-		// Redirect
-		if (wp_get_referer()) {
-
-			$redirect = esc_url( wp_get_referer() );
-		} else {
-
-			$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-
-		}
-
-		// Check if voucher exists and if valid and use it
-		if (isset( $_POST['llms_voucher_code'] ) && ! empty( $_POST['llms_voucher_code'] )) {
-			$code = llms_clean( $_POST['llms_voucher_code'] );
-
-			$voucher = new LLMS_Voucher();
-			$voucher->use_voucher( $code, $new_person, false );
-
-			if ( ! empty( $_POST['product_id'] )) {
-				$product_id = $_POST['product_id'];
-				$valid = $voucher->is_product_to_voucher_link_valid( $code, $product_id );
-
-				if ($valid) {
-					wp_redirect( apply_filters( 'lifterlms_registration_redirect', $redirect, $new_person ) );
-					exit;
-				}
-			}
-		}
-
-		if ( ! empty( $_POST['product_id'] )) {
-
-			$product_id = $_POST['product_id'];
-
-			$product = new LLMS_Product( $product_id );
-			$single_price = $product->get_single_price();
-			$rec_price = $product->get_recurring_price();
-
-			if ($single_price > 0 || $rec_price > 0) {
-
-				$checkout_url = get_permalink( llms_get_page_id( 'checkout' ) );
-				$checkout_redirect = add_query_arg( 'product-id', $product_id, $checkout_url );
-
-				wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_redirect ) );
-				exit;
-			} else {
-				$checkout_url = get_permalink( $product_id );
-
-				wp_redirect( apply_filters( 'lifterlms_checkout_redirect', $checkout_url ) );
-				exit;
-			}
-		} else {
 
 		}
 
