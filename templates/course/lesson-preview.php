@@ -35,7 +35,7 @@ $locked = llms_is_page_restricted( $lesson->get( 'id' ), get_current_user_id() )
 				<h6 class="llms-pre-text"><?php echo $pre_text; ?></h6>
 			<?php endif; ?>
 			<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'id' ) ) ?></h5>
-			<?php if ( llms_get_excerpt( $lesson->get( 'id' ) ) ) : ?>
+			<?php if ( apply_filters( 'llms_show_preview_excerpt', true ) && llms_get_excerpt( $lesson->get( 'id' ) ) ) : ?>
 				<div class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->get( 'id' ) ); ?></div>
 			<?php endif; ?>
 		</section>

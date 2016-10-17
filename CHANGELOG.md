@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.0.3 - 2016/10/17 =
+-----------------------
+
++ Added filter `llms_show_preview_excerpt` which can be used to hide the excerpt on course syllabus or next/back preview tiles in lesson navigation
+
+
 = v3.0.2 - 2016/10/14 =
 -----------------------
 
