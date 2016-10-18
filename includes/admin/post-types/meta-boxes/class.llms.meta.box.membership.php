@@ -204,7 +204,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'label'		=> __( 'Add Auto-enrollment Course(s)', 'lifterlms' ),
 						'multi'  => true,
 						'type'		=> 'select',
-						// 'value'     => array(),
+						'value'     => array(),
 					),
 				),
 			),
