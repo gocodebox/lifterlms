@@ -3,7 +3,7 @@
 = v3.0.4 - 2016/10/?? =
 -----------------------
 
-+ Fix undefined index warning on membership when creating a new memberhip
++ Remove confusing and invalid warning message from Membership post screen on admin panel
 
 
 = v3.0.3 - 2016/10/17 =
