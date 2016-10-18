@@ -867,7 +867,6 @@ class LLMS_Person_Handler {
 
 		}
 
-
 	}
 
 }

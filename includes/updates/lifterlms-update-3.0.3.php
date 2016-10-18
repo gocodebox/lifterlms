@@ -56,10 +56,9 @@ class LLMS_Update_303 extends LLMS_Update {
 
 			'number' => $limit,
 			'offset' => 0, // don't need to calc this b/c the query is going to return fewer results next time
-			'role__in' => array( 'studnet'),
+			'role__in' => array( 'studnet' ),
 
 		) );
-
 
 		if ( $users->get_results() ) {
 
