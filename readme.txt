@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,19 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.0.3 - 2016/10/17 =
+-----------------------
+
++ Added filter `llms_show_preview_excerpt` which can be used to hide the excerpt on course syllabus or next/back preview tiles in lesson navigation
++ Fix logic so that only free lessons are marked as free lessons post 3.0 upgrade
++ Fix incorrect display of the "restricted" and "non-restricetd" content areas for memberships
++ Fix undefinded index warning output by membership metaboxes
++ Fix dead like under "Force SSL" checkout setting
++ Course & Membership tiles output by course or membership shortcodes now automatically match column heights like the default catalogs do.
++ Correctly register students as the "Student" Role
++ Database Upgrade script converts users with the role "studnet" to "student"
+
 
 = v3.0.2 - 2016/10/14 =
 -----------------------
