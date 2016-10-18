@@ -82,7 +82,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'title' => __( 'Force SSL', 'lifterlms' ),
 				'desc' 		=> __( 'Force secure checkout via SSL (https) on the checkout page(s).', 'lifterlms' ) .
-							   '<br><span class="description">' . sprintf( __( 'Requires an SSL certificate. %sLearn More%s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/ssl-and-https/#force-ssl" target="_blank">', '</a>' ) . '</span>',
+							   '<br><span class="description">' . sprintf( __( 'Requires an SSL certificate. %sLearn More%s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/ssl-and-https/" target="_blank">', '</a>' ) . '</span>',
 				'id' 		=> 'lifterlms_checkout_force_ssl',
 				'type' 		=> 'checkbox',
 				'default'	=> 'no',
