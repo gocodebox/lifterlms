@@ -18,8 +18,8 @@ class LLMS_Person_Handler {
 
 	/**
 	 * Prevents the hacky voucher script from being output multiple times
-	 * @var  boolean
-	 * @since  3.0.2
+	 * @var      boolean
+	 * @since    3.0.2
 	 * @version  3.0.2
 	 */
 	private static $voucher_script_output = false;
