@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.0.4 - 2016/10/?? =
+-----------------------
+
++ Fix undefined index warning on membership when creating a new memberhip
+
+
 = v3.0.3 - 2016/10/17 =
 -----------------------
 

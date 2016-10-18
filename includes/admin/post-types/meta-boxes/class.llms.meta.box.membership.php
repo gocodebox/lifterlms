@@ -226,10 +226,15 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			$_POST[ $this->prefix . 'restriction_add_notice' ] = 'no';
 		}
 
-		// add an error if there's no redirect action and no message
-		if ( 'no' === $_POST[ $this->prefix . 'restriction_add_notice' ] && 'none' === $_POST[ $this->prefix . 'restriction_redirect_type' ] ) {
-			$this->add_error( __( 'With your current settings, non-members will see a blank page when attempting to access restricted content. We recommend adjusting your Restriction Behavior settings to at least display a message to non-members.', 'lifterlms' ) );
+		if ( isset( $_POST[ $this->prefix . 'restriction_redirect_type' ] ) && isset( $_POST[ $this->prefix . 'restriction_add_notice' ] ) ) {
+
+			// add an error if there's no redirect action and no message
+			if ( 'no' === $_POST[ $this->prefix . 'restriction_add_notice' ] && 'none' === $_POST[ $this->prefix . 'restriction_redirect_type' ] ) {
+				$this->add_error( __( 'With your current settings, non-members will see a blank page when attempting to access restricted content. We recommend adjusting your Restriction Behavior settings to at least display a message to non-members.', 'lifterlms' ) );
+			}
+
 		}
+
 
 		// save all the fields
 		$fields = array(
