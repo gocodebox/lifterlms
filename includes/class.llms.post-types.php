@@ -1012,7 +1012,16 @@ class LLMS_Post_Types {
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
-					'hierarchical' 			=> false,
+					/**
+					 * Making this post type hierachical prevents a conflict
+					 * with the Redirection plugin (https://wordpress.org/plugins/redirection/)
+					 * When 301 monitoring is turned on, Redirection creates access plans
+					 * for each access plan that redirect the course or membership
+					 * to the site's home page
+					 * @since    3.0.4
+					 * @version  3.0.4
+					 */
+					'hierarchical' 			=> true,
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,
