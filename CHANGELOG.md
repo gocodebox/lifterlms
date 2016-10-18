@@ -4,7 +4,12 @@
 -----------------------
 
 + Added filter `llms_show_preview_excerpt` which can be used to hide the excerpt on course syllabus or next/back preview tiles in lesson navigation
++ Fix incorrect display of the "restricted" and "non-restricetd" content areas for memberships
++ Fix undefinded index warning output by membership metaboxes
 + Course & Membership tiles output by course or membership shortcodes now automatically match column heights like the default catalogs do.
++ Correctly register students as the "Student" Role
++ Database Upgrade script converts users with the role "studnet" to "student"
+
 
 = v3.0.2 - 2016/10/14 =
 -----------------------

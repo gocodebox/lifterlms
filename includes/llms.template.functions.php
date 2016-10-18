@@ -133,8 +133,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			case 'llms_membership':
 				if ( $page_restricted['is_restricted'] ) {
 					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
-
-					if ($post->post_excerpt) {
+					if ( $post->post_excerpt ) {
 						$content = llms_get_excerpt( $post->ID );
 					}
 				}

@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  3.0.0
+ * @version  3.0.2
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -66,6 +66,10 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	elseif ( is_singular() && 'course' === $post_type ) {
 		$restriction_id = $post_id;
 		$reason = 'enrollment_course';
+	} // checks for memberships
+	elseif ( is_singular() && 'llms_membership' === $post_type ) {
+		$restriction_id = $post_id;
+		$reason = 'enrollment_membership';
 	} else {
 
 		/**
