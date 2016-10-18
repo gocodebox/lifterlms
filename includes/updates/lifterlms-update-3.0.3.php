@@ -31,7 +31,7 @@ class LLMS_Update_303 extends LLMS_Update {
 	 * Renames all users with bugged "studnet" role to "Student"
 	 * @param    integer    $page  page of users for paginated results
 	 * @return   void
-	 * @since    3.0.2
+	 * @since    3.0.3
 	 * @version  3.0.2
 	 */
 	public function rename_students_role() {
