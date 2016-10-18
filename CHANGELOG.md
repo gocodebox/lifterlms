@@ -3,7 +3,10 @@
 = v3.0.4 - 2016/10/?? =
 -----------------------
 
++ Fix a conflict with [Redirection](https://wordpress.org/plugins/redirection/) url monitoring that was causing redirects to be created from Courses and Memberships to the site home page automatically whenever updating the post
++ Fix an undefined index warning on courses / memberships when updating post data
 + Remove confusing and invalid warning message from Membership post screen on admin panel
+
 
 
 = v3.0.3 - 2016/10/17 =
