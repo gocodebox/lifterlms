@@ -4,6 +4,7 @@
 -----------------------
 
 + Added filter `llms_show_preview_excerpt` which can be used to hide the excerpt on course syllabus or next/back preview tiles in lesson navigation
++ Fix logic so that only free lessons are marked as free lessons post 3.0 upgrade
 + Fix incorrect display of the "restricted" and "non-restricetd" content areas for memberships
 + Fix undefinded index warning output by membership metaboxes
 + Course & Membership tiles output by course or membership shortcodes now automatically match column heights like the default catalogs do.

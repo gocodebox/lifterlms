@@ -329,7 +329,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @version  3.0.0
 	 */
 	public function is_free() {
-		return $this->get( 'free_lesson' ) ? true : false;
+		return ( 'yes' === $this->get( 'free_lesson' ) );
 	}
 
 
