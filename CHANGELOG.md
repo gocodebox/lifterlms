@@ -7,6 +7,7 @@
 + Fix logic so that only free lessons are marked as free lessons post 3.0 upgrade
 + Fix incorrect display of the "restricted" and "non-restricetd" content areas for memberships
 + Fix undefinded index warning output by membership metaboxes
++ Fix dead like under "Force SSL" checkout setting
 + Course & Membership tiles output by course or membership shortcodes now automatically match column heights like the default catalogs do.
 + Correctly register students as the "Student" Role
 + Database Upgrade script converts users with the role "studnet" to "student"
