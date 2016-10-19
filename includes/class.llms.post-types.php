@@ -1,31 +1,28 @@
 <?php
 /**
- * Post Types base class
- *
- * Creates all post types needed for lifterLMS
- *
- * @author codeBOX
+ * Register Post Types, Taxonomies, Statuses
+ * @since    1.0.0
+ * @version  3.0.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
- * LLMS_Post_Types
- */
 class LLMS_Post_Types {
 
 	/**
 	 * Constructor
+	 * @since    1.0.0
+	 * @version  3.0.4
 	 */
-	public function __construct () {
+	public static function init () {
 
-		add_action( 'init', array( $this, 'add_membership_restriction_support' ) );
-		add_action( 'init', array( $this, 'register_post_types' ), 5 );
-		add_action( 'init', array( $this, 'register_post_statuses' ), 9 );
-		add_action( 'init', array( $this, 'register_taxonomies' ), 5 );
+		add_action( 'init', array( __CLASS__, 'add_membership_restriction_support' ) );
+		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
+		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 9 );
+		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
 
-		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
-		add_action( 'after_setup_theme', array( $this, 'add_thumbnail_support' ), 777 );
+		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
+		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
 
 	}
 
@@ -34,9 +31,9 @@ class LLMS_Post_Types {
 	 * This enables the "Membership Access" metabox to display
 	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.0.4
 	 */
-	public function add_membership_restriction_support() {
+	public static function add_membership_restriction_support() {
 		$post_types = apply_filters( 'llms_membership_restricted_post_types', array( 'post', 'page' ) );
 		foreach ( $post_types as $post_type ) {
 			add_post_type_support( $post_type, 'llms-membership-restrictions' );
@@ -47,9 +44,10 @@ class LLMS_Post_Types {
 	 * Ensure LifterLMS Post Types have thumbnail support
 	 * @return void
 	 *
-	 * @since  2.4.1
+	 * @since    2.4.1
+	 * @version  3.0.4
 	 */
-	public function add_thumbnail_support() {
+	public static function add_thumbnail_support() {
 
 		// ensure theme support exists for LifterLMS post types
 		if ( ! current_theme_supports( 'post-thumbnails' ) ) {
@@ -76,9 +74,10 @@ class LLMS_Post_Types {
 	 * @param   obj    $query   Main WP_Query Object
 	 * @return  void
 	 *
-	 * @since  1.4.4
+	 * @since    1.4.4
+	 * @version  3.0.4
 	 */
-	public function pre_get_posts( $query ) {
+	public static function pre_get_posts( $query ) {
 
 		if ( ! is_admin() && $query->is_main_query() ) {
 
@@ -120,8 +119,10 @@ class LLMS_Post_Types {
 
 	/**
 	 * Register Taxonomies
+	 * @since    1.0.0
+	 * @version  3.0.4
 	 */
-	public function register_taxonomies () {
+	public static function register_taxonomies () {
 
 		if ( ! taxonomy_exists( 'course_type' ) ) {
 
@@ -322,8 +323,10 @@ class LLMS_Post_Types {
 
 	/**
 	 * Register Post Types
+	 * @since  1.0.0
+	 * @version  3.0.4
 	 */
-	public function register_post_types() {
+	public static function register_post_types() {
 		if ( post_type_exists( 'course' ) ) {
 			return;
 		} elseif ( post_type_exists( 'section' ) ) {
@@ -1033,8 +1036,13 @@ class LLMS_Post_Types {
 
 	}
 
-
-	public function register_post_statuses() {
+	/**
+	 * Register post statuses
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.4
+	 */
+	public static function register_post_statuses() {
 
 		$order_statuses = apply_filters( 'lifterlms_register_order_post_statuses',
 			array(
@@ -1149,4 +1157,4 @@ class LLMS_Post_Types {
 
 }
 
-new LLMS_Post_Types();
+LLMS_Post_Types::init();
