@@ -88,7 +88,7 @@ class LLMS_Install {
 			// only create if it doesn't already exist
 			if ( ! get_term_by( 'name', $name, 'course_difficulty' ) ) {
 
-				wp_insert_term( $name, 'course_difficulty' );
+				$id = wp_insert_term( $name, 'course_difficulty' );
 
 			}
 
@@ -387,7 +387,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 		self::create_tables();
 		self::create_roles();
 
-		include_once 'class.llms.post-types.php';
+		LLMS_Post_Types::register_post_types();
+		LLMS_Post_Types::register_taxonomies();
 
 		LLMS()->query->init_query_vars();
 		LLMS()->query->add_endpoints();
