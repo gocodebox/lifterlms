@@ -3,6 +3,9 @@
  * Scaffold a Course
  * @since  3.0.0
  * @version  3.0.0
+ *
+ * @todo  track prerequisites?
+ * @todo  quizzes & quiz questions
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -328,7 +331,34 @@ class LLMS_Scaffold {
 
 				} else {
 
-					// $this->build_lessons( $raw_section, $section_id, $course_id, $author_id );
+					$this->build_lessons( $raw_section, $section_id, $course_id, $author_id );
+
+				}
+
+			}
+
+		}
+	}
+
+	private function build_lessons( $raw_section, $section_id, $course_id, $author_id ) {
+
+		if ( ! empty( $raw_course['lessons'] ) && is_array( $raw_course['lessons'] ) ) {
+
+			foreach ( $raw_course['lessons'] as $order => $raw_lesson ) {
+
+				$order = $order + 1; // start at 1 not 0
+
+				$section_id = $this->create_lesson( $raw_lesson, $order, $section_id, $course_id, $author_id );
+
+				if ( ! $section_id ) {
+
+					$this->error->add( 'lesson-creation', sprintf( __( 'Error creating lesson "%s"', 'lifterlms' ), $raw_lesson['title'] ) );
+					return;
+
+				} else {
+
+					// quizzes?
+					// $this->build_lessons( $raw_lesson, $section_id, $course_id, $author_id );
 
 				}
 
@@ -450,6 +480,10 @@ class LLMS_Scaffold {
 		$this->add_course_terms( $course, $raw_course );
 
 		return $course;
+
+	}
+
+	public function create_lesson( $raw_lesson, $order, $section_id, $course_id, $author_id ) {
 
 	}
 
@@ -596,8 +630,5 @@ class LLMS_Scaffold {
 		return $term['term_id'];
 
 	}
-
-
-
 
 }
