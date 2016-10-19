@@ -3,6 +3,8 @@
 = v3.0.4 - 2016/10/?? =
 -----------------------
 
++ Three basic course difficulties will be automatically created on installation and upgrades
++ Updated course difficulty save methods to rely only on the taxonomy rather than the taxonomy and postmeta table
 + Fix a conflict with [Redirection](https://wordpress.org/plugins/redirection/) url monitoring that was causing redirects to be created from Courses and Memberships to the site home page automatically whenever updating the post
 + Fix an undefined index warning on courses / memberships when updating post data
 + Remove confusing and invalid warning message from Membership post screen on admin panel

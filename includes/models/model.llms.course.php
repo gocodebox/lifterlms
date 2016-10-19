@@ -144,10 +144,14 @@ class LLMS_Course extends LLMS_Post_Model {
 
 	/**
 	 * Get Difficulty
-	 *
-	 * @return string
+	 * @param    string   $field  which field to return from the availble term fields
+	 *                            any public variables from a WP_Term object are acceptable
+	 *                            term_id, name, slug, and more
+	 * @return   string
+	 * @since    1.0.0
+	 * @version  3.0.4
 	 */
-	public function get_difficulty() {
+	public function get_difficulty( $field = 'name' ) {
 
 		$terms = get_the_terms( $this->get( 'id' ), 'course_difficulty' );
 
@@ -159,7 +163,7 @@ class LLMS_Course extends LLMS_Post_Model {
 
 			foreach ( $terms as $term ) {
 
-				return $term->name;
+				return $term->$field;
 
 			}
 

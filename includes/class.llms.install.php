@@ -70,6 +70,33 @@ class LLMS_Install {
 	}
 
 	/**
+	 * Create basic course difficulties on installation
+	 * @return   void
+	 * @since    3.0.4
+	 * @version  3.0.4
+	 */
+	public static function create_difficulties() {
+
+		$difficulties = apply_filters( 'llms_install_create_difficulties', array(
+			_x( 'Beginner', 'course difficulty name', 'lifterlms' ),
+			_x( 'Intermediate', 'course difficulty name', 'lifterlms' ),
+			_x( 'Advanced', 'course difficulty name', 'lifterlms' ),
+		) );
+
+		foreach ( $difficulties as $name ) {
+
+			// only create if it doesn't already exist
+			if ( ! get_term_by( 'name', $name, 'course_difficulty' ) ) {
+
+				wp_insert_term( $name, 'course_difficulty' );
+
+			}
+
+		}
+
+	}
+
+	/**
 	 * Create files needed by LifterLMS
 	 * @return   void
 	 * @since    3.0.0
@@ -349,7 +376,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.0.4 - added difficulty creation
 	 */
 	public static function install() {
 
@@ -367,6 +394,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		self::create_cron_jobs();
 		self::create_files();
+		self::create_difficulties();
 
 		$version = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', null );

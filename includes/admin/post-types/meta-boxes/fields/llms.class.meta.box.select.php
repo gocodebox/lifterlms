@@ -42,7 +42,6 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		}
 
 		$attrs = isset( $this->field['data_attributes'] ) ? $this->field['data_attributes'] : array();
-
 		?>
 
 		<select
