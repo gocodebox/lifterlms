@@ -17,6 +17,14 @@ class LLMS_Person_Handler {
 	private static $meta_prefix = 'llms_';
 
 	/**
+	 * Prevents the hacky voucher script from being output multiple times
+	 * @var      boolean
+	 * @since    3.0.2
+	 * @version  3.0.2
+	 */
+	private static $voucher_script_output = false;
+
+	/**
 	 * Generate a unique login based on the user's email address
 	 * @param  string $email user's email address
 	 * @return string
@@ -262,6 +270,7 @@ class LLMS_Person_Handler {
 			);
 			$fields[] = array(
 				'columns' => 12,
+				'default' => get_lifterlms_country(),
 				'id' => self::$meta_prefix . 'billing_country',
 				'label' => __( 'Country', 'lifterlms' ),
 				'last_column' => true,
@@ -365,7 +374,7 @@ class LLMS_Person_Handler {
 
 		if ( 'registration' === $action ) {
 			$insert_data = array(
-				'role' => 'studnet',
+				'role' => 'student',
 				'show_admin_bar_front' => false,
 				'user_email' => $data['email_address'],
 				'user_login' => $data['user_login'],
@@ -454,7 +463,13 @@ class LLMS_Person_Handler {
 
 	}
 
-	// @todo check this function....
+	/**
+	 * Login a user
+	 * @param    array     $data    array of login data
+	 * @return   mixed              WP_Error on error or the ID of the user
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function login( $data ) {
 
 		do_action( 'lifterlms_before_user_login', $data );
@@ -497,9 +512,7 @@ class LLMS_Person_Handler {
 			$creds['user_password'] = $_POST['llms_password'];
 			$creds['remember'] = isset( $_POST['llms_remember'] );
 
-			$ssl = is_ssl() ? true : false;
-
-			$signon = wp_signon( apply_filters( 'lifterlms_login_credentials', $creds ), $ssl );
+			$signon = wp_signon( apply_filters( 'lifterlms_login_credentials', $creds ), is_ssl() );
 
 			if ( is_wp_error( $signon ) ) {
 				$e = apply_filters( 'lifterlms_user_login_errors', $e, $data );
@@ -838,14 +851,21 @@ class LLMS_Person_Handler {
 	 * @version  3.0.0
 	 */
 	public static function voucher_toggle_script() {
-		echo "<script type=\"text/javascript\">
-		( function( $ ) {
-			$( '#llms-voucher-toggle' ).on( 'click', function( e ) {
-				e.preventDefault();
-				$( '#llms_voucher' ).toggle();
-			} );
-		} )( jQuery );
-		</script>";
+
+		if ( empty( self::$voucher_script_output ) ) {
+
+			self::$voucher_script_output = true;
+
+			echo "<script type=\"text/javascript\">
+			( function( $ ) {
+				$( '#llms-voucher-toggle' ).on( 'click', function( e ) {
+					e.preventDefault();
+					$( '#llms_voucher' ).toggle();
+				} );
+			} )( jQuery );
+			</script>";
+
+		}
 
 	}
 

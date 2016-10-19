@@ -77,6 +77,8 @@ class LLMS_Admin_Settings {
 		self::set_message( __( 'Your settings have been saved.', 'lifterlms' ) );
 
 		do_action( 'lifterlms_settings_saved' );
+	   	do_action( 'lifterlms_settings_saved_' . $current_tab );
+
 	}
 
 	/**
@@ -126,6 +128,7 @@ class LLMS_Admin_Settings {
 	* @return void
 	*/
 	public static function output() {
+
 		global $current_tab;
 
 		do_action( 'lifterlms_settings_start' );
@@ -134,20 +137,21 @@ class LLMS_Admin_Settings {
 
 		$current_tab = empty( $_GET['tab'] ) ? 'general' : sanitize_title( $_GET['tab'] );
 
-	    if ( ! empty( $_POST ) ) {
-	    	self::save(); }
+		if ( ! empty( $_POST ) ) {
+			self::save(); }
 
-	    if ( ! empty( $_GET['llms_error'] ) ) {
-	    	self::set_error( stripslashes( $_GET['llms_error'] ) ); }
+		if ( ! empty( $_GET['llms_error'] ) ) {
+			self::set_error( stripslashes( $_GET['llms_error'] ) ); }
 
-	    if ( ! empty( $_GET['llms_message'] ) ) {
-	    	self::set_message( stripslashes( $_GET['llms_message'] ) ); }
+		if ( ! empty( $_GET['llms_message'] ) ) {
+			self::set_message( stripslashes( $_GET['llms_message'] ) ); }
 
-	    self::display_messages_html();
+		self::display_messages_html();
 
-	    $tabs = apply_filters( 'lifterlms_settings_tabs_array', array() );
+		$tabs = apply_filters( 'lifterlms_settings_tabs_array', array() );
 
 		include 'views/html.admin.settings.php';
+
 	}
 
 	/**

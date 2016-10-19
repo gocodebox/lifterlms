@@ -2,7 +2,7 @@
 
 LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
 
->**LifterLMS Pro, LaunchPad theme, Boost and More**
+>**Universe Bundle, LifterLMS Pro, LaunchPad theme, Boost and More**
 >
 >Users looking for more timely/in-depth support are encouraged to check out LifterLMS Pro. One-on-one LifterLMS Pro support is responded to within 12 business hours.
 >
@@ -10,7 +10,9 @@ LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell,
 >
 >If you are looking for the best WordPress theme to pair with LifterLMS, check out the [LifterLMS LaunchPad Theme](https://lifterlms.com/product/launchpad/).
 >
->You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
+>You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS PayPal](https://lifterlms.com/product/paypal-extension/), [LifterLMS WooCommerce](https://lifterlms.com/product/woocommerce-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
+>
+>You can save big and get all the products made by LifterLMS with the [Universe Bundle](https://lifterlms.com/product/universe-bundle/)
 >
 >If you'd like to be up and running with a beautiful and professional WordPress LMS website in just 5 days, you can also explore our signature "done for you" white glove service called [Boost](https://lifterlms.com/boost/).
 
@@ -39,7 +41,6 @@ LifterLMS works great for health and fitness courses, music courses, real estate
 **Ecommerce Features**
 
 + Accept one-time and/or recurring payments for your courses and memberships
-+ Works with PayPal out of the box
 + Coupon system
 + A voucher code system so you can grant access to large groups of people
 + Accept credit cards directly on your site with the LifterLMS Stripe Extension
@@ -60,7 +61,6 @@ LifterLMS works great for health and fitness courses, music courses, real estate
 **Further Reading**
 
 + The [LifterLMS plugin](https://lifterlms.com/) official homepage
-+ The [LifterLMS documentation](https://lifterlms.readme.io/)
 + The [LifterLMS knowledgebase](https://lifterlms.com/docs)
 + The [LifterLMS blog](http://blog.lifterlms.com/)
 + The [LifterLMS podcast](http://podcast.lifterlms.com/)

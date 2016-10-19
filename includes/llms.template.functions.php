@@ -133,8 +133,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			case 'llms_membership':
 				if ( $page_restricted['is_restricted'] ) {
 					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
-
-					if ($post->post_excerpt) {
+					if ( $post->post_excerpt ) {
 						$content = llms_get_excerpt( $post->ID );
 					}
 				}
@@ -166,6 +165,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			return do_shortcode( $output_before . $content . $output_after );
 
 			default:
+				return apply_filters( 'llms_get_post_content', $content );
 		}
 		if ( $page_restricted['is_restricted'] ) {
 
@@ -276,6 +276,19 @@ if ( ! function_exists( 'lifterlms_template_single_membership_full_description' 
 		llms_get_template( 'membership/full-description.php' );
 	}
 }
+
+/**
+ * Add a course progress bar with a continue button
+ * @return   void
+ * @since    3.0.1
+ * @version  3.0.1
+ */
+if ( ! function_exists( 'lifterlms_template_single_course_progress' ) ) {
+	function lifterlms_template_single_course_progress() {
+		llms_get_template( 'course/progress.php' );
+	}
+}
+
 
 /**
  * Include pricing table for a LifterLMS Product (course or membership)
@@ -1453,7 +1466,7 @@ if ( ! function_exists( 'lifterlms_get_sidebar' ) ) {
  */
 if ( ! function_exists( 'is_lifterlms' ) ) {
 	function is_lifterlms() {
-		return apply_filters( 'is_lifterlms', ( is_courses() || is_course_taxonomy() || is_course() || is_lesson() || is_membership() ) ? true : false );
+		return apply_filters( 'is_lifterlms', ( is_courses() || is_course_taxonomy() || is_course() || is_lesson() || is_membership() || is_memberships() || is_quiz() ) );
 	}
 }
 

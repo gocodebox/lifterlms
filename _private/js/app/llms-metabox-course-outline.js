@@ -597,8 +597,8 @@ LLMS.MB_Course_Outline = {
 
 	    		if ( r.success === true ) {
 
-					$('#llms-lesson-edit-name').val(r.data.post.post_title);
-					$('#llms-lesson-edit-excerpt').val(r.data.post.post_excerpt);
+					$('#llms-lesson-edit-name').val(r.data.title);
+					$('#llms-lesson-edit-excerpt').val(r.data.excerpt);
 					$('#llms-lesson-edit-id').val(r.data.id);
 	    		}
 	    	}

@@ -74,6 +74,30 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			array( 'type' => 'sectionend', 'id' => 'general_information' ),
 
 			array(
+				'id' => 'section_features',
+				'type' => 'sectionstart',
+			),
+
+			array(
+				'id' => 'features',
+				'title' => __( 'Features', 'lifterlms' ),
+				'type' => 'title',
+			),
+
+			array(
+				'type' => 'custom-html',
+				'value' => sprintf(
+					__( 'Automatic Recurring Payments: <strong>%s</strong>', 'lifterlms' ),
+					LLMS_Site::get_feature( 'recurring_payments' ) ? __( 'Enabled', 'lifterlms' ) : __( 'Disabled', 'lifterlms' )
+				),
+			),
+
+			array(
+				'id' => 'section_tools',
+				'type' => 'sectionend',
+			),
+
+			array(
 				'id' => 'section_tools',
 				'type' => 'sectionstart',
 			),
@@ -82,6 +106,14 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'id' => 'tools_utilities',
 				'title' => __( 'Tools and Utilities', 'lifterlms' ),
 				'type' => 'title',
+			),
+
+			array(
+				'desc' => __( 'Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site.', 'lifterlms' ),
+				'name' => 'automatic-payments',
+				'title' => __( 'Automatic Paymets', 'lifterlms' ),
+				'type' 		=> 'button',
+				'value' => __( 'Reset Automatic Payments', 'lifterlms' ),
 			),
 
 			array(
@@ -138,6 +170,12 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		if ( isset( $_POST['reset-tracking'] ) ) {
 			update_option( 'llms_allow_tracking', 'no' );
+		}
+
+		// deletes the "ignore" url so the staging modal will re-appear
+		if ( isset( $_POST['automatic-payments'] ) ) {
+			LLMS_Site::clear_lock_url();
+			update_option( 'llms_site_url_ignore', 'no' );
 		}
 
 	}
@@ -203,17 +241,35 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/stripe-w-desc.png',
 				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Stripe+Ad+001',
 			),
-			'lifterlms-mailchimp' => array(
+			'lifterlms-gateway-paypal' => array(
 				'type' => 'plugin',
-				'title' => 'Mailchimp Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/mailchimp-w-desc.png',
-				'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Mailchimp+Ad+001',
+				'title' => 'PayPal Plugin',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/paypal.jpg',
+				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=PayPal+Ad+001',
+			),
+			'lifterlms-integration-woocommerce' => array(
+				'type' => 'plugin',
+				'title' => 'WooCommerce Plugin',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/woocommerce.jpg',
+				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=WooCommerce+Ad+001',
 			),
 			'lifterlms-convertkit' => array(
 				'type' => 'plugin',
 				'title' => 'ConvertKit',
 				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/convertkit.png',
 				'link'	=> 'https://lifterlms.com/product/lifterlms-convertkit/?utm_source=Plugin&utm_medium=Plugin%2BDashboard&utm_content=Plugin%2BAd&utm_campaign=Plugin',
+			),
+			'lifterlms-mailchimp' => array(
+				'type' => 'plugin',
+				'title' => 'Mailchimp Plugin',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/mailchimp-w-desc.png',
+				'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Mailchimp+Ad+001',
+			),
+			'lifterlms-integration-gravity-forms' => array(
+				'type' => 'plugin',
+				'title' => 'GravityForms Plugin',
+				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/gravityforms.jpg',
+				'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=GravityForms+Ad+001',
 			),
 			'lifterlms-boost' => array(
 				'type' => 'service',

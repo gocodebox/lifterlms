@@ -36,6 +36,7 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_order_status_cancelled', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_expired', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_failed', array( $this, 'error_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_trash', array( $this, 'error_order' ), 10, 1 );
 
 		/**
 		 * Scheduler Actiions
@@ -108,6 +109,8 @@ class LLMS_Controller_Orders {
 		$product_id = $order->get( 'product_id' );
 		$user_id = $order->get( 'user_id' );
 
+		unset( LLMS()->session->llms_coupon );
+
 		// trigger order complete action
 		do_action( 'lifterlms_order_complete', $order_id ); // @todo used by AffiliateWP only, can remove after updating AffiliateWP
 
@@ -116,6 +119,9 @@ class LLMS_Controller_Orders {
 
 		// trigger purchase action, used by engagements
 		do_action( 'lifterlms_product_purchased', $user_id, $product_id );
+
+		// maybe schedule a payment
+		$order->maybe_schedule_payment();
 
 	}
 
@@ -243,7 +249,6 @@ class LLMS_Controller_Orders {
 		elseif ( ! is_numeric( $person_id ) ) {
 			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ), 'error' );
 		} // make sure the user isn't already enrolled in the course or membership
-		// @todo test & possibly revisit this function
 		elseif ( llms_is_user_enrolled( $person_id, $product->get( 'id' ) ) ) {
 
 			return llms_add_notice( __( 'You already have access to this product!', 'lifterlms' ), 'error' );
@@ -399,6 +404,7 @@ class LLMS_Controller_Orders {
 
 		switch ( current_filter() ) {
 
+			case 'lifterlms_order_status_trash':
 			case 'lifterlms_order_status_cancelled':
 			case 'lifterlms_order_status_refunded':
 				$status = 'cancelled';
@@ -411,6 +417,8 @@ class LLMS_Controller_Orders {
 			break;
 
 		}
+
+		$order->unschedule_recurring_payment();
 
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
 
@@ -428,6 +436,7 @@ class LLMS_Controller_Orders {
 		$order = new LLMS_Order( $order_id );
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), 'expired', 'order_' . $order->get( 'id' ) );
 		$order->add_note( sprintf( __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' ) ) );
+		$order->unschedule_recurring_payment();
 		// @todo allow engagements to hook into expiration
 
 	}
@@ -448,8 +457,9 @@ class LLMS_Controller_Orders {
 		// ensure the gateway is still installed & available
 		if ( ! is_wp_error( $gateway ) ) {
 
-			// ensure the gateway still supports recurring payments
-			if ( $gateway->supports( 'recurring_payments' ) ) {
+			// ensure that recurring payments feature is enabled
+			// & that the gateway still supports recurring payments
+			if ( LLMS_Site::get_feature( 'recurring_payments' ) && $gateway->supports( 'recurring_payments' ) ) {
 
 				$gateway->handle_recurring_transaction( $order );
 
@@ -484,6 +494,10 @@ class LLMS_Controller_Orders {
 	public function transaction_failed( $txn ) {
 
 		$order = $txn->get_order();
+
+		// halt if legacy
+		if ( $order->is_legacy() ) { return; }
+
 		$order->set( 'status', 'llms-failed' );
 
 	}
@@ -498,6 +512,10 @@ class LLMS_Controller_Orders {
 	public function transaction_refunded( $txn ) {
 
 		$order = $txn->get_order();
+
+		// halt if legacy
+		if ( $order->is_legacy() ) { return; }
+
 		$order->set( 'status', 'llms-refunded' );
 
 	}
@@ -513,6 +531,9 @@ class LLMS_Controller_Orders {
 
 		// get the order
 		$order = $txn->get_order();
+
+		// halt if legacy
+		if ( $order->is_legacy() ) { return; }
 
 		// update the status based on the order type
 		$status = $order->is_recurring() ? 'llms-active' : 'llms-completed';

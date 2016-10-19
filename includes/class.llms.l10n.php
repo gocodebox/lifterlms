@@ -68,6 +68,11 @@ class LLMS_l10n {
 			'Weak' => _x( 'Weak', 'password strength meter', 'lifterlms' ),
 
 			/**
+			 * file: _private/js/app/llms-pricing-tables.js
+			 */
+			'This plan is for members only. Click the links above to learn more.' => __( 'This plan is for members only. Click the links above to learn more.', 'lifterlms' ),
+
+			/**
 			 * file: _private/js/app/llms-syllabus.js
 			 * @since   3.0.0
 			 * @version 3.0.0

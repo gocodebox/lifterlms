@@ -3,7 +3,7 @@
 * Plugin Name: LifterLMS
 * Plugin URI: https://lifterlms.com/
 * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
-* Version: 3.0.0-beta.10
+* Version: 3.0.3
 * Author: Thomas Patrick Levy, codeBOX LLC, Mark Nelson
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
@@ -11,7 +11,7 @@
 * License:     GPLv2
 * License URI: https://www.gnu.org/licenses/gpl-2.0.html
 * Requires at least: 4.0
-* Tested up to: 4.5
+* Tested up to: 4.6.1
 *
 * @package 		LifterLMS
 * @category 	Core
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.0.0-beta.10';
+	public $version = '3.0.3';
 
 	protected static $_instance = null;
 
@@ -91,7 +91,15 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
+
+		// quick and dirty update note for 3.0 release
+		add_action( 'in_plugin_update_message-lifterlms/lifterlms.php', function( $data ) {
+
+			echo '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>' . sprintf( __( '3.0 is a major update. It is important that you make backups and ensure themes and extensions are 3.0 compatible before upgrading. %sRead more here%s.', 'lifterlms' ), '<a href=" https://lifterlms.com/docs/upgrading-to-lifterlms-3-0/" target="_blank">', '</a>' ) . '</strong>';
+			echo "<script>jQuery( '#lifterlms-update .update-message' ).removeClass( 'notice-warning' ).addClass( 'notice-error' );</script>";
+
+		} );
 
 		// tracking
 		if ( defined( 'DOING_CRON' ) && DOING_CRON && 'yes' === get_option( 'llms_allow_tracking', 'no' ) ) {
@@ -176,9 +184,9 @@ final class LifterLMS {
 	 */
 	private function includes() {
 
-		include_once( 'includes/llms.functions.core.php' );
-		include_once( 'includes/class.llms.install.php' );
-		include_once( 'includes/class.llms.session.php' );
+		require_once 'includes/llms.functions.core.php';
+		require_once 'includes/class.llms.install.php';
+		require_once 'includes/class.llms.session.php';
 
 		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
 
@@ -219,6 +227,9 @@ final class LifterLMS {
 
 		// Post types
 		include_once( 'includes/class.llms.post-types.php' );
+
+		// sidebars
+		require_once 'includes/class.llms.sidebars.php';
 
 		// Payment Gateway
 		require_once 'includes/abstracts/abstract.llms.payment.gateway.php';
@@ -268,6 +279,8 @@ final class LifterLMS {
 		$this->course_factory = new LLMS_Course_Factory();
 
 		if ( ! is_admin() ) {
+
+			require_once 'includes/class.llms.https.php';
 
 			include_once( 'includes/class.llms.template.loader.php' );
 			include_once( 'includes/class.llms.frontend.assets.php' );
@@ -371,15 +384,6 @@ final class LifterLMS {
 
 	public function activate() {
 		return LLMS_Activate::get_instance();
-	}
-
-	/**
-	 * Process order class
-	 *
-	 * @return array
-	 */
-	public function checkout() {
-		return LLMS_Checkout::instance();
 	}
 
 	/**

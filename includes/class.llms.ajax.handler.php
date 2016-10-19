@@ -517,7 +517,13 @@ class LLMS_AJAX_Handler {
 
 	public static function get_course_lesson( $request ) {
 
-		return new LLMS_Lesson( $request['lesson_id'] );
+		$l = new LLMS_Lesson( $request['lesson_id'] );
+
+		return array(
+			'id' => $l->get( 'id' ),
+			'title' => $l->get( 'title' ),
+			'excerpt' => $l->get( 'excerpt' ),
+		);
 
 	}
 

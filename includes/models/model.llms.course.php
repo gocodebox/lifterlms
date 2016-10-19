@@ -75,7 +75,6 @@ class LLMS_Course extends LLMS_Post_Model {
 			default:
 				$type = 'text';
 
-
 		}
 
 		return $type;
@@ -703,7 +702,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	public function get_next_uncompleted_lesson() {
 		$lessons_not_completed = array();
 
-		$lessons = $this->get_children_lessons();
+		$lessons = $this->get_lessons( 'posts' );
 
 		$user = new LLMS_Person;
 
@@ -967,7 +966,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		//add lessons array to object
 		$obj->lessons = array();
 
-		$sections = $this->get_children_sections();
+		$sections = $this->get_sections( 'posts' );
 
 		foreach ( $sections as $child_section ) {
 			$section_obj = new LLMS_Section( $child_section->ID );

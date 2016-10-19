@@ -17,16 +17,14 @@ class LLMS_Integration_Buddypress {
 	 * @return  null
 	 */
 	public function __construct() {
-		$this->available = $this->is_available();
-		$this->installed = $this->is_installed();
-
-		$this->enabled = ($this->available && $this->installed) ? true : false;
-
-		if ($this->enabled) {
+		if ( $this->is_available() ) {
 			add_action( 'bp_setup_nav',array( $this, 'add_profile_nav_items' ) );
 		}
 	}
 
+	public function is_available() {
+		return ( $this->is_enabled() && $this->is_installed() );
+	}
 
 	/**
 	 * Add LLMS navigation items to the BuddyPress User Profile
@@ -90,7 +88,7 @@ class LLMS_Integration_Buddypress {
 	 * Checks checks if the LLMS BuddyPress integration is enabled
 	 * @return boolean
 	 */
-	public function is_available() {
+	public function is_enabled() {
 		if (get_option( 'lifterlms_buddypress_enabled' ) == 'yes') {
 			return true;
 		}

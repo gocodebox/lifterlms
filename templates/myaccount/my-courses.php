@@ -67,10 +67,7 @@ global $wp_query;
 		</ul>
 
 		<footer class="llms-sd-pagination llms-my-courses-pagination">
-			<?php if ( ! isset( $wp_query->query_vars['my-courses'] ) ) : ?>
-				<a href="<?php echo llms_person_my_courses_url(); ?>"><?php _e( 'All Courses', 'lifterlms' ); ?></a>
-			<?php else : ?>
-
+			<?php if ( isset( $wp_query->query_vars['my-courses'] ) ) : ?>
 				<?php if ( $courses['skip'] > 0 ) : ?>
 					<a class="llms-button-text" href="<?php echo add_query_arg( array(
 						'limit' => $courses['limit'],
@@ -78,7 +75,7 @@ global $wp_query;
 					), llms_person_my_courses_url() ); ?>"><?php _e( 'Back', 'lifterlms' ); ?></a>
 				<?php endif; ?>
 
-				<?php if ( $courses['more'] || 0 == $courses['skip'] ) : ?>
+				<?php if ( $courses['more'] ) : ?>
 					<a class="llms-button-text" href="<?php echo add_query_arg( array(
 						'limit' => $courses['limit'],
 						'skip' => $courses['skip'] + $courses['limit'],

@@ -140,7 +140,9 @@ class LLMS_Student {
 
 		// remove the user from the membership level
 		$membership_levels = $this->get_membership_levels();
-		unset( $membership_levels[ $membership_id ] );
+		if ( ( $key = array_search( $membership_id, $membership_levels ) ) !== false) {
+			unset( $membership_levels[ $key ] );
+		}
 		update_user_meta( $this->get_id(), '_llms_restricted_levels', $membership_levels );
 
 		global $wpdb;
@@ -554,6 +556,28 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Get the next lesson a student needs to complete in a course
+	 * @param    int     $course_id    WP_Post ID of the course
+	 * @return   int                   WP_Post ID of the lesson or false if all courses are complete
+	 * @since    3.0.1
+	 * @version  3.0.1
+	 */
+	public function get_next_lesson( $course_id ) {
+
+		$course = new LLMS_Course( $course_id );
+		$lessons = $course->get_lessons( 'ids' );
+
+		foreach ( $lessons as $lesson ) {
+			if ( ! $this->is_complete( $lesson, 'lesson' ) ) {
+				return $lesson;
+			}
+		}
+
+		return false;
+
+	}
+
 	public function get_orders( $params = array() ) {
 
 		$params = wp_parse_args( $params, array(
@@ -692,8 +716,17 @@ class LLMS_Student {
 		// if we have an order, check the access status
 		if ( $order && $order instanceof LLMS_Order ) {
 
-			// true if access is active and student is enrolled
-			return ( $order->has_access() && $enrolled );
+			// legacy orders should return the original enrollment status
+			if ( $order->is_legacy() ) {
+
+				return $enrolled;
+
+			} else {
+
+				// true if access is active and student is enrolled
+				return ( $order->has_access() && $enrolled );
+
+			}
 
 		}
 

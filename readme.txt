@@ -1,10 +1,10 @@
 === LifterLMS ===
-Contributors: therealmarknelson, thomasplevy, psmolic, chrisbadgett, kathy11, lifterlms, codeboxllc, jackyliao888
+Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc, therealmarknelson
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.5.3
-Stable tag: 2.7.11
+Tested up to: 4.6.1
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and pro
 
 LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
 
->**LifterLMS Pro, LaunchPad theme, Boost and More**
+>**Universe Bundle, LifterLMS Pro, LaunchPad theme, Boost and More**
 >
 >Users looking for more timely/in-depth support are encouraged to check out LifterLMS Pro. One-on-one LifterLMS Pro support is responded to within 12 business hours.
 >
@@ -23,7 +23,9 @@ LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell,
 >
 >If you are looking for the best WordPress theme to pair with LifterLMS, check out the [LifterLMS LaunchPad Theme](https://lifterlms.com/product/launchpad/).
 >
->You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
+>You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS PayPal](https://lifterlms.com/product/paypal-extension/), [LifterLMS WooCommerce](https://lifterlms.com/product/woocommerce-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
+>
+>You can save big and get all the products made by LifterLMS with the [Universe Bundle](https://lifterlms.com/product/universe-bundle/)
 >
 >If you'd like to be up and running with a beautiful and professional WordPress LMS website in just 5 days, you can also explore our signature "done for you" white glove service called [Boost](https://lifterlms.com/boost/).
 
@@ -52,7 +54,6 @@ LifterLMS works great for health and fitness courses, music courses, real estate
 **Ecommerce Features**
 
 + Accept one-time and/or recurring payments for your courses and memberships
-+ Works with PayPal out of the box
 + Coupon system
 + A voucher code system so you can grant access to large groups of people
 + Accept credit cards directly on your site with the LifterLMS Stripe Extension
@@ -73,7 +74,6 @@ LifterLMS works great for health and fitness courses, music courses, real estate
 **Further Reading**
 
 + The [LifterLMS plugin](https://lifterlms.com/) official homepage
-+ The [LifterLMS documentation](https://lifterlms.readme.io/)
 + The [LifterLMS knowledgebase](https://lifterlms.com/docs)
 + The [LifterLMS blog](http://blog.lifterlms.com/)
 + The [LifterLMS podcast](http://podcast.lifterlms.com/)
@@ -164,157 +164,54 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 14. LifterLMS Student Dashboard
 15. LifterLMS Course Analytics
 
-== Changelog =
+== Changelog ==
 
-= v3.0.0-beta.8 - 2016/09/15 =
--------------------------------
+= v3.0.3 - 2016/10/17 =
+-----------------------
 
-+ Check course restrictions automatically when checking lesson
-+ Added user_id to all access function checks to allow for checks for non current user
-+ course restriction messages display regardless of enrollment status
-+ check memberships and lock purchase of members only access plans
-
-##### Student Management on Courses and Memberships
-
-+ All new and improved student management interface for managing student enrollments from courses and memberhips
-
-##### Deprecated
-
-+ filter: `llms_meta_fields_course_main`, replace with `llms_metabox_fields_lifterlms_course_options`
-
-= v3.0.0-beta.7 - 2016/09/13 =
--------------------------------
-
-+ Added a "post state" visible on the Pages posts table identifying if the page is saved as a LifterLMS page (EG: Checkout Page)
-+ Fixed copy/paste error of duplicate enrollment closed message on course restrictions tab
-+ Removed WC integration in favor of WC
-+ Upgade "back to course" template to new lesson API
-+ Renamed `course/parent_course.php` to `course/parent-course.php` for template naming consistency
-+ use `strict` when auto generating usernames when creating from email addresses, resolves [#182](https://github.com/gocodebox/lifterlms/issues/182)
-
-##### Manual Payments
-
-+ Manual Payment Gateway can now be enabled on the frontend!
-+ When a manual payment is recorded the user will be redirected to a view order page where they will be prompted to make a manual payment
-+ Define the payment instructions on the admin panel "Checkout Settings"
-+ Once you verify payment, head to the pending order and hit the "Record a Manual Payment" button to record the transaction
-+ Upon recording the order status will be upgraded to "Complete" and the user will be enrolled automatically
-
-##### Student Dashboard Upgrades
-
-+ More sane template hooks and functions
-+ Pagination on Courses endpoint (view only a preview on the mian dashboard)
-+ Orders history & view orders screens!
++ Added filter `llms_show_preview_excerpt` which can be used to hide the excerpt on course syllabus or next/back preview tiles in lesson navigation
++ Fix logic so that only free lessons are marked as free lessons post 3.0 upgrade
++ Fix incorrect display of the "restricted" and "non-restricetd" content areas for memberships
++ Fix undefinded index warning output by membership metaboxes
++ Fix dead like under "Force SSL" checkout setting
++ Course & Membership tiles output by course or membership shortcodes now automatically match column heights like the default catalogs do.
++ Correctly register students as the "Student" Role
++ Database Upgrade script converts users with the role "studnet" to "student"
 
 
-= v3.0.0-beta.6 - 2016/09/08 =
--------------------------------
+= v3.0.2 - 2016/10/14 =
+-----------------------
 
-+ Install & activation overhauls. Resolves [#179](https://github.com/gocodebox/lifterlms/issues/179)
-+ jQuery MatchHeight lib unignored
-
-= v3.0.0-beta.5 - 2016/09/07 =
--------------------------------
-
-+ A bunch of settings pages updated and a bunch of settings deprecated
-+ Gateways setting page removed
-+ Memberships & Courses page combined into "Catalogs" settings
-+ Added a data getting class used by the tracker class
-+ added a new page creation function witn better intelligence that (hopefully) prevents duplicate pages from being created during core page installation
-+ new default country setting
-
-Deprecated options (and related functons where applicaple) for the following course & membership options:
-
-  + `lifterlms_button_purchase_membership_custom_text`
-  + `lifterlms_course_display_outline_lesson_thumbnails`
-  + `lifterlms_course_display_author`
-  + `lifterlms_course_display_banner`
-  + `lifterlms_course_display_difficulty`
-  + `lifterlms_course_display_length`
-  + `lifterlms_course_display_categories`
-  + `lifterlms_course_display_tags`
-  + `lifterlms_course_display_tracks`
-  + `lifterlms_lesson_nav_display_excerpt`
-  + `lifterlms_course_display_outline`
-  + `lifterlms_course_display_outline_titles`
-  + `lifterlms_course_display_outline_lesson_thumbnails`
-  + `lifterlms_display_lesson_complete_placeholders`
-  + `redirect_to_checkout`
-
-In all scenarions either a `add_filter` (returning false) or a `remove_action()` can be used to replicate the option.
++ Added action `lifterlms_before_student_dashboard_tab`
++ Added action `lifterlms_after_student_dashboard_greeting`
++ Added action `lifterlms_after_student_dashboard_tab`
++ Added action `lifterlms_sd_before_membership`
++ Added action `lifterlms_sd_after_membership`
++ Fix membership shortcode
++ Fix issue that prevented "Student Dashboard" from rendering if the page was set as the child of another page
++ Fix undefined function error in admin notices
++ Fix nonce errors resulting from admin notice html being served from the database rather than being dynamically generated
++ Fix db ugrade script which was enabling course time period for restrictions for all courses regardless of their pre 3.0 restriction settings
++ Fix db uprgade script that was causing empty sale dates to show start of unix epoch b/c they were empty strings
++ Fix Javascript parse error prevnting section & lesson editing from within the course outling on the admin panel
++ Fix lesson icons from highlighting lesson settings like drip delay & quiz association
++ Updated course outline color scheme to match the 3.0 admin color scheme overhaul
++ `LLMS_Lesson::get_assigned_quiz()` will output depecation warnings for those using debug mode. LLMS core no longer uses this function and will be deprecated in the next major release.
++ Handle enrollment status of legacy orders based on enrollment rather than enrollment AND order status
 
 
-= v3.0.0-beta.4 - 2016/09/01 =
--------------------------------
+= v3.0.1 - 2016/10/13 =
+-----------------------
 
-+ fix issue with course prereq checks
-+ next payment due date visible on order admin view
-+ trial end date visible on order admin view
-
-##### Free Access Plans
-
-+ "Free" access plans now defined as such based on a checkbox rather than by entering 0 into the price
-+ Only single payment access plans can be free (a free recurring payment makes no sense but we can certainly discuss this if you disagree with me)
-+ trials are disabled with free plans (because trials only apply to recurring plans)
-+ sales are disabled for free access plans
-
-##### Checkout Form JS API
-
-+ unified JS checkout handler
-+ allows extensions to enqueue validation or pre-submission JS functions that should run prior to checkout form submission
-
-##### Manual Payment Gateway
-
-**NOTE: currently doesn't do anything on the frontend when enabled**
-
-+ handles purchase of access plans marked ar FREE & orders that are discounted to 100% via coupons
++ Properly prefix `llms_is_ajax()` to prevent 500 errors when leaving HTTPS forced checkout screen
++ Fix student unenrollment from memberships which was leaving a trace of enrollment in the user_meta table
++ Update student dashboard nav list items to have more specific no styles to prevent "double discs" on various themes
++ Return course progress bar and "continue" button which was accidentally removed
++ Added core support for "Divi" theme sidebars
 
 
-= v3.0.0-beta.3 - 2016/08/29 =
--------------------------------
-
-+ all order status changes recorded as order notes
-+ pending orders can be completed after failed payments
-+ better handling for gateways with fields
-+ JS spinners support multiples via start & stop!
-
-
-= v3.0.0-beta.2 - 2016/08/23 =
--------------------------------
-
-+ Updated (and semi-finished) analytics
-+ achievemnt metabox converted
-+ minor updates to voucher class
-
-##### Open Enrollment
-
-+ Open Enrollment allows users to register on the account dashboard without purchasing a course
-+ Voucher settings are available to customize whether vouchers should be optional or required during open registration
-+ Better error reporting around voucher usage during enrollment
-
-##### Deprecated Functions
-
-+ `llms_get_coupon()`
-+ `get_section_id()`
-+ `check_course_capacity()`
-
-
-##### Quizzes
-
-+ Updated admin metaboxes to use new metabox abstract class
-+ display 0 instead of negative attempts on quiz summary
-+ updated logic in start button template
-
-##### Emails (for engagements)
-
-+ Admin metabox updated to new API
-+ Postmeta data migration:
-  + `_email_subject` renamed to `_llms_email_subject`
-  + `_email_heading` renamed to `_llms_email_heading`
-
-
-= v3.0.0-beta.1 - 2016/08/15 =
--------------------------------
+= v3.0.0 - 2016/10/10 =
+-----------------------
 
 **This is a massive update which _breaks_ backwards compatibility for many LifterLMS features. A database migration is also necessary for upgrading users to reformat certain pieces of information which are being accessed differently in 3.0.0**
 
@@ -345,14 +242,12 @@ In all scenarions either a `add_filter` (returning false) or a `remove_action()`
 + Payment gateways powered by a new abstract gateway class
 + PayPal has been removed from LifterLMS and is available as premium extension
 
-
 ##### Frontend Notices
 
 + LifterLMS "Notices" have been rewritten, slightly.
 + Most templates have been updated
 + associated CSS has been updated
 + Some sanity has been added to the related functions
-
 
 ##### Post "Model" Concept / Overhaul
 
@@ -446,6 +341,7 @@ These post types currently include:
 Now utilizing a forked version of Select2 to prevent 3.5.x conflicts we've been plagued with
 
 ##### Deprecated
+
 + Removed filter `lifterlms_get_price_html`, use `lifterlms_get_single_price_html` instead
 + Removed unused `LLMS_Product->get_price_suffix_html()` function
 + Removed `LLMS_Product->set_price_html_as_value()` because we didn't like it anymore, don't use anything instead.
@@ -459,13 +355,208 @@ Now utilizing a forked version of Select2 to prevent 3.5.x conflicts we've been 
 + Officially removed the `PluginUpdateChecker` class stubs we created to prevent updating issues with LifterLMS extensions during our transition to 2.0.0. This library has caused nothing but pain for everyone on our team and many of our users. It's gone now, forever.
 + Removed function `lifterlms_template_single_price()` and replacted with `lifterlms_template_pricing_table()`
 + Removed templates at "includes/course/price.php" and "includes/membership/price.php" in favor of "includes/product/pricing-table.php"
-
 + Removed `LLMS_Person::create_new_person()` in favor of `LLMS_Person_Handler::register()` or `llms_create_new_person()`
 + Removed `LLMS_Person->set_user_login_timestamp_on_register()` and are simply adding the metadata during registration
 + Removed `lifterlms_register_post` action hook which fired after new user registration validation, this has been replaced with `lifterlms_user_registration_after_validation`
 + Removed `lifterlms_new_person_data` and `lifterlms_new_person_address` filters, replaced with `lifterlms_user_registration_data`
-
 + Removed `LLMS_Person::login_user()` in favor of `LLMS_Person_Handler::login()`
++ background updater
++ system report facelift + inclusion of all new settings via `LLMS_Data` class
++ Fix setup wizard styles to follow update admin panel styles
++ add links to last step of setup wizard for documentation and demo
++ removed a bunch of deprecated coupon-related functions
++ added a "force ssl" option to ensure checkout is secured
++ added settings and options around recurring payments and staging sites to prevent duplicate charges when testing on a cloned site
++ Check course restrictions automatically when checking lesson
++ Added user_id to all access function checks to allow for checks for non current user
++ course restriction messages display regardless of enrollment status
++ check memberships and lock purchase of members only access plans
++ Fixed titles of course closed and open messages on the course restrictions options
++ record a start date for access plans based off when order mobes to complete or active for the first time
++ automatically expire limited access plans
++ gave a quick facelift & unification to a lot of admin panel elements
++ Color consistency updated according to LLMS brand guide
++ Unified frint and backend button classes
++ Updated all frontend buttons to have consistent classes
++ Removed the "FREE" lesson SVG in favor of simple text which allows translating
++ Install & activation overhauls. Resolves [#179](https://github.com/gocodebox/lifterlms/issues/179)
++ jQuery MatchHeight lib unignored
++ A bunch of settings pages updated and a bunch of settings deprecated
++ Gateways setting page removed
++ Memberships & Courses page combined into "Catalogs" settings
++ Added a data getting class used by the tracker class
++ added a new page creation function witn better intelligence that (hopefully) prevents duplicate pages from being created during core page installation
++ new default country setting
++ all order status changes recorded as order notes
++ pending orders can be completed after failed payments
++ better handling for gateways with fields
++ JS spinners support multiples via start & stop!
++ Updated (and semi-finished) analytics
++ achievemnt metabox converted
++ minor updates to voucher class
++ Added a "post state" visible on the Pages posts table identifying if the page is saved as a LifterLMS page (EG: Checkout Page)
++ Fixed copy/paste error of duplicate enrollment closed message on course restrictions tab
++ Removed WC integration in favor of WC
++ Upgade "back to course" template to new lesson API
++ Renamed `course/parent_course.php` to `course/parent-course.php` for template naming consistency
++ use `strict` when auto generating usernames when creating from email addresses, resolves [#182](https://github.com/gocodebox/lifterlms/issues/182)
+
+##### 3.0.0 Auto Upgrader
+
++ lots of postmeta data rekeyed
++ intelligently generated defaults for various peices of new meta data on courses, lessons, and memberships
++ automatically generate access plans from existing course and membership data
++ update existing orders to pull semi-accurate data into analytics based on new database structure
++ cleans database of a ton of deprecated options and postmeta data
+
+##### Deprecated
+
++ function `llms_is_user_member()`, use `llms_is_user_enrolled()` instead
++ function `llms_check_course_date_restrictions()`
++ function `quiz_restricted()`
++ function `membership_page_restricted()`
++ function `is_topic_restricted()`
++ function `llms_get_post_memberships()`
++ function `llms_get_parent_post_memberships()`
++ function `parent_page_restricted_by_membership()`
++ function `outstanding_prerequisite_exists()`
++ function `find_prerequisite()`
++ function `llms_get_course_enrolled_date()`
++ function `llms_get_lesson_start_date()`
++ function `lesson_start_date_in_future()`
++ function `page_restricted_by_membership_alert()`
++ function `llms_does_user_memberships_contain_course()`
++ class `LLMS_Checkout`
++ function `LLMS()->checkout()`
+
+
+##### Auto Enrollment
+
++ Course auto enrollment for Memberships has been restored
++ Works exactly the same as previously except auto-enrollment is not dependent on a course "belonging to" the membership via membership restrictions. This is because membership restrictions no longer apply to courses
+
+##### Analytcis
+
++ Charts! I'm really excited about this. I know we still need more data but please say nice things to me, I worked really hard on these little charts.
++ Updated styles & interface
+
+##### bbPress
+
++ Restrict individual forums (and their topics) to LifterLMS Membership levels
+
+##### BuddyPress
+
++ Fixes broken course display on bp profile
++ Adds memberships subpage to bp profile
+
+##### notices
+
++ Admin notices class for managing admin notices, it's pretty neat!
+
+##### Student Management on Courses and Memberships
+
++ All new and improved student management interface for managing student enrollments from courses and memberhips
+
+##### Deprecated
+
++ filter: `llms_meta_fields_course_main`, replace with `llms_metabox_fields_lifterlms_course_options`
+
+##### Manual Payments
+
++ Manual Payment Gateway can now be enabled on the frontend!
++ When a manual payment is recorded the user will be redirected to a view order page where they will be prompted to make a manual payment
++ Define the payment instructions on the admin panel "Checkout Settings"
++ Once you verify payment, head to the pending order and hit the "Record a Manual Payment" button to record the transaction
++ Upon recording the order status will be upgraded to "Complete" and the user will be enrolled automatically
+
+##### Student Dashboard Upgrades
+
++ More sane template hooks and functions
++ Pagination on Courses endpoint (view only a preview on the mian dashboard)
++ Orders history & view orders screens!
+
+
+
+Deprecated options (and related functons where applicaple) for the following course & membership options:
+
+  + `lifterlms_button_purchase_membership_custom_text`
+  + `lifterlms_course_display_outline_lesson_thumbnails`
+  + `lifterlms_course_display_author`
+  + `lifterlms_course_display_banner`
+  + `lifterlms_course_display_difficulty`
+  + `lifterlms_course_display_length`
+  + `lifterlms_course_display_categories`
+  + `lifterlms_course_display_tags`
+  + `lifterlms_course_display_tracks`
+  + `lifterlms_lesson_nav_display_excerpt`
+  + `lifterlms_course_display_outline`
+  + `lifterlms_course_display_outline_titles`
+  + `lifterlms_course_display_outline_lesson_thumbnails`
+  + `lifterlms_display_lesson_complete_placeholders`
+  + `redirect_to_checkout`
+
+In all scenarions either a `add_filter` (returning false) or a `remove_action()` can be used to replicate the option.
+
+
+= v3.0.0-beta.4 - 2016/09/01 =
+-------------------------------
+
++ fix issue with course prereq checks
++ next payment due date visible on order admin view
++ trial end date visible on order admin view
+
+##### Free Access Plans
+
++ "Free" access plans now defined as such based on a checkbox rather than by entering 0 into the price
++ Only single payment access plans can be free (a free recurring payment makes no sense but we can certainly discuss this if you disagree with me)
++ trials are disabled with free plans (because trials only apply to recurring plans)
++ sales are disabled for free access plans
+
+##### Checkout Form JS API
+
++ unified JS checkout handler
++ allows extensions to enqueue validation or pre-submission JS functions that should run prior to checkout form submission
+
+##### Manual Payment Gateway
+
++ handles purchase of access plans marked ar FREE & orders that are discounted to 100% via coupons
+
+
+
+
+##### Open Enrollment
+
++ Open Enrollment allows users to register on the account dashboard without purchasing a course
++ Voucher settings are available to customize whether vouchers should be optional or required during open registration
++ Better error reporting around voucher usage during enrollment
+
+##### Deprecated Functions
+
++ `llms_get_coupon()`
++ `get_section_id()`
++ `check_course_capacity()`
+
+
+##### Quizzes
+
++ Updated admin metaboxes to use new metabox abstract class
++ display 0 instead of negative attempts on quiz summary
++ updated logic in start button template
+
+##### Emails (for engagements)
+
++ Admin metabox updated to new API
++ Postmeta data migration:
+  + `_email_subject` renamed to `_llms_email_subject`
+  + `_email_heading` renamed to `_llms_email_heading`
+
+
+= v2.7.12 - 2016/09/22 =
+------------------------
+
++ Added a new filter on content returned after port permission checks
++ Added additional information to plugin update message in preparation for major 3.0 release
++ Updated plugin contributor metadata
 
 
 = v2.7.11 - 2016/07/22 =

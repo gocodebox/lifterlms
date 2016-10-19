@@ -24,6 +24,12 @@ class LLMS_Data {
 		// wp info
 		$data['wordpress'] = self::get_wp_data();
 
+		// llms settings
+		$data['settings'] = self::get_llms_settings();
+
+		// gateways
+		$data['gateways'] = self::get_gateway_data();
+
 		// server info
 		$data['server'] = self::get_server_data();
 
@@ -49,12 +55,11 @@ class LLMS_Data {
 
 		}
 
-		$data['settings'] = self::get_llms_settings();
+		$data['integrations'] = self::get_integrations_data();
 
 		// var_dump( $data ); die();
 
 		// @todo
-		// payment gateway info
 		// template overrides
 
 		return $data;
@@ -84,6 +89,69 @@ class LLMS_Data {
 	}
 
 	/**
+	 * Get data about llms payment gateways
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	private static function get_gateway_data() {
+
+		$data = array();
+
+		$g = LLMS()->payment_gateways();
+
+		foreach ( $g->get_payment_gateways() as $id => $obj ) {
+
+			$data[ $obj->get_admin_title() ] = $obj->is_enabled() ? 'Enabled' : 'Disabled';
+
+			if ( $obj->supports( 'test_mode' ) ) {
+				$data[ $obj->get_admin_title() . '_test_mode' ] = $obj->is_test_mode_enabled() ? 'Enabled' : 'Disabled';
+			}
+
+			$data[ $obj->get_admin_title() . '_logging' ] = $obj->get_logging_enabled();
+			$data[ $obj->get_admin_title() . '_order' ] = $obj->get_display_order();
+
+		}
+
+		return $data;
+
+	}
+
+	/**
+	 * Get data about existing llms integrations
+	 * @todo integration settings unique to the integration should be included here
+	 * @return   array
+	 * @since    3.0.0.
+	 * @version  3.0.0.
+	 */
+	private static function get_integrations_data() {
+
+		$data = array();
+
+		$i = LLMS()->integrations();
+
+		foreach ( $i->integrations() as $id => $obj ) {
+
+			// @todo upgrade this when integration absrtact is finished
+			if ( method_exists( $obj, 'is_available' ) ) {
+
+				$data[ $obj->title ] = $obj->is_available() ? 'Yes' : 'No';
+
+			}
+
+			// if ( method_exists( $obj, 'get_report_data' ) ) {
+
+			// 	array_merge( $data, $obj->get_report_data() );
+
+			// }
+
+		}
+
+		return $data;
+
+	}
+
+	/**
 	 * Get LifterLMS settings
 	 * @return   array
 	 * @since    3.0.0
@@ -92,6 +160,8 @@ class LLMS_Data {
 	private static function get_llms_settings() {
 
 		$data = array();
+
+		$data['version'] = LLMS()->version;
 
 		$data['course_catalog'] = self::get_page_data( 'lifterlms_shop_page_id' );
 		$data['course_catalog_per_page'] = get_option( 'lifterlms_shop_courses_per_page' );
@@ -136,6 +206,7 @@ class LLMS_Data {
 
 		$data['checkout_page'] = self::get_page_data( 'lifterlms_checkout_page_id' );
 		$data['confirmation_endpoint'] = get_option( 'lifterlms_myaccount_confirm_payment_endpoint' );
+		$data['force_ssl_checkout'] = get_option( 'lifterlms_checkout_force_ssl' );
 		$data['country'] = get_lifterlms_country();
 		$data['currency'] = get_lifterlms_currency();
 		$data['currency_position'] = get_option( 'lifterlms_currency_position' );
@@ -144,7 +215,15 @@ class LLMS_Data {
 		$data['decimals'] = get_option( 'lifterlms_decimals' );
 		$data['trim_zero_decimals'] = get_option( 'lifterlms_trim_zero_decimals', 'no' );
 
-		// @todo finish this witn engagement options
+		$data['recurring_payments'] = ( LLMS_Site::get_feature( 'recurring_payments' ) ) ? 'yes' : 'no';
+
+		$data['email_from_address'] = get_option( 'lifterlms_email_from_address' );
+		$data['email_from_name'] = get_option( 'lifterlms_email_from_name' );
+		$data['email_footer_text'] = get_option( 'lifterlms_email_footer_text' );
+		$data['email_header_image'] = get_option( 'lifterlms_email_header_image' );
+		$data['cert_bg_width'] = get_option( 'lifterlms_certificate_bg_img_width' );
+		$data['cert_bg_height'] = get_option( 'lifterlms_certificate_bg_img_height' );
+		$data['cert_legacy_compat'] = get_option( 'lifterlms_certificate_legacy_image_size' );
 
 		return $data;
 
@@ -314,9 +393,6 @@ class LLMS_Data {
 	private static function get_theme_data() {
 
 		$data = array();
-		/**
-		 * thanks wp core...
-		 */
 		// @codingStandardsIgnoreStart
 		$theme_data = wp_get_theme();
 		$data['name'] = $theme_data->Name;
@@ -361,6 +437,9 @@ class LLMS_Data {
 
 		$data = array();
 
+		$data['home_url'] = get_home_url();
+		$data['site_url'] = get_site_url();
+		$data['version'] = get_bloginfo( 'version' );
 		$data['debug_mode'] = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No';
 		$data['locale'] = get_locale();
 		$data['multisite'] = is_multisite() ? 'Yes' : 'No';
@@ -368,7 +447,7 @@ class LLMS_Data {
 		$data['page_on_front'] = self::get_page_data( 'page_on_front' );
 		$data['permalink_structure'] = get_option( 'permalink_structure' );
 		$data['show_on_front'] = get_option( 'show_on_front' );
-		$data['version'] = get_bloginfo( 'version' );
+		$data['wp_cron'] = ! ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) ? 'Yes' : 'No';
 
 		return $data;
 

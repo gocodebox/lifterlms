@@ -207,21 +207,21 @@ class LLMS_Admin_Setup_Wizard {
 
 						<p class="llms-setup-actions">
 							<?php if ( 'intro' === $current ) : ?>
-								<a href="<?php echo esc_url( admin_url() ); ?>" class="button button-large"><?php _e( 'Skip setup', 'lifterlms' ); ?></a>
-								<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="button button-large button-primary"><?php _e( 'Get Started Now', 'lifterlms' ); ?></a>
+								<a href="<?php echo esc_url( admin_url() ); ?>" class="llms-button-secondary large"><?php _e( 'Skip setup', 'lifterlms' ); ?></a>
+								<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="llms-button-primary large"><?php _e( 'Get Started Now', 'lifterlms' ); ?></a>
 							<?php elseif ( 'finish' === $current ) : ?>
 								<?php if ( $prev = $this->get_prev_step() ) : ?>
-									<a href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
+									<a class="back-link" href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
 								<?php endif; ?>
-								<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="button button-large button-primary"><?php _e( 'Create your first course!', 'lifterlms' ); ?></a>
+								<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="llms-button-primary large"><?php _e( 'Create your first course!', 'lifterlms' ); ?></a>
 							<?php else : ?>
 								<?php if ( $prev = $this->get_prev_step() ) : ?>
-									<a href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
+									<a class="back-link" href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
 								<?php endif; ?>
 								<?php if ( $next = $this->get_next_step() ) : ?>
-									<a href="<?php echo $this->get_step_url( $next ); ?>" class="button button-large"><?php echo $this->get_skip_text( $current ); ?></a>
+									<a href="<?php echo $this->get_step_url( $next ); ?>" class="llms-button-secondary large"><?php echo $this->get_skip_text( $current ); ?></a>
 								<?php endif; ?>
-								<button class="button button-large button-primary" type="submit"><?php echo $this->get_save_text( $current ); ?></button>
+								<button class="llms-button-primary large" type="submit"><?php echo $this->get_save_text( $current ); ?></button>
 								<input type="hidden" name="llms_setup_save" value="<?php echo $current; ?>">
 								<?php wp_nonce_field( 'llms_setup_save', 'llms_setup_nonce' ); ?>
 							<?php endif; ?>
@@ -257,7 +257,7 @@ class LLMS_Admin_Setup_Wizard {
 				<h1><?php _e( 'Help Improve LifterLMS & Get a Coupon', 'lifterlms' ); ?></h1>
 				<p><?php _e( 'By allowing us to collect non-sensitive usage information and diagnostic data, you\'ll be providing us with information we can use to make the future of LifterLMS stronger and more powerful with every update!', 'lifterlms' ); ?></p>
 				<p><?php _e( 'Click "Allow" to and we\'ll send you a coupon immediately.', 'lifterlms' ); ?></p>
-				<p><a href="#" target="_blank"><?php _e( 'Find out more information', 'lifterlms' ); ?></a>.</p>
+				<p><a href="https://lifterlms.com/usage-tracking/" target="_blank"><?php _e( 'Find out more information', 'lifterlms' ); ?></a>.</p>
 				<?php
 			break;
 
@@ -265,6 +265,10 @@ class LLMS_Admin_Setup_Wizard {
 				?>
 				<h1><?php _e( 'You\'re all set!', 'lifterlms' ); ?></h1>
 				<p><?php _e( 'The setup is all complete and the only thing left to do is create your first course.', 'lifterlms' ); ?></p>
+				<ul>
+					<li><span class="dashicons dashicons-format-video"></span> <a href="https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/" target="_blank"><?php _e( 'Watch the LifterLMS video tutorials', 'lifterlms' ); ?></a></li>
+					<li><span class="dashicons dashicons-admin-page"></span> <a href="https://lifterlms.com/docs/getting-started-with-lifterlms/" target="_blank"><?php _e( 'Read the LifterLMS Getting Started Guide', 'lifterlms' ); ?></a></li>
+				</ul>
 				<?php
 			break;
 

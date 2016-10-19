@@ -38,7 +38,7 @@ class LLMS_Admin_Analytics {
 	* @return self::$analytics array
 	*/
 	public static function get_analytics_tabs() {
-
+		var_dump( asrtarst );
 		if ( empty( self::$analytics ) ) {
 			$analytics = array();
 

@@ -18,7 +18,7 @@ if ( ! is_admin() ) { exit; }
 			<?php foreach ( $tabs as $name => $label ) : ?>
 
 				<?php $current_tab_class = ( $current_tab == $name ) ? ' llms-active' : ''; ?>
-				<li class="llms-nav-item<?php echo $current_tab_class; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-analytics-new&tab=' . $name ); ?>"><?php echo $label; ?></a>
+				<li class="llms-nav-item<?php echo $current_tab_class; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-analytics&tab=' . $name ); ?>"><?php echo $label; ?></a>
 
 			<?php endforeach; ?>
 			</ul>
@@ -30,19 +30,19 @@ if ( ! is_admin() ) { exit; }
 			<ul class="llms-nav-items">
 
 				<li class="llms-nav-item<?php echo ( $current_range == 'this-year' ) ? ' llms-active' : ''; ?>">
-					<a class="llms-nav-link" data-range="this-year" href="<?php echo admin_url( 'admin.php?page=llms-analytics-new&tab=' . $current_tab . '&range=this-year' ); ?>"><?php _e( 'This Year', 'lifterlms' ); ?></a>
+					<a class="llms-nav-link" data-range="this-year" href="<?php echo admin_url( 'admin.php?page=llms-analytics&tab=' . $current_tab . '&range=this-year' ); ?>"><?php _e( 'This Year', 'lifterlms' ); ?></a>
 				</li>
 
 				<li class="llms-nav-item<?php echo ( $current_range == 'last-month' ) ? ' llms-active' : ''; ?>">
-					<a class="llms-nav-link" data-range="last-month" href="<?php echo admin_url( 'admin.php?page=llms-analytics-new&tab=' . $current_tab . '&range=last-month' ); ?>"><?php _e( 'Last Month', 'lifterlms' ); ?></a>
+					<a class="llms-nav-link" data-range="last-month" href="<?php echo admin_url( 'admin.php?page=llms-analytics&tab=' . $current_tab . '&range=last-month' ); ?>"><?php _e( 'Last Month', 'lifterlms' ); ?></a>
 				</li>
 
 				<li class="llms-nav-item<?php echo ( $current_range == 'this-month' ) ? ' llms-active' : ''; ?>">
-					<a class="llms-nav-link" data-range="this-month" href="<?php echo admin_url( 'admin.php?page=llms-analytics-new&tab=' . $current_tab . '&range=this-month' ); ?>"><?php _e( 'This Month', 'lifterlms' ); ?></a>
+					<a class="llms-nav-link" data-range="this-month" href="<?php echo admin_url( 'admin.php?page=llms-analytics&tab=' . $current_tab . '&range=this-month' ); ?>"><?php _e( 'This Month', 'lifterlms' ); ?></a>
 				</li>
 
 				<li class="llms-nav-item<?php echo ( $current_range == 'last-7-days' ) ? ' llms-active' : ''; ?>">
-					<a class="llms-nav-link" data-range="last-7-days" href="<?php echo admin_url( 'admin.php?page=llms-analytics-new&tab=' . $current_tab . '&range=last-7-days' ); ?>"><?php _e( 'Last 7 Days', 'lifterlms' ); ?></a>
+					<a class="llms-nav-link" data-range="last-7-days" href="<?php echo admin_url( 'admin.php?page=llms-analytics&tab=' . $current_tab . '&range=last-7-days' ); ?>"><?php _e( 'Last 7 Days', 'lifterlms' ); ?></a>
 				</li>
 
 
@@ -118,9 +118,11 @@ if ( ! is_admin() ) { exit; }
 
 		<input type="hidden" name="range" value="<?php echo $current_range; ?>">
 		<input type="hidden" name="tab" value="<?php echo $current_tab; ?>">
-		<input type="hidden" name="page" value="llms-analytics-new">
+		<input type="hidden" name="page" value="llms-analytics">
 
 	</form>
+
+	<h1 style="display:none;"></h1><!-- find a home for admin notices -->
 
 	<div class="llms-options-page-contents">
 

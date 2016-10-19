@@ -43,7 +43,7 @@ if (get_option( 'redirect_to_checkout' ) == 'yes') {
 		<a class="llms-membership-link" href="<?php echo $account_redirect; ?>">
 		<?php
 	} // if user is logged in handle separate logic
-	elseif ( ! llms_is_user_member( get_current_user_id(), get_the_ID() ) ) {
+	elseif ( ! llms_is_user_enrolled( get_current_user_id(), get_the_ID() ) ) {
 		// if price is greater than 0 redirect to checkout page
 		if ($single_price > 0 || $rec_price > 0) {
 			?>

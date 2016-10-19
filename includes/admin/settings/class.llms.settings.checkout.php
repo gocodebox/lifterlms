@@ -44,9 +44,17 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 		$settings = array(
 
-			array( 'type' => 'sectionstart', 'id' => 'course_archive_options', 'class' => 'top' ),
+			array(
+				'class' => 'top',
+				'id' => 'course_archive_options',
+				'type' => 'sectionstart',
+			),
 
-			array( 'title' => __( 'Checkout Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Manage checkout settings.', 'id' => 'course_options' ),
+			array(
+				'id' => 'course_options',
+				'title' => __( 'Checkout Settings', 'lifterlms' ),
+				'type' => 'title',
+			),
 
 			array(
 				'title' => __( 'Checkout Page', 'lifterlms' ),
@@ -69,6 +77,15 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'type' 		=> 'text',
 				'default'	=> 'confirm-payment',
 				'desc_tip'	=> true,
+			),
+
+			array(
+				'title' => __( 'Force SSL', 'lifterlms' ),
+				'desc' 		=> __( 'Force secure checkout via SSL (https) on the checkout page(s).', 'lifterlms' ) .
+							   '<br><span class="description">' . sprintf( __( 'Requires an SSL certificate. %sLearn More%s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/ssl-and-https/" target="_blank">', '</a>' ) . '</span>',
+				'id' 		=> 'lifterlms_checkout_force_ssl',
+				'type' 		=> 'checkbox',
+				'default'	=> 'no',
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),

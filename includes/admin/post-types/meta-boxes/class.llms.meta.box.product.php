@@ -128,7 +128,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 				$this->add_error( __( 'Access Plan price is required', 'lifterlms' ) );
 			}
 
-			if ( 'yes' === $data['on_sale'] && empty( $data['sale_price'] ) && '0' !== $data['sale_price'] ) {
+			if ( isset( $data['on_sale'] ) && 'yes' === $data['on_sale'] && empty( $data['sale_price'] ) && '0' !== $data['sale_price'] ) {
 				$this->add_error( __( 'Sale price is required if the plan is on sale', 'lifterlms' ) );
 			}
 

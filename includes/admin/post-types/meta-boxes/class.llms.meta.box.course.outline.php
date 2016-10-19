@@ -29,15 +29,13 @@ class LLMS_Meta_Box_Course_Outline {
 		$html .= '<div class="list-options d-1of4 t-1of4 m-all last-col">';
 
 		//delete link
-		$html .= '<a href="#" class="llms-delete-section-link"
-   			data-modal_id="llms-delete-section-modal" data-modal_title="Delete Section">';
-		$html .= LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' );
-		$html .= '</a>';
+		$html .= '<a href="#" class="llms-delete-section-link llms-button-danger square" data-modal_id="llms-delete-section-modal" data-modal_title="Delete Section"><span class="dashicons dashicons-no"></span></a>';
+		// $html .= LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' );
+		// $html .= '</a>';
 		//edit link
-		$html .= '<a href="#" class="llms-edit-section-link"
-   			data-modal_id="llms-edit-section-modal" data-modal_title="Edit Section">';
-		$html .= LLMS_Svg::get_icon( 'llms-icon-gear', 'Edit Section', 'Edit Section', 'button-icon' );
-		$html .= '</a>';
+		$html .= '<a href="#" class="llms-edit-section-link llms-button-primary square" data-modal_id="llms-edit-section-modal" data-modal_title="Edit Section"><span class="dashicons dashicons-admin-generic"></span></a>';
+		// $html .= LLMS_Svg::get_icon( 'llms-icon-gear', 'Edit Section', 'Edit Section', 'button-icon' );
+		// $html .= '</a>';
 
 		$html .= '</div>';
 
@@ -87,17 +85,17 @@ class LLMS_Meta_Box_Course_Outline {
 
 		$html .= '<div class="list-lesson-links d-all t-all m-all">';
 		//remove link
-		$html .= '<a href="#" class="llms-remove-lesson-link">';
-		$html .= LLMS_Svg::get_icon( 'llms-icon-close', 'Remove Lesson', 'Remove Lesson', 'button-icon' );
-		$html .= '</a>';
+		$html .= '<a href="#" class="llms-remove-lesson-link llms-button-danger square"><span class="dashicons dashicons-no"></span></a>';
+		// $html .= LLMS_Svg::get_icon( 'llms-icon-close', 'Remove Lesson', 'Remove Lesson', 'button-icon' );
+		// $html .= '</a>';
 		//edit link
-		$html .= '<a href="#" class="llms-edit-lesson-link"
-   			data-modal_id="llms-edit-lesson-modal" data-modal_title="Edit Lesson">';
-		$html .= LLMS_Svg::get_icon( 'llms-icon-gear', 'Edit Lesson', 'Edit Lesson', 'button-icon' );
-		$html .= '</a>';
+		$html .= '<a href="#" class="llms-edit-lesson-link llms-button-primary square" data-modal_id="llms-edit-lesson-modal" data-modal_title="Edit Lesson"><span class="dashicons dashicons-admin-generic"></span></a>';
+		// $html .= LLMS_Svg::get_icon( 'llms-icon-gear', 'Edit Lesson', 'Edit Lesson', 'button-icon' );
+		// $html .= '</a>';
 		//link to lesson post editor
-		$html .= '<a href="' . get_edit_post_link( $lesson->id ) . '" class="llms-edit-lesson-content-link">';
-		$html .= 'Edit Content ' . LLMS_Svg::get_icon( 'llms-icon-plus', 'Edit Lesson Content', 'Edit Lesson Content', 'button-icon-attr' );
+		$html .= '<a href="' . get_edit_post_link( $lesson->id ) . '" class="llms-edit-lesson-content-link llms-button-primary">';
+		$html .= __( 'Edit Content', 'lifterlms' ) . ' <span class="dashicons dashicons-plus"></span>';
+		// $html .= 'Edit Content ' . LLMS_Svg::get_icon( 'llms-icon-plus', 'Edit Lesson Content', 'Edit Lesson Content', 'button-icon-attr' );
 		$html .= '</a>';
 		$html .= '</div>'; //end links
 
@@ -432,9 +430,9 @@ class LLMS_Meta_Box_Course_Outline {
 		$html = '<div class="llms-lesson-details">';
 
 		//prerequisite
-		if ( $lesson->get_prerequisite() ) {
+		if ( $lesson->has_prerequisite() ) {
 			$icon_class = 'detail-icon on';
-			$tooltip = sprintf( __( 'Prerequisite: %s', 'lifterlms' ), get_the_title( $lesson->get_prerequisite() ) );
+			$tooltip = sprintf( __( 'Prerequisite: %s', 'lifterlms' ), get_the_title( $lesson->get( 'prerequisite' ) ) );
 		} else {
 			$icon_class = 'detail-icon off';
 			$tooltip = __( 'No Prerequisite', 'lifterlms' );
@@ -446,9 +444,9 @@ class LLMS_Meta_Box_Course_Outline {
 				$html .= LLMS_Svg::get_icon( 'llms-icon-lock', 'Prerequisite', $tooltip, $icon_class );
 			$html .= '</span></a></a>';
 
-		if ( $lesson->get_assigned_quiz() ) {
+		if ( $quiz_id = $lesson->get( 'assigned_quiz' ) ) {
 			$icon_class = 'detail-icon on';
-			$tooltip = sprintf( __( 'Assigned Quiz: %s', 'lifterlms' ), get_the_title( $lesson->get_assigned_quiz() ) );
+			$tooltip = sprintf( __( 'Assigned Quiz: %s', 'lifterlms' ), get_the_title( $quiz_id ) );
 		} else {
 			$icon_class = 'detail-icon off';
 			$tooltip = __( 'No Assigned Quiz', 'lifterlms' );
@@ -460,9 +458,23 @@ class LLMS_Meta_Box_Course_Outline {
 				$html .= LLMS_Svg::get_icon( 'llms-icon-question', 'Quiz', $tooltip, $icon_class );
 			$html .= '</span></a></a>';
 
-		if ( $lesson->get_drip_days() ) {
+		if ( $method = $lesson->get( 'drip_method' ) ) {
+
 			$icon_class = 'detail-icon on';
-			$tooltip = sprintf( __( 'Drip Delay: %s' ), $lesson->get_drip_days() . ' days' );
+
+			switch ( $method ) {
+
+				case 'date':
+					$tooltip = sprintf( __( 'Drip Delay: %s' ), $lesson->get_date( 'date_available', 'n/j/Y' ) );
+				break;
+
+				case 'enrollment':
+				case 'start':
+					$tooltip = sprintf( __( 'Drip Delay: %d days' ), $lesson->get( 'days_before_available' ) );
+				break;
+
+			}
+
 		} else {
 			$icon_class = 'detail-icon off';
 			$tooltip = __( 'No Drip Delay', 'lifterlms' );

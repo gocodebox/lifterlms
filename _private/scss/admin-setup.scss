@@ -12,27 +12,6 @@
 	width: 100%;
 	z-index: 777777;
 
-	.button-large {
-		font-size: 18px;
-		height: auto;
-		padding: 8px 12px;
-	}
-
-	.button {
-		border-color: #ccc;
-		box-shadow: none;
-		text-shadow: none;
-
-	}
-
-	.button-primary {
-		background-color: #069cb5;
-		border-color: darken( #069cb5, 5 );
-		&:hover {
-			background-color: darken( #069cb5, 3 );
-		}
-	}
-
 }
 
 .select2-container {
@@ -68,8 +47,8 @@ a.dashboard-return {
 		color: #444;
 	}
 
-	a {
-		color: #069cb5;
+	a:not( .llms-button-primary ):not( .llms-button-secondary ) {
+		color: $color-brand-blue;
 	}
 
 	p, li {
@@ -87,7 +66,12 @@ a.dashboard-return {
 	}
 
 	.llms-setup-actions {
+		margin-top: 40px;
 		text-align: right;
+	}
+
+	.back-link {
+		margin-right: 10px;
 	}
 
 	table {
@@ -117,8 +101,8 @@ a.dashboard-return {
 	margin: 20px 0;
 
 	li {
-		border-bottom: 4px solid #069cb5;
-		color: #069cb5;
+		border-bottom: 4px solid $color-brand-blue;
+		color: $color-brand-blue;
 		display: inline-block;
 		font-size: 14px;
 		padding-bottom: 10px;
@@ -127,10 +111,10 @@ a.dashboard-return {
 		width: 20%;
 
 		&:after {
-			background: #069cb5;
+			background: $color-brand-blue;
 			bottom: 0;
 			content: '';
-			border: 4px solid #069cb5;
+			border: 4px solid $color-brand-blue;
 			border-radius: 100%;
 			height: 4px;
 			position: absolute;

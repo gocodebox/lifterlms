@@ -46,6 +46,25 @@ class LLMS_Shortcodes {
 	}
 
 	/**
+	 * Allows shortcodes to enqueue a script by handle
+	 * Ensures the handle is registered and that it hasn't already been enqueued
+	 * @param    [type]     $handle  script handle used to register the script
+	 *                               the script should be registered in `LLMS_Frontend_Assets`
+	 * @return   void
+	 * @since    3.0.2
+	 * @version  3.0.2
+	 */
+	private static function enqueue_script( $handle ) {
+
+		if ( wp_script_is( $handle, 'registered' ) && ! wp_script_is( $handle, 'enqueued' ) ) {
+
+			wp_enqueue_script( $handle );
+
+		}
+
+	}
+
+	/**
 	 * Retrieve the course ID from within a course, lesson, or quiz
 	 * @return   int
 	 * @since    2.7.9
@@ -65,6 +84,10 @@ class LLMS_Shortcodes {
 			return 0;
 		}
 	}
+
+
+
+
 
 	/**
 	* Creates a wrapper for shortcode.
@@ -148,10 +171,13 @@ class LLMS_Shortcodes {
 	* @param array $atts   associative array of shortcode attributes
 	* @return string
 	*
-	* @since  1.4.4
-	* @version  2.7.5
+	* @since    1.4.4
+	* @version  3.0.2
 	*/
 	public static function memberships( $atts ) {
+
+		// enqueue match height so the loop isn't all messed up visually
+		self::enqueue_script( 'llms-jquery-matchheight' );
 
 		if ( isset( $atts['category'] ) ) {
 			$tax = array(
@@ -183,19 +209,25 @@ class LLMS_Shortcodes {
 
 		ob_start();
 
-		if ( $query->have_posts() ) {
+		if ( $query->have_posts() ) :
 
-			do_action( 'lifterlms_before_memberships_loop' );
-
-			lifterlms_membership_loop_start();
+			/**
+			 * lifterlms_before_loop hook
+			 * @hooked lifterlms_loop_start - 10
+			 */
+			do_action( 'lifterlms_before_loop' );
 
 			while ( $query->have_posts() ) : $query->the_post();
 
-				llms_get_template_part( 'content', 'llms_membership' );
+				llms_get_template_part( 'loop/content', get_post_type() );
 
 			endwhile;
 
-			lifterlms_membership_loop_end();
+			/**
+			 * lifterlms_before_loop hook
+			 * @hooked lifterlms_loop_end - 10
+			 */
+			do_action( 'lifterlms_after_loop' );
 
 			echo '<nav class="llms-pagination">';
 			echo paginate_links( array(
@@ -210,13 +242,11 @@ class LLMS_Shortcodes {
 			) );
 			echo '</nav>';
 
-			do_action( 'lifterlms_after_memberships_loop' );
+		else :
 
-		} else {
+			llms_get_template( 'loop/none-found.php' );
 
-			llms_get_template( 'loop/no-courses-found.php' );
-
-		}
+		endif;
 
 		wp_reset_postdata();
 
@@ -263,7 +293,7 @@ class LLMS_Shortcodes {
 			'membership' => '', // course, lesson, section
 		),$atts));
 
-		if (llms_is_user_member( get_current_user_id(), $membership )) {
+		if (llms_is_user_enrolled( get_current_user_id(), $membership )) {
 			return $content;
 		}
 	}
@@ -345,15 +375,14 @@ class LLMS_Shortcodes {
 	/**
 	* courses shortcode
 	*
-	* Used for courses [courses]
-	*
-	* @return array
-	* @since  1.0.0
-	* @version  2.7.5
+	* @return   array
+	* @since    1.0.0
+	* @version  3.0.2
 	*/
 	public static function courses( $atts ) {
 
-		ob_start();
+		// enqueue match height so the loop isn't all messed up visually
+		self::enqueue_script( 'llms-jquery-matchheight' );
 
 		if (isset( $atts['category'] )) {
 			$tax = array(
@@ -383,17 +412,27 @@ class LLMS_Shortcodes {
 
 		$query = new WP_Query( $args );
 
-		if ( $query->have_posts() ) {
+		ob_start();
 
-			lifterlms_course_loop_start();
+		if ( $query->have_posts() ) :
+
+			/**
+			 * lifterlms_before_loop hook
+			 * @hooked lifterlms_loop_start - 10
+			 */
+			do_action( 'lifterlms_before_loop' );
 
 			while ( $query->have_posts() ) : $query->the_post();
 
-				llms_get_template_part( 'content', 'course' );
+				llms_get_template_part( 'loop/content', get_post_type() );
 
 			endwhile;
 
-			lifterlms_course_loop_end();
+			/**
+			 * lifterlms_before_loop hook
+			 * @hooked lifterlms_loop_end - 10
+			 */
+			do_action( 'lifterlms_after_loop' );
 
 			echo '<nav class="llms-pagination">';
 			echo paginate_links( array(
@@ -408,11 +447,15 @@ class LLMS_Shortcodes {
 			) );
 			echo '</nav>';
 
-			$courses = ob_get_clean();
-			wp_reset_postdata();
-			return $courses;
+		else :
 
-		}
+			llms_get_template( 'loop/none-found.php' );
+
+		endif;
+
+		wp_reset_postdata();
+
+		return ob_get_clean();
 
 	}
 

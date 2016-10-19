@@ -117,7 +117,6 @@ class LLMS_Admin_Post_Types {
 		'course' => __( 'Assigned Course' ),
 		'section' => __( 'Assigned Section' ),
 		'prereq' => __( 'Prerequisite' ),
-		'memberships' => __( 'Memberships Required' ),
 		'date' => __( 'Date' ),
 		);
 		return $columns;
@@ -163,23 +162,6 @@ class LLMS_Admin_Post_Types {
 
 				if ( empty( $prereq ) ) {
 					echo ''; } else { 					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title( $prereq ) ); }
-
-				break;
-
-			case 'memberships' :
-
-				$memberships = llms_get_post_memberships( $post_id );
-
-				if ( empty( $memberships ) ) {
-					echo '';
-				} else {
-					$membership_list = array();
-					foreach ($memberships as $key => $value) {
-
-						array_push( $membership_list, get_the_title( $value ) );
-					}
-					printf( __( '%s ' ), implode( ', ', $membership_list ) );
-				}
 
 				break;
 

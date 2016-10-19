@@ -89,12 +89,16 @@ class LLMS_Post_Types {
 			}
 
 			if ( is_post_type_archive( 'course' ) || $query->get( 'page_id' ) == llms_get_page_id( 'courses' ) ) {
+
 				$query->set( 'posts_per_page', get_option( 'lifterlms_shop_courses_per_page', 10 ) );
 
 				$sorting = explode( ',', get_option( 'lifterlms_shop_ordering', 'menu_order,ASC' ) );
 
-				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $sorting[0] ) );
-				$query->set( 'order', apply_filters( 'llms_courses_order', $sorting[1] ) );
+				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
+				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
+
+				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $order ) );
+				$query->set( 'order', apply_filters( 'llms_courses_order', $orderby ) );
 
 			} elseif ( is_post_type_archive( 'membership' ) || $query->get( 'page_id' ) == llms_get_page_id( 'memberships' ) ) {
 
@@ -102,8 +106,11 @@ class LLMS_Post_Types {
 
 				$sorting = explode( ',', get_option( 'lifterlms_memberships_ordering', 'menu_order,ASC' ) );
 
-				$query->set( 'orderby', apply_filters( 'llms_memberships_orderby', $sorting[0] ) );
-				$query->set( 'order', apply_filters( 'llms_memberships_order', $sorting[1] ) );
+				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
+				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
+
+				$query->set( 'orderby', apply_filters( 'llms_memberships_orderby', $order ) );
+				$query->set( 'order', apply_filters( 'llms_memberships_order', $orderby ) );
 
 			}
 
@@ -367,7 +374,7 @@ class LLMS_Post_Types {
 					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
 					'has_archive' 			=> ( $shop_page_id = llms_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
 					'show_in_nav_menus' 	=> true,
-					'menu_position'         => 53,
+					'menu_position'         => 52,
 				)
 			)
 		);
@@ -462,6 +469,89 @@ class LLMS_Post_Types {
 		);
 
 		/**
+		 * Membership Post Type
+		 */
+		$membership_permalink = empty( $permalinks['membership_base'] ) ? _x( 'membership', 'slug', 'lifterlms' ) : $permalinks['membership_base'];
+		register_post_type( 'llms_membership',
+			apply_filters( 'lifterlms_register_post_type_membership',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Membership', 'lifterlms' ),
+							'singular_name' 		=> __( 'Membership', 'lifterlms' ),
+							'menu_name'				=> _x( 'Memberships', 'Admin menu name', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Membership', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Membership', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Membership', 'lifterlms' ),
+							'new_item' 				=> __( 'New Membership', 'lifterlms' ),
+							'view' 					=> __( 'View Membership', 'lifterlms' ),
+							'view_item' 			=> __( 'View Membership', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Memberships', 'lifterlms' ),
+							'not_found' 			=> __( 'No Memberships found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Memberships found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Membership', 'lifterlms' ),
+						),
+					'description' 			=> __( 'This is where you can add new Membership levels.', 'lifterlms' ),
+					'public' 				=> true,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_membership_access', 'manage_options' ) ) ) ? true : false,
+					'map_meta_cap'			=> true,
+					'menu_icon'             => 'dashicons-groups',
+					'publicly_queryable' 	=> true,
+					'exclude_from_search' 	=> false,
+					'show_in_menu' 			=> true,
+					'hierarchical' 			=> false,
+					'rewrite' 				=> $membership_permalink ? array( 'slug' => untrailingslashit( $membership_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'query_var' 			=> true,
+					'supports' 				=> array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+					'has_archive' 			=> ( $membership_page_id = llms_get_page_id( 'memberships' ) ) && get_page( $membership_page_id ) ? get_page_uri( $membership_page_id ) : 'memberships',
+					'show_in_nav_menus' 	=> true,
+					'menu_position'         => 52,
+				)
+			)
+		);
+
+		/**
+		 * Engagement Post type
+		 */
+	    register_post_type( 'llms_engagement',
+		    apply_filters( 'lifterlms_register_post_type_llms_engagement',
+				array(
+					'labels' => array(
+							'name' 					=> __( 'Engagements', 'lifterlms' ),
+							'singular_name' 		=> __( 'Engagement', 'lifterlms' ),
+							'add_new' 				=> __( 'Add Engagement', 'lifterlms' ),
+							'add_new_item' 			=> __( 'Add New Engagement', 'lifterlms' ),
+							'edit' 					=> __( 'Edit', 'lifterlms' ),
+							'edit_item' 			=> __( 'Edit Engagement', 'lifterlms' ),
+							'new_item' 				=> __( 'New Engagement', 'lifterlms' ),
+							'view' 					=> __( 'View Engagement', 'lifterlms' ),
+							'view_item' 			=> __( 'View Engagement', 'lifterlms' ),
+							'search_items' 			=> __( 'Search Engagement', 'lifterlms' ),
+							'not_found' 			=> __( 'No Engagement found', 'lifterlms' ),
+							'not_found_in_trash' 	=> __( 'No Engagement found in trash', 'lifterlms' ),
+							'parent' 				=> __( 'Parent Engagement', 'lifterlms' ),
+							'menu_name'				=> _x( 'Engagements', 'Admin menu name', 'lifterlms' ),
+						),
+					'description' 			=> __( 'This is where engagements are stored.', 'lifterlms' ),
+					'public' 				=> false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_engagements_access', 'manage_options' ) ) ) ? true : false,
+					'map_meta_cap'			=> true,
+					'publicly_queryable' 	=> false,
+					'exclude_from_search' 	=> true,
+					// 'show_in_menu' 			=> 'lifterlms',
+					'menu_position'         => 52,
+					'menu_icon'             => 'dashicons-awards',
+					'hierarchical' 			=> false,
+					'show_in_nav_menus' 	=> false,
+					'rewrite' 				=> false,
+					'query_var' 			=> false,
+					'supports' 				=> array( 'title' ),
+					'has_archive' 			=> false,
+				)
+			)
+		);
+
+		/**
 		 * Order post type
 		 */
 	    register_post_type( 'llms_order',
@@ -489,7 +579,7 @@ class LLMS_Post_Types {
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'menu_icon'             => 'dashicons-cart',
-					'menu_position'         => 56,
+					'menu_position'         => 52,
 					'exclude_from_search' 	=> true,
 					'hierarchical' 			=> false,
 					'show_in_nav_menus' 	=> false,
@@ -538,47 +628,6 @@ class LLMS_Post_Types {
 					'supports' 				=> array( '' ),
 					'has_archive' 			=> false,
 					'capabilities'  	    => array( 'create_posts' => false ),
-				)
-			)
-		);
-
-		/**
-		 * Engagement Post type
-		 */
-	    register_post_type( 'llms_engagement',
-		    apply_filters( 'lifterlms_register_post_type_llms_engagement',
-				array(
-					'labels' => array(
-							'name' 					=> __( 'Engagements', 'lifterlms' ),
-							'singular_name' 		=> __( 'Engagement', 'lifterlms' ),
-							'add_new' 				=> __( 'Add Engagement', 'lifterlms' ),
-							'add_new_item' 			=> __( 'Add New Engagement', 'lifterlms' ),
-							'edit' 					=> __( 'Edit', 'lifterlms' ),
-							'edit_item' 			=> __( 'Edit Engagement', 'lifterlms' ),
-							'new_item' 				=> __( 'New Engagement', 'lifterlms' ),
-							'view' 					=> __( 'View Engagement', 'lifterlms' ),
-							'view_item' 			=> __( 'View Engagement', 'lifterlms' ),
-							'search_items' 			=> __( 'Search Engagement', 'lifterlms' ),
-							'not_found' 			=> __( 'No Engagement found', 'lifterlms' ),
-							'not_found_in_trash' 	=> __( 'No Engagement found in trash', 'lifterlms' ),
-							'parent' 				=> __( 'Parent Engagement', 'lifterlms' ),
-							'menu_name'				=> _x( 'Engagements', 'Admin menu name', 'lifterlms' ),
-						),
-					'description' 			=> __( 'This is where engagements are stored.', 'lifterlms' ),
-					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_engagements_access', 'manage_options' ) ) ) ? true : false,
-					'map_meta_cap'			=> true,
-					'publicly_queryable' 	=> false,
-					'exclude_from_search' 	=> true,
-					// 'show_in_menu' 			=> 'lifterlms',
-					'menu_position'         => 55,
-					'menu_icon'             => 'dashicons-awards',
-					'hierarchical' 			=> false,
-					'show_in_nav_menus' 	=> false,
-					'rewrite' 				=> false,
-					'query_var' 			=> false,
-					'supports' 				=> array( 'title' ),
-					'has_archive' 			=> false,
 				)
 			)
 		);
@@ -736,48 +785,6 @@ class LLMS_Post_Types {
 					'query_var' 			=> false,
 					'supports' 				=> array( 'title', 'editor' ),
 					'has_archive' 			=> false,
-				)
-			)
-		);
-
-		/**
-		 * Membership Post Type
-		 */
-		$membership_permalink = empty( $permalinks['membership_base'] ) ? _x( 'membership', 'slug', 'lifterlms' ) : $permalinks['membership_base'];
-		register_post_type( 'llms_membership',
-			apply_filters( 'lifterlms_register_post_type_membership',
-				array(
-					'labels' => array(
-							'name' 					=> __( 'Membership', 'lifterlms' ),
-							'singular_name' 		=> __( 'Membership', 'lifterlms' ),
-							'menu_name'				=> _x( 'Memberships', 'Admin menu name', 'lifterlms' ),
-							'add_new' 				=> __( 'Add Membership', 'lifterlms' ),
-							'add_new_item' 			=> __( 'Add New Membership', 'lifterlms' ),
-							'edit' 					=> __( 'Edit', 'lifterlms' ),
-							'edit_item' 			=> __( 'Edit Membership', 'lifterlms' ),
-							'new_item' 				=> __( 'New Membership', 'lifterlms' ),
-							'view' 					=> __( 'View Membership', 'lifterlms' ),
-							'view_item' 			=> __( 'View Membership', 'lifterlms' ),
-							'search_items' 			=> __( 'Search Memberships', 'lifterlms' ),
-							'not_found' 			=> __( 'No Memberships found', 'lifterlms' ),
-							'not_found_in_trash' 	=> __( 'No Memberships found in trash', 'lifterlms' ),
-							'parent' 				=> __( 'Parent Membership', 'lifterlms' ),
-						),
-					'description' 			=> __( 'This is where you can add new Membership levels.', 'lifterlms' ),
-					'public' 				=> true,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_membership_access', 'manage_options' ) ) ) ? true : false,
-					'map_meta_cap'			=> true,
-					'menu_icon'             => 'dashicons-groups',
-					'publicly_queryable' 	=> true,
-					'exclude_from_search' 	=> false,
-					'show_in_menu' 			=> true,
-					'hierarchical' 			=> false,
-					'rewrite' 				=> $membership_permalink ? array( 'slug' => untrailingslashit( $membership_permalink ), 'with_front' => false, 'feeds' => true ) : false,
-					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
-					'has_archive' 			=> ( $membership_page_id = llms_get_page_id( 'memberships' ) ) && get_page( $membership_page_id ) ? get_page_uri( $membership_page_id ) : 'memberships',
-					'show_in_nav_menus' 	=> true,
-					'menu_position'         => 54,
 				)
 			)
 		);
@@ -1005,7 +1012,16 @@ class LLMS_Post_Types {
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
-					'hierarchical' 			=> false,
+					/**
+					 * Making this post type hierachical prevents a conflict
+					 * with the Redirection plugin (https://wordpress.org/plugins/redirection/)
+					 * When 301 monitoring is turned on, Redirection creates access plans
+					 * for each access plan that redirect the course or membership
+					 * to the site's home page
+					 * @since    3.0.4
+					 * @version  3.0.4
+					 */
+					'hierarchical' 			=> true,
 					'show_in_nav_menus' 	=> false,
 					'rewrite' 				=> false,
 					'query_var' 			=> false,

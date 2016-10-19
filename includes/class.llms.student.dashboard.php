@@ -9,15 +9,20 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Student_Dashboard {
 
+	/**
+	 * Constructor
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function __construct() {
 		add_filter( 'llms_get_endpoints', array( $this, 'add_endpoints' ) );
 	}
 
 	/**
 	 * Add endpoints to the LLMS_Query class to be automatically registered
-	 * @param    [type]     $endpoints  [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @param    array     $endpoints  updated array of endpoints
+	 * @since    3.0.0
+	 * @version  3.0.0
 	 */
 	public function add_endpoints( $endpoints ) {
 
@@ -25,6 +30,12 @@ class LLMS_Student_Dashboard {
 
 	}
 
+	/**
+	 * Retreive an array of all endpoint data for student dashboard endpoints
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function get_endpoints() {
 
 		$endpoints = array();
@@ -43,6 +54,13 @@ class LLMS_Student_Dashboard {
 
 	}
 
+	/**
+	 * Retreive the current tab when on the student dashboard
+	 * @param    string     $return   type of return, either "data" for an array of data or 'slug' for just the slug
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function get_current_tab( $return = 'data' ) {
 
 		global $wp;
@@ -69,6 +87,12 @@ class LLMS_Student_Dashboard {
 
 	}
 
+	/**
+	 * Retrieve all dashboard tabs and related data
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.1
+	 */
 	public static function get_tabs() {
 
 		return apply_filters( 'llms_get_student_dashboard_tabs', array(
@@ -78,11 +102,11 @@ class LLMS_Student_Dashboard {
 				'title' => __( 'Dashboard', 'lifterlms' ),
 				'url' => llms_get_page_url( 'myaccount' ),
 			),
-			'my-courses' => array(
+			'view-courses' => array(
 				'content' => array( __CLASS__, 'output_courses_content' ),
 				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'my-courses' ),
 				'title' => __( 'My Courses', 'lifterlms' ),
-				'url' => llms_get_endpoint_url( 'my-courses', '', llms_get_page_url( 'myaccount' ) ),
+				'url' => llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ),
 			),
 			'edit-account' => array(
 				'content' => array( __CLASS__, 'output_edit_account_content' ),
@@ -111,6 +135,12 @@ class LLMS_Student_Dashboard {
 
 	}
 
+	/**
+	 * Callback to output View Courses endpoint content
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function output_courses_content() {
 
 		$student = new LLMS_Student();
@@ -128,6 +158,12 @@ class LLMS_Student_Dashboard {
 
 	}
 
+	/**
+	 * Callback to output main dashboard content
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function output_dashboard_content() {
 
 		$student = new LLMS_Student();
@@ -144,12 +180,24 @@ class LLMS_Student_Dashboard {
 
 	}
 
+	/**
+	 * Callback to output the edit account content
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function output_edit_account_content() {
 		llms_get_template( 'myaccount/form-edit-account.php', array(
 			'user' => get_user_by( 'id', get_current_user_id() ),
 		) );
 	}
 
+	/**
+	 * Endpoint to output orders content
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function output_orders_content() {
 
 		global $wp;
@@ -181,6 +229,12 @@ class LLMS_Student_Dashboard {
 
 	}
 
+	/**
+	 * Callback to output content for the voucher endpoint
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function output_redeem_voucher_content() {
 
 		llms_get_template( 'myaccount/form-redeem-voucher.php', array(
