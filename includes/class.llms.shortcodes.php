@@ -33,8 +33,10 @@ class LLMS_Shortcodes {
 			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
+			'lifterlms_login' => __CLASS__ . '::login',
 			'lifterlms_memberships' => __CLASS__ . '::memberships',
 			'lifterlms_membership_link' => __CLASS__ . '::membership_link',
+
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -85,10 +87,6 @@ class LLMS_Shortcodes {
 		}
 	}
 
-
-
-
-
 	/**
 	* Creates a wrapper for shortcode.
 	*
@@ -116,12 +114,36 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	* My account shortcode.
-	*
-	* Used for displaying account.
-	*
-	* @return self::shortcode_wrappers
-	*/
+	 * Add a login form
+	 * @param    array     $atts  shortcode attributes
+	 * @return   string
+	 * @since    3.0.4
+	 * @version  3.0.4
+	 */
+	public static function login( $atts ) {
+
+		extract( shortcode_atts( array(
+			'layout' => 'columns',
+			'redirect' => get_permalink(),
+		), $atts, 'lifterlms_login' ) );
+
+		ob_start();
+		llms_print_notices();
+		llms_get_template( 'global/form-login.php', array(
+			'layout' => $layout,
+			'redirect' => $redirect,
+		) );
+		return ob_get_clean();
+
+	}
+
+	/**
+	 * My account shortcode.
+	 *
+	 * Used for displaying account.
+	 *
+	 * @return self::shortcode_wrappers
+	 */
 	public static function my_account( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
