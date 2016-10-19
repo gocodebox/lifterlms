@@ -82,14 +82,15 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'group' 	=> 'top',
 					),
 					array(
-						'type'		=> 'select',
-						'label'		=> __( 'Course Difficulty Category', 'lifterlms' ),
-						'desc' 		=> 'Choose a course difficulty level from the difficulty categories.',
+						'class' 	=> 'llms-select2',
 						'id' 		=> $this->prefix . 'post_course_difficulty',
-						'class' 	=> 'llms-select-2',
-						'value' 	=> $difficulty_options,
+						'desc' 		=> sprintf( __( 'Choose a course difficulty level. New difficulties can be added via %sCourses -> Difficulties%s.', 'lifterlms' ), '<a href="' . admin_url( 'edit-tags.php?taxonomy=course_difficulty&post_type=course' ) . '">', '</a>' ),
 						'desc_class' => 'd-all',
 						'group' 	=> 'bottom',
+						'label'		=> __( 'Course Difficulty Category', 'lifterlms' ),
+						'selected'  => $course->get_difficulty( 'slug' ),
+						'type'		=> 'select',
+						'value' 	=> $difficulty_options,
 					),
 					array(
 						'type'		=> 'text',
@@ -297,9 +298,9 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  WP Post ID of the course
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.0.4 - changed from after save to before save
 	 */
-	protected function save_after( $post_id ) {
+	protected function save_before( $post_id ) {
 
 		if ( ! isset( $_POST['_llms_post_course_difficulty'] ) ) {
 			$difficulty = '';
@@ -308,6 +309,8 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		}
 
 		wp_set_object_terms( $post_id, $difficulty, 'course_difficulty', false );
+
+		unset( $_POST['_llms_post_course_difficulty'] ); // don't save this to the postmeta table
 
 	}
 
