@@ -39,7 +39,7 @@ add_action( 'init', function() {
 				// advanced settings
 				'settings' => array(
 					'capacity' => '', // absint
-					'prerequisite' => '', // absint
+					'prerequisite' => '', // string of a tempid of another course
 					'prerequisite_track' => '', // absint
 					'enable_capacity' => 'no', // yesno
 					'enrollment_period' => 'no', // yesno
@@ -66,7 +66,7 @@ add_action( 'init', function() {
 					'Second Category',
 				),
 
-				'difficulty' => 'Beginner', // string since we only allow one difficulty at a time
+				'difficulty' => 'Easy', // string since we only allow one difficulty at a time
 
 				'tags' => array(
 					'Featured',
@@ -114,12 +114,109 @@ add_action( 'init', function() {
 
 			),
 
+
+			array(
+
+				// author information
+				'author' => array(
+					'email' => 'help123@lifterlms.com',
+					'first_name' => 'Thomas',
+					'last_name' => 'Levy',
+				),
+
+				// access plans
+				'access_plans' => array(
+				),
+
+				// basic information
+				'date_created' => '',
+				'date_updated' => '',
+				'description' => '<strong>Default</strong><br>Lorem Ipsum Dolor Sit',
+				'public_description' => '<strong>Public</strong><br>Lorem Ipsum Dolor Sit',
+				'status' => 'publish',
+				'title' => 'This Course Came From a Scaffold & Has a Prereq!',
+
+				// advanced settings
+				'settings' => array(
+					'capacity' => '25', // absint
+					'prerequisite' => 'course123',
+					'prerequisite_track' => '', // absint
+					'enable_capacity' => 'no', // yesno
+					'enrollment_period' => 'no', // yesno
+					'has_prerequisite' => 'yes', // yesno
+					'time_period' => 'no', // yesno
+					'audio_embed' => '', // 'text'
+					'capacity_message' => 'This course has reached maximum capacity.', // 'text'
+					'content_restricted_message' => '', // 'text'
+					'course_closed_message' => '', // 'text'
+					'course_opens_message' => '', // 'text'
+					'enrollment_closed_message' => '', // 'text'
+					'enrollment_end_date' => '', // 'text'
+					'enrollment_opens_message' => '', // 'text'
+					'enrollment_start_date' => '', // 'text'
+					'end_date' => '', // 'text'
+					'length' => '', // 'text'
+					'start_date' => '', // 'text'
+					'video_embed' => '', // 'text'
+				),
+
+				// taxonomies
+				'categories' => array(
+					'Another Category',
+					'Second Category',
+				),
+
+				'difficulty' => 'Intermediate', // string since we only allow one difficulty at a time
+
+				'tags' => array(
+					'Featured',
+				),
+
+				'tracks' => array(),
+
+				// temporary id used for prerequisite associations
+				'tempid' => 'anothertempid',
+
+				// the course content
+				'sections' => array(
+
+					// section order is literal by array index
+					array(
+						'title' => 'Section # 1',
+						// lesson order is literal by array index
+						'lessons' => array(
+							array(
+								'title' => 'Lesson Number One',
+
+								'settings' => array(
+									'assigned_quiz' => '',  // int
+									'audio_embed' => '',  // string
+									'date_available' => '',  // string
+									'days_before_available' => '',  // int
+									'drip_method' => '',  // string
+									'free_lesson' => 'no',  // yesno
+									'has_prerequisite' => '',  // yesno
+									'order' => '', // int
+									'prerequisite' => '',  // int
+									'require_passing_grade' => 'no',  // yesno
+									'time_available' => '',  // string
+									'video_embed' => '',  // string
+								),
+							),
+						),
+
+					),
+				),
+
+
+			),
+
 		),
 
 	);
 
 	$test = new LLMS_Scaffold( $raw_example );
-	$test->build();
+	// $test->build();
 	// var_dump( $test );
 
 }, 10 );
@@ -137,7 +234,10 @@ class LLMS_Scaffold {
 	 * Associate raw tempids with actual created ids
 	 * @var  array
 	 */
-	private $tempids = array();
+	private $tempids = array(
+		'courses' => array(),
+		'lessons' => array(),
+	);
 
 	/**
 	 * Construct a new scaffold instance with data
@@ -174,13 +274,14 @@ class LLMS_Scaffold {
 			$wpdb->query( 'START TRANSACTION' );
 
 			$this->build_courses();
+			$this->handle_prerequisites();
 
-			$wpdb->query( 'ROLLBACK' );
-			// $wpdb->query( 'COMMIT' );
+			// $wpdb->query( 'ROLLBACK' );
+			$wpdb->query( 'COMMIT' );
+
 		}
 
-
-			var_dump( $this );
+		var_dump( $this );
 
 	}
 
@@ -196,12 +297,12 @@ class LLMS_Scaffold {
 			if ( $course ) {
 
 				// store the tempid if it exists
-				if ( $raw_course['tempid'] ) {
-					$this->tempids[ $raw_course['tempid'] ] = $course->get( 'id' );
+				if ( ! empty( $raw_course['tempid'] ) ) {
+					$this->tempids['courses'][ $raw_course['tempid'] ] = $course->get( 'id' );
 				}
 
 				// build sections
-				$this->build_sections( $raw_course, $course_id, $author_id );
+				$this->build_sections( $raw_course, $course->get( 'id' ), $author_id );
 
 			}
 
@@ -227,7 +328,7 @@ class LLMS_Scaffold {
 
 				} else {
 
-					$this->build_lessons( $raw_section, $section_id, $course_id, $author_id );
+					// $this->build_lessons( $raw_section, $section_id, $course_id, $author_id );
 
 				}
 
@@ -236,6 +337,30 @@ class LLMS_Scaffold {
 		}
 	}
 
+
+	private function handle_prerequisites() {
+
+		global $wpdb;
+
+		foreach ( $this->tempids['courses'] as $temp => $real ) {
+
+			$wpdb->update(
+				$wpdb->postmeta,
+				array(
+					'meta_key' => '_llms_prerequisite',
+					'meta_value' => $real,
+				),
+				array(
+					'meta_key' => '_llms_temp_prerequisite',
+					'meta_value' => $temp,
+				),
+				array( '%s', '%d' ),
+				array( '%s', '%s' )
+			);
+
+		}
+
+	}
 
 	/**
 	 * Add taxonomy terms to a course
@@ -308,6 +433,13 @@ class LLMS_Scaffold {
 		}
 		// add all meta info
 		elseif ( ! empty( $raw_course['settings'] ) && is_array( $raw_course['settings'] ) ) {
+
+			// handle prerequities
+			// rename the prereq to a temp field to be renamed later
+			if ( $raw_course['settings']['prerequisite'] ) {
+				$raw_course['settings']['temp_prerequisite'] = $raw_course['settings']['prerequisite'];
+				unset( $raw_course['settings']['prerequisite'] );
+			}
 
 			foreach ( $raw_course['settings'] as $key => $val ) {
 				$course->set( $key, $val );
