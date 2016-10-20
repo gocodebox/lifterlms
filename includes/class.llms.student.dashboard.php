@@ -91,7 +91,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.1
+	 * @version  3.0.4
 	 */
 	public static function get_tabs() {
 
@@ -106,25 +106,21 @@ class LLMS_Student_Dashboard {
 				'content' => array( __CLASS__, 'output_courses_content' ),
 				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'my-courses' ),
 				'title' => __( 'My Courses', 'lifterlms' ),
-				'url' => llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ),
 			),
 			'edit-account' => array(
 				'content' => array( __CLASS__, 'output_edit_account_content' ),
 				'endpoint' => get_option( 'lifterlms_myaccount_edit_account_endpoint', 'edit-account' ),
 				'title' => __( 'Edit Account', 'lifterlms' ),
-				'url' => llms_get_endpoint_url( 'edit-account', '', llms_get_page_url( 'myaccount' ) ),
 			),
 			'redeem-voucher' => array(
 				'content' => array( __CLASS__, 'output_redeem_voucher_content' ),
 				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint', 'redeem-voucher' ),
 				'title' => __( 'Redeem a Voucher', 'lifterlms' ),
-				'url' => llms_get_endpoint_url( 'redeem-voucher', '', llms_get_page_url( 'myaccount' ) ),
 			),
 			'orders' => array(
 				'content' => array( __CLASS__, 'output_orders_content' ),
 				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'orders' ),
 				'title' => __( 'Order History', 'lifterlms' ),
-				'url' => llms_get_endpoint_url( 'orders', '', llms_get_page_url( 'myaccount' ) ),
 			),
 			'signout' => array(
 				'endpoint' => false,
