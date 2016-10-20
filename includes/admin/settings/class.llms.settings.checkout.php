@@ -1,13 +1,18 @@
 <?php
+/**
+ * Admin Settings Page, Checkout Tab
+ */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* Admin Settings Page, Checkout Tab
-*
-* @author codeBOX
-* @project lifterLMS
-*/
 class LLMS_Settings_Checkout extends LLMS_Settings_Page {
+
+	/**
+	 * Allow settings page to determine if a rewrite flush is required
+	 * @var      boolean
+	 * @since    3.0.4
+	 * @version  3.0.4
+	 */
+	protected $flush = true;
 
 	/**
 	* Constructor

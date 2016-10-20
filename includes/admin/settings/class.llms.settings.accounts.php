@@ -1,19 +1,25 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Admin Settings Page, Accounts Tab
-*
-* @author codeBOX
-* @project lifterLMS
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 	/**
-	* Constructor
-	*
-	* executes settings tab actions
-	*/
+	 * Allow settings page to determine if a rewrite flush is required
+	 * @var      boolean
+	 * @since    3.0.4
+	 * @version  3.0.4
+	 */
+	protected $flush = true;
+
+	/**
+	 * Constructor
+	 *
+	 * executes settings tab actions
+	 */
 	public function __construct() {
 		$this->id    = 'account';
 		$this->label = __( 'Accounts', 'lifterlms' );
