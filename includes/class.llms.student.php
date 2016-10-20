@@ -557,6 +557,24 @@ class LLMS_Student {
 	}
 
 	/**
+	 * Get the full name of a student
+	 * @return   string
+	 * @since    3.0.4
+	 * @version  3.0.4
+	 */
+	public function get_name() {
+
+		$name = trim( $this->first_name . ' ' . $this->last_name );
+
+		if ( ! $name ) {
+			$name = $this->display_name;
+		}
+
+		return apply_filters( 'llms_student_get_name', $name, $this->get_id(), $this );
+
+	}
+
+	/**
 	 * Get the next lesson a student needs to complete in a course
 	 * @param    int     $course_id    WP_Post ID of the course
 	 * @return   int                   WP_Post ID of the lesson or false if all courses are complete
