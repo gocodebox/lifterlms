@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,20 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.0.4 - 2016/10/20 =
+-----------------------
+
++ Added shortcode `[lifterlms_login]` so the login form can be displayed. Information usage at [https://lifterlms.com/docs/shortcodes/#lifterlms_login](https://lifterlms.com/docs/shortcodes/#lifterlms_login)
++ Added internal function `LLMS_Student->get_name()`
++ Three basic course difficulties will be automatically created on installation and upgrades
++ Updated course difficulty save methods to rely only on the taxonomy rather than the taxonomy and postmeta table
++ Updated admin settings screens to only flush rewrite rules on screens where it is necessary to update rewrites
++ Fix issue with customization of LifterLMS account endpoint URLs
++ Fix a conflict with [Redirection](https://wordpress.org/plugins/redirection/) url monitoring that was causing redirects to be created from Courses and Memberships to the site home page automatically whenever updating the post
++ Fix an undefined index warning on courses / memberships when updating post data
++ Remove confusing and invalid warning message from Membership post screen on admin panel
+
 
 = v3.0.3 - 2016/10/17 =
 -----------------------
@@ -1629,4 +1643,3 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 -----------------------
 
 + Updated activation endpoint url to point towards live server rather than dev
-
