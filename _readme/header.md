@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

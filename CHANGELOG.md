@@ -1,14 +1,17 @@
 == Changelog ==
 
-= v3.0.4 - 2016/10/?? =
+= v3.0.4 - 2016/10/20 =
 -----------------------
 
++ Added shortcode `[lifterlms_login]` so the login form can be displayed. Information usage at [https://lifterlms.com/docs/shortcodes/#lifterlms_login](https://lifterlms.com/docs/shortcodes/#lifterlms_login)
++ Added internal function `LLMS_Student->get_name()`
 + Three basic course difficulties will be automatically created on installation and upgrades
 + Updated course difficulty save methods to rely only on the taxonomy rather than the taxonomy and postmeta table
++ Updated admin settings screens to only flush rewrite rules on screens where it is necessary to update rewrites
++ Fix issue with customization of LifterLMS account endpoint URLs
 + Fix a conflict with [Redirection](https://wordpress.org/plugins/redirection/) url monitoring that was causing redirects to be created from Courses and Memberships to the site home page automatically whenever updating the post
 + Fix an undefined index warning on courses / memberships when updating post data
 + Remove confusing and invalid warning message from Membership post screen on admin panel
-
 
 
 = v3.0.3 - 2016/10/17 =
