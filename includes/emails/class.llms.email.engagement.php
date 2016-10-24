@@ -22,7 +22,17 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		parent::__construct();
 	}
 
+
+	/**
+	 * Initialize all variables
+	 * @param    int $user_id   WP User ID of the recieving user
+	 * @param    int $email_id  WP Post ID of an llms_email Post Type
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.0.5
+	 */
 	public function init( $email_id, $user_id ) {
+
 		global $wpdb;
 
 		$email_content = get_post( $email_id );
@@ -31,24 +41,10 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$this->id 					= 'engagement email';
 		$this->title 				= __( 'Engagement Email', 'lifterlms' );
 		$this->template_html 		= 'emails/template.php';
-		$this->subject 				= isset( $email_meta['_email_subject'] ) ? $email_meta['_email_subject'][0] : '';
-		$this->heading      		= isset( $email_meta['_email_heading'] ) ? $email_meta['_email_heading'][0] : '';
+		$this->subject 				= isset( $email_meta['_llms_email_subject'] ) ? $email_meta['_llms_email_subject'][0] : '';
+		$this->heading      		= isset( $email_meta['_llms_email_heading'] ) ? $email_meta['_llms_email_heading'][0] : '';
 		$this->email_content		= $email_content->post_content;
 		$this->account_link 		= get_permalink( llms_get_page_id( 'myaccount' ) );
-
-	}
-
-	/**
-	 * [trigger description]
-	 *
-	 * @param  int $user_id  [ID of the user recieving the email]
-	 * @param  int $email_id [ID of the Email post]
-	 *
-	 * @return void
-	 */
-	function trigger( $user_id, $email_id ) {
-
-		$this->init( $email_id, $user_id );
 
 		if ( $user_id ) {
 
@@ -61,19 +57,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 
 		}
 
-		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
-			return;
-		}
-
-		$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
-	}
-
-	/**
-	 * get_content_html function.
-	 *
-	 * @return string
-	 */
-	function get_content_html() {
+		$date_format = apply_filters( 'llms_email_engagement_date_format', 'M d, Y' );
 
 		$this->find = array(
 			'{site_title}',
@@ -91,8 +75,37 @@ class LLMS_Email_Engagement extends LLMS_Email {
 			$this->user_firstname,
 			$this->user_lastname,
 			$this->user_email,
-			date( 'M d, Y', strtotime( current_time( 'mysql' ) ) ),
+			date_i18n( $date_format, strtotime( current_time( 'mysql' ) ) ),
 		);
+
+	}
+
+	/**
+	 * Sends an engagement email to a user
+	 * @param    int $user_id   WP User ID of the recieving user
+	 * @param    int $email_id  WP Post ID of an llms_email Post Type
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.0.5
+	 */
+	function trigger( $user_id, $email_id ) {
+
+		$this->init( $email_id, $user_id );
+
+		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
+			return;
+		}
+
+		$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
+	}
+
+	/**
+	 * get_content_html function.
+	 * @return string
+	 * @since    1.0.0
+	 * @version  3.0.5
+	 */
+	function get_content_html() {
 
 		$content = $this->format_string( $this->email_content );
 

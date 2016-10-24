@@ -3,8 +3,9 @@
 = v3.0.5 - 2016/10/?? =
 -----------------------
 
++ Add new filter `llms_email_engagement_date_format` which allows customization of the format of the `{current_date}` merge code availabe in LifterLMS Emails
 + Fix coupon usage query so that coupons cannot be used more than the maximum number of times. Also now displays the correct number of coupons used on the coupons post table.
-
++ Fix LLMS Engagement Email merge codes to work in subject line
 
 
 = v3.0.4 - 2016/10/20 =
