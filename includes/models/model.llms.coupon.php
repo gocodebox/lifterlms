@@ -187,22 +187,22 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Get the number of times the coupon has been used
-	 * @since  3.0.0
-	 * @version  3.0.0
-	 * @return int
+	 * @since    3.0.0
+	 * @version  3.0.5
+	 * @return   int
 	 */
 	public function get_uses() {
 
 		$q = new WP_Query( array(
 			'meta_query' => array(
-			array(
+				array(
 					'key' => $this->meta_prefix . 'coupon_code',
 					'value' => $this->get( 'title' ),
 				),
 			),
 			'post_status' => 'any',
 			'post_type' => 'llms_order',
-			'posts_per_page' => 1,
+			'posts_per_page' => -1,
 		) );
 
 		return $q->post_count;
