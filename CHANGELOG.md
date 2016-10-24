@@ -4,6 +4,7 @@
 -----------------------
 
 + Add new filter `llms_email_engagement_date_format` which allows customization of the format of the `{current_date}` merge code availabe in LifterLMS Emails
++ Add explicit max width declaration to images within LLMS Catalogs to prevent image overflow. Fixes some theme compatibility issues.
 + Fix coupon usage query so that coupons cannot be used more than the maximum number of times. Also now displays the correct number of coupons used on the coupons post table.
 + Fix LLMS Engagement Email merge codes to work in subject line
 

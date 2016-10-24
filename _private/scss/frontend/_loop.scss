@@ -44,6 +44,11 @@
 			}
 		}
 
+		img {
+			display: block;
+			max-width: 100%;
+		}
+
 		.llms-loop-title {
 			margin-top: 5px;
 			&:hover {
