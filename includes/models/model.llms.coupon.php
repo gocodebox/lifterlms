@@ -188,7 +188,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	/**
 	 * Get the number of times the coupon has been used
 	 * @since    3.0.0
-	 * @version  3.0.5
+	 * @version  3.1.0
 	 * @return   int
 	 */
 	public function get_uses() {

@@ -157,7 +157,7 @@ class LLMS_Admin_Meta_Boxes {
 	* Add Metaboxes
 	* @return   void
 	* @since    1.0.0
-	* @version  3.0.5
+	* @version  3.1.0
 	*/
 	public function get_meta_boxes() {
 

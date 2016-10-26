@@ -20,7 +20,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	 * outputs the Html for the given field
 	 * @return HTML
 	 * @since    1.0.0
-	 * @version  3.0.5 - allow regular key=>val arrays to be passed
+	 * @version  3.1.0 - allow regular key=>val arrays to be passed
 	 */
 	public function output() {
 

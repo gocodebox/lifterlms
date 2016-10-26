@@ -203,8 +203,8 @@
 		/**
 		 * Bind Engagement post type JS
 		 * @return   void
-		 * @since    3.0.5
-		 * @version  3.0.5
+		 * @since    3.1.0
+		 * @version  3.1.0
 		 */
 		this.bind_llms_engagement = function() {
 
