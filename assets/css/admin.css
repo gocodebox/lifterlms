@@ -1572,6 +1572,58 @@ body.modal-open {
   width: 100%;
 }
 
+.button.llms-merge-code-button {
+  vertical-align: middle;
+}
+.button.llms-merge-code-button img {
+  margin-top: -3px;
+  vertical-align: middle;
+}
+
+.llms-mb-container .button.llms-merge-code-button img {
+  margin-right: 4px;
+}
+.llms-mb-container .llms-merge-code-wrapper {
+  float: right;
+  top: -5px;
+}
+
+.llms-merge-code-wrapper {
+  display: inline;
+  position: relative;
+}
+
+.llms-merge-codes {
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #ccc;
+  color: #555;
+  display: none;
+  left: 1px;
+  overflow: hidden;
+  position: absolute;
+  top: 30px;
+  width: 160px;
+}
+.llms-merge-codes ul {
+  margin: 0;
+  padding: 0;
+}
+.llms-merge-codes li {
+  cursor: pointer;
+  margin: 0;
+  padding: 4px 8px !important;
+  border-bottom: 1px solid #ccc;
+}
+.llms-merge-codes li:hover {
+  color: #23282d;
+  background: #fefefe;
+}
+.llms-merge-codes.active {
+  display: block;
+}
+
 /******************************************************************
 
 Base Mobile

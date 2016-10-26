@@ -35,7 +35,9 @@ class LLMS_Admin_Assets {
 	/**
 	* Returns array of the page ids we want to enqueue scripts on.
 	*
-	* @return array
+	* @return   array
+	* @since    1.0.0
+	* @version  3.1.0
 	*/
 	public function get_llms_admin_page_ids() {
 		$screen_id = 'lifterlms';
@@ -78,6 +80,9 @@ class LLMS_Admin_Assets {
 
 	    	'llms_question',
 	    	'edit-llms_question',
+
+	    	'llms_email',
+	    	'edit-llms_email',
 
 			'llms_voucher',
 			'edit-llms_voucher',

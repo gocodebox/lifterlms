@@ -85,6 +85,10 @@
 
 			}
 
+			if ( $( '.llms-merge-code-button' ).length ) {
+				this.bind_merge_code_buttons();
+			}
+
 		};
 
 		/**
@@ -191,6 +195,58 @@
 
 			$('.llms-datepicker').datepicker( {
 				dateFormat: "mm/dd/yy"
+			} );
+
+		};
+
+
+		/**
+		 * Bind Engagement post type JS
+		 * @return   void
+		 * @since    3.0.5
+		 * @version  3.0.5
+		 */
+		this.bind_llms_engagement = function() {
+
+			var self = this;
+
+			// when the engagement type changes we need to do some things to the UI
+			$( '#_llms_engagement_type' ).on( 'change', function() {
+
+				$( '#_llms_engagement' ).trigger( 'llms-engagement-type-change', $( this ).val() );
+
+			} );
+
+			// custom trigger when called when the engagement type changs
+			$( '#_llms_engagement' ).on( 'llms-engagement-type-change', function( e, engagement_type ) {
+
+				var $select = $( this );
+
+				switch ( engagement_type ) {
+
+					/**
+					 * core engagements related to a CPT
+					 */
+					case 'achievement':
+					case 'certificate':
+					case 'email':
+
+						var cpt = 'llms_' + engagement_type;
+
+						$select.val( null ).attr( 'data-post-type', cpt ).trigger( 'change' );
+						self.post_select( $select );
+
+					break;
+
+					/**
+					 * Allow other plugins and developers to hook into the engagement type change action
+					 */
+					default:
+
+						$select.trigger( 'llms-engagement-type-change-external', engagement_type );
+
+				}
+
 			} );
 
 		};
@@ -319,6 +375,46 @@
 
 		};
 
+		this.bind_merge_code_buttons = function() {
+
+			$( '.llms-merge-code-button' ).on( 'click', function() {
+
+				$( this ).next( '.llms-merge-codes' ).toggleClass( 'active' );
+
+			} );
+
+			$( '.llms-merge-codes li' ).on( 'click', function() {
+
+				var $el = $( this ),
+					$parent = $el.closest( '.llms-merge-codes' ),
+					target = $parent.attr( 'data-target' ),
+					code = $el.attr( 'data-code' );
+
+				// dealing with a tinymce instance
+				if ( -1 === target.indexOf( '#' ) ) {
+
+					var editor = tinymce.editors[ target ];
+					if ( editor ) {
+						editor.insertContent( code );
+					} // fallback in case we can't access the editor directly
+					else {
+						alert( LLMS.l10n.translate( 'Copy this code and paste it into the desired area' ) + ': ' + code );
+					}
+
+				}
+				// dealing with a DOM id
+				else {
+
+					$( target ).val( $( target ).val() + code );
+
+				}
+
+				$parent.removeClass( 'active' );
+
+			} );
+
+		};
+
 		/**
 		 * Bind metabox tabs
 		 * @return   void
@@ -350,10 +446,11 @@
 		 */
 		this.post_select = function( $el ) {
 
-			var post_type = $el.attr( 'data-post-type' ) || post;
+			var post_type = $el.attr( 'data-post-type' ) || post,
+				allow_clear = $el.attr( 'data-post-type' ) || false;
 
 			$el.llmsSelect2( {
-				allowClear: false,
+				allowClear: allow_clear,
 				ajax: {
 					dataType: 'JSON',
 					delay: 250,
