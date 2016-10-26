@@ -106,6 +106,39 @@ function llms_get_core_supported_themes() {
 }
 
 /**
+ * Get a list of registered engagement triggers
+ * @return   array
+ * @since    3.1.0
+ * @version  3.1.0
+ */
+function llms_get_engagement_triggers() {
+	return apply_filters( 'lifterlms_engagement_triggers', array(
+		'course_completed' => __( 'Student Completes a Course', 'lifterlms' ),
+		'course_track_completed' => __( 'Student Comepletes a Course Track', 'lifterlms' ),
+		'course_purchased' => __( 'Student Purchases a Course', 'lifterlms' ),
+		// 'days_since_login' => __( 'Days since user last logged in', 'lifterlms' ), // @todo
+		'lesson_completed' => __( 'Student Completes a Lesson', 'lifterlms' ),
+		'membership_purchased' => __( 'Student Purchases a Membership', 'lifterlms' ),
+		'user_registration' => __( 'Student Creates a New Account', 'lifterlms' ),
+		'section_completed' => __( 'Student Completes a Section', 'lifterlms' ),
+	) );
+}
+
+/**
+ * Get a list of registered engagement types
+ * @return   array
+ * @since    3.1.0
+ * @version  3.1.0
+ */
+function llms_get_engagement_types() {
+	return apply_filters( 'lifterlms_engagement_types', array(
+		'achievement' => __( 'Award an Achievement', 'lifterlms' ),
+		'certificate' => __( 'Award a Certificate', 'lifterlms' ),
+		'email' => __( 'Send an Email' ),
+	) );
+}
+
+/**
 * Get an array of student IDs based on enrollment status a course or memebership
 * @param    int           $post_id   WP_Post id of a course or memberhip
 * @param    string|array  $statuses  list of enrollment statuses to query by
