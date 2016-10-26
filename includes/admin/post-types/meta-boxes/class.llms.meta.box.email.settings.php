@@ -1,11 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Meta Box Certificate Options
-*
 * displays email settings metabox. only dislays on email post
+* @since  1.0.0
+* @version  3.1.0
 */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 
 
@@ -23,6 +23,8 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 		);
 		$this->priority = 'high';
 
+		add_action( 'media_buttons', 'llms_merge_code_button' );
+
 	}
 
 	/**
@@ -31,9 +33,14 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 	 * Appropriate fields are generated based on type.
 	 * @return array [md array of metabox fields]
 	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @version  3.1.0
 	 */
 	public function get_fields() {
+
+		$email_merge = array(
+			'{student_email}' => __( 'Student Email', 'lifterlms' ),
+			'{admin_email}' => __( 'Admin Email', 'lifterlms' ),
+		);
 
 		return array(
 			array(
@@ -42,9 +49,9 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 					array(
 						'type'		=> 'text',
 						'label'		=> __( 'Email Subject', 'lifterlms' ),
-						'desc' 		=> __( 'This will be used for the subject line of your email. The Subject allows mergefields.', 'lifterlms' ),
+						'desc' 		=> __( 'This will be used for the subject line of your email.', 'lifterlms' )  . llms_merge_code_button( '#' . $this->prefix .'email_subject', false ),
 						'id' 		=> $this->prefix .'email_subject',
-						'class' 	=> 'code',
+						'class' 	=> 'code input-full',
 						'value' 	=> '',
 						'desc_class' => 'd-all',
 						'group' 	=> 'top',
@@ -54,28 +61,39 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 						'label'		=> __( 'Email Heading', 'lifterlms' ),
 						'desc' 		=> __( 'This is the heading for your email. It will display above the content.', 'lifterlms' ),
 						'id' 		=> $this->prefix . 'email_heading',
-						'class' 	=> 'code',
+						'class' 	=> 'code input-full',
 						'value' 	=> '',
 						'desc_class' => 'd-all',
 						'group' 	=> 'bottom',
 					),
 					array(
-						'type'		=> 'custom-html',
-						'label'		=> '',
-						'desc' 		=> '',
-						'id' 		=> '',
-						'class' 	=> '',
+						'type'		=> 'text',
+						'label'		=> __( 'Email To:', 'lifterlms' ),
+						'desc' 		=> __( 'Separate multiple address with a comma.', 'lifterlms' ) . llms_merge_code_button( '#' . $this->prefix . 'email_to', false, $email_merge ),
+						'default'   => '{student_email}',
+						'id' 		=> $this->prefix . 'email_to',
+						'class' 	=> 'code input-full',
+						'required'  => true,
+						'value' 	=> '',
 						'desc_class' => 'd-all',
-						'group' 	=> 'bottom',
-						'value' 	=> '<p>' . __( 'Use the text editor above to add content to your certificate. You can include any of the following merge fields.', 'lifterlms' ) . '
-										<br>{site_title}
-										<br>{user_login}
-										<br>{site_url}
-										<br>{first_name}
-										<br>{last_name}
-										<br>{email_address}
-										<br>{current_date}
-										</p>',
+					),
+					array(
+						'type'		=> 'text',
+						'label'		=> __( 'Email CC:', 'lifterlms' ),
+						'desc' 		=> __( 'Separate multiple address with a comma.', 'lifterlms' ) . llms_merge_code_button( '#' . $this->prefix . 'email_cc', false, $email_merge ),
+						'id' 		=> $this->prefix . 'email_cc',
+						'class' 	=> 'code input-full',
+						'value' 	=> '',
+						'desc_class' => 'd-all',
+					),
+					array(
+						'type'		=> 'text',
+						'label'		=> __( 'Email BCC:', 'lifterlms' ),
+						'desc' 		=> __( 'Separate multiple address with a comma.', 'lifterlms' ) . llms_merge_code_button( '#' . $this->prefix . 'email_bcc', false, $email_merge ),
+						'id' 		=> $this->prefix . 'email_bcc',
+						'class' 	=> 'code input-full',
+						'value' 	=> '',
+						'desc_class' => 'd-all',
 					),
 				),
 			),
