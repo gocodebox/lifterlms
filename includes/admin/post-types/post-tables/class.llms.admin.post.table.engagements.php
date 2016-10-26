@@ -93,7 +93,6 @@ class LLMS_Admin_Post_Table_Engagements {
 
 			break;
 
-
 			case 'delay':
 
 				$delay = get_post_meta( $post_id, '_llms_engagement_delay', true );

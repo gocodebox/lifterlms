@@ -82,7 +82,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 		);
 
-		foreach( $trigger_post_fields as $post_type => $data ) {
+		foreach ( $trigger_post_fields as $post_type => $data ) {
 
 			$data['controller_value'] = apply_filters( 'llms_engagement_controller_values_' . $post_type, $data['controller_value'] );
 
@@ -134,8 +134,6 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			'value'     => $track_options,
 		);
 
-
-
 		$fields[] = array(
 			'allow_null' => false,
 			'class' 	=> 'llms-select2',
@@ -175,7 +173,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			array(
 				'title' 	=> __( 'Engagement Settings', 'lifterlms' ),
 				'fields' 	=> $fields,
-			)
+			),
 		);
 
 	}

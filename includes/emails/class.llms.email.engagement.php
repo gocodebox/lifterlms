@@ -167,7 +167,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$to = $this->merge_emails( $this->to );
 		$to = explode( ',', $to );
 		$emails = array();
-		foreach( $to as $email ) {
+		foreach ( $to as $email ) {
 			$email = trim( $email );
 			if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
 				$emails[] = trim( $email );

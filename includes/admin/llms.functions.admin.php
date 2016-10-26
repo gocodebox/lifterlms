@@ -134,7 +134,7 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 	<div class="llms-merge-codes" data-target="<?php echo $target; ?>">
 		<ul>
 		<?php if ( $codes ) : ?>
-			<?php foreach( $codes as $code => $desc ) : ?>
+			<?php foreach ( $codes as $code => $desc ) : ?>
 				<li data-code="<?php echo $code; ?>"><?php echo $desc; ?></li>
 			<?php endforeach; ?>
 		<?php else : ?>
