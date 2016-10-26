@@ -1,8 +1,11 @@
 == Changelog ==
 
-= v3.0.5 - 2016/10/?? =
+= v3.1.0 - 2016/10/27 =
 -----------------------
 
++ New Merge Code button for easy merging of custom merge codes when creating emails
++ Add custom email addresses for to, cc, and bcc when sending email engagements
++ Add post table data for LifterLMS Engagements
 + Add new filter `llms_email_engagement_date_format` which allows customization of the format of the `{current_date}` merge code availabe in LifterLMS Emails
 + Add explicit max width declaration to images within LLMS Catalogs to prevent image overflow. Fixes some theme compatibility issues.
 + Fix coupon usage query so that coupons cannot be used more than the maximum number of times. Also now displays the correct number of coupons used on the coupons post table.
