@@ -375,6 +375,12 @@
 
 		};
 
+		/**
+		 * Binds custom llms merge code buttons
+		 * @return   void
+		 * @since    3.1.0
+		 * @version  3.1.0
+		 */
 		this.bind_merge_code_buttons = function() {
 
 			$( '.llms-merge-code-button' ).on( 'click', function() {
