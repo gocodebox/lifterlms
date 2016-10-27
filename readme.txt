@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 3.0.4
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,21 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.1.0 - 2016/10/27 =
+-----------------------
+
++ New engagement triggers available to allow engagements to be fired when a student enrolls into a course or membership!
++ Add custom email addresses for to, cc, and bcc when sending email engagements
++ New Merge Code button for easy merging of custom merge codes when creating emails
++ Added post table data for LifterLMS Engagements
++ Added new filter `llms_email_engagement_date_format` which allows customization of the format of the `{current_date}` merge code availabe in LifterLMS Emails
++ Added explicit max width declaration to images within LLMS Catalogs to prevent image overflow. Fixes some theme compatibility issues.
++ Optimize course and lesson audio video templates for faster loads
++ Fix course & lesson video to load videos instead of duplicating audio embeds
++ Fix coupon usage query so that coupons cannot be used more than the maximum number of times. Also now displays the correct number of coupons used on the coupons post table.
++ Fix LLMS Engagement Email merge codes to work in subject line
+
 
 = v3.0.4 - 2016/10/20 =
 -----------------------

@@ -82,7 +82,7 @@ msgstr ""
 msgid "Course Analytics"
 msgstr ""
 
-#: includes/admin/analytics/class.llms.analytics.courses.php:95
+#: includes/admin/analytics/class.llms.analytics.courses.php:95, includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:63
 msgid "Select a Course"
 msgstr ""
 
@@ -138,7 +138,7 @@ msgstr ""
 msgid "Membership Analytics"
 msgstr ""
 
-#: includes/admin/analytics/class.llms.analytics.memberships.php:94
+#: includes/admin/analytics/class.llms.analytics.memberships.php:94, includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:78
 msgid "Select a Membership"
 msgstr ""
 
@@ -634,71 +634,59 @@ msgstr ""
 msgid "Required field \"%s\" is missing."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:164, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:22
-msgid "Membership Settings"
+#: includes/admin/llms.functions.admin.php:102
+msgid "Merge Codes"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:165, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:20, includes/admin/settings/class.llms.settings.engagements.php:43
-msgid "Email Settings"
+#: includes/admin/llms.functions.admin.php:113
+msgid "Website Title"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:166, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:24
-msgid "Lesson Settings"
+#: includes/admin/llms.functions.admin.php:114
+msgid "Website URL"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:167, includes/admin/post-types/meta-boxes/class.llms.meta.box.achievement.php:25
-msgid "Achievement Settings"
+#: includes/admin/llms.functions.admin.php:115
+msgid "Student Email Address"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:168, includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:20
-msgid "Certificate Settings"
+#: includes/admin/llms.functions.admin.php:116
+msgid "Student Username"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:169, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:20
-msgid "Coupon Settings"
+#: includes/admin/llms.functions.admin.php:117
+msgid "Student First Name"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:170, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:18
-msgid "Voucher Settings"
+#: includes/admin/llms.functions.admin.php:118
+msgid "Student Last Name"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:171, includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.php:21
-msgid "Quiz Settings"
+#: includes/admin/llms.functions.admin.php:119
+msgid "Current Date"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:174, includes/admin/post-types/meta-boxes/class.llms.meta.box.order.details.php:21
-msgid "Order Details"
+#: includes/admin/llms.functions.admin.php:141
+msgid "No merge codes found."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:175
-msgid "Order Actions"
-msgstr ""
-
-#: includes/admin/post-types/class.llms.meta.boxes.php:176
-msgid "Process a Refund"
-msgstr ""
-
-#: includes/admin/post-types/class.llms.meta.boxes.php:181, includes/admin/post-types/class.llms.meta.boxes.php:183, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:363
+#: includes/admin/post-types/class.llms.meta.boxes.php:167, includes/admin/post-types/class.llms.meta.boxes.php:169, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:363
 msgid "Course Outline"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:182
+#: includes/admin/post-types/class.llms.meta.boxes.php:168
 msgid "Section Tree"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:184
-msgid "Engagement Options"
-msgstr ""
-
-#: includes/admin/post-types/class.llms.meta.boxes.php:185
+#: includes/admin/post-types/class.llms.meta.boxes.php:170
 msgid "Export CSV"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:186, includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:22
+#: includes/admin/post-types/class.llms.meta.boxes.php:171, includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:22
 msgid "Quiz Questions"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:187
+#: includes/admin/post-types/class.llms.meta.boxes.php:172
 msgid "Question Settings"
 msgstr ""
 
@@ -713,6 +701,10 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:65
 msgid "Visitors must belong to one of these memberships to access this %s"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.achievement.php:25
+msgid "Achievement Settings"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.achievement.php:50
@@ -739,6 +731,10 @@ msgstr ""
 msgid "Select an Image to use for the achievement."
 msgstr ""
 
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:20
+msgid "Certificate Settings"
+msgstr ""
+
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:44
 msgid "Certificate Title"
 msgstr ""
@@ -751,11 +747,15 @@ msgstr ""
 msgid "Select an Image to use for the certificate."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:74, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:70
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:74
 msgid "Use the text editor above to add content to your certificate. You can include any of the following merge fields."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:299, includes/llms.functions.core.php:527
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:20
+msgid "Coupon Settings"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:299, includes/llms.functions.core.php:562
 msgid "ID#"
 msgstr ""
 
@@ -1259,52 +1259,104 @@ msgstr ""
 msgid "Add a new Section"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:44
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:20, includes/admin/settings/class.llms.settings.engagements.php:43
+msgid "Email Settings"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:41
+msgid "Student Email"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:42
+msgid "Admin Email"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:51
 msgid "Email Subject"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:45
-msgid "This will be used for the subject line of your email. The Subject allows mergefields."
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:52
+msgid "This will be used for the subject line of your email."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:54
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:61
 msgid "Email Heading"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:55
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:62
 msgid "This is the heading for your email. It will display above the content."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:60
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:71
+msgid "Email To:"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:72, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:83, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:92
+msgid "Separate multiple address with a comma."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:82
+msgid "Email CC:"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:91
+msgid "Email BCC:"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:21
+msgid "Engagement Options"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:46
+msgid "This engagement will be triggered when a student completes the selected action"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:50
+msgid "Triggering Event"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:69
+msgid "Select a Lesson"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:84
+msgid "Select a Section"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:133, includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:136
+msgid "Select a Course Track"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:144
+msgid "Determines the type of engagement"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:147
 msgid "Engagement Type"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:75
-msgid "Select the type of engagement you want to create."
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:157, includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:161
+msgid "Select an Engagement"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:95
-msgid "Engagement Title"
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:169
+msgid "Enter the number of days to wait before triggering this engagement. Enter 0 or leave blank to trigger immediately."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:121
-msgid "Engagement Delay (in days)"
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:171
+msgid "Engagement Delay"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:129
-msgid "If no value or 0 is entered the engagement will trigger immediately."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:150
-msgid "Event Trigger"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.options.php:225
-msgid "Please select an engagement type..."
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:178
+msgid "Engagement Settings"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.expiration.php:67
 msgid "Please select an option..."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:24
+msgid "Lesson Settings"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:51
@@ -1423,6 +1475,10 @@ msgstr ""
 msgid "There was an error assigning the lesson to a section. Please be sure a section is assigned to a course."
 msgstr ""
 
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:22
+msgid "Membership Settings"
+msgstr ""
+
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:50
 msgid "Remove from Auto-enrollment"
 msgstr ""
@@ -1521,6 +1577,10 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:204
 msgid "Add Auto-enrollment Course(s)"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.details.php:21
+msgid "Order Details"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:61
@@ -1652,6 +1712,10 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.question.general.php:56
 msgid "Explanation Field"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.php:21
+msgid "Quiz Settings"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.php:45
@@ -1810,6 +1874,10 @@ msgstr ""
 msgid "Generate Export"
 msgstr ""
 
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:18
+msgid "Voucher Settings"
+msgstr ""
+
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:72
 msgid "Codes"
 msgstr ""
@@ -1840,6 +1908,22 @@ msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:64
 msgid "Trial Discount: "
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.engagements.php:37
+msgid "Trigger"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.engagements.php:38, templates/admin/post-types/order-transactions.php:22
+msgid "Type"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.engagements.php:39
+msgid "Delay"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.engagements.php:102
+msgid "%d days"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:43, includes/class.llms.post-types.php:565, templates/myaccount/my-orders.php:19
@@ -2013,17 +2097,17 @@ msgstr ""
 msgid "Select the minimum password strength allowed when students create a new password."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:171, includes/class.llms.l10n.php:68
+#: includes/admin/settings/class.llms.settings.accounts.php:171, includes/class.llms.l10n.php:69
 msgctxt "password strength meter"
 msgid "Weak"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:172, includes/class.llms.l10n.php:62
+#: includes/admin/settings/class.llms.settings.accounts.php:172, includes/class.llms.l10n.php:63
 msgctxt "password strength meter"
 msgid "Medium"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:173, includes/class.llms.l10n.php:64
+#: includes/admin/settings/class.llms.settings.accounts.php:173, includes/class.llms.l10n.php:65
 msgctxt "password strength meter"
 msgid "Strong"
 msgstr ""
@@ -2720,66 +2804,70 @@ msgstr ""
 msgid "There was an error loading the necessary resources. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.php:54, templates/admin/post-types/order-transactions.php:97
+#: includes/class.llms.l10n.php:54
+msgid "Copy this code and paste it into the desired area"
+msgstr ""
+
+#: includes/class.llms.l10n.php:55, templates/admin/post-types/order-transactions.php:97
 msgid "Record a Manual Payment"
 msgstr ""
 
-#: includes/class.llms.l10n.php:55, templates/admin/post-types/order-transactions.php:74
+#: includes/class.llms.l10n.php:56, templates/admin/post-types/order-transactions.php:74
 msgid "Refund"
 msgstr ""
 
-#: includes/class.llms.l10n.php:63
+#: includes/class.llms.l10n.php:64
 msgctxt "password strength meter"
 msgid "Mismatch"
 msgstr ""
 
-#: includes/class.llms.l10n.php:65
+#: includes/class.llms.l10n.php:66
 msgid "There is an issue with your chosen password."
 msgstr ""
 
-#: includes/class.llms.l10n.php:66
+#: includes/class.llms.l10n.php:67
 msgctxt "password length validation"
 msgid "Too Short"
 msgstr ""
 
-#: includes/class.llms.l10n.php:67
+#: includes/class.llms.l10n.php:68
 msgctxt "password strength meter"
 msgid "Very Weak"
 msgstr ""
 
-#: includes/class.llms.l10n.php:73
+#: includes/class.llms.l10n.php:74
 msgid "This plan is for members only. Click the links above to learn more."
 msgstr ""
 
-#: includes/class.llms.l10n.php:80
+#: includes/class.llms.l10n.php:81
 msgid "You must enroll in this course to unlock this lesson"
 msgstr ""
 
-#: includes/class.llms.l10n.php:87
+#: includes/class.llms.l10n.php:88
 msgid "Hide Summary"
 msgstr ""
 
-#: includes/class.llms.l10n.php:88, templates/quiz/results.php:82
+#: includes/class.llms.l10n.php:89, templates/quiz/results.php:82
 msgid "View Summary"
 msgstr ""
 
-#: includes/class.llms.l10n.php:89
+#: includes/class.llms.l10n.php:90
 msgid "You must enter an answer to continue."
 msgstr ""
 
-#: includes/class.llms.l10n.php:102, includes/models/model.llms.lesson.php:689
+#: includes/class.llms.l10n.php:103, includes/models/model.llms.lesson.php:689
 msgid "Error"
 msgstr ""
 
-#: includes/class.llms.l10n.php:103
+#: includes/class.llms.l10n.php:104
 msgid "Filter by Student(s)"
 msgstr ""
 
-#: includes/class.llms.l10n.php:104
+#: includes/class.llms.l10n.php:105
 msgid "Request timed out"
 msgstr ""
 
-#: includes/class.llms.l10n.php:105
+#: includes/class.llms.l10n.php:106
 msgid "Retry"
 msgstr ""
 
@@ -4395,7 +4483,7 @@ msgstr ""
 msgid "Already logged in! Please log out and try again."
 msgstr ""
 
-#: includes/emails/class.llms.email.engagement.php:32
+#: includes/emails/class.llms.email.engagement.php:41
 msgid "Engagement Email"
 msgstr ""
 
@@ -6043,35 +6131,83 @@ msgstr ""
 msgid "%1$s is <strong>deprecated</strong> since version %2$s!"
 msgstr ""
 
-#: includes/llms.functions.core.php:367, includes/llms.functions.core.php:464
+#: includes/llms.functions.core.php:116
+msgid "Student creates a new account"
+msgstr ""
+
+#: includes/llms.functions.core.php:117
+msgid "Student enrolls in a course"
+msgstr ""
+
+#: includes/llms.functions.core.php:118
+msgid "Student purchases a course"
+msgstr ""
+
+#: includes/llms.functions.core.php:119
+msgid "Student completes a course"
+msgstr ""
+
+#: includes/llms.functions.core.php:120
+msgid "Days since user last logged in"
+msgstr ""
+
+#: includes/llms.functions.core.php:121
+msgid "Student completes a lesson"
+msgstr ""
+
+#: includes/llms.functions.core.php:122
+msgid "Student completes a section"
+msgstr ""
+
+#: includes/llms.functions.core.php:123
+msgid "Student comepletes a course track"
+msgstr ""
+
+#: includes/llms.functions.core.php:124
+msgid "Student enrolls in a membership"
+msgstr ""
+
+#: includes/llms.functions.core.php:125
+msgid "Student purchases a membership"
+msgstr ""
+
+#: includes/llms.functions.core.php:137
+msgid "Award an Achievement"
+msgstr ""
+
+#: includes/llms.functions.core.php:138
+msgid "Award a Certificate"
+msgstr ""
+
+#: includes/llms.functions.core.php:402, includes/llms.functions.core.php:499
 msgid "Cancelled"
 msgstr ""
 
-#: includes/llms.functions.core.php:368
+#: includes/llms.functions.core.php:403
 msgid "Enrolled"
 msgstr ""
 
-#: includes/llms.functions.core.php:369, includes/llms.functions.core.php:466
+#: includes/llms.functions.core.php:404, includes/llms.functions.core.php:501
 msgid "Expired"
 msgstr ""
 
-#: includes/llms.functions.core.php:463
+#: includes/llms.functions.core.php:498
 msgid "Active"
 msgstr ""
 
-#: includes/llms.functions.core.php:465
+#: includes/llms.functions.core.php:500
 msgid "Completed"
 msgstr ""
 
-#: includes/llms.functions.core.php:467, templates/quiz/results.php:73, templates/quiz/results.php:99
+#: includes/llms.functions.core.php:502, templates/quiz/results.php:73, templates/quiz/results.php:99
 msgid "Failed"
 msgstr ""
 
-#: includes/llms.functions.core.php:468
+#: includes/llms.functions.core.php:503
 msgid "Pending"
 msgstr ""
 
-#: includes/llms.functions.core.php:469, templates/admin/post-types/order-transactions.php:21
+#: includes/llms.functions.core.php:504, templates/admin/post-types/order-transactions.php:21
 msgid "Refunded"
 msgstr ""
 
@@ -6560,10 +6696,6 @@ msgstr ""
 
 #: templates/admin/post-types/order-transactions.php:20
 msgid "Amount"
-msgstr ""
-
-#: templates/admin/post-types/order-transactions.php:22
-msgid "Type"
 msgstr ""
 
 #: templates/admin/post-types/order-transactions.php:23
