@@ -238,6 +238,32 @@ class LLMS_Student {
 
 	}
 
+
+	/**
+	 * Retrieve certificates that a user has earned
+	 * @param  string $orderby field to order the returned results by
+	 * @param  string $order   ordering method for returned results (ASC or DESC)
+	 * @return array           array of objects
+	 *
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_achievements( $orderby = 'updated_date', $order = 'DESC' ) {
+
+		$orderby = esc_sql( $orderby );
+		$order = esc_sql( $order );
+
+		global $wpdb;
+
+		$r = $wpdb->get_results( $wpdb->prepare(
+			"SELECT post_id, meta_value AS certificate_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
+			$this->get_id()
+		) );
+
+		return $r;
+
+	}
+
 	/**
 	 * Retrieve the order which enrolled a studnet in a given course or membership
 	 * Retrieves the most recently updated order for the given product
@@ -403,7 +429,74 @@ class LLMS_Student {
 		$r = array(
 			'limit' => $args['limit'],
 			'more' => $more,
+			'results' => $ids,
+			'skip' => $args['skip'],
+		);
 
+		return $r;
+
+	}
+
+	/**
+	 * Retrieve IDs of courses a user has completed
+	 *
+	 * @param  array  $args query arguments
+	 *                      @arg int    $limit    number of courses to return
+	 *                      @arg string $orderby  table reference and field to order results by
+	 *                      @arg string $order    result order (DESC, ASC)
+	 *                      @arg int    $skip     number of results to skip for pagination purposes
+	 * @return array        "courses" will contain an array of course ids
+	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
+	 * @since   ??
+	 * @version ??
+	 */
+	public function get_completed_courses( $args = array() ) {
+
+		global $wpdb;
+
+		$args = array_merge( array(
+			'limit'   => 20,
+			'orderby' => 'upm.updated_date',
+			'order'   => 'DESC',
+			'skip'    => 0,
+		), $args );
+
+		// add one to the limit to see if there's pagination
+		$args['limit']++;
+
+		// the query
+		$q = $wpdb->get_results( $wpdb->prepare(
+			"SELECT upm.post_id AS id
+			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
+			 WHERE p.post_type = 'course'
+			   AND upm.meta_key = '_is_complete'
+			   AND upm.meta_value = 'yes'
+			   AND upm.user_id = %d
+			 ORDER BY {$args['orderby']} {$args['order']}
+			 LIMIT %d, %d;
+			", array(
+				$this->get_id(),
+				$args['skip'],
+				$args['limit'],
+			)
+		), 'OBJECT_K' );
+
+		$ids = array_keys( $q );
+		$more = false;
+
+		// if we hit our limit we have too many results, pop the last one
+		if ( $args['limit'] === count( $ids ) ) {
+			array_pop( $ids );
+			$more = true;
+		}
+
+		// reset args to pass back for pagination
+		$args['limit']--;
+
+		$r = array(
+			'limit' => $args['limit'],
+			'more' => $more,
 			'results' => $ids,
 			'skip' => $args['skip'],
 		);
@@ -682,6 +775,19 @@ class LLMS_Student {
 		}
 
 		return ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
+
+	}
+
+	/**
+	 * Retrieve the Students original registration date in chosen format
+	 * @param    string     $format  any date format that can be passed to date()
+	 * @return   string
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_registration_date( $format = 'F j, Y' ) {
+
+		return date_i18n( $format, strtotime( $this->get( 'user_registered' ) ) );
 
 	}
 

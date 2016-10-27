@@ -44,9 +44,10 @@ class LLMS_Admin_Menus {
 					case __( 'Settings', 'lifterlms' ):	 	$i = 0;  break;
 					case 'Analytics':
 					case __( 'Analytics', 'lifterlms' ):	$i = 1;  break;
+					case 'Grade Book':
+					case __( 'Grade Book', 'lifterlms' ):	$i = 2;  break;
 					case 'System Report':
-					case __( 'System Report', 'lifterlms' ):$i = 2; break;
-					case 'Analytics (New)': $i = 4; break;
+					case __( 'System Report', 'lifterlms' ):$i = 3; break;
 				}
 
 				if ( isset( $i ) ) {
@@ -81,11 +82,13 @@ class LLMS_Admin_Menus {
 
 			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', array( $this, 'settings_page_init' ), plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', 51 );
 
-			add_submenu_page( 'lifterlms', 'LifterLMS Settings', __( 'Settings', 'lifterlms' ), apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'llms-settings', array( $this, 'settings_page_init' ) );
+			add_submenu_page( 'lifterlms', __( 'LifterLMS Settings', 'lifterlms' ), __( 'Settings', 'lifterlms' ), apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'llms-settings', array( $this, 'settings_page_init' ) );
 
-			add_submenu_page( 'lifterlms', 'LifterLMS Analytics', 'Analytics', apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ), 'llms-analytics', array( $this, 'analytics_page_init' ) );
+			add_submenu_page( 'lifterlms', __( 'LifterLMS Analytics', 'lifterlms' ), __( 'Analytics', 'lifterlms' ), apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ), 'llms-analytics', array( $this, 'analytics_page_init' ) );
 
-			add_submenu_page( 'lifterlms', 'LifterLMS System report', __( 'System Report', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
+			add_submenu_page( 'lifterlms', __( 'LifterLMS Grade Book', 'lifterlms' ), __( 'Grade Book', 'lifterlms' ), apply_filters( 'lifterlms_admin_grade_book_access', 'manage_options' ), 'llms-grade-book', array( $this, 'grade_book_page_init' ) );
+
+			add_submenu_page( 'lifterlms', __( 'LifterLMS System report', 'lifterlms' ), __( 'System Report', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
 
 		}
 
@@ -110,6 +113,12 @@ class LLMS_Admin_Menus {
 	 */
 	public function analytics_page_init() {
 		include LLMS_PLUGIN_DIR . 'includes/admin/analytics/class.llms.view.analytics.php';
+	}
+
+	public function grade_book_page_init() {
+		require_once 'grade-book/class.llms.admin.grade.book.php';
+		$gb = new LLMS_Admin_Grade_Book();
+		$gb->output();
 	}
 
 	/**
