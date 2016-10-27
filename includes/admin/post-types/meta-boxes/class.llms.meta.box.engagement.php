@@ -149,13 +149,16 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			'value'     => $types,
 		);
 
+		$type = get_post_meta( $this->post->ID, $this->prefix . 'engagement_type', true );
+		$default = ( ! $type ) ? 'llms_achievement' : 'llms_' . $type;
+
 		$fields[] = array(
 			'allow_null' => false,
 			'class'     => 'llms-select2-post',
 			'data_attributes' => array(
 				'allow_clear' => true,
 				'placeholder' => __( 'Select an Engagement', 'lifterlms' ),
-				'post-type' => 'llms_achievement',
+				'post-type' => $default,
 			),
 			'id' 		=> $this->prefix . 'engagement',
 			'label'		=> __( 'Select an Engagement', 'lifterlms' ),
