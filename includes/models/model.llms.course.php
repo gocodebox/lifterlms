@@ -286,7 +286,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 * @since   1.0.0
-	 * @version 3.0.0 -- added fallback to video shortcode when oEmbed fails
+	 * @version 3.1.0
 	 */
 	public function get_video() {
 
@@ -300,7 +300,7 @@ class LLMS_Course extends LLMS_Post_Model {
 
 			if ( ! $r ) {
 
-				$r = do_shortcode( '[video src="' . $this->get( 'audio_embed' ) . '"]' );
+				$r = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
 
 			}
 
