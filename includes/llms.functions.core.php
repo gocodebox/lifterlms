@@ -113,14 +113,16 @@ function llms_get_core_supported_themes() {
  */
 function llms_get_engagement_triggers() {
 	return apply_filters( 'lifterlms_engagement_triggers', array(
-		'course_completed' => __( 'Student Completes a Course', 'lifterlms' ),
-		'course_track_completed' => __( 'Student Comepletes a Course Track', 'lifterlms' ),
-		'course_purchased' => __( 'Student Purchases a Course', 'lifterlms' ),
+		'user_registration' => __( 'Student creates a new account', 'lifterlms' ),
+		'course_enrollment' => __( 'Student enrolls in a course', 'lifterlms' ),
+		'course_purchased' => __( 'Student purchases a course', 'lifterlms' ),
+		'course_completed' => __( 'Student completes a course', 'lifterlms' ),
 		// 'days_since_login' => __( 'Days since user last logged in', 'lifterlms' ), // @todo
-		'lesson_completed' => __( 'Student Completes a Lesson', 'lifterlms' ),
-		'membership_purchased' => __( 'Student Purchases a Membership', 'lifterlms' ),
-		'user_registration' => __( 'Student Creates a New Account', 'lifterlms' ),
-		'section_completed' => __( 'Student Completes a Section', 'lifterlms' ),
+		'lesson_completed' => __( 'Student completes a lesson', 'lifterlms' ),
+		'section_completed' => __( 'Student completes a section', 'lifterlms' ),
+		'course_track_completed' => __( 'Student comepletes a course track', 'lifterlms' ),
+		'membership_enrollment' => __( 'Student enrolls in a membership', 'lifterlms' ),
+		'membership_purchased' => __( 'Student purchases a membership', 'lifterlms' ),
 	) );
 }
 

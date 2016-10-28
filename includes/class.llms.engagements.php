@@ -52,7 +52,8 @@ class LLMS_Engagements {
 	 *
 	 * @return  void
 	 *
-	 * @since  2.3.0
+	 * @since    2.3.0
+	 * @version  3.1.0
 	 */
 	private function add_actions() {
 
@@ -64,6 +65,8 @@ class LLMS_Engagements {
 			'lifterlms_lesson_completed',
 			'lifterlms_product_purchased',
 			'lifterlms_section_completed',
+			'llms_user_enrolled_in_course',
+			'llms_user_added_to_membership_level',
 
 		) );
 
@@ -180,9 +183,10 @@ class LLMS_Engagements {
 	 *
 	 * It will fire or schedule the actions after gathering all necessary data
 	 *
-	 * @return void
+	 * @return   void
 	 *
-	 * @since  2.3.0
+	 * @since    2.3.0
+	 * @version  3.1.0
 	 */
 	public function maybe_trigger_engagement() {
 
@@ -213,6 +217,13 @@ class LLMS_Engagements {
 				$related_post_id = intval( $args[1] );
 				$trigger_type = str_replace( 'lifterlms_', '', $action );
 
+			break;
+
+			case 'llms_user_added_to_membership_level':
+			case 'llms_user_enrolled_in_course':
+				$user_id = intval( $args[0] );
+				$related_post_id = intval( $args[1] );
+				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_enrollment';
 			break;
 
 			case 'lifterlms_product_purchased' :

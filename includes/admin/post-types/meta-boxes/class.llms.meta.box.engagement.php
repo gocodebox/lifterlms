@@ -56,6 +56,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			'course' => array(
 				'controller_value' => array(
 					'course_completed',
+					'course_enrollment',
 					'course_purchased',
 				),
 				'id' => '_faux_engagement_trigger_post_course',
@@ -69,7 +70,10 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			),
 
 			'llms_membership' => array(
-				'controller_value' => array( 'membership_purchased' ),
+				'controller_value' => array(
+					'membership_enrollment',
+					'membership_purchased',
+				),
 				'id' => '_faux_engagement_trigger_post_membership',
 				'label' => __( 'Select a Membership', 'lifterlms' ),
 			),
@@ -145,13 +149,16 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			'value'     => $types,
 		);
 
+		$type = get_post_meta( $this->post->ID, $this->prefix . 'engagement_type', true );
+		$default = ( ! $type ) ? 'llms_achievement' : 'llms_' . $type;
+
 		$fields[] = array(
 			'allow_null' => false,
 			'class'     => 'llms-select2-post',
 			'data_attributes' => array(
 				'allow_clear' => true,
 				'placeholder' => __( 'Select an Engagement', 'lifterlms' ),
-				'post-type' => 'llms_achievement',
+				'post-type' => $default,
 			),
 			'id' 		=> $this->prefix . 'engagement',
 			'label'		=> __( 'Select an Engagement', 'lifterlms' ),
@@ -247,6 +254,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 			case 'course_completed':
 			case 'course_purchased':
+			case 'course_enrollment':
 				$var = 'course';
 			break;
 
@@ -255,6 +263,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			break;
 
 			case 'membership_purchased':
+			case 'membership_enrollment':
 				$var = 'membership';
 			break;
 
