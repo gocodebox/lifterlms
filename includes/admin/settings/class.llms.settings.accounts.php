@@ -174,12 +174,12 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 			),
 			array(
-				'title'         => __( 'Terms and Conditions', 'lifterlms' ),
-				'desc'          => __( 'Add a required "I Agree to the Terms and Conditions" checkbox. When enabled, displays only on checkout and registration screens.', 'lifterlms' ),
-				'id'            => 'lifterlms_registration_require_agree_to_terms',
-				'default'       => 'no',
-				'type'          => 'checkbox',
 				'autoload'      => false,
+				'default'       => 'no',
+				'id'            => 'lifterlms_registration_require_agree_to_terms',
+				'desc'          => __( 'Add a required "I Agree to the Terms and Conditions" checkbox. When enabled, displays only on checkout and registration screens.', 'lifterlms' ),
+				'title'         => __( 'Terms and Conditions', 'lifterlms' ),
+				'type'          => 'checkbox',
 			),
 			array(
 				'desc' 		=> '<br>' . __( 'Select the page where your Terms and Conditions are described.', 'lifterlms' ),
