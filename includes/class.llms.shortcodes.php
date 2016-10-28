@@ -310,14 +310,34 @@ class LLMS_Shortcodes {
 
 	}
 
-	public static function hide_content( $atts, $content = null ) {
-		extract(shortcode_atts(array(
-			'membership' => '', // course, lesson, section
-		),$atts));
+	/**
+	 * Display content only to user enrolled in a specific course, lesson, or membership
+	 * and display an option message to everyone else
+	 * @param    array       $atts     array of shortcode atts
+	 * @param    string     $content  HTML / Text content to be displayed only if the user is enrolled
+	 * @return   content
+	 * @since    1.0.0
+	 * @version  3.1.1
+	 */
+	public static function hide_content( $atts, $content = '' ) {
 
-		if (llms_is_user_enrolled( get_current_user_id(), $membership )) {
-			return $content;
+		extract( shortcode_atts( array(
+			'membership' => '', // backwards compat, use ID moving forwad
+
+			'message' => '',
+			'id' => get_the_ID(), // updated 3.1.1
+		), $atts ) );
+
+		if ( $membership ) {
+			$id = $membership;
 		}
+
+		if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
+			return $content;
+		} else {
+			return $message;
+		}
+
 	}
 
 	/**
