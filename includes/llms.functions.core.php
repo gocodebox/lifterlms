@@ -20,14 +20,14 @@ require_once 'functions/llms.functions.template.php';
  * according to global settings
  * @return   boolean
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.1.1 - fix logic...
  */
 function llms_are_terms_and_conditions_required() {
 
 	$enabled = get_option( 'lifterlms_registration_require_agree_to_terms' );
 	$page_id = get_option( 'lifterlms_terms_page_id', false );
 
-	return ( $enabled && $page_id );
+	return ( 'yes' === $enabled && $page_id );
 
 }
 

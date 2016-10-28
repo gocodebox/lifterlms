@@ -29,7 +29,7 @@ msgstr ""
 msgid "Checking this box will allow users to use this payment gateway."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:216, includes/admin/settings/class.llms.settings.accounts.php:244
+#: includes/abstracts/abstract.llms.payment.gateway.php:216, includes/admin/settings/class.llms.settings.accounts.php:245
 msgid "Enable / Disable"
 msgstr ""
 
@@ -1335,19 +1335,19 @@ msgstr ""
 msgid "Engagement Type"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:157, includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:161
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:160, includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:164
 msgid "Select an Engagement"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:169
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:172
 msgid "Enter the number of days to wait before triggering this engagement. Enter 0 or leave blank to trigger immediately."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:171
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:174
 msgid "Engagement Delay"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:178
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:181
 msgid "Engagement Settings"
 msgstr ""
 
@@ -2112,79 +2112,83 @@ msgctxt "password strength meter"
 msgid "Strong"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:177
-msgid "Terms and Conditions"
+#: includes/admin/settings/class.llms.settings.accounts.php:180
+msgid "Add a required \"I Agree to the Terms and Conditions\" checkbox. When enabled, displays only on checkout and registration screens."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:178
-msgid "Add a required \"I Agree to the Terms and Conditions\" checkbox. When enabled, displays only on checkout and registration screens."
+#: includes/admin/settings/class.llms.settings.accounts.php:181
+msgid "Terms and Conditions"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.accounts.php:185
 msgid "Select the page where your Terms and Conditions are described."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:198
-msgid "Customize the user information fields available on the checkout screen."
+#: includes/admin/settings/class.llms.settings.accounts.php:193, includes/admin/settings/class.llms.settings.catalogs.php:54, includes/admin/settings/class.llms.settings.catalogs.php:108
+msgid "Select a page"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.accounts.php:199
+msgid "Customize the user information fields available on the checkout screen."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:200
 msgid "Checkout Fields"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:206, includes/admin/settings/class.llms.settings.accounts.php:251, includes/admin/settings/class.llms.settings.accounts.php:300
+#: includes/admin/settings/class.llms.settings.accounts.php:207, includes/admin/settings/class.llms.settings.accounts.php:252, includes/admin/settings/class.llms.settings.accounts.php:301
 msgid "First & Last Name"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:214, includes/admin/settings/class.llms.settings.accounts.php:259, includes/admin/settings/class.llms.settings.accounts.php:308
+#: includes/admin/settings/class.llms.settings.accounts.php:215, includes/admin/settings/class.llms.settings.accounts.php:260, includes/admin/settings/class.llms.settings.accounts.php:309
 msgid "Address"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:222, includes/admin/settings/class.llms.settings.accounts.php:267, includes/admin/settings/class.llms.settings.accounts.php:316, includes/class.llms.person.handler.php:294
+#: includes/admin/settings/class.llms.settings.accounts.php:223, includes/admin/settings/class.llms.settings.accounts.php:268, includes/admin/settings/class.llms.settings.accounts.php:317, includes/class.llms.person.handler.php:294
 msgid "Phone Number"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:229, includes/admin/settings/class.llms.settings.accounts.php:274, includes/admin/settings/class.llms.settings.accounts.php:323
+#: includes/admin/settings/class.llms.settings.accounts.php:230, includes/admin/settings/class.llms.settings.accounts.php:275, includes/admin/settings/class.llms.settings.accounts.php:324
 msgid "Add an email confirmation field"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:231, includes/admin/settings/class.llms.settings.accounts.php:276, includes/admin/settings/class.llms.settings.accounts.php:325
+#: includes/admin/settings/class.llms.settings.accounts.php:232, includes/admin/settings/class.llms.settings.accounts.php:277, includes/admin/settings/class.llms.settings.accounts.php:326
 msgid "Email Confirmation"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:236
+#: includes/admin/settings/class.llms.settings.accounts.php:237
 msgid "Customize the user information fields available on the open registration screen."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:237
+#: includes/admin/settings/class.llms.settings.accounts.php:238
 msgid "Open Registration Fields"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:242
+#: includes/admin/settings/class.llms.settings.accounts.php:243
 msgid "Allow registration on the Account Access Page without enrolling in a course or membership."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:282
+#: includes/admin/settings/class.llms.settings.accounts.php:283
 msgid "If required, users can only use open registration with a voucher."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:283
+#: includes/admin/settings/class.llms.settings.accounts.php:284
 msgid "If optional, users may redeem a voucher during open registration."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:284
+#: includes/admin/settings/class.llms.settings.accounts.php:285
 msgid "If hidden, users can only redeem vouchers on their dashboard."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:286, includes/class.llms.post-types.php:920
+#: includes/admin/settings/class.llms.settings.accounts.php:287, includes/class.llms.post-types.php:920
 msgid "Voucher"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:292
+#: includes/admin/settings/class.llms.settings.accounts.php:293
 msgid "Customize the user information fields available on the account update screen."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:293
+#: includes/admin/settings/class.llms.settings.accounts.php:294
 msgid "Account Update Fields"
 msgstr ""
 
@@ -2194,10 +2198,6 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.catalogs.php:45
 msgid "Course Catalog Settings"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:54, includes/admin/settings/class.llms.settings.catalogs.php:108
-msgid "Select a page"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.catalogs.php:56
@@ -4351,15 +4351,15 @@ msgstr ""
 msgid "Leave Review"
 msgstr ""
 
-#: includes/class.llms.shortcodes.php:261, includes/class.llms.shortcodes.php:466, templates/loop/pagination.php:19
+#: includes/class.llms.shortcodes.php:261, includes/class.llms.shortcodes.php:486, templates/loop/pagination.php:19
 msgid "Previous"
 msgstr ""
 
-#: includes/class.llms.shortcodes.php:262, includes/class.llms.shortcodes.php:467, templates/admin/post-types/student-table.php:46, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:82, templates/myaccount/my-orders.php:61
+#: includes/class.llms.shortcodes.php:262, includes/class.llms.shortcodes.php:487, templates/admin/post-types/student-table.php:46, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:82, templates/myaccount/my-orders.php:61
 msgid "Next"
 msgstr ""
 
-#: includes/class.llms.shortcodes.php:586
+#: includes/class.llms.shortcodes.php:606
 msgid "$type"
 msgid_plural "$type.s"
 msgstr[0] ""
