@@ -190,6 +190,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type' 		=> 'select',
 				'custom_attributes' => array(
 					'data-post-type' => 'page',
+					'data-placeholder' => __( 'Select a page', 'lifterlms' )
 				),
 				'options' => llms_make_select2_post_array( get_option( 'lifterlms_terms_page_id', '' ) ),
 			),
