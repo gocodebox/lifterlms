@@ -29,6 +29,28 @@ class LLMS_Admin_Grade_Book {
 
 	}
 
+	public static function get_course_data( $course, $student, $data ) {
+
+		switch ( $data ) {
+
+			case 'id':
+				$data = $course->get( 'id' );
+			break;
+
+			case 'name':
+				$data = '<a href="' . get_edit_post_link( $course->get( 'id' ) ) . '">' . $course->get( 'title' ) . '</a>';
+			break;
+
+			case 'completion':
+				$data = $student->get_progress( $course->get( 'id' ), 'course' ) . '%';
+			break;
+
+		}
+
+		return $data;
+
+	}
+
 	public static function get_student_data( $student, $data ) {
 
 		switch( $data ) {
@@ -42,11 +64,8 @@ class LLMS_Admin_Grade_Book {
 			break;
 
 			case 'completions':
-
 				$courses = $student->get_completed_courses();
-
 				$data = count( $courses['results'] );
-
 			break;
 
 			case 'enrollments':
@@ -82,9 +101,7 @@ class LLMS_Admin_Grade_Book {
 			break;
 
 			case 'memberships':
-
 				$data = count( $student->get_membership_levels() );
-
 			break;
 
 			case 'name':
@@ -98,14 +115,14 @@ class LLMS_Admin_Grade_Book {
 					$data = $last . ', ' . $first;
 				}
 
+				$url = add_query_arg( 'id', $student->get_id(), admin_url( 'admin.php?page=llms-grade-book' ) );
+				$data = '<a href="' . $url . '">' . $data . '</a>';
+
 			break;
 
 			case 'registered':
-
 				$data = $student->get_registration_date();
-
 			break;
-
 
 		}
 
@@ -123,7 +140,7 @@ class LLMS_Admin_Grade_Book {
 	}
 
 	public static function get_results_per_page() {
-		return apply_filters( 'llms_grade_book_results_per_page', 20 );
+		return apply_filters( 'llms_grade_book_results_per_page', 30 );
 	}
 
 	private function get_students() {
@@ -168,22 +185,43 @@ class LLMS_Admin_Grade_Book {
 
 			case 'students':
 
-				$table_cols = apply_filters( 'llms_grade_book_students_cols', array(
-					'id' => __( 'ID', 'lifterlms' ),
-					'name' => __( 'Name', 'lifterlms' ),
-					'registered' => __( 'Registration Date', 'lifterlms' ),
-					'memberships' => __( 'Memberships', 'lifterlms' ),
-					'enrollments' => __( 'Course Enrollments', 'lifterlms' ),
-					'completions' => __( 'Course Completions', 'lifterlms' ),
-					'certificates' => __( 'Certificates', 'lifterlms' ),
-					'achievements' => __( 'Achievements', 'lifterlms' ),
-					'active' => __( 'Last Activity', 'lifterlms' ),
-				) );
+				// single student
+				if ( isset( $_GET['id'] ) ) {
 
-				llms_get_template( 'admin/grade-book/students.php', array(
-					'cols' => $table_cols,
-					'students' => $this->get_students()
-				) );
+					$tabs = apply_filters( 'llms_grade_book_student_tabs', array(
+						'courses' => __( 'Courses', 'lifterlms' ),
+						'information' => __( 'Information', 'lifterlms' ),
+						'achievements' => __( 'Achievements', 'lifterlms' ),
+					) );
+
+					llms_get_template( 'admin/grade-book/student.php', array(
+						'tabs' => $tabs,
+						'student' => new LLMS_Student( intval( $_GET['id'] ) ),
+					) );
+
+				}
+				// table
+				else {
+
+					$table_cols = apply_filters( 'llms_grade_book_students_cols', array(
+						'id' => __( 'ID', 'lifterlms' ),
+						'name' => __( 'Name', 'lifterlms' ),
+						'registered' => __( 'Registration Date', 'lifterlms' ),
+						'memberships' => __( 'Memberships', 'lifterlms' ),
+						'enrollments' => __( 'Course Enrollments', 'lifterlms' ),
+						'completions' => __( 'Course Completions', 'lifterlms' ),
+						'certificates' => __( 'Certificates', 'lifterlms' ),
+						'achievements' => __( 'Achievements', 'lifterlms' ),
+						'active' => __( 'Last Activity', 'lifterlms' ),
+					) );
+
+					llms_get_template( 'admin/grade-book/students.php', array(
+						'cols' => $table_cols,
+						'students' => $this->get_students()
+					) );
+
+				}
+
 
 			break;
 

@@ -5,19 +5,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
 ?>
-
-<?php
-/**
- * Students Metabox on admin panel
- * @since    3.0.0
- * @version  3.0.0
- */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
-if ( ! is_admin() ) { exit; }
-
-?>
 <table class="llms-table zebra" id="llms-students-table">
 	<thead>
 		<tr>

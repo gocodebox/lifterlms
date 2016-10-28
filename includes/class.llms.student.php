@@ -256,12 +256,16 @@ class LLMS_Student {
 		global $wpdb;
 
 		$r = $wpdb->get_results( $wpdb->prepare(
-			"SELECT post_id, meta_value AS certificate_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
+			"SELECT post_id, meta_value AS achievement_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
 			$this->get_id()
 		) );
 
 		return $r;
 
+	}
+
+	public function get_avatar( $size = 96 ) {
+		return '<span class="llms-student-avatar">' . get_avatar( $this->get_id(), $size, null, $this->get_name() ) . '</span>';
 	}
 
 	/**

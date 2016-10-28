@@ -571,7 +571,7 @@ class LLMS_Person_Handler {
 		}
 
 		// validate the fields & allow custom validation to occur
-		$valid = self::validate_fields( apply_filters( 'lifterlms_user_registration_data', $data, $screen ), $screen );
+		$valid = apply_filters( 'lifterlms_user_registration_data', self::validate_fields( $data, $screen ), $data, $screen );
 
 		// if errors found, return them
 		if ( is_wp_error( $valid ) ) {
@@ -653,7 +653,7 @@ class LLMS_Person_Handler {
 		}
 
 		// validate the fields & allow custom validation to occur
-		$valid = self::validate_fields( apply_filters( 'lifterlms_user_update_data', $data, $screen ), $screen );
+		$valid = apply_filters( 'lifterlms_user_update_data', self::validate_fields( $data, $screen ), $data, $screen );
 
 		// if errors found, return them
 		if ( is_wp_error( $valid ) ) {

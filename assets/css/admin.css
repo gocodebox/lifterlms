@@ -2722,6 +2722,43 @@ div[id^="lifterlms-"] .inside {
   float: right;
 }
 
+.llms-grade-book-wrap .llms-options-page-contents {
+  background: #fefefe;
+  padding: 20px;
+}
+
+.llms-gb-student h1, .llms-gb-student h2, .llms-gb-student h3, .llms-gb-student h4, .llms-gb-student h5, .llms-gb-student h6 {
+  margin: 0;
+}
+.llms-gb-student h1 a, .llms-gb-student h2 a, .llms-gb-student h3 a, .llms-gb-student h4 a, .llms-gb-student h5 a, .llms-gb-student h6 a {
+  color: #243c56;
+  text-decoration: none;
+}
+.llms-gb-student h1 a:hover, .llms-gb-student h2 a:hover, .llms-gb-student h3 a:hover, .llms-gb-student h4 a:hover, .llms-gb-student h5 a:hover, .llms-gb-student h6 a:hover {
+  color: #2295ff;
+}
+.llms-gb-student .llms-gb-student-header .llms-student-avatar {
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.llms-gb-student .llms-gb-student-header .llms-gb-student-info {
+  display: inline-block;
+  vertical-align: middle;
+}
+.llms-gb-student .llms-gb-tabs .llms-gb-tab {
+  display: none;
+}
+.llms-gb-student .llms-gb-tabs .llms-gb-tab.active {
+  display: block;
+}
+
+#llms-students-table .name {
+  text-align: left;
+}
+
 /*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

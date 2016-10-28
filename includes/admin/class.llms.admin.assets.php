@@ -47,6 +47,8 @@ class LLMS_Admin_Assets {
 	    	'llms-settings',
 	    	$screen_id . '_page_llms-analytics',
 	    	'llms-analytics',
+	    	$screen_id . '_page_llms-grade-book',
+	    	'llms-grade-book',
 	    	$screen_id . '_page_llms-students',
 	    	'admin_page_llms-analytics',
 	    	'llms-students',
@@ -207,6 +209,10 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-analytics', plugins_url( '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-admin-scripts' ), '', true );
 				wp_enqueue_script( 'llms-metaboxes' );
 
+			}
+
+			if ( 'lifterlms_page_llms-grade-book' === $screen->base ) {
+				wp_enqueue_script( 'llms-analytics', plugins_url( '/assets/js/llms-grade-book' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-admin-scripts' ), '', true );
 			}
 
 			wp_enqueue_script( 'top-modal' );

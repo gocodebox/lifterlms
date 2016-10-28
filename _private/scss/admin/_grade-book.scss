@@ -1,0 +1,58 @@
+.llms-grade-book-wrap {
+
+	.llms-options-page-contents {
+
+		background: $color-white;
+		padding: 20px;
+
+	}
+
+}
+
+
+.llms-gb-student {
+
+	h1, h2, h3, h4, h5, h6 {
+		margin: 0;
+		a {
+			color: $color-brand-dark-blue;
+			text-decoration: none;
+			&:hover {
+				color: $color-brand-blue;
+			}
+		}
+	}
+
+
+	.llms-gb-student-header {
+
+		.llms-student-avatar {
+			border-radius: 50%;
+			display: inline-block;
+			margin-right: 10px;
+			overflow: hidden;
+			vertical-align: middle;
+		}
+
+		.llms-gb-student-info {
+			display: inline-block;
+			vertical-align: middle;
+
+		}
+
+	}
+
+	.llms-gb-tabs {
+		.llms-gb-tab {
+			display: none;
+			&.active {
+				display: block;
+			}
+		}
+	}
+
+}
+
+#llms-students-table .name {
+	text-align: left;
+}
