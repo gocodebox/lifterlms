@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.1.2 - 2016/10/31 =
+-----------------------
+
++ Update all course and lesson templates to rely only on `global $post` rather than on `$course` and `$lesson` globals which are working inconsistenly across environments
+
+
 = v3.1.1 - 2016/10/28 =
 -----------------------
 
