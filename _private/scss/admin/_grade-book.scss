@@ -7,6 +7,20 @@
 
 	}
 
+	th a {
+		text-decoration: none;
+		&.active {
+			&.ASC .desc,
+			&.DESC .asc { display: inline-block; }
+		}
+		.dashicons {
+			display: none;
+			font-size: 16px;
+			height: 16px;
+			width: 16px;
+		}
+	}
+
 }
 
 

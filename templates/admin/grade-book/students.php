@@ -4,12 +4,30 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
+
+if ( isset( $_GET['order'] ) ) {
+	$order = ( 'ASC' === $_GET['order'] ) ? 'DESC' : 'ASC';
+} else {
+	$order = 'ASC';
+}
+
+$orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
 ?>
 <table class="llms-table zebra" id="llms-students-table">
 	<thead>
 		<tr>
-			<?php foreach ( $cols as $class => $name ) : ?>
-				<th class="<?php echo $class; ?>"><?php echo $name; ?></th>
+			<?php foreach ( $cols as $id => $data ) : ?>
+				<th class="<?php echo $id; ?>">
+					<?php if ( $data['sortable'] ) : ?>
+						<a class="<?php echo $order; ?><?php echo ( $orderby === $id ) ? ' active' : ''; ?>" href="<?php echo esc_url( add_query_arg( array( 'order' => $order, 'orderby' => $id ) ) ); ?>">
+							<?php echo $data['title']; ?>
+							<span class="dashicons dashicons-arrow-up asc"></span>
+							<span class="dashicons dashicons-arrow-down desc"></span>
+						</a>
+					<?php else: ?>
+						<?php echo $data['title']; ?>
+					<?php endif; ?>
+				</th>
 			<?php endforeach; ?>
 		</tr>
 	</thead>
@@ -17,8 +35,8 @@ if ( ! is_admin() ) { exit; }
 		<?php if ( $students->get_results() ) : ?>
 			<?php foreach ( $students->get_results() as $student ) : $student = new LLMS_Student( $student->ID ); ?>
 				<tr>
-					<?php foreach ( $cols as $class => $name ) : ?>
-						<td class="<?php echo $class; ?>"><?php echo LLMS_Admin_Grade_Book::get_student_data( $student, $class ); ?></td>
+					<?php foreach ( array_keys( $cols ) as $id ) : ?>
+						<td class="<?php echo $id; ?>"><?php echo LLMS_Admin_Grade_Book::get_student_data( $student, $id ); ?></td>
 					<?php endforeach; ?>
 				</tr>
 			<?php endforeach; ?>

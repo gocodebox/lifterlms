@@ -153,10 +153,33 @@ class LLMS_Admin_Grade_Book {
 			'number' => $per_page,
 			'offset' => ( $current_page - 1 ) * $per_page,
 			'paged' => $current_page,
-			'orderby' => isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'name',
+			// 'orderby' => isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'name',
 			'order' => isset( $_GET['order'] ) ? sanitize_text_field( $_GET['order'] ) : 'ASC',
 
 		);
+
+		$orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'name';
+
+		switch ( $orderby ) {
+
+			case 'name':
+
+				$args = array_merge( $args, array(
+					'meta_key' => 'last_name',
+					'orderby' => 'meta_value',
+				) );
+
+			break;
+
+			case 'registered':
+
+				$args = array_merge( $args, array(
+					'orderby' => 'registered',
+				) );
+
+			break;
+
+		}
 
 		$q = new WP_User_Query( $args );
 
@@ -204,15 +227,42 @@ class LLMS_Admin_Grade_Book {
 				else {
 
 					$table_cols = apply_filters( 'llms_grade_book_students_cols', array(
-						'id' => __( 'ID', 'lifterlms' ),
-						'name' => __( 'Name', 'lifterlms' ),
-						'registered' => __( 'Registration Date', 'lifterlms' ),
-						'memberships' => __( 'Memberships', 'lifterlms' ),
-						'enrollments' => __( 'Course Enrollments', 'lifterlms' ),
-						'completions' => __( 'Course Completions', 'lifterlms' ),
-						'certificates' => __( 'Certificates', 'lifterlms' ),
-						'achievements' => __( 'Achievements', 'lifterlms' ),
-						'active' => __( 'Last Activity', 'lifterlms' ),
+						'id' => array(
+							'sortable' => false,
+							'title' => __( 'ID', 'lifterlms' ),
+						),
+						'name' => array(
+							'sortable' => true,
+							'title' => __( 'Name', 'lifterlms' ),
+						),
+						'registered' => array(
+							'sortable' => true,
+							'title' => __( 'Registration Date', 'lifterlms' ),
+						),
+						'memberships' => array(
+							'sortable' => false,
+							'title' => __( 'Memberships', 'lifterlms' ),
+						),
+						'enrollments' => array(
+							'sortable' => false,
+							'title' => __( 'Course Enrollments', 'lifterlms' ),
+						),
+						'completions' => array(
+							'sortable' => false,
+							'title' => __( 'Course Completions', 'lifterlms' ),
+						),
+						'certificates' => array(
+							'sortable' => false,
+							'title' => __( 'Certificates', 'lifterlms' ),
+						),
+						'achievements' => array(
+							'sortable' => false,
+							'title' => __( 'Achievements', 'lifterlms' ),
+						),
+						'active' => array(
+							'sortable' => false,
+							'title' => __( 'Last Activity', 'lifterlms' ),
+						),
 					) );
 
 					llms_get_template( 'admin/grade-book/students.php', array(
