@@ -9,7 +9,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $course;
+global $post;
 
 if ( ! llms_is_user_enrolled( get_current_user_id(), $post->ID ) ) {
 	return;

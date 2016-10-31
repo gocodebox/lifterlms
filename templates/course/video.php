@@ -6,13 +6,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $course;
+global $post;
 
-if ( ! $course || ! is_object( $course ) ) {
-
-	$course = new LLMS_Course( $post->ID );
-
-}
+$course = new LLMS_Course( $post );
 
 if ( ! $course->get_video() ) { return; }
 

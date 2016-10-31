@@ -10,7 +10,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $course;
+global $post;
+
+$course = new LLMS_Course( $post );
 
 // retrieve sections to use in the template
 $sections = $course->get_sections( 'posts' );

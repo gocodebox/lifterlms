@@ -6,6 +6,11 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+global $post;
+
+$course = new LLMS_Course( $post );
+
 ?>
 
 <?php if ( $course->has_prerequisite( 'course' ) && ! $course->is_prerequisite_complete( 'course' ) ) : $prereq_id = $course->get_prerequisite_id( 'course' ); ?>
