@@ -2373,7 +2373,7 @@ div[id^="lifterlms-"] .inside {
 .llms-order-note .llms-order-note-content p {
   font-size: 13px;
   margin: 0;
-  line-hieght: 1.5l;
+  line-height: 1.5;
 }
 .llms-order-note .llms-order-note-meta {
   color: #999;
