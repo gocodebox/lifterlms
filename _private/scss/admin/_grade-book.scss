@@ -21,6 +21,12 @@
 		}
 	}
 
+	td.id a {
+		text-decoration: none;
+	}
+
+	th.name, td.name { text-align: left; }
+
 }
 
 
@@ -65,6 +71,10 @@
 		}
 	}
 
+}
+
+.llms-gb-footer {
+	margin-top: 25px;
 }
 
 #llms-students-table .name {

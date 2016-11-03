@@ -2738,6 +2738,12 @@ div[id^="lifterlms-"] .inside {
   height: 16px;
   width: 16px;
 }
+.llms-grade-book-wrap td.id a {
+  text-decoration: none;
+}
+.llms-grade-book-wrap th.name, .llms-grade-book-wrap td.name {
+  text-align: left;
+}
 
 .llms-gb-student h1, .llms-gb-student h2, .llms-gb-student h3, .llms-gb-student h4, .llms-gb-student h5, .llms-gb-student h6 {
   margin: 0;
@@ -2765,6 +2771,10 @@ div[id^="lifterlms-"] .inside {
 }
 .llms-gb-student .llms-gb-tabs .llms-gb-tab.active {
   display: block;
+}
+
+.llms-gb-footer {
+  margin-top: 25px;
 }
 
 #llms-students-table .name {

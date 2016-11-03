@@ -29,21 +29,84 @@ class LLMS_Admin_Grade_Book {
 
 	}
 
+	public static function get_lesson_data( $lesson, $student, $data ) {
+
+		switch ( $data ) {
+
+			case 'completion':
+				$date = $student->get_completion_date( $lesson->get( 'id' ) );
+				$data = $date ? $date : '&ndash;';
+			break;
+
+			case 'grade':
+				$grade = $student->get_grade( $lesson->get( 'id' ) );
+				$data  = is_numeric( $grade ) ? $grade . '%' : $grade;
+			break;
+
+			case 'id':
+				$data = '<a href="' . esc_url( get_edit_post_link( $lesson->get( 'id' ) ) ) . '">' . $lesson->get( 'id' ) . '</a>';
+			break;
+
+			case 'name':
+				$data = $lesson->get( 'title' );
+			break;
+
+			case 'quiz':
+
+				$q = $lesson->get( 'assigned_quiz' );
+
+				if ( $q ) {
+
+					$url = esc_url( add_query_arg( 'quiz_id', $q ) );
+					$data = '<a href="' . $url . '">' . get_the_title( $q ) . '</a>';
+
+				} else {
+
+					$data = '&ndash;';
+
+				}
+
+			break;
+
+
+
+		}
+
+		return $data;
+
+	}
+
 	public static function get_course_data( $course, $student, $data ) {
 
 		switch ( $data ) {
 
+			case 'progress':
+				$data = $student->get_progress( $course->get( 'id' ), 'course' ) . '%';
+			break;
+
+			case 'completed':
+				$date = $student->get_completion_date( $course->get( 'id' ) );
+				$data = $date ? $date : '&ndash;';
+			break;
+
+			case 'grade':
+
+				$grade = $student->get_grade( $course->get( 'id' ) );
+
+				$data  = is_numeric( $grade ) ? $grade . '%' : $grade;
+
+			break;
+
 			case 'id':
-				$data = $course->get( 'id' );
+				$data = '<a href="' . esc_url( get_edit_post_link( $course->get( 'id' ) ) ) . '">' . $course->get( 'id' ) . '</a>';
 			break;
 
 			case 'name':
-				$data = '<a href="' . get_edit_post_link( $course->get( 'id' ) ) . '">' . $course->get( 'title' ) . '</a>';
+				$url = esc_url( add_query_arg( 'course_id', $course->get( 'id' ) ) );
+				$data = '<a href="' . $url . '">' . $course->get( 'title' ) . '</a>';
 			break;
 
-			case 'completion':
-				$data = $student->get_progress( $course->get( 'id' ), 'course' ) . '%';
-			break;
+
 
 		}
 
@@ -97,7 +160,7 @@ class LLMS_Admin_Grade_Book {
 			break;
 
 			case 'id':
-				$data = $student->get_id();
+				$data = '<a href="' . esc_url( get_edit_user_link( $student->get_id() ) ) . '">' . $student->get_id() . '</a>';
 			break;
 
 			case 'memberships':
@@ -115,7 +178,7 @@ class LLMS_Admin_Grade_Book {
 					$data = $last . ', ' . $first;
 				}
 
-				$url = add_query_arg( 'id', $student->get_id(), admin_url( 'admin.php?page=llms-grade-book' ) );
+				$url = esc_url( add_query_arg( 'student_id', $student->get_id(), admin_url( 'admin.php?page=llms-grade-book' ) ) );
 				$data = '<a href="' . $url . '">' . $data . '</a>';
 
 			break;
@@ -209,7 +272,7 @@ class LLMS_Admin_Grade_Book {
 			case 'students':
 
 				// single student
-				if ( isset( $_GET['id'] ) ) {
+				if ( isset( $_GET['student_id'] ) ) {
 
 					$tabs = apply_filters( 'llms_grade_book_student_tabs', array(
 						'courses' => __( 'Courses', 'lifterlms' ),
@@ -219,7 +282,7 @@ class LLMS_Admin_Grade_Book {
 
 					llms_get_template( 'admin/grade-book/student.php', array(
 						'tabs' => $tabs,
-						'student' => new LLMS_Student( intval( $_GET['id'] ) ),
+						'student' => new LLMS_Student( intval( $_GET['student_id'] ) ),
 					) );
 
 				}

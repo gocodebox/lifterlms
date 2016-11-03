@@ -509,6 +509,26 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Get the formatted date when a course or lesson was completed by the student
+	 * @param    int        $object_id  WP Post ID of a course or lesson
+	 * @param    string     $format     date format as accepted by php date()
+	 * @return   false|string            will return false if the user is not enrolled
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_completion_date( $object_id, $format = 'F d, Y'  ) {
+
+		global $wpdb;
+
+		$q = $wpdb->get_var( $wpdb->prepare(
+			"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_is_complete' AND meta_value = 'yes' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+			array( $this->get_id(), $object_id )
+		) );
+
+		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
+
+	}
 
 	/**
 	 * Get the formatted date when a user initially enrolled in a product or when they were last updated
@@ -619,6 +639,41 @@ class LLMS_Student {
 
 			case 'course':
 
+				$course = new LLMS_Course( $object_id );
+				$lessons = $course->get_lessons( 'ids' );
+
+				$grades = array();
+
+				foreach( $lessons as $lid ) {
+
+					$grade = $this->get_grade( $lid );
+
+					if ( is_numeric( $grade ) ) {
+						array_push( $grades, $grade );
+					}
+
+				}
+
+				$taken = count( $grades );
+
+				if ( ! $taken ) {
+
+					$grade = _x( 'N/A', 'course grade when no quizzes taken or in course', 'lifterlms' );
+
+				} else {
+
+					$total = array_sum( $grades );
+
+					// prevent division by zero
+					if ( 0 === $total ) {
+						$grade = 0;
+					} else {
+						$grade = $total / $taken;
+					}
+
+				}
+
+
 			break;
 
 			case 'lesson':
@@ -626,15 +681,28 @@ class LLMS_Student {
 				$l = new LLMS_Lesson( $object_id );
 				$q = $l->get( 'assigned_quiz' );
 
-				if ( ! $q ) {
-					$grade = __( 'N/A', 'lesson grade when lesson has no quiz', 'lifterlms' );
-				} else {
+				$grade = _x( 'N/A', 'lesson grade when lesson has no quiz', 'lifterlms' );
+
+				if ( $q ) {
+
 					$q = new LLMS_Quiz( $q );
-					$grade = $q->get_best_grade( $this->get_id() );
+
+					if ( $q->get_total_attempts_by_user( $this->get_id() ) ) {
+
+						$grade = $q->get_best_grade( $this->get_id() );
+
+					}
+
 				}
 
 			break;
 
+
+		}
+
+		if ( is_numeric( $grade ) ) {
+
+			$grade = round( $grade, 2 );
 
 		}
 

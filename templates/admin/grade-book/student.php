@@ -34,8 +34,8 @@ if ( ! is_admin() ) { exit; }
 	<?php endforeach; ?>
 	</section>
 
-	<?php if ( ! empty( $_SERVER['HTTP_REFERER'] ) && false !== strpos( $_SERVER['HTTP_REFERER'], 'admin.php?page=llms-grade-book' ) ) : ?>
-		<p><a href="<?php echo $_SERVER['HTTP_REFERER']; ?>"><?php _e( 'Back to Results', 'lifterlms' ); ?></a></p>
-	<?php endif; ?>
+	<footer class="llms-gb-footer">
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-grade-book' ) ); ?>"><?php _e( 'Back to all students', 'lifterlms' ); ?></a>
+	</footer>
 
 </section>
