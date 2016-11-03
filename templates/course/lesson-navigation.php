@@ -6,11 +6,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $lesson;
+global $post;
 
-if ( ! $lesson instanceof LLMS_Lesson ) {
-	$lesson = new LLMS_Lesson( $post->ID );
-}
+$lesson = new LLMS_Lesson( $post->ID );
 
 $prev_id = $lesson->get_previous_lesson();
 $next_id = $lesson->get_next_lesson();

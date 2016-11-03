@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $course;
+global $post;
 ?>
 
 <div class="llms-meta llms-tags">

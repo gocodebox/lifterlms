@@ -6,7 +6,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $course;
+global $post;
 
 ?>
 <div class="llms-full-description">

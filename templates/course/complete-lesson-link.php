@@ -6,14 +6,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $lesson;
+global $post;
 
-if ( ! $lesson ) {
-
-	$lesson = new LLMS_Lesson( $post->ID );
-
-
-}
+$lesson = new LLMS_Lesson( $post );
 
 if ( is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), $lesson->get_parent_course() ) ) {
 	$user = new LLMS_Person;
