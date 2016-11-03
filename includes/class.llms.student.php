@@ -514,6 +514,37 @@ class LLMS_Student {
 
 	}
 
+	public function get_grade( $object_id ) {
+
+		$type = get_post_type( $object_id );
+
+		switch ( $type ) {
+
+			case 'course':
+
+			break;
+
+			case 'lesson':
+
+				$l = new LLMS_Lesson( $object_id );
+				$q = $l->get( 'assigned_quiz' );
+
+				if ( ! $q ) {
+					$grade = __( 'N/A', 'lesson grade when lesson has no quiz', 'lifterlms' );
+				} else {
+					$q = new LLMS_Quiz( $q );
+					$grade = $q->get_best_grade( $this->get_id() );
+				}
+
+			break;
+
+
+		}
+
+		return apply_filters( 'llms_student_get_grade', $grade, $this, $object_id, $type );
+
+	}
+
 	/**
 	 * Get the students last completed lesson in a course
 	 * @param    int     $course_id    WP_Post ID of the course
