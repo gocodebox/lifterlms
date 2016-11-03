@@ -3324,7 +3324,7 @@ msgstr ""
 msgid "New Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:360, includes/class.llms.post-types.php:361, templates/loop/view-link.php:19, templates/myaccount/my-courses.php:59
+#: includes/class.llms.post-types.php:360, includes/class.llms.post-types.php:361, templates/loop/view-link.php:20, templates/myaccount/my-courses.php:59
 msgid "View Course"
 msgstr ""
 
@@ -7156,31 +7156,31 @@ msgstr ""
 msgid "Categories: "
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:32
+#: templates/course/complete-lesson-link.php:27
 msgid "Lesson Complete"
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:61
+#: templates/course/complete-lesson-link.php:56
 msgid "Take Quiz"
 msgstr ""
 
-#: templates/course/difficulty.php:18
+#: templates/course/difficulty.php:20
 msgid "Difficulty: <span class=\"difficulty\">%s</span>"
 msgstr ""
 
-#: templates/course/length.php:22
+#: templates/course/length.php:18
 msgid "Estimated Time: <span class=\"length\">%s</span>"
 msgstr ""
 
-#: templates/course/lesson-navigation.php:26, templates/course/lesson-navigation.php:70, templates/course/lesson-navigation.php:71
+#: templates/course/lesson-navigation.php:24, templates/course/lesson-navigation.php:68, templates/course/lesson-navigation.php:69
 msgid "Previous Lesson"
 msgstr ""
 
-#: templates/course/lesson-navigation.php:37, templates/course/lesson-navigation.php:86, templates/course/lesson-navigation.php:87
+#: templates/course/lesson-navigation.php:35, templates/course/lesson-navigation.php:84, templates/course/lesson-navigation.php:85
 msgid "Back to Course"
 msgstr ""
 
-#: templates/course/lesson-navigation.php:50, templates/course/lesson-navigation.php:99, templates/course/lesson-navigation.php:100, templates/quiz/start-button.php:38
+#: templates/course/lesson-navigation.php:48, templates/course/lesson-navigation.php:97, templates/course/lesson-navigation.php:98, templates/quiz/start-button.php:38
 msgid "Next Lesson"
 msgstr ""
 
@@ -7206,11 +7206,11 @@ msgstr ""
 msgid "<p class=\"llms-parent-course-link\">Back to: <a class=\"llms-lesson-link\" href=\"%s\">%s</a></p>"
 msgstr ""
 
-#: templates/course/prerequisites.php:13
+#: templates/course/prerequisites.php:18
 msgid "Before starting this course you must complete the required prerequisite course: %s"
 msgstr ""
 
-#: templates/course/prerequisites.php:19
+#: templates/course/prerequisites.php:24
 msgid "Before starting this course you must complete the required prerequisite track: %s"
 msgstr ""
 
@@ -7226,11 +7226,11 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-#: templates/course/syllabus.php:25
+#: templates/course/syllabus.php:27
 msgid "This course does not have any sections."
 msgstr ""
 
-#: templates/course/syllabus.php:48
+#: templates/course/syllabus.php:50
 msgid "This section does not have any lessons."
 msgstr ""
 
@@ -7266,7 +7266,7 @@ msgstr ""
 msgid "No products were found matching your selection."
 msgstr ""
 
-#: templates/loop/view-link.php:34
+#: templates/loop/view-link.php:35
 msgid "Learn More"
 msgstr ""
 

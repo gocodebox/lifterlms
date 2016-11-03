@@ -4,6 +4,7 @@
 -----------------------
 
 + Update all course and lesson templates to rely only on `global $post` rather than on `$course` and `$lesson` globals which are working inconsistenly across environments
++ Fix typo related to the line-height of LifterLMS order notes on the admin panel. Thanks [@edent](https://github.com/edent)!
 
 
 = v3.1.1 - 2016/10/28 =
