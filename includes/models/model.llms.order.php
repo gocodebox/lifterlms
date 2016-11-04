@@ -754,19 +754,34 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	}
 
-	public function get_revenue( $type = 'net', $deduct = null ) {
+	/**
+	 * Gets the total revenue of an order
+	 * @param    string     $type    revenue type [grosse|net]
+	 * @return   float
+	 * @since    3.0.0
+	 * @version  3.1.3 - handle legacy orders
+	 */
+	public function get_revenue( $type = 'net' ) {
 
-		$grosse = $this->get_transaction_total( 'amount' );
+		if ( $this->is_legacy() ) {
 
-		if ( 'net' === $type ) {
+			$amount = $this->get( 'total' );
 
-			$refunds = $this->get_transaction_total( 'refund_amount' );
+		} else {
 
-			$grosse = $grosse - $refunds;
+			$amount = $this->get_transaction_total( 'amount' );
+
+			if ( 'net' === $type ) {
+
+				$refunds = $this->get_transaction_total( 'refund_amount' );
+
+				$amount = $amount - $refunds;
+
+			}
 
 		}
 
-		return $grosse;
+		return apply_filters( 'llms_order_get_revenue' , $amount, $type, $this );
 
 	}
 
