@@ -1866,12 +1866,47 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   border-color: #efefef;
   border-style: solid;
   border-width: 1px 1px 0 1px;
+  width: 100%;
+}
+.llms-student-dashboard .orders-table thead {
+  display: none;
+}
+.llms-student-dashboard .orders-table thead th {
+  font-weight: 700;
+}
+@media all and (min-width: 600px) {
+  .llms-student-dashboard .orders-table thead {
+    display: table-header-group;
+  }
+}
+.llms-student-dashboard .orders-table tbody tr:nth-child(odd) {
+  background-color: #fafafa;
 }
 .llms-student-dashboard .orders-table td {
   border-color: #efefef;
   border-style: solid;
-  border-width: 0 0 1px 0;
+  border-width: 0;
+  display: block;
+  text-align: center;
   padding: 5px 10px;
+}
+.llms-student-dashboard .orders-table td .llms-button-primary {
+  display: inline-block;
+}
+.llms-student-dashboard .orders-table td:last-child {
+  border-bottom-width: 1px;
+}
+.llms-student-dashboard .orders-table td:before {
+  content: attr(data-label);
+}
+@media all and (min-width: 600px) {
+  .llms-student-dashboard .orders-table td {
+    border-bottom-width: 1px;
+    display: table-cell;
+  }
+  .llms-student-dashboard .orders-table td:before {
+    display: none;
+  }
 }
 .llms-student-dashboard .llms-status {
   color: #fff;
