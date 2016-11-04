@@ -377,6 +377,8 @@ class LLMS_Student {
 	 *                      @arg string $status   filter results by enrollment status, "any", "enrolled", or "expired"
 	 * @return array        "courses" will contain an array of course ids
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
+	 * @since    ??
+	 * @version  3.1.3
 	 */
 	public function get_courses( $args = array() ) {
 
@@ -406,6 +408,7 @@ class LLMS_Student {
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
 			 WHERE p.post_type = 'course'
+			   AND p.post_status = 'publish'
 			   AND upm.meta_key = '_status'
 			   AND upm.user_id = %d
 			   {$status}
@@ -696,7 +699,6 @@ class LLMS_Student {
 				}
 
 			break;
-
 
 		}
 

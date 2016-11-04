@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 3.1.1
+Stable tag: 3.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,26 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.1.3 - 2016/11/04 =
+-----------------------
+
++ Added new action hooks to the course syllabus widget/shortcode template
++ Added a small text link on the student dashboard which links to the full courses list of the dashboard
++ Display order revenue for legacy orders instead of 0
++ Make the Order History table on the Student Dashboard responsive
++ Only display _published_ courses on the student dashboard
++ Fixes a conflict with WP Seo Premium's redirect manager which was creating access plan redirects
++ Reenable course review options on the admin panel
++ Updates review output method so reviews are now output via a removeable action
+
+
+= v3.1.2 - 2016/10/31 =
+-----------------------
+
++ Update all course and lesson templates to rely only on `global $post` rather than on `$course` and `$lesson` globals which are working inconsistenly across environments
++ Fix typo related to the line-height of LifterLMS order notes on the admin panel. Thanks [@edent](https://github.com/edent)!
+
 
 = v3.1.1 - 2016/10/28 =
 -----------------------

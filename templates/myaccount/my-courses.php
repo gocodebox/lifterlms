@@ -12,7 +12,7 @@ global $wp_query;
 <div class="llms-sd-section llms-my-courses">
 	<h3 class="llms-sd-section-title"><?php echo apply_filters( 'lifterlms_my_courses_title', __( 'Courses In-Progress', 'lifterlms' ) ); ?></h3>
 
-	<?php if ( ! $courses ) : ?>
+	<?php if ( ! $courses['results'] ) : ?>
 		<p><?php _e( 'You are not enrolled in any courses.', 'lifterlms' ); ?></p>
 	<?php else : ?>
 		<ul class="listing-courses">
@@ -69,18 +69,24 @@ global $wp_query;
 		<footer class="llms-sd-pagination llms-my-courses-pagination">
 			<?php if ( isset( $wp_query->query_vars['my-courses'] ) ) : ?>
 				<?php if ( $courses['skip'] > 0 ) : ?>
-					<a class="llms-button-text" href="<?php echo add_query_arg( array(
+					<a class="llms-button-text" href="<?php echo esc_url( add_query_arg( array(
 						'limit' => $courses['limit'],
 						'skip' => $courses['skip'] - $courses['limit'],
-					), llms_person_my_courses_url() ); ?>"><?php _e( 'Back', 'lifterlms' ); ?></a>
+					), llms_person_my_courses_url() ) ); ?>"><?php _e( 'Back', 'lifterlms' ); ?></a>
 				<?php endif; ?>
 
 				<?php if ( $courses['more'] ) : ?>
-					<a class="llms-button-text" href="<?php echo add_query_arg( array(
+					<a class="llms-button-text" href="<?php echo esc_url( add_query_arg( array(
 						'limit' => $courses['limit'],
 						'skip' => $courses['skip'] + $courses['limit'],
-					), llms_person_my_courses_url() ); ?>"><?php _e( 'Next', 'lifterlms' ); ?></a>
+					), llms_person_my_courses_url() ) ); ?>"><?php _e( 'Next', 'lifterlms' ); ?></a>
 				<?php endif; ?>
+			<?php else : ?>
+
+				<?php if ( count( $courses['results'] ) ) : ?>
+					<a class="llms-button-text" href="<?php echo esc_url( llms_person_my_courses_url() ); ?>"><?php _e( 'View All My Courses', 'lifterlms' ); ?></a>
+				<?php endif; ?>
+
 			<?php endif; ?>
 		</footer>
 

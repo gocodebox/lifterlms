@@ -1850,5 +1850,14 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_close' ) )
 	}
 endif;
 
-
-
+/**
+ * Output course reviews
+ * @return   void
+ * @since    3.1.3
+ * @version  3.1.3
+ */
+if ( ! function_exists( 'lifterlms_template_single_reviews' ) ) {
+	function lifterlms_template_single_reviews() {
+		LLMS_Reviews::output();
+	}
+}

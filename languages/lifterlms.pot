@@ -318,7 +318,7 @@ msgstr ""
 msgid "You must enter a start and end date."
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:44, includes/admin/class.llms.admin.menus.php:84, lifterlms.php:396
+#: includes/admin/class.llms.admin.menus.php:44, includes/admin/class.llms.admin.menus.php:84, lifterlms.php:398
 msgid "Settings"
 msgstr ""
 
@@ -402,7 +402,7 @@ msgstr ""
 msgid "$title. draft updated. <a target=\"_blank\" href=\"%s\">Preview .$title.</a>"
 msgstr ""
 
-#: includes/admin/class.llms.admin.reviews.php:47, includes/class.llms.review.php:113
+#: includes/admin/class.llms.admin.reviews.php:47, includes/class.llms.review.php:111
 msgid "Review Title"
 msgstr ""
 
@@ -1926,7 +1926,7 @@ msgstr ""
 msgid "%d days"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:43, includes/class.llms.post-types.php:565, templates/myaccount/my-orders.php:19
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:43, includes/class.llms.post-types.php:565, templates/myaccount/my-orders.php:19, templates/myaccount/my-orders.php:29
 msgid "Order"
 msgstr ""
 
@@ -1946,7 +1946,7 @@ msgstr ""
 msgid "Revenue"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33
 msgid "Date"
 msgstr ""
 
@@ -3324,7 +3324,7 @@ msgstr ""
 msgid "New Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:360, includes/class.llms.post-types.php:361, templates/loop/view-link.php:19, templates/myaccount/my-courses.php:59
+#: includes/class.llms.post-types.php:360, includes/class.llms.post-types.php:361, templates/loop/view-link.php:20, templates/myaccount/my-courses.php:59
 msgid "View Course"
 msgstr ""
 
@@ -4319,35 +4319,35 @@ msgstr ""
 msgid "days"
 msgstr ""
 
-#: includes/class.llms.review.php:41
+#: includes/class.llms.review.php:39
 msgid "What Others Have Said"
 msgstr ""
 
-#: includes/class.llms.review.php:69
+#: includes/class.llms.review.php:67
 msgid "By: %s"
 msgstr ""
 
-#: includes/class.llms.review.php:105, includes/class.llms.review.php:124
+#: includes/class.llms.review.php:103, includes/class.llms.review.php:122
 msgid "Thank you for your review!"
 msgstr ""
 
-#: includes/class.llms.review.php:111
+#: includes/class.llms.review.php:109
 msgid "Write a Review"
 msgstr ""
 
-#: includes/class.llms.review.php:114
+#: includes/class.llms.review.php:112
 msgid "Review Title is required."
 msgstr ""
 
-#: includes/class.llms.review.php:115
+#: includes/class.llms.review.php:113
 msgid "Review Text"
 msgstr ""
 
-#: includes/class.llms.review.php:116
+#: includes/class.llms.review.php:114
 msgid "Review Text is required."
 msgstr ""
 
-#: includes/class.llms.review.php:120
+#: includes/class.llms.review.php:118
 msgid "Leave Review"
 msgstr ""
 
@@ -4391,6 +4391,10 @@ msgstr ""
 
 #: includes/class.llms.student.dashboard.php:123
 msgid "Order History"
+msgstr ""
+
+#: includes/class.llms.student.php:536
+msgid "N/A"
 msgstr ""
 
 #: includes/class.llms.template.loader.php:138
@@ -7156,31 +7160,31 @@ msgstr ""
 msgid "Categories: "
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:32
+#: templates/course/complete-lesson-link.php:27
 msgid "Lesson Complete"
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:61
+#: templates/course/complete-lesson-link.php:56
 msgid "Take Quiz"
 msgstr ""
 
-#: templates/course/difficulty.php:18
+#: templates/course/difficulty.php:20
 msgid "Difficulty: <span class=\"difficulty\">%s</span>"
 msgstr ""
 
-#: templates/course/length.php:22
+#: templates/course/length.php:18
 msgid "Estimated Time: <span class=\"length\">%s</span>"
 msgstr ""
 
-#: templates/course/lesson-navigation.php:26, templates/course/lesson-navigation.php:70, templates/course/lesson-navigation.php:71
+#: templates/course/lesson-navigation.php:24, templates/course/lesson-navigation.php:68, templates/course/lesson-navigation.php:69
 msgid "Previous Lesson"
 msgstr ""
 
-#: templates/course/lesson-navigation.php:37, templates/course/lesson-navigation.php:86, templates/course/lesson-navigation.php:87
+#: templates/course/lesson-navigation.php:35, templates/course/lesson-navigation.php:84, templates/course/lesson-navigation.php:85
 msgid "Back to Course"
 msgstr ""
 
-#: templates/course/lesson-navigation.php:50, templates/course/lesson-navigation.php:99, templates/course/lesson-navigation.php:100, templates/quiz/start-button.php:38
+#: templates/course/lesson-navigation.php:48, templates/course/lesson-navigation.php:97, templates/course/lesson-navigation.php:98, templates/quiz/start-button.php:38
 msgid "Next Lesson"
 msgstr ""
 
@@ -7194,11 +7198,11 @@ msgctxt "course meta info title"
 msgid "Course Information"
 msgstr ""
 
-#: templates/course/outline-list-small.php:79
+#: templates/course/outline-list-small.php:91
 msgid "Open All"
 msgstr ""
 
-#: templates/course/outline-list-small.php:81
+#: templates/course/outline-list-small.php:93
 msgid "Close All"
 msgstr ""
 
@@ -7206,11 +7210,11 @@ msgstr ""
 msgid "<p class=\"llms-parent-course-link\">Back to: <a class=\"llms-lesson-link\" href=\"%s\">%s</a></p>"
 msgstr ""
 
-#: templates/course/prerequisites.php:13
+#: templates/course/prerequisites.php:18
 msgid "Before starting this course you must complete the required prerequisite course: %s"
 msgstr ""
 
-#: templates/course/prerequisites.php:19
+#: templates/course/prerequisites.php:24
 msgid "Before starting this course you must complete the required prerequisite track: %s"
 msgstr ""
 
@@ -7226,11 +7230,11 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-#: templates/course/syllabus.php:25
+#: templates/course/syllabus.php:27
 msgid "This course does not have any sections."
 msgstr ""
 
-#: templates/course/syllabus.php:48
+#: templates/course/syllabus.php:50
 msgid "This section does not have any lessons."
 msgstr ""
 
@@ -7266,7 +7270,7 @@ msgstr ""
 msgid "No products were found matching your selection."
 msgstr ""
 
-#: templates/loop/view-link.php:34
+#: templates/loop/view-link.php:35
 msgid "Learn More"
 msgstr ""
 
@@ -7379,6 +7383,10 @@ msgstr ""
 msgid "Author: %s"
 msgstr ""
 
+#: templates/myaccount/my-courses.php:87
+msgid "View All My Courses"
+msgstr ""
+
 #: templates/myaccount/my-memberships.php:9
 msgid "My Memberships"
 msgstr ""
@@ -7399,11 +7407,11 @@ msgstr ""
 msgid "No orders found."
 msgstr ""
 
-#: templates/myaccount/my-orders.php:21
+#: templates/myaccount/my-orders.php:21, templates/myaccount/my-orders.php:34
 msgid "Expires"
 msgstr ""
 
-#: templates/myaccount/my-orders.php:22
+#: templates/myaccount/my-orders.php:22, templates/myaccount/my-orders.php:35
 msgid "Next Payment"
 msgstr ""
 

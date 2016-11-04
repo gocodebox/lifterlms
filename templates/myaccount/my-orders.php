@@ -26,13 +26,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 			<tbody>
 			<?php foreach ( $orders['orders'] as $order ) : ?>
 				<tr class="llms-order-item <?php echo $order->get( 'status' ); ?>" id="llms-order-<?php $order->get( 'id' ); ?>">
-					<td>
+					<td data-label="<?php _e( 'Order', 'lifterlms' ); ?>: ">
 						<a href="<?php echo $order->get_view_link(); ?>"><?php echo $order->get( 'id' ); ?></a>
 						<span class="llms-status <?php echo $order->get( 'status' ); ?>"><?php echo $order->get_status_name(); ?></span>
 					</td>
-					<td><?php echo $order->get_date( 'date', 'F j, Y' ); ?></td>
-					<td><?php echo $order->get_access_expiration_date( 'F j, Y' ); ?></td>
-					<td>
+					<td data-label="<?php _e( 'Date', 'lifterlms' ); ?>: "><?php echo $order->get_date( 'date', 'F j, Y' ); ?></td>
+					<td data-label="<?php _e( 'Expires', 'lifterlms' ); ?>: "><?php echo $order->get_access_expiration_date( 'F j, Y' ); ?></td>
+					<td data-label="<?php _e( 'Next Payment', 'lifterlms' ); ?>: ">
 						<?php if ( $order->has_scheduled_payment() ) : ?>
 							<?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?>
 						<?php else : ?>
@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 						<?php endif; ?>
 					</td>
 					<td>
-						<a class="llms-button-primary" href="<?php echo $order->get_view_link(); ?>"><?php _e( 'View', 'lifterlms' ); ?></a>
+						<a class="llms-button-primary small" href="<?php echo $order->get_view_link(); ?>"><?php _e( 'View', 'lifterlms' ); ?></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
