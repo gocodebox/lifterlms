@@ -1,12 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * This class handles the front end of the reviews. It is responsible
  * for outputting the HTML on the course page (if reviews are activated)
  */
-class LLMS_Reviews
-{
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+class LLMS_Reviews {
 	/**
 	 * This is the constructor for this class. It takes care of attaching
 	 * the functions in this file to the appropriate actions. These actions are:
@@ -15,11 +15,9 @@ class LLMS_Reviews
 	 * 3 & 4) Add function call to the proper AJAX call
 	 *
 	 * @return void
+	 * @version  3.1.3
 	 */
 	public function __construct() {
-
-		add_filter( 'lifterlms_single_course_after_summary', array( $this, 'output' ),30 );
-		add_filter( 'lifterlms_single_membership_after_summary', array( $this, 'output' ),30 );
 		add_action( 'wp_ajax_LLMSSubmitReview', array( $this, 'process_review' ) );
 		add_action( 'wp_ajax_nopriv_LLMSSubmitReview', array( $this, 'process_review' ) );
 	}
@@ -117,8 +115,8 @@ class LLMS_Reviews
 					<?php wp_nonce_field( 'submit_review','submit_review_nonce_code' ); ?>
 					<input name="action" value="submit_review" type="hidden">
 					<input name="post_ID" value="<?php echo get_the_ID() ?>" type="hidden" id="post_ID">
-					<input type="submit" class="button" value="<?php _e( 'Leave Review', 'lifterlms' ); ?>" id="llms_review_submit_button">	
-				<!--</form>	-->		
+					<input type="submit" class="button" value="<?php _e( 'Leave Review', 'lifterlms' ); ?>" id="llms_review_submit_button">
+				<!--</form>	-->
 				</div>
 				<div id="thank_you_box" style="display:none;">
 					<h2><?php echo apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!','lifterlms' ) ); ?></h2>
