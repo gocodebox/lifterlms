@@ -292,6 +292,8 @@ final class LifterLMS {
 
 		}
 
+		require_once 'includes/class.llms.playnice.php';
+
 	}
 
 	/**
