@@ -541,7 +541,6 @@ class LLMS_Student {
 
 			break;
 
-
 		}
 
 		return apply_filters( 'llms_student_get_grade', $grade, $this, $object_id, $type );
