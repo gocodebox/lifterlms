@@ -165,7 +165,7 @@ class LLMS_Student_Dashboard {
 		$student = new LLMS_Student();
 		$courses = $student->get_courses( array(
 			'status' => 'enrolled',
-			'limit' => 3,
+			'limit' => apply_filters( 'llms_dashboard_recent_courses_count', 3 ),
 		) );
 
 		llms_get_template( 'myaccount/dashboard.php', array(
