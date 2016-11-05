@@ -31,6 +31,10 @@
 		background-color: #fafafa;
 	}
 
+	&.zebra tbody tr:nth-child( odd ) td {
+		background-color: #fff;
+	}
+
 	&.text-left {
 		td, th {
 			text-align: left;

@@ -5,7 +5,15 @@ class LLMS_Admin_Grade_Book {
 
 	public function __construct() {
 
+		include_once LLMS_PLUGIN_DIR . '/includes/abstracts/abstract.llms.admin.gradebook.table.php';
+
+		// include all the table classes
+		foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/grade-book/tables/*.php' ) as $filename ) {
+			include_once $filename;
+		}
+
 		add_action( 'llms_grade_book_content', array( $this, 'output_current_view' ) );
+
 
 	}
 

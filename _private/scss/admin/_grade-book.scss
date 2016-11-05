@@ -32,6 +32,25 @@
 		text-align: left;
 	}
 
+	td.questions-table {
+		text-align: left;
+
+		.correct,
+		.selected {
+			text-align: left;
+			max-width: 300px;
+
+			img {
+				height: auto;
+				max-width: 64px;
+			}
+		}
+	}
+
+	table.quiz-attempts {
+		margin-bottom: 40px;
+	}
+
 }
 
 

@@ -2336,6 +2336,9 @@ div[id^="lifterlms-"] .inside {
 .llms-table.zebra tbody tr:nth-child(even) td {
   background-color: #fafafa;
 }
+.llms-table.zebra tbody tr:nth-child(odd) td {
+  background-color: #fff;
+}
 .llms-table.text-left td, .llms-table.text-left th {
   text-align: left;
 }
@@ -2748,6 +2751,22 @@ div[id^="lifterlms-"] .inside {
 .llms-grade-book-wrap th.section-title {
   background: #eaeaea;
   text-align: left;
+}
+.llms-grade-book-wrap td.questions-table {
+  text-align: left;
+}
+.llms-grade-book-wrap td.questions-table .correct,
+.llms-grade-book-wrap td.questions-table .selected {
+  text-align: left;
+  max-width: 300px;
+}
+.llms-grade-book-wrap td.questions-table .correct img,
+.llms-grade-book-wrap td.questions-table .selected img {
+  height: auto;
+  max-width: 64px;
+}
+.llms-grade-book-wrap table.quiz-attempts {
+  margin-bottom: 40px;
 }
 
 .llms-gb-student h1, .llms-gb-student h2, .llms-gb-student h3, .llms-gb-student h4, .llms-gb-student h5, .llms-gb-student h6 {

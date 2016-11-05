@@ -33,11 +33,11 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	public function init( $id, $person_id, $lesson_id ) {
 		global $wpdb;
 
-			$content = get_post( $id );
-			$meta = get_post_meta( $content->ID );
+		$content = get_post( $id );
+		$meta = get_post_meta( $content->ID );
 
-			$this->achievement_template_id	= $id;
-			$this->lesson_id    			= $lesson_id;
+		$this->achievement_template_id	= $id;
+		$this->lesson_id    			= $lesson_id;
 		$this->title 					= $content->post_title;
 		$this->achievement_title 		= $meta['_llms_achievement_title'][0];
 		$this->content 					= ( ! empty( $content->post_content ) ) ? $content->post_content : $meta['_llms_achievement_content'][0];
