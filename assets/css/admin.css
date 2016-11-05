@@ -2310,6 +2310,7 @@ div[id^="lifterlms-"] .inside {
 }
 
 .llms-table {
+  border: 1px solid #cecece;
   border-collapse: collapse;
   width: 100%;
 }
@@ -2742,6 +2743,10 @@ div[id^="lifterlms-"] .inside {
   text-decoration: none;
 }
 .llms-grade-book-wrap th.name, .llms-grade-book-wrap td.name {
+  text-align: left;
+}
+.llms-grade-book-wrap th.section-title {
+  background: #eaeaea;
   text-align: left;
 }
 

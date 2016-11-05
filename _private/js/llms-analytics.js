@@ -41,7 +41,7 @@
 				placeholder: LLMS.l10n.translate( 'Filter by Student(s)' ),
 			} );
 
-			$( 'a[href="#llms-toggle-filters"' ).on( 'click', function( e ) {
+			$( 'a[href="#llms-toggle-filters"]' ).on( 'click', function( e ) {
 				e.preventDefault();
 				$( '.llms-analytics-filters' ).slideToggle( 100 );
 			} );
@@ -195,7 +195,7 @@
 				},
 				complete: function( r ) {
 
-					console.log( r );
+					// console.log( r );
 
 					if ( 'error' === status ) {
 

@@ -57,7 +57,10 @@ class LLMS_Admin_Grade_Book {
 
 				if ( $q ) {
 
-					$url = esc_url( add_query_arg( 'quiz_id', $q ) );
+					$url = esc_url( add_query_arg( array(
+						'quiz_id' => $q,
+						'lesson_id' => $lesson->get( 'id' ),
+					) ) );
 					$data = '<a href="' . $url . '">' . get_the_title( $q ) . '</a>';
 
 				} else {

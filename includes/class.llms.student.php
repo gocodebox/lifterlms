@@ -268,6 +268,32 @@ class LLMS_Student {
 		return '<span class="llms-student-avatar">' . get_avatar( $this->get_id(), $size, null, $this->get_name() ) . '</span>';
 	}
 
+	public function get_best_quiz_attempt( $quiz = null, $lesson = null ) {
+
+		$attempts = $this->get_quiz_data( $quiz, $lesson );
+
+		if ( $attempts ) {
+
+			$best = null;
+
+			foreach ( $attempts as $attempt ) {
+
+				if ( empty( $best['grade'] ) || $attempt['grade'] >= $best['grade'] ) {
+					$best = $attempt;
+				}
+
+			}
+
+			return $best;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
 	/**
 	 * Retrieve the order which enrolled a studnet in a given course or membership
 	 * Retrieves the most recently updated order for the given product
@@ -634,6 +660,14 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Get the students grade for a lesson / course
+	 * All grades are based on quizzes assigned to lessons
+	 * @param    int     $object_id  WP Post ID of a course or lesson
+	 * @return   mixed
+	 * @since    ??
+	 * @version  ??
+	 */
 	public function get_grade( $object_id ) {
 
 		$type = get_post_type( $object_id );
@@ -882,6 +916,42 @@ class LLMS_Student {
 		return ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
 
 	}
+
+	public function get_quiz_data( $quiz = null, $lesson = null ) {
+
+		// get all quiz data
+		$quizzes = $this->get( 'quiz_data' );
+
+		if ( ! is_array( $quizzes ) ) {
+			$quizzes = array();
+		}
+
+		// reduce the data to those matching the requested quiz & lesson
+		if ( $quizzes && ( $quiz || $lesson ) ) {
+
+			foreach ( $quizzes as $i => $data ) {
+
+				if ( $quiz && $quiz != $data['id'] ) {
+					unset( $quizzes[ $i ] );
+				}
+
+				if ( $lesson && $lesson != $data['assoc_lesson'] ) {
+					unset( $quizzes[ $i ] );
+				}
+
+			}
+
+			// reindex
+			$quizzes = array_values( $quizzes );
+
+		}
+
+		return apply_filters( 'llms_student_get_quiz_data', $quizzes, $quiz, $lesson );
+
+	}
+
+
+
 
 	/**
 	 * Retrieve the Students original registration date in chosen format
