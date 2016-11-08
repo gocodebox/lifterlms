@@ -6,7 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
 
 $course = new LLMS_Course( intval( $_GET['course_id'] ) );
-
+var_dump( $course );
+return;
 ?>
 
 <h3><a href="<?php echo esc_url( get_edit_post_link( $course->get( 'id' ) ) ); ?>"><?php echo $course->get( 'title' ); ?></a></h3>

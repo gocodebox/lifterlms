@@ -8,7 +8,11 @@ if ( ! is_admin() ) { exit; }
 
 if ( empty( $_GET['course_id'] ) ) {
 
-	llms_get_template( 'admin/grade-book/student/courses-list.php', array( 'student' => $student ) );
+	$table = new LLMS_Table_Student_Courses();
+	$table->get_results( array(
+		'student' => $student,
+	) );
+	echo $table->get_table_html();
 
 } elseif ( ! empty( $_GET['course_id'] ) ) {
 

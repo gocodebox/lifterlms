@@ -8,13 +8,19 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_AGBT_Achievements extends LLMS_Admin_GradeBook_Table {
+class LLMS_Table_Achievements extends LLMS_Admin_GradeBook_Table {
 
 	/**
 	 * Unique ID for the Table
 	 * @var  string
 	 */
-	public $id = 'achievments';
+	protected $id = 'achievements';
+
+	/**
+	 * Instance of LLMS_Student
+	 * @var  null
+	 */
+	protected $student = null;
 
 	/**
 	 * Retrieve data for the columns
@@ -71,13 +77,39 @@ class LLMS_AGBT_Achievements extends LLMS_Admin_GradeBook_Table {
 
 	}
 
+	public function get_results( $args = array() ) {
+
+		$args = $this->clean_args( $args );
+
+		if ( is_numeric( $args['student'] ) ) {
+			$args['student'] = new LLMS_Student( $args['student'] );
+		}
+
+		$this->student = $args['student'];
+
+		$this->tbody_data = $this->student->get_achievements();
+
+	}
+
+	/**
+	 * Define the structure of arguments used to pass to the get_results method
+	 * @return   array
+	 * @since    2.3.0
+	 * @version  2.3.0
+	 */
+	public function set_args() {
+		return array(
+			'student' => ! empty ( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+		);
+	}
+
 	/**
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
-	public function set_columns() {
+	protected function set_columns() {
 		return array(
 			'id' => __( 'ID', 'lifterlms' ),
 			'name' => __( 'Achievement Title', 'lifterlms' ),
@@ -85,6 +117,16 @@ class LLMS_AGBT_Achievements extends LLMS_Admin_GradeBook_Table {
 			'earned' => __( 'Earned Date', 'lifterlms' ),
 			'related' => __( 'Related', 'lifterlms' ),
 		);
+	}
+
+	/**
+	 * Empty message displayed when no results are found
+	 * @return   string
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	protected function set_empty_message() {
+		return __( 'This student has not yet earned any achievements.', 'lifterlms' );
 	}
 
 }

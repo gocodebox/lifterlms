@@ -2309,6 +2309,19 @@ div[id^="lifterlms-"] .inside {
   text-decoration: none;
 }
 
+.llms-button-action.small .dashicons,
+.llms-button-danger.small .dashicons,
+.llms-button-primary.small .dashicons,
+.llms-button-secondary.small .dashicons {
+  font-size: 13px;
+  height: 13px;
+  width: 13px;
+}
+
+.llms-table-wrap {
+  position: relative;
+}
+
 .llms-table {
   border: 1px solid #cecece;
   border-collapse: collapse;
@@ -2328,9 +2341,46 @@ div[id^="lifterlms-"] .inside {
   background-color: #eaeaea;
   font-weight: 500;
 }
+.llms-table thead th a.llms-sortable,
+.llms-table tfoot th a.llms-sortable {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+}
+.llms-table thead th a.llms-sortable.active[data-order="DESC"] .asc,
+.llms-table tfoot th a.llms-sortable.active[data-order="DESC"] .asc {
+  display: inline-block;
+}
+.llms-table thead th a.llms-sortable.active[data-order="ASC"] .desc,
+.llms-table tfoot th a.llms-sortable.active[data-order="ASC"] .desc {
+  display: inline-block;
+}
+.llms-table thead th a.llms-sortable:hover[data-order="DESC"] .asc,
+.llms-table tfoot th a.llms-sortable:hover[data-order="DESC"] .asc {
+  display: none;
+}
+.llms-table thead th a.llms-sortable:hover[data-order="DESC"] .desc,
+.llms-table tfoot th a.llms-sortable:hover[data-order="DESC"] .desc {
+  display: inline-block;
+}
+.llms-table thead th a.llms-sortable:hover[data-order="ASC"] .asc,
+.llms-table tfoot th a.llms-sortable:hover[data-order="ASC"] .asc {
+  display: inline-block;
+}
+.llms-table thead th a.llms-sortable:hover[data-order="ASC"] .desc,
+.llms-table tfoot th a.llms-sortable:hover[data-order="ASC"] .desc {
+  display: none;
+}
+.llms-table thead th a.llms-sortable .dashicons,
+.llms-table tfoot th a.llms-sortable .dashicons {
+  display: none;
+  color: #444;
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+}
 .llms-table tfoot th {
   text-align: right;
-  padding: 8px;
   border-bottom: none;
 }
 .llms-table.zebra tbody tr:nth-child(even) td {
@@ -2730,18 +2780,6 @@ div[id^="lifterlms-"] .inside {
   background: #fefefe;
   padding: 20px;
 }
-.llms-grade-book-wrap th a {
-  text-decoration: none;
-}
-.llms-grade-book-wrap th a.active.ASC .desc, .llms-grade-book-wrap th a.active.DESC .asc {
-  display: inline-block;
-}
-.llms-grade-book-wrap th a .dashicons {
-  display: none;
-  font-size: 16px;
-  height: 16px;
-  width: 16px;
-}
 .llms-grade-book-wrap td.id a {
   text-decoration: none;
 }
@@ -2756,11 +2794,13 @@ div[id^="lifterlms-"] .inside {
   text-align: left;
 }
 .llms-grade-book-wrap td.questions-table .correct,
+.llms-grade-book-wrap td.questions-table .question,
 .llms-grade-book-wrap td.questions-table .selected {
   text-align: left;
   max-width: 300px;
 }
 .llms-grade-book-wrap td.questions-table .correct img,
+.llms-grade-book-wrap td.questions-table .question img,
 .llms-grade-book-wrap td.questions-table .selected img {
   height: auto;
   max-width: 64px;

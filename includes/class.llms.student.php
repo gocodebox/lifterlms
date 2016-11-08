@@ -430,7 +430,7 @@ class LLMS_Student {
 
 		// the query
 		$q = $wpdb->get_results( $wpdb->prepare(
-			"SELECT upm.post_id AS id
+			"SELECT DISTINCT upm.post_id AS id
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
 			 WHERE p.post_type = 'course'
@@ -448,8 +448,8 @@ class LLMS_Student {
 		), 'OBJECT_K' );
 
 		$ids = array_keys( $q );
-		$more = false;
 
+		$more = false;
 		// if we hit our limit we have too many results, pop the last one
 		if ( $args['limit'] === count( $ids ) ) {
 			array_pop( $ids );

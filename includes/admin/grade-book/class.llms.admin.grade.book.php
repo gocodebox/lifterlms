@@ -5,15 +5,22 @@ class LLMS_Admin_Grade_Book {
 
 	public function __construct() {
 
+		self::includes();
+
+		add_action( 'llms_grade_book_content', array( $this, 'output_current_view' ) );
+
+
+	}
+
+
+	public static function includes() {
+
 		include_once LLMS_PLUGIN_DIR . '/includes/abstracts/abstract.llms.admin.gradebook.table.php';
 
 		// include all the table classes
 		foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/grade-book/tables/*.php' ) as $filename ) {
 			include_once $filename;
 		}
-
-		add_action( 'llms_grade_book_content', array( $this, 'output_current_view' ) );
-
 
 	}
 
@@ -87,43 +94,7 @@ class LLMS_Admin_Grade_Book {
 
 	}
 
-	public static function get_course_data( $course, $student, $data ) {
 
-		switch ( $data ) {
-
-			case 'progress':
-				$data = $student->get_progress( $course->get( 'id' ), 'course' ) . '%';
-			break;
-
-			case 'completed':
-				$date = $student->get_completion_date( $course->get( 'id' ) );
-				$data = $date ? $date : '&ndash;';
-			break;
-
-			case 'grade':
-
-				$grade = $student->get_grade( $course->get( 'id' ) );
-
-				$data  = is_numeric( $grade ) ? $grade . '%' : $grade;
-
-			break;
-
-			case 'id':
-				$data = '<a href="' . esc_url( get_edit_post_link( $course->get( 'id' ) ) ) . '">' . $course->get( 'id' ) . '</a>';
-			break;
-
-			case 'name':
-				$url = esc_url( add_query_arg( 'course_id', $course->get( 'id' ) ) );
-				$data = '<a href="' . $url . '">' . $course->get( 'title' ) . '</a>';
-			break;
-
-
-
-		}
-
-		return $data;
-
-	}
 
 	public static function get_student_data( $student, $data ) {
 

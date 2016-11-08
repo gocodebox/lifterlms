@@ -65,6 +65,36 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	public static function get_admin_table_data( $request ) {
+
+		require_once 'admin/grade-book/class.llms.admin.grade.book.php';
+
+		$handler = 'LLMS_Table_' . $request['handler'];
+
+		LLMS_Admin_Grade_Book::includes();
+
+		if ( class_exists( $handler ) ) {
+
+			$table = new $handler();
+			$table->get_results( $request );
+
+			return array(
+				// 'page' => $table->get_current_page(),
+				'args'  => json_encode( $table->get_args() ),
+				'thead' => trim( $table->get_thead_html() ),
+				'tbody' => trim( $table->get_tbody_html() ),
+				'tfoot' => trim( $table->get_tfoot_html() ),
+			);
+
+		} else {
+
+			return false;
+
+		}
+
+
+	}
+
 	/**
 	 * Remove a course from the list of membership auto enrollment courses
 	 * called from "Auto Enrollment" tab of LLMS Membership Metaboxes

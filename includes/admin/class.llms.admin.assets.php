@@ -130,6 +130,11 @@ class LLMS_Admin_Assets {
 
 		}
 
+		if ( 'lifterlms_page_llms-grade-book' === $screen->id ) {
+			wp_register_script( 'llms-admin-tables',  plugins_url( '/assets/js/llms-admin-tables' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-admin-tables' );
+		}
+
 		if ( in_array( $screen->id, LLMS_Admin_Assets::get_llms_admin_page_ids() ) ) {
 
 			wp_enqueue_script( 'jquery-ui-datepicker' );

@@ -165,6 +165,7 @@ class LLMS_AJAX {
 			'previous_question'			=> false,
 			'complete_quiz'				=> false,
 			'get_all_posts'				=> false,
+			'get_admin_table_data'      => false,
 			'get_lessons_alt'			=> false,
 			'get_sections_alt'			=> false,
 			'get_students'              => false,

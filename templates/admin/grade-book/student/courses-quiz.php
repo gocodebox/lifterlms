@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
 
 $quiz = new LLMS_Quiz( $quiz_id );
-
 ?>
 
 <h3><a href="<?php echo esc_url( get_edit_post_link( $quiz_id ) ); ?>"><?php echo get_the_title( $quiz_id ); ?></a></h3>
@@ -63,41 +62,7 @@ $quiz = new LLMS_Quiz( $quiz_id );
 		</tr>
 		<tr>
 			<td class="questions-table" colspan="3">
-				<h5><?php _e( 'Questions', 'lifterlms' ); ?></h5>
-				<table class="llms-table zebra">
-					<thead>
-						<tr>
-							<th class="id"><?php _e( 'ID', 'lifterlms' ); ?></th>
-							<th class="points"><?php _e( 'Points', 'lifterlms' ); ?></th>
-							<th class="selected"><?php _e( 'Selected Answer', 'lifterlms' ); ?></th>
-							<th class="correct"><?php _e( 'Correct Answer', 'lifterlms' ); ?></th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ( $attempt['questions'] as $q_data ) : ?>
-						<?php
-							$q = new LLMS_Question( $q_data['id'] );
-							$options = $q->get_options();
-							$correct = $q->get_correct_option();
-						?>
-						<tr>
-							<td class="id"><a href="<?php echo esc_url( get_edit_post_link( $q_data['id'] ) ); ?>"><?php echo $q_data['id']; ?></td>
-							<td class="points">
-								<?php if ( $q_data['correct'] ) : ?>
-									<?php echo $q_data['points']; ?>
-								<?php else: ?>
-									0 <del><?php echo $q_data['points']; ?></del>
-								<?php endif; ?>
-							</td>
-							<td class="selected"><?php echo wp_kses_post( $options[ $q_data['answer'] ]['option_text'] ); ?></td>
-							<td class="correct"><?php echo $correct['option_text'] ?></td>
-						</tr>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-				<?php
-				// var_dump( $q->get_options() );
-				?>
+				<?php $table = new LLMS_AGBT_Questions( $attempt['questions'] ); echo $table->get_table_html(); ?>
 			</td>
 		</tr>
 	</tbody>
