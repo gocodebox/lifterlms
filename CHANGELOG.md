@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.1.3 - 2016/11/?? =
+-----------------------
+
++ Progress bars are sligthly more intelligent to prevent a widowed "%" on themes with larger base font sizes
++ LifterLMS Merge code button only displays where it's supposed to now
+
+
 = v3.1.3 - 2016/11/04 =
 -----------------------
 

@@ -161,6 +161,8 @@ class LLMS_Admin_Meta_Boxes {
 	*/
 	public function get_meta_boxes() {
 
+		add_action( 'media_buttons', 'llms_merge_code_button' );
+
 		/**
 		 * @todo  transition to new style metaboxes
 		 */

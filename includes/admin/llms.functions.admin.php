@@ -91,15 +91,9 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
  *                               what is available for the post type
  * @return   void|string
  * @since    3.1.0
- * @version  3.1.0
+ * @version  3.1.4
  */
 function llms_merge_code_button( $target = 'content', $echo = true, $codes = array() ) {
-
-	ob_start();
-
-	echo '<div class="llms-merge-code-wrapper">';
-
-	echo '<button class="button llms-merge-code-button" type="button"><img alt="LifterLMS" src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-rocket-grey.png">' . __( 'Merge Codes', 'lifterlms' ) . '</button>';
 
 	if ( ! $codes && $screen = get_current_screen() ) {
 
@@ -130,6 +124,17 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 		}
 
 	}
+
+	if ( ! $codes ) {
+		return;
+	}
+
+	ob_start();
+
+	echo '<div class="llms-merge-code-wrapper">';
+
+	echo '<button class="button llms-merge-code-button" type="button"><img alt="LifterLMS" src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-rocket-grey.png">' . __( 'Merge Codes', 'lifterlms' ) . '</button>';
+
 	?>
 	<div class="llms-merge-codes" data-target="<?php echo $target; ?>">
 		<ul>

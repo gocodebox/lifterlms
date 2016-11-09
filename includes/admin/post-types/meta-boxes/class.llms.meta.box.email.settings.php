@@ -11,8 +11,9 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
-	 * @return void
-	 * @since  3.0.0
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.1.4
 	 */
 	public function configure() {
 
@@ -22,8 +23,6 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 			'llms_email',
 		);
 		$this->priority = 'high';
-
-		add_action( 'media_buttons', 'llms_merge_code_button' );
 
 	}
 
