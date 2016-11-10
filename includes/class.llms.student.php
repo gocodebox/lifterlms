@@ -133,8 +133,8 @@ class LLMS_Student {
 	 * @param    int        $membership_id  WP Post ID of the membership
 	 * @param    string     $status         status to update the removal to
 	 * @return   void
-	 * @since    ?
-	 * @version  3.0.0
+	 * @since    2.7
+	 * @version  3.1.4
 	 */
 	private function remove_membership_level( $membership_id, $status = 'expired' ) {
 
@@ -158,7 +158,7 @@ class LLMS_Student {
 
 			// loop through all the courses and update the enrollment status
 			foreach ( $courses  as $course_id ) {
-				$this->unenroll( $course_id, $status );
+				$this->unenroll( $course_id, 'membership_' . $membership_id, $status );
 			}
 
 		}
