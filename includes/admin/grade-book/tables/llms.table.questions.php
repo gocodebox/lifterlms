@@ -15,9 +15,7 @@ class LLMS_Table_Questions extends LLMS_Admin_GradeBook_Table {
 	 * @var  string
 	 */
 	protected $id = 'questions';
-	public function set_args() {
-		return;
-	}
+
 	/**
 	 * Retrieve data for the columns
 	 * @param    string     $key   the column id / key
@@ -73,6 +71,10 @@ class LLMS_Table_Questions extends LLMS_Admin_GradeBook_Table {
 
 	}
 
+	public function set_args() {
+		return;
+	}
+
 	/**
 	 * Define the structure of the table
 	 * @return   array
@@ -90,7 +92,9 @@ class LLMS_Table_Questions extends LLMS_Admin_GradeBook_Table {
 	}
 
 	public function get_results( $args = array() ) {
-		$this->tbody_data = array();
+
+		$this->tbody_data = $args['questions'];
+
 	}
 
 }

@@ -2322,6 +2322,26 @@ div[id^="lifterlms-"] .inside {
   position: relative;
 }
 
+.llms-table-header {
+  padding: 0 10px;
+  margin-bottom: 10px;
+}
+.llms-table-header:before, .llms-table-header:after {
+  content: " ";
+  display: table;
+}
+.llms-table-header:after {
+  clear: both;
+}
+.llms-table-header h2 {
+  display: inline-block;
+  margin: 0;
+  vertical-align: middle;
+}
+.llms-table-header .llms-table-search {
+  float: right;
+}
+
 .llms-table {
   border: 1px solid #cecece;
   border-collapse: collapse;
@@ -2343,40 +2363,42 @@ div[id^="lifterlms-"] .inside {
 }
 .llms-table thead th a.llms-sortable,
 .llms-table tfoot th a.llms-sortable {
-  display: block;
+  padding-right: 16px;
+  position: relative;
   text-decoration: none;
   width: 100%;
 }
 .llms-table thead th a.llms-sortable.active[data-order="DESC"] .asc,
 .llms-table tfoot th a.llms-sortable.active[data-order="DESC"] .asc {
-  display: inline-block;
+  opacity: 1;
 }
 .llms-table thead th a.llms-sortable.active[data-order="ASC"] .desc,
 .llms-table tfoot th a.llms-sortable.active[data-order="ASC"] .desc {
-  display: inline-block;
+  opacity: 1;
 }
 .llms-table thead th a.llms-sortable:hover[data-order="DESC"] .asc,
 .llms-table tfoot th a.llms-sortable:hover[data-order="DESC"] .asc {
-  display: none;
+  opacity: 0;
 }
 .llms-table thead th a.llms-sortable:hover[data-order="DESC"] .desc,
 .llms-table tfoot th a.llms-sortable:hover[data-order="DESC"] .desc {
-  display: inline-block;
+  opacity: 1;
 }
 .llms-table thead th a.llms-sortable:hover[data-order="ASC"] .asc,
 .llms-table tfoot th a.llms-sortable:hover[data-order="ASC"] .asc {
-  display: inline-block;
+  opacity: 1;
 }
 .llms-table thead th a.llms-sortable:hover[data-order="ASC"] .desc,
 .llms-table tfoot th a.llms-sortable:hover[data-order="ASC"] .desc {
-  display: none;
+  opacity: 0;
 }
 .llms-table thead th a.llms-sortable .dashicons,
 .llms-table tfoot th a.llms-sortable .dashicons {
-  display: none;
   color: #444;
   font-size: 16px;
   height: 16px;
+  opacity: 0;
+  position: absolute;
   width: 16px;
 }
 .llms-table tfoot th {

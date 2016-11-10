@@ -50,13 +50,29 @@
 					self.change_order( $table, $( this ) );
 				} );
 
+				$table.parent().find( '.llms-table-search' ).on( 'keyup', 'input', debounce( function( e ) {
+
+					switch ( e.keyCode ) {
+
+						case 37:
+						case 38:
+						case 39:
+						case 40:
+							return;
+						break;
+
+						default:
+							self.search( $table, $( this ) );
+
+					}
+
+				}, 250 ) );
+
 			} );
 
 		};
 
 		this.change_order = function( $table, $anchor ) {
-
-			// console.log( $anchor.attr( 'data-order' ), $anchor.attr( 'data-orderby' ) );
 
 			this.reload( $table, {
 				order: $anchor.attr( 'data-order' ),
@@ -136,6 +152,48 @@
 			} );
 
 		};
+
+		/**
+		 * Executes an AJAX search query
+		 * @param    obj   $table  jQuery selector for the current table
+		 * @param    obj   $input  jQuery selector for the search input
+		 * @return   void
+		 * @since    3.2.0
+		 * @version  3.2.0
+		 */
+		this.search = function( $table, $input ) {
+
+			var val = $input.val()
+				len = val.length;
+
+			if ( 0 === len || len >= 3 ) {
+				this.reload( $table, {
+					page: 1,
+					search: $input.val(),
+				} );
+			}
+
+		};
+
+		/**
+		 * Throttle function by a delay in ms
+		 * @param    Function  fn     callback function
+		 * @param    int       delay  delay in millisecond
+		 * @return   function
+		 * @since    3.2.0
+		 * @version  3.2.0
+		 */
+		function debounce( fn, delay ) {
+			var timer = null;
+			return function () {
+				var context = this,
+					args = arguments;
+				window.clearTimeout( timer );
+				timer = window.setTimeout( function () {
+					fn.apply( context, args );
+				}, delay );
+			};
+		}
 
 		// go
 		this.init();

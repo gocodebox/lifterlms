@@ -17,6 +17,14 @@ class LLMS_Table_Student_Course extends LLMS_Admin_GradeBook_Table {
 	protected $id = 'student-course';
 
 	/**
+	 * Stores the current section while building the table
+	 * used by $this->output_section_row_html() to determine
+	 * if a new section header needs to be output
+	 * @var  int
+	 */
+	private $current_section = null;
+
+	/**
 	 * If true, tfoot will add ajax pagination links
 	 * @var  boolean
 	 */
@@ -45,56 +53,57 @@ class LLMS_Table_Student_Course extends LLMS_Admin_GradeBook_Table {
 	/**
 	 * Retrieve data for the columns
 	 * @param    string     $key        the column id / key
-	 * @param    int        $course_id  ID of the course
+	 * @param    int        $lesson     Instance of an LLMS_Lesson
 	 * @return   mixed
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
-	public function get_data( $key, $course_id ) {
+	public function get_data( $key, $lesson ) {
 
-		// $course = new LLMS_Course( $course_id );
+		switch ( $key ) {
 
-		// switch ( $key ) {
+			case 'completed':
+				$date = $this->student->get_completion_date( $lesson->get( 'id' ) );
+				$value = $date ? $date : '&ndash;';
+			break;
 
-		// 	case 'progress':
-		// 		$value = $this->student->get_progress( $course->get( 'id' ), 'course' ) . '%';
-		// 	break;
+			case 'grade':
+				$grade = $this->student->get_grade( $lesson->get( 'id' ) );
+				$value = is_numeric( $grade ) ? $grade . '%' : $grade;
+			break;
 
-		// 	case 'completed':
-		// 		$date = $this->student->get_completion_date( $course->get( 'id' ) );
-		// 		$value = $date ? $date : '&ndash;';
-		// 	break;
+			case 'id':
+				$value = $this->get_post_link( $lesson->get( 'id' ) );
+			break;
 
-		// 	case 'grade':
+			case 'name':
+				$value = $lesson->get( 'title' );
+			break;
 
-		// 		$grade = $this->student->get_grade( $course->get( 'id' ) );
-		// 		$value  = is_numeric( $grade ) ? $grade . '%' : $grade;
+			case 'quiz':
 
-		// 	break;
+				$q = $lesson->get( 'assigned_quiz' );
 
-		// 	case 'id':
-		// 		$value = $value = $this->get_post_link( $course->get( 'id' ) );
-		// 	break;
+				if ( $q ) {
 
-		// 	case 'name':
-		// 		$url = esc_url( add_query_arg( 'course_id', $course->get( 'id' ) ) );
-		// 		$value = '<a href="' . $url . '">' . $course->get( 'title' ) . '</a>';
-		// 	break;
+					$url = esc_url( add_query_arg( array(
+						'quiz_id' => $q,
+						'lesson_id' => $lesson->get( 'id' ),
+					) ) );
+					$value = '<a href="' . $url . '">' . get_the_title( $q ) . '</a>';
 
-		// 	case 'status':
-		// 		$value = llms_get_enrollment_status_name( $this->student->get_enrollment_status( $course->get( 'id' ) ) );
-		// 	break;
+				} else {
+					$value = '&ndash;';
+				}
 
-		// 	case 'updated':
-		// 		$value = $this->student->get_enrollment_date( $course->get( 'id' ), 'updated' );
-		// 	break;
+			break;
 
 			default:
 				$value = $key;
 
 		}
 
-		return $this->filter_get_data( $value, $key, $course_id );
+		return $this->filter_get_data( $value, $key, $lesson );
 
 	}
 
@@ -107,55 +116,50 @@ class LLMS_Table_Student_Course extends LLMS_Admin_GradeBook_Table {
 	 */
 	public function get_results( $args = array() ) {
 
-		// $args = $this->clean_args( $args );
+		$course = new LLMS_Course( absint( $args['course_id'] ) );
 
-		// if ( is_numeric( $args['student'] ) ) {
-		// 	$args['student'] = new LLMS_Student( $args['student'] );
-		// }
+		if ( is_numeric( $args['student'] ) ) {
+			$args['student'] = new LLMS_Student( $args['student'] );
+		}
 
-		// $this->student = $args['student'];
+		$this->student = $args['student'];
+		$this->title = $this->get_post_link( $course->get( 'id' ), $course->get( 'title' ) );
 
-		// if ( isset( $args['page'] ) ) {
-		// 	$this->current_page = absint( $args['page'] );
-		// }
+		$this->tbody_data = $course->get_lessons();
 
-		// $per = apply_filters( 'llms_gradebook_' . $this->id . '_per_page', 20 );
+	}
 
-		// $order = ! empty( $args['order'] ) ? $args['order'] : 'ASC';
-		// $order = in_array( $order, array( 'ASC', 'DESC' ) ) ? $order : 'ASC';
+	/**
+	 * Output a section title row for each course Section
+	 * @param    obj     $lesson  the current lesson instance
+	 * @return   void
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function output_section_row_html( $lesson ) {
 
-		// if ( isset ( $args['order'] ) ) {
-		// 	$this->order = $order;
-		// }
-		// if ( isset ( $args['orderby'] ) ) {
-		// 	$this->orderby = $args['orderby'];
-		// }
+		if ( $lesson instanceof LLMS_Lesson ) {
 
-		// switch( $this->orderby ) {
+			$sid = $lesson->get_parent_section();
 
-		// 	case 'updated':
-		// 		$orderby = 'upm.updated_date';
-		// 	break;
+			if ( $this->current_section != $sid ) {
+				echo '<tr><th class="section-title"></th><th class="section-title" colspan="' . ( $this->get_columns_count() - 1 ) . '">' . sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) . '</th></tr>';
+				$this->current_section = $sid;
+			}
 
-		// 	case 'name';
-		// 	default:
-		// 		$orderby = 'p.post_title';
-		// 	break;
-		// }
+		}
 
-		// $courses = $this->student->get_courses( array(
-		// 	'limit' => $per,
-		// 	'skip' => ( $this->current_page - 1 ) * $per,
-		// 	'orderby' => $orderby,
-		// 	'order' => $order,
-		// ) );
 
-		// if ( $courses['more'] ) {
-		// 	$this->is_last_page = false;
-		// }
+	}
 
-		// $this->tbody_data = $courses['results'];
-
+	/**
+	 * Allow custom hooks to be registered for use within the class
+	 * @return   void
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	protected function register_hooks() {
+		add_action( 'llms_gradebook_table_before_tr', array( $this, 'output_section_row_html' ), 10, 1 );
 	}
 
 	/**
@@ -166,8 +170,8 @@ class LLMS_Table_Student_Course extends LLMS_Admin_GradeBook_Table {
 	 */
 	public function set_args() {
 		return array(
-			// 'page' => $this->get_current_page(),
-			// 'student' => ! empty ( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+			'page' => $this->get_current_page(),
+			'student' => ! empty ( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
 		);
 	}
 
@@ -184,7 +188,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_GradeBook_Table {
 			),
 			'name' => array(
 				'title' => __( 'Lesson Name', 'lifterlms' ),
-				'sortable' => true,
 			),
 			'quiz' => array(
 				'title' => __( 'Quiz', 'lifterlms' ),
@@ -196,16 +199,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_GradeBook_Table {
 				'title' => __( 'Completed', 'lifterlms' ),
 			),
 		);
-	}
-
-	/**
-	 * Empty message displayed when no results are found
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
-	 */
-	protected function set_empty_message() {
-		return __( 'This student is not enrolled in any courses.', 'lifterlms' );
 	}
 
 }

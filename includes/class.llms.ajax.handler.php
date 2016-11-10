@@ -77,9 +77,7 @@ class LLMS_AJAX_Handler {
 
 			$table = new $handler();
 			$table->get_results( $request );
-
 			return array(
-				// 'page' => $table->get_current_page(),
 				'args'  => json_encode( $table->get_args() ),
 				'thead' => trim( $table->get_thead_html() ),
 				'tbody' => trim( $table->get_tbody_html() ),

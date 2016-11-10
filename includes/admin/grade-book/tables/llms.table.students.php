@@ -1,0 +1,264 @@
+<?php
+/**
+ * Individual Student's Courses Table
+ *
+ * @since   3.2.0
+ * @version 3.2.0
+ */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+class LLMS_Table_Students extends LLMS_Admin_GradeBook_Table {
+
+	/**
+	 * Unique ID for the Table
+	 * @var  string
+	 */
+	protected $id = 'students';
+
+	/**
+	 * If true, tfoot will add ajax pagination links
+	 * @var  boolean
+	 */
+	protected $is_paginated = true;
+
+	/**
+	 * Determine of the table is searchable
+	 * @var  boolean
+	 */
+	protected $is_searchable = true;
+
+	/**
+	 * Results sort order
+	 * 'ASC' or 'DESC'
+	 * Only applicable of $orderby is not set
+	 * @var  string
+	 */
+	protected $order = 'ASC';
+
+	/**
+	 * Field results are sorted by
+	 * @var  string
+	 */
+	protected $orderby = 'name';
+
+	/**
+	 * Retrieve data for the columns
+	 * @param    string     $key        the column id / key
+	 * @param    int        $user       Instance of the WP User
+	 * @return   mixed
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_data( $key, $user ) {
+
+		$student = new LLMS_Student( $user->ID );
+
+		switch ( $key ) {
+
+			case 'achievements':
+				$value = count( $student->get_achievements() );
+			break;
+
+			case 'certificates':
+				$value = count( $student->get_certificates() );
+			break;
+
+			case 'completions':
+				$courses = $student->get_completed_courses();
+				$value = count( $courses['results'] );
+			break;
+
+			case 'enrollments':
+
+				$r = 0;
+
+				$page = 1;
+				$skip = 0;
+
+				while ( true ) {
+
+					$courses = $student->get_courses( array(
+						'limit' => 5000,
+						'skip' => 5000 * ( $page - 1 ),
+					) );
+
+					$r = $r + count( $courses['results'] );
+
+					if ( ! $courses['more'] ) {
+						break;
+					} else {
+						$page++;
+					}
+
+				}
+
+				$value = $r;
+
+			break;
+
+			case 'id':
+				$value = '<a href="' . esc_url( get_edit_user_link( $student->get_id() ) ) . '">' . $student->get_id() . '</a>';
+			break;
+
+			case 'memberships':
+				$value = count( $student->get_membership_levels() );
+			break;
+
+			case 'name':
+
+				$first = $student->get( 'first_name' );
+				$last = $student->get( 'last_name' );
+
+				if ( ! $first || ! $last ) {
+					$value = $student->get( 'display_name' );
+				} else {
+					$value = $last . ', ' . $first;
+				}
+
+				$url = esc_url( add_query_arg( 'student_id', $student->get_id(), admin_url( 'admin.php?page=llms-grade-book' ) ) );
+				$value = '<a href="' . $url . '">' . $value . '</a>';
+
+			break;
+
+			case 'registered':
+				$value = $student->get_registration_date();
+			break;
+
+
+			default:
+				$value = $key;
+
+		}
+
+		return $this->filter_get_data( $value, $key, $user );
+
+	}
+
+	/**
+	 * Get the Text to be used as the placeholder in a searchable tables search input
+	 * @return   string
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_table_search_form_placeholder() {
+		return apply_filters( 'llms_gradebook_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
+	}
+
+	/**
+	 * Execute a query to retrieve results from the table
+	 * @param    array      $args  array of query args
+	 * @return   void
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_results( $args = array() ) {
+
+		$this->title = __( 'Students', 'lifterlms' );
+
+		$args = $this->clean_args( $args );
+
+		if ( isset( $args['page'] ) ) {
+			$this->current_page = absint( $args['page'] );
+		}
+
+		$per = apply_filters( 'llms_gradebook_' . $this->id . '_per_page', 20 );
+
+		$this->order = isset( $args['order'] ) ? $args['order'] : 'ASC';
+		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : 'name';
+
+		$query = array(
+			'number' => $per,
+			'offset' => ( $this->current_page - 1 ) * $per,
+			'paged' => $this->current_page,
+			'order' => $this->order,
+		);
+
+		switch ( $this->orderby ) {
+
+			case 'registered':
+				$query['orderby'] = 'registered';
+			break;
+
+			case 'name':
+			default:
+
+				$query['meta_key'] = 'last_name';
+				$query['orderby'] = 'meta_value';
+
+			break;
+
+		}
+
+		if ( isset( $args['search'] ) ) {
+
+			$this->search = $args['search'];
+			$query['search'] = '*' . $this->search . '*';
+
+		}
+
+		$q = new WP_User_Query( $query );
+
+		if ( ceil( $q->total_users / $per ) > $this->current_page ) {
+			$this->is_last_page = false;
+		}
+
+		$this->tbody_data = $q->get_results();
+
+	}
+
+
+	/**
+	 * Define the structure of arguments used to pass to the get_results method
+	 * @return   array
+	 * @since    2.3.0
+	 * @version  2.3.0
+	 */
+	public function set_args() {
+		return array();
+	}
+
+	/**
+	 * Define the structure of the table
+	 * @return   array
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function set_columns() {
+		return array(
+			'id' => array(
+				'sortable' => false,
+				'title' => __( 'ID', 'lifterlms' ),
+			),
+			'name' => array(
+				'sortable' => true,
+				'title' => __( 'Name', 'lifterlms' ),
+			),
+			'registered' => array(
+				'sortable' => true,
+				'title' => __( 'Registration Date', 'lifterlms' ),
+			),
+			'memberships' => array(
+				'sortable' => false,
+				'title' => __( 'Memberships', 'lifterlms' ),
+			),
+			'enrollments' => array(
+				'sortable' => false,
+				'title' => __( 'Enrollments', 'lifterlms' ),
+			),
+			'completions' => array(
+				'sortable' => false,
+				'title' => __( 'Completions', 'lifterlms' ),
+			),
+			'certificates' => array(
+				'sortable' => false,
+				'title' => __( 'Certificates', 'lifterlms' ),
+			),
+			'achievements' => array(
+				'sortable' => false,
+				'title' => __( 'Achievements', 'lifterlms' ),
+			),
+		);
+	}
+
+}

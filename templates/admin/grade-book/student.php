@@ -18,20 +18,19 @@ if ( ! is_admin() ) { exit; }
 
 	</header>
 
-	<nav class="llms-nav-tab-wrapper llms-nav-secondary" id="llms-gb-student-tabs">
+	<nav class="llms-nav-tab-wrapper llms-nav-secondary">
 		<ul class="llms-nav-items">
 		<?php foreach ( $tabs as $name => $label ) : ?>
-			<li class="llms-nav-item"><a class="llms-nav-link" href="#llms-gb-tab-<?php echo $name; ?>"><?php echo $label; ?></a>
+			<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
+				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Grade_Book::get_stab_url( $name ) ?>">
+					<?php echo $label; ?>
+				</a>
 		<?php endforeach; ?>
 		</ul>
 	</nav>
 
-	<section class="llms-gb-tabs">
-	<?php foreach ( $tabs as $name => $label ) : ?>
-		<div class="llms-gb-tab" id="llms-gb-tab-<?php echo $name; ?>">
-			<?php llms_get_template( 'admin/grade-book/student/' . $name . '.php', array( 'student' => $student ) ); ?>
-		</div>
-	<?php endforeach; ?>
+	<section class="llms-gb-tab">
+		<?php llms_get_template( 'admin/grade-book/student/' . $current_tab . '.php', array( 'student' => $student ) ); ?>
 	</section>
 
 	<footer class="llms-gb-footer">

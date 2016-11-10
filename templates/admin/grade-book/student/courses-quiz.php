@@ -62,7 +62,13 @@ $quiz = new LLMS_Quiz( $quiz_id );
 		</tr>
 		<tr>
 			<td class="questions-table" colspan="3">
-				<?php $table = new LLMS_AGBT_Questions( $attempt['questions'] ); echo $table->get_table_html(); ?>
+				<?php
+					$table = new LLMS_Table_Questions();
+					$table->get_results( array(
+						'questions' => $attempt['questions'],
+					) );
+					echo $table->get_table_html();
+				?>
 			</td>
 		</tr>
 	</tbody>

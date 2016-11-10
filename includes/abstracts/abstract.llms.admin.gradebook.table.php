@@ -23,16 +23,22 @@ abstract class LLMS_Admin_GradeBook_Table {
 	protected $current_page = 1;
 
 	/**
+	 * When pagination enabled, determines if this is the last page of results
+	 * @var  boolean
+	 */
+	protected $is_last_page = true;
+
+	/**
 	 * If true, tfoot will add ajax pagination links
 	 * @var  boolean
 	 */
 	protected $is_paginated = false;
 
 	/**
-	 * When pagination enabled, determines if this is the last page of results
+	 * Determine of the table is searchable
 	 * @var  boolean
 	 */
-	protected $is_last_page = true;
+	protected $is_searchable = false;
 
 	/**
 	 * If true, tbody will be zebra striped
@@ -55,12 +61,24 @@ abstract class LLMS_Admin_GradeBook_Table {
 	protected $orderby = '';
 
 	/**
+	 * The search query submitted for a searchable table
+	 * @var  string
+	 */
+	protected $search = '';
+
+	/**
 	 * Table Data
 	 * Array of objects or arrays
 	 * each item represents as row in the table's body, each item is a cell
 	 * @var  array
 	 */
 	protected $tbody_data = array();
+
+	/**
+	 * Table Title Displayed on Screen
+	 * @var  string
+	 */
+	protected $title = '';
 
 	/**
 	 * Retrieve data for a cell
@@ -102,7 +120,9 @@ abstract class LLMS_Admin_GradeBook_Table {
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
-	public function __construct() {}
+	public function __construct() {
+		$this->register_hooks();
+	}
 
 	/**
 	 * Ensure that a valid array of data is passed to a query
@@ -149,10 +169,17 @@ abstract class LLMS_Admin_GradeBook_Table {
 	 */
 	public function get_args() {
 
-		$args = wp_parse_args( $this->set_args(), array(
+		$default = array(
+			'page'    => $this->get_current_page(),
 			'order'   => $this->get_order(),
 			'orderby' => $this->get_orderby(),
-		) );
+		);
+
+		if ( $this->is_searchable ) {
+			$default['search'] = $this->get_search();
+		}
+
+		$args = wp_parse_args( $this->set_args(), $default );
 
 		return apply_filters( 'llms_gradebook_get_args_' . $this->id, $args );
 	}
@@ -238,6 +265,16 @@ abstract class LLMS_Admin_GradeBook_Table {
 	}
 
 	/**
+	 * Retrieves the current search query
+	 * @return   string
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_search() {
+		return esc_attr( trim( $this->search ) );
+	}
+
+	/**
 	 * Get the HTML for the entire table
 	 * @return   string
 	 * @since    3.2.0
@@ -247,6 +284,12 @@ abstract class LLMS_Admin_GradeBook_Table {
 		ob_start();
 		?>
 		<div class="llms-table-wrap">
+			<header class="llms-table-header">
+				<?php echo $this->get_table_title_html(); ?>
+				<?php if ( $this->is_searchable ) : ?>
+					<?php echo $this->get_table_search_form_html(); ?>
+				<?php endif; ?>
+			</header>
 			<table
 				class="llms-table llms-gb-table llms-gb-table-<?php echo $this->id; ?><?php echo $this->is_zebra ? ' zebra' : ''; ?>"
 				data-args='<?php echo json_encode( $this->get_args() ); ?>'
@@ -260,6 +303,47 @@ abstract class LLMS_Admin_GradeBook_Table {
 		</div>
 		<?php
 		return ob_get_clean();
+	}
+
+	/**
+	 * Get the HTML of the search form for a searchable table
+	 * @return   string
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_table_search_form_html() {
+		ob_start();
+		?>
+		<div class="llms-table-search">
+			<input class="regular-text" id="<?php echo $this->id; ?>" placeholder="<?php echo $this->get_table_search_form_placeholder(); ?>" type="text">
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
+	 * Get the Text to be used as the placeholder in a searchable tables search input
+	 * @return   string
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_table_search_form_placeholder() {
+		return apply_filters( 'llms_gradebook_get_' . $this->id . '_search_placeholder', __( 'Search', 'lifterlms' ) );
+	}
+
+	/**
+	 * Get the HTML for the table's title
+	 * @return   string
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_table_title_html() {
+		$title = apply_filters( 'llms_gradebook_get_' . $this->id . '_table_title', $this->title );
+		if ( $title ) {
+			return '<h2 class="llms-table-title">' . $title . '</h2>';
+		} else {
+			return '';
+		}
 	}
 
 	/**
@@ -365,6 +449,7 @@ abstract class LLMS_Admin_GradeBook_Table {
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();
+		do_action( 'llms_gradebook_table_before_tr', $row );
 		?>
 		<tr>
 		<?php foreach ( $this->get_columns() as $id => $title ) : ?>
@@ -372,6 +457,7 @@ abstract class LLMS_Admin_GradeBook_Table {
 		<?php endforeach; ?>
 		</tr>
 		<?php
+		do_action( 'llms_gradebook_table_after_tr', $row );
 		return ob_get_clean();
 	}
 
@@ -400,6 +486,14 @@ abstract class LLMS_Admin_GradeBook_Table {
 		}
 		return '<a href="' . esc_url( get_edit_post_link( $post_id ) ) . '">' . $text . '</a>';
 	}
+
+	/**
+	 * Allow custom hooks to be registered for use within the class
+	 * @return   void
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	protected function register_hooks() {}
 
 	/**
 	 * Setter

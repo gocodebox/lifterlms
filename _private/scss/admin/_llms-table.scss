@@ -2,6 +2,23 @@
 	position: relative;
 }
 
+.llms-table-header {
+	padding: 0 10px;
+	margin-bottom: 10px;
+
+	@include clearfix();
+
+	h2 {
+		display: inline-block;
+		margin: 0;
+		vertical-align: middle;
+	}
+
+	.llms-table-search {
+		float: right;
+	}
+}
+
 .llms-table {
 
 	border: 1px solid #cecece;
@@ -25,30 +42,33 @@
 		font-weight: 500;
 
 		a.llms-sortable {
-			display: block;
+			// display: block;
+			padding-right: 16px;
+			position: relative;
 			text-decoration: none;
 			width: 100%;
 			&.active {
 				// show the current sorted when a sort is active
-				&[data-order="DESC"] .asc { display: inline-block; }
-				&[data-order="ASC"] .desc { display: inline-block; }
+				&[data-order="DESC"] .asc { opacity: 1; }
+				&[data-order="ASC"] .desc { opacity: 1; }
 			}
 			// show the opposite on hover
 			&:hover {
 				&[data-order="DESC"] {
-					.asc { display: none; }
-					.desc { display: inline-block; }
+					.asc { opacity: 0; }
+					.desc { opacity: 1; }
 				}
 				&[data-order="ASC"] {
-					.asc { display: inline-block; }
-					.desc { display: none; }
+					.asc { opacity: 1; }
+					.desc { opacity: 0; }
 				}
 			}
 			.dashicons {
-				display: none;
 				color: #444;
 				font-size: 16px;
 				height: 16px;
+				opacity: 0;
+				position: absolute;
 				width: 16px;
 			}
 		}
