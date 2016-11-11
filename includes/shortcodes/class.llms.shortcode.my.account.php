@@ -50,6 +50,8 @@ class LLMS_Shortcode_My_Account {
 
 			} else {
 
+				llms_print_notices();
+
 				llms_get_template( 'global/form-login.php' );
 
 				// can be enabled / disabled on options page.
