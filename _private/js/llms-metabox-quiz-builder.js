@@ -33,7 +33,7 @@
 	 */
 	$.fn.llmsSelect2ify = function() {
 
-		this.select2({
+		this.llmsSelect2({
 			allowClear: false,
 			ajax: {
 				dataType: 'JSON',
