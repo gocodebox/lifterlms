@@ -293,7 +293,7 @@
 		 * Builds an object of data that can be used to, ultimately, draw the screen's chart
 		 * @return   obj
 		 * @since    3.0.0
-		 * @version  3.1.4
+		 * @version  3.1.6
 		 */
 		this.get_chart_data_object = function() {
 
@@ -315,33 +315,37 @@
 
 				res = self.data[ method ].results;
 
-				for ( i = 0; i < res.length; i++ ) {
+				if ( res ) {
 
-					d = this.init_date( res[i].date );
+					for ( i = 0; i < res.length; i++ ) {
 
-					// group by days
-					if ( diff <= max_for_days ) {
-						date = new Date( d.getFullYear(), d.getMonth(), d.getDate() );
-					}
-					// group by months
-					else {
-						date = new Date( d.getFullYear(), d.getMonth(), 1 );
-					}
+						d = this.init_date( res[i].date );
 
-					if ( ! data[ date ] ) {
-						data[ date ] = this.get_empty_data_object( date )
-					}
+						// group by days
+						if ( diff <= max_for_days ) {
+							date = new Date( d.getFullYear(), d.getMonth(), d.getDate() );
+						}
+						// group by months
+						else {
+							date = new Date( d.getFullYear(), d.getMonth(), 1 );
+						}
 
-					switch ( self.data[ method ].chart_data.type ) {
+						if ( ! data[ date ] ) {
+							data[ date ] = this.get_empty_data_object( date )
+						}
 
-						case 'amount':
-							data[ date ][ method ] = data[ date ][ method ] + ( res[i][ self.data[ method ].chart_data.key ] * 1 );
-						break;
+						switch ( self.data[ method ].chart_data.type ) {
 
-						case 'count':
-						default:
-							data[ date ][ method ]++;
-						break;
+							case 'amount':
+								data[ date ][ method ] = data[ date ][ method ] + ( res[i][ self.data[ method ].chart_data.key ] * 1 );
+							break;
+
+							case 'count':
+							default:
+								data[ date ][ method ]++;
+							break;
+
+						}
 
 					}
 
