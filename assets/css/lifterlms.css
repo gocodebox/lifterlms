@@ -898,6 +898,13 @@ svg .llms-animated-circle {
   border-color: #83c373;
 }
 
+.entry-content .llms-notice {
+  margin: 0 0 10px;
+}
+.entry-content .llms-notice li {
+  list-style-type: none;
+}
+
 .llms-pagination ul {
   list-style-type: none;
 }
