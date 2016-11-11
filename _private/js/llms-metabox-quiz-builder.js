@@ -29,7 +29,8 @@
 	 *
 	 * @return obj
 	 *
-	 * @since  2.4.0
+	 * @since    2.4.0
+	 * @version  3.1.6
 	 */
 	$.fn.llmsSelect2ify = function() {
 
