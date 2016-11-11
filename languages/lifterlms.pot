@@ -634,59 +634,59 @@ msgstr ""
 msgid "Required field \"%s\" is missing."
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:102
-msgid "Merge Codes"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:113
+#: includes/admin/llms.functions.admin.php:107
 msgid "Website Title"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:114
+#: includes/admin/llms.functions.admin.php:108
 msgid "Website URL"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:115
+#: includes/admin/llms.functions.admin.php:109
 msgid "Student Email Address"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:116
+#: includes/admin/llms.functions.admin.php:110
 msgid "Student Username"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:117
+#: includes/admin/llms.functions.admin.php:111
 msgid "Student First Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:118
+#: includes/admin/llms.functions.admin.php:112
 msgid "Student Last Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:119
+#: includes/admin/llms.functions.admin.php:113
 msgid "Current Date"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:141
+#: includes/admin/llms.functions.admin.php:136
+msgid "Merge Codes"
+msgstr ""
+
+#: includes/admin/llms.functions.admin.php:146
 msgid "No merge codes found."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:167, includes/admin/post-types/class.llms.meta.boxes.php:169, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:363
+#: includes/admin/post-types/class.llms.meta.boxes.php:169, includes/admin/post-types/class.llms.meta.boxes.php:171, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:363
 msgid "Course Outline"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:168
+#: includes/admin/post-types/class.llms.meta.boxes.php:170
 msgid "Section Tree"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:170
+#: includes/admin/post-types/class.llms.meta.boxes.php:172
 msgid "Export CSV"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:171, includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:22
+#: includes/admin/post-types/class.llms.meta.boxes.php:173, includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:22
 msgid "Quiz Questions"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:172
+#: includes/admin/post-types/class.llms.meta.boxes.php:174
 msgid "Question Settings"
 msgstr ""
 
@@ -1259,47 +1259,47 @@ msgstr ""
 msgid "Add a new Section"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:20, includes/admin/settings/class.llms.settings.engagements.php:43
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:21, includes/admin/settings/class.llms.settings.engagements.php:43
 msgid "Email Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:41
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:40
 msgid "Student Email"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:42
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:41
 msgid "Admin Email"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:51
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:50
 msgid "Email Subject"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:52
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:51
 msgid "This will be used for the subject line of your email."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:61
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:60
 msgid "Email Heading"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:62
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:61
 msgid "This is the heading for your email. It will display above the content."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:71
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:70
 msgid "Email To:"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:72, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:83, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:92
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:71, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:82, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:91
 msgid "Separate multiple address with a comma."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:82
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:81
 msgid "Email CC:"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:91
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:90
 msgid "Email BCC:"
 msgstr ""
 

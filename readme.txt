@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,15 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.1.4 - 2016/11/10 =
+-----------------------
+
++ Progress bars are sligthly more intelligent to prevent a widowed "%" on themes with larger base font sizes
++ LifterLMS Merge code button only displays where it's supposed to now
++ Fix issue where users removed from a membership were not properly removed from courses they were auto-enrolled into because of that membership
++ Fix analytics screen JS parsing error
+
 
 = v3.1.3 - 2016/11/04 =
 -----------------------
