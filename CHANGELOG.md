@@ -1,10 +1,12 @@
 == Changelog ==
 
-= v3.1.3 - 2016/11/?? =
+= v3.1.4 - 2016/11/10 =
 -----------------------
 
 + Progress bars are sligthly more intelligent to prevent a widowed "%" on themes with larger base font sizes
 + LifterLMS Merge code button only displays where it's supposed to now
++ Fix issue where users removed from a membership were not properly removed from courses they were auto-enrolled into because of that membership
++ Fix analytics screen JS parsing error
 
 
 = v3.1.3 - 2016/11/04 =
