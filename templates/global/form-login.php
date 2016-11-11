@@ -20,6 +20,8 @@ if ( is_user_logged_in() ) { return; }
 	<?php llms_print_notice( $message, 'notice' ); ?>
 <?php endif; ?>
 
+<?php llms_print_notices(); ?>
+
 <div class="col-1 llms-person-login-form-wrapper">
 
 	<form action="" class="llms-login" method="POST">
