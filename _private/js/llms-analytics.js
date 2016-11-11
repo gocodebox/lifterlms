@@ -2,7 +2,11 @@
 
 	window.llms = window.llms || {};
 
-
+	/**
+	 * LifterLMS Admin Analytics
+	 * @since    3.0.0
+	 * @version  3.1.4
+	 */
 	var Analytics = function() {
 
 		this.charts_loaded = false;
@@ -12,7 +16,12 @@
 
 		this.$widgets = $( '.llms-widget' );
 
-
+		/**
+		 * Initializer
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.init = function() {
 
 			google.charts.load( 'current', {
@@ -27,7 +36,12 @@
 
 		};
 
-
+		/**
+		 * Bind DOM events
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.bind = function() {
 
 			$( '.llms-datepicker' ).datepicker( {
@@ -41,7 +55,7 @@
 				placeholder: LLMS.l10n.translate( 'Filter by Student(s)' ),
 			} );
 
-			$( 'a[href="#llms-toggle-filters"' ).on( 'click', function( e ) {
+			$( 'a[href="#llms-toggle-filters"]' ).on( 'click', function( e ) {
 				e.preventDefault();
 				$( '.llms-analytics-filters' ).slideToggle( 100 );
 			} );
@@ -61,7 +75,12 @@
 
 		};
 
-
+		/**
+		 * Called  by Google Charts when the library is loaded and ready
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.charts_ready = function() {
 
 			window.llms.analytics.charts_loaded = true;
@@ -69,7 +88,12 @@
 
 		};
 
-
+		/**
+		 * Render the chart
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.draw_chart = function() {
 
 			if ( ! this.charts_loaded || ! this.is_loading_finished() ) {
@@ -123,7 +147,12 @@
 
 		};
 
-
+		/**
+		 * Check if a widget is still loading
+		 * @return   bool
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.is_loading_finished = function() {
 			if ( $( '.llms-widget.is-loading' ).length ) {
 				return false;
@@ -131,7 +160,12 @@
 			return true;
 		};
 
-
+		/**
+		 * Start loading all widgets on the current screen
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.load_widgets = function() {
 
 			var self = this;
@@ -144,7 +178,13 @@
 
 		};
 
-
+		/**
+		 * Load a specific widget
+		 * @param    obj   $widget  jQuery selector of the widget element
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.load_widget = function( $widget ) {
 
 			var self = this,
@@ -195,8 +235,6 @@
 				},
 				complete: function( r ) {
 
-					console.log( r );
-
 					if ( 'error' === status ) {
 
 						if( 'timeout' === r.statusText ) {
@@ -236,6 +274,12 @@
 
 		};
 
+		/**
+		 * Get the time in seconds between the queried dates
+		 * @return   int
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.get_date_diff = function() {
 
 			var end = new Date( this.query.dates.end ),
@@ -245,6 +289,12 @@
 
 		};
 
+		/**
+		 * Builds an object of data that can be used to, ultimately, draw the screen's chart
+		 * @return   obj
+		 * @since    3.0.0
+		 * @version  3.1.4
+		 */
 		this.get_chart_data_object = function() {
 
 			var self = this,
@@ -267,7 +317,7 @@
 
 				for ( i = 0; i < res.length; i++ ) {
 
-					d = new Date( res[i].date );
+					d = this.init_date( res[i].date );
 
 					// group by days
 					if ( diff <= max_for_days ) {
@@ -303,6 +353,12 @@
 
 		};
 
+		/**
+		 * Get the data google charts needs to initiate the current chart
+		 * @return   obj
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.get_chart_data = function() {
 
 			var self = this,
@@ -338,7 +394,13 @@
 
 		};
 
-
+		/**
+		 * Get a stub of the data object used by this.get_data_object
+		 * @param    string   date  date to intatniate the object with
+		 * @return   obj
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.get_empty_data_object = function( date ) {
 
 			var self = this,
@@ -361,6 +423,12 @@
 
 		};
 
+		/**
+		 * Builds an array of chart header data
+		 * @return   array
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.get_chart_headers = function() {
 
 			var self = this,
@@ -389,6 +457,12 @@
 
 		};
 
+		/**
+		 * Get a object of series options needed to draw the chart
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.get_chart_series_options = function() {
 
 			var self = this,
@@ -419,17 +493,46 @@
 
 		};
 
+		/**
+		 * Instantiate a Date instance via a date string
+		 * @param    string   string  date string, expected format should be from php date( 'Y-m-d H:i:s' )
+		 * @return   obj
+		 * @since    3.1.4
+		 * @version  3.1.4
+		 */
+		this.init_date = function( string ) {
+
+			var parts, date, time;
+
+			parts = string.split( ' ' );
+
+			date = parts[0].split( '-' );
+			time = parts[1].split( ':' );
+
+			return new Date( date[0], date[1], date[2], time[0], time[1], time[2] );
+
+		};
+
+		/**
+		 * Called when a widget is finished loading
+		 * Updates the current chart with the new data from the widget
+		 * @param    obj   $widget  jQuery selector of the widget element
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
 		this.widget_finished = function( $widget ) {
 
 			if ( this.is_loading_finished() ) {
 				this.draw_chart();
 			}
 
-
 		};
 
+		// go
 		this.init();
 
+		// return
 		return this;
 
 	};
@@ -438,6 +541,3 @@
 	window.llms.analytics = new Analytics();
 
 } )( jQuery );
-
-
-
