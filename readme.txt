@@ -166,6 +166,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v3.1.5 - 2016/11/10 =
+-----------------------
+
++ Fix Month display on Analytics Screen
+
+
 = v3.1.4 - 2016/11/10 =
 -----------------------
 
