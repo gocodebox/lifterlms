@@ -498,7 +498,7 @@
 		 * @param    string   string  date string, expected format should be from php date( 'Y-m-d H:i:s' )
 		 * @return   obj
 		 * @since    3.1.4
-		 * @version  3.1.4
+		 * @version  3.1.5
 		 */
 		this.init_date = function( string ) {
 
@@ -509,7 +509,9 @@
 			date = parts[0].split( '-' );
 			time = parts[1].split( ':' );
 
-			return new Date( date[0], date[1], date[2], time[0], time[1], time[2] );
+			var r = new Date( date[0], date[1] - 1, date[2], time[0], time[1], time[2] );
+
+			return r;
 
 		};
 
