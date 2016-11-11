@@ -45,7 +45,7 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 				),
 				'statuses' => array(
 					'llms-active',
-					'llms-comleted',
+					'llms-completed',
 					'llms-refunded',
 				),
 			) );

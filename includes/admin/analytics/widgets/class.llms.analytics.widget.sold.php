@@ -45,15 +45,17 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 				),
 				'statuses' => array(
 					'llms-active',
-					'llms-comleted',
+					'llms-completed',
 					'llms-refunded',
 				),
 			) );
 			$this->query();
 			$order_ids = $this->get_results();
 
-			if ( $order_ids ) {
+			$this->temp_q = $wpdb->last_query;
+			$this->temp = $order_ids;
 
+			if ( $order_ids ) {
 				$txn_meta_join = "JOIN {$wpdb->postmeta} AS txn_meta ON txn_meta.post_id = txns.ID";
 				$txn_meta_where .= " AND txn_meta.meta_key = '_llms_order_id'";
 				$txn_meta_where .= ' AND txn_meta.meta_value IN ( ' . implode( ', ', $order_ids ) . ' )';
