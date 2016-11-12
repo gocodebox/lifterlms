@@ -264,7 +264,6 @@ class LLMS_Template_Loader {
 
 		}
 
-
 		$this->handle_restriction(
 			apply_filters( 'llms_restricted_by_membership_message', $msg, $info ),
 			apply_filters( 'llms_restricted_by_membership_redirect', $redirect, $info ),
