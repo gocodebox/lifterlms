@@ -1,5 +1,16 @@
 == Changelog ==
 
+= v3.1.6 - 2016/11/11 =
+-----------------------
+
++ Handle empty responses on analytics more responsibly
++ Fix typo preventing completed orders from displaying in analytics when using course / membership filters
++ Quiz builder now leverages llmsSelect2 rather than select2 directly. Resolves a number of theme and plugin compatiblity issues.
++ Prevent bullets and weird margins on LifterLMS notices with slightly more specific CSS
++ Login error messages will now display regardless of whether or not open registration is enabled
++ Attempts to access quizzes are redirected or error messages are output when student is not enrolled.
+
+
 = v3.1.5 - 2016/11/10 =
 -----------------------
 

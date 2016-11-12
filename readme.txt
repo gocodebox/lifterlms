@@ -1,10 +1,10 @@
 === LifterLMS ===
-Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc, therealmarknelson
+Contributors: thomasplevy, chrisbadgett, loralee_h, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 3.1.5
+Stable tag: 3.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,17 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.1.6 - 2016/11/11 =
+-----------------------
+
++ Handle empty responses on analytics more responsibly
++ Fix typo preventing completed orders from displaying in analytics when using course / membership filters
++ Quiz builder now leverages llmsSelect2 rather than select2 directly. Resolves a number of theme and plugin compatiblity issues.
++ Prevent bullets and weird margins on LifterLMS notices with slightly more specific CSS
++ Login error messages will now display regardless of whether or not open registration is enabled
++ Attempts to access quizzes are redirected or error messages are output when student is not enrolled.
+
 
 = v3.1.5 - 2016/11/10 =
 -----------------------
