@@ -3,7 +3,7 @@
 * Plugin Name: LifterLMS
 * Plugin URI: https://lifterlms.com/
 * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
-* Version: 3.1.3
+* Version: 3.1.6
 * Author: Thomas Patrick Levy, codeBOX LLC, Mark Nelson
 * Author URI: http://gocodebox.com
 * Text Domain: lifterlms
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.1.3';
+	public $version = '3.1.6';
 
 	protected static $_instance = null;
 
@@ -92,14 +92,6 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
-
-		// quick and dirty update note for 3.0 release
-		add_action( 'in_plugin_update_message-lifterlms/lifterlms.php', function( $data ) {
-
-			echo '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>' . sprintf( __( '3.0 is a major update. It is important that you make backups and ensure themes and extensions are 3.0 compatible before upgrading. %sRead more here%s.', 'lifterlms' ), '<a href=" https://lifterlms.com/docs/upgrading-to-lifterlms-3-0/" target="_blank">', '</a>' ) . '</strong>';
-			echo "<script>jQuery( '#lifterlms-update .update-message' ).removeClass( 'notice-warning' ).addClass( 'notice-error' );</script>";
-
-		} );
 
 		// tracking
 		if ( defined( 'DOING_CRON' ) && DOING_CRON && 'yes' === get_option( 'llms_allow_tracking', 'no' ) ) {

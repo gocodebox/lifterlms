@@ -1,10 +1,6 @@
 <?php
 /**
 * Functions used for managing page / post access
-*
-* @author  LifterLMS
-* @since   1.0.0
-* @version 1.0.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -17,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  3.0.2
+ * @version  3.1.6
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -104,6 +100,19 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 	if ( is_singular() ) {
 
+		if ( 'llms_quiz' === $post_type ) {
+
+			if ( $quiz_id = llms_is_quiz_accessible( $post_id, $user_id ) ) {
+
+				$results['is_restricted'] = true;
+				$results['reason'] = 'quiz';
+				$results['restriction_id'] = $post_id;
+				return $results;
+
+			}
+
+		}
+
 		if ( 'lesson' === $post_type || 'llms_quiz' === $post_type ) {
 
 			if ( $course_id = llms_is_post_restricted_by_time_period( $post_id, $user_id ) ) {
@@ -123,10 +132,6 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				return $results;
 
 			}
-
-		}
-
-		if ( 'lesson' === $post_type ) {
 
 			if ( $lesson_id = llms_is_post_restricted_by_drip_settings( $post_id, $user_id ) ) {
 
@@ -386,5 +391,35 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
 		return false;
 
 	}
+
+}
+
+/**
+ * Determine if a quiz should be accessible by a user
+ * @param    int     $post_id  WP Post ID
+ * @return   bool|int          if the post is not restricted returns false
+ *                             if the post is restricted, returns the quiz id
+ * @since    3.1.6
+ * @version  3.1.6
+ */
+function llms_is_quiz_accessible( $post_id, $user_id = null ) {
+
+	$quiz = new LLMS_Quiz( $post_id );
+	$lesson_id = $quiz->get_assoc_lesson( $user_id );
+
+	// if we don't have a lesson id, try to retrieve it from the session
+	if ( ! $lesson_id ) {
+		$quiz = LLMS()->session->get( 'llms_quiz' );
+		if ( $quiz ) {
+			$lesson_id = $quiz->assoc_lesson;
+		}
+	}
+
+	// no lesson or the user is not enrolled
+	if ( ! $lesson_id || ! llms_is_user_enrolled( $user_id, $lesson_id ) ) {
+		return $post_id;
+	}
+
+	return false;
 
 }

@@ -826,6 +826,13 @@ svg .llms-animated-circle {
 /* progress bar */
 .llms-progress {
   clear: both;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
   position: relative;
   height: 1em;
   width: 100%;
@@ -834,25 +841,24 @@ svg .llms-animated-circle {
 
 .llms-progress .llms-progress-bar {
   background-color: #f1f2f1;
-  position: absolute;
+  position: relative;
   height: .4em;
-  left: 0;
-  right: 3em;
   top: .3em;
+  width: 100%;
 }
 
 .llms-progress .progress-bar-complete {
   background-color: #ef476f;
-  position: absolute;
   height: 100%;
 }
 
 .progress__indicator {
   float: right;
-  width: 3em;
   text-align: right;
   height: 1em;
   line-height: 1em;
+  margin-left: 5px;
+  white-space: nowrap;
 }
 
 .llms-author .name {
@@ -890,6 +896,13 @@ svg .llms-animated-circle {
 .llms-notice.llms-success {
   background: rgba(131, 195, 115, 0.3);
   border-color: #83c373;
+}
+
+.entry-content .llms-notice {
+  margin: 0 0 10px;
+}
+.entry-content .llms-notice li {
+  list-style-type: none;
 }
 
 .llms-pagination ul {

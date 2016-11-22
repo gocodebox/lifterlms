@@ -31,3 +31,11 @@
 
 }
 
+// this helps genesis and numerous other themes out a bit
+// by being slightly more specific
+.entry-content .llms-notice {
+	margin: 0 0 10px;
+	li {
+		list-style-type: none;
+	}
+}

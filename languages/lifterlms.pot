@@ -634,59 +634,59 @@ msgstr ""
 msgid "Required field \"%s\" is missing."
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:102
-msgid "Merge Codes"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:113
+#: includes/admin/llms.functions.admin.php:107
 msgid "Website Title"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:114
+#: includes/admin/llms.functions.admin.php:108
 msgid "Website URL"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:115
+#: includes/admin/llms.functions.admin.php:109
 msgid "Student Email Address"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:116
+#: includes/admin/llms.functions.admin.php:110
 msgid "Student Username"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:117
+#: includes/admin/llms.functions.admin.php:111
 msgid "Student First Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:118
+#: includes/admin/llms.functions.admin.php:112
 msgid "Student Last Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:119
+#: includes/admin/llms.functions.admin.php:113
 msgid "Current Date"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:141
+#: includes/admin/llms.functions.admin.php:136
+msgid "Merge Codes"
+msgstr ""
+
+#: includes/admin/llms.functions.admin.php:146
 msgid "No merge codes found."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:167, includes/admin/post-types/class.llms.meta.boxes.php:169, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:363
+#: includes/admin/post-types/class.llms.meta.boxes.php:169, includes/admin/post-types/class.llms.meta.boxes.php:171, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:363
 msgid "Course Outline"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:168
+#: includes/admin/post-types/class.llms.meta.boxes.php:170
 msgid "Section Tree"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:170
+#: includes/admin/post-types/class.llms.meta.boxes.php:172
 msgid "Export CSV"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:171, includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:22
+#: includes/admin/post-types/class.llms.meta.boxes.php:173, includes/admin/post-types/meta-boxes/class.llms.meta.box.quiz.questions.php:22
 msgid "Quiz Questions"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.meta.boxes.php:172
+#: includes/admin/post-types/class.llms.meta.boxes.php:174
 msgid "Question Settings"
 msgstr ""
 
@@ -1259,47 +1259,47 @@ msgstr ""
 msgid "Add a new Section"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:20, includes/admin/settings/class.llms.settings.engagements.php:43
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:21, includes/admin/settings/class.llms.settings.engagements.php:43
 msgid "Email Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:41
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:40
 msgid "Student Email"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:42
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:41
 msgid "Admin Email"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:51
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:50
 msgid "Email Subject"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:52
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:51
 msgid "This will be used for the subject line of your email."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:61
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:60
 msgid "Email Heading"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:62
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:61
 msgid "This is the heading for your email. It will display above the content."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:71
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:70
 msgid "Email To:"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:72, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:83, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:92
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:71, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:82, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:91
 msgid "Separate multiple address with a comma."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:82
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:81
 msgid "Email CC:"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:91
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:90
 msgid "Email BCC:"
 msgstr ""
 
@@ -2713,7 +2713,7 @@ msgstr ""
 msgid "Please enter your password."
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:26, includes/shortcodes/class.llms.shortcode.my.account.php:146
+#: includes/class.llms.frontend.password.php:26, includes/shortcodes/class.llms.shortcode.my.account.php:148
 msgid "Enter a username or e-mail address."
 msgstr ""
 
@@ -2721,7 +2721,7 @@ msgstr ""
 msgid "The email address entered is not associated with an account."
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:52, includes/shortcodes/class.llms.shortcode.my.account.php:162
+#: includes/class.llms.frontend.password.php:52, includes/shortcodes/class.llms.shortcode.my.account.php:164
 msgid "Invalid username or e-mail."
 msgstr ""
 
@@ -2733,7 +2733,7 @@ msgstr ""
 msgid "Check your e-mail for the account confirmation link."
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:110, includes/class.llms.frontend.password.php:117, includes/class.llms.frontend.password.php:126, includes/shortcodes/class.llms.shortcode.my.account.php:219, includes/shortcodes/class.llms.shortcode.my.account.php:224, includes/shortcodes/class.llms.shortcode.my.account.php:240
+#: includes/class.llms.frontend.password.php:110, includes/class.llms.frontend.password.php:117, includes/class.llms.frontend.password.php:126, includes/shortcodes/class.llms.shortcode.my.account.php:221, includes/shortcodes/class.llms.shortcode.my.account.php:226, includes/shortcodes/class.llms.shortcode.my.account.php:242
 msgid "Invalid key"
 msgstr ""
 
@@ -2883,7 +2883,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:90, templates/global/form-login.php:27
+#: includes/class.llms.person.handler.php:90, templates/global/form-login.php:29
 msgid "Login"
 msgstr ""
 
@@ -4397,14 +4397,26 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:138
+#: includes/class.llms.template.loader.php:139
 msgctxt "lesson restricted by drip settings message"
 msgid "The lesson \"%s\" will be available on %s"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:167
+#: includes/class.llms.template.loader.php:168
 msgctxt "lesson restricted by prerequisite message"
 msgid "The lesson \"%s\" cannot be accessed until the required prerequisite \"%s\" is completed."
+msgstr ""
+
+#: includes/class.llms.template.loader.php:252
+msgid "It looks like you're trying to test a quiz you just made. To test your quiz please read our documentation at %s"
+msgstr ""
+
+#: includes/class.llms.template.loader.php:256
+msgid "You cannot access quizzes directly. Please return to the associated lesson and start the quiz from there."
+msgstr ""
+
+#: includes/class.llms.template.loader.php:262
+msgid "You must be logged in to take quizzes."
 msgstr ""
 
 #: includes/class.llms.voucher.php:198
@@ -6414,19 +6426,19 @@ msgstr ""
 msgid "Already have an account? <a href=\"%s\">Click here to login</a>"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.my.account.php:124
+#: includes/shortcodes/class.llms.shortcode.my.account.php:126
 msgid "Your password has been reset."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.my.account.php:125
+#: includes/shortcodes/class.llms.shortcode.my.account.php:127
 msgid "Log in"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.my.account.php:176
+#: includes/shortcodes/class.llms.shortcode.my.account.php:178
 msgid "Password reset is not allowed for this user"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.my.account.php:203
+#: includes/shortcodes/class.llms.shortcode.my.account.php:205
 msgid "Check your e-mail for the confirmation link."
 msgstr ""
 

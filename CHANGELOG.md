@@ -1,5 +1,37 @@
 == Changelog ==
 
+= v3.1.7 - 2016/11/?? =
+-----------------------
+
++ Removed 2.x -> 3.x update notification message
+
+
+= v3.1.6 - 2016/11/11 =
+-----------------------
+
++ Handle empty responses on analytics more responsibly
++ Fix typo preventing completed orders from displaying in analytics when using course / membership filters
++ Quiz builder now leverages llmsSelect2 rather than select2 directly. Resolves a number of theme and plugin compatiblity issues.
++ Prevent bullets and weird margins on LifterLMS notices with slightly more specific CSS
++ Login error messages will now display regardless of whether or not open registration is enabled
++ Attempts to access quizzes are redirected or error messages are output when student is not enrolled.
+
+
+= v3.1.5 - 2016/11/10 =
+-----------------------
+
++ Fix Month display on Analytics Screen
+
+
+= v3.1.4 - 2016/11/10 =
+-----------------------
+
++ Progress bars are sligthly more intelligent to prevent a widowed "%" on themes with larger base font sizes
++ LifterLMS Merge code button only displays where it's supposed to now
++ Fix issue where users removed from a membership were not properly removed from courses they were auto-enrolled into because of that membership
++ Fix analytics screen JS parsing error
+
+
 = v3.1.3 - 2016/11/04 =
 -----------------------
 

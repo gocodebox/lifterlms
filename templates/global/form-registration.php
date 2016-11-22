@@ -13,9 +13,9 @@ $field_data = isset( $_POST ) ? $_POST : array();
 if ( get_current_user_id() ) {
 	return;
 }
-
-llms_print_notices();
 ?>
+
+<?php llms_print_notices(); ?>
 
 <?php do_action( 'lifterlms_before_person_register_form' ); ?>
 
