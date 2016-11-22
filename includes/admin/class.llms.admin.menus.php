@@ -13,8 +13,8 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Constructor
-	 *
-	 * executes menu setup functions on admin_menu
+	 * @since   1.0.0
+	 * @version 3.0.0
 	 */
 	public function __construct() {
 
@@ -26,42 +26,18 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Custom LifterLMS sub menu order
-	 * All new sub menu items need to be added to this method
-	 * @param  [array] $menu_ord [sub menu array]
-	 * @return [array]           [modified sub menu array]
+	 * Remove the default menu page from the submenu
+	 * @param  array
+	 * @return array
+	 * @since   1.0.0
+	 * @version 3.2.0
 	 */
 	public function submenu_order( $menu_ord ) {
 		global $submenu;
 
 		if ( isset( $submenu['lifterlms'] ) ) {
 
-			$arr = array();
-
-			foreach ( $submenu['lifterlms'] as $sm ) {
-				switch ( $sm[0] ) {
-					case 'Settings':
-					case __( 'Settings', 'lifterlms' ):	 	$i = 0;  break;
-					case 'Analytics':
-					case __( 'Analytics', 'lifterlms' ):	$i = 1;  break;
-					case 'Reporting':
-					case __( 'Reporting', 'lifterlms' ):	$i = 2;  break;
-					case 'System Report':
-					case __( 'System Report', 'lifterlms' ):$i = 3; break;
-					default: $i = 7; // @todo
-				}
-
-				if ( isset( $i ) ) {
-					$arr[ $i ] = $sm;
-				}
-
-			}
-
-			ksort( $arr );
-
-			array_merge( $arr, $submenu['lifterlms'] );
-
-			$submenu['lifterlms'] = $arr;
+			unset( $submenu['lifterlms'][0] );
 
 		}
 
