@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Table_Student_Course extends LLMS_Admin_GradeBook_Table {
+class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table

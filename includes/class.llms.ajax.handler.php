@@ -65,13 +65,20 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * Reload admin tables
+	 * @param    array     $request  post data ($_REQUST)
+	 * @return   array
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
 	public static function get_admin_table_data( $request ) {
 
-		require_once 'admin/grade-book/class.llms.admin.grade.book.php';
+		require_once 'admin/reporting/class.llms.admin.reporting.php';
 
 		$handler = 'LLMS_Table_' . $request['handler'];
 
-		LLMS_Admin_Grade_Book::includes();
+		LLMS_Admin_Reporting::includes();
 
 		if ( class_exists( $handler ) ) {
 

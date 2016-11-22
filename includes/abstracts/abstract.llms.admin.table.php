@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-abstract class LLMS_Admin_GradeBook_Table {
+abstract class LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table

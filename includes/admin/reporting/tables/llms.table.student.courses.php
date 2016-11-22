@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Table_Student_Courses extends LLMS_Admin_GradeBook_Table {
+class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
@@ -77,7 +77,12 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_GradeBook_Table {
 			break;
 
 			case 'name':
-				$url = esc_url( add_query_arg( 'course_id', $course->get( 'id' ) ) );
+				$url = esc_url( add_query_arg( array(
+					'course_id' => $course->get( 'id' ),
+					'page' => 'llms-reporting',
+					'stab' => 'courses',
+					'student_id' => $this->student->get_id(),
+				), admin_url( 'admin.php' ) ) );
 				$value = '<a href="' . $url . '">' . $course->get( 'title' ) . '</a>';
 			break;
 

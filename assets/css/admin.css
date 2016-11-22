@@ -2759,76 +2759,79 @@ div[id^="lifterlms-"] .inside {
   border-bottom: 1px solid #999;
 }
 
-.llms-analytics-wrap .llms-analytics-nav {
-  margin-bottom: 20px;
+.llms-reporting.wrap .llms-options-page-contents {
+  background: #fefefe;
+  padding: 20px;
 }
-.llms-analytics-wrap .llms-analytics-nav .llms-nav-tab-wrapper {
+.llms-reporting.wrap .llms-reporting-nav {
+  margin: 20px 0;
+}
+.llms-reporting.wrap .llms-reporting-nav .llms-nav-tab-wrapper {
   margin: 0;
 }
-.llms-analytics-wrap .llms-nav-item.llms-analytics-form {
+.llms-reporting.wrap td.id a {
+  text-decoration: none;
+}
+.llms-reporting.wrap th.name, .llms-reporting.wrap td.name {
+  text-align: left;
+}
+.llms-reporting.wrap th.section-title {
+  background: #eaeaea;
+  text-align: left;
+}
+.llms-reporting.wrap td.questions-table {
+  text-align: left;
+}
+.llms-reporting.wrap td.questions-table .correct,
+.llms-reporting.wrap td.questions-table .question,
+.llms-reporting.wrap td.questions-table .selected {
+  text-align: left;
+  max-width: 300px;
+}
+.llms-reporting.wrap td.questions-table .correct img,
+.llms-reporting.wrap td.questions-table .question img,
+.llms-reporting.wrap td.questions-table .selected img {
+  height: auto;
+  max-width: 64px;
+}
+.llms-reporting.wrap table.quiz-attempts {
+  margin-bottom: 40px;
+}
+.llms-reporting.wrap.tab--sales .llms-options-page-contents {
+  background: none;
+  padding: 0;
+}
+.llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form {
   color: #414141;
   font-size: 13px;
   padding: 6px 14px;
 }
-.llms-analytics-wrap .llms-nav-item.llms-analytics-form input {
+.llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form input {
   border: 0;
   font-size: 13px;
   margin: 0;
   padding: 3px 6px;
   vertical-align: middle;
 }
-.llms-analytics-wrap .llms-nav-item.llms-analytics-form .select2-container input {
+.llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form .select2-container input {
   width: 100% !important;
 }
-.llms-analytics-wrap .button.small {
+.llms-reporting.wrap.tab--sales .button.small {
   height: 23px;
   line-height: 23px;
 }
-.llms-analytics-wrap .llms-analytics-filters {
+.llms-reporting.wrap.tab--sales .llms-analytics-filters {
   display: none;
 }
-.llms-analytics-wrap .llms-analytics-filters .llms-nav-item {
+.llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-item {
   box-sizing: border-box;
   width: 100%;
 }
-.llms-analytics-wrap .llms-analytics-filters .llms-nav-item label {
+.llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-item label {
   display: block;
 }
-.llms-analytics-wrap .llms-analytics-filters .button {
+.llms-reporting.wrap.tab--sales .llms-analytics-filters .button {
   float: right;
-}
-
-.llms-grade-book-wrap .llms-options-page-contents {
-  background: #fefefe;
-  padding: 20px;
-}
-.llms-grade-book-wrap td.id a {
-  text-decoration: none;
-}
-.llms-grade-book-wrap th.name, .llms-grade-book-wrap td.name {
-  text-align: left;
-}
-.llms-grade-book-wrap th.section-title {
-  background: #eaeaea;
-  text-align: left;
-}
-.llms-grade-book-wrap td.questions-table {
-  text-align: left;
-}
-.llms-grade-book-wrap td.questions-table .correct,
-.llms-grade-book-wrap td.questions-table .question,
-.llms-grade-book-wrap td.questions-table .selected {
-  text-align: left;
-  max-width: 300px;
-}
-.llms-grade-book-wrap td.questions-table .correct img,
-.llms-grade-book-wrap td.questions-table .question img,
-.llms-grade-book-wrap td.questions-table .selected img {
-  height: auto;
-  max-width: 64px;
-}
-.llms-grade-book-wrap table.quiz-attempts {
-  margin-bottom: 40px;
 }
 
 .llms-gb-student h1, .llms-gb-student h2, .llms-gb-student h3, .llms-gb-student h4, .llms-gb-student h5, .llms-gb-student h6 {

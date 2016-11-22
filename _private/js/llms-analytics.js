@@ -1,7 +1,11 @@
+/**
+ * LifterLMS Admin Reporting Widgets & Charts
+ * @since    3.0.0
+ * @version  3.2.0
+ */
 ;( function( $, undefined ) {
 
 	window.llms = window.llms || {};
-
 
 	var Analytics = function() {
 
@@ -11,7 +15,6 @@
 		this.timeout = 8000;
 
 		this.$widgets = $( '.llms-widget' );
-
 
 		this.init = function() {
 
@@ -55,7 +58,7 @@
 				e.preventDefault();
 				$( 'input[name="range"]' ).val( $( this ).attr( 'data-range' ) );
 
-				$( '#llms-analytics-filters-form' ).submit();
+				$( 'form.llms-reporting-nav' ).submit();
 
 			} );
 
@@ -123,14 +126,12 @@
 
 		};
 
-
 		this.is_loading_finished = function() {
 			if ( $( '.llms-widget.is-loading' ).length ) {
 				return false;
 			}
 			return true;
 		};
-
 
 		this.load_widgets = function() {
 
@@ -161,9 +162,9 @@
 				data: {
 					action: 'llms_widget_' + method,
 					dates: self.query.dates,
-					courses: self.query.courses,
-					memberships: self.query.memberships,
-					students: self.query.students,
+					courses: self.query.current_courses,
+					memberships: self.query.current_memberships,
+					students: self.query.current_students,
 				},
 				method: 'POST',
 				timeout: self.timeout,

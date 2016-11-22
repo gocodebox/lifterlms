@@ -1,9 +1,6 @@
 <?php
 /**
 * Admin Reporting Base Class
-*
-* @author codeBOX
-* @project LifterLMS
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -180,8 +177,18 @@ class LLMS_Analytics_View {
 
 		return apply_filters( 'lifterlms_reporting_tabs', array(
 
-			'sales' => __( 'Sales', 'lifterlms' ),
-			'enrollments' => __( 'Enrollments', 'lifterlms' ),
+			array(
+				'id' => 'sales',
+				'title' => __( 'Sales', 'lifterlms' ),
+				'widgets' => true,
+			),
+
+			array(
+				'id' => 'enrollments',
+				'title' => __( 'Enrollments', 'lifterlms' ),
+				'widgets' => true,
+			),
+
 			// 'students' => __( 'Students', 'lifterlms' ),
 			// 'engagements' => __( 'Engagements', 'lifterlms' ),
 			// 'quizzes' => __( 'Quizzes', 'lifterlms' ),
@@ -189,7 +196,6 @@ class LLMS_Analytics_View {
 		) );
 
 	}
-
 
 	private function get_widgets() {
 

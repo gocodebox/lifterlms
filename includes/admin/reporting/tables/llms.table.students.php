@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Table_Students extends LLMS_Admin_GradeBook_Table {
+class LLMS_Table_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
@@ -71,31 +71,13 @@ class LLMS_Table_Students extends LLMS_Admin_GradeBook_Table {
 
 			case 'enrollments':
 
-				$r = 0;
-
-				$page = 1;
-				$skip = 0;
-
-				while ( true ) {
-
-					$courses = $student->get_courses( array(
-						'limit' => 5000,
-						'skip' => 5000 * ( $page - 1 ),
-					) );
-
-					$r = $r + count( $courses['results'] );
-
-					if ( ! $courses['more'] ) {
-						break;
-					} else {
-						$page++;
-					}
-
-				}
-
-				$value = $r;
+				$value = count( $this->get_enrollments( $student ) );
 
 			break;
+
+			// case 'grade':
+
+			// break;
 
 			case 'id':
 				$value = '<a href="' . esc_url( get_edit_user_link( $student->get_id() ) ) . '">' . $student->get_id() . '</a>';
@@ -116,7 +98,7 @@ class LLMS_Table_Students extends LLMS_Admin_GradeBook_Table {
 					$value = $last . ', ' . $first;
 				}
 
-				$url = esc_url( add_query_arg( 'student_id', $student->get_id(), admin_url( 'admin.php?page=llms-grade-book' ) ) );
+				$url = esc_url( add_query_arg( 'student_id', $student->get_id(), admin_url( 'admin.php?page=llms-reporting' ) ) );
 				$value = '<a href="' . $url . '">' . $value . '</a>';
 
 			break;
@@ -132,6 +114,34 @@ class LLMS_Table_Students extends LLMS_Admin_GradeBook_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $user );
+
+	}
+
+	private function get_enrollments( $student ) {
+
+		$r = array();
+
+		$page = 1;
+		$skip = 0;
+
+		while ( true ) {
+
+			$courses = $student->get_courses( array(
+				'limit' => 5000,
+				'skip' => 5000 * ( $page - 1 ),
+			) );
+
+			$r = array_merge( $courses['results'] );
+
+			if ( ! $courses['more'] ) {
+				break;
+			} else {
+				$page++;
+			}
+
+		}
+
+		return $r;
 
 	}
 
@@ -237,6 +247,14 @@ class LLMS_Table_Students extends LLMS_Admin_GradeBook_Table {
 			'registered' => array(
 				'sortable' => true,
 				'title' => __( 'Registration Date', 'lifterlms' ),
+			),
+			'progress' => array(
+				'sortable' => false,
+				'title' => __( 'Progress', 'lifterlms' ),
+			),
+			'grade' => array(
+				'sortable' => false,
+				'title' => __( 'Grade', 'lifterlms' ),
 			),
 			'memberships' => array(
 				'sortable' => false,

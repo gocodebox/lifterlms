@@ -44,10 +44,11 @@ class LLMS_Admin_Menus {
 					case __( 'Settings', 'lifterlms' ):	 	$i = 0;  break;
 					case 'Analytics':
 					case __( 'Analytics', 'lifterlms' ):	$i = 1;  break;
-					case 'Grade Book':
-					case __( 'Grade Book', 'lifterlms' ):	$i = 2;  break;
+					case 'Reporting':
+					case __( 'Reporting', 'lifterlms' ):	$i = 2;  break;
 					case 'System Report':
 					case __( 'System Report', 'lifterlms' ):$i = 3; break;
+					default: $i = 7; // @todo
 				}
 
 				if ( isset( $i ) ) {
@@ -86,7 +87,7 @@ class LLMS_Admin_Menus {
 
 			add_submenu_page( 'lifterlms', __( 'LifterLMS Analytics', 'lifterlms' ), __( 'Analytics', 'lifterlms' ), apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ), 'llms-analytics', array( $this, 'analytics_page_init' ) );
 
-			add_submenu_page( 'lifterlms', __( 'LifterLMS Grade Book', 'lifterlms' ), __( 'Grade Book', 'lifterlms' ), apply_filters( 'lifterlms_admin_grade_book_access', 'manage_options' ), 'llms-grade-book', array( $this, 'grade_book_page_init' ) );
+			add_submenu_page( 'lifterlms', __( 'LifterLMS Grade Book', 'lifterlms' ), __( 'Reporting', 'lifterlms' ), apply_filters( 'lifterlms_admin_reporting_access', 'manage_options' ), 'llms-reporting', array( $this, 'reporting_page_init' ) );
 
 			add_submenu_page( 'lifterlms', __( 'LifterLMS System report', 'lifterlms' ), __( 'System Report', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
 
@@ -115,9 +116,15 @@ class LLMS_Admin_Menus {
 		include LLMS_PLUGIN_DIR . 'includes/admin/analytics/class.llms.view.analytics.php';
 	}
 
-	public function grade_book_page_init() {
-		require_once 'grade-book/class.llms.admin.grade.book.php';
-		$gb = new LLMS_Admin_Grade_Book();
+	/**
+	 * Output the HTML for the reporting screens
+	 * @return   void
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function reporting_page_init() {
+		require_once 'reporting/class.llms.admin.reporting.php';
+		$gb = new LLMS_Admin_Reporting();
 		$gb->output();
 	}
 

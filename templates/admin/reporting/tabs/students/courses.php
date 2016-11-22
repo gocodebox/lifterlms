@@ -21,7 +21,7 @@ if ( empty( $_GET['course_id'] ) ) {
 		$quiz_id = intval( $_GET['quiz_id'] );
 		$lesson_id = intval( $_GET['lesson_id'] );
 
-		llms_get_template( 'admin/grade-book/student/courses-quiz.php', array(
+		llms_get_template( 'admin/reporting/tabs/students/courses-quiz.php', array(
 			'attempts' => $student->get_quiz_data( $quiz_id, $lesson_id ),
 			'best_attempt' => $student->get_best_quiz_attempt( $quiz_id, $lesson_id ),
 			'quiz_id' => $quiz_id,
@@ -30,7 +30,7 @@ if ( empty( $_GET['course_id'] ) ) {
 
 	} else {
 
-		llms_get_template( 'admin/grade-book/student/courses-course.php', array( 'student' => $student ) );
+		llms_get_template( 'admin/reporting/tabs/students/courses-course.php', array( 'student' => $student ) );
 
 	}
 }

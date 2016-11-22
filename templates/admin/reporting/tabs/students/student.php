@@ -22,7 +22,7 @@ if ( ! is_admin() ) { exit; }
 		<ul class="llms-nav-items">
 		<?php foreach ( $tabs as $name => $label ) : ?>
 			<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Grade_Book::get_stab_url( $name ) ?>">
+				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ) ?>">
 					<?php echo $label; ?>
 				</a>
 		<?php endforeach; ?>
@@ -30,11 +30,11 @@ if ( ! is_admin() ) { exit; }
 	</nav>
 
 	<section class="llms-gb-tab">
-		<?php llms_get_template( 'admin/grade-book/student/' . $current_tab . '.php', array( 'student' => $student ) ); ?>
+		<?php llms_get_template( 'admin/reporting/tabs/students/' . $current_tab . '.php', array( 'student' => $student ) ); ?>
 	</section>
 
 	<footer class="llms-gb-footer">
-		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-grade-book' ) ); ?>"><?php _e( 'Back to all students', 'lifterlms' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting' ) ); ?>"><?php _e( 'Back to all students', 'lifterlms' ); ?></a>
 	</footer>
 
 </section>
