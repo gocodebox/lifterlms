@@ -206,13 +206,22 @@ class LLMS_Admin_Assets {
 
 				wp_enqueue_script( 'llms-reporting', plugins_url( '/assets/js/llms-reporting' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-admin-scripts' ), '', true );
 
-				if ( isset( $_GET['tab'] ) && 'sales' === $_GET['tab'] ) {
+				if ( isset( $_GET['tab'] ) ) {
 
-					wp_enqueue_script( 'llms-google-charts', 'https://www.gstatic.com/charts/loader.js' );
+					switch( $_GET['tab'] ) {
+						case 'sales':
+							wp_enqueue_script( 'llms-google-charts', 'https://www.gstatic.com/charts/loader.js' );
+							wp_enqueue_script( 'llms-select2' );
+							wp_enqueue_script( 'llms-analytics', plugins_url( '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-admin-scripts' ), '', true );
+							wp_enqueue_script( 'llms-metaboxes' );
+						break;
 
-					wp_enqueue_script( 'llms-select2' );
-					wp_enqueue_script( 'llms-analytics', plugins_url( '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-admin-scripts' ), '', true );
-					wp_enqueue_script( 'llms-metaboxes' );
+						case 'students':
+							if ( isset( $_GET['stab'] ) && 'courses' === $_GET['stab'] ) {
+								wp_enqueue_script( 'llms-metaboxes' );
+							}
+						break;
+					}
 				}
 
 			}

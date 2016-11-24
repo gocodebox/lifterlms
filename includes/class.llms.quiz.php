@@ -699,6 +699,11 @@ class LLMS_Quiz {
 					}
 
 				}
+
+				// clear "cached" grade so it's recalced next time it's requested
+				$student = new LLMS_Student( $quiz->user_id );
+				$student->set( 'overall_grade', '' );
+
 			} else {
 
 				$response['message'] = __( 'There was an error with your quiz.', 'lifterlms' );

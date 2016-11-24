@@ -12,6 +12,13 @@
 		}
 	}
 
+	.llms-stab-title {
+		color: $color-brand-dark-blue;
+		font-size: 36px;
+		font-weight: 300;
+		margin-bottom: 20px;
+	}
+
 	td.id a {
 		text-decoration: none;
 	}
@@ -142,8 +149,24 @@
 
 }
 
-.llms-gb-footer {
-	margin-top: 25px;
+.llms-reporting-breadcrumbs {
+	margin-bottom: 15px;
+	a {
+		color: $color-brand-blue;
+		text-decoration: none;
+		&:hover {
+			color: $color-brand-blue-dark;
+		}
+		&:after {
+			content: ' > ';
+			color: #555;
+		}
+
+		&:last-child {
+			color: $color-brand-dark-blue;
+			&:after { display: none;}
+		}
+	}
 }
 
 #llms-students-table .name {

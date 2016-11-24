@@ -685,6 +685,11 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		$user = new LLMS_Person;
 		$user_postmetas = $user->get_user_postmeta_data( $user_id, $this->id );
 
+		// clear the cached progress, it'll be regenerated next time it's called
+		$student = new LLMS_Student( $user_id );
+		$student->set( 'overall_progress', '', true );
+
+
 		if ( empty( $user_id ) ) {
 			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
 		} elseif ( ! empty( $user_postmetas ) ) {
@@ -693,7 +698,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				return;
 			}
 		} else {
-
 			$key = '_is_complete';
 			$value = 'yes';
 

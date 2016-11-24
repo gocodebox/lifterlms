@@ -45,6 +45,13 @@ Desktop Stylsheet
 
 .llms-widget-row {
 	@include clearfix;
+	.llms-widget-1-5 {
+		vertical-align: top;
+		width: 20%;
+		float: left;
+		box-sizing: border-box;
+		padding: 0 5px;
+	}
 	.llms-widget-1-4 {
 		vertical-align: top;
 		width: 25%;

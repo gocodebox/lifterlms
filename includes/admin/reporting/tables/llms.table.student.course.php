@@ -123,7 +123,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 		}
 
 		$this->student = $args['student'];
-		$this->title = $this->get_post_link( $course->get( 'id' ), $course->get( 'title' ) );
 
 		$this->tbody_data = $course->get_lessons();
 

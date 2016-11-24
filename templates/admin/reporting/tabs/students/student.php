@@ -5,8 +5,12 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
 ?>
-
 <section class="llms-gb-student">
+
+	<header class="llms-reporting-breadcrumbs">
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting' ) ); ?>"><?php _e( 'Students', 'lifterlms' ); ?></a>
+		<?php do_action( 'llms_reporting_student_tab_breadcrumbs' ); ?>
+	</header>
 
 	<header class="llms-gb-student-header">
 
@@ -32,9 +36,5 @@ if ( ! is_admin() ) { exit; }
 	<section class="llms-gb-tab">
 		<?php llms_get_template( 'admin/reporting/tabs/students/' . $current_tab . '.php', array( 'student' => $student ) ); ?>
 	</section>
-
-	<footer class="llms-gb-footer">
-		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting' ) ); ?>"><?php _e( 'Back to all students', 'lifterlms' ); ?></a>
-	</footer>
 
 </section>

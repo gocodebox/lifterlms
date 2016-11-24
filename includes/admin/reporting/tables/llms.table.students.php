@@ -57,11 +57,19 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		switch ( $key ) {
 
 			case 'achievements':
-				$value = count( $student->get_achievements() );
+				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
+					'stab' => 'achievements',
+					'student_id' => $student->get_id(),
+				) );
+				$value = '<a href="' . esc_url( $url ) . '">' . count( $student->get_achievements() ) . '</a>';
 			break;
 
 			case 'certificates':
-				$value = count( $student->get_certificates() );
+				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
+					'stab' => 'certificates',
+					'student_id' => $student->get_id(),
+				) );
+				$value = '<a href="' . esc_url( $url ) . '">' . count( $student->get_certificates()  ) . '</a>';
 			break;
 
 			case 'completions':
@@ -70,21 +78,30 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			break;
 
 			case 'enrollments':
-
-				$value = count( $this->get_enrollments( $student ) );
-
+				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
+					'stab' => 'courses',
+					'student_id' => $student->get_id(),
+				) );
+				$value = '<a href="' . esc_url( $url ) . '">' . count( $this->get_enrollments( $student ) ) . '</a>';
 			break;
 
-			// case 'grade':
-
-			// break;
+			case 'grade':
+				$value = $student->get_overall_grade( true );
+				if ( is_numeric( $value ) ) {
+					$value .= '%';
+				}
+			break;
 
 			case 'id':
 				$value = '<a href="' . esc_url( get_edit_user_link( $student->get_id() ) ) . '">' . $student->get_id() . '</a>';
 			break;
 
 			case 'memberships':
-				$value = count( $student->get_membership_levels() );
+				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
+					'stab' => 'memberships',
+					'student_id' => $student->get_id(),
+				) );
+				$value = '<a href="' . esc_url( $url ) . '">' . count( $student->get_membership_levels() ) . '</a>';
 			break;
 
 			case 'name':
@@ -98,9 +115,13 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					$value = $last . ', ' . $first;
 				}
 
-				$url = esc_url( add_query_arg( 'student_id', $student->get_id(), admin_url( 'admin.php?page=llms-reporting' ) ) );
-				$value = '<a href="' . $url . '">' . $value . '</a>';
+				$url = LLMS_Admin_Reporting::get_current_tab_url( array( 'student_id' => $student->get_id() ) );
+				$value = '<a href="' . esc_url( $url ) . '">' . $value . '</a>';
 
+			break;
+
+			case 'progress':
+				$value = $student->get_overall_progress( true ) . '%';
 			break;
 
 			case 'registered':
@@ -117,6 +138,13 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 	}
 
+	/**
+	 * Retrieve a list of IDs for all the users enrollments
+	 * @param    obj     $student  instance of LLMS_Student
+	 * @return   array             array of course ids
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
 	private function get_enrollments( $student ) {
 
 		$r = array();
@@ -256,10 +284,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				'sortable' => false,
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
-			'memberships' => array(
-				'sortable' => false,
-				'title' => __( 'Memberships', 'lifterlms' ),
-			),
 			'enrollments' => array(
 				'sortable' => false,
 				'title' => __( 'Enrollments', 'lifterlms' ),
@@ -275,6 +299,10 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			'achievements' => array(
 				'sortable' => false,
 				'title' => __( 'Achievements', 'lifterlms' ),
+			),
+			'memberships' => array(
+				'sortable' => false,
+				'title' => __( 'Memberships', 'lifterlms' ),
 			),
 		);
 	}

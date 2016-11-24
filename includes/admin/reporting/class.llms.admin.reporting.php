@@ -176,6 +176,14 @@ class LLMS_Admin_Reporting {
 
 	}
 
+	public static function get_current_tab_url( $args = array() ) {
+		$args = wp_parse_args( $args, array(
+			'page' => 'llms-reporting',
+			'tab' => self::get_current_tab(),
+		) );
+		return add_query_arg( $args, admin_url( 'admin.php' ) );
+	}
+
 	/**
 	 * Get the full URL to a sub-tab within a reporting screen
 	 * @param    string     $stab  slug of the sub-tab
@@ -187,6 +195,7 @@ class LLMS_Admin_Reporting {
 
 		return add_query_arg( array(
 			'page' => 'llms-reporting',
+			'tab' => self::get_current_tab(),
 			'stab' => $stab,
 			'student_id' => $_GET['student_id'],
 		), admin_url( 'admin.php' ) );

@@ -24,7 +24,6 @@ class LLMS_Student {
 	 */
 	private $user_id;
 
-
 	/**
 	 * Constructor
 	 *
@@ -96,6 +95,18 @@ class LLMS_Student {
 	 */
 	public function get( $key ) {
 		return $this->$key;
+	}
+
+	/**
+	 * Update a meta property for the user
+	 * @param    string     $key    meta key
+	 * @param    mixed      $value  meta value
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function set( $key, $value, $prefix = true ) {
+		$key = $prefix ? $this->meta_prefix . $key : $key;
+		update_user_meta( $this->get_id(), $key, $value );
 	}
 
 
@@ -747,6 +758,135 @@ class LLMS_Student {
 	}
 
 	/**
+	 * Retrieve the student's overall grade
+	 * Grade = sum of grades for all courses divided by number of enrolled courses
+	 * if a course has no quizzes in it, it cannot be graded and is therefore excluded from the calculation
+	 *
+	 * cached data is automatically cleared when a student completes a quiz
+	 *
+	 * @param    boolean      $use_cache   if false, calculates the grade, otherwise utilizes cached data (if available)
+	 * @return   float|string              grade as float or "N/A"
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_overall_grade( $use_cache = true ) {
+
+		$grade = null;
+
+		// attempt to pull from the cache first
+		if ( $use_cache ) {
+
+			$grade = $this->get( $this->meta_prefix . 'overall_grade' );
+
+			if ( is_numeric( $grade ) ) {
+				$grade = floatval( $grade );
+			}
+
+		}
+
+		// cache disabled or no cached data available
+		if ( ! $use_cache || null === $grade || '' === $grade ) {
+
+			$grades = array();
+
+			// get courses
+			$courses = $this->get_courses( array(
+				'limit' => 9999,
+			) );
+
+			// loop through courses
+			foreach ( $courses['results'] as $course_id ) {
+
+				// get course grade
+				$g = $this->get_grade( $course_id );
+
+				// if an actual grade (not N/A) is returned
+				if ( is_numeric( $g ) ) {
+					array_push( $grades, $g );
+				}
+
+			}
+
+			// if we have at least one grade
+			if ( $count = count( $grades ) ) {
+
+				$grade = round( array_sum( $grades ) / $count, 2 );
+
+			} else {
+
+				$grade = _x( 'N/A', 'overall grade when no quizzes', 'lifterlms' );
+
+			}
+
+			// cache the grade
+			$this->set( 'overall_grade', $grade );
+
+		}
+
+		return apply_filters( 'llms_student_get_overall_grade', $grade, $this );
+
+	}
+
+	/**
+	 * Retrieve a student's overall progess
+	 * Overall progress is the total percentage completed based on all courses the student is enrolled in
+	 * Cached data is cleared everytime the student completes a lesson
+	 *
+	 * @param    boolean    $use_cache  if false, calculates the progress, otherwise utilizes cached data (if available)
+	 * @return   float
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_overall_progress( $use_cache = true ) {
+
+		$progress = null;
+
+		// attempt to pull from the cache first
+		if ( $use_cache ) {
+
+			$progress = $this->get( $this->meta_prefix . 'overall_progress' );
+
+			if ( is_numeric( $progress ) ) {
+				$progress = floatval( $progress );
+			}
+
+		}
+
+		// cache disabled or no cached data available
+		if ( ! $use_cache || null === $progress || '' === $progress ) {
+
+			$progresses = array();
+
+			// get courses
+			$courses = $this->get_courses( array(
+				'limit' => 9999,
+			) );
+
+			// loop through courses
+			foreach ( $courses['results'] as $course_id ) {
+				array_push( $progresses, $this->get_progress( $course_id, 'course' ) );
+			}
+
+			if ( $count = count( $progresses ) ) {
+
+				$progress = round( array_sum( $progresses ) / $count, 2 );
+
+			} else {
+
+				$progress = 0;
+
+			}
+
+			// cache the grade
+			$this->set( 'overall_progress', $progress );
+
+		}
+
+		return apply_filters( 'llms_student_get_overall_progress', $progress, $this );
+
+	}
+
+	/**
 	 * Get the students last completed lesson in a course
 	 * @param    int     $course_id    WP_Post ID of the course
 	 * @return   int                   WP_Post ID of the lesson or false if no progress has been made
@@ -917,6 +1057,14 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Retrieve quiz data for a student for a lesson / quiz combination
+	 * @param    int     $quiz    WP Post ID of a Quiz
+	 * @param    int     $lesson  WP Post ID of a lesson
+	 * @return   array
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
 	public function get_quiz_data( $quiz = null, $lesson = null ) {
 
 		// get all quiz data
@@ -949,9 +1097,6 @@ class LLMS_Student {
 		return apply_filters( 'llms_student_get_quiz_data', $quizzes, $quiz, $lesson );
 
 	}
-
-
-
 
 	/**
 	 * Retrieve the Students original registration date in chosen format

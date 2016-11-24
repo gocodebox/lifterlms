@@ -195,7 +195,7 @@ final class LifterLMS {
 				require_once 'includes/admin/class.llms.admin.setup.wizard.php';
 			}
 
-			include_once( 'includes/admin/analytics/widgets/class.llms.analytics.widget.ajax.php' );
+			include_once( 'includes/admin/reporting/widgets/class.llms.analytics.widget.ajax.php' );
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php' );
 			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php' );
 			include_once( 'includes/class.llms.analytics.php' );

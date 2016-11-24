@@ -100,6 +100,7 @@ class LLMS_Certificate {
 
 		update_post_meta( $new_user_certificate_id,'_llms_certificate_title', $this->certificate_title );
 		update_post_meta( $new_user_certificate_id,'_llms_certificate_image', $this->image );
+		update_post_meta( $new_user_certificate_id,'_llms_certificate_template', $this->certificate_template_id );
 
 		$user_metadatas = array(
 			'_certificate_earned' => $new_user_certificate_id,

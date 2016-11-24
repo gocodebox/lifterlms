@@ -8,13 +8,13 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Table_Achievements extends LLMS_Admin_Table {
+class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
 	 * @var  string
 	 */
-	protected $id = 'achievements';
+	protected $id = 'certificates';
 
 	/**
 	 * Instance of LLMS_Student
@@ -31,11 +31,10 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 * @version  3.2.0
 	 */
 	public function get_data( $key, $data ) {
-
 		switch ( $key ) {
 
 			case 'related':
-				if ( $data->post_id && 'llms_achievement' !== get_post_type( $data->post_id ) ) {
+				if ( $data->post_id && 'llms_certificate' !== get_post_type( $data->post_id ) ) {
 					if ( is_numeric( $data->post_id ) ) {
 						$value = $this->get_post_link( $data->post_id, get_the_title( $data->post_id ) );
 					} else {
@@ -52,20 +51,16 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
 			case 'id':
 				// prior to 3.2 this data wasn't recorded
-				$template = get_post_meta( $data->achievement_id, '_llms_achievement_template', true );
+				$template = get_post_meta( $data->certificate_id, '_llms_certificate_template', true );
 				if ( $template ) {
 					$value = $this->get_post_link( $template );
 				} else {
-					$value = $data->achievement_id;
+					$value = $data->certificate_id;
 				}
 			break;
 
-			case 'image':
-				$value = wp_get_attachment_image( get_post_meta( $data->achievement_id, '_llms_achievement_image', true ), array( 64, 64 ) );
-			break;
-
 			case 'name':
-				$value = get_post_meta( $data->achievement_id, '_llms_achievement_title', true );
+				$value = '<a href="' . esc_url( get_permalink( $data->certificate_id ) ) . '">' . get_post_meta( $data->certificate_id, '_llms_certificate_title', true ) . '</a>';
 			break;
 
 			default:
@@ -87,7 +82,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
 		$this->student = $args['student'];
 
-		$this->tbody_data = $this->student->get_achievements();
+		$this->tbody_data = $this->student->get_certificates();
 
 	}
 
@@ -112,8 +107,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	protected function set_columns() {
 		return array(
 			'id' => __( 'ID', 'lifterlms' ),
-			'name' => __( 'Achievement Title', 'lifterlms' ),
-			'image' => __( 'Image', 'lifterlms' ),
+			'name' => __( 'Certificate Title', 'lifterlms' ),
 			'earned' => __( 'Earned Date', 'lifterlms' ),
 			'related' => __( 'Related Post', 'lifterlms' ),
 		);
@@ -126,7 +120,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 * @version  3.2.0
 	 */
 	protected function set_empty_message() {
-		return __( 'This student has not yet earned any achievements.', 'lifterlms' );
+		return __( 'This student has not yet earned any certificates.', 'lifterlms' );
 	}
 
 }
