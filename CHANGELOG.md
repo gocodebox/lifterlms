@@ -3,6 +3,7 @@
 = v3.1.7 - 2016/11/?? =
 -----------------------
 
++ Add existing lesson to course modal now relies on async search. Improves performance and prevents timeouts on sites with a 500+ lessons
 + Removed 2.x -> 3.x update notification message
 
 

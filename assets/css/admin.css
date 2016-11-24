@@ -1572,6 +1572,10 @@ body.modal-open {
   width: 100%;
 }
 
+.modal-open .select2-dropdown {
+  z-index: 1000005;
+}
+
 .button.llms-merge-code-button {
   vertical-align: middle;
 }
