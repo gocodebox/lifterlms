@@ -38,7 +38,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get array of membership IDs selected accoding to applied filters
-	 * @return   [type]     [description]
+	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
@@ -103,9 +103,7 @@ class LLMS_Admin_Reporting {
 	 * @version  3.2.0
 	 */
 	public static function get_date_end() {
-
 		return ( isset( $_GET['date_end'] ) ) ? $_GET['date_end'] : '';
-
 	}
 
 	/**
@@ -115,9 +113,7 @@ class LLMS_Admin_Reporting {
 	 * @version  3.2.0
 	 */
 	public static function get_date_start() {
-
 		return ( isset( $_GET['date_start'] ) ) ? $_GET['date_start'] : '';
-
 	}
 
 	/**
