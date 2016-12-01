@@ -126,7 +126,13 @@ $gateway = $order->get_gateway();
 					</tr>
 					<tr>
 						<td><strong><?php _e( 'Next Payment Date', 'lifterlms' ); ?></strong></td>
-						<td><?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?></td>
+						<td>
+							<?php if ( $order->has_scheduled_payment() ) : ?>
+								<?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?>
+							<?php else : ?>
+								&ndash;
+							<?php endif; ?>
+						</td>
 					</tr>
 				<?php endif; ?>
 				<tr>
