@@ -90,7 +90,7 @@ class LLMS_Frontend_Assets {
 	public function wp_footer() {
 
 		//register ajax
-		echo '<script type="text/javascript">window.llms = window.llms || {};window.llms.ajaxurl = "'.admin_url( 'admin-ajax.php' ).'";</script>';
+		echo '<script type="text/javascript">window.llms = window.llms || {};window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php' ) . '";</script>';
 		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
 		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_l10n::get_js_strings( true ) . ';</script>';
 		if ( ( is_llms_account_page() || is_llms_checkout() ) && 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {

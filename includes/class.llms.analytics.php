@@ -308,7 +308,7 @@ class LLMS_Analytics {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT * FROM '.$table_name.
+				'SELECT * FROM ' . $table_name .
 					' WHERE post_id = %s
 						AND meta_value = "Enrolled"',
 				$post_id
@@ -370,7 +370,7 @@ class LLMS_Analytics {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 		$results = $wpdb->get_var(
 			$wpdb->prepare(
-				'SELECT count(*) FROM '.$table_name.'
+				'SELECT count(*) FROM ' . $table_name . '
 				WHERE meta_key = "_is_complete"
 				AND updated_date > DATE_SUB(NOW(), INTERVAL %s DAY)',
 				$number_of_days
@@ -423,8 +423,8 @@ class LLMS_Analytics {
 					MAX(IF(pa.meta_key = "_start_date", pa.updated_date, NULL)) AS enrolled_date,
 					MAX(IF(pa.meta_key = "_status", pa.meta_value, NULL)) AS status,
 					MAX(IF(pa.meta_key = "_is_complete", pa.updated_date, NULL)) AS completed_date
-					from '.$table_name.' p
-					left join '.$table_name.' pa on p.user_id = pa.user_id and p.post_id = pa.post_id
+					from ' . $table_name . ' p
+					left join ' . $table_name . ' pa on p.user_id = pa.user_id and p.post_id = pa.post_id
 					where p.post_id = %s
 					and p.updated_date <= %s
 					group by p.user_id',
@@ -454,7 +454,7 @@ class LLMS_Analytics {
 					user_id,
 					meta_value,
 					updated_date
-				FROM '.$table_name.'
+				FROM ' . $table_name . '
 				WHERE meta_key = "_status"
 				AND ( meta_value = "Enrolled" OR meta_value = "Expired" )
 				AND EXISTS(SELECT 1 FROM ' . $users_table . ' WHERE ID = user_id)
@@ -470,7 +470,7 @@ class LLMS_Analytics {
 						user_id,
 						meta_value,
 						updated_date
-					FROM '.$table_name.'
+					FROM ' . $table_name . '
 					WHERE meta_key = "_status"
 					AND post_id = %s
 					AND ( meta_value = "Enrolled" OR meta_value = "Expired" )
@@ -648,7 +648,7 @@ class LLMS_Analytics {
 		if ( $product_id === 'all_courses' ) {
 			$results = $wpdb->get_results(
 				'SELECT *
-					from '.$table_name.'
+					from ' . $table_name . '
 					where meta_key = "_certificate_earned"'
 			);
 
@@ -656,7 +656,7 @@ class LLMS_Analytics {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					'SELECT *
-						from '.$table_name.'
+						from ' . $table_name . '
 						where meta_key = "_certificate_earned"
 						AND post_id = %s', $product_id
 				)
@@ -735,7 +735,7 @@ class LLMS_Analytics {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
-		'SELECT updated_date FROM '.$table_name.' WHERE user_id = %s AND post_id = %d AND meta_key = "_is_complete"', $user_id, $lesson_id) );
+		'SELECT updated_date FROM ' . $table_name . ' WHERE user_id = %s AND post_id = %d AND meta_key = "_is_complete"', $user_id, $lesson_id) );
 
 		if ( $results ) {
 
@@ -807,7 +807,7 @@ class LLMS_Analytics {
 
 			$period = get_post_meta( $membership_id, '_llms_expiration_period', true );
 
-			$exp_date = LLMS_Date::db_date( $enrollment_date . ' +'. $interval . ' ' . $period );
+			$exp_date = LLMS_Date::db_date( $enrollment_date . ' +' . $interval . ' ' . $period );
 
 			if ( $exp_date !== $enrollment_date ) {
 				return $exp_date;
@@ -914,7 +914,7 @@ class LLMS_Analytics {
 			$wpdb->prepare(
 				'SELECT
 					*
-				FROM '.$table_name.'
+				FROM ' . $table_name . '
 				WHERE meta_key = "_status"
 				AND meta_value = "Enrolled"
 				AND user_id = %s', $user_id

@@ -33,9 +33,9 @@ class LLMS_Svg {
 
 			$html .= '<svg class="icon ' . $class . '" role="img" aria-labelledby="title desc">';
 
-			$html .= '<title id="title">' . sprintf( __( '%s', 'lifterlms' ), $title ) . '</title>';
+			$html .= '<title id="title">' . $title . '</title>';
 
-		  	$html .= '<desc id="desc">' . sprintf( __( '%s', 'lifterlms' ), $desc ) . '</desc>';
+		  	$html .= '<desc id="desc">' . $desc . '</desc>';
 
 		  	$html .= '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' . LLMS_SVG_DIR . '#' . $id . '"></use>';
 

@@ -316,7 +316,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 	$required_attr = $field['required'] ? ' required="required"' : '';
 
 	// setup the label
-	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span. '</label>' : '';
+	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span . '</label>' : '';
 
 	$r  = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
 
@@ -728,7 +728,7 @@ function llms_expire_membership() {
 		$meta_value_status = 'Enrolled';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
-		'SELECT * FROM '.$table_name.' WHERE post_id = %d AND meta_key = "%s" AND meta_value = %s ORDER BY updated_date DESC', $post->ID, $meta_key_status, $meta_value_status ) );
+		'SELECT * FROM ' . $table_name . ' WHERE post_id = %d AND meta_key = "%s" AND meta_value = %s ORDER BY updated_date DESC', $post->ID, $meta_key_status, $meta_value_status ) );
 
 		for ($i = 0; $i < count( $results ); $i++) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
@@ -744,10 +744,10 @@ function llms_expire_membership() {
 			$meta_value_start_date = 'yes';
 
 			$start_date = $wpdb->get_results( $wpdb->prepare(
-			'SELECT updated_date FROM '.$table_name.' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC', $user_id, $post->ID, $meta_key_start_date, $meta_value_start_date) );
+			'SELECT updated_date FROM ' . $table_name . ' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC', $user_id, $post->ID, $meta_key_start_date, $meta_value_start_date) );
 
 			//add expiration terms to start date
-			$exp_date = date( 'Y-m-d',strtotime( date( 'Y-m-d', strtotime( $start_date[0]->updated_date ) ) . ' +'.$interval. ' ' . $period ) );
+			$exp_date = date( 'Y-m-d',strtotime( date( 'Y-m-d', strtotime( $start_date[0]->updated_date ) ) . ' +' . $interval . ' ' . $period ) );
 
 			// get current datetime
 			$today = current_time( 'mysql' );
@@ -755,7 +755,7 @@ function llms_expire_membership() {
 
 			//if a date parse causes exp date to be unmodified then return.
 			if ( $exp_date == $start_date[0]->updated_date ) {
-				LLMS_log( 'An error occured modifying the date value. Function: llms_expire_membership, interval: ' .  $interval . ' period: ' . $period );
+				LLMS_log( 'An error occured modifying the date value. Function: llms_expire_membership, interval: ' . $interval . ' period: ' . $period );
 				continue;
 			}
 

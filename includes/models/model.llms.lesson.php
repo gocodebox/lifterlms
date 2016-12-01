@@ -697,7 +697,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			$key = '_is_complete';
 			$value = 'yes';
 
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id' 			=> $user_id,
 					'post_id' 			=> $this->id,
@@ -726,7 +726,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	    			}
 	    		}
 
-				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 					array(
 						'user_id' 			=> $user_id,
 						'post_id' 			=> $section->id,
@@ -753,7 +753,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	    			}
 	    		}
 
-				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 					array(
 						'user_id' 			=> $user_id,
 						'post_id' 			=> $course->id,

@@ -11,4 +11,4 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 llms_print_notices();
 do_action( 'lifterlms_single_membership_before_summary' );
 
-?>
+

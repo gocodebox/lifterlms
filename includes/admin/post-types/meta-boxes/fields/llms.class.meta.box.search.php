@@ -4,8 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 *
 */
-class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface
-{
+class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
+
 	/**
 	 * Class constructor
 	 * @param array $_field Array containing information about field

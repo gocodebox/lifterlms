@@ -13,7 +13,7 @@ var   gulp  = require( 'gulp' )
 	, phpcs = require( 'gulp-phpcs' )
 ;
 
-// parse a file or run default on all ph
+// parse a file or run default on all php
 var glob = ( argv.file ) ? argv.file : [
 		'./**/*.php',
 		'bin/**/*',
@@ -28,7 +28,6 @@ var errorSeverity = ( argv.error ) ? argv.errors : 1;
 
 // set default warning severity
 var warningSeverity = ( argv.warning !== undefined ) ? argv.warning : 1;
-
 
 gulp.task( 'phpcs', function () {
 

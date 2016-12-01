@@ -53,7 +53,7 @@ class LLMS_Settings_Catalogs extends LLMS_Settings_Page {
 					'data-post-type' => 'page',
 					'data-placeholder' => __( 'Select a page', 'lifterlms' ),
 				),
-				'desc' => '<br/>' . sprintf( __( 'This page is where your visitors will find a list of all your available courses. %sMore information%s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-catalog/" target="_blank">', '</a>' ),
+				'desc' => '<br/>' . sprintf( __( 'This page is where your visitors will find a list of all your available courses. %1$sMore information%1$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-catalog/" target="_blank">', '</a>' ),
 				'id' => 'lifterlms_shop_page_id',
 				'options' => llms_make_select2_post_array( get_option( 'lifterlms_shop_page_id', '' ) ),
 				'title' => __( 'Course Catalog', 'lifterlms' ),

@@ -86,8 +86,8 @@ class LLMS_Admin_Post_Types {
 				2 => __( 'Custom field updated.', 'lifterlms' ),
 				3 => __( 'Custom field deleted.', 'lifterlms' ),
 				4 => __( $title . ' updated.', 'lifterlms' ),
-				5 => isset( $_GET['revision'] ) ? sprintf( __( $title .' restored to revision from %s', 'lifterlms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-				6 => sprintf( __( $title . ' published. <a href="%s">View ' . $title .'</a>', 'lifterlms' ), esc_url( get_permalink( $post->ID ) ) ),
+				5 => isset( $_GET['revision'] ) ? sprintf( __( $title . ' restored to revision from %s', 'lifterlms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+				6 => sprintf( __( $title . ' published. <a href="%s">View ' . $title . '</a>', 'lifterlms' ), esc_url( get_permalink( $post->ID ) ) ),
 				7 => __( $title . ' saved.', 'lifterlms' ),
 				8 => sprintf( __( $title . ' submitted. <a target="_blank" href="%s">Preview ' . $title . '</a>', 'lifterlms' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) ),
 				9 => sprintf( __( $title . ' scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview ' . $title . '</a>', 'lifterlms' ),
@@ -141,7 +141,7 @@ class LLMS_Admin_Post_Types {
 				$edit_link = get_edit_post_link( $course );
 
 				if ( empty( $course ) ) {
-					echo ''; } else { 					printf( __( '<a href="%s">%s</a>' ), $edit_link , get_the_title( $course ) ); }
+					echo ''; } else { 					printf( __( '<a href="%1$s">%1$s</a>' ), $edit_link , get_the_title( $course ) ); }
 
 				break;
 
@@ -151,7 +151,7 @@ class LLMS_Admin_Post_Types {
 				$edit_link = get_edit_post_link( $section );
 
 				if ( empty( $section ) ) {
-					echo ''; } else { 					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title( $section ) ); }
+					echo ''; } else { 					printf( __( '<a href="%1$s">%1$s</a>' ), $edit_link, get_the_title( $section ) ); }
 
 				break;
 
@@ -161,7 +161,7 @@ class LLMS_Admin_Post_Types {
 				$edit_link = get_edit_post_link( $prereq );
 
 				if ( empty( $prereq ) ) {
-					echo ''; } else { 					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title( $prereq ) ); }
+					echo ''; } else { 					printf( __( '<a href="%1$s">%1$s</a>' ), $edit_link, get_the_title( $prereq ) ); }
 
 				break;
 
@@ -206,7 +206,7 @@ class LLMS_Admin_Post_Types {
 				$course = get_post_meta( $post_id, '_parent_course', true );
 				$edit_link = get_edit_post_link( $course );
 				if ( empty( $course ) ) {
-					echo ''; } else { 					printf( __( '<a href="%s">%s</a>' ), $edit_link, get_the_title( $course ) ); }
+					echo ''; } else { 					printf( __( '<a href="%1$s">%1$s</a>' ), $edit_link, get_the_title( $course ) ); }
 
 				break;
 

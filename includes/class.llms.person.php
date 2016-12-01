@@ -154,7 +154,7 @@ class LLMS_Person {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
-		'SELECT * FROM '.$table_name.' WHERE user_id = %s and post_id = %d', $user_id, $post_id) );
+		'SELECT * FROM ' . $table_name . ' WHERE user_id = %s and post_id = %d', $user_id, $post_id) );
 
 		if ( empty( $results ) ) {
 			return;
@@ -183,7 +183,7 @@ class LLMS_Person {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
-		'SELECT * FROM '.$table_name.' WHERE user_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $user_id, $meta_key ) );
+		'SELECT * FROM ' . $table_name . ' WHERE user_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $user_id, $meta_key ) );
 
 		if ( empty( $results ) ) {
 			return;

@@ -152,7 +152,7 @@ class LLMS_Shortcode_Checkout {
 
 		if ( self::$uid ) {
 			$user = get_userdata( self::$uid );
-			llms_print_notice( sprintf( __( 'You are currently logged in as <em>%s</em>. <a href="%s">Click here to logout</a>' ), $user->user_email, wp_logout_url( $atts['plan']->get_checkout_url() ) ), 'notice' );
+			llms_print_notice( sprintf( __( 'You are currently logged in as <em>%1$s</em>. <a href="%1$s">Click here to logout</a>' ), $user->user_email, wp_logout_url( $atts['plan']->get_checkout_url() ) ), 'notice' );
 		} else {
 			llms_get_login_form( sprintf( __( 'Already have an account? <a href="%s">Click here to login</a>', 'lifterlms' ), '#llms-show-login' ), $atts['plan']->get_checkout_url() );
 		}

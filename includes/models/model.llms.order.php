@@ -301,7 +301,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	protected function get_creation_args( $title = '' ) {
 
 		if ( empty( $title ) ) {
-			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
+			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%1$b %2$d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
 		}
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', array(
@@ -920,7 +920,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->unschedule_recurring_payment();
 
 			// convert our date to UTC before passing to the scheduler
-			$date = $date - ( HOUR_IN_SECONDS * get_option('gmt_offset') );
+			$date = $date - ( HOUR_IN_SECONDS * get_option( 'gmt_offset' ) );
 
 			// schedule the payment
 			wc_schedule_single_action( $date, 'llms_charge_recurring_payment', array( 'order_id' => $this->get( 'id' ) ) );

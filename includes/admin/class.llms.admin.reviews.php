@@ -6,8 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * It is responsible for creating the meta box on the course
  * page (and in the future the membership page).
  */
-class LLMS_Admin_Reviews
-{
+class LLMS_Admin_Reviews {
+
 	public static $prefix = '_';
 
 	/**

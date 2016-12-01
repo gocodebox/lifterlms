@@ -6,4 +6,4 @@ if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
 <?php echo apply_filters( 'the_content', $email_message ); ?>
 
-<?php do_action( 'lifterlms_email_footer' ); ?>
+<?php do_action( 'lifterlms_email_footer' );

@@ -1,22 +1,22 @@
 <?php
 /**
-* Plugin Name: LifterLMS
-* Plugin URI: https://lifterlms.com/
-* Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
-* Version: 3.1.6
-* Author: Thomas Patrick Levy, codeBOX LLC, Mark Nelson
-* Author URI: http://gocodebox.com
-* Text Domain: lifterlms
-* Domain Path: /languages
-* License:     GPLv2
-* License URI: https://www.gnu.org/licenses/gpl-2.0.html
-* Requires at least: 4.0
-* Tested up to: 4.6.1
-*
-* @package 		LifterLMS
-* @category 	Core
-* @author 		codeBOX
-*/
+ * Plugin Name: LifterLMS
+ * Plugin URI: https://lifterlms.com/
+ * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
+ * Version: 3.1.6
+ * Author: Thomas Patrick Levy, codeBOX LLC, Mark Nelson
+ * Author URI: http://gocodebox.com
+ * Text Domain: lifterlms
+ * Domain Path: /languages
+ * License:     GPLv2
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Requires at least: 4.0
+ * Tested up to: 4.6.1
+ *
+ * @package 		LifterLMS
+ * @category 	Core
+ * @author 		codeBOX
+ */
 
 /**
  * Restrict direct access
@@ -338,7 +338,7 @@ final class LifterLMS {
 	 * @return string
 	 */
 	public function template_path() {
-		return apply_filters( 'LLMS_TEMPLATE_PATH', 'lifterlms/' );
+		return apply_filters( 'llms_template_path', 'lifterlms/' );
 	}
 
 	/**

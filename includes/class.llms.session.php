@@ -173,7 +173,7 @@ class LLMS_Session {
 
 		if ( defined( 'LLMS_USE_PHP_SESSIONS' ) && LLMS_USE_PHP_SESSIONS ) {
 			$ret = true;
-		} else if ( defined( 'LLMS_USE_PHP_SESSIONS' ) && ! LLMS_USE_PHP_SESSIONS ) {
+		} elseif ( defined( 'LLMS_USE_PHP_SESSIONS' ) && ! LLMS_USE_PHP_SESSIONS ) {
 			$ret = false;
 		}
 

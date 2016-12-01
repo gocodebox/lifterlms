@@ -59,7 +59,7 @@ class LLMS_Meta_Box_Section_Tree {
 
 		if ($parent_course) {
 			$course_edit_link = get_edit_post_link( $parent_course );
-			$course_edit_link_html = '<a href="' . $course_edit_link .'">(View Course)</a>';
+			$course_edit_link_html = '<a href="' . $course_edit_link . '">(View Course)</a>';
 			$course = new LLMS_Course( $parent_course );
 			$course_tree = $course->get_syllabus();
 			foreach ($course_tree as $key => $value) {
@@ -91,7 +91,7 @@ class LLMS_Meta_Box_Section_Tree {
 
 		<div id="llms-access-options">
 			<div class="llms-access-option">
-				<label class="llms-access-levels-title"><?php _e( 'Associated Course '. $course_edit_link_html, 'lifterlms' ) ?></label>
+				<label class="llms-access-levels-title"><?php _e( 'Associated Course ' . $course_edit_link_html, 'lifterlms' ) ?></label>
 				<select data-placeholder="Choose a course..." style="width:350px;" id="associated_course" single name="associated_course" class="chosen-select">
 					<option value="" selected>Select a course...</option>
 					<?php foreach ($courses as $key => $value) {

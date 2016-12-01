@@ -16,7 +16,7 @@ if ($passing_percent) :
 <div class="clear"></div>
 <div class="llms-template-wrapper">
 	<h3 class="llms-content-block">
-		<?php printf( __( 'A score of  <span class="llms-content llms-pass-perc">%s%%</span> or more is required to pass this test.', 'lifterlms' ), $passing_percent ); ?>
+		<?php printf( __( 'A score of  <span class="llms-content llms-pass-perc">%1$s%2$%</span> or more is required to pass this test.', 'lifterlms' ), $passing_percent ); ?>
 	</h3>
 </div>
 

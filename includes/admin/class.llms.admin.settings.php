@@ -216,7 +216,7 @@ class LLMS_Admin_Settings {
 
 				}
 
-				echo '<table class="form-table">'. "\n\n";
+				echo '<table class="form-table">' . "\n\n";
 
 				if ( ! empty( $field['id'] ) ) {
 
@@ -298,7 +298,7 @@ class LLMS_Admin_Settings {
 				echo '<td class="forminp forminp-' . sanitize_title( $field['type'] ) . '">';
 				echo '<div id="llms-form-wrapper">';
 				echo $description . '<br><br>';
-				echo '<input name="' .  $name . '" class="llms-button-primary" type="submit" value="' . esc_attr( $field['value'] ) . '" />';
+				echo '<input name="' . $name . '" class="llms-button-primary" type="submit" value="' . esc_attr( $field['value'] ) . '" />';
 				echo '</div>';
 				echo '</td></tr>';
 				//get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
@@ -524,7 +524,7 @@ class LLMS_Admin_Settings {
 				?><tr valign="top" class="single_select_page">
 					<th><?php echo esc_html( $field['title'] ) ?> <?php echo $tooltip; ?></th>
 					<td class="forminp">
-			        	<?php echo str_replace( ' id=', " data-placeholder='" . __( 'Select a page&hellip;', 'lifterlms' ) .  "' style='" . $field['css'] . "' class='" . $field['class'] . "' id=", wp_dropdown_pages( $args ) ); ?> <?php echo $description; ?>
+			        	<?php echo str_replace( ' id=', " data-placeholder='" . __( 'Select a page&hellip;', 'lifterlms' ) . "' style='" . $field['css'] . "' class='" . $field['class'] . "' id=", wp_dropdown_pages( $args ) ); ?> <?php echo $description; ?>
 			        </td>
 			   	</tr><?php
 			break;

@@ -110,7 +110,7 @@ class LLMS_Date {
 				$end_date = ($current_year + 1) . '-01-01';
 			}
 
-		} else if ( $filter === 'year' ) {
+		} elseif ( $filter === 'year' ) {
 
 			$start_date = $current_year . '-01-01';
 			$end_date = ($current_year + 1) . '-01-01';
@@ -152,8 +152,11 @@ class LLMS_Date {
 
 	}
 
+	/**
+	 * @todo  deprecate
+	 */
 	public static function get_localized_date_string() {
-		return strftime( _x( '%b %d, %Y @ %I:%M %p', 'Localized Order DateTime', 'lifterlms' ) );
+		return strftime( _x( '%1$b %2$d, %3$Y @ %4$I:%5$M %6$p', 'Localized Order DateTime', 'lifterlms' ) );
 	}
 
 	public static function convert_to_hours_minutes_string( $time ) {
@@ -178,7 +181,7 @@ class LLMS_Date {
 	    		$hour_desc = __( 'hour', 'lifterlms' );
 	    	}
 
-	    	$hours_string = sprintf( __( '%d %s ', 'lifterlms' ), $hours, $hour_desc );
+	    	$hours_string = sprintf( __( '%1$d %2$s ', 'lifterlms' ), $hours, $hour_desc );
 	    } else {
 			if ( ! empty( $seconds ) ) {
 				if ( $seconds > 1 ) {

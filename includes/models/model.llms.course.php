@@ -634,7 +634,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
-		'SELECT * FROM '.$table_name.' WHERE post_id = %d', $user_id, $post_id) );
+		'SELECT * FROM ' . $table_name . ' WHERE post_id = %d', $user_id, $post_id) );
 
 		for ($i = 0; $i < count( $results ); $i++) {
 			$results[ $results[ $i ]->meta_key ] = $results[ $i ];
@@ -655,7 +655,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
-		'SELECT * FROM '.$table_name.' WHERE post_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $post_id, $meta_key ) );
+		'SELECT * FROM ' . $table_name . ' WHERE post_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $post_id, $meta_key ) );
 
 		for ($i = 0; $i < count( $results ); $i++) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
@@ -849,7 +849,7 @@ class LLMS_Course extends LLMS_Post_Model {
 			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
-					'SELECT * FROM '.$table_name.
+					'SELECT * FROM ' . $table_name .
 						' WHERE post_id = %s
 							AND user_id = %s',
 					$post_id, $user_id
@@ -880,7 +880,7 @@ class LLMS_Course extends LLMS_Post_Model {
 			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
-					'SELECT * FROM '.$table_name.
+					'SELECT * FROM ' . $table_name .
 						' WHERE post_id = %s
 							AND user_id = %s',
 					$course_id, $user_id

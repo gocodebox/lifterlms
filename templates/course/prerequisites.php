@@ -23,4 +23,4 @@ $course = new LLMS_Course( $post );
 
 	<?php llms_print_notice( sprintf( __( 'Before starting this course you must complete the required prerequisite track: %s', 'lifterlms' ), '<a href="' . $track->get_permalink() . '">' . $track->term->name . '</a>' ), 'error' ); ?>
 
-<?php endif; ?>
+<?php endif;

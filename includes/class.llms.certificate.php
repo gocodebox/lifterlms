@@ -106,7 +106,7 @@ class LLMS_Certificate {
 		);
 
 		foreach ($user_metadatas as $key => $value) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id' 			=> $this->userid,
 					'post_id' 			=> $this->lesson_id,

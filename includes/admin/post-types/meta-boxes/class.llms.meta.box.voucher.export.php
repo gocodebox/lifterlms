@@ -4,8 +4,8 @@ if ( ! defined( 'ABSPATH' )) { exit; }
 /**
  * Meta Box Voucher Export
  */
-class LLMS_Meta_Box_Voucher_Export
-{
+class LLMS_Meta_Box_Voucher_Export {
+
 
 	public static $prefix = '_';
 

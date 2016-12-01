@@ -123,7 +123,7 @@ class LLMS_Comments {
 					'1' => 'approved',
 					'spam' => 'spam',
 					'trash' => 'trash',
-					'post-trashed' => 'post-trashed'
+					'post-trashed' => 'post-trashed',
 				);
 				foreach ( $count as $row ) {
 					// Don't count post-trashed toward totals

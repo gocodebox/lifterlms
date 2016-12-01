@@ -84,7 +84,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'class' 	=> 'llms-select2',
 						'id' 		=> $this->prefix . 'post_course_difficulty',
-						'desc' 		=> sprintf( __( 'Choose a course difficulty level. New difficulties can be added via %sCourses -> Difficulties%s.', 'lifterlms' ), '<a href="' . admin_url( 'edit-tags.php?taxonomy=course_difficulty&post_type=course' ) . '">', '</a>' ),
+						'desc' 		=> sprintf( __( 'Choose a course difficulty level. New difficulties can be added via %1$sCourses -> Difficulties%1$s.', 'lifterlms' ), '<a href="' . admin_url( 'edit-tags.php?taxonomy=course_difficulty&post_type=course' ) . '">', '</a>' ),
 						'desc_class' => 'd-all',
 						'group' 	=> 'bottom',
 						'label'		=> __( 'Course Difficulty Category', 'lifterlms' ),

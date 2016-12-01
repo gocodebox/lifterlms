@@ -12,4 +12,4 @@ global $post;
 llms_print_notices();
 
 ?>
-<?php do_action( 'lifterlms_no_access_main_content' ); ?>
+<?php do_action( 'lifterlms_no_access_main_content' );

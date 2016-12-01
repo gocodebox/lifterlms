@@ -46,7 +46,7 @@
     "clean-trunk": "git branch -D trunk && git push origin :trunk",
     "dist-git-add": "git add -u && git add vendor/",
     "pre-dist-install": "git checkout -B trunk && composer install --no-dev --no-scripts",
-    "remove-dev": "rm -rf .editorconfig .gitignore .idea .jscsrc .jshintrc .travis.yml _private _readme bin/ composer.lock composer.phar gulpfile.js package.json phpcs.xml phpunit.xml README.md tests/ vendor/",
+    "remove-dev": "rm -rf .editorconfig .gitignore .github/ .idea .jscsrc .jshintrc .travis.yml _private _readme bin/ composer.lock composer.phar gulpfile.js package.json phpcs.xml phpunit.xml README.md tests/ vendor/",
     "vendor-ungit": "rm -rf vendor/gocodebox/action-scheduler/.git",
     "dist": [
       "@clean-trunk",

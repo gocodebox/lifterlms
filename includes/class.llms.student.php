@@ -533,7 +533,7 @@ class LLMS_Student {
 				$q = $l->get( 'assigned_quiz' );
 
 				if ( ! $q ) {
-					$grade = __( 'N/A', 'lesson grade when lesson has no quiz', 'lifterlms' );
+					$grade = _x( 'N/A', 'lesson grade when lesson has no quiz', 'lifterlms' );
 				} else {
 					$q = new LLMS_Quiz( $q );
 					$grade = $q->get_best_grade( $this->get_id() );
