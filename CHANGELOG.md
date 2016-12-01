@@ -3,6 +3,7 @@
 = v3.1.7 - 2016/11/30 =
 -----------------------
 
++ Fix an issue that prevented the admin notice to enable/disable recurring payments from clearing when a button was pressed from screens other than the LLMS Settings screen
 + Fix next payment date error when viewing a cancelled recurring order on the student dashboard
 + Recurring payments now scheduled based on UTC time in accordance with the action scheduler which executes based on UTC rather than site timezone
 + Add existing lesson to course modal now relies on async search. Improves performance and prevents timeouts on sites with a 500+ lessons

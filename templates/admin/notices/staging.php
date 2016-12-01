@@ -19,7 +19,7 @@ if ( ! is_admin() ) { exit; }
 ); ?></p>
 
 <p>
-	<a class="button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-staging-status', 'disable' ), 'llms_staging_status', '_llms_staging_nonce' ) ); ?>"><?php echo __( 'Leave Automatic Payments Disabled', 'lifterlms' ); ?></a>
+	<a class="button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-staging-status', 'disable', admin_url( 'admin.php?page=llms-settings' ) ), 'llms_staging_status', '_llms_staging_nonce' ) ); ?>"><?php echo __( 'Leave Automatic Payments Disabled', 'lifterlms' ); ?></a>
 	&nbsp;&nbsp;
-	<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-staging-status', 'enable' ), 'llms_staging_status', '_llms_staging_nonce' ) ); ?>"><?php echo __( 'Enable Automatic Payments', 'lifterlms' ); ?></a>
+	<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-staging-status', 'enable', admin_url( 'admin.php?page=llms-settings' ) ), 'llms_staging_status', '_llms_staging_nonce' ) ); ?>"><?php echo __( 'Enable Automatic Payments', 'lifterlms' ); ?></a>
 </p>
