@@ -1,12 +1,14 @@
 == Changelog ==
 
-= v3.1.7 - 2016/11/?? =
+= v3.1.7 - 2016/11/30 =
 -----------------------
 
++ Fix next payment date error when viewing a cancelled recurring order on the student dashboard
 + Recurring payments now scheduled based on UTC time in accordance with the action scheduler which executes based on UTC rather than site timezone
 + Add existing lesson to course modal now relies on async search. Improves performance and prevents timeouts on sites with a 500+ lessons
 + Removed 2.x -> 3.x update notification message
 + Fix an issue with comment counting on PHP7
++ Updated action scheduler library to latest version
 
 
 = v3.1.6 - 2016/11/11 =
