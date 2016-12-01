@@ -1,5 +1,6 @@
 .llms-form-fields {
 	@extend %clearfix;
+	box-sizing: border-box;
 
 	&.flush {
 		.llms-form-field {

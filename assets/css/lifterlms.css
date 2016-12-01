@@ -1661,6 +1661,9 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   margin-bottom: 0;
 }
 
+.llms-form-fields {
+  box-sizing: border-box;
+}
 .llms-form-fields.flush .llms-form-field {
   padding: 0 0 10px;
 }
