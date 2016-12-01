@@ -3,8 +3,10 @@
 = v3.1.7 - 2016/11/?? =
 -----------------------
 
++ Recurring payments now scheduled based on UTC time in accordance with the action scheduler which executes based on UTC rather than site timezone
 + Add existing lesson to course modal now relies on async search. Improves performance and prevents timeouts on sites with a 500+ lessons
 + Removed 2.x -> 3.x update notification message
++ Fix an issue with comment counting on PHP7
 
 
 = v3.1.6 - 2016/11/11 =

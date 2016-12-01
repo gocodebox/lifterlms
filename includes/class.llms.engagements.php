@@ -378,7 +378,7 @@ class LLMS_Engagements {
 		$r = $wpdb->get_results( $wpdb->prepare(
 			// the query
 			"SELECT
-				  triggers.ID AS trigger_id
+				  DISTINCT triggers.ID AS trigger_id
 				, triggers_meta.meta_value AS engagement_id
 				, engagements_meta.meta_value AS trigger_event
 				, event_meta.meta_value AS event_type

@@ -32,7 +32,7 @@
     }
   ],
   "require": {
-    "gocodebox/action-scheduler": "dev-bleeding_branch"
+    "gocodebox/action-scheduler": "dev-master"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "2.*",

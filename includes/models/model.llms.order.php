@@ -904,7 +904,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Will always unschedule the scheduled action (if one exists) before scheduling anothes
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.1.7
 	 */
 	public function maybe_schedule_payment() {
 
@@ -918,6 +918,9 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			// unschedule the next action (does nothing if no action scheduled)
 			$this->unschedule_recurring_payment();
+
+			// convert our date to UTC before passing to the scheduler
+			$date = $date - ( HOUR_IN_SECONDS * get_option('gmt_offset') );
 
 			// schedule the payment
 			wc_schedule_single_action( $date, 'llms_charge_recurring_payment', array( 'order_id' => $this->get( 'id' ) ) );
