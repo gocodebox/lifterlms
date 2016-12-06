@@ -306,7 +306,7 @@ class LLMS_Admin_Setup_Wizard {
 					</tr>
 				</table>
 
-				<p><?php printf( __( 'After setup, you can manage these pages from the admin dashboard on the %1$sPages screen%1$s and you can control which pages display on your menu(s) via %1$sAppearance > Menus%1$s.', 'lifterlms' ), '<a href="' . esc_url( admin_url( 'edit.php?post_type=page' ) ) . '" target="_blank">', '</a>', '<a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" target="_blank">', '</a>' ); ?></p>
+				<p><?php printf( __( 'After setup, you can manage these pages from the admin dashboard on the %1$sPages screen%2$s and you can control which pages display on your menu(s) via %3$sAppearance > Menus%4$s.', 'lifterlms' ), '<a href="' . esc_url( admin_url( 'edit.php?post_type=page' ) ) . '" target="_blank">', '</a>', '<a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" target="_blank">', '</a>' ); ?></p>
 				<?php
 			break;
 
@@ -341,13 +341,13 @@ class LLMS_Admin_Setup_Wizard {
 									<option value="<?php echo $code; ?>"<?php selected( $code, $currency ); ?>><?php echo $name; ?> (<?php echo get_lifterlms_currency_symbol( $code ); ?>)</option>
 								<?php endforeach; ?>
 								</select>
-								<i><?php printf( __( 'If you currency is not listed you can %1$sadd it later%1$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/how-can-i-add-my-currency-to-lifterlms" target="_blank">', '</a>' ); ?></i>
+								<i><?php printf( __( 'If you currency is not listed you can %1$sadd it later%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/how-can-i-add-my-currency-to-lifterlms" target="_blank">', '</a>' ); ?></i>
 							</p>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<p><?php printf( __( 'With LifterLMS you can accept both online and offline payments. Be sure to install a %1$spayment gateway%1$s to accept online payments.', 'lifterlms' ), '<a href="https://lifterlms.com/product-category/plugins/payment-gateways/" target="_blank">', '</a>' ); ?></p>
+							<p><?php printf( __( 'With LifterLMS you can accept both online and offline payments. Be sure to install a %1$spayment gateway%2$s to accept online payments.', 'lifterlms' ), '<a href="https://lifterlms.com/product-category/plugins/payment-gateways/" target="_blank">', '</a>' ); ?></p>
 							<p><label for="llms_manual"><input id="llms_manual" name="manual_payments" type="checkbox" value="yes"<?php checked( 'yes', $payments ); ?>> <?php _e( 'Enable Offline Payments', 'lifterlms' );?></label></p>
 						</td>
 					</tr>

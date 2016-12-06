@@ -49,7 +49,7 @@ global $wp_query;
 
 						<div class="llms-progress">
 							<?php $progress = $c->get_percent_complete( $student->get_id() ); ?>
-							<div class="progress__indicator"><?php printf( __( '%1$s%2$%', 'lifterlms' ), $progress ); ?></div>
+							<div class="progress__indicator"><?php echo $progress; ?>%</div>
 							<div class="llms-progress-bar">
 							    <div class="progress-bar-complete" style="width:<?php echo $progress ?>%"></div>
 							</div>

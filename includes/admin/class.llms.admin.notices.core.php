@@ -100,7 +100,7 @@ class LLMS_Admin_Notices_Core {
 		$id = 'no-gateways';
 		if ( ! LLMS()->payment_gateways()->has_gateways( true ) ) {
 			$html = __( 'No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans.', 'lifterlms' ) . '<br><br>';
-			$html .= sprintf( __( 'For starters you can configure manual payments on the %1$sCheckout Settings tab%1$s. Be sure to check out all the available %1$sLifterLMS Payment Gateways%1$s and install one later so that you can start selling your courses and memberships.', 'lifterlms' ), '<a href="' . add_query_arg( array( 'page' => 'llms-settings', 'tab' => 'checkout' ), admin_url( 'admin.php' ) ) . '">', '</a>', '<a href="https://lifterlms.com/product-category/plugins/payment-gateways/" target="_blank">', '</a>' );
+			$html .= sprintf( __( 'For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships.', 'lifterlms' ), '<a href="' . add_query_arg( array( 'page' => 'llms-settings', 'tab' => 'checkout' ), admin_url( 'admin.php' ) ) . '">', '</a>', '<a href="https://lifterlms.com/product-category/plugins/payment-gateways/" target="_blank">', '</a>' );
 			LLMS_Admin_Notices::add_notice( $id, $html, array(
 				'type' => 'warning',
 				'dismiss_for_days' => 7,
@@ -126,7 +126,7 @@ class LLMS_Admin_Notices_Core {
 		if ( ! current_theme_supports( 'lifterlms-sidebars' ) && ! in_array( $template, llms_get_core_supported_themes() ) ) {
 
 			$msg = sprintf(
-				__( '<strong>Your theme does not declare support for LifterLMS Sidebars.</strong> Please see our %1$sintegration guide%1$s or check out our %1$sLaunchPad%1$s theme which is designed specifically for use with LifterLMS', 'lifterlms' ),
+				__( '<strong>Your theme does not declare support for LifterLMS Sidebars.</strong> Please see our %1$sintegration guide%2$s or check out our %3$sLaunchPad%4$s theme which is designed specifically for use with LifterLMS', 'lifterlms' ),
 				'<a href="https://lifterlms.com/docs/lifterlms-sidebar-support/?utm_source=notice&utm_medium=product&utm_content=sidebarsupport&utm_campaign=lifterlmsplugin" target="_blank">', '</a>',
 				'<a href="https://lifterlms.com/product/launchpad/?utm_source=notice&utm_medium=product&utm_content=launchpad&utm_campaign=lifterlmsplugin" target="_blank">', '</a>'
 			);

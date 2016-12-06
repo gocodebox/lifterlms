@@ -788,7 +788,7 @@ class LLMS_Person_Handler {
 					case 'select':
 					case 'radio':
 						if ( ! in_array( $val, array_keys( $field['options'] ) ) ) {
-							$e->add( $field['id'], sprintf( __( '"%1$s" is an invalid option for %1$s', 'lifterlms' ), $val, $label ), 'invalid' );
+							$e->add( $field['id'], sprintf( __( '"%1$s" is an invalid option for %2$s', 'lifterlms' ), $val, $label ), 'invalid' );
 						}
 					break;
 
@@ -830,7 +830,7 @@ class LLMS_Person_Handler {
 
 				if ( ! $match || $val !== $match ) {
 
-					$e->add( $field['id'], sprintf( __( '%1$s must match %1$s', 'lifterlms' ), $matched_values[ $field['id'] ], $label ), 'match' );
+					$e->add( $field['id'], sprintf( __( '%1$s must match %2$s', 'lifterlms' ), $matched_values[ $field['id'] ], $label ), 'match' );
 
 				}
 

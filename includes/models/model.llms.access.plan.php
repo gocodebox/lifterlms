@@ -291,7 +291,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 			case 'limited-period':
 
-				$r = sprintf( _nx( '%1$s %1$s of access', '%1$s %1$ss of access', $this->get( 'access_length' ), 'Access period', 'lifterlms' ), $this->get( 'access_length' ), $this->get( 'access_period' ) );
+				$r = sprintf( _nx( '%1$s %2$s of access', '%1$s %2$ss of access', $this->get( 'access_length' ), 'Access period', 'lifterlms' ), $this->get( 'access_length' ), $this->get( 'access_period' ) );
 
 			break;
 

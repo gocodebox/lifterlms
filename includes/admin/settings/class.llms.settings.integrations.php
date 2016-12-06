@@ -58,7 +58,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 			array(
 				'title' => __( 'bbPress', 'lifterlms' ),
 				'desc' 		=> __( 'Enable', 'lifterlms' ) . '<br>' .
-							   sprintf( __( 'Restrict forums and topics within forums to LifterLMS memberships. %1$sLearn More%1$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-bbpress/" target="_blank">', '</a>' ),
+							   sprintf( __( 'Restrict forums and topics within forums to LifterLMS memberships. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-bbpress/" target="_blank">', '</a>' ),
 				'id' 		=> 'lifterlms_bbpress_enabled',
 				'type' 		=> 'checkbox',
 				'default'	=> 'no',
@@ -68,7 +68,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 			array(
 				'title' => __( 'BuddyPress', 'lifterlms' ),
 				'desc' 		=> __( 'Enable', 'lifterlms' ) . '<br>' .
-							   sprintf( __( 'Add LifterLMS information to BuddyPress profiles. %1$sLearn More%1$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' ),
+							   sprintf( __( 'Add LifterLMS information to BuddyPress profiles. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' ),
 				'id' 		=> 'lifterlms_buddypress_enabled',
 				'type' 		=> 'checkbox',
 				'default'	=> 'no',

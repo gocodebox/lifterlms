@@ -189,7 +189,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		// ensure we can refund the requested amount
 		$refundable = $this->get_refundable_amount();
 		if ( $amount > $refundable ) {
-			return new WP_Error( 'error', sprintf( __( 'Requested refund amount was %1$s, the maximum possible refund for this transaction is %1$s.', 'lifterlms' ), llms_price( $amount ), llms_price( $refundable ) ) );
+			return new WP_Error( 'error', sprintf( __( 'Requested refund amount was %1$s, the maximum possible refund for this transaction is %2$s.', 'lifterlms' ), llms_price( $amount ), llms_price( $refundable ) ) );
 		}
 
 		// validate the method & process the refund
@@ -240,7 +240,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 			$order = $this->get_order();
 
-			$note = sprintf( __( 'Refunded %1$s for transaction #%2$d via %1$s [Refund ID: %1$s]', 'lifterlms' ), strip_tags( llms_price( $amount ) ), $this->get( 'id' ), $method_title, $refund_id );
+			$note = sprintf( __( 'Refunded %1$s for transaction #%2$d via %3$s [Refund ID: %4$s]', 'lifterlms' ), strip_tags( llms_price( $amount ) ), $this->get( 'id' ), $method_title, $refund_id );
 
 			if ( $orig_note ) {
 				$note .= "\r\n";

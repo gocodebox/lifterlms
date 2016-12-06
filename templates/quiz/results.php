@@ -54,7 +54,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 				    </g>
 				  </svg>
 
-				  <div class="llms-progress-circle-count"><?php printf( __( '%1$s%2$%' ), $graph_grade ); ?></div>
+				  <div class="llms-progress-circle-count"><?php echo $graph_grade; ?>%</div>
 				</div>
 
 			<?php endif; ?>
@@ -64,7 +64,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 				<?php //if ($grade) : ?>
 				<ul>
 					<li>
-						<h4><?php printf( __( 'Your Score: %1$d%2$%', 'lifterlms' ), $grade ); ?></h4>
+						<h4><?php printf( __( 'Your Score: %s', 'lifterlms' ), $grade ); ?>%</h4>
 						<h5 class="llms-content-block">
 							<?php
 							if ( $is_passing_score ) {
@@ -74,7 +74,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 							}
 							?>
 						</h5>
-						<h6><?php printf( __( '%1$d / %1$d correct answers', 'lifterlms' ), $quiz->get_correct_answers_count( $user_id ), $quiz->get_question_count() ); ?></h6>
+						<h6><?php printf( __( '%1$d / %2$d correct answers', 'lifterlms' ), $quiz->get_correct_answers_count( $user_id ), $quiz->get_question_count() ); ?></h6>
 						<h6><?php printf( __( 'Date: <span class="llms_content_block">%s</span>', 'lifterlms' ), $start_date ); ?></h6>
 						<h6><?php printf( __( 'Total time: %s', 'lifterlms' ), $time ); ?></h6>
 
@@ -90,7 +90,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 				<?php //if ($best_grade ) ) : ?>
 				<ul>
 					<li>
-						<h4><?php printf( __( 'Best Score: %1$d%2$%', 'lifterlms' ), $best_grade ); ?></h4>
+						<h4><?php printf( __( 'Best Score: %1$d%', 'lifterlms' ), $best_grade ); ?>%</h4>
 						<h5>
 							<?php
 							if ( $is_passing_score ) {

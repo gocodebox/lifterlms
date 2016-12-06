@@ -29,7 +29,7 @@ if ( ! empty( $quiz ) ) {
 		}
 	}
 
-	printf( __( 'Question %1$d of %1$d', 'lifterlms' ), ( empty( $current_question ) ? '' : $current_question ), $question_count );
+	printf( __( 'Question %1$d of %2$d', 'lifterlms' ), ( empty( $current_question ) ? '' : $current_question ), $question_count );
 
 }
 ?>

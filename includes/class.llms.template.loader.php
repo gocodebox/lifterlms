@@ -136,7 +136,7 @@ class LLMS_Template_Loader {
 
 		$lesson = new LLMS_Lesson( $info['restriction_id'] );
 
-		$msg = sprintf( _x( 'The lesson "%1$s" will be available on %1$s', 'lesson restricted by drip settings message', 'lifterlms' ), $lesson->get( 'title' ), $lesson->get_available_date() );
+		$msg = sprintf( _x( 'The lesson "%1$s" will be available on %2$s', 'lesson restricted by drip settings message', 'lifterlms' ), $lesson->get( 'title' ), $lesson->get_available_date() );
 		$redirect = get_permalink( $lesson->get_parent_course() );
 
 		$this->handle_restriction(
@@ -165,7 +165,7 @@ class LLMS_Template_Loader {
 
 		$prereq_link = '<a href="' . get_permalink( $prereq_lesson->get( 'id' ) ) . '">' . $prereq_lesson->get( 'title' ) . '</a>';
 
-		$msg = sprintf( _x( 'The lesson "%1$s" cannot be accessed until the required prerequisite "%1$s" is completed.', 'lesson restricted by prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
+		$msg = sprintf( _x( 'The lesson "%1$s" cannot be accessed until the required prerequisite "%2$s" is completed.', 'lesson restricted by prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
 		$redirect = get_permalink( $lesson->get_parent_course() );
 
 		$this->handle_restriction(
