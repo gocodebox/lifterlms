@@ -3,6 +3,7 @@
 = v3.1.7 - 2016/12/06=
 -----------------------
 
++ Added support for WordPress Twenty Seventeen theme
 + Improved the messaging and functions related to LifterLMS Sidebar support
 + Add alternate language for a quiz requiring 100% grade to pass
 + Added CSS class `.llms-button-primaray` to lessom "Mark as Complete" buttons

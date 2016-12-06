@@ -95,6 +95,7 @@ function llms_get_core_supported_themes() {
 		'canvas',
 		'Divi',
 		'genesis',
+		'twentyseventeen',
 		'twentysixteen',
 		'twentyfifteen',
 		'twentyfourteen',
