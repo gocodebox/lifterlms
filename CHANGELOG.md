@@ -1,6 +1,6 @@
 == Changelog ==
 
-= v3.1.7 - 2016/12/31 =
+= v3.1.7 - 2016/12/06=
 -----------------------
 
 + Improved the messaging and functions related to LifterLMS Sidebar support
