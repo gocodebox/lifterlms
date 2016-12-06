@@ -3,6 +3,8 @@
 = v3.1.7 - 2016/12/31 =
 -----------------------
 
++ Improved the messaging and functions related to LifterLMS Sidebar support
++ Add alternate language for a quiz requiring 100% grade to pass
 + Added CSS class `.llms-button-primaray` to lessom "Mark as Complete" buttons
 + Add box-sizing css rule to LifterLMS form field elements. Fixes layout issues on themes that don't border-box everything.
 + Fix an issue that prevented the admin notice to enable/disable recurring payments from clearing when a button was pressed from screens other than the LLMS Settings screen
