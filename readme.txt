@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, loralee_h, kathy11, lifterlms, codeboxl
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.6.1
-Stable tag: 3.1.6
+Tested up to: 4.7
+Stable tag: 3.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,23 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.1.7 - 2016/12/06=
+-----------------------
+
++ Added support for WordPress Twenty Seventeen theme
++ Improved the messaging and functions related to LifterLMS Sidebar support
++ Add alternate language for a quiz requiring 100% grade to pass
++ Added CSS class `.llms-button-primaray` to lessom "Mark as Complete" buttons
++ Add box-sizing css rule to LifterLMS form field elements. Fixes layout issues on themes that don't border-box everything.
++ Fix an issue that prevented the admin notice to enable/disable recurring payments from clearing when a button was pressed from screens other than the LLMS Settings screen
++ Fix next payment date error when viewing a cancelled recurring order on the student dashboard
++ Recurring payments now scheduled based on UTC time in accordance with the action scheduler which executes based on UTC rather than site timezone
++ Add existing lesson to course modal now relies on async search. Improves performance and prevents timeouts on sites with a 500+ lessons
++ Removed 2.x -> 3.x update notification message
++ Fix an issue with comment counting on PHP7
++ Updated action scheduler library to latest version
+
 
 = v3.1.6 - 2016/11/11 =
 -----------------------

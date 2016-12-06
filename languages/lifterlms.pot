@@ -752,7 +752,7 @@ msgstr ""
 msgid "Coupon Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:299, includes/llms.functions.core.php:562
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:299, includes/llms.functions.core.php:563
 msgid "ID#"
 msgstr ""
 
@@ -4356,19 +4356,19 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: includes/class.llms.sidebars.php:171
+#: includes/class.llms.sidebars.php:172
 msgid "Widgets in this area will be shown on LifterLMS courses."
 msgstr ""
 
-#: includes/class.llms.sidebars.php:172
+#: includes/class.llms.sidebars.php:173
 msgid "Course Sidebar"
 msgstr ""
 
-#: includes/class.llms.sidebars.php:175
+#: includes/class.llms.sidebars.php:176
 msgid "Widgets in this area will be shown on LifterLMS lessons."
 msgstr ""
 
-#: includes/class.llms.sidebars.php:177
+#: includes/class.llms.sidebars.php:178
 msgid "Lesson Sidebar"
 msgstr ""
 
@@ -6139,83 +6139,83 @@ msgstr ""
 msgid "%1$s is <strong>deprecated</strong> since version %2$s!"
 msgstr ""
 
-#: includes/llms.functions.core.php:116
+#: includes/llms.functions.core.php:117
 msgid "Student creates a new account"
 msgstr ""
 
-#: includes/llms.functions.core.php:117
+#: includes/llms.functions.core.php:118
 msgid "Student enrolls in a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:118
+#: includes/llms.functions.core.php:119
 msgid "Student purchases a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:119
+#: includes/llms.functions.core.php:120
 msgid "Student completes a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:120
+#: includes/llms.functions.core.php:121
 msgid "Days since user last logged in"
 msgstr ""
 
-#: includes/llms.functions.core.php:121
+#: includes/llms.functions.core.php:122
 msgid "Student completes a lesson"
 msgstr ""
 
-#: includes/llms.functions.core.php:122
+#: includes/llms.functions.core.php:123
 msgid "Student completes a section"
 msgstr ""
 
-#: includes/llms.functions.core.php:123
+#: includes/llms.functions.core.php:124
 msgid "Student comepletes a course track"
 msgstr ""
 
-#: includes/llms.functions.core.php:124
+#: includes/llms.functions.core.php:125
 msgid "Student enrolls in a membership"
 msgstr ""
 
-#: includes/llms.functions.core.php:125
+#: includes/llms.functions.core.php:126
 msgid "Student purchases a membership"
 msgstr ""
 
-#: includes/llms.functions.core.php:137
+#: includes/llms.functions.core.php:138
 msgid "Award an Achievement"
 msgstr ""
 
-#: includes/llms.functions.core.php:138
+#: includes/llms.functions.core.php:139
 msgid "Award a Certificate"
 msgstr ""
 
-#: includes/llms.functions.core.php:402, includes/llms.functions.core.php:499
+#: includes/llms.functions.core.php:403, includes/llms.functions.core.php:500
 msgid "Cancelled"
 msgstr ""
 
-#: includes/llms.functions.core.php:403
+#: includes/llms.functions.core.php:404
 msgid "Enrolled"
 msgstr ""
 
-#: includes/llms.functions.core.php:404, includes/llms.functions.core.php:501
+#: includes/llms.functions.core.php:405, includes/llms.functions.core.php:502
 msgid "Expired"
 msgstr ""
 
-#: includes/llms.functions.core.php:498
+#: includes/llms.functions.core.php:499
 msgid "Active"
 msgstr ""
 
-#: includes/llms.functions.core.php:500
+#: includes/llms.functions.core.php:501
 msgid "Completed"
 msgstr ""
 
-#: includes/llms.functions.core.php:502, templates/quiz/results.php:73, templates/quiz/results.php:99
+#: includes/llms.functions.core.php:503, templates/quiz/results.php:73, templates/quiz/results.php:99
 msgid "Failed"
 msgstr ""
 
-#: includes/llms.functions.core.php:503
+#: includes/llms.functions.core.php:504
 msgid "Pending"
 msgstr ""
 
-#: includes/llms.functions.core.php:504, templates/admin/post-types/order-transactions.php:21
+#: includes/llms.functions.core.php:505, templates/admin/post-types/order-transactions.php:21
 msgid "Refunded"
 msgstr ""
 
