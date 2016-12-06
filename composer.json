@@ -43,6 +43,7 @@
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs",
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
     ],
+    "phpcs": "./vendor/bin/phpcs --colors --extensions=php -n lifterlms.php includes/ templates/",
     "clean-trunk": "git branch -D trunk && git push origin :trunk",
     "dist-git-add": "git add -u && git add vendor/",
     "pre-dist-install": "git checkout -B trunk && composer install --no-dev --no-scripts",

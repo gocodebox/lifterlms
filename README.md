@@ -52,12 +52,21 @@ Our javascript and SCSS are a mess. We're tackling that next.
 
 ### Running phpcs
 
-Do not use phpcs directly from the command line, use the gulp task.
+Use the shorthand composer script to run phpcs against all PHP files.
 
-+ `gulp phpcs` to run on all php files
-+ `gulp phpcs --file path/to/file.php` to run on a specific file
-+ `gulp phpcs --file valid/glob/*.php` pass a valid glob to run on a group of files
-+ `gulp phpcs --warning 0` to ignore PHPCS warnings, or any valid phpcs warning severity level (1-8)
++ `composer run-script phpcs`
+
+Alternatively access the executable:
+
++ `./vendor/bin/phpcs path/to/file.php`
+
+To see errors only (no warnings):
+
++ `./vendor/bin/phpcs -n path/to/file.php`
+
+To see all options:
+
++ `./vendor/bin/phpcs -h`
 
 
 ### Running phpcbf
