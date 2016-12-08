@@ -641,7 +641,7 @@ svg .llms-animated-circle {
 .llms-loop-item-content .llms-loop-link:visited {
   color: #212121;
 }
-.llms-loop-item-content img {
+.llms-loop-item-content .llms-featured-image {
   display: block;
   max-width: 100%;
 }

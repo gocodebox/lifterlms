@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.1.8 - 2016/12/??=
+-----------------------
+
++ Fix positioning of teacher avatar on course/membership tiles
+
+
 = v3.1.7 - 2016/12/06=
 -----------------------
 
