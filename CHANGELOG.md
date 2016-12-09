@@ -4,6 +4,7 @@
 -----------------------
 
 + Fix positioning of teacher avatar on course/membership tiles
++ Remove explicit color definition from Student Dashboard navigation links for greater theme compatibility
 
 
 = v3.1.7 - 2016/12/06=
