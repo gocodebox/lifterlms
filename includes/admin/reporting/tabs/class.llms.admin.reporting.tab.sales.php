@@ -48,7 +48,7 @@ class LLMS_Admin_Reporting_Tab_Sales {
 	 * @version  3.2.0
 	 */
 	public function get_widget_data() {
-		return apply_filters( 'llms_reporting_tab_sals_widgets', array(
+		return apply_filters( 'llms_reporting_tab_sales_widgets', array(
 			array(
 				'sales' => array(
 					'title' => __( '# of Sales', 'lifterlms' ),
@@ -94,18 +94,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 					'content' => __( 'loading...', 'lifterlms' ),
 					'info' => __( 'Total amount of coupons used during this period', 'lifterlms' ),
 				),
-				// 'whatever3' => array(
-				// 	'title' => 'test title',
-				// 	'cols' => '1-4',
-				// 	'content' => __( 'loading...', 'lifterlms' ),
-				// 	'info' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-				// ),
-				// 'whatever4' => array(
-				// 	'title' => 'test title 2',
-				// 	'cols' => '1-4',
-				// 	'content' => __( 'loading...', 'lifterlms' ),
-				// 	'info' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-				// ),
 			),
 		) );
 	}
@@ -118,7 +106,7 @@ class LLMS_Admin_Reporting_Tab_Sales {
 	 */
 	public function output() {
 
-		llms_get_template( 'admin/reporting/tabs/sales.php', array(
+		llms_get_template( 'admin/reporting/tabs/widgets.php', array(
 			'json' => json_encode( self::get_filter_data() ),
 			'widget_data' => $this->get_widget_data(),
 		) );

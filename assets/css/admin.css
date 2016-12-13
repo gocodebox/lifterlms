@@ -2837,40 +2837,40 @@ div[id^="lifterlms-"] .inside {
 .llms-reporting.wrap table.quiz-attempts {
   margin-bottom: 40px;
 }
-.llms-reporting.wrap.tab--sales .llms-options-page-contents {
+.llms-reporting.wrap.tab--enrollments .llms-options-page-contents, .llms-reporting.wrap.tab--sales .llms-options-page-contents {
   background: none;
   padding: 0;
 }
-.llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form {
+.llms-reporting.wrap.tab--enrollments .llms-nav-item.llms-analytics-form, .llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form {
   color: #414141;
   font-size: 13px;
   padding: 6px 14px;
 }
-.llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form input {
+.llms-reporting.wrap.tab--enrollments .llms-nav-item.llms-analytics-form input, .llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form input {
   border: 0;
   font-size: 13px;
   margin: 0;
   padding: 3px 6px;
   vertical-align: middle;
 }
-.llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form .select2-container input {
+.llms-reporting.wrap.tab--enrollments .llms-nav-item.llms-analytics-form .select2-container input, .llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form .select2-container input {
   width: 100% !important;
 }
-.llms-reporting.wrap.tab--sales .button.small {
+.llms-reporting.wrap.tab--enrollments .button.small, .llms-reporting.wrap.tab--sales .button.small {
   height: 23px;
   line-height: 23px;
 }
-.llms-reporting.wrap.tab--sales .llms-analytics-filters {
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters, .llms-reporting.wrap.tab--sales .llms-analytics-filters {
   display: none;
 }
-.llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-item {
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-nav-item, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-item {
   box-sizing: border-box;
   width: 100%;
 }
-.llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-item label {
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-nav-item label, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-item label {
   display: block;
 }
-.llms-reporting.wrap.tab--sales .llms-analytics-filters .button {
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters .button, .llms-reporting.wrap.tab--sales .llms-analytics-filters .button {
   float: right;
 }
 

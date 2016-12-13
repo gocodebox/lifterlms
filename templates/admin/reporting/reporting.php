@@ -37,6 +37,9 @@ if ( ! is_admin() ) { exit; }
 
 		<?php do_action( 'llms_reporting_after_content', $current_tab ); ?>
 
+
 	</div>
+
+	<p class="alignright"><em><a style="font-size:12px;color:#555d66" target="_blank" href="https://lifterlms.com/docs/lifterlms-reporting-beta/"><?php _e( 'LifterLMS Reporting Beta', 'lifterlms' ); ?></em></a></p>
 
 </div>

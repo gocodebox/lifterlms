@@ -1,14 +1,14 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Admin Assets Class
  *
  * Sets up admin menu items.
- *
- * @author codeBOX
- * @project lifterLMS
+ * @since   1.0.0
+ * @version 3.2.0
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Admin_Menus {
 
 	/**
@@ -18,9 +18,7 @@ class LLMS_Admin_Menus {
 	 */
 	public function __construct() {
 
-		//resort sub menu items
 		add_filter( 'custom_menu_order', array( $this, 'submenu_order' ) );
-
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
 
 	}
@@ -36,9 +34,7 @@ class LLMS_Admin_Menus {
 		global $submenu;
 
 		if ( isset( $submenu['lifterlms'] ) ) {
-
 			unset( $submenu['lifterlms'][0] );
-
 		}
 
 		return $menu_ord;
@@ -46,8 +42,9 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Admin Menu
-	 *
 	 * @return void
+	 * @since   1.0.0
+	 * @version 3.2.0
 	 */
 	public function display_admin_menu() {
 
@@ -61,9 +58,7 @@ class LLMS_Admin_Menus {
 
 			add_submenu_page( 'lifterlms', __( 'LifterLMS Settings', 'lifterlms' ), __( 'Settings', 'lifterlms' ), apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'llms-settings', array( $this, 'settings_page_init' ) );
 
-			add_submenu_page( 'lifterlms', __( 'LifterLMS Analytics', 'lifterlms' ), __( 'Analytics', 'lifterlms' ), apply_filters( 'lifterlms_admin_analytics_access', 'manage_options' ), 'llms-analytics', array( $this, 'analytics_page_init' ) );
-
-			add_submenu_page( 'lifterlms', __( 'LifterLMS Grade Book', 'lifterlms' ), __( 'Reporting', 'lifterlms' ), apply_filters( 'lifterlms_admin_reporting_access', 'manage_options' ), 'llms-reporting', array( $this, 'reporting_page_init' ) );
+			add_submenu_page( 'lifterlms', __( 'LifterLMS Reporting', 'lifterlms' ), __( 'Reporting', 'lifterlms' ), apply_filters( 'lifterlms_admin_reporting_access', 'manage_options' ), 'llms-reporting', array( $this, 'reporting_page_init' ) );
 
 			add_submenu_page( 'lifterlms', __( 'LifterLMS System report', 'lifterlms' ), __( 'System Report', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
 
@@ -72,24 +67,12 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Init LLMS_Admin_Settings
-	 *
+	 * Output the HTLM for admin settings screens
 	 * @return void
 	 */
 	public function settings_page_init() {
 		include_once( 'class.llms.admin.settings.php' );
 		LLMS_Admin_Settings::output();
-	}
-
-	/**
-	 * Students Menu Item
-	 *
-	 * Sub menu item to Admin Menu
-	 *
-	 * @return void
-	 */
-	public function analytics_page_init() {
-		include LLMS_PLUGIN_DIR . 'includes/admin/analytics/class.llms.view.analytics.php';
 	}
 
 	/**
@@ -105,8 +88,7 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Init LLMS_Admin_Settings
-	 *
+	 * Output the HTLM for the System Report page
 	 * @return void
 	 */
 	public function system_report_page_init() {

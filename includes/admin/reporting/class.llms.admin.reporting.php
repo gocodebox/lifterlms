@@ -208,6 +208,7 @@ class LLMS_Admin_Reporting {
 		return apply_filters( 'lifterlms_reporting_tabs', array(
 			'students' => __( 'Students', 'lifterlms' ),
 			'sales' => __( 'Sales', 'lifterlms' ),
+			'enrollments' => __( 'Enrollments', 'lifterlms' ),
 		) );
 	}
 
