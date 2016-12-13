@@ -256,8 +256,7 @@ abstract class LLMS_Admin_Table {
 		// current order matches submitted order, return oppossite
 		if ( $this->orderby === $orderby ) {
 			return ( 'ASC' === $this->order ) ? 'DESC' : 'ASC';
-		}
-		// return ASC
+		} // return ASC
 		else {
 			return 'ASC';
 		}
@@ -426,7 +425,7 @@ abstract class LLMS_Admin_Table {
 								<span class="dashicons dashicons-arrow-up asc"></span>
 								<span class="dashicons dashicons-arrow-down desc"></span>
 							</a>
-						<?php else: ?>
+						<?php else : ?>
 							<?php echo $data['title']; ?>
 						<?php endif; ?>
 					<?php else : ?>

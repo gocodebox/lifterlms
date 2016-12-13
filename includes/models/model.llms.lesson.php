@@ -689,7 +689,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		$student = new LLMS_Student( $user_id );
 		$student->set( 'overall_progress', '', true );
 
-
 		if ( empty( $user_id ) ) {
 			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
 		} elseif ( ! empty( $user_postmetas ) ) {

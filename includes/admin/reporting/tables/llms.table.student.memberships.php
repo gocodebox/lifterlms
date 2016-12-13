@@ -88,7 +88,7 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 	 */
 	public function set_args() {
 		return array(
-			'student' => ! empty ( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+			'student' => ! empty( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
 		);
 	}
 
@@ -110,7 +110,7 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 				'title' => __( 'Status', 'lifterlms' ),
 			),
 			'enrolled' => array(
-				'title' => __( 'Enrolled', 'lifterlms' )
+				'title' => __( 'Enrolled', 'lifterlms' ),
 			),
 		);
 	}

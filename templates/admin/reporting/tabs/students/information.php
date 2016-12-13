@@ -51,7 +51,7 @@ if ( ! is_admin() ) { exit; }
 				<?php echo $student->get( 'billing_country' ); ?>
 			</li>
 		<?php endif; ?>
-		<?php if ( $phone = $student->get( 'phone' ) ): ?>
+		<?php if ( $phone = $student->get( 'phone' ) ) : ?>
 			<li><strong><?php _e( 'Phone', 'lifterlms' ); ?></strong>: <a href="tel:<?php echo $phone; ?>"><?php echo $phone; ?></a></li>
 		<?php endif; ?>
 	</ul>

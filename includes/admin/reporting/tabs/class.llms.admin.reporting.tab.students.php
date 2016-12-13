@@ -61,8 +61,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 			}
 		}
 
-
-
 		foreach ( $links as $url => $title ) {
 
 			echo '<a href="' . esc_url( $url ) . '">' . $title . '</a>';
@@ -96,8 +94,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 				'student' => new LLMS_Student( intval( $_GET['student_id'] ) ),
 			) );
 
-		}
-		// table
+		} // table
 		else {
 
 			llms_get_template( 'admin/reporting/tabs/students/students.php' );

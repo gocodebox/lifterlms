@@ -127,7 +127,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 
 		}
 
-
 	}
 
 }

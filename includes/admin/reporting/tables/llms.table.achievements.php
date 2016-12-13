@@ -99,7 +99,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 */
 	public function set_args() {
 		return array(
-			'student' => ! empty ( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+			'student' => ! empty( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
 		);
 	}
 

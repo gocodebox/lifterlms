@@ -61,7 +61,6 @@ class LLMS_Table_Questions extends LLMS_Admin_Table {
 				$value = wp_kses_post( $options[ $data['answer'] ]['option_text'] );
 			break;
 
-
 			default:
 				$value = $key;
 

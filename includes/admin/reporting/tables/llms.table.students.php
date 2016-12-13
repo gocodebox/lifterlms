@@ -69,7 +69,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					'stab' => 'certificates',
 					'student_id' => $student->get_id(),
 				) );
-				$value = '<a href="' . esc_url( $url ) . '">' . count( $student->get_certificates()  ) . '</a>';
+				$value = '<a href="' . esc_url( $url ) . '">' . count( $student->get_certificates() ) . '</a>';
 			break;
 
 			case 'completions':
@@ -127,7 +127,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			case 'registered':
 				$value = $student->get_registration_date();
 			break;
-
 
 			default:
 				$value = $key;

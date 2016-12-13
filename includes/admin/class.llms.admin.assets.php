@@ -206,7 +206,7 @@ class LLMS_Admin_Assets {
 
 				if ( isset( $_GET['tab'] ) ) {
 
-					switch( $_GET['tab'] ) {
+					switch ( $_GET['tab'] ) {
 						case 'enrollments':
 						case 'sales':
 							wp_enqueue_script( 'llms-google-charts', 'https://www.gstatic.com/charts/loader.js' );

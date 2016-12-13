@@ -129,14 +129,14 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 		$order = ! empty( $args['order'] ) ? $args['order'] : 'ASC';
 		$order = in_array( $order, array( 'ASC', 'DESC' ) ) ? $order : 'ASC';
 
-		if ( isset ( $args['order'] ) ) {
+		if ( isset( $args['order'] ) ) {
 			$this->order = $order;
 		}
-		if ( isset ( $args['orderby'] ) ) {
+		if ( isset( $args['orderby'] ) ) {
 			$this->orderby = $args['orderby'];
 		}
 
-		switch( $this->orderby ) {
+		switch ( $this->orderby ) {
 
 			case 'updated':
 				$orderby = 'upm.updated_date';
@@ -172,7 +172,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	public function set_args() {
 		return array(
 			'page' => $this->get_current_page(),
-			'student' => ! empty ( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+			'student' => ! empty( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
 		);
 	}
 

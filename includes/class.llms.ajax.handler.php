@@ -97,7 +97,6 @@ class LLMS_AJAX_Handler {
 
 		}
 
-
 	}
 
 	/**

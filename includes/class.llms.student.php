@@ -692,7 +692,7 @@ class LLMS_Student {
 
 				$grades = array();
 
-				foreach( $lessons as $lid ) {
+				foreach ( $lessons as $lid ) {
 
 					$grade = $this->get_grade( $lid );
 
@@ -720,7 +720,6 @@ class LLMS_Student {
 					}
 
 				}
-
 
 			break;
 

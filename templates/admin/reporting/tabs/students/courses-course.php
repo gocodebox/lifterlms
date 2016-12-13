@@ -54,7 +54,7 @@ $table->get_results( array(
 		<?php if ( $student->is_complete( $course_id, 'course' ) ) : ?>
 			<p class="llms-label"><?php _e( 'Completion Date', 'lifterlms' ); ?></p>
 			<h2><?php echo $student->get_completion_date( $course_id, 'M d, Y' ); ?></h2>
-		<?php else: ?>
+		<?php else : ?>
 			<p class="llms-label"><?php _e( 'Last Activity', 'lifterlms' ); ?></p>
 			<h2><?php echo $student->get_enrollment_date( $course_id, 'updated' ); ?></h2>
 		<?php endif; ?>

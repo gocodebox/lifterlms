@@ -48,7 +48,7 @@ $quiz = new LLMS_Quiz( $quiz_id );
 	</div>
 
 	<section class="llms-collapsible-group llms-quiz-attempts" id="llms-quiz-attempts">
-	<?php foreach( $attempts as $attempt ) : ?>
+	<?php foreach ( $attempts as $attempt ) : ?>
 
 	<div class="llms-collapsible llms-quiz-attempt">
 
