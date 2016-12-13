@@ -38,7 +38,8 @@ $table->get_results( array(
 	<div class="llms-widget-1-5">
 		<div class="llms-widget alt">
 			<p class="llms-label"><?php _e( 'Current Grade', 'lifterlms' ); ?></p>
-			<h2><?php echo $student->get_grade( $course_id ); ?>%</h2>
+			<?php $grade = $student->get_grade( $course_id ); ?>
+			<h2><?php echo $grade; ?><?php echo is_numeric( $grade ) ? '%' : ''; ?></h2>
 		</div>
 	</div>
 
