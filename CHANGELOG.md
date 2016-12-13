@@ -1,9 +1,27 @@
 == Changelog ==
 
-= v3.1.7 - 2016/11/?? =
+= v3.1.8 - 2016/12/??=
 -----------------------
 
++ Fix positioning of teacher avatar on course/membership tiles
++ Remove explicit color definition from Student Dashboard navigation links for greater theme compatibility
+
+
+= v3.1.7 - 2016/12/06=
+-----------------------
+
++ Added support for WordPress Twenty Seventeen theme
++ Improved the messaging and functions related to LifterLMS Sidebar support
++ Add alternate language for a quiz requiring 100% grade to pass
++ Added CSS class `.llms-button-primaray` to lessom "Mark as Complete" buttons
++ Add box-sizing css rule to LifterLMS form field elements. Fixes layout issues on themes that don't border-box everything.
++ Fix an issue that prevented the admin notice to enable/disable recurring payments from clearing when a button was pressed from screens other than the LLMS Settings screen
++ Fix next payment date error when viewing a cancelled recurring order on the student dashboard
++ Recurring payments now scheduled based on UTC time in accordance with the action scheduler which executes based on UTC rather than site timezone
++ Add existing lesson to course modal now relies on async search. Improves performance and prevents timeouts on sites with a 500+ lessons
 + Removed 2.x -> 3.x update notification message
++ Fix an issue with comment counting on PHP7
++ Updated action scheduler library to latest version
 
 
 = v3.1.6 - 2016/11/11 =

@@ -66,7 +66,7 @@ class LLMS_Analytics_Page {
 
 		$html = '<div id="llms-options-page-contents">';
 
-		$html .= '<h2>' . sprintf( __( '%s', 'lifterlms' ), $title ) . '</h2>';
+		$html .= '<h2>' . $title . '</h2>';
 
 		$html .= $contents;
 

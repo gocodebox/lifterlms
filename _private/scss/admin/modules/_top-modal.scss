@@ -95,21 +95,21 @@ Styles for topModal modal
         width: 100%;
     }
 
-    textarea, 
-    input[type="text"], 
-    input[type="password"], 
-    input[type="file"], 
-    input[type="datetime"], 
-    input[type="datetime-local"], 
-    input[type="date"], 
-    input[type="month"], 
-    input[type="time"], 
-    input[type="week"], 
-    input[type="number"], 
-    input[type="email"], 
-    input[type="url"], 
-    input[type="search"], 
-    input[type="tel"], 
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    input[type="file"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
     input[type="color"] {
         padding: 0 .4em 0 .4em;
         margin-bottom: 2em;
@@ -127,7 +127,7 @@ Styles for topModal modal
 
         &:focus {
             background: $color-white;
-            border: 1px solid $color-blue; 
+            border: 1px solid $color-blue;
 
         }
     }
@@ -143,7 +143,7 @@ Styles for topModal modal
 
         &:focus {
             background: $color-white;
-            border: 1px solid $color-blue; 
+            border: 1px solid $color-blue;
 
         }
 
@@ -164,7 +164,7 @@ Styles for topModal modal
 
         &:focus {
         background: $color-white;
-        border: 1px solid $color-blue; 
+        border: 1px solid $color-blue;
         }
     }
 
@@ -174,10 +174,10 @@ Styles for topModal modal
 
     .chosen-search input[type=text] {
         border: 1px solid $color-lightgrey;
-        
+
         &:focus {
             background-color: $color-white;
-            border: 1px solid $color-blue; 
+            border: 1px solid $color-blue;
         }
 
     }
@@ -185,8 +185,6 @@ Styles for topModal modal
     .chosen-container-single .chosen-drop {
         margin-top: -28px;
     }
-
-
 
     .llms-button-primary, .llms-button-secondary {
         padding: 10px 10px;
@@ -198,4 +196,8 @@ Styles for topModal modal
             width: 100%;
         }
     }
+}
+
+.modal-open .select2-dropdown {
+  z-index: 1000005;
 }

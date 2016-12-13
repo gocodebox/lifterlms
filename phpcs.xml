@@ -27,6 +27,13 @@
 		<exclude name="WordPress.PHP.YodaConditions"/>
 
 		<!--
+		@todo fix this before too long...
+		-->
+		<exclude name="WordPress.Functions.DontExtract"/>
+		<exclude name="WordPress.WP.PreparedSQL"/>
+		<exclude name="WordPress.WP.I18n"/>
+
+		<!--
 		We may want a middle ground though. The best way to do this is add the
 		entire ruleset, then rule by rule, remove ones that don't suit a project. We
 		can do this by running `phpcs` with the '-s' flag, to see the names of the

@@ -603,7 +603,12 @@ class LLMS_Shortcodes {
 
 		$count = (is_array( $results )) ? count( $results ) : 0;
 
-		return $count . ' ' . _n( $type, $type.'s', $count, 'lifterlms' );
+		if ( 1 == $count ) {
+			return $count . ' ' . $type;
+		} else {
+			return $count . ' ' . $type . 's';
+		}
+
 	}
 
 	/**

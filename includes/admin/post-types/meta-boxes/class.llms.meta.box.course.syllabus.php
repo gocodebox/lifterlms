@@ -50,9 +50,9 @@ class LLMS_Meta_Box_Course_Syllabus {
 			foreach ( $query as $section ) : setup_postdata( $section );
 
 				if ($section_id == $section->ID) {
-					$html .= '<option value="'.$section->ID.'" selected="selected">'. get_the_title( $section->ID ) . '</option>';
+					$html .= '<option value="' . $section->ID . '" selected="selected">' . get_the_title( $section->ID ) . '</option>';
 				} else {
-					$html .= '<option value="'.$section->ID.'">'. get_the_title( $section->ID ) . '</option>';
+					$html .= '<option value="' . $section->ID . '">' . get_the_title( $section->ID ) . '</option>';
 				}
 
 			endforeach;
@@ -87,9 +87,9 @@ class LLMS_Meta_Box_Course_Syllabus {
 			foreach ( $query as $lesson ) : setup_postdata( $lesson );
 
 				if ($lesson_id == $lesson->ID) {
-						$html .= '<option value="'.$lesson->ID.'" data-lesson_id="' . $lesson_id . '" selected="selected">'. get_the_title( $lesson->ID ) . '</option>';
+						$html .= '<option value="' . $lesson->ID . '" data-lesson_id="' . $lesson_id . '" selected="selected">' . get_the_title( $lesson->ID ) . '</option>';
 				} else {
-					$html .= '<option value="'.$lesson->ID.'">'. get_the_title( $lesson->ID ) . '</option>';
+					$html .= '<option value="' . $lesson->ID . '">' . get_the_title( $lesson->ID ) . '</option>';
 				}
 
 			endforeach;

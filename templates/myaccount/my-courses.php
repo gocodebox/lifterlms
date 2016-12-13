@@ -34,7 +34,7 @@ global $wp_query;
 								); ?>
 
 								<?php echo apply_filters('lifterlms_my_courses_start_date_html',
-									'<p class="llms-start-date">' .  __( 'Course Started','lifterlms' ) . ' - ' . $student->get_enrollment_date( $c->get_id(), 'enrolled' ) . '</p>'
+									'<p class="llms-start-date">' . __( 'Course Started','lifterlms' ) . ' - ' . $student->get_enrollment_date( $c->get_id(), 'enrolled' ) . '</p>'
 								); ?>
 
 								<h3><a href="<?php echo $c->get_permalink(); ?>"><?php echo $c->get_title(); ?></a></h3>
@@ -49,7 +49,7 @@ global $wp_query;
 
 						<div class="llms-progress">
 							<?php $progress = $c->get_percent_complete( $student->get_id() ); ?>
-							<div class="progress__indicator"><?php printf( __( '%s%%', 'lifterlms' ), $progress ); ?></div>
+							<div class="progress__indicator"><?php echo $progress; ?>%</div>
 							<div class="llms-progress-bar">
 							    <div class="progress-bar-complete" style="width:<?php echo $progress ?>%"></div>
 							</div>

@@ -48,8 +48,8 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 					array(
 						'type'		=> 'text',
 						'label'		=> __( 'Email Subject', 'lifterlms' ),
-						'desc' 		=> __( 'This will be used for the subject line of your email.', 'lifterlms' )  . llms_merge_code_button( '#' . $this->prefix .'email_subject', false ),
-						'id' 		=> $this->prefix .'email_subject',
+						'desc' 		=> __( 'This will be used for the subject line of your email.', 'lifterlms' ) . llms_merge_code_button( '#' . $this->prefix . 'email_subject', false ),
+						'id' 		=> $this->prefix . 'email_subject',
 						'class' 	=> 'code input-full',
 						'value' 	=> '',
 						'desc_class' => 'd-all',

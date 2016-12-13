@@ -7,8 +7,8 @@ if ( ! defined( 'ABSPATH' )) { exit; }
  * @author codeBOX
  * @project lifterLMS
  */
-class LLMS_Voucher
-{
+class LLMS_Voucher {
+
 
 	/**
 	 * ID of the voucher

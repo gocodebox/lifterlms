@@ -787,7 +787,7 @@ class LLMS_Update_300 extends LLMS_Update {
 		$order->set( 'original_total', $total );
 		$order->set( 'total', $total );
 
-		$order->add_note( sprintf( __( 'This order was migrated to the LifterLMS 3.0 data structure. %sLearn more%s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-orders#migration" target="_blank">', '</a>' ) );
+		$order->add_note( sprintf( __( 'This order was migrated to the LifterLMS 3.0 data structure. %1$sLearn more%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-orders#migration" target="_blank">', '</a>' ) );
 
 		// remove deprecated
 		delete_post_meta( $post->ID, '_llms_order_recurring_price' );

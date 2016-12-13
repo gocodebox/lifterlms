@@ -268,7 +268,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 			if ( ! is_numeric( $last ) ) {
 				$last = strtotime( $last );
 			}
-			$return = $last ? date_i18n( get_option( 'date_format' , 'Y-m-d' ). ' h:i:s a', $last ) : __( 'Never', 'lifterlms' );
+			$return = $last ? date_i18n( get_option( 'date_format' , 'Y-m-d' ) . ' h:i:s a', $last ) : __( 'Never', 'lifterlms' );
 
 		break;
 

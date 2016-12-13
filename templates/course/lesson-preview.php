@@ -24,7 +24,7 @@ $locked = llms_is_page_restricted( $lesson->get( 'id' ), get_current_user_id() )
 			<?php endif; ?>
 
 			<aside class="llms-extra">
-				<span class="llms-lesson-counter"><?php printf( _x( '%d of %d', 'lesson order within section', 'lifterlms' ), $lesson->get_order(), $total_lessons ); ?></span>
+				<span class="llms-lesson-counter"><?php printf( _x( '%1$d of %1$d', 'lesson order within section', 'lifterlms' ), $lesson->get_order(), $total_lessons ); ?></span>
 				<?php echo $lesson->get_preview_icon_html(); ?>
 			</aside>
 

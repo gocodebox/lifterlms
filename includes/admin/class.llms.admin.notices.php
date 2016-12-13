@@ -117,7 +117,7 @@ class LLMS_Admin_Notices {
 			if ( $delay ) {
 				set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $delay );
 			}
-			do_action( 'lifterlms_' . $trigger . '_' . $notice_id  . '_notice' );
+			do_action( 'lifterlms_' . $trigger . '_' . $notice_id . '_notice' );
 		}
 	}
 

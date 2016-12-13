@@ -42,7 +42,7 @@ class LLMS_Integration_Buddypress {
 			'default_subnav_slug' => 'courses',
 		));
 
-		$parent_url = $bp->loggedin_user->domain.'courses/';
+		$parent_url = $bp->loggedin_user->domain . 'courses/';
 		$is_my_profile = bp_is_my_profile(); // only let the logged in user access subnav screens
 
 		// add sub nav items

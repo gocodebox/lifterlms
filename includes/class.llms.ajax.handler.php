@@ -25,7 +25,7 @@ class LLMS_AJAX_Handler {
 		$post_id = intval( $request['post_id'] );
 
 		foreach ( $request['student_ids'] as $id ) {
-			llms_enroll_student( intval( $id ), $post_id, 'admin_' .  get_current_user_id() );
+			llms_enroll_student( intval( $id ), $post_id, 'admin_' . get_current_user_id() );
 		}
 
 		ob_start();
@@ -123,7 +123,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Retrieve Students
 	 *
-	 * Used by Select2 AJAX functions to load paginated quiz questions
+	 * Used by Select2 AJAX functions to load paginated student results
 	 * Also allows querying by:
 	 * 		first name
 	 * 		last name
@@ -361,7 +361,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		if ( 'add' === $request['status'] ) {
-			llms_enroll_student( $request['student_id'], $request['post_id'], 'admin_' .  get_current_user_id() );
+			llms_enroll_student( $request['student_id'], $request['post_id'], 'admin_' . get_current_user_id() );
 		} elseif ( 'remove' === $request['status'] ) {
 			llms_unenroll_student( $request['student_id'], $request['post_id'], 'cancelled', 'any' );
 		}

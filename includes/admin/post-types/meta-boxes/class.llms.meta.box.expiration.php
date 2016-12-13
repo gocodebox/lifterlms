@@ -172,8 +172,8 @@ class LLMS_Meta_Box_Expiration {
 
 		$prefix = '_llms_';
 
-		$interval = $prefix  . 'expiration_interval';
-		$period = $prefix  . 'expiration_period';
+		$interval = $prefix . 'expiration_interval';
+		$period = $prefix . 'expiration_period';
 
 		//upate interval textbox
 		if (isset( $_POST[ $interval ] )) {

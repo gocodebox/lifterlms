@@ -294,6 +294,11 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	protected function save( $post_id ) {
 
+		// dont save metabox during a quick save action
+		if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
+			return;
+		}
+
 		// get all defined fields
 		$fields = $this->get_fields();
 

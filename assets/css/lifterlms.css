@@ -641,7 +641,7 @@ svg .llms-animated-circle {
 .llms-loop-item-content .llms-loop-link:visited {
   color: #212121;
 }
-.llms-loop-item-content img {
+.llms-loop-item-content .llms-featured-image {
   display: block;
   max-width: 100%;
 }
@@ -1661,6 +1661,9 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   margin-bottom: 0;
 }
 
+.llms-form-fields {
+  box-sizing: border-box;
+}
 .llms-form-fields.flush .llms-form-field {
   padding: 0 0 10px;
 }
@@ -1868,9 +1871,6 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 .llms-student-dashboard .llms-sd-item .llms-sep {
   color: #333;
   margin: 0 5px;
-}
-.llms-student-dashboard .llms-sd-link {
-  color: #2295ff;
 }
 .llms-student-dashboard .llms-sd-section {
   margin-bottom: 25px;
