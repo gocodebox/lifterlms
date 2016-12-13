@@ -1,7 +1,20 @@
 == Changelog ==
 
-= v3.1.8 - 2016/12/??=
+= v3.2.0 - 2016/12/13=
 -----------------------
+
+##### LifterLMS Reporting Beta
+
++ Students overview displays broad information about your students in a searchable and sortable table
++ Review data about individual students including:
+  + Membership enrollments and statuses
+  + Course enrollments, status, and progress
+  + Quiz attemtpts and and their submitted answers
+  + Earned achievements and certificates
++ Sales and Enrollments analytics are now found under the "Reporting" screen
++ Feedback on the beta? Let us know at [https://lifterlms.com/docs/lifterlms-reporting-beta/](https://lifterlms.com/docs/lifterlms-reporting-beta/)
+
+##### Other Updates & Fixes
 
 + Fix positioning of teacher avatar on course/membership tiles
 + Remove explicit color definition from Student Dashboard navigation links for greater theme compatibility
