@@ -1118,7 +1118,7 @@ class LLMS_Student {
 	 * @param    string     $type    Object type (course, lesson, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.2.0
+	 * @version  3.2.1
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 		global $wpdb;
@@ -1135,9 +1135,8 @@ class LLMS_Student {
 					"SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND post_id = %d AND meta_key = '_is_complete' AND meta_value = 'yes'",
 					array( $this->get_id(), $object_id )
 				) );
-				return ( 1 >= $q );
+				return ( $q >= 1 );
 			break;
-
 		}
 
 	}
