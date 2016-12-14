@@ -1,5 +1,5 @@
 === LifterLMS ===
-Contributors: thomasplevy, chrisbadgett, loralee_h, kathy11, lifterlms, codeboxllc
+Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
@@ -165,6 +165,27 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.2.0 - 2016/12/13=
+-----------------------
+
+##### LifterLMS Reporting Beta
+
++ Students overview displays broad information about your students in a searchable and sortable table
++ Review data about individual students including:
+  + Membership enrollments and statuses
+  + Course enrollments, status, and progress
+  + Quiz attemtpts and and their submitted answers
+  + Earned achievements and certificates
++ Sales and Enrollments analytics are now found under the "Reporting" screen
++ Feedback on the beta? Let us know at [https://lifterlms.com/docs/lifterlms-reporting-beta/](https://lifterlms.com/docs/lifterlms-reporting-beta/)
+
+##### Other Updates & Fixes
+
++ Lesson completion checks now look for at least one record of the completed lesson as opposed to looking for exactly one
++ Fix positioning of teacher avatar on course/membership tiles
++ Remove explicit color definition from Student Dashboard navigation links for greater theme compatibility
+
 
 = v3.1.7 - 2016/12/06=
 -----------------------

@@ -1,5 +1,5 @@
 === LifterLMS ===
-Contributors: thomasplevy, chrisbadgett, loralee_h, kathy11, lifterlms, codeboxllc
+Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
