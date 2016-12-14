@@ -16,6 +16,7 @@
 
 ##### Other Updates & Fixes
 
++ Lesson completion checks now look for at least one record of the completed lesson as opposed to looking for exactly one
 + Fix positioning of teacher avatar on course/membership tiles
 + Remove explicit color definition from Student Dashboard navigation links for greater theme compatibility
 
