@@ -146,13 +146,13 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'type' => 'custom-html-no-wrap',
 			),
 
-            array(
-                'desc' => __( 'Clear Students Table cache.  Clear cached data from the students table in the analytics section.', 'lifterlms' ),
-                'name' => 'clear-cache',
-                'title' => __( 'Clear Student Table Cache', 'lifterlms' ),
-                'type' 		=> 'button',
-                'value' => __( 'Clear Cache', 'lifterlms' ),
-            ),
+			array(
+				'desc' => __( 'Clear Students Table cache.  Clear cached data from the students table in the analytics section.', 'lifterlms' ),
+				'name' => 'clear-cache',
+				'title' => __( 'Clear Student Table Cache', 'lifterlms' ),
+				'type' 		=> 'button',
+				'value' => __( 'Clear Cache', 'lifterlms' ),
+			),
 
 			array(
 				'id' => 'section_tools',
@@ -178,15 +178,15 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		if ( isset( $_POST['clear-cache'] ) ) {
 
-            global $wpdb;
+			global $wpdb;
 
-            // Delete all cached student data
-            $wpdb->query( $wpdb->prepare(
-                "DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = %s or meta_key = %s ",
-                    'llms_overall_progress', 'llms_overall_grade'
-            ) );
+			// Delete all cached student data
+			$wpdb->query( $wpdb->prepare(
+				"DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = %s or meta_key = %s ",
+				'llms_overall_progress', 'llms_overall_grade'
+			) );
 
-        }
+		}
 
 		if ( isset( $_POST['reset-tracking'] ) ) {
 			update_option( 'llms_allow_tracking', 'no' );
