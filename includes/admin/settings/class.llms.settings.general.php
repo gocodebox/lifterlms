@@ -147,9 +147,9 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			),
 
 			array(
-				'desc' => __( 'Clear Students Table cache.  Clear cached data from the students table in the analytics section.', 'lifterlms' ),
+				'desc' => __( 'Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed.', 'lifterlms' ),
 				'name' => 'clear-cache',
-				'title' => __( 'Clear Student Table Cache', 'lifterlms' ),
+				'title' => __( 'Clear Student Progress Cache', 'lifterlms' ),
 				'type' 		=> 'button',
 				'value' => __( 'Clear Cache', 'lifterlms' ),
 			),
@@ -182,7 +182,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 			// Delete all cached student data
 			$wpdb->query( $wpdb->prepare(
-				"DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = %s or meta_key = %s ",
+				"DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = %s or meta_key = %s;",
 				'llms_overall_progress', 'llms_overall_grade'
 			) );
 
