@@ -3,10 +3,12 @@
 .llms-collapsible .llms-collapsible-header:before,
 .llms-collapsible .llms-collapsible-body:before,
 .llms-access-plans:before,
+.llms-form-fields:before,
 .llms-collapsible:after,
 .llms-collapsible .llms-collapsible-header:after,
 .llms-collapsible .llms-collapsible-body:after,
-.llms-access-plans:after {
+.llms-access-plans:after,
+.llms-form-fields:after {
   content: " ";
   display: table;
 }
@@ -14,7 +16,8 @@
 .llms-collapsible:after,
 .llms-collapsible .llms-collapsible-header:after,
 .llms-collapsible .llms-collapsible-body:after,
-.llms-access-plans:after {
+.llms-access-plans:after,
+.llms-form-fields:after {
   clear: both;
 }
 
@@ -2929,6 +2932,180 @@ div[id^="lifterlms-"] .inside {
 
 #llms-students-table .name {
   text-align: left;
+}
+
+.llms-form-fields {
+  box-sizing: border-box;
+}
+.llms-form-fields.flush .llms-form-field {
+  padding: 0 0 10px;
+}
+
+.llms-form-heading {
+  padding: 0 10px 10px;
+}
+
+.llms-form-field {
+  float: left;
+  padding: 0 10px 10px;
+  position: relative;
+  width: 100%;
+}
+.llms-form-field.valid input[type="date"], .llms-form-field.valid input[type="time"], .llms-form-field.valid input[type="datetime-local"], .llms-form-field.valid input[type="week"], .llms-form-field.valid input[type="month"], .llms-form-field.valid input[type="text"], .llms-form-field.valid input[type="email"], .llms-form-field.valid input[type="url"], .llms-form-field.valid input[type="password"], .llms-form-field.valid input[type="search"], .llms-form-field.valid input[type="tel"], .llms-form-field.valid input[type="number"], .llms-form-field.valid textarea, .llms-form-field.valid select {
+  background: rgba(131, 195, 115, 0.3);
+  border-color: #83c373;
+}
+.llms-form-field.error input[type="date"], .llms-form-field.error input[type="time"], .llms-form-field.error input[type="datetime-local"], .llms-form-field.error input[type="week"], .llms-form-field.error input[type="month"], .llms-form-field.error input[type="text"], .llms-form-field.error input[type="email"], .llms-form-field.error input[type="url"], .llms-form-field.error input[type="password"], .llms-form-field.error input[type="search"], .llms-form-field.error input[type="tel"], .llms-form-field.error input[type="number"], .llms-form-field.error textarea, .llms-form-field.error select, .llms-form-field.invalid input[type="date"], .llms-form-field.invalid input[type="time"], .llms-form-field.invalid input[type="datetime-local"], .llms-form-field.invalid input[type="week"], .llms-form-field.invalid input[type="month"], .llms-form-field.invalid input[type="text"], .llms-form-field.invalid input[type="email"], .llms-form-field.invalid input[type="url"], .llms-form-field.invalid input[type="password"], .llms-form-field.invalid input[type="search"], .llms-form-field.invalid input[type="tel"], .llms-form-field.invalid input[type="number"], .llms-form-field.invalid textarea, .llms-form-field.invalid select {
+  background: rgba(229, 85, 78, 0.3);
+  border-color: #e5554e;
+}
+.llms-form-field.align-right {
+  text-align: right;
+}
+@media screen and (min-width: 600px) {
+  .llms-form-field.llms-cols-1 {
+    width: 8.33333%;
+  }
+  .llms-form-field.llms-cols-2 {
+    width: 16.66667%;
+  }
+  .llms-form-field.llms-cols-3 {
+    width: 25%;
+  }
+  .llms-form-field.llms-cols-4 {
+    width: 33.33333%;
+  }
+  .llms-form-field.llms-cols-5 {
+    width: 41.66667%;
+  }
+  .llms-form-field.llms-cols-6 {
+    width: 50%;
+  }
+  .llms-form-field.llms-cols-7 {
+    width: 58.33333%;
+  }
+  .llms-form-field.llms-cols-8 {
+    width: 66.66667%;
+  }
+  .llms-form-field.llms-cols-9 {
+    width: 75%;
+  }
+  .llms-form-field.llms-cols-10 {
+    width: 83.33333%;
+  }
+  .llms-form-field.llms-cols-11 {
+    width: 91.66667%;
+  }
+  .llms-form-field.llms-cols-12 {
+    width: 100%;
+  }
+}
+.llms-form-field.type-hidden {
+  padding: 0;
+}
+.llms-form-field.type-radio input,
+.llms-form-field.type-radio label, .llms-form-field.type-checkbox input,
+.llms-form-field.type-checkbox label {
+  display: inline;
+  width: auto;
+}
+.llms-form-field.type-radio input, .llms-form-field.type-checkbox input {
+  margin-right: 5px;
+}
+.llms-form-field.type-radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  visibility: none;
+}
+.llms-form-field.type-radio label:before {
+  background: #fafafa;
+  background-position: -24px 0;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  box-shadow: rgba(255, 255, 255, 0.15) 0 1px 1px, inset rgba(0, 0, 0, 0.35) 0 0 0 1px;
+  content: '';
+  cursor: pointer;
+  display: inline-block;
+  height: 22px;
+  margin-right: 5px;
+  position: relative;
+  -webkit-transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
+          transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
+  top: -3px;
+  vertical-align: middle;
+  width: 22px;
+  z-index: 2;
+}
+.llms-form-field.type-radio input[type="radio"]:checked + label:before {
+  -webkit-transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
+          transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
+  background-position: 0 0;
+  background-image: -webkit-radial-gradient(center, ellipse, #2295ff 0%, #2295ff 40%, #fafafa 45%);
+  background-image: radial-gradient(ellipse at center, #2295ff 0%, #2295ff 40%, #fafafa 45%);
+}
+.llms-form-field.type-reset button, .llms-form-field.type-button button, .llms-form-field.type-submit button {
+  width: 100%;
+}
+.llms-form-field .llms-description {
+  font-size: 14px;
+  font-style: italic;
+}
+.llms-form-field .llms-required {
+  color: #e5554e;
+}
+.llms-form-field input, .llms-form-field textarea, .llms-form-field select {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.llms-password-strength-meter {
+  border: 1px solid #dadada;
+  display: none;
+  font-size: 10px;
+  margin-top: -10px;
+  padding: 1px;
+  position: relative;
+  text-align: center;
+}
+.llms-password-strength-meter:before {
+  bottom: 0;
+  content: '';
+  left: 0;
+  position: absolute;
+  top: 0;
+  -webkit-transition: width .4s ease;
+          transition: width .4s ease;
+}
+.llms-password-strength-meter.mismatch, .llms-password-strength-meter.too-short, .llms-password-strength-meter.very-weak {
+  border-color: #e35b5b;
+}
+.llms-password-strength-meter.mismatch:before, .llms-password-strength-meter.too-short:before, .llms-password-strength-meter.very-weak:before {
+  background: rgba(227, 91, 91, 0.25);
+  width: 25%;
+}
+.llms-password-strength-meter.too-short:before {
+  width: 0;
+}
+.llms-password-strength-meter.weak {
+  border-color: #f78b53;
+}
+.llms-password-strength-meter.weak:before {
+  background: rgba(247, 139, 83, 0.25);
+  width: 50%;
+}
+.llms-password-strength-meter.medium {
+  border-color: #ffc733;
+}
+.llms-password-strength-meter.medium:before {
+  background: rgba(255, 199, 51, 0.25);
+  width: 75%;
+}
+.llms-password-strength-meter.strong {
+  border-color: #83c373;
+}
+.llms-password-strength-meter.strong:before {
+  background: rgba(131, 195, 115, 0.25);
+  width: 100%;
 }
 
 /*!
