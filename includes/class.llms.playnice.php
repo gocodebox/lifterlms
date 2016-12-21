@@ -3,7 +3,7 @@
  * Make LifterLMS play nicely with other plugins & themems
  *
  * @since    3.1.3
- * @version  3.1.3
+ * @version  3.2.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -13,13 +13,16 @@ class LLMS_PlayNice {
 	/**
 	 * Constructor
 	 * @since    3.1.3
-	 * @version  3.1.3
+	 * @version  3.2.2
 	 */
 	public function __construct() {
 
+		// Yoast Premium redirect manager slug change filter
 		add_filter( 'wpseo_premium_post_redirect_slug_change', array( $this, 'wp_seo_premium_redirects' ) );
 
+		// optimize press live editor initialization
 		add_action( 'op_liveeditor_init' , array( $this, 'wp_optimizepress_live_editor' ) );
+
 	}
 
 	/**
@@ -31,6 +34,8 @@ class LLMS_PlayNice {
 	 * This function loads all frontend files when the optimizepress live editor is initalized
 	 *
 	 * @return void
+	 * @since    3.2.2
+	 * @version  3.2.2
 	 */
 	public function wp_optimizepress_live_editor() {
 
