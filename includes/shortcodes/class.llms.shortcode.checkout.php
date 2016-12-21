@@ -8,6 +8,9 @@
 * @author codeBOX
 * @project lifterLMS
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Shortcode_Checkout {
 
 	public static $uid;
