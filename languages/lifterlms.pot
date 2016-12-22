@@ -147,7 +147,7 @@ msgstr ""
 msgid "Certificates Issued"
 msgstr ""
 
-#: includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:304, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:86, includes/functions/llms.functions.person.php:243, includes/integrations/class.llms.integration.buddypress.php:59, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:202, templates/admin/reporting/nav-filters.php:84
+#: includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:312, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:86, includes/functions/llms.functions.person.php:243, includes/integrations/class.llms.integration.buddypress.php:59, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:202, templates/admin/reporting/nav-filters.php:84
 msgid "Memberships"
 msgstr ""
 
@@ -1942,11 +1942,11 @@ msgstr ""
 msgid "Students"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:211, includes/admin/reporting/tables/llms.table.students.php:288, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:54
+#: includes/admin/reporting/class.llms.admin.reporting.php:211, includes/admin/reporting/tables/llms.table.students.php:296, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:54
 msgid "Enrollments"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.questions.php:85, includes/admin/reporting/tables/llms.table.student.course.php:185, includes/admin/reporting/tables/llms.table.student.courses.php:188, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:268, templates/admin/post-types/order-transactions.php:17
+#: includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.questions.php:85, includes/admin/reporting/tables/llms.table.student.course.php:185, includes/admin/reporting/tables/llms.table.student.courses.php:188, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:276, templates/admin/post-types/order-transactions.php:17
 msgid "ID"
 msgstr ""
 
@@ -1987,7 +1987,7 @@ msgstr ""
 msgid "Lesson Name"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.student.course.php:194, includes/admin/reporting/tables/llms.table.student.courses.php:198, includes/admin/reporting/tables/llms.table.students.php:284, templates/admin/post-types/student-row.php:24, templates/admin/post-types/student-table.php:20, templates/admin/reporting/tabs/students/courses-quiz.php:59
+#: includes/admin/reporting/tables/llms.table.student.course.php:194, includes/admin/reporting/tables/llms.table.student.courses.php:198, includes/admin/reporting/tables/llms.table.students.php:292, templates/admin/post-types/student-row.php:24, templates/admin/post-types/student-table.php:20, templates/admin/reporting/tabs/students/courses-quiz.php:59
 msgid "Grade"
 msgstr ""
 
@@ -1995,7 +1995,7 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.student.courses.php:191, includes/admin/reporting/tables/llms.table.student.memberships.php:107, includes/admin/reporting/tables/llms.table.students.php:272, templates/admin/post-types/student-table.php:15
+#: includes/admin/reporting/tables/llms.table.student.courses.php:191, includes/admin/reporting/tables/llms.table.student.memberships.php:107, includes/admin/reporting/tables/llms.table.students.php:280, templates/admin/post-types/student-table.php:15
 msgid "Name"
 msgstr ""
 
@@ -2003,7 +2003,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.student.courses.php:201, includes/admin/reporting/tables/llms.table.students.php:280, templates/admin/post-types/student-table.php:19, templates/admin/reporting/tabs/students/courses-course.php:33
+#: includes/admin/reporting/tables/llms.table.student.courses.php:201, includes/admin/reporting/tables/llms.table.students.php:288, templates/admin/post-types/student-table.php:19, templates/admin/reporting/tabs/students/courses-course.php:33
 msgid "Progress"
 msgstr ""
 
@@ -2027,19 +2027,19 @@ msgstr ""
 msgid "Search students by name or email..."
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.students.php:276
+#: includes/admin/reporting/tables/llms.table.students.php:284
 msgid "Registration Date"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.students.php:292
+#: includes/admin/reporting/tables/llms.table.students.php:300
 msgid "Completions"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.students.php:296, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:88, includes/class.llms.post-types.php:686, includes/integrations/class.llms.integration.buddypress.php:77
+#: includes/admin/reporting/tables/llms.table.students.php:304, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:88, includes/class.llms.post-types.php:686, includes/integrations/class.llms.integration.buddypress.php:77
 msgid "Certificates"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.students.php:300, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:87, includes/class.llms.post-types.php:645, includes/integrations/class.llms.integration.buddypress.php:68
+#: includes/admin/reporting/tables/llms.table.students.php:308, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:87, includes/class.llms.post-types.php:645, includes/integrations/class.llms.integration.buddypress.php:68
 msgid "Achievements"
 msgstr ""
 

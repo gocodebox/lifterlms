@@ -4,6 +4,7 @@
 -----------------------
 
 + Progress and Grade are now sortable columns on the student reporting table
++ Make enrollment statuses translateable for courses and memberships on the Student Dashboard
 
 
 = v3.2.2 - 2016/12/21 =
