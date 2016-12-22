@@ -2658,19 +2658,31 @@ msgstr ""
 msgid "Return to Setup Wizard"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:204
+#: includes/admin/settings/class.llms.settings.general.php:150
+msgid "Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.general.php:152
+msgid "Clear Student Progress Cache"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.general.php:154
+msgid "Clear Cache"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.general.php:224
 msgid "Course Enrollments This Week"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:207
+#: includes/admin/settings/class.llms.settings.general.php:227
 msgid "New Members This Week"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:210
+#: includes/admin/settings/class.llms.settings.general.php:230
 msgid "Lessons Completed This Week"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:213
+#: includes/admin/settings/class.llms.settings.general.php:233
 msgid "Total Sales This Week"
 msgstr ""
 
@@ -2839,7 +2851,7 @@ msgstr ""
 msgid "Please enter your password."
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:26, includes/shortcodes/class.llms.shortcode.my.account.php:148
+#: includes/class.llms.frontend.password.php:26, includes/shortcodes/class.llms.shortcode.my.account.php:158
 msgid "Enter a username or e-mail address."
 msgstr ""
 
@@ -2847,7 +2859,7 @@ msgstr ""
 msgid "The email address entered is not associated with an account."
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:52, includes/shortcodes/class.llms.shortcode.my.account.php:164
+#: includes/class.llms.frontend.password.php:52, includes/shortcodes/class.llms.shortcode.my.account.php:174
 msgid "Invalid username or e-mail."
 msgstr ""
 
@@ -2859,7 +2871,7 @@ msgstr ""
 msgid "Check your e-mail for the account confirmation link."
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:110, includes/class.llms.frontend.password.php:117, includes/class.llms.frontend.password.php:126, includes/shortcodes/class.llms.shortcode.my.account.php:221, includes/shortcodes/class.llms.shortcode.my.account.php:226, includes/shortcodes/class.llms.shortcode.my.account.php:242
+#: includes/class.llms.frontend.password.php:110, includes/class.llms.frontend.password.php:117, includes/class.llms.frontend.password.php:126, includes/shortcodes/class.llms.shortcode.my.account.php:231, includes/shortcodes/class.llms.shortcode.my.account.php:236, includes/shortcodes/class.llms.shortcode.my.account.php:252
 msgid "Invalid key"
 msgstr ""
 
@@ -4526,7 +4538,7 @@ msgstr ""
 msgid "You have already redeemed this voucher."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:74, includes/controllers/class.llms.controller.orders.php:80, includes/shortcodes/class.llms.shortcode.checkout.php:95
+#: includes/controllers/class.llms.controller.orders.php:74, includes/controllers/class.llms.controller.orders.php:80, includes/shortcodes/class.llms.shortcode.checkout.php:98
 msgid "Could not locate an order to confirm."
 msgstr ""
 
@@ -6525,27 +6537,31 @@ msgstr ""
 msgid "Trial"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:115
+#: includes/shortcodes/class.llms.shortcode.checkout.php:118
 msgid "Your cart is currently empty. Click <a href=\"%s\">here</a> to get started."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:157
+#: includes/shortcodes/class.llms.shortcode.checkout.php:158
+msgid "You are currently logged in as <em>%1$s</em>. <a href=\"%2$s\">Click here to logout</a>"
+msgstr ""
+
+#: includes/shortcodes/class.llms.shortcode.checkout.php:160
 msgid "Already have an account? <a href=\"%s\">Click here to login</a>"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.my.account.php:126
+#: includes/shortcodes/class.llms.shortcode.my.account.php:136
 msgid "Your password has been reset."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.my.account.php:127
+#: includes/shortcodes/class.llms.shortcode.my.account.php:137
 msgid "Log in"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.my.account.php:178
+#: includes/shortcodes/class.llms.shortcode.my.account.php:188
 msgid "Password reset is not allowed for this user"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.my.account.php:205
+#: includes/shortcodes/class.llms.shortcode.my.account.php:215
 msgid "Check your e-mail for the confirmation link."
 msgstr ""
 

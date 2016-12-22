@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,14 +166,24 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v3.2.2 - 2016/12/21=
+----------------------
+
++ Adds filter `llms_student_dashboard_login_redirect` allowing customization of the redirect upon login via the Student Dashboard
++ Adds a shortcode parameter, `login_redirect` to `[lifterlms_my_account]` allowing customization of the redirect upon login via the Student Dashboard
++ Adds a new tool under "Tools and Utilities" on the LifterLMS Settings screen which allows users to clear the cached student overall progress and overall grade data
++ Fixes a compatibility issue with the OptimizePress live editor
++ Adds a text domain to a translation function where none was present, rendering the string untranslateable
+
+
 = v3.2.1 - 2016/12/14=
------------------------
+----------------------
 
 + Fix operator position on `is_complete` check
 
 
 = v3.2.0 - 2016/12/13=
------------------------
+----------------------
 
 ##### LifterLMS Reporting Beta
 

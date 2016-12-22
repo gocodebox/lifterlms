@@ -1,13 +1,23 @@
 == Changelog ==
 
+= v3.2.2 - 2016/12/21=
+----------------------
+
++ Adds filter `llms_student_dashboard_login_redirect` allowing customization of the redirect upon login via the Student Dashboard
++ Adds a shortcode parameter, `login_redirect` to `[lifterlms_my_account]` allowing customization of the redirect upon login via the Student Dashboard
++ Adds a new tool under "Tools and Utilities" on the LifterLMS Settings screen which allows users to clear the cached student overall progress and overall grade data
++ Fixes a compatibility issue with the OptimizePress live editor
++ Adds a text domain to a translation function where none was present, rendering the string untranslateable
+
+
 = v3.2.1 - 2016/12/14=
------------------------
+----------------------
 
 + Fix operator position on `is_complete` check
 
 
 = v3.2.0 - 2016/12/13=
------------------------
+----------------------
 
 ##### LifterLMS Reporting Beta
 
