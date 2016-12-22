@@ -29,7 +29,7 @@ global $wp_query;
 								<?php echo apply_filters( 'lifterlms_my_courses_enrollment_status_html',
 									'<span class="llms-sts-enrollment">
 										<span class="llms-sts-label">' . __( 'Status:','lifterlms' ) . '</span>
-										<span class="llms-sts-current">' . $student->get_enrollment_status( $c->get_id() ) . '</span>
+										<span class="llms-sts-current">' . llms_get_enrollment_status_name( $student->get_enrollment_status( $c->get_id() ) ) . '</span>
 									</span>'
 								); ?>
 

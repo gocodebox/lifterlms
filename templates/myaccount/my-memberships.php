@@ -24,7 +24,7 @@ $memberships = $person->get_user_memberships_data( get_current_user_id(), '_stat
 
 				<strong><a href="<?php echo get_permalink( $mid ); ?>"><?php echo get_the_title( $mid ); ?></a></strong><br>
 				<?php echo sprintf( __( 'Enrolled: %s', 'lifterlms' ), LLMS_Date::pretty_date( $data['_start_date']->updated_date ) ); ?><br>
-				<?php echo sprintf( __( 'Status: %s', 'lifterlms' ), $data['_status']->meta_value ); ?>
+				<?php echo sprintf( __( 'Status: %s', 'lifterlms' ), llms_get_enrollment_status_name( $data['_status']->meta_value ) ); ?>
 
 				<?php do_action( 'lifterlms_sd_after_membership', $mid ); ?>
 
