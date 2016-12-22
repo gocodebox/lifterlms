@@ -1,7 +1,13 @@
 == Changelog ==
 
-= v3.2.2 - 2016/12/21=
-----------------------
+= v3.2.3 - 2016/12/22 =
+-----------------------
+
++ Progress and Grade are now sortable columns on the student reporting table
+
+
+= v3.2.2 - 2016/12/21 =
+-----------------------
 
 + Adds filter `llms_student_dashboard_login_redirect` allowing customization of the redirect upon login via the Student Dashboard
 + Adds a shortcode parameter, `login_redirect` to `[lifterlms_my_account]` allowing customization of the redirect upon login via the Student Dashboard
@@ -10,14 +16,14 @@
 + Adds a text domain to a translation function where none was present, rendering the string untranslateable
 
 
-= v3.2.1 - 2016/12/14=
-----------------------
+= v3.2.1 - 2016/12/14 =
+-----------------------
 
 + Fix operator position on `is_complete` check
 
 
-= v3.2.0 - 2016/12/13=
-----------------------
+= v3.2.0 - 2016/12/13 =
+-----------------------
 
 ##### LifterLMS Reporting Beta
 
@@ -37,7 +43,7 @@
 + Remove explicit color definition from Student Dashboard navigation links for greater theme compatibility
 
 
-= v3.1.7 - 2016/12/06=
+= v3.1.7 - 2016/12/06 =
 -----------------------
 
 + Added support for WordPress Twenty Seventeen theme

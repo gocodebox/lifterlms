@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version 3.2.0
+ * @version 3.2.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -187,7 +187,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.2.3
 	 */
 	public function get_results( $args = array() ) {
 
@@ -213,16 +213,24 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 		switch ( $this->orderby ) {
 
+			case 'grade':
+				$query['meta_key'] = 'llms_overall_grade';
+				$query['orderby'] = 'meta_value_num';
+			break;
+
+			case 'progress':
+				$query['meta_key'] = 'llms_overall_progress';
+				$query['orderby'] = 'meta_value_num';
+			break;
+
 			case 'registered':
 				$query['orderby'] = 'registered';
 			break;
 
 			case 'name':
 			default:
-
 				$query['meta_key'] = 'last_name';
 				$query['orderby'] = 'meta_value';
-
 			break;
 
 		}
@@ -259,7 +267,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.2.3
 	 */
 	public function set_columns() {
 		return array(
@@ -276,11 +284,11 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				'title' => __( 'Registration Date', 'lifterlms' ),
 			),
 			'progress' => array(
-				'sortable' => false,
+				'sortable' => true,
 				'title' => __( 'Progress', 'lifterlms' ),
 			),
 			'grade' => array(
-				'sortable' => false,
+				'sortable' => true,
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
 			'enrollments' => array(
