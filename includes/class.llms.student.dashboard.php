@@ -124,7 +124,7 @@ class LLMS_Student_Dashboard {
 			),
 			'signout' => array(
 				'endpoint' => false,
-				'title' => 'Sign Out',
+				'title' => __( 'Sign Out', 'lifterlms' ),
 				'url' => wp_logout_url( llms_get_page_url( 'myaccount' ) ),
 			),
 		) );
