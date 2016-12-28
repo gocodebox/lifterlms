@@ -301,7 +301,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	protected function get_creation_args( $title = '' ) {
 
 		if ( empty( $title ) ) {
-			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
+			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%1$b %2$d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
 		}
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', array(
@@ -754,19 +754,34 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	}
 
-	public function get_revenue( $type = 'net', $deduct = null ) {
+	/**
+	 * Gets the total revenue of an order
+	 * @param    string     $type    revenue type [grosse|net]
+	 * @return   float
+	 * @since    3.0.0
+	 * @version  3.1.3 - handle legacy orders
+	 */
+	public function get_revenue( $type = 'net' ) {
 
-		$grosse = $this->get_transaction_total( 'amount' );
+		if ( $this->is_legacy() ) {
 
-		if ( 'net' === $type ) {
+			$amount = $this->get( 'total' );
 
-			$refunds = $this->get_transaction_total( 'refund_amount' );
+		} else {
 
-			$grosse = $grosse - $refunds;
+			$amount = $this->get_transaction_total( 'amount' );
+
+			if ( 'net' === $type ) {
+
+				$refunds = $this->get_transaction_total( 'refund_amount' );
+
+				$amount = $amount - $refunds;
+
+			}
 
 		}
 
-		return $grosse;
+		return apply_filters( 'llms_order_get_revenue' , $amount, $type, $this );
 
 	}
 
@@ -889,7 +904,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Will always unschedule the scheduled action (if one exists) before scheduling anothes
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.1.7
 	 */
 	public function maybe_schedule_payment() {
 
@@ -903,6 +918,9 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			// unschedule the next action (does nothing if no action scheduled)
 			$this->unschedule_recurring_payment();
+
+			// convert our date to UTC before passing to the scheduler
+			$date = $date - ( HOUR_IN_SECONDS * get_option( 'gmt_offset' ) );
 
 			// schedule the payment
 			wc_schedule_single_action( $date, 'llms_charge_recurring_payment', array( 'order_id' => $this->get( 'id' ) ) );

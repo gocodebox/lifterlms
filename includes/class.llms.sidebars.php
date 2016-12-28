@@ -69,6 +69,7 @@ class LLMS_Sidebars {
 			case 'twentyeleven':
 			case 'twentyfifteen':
 			case 'twentyfourteen':
+			case 'twentyseventeen':
 			case 'twentysixteen':
 			case 'twentytwelve':
 				$id = 'sidebar-1';

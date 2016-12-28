@@ -1,13 +1,12 @@
 <?php
-
 /**
-* My Account Shortcode
-*
-* Sets functionality associated with shortcode [llms_my_account]
-*
-* @author codeBOX
-* @project lifterLMS
+* My Account Shortcode [lifterlms_my_account]
+* @since    1.0.0
+* @version  3.2.2
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Shortcode_My_Account {
 
 	/**
@@ -24,11 +23,18 @@ class LLMS_Shortcode_My_Account {
 
 	/**
 	* Determines what content to output to user based on status
-	*
-	* @param array $atts
-	* @return array $messages
+	* @param    array  $atts  array of user submitted shortcode attributes
+	* @return   void
+	* @since    1.0.0
+	* @version  3.2.2
 	*/
 	public static function output( $atts ) {
+
+		$atts = shortcode_atts( array(
+
+			'login_redirect' => null,
+
+		), $atts, 'lifterlms_my_account' );
 
 		global $wp;
 
@@ -50,7 +56,12 @@ class LLMS_Shortcode_My_Account {
 
 			} else {
 
-				llms_get_template( 'global/form-login.php' );
+				llms_print_notices();
+
+				llms_get_login_form(
+					null,
+					apply_filters( 'llms_student_dashboard_login_redirect', $atts['login_redirect'] )
+				);
 
 				// can be enabled / disabled on options page.
 				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) {
@@ -83,6 +94,7 @@ class LLMS_Shortcode_My_Account {
 		}
 
 		do_action( 'lifterlms_after_student_dashboard' );
+
 	}
 
 

@@ -3,7 +3,7 @@
 * Register WordPress AJAX methods for Analytics Widgets
 *
 * @since  3.0.0
-* @version 3.0.0
+* @version 3.2.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -38,20 +38,15 @@ class LLMS_Analytics_Widget_Ajax {
 		// include the abstract
 		include LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.analytics.widget.php';
 
-		/**
-		 * @todo  is there a way to only register the function being called during this request?
-		 */
-		foreach ( $methods as $method ) {
+		$method = str_replace( 'llms_widget_', '', $_REQUEST['action'] );
 
-			$file = LLMS_PLUGIN_DIR . 'includes/admin/analytics/widgets/class.llms.analytics.widget.' . $method . '.php';
+		$file = LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/class.llms.analytics.widget.' . $method . '.php';
 
-			if ( file_exists( $file ) ) {
+		if ( file_exists( $file ) ) {
 
-				include $file;
-				$class = 'LLMS_Analytics_' . ucwords( $method ) . '_Widget';
-				add_action( 'wp_ajax_llms_widget_' . $method, array( new $class, 'output' ) );
-
-			}
+			include $file;
+			$class = 'LLMS_Analytics_' . ucwords( $method ) . '_Widget';
+			add_action( 'wp_ajax_llms_widget_' . $method, array( new $class, 'output' ) );
 
 		}
 

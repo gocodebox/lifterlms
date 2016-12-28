@@ -33,8 +33,10 @@ class LLMS_Shortcodes {
 			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
+			'lifterlms_login' => __CLASS__ . '::login',
 			'lifterlms_memberships' => __CLASS__ . '::memberships',
 			'lifterlms_membership_link' => __CLASS__ . '::membership_link',
+
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
@@ -85,10 +87,6 @@ class LLMS_Shortcodes {
 		}
 	}
 
-
-
-
-
 	/**
 	* Creates a wrapper for shortcode.
 	*
@@ -116,12 +114,36 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	* My account shortcode.
-	*
-	* Used for displaying account.
-	*
-	* @return self::shortcode_wrappers
-	*/
+	 * Add a login form
+	 * @param    array     $atts  shortcode attributes
+	 * @return   string
+	 * @since    3.0.4
+	 * @version  3.0.4
+	 */
+	public static function login( $atts ) {
+
+		extract( shortcode_atts( array(
+			'layout' => 'columns',
+			'redirect' => get_permalink(),
+		), $atts, 'lifterlms_login' ) );
+
+		ob_start();
+		llms_print_notices();
+		llms_get_template( 'global/form-login.php', array(
+			'layout' => $layout,
+			'redirect' => $redirect,
+		) );
+		return ob_get_clean();
+
+	}
+
+	/**
+	 * My account shortcode.
+	 *
+	 * Used for displaying account.
+	 *
+	 * @return self::shortcode_wrappers
+	 */
 	public static function my_account( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
@@ -288,14 +310,34 @@ class LLMS_Shortcodes {
 
 	}
 
-	public static function hide_content( $atts, $content = null ) {
-		extract(shortcode_atts(array(
-			'membership' => '', // course, lesson, section
-		),$atts));
+	/**
+	 * Display content only to user enrolled in a specific course, lesson, or membership
+	 * and display an option message to everyone else
+	 * @param    array       $atts     array of shortcode atts
+	 * @param    string     $content  HTML / Text content to be displayed only if the user is enrolled
+	 * @return   content
+	 * @since    1.0.0
+	 * @version  3.1.1
+	 */
+	public static function hide_content( $atts, $content = '' ) {
 
-		if (llms_is_user_enrolled( get_current_user_id(), $membership )) {
-			return $content;
+		extract( shortcode_atts( array(
+			'membership' => '', // backwards compat, use ID moving forwad
+
+			'message' => '',
+			'id' => get_the_ID(), // updated 3.1.1
+		), $atts ) );
+
+		if ( $membership ) {
+			$id = $membership;
 		}
+
+		if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
+			return $content;
+		} else {
+			return $message;
+		}
+
 	}
 
 	/**
@@ -561,7 +603,12 @@ class LLMS_Shortcodes {
 
 		$count = (is_array( $results )) ? count( $results ) : 0;
 
-		return $count . ' ' . _n( $type, $type.'s', $count, 'lifterlms' );
+		if ( 1 == $count ) {
+			return $count . ' ' . $type;
+		} else {
+			return $count . ' ' . $type . 's';
+		}
+
 	}
 
 	/**

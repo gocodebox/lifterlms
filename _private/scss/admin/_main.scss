@@ -401,3 +401,18 @@ div[id^="lifterlms-"] .inside {
 		text-decoration: none;
 	}
 }
+
+
+
+
+
+.llms-button-action,
+.llms-button-danger,
+.llms-button-primary,
+.llms-button-secondary {
+	&.small .dashicons {
+		font-size: 13px;
+		height: 13px;
+		width: 13px;
+	}
+}

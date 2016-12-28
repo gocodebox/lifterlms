@@ -32,7 +32,7 @@
     }
   ],
   "require": {
-    "gocodebox/action-scheduler": "dev-bleeding_branch"
+    "gocodebox/action-scheduler": "dev-master"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "2.*",
@@ -43,10 +43,11 @@
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs",
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
     ],
+    "phpcs": "./vendor/bin/phpcs --colors --extensions=php -n lifterlms.php includes/ templates/",
     "clean-trunk": "git branch -D trunk && git push origin :trunk",
     "dist-git-add": "git add -u && git add vendor/",
     "pre-dist-install": "git checkout -B trunk && composer install --no-dev --no-scripts",
-    "remove-dev": "rm -rf .editorconfig .gitignore .idea .jscsrc .jshintrc .travis.yml _private _readme bin/ composer.lock composer.phar gulpfile.js package.json phpcs.xml phpunit.xml README.md tests/ vendor/",
+    "remove-dev": "rm -rf .editorconfig .gitignore .github/ .idea .jscsrc .jshintrc .travis.yml _private _readme bin/ composer.lock composer.phar gulpfile.js package.json phpcs.xml phpunit.xml README.md tests/ vendor/",
     "vendor-ungit": "rm -rf vendor/gocodebox/action-scheduler/.git",
     "dist": [
       "@clean-trunk",

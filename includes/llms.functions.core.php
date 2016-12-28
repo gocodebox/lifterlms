@@ -20,14 +20,14 @@ require_once 'functions/llms.functions.template.php';
  * according to global settings
  * @return   boolean
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.1.1 - fix logic...
  */
 function llms_are_terms_and_conditions_required() {
 
 	$enabled = get_option( 'lifterlms_registration_require_agree_to_terms' );
 	$page_id = get_option( 'lifterlms_terms_page_id', false );
 
-	return ( $enabled && $page_id );
+	return ( 'yes' === $enabled && $page_id );
 
 }
 
@@ -95,6 +95,7 @@ function llms_get_core_supported_themes() {
 		'canvas',
 		'Divi',
 		'genesis',
+		'twentyseventeen',
 		'twentysixteen',
 		'twentyfifteen',
 		'twentyfourteen',
@@ -103,6 +104,131 @@ function llms_get_core_supported_themes() {
 		'twentytwelve',
 		'twentyten',
 	);
+}
+
+/**
+ * Get human readable time difference between 2 dates
+ *
+ * Return difference between 2 dates in year, month, hour, minute or second
+ * The $precision caps the number of time units used: for instance if
+ * $time1 - $time2 = 3 days, 4 hours, 12 minutes, 5 seconds
+ * - with precision = 1 : 3 days
+ * - with precision = 2 : 3 days, 4 hours
+ * - with precision = 3 : 3 days, 4 hours, 12 minutes
+ *
+ *
+ * @param mixed $time1 a time (string or timestamp)
+ * @param mixed $time2 a time (string or timestamp)
+ * @param integer $precision Optional precision
+ * @return string time difference
+ * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
+ *
+ * @since    ??
+ * @version  ??
+ */
+function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
+	// If not numeric then convert timestamps
+	if ( ! is_int( $time1 ) ) {
+		$time1 = strtotime( $time1 );
+	}
+	if ( ! is_int( $time2 ) ) {
+		$time2 = strtotime( $time2 );
+	}
+	// If time1 > time2 then swap the 2 values
+	if ( $time1 > $time2 ) {
+		list( $time1, $time2 ) = array( $time2, $time1 );
+	}
+	// Set up intervals and diffs arrays
+	$intervals = array( 'year', 'month', 'day', 'hour', 'minute', 'second' );
+	$l18n_singular = array(
+		'year' => __( 'year', 'lifterlms' ),
+		'month' => __( 'month', 'lifterlms' ),
+		'day' => __( 'day', 'lifterlms' ),
+		'hour' => __( 'hour', 'lifterlms' ),
+		'minute' => __( 'minute', 'lifterlms' ),
+		'second' => __( 'second', 'lifterlms' ),
+	);
+	$l18n_plural = array(
+		'year' => __( 'years', 'lifterlms' ),
+		'month' => __( 'months', 'lifterlms' ),
+		'day' => __( 'days', 'lifterlms' ),
+		'hour' => __( 'hours', 'lifterlms' ),
+		'minute' => __( 'minutes', 'lifterlms' ),
+		'second' => __( 'seconds', 'lifterlms' ),
+	);
+	$diffs = array();
+	foreach ( $intervals as $interval ) {
+		// Create temp time from time1 and interval
+		$ttime = strtotime( '+1 ' . $interval, $time1 );
+		// Set initial values
+		$add = 1;
+		$looped = 0;
+		// Loop until temp time is smaller than time2
+		while ( $time2 >= $ttime ) {
+			// Create new temp time from time1 and interval
+			$add++;
+			$ttime = strtotime( '+' . $add . ' ' . $interval, $time1 );
+			$looped++;
+		}
+		$time1 = strtotime( '+' . $looped . ' ' . $interval, $time1 );
+		$diffs[ $interval ] = $looped;
+	}
+	$count = 0;
+	$times = array();
+	foreach ( $diffs as $interval => $value ) {
+		// Break if we have needed precission
+		if ( $count >= $precision ) {
+			break;
+		}
+		// Add value and interval if value is bigger than 0
+		if ( $value > 0 ) {
+			if ( $value != 1 ) {
+				$text = $l18n_plural[ $interval ];
+			} else {
+				$text = $l18n_singular[ $interval ];
+			}
+			// Add value and interval to times array
+			$times[] = $value . ' ' . $text;
+			$count++;
+		}
+	}
+	// Return string with times
+	return implode( ', ', $times );
+}
+
+/**
+ * Get a list of registered engagement triggers
+ * @return   array
+ * @since    3.1.0
+ * @version  3.1.0
+ */
+function llms_get_engagement_triggers() {
+	return apply_filters( 'lifterlms_engagement_triggers', array(
+		'user_registration' => __( 'Student creates a new account', 'lifterlms' ),
+		'course_enrollment' => __( 'Student enrolls in a course', 'lifterlms' ),
+		'course_purchased' => __( 'Student purchases a course', 'lifterlms' ),
+		'course_completed' => __( 'Student completes a course', 'lifterlms' ),
+		// 'days_since_login' => __( 'Days since user last logged in', 'lifterlms' ), // @todo
+		'lesson_completed' => __( 'Student completes a lesson', 'lifterlms' ),
+		'section_completed' => __( 'Student completes a section', 'lifterlms' ),
+		'course_track_completed' => __( 'Student comepletes a course track', 'lifterlms' ),
+		'membership_enrollment' => __( 'Student enrolls in a membership', 'lifterlms' ),
+		'membership_purchased' => __( 'Student purchases a membership', 'lifterlms' ),
+	) );
+}
+
+/**
+ * Get a list of registered engagement types
+ * @return   array
+ * @since    3.1.0
+ * @version  3.1.0
+ */
+function llms_get_engagement_types() {
+	return apply_filters( 'lifterlms_engagement_types', array(
+		'achievement' => __( 'Award an Achievement', 'lifterlms' ),
+		'certificate' => __( 'Award a Certificate', 'lifterlms' ),
+		'email' => __( 'Send an Email' ),
+	) );
 }
 
 /**
@@ -281,7 +407,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 	$required_attr = $field['required'] ? ' required="required"' : '';
 
 	// setup the label
-	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span. '</label>' : '';
+	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span . '</label>' : '';
 
 	$r  = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
 
@@ -693,7 +819,7 @@ function llms_expire_membership() {
 		$meta_value_status = 'Enrolled';
 
 		$results = $wpdb->get_results( $wpdb->prepare(
-		'SELECT * FROM '.$table_name.' WHERE post_id = %d AND meta_key = "%s" AND meta_value = %s ORDER BY updated_date DESC', $post->ID, $meta_key_status, $meta_value_status ) );
+		'SELECT * FROM ' . $table_name . ' WHERE post_id = %d AND meta_key = "%s" AND meta_value = %s ORDER BY updated_date DESC', $post->ID, $meta_key_status, $meta_value_status ) );
 
 		for ($i = 0; $i < count( $results ); $i++) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
@@ -709,10 +835,10 @@ function llms_expire_membership() {
 			$meta_value_start_date = 'yes';
 
 			$start_date = $wpdb->get_results( $wpdb->prepare(
-			'SELECT updated_date FROM '.$table_name.' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC', $user_id, $post->ID, $meta_key_start_date, $meta_value_start_date) );
+			'SELECT updated_date FROM ' . $table_name . ' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC', $user_id, $post->ID, $meta_key_start_date, $meta_value_start_date) );
 
 			//add expiration terms to start date
-			$exp_date = date( 'Y-m-d',strtotime( date( 'Y-m-d', strtotime( $start_date[0]->updated_date ) ) . ' +'.$interval. ' ' . $period ) );
+			$exp_date = date( 'Y-m-d',strtotime( date( 'Y-m-d', strtotime( $start_date[0]->updated_date ) ) . ' +' . $interval . ' ' . $period ) );
 
 			// get current datetime
 			$today = current_time( 'mysql' );
@@ -720,7 +846,7 @@ function llms_expire_membership() {
 
 			//if a date parse causes exp date to be unmodified then return.
 			if ( $exp_date == $start_date[0]->updated_date ) {
-				LLMS_log( 'An error occured modifying the date value. Function: llms_expire_membership, interval: ' .  $interval . ' period: ' . $period );
+				LLMS_log( 'An error occured modifying the date value. Function: llms_expire_membership, interval: ' . $interval . ' period: ' . $period );
 				continue;
 			}
 

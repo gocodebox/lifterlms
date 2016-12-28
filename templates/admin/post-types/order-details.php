@@ -262,6 +262,6 @@ if ( ! is_admin() ) { exit; }
 
 	<?php endif; ?>
 
-		<?php do_action( 'lifterlms_after_order_meta_box', $order ); ?>
+	<?php do_action( 'lifterlms_after_order_meta_box', $order ); ?>
 
 </div>

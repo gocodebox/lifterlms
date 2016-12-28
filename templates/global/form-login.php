@@ -1,7 +1,8 @@
 <?php
 /**
  * LifterLMS Login Form
- * @version  3.0.0
+ * @since    3.0.0
+ * @version  3.0.4 - added layout options
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -9,11 +10,17 @@ if ( ! isset( $redirect ) ) {
 	$redirect = get_permalink();
 }
 
+if ( ! isset( $layout ) ) {
+	$layout = apply_filters( 'llms_login_form_layout', 'columns' );
+}
+
 if ( is_user_logged_in() ) { return; }
 ?>
 <?php if ( ! empty( $message ) ) : ?>
 	<?php llms_print_notice( $message, 'notice' ); ?>
 <?php endif; ?>
+
+<?php llms_print_notices(); ?>
 
 <div class="col-1 llms-person-login-form-wrapper">
 
@@ -25,7 +32,7 @@ if ( is_user_logged_in() ) { return; }
 
 			<?php do_action( 'lifterlms_login_form_start' ); ?>
 
-			<?php foreach ( LLMS_Person_Handler::get_login_fields() as $field ) : ?>
+			<?php foreach ( LLMS_Person_Handler::get_login_fields( $layout ) as $field ) : ?>
 				<?php llms_form_field( $field ); ?>
 			<?php endforeach; ?>
 

@@ -1,13 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Admin Settings Page Base Class
-*
-* @author codeBOX
-* @project lifterLMS
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Settings_Page {
+
+	/**
+	 * Allow settings page to determine if a rewrite flush is required
+	 * @var      boolean
+	 * @since    3.0.4
+	 * @version  3.0.4
+	 */
+	protected $flush = false;
 
 	/**
 	 * Add the settings page
@@ -16,8 +22,24 @@ class LLMS_Settings_Page {
 	 */
 	public function add_settings_page( $pages ) {
 		$pages[ $this->id ] = $this->label;
-
 		return $pages;
+	}
+
+	/**
+	 * Flushes rewrite rules when necessary
+	 * @return   void
+	 * @since    3.0.4
+	 * @version  3.0.4
+	 */
+	public function flush_rewrite_rules() {
+
+		// add the updated endpoints
+		$q = new LLMS_Query();
+		$q->add_endpoints();
+
+		// flush rewrite rules
+		flush_rewrite_rules();
+
 	}
 
 	/**
@@ -63,14 +85,14 @@ class LLMS_Settings_Page {
 	 */
 	public function output() {
 		$settings = $this->get_settings();
-
 		LLMS_Admin_Settings::output_fields( $settings );
 	}
 
 	/**
 	 * Save the settings field values
-	 *
-	 * @return void
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.0.4
 	 */
 	public function save() {
 		global $current_section;
@@ -79,7 +101,14 @@ class LLMS_Settings_Page {
 		LLMS_Admin_Settings::save_fields( $settings );
 
 		if ( $current_section ) {
-	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section ); }
+	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section );
+	    }
+
+	    if ( $this->flush ) {
+
+	    	add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
+
+	    }
 
 	}
 

@@ -146,7 +146,7 @@ class LLMS_Meta_Box_Quiz_Questions extends LLMS_Admin_Metabox {
 	private function get_question_html_template( $id = 0, $points = 1 ) {
 
 		// lookup the title and output an option if we have an ID
-		$option = ( $id ) ? '<option selected="selected" value="'. $id .'">' . get_the_title( $id ) . ' (' . $id . ')</option>' : '';
+		$option = ( $id ) ? '<option selected="selected" value="' . $id . '">' . get_the_title( $id ) . ' (' . $id . ')</option>' : '';
 
 		return '
 			<tr class="list_item llms-question" data-question-id="' . $id . '">

@@ -1,0 +1,176 @@
+.llms-reporting.wrap {
+
+	.llms-options-page-contents {
+		background: $color-white;
+		padding: 20px;
+	}
+
+	.llms-reporting-nav {
+		margin: 20px 0;
+		.llms-nav-tab-wrapper {
+			margin: 0;
+		}
+	}
+
+	.llms-stab-title {
+		color: $color-brand-dark-blue;
+		font-size: 36px;
+		font-weight: 300;
+		margin-bottom: 20px;
+	}
+
+	td.id a {
+		text-decoration: none;
+	}
+
+	th.name, td.name { text-align: left; }
+
+	th.section-title {
+		background: #eaeaea;
+		text-align: left;
+	}
+
+	td.questions-table {
+		text-align: left;
+
+		.correct,
+		.question,
+		.selected {
+			text-align: left;
+			max-width: 300px;
+
+			img {
+				height: auto;
+				max-width: 64px;
+			}
+		}
+	}
+
+	table.quiz-attempts {
+		margin-bottom: 40px;
+	}
+
+	&.tab--enrollments,
+	&.tab--sales {
+
+		.llms-options-page-contents {
+			background: none;
+			padding: 0;
+		}
+
+		.llms-nav-item.llms-analytics-form {
+			color: #414141;
+			font-size: 13px;
+			padding: 6px 14px;
+
+			input {
+				border: 0;
+				font-size: 13px;
+				margin: 0;
+				padding: 3px 6px;
+				vertical-align: middle;
+			}
+
+			.select2-container {
+				input {
+					width: 100% !important;
+				}
+			}
+		}
+
+		.button.small {
+			height: 23px;
+			line-height: 23px;
+		}
+
+
+		.llms-analytics-filters {
+			display: none;
+
+			.llms-nav-item {
+				box-sizing: border-box;
+				width: 100%;
+
+				label {
+					display: block;
+				}
+			}
+
+			.button {
+				float: right;
+			}
+
+		}
+	}
+
+}
+
+
+.llms-gb-student {
+
+	h1, h2, h3, h4, h5, h6 {
+		margin: 0;
+		a {
+			color: $color-brand-dark-blue;
+			text-decoration: none;
+			&:hover {
+				color: $color-brand-blue;
+			}
+		}
+	}
+
+
+	.llms-gb-student-header {
+
+		.llms-student-avatar {
+			border-radius: 50%;
+			display: inline-block;
+			margin-right: 10px;
+			overflow: hidden;
+			vertical-align: middle;
+		}
+
+		.llms-gb-student-info {
+			display: inline-block;
+			vertical-align: middle;
+
+		}
+
+	}
+
+	.llms-gb-tabs {
+		.llms-gb-tab {
+			display: none;
+			&.active {
+				display: block;
+			}
+		}
+	}
+
+}
+
+.llms-reporting-breadcrumbs {
+	margin-bottom: 15px;
+	a {
+		color: $color-brand-blue;
+		text-decoration: none;
+		&:hover {
+			color: $color-brand-blue-dark;
+		}
+		&:after {
+			content: ' > ';
+			color: #555;
+		}
+
+		&:last-child {
+			color: $color-brand-dark-blue;
+			&:after { display: none;}
+		}
+	}
+}
+
+#llms-students-table .name {
+	text-align: left;
+}
+
+

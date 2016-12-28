@@ -32,7 +32,7 @@ if ( ! isset( $plan ) ) {
 ?>
 
 
-<div class="llms-metabox-section d-all llms-collapsible llms-access-plan" id="<?php echo $id; ?>"<?php echo $plan ? 'data-id="' . $plan->get( 'id' ) .'"' : ''; ?>>
+<div class="llms-metabox-section d-all llms-collapsible llms-access-plan" id="<?php echo $id; ?>"<?php echo $plan ? 'data-id="' . $plan->get( 'id' ) . '"' : ''; ?>>
 
 	<header class="llms-collapsible-header">
 		<h3 class="d-1of2">
@@ -166,7 +166,7 @@ if ( ! isset( $plan ) ) {
 
 			<div class="llms-metabox-field d-1of4" data-controller="llms-access-expiration" data-value-is="limited-date">
 				<label>&nbsp;</label>
-				<input class="llms-access-plan-datepicker" name="_llms_plans[<?php echo $order; ?>][access_expires]" placeholder="MM/DD/YYYY" required="required" type="text"<?php echo ( $plan && 'limited-date' === $access_expiration ) ? ' value="' . $plan->get_date( 'access_expires', 'm/d/Y' ) . '"' : ' value="' . date_i18n( 'm/d/y', current_time( 'timestamp' ) ) .'" disabled="disabled"'; ?>>
+				<input class="llms-access-plan-datepicker" name="_llms_plans[<?php echo $order; ?>][access_expires]" placeholder="MM/DD/YYYY" required="required" type="text"<?php echo ( $plan && 'limited-date' === $access_expiration ) ? ' value="' . $plan->get_date( 'access_expires', 'm/d/Y' ) . '"' : ' value="' . date_i18n( 'm/d/y', current_time( 'timestamp' ) ) . '" disabled="disabled"'; ?>>
 			</div>
 
 			<div class="llms-metabox-field d-1of6" data-controller="llms-access-expiration" data-value-is="limited-period">
@@ -281,7 +281,7 @@ if ( ! isset( $plan ) ) {
 				'editor_height' => 60,
 				'media_buttons' => false,
 				'teeny' => true,
-				'textarea_name'	=> '_llms_plans[' . $order. '][content]',
+				'textarea_name'	=> '_llms_plans[' . $order . '][content]',
 				'quicktags' 	=> array( 'buttons' => 'strong,em,del,ul,ol,li,close' ),
 			) ) ); ?>
 		</div>

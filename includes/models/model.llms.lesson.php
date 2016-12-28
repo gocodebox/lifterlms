@@ -238,7 +238,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 * @since   1.0.0
-	 * @version 3.0.0 -- added fallback to video shortcode when oEmbed fails
+	 * @version 3.1.0
 	 */
 	public function get_video() {
 
@@ -252,7 +252,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 			if ( ! $r ) {
 
-				$r = do_shortcode( '[video src="' . $this->get( 'audio_embed' ) . '"]' );
+				$r = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
 
 			}
 
@@ -685,6 +685,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		$user = new LLMS_Person;
 		$user_postmetas = $user->get_user_postmeta_data( $user_id, $this->id );
 
+		// clear the cached progress, it'll be regenerated next time it's called
+		$student = new LLMS_Student( $user_id );
+		$student->set( 'overall_progress', '', true );
+
 		if ( empty( $user_id ) ) {
 			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
 		} elseif ( ! empty( $user_postmetas ) ) {
@@ -693,11 +697,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				return;
 			}
 		} else {
-
 			$key = '_is_complete';
 			$value = 'yes';
 
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id' 			=> $user_id,
 					'post_id' 			=> $this->id,
@@ -726,7 +729,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	    			}
 	    		}
 
-				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 					array(
 						'user_id' 			=> $user_id,
 						'post_id' 			=> $section->id,
@@ -753,7 +756,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	    			}
 	    		}
 
-				$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+				$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 					array(
 						'user_id' 			=> $user_id,
 						'post_id' 			=> $course->id,

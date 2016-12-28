@@ -1,17 +1,17 @@
 <?php
-
 /**
 * Template loader class
-*
-* Shortcode logic
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Template_Loader {
 
 	/**
 	* Constructor
 	*
 	* @since   1.0.0
-	* @version 3.0.0
+	* @version 3.1.6
 	*/
 	public function __construct() {
 
@@ -26,6 +26,7 @@ class LLMS_Template_Loader {
 			'lesson_prerequisite',
 			'membership',
 			'sitewide_membership',
+			'quiz',
 		) );
 
 		foreach ( $reasons as $reason ) {
@@ -135,7 +136,7 @@ class LLMS_Template_Loader {
 
 		$lesson = new LLMS_Lesson( $info['restriction_id'] );
 
-		$msg = sprintf( _x( 'The lesson "%s" will be available on %s', 'lesson restricted by drip settings message', 'lifterlms' ), $lesson->get( 'title' ), $lesson->get_available_date() );
+		$msg = sprintf( _x( 'The lesson "%1$s" will be available on %2$s', 'lesson restricted by drip settings message', 'lifterlms' ), $lesson->get( 'title' ), $lesson->get_available_date() );
 		$redirect = get_permalink( $lesson->get_parent_course() );
 
 		$this->handle_restriction(
@@ -164,7 +165,7 @@ class LLMS_Template_Loader {
 
 		$prereq_link = '<a href="' . get_permalink( $prereq_lesson->get( 'id' ) ) . '">' . $prereq_lesson->get( 'title' ) . '</a>';
 
-		$msg = sprintf( _x( 'The lesson "%s" cannot be accessed until the required prerequisite "%s" is completed.', 'lesson restricted by prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
+		$msg = sprintf( _x( 'The lesson "%1$s" cannot be accessed until the required prerequisite "%2$s" is completed.', 'lesson restricted by prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
 		$redirect = get_permalink( $lesson->get_parent_course() );
 
 		$this->handle_restriction(
@@ -228,6 +229,46 @@ class LLMS_Template_Loader {
 			);
 
 		}
+
+	}
+
+	/**
+	 * Handle attempts to access quizzes
+	 * @param    array     $info  array of restriction results from llms_page_restricted()
+	 * @return   void
+	 * @since    3.1.6
+	 * @version  3.1.6
+	 */
+	public function restricted_by_quiz( $info ) {
+
+		$msg = '';
+		$redirect = '';
+
+		if ( get_current_user_id() ) {
+
+			// if the user can edit the post, they're probably a creator giving it a test
+			if ( current_user_can( 'edit_post', $info['restriction_id'] ) ) {
+
+				$msg = sprintf( __( 'It looks like you\'re trying to test a quiz you just made. To test your quiz please read our documentation at %s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/i-cant-take-the-quiz-i-just-created/" target="_blank">https://lifterlms.com/docs/i-cant-take-the-quiz-i-just-created/</a>' );
+
+			} else {
+
+				$msg = __( 'You cannot access quizzes directly. Please return to the associated lesson and start the quiz from there.', 'lifterlms' );
+
+			}
+
+		} else {
+
+			$msg = __( 'You must be logged in to take quizzes.', 'lifterlms' );
+			$redirect = llms_person_my_courses_url();
+
+		}
+
+		$this->handle_restriction(
+			apply_filters( 'llms_restricted_by_membership_message', $msg, $info ),
+			apply_filters( 'llms_restricted_by_membership_redirect', $redirect, $info ),
+			'error'
+		);
 
 	}
 

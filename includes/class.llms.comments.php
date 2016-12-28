@@ -117,8 +117,14 @@ class LLMS_Comments {
 		if ( 0 === $post_id ) {
 			$trans = get_transient( 'llms_count_comments' );
 			if ( ! $trans ) {
-				$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} WHERE comment_type = 'llms_order_note' GROUP BY comment_approved", ARRAY_A );
-				$approved = array( '0' => 'moderated', '1' => 'approved', 'spam' => 'spam', 'trash' => 'trash', 'post-trashed' => 'post-trashed' );
+				$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} WHERE comment_type = 'llms_order_note' GROUP BY comment_approved;", ARRAY_A );
+				$approved = array(
+					'0' => 'moderated',
+					'1' => 'approved',
+					'spam' => 'spam',
+					'trash' => 'trash',
+					'post-trashed' => 'post-trashed',
+				);
 				foreach ( $count as $row ) {
 					// Don't count post-trashed toward totals
 					if ( 'post-trashed' != $row['comment_approved'] && 'trash' != $row['comment_approved'] ) {
@@ -126,7 +132,8 @@ class LLMS_Comments {
 					}
 
 					if ( isset( $approved[ $row['comment_approved'] ] ) ) {
-						$stats->$approved[ $row['comment_approved'] ] -= $row['num_comments'];
+						$var = $approved[ $row['comment_approved'] ];
+						$stats->$var -= $row['num_comments'];
 					}
 				}
 				set_transient( 'llms_count_comments', $stats );

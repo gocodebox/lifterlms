@@ -28,7 +28,7 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 				'description' => '',
 				'default' => 'no',
 				'id' => 'llms_agree_to_terms',
-				'label' => wp_kses( sprintf( _x( 'I have read and agree to the <a href="%s" target="_blank">%s</a>.', 'terms and conditions checkbox', 'lifterlms' ), get_the_permalink( $page_id ), get_the_title( $page_id ) ), array(
+				'label' => wp_kses( sprintf( _x( 'I have read and agree to the <a href="%1$s" target="_blank">%2$s</a>.', 'terms and conditions checkbox', 'lifterlms' ), get_the_permalink( $page_id ), get_the_title( $page_id ) ), array(
 					'a' => array(
 						'href' => array(),
 						'target' => array(),
@@ -1105,18 +1105,18 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 	function lifterlms_course_progress_bar( $progress, $link = false, $button = true, $echo = true ) {
 
 		$tag = ($link) ? 'a' : 'span';
-		$href = ($link) ? ' href=" ' .$link. ' "' : '';
+		$href = ($link) ? ' href=" ' . $link . ' "' : '';
 
 		$r = '
 			<div class="llms-progress">
-				<div class="progress__indicator">' . sprintf( __( '%s%%', 'lifterlms' ), $progress ) . '</div>
+				<div class="progress__indicator">' . sprintf( __( '%s', 'lifterlms' ), $progress ) . '%</div>
 					<div class="llms-progress-bar">
 					<div class="progress-bar-complete" style="width:' . $progress . '%"></div>
 				</div>
 			</div>';
 
 		if ($button) {
-			$r .= '<' . $tag . ' class="llms-button-primary llms-purchase-button"'. $href .'>' . sprintf( __( 'Continue (%s%%)', 'lifterlms' ), $progress ) . '</' . $tag . '>';
+			$r .= '<' . $tag . ' class="llms-button-primary llms-purchase-button"' . $href . '>' . __( 'Continue', 'lifterlms' ) . '(' . $progress . '%)</' . $tag . '>';
 		}
 
 		if ( $echo ) {
@@ -1850,5 +1850,14 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_close' ) )
 	}
 endif;
 
-
-
+/**
+ * Output course reviews
+ * @return   void
+ * @since    3.1.3
+ * @version  3.1.3
+ */
+if ( ! function_exists( 'lifterlms_template_single_reviews' ) ) {
+	function lifterlms_template_single_reviews() {
+		LLMS_Reviews::output();
+	}
+}

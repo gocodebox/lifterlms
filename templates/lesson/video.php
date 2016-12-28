@@ -1,21 +1,16 @@
 <?php
 /**
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
+ * Lesson Video embed
+ * @since    1.0.0
+ * @version  3.1.1
  */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $lesson;
+global $post;
 
-if ( ! $lesson || ! is_object( $lesson ) ) {
+$lesson = new LLMS_Lesson( $post );
 
-	$lesson = new LLMS_Lesson( $post->ID );
-
-}
-
-if ( ! $lesson->get_video() ) { return; }
-
+if ( ! $lesson->get( 'video_embed' ) ) { return; }
 ?>
 
 <div class="llms-video-wrapper">

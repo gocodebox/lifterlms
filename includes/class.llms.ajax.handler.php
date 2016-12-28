@@ -25,7 +25,7 @@ class LLMS_AJAX_Handler {
 		$post_id = intval( $request['post_id'] );
 
 		foreach ( $request['student_ids'] as $id ) {
-			llms_enroll_student( intval( $id ), $post_id, 'admin_' .  get_current_user_id() );
+			llms_enroll_student( intval( $id ), $post_id, 'admin_' . get_current_user_id() );
 		}
 
 		ob_start();
@@ -66,6 +66,40 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Reload admin tables
+	 * @param    array     $request  post data ($_REQUST)
+	 * @return   array
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public static function get_admin_table_data( $request ) {
+
+		require_once 'admin/reporting/class.llms.admin.reporting.php';
+
+		$handler = 'LLMS_Table_' . $request['handler'];
+
+		LLMS_Admin_Reporting::includes();
+
+		if ( class_exists( $handler ) ) {
+
+			$table = new $handler();
+			$table->get_results( $request );
+			return array(
+				'args'  => json_encode( $table->get_args() ),
+				'thead' => trim( $table->get_thead_html() ),
+				'tbody' => trim( $table->get_tbody_html() ),
+				'tfoot' => trim( $table->get_tfoot_html() ),
+			);
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
+	/**
 	 * Remove a course from the list of membership auto enrollment courses
 	 * called from "Auto Enrollment" tab of LLMS Membership Metaboxes
 	 * @since    3.0.0
@@ -88,7 +122,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Retrieve Students
 	 *
-	 * Used by Select2 AJAX functions to load paginated quiz questions
+	 * Used by Select2 AJAX functions to load paginated student results
 	 * Also allows querying by:
 	 * 		first name
 	 * 		last name
@@ -326,7 +360,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		if ( 'add' === $request['status'] ) {
-			llms_enroll_student( $request['student_id'], $request['post_id'], 'admin_' .  get_current_user_id() );
+			llms_enroll_student( $request['student_id'], $request['post_id'], 'admin_' . get_current_user_id() );
 		} elseif ( 'remove' === $request['status'] ) {
 			llms_unenroll_student( $request['student_id'], $request['post_id'], 'cancelled', 'any' );
 		}

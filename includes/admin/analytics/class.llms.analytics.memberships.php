@@ -261,7 +261,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 	public function membership_retention( $search ) {
 		$total = isset( $search->members ) ? LLMS_Number::whole_number( LLMS_Analytics::get_membership_retention( $search->members ) ) : '0';
 		$html = '<p class="llms-label">' . __( 'Retention %', 'lifterlms' ) . '</p>';
-		$html .= '<h1>' .  $total . '%</h1>';
+		$html .= '<h1>' . $total . '%</h1>';
 
 		return $html;
 	}

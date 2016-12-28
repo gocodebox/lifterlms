@@ -1,8 +1,8 @@
 <?php
 /**
-* Revenue widget
+* Sold Amount Widget
 *
-* Retrieves the total amount of all succeeded transactions
+* Retrieves the total amount of all successful transactions
 * according to active filters
 *
 * @since  3.0.0
@@ -11,7 +11,21 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
+class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
+
+	public $charts = true;
+
+	protected function get_chart_data() {
+		return array(
+			'type' => 'amount', // type of field
+			'key' => 'amount', // key of result field to add when counting
+			'header' => array(
+				'id' => 'sold',
+				'label' => __( 'Net Sales', 'lifterlms' ),
+				'type' => 'number',
+			),
+		);
+	}
 
 	public function set_query() {
 
@@ -31,15 +45,17 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 				),
 				'statuses' => array(
 					'llms-active',
-					'llms-comleted',
+					'llms-completed',
 					'llms-refunded',
 				),
 			) );
 			$this->query();
 			$order_ids = $this->get_results();
 
-			if ( $order_ids ) {
+			$this->temp_q = $wpdb->last_query;
+			$this->temp = $order_ids;
 
+			if ( $order_ids ) {
 				$txn_meta_join = "JOIN {$wpdb->postmeta} AS txn_meta ON txn_meta.post_id = txns.ID";
 				$txn_meta_where .= " AND txn_meta.meta_key = '_llms_order_id'";
 				$txn_meta_where .= ' AND txn_meta.meta_value IN ( ' . implode( ', ', $order_ids ) . ' )';
@@ -61,31 +77,22 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 			$this->format_date( $dates['end'], 'end' ),
 		);
 
-		$this->query_function = 'get_var';
+		$this->query_function = 'get_results';
+		$this->output_type = OBJECT;
 
 		$this->query = "SELECT
-							(
-								IFNULL( SUM( (
-									SELECT price.meta_value
-									FROM {$wpdb->postmeta} AS price
-									WHERE
-										  price.meta_key = '_llms_amount'
-									  AND price.post_id IN( txns.ID )
-								) ), 0 ) - IFNULL( SUM((
-									SELECT refund.meta_value
-									FROM {$wpdb->postmeta} AS refund
-									WHERE
-										  refund.meta_key = '_llms_refund_amount'
-									  AND refund.post_id IN( txns.ID )
-								) ), 0 )
-							) AS revenue
+							  txns.post_modified AS date
+							, sales.meta_value AS amount
 						FROM {$wpdb->posts} AS txns
 						{$txn_meta_join}
+						JOIN {$wpdb->postmeta} AS sales ON sales.post_id = txns.ID
 						WHERE
-						        ( txns.post_status = 'llms-txn-succeeded' OR txns.post_status = 'llms-txn-refunded' )
+						        ( txns.post_status = 'llms-txn-succeeded' )
 						    AND txns.post_type = 'llms_transaction'
 							AND txns.post_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME )
+							AND sales.meta_key = '_llms_amount'
 							{$txn_meta_where}
+							ORDER BY txns.post_modified ASC
 						;";
 
 	}
@@ -94,7 +101,7 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 
 		if ( ! $this->is_error() ) {
 
-			return llms_price_raw( floatval( $this->get_results() ) );
+			return llms_price_raw( floatval( array_sum( wp_list_pluck( $this->get_results(), 'amount' ) ) ) );
 
 		}
 

@@ -18,11 +18,11 @@ class LLMS_Achievement {
 
 	function __construct() {
 
-			// Settings TODO Refoactor: theses can come from the achievement post now
-			$this->enabled   		= get_option( 'enabled' );
+		// Settings TODO Refoactor: theses can come from the achievement post now
+		$this->enabled   		= get_option( 'enabled' );
 
-			$this->find = array( '{blogname}', '{site_title}' );
-			$this->replace = array( $this->get_blogname(), $this->get_blogname() );
+		$this->find = array( '{blogname}', '{site_title}' );
+		$this->replace = array( $this->get_blogname(), $this->get_blogname() );
 	}
 
 	/**
@@ -87,7 +87,7 @@ class LLMS_Achievement {
 	public function create( $content ) {
 		global $wpdb;
 
-		$new_user_achievement = apply_filters( 'lifterlms_new_page', array(
+		$new_user_achievement = apply_filters( 'lifterlms_new_achievement', array(
 			'post_type' 	=> 'llms_my_achievement',
 			'post_title'    => $this->title,
 			'post_content'  => $content,
@@ -100,13 +100,14 @@ class LLMS_Achievement {
 		update_post_meta( $new_user_achievement_id,'_llms_achievement_title', $this->achievement_title );
 		update_post_meta( $new_user_achievement_id,'_llms_achievement_image', $this->image );
 		update_post_meta( $new_user_achievement_id,'_llms_achievement_content', $this->content );
+		update_post_meta( $new_user_achievement_id,'_llms_achievement_template', $this->achievement_template_id );
 
 		$user_metadatas = array(
 			'_achievement_earned' => $new_user_achievement_id,
 		);
 
 		foreach ($user_metadatas as $key => $value) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix .'lifterlms_user_postmeta',
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id' 			=> $this->userid,
 					'post_id' 			=> $this->lesson_id,

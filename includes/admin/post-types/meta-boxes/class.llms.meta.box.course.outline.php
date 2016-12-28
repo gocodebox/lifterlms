@@ -279,10 +279,10 @@ class LLMS_Meta_Box_Course_Outline {
 	    $html .= '<form id="llms_add_existing_lesson">';
 
 	    $html .= '<label>' . __( 'Select the lesson you would like to add.', 'lifterlms' ) . '</label>';
-	    $html .= '<select id="llms-lesson-select" name="llms_lesson" class="llms-chosen-select"></select>';
+	    $html .= '<select id="llms-lesson-select" name="llms_lesson" class="llms-select2-post" data-placeholder="' . __( 'Select a lesson.', 'lifterlms' ) . '" data-post-type="lesson"></select>';
 
 	    $html .= '<label>' . __( 'Select the section to place your lesson in', 'lifterlms' ) . '</label>';
-	    $html .= '<select id="llms-section-select" name="llms_section" class="llms-chosen-select"></select>';
+	    $html .= '<select id="llms-section-select" name="llms_section" class="llms-select2"></select><br><br>';
 
 	    $html .= '<input type="submit" class="llms-button-secondary llms-modal-cancel" value="' . __( 'Cancel', 'lifterlms' ) . '">';
 	    $html .= '<input type="submit" class="llms-button-primary" value="' . __( 'Add Lesson', 'lifterlms' ) . '">';

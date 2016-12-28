@@ -1,6 +1,8 @@
 /* progress bar */
 .llms-progress {
 	clear: both;
+	display: flex;
+	flex-direction: row-reverse;
 	position: relative;
 	height: 1em;
 	width: 100%;
@@ -9,23 +11,22 @@
 
 .llms-progress .llms-progress-bar {
 	background-color: #f1f2f1;
-	position: absolute;
+	position: relative;
 	height: .4em;
-	left: 0;
-	right: 3em;
 	top: .3em;
+	width: 100%;
 }
 
 .llms-progress .progress-bar-complete {
 	background-color: $color-brand-pink;
-	position: absolute;
 	height: 100%;
 }
 
 .progress__indicator {
 	float: right;
-	width: 3em;
 	text-align: right;
 	height: 1em;
 	line-height: 1em;
+	margin-left: 5px;
+	white-space: nowrap;
 }

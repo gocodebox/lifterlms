@@ -63,9 +63,9 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					<div class="llms-list">
 						<ul>
 							<li><p>' . sprintf( __( 'Version: %s', 'lifterlms' ), LLMS()->version ) . '</p></li>
-							<li><p>' . sprintf( __( 'Need help? Get support on the %sforums%s', 'lifterlms' ), '<a href="https://wordpress.org/support/plugin/lifterlms" target="_blank">' , '</a>' ) . '</p></li>
+							<li><p>' . sprintf( __( 'Need help? Get support on the %1$sforums%2$s', 'lifterlms' ), '<a href="https://wordpress.org/support/plugin/lifterlms" target="_blank">' , '</a>' ) . '</p></li>
 							<li><p>' . sprintf( __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Get started at %s', 'lifterlms' ), '<a href="https://lifterlms.com/docs" target="_blank">https://lifterlms.com/docs</a>' ) . '</p></li>
-							<li><p>' . sprintf( __( 'Get LifterLMS news, updates, and more on our %sblog%s', 'lifterlms' ), '<a href="http://blog.lifterlms.com/" target="_blank">', '</a>' ) . '</p></li>
+							<li><p>' . sprintf( __( 'Get LifterLMS news, updates, and more on our %1$sblog%2$s', 'lifterlms' ), '<a href="http://blog.lifterlms.com/" target="_blank">', '</a>' ) . '</p></li>
 						</ul>
 					</div>',
 				'id' => 'activation_options',
@@ -137,13 +137,21 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					<tr valign="top"><th><label>' . __( 'Setup Wizard', 'lifterlms' ) . '</label></th>
 					<td class="forminp forminp-button">
 					<div id="llms-form-wrapper">
-						<span class="description">'. __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ) .'</span>
+						<span class="description">' . __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ) . '</span>
 						<br><br>
 						<a class="llms-button-primary" href="' . admin_url() . '?page=llms-setup">' . __( 'Return to Setup Wizard', 'lifterlms' ) . '</a>
 					</div>
 					</td></tr>
 				',
 				'type' => 'custom-html-no-wrap',
+			),
+
+			array(
+				'desc' => __( 'Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed.', 'lifterlms' ),
+				'name' => 'clear-cache',
+				'title' => __( 'Clear Student Progress Cache', 'lifterlms' ),
+				'type' 		=> 'button',
+				'value' => __( 'Clear Cache', 'lifterlms' ),
 			),
 
 			array(
@@ -166,6 +174,18 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		// @todo this doesnt appaer like it does what its supposed to...
 		if ( isset( $_POST['clear-sessions'] ) ) {
 			session_unset();
+		}
+
+		if ( isset( $_POST['clear-cache'] ) ) {
+
+			global $wpdb;
+
+			// Delete all cached student data
+			$wpdb->query( $wpdb->prepare(
+				"DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = %s or meta_key = %s;",
+				'llms_overall_progress', 'llms_overall_grade'
+			) );
+
 		}
 
 		if ( isset( $_POST['reset-tracking'] ) ) {
@@ -210,7 +230,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 						<div class="llms-widget"><p class="llms-label">' . __( 'Lessons Completed This Week', 'lifterlms' ) . '</p><h1>' . $lessons_completed . '</h1></div>
 					</div>
 					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">' . __( 'Total Sales This Week', 'lifterlms' ) . '</p><h1>' . $total_sales .'</h1></div>
+						<div class="llms-widget"><p class="llms-label">' . __( 'Total Sales This Week', 'lifterlms' ) . '</p><h1>' . $total_sales . '</h1></div>
 					</div>
 				</div>';
 		return preg_replace( '~>\s+<~', '><', $html );
@@ -298,7 +318,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			switch ( $banner['type'] ) {
 
 				case 'plugin':
-					if ( in_array( $slug . DIRECTORY_SEPARATOR . $slug .'.php', $plugins ) ) {
+					if ( in_array( $slug . DIRECTORY_SEPARATOR . $slug . '.php', $plugins ) ) {
 						continue 2;
 					}
 				break;

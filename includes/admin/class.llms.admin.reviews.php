@@ -6,8 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * It is responsible for creating the meta box on the course
  * page (and in the future the membership page).
  */
-class LLMS_Admin_Reviews
-{
+class LLMS_Admin_Reviews {
+
 	public static $prefix = '_';
 
 	/**
@@ -27,7 +27,7 @@ class LLMS_Admin_Reviews
 		add_action( 'manage_llms_review_posts_columns',array( $this, 'init' ) );
 		add_action( 'manage_edit-llms_review_sortable_columns',array( $this, 'make_columns_sortable' ) );
 		add_action( 'manage_llms_review_posts_custom_column',array( $this, 'generate_column_data' ),10,2 );
-		add_action( 'llms_meta_fields_course_main', array( $this, 'add_review_meta_boxes' ) );
+		add_filter( 'llms_metabox_fields_lifterlms_course_options', array( $this, 'add_review_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_review_meta_boxes' ) );
 	}
 

@@ -24,7 +24,6 @@ class LLMS_Student {
 	 */
 	private $user_id;
 
-
 	/**
 	 * Constructor
 	 *
@@ -98,6 +97,18 @@ class LLMS_Student {
 		return $this->$key;
 	}
 
+	/**
+	 * Update a meta property for the user
+	 * @param    string     $key    meta key
+	 * @param    mixed      $value  meta value
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function set( $key, $value, $prefix = true ) {
+		$key = $prefix ? $this->meta_prefix . $key : $key;
+		update_user_meta( $this->get_id(), $key, $value );
+	}
+
 
 
 	/**
@@ -133,8 +144,8 @@ class LLMS_Student {
 	 * @param    int        $membership_id  WP Post ID of the membership
 	 * @param    string     $status         status to update the removal to
 	 * @return   void
-	 * @since    ?
-	 * @version  3.0.0
+	 * @since    2.7
+	 * @version  3.1.4
 	 */
 	private function remove_membership_level( $membership_id, $status = 'expired' ) {
 
@@ -158,7 +169,7 @@ class LLMS_Student {
 
 			// loop through all the courses and update the enrollment status
 			foreach ( $courses  as $course_id ) {
-				$this->unenroll( $course_id, $status );
+				$this->unenroll( $course_id, 'membership_' . $membership_id, $status );
 			}
 
 		}
@@ -235,6 +246,62 @@ class LLMS_Student {
 		}
 
 		return false;
+
+	}
+
+
+	/**
+	 * Retrieve certificates that a user has earned
+	 * @param  string $orderby field to order the returned results by
+	 * @param  string $order   ordering method for returned results (ASC or DESC)
+	 * @return array           array of objects
+	 *
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_achievements( $orderby = 'updated_date', $order = 'DESC' ) {
+
+		$orderby = esc_sql( $orderby );
+		$order = esc_sql( $order );
+
+		global $wpdb;
+
+		$r = $wpdb->get_results( $wpdb->prepare(
+			"SELECT post_id, meta_value AS achievement_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
+			$this->get_id()
+		) );
+
+		return $r;
+
+	}
+
+	public function get_avatar( $size = 96 ) {
+		return '<span class="llms-student-avatar">' . get_avatar( $this->get_id(), $size, null, $this->get_name() ) . '</span>';
+	}
+
+	public function get_best_quiz_attempt( $quiz = null, $lesson = null ) {
+
+		$attempts = $this->get_quiz_data( $quiz, $lesson );
+
+		if ( $attempts ) {
+
+			$best = null;
+
+			foreach ( $attempts as $attempt ) {
+
+				if ( empty( $best['grade'] ) || $attempt['grade'] >= $best['grade'] ) {
+					$best = $attempt;
+				}
+
+			}
+
+			return $best;
+
+		} else {
+
+			return false;
+
+		}
 
 	}
 
@@ -347,6 +414,8 @@ class LLMS_Student {
 	 *                      @arg string $status   filter results by enrollment status, "any", "enrolled", or "expired"
 	 * @return array        "courses" will contain an array of course ids
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
+	 * @since    ??
+	 * @version  3.1.3
 	 */
 	public function get_courses( $args = array() ) {
 
@@ -372,13 +441,82 @@ class LLMS_Student {
 
 		// the query
 		$q = $wpdb->get_results( $wpdb->prepare(
+			"SELECT DISTINCT upm.post_id AS id
+			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
+			 WHERE p.post_type = 'course'
+			   AND p.post_status = 'publish'
+			   AND upm.meta_key = '_status'
+			   AND upm.user_id = %d
+			   {$status}
+			 ORDER BY {$args['orderby']} {$args['order']}
+			 LIMIT %d, %d;
+			", array(
+				$this->get_id(),
+				$args['skip'],
+				$args['limit'],
+			)
+		), 'OBJECT_K' );
+
+		$ids = array_keys( $q );
+
+		$more = false;
+		// if we hit our limit we have too many results, pop the last one
+		if ( $args['limit'] === count( $ids ) ) {
+			array_pop( $ids );
+			$more = true;
+		}
+
+		// reset args to pass back for pagination
+		$args['limit']--;
+
+		$r = array(
+			'limit' => $args['limit'],
+			'more' => $more,
+			'results' => $ids,
+			'skip' => $args['skip'],
+		);
+
+		return $r;
+
+	}
+
+	/**
+	 * Retrieve IDs of courses a user has completed
+	 *
+	 * @param  array  $args query arguments
+	 *                      @arg int    $limit    number of courses to return
+	 *                      @arg string $orderby  table reference and field to order results by
+	 *                      @arg string $order    result order (DESC, ASC)
+	 *                      @arg int    $skip     number of results to skip for pagination purposes
+	 * @return array        "courses" will contain an array of course ids
+	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
+	 * @since   ??
+	 * @version ??
+	 */
+	public function get_completed_courses( $args = array() ) {
+
+		global $wpdb;
+
+		$args = array_merge( array(
+			'limit'   => 20,
+			'orderby' => 'upm.updated_date',
+			'order'   => 'DESC',
+			'skip'    => 0,
+		), $args );
+
+		// add one to the limit to see if there's pagination
+		$args['limit']++;
+
+		// the query
+		$q = $wpdb->get_results( $wpdb->prepare(
 			"SELECT upm.post_id AS id
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
 			 WHERE p.post_type = 'course'
-			   AND upm.meta_key = '_status'
+			   AND upm.meta_key = '_is_complete'
+			   AND upm.meta_value = 'yes'
 			   AND upm.user_id = %d
-			   {$status}
 			 ORDER BY {$args['orderby']} {$args['order']}
 			 LIMIT %d, %d;
 			", array(
@@ -403,7 +541,6 @@ class LLMS_Student {
 		$r = array(
 			'limit' => $args['limit'],
 			'more' => $more,
-
 			'results' => $ids,
 			'skip' => $args['skip'],
 		);
@@ -412,6 +549,26 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Get the formatted date when a course or lesson was completed by the student
+	 * @param    int        $object_id  WP Post ID of a course or lesson
+	 * @param    string     $format     date format as accepted by php date()
+	 * @return   false|string            will return false if the user is not enrolled
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_completion_date( $object_id, $format = 'F d, Y'  ) {
+
+		global $wpdb;
+
+		$q = $wpdb->get_var( $wpdb->prepare(
+			"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_is_complete' AND meta_value = 'yes' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+			array( $this->get_id(), $object_id )
+		) );
+
+		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
+
+	}
 
 	/**
 	 * Get the formatted date when a user initially enrolled in a product or when they were last updated
@@ -515,6 +672,220 @@ class LLMS_Student {
 	}
 
 	/**
+	 * Get the students grade for a lesson / course
+	 * All grades are based on quizzes assigned to lessons
+	 * @param    int     $object_id  WP Post ID of a course or lesson
+	 * @return   mixed
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_grade( $object_id ) {
+
+		$type = get_post_type( $object_id );
+
+		switch ( $type ) {
+
+			case 'course':
+
+				$course = new LLMS_Course( $object_id );
+				$lessons = $course->get_lessons( 'ids' );
+
+				$grades = array();
+
+				foreach ( $lessons as $lid ) {
+
+					$grade = $this->get_grade( $lid );
+
+					if ( is_numeric( $grade ) ) {
+						array_push( $grades, $grade );
+					}
+
+				}
+
+				$taken = count( $grades );
+
+				if ( ! $taken ) {
+
+					$grade = _x( 'N/A', 'course grade when no quizzes taken or in course', 'lifterlms' );
+
+				} else {
+
+					$total = array_sum( $grades );
+
+					// prevent division by zero
+					if ( 0 === $total ) {
+						$grade = 0;
+					} else {
+						$grade = $total / $taken;
+					}
+
+				}
+
+			break;
+
+			case 'lesson':
+
+				$l = new LLMS_Lesson( $object_id );
+				$q = $l->get( 'assigned_quiz' );
+
+				$grade = _x( 'N/A', 'lesson grade when lesson has no quiz', 'lifterlms' );
+
+				if ( $q ) {
+
+					$q = new LLMS_Quiz( $q );
+
+					if ( $q->get_total_attempts_by_user( $this->get_id() ) ) {
+
+						$grade = $q->get_best_grade( $this->get_id() );
+
+					}
+
+				}
+
+			break;
+
+		}
+
+		if ( is_numeric( $grade ) ) {
+
+			$grade = round( $grade, 2 );
+
+		}
+
+		return apply_filters( 'llms_student_get_grade', $grade, $this, $object_id, $type );
+
+	}
+
+	/**
+	 * Retrieve the student's overall grade
+	 * Grade = sum of grades for all courses divided by number of enrolled courses
+	 * if a course has no quizzes in it, it cannot be graded and is therefore excluded from the calculation
+	 *
+	 * cached data is automatically cleared when a student completes a quiz
+	 *
+	 * @param    boolean      $use_cache   if false, calculates the grade, otherwise utilizes cached data (if available)
+	 * @return   float|string              grade as float or "N/A"
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_overall_grade( $use_cache = true ) {
+
+		$grade = null;
+
+		// attempt to pull from the cache first
+		if ( $use_cache ) {
+
+			$grade = $this->get( $this->meta_prefix . 'overall_grade' );
+
+			if ( is_numeric( $grade ) ) {
+				$grade = floatval( $grade );
+			}
+
+		}
+
+		// cache disabled or no cached data available
+		if ( ! $use_cache || null === $grade || '' === $grade ) {
+
+			$grades = array();
+
+			// get courses
+			$courses = $this->get_courses( array(
+				'limit' => 9999,
+			) );
+
+			// loop through courses
+			foreach ( $courses['results'] as $course_id ) {
+
+				// get course grade
+				$g = $this->get_grade( $course_id );
+
+				// if an actual grade (not N/A) is returned
+				if ( is_numeric( $g ) ) {
+					array_push( $grades, $g );
+				}
+
+			}
+
+			// if we have at least one grade
+			if ( $count = count( $grades ) ) {
+
+				$grade = round( array_sum( $grades ) / $count, 2 );
+
+			} else {
+
+				$grade = _x( 'N/A', 'overall grade when no quizzes', 'lifterlms' );
+
+			}
+
+			// cache the grade
+			$this->set( 'overall_grade', $grade );
+
+		}
+
+		return apply_filters( 'llms_student_get_overall_grade', $grade, $this );
+
+	}
+
+	/**
+	 * Retrieve a student's overall progess
+	 * Overall progress is the total percentage completed based on all courses the student is enrolled in
+	 * Cached data is cleared everytime the student completes a lesson
+	 *
+	 * @param    boolean    $use_cache  if false, calculates the progress, otherwise utilizes cached data (if available)
+	 * @return   float
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_overall_progress( $use_cache = true ) {
+
+		$progress = null;
+
+		// attempt to pull from the cache first
+		if ( $use_cache ) {
+
+			$progress = $this->get( $this->meta_prefix . 'overall_progress' );
+
+			if ( is_numeric( $progress ) ) {
+				$progress = floatval( $progress );
+			}
+
+		}
+
+		// cache disabled or no cached data available
+		if ( ! $use_cache || null === $progress || '' === $progress ) {
+
+			$progresses = array();
+
+			// get courses
+			$courses = $this->get_courses( array(
+				'limit' => 9999,
+			) );
+
+			// loop through courses
+			foreach ( $courses['results'] as $course_id ) {
+				array_push( $progresses, $this->get_progress( $course_id, 'course' ) );
+			}
+
+			if ( $count = count( $progresses ) ) {
+
+				$progress = round( array_sum( $progresses ) / $count, 2 );
+
+			} else {
+
+				$progress = 0;
+
+			}
+
+			// cache the grade
+			$this->set( 'overall_progress', $progress );
+
+		}
+
+		return apply_filters( 'llms_student_get_overall_progress', $progress, $this );
+
+	}
+
+	/**
 	 * Get the students last completed lesson in a course
 	 * @param    int     $course_id    WP_Post ID of the course
 	 * @return   int                   WP_Post ID of the lesson or false if no progress has been made
@@ -553,6 +924,24 @@ class LLMS_Student {
 		}
 
 		return $levels;
+
+	}
+
+	/**
+	 * Get the full name of a student
+	 * @return   string
+	 * @since    3.0.4
+	 * @version  3.0.4
+	 */
+	public function get_name() {
+
+		$name = trim( $this->first_name . ' ' . $this->last_name );
+
+		if ( ! $name ) {
+			$name = $this->display_name;
+		}
+
+		return apply_filters( 'llms_student_get_name', $name, $this->get_id(), $this );
 
 	}
 
@@ -667,6 +1056,60 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Retrieve quiz data for a student for a lesson / quiz combination
+	 * @param    int     $quiz    WP Post ID of a Quiz
+	 * @param    int     $lesson  WP Post ID of a lesson
+	 * @return   array
+	 * @since    3.2.0
+	 * @version  3.2.0
+	 */
+	public function get_quiz_data( $quiz = null, $lesson = null ) {
+
+		// get all quiz data
+		$quizzes = $this->get( 'quiz_data' );
+
+		if ( ! is_array( $quizzes ) ) {
+			$quizzes = array();
+		}
+
+		// reduce the data to those matching the requested quiz & lesson
+		if ( $quizzes && ( $quiz || $lesson ) ) {
+
+			foreach ( $quizzes as $i => $data ) {
+
+				if ( $quiz && $quiz != $data['id'] ) {
+					unset( $quizzes[ $i ] );
+				}
+
+				if ( $lesson && $lesson != $data['assoc_lesson'] ) {
+					unset( $quizzes[ $i ] );
+				}
+
+			}
+
+			// reindex
+			$quizzes = array_values( $quizzes );
+
+		}
+
+		return apply_filters( 'llms_student_get_quiz_data', $quizzes, $quiz, $lesson );
+
+	}
+
+	/**
+	 * Retrieve the Students original registration date in chosen format
+	 * @param    string     $format  any date format that can be passed to date()
+	 * @return   string
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_registration_date( $format = 'F j, Y' ) {
+
+		return date_i18n( $format, strtotime( $this->get( 'user_registered' ) ) );
+
+	}
+
 
 	/**
 	 * Determine if the student has completed a course, track, or lesson
@@ -675,7 +1118,7 @@ class LLMS_Student {
 	 * @param    string     $type    Object type (course, lesson, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.2.1
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 		global $wpdb;
@@ -692,9 +1135,8 @@ class LLMS_Student {
 					"SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND post_id = %d AND meta_key = '_is_complete' AND meta_value = 'yes'",
 					array( $this->get_id(), $object_id )
 				) );
-				return ( 1 == $q );
+				return ( $q >= 1 );
 			break;
-
 		}
 
 	}

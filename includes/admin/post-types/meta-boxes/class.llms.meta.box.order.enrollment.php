@@ -94,7 +94,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 				$order = new LLMS_Order( $post_id );
 
-				$order->add_note( sprintf( __( 'Student enrollment status changed from %s to %s', 'lifterlms' ), llms_get_enrollment_status_name( $old_status ), llms_get_enrollment_status_name( $new_status ) ), true );
+				$order->add_note( sprintf( __( 'Student enrollment status changed from %1$s to %2$s', 'lifterlms' ), llms_get_enrollment_status_name( $old_status ), llms_get_enrollment_status_name( $new_status ) ), true );
 
 				if ( 'enrolled' === $new_status ) {
 

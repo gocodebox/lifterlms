@@ -103,7 +103,7 @@ LLMS.MB_Course_Outline = {
                     title: $(this).attr('data-modal_title'),
                     open: function () {
                         _this.getSections();
-                        _this.getLessons();
+                        // _this.getLessons();
                     },
                     closed: function () {
                         _this.alreadySubmitted = false;

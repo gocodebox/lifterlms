@@ -41,7 +41,7 @@ class LLMS_Meta_Box_Video {
 					<?php
 					$html  = '';
 					$html .= '<input type="text" class="code" name="_video_embed" id="_video-embed" value="' . $video_embed . '"/>';
-					$html .= '<br /><span class="description">' .  __( 'Paste the url for your Wistia, Vimeo or Youtube videos.', 'lifterlms' ) . '</span>';
+					$html .= '<br /><span class="description">' . __( 'Paste the url for your Wistia, Vimeo or Youtube videos.', 'lifterlms' ) . '</span>';
 					echo $html;
 					?>
 				</td>
@@ -59,7 +59,7 @@ class LLMS_Meta_Box_Video {
 					<?php
 					$html  = '';
 					$html .= '<input type="text" class="code" name="_audio_embed" id="_audio-embed" value="' . $audio_embed . '"/>';
-					$html .= '<br /><span class="description">' .  __( 'Paste the embed code for your externally hosted audio.', 'lifterlms' ) . '</span>';
+					$html .= '<br /><span class="description">' . __( 'Paste the embed code for your externally hosted audio.', 'lifterlms' ) . '</span>';
 					echo $html;
 					?>
 				</td>

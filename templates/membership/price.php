@@ -38,7 +38,7 @@ $llms_product = new LLMS_Product( $post->ID );
 			 * This action will be called to allow them to output some custom html for the payment options
 			 */
 			?>
-			<?php do_action( 'lifterlms_product_payment_option_'.$option, $llms_product ); ?>
+			<?php do_action( 'lifterlms_product_payment_option_' . $option, $llms_product ); ?>
 
 		<?php endforeach; ?>
 

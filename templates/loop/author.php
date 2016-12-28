@@ -8,4 +8,4 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 echo llms_get_author( array( 'avatar_size' => 28 ) );
-?>
+

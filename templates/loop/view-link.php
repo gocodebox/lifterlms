@@ -6,8 +6,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $course;
+global $post;
 
+$course = new LLMS_Course( $post );
 
 ?>
 

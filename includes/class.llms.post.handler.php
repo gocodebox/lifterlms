@@ -25,7 +25,7 @@ class LLMS_Post_Handler {
 		// create section post
 		$post_data = apply_filters( 'lifterlms_new_post', array(
 			'post_type'     => $type,
-			'post_title'    => __( $title, 'lifterlms' ),
+			'post_title'    => $title,
 			'post_status'   => 'publish',
 			'post_author'   => get_current_user_id(),
 			'post_excerpt'  => $excerpt,

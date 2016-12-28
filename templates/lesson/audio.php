@@ -1,14 +1,17 @@
 <?php
 /**
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * Lesson Audio embed
+ * @since    1.0.0
+ * @version  3.1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $post, $lesson;
+global $post;
 
-if ( ! $lesson->get_audio() ) { return; }
+$lesson = new LLMS_Lesson( $post );
+
+if ( ! $lesson->get( 'audio_embed' ) ) { return; }
 ?>
 
 <div class="llms-audio-wrapper">

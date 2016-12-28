@@ -36,18 +36,21 @@ function llms_confirm_payment_url( $order_key = null ) {
 
 
 /**
- * Get endpoint URL
- *
- * @param string $page
- *
- * @return string
+ * Retrieve the full URL to a LifterLMS endpoint
+ * @param    string     $endpoint   ID of the endpoint, eg "view-courses"
+ * @param    string     $value
+ * @param    string     $permalink  base URL to append the endoint to
+ * @return   string
+ * @since    1.0.0
+ * @version  3.0.4
  */
 function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	if ( ! $permalink ) {
 		$permalink = get_permalink(); }
 
 	// Map endpoint to options
-	$endpoint = isset( LLMS()->query->query_vars[ $endpoint ] ) ? LLMS()->query->query_vars[ $endpoint ] : $endpoint;
+	$vars = LLMS()->query->get_query_vars();
+	$endpoint = isset( $vars[ $endpoint ] ) ? $vars[ $endpoint ] : $endpoint;
 
 	if ( get_option( 'permalink_structure' ) ) {
 		if ( strstr( $permalink, '?' ) ) {

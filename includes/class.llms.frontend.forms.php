@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' )) {
  * @author  codeBOX
  * @project lifterLMS
  */
-class LLMS_Frontend_Forms
-{
+class LLMS_Frontend_Forms {
+
 
 	/**
 	 * Constructor
