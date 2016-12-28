@@ -60,10 +60,16 @@ class LLMS_Admin_Menus {
 
 			add_submenu_page( 'lifterlms', __( 'LifterLMS Reporting', 'lifterlms' ), __( 'Reporting', 'lifterlms' ), apply_filters( 'lifterlms_admin_reporting_access', 'manage_options' ), 'llms-reporting', array( $this, 'reporting_page_init' ) );
 
+			add_submenu_page( 'lifterlms', __( 'LifterLMS Import / Export', 'lifterlms' ), __( 'Import / Export', 'lifterlms' ), apply_filters( 'lifterlms_admin_scaffold_access', 'manage_options' ), 'llms-import-export', array( $this, 'import_export_page_init' ) );
+
 			add_submenu_page( 'lifterlms', __( 'LifterLMS System report', 'lifterlms' ), __( 'System Report', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
 
 		}
 
+	}
+
+	public function import_export_page_init() {
+		LLMS_Admin_ImportExport::output();
 	}
 
 	/**

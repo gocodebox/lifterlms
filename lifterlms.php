@@ -185,6 +185,7 @@ final class LifterLMS {
 		if ( is_admin() ) {
 
 			include_once 'includes/admin/class.llms.scaffold.php';
+			include_once 'includes/admin/class.llms.admin.import-export.php';
 
 			require_once 'includes/admin/llms.functions.admin.php';
 			include_once 'includes/admin/class.llms.admin.menus.php';
