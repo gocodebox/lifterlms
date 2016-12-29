@@ -24,12 +24,6 @@ class LLMS_Admin_Post_Types {
 
 		add_filter( 'post_updated_messages', array( $this, 'llms_post_updated_messages' ) );
 
-		add_filter( 'manage_lesson_posts_columns', array( $this, 'llms_add_lesson_columns' ), 10, 1 );
-		add_action( 'manage_lesson_posts_custom_column', array( $this, 'llms_manage_lesson_columns' ), 10, 2 );
-
-		add_filter( 'manage_section_posts_columns', array( $this, 'llms_add_section_columns' ), 10, 1 );
-		add_action( 'manage_section_posts_custom_column', array( $this, 'llms_manage_section_columns' ), 10, 2 );
-
 	}
 
 	/**
@@ -98,121 +92,6 @@ class LLMS_Admin_Post_Types {
 		}
 
 		return $messages;
-	}
-
-
-
-	/**
-	 * Lesson post: Queries data based on column name
-	 *
-	 * @param  string $column  [custom column name]
-	 * @param  int $post_id [ID of the individual post]
-	 *
-	 * @return void
-	 */
-	public function llms_add_lesson_columns( $columns ) {
-	    $columns = array(
-		'cb' => '<input type="checkbox" />',
-		'title' => __( 'Lesson Title' ),
-		'course' => __( 'Assigned Course' ),
-		'section' => __( 'Assigned Section' ),
-		'prereq' => __( 'Prerequisite' ),
-		'date' => __( 'Date' ),
-		);
-		return $columns;
-	}
-
-	/**
-	 * Lesson post: Queries data based on column name
-	 *
-	 * @param  string $column  [custom column name]
-	 * @param  int $post_id [ID of the individual post]
-	 *
-	 * @return void
-	 */
-	public function llms_manage_lesson_columns( $column, $post_id ) {
-		global $post;
-
-		switch ( $column ) {
-
-			case 'course' :
-
-				$course = get_post_meta( $post_id, '_parent_course', true );
-				$edit_link = get_edit_post_link( $course );
-
-				if ( empty( $course ) ) {
-					echo ''; } else { 					printf( __( '<a href="%1$s">%2$s</a>' ), $edit_link , get_the_title( $course ) ); }
-
-				break;
-
-			case 'section' :
-
-				$section = get_post_meta( $post_id, '_parent_section', true );
-				$edit_link = get_edit_post_link( $section );
-
-				if ( empty( $section ) ) {
-					echo ''; } else { 					printf( __( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $section ) ); }
-
-				break;
-
-			case 'prereq' :
-
-				$prereq = get_post_meta( $post_id, '_prerequisite', true );
-				$edit_link = get_edit_post_link( $prereq );
-
-				if ( empty( $prereq ) ) {
-					echo ''; } else { 					printf( __( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $prereq ) ); }
-
-				break;
-
-			default :
-				break;
-		}
-	}
-
-	/**
-	 * Section post: Queries data based on column name
-	 *
-	 * @param  string $column  [custom column name]
-	 * @param  int $post_id [ID of the individual post]
-	 *
-	 * @return void
-	 */
-	public function llms_add_section_columns( $columns ) {
-	    $columns = array(
-		'cb' => '<input type="checkbox" />',
-		'title' => __( 'Lesson Title' ),
-		'course' => __( 'Assigned Course' ),
-		'date' => __( 'Date' ),
-		);
-		return $columns;
-	}
-
-	/**
-	 * Section post: Queries data based on column name
-	 *
-	 * @param  string $column  [custom column name]
-	 * @param  int $post_id [ID of the individual post]
-	 *
-	 * @return void
-	 */
-	public function llms_manage_section_columns( $column, $post_id ) {
-		global $post;
-
-		switch ( $column ) {
-
-			case 'course' :
-
-				$course = get_post_meta( $post_id, '_parent_course', true );
-				$edit_link = get_edit_post_link( $course );
-				if ( empty( $course ) ) {
-					echo ''; } else { 					printf( __( '<a href="%1$s">%1$s</a>' ), $edit_link, get_the_title( $course ) ); }
-
-				break;
-
-			default :
-				break;
-		}
 	}
 
 }
