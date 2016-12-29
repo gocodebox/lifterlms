@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 3.2.2
+Stable tag: 3.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,8 +166,20 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-= v3.2.2 - 2016/12/21=
-----------------------
+= v3.2.3 - 2016/12/29 =
+-----------------------
+
++ Progress and Grade are now sortable columns on the student reporting table
++ Make enrollment statuses translateable for courses and memberships on the Student Dashboard
++ "Sign Out" text on student dashboard is now translateable, thanks @yumashev
++ Fixed prerequisite lesson display on lesson post tables
++ Ensure post archive (blog) is visible regardless of post membership restrictions
++ Moved lesson post table managment functions to their own class
++ Unused section post table management functions removed
+
+
+= v3.2.2 - 2016/12/21 =
+-----------------------
 
 + Adds filter `llms_student_dashboard_login_redirect` allowing customization of the redirect upon login via the Student Dashboard
 + Adds a shortcode parameter, `login_redirect` to `[lifterlms_my_account]` allowing customization of the redirect upon login via the Student Dashboard
@@ -176,14 +188,14 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Adds a text domain to a translation function where none was present, rendering the string untranslateable
 
 
-= v3.2.1 - 2016/12/14=
-----------------------
+= v3.2.1 - 2016/12/14 =
+-----------------------
 
 + Fix operator position on `is_complete` check
 
 
-= v3.2.0 - 2016/12/13=
-----------------------
+= v3.2.0 - 2016/12/13 =
+-----------------------
 
 ##### LifterLMS Reporting Beta
 
@@ -203,7 +215,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Remove explicit color definition from Student Dashboard navigation links for greater theme compatibility
 
 
-= v3.1.7 - 2016/12/06=
+= v3.1.7 - 2016/12/06 =
 -----------------------
 
 + Added support for WordPress Twenty Seventeen theme
