@@ -1,11 +1,13 @@
 == Changelog ==
 
-= v3.2.3 - 2016/12/?? =
+= v3.2.3 - 2016/12/29 =
 -----------------------
 
 + Progress and Grade are now sortable columns on the student reporting table
 + Make enrollment statuses translateable for courses and memberships on the Student Dashboard
++ "Sign Out" text on student dashboard is now translateable, thanks @yumashev
 + Fixed prerequisite lesson display on lesson post tables
++ Ensure post archive (blog) is visible regardless of post membership restrictions
 + Moved lesson post table managment functions to their own class
 + Unused section post table management functions removed
 
