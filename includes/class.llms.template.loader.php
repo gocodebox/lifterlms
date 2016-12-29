@@ -289,9 +289,10 @@ class LLMS_Template_Loader {
 	/**
 	 * Check if content should be restricted and include overrides where appropriate
 	 * triggers various actions based on content restrictions
-	 *
-	 * @param  string  $template
-	 * @return string html
+	 * @param    string  $template
+	 * @return   string
+	 * @since    1.0.0
+	 * @version  3.2.3
 	 */
 	public function template_loader( $template ) {
 
@@ -299,7 +300,12 @@ class LLMS_Template_Loader {
 
 		$post_type = get_post_type();
 
-		if ( $page_restricted['is_restricted'] ) {
+		// blog should bypass checks
+		if ( is_home() ) {
+
+			return $template;
+
+		} elseif ( $page_restricted['is_restricted'] ) {
 
 			// generic content restricted action
 			do_action( 'lifterlms_content_restricted', $page_restricted );
