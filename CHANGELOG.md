@@ -1,6 +1,6 @@
 == Changelog ==
 
-= v3.2.3 - 2016/12/?? =
+= v3.2.3 - 2016/12/29 =
 -----------------------
 
 + Progress and Grade are now sortable columns on the student reporting table
