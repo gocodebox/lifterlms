@@ -91,7 +91,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.4
+	 * @version  3.2.3
 	 */
 	public static function get_tabs() {
 

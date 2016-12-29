@@ -299,47 +299,47 @@ msgstr ""
 msgid "Remind me later"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:85
+#: includes/admin/class.llms.admin.post-types.php:79
 msgid "$title. updated. <a href=\"%s\">View .$title.</a>"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:86
+#: includes/admin/class.llms.admin.post-types.php:80
 msgid "Custom field updated."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:87
+#: includes/admin/class.llms.admin.post-types.php:81
 msgid "Custom field deleted."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:88
+#: includes/admin/class.llms.admin.post-types.php:82
 msgid "$title. updated."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:89
+#: includes/admin/class.llms.admin.post-types.php:83
 msgid "$title. restored to revision from %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:90
+#: includes/admin/class.llms.admin.post-types.php:84
 msgid "$title. published. <a href=\"%s\">View .$title.</a>"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:91
+#: includes/admin/class.llms.admin.post-types.php:85
 msgid "$title. saved."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:92
+#: includes/admin/class.llms.admin.post-types.php:86
 msgid "$title. submitted. <a target=\"_blank\" href=\"%s\">Preview .$title.</a>"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:93
+#: includes/admin/class.llms.admin.post-types.php:87
 msgid "$title. scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview .$title.</a>"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:94
+#: includes/admin/class.llms.admin.post-types.php:88
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:95
+#: includes/admin/class.llms.admin.post-types.php:89
 msgid "$title. draft updated. <a target=\"_blank\" href=\"%s\">Preview .$title.</a>"
 msgstr ""
 
@@ -992,7 +992,7 @@ msgstr ""
 msgid "Capacity Reached Message"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:25, includes/class.llms.post-types.php:404
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.outline.php:25, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:39, includes/class.llms.post-types.php:404
 msgid "Section"
 msgstr ""
 
@@ -1871,6 +1871,22 @@ msgstr ""
 msgid "%d days"
 msgstr ""
 
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:37
+msgid "Lesson Title"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:38, includes/class.llms.post-types.php:353
+msgid "Course"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:40
+msgid "Prerequisite"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:41, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33
+msgid "Date"
+msgstr ""
+
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:43, includes/class.llms.post-types.php:565, templates/myaccount/my-orders.php:19, templates/myaccount/my-orders.php:29
 msgid "Order"
 msgstr ""
@@ -1889,10 +1905,6 @@ msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:47
 msgid "Revenue"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33
-msgid "Date"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:74
@@ -3433,10 +3445,6 @@ msgctxt "slug"
 msgid "course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:353
-msgid "Course"
-msgstr ""
-
 #: includes/class.llms.post-types.php:354
 msgctxt "Admin menu name"
 msgid "Courses"
@@ -4483,6 +4491,10 @@ msgstr ""
 
 #: includes/class.llms.student.dashboard.php:123
 msgid "Order History"
+msgstr ""
+
+#: includes/class.llms.student.dashboard.php:127
+msgid "Sign Out"
 msgstr ""
 
 #: includes/class.llms.student.php:709
