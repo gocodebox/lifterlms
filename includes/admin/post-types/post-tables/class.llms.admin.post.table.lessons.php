@@ -13,8 +13,8 @@ class LLMS_Admin_Post_Table_Lessons {
 	/**
 	 * Constructor
 	 * @return  void
-	 *
-	 * @since 3.0.0
+	 * @since    3.2.4
+	 * @version  3.2.4
 	 */
 	public function __construct() {
 
@@ -27,6 +27,8 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * Add Custom lesson Columns
 	 * @param   array  $columns  array of default columns
 	 * @return  array
+	 * @since    3.2.4
+	 * @version  3.2.4
 	 */
 	public function add_columns( $columns ) {
 
@@ -48,6 +50,8 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @param  string $column   column key/name
 	 * @param  int    $post_id  WP Post ID of the lesson for the row
 	 * @return void
+	 * @since    3.2.4
+	 * @version  3.2.4
 	 */
 	public function manage_columns( $column, $post_id ) {
 
@@ -103,8 +107,6 @@ class LLMS_Admin_Post_Table_Lessons {
 
 			break;
 
-			default :
-				break;
 		}
 
 	}
