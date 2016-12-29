@@ -1,10 +1,13 @@
 == Changelog ==
 
-= v3.2.3 - 2016/12/22 =
+= v3.2.3 - 2016/12/?? =
 -----------------------
 
 + Progress and Grade are now sortable columns on the student reporting table
 + Make enrollment statuses translateable for courses and memberships on the Student Dashboard
++ Fixed prerequisite lesson display on lesson post tables
++ Moved lesson post table managment functions to their own class
++ Unused section post table management functions removed
 
 
 = v3.2.2 - 2016/12/21 =
