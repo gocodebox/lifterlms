@@ -341,6 +341,24 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
+	 * Retrieve URL for an image associated with the post
+	 * Currently only retrieves the featured image if the post type supports it
+	 * in the future this will allow retrieval of custom post images as well
+	 * @param    string|array   $size  registered image size or a numeric array with width/height
+	 * @param    string         $key   currently unused but here for forward compatibility if
+	 *                                 additional custom images are added
+	 * @return   string                empty string if no image or not supported
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_image( $size = 'full', $key = '' ) {
+		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
+			$url = get_the_post_thumbnail_url( $this->get( 'id'), $size );
+		}
+		return ! empty( $url ) ? $url : '';
+	}
+
+	/**
 	 * Retrieve the registered Label of the posts current status
 	 * @return   string
 	 * @since    3.0.0
@@ -698,13 +716,16 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$arr = array(
 			'id' => $this->get( 'id' ),
-			// 'post' => $this->post, // not sure if i want this or not
 		);
 
 		$props = array_merge( array_keys( $this->get_properties() ), $this->get_post_properties() );
 
 		foreach ( $props as $prop ) {
 			$arr[ $prop ] = $this->get( $prop );
+		}
+
+		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
+			$arr['featured_image'] = $this->get_image( 'full' );
 		}
 
 		// allow extending classes to add properties easily without overridding the class

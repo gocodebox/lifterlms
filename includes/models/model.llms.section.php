@@ -9,7 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Section extends LLMS_Post_Model {
 
-	protected $properties = array();
+	protected $properties = array(
+		'order' => 'absint',
+	);
 
 	protected $db_post_type = 'section';
 	protected $model_post_type = 'section';

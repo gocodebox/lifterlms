@@ -31,7 +31,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		'drip_method' => 'text',
 		'free_lesson' => 'yesno',
 		'has_prerequisite' => 'yesno',
-		'order' => 'nt',
+		'order' => 'absint',
 		'prerequisite' => 'absint',
 		'require_passing_grade' => 'yesno',
 		'time_available' => 'text',
