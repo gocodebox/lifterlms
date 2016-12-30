@@ -1,83 +1,128 @@
 <?php
+/**
+ * LLMS Section Model
+ * @since    1.0.0
+ * @version  ??
+ */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* Base Section Class
-*
-* Class used for instantiating section object
-*
-* @author codeBOX
-*/
-class LLMS_Section {
+class LLMS_Section extends LLMS_Post_Model {
+
+	protected $properties = array();
+
+	protected $db_post_type = 'section';
+	protected $model_post_type = 'section';
 
 	/**
-	* ID
-	* @access public
-	* @var int
-	*/
-	public $id;
+	 * Get all lessons in the section
+	 * @param    string  $return  type of return [ids|posts|lessons]
+	 * @return   array
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_lessons( $return = 'lessons' ) {
 
-	/**
-	* Post Object
-	* @access public
-	* @var array
-	*/
-	public $post;
+		$q = new WP_Query( array(
+			'meta_key' => '_llms_order',
+			'meta_query' => array(
+				array(
+					'key' => '_parent_section',
+					'value' => $this->get( 'id' ),
+				),
+			),
+			'order' => 'ASC',
+			'orderby' => 'meta_value_num',
+			'post_type' => 'lesson',
+			'posts_per_page' => 500,
+		) );
 
-
-	/**
-	* Constructor
-	*
-	* initializes the section object based on post data
-	*/
-	public function __construct( $section ) {
-
-		if ( is_numeric( $section ) ) {
-
-			$this->id   = absint( $section );
-			$this->post = get_post( $this->id );
-
-		} elseif ( $section instanceof LLMS_Section ) {
-
-			$this->id   = absint( $section->id );
-			$this->post = $section;
-
-		} elseif ( $section instanceof LLMS_Post || isset( $section->ID ) ) {
-
-			$this->id   = absint( $section->ID );
-			$this->post = $section;
-
+		if ( $return === 'ids' ) {
+			$r = wp_list_pluck( $q->posts, 'ID' );
+		} elseif ( $return === 'posts' ) {
+			$r = $q->posts;
+		} else {
+			$r = array();
+			foreach ( $q->posts as $p ) {
+				$r[] = new LLMS_Lesson( $p );
+			}
 		}
 
-	}
-
-	/**
-	* __isset function
-	*
-	* checks if metadata exists
-	*
-	* @param string $item
-	*/
-	public function __isset( $key ) {
-
-		return metadata_exists( 'post', $this->id, '_' . $key );
+		return $r;
 
 	}
 
 	/**
-	* __get function
-	*
-	* initializes the course object based on post data
-	*
-	* @param string $item
-	* @return string $value
-	*/
-	public function __get( $key ) {
+	 * Get a property's data type for scrubbing
+	 * used by $this->scrub() to determine how to scrub the property
+	 * @param   string $key  property key
+	 * @return  string
+	 * @since   ??
+	 * @version ??
+	 */
+	protected function get_property_type( $key ) {
 
-		$value = get_post_meta( $this->id, '_' . $key, true );
-		return $value;
+		$props = $this->get_properties();
+
+		// check against the properties array
+		if ( in_array( $key, array_keys( $props ) ) ) {
+			$type = $props[ $key ];
+		}
+		// default to text
+		else {
+			$type = 'text';
+		}
+
+		return $type;
 
 	}
+
+	/**
+	 * Retrieve an array of post properties
+	 * These properties need to be get/set with alternate methods
+	 * @return array
+	 * @since    ??
+	 * @version  ??
+	 */
+	protected function get_post_properties() {
+		return apply_filters( 'llms_post_model_get_post_properties', array(
+			'title',
+		), $this );
+	}
+
+	/**
+	 * Add data to the course model when converted to array
+	 * Called before data is sorted and retuned by $this->jsonSerialize()
+	 * @param    array     $arr   data to be serialized
+	 * @return   array
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function toArrayAfter( $arr ) {
+
+		$arr['lessons'] = array();
+
+		foreach ( $this->get_lessons() as $s ) {
+			$arr['lessons'][] = $s->toArray();
+		}
+
+		return $arr;
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Get Order

@@ -31,6 +31,29 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Course extends LLMS_Post_Model {
 
+	protected $properties = array(
+		'audio_embed' => 'text',
+		'capacity' => 'absint',
+		'capacity_message' => 'text',
+		'course_closed_message' => 'text',
+		'course_opens_message' => 'text',
+		'content_restricted_message' => 'text',
+		'enable_capacity' => 'yesno',
+		'end_date' => 'text',
+		'enrollment_closed_message' => 'text',
+		'enrollment_end_date' => 'text',
+		'enrollment_opens_message' => 'text',
+		'enrollment_period' => 'yesno',
+		'enrollment_start_date' => 'text',
+		'has_prerequisite' => 'yesno',
+		'length' => 'text',
+		'prerequisite' => 'absint',
+		'prerequisite_track' => 'absint',
+		'time_period' => 'yesno',
+		'start_date' => 'text',
+		'video_embed' => 'text',
+	);
+
 	protected $db_post_type = 'course';
 	protected $model_post_type = 'course';
 
@@ -40,41 +63,19 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @param   string $key  property key
 	 * @return  string
 	 * @since   3.0.0
-	 * @version 3.0.0
+	 * @version ??
 	 */
 	protected function get_property_type( $key ) {
 
-		switch ( $key ) {
+		$props = $this->get_properties();
 
-			case 'capacity':
-			case 'prerequisite':
-			case 'prerequisite_track':
-				$type = 'absint';
-			break;
-
-			case 'enable_capacity':
-			case 'enrollment_period':
-			case 'has_prerequisite':
-			case 'time_period':
-				$type = 'yesno';
-			break;
-
-			case 'audio_embed':
-			case 'capacity_message':
-			case 'content_restricted_message':
-			case 'course_closed_message':
-			case 'course_opens_message':
-			case 'enrollment_closed_message':
-			case 'enrollment_end_date':
-			case 'enrollment_opens_message':
-			case 'enrollment_start_date':
-			case 'end_date':
-			case 'length':
-			case 'start_date':
-			case 'video_embed':
-			default:
-				$type = 'text';
-
+		// check against the properties array
+		if ( in_array( $key, array_keys( $props ) ) ) {
+			$type = $props[ $key ];
+		}
+		// default to text
+		else {
+			$type = 'text';
 		}
 
 		return $type;
@@ -504,11 +505,25 @@ class LLMS_Course extends LLMS_Post_Model {
 
 	}
 
+	/**
+	 * Add data to the course model when converted to array
+	 * Called before data is sorted and retuned by $this->jsonSerialize()
+	 * @param    array     $arr   data to be serialized
+	 * @return   array
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function toArrayAfter( $arr ) {
 
+		$arr['sections'] = array();
 
+		foreach ( $this->get_sections() as $s ) {
+			$arr['sections'][] = $s->toArray();
+		}
 
+		return $arr;
 
-
+	}
 
 
 

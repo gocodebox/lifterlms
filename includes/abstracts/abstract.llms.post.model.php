@@ -5,7 +5,16 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since  3.0.0
  */
-abstract class LLMS_Post_Model {
+abstract class LLMS_Post_Model implements JsonSerializable {
+
+	/**
+	 * Name of the post type as stored in the database
+	 * This will be prefixed (where applicable)
+	 * ie: "llms_order" for the "llms_order" post type
+	 * @var string
+	 * @since  3.0.0
+	 */
+	protected $db_post_type;
 
 	/**
 	 * WP Post ID
@@ -13,13 +22,6 @@ abstract class LLMS_Post_Model {
 	 * @since 3.0.0
 	 */
 	protected $id;
-
-	/**
-	 * Instance of WP_Post
-	 * @var obj
-	 * @since 3.0.0
-	 */
-	protected $post;
 
 	/**
 	 * Define this in extending classes
@@ -39,13 +41,14 @@ abstract class LLMS_Post_Model {
 	protected $meta_prefix = '_llms_';
 
 	/**
-	 * Name of the post type as stored in the database
-	 * This will be prefixed (where applicable)
-	 * ie: "llms_order" for the "llms_order" post type
-	 * @var string
-	 * @since  3.0.0
+	 * Instance of WP_Post
+	 * @var obj
+	 * @since 3.0.0
 	 */
-	protected $db_post_type;
+	protected $post;
+
+
+	protected $properties = array();
 
 	/**
 	 * Constructor
@@ -111,6 +114,11 @@ abstract class LLMS_Post_Model {
 
 			$post_key = 'post_' . $key;
 
+			// ensure post is set globally for filters below
+			global $post;
+			$temp = $post;
+			$post = $this->post;
+
 			switch ( $key ) {
 
 				case 'content':
@@ -137,6 +145,9 @@ abstract class LLMS_Post_Model {
 					$val = $this->post->$post_key;
 
 			}
+
+			// return the original global
+			$post = $temp;
 
 		} // regular meta data
 		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
@@ -242,6 +253,37 @@ abstract class LLMS_Post_Model {
 	 */
 	private function create( $title = '' ) {
 		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ) );
+	}
+
+	/**
+	 * Trigger an export download of the given post type
+	 * @return   void
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function export() {
+
+		// if post type doesnt support exporting don't proceed
+		if ( ! $this->is_exportable() ) {
+			return;
+		}
+
+		$title = str_replace ( ' ', '-', $this->get( 'title' ) );
+		$title = preg_replace( '/[^a-zA-Z0-9-]/', '', $title );
+
+		$filename = apply_filters( 'llms_post_model_export_filename', $title . '_' . current_time( 'Ymd' ), $this );
+
+		// header( 'Content-type: application/json' );
+		// header( 'Content-Disposition: attachment; filename="' . $filename . '.json"' );
+		// header( 'Pragma: no-cache' );
+		// header( 'Expires: 0' );
+
+		var_dump( $this->toArray() ); die;
+
+		echo json_encode( $this );
+
+		die();
+
 	}
 
 	/**
@@ -406,6 +448,8 @@ abstract class LLMS_Post_Model {
 	 * @param  string $key  property key
 	 * @return string
 	 * @since  3.0.0
+	 * @todo   make this a default function like the one found in the course model
+	 *         which relies on $this->properties array instead of a big ol switch statement
 	 */
 	abstract protected function get_property_type( $key );
 
@@ -431,6 +475,16 @@ abstract class LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve an array of properties defined by the model
+	 * @return   array
+	 * @since    ??
+	 * @version  ??
+	 */
+	protected function get_properties() {
+		return apply_filters( 'llms_post_model_get_post_properties', $this->properties, $this );
+	}
+
+	/**
 	 * Array of properties which *cannot* be set
 	 * If a child class adds any properties which should not be settable
 	 * the class should override this property and add their custom
@@ -449,6 +503,27 @@ abstract class LLMS_Post_Model {
 	}
 
 	/**
+	 * Determine if the associated post is exportable
+	 * @return   boolean
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function is_exportable() {
+		return post_type_supports( $this->db_post_type, 'llms-export-post' );
+	}
+
+	/**
+	 * Format the object for json serialization
+	 * encodes the results of $this->toArray()
+	 * @return   array
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function jsonSerialize() {
+		return apply_filters( 'llms_post_model_json_serialize', $this->toArray(), $this );
+	}
+
+	/**
 	 * Scrub field according to it's type
 	 * This is automatically called by set() method before anything is actually set
 	 *
@@ -461,6 +536,7 @@ abstract class LLMS_Post_Model {
 
 		switch ( $key ) {
 
+			case 'author':
 			case 'menu_order':
 				$type = 'absint';
 			break;
@@ -602,6 +678,55 @@ abstract class LLMS_Post_Model {
 
 		}
 
+	}
+
+	/**
+	 * Coverts the object to an associative array
+	 * Any property returned by $this->get_properties() will be retrieved
+	 * via $this->get() and added to the array
+	 *
+	 * Extending classes can add additonal properties to the array
+	 * by overriding $this->toArrayAfter()
+	 *
+	 * This function is also utilzied to serialize the object to json
+	 *
+	 * @return   array
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function toArray() {
+
+		$arr = array(
+			'id' => $this->get( 'id' ),
+			// 'post' => $this->post, // not sure if i want this or not
+		);
+
+		$props = array_merge( array_keys( $this->get_properties() ), $this->get_post_properties() );
+
+		foreach ( $props as $prop ) {
+			$arr[ $prop ] = $this->get( $prop );
+		}
+
+		// allow extending classes to add properties easily without overridding the class
+		$arr = $this->toArrayAfter( $arr );
+
+		ksort( $arr ); // because i'm anal...
+
+		return apply_filters( 'llms_post_model_to_array', $arr, $this );
+
+	}
+
+	/**
+	 * Called before data is sorted and returned by $this->toArray()
+	 * Extending classes should override this data if custom data should
+	 * be added when object is converted to an array or json
+	 * @param    array     $arr   array of data to be serialized
+	 * @return   array
+	 * @since    ??
+	 * @version  ??
+	 */
+	protected function toArrayAfter( $arr ) {
+		return $arr;
 	}
 
 }

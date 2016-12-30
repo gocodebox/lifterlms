@@ -611,6 +611,45 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 }
 
 /**
+ * Retrieve the LLMS Post Model for a give post by ID or WP_Post Object
+ * @param    obj|int     $post  instance of WP_Post or a WP Post ID
+ * @return   obj|false
+ * @since    ??
+ * @version  ??
+ */
+function llms_get_post( $post ) {
+
+	if ( is_numeric( $post ) ) {
+		$post = get_post( $post );
+	} elseif ( ! is_a( $post, 'WP_Post' ) ) {
+		return false;
+	}
+
+	switch ( $post->post_type ) {
+
+		case 'course':
+			$post = new LLMS_Course( $post );
+		break;
+
+		case 'lesson':
+			$post = new LLMS_Lesson( $post );
+		break;
+
+		case 'llms_membership':
+			$post = new LLMS_Membership( $post );
+		break;
+
+		case 'llms_quiz':
+			$post = new LLMS_Quiz( $post );
+		break;
+
+	}
+
+	return $post;
+
+}
+
+/**
  * Retrieve an array of existing transaction statuses
  * @return   array
  * @since    3.0.0

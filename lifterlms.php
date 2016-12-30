@@ -243,7 +243,6 @@ final class LifterLMS {
 
 		// Classes
 		include_once( 'includes/class.llms.student.php' );
-		include_once( 'includes/class.llms.section.php' );
 		include_once( 'includes/class.llms.lesson.handler.php' );
 		include_once( 'includes/class.llms.quiz.php' );
 		include_once( 'includes/class.llms.question.php' );

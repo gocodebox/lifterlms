@@ -23,6 +23,21 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Lesson extends LLMS_Post_Model {
 
+	protected $properties = array(
+		'assigned_quiz' => 'absint',
+		'audio_embed' => 'text',
+		'date_available' => 'text',
+		'days_before_available' => 'absint',
+		'drip_method' => 'text',
+		'free_lesson' => 'yesno',
+		'has_prerequisite' => 'yesno',
+		'order' => 'nt',
+		'prerequisite' => 'absint',
+		'require_passing_grade' => 'yesno',
+		'time_available' => 'text',
+		'video_embed' => 'text',
+	);
+
 	protected $db_post_type = 'lesson';
 	protected $model_post_type = 'lesson';
 
@@ -210,22 +225,19 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @param   string $key  property key
 	 * @return  string
 	 * @since   3.0.0
-	 * @version 3.0.0
+	 * @version ??
 	 */
 	protected function get_property_type( $key ) {
 
-		switch ( $key ) {
+		$props = $this->get_properties();
 
-			case 'prerequisite':
-			case 'days_before_available':
-			case 'parent_course':
-				$type = 'absint';
-			break;
-
-			case 'has_prerequisite':
-			default:
-				$type = 'text';
-
+		// check against the properties array
+		if ( in_array( $key, array_keys( $props ) ) ) {
+			$type = $props[ $key ];
+		}
+		// default to text
+		else {
+			$type = 'text';
 		}
 
 		return $type;

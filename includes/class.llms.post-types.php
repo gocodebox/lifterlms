@@ -374,7 +374,7 @@ class LLMS_Post_Types {
 					'hierarchical' 			=> false,
 					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
+					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author', 'llms-clone-post', 'llms-export-post' ),
 					'has_archive' 			=> ( $shop_page_id = llms_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
 					'show_in_nav_menus' 	=> true,
 					'menu_position'         => 52,
@@ -826,7 +826,7 @@ class LLMS_Post_Types {
 					'rewrite' 				=> $quiz_permalink ? array( 'slug' => untrailingslashit( $quiz_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'editor', 'author', 'custom-fields' ),
+					'supports' 				=> array( 'title', 'editor', 'author', 'custom-fields', 'llms-clone-post' ),
 				)
 			)
 		);
