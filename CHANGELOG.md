@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.2.4 - 2016/12/29 =
+-----------------------
+
++ "Quiz Results" title is now translateable
++ Removed deprecated JS file "llms-metabox-data.js" which controlled UI/X for 2.x subscription data on courses and memberships
+
+
 = v3.2.3 - 2016/12/29 =
 -----------------------
 

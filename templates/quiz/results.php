@@ -1,7 +1,8 @@
 <?php
 /**
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * Quiz Results Template
+ * @since    1.0.0
+ * @version  3.2.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -33,7 +34,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 	<div class="clear"></div>
 	<div class="llms-template-wrapper">
 		<div class="llms-quiz-results">
-		<h3>Quiz Results</h3>
+		<h3><?php _e( 'Quiz Results', 'lifterlms' ); ?></h3>
 
 			<?php
 			//determine if grade, best grade or none should be shown.
