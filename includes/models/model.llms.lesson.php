@@ -3,7 +3,7 @@
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.0.0
+ * @version  3.3.0
  *
  * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
  * @property  $audio_embed  (string)  Audio embed URL
@@ -14,6 +14,8 @@
  * @property  $has_prerequisite  (yesno)  Yes if the lesson has a prereq lesson
  * @property  $order (int)  Lesson's order within its parent section
  * @property  $prerequisite  (int)  WP Post ID of the prerequisite lesson, only if $has_prequisite is 'yes'
+ * @property  $parent_course (int)  WP Post ID of the course the lesson belongs to
+ * @property  $parent_section (int)  WP Post ID of the section the lesson belongs to
  * @property  $require_passing_grade  (yesno)  Whether of not students have to pass the quiz to advance to the next lesson
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
@@ -32,6 +34,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		'free_lesson' => 'yesno',
 		'has_prerequisite' => 'yesno',
 		'order' => 'absint',
+		'parent_course' => 'absint',
+		'parent_section' => 'absint',
 		'prerequisite' => 'absint',
 		'require_passing_grade' => 'yesno',
 		'time_available' => 'text',
@@ -225,7 +229,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @param   string $key  property key
 	 * @return  string
 	 * @since   3.0.0
-	 * @version ??
+	 * @version 3.3.0
 	 */
 	protected function get_property_type( $key ) {
 

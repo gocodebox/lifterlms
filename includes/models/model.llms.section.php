@@ -2,7 +2,7 @@
 /**
  * LLMS Section Model
  * @since    1.0.0
- * @version  ??
+ * @version  3.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -11,6 +11,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	protected $properties = array(
 		'order' => 'absint',
+		'parent_course' => 'absint',
 	);
 
 	protected $db_post_type = 'section';
@@ -20,8 +21,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Get all lessons in the section
 	 * @param    string  $return  type of return [ids|posts|lessons]
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	public function get_lessons( $return = 'lessons' ) {
 
@@ -59,8 +60,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * used by $this->scrub() to determine how to scrub the property
 	 * @param   string $key  property key
 	 * @return  string
-	 * @since   ??
-	 * @version ??
+	 * @since   3.3.0
+	 * @version 3.3.0
 	 */
 	protected function get_property_type( $key ) {
 
@@ -83,8 +84,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Retrieve an array of post properties
 	 * These properties need to be get/set with alternate methods
 	 * @return array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	protected function get_post_properties() {
 		return apply_filters( 'llms_post_model_get_post_properties', array(
@@ -97,8 +98,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Called before data is sorted and retuned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	public function toArrayAfter( $arr ) {
 
@@ -118,26 +119,45 @@ class LLMS_Section extends LLMS_Post_Model {
 
 
 
-
-
-
-
-
-
-
-
 	/**
-	 * Get Order
-	 * retrieves the section order in the course
-	 * @return [type] [description]
+	 * Retrieve the order of the section within the course
+	 * @note     developers should not use these functions, instead use generic "get"
+	 *           this function will be deprecated in the future
+	 * @todo     deprecate
+	 * @return   int
+	 * @since    1.0.0
+	 * @version  3.3.0
 	 */
 	public function get_order() {
-
-		$order = get_post_meta( $this->id, '_llms_order', true );
-
-		return $order;
-
+		return $this->get( 'order' );
 	}
+
+	/**
+	 * Retrieve the post ID of the section's parent course
+	 * @note     developers should not use these functions, instead use generic "get"
+	 *           this function will be deprecated in the future
+	 * @todo     deprecate
+	 * @return   int
+	 * @since    1.0.0
+	 * @version  3.3.0
+	 */
+	public function get_parent_course() {
+		return $this->get( 'parent_course' );
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public function update( $data ) {
 
@@ -277,11 +297,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	}
 
-	public function get_parent_course() {
 
-		return $this->parent_course;
-
-	}
 
 	/**
 	 * Set parent course
