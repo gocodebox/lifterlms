@@ -23,7 +23,7 @@ class LLMS_Lesson_Handler {
 			foreach ($lessons as $key => $value) {
 
 				//get parent course if assigned
-				$parent_course = get_post_meta( $value->ID, '_parent_course', true );
+				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
 
 				if ( $parent_course ) {
 					$title = $value->post_title . ' ( ' . get_the_title( $parent_course ) . ' )';
@@ -49,16 +49,16 @@ class LLMS_Lesson_Handler {
 
 		//first determine if lesson is associated with a course
 		//we need to know this because if it is already associated then we duplicate it and assign the dupe
-		$parent_course = get_post_meta( $lesson_id, '_parent_course', true );
-		$parent_section = get_post_meta( $lesson_id, '_parent_section', true );
+		$parent_course = get_post_meta( $lesson_id, '_llms_parent_course', true );
+		$parent_section = get_post_meta( $lesson_id, '_llms_parent_section', true );
 
 		//parent course exists, lets dupe this baby!
 		if ( $parent_course && $duplicate == true ) {
 			$lesson_id = self::duplicate_lesson( $course_id, $section_id, $lesson_id );
 		} else {
 			//add parent section and course to new lesson
-			update_post_meta( $lesson_id, '_parent_section', $section_id );
-			update_post_meta( $lesson_id, '_parent_course', $course_id );
+			update_post_meta( $lesson_id, '_llms_parent_section', $section_id );
+			update_post_meta( $lesson_id, '_llms_parent_course', $course_id );
 
 		}
 
@@ -84,8 +84,8 @@ class LLMS_Lesson_Handler {
 		}
 
 		//add parent section and course to new lesson
-		update_post_meta( $new_lesson_id, '_parent_section', $section_id );
-		update_post_meta( $new_lesson_id, '_parent_course', $course_id );
+		update_post_meta( $new_lesson_id, '_llms_parent_section', $section_id );
+		update_post_meta( $new_lesson_id, '_llms_parent_course', $course_id );
 
 		return $new_lesson_id;
 
@@ -157,10 +157,10 @@ class LLMS_Lesson_Handler {
 			foreach ($post_meta_infos as $meta_info) {
 
 				//do not copy the following meta values
-				if ( $meta_info->meta_key === '_parent_section') {
+				if ( $meta_info->meta_key === '_llms_parent_section') {
 					$meta_info->meta_value = '';
 				}
-				if ( $meta_info->meta_key === '_parent_course') {
+				if ( $meta_info->meta_key === '_llms_parent_course') {
 					$meta_info->meta_value = '';
 				}
 				if ( $meta_info->meta_key === '_prerequisite') {

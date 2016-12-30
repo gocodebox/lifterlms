@@ -154,7 +154,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @todo  refactor to use new api after a migration is written
 	 */
 	public function get_parent_course() {
-		return absint( get_post_meta( $this->get( 'id' ), '_parent_course', true ) );
+		return absint( get_post_meta( $this->get( 'id' ), '_llms_parent_course', true ) );
 	}
 
 	/**
@@ -165,7 +165,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @todo  refactor to use new api after a migration is written
 	 */
 	public function get_parent_section() {
-		return  absint( get_post_meta( $this->get( 'id' ), '_parent_section', true ) );
+		return  absint( get_post_meta( $this->get( 'id' ), '_llms_parent_section', true ) );
 	}
 
 	/**
@@ -440,7 +440,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function set_parent_section( $section_id ) {
 
-		return update_post_meta( $this->id, '_parent_section', $section_id );
+		return update_post_meta( $this->id, '_llms_parent_section', $section_id );
 
 	}
 
@@ -466,7 +466,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function set_parent_course( $course_id ) {
 
-		return update_post_meta( $this->id, '_parent_course', $course_id );
+		return update_post_meta( $this->id, '_llms_parent_course', $course_id );
 
 	}
 
@@ -533,7 +533,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			'meta_query' 		=> array(
 				'relation' => 'AND',
 				array(
-				    'key' => '_parent_section',
+				    'key' => '_llms_parent_section',
 				    'value' => $parent_section,
 				    'compare' => '=',
 			    ),
@@ -565,7 +565,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				'meta_query' 		=> array(
 					'relation' => 'AND',
 					array(
-					    'key' => '_parent_course',
+					    'key' => '_llms_parent_course',
 					    'value' => $parent_course,
 					    'compare' => '=',
 				    ),
@@ -613,7 +613,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				'meta_query' 		=> array(
 					'relation' => 'AND',
 					array(
-					    'key' => '_parent_section',
+					    'key' => '_llms_parent_section',
 					    'value' => $parent_section,
 					    'compare' => '=',
 				    ),
@@ -649,7 +649,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 					'meta_query' 		=> array(
 						'relation' => 'AND',
 						array(
-						    'key' => '_parent_course',
+						    'key' => '_llms_parent_course',
 						    'value' => $parent_course,
 						    'compare' => '=',
 					    ),

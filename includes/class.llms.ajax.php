@@ -239,7 +239,7 @@ class LLMS_AJAX {
 			foreach ($lessons as $key => $value) {
 
 				//get parent course if assigned
-				$parent_course = get_post_meta( $value->ID, '_parent_course', true );
+				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
 
 				if ( $parent_course ) {
 					$title = $value->post_title . ' ( ' . get_the_title( $parent_course ) . ' )';
@@ -287,7 +287,7 @@ class LLMS_AJAX {
 			foreach ($sections as $key => $value) {
 
 				//get parent course if assigned
-				$parent_course = get_post_meta( $value->ID, '_parent_course', true );
+				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
 
 				if ( $parent_course ) {
 					$title = $value->post_title . ' ( ' . get_the_title( $parent_course ) . ' )';
@@ -392,7 +392,7 @@ class LLMS_AJAX {
 		'post_status'   	=> 'publish',
 		'meta_query' 		=> array(
 			array(
-			    'key' => '_parent_course',
+			    'key' => '_llms_parent_course',
 			    'compare' => 'NOT EXISTS',
 			    ),
 			),
@@ -441,7 +441,7 @@ class LLMS_AJAX {
 		'nopaging' 			=> true,
 		'meta_query' 		=> array(
 			array(
-			    'key' => '_parent_section',
+			    'key' => '_llms_parent_section',
 			    'compare' => 'NOT EXISTS',
 			    ),
 			),
@@ -494,7 +494,7 @@ class LLMS_AJAX {
 		'post_status'   	=> 'publish',
 		'meta_query' 		=> array(
 			array(
-			    'key' => '_parent_section',
+			    'key' => '_llms_parent_section',
 			    'value' => $parent_section,
 			    ),
 			),
@@ -628,7 +628,7 @@ class LLMS_AJAX {
 
 			$rd_args = array(
 				'post_type' => 'lesson',
-				'meta_key' => '_parent_course',
+				'meta_key' => '_llms_parent_course',
 				'meta_value' => $post_id,
 			);
 
@@ -666,7 +666,7 @@ class LLMS_AJAX {
 				//find all sections that where assigned to the course and delete the metadata
 				$section_args = array(
 					'post_type' => 'section',
-					'meta_key' => '_parent_course',
+					'meta_key' => '_llms_parent_course',
 					'meta_value' => $post_id,
 				);
 
@@ -678,7 +678,7 @@ class LLMS_AJAX {
 					//find all lessons that were assigned to sections and delete post_meta data
 					$ols_args = array(
 						'post_type' => 'lesson',
-						'meta_key' => '_parent_section',
+						'meta_key' => '_llms_parent_section',
 						'meta_value' => $section_query->post->ID,
 					);
 
@@ -688,7 +688,7 @@ class LLMS_AJAX {
 						if ($section_query->post->ID) {
 							foreach ($new_sections_array as $key => $value) {
 								if ($section_query->post->ID == $value['section_id']) {
-									delete_post_meta( $ols_query->post->ID, '_parent_section', $section_query->post->ID );
+									delete_post_meta( $ols_query->post->ID, '_llms_parent_section', $section_query->post->ID );
 								}
 							}
 						}
@@ -696,7 +696,7 @@ class LLMS_AJAX {
 					//wp_reset_postdata();
 
 					if ($post_id) {
-						delete_post_meta( $section_query->post->ID, '_parent_course', $post_id );
+						delete_post_meta( $section_query->post->ID, '_llms_parent_course', $post_id );
 					}
 				endwhile;
 				wp_reset_postdata();
@@ -704,14 +704,14 @@ class LLMS_AJAX {
 				//find all sections that are currently assigned to the course
 				foreach ($_REQUEST['sections'] as $key => $value) {
 					//update _parent_course for section ids
-					update_post_meta( $value['section_id'], '_parent_course', $post_id );
+					update_post_meta( $value['section_id'], '_llms_parent_course', $post_id );
 				}
 
 				//Manage lesson _parent_section and _parent_course
 				//find all lessons with _parent_course as $post_id and delete the metadata
 				$rd_args = array(
 					'post_type' => 'lesson',
-					'meta_key' => '_parent_course',
+					'meta_key' => '_llms_parent_course',
 					'meta_value' => $post_id,
 				);
 
@@ -719,7 +719,7 @@ class LLMS_AJAX {
 
 				while ( $rd_query->have_posts() ) : $rd_query->the_post();
 					if ($post_id) {
-						delete_post_meta( $rd_query->post->ID, '_parent_course', $post_id );
+						delete_post_meta( $rd_query->post->ID, '_llms_parent_course', $post_id );
 					}
 				endwhile;
 				wp_reset_postdata();
@@ -728,7 +728,7 @@ class LLMS_AJAX {
 
 					$ls_args = array(
 						'post_type' => 'lesson',
-						'meta_key' => '_parent_section',
+						'meta_key' => '_llms_parent_section',
 						'meta_value' => $value['section_id'],
 					);
 
@@ -736,14 +736,14 @@ class LLMS_AJAX {
 
 					while ( $ls_query->have_posts() ) : $ls_query->the_post();
 						if ($value['section_id']) {
-							delete_post_meta( $ls_query->post->ID, '_parent_section', $value['section_id'] );
+							delete_post_meta( $ls_query->post->ID, '_llms_parent_section', $value['section_id'] );
 						}
 					endwhile;
 					wp_reset_postdata();
 
 					foreach ($value['lessons'] as $keys => $values) {
-						update_post_meta( $values['lesson_id'], '_parent_section', $value['section_id'] );
-						update_post_meta( $values['lesson_id'], '_parent_course', $post_id );
+						update_post_meta( $values['lesson_id'], '_llms_parent_section', $value['section_id'] );
+						update_post_meta( $values['lesson_id'], '_llms_parent_course', $post_id );
 					}
 				}
 			}

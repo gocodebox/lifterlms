@@ -24,7 +24,7 @@ class LLMS_Meta_Box_Section_Tree {
 		global $post;
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
-		$parent_course = get_post_meta( $post->ID, '_parent_course', true );
+		$parent_course = get_post_meta( $post->ID, '_llms_parent_course', true );
 		$course_edit_link = '';
 		$course_edit_link_html = '';
 		$lessons = '';
@@ -72,7 +72,7 @@ class LLMS_Meta_Box_Section_Tree {
 				'post_type'   => 'lesson',
 				'meta_query'  => array(
 				array(
-					'key' => '_parent_section',
+					'key' => '_llms_parent_section',
 					'value' => $post->ID,
 					),
 				),
@@ -144,7 +144,7 @@ class LLMS_Meta_Box_Section_Tree {
 			if ($parent_course) {
 				//check if section already belongs to course
 				//first check if section has a parent course assigned
-				$prev_parent = get_post_meta( $post_id, '_parent_course', true );
+				$prev_parent = get_post_meta( $post_id, '_llms_parent_course', true );
 				if ($prev_parent == $parent_course) {
 					return;
 				}
@@ -219,7 +219,7 @@ class LLMS_Meta_Box_Section_Tree {
 						"
 						SELECT post_id
 						FROM $wpdb->postmeta
-						WHERE meta_key = '_parent_section'
+						WHERE meta_key = '_llms_parent_section'
 							AND meta_value = '%s'
 						",
 						$post_id
@@ -228,7 +228,7 @@ class LLMS_Meta_Box_Section_Tree {
 					$position = 0;
 					if ($lesson_ids) {
 						foreach ($lesson_ids as $lesson_id) {
-							update_post_meta( $lesson_id, '_parent_course', $parent_course );
+							update_post_meta( $lesson_id, '_llms_parent_course', $parent_course );
 							$position++;
 							$lesson['lesson_id'] = $lesson_id;
 							$lesson['position'] = $position;
@@ -238,7 +238,7 @@ class LLMS_Meta_Box_Section_Tree {
 					}
 				} else {
 					foreach ($lessons as $key => $value) {
-						update_post_meta( $value['lesson_id'], '_parent_course', $parent_course );
+						update_post_meta( $value['lesson_id'], '_llms_parent_course', $parent_course );
 
 					}
 				}
@@ -249,7 +249,7 @@ class LLMS_Meta_Box_Section_Tree {
 				//add section array to course and save parent_course variable
 				array_push( $syllabus, $section_tree );
 
-				update_post_meta( $post_id, '_parent_course', $parent_course );
+				update_post_meta( $post_id, '_llms_parent_course', $parent_course );
 				update_post_meta( $parent_course, '_sections', $syllabus );
 
 			}

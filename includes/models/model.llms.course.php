@@ -231,7 +231,7 @@ class LLMS_Course extends LLMS_Post_Model {
 			'meta_key' => '_llms_order',
 			'meta_query' => array(
 				array(
-					'key' => '_parent_course',
+					'key' => '_llms_parent_course',
 						'value' => $this->id,
 					),
 				),
@@ -772,7 +772,7 @@ class LLMS_Course extends LLMS_Post_Model {
 			'orderby'			=> 'meta_value_num',
 			'meta_query' 		=> array(
 				array(
-					'key' 		=> '_parent_course',
+					'key' 		=> '_llms_parent_course',
 	      			'value' 	=> $this->id,
 	      			'compare' 	=> '=',
 	  			),

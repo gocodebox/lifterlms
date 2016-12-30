@@ -535,8 +535,8 @@ class LLMS_Scaffold {
 			'post_title' => $raw_lesson['title'],
 			'meta_input' => array(
 				'_llms_order' => $order,
-				'_parent_course' => $course_id,
-				'_parent_section' => $section_id,
+				'_llms_parent_course' => $course_id,
+				'_llms_parent_section' => $section_id,
 			)
 		) );
 
@@ -585,7 +585,7 @@ class LLMS_Scaffold {
 			'post_type' => 'section',
 			'meta_input' => array(
 				'_llms_order' => $order,
-				'_parent_course' => $course_id,
+				'_llms_parent_course' => $course_id,
 			),
 		) );
 

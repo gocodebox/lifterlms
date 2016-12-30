@@ -29,7 +29,7 @@ class LLMS_Section extends LLMS_Post_Model {
 			'meta_key' => '_llms_order',
 			'meta_query' => array(
 				array(
-					'key' => '_parent_section',
+					'key' => '_llms_parent_section',
 					'value' => $this->get( 'id' ),
 				),
 			),
@@ -246,7 +246,7 @@ class LLMS_Section extends LLMS_Post_Model {
 			'orderby'			=> 'meta_value_num',
 			'meta_query' 		=> array(
 				array(
-					'key' 		=> '_parent_section',
+					'key' 		=> '_llms_parent_section',
 	      			'value' 	=> $this->id,
 	      			'compare' 	=> '=',
 	  			),
@@ -292,7 +292,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 */
 	public function set_parent_course( $course_id ) {
 
-		$meta = update_post_meta( $this->id, '_parent_course', $course_id );
+		$meta = update_post_meta( $this->id, '_llms_parent_course', $course_id );
 
 		return $meta;
 
