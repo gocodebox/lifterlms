@@ -317,7 +317,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
  * @return   bool|int          WP_Post ID of the membership if a restriction is found
  *                             false if no restrictions found
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.2.4 -- fix to handle post restricted to multiple memberships
  */
 function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
@@ -341,7 +341,33 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
 	if ( 'yes' === $restricted && $memberships && is_array( $memberships ) ) {
 
-		return absint( array_shift( $memberships ) );
+		// if no user, return the first membership from the array as the restriction id
+		if ( ! $user_id ) {
+
+			$restriction_id = array_shift( $memberships );
+
+		}
+		// we have a user to check against each membership, user must be in at least one membership
+		else {
+
+			$student = new LLMS_Student( $user_id );
+
+			// loop through the memberships
+			foreach ( $memberships as $mid ) {
+
+				// set this as the restriciton id
+				$restriction_id = $mid;
+
+				// once we find the student has access break the loop
+				// this will be the restriciton that the template loader will check against later
+				if ( $student->has_access( $mid ) ) {
+					break;
+				}
+			}
+
+		}
+
+		return absint( $restriction_id );
 
 	}
 

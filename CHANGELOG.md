@@ -1,10 +1,11 @@
 == Changelog ==
 
-= v3.2.4 - 2016/12/29 =
+= v3.2.4 - 2016/12/?? =
 -----------------------
 
 + "Quiz Results" title is now translateable
 + Removed deprecated JS file "llms-metabox-data.js" which controlled UI/X for 2.x subscription data on courses and memberships
++ Non LMS Content (pages, posts, forums, etc...) restricted to multiple memberships will now correctly allow users access to the content as long as they have access to at least one of the memberships
 
 
 = v3.2.3 - 2016/12/29 =
