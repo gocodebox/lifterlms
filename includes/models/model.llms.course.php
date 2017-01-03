@@ -58,31 +58,6 @@ class LLMS_Course extends LLMS_Post_Model {
 	protected $model_post_type = 'course';
 
 	/**
-	 * Get a property's data type for scrubbing
-	 * used by $this->scrub() to determine how to scrub the property
-	 * @param   string $key  property key
-	 * @return  string
-	 * @since   3.0.0
-	 * @version ??
-	 */
-	protected function get_property_type( $key ) {
-
-		$props = $this->get_properties();
-
-		// check against the properties array
-		if ( in_array( $key, array_keys( $props ) ) ) {
-			$type = $props[ $key ];
-		}
-		// default to text
-		else {
-			$type = 'text';
-		}
-
-		return $type;
-
-	}
-
-	/**
 	 * Get course's prerequisite id based on the type of prerequsite
 	 * @param  string     $type  Type of prereq to retrieve id for [course|track]
 	 * @return int|false         Post ID of a course, taxonomy ID of a track, or false if none found

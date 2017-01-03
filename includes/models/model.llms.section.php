@@ -56,44 +56,6 @@ class LLMS_Section extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get a property's data type for scrubbing
-	 * used by $this->scrub() to determine how to scrub the property
-	 * @param   string $key  property key
-	 * @return  string
-	 * @since   3.3.0
-	 * @version 3.3.0
-	 */
-	protected function get_property_type( $key ) {
-
-		$props = $this->get_properties();
-
-		// check against the properties array
-		if ( in_array( $key, array_keys( $props ) ) ) {
-			$type = $props[ $key ];
-		}
-		// default to text
-		else {
-			$type = 'text';
-		}
-
-		return $type;
-
-	}
-
-	/**
-	 * Retrieve an array of post properties
-	 * These properties need to be get/set with alternate methods
-	 * @return array
-	 * @since    3.3.0
-	 * @version  3.3.0
-	 */
-	protected function get_post_properties() {
-		return apply_filters( 'llms_post_model_get_post_properties', array(
-			'title',
-		), $this );
-	}
-
-	/**
 	 * Add data to the course model when converted to array
 	 * Called before data is sorted and retuned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized

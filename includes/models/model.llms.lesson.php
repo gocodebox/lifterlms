@@ -224,28 +224,16 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get a property's data type for scrubbing
-	 * used by $this->scrub() to determine how to scrub the property
-	 * @param   string $key  property key
-	 * @return  string
-	 * @since   3.0.0
-	 * @version 3.3.0
+	 * Retrieve an object for the assignd quiz (if a quiz is assigned )
+	 * @return   obj|false
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
-	protected function get_property_type( $key ) {
-
-		$props = $this->get_properties();
-
-		// check against the properties array
-		if ( in_array( $key, array_keys( $props ) ) ) {
-			$type = $props[ $key ];
+	public function get_quiz() {
+		if ( $this->has_quiz() ) {
+			return new LLMS_QQuiz( $this->get( 'assigned_quiz' ) );
 		}
-		// default to text
-		else {
-			$type = 'text';
-		}
-
-		return $type;
-
+		return false;
 	}
 
 	/**
@@ -288,6 +276,16 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		return ( 'yes' == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
 
+	}
+
+	/**
+	 * Determine if a quiz is assigned to this lesson
+	 * @return   boolean
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function has_quiz() {
+		return ( $this->get( 'assigned_quiz' ) );
 	}
 
 	/**
@@ -348,7 +346,26 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		return ( 'yes' === $this->get( 'free_lesson' ) );
 	}
 
+	/**
+	 * Add data to the course model when converted to array
+	 * Called before data is sorted and retuned by $this->jsonSerialize()
+	 * @param    array     $arr   data to be serialized
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function toArrayAfter( $arr ) {
 
+		if ( $this->has_quiz() ) {
+
+			$q = $this->get_quiz();
+			$arr['assigned_quiz'] = $q->toArray();
+
+		}
+
+		return $arr;
+
+	}
 
 
 

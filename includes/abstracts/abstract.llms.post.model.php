@@ -273,12 +273,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$filename = apply_filters( 'llms_post_model_export_filename', $title . '_' . current_time( 'Ymd' ), $this );
 
-		// header( 'Content-type: application/json' );
-		// header( 'Content-Disposition: attachment; filename="' . $filename . '.json"' );
-		// header( 'Pragma: no-cache' );
-		// header( 'Expires: 0' );
+		header( 'Content-type: application/json' );
+		header( 'Content-Disposition: attachment; filename="' . $filename . '.json"' );
+		header( 'Pragma: no-cache' );
+		header( 'Expires: 0' );
 
-		var_dump( $this->toArray() ); die;
+		// var_dump( $this->toArray() ); die;
 
 		echo json_encode( $this );
 
@@ -463,13 +463,27 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Get a property's data type for scrubbing
 	 * used by $this->scrub() to determine how to scrub the property
-	 * @param  string $key  property key
-	 * @return string
-	 * @since  3.0.0
-	 * @todo   make this a default function like the one found in the course model
-	 *         which relies on $this->properties array instead of a big ol switch statement
+	 * @param   string $key  property key
+	 * @return  string
+	 * @since   3.3.0
+	 * @version 3.3.0
 	 */
-	abstract protected function get_property_type( $key );
+	protected function get_property_type( $key ) {
+
+		$props = $this->get_properties();
+
+		// check against the properties array
+		if ( in_array( $key, array_keys( $props ) ) ) {
+			$type = $props[ $key ];
+		}
+		// default to text
+		else {
+			$type = 'text';
+		}
+
+		return $type;
+
+	}
 
 	/**
 	 * Retrieve an array of post properties
@@ -730,6 +744,18 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		// allow extending classes to add properties easily without overridding the class
 		$arr = $this->toArrayAfter( $arr );
+
+		// expand author
+		if ( ! empty( $arr['author'] ) ) {
+			$u = new WP_User( $arr['author'] );
+			$arr['author'] = array(
+				'descrpition' => $u->description,
+				'email' => $u->user_email,
+				'first_name' => $u->first_name,
+				'id' => $u->ID,
+				'last_name' => $u->last_name,
+			);
+		}
 
 		ksort( $arr ); // because i'm anal...
 
