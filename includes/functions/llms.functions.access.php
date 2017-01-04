@@ -200,9 +200,7 @@ function llms_get_restriction_message( $restriction ) {
 
 		default:
 
-
 	}
-
 
 	return apply_filters( 'llms_get_restriction_message', $msg, $restriction );
 }
@@ -403,8 +401,7 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
 			$restriction_id = array_shift( $memberships );
 
-		}
-		// we have a user to check against each membership, user must be in at least one membership
+		} // we have a user to check against each membership, user must be in at least one membership
 		else {
 
 			$student = new LLMS_Student( $user_id );
