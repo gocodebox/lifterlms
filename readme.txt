@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 3.2.3
+Stable tag: 3.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,17 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.2.4 - 2017/01/03 =
+-----------------------
+
++ Fixed tooltips on lesson preview tiles (in course syllabus and on next/prev tiles inside lessons) to show the actual reason the lesson is inaccessible rather than always showing a generic enrollment message
++ Removed the language "You must enroll in this course to unlock this lesson" in favor of "You do not have permission to access to this content" as a restriction message fallback when no better message is available
++ "Quiz Results" title is now translateable
++ Removed deprecated JS file "llms-metabox-data.js" which controlled UI/X for 2.x subscription data on courses and memberships
++ Non LMS Content (pages, posts, forums, etc...) restricted to multiple memberships will now correctly allow users access to the content as long as they have access to at least one of the memberships
++ Fixed a redirect loop encountered if direct access to a lesson with an incomplete prerequisite was attempted
+
 
 = v3.2.3 - 2016/12/29 =
 -----------------------
