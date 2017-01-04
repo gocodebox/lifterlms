@@ -43,7 +43,7 @@ LLMS.LessonPreview = {
 	 * Bind DOM events
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.2.4 -- better tooltip message handling
 	 */
 	bind: function() {
 
@@ -57,7 +57,11 @@ LLMS.LessonPreview = {
 
 			var $tip = $( this ).find( '.llms-tooltip' );
 			if ( !$tip.length ) {
-				$tip = self.get_tooltip();
+				var msg = $( this ).attr( 'data-tooltip-msg' );
+				if ( !msg ) {
+					msg = LLMS.l10n.translate( 'You do not have permission to access to this content' );
+				}
+				$tip = self.get_tooltip( msg );
 				$( this ).append( $tip );
 			}
 			setTimeout( function() {
@@ -89,16 +93,14 @@ LLMS.LessonPreview = {
 
 	/**
 	 * Get a tooltip element
+	 * @param    string   msg   message to display inside the tooltip
 	 * @return   obj
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.2.4
 	 */
-	get_tooltip: function() {
-		var msg = LLMS.l10n.translate( 'You must enroll in this course to unlock this lesson' ),
-			$el = $( '<div class="llms-tooltip" />' );
-
+	get_tooltip: function( msg ) {
+		var $el = $( '<div class="llms-tooltip" />' );
 		$el.append( '<div class="llms-tooltip-content">' + msg + '</div>' );
-
 		return $el;
 	},
 

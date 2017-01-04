@@ -104,14 +104,12 @@ class LLMS_Template_Loader {
 	 * @param    array     $info  array of restriction info from llms_page_restricted()
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.2.4 -- moved message generation to llms_get_restriction_message();
 	 */
 	public function restricted_by_enrollment_lesson( $info ) {
 
-		$course = new LLMS_Course( $info['restriction_id'] );
-
-		$msg = $course->get( 'content_restricted_message' );
-		$redirect = get_permalink( $course->get( 'id' ) );
+		$msg = llms_get_restriction_message( $info );
+		$redirect = get_permalink( $info['restriction_id'] );
 
 		$this->handle_restriction(
 			apply_filters( 'llms_restricted_by_enrollment_lesson_message', $msg, $info ),
@@ -130,13 +128,13 @@ class LLMS_Template_Loader {
 	 * @param    array     $info  array of restriction info from llms_page_restricted()
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.2.4 -- moved message generation to llms_get_restriction_message();
 	 */
 	public function restricted_by_lesson_drip( $info ) {
 
 		$lesson = new LLMS_Lesson( $info['restriction_id'] );
 
-		$msg = sprintf( _x( 'The lesson "%1$s" will be available on %2$s', 'lesson restricted by drip settings message', 'lifterlms' ), $lesson->get( 'title' ), $lesson->get_available_date() );
+		$msg = llms_get_restriction_message( $info );
 		$redirect = get_permalink( $lesson->get_parent_course() );
 
 		$this->handle_restriction(
@@ -156,18 +154,12 @@ class LLMS_Template_Loader {
 	 * @param    array     $info  array of restriction info from llms_page_restricted()
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.2.4 -- moved message generation to llms_get_restriction_message()
 	 */
 	public function restricted_by_lesson_prerequisite( $info ) {
 
-		$lesson = new LLMS_Lesson( $info['content_id'] );
-		$prereq_lesson = new LLMS_Lesson( $info['restriction_id'] );
-
-		$prereq_link = '<a href="' . get_permalink( $prereq_lesson->get( 'id' ) ) . '">' . $prereq_lesson->get( 'title' ) . '</a>';
-
-		$msg = sprintf( _x( 'The lesson "%1$s" cannot be accessed until the required prerequisite "%2$s" is completed.', 'lesson restricted by prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
-		$redirect = get_permalink( $lesson->get_parent_course() );
-
+		$msg = llms_get_restriction_message( $info );
+		$redirect = get_permalink( $info['restriction_id'] );
 		$this->handle_restriction(
 			apply_filters( 'llms_restricted_by_lesson_prerequisite_message', $msg, $info ),
 			apply_filters( 'llms_restricted_by_lesson_prerequisite_redirect', $redirect, $info ),
