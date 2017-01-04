@@ -1,4 +1,4 @@
-# Copyright (C) 2016 lifterlms
+# Copyright (C) 2017 lifterlms
 # This file is distributed under the same license as the lifterlms package.
 msgid ""
 msgstr ""
@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Thomas Patrick Levy <thomas@lifterlms.com>\n"
 "Language-Team: LifterLMS <help@lifterlms.com>\n"
 "X-Poedit-Basepath: ..\n"
@@ -2989,15 +2989,15 @@ msgstr ""
 msgid "This plan is for members only. Click the links above to learn more."
 msgstr ""
 
-#: includes/class.llms.l10n.php:81
-msgid "You must enroll in this course to unlock this lesson"
+#: includes/class.llms.l10n.php:81, includes/functions/llms.functions.access.php:168
+msgid "You do not have permission to access to this content"
 msgstr ""
 
 #: includes/class.llms.l10n.php:88
 msgid "Hide Summary"
 msgstr ""
 
-#: includes/class.llms.l10n.php:89, templates/quiz/results.php:82
+#: includes/class.llms.l10n.php:89, templates/quiz/results.php:83
 msgid "View Summary"
 msgstr ""
 
@@ -4512,25 +4512,15 @@ msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:139
-msgctxt "lesson restricted by drip settings message"
-msgid "The lesson \"%1$s\" will be available on %2$s"
-msgstr ""
-
-#: includes/class.llms.template.loader.php:168
-msgctxt "lesson restricted by prerequisite message"
-msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite \"%2$s\" is completed."
-msgstr ""
-
-#: includes/class.llms.template.loader.php:252
+#: includes/class.llms.template.loader.php:244
 msgid "It looks like you're trying to test a quiz you just made. To test your quiz please read our documentation at %s"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:256
+#: includes/class.llms.template.loader.php:248
 msgid "You cannot access quizzes directly. Please return to the associated lesson and start the quiz from there."
 msgstr ""
 
-#: includes/class.llms.template.loader.php:262
+#: includes/class.llms.template.loader.php:254
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
@@ -4632,6 +4622,16 @@ msgstr ""
 
 #: includes/emails/class.llms.email.reset.password.php:35
 msgid "Password Reset Instructions"
+msgstr ""
+
+#: includes/functions/llms.functions.access.php:191
+msgctxt "lesson restricted by drip settings message"
+msgid "The lesson \"%1$s\" will be available on %2$s"
+msgstr ""
+
+#: includes/functions/llms.functions.access.php:198
+msgctxt "lesson restricted by prerequisite message"
+msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite \"%2$s\" is completed."
 msgstr ""
 
 #: includes/functions/llms.functions.currency.php:48
@@ -6346,7 +6346,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: includes/llms.functions.core.php:593, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:61, templates/quiz/results.php:73, templates/quiz/results.php:99
+#: includes/llms.functions.core.php:593, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:61, templates/quiz/results.php:74, templates/quiz/results.php:100
 msgid "Failed"
 msgstr ""
 
@@ -7215,7 +7215,7 @@ msgstr ""
 msgid "Completed: %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:61, templates/quiz/results.php:71, templates/quiz/results.php:97
+#: templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:61, templates/quiz/results.php:72, templates/quiz/results.php:98
 msgid "Passed"
 msgstr ""
 
@@ -7698,27 +7698,31 @@ msgstr ""
 msgid "Question %1$d of %2$d"
 msgstr ""
 
-#: templates/quiz/results.php:67
+#: templates/quiz/results.php:37
+msgid "Quiz Results"
+msgstr ""
+
+#: templates/quiz/results.php:68
 msgid "Your Score: %s"
 msgstr ""
 
-#: templates/quiz/results.php:77
+#: templates/quiz/results.php:78
 msgid "%1$d / %2$d correct answers"
 msgstr ""
 
-#: templates/quiz/results.php:78, templates/quiz/results.php:104
+#: templates/quiz/results.php:79, templates/quiz/results.php:105
 msgid "Date: <span class=\"llms_content_block\">%s</span>"
 msgstr ""
 
-#: templates/quiz/results.php:79, templates/quiz/results.php:105
+#: templates/quiz/results.php:80, templates/quiz/results.php:106
 msgid "Total time: %s"
 msgstr ""
 
-#: templates/quiz/results.php:93
+#: templates/quiz/results.php:94
 msgid "Best Score: %1$d%"
 msgstr ""
 
-#: templates/quiz/results.php:103
+#: templates/quiz/results.php:104
 msgid "%1$d / %1$d correct answers"
 msgstr ""
 
