@@ -151,6 +151,63 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 }
 
 /**
+ * Retrieve a message describing the reason why content is restricted
+ * Accepts an associative array of restriction data that can be retrieved from llms_page_restricted()
+ *
+ * This function doesn't handle all restriction types but it should in the future
+ * Currently it's being utilized for tooltips on lesson previews and some messages
+ * output during LLMS_Template_Loader handling redirects
+ *
+ * @param    array     $restriction  array of data from llms_page_restricted()
+ * @return   string
+ * @since    3.2.4
+ * @version  3.2.4
+ */
+function llms_get_restriction_message( $restriction ) {
+
+	$msg = __( 'You do not have permission to access to this content', 'lifterlms' );
+
+	switch ( $restriction['reason'] ) {
+
+		// this particular case is only utilized by lessons, courses do the check differently in the template
+		case 'course_time_period':
+			$course = new LLMS_Course( $restriction['restriction_id'] );
+			// if the start date hasn't passed yet
+			if ( ! $course->has_date_passed( 'start_date' ) ) {
+				$msg = $course->get( 'course_opens_message' );
+			} // course end date has passed
+			elseif ( $course->has_date_passed( 'end_date' ) ) {
+				$msg = $course->get( 'course_closed_message' );
+			}
+		break;
+
+		case 'enrollment_lesson':
+			$course = new LLMS_Course( $restriction['restriction_id'] );
+			$msg = $course->get( 'content_restricted_message' );
+		break;
+
+		case 'lesson_drip':
+			$lesson = new LLMS_Lesson( $restriction['restriction_id'] );
+			$msg = sprintf( _x( 'The lesson "%1$s" will be available on %2$s', 'lesson restricted by drip settings message', 'lifterlms' ), $lesson->get( 'title' ), $lesson->get_available_date() );
+		break;
+
+		case 'lesson_prerequisite':
+			$lesson = new LLMS_Lesson( $restriction['content_id'] );
+			$prereq_lesson = new LLMS_Lesson( $restriction['restriction_id'] );
+			$prereq_link = '<a href="' . get_permalink( $prereq_lesson->get( 'id' ) ) . '">' . $prereq_lesson->get( 'title' ) . '</a>';
+			$msg = sprintf( _x( 'The lesson "%1$s" cannot be accessed until the required prerequisite "%2$s" is completed.', 'lesson restricted by prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
+		break;
+
+		default:
+
+
+	}
+
+
+	return apply_filters( 'llms_get_restriction_message', $msg, $restriction );
+}
+
+/**
  * Get a boolean out of llms_page_restricted for easy if checks
  * @param    int     $post_id   WordPress Post ID of the
  * @param    int     $user_id   optional user id (will use get_current_user_id() if none supplied)
