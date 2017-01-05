@@ -278,8 +278,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 
-		// var_dump( $this->toArray() ); die;
-
 		echo json_encode( $this );
 
 		die();

@@ -1,7 +1,17 @@
 <?php
+/**
+* LifterLMS Product Model
+*
+* Both Courses and Memberships are sellable and can be instantiated as a product
+*
+* @since    1.0.0
+* @version  3.0.0
+*/
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Product extends LLMS_Post_Model {
+
+	protected $properties = array();
 
 	protected $db_post_type = 'product'; // maybe fix this
 	protected $model_post_type = 'product';
@@ -122,55 +132,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		}
 
 		return ( $this->get_access_plans() && $gateways->has_gateways( true ) );
-
-	}
-
-
-
-	/**
-	 * Get a property's data type for scrubbing
-	 * used by $this->scrub() to determine how to scrub the property
-	 * @param  string $key  property key
-	 * @return string
-	 * @since  3.0.0
-	 * @version 3.0.0
-	 */
-	protected function get_property_type( $key ) {
-
-		switch ( $key ) {
-
-			case 'access_length':
-			case 'frequency':
-			case 'length':
-			case 'product_id':
-			case 'trial_length':
-				$type = 'absint';
-			break;
-
-			case 'price':
-			case 'trial_price':
-			case 'sale_price':
-				$type = 'float';
-			break;
-
-			case 'access_period':
-			case 'access_expires':
-			case 'access_expiration':
-			case 'enroll_text':
-			case 'featured':
-			case 'on_sale':
-			case 'period':
-			case 'sale_end':
-			case 'sale_start':
-			case 'sku':
-			case 'trial_offer':
-			case 'trial_period':
-			default:
-				$type = 'text';
-
-		}
-
-		return $type;
 
 	}
 

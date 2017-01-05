@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  3.0.0
+* @version  3.3.0
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
@@ -275,6 +275,16 @@ class LLMS_Course extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve an instance of the LLMS_Product for this course
+	 * @return   obj         instance of an LLMS_Product
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_product() {
+ 		return new LLMS_Product( $this->get( 'id' ) );
+	}
+
+	/**
 	 * Attempt to get oEmbed for a video provider
 	 * Falls back to the [video] shortcode if the oEmbed fails
 	 *
@@ -489,6 +499,9 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @version  ??
 	 */
 	public function toArrayAfter( $arr ) {
+
+		$product = $this->get_product();
+		$arr['access_plans'] = $product->get_access_plans();
 
 		$arr['sections'] = array();
 
