@@ -68,32 +68,31 @@ class LLMS_Shortcode_Checkout {
 		if ( isset( $_GET['plan'] ) && is_numeric( $_GET['plan'] ) ) {
 
 			// Only retrieve if plan is a llms_access_plan and is published
-			if( strcmp( get_post_status( $_GET['plan'] ), 'publish' ) == 0  &&
-				strcmp( get_post_type( $_GET['plan'] ), 'llms_access_plan' ) == 0 ){
+			if ( strcmp( get_post_status( $_GET['plan'] ), 'publish' ) == 0  &&
+				strcmp( get_post_type( $_GET['plan'] ), 'llms_access_plan' ) == 0 ) {
 
-				$coupon = LLMS()->session->get('llms_coupon');
+				$coupon = LLMS()->session->get( 'llms_coupon' );
 
-				if (isset($coupon['coupon_id']) && isset($coupon['plan_id'])) {
+				if (isset( $coupon['coupon_id'] ) && isset( $coupon['plan_id'] )) {
 					if ($coupon['plan_id'] == $_GET['plan']) {
-						$atts['coupon'] = new LLMS_Coupon($coupon['coupon_id']);
+						$atts['coupon'] = new LLMS_Coupon( $coupon['coupon_id'] );
 					} else {
-						LLMS()->session->set('llms_coupon', false);
+						LLMS()->session->set( 'llms_coupon', false );
 						$atts['coupon'] = false;
 					}
 				} else {
 					$atts['coupon'] = false;
 				}
 
-				if (isset($_POST['llms_order_key'])) {
-					$atts['order_key'] = sanitize_text_field($_POST['llms_order_key']);
+				if (isset( $_POST['llms_order_key'] )) {
+					$atts['order_key'] = sanitize_text_field( $_POST['llms_order_key'] );
 				}
 
-				$atts['plan'] = new LLMS_Access_Plan($_GET['plan']);
+				$atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
 				$atts['product'] = $atts['plan']->get_product();
 
-				self::checkout($atts);
-			}
-			else{
+				self::checkout( $atts );
+			} else {
 				self::error( __( 'Could not locate the purchase plan.', 'lifterlms' ) );
 			}
 
