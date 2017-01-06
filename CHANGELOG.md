@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.2.5 - 2017/01/?? =
+-----------------------
+
++ Fix translation function error causing course syllabus to display incorrect "x of x" text
+
+
 = v3.2.4 - 2017/01/03 =
 -----------------------
 

@@ -5,11 +5,10 @@
  * @author 		LifterLMS
  * @package 	LifterLMS/Templates
  * @since       1.0.0
- * @version     3.2.4 - fixed tooltips to rely on actual restriction rather than displaying a default message
+ * @version     3.2.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 $restrictions = llms_page_restricted( $lesson->get( 'id' ), get_current_user_id() );
 $data_msg = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : '';
 ?>
@@ -24,7 +23,7 @@ $data_msg = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( s
 			<?php endif; ?>
 
 			<aside class="llms-extra">
-				<span class="llms-lesson-counter"><?php printf( _x( '%1$d of %1$d', 'lesson order within section', 'lifterlms' ), $lesson->get_order(), $total_lessons ); ?></span>
+				<span class="llms-lesson-counter"><?php printf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), $lesson->get_order(), $total_lessons ); ?></span>
 				<?php echo $lesson->get_preview_icon_html(); ?>
 			</aside>
 
