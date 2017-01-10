@@ -73,6 +73,7 @@ class LLMS_Frontend_Forms {
 	 * Marks lesson as complete and returns completion message to user
 	 *
 	 * @return void
+	 * @version 3.2.4
 	 */
 	public function mark_complete() {
 
@@ -109,6 +110,7 @@ class LLMS_Frontend_Forms {
 	 * @param  int $lesson_id [ID of the current lesson]
 	 *
 	 * @return void
+	 * @version 3.2.4
 	 */
 	function mark_course_complete( $user_id, $lesson_id ) {
 
@@ -159,6 +161,7 @@ class LLMS_Frontend_Forms {
 	 * @param  int $lesson_id [ID of the current lesson]
 	 *
 	 * @return void
+	 * @version 3.2.4
 	 */
 	public function mark_section_complete( $user_id, $lesson_id ) {
 
@@ -174,8 +177,8 @@ class LLMS_Frontend_Forms {
 			$key = '_is_complete';
 			$value = 'yes';
 
-			$user_postmetas = $user->get_user_postmeta_data($user_id, $section->id);
-			if (!empty($user_postmetas['_is_complete'])) {
+			$user_postmetas = $user->get_user_postmeta_data( $user_id, $section->id );
+			if ( ! empty( $user_postmetas['_is_complete'] )) {
 				if ($user_postmetas['_is_complete']->meta_value === 'yes') {
 					return;
 				}
@@ -187,7 +190,7 @@ class LLMS_Frontend_Forms {
 					'post_id' => $section->id,
 					'meta_key' => $key,
 					'meta_value' => $value,
-					'updated_date' => current_time('mysql'),
+					'updated_date' => current_time( 'mysql' ),
 				)
 			);
 		}
@@ -203,6 +206,7 @@ class LLMS_Frontend_Forms {
 	 * @param  int $lesson_id [ID of the current lesson]
 	 *
 	 * @return void
+	 * @version 3.2.4
 	 */
 	public function mark_track_complete( $user_id, $lesson_id ) {
 
@@ -223,7 +227,7 @@ class LLMS_Frontend_Forms {
 		$tracks = wp_get_post_terms( $course->id,'course_track', array( 'fields' => 'all' ) );
 
 		// Run through each of the tracks that this course is a member of
-		foreach ((array) $tracks as $id => $track) {
+		foreach ( (array) $tracks as $id => $track) {
 			/**
 			 * Variable that stores if the track has been completed
 			 * @var boolean

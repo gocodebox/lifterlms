@@ -172,7 +172,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			$classes = ' is-incomplete';
 		}
 
-		return apply_filters( 'llms_get_preview_classes ', $classes );
+		return apply_filters( 'llms_get_preview_classes', $classes );
 	}
 
 	/**
@@ -657,8 +657,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 	/**
 	 * Mark lesson as complete
-	 *
-	 * @todo  refactor this function is disgusting
 	 *
 	 * @param  int $user_id [ID of user]
 	 * @return void
