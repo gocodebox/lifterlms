@@ -68,8 +68,7 @@ class LLMS_Shortcode_Checkout {
 		if ( isset( $_GET['plan'] ) && is_numeric( $_GET['plan'] ) ) {
 
 			// Only retrieve if plan is a llms_access_plan and is published
-			if ( strcmp( get_post_status( $_GET['plan'] ), 'publish' ) == 0  &&
-				strcmp( get_post_type( $_GET['plan'] ), 'llms_access_plan' ) == 0 ) {
+			if ( 0 === strcmp( get_post_status( $_GET['plan'] ), 'publish' ) && 0 === strcmp( get_post_type( $_GET['plan'] ), 'llms_access_plan' ) ) {
 
 				$coupon = LLMS()->session->get( 'llms_coupon' );
 
@@ -93,7 +92,9 @@ class LLMS_Shortcode_Checkout {
 
 				self::checkout( $atts );
 			} else {
-				self::error( __( 'Could not locate the purchase plan.', 'lifterlms' ) );
+
+				self::error( __( 'Invalid access plan.', 'lifterlms' ) );
+
 			}
 
 		} // purchase confirmation where applicable
