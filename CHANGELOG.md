@@ -1,8 +1,10 @@
 == Changelog ==
 
-= v3.2.5 - 2017/01/?? =
+= v3.2.5 - 2017/01/10 =
 -----------------------
 
++ Course / Membership taxonomy archives now obey orders defined by their respective catalog settings
++ Fix language of automatic validation error message for numeric field types
 + Fix translation function error causing course syllabus to display incorrect "x of x" text
 
 
