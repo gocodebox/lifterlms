@@ -5,6 +5,7 @@
 
 + New shortcode: `[lifterlms_pricing_table]` allows pricing table display outside of a course or membership. See [https://lifterlms.com/docs/shortcodes/#lifterlms_pricing_table](https://lifterlms.com/docs/shortcodes/#lifterlms_pricing_table) for usage information.
 + New shortcode: `[lifterlms_access_plan_button]` allows custom buttons for individual access plans to be created outside of a pricing table. See [https://lifterlms.com/docs/shortcodes/#lifterlms_access_plan_button](https://lifterlms.com/docs/shortcodes/#lifterlms_access_plan_button) for usage information.
++ ensure every return from `llms_page_restricted` is filtered. Thanks to @matthalliday
 + Ensure purchase page can only load for valid access plans
 + Course / Membership taxonomy archives now obey orders defined by their respective catalog settings
 + Fix language of automatic validation error message for numeric field types
