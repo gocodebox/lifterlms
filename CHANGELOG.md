@@ -4,7 +4,7 @@
 -----------------------
 
 + Fix translation function error causing course syllabus to display incorrect "x of x" text
-
++ Refactored mark_complete function in class.llms.frontend.forms.php
 
 = v3.2.4 - 2017/01/03 =
 -----------------------

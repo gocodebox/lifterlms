@@ -169,8 +169,12 @@ class LLMS_Frontend_Forms {
 
 		$lesson = new LLMS_Lesson( $lesson_id );
 
-		$section = $lesson->get_parent_section();
+		$section_id = $lesson->get_parent_section();
+
+		$section = new LLMS_Section( $section_id );
 		$section_completion = $section->get_percent_complete();
+
+		$user = new LLMS_Person( $user_id );
 
 		if ( $section_completion == '100' ) {
 
@@ -193,6 +197,8 @@ class LLMS_Frontend_Forms {
 					'updated_date' => current_time( 'mysql' ),
 				)
 			);
+
+			do_action( 'lifterlms_section_completed', $user_id, $section->id );
 		}
 	}
 
