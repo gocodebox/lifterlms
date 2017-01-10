@@ -110,7 +110,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['is_restricted'] = true;
 				$results['reason'] = 'quiz';
 				$results['restriction_id'] = $post_id;
-				return $results;
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
 
@@ -123,7 +123,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['is_restricted'] = true;
 				$results['reason'] = 'course_time_period';
 				$results['restriction_id'] = $course_id;
-				return $results;
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
 
@@ -132,7 +132,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['is_restricted'] = true;
 				$results['reason'] = 'lesson_prerequisite';
 				$results['restriction_id'] = $lesson_id;
-				return $results;
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
 
@@ -141,7 +141,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['is_restricted'] = true;
 				$results['reason'] = 'lesson_drip';
 				$results['restriction_id'] = $lesson_id;
-				return $results;
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
 
