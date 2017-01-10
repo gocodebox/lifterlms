@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  3.1.6
+ * @version  3.2.5
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -39,8 +39,10 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	 * Do checks to determine if the content should be restricted
 	 */
 
-	// content is restricted by a sitewide membership
-	if ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id ) ) {
+	if ( is_search() ) {
+		return apply_filters( 'llms_page_restricted', $results, $post_id );
+	} // content is restricted by a sitewide membership
+	elseif ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id ) ) {
 		$restriction_id = $membership_id;
 		$reason = 'sitewide_membership';
 	} // content is restricted by a membership
