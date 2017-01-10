@@ -39,7 +39,8 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	 * Do checks to determine if the content should be restricted
 	 */
 
-	if ( is_search() ) {
+	// if it's a search page and the site isn't restricted to a membership bypass restrictions
+	if ( is_search() && ! get_option( 'lifterlms_membership_required', '' ) ) {
 		return apply_filters( 'llms_page_restricted', $results, $post_id );
 	} // content is restricted by a sitewide membership
 	elseif ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id ) ) {
