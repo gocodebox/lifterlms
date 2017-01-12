@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.2.6 - 2017/01/?? =
+-----------------------
+
++ Fix the display of track-related engagements on the engagement admin screen
+
+
 = v3.2.5 - 2017/01/10 =
 -----------------------
 
