@@ -1641,25 +1641,6 @@ function llms_get_excerpt( $post_id ) {
 }
 
 /**
- * Set Course and Membership to order by order instead of title
- * @param  [obj] $vars [query object]
- * @return [object]       [query object]
- */
-function llms_custom_archive_order( $vars ) {
-	if ( ! is_admin() && isset( $vars['post_type'] ) ) {
-
-		if ( $vars['post_type'] === 'course' || $vars['post_type'] === 'membership' ) {
-			$vars['orderby'] = 'menu_order';
-			$vars['order'] = 'ASC';
-		}
-
-	}
-
-	return $vars;
-}
-add_filter( 'request', 'llms_custom_archive_order' );
-
-/**
  * Shuffles an array while keeping the array indices
  *
  * @param array $array

@@ -1,5 +1,25 @@
 == Changelog ==
 
+= v3.2.6 - 2017/01/?? =
+-----------------------
+
++ Fix the display of track-related engagements on the engagement admin screen
+
+
+= v3.2.5 - 2017/01/10 =
+-----------------------
+
++ New shortcode: `[lifterlms_pricing_table]` allows pricing table display outside of a course or membership. See [https://lifterlms.com/docs/shortcodes/#lifterlms_pricing_table](https://lifterlms.com/docs/shortcodes/#lifterlms_pricing_table) for usage information.
++ New shortcode: `[lifterlms_access_plan_button]` allows custom buttons for individual access plans to be created outside of a pricing table. See [https://lifterlms.com/docs/shortcodes/#lifterlms_access_plan_button](https://lifterlms.com/docs/shortcodes/#lifterlms_access_plan_button) for usage information.
++ ensure every return from `llms_page_restricted` is filtered. Thanks to @matthalliday
++ Ensure purchase page can only load for valid access plans
++ Course / Membership taxonomy archives now obey orders defined by their respective catalog settings
++ Fix language of automatic validation error message for numeric field types
++ Fix translation function error causing course syllabus to display incorrect "x of x" text
++ Added correct text domain to an i18n string displayed on the checkout confirmation screen, thanks @ymashev
++ Ensure search result pages are viewable by members and non members regardless of result membership restrictions (unless site is restricted to sitewide membership)
+
+
 = v3.2.4 - 2017/01/03 =
 -----------------------
 

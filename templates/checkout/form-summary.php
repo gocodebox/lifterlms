@@ -35,6 +35,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		<?php endif; ?>
 	</li>
 	<?php if ( $expires = $plan->get_expiration_details() ) : ?>
-		<li><span class="llms-label"><?php _e( 'Access' ); ?>:</span> <?php echo $expires; ?></li>
+		<li><span class="llms-label"><?php _e( 'Access', 'lifterlms' ); ?>:</span> <?php echo $expires; ?></li>
 	<?php endif; ?>
 </ul>
