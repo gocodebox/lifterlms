@@ -334,11 +334,12 @@ abstract class LLMS_Post_Model {
 
 	/**
 	 * Getter for price strings with optional formatting options
-	 * @param  string $key         property key
-	 * @param  array  $price_args  optional array of arguments that can be passed to llms_price()
-	 * @param  string $format      optional format conversion method [html|raw|float]
-	 * @return mixed
-	 * @since  3.0.0
+	 * @param    string $key         property key
+	 * @param    array  $price_args  optional array of arguments that can be passed to llms_price()
+	 * @param    string $format      optional format conversion method [html|raw|float]
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  3.2.6
 	 */
 	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
@@ -355,7 +356,8 @@ abstract class LLMS_Post_Model {
 				$price = strip_tags( $price );
 			}
 		} elseif ( 'float' === $format ) {
-			$price = floatval( number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), get_lifterlms_thousand_separator() ) );
+			$formatted = number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), '' );
+			$price = floatval( $formatted );
 		} else {
 			$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format, $price, $key, $price_args, $format, $this );
 		}

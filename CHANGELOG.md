@@ -1,9 +1,11 @@
 == Changelog ==
 
-= v3.2.6 - 2017/01/?? =
+= v3.2.6 - 2017/01/16 =
 -----------------------
 
++ Tested up to WordPress Core 4.7.1
 + Fix the display of track-related engagements on the engagement admin screen
++ Fix float conversion of large numbers with relation to prices
 
 
 = v3.2.5 - 2017/01/10 =
