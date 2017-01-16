@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.7
-Stable tag: 3.2.5
+Tested up to: 4.7.1
+Stable tag: 3.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,11 +166,20 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v3.2.6 - 2017/01/16 =
+-----------------------
+
++ Tested up to WordPress Core 4.7.1
++ Fix the display of track-related engagements on the engagement admin screen
++ Fix float conversion of large numbers with relation to prices
+
+
 = v3.2.5 - 2017/01/10 =
 -----------------------
 
 + New shortcode: `[lifterlms_pricing_table]` allows pricing table display outside of a course or membership. See [https://lifterlms.com/docs/shortcodes/#lifterlms_pricing_table](https://lifterlms.com/docs/shortcodes/#lifterlms_pricing_table) for usage information.
 + New shortcode: `[lifterlms_access_plan_button]` allows custom buttons for individual access plans to be created outside of a pricing table. See [https://lifterlms.com/docs/shortcodes/#lifterlms_access_plan_button](https://lifterlms.com/docs/shortcodes/#lifterlms_access_plan_button) for usage information.
++ ensure every return from `llms_page_restricted` is filtered. Thanks to @matthalliday
 + Ensure purchase page can only load for valid access plans
 + Course / Membership taxonomy archives now obey orders defined by their respective catalog settings
 + Fix language of automatic validation error message for numeric field types
