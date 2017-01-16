@@ -119,6 +119,17 @@ class LLMS_Course extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve course categories
+	 * @param    array      $args  array of args passed to wp_get_post_terms
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_categories( $args = array() ) {
+		return wp_get_post_terms( $this->get( 'id' ), 'course_cat', $args );
+	}
+
+	/**
 	 * Get Difficulty
 	 * @param    string   $field  which field to return from the availble term fields
 	 *                            any public variables from a WP_Term object are acceptable
@@ -245,6 +256,28 @@ class LLMS_Course extends LLMS_Post_Model {
 
 		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
 
+	}
+
+	/**
+	 * Retrieve course tags
+	 * @param    array      $args  array of args passed to wp_get_post_terms
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_tags( $args = array() ) {
+		return wp_get_post_terms( $this->get( 'id' ), 'course_tag', $args );
+	}
+
+	/**
+	 * Retrieve course tracks
+	 * @param    array      $args  array of args passed to wp_get_post_terms
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_tracks( $args = array() ) {
+		return wp_get_post_terms( $this->get( 'id' ), 'course_track', $args );
 	}
 
 	/**
@@ -504,10 +537,18 @@ class LLMS_Course extends LLMS_Post_Model {
 		$arr['access_plans'] = $product->get_access_plans();
 
 		$arr['sections'] = array();
-
 		foreach ( $this->get_sections() as $s ) {
 			$arr['sections'][] = $s->toArray();
 		}
+
+		$arr['categories'] = $this->get_categories( array( 'fields' => 'names' ) );
+		$arr['tags'] = $this->get_tags( array( 'fields' => 'names' ) );
+		$arr['tracks'] = $this->get_tracks( array( 'fields' => 'names' ) );
+
+		$arr['difficulty'] = $this->get_difficulty();
+
+		$arr['_generator'] = 'LifterLMS/SingleCourseExporter';
+		$arr['_version'] = LLMS()->version;
 
 		return $arr;
 
