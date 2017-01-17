@@ -339,7 +339,7 @@ abstract class LLMS_Post_Model {
 	 * @param    string $format      optional format conversion method [html|raw|float]
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  3.2.6
+	 * @version  3.2.7
 	 */
 	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
@@ -356,8 +356,7 @@ abstract class LLMS_Post_Model {
 				$price = strip_tags( $price );
 			}
 		} elseif ( 'float' === $format ) {
-			$formatted = number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), '' );
-			$price = floatval( $formatted );
+			$price = floatval( number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), '' ) );
 		} else {
 			$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format, $price, $key, $price_args, $format, $this );
 		}
