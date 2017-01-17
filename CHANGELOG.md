@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.2.7 - 2017/01/16 =
+-----------------------
+
++ Fix float conversion of large numbers with relation to coupon price adjustments
+
+
 = v3.2.6 - 2017/01/16 =
 -----------------------
 
