@@ -1,10 +1,10 @@
 === LifterLMS ===
-Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
+Contributors: thomasplevy, chrisbadgett, tpkemme, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.1
-Stable tag: 3.2.7
+Stable tag: 3.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,18 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.3.0 - 2017/01/24 =
+-----------------------
+
++ New course option allows displaying the video embed in place of the featured image on course tiles displayed on the course catalog screen
++ Courses can now be exported individually or in bulk. Export of a course includes all course content, sections, lessons, and quizzes.
++ Courses can now be duplicated. Duplication duplicates all course content, sections, lessons, and quizzes.
++ Postmeta keys for Lessons and Sections which denote their relationship to their parents have been renamed for consistency, database upgrade 330 included in this release will rename the keys automatically. [Read more here](https://lifterlms.com/docs/lifterlms-database-updates/#330)
++ Update to `LLMS_Post_Model` to allow easier programmatic definition and handling of extending class properties
++ classes extending `LLMS_Post_Model` can now be serialized to json and converted to arrays programatically
++ new function `llms_get_post()` allows easier instantiation of an `LLMS_Post_Model` instance
++ Added LifterLMS Database Version to the system report
 
 = v3.2.7 - 2017/01/16 =
 -----------------------

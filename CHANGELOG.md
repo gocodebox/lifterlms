@@ -10,7 +10,7 @@
 + Update to `LLMS_Post_Model` to allow easier programmatic definition and handling of extending class properties
 + classes extending `LLMS_Post_Model` can now be serialized to json and converted to arrays programatically
 + new function `llms_get_post()` allows easier instantiation of an `LLMS_Post_Model` instance
-
++ Added LifterLMS Database Version to the system report
 
 = v3.2.7 - 2017/01/16 =
 -----------------------
