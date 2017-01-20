@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 	<?php
 		/**
 		 * lifterlms_before_loop_item
+		 * @hooked lifterlms_loop_featured_video - 8
 		 * @hooked lifterlms_loop_link_start - 10
 		 */
 		do_action( 'lifterlms_before_loop_item' );

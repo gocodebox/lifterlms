@@ -1386,6 +1386,25 @@ function llms_featured_img( $post_id, $size ) {
 	return apply_filters( 'lifterlms_featured_img', '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">' );
 }
 
+/**
+ * Output a featured video on the course tile in a LifterLMS Loop
+ * @return   void
+ * @since    3.3.0
+ * @version  3.3.0
+ */
+function lifterlms_loop_featured_video() {
+	global $post;
+	if ( 'course' === $post->post_type ) {
+		$course = llms_get_post( $post );
+		if ( 'yes' === $course->get( 'tile_featured_video' ) ) {
+			$video = $course->get_video();
+			if ( $video ) {
+				echo $video;
+			}
+		}
+	}
+}
+
 
 /**
  * Retrieve author name, avatar, and bio

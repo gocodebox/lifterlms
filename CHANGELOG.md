@@ -3,6 +3,7 @@
 = v3.3.0 - 2017/01/24 =
 -----------------------
 
++ New course option allows displaying the video embed in place of the featured image on course tiles displayed on the course catalog screen
 + Courses can now be exported individually or in bulk. Export of a course includes all course content, sections, lessons, and quizzes.
 + Courses can now be duplicated. Duplication duplicates all course content, sections, lessons, and quizzes.
 + Postmeta keys for Lessons and Sections which denote their relationship to their parents have been renamed for consistency, database upgrade 330 included in this release will rename the keys automatically. [Read more here](https://lifterlms.com/docs/lifterlms-database-updates/#330)

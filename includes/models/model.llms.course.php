@@ -23,6 +23,7 @@
 * @property $prerequisite_track   (int)  WP Tax ID of a the prerequisite track
 * @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
 * @property $length  (string)  User defined coure length
+* @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
 * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
 * @property $video_embed  (string)  URL to an oEmbed enable video URL
 */
@@ -49,6 +50,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		'length' => 'text',
 		'prerequisite' => 'absint',
 		'prerequisite_track' => 'absint',
+		'tile_featured_video' => 'yesno',
 		'time_period' => 'yesno',
 		'start_date' => 'text',
 		'video_embed' => 'text',
