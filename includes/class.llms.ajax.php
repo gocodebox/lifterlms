@@ -165,16 +165,13 @@ class LLMS_AJAX {
 			'previous_question'			=> false,
 			'complete_quiz'				=> false,
 			'get_all_posts'				=> false,
-			'get_admin_table_data'      => false,
 			'get_lessons_alt'			=> false,
 			'get_sections_alt'			=> false,
 			'get_students'              => false,
 			'get_enrolled_students'     => false,
 			'check_voucher_duplicate'	=> false,
-			'query_students' 			=> false,
 			'query_quiz_questions'      => false,
 			'update_student_enrollment' => false,
-			'select2_query_posts'       => false,
 
 		);
 
