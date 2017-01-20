@@ -36,20 +36,20 @@ class LLMS_Admin_Import {
 	 */
 	public function upload_import() {
 
-		if ( ! isset( $_FILES[ 'llms_import' ] ) || ! $_FILES[ 'llms_import' ] ) {
+		if ( ! isset( $_FILES['llms_import'] ) || ! $_FILES['llms_import'] ) {
 			return;
 		}
 
-		$validate = $this->validate_upload( $_FILES[ 'llms_import' ] );
+		$validate = $this->validate_upload( $_FILES['llms_import'] );
 
 		if ( is_wp_error( $validate ) ) {
 			return LLMS_Admin_Notices::flash_notice( $validate->get_error_message(), 'error' );
 		}
 
-		$raw = file_get_contents( $_FILES[ 'llms_import' ][ 'tmp_name' ] );
+		$raw = file_get_contents( $_FILES['llms_import']['tmp_name'] );
 
 		$generator = new LLMS_Generator( $raw );
-		if ( is_wp_error( $generator->set_generator() ) )  {
+		if ( is_wp_error( $generator->set_generator() ) ) {
 			return LLMS_Admin_Notices::flash_notice( $generator->error->get_error_message(), 'error' );
 		} else {
 			$generator->generate();
@@ -61,23 +61,23 @@ class LLMS_Admin_Import {
 
 				$msg .= '<ul>';
 
-					foreach( $generator->get_results() as $stat => $count ) {
+				foreach ( $generator->get_results() as $stat => $count ) {
 
-						// translate like a boss ya'll
-						switch( $stat ) {
-							case 'authors':   $name = __( 'Authors', 'lifterlms' ); break;
-							case 'courses':   $name = __( 'Courses', 'lifterlms' ); break;
-							case 'sections':  $name = __( 'Sections', 'lifterlms' ); break;
-							case 'lessons':   $name = __( 'Lessons', 'lifterlms' ); break;
-							case 'plans':     $name = __( 'Plans', 'lifterlms' ); break;
-							case 'quizzes':   $name = __( 'Quizzes', 'lifterlms' ); break;
-							case 'questions': $name = __( 'Questions', 'lifterlms' ); break;
-							case 'terms':     $name = __( 'Terms', 'lifterlms' ); break;
-						}
-
-						$msg .= '<li>' . sprintf( '%s: %d', $name, $count ) . '</li>';
-
+					// translate like a boss ya'll
+					switch ( $stat ) {
+						case 'authors':   $name = __( 'Authors', 'lifterlms' ); break;
+						case 'courses':   $name = __( 'Courses', 'lifterlms' ); break;
+						case 'sections':  $name = __( 'Sections', 'lifterlms' ); break;
+						case 'lessons':   $name = __( 'Lessons', 'lifterlms' ); break;
+						case 'plans':     $name = __( 'Plans', 'lifterlms' ); break;
+						case 'quizzes':   $name = __( 'Quizzes', 'lifterlms' ); break;
+						case 'questions': $name = __( 'Questions', 'lifterlms' ); break;
+						case 'terms':     $name = __( 'Terms', 'lifterlms' ); break;
 					}
+
+					$msg .= '<li>' . sprintf( '%s: %d', $name, $count ) . '</li>';
+
+				}
 
 				$msg .= '</ul>';
 
@@ -96,9 +96,9 @@ class LLMS_Admin_Import {
 	 */
 	private function validate_upload( $file ) {
 
-		if ( ! empty( $file[ 'error' ] ) ) {
+		if ( ! empty( $file['error'] ) ) {
 
-			switch ( $file[ 'error' ] ) {
+			switch ( $file['error'] ) {
 				case UPLOAD_ERR_INI_SIZE:
 					$error_message = __( 'The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'lifterlms' );
 				break;

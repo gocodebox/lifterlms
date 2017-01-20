@@ -297,7 +297,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			return;
 		}
 
-		$title = str_replace ( ' ', '-', $this->get( 'title' ) );
+		$title = str_replace( ' ', '-', $this->get( 'title' ) );
 		$title = preg_replace( '/[^a-zA-Z0-9-]/', '', $title );
 
 		$filename = apply_filters( 'llms_post_model_export_filename', $title . '_' . current_time( 'Ymd' ), $this );
@@ -388,7 +388,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	public function get_image( $size = 'full', $key = '' ) {
 		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
-			$url = get_the_post_thumbnail_url( $this->get( 'id'), $size );
+			$url = get_the_post_thumbnail_url( $this->get( 'id' ), $size );
 		}
 		return ! empty( $url ) ? $url : '';
 	}
@@ -511,8 +511,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// check against the properties array
 		if ( in_array( $key, array_keys( $props ) ) ) {
 			$type = $props[ $key ];
-		}
-		// default to text
+		} // default to text
 		else {
 			$type = 'text';
 		}

@@ -136,7 +136,7 @@ class LLMS_Admin_Notices {
 		$i = 0;
 
 		// increment the notice id so we can flash multiple notices on screen in one load if necessary
-		while( self::has_notice( $id . $i ) ) {
+		while ( self::has_notice( $id . $i ) ) {
 			$i++;
 		}
 

@@ -65,7 +65,7 @@ class LLMS_Admin_Post_Tables {
 	 */
 	public function handle_link_actions() {
 
-		if ( ! isset ( $_GET['action'] ) ) {
+		if ( ! isset( $_GET['action'] ) ) {
 			return;
 		}
 

@@ -53,7 +53,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 		}
 
-		$title = str_replace ( ' ', '-', __( 'courses export', 'lifterlms' ) );
+		$title = str_replace( ' ', '-', __( 'courses export', 'lifterlms' ) );
 		$title = preg_replace( '/[^a-zA-Z0-9-]/', '', $title );
 
 		$filename = apply_filters( 'llms_bulk_export_courses_filename', $title . '_' . current_time( 'Ymd' ), $this );

@@ -74,7 +74,6 @@ class LLMS_Generator {
 
 		}
 
-
 		$this->error = new WP_Error();
 		$this->raw = $raw;
 
@@ -182,7 +181,7 @@ class LLMS_Generator {
 
 		$temp = array();
 
-		foreach( array( '_generator', '_version', '_source' ) as $meta ) {
+		foreach ( array( '_generator', '_version', '_source' ) as $meta ) {
 			if ( isset( $this->raw[ $meta ] ) ) {
 				$temp[ $meta ] = $this->raw[ $meta ];
 				unset( $this->raw[ $meta ] );
@@ -264,7 +263,7 @@ class LLMS_Generator {
 			unset( $raw['id'] );
 		}
 
-		foreach( $raw as $key => $val ) {
+		foreach ( $raw as $key => $val ) {
 			$plan->set( $key, $val );
 		}
 
@@ -304,7 +303,7 @@ class LLMS_Generator {
 		$tempid = $this->store_temp_id( $raw, $course );
 
 		// set all metadata
-		foreach( array_keys( $course->get_properties() ) as $key ) {
+		foreach ( array_keys( $course->get_properties() ) as $key ) {
 			if ( isset( $raw[ $key ] ) ) {
 				$course->set( $key, $raw[ $key ] );
 			}
@@ -318,7 +317,7 @@ class LLMS_Generator {
 		if ( isset( $raw['difficulty'] ) ) {
 			$terms['difficulty'] = array( $raw['difficulty'] );
 		}
-		foreach( array( 'categories', 'tags', 'tracks' ) as $t ) {
+		foreach ( array( 'categories', 'tags', 'tracks' ) as $t ) {
 			if ( isset( $raw[ $t ] ) ) {
 				$terms[ $t ] = $raw[ $t ];
 			}
@@ -383,7 +382,6 @@ class LLMS_Generator {
 		$lesson->set( 'parent_section', $section_id );
 		$lesson->set( 'order', $order );
 
-
 		// cant trust these if they exist
 		if ( isset( $raw['parent_course'] ) ) {
 			unset( $raw['parent_course'] );
@@ -397,7 +395,7 @@ class LLMS_Generator {
 		}
 
 		// set all metadata
-		foreach( array_keys( $lesson->get_properties() ) as $key ) {
+		foreach ( array_keys( $lesson->get_properties() ) as $key ) {
 			if ( isset( $raw[ $key ] ) ) {
 				$lesson->set( $key, $raw[ $key ] );
 			}
@@ -437,7 +435,7 @@ class LLMS_Generator {
 		$this->increment( 'quizzes' );
 
 		// set all metadata
-		foreach( array_keys( $quiz->get_properties() ) as $key ) {
+		foreach ( array_keys( $quiz->get_properties() ) as $key ) {
 			if ( isset( $raw[ $key ] ) ) {
 				$quiz->set( $key, $raw[ $key ] );
 			}
@@ -819,7 +817,6 @@ class LLMS_Generator {
 			}
 
 		}
-
 
 	}
 

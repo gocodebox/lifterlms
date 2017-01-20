@@ -316,7 +316,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @version  3.3.0
 	 */
 	public function get_product() {
- 		return new LLMS_Product( $this->get( 'id' ) );
+			return new LLMS_Product( $this->get( 'id' ) );
 	}
 
 	/**
@@ -537,7 +537,7 @@ class LLMS_Course extends LLMS_Post_Model {
 
 		$product = $this->get_product();
 		$arr['access_plans'] = array();
-		foreach( $product->get_access_plans() as $p ) {
+		foreach ( $product->get_access_plans() as $p ) {
 			$arr['access_plans'][] = $p->toArray();
 		}
 
