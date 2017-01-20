@@ -528,13 +528,16 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * Called before data is sorted and retuned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	public function toArrayAfter( $arr ) {
 
 		$product = $this->get_product();
-		$arr['access_plans'] = $product->get_access_plans();
+		$arr['access_plans'] = array();
+		foreach( $product->get_access_plans() as $p ) {
+			$arr['access_plans'][] = $p->toArray();
+		}
 
 		$arr['sections'] = array();
 		foreach ( $this->get_sections() as $s ) {
@@ -546,9 +549,6 @@ class LLMS_Course extends LLMS_Post_Model {
 		$arr['tracks'] = $this->get_tracks( array( 'fields' => 'names' ) );
 
 		$arr['difficulty'] = $this->get_difficulty();
-
-		$arr['_generator'] = 'LifterLMS/SingleCourseExporter';
-		$arr['_version'] = LLMS()->version;
 
 		return $arr;
 

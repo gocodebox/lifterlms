@@ -8,12 +8,12 @@
  * Author URI: http://gocodebox.com
  * Text Domain: lifterlms
  * Domain Path: /languages
- * License:     GPLv2
+ * License: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 4.0
- * Tested up to: 4.6.1
+ * Tested up to: 4.7.1
  *
- * @package 		LifterLMS
+ * @package     LifterLMS
  * @category 	Core
  * @author 		codeBOX
  */
@@ -184,8 +184,8 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 
-			include_once 'includes/admin/class.llms.scaffold.php';
-			include_once 'includes/admin/class.llms.admin.import-export.php';
+			include_once 'includes/class.llms.generator.php';
+			include_once 'includes/admin/class.llms.admin.import.php';
 
 			require_once 'includes/admin/llms.functions.admin.php';
 			include_once 'includes/admin/class.llms.admin.menus.php';
@@ -237,6 +237,7 @@ final class LifterLMS {
 
 		// Custom Post Type Models
 		require_once 'includes/abstracts/abstract.llms.post.model.php';
+		require_once 'includes/abstracts/abstract.llms.post.model.exportable.php';
 		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/models/*.php', GLOB_NOSORT ) as $model ) {
 			require_once $model;
 		}

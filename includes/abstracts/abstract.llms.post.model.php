@@ -1,10 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since  3.0.0
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
@@ -47,7 +48,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	protected $post;
 
-
+	/**
+	 * Array of meta properties and their property type
+	 * @var     array
+	 * @since   3.3.0
+	 * @version 3.3.0
+	 */
 	protected $properties = array();
 
 	/**
@@ -255,11 +261,27 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ) );
 	}
 
+	public function clone() {
+
+		// if post type doesnt support cloning don't proceed
+		if ( ! $this->is_exportable() ) {
+			return;
+		}
+
+		$generator = new LLMS_Generator( $this->toArray() );
+		$generator->set_generator( 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Cloner' );
+		if ( ! $generator->is_error() ) {
+			$generator->generate();
+		}
+		return $generator->get_results();
+
+	}
+
 	/**
 	 * Trigger an export download of the given post type
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	public function export() {
 
@@ -278,7 +300,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 
-		echo json_encode( $this );
+		$arr = $this->toArray();
+
+		$arr['_generator'] = 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Exporter';
+		$arr['_source'] = get_site_url();
+		$arr['_version'] = LLMS()->version;
+
+		ksort( $arr );
+
+		echo json_encode( $arr );
 
 		die();
 
@@ -346,8 +376,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string         $key   currently unused but here for forward compatibility if
 	 *                                 additional custom images are added
 	 * @return   string                empty string if no image or not supported
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	public function get_image( $size = 'full', $key = '' ) {
 		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
@@ -392,11 +422,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Getter for price strings with optional formatting options
-	 * @param  string $key         property key
-	 * @param  array  $price_args  optional array of arguments that can be passed to llms_price()
-	 * @param  string $format      optional format conversion method [html|raw|float]
-	 * @return mixed
-	 * @since  3.0.0
+	 * @param    string $key         property key
+	 * @param    array  $price_args  optional array of arguments that can be passed to llms_price()
+	 * @param    string $format      optional format conversion method [html|raw|float]
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  3.2.7
 	 */
 	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
@@ -413,7 +444,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				$price = strip_tags( $price );
 			}
 		} elseif ( 'float' === $format ) {
-			$price = floatval( number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), get_lifterlms_thousand_separator() ) );
+			$price = floatval( number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), '' ) );
 		} else {
 			$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format, $price, $key, $price_args, $format, $this );
 		}
@@ -507,10 +538,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Retrieve an array of properties defined by the model
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
-	protected function get_properties() {
+	public function get_properties() {
 		return apply_filters( 'llms_post_model_get_post_properties', $this->properties, $this );
 	}
 
@@ -535,8 +566,18 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Determine if the associated post is exportable
 	 * @return   boolean
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function is_cloneable() {
+		return post_type_supports( $this->db_post_type, 'llms-clone-post' );
+	}
+
+	/**
+	 * Determine if the associated post is exportable
+	 * @return   boolean
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	public function is_exportable() {
 		return post_type_supports( $this->db_post_type, 'llms-export-post' );
@@ -546,8 +587,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Format the object for json serialization
 	 * encodes the results of $this->toArray()
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	public function jsonSerialize() {
 		return apply_filters( 'llms_post_model_json_serialize', $this->toArray(), $this );
@@ -721,8 +762,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * This function is also utilzied to serialize the object to json
 	 *
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	public function toArray() {
 
@@ -736,12 +777,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$arr[ $prop ] = $this->get( $prop );
 		}
 
+		// add the featured image if the post type supports it
 		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
 			$arr['featured_image'] = $this->get_image( 'full' );
 		}
-
-		// allow extending classes to add properties easily without overridding the class
-		$arr = $this->toArrayAfter( $arr );
 
 		// expand author
 		if ( ! empty( $arr['author'] ) ) {
@@ -755,6 +794,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			);
 		}
 
+		// allow extending classes to add properties easily without overridding the class
+		$arr = $this->toArrayAfter( $arr );
+
 		ksort( $arr ); // because i'm anal...
 
 		return apply_filters( 'llms_post_model_to_array', $arr, $this );
@@ -767,8 +809,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * be added when object is converted to an array or json
 	 * @param    array     $arr   array of data to be serialized
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	protected function toArrayAfter( $arr ) {
 		return $arr;

@@ -30,8 +30,8 @@ class LLMS_Admin_Post_Tables {
 	 * Adds clone links to post types which support lifterlms post cloning
 	 * @param    array     $actions  existing actions
 	 * @param    obj       $post    WP_Post object
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	public function add_links( $actions, $post ) {
 
@@ -57,6 +57,12 @@ class LLMS_Admin_Post_Tables {
 
 	}
 
+	/**
+	 * Handle events for our custom postrow actions
+	 * @return   void
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
 	public function handle_link_actions() {
 
 		if ( ! isset ( $_GET['action'] ) ) {
@@ -86,10 +92,18 @@ class LLMS_Admin_Post_Tables {
 		switch ( $_GET['action'] ) {
 
 			case 'llms-export-post':
-
 				$post->export();
-
 			break;
+
+			case 'llms-clone-post':
+				$r = $post->clone();
+				if ( is_wp_error( $r ) ) {
+					LLMS_Admin_Notices::flash_notice( $r->get_error_message(), 'error' );
+				}
+				wp_redirect( admin_url( 'edit.php?post_type=' . $post->get( 'type' ) ) );
+				exit;
+			break;
+
 		}
 
 	}

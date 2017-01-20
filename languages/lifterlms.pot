@@ -1272,27 +1272,27 @@ msgstr ""
 msgid "Select a Course Track"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:144
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:145
 msgid "Determines the type of engagement"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:147
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:148
 msgid "Engagement Type"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:160, includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:164
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:161, includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:165
 msgid "Select an Engagement"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:172
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:173
 msgid "Enter the number of days to wait before triggering this engagement. Enter 0 or leave blank to trigger immediately."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:174
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:175
 msgid "Engagement Delay"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:181
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.engagement.php:182
 msgid "Engagement Settings"
 msgstr ""
 

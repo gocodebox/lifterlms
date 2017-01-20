@@ -40,9 +40,10 @@ class LLMS_Admin_Post_Table_Courses {
 		}
 
 		$data = array(
-			'courses' => array(),
 			'_generator' => 'LifterLMS/BulkCourseExporter',
+			'_source' => get_site_url(),
 			'_version' => LLMS()->version,
+			'courses' => array(),
 		);
 
 		foreach ( $post_ids as $post_id ) {

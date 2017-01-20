@@ -2,7 +2,7 @@
 /**
  * LifterLMS Admin Notices
  * @since    3.0.0
- * @version  3.0.2
+ * @version  3.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -59,7 +59,7 @@ class LLMS_Admin_Notices {
 	 *                                          notice options should be passed in this array
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.2 - added better API for serving templates
+	 * @version  3.3.0 - added "flash" option
 	 */
 	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
 
@@ -80,6 +80,7 @@ class LLMS_Admin_Notices {
 		$options = wp_parse_args( $options, array(
 			'dismissible' => true,
 			'dismiss_for_days' => 7,
+			'flash' => false, // if true, will delete the notice after displaying it
 			'html' => '',
 			'remind_in_days' => 7,
 			'remindable' => false,
@@ -119,6 +120,34 @@ class LLMS_Admin_Notices {
 			}
 			do_action( 'lifterlms_' . $trigger . '_' . $notice_id . '_notice' );
 		}
+	}
+
+	/**
+	 * Flash a notice on screen, isn't saved and is automatically deleted after being displayed
+	 * @param    string     $message  Message text / html to display onscreen
+	 * @param    string     $type     notice type [info|warning|success|error]
+	 * @return   void
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public static function flash_notice( $message, $type = 'info' ) {
+
+		$id = 'llms-flash-notice-';
+		$i = 0;
+
+		// increment the notice id so we can flash multiple notices on screen in one load if necessary
+		while( self::has_notice( $id . $i ) ) {
+			$i++;
+		}
+
+		$id = $id . $i;
+
+		self::add_notice( $id, $message, array(
+			'dismissible' => false,
+			'flash' => true,
+			'type' => $type,
+		) );
+
 	}
 
 	/**
@@ -184,9 +213,7 @@ class LLMS_Admin_Notices {
 	 * @param    string     $notice_id  notice id
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.2 - no longer storing template content in db
-	 *           		 fixes nonce issues related to storing the nonce
-	 *           		 in the db
+	 * @version  3.3.0
 	 */
 	public static function output_notice( $notice_id ) {
 
@@ -223,6 +250,11 @@ class LLMS_Admin_Notices {
 				<?php endif; ?>
 			</div>
 			<?php
+
+			if ( $notice['flash'] ) {
+				self::delete_notice( $notice_id, 'delete' );
+			}
+
 		}
 
 	}
