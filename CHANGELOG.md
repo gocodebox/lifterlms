@@ -1,5 +1,16 @@
 == Changelog ==
 
+= v3.3.0 - 2017/01/24 =
+-----------------------
+
++ Courses can now be exported individually or in bulk. Export of a course includes all course content, sections, lessons, and quizzes.
++ Courses can now be duplicated. Duplication duplicates all course content, sections, lessons, and quizzes.
++ Postmeta keys for Lessons and Sections which denote their relationship to their parents have been renamed for consistency, database upgrade 330 included in this release will rename the keys automatically. [Read more here](https://lifterlms.com/docs/lifterlms-database-updates/#330)
++ Update to `LLMS_Post_Model` to allow easier programmatic definition and handling of extending class properties
++ classes extending `LLMS_Post_Model` can now be serialized to json and converted to arrays programatically
++ new function `llms_get_post()` allows easier instantiation of an `LLMS_Post_Model` instance
+
+
 = v3.2.7 - 2017/01/16 =
 -----------------------
 
