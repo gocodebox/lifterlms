@@ -111,8 +111,6 @@ LLMS.MB_Course_Outline = {
                 });
             });
 
-            this.setup_course();
-
             function reset() {
                 $('#llms-outline-add').removeClass('clicked');
                 $('#llms-outline-add').addClass('bt');
@@ -752,38 +750,4 @@ LLMS.MB_Course_Outline = {
 	    });
 	},
 
-	/**
-	 * Initial Course setup
-	 * displays modal window
-	 * User enters course name
-	 * Submit adds title to course and saves course as draft.
-	 * @return {[type]} [description]
-	 */
-	setup_course: function() {
-
-		//only run this function on new posts of type course
-		var $R = LLMS.Rest,
-			new_post = ['post-new.php'],
-			post_type = 'course',
-			query_vars = $R.get_query_vars();
-
-		if ( $R.is_path(new_post) && query_vars.post_type === post_type ) {
-			$(document).ready(function() {
-				$('#pop1').topModal( {
-		        	title: 'Create New Course'
-		        });
-			});
-
-			//on submit set course title and save post as draft
-		    $( '#llms-create-course-submit').click(function(e) {
-
-		    	$('#title').val( $('#llms-course-name').val() );
-		    	$('#save-post').click();
-		    	////save for later when you want to close a modal
-		    	// $('#TB_window').fadeOut();
-		    	// self.parent.tb_remove();
-	    		e.preventDefault();
-		    });
-	    }
-	}
 };

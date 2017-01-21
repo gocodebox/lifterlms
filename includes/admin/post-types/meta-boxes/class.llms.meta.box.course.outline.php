@@ -120,29 +120,6 @@ class LLMS_Meta_Box_Course_Outline {
 
 	}
 
-	public static function create_course_dialog() {
-
-		$html = '<div id="pop1" class="topModal">';
-		$html .= '<div class="llms-modal-content">';
-
-		$html .= '<div class="llms-modal-form">';
-		$html .= '<h1>' . __( 'Ready to create a course?', 'lifterlms' ) . '</h1>';
-
-		$html .= '<form>';
-		$html .= '<label>' . __( 'Start by entering the title of a course:', 'lifterlms' ) . '</label>';
-		$html .= '<input type="text" name="llms-course-name" id="llms-course-name"
-			placeholder="' . __( 'Enter a name for your course', 'lifterlms' ) . '">';
-		$html .= '<input type="hidden" name="llms-course-setup" id="llms-course-setup value="yes">';
-		$html .= '<input type="submit" class="llms-button-primary full" id="llms-create-course-submit" value="'
-			. __( 'Create Course', 'lifterlms' ) . '">';
-		$html .= '</form>';
-
-		$html .= '</div>';
-		$html .= '</div></div>';
-
-		return $html;
-	}
-
 	public static function new_section_dialog() {
 
 		$html = '<div id="pop2" class="topModal">';
@@ -344,7 +321,6 @@ class LLMS_Meta_Box_Course_Outline {
 		$html = '';
 
 		//dialog boxes
-		$html .= self::create_course_dialog();
 		$html .= self::new_section_dialog();
 		$html .= self::new_lesson_dialog();
 		$html .= self::add_existing_lesson_dialog();
