@@ -1,7 +1,11 @@
 <?php
+/**
+ * Display a Setup Wizard
+ * @since    3.0.0
+ * @version  3.3.0
+ */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 
 class LLMS_Admin_Setup_Wizard {
 
