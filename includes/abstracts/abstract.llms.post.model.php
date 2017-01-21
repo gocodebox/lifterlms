@@ -268,7 +268,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since    3.3.0
 	 * @version  3.3.0
 	 */
-	public function clone() {
+	public function clone_post() {
 
 		// if post type doesnt support cloning don't proceed
 		if ( ! $this->is_exportable() ) {

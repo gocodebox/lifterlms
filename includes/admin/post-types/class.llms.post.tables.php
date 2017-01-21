@@ -96,7 +96,7 @@ class LLMS_Admin_Post_Tables {
 			break;
 
 			case 'llms-clone-post':
-				$r = $post->clone();
+				$r = $post->clone_post();
 				if ( is_wp_error( $r ) ) {
 					LLMS_Admin_Notices::flash_notice( $r->get_error_message(), 'error' );
 				}
