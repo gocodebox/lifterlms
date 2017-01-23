@@ -1133,7 +1133,7 @@ class LLMS_Student {
 			case 'section':
 				$section = new LLMS_Section( $object_id );
 				return ( 100 == $section->get_percent_complete() );
-			break
+			break;
 
 			case 'lesson':
 				$q = $wpdb->get_var( $wpdb->prepare(
