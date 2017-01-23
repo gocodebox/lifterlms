@@ -8,4 +8,4 @@
 
 //= include ./screenshots.md
 
-//= include ../CHANGELOG.md
+//= include ./changelog.md

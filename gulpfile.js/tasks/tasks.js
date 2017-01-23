@@ -191,13 +191,4 @@ gulp.task( 'watch', function () {
 
 
 
-gulp.task( 'readme', function() {
-
-	return gulp.src( '_readme/readme.txt' )
-		.pipe( include() )
-		.pipe( gulp.dest( './' ) );
-
-} );
-
-
 gulp.task('default', ['rebuild']);
