@@ -702,8 +702,8 @@ Deprecated options (and related functons where applicaple) for the following cou
 In all scenarions either a `add_filter` (returning false) or a `remove_action()` can be used to replicate the option.
 
 
-= v3.0.0-beta.4 - 2016/09/01 =
--------------------------------
+v3.0.0-beta.4 - 2016/09/01
+------------------------------
 
 + fix issue with course prereq checks
 + next payment due date visible on order admin view
@@ -1509,14 +1509,14 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + BugFixes: Corrected CSS conflict with Bridge theme settings page
 
 = v1.3.10 - 2015/10/15 =
------------------------
+------------------------
 + Updates: Clarifies some prerequisite text
 + Updates: Quiz questions are now randomized!
 + Updates: Fixes small CSS issue
 + BugFixes: Resolves fatal errors with a small subset of premium themes
 
-= v1.3.9 - 2015/10/5 =
------------------------
+v1.3.9 - 2015/10/5
+------------------
 + BugFixes: Removes conflict with Yoast SEO
 + BugFixes: Fixes CSS issues with box-sizing takeover
 + Feature: New Settings Tile: Session Management. Found at LifterLMS->Settings->General.
@@ -1587,7 +1587,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Cleans up jQuery console messages
 + Adds in course tracks
 
-= v1.2.8 - 2015-07-17 =
+= v1.2.8 - 2015/07/17 =
 -----------------------
 + Updated Portuguese translation file
 + Fixed issue where quiz score could not be equal to required grade.
@@ -1603,7 +1603,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + New updates to gulp build process
 + Class autoloading and LLMS namespace introduced for more efficient coding.
 
-= v1.2.7 - 2015-06-05 =
+= v1.2.7 - 2015/06/05 =
 -----------------------
 + Minor bug fix with lesson redirect to quiz
 + Minor change to global Course object instantiation.
@@ -1624,19 +1624,19 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Woocommerce confict correction to archive templates
 + Style updates to allow themes better control on design
 
-= v1.2.6 - 2015-04-28 =
+= v1.2.6 - 2015/04/28 =
 -----------------------
 + Corrected issue with lesson re-order on save
 + corrected html formatting issue on purchase page
 + corrected html formatting issue on course page
 
-= v1.2.5 - 2015-04-23 =
+= v1.2.5 - 2015/04/23 =
 -----------------------
 + Corrected excerpt to not pull in lesson navigation
 + Modified metabox api for better extension integration
 + Corrected issue with order not displaying all information if coupon was not applied to order
 
-= v1.2.4 - 2015-04-22 =
+= v1.2.4 - 2015/04/22 =
 -----------------------
 + Moved All Course metaboxes to global Course Options Metabox
 + Move Enrolled and Non-Enrolled user wysiwyg post editors to Options Metabox
@@ -1670,7 +1670,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Added Handler classes for Lessons, Sections, Courses and Posts
 + Refactored Course get / set methods to reduce database queries
 
-= v1.2.3 - 2015-03-12 =
+= v1.2.3 - 2015/03/12 =
 -----------------------
 + Achievement design and functionality updates
 + Achievemnt shortcode added
@@ -1687,7 +1687,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Membership Bug fix: Membership restriction will now only display on single posts.
 
 
-= v1.2.2 - 2015-02-23 =
+= v1.2.2 - 2015/02/23 =
 -----------------------
 + Corrected drip content bug
 + Added Ajax functionality to quiz
@@ -1702,7 +1702,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Added functionality to automatically complete quiz when quiz timer reaches 0
 + Moved Quiz functionality methods from front end forms class to Quiz class
 
-= v1.2.1 - 2015-02-19 =
+= v1.2.1 - 2015/02/19 =
 -----------------------
 + Updated settings page theming
 + Added Set up Quick Start Guide
@@ -1711,7 +1711,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Added Portuguese language support. Thank you Fernando Cassino for the translation :)
 
 
-= v1.2.0 - 2015-02-17 =
+= v1.2.0 - 2015/02/17 =
 -----------------------
 + Admin Course Analytics Dashboard Page. View at LifterLMS->Analytics->Course
 + Admin Sales Analytics Dashboard Page. View at LifterLMS->Analytics->Sales
@@ -1731,11 +1731,11 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Better third party payment gateway support. Third party gateway plugins are now easier to develop and integrate.
 + User Registration: Phone Number Registration field option now available in Accounts settings page.
 
-= v1.1.2 - 2014-12-18 =
+= v1.1.2 - 2014/12/18 =
 -----------------------
 + Moved Sidebar registration from plugin install to init
 
-= v1.1.1 - 2014-12-16 =
+= v1.1.1 - 2014/12/16 =
 -----------------------
 + Added user registration settings to require users to agree to Terms and Conditions on user registration
 + Added comments to all classes methods and functions
@@ -1745,7 +1745,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Fixed bug with endpoint rewrite
 + Added localization POT file and us_EN.po translation file
 
-= v1.1.0 - 2014-12-08 =
+= v1.1.0 - 2014/12/08 =
 -----------------------
 + Updated HTML / CSS on Registration form
 + Added Coupon Creation
@@ -1782,7 +1782,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Added user statisticc shortcode
 
 
-= v1.0.5 - 2014-11-12 =
+= v1.0.5 - 2014/11/12 =
 -----------------------
 
 + Fixed a mis-placed parenthesis in templates/course/lesson-navigation.php related to outputting excerpt in navigation option
@@ -1799,14 +1799,14 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Updated template overriding to check child & parent themes
 + Updated template overriding to apply filters to directories to check for overrides to allow themes and plugins to add their own directories
 
-= v1.0.4 - 2014-11-04 =
+= v1.0.4 - 2014/11/04 =
 -----------------------
 
 + Templating bug fix
 + Added shortcode and autop support to course and lesson content / excerpt
 
 
-= v1.0.3 - 2014-11-04 =
+= v1.0.3 - 2014/11/04 =
 -----------------------
 
 + Major Templating Update!
@@ -1814,23 +1814,24 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Course and Section content templates now filter through WP content
 
 
-= v1.0.2 - 2014-10-31 =
--------------------------
+= v1.0.2 - 2014/10/31 =
+-----------------------
 
 + Added lesson short description to previous lesson preview links -- it was rendering on "Next" but not "Previous"
 + Added a class to course shop links wrapper to signify the course has been completed
 + Removed an uncessary CSS rule related to the progress bar
 
 
-= v1.0.2 - 2014-10-30 =
+= v1.0.2 - 2014/10/30 =
 -----------------------
 
 + Fixed SSL certificate issues when retreiving data from https://lifterlms.com
 + Added rocket settings icon back into repo
 
 
-= v1.0.1 - 2014-10-30 =
+= v1.0.1 - 2014/10/30 =
 -----------------------
 
 + Updated activation endpoint url to point towards live server rather than dev
+
 
