@@ -437,7 +437,7 @@ class LLMS_Admin_Setup_Wizard {
 						'order' => 'DESC',
 						'post_type' => 'course',
 						'post_status' => 'publish',
-						'suppress_filters' => true
+						'suppress_filters' => true,
 					) );
 					if ( $courses ) {
 						wp_safe_redirect( get_edit_post_link( $courses[0]['ID'], 'not-display' ) );

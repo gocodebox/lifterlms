@@ -1,6 +1,6 @@
 == Changelog ==
 
-= v3.3.0 - 2017/01/24 =
+= v3.3.0 - 2017/01/23 =
 -----------------------
 
 + New course option allows displaying the video embed in place of the featured image on course tiles displayed on the course catalog screen
