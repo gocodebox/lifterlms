@@ -87,17 +87,66 @@ class LLMS_Frontend_Forms {
 		}
 
 		if (isset( $_POST['mark-complete'] )) {
-			$lesson = new LLMS_Lesson( $_POST['mark-complete'] );
-			// Mark Lesson complete
-			$lesson->mark_complete( get_current_user_id() );
-			// Check to see if section should be marked complete
-			$this->mark_section_complete( get_current_user_id() , $lesson->id );
-			// Check to see if course should be marked complete
-			$this->mark_course_complete( get_current_user_id() , $lesson->id );
-			// Check to see if track should be marked complete
-			$this->mark_track_complete( get_current_user_id() , $lesson->id );
+			// Mark everything complete
+			llms_mark_complete( get_current_user_id(), $_POST['mark-complete'] );
 		}
 
+	}
+
+	/**
+	 * Mark lesson as complete
+	 *
+	 * @param  int $user_id [ID of user]
+	 * @param  int $lesson_id [ID of lesson]
+	 * @return void
+	 */
+	public function mark_lesson_complete( $user_id, $lesson_id , $prevent_autoadvance = false ) {
+		global $wpdb;
+
+		$user = new LLMS_Person;
+		$user_postmetas = $user->get_user_postmeta_data( $user_id, $lesson_id );
+
+		// clear the cached progress, it'll be regenerated next time it's called
+		$student = new LLMS_Student( $user_id );
+		$student->set( 'overall_progress', '', true );
+
+		if ( empty( $user_id ) ) {
+			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
+		} elseif ( ! empty( $user_postmetas ) ) {
+
+			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
+				return;
+			}
+		} else {
+			$key = '_is_complete';
+			$value = 'yes';
+
+			$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+				array(
+					'user_id' 			=> $user_id,
+					'post_id' 			=> $lesson_id,
+					'meta_key'			=> $key,
+					'meta_value'		=> $value,
+					'updated_date'		=> current_time( 'mysql' ),
+				)
+			);
+			do_action( 'lifterlms_lesson_completed', $user_id, $lesson_id );
+
+			llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $lesson_id ) ) );
+
+			if ( ! $prevent_autoadvance && apply_filters( 'lifterlms_autoadvance', true ) ) {
+
+				$next_lesson_id = $this->get_next_lesson();
+				if ( $next_lesson_id ) {
+					wp_redirect(
+						apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) )
+					);
+					exit;
+				}
+
+			}
+
+		}
 	}
 
 	/**
@@ -309,6 +358,8 @@ class LLMS_Frontend_Forms {
 		}
 
 	}
+
+
 
 	/**
 	 *

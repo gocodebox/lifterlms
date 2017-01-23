@@ -147,6 +147,23 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 }
 
 /**
+ * Mark a lesson, section, course, or track as complete
+ * @param  int     $user_id   				WP User ID
+ * @param  int     $object_id  				WP Post ID of the Lesson, Section, Track, or Course
+ * @param  string  $prevent_autoadvance    	Whether or not we should prevent autoadvance to the next lesson
+ * @param  string  $trigger    				String describing the event that triggered marking the object as complete
+ * @return bool
+ *
+ * @see  LLMS_Student->mark_complete() the class method wrapped by this function
+ *
+ * @since   3.2.7
+ */
+function llms_mark_complete( $user_id, $object_id, $prevent_autoadvance = false, $trigger = 'unspecified' ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->mark_complete( $object_id, $prevent_autoadvance, $trigger );
+}
+
+/**
  * Register a new user
  *
  * @see  LLMS_Person_Handler::register()
@@ -324,7 +341,3 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 
 }
 add_filter( 'manage_users_custom_column', 'llms_add_user_table_rows', 10, 3 );
-
-
-
-

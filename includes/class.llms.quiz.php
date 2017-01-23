@@ -686,9 +686,7 @@ class LLMS_Quiz {
 						do_action( 'lifterlms_quiz_completed', $quiz->user_id, $quiz_data[ $id ] );
 
 						if ( $quiz_data[ $id ]['passed'] ) {
-							$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
-							$lesson->mark_complete( $quiz->user_id, true );
-
+							llms_mark_complete( $quiz->user_id, $quiz->assoc_lesson, true );
 							do_action( 'lifterlms_quiz_passed', $quiz->user_id, $quiz_data[ $id ] );
 						} else {
 							do_action( 'lifterlms_quiz_failed', $quiz->user_id, $quiz_data[ $id ] );
