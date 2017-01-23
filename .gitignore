@@ -30,3 +30,15 @@ idea/
 # Composer
 composer.phar
 vendor/*
+
+# Ignore distribution zips
+dist/
+dist/*
+
+# temp directory
+tmp/
+tmp/*
+
+# deploy scripts directory
+deploy/
+deploy/*
