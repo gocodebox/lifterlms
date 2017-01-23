@@ -338,6 +338,11 @@ class LLMS_Meta_Box_Course_Outline {
 	 */
 	public static function output( $post ) {
 
+		if ( ! $post || 'auto-draft' === $post->post_status ) {
+			_e( 'Your course must be published or saved as a draft before you can add sections and lessons to it.', 'lifterlms' );
+			return;
+		}
+
 		$course = new LLMS_Course( $post->ID );
 		$sections = $course->get_sections( 'posts' );
 
