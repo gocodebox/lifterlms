@@ -1200,7 +1200,7 @@ class LLMS_Student {
 		$key = '_is_complete';
 		$value = 'yes';
 
-		$user_postmetas = $user->get_user_postmeta_data( $this->get_id(), $object_id );
+		$user_postmetas = $this->user->get_user_postmeta_data( $this->get_id(), $object_id );
 		if ( ! empty( $user_postmetas['_is_complete'] ) ) {
 			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
 				return false;
@@ -1357,14 +1357,16 @@ class LLMS_Student {
 	 */
 	public function mark_complete( $object_id, $prevent_autoadvance = false, $trigger = 'unspecified') {
 
-		do_action( 'before_llms_mark_complete', $this->get_id(), $object_id );
+		$user_id = $this->get_id();
+
+		do_action( 'before_llms_mark_complete', $user_id, $object_id );
 
 		// check if its a Track
 		if ( term_exists( $object_id , 'course_track') ){
 			$object_type = 'course_track';
 		}
 		// can only be marked compelete in the following post types
-		else if ( in_array( $object_type, array( 'course', 'lesson', 'section' ) ) ) {
+		else if ( in_array( get_post_type( $object_id ), array( 'course', 'lesson', 'section' ) ) ) {
 
 			$object_type = get_post_type( $object_id );
 
@@ -1378,9 +1380,9 @@ class LLMS_Student {
 			case 'lesson':
 				$this->insert_complete_postmeta( $object_id, $trigger );
 
-				do_action( 'lifterlms_lesson_completed', $user_id, $lesson_id );
+				do_action( 'lifterlms_lesson_completed', $user_id, $object_id );
 
-				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $lesson_id ) ) );
+				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $object_id ) ) );
 
 				// Get parent section and mark it complete if necessary
 				$lesson = new LLMS_Lesson( $object_id );
@@ -1404,7 +1406,7 @@ class LLMS_Student {
 				if( $this->is_complete( $object_id, $object_type ) ){
 					$this->insert_complete_postmeta( $object_id, $object_type );
 
-					do_action( 'lifterlms_section_completed', $user_id, $section->id );
+					do_action( 'lifterlms_section_completed', $user_id, $object_id);
 
 					$section = new LLMS_Section( $object_id );
 					$this->mark_complete( $section->get_parent_course(), $trigger );
@@ -1415,7 +1417,7 @@ class LLMS_Student {
 				if( $this->is_complete( $object_id, $object_type ) ){
 					$this->insert_complete_postmeta( $object_id, $object_type );
 
-					do_action( 'lifterlms_course_completed', $user_id, $course->id );
+					do_action( 'lifterlms_course_completed', $user_id, $object_id );
 
 					$course = new LLMS_Course( $object_id );
 					$tracks = wp_get_post_terms( $course->id,'course_track', array( 'fields' => 'all' ) );
