@@ -400,6 +400,13 @@ final class LifterLMS {
 
 	/**
 	 * Load Localization files
+	 *
+	 * The first loaded file takes priority
+	 *
+	 * Files can be found in the following order:
+	 * 		WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
+	 * 		WP_LANG_DIR/lifterlms/lifterlms-LOCALE.mo
+	 *
 	 * @return void
 	 */
 	public function localize() {
