@@ -375,10 +375,6 @@ final class LifterLMS {
 		return LLMS_Achievements::instance();
 	}
 
-	public function activate() {
-		return LLMS_Activate::get_instance();
-	}
-
 	/**
 	 * Add Action Links
 	 * Settings action links
