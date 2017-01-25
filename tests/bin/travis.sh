@@ -17,6 +17,8 @@ elif [ $1 == 'during' ]; then
 		# phpcs
 		composer run-script phpcs
 
+		phpunit
+
 	fi
 
 fi
