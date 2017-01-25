@@ -105,6 +105,8 @@ class LLMS_Unit_Tests_Bootstrap {
 		define( 'WP_UNINSTALL_PLUGIN', true );
 		define( 'LLMS_REMOVE_ALL_DATA', true );
 		include( $this->plugin_dir . '/uninstall.php' );
+
+		// install LLMS
 		LLMS_Install::install();
 
 		// Reload capabilities after install, see https://core.trac.wordpress.org/ticket/28374
