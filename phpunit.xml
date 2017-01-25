@@ -13,4 +13,21 @@
 			<directory suffix=".php">tests/unit-tests</directory>
 		</testsuite>
 	</testsuites>
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">.</directory>
+			<exclude>
+				<directory suffix=".php">./templates/</directory>
+				<directory>./tests/</directory>
+				<directory suffix=".php">./tmp/</directory>
+				<directory suffix=".php">./deploy/</directory>
+				<directory suffix=".php">./dist/</directory>
+				<directory suffix=".php">./node_modules/</directory>
+				<directory suffix=".php">./vendor/</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-clover" target="./tmp/coverage.xml"/>
+	</logging>
 </phpunit>

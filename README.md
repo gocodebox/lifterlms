@@ -1,13 +1,13 @@
-LifterLMS [![Build Status](https://travis-ci.org/gocodebox/lifterlms.svg?branch=master)](https://travis-ci.org/gocodebox/lifterlms)
+LifterLMS
 ==========
 
+[![Build Status](https://travis-ci.org/gocodebox/lifterlms.svg?branch=master)](https://travis-ci.org/gocodebox/lifterlms)
 [![Coverage Status](https://coveralls.io/repos/github/gocodebox/lifterlms/badge.svg)](https://coveralls.io/github/gocodebox/lifterlms)
+[![Test Coverage](https://codeclimate.com/github/gocodebox/lifterlms/badges/coverage.svg)](https://codeclimate.com/github/gocodebox/lifterlms/coverage)
 
 [LifterLMS](https://lifterlms.com), the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
 
-
 ### [Changelog](./CHANGELOG.md)
-
 
 ### Documentation
 + [https://lifterlms.com/docs/](https://lifterlms.com/docs/)
