@@ -1,14 +1,7 @@
-<phpunit
-	bootstrap="tests/bootstrap.php"
-	backupGlobals="false"
-	colors="true"
-	convertErrorsToExceptions="true"
-	convertNoticesToExceptions="true"
-	convertWarningsToExceptions="true"
-	>
+<phpunit bootstrap="tests/bootstrap.php">
 	<testsuites>
-		<testsuite>
-			<directory prefix="test-" suffix=".php">./tests/</directory>
+		<testsuite name="LifterLMS Test Suite">
+			<directory suffix=".php">tests/unit-tests</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

@@ -19,7 +19,6 @@ class LLMS_Install {
 	private static $db_updates = array(
 		'3.0.0' => 'updates/lifterlms-update-3.0.0.php',
 		'3.0.3' => 'updates/lifterlms-update-3.0.3.php',
-		'3.3.0' => 'updates/lifterlms-update-3.3.0.php',
 	);
 
 	/**
@@ -27,9 +26,11 @@ class LLMS_Install {
 	 * Hooks all actions
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.1
 	 */
 	public static function init() {
+
+		require_once 'admin/llms.functions.admin.php';
 
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 		add_action( 'admin_init', array( __CLASS__, 'wizard_redirect' ) );
@@ -273,7 +274,7 @@ class LLMS_Install {
 
 			$finished = true;
 
-			include_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.update.php';
+			include_once 'abstracts/abstract.llms.update.php';
 
 			foreach ( self::$db_updates as $version => $updater ) {
 
@@ -290,7 +291,7 @@ class LLMS_Install {
 			if ( $finished ) {
 
 				// this runs on init so this may not be available
-				include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+				include_once 'admin/class.llms.admin.notices.php';
 				LLMS_Admin_Notices::add_notice( 'llms_bg_updates_complete', __( 'LifterLMS background update completed!', 'lifterlms' ), array(
 					'dismissible' => true,
 					'dismiss_for_days' => 0,
@@ -413,7 +414,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 			if ( version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
 
 				// may not be available since this runs on init
-				include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+				include_once 'admin/class.llms.admin.notices.php';
 
 				// if a notice already exists clear it out and add the most current one
 				if ( LLMS_Admin_Notices::has_notice( 'db-update' ) ) {
