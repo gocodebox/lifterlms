@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  3.0.0
+* @version  3.3.0
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
@@ -23,6 +23,7 @@
 * @property $prerequisite_track   (int)  WP Tax ID of a the prerequisite track
 * @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
 * @property $length  (string)  User defined coure length
+* @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
 * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
 * @property $video_embed  (string)  URL to an oEmbed enable video URL
 */
@@ -31,55 +32,32 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Course extends LLMS_Post_Model {
 
+	protected $properties = array(
+		'audio_embed' => 'text',
+		'capacity' => 'absint',
+		'capacity_message' => 'text',
+		'course_closed_message' => 'text',
+		'course_opens_message' => 'text',
+		'content_restricted_message' => 'text',
+		'enable_capacity' => 'yesno',
+		'end_date' => 'text',
+		'enrollment_closed_message' => 'text',
+		'enrollment_end_date' => 'text',
+		'enrollment_opens_message' => 'text',
+		'enrollment_period' => 'yesno',
+		'enrollment_start_date' => 'text',
+		'has_prerequisite' => 'yesno',
+		'length' => 'text',
+		'prerequisite' => 'absint',
+		'prerequisite_track' => 'absint',
+		'tile_featured_video' => 'yesno',
+		'time_period' => 'yesno',
+		'start_date' => 'text',
+		'video_embed' => 'text',
+	);
+
 	protected $db_post_type = 'course';
 	protected $model_post_type = 'course';
-
-	/**
-	 * Get a property's data type for scrubbing
-	 * used by $this->scrub() to determine how to scrub the property
-	 * @param   string $key  property key
-	 * @return  string
-	 * @since   3.0.0
-	 * @version 3.0.0
-	 */
-	protected function get_property_type( $key ) {
-
-		switch ( $key ) {
-
-			case 'capacity':
-			case 'prerequisite':
-			case 'prerequisite_track':
-				$type = 'absint';
-			break;
-
-			case 'enable_capacity':
-			case 'enrollment_period':
-			case 'has_prerequisite':
-			case 'time_period':
-				$type = 'yesno';
-			break;
-
-			case 'audio_embed':
-			case 'capacity_message':
-			case 'content_restricted_message':
-			case 'course_closed_message':
-			case 'course_opens_message':
-			case 'enrollment_closed_message':
-			case 'enrollment_end_date':
-			case 'enrollment_opens_message':
-			case 'enrollment_start_date':
-			case 'end_date':
-			case 'length':
-			case 'start_date':
-			case 'video_embed':
-			default:
-				$type = 'text';
-
-		}
-
-		return $type;
-
-	}
 
 	/**
 	 * Get course's prerequisite id based on the type of prerequsite
@@ -140,6 +118,17 @@ class LLMS_Course extends LLMS_Post_Model {
 
 		}
 
+	}
+
+	/**
+	 * Retrieve course categories
+	 * @param    array      $args  array of args passed to wp_get_post_terms
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_categories( $args = array() ) {
+		return wp_get_post_terms( $this->get( 'id' ), 'course_cat', $args );
 	}
 
 	/**
@@ -230,7 +219,7 @@ class LLMS_Course extends LLMS_Post_Model {
 			'meta_key' => '_llms_order',
 			'meta_query' => array(
 				array(
-					'key' => '_parent_course',
+					'key' => '_llms_parent_course',
 						'value' => $this->id,
 					),
 				),
@@ -272,6 +261,28 @@ class LLMS_Course extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve course tags
+	 * @param    array      $args  array of args passed to wp_get_post_terms
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_tags( $args = array() ) {
+		return wp_get_post_terms( $this->get( 'id' ), 'course_tag', $args );
+	}
+
+	/**
+	 * Retrieve course tracks
+	 * @param    array      $args  array of args passed to wp_get_post_terms
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_tracks( $args = array() ) {
+		return wp_get_post_terms( $this->get( 'id' ), 'course_track', $args );
+	}
+
+	/**
 	 * Retrieve an array of students currently enrolled in the course
 	 * @param    integer    $limit   number of results
 	 * @param    integer    $skip    number of results to skip (for pagination)
@@ -296,6 +307,16 @@ class LLMS_Course extends LLMS_Post_Model {
 		$student = new LLMS_Student( $user_id );
 		return $student->get_progress( $this->get( 'id' ), 'course' );
 
+	}
+
+	/**
+	 * Retrieve an instance of the LLMS_Product for this course
+	 * @return   obj         instance of an LLMS_Product
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_product() {
+			return new LLMS_Product( $this->get( 'id' ) );
 	}
 
 	/**
@@ -504,11 +525,36 @@ class LLMS_Course extends LLMS_Post_Model {
 
 	}
 
+	/**
+	 * Add data to the course model when converted to array
+	 * Called before data is sorted and retuned by $this->jsonSerialize()
+	 * @param    array     $arr   data to be serialized
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function toArrayAfter( $arr ) {
 
+		$product = $this->get_product();
+		$arr['access_plans'] = array();
+		foreach ( $product->get_access_plans() as $p ) {
+			$arr['access_plans'][] = $p->toArray();
+		}
 
+		$arr['sections'] = array();
+		foreach ( $this->get_sections() as $s ) {
+			$arr['sections'][] = $s->toArray();
+		}
 
+		$arr['categories'] = $this->get_categories( array( 'fields' => 'names' ) );
+		$arr['tags'] = $this->get_tags( array( 'fields' => 'names' ) );
+		$arr['tracks'] = $this->get_tracks( array( 'fields' => 'names' ) );
 
+		$arr['difficulty'] = $this->get_difficulty();
 
+		return $arr;
+
+	}
 
 
 
@@ -757,7 +803,7 @@ class LLMS_Course extends LLMS_Post_Model {
 			'orderby'			=> 'meta_value_num',
 			'meta_query' 		=> array(
 				array(
-					'key' 		=> '_parent_course',
+					'key' 		=> '_llms_parent_course',
 	      			'value' 	=> $this->id,
 	      			'compare' 	=> '=',
 	  			),

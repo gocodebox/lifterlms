@@ -73,6 +73,7 @@ add_action( 'lifterlms_after_loop', 'lifterlms_loop_end', 10 );
  * Course & Membership Loop Items
  *
  ***********************************************************************/
+add_action( 'lifterlms_before_loop_item', 'lifterlms_loop_featured_video', 8 );
 add_action( 'lifterlms_before_loop_item', 'lifterlms_loop_link_start', 10 );
 
 add_action( 'lifterlms_before_loop_item_title', 'lifterlms_template_loop_thumbnail', 10 );

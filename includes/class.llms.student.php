@@ -1350,7 +1350,7 @@ class LLMS_Student {
 	 * @param  string  $trigger     			 String describing the reason for marking complete
 	 * @return boolean
 	 *
-	 * @see  llms_mark_complete()  calls this function without having to instantiate the LLMS_Student class first
+	 * @see  llms_ete()  calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.2.7
 	 * @version  3.2.7  added $trigger parameter
@@ -1362,16 +1362,16 @@ class LLMS_Student {
 		do_action( 'before_llms_mark_complete', $user_id, $object_id );
 
 		// check if its a Track
-		if ( term_exists( $object_id , 'course_track') ){
+		if ( term_exists( $object_id , 'course_track' ) ) {
 			$object_type = 'course_track';
-		}
-		// can only be marked compelete in the following post types
-		else if ( in_array( get_post_type( $object_id ), array( 'course', 'lesson', 'section' ) ) ) {
+			$object = get_term( $object_id );
+		} // can only be marked compelete in the following post types
+		elseif ( in_array( get_post_type( $object_id ), array( 'course', 'lesson', 'section' ) ) ) {
 
 			$object_type = get_post_type( $object_id );
+			$object = llms_get_post( $object_id );
 
-		}
-		else{
+		} else {
 			return false;
 		}
 
@@ -1385,12 +1385,11 @@ class LLMS_Student {
 				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $object_id ) ) );
 
 				// Get parent section and mark it complete if necessary
-				$lesson = new LLMS_Lesson( $object_id );
-				$this->mark_complete( $lesson->get_parent_section(), $trigger );
+				$this->mark_complete( $object->get_parent_section(), $trigger );
 
 				if ( ! $prevent_autoadvance && apply_filters( 'lifterlms_autoadvance', true ) ) {
 
-					$next_lesson_id = $lesson->get_next_lesson();
+					$next_lesson_id = $object->get_next_lesson();
 					if ( $next_lesson_id ) {
 						wp_redirect(
 							apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) )
@@ -1401,26 +1400,23 @@ class LLMS_Student {
 				}
 			break;
 
-
 			case 'section':
-				if( $this->is_complete( $object_id, $object_type ) ){
+				if ( $this->is_complete( $object_id, $object_type ) ) {
 					$this->insert_complete_postmeta( $object_id, $object_type );
 
-					do_action( 'lifterlms_section_completed', $user_id, $object_id);
+					do_action( 'lifterlms_section_completed', $user_id, $object_id );
 
-					$section = new LLMS_Section( $object_id );
-					$this->mark_complete( $section->get_parent_course(), $trigger );
+					$this->mark_complete( $object->get_parent_course(), $trigger );
 				}
 			break;
 
 			case 'course':
-				if( $this->is_complete( $object_id, $object_type ) ){
+				if ( $this->is_complete( $object_id, $object_type ) ) {
 					$this->insert_complete_postmeta( $object_id, $object_type );
 
 					do_action( 'lifterlms_course_completed', $user_id, $object_id );
 
-					$course = new LLMS_Course( $object_id );
-					$tracks = wp_get_post_terms( $course->id,'course_track', array( 'fields' => 'all' ) );
+					$tracks = wp_get_post_terms( $object->id,'course_track', array( 'fields' => 'all' ) );
 					// Run through each of the tracks that this course is a member of
 					foreach ( (array) $tracks as $id => $track) {
 						$this->mark_complete( $track->term_id, $trigger );
@@ -1429,10 +1425,9 @@ class LLMS_Student {
 			break;
 
 			case 'track':
-				if( $this->is_complete( $object_id, $object_type ) ){
+				if ( $this->is_complete( $object_id, $object_type ) ) {
 					$this->insert_complete_postmeta( $object_id, $object_type );
-					$track = get_term($object_id);
-					do_action( 'lifterlms_course_track_completed', $user_id, $track->term_id );
+					do_action( 'lifterlms_course_track_completed', $user_id, $object->term_id );
 
 				}
 			break;

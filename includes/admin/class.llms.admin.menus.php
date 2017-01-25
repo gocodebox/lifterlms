@@ -44,7 +44,7 @@ class LLMS_Admin_Menus {
 	 * Admin Menu
 	 * @return void
 	 * @since   1.0.0
-	 * @version 3.2.0
+	 * @version 3.3.0
 	 */
 	public function display_admin_menu() {
 
@@ -60,10 +60,22 @@ class LLMS_Admin_Menus {
 
 			add_submenu_page( 'lifterlms', __( 'LifterLMS Reporting', 'lifterlms' ), __( 'Reporting', 'lifterlms' ), apply_filters( 'lifterlms_admin_reporting_access', 'manage_options' ), 'llms-reporting', array( $this, 'reporting_page_init' ) );
 
+			add_submenu_page( 'lifterlms', __( 'LifterLMS Import', 'lifterlms' ), __( 'Import', 'lifterlms' ), apply_filters( 'lifterlms_admin_import_access', 'manage_options' ), 'llms-import', array( $this, 'import_page_init' ) );
+
 			add_submenu_page( 'lifterlms', __( 'LifterLMS System report', 'lifterlms' ), __( 'System Report', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
 
 		}
 
+	}
+
+	/**
+	 * Outputs the LifterLMS Importer Screen HTML
+	 * @return   void
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function import_page_init() {
+		LLMS_Admin_Import::output();
 	}
 
 	/**

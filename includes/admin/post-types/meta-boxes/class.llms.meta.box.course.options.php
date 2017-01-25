@@ -100,6 +100,14 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'class' 	=> 'code input-full',
 					),
 					array(
+						'desc' 		    => __( 'When enabled, the featured video will be displayed on the course tile in addition to the course page.', 'lifterlms' ),
+						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
+						'id'            => $this->prefix . 'tile_featured_video',
+						'label'		    => __( 'Display Featured Video on Course Tile', 'lifterlms' ),
+						'type'		    => 'checkbox',
+						'value' 	    => 'yes',
+					),
+					array(
 						'type'		=> 'text',
 						'label'		=> __( 'Featured Audio', 'lifterlms' ),
 						'desc' 		=> sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),

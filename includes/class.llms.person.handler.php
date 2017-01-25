@@ -800,7 +800,7 @@ class LLMS_Person_Handler {
 					// make sure the value is numeric
 					case 'number':
 						if ( ! is_numeric( $val ) ) {
-							$e->add( $field['id'], sprintf( __( '%s is a required field', 'lifterlms' ), $label ), 'invalid' );
+							$e->add( $field['id'], sprintf( __( '%s must be numeric', 'lifterlms' ), $label ), 'invalid' );
 							continue 2;
 						}
 					break;

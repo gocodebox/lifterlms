@@ -889,7 +889,7 @@ function llms_setup_lesson_data( $post ) {
 			if ( empty( $post->post_type ) ) {
 				return; }
 
-			$courseid = get_post_meta( $post->ID, '_parent_course' );
+			$courseid = get_post_meta( $post->ID, '_llms_parent_course' );
 
 			if ( isset( $courseid ) ) {
 				$parent_course = get_post( $courseid );
@@ -1386,6 +1386,25 @@ function llms_featured_img( $post_id, $size ) {
 	return apply_filters( 'lifterlms_featured_img', '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">' );
 }
 
+/**
+ * Output a featured video on the course tile in a LifterLMS Loop
+ * @return   void
+ * @since    3.3.0
+ * @version  3.3.0
+ */
+function lifterlms_loop_featured_video() {
+	global $post;
+	if ( 'course' === $post->post_type ) {
+		$course = llms_get_post( $post );
+		if ( 'yes' === $course->get( 'tile_featured_video' ) ) {
+			$video = $course->get_video();
+			if ( $video ) {
+				echo $video;
+			}
+		}
+	}
+}
+
 
 /**
  * Retrieve author name, avatar, and bio
@@ -1639,25 +1658,6 @@ function llms_get_excerpt( $post_id ) {
 
 	return $excerpt;
 }
-
-/**
- * Set Course and Membership to order by order instead of title
- * @param  [obj] $vars [query object]
- * @return [object]       [query object]
- */
-function llms_custom_archive_order( $vars ) {
-	if ( ! is_admin() && isset( $vars['post_type'] ) ) {
-
-		if ( $vars['post_type'] === 'course' || $vars['post_type'] === 'membership' ) {
-			$vars['orderby'] = 'menu_order';
-			$vars['order'] = 'ASC';
-		}
-
-	}
-
-	return $vars;
-}
-add_filter( 'request', 'llms_custom_archive_order' );
 
 /**
  * Shuffles an array while keeping the array indices

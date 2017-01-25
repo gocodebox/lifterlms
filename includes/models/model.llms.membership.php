@@ -2,7 +2,7 @@
 /**
  * LifterLMS Membership Model
  * @since  3.0.0
- * @version  3.0.0
+ * @version  3.3.0
  *
  * @property  $auto_enroll  (array)  Array of course IDs users will be autoenrolled in upon successfull enrollment in this membership
  * @property  $restriction_redirect_type  (string)  What type of redirect action to take when content is restricted by this membership [none|membership|page|custom]
@@ -66,6 +66,16 @@ class LLMS_Membership extends LLMS_Post_Model {
 
 		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
 
+	}
+
+	/**
+	 * Retrieve an instance of the LLMS_Product for this course
+	 * @return   obj         instance of an LLMS_Product
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_product() {
+			return new LLMS_Product( $this->get( 'id' ) );
 	}
 
 	/**

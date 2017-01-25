@@ -193,6 +193,9 @@ class LLMS_Admin_Meta_Boxes {
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
 		remove_meta_box( 'tagsdiv-course_difficulty','course','side' );
 
+		// remove page attribute box from lessons
+		remove_meta_box( 'pageparentdiv', 'lesson', 'side' );
+
 	}
 
 	/**

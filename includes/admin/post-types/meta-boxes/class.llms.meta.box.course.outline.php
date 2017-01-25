@@ -338,6 +338,11 @@ class LLMS_Meta_Box_Course_Outline {
 	 */
 	public static function output( $post ) {
 
+		if ( ! $post || 'auto-draft' === $post->post_status ) {
+			_e( 'Your course must be published or saved as a draft before you can add sections and lessons to it.', 'lifterlms' );
+			return;
+		}
+
 		$course = new LLMS_Course( $post->ID );
 		$sections = $course->get_sections( 'posts' );
 
@@ -589,7 +594,7 @@ class LLMS_Meta_Box_Course_Outline {
 				$lesson_order = llms_clean( $lessons_order[ $key ] );
 
 				update_post_meta( $lesson_id, '_llms_order', $lesson_order );
-				update_post_meta( $lesson_id, '_parent_section', $parent_section );
+				update_post_meta( $lesson_id, '_llms_parent_section', $parent_section );
 				update_post_meta( $lesson_id, '_llms_order', $lesson_order );
 
 			}

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  3.1.6
+ * @version  3.2.5
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -39,8 +39,11 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	 * Do checks to determine if the content should be restricted
 	 */
 
-	// content is restricted by a sitewide membership
-	if ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id ) ) {
+	// if it's a search page and the site isn't restricted to a membership bypass restrictions
+	if ( is_search() && ! get_option( 'lifterlms_membership_required', '' ) ) {
+		return apply_filters( 'llms_page_restricted', $results, $post_id );
+	} // content is restricted by a sitewide membership
+	elseif ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id ) ) {
 		$restriction_id = $membership_id;
 		$reason = 'sitewide_membership';
 	} // content is restricted by a membership
@@ -107,7 +110,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['is_restricted'] = true;
 				$results['reason'] = 'quiz';
 				$results['restriction_id'] = $post_id;
-				return $results;
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
 
@@ -120,7 +123,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['is_restricted'] = true;
 				$results['reason'] = 'course_time_period';
 				$results['restriction_id'] = $course_id;
-				return $results;
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
 
@@ -129,7 +132,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['is_restricted'] = true;
 				$results['reason'] = 'lesson_prerequisite';
 				$results['restriction_id'] = $lesson_id;
-				return $results;
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
 
@@ -138,7 +141,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['is_restricted'] = true;
 				$results['reason'] = 'lesson_drip';
 				$results['restriction_id'] = $lesson_id;
-				return $results;
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
 

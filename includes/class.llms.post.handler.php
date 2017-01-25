@@ -188,7 +188,7 @@ class LLMS_Post_Handler {
 			foreach ($lessons as $key => $value) {
 
 				//get parent course if assigned
-				$parent_course = get_post_meta( $value->ID, '_parent_course', true );
+				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
 
 				if ( $parent_course ) {
 					$title = $value->post_title . ' ( ' . get_the_title( $parent_course ) . ' )';

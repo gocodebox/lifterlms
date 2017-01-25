@@ -497,7 +497,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    string     $format  date format to return the date in (see php date())
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.2.5
 	 */
 	public function get_next_payment_due_date( $format = 'Y-m-d H:i:s' ) {
 
@@ -514,7 +514,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		// return false b/c no more payments are due
 		$num_payments = $this->get( 'billing_length' );
 		if ( $num_payments ) {
-
 			$txns = $this->get_transactions( array(
 				'per_page' => -1,
 				'status' => 'llms-txn-succeeded',
@@ -525,22 +524,22 @@ class LLMS_Order extends LLMS_Post_Model {
 			if ( $txns['count'] >= $num_payments ) {
 				return new WP_Error( 'completed', __( 'All recurring transactions completed', 'lifterlms' ) );
 			}
-
 		}
 
-		// get the date of the last successful txn
-		$last_date = strtotime( $this->get_last_transaction_date( 'llms-txn-succeeded', 'recurring' ) );
-
-		// if there's no transaction, use now for calculation
-		if ( ! $last_date ) {
-			$last_date = current_time( 'timestamp' );
-		}
-
+		// if were on a trial and the trial hasn't ended yet next payment date is the date the trial ends
 		if ( $this->has_trial() && ! $this->has_trial_ended() ) {
 
 			$next = $this->get_trial_end_date( 'U' );
 
 		} else {
+
+			// get the date of the last successful txn
+			$last_date = strtotime( $this->get_last_transaction_date( 'llms-txn-succeeded', 'recurring' ) );
+
+			// if there's no transaction, use now for calculation
+			if ( ! $last_date ) {
+				$last_date = current_time( 'timestamp' );
+			}
 
 			$period = $this->get( 'billing_period' );
 			$frequency = $this->get( 'billing_frequency' );
@@ -748,6 +747,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$end = strtotime( '+' . $length . ' ' . $period, $start );
 
 			$r = date_i18n( $format, $end );
+
 		}
 
 		return apply_filters( 'llms_order_get_trial_end_date', $r, $this );

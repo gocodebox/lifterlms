@@ -1,7 +1,11 @@
 <?php
+/**
+ * Display a Setup Wizard
+ * @since    3.0.0
+ * @version  3.3.0
+ */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 
 class LLMS_Admin_Setup_Wizard {
 
@@ -43,9 +47,26 @@ class LLMS_Admin_Setup_Wizard {
 
 	}
 
+	/**
+	 * Enqueue static assets for the setup wizard screens
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function enqueue() {
 		wp_register_style( 'llms-admin-setup', plugins_url( '/assets/css/admin-setup.min.css', LLMS_PLUGIN_FILE ), array(), LLMS()->version, 'all' );
 		wp_enqueue_style( 'llms-admin-setup' );
+	}
+
+	/**
+	 * Allow the Sample Content installed during the final step to be published rather than drafted
+	 * @param    string     $status  post status
+	 * @return   string
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function generator_course_status( $status ) {
+		return 'publish';
 	}
 
 	/**
@@ -109,11 +130,13 @@ class LLMS_Admin_Setup_Wizard {
 	 * @param    string     $step  step to get text for
 	 * @return   string            translated text
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.0
 	 */
 	private function get_save_text( $step = '' ) {
 		if ( 'coupon' === $step ) {
 			return __( 'Allow', 'lifterlms' );
+		} elseif ( 'finish' === $step ) {
+			return __( 'Install a Sample Course', 'lifterlms' );
 		} else {
 			return __( 'Save & Continue', 'lifterlms' );
 		}
@@ -172,7 +195,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Output the HTML content of the setup page
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.0
 	 */
 	public function output() {
 
@@ -209,11 +232,6 @@ class LLMS_Admin_Setup_Wizard {
 							<?php if ( 'intro' === $current ) : ?>
 								<a href="<?php echo esc_url( admin_url() ); ?>" class="llms-button-secondary large"><?php _e( 'Skip setup', 'lifterlms' ); ?></a>
 								<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="llms-button-primary large"><?php _e( 'Get Started Now', 'lifterlms' ); ?></a>
-							<?php elseif ( 'finish' === $current ) : ?>
-								<?php if ( $prev = $this->get_prev_step() ) : ?>
-									<a class="back-link" href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
-								<?php endif; ?>
-								<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="llms-button-primary large"><?php _e( 'Create your first course!', 'lifterlms' ); ?></a>
 							<?php else : ?>
 								<?php if ( $prev = $this->get_prev_step() ) : ?>
 									<a class="back-link" href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
@@ -221,6 +239,11 @@ class LLMS_Admin_Setup_Wizard {
 								<?php if ( $next = $this->get_next_step() ) : ?>
 									<a href="<?php echo $this->get_step_url( $next ); ?>" class="llms-button-secondary large"><?php echo $this->get_skip_text( $current ); ?></a>
 								<?php endif; ?>
+
+								<?php if ( 'finish' === $current ) : ?>
+									<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="llms-button-secondary large"><?php _e( 'Start from Scratch', 'lifterlms' ); ?></a>
+								<?php endif; ?>
+
 								<button class="llms-button-primary large" type="submit"><?php echo $this->get_save_text( $current ); ?></button>
 								<input type="hidden" name="llms_setup_save" value="<?php echo $current; ?>">
 								<?php wp_nonce_field( 'llms_setup_save', 'llms_setup_nonce' ); ?>
@@ -246,7 +269,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @param    string     $step  step slug
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.0
 	 */
 	public function output_step_html( $step ) {
 
@@ -263,12 +286,14 @@ class LLMS_Admin_Setup_Wizard {
 
 			case 'finish':
 				?>
-				<h1><?php _e( 'You\'re all set!', 'lifterlms' ); ?></h1>
-				<p><?php _e( 'The setup is all complete and the only thing left to do is create your first course.', 'lifterlms' ); ?></p>
+				<h1><?php _e( 'Setup Complete!', 'lifterlms' ); ?></h1>
+				<p><?php _e( 'Here\'s some resources to help you get familiar with LifterLMS:', 'lifterlms' ); ?></p>
 				<ul>
 					<li><span class="dashicons dashicons-format-video"></span> <a href="https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/" target="_blank"><?php _e( 'Watch the LifterLMS video tutorials', 'lifterlms' ); ?></a></li>
 					<li><span class="dashicons dashicons-admin-page"></span> <a href="https://lifterlms.com/docs/getting-started-with-lifterlms/" target="_blank"><?php _e( 'Read the LifterLMS Getting Started Guide', 'lifterlms' ); ?></a></li>
 				</ul>
+				<br>
+				<h1 style="text-align: center;"><?php _e( 'Get started with your first course', 'lifterlms' ); ?></h1>
 				<?php
 			break;
 
@@ -364,7 +389,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Handle saving data during setup
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.0
 	 */
 	public function save() {
 
@@ -391,6 +416,33 @@ class LLMS_Admin_Setup_Wizard {
 
 					}
 
+				}
+
+			break;
+
+			case 'finish':
+
+				add_filter( 'llms_generator_course_status', array( $this, 'generator_course_status' ) );
+
+				$json = file_get_contents( 'http://d34dpc7391qduo.cloudfront.net/sample-content/llms-sample-course.json' );
+				$gen = new LLMS_Generator( $json );
+				$gen->set_generator();
+				$gen->generate();
+				if ( $gen->is_error() ) {
+					wp_die( $gen->get_results() );
+				} else {
+					$courses = wp_get_recent_posts( array(
+						'numberposts' => 1,
+						'orderby' => 'post_date',
+						'order' => 'DESC',
+						'post_type' => 'course',
+						'post_status' => 'publish',
+						'suppress_filters' => true,
+					) );
+					if ( $courses ) {
+						wp_safe_redirect( get_edit_post_link( $courses[0]['ID'], 'not-display' ) );
+						die;
+					}
 				}
 
 			break;

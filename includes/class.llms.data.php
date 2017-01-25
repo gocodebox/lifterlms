@@ -155,13 +155,14 @@ class LLMS_Data {
 	 * Get LifterLMS settings
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.0
 	 */
 	private static function get_llms_settings() {
 
 		$data = array();
 
 		$data['version'] = LLMS()->version;
+		$data['db_version'] = get_option( 'lifterlms_db_version' );
 
 		$data['course_catalog'] = self::get_page_data( 'lifterlms_shop_page_id' );
 		$data['course_catalog_per_page'] = get_option( 'lifterlms_shop_courses_per_page' );

@@ -20,10 +20,10 @@ class LLMS_Meta_Box_Lesson_Tree {
 		global $wpdb, $post;
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
 
-		$parent_section_id = get_post_meta( $post->ID, '_parent_section', true );
+		$parent_section_id = get_post_meta( $post->ID, '_llms_parent_section', true );
 		$parent_section_id = $parent_section_id ? $parent_section_id : '';
 
-		$parent_course_id = get_post_meta( $post->ID, '_parent_course', true );
+		$parent_course_id = get_post_meta( $post->ID, '_llms_parent_course', true );
 		$parent_course_id = $parent_course_id ? $parent_course_id : '';
 
 		$all_sections = LLMS_Post_handler::get_posts( 'section' );
@@ -132,8 +132,8 @@ class LLMS_Meta_Box_Lesson_Tree {
 
 		if ( isset( $_POST['associated_section'] ) ) {
 			$parent_section = llms_clean( $_POST['associated_section'] );
-			$parent_course = get_post_meta( $parent_section, '_parent_course', true );
-			$current_parent_section = get_post_meta( $post_id, '_parent_section', true );
+			$parent_course = get_post_meta( $parent_section, '_llms_parent_course', true );
+			$current_parent_section = get_post_meta( $post_id, '_llms_parent_section', true );
 
 			if ( $current_parent_section !== $parent_section ) {
 

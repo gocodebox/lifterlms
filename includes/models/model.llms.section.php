@@ -1,96 +1,125 @@
 <?php
+/**
+ * LLMS Section Model
+ * @since    1.0.0
+ * @version  3.3.0
+ */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* Base Section Class
-*
-* Class used for instantiating section object
-*
-* @author codeBOX
-*/
-class LLMS_Section {
+class LLMS_Section extends LLMS_Post_Model {
+
+	protected $properties = array(
+		'order' => 'absint',
+		'parent_course' => 'absint',
+	);
+
+	protected $db_post_type = 'section';
+	protected $model_post_type = 'section';
 
 	/**
-	* ID
-	* @access public
-	* @var int
-	*/
-	public $id;
+	 * Get all lessons in the section
+	 * @param    string  $return  type of return [ids|posts|lessons]
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_lessons( $return = 'lessons' ) {
 
-	/**
-	* Post Object
-	* @access public
-	* @var array
-	*/
-	public $post;
+		$q = new WP_Query( array(
+			'meta_key' => '_llms_order',
+			'meta_query' => array(
+				array(
+					'key' => '_llms_parent_section',
+					'value' => $this->get( 'id' ),
+				),
+			),
+			'order' => 'ASC',
+			'orderby' => 'meta_value_num',
+			'post_type' => 'lesson',
+			'posts_per_page' => 500,
+		) );
 
-
-	/**
-	* Constructor
-	*
-	* initializes the section object based on post data
-	*/
-	public function __construct( $section ) {
-
-		if ( is_numeric( $section ) ) {
-
-			$this->id   = absint( $section );
-			$this->post = get_post( $this->id );
-
-		} elseif ( $section instanceof LLMS_Section ) {
-
-			$this->id   = absint( $section->id );
-			$this->post = $section;
-
-		} elseif ( $section instanceof LLMS_Post || isset( $section->ID ) ) {
-
-			$this->id   = absint( $section->ID );
-			$this->post = $section;
-
+		if ( $return === 'ids' ) {
+			$r = wp_list_pluck( $q->posts, 'ID' );
+		} elseif ( $return === 'posts' ) {
+			$r = $q->posts;
+		} else {
+			$r = array();
+			foreach ( $q->posts as $p ) {
+				$r[] = new LLMS_Lesson( $p );
+			}
 		}
 
-	}
-
-	/**
-	* __isset function
-	*
-	* checks if metadata exists
-	*
-	* @param string $item
-	*/
-	public function __isset( $key ) {
-
-		return metadata_exists( 'post', $this->id, '_' . $key );
+		return $r;
 
 	}
 
 	/**
-	* __get function
-	*
-	* initializes the course object based on post data
-	*
-	* @param string $item
-	* @return string $value
-	*/
-	public function __get( $key ) {
+	 * Add data to the course model when converted to array
+	 * Called before data is sorted and retuned by $this->jsonSerialize()
+	 * @param    array     $arr   data to be serialized
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function toArrayAfter( $arr ) {
 
-		$value = get_post_meta( $this->id, '_' . $key, true );
-		return $value;
+		$arr['lessons'] = array();
+
+		foreach ( $this->get_lessons() as $s ) {
+			$arr['lessons'][] = $s->toArray();
+		}
+
+		return $arr;
 
 	}
 
+
+
+
+
+
+
 	/**
-	 * Get Order
-	 * retrieves the section order in the course
-	 * @return [type] [description]
+	 * Retrieve the order of the section within the course
+	 * @note     developers should not use these functions, instead use generic "get"
+	 *           this function will be deprecated in the future
+	 * @todo     deprecate
+	 * @return   int
+	 * @since    1.0.0
+	 * @version  3.3.0
 	 */
 	public function get_order() {
-
-		$order = get_post_meta( $this->id, '_llms_order', true );
-
-		return $order;
-
+		return $this->get( 'order' );
 	}
+
+	/**
+	 * Retrieve the post ID of the section's parent course
+	 * @note     developers should not use these functions, instead use generic "get"
+	 *           this function will be deprecated in the future
+	 * @todo     deprecate
+	 * @return   int
+	 * @since    1.0.0
+	 * @version  3.3.0
+	 */
+	public function get_parent_course() {
+		return $this->get( 'parent_course' );
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public function update( $data ) {
 
@@ -199,7 +228,7 @@ class LLMS_Section {
 			'orderby'			=> 'meta_value_num',
 			'meta_query' 		=> array(
 				array(
-					'key' 		=> '_parent_section',
+					'key' 		=> '_llms_parent_section',
 	      			'value' 	=> $this->id,
 	      			'compare' 	=> '=',
 	  			),
@@ -230,11 +259,7 @@ class LLMS_Section {
 
 	}
 
-	public function get_parent_course() {
 
-		return $this->parent_course;
-
-	}
 
 	/**
 	 * Set parent course
@@ -245,7 +270,7 @@ class LLMS_Section {
 	 */
 	public function set_parent_course( $course_id ) {
 
-		$meta = update_post_meta( $this->id, '_parent_course', $course_id );
+		$meta = update_post_meta( $this->id, '_llms_parent_course', $course_id );
 
 		return $meta;
 

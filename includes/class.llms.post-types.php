@@ -75,7 +75,7 @@ class LLMS_Post_Types {
 	 * @return  void
 	 *
 	 * @since    1.4.4
-	 * @version  3.0.4
+	 * @version  3.2.5
 	 */
 	public static function pre_get_posts( $query ) {
 
@@ -87,8 +87,7 @@ class LLMS_Post_Types {
 
 			}
 
-			if ( is_post_type_archive( 'course' ) || $query->get( 'page_id' ) == llms_get_page_id( 'courses' ) ) {
-
+			if ( is_post_type_archive( 'course' ) || $query->get( 'page_id' ) == llms_get_page_id( 'courses' ) || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track' ) ) ) {
 				$query->set( 'posts_per_page', get_option( 'lifterlms_shop_courses_per_page', 10 ) );
 
 				$sorting = explode( ',', get_option( 'lifterlms_shop_ordering', 'menu_order,ASC' ) );
@@ -99,7 +98,7 @@ class LLMS_Post_Types {
 				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $order ) );
 				$query->set( 'order', apply_filters( 'llms_courses_order', $orderby ) );
 
-			} elseif ( is_post_type_archive( 'membership' ) || $query->get( 'page_id' ) == llms_get_page_id( 'memberships' ) ) {
+			} elseif ( is_post_type_archive( 'membership' ) || $query->get( 'page_id' ) == llms_get_page_id( 'memberships' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
 
 				$query->set( 'posts_per_page', get_option( 'lifterlms_memberships_per_page', 10 ) );
 
@@ -374,7 +373,7 @@ class LLMS_Post_Types {
 					'hierarchical' 			=> false,
 					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
+					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author', 'llms-clone-post', 'llms-export-post' ),
 					'has_archive' 			=> ( $shop_page_id = llms_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
 					'show_in_nav_menus' 	=> true,
 					'menu_position'         => 52,

@@ -1,11 +1,22 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since  3.0.0
+ * @since  3.3.0
  */
-abstract class LLMS_Post_Model {
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+abstract class LLMS_Post_Model implements JsonSerializable {
+
+	/**
+	 * Name of the post type as stored in the database
+	 * This will be prefixed (where applicable)
+	 * ie: "llms_order" for the "llms_order" post type
+	 * @var string
+	 * @since  3.0.0
+	 */
+	protected $db_post_type;
 
 	/**
 	 * WP Post ID
@@ -13,13 +24,6 @@ abstract class LLMS_Post_Model {
 	 * @since 3.0.0
 	 */
 	protected $id;
-
-	/**
-	 * Instance of WP_Post
-	 * @var obj
-	 * @since 3.0.0
-	 */
-	protected $post;
 
 	/**
 	 * Define this in extending classes
@@ -39,13 +43,19 @@ abstract class LLMS_Post_Model {
 	protected $meta_prefix = '_llms_';
 
 	/**
-	 * Name of the post type as stored in the database
-	 * This will be prefixed (where applicable)
-	 * ie: "llms_order" for the "llms_order" post type
-	 * @var string
-	 * @since  3.0.0
+	 * Instance of WP_Post
+	 * @var obj
+	 * @since 3.0.0
 	 */
-	protected $db_post_type;
+	protected $post;
+
+	/**
+	 * Array of meta properties and their property type
+	 * @var     array
+	 * @since   3.3.0
+	 * @version 3.3.0
+	 */
+	protected $properties = array();
 
 	/**
 	 * Constructor
@@ -111,6 +121,11 @@ abstract class LLMS_Post_Model {
 
 			$post_key = 'post_' . $key;
 
+			// ensure post is set globally for filters below
+			global $post;
+			$temp = $post;
+			$post = $this->post;
+
 			switch ( $key ) {
 
 				case 'content':
@@ -137,6 +152,9 @@ abstract class LLMS_Post_Model {
 					$val = $this->post->$post_key;
 
 			}
+
+			// return the original global
+			$post = $temp;
 
 		} // regular meta data
 		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
@@ -245,6 +263,65 @@ abstract class LLMS_Post_Model {
 	}
 
 	/**
+	 * Clones the Post if the post is cloneable
+	 * @return   mixed         WP_Error or array of generator results
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function clone_post() {
+
+		// if post type doesnt support cloning don't proceed
+		if ( ! $this->is_exportable() ) {
+			return;
+		}
+
+		$generator = new LLMS_Generator( $this->toArray() );
+		$generator->set_generator( 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Cloner' );
+		if ( ! $generator->is_error() ) {
+			$generator->generate();
+		}
+		return $generator->get_results();
+
+	}
+
+	/**
+	 * Trigger an export download of the given post type
+	 * @return   void
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function export() {
+
+		// if post type doesnt support exporting don't proceed
+		if ( ! $this->is_exportable() ) {
+			return;
+		}
+
+		$title = str_replace( ' ', '-', $this->get( 'title' ) );
+		$title = preg_replace( '/[^a-zA-Z0-9-]/', '', $title );
+
+		$filename = apply_filters( 'llms_post_model_export_filename', $title . '_' . current_time( 'Ymd' ), $this );
+
+		header( 'Content-type: application/json' );
+		header( 'Content-Disposition: attachment; filename="' . $filename . '.json"' );
+		header( 'Pragma: no-cache' );
+		header( 'Expires: 0' );
+
+		$arr = $this->toArray();
+
+		$arr['_generator'] = 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Exporter';
+		$arr['_source'] = get_site_url();
+		$arr['_version'] = LLMS()->version;
+
+		ksort( $arr );
+
+		echo json_encode( $arr );
+
+		die();
+
+	}
+
+	/**
 	 * Getter
 	 * @param  string $key  property key
 	 * @return mixed
@@ -299,6 +376,24 @@ abstract class LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve URL for an image associated with the post
+	 * Currently only retrieves the featured image if the post type supports it
+	 * in the future this will allow retrieval of custom post images as well
+	 * @param    string|array   $size  registered image size or a numeric array with width/height
+	 * @param    string         $key   currently unused but here for forward compatibility if
+	 *                                 additional custom images are added
+	 * @return   string                empty string if no image or not supported
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_image( $size = 'full', $key = '' ) {
+		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
+			$url = get_the_post_thumbnail_url( $this->get( 'id' ), $size );
+		}
+		return ! empty( $url ) ? $url : '';
+	}
+
+	/**
 	 * Retrieve the registered Label of the posts current status
 	 * @return   string
 	 * @since    3.0.0
@@ -334,11 +429,12 @@ abstract class LLMS_Post_Model {
 
 	/**
 	 * Getter for price strings with optional formatting options
-	 * @param  string $key         property key
-	 * @param  array  $price_args  optional array of arguments that can be passed to llms_price()
-	 * @param  string $format      optional format conversion method [html|raw|float]
-	 * @return mixed
-	 * @since  3.0.0
+	 * @param    string $key         property key
+	 * @param    array  $price_args  optional array of arguments that can be passed to llms_price()
+	 * @param    string $format      optional format conversion method [html|raw|float]
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  3.2.7
 	 */
 	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
@@ -355,7 +451,7 @@ abstract class LLMS_Post_Model {
 				$price = strip_tags( $price );
 			}
 		} elseif ( 'float' === $format ) {
-			$price = floatval( number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), get_lifterlms_thousand_separator() ) );
+			$price = floatval( number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), '' ) );
 		} else {
 			$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format, $price, $key, $price_args, $format, $this );
 		}
@@ -403,11 +499,26 @@ abstract class LLMS_Post_Model {
 	/**
 	 * Get a property's data type for scrubbing
 	 * used by $this->scrub() to determine how to scrub the property
-	 * @param  string $key  property key
-	 * @return string
-	 * @since  3.0.0
+	 * @param   string $key  property key
+	 * @return  string
+	 * @since   3.3.0
+	 * @version 3.3.0
 	 */
-	abstract protected function get_property_type( $key );
+	protected function get_property_type( $key ) {
+
+		$props = $this->get_properties();
+
+		// check against the properties array
+		if ( in_array( $key, array_keys( $props ) ) ) {
+			$type = $props[ $key ];
+		} // default to text
+		else {
+			$type = 'text';
+		}
+
+		return $type;
+
+	}
 
 	/**
 	 * Retrieve an array of post properties
@@ -431,6 +542,16 @@ abstract class LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve an array of properties defined by the model
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function get_properties() {
+		return apply_filters( 'llms_post_model_get_post_properties', $this->properties, $this );
+	}
+
+	/**
 	 * Array of properties which *cannot* be set
 	 * If a child class adds any properties which should not be settable
 	 * the class should override this property and add their custom
@@ -449,6 +570,37 @@ abstract class LLMS_Post_Model {
 	}
 
 	/**
+	 * Determine if the associated post is exportable
+	 * @return   boolean
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function is_cloneable() {
+		return post_type_supports( $this->db_post_type, 'llms-clone-post' );
+	}
+
+	/**
+	 * Determine if the associated post is exportable
+	 * @return   boolean
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function is_exportable() {
+		return post_type_supports( $this->db_post_type, 'llms-export-post' );
+	}
+
+	/**
+	 * Format the object for json serialization
+	 * encodes the results of $this->toArray()
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function jsonSerialize() {
+		return apply_filters( 'llms_post_model_json_serialize', $this->toArray(), $this );
+	}
+
+	/**
 	 * Scrub field according to it's type
 	 * This is automatically called by set() method before anything is actually set
 	 *
@@ -461,6 +613,7 @@ abstract class LLMS_Post_Model {
 
 		switch ( $key ) {
 
+			case 'author':
 			case 'menu_order':
 				$type = 'absint';
 			break;
@@ -602,6 +755,71 @@ abstract class LLMS_Post_Model {
 
 		}
 
+	}
+
+	/**
+	 * Coverts the object to an associative array
+	 * Any property returned by $this->get_properties() will be retrieved
+	 * via $this->get() and added to the array
+	 *
+	 * Extending classes can add additonal properties to the array
+	 * by overriding $this->toArrayAfter()
+	 *
+	 * This function is also utilzied to serialize the object to json
+	 *
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	public function toArray() {
+
+		$arr = array(
+			'id' => $this->get( 'id' ),
+		);
+
+		$props = array_merge( array_keys( $this->get_properties() ), $this->get_post_properties() );
+
+		foreach ( $props as $prop ) {
+			$arr[ $prop ] = $this->get( $prop );
+		}
+
+		// add the featured image if the post type supports it
+		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
+			$arr['featured_image'] = $this->get_image( 'full' );
+		}
+
+		// expand author
+		if ( ! empty( $arr['author'] ) ) {
+			$u = new WP_User( $arr['author'] );
+			$arr['author'] = array(
+				'descrpition' => $u->description,
+				'email' => $u->user_email,
+				'first_name' => $u->first_name,
+				'id' => $u->ID,
+				'last_name' => $u->last_name,
+			);
+		}
+
+		// allow extending classes to add properties easily without overridding the class
+		$arr = $this->toArrayAfter( $arr );
+
+		ksort( $arr ); // because i'm anal...
+
+		return apply_filters( 'llms_post_model_to_array', $arr, $this );
+
+	}
+
+	/**
+	 * Called before data is sorted and returned by $this->toArray()
+	 * Extending classes should override this data if custom data should
+	 * be added when object is converted to an array or json
+	 * @param    array     $arr   array of data to be serialized
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  3.3.0
+	 */
+	protected function toArrayAfter( $arr ) {
+		return $arr;
 	}
 
 }

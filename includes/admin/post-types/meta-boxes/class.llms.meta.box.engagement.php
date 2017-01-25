@@ -30,7 +30,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 	 * Return an empty array because the metabox fields here are completely custom
 	 * @return array
 	 * @since  1.0.0
-	 * @version  3.1.0
+	 * @version  3.2.6
 	 */
 	public function get_fields() {
 
@@ -135,6 +135,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			'id' 		=> '_faux_engagement_trigger_post_track',
 			'label'		=> __( 'Select a Course Track', 'lifterlms' ),
 			'type'		=> 'select',
+			'selected'  => get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true ),
 			'value'     => $track_options,
 		);
 
@@ -283,7 +284,6 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		if ( $var ) {
 
 			$val = isset( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) ? sanitize_text_field( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) : '';
-
 		} else {
 
 			$val = '';

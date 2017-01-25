@@ -3,17 +3,17 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.2.4
+ * Version: 3.3.0
  * Author: Thomas Patrick Levy, codeBOX LLC
  * Author URI: http://gocodebox.com
  * Text Domain: lifterlms
  * Domain Path: /languages
- * License:     GPLv2
+ * License: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 4.0
- * Tested up to: 4.6.1
+ * Tested up to: 4.7.1
  *
- * @package 		LifterLMS
+ * @package     LifterLMS
  * @category 	Core
  * @author 		codeBOX
  */
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.2.4';
+	public $version = '3.3.0';
 
 	protected static $_instance = null;
 
@@ -184,6 +184,9 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 
+			include_once 'includes/class.llms.generator.php';
+			include_once 'includes/admin/class.llms.admin.import.php';
+
 			require_once 'includes/admin/llms.functions.admin.php';
 			include_once 'includes/admin/class.llms.admin.menus.php';
 			include_once 'includes/admin/class.llms.admin.notices.php';
@@ -240,10 +243,8 @@ final class LifterLMS {
 
 		// Classes
 		include_once( 'includes/class.llms.student.php' );
-		include_once( 'includes/class.llms.section.php' );
 		include_once( 'includes/class.llms.lesson.handler.php' );
 		include_once( 'includes/class.llms.quiz.php' );
-		include_once( 'includes/class.llms.question.php' );
 		include_once( 'includes/class.llms.course.factory.php' );
 		include_once( 'includes/class.llms.review.php' );
 		include_once( 'includes/class.llms.student.dashboard.php' );
@@ -399,6 +400,13 @@ final class LifterLMS {
 
 	/**
 	 * Load Localization files
+	 *
+	 * The first loaded file takes priority
+	 *
+	 * Files can be found in the following order:
+	 * 		WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
+	 * 		WP_LANG_DIR/lifterlms/lifterlms-LOCALE.mo
+	 *
 	 * @return void
 	 */
 	public function localize() {

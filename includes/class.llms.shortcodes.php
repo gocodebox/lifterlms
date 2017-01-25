@@ -19,6 +19,7 @@ class LLMS_Shortcodes {
 	public static function init() {
 
 		$shortcodes = array(
+			'lifterlms_access_plan_button' => __CLASS__ . '::access_plan_button',
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
 			'lifterlms_my_achievements' => __CLASS__ . '::my_achievements',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
@@ -34,6 +35,7 @@ class LLMS_Shortcodes {
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
 			'lifterlms_login' => __CLASS__ . '::login',
+			'lifterlms_pricing_table' => __CLASS__ . '::pricing_table',
 			'lifterlms_memberships' => __CLASS__ . '::memberships',
 			'lifterlms_membership_link' => __CLASS__ . '::membership_link',
 
@@ -111,6 +113,41 @@ class LLMS_Shortcodes {
 			echo $after;
 
 			return ob_get_clean();
+	}
+
+	/**
+	 * Create a button for an Access Plan
+	 * @param    array     $atts      array of shortcode attributes
+	 * @param    string     $content  optional shortcode content, enables custom text / html in the button
+	 * @return   string
+	 * @since    3.2.5
+	 * @version  3.2.5
+	 */
+	public static function access_plan_button( $atts, $content = '' ) {
+
+		$atts = shortcode_atts( array(
+			'classes' => '',
+			'id' => null,
+			'size' => '', // small, large
+			'type' => 'primary', // primary, secondary, action, danger
+		), $atts, 'lifterlms_access_plan_button' );
+
+		$r = '';
+
+		if ( ! empty( $atts['id'] ) && is_numeric( $atts['id'] ) ) {
+			$plan = new LLMS_Access_Plan( $atts['id'] );
+
+			$classes = 'llms-button-' . $atts['type'];
+			$classes .= ! empty( $atts['size'] ) ? ' ' . $atts['size'] : '';
+			$classes .= ! empty( $atts['classes'] ) ? ' ' . $atts['classes'] : '';
+
+			$text = empty( $content ) ? $plan->get_enroll_text() : $content;
+
+			$r = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '">' . $text . '</a>';
+		}
+
+		return apply_filters( 'llms_shortcode_access_plan_button', $r, $atts, $content );
+
 	}
 
 	/**
@@ -703,6 +740,43 @@ class LLMS_Shortcodes {
 		ob_start();
 		llms_get_template( 'course/outline-list-small.php', $args );
 		return ob_get_clean();
+	}
+
+	/**
+	 * Output a Pricing Table anywhere a shortcode can be output
+	 * @param    array     $atts  array of shortcode attributes
+	 * @return   string
+	 * @since    3.2.5
+	 * @version  3.2.5
+	 */
+	public static function pricing_table( $atts ) {
+
+		$atts = shortcode_atts( array(
+			'product' => null,
+		), $atts, 'lifterlms_pricing_table' );
+
+		$r = '';
+
+		// get produt id from loop if used from within a course or membership
+		if ( ! $atts['product'] ) {
+			$id = get_the_ID();
+			if ( in_array( get_post_type( $id ), array( 'course', 'llms_membership' ) ) ) {
+				$atts['product'] = get_the_ID();
+			}
+		}
+
+		if ( ! empty( $atts['product'] ) && is_numeric( $atts['product'] ) ) {
+
+			// enqueue match height for heigth alignments
+			self::enqueue_script( 'llms-jquery-matchheight' );
+
+			ob_start();
+			llms_get_template( 'product/pricing-table.php', array( 'product' => new LLMS_Product( $atts['product'] ) ) );
+			$r = ob_get_clean();
+		}
+
+		return apply_filters( 'llms_shortcode_pricing_table', $r, $atts );
+
 	}
 
 }
