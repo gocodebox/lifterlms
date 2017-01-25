@@ -35,6 +35,7 @@
     "gocodebox/action-scheduler": "dev-master"
   },
   "require-dev": {
+    "codeclimate/php-test-reporter": "dev-master",
     "squizlabs/php_codesniffer": "2.*",
     "wp-coding-standards/wpcs": "dev-master"
   },
