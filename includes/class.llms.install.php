@@ -378,15 +378,15 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.0.4 - added difficulty creation
+	 * @version 3.3.1
 	 */
 	public static function install() {
 
 		do_action( 'lifterlms_before_install' );
 
 		LLMS_Site::set_lock_url();
-		self::create_options();
 		self::create_tables();
+		self::create_options();
 		self::create_roles();
 
 		LLMS_Post_Types::register_post_types();

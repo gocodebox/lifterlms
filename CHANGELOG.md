@@ -5,6 +5,7 @@ v3.3.1 - 2017/01/??
 
 + Removed references to `LLMS_Activate` class which was removed back in 2.0.
 + Changed include method to session related classes for better handling via phpunit
++ Changed order of table and option creation during installation. Prevents a database warning from being thrown during installation.
 
 
 v3.3.0 - 2017/01/23
