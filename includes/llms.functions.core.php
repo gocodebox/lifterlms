@@ -610,7 +610,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  */
 function llms_get_post( $post ) {
 
-	if ( is_numeric( $post ) ) {
+	if ( ! empty( $post ) && is_numeric( $post ) ) {
 		$post = get_post( $post );
 	} elseif ( ! is_a( $post, 'WP_Post' ) ) {
 		return false;
