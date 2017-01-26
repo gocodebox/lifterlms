@@ -41,12 +41,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeclimate/php-test-reporter.git",
-                "reference": "bacd21ed3b52b46f5779c12ffe2974883782ec9b"
+                "reference": "f821eb806639cc8c07d70dc8da63a0eb9f91e5d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/bacd21ed3b52b46f5779c12ffe2974883782ec9b",
-                "reference": "bacd21ed3b52b46f5779c12ffe2974883782ec9b",
+                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/f821eb806639cc8c07d70dc8da63a0eb9f91e5d1",
+                "reference": "f821eb806639cc8c07d70dc8da63a0eb9f91e5d1",
                 "shasum": ""
             },
             "require": {
@@ -91,7 +91,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2017-01-24T23:15:04+00:00"
+            "time": "2017-01-26T00:37:07+00:00"
         },
         {
             "name": "guzzle/guzzle",
