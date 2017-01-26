@@ -15,6 +15,6 @@ elif [ $1 == 'during' ]; then
 	composer run-script phpcs
 
 	# phpunit
-	phpunit
+	phpunit --coverage-clover build/logs/clover.xml
 
 fi
