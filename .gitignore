@@ -42,3 +42,7 @@ tmp/*
 # deploy scripts directory
 deploy/
 deploy/*
+
+# build dir
+build/
+build/*
