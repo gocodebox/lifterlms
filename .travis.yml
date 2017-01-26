@@ -1,10 +1,11 @@
 language: php
+
 sudo: false
+
 branches:
   except:
   - trunk
   - assets
-
 
 php:
   - 5.6
@@ -23,7 +24,7 @@ script:
   - bash tests/bin/travis.sh during
 
 after_success:
-  - vendor/bin/test-reporter
+  - if [[ ${TRAVIS_PHP_VERSION} == ${PHP_LATEST_STABLE} ]]; then vendor/bin/test-reporter fi
 
 notifications:
   slack:
