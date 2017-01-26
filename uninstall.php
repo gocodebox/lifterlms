@@ -23,9 +23,18 @@ wp_clear_scheduled_hook( 'lifterlms_engagement_send_email' );
  */
 if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 
+	global $wpdb;
+
 	wp_trash_post( get_option( 'lifterlms_shop_page_id' ) );
 	wp_trash_post( get_option( 'lifterlms_memberships_page_id' ) );
 	wp_trash_post( get_option( 'lifterlms_checkout_page_id' ) );
 	wp_trash_post( get_option( 'lifterlms_myaccount_page_id' ) );
+
+	LLMS_Install::remove_difficulties();
+
+	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'lifterlms\_%';" );
+
+	remove_role( 'student' );
+
 
 }
