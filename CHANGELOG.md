@@ -11,6 +11,8 @@ v3.3.1 - 2017/01/??
   + Added funciton for retrieving default difficulty categories added during installation
   + Added function for removing default categories added during installation
 + `llms_are_terms_and_conditions_required()` ensure the page id used in this function is an absint
++ Fix load method of LifterLMS Post Model classes
++ `llms_get_post()` will now work with any LifterLMS Post Model post types
 
 
 v3.3.0 - 2017/01/23

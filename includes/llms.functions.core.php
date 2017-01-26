@@ -306,7 +306,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 
 	global $wpdb;
 	return $wpdb->get_var( $wpdb->prepare(
-		"SELECT id
+		"SELECT ID
 		 FROM {$wpdb->posts}
 		 WHERE post_title = %s
 		 AND post_type = 'llms_coupon'
@@ -605,8 +605,8 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  * Retrieve the LLMS Post Model for a give post by ID or WP_Post Object
  * @param    obj|int     $post  instance of WP_Post or a WP Post ID
  * @return   obj|false
- * @since    ??
- * @version  ??
+ * @since    3.3.0
+ * @version  3.3.1
  */
 function llms_get_post( $post ) {
 
@@ -617,6 +617,14 @@ function llms_get_post( $post ) {
 	}
 
 	switch ( $post->post_type ) {
+
+		case 'llms_access_plan':
+			$post = new LLMS_Access_Plan( $post );
+		break;
+
+		case 'llms_coupon':
+			$post = new LLMS_Coupon( $post );
+		break;
 
 		case 'course':
 			$post = new LLMS_Course( $post );
@@ -630,8 +638,24 @@ function llms_get_post( $post ) {
 			$post = new LLMS_Membership( $post );
 		break;
 
+		case 'llms_order':
+			$post = new LLMS_Order( $post );
+		break;
+
 		case 'llms_quiz':
 			$post = new LLMS_Quiz( $post );
+		break;
+
+		case 'llms_question':
+			$post = new LLMS_Question( $post );
+		break;
+
+		case 'llms_section':
+			$post = new LLMS_Section( $post );
+		break;
+
+		case 'llms_transaction':
+			$post = new LLMS_Transaction( $post );
 		break;
 
 	}
