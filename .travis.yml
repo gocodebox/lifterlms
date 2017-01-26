@@ -24,7 +24,7 @@ script:
   - bash tests/bin/travis.sh during
 
 after_success:
-  - if [[ ${TRAVIS_PHP_VERSION} == ${PHP_LATEST_STABLE} ]]; then vendor/bin/test-reporter fi
+  - if [[ ${TRAVIS_PHP_VERSION} == $PHP_LATEST_STABLE ]]; then vendor/bin/test-reporter; fi
 
 notifications:
   slack:
