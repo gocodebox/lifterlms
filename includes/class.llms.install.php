@@ -79,18 +79,12 @@ class LLMS_Install {
 	 */
 	public static function create_difficulties() {
 
-		$difficulties = apply_filters( 'llms_install_create_difficulties', array(
-			_x( 'Beginner', 'course difficulty name', 'lifterlms' ),
-			_x( 'Intermediate', 'course difficulty name', 'lifterlms' ),
-			_x( 'Advanced', 'course difficulty name', 'lifterlms' ),
-		) );
-
-		foreach ( $difficulties as $name ) {
+		foreach ( self::get_difficulties() as $name ) {
 
 			// only create if it doesn't already exist
 			if ( ! get_term_by( 'name', $name, 'course_difficulty' ) ) {
 
-				$id = wp_insert_term( $name, 'course_difficulty' );
+				wp_insert_term( $name, 'course_difficulty' );
 
 			}
 
@@ -307,6 +301,20 @@ class LLMS_Install {
 	}
 
 	/**
+	 * Retrieve the default difficulty terms that should be created on a fresh install
+	 * @return   array
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
+	public static function get_difficulties() {
+		return apply_filters( 'llms_install_create_difficulties', array(
+			_x( 'Beginner', 'course difficulty name', 'lifterlms' ),
+			_x( 'Intermediate', 'course difficulty name', 'lifterlms' ),
+			_x( 'Advanced', 'course difficulty name', 'lifterlms' ),
+		) );
+	}
+
+	/**
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
 	 * @return   string
 	 * @since    3.0.0
@@ -443,6 +451,50 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	}
 
 	/**
+	 * Remove the difficulties created by the create_difficulties() function
+	 * Used during uninstall when "remove_all_data" is set
+	 * @return   void
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
+	public static function remove_difficulties() {
+
+		foreach ( self::get_difficulties() as $name ) {
+
+			if ( $term = get_term_by( 'name', $name, 'course_difficulty' ) ) {
+
+				wp_delete_term( $term->term_id, 'course_difficulty' );
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * Update the LifterLMS DB record to the latest version
+	 * @param  string $version version number
+	 * @return void
+	 *
+	 * @since  3.0.0
+	 */
+	public static function update_db_version( $version = null ) {
+		update_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
+	}
+
+	/**
+	 * Update the LifterLMS version record to the latest version
+	 * @param  string $version version number
+	 * @return void
+	 *
+	 * @since    3.0.0
+	 * @version  3.3.1 - made public
+	 */
+	public static function update_llms_version( $version = null ) {
+		update_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
+	}
+
+	/**
 	 * Redirects users to the setup wizard
 	 * @return   void
 	 * @since    1.0.0
@@ -467,28 +519,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		}
 
-	}
-
-	/**
-	 * Update the LifterLMS DB record to the latest version
-	 * @param  string $version version number
-	 * @return void
-	 *
-	 * @since  3.0.0
-	 */
-	public static function update_db_version( $version = null ) {
-		update_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
-	}
-
-	/**
-	 * Update the LifterLMS version record to the latest version
-	 * @param  string $version version number
-	 * @return void
-	 *
-	 * @since  3.0.0
-	 */
-	private static function update_llms_version( $version = null ) {
-		update_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
 	}
 
 }

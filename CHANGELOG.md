@@ -3,9 +3,13 @@
 v3.3.1 - 2017/01/??
 -------------------
 
++ Added a way to remove all LifterLMS-generated data during plugin uninstallation.
 + Removed references to `LLMS_Activate` class which was removed back in 2.0.
 + Changed include method to session related classes for better handling via phpunit
-+ Changed order of table and option creation during installation. Prevents a database warning from being thrown during installation.
++ Refactored some of the `LLMS_Install` class for reliability and test coverage
+  + Changed order of table and option creation during installation. Prevents a database warning from being thrown during installation.
+  + Added funciton for retrieving default difficulty categories added during installation
+  + Added function for removing default categories added during installation
 
 
 v3.3.0 - 2017/01/23
