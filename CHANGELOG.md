@@ -3,6 +3,7 @@
 v3.3.1 - 2017/01/??
 -------------------
 
++ Added `author` support to `llms_membership` post type
 + Added a way to remove all LifterLMS-generated data during plugin uninstallation.
 + Removed references to `LLMS_Activate` class which was removed back in 2.0.
 + Changed include method to session related classes for better handling via phpunit

@@ -119,7 +119,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Taxonomies
 	 * @since    1.0.0
-	 * @version  3.0.4
+	 * @version  3.3.1
 	 */
 	public static function register_taxonomies () {
 
