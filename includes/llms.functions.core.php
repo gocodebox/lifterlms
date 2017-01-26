@@ -1,8 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Core LifterLMS functions file
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 //include all other function files
 require_once 'functions/llms.functions.access.php';
@@ -20,12 +21,12 @@ require_once 'functions/llms.functions.template.php';
  * according to global settings
  * @return   boolean
  * @since    3.0.0
- * @version  3.1.1 - fix logic...
+ * @version  3.3.1
  */
 function llms_are_terms_and_conditions_required() {
 
 	$enabled = get_option( 'lifterlms_registration_require_agree_to_terms' );
-	$page_id = get_option( 'lifterlms_terms_page_id', false );
+	$page_id = absint( get_option( 'lifterlms_terms_page_id', false ) );
 
 	return ( 'yes' === $enabled && $page_id );
 
@@ -290,16 +291,6 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 		   LIMIT %d, %d
 		", $vars
 	) );
-}
-
-/**
- * Determine is request is an ajax request
- * @return   bool
- * @since    3.0.1
- * @version  3.0.1
- */
-function llms_is_ajax() {
-	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
 }
 
 /**
@@ -662,6 +653,16 @@ function llms_get_transaction_statuses() {
 		'llms-txn-refunded',
 		'llms-txn-succeeded',
 	) );
+}
+
+/**
+ * Determine is request is an ajax request
+ * @return   bool
+ * @since    3.0.1
+ * @version  3.0.1
+ */
+function llms_is_ajax() {
+	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
 }
 
 /**
