@@ -119,7 +119,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Taxonomies
 	 * @since    1.0.0
-	 * @version  3.0.4
+	 * @version  3.3.1
 	 */
 	public static function register_taxonomies () {
 
@@ -504,7 +504,7 @@ class LLMS_Post_Types {
 					'hierarchical' 			=> false,
 					'rewrite' 				=> $membership_permalink ? array( 'slug' => untrailingslashit( $membership_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,
-					'supports' 				=> array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+					'supports' 				=> array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
 					'has_archive' 			=> ( $membership_page_id = llms_get_page_id( 'memberships' ) ) && get_page( $membership_page_id ) ? get_page_uri( $membership_page_id ) : 'memberships',
 					'show_in_nav_menus' 	=> true,
 					'menu_position'         => 52,

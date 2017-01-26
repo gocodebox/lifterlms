@@ -1,0 +1,27 @@
+engines:
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php"
+      standard: "phpcs.xml"
+  phpmd:
+    enabled: true
+    config:
+      rulesets: "phpmd.xml"
+  eslint:
+    enabled: true
+  scss-lint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php
+      - javascript
+ratings:
+  paths:
+    - "includes/*"
+exclude_paths:
+  - tests/*
+  - includes/updates/*
+  - assets/

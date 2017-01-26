@@ -172,7 +172,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.3.1
 	 */
 	private function includes() {
 
@@ -237,7 +237,7 @@ final class LifterLMS {
 
 		// Custom Post Type Models
 		require_once 'includes/abstracts/abstract.llms.post.model.php';
-		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/models/*.php', GLOB_NOSORT ) as $model ) {
+		foreach ( glob( 'includes/models/*.php', GLOB_NOSORT ) as $model ) {
 			require_once $model;
 		}
 
@@ -373,10 +373,6 @@ final class LifterLMS {
 
 	public function achievements() {
 		return LLMS_Achievements::instance();
-	}
-
-	public function activate() {
-		return LLMS_Activate::get_instance();
 	}
 
 	/**

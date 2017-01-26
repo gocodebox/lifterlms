@@ -19,7 +19,6 @@ class LLMS_Install {
 	private static $db_updates = array(
 		'3.0.0' => 'updates/lifterlms-update-3.0.0.php',
 		'3.0.3' => 'updates/lifterlms-update-3.0.3.php',
-		'3.3.0' => 'updates/lifterlms-update-3.3.0.php',
 	);
 
 	/**
@@ -27,9 +26,11 @@ class LLMS_Install {
 	 * Hooks all actions
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.1
 	 */
 	public static function init() {
+
+		require_once 'admin/llms.functions.admin.php';
 
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 		add_action( 'admin_init', array( __CLASS__, 'wizard_redirect' ) );
@@ -78,18 +79,12 @@ class LLMS_Install {
 	 */
 	public static function create_difficulties() {
 
-		$difficulties = apply_filters( 'llms_install_create_difficulties', array(
-			_x( 'Beginner', 'course difficulty name', 'lifterlms' ),
-			_x( 'Intermediate', 'course difficulty name', 'lifterlms' ),
-			_x( 'Advanced', 'course difficulty name', 'lifterlms' ),
-		) );
-
-		foreach ( $difficulties as $name ) {
+		foreach ( self::get_difficulties() as $name ) {
 
 			// only create if it doesn't already exist
 			if ( ! get_term_by( 'name', $name, 'course_difficulty' ) ) {
 
-				$id = wp_insert_term( $name, 'course_difficulty' );
+				wp_insert_term( $name, 'course_difficulty' );
 
 			}
 
@@ -273,7 +268,7 @@ class LLMS_Install {
 
 			$finished = true;
 
-			include_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.update.php';
+			include_once 'abstracts/abstract.llms.update.php';
 
 			foreach ( self::$db_updates as $version => $updater ) {
 
@@ -290,7 +285,7 @@ class LLMS_Install {
 			if ( $finished ) {
 
 				// this runs on init so this may not be available
-				include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+				include_once 'admin/class.llms.admin.notices.php';
 				LLMS_Admin_Notices::add_notice( 'llms_bg_updates_complete', __( 'LifterLMS background update completed!', 'lifterlms' ), array(
 					'dismissible' => true,
 					'dismiss_for_days' => 0,
@@ -303,6 +298,20 @@ class LLMS_Install {
 
 		}
 
+	}
+
+	/**
+	 * Retrieve the default difficulty terms that should be created on a fresh install
+	 * @return   array
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
+	public static function get_difficulties() {
+		return apply_filters( 'llms_install_create_difficulties', array(
+			_x( 'Beginner', 'course difficulty name', 'lifterlms' ),
+			_x( 'Intermediate', 'course difficulty name', 'lifterlms' ),
+			_x( 'Advanced', 'course difficulty name', 'lifterlms' ),
+		) );
 	}
 
 	/**
@@ -377,15 +386,15 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.0.4 - added difficulty creation
+	 * @version 3.3.1
 	 */
 	public static function install() {
 
 		do_action( 'lifterlms_before_install' );
 
 		LLMS_Site::set_lock_url();
-		self::create_options();
 		self::create_tables();
+		self::create_options();
 		self::create_roles();
 
 		LLMS_Post_Types::register_post_types();
@@ -413,7 +422,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 			if ( version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
 
 				// may not be available since this runs on init
-				include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+				include_once 'admin/class.llms.admin.notices.php';
 
 				// if a notice already exists clear it out and add the most current one
 				if ( LLMS_Admin_Notices::has_notice( 'db-update' ) ) {
@@ -442,6 +451,50 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	}
 
 	/**
+	 * Remove the difficulties created by the create_difficulties() function
+	 * Used during uninstall when "remove_all_data" is set
+	 * @return   void
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
+	public static function remove_difficulties() {
+
+		foreach ( self::get_difficulties() as $name ) {
+
+			if ( $term = get_term_by( 'name', $name, 'course_difficulty' ) ) {
+
+				wp_delete_term( $term->term_id, 'course_difficulty' );
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * Update the LifterLMS DB record to the latest version
+	 * @param  string $version version number
+	 * @return void
+	 *
+	 * @since  3.0.0
+	 */
+	public static function update_db_version( $version = null ) {
+		update_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
+	}
+
+	/**
+	 * Update the LifterLMS version record to the latest version
+	 * @param  string $version version number
+	 * @return void
+	 *
+	 * @since    3.0.0
+	 * @version  3.3.1 - made public
+	 */
+	public static function update_llms_version( $version = null ) {
+		update_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
+	}
+
+	/**
 	 * Redirects users to the setup wizard
 	 * @return   void
 	 * @since    1.0.0
@@ -466,28 +519,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		}
 
-	}
-
-	/**
-	 * Update the LifterLMS DB record to the latest version
-	 * @param  string $version version number
-	 * @return void
-	 *
-	 * @since  3.0.0
-	 */
-	public static function update_db_version( $version = null ) {
-		update_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
-	}
-
-	/**
-	 * Update the LifterLMS version record to the latest version
-	 * @param  string $version version number
-	 * @return void
-	 *
-	 * @since  3.0.0
-	 */
-	private static function update_llms_version( $version = null ) {
-		update_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
 	}
 
 }

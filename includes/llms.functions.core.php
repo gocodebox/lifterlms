@@ -1,8 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Core LifterLMS functions file
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 //include all other function files
 require_once 'functions/llms.functions.access.php';
@@ -20,12 +21,12 @@ require_once 'functions/llms.functions.template.php';
  * according to global settings
  * @return   boolean
  * @since    3.0.0
- * @version  3.1.1 - fix logic...
+ * @version  3.3.1
  */
 function llms_are_terms_and_conditions_required() {
 
 	$enabled = get_option( 'lifterlms_registration_require_agree_to_terms' );
-	$page_id = get_option( 'lifterlms_terms_page_id', false );
+	$page_id = absint( get_option( 'lifterlms_terms_page_id', false ) );
 
 	return ( 'yes' === $enabled && $page_id );
 
@@ -293,16 +294,6 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 }
 
 /**
- * Determine is request is an ajax request
- * @return   bool
- * @since    3.0.1
- * @version  3.0.1
- */
-function llms_is_ajax() {
-	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
-}
-
-/**
  * Get the most recently created coupon ID for a given code
  * @param   string $code        the coupon's code (title)
  * @param   int    $dupcheck_id an optional coupon id that can be passed which will be excluded during the query
@@ -315,7 +306,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 
 	global $wpdb;
 	return $wpdb->get_var( $wpdb->prepare(
-		"SELECT id
+		"SELECT ID
 		 FROM {$wpdb->posts}
 		 WHERE post_title = %s
 		 AND post_type = 'llms_coupon'
@@ -614,18 +605,26 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  * Retrieve the LLMS Post Model for a give post by ID or WP_Post Object
  * @param    obj|int     $post  instance of WP_Post or a WP Post ID
  * @return   obj|false
- * @since    ??
- * @version  ??
+ * @since    3.3.0
+ * @version  3.3.1
  */
 function llms_get_post( $post ) {
 
-	if ( is_numeric( $post ) ) {
+	if ( ! empty( $post ) && is_numeric( $post ) ) {
 		$post = get_post( $post );
 	} elseif ( ! is_a( $post, 'WP_Post' ) ) {
 		return false;
 	}
 
 	switch ( $post->post_type ) {
+
+		case 'llms_access_plan':
+			$post = new LLMS_Access_Plan( $post );
+		break;
+
+		case 'llms_coupon':
+			$post = new LLMS_Coupon( $post );
+		break;
 
 		case 'course':
 			$post = new LLMS_Course( $post );
@@ -643,8 +642,24 @@ function llms_get_post( $post ) {
 			$post = new LLMS_Membership( $post );
 		break;
 
+		case 'llms_order':
+			$post = new LLMS_Order( $post );
+		break;
+
 		case 'llms_quiz':
 			$post = new LLMS_Quiz( $post );
+		break;
+
+		case 'llms_question':
+			$post = new LLMS_Question( $post );
+		break;
+
+		case 'llms_section':
+			$post = new LLMS_Section( $post );
+		break;
+
+		case 'llms_transaction':
+			$post = new LLMS_Transaction( $post );
 		break;
 
 	}
@@ -666,6 +681,16 @@ function llms_get_transaction_statuses() {
 		'llms-txn-refunded',
 		'llms-txn-succeeded',
 	) );
+}
+
+/**
+ * Determine is request is an ajax request
+ * @return   bool
+ * @since    3.0.1
+ * @version  3.0.1
+ */
+function llms_is_ajax() {
+	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
 }
 
 /**
