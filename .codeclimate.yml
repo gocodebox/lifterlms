@@ -6,6 +6,8 @@ engines:
       standard: "phpcs.xml"
   phpmd:
     enabled: true
+    config:
+      rulesets: "phpmd.xml"
   eslint:
     enabled: true
   scss-lint:
