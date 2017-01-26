@@ -1,18 +1,39 @@
 <?php
-
+/**
+ * Tests for LifterLMS Main Class
+ * @since   3.3.1
+ * @version 3.3.1
+ */
 class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
+	/**
+	 * Setup function
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->llms = LLMS();
 	}
 
+	/**
+	 * test the _instance variable
+	 * @return   void
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
 	public function test_llms_instance() {
 
 		$this->assertClassHasStaticAttribute( '_instance', 'LifterLMS' );
 
 	}
 
+	/**
+	 * Test class constants
+	 * @return   void
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
 	public function test_constants() {
 
 		$this->assertEquals( $this->llms->version, LLMS_VERSION );
@@ -24,6 +45,12 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test main instants
+	 * @return   void
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
 	public function test_instances() {
 
 		$this->assertInstanceOf( 'LLMS_Payment_Gateways', $this->llms->payment_gateways() );
