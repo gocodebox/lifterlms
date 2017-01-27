@@ -38,6 +38,7 @@
   text-shadow: none;
   line-height: 1;
   margin: 0;
+  max-width: 100%;
   padding: 12px 24px;
   position: relative;
   -webkit-transition: all .5s ease;
@@ -63,6 +64,12 @@
 .llms-button-primary:focus,
 .llms-button-secondary:focus {
   color: #fefefe;
+}
+.llms-button-action.auto,
+.llms-button-danger.auto,
+.llms-button-primary.auto,
+.llms-button-secondary.auto {
+  width: auto;
 }
 .llms-button-action.square,
 .llms-button-danger.square,
@@ -1770,7 +1777,7 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   background-image: -webkit-radial-gradient(center, ellipse, #2295ff 0%, #2295ff 40%, #fafafa 45%);
   background-image: radial-gradient(ellipse at center, #2295ff 0%, #2295ff 40%, #fafafa 45%);
 }
-.llms-form-field.type-reset button, .llms-form-field.type-button button, .llms-form-field.type-submit button {
+.llms-form-field.type-reset button:not(.auto), .llms-form-field.type-button button:not(.auto), .llms-form-field.type-submit button:not(.auto) {
   width: 100%;
 }
 .llms-form-field .llms-description {

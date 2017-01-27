@@ -102,7 +102,7 @@
 		&.type-reset,
 		&.type-button,
 		&.type-submit {
-			button { width: 100%; }
+			button:not(.auto) { width: 100%; }
 		}
 
 		.llms-description {
