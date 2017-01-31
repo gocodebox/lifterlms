@@ -565,7 +565,6 @@ class LLMS_Quiz {
 	/**
 	 * answer question form post (next lesson / complete quiz button click)
 	 * inserts answer in database and adds it to current quiz session
-	 *
 	 * @return void
 	 */
 	public static function answer_question( $quiz_id, $question_id, $question_type, $answer, $complete ) {
@@ -686,7 +685,7 @@ class LLMS_Quiz {
 						do_action( 'lifterlms_quiz_completed', $quiz->user_id, $quiz_data[ $id ] );
 
 						if ( $quiz_data[ $id ]['passed'] ) {
-							llms_mark_complete( $quiz->user_id, $quiz->assoc_lesson, true );
+							llms_mark_complete( $quiz->user_id, $quiz->assoc_lesson, 'lesson', 'quiz_' . $quiz->id );
 							do_action( 'lifterlms_quiz_passed', $quiz->user_id, $quiz_data[ $id ] );
 						} else {
 							do_action( 'lifterlms_quiz_failed', $quiz->user_id, $quiz_data[ $id ] );
