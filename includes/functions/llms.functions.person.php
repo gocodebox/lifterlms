@@ -1,14 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Person Functions
 *
 * Functions for managing users in the LifterLMS system
-*
-* @author LifterLMS
 */
 
-
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Creates new user
@@ -148,19 +145,20 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 
 /**
  * Mark a lesson, section, course, or track as complete
- * @param  int     $user_id   				WP User ID
- * @param  int     $object_id  				WP Post ID of the Lesson, Section, Track, or Course
- * @param  string  $prevent_autoadvance    	Whether or not we should prevent autoadvance to the next lesson
- * @param  string  $trigger    				String describing the event that triggered marking the object as complete
+ * @param  int     $user_id   	 WP User ID
+ * @param  int     $object_id  	 WP Post ID of the Lesson, Section, Track, or Course
+ * @param  int     $object_type	 object type [lesson|section|course|track]
+ * @param  string  $trigger    	 String describing the event that triggered marking the object as complete
  * @return bool
  *
- * @see  LLMS_Student->mark_complete() the class method wrapped by this function
+ * @see    LLMS_Student->mark_complete() the class method wrapped by this function
  *
- * @since   3.2.7
+ * @since     3.3.1
+ * @version   3.3.1
  */
-function llms_mark_complete( $user_id, $object_id, $prevent_autoadvance = false, $trigger = 'unspecified' ) {
+function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
-	return $student->mark_complete( $object_id, $prevent_autoadvance, $trigger );
+	return $student->mark_complete( $object_id, $object_type, $trigger );
 }
 
 /**
