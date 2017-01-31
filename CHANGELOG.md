@@ -14,6 +14,10 @@ v3.3.1 - 2017/01/??
 + `llms_are_terms_and_conditions_required()` ensure the page id used in this function is an absint
 + Fix load method of LifterLMS Post Model classes
 + `llms_get_post()` will now work with any LifterLMS Post Model post types
++ Removed redundant function `LLMS_Lesson::single_mark_complete_text()`
++ Add css classes for buttons to be auto-width rather than the width of their containers
++ Fix ID of engagement email class. Allows some filters and actions to actually be used.
++ `loop/feature-image.php` now works for unsupported PHP 5.5 and down
 
 
 v3.3.0 - 2017/01/23

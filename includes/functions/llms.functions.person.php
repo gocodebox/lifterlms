@@ -1,14 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Person Functions
 *
 * Functions for managing users in the LifterLMS system
-*
-* @author LifterLMS
 */
 
-
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Creates new user
@@ -144,6 +141,24 @@ function llms_get_minimum_password_strength_name() {
 function llms_is_user_enrolled( $user_id, $product_id ) {
 	$s = new LLMS_Student( $user_id );
 	return $s->is_enrolled( $product_id );
+}
+
+/**
+ * Mark a lesson, section, course, or track as complete
+ * @param  int     $user_id   	 WP User ID
+ * @param  int     $object_id  	 WP Post ID of the Lesson, Section, Track, or Course
+ * @param  int     $object_type	 object type [lesson|section|course|track]
+ * @param  string  $trigger    	 String describing the event that triggered marking the object as complete
+ * @return bool
+ *
+ * @see    LLMS_Student->mark_complete() the class method wrapped by this function
+ *
+ * @since     3.3.1
+ * @version   3.3.1
+ */
+function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->mark_complete( $object_id, $object_type, $trigger );
 }
 
 /**
@@ -324,7 +339,3 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 
 }
 add_filter( 'manage_users_custom_column', 'llms_add_user_table_rows', 10, 3 );
-
-
-
-

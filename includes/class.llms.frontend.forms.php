@@ -69,101 +69,57 @@ class LLMS_Frontend_Forms {
 	/**
 	 * Mark Lesson as complete
 	 * Complete Lesson form post
-	 *
 	 * Marks lesson as complete and returns completion message to user
-	 *
+	 * Autoadvances to next lesson if completion is succesful
 	 * @return void
+	 * @since   1.0.0
+	 * @version 3.3.1
 	 */
 	public function mark_complete() {
 
-		global $wpdb;
-
 		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
-		if ('POST' !== $request_method) {
+		if ( 'POST' !== $request_method ) {
 			return;
 		}
 
-		if ( ! isset( $_POST['mark_complete'] ) || empty( $_POST['_wpnonce'] )) {
+		// verify nonce
+		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'mark_complete' ) ) {
 			return;
 		}
 
-		if (isset( $_POST['mark-complete'] )) {
-			$lesson = new LLMS_Lesson( $_POST['mark-complete'] );
-			$lesson->mark_complete( get_current_user_id() );
+		// required fields
+		if ( ! isset( $_POST['mark_complete'] ) || ! isset( $_POST['mark-complete'] ) ) {
+			return;
 		}
 
-	}
+		$lesson_id = absint( $_POST['mark-complete'] );
+		if ( ! $lesson_id || ! is_numeric( $lesson_id ) ) {
+			llms_add_notice( __( 'An error occurred, please try again.', 'lifterlms' ), 'error' );
+		} else {
 
-	/**
-	 * Mark Course complete form post
-	 * Called by lesson complete.
-	 *
-	 * If all lessons are complete in course mark course as complete
-	 *
-	 * @param  int $user_id [ID of the current user]
-	 * @param  int $lesson_id [ID of the current lesson]
-	 *
-	 * @return void
-	 */
-	function mark_course_complete( $user_id, $lesson_id ) {
+			// mark complete
+			$completed = llms_mark_complete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id );
 
-		global $wpdb;
+			if ( $completed ) {
 
-		$lesson = new LLMS_Lesson( $lesson_id );
-		$course_id = $lesson->get_parent_course();
+				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $lesson_id ) ) );
 
-		$course = new LLMS_Course( $course_id );
-		$course_completion = $course->get_percent_complete();
+				if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
+					$lesson = new LLMS_Lesson( $lesson_id );
+					$next_lesson_id = $lesson->get_next_lesson();
 
-		$user = new LLMS_Person( $user_id );
-
-		if ($course_completion == '100') {
-
-			$key = '_is_complete';
-			$value = 'yes';
-
-			$user_postmetas = $user->get_user_postmeta_data( $user_id, $course->id );
-			if ( ! empty( $user_postmetas['_is_complete'] )) {
-				if ($user_postmetas['_is_complete']->meta_value === 'yes') {
-					return;
+					if ( $next_lesson_id ) {
+						wp_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
+						exit;
+					}
 				}
+
 			}
 
-			$update_user_postmeta = $wpdb->insert($wpdb->prefix . 'lifterlms_user_postmeta',
-				array(
-					'user_id' => $user_id,
-					'post_id' => $course->id,
-					'meta_key' => $key,
-					'meta_value' => $value,
-					'updated_date' => current_time( 'mysql' ),
-				)
-			);
-
-			do_action( 'llms_course_completed', $user_id, $course->id );
-
 		}
+
 	}
 
-	/**
-	 * mark section complete
-	 * Called by mark_lesson_complte
-	 *
-	 * If all lessons in section complete mark section as complete.
-	 *
-	 * @param  int $user_id [ID of the current user]
-	 * @param  int $lesson_id [ID of the current lesson]
-	 *
-	 * @return void
-	 */
-	public function mark_section_complete( $user_id, $lesson_id ) {
-
-		global $wpdb;
-
-		$lesson = new LLMS_Lesson( $lesson_id );
-		$course_id = $lesson->get_parent_course();
-		$course = new LLMS_Course( $course_id );
-		$course_syllabus = $course->get_syllabus();
-	}
 
 	/**
 	 *

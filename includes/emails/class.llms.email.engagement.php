@@ -37,7 +37,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$email_content = get_post( $email_id );
 		$email_meta = get_post_meta( $email_content->ID );
 
-		$this->id 					= 'engagement email';
+		$this->id 					= 'engagement_email';
 		$this->title 				= __( 'Engagement Email', 'lifterlms' );
 		$this->template_html 		= 'emails/template.php';
 		$this->subject 				= isset( $email_meta['_llms_email_subject'] ) ? $email_meta['_llms_email_subject'][0] : '';

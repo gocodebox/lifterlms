@@ -166,7 +166,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @return  int
 	 * @since   1.0.0
 	 * @version 3.0.0
-	 * @todo  refactor to use new api after a migration is written
 	 */
 	public function get_parent_section() {
 		return  absint( get_post_meta( $this->get( 'id' ), '_llms_parent_section', true ) );
@@ -192,7 +191,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			$classes = ' is-incomplete';
 		}
 
-		return apply_filters( 'llms_get_preview_classes ', $classes );
+		return apply_filters( 'llms_get_preview_classes', $classes );
 	}
 
 	/**
@@ -366,12 +365,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		return $arr;
 
 	}
-
-
-
-
-
-
 
 
 
@@ -691,214 +684,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 					return false;
 				}
 			}
-		}
-	}
-
-
-
-	/**
-	 * Text to display on Mark Complete button
-	 * @return string [Button text]
-	 */
-	public function single_mark_complete_text() {
-		return apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'lifterlms' ), $this );
-	}
-
-	/**
-	 * Mark lesson as complete
-	 *
-	 * @todo  refactor this function is disgusting
-	 *
-	 * @param  int $user_id [ID of user]
-	 * @return void
-	 */
-	public function mark_complete( $user_id, $prevent_autoadvance = false ) {
-		global $wpdb;
-
-		$user = new LLMS_Person;
-		$user_postmetas = $user->get_user_postmeta_data( $user_id, $this->id );
-
-		// clear the cached progress, it'll be regenerated next time it's called
-		$student = new LLMS_Student( $user_id );
-		$student->set( 'overall_progress', '', true );
-
-		if ( empty( $user_id ) ) {
-			throw new Exception( '<strong>' . __( 'Error', 'lifterlms' ) . ':</strong> ' . __( 'User cannot be found.', 'lifterlms' ) );
-		} elseif ( ! empty( $user_postmetas ) ) {
-
-			if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-				return;
-			}
-		} else {
-			$key = '_is_complete';
-			$value = 'yes';
-
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-				array(
-					'user_id' 			=> $user_id,
-					'post_id' 			=> $this->id,
-					'meta_key'			=> $key,
-					'meta_value'		=> $value,
-					'updated_date'		=> current_time( 'mysql' ),
-				)
-			);
-			do_action( 'lifterlms_lesson_completed', $user_id, $this->id );
-
-			llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $this->id ) ) );
-
-			$course = new LLMS_Course( $this->get_parent_course() );
-			$section = new LLMS_Section( $this->get_parent_section() );
-			$section_completion = $section->get_percent_complete( $this->id );
-
-			if ( $section_completion == '100' ) {
-
-				$key = '_is_complete';
-				$value = 'yes';
-
-				$user_postmetas = $user->get_user_postmeta_data( $user_id, $section->id );
-				if ( ! empty( $user_postmetas['_is_complete'] ) ) {
-					if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-	    				return;
-	    			}
-	    		}
-
-				$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-					array(
-						'user_id' 			=> $user_id,
-						'post_id' 			=> $section->id,
-						'meta_key'			=> $key,
-						'meta_value'		=> $value,
-						'updated_date'		=> current_time( 'mysql' ),
-					)
-				);
-
-				do_action( 'lifterlms_section_completed', $user_id, $section->id );
-
-			}
-
-			$course_completion = $course->get_percent_complete();
-			if ( $course_completion == '100' ) {
-
-				$key = '_is_complete';
-				$value = 'yes';
-
-				$user_postmetas = $user->get_user_postmeta_data( $user_id, $course->id );
-				if ( ! empty( $user_postmetas['_is_complete'] ) ) {
-					if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-	    				return;
-	    			}
-	    		}
-
-				$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-					array(
-						'user_id' 			=> $user_id,
-						'post_id' 			=> $course->id,
-						'meta_key'			=> $key,
-						'meta_value'		=> $value,
-						'updated_date'		=> current_time( 'mysql' ),
-					)
-				);
-
-				do_action( 'lifterlms_course_completed', $user_id, $course->id );
-
-				/**
-				 * This variable is what will store the list of classes
-				 * for each track that this class is a member of
-				 * @var array
-				 */
-				$courses_in_track = array();
-
-				// Get Track Information
-				// This gets the information about all the tracks that
-				// this course is a part of
-				$tracks = wp_get_post_terms( $course->id,'course_track', array( 'fields' => 'all' ) );
-
-				// Run through each of the tracks that this course is a member of
-				foreach ((array) $tracks as $id => $track) {
-					/**
-					 * Variable that stores if the track has been completed
-					 * @var boolean
-					 */
-					$completed_track = false;
-
-					$args = array(
-						'posts_per_page' 	=> 1000,
-						'post_type' 		=> 'course',
-						'nopaging' 			=> true,
-						'post_status' 		=> 'publish',
-						'orderby'          	=> 'post_title',
-						'order'            	=> 'ASC',
-						'suppress_filters' 	=> true,
-						'tax_query' => array(
-							array(
-								'taxonomy' 	=> 'course_track',
-								'field'		=> 'term_id',
-								'terms'		=> $track->term_id,
-							),
-						),
-					);
-					$courses = get_posts( $args );
-
-					// Run through each of the courses that is in the track
-					// to see if all of the courses are completed
-					foreach ( $courses as $key => $course ) {
-						/**
-						 * This variable stores the information about each course
-						 * in the track
-						 * @var array
-						 */
-						$data = LLMS_Course::get_user_post_data( $course->ID, $user_id );
-
-						// If there is data about the course, parse it
-						if ($data !== array()) {
-							/**
-							 * Create a variable to store whether or not the class is completed
-							 * @var boolean
-							 */
-							$has_completed = false;
-
-							// Run through each of the meta values in the array
-						    foreach ($data as $key => $object) {
-								// Check to see is the current object is the '_is_complete'
-						        if (is_object( $object ) && $object->meta_key == '_is_complete' && $object->meta_value == 'yes') {
-									// If so, the course has been completed
-						        	$has_completed = true;
-						        	break;
-						        }
-						    }
-
-						   	// If the course is completed keep an update going
-						   	if ($has_completed) {
-								$completed_track = true;
-						   	}
-						} // If data is empty, break out of the loop because the
-
-						// user has not enrolled in that course
-						else {
-							$completed_track = false;
-							break;
-						}
-					}
-
-					// If completed at the end of the track loop do the action
-					if ($completed_track) {
-						do_action( 'lifterlms_course_track_completed', $user_id, $track->term_id );
-					}
-
-					$courses_in_track[ $id ] = $courses;
-
-				}
-
-			} elseif ( ! $prevent_autoadvance && apply_filters( 'lifterlms_autoadvance', true ) ) {
-
-				$next_lesson_id = $this->get_next_lesson();
-				if ( $next_lesson_id ) {
-					wp_redirect( get_permalink( $next_lesson_id ) );
-					exit;
-				}
-
-			}
-
 		}
 	}
 

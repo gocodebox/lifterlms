@@ -12,6 +12,7 @@
 	text-shadow: none;
 	line-height: 1;
 	margin: 0;
+	max-width: 100%;
 	padding: 12px 24px;
 	position: relative;
 	transition: all .5s ease;
@@ -24,6 +25,10 @@
 	}
 	&:focus {
 		color: $color-white;
+	}
+
+	&.auto {
+		width: auto;
 	}
 
 	&.square { padding: 12px; }

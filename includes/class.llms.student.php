@@ -1050,6 +1050,17 @@ class LLMS_Student {
 				}
 			}
 
+		} elseif ( 'section' === $type ) {
+
+			$section = new LLMS_Section( $object_id );
+			$lessons = $section->get_lessons( 'ids' );
+			$total = count( $lessons );
+			foreach( $lessons as $lesson ) {
+				if ( $this->is_complete( $lesson, 'lesson' ) ) {
+					$completed++;
+				}
+			}
+
 		}
 
 		return ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
@@ -1114,29 +1125,31 @@ class LLMS_Student {
 	/**
 	 * Determine if the student has completed a course, track, or lesson
 	 *
-	 * @param    int     $object_id  WP Post ID of a course or lesson or the term id of the track
-	 * @param    string     $type    Object type (course, lesson, or track)
+	 * @param    int     $object_id  WP Post ID of a course or lesson or section or the term id of the track
+	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.2.1
+	 * @version  3.3.1
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
-		global $wpdb;
 
 		switch ( $type ) {
 
 			case 'course':
+			case 'section':
 			case 'track':
 				return ( 100 == $this->get_progress( $object_id, $type ) );
 			break;
 
 			case 'lesson':
+				global $wpdb;
 				$q = $wpdb->get_var( $wpdb->prepare(
 					"SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND post_id = %d AND meta_key = '_is_complete' AND meta_value = 'yes'",
 					array( $this->get_id(), $object_id )
 				) );
 				return ( $q >= 1 );
 			break;
+
 		}
 
 	}
@@ -1176,6 +1189,50 @@ class LLMS_Student {
 		// backwards compatibility
 		// and manual enrollment by admin, voucher enrollment, etc... (?)
 		return $enrolled;
+
+	}
+
+	/**
+	 * Add student postmeta data for completion of a lesson, section, course or track
+	 * @param  int        $object_id    WP Post ID of the lesson, section, course or track
+	 * @param  string     $trigger      String describing the reason for mark completion
+	 * @return boolean
+	 *
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
+	private function insert_completion_postmeta( $object_id, $trigger = 'unspecified' ) {
+
+		global $wpdb;
+
+		// add info to the user postmeta table
+		$user_metadatas = array(
+			'_is_complete'        => 'yes',
+			'_completion_trigger' => $trigger,
+		);
+
+		foreach ( $user_metadatas as $key => $value ) {
+
+			$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+				array(
+					'user_id'      => $this->get_id(),
+					'post_id'      => $object_id,
+					'meta_key'     => $key,
+					'meta_value'   => $value,
+					'updated_date' => current_time( 'mysql' ),
+				),
+				array( '%d', '%d', '%s', '%s', '%s' )
+			);
+
+			if ( ! $update ) {
+
+				return false;
+
+			}
+
+		}
+
+		return true;
 
 	}
 
@@ -1295,6 +1352,95 @@ class LLMS_Student {
 		return ( 'enrolled' === strtolower( $status ) ) ? true : false;
 
 	}
+
+	/**
+	 * Mark a lesson, section, course, or track complete for the given user
+	 * @param  int     $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param  string  $object_type  object type [lesson|section|course|track]
+	 * @param  string  $trigger      String describing the reason for marking complete
+	 * @return boolean
+	 *
+	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
+	 *
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
+	public function mark_complete( $object_id, $object_type, $trigger = 'unspecified' ) {
+
+		do_action( 'before_llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
+
+		// can only be marked compelete in the following post types
+		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
+			$object = llms_get_post( $object_id );
+		} // tracks
+		elseif ( 'course_track' === $object_type ) {
+			$object = get_term( $object_id );
+		} // i said no
+		else {
+			return false;
+		}
+
+		// parent(s) to cascade up and check for completion
+		// lessons -> section -> course -> track(s)
+		$parent_ids = array();
+		$parent_type = false;
+
+		// lessons are complete automatically
+		// other object types are only complete when all of their children are also complete
+		// so the other object types need to check if their complete before being marked as complete
+		$complete = ( 'lesson' === $object_type ) ? true : $this->is_complete( $object_id, $object_type );
+
+		// get the immediate parent so we can cascade up and maybe mark the parent as complete as well
+		switch ( $object_type ) {
+
+			case 'lesson':
+				$parent_ids = array( $object->get( 'parent_section' ) );
+				$parent_type = 'section';
+			break;
+
+			case 'section':
+				$parent_ids = array( $object->get( 'parent_course' ) );
+				$parent_type = 'course';
+			break;
+
+			case 'course':
+				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
+				$parent_type = 'track';
+			break;
+
+		}
+
+		// object is complete
+		if ( $complete ) {
+
+			// insert meta data
+			$this->insert_completion_postmeta( $object_id, $trigger );
+
+			// generic action hook
+			do_action( 'llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
+
+			// specific hook for each type, also backwards compatible for existing hooks
+			do_action( 'lifterlms_' . $object_type . '_completed', $this->get_id(), $object_id );
+
+			// cascade up
+			if ( $parent_ids && $parent_type ) {
+
+				foreach ( $parent_ids as $pid ) {
+
+					$this->mark_complete( $pid, $parent_type, $trigger );
+
+				}
+
+			}
+
+			return true;
+
+		}
+
+		return false;
+
+	}
+
 
 	/**
 	 * Remove a student from a LifterLMS course or membership

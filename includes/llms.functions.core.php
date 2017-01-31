@@ -634,6 +634,10 @@ function llms_get_post( $post ) {
 			$post = new LLMS_Lesson( $post );
 		break;
 
+		case 'section':
+			$post = new LLMS_Section( $post );
+		break;
+
 		case 'llms_membership':
 			$post = new LLMS_Membership( $post );
 		break;
@@ -648,10 +652,6 @@ function llms_get_post( $post ) {
 
 		case 'llms_question':
 			$post = new LLMS_Question( $post );
-		break;
-
-		case 'llms_section':
-			$post = new LLMS_Section( $post );
 		break;
 
 		case 'llms_transaction':

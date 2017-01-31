@@ -88,7 +88,12 @@ class LLMS_Unit_Tests_Bootstrap {
 	 * @version  3.3.1
 	 */
 	public function load_llms() {
+
+		// override this constant otherwise a bunch of includes will fail when running tests
+		define( 'LLMS_PLUGIN_DIR', trailingslashit( $this->plugin_dir ) );
+
 		require_once( $this->plugin_dir . '/lifterlms.php' );
+
 	}
 
 	/**
