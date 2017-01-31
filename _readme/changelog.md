@@ -1,5 +1,32 @@
 == Changelog ==
 
+= v3.3.1 - 2017/01/31 =
+-----------------------
+
++ Added new engagement triggers for Quiz completion, quiz failure, and quiz passed.
++ Refactored Lesson Completion for sanity
++ Added function `llms_mark_complete()` for simple programmatic completion of courses, sections, lessons, and tracks. See [usage docs](https://github.com/gocodebox/lifterlms/blob/master/includes/functions/llms.functions.person.php#L146-L162) for more information.
++ Class function `LLMS_Lesson::mark_complete()` has been staged for deprecation. It will still function but developers should update code to use above function.
++ LifterLMS background updaters will now display a progress report on the admin panel to add some transparency to how the update is doing.
++ Added `author` support to `llms_membership` post type
++ Added a way to remove all LifterLMS-generated data during plugin uninstallation.
++ `llms_get_post()` will now work with any LifterLMS Post Model post types
++ Removed references to `LLMS_Activate` class which was removed back in 2.0.
++ Changed include method to session related classes for better handling via phpunit
++ Refactored some of the `LLMS_Install` class for reliability and test coverage
+  + Changed order of table and option creation during installation. Prevents a database warning from being thrown during installation.
+  + Added funciton for retrieving default difficulty categories added during installation
+  + Added function for removing default categories added during installation
++ `llms_are_terms_and_conditions_required()` ensure the page id used in this function is an absint
++ Removed redundant function `LLMS_Lesson::single_mark_complete_text()`
++ Add css classes for buttons to be auto-width rather than the width of their containers
++ Fix ID of engagement email class. Allows some filters and actions to actually be used.
++ Properly display quiz failures as failures on the quiz results screen
++ `loop/feature-image.php` now works for unsupported PHP 5.5 and down
++ Fix issue with modyfying section titles from within the course builder
++ Fix undefined warning resulting from admin notice "flash" being undefined on prexisting saved notices
+
+
 = v3.3.0 - 2017/01/23 =
 -----------------------
 
