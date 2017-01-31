@@ -19,6 +19,7 @@ class LLMS_Install {
 	private static $db_updates = array(
 		'3.0.0' => 'updates/lifterlms-update-3.0.0.php',
 		'3.0.3' => 'updates/lifterlms-update-3.0.3.php',
+		'3.3.0' => 'updates/lifterlms-update-3.3.0.php',
 	);
 
 	/**
@@ -218,7 +219,7 @@ class LLMS_Install {
 	 * Create LifterLMS DB tables
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.3.1
 	 */
 	public static function create_tables() {
 
@@ -291,8 +292,9 @@ class LLMS_Install {
 					'dismiss_for_days' => 0,
 				) );
 
-				do_action( 'lifterlms_background_updates_complete' );
+				self::update_db_version();
 				update_option( 'llms_doing_database_update', 'no' );
+				do_action( 'lifterlms_background_updates_complete' );
 
 			}
 
@@ -413,11 +415,13 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 		// trigger first time run redirect
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
 
+			self::update_llms_version();
+			self::update_db_version();
 			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
 
 		}
-
-		if ( 'no' === get_option( 'llms_doing_database_update', 'no' ) ) {
+		// do database updates
+		elseif ( 'no' === get_option( 'llms_doing_database_update', 'no' ) ) {
 
 			if ( version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
 
