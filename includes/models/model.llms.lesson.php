@@ -366,6 +366,15 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 	}
 
+
+
+
+
+
+
+
+
+
 	/**
 	 * Get the quiz associated with the lesson
 	 * @deprecated use $this->get( 'assigned_quiz' ) instead
@@ -676,16 +685,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				}
 			}
 		}
-	}
-
-
-
-	/**
-	 * Text to display on Mark Complete button
-	 * @return string [Button text]
-	 */
-	public function single_mark_complete_text() {
-		return apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'lifterlms' ), $this );
 	}
 
 }
