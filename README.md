@@ -80,11 +80,11 @@ To see all options:
 ### Contributing
 
 + Fork the repository on GitHub.
-+ Create a new branch from the master branch.
++ Create a new branch from the 'master' branch.
 + Make the changes to your forked repository.
 + Ensure you stick to the WordPress Coding Standards and have properly documented any new functions, actions and filters following the documentation standards.
 + When committing, reference your issue (if present) and include a note about the fix.
 + Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
 + Push the changes to your fork
-+ Submit a pull request to the 'develop' branch of the LifterLMS repo.
++ Submit a pull request to the 'master' branch of the LifterLMS repo.
 + At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary. We're newly open source and supporting users and customers and our own internal pull requests and releases will take priority over pull requests from the community. Please be patient!
