@@ -3,6 +3,7 @@
 = v3.3.1 - 2017/01/31 =
 -----------------------
 
++ Tested up to WordPress core 4.7.2
 + Added new engagement triggers for Quiz completion, quiz failure, and quiz passed.
 + Refactored Lesson Completion for sanity
 + Added function `llms_mark_complete()` for simple programmatic completion of courses, sections, lessons, and tracks. See [usage docs](https://github.com/gocodebox/lifterlms/blob/master/includes/functions/llms.functions.person.php#L146-L162) for more information.

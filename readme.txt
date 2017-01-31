@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, tpkemme, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.7.1
-Stable tag: 3.3.0
+Tested up to: 4.7.2
+Stable tag: 3.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,6 +169,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 = v3.3.1 - 2017/01/31 =
 -----------------------
 
++ Tested up to WordPress core 4.7.2
 + Added new engagement triggers for Quiz completion, quiz failure, and quiz passed.
 + Refactored Lesson Completion for sanity
 + Added function `llms_mark_complete()` for simple programmatic completion of courses, sections, lessons, and tracks. See [usage docs](https://github.com/gocodebox/lifterlms/blob/master/includes/functions/llms.functions.person.php#L146-L162) for more information.
