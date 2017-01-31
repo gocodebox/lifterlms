@@ -1144,7 +1144,15 @@ class LLMS_Student {
 			case 'lesson':
 				global $wpdb;
 				$q = $wpdb->get_var( $wpdb->prepare(
-					"SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND post_id = %d AND meta_key = '_is_complete' AND meta_value = 'yes'",
+					"SELECT COUNT(*)
+					 FROM {$wpdb->prefix}lifterlms_user_postmeta
+					 WHERE user_id = %d
+					   AND post_id = %d
+					   AND meta_key = '_is_complete'
+					   AND meta_value = 'yes'
+					 ORDER BY updated_date ASC
+					 LIMIT 1
+					;",
 					array( $this->get_id(), $object_id )
 				) );
 				return ( $q >= 1 );
