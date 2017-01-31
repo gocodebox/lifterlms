@@ -237,7 +237,7 @@ final class LifterLMS {
 
 		// Custom Post Type Models
 		require_once 'includes/abstracts/abstract.llms.post.model.php';
-		foreach ( glob( 'includes/models/*.php', GLOB_NOSORT ) as $model ) {
+		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/models/*.php', GLOB_NOSORT ) as $model ) {
 			require_once $model;
 		}
 
