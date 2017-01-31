@@ -17,6 +17,7 @@ v3.3.1 - 2017/01/??
 + Removed redundant function `LLMS_Lesson::single_mark_complete_text()`
 + Add css classes for buttons to be auto-width rather than the width of their containers
 + Fix ID of engagement email class. Allows some filters and actions to actually be used.
++ `loop/feature-image.php` now works for unsupported PHP 5.5 and down
 
 
 v3.3.0 - 2017/01/23
