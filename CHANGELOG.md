@@ -26,6 +26,7 @@ v3.3.1 - 2017/01/31
 + `loop/feature-image.php` now works for unsupported PHP 5.5 and down
 + Fix issue with modyfying section titles from within the course builder
 + Fix undefined warning resulting from admin notice "flash" being undefined on prexisting saved notices
++ Updated template at `templates/course/complete-lesson-link.php` to include a few new CSS classes and utilize `llms_form_field()` to standardize buttons
 
 
 v3.3.0 - 2017/01/23
