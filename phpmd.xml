@@ -20,10 +20,6 @@
 
 	<rule ref="rulesets/codesize.xml" />
 
-
-	<rule ref="rulesets/controversial.xml/Superglobals" />
-
-
 	<rule ref="rulesets/design.xml">
 
 		<!-- normal in WP for redirects, etc -->
