@@ -79,7 +79,8 @@ To see all options:
 
 ### Contributing
 
-+ Fork the repository on GitHub (make sure to use the develop branch, not master).
++ Fork the repository on GitHub.
++ Create a new branch from the master branch.
 + Make the changes to your forked repository.
 + Ensure you stick to the WordPress Coding Standards and have properly documented any new functions, actions and filters following the documentation standards.
 + When committing, reference your issue (if present) and include a note about the fix.
