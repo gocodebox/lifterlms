@@ -28,7 +28,7 @@ abstract class LLMS_Update {
 	/**
 	 * Constructor
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.1
 	 */
 	public function __construct() {
 
@@ -53,6 +53,9 @@ abstract class LLMS_Update {
 			// check progress
 			case 'running':
 			default:
+				if ( is_admin() && ! defined( 'DOING_CRON' ) ) {
+					$this->output_progress_notice( $progress );
+				}
 				$this->check_progress( $progress );
 			break;
 
@@ -139,13 +142,13 @@ abstract class LLMS_Update {
 	 * @param    string     $function  function name
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.1
 	 */
 	protected function function_complete( $function ) {
 
-		$p = $this->get_progress();
-		$p['functions'][ $function ] = 'done';
-		update_option( 'llms_update_' . $this->version, $p );
+		$progress = $this->get_progress();
+		$progress['functions'][ $function ] = 'done';
+		update_option( 'llms_update_' . $this->version, $progress );
 		$this->log( sprintf( '%s::%s() is complete', get_class( $this ), $function ) );
 
 	}
@@ -165,7 +168,7 @@ abstract class LLMS_Update {
 	 * Get data about the progress of an update
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.1
 	 */
 	private function get_progress() {
 
@@ -230,6 +233,41 @@ abstract class LLMS_Update {
 		if ( defined( 'LLMS_BG_UPDATE_LOG' ) && LLMS_BG_UPDATE_LOG ) {
 			llms_log( $msg, 'updater' );
 		}
+
+	}
+
+
+	/**
+	 * Output a LifterLMS Admin Notice displaying the progress of the background updates
+	 * @param    array     $progress  progress array from $this->get_progress()
+	 * @return   void
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
+	private function output_progress_notice( $progress ) {
+
+		$id = 'llms_db_update_notice_' . $this->version;
+
+		if ( LLMS_Admin_Notices::has_notice( $id ) ) {
+			LLMS_Admin_Notices::delete_notice( $id );
+		}
+
+		$vals = array_count_values( $progress['functions'] );
+		$val = isset( $vals['done'] ) ? $vals['done'] : 0;
+		$max = count( $progress['functions'] );
+		$width = $val ? ( $val / $max ) * 100 : 0;
+		$html = '
+			<p>' . sprintf( __( 'LifterLMS Database Upgrade %s Progress Report', 'lifterlms' ), $this->version ) . '</p>
+			<div style="background:#efefef;height:18px;margin:0.5em 0;"><div style="background:#ef476f;display:block;height:18px;width:' . $width . '%;"><span style="padding:0 0.5em;color:#fff;">' . $width . '%</span></div></div>
+			<p><em>' . sprintf( __( 'This completion percentage is an estimate, please be patient and %sclick here%s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-database-updates/#upgrade-progress-report" target="_blank">', '</a>' ) . '</em></p>
+		';
+
+		LLMS_Admin_Notices::add_notice( $id, array(
+			'dismissible' => false,
+			'flash' => true,
+			'html' => $html,
+			'type' => 'info',
+		) );
 
 	}
 
