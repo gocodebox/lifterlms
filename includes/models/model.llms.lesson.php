@@ -395,7 +395,21 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 	}
 
+	/**
+	 * Marks the current lesson complete
+	 * @param      int     $user_id              WP User ID of the user
+	 * @param      boolean $prevent_autoadvance  Deprecated
+	 * @return     boolean
+	 * @since      1.0.0
+	 * @version    3.3.1
+	 * @deprecated 3.3.1
+	 */
+	public function mark_complete( $user_id, $prevent_autoadvance = false ) {
 
+		llms_deprecated_function( 'LLMS_Lesson::mark_complete()', '3.3.1', "llms_mark_complete()" );
+		return llms_mark_complete( $user_id, $this->get( 'id' ), 'lesson', 'lesson_' . $this->get( 'id' ) );
+
+	}
 
 
 
