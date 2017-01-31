@@ -9,8 +9,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_are_terms_and_conditions_required()
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_are_terms_and_conditions_required() {
 
@@ -46,8 +46,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_core_supported_themes()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_core_supported_themes() {
 
@@ -59,8 +59,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * test llms_get_date_diff()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_date_diff() {
 
@@ -83,8 +83,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * test llms_get_engagement_triggers()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_engagement_triggers() {
 		$this->assertFalse( empty( llms_get_engagement_triggers() ) );
@@ -94,8 +94,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * test llms_get_engagement_types()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_engagement_types() {
 		$this->assertFalse( empty( llms_get_engagement_types() ) );
@@ -105,8 +105,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_find_coupon()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_find_coupon() {
 
@@ -137,8 +137,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * test llms_get_enrollment_statuses()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_enrollment_statuses() {
 		$this->assertFalse( empty( llms_get_enrollment_statuses() ) );
@@ -148,8 +148,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_enrollment_status_name()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_enrollment_status_name() {
 		$this->assertNotEquals( 'asrt', llms_get_enrollment_status_name( 'cancelled' ) );
@@ -162,8 +162,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_order_status_name()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_order_status_name() {
 		$this->assertNotEmpty( llms_get_order_status_name( 'llms-active' ) );
@@ -174,8 +174,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * test llms_get_order_statuses()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_order_statuses() {
 
@@ -217,8 +217,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_post() {
 
@@ -254,8 +254,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * test llms_get_transaction_statuses()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_get_transaction_statuses() {
 		$this->assertFalse( empty( llms_get_transaction_statuses() ) );
@@ -265,8 +265,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_is_site_https()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function test_llms_is_site_https() {
 		update_option( 'home', 'https://is.ssl' );
@@ -279,8 +279,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_trim_string()
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.1
+	 * @version  3.3.1
 	 */
 	public function llms_trim_string() {
 
