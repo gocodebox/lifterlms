@@ -18,6 +18,7 @@ v3.3.1 - 2017/01/??
 + Add css classes for buttons to be auto-width rather than the width of their containers
 + Fix ID of engagement email class. Allows some filters and actions to actually be used.
 + `loop/feature-image.php` now works for unsupported PHP 5.5 and down
++ Fix issue with modyfying section titles from within the course builder
 
 
 v3.3.0 - 2017/01/23

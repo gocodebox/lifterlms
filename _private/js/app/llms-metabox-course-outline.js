@@ -578,7 +578,7 @@ LLMS.MB_Course_Outline = {
 
 	    		if ( r.success === true ) {
 
-					$('#llms-section-edit-name').val(r.data.post.post_title);
+					$('#llms-section-edit-name').val(r.data.title);
 					$('#llms-section-edit-id').val(r.data.id);
 	    		}
 	    	}
