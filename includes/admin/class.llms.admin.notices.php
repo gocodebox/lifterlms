@@ -213,7 +213,7 @@ class LLMS_Admin_Notices {
 	 * @param    string     $notice_id  notice id
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.3.0
+	 * @version  3.3.1
 	 */
 	public static function output_notice( $notice_id ) {
 
@@ -221,12 +221,15 @@ class LLMS_Admin_Notices {
 
 			$notice = self::get_notice( $notice_id );
 
+			if ( empty( $notice ) ) {
+				return;
+			}
+
 			// don't output those rogue empty notices I can't find
 			// @todo find the source
 			if ( empty( $notice['template'] ) && empty( $notice['html'] ) ) {
 				self::delete_notice( $notice_id );
 			}
-
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>">
 				<?php if ( $notice['dismissible'] ) : ?>
@@ -251,7 +254,7 @@ class LLMS_Admin_Notices {
 			</div>
 			<?php
 
-			if ( $notice['flash'] ) {
+			if ( isset( $notice['flash'] ) && $notice['flash'] ) {
 				self::delete_notice( $notice_id, 'delete' );
 			}
 
