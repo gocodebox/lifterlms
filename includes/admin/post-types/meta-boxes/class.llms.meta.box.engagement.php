@@ -78,6 +78,16 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				'label' => __( 'Select a Membership', 'lifterlms' ),
 			),
 
+			'llms_quiz' => array(
+				'controller_value' => array(
+					'quiz_completed',
+					'quiz_passed',
+					'quiz_failed',
+				),
+				'id' => '_faux_engagement_trigger_post_quiz',
+				'label' => __( 'Select a Quiz', 'lifterlms' ),
+			),
+
 			'section' => array(
 				'controller_value' => array( 'section_completed' ),
 				'id' => '_faux_engagement_trigger_post_section',
@@ -268,6 +278,12 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				$var = 'membership';
 			break;
 
+			case 'quiz_completed':
+			case 'quiz_passed':
+			case 'quiz_failed':
+				$var = 'quiz';
+			break;
+
 			case 'section_completed':
 				$var = 'section';
 			break;
@@ -284,6 +300,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		if ( $var ) {
 
 			$val = isset( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) ? sanitize_text_field( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) : '';
+
 		} else {
 
 			$val = '';

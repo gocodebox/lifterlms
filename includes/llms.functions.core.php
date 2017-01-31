@@ -201,7 +201,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * Get a list of registered engagement triggers
  * @return   array
  * @since    3.1.0
- * @version  3.1.0
+ * @version  3.3.1
  */
 function llms_get_engagement_triggers() {
 	return apply_filters( 'lifterlms_engagement_triggers', array(
@@ -211,6 +211,9 @@ function llms_get_engagement_triggers() {
 		'course_completed' => __( 'Student completes a course', 'lifterlms' ),
 		// 'days_since_login' => __( 'Days since user last logged in', 'lifterlms' ), // @todo
 		'lesson_completed' => __( 'Student completes a lesson', 'lifterlms' ),
+		'quiz_completed' => __( 'Student completes a quiz', 'lifterlms' ),
+		'quiz_passed' => __( 'Student passes a quiz', 'lifterlms' ),
+		'quiz_failed' => __( 'Student fails a quiz', 'lifterlms' ),
 		'section_completed' => __( 'Student completes a section', 'lifterlms' ),
 		'course_track_completed' => __( 'Student comepletes a course track', 'lifterlms' ),
 		'membership_enrollment' => __( 'Student enrolls in a membership', 'lifterlms' ),

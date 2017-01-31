@@ -64,6 +64,9 @@ class LLMS_Engagements {
 			'lifterlms_created_person',
 			'lifterlms_lesson_completed',
 			'lifterlms_product_purchased',
+			'lifterlms_quiz_completed',
+			'lifterlms_quiz_passed',
+			'lifterlms_quiz_failed',
 			'lifterlms_section_completed',
 			'llms_user_enrolled_in_course',
 			'llms_user_added_to_membership_level',
@@ -186,7 +189,7 @@ class LLMS_Engagements {
 	 * @return   void
 	 *
 	 * @since    2.3.0
-	 * @version  3.1.0
+	 * @version  3.3.1 - added quiz engagements
 	 */
 	public function maybe_trigger_engagement() {
 
@@ -201,22 +204,26 @@ class LLMS_Engagements {
 		switch ( $action ) {
 
 			case 'lifterlms_created_person' :
-
 				$user_id = intval( $args[0] );
 				$trigger_type = 'user_registration';
 				$related_post_id = '';
-
 			break;
 
 			case 'lifterlms_course_completed' :
 			case 'lifterlms_course_track_completed' :
 			case 'lifterlms_lesson_completed' :
 			case 'lifterlms_section_completed' :
-
 				$user_id = intval( $args[0] );
 				$related_post_id = intval( $args[1] );
 				$trigger_type = str_replace( 'lifterlms_', '', $action );
+			break;
 
+			case 'lifterlms_quiz_completed':
+			case 'lifterlms_quiz_passed':
+			case 'lifterlms_quiz_failed':
+				$user_id = absint( $args[0] );
+				$related_post_id = absint( $args[1]['id'] );
+				$trigger_type = str_replace( 'lifterlms_', '', $action );
 			break;
 
 			case 'llms_user_added_to_membership_level':
@@ -227,16 +234,13 @@ class LLMS_Engagements {
 			break;
 
 			case 'lifterlms_product_purchased' :
-
 				$user_id = intval( $args[0] );
 				$related_post_id = intval( $args[1] );
 				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
-
 			break;
 
 			// allow extensions to hook into our engagments
 			default :
-
 				extract( apply_filters( 'lifterlms_external_engagement_query_arguments' , array(
 					'related_post_id' => null,
 					'trigger_type' => null,
