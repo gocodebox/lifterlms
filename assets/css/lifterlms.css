@@ -1697,40 +1697,40 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   text-align: right;
 }
 @media screen and (min-width: 600px) {
-  .llms-form-field.llms-cols-1 {
+  .llms-form-field.llms-cols-1:not(.type-submit) {
     width: 8.33333%;
   }
-  .llms-form-field.llms-cols-2 {
+  .llms-form-field.llms-cols-2:not(.type-submit) {
     width: 16.66667%;
   }
-  .llms-form-field.llms-cols-3 {
+  .llms-form-field.llms-cols-3:not(.type-submit) {
     width: 25%;
   }
-  .llms-form-field.llms-cols-4 {
+  .llms-form-field.llms-cols-4:not(.type-submit) {
     width: 33.33333%;
   }
-  .llms-form-field.llms-cols-5 {
+  .llms-form-field.llms-cols-5:not(.type-submit) {
     width: 41.66667%;
   }
-  .llms-form-field.llms-cols-6 {
+  .llms-form-field.llms-cols-6:not(.type-submit) {
     width: 50%;
   }
-  .llms-form-field.llms-cols-7 {
+  .llms-form-field.llms-cols-7:not(.type-submit) {
     width: 58.33333%;
   }
-  .llms-form-field.llms-cols-8 {
+  .llms-form-field.llms-cols-8:not(.type-submit) {
     width: 66.66667%;
   }
-  .llms-form-field.llms-cols-9 {
+  .llms-form-field.llms-cols-9:not(.type-submit) {
     width: 75%;
   }
-  .llms-form-field.llms-cols-10 {
+  .llms-form-field.llms-cols-10:not(.type-submit) {
     width: 83.33333%;
   }
-  .llms-form-field.llms-cols-11 {
+  .llms-form-field.llms-cols-11:not(.type-submit) {
     width: 91.66667%;
   }
-  .llms-form-field.llms-cols-12 {
+  .llms-form-field.llms-cols-12:not(.type-submit) {
     width: 100%;
   }
 }
