@@ -30,10 +30,15 @@ class LLMS_Update_100 extends LLMS_Update {
 	 */
 	protected $version = '5.0.0';
 
-	public function function_1() {
+	public function function_1( $loop = 1, $misc = 'test' ) {
 		$this->log( 'function_1 started' );
 		sleep( 5 );
-		$this->function_complete( 'function_1' );
+		if ( $loop <= 72 ) {
+			$loop++;
+			$this->schedule_function( 'function_1', array( $loop, sprintf( 'test: %d', $loop ) ) );
+		} else {
+			$this->function_complete( 'function_1' );
+		}
 	}
 
 	public function function_2() {
