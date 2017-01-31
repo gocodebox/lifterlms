@@ -32,7 +32,7 @@ class LLMS_Update_330 extends LLMS_Update {
 	 * all LifterLMS Lessons and Sections
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.3.1
 	 */
 	public function update_parent_relationships() {
 
@@ -41,22 +41,20 @@ class LLMS_Update_330 extends LLMS_Update {
 		global $wpdb;
 
 		// update parent course key for courses and lessons
-		$wpdb->query( $wpdb->prepare(
-			"UPDATE {$wpdb->postmeta} AS m
+		$wpdb->query( "UPDATE {$wpdb->postmeta} AS m
 			 JOIN {$wpdb->posts} AS p ON p.ID = m.post_id
 			 SET m.meta_key = '_llms_parent_course'
 			 WHERE m.meta_key = '_parent_course'
 			   AND ( p.post_type = 'lesson' OR p.post_type = 'section' );"
-		) );
+		);
 
 		// update parent section key for lessons
-		$wpdb->query( $wpdb->prepare(
-			"UPDATE {$wpdb->postmeta} AS m
+		$wpdb->query( "UPDATE {$wpdb->postmeta} AS m
 			 JOIN {$wpdb->posts} AS p ON p.ID = m.post_id
 			 SET m.meta_key = '_llms_parent_section'
 			 WHERE m.meta_key = '_parent_section'
 			   AND p.post_type = 'lesson';"
-		) );
+		);
 
 		$this->function_complete( 'update_parent_relationships' );
 
