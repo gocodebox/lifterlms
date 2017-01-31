@@ -28,9 +28,9 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 	/**
 	 * Return an empty array because the metabox fields here are completely custom
-	 * @return array
-	 * @since  1.0.0
-	 * @version  3.2.6
+	 * @return   array
+	 * @since    1.0.0
+	 * @version  3.3.1
 	 */
 	public function get_fields() {
 
@@ -202,7 +202,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  WP Post ID of the engagement
 	 * @return   void
 	 * @since    3.1.0
-	 * @version  3.1.0
+	 * @version  3.3.1
 	 */
 	public function save( $post_id ) {
 

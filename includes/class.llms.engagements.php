@@ -53,7 +53,7 @@ class LLMS_Engagements {
 	 * @return  void
 	 *
 	 * @since    2.3.0
-	 * @version  3.1.0
+	 * @version  3.3.1
 	 */
 	private function add_actions() {
 
