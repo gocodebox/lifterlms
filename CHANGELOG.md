@@ -16,6 +16,7 @@ v3.3.1 - 2017/01/??
 + `llms_get_post()` will now work with any LifterLMS Post Model post types
 + Removed redundant function `LLMS_Lesson::single_mark_complete_text()`
 + Add css classes for buttons to be auto-width rather than the width of their containers
++ Fix ID of engagement email class. Allows some filters and actions to actually be used.
 
 
 v3.3.0 - 2017/01/23
