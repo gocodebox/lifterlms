@@ -1055,7 +1055,7 @@ class LLMS_Student {
 			$section = new LLMS_Section( $object_id );
 			$lessons = $section->get_lessons( 'ids' );
 			$total = count( $lessons );
-			foreach( $lessons as $lesson ) {
+			foreach ( $lessons as $lesson ) {
 				if ( $this->is_complete( $lesson, 'lesson' ) ) {
 					$completed++;
 				}

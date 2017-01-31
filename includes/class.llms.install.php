@@ -419,8 +419,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 			self::update_db_version();
 			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
 
-		}
-		// do database updates
+		} // do database updates
 		elseif ( 'no' === get_option( 'llms_doing_database_update', 'no' ) ) {
 
 			if ( version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {

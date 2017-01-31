@@ -406,7 +406,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function mark_complete( $user_id, $prevent_autoadvance = false ) {
 
-		llms_deprecated_function( 'LLMS_Lesson::mark_complete()', '3.3.1', "llms_mark_complete()" );
+		llms_deprecated_function( 'LLMS_Lesson::mark_complete()', '3.3.1', 'llms_mark_complete()' );
 		return llms_mark_complete( $user_id, $this->get( 'id' ), 'lesson', 'lesson_' . $this->get( 'id' ) );
 
 	}

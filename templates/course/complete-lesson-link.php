@@ -21,7 +21,7 @@ $quiz_id = $lesson->get( 'assigned_quiz' );
 <div class="clear"></div>
 <div class="llms-lesson-button-wrapper">
 
-	<?php if ( $student->is_complete( $lesson->get( 'id' ), 'lesson' ) ): ?>
+	<?php if ( $student->is_complete( $lesson->get( 'id' ), 'lesson' ) ) : ?>
 
 		<?php if ( ! $quiz_id ) : ?>
 
