@@ -41,7 +41,7 @@
 		@media screen and ( min-width: 600px ) {
 			$i: 1;
 			@while $i <= 12 {
-				&.llms-cols-#{$i} {
+				&.llms-cols-#{$i}:not(.type-submit) {
 					width: $i / 12 * 100%;
 					$i: $i + 1;
 				}
