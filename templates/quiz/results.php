@@ -29,6 +29,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 
 	$best = $quiz->get_best_quiz_attempt( $user_id );
 	$best_time = $quiz->get_total_time( $user_id, $best );
+	$best_passing = $quiz->is_passing_score( $user_id, $best );
 	?>
 
 	<div class="clear"></div>
@@ -69,9 +70,9 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 						<h5 class="llms-content-block">
 							<?php
 							if ( $is_passing_score ) {
-								echo apply_filters( 'lifterlms_quiz_passed', __( 'Passed', 'lifterlms' ) );
+								echo apply_filters( 'lifterlms_quiz_passed_text', __( 'Passed', 'lifterlms' ) );
 							} else {
-								echo apply_filters( 'lifterlms_quiz_failed', __( 'Failed', 'lifterlms' ) );
+								echo apply_filters( 'lifterlms_quiz_failed_text', __( 'Failed', 'lifterlms' ) );
 							}
 							?>
 						</h5>
@@ -94,10 +95,10 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 						<h4><?php printf( __( 'Best Score: %1$d%', 'lifterlms' ), $best_grade ); ?>%</h4>
 						<h5>
 							<?php
-							if ( $is_passing_score ) {
-								echo apply_filters( 'lifterlms_quiz_passed', __( 'Passed', 'lifterlms' ) );
+							if ( $best_passing ) {
+								echo apply_filters( 'lifterlms_quiz_passed_text', __( 'Passed', 'lifterlms' ) );
 							} else {
-								echo apply_filters( 'lifterlms_quiz_failed', __( 'Failed', 'lifterlms' ) );
+								echo apply_filters( 'lifterlms_quiz_failed_text', __( 'Failed', 'lifterlms' ) );
 							}
 							?>
 						</h5>
