@@ -96,27 +96,26 @@ class LLMS_Course extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 * @since   1.0.0
-	 * @version 3.0.0 -- updated to utilize oEmbed and fallback to audio shortcode
+	 * @version 3.3.2
 	 */
 	public function get_audio() {
 
-		if ( ! isset( $this->audio_embed ) ) {
+		$embed = $this->get( 'audio_embed' );
 
+		// exit early if no embed found
+		if ( ! $embed ) {
 			return '';
+		}
 
-		} else {
+		$r = wp_oembed_get( $embed );
 
-			$r = wp_oembed_get( $this->get( 'audio_embed' ) );
+		if ( ! $r ) {
 
-			if ( ! $r ) {
-
-				$r = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
-
-			}
-
-			return $r;
+			$r = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
 
 		}
+
+		return apply_filters( 'llms_course_get_audio', $r, $this );
 
 	}
 
@@ -325,27 +324,25 @@ class LLMS_Course extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 * @since   1.0.0
-	 * @version 3.1.0
+	 * @version 3.3.2
 	 */
 	public function get_video() {
 
-		if ( ! isset( $this->video_embed ) ) {
+		$embed = $this->get( 'video_embed' );
 
+		if ( ! $embed ) {
 			return '';
+		}
 
-		} else {
+		$r = wp_oembed_get( $embed );
 
-			$r = wp_oembed_get( $this->get( 'video_embed' ) );
+		if ( ! $r ) {
 
-			if ( ! $r ) {
-
-				$r = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
-
-			}
-
-			return $r;
+			$r = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
 
 		}
+
+		return apply_filters( 'llms_course_get_video', $r, $this );
 
 	}
 
