@@ -421,7 +421,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @param    string   $type  determine if a specific type of prereq exists [any|course|track]
 	 * @return   boolean         Returns true if prereq is enabled and there is a prerequisite course or track
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.2
 	 */
 	public function has_prerequisite( $type = 'any' ) {
 
@@ -433,11 +433,11 @@ class LLMS_Course extends LLMS_Post_Model {
 
 			} elseif ( 'course' === $type ) {
 
-				return ( $this->get( 'prerequisite' ) );
+				return is_numeric( $this->get( 'prerequisite' ) );
 
 			} elseif ( 'track' === $type ) {
 
-				return ( $this->get( 'prerequisite_track' ) );
+				return is_numeric( $this->get( 'prerequisite_track' ) );
 
 			}
 
