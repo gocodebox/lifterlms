@@ -773,21 +773,6 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
 	       /$$                                                     /$$
 	      | $$                                                    | $$

@@ -1,10 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.3.2
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -34,6 +32,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $trial_period  (string)  Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day]
  * @property  $trial_price  (float)  Price for the trial period. Can be 0 for a free trial period
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	protected $properties = array(
@@ -407,6 +408,16 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	public function has_availability_restrictions() {
 		return ( 'course' === $this->get_product_type() && 'members' === $this->get( 'availability' ) && $this->get_array( 'availability_restrictions' ) );
+	}
+
+	/**
+	 * Determine if the free checkout process & interface should be used for this access plan
+	 * @return   boolean
+	 * @since    3.3.2
+	 * @version  3.3.2
+	 */
+	public function has_free_checkout() {
+		return ( $this->is_free() && apply_filters( 'llms_has_free_checkout', true, $this ) );
 	}
 
 	/**

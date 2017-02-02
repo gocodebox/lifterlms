@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.3.2 - 2017/02/02
+-------------------
+
++ Enrollment for free access plans has improved based on your feedback. For more information see [https://lifterlms.com/docs/checkout-free-access-plans/](https://lifterlms.com/docs/checkout-free-access-plans/)
+
+
 v3.3.1 - 2017/01/31
 -------------------
 

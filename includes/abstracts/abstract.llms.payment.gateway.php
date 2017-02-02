@@ -115,7 +115,7 @@ abstract class LLMS_Payment_Gateway {
 	 * @param    string     $msg     optional message to display on the redirect screen
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.2
 	 */
 	public function complete_transaction( $order, $msg = '' ) {
 
@@ -137,7 +137,15 @@ abstract class LLMS_Payment_Gateway {
 
 		// default message if non is supplied
 		if ( ! $msg ) {
-			$msg = sprintf( __( 'Congratulations! Your purchase was successful and you\'ve been enrolled in %s.', 'lifterlms' ), $order->get( 'product_title' ) );
+			$plan = llms_get_post( $order->get( 'plan_id' ) );
+			if ( $plan && $plan->has_free_checkout() ) {
+				$msg = __( 'Congratulations! You\'ve been enrolled in %s.', 'lifterlms' );
+			} else {
+				$msg = __( 'Congratulations! Your purchase was successful and you\'ve been enrolled in %s.', 'lifterlms' );
+			}
+
+			$msg = sprintf( $msg, $order->get( 'product_title' ) );
+
 		}
 
 		// filter the notice

@@ -1391,6 +1391,10 @@ svg .llms-animated-circle {
   }
 }
 
+.llms-free-enroll-form {
+  margin-bottom: 0;
+}
+
 .llms-access-plan {
   box-sizing: border-box;
   float: left;

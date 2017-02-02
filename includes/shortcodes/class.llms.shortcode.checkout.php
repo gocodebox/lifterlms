@@ -1,12 +1,9 @@
 <?php
-
 /**
  * Checkout Shortcode
- *
  * Sets functionality associated with shortcode [llms_checkout]
- *
- * @author codeBOX
- * @project lifterLMS
+ * @since    1.0.0
+ * @version  3.3.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -16,10 +13,75 @@ class LLMS_Shortcode_Checkout {
 	public static $uid;
 
 	/**
-	 * Get shortcode content
+	 * Renders the checkout template
+	 * @param    array    $atts  shortocde attributes
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.0.0
+	 */
+	private static function checkout( $atts ) {
+
+		// if theres membership restrictions, check the user is in at least one membership
+		// this is to combat CHEATERS
+		if ( $atts['plan']->has_availability_restrictions() ) {
+			$access = false;
+			foreach ( $atts['plan']->get_array( 'availability_restrictions' ) as $mid ) {
+
+				// once we find a membership, exit
+				if ( llms_is_user_enrolled( self::$uid, $mid ) ) {
+					$access = true;
+					break;
+				}
+			}
+			if ( ! $access ) {
+				llms_print_notice( 'You must be a member in order to purchase this access plan.', 'error' );
+				return;
+			}
+		}
+
+		if ( self::$uid ) {
+			$user = get_userdata( self::$uid );
+			llms_print_notice( sprintf( __( 'You are currently logged in as <em>%1$s</em>. <a href="%2$s">Click here to logout</a>', 'lifterlms' ), $user->user_email, wp_logout_url( $atts['plan']->get_checkout_url() ) ), 'notice' );
+		} else {
+			llms_get_login_form( sprintf( __( 'Already have an account? <a href="%s">Click here to login</a>', 'lifterlms' ), '#llms-show-login' ), $atts['plan']->get_checkout_url() );
+		}
+
+		llms_get_template( 'checkout/form-checkout.php', $atts );
+
+	}
+
+	/**
+	 * Renders the confirm payment checkout template
+	 * @param    array    $atts  shortocde attributes
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.0.0
+	 */
+	private static function confirm_payment( $atts ) {
+
+		llms_get_template( 'checkout/form-confirm-payment.php', $atts );
+
+	}
+
+	/**
+	 * Output error messages when they're encountered
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
 	 *
-	 * @param array $atts
-	 * @return array $messages
+	 */
+	private static function error( $message ) {
+
+		echo apply_filters( 'llms_checkout_error_output', $message );
+
+	}
+
+	/**
+	 * Retrieve the shortcode content
+	 * @param    array     $atts  array of shortcode attributes
+	 * @return   string
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	public static function get( $atts ) {
 
@@ -28,10 +90,11 @@ class LLMS_Shortcode_Checkout {
 	}
 
 	/**
-	 * Determines what content to output to user absed on status
-	 *
-	 * @param array $atts
-	 * @return array $messages
+	 * Gather a bunch of information and output the actual content for the shortcode
+	 * @param    array   $atts  shortcode atts from originating shortcode
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.2.5
 	 */
 	public static function output( $atts ) {
 
@@ -91,6 +154,7 @@ class LLMS_Shortcode_Checkout {
 				$atts['product'] = $atts['plan']->get_product();
 
 				self::checkout( $atts );
+
 			} else {
 
 				self::error( __( 'Invalid access plan.', 'lifterlms' ) );
@@ -129,68 +193,6 @@ class LLMS_Shortcode_Checkout {
 		}
 
 		echo '</div><!-- .llms-checkout-wrapper -->';
-
-	}
-
-
-
-
-
-	/**
-	 * My Checkout page template
-	 *
-	 * @param array $atts
-	 * @return void
-	 */
-	private static function checkout( $atts ) {
-
-		// if theres membership restrictions, check the user is in at least one membership
-		// this is to combat CHEATERS
-		if ( $atts['plan']->has_availability_restrictions() ) {
-			$access = false;
-			foreach ( $atts['plan']->get_array( 'availability_restrictions' ) as $mid ) {
-
-				// once we find a membership, exit
-				if ( llms_is_user_enrolled( self::$uid, $mid ) ) {
-					$access = true;
-					break;
-				}
-			}
-			if ( ! $access ) {
-				llms_print_notice( 'You must be a member in order to purchase this access plan.', 'error' );
-				return;
-			}
-		}
-
-		if ( self::$uid ) {
-			$user = get_userdata( self::$uid );
-			llms_print_notice( sprintf( __( 'You are currently logged in as <em>%1$s</em>. <a href="%2$s">Click here to logout</a>', 'lifterlms' ), $user->user_email, wp_logout_url( $atts['plan']->get_checkout_url() ) ), 'notice' );
-		} else {
-			llms_get_login_form( sprintf( __( 'Already have an account? <a href="%s">Click here to login</a>', 'lifterlms' ), '#llms-show-login' ), $atts['plan']->get_checkout_url() );
-		}
-
-		llms_get_template( 'checkout/form-checkout.php', $atts );
-
-	}
-
-	/**
-	 * Edit Checkout template
-	 *
-	 * @return void
-	 */
-	private static function confirm_payment( $atts ) {
-		llms_get_template( 'checkout/form-confirm-payment.php', $atts );
-	}
-
-
-	/**
-	 * Get error messages to display related to checkout
-	 * @return string
-	 * @since 3.0.0
-	 */
-	private static function error( $message ) {
-
-		echo apply_filters( 'llms_checkout_error_output', $message );
 
 	}
 

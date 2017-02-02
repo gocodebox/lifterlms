@@ -1,22 +1,30 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Checkout Form
- *
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
+ * @since    1.0.0
+ * @version  3.3.2
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+$free = $plan->has_free_checkout();
 ?>
 
-<form action="" class="llms-checkout llms-checkout-cols-<?php echo $cols; ?>" method="POST" id="llms-product-purchase-form">
+<form action="" class="llms-checkout llms-checkout-cols-<?php echo apply_filters( 'llms_checkout_columns', ! $free ? $cols : 1, $plan ); ?>" method="POST" id="llms-product-purchase-form">
 
 	<?php do_action( 'lifterlms_before_checkout_form' ); ?>
 
 	<div class="llms-checkout-col llms-col-1">
 
-		<section class="llms-checkout-section">
+		<section class="llms-checkout-section billing-information">
 
-			<h4 class="llms-form-heading"><?php _e( 'Billing Information', 'lifterlms' ); ?></h4>
+			<h4 class="llms-form-heading">
+				<?php if ( ! $free ): ?>
+					<?php _e( 'Billing Information', 'lifterlms' ); ?>
+				<?php else : ?>
+					<?php _e( 'Student Information', 'lifterlms' ); ?>
+				<?php endif; ?>
+			</h4>
 
 			<div class="llms-checkout-section-content llms-form-fields">
 				<?php do_action( 'lifterlms_checkout_before_billing_fields' ); ?>
@@ -32,30 +40,40 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 	<div class="llms-checkout-col llms-col-2">
 
-		<section class="llms-checkout-section">
+		<?php if ( ! $free ) : ?>
+			<section class="llms-checkout-section order-summary">
 
-			<h4 class="llms-form-heading"><?php _e( 'Order Summary', 'lifterlms' ); ?></h4>
+				<h4 class="llms-form-heading"><?php _e( 'Order Summary', 'lifterlms' ); ?></h4>
 
-			<div class="llms-checkout-section-content">
+				<div class="llms-checkout-section-content">
 
-				<?php llms_get_template( 'checkout/form-summary.php', array(
-					'coupon' => $coupon,
-					'plan' => $plan,
-					'product' => $product,
-				) ); ?>
+					<?php llms_get_template( 'checkout/form-summary.php', array(
+						'coupon' => $coupon,
+						'plan' => $plan,
+						'product' => $product,
+					) ); ?>
 
-				<?php llms_get_template( 'checkout/form-coupon.php', array(
-					'coupon' => $coupon,
-					'plan' => $plan,
-				) ); ?>
+					<?php llms_get_template( 'checkout/form-coupon.php', array(
+						'coupon' => $coupon,
+						'plan' => $plan,
+					) ); ?>
 
-			</div>
+				</div>
 
-		</section>
+			</section>
+		<?php endif; ?>
 
-		<section class="llms-checkout-section">
+		<section class="llms-checkout-section payment-details">
 
-			<h4 class="llms-form-heading"><?php _e( 'Payment Details', 'lifterlms' ); ?></h4>
+			<h4 class="llms-form-heading">
+				<?php if ( ! $free ): ?>
+					<?php _e( 'Payment Details', 'lifterlms' ); ?>
+				<?php else : ?>
+					<?php _e( 'Enrollment Confirmation', 'lifterlms' ); ?>
+				<?php endif; ?>
+			</h4>
+
+
 			<div class="llms-checkout-section-content llms-form-fields">
 
 				<?php llms_get_template( 'checkout/form-gateways.php', array(
@@ -72,7 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 						'columns' => 12,
 						'classes' => 'llms-button-action',
 						'id' => 'llms_create_pending_order',
-						'value' => apply_filters( 'lifterlms_checkout_buy_button_text', __( 'Buy Now', 'lifterlms' ) ),
+						'value' => apply_filters( 'lifterlms_checkout_buy_button_text', ! $free ? __( 'Buy Now', 'lifterlms' ) : __( 'Enroll Now', 'lifterlms' ) ),
 						'last_column' => true,
 						'required' => false,
 						'type'  => 'submit',
