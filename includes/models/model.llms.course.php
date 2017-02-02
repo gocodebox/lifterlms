@@ -433,11 +433,11 @@ class LLMS_Course extends LLMS_Post_Model {
 
 			} elseif ( 'course' === $type ) {
 
-				return is_numeric( $this->get( 'prerequisite' ) );
+				return ! empty( $this->get( 'prerequisite' ) );
 
 			} elseif ( 'track' === $type ) {
 
-				return is_numeric( $this->get( 'prerequisite_track' ) );
+				return ! empty( $this->get( 'prerequisite_track' ) );
 
 			}
 
