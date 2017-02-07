@@ -1,12 +1,14 @@
 == Changelog ==
 
-v3.3.2 - 2017/02/02
+v3.3.2 - 2017/02/??
 -------------------
 
 + Enrollment for free access plans has improved based on your feedback. For more information see [https://lifterlms.com/docs/checkout-free-access-plans/](https://lifterlms.com/docs/checkout-free-access-plans/)
 + Ensure `LLMS_Course::has_prerequisite( 'course' )` & `LLMS_Course::has_prerequisite( 'track' )` always return booleans
 + Made a small performance tweak for courses without audio / video embeds
 + Fix coupon expiration dates check to be more i18n friendly
++ Update `LLMS_Coupon` class to utilize 3.3.0 class property enhancements
++ added `llms_current_time`, a pluggable wrapper for `current_time()` to enable easier unit testing of date-related functions
 
 
 v3.3.1 - 2017/01/31

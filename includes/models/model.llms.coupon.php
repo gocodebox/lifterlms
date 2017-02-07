@@ -1,9 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Coupon Model
- * @since  3.0.0
- * @version  3.0.0
+ * @since    3.0.0
+ * @version  3.3.2
  *
  * @property  $coupon_amount  (float)  Amount to subtract from the price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $coupon_courses  (array)  Array of Course IDs the coupon can be used against
@@ -12,13 +11,28 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $discount_type  (string)  Determines the discount type [dollar|percent]
  * @property  $enable_trial_discount  (yes/no)  Enables an optional additional amount field to apply to the Trial Price of access plans with a trial [yes|no]
  * @property  $expiration_date  (string)  Date String describing a date after which the coupon can no longer be used. Format: m/d/Y
- * @property  $id  (int)  WP Post ID of the coupon
  * @property  $plan_type  (string)  Determine the type of plans the coupon can be used with . [any|one-time|recurring]
  * @property  $title  (string)  Coupon Code / Post Title
  * @property  $trial_amount  (float)  Amount to subtract from the trial price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $usage_limit  (int)  Amount of times the coupon can be used
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Coupon extends LLMS_Post_Model {
+
+	protected $properties = array(
+		'coupon_amount' => 'float',
+		'coupon_courses' => 'array',
+		'coupon_membership' => 'array',
+		'description' => 'string',
+		'discount_type' => 'string',
+		'enable_trial_discount' => 'yesno',
+		'expiration_date' => 'string',
+		'plan_type' => 'string',
+		'trial_amount' => 'float',
+		'usage_limit' => 'absint',
+	);
 
 	protected $db_post_type = 'llms_coupon'; // maybe fix this
 	protected $model_post_type = 'coupon';
@@ -119,48 +133,6 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get a property's data type for scrubbing
-	 * used by $this->scrub() to determine how to scrub the property
-	 * @param  string $key  property key
-	 * @since  3.0.0
-	 * @version  3.0.0
-	 * @return string
-	 */
-	protected function get_property_type( $key ) {
-
-		switch ( $key ) {
-			case 'coupon_amount':
-			case 'trial_amount':
-				$type = 'float';
-			break;
-
-			case 'usage_limit':
-				$type = 'absint';
-			break;
-
-			case 'coupon_courses':
-			case 'coupon_membership':
-				$type = 'array';
-			break;
-
-			case 'enable_trial_discount':
-				$type = 'yesno';
-			break;
-
-			case 'discount_type':
-			case 'description':
-			case 'expiration_date':
-			case 'plan_type':
-			default:
-				$type = 'text';
-
-		}
-
-		return $type;
-
-	}
-
-	/**
 	 * Get the number of remaining uses
 	 * calculated by substracting # of uses from the usage limit
 	 * @since  3.0.0
@@ -223,12 +195,12 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Determine if trial amount discount is enabled for the coupon
-	 * @since 3.0.0
-	 * @version 3.0.0
 	 * @return  boolean
+	 * @since   3.0.0
+	 * @version 3.3.2
 	 */
 	public function has_trial_discount() {
-		return ( 'yes' === $this->enable_trial_discount );
+		return ( 'yes' === $this->get( 'enable_trial_discount' ) );
 	}
 
 	/**
@@ -243,7 +215,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		if ( ! $expires ) {
 			return false;
 		} else {
-			$now = current_time( 'timestamp' );
+			$now = llms_current_time( 'timestamp' );
 			return $expires < $now;
 		}
 	}
