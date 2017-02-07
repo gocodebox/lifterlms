@@ -234,15 +234,16 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	/**
 	 * Determine if a coupon is expired
 	 * @return boolean   true if expired, false otherwise
+	 * @since   3.0.0
+	 * @version 3.3.2
 	 */
 	public function is_expired() {
-		$date = $this->get_date( 'expiration_date' );
+		$expires = $this->get_date( 'expiration_date', 'U' );
 		// no expiration date, can't expire
-		if ( ! $date ) {
+		if ( ! $expires ) {
 			return false;
 		} else {
 			$now = current_time( 'timestamp' );
-			$expires = strtotime( $date, $now );
 			return $expires < $now;
 		}
 	}
