@@ -33,6 +33,32 @@ function llms_are_terms_and_conditions_required() {
 }
 
 /**
+ * Retrieve the current time based on specified type.
+ *
+ * This is a wrapper for the WP Core current_time which can be plugged
+ * We plug this during unit testing to allow mocking the current time
+ *
+ * The 'mysql' type will return the time in the format for MySQL DATETIME field.
+ * The 'timestamp' type will return the current timestamp.
+ * Other strings will be interpreted as PHP date formats (e.g. 'Y-m-d').
+ *
+ * If $gmt is set to either '1' or 'true', then both types will use GMT time.
+ * if $gmt is false, the output is adjusted with the GMT offset in the WordPress option.
+ *
+ * @param  string       $type   Type of time to retrieve. Accepts 'mysql', 'timestamp', or PHP date format string (e.g. 'Y-m-d').
+ * @param  int|bool     $gmt    Optional. Whether to use GMT timezone. Default false.
+ * @return int|string           Integer if $type is 'timestamp', string otherwise.
+ *
+ * @since    3.3.2
+ * @version  3.3.2
+ */
+if ( ! function_exists( 'llms_current_time' ) ) {
+	function llms_current_time( $type, $gmt = 0 ) {
+		return current_time( $type, $gmt );
+	}
+}
+
+/**
  * Provide deprecation warnings
  *
  * Very similar to https://developer.wordpress.org/reference/functions/_deprecated_function/
