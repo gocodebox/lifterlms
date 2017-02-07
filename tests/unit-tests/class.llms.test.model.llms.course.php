@@ -1,40 +1,32 @@
 <?php
 /**
- * Tests for LifterLMS Core Functions
+ * Tests for LifterLMS Course Model
  * @since    3.3.2
  * @version  3.3.2
  */
-class LLMS_Test_LLMS_Course extends LLMS_UnitTestCase {
+class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
-	 * Test creation of a new course
-	 * @return   void
+	 * class name for the model being tested by the class
+	 * @var  string
+	 */
+	protected $class_name = 'LLMS_Course';
+
+	/**
+	 * db post type of the model being tested
+	 * @var  string
+	 */
+	protected $post_type = 'course';
+
+	/**
+	 * Get properties, used by test_getters_setters
+	 * This should match, exactly, the object's $properties array
+	 * @return   array
 	 * @since    3.3.2
 	 * @version  3.3.2
 	 */
-	public function test_create() {
-
-		$course = new LLMS_Course( 'new', 'Course Name' );
-		$id = $course->get( 'id' );
-
-		$test = llms_get_post( $id );
-
-		$this->assertEquals( $id, $test->get( 'id' ) );
-		$this->assertEquals( 'course', $test->get( 'type' ) );
-		$this->assertEquals( 'Course Name', $test->get( 'title' ) );
-
-	}
-
-	/**
-	 * Test the property getters and setters for LifterLMS Course Properties
-	 * @return   void
-	 * @since    3.3.2
-	 * @version  3.3.2
-	 */
-	public function test_course_getters_and_setters() {
-
-		// this should match the $properties attribute of the LLMS_Course class
-		$props = array(
+	protected function get_properties() {
+		return array(
 			'audio_embed' => 'text',
 			'capacity' => 'absint',
 			'capacity_message' => 'text',
@@ -57,8 +49,17 @@ class LLMS_Test_LLMS_Course extends LLMS_UnitTestCase {
 			'start_date' => 'text',
 			'video_embed' => 'text',
 		);
+	}
 
-		$data = array(
+	/**
+	 * Get data to fill a create post with
+	 * This is used by test_getters_setters
+	 * @return   array
+	 * @since    3.3.2
+	 * @version  3.3.2
+	 */
+	protected function get_data() {
+		return array(
 			'audio_embed' => 'http://example.tld/audio_embed',
 			'capacity' => 25,
 			'capacity_message' => 'Capacity Reached',
@@ -81,43 +82,11 @@ class LLMS_Test_LLMS_Course extends LLMS_UnitTestCase {
 			'start_date' => '2017-05-01',
 			'video_embed' => 'http://example.tld/video_embed',
 		);
-
-		$course = new LLMS_Course( 'new', 'Course Name' );
-
-		foreach ( $props as $prop => $type ) {
-
-			// set should return true
-			$this->assertTrue( $course->set( $prop, $data[ $prop ] ) );
-
-			// make sure gotten value equals set val
-			$this->assertEquals( $data[ $prop ], $course->get( $prop ) );
-
-			// check type
-			switch ( $type ) {
-				case 'absint':
-					$this->assertTrue( is_numeric( $course->get( $prop ) ) );
-					$course->set( $prop, 'string' );
-					$this->assertEquals( 0, $course->get( $prop ) );
-				break;
-
-				case 'yesno':
-					$course->set( $prop, 'yes' );
-					$this->assertEquals( 'yes', $course->get( $prop ) );
-					$course->set( $prop, 'no' );
-					$this->assertEquals( 'no', $course->get( $prop ) );
-					$course->set( $prop, 'string' );
-					$this->assertEquals( 'no', $course->get( $prop ) );
-				break;
-
-				case 'text':
-					$this->assertTrue( is_string( $course->get( $prop ) ) );
-				break;
-
-			}
-
-		}
-
 	}
+
+
+
+
 
 	/**
 	 * Test perequisite functions related to courses

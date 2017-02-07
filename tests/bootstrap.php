@@ -66,7 +66,9 @@ class LLMS_Unit_Tests_Bootstrap {
 		$this->wp_tests_dir = getenv( 'WP_TESTS_DIR' ) ? getenv( 'WP_TESTS_DIR' ) : '/tmp/wordpress-tests-lib';
 
 		// load test function so tests_add_filter() is available
-		require_once( $this->wp_tests_dir . '/includes/functions.php' );
+		require_once $this->wp_tests_dir . '/includes/functions.php';
+
+		require_once 'tests/framework/llms.test.functions.php';
 
 		// load LLMS
 		tests_add_filter( 'muplugins_loaded', array( $this, 'load_llms' ) );
@@ -133,10 +135,8 @@ class LLMS_Unit_Tests_Bootstrap {
 	 */
 	public function includes() {
 
-		// framework
-		foreach ( glob( 'tests/framework/class.llms.*.php' ) as $file ) {
-			require $file;
-		}
+		require 'tests/framework/class.llms.unit.test.case.php';
+		require 'tests/framework/class.llms.post.model.unit.test.case.php';
 
 	}
 
