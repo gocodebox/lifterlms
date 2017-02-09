@@ -32,17 +32,19 @@
 		 * Bind dom events
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  3.3.2
 		 */
 		this.bind = function() {
 
 			var self = this;
 
-			this.$metabox.on( 'click', 'a.llms-remove-student', function() {
+			this.$metabox.on( 'click', 'a.llms-remove-student', function( e ) {
+				e.preventDefault();
 				self.remove_student( $( this ) );
 			} );
 
-			this.$metabox.on( 'click', 'a.llms-add-student', function() {
+			this.$metabox.on( 'click', 'a.llms-add-student', function( e ) {
+				e.preventDefault();
 				self.add_student( $( this ) );
 			} );
 
@@ -64,10 +66,16 @@
 			this.update_student_enrollment( $el.attr( 'data-id' ), 'add' );
 		};
 
+		/**
+		 * Handle bulk enrollment via "Enroll New Students" area
+		 * @param    obj   $el  jQuery selector for the triggering button
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.3.2
+		 */
 		this.enroll_students = function( $el ) {
 
 			var self = this,
-				page = $el.attr( 'data-page' ),
 				$select = $( '#llms-add-student-select' ),
 				ids = $select.val(),
 				$container = this.$metabox.find( '.llms-metabox-students-add-new' );
@@ -77,11 +85,9 @@
 			window.LLMS.Ajax.call( {
 				data: {
 					action: 'bulk_enroll_students',
-					page: page,
 					student_ids: ids,
 				},
 				beforeSend: function( xhr ) {
-					self.$metabox.find( '.llms-error' ).remove();
 					if ( ! ids ) {
 						$el.before( '<span class="llms-error">' + LLMS.l10n.translate( 'Please select a student to enroll' ) + '</span>' );
 						xhr.abort();
@@ -90,14 +96,10 @@
 				},
 				success: function( r ) {
 
-					if ( r.success && r.data ) {
-						$( '#llms-students-table' ).replaceWith( r.data );
-						$select.val( '' ).trigger( 'change' );
-					} else {
-						$el.before( '<span class="llms-error">' + r.message + '</span>' );
-					}
-
+					$select.val( null ).trigger( 'change' );
 					LLMS.Spinner.stop( $container );
+					window.llms.admin_tables.reload( $( '#llms-gb-table-student-management' ) );
+
 				},
 			} );
 
@@ -121,12 +123,12 @@
 		 * @param    string   status  new status [add|remove]
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  3.3.2
 		 */
 		this.update_student_enrollment = function( id, status ) {
 
-			var self = this,
-				$container = this.$metabox.find( '.llms-metabox-students-enrollments' );
+			var $table = $( '#llms-gb-table-student-management' ),
+				$container = $table.closest( '.llms-table-wrap' );
 
 			LLMS.Spinner.start( $container );
 
@@ -136,18 +138,9 @@
 					status: status,
 					student_id: id,
 				},
-				beforeSend: function() {
-					self.$metabox.find( 'p.error' ).remove();
-				},
-				success: function( r ) {
-
-					if ( r.success && r.data ) {
-						$( '#llms-student-id-' + id ).replaceWith( r.data );
-					} else {
-						self.$metabox.find( '.llms-metabox-students-enrollments' ).prepend( '<p class="error">' + r.message + '</p>' );
-					}
-
-					LLMS.Spinner.stop( $container );
+				success: function() {
+					// spinner doesn't stop because the table reloader will stop it
+					window.llms.admin_tables.reload( $table );
 				},
 			} );
 

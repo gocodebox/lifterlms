@@ -84,12 +84,8 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 
 			global $post;
 
-			$page = isset( $_GET['llms-students'] ) ? $_GET['llms-students'] : 1;
-
 			llms_get_template( 'admin/post-types/students.php', array(
-				'page' => $page,
 				'post_id' => $post->ID,
-				'students' => self::get_students_data( $post, $page ),
 			) );
 
 		}

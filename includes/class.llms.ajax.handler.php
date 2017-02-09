@@ -14,7 +14,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Add or remove a student from a course or memberhip
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.2
 	 */
 	public static function bulk_enroll_students( $request ) {
 
@@ -27,13 +27,6 @@ class LLMS_AJAX_Handler {
 		foreach ( $request['student_ids'] as $id ) {
 			llms_enroll_student( intval( $id ), $post_id, 'admin_' . get_current_user_id() );
 		}
-
-		ob_start();
-		llms_get_template( 'admin/post-types/student-table.php', array(
-			'post_id' => $post_id,
-			'students' => LLMS_Meta_Box_Students::get_students_data( get_post( $post_id ), $request['page'] ),
-		) );
-		return ob_get_clean();
 
 	}
 
@@ -347,7 +340,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Add or remove a student from a course or memberhip
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.3.2
 	 */
 	public static function update_student_enrollment( $request ) {
 
@@ -364,13 +357,6 @@ class LLMS_AJAX_Handler {
 		} elseif ( 'remove' === $request['status'] ) {
 			llms_unenroll_student( $request['student_id'], $request['post_id'], 'cancelled', 'any' );
 		}
-
-		ob_start();
-		llms_get_template( 'admin/post-types/student-row.php', array(
-			'post_id' => $request['post_id'],
-			'student' => new LLMS_Student( $request['student_id'] ),
-		) );
-		return ob_get_clean();
 
 	}
 
