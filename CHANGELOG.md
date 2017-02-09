@@ -1,6 +1,6 @@
 == Changelog ==
 
-v3.3.2 - 2017/02/??
+v3.3.2 - 2017/02/08
 -------------------
 
 + Enrollment for free access plans has improved based on your feedback. For more information see [https://lifterlms.com/docs/checkout-free-access-plans/](https://lifterlms.com/docs/checkout-free-access-plans/)
@@ -9,6 +9,7 @@ v3.3.2 - 2017/02/??
 + Fix coupon expiration dates check to be more i18n friendly
 + Update `LLMS_Coupon` class to utilize 3.3.0 class property enhancements
 + added `llms_current_time`, a pluggable wrapper for `current_time()` to enable easier unit testing of date-related functions
++ Shortcodes within course restriction messages are now handled properly to output their intend content rather than the raw shortcode
 
 
 v3.3.1 - 2017/01/31
