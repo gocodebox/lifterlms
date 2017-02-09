@@ -10,6 +10,7 @@ v3.3.2 - 2017/02/08
 + Update `LLMS_Coupon` class to utilize 3.3.0 class property enhancements
 + added `llms_current_time`, a pluggable wrapper for `current_time()` to enable easier unit testing of date-related functions
 + Shortcodes within course restriction messages are now handled properly to output their intend content rather than the raw shortcode
++ Ensure the Page Attributes area is available on lessons so WordPress 4.7 custom post type page templates can be utilized
 
 
 v3.3.1 - 2017/01/31
