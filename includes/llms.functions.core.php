@@ -270,11 +270,9 @@ function llms_get_engagement_types() {
 * @param    integer    $skip         number of results to skip (for pagination)
 * @return   array
 * @since    3.0.0
-* @version  3.0.0
+* @version  3.4.0
 */
 function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
-
-	global $wpdb;
 
 	// ensure we have an array if only one status is being queried
 	if ( ! is_array( $statuses ) ) {
@@ -288,38 +286,21 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 		}
 	}
 
-	$vars = array( $post_id );
+	$query = new LLMS_Student_Query( array(
+		'post_id' => $post_id,
+		'statuses' => $statuses,
+		'page' => ( 0 === $skip ) ? 1 : ( $skip / $limit ) + 1,
+		'per_page' => $limit,
+		'sort' => array(
+			'id' => 'ASC',
+		),
+	) );
 
-	if ( $statuses ) {
-		$status_and = 'AND ( ';
-
-		foreach ( $statuses as $i => $status ) {
-			$status_and .= 'meta.meta_value = %s';
-			$vars[] = $status;
-			if ( $i + 1 !== count( $statuses ) ) {
-				$status_and .= ' OR ';
-			}
-		}
-
-		$status_and .= ' )';
-	} else {
-		$status_and = '';
+	if ( $query->students ) {
+		return wp_list_pluck( $query->students, 'id' );
 	}
 
-	$vars[] = $skip;
-	$vars[] = $limit;
-
-	return $wpdb->get_col( $wpdb->prepare(
-		"SELECT users.ID
-		 FROM {$wpdb->prefix}users AS users
-		 JOIN {$wpdb->prefix}lifterlms_user_postmeta AS meta ON users.ID = meta.user_id
-		 WHERE meta.post_id = %d
-		   AND meta.meta_key = '_status'
-		   {$status_and}
-		   GROUP BY users.ID, meta.post_id
-		   LIMIT %d, %d
-		", $vars
-	) );
+	return array();
 }
 
 /**
