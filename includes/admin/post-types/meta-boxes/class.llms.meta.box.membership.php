@@ -2,7 +2,7 @@
 /**
  * Membership Settings Metabox
  * @since   1.0.0
- * @version 3.0.0
+ * @version 3.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -32,7 +32,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @param    obj     $membership  instance of LLMS_Membership for the current post
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.0
 	 */
 	private function get_content_table( $membership ) {
 
@@ -47,7 +47,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			$data[ $title ] = array(
 
 				'<a href="' . get_edit_post_link( $course->get( 'id' ) ) . '">' . $title . ' (ID#' . $course_id . ')</a>',
-				'<a class="llms-action-icon danger llms-remove-course" data-id="' . $course_id . '" href="#llms-course-remove"><span class="tooltip" title="' . __( 'Remove from Auto-enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-no"></span></span></a>',
+				'<a class="llms-button-danger small" data-id="' . $course_id . '" href="#llms-course-remove" style="float:right;">' . __( 'Remove from Auto-enrollment', 'lifterlms' ) . '</a>
+				 <a class="llms-button-secondary small" data-id="' . $course_id . '" href="#llms-course-bulk-enroll" style="float:right;">' . __( 'Enroll All Members', 'lifterlms' ) . '</a>',
 
 			);
 
@@ -62,8 +63,9 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	/**
 	 * This function is where extending classes can configure all the fields within the metabox
 	 * The function must return an array which can be consumed by the "output" function
-	 *
 	 * @return array
+	 * @since    3.0.0
+	 * @version  3.4.0
 	 */
 	public function get_fields() {
 
@@ -184,7 +186,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 				'fields' 	=> array(
 					array(
 						'label' 	=> __( 'Auto Enrollment', 'lifterlms' ),
-						'desc' 		=> __( 'When a student joins this membership they will be automatically enrolled in these courses', 'lifterlms' ),
+						'desc' 		=> sprintf( __( 'When a student joins this membership they will be automatically enrolled in these courses. Click %1$shere%2$s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/membership-auto-enrollment/" target="_blank">', '</a>' ),
 						'id' 		=> $this->prefix . 'content_table',
 						'titles'	=> array( __( 'Course Name', 'lifterlms' ), '' ),
 						'empty_message' => __( 'No auto-enrollment couses found.', 'lifterlms' ),

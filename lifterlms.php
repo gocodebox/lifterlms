@@ -39,13 +39,16 @@ final class LifterLMS {
 
 	protected static $_instance = null;
 
-	public $session = null;
-
-	public $person = null;
+	/**
+	 * Array of background handler instances
+	 * @var  array
+	 */
+	public $background_handlers = array();
 
 	public $course_factory = null;
-
+	public $person = null;
 	public $query = null;
+	public $session = null;
 
 	/**
 	 * Main Instance of LifterLMS
@@ -89,6 +92,7 @@ final class LifterLMS {
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
+		add_action( 'init', array( $this, 'init_background_handlers' ), 5 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
@@ -318,6 +322,16 @@ final class LifterLMS {
 		$this->engagements();
 
 		do_action( 'lifterlms_init' );
+
+	}
+
+	public function init_background_handlers() {
+
+		require_once 'includes/libraries/wp-background-processing/wp-async-request.php';
+		require_once 'includes/libraries/wp-background-processing/wp-background-process.php';
+		require_once 'includes/class.llms.background.enrollment.php';
+
+		$this->background_handlers['enrollment'] = new LLMS_Background_Enrollment();
 
 	}
 

@@ -4,7 +4,8 @@
  * Currently only used to translate strings output by Javascript functions
  * More robust features will be added in the future
  *
- * @since  2.7.3
+ * @since   2.7.3
+ * @version 3.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -23,7 +24,7 @@ class LLMS_l10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.0.0 - added new strings
+	 * @version 3.4.0
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -48,10 +49,11 @@ class LLMS_l10n {
 			/**
 			 * file: _private/js/llms-metaboxes.js
 			 * @since    3.0.0
-			 * @version  3.1.0
+			 * @version  3.4.0
 			 */
 			'Cancel' => __( 'Cancel', 'lifterlms' ),
 			'Copy this code and paste it into the desired area' => __( 'Copy this code and paste it into the desired area', 'lifterlms' ),
+			'membership_bulk_enrollment_warning' => __( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
 			'Record a Manual Payment' => __( 'Record a Manual Payment', 'lifterlms' ),
 			'Refund' => __( 'Refund', 'lifterlms' ),
 

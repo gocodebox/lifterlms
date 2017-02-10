@@ -12,6 +12,55 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_AJAX_Handler {
 
 	/**
+	 * Queue all members of a membership to be enrolled into a specific course
+	 * Triggered from the auto-enrollment tab of a membership
+	 * @param    array     $request  array of request data
+	 * @return   array
+	 * @since    3.4.0
+	 * @version  3.4.0
+	 */
+	public static function bulk_enroll_membership_into_course( $request ) {
+
+		if ( empty( $request['post_id'] ) || empty( $request['course_id'] ) ) {
+			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
+		}
+
+		$args = array(
+			'post_id' => $request['post_id'],
+			'statuses' => 'enrolled',
+			'page' => 1,
+			'per_page' => 50,
+		);
+
+		$query = new LLMS_Student_Query( $args );
+
+		if ( $query->found_students ) {
+
+			$handler = LLMS()->background_handlers['enrollment'];
+
+			while ( $args['page'] <= $query->max_pages ) {
+
+				$handler->push_to_queue( array(
+					'enroll_into_id' => $request['course_id'],
+					'query_args' => $args,
+					'trigger' => sprintf( 'membership_%d', $request['post_id'] ),
+				) );
+
+				$args['page']++;
+
+			}
+
+			$handler->save()->dispatch();
+
+		}
+
+		return array(
+			'message' => __( 'Members are being enrolled in the background. You may leave this page.', 'lifterlms' ),
+		);
+
+	}
+
+	/**
 	 * Add or remove a student from a course or memberhip
 	 * @since    3.0.0
 	 * @version  3.4.0
