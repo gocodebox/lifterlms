@@ -187,7 +187,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.2.3
+	 * @version  3.4.0
 	 */
 	public function get_results( $args = array() ) {
 
@@ -244,7 +244,9 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 		$q = new WP_User_Query( $query );
 
-		if ( ceil( $q->total_users / $per ) > $this->current_page ) {
+		$this->max_pages = ceil( $q->total_users / $per );
+
+		if ( $this->max_pages > $this->current_page ) {
 			$this->is_last_page = false;
 		}
 

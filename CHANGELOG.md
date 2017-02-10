@@ -13,6 +13,8 @@ v3.4.0 - 2017/02/09
   + Student names link to full student reporting screen
   + Student IDs added to the table. ID links to the WP User Edit screen which was previously accessible by clicking the student's name
   + Utilizing improved database queries for displaying data on the table
++ Students reporting table pagination can now jump to first and last page
++ Students reporting table pagination now displays current page and total number of pages
 + Added new class `LLMS_Student_Query` which is modeled, loosely, off of the `WP_User_Query` and allows for querying student data in relation to courses
 + `LLMS_Admin_Table` abstract now supports filtering and jump to first and last page pagination options
 + `llms_get_enrolled_students` now utilizes `LLMS_Student_Query` and resolves a bug where some users returned by this query would be returned with the incorrect status.
