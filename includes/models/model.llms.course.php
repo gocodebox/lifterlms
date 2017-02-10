@@ -96,7 +96,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 * @since   1.0.0
-	 * @version 3.3.2
+	 * @version 3.4.0
 	 */
 	public function get_audio() {
 
@@ -324,7 +324,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 * @since   1.0.0
-	 * @version 3.3.2
+	 * @version 3.4.0
 	 */
 	public function get_video() {
 
@@ -409,7 +409,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @param    string   $type  determine if a specific type of prereq exists [any|course|track]
 	 * @return   boolean         Returns true if prereq is enabled and there is a prerequisite course or track
 	 * @since    3.0.0
-	 * @version  3.3.2
+	 * @version  3.4.0
 	 */
 	public function has_prerequisite( $type = 'any' ) {
 

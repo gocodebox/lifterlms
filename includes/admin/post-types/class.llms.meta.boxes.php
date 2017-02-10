@@ -178,7 +178,7 @@ class LLMS_Admin_Meta_Boxes {
 	/**
 	* Remove Metaboxes
 	* @return void
-	* @version  3.3.2
+	* @version  3.4.0
 	*/
 	public function hide_meta_boxes() {
 

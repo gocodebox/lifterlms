@@ -49,8 +49,8 @@ function llms_are_terms_and_conditions_required() {
  * @param  int|bool     $gmt    Optional. Whether to use GMT timezone. Default false.
  * @return int|string           Integer if $type is 'timestamp', string otherwise.
  *
- * @since    3.3.2
- * @version  3.3.2
+ * @since    3.4.0
+ * @version  3.4.0
  */
 if ( ! function_exists( 'llms_current_time' ) ) {
 	function llms_current_time( $type, $gmt = 0 ) {

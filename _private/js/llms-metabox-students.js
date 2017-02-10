@@ -32,7 +32,7 @@
 		 * Bind dom events
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.3.2
+		 * @version  3.4.0
 		 */
 		this.bind = function() {
 
@@ -71,7 +71,7 @@
 		 * @param    obj   $el  jQuery selector for the triggering button
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.3.2
+		 * @version  3.4.0
 		 */
 		this.enroll_students = function( $el ) {
 
@@ -123,7 +123,7 @@
 		 * @param    string   status  new status [add|remove]
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.3.2
+		 * @version  3.4.0
 		 */
 		this.update_student_enrollment = function( id, status ) {
 

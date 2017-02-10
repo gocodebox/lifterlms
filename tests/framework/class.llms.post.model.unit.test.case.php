@@ -2,8 +2,8 @@
 /**
  * Unit Test Case with tests and utilities specific to testing classes
  * which extend the LLMS_Post_Model
- * @since    3.3.2
- * @version  3.3.2
+ * @since    3.4.0
+ * @version  3.4.0
  */
 class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 
@@ -23,8 +23,8 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
 	 * @return   array
-	 * @since    3.3.2
-	 * @version  3.3.2
+	 * @since    3.4.0
+	 * @version  3.4.0
 	 */
 	protected function get_properties() {
 		return array();
@@ -34,8 +34,8 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
 	 * @return   array
-	 * @since    3.3.2
-	 * @version  3.3.2
+	 * @since    3.4.0
+	 * @version  3.4.0
 	 */
 	protected function get_data() {
 		return array();
@@ -63,8 +63,8 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	 * Create a post that can be tested
 	 * @param    string|array  $args  string for post title or array of arguments to use when creating the post
 	 * @return   void
-	 * @since    3.3.2
-	 * @version  3.3.2
+	 * @since    3.4.0
+	 * @version  3.4.0
 	 */
 	protected function create( $args = 'test title' ) {
 
@@ -86,8 +86,8 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Test creation of the model
 	 * @return   void
-	 * @since    3.3.2
-	 * @version  3.3.2
+	 * @since    3.4.0
+	 * @version  3.4.0
 	 */
 	public function test_create_model() {
 
@@ -106,8 +106,8 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Test getters and setters
 	 * @return   void
-	 * @since    3.3.2
-	 * @version  3.3.2
+	 * @since    3.4.0
+	 * @version  3.4.0
 	 */
 	public function test_getters_setters() {
 

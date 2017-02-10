@@ -14,7 +14,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Add or remove a student from a course or memberhip
 	 * @since    3.0.0
-	 * @version  3.3.2
+	 * @version  3.4.0
 	 */
 	public static function bulk_enroll_students( $request ) {
 
@@ -340,7 +340,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Add or remove a student from a course or memberhip
 	 * @since    3.0.0
-	 * @version  3.3.2
+	 * @version  3.4.0
 	 */
 	public static function update_student_enrollment( $request ) {
 

@@ -2,7 +2,7 @@
 /**
  * LifterLMS Coupon Model
  * @since    3.0.0
- * @version  3.3.2
+ * @version  3.4.0
  *
  * @property  $coupon_amount  (float)  Amount to subtract from the price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $coupon_courses  (array)  Array of Course IDs the coupon can be used against
@@ -197,7 +197,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 * Determine if trial amount discount is enabled for the coupon
 	 * @return  boolean
 	 * @since   3.0.0
-	 * @version 3.3.2
+	 * @version 3.4.0
 	 */
 	public function has_trial_discount() {
 		return ( 'yes' === $this->get( 'enable_trial_discount' ) );
@@ -207,7 +207,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 * Determine if a coupon is expired
 	 * @return boolean   true if expired, false otherwise
 	 * @since   3.0.0
-	 * @version 3.3.2
+	 * @version 3.4.0
 	 */
 	public function is_expired() {
 		$expires = $this->get_date( 'expiration_date', 'U' );

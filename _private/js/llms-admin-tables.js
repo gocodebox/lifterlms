@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Tables
  * @since    3.2.0
- * @version  3.3.2
+ * @version  3.4.0
  */
 ;( function( $, undefined ) {
 
@@ -32,7 +32,7 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    2.3.0
-		 * @version  3.3.2
+		 * @version  3.4.0
 		 */
 		this.bind = function() {
 
@@ -113,7 +113,7 @@
 		 * @param    obj   $btn    jQuery selector for the clicked button
 		 * @return   void
 		 * @since    3.2.0
-		 * @version  3.3.2
+		 * @version  3.4.0
 		 */
 		this.change_page = function( $table, $btn ) {
 

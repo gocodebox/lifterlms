@@ -1,9 +1,21 @@
 == Changelog ==
 
-v3.3.2 - 2017/02/08
+v3.4.0 - 2017/02/09
 -------------------
 
 + Enrollment for free access plans has improved based on your feedback. For more information see [https://lifterlms.com/docs/checkout-free-access-plans/](https://lifterlms.com/docs/checkout-free-access-plans/)
++ Updraded Student Management Table for courses and memberships:
+  + Allow searching students by name / email
+  + Allow filtering of students by current status
+  + Allow sorting of students by name, user id, status, and enrollment updated date
+  + Added student's grade to the table (courses only)
+  + Table pagination allows skipping to the first and last pages
+  + Student names link to full student reporting screen
+  + Student IDs added to the table. ID links to the WP User Edit screen which was previously accessible by clicking the student's name
+  + Utilizing improved database queries for displaying data on the table
++ Added new class `LLMS_Student_Query` which is modeled, loosely, off of the `WP_User_Query` and allows for querying student data in relation to courses
++ `LLMS_Admin_Table` abstract now supports filtering and jump to first and last page pagination options
++ `llms_get_enrolled_students` now utilizes `LLMS_Student_Query` and resolves a bug where some users returned by this query would be returned with the incorrect status.
 + Ensure `LLMS_Course::has_prerequisite( 'course' )` & `LLMS_Course::has_prerequisite( 'track' )` always return booleans
 + Made a small performance tweak for courses without audio / video embeds
 + Fix coupon expiration dates check to be more i18n friendly
