@@ -358,7 +358,6 @@ class LLMS_Student_Query {
 
 		}
 
-
 	}
 
 	/**
