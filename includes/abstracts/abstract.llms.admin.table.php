@@ -355,7 +355,7 @@ abstract class LLMS_Admin_Table {
 					<div class="llms-table-filter-wrap">
 						<select class="llms-select2 llms-table-filter" id="<?php printf( '%1$s-%2$s-filter', $this->id, $id ); ?>" name="<?php echo $id; ?>">
 							<option value="<?php echo $this->get_filter(); ?>"><?php echo $this->get_filter_placeholder( $id, $data ); ?></option>
-							<?php foreach( $data['filterable'] as $val => $name ) : ?>
+							<?php foreach ( $data['filterable'] as $val => $name ) : ?>
 								<option value="<?php echo $val; ?>"><?php echo $name; ?></option>
 							<?php endforeach; ?>
 						</select>
