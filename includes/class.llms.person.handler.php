@@ -701,10 +701,10 @@ class LLMS_Person_Handler {
 	 *                        	'llms_billing_country' => '',
 	 *                        	'llms_phone' => '',
 	 *                        )
-	 * @param  string $screen screen to validate fields against, accepts "checkout", "registration", or "update"
-	 * @return true|WP_Error
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @param    string $screen screen to validate fields against, accepts "checkout", "registration", or "update"
+	 * @return   true|WP_Error
+	 * @since    3.0.0
+	 * @version  3.4.1
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 
@@ -727,7 +727,7 @@ class LLMS_Person_Handler {
 			$name = isset( $field['name'] ) ? $field['name'] : $field['id'];
 			$label = isset( $field['label'] ) ? $field['label'] : $name;
 
-			$val = isset( $data[ $name ] ) ? $data[ $name ] : '';
+			$val = isset( $data[ $name ] ) ? trim( $data[ $name ] ) : '';
 
 			// ensure required fields are submitted
 			if ( isset( $field['required'] ) && $field['required'] && empty( $val ) ) {
@@ -764,13 +764,12 @@ class LLMS_Person_Handler {
 
 			}
 
-			if ( 'llms_voucher' === $name ) {
+			if ( 'llms_voucher' === $name && ! empty( $val ) ) {
 
 				$v = new LLMS_Voucher();
-				if ( ! $v->check_voucher( $val ) ) {
-
-					$e->add( $field['id'], sprintf( __( 'Voucher code "%s" could not be found or is invalid.', 'lifterlms' ), $val ), 'invalid-voucher' );
-
+				$check = $v->check_voucher( $val );
+				if ( is_wp_error( $check ) ) {
+					$e->add( $field['id'], $check->get_error_message(), 'voucher-' . $check->get_error_code() );
 				}
 
 			}
@@ -840,7 +839,6 @@ class LLMS_Person_Handler {
 
 		// return errors if we have errors
 		if ( $e->get_error_messages() ) {
-
 			return $e;
 
 		}

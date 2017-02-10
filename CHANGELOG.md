@@ -1,5 +1,12 @@
 == Changelog ==
 
+v3.4.1 - 2017/02/??
+-------------------
+
++ Ensure open registration with required voucher prevents registration with invalid vouchers
+
+
+
 v3.4.0 - 2017/02/10
 -------------------
 
