@@ -4,6 +4,8 @@ v3.4.1 - 2017/02/??
 -------------------
 
 + Ensure open registration with required voucher prevents registration with invalid vouchers
++ Admin tables can display percentages as a progress bar!
++ Students reporting table displays overall progress as a progress bar
 
 
 

@@ -44,6 +44,7 @@
 		&.expandable.closed {
 			display: none;
 		}
+
 	}
 
 	thead th,
@@ -127,4 +128,22 @@
 		padding: 0 5px;
 	}
 
+}
+
+// progress bars within the tables
+.llms-table-progress {
+	background: #eee;
+	height: 16px;
+	position: relative;
+	.llms-table-progress-text {
+		font-size: 11px;
+		line-height: 16px;
+		position: absolute;
+		right: 4px;
+		top: 0;
+	}
+	.llms-table-progress-inner {
+		background: $color-brand-blue;
+		height: 100%;
+	}
 }
