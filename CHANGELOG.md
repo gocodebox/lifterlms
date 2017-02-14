@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.4.2 - 2017/02/14
+-------------------
+
++ Backwards compatible css for tooltips
+
+
 v3.4.1 - 2017/02/14
 -------------------
 
