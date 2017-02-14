@@ -121,7 +121,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			break;
 
 			case 'progress':
-				$value = $student->get_overall_progress( true ) . '%';
+				$value = $this->get_progress_bar_html( $student->get_overall_progress( true ) );
+				;
 			break;
 
 			case 'registered':
