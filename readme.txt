@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.2
-Stable tag: 3.4.0
+Stable tag: 3.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,19 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.4.1 - 2017/02/14 =
+-----------------------
+
++ Password strength meter now functions correctly when using the [lifterlms_registration] shortcode
++ Ensure open registration with required voucher prevents registration with invalid vouchers
++ Lesson completion via quiz completion only recorded the first time the quiz is completed
++ Fix issue preventing membership catalog from obeying the catalog's ordering settings
++ Prevent duplicate engagements from being triggered
++ Admin tables can display percentages as a progress bar!
++ Students reporting table displays overall progress as a progress bar
++ Refactored frontend assets class to allow better management of inline scripts
+
 
 = v3.4.0 - 2017/02/10 =
 -----------------------
