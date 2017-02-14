@@ -3,7 +3,7 @@
  * Admin GradeBook Tables
  *
  * @since   3.2.0
- * @version 3.4.0
+ * @version 3.4.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -575,6 +575,25 @@ abstract class LLMS_Admin_Table {
 	 */
 	public function get_columns_count() {
 		return count( $this->get_columns() );
+	}
+
+	/**
+	 * Get the HTML to output a progress bar within a td
+	 * Improve ugly tables with a small visual flourish
+	 * Useful when displaying a percentage within a table!
+	 * Bonus if the table sorts by that percentage column
+	 * @param    float      $percentage  the percentage to be displayed
+	 * @param    string     $text        text to display over the progress bar, defaults to $percentage
+	 * @return   string
+	 * @since    3.4.1
+	 * @version  3.4.1
+	 */
+	public function get_progress_bar_html( $percentage, $text = '' ) {
+		$text = $text ? $text : $percentage . '%';
+		return '<div class="llms-table-progress">
+			<span class="llms-table-progress-text">' . $text . '</span>
+			<div class="llms-table-progress-inner" style="width:' . $percentage . '%"></div>
+		</div>';
 	}
 
 	/**
