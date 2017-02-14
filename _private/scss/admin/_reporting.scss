@@ -23,7 +23,8 @@
 		text-decoration: none;
 	}
 
-	th.name, td.name { text-align: left; }
+	th.name, td.name,
+	th.title, td.title { text-align: left; }
 
 	th.section-title {
 		background: #eaeaea;
