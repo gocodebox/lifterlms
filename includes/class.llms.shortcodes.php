@@ -68,9 +68,10 @@ class LLMS_Shortcodes {
 	 * Retrieve the course ID from within a course, lesson, or quiz
 	 * @return   int
 	 * @since    2.7.9
-	 * @version  2.7.9
+	 * @version  3.4.1
 	 */
 	private static function get_course_id() {
+
 		if ( is_course() ) {
 			return get_the_ID();
 		} elseif ( is_lesson() ) {
@@ -80,9 +81,9 @@ class LLMS_Shortcodes {
 			$quiz = new LLMS_Quiz( get_the_ID() );
 			$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
 			return $lesson->get_parent_course();
-		} else {
-			return 0;
 		}
+
+		return 0;
 	}
 
 	/**
@@ -350,7 +351,7 @@ class LLMS_Shortcodes {
 	 * @param    string     $content  HTML / Text content to be displayed only if the user is enrolled
 	 * @return   content
 	 * @since    1.0.0
-	 * @version  3.1.1
+	 * @version  3.4.1
 	 */
 	public static function hide_content( $atts, $content = '' ) {
 
@@ -366,9 +367,9 @@ class LLMS_Shortcodes {
 
 		if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
 			return $content;
-		} else {
-			return $message;
 		}
+
+		return $message;
 
 	}
 
@@ -637,9 +638,9 @@ class LLMS_Shortcodes {
 
 		if ( 1 == $count ) {
 			return $count . ' ' . $type;
-		} else {
-			return $count . ' ' . $type . 's';
 		}
+
+		return $count . ' ' . $type . 's';
 
 	}
 
