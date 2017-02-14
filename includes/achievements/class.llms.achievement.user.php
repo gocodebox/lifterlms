@@ -22,6 +22,35 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	}
 
 	/**
+	 * Check if the user has already earned this achievement
+	 * used to prevent duplicates
+	 * @return   boolean
+	 * @since    3.4.1
+	 * @version  3.4.1
+	 */
+	private function has_user_earned() {
+
+		global $wpdb;
+
+		$count = (int) $wpdb->get_var( $wpdb->prepare( "
+			SELECT COUNT( pm.meta_id )
+			FROM {$wpdb->postmeta} AS pm
+			JOIN {$wpdb->prefix}lifterlms_user_postmeta AS upm ON pm.post_id = upm.meta_value
+			WHERE pm.meta_key = '_llms_achievement_template'
+			  AND pm.meta_value = %d
+			  AND upm.meta_key = '_achievement_earned'
+			  AND upm.user_id = %d
+			  AND upm.post_id = %d
+			  LIMIT 1
+			;",
+			array( $this->achievement_template_id, $this->userid, $this->lesson_id )
+		) );
+
+		return ( $count >= 1 );
+
+	}
+
+	/**
 	 * Initializes all of the variables needed to create the achievement post.
 	 *
 	 * @param  int $id [id of post]
@@ -63,7 +92,13 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * @return void
 	 */
 	public function trigger( $user_id, $id, $lesson_id ) {
+
 		$this->init( $id, $user_id, $lesson_id );
+
+		// only award achievement if the user hasn't already earned it
+		if ( $this->has_user_earned() ) {
+			return;
+		}
 
 		if ( $user_id ) {
 

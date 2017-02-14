@@ -24,13 +24,14 @@ class LLMS_Email_Engagement extends LLMS_Email {
 
 	/**
 	 * Initialize all variables
-	 * @param    int $user_id   WP User ID of the recieving user
-	 * @param    int $email_id  WP Post ID of an llms_email Post Type
+	 * @param    int $user_id          WP User ID of the recieving user
+	 * @param    int $email_id         WP Post ID of an llms_email Post Type
+	 * @param    int $related_post_id  WP Post ID of the triggering post
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  3.1.0
 	 */
-	public function init( $email_id, $user_id ) {
+	public function init( $email_id, $user_id, $related_post_id ) {
 
 		global $wpdb;
 
@@ -47,6 +48,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$this->bcc            		= isset( $email_meta['_llms_email_bcc'] ) ? $email_meta['_llms_email_bcc'][0] : '';
 		$this->email_content		= $email_content->post_content;
 		$this->account_link 		= get_permalink( llms_get_page_id( 'myaccount' ) );
+		$this->related_post_id      = $related_post_id;
 
 		if ( $user_id ) {
 
@@ -202,21 +204,63 @@ class LLMS_Email_Engagement extends LLMS_Email {
 
 	/**
 	 * Sends an engagement email to a user
-	 * @param    int $user_id   WP User ID of the recieving user
-	 * @param    int $email_id  WP Post ID of an llms_email Post Type
+	 * @param    int $user_id          WP User ID of the recieving user
+	 * @param    int $email_id         WP Post ID of an llms_email Post Type
+	 * @param    int $related_post_id  WP Post ID of the triggering post
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.1.0
+	 * @version  3.4.1
 	 */
-	public function trigger( $user_id, $email_id ) {
+	public function trigger( $user_id, $email_id, $related_post_id ) {
 
-		$this->init( $email_id, $user_id );
+		global $wpdb;
+
+		$res = (int) $wpdb->get_var( $wpdb->prepare( "
+			SELECT count( meta_id )
+			FROM {$wpdb->prefix}lifterlms_user_postmeta
+			WHERE post_id = %d
+			  AND user_id = %d
+			  AND meta_value = %d
+			  LIMIT 1
+			;",
+			array(
+				$related_post_id,
+				$user_id,
+				$email_id
+			)
+		) );
+
+		if ( $res >= 1 ) {
+			return;
+		}
+
+
+		$this->init( $email_id, $user_id, $related_post_id );
 
 		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
 			return;
 		}
 
-		$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
+		$send = $this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
+
+		if ( $send ) {
+
+
+			$wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+				array(
+					'user_id' 			=> $user_id,
+					'post_id' 			=> $related_post_id,
+					'meta_key'			=> '_email_sent',
+					'meta_value'		=> $email_id,
+					'updated_date'		=> current_time( 'mysql' ),
+				),
+				array( '%d', '%d', '%s', '%d', '%s', )
+			);
+
+		} // not sent and debug enabled
+		elseif ( ! $send && defined( 'LLMS_ENGAGEMENT_DEBUG' ) && LLMS_ENGAGEMENT_DEBUG ) {
+			llms_log( sprintf( 'Error: email `#%d` was not sent', $email_id ) );
+		}
 	}
 
 }

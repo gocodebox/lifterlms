@@ -2489,6 +2489,23 @@ div[id^="lifterlms-"] .inside {
   padding: 0 5px;
 }
 
+.llms-table-progress {
+  background: #eee;
+  height: 16px;
+  position: relative;
+}
+.llms-table-progress .llms-table-progress-text {
+  font-size: 11px;
+  line-height: 16px;
+  position: absolute;
+  right: 4px;
+  top: 0;
+}
+.llms-table-progress .llms-table-progress-inner {
+  background: #2295ff;
+  height: 100%;
+}
+
 .llms-order-note .llms-order-note-content {
   background: #efefef;
   margin-bottom: 10px;
@@ -2836,7 +2853,8 @@ div[id^="lifterlms-"] .inside {
 .llms-reporting.wrap td.id a {
   text-decoration: none;
 }
-.llms-reporting.wrap th.name, .llms-reporting.wrap td.name {
+.llms-reporting.wrap th.name, .llms-reporting.wrap td.name,
+.llms-reporting.wrap th.title, .llms-reporting.wrap td.title {
   text-align: left;
 }
 .llms-reporting.wrap th.section-title {
