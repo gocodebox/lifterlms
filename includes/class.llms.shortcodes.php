@@ -1,13 +1,9 @@
 <?php
-
 /**
-* Shortcode base class
+* LifterLMS Shortcodes
 *
-* Shortcode logic
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* @version  1.0.0
+* @version  3.4.1
 */
 class LLMS_Shortcodes {
 
@@ -188,20 +184,20 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	 * Registration page shortcode
-	 * Used to seperate registration from login
-	 * @param  [atts] $atts [no atts are allowed]
-	 * @return [html]       [registration template html]
+	 * Output the LifterLMS Registration form
+	 * @param  	 array   $atts  Shortcode atts
+	 * @return 	 string
+	 * @since    1.0.0
+	 * @version  3.4.1
 	 */
 	public static function registration( $atts ) {
 
+		self::enqueue_script( 'password-strength-meter' );
+		LLMS_Frontend_Assets::enqueue_inline_pw_script();
+
 		ob_start();
-
 		include( llms_get_template_part_contents( 'global/form', 'registration' ) );
-
-		$html = ob_get_clean();
-
-		return $html;
+		return ob_get_clean();
 
 	}
 
