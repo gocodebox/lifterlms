@@ -202,11 +202,12 @@ class LLMS_Admin_Reporting {
 	 * Get an array of tabs to output in the main reporting menu
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  ??
 	 */
 	private function get_tabs() {
 		return apply_filters( 'lifterlms_reporting_tabs', array(
 			'students' => __( 'Students', 'lifterlms' ),
+			'courses' => __( 'Courses', 'lifterlms' ),
 			'sales' => __( 'Sales', 'lifterlms' ),
 			'enrollments' => __( 'Enrollments', 'lifterlms' ),
 		) );

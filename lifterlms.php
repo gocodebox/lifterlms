@@ -52,12 +52,11 @@ final class LifterLMS {
 
 	/**
 	 * Main Instance of LifterLMS
-	 *
 	 * Ensures only one instance of LifterLMS is loaded or can be loaded.
-	 *
-	 * @static
-	 * @see LLMS()
-	 * @return LifterLMS - Main instance
+	 * @see      LLMS()
+	 * @return   LifterLMS - Main instance
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -68,8 +67,9 @@ final class LifterLMS {
 
 	/**
 	 * LifterLMS Constructor.
-	 * @access public
-	 * @return LifterLMS
+	 * @return   LifterLMS
+	 * @since    1.0.0
+	 * @version  ??
 	 */
 	private function __construct() {
 
@@ -92,7 +92,7 @@ final class LifterLMS {
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
-		add_action( 'init', array( $this, 'init_background_handlers' ), 5 );
+		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
@@ -175,8 +175,8 @@ final class LifterLMS {
 
 	/**
 	 * Include required core classes
-	 * @since   1.0.0
-	 * @version 3.3.1
+	 * @since    1.0.0
+	 * @version  ??
 	 */
 	private function includes() {
 
@@ -185,6 +185,8 @@ final class LifterLMS {
 		require_once 'includes/class.llms.session.php';
 
 		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
+
+		require_once 'includes/processors/class.llms.processors.php';
 
 		if ( is_admin() ) {
 
@@ -325,15 +327,22 @@ final class LifterLMS {
 
 	}
 
-	public function init_background_handlers() {
+	// public function init_background_handlers() {
 
-		require_once 'includes/libraries/wp-background-processing/wp-async-request.php';
-		require_once 'includes/libraries/wp-background-processing/wp-background-process.php';
-		require_once 'includes/class.llms.background.enrollment.php';
+	// 	require_once 'includes/libraries/wp-background-processing/wp-async-request.php';
+	// 	require_once 'includes/libraries/wp-background-processing/wp-background-process.php';
+	// 	require_once 'includes/class.llms.background.enrollment.php';
 
-		$this->background_handlers['enrollment'] = new LLMS_Background_Enrollment();
+	// 	// processors
+	// 	require_once 'includes/abstracts/abstract.llms.processor.php';
+	// 	foreach ( glob( LLMS_PLUGIN_DIR . 'includes/processors/*.php', GLOB_NOSORT ) as $model ) {
+	// 		require_once $model;
+	// 	}
 
-	}
+	// 	$this->background_handlers['course'] = new LLMS_Processor_Course();
+	// 	$this->background_handlers['enrollment'] = new LLMS_Background_Enrollment();
+
+	// }
 
 	/**
 	 * Get the plugin url.
@@ -369,6 +378,17 @@ final class LifterLMS {
 	 */
 	public function payment_gateways() {
 		return LLMS_Payment_Gateways::instance();
+	}
+
+	/**
+	 * Load all background processors and
+	 * access to them programattically a processor via LLMS()->processors()->get( $processor )
+	 * @return   LLMS_Processors
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function processors() {
+		return LLMS_Processors::instance();
 	}
 
 	public function mailer() {

@@ -23,6 +23,8 @@
 * @property $prerequisite_track   (int)  WP Tax ID of a the prerequisite track
 * @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
 * @property $length  (string)  User defined coure length
+* @property $overall_grade  (float)  Calulated value of the overall grade of all *enrolled* students in the course.
+* @property $overall_progress  (float)  Calulated value of the overall progress of all *enrolled* students in the course.
 * @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
 * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
 * @property $video_embed  (string)  URL to an oEmbed enable video URL
@@ -33,6 +35,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Course extends LLMS_Post_Model {
 
 	protected $properties = array(
+
+		// public
 		'audio_embed' => 'text',
 		'capacity' => 'absint',
 		'capacity_message' => 'text',
@@ -48,12 +52,17 @@ class LLMS_Course extends LLMS_Post_Model {
 		'enrollment_start_date' => 'text',
 		'has_prerequisite' => 'yesno',
 		'length' => 'text',
+		'overall_grade' => 'float',
+		'overall_progress' => 'float',
 		'prerequisite' => 'absint',
 		'prerequisite_track' => 'absint',
 		'tile_featured_video' => 'yesno',
 		'time_period' => 'yesno',
 		'start_date' => 'text',
 		'video_embed' => 'text',
+
+		// private
+		'temp_calc_data' => 'array',
 	);
 
 	protected $db_post_type = 'course';
@@ -244,6 +253,24 @@ class LLMS_Course extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the number of enrolled students in the course
+	 * @return   int
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function get_student_count() {
+
+		$query = new LLMS_Student_Query( array(
+			'post_id' => $this->get( 'id' ),
+			'statuses' => array( 'enrolled' ),
+			'per_page' => 1,
+		) );
+
+		return $query->found_students;
+
+	}
+
+	/**
 	 * Get an array of student IDs based on enrollment status in the course
 	 * @param    string|array  $statuses  list of enrollment statuses to query by
 	 *                                    status query is an OR relationship
@@ -378,7 +405,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * Determine if the course is at capacity based on course capacity serttings
 	 * @return   boolean    true if not at capacity, false if at or over capacity
 	 * @since    3.0.0
-	 * @version  3.4.0
+	 * @version  ??
 	 */
 	public function has_capacity() {
 
@@ -393,15 +420,8 @@ class LLMS_Course extends LLMS_Post_Model {
 			return true;
 		}
 
-		// run a query and utilize the "found_students" so we perform a smaller query
-		$query = new LLMS_Student_Query( array(
-			'post_id' => $this->get( 'id' ),
-			'statuses' => array( 'enrolled' ),
-			'per_page' => 1,
-		) );
-
 		// compare results
-		return ( $query->found_students < $capacity );
+		return ( $this->get_student_count() < $capacity );
 	}
 
 	/**
