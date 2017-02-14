@@ -129,5 +129,5 @@ install_db
 
 
 
-# mkdir ./tmp
-# svn co http://develop.svn.wordpress.org/trunk/ ./tmp/wordpress-develop
+mkdir ./tmp
+svn co http://develop.svn.wordpress.org/trunk/ ./tmp/wordpress-develop
