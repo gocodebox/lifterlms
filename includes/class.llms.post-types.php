@@ -75,7 +75,7 @@ class LLMS_Post_Types {
 	 * @return  void
 	 *
 	 * @since    1.4.4
-	 * @version  3.2.5
+	 * @version  3.4.1
 	 */
 	public static function pre_get_posts( $query ) {
 
@@ -98,7 +98,7 @@ class LLMS_Post_Types {
 				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $order ) );
 				$query->set( 'order', apply_filters( 'llms_courses_order', $orderby ) );
 
-			} elseif ( is_post_type_archive( 'membership' ) || $query->get( 'page_id' ) == llms_get_page_id( 'memberships' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
+			} elseif ( is_post_type_archive( 'llms_membership' ) || $query->get( 'page_id' ) == llms_get_page_id( 'memberships' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
 
 				$query->set( 'posts_per_page', get_option( 'lifterlms_memberships_per_page', 10 ) );
 
