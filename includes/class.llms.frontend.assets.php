@@ -46,7 +46,7 @@ class LLMS_Frontend_Assets {
 	 * @param    string     $script    JS to enqueue, do not add <script> tags!
 	 * @param    string     $where     where to enqueue, in the header or footer
 	 * @param    float      $priority  enqueue priority
-	 * @return   void
+	 * @return   boolean
 	 * @since    3.4.1
 	 * @version  3.4.1
 	 */
@@ -54,7 +54,7 @@ class LLMS_Frontend_Assets {
 
 		// dupcheck
 		if ( self::is_inline_script_enqueued( $id ) ) {
-			return;
+			return false;
 		}
 
 		// retrieve the current array of scripts
@@ -81,6 +81,8 @@ class LLMS_Frontend_Assets {
 
 		// save updated array
 		self::$inline_scripts[ $where ] = $scripts;
+
+		return true;
 
 	}
 
@@ -207,8 +209,6 @@ class LLMS_Frontend_Assets {
 	private static function output_inline_scripts( $where ) {
 
 		$scripts = self::get_inline_scripts( $where );
-
-		var_dump( $scripts );
 
 		// bail if no scripts
 		if ( ! $scripts ) {
