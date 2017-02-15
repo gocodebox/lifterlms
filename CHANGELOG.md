@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.4.3 - 2017/02/??
+-------------------
+
++ Fix issue with bbPress integration so that forums restricted to multiple memberships allow users of at least one membership that the forum is restricted to access topics within that forum
+
+
 v3.4.2 - 2017/02/14
 -------------------
 
