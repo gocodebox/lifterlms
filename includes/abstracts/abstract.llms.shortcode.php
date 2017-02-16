@@ -63,23 +63,23 @@ abstract class LLMS_Shortcode {
 	 * @since    3.4.3
 	 * @version  3.4.3
 	 */
-    public static function instance() {
+	public static function instance() {
 
-        $class = get_called_class();
+		$class = get_called_class();
 
-        if ( ! isset( self::$_instances[ $class ] ) ) {
-            self::$_instances[ $class ] = new $class();
-        }
+		if ( ! isset( self::$_instances[ $class ] ) ) {
+			self::$_instances[ $class ] = new $class();
+		}
 
-        return self::$_instances[ $class ];
+		return self::$_instances[ $class ];
 
-    }
+	}
 
-    /**
-     * Private constructor
-     * @since    3.4.3
-     * @version  3.4.3
-     */
+	/**
+	 * Private constructor
+	 * @since    3.4.3
+	 * @version  3.4.3
+	 */
 	private function __construct() {
 		add_shortcode( $this->tag, array( $this, 'output' ) );
 	}
