@@ -2,18 +2,41 @@
 /**
 * LifterLMS Shortcodes
 *
-* @version  1.0.0
-* @version  3.4.1
+* @since    1.0.0
+* @version  3.4.3
 */
 class LLMS_Shortcodes {
 
 	/**
 	* init shortcodes array
-	*
 	* @return void
+	* @since    1.0.0
+	* @version  3.4.3
 	*/
 	public static function init() {
 
+		// new method
+		$scs = apply_filters( 'llms_load_shortcodes', array(
+			'LLMS_Shortcode_Membership_Link',
+			'LLMS_Shortcode_Registration',
+		) );
+
+		// include abstract
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.php';
+
+		foreach ( $scs as $class ) {
+
+			$filename = strtolower( str_replace( '_', '.', $class ) );
+			$path = apply_filters( 'llms_load_shortcode_path', LLMS_PLUGIN_DIR . 'includes/shortcodes/class.' . $filename . '.php', $class );
+
+			if ( file_exists( $path ) ) {
+				require_once $path;
+			}
+
+		}
+
+
+		// old method
 		$shortcodes = array(
 			'lifterlms_access_plan_button' => __CLASS__ . '::access_plan_button',
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
@@ -25,15 +48,12 @@ class LLMS_Shortcodes {
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
-			'lifterlms_registration' => __CLASS__ . '::registration',
-			'lifterlms_regiration' => __CLASS__ . '::registration',
 			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
 			'lifterlms_login' => __CLASS__ . '::login',
 			'lifterlms_pricing_table' => __CLASS__ . '::pricing_table',
 			'lifterlms_memberships' => __CLASS__ . '::memberships',
-			'lifterlms_membership_link' => __CLASS__ . '::membership_link',
 
 		);
 
@@ -184,42 +204,7 @@ class LLMS_Shortcodes {
 
 	}
 
-	/**
-	 * Output the LifterLMS Registration form
-	 * @param  	 array   $atts  Shortcode atts
-	 * @return 	 string
-	 * @since    1.0.0
-	 * @version  3.4.1
-	 */
-	public static function registration( $atts ) {
 
-		self::enqueue_script( 'password-strength-meter' );
-		LLMS_Frontend_Assets::enqueue_inline_pw_script();
-
-		ob_start();
-		include( llms_get_template_part_contents( 'global/form', 'registration' ) );
-		return ob_get_clean();
-
-	}
-
-	/**
-	 * Output an achor link for a membership
-	 * @param    array     $atts  shortcode atts
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public static function membership_link( $atts ) {
-
-		extract( shortcode_atts( array(
-			'id' => get_the_ID(),
-		), $atts, 'lifterlms_membership_link' ) );
-
-		$text = apply_filters( 'lifterlms_membership_link_text', get_the_title( $id ), $id );
-
-		return apply_filters( 'lifterlms_membership_link_shortcode', '<a href="' . get_permalink( $id ) . '">' . $text . '</a>', $atts );
-
-	}
 
 	/**
 	* Memberships Shortcode
