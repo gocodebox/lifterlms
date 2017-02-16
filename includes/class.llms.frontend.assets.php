@@ -122,7 +122,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.4.1
+	 * @version 3.4.3
 	 */
 	public static function enqueue_scripts() {
 
@@ -154,9 +154,10 @@ class LLMS_Frontend_Assets {
 			self::enqueue_inline_pw_script();
 		}
 
+		$ssl = is_ssl() ? 'https' : 'http';
 		self::enqueue_inline_script(
 			'llms-ajaxurl',
-			'window.llms = window.llms || {};window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php' ) . '";'
+			'window.llms = window.llms || {};window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php', $ssl ) . '";'
 		);
 		self::enqueue_inline_script(
 			'llms-LLMS-obj',
