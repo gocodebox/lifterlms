@@ -2,24 +2,42 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.0.0
+ * @version 3.4.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-// @todo why is this here?
-include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
 class LLMS_Install {
 
+
+	public static $background_updater;
+
 	/**
-	 * Array of databse updates to be run
+	 * Array of databse updates versions
+	 * and an array of callback functions for the update
 	 * @var  array
 	 */
 	private static $db_updates = array(
-		'3.0.0' => 'updates/lifterlms-update-3.0.0.php',
-		'3.0.3' => 'updates/lifterlms-update-3.0.3.php',
-		'3.3.0' => 'updates/lifterlms-update-3.3.0.php',
+		'3.0.0' => array(
+			'llms_update_300_create_access_plans',
+			'llms_update_300_del_deprecated_options',
+			'llms_update_300_migrate_account_field_options',
+			'llms_update_300_migrate_coupon_data',
+			'llms_update_300_migrate_course_postmeta',
+			'llms_update_300_migrate_lesson_postmeta',
+			'llms_update_300_migrate_order_data',
+			'llms_update_300_migrate_email_postmeta',
+			'llms_update_300_update_orders',
+			'llms_update_300_update_db_version',
+		),
+		'3.0.3' => array(
+			'llms_update_303_update_students_role',
+			'llms_update_303_update_db_version',
+		),
+		'3.4.3' => array(
+			'llms_update_343_update_relationships',
+			'llms_update_343_update_db_version',
+		),
 	);
 
 	/**
@@ -27,15 +45,17 @@ class LLMS_Install {
 	 * Hooks all actions
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.3.1
+	 * @version  3.4.3
 	 */
 	public static function init() {
 
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		require_once 'admin/llms.functions.admin.php';
 
+		add_action( 'init', array( __CLASS__, 'init_background_updater' ), 4 );
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
+		add_action( 'admin_init', array( __CLASS__, 'update_actions' ) );
 		add_action( 'admin_init', array( __CLASS__, 'wizard_redirect' ) );
-		add_action( 'init', array( __CLASS__, 'db_updates' ), 5 );
 
 	}
 
@@ -234,71 +254,37 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Check available database updates and run them if db is less than the update version
-	 * @return void
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * Queue all required db updates into the bg update queue
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.4.3
 	 */
 	public static function db_updates() {
 
-		// start the updater if the run button was clicked
-		if ( isset( $_GET['llms-db-update'] ) ) {
-			if ( ! wp_verify_nonce( $_GET['llms-db-update'], 'do_db_updates' ) ) {
-				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
-			}
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
-			}
+		$current_db_version = get_option( 'lifterlms_db_version' );
+		$queued = false;
 
-			LLMS_Admin_Notices::delete_notice( 'db-update' );
+		foreach ( self::$db_updates as $version => $callbacks ) {
 
-			$do_update = 'yes';
-			update_option( 'llms_doing_database_update', $do_update );
+			if ( version_compare( $current_db_version, $version, '<' ) ) {
 
-		} // get the current state of the updates
-		else {
+				foreach ( $callbacks as $callback ) {
 
-			$do_update = get_option( 'llms_doing_database_update', 'no' );
-
-		}
-
-		// if we're in the midst of an update keep going
-		if ( 'yes' === $do_update ) {
-
-			$current_db_version = get_option( 'lifterlms_db_version', 0 );
-
-			$finished = true;
-
-			include_once 'abstracts/abstract.llms.update.php';
-
-			foreach ( self::$db_updates as $version => $updater ) {
-
-				if ( version_compare( $current_db_version, $version, '<' ) ) {
-
-					$u = include_once $updater;
-					$finished = false;
+					self::$background_updater->log( sprintf( 'Queuing %s - %s', $version, $callback ) );
+					self::$background_updater->push_to_queue( $callback );
+					$queued = true;
 
 				}
 
 			}
 
-			// if there are no more updates to run output an admin notice
-			if ( $finished ) {
-
-				// this runs on init so this may not be available
-				include_once 'admin/class.llms.admin.notices.php';
-				LLMS_Admin_Notices::add_notice( 'llms_bg_updates_complete', __( 'LifterLMS background update completed!', 'lifterlms' ), array(
-					'dismissible' => true,
-					'dismiss_for_days' => 0,
-				) );
-
-				self::update_db_version();
-				update_option( 'llms_doing_database_update', 'no' );
-				do_action( 'lifterlms_background_updates_complete' );
-
-			}
-
 		}
+
+		if ( $queued ) {
+			self::$background_updater->save()->dispatch();
+		}
+
+		self::update_notice();
 
 	}
 
@@ -385,12 +371,29 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	}
 
 	/**
+	 * Initializes the bg updater class
+	 * @return   void
+	 * @since    3.4.3
+	 * @version  3.4.3
+	 */
+	public static function init_background_updater() {
+
+		include_once dirname( __FILE__ ) . '/class.llms.background.updater.php';
+		self::$background_updater = new LLMS_Background_Updater;
+
+	}
+
+	/**
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.3.1
+	 * @version 3.4.3
 	 */
 	public static function install() {
+
+		if ( ! is_blog_installed() ) {
+			return;
+		}
 
 		do_action( 'lifterlms_before_install' );
 
@@ -415,33 +418,18 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 		// trigger first time run redirect
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
 
-			self::update_llms_version();
-			self::update_db_version();
 			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
 
-		} // do database updates
-		elseif ( 'no' === get_option( 'llms_doing_database_update', 'no' ) ) {
+		}
 
-			if ( version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
+		// show the update notice since theres db updates to run
+		if ( ! is_null( $db_version ) && version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
 
-				// may not be available since this runs on init
-				include_once 'admin/class.llms.admin.notices.php';
+			self::update_notice();
 
-				// if a notice already exists clear it out and add the most current one
-				if ( LLMS_Admin_Notices::has_notice( 'db-update' ) ) {
-					LLMS_Admin_Notices::delete_notice( 'db-update' );
-				}
+		} else {
 
-				LLMS_Admin_Notices::add_notice( 'db-update', array(
-					'dismissible' => false,
-					'template' => 'admin/notices/db-update.php',
-				) );
-
-			} else {
-
-				self::update_db_version();
-
-			}
+			self::update_db_version();
 
 		}
 
@@ -475,11 +463,105 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	}
 
 	/**
+	 * Handle form submission of update related actions
+	 * @return   void
+	 * @since    3.4.3
+	 * @version  3.4.3
+	 */
+	public static function update_actions() {
+
+		// start the updater if the run button was clicked
+		if ( ! empty( $_GET['llms-db-update'] ) ) {
+
+			if ( ! wp_verify_nonce( $_GET['llms-db-update'], 'do_db_updates' ) ) {
+				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
+			}
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
+			}
+
+			// prevent page refreshes from trigerring a second queue / batch
+			if ( ! self::$background_updater->is_updating() ) {
+
+				self::db_updates();
+
+			}
+
+		}
+
+		// force update triggered
+		if ( ! empty( $_GET['llms-force-db-update'] ) ) {
+
+			if ( ! wp_verify_nonce( $_GET['llms-force-db-update'], 'force_db_updates' ) ) {
+				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
+			}
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
+			}
+
+			do_action( 'wp_llms_bg_updater_cron' );
+
+			wp_redirect( admin_url( 'admin.php?page=llms-settings' ) );
+
+			exit;
+
+		}
+
+	}
+
+	/**
+	 * Stores an admin notice for the current state of the background updater
+	 * @return   void
+	 * @since    3.4.3
+	 * @version  3.4.3
+	 */
+	public static function update_notice() {
+
+		include_once 'admin/class.llms.admin.notices.php';
+
+		if ( LLMS_Admin_Notices::has_notice( 'db-update' ) ) {
+			LLMS_Admin_Notices::delete_notice( 'db-update' );
+		}
+
+		if ( version_compare( get_option( 'lifterlms_db_version' ), LLMS()->version, '<' ) ) {
+
+			// update is running or button was just pressed
+			if ( self::$background_updater->is_updating() || ! empty( $_GET['llms-db-update'] ) ) {
+
+				LLMS_Admin_Notices::add_notice( 'db-update', array(
+					'dismissible' => false,
+					'template' => 'admin/notices/db-updating.php',
+				) );
+
+			} // update needs to be run
+			else {
+
+				LLMS_Admin_Notices::add_notice( 'db-update', array(
+					'dismissible' => false,
+					'template' => 'admin/notices/db-update.php',
+				) );
+
+			}
+
+		} else {
+
+			LLMS_Admin_Notices::add_notice( 'db-update', __( 'The LifterLMS database update is complete.', 'lifterlms' ), array(
+				'dismissible' => true,
+				'dismiss_for_days' => 0,
+			) );
+
+		}
+
+	}
+
+	/**
 	 * Update the LifterLMS DB record to the latest version
 	 * @param  string $version version number
 	 * @return void
-	 *
-	 * @since  3.0.0
+	 * @since    3.0.0
+	 * @version  3.0.0
 	 */
 	public static function update_db_version( $version = null ) {
 		update_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
@@ -489,7 +571,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * Update the LifterLMS version record to the latest version
 	 * @param  string $version version number
 	 * @return void
-	 *
 	 * @since    3.0.0
 	 * @version  3.3.1 - made public
 	 */

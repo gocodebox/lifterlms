@@ -3,7 +3,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.4.0
+ * Version: 3.4.3
  * Author: Thomas Patrick Levy, codeBOX LLC
  * Author URI: http://gocodebox.com
  * Text Domain: lifterlms
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.4.0';
+	public $version = '3.4.3';
 
 	protected static $_instance = null;
 
@@ -123,8 +123,6 @@ final class LifterLMS {
 
 		if ( strpos( $class, 'llms_meta_box' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/admin/post-types/meta-boxes/';
-		} elseif ( strpos( $class, 'llms_shortcode_' ) === 0 ) {
-			$path = $this->plugin_path() . '/includes/shortcodes/';
 		} elseif ( strpos( $class, 'llms_widget_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/widgets/';
 		} elseif ( strpos( $class, 'llms_integration_' ) === 0 ) {
@@ -175,8 +173,8 @@ final class LifterLMS {
 
 	/**
 	 * Include required core classes
-	 * @since    1.0.0
-	 * @version  ??
+	 * @since   1.0.0
+	 * @version 3.4.3
 	 */
 	private function includes() {
 
@@ -277,6 +275,11 @@ final class LifterLMS {
 		// comments
 		include_once( 'includes/class.llms.comments.php' );
 
+		// shortcodes
+		require_once 'includes/class.llms.shortcodes.php';
+		require_once 'includes/shortcodes/class.llms.shortcode.my.account.php';
+		require_once 'includes/shortcodes/class.llms.shortcode.checkout.php';
+
 		$this->query = new LLMS_Query();
 
 		$this->course_factory = new LLMS_Course_Factory();
@@ -290,10 +293,6 @@ final class LifterLMS {
 			include_once( 'includes/class.llms.frontend.forms.php' );
 			include_once( 'includes/class.llms.frontend.password.php' );
 			include_once( 'includes/class.llms.person.php' );
-			include_once( 'includes/class.llms.shortcodes.php' );
-
-			include_once( 'includes/shortcodes/class.llms.shortcode.my.account.php' );
-			include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
 
 		}
 

@@ -221,15 +221,16 @@ class LLMS_Emails {
 	 * Send an email related to an engagement
 	 * Calls trigger method passing arguments
 	 *
-	 * @param  int $person_id      WP User ID
-	 * @param  int $email          WP Post ID of the Email Post to send
+	 * @param  int $person_id        WP User ID
+	 * @param  int $email            WP Post ID of the Email Post to send
+	 * @param  int $related_post_id  WP Post ID of the triggering post
 	 *
 	 * @return void
 	 */
-	public function trigger_engagement( $person_id, $email_id ) {
+	public function trigger_engagement( $person_id, $email_id, $related_post_id ) {
 
 		$email = $this->emails['LLMS_Email_Engagement'];
-		$email->trigger( $person_id, $email_id );
+		$email->trigger( $person_id, $email_id, $related_post_id );
 
 	}
 

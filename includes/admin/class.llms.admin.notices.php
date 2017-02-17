@@ -101,7 +101,7 @@ class LLMS_Admin_Notices {
 	 * @param    string     $notice_id  unique id of the notice
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.3
 	 */
 	public static function delete_notice( $notice_id, $trigger = 'delete' ) {
 		self::$notices = array_diff( self::get_notices(), array( $notice_id ) );
@@ -109,8 +109,8 @@ class LLMS_Admin_Notices {
 		delete_option( 'llms_admin_notice_' . $notice_id );
 		if ( $notice ) {
 			if ( 'remind' === $trigger && $notice['remindable'] ) {
-				$delay = isset( $notice['remind_in_days'] ) ? $notice['remind_in_days'] : false;
-			} elseif ( 'hide' === $trigger ) {
+				$delay = isset( $notice['remind_in_days'] )  ? $notice['remind_in_days'] : 0;
+			} elseif ( 'hide' === $trigger && $notice['dismissible'] ) {
 				$delay = isset( $notice['dismiss_for_days'] ) ? $notice['dismiss_for_days'] : 7;
 			} else {
 				$delay = 0;

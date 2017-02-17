@@ -22,6 +22,35 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	}
 
 	/**
+	 * Check if the user has already earned this achievement
+	 * used to prevent duplicates
+	 * @return   boolean
+	 * @since    3.4.1
+	 * @version  3.4.1
+	 */
+	private function has_user_earned() {
+
+		global $wpdb;
+
+		$count = (int) $wpdb->get_var( $wpdb->prepare( "
+			SELECT COUNT( pm.meta_id )
+			FROM {$wpdb->postmeta} AS pm
+			JOIN {$wpdb->prefix}lifterlms_user_postmeta AS upm ON pm.post_id = upm.meta_value
+			WHERE pm.meta_key = '_llms_certificate_template'
+			  AND pm.meta_value = %d
+			  AND upm.meta_key = '_certificate_earned'
+			  AND upm.user_id = %d
+			  AND upm.post_id = %d
+			  LIMIT 1
+			;",
+			array( $this->certificate_template_id, $this->userid, $this->lesson_id )
+		) );
+
+		return ( $count >= 1 );
+
+	}
+
+	/**
 	 * Sets up data needed to generate certificate.
 	 *
 	 * @param  int $email_id  [ID of Certificate]
@@ -66,7 +95,13 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * @return void
 	 */
 	function trigger( $user_id, $email_id, $lesson_id ) {
+
 		$this->init( $email_id, $user_id, $lesson_id );
+
+		// only award cert if the user hasn't already earned it
+		if ( $this->has_user_earned() ) {
+			return;
+		}
 
 		if ( $user_id ) {
 			$this->object				= new WP_User( $user_id );

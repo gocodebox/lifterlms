@@ -160,7 +160,7 @@ class LLMS_Engagements {
 		$this->log( '======== handle_email() =======' );
 		$this->log( $args );
 		$m = LLMS()->mailer();
-		$m->trigger_engagement( $args[0], $args[1] );
+		$m->trigger_engagement( $args[0], $args[1], $args[2] );
 	}
 
 
@@ -189,7 +189,7 @@ class LLMS_Engagements {
 	 * @return   void
 	 *
 	 * @since    2.3.0
-	 * @version  3.3.1 - added quiz engagements
+	 * @version  3.4.1
 	 */
 	public function maybe_trigger_engagement() {
 
@@ -296,7 +296,7 @@ class LLMS_Engagements {
 					case 'email' :
 
 						$handler_action = 'lifterlms_engagement_send_email';
-						$handler_args = array( $user_id, $e->engagement_id );
+						$handler_args = array( $user_id, $e->engagement_id, $related_post_id );
 
 					break;
 

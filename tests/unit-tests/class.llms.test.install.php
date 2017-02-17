@@ -2,7 +2,7 @@
 /**
  * Tests for the LLMS_Install Class
  * @since    3.3.1
- * @version  3.3.1
+ * @version  3.4.3
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -202,6 +202,22 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		$this->assertEquals( "{$wpdb->prefix}lifterlms_product_to_voucher", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_product_to_voucher'" ) );
 		$this->assertEquals( "{$wpdb->prefix}lifterlms_voucher_code_redemptions", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_voucher_code_redemptions'" ) );
 		$this->assertEquals( "{$wpdb->prefix}lifterlms_vouchers_codes", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_vouchers_codes'" ) );
+
+	}
+
+	/**
+	 * Test db_updates()
+	 * @return   void
+	 * @since    3.4.3
+	 * @version  3.4.3
+	 */
+	public function test_db_updates() {
+
+		update_option( 'lifterlms_current_version', '2.5.0' );
+		update_option( 'lifterlms_db_version', '2.5.0' );
+
+		LLMS_Install::db_updates();
+		$this->assertTrue( LLMS_Install::$background_updater->is_updating() );
 
 	}
 

@@ -1,12 +1,31 @@
 == Changelog ==
 
-v3.4.1 - 2017/02/??
+v3.4.3 - 2017/02/??
 -------------------
 
++ Fix issue with bbPress integration so that forums restricted to multiple memberships allow users of at least one membership that the forum is restricted to access topics within that forum
++ Ensure that the correct ajax url is used for quizzes, resolves issue for sites utilizing `FORCE_SSL_ADMIN`
++ Refactored database background update scripts for increased reliability & performance
++ WIP: refactoring shortcodes to a more sane set of functions and classes
+
+
+v3.4.2 - 2017/02/14
+-------------------
+
++ Backwards compatible css for tooltips
+
+
+v3.4.1 - 2017/02/14
+-------------------
+
++ Password strength meter now functions correctly when using the [lifterlms_registration] shortcode
 + Ensure open registration with required voucher prevents registration with invalid vouchers
++ Lesson completion via quiz completion only recorded the first time the quiz is completed
++ Fix issue preventing membership catalog from obeying the catalog's ordering settings
++ Prevent duplicate engagements from being triggered
 + Admin tables can display percentages as a progress bar!
 + Students reporting table displays overall progress as a progress bar
-
++ Refactored frontend assets class to allow better management of inline scripts
 
 
 v3.4.0 - 2017/02/10
