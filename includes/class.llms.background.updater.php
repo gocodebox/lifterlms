@@ -149,20 +149,20 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 * @since    3.4.3
 	 * @version  3.4.3
 	 */
- 	protected function task( $callback ) {
+	protected function task( $callback ) {
 
- 		include_once dirname( __FILE__ ) . '/functions/llms.functions.updates.php';
+		include_once dirname( __FILE__ ) . '/functions/llms.functions.updates.php';
 
- 		if ( is_callable( $callback ) ) {
- 			$this->log( sprintf( 'Running %s callback', $callback ) );
- 			call_user_func( $callback );
- 			$this->log( sprintf( 'Finished %s callback', $callback ) );
- 		} else {
- 			$this->log( sprintf( 'Could not find %s callback', $callback ) );
- 		}
+		if ( is_callable( $callback ) ) {
+			$this->log( sprintf( 'Running %s callback', $callback ) );
+			call_user_func( $callback );
+			$this->log( sprintf( 'Finished %s callback', $callback ) );
+		} else {
+			$this->log( sprintf( 'Could not find %s callback', $callback ) );
+		}
 
- 		return false;
+		return false;
 
- 	}
+	}
 
 }

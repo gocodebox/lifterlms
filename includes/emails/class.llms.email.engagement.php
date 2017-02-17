@@ -226,14 +226,13 @@ class LLMS_Email_Engagement extends LLMS_Email {
 			array(
 				$related_post_id,
 				$user_id,
-				$email_id
+				$email_id,
 			)
 		) );
 
 		if ( $res >= 1 ) {
 			return;
 		}
-
 
 		$this->init( $email_id, $user_id, $related_post_id );
 
@@ -245,7 +244,6 @@ class LLMS_Email_Engagement extends LLMS_Email {
 
 		if ( $send ) {
 
-
 			$wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id' 			=> $user_id,
@@ -254,7 +252,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 					'meta_value'		=> $email_id,
 					'updated_date'		=> current_time( 'mysql' ),
 				),
-				array( '%d', '%d', '%s', '%d', '%s', )
+				array( '%d', '%d', '%s', '%d', '%s' )
 			);
 
 		} // not sent and debug enabled

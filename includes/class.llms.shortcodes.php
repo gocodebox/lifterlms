@@ -35,7 +35,6 @@ class LLMS_Shortcodes {
 
 		}
 
-
 		// old method
 		$shortcodes = array(
 			'lifterlms_access_plan_button' => __CLASS__ . '::access_plan_button',

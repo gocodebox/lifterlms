@@ -488,7 +488,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 			}
 
-
 		}
 
 		// force update triggered
