@@ -2916,32 +2916,31 @@ div[id^="lifterlms-"] .inside {
   float: right;
 }
 
-.llms-gb-student h1, .llms-gb-student h2, .llms-gb-student h3, .llms-gb-student h4, .llms-gb-student h5, .llms-gb-student h6 {
+.llms-reporting-tab h1, .llms-reporting-tab h2, .llms-reporting-tab h3, .llms-reporting-tab h4, .llms-reporting-tab h5, .llms-reporting-tab h6 {
   margin: 0;
 }
-.llms-gb-student h1 a, .llms-gb-student h2 a, .llms-gb-student h3 a, .llms-gb-student h4 a, .llms-gb-student h5 a, .llms-gb-student h6 a {
+.llms-reporting-tab h1 a, .llms-reporting-tab h2 a, .llms-reporting-tab h3 a, .llms-reporting-tab h4 a, .llms-reporting-tab h5 a, .llms-reporting-tab h6 a {
   color: #243c56;
   text-decoration: none;
 }
-.llms-gb-student h1 a:hover, .llms-gb-student h2 a:hover, .llms-gb-student h3 a:hover, .llms-gb-student h4 a:hover, .llms-gb-student h5 a:hover, .llms-gb-student h6 a:hover {
+.llms-reporting-tab h1 a:hover, .llms-reporting-tab h2 a:hover, .llms-reporting-tab h3 a:hover, .llms-reporting-tab h4 a:hover, .llms-reporting-tab h5 a:hover, .llms-reporting-tab h6 a:hover {
   color: #2295ff;
 }
-.llms-gb-student .llms-gb-student-header .llms-student-avatar {
+.llms-reporting-tab .llms-reporting-header .llms-reporting-header-img {
   border-radius: 50%;
   display: inline-block;
   margin-right: 10px;
   overflow: hidden;
   vertical-align: middle;
 }
-.llms-gb-student .llms-gb-student-header .llms-gb-student-info {
+.llms-reporting-tab .llms-reporting-header .llms-reporting-header-img img {
+  display: block;
+  max-height: 64px;
+  width: auto;
+}
+.llms-reporting-tab .llms-reporting-header .llms-reporting-header-info {
   display: inline-block;
   vertical-align: middle;
-}
-.llms-gb-student .llms-gb-tabs .llms-gb-tab {
-  display: none;
-}
-.llms-gb-student .llms-gb-tabs .llms-gb-tab.active {
-  display: block;
 }
 
 .llms-reporting-breadcrumbs {

@@ -136,8 +136,9 @@ class LLMS_Processor_Course_Data extends LLMS_Processor {
 		);
 
 		// setup throttle vars
-		$this->throttle_max_students = apply_filters( 'llms_data_processor_' . $this->id . '_throttle_count', 50000, $this );
+		$this->throttle_max_students = apply_filters( 'llms_data_processor_' . $this->id . '_throttle_count', 2500, $this );
 		$this->throttle_frequency = apply_filters( 'llms_data_processor_' . $this->id . '_throttle_frequency', HOUR_IN_SECONDS * 4, $this );
+
 	}
 
 	/**

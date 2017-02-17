@@ -107,7 +107,7 @@
 }
 
 
-.llms-gb-student {
+.llms-reporting-tab {
 
 	h1, h2, h3, h4, h5, h6 {
 		margin: 0;
@@ -121,31 +121,27 @@
 	}
 
 
-	.llms-gb-student-header {
+	.llms-reporting-header {
 
-		.llms-student-avatar {
+		.llms-reporting-header-img {
 			border-radius: 50%;
 			display: inline-block;
 			margin-right: 10px;
 			overflow: hidden;
 			vertical-align: middle;
+			img {
+				display: block;
+				max-height: 64px;
+				width: auto;
+			}
 		}
 
-		.llms-gb-student-info {
+		.llms-reporting-header-info {
 			display: inline-block;
 			vertical-align: middle;
 
 		}
 
-	}
-
-	.llms-gb-tabs {
-		.llms-gb-tab {
-			display: none;
-			&.active {
-				display: block;
-			}
-		}
 	}
 
 }

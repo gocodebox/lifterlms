@@ -185,16 +185,29 @@ class LLMS_Admin_Reporting {
 	 * @param    string     $stab  slug of the sub-tab
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  ??
 	 */
 	public static function get_stab_url( $stab ) {
 
-		return add_query_arg( array(
+		$args = array(
 			'page' => 'llms-reporting',
 			'tab' => self::get_current_tab(),
 			'stab' => $stab,
-			'student_id' => $_GET['student_id'],
-		), admin_url( 'admin.php' ) );
+		);
+
+		switch ( self::get_current_tab() ) {
+
+			case 'courses':
+				$args['course_id'] = $_GET['course_id'];
+			break;
+
+			case 'students':
+				$args['student_id'] = $_GET['student_id'];
+			break;
+
+		}
+
+		return add_query_arg( $args, admin_url( 'admin.php' ) );
 
 	}
 
