@@ -673,8 +673,6 @@ function llms_update_300_update_orders() {
  */
 function llms_update_300_update_db_version() {
 
-	sleep( 10 );
-
 	LLMS_Install::update_db_version( '3.0.0' );
 
 }
@@ -694,8 +692,6 @@ function llms_update_300_update_db_version() {
  * Fix students with the bugged role "studnets"
  */
 function llms_update_303_update_students_role() {
-
-	sleep( 10 );
 
 	// add the bugged role so we can remove it
 	// we delete it at the conclusion of the function
@@ -731,8 +727,6 @@ function llms_update_303_update_students_role() {
  */
 function llms_update_303_update_db_version() {
 
-	sleep( 10 );
-
 	LLMS_Install::update_db_version( '3.0.3' );
 }
 
@@ -752,8 +746,6 @@ function llms_update_303_update_db_version() {
  * all LifterLMS Lessons and Sections
  */
 function llms_update_343_update_relationships() {
-
-	sleep( 10 );
 
 	global $wpdb;
 
@@ -779,8 +771,6 @@ function llms_update_343_update_relationships() {
  * Update db version at conclusion of 3.4.3 updates
  */
 function llms_update_343_update_db_version() {
-
-	sleep( 10 );
 
 	LLMS_Install::update_db_version( '3.4.3' );
 
