@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.2
-Stable tag: 3.4.2
+Stable tag: 3.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,12 +166,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-v3.4.3 - 2017/02/??
+= v3.4.3 - 2017/02/20 =
 -----------------------
 
 + Fix issue with bbPress integration so that forums restricted to multiple memberships allow users of at least one membership that the forum is restricted to access topics within that forum
 + Ensure that the correct ajax url is used for quizzes, resolves issue for sites utilizing `FORCE_SSL_ADMIN`
 + Refactored database background update scripts for increased reliability & performance
++ Database ugrdate 3.3.0 moved to 3.4.3 in order to accommodate users who were unable to run the 3.3.0 update, please read the [3.4.3 database update notes](https://lifterlms.com/docs/lifterlms-database-updates/#343) for more information.
 + WIP: refactoring shortcodes to a more sane set of functions and classes
 
 
