@@ -521,8 +521,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		include_once 'admin/class.llms.admin.notices.php';
 
-		if ( LLMS_Admin_Notices::has_notice( 'db-update' ) ) {
-			LLMS_Admin_Notices::delete_notice( 'db-update' );
+		if ( LLMS_Admin_Notices::has_notice( 'bg-db-update' ) ) {
+			LLMS_Admin_Notices::delete_notice( 'bg-db-update' );
 		}
 
 		if ( version_compare( get_option( 'lifterlms_db_version' ), LLMS()->version, '<' ) ) {
@@ -530,7 +530,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 			// update is running or button was just pressed
 			if ( self::$background_updater->is_updating() || ! empty( $_GET['llms-db-update'] ) ) {
 
-				LLMS_Admin_Notices::add_notice( 'db-update', array(
+				LLMS_Admin_Notices::add_notice( 'bg-db-update', array(
 					'dismissible' => false,
 					'template' => 'admin/notices/db-updating.php',
 				) );
@@ -538,7 +538,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 			} // update needs to be run
 			else {
 
-				LLMS_Admin_Notices::add_notice( 'db-update', array(
+				LLMS_Admin_Notices::add_notice( 'bg-db-update', array(
 					'dismissible' => false,
 					'template' => 'admin/notices/db-update.php',
 				) );
@@ -547,7 +547,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		} else {
 
-			LLMS_Admin_Notices::add_notice( 'db-update', __( 'The LifterLMS database update is complete.', 'lifterlms' ), array(
+			LLMS_Admin_Notices::add_notice( 'bg-db-update', __( 'The LifterLMS database update is complete.', 'lifterlms' ), array(
 				'dismissible' => true,
 				'dismiss_for_days' => 0,
 			) );
