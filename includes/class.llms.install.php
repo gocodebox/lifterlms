@@ -296,7 +296,7 @@ class LLMS_Install {
 	 * @since    3.4.3
 	 * @version  3.4.3
 	 */
-	public function dispatch_db_updates() {
+	public static function dispatch_db_updates() {
 		self::$background_updater->save()->dispatch();
 	}
 
