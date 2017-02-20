@@ -281,11 +281,23 @@ class LLMS_Install {
 		}
 
 		if ( $queued ) {
-			self::$background_updater->save()->dispatch();
+			add_action( 'shutdown', array( __CLASS__, 'dispatch_db_updates' ) );
 		}
 
-		self::update_notice();
+	}
 
+	/**
+	 * Dispatches the bg updater
+	 * Prevents small database updates from displaying the "updating" admin notice
+	 * instead of the "completed" notice
+	 * These small updates would finish on a second thread faster than the main
+	 * thread and the wrong notice would be displayed
+	 * @return   void
+	 * @since    3.4.3
+	 * @version  3.4.3
+	 */
+	public function dispatch_db_updates() {
+		self::$background_updater->save()->dispatch();
 	}
 
 	/**
@@ -483,10 +495,10 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 			// prevent page refreshes from trigerring a second queue / batch
 			if ( ! self::$background_updater->is_updating() ) {
-
 				self::db_updates();
-
 			}
+
+			self::update_notice();
 
 		}
 
@@ -527,6 +539,10 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		if ( version_compare( get_option( 'lifterlms_db_version' ), LLMS()->version, '<' ) ) {
 
+			if ( ! self::$background_updater ) {
+				self::init_background_updater();
+			}
+
 			// update is running or button was just pressed
 			if ( self::$background_updater->is_updating() || ! empty( $_GET['llms-db-update'] ) ) {
 
@@ -561,10 +577,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * @param  string $version version number
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.3
 	 */
 	public static function update_db_version( $version = null ) {
-		update_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
+		delete_option( 'lifterlms_db_version' );
+		add_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
 	}
 
 	/**
@@ -572,10 +589,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * @param  string $version version number
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.3.1 - made public
+	 * @version  3.4.3
 	 */
 	public static function update_llms_version( $version = null ) {
-		update_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
+		delete_option( 'lifterlms_current_version' );
+		add_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
 	}
 
 	/**
