@@ -206,22 +206,6 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test db_updates()
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
-	 */
-	public function test_db_updates() {
-
-		update_option( 'lifterlms_current_version', '2.5.0' );
-		update_option( 'lifterlms_db_version', '2.5.0' );
-
-		LLMS_Install::db_updates();
-		$this->assertTrue( LLMS_Install::$background_updater->is_updating() );
-
-	}
-
-	/**
 	 * Test get_difficulties()
 	 * @return   void
 	 * @since    3.3.1
