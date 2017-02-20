@@ -166,6 +166,15 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+v3.4.3 - 2017/02/??
+-----------------------
+
++ Fix issue with bbPress integration so that forums restricted to multiple memberships allow users of at least one membership that the forum is restricted to access topics within that forum
++ Ensure that the correct ajax url is used for quizzes, resolves issue for sites utilizing `FORCE_SSL_ADMIN`
++ Refactored database background update scripts for increased reliability & performance
++ WIP: refactoring shortcodes to a more sane set of functions and classes
+
+
 = v3.4.2 - 2017/02/14 =
 -----------------------
 

@@ -42,7 +42,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:296, includes/class.llms.shortcodes.php:520, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:82, templates/myaccount/my-orders.php:61
+#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:280, includes/class.llms.shortcodes.php:504, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:82, templates/myaccount/my-orders.php:61
 msgid "Next"
 msgstr ""
 
@@ -352,7 +352,7 @@ msgstr ""
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:59, lifterlms.php:407
+#: includes/admin/class.llms.admin.menus.php:59, lifterlms.php:406
 msgid "Settings"
 msgstr ""
 
@@ -380,11 +380,11 @@ msgstr ""
 msgid "System Report"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:62, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:247
+#: includes/admin/class.llms.admin.notices.core.php:62, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:477, includes/class.llms.install.php:497
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:65, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:250
+#: includes/admin/class.llms.admin.notices.core.php:65, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:481, includes/class.llms.install.php:501
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -592,7 +592,7 @@ msgstr ""
 msgid "LifterLMS has a few essential pages. The following will be created automatically if they don't already exist."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:317, includes/admin/settings/class.llms.settings.catalogs.php:59, includes/class.llms.install.php:163
+#: includes/admin/class.llms.admin.setup.wizard.php:317, includes/admin/settings/class.llms.settings.catalogs.php:59, includes/class.llms.install.php:183
 msgid "Course Catalog"
 msgstr ""
 
@@ -600,7 +600,7 @@ msgstr ""
 msgid "This page is where your visitors will find a list of all your available courses."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:321, includes/class.llms.install.php:169
+#: includes/admin/class.llms.admin.setup.wizard.php:321, includes/class.llms.install.php:189
 msgid "Membership Catalog"
 msgstr ""
 
@@ -1065,7 +1065,7 @@ msgstr ""
 msgid "Course End Date"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:213, includes/updates/lifterlms-update-3.0.0.php:512
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:213, includes/functions/llms.functions.updates.php:439
 msgid "This course opens on [lifterlms_course_info id=\"%d\" key=\"start_date\"]."
 msgstr ""
 
@@ -1077,7 +1077,7 @@ msgstr ""
 msgid "Course Opens Message"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:223, includes/updates/lifterlms-update-3.0.0.php:513
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:223, includes/functions/llms.functions.updates.php:440
 msgid "This course closed on [lifterlms_course_info id=\"%d\" key=\"end_date\"]."
 msgstr ""
 
@@ -1125,7 +1125,7 @@ msgstr ""
 msgid "Course Capacity"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:290, includes/updates/lifterlms-update-3.0.0.php:526
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:290, includes/functions/llms.functions.updates.php:453
 msgid "Enrollment has closed because the maximum number of allowed students has been reached."
 msgstr ""
 
@@ -3156,35 +3156,35 @@ msgstr ""
 msgid "Invalid generator supplied"
 msgstr ""
 
-#: includes/class.llms.install.php:175
+#: includes/class.llms.install.php:195
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:181, includes/class.llms.student.dashboard.php:108
+#: includes/class.llms.install.php:201, includes/class.llms.student.dashboard.php:108
 msgid "My Courses"
 msgstr ""
 
-#: includes/class.llms.install.php:210, includes/updates/lifterlms-update-3.0.3.php:45
+#: includes/class.llms.install.php:230, includes/functions/llms.functions.updates.php:700
 msgid "Student"
 msgstr ""
 
-#: includes/class.llms.install.php:290
-msgid "LifterLMS background update completed!"
-msgstr ""
-
-#: includes/class.llms.install.php:313
+#: includes/class.llms.install.php:299
 msgctxt "course difficulty name"
 msgid "Beginner"
 msgstr ""
 
-#: includes/class.llms.install.php:314
+#: includes/class.llms.install.php:300
 msgctxt "course difficulty name"
 msgid "Intermediate"
 msgstr ""
 
-#: includes/class.llms.install.php:315
+#: includes/class.llms.install.php:301
 msgctxt "course difficulty name"
 msgid "Advanced"
+msgstr ""
+
+#: includes/class.llms.install.php:550
+msgid "The LifterLMS database update is complete."
 msgstr ""
 
 #: includes/class.llms.l10n.php:39
@@ -4694,7 +4694,7 @@ msgstr ""
 msgid "Leave Review"
 msgstr ""
 
-#: includes/class.llms.shortcodes.php:295, includes/class.llms.shortcodes.php:519, templates/loop/pagination.php:19
+#: includes/class.llms.shortcodes.php:279, includes/class.llms.shortcodes.php:503, templates/loop/pagination.php:19
 msgid "Previous"
 msgstr ""
 
@@ -6487,6 +6487,34 @@ msgstr ""
 msgid "Never"
 msgstr ""
 
+#: includes/functions/llms.functions.updates.php:89, includes/models/model.llms.access.plan.php:289
+msgid "Enroll"
+msgstr ""
+
+#: includes/functions/llms.functions.updates.php:89, includes/models/model.llms.access.plan.php:293
+msgid "Join"
+msgstr ""
+
+#: includes/functions/llms.functions.updates.php:151
+msgid "Members Only"
+msgstr ""
+
+#: includes/functions/llms.functions.updates.php:176
+msgid "One-Time Payment"
+msgstr ""
+
+#: includes/functions/llms.functions.updates.php:193
+msgid "Free"
+msgstr ""
+
+#: includes/functions/llms.functions.updates.php:220
+msgid "Subscription"
+msgstr ""
+
+#: includes/functions/llms.functions.updates.php:656
+msgid "This order was migrated to the LifterLMS 3.0 data structure. %1$sLearn more%2$s."
+msgstr ""
+
 #: includes/llms.functions.core.php:81
 msgid "%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."
 msgstr ""
@@ -6626,14 +6654,6 @@ msgstr ""
 
 #: includes/models/model.llms.access.plan.php:136, includes/models/model.llms.lesson.php:217
 msgid "FREE"
-msgstr ""
-
-#: includes/models/model.llms.access.plan.php:289, includes/updates/lifterlms-update-3.0.0.php:117
-msgid "Enroll"
-msgstr ""
-
-#: includes/models/model.llms.access.plan.php:293, includes/updates/lifterlms-update-3.0.0.php:117
-msgid "Join"
 msgstr ""
 
 #: includes/models/model.llms.access.plan.php:297
@@ -6814,26 +6834,6 @@ msgstr ""
 msgid "Check your e-mail for the confirmation link."
 msgstr ""
 
-#: includes/updates/lifterlms-update-3.0.0.php:179
-msgid "Members Only"
-msgstr ""
-
-#: includes/updates/lifterlms-update-3.0.0.php:201
-msgid "One-Time Payment"
-msgstr ""
-
-#: includes/updates/lifterlms-update-3.0.0.php:215
-msgid "Free"
-msgstr ""
-
-#: includes/updates/lifterlms-update-3.0.0.php:239
-msgid "Subscription"
-msgstr ""
-
-#: includes/updates/lifterlms-update-3.0.0.php:790
-msgid "This order was migrated to the LifterLMS 3.0 data structure. %1$sLearn more%2$s."
-msgstr ""
-
 #: includes/widgets/class.llms.widget.course.progress.php:18
 msgid "Course Progress"
 msgstr ""
@@ -6922,24 +6922,40 @@ msgstr ""
 msgid "Upload export files generated by LifterLMS. Must be a \".json\" file."
 msgstr ""
 
-#: templates/admin/notices/db-update.php:10
+#: templates/admin/notices/db-update.php:11
 msgid "The LifterLMS database needs to be updated to the latest version."
 msgstr ""
 
-#: templates/admin/notices/db-update.php:11
+#: templates/admin/notices/db-update.php:12
 msgid "The update will only take a few minutes and it will run in the background. A notice like this will let you know when it's finished."
 msgstr ""
 
-#: templates/admin/notices/db-update.php:12
+#: templates/admin/notices/db-update.php:13
 msgid "See the %1$sdatabase update log%2$s for a complete list of changes scheduled for each upgrade."
 msgstr ""
 
-#: templates/admin/notices/db-update.php:13
+#: templates/admin/notices/db-update.php:14
 msgid "Run the Updater"
 msgstr ""
 
-#: templates/admin/notices/db-update.php:16
+#: templates/admin/notices/db-update.php:17
 msgid "We strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?"
+msgstr ""
+
+#: templates/admin/notices/db-updating.php:13
+msgid "LifterLMS database update"
+msgstr ""
+
+#: templates/admin/notices/db-updating.php:13
+msgid "Your database is being upgraded in the background."
+msgstr ""
+
+#: templates/admin/notices/db-updating.php:14
+msgid "Click here for database update FAQs"
+msgstr ""
+
+#: templates/admin/notices/db-updating.php:16
+msgid "Taking too long? Click here to run the update now."
 msgstr ""
 
 #: templates/admin/notices/staging.php:12
