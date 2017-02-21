@@ -9,6 +9,15 @@
 LLMS.Quiz = {
 
 	/**
+	 * Records current status of a quiz session
+	 * If a user attempts to navigate away from a quiz
+	 * while taking the quiz they'll be warned that their progress
+	 * will not be saved if this status is not null
+	 * @type  boolean
+	 */
+	status: null,
+
+	/**
 	 * init
 	 * loads class methods
 	 */
@@ -56,6 +65,15 @@ LLMS.Quiz = {
 		//draw quiz grade circular chart
 		this.chart_quiz_grade();
 
+		window.onbeforeunload = function() {
+			if ( that.status ) {
+				// record a completion if they abandon
+				that.complete_quiz();
+				return false;
+			}
+			return;
+		};
+
 	},
 
 	/**
@@ -89,6 +107,8 @@ LLMS.Quiz = {
 	 */
 	start_quiz: function () {
 
+		this.status = true;
+
 		var post_id = $('#llms-quiz').val(),
 			user_id = $('#llms-user').val(),
 			ajax = new Ajax( 'post', {
@@ -98,6 +118,7 @@ LLMS.Quiz = {
 			}, true);
 
 		ajax.start_quiz( post_id, user_id );
+
 	},
 
 	/**
@@ -277,7 +298,6 @@ LLMS.Quiz = {
 	 * @return Calls ajax.complete_quiz to end quiz
 	 */
 	complete_quiz: function() {
-
 		var quiz_id = $('#llms-quiz').val(),
 			question_type = $('#question-type').val(),
 			question_id = $('#question-id').val(),
