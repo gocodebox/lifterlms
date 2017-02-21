@@ -1,0 +1,11 @@
+{
+    "name": "gocodebox/action-scheduler",
+    "description": "Fork of https://github.com/Prospress/action-scheduler",
+    "authors": [
+        {
+            "name": "Thomas Patrick Levy",
+            "email": "thomasplevy@gmail.com"
+        }
+    ],
+    "require": {}
+}
