@@ -121,8 +121,8 @@ class LLMS_AJAX_Handler {
 			$request[ $param ] = intval( $request[ $param ] );
 		}
 
-		$student = new LLMS_Student( $request[ 'user' ] );
-		$student->delete_quiz_attempt( $request[ 'quiz' ], $request[ 'lesson' ], $request['attempt'] );
+		$student = new LLMS_Student( $request['user'] );
+		$student->delete_quiz_attempt( $request['quiz'], $request['lesson'], $request['attempt'] );
 
 		return true;
 
