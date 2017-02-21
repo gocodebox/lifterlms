@@ -2626,6 +2626,9 @@ div[id^="lifterlms-"] .inside {
 .llms-collapsible .llms-collapsible-header .dashicons-arrow-up {
   display: none;
 }
+.llms-collapsible .llms-collapsible-header a {
+  text-decoration: none;
+}
 .llms-collapsible .llms-collapsible-header .dashicons {
   color: #777;
   cursor: pointer;
@@ -2635,8 +2638,8 @@ div[id^="lifterlms-"] .inside {
 .llms-collapsible .llms-collapsible-header .dashicons:hover {
   color: #069cb5;
 }
-.llms-collapsible .llms-collapsible-header .dashicons.dashicons-no:hover {
-  color: #e26049;
+.llms-collapsible .llms-collapsible-header .dashicons.dashicons-trash:hover, .llms-collapsible .llms-collapsible-header .dashicons.dashicons-no:hover {
+  color: #e5554e;
 }
 .llms-collapsible .llms-collapsible-body {
   display: none;

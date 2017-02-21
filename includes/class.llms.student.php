@@ -84,8 +84,6 @@ class LLMS_Student {
 
 	}
 
-
-
 	/**
 	 * Allows direct access to WP_User object for retrieving user data from the user or usermeta tables
 	 * @since   3.0.0
@@ -108,8 +106,6 @@ class LLMS_Student {
 		$key = $prefix ? $this->meta_prefix . $key : $key;
 		update_user_meta( $this->get_id(), $key, $value );
 	}
-
-
 
 	/**
 	 * Add the student to a LifterLMS Membership
@@ -140,42 +136,42 @@ class LLMS_Student {
 	}
 
 	/**
-	 * Remove a student from a membership level
-	 * @param    int        $membership_id  WP Post ID of the membership
-	 * @param    string     $status         status to update the removal to
-	 * @return   void
-	 * @since    2.7
-	 * @version  3.1.4
+	 * Remove Student Quiz attempts
+	 * @param    int     $quiz_id    WP Post ID of a Quiz
+	 * @param    int     $lesson_id  WP Post ID of a lesson
+	 * @param    int     $attempt    optional attempt number, if ommitted all attempts for quiz & lesson will be deleted
+	 * @return   array               updated array quiz data for the student
+	 * @since    3.4.4
+	 * @version  3.4.4
 	 */
-	private function remove_membership_level( $membership_id, $status = 'expired' ) {
+	public function delete_quiz_attempt( $quiz_id, $lesson_id, $attempt = null ) {
 
-		// remove the user from the membership level
-		$membership_levels = $this->get_membership_levels();
-		if ( ( $key = array_search( $membership_id, $membership_levels ) ) !== false) {
-			unset( $membership_levels[ $key ] );
-		}
-		update_user_meta( $this->get_id(), '_llms_restricted_levels', $membership_levels );
+		// get all quiz data
+		$quizzes = $this->get_quiz_data();
 
-		global $wpdb;
-		// locate all enrollments triggered by this membership level
-		$q = $wpdb->get_results( $wpdb->prepare(
-			"SELECT post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_enrollment_trigger' AND meta_value = %s",
-			array( $this->get_id(), 'membership_' . $membership_id )
-		), 'OBJECT_K' );
+		foreach ( $quizzes as $i => $data ) {
 
-		$courses = array_keys( $q );
+			if ( $quiz_id == $data['id'] && $lesson_id == $data['assoc_lesson'] ) {
 
-		if ( $courses ) {
+				// no attempt or the submitted attempt equals the current attempt
+				if ( ! $attempt || $attempt == $data['attempt'] ) {
+					unset( $quizzes[ $i ] );
+				}
 
-			// loop through all the courses and update the enrollment status
-			foreach ( $courses  as $course_id ) {
-				$this->unenroll( $course_id, 'membership_' . $membership_id, $status );
 			}
 
 		}
 
-	}
+		// reindex
+		$quizzes = array_values( $quizzes );
 
+		// save
+		$this->set( 'quiz_data', $quizzes );
+
+		// return updated quiz data
+		return $quizzes;
+
+	}
 
 	/**
 	 * Enroll the student in a course or membership
@@ -1121,7 +1117,6 @@ class LLMS_Student {
 
 	}
 
-
 	/**
 	 * Determine if the student has completed a course, track, or lesson
 	 *
@@ -1449,6 +1444,42 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Remove a student from a membership level
+	 * @param    int        $membership_id  WP Post ID of the membership
+	 * @param    string     $status         status to update the removal to
+	 * @return   void
+	 * @since    2.7
+	 * @version  3.1.4
+	 */
+	private function remove_membership_level( $membership_id, $status = 'expired' ) {
+
+		// remove the user from the membership level
+		$membership_levels = $this->get_membership_levels();
+		if ( ( $key = array_search( $membership_id, $membership_levels ) ) !== false) {
+			unset( $membership_levels[ $key ] );
+		}
+		update_user_meta( $this->get_id(), '_llms_restricted_levels', $membership_levels );
+
+		global $wpdb;
+		// locate all enrollments triggered by this membership level
+		$q = $wpdb->get_results( $wpdb->prepare(
+			"SELECT post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_enrollment_trigger' AND meta_value = %s",
+			array( $this->get_id(), 'membership_' . $membership_id )
+		), 'OBJECT_K' );
+
+		$courses = array_keys( $q );
+
+		if ( $courses ) {
+
+			// loop through all the courses and update the enrollment status
+			foreach ( $courses  as $course_id ) {
+				$this->unenroll( $course_id, 'membership_' . $membership_id, $status );
+			}
+
+		}
+
+	}
 
 	/**
 	 * Remove a student from a LifterLMS course or membership

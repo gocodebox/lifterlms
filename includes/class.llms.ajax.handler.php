@@ -90,9 +90,7 @@ class LLMS_AJAX_Handler {
 
 		// shouldn't be possible
 		if ( empty( $request['plan_id'] ) ) {
-
 			die();
-
 		}
 
 		if ( ! wp_trash_post( $request['plan_id'] ) ) {
@@ -102,6 +100,29 @@ class LLMS_AJAX_Handler {
 			return $err;
 
 		}
+
+		return true;
+
+	}
+
+	/**
+	 * Delete a student's quiz attempt
+	 * Called from student quiz reporting screen
+	 * @since    3.4.4
+	 * @version  3.4.4
+	 */
+	public static function delete_quiz_attempt( $request ) {
+
+		$required = array( 'attempt', 'lesson', 'quiz', 'user' );
+		foreach ( $required as $param ) {
+			if ( empty( $request[ $param ] ) ) {
+				return new WP_Error( 400, __( 'Error deleting quiz attempt: Missing required parameter!', 'lifterlms' ) );
+			}
+			$request[ $param ] = intval( $request[ $param ] );
+		}
+
+		$student = new LLMS_Student( $request[ 'user' ] );
+		$student->delete_quiz_attempt( $request[ 'quiz' ], $request[ 'lesson' ], $request['attempt'] );
 
 		return true;
 
