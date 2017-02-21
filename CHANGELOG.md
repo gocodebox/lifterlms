@@ -1,5 +1,14 @@
 == Changelog ==
 
+v3.4.4 - 2017/02/??
+-------------------
+
++ Added a popup to warn students when leaving a quiz they've already started
++ Enable removal of student quiz attempts by admins from student reporting screens
++ Fix an undefined error on quiz reporting screens for incomplete quizzes
++ Display incomplete (abandonded) quizzes as incomplete (instead of as still running) on the quiz reporting screen
+
+
 v3.4.3 - 2017/02/20
 -------------------
 
