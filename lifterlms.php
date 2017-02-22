@@ -3,7 +3,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.3.1
+ * Version: 3.4.3
  * Author: Thomas Patrick Levy, codeBOX LLC
  * Author URI: http://gocodebox.com
  * Text Domain: lifterlms
@@ -35,17 +35,20 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.3.1';
+	public $version = '3.4.3';
 
 	protected static $_instance = null;
 
-	public $session = null;
-
-	public $person = null;
+	/**
+	 * Array of background handler instances
+	 * @var  array
+	 */
+	public $background_handlers = array();
 
 	public $course_factory = null;
-
+	public $person = null;
 	public $query = null;
+	public $session = null;
 
 	/**
 	 * Main Instance of LifterLMS
@@ -89,6 +92,7 @@ final class LifterLMS {
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
+		add_action( 'init', array( $this, 'init_background_handlers' ), 5 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
@@ -119,8 +123,6 @@ final class LifterLMS {
 
 		if ( strpos( $class, 'llms_meta_box' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/admin/post-types/meta-boxes/';
-		} elseif ( strpos( $class, 'llms_shortcode_' ) === 0 ) {
-			$path = $this->plugin_path() . '/includes/shortcodes/';
 		} elseif ( strpos( $class, 'llms_widget_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/widgets/';
 		} elseif ( strpos( $class, 'llms_integration_' ) === 0 ) {
@@ -172,7 +174,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.3.1
+	 * @version 3.4.3
 	 */
 	private function includes() {
 
@@ -186,6 +188,9 @@ final class LifterLMS {
 
 			include_once 'includes/class.llms.generator.php';
 			include_once 'includes/admin/class.llms.admin.import.php';
+
+			include_once 'includes/abstracts/abstract.llms.admin.table.php';
+			include_once 'includes/admin/post-types/tables/class.llms.table.student.management.php';
 
 			require_once 'includes/admin/llms.functions.admin.php';
 			include_once 'includes/admin/class.llms.admin.menus.php';
@@ -241,6 +246,9 @@ final class LifterLMS {
 			require_once $model;
 		}
 
+		// queries
+		include_once( 'includes/class.llms.student.query.php' );
+
 		// Classes
 		include_once( 'includes/class.llms.student.php' );
 		include_once( 'includes/class.llms.lesson.handler.php' );
@@ -265,6 +273,11 @@ final class LifterLMS {
 		// comments
 		include_once( 'includes/class.llms.comments.php' );
 
+		// shortcodes
+		require_once 'includes/class.llms.shortcodes.php';
+		require_once 'includes/shortcodes/class.llms.shortcode.my.account.php';
+		require_once 'includes/shortcodes/class.llms.shortcode.checkout.php';
+
 		$this->query = new LLMS_Query();
 
 		$this->course_factory = new LLMS_Course_Factory();
@@ -278,10 +291,6 @@ final class LifterLMS {
 			include_once( 'includes/class.llms.frontend.forms.php' );
 			include_once( 'includes/class.llms.frontend.password.php' );
 			include_once( 'includes/class.llms.person.php' );
-			include_once( 'includes/class.llms.shortcodes.php' );
-
-			include_once( 'includes/shortcodes/class.llms.shortcode.my.account.php' );
-			include_once( 'includes/shortcodes/class.llms.shortcode.checkout.php' );
 
 		}
 
@@ -312,6 +321,16 @@ final class LifterLMS {
 		$this->engagements();
 
 		do_action( 'lifterlms_init' );
+
+	}
+
+	public function init_background_handlers() {
+
+		require_once 'includes/libraries/wp-background-processing/wp-async-request.php';
+		require_once 'includes/libraries/wp-background-processing/wp-background-process.php';
+		require_once 'includes/class.llms.background.enrollment.php';
+
+		$this->background_handlers['enrollment'] = new LLMS_Background_Enrollment();
 
 	}
 

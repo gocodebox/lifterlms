@@ -1,14 +1,69 @@
 == Changelog ==
 
-v3.3.2 - 2017/02/??
+v3.4.4 - 2017/02/??
+-------------------
+
++ Added a popup to warn students when leaving a quiz they've already started
++ Enable removal of student quiz attempts by admins from student reporting screens
++ Fix an undefined error on quiz reporting screens for incomplete quizzes
++ Display incomplete (abandonded) quizzes as incomplete (instead of as still running) on the quiz reporting screen
+
+
+v3.4.3 - 2017/02/20
+-------------------
+
++ Fix issue with bbPress integration so that forums restricted to multiple memberships allow users of at least one membership that the forum is restricted to access topics within that forum
++ Ensure that the correct ajax url is used for quizzes, resolves issue for sites utilizing `FORCE_SSL_ADMIN`
++ Refactored database background update scripts for increased reliability & performance
++ Database ugrdate 3.3.0 moved to 3.4.3 in order to accommodate users who were unable to run the 3.3.0 update, please read the [3.4.3 database update notes](https://lifterlms.com/docs/lifterlms-database-updates/#343) for more information.
++ WIP: refactoring shortcodes to a more sane set of functions and classes
+
+
+v3.4.2 - 2017/02/14
+-------------------
+
++ Backwards compatible css for tooltips
+
+
+v3.4.1 - 2017/02/14
+-------------------
+
++ Password strength meter now functions correctly when using the [lifterlms_registration] shortcode
++ Ensure open registration with required voucher prevents registration with invalid vouchers
++ Lesson completion via quiz completion only recorded the first time the quiz is completed
++ Fix issue preventing membership catalog from obeying the catalog's ordering settings
++ Prevent duplicate engagements from being triggered
++ Admin tables can display percentages as a progress bar!
++ Students reporting table displays overall progress as a progress bar
++ Refactored frontend assets class to allow better management of inline scripts
+
+
+v3.4.0 - 2017/02/10
 -------------------
 
 + Enrollment for free access plans has improved based on your feedback. For more information see [https://lifterlms.com/docs/checkout-free-access-plans/](https://lifterlms.com/docs/checkout-free-access-plans/)
++ Updraded Student Management Table for courses and memberships:
+  + Allow searching students by name / email
+  + Allow filtering of students by current status
+  + Allow sorting of students by name, user id, status, and enrollment updated date
+  + Added student's grade to the table (courses only)
+  + Table pagination allows skipping to the first and last pages
+  + Student names link to full student reporting screen
+  + Student IDs added to the table. ID links to the WP User Edit screen which was previously accessible by clicking the student's name
+  + Utilizing improved database queries for displaying data on the table
++ One-click bulk enrollment of all current members of a membership into an auto-enrollment course. More info [here](https://lifterlms.com/docs/membership-auto-enrollment/#bulk-enrollment)
++ Students reporting table pagination can now jump to first and last page
++ Students reporting table pagination now displays current page and total number of pages
++ Added new class `LLMS_Student_Query` which is modeled, loosely, off of the `WP_User_Query` and allows for querying student data in relation to courses
++ `LLMS_Admin_Table` abstract now supports filtering and jump to first and last page pagination options
++ `llms_get_enrolled_students` now utilizes `LLMS_Student_Query` and resolves a bug where some users returned by this query would be returned with the incorrect status.
 + Ensure `LLMS_Course::has_prerequisite( 'course' )` & `LLMS_Course::has_prerequisite( 'track' )` always return booleans
 + Made a small performance tweak for courses without audio / video embeds
 + Fix coupon expiration dates check to be more i18n friendly
 + Update `LLMS_Coupon` class to utilize 3.3.0 class property enhancements
 + added `llms_current_time`, a pluggable wrapper for `current_time()` to enable easier unit testing of date-related functions
++ Shortcodes within course restriction messages are now handled properly to output their intend content rather than the raw shortcode
++ Ensure the Page Attributes area is available on lessons so WordPress 4.7 custom post type page templates can be utilized
 
 
 v3.3.1 - 2017/01/31

@@ -12,9 +12,58 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_AJAX_Handler {
 
 	/**
+	 * Queue all members of a membership to be enrolled into a specific course
+	 * Triggered from the auto-enrollment tab of a membership
+	 * @param    array     $request  array of request data
+	 * @return   array
+	 * @since    3.4.0
+	 * @version  3.4.0
+	 */
+	public static function bulk_enroll_membership_into_course( $request ) {
+
+		if ( empty( $request['post_id'] ) || empty( $request['course_id'] ) ) {
+			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
+		}
+
+		$args = array(
+			'post_id' => $request['post_id'],
+			'statuses' => 'enrolled',
+			'page' => 1,
+			'per_page' => 50,
+		);
+
+		$query = new LLMS_Student_Query( $args );
+
+		if ( $query->found_students ) {
+
+			$handler = LLMS()->background_handlers['enrollment'];
+
+			while ( $args['page'] <= $query->max_pages ) {
+
+				$handler->push_to_queue( array(
+					'enroll_into_id' => $request['course_id'],
+					'query_args' => $args,
+					'trigger' => sprintf( 'membership_%d', $request['post_id'] ),
+				) );
+
+				$args['page']++;
+
+			}
+
+			$handler->save()->dispatch();
+
+		}
+
+		return array(
+			'message' => __( 'Members are being enrolled in the background. You may leave this page.', 'lifterlms' ),
+		);
+
+	}
+
+	/**
 	 * Add or remove a student from a course or memberhip
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.0
 	 */
 	public static function bulk_enroll_students( $request ) {
 
@@ -27,13 +76,6 @@ class LLMS_AJAX_Handler {
 		foreach ( $request['student_ids'] as $id ) {
 			llms_enroll_student( intval( $id ), $post_id, 'admin_' . get_current_user_id() );
 		}
-
-		ob_start();
-		llms_get_template( 'admin/post-types/student-table.php', array(
-			'post_id' => $post_id,
-			'students' => LLMS_Meta_Box_Students::get_students_data( get_post( $post_id ), $request['page'] ),
-		) );
-		return ob_get_clean();
 
 	}
 
@@ -48,9 +90,7 @@ class LLMS_AJAX_Handler {
 
 		// shouldn't be possible
 		if ( empty( $request['plan_id'] ) ) {
-
 			die();
-
 		}
 
 		if ( ! wp_trash_post( $request['plan_id'] ) ) {
@@ -60,6 +100,29 @@ class LLMS_AJAX_Handler {
 			return $err;
 
 		}
+
+		return true;
+
+	}
+
+	/**
+	 * Delete a student's quiz attempt
+	 * Called from student quiz reporting screen
+	 * @since    3.4.4
+	 * @version  3.4.4
+	 */
+	public static function delete_quiz_attempt( $request ) {
+
+		$required = array( 'attempt', 'lesson', 'quiz', 'user' );
+		foreach ( $required as $param ) {
+			if ( empty( $request[ $param ] ) ) {
+				return new WP_Error( 400, __( 'Error deleting quiz attempt: Missing required parameter!', 'lifterlms' ) );
+			}
+			$request[ $param ] = intval( $request[ $param ] );
+		}
+
+		$student = new LLMS_Student( $request['user'] );
+		$student->delete_quiz_attempt( $request['quiz'], $request['lesson'], $request['attempt'] );
 
 		return true;
 
@@ -347,7 +410,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Add or remove a student from a course or memberhip
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.0
 	 */
 	public static function update_student_enrollment( $request ) {
 
@@ -364,13 +427,6 @@ class LLMS_AJAX_Handler {
 		} elseif ( 'remove' === $request['status'] ) {
 			llms_unenroll_student( $request['student_id'], $request['post_id'], 'cancelled', 'any' );
 		}
-
-		ob_start();
-		llms_get_template( 'admin/post-types/student-row.php', array(
-			'post_id' => $request['post_id'],
-			'student' => new LLMS_Student( $request['student_id'] ),
-		) );
-		return ob_get_clean();
 
 	}
 

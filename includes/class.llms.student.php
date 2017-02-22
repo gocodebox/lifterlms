@@ -107,7 +107,6 @@ class LLMS_Student {
 		update_user_meta( $this->get_id(), $key, $value );
 	}
 
-
 	/**
 	 * Add the student to a LifterLMS Membership
 	 * @param int $membership_id   WP Post ID of the membership
@@ -133,6 +132,44 @@ class LLMS_Student {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Remove Student Quiz attempts
+	 * @param    int     $quiz_id    WP Post ID of a Quiz
+	 * @param    int     $lesson_id  WP Post ID of a lesson
+	 * @param    int     $attempt    optional attempt number, if ommitted all attempts for quiz & lesson will be deleted
+	 * @return   array               updated array quiz data for the student
+	 * @since    3.4.4
+	 * @version  3.4.4
+	 */
+	public function delete_quiz_attempt( $quiz_id, $lesson_id, $attempt = null ) {
+
+		// get all quiz data
+		$quizzes = $this->get_quiz_data();
+
+		foreach ( $quizzes as $i => $data ) {
+
+			if ( $quiz_id == $data['id'] && $lesson_id == $data['assoc_lesson'] ) {
+
+				// no attempt or the submitted attempt equals the current attempt
+				if ( ! $attempt || $attempt == $data['attempt'] ) {
+					unset( $quizzes[ $i ] );
+				}
+
+			}
+
+		}
+
+		// reindex
+		$quizzes = array_values( $quizzes );
+
+		// save
+		$this->set( 'quiz_data', $quizzes );
+
+		// return updated quiz data
+		return $quizzes;
 
 	}
 
@@ -1577,7 +1614,6 @@ class LLMS_Student {
 		}
 
 	}
-
 
 	/**
 	 * Remove a student from a LifterLMS course or membership

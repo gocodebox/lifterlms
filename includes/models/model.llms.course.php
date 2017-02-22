@@ -96,7 +96,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 * @since   1.0.0
-	 * @version 3.3.2
+	 * @version 3.4.0
 	 */
 	public function get_audio() {
 
@@ -324,7 +324,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 * @since   1.0.0
-	 * @version 3.3.2
+	 * @version 3.4.0
 	 */
 	public function get_video() {
 
@@ -378,39 +378,30 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * Determine if the course is at capacity based on course capacity serttings
 	 * @return   boolean    true if not at capacity, false if at or over capacity
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.0
 	 */
 	public function has_capacity() {
 
+		// capacity disabled, so there is capacity
 		if ( 'yes' !== $this->get( 'enable_capacity' ) ) {
 			return true;
 		}
 
 		$capacity = $this->get( 'capacity' );
+		// no capacity restriction set, so it has capacity
 		if ( ! $capacity ) {
 			return true;
-		} else {
-			// don't query more than 5k records at a time
-			$total = 0;
-			$skip = 0;
-			$limit = 5000;
-			while ( true ) {
-				$s = count( $this->get_enrolled_students( $limit, $skip ) );
-				$total = $s + $total;
-				$skip = $skip + $limit;
-				// once capacity is exceeded no reason to make any more queries
-				if ( $total >= $capacity ) {
-					return false;
-				}
-				// once our results dont match our limit we're done
-				if ( $s < $limit ) {
-					break;
-				}
-			}
-
-			// compare results
-			return ( $total < $capacity );
 		}
+
+		// run a query and utilize the "found_students" so we perform a smaller query
+		$query = new LLMS_Student_Query( array(
+			'post_id' => $this->get( 'id' ),
+			'statuses' => array( 'enrolled' ),
+			'per_page' => 1,
+		) );
+
+		// compare results
+		return ( $query->found_students < $capacity );
 	}
 
 	/**
@@ -418,7 +409,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @param    string   $type  determine if a specific type of prereq exists [any|course|track]
 	 * @return   boolean         Returns true if prereq is enabled and there is a prerequisite course or track
 	 * @since    3.0.0
-	 * @version  3.3.2
+	 * @version  3.4.0
 	 */
 	public function has_prerequisite( $type = 'any' ) {
 

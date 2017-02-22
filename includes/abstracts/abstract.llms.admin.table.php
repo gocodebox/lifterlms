@@ -3,7 +3,7 @@
  * Admin GradeBook Tables
  *
  * @since   3.2.0
- * @version 3.2.0
+ * @version 3.4.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -23,6 +23,19 @@ abstract class LLMS_Admin_Table {
 	protected $current_page = 1;
 
 	/**
+	 * Value of the field being filtered by
+	 * Only applicable if $filterby is set
+	 * @var  string
+	 */
+	protected $filter = '';
+
+	/**
+	 * Field results are filtered by
+	 * @var  string
+	 */
+	protected $filterby = '';
+
+	/**
 	 * When pagination enabled, determines if this is the last page of results
 	 * @var  boolean
 	 */
@@ -35,6 +48,12 @@ abstract class LLMS_Admin_Table {
 	protected $is_paginated = false;
 
 	/**
+	 * Determine if the table is filterable
+	 * @var  boolean
+	 */
+	protected $is_filterable = false;
+
+	/**
 	 * Determine of the table is searchable
 	 * @var  boolean
 	 */
@@ -45,6 +64,12 @@ abstract class LLMS_Admin_Table {
 	 * @var  boolean
 	 */
 	protected $is_zebra = true;
+
+	/**
+	 * If an integer supplied, used to jump to last page
+	 * @var  int
+	 */
+	protected $max_pages = null;
 
 	/**
 	 * Results sort order
@@ -175,6 +200,11 @@ abstract class LLMS_Admin_Table {
 			'orderby' => $this->get_orderby(),
 		);
 
+		if ( $this->is_filterable ) {
+			$default['filter'] = $this->get_filter();
+			$default['filterby'] = $this->get_filterby();
+		}
+
 		if ( $this->is_searchable ) {
 			$default['search'] = $this->get_search();
 		}
@@ -212,6 +242,43 @@ abstract class LLMS_Admin_Table {
 	 */
 	public function get_empty_message() {
 		return apply_filters( 'llms_gradebook_get_' . $this->id . '_empty_message', $this->set_empty_message() );
+	}
+
+	/**
+	 * Get the text for the default/placeholder for a filterable column
+	 * @param    string     $column_id  id of the column
+	 * @return   string
+	 * @since    3.4.0
+	 * @version  3.4.0
+	 */
+	public function get_filter_placeholder( $column_id, $column_data ) {
+		$placeholder = __( 'Any', 'lifterlms' );
+		if ( is_array( $column_data ) && isset( $column_data['title'] ) ) {
+			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data['title'] );
+		} elseif ( is_strinp( $column_data ) ) {
+			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data );
+		}
+		return apply_filters( 'llms_gradebook_get_' . $this->id . '_filter_placeholder', $placeholder, $column_id );
+	}
+
+	/**
+	 * Get the current filter
+	 * @return   string
+	 * @since    3.4.0
+	 * @version  3.4.0
+	 */
+	public function get_filter() {
+		return $this->filter;
+	}
+
+	/**
+	 * Get the current field results are filtered by
+	 * @return   string
+	 * @since    3.4.0
+	 * @version  3.4.0
+	 */
+	public function get_filterby() {
+		return $this->filterby;
 	}
 
 	/**
@@ -274,6 +341,33 @@ abstract class LLMS_Admin_Table {
 	}
 
 	/**
+	 * Get HTML for the filters displayed in the head of the table
+	 * @return   string
+	 * @since    3.4.0
+	 * @version  3.4.0
+	 */
+	public function get_table_filters_html() {
+		ob_start();
+		?>
+		<div class="llms-table-filters">
+			<?php foreach ( $this->get_columns() as $id => $data ) : ?>
+				<?php if ( is_array( $data ) && isset( $data['filterable'] ) && is_array( $data['filterable'] ) ) : ?>
+					<div class="llms-table-filter-wrap">
+						<select class="llms-select2 llms-table-filter" id="<?php printf( '%1$s-%2$s-filter', $this->id, $id ); ?>" name="<?php echo $id; ?>">
+							<option value="<?php echo $this->get_filter(); ?>"><?php echo $this->get_filter_placeholder( $id, $data ); ?></option>
+							<?php foreach ( $data['filterable'] as $val => $name ) : ?>
+								<option value="<?php echo $val; ?>"><?php echo $name; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
 	 * Get the HTML for the entire table
 	 * @return   string
 	 * @since    3.2.0
@@ -287,6 +381,9 @@ abstract class LLMS_Admin_Table {
 				<?php echo $this->get_table_title_html(); ?>
 				<?php if ( $this->is_searchable ) : ?>
 					<?php echo $this->get_table_search_form_html(); ?>
+				<?php endif; ?>
+				<?php if ( $this->is_filterable ) : ?>
+					<?php echo $this->get_table_filters_html(); ?>
 				<?php endif; ?>
 			</header>
 			<table
@@ -314,7 +411,7 @@ abstract class LLMS_Admin_Table {
 		ob_start();
 		?>
 		<div class="llms-table-search">
-			<input class="regular-text" id="<?php echo $this->id; ?>" placeholder="<?php echo $this->get_table_search_form_placeholder(); ?>" type="text">
+			<input class="regular-text" id="<?php echo $this->id; ?>-search-input" placeholder="<?php echo $this->get_table_search_form_placeholder(); ?>" type="text">
 		</div>
 		<?php
 		return ob_get_clean();
@@ -382,7 +479,7 @@ abstract class LLMS_Admin_Table {
 	 * Get a tfoot element for the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.4.0
 	 */
 	public function get_tfoot_html() {
 		ob_start();
@@ -391,11 +488,20 @@ abstract class LLMS_Admin_Table {
 			<tr>
 				<th colspan="<?php echo $this->get_columns_count(); ?>">
 					<?php if ( $this->is_paginated ) : ?>
+						<?php if ( $this->max_pages ) : ?>
+							<span class="llms-table-page-count"><?php printf( _x( '%d of %d', 'pagination', 'lifterlms' ), $this->current_page, $this->max_pages ); ?></span>
+						<?php endif; ?>
 						<?php if ( 1 !== $this->get_current_page() ) : ?>
-							<button class="llms-button-primary small" data-dir="back" name="llms-table-paging"><span class="dashicons dashicons-arrow-left-alt2"></span> <?php _e( 'Back', 'lifterlms' ); ?></button>
+							<?php if ( $this->max_pages ) : ?>
+								<button class="llms-button-primary small" data-page="1" name="llms-table-paging"><span class="dashicons dashicons-arrow-left-alt"></span> <?php _e( 'First', 'lifterlms' ); ?></button>
+							<?php endif; ?>
+							<button class="llms-button-primary small" data-page="<?php echo $this->current_page - 1; ?>" name="llms-table-paging"><span class="dashicons dashicons-arrow-left-alt2"></span> <?php _e( 'Back', 'lifterlms' ); ?></button>
 						<?php endif; ?>
 						<?php if ( ! $this->is_last_page ) : ?>
-							<button class="llms-button-primary small" data-dir="next" name="llms-table-paging"><?php _e( 'Next', 'lifterlms' ); ?> <span class="dashicons dashicons-arrow-right-alt2"></span></button>
+							<button class="llms-button-primary small" data-page="<?php echo $this->current_page + 1; ?>" name="llms-table-paging"><?php _e( 'Next', 'lifterlms' ); ?> <span class="dashicons dashicons-arrow-right-alt2"></span></button>
+							<?php if ( $this->max_pages ) : ?>
+								<button class="llms-button-primary small" data-page="<?php echo $this->max_pages; ?>" name="llms-table-paging"><?php _e( 'Last', 'lifterlms' ); ?> <span class="dashicons dashicons-arrow-right-alt"></span></button>
+							<?php endif; ?>
 						<?php endif; ?>
 					<?php endif; ?>
 				</th>
@@ -469,6 +575,25 @@ abstract class LLMS_Admin_Table {
 	 */
 	public function get_columns_count() {
 		return count( $this->get_columns() );
+	}
+
+	/**
+	 * Get the HTML to output a progress bar within a td
+	 * Improve ugly tables with a small visual flourish
+	 * Useful when displaying a percentage within a table!
+	 * Bonus if the table sorts by that percentage column
+	 * @param    float      $percentage  the percentage to be displayed
+	 * @param    string     $text        text to display over the progress bar, defaults to $percentage
+	 * @return   string
+	 * @since    3.4.1
+	 * @version  3.4.1
+	 */
+	public function get_progress_bar_html( $percentage, $text = '' ) {
+		$text = $text ? $text : $percentage . '%';
+		return '<div class="llms-table-progress">
+			<span class="llms-table-progress-text">' . $text . '</span>
+			<div class="llms-table-progress-inner" style="width:' . $percentage . '%"></div>
+		</div>';
 	}
 
 	/**

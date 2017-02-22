@@ -1,6 +1,6 @@
 .llms-metabox-students {
 	.llms-table {
-		tbody tr td:first-child {
+		tr .name {
 			text-align: left;
 		}
 	}
@@ -10,10 +10,6 @@
 	}
 	.llms-remove-student:hover {
 		color: $color-red;
-	}
-
-	.llms-error {
-		padding-right: 20px;
 	}
 
 }

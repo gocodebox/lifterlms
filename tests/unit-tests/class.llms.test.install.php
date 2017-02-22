@@ -2,7 +2,7 @@
 /**
  * Tests for the LLMS_Install Class
  * @since    3.3.1
- * @version  3.3.1
+ * @version  3.4.3
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 

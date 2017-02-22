@@ -113,6 +113,10 @@
 			display: none;
 		}
 
+		a {
+			text-decoration: none;
+		}
+
 		.dashicons {
 			color: #777;
 			cursor: pointer;
@@ -121,8 +125,9 @@
 				color: #069cb5;
 			}
 
+			&.dashicons-trash:hover,
 			&.dashicons-no:hover {
-				color: #e26049;
+				color: $color-danger;
 			}
 		}
 

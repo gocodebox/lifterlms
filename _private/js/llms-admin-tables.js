@@ -1,6 +1,7 @@
 /**
  * LifterLMS Admin Tables
- * @since  3.2.0
+ * @since    3.2.0
+ * @version  3.4.0
  */
 ;( function( $, undefined ) {
 
@@ -31,7 +32,7 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    2.3.0
-		 * @version  2.3.0
+		 * @version  3.4.0
 		 */
 		this.bind = function() {
 
@@ -41,13 +42,19 @@
 
 				var $table = $( this );
 
-				$table.on( 'click', 'button[name="llms-table-paging"]', function() {
+				$table.on( 'click', 'button[name="llms-table-paging"]', function( e ) {
+					e.preventDefault();
 					self.change_page( $table, $( this ) );
 				} );
 
 				$table.on( 'click', 'a.llms-sortable', function( e ) {
 					e.preventDefault();
 					self.change_order( $table, $( this ) );
+				} );
+
+				$table.parent().find( '.llms-table-filters' ).on( 'change', 'select.llms-table-filter', function( e ) {
+					console.log( e );
+					self.change_filter( $table, $( this ) );
 				} );
 
 				$table.parent().find( '.llms-table-search' ).on( 'keyup', 'input', debounce( function( e ) {
@@ -72,11 +79,29 @@
 
 		};
 
+		/**
+		 * Handle clicks on sortable column headers
+		 * @param    obj   $table   jQuery selector for the current table
+		 * @param    obj   $anchor  jQuery selector for the clicked column head anchor
+		 * @return   void
+		 * @since    3.2.0
+		 * @version  3.2.0
+		 */
 		this.change_order = function( $table, $anchor ) {
 
 			this.reload( $table, {
 				order: $anchor.attr( 'data-order' ),
 				orderby: $anchor.attr( 'data-orderby' ),
+				page: 1,
+			} );
+
+		};
+
+		this.change_filter = function( $table, $select ) {
+
+			this.reload( $table, {
+				filter: $select.val(),
+				filterby: $select.attr( 'name' ),
 				page: 1,
 			} );
 
@@ -88,26 +113,26 @@
 		 * @param    obj   $btn    jQuery selector for the clicked button
 		 * @return   void
 		 * @since    3.2.0
-		 * @version  3.2.0
+		 * @version  3.4.0
 		 */
 		this.change_page = function( $table, $btn ) {
-
-			var curr = this.get_args( $table, 'page' ),
-				new_page;
-
-			switch ( $btn.data( 'dir' ) ) {
-				case 'back': new_page = curr - 1; break;
-				case 'next': new_page = curr + 1; break;
-			}
 
 			this.reload( $table, {
 				order: this.get_args( $table, 'order' ),
 				orderby: this.get_args( $table, 'orderby' ),
-				page: new_page,
+				page: $btn.attr( 'data-page' ),
 			} );
 
 		};
 
+		/**
+		 * Retrieve arguments stored in the table and parse into a readable object
+		 * @param    obj     $table  jQuery selector for the current table
+		 * @param    string  item    key to grab a specific value from the args object
+		 * @return   mixed
+		 * @since    3.2.0
+		 * @version  3.2.0
+		 */
 		this.get_args = function( $table, item ) {
 
 			var args = JSON.parse( $table.attr( 'data-args' ) );
@@ -120,6 +145,14 @@
 
 		};
 
+		/**
+		 * Reload a table
+		 * @param    obj   $table  jQuery selector for the current table
+		 * @param    obj   args    arguements to pass with the ajax query
+		 * @return   void
+		 * @since    3.2.0
+		 * @version  3.2.0
+		 */
 		this.reload = function( $table, args ) {
 
 			args = $.extend( {

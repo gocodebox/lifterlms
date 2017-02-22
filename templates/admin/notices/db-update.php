@@ -4,6 +4,7 @@
  *
  * @since  3.0.0
  */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
 ?>

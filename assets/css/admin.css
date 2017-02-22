@@ -2382,12 +2382,20 @@ div[id^="lifterlms-"] .inside {
   clear: both;
 }
 .llms-table-header h2 {
+  padding: 0;
   display: inline-block;
+  line-height: 1;
   margin: 0;
   vertical-align: middle;
 }
-.llms-table-header .llms-table-search {
+.llms-table-header .llms-table-search,
+.llms-table-header .llms-table-filters {
   float: right;
+  padding-left: 10px;
+}
+.llms-table-header .llms-table-search input {
+  margin: 0;
+  padding: 5px;
 }
 
 .llms-table {
@@ -2474,6 +2482,28 @@ div[id^="lifterlms-"] .inside {
 }
 .llms-table .llms-action-icon.danger:hover {
   color: #e5554e;
+}
+.llms-table .llms-table-page-count {
+  font-size: 11px;
+  font-weight: 300;
+  padding: 0 5px;
+}
+
+.llms-table-progress {
+  background: #eee;
+  height: 16px;
+  position: relative;
+}
+.llms-table-progress .llms-table-progress-text {
+  font-size: 11px;
+  line-height: 16px;
+  position: absolute;
+  right: 4px;
+  top: 0;
+}
+.llms-table-progress .llms-table-progress-inner {
+  background: #2295ff;
+  height: 100%;
 }
 
 .llms-order-note .llms-order-note-content {
@@ -2596,6 +2626,9 @@ div[id^="lifterlms-"] .inside {
 .llms-collapsible .llms-collapsible-header .dashicons-arrow-up {
   display: none;
 }
+.llms-collapsible .llms-collapsible-header a {
+  text-decoration: none;
+}
 .llms-collapsible .llms-collapsible-header .dashicons {
   color: #777;
   cursor: pointer;
@@ -2605,8 +2638,8 @@ div[id^="lifterlms-"] .inside {
 .llms-collapsible .llms-collapsible-header .dashicons:hover {
   color: #069cb5;
 }
-.llms-collapsible .llms-collapsible-header .dashicons.dashicons-no:hover {
-  color: #e26049;
+.llms-collapsible .llms-collapsible-header .dashicons.dashicons-trash:hover, .llms-collapsible .llms-collapsible-header .dashicons.dashicons-no:hover {
+  color: #e5554e;
 }
 .llms-collapsible .llms-collapsible-body {
   display: none;
@@ -2709,7 +2742,7 @@ div[id^="lifterlms-"] .inside {
   margin: 5px 0;
 }
 
-.llms-metabox-students .llms-table tbody tr td:first-child {
+.llms-metabox-students .llms-table tr .name {
   text-align: left;
 }
 .llms-metabox-students .llms-add-student:hover {
@@ -2717,9 +2750,6 @@ div[id^="lifterlms-"] .inside {
 }
 .llms-metabox-students .llms-remove-student:hover {
   color: #e5554e;
-}
-.llms-metabox-students .llms-error {
-  padding-right: 20px;
 }
 
 .llms-order-status-icon.llms-active, .llms-order-status-icon.llms-completed {
@@ -2826,7 +2856,8 @@ div[id^="lifterlms-"] .inside {
 .llms-reporting.wrap td.id a {
   text-decoration: none;
 }
-.llms-reporting.wrap th.name, .llms-reporting.wrap td.name {
+.llms-reporting.wrap th.name, .llms-reporting.wrap td.name,
+.llms-reporting.wrap th.title, .llms-reporting.wrap td.title {
   text-align: left;
 }
 .llms-reporting.wrap th.section-title {

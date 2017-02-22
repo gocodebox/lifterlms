@@ -115,7 +115,7 @@ abstract class LLMS_Payment_Gateway {
 	 * @param    string     $msg     optional message to display on the redirect screen
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.3.2
+	 * @version  3.4.0
 	 */
 	public function complete_transaction( $order, $msg = '' ) {
 

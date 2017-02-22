@@ -2,7 +2,7 @@
 /**
 * bbPress Integration
 * @since    3.0.0
-* @version  3.0.0
+* @version  3.4.3
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -86,14 +86,14 @@ class LLMS_Integration_bbPress {
 	 * @param    array     $results  array of restriction results
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.3
 	 */
 	public function topic_restriction_check( $results ) {
 
 		if ( bbp_is_topic( $results['content_id'] ) ) {
 
 			$forum_id = bbp_get_topic_forum_id( $results['content_id'] );
-			$restriction_id = llms_is_post_restricted_by_membership( $forum_id );
+			$restriction_id = llms_is_post_restricted_by_membership( $forum_id, get_current_user_id() );
 
 			if ( $restriction_id ) {
 

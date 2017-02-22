@@ -566,6 +566,8 @@ class LLMS_Quiz {
 	 * answer question form post (next lesson / complete quiz button click)
 	 * inserts answer in database and adds it to current quiz session
 	 * @return void
+	 * @since    1.0.0
+	 * @version  3.4.1
 	 */
 	public static function answer_question( $quiz_id, $question_id, $question_type, $answer, $complete ) {
 
@@ -685,11 +687,30 @@ class LLMS_Quiz {
 						do_action( 'lifterlms_quiz_completed', $quiz->user_id, $quiz_data[ $id ] );
 
 						if ( $quiz_data[ $id ]['passed'] ) {
-							llms_mark_complete( $quiz->user_id, $quiz->assoc_lesson, 'lesson', 'quiz_' . $quiz->id );
+
+							$passed = true;
 							do_action( 'lifterlms_quiz_passed', $quiz->user_id, $quiz_data[ $id ] );
+
 						} else {
+
+							$passed = false;
 							do_action( 'lifterlms_quiz_failed', $quiz->user_id, $quiz_data[ $id ] );
+
 						}
+
+						// mark lesson complete
+						$lesson = llms_get_post( $quiz->assoc_lesson );
+						$passing_required = ( 'yes' === $lesson->get( 'require_passing_grade' ) );
+						if ( ! $passing_required || ( $passing_required && $passed ) ) {
+
+							// mark associated lesson complete only if it hasn't been completed before
+							$student = new LLMS_Student( $quiz->user_id );
+							if ( ! $student->is_complete( $quiz->assoc_lesson, 'lesson' ) ) {
+								llms_mark_complete( $quiz->user_id, $quiz->assoc_lesson, 'lesson', 'quiz_' . $quiz->id );
+							}
+
+						}
+
 						update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
 						LLMS()->session->set( 'llms_quiz', $quiz );
 

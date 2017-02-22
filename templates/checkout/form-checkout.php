@@ -2,7 +2,7 @@
 /**
  * Checkout Form
  * @since    1.0.0
- * @version  3.3.2
+ * @version  3.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -19,7 +19,7 @@ $free = $plan->has_free_checkout();
 		<section class="llms-checkout-section billing-information">
 
 			<h4 class="llms-form-heading">
-				<?php if ( ! $free ): ?>
+				<?php if ( ! $free ) : ?>
 					<?php _e( 'Billing Information', 'lifterlms' ); ?>
 				<?php else : ?>
 					<?php _e( 'Student Information', 'lifterlms' ); ?>
@@ -66,7 +66,7 @@ $free = $plan->has_free_checkout();
 		<section class="llms-checkout-section payment-details">
 
 			<h4 class="llms-form-heading">
-				<?php if ( ! $free ): ?>
+				<?php if ( ! $free ) : ?>
 					<?php _e( 'Payment Details', 'lifterlms' ); ?>
 				<?php else : ?>
 					<?php _e( 'Enrollment Confirmation', 'lifterlms' ); ?>

@@ -4,8 +4,8 @@
  * Displays to logged in users on pricing tables for free access plans
  * if free checkout is not disabled via filter
  *
- * @since    3.3.2
- * @version  3.3.2
+ * @since    3.4.0
+ * @version  3.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly

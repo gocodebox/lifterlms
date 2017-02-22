@@ -153,6 +153,8 @@ Ajax.prototype.answer_question = function ( quiz_id, question_type, question_id,
 		success: function( response ) {
 
 			if ( response.redirect ) {
+
+				LLMS.Quiz.status = null;
 				window.location.replace( response.redirect );
 
 			} else if ( response.message) {
@@ -213,6 +215,7 @@ Ajax.prototype.previous_question = function (quiz_id, question_id) {
 };
 
 Ajax.prototype.complete_quiz = function ( quiz_id, question_id, question_type, answer ) {
+	LLMS.Quiz.status = null;
 	jQuery.ajax({
 		type 		: this.type,
 		url			: this.url,

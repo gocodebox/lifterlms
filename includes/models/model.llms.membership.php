@@ -53,29 +53,13 @@ class LLMS_Membership extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get an array of student IDs based on enrollment status in the membership
-	 * @param    string|array  $statuses  list of enrollment statuses to query by
-	 *                                    status query is an OR relationship
-	 * @param    integer    $limit        number of results
-	 * @param    integer    $skip         number of results to skip (for pagination)
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
-
-		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
-
-	}
-
-	/**
 	 * Retrieve an instance of the LLMS_Product for this course
 	 * @return   obj         instance of an LLMS_Product
 	 * @since    3.3.0
 	 * @version  3.3.0
 	 */
 	public function get_product() {
-			return new LLMS_Product( $this->get( 'id' ) );
+		return new LLMS_Product( $this->get( 'id' ) );
 	}
 
 	/**
@@ -113,6 +97,22 @@ class LLMS_Membership extends LLMS_Post_Model {
 		}
 
 		return $type;
+
+	}
+
+	/**
+	 * Get an array of student IDs based on enrollment status in the membership
+	 * @param    string|array  $statuses  list of enrollment statuses to query by
+	 *                                    status query is an OR relationship
+	 * @param    integer    $limit        number of results
+	 * @param    integer    $skip         number of results to skip (for pagination)
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
+
+		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
 
 	}
 

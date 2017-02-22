@@ -171,8 +171,6 @@ class LLMS_AJAX {
 			'get_enrolled_students'     => false,
 			'check_voucher_duplicate'	=> false,
 			'query_quiz_questions'      => false,
-			'update_student_enrollment' => false,
-
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {

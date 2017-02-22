@@ -1,23 +1,41 @@
 <?php
-
 /**
-* Shortcode base class
+* LifterLMS Shortcodes
 *
-* Shortcode logic
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
+* @since    1.0.0
+* @version  3.4.3
 */
 class LLMS_Shortcodes {
 
 	/**
 	* init shortcodes array
-	*
 	* @return void
+	* @since    1.0.0
+	* @version  3.4.3
 	*/
 	public static function init() {
 
+		// new method
+		$scs = apply_filters( 'llms_load_shortcodes', array(
+			'LLMS_Shortcode_Membership_Link',
+			'LLMS_Shortcode_Registration',
+		) );
+
+		// include abstract
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.php';
+
+		foreach ( $scs as $class ) {
+
+			$filename = strtolower( str_replace( '_', '.', $class ) );
+			$path = apply_filters( 'llms_load_shortcode_path', LLMS_PLUGIN_DIR . 'includes/shortcodes/class.' . $filename . '.php', $class );
+
+			if ( file_exists( $path ) ) {
+				require_once $path;
+			}
+
+		}
+
+		// old method
 		$shortcodes = array(
 			'lifterlms_access_plan_button' => __CLASS__ . '::access_plan_button',
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
@@ -29,15 +47,12 @@ class LLMS_Shortcodes {
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
-			'lifterlms_registration' => __CLASS__ . '::registration',
-			'lifterlms_regiration' => __CLASS__ . '::registration',
 			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
 			'lifterlms_login' => __CLASS__ . '::login',
 			'lifterlms_pricing_table' => __CLASS__ . '::pricing_table',
 			'lifterlms_memberships' => __CLASS__ . '::memberships',
-			'lifterlms_membership_link' => __CLASS__ . '::membership_link',
 
 		);
 
@@ -72,9 +87,10 @@ class LLMS_Shortcodes {
 	 * Retrieve the course ID from within a course, lesson, or quiz
 	 * @return   int
 	 * @since    2.7.9
-	 * @version  2.7.9
+	 * @version  3.4.1
 	 */
 	private static function get_course_id() {
+
 		if ( is_course() ) {
 			return get_the_ID();
 		} elseif ( is_lesson() ) {
@@ -84,9 +100,9 @@ class LLMS_Shortcodes {
 			$quiz = new LLMS_Quiz( get_the_ID() );
 			$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
 			return $lesson->get_parent_course();
-		} else {
-			return 0;
 		}
+
+		return 0;
 	}
 
 	/**
@@ -121,7 +137,7 @@ class LLMS_Shortcodes {
 	 * @param    string     $content  optional shortcode content, enables custom text / html in the button
 	 * @return   string
 	 * @since    3.2.5
-	 * @version  3.2.5
+	 * @version  3.4.1
 	 */
 	public static function access_plan_button( $atts, $content = '' ) {
 
@@ -132,7 +148,7 @@ class LLMS_Shortcodes {
 			'type' => 'primary', // primary, secondary, action, danger
 		), $atts, 'lifterlms_access_plan_button' );
 
-		$r = '';
+		$ret = '';
 
 		if ( ! empty( $atts['id'] ) && is_numeric( $atts['id'] ) ) {
 			$plan = new LLMS_Access_Plan( $atts['id'] );
@@ -143,10 +159,10 @@ class LLMS_Shortcodes {
 
 			$text = empty( $content ) ? $plan->get_enroll_text() : $content;
 
-			$r = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '">' . $text . '</a>';
+			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '">' . $text . '</a>';
 		}
 
-		return apply_filters( 'llms_shortcode_access_plan_button', $r, $atts, $content );
+		return apply_filters( 'llms_shortcode_access_plan_button', $ret, $atts, $content );
 
 	}
 
@@ -187,42 +203,7 @@ class LLMS_Shortcodes {
 
 	}
 
-	/**
-	 * Registration page shortcode
-	 * Used to seperate registration from login
-	 * @param  [atts] $atts [no atts are allowed]
-	 * @return [html]       [registration template html]
-	 */
-	public static function registration( $atts ) {
 
-		ob_start();
-
-		include( llms_get_template_part_contents( 'global/form', 'registration' ) );
-
-		$html = ob_get_clean();
-
-		return $html;
-
-	}
-
-	/**
-	 * Output an achor link for a membership
-	 * @param    array     $atts  shortcode atts
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public static function membership_link( $atts ) {
-
-		extract( shortcode_atts( array(
-			'id' => get_the_ID(),
-		), $atts, 'lifterlms_membership_link' ) );
-
-		$text = apply_filters( 'lifterlms_membership_link_text', get_the_title( $id ), $id );
-
-		return apply_filters( 'lifterlms_membership_link_shortcode', '<a href="' . get_permalink( $id ) . '">' . $text . '</a>', $atts );
-
-	}
 
 	/**
 	* Memberships Shortcode
@@ -354,15 +335,14 @@ class LLMS_Shortcodes {
 	 * @param    string     $content  HTML / Text content to be displayed only if the user is enrolled
 	 * @return   content
 	 * @since    1.0.0
-	 * @version  3.1.1
+	 * @version  3.4.1
 	 */
 	public static function hide_content( $atts, $content = '' ) {
 
 		extract( shortcode_atts( array(
 			'membership' => '', // backwards compat, use ID moving forwad
-
 			'message' => '',
-			'id' => get_the_ID(), // updated 3.1.1
+			'id' => get_the_ID(),
 		), $atts ) );
 
 		if ( $membership ) {
@@ -371,9 +351,9 @@ class LLMS_Shortcodes {
 
 		if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
 			return $content;
-		} else {
-			return $message;
 		}
+
+		return $message;
 
 	}
 
@@ -382,7 +362,7 @@ class LLMS_Shortcodes {
 	 * @param    array     $atts  array of user-submitted shortcode attributes
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.1
 	 */
 	public static function course_info( $atts ) {
 		extract( shortcode_atts( array(
@@ -392,7 +372,7 @@ class LLMS_Shortcodes {
 			'type' => '', // date, price
 		), $atts, 'lifterlms_course_info' ) );
 
-		$r = '';
+		$ret = '';
 
 		if ( $key ) {
 
@@ -401,21 +381,21 @@ class LLMS_Shortcodes {
 			switch ( $type ) {
 
 				case 'date':
-					$r = $course->get_date( $key, $date_format );
+					$ret = $course->get_date( $key, $date_format );
 				break;
 
 				case 'price':
-					$r = $course->get_price( $key );
+					$ret = $course->get_price( $key );
 				break;
 
 				default:
-					$r = $course->get( $key );
+					$ret = $course->get( $key );
 
 			}
 
 		}
 
-		return apply_filters( 'llms_shortcode_course_info', $r, $atts );
+		return apply_filters( 'llms_shortcode_course_info', $ret, $atts );
 	}
 
 	/**
@@ -642,9 +622,9 @@ class LLMS_Shortcodes {
 
 		if ( 1 == $count ) {
 			return $count . ' ' . $type;
-		} else {
-			return $count . ' ' . $type . 's';
 		}
+
+		return $count . ' ' . $type . 's';
 
 	}
 
@@ -692,7 +672,7 @@ class LLMS_Shortcodes {
 
 			foreach ( $syllabus->sections as $section ) {
 
-				if ((int) $next_lesson->get_parent_section() === (int) $section['id']) {
+				if ( (int) $next_lesson->get_parent_section() === (int) $section['id'] ) {
 
 					$args = array(
 								'course' => $course,
@@ -747,7 +727,7 @@ class LLMS_Shortcodes {
 	 * @param    array     $atts  array of shortcode attributes
 	 * @return   string
 	 * @since    3.2.5
-	 * @version  3.2.5
+	 * @version  3.4.1
 	 */
 	public static function pricing_table( $atts ) {
 
@@ -755,7 +735,7 @@ class LLMS_Shortcodes {
 			'product' => null,
 		), $atts, 'lifterlms_pricing_table' );
 
-		$r = '';
+		$ret = '';
 
 		// get produt id from loop if used from within a course or membership
 		if ( ! $atts['product'] ) {
@@ -772,10 +752,10 @@ class LLMS_Shortcodes {
 
 			ob_start();
 			llms_get_template( 'product/pricing-table.php', array( 'product' => new LLMS_Product( $atts['product'] ) ) );
-			$r = ob_get_clean();
+			$ret = ob_get_clean();
 		}
 
-		return apply_filters( 'llms_shortcode_pricing_table', $r, $atts );
+		return apply_filters( 'llms_shortcode_pricing_table', $ret, $atts );
 
 	}
 

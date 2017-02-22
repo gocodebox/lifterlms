@@ -9,14 +9,24 @@
 	@include clearfix();
 
 	h2 {
+		padding: 0;
 		display: inline-block;
+		line-height: 1;
 		margin: 0;
 		vertical-align: middle;
 	}
 
-	.llms-table-search {
+	.llms-table-search,
+	.llms-table-filters {
 		float: right;
+		padding-left: 10px;
 	}
+
+	.llms-table-search input {
+		margin: 0;
+		padding: 5px;
+	}
+
 }
 
 .llms-table {
@@ -34,6 +44,7 @@
 		&.expandable.closed {
 			display: none;
 		}
+
 	}
 
 	thead th,
@@ -111,4 +122,28 @@
 		}
 	}
 
+	.llms-table-page-count {
+		font-size: 11px;
+		font-weight: 300;
+		padding: 0 5px;
+	}
+
+}
+
+// progress bars within the tables
+.llms-table-progress {
+	background: #eee;
+	height: 16px;
+	position: relative;
+	.llms-table-progress-text {
+		font-size: 11px;
+		line-height: 16px;
+		position: absolute;
+		right: 4px;
+		top: 0;
+	}
+	.llms-table-progress-inner {
+		background: $color-brand-blue;
+		height: 100%;
+	}
 }

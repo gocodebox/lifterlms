@@ -255,10 +255,11 @@
 		 * Actions for memberships
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  3.4.0
 		 */
 		this.bind_llms_membership = function() {
 
+			// remove auto-enroll course
 			$( 'a[href="#llms-course-remove"]' ).on( 'click', function( e ) {
 
 				e.preventDefault();
@@ -298,6 +299,46 @@
 					},
 				} );
 
+			} );
+
+			// bulk enroll all members into a course
+			$( 'a[href="#llms-course-bulk-enroll"]' ).on( 'click', function( e ) {
+
+				e.preventDefault();
+
+				var $el = $( this ),
+					$row = $el.closest( 'tr' ),
+					$container = $el.closest( '.llms-mb-list' );
+
+				if ( ! window.confirm( LLMS.l10n.translate( 'membership_bulk_enrollment_warning' ) ) ) {
+					return;
+				}
+
+				LLMS.Spinner.start( $container );
+
+				window.LLMS.Ajax.call( {
+					data: {
+						action: 'bulk_enroll_membership_into_course',
+						course_id: $el.attr( 'data-id' ),
+					},
+					beforeSend: function() {
+						$container.find( 'p.error' ).remove();
+					},
+					success: function( r ) {
+
+						if ( r.success ) {
+
+							$el.replaceWith( '<strong style="float:right;">' + r.data.message + '&nbsp;&nbsp;</strong>' );
+
+						} else {
+
+							$container.prepend( '<p class="error">' + r.message + '</p>' );
+
+						}
+
+						LLMS.Spinner.stop( $container );
+					},
+				} );
 
 			} );
 

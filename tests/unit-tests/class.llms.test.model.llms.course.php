@@ -1,8 +1,8 @@
 <?php
 /**
  * Tests for LifterLMS Course Model
- * @since    3.3.2
- * @version  3.3.2
+ * @since    3.4.0
+ * @version  3.4.0
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -22,8 +22,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
 	 * @return   array
-	 * @since    3.3.2
-	 * @version  3.3.2
+	 * @since    3.4.0
+	 * @version  3.4.0
 	 */
 	protected function get_properties() {
 		return array(
@@ -55,8 +55,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
 	 * @return   array
-	 * @since    3.3.2
-	 * @version  3.3.2
+	 * @since    3.4.0
+	 * @version  3.4.0
 	 */
 	protected function get_data() {
 		return array(
@@ -91,8 +91,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test perequisite functions related to courses
 	 * @return   void
-	 * @since    3.3.2
-	 * @version  3.3.2
+	 * @since    3.4.0
+	 * @version  3.4.0
 	 */
 	public function test_get_prerequisites() {
 
@@ -142,8 +142,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test Audio and Video Embeds
 	 * @return   void
-	 * @since    3.3.2
-	 * @version  3.3.2
+	 * @since    3.4.0
+	 * @version  3.4.0
 	 */
 	public function test_get_embeds() {
 

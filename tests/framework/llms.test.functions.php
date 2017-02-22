@@ -5,8 +5,8 @@
  * @param  string       $type   Type of time to retrieve. Accepts 'mysql', 'timestamp', or PHP date format string (e.g. 'Y-m-d').
  * @param  int|bool     $gmt    Optional. Whether to use GMT timezone. Default false.
  * @return int|string           Integer if $type is 'timestamp', string otherwise.
- * @since    3.3.2
- * @version  3.3.2
+ * @since    3.4.0
+ * @version  3.4.0
  */
 function llms_current_time( $type, $gmt = 0 ) {
 	global $llms_mock_time;
@@ -20,8 +20,8 @@ function llms_current_time( $type, $gmt = 0 ) {
  * Set the mocked current time
  * @param    mixed     $time  date time string parsable by date()
  * @return   void
- * @since    3.3.2
- * @version  3.3.2
+ * @since    3.4.0
+ * @version  3.4.0
  */
 function llms_mock_current_time( $time ) {
 	global $llms_mock_time;
