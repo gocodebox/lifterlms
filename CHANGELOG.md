@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.4.5 - 2017/02/23
+-------------------
+
++ Ensure free access plans are available to logged out users
+
+
 v3.4.4 - 2017/02/22
 -------------------
 
