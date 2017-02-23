@@ -1,8 +1,12 @@
 <?php
 /**
  * LifterLMS Product Pricing Table Template
- * @property obj $product WP_Product object
+ *
+ * @property  obj   $product   WP_Product object
+ * @since     3.0.0
+ * @version   3.4.4
  */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 $is_enrolled = llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) );
@@ -93,7 +97,7 @@ $free_only = ( $has_free && ! $purchaseable );
 						<?php endif; ?>
 					</div>
 
-					<?php if ( $plan->has_free_checkout() && get_current_user_id() ) : ?>
+					<?php if ( $plan->has_free_checkout() && $plan->is_available_to_user() ) : ?>
 						<?php llms_get_template( 'product/free-enroll-form.php', array( 'plan' => $plan ) ); ?>
 					<?php else : ?>
 						<a class="llms-button-action button" href="<?php echo $plan->get_checkout_url(); ?>"><?php echo $plan->get_enroll_text(); ?></a>
