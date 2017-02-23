@@ -162,6 +162,29 @@ class LLMS_AJAX_Handler {
 
 	}
 
+
+	public static function notifications_heartbeart( $request ) {
+
+		$ret = array(
+			'new' => array(),
+		);
+
+		if ( $request['dismissals'] ) {
+			foreach ( $request['dismissals'] as $nid ) {
+				$noti = new LLMS_Notification_Data( $nid );
+				if ( get_current_user_id() == $noti->get( 'user_id' ) ) {
+					$noti->set( 'status', 1 );
+				}
+			}
+		}
+
+		$student = new LLMS_Student();
+		$ret['new'] = $student->get_notifications( array( 'status' => 'unread' ) );
+
+		return $ret;
+
+	}
+
 	/**
 	 * Remove a course from the list of membership auto enrollment courses
 	 * called from "Auto Enrollment" tab of LLMS Membership Metaboxes

@@ -319,6 +319,7 @@ final class LifterLMS {
 		}
 
 		$this->engagements();
+		$this->notifications();
 
 		do_action( 'lifterlms_init' );
 
@@ -332,6 +333,16 @@ final class LifterLMS {
 
 		$this->background_handlers['enrollment'] = new LLMS_Background_Enrollment();
 
+	}
+
+	/**
+	 * Retrieve an instance of the notifications class
+	 * @return   obj
+	 * @since    ??
+	 * @version  ??
+	 */
+	public function notifications() {
+		return LLMS_Notifications::instance();
 	}
 
 	/**

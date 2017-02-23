@@ -1,0 +1,77 @@
+.llms-notification {
+
+	@include clearfix();
+
+	background: #fff;
+	box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
+	border-top: 4px solid $color-blue;
+	cursor: pointer;
+	opacity: 0;
+	padding: 12px;
+	position: fixed;
+	right: -800px;
+	top: 48px;
+	transition:
+		opacity 0.4s ease-in-out,
+		right 0.4s ease-in-out,
+	;
+	visibility: none;
+	width: 340px;
+
+	&.visible {
+		opacity: 1;
+		right: 48px;
+		transition:
+			opacity 0.4s ease-in-out,
+			right 0.4s ease-in-out,
+			top 0.1s ease-in-out,
+			background 0.2s ease-in-out,
+			transform 0.2s ease-in-out
+		;
+		visibility: visible;
+
+		&:hover {
+			background: #eee;
+			right: 6px;
+			transform: scale( .975 );
+
+			.llms-notification-dismiss {
+				opacity: 1;
+			}
+
+		}
+
+	}
+
+	.llms-notification-title {
+		font-size: 20px;
+		margin: 0;
+	}
+
+	.llms-notification-icon {
+		float: left;
+		margin-right: 12px;
+		max-height: 48px;
+	}
+
+	.llms-notification-body {
+		font-size: 16px;
+		p, li {
+			font-size: inherit;
+		}
+		p {
+			margin-bottom: 8px;
+		}
+	}
+
+	.llms-notification-dismiss {
+		color: $color-danger;
+		opacity: 0;
+		font-size: 22px;
+		position: absolute;
+		right: 10px;
+		top: 8px;
+		transition: opacity 0.4s ease-in-out;
+	}
+
+}

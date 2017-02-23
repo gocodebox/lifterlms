@@ -961,6 +961,73 @@ svg .llms-animated-circle {
   list-style-type: none;
 }
 
+.llms-notification {
+  background: #fff;
+  box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
+  border-top: 4px solid #2295ff;
+  cursor: pointer;
+  opacity: 0;
+  padding: 12px;
+  position: fixed;
+  right: -800px;
+  top: 48px;
+  -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
+          transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
+  visibility: none;
+  width: 340px;
+}
+.llms-notification:before, .llms-notification:after {
+  content: " ";
+  display: table;
+}
+.llms-notification:after {
+  clear: both;
+}
+.llms-notification.visible {
+  opacity: 1;
+  right: 48px;
+  -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+          transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, transform 0.2s ease-in-out;
+  visibility: visible;
+}
+.llms-notification.visible:hover {
+  background: #eee;
+  right: 6px;
+  -webkit-transform: scale(0.975);
+          transform: scale(0.975);
+}
+.llms-notification.visible:hover .llms-notification-dismiss {
+  opacity: 1;
+}
+.llms-notification .llms-notification-title {
+  font-size: 20px;
+  margin: 0;
+}
+.llms-notification .llms-notification-icon {
+  float: left;
+  margin-right: 12px;
+  max-height: 48px;
+}
+.llms-notification .llms-notification-body {
+  font-size: 16px;
+}
+.llms-notification .llms-notification-body p, .llms-notification .llms-notification-body li {
+  font-size: inherit;
+}
+.llms-notification .llms-notification-body p {
+  margin-bottom: 8px;
+}
+.llms-notification .llms-notification-dismiss {
+  color: #e5554e;
+  opacity: 0;
+  font-size: 22px;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  -webkit-transition: opacity 0.4s ease-in-out;
+          transition: opacity 0.4s ease-in-out;
+}
+
 .llms-pagination ul {
   list-style-type: none;
 }
