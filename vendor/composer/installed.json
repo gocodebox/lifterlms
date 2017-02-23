@@ -1,0 +1,31 @@
+[
+    {
+        "name": "gocodebox/action-scheduler",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gocodebox/action-scheduler.git",
+            "reference": "ccae63bae54825ce6f759df0c657a1967bb1131b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gocodebox/action-scheduler/zipball/ccae63bae54825ce6f759df0c657a1967bb1131b",
+            "reference": "ccae63bae54825ce6f759df0c657a1967bb1131b",
+            "shasum": ""
+        },
+        "time": "2016-12-01T01:36:44+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "authors": [
+            {
+                "name": "Thomas Patrick Levy",
+                "email": "thomasplevy@gmail.com"
+            }
+        ],
+        "description": "Fork of https://github.com/Prospress/action-scheduler",
+        "support": {
+            "source": "https://github.com/gocodebox/action-scheduler/tree/master"
+        }
+    }
+]
