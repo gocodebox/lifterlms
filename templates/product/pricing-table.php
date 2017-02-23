@@ -4,7 +4,7 @@
  *
  * @property  obj   $product   WP_Product object
  * @since     3.0.0
- * @version   3.4.4
+ * @version   3.4.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
@@ -96,8 +96,7 @@ $free_only = ( $has_free && ! $purchaseable );
 							&nbsp;
 						<?php endif; ?>
 					</div>
-
-					<?php if ( $plan->has_free_checkout() && $plan->is_available_to_user() ) : ?>
+					<?php if ( get_current_user_id() && $plan->has_free_checkout() && $plan->is_available_to_user() ) : ?>
 						<?php llms_get_template( 'product/free-enroll-form.php', array( 'plan' => $plan ) ); ?>
 					<?php else : ?>
 						<a class="llms-button-action button" href="<?php echo $plan->get_checkout_url(); ?>"><?php echo $plan->get_enroll_text(); ?></a>
