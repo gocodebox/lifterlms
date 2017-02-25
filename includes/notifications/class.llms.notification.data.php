@@ -4,24 +4,65 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Notification_Data {
 
-	public function __construct( $notification_id ) {
+	public function __construct( $notification ) {
 
-		if ( $notification_id ) {
-			$this->id = $notification_id;
+		if ( is_numeric( $notification ) ) {
+			$this->id = $notification;
+		} elseif ( is_array( $notification ) && isset( $notification['user_id'] ) && isset( $notification['type'] ) && isset( $notification['metas'] ) ) {
+			$this->id = $this->create( $notification['user_id'], $notification['type'], $notification['metas'] );
 		}
 
 	}
 
-	private function get_table() {
+	public function create( $user_id, $type, $metas = array() ) {
+
+		$time = current_time( 'mysql' );
+
 		global $wpdb;
-		return $wpdb->prefix . 'lifterlms_notifications';
+		$insert = $wpdb->insert( $this->get_table(),
+			array(
+				'created' => $time,
+				'updated' => $time,
+				'status' => 'new',
+				'user_id' => $user_id,
+				'type' => $type,
+			),
+			array(
+				'%s',
+				'%s',
+				'%s',
+				'%d',
+				'%s',
+			)
+		);
+
+		if ( 1 !== $insert ) {
+			return false;
+		}
+
+		$this->id = $wpdb->insert_id;
+
+		if ( $metas ) {
+			$this->create_metas( $metas );
+		}
+
+		return $this->id;
+
 	}
 
-	private function get_table_meta() {
-		return $this->get_table() . '_meta';
+	public function create_metas( $metas = array() ) {
+
+		global $wpdb;
+
+		$values = array();
+		foreach( $metas as $key => $val ) {
+			$values[] = $wpdb->prepare( '( %d, %s, %s )', $this->id, $key, $val );
+		}
+		$values = implode( ', ', $values );
+
+		return $wpdb->query( "INSERT INTO {$this->get_table_meta()} (notification_id, meta_key, meta_value) VALUES{$values};" );
+
 	}
-
-
 
 	public function get( $key ) {
 
@@ -50,6 +91,21 @@ class LLMS_Notification_Data {
 
 	}
 
+	private function get_table() {
+		global $wpdb;
+		return $wpdb->prefix . 'lifterlms_notifications';
+	}
+
+	private function get_table_meta() {
+		return $this->get_table() . '_meta';
+	}
+
+	public function meta_exists( $key ) {
+
+		$query = $wpdb->prepare( "SELECT meta_value FROM {$this->get_table_meta()} WHERE notification_id = %d AND meta_key = %s", $this->id, $key );
+		return ( $wpdb->get_var( $query ) );
+
+	}
 
 	public function set( $key, $val ) {
 
@@ -74,12 +130,20 @@ class LLMS_Notification_Data {
 			break;
 
 			default:
+				if ( ! $this->meta_exists( $key ) ) {
+					return $this->create_metas( array(
+						$key => $val,
+					) );
+				}
+
 				$query = $wpdb->prepare( "UPDATE {$this->get_table_meta()} SET meta_value=%s WHERE notification_id = %d AND meta_key = %s", $val, $this->id, $key );
 
 		}
 
-		return $wpdb->get_var( $query );
+		return $wpdb->query( $query );
 
 	}
+
+
 
 }

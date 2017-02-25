@@ -167,14 +167,14 @@
 
 		this.get_offset = function( $relative_el ) {
 
-			var spacer = 14;
+			var spacer = 12;
 
 			if ( ! $relative_el ) {
 				$relative_el = $( '.llms-notification.visible' ).last()
 			}
 
 			if ( ! $relative_el.offset() ) {
-				return 48;
+				return 24;
 			}
 
 			var top = $relative_el.offset().top,

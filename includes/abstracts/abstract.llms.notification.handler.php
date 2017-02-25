@@ -6,64 +6,48 @@ abstract class LLMS_Notification_Handler {
 
 	public $id = '';
 
-	abstract public function handle( $notification );
-
 	public function __construct() {}
 
+	public function handle( $notification ) {
 
-	protected function create( $user_id, $metas = array() ) {
-
-		$time = current_time( 'mysql' );
-
-		global $wpdb;
-		$insert = $wpdb->insert( $wpdb->prefix . 'lifterlms_notifications', array(
-			'created' => $time,
-			'updated' => $time,
-			'status' => 0,
-			'user_id' => $user_id,
-			'type' => $this->id,
-		),
-		array(
-			'%s',
-			'%s',
-			'%d',
-			'%d',
-			'%s',
-		) );
-
-		if ( 1 !== $insert ) {
-			return false;
-		}
-
-		$notification_id = $wpdb->insert_id;
-
-		if ( $metas ) {
-			foreach ( $metas as $key => $val ) {
-				if ( $val ) {
-					$this->create_meta( $notification_id, $key, $val );
-				}
-			}
-		}
-
-		return $notification_id;
+		return $this->create_for_subscribers( $notification );
 
 	}
 
-	protected function create_meta( $notification_id, $meta_key, $meta_value ) {
+	protected function create_for_subscribers( $notification ) {
 
-		global $wpdb;
-		$insert = $wpdb->insert( $wpdb->prefix . 'lifterlms_notifications_meta', array(
-			'notification_id' => $notification_id,
-			'meta_key' => $meta_key,
-			'meta_value' => $meta_value,
-		),
-		array(
-			'%d',
-			'%s',
-			'%s',
+		$created = array();
+
+		foreach ( array_keys( $notification->get_subscribers( $this->id ) ) as $uid ) {
+
+			$notification_id = $this->create_for_subscriber( $uid, array(
+				'notification' => $notification->id,
+				'body' => $notification->get_body( $uid, $this->id ),
+				'icon' => $notification->get_icon( $uid, $this->id ),
+				'title' => $notification->get_title( $uid, $this->id ),
+			) );
+
+			if ( is_numeric( $notification_id ) ) {
+
+				$created[] = $notification_id;
+
+			}
+
+		}
+
+		return $created;
+
+	}
+
+	protected function create_for_subscriber( $user_id, $metas = array() ) {
+
+		$data = new LLMS_Notification_Data( array(
+			'metas' => $metas,
+			'type' => $this->id,
+			'user_id' => $user_id,
 		) );
 
-		return ( 1 === $insert ) ? $wpdb->insert_id : false;
+		return $data->get( 'id' );
 
 	}
 

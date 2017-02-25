@@ -10,7 +10,7 @@
 	padding: 12px;
 	position: fixed;
 	right: -800px;
-	top: 48px;
+	top: 24px;
 	transition:
 		opacity 0.4s ease-in-out,
 		right 0.4s ease-in-out,
@@ -20,7 +20,7 @@
 
 	&.visible {
 		opacity: 1;
-		right: 48px;
+		right: 24px;
 		transition:
 			opacity 0.4s ease-in-out,
 			right 0.4s ease-in-out,

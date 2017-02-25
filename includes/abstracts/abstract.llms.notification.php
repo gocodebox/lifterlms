@@ -175,7 +175,7 @@ abstract class LLMS_Notification implements LLMS_Interface_Notification {
 	 */
 	public function get_icon( $subscriber_id = null, $type = null ) {
 
-		return apply_filters( $this->get_filter( 'get_icon' ), $this->set_icon( $subscriber_id = null, $type = null ), $this, $type );
+		return apply_filters( $this->get_filter( 'get_icon' ), $this->set_icon( $subscriber_id, $type ), $this, $type );
 
 	}
 
@@ -269,12 +269,13 @@ abstract class LLMS_Notification implements LLMS_Interface_Notification {
 
 	/**
 	 * Replaces merge all merge fields with actual data
-	 * @param    string     $content  unmerged conent
+	 * @param    string     $content        unmerged conent
+	 * @param    int        $subscriber_id  WP User ID of the subscriber
 	 * @return   string
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function merge( $content ) {
+	private function merge( $content, $subscriber_id = null ) {
 
 		$codes = $this->get_merge_codes();
 
@@ -283,8 +284,8 @@ abstract class LLMS_Notification implements LLMS_Interface_Notification {
 
 		foreach ( $codes as $code ) {
 
-			$raw[] = $this->prerare_merge_code( $code );
-			$merged[] = $this->merge_code( $code );
+			$raw[] = $this->prepare_merge_code( $code );
+			$merged[] = $this->merge_code( $code, $subscriber_id );
 
 		}
 
@@ -300,7 +301,7 @@ abstract class LLMS_Notification implements LLMS_Interface_Notification {
 	 * @version  [version]
 	 */
 	private function prepare_merge_code( $code ) {
-		return sprintf( '%1$s%%2$s%%3$s%', self::MERGE_CODE_PREFIX, $code, self::MERGE_CODE_SUFFIX );
+		return self::MERGE_CODE_PREFIX . $code . self::MERGE_CODE_SUFFIX;
 	}
 
 }

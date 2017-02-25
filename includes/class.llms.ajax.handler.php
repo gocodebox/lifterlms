@@ -169,17 +169,25 @@ class LLMS_AJAX_Handler {
 			'new' => array(),
 		);
 
-		if ( $request['dismissals'] ) {
+		if ( ! empty( $request['dismissals'] ) ) {
 			foreach ( $request['dismissals'] as $nid ) {
 				$noti = new LLMS_Notification_Data( $nid );
 				if ( get_current_user_id() == $noti->get( 'user_id' ) ) {
-					$noti->set( 'status', 1 );
+					$noti->set( 'status', 'read' );
 				}
 			}
 		}
 
-		$student = new LLMS_Student();
-		$ret['new'] = $student->get_notifications( array( 'status' => 'unread' ) );
+		$query = new LLMS_Notifications_Query( array(
+			'per_page' => 5,
+			'statuses' => 'new',
+			'types' => 'email',
+			'user_id' => 1,
+		) );
+		// $student = new LLMS_Student();
+		// $ret['new'] = $student->get_notifications( array( 'status' => 'unread' ) );
+
+		$ret['new'] = array();
 
 		return $ret;
 

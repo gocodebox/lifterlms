@@ -963,44 +963,6 @@ class LLMS_Student {
 
 	}
 
-	public function get_notifications( $args = array() ) {
-
-		$args = wp_parse_args( $args, array(
-			'type' => 'any',
-			'status' => 'any',
-		) );
-
-		$where = '';
-		if ( 'any' !== $args['status'] ) {
-			if ( 'read' === $args['status'] || 1 == $args['status'] ) {
-				$where = ' AND n.status = 1';
-			} elseif ( 'unread' === $args['status'] || 0 == $args['status'] ) {
-				$where = ' AND n.status = 0';
-			}
-		}
-
-		global $wpdb;
-		return $wpdb->get_results( $wpdb->prepare(
-			"SELECT
-				  n.status
-				, n.type
-				, title.meta_value AS title
-				, body.meta_value AS body
-				, icon.meta_value AS icon
-				, n.id
-
-			 FROM {$wpdb->prefix}lifterlms_notifications AS n
-			 JOIN {$wpdb->prefix}lifterlms_notifications_meta AS title ON n.id = title.notification_id AND title.meta_key = 'title'
-			 JOIN {$wpdb->prefix}lifterlms_notifications_meta AS body ON n.id = body.notification_id AND body.meta_key = 'body'
-			 LEFT JOIN {$wpdb->prefix}lifterlms_notifications_meta AS icon ON n.id = icon.notification_id AND icon.meta_key = 'icon'
-
-			 WHERE n.user_id = %d $where
-			;",
-			$this->get_id()
-		) );
-
-	}
-
 	public function get_orders( $params = array() ) {
 
 		$params = wp_parse_args( $params, array(

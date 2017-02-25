@@ -43,6 +43,9 @@ class LLMS_Notification_Lesson_Complete extends LLMS_Notification {
 		// add a basic subscription for the student
 		$this->add_subscription( $student_id, 'basic' );
 
+		// notify the author via email
+		$this->add_subscription( $this->lesson->get( 'author' ), 'email' );
+
 		$this->handle();
 
 	}
@@ -61,6 +64,7 @@ class LLMS_Notification_Lesson_Complete extends LLMS_Notification {
 	/**
 	 * Replaces a given merge code with real information
 	 * @param    string     $code  unprepared merge code
+	 * @param    int        $subscriber_id  WP User ID of the subscriber
 	 * @return   mixed
 	 * @since    [version]
 	 * @version  [version]
@@ -95,7 +99,7 @@ class LLMS_Notification_Lesson_Complete extends LLMS_Notification {
 	 */
 	protected function set_body( $subscriber_id = null, $type = null ) {
 
-		return sprintf( __( 'wooh00t %s', 'lifterlms' ), '{{STUDENT_NAME}}' );
+		return sprintf( __( '%1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{LESSON_TITLE}}' );
 
 	}
 
@@ -123,13 +127,19 @@ class LLMS_Notification_Lesson_Complete extends LLMS_Notification {
 	 */
 	protected function set_icon( $subscriber_id = null, $type = null ) {
 
-		$img = $this->lesson->get_image( $this->get_icon_dimensions() );
-		if ( ! $img ) {
-			$course = $this->lesson->get_course();
-			$img = $course->get_image( $this->get_icon_dimensions() );
+		if ( 'basic' === $type ) {
+
+			$img = $this->lesson->get_image( $this->get_icon_dimensions() );
+			if ( ! $img ) {
+				$course = $this->lesson->get_course();
+				$img = $course->get_image( $this->get_icon_dimensions() );
+			}
+
+			return $img;
+
 		}
 
-		return $img;
+		return '';
 
 	}
 
@@ -161,7 +171,7 @@ class LLMS_Notification_Lesson_Complete extends LLMS_Notification {
 			return sprintf( __( 'Congratulations, %1$s Completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{LESSON_TITLE}}' );
 		}
 
-		return __( 'Lesson Completed', 'lifterlms' );
+		return __( 'Lesson Completed!', 'lifterlms' );
 
 	}
 

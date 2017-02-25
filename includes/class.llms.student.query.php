@@ -2,99 +2,24 @@
 /**
 * Query LifterLMS Students for a given course / membership
 * @since    3.4.0
-* @version  3.4.0
+* @version  ??
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Student_Query {
+class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
-	 * Arguments
-	 * Original merged into defaults
-	 * @var  array
-	 */
-	private $arguments = array();
-
-	/**
-	 * Default arguments before merging with original
-	 * @var  array
-	 */
-	private $arguments_default = array();
-
-	/**
-	 * Original args before merging with defaults
-	 * @var  array
-	 */
-	private $arguments_original = array();
-
-	/**
-	 * Total number of students matching query parameters
-	 * @var  integer
-	 */
-	public $found_students = 0;
-
-	/**
-	 * Maximum number of pages of results
-	 * based off per_page & found_students
-	 * @var  integer
-	 */
-	public $max_pages = 0;
-
-	/**
-	 * Number of students on the current page
-	 * @var  integer
-	 */
-	public $number_students = 0;
-
-	public $query_vars = array();
-
-	/**
-	 * The raw SQL query
+	 * Identify the extending query
 	 * @var  string
 	 */
-	private $sql = '';
-
-	/**
-	 * Array of students retrieved by the query
-	 * @var  array
-	 */
-	public $students = array();
-
-
-	public function __construct( $args = array() ) {
-
-		$this->arguments_original = $args;
-		$this->arguments_default = $this->get_default_args();
-
-		$this->setup_args();
-
-		$this->query();
-
-	}
-
-	/**
-	 * Retrieve a query variable with an optional fallback / default
-	 * @param    string     $key      variable key
-	 * @param    mixed      $default  default value
-	 * @return   mixed
-	 * @since    3.4.0
-	 * @version  3.4.0
-	 */
-	public function get( $key, $default = '' ) {
-
-		if ( isset( $this->query_vars[ $key ] ) ) {
-			return $this->query_vars[ $key ];
-		}
-
-		return $default;
-	}
+	protected $id = 'student';
 
 	/**
 	 * Retrieve default arguments for a student query
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  ??
 	 */
 	protected function get_default_args() {
 
@@ -103,10 +28,7 @@ class LLMS_Student_Query {
 		$post_id = ! empty( $post->ID ) ? $post->ID : $this->get( 'post_id' );
 
 		$args = array(
-			'page' => 1,
-			'per_page' => 25,
-			'post_id' => null,
-			'search' => '',
+			'post_id' => $post_id,
 			'sort' => array(
 				'date' => 'DESC',
 				'status' => 'ASC',
@@ -114,27 +36,13 @@ class LLMS_Student_Query {
 				'first_name' => 'ASC',
 				'id' => 'ASC',
 			),
-			'suppress_filters' => false,
 			'statuses' => array_keys( llms_get_enrollment_statuses() ),
 		);
 
-		if ( $this->get( 'suppress_filters' ) ) {
-			return $args;
-		}
+		$args = wp_parse_args( $args, parent::get_default_args() );
 
-		return apply_filters( 'llms_student_query_default_args', $args );
+		return apply_filters( $this->get_filter( 'default_args' ), $args );
 
-	}
-
-	/**
-	 * Get the number of results to skip for the query
-	 * based on the current page and per_page vars
-	 * @return   int
-	 * @since    3.4.0
-	 * @version  3.4.0
-	 */
-	private function get_skip() {
-		return absint( ( $this->get( 'page' ) - 1 ) * $this->get( 'per_page' ) );
 	}
 
 	/**
@@ -142,16 +50,17 @@ class LLMS_Student_Query {
 	 * returned by the query
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  ??
 	 */
 	public function get_students() {
 
 		$students = array();
+		$results = $this->get_results();
 
-		if ( $this->students ) {
+		if ( $results ) {
 
-			foreach ( $this->students as $student ) {
-				$students[] = new LLMS_Student( $student->id );
+			foreach ( $results as $result ) {
+				$students[] = new LLMS_Student( $result->id );
 			}
 
 		}
@@ -160,28 +69,8 @@ class LLMS_Student_Query {
 			return $students;
 		}
 
-		return apply_filters( 'llms_student_query_get_students', $students );
+		return apply_filters( $this->get_filter( 'get_students' ), $students );
 
-	}
-
-	/**
-	 * Determine if we're on the first page of results
-	 * @return   boolean
-	 * @since    3.4.0
-	 * @version  3.4.0
-	 */
-	public function is_first_page() {
-		return ( 1 === $this->get( 'page' ) );
-	}
-
-	/**
-	 * Determine if we're on the last page of results
-	 * @return   boolean
-	 * @since    3.4.0
-	 * @version  3.4.0
-	 */
-	public function is_last_page() {
-		return ( $this->get( 'page' ) === $this->max_pages );
 	}
 
 	/**
@@ -192,7 +81,7 @@ class LLMS_Student_Query {
 	 * @since    3.4.0
 	 * @version  3.4.0
 	 */
-	private function parse_statuses() {
+	protected function parse_args() {
 
 		$statuses = $this->arguments['statuses'];
 
@@ -217,9 +106,9 @@ class LLMS_Student_Query {
 	 * Prepare the SQL for the query
 	 * @return   void
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  ??
 	 */
-	private function preprare_query() {
+	protected function preprare_query() {
 
 		global $wpdb;
 
@@ -280,83 +169,7 @@ class LLMS_Student_Query {
 			$vars
 		);
 
-		if ( ! $this->get( 'suppress_filters' ) ) {
-			$sql = apply_filters( 'llms_student_query_prepare_query', $sql, $this );
-		}
-
-		$this->sql = $sql;
-
-	}
-
-	/**
-	 * Execute a query
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.4.0
-	 */
-	public function query() {
-
-		global $wpdb;
-
-		$this->preprare_query();
-
-		$this->students = $wpdb->get_results( $this->sql );
-		$this->number_students = count( $this->students );
-
-		$this->set_found_students();
-
-	}
-
-	/**
-	 * Sets a query variable
-	 * @param    string     $key  variable key
-	 * @param    mixed      $val  variable value
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.4.0
-	 */
-	public function set( $key, $val ) {
-		$this->query_vars[ $key ] = $val;
-	}
-
-	/**
-	 * Set variables related to total number of results and pages possible
-	 * with supplied arguments
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.4.0
-	 */
-	private function set_found_students() {
-
-		global $wpdb;
-
-		// if no students bail early b/c no reason to calculate anything
-		if ( ! $this->number_students ) {
-			return;
-		}
-
-		$this->found_students = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) );
-		$this->max_pages = absint( ceil( $this->found_students / $this->get( 'per_page' ) ) );
-
-	}
-
-	/**
-	 * Setup arguments prior to a query
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.4.0
-	 */
-	private function setup_args() {
-
-		$this->arguments = wp_parse_args( $this->arguments_original, $this->arguments_default );
-
-		$this->parse_statuses();
-
-		foreach ( $this->arguments as $arg => $val ) {
-
-			$this->set( $arg, $val );
-
-		}
+		return $sql;
 
 	}
 
@@ -364,7 +177,7 @@ class LLMS_Student_Query {
 	 * Retrieve prepared SQL for the HAVING clause
 	 * @return   string
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  ??
 	 */
 	private function sql_having() {
 
@@ -387,33 +200,7 @@ class LLMS_Student_Query {
 			return $sql;
 		}
 
-		return apply_filters( 'llms_student_query_having', $sql, $this );
-
-	}
-
-	/**
-	 * Retrieve the prepared SQL for the ORDER clase
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.4.0
-	 */
-	private function sql_orderby() {
-
-		$sql = 'ORDER BY';
-
-		$comma = false;
-
-		foreach ( $this->get( 'sort' ) as $orderby => $order ) {
-			$pre = ( $comma ) ? ', ' : ' ';
-			$sql .= $pre . "{$orderby} {$order}";
-			$comma = true;
-		}
-
-		if ( $this->get( 'suppress_filters' ) ) {
-			return $sql;
-		}
-
-		return apply_filters( 'llms_student_query_orderby', $sql, $this );
+		return apply_filters( $this->get_filter( 'having' ), $sql, $this );
 
 	}
 
@@ -421,7 +208,7 @@ class LLMS_Student_Query {
 	 * Retrieve the prepared SEARCH query for the WHERE clause
 	 * @return   string
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  ??
 	 */
 	private function sql_search() {
 
@@ -442,7 +229,7 @@ class LLMS_Student_Query {
 			return $sql;
 		}
 
-		return apply_filters( 'llms_student_query_search', $sql, $this );
+		return apply_filters( $this->get_filter( 'search' ), $sql, $this );
 
 	}
 
