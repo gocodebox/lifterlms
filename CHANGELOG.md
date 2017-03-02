@@ -1,5 +1,12 @@
 == Changelog ==
 
+v3.4.6 - 2017/03/02
+-------------------
+
++ Fixed a text domain typo preventing translation of "Correct Answer" on quiz results screen
+
+
+
 v3.4.5 - 2017/02/23
 -------------------
 
