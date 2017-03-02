@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.2
-Stable tag: 3.4.3
+Stable tag: 3.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,22 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.4.5 - 2017/02/23 =
+-----------------------
+
++ Ensure free access plans are available to logged out users
+
+
+= v3.4.4 - 2017/02/22 =
+-----------------------
+
++ Added a popup to warn students when leaving a quiz they've already started
++ Enable removal of student quiz attempts by admins from student reporting screens
++ Fix an undefined error on quiz reporting screens for incomplete quizzes
++ Display incomplete (abandonded) quizzes as incomplete (instead of as still running) on the quiz reporting screen
++ Prevent logged in users from bypassing membership restrictions for free members-only access plans
+
 
 = v3.4.3 - 2017/02/20 =
 -----------------------

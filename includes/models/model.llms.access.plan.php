@@ -2,7 +2,7 @@
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.4.0
+ * @version  3.4.4
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -102,23 +102,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	public function get_checkout_url() {
 
-		$access = true;
-
-		// if theres membership restrictions, check the user is in at least one membership
-		if ( $this->has_availability_restrictions() ) {
-			$access = false;
-			foreach ( $this->get_array( 'availability_restrictions' ) as $mid ) {
-
-				// once we find a membership, exit
-				if ( llms_is_user_enrolled( get_current_user_id(), $mid ) ) {
-					$access = true;
-					break;
-				}
-
-			}
-		}
-
-		if ( $access ) {
+		if ( $this->is_available_to_user( get_current_user_id() ) ) {
 			return llms_get_page_url( 'checkout', array( 'plan' => $this->get( 'id' ) ) );
 		} else {
 			return '#llms-plan-locked';
@@ -434,6 +418,36 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		return false;
 	}
 
+	/**
+	 * Determine if the plan is available to a user based on configured availability restrictions
+	 * @param    int     $user_id  (optional) WP User ID, if not supplied get_current_user_id() will be used
+	 * @return   boolean
+	 * @since    3.4.4
+	 * @version  3.4.4
+	 */
+	public function is_available_to_user( $user_id = null ) {
+
+		$user_id = empty( $user_id ) ? $user_id : get_current_user_id();
+
+		$access = true;
+
+		// if theres membership restrictions, check the user is in at least one membership
+		if ( $this->has_availability_restrictions() ) {
+			$access = false;
+			foreach ( $this->get_array( 'availability_restrictions' ) as $mid ) {
+
+				// once we find a membership, exit
+				if ( llms_is_user_enrolled( $user_id, $mid ) ) {
+					$access = true;
+					break;
+				}
+
+			}
+		}
+
+		return $access;
+
+	}
 
 	/**
 	 * Determine if the plan is marked as "featured"
