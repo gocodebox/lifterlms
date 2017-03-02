@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-interface LLMS_Interface_Notification {
+interface LLMS_Interface_Notification_Manager {
 
 	/**
 	 * Characters added before merge codes

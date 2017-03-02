@@ -20,8 +20,7 @@ abstract class LLMS_Notification_Handler {
 
 		foreach ( array_keys( $notification->get_subscribers( $this->id ) ) as $uid ) {
 
-			$notification_id = $this->create_for_subscriber( $uid, array(
-				'notification' => $notification->id,
+			$notification_id = $this->create_for_subscriber( $uid, $notification->id, array(
 				'body' => $notification->get_body( $uid, $this->id ),
 				'icon' => $notification->get_icon( $uid, $this->id ),
 				'title' => $notification->get_title( $uid, $this->id ),
@@ -39,10 +38,11 @@ abstract class LLMS_Notification_Handler {
 
 	}
 
-	protected function create_for_subscriber( $user_id, $metas = array() ) {
+	protected function create_for_subscriber( $user_id, $trigger, $metas = array() ) {
 
-		$data = new LLMS_Notification_Data( array(
+		$data = new LLMS_Notification( array(
 			'metas' => $metas,
+			'trigger' => $trigger,
 			'type' => $this->id,
 			'user_id' => $user_id,
 		) );

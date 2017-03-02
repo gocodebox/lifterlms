@@ -9,8 +9,8 @@
 			heartbeat;
 
 		function bind_events() {
-			$( 'body' ).on( 'click', '.llms-notification', function() {
-				self.dismiss( $( this ) );
+			$( 'body' ).on( 'click', '.llms-notification-dismiss', function() {
+				self.dismiss( $( this ).closest( '.llms-notification' ) );
 			} );
 		};
 
@@ -184,28 +184,6 @@
 
 		};
 
-		this.get_html = function( n ) {
-
-			var $html = $( '<div class="llms-notification llms-notification--' + n.type + '" data-id="' + n.id + '">' );
-
-			if ( n.icon ) {
-				$html.append( '<img class="llms-notification-icon" alt="' + n.title + '" src="' + n.icon + '">' );
-			}
-
-			if ( n.title ) {
-				$html.append( '<h4 class="llms-notification-title">' + n.title + '</h4>' );
-			}
-
-			if ( n.body ) {
-				$html.append( '<div class="llms-notification-body">' + n.body + '</div>' );
-			}
-
-			$html.append( '<i class="llms-notification-dismiss fa fa-times-circle" aria-hidden="true"></i>')
-
-			return $html;
-
-		};
-
 		/**
 		 * Determine if there are notifications to show
 		 * @return   Boolean
@@ -277,7 +255,7 @@
 		this.show_one = function( n ) {
 
 			var self = this,
-				$html = this.get_html( n );
+				$html = $( n.html );
 
 			$( 'body' ).append( $html );
 			$html.css( 'top', self.get_offset() );
@@ -285,6 +263,14 @@
 			setTimeout( function() {
 				$html.addClass( 'visible' );
 			}, 1 );
+
+			// if it's auto dismissing, set up a dismissal
+			if ( $html.attr( 'data-auto-dismiss' ) ) {
+				setTimeout( function() {
+					self.dismiss( $html );
+				}, $html.attr( 'data-auto-dismiss' ) );
+			}
+
 
 		}
 

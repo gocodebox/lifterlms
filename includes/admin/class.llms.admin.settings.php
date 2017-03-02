@@ -49,6 +49,7 @@ class LLMS_Admin_Settings {
 			$settings[] = include( 'settings/class.llms.settings.accounts.php' );
 			$settings[] = include( 'settings/class.llms.settings.checkout.php' );
 			$settings[] = include( 'settings/class.llms.settings.engagements.php' );
+			$settings[] = include( 'settings/class.llms.settings.notifications.php' );
 			$settings[] = include( 'settings/class.llms.settings.integrations.php' );
 
 			self::$settings = apply_filters( 'lifterlms_get_settings_pages', $settings );
@@ -196,8 +197,13 @@ class LLMS_Admin_Settings {
 		// this will return an associative array of with the keys "description" and "tooltip"
 		extract( self::set_field_descriptions( $field ) );
 
-		// get the option value
-		$option_value = self::get_option( $field['id'], $field['default'] );
+		// allow using value not retrieved via this class
+		if ( isset( $field['value'] ) ) {
+			$option_value = $field['value'];
+		} else {
+			// get the option value
+			$option_value = self::get_option( $field['id'], $field['default'] );
+		}
 
 		// Switch based on type
 		switch ( $field['type'] ) {
@@ -223,6 +229,15 @@ class LLMS_Admin_Settings {
 					do_action( 'lifterlms_settings_' . sanitize_title( $field['id'] ) );
 
 				}
+			break;
+
+			case 'table':
+				echo '<tr valign="top"><td>';
+
+					$field['table']->get_results();
+					echo $field['table']->get_table_html();
+
+				echo '</td></tr>';
 			break;
 
 			case 'subtitle':
@@ -333,7 +348,7 @@ class LLMS_Admin_Settings {
 							value="<?php echo esc_attr( $option_value ); ?>"
 							class="<?php echo esc_attr( $field['class'] ); ?>"
 							<?php echo implode( ' ', $custom_attributes ); ?>
-							/> <?php echo $description; ?>
+							/> <?php echo $description; ?> <?php echo isset( $field['after_html'] ) ? $field['after_html'] : ''; ?>
 					</td>
 				</tr><?php
 			break;
@@ -354,6 +369,20 @@ class LLMS_Admin_Settings {
 							class="<?php echo esc_attr( $field['class'] ); ?>"
 							<?php echo implode( ' ', $custom_attributes ); ?>
 							><?php echo esc_textarea( $option_value );  ?></textarea>
+						<?php echo $description; ?>
+					</td>
+				</tr><?php
+			break;
+
+			case 'wpeditor':
+				$editor_settings = isset( $field['editor_settings'] ) ? $field['editor_settings'] : array();
+				?><tr valign="top">
+					<th>
+						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+						<?php echo $tooltip; ?>
+					</th>
+					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+						<?php wp_editor( $option_value, $field['id'], $editor_settings ); ?>
 						<?php echo $description; ?>
 					</td>
 				</tr><?php
@@ -714,10 +743,13 @@ class LLMS_Admin_Settings {
 		}
 
 		if ( is_array( $option_value ) ) {
-			$option_value = array_map( 'stripslashes', $option_value ); } elseif ( ! is_null( $option_value ) ) {
-			$option_value = stripslashes( $option_value ); }
+			$option_value = array_map( 'stripslashes', $option_value );
+		} elseif ( ! is_null( $option_value ) ) {
+			$option_value = stripslashes( $option_value );
+		}
 
-			return $option_value === null ? $default : $option_value;
+		return $option_value === null ? $default : $option_value;
+
 	}
 
 	/**
@@ -735,6 +767,7 @@ class LLMS_Admin_Settings {
 
 	    // Options to update will be stored here
 	    $update_options = array();
+
 
 	    // Loop options and get values to save
 	    foreach ( $settings as $value ) {
@@ -761,6 +794,7 @@ class LLMS_Admin_Settings {
 		    	break;
 
 		    	case 'textarea' :
+		    	case 'wpeditor' :
 
 			    	if ( isset( $_POST[ $value['id'] ] ) ) {
 			    		$option_value = wp_kses_post( trim( stripslashes( $_POST[ $value['id'] ] ) ) );

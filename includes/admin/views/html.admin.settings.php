@@ -1,6 +1,6 @@
 <div class="wrap lifterlms lifterlms-settings">
 
-	<form action="<?php echo admin_url( 'admin.php?page=llms-settings&tab=' . $current_tab ); ?>" method="POST" id="mainform" enctype="multipart/form-data">
+	<form action="" method="POST" id="mainform" enctype="multipart/form-data">
 
 		<nav class="llms-nav-tab-wrapper">
 

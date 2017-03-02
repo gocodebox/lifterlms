@@ -1,8 +1,8 @@
 <?php
 /**
 * Query LifterLMS Students for a given course / membership
-* @since    3.4.0
-* @version  3.4.0
+* @since    ??
+* @version  ??
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -32,7 +32,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * @version  [version]
 	 */
 	private function get_available_types() {
-		return array_keys( LLMS()->notifications()->get_handlers() );
+		return array( 'basic', 'email' );
 	}
 
 	/**
@@ -44,18 +44,40 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	protected function get_default_args() {
 
 		$args = array(
-			'user_id' => null,
-			'types' => array(),
+			'subsciber_id' => null,
 			'sort' => array(
 				'updated' => 'DESC',
 				'id' => 'DESC',
 			),
 			'statuses' => array(),
+			'types' => array(),
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
 
 		return apply_filters( $this->get_filter( 'default_args' ), $args );
+
+	}
+
+	public function get_notifications() {
+
+		$notifications = array();
+		$results = $this->get_results();
+
+		if ( $results ) {
+
+			foreach ( $results as $result ) {
+				$obj = new LLMS_Notification( $result->id );
+				$notifications[] = $obj->load();
+			}
+
+		}
+
+		if ( $this->get( 'suppress_filters' ) ) {
+			return $notifications;
+		}
+
+		return apply_filters( $this->get_filter( 'get_notifications' ), $notifications, $this );
 
 	}
 
@@ -166,9 +188,9 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 			$where .= sprintf( ' AND type IN( %s )', implode( ', ', $types ) );
 		}
 
-		$user_id = $this->get( 'user_id' );
-		if ( $user_id ) {
-			$where .= $wpdb->prepare( ' AND user_id = %d', $user_id );
+		$subsciber_id = $this->get( 'subscriber_id' );
+		if ( $subsciber_id ) {
+			$where .= $wpdb->prepare( ' AND subscriber_id = %d', $subsciber_id );
 		}
 
 

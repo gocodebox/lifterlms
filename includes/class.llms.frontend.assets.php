@@ -146,7 +146,9 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'llms' );
 
 		wp_register_script( 'llms-notifications', plugins_url( '/assets/js/llms-notifications' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
-		wp_enqueue_script( 'llms-notifications' );
+		if ( get_current_user_id() ) {
+			wp_enqueue_script( 'llms-notifications' );
+		}
 
 		wp_enqueue_script( 'llms-ajax', plugins_url( '/assets/js/llms-ajax' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 		//wp_enqueue_script( 'llms-quiz', plugins_url(  '/assets/js/llms-quiz' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);

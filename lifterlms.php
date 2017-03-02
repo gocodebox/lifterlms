@@ -112,14 +112,21 @@ final class LifterLMS {
 
 	/**
 	 * Auto-load LLMS classes.
-	 *
-	 * @param mixed $class
-	 * @return void
+	 * @param    string  $class  class name being called
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  ??
 	 */
 	public function autoload( $class ) {
-		$path = null;
+
 		$class = strtolower( $class );
-		$file = 'class.' . str_replace( '_', '.', $class ) . '.php';
+		// if ( false === strpos( $class, 'llms' ) ) {
+		// 	return;
+		// }
+
+		$path = null;
+		$fileize = str_replace( '_', '.', $class );
+		$file = 'class.' . $fileize . '.php';
 
 		if ( strpos( $class, 'llms_meta_box' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/admin/post-types/meta-boxes/';
@@ -129,6 +136,12 @@ final class LifterLMS {
 			$path = $this->plugin_path() . '/includes/integrations/';
 		} elseif ( strpos( $class, 'llms_controller_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/controllers/';
+		} elseif ( 0 === strpos( $class, 'llms_abstract' ) ) {
+			$path = $this->plugin_path() . '/includes/abstracts/';
+			$file = $fileize . '.php';
+		} elseif ( 0 === strpos( $class, 'llms_interface' ) ) {
+			$path = $this->plugin_path() . '/includes/interfaces/';
+			$file = $fileize . '.php';
 		} elseif (strpos( $class, 'llms_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/';
 		}
@@ -212,6 +225,8 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
 
 		}
+
+		include 'includes/class.llms.notifications.php';
 
 		// Date, Number and language formatting
 		include_once( 'includes/class.llms.date.php' );

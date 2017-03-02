@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-abstract class LLMS_Notification implements LLMS_Interface_Notification {
+abstract class LLMS_Notification_Manager implements LLMS_Interface_Notification_Manager {
 
 	/**
 	 * Notification ID
@@ -164,6 +164,30 @@ abstract class LLMS_Notification implements LLMS_Interface_Notification {
 	protected function get_handlers() {
 		return apply_filters( $this->get_filter( 'get_handlers' ), $this->set_handlers(), $this );
 	}
+
+	// protected function get_html( $subscriber_id = null, $type = null ) {
+	// 	ob_start();
+	// 	?>
+	// 		<div class="llms-notification llms-notification--' + n.type + '" data-id="' + n.id + '">' );
+
+	// 		if ( n.icon ) {
+	// 			<img class="llms-notification-icon" alt="' + n.title + '" src="' + n.icon + '">
+	// 		}
+
+	// 		if ( n.title ) {
+	// 			<h4 class="llms-notification-title">' + n.title + '</h4>
+	// 		}
+
+	// 		if ( n.body ) {
+	// 			<div class="llms-notification-body">' + n.body + '</div>
+	// 		}
+
+	// 		<i class="llms-notification-dismiss fa fa-times-circle" aria-hidden="true"></i>
+
+	// 	<?php
+	// 	return apply_filters( $this->get_filter( 'get_html' ), ob_get_clean(), $this );
+
+	// }
 
 	/**
 	 * Retrieve the merged and filtered icon url for the notification
