@@ -27,6 +27,7 @@ class LLMS_Frontend_Forms {
 		add_action( 'init', array( $this, 'voucher_check' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
+		add_action( 'init', array( $this, 'mark_incomplete' ) );
 		add_action( 'init', array( $this, 'take_quiz' ) );
 
 	}
@@ -137,7 +138,7 @@ class LLMS_Frontend_Forms {
 			$completed = llms_mark_complete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id );
 
 			// if $completed is 'yes' - can be 'yes' or 'no'
-			if ( stcmp( $completed, 'yes' ) === 0 ) {
+			if ( strcmp( $completed, 'yes' ) === 0 ) {
 
 				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $lesson_id ) ) );
 
@@ -191,7 +192,7 @@ class LLMS_Frontend_Forms {
 			$incompleted = llms_mark_incomplete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id );
 
 			// if $incompleted is 'yes'
-			if ( stcmp( $incompleted, 'yes' ) === 0 ) {
+			if ( strcmp( $incompleted, 'yes' ) === 0 ) {
 
 				llms_add_notice( sprintf( __( '%s is now incomplete.', 'lifterlms' ), get_the_title( $lesson_id ) ) );
 

@@ -1263,7 +1263,13 @@ class LLMS_Student {
 
 		foreach ( $user_metadatas as $key => $value ) {
 
-			$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+			// It's too difficult to keep track of multiple postmetas for each lesson incomplete
+			// Instead, I'm just replacing the old '_is_complete' value with 'no'
+			//
+			// lessons that have never been complete will not have an '_is_complete' record,
+			// lessons that were completed will have an '_is_complete' record of 'yes',
+			// lessons that have been completed once but were marked incomplete will have an '_is_complete' record of 'no'
+			$update = $wpdb->update( $wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id'      => $this->get_id(),
 					'post_id'      => $object_id,
@@ -1271,10 +1277,15 @@ class LLMS_Student {
 					'meta_value'   => $value,
 					'updated_date' => current_time( 'mysql' ),
 				),
+				array(
+					'user_id'	   => $this->get_id(),
+					'post_id'      => $object_id,
+					'meta_key'     => $key
+				),
 				array( '%d', '%d', '%s', '%s', '%s' )
 			);
 
-			if ( ! $update ) {
+			if ( $update === false ) {
 
 				return false;
 
@@ -1527,7 +1538,7 @@ class LLMS_Student {
 		// so the other object types need to check if their complete before being marked as complete
 		$complete = ( 'lesson' === $object_type ) ? false : $this->is_complete( $object_id, $object_type );
 
-		// get the immediate parent so we can cascade up and maybe mark the parent as complete as well
+		// get the immediate parent so we can cascade up and maybe mark the parent as incomplete as well
 		switch ( $object_type ) {
 
 			case 'lesson':
@@ -1548,7 +1559,7 @@ class LLMS_Student {
 		}
 
 		// object is incomplete
-		if ( !$complete ) {
+		if ( $complete === false ) {
 
 			// insert meta data
 			$this->insert_incompletion_postmeta( $object_id, $trigger );

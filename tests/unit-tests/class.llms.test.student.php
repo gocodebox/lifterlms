@@ -124,13 +124,35 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertTrue( llms_is_complete( $user, $section2, 'section' ) );
 		$this->assertTrue( llms_is_complete( $user, $course, 'course' ) );
 
-		// Mark lesson 1 section 2 complete
+		// Mark lesson 1 section 2 INcomplete
 		llms_mark_incomplete( $user, $lesson1_section2, 'lesson', 'test-mark-incomplete' );
 
 		// Only section 1 now complete
 		$this->assertTrue(  llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
 		$this->assertTrue(  llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
 		$this->assertTrue(  llms_is_complete( $user, $section1, 'section' ) );
+		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
+		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
+		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
+
+		// Mark lesson 2 section 1 INcomplete
+		llms_mark_incomplete( $user, $lesson2_section1, 'lesson', 'test-mark-incomplete' );
+
+		// Only first lesson should be complete
+		$this->assertTrue(  llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
+		$this->assertFalse( llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
+		$this->assertFalse( llms_is_complete( $user, $section1, 'section' ) );
+		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
+		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
+		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
+
+		// Mark lesson 1 section 1 INcomplete
+		llms_mark_incomplete( $user, $lesson1_section1, 'lesson', 'test-mark-incomplete' );
+
+		// Course, Sections, and Lessons should all be incomplete
+		$this->assertFalse( llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
+		$this->assertFalse( llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
+		$this->assertFalse( llms_is_complete( $user, $section1, 'section' ) );
 		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
 		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
 		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
