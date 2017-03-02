@@ -85,31 +85,6 @@ $quiz_id = $lesson->get( 'assigned_quiz' );
 
 	<?php if ( $quiz_id ) : ?>
 
-		<?php if ( $student->is_complete( $lesson->get( 'id' ), 'lesson' ) ): ?>
-			<br/><br/>
-			<form action="" class="llms-incomplete-lesson-form" method="POST" name="mark_incomplete">
-
-				<?php do_action( 'lifterlms_before_mark_incomplete_lesson' ); ?>
-
-				<input type="hidden" name="mark-incomplete" value="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" />
-				<input type="hidden" name="action" value="mark_incomplete" />
-				<?php wp_nonce_field( 'mark_incomplete' ); ?>
-
-				<?php llms_form_field( array(
-					'columns' => 12,
-					'classes' => 'llms-button-primary auto button',
-					'id' => 'llms_mark_incomplete',
-					'value' => apply_filters( 'lifterlms_mark_lesson_incomplete_button_text', __( 'Mark Incomplete', 'lifterlms' ), $lesson ),
-					'last_column' => true,
-					'name' => 'mark_incomplete',
-					'required' => false,
-					'type'  => 'submit',
-				) ); ?>
-
-				<?php do_action( 'lifterlms_after_mark_incomplete_lesson' ); ?>
-
-			</form>
-		<?php endif; ?>
 		<form action="" class="llms-start-quiz-form" method="POST" name="take_quiz">
 
 			<?php do_action( 'llms_before_start_quiz_button' ); ?>
