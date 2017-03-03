@@ -5,7 +5,7 @@ v3.4.6 - 2017/03/02
 
 + Fixed a text domain typo preventing translation of "Correct Answer" on quiz results screen
 + Ensure access plan "periods" are translateable
-
++ Now using `date_i18n()` for certificate dates so that dates are properly localized
 
 
 v3.4.5 - 2017/02/23
