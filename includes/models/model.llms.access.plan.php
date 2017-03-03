@@ -80,6 +80,44 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Get the translated and pluralized name of the plan's access period
+	 * @param    string     $period  (optional) untranslated access period, if not supplied uses stored value for the plan
+	 * @param    int        $length  (optional) access length (for plurailzation), if not supplied uses stored value for the plan
+	 * @return   string
+	 * @since    3.4.6
+	 * @version  3.4.6
+	 */
+	public function get_access_period_name( $period = null, $length = null ) {
+
+		$period = $period ? $period : $this->get( 'access_period' );
+		$length = $length ? $length : $this->get( 'access_length' );
+
+		switch ( $period ) {
+
+			case 'year':
+				$period = _nx( 'year', 'years', $length, 'asrt', 'lifterlms' );
+			break;
+
+			case 'month':
+				$period = _nx( 'month', 'months', $length, 'asrt', 'lifterlms' );
+			break;
+
+			case 'week':
+				$period = _nx( 'week', 'weeks', $length, 'asrt', 'lifterlms' );
+			break;
+
+			case 'day':
+				$period = _nx( 'day', 'days', $length, 'asrt', 'lifterlms' );
+			break;
+
+		}
+
+		return $period;
+
+	}
+
+
+	/**
 	 * Default arguments for creating a new post
 	 * @param  string  $title   Title to create the post with
 	 * @return array
@@ -289,7 +327,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining plan expiration details
 	 * @return string
 	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.6
 	 */
 	public function get_expiration_details() {
 
@@ -305,7 +343,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 			case 'limited-period':
 
-				$r = sprintf( _nx( '%1$s %2$s of access', '%1$s %2$ss of access', $this->get( 'access_length' ), 'Access period', 'lifterlms' ), $this->get( 'access_length' ), $this->get( 'access_period' ) );
+				$r = sprintf( _x( '%1$d %2$s of access', 'Access period description', 'lifterlms' ), $this->get( 'access_length' ), $this->get_access_period_name() );
 
 			break;
 
