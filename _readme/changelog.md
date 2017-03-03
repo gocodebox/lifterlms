@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.4.7 - 2017/03/03 =
+-----------------------
+
++ Ensure run when the `lifterlms_db_version` option doesn't exist in the database
+
+
 = v3.4.6 - 2017/03/03 =
 -----------------------
 
