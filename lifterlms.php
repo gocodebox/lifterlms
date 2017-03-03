@@ -102,9 +102,6 @@ final class LifterLMS {
 			LLMS_Tracker::init();
 		}
 
-		// load localization files
-		add_action( 'plugins_loaded', array( $this, 'localize' ) );
-
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
 
@@ -314,6 +311,8 @@ final class LifterLMS {
 
 		do_action( 'before_lifterlms_init' );
 
+		$this->localize();
+
 		if ( ! is_admin() ) {
 			$this->person = new LLMS_Person();
 		}
@@ -419,8 +418,8 @@ final class LifterLMS {
 	 * The first loaded file takes priority
 	 *
 	 * Files can be found in the following order:
-	 * 		WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
 	 * 		WP_LANG_DIR/lifterlms/lifterlms-LOCALE.mo
+	 * 		WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
 	 *
 	 * @return void
 	 */
