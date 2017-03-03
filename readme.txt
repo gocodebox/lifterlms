@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.2
-Stable tag: 3.4.5
+Stable tag: 3.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,15 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.4.6 - 2017/03/03 =
+-----------------------
+
++ Fixed a text domain typo preventing translation of "Correct Answer" on quiz results screen
++ Ensure access plan "periods" are translateable
++ Now using `date_i18n()` for certificate dates so that dates are properly localized
++ Load plugin textdomain during `init` rather than `plugins_loaded`
+
 
 = v3.4.5 - 2017/02/23 =
 -----------------------
