@@ -1280,7 +1280,7 @@ class LLMS_Student {
 				array(
 					'user_id'	   => $this->get_id(),
 					'post_id'      => $object_id,
-					'meta_key'     => $key
+					'meta_key'     => $key,
 				),
 				array( '%d', '%d', '%s', '%s', '%s' )
 			);
