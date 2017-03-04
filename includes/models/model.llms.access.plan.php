@@ -85,7 +85,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    int        $length  (optional) access length (for plurailzation), if not supplied uses stored value for the plan
 	 * @return   string
 	 * @since    3.4.6
-	 * @version  3.4.6
+	 * @version  3.4.8
 	 */
 	public function get_access_period_name( $period = null, $length = null ) {
 
@@ -95,19 +95,19 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		switch ( $period ) {
 
 			case 'year':
-				$period = _nx( 'year', 'years', $length, 'asrt', 'lifterlms' );
+				$period = _nx( 'year', 'years', $length, 'Access plan period', 'lifterlms' );
 			break;
 
 			case 'month':
-				$period = _nx( 'month', 'months', $length, 'asrt', 'lifterlms' );
+				$period = _nx( 'month', 'months', $length, 'Access plan period', 'lifterlms' );
 			break;
 
 			case 'week':
-				$period = _nx( 'week', 'weeks', $length, 'asrt', 'lifterlms' );
+				$period = _nx( 'week', 'weeks', $length, 'Access plan period', 'lifterlms' );
 			break;
 
 			case 'day':
-				$period = _nx( 'day', 'days', $length, 'asrt', 'lifterlms' );
+				$period = _nx( 'day', 'days', $length, 'Access plan period', 'lifterlms' );
 			break;
 
 		}

@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.4.8 - 2017/03/??
+-------------------
+
++ Added a real description to new `_nx()` functions
+
+
 v3.4.7 - 2017/03/03
 -------------------
 
