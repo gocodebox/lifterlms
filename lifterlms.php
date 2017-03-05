@@ -3,7 +3,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.4.5
+ * Version: 3.4.7
  * Author: Thomas Patrick Levy, codeBOX LLC
  * Author URI: http://gocodebox.com
  * Text Domain: lifterlms
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.4.5';
+	public $version = '3.4.7';
 
 	protected static $_instance = null;
 
@@ -101,9 +101,6 @@ final class LifterLMS {
 		if ( defined( 'DOING_CRON' ) && DOING_CRON && 'yes' === get_option( 'llms_allow_tracking', 'no' ) ) {
 			LLMS_Tracker::init();
 		}
-
-		// load localization files
-		add_action( 'plugins_loaded', array( $this, 'localize' ) );
 
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
@@ -314,6 +311,8 @@ final class LifterLMS {
 
 		do_action( 'before_lifterlms_init' );
 
+		$this->localize();
+
 		if ( ! is_admin() ) {
 			$this->person = new LLMS_Person();
 		}
@@ -419,8 +418,8 @@ final class LifterLMS {
 	 * The first loaded file takes priority
 	 *
 	 * Files can be found in the following order:
-	 * 		WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
 	 * 		WP_LANG_DIR/lifterlms/lifterlms-LOCALE.mo
+	 * 		WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
 	 *
 	 * @return void
 	 */

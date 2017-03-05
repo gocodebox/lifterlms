@@ -1,5 +1,26 @@
 == Changelog ==
 
+v3.4.8 - 2017/03/??
+-------------------
+
++ Added a real description to new `_nx()` functions
+
+
+v3.4.7 - 2017/03/03
+-------------------
+
++ Ensure run when the `lifterlms_db_version` option doesn't exist in the database
+
+
+v3.4.6 - 2017/03/03
+-------------------
+
++ Fixed a text domain typo preventing translation of "Correct Answer" on quiz results screen
++ Ensure access plan "periods" are translateable
++ Now using `date_i18n()` for certificate dates so that dates are properly localized
++ Load plugin textdomain during `init` rather than `plugins_loaded`
+
+
 v3.4.5 - 2017/02/23
 -------------------
 

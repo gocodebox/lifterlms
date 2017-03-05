@@ -352,7 +352,7 @@ msgstr ""
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:59, lifterlms.php:406
+#: includes/admin/class.llms.admin.menus.php:59, lifterlms.php:405
 msgid "Settings"
 msgstr ""
 
@@ -6499,11 +6499,11 @@ msgstr ""
 msgid "Never"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:89, includes/models/model.llms.access.plan.php:273
+#: includes/functions/llms.functions.updates.php:89, includes/models/model.llms.access.plan.php:311
 msgid "Enroll"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:89, includes/models/model.llms.access.plan.php:277
+#: includes/functions/llms.functions.updates.php:89, includes/models/model.llms.access.plan.php:315
 msgid "Join"
 msgstr ""
 
@@ -6664,46 +6664,72 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:120, includes/models/model.llms.lesson.php:217
+#: includes/models/model.llms.access.plan.php:98
+msgctxt "asrt"
+msgid "year"
+msgid_plural "years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/models/model.llms.access.plan.php:102
+msgctxt "asrt"
+msgid "month"
+msgid_plural "months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/models/model.llms.access.plan.php:106
+msgctxt "asrt"
+msgid "week"
+msgid_plural "weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/models/model.llms.access.plan.php:110
+msgctxt "asrt"
+msgid "day"
+msgid_plural "days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/models/model.llms.access.plan.php:158, includes/models/model.llms.lesson.php:217
 msgid "FREE"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:281
+#: includes/models/model.llms.access.plan.php:319
 msgid "Buy"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:302
+#: includes/models/model.llms.access.plan.php:340
 msgctxt "Access expiration date"
 msgid "access until %s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:308
-msgctxt "Access period"
-msgid "%1$s %2$s of access"
-msgid_plural "%1$s %2$ss of access"
-msgstr[0] ""
-msgstr[1] ""
+#: includes/models/model.llms.access.plan.php:346
+msgctxt "Access period description"
+msgid "%1$d %2$s of access"
+msgstr ""
 
-#: includes/models/model.llms.access.plan.php:337
+#: includes/models/model.llms.access.plan.php:375
 msgctxt "subscription schedule"
 msgid "per %1$s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:345
+#: includes/models/model.llms.access.plan.php:383
 msgctxt "subscription schedule"
 msgid "every %2$s %1$s"
 msgid_plural "every %2$s %1$ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/models/model.llms.access.plan.php:354
+#: includes/models/model.llms.access.plan.php:392
 msgctxt "subscription # of payments"
 msgid "for %3$s %1$s"
 msgid_plural "for %3$s %1$ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/models/model.llms.access.plan.php:378
+#: includes/models/model.llms.access.plan.php:416
 msgctxt "trial offer description"
 msgid "for %1$d %2$s"
 msgid_plural "for %1$d %2$ss"
@@ -8009,6 +8035,10 @@ msgstr ""
 
 #: templates/quiz/summary.php:76
 msgid "Your answer: %s"
+msgstr ""
+
+#: templates/quiz/summary.php:86
+msgid "Correct answer: %s"
 msgstr ""
 
 #: templates/quiz/summary.php:94, templates/quiz/summary.php:102

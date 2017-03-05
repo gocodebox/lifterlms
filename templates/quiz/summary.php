@@ -83,7 +83,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 							if ($quiz->show_correct_answer()) {
 								echo '<li><span class="llms-quiz-summary-label correct-answer">';
-									echo sprintf( __( 'Correct answer: %s', 'lifterlsm' ), wp_kses_post( $correct_option['option_text'] ) );
+									echo sprintf( __( 'Correct answer: %s', 'lifterlms' ), wp_kses_post( $correct_option['option_text'] ) );
 								echo '</span></li>';
 							}
 
