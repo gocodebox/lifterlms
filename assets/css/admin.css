@@ -2821,8 +2821,8 @@ div[id^="lifterlms-"] .inside {
   display: block;
   font-weight: 300;
   font-size: 14px;
-  letter-spacing: 2px;
-  padding: 14px 28px;
+  letter-spacing: 1px;
+  padding: 9px 18px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;

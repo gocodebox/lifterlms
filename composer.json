@@ -44,6 +44,7 @@
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs",
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
     ],
-    "phpcs": "./vendor/bin/phpcs --colors --extensions=php -n lifterlms.php includes/ templates/"
+    "phpcs": "./vendor/bin/phpcs --colors --extensions=php -n lifterlms.php includes/ templates/",
+    "tests-install": "tests/bin/install.sh lifterlms_tests root password localhost latest"
   }
 }

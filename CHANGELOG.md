@@ -1,5 +1,16 @@
 == Changelog ==
 
+v3.5.0 - 2017/03/??
+-------------------
+
++ New course setting **Retake Lessons** allows students to mark lessons as "incomplete" after completing lessons. Admins may enable this site-wide setting under Settings -> Courses.
++ Course and Membership catalog per page settings will now only accept numbers
++ "Catalogs" settings tab has been split into "Course" and "Membership" settings
++ Settings added via filter `lifterlms_catalogs_settings` will be added to the "Course" settings tab and deprecated in the next major release
++ Default course and membership catalog courses per page changed to 9. Previous default was 10 which results in a 4th row on catalogs with only one item.
++ Tweaked size of LifterLMS admin tab menu items
+
+
 v3.4.8 - 2017/03/07
 -------------------
 
