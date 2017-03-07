@@ -5,6 +5,7 @@ v3.4.8 - 2017/03/??
 
 + Fixed undefined index notice on admin panel
 + Added a real description to new `_nx()` functions
++ Access plan trial periods now allow proper translations
 
 
 v3.4.7 - 2017/03/03
