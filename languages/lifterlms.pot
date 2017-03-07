@@ -124,7 +124,7 @@ msgstr ""
 msgid "This completion percentage is an estimate, please be patient and %sclick here%s for more information."
 msgstr ""
 
-#: includes/admin/analytics/class.llms.analytics.courses.php:20, includes/admin/analytics/class.llms.analytics.sales.php:103, includes/admin/class.llms.admin.import.php:69, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:153, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:51, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:85, includes/class.llms.post-types.php:351, includes/integrations/class.llms.integration.buddypress.php:37, includes/integrations/class.llms.integration.buddypress.php:50, templates/admin/analytics/analytics.php:90, templates/admin/reporting/nav-filters.php:72
+#: includes/admin/analytics/class.llms.analytics.courses.php:20, includes/admin/analytics/class.llms.analytics.sales.php:103, includes/admin/class.llms.admin.import.php:69, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:153, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:51, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:85, includes/admin/settings/class.llms.settings.courses.php:19, includes/class.llms.post-types.php:351, includes/integrations/class.llms.integration.buddypress.php:37, includes/integrations/class.llms.integration.buddypress.php:50, templates/admin/analytics/analytics.php:90, templates/admin/reporting/nav-filters.php:72
 msgid "Courses"
 msgstr ""
 
@@ -180,7 +180,7 @@ msgstr ""
 msgid "Certificates Issued"
 msgstr ""
 
-#: includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:315, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:86, includes/functions/llms.functions.person.php:258, includes/integrations/class.llms.integration.buddypress.php:59, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:202, templates/admin/reporting/nav-filters.php:84
+#: includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:315, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:86, includes/admin/settings/class.llms.settings.memberships.php:19, includes/functions/llms.functions.person.php:293, includes/integrations/class.llms.integration.buddypress.php:59, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:202, templates/admin/reporting/nav-filters.php:84
 msgid "Memberships"
 msgstr ""
 
@@ -260,7 +260,7 @@ msgstr ""
 msgid "Total Coupons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.analytics.php:80, includes/admin/class.llms.admin.settings.php:70
+#: includes/admin/class.llms.admin.analytics.php:80, includes/admin/class.llms.admin.settings.php:71
 msgid "Whoa! something went wrong there!. Please refresh the page and retry."
 msgstr ""
 
@@ -468,15 +468,15 @@ msgstr ""
 msgid "Review Date"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:77
+#: includes/admin/class.llms.admin.settings.php:78
 msgid "Your settings have been saved."
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:527
+#: includes/admin/class.llms.admin.settings.php:528
 msgid "Select a page&hellip;"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:553
+#: includes/admin/class.llms.admin.settings.php:554
 msgid "None"
 msgstr ""
 
@@ -592,7 +592,7 @@ msgstr ""
 msgid "LifterLMS has a few essential pages. The following will be created automatically if they don't already exist."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:317, includes/admin/settings/class.llms.settings.catalogs.php:59, includes/class.llms.install.php:183
+#: includes/admin/class.llms.admin.setup.wizard.php:317, includes/admin/settings/class.llms.settings.courses.php:84, includes/class.llms.install.php:183
 msgid "Course Catalog"
 msgstr ""
 
@@ -604,7 +604,7 @@ msgstr ""
 msgid "Membership Catalog"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:322, includes/admin/settings/class.llms.settings.catalogs.php:111
+#: includes/admin/class.llms.admin.setup.wizard.php:322, includes/admin/settings/class.llms.settings.memberships.php:89
 msgid "This page is where your visitors will find a list of all your available memberships."
 msgstr ""
 
@@ -1569,7 +1569,7 @@ msgstr ""
 msgid "There was an error assigning the lesson to a section. Please be sure a section is assigned to a course."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:22
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:22, includes/admin/settings/class.llms.settings.memberships.php:45
 msgid "Membership Settings"
 msgstr ""
 
@@ -2447,7 +2447,7 @@ msgstr ""
 msgid "Select the page where your Terms and Conditions are described."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:193, includes/admin/settings/class.llms.settings.catalogs.php:54, includes/admin/settings/class.llms.settings.catalogs.php:108
+#: includes/admin/settings/class.llms.settings.accounts.php:193, includes/admin/settings/class.llms.settings.courses.php:79, includes/admin/settings/class.llms.settings.memberships.php:86
 msgid "Select a page"
 msgstr ""
 
@@ -2513,86 +2513,6 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.accounts.php:294
 msgid "Account Update Fields"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:19
-msgid "Catalogs"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:45
-msgid "Course Catalog Settings"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:56
-msgid "This page is where your visitors will find a list of all your available courses. %1$sMore information%2$s."
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:65
-msgid "To show all courses on one page, enter -1"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:67
-msgid "Courses per page"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:73
-msgid "Determines the display order for courses on the courses page."
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:76, includes/admin/settings/class.llms.settings.catalogs.php:132
-msgid "Order (Low to High)"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:77, includes/admin/settings/class.llms.settings.catalogs.php:133
-msgid "Title (A - Z)"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:78, includes/admin/settings/class.llms.settings.catalogs.php:134
-msgid "Title (Z - A)"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:79, includes/admin/settings/class.llms.settings.catalogs.php:135
-msgid "Most Recent"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:81
-msgid "Catalog Sorting"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:99
-msgid "Memberships Catalog"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:114
-msgid "Memberships Page"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:119
-msgid "Memberships per page"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:120
-msgid "To show all memberships on one page, enter -1"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:129
-msgid "Determines the display order for items on the memberships page."
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:137
-msgid "Memberships Sorting"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:148
-msgid "Select a membership"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:151
-msgid "Only allow access to site to users with a specific membership level. Users will be able to view and purchase membership level."
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.catalogs.php:154
-msgid "Restrict site by membership level"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:60
@@ -2697,6 +2617,58 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:179
 msgid "Payment Gateways"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:45
+msgid "Course Settings"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:50
+msgid "Enabling this setting allows students to mark a lesson as \"incomplete\" after they have completed a lesson."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:53
+msgid "Retake Lessons"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:70
+msgid "Course Catalog Settings"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:81
+msgid "This page is where your visitors will find a list of all your available courses. %1$sMore information%2$s."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:90
+msgid "To show all courses on one page, enter -1"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:92
+msgid "Courses per page"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:98
+msgid "Determines the display order for courses on the courses page."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:101, includes/admin/settings/class.llms.settings.memberships.php:110
+msgid "Order (Low to High)"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:102, includes/admin/settings/class.llms.settings.memberships.php:111
+msgid "Title (A - Z)"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:103, includes/admin/settings/class.llms.settings.memberships.php:112
+msgid "Title (Z - A)"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:104, includes/admin/settings/class.llms.settings.memberships.php:113
+msgid "Most Recent"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.courses.php:106
+msgid "Catalog Sorting"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.engagements.php:21, includes/class.llms.post-types.php:522
@@ -2923,6 +2895,42 @@ msgstr ""
 msgid "Add LifterLMS information to BuddyPress profiles. %1$sLearn More%2$s"
 msgstr ""
 
+#: includes/admin/settings/class.llms.settings.memberships.php:54
+msgid "Select a membership"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.memberships.php:57
+msgid "Only allow access to site to users with a specific membership level. Users will be able to view and purchase membership level."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.memberships.php:60
+msgid "Restrict site by membership level"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.memberships.php:77
+msgid "Memberships Catalog"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.memberships.php:92
+msgid "Memberships Page"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.memberships.php:97
+msgid "Memberships per page"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.memberships.php:98
+msgid "To show all memberships on one page, enter -1"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.memberships.php:107
+msgid "Determines the display order for items on the memberships page."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.memberships.php:115
+msgid "Memberships Sorting"
+msgstr ""
+
 #: includes/admin/views/html.admin.settings.php:34
 msgid "Save Changes"
 msgstr ""
@@ -3004,68 +3012,72 @@ msgstr ""
 msgid "minute"
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:97
-msgid "An error occurred, please try again."
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:105
-msgid "Congratulations! You have completed %s"
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:147
-msgid "Voucher redeemed sucessfully!"
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:192
+#: includes/class.llms.frontend.forms.php:71
 msgid "This content is not available until %s"
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:254
-msgid "Please enter your name."
+#: includes/class.llms.frontend.forms.php:134, includes/class.llms.frontend.forms.php:188
+msgid "An error occurred, please try again."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:260
-msgid "Please provide a valid email address."
+#: includes/class.llms.frontend.forms.php:143
+msgid "Congratulations! You have completed %s"
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:264
-msgid "The email entered is associated with another account."
+#: includes/class.llms.frontend.forms.php:197
+msgid "%s is now incomplete."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:270
-msgid "Please re-enter your password."
+#: includes/class.llms.frontend.forms.php:247
+msgid "Please enter your password."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:274, includes/class.llms.frontend.forms.php:423
+#: includes/class.llms.frontend.forms.php:254, includes/class.llms.frontend.forms.php:365
 msgid "Passwords do not match."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:278
+#: includes/class.llms.frontend.forms.php:345
+msgid "Please enter your name."
+msgstr ""
+
+#: includes/class.llms.frontend.forms.php:351
+msgid "Please provide a valid email address."
+msgstr ""
+
+#: includes/class.llms.frontend.forms.php:355
+msgid "The email entered is associated with another account."
+msgstr ""
+
+#: includes/class.llms.frontend.forms.php:361
+msgid "Please re-enter your password."
+msgstr ""
+
+#: includes/class.llms.frontend.forms.php:369
 msgid "Please enter your billing address."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:281
+#: includes/class.llms.frontend.forms.php:372
 msgid "Please enter your billing city."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:284
+#: includes/class.llms.frontend.forms.php:375
 msgid "Please enter your billing state."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:287
+#: includes/class.llms.frontend.forms.php:378
 msgid "Please enter your billing zip code."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:290
+#: includes/class.llms.frontend.forms.php:381
 msgid "Please enter your billing country."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:332
+#: includes/class.llms.frontend.forms.php:423
 msgid "Account details were changed successfully."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:416
-msgid "Please enter your password."
+#: includes/class.llms.frontend.forms.php:492
+msgid "Voucher redeemed sucessfully!"
 msgstr ""
 
 #: includes/class.llms.frontend.password.php:26, includes/shortcodes/class.llms.shortcode.my.account.php:158
@@ -4742,17 +4754,17 @@ msgstr ""
 msgid "Sign Out"
 msgstr ""
 
-#: includes/class.llms.student.php:705
+#: includes/class.llms.student.php:706
 msgctxt "course grade when no quizzes taken or in course"
 msgid "N/A"
 msgstr ""
 
-#: includes/class.llms.student.php:727
+#: includes/class.llms.student.php:728
 msgctxt "lesson grade when lesson has no quiz"
 msgid "N/A"
 msgstr ""
 
-#: includes/class.llms.student.php:812
+#: includes/class.llms.student.php:813
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
@@ -6491,11 +6503,11 @@ msgstr ""
 msgid "very weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:257
+#: includes/functions/llms.functions.person.php:292
 msgid "Last Login"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:286
+#: includes/functions/llms.functions.person.php:321
 msgid "Never"
 msgstr ""
 
@@ -7648,15 +7660,19 @@ msgstr ""
 msgid "Categories: "
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:28
+#: templates/course/complete-lesson-link.php:31
 msgid "Lesson Complete"
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:49
+#: templates/course/complete-lesson-link.php:48
+msgid "Mark Incomplete"
+msgstr ""
+
+#: templates/course/complete-lesson-link.php:79
 msgid "Mark Complete"
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:80
+#: templates/course/complete-lesson-link.php:110
 msgid "Take Quiz"
 msgstr ""
 
