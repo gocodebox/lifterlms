@@ -66,7 +66,6 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 				'type' => 'sectionend',
 			),
 
-
 			array(
 				'class' => 'top',
 				'id' => 'membership_catalog_options',
