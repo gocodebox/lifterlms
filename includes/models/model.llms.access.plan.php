@@ -401,23 +401,23 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Get a sentence explaining the plan's trial offer
-	 * @return string
-	 * @since 3.0.0
-	 * @version  3.0.0
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.4.8
 	 */
 	public function get_trial_details() {
 
-		$r = '';
+		$details = '';
 
 		if ( $this->has_trial() ) {
 
 			$length = $this->get( 'trial_length' );
-
-			$r = _nx( 'for %1$d %2$s', 'for %1$d %2$ss', $length, 'trial offer description', 'lifterlms' );
+			$period = $this->get( 'trial_period' );
+			$details = sprintf( _x( 'for %1$d %2$s', 'trial offer description', 'lifterlms' ), $length, $this->get_access_period_name( $period, $length ) );
 
 		}
 
-		return apply_filters( 'llms_get_product_trial_details', sprintf( $r, $length, $this->get( 'trial_period' ) ), $this );
+		return apply_filters( 'llms_get_product_trial_details', $details, $this );
 	}
 
 	/**
