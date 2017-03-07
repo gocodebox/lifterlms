@@ -279,13 +279,13 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @return obj
 	 *
 	 * @since  2.5.0  moved from a non-classed function
-	 * @version  3.0.0
+	 * @version  3.4.8
 	 */
 	public function modify_admin_search( $query ) {
 
 		// on the admin posts order table
 		// allow searching of custom fields
-		if ( is_admin() && 'llms_order' === $query->query_vars['post_type'] && ! empty( $query->query_vars['s'] ) ) {
+		if ( is_admin() && ! empty( $query->query_vars['s'] ) && isset( $query->query_vars['post_type'] ) && 'llms_order' === $query->query_vars['post_type'] ) {
 
 			$s = $query->query_vars['s'];
 
