@@ -163,8 +163,8 @@ class LLMS_Frontend_Forms {
 	 * Incomplete Lesson form post
 	 * Marks lesson as incomplete and returns incompletion message to user
 	 * @return void
-	 * @since   3.3.1
-	 * @version 3.3.1
+	 * @since   3.5.0
+	 * @version 3.5.0
 	 */
 	public function mark_incomplete() {
 

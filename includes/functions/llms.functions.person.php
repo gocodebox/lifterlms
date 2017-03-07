@@ -188,8 +188,8 @@ function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'uns
  *
  * @see    LLMS_Student->mark_incomplete() the class method wrapped by this function
  *
- * @since     3.3.1
- * @version   3.3.1
+ * @since     3.5.0
+ * @version   3.5.0
  */
 function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );

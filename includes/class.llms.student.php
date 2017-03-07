@@ -1248,8 +1248,8 @@ class LLMS_Student {
 	 * @param  string     $trigger      String describing the reason for mark incompletion
 	 * @return boolean
 	 *
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @since    3.5.0
+	 * @version  3.5.0
 	 */
 	private function insert_incompletion_postmeta( $object_id, $trigger = 'unspecified' ) {
 
@@ -1510,8 +1510,8 @@ class LLMS_Student {
 	 *
 	 * @see    llms_mark_incomplete() calls this function without having to instantiate the LLMS_Student class first
 	 *
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @since    3.5.0
+	 * @version  3.5.0
 	 */
 	public function mark_incomplete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
