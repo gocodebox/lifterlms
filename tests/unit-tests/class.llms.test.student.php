@@ -61,8 +61,8 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * in the opposite order to test 'incompletion' for a three post types
 	 *
 	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @since    3.5.0
+	 * @version  3.5.0
 	 */
 	function test_completion() {
 
