@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, tpkemme, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.7.2
-Stable tag: 3.4.7
+Tested up to: 4.7.3
+Stable tag: 3.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,15 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.4.8 - 2017/03/07 =
+-----------------------
+
++ Tested to WordPress Version 4.7.3
++ Fixed undefined index notice on admin panel
++ Added a real description to new `_nx()` functions
++ Access plan trial periods now allow proper translations
+
 
 = v3.4.7 - 2017/03/03 =
 -----------------------

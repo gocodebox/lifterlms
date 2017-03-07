@@ -6665,28 +6665,28 @@ msgid "Continue"
 msgstr ""
 
 #: includes/models/model.llms.access.plan.php:98
-msgctxt "asrt"
+msgctxt "Access plan period"
 msgid "year"
 msgid_plural "years"
 msgstr[0] ""
 msgstr[1] ""
 
 #: includes/models/model.llms.access.plan.php:102
-msgctxt "asrt"
+msgctxt "Access plan period"
 msgid "month"
 msgid_plural "months"
 msgstr[0] ""
 msgstr[1] ""
 
 #: includes/models/model.llms.access.plan.php:106
-msgctxt "asrt"
+msgctxt "Access plan period"
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] ""
 msgstr[1] ""
 
 #: includes/models/model.llms.access.plan.php:110
-msgctxt "asrt"
+msgctxt "Access plan period"
 msgid "day"
 msgid_plural "days"
 msgstr[0] ""
@@ -6732,9 +6732,7 @@ msgstr[1] ""
 #: includes/models/model.llms.access.plan.php:416
 msgctxt "trial offer description"
 msgid "for %1$d %2$s"
-msgid_plural "for %1$d %2$ss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: includes/models/model.llms.coupon.php:149
 msgctxt "Remaining coupon uses"

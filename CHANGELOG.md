@@ -1,8 +1,9 @@
 == Changelog ==
 
-v3.4.8 - 2017/03/??
+v3.4.8 - 2017/03/07
 -------------------
 
++ Tested to WordPress Version 4.7.3
 + Fixed undefined index notice on admin panel
 + Added a real description to new `_nx()` functions
 + Access plan trial periods now allow proper translations
