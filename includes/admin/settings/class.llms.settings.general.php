@@ -31,7 +31,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 *
 	 * @return array
 	 * @since  1.0.0
-	 * @version  3.0.0
+	 * @version  3.5.0
 	 */
 	public function get_settings() {
 
@@ -111,7 +111,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			array(
 				'desc' => __( 'Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site.', 'lifterlms' ),
 				'name' => 'automatic-payments',
-				'title' => __( 'Automatic Paymets', 'lifterlms' ),
+				'title' => __( 'Automatic Payments', 'lifterlms' ),
 				'type' 		=> 'button',
 				'value' => __( 'Reset Automatic Payments', 'lifterlms' ),
 			),
