@@ -44,8 +44,6 @@ set -ex
 
 install_wp() {
 
-	echo "Installing WordPress"
-
 	if [ -d $WP_CORE_DIR ]; then
 		return;
 	fi
@@ -71,9 +69,6 @@ install_wp() {
 }
 
 install_test_suite() {
-
-	echo "Installing Test Suite"
-
 	# portable in-place argument for both GNU sed and Mac OSX sed
 	if [[ $(uname -s) == 'Darwin' ]]; then
 		local ioption='-i .bak'
@@ -107,8 +102,6 @@ install_db() {
 	if [ ${SKIP_DB_CREATE} = "true" ]; then
 		return 0
 	fi
-
-	echo "Installing Database"
 
 	# parse DB_HOST for port or socket references
 	local PARTS=(${DB_HOST//\:/ })
