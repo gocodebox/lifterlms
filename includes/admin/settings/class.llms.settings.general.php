@@ -2,7 +2,7 @@
 /**
  * Admin Settings Page, General Tab
  * @since  1.0.0
- * @version  3.0.0
+ * @version  3.5.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
