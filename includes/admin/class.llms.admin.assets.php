@@ -100,6 +100,12 @@ class LLMS_Admin_Assets {
 		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_style( 'llms-select2-styles', plugins_url( '/assets/select2/css/select2' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 
+		$screen = get_current_screen();
+		if ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
+			wp_register_style( 'llms-admin-add-ons', plugins_url( '/assets/css/admin-add-ons.min.css', LLMS_PLUGIN_FILE ), array(), LLMS()->version, 'all' );
+			wp_enqueue_style( 'llms-admin-add-ons' );
+		}
+
 	}
 
 	/**

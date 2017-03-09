@@ -43,11 +43,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			),
 
 			array(
-				'type' => 'custom-html',
-				'value' => self::get_big_banners(),
-			),
-
-			array(
 					'type' => 'custom-html',
 					'value' => self::get_small_banners(),
 			),
@@ -234,125 +229,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 					</div>
 				</div>';
 		return preg_replace( '~>\s+<~', '><', $html );
-	}
-
-	/**
-	 * Output the set of two-column banners
-	 * @return string
-	 */
-	public static function get_big_banners() {
-
-		$banners = array(
-			'lifterlms-pro' => array(
-				'type' => 'service',
-				'title' => 'Lifter LMS Pro',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-pro.png',
-				'link' => 'https://lifterlms.com/product/lifterlms-pro?ims=kujno&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=LifterLMS+Pro+Ad+001',
-			),
-			'lifterlms-launchpad' => array(
-				'type' => 'theme',
-				'title' => 'LifterLMS LaunchPad Theme',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-launchpad.png',
-				'link' => 'https://lifterlms.com/launchpad/?utm_source=Plugin&utm_medium=Plugin%20Ad&utm_campaign=Plugin%20to%20LaunchPad',
-			),
-			'lifterlms-stripe' => array(
-				'type' => 'plugin',
-				'title' => 'Stripe Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/stripe-w-desc.png',
-				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Stripe+Ad+001',
-			),
-			'lifterlms-gateway-paypal' => array(
-				'type' => 'plugin',
-				'title' => 'PayPal Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/paypal.jpg',
-				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=PayPal+Ad+001',
-			),
-			'lifterlms-integration-woocommerce' => array(
-				'type' => 'plugin',
-				'title' => 'WooCommerce Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/woocommerce.jpg',
-				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=WooCommerce+Ad+001',
-			),
-			'lifterlms-convertkit' => array(
-				'type' => 'plugin',
-				'title' => 'ConvertKit',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/convertkit.png',
-				'link'	=> 'https://lifterlms.com/product/lifterlms-convertkit/?utm_source=Plugin&utm_medium=Plugin%2BDashboard&utm_content=Plugin%2BAd&utm_campaign=Plugin',
-			),
-			'lifterlms-mailchimp' => array(
-				'type' => 'plugin',
-				'title' => 'Mailchimp Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/mailchimp-w-desc.png',
-				'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Mailchimp+Ad+001',
-			),
-			'lifterlms-integration-gravity-forms' => array(
-				'type' => 'plugin',
-				'title' => 'GravityForms Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/gravityforms.jpg',
-				'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=GravityForms+Ad+001',
-			),
-			'lifterlms-boost' => array(
-				'type' => 'service',
-				'title' => 'Boost',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/boost.png',
-				'link'	=> 'https://lifterlms.com/boost?utm_source=Plugin%20&utm_medium=Plugin%20Ad&utm_campaign=Plugin%20to%20Boost',
-			),
-			'lifterlms-turbo-boost' => array(
-				'type' => 'service',
-				'title' => 'Turbo Boost',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/turbo-boost.png',
-				'link'	=> 'https://lifterlms.com/boost?utm_source=Plugin%20&utm_medium=Plugin%20Ad&utm_campaign=Plugin%20to%20Boost',
-			),
-		);
-
-		// get installed themes and plugins
-		// only show banners for products that aren't installed
-		$plugins = array_keys( get_plugins() );
-		$themes = array_keys( wp_get_themes() );
-
-		$html = '<div class="llms-widget-row">';
-
-		foreach ( $banners as $slug => $banner ) {
-
-			// if the product has been installed don't show the banner
-			switch ( $banner['type'] ) {
-
-				case 'plugin':
-					if ( in_array( $slug . DIRECTORY_SEPARATOR . $slug . '.php', $plugins ) ) {
-						continue 2;
-					}
-				break;
-
-				// case 'service':
-				// break;
-
-				case 'theme':
-					if ( in_array( $slug , $themes ) ) {
-						continue 2;
-					}
-				break;
-
-			}
-
-			$html .= '<div class="llms-widget-1-2"><div class="llms-widget llms-banner-image">';
-
-			if ( isset( $banner['link'] ) ) {
-				$html .= '<a href="' . $banner['link'] . '" target="_blank">';
-			}
-
-			$html .= '<img width="100%" src="' . $banner['image'] . '" alt="' . $banner['image'] . '">';
-
-			if ( isset( $banner['link'] ) ) {
-				$html .= '</a>';
-			}
-
-			$html .= '</div></div>';
-
-		}
-
-		$html .= '</div>';
-
-		return $html;
 	}
 
 	public static function get_small_banners() {
