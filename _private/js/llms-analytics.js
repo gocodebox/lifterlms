@@ -10,7 +10,7 @@
 	/**
 	 * LifterLMS Admin Analytics
 	 * @since    3.0.0
-	 * @version  3.1.4
+	 * @version  3.5.0
 	 */
 	var Analytics = function() {
 
@@ -19,7 +19,7 @@
 		this.query = $.parseJSON( $( '#llms-analytics-json' ).text() );
 		this.timeout = 8000;
 
-		this.$widgets = $( '.llms-widget' );
+		this.$widgets = $( '.llms-widget[data-method]' );
 
 		/**
 		 * Initializer

@@ -211,17 +211,26 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-select2' );
 			}
 
-			if ( 'lifterlms_page_llms-reporting' === $screen->base ) {
+			if ( 'lifterlms_page_llms-reporting' === $screen->base || 'lifterlms_page_llms-settings' === $screen->base ) {
 
-				if ( isset( $_GET['tab'] ) ) {
+				wp_register_script( 'llms-google-charts', 'https://www.gstatic.com/charts/loader.js' );
+				wp_register_script( 'llms-analytics', plugins_url( '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-admin-scripts', 'llms-google-charts' ), '', true );
+
+				if ( 'lifterlms_page_llms-settings' === $screen->base ) {
+
+					wp_enqueue_script( 'llms-analytics' );
+					wp_enqueue_script( 'llms-metaboxes' );
+
+				} elseif ( isset( $_GET['tab'] ) ) {
 
 					switch ( $_GET['tab'] ) {
 						case 'enrollments':
 						case 'sales':
-							wp_enqueue_script( 'llms-google-charts', 'https://www.gstatic.com/charts/loader.js' );
+
 							wp_enqueue_script( 'llms-select2' );
-							wp_enqueue_script( 'llms-analytics', plugins_url( '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-admin-scripts' ), '', true );
+							wp_enqueue_script( 'llms-analytics' );
 							wp_enqueue_script( 'llms-metaboxes' );
+
 						break;
 
 						case 'students':
@@ -230,7 +239,9 @@ class LLMS_Admin_Assets {
 							}
 						break;
 					}
+
 				}
+
 
 			}
 

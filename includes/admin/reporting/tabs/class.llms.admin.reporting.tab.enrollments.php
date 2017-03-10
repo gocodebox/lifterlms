@@ -45,16 +45,34 @@ class LLMS_Admin_Reporting_Tab_Enrollments {
 	 * Get an array of ajax widgets to load on page load
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.5.0
 	 */
 	public function get_widget_data() {
 		return apply_filters( 'llms_reporting_tab_enrollments_widgets', array(
 			array(
+				'registrations' => array(
+					'title' => __( 'Registrations', 'lifterlms' ),
+					'cols' => '1-4',
+					'content' => __( 'loading...', 'lifterlms' ),
+					'info' => __( 'Number of total user registrations during the selected period', 'lifterlms' ),
+				),
 				'enrollments' => array(
 					'title' => __( 'Enrollments', 'lifterlms' ),
-					'cols' => '1-3',
+					'cols' => '1-4',
 					'content' => __( 'loading...', 'lifterlms' ),
 					'info' => __( 'Number of total enrollments during the selected period', 'lifterlms' ),
+				),
+				'coursecompletions' => array(
+					'title' => __( 'Courses Completed', 'lifterlms' ),
+					'cols' => '1-4',
+					'content' => __( 'loading...', 'lifterlms' ),
+					'info' => __( 'Number of total courses completed during the selected period', 'lifterlms' ),
+				),
+				'lessoncompletions' => array(
+					'title' => __( 'Lessons Completed', 'lifterlms' ),
+					'cols' => '1-4',
+					'content' => __( 'loading...', 'lifterlms' ),
+					'info' => __( 'Number of total lessons completed during the selected period', 'lifterlms' ),
 				),
 			),
 		) );

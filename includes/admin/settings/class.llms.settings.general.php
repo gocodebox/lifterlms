@@ -209,26 +209,55 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 	public static function get_stats_widgets() {
 
-		$students_enrolled = LLMS_Analytics::get_users_enrolled_last_n_days( 7 );
-		$members_registered = LLMS_Analytics::get_members_registered_last_n_days( 7 );
-		$lessons_completed = LLMS_Analytics::get_lessons_completed_last_n_days( 7 );
-		$total_sales = LLMS_Analytics::get_total_sales_last_n_days( 7 );
 
-		$html = '<div class="llms-widget-row">
-					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">' . __( 'Course Enrollments This Week', 'lifterlms' ) . '</p><h1>' . $students_enrolled . '</h1></div>
-					</div>
-					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">' . __( 'New Members This Week', 'lifterlms' ) . '</p><h1>' . $members_registered . '</h1></div>
-					</div>
-					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">' . __( 'Lessons Completed This Week', 'lifterlms' ) . '</p><h1>' . $lessons_completed . '</h1></div>
-					</div>
-					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">' . __( 'Total Sales This Week', 'lifterlms' ) . '</p><h1>' . $total_sales . '</h1></div>
-					</div>
-				</div>';
-		return preg_replace( '~>\s+<~', '><', $html );
+		ob_start();
+
+		echo '<h3>'. __( 'Activity This Week', 'lifterlms' ) . '</h3>';
+		echo '<style type="text/css">#llms-charts-wrapper{display:none;}</style>';
+		llms_get_template( 'admin/reporting/tabs/widgets.php', array(
+			'json' => json_encode( array(
+				'current_tab' => 'settings',
+				'current_range' => 'last-7-days',
+				'current_students' => array(),
+				'current_courses' => array(),
+				'current_memberships' => array(),
+				'dates' => array(
+					'start' => date( 'Y-m-d', current_time( 'timestamp' ) - WEEK_IN_SECONDS ),
+					'end' => current_time( 'Y-m-d' ),
+				),
+			) ),
+			'widget_data' => array(
+				array(
+					'enrollments' => array(
+						'title' => __( 'Enrollments', 'lifterlms' ),
+						'cols' => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info' => __( 'Number of total enrollments during the selected period', 'lifterlms' ),
+					),
+					'registrations' => array(
+						'title' => __( 'Registrations', 'lifterlms' ),
+						'cols' => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info' => __( 'Number of total user registrations during the selected period', 'lifterlms' ),
+					),
+					'sold' => array(
+						'title' => __( 'Net Sales', 'lifterlms' ),
+						'cols' => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info' => __( 'Total of all successful transactions during this period', 'lifterlms' ),
+					),
+					'lessoncompletions' => array(
+						'title' => __( 'Lessons Completed', 'lifterlms' ),
+						'cols' => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info' => __( 'Number of total lessons completed during the selected period', 'lifterlms' ),
+					),
+				),
+			),
+		) );
+
+		return ob_get_clean();
+
 	}
 
 	public static function get_small_banners() {
