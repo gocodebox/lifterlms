@@ -209,10 +209,9 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 	public static function get_stats_widgets() {
 
-
 		ob_start();
 
-		echo '<h3>'. __( 'Activity This Week', 'lifterlms' ) . '</h3>';
+		echo '<h3>' . __( 'Activity This Week', 'lifterlms' ) . '</h3>';
 		echo '<style type="text/css">#llms-charts-wrapper{display:none;}</style>';
 		llms_get_template( 'admin/reporting/tabs/widgets.php', array(
 			'json' => json_encode( array(

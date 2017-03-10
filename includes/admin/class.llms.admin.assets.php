@@ -242,7 +242,6 @@ class LLMS_Admin_Assets {
 
 				}
 
-
 			}
 
 			wp_enqueue_script( 'top-modal' );
