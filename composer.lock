@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/action-scheduler.git",
-                "reference": "ccae63bae54825ce6f759df0c657a1967bb1131b"
+                "reference": "d7b66cbf2d423bec4d4129a45f9969261ec1d2af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/action-scheduler/zipball/ccae63bae54825ce6f759df0c657a1967bb1131b",
-                "reference": "ccae63bae54825ce6f759df0c657a1967bb1131b",
+                "url": "https://api.github.com/repos/gocodebox/action-scheduler/zipball/d7b66cbf2d423bec4d4129a45f9969261ec1d2af",
+                "reference": "d7b66cbf2d423bec4d4129a45f9969261ec1d2af",
                 "shasum": ""
             },
             "type": "library",
@@ -31,7 +31,7 @@
             "support": {
                 "source": "https://github.com/gocodebox/action-scheduler/tree/master"
             },
-            "time": "2016-12-01 01:36:44"
+            "time": "2017-03-10 23:45:17"
         }
     ],
     "packages-dev": [

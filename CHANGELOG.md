@@ -13,8 +13,10 @@ v3.5.0 - 2017/03/??
 + Fixed typo on general settings screen
 + Moved LifterLMS Add-on Banners from General Settings to an Add-Ons menu
 + If required fields exist on checkout and are empty during free quick enrollment users will be redirected to the normal checkout page where they can enter required fields
++ Updated action scheduler lib to latest version. Minor changes, fixes compatibility with WooMemberships.
 + Recent activity stats widgets on general settings screen updated to be more reliable and accurate (and performant!)
 + Added 3 new widgets to enrollments reporting tab: courses completed, lessons completed, and user registrations
+
 
 
 v3.4.8 - 2017/03/07
