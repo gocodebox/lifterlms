@@ -1,6 +1,6 @@
 == Changelog ==
 
-v3.5.0 - 2017/03/??
+v3.5.0 - 2017/03/13
 -------------------
 
 + New course setting **Retake Lessons** allows students to mark lessons as "incomplete" after completing lessons. Admins may enable this site-wide setting under Settings -> Courses.

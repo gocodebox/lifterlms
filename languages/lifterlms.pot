@@ -260,6 +260,42 @@ msgstr ""
 msgid "Total Coupons"
 msgstr ""
 
+#: includes/admin/class.llms.admin.addons.php:88
+msgid "Affiliates"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:92
+msgid "All"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:96, includes/admin/settings/class.llms.settings.checkout.php:179
+msgid "Payment Gateways"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:100
+msgid "E-Mail & Marketing"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:104
+msgid "Themes & Design"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:108
+msgid "Tools & Utilities"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:125
+msgid "There was an error retrieving add-ons. Please try again."
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:131
+msgid "LifterLMS Add-Ons"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:158
+msgid "Developer:"
+msgstr ""
+
 #: includes/admin/class.llms.admin.analytics.php:80, includes/admin/class.llms.admin.settings.php:71
 msgid "Whoa! something went wrong there!. Please refresh the page and retry."
 msgstr ""
@@ -348,36 +384,44 @@ msgstr ""
 msgid "Only valid JSON files can be imported."
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:59
+#: includes/admin/class.llms.admin.menus.php:60
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:59, lifterlms.php:405
+#: includes/admin/class.llms.admin.menus.php:60, lifterlms.php:405
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:61
+#: includes/admin/class.llms.admin.menus.php:62
 msgid "LifterLMS Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:61
+#: includes/admin/class.llms.admin.menus.php:62
 msgid "Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:63
+#: includes/admin/class.llms.admin.menus.php:64
 msgid "LifterLMS Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:63, templates/admin/import/import.php:26
+#: includes/admin/class.llms.admin.menus.php:64, templates/admin/import/import.php:26
 msgid "Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:65
+#: includes/admin/class.llms.admin.menus.php:66
 msgid "LifterLMS System report"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:65
+#: includes/admin/class.llms.admin.menus.php:66
 msgid "System Report"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:88
+msgid "LifterLMS Add-ons"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:88
+msgid "Add-ons"
 msgstr ""
 
 #: includes/admin/class.llms.admin.notices.core.php:62, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:489, includes/class.llms.install.php:509
@@ -2167,7 +2211,7 @@ msgstr ""
 msgid "Students"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:211, includes/admin/reporting/tables/llms.table.students.php:299, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:54
+#: includes/admin/reporting/class.llms.admin.reporting.php:211, includes/admin/reporting/tables/llms.table.students.php:299, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:60, includes/admin/settings/class.llms.settings.general.php:231
 msgid "Enrollments"
 msgstr ""
 
@@ -2244,12 +2288,36 @@ msgstr ""
 msgid "Achievements"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:56, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:56, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:62, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:68, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:74, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:82, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:88, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:94
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:54, includes/admin/settings/class.llms.settings.general.php:237
+msgid "Registrations"
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:56, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:62, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:68, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:74, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:56, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:62, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:68, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:74, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:82, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:88, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:94, includes/admin/settings/class.llms.settings.general.php:233, includes/admin/settings/class.llms.settings.general.php:239, includes/admin/settings/class.llms.settings.general.php:245, includes/admin/settings/class.llms.settings.general.php:251
 msgid "loading..."
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:57
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:57, includes/admin/settings/class.llms.settings.general.php:240
+msgid "Number of total user registrations during the selected period"
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:63, includes/admin/settings/class.llms.settings.general.php:234
 msgid "Number of total enrollments during the selected period"
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:66
+msgid "Courses Completed"
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:69
+msgid "Number of total courses completed during the selected period"
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:72, includes/admin/settings/class.llms.settings.general.php:249
+msgid "Lessons Completed"
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:75, includes/admin/settings/class.llms.settings.general.php:252
+msgid "Number of total lessons completed during the selected period"
 msgstr ""
 
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:54, includes/admin/reporting/widgets/class.llms.analytics.widget.sales.php:23
@@ -2260,11 +2328,11 @@ msgstr ""
 msgid "Number of new active or completed orders placed within this period"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:60, includes/admin/reporting/widgets/class.llms.analytics.widget.sold.php:24
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:60, includes/admin/reporting/widgets/class.llms.analytics.widget.sold.php:24, includes/admin/settings/class.llms.settings.general.php:243
 msgid "Net Sales"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:63
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:63, includes/admin/settings/class.llms.settings.general.php:246
 msgid "Total of all successful transactions during this period"
 msgstr ""
 
@@ -2312,8 +2380,20 @@ msgstr ""
 msgid "Information"
 msgstr ""
 
+#: includes/admin/reporting/widgets/class.llms.analytics.widget.coursecompletions.php:19
+msgid "# of Courses Completed"
+msgstr ""
+
 #: includes/admin/reporting/widgets/class.llms.analytics.widget.enrollments.php:20
 msgid "# of Enrollments"
+msgstr ""
+
+#: includes/admin/reporting/widgets/class.llms.analytics.widget.lessoncompletions.php:19
+msgid "# of Lessons Completed"
+msgstr ""
+
+#: includes/admin/reporting/widgets/class.llms.analytics.widget.registrations.php:19
+msgid "# of Registrations"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.accounts.php:25
@@ -2615,10 +2695,6 @@ msgstr ""
 msgid "Automatically remove zero decimals from the end of displayed prices."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:179
-msgid "Payment Gateways"
-msgstr ""
-
 #: includes/admin/settings/class.llms.settings.courses.php:45
 msgid "Course Settings"
 msgstr ""
@@ -2743,120 +2819,108 @@ msgstr ""
 msgid "Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:58
+#: includes/admin/settings/class.llms.settings.general.php:53
 msgid "Quick Links"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:65
+#: includes/admin/settings/class.llms.settings.general.php:60
 msgid "Version: %s"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:66
+#: includes/admin/settings/class.llms.settings.general.php:61
 msgid "Need help? Get support on the %1$sforums%2$s"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:67
+#: includes/admin/settings/class.llms.settings.general.php:62
 msgid "Looking for a quickstart guide, shortcodes, or developer documentation? Get started at %s"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:68
+#: includes/admin/settings/class.llms.settings.general.php:63
 msgid "Get LifterLMS news, updates, and more on our %1$sblog%2$s"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:83
+#: includes/admin/settings/class.llms.settings.general.php:78
 msgid "Features"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:90
+#: includes/admin/settings/class.llms.settings.general.php:85
 msgid "Automatic Recurring Payments: <strong>%s</strong>"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:91
+#: includes/admin/settings/class.llms.settings.general.php:86
 msgid "Enabled"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:91
+#: includes/admin/settings/class.llms.settings.general.php:86
 msgid "Disabled"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:107
+#: includes/admin/settings/class.llms.settings.general.php:102
 msgid "Tools and Utilities"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:112
+#: includes/admin/settings/class.llms.settings.general.php:107
 msgid "Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:114
-msgid "Automatic Paymets"
+#: includes/admin/settings/class.llms.settings.general.php:109
+msgid "Automatic Payments"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:116
+#: includes/admin/settings/class.llms.settings.general.php:111
 msgid "Reset Automatic Payments"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:120
+#: includes/admin/settings/class.llms.settings.general.php:115
 msgid "Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:122
+#: includes/admin/settings/class.llms.settings.general.php:117
 msgid "Sessions"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:124
+#: includes/admin/settings/class.llms.settings.general.php:119
 msgid "Clear All Session Data"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:128
+#: includes/admin/settings/class.llms.settings.general.php:123
 msgid "If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:130
+#: includes/admin/settings/class.llms.settings.general.php:125
 msgid "Tracking Status"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:132
+#: includes/admin/settings/class.llms.settings.general.php:127
 msgid "Reset Tracking Status"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:137
+#: includes/admin/settings/class.llms.settings.general.php:132
 msgid "Setup Wizard"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:140
+#: includes/admin/settings/class.llms.settings.general.php:135
 msgid "If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:142
+#: includes/admin/settings/class.llms.settings.general.php:137
 msgid "Return to Setup Wizard"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:150
+#: includes/admin/settings/class.llms.settings.general.php:145
 msgid "Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:152
+#: includes/admin/settings/class.llms.settings.general.php:147
 msgid "Clear Student Progress Cache"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:154
+#: includes/admin/settings/class.llms.settings.general.php:149
 msgid "Clear Cache"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:224
-msgid "Course Enrollments This Week"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.general.php:227
-msgid "New Members This Week"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.general.php:230
-msgid "Lessons Completed This Week"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.general.php:233
-msgid "Total Sales This Week"
+#: includes/admin/settings/class.llms.settings.general.php:214
+msgid "Activity This Week"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.integrations.php:19
@@ -4837,23 +4901,23 @@ msgstr ""
 msgid "An invalid payment method was selected."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:251
+#: includes/controllers/class.llms.controller.orders.php:256
 msgid "An unknown error occurred when attempting to create an account, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:255
+#: includes/controllers/class.llms.controller.orders.php:260
 msgid "You already have access to this product!"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:286
+#: includes/controllers/class.llms.controller.orders.php:291
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:439
+#: includes/controllers/class.llms.controller.orders.php:444
 msgid "Student unenrolled due to automatic access plan expiration"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:574
+#: includes/controllers/class.llms.controller.orders.php:579
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
