@@ -1,54 +1,10 @@
 <?php
 /**
  * Tests for LifterLMS Student Functions
- * @since    3.3.1
- * @version  3.3.1
+ * @since    3.5.0
+ * @version  3.5.1
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
-
-
-	/**
-	 * Test whether a user is_enrolled() in a course or membership
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
-	 */
-	function test_enrollment() {
-
-		// Create new user
-		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-
-		// Create new course
-		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
-
-		// Create new membership
-		$memb_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
-
-		// Student shouldn't be enrolled in newly created course/membership
-		$this->assertFalse( llms_is_user_enrolled( $user_id, $course_id ) );
-		$this->assertFalse( llms_is_user_enrolled( $user_id, $memb_id ) );
-
-		// Enroll Student in newly created course/membership
-		llms_enroll_student( $user_id, $course_id, 'test_is_enrolled' );
-		llms_enroll_student( $user_id, $memb_id, 'test_is_enrolled' );
-
-		// Student should be enrolled in course/membership
-		$this->assertTrue( llms_is_user_enrolled( $user_id, $course_id ) );
-		$this->assertTrue( llms_is_user_enrolled( $user_id, $memb_id ) );
-
-		// Wait 1 second before unenrolling Student
-		// otherwise, enrollment and unenrollment postmeta will have identical timestamps
-		sleep( 1 );
-
-		// Unenroll Student in newly created course/membership
-		llms_unenroll_student( $user_id, $course_id, 'cancelled', 'test_is_enrolled');
-		llms_unenroll_student( $user_id, $memb_id, 'cancelled', 'test_is_enrolled' );
-
-		// Student should be not enrolled in newly created course/membership
-		$this->assertFalse( llms_is_user_enrolled( $user_id, $course_id ) );
-		$this->assertFalse( llms_is_user_enrolled( $user_id, $memb_id ) );
-
-	}
 
 	/**
 	 * Test mark_complete() and mark_incomplete() on a lesson, section, course, and track
@@ -64,7 +20,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * @since    3.5.0
 	 * @version  3.5.0
 	 */
-	function test_completion() {
+	public function test_completion() {
 
 		// Create new user
 		$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
@@ -157,4 +113,75 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
 		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
 	}
+
+	/**
+	 * Test whether a user is_enrolled() in a course or membership
+	 * @return   void
+	 * @since    3.5.0
+	 * @version  3.5.0
+	 */
+	public function test_enrollment() {
+
+		// Create new user
+		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		// Create new course
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+
+		// Create new membership
+		$memb_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+
+		// Student shouldn't be enrolled in newly created course/membership
+		$this->assertFalse( llms_is_user_enrolled( $user_id, $course_id ) );
+		$this->assertFalse( llms_is_user_enrolled( $user_id, $memb_id ) );
+
+		// Enroll Student in newly created course/membership
+		llms_enroll_student( $user_id, $course_id, 'test_is_enrolled' );
+		llms_enroll_student( $user_id, $memb_id, 'test_is_enrolled' );
+
+		// Student should be enrolled in course/membership
+		$this->assertTrue( llms_is_user_enrolled( $user_id, $course_id ) );
+		$this->assertTrue( llms_is_user_enrolled( $user_id, $memb_id ) );
+
+		// Wait 1 second before unenrolling Student
+		// otherwise, enrollment and unenrollment postmeta will have identical timestamps
+		sleep( 1 );
+
+		// Unenroll Student in newly created course/membership
+		llms_unenroll_student( $user_id, $course_id, 'cancelled', 'test_is_enrolled');
+		llms_unenroll_student( $user_id, $memb_id, 'cancelled', 'test_is_enrolled' );
+
+		// Student should be not enrolled in newly created course/membership
+		$this->assertFalse( llms_is_user_enrolled( $user_id, $course_id ) );
+		$this->assertFalse( llms_is_user_enrolled( $user_id, $memb_id ) );
+
+	}
+
+	/**
+	 * Test Student Getters and Setters
+	 * @return   void
+	 * @since    3.5.1
+	 * @version  3.5.1
+	 */
+	public function test_getters_setters() {
+
+		$uid = $this->factory->user->create( array( 'role' => 'student' ) );
+		$user = new WP_User( $uid );
+		$student =  new LLMS_Student( $uid );
+
+		// test some core prefixed stuff from the usermeta table
+		$student->set( 'first_name', 'Student' );
+		$student->set( 'last_name', 'McStudentFace' );
+		$this->assertEquals( get_user_meta( $uid, 'first_name', true ), $student->get( 'first_name' ) );
+		$this->assertEquals( get_user_meta( $uid, 'last_name', true ), $student->get( 'last_name' ) );
+
+		// stuff from the user table
+		$this->assertEquals( $user->user_email, $student->get( 'user_email' ) );
+
+		// llms custom user meta
+		$student->set( 'billing_address', '123 Student Place' );
+		$this->assertEquals( get_user_meta( $uid, 'llms_billing_address', true ), $student->get( 'billing_address' ) );
+
+	}
+
 }
