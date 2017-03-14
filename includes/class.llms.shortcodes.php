@@ -17,6 +17,7 @@ class LLMS_Shortcodes {
 
 		// new method
 		$scs = apply_filters( 'llms_load_shortcodes', array(
+			'LLMS_Shortcode_Course_Outline',
 			'LLMS_Shortcode_Membership_Link',
 			'LLMS_Shortcode_Registration',
 		) );
@@ -47,7 +48,6 @@ class LLMS_Shortcodes {
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
-			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
 			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
 			'lifterlms_login' => __CLASS__ . '::login',
@@ -626,100 +626,6 @@ class LLMS_Shortcodes {
 
 		return $count . ' ' . $type . 's';
 
-	}
-
-	/**
-	 * Course Outline Shortcode
-	 *
-	 * @return template course/outline-list-small.php
-	 */
-	public static function course_outline( $atts ) {
-		global $post;
-
-		extract(shortcode_atts(array(
-			'collapse' => 0, // output collapsible syllabus
-			'course_id' => false,
-			'outline_type' => 'full', // course, lesson, section
-			'toggles' => 0,
-			'view_type' => 'list',// completed, enrolled
-		),$atts));
-
-		// If no course id is passed try to get course id
-		if ( ! $course_id) {
-
-			if ( is_course() ) {
-				$course_id = get_the_ID();
-			} elseif ( is_lesson() ) {
-				$lesson = new LLMS_Lesson( get_the_ID() );
-				$course_id = $lesson->get_parent_course();
-			} elseif ( is_quiz() ) {
-				$quiz = LLMS()->session->get( 'llms_quiz' );
-				$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
-				$course_id = $lesson->get_parent_course();
-			} else {
-				return '';
-			}
-
-		}
-
-		$course = new LLMS_Course( $course_id );
-
-		$syllabus = $course->get_student_progress();
-
-		if ($outline_type === 'current_section') {
-
-			$next_lesson = new LLMS_Lesson( $course->get_next_uncompleted_lesson() );
-
-			foreach ( $syllabus->sections as $section ) {
-
-				if ( (int) $next_lesson->get_parent_section() === (int) $section['id'] ) {
-
-					$args = array(
-								'course' => $course,
-								'sections' => array( $section ),
-								'syllabus' => $syllabus,
-							);
-
-					break;
-
-				}
-
-			}
-
-		} else {
-
-			$post_type = get_post_type();
-
-			if ( 'lesson' === $post_type ) {
-
-				$lesson = new LLMS_Lesson( get_the_ID() );
-				$current_section = $lesson->get_parent_section();
-
-			} elseif ( 'course' === $post_type ) {
-
-				$lesson = new LLMS_Lesson( $course->get_next_uncompleted_lesson() );
-				$current_section = $lesson->get_parent_section();
-
-			} else {
-
-				$current_section = false;
-
-			}
-
-			$args = array(
-				'collapse' => $collapse,
-				'course' => $course,
-				'current_section' => $current_section,
-				'sections' => $syllabus->sections,
-				'syllabus' => $syllabus,
-				'toggles' => $toggles,
-			);
-
-		}
-
-		ob_start();
-		llms_get_template( 'course/outline-list-small.php', $args );
-		return ob_get_clean();
 	}
 
 	/**
