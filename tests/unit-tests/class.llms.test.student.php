@@ -184,4 +184,33 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test get_name() function
+	 * @return   void
+	 * @since    3.5.1
+	 * @version  3.5.1
+	 */
+	public function test_get_name() {
+
+		$uid = $this->factory->user->create( array(
+			'role' => 'student'
+		) );
+		$user = new WP_User( $uid );
+		$student =  new LLMS_Student( $uid );
+
+		// no first/last name set, should return display name
+		$this->assertEquals( $user->display_name, $student->get_name() );
+
+		// set a first & last name
+		$uid = $this->factory->user->create( array(
+			'first_name' => 'Student',
+			'last_name' => 'McStudentFace',
+			'role' => 'student'
+		) );
+		$student =  new LLMS_Student( $uid );
+		$this->assertEquals( 'Student McStudentFace', $student->get_name() );
+
+
+	}
+
 }

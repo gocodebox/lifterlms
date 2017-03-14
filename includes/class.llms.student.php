@@ -928,11 +928,11 @@ class LLMS_Student {
 	 * Get the full name of a student
 	 * @return   string
 	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @version  3.5.1
 	 */
 	public function get_name() {
 
-		$name = trim( $this->first_name . ' ' . $this->last_name );
+		$name = trim( $this->get( 'first_name' ) . ' ' . $this->get( 'last_name' ) );
 
 		if ( ! $name ) {
 			$name = $this->display_name;
