@@ -44,7 +44,7 @@
 
 				</div>
 
-				<?php foreach ( $section->get_lessons() as $lesson ) : $is_complete = $student->is_complete( $lesson->get( 'id'), 'lesson' ); ?>
+				<?php foreach ( $section->get_lessons() as $lesson ) : $is_complete = $student->is_complete( $lesson->get( 'id' ), 'lesson' ); ?>
 
 					<ul class="llms-lesson">
 
