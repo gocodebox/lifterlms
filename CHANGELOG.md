@@ -7,6 +7,7 @@ v3.5.1 - 2017/03/15
 + Updated course outline shortcode / course syllabus widget to utilize new APIs
 + The template at `templates/course/outline-list-small.php` updated to reflect above changes. If you're overriding this template please review the changes and update accordingly
 + Fix issue preventing course auto advance on lesson completion
++ Shortcodes added within `[lifterlms_hide_content]` will now be processed
 
 
 v3.5.0 - 2017/03/13

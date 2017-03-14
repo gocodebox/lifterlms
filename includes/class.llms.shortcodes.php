@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  3.4.3
+* @version  3.5.1
 */
 class LLMS_Shortcodes {
 
@@ -11,13 +11,14 @@ class LLMS_Shortcodes {
 	* init shortcodes array
 	* @return void
 	* @since    1.0.0
-	* @version  3.4.3
+	* @version  3.5.1
 	*/
 	public static function init() {
 
 		// new method
 		$scs = apply_filters( 'llms_load_shortcodes', array(
 			'LLMS_Shortcode_Course_Outline',
+			'LLMS_Shortcode_Hide_Content',
 			'LLMS_Shortcode_Membership_Link',
 			'LLMS_Shortcode_Registration',
 		) );
@@ -48,7 +49,6 @@ class LLMS_Shortcodes {
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
-			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
 			'lifterlms_login' => __CLASS__ . '::login',
 			'lifterlms_pricing_table' => __CLASS__ . '::pricing_table',
@@ -325,35 +325,6 @@ class LLMS_Shortcodes {
 	public static function checkout( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_Checkout', 'output' ), $atts );
-
-	}
-
-	/**
-	 * Display content only to user enrolled in a specific course, lesson, or membership
-	 * and display an option message to everyone else
-	 * @param    array       $atts     array of shortcode atts
-	 * @param    string     $content  HTML / Text content to be displayed only if the user is enrolled
-	 * @return   content
-	 * @since    1.0.0
-	 * @version  3.4.1
-	 */
-	public static function hide_content( $atts, $content = '' ) {
-
-		extract( shortcode_atts( array(
-			'membership' => '', // backwards compat, use ID moving forwad
-			'message' => '',
-			'id' => get_the_ID(),
-		), $atts ) );
-
-		if ( $membership ) {
-			$id = $membership;
-		}
-
-		if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
-			return $content;
-		}
-
-		return $message;
 
 	}
 
