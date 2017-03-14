@@ -110,7 +110,7 @@ class LLMS_Frontend_Forms {
 	 * Autoadvances to next lesson if completion is succesful
 	 * @return void
 	 * @since   1.0.0
-	 * @version 3.3.1
+	 * @version 3.5.1
 	 */
 	public function mark_complete() {
 
@@ -134,18 +134,13 @@ class LLMS_Frontend_Forms {
 			llms_add_notice( __( 'An error occurred, please try again.', 'lifterlms' ), 'error' );
 		} else {
 
-			// mark complete
-			$completed = llms_mark_complete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id );
-
-			// if $completed is 'yes' - can be 'yes' or 'no'
-			if ( strcmp( $completed, 'yes' ) === 0 ) {
+			if ( llms_mark_complete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id ) ) {
 
 				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $lesson_id ) ) );
 
 				if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
 					$lesson = new LLMS_Lesson( $lesson_id );
 					$next_lesson_id = $lesson->get_next_lesson();
-
 					if ( $next_lesson_id ) {
 						wp_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
 						exit;
