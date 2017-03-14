@@ -94,7 +94,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 * Tests for create_options()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.5.1
 	 */
 	public function test_create_options() {
 
@@ -109,6 +109,10 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
 		foreach ( $settings as $section ) {
+			// skip general settings since this screen doesn't actually have any settings on it
+			if ( 'general' === $section->id ) {
+				continue;
+			}
 			foreach ( $section->get_settings() as $value ) {
 				if ( isset( $value['default'] ) && isset( $value['id'] ) ) {
 					$this->assertEquals( $value['default'], get_option( $value['id'] ) );

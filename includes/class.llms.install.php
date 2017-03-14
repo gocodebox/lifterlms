@@ -149,7 +149,7 @@ class LLMS_Install {
 	 * Store all default options in the DB
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.5.1
 	 */
 	public static function create_options() {
 
@@ -158,6 +158,10 @@ class LLMS_Install {
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
 		foreach ( $settings as $section ) {
+			// skip general settings since this screen doesn't actually have any settings on it
+			if ( 'general' === $section->id ) {
+				continue;
+			}
 			foreach ( $section->get_settings() as $value ) {
 				if ( isset( $value['default'] ) && isset( $value['id'] ) ) {
 					$autoload = isset( $value['autoload'] ) ? (bool) $value['autoload'] : true;
