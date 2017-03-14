@@ -11,7 +11,7 @@ engines:
   eslint:
     enabled: true
   scss-lint:
-    enabled: true
+    enabled: false
   duplication:
     enabled: true
     config:
