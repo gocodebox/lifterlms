@@ -42,7 +42,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:280, includes/class.llms.shortcodes.php:504, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:82, templates/myaccount/my-orders.php:61
+#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:280, includes/class.llms.shortcodes.php:475, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:82, templates/myaccount/my-orders.php:61
 msgid "Next"
 msgstr ""
 
@@ -424,11 +424,11 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:62, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:489, includes/class.llms.install.php:509
+#: includes/admin/class.llms.admin.notices.core.php:62, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:493, includes/class.llms.install.php:513
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:65, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:493, includes/class.llms.install.php:513
+#: includes/admin/class.llms.admin.notices.core.php:65, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:497, includes/class.llms.install.php:517
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -636,7 +636,7 @@ msgstr ""
 msgid "LifterLMS has a few essential pages. The following will be created automatically if they don't already exist."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:317, includes/admin/settings/class.llms.settings.courses.php:84, includes/class.llms.install.php:183
+#: includes/admin/class.llms.admin.setup.wizard.php:317, includes/admin/settings/class.llms.settings.courses.php:84, includes/class.llms.install.php:187
 msgid "Course Catalog"
 msgstr ""
 
@@ -644,7 +644,7 @@ msgstr ""
 msgid "This page is where your visitors will find a list of all your available courses."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:321, includes/class.llms.install.php:189
+#: includes/admin/class.llms.admin.setup.wizard.php:321, includes/class.llms.install.php:193
 msgid "Membership Catalog"
 msgstr ""
 
@@ -3080,67 +3080,67 @@ msgstr ""
 msgid "This content is not available until %s"
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:134, includes/class.llms.frontend.forms.php:188
+#: includes/class.llms.frontend.forms.php:134, includes/class.llms.frontend.forms.php:183
 msgid "An error occurred, please try again."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:143
+#: includes/class.llms.frontend.forms.php:139
 msgid "Congratulations! You have completed %s"
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:197
+#: includes/class.llms.frontend.forms.php:192
 msgid "%s is now incomplete."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:247
+#: includes/class.llms.frontend.forms.php:242
 msgid "Please enter your password."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:254, includes/class.llms.frontend.forms.php:365
+#: includes/class.llms.frontend.forms.php:249, includes/class.llms.frontend.forms.php:360
 msgid "Passwords do not match."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:345
+#: includes/class.llms.frontend.forms.php:340
 msgid "Please enter your name."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:351
+#: includes/class.llms.frontend.forms.php:346
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:355
+#: includes/class.llms.frontend.forms.php:350
 msgid "The email entered is associated with another account."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:361
+#: includes/class.llms.frontend.forms.php:356
 msgid "Please re-enter your password."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:369
+#: includes/class.llms.frontend.forms.php:364
 msgid "Please enter your billing address."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:372
+#: includes/class.llms.frontend.forms.php:367
 msgid "Please enter your billing city."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:375
+#: includes/class.llms.frontend.forms.php:370
 msgid "Please enter your billing state."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:378
+#: includes/class.llms.frontend.forms.php:373
 msgid "Please enter your billing zip code."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:381
+#: includes/class.llms.frontend.forms.php:376
 msgid "Please enter your billing country."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:423
+#: includes/class.llms.frontend.forms.php:418
 msgid "Account details were changed successfully."
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:492
+#: includes/class.llms.frontend.forms.php:487
 msgid "Voucher redeemed sucessfully!"
 msgstr ""
 
@@ -3236,34 +3236,34 @@ msgstr ""
 msgid "Invalid generator supplied"
 msgstr ""
 
-#: includes/class.llms.install.php:195
+#: includes/class.llms.install.php:199
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:201, includes/class.llms.student.dashboard.php:108
+#: includes/class.llms.install.php:205, includes/class.llms.student.dashboard.php:108
 msgid "My Courses"
 msgstr ""
 
-#: includes/class.llms.install.php:230, includes/functions/llms.functions.updates.php:700
+#: includes/class.llms.install.php:234, includes/functions/llms.functions.updates.php:700
 msgid "Student"
 msgstr ""
 
-#: includes/class.llms.install.php:311
+#: includes/class.llms.install.php:315
 msgctxt "course difficulty name"
 msgid "Beginner"
 msgstr ""
 
-#: includes/class.llms.install.php:312
+#: includes/class.llms.install.php:316
 msgctxt "course difficulty name"
 msgid "Intermediate"
 msgstr ""
 
-#: includes/class.llms.install.php:313
+#: includes/class.llms.install.php:317
 msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:566
+#: includes/class.llms.install.php:570
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -4782,7 +4782,7 @@ msgstr ""
 msgid "Leave Review"
 msgstr ""
 
-#: includes/class.llms.shortcodes.php:279, includes/class.llms.shortcodes.php:503, templates/loop/pagination.php:19
+#: includes/class.llms.shortcodes.php:279, includes/class.llms.shortcodes.php:474, templates/loop/pagination.php:19
 msgid "Previous"
 msgstr ""
 
@@ -7770,11 +7770,11 @@ msgctxt "course meta info title"
 msgid "Course Information"
 msgstr ""
 
-#: templates/course/outline-list-small.php:91
+#: templates/course/outline-list-small.php:93
 msgid "Open All"
 msgstr ""
 
-#: templates/course/outline-list-small.php:93
+#: templates/course/outline-list-small.php:95
 msgid "Close All"
 msgstr ""
 
