@@ -60,6 +60,15 @@ abstract class LLMS_Abstract_Notification_Controller implements LLMS_Interface_N
 	abstract public function get_title();
 
 	/**
+	 * Setup the subscriber options for the notification
+	 * @param    string     $type  notification type id
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	abstract public function set_subscriber_options( $type );
+
+	/**
 	 * Holds singletons for extending classes
 	 * @var  array
 	 */
@@ -114,8 +123,14 @@ abstract class LLMS_Abstract_Notification_Controller implements LLMS_Interface_N
 		$notification->set( 'user_id', $user_id ? $user_id : get_current_user_id() );
 		$notification->set( 'post_id', null );
 		$notification->set( 'trigger_id', $this->id );
+
 		return LLMS()->notifications()->get_view( $notification );
 
+	}
+
+
+	public function get_subscriber_options( $type ) {
+		return apply_filters( 'llms_notification_' . $this->id . '_supported_types', $this->set_subscriber_options( $type ), $this );
 	}
 
 	/**

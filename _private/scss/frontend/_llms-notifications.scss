@@ -15,7 +15,7 @@
 		right 0.4s ease-in-out,
 	;
 	visibility: none;
-	width: 340px;
+	width: 360px;
 
 	&.visible {
 		opacity: 1;
@@ -42,29 +42,48 @@
 
 	}
 
-	.llms-notification-title {
-		font-size: 20px;
-		margin: 0;
+	.llms-notification-content {
+		align-items: center;
+		display: flex;
 	}
 
-	.llms-notification-icon-wrap {
-		float: left;
-		margin-right: 12px;
-	}
-
-		.llms-notification-icon {
-			display: block;
-			max-height: 48px;
+		.llms-notification-main {
+			flex: 4;
+			order: 2;
 		}
 
-	.llms-notification-body {
-		font-size: 16px;
-		p, li {
-			font-size: inherit;
+			.llms-notification-title {
+				font-size: 18px;
+				margin: 0;
+			}
+
+			.llms-notification-body {
+				font-size: 14px;
+				line-height: 1.4;
+				p, li {
+					font-size: inherit;
+				}
+				p {
+					margin-bottom: 8px;
+				}
+			}
+
+		.llms-notification-aside {
+			flex: 1;
+			margin-right: 12px;
+			order: 1;
 		}
-		p {
-			margin-bottom: 8px;
-		}
+
+			.llms-notification-icon {
+				display: block;
+				max-width: 64px;
+			}
+
+	.llms-notification-footer {
+		border-top: 1px solid #e5e5e5;
+		font-size: 12px;
+		padding: 6px 6px 0;
+		margin-top: 12px;
 	}
 
 	.llms-notification-dismiss {

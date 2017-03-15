@@ -20,10 +20,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	}
 
-	private function get_option_name( $controller, $option ) {
-
-	}
-
 	public function get_settings() {
 
 		$settings = array();
@@ -60,7 +56,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 				$settings[] = array(
 					'title' => $controller->get_title() . ' (' . $type . ')',
 					'type' => 'subtitle',
-					'id' => 'notificatiion_options_subtitle',
+					'id' => 'notification_options_subtitle',
 				);
 
 				$settings[] = array(
@@ -90,11 +86,41 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 					);
 				}
 
+				$settings[] = array(
+					'title' => __( 'Subscribers', 'lifterlms' ),
+					'type' => 'subtitle',
+					'id' => 'notification_options_subtitle_subscribers',
+				);
+
+				$subscribers = $controller->get_subscriber_options( $type );
+var_dump( $view->get_option( 'subscribers' ) );
+				foreach ( $subscribers as $i => $data ) {
+
+					$sub_settings = array(
+						'default' => $data['enabled'] ? 'yes' : 'no',
+						'desc' => $data['title'],
+						'id' => $view->get_option_name( 'subscribers' ) . '[' . $data['id'] . ']',
+						'type' => 'checkbox',
+					);
+
+					if ( 0 === $i ) {
+						$sub_settings['title'] = __( 'Subscribers', 'lifterlms' );
+						$sub_settings['checkboxgroup'] = 'start';
+					} elseif ( count( $subscribers ) - 1 === $i ) {
+						$sub_settings['checkboxgroup'] = 'end';
+					} else {
+						$sub_settings['checkboxgroup'] = 'middle';
+					}
+
+					$settings[] = $sub_settings;
+
+				}
+
 
 			} else {
 
 				$settings[] = array(
-					'id' => 'notificatiion_options_invalid_error',
+					'id' => 'notification_options_invalid_error',
 					'type' => 'custom-html',
 					'value' => __( 'Invalid notification type', 'lifterlms' ),
 				);
@@ -102,7 +128,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 			}
 
 			$settings[] = array(
-				'id' => 'notificatiion_options_invalid_error',
+				'id' => 'notification_options_invalid_error',
 				'type' => 'custom-html',
 				'value' => '<small><a href="' . $back_url . '">' . __( 'Back to all notifications', 'lifterlms' ) . '</a></small>'
 			);

@@ -11,7 +11,7 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 		 * Time in milliseconds to show a notification
 		 * before automatically dismissing it
 		 */
-		'auto_dismiss' => 0,
+		'auto_dismiss' => 5000,
 		/**
 		 * Enables manual dismissal of notifications
 		 */
@@ -44,7 +44,7 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	 * @version  [version]
 	 */
 	protected function set_footer() {
-		return '';
+		return 'This is a Footer';
 	}
 
 	/**
@@ -96,7 +96,7 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	}
 
 	/**
-	 * Setup notification icon for output
+	 * Setup notification title for output
 	 * @return   string
 	 * @since    [version]
 	 * @version  [version]

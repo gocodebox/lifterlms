@@ -164,14 +164,18 @@ abstract class LLMS_Abstract_Notification_View {
 					<i class="llms-notification-dismiss fa fa-times-circle" aria-hidden="true"></i>
 				<?php endif; ?>
 
-				<?php if ( $icon ) : ?>
-					<aside class="llms-notification-icon-wrap">
-						<img class="llms-notification-icon" alt="<?php echo $title; ?>" src="<?php echo $icon; ?>">
-					</aside>
-				<?php endif; ?>
+				<section class="llms-notification-content">
+					<div class="llms-notification-main">
+						<h4 class="llms-notification-title"><?php echo $title; ?></h4>
+						<div class="llms-notification-body"><?php echo $body; ?></div>
+					</div>
 
-				<h4 class="llms-notification-title"><?php echo $title; ?></h4>
-				<div class="llms-notification-body"><?php echo $body; ?></div>
+					<?php if ( $icon ) : ?>
+						<aside class="llms-notification-aside">
+							<img class="llms-notification-icon" alt="<?php echo $title; ?>" src="<?php echo $icon; ?>">
+						</aside>
+					<?php endif; ?>
+				</section>
 
 				<?php if ( $footer ) : ?>
 					<footer class="llms-notification-footer"><?php echo $footer; ?></footer>

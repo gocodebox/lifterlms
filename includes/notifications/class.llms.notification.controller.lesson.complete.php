@@ -39,12 +39,43 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 		$this->user_id = $student_id;
 		$this->post_id = $lesson_id;
 		$this->lesson = llms_get_post( $lesson_id );
+		$this->course = $this->lesson->get_course();
 
-		// add a basic subscription
-		$this->subscribe( $student_id, 'basic' );
+		foreach ( $this->get_supported_types() as $type ) {
 
-		// add email subscription for the lesson author
-		$this->subscribe( $this->lesson->get( 'author' ), 'email' );
+			foreach ( $this->get_subscriber_options( $type ) as $data ) {
+
+				if ( 'no' === $data['enabled'] ) {
+					continue;
+				}
+
+				$uid = false;
+
+				switch ( $data['id'] ) {
+
+					case 'course_author':
+						$uid = $this->course->get( 'author' );
+					break;
+
+					case 'lesson_author':
+						$uid = $this->lesson->get( 'author' );
+					break;
+
+					case 'student':
+						$uid = $this->user_id;
+					break;
+
+				}
+
+				if ( $uid ) {
+
+					$this->subscribe( $uid, $type );
+
+				}
+
+			}
+
+		}
 
 		$this->send();
 
@@ -60,6 +91,52 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	public function get_title() {
 		return __( 'Lesson Complete', 'lifterlms' );
 	}
+
+	/**
+	 * Setup the subscriber options for the notification
+	 * @param    string     $type  notification type id
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function set_subscriber_options( $type ) {
+
+		$options = array();
+
+		switch ( $type ) {
+
+			case 'basic':
+				$options[] = array(
+					'enabled' => 'yes',
+					'id' => 'student',
+					'title' => __( 'Student', 'lifterlms' ),
+				);
+			break;
+
+			case 'email':
+				$options[] = array(
+					'enabled' => 'no',
+					'id' => 'student',
+					'title' => __( 'Student', 'lifterlms' ),
+				);
+				$options[] = array(
+					'enabled' => 'no',
+					'id' => 'course_author',
+					'title' => __( 'Course Author', 'lifterlms' ),
+				);
+				$options[] = array(
+					'enabled' => 'yes',
+					'id' => 'lesson_author',
+					'title' => __( 'Lesson Author', 'lifterlms' ),
+				);
+			break;
+
+		}
+
+		return $options;
+
+	}
+
 
 }
 

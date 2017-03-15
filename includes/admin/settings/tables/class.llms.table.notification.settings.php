@@ -36,6 +36,14 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 				$value = '<a class="llms-button-secondary small" href="' . $url . '"><span class="dashicons dashicons-admin-generic"></span></a>';
 			break;
 
+			case 'subscribers':
+				// foreach ( $data['subscribers'] as $subscribers ) {
+
+				// }
+				// $value = implode( ', ', $subscribers, 'title' ) ) ;
+				$value = '';
+			break;
+
 			default:
 				$value = $data[ $key ];
 
@@ -61,13 +69,13 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 			$base = array(
 				'id' => $controller->id,
 				'name' => $controller->get_title(),
-				'subscribers' => '',
+				'subscribers' => array(),
 				'type' => '',
 			);
 
 			foreach ( $controller->get_supported_types() as $type ) {
 				$base['type'] = $type;
-				// $base['subscribers'] = $controller->get_subscriber_options( $type );
+				$base['subscribers'] = array_values( $controller->get_subscriber_options( $type ) );
 				$rows[] = $base;
 			}
 
