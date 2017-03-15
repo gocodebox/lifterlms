@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version 3.4.0
+ * @version 3.5.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -141,8 +141,8 @@ class LLMS_Controller_Orders {
 	 * 			triggering the "lifterlms_process_payment_redirect" // todo check this last statement
 	 *
 	 * @return void
-	 *
-	 * @version  3.0.0
+	 * @since    3.0.0
+	 * @version  3.5.0
 	 */
 	public function create_pending_order() {
 
@@ -242,6 +242,11 @@ class LLMS_Controller_Orders {
 
 		// validation or registration issues
 		if ( is_wp_error( $person_id ) ) {
+			// existing user fails validation from the free checkout form
+			if ( isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] ) {
+				wp_redirect( $plan->get_checkout_url() );
+				exit;
+			}
 			foreach ( $person_id->get_error_messages() as $msg ) {
 				llms_add_notice( $msg, 'error' );
 			}

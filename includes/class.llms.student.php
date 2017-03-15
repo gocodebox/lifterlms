@@ -245,7 +245,6 @@ class LLMS_Student {
 
 	}
 
-
 	/**
 	 * Retrieve certificates that a user has earned
 	 * @param  string $orderby field to order the returned results by
@@ -271,9 +270,11 @@ class LLMS_Student {
 
 	}
 
+
 	public function get_avatar( $size = 96 ) {
 		return '<span class="llms-student-avatar">' . get_avatar( $this->get_id(), $size, null, $this->get_name() ) . '</span>';
 	}
+
 
 	public function get_best_quiz_attempt( $quiz = null, $lesson = null ) {
 
@@ -927,11 +928,11 @@ class LLMS_Student {
 	 * Get the full name of a student
 	 * @return   string
 	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @version  3.5.1
 	 */
 	public function get_name() {
 
-		$name = trim( $this->first_name . ' ' . $this->last_name );
+		$name = trim( $this->get( 'first_name' ) . ' ' . $this->get( 'last_name' ) );
 
 		if ( ! $name ) {
 			$name = $this->display_name;
@@ -962,6 +963,7 @@ class LLMS_Student {
 		return false;
 
 	}
+
 
 	public function get_orders( $params = array() ) {
 
@@ -1118,6 +1120,44 @@ class LLMS_Student {
 	}
 
 	/**
+	 * Determine if a student has access to a product's content
+	 * @param    int     $product_id    WP Post ID of a course or membership
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function has_access( $product_id ) {
+
+		$enrolled = $this->is_enrolled( $product_id );
+
+		$order = $this->get_enrollment_order( $product_id );
+
+		// if we have an order, check the access status
+		if ( $order && $order instanceof LLMS_Order ) {
+
+			// legacy orders should return the original enrollment status
+			if ( $order->is_legacy() ) {
+
+				return $enrolled;
+
+			} else {
+
+				// true if access is active and student is enrolled
+				return ( $order->has_access() && $enrolled );
+
+			}
+
+		}
+
+		// no order found
+		// backwards compatibility
+		// and manual enrollment by admin, voucher enrollment, etc... (?)
+		return $enrolled;
+
+	}
+
+
+	/**
 	 * Determine if the student has completed a course, track, or lesson
 	 *
 	 * @param    int     $object_id  WP Post ID of a course or lesson or section or the term id of the track
@@ -1154,44 +1194,6 @@ class LLMS_Student {
 			break;
 
 		}
-
-	}
-
-
-	/**
-	 * Determine if a student has access to a product's content
-	 * @param    int     $product_id    WP Post ID of a course or membership
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function has_access( $product_id ) {
-
-		$enrolled = $this->is_enrolled( $product_id );
-
-		$order = $this->get_enrollment_order( $product_id );
-
-		// if we have an order, check the access status
-		if ( $order && $order instanceof LLMS_Order ) {
-
-			// legacy orders should return the original enrollment status
-			if ( $order->is_legacy() ) {
-
-				return $enrolled;
-
-			} else {
-
-				// true if access is active and student is enrolled
-				return ( $order->has_access() && $enrolled );
-
-			}
-
-		}
-
-		// no order found
-		// backwards compatibility
-		// and manual enrollment by admin, voucher enrollment, etc... (?)
-		return $enrolled;
 
 	}
 
@@ -1239,6 +1241,61 @@ class LLMS_Student {
 
 	}
 
+	/**
+	 * Add student postmeta data for incompletion of a lesson, section, course or track
+	 * An "_is_complete" value of "no" is inserted into postmeta
+	 * @param  int        $object_id    WP Post ID of the lesson, section, course or track
+	 * @param  string     $trigger      String describing the reason for mark incompletion
+	 * @return boolean
+	 *
+	 * @since    3.5.0
+	 * @version  3.5.0
+	 */
+	private function insert_incompletion_postmeta( $object_id, $trigger = 'unspecified' ) {
+
+		global $wpdb;
+
+		// add '_is_complete' to the user postmeta table for object
+		$user_metadatas = array(
+			'_is_complete'        => 'no',
+			'_completion_trigger' => $trigger,
+		);
+
+		foreach ( $user_metadatas as $key => $value ) {
+
+			// It's too difficult to keep track of multiple postmetas for each lesson incomplete
+			// Instead, I'm just replacing the old '_is_complete' value with 'no'
+			//
+			// lessons that have never been complete will not have an '_is_complete' record,
+			// lessons that were completed will have an '_is_complete' record of 'yes',
+			// lessons that have been completed once but were marked incomplete will have an '_is_complete' record of 'no'
+			$update = $wpdb->update( $wpdb->prefix . 'lifterlms_user_postmeta',
+				array(
+					'user_id'      => $this->get_id(),
+					'post_id'      => $object_id,
+					'meta_key'     => $key,
+					'meta_value'   => $value,
+					'updated_date' => current_time( 'mysql' ),
+				),
+				array(
+					'user_id'	   => $this->get_id(),
+					'post_id'      => $object_id,
+					'meta_key'     => $key,
+				),
+				array( '%d', '%d', '%s', '%s', '%s' )
+			);
+
+			if ( $update === false ) {
+
+				return false;
+
+			}
+
+		}
+
+		return true;
+
+	}
 
 	/**
 	 * Add student postmeta data for enrollment into a course or membership
@@ -1339,7 +1396,6 @@ class LLMS_Student {
 
 	}
 
-
 	/**
 	 * Determine if a student is enrolled in a LifterLMS course, lesson, or membership
 	 *
@@ -1431,6 +1487,95 @@ class LLMS_Student {
 				foreach ( $parent_ids as $pid ) {
 
 					$this->mark_complete( $pid, $parent_type, $trigger );
+
+				}
+
+			}
+
+			return true;
+
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Mark a lesson, section, course, or track INcomplete for the given user
+	 * Gives an "_is_complete" value of "no" for the given object
+	 * @param  int     $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param  string  $object_type  object type [lesson|section|course|track]
+	 * @param  string  $trigger      String describing the reason for marking incomplete
+	 * @return boolean
+	 *
+	 * @see    llms_mark_incomplete() calls this function without having to instantiate the LLMS_Student class first
+	 *
+	 * @since    3.5.0
+	 * @version  3.5.0
+	 */
+	public function mark_incomplete( $object_id, $object_type, $trigger = 'unspecified' ) {
+
+		do_action( 'before_llms_mark_incomplete', $this->get_id(), $object_id, $object_type, $trigger );
+
+		// can only be marked incompelete in the following post types
+		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
+			$object = llms_get_post( $object_id );
+		} // tracks
+		elseif ( 'course_track' === $object_type ) {
+			$object = get_term( $object_id );
+		} // i said no
+		else {
+			return false;
+		}
+
+		// parent(s) to cascade up and check for incompletion
+		// lessons -> section -> course -> track(s)
+		$parent_ids = array();
+		$parent_type = false;
+
+		// lessons are incomplete automatically
+		// other object types are only incomplete when all of their children are also incomplete
+		// so the other object types need to check if their complete before being marked as complete
+		$complete = ( 'lesson' === $object_type ) ? false : $this->is_complete( $object_id, $object_type );
+
+		// get the immediate parent so we can cascade up and maybe mark the parent as incomplete as well
+		switch ( $object_type ) {
+
+			case 'lesson':
+				$parent_ids = array( $object->get( 'parent_section' ) );
+				$parent_type = 'section';
+			break;
+
+			case 'section':
+				$parent_ids = array( $object->get( 'parent_course' ) );
+				$parent_type = 'course';
+			break;
+
+			case 'course':
+				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
+				$parent_type = 'track';
+			break;
+
+		}
+
+		// object is incomplete
+		if ( $complete === false ) {
+
+			// insert meta data
+			$this->insert_incompletion_postmeta( $object_id, $trigger );
+
+			// generic action hook
+			do_action( 'llms_mark_incomplete', $this->get_id(), $object_id, $object_type, $trigger );
+
+			// specific hook for each type, also backwards compatible for existing hooks
+			do_action( 'lifterlms_' . $object_type . '_incompleted', $this->get_id(), $object_id );
+
+			// cascade up
+			if ( $parent_ids && $parent_type ) {
+
+				foreach ( $parent_ids as $pid ) {
+
+					$this->mark_incomplete( $pid, $parent_type, $trigger );
 
 				}
 

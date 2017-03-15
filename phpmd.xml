@@ -15,6 +15,9 @@
 		<!-- in lack of real namespacing -->
 		<exclude name="StaticAccess" />
 
+		<!-- I disagree with this -->
+		<exclude name="ElseExpression" />
+
 	</rule>
 
 

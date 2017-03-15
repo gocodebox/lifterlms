@@ -2,7 +2,7 @@
 /**
  * Individual Access Plan
  *
- * @since  3.0.0
+ * @since  3.5.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
@@ -61,7 +61,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					</td>
 					<td class="expandable closed">
 						<?php if ( $txn_id = $txn->get( 'gateway_transaction_id' ) ) : ?>
-							<?php $txn_url = $gateway->get_transaction_url( $txn_id ); ?>
+							<?php $txn_url = $gateway->get_transaction_url( $txn_id, $txn->get( 'api_mode' ) ); ?>
 							<?php if ( false === filter_var( $txn_url, FILTER_VALIDATE_URL ) ) : ?>
 								<?php echo $txn_id; ?>
 							<?php else : ?>

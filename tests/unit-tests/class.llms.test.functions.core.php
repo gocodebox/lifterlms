@@ -291,5 +291,4 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	}
 
-
 }

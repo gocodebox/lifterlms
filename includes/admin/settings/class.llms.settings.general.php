@@ -2,7 +2,7 @@
 /**
  * Admin Settings Page, General Tab
  * @since  1.0.0
- * @version  3.0.0
+ * @version  3.5.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -31,7 +31,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 *
 	 * @return array
 	 * @since  1.0.0
-	 * @version  3.0.0
+	 * @version  3.5.0
 	 */
 	public function get_settings() {
 
@@ -40,11 +40,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			array(
 					'type' => 'custom-html',
 					'value' => self::get_stats_widgets(),
-			),
-
-			array(
-				'type' => 'custom-html',
-				'value' => self::get_big_banners(),
 			),
 
 			array(
@@ -111,7 +106,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			array(
 				'desc' => __( 'Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site.', 'lifterlms' ),
 				'name' => 'automatic-payments',
-				'title' => __( 'Automatic Paymets', 'lifterlms' ),
+				'title' => __( 'Automatic Payments', 'lifterlms' ),
 				'type' 		=> 'button',
 				'value' => __( 'Reset Automatic Payments', 'lifterlms' ),
 			),
@@ -214,145 +209,54 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 	public static function get_stats_widgets() {
 
-		$students_enrolled = LLMS_Analytics::get_users_enrolled_last_n_days( 7 );
-		$members_registered = LLMS_Analytics::get_members_registered_last_n_days( 7 );
-		$lessons_completed = LLMS_Analytics::get_lessons_completed_last_n_days( 7 );
-		$total_sales = LLMS_Analytics::get_total_sales_last_n_days( 7 );
+		ob_start();
 
-		$html = '<div class="llms-widget-row">
-					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">' . __( 'Course Enrollments This Week', 'lifterlms' ) . '</p><h1>' . $students_enrolled . '</h1></div>
-					</div>
-					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">' . __( 'New Members This Week', 'lifterlms' ) . '</p><h1>' . $members_registered . '</h1></div>
-					</div>
-					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">' . __( 'Lessons Completed This Week', 'lifterlms' ) . '</p><h1>' . $lessons_completed . '</h1></div>
-					</div>
-					<div class="llms-widget-1-4">
-						<div class="llms-widget"><p class="llms-label">' . __( 'Total Sales This Week', 'lifterlms' ) . '</p><h1>' . $total_sales . '</h1></div>
-					</div>
-				</div>';
-		return preg_replace( '~>\s+<~', '><', $html );
-	}
-
-	/**
-	 * Output the set of two-column banners
-	 * @return string
-	 */
-	public static function get_big_banners() {
-
-		$banners = array(
-			'lifterlms-pro' => array(
-				'type' => 'service',
-				'title' => 'Lifter LMS Pro',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-pro.png',
-				'link' => 'https://lifterlms.com/product/lifterlms-pro?ims=kujno&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=LifterLMS+Pro+Ad+001',
+		echo '<h3>' . __( 'Activity This Week', 'lifterlms' ) . '</h3>';
+		echo '<style type="text/css">#llms-charts-wrapper{display:none;}</style>';
+		llms_get_template( 'admin/reporting/tabs/widgets.php', array(
+			'json' => json_encode( array(
+				'current_tab' => 'settings',
+				'current_range' => 'last-7-days',
+				'current_students' => array(),
+				'current_courses' => array(),
+				'current_memberships' => array(),
+				'dates' => array(
+					'start' => date( 'Y-m-d', current_time( 'timestamp' ) - WEEK_IN_SECONDS ),
+					'end' => current_time( 'Y-m-d' ),
+				),
+			) ),
+			'widget_data' => array(
+				array(
+					'enrollments' => array(
+						'title' => __( 'Enrollments', 'lifterlms' ),
+						'cols' => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info' => __( 'Number of total enrollments during the selected period', 'lifterlms' ),
+					),
+					'registrations' => array(
+						'title' => __( 'Registrations', 'lifterlms' ),
+						'cols' => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info' => __( 'Number of total user registrations during the selected period', 'lifterlms' ),
+					),
+					'sold' => array(
+						'title' => __( 'Net Sales', 'lifterlms' ),
+						'cols' => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info' => __( 'Total of all successful transactions during this period', 'lifterlms' ),
+					),
+					'lessoncompletions' => array(
+						'title' => __( 'Lessons Completed', 'lifterlms' ),
+						'cols' => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info' => __( 'Number of total lessons completed during the selected period', 'lifterlms' ),
+					),
+				),
 			),
-			'lifterlms-launchpad' => array(
-				'type' => 'theme',
-				'title' => 'LifterLMS LaunchPad Theme',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-launchpad.png',
-				'link' => 'https://lifterlms.com/launchpad/?utm_source=Plugin&utm_medium=Plugin%20Ad&utm_campaign=Plugin%20to%20LaunchPad',
-			),
-			'lifterlms-stripe' => array(
-				'type' => 'plugin',
-				'title' => 'Stripe Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/stripe-w-desc.png',
-				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Stripe+Ad+001',
-			),
-			'lifterlms-gateway-paypal' => array(
-				'type' => 'plugin',
-				'title' => 'PayPal Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/paypal.jpg',
-				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=PayPal+Ad+001',
-			),
-			'lifterlms-integration-woocommerce' => array(
-				'type' => 'plugin',
-				'title' => 'WooCommerce Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/woocommerce.jpg',
-				'link' => 'https://lifterlms.com/product/stripe-extension/?ims=ystxm&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=WooCommerce+Ad+001',
-			),
-			'lifterlms-convertkit' => array(
-				'type' => 'plugin',
-				'title' => 'ConvertKit',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/convertkit.png',
-				'link'	=> 'https://lifterlms.com/product/lifterlms-convertkit/?utm_source=Plugin&utm_medium=Plugin%2BDashboard&utm_content=Plugin%2BAd&utm_campaign=Plugin',
-			),
-			'lifterlms-mailchimp' => array(
-				'type' => 'plugin',
-				'title' => 'Mailchimp Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/mailchimp-w-desc.png',
-				'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Mailchimp+Ad+001',
-			),
-			'lifterlms-integration-gravity-forms' => array(
-				'type' => 'plugin',
-				'title' => 'GravityForms Plugin',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/gravityforms.jpg',
-				'link' => 'https://lifterlms.com/product/mailchimp-extension/?ims=ycdkk&utm_campaign=Plugin+to+Sale&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=GravityForms+Ad+001',
-			),
-			'lifterlms-boost' => array(
-				'type' => 'service',
-				'title' => 'Boost',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/boost.png',
-				'link'	=> 'https://lifterlms.com/boost?utm_source=Plugin%20&utm_medium=Plugin%20Ad&utm_campaign=Plugin%20to%20Boost',
-			),
-			'lifterlms-turbo-boost' => array(
-				'type' => 'service',
-				'title' => 'Turbo Boost',
-				'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/turbo-boost.png',
-				'link'	=> 'https://lifterlms.com/boost?utm_source=Plugin%20&utm_medium=Plugin%20Ad&utm_campaign=Plugin%20to%20Boost',
-			),
-		);
+		) );
 
-		// get installed themes and plugins
-		// only show banners for products that aren't installed
-		$plugins = array_keys( get_plugins() );
-		$themes = array_keys( wp_get_themes() );
+		return ob_get_clean();
 
-		$html = '<div class="llms-widget-row">';
-
-		foreach ( $banners as $slug => $banner ) {
-
-			// if the product has been installed don't show the banner
-			switch ( $banner['type'] ) {
-
-				case 'plugin':
-					if ( in_array( $slug . DIRECTORY_SEPARATOR . $slug . '.php', $plugins ) ) {
-						continue 2;
-					}
-				break;
-
-				// case 'service':
-				// break;
-
-				case 'theme':
-					if ( in_array( $slug , $themes ) ) {
-						continue 2;
-					}
-				break;
-
-			}
-
-			$html .= '<div class="llms-widget-1-2"><div class="llms-widget llms-banner-image">';
-
-			if ( isset( $banner['link'] ) ) {
-				$html .= '<a href="' . $banner['link'] . '" target="_blank">';
-			}
-
-			$html .= '<img width="100%" src="' . $banner['image'] . '" alt="' . $banner['image'] . '">';
-
-			if ( isset( $banner['link'] ) ) {
-				$html .= '</a>';
-			}
-
-			$html .= '</div></div>';
-
-		}
-
-		$html .= '</div>';
-
-		return $html;
 	}
 
 	public static function get_small_banners() {

@@ -45,7 +45,8 @@ class LLMS_Admin_Settings {
 			include_once( 'settings/class.llms.settings.page.php' );
 
 			$settings[] = include( 'settings/class.llms.settings.general.php' );
-			$settings[] = include( 'settings/class.llms.settings.catalogs.php' );
+			$settings[] = include( 'settings/class.llms.settings.courses.php' );
+			$settings[] = include( 'settings/class.llms.settings.memberships.php' );
 			$settings[] = include( 'settings/class.llms.settings.accounts.php' );
 			$settings[] = include( 'settings/class.llms.settings.checkout.php' );
 			$settings[] = include( 'settings/class.llms.settings.engagements.php' );

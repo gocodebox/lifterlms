@@ -126,8 +126,3 @@ install_db() {
 install_wp
 install_test_suite
 install_db
-
-
-
-# mkdir ./tmp
-# svn co http://develop.svn.wordpress.org/trunk/ ./tmp/wordpress-develop

@@ -4,7 +4,7 @@
  *
  * Sets up admin menu items.
  * @since   1.0.0
- * @version 3.2.0
+ * @version 3.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,12 +14,13 @@ class LLMS_Admin_Menus {
 	/**
 	 * Constructor
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.5.0
 	 */
 	public function __construct() {
 
 		add_filter( 'custom_menu_order', array( $this, 'submenu_order' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
+		add_action( 'admin_menu', array( $this, 'display_admin_menu_late' ), 7777 );
 
 	}
 
@@ -66,6 +67,37 @@ class LLMS_Admin_Menus {
 
 		}
 
+	}
+
+	/**
+	 * Add items to the admin menu with a later priority
+	 * @return   void
+	 * @since    3.5.0
+	 * @version  3.5.0
+	 */
+	public function display_admin_menu_late() {
+
+		/**
+		 * Do you not want your clients buying addons or fiddling with this screen?
+		 */
+		if ( apply_filters( 'lifterlms_disable_addons_screen', false ) ) {
+			return;
+		}
+
+		if ( current_user_can( apply_filters( 'lifterlms_admin_menu_access', 'manage_options' ) ) ) {
+			add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons', 'lifterlms' ), __( 'Add-ons', 'lifterlms' ), 'manage_options', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
+		}
+	}
+
+	/**
+	 * Outupt the addons screen
+	 * @since    3.5.0
+	 * @version  3.5.0
+	 */
+	public function add_ons_page_init() {
+		require_once 'class.llms.admin.addons.php';
+		$view = new LLMS_Admin_AddOns();
+		$view->output();
 	}
 
 	/**

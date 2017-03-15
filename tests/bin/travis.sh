@@ -8,6 +8,9 @@ if [ $1 == 'before' ]; then
 
 elif [ $1 == 'during' ]; then
 
+	# ensure that we exit as soon as we encounter an error
+	set -e
+
 	# lint
 	find -L . -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l;
 
@@ -15,6 +18,6 @@ elif [ $1 == 'during' ]; then
 	composer run-script phpcs
 
 	# phpunit
-	phpunit --coverage-clover build/logs/clover.xml
+	./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 fi

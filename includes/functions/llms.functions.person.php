@@ -144,6 +144,23 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 }
 
 /**
+ * Checks if the given object is complete for the given student
+ * @param  int $user_id      WP User ID of the user
+ * @param  int $object_id    WP Post ID of a Course, Section, or Lesson
+ * @param  int $object_type  Type, either Course, Section, or Lesson
+ *
+ * @see  LLMS_Student->is_complete()
+ *
+ * @return bool    true if complete, false otherwise
+ *
+ * @version  3.3.1  updated to use LLMS_Studnet->is_enrolled()
+ */
+function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
+	$s = new LLMS_Student( $user_id );
+	return $s->is_complete( $object_id, $object_type );
+}
+
+/**
  * Mark a lesson, section, course, or track as complete
  * @param  int     $user_id   	 WP User ID
  * @param  int     $object_id  	 WP Post ID of the Lesson, Section, Track, or Course
@@ -159,6 +176,24 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
 	return $student->mark_complete( $object_id, $object_type, $trigger );
+}
+
+/**
+ * Mark a lesson, section, course, or track as incomplete
+ * @param  int     $user_id   	 WP User ID
+ * @param  int     $object_id  	 WP Post ID of the Lesson, Section, Track, or Course
+ * @param  int     $object_type	 object type [lesson|section|course|track]
+ * @param  string  $trigger    	 String describing the event that triggered marking the object as incomplete
+ * @return bool
+ *
+ * @see    LLMS_Student->mark_incomplete() the class method wrapped by this function
+ *
+ * @since     3.5.0
+ * @version   3.5.0
+ */
+function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->mark_incomplete( $object_id, $object_type, $trigger );
 }
 
 /**
