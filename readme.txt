@@ -172,6 +172,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Fix course outline shortcode when used on a lesson
 + Fix custom html form fields produced by `llms_form_field()`
 
+
 = v3.5.1 - 2017/03/15 =
 -----------------------
 
