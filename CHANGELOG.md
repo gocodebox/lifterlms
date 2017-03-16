@@ -6,6 +6,7 @@ v3.5.2 - 2017/03/16
 + Fix course outline shortcode when used on a lesson
 + Fix custom html form fields produced by `llms_form_field()`
 
+
 v3.5.1 - 2017/03/15
 -------------------
 
