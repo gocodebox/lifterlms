@@ -81,7 +81,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 *
 	 * @return   string
 	 * @since    3.5.1
-	 * @version  3.5.1
+	 * @version  3.5.2
 	 */
 	protected function get_output() {
 
@@ -121,7 +121,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 			}
 
 			$args['sections'] = $course->get_sections();
-			$args['current_section'] = isset( $lesson ) ? $lesson->get( 'parent_section' ) : false;
+			$args['current_section'] = ! empty( $lesson ) ? $lesson->get( 'parent_section' ) : false;
 
 		}
 

@@ -339,7 +339,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.5.2
  */
 function llms_form_field( $field = array(), $echo = true ) {
 
@@ -437,7 +437,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 			break;
 
 		case 'html':
-			$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '"></div>';
+			$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '">' . $field['value'] . '</div>';
 			break;
 
 		case 'select':
