@@ -1,5 +1,16 @@
 == Changelog ==
 
+= v3.5.3 - 2017/03/21 =
+-----------------------
+
++ Ensure that access plan subscription schedule details are fully translateable
++ Ensure "Services" title on admin add-ons screen can be translated
++ Fix "View All My Courses" link on Student Dashboard to obey endpoint slug customizations
++ Membership restriction checks only run on singular posts (not on archives)
++ Ensure `[lifterlms_course_outline]` and Course Syllabus widget can be used on Quizzes.
++ Fix reporting widgets for course & lesson completions to report the correct completion types only
+
+
 = v3.5.2 - 2017/03/16 =
 -----------------------
 

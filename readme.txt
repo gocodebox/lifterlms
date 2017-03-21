@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.3
-Stable tag: 3.5.2
+Stable tag: 3.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,17 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.5.3 - 2017/03/21 =
+-----------------------
+
++ Ensure that access plan subscription schedule details are fully translateable
++ Ensure "Services" title on admin add-ons screen can be translated
++ Fix "View All My Courses" link on Student Dashboard to obey endpoint slug customizations
++ Membership restriction checks only run on singular posts (not on archives)
++ Ensure `[lifterlms_course_outline]` and Course Syllabus widget can be used on Quizzes.
++ Fix reporting widgets for course & lesson completions to report the correct completion types only
+
 
 = v3.5.2 - 2017/03/16 =
 -----------------------

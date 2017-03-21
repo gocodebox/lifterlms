@@ -38,11 +38,11 @@ msgstr ""
 msgid "First"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:498, templates/myaccount/my-courses.php:75, templates/myaccount/my-orders.php:55
+#: includes/abstracts/abstract.llms.admin.table.php:498, templates/myaccount/my-courses.php:76, templates/myaccount/my-orders.php:55
 msgid "Back"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:280, includes/class.llms.shortcodes.php:475, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:82, templates/myaccount/my-orders.php:61
+#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:280, includes/class.llms.shortcodes.php:475, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:83, templates/myaccount/my-orders.php:61
 msgid "Next"
 msgstr ""
 
@@ -284,15 +284,19 @@ msgstr ""
 msgid "Tools & Utilities"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:125
+#: includes/admin/class.llms.admin.addons.php:112
+msgid "Services"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:129
 msgid "There was an error retrieving add-ons. Please try again."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:131
+#: includes/admin/class.llms.admin.addons.php:135
 msgid "LifterLMS Add-Ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:158
+#: includes/admin/class.llms.admin.addons.php:162
 msgid "Developer:"
 msgstr ""
 
@@ -3807,7 +3811,7 @@ msgstr ""
 msgid "New Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:359, includes/class.llms.post-types.php:360, templates/loop/view-link.php:20, templates/myaccount/my-courses.php:59
+#: includes/class.llms.post-types.php:359, includes/class.llms.post-types.php:360, templates/loop/view-link.php:20, templates/myaccount/my-courses.php:60
 msgid "View Course"
 msgstr ""
 
@@ -6786,26 +6790,22 @@ msgctxt "Access period description"
 msgid "%1$d %2$s of access"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:375
+#: includes/models/model.llms.access.plan.php:376
 msgctxt "subscription schedule"
-msgid "per %1$s"
+msgid "per %s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:383
+#: includes/models/model.llms.access.plan.php:384
 msgctxt "subscription schedule"
-msgid "every %2$s %1$s"
-msgid_plural "every %2$s %1$ss"
-msgstr[0] ""
-msgstr[1] ""
+msgid "every %1$d %2$s"
+msgstr ""
 
-#: includes/models/model.llms.access.plan.php:392
+#: includes/models/model.llms.access.plan.php:393
 msgctxt "subscription # of payments"
-msgid "for %3$s %1$s"
-msgid_plural "for %3$s %1$ss"
-msgstr[0] ""
-msgstr[1] ""
+msgid "for %1$d %2$s"
+msgstr ""
 
-#: includes/models/model.llms.access.plan.php:416
+#: includes/models/model.llms.access.plan.php:417
 msgctxt "trial offer description"
 msgid "for %1$d %2$s"
 msgstr ""
@@ -7931,27 +7931,27 @@ msgstr ""
 msgid "Complete courses and lessons to earn certificates."
 msgstr ""
 
-#: templates/myaccount/my-courses.php:13
+#: templates/myaccount/my-courses.php:14
 msgid "Courses In-Progress"
 msgstr ""
 
-#: templates/myaccount/my-courses.php:16
+#: templates/myaccount/my-courses.php:17
 msgid "You are not enrolled in any courses."
 msgstr ""
 
-#: templates/myaccount/my-courses.php:31
+#: templates/myaccount/my-courses.php:32
 msgid "Status:"
 msgstr ""
 
-#: templates/myaccount/my-courses.php:37
+#: templates/myaccount/my-courses.php:38
 msgid "Course Started"
 msgstr ""
 
-#: templates/myaccount/my-courses.php:43
+#: templates/myaccount/my-courses.php:44
 msgid "Author: %s"
 msgstr ""
 
-#: templates/myaccount/my-courses.php:87
+#: templates/myaccount/my-courses.php:88
 msgid "View All My Courses"
 msgstr ""
 
