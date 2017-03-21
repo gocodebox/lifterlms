@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  3.2.5
+ * @version  3.5.3
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -43,11 +43,11 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	if ( is_search() && ! get_option( 'lifterlms_membership_required', '' ) ) {
 		return apply_filters( 'llms_page_restricted', $results, $post_id );
 	} // content is restricted by a sitewide membership
-	elseif ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id ) ) {
+	elseif ( is_singular() && $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id ) ) {
 		$restriction_id = $membership_id;
 		$reason = 'sitewide_membership';
 	} // content is restricted by a membership
-	elseif ( $membership_id = llms_is_post_restricted_by_membership( $post_id, $user_id ) ) {
+	elseif ( is_singular() && $membership_id = llms_is_post_restricted_by_membership( $post_id, $user_id ) ) {
 		$restriction_id = $membership_id;
 		$reason = 'membership';
 	} // checks for lessons
