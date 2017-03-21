@@ -1,9 +1,12 @@
 == Changelog ==
 
-v3.5.3 - 2017/03/16
+v3.5.3 - 2017/03/??
 -------------------
 
 + Ensure "Services" title on admin add-ons screen can be translated
++ Fix "View All My Courses" link on Student Dashboard to obey endpoint slug customizations
++ Membership restriction checks only run on singular posts (not on archives)
++ Ensure `[lifterlms_course_outline]` and Course Syllabus widget can be used on Quizzes.
 
 
 v3.5.2 - 2017/03/16

@@ -5,7 +5,7 @@
  * [lifterlms_course_outline]
  *
  * @since    3.5.1
- * @version  3.5.1
+ * @version  3.5.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -22,7 +22,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 * Retrieve the default course id depending on the current post
 	 * @return   int|null
 	 * @since    3.5.1
-	 * @version  3.5.1
+	 * @version  3.5.3
 	 */
 	private function get_course_id() {
 
@@ -46,8 +46,15 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 
 				case 'llms_quiz':
 					$quiz = llms_get_post( $post_id );
-					$lesson = llms_get_post( $quiz->get_assoc_lesson() );
-					$course_id = $lesson->get( 'parent_course' );
+					$lesson_id = $quiz->get_assoc_lesson( get_current_user_id() );
+					if ( ! $lesson_id ) {
+						$session = LLMS()->session->get( 'llms_quiz' );
+						$lesson_id = ( $session && isset( $session->assoc_lesson ) ) ? $session->assoc_lesson : false;
+					}
+					if ( $lesson_id ) {
+						$lesson = llms_get_post( $lesson_id );
+						$course_id = $lesson->get( 'parent_course' );
+					}
 				break;
 
 			}
