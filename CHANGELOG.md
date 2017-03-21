@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.5.3 - 2017/03/16
+-------------------
+
++ Ensure "Services" title on admin add-ons screen can be translated
+
+
 v3.5.2 - 2017/03/16
 -------------------
 
