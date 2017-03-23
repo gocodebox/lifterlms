@@ -166,6 +166,21 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+v3.6.0 - 2017/03/??
+-----------------------
+
++ Courses and Memberships now have settings to control their visibility in catalogs and search results. For more information visit the [knowledge base](https://lifterlms.com/docs/course-membership-visibility-settings/).
++ Courses are now a searchable post type. All existing courses will automatically remain excluded from search via new catalog visibility settings. New courses added after this date will be searchable unless the visibility is updated prior to publishing the course.
++ Added options (and filters) to allow customization of the order of courses displayed on the Student Dashboard
+  + Existing behavior (ordered by enrollment date, most recent to least recent) will be preserved
+  + New installations will default (by popular demand) to Order (Low to High) which will obey the "Order" settings of courses
+  + Customize or update the order for your site by visiting LifterLMS -> Settings -> Accounts and changing the setting for "Courses Sorting" under "Account Dashboard"
++ "Back" & "Next" pagination links on Student Dashboard View Courses are now buttons instaed of text links
++ New shortcode `[llms_course_syllabus]`
++ Fixed an issue preventing pagination links from displaying on the "View Courses" page of the student dashboard when the endpoint slug was customized
++ Course and Membership taxonomy archive pages will now properly match the heights of tiles
+
+
 = v3.5.3 - 2017/03/21 =
 -----------------------
 
