@@ -2,7 +2,7 @@
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.4.1
+* @version  3.6.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -122,7 +122,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.4.3
+	 * @version 3.6.0
 	 */
 	public static function enqueue_scripts() {
 
@@ -134,7 +134,7 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'transition', plugins_url( 'assets/js/vendor/transition.js', LLMS_PLUGIN_FILE ) );
 
 		wp_register_script( 'llms-jquery-matchheight', plugins_url( 'assets/js/vendor/jquery.matchHeight.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
-		if ( is_course() || is_membership() || is_lesson() || is_memberships() || is_courses() ) {
+		if ( is_course() || is_membership() || is_lesson() || is_memberships() || is_courses() || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 			wp_enqueue_script( 'llms-jquery-matchheight' );
 		}
 
