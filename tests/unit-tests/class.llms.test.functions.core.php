@@ -343,14 +343,14 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * Test llms_trim_string()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.6.0
 	 */
-	public function llms_trim_string() {
+	public function test_llms_trim_string() {
 
-		$this->assertEquals( 'yasssss', wc_trim_string( 'yasssss' ) );
-		$this->assertEquals( 'yass',    wc_trim_string( 'yasssss', 4 ) );
-		$this->assertEquals( 'yas.',    wc_trim_string( 'yasssss', 3, '.' ) );
-		$this->assertEquals( 'yassss$', wc_trim_string( 'yassss$', 7, '' ) );
+		$this->assertEquals( 'yasssss', llms_trim_string( 'yasssss' ) );
+		$this->assertEquals( 'y...',    llms_trim_string( 'yasssss', 4 ) );
+		$this->assertEquals( 'ya.',     llms_trim_string( 'yasssss', 3, '.' ) );
+		$this->assertEquals( 'yassss$', llms_trim_string( 'yassss$s', 7, '' ) );
 
 	}
 
