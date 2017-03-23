@@ -47,6 +47,7 @@
     ],
     "phpcs": "./vendor/bin/phpcs --colors --extensions=php -n lifterlms.php includes/ templates/",
     "phpunit": "./vendor/bin/phpunit",
-    "tests-install": "tests/bin/install.sh lifterlms_tests root password localhost latest"
+    "tests-install": "tests/bin/install.sh lifterlms_tests root password localhost latest",
+    "tests-teardown": "tests/bin/teardown.sh lifterlms_tests root password localhost latest"
   }
 }
