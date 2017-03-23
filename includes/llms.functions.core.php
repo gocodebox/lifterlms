@@ -68,45 +68,41 @@ if ( ! function_exists( 'llms_current_time' ) ) {
  * @param   string $replacement function to use in it's place (optional)
  * @return  void
  * @since   2.6.0
- * @version 2.6.0
+ * @version 3.6.0
  */
 function llms_deprecated_function( $function, $version, $replacement = null ) {
 
 	// only warn if debug is enabled
-	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+		return;
+	}
 
-		if ( function_exists( '__' ) ) {
+	if ( function_exists( '__' ) ) {
 
-			if ( ! is_null( $replacement ) ) {
-				$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'lifterlms' ), $function, $version, $replacement );
-			} else {
-				$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
-			}
-
+		if ( ! is_null( $replacement ) ) {
+			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'lifterlms' ), $function, $version, $replacement );
 		} else {
-
-			if ( ! is_null( $replacement ) ) {
-				$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement );
-			} else {
-				$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
-			}
-
+			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
 		}
 
-		// warn on screen
-		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
+	} else {
 
-			echo '<br>' . $string . '<br>';
-
+		if ( ! is_null( $replacement ) ) {
+			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement );
+		} else {
+			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
 		}
 
-		// log to the error logger
-		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
+	}
 
-			llms_log( $string );
+	// warn on screen
+	if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
+		echo '<br>' . $string . '<br>';
+	}
 
-		}
-
+	// log to the error logger
+	if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+		llms_log( $string );
 	}
 
 }
@@ -285,21 +281,9 @@ function llms_get_product_visibility_options() {
 * @param    integer    $skip         number of results to skip (for pagination)
 * @return   array
 * @since    3.0.0
-* @version  3.4.0
+* @version  3.6.0
 */
 function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
-
-	// ensure we have an array if only one status is being queried
-	if ( ! is_array( $statuses ) ) {
-		$statuses = array( $statuses );
-	}
-
-	// drop invalid statuses
-	foreach ( $statuses as $key => $status ) {
-		if ( ! in_array( $status, array_keys( llms_get_enrollment_statuses() ) ) ) {
-			unset( $statuses[ $key ] );
-		}
-	}
 
 	$query = new LLMS_Student_Query( array(
 		'post_id' => $post_id,
