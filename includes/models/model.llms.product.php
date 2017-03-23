@@ -5,7 +5,7 @@
 * Both Courses and Memberships are sellable and can be instantiated as a product
 *
 * @since    1.0.0
-* @version  3.0.0
+* @version  3.6.0
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -72,6 +72,26 @@ class LLMS_Product extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the product's catalog visibility term
+	 * @return   string
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function get_catalog_visibility() {
+
+		$terms = wp_get_post_terms( $this->get( 'id' ), 'llms_product_visibility' );
+
+		if ( $terms && is_array( $terms ) ) {
+			$obj = $terms[0];
+			if ( isset( $obj->name ) ) {
+				return $obj->name;
+			}
+		}
+
+		return 'catalog_search';
+	}
+
+	/**
 	 * Get the number of columns for the pricing table
 	 * @param    boolean    $free_only  only include free access plans if true
 	 * @return   int
@@ -133,6 +153,20 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		return ( $this->get_access_plans() && $gateways->has_gateways( true ) );
 
+	}
+
+	/**
+	 * Update the product's catalog visibility setting
+	 * @param    string    $visibility  visibility term name
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function set_catalog_visibility( $visibility ) {
+		if ( ! in_array( $visibility, array_keys( llms_get_product_visibility_options() ) ) ) {
+			return;
+		}
+		wp_set_object_terms( $this->get( 'id' ), $visibility, 'llms_product_visibility', false );
 	}
 
 }
