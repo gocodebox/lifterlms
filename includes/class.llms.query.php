@@ -150,7 +150,7 @@ class LLMS_Query {
 	 * @since    1.4.4           moved from LLMS_Post_Types
 	 * @version  3.6.0
 	 */
-	public static function pre_get_posts( $query ) {
+	public function pre_get_posts( $query ) {
 
 		$modify_tax_query = false;
 
