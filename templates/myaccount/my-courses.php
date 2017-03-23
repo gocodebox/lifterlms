@@ -4,7 +4,7 @@
  * Used in My Account and My Courses shortcodes
  *
  * @since    3.0.0
- * @version  3.5.3
+ * @version  3.6.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $wp_query;
@@ -68,19 +68,19 @@ global $wp_query;
 		</ul>
 
 		<footer class="llms-sd-pagination llms-my-courses-pagination">
-			<?php if ( isset( $wp_query->query_vars['my-courses'] ) ) : ?>
+			<?php if ( isset( $wp_query->query_vars['view-courses'] ) ) : ?>
 				<?php if ( $courses['skip'] > 0 ) : ?>
-					<a class="llms-button-text" href="<?php echo esc_url( add_query_arg( array(
+					<a class="llms-button-secondary" href="<?php echo esc_url( add_query_arg( array(
 						'limit' => $courses['limit'],
 						'skip' => $courses['skip'] - $courses['limit'],
-					), llms_person_my_courses_url() ) ); ?>"><?php _e( 'Back', 'lifterlms' ); ?></a>
+					), llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ) ) ); ?>">&lt; <?php _e( 'Back', 'lifterlms' ); ?></a>
 				<?php endif; ?>
 
 				<?php if ( $courses['more'] ) : ?>
-					<a class="llms-button-text" href="<?php echo esc_url( add_query_arg( array(
+					<a class="llms-button-secondary" href="<?php echo esc_url( add_query_arg( array(
 						'limit' => $courses['limit'],
 						'skip' => $courses['skip'] + $courses['limit'],
-					), llms_person_my_courses_url() ) ); ?>"><?php _e( 'Next', 'lifterlms' ); ?></a>
+					), llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ) ) ); ?>"><?php _e( 'Next', 'lifterlms' ); ?> &gt;</a>
 				<?php endif; ?>
 			<?php else : ?>
 
