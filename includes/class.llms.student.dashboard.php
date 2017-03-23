@@ -2,7 +2,7 @@
 /**
  * Retrieve data sets used by various other classes and functions
  * @since  3.0.0
- * @version  3.0.0
+ * @version  3.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -51,6 +51,35 @@ class LLMS_Student_Dashboard {
 		}
 
 		return $endpoints;
+
+	}
+
+	/**
+	 * Get list of student's courses used for recent courses on the dashboard
+	 * and all courses (paginated) on the "View Courses" endpoint
+	 * @param    integer    $limit  number of courses to return
+	 * @param    integer    $skip   number of courses to skip (for pagination)
+	 * @return   array
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	private static function get_courses( $limit = 10, $skip = 0 ) {
+
+		// get sorting option
+		$option = get_option( 'lifterlms_myaccount_courses_in_progress_sorting', 'date,DESC' );
+		// parse to order & orderby
+		$option = explode( ',', $option );
+		$orderby = ! empty( $option[0] ) ? $option[0] : 'date';
+		$order = ! empty( $option[1] ) ? $option[1] : 'DESC';
+
+		$student = new LLMS_Student();
+		return $student->get_courses( array(
+			'limit' => $limit,
+			'order' => $order,
+			'orderby' => $orderby,
+			'skip' => $skip,
+			'status' => 'enrolled',
+		) );
 
 	}
 
@@ -135,19 +164,16 @@ class LLMS_Student_Dashboard {
 	 * Callback to output View Courses endpoint content
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.6.0
 	 */
 	public static function output_courses_content() {
 
-		$student = new LLMS_Student();
-		$courses = $student->get_courses( array(
-			'limit' => ( ! isset( $_GET['limit'] ) ) ? 10 : $_GET['limit'],
-			'skip' => ( ! isset( $_GET['skip'] ) ) ? 0 : $_GET['skip'],
-			'status' => 'enrolled',
-		) );
+		$limit = isset( $_GET['limit'] ) ? $_GET['limit'] : apply_filters( 'llms_dashboard_courses_per_page', 10 );
+		$skip = isset( $_GET['skip'] ) ? $_GET['skip'] : 0;
+		$courses = self::get_courses( $limit, $skip );
 
 		llms_get_template( 'myaccount/my-courses.php', array(
-			'student' => $student,
+			'student' => new LLMS_Student(),
 			'courses' => $courses,
 			'pagination' => $courses['more'],
 		) );
@@ -158,20 +184,16 @@ class LLMS_Student_Dashboard {
 	 * Callback to output main dashboard content
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.6.0
 	 */
 	public static function output_dashboard_content() {
 
-		$student = new LLMS_Student();
-		$courses = $student->get_courses( array(
-			'status' => 'enrolled',
-			'limit' => apply_filters( 'llms_dashboard_recent_courses_count', 3 ),
-		) );
+		$limit = apply_filters( 'llms_dashboard_recent_courses_count', 3 );
 
 		llms_get_template( 'myaccount/dashboard.php', array(
 			'current_user' 	=> get_user_by( 'id', get_current_user_id() ),
-			'student' => $student,
-			'courses' => $courses,
+			'student' => new LLMS_Student(),
+			'courses' => self::get_courses( $limit ),
 		) );
 
 	}

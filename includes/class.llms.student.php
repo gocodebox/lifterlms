@@ -1,13 +1,15 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Student Class
  *
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
+ * @version 3.6.0
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Student {
 
 	private $meta_prefix = 'llms_';
@@ -411,8 +413,8 @@ class LLMS_Student {
 	 *                      @arg string $status   filter results by enrollment status, "any", "enrolled", or "expired"
 	 * @return array        "courses" will contain an array of course ids
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
-	 * @since    ??
-	 * @version  3.1.3
+	 * @since    3.0.0
+	 * @version  3.6.0
 	 */
 	public function get_courses( $args = array() ) {
 
@@ -425,6 +427,19 @@ class LLMS_Student {
 			'skip'    => 0,
 			'status'  => 'any', // any, enrolled, expired
 		), $args );
+
+		// allow "short" orderby's to be passed in without a table reference
+		switch ( $args['orderby'] ) {
+			case 'date':
+				$args['orderby'] = 'upm.updated_date';
+			break;
+			case 'order':
+				$args['orderby'] = 'p.menu_order';
+			break;
+			case 'title':
+				$args['orderby'] = 'p.post_title';
+			break;
+		}
 
 		// prepare status
 		if ( 'any' !== $args['status'] ) {
