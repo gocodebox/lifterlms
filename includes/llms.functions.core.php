@@ -502,7 +502,7 @@ function llms_get_enrollment_statuses() {
  * @param    string     $status  enrollment status key
  * @return   string
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.6.0
  */
 function llms_get_enrollment_status_name( $status ) {
 
@@ -511,7 +511,7 @@ function llms_get_enrollment_status_name( $status ) {
 	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
 		$status = $statuses[ $status ];
 	}
-	return apply_filters( 'lifterlms_get_enrollment_status_name ', $status );
+	return apply_filters( 'lifterlms_get_enrollment_status_name', $status );
 
 }
 
