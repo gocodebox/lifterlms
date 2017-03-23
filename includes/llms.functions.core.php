@@ -262,6 +262,21 @@ function llms_get_engagement_types() {
 }
 
 /**
+ * Get a list of available product (course & membership) catalog visibility options
+ * @return   array
+ * @since    3.6.0
+ * @version  3.6.0
+ */
+function llms_get_product_visibility_options() {
+	return apply_filters( 'lifterlms_product_visibility_options', array(
+		'catalog_search' => __( 'Catalog &amp; Search', 'lifterlms' ),
+		'catalog' => __( 'Catalog only', 'lifterlms' ),
+		'search' => __( 'Search only', 'lifterlms' ),
+		'hidden' => __( 'Hidden', 'lifterlms' ),
+	) );
+}
+
+/**
 * Get an array of student IDs based on enrollment status a course or memebership
 * @param    int           $post_id   WP_Post id of a course or memberhip
 * @param    string|array  $statuses  list of enrollment statuses to query by
