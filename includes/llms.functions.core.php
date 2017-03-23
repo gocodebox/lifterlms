@@ -566,14 +566,14 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
  * @param    string $status LifterLMS Order Status
  * @return   string
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.6.0
  */
 function llms_get_order_status_name( $status ) {
 	$statuses = llms_get_order_statuses();
 	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
 		$status = $statuses[ $status ];
 	}
-	return apply_filters( 'lifterlms_get_order_status_name ', $status );
+	return apply_filters( 'lifterlms_get_order_status_name', $status );
 }
 
 /**
@@ -667,7 +667,7 @@ function llms_get_post( $post ) {
 			$post = new LLMS_Transaction( $post );
 		break;
 
-	}
+	} // End switch()
 
 	return $post;
 
@@ -718,7 +718,7 @@ function llms_is_site_https() {
  *                                 and will be replaced with the post title and post id respectively
  * @return   array
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.6.0
  */
 function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 
@@ -730,17 +730,17 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 		$post_ids = array( $post_ids );
 	}
 
-	$r = array();
+	$ret = array();
 	foreach ( $post_ids as $id ) {
 
 		$title = str_replace( array( '{title}', '{id}' ), array( get_the_title( $id ), $id ), $template );
 
-		$r[] = array(
+		$ret[] = array(
 			'key' => $id,
 			'title' => $title,
 		);
 	}
-	return apply_filters( 'llms_make_select2_post_array', $r, $post_ids );
+	return apply_filters( 'llms_make_select2_post_array', $ret, $post_ids );
 
 }
 
