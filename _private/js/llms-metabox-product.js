@@ -2,7 +2,8 @@
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
  *
- * @since  3.0.0
+ * @since    3.0.0
+ * @version  3.6.0
  */
 ( function( $ ) {
 
@@ -20,10 +21,13 @@
 		/**
 		 * Initialize
 		 *
-		 * @return void
-		 * @since  3.0.0
+		 * @return  void
+		 * @since   3.0.0
+		 * @version 3.6.0
 		 */
 		this.init = function() {
+
+			this.bind_visibility();
 
 			var $mb = $( '#lifterlms-product #llms-product-options-access-plans' );
 
@@ -166,6 +170,40 @@
 
 				} );
 
+			} );
+
+		};
+
+		/**
+		 * Bind DOM events for editing product visibility
+		 * @return   void
+		 * @since    3.6.0
+		 * @version  3.6.0
+		 */
+		this.bind_visibility = function() {
+
+			var $radios = $( '#llms-catalog-visibility-select' ),
+				$toggle = $( 'a.llms-edit-catalog-visibility' ),
+				$save = $( 'a.llms-save-catalog-visibility' ),
+				$cancel =  $( 'a.llms-cancel-catalog-visibility' );
+
+			$toggle.on( 'click', function( e ) {
+				e.preventDefault();
+				$radios.slideDown( 'fast' );
+				$toggle.hide();
+			} );
+
+			$save.on( 'click', function( e ) {
+				e.preventDefault();
+				$radios.slideUp( 'fast' );
+				$toggle.show();
+				$( '#llms-catalog-visibility-display' ).text( $( 'input[name="_llms_visibility"]:checked' ).attr( 'data-label' ) );
+			} );
+
+			$cancel.on( 'click', function( e ) {
+				e.preventDefault();
+				$radios.slideUp( 'fast' );
+				$toggle.show();
 			} );
 
 		};
