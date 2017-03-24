@@ -619,10 +619,9 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  */
 function llms_get_post( $post ) {
 
-	if ( ! empty( $post ) && is_numeric( $post ) ) {
-		$post = get_post( $post );
-	} elseif ( ! is_a( $post, 'WP_Post' ) ) {
-		return false;
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return $post;
 	}
 
 	$post_type = explode( '_', str_replace( 'llms_', '', $post->post_type ) );
@@ -638,6 +637,29 @@ function llms_get_post( $post ) {
 	return $post;
 
 }
+
+/**
+ * Retrieve the parent course for a section, lesson, or quiz
+ * @param    mixed     $post  WP Post ID or insance of WP_Post
+ * @return   obj|null         Instance of the LLMS_Course or null
+ * @since    3.6.0
+ * @version  3.6.0
+ */
+function llms_get_post_parent_course( $post ) {
+
+	$post = get_post( $post );
+
+	$type = $post->post_type;
+	if ( ! $post || ! in_array( $type, array( 'section', 'lesson', 'llms_quiz' ) ) ) {
+		return null;
+	}
+
+	$post = llms_get_post( $post );
+
+	return $post->get_course();
+
+}
+
 
 /**
  * Retrieve an array of existing transaction statuses

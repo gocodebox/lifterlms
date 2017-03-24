@@ -300,7 +300,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * Test llms_get_post()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.6.0
 	 */
 	public function test_llms_get_post() {
 
@@ -327,8 +327,49 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		}
 
 		$this->assertInstanceOf( 'WP_Post', llms_get_post( $this->factory->post->create() ) );
-		$this->assertFalse( llms_get_post( 'fail' ) );
-		$this->assertFalse( llms_get_post( 0 ) );
+		$this->assertNull( llms_get_post( 'fail' ) );
+		$this->assertNull( llms_get_post( 0 ) );
+
+	}
+
+	/**
+	 * Test llms_get_post_parent_course()
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function test_llms_get_post_parent_course() {
+
+		$course = new LLMS_Course( 'new', 'title' );
+		$section = new LLMS_Section( 'new', array(
+			'post_title' => 'section',
+			'meta_input' => array(
+				'_llms_parent_course' => $course->get( 'id' )
+			),
+		) );
+		$lesson = new LLMS_Lesson( 'new', array(
+			'post_title' => 'lesson',
+			'meta_input' => array(
+				'_llms_parent_course' => $course->get( 'id' ),
+				'_llms_parent_section' => $section->get( 'id' ),
+			),
+		) );
+
+		foreach ( array( $section, $lesson ) as $obj ) {
+
+			$post = get_post( $obj->get( 'id' ) );
+
+			// pass in post id
+			$this->assertEquals( $course, llms_get_post_parent_course( $post->ID ) );
+
+			// pass in an object
+			$this->assertEquals( $course, llms_get_post_parent_course( $post ) );
+
+		}
+
+		// other post types don't have a parent course
+		$reg_post = $this->factory->post->create();
+		$this->assertNull( llms_get_post_parent_course( $reg_post ) );
 
 	}
 
