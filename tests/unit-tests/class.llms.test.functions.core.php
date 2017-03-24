@@ -223,6 +223,25 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_ip_address()
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function test_llms_get_ip_address() {
+
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
+
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 192.168.1.1, 192.168.1.5';
+		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
+
+		$_SERVER['X-Real-IP'] = '127.0.0.1';
+		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
+
+	}
+
+	/**
 	 * Test llms_get_order_status_name()
 	 * @return   void
 	 * @since    3.3.1
@@ -286,24 +305,24 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	public function test_llms_get_post() {
 
 		$types = array(
-			'llms_access_plan',
-			'llms_coupon',
-			'course',
-			'lesson',
-			'llms_membership',
-			'llms_order',
-			'llms_quiz',
-			'llms_question',
-			'llms_section',
-			'llms_transaction',
+			'LLMS_Access_Plan' => 'llms_access_plan',
+			'LLMS_Coupon' => 'llms_coupon',
+			'LLMS_Course' => 'course',
+			'LLMS_Lesson' => 'lesson',
+			'LLMS_Membership' => 'llms_membership',
+			'LLMS_Order' => 'llms_order',
+			'LLMS_Quiz' => 'llms_quiz',
+			'LLMS_Question' => 'llms_question',
+			'LLMS_Section' => 'llms_section',
+			'LLMS_Transaction' => 'llms_transaction',
 		);
 
-		foreach ( $types as $type ) {
+		foreach ( $types as $class => $type ) {
 
 			$id = $this->factory->post->create( array(
-				'post_type' => 'course',
+				'post_type' => $type,
 			) );
-			$this->assertInstanceOf( 'LLMS_Course', llms_get_post( $id ) );
+			$this->assertInstanceOf( $class, llms_get_post( $id ) );
 
 		}
 

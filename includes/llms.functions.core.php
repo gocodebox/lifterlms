@@ -615,7 +615,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  * @param    obj|int     $post  instance of WP_Post or a WP Post ID
  * @return   obj|false
  * @since    3.3.0
- * @version  3.3.1
+ * @version  3.6.0
  */
 function llms_get_post( $post ) {
 
@@ -625,49 +625,15 @@ function llms_get_post( $post ) {
 		return false;
 	}
 
-	switch ( $post->post_type ) {
+	$post_type = explode( '_', str_replace( 'llms_', '', $post->post_type ) );
+	$class = 'LLMS';
+	foreach( $post_type as $part ) {
+		$class .= '_' . ucfirst( $part );
+	}
 
-		case 'llms_access_plan':
-			$post = new LLMS_Access_Plan( $post );
-		break;
-
-		case 'llms_coupon':
-			$post = new LLMS_Coupon( $post );
-		break;
-
-		case 'course':
-			$post = new LLMS_Course( $post );
-		break;
-
-		case 'lesson':
-			$post = new LLMS_Lesson( $post );
-		break;
-
-		case 'section':
-			$post = new LLMS_Section( $post );
-		break;
-
-		case 'llms_membership':
-			$post = new LLMS_Membership( $post );
-		break;
-
-		case 'llms_order':
-			$post = new LLMS_Order( $post );
-		break;
-
-		case 'llms_quiz':
-			$post = new LLMS_Quiz( $post );
-		break;
-
-		case 'llms_question':
-			$post = new LLMS_Question( $post );
-		break;
-
-		case 'llms_transaction':
-			$post = new LLMS_Transaction( $post );
-		break;
-
-	} // End switch()
+	if ( class_exists( $class ) ) {
+		$post = new $class( $post );
+	}
 
 	return $post;
 
@@ -823,11 +789,6 @@ function llms_clean( $var ) {
 	return sanitize_text_field( $var );
 }
 
-
-
-
-
-
 /**
  * Schedule expired membership cron
  * @return void
@@ -922,7 +883,7 @@ function llms_expire_membership() {
 				);
 
 				// change enrolled to expired in user_postmeta
-				$update_user_meta = $wpdb->update( $table_name, $status_update, $set_user_expired );
+				$wpdb->update( $table_name, $status_update, $set_user_expired );
 
 				// remove membership id from usermeta array
 				$users_levels = get_user_meta( $user_id, '_llms_restricted_levels', true );

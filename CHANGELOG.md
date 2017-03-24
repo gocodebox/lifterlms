@@ -13,6 +13,9 @@ v3.6.0 - 2017/03/??
 + New shortcode `[llms_course_syllabus]`
 + Fixed an issue preventing pagination links from displaying on the "View Courses" page of the student dashboard when the endpoint slug was customized
 + Course and Membership taxonomy archive pages will now properly match the heights of tiles
++ Fixed typo in `lifterlms_get_enrollment_status_name` filter
++ Fixed typo in `lifterlms_get_order_status_name` filter
++ Reduced complexity and redundancy of `llms_get_enrolled_students()`
 
 
 v3.5.3 - 2017/03/21
