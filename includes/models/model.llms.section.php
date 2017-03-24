@@ -2,7 +2,7 @@
 /**
  * LLMS Section Model
  * @since    1.0.0
- * @version  3.3.0
+ * @version  3.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -16,6 +16,16 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	protected $db_post_type = 'section';
 	protected $model_post_type = 'section';
+
+	/**
+	 * Retrieve an instance of LLMS_Course for the sections's parent course
+	 * @return   obj|null
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function get_course() {
+		return llms_get_post( $this->get( 'parent_course' ) );
+	}
 
 	/**
 	 * Get all lessons in the section
