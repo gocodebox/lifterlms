@@ -627,7 +627,7 @@ function llms_get_post( $post ) {
 
 	$post_type = explode( '_', str_replace( 'llms_', '', $post->post_type ) );
 	$class = 'LLMS';
-	foreach( $post_type as $part ) {
+	foreach ( $post_type as $part ) {
 		$class .= '_' . ucfirst( $part );
 	}
 
