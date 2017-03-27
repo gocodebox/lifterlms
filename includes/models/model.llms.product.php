@@ -92,6 +92,24 @@ class LLMS_Product extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the product's catalog visibility name for display
+	 * @return   string
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function get_catalog_visibility_name() {
+
+		$visibility = $this->get_catalog_visibility();
+		$options = llms_get_product_visibility_options();
+		if ( isset( $options[ $visibility ] ) ) {
+			return $options[ $visibility ];
+		}
+		return $visibility;
+
+	}
+
+
+	/**
 	 * Get the number of columns for the pricing table
 	 * @param    boolean    $free_only  only include free access plans if true
 	 * @return   int
