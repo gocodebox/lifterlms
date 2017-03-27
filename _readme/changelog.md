@@ -1,5 +1,29 @@
 == Changelog ==
 
+= v3.6.0 - 2017/03/27 =
+-----------------------
+
++ Courses and Memberships now have settings to control their visibility in catalogs and search results. For more information visit the [knowledge base](https://lifterlms.com/docs/course-membership-visibility-settings/).
++ Courses are now a searchable post type. All existing courses will automatically remain excluded from search via new catalog visibility settings. New courses added after this date will be searchable unless the visibility is updated prior to publishing the course.
++ Added options (and filters) to allow customization of the order of courses displayed on the Student Dashboard
+  + Existing behavior (ordered by enrollment date, most recent to least recent) will be preserved
+  + New installations will default (by popular demand) to Order (Low to High) which will obey the "Order" settings of courses
+  + Customize or update the order for your site by visiting LifterLMS -> Settings -> Accounts and changing the setting for "Courses Sorting" under "Account Dashboard"
++ New Shortcodes:
+  + `[lifterlms_course_author]` -  Display the Course Author's name, avatar, and (optionally) biography. [Info & Usage](https://lifterlms.com/docs/shortcodes/#lifterlms_course_author)
+  + `[lifterlms_course_continue]` - Display a progress bar and continue button for enrolled students only. [Info & Usage](https://lifterlms.com/docs/shortcodes/#lifterlms_course_continue)
+  + `[lifterlms_course_meta_info]` - Display all meta information for a course. [Info & Usage](https://lifterlms.com/docs/shortcodes/#lifterlms_course_meta_info)
+  + `[lifterlms_course_prerequisites]` - Display a notice describing unfulfilled prerequisites for a course. [Info & Usage](https://lifterlms.com/docs/shortcodes/#lifterlms_course_prerequisites)
+  + `[lifterlms_course_reviews]` - Display reviews and review form for a LifterLMS Course. [Info & Usage](https://lifterlms.com/docs/shortcodes/#lifterlms_course_reviews)
+  + `[lifterlms_course_syllabus]` - Display the course syllabus. [Info & Usage](https://lifterlms.com/docs/shortcodes/#lifterlms_course_syllabus)
++ "Back" & "Next" pagination links on Student Dashboard View Courses are now buttons instaed of text links
++ Fixed an issue preventing pagination links from displaying on the "View Courses" page of the student dashboard when the endpoint slug was customized
++ Course and Membership taxonomy archive pages will now properly match the heights of tiles
++ Fixed typo in `lifterlms_get_enrollment_status_name` filter
++ Fixed typo in `lifterlms_get_order_status_name` filter
++ Reduced complexity and redundancy of `llms_get_enrolled_students()`
+
+
 = v3.5.3 - 2017/03/21 =
 -----------------------
 
