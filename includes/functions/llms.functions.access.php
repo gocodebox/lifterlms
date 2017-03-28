@@ -261,7 +261,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  * @return   int|false         false if the post is not restricted or the user has completed the prereq
  *                             WP Post ID of the prerequisite lesson if it is
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.6.1
  */
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
@@ -274,12 +274,19 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 	elseif ( 'llms_quiz' == $post_type ) {
 		$quiz = new LLMS_Quiz( $post_id );
 		$lesson_id = $quiz->get_assoc_lesson( $user_id );
+		if ( ! $lesson_id ) {
+			$session = LLMS()->session->get( 'llms_quiz' );
+			$lesson_id = ( $session && isset( $session->assoc_lesson ) ) ? $session->assoc_lesson : false;
+		}
+		if ( ! $lesson_id ) {
+			return false;
+		}
 	} // dont pass other post types in here dumb dumb
 	else {
 		return false;
 	}
 
-	$lesson = new LLMS_Lesson( $lesson_id );
+	$lesson = llms_get_post( $lesson_id );
 	$course = $lesson->get_course();
 
 	// get an array of all possible prereqs
