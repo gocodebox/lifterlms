@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.6.1 - 2017/03/28 =
+-----------------------
+
++ Fix issue related to taking a quiz for the first time when no quiz data is available for a user
++ Fix issue when course outline shortcode is displayed on non LifterLMS post types
+
+
 = v3.6.0 - 2017/03/27 =
 -----------------------
 

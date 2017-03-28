@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.3
-Stable tag: 3.6.0
+Stable tag: 3.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.6.1 - 2017/03/28 =
+-----------------------
+
++ Fix issue related to taking a quiz for the first time when no quiz data is available for a user
++ Fix issue when course outline shortcode is displayed on non LifterLMS post types
+
 
 = v3.6.0 - 2017/03/27 =
 -----------------------
