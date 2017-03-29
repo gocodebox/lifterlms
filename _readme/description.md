@@ -18,7 +18,7 @@ LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell,
 
 Take a look at the explanation videos of LifterLMS. These 17 tutorial videos are included in the [free LifterLMS demo course](http://demo.lifterlms.com).
 
-https://www.youtube.com/watch?v=CY1u-elqudg
+https://www.youtube.com/watch?v=LugJPS7bhxI
 
 More information at [LifterLMS.com](https://lifterlms.com).
 

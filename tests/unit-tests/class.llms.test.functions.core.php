@@ -2,7 +2,7 @@
 /**
  * Tests for LifterLMS Core Functions
  * @since    3.3.1
- * @version  3.3.1
+ * @version  3.6.0
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -45,7 +45,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_core_supported_themes()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -58,7 +58,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * test llms_get_date_diff()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -82,7 +82,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * test llms_get_engagement_triggers()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -93,7 +93,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * test llms_get_engagement_types()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -103,8 +103,19 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_product_visibility_options()
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function test_llms_get_product_visibility_options() {
+		$this->assertFalse( empty( llms_get_product_visibility_options() ) );
+		$this->assertTrue( is_array( llms_get_product_visibility_options() ) );
+	}
+
+	/**
 	 * Test llms_find_coupon()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -135,8 +146,60 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_enrolled_students()
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	function test_llms_get_enrolled_students() {
+
+		$course_id = $this->factory->post->create( array(
+			'post_type' => 'course',
+		) );
+
+		$students = $this->factory->user->create_many( 25, array( 'role' => 'student' ) );
+		$students_copy = $students;
+		foreach ( $students as $student_id ) {
+			$student = new LLMS_Student( $student_id );
+			$student->enroll( $course_id );
+		}
+
+		// test basic enrollment query passing in a string
+		$this->assertEquals( $students, llms_get_enrolled_students( $course_id, 'enrolled', 50, 0 ) );
+		// test basic enrollment query passing in an array
+		$this->assertEquals( $students, llms_get_enrolled_students( $course_id, array( 'enrolled' ), 50, 0 ) );
+
+		// test pagination
+		$this->assertEquals( array_splice( $students, 0, 10 ), llms_get_enrolled_students( $course_id, 'enrolled', 10, 0 ) );
+		$this->assertEquals( array_splice( $students, 0, 10 ), llms_get_enrolled_students( $course_id, 'enrolled', 10, 10 ) );
+		$this->assertEquals( $students, llms_get_enrolled_students( $course_id, 'enrolled', 10, 20 ) );
+
+		// should be no one expired
+		$this->assertEquals( array(), llms_get_enrolled_students( $course_id, 'expired', 10, 0 ) );
+
+		// sleeping makes unerollment tests work
+		sleep( 1 );
+
+		$i = 0;
+		$expired = array();
+		while ( $i < 5 ) {
+			$student = new LLMS_Student( $students_copy[ $i ] );
+			$student->unenroll( $course_id, 'any', 'expired' );
+			$expired[] = $students_copy[ $i ];
+			$i++;
+		}
+
+		// test expired alone
+		$this->assertEquals( $expired, llms_get_enrolled_students( $course_id, 'expired', 10, 0 ) );
+
+		// test multiple statuses
+		$this->assertEquals( $students_copy, llms_get_enrolled_students( $course_id, array( 'enrolled', 'expired' ), 50, 0 ) );
+
+	}
+
+	/**
 	 * test llms_get_enrollment_statuses()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -147,7 +210,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_enrollment_status_name()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -160,8 +223,27 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_ip_address()
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function test_llms_get_ip_address() {
+
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
+
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 192.168.1.1, 192.168.1.5';
+		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
+
+		$_SERVER['X-Real-IP'] = '127.0.0.1';
+		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
+
+	}
+
+	/**
 	 * Test llms_get_order_status_name()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -173,7 +255,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * test llms_get_order_statuses()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -216,44 +298,85 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_post()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.6.0
 	 */
 	public function test_llms_get_post() {
 
 		$types = array(
-			'llms_access_plan',
-			'llms_coupon',
-			'course',
-			'lesson',
-			'llms_membership',
-			'llms_order',
-			'llms_quiz',
-			'llms_question',
-			'llms_section',
-			'llms_transaction',
+			'LLMS_Access_Plan' => 'llms_access_plan',
+			'LLMS_Coupon' => 'llms_coupon',
+			'LLMS_Course' => 'course',
+			'LLMS_Lesson' => 'lesson',
+			'LLMS_Membership' => 'llms_membership',
+			'LLMS_Order' => 'llms_order',
+			'LLMS_Quiz' => 'llms_quiz',
+			'LLMS_Question' => 'llms_question',
+			'LLMS_Section' => 'llms_section',
+			'LLMS_Transaction' => 'llms_transaction',
 		);
 
-		foreach ( $types as $type ) {
+		foreach ( $types as $class => $type ) {
 
 			$id = $this->factory->post->create( array(
-				'post_type' => 'course',
+				'post_type' => $type,
 			) );
-			$this->assertInstanceOf( 'LLMS_Course', llms_get_post( $id ) );
+			$this->assertInstanceOf( $class, llms_get_post( $id ) );
 
 		}
 
 		$this->assertInstanceOf( 'WP_Post', llms_get_post( $this->factory->post->create() ) );
-		$this->assertFalse( llms_get_post( 'fail' ) );
-		$this->assertFalse( llms_get_post( 0 ) );
+		$this->assertNull( llms_get_post( 'fail' ) );
+		$this->assertNull( llms_get_post( 0 ) );
+
+	}
+
+	/**
+	 * Test llms_get_post_parent_course()
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function test_llms_get_post_parent_course() {
+
+		$course = new LLMS_Course( 'new', 'title' );
+		$section = new LLMS_Section( 'new', array(
+			'post_title' => 'section',
+			'meta_input' => array(
+				'_llms_parent_course' => $course->get( 'id' )
+			),
+		) );
+		$lesson = new LLMS_Lesson( 'new', array(
+			'post_title' => 'lesson',
+			'meta_input' => array(
+				'_llms_parent_course' => $course->get( 'id' ),
+				'_llms_parent_section' => $section->get( 'id' ),
+			),
+		) );
+
+		foreach ( array( $section, $lesson ) as $obj ) {
+
+			$post = get_post( $obj->get( 'id' ) );
+
+			// pass in post id
+			$this->assertEquals( $course, llms_get_post_parent_course( $post->ID ) );
+
+			// pass in an object
+			$this->assertEquals( $course, llms_get_post_parent_course( $post ) );
+
+		}
+
+		// other post types don't have a parent course
+		$reg_post = $this->factory->post->create();
+		$this->assertNull( llms_get_post_parent_course( $reg_post ) );
 
 	}
 
 
 	/**
 	 * test llms_get_transaction_statuses()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -264,7 +387,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_is_site_https()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
@@ -278,16 +401,16 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_trim_string()
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.6.0
 	 */
-	public function llms_trim_string() {
+	public function test_llms_trim_string() {
 
-		$this->assertEquals( 'yasssss', wc_trim_string( 'yasssss' ) );
-		$this->assertEquals( 'yass',    wc_trim_string( 'yasssss', 4 ) );
-		$this->assertEquals( 'yas.',    wc_trim_string( 'yasssss', 3, '.' ) );
-		$this->assertEquals( 'yassss$', wc_trim_string( 'yassss$', 7, '' ) );
+		$this->assertEquals( 'yasssss', llms_trim_string( 'yasssss' ) );
+		$this->assertEquals( 'y...',    llms_trim_string( 'yasssss', 4 ) );
+		$this->assertEquals( 'ya.',     llms_trim_string( 'yasssss', 3, '.' ) );
+		$this->assertEquals( 'yassss$', llms_trim_string( 'yassss$s', 7, '' ) );
 
 	}
 

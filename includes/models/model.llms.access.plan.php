@@ -2,7 +2,7 @@
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.4.4
+ * @version  3.5.3
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -356,12 +356,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining the plan's payment schedule
 	 * @return string
 	 * @since 3.0.0
-	 * @version  3.0.0
+	 * @version  3.5.3
 	 */
 	public function get_schedule_details() {
 
 		$r = '';
 
+		$period = $this->get( 'period' );
 		$frequency = $this->get( 'frequency' );
 		$length = $this->get( 'length' );
 
@@ -372,7 +373,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			switch ( $frequency ) {
 
 				case 1:
-					$r = _x( 'per %1$s', 'subscription schedule', 'lifterlms' );
+					$r = sprintf( _x( 'per %s', 'subscription schedule', 'lifterlms' ), $this->get_access_period_name( $period, $frequency ) );
 				break;
 
 				case 2:
@@ -380,7 +381,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				case 4:
 				case 5:
 				case 6:
-					$r = _nx( 'every %2$s %1$s', 'every %2$s %1$ss', $frequency, 'subscription schedule', 'lifterlms' );
+					$r = sprintf( _x( 'every %1$d %2$s', 'subscription schedule', 'lifterlms' ), $frequency, $this->get_access_period_name( $period, $frequency ) );
 				break;
 
 			}
@@ -389,7 +390,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			if ( $length > 0 ) {
 
 				$r .= ' ';
-				$r .= _nx( 'for %3$s %1$s', 'for %3$s %1$ss', $length, 'subscription # of payments', 'lifterlms' );
+				$r .= sprintf( _x( 'for %1$d %2$s', 'subscription # of payments', 'lifterlms' ), $length, $this->get_access_period_name( $period, $length ) );
 
 			}
 

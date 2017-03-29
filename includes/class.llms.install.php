@@ -2,13 +2,12 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.4.3
+ * @version 3.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Install {
-
 
 	public static $background_updater;
 
@@ -37,6 +36,10 @@ class LLMS_Install {
 		'3.4.3' => array(
 			'llms_update_343_update_relationships',
 			'llms_update_343_update_db_version',
+		),
+		'3.6.0' => array(
+			'llms_update_360_set_product_visibility',
+			'llms_update_360_update_db_version',
 		),
 	);
 
@@ -258,6 +261,20 @@ class LLMS_Install {
 	}
 
 	/**
+	 * Create default LifterLMS Product Visibility Options
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public static function create_visibilities() {
+		foreach ( array_keys( llms_get_product_visibility_options() ) as $term ) {
+			if ( ! get_term_by( 'name', $term, 'llms_product_visibility' ) ) {
+				wp_insert_term( $term, 'llms_product_visibility' );
+			}
+		}
+	}
+
+	/**
 	 * Queue all required db updates into the bg update queue
 	 * @return   void
 	 * @since    3.0.0
@@ -390,7 +407,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * Initializes the bg updater class
 	 * @return   void
 	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @version  3.6.0
 	 */
 	public static function init_background_updater() {
 
@@ -427,6 +444,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 		self::create_cron_jobs();
 		self::create_files();
 		self::create_difficulties();
+		self::create_visibilities();
 
 		$version = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );

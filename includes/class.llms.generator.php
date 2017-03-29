@@ -497,8 +497,8 @@ class LLMS_Generator {
 	 * @param    int        $course_id           WP Post ID of the parent course
 	 * @param    int        $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                             WP Post ID of the Section
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.0
+	 * @version  3.3.0
 	 */
 	private function create_section( $raw, $order, $course_id, $fallback_author_id = null ) {
 

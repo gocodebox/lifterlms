@@ -2,7 +2,7 @@
 /**
  * Tests for the LLMS_Install Class
  * @since    3.3.1
- * @version  3.4.3
+ * @version  3.6.0
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -206,6 +206,22 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		$this->assertEquals( "{$wpdb->prefix}lifterlms_product_to_voucher", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_product_to_voucher'" ) );
 		$this->assertEquals( "{$wpdb->prefix}lifterlms_voucher_code_redemptions", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_voucher_code_redemptions'" ) );
 		$this->assertEquals( "{$wpdb->prefix}lifterlms_vouchers_codes", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_vouchers_codes'" ) );
+
+	}
+
+	/**
+	 * Test create_visibilities()
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function test_create_visibilities() {
+
+		// terms may or may not exist and should exist after creation
+		LLMS_Install::create_visibilities();
+		foreach( array_keys( llms_get_product_visibility_options() ) as $name ) {
+			$this->assertInstanceOf( 'WP_Term', get_term_by( 'name', $name, 'llms_product_visibility' ) );
+		}
 
 	}
 

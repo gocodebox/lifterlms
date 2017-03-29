@@ -60,7 +60,6 @@ function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
 function llms_update_300_create_access_plans() {
 
 	$courses = new WP_Query( array(
-		'paged' => $page,
 		'post_type' => array( 'course', 'llms_membership' ),
 		'posts_per_page' => -1,
 		'status' => 'any',
@@ -579,7 +578,6 @@ function llms_update_300_migrate_order_data() {
 function llms_update_300_update_orders() {
 
 	$args = array(
-		'paged' => $page,
 		'post_type' => array( 'llms_order' ),
 		'posts_per_page' => -1,
 		'status' => 'publish',
@@ -773,5 +771,44 @@ function llms_update_343_update_relationships() {
 function llms_update_343_update_db_version() {
 
 	LLMS_Install::update_db_version( '3.4.3' );
+
+}
+
+/*
+	  /$$$$$$      /$$$$$$      /$$$$$$
+	 /$$__  $$    /$$__  $$    /$$$_  $$
+	|__/  \ $$   | $$  \__/   | $$$$\ $$
+	   /$$$$$/   | $$$$$$$    | $$ $$ $$
+	  |___  $$   | $$__  $$   | $$\ $$$$
+	 /$$  \ $$   | $$  \ $$   | $$ \ $$$
+	|  $$$$$$//$$|  $$$$$$//$$|  $$$$$$/
+	 \______/|__/ \______/|__/ \______/
+*/
+
+/**
+ * Add course and membership visibility settings
+ * Default course is catalog only and default membership is catalog & search
+ * Courses were NOT SEARCHABLE in earlier versions
+ */
+function llms_update_360_set_product_visibility() {
+	$query = new WP_Query( array(
+		'post_status' => 'any',
+		'post_type' => array( 'course', 'llms_membership' ),
+		'posts_per_page' => -1,
+	) );
+	if ( $query->have_posts() ) {
+		foreach ( $query->posts as $post ) {
+			$visibility = ( 'course' === $post->post_type ) ? 'catalog' : 'catalog_search';
+			wp_set_object_terms( $post->ID, $visibility, 'llms_product_visibility', false );
+		}
+	}
+}
+
+/**
+ * Update db version at conclusion of 3.4.3 updates
+ */
+function llms_update_360_update_db_version() {
+
+	LLMS_Install::update_db_version( '3.6.0' );
 
 }

@@ -31,8 +31,9 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 	/**
 	 * Get settings array
-	 *
-	 * @return array
+	 * @return  array
+	 * @since   1.0.0
+	 * @version 3.6.0
 	 */
 	public function get_settings() {
 
@@ -125,6 +126,21 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			// 	'default'	=> 'logout',
 			// 	'desc_tip'	=> true,
 			// ),
+
+			array(
+				'title' => __( 'Courses Sorting', 'lifterlms' ),
+				'default'	=> 'order,ASC',
+				'desc' 		=> '<br>' . __( 'Determines the order of the courses in-progress listed on the student dashboard.', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_courses_in_progress_sorting',
+				'type' 		=> 'select',
+				'options'     => array(
+					'title,ASC' => __( 'Course Title (A to Z)', 'lifterlms' ),
+					'title,DESC' => __( 'Course Title (Z to A)', 'lifterlms' ),
+					'date,DESC' => __( 'Enrollment Date (Most Recent to Least Recent)', 'lifterlms' ),
+					'order,ASC' => __( 'Order (Low to High)', 'lifterlms' ),
+					'order,DESC' => __( 'Order (High to Low)', 'lifterlms' ),
+				),
+			),
 
 			array(
 				'id' => 'course_account_options',

@@ -2,7 +2,7 @@
 /**
 * Course Completions analytics widget
 * @since   3.5.0
-* @version 3.5.0
+* @version 3.5.3
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -45,11 +45,13 @@ class LLMS_Analytics_Coursecompletions_Widget extends LLMS_Analytics_Widget {
 		$this->output_type = OBJECT ;
 
 		$this->query = "SELECT updated_date AS date
-						FROM {$wpdb->prefix}lifterlms_user_postmeta
+						FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+						JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
 						WHERE
-							    meta_key = '_is_complete'
-							AND meta_value = 'yes'
-							AND updated_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS  DATETIME )
+							    upm.meta_key = '_is_complete'
+							AND p.post_type = 'course'
+							AND upm.meta_value = 'yes'
+							AND upm.updated_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS  DATETIME )
 							{$student_ids}
 							{$lesson_ids}
 						;";

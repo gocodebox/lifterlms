@@ -14,8 +14,16 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	public function test_shortcodes() {
 
 		$shortcodes = array(
-			'LLMS_Shortcode_Registration',
+			'LLMS_Shortcode_Course_Author',
+			'LLMS_Shortcode_Course_Continue',
+			'LLMS_Shortcode_Course_Meta_Info',
+			'LLMS_Shortcode_Course_Outline',
+			'LLMS_Shortcode_Course_Prerequisites',
+			'LLMS_Shortcode_Course_Reviews',
+			'LLMS_Shortcode_Course_Syllabus',
+			'LLMS_Shortcode_Hide_Content',
 			'LLMS_Shortcode_Membership_Link',
+			'LLMS_Shortcode_Registration',
 		);
 
 		foreach ( $shortcodes as $class ) {
@@ -27,7 +35,6 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 			$this->assertTrue( is_string( $obj->output() ) );
 			$this->assertTrue( is_array( $obj->get_attributes() ) );
 			$this->assertTrue( is_string( $obj->get_content() ) );
-
 
 		}
 

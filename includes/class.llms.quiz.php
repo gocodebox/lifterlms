@@ -106,6 +106,31 @@ class LLMS_Quiz {
 	}
 
 	/**
+	 * Retrieve the course associated with the lesson
+	 * @return   obj|null     Instance of the LLMS_Course or null
+	 * @since    3.6.0
+	 * @version  3.6.0
+	 */
+	public function get_course() {
+
+		$lesson_id = $this->get_assoc_lesson( get_current_user_id() );
+
+		// this handles getting the lesson when the quiz hasn't been saved yet or has just been started
+		if ( ! $lesson_id ) {
+			$session = LLMS()->session->get( 'llms_quiz' );
+			$lesson_id = ( $session && isset( $session->assoc_lesson ) ) ? $session->assoc_lesson : false;
+		}
+
+		if ( $lesson_id ) {
+			$lesson = llms_get_post( $lesson_id );
+			return $lesson->get_course();
+		}
+
+		return null;
+
+	}
+
+	/**
 	 * Get Allowed Attempts
 	 *
 	 * @return string
@@ -472,7 +497,7 @@ class LLMS_Quiz {
 	 * @param  int $question_id [ID of question]
 	 * @return key [key of question in questions array]
 	 */
-	public function get_question_key ( $question_id ) {
+	public function get_question_key( $question_id ) {
 		foreach ( $this->get_questions() as $key => $value ) {
 			if ( $key == $question_id ) {
 				$question_key = $key;

@@ -2,7 +2,7 @@
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  3.0.4
+ * @version  3.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -21,7 +21,6 @@ class LLMS_Post_Types {
 		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 9 );
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
 
-		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
 		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
 
 	}
@@ -68,58 +67,10 @@ class LLMS_Post_Types {
 
 	}
 
-
-	/**
-	 * Sets the WP_Query variables for "post_type" on LifterLMS custom taxonomy archive pages for Courses and Memberships
-	 * @param   obj    $query   Main WP_Query Object
-	 * @return  void
-	 *
-	 * @since    1.4.4
-	 * @version  3.4.1
-	 */
-	public static function pre_get_posts( $query ) {
-
-		if ( ! is_admin() && $query->is_main_query() ) {
-
-			if ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
-
-				$query->set( 'post_type', array( 'course', 'llms_membership' ) );
-
-			}
-
-			if ( is_post_type_archive( 'course' ) || $query->get( 'page_id' ) == llms_get_page_id( 'courses' ) || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track' ) ) ) {
-				$query->set( 'posts_per_page', get_option( 'lifterlms_shop_courses_per_page', 10 ) );
-
-				$sorting = explode( ',', get_option( 'lifterlms_shop_ordering', 'menu_order,ASC' ) );
-
-				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
-				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
-
-				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $order ) );
-				$query->set( 'order', apply_filters( 'llms_courses_order', $orderby ) );
-
-			} elseif ( is_post_type_archive( 'llms_membership' ) || $query->get( 'page_id' ) == llms_get_page_id( 'memberships' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
-
-				$query->set( 'posts_per_page', get_option( 'lifterlms_memberships_per_page', 10 ) );
-
-				$sorting = explode( ',', get_option( 'lifterlms_memberships_ordering', 'menu_order,ASC' ) );
-
-				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
-				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
-
-				$query->set( 'orderby', apply_filters( 'llms_memberships_orderby', $order ) );
-				$query->set( 'order', apply_filters( 'llms_memberships_order', $orderby ) );
-
-			}
-
-		}
-
-	}
-
 	/**
 	 * Register Taxonomies
 	 * @since    1.0.0
-	 * @version  3.3.1
+	 * @version  3.6.0
 	 */
 	public static function register_taxonomies () {
 
@@ -318,12 +269,25 @@ class LLMS_Post_Types {
 		        ) )
 		    );
 		}
+
+		register_taxonomy( 'llms_product_visibility',
+			apply_filters( 'lifterlms_taxonomy_objects_product_visibility', array( 'course', 'llms_membership' ) ),
+			apply_filters( 'lifterlms_taxonomy_args_product_visibility', array(
+				'hierarchical'      => false,
+				'show_ui'           => false,
+				'show_in_nav_menus' => false,
+				'query_var'         => is_admin(),
+				'rewrite'           => false,
+				'public'            => false,
+			) )
+		);
+
 	}
 
 	/**
 	 * Register Post Types
-	 * @since  1.0.0
-	 * @version  3.0.4
+	 * @since    1.0.0
+	 * @version  3.6.0
 	 */
 	public static function register_post_types() {
 		if ( post_type_exists( 'course' ) ) {
@@ -369,7 +333,7 @@ class LLMS_Post_Types {
 					'menu_icon'             => 'dashicons-welcome-learn-more',
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> true,
-					'exclude_from_search' 	=> true,
+					'exclude_from_search' 	=> false,
 					'hierarchical' 			=> false,
 					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
 					'query_var' 			=> true,

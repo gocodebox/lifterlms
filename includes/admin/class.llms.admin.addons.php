@@ -79,7 +79,7 @@ class LLMS_Admin_AddOns {
 	 * @param    sring     $name  section name (untranslated key)
 	 * @return   string
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.5.3
 	 */
 	private function get_section_title( $name ) {
 		switch ( $name ) {
@@ -106,6 +106,10 @@ class LLMS_Admin_AddOns {
 
 			case 'tools':
 				return __( 'Tools & Utilities', 'lifterlms' );
+			break;
+
+			case 'services':
+				return __( 'Services', 'lifterlms' );
 			break;
 		}
 		return $name;
