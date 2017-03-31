@@ -281,7 +281,7 @@ function llms_get_product_visibility_options() {
 * @param    integer    $skip         number of results to skip (for pagination)
 * @return   array
 * @since    3.0.0
-* @version  3.6.0
+* @version  [version]
 */
 function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
 
@@ -295,8 +295,8 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 		),
 	) );
 
-	if ( $query->students ) {
-		return wp_list_pluck( $query->students, 'id' );
+	if ( $query->results ) {
+		return wp_list_pluck( $query->results, 'id' );
 	}
 
 	return array();
