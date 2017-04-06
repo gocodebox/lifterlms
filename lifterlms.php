@@ -184,7 +184,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.4.3
+	 * @version [version]
 	 */
 	private function includes() {
 
@@ -194,12 +194,13 @@ final class LifterLMS {
 
 		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
 
+		include_once 'includes/abstracts/abstract.llms.admin.table.php';
+
 		if ( is_admin() ) {
 
 			include_once 'includes/class.llms.generator.php';
 			include_once 'includes/admin/class.llms.admin.import.php';
 
-			include_once 'includes/abstracts/abstract.llms.admin.table.php';
 			include_once 'includes/admin/post-types/tables/class.llms.table.student.management.php';
 
 			require_once 'includes/admin/llms.functions.admin.php';

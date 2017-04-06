@@ -300,7 +300,7 @@ msgstr ""
 msgid "Developer:"
 msgstr ""
 
-#: includes/admin/class.llms.admin.analytics.php:80, includes/admin/class.llms.admin.settings.php:71
+#: includes/admin/class.llms.admin.analytics.php:80, includes/admin/class.llms.admin.settings.php:72
 msgid "Whoa! something went wrong there!. Please refresh the page and retry."
 msgstr ""
 
@@ -392,7 +392,7 @@ msgstr ""
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:60, lifterlms.php:405
+#: includes/admin/class.llms.admin.menus.php:60, lifterlms.php:433
 msgid "Settings"
 msgstr ""
 
@@ -516,15 +516,15 @@ msgstr ""
 msgid "Review Date"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:78
+#: includes/admin/class.llms.admin.settings.php:79
 msgid "Your settings have been saved."
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:528
+#: includes/admin/class.llms.admin.settings.php:557
 msgid "Select a page&hellip;"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:554
+#: includes/admin/class.llms.admin.settings.php:583
 msgid "None"
 msgstr ""
 
@@ -877,7 +877,7 @@ msgstr ""
 msgid "Coupon Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:396, includes/llms.functions.core.php:714
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:425, includes/llms.functions.core.php:714
 msgid "ID#"
 msgstr ""
 
@@ -2080,7 +2080,7 @@ msgstr ""
 msgid "Trigger"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.engagements.php:38, templates/admin/post-types/order-transactions.php:22
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.engagements.php:38, includes/admin/settings/tables/class.llms.table.notification.settings.php:107, templates/admin/post-types/order-transactions.php:22
 msgid "Type"
 msgstr ""
 
@@ -2092,7 +2092,7 @@ msgstr ""
 msgid "%d days"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:37
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:37, includes/notifications/class.llms.notification.view.lesson.complete.php:68
 msgid "Lesson Title"
 msgstr ""
 
@@ -2199,7 +2199,7 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:336, includes/admin/reporting/tables/llms.table.student.courses.php:191, includes/admin/reporting/tables/llms.table.student.memberships.php:107, includes/admin/reporting/tables/llms.table.students.php:283
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:336, includes/admin/reporting/tables/llms.table.student.courses.php:191, includes/admin/reporting/tables/llms.table.student.memberships.php:107, includes/admin/reporting/tables/llms.table.students.php:283, includes/admin/settings/tables/class.llms.table.notification.settings.php:106
 msgid "Name"
 msgstr ""
 
@@ -3039,11 +3039,47 @@ msgstr ""
 msgid "Memberships Sorting"
 msgstr ""
 
+#: includes/admin/settings/class.llms.settings.notifications.php:15
+msgid "Notifications"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.notifications.php:34
+msgid "Notification Settings"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.notifications.php:65
+msgid "Title / Subject"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.notifications.php:74
+msgid "Body"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.notifications.php:82
+msgid "Icon"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.notifications.php:90, includes/admin/settings/class.llms.settings.notifications.php:107, includes/admin/settings/tables/class.llms.table.notification.settings.php:108
+msgid "Subscribers"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.notifications.php:125
+msgid "Invalid notification type"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.notifications.php:133
+msgid "Back to all notifications"
+msgstr ""
+
+#: includes/admin/settings/tables/class.llms.table.notification.settings.php:109
+msgid "Configure"
+msgstr ""
+
 #: includes/admin/views/html.admin.settings.php:34
 msgid "Save Changes"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:25, includes/class.llms.ajax.handler.php:71, includes/class.llms.ajax.handler.php:418
+#: includes/class.llms.ajax.handler.php:25, includes/class.llms.ajax.handler.php:71, includes/class.llms.ajax.handler.php:447
 msgid "Missing required parameters"
 msgstr ""
 
@@ -3059,27 +3095,27 @@ msgstr ""
 msgid "Error deleting quiz attempt: Missing required parameter!"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:174
+#: includes/class.llms.ajax.handler.php:203
 msgid "Missing required parameters."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:180
+#: includes/class.llms.ajax.handler.php:209
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:422
+#: includes/class.llms.ajax.handler.php:451
 msgid "Invalid status"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:446
+#: includes/class.llms.ajax.handler.php:475
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:451
+#: includes/class.llms.ajax.handler.php:480
 msgid "Please enter a plan ID."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:460, includes/controllers/class.llms.controller.orders.php:194
+#: includes/class.llms.ajax.handler.php:489, includes/controllers/class.llms.controller.orders.php:194
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -3288,7 +3324,7 @@ msgstr ""
 msgid "My Courses"
 msgstr ""
 
-#: includes/class.llms.install.php:237, includes/functions/llms.functions.updates.php:698
+#: includes/class.llms.install.php:237, includes/functions/llms.functions.updates.php:698, includes/notifications/class.llms.notification.controller.lesson.complete.php:112, includes/notifications/class.llms.notification.controller.lesson.complete.php:120
 msgid "Student"
 msgstr ""
 
@@ -6962,6 +6998,34 @@ msgstr ""
 msgid "Trial"
 msgstr ""
 
+#: includes/notifications/class.llms.notification.controller.lesson.complete.php:92, templates/course/complete-lesson-link.php:31
+msgid "Lesson Complete"
+msgstr ""
+
+#: includes/notifications/class.llms.notification.controller.lesson.complete.php:125
+msgid "Course Author"
+msgstr ""
+
+#: includes/notifications/class.llms.notification.controller.lesson.complete.php:130
+msgid "Lesson Author"
+msgstr ""
+
+#: includes/notifications/class.llms.notification.view.lesson.complete.php:35, includes/notifications/class.llms.notification.view.lesson.complete.php:106
+msgid "Congratulations! %1$s completed %2$s"
+msgstr ""
+
+#: includes/notifications/class.llms.notification.view.lesson.complete.php:37
+msgid "Congratulations! You finished %s"
+msgstr ""
+
+#: includes/notifications/class.llms.notification.view.lesson.complete.php:69
+msgid "Student Name"
+msgstr ""
+
+#: includes/notifications/class.llms.notification.view.lesson.complete.php:108
+msgid "%s Completed a Lesson"
+msgstr ""
+
 #: includes/shortcodes/class.llms.shortcode.checkout.php:44
 msgid "You are currently logged in as <em>%1$s</em>. <a href=\"%2$s\">Click here to logout</a>"
 msgstr ""
@@ -7770,10 +7834,6 @@ msgstr ""
 
 #: templates/course/categories.php:14
 msgid "Categories: "
-msgstr ""
-
-#: templates/course/complete-lesson-link.php:31
-msgid "Lesson Complete"
 msgstr ""
 
 #: templates/course/complete-lesson-link.php:48

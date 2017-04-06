@@ -44,7 +44,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	protected function get_default_args() {
 
 		$args = array(
-			'subsciber_id' => null,
+			'subsciber' => null,
 			'sort' => array(
 				'updated' => 'DESC',
 				'id' => 'DESC',
@@ -188,9 +188,9 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 			$where .= sprintf( ' AND type IN( %s )', implode( ', ', $types ) );
 		}
 
-		$subsciber_id = $this->get( 'subscriber_id' );
-		if ( $subsciber_id ) {
-			$where .= $wpdb->prepare( ' AND subscriber_id = %d', $subsciber_id );
+		$subsciber = $this->get( 'subscriber' );
+		if ( $subsciber ) {
+			$where .= $wpdb->prepare( ' AND subscriber = %s', $subsciber );
 		}
 
 

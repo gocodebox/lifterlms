@@ -41,43 +41,39 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 		$this->lesson = llms_get_post( $lesson_id );
 		$this->course = $this->lesson->get_course();
 
-		foreach ( $this->get_supported_types() as $type ) {
+		$this->send();
 
-			foreach ( $this->get_subscriber_options( $type ) as $data ) {
+	}
 
-				if ( 'no' === $data['enabled'] ) {
-					continue;
-				}
+	/**
+	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
+	 * @param    string     $subscriber  subscriber type string
+	 * @return   int|false
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_subscriber( $subscriber ) {
 
+		switch ( $subscriber ) {
+
+			case 'course_author':
+				$uid = $this->course->get( 'author' );
+			break;
+
+			case 'lesson_author':
+				$uid = $this->lesson->get( 'author' );
+			break;
+
+			case 'student':
+				$uid = $this->user_id;
+			break;
+
+			default:
 				$uid = false;
-
-				switch ( $data['id'] ) {
-
-					case 'course_author':
-						$uid = $this->course->get( 'author' );
-					break;
-
-					case 'lesson_author':
-						$uid = $this->lesson->get( 'author' );
-					break;
-
-					case 'student':
-						$uid = $this->user_id;
-					break;
-
-				}
-
-				if ( $uid ) {
-
-					$this->subscribe( $uid, $type );
-
-				}
-
-			}
 
 		}
 
-		$this->send();
+		return $uid;
 
 	}
 
@@ -99,7 +95,7 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function set_subscriber_options( $type ) {
+	protected function set_subscriber_options( $type ) {
 
 		$options = array();
 
@@ -128,6 +124,12 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 					'enabled' => 'yes',
 					'id' => 'lesson_author',
 					'title' => __( 'Lesson Author', 'lifterlms' ),
+				);
+				$options[] = array(
+					'description' =>  __( 'Enter additional email addresses which will recieve this notification. Separate multilpe addresses with commas.', 'lifterlms' ),
+					'enabled' => 'no',
+					'id' => 'custom',
+					'title' => __( 'Additional Recipients', 'lifterlms' ),
 				);
 			break;
 

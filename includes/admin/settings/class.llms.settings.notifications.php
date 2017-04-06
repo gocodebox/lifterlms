@@ -93,15 +93,17 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 				);
 
 				$subscribers = $controller->get_subscriber_options( $type );
-var_dump( $view->get_option( 'subscribers' ) );
+
 				foreach ( $subscribers as $i => $data ) {
 
 					$sub_settings = array(
-						'default' => $data['enabled'] ? 'yes' : 'no',
+						'default' => $data['enabled'],
 						'desc' => $data['title'],
-						'id' => $view->get_option_name( 'subscribers' ) . '[' . $data['id'] . ']',
+						'id' => sprintf( '%1$s[%2$s]', $controller->get_option_name( $type . '_subscribers' ), $data['id'] ),
 						'type' => 'checkbox',
 					);
+
+
 
 					if ( 0 === $i ) {
 						$sub_settings['title'] = __( 'Subscribers', 'lifterlms' );
@@ -113,6 +115,14 @@ var_dump( $view->get_option( 'subscribers' ) );
 					}
 
 					$settings[] = $sub_settings;
+
+					if ( 'custom' === $data['id'] ) {
+						$settings[] = array(
+							'desc' => '<br>' . $data['description'],
+							'id' => $controller->get_option_name( $type . '_custom_subscribers' ),
+							'type' => 'text',
+						);
+					}
 
 				}
 

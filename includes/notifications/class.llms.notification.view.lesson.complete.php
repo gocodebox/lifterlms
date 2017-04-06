@@ -86,7 +86,7 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 			break;
 
 			case '{{STUDENT_NAME}}':
-				$code = $this->is_for_self() ? 'you' : $this->student->get_name();
+				$code = $this->is_for_self() ? 'you' : $this->user->get_name();
 			break;
 
 		}

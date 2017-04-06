@@ -1,6 +1,6 @@
 <?php
 
-abstract class LLMS_Abstract_Notification_View {
+abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Settings for basic notifications
@@ -29,6 +29,12 @@ abstract class LLMS_Abstract_Notification_View {
 	 * @var  [type]
 	 */
 	public $trigger_id;
+
+	/**
+	 * Instance of the current LLMS_Notification
+	 * @var  obj
+	 */
+	protected $notification;
 
 	/**
 	 * Instance of LLMS_Student for the subscriber
@@ -111,7 +117,7 @@ abstract class LLMS_Abstract_Notification_View {
 			$this->notification = new LLMS_Notification( $notification->id );
 		}
 
-		$this->subscriber = new LLMS_Student( $this->notification->get( 'subscriber_id' ) );
+		$this->subscriber = new LLMS_Student( $this->notification->get( 'subscriber' ) );
 		$this->user = new LLMS_Student( $this->notification->get( 'user_id' ) );
 		$this->post = llms_get_post( $this->notification->get( 'post_id' ) );
 
@@ -210,8 +216,7 @@ abstract class LLMS_Abstract_Notification_View {
 	 * @version  [version]
 	 */
 	public function get_email_html() {
-		$html = 'this is an email';
-		return apply_filters( $this->get_filter( 'get_basic_html' ), $html, $this );
+		return apply_filters( $this->get_filter( 'get_basic_html' ), $this->get_body(), $this );
 	}
 
 	/**
@@ -277,36 +282,6 @@ abstract class LLMS_Abstract_Notification_View {
 	}
 
 	/**
-	 * Retrieve the value of an option from the database
-	 * @param    string     $name     option name (unprefixed)
-	 * @param    mixed      $default  default value to use if no option is found
-	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function get_option( $name, $default = '' ) {
-		$val = get_option( $this->get_option_name( $name ), '' );
-		if ( '' === $val && $default ) {
-			return $default;
-		}
-		return $val;
-	}
-
-	/**
-	 * Retrieve a prefixed option name from the database
-	 * Prefix automatically adds a trigger and type to the option name
-	 * in addition to llms_notification
-	 * @param    string     $name  option name (unprefixed)
-	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function get_option_name( $name ) {
-		$type = $this->notification->get( 'type' );
-		return 'llms_notification_' . $this->trigger_id . '_' . $type . '_' . $name;
-	}
-
-	/**
 	 * Get available merge codes for the current notification
 	 * @return   array
 	 * @since    [version]
@@ -336,6 +311,17 @@ abstract class LLMS_Abstract_Notification_View {
 
 		return apply_filters( $this->get_filter( 'get_merged_string' ), $this->sentence_case( $string ), $this );
 
+	}
+
+	/**
+	 * Retrieve a prefix for options related to the notification
+	 * This overrides the LLMS_Abstract_Options_Data method
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_option_prefix() {
+		return sprintf( '%1$snotification_%2$s_%3$s_', $this->option_prefix, $this->trigger_id, $this->notification->get( 'type' ) );
 	}
 
 	/**

@@ -786,7 +786,17 @@ class LLMS_Admin_Settings {
 		    	// Standard types
 		    	case 'checkbox' :
 
-		    		if ( isset( $_POST[ $value['id'] ] ) ) {
+		    		// ooboi this is gross
+		    		if ( strstr( $value['id'], '[' ) ) {
+		    			parse_str( $value['id'], $option_data );
+		    			$main_option_names = array_keys( $option_data );
+		    			$main_option_vals = array_keys( $option_data[ $main_option_names[0] ] );
+		    			if ( isset( $_POST[ $main_option_names[0] ] ) && in_array( $main_option_vals[0], array_keys( $_POST[ $main_option_names[0] ] ) ) ) {
+		    				$option_value = 'yes';
+		    			} else {
+		    				$option_value = 'no';
+		    			}
+		    		} elseif ( isset( $_POST[ $value['id'] ] ) ) {
 		    			$option_value = 'yes';
 		            } else {
 		            	$option_value = 'no';

@@ -8,18 +8,19 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Email_Engagement extends LLMS_Email {
+class LLMS_Email_Engagement extends LLMS_Abstract_Email {
+
+	protected $id = 'engagement_email';
 
 	var $user_login;
 	var $user_email;
 	var $user_pass;
 
-	/**
-	 * Constructor
-	 * Inherits parent constructor
-	 */
-	public function __construct() {
-		parent::__construct();
+
+	protected function init() {
+
+		// $this->title = __( 'Engagement Email', 'lifterlms' );
+
 	}
 
 	/**
@@ -29,17 +30,19 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	 * @param    int $related_post_id  WP Post ID of the triggering post
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.1.0
+	 * @version  [version]
 	 */
 	public function init( $email_id, $user_id, $related_post_id ) {
 
+
+
 		global $wpdb;
+
 
 		$email_content = get_post( $email_id );
 		$email_meta = get_post_meta( $email_content->ID );
 
-		$this->id 					= 'engagement_email';
-		$this->title 				= __( 'Engagement Email', 'lifterlms' );
+
 		$this->template_html 		= 'emails/template.php';
 		$this->subject 				= isset( $email_meta['_llms_email_subject'] ) ? $email_meta['_llms_email_subject'][0] : '';
 		$this->heading      		= isset( $email_meta['_llms_email_heading'] ) ? $email_meta['_llms_email_heading'][0] : '';

@@ -1,63 +1,105 @@
 <?php
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-$blog_title = get_bloginfo( 'name' );
+$mailer = LLMS()->mailer();
 
-?>
+?><!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+	<head>
+		<meta name="viewport" content="width=device-width" />
+		<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo( 'charset' ); ?>" />
+		<title><?php echo get_bloginfo( 'name', 'display' ); ?></title>
+		<style>
+		@media all {
+			a {
+				color: <?php $mailer->get_css( 'main-color' ); ?> !important; }
+			p {
+				Margin-bottom: 15px !important;
+				Margin-top: 0 !important; }
+			td[class=main-content] *:first-child {
+				Margin-top: 0 !important; }
+			td[class=main-content] *:last-child {
+				Margin-bottom: 0 !important; }
+			table[class=body] img.alignright {
+				float:right; }
+			table[class=body] img.alignleft {
+				float:left; }
+			table[class=body] img {
+				display: block;
+				height: auto !important;
+				Margin: 0 auto;
+				max-width: 100% !important;
+				width: auto !important; }
+			.ExternalClass {
+				width: 100%; }
+			.ExternalClass,
+			.ExternalClass p,
+			.ExternalClass span,
+			.ExternalClass font,
+			.ExternalClass td,
+			.ExternalClass div {
+				line-height: 100%; }
+		@media only screen and (max-width: 620px) {
+			table[class=body] p,
+			table[class=body] ul,
+			table[class=body] ol,
+			table[class=body] td,
+			table[class=body] span,
+			table[class=body] a {
+				font-size: 16px !important; }
+			table[class=body] .wrapper,
+			table[class=body] .article {
+				padding: 10px !important; }
+			table[class=body] .content {
+				padding: 0 !important; }
+			table[class=body] .container {
+				padding: 0 !important;
+				width: 100% !important; }
+			table[class=body] .main {
+				border-left-width: 0 !important;
+				border-radius: 0 !important;
+				border-right-width: 0 !important; }}
+		</style>
+	</head>
+	<body class="" style="background-color:<?php $mailer->get_css( 'background-color' ); ?>;color:<?php $mailer->get_css( 'font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;-webkit-font-smoothing:antialiased;font-size:<?php $mailer->get_css( 'font-size' ); ?>;line-height:1.4;margin:0;padding:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;">
+		<table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;background-color:<?php $mailer->get_css( 'background-color' ); ?>;width:100%;">
+			<tr>
+				<td style="font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;">&nbsp;</td>
+				<td class="container" style="font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;display:block;max-width:<?php $mailer->get_css( 'max-width' ); ?>;padding:10px;width:<?php $mailer->get_css( 'max-width' ); ?>;Margin:0 auto !important;">
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+					<?php if ( $header_image = get_option( 'lifterlms_email_header_image' ) ) : ?>
+					<div class="content" style="box-sizing:border-box;display:block;Margin:0 auto;max-width:<?php $mailer->get_css( 'max-width' ); ?>;padding:10px;">
+						<img alt="<?php echo get_bloginfo( 'name' ); ?>" src="<?php echo esc_url( $header_image ); ?>" style="display:block;height:auto;Margin:0 auto;max-width:100%;" />
+					</div>
+					<?php endif; ?>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<title><?php echo $blog_title; ?><</title>
-	<style type="text/css">		
-		body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
-		img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
-		a img {border:none;}
-		p, h1, h2, h3, h4, h5, h6 {line-height: 1;}
-		table td {border-collapse: collapse;}
-		table { mso-table-lspace:0pt; mso-table-rspace:0pt; }
-		.image_fix {display:block;}
-		#backgroundTable {margin:0; padding:20px; width:100% !important; line-height: 100% !important;}
-		#outlook a {padding:0;}
-		.ExternalClass {width:100%;}
-		.ExternalClass, 
-		.ExternalClass p, 
-		.ExternalClass span, 
-		.ExternalClass font, 
-		.ExternalClass td, 
-		.ExternalClass div {line-height: 100%;}
-	</style>
-</head>
-<body>
-	<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
-		<tr>
-			<td>
-				<table cellpadding="0" cellspacing="0" border="0" align="center">
-					<tr>
-						<td align="center" valign="top" width="600">
-						<?php
-						if ( $blog_logo = get_option( 'lifterlms_email_header_image' ) ) {
+					<!-- START CENTERED WHITE CONTAINER -->
+					<div class="content" style="box-sizing:border-box;color:<?php $mailer->get_css( 'font-color' ); ?>;display:block;Margin:0 auto;max-width:<?php $mailer->get_css( 'max-width' ); ?>;padding:10px;">
 
-							echo '<img class="image_fix" src="' . esc_url( $blog_logo ) . '" alt="' . get_bloginfo( 'name' ) . '"/>';
-						}
-						?>
-						</td>
-					</tr>
-					<tr>
-						<td align="center" width="600">
-	                    	<h1><?php echo isset( $email_heading ) ? $email_heading : ''; ?></h1>
-	                    </td>
-					</tr>
-					<tr>
-						<td>
-							<table cellpadding="0" cellspacing="0" border="0" align="center">
-								<tr>
-									<td width="600" valign="top">
-									
+						<!-- <span class="preheader" style="color:transparent;display:none;height:0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;visibility:hidden;width:0;">This is preheader text. Some clients will show this text as a preview.</span> -->
 
+						<?php if ( isset( $email_heading ) ): ?>
+						<!-- START HEADING AREA -->
+						<table class="main" style="background:<?php $mailer->get_css( 'heading-background-color' ); ?>;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;border-radius:<?php printf( '%1$s %1$s 0 0', $mailer->get_css( 'border-radius' ) ); ?>;width:100%;">
+							<tr>
+								<td class="wrapper" style="font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;box-sizing:border-box;padding:0;">
+									<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;">
+										<tr>
+											<td style="color:<?php $mailer->get_css( 'heading-font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:28px;vertical-align:top;">
+												<h1 style="color:<?php $mailer->get_css( 'heading-font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:28px;font-weight:400;Margin:0;padding:20px;"><?php echo $email_heading ?></h1>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						<!-- END HEADING AREA -->
+						<?php endif; ?>
 
-
-
+						<table class="main" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;background:#fff;border-radius:<?php echo isset( $email_heading ) ? sprintf( '0 0 %1$s %1$s', $mailer->get_css( 'border-radius' ) ) : $mailer->get_css( 'border-radius' ); ?>;width:100%;">
+							<tr>
+								<td class="wrapper" style="color:<?php $mailer->get_css( 'font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;box-sizing:border-box;padding:20px;">
+									<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;">
+										<tr>
+											<td class="main-content" style="color:<?php $mailer->get_css( 'font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;">

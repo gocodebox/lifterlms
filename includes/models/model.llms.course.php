@@ -393,7 +393,7 @@ class LLMS_Course extends LLMS_Post_Model {
 			return true;
 		}
 
-		// run a query and utilize the "found_students" so we perform a smaller query
+		// run a query and utilize the "found_results" so we perform a smaller query
 		$query = new LLMS_Student_Query( array(
 			'post_id' => $this->get( 'id' ),
 			'statuses' => array( 'enrolled' ),
@@ -401,7 +401,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		) );
 
 		// compare results
-		return ( $query->found_students < $capacity );
+		return ( $query->found_results < $capacity );
 	}
 
 	/**

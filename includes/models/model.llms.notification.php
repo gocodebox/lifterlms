@@ -1,22 +1,91 @@
 <?php
+/**
+ * LifterLMS Notificaiton Model
+ * Used for notification CRUD and Display
+ *
+ * @since   [version]
+ * @version [version]
+ */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Notification implements JsonSerializable {
 
+	/**
+	 * Notification ID
+	 * @var  int
+	 */
 	public $id;
 
-	// default properties
+	/**********************************************************
+	 *
+	 * Default Properties
+	 *
+	 **********************************************************/
+
+	/**
+	 * Created Date
+	 * @var  string (DATETIME)
+	 */
 	private $created;
+
+	/**
+	 * Updated Date
+	 * @var  string (DATETIME)
+	 */
 	private $updated;
+
+	/**
+	 * Current Status
+	 * Options vary based on notification type
+	 * @var  string
+	 */
 	private $status;
+
+	/**
+	 * Type of Notification
+	 * basic, email, sms, etc...
+	 * @var  string
+	 */
 	private $type;
-	private $subscriber_id;
+
+	/**
+	 * Subscriber Identifier
+	 * WP User ID, email address (for cc,bcc), phone number, etc...
+	 * @var  mixed
+	 */
+	private $subscriber;
+
+	/**
+	 * Trigger ID for the notification
+	 * lesson_complete, course_complete, etc...
+	 * @var  string
+	 */
 	private $trigger_id;
+
+	/**
+	 * WP User ID of the user who triggered the notification to be generated
+	 * NOT to be confused with $subscriber and can be different than the subscriber
+	 * @var  int
+	 */
 	private $user_id;
+
+	/**
+	 * WP Post ID of the post which triggered the notification to be generated
+	 * @var  int
+	 */
 	private $post_id;
 
-	// view related
+	/**********************************************************
+	 *
+	 * View Related Properties
+	 *
+	 **********************************************************/
+	/**
+	 * Merged HTML for the notification
+	 * used for displaying a notification view
+	 * @var  [type]
+	 */
 	private $html;
 
 	/**
@@ -60,7 +129,7 @@ class LLMS_Notification implements JsonSerializable {
 			'created' => $time,
 			'post_id' => null,
 			'status' => 'new',
-			'subscriber_id' => null,
+			'subscriber' => null,
 			'trigger_id' => null,
 			'type' => '',
 			'updated' => $time,
@@ -68,16 +137,17 @@ class LLMS_Notification implements JsonSerializable {
 
 		) );
 
-		ksort( $data );
+		ksort( $data ); // maintain alpha sort you savages
+
 		$format = array(
-			'%s',
-			'%d',
-			'%s',
-			'%d',
-			'%s',
-			'%s',
-			'%s',
-			'%d',
+			'%s', // created
+			'%d', // post_id
+			'%s', // status
+			'%s', // subscriber
+			'%s', // trigger_id
+			'%s', // type
+			'%s', // updated
+			'%d', // user_id
 		);
 
 		global $wpdb;
@@ -98,7 +168,7 @@ class LLMS_Notification implements JsonSerializable {
 	 * @version  [version]
 	 */
 	public function is_subscriber_self() {
-		return ( $this->get( 'subscriber_id' ) == $this->get( 'user_id' ) );
+		return ( $this->get( 'subscriber' ) == $this->get( 'user_id' ) );
 	}
 
 	/**
@@ -181,7 +251,7 @@ class LLMS_Notification implements JsonSerializable {
 
 		global $wpdb;
 
-		$query = $wpdb->prepare( "SELECT created, updated, status, type, subscriber_id, trigger_id, user_id, post_id FROM {$this->get_table()} WHERE id = %d", $this->id );
+		$query = $wpdb->prepare( "SELECT created, updated, status, type, subscriber, trigger_id, user_id, post_id FROM {$this->get_table()} WHERE id = %d", $this->id );
 		$notification = $wpdb->get_row( $query, ARRAY_A );
 
 		if ( $notification ) {

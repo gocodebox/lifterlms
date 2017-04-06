@@ -18,13 +18,17 @@
 			clearInterval( heartbeat );
 		};
 
-		function do_heartbeat() {
+		function do_heartbeat( trigger ) {
+
 			pump( function() {
-				if ( ! self.has_notifications ) {
+
+				if ( ( trigger && 'unload' === trigger ) || ! self.has_notifications ) {
 					return;
 				}
 				self.show_all();
+
 			} );
+
 		};
 
 		pump = function( cb ) {
@@ -99,7 +103,7 @@
 			}
 
 			window.onbeforeunload = function() {
-				do_heartbeat();
+				do_heartbeat( 'unload' );
 			};
 
 			bind_events();

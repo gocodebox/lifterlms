@@ -62,7 +62,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'title' => __( 'Email Footer Text', 'lifterlms' ),
 					'desc' 		=> __( 'Text you would like displayed in the footer of all emails.', 'lifterlms' ),
 					'id' 		=> 'lifterlms_email_footer_text',
-					'type' 		=> 'text',
+					'type' 		=> 'textarea',
 					'default'	=> '',
 					'desc_tip'	=> true,
 				),

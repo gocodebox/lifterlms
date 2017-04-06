@@ -37,11 +37,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 			break;
 
 			case 'subscribers':
-				// foreach ( $data['subscribers'] as $subscribers ) {
-
-				// }
-				// $value = implode( ', ', $subscribers, 'title' ) ) ;
-				$value = '';
+				$value = $data['subscribers'];
 			break;
 
 			default:
@@ -75,7 +71,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 			foreach ( $controller->get_supported_types() as $type ) {
 				$base['type'] = $type;
-				$base['subscribers'] = array_values( $controller->get_subscriber_options( $type ) );
+				$base['subscribers'] = $this->get_subscribers_settings( $controller, $type );
 				$rows[] = $base;
 			}
 
@@ -84,6 +80,17 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 		$this->tbody_data = $rows;
 	}
 
+	private function get_subscribers_settings( $controller, $type ) {
+		$default = $controller->get_subscriber_options( $type );
+		$saved = $controller->get_option( $type . '_subscribers' );
+		$ret = array();
+		foreach ( $default as $subscriber ) {
+			if ( isset( $saved[ $subscriber['id'] ] ) && 'yes' === $saved[ $subscriber['id'] ] ) {
+				$ret[] = $subscriber['title'];
+			}
+		}
+		return implode( ', ', $ret );
+	}
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
