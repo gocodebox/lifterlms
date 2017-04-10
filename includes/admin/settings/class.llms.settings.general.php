@@ -86,6 +86,23 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			),
 		);
 
+		$roles = [];
+		$wp_roles = wp_roles()->roles;
+		foreach ($wp_roles as $key => $wp_role) {
+			$roles[ $key ] = $wp_role['name'];
+		}
+		$settings[] = array(
+			'id' => 'llms_grant_site_access',
+			'title' => __( 'Frontend access', 'lifterlms' ),
+			'desc' => __( 'Grant selected user roles sitewide frontend access without checking for prerequisites, memberships, etc.', 'lifterlms' ),
+			'type' => 'multiselect',
+			'options' => $roles,
+			'class' => 'llms-select2',
+			'custom_attributes' => array(
+				'data-placeholder' => __( 'Select user roles', 'lifterlms' ),
+			),
+		);
+
 		$settings[] = array(
 			'id' => 'section_tools',
 			'type' => 'sectionend',
