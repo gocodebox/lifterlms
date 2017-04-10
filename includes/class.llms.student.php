@@ -1437,7 +1437,7 @@ class LLMS_Student {
 	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.6.2
 	 */
 	public function mark_complete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
@@ -1506,6 +1506,8 @@ class LLMS_Student {
 				}
 
 			}
+
+			do_action( 'after_llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
 
 			return true;
 
