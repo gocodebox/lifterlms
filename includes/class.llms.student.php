@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.6.0
+ * @version 3.6.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

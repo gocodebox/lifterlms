@@ -170,7 +170,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 -----------------------
 
 + Fix issue preventing export of vouchers via email
-
++ added action `after_llms_mark_complete` to allow custom actions to happen after a course, lesson, etc... is marked complete
 
 
 = v3.6.1 - 2017/03/28 =
