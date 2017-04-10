@@ -46,14 +46,16 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			'value' => self::get_small_banners(),
 		);
 
-		$settings[] = array( 'type' => 'sectionstart', 'id' => 'general_information', 'class' => 'top' );
+		$settings[] = array(
+			'type' => 'sectionstart',
+			'id' => 'general_information',
+			'class' => 'top',
+		);
 
 		$settings[] = array(
-			'title' => __( 'Quick Links',
-			'lifterlms' ),
-				'type' => 'title',
-				'desc' => '
-
+			'title' => __( 'Quick Links', 'lifterlms' ),
+			'type' => 'title',
+			'desc' => '
 				<div class="llms-list">
 					<ul>
 						<li><p>' . sprintf( __( 'Version: %s', 'lifterlms' ), LLMS()->version ) . '</p></li>
@@ -65,7 +67,10 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			'id' => 'activation_options',
 		);
 
-		$settings[] = array( 'type' => 'sectionend', 'id' => 'general_information' );
+		$settings[] = array(
+			'type' => 'sectionend',
+			'id' => 'general_information',
+		);
 
 		$settings[] = array(
 			'id' => 'section_features',
