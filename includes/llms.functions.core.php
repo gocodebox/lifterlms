@@ -247,13 +247,16 @@ function llms_get_engagement_triggers() {
  * Get a list of registered engagement types
  * @return   array
  * @since    3.1.0
- * @version  3.1.0
+ * @version  [version]
  */
 function llms_get_engagement_types() {
 	return apply_filters( 'lifterlms_engagement_types', array(
 		'achievement' => __( 'Award an Achievement', 'lifterlms' ),
 		'certificate' => __( 'Award a Certificate', 'lifterlms' ),
 		'email' => __( 'Send an Email' ),
+		'engagement' => __( 'Trigger another Engagement', 'lifterlms' ),
+		'enroll' => __( 'Enroll a Student', 'lifterlms' ),
+		'unenroll' => __( 'Unenroll a Student', 'lifterlms' ),
 	) );
 }
 

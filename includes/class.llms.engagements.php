@@ -1,11 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Engagments Class
 *
 * Finds and triggers the appropriate engagement
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Engagements {
 
 	/**

@@ -24,6 +24,12 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		);
 		$this->priority = 'high';
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+
+	}
+
+	public function enqueue() {
+		wp_enqueue_script( 'llms-mb-engagements', plugins_url( 'assets/js/llms-metabox-engagements' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-droppable' ), '', true );
 	}
 
 	/**
@@ -309,6 +315,12 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 		update_post_meta( $post_id, $this->prefix . 'engagement_trigger_post', $val );
 
+	}
+
+	public function output() {
+		return llms_get_template( 'admin/metaboxes/engagements.php', array(
+			'triggers' => llms_get_engagement_triggers(),
+		) );
 	}
 
 }

@@ -230,11 +230,15 @@
 					case 'achievement':
 					case 'certificate':
 					case 'email':
+					case 'engagement':
 
-						var cpt = 'llms_' + engagement_type;
+						var post_type = 'llms_' + engagement_type;
 
-						$select.val( null ).attr( 'data-post-type', cpt ).trigger( 'change' );
-						self.post_select( $select );
+					break;
+
+					case 'enroll':
+
+						var post_type = 'llms_membership,course';
 
 					break;
 
@@ -244,8 +248,12 @@
 					default:
 
 						$select.trigger( 'llms-engagement-type-change-external', engagement_type );
+						return;
 
-				}
+				} // end switch
+
+				$select.val( null ).attr( 'data-post-type', post_type ).trigger( 'change' );
+				self.post_select( $select );
 
 			} );
 

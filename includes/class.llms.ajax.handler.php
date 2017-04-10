@@ -350,9 +350,9 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Handle Select2 Search boxes for WordPress Posts by Post Type
-	 * @since 3.0.0
-	 * @version 3.0.0
-	 * @return  string/json
+	 * @since    3.0.0
+	 * @version  [version]
+	 * @return   string/json
 	 */
 	public static function select2_query_posts() {
 
@@ -368,17 +368,36 @@ class LLMS_AJAX_Handler {
 
 		if ( $term ) {
 			$like = " AND post_title LIKE '%s'";
-			$vars = array( $_REQUEST['post_type'], '%' . $term . '%', $start, $limit );
+			$vars = array( '%' . $term . '%', $start, $limit );
 		} else {
 			$like = '';
-			$vars = array( $_REQUEST['post_type'], $start, $limit );
+			$vars = array( $start, $limit );
+		}
+
+
+
+		// allow search to cross multiple post types
+		if ( false !== strpos( $_REQUEST['post_type'], ',' ) ) {
+
+			$cpt_in_tpl = true;
+			$post_types = explode( ',', $_REQUEST['post_type'] );
+			foreach( $post_types as &$item ) {
+				$item = sprintf( "'%s'", esc_sql( trim( $item ) ) );
+			}
+			$post_type = sprintf( 'post_type IN ( %s )', implode( ',', $post_types ) );
+
+		} else {
+
+			$cpt_in_tpl = false;
+			$post_type = $wpdb->prepare( 'post_type = %s', $_REQUEST['post_type'] );
+
 		}
 
 		$posts = $wpdb->get_results( $wpdb->prepare(
-			"SELECT ID, post_title
+			"SELECT ID, post_title, post_type
 			 FROM $wpdb->posts
 			 WHERE
-			 	    post_type = %s
+			 	$post_type
 			 	AND post_status = 'publish'
 			 	$like
 			 ORDER BY post_title
@@ -389,11 +408,24 @@ class LLMS_AJAX_Handler {
 
 		$r = array();
 
+
 		foreach ( $posts as $p ) {
+
+			$extra = '';
+			if ( $cpt_in_tpl ) {
+				$obj = get_post_type_object( $p->post_type );
+				$extra =  sprintf( ' - %s', $obj->labels->singular_name );
+			}
 
 			$r[] = array(
 				'id' => $p->ID,
-				'name' => $p->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $p->ID . ')',
+				'name' => sprintf(
+					'%1$s (%2$s %3$d)%4$s',
+					$p->post_title,
+					__( 'ID#', 'lifterlms' ),
+					$p->ID,
+					$extra
+				),
 			);
 
 		}
