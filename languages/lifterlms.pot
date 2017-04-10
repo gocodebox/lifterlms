@@ -4885,19 +4885,19 @@ msgstr ""
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
-#: includes/class.llms.voucher.php:198
+#: includes/class.llms.voucher.php:256
 msgid "Voucher code \"%s\" could not be found."
 msgstr ""
 
-#: includes/class.llms.voucher.php:202
+#: includes/class.llms.voucher.php:260
 msgid "Voucher code \"%s\" has already been redeemed the maximum number of times."
 msgstr ""
 
-#: includes/class.llms.voucher.php:206
+#: includes/class.llms.voucher.php:264
 msgid "Voucher code \"%s\" is no longer valid."
 msgstr ""
 
-#: includes/class.llms.voucher.php:234
+#: includes/class.llms.voucher.php:292
 msgid "You have already redeemed this voucher."
 msgstr ""
 

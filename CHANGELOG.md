@@ -1,5 +1,12 @@
 == Changelog ==
 
+v3.6.2 - 2017/04/10
+-------------------
+
++ Fix issue preventing export of vouchers via email
+
+
+
 v3.6.1 - 2017/03/28
 -------------------
 
