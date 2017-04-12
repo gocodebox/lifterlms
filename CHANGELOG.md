@@ -12,6 +12,7 @@ v3.7.0 - 2017/04/13
 
 **Improvements**
 
++ Properly display track related information when reviewing engagements on the admin panel
 + Improve intelligence of enqueued admin js & css files
 
 

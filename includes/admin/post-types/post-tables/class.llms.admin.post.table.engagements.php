@@ -2,7 +2,7 @@
 /**
  * Add, Customize, and Manage LifterLMS Engagement Post Table Columns
  * @since    3.1.0
- * @version  3.1.0
+ * @version  3.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -51,7 +51,7 @@ class LLMS_Admin_Post_Table_Engagements {
 	 * @param  int $post_id WP Post ID of the coupon for the row
 	 * @return void
 	 * @since    3.1.0
-	 * @version  3.1.0
+	 * @version  3.7.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 
@@ -70,7 +70,17 @@ class LLMS_Admin_Post_Table_Engagements {
 				if ( $tid = get_post_meta( $post_id, '_llms_engagement_trigger_post', true ) ) {
 
 					echo '<br>';
-					printf( '<a href="%s">%s (ID# %d)</a>', get_edit_post_link( $tid ), get_the_title( $tid ), $tid );
+
+					if ( 'course_track_completed' === $trigger ) {
+						$term = get_term( $tid, 'course_track' );
+						$title = $term->name;
+						$link = get_edit_term_link( $tid, 'course_track', 'course' );
+					} else {
+						$title = get_the_title( $tid );
+						$link = get_edit_post_link( $tid );
+					}
+
+					printf( '<a href="%s">%s (ID# %d)</a>', $link, $title, $tid );
 
 				}
 
