@@ -33,8 +33,8 @@ class LLMS_View_Manager {
 
 		// filter page restrictions
 		add_filter( 'llms_page_restricted', array( $this, 'modify_restrictions' ), 10, 1 );
-		add_filter( 'llms_is_course_open', array( $this, 'modify_course_open' ), 10, 2 );
-		add_filter( 'llms_is_course_enrollment_open', array( $this, 'modify_course_open' ), 10, 2 );
+		add_filter( 'llms_is_course_open', array( $this, 'modify_course_open' ), 10, 1 );
+		add_filter( 'llms_is_course_enrollment_open', array( $this, 'modify_course_open' ), 10, 1 );
 
 		// filters we'll only run when view as links are called
 		if ( isset( $_GET['llms-view-as'] ) ) {
@@ -208,12 +208,11 @@ class LLMS_View_Manager {
 	 * Students and Visitors will see the actual access period
 	 * If viewing as self and self can bypass restrictions will appear as if course is open
 	 * @param    boolean    $status  default status
-	 * @param    obj        $course  instance of the LLMS_Course
 	 * @return   boolean
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function modify_course_open( $status, $course ) {
+	public function modify_course_open( $status ) {
 
 		if ( 'self' === $this->get_view() && llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
 
