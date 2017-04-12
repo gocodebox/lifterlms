@@ -2,7 +2,7 @@
 /**
  * Admin Settings Page, General Tab
  * @since  1.0.0
- * @version  [version]
+ * @version  3.7.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -31,7 +31,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 *
 	 * @return array
 	 * @since  1.0.0
-	 * @version  [version]
+	 * @version  3.7.0
 	 */
 	public function get_settings() {
 

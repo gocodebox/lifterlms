@@ -1,5 +1,20 @@
 == Changelog ==
 
+v3.7.0 - 2017/04/13
+-------------------
+
+**View Management**
+
++ All new view management for users to make editing content easier for course builders
++ Admins may customize the roles of users who can access view management
++ Qualifying users can view content as an enrolled student or a non-enrolled visitor
++ Default view allows users to bypass all restricitons (drip, membership, enrollment, and so on) for easy course navigation and management
+
+**Improvements**
+
++ Improve intelligence of enqueued admin js & css files
+
+
 v3.6.2 - 2017/04/10
 -------------------
 

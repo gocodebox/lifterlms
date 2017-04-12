@@ -56,8 +56,8 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
  * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
  * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID
  * @return   boolean
- * @since    [version]
- * @version  [version]
+ * @since    3.7.0
+ * @version  3.7.0
  */
 function llms_can_user_bypass_restrictions( $user ) {
 

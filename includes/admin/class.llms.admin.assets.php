@@ -2,7 +2,7 @@
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  [version]
+* @version  3.7.0
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -30,8 +30,8 @@ class LLMS_Admin_Assets {
 	/**
 	 * Determine if the current screen should load LifterLMS assets
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.7.0
+	 * @version  3.7.0
 	 */
 	public function is_llms_page() {
 
@@ -55,7 +55,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue stylesheets
 	 * @return void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.7.0
 	 */
 	public function admin_styles() {
 
@@ -79,7 +79,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.7.0
 	 */
 	public function admin_scripts() {
 		global $post_type;
@@ -225,7 +225,7 @@ class LLMS_Admin_Assets {
 	 * Initialize the "llms" object for other scripts to hook into
 	 * @return void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.7.0
 	 */
 	public function admin_print_scripts() {
 

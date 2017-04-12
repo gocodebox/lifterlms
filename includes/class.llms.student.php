@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version [version]
+ * @version 3.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -613,7 +613,7 @@ class LLMS_Student {
 	 * @param    int $product_id WP Post ID of a Course, Lesson, or Membership
 	 * @return   false|string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.7.0
 	 */
 	public function get_enrollment_status( $product_id ) {
 
@@ -1181,7 +1181,7 @@ class LLMS_Student {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.7.0
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 

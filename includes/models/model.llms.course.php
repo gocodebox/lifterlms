@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.7.0
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
@@ -439,7 +439,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * Determine if students can access course content based on the current date
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.7.0
 	 */
 	public function is_enrollment_open() {
 
@@ -467,7 +467,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 *
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.7.0
 	 */
 	public function is_open() {
 
