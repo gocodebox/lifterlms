@@ -17,6 +17,17 @@ class LLMS_View_Manager {
 	 */
 	public function __construct() {
 
+		add_action( 'init', array( $this, 'add_actions' ) );
+
+	}
+
+	public function add_actions() {
+
+		// if user can't bypass restrictions don't do anything
+		if ( ! llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
+			return;
+		}
+
 		// output view links on the admin menu
 		add_action( 'admin_bar_menu', array( $this, 'add_menu_items' ), 777 );
 
@@ -38,7 +49,6 @@ class LLMS_View_Manager {
 
 		}
 
-
 	}
 
 	/**
@@ -51,11 +61,6 @@ class LLMS_View_Manager {
 
 		// dont display on admin panel
 		if ( is_admin() ) {
-			return;
-		}
-
-		// only display for users who can bypass
-		if ( ! llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
 			return;
 		}
 
