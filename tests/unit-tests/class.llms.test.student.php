@@ -2,7 +2,7 @@
 /**
  * Tests for LifterLMS Student Functions
  * @since    3.5.0
- * @version  3.5.1
+ * @version  3.7.0
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -18,7 +18,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.7.0
 	 */
 	public function test_completion() {
 

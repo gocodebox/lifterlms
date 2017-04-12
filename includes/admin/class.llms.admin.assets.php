@@ -41,7 +41,7 @@ class LLMS_Admin_Assets {
 
 		if ( false !== strpos( $id, 'lifterlms' ) ) {
 			return true;
-		} elseif ( false !== strpos ( $id, 'llms' ) ) {
+		} elseif ( false !== strpos( $id, 'llms' ) ) {
 			return true;
 		} elseif ( in_array( $id, array( 'course', 'lesson' ) ) ) {
 			return true;

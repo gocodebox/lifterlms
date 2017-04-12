@@ -14,6 +14,7 @@ v3.7.0 - 2017/04/13
 
 + Properly display track related information when reviewing engagements on the admin panel
 + Improve intelligence of enqueued admin js & css files
++ fixed issue preventing course tracks from being recorded as completed
 
 
 v3.6.2 - 2017/04/10
