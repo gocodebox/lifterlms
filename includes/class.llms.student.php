@@ -1033,10 +1033,10 @@ class LLMS_Student {
 	/**
 	 * Get students progress through a course or track
 	 * @param    int        $object_id  course or track id
-	 * @param    string     $type       object type [course|track]
+	 * @param    string     $type       object type [course|course_track|section]
 	 * @return   float
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.0
 	 */
 	public function get_progress( $object_id, $type = 'course' ) {
 
@@ -1054,7 +1054,7 @@ class LLMS_Student {
 				}
 			}
 
-		} elseif ( 'track' === $type ) {
+		} elseif ( 'course_track' === $type ) {
 
 			$track = new LLMS_Track( $object_id );
 			$courses = $track->get_courses();
@@ -1189,7 +1189,7 @@ class LLMS_Student {
 
 			case 'course':
 			case 'section':
-			case 'track':
+			case 'course_track':
 				$ret = ( 100 == $this->get_progress( $object_id, $type ) );
 			break;
 
@@ -1444,7 +1444,7 @@ class LLMS_Student {
 	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.3.1
-	 * @version  3.6.2
+	 * @version  3.7.0
 	 */
 	public function mark_complete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
@@ -1455,7 +1455,7 @@ class LLMS_Student {
 			$object = llms_get_post( $object_id );
 		} // tracks
 		elseif ( 'course_track' === $object_type ) {
-			$object = get_term( $object_id );
+			$object = get_term( $object_id, 'course_track' );
 		} // i said no
 		else {
 			return false;
@@ -1486,7 +1486,7 @@ class LLMS_Student {
 
 			case 'course':
 				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
-				$parent_type = 'track';
+				$parent_type = 'course_track';
 			break;
 
 		}
@@ -1535,7 +1535,7 @@ class LLMS_Student {
 	 * @see    llms_mark_incomplete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.7.0
 	 */
 	public function mark_incomplete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
@@ -1546,7 +1546,7 @@ class LLMS_Student {
 			$object = llms_get_post( $object_id );
 		} // tracks
 		elseif ( 'course_track' === $object_type ) {
-			$object = get_term( $object_id );
+			$object = get_term( $object_id, 'course_track' );
 		} // i said no
 		else {
 			return false;
@@ -1577,7 +1577,7 @@ class LLMS_Student {
 
 			case 'course':
 				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
-				$parent_type = 'track';
+				$parent_type = 'course_track';
 			break;
 
 		}
