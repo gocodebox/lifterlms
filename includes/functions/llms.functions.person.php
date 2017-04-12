@@ -52,6 +52,26 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
 	) );
 }
 
+/**
+ * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
+ * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID
+ * @return   boolean
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_can_user_bypass_restrictions( $user ) {
+
+	if ( ! is_a( $user, 'LLMS_Student' ) ) {
+		$user = new LLMS_Student( $user );
+	}
+
+	if ( array_intersect( $user->get( 'user' )->roles, get_option( 'llms_grant_site_access', array() ) ) ) {
+		return true;
+	}
+
+	return false;
+
+}
 
 /**
  * Disables admin bar on front end

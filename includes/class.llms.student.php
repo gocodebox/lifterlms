@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.6.2
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -610,10 +610,10 @@ class LLMS_Student {
 	/**
 	 * Get the current enrollment status of a student for a particular product
 	 *
-	 * @param  int $product_id WP Post ID of a Course, Lesson, or Membership
-	 * @return false|string
-	 * @since  3.0.0
-	 * @version 3.0.0
+	 * @param    int $product_id WP Post ID of a Course, Lesson, or Membership
+	 * @return   false|string
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public function get_enrollment_status( $product_id ) {
 
@@ -635,12 +635,14 @@ class LLMS_Student {
 		global $wpdb;
 
 		// get the most recent recorded status
-		$q = $wpdb->get_var( $wpdb->prepare(
+		$status = $wpdb->get_var( $wpdb->prepare(
 			"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
 			array( $this->get_id(), $product_id )
 		) );
 
-		return ( $q ) ? $q : false;
+		$status = ( $status ) ? $status : false;
+
+		return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id );
 
 	}
 
@@ -1179,7 +1181,7 @@ class LLMS_Student {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.3.1
+	 * @version  [version]
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
@@ -1188,12 +1190,12 @@ class LLMS_Student {
 			case 'course':
 			case 'section':
 			case 'track':
-				return ( 100 == $this->get_progress( $object_id, $type ) );
+				$ret = ( 100 == $this->get_progress( $object_id, $type ) );
 			break;
 
 			case 'lesson':
 				global $wpdb;
-				$q = $wpdb->get_var( $wpdb->prepare(
+				$query = $wpdb->get_var( $wpdb->prepare(
 					"SELECT COUNT(*)
 					 FROM {$wpdb->prefix}lifterlms_user_postmeta
 					 WHERE user_id = %d
@@ -1205,10 +1207,15 @@ class LLMS_Student {
 					;",
 					array( $this->get_id(), $object_id )
 				) );
-				return ( $q >= 1 );
+				$ret = ( $query >= 1 );
 			break;
 
+			default:
+				$ret = false;
+
 		}
+
+		return apply_filters( 'llms_is_' . $type . '_complete', $ret, $object_id, $type, $this );
 
 	}
 

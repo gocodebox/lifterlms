@@ -31,10 +31,6 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	$student = false;
 	if ( $user_id ) {
 		$student = new LLMS_Student( $user_id );
-		if ( array_intersect( $student->get( 'user' )->roles, (array) get_option( 'llms_grant_site_access' ) ) ) {
-			$results['is_restricted'] = false;
-			return apply_filters( 'llms_page_restricted', $results, $post_id );
-		}
 	}
 
 	$post_type = get_post_type( $post_id );
