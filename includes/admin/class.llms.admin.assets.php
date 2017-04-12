@@ -1,29 +1,24 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Admin Assets Class
-*
-* Sets up the enqueue scripts and styles for the Admin pages.
-* TODO: register scripts. make page ids a db option.
-*
-* @author codeBOX
-* @project lifterLMS
+* @since    1.0.0
+* @version  [version]
 */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Admin_Assets {
 
 	/**
-	* allows injecting "min" in file name suffix.
-	* @access public
-	* @var string
-	*/
+	 * allows injecting "min" in file name suffix.
+	 * @var string
+	 */
 	public static $min = '.min'; //'.min';
 
 	/**
-	* Constructor
-	*
-	* executes enqueue functions on admin_enqueue_scripts
-	*/
+	 * Constructor
+	 * @since    1.0.0
+	 * @version  1.0.0
+	 */
 	public function __construct() {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
@@ -33,68 +28,40 @@ class LLMS_Admin_Assets {
 	}
 
 	/**
-	* Returns array of the page ids we want to enqueue scripts on.
-	*
-	* @return   array
-	* @since    1.0.0
-	* @version  3.1.0
-	*/
-	public function get_llms_admin_page_ids() {
-		$screen_id = 'lifterlms';
+	 * Determine if the current screen should load LifterLMS assets
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_llms_page() {
 
-	    return apply_filters( 'lifterlms_admin_page_ids', array(
-	    	$screen_id . '_page_llms-settings',
-	    	'llms-settings',
-	    	$screen_id . '_page_llms-reporting',
-	    	'llms-reporting',
-	    	$screen_id . '_page_llms-students',
-	    	'llms-students',
-	    	'course',
-	    	'edit-course',
-	    	'edit-course_cat',
+		$screen = get_current_screen();
 
-	    	'lesson',
-	    	'edit-lesson',
+		$id = str_replace( 'edit-', '', $screen->id );
 
-	    	'section',
-	    	'edit-section',
+		if ( false !== strpos( $id, 'lifterlms' ) ) {
+			return true;
+		} elseif ( false !== strpos ( $id, 'llms' ) ) {
+			return true;
+		} elseif ( in_array( $id, array( 'course', 'lesson' ) ) ) {
+			return true;
+		}
 
-	    	'llms_certificate',
-	    	'edit-llms_certificate',
+		return false;
 
-	    	'llms_engagement',
-	    	'edit-llms_engagement',
-
-	    	'llms_achievement',
-	    	'edit-llms_achievement',
-
-	    	'llms_membership',
-	    	'edit-llms_membership',
-
-	    	'llms_order',
-	    	'edit-llms_order',
-
-	    	'llms_quiz',
-	    	'edit-llms_quiz',
-
-	    	'llms_question',
-	    	'edit-llms_question',
-
-	    	'llms_email',
-	    	'edit-llms_email',
-
-			'llms_voucher',
-			'edit-llms_voucher',
-			'llms_coupon',
-	    ));
 	}
 
 	/**
-	* Enqueue stylesheets
-	*
-	* @return void
-	*/
+	 * Enqueue stylesheets
+	 * @return void
+	 * @since    1.0.0
+	 * @version  [version]
+	 */
 	public function admin_styles() {
+
+		if ( ! $this->is_llms_page() ) {
+			return;
+		}
 
 		wp_enqueue_style( 'llms-admin-styles', plugins_url( '/assets/css/admin' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
@@ -109,10 +76,11 @@ class LLMS_Admin_Assets {
 	}
 
 	/**
-	* Enqueue scripts
-	*
-	* @return void
-	*/
+	 * Enqueue scripts
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  [version]
+	 */
 	public function admin_scripts() {
 		global $post_type;
 		$screen = get_current_screen();
@@ -143,7 +111,7 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'llms-admin-tables' );
 		}
 
-		if ( in_array( $screen->id, LLMS_Admin_Assets::get_llms_admin_page_ids() ) ) {
+		if ( $this->is_llms_page() ) {
 
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
@@ -256,8 +224,14 @@ class LLMS_Admin_Assets {
 	/**
 	 * Initialize the "llms" object for other scripts to hook into
 	 * @return void
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function admin_print_scripts() {
+
+		if ( ! $this->is_llms_page() ) {
+			return;
+		}
 
 		global $post;
 		if ( ! empty( $post ) ) {
