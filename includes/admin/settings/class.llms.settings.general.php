@@ -91,24 +91,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			),
 		);
 
-		$roles = [];
-		$wp_roles = wp_roles()->roles;
-		foreach ( $wp_roles as $key => $wp_role ) {
-			$roles[ $key ] = $wp_role['name'];
-		}
-		$settings[] = array(
-			'class' => 'llms-select2',
-			'custom_attributes' => array(
-				'data-placeholder' => __( 'Select user roles', 'lifterlms' ),
-			),
-			'default' => array( 'administrator' ),
-			'desc' => __( 'Users with the selected roles will bypass enrollment, drip, and prerequisite restrictions for courses and memberships.', 'lifterlms' ),
-			'id' => 'llms_grant_site_access',
-			'options' => $roles,
-			'title' => __( 'Frontend Access', 'lifterlms' ),
-			'type' => 'multiselect',
-		);
-
 		$settings[] = array(
 			'id' => 'section_tools',
 			'type' => 'sectionend',
@@ -123,6 +105,25 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			'id' => 'tools_utilities',
 			'title' => __( 'Tools and Utilities', 'lifterlms' ),
 			'type' => 'title',
+		);
+
+		$roles = [];
+		$wp_roles = wp_roles()->roles;
+		foreach ( $wp_roles as $key => $wp_role ) {
+			if ( 'student' === $key ) { continue; }
+			$roles[ $key ] = $wp_role['name'];
+		}
+		$settings[] = array(
+			'class' => 'llms-select2',
+			'custom_attributes' => array(
+				'data-placeholder' => __( 'Select user roles', 'lifterlms' ),
+			),
+			'default' => array( 'administrator' ),
+			'desc' => __( 'Users with the selected roles will bypass enrollment, drip, and prerequisite restrictions for courses and memberships.', 'lifterlms' ),
+			'id' => 'llms_grant_site_access',
+			'options' => $roles,
+			'title' => __( 'Unrestricted Preview Access', 'lifterlms' ),
+			'type' => 'multiselect',
 		);
 
 		$settings[] = array(
