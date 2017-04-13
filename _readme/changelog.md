@@ -3,7 +3,7 @@
 = v3.7.0 - 2017/04/13 =
 -----------------------
 
-**View Management**
+**Preview Management**
 
 + All new view management for users to make editing content easier for course builders
 + Admins may customize the roles of users who can access view management
