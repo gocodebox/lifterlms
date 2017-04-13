@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since  3.0.0
- * @since  3.3.0
+ * @since  3.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -434,7 +434,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $format      optional format conversion method [html|raw|float]
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  3.2.7
+	 * @version  3.7.0
 	 */
 	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
@@ -451,7 +451,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				$price = strip_tags( $price );
 			}
 		} elseif ( 'float' === $format ) {
-			$price = floatval( number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), '' ) );
+			$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
 		} else {
 			$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format, $price, $key, $price_args, $format, $this );
 		}
