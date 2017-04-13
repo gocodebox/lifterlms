@@ -305,6 +305,17 @@ class LLMS_Person_Handler {
 
 	}
 
+	/**
+	 * Retreive an array of password fields for a specific screen
+	 *
+	 * Each array represents a form field that can be passed to llms_form_field()
+	 *
+	 * @param    string     $screen  name os the screen [account|checkout|registration]
+	 * @param    array      $fields  array of fields to add the pass fields to (from self::get_available_fields() for example)
+	 * @return   array
+	 * @since    3.7.0
+	 * @version  3.7.0
+	 */
 	private static function get_password_fields( $screen = 'registration', $fields = array() ) {
 
 		if ( 'account' === $screen ) {
