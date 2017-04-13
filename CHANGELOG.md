@@ -12,6 +12,7 @@ v3.7.0 - 2017/04/13
 
 **Improvements**
 
++ Edit Account Screen now utilizes updated APIs for better customization management
 + Improve intelligence of enqueued admin js & css files
 
 **Fixes**
