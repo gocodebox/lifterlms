@@ -170,45 +170,9 @@ class LLMS_Person_Handler {
 				);
 			}
 
+			// account screen has password updates at the bottom
 			if ( 'account' !== $screen ) {
-				$fields[] = array(
-					'columns' => 6,
-					'classes' => 'llms-password',
-					'id' => 'password',
-					'label' => __( 'Password', 'lifterlms' ),
-					'last_column' => false,
-					'matched' => 'password_confirm',
-					'type'  => 'password',
-					'required' => ( 'checkout' === $screen ) ? true : false,
-				);
-				$fields[] = array(
-					'columns' => 6,
-					'classes' => 'llms-password-confirm',
-					'id' => 'password_confirm',
-					'label' => __( 'Confirm Password', 'lifterlms' ),
-					'last_column' => true,
-					'match' => 'password',
-					'required' => ( 'checkout' === $screen ) ? true : false,
-					'type'  => 'password',
-				);
-
-				if ( 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
-					$strength = llms_get_minimum_password_strength();
-					if ( 'strong' === $strength ) {
-						$desc = __( 'A %s password is required.', 'lifterlms' );
-					} else {
-						$desc = __( 'A minimum password strength of %s is required.', 'lifterlms' );
-					}
-
-					$fields[] = array(
-						'columns' => 12,
-						'classes' => 'llms-password-strength-meter',
-						'description' => sprintf( $desc, llms_get_minimum_password_strength_name() ) . ' ' . __( 'The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ),
-						'id' => 'llms-password-strength-meter',
-						'last_column' => true,
-						'type'  => 'html',
-					);
-				}
+				$fields = self::get_password_fields( $screen, $fields );
 			}
 
 		}
@@ -325,11 +289,89 @@ class LLMS_Person_Handler {
 
 		}
 
+		// add account password fields
+		if ( 'account' === $screen ) {
+			$fields = self::get_password_fields( $screen, $fields );
+		}
+
 		$fields = apply_filters( 'lifterlms_get_person_fields', $fields, $screen );
 
 		// populate fields with data, if we have any
 		if ( $data ) {
 			$fields = self::fill_fields( $fields, $data );
+		}
+
+		return $fields;
+
+	}
+
+	private static function get_password_fields( $screen = 'registration', $fields = array() ) {
+
+		if ( 'account' === $screen ) {
+			$fields[] = array(
+				'columns' => 12,
+				'id' => 'current_password',
+				'label' => __( 'Current Password', 'lifterlms' ),
+				'last_column' => true,
+				'required' => true,
+				'type'  => 'password',
+				'wrapper_classes' => 'llms-change-password',
+			);
+		}
+
+		$fields[] = array(
+			'columns' => 6,
+			'classes' => 'llms-password',
+			'id' => 'password',
+			'label' => ( 'account' === $screen ) ? __( 'New Password', 'lifterlms' ) : __( 'Password', 'lifterlms' ),
+			'last_column' => false,
+			'matched' => 'password_confirm',
+			'required' => true,
+			'type'  => 'password',
+			'wrapper_classes' => ( 'account' === $screen ) ? 'llms-change-password' : '',
+		);
+		$fields[] = array(
+			'columns' => 6,
+			'classes' => 'llms-password-confirm',
+			'id' => 'password_confirm',
+			'label' => ( 'account' === $screen ) ? __( 'Confirm New Password', 'lifterlms' ) : __( 'Confirm Password', 'lifterlms' ),
+			'last_column' => true,
+			'match' => 'password',
+			'required' => true,
+			'type'  => 'password',
+			'wrapper_classes' => ( 'account' === $screen ) ? 'llms-change-password' : '',
+		);
+
+		if ( 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
+			$strength = llms_get_minimum_password_strength();
+			if ( 'strong' === $strength ) {
+				$desc = __( 'A %s password is required.', 'lifterlms' );
+			} else {
+				$desc = __( 'A minimum password strength of %s is required.', 'lifterlms' );
+			}
+
+			$fields[] = array(
+				'columns' => 12,
+				'classes' => 'llms-password-strength-meter',
+				'description' => sprintf( $desc, llms_get_minimum_password_strength_name() ) . ' ' . __( 'The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ),
+				'id' => 'llms-password-strength-meter',
+				'last_column' => true,
+				'type'  => 'html',
+				'wrapper_classes' => ( 'account' === $screen ) ? 'llms-change-password' : '',
+			);
+		}
+
+		if ( 'account' === $screen ) {
+
+			$fields[] = array(
+				'columns' => 12,
+				'classes' => 'llms-password-change-toggle',
+				'value' => '<a data-action="show" data-text="' . __( 'Cancel', 'lifterlms' ) . '" href="#llms-password-change-toggle">' . __( 'Change Password', 'lifterlms' ) . '</a>',
+				'id' => 'llms-password-change-toggle',
+				'last_column' => true,
+				'type'  => 'html',
+			);
+
 		}
 
 		return $fields;
@@ -354,7 +396,7 @@ class LLMS_Person_Handler {
 
 		foreach ( $fields as &$field ) {
 
-			if ( 'password' === $field['type'] ) {
+			if ( 'password' === $field['type'] || 'html' === $field['type'] ) {
 				continue;
 			}
 
@@ -380,7 +422,7 @@ class LLMS_Person_Handler {
 	 * @param    string     $action  either registration or update
 	 * @return   WP_Error|int        WP_Error on error or the WP User ID
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.0
 	 */
 	private static function insert_data( $data = array(), $action = 'registration' ) {
 
@@ -407,8 +449,14 @@ class LLMS_Person_Handler {
 				'ID' => $data['user_id'],
 			);
 
+			// email address if set
 			if ( isset( $data['email_address'] ) ) {
 				$insert_data['user_email'] = $data['email_address'];
+			}
+
+			// update password if both are set
+			if ( isset( $data['password'] ) && isset( $data['password_confirm'] ) ) {
+				$insert_data['user_pass'] = $data['password'];
 			}
 
 			$extra_data = array(
@@ -418,6 +466,7 @@ class LLMS_Person_Handler {
 
 			$insert_func = 'wp_update_user';
 			$meta_func = 'update_user_meta';
+
 
 		} else {
 
@@ -619,7 +668,7 @@ class LLMS_Person_Handler {
 	/**
 	 * Perform validations according to $screen and update the user
 	 *
-	 * @see  llms_update_user() for a classless wrapper for this function
+	 * @see    llms_update_user() for a classless wrapper for this function
 	 *
 	 * @param  array  $data   array of user data
 	 *                        array(
@@ -627,6 +676,7 @@ class LLMS_Person_Handler {
 	 *                        	'user_login' => '',
 	 *                        	'email_address' => '',
 	 *                        	'email_address_confirm' => '',
+	 *                        	'current_password' => '',
 	 *                        	'password' => '',
 	 *                        	'password_confirm' => '',
 	 *                        	'first_name' => '',
@@ -639,9 +689,9 @@ class LLMS_Person_Handler {
 	 *                        	'llms_billing_country' => '',
 	 *                        	'llms_phone' => '',
 	 *                        )
-	 * @param  string $screen  screen to perform validations for, accepts "update" or "checkout"
-	 * @return int|WP_Error
-	 * @since  3.0.0
+	 * @param    string $screen  screen to perform validations for, accepts "update" or "checkout"
+	 * @return   int|WP_Error
+	 * @since    3.0.0
 	 * @version  3.7.0
 	 */
 	public static function update( $data = array(), $screen = 'update' ) {
@@ -724,6 +774,17 @@ class LLMS_Person_Handler {
 
 			$fields = self::get_available_fields( $screen );
 
+			// if no current password submitted with an account update
+			// we can remove password fields so we don't get false validations
+			if ( 'account' === $screen && empty( $data['current_password'] ) ) {
+				unset( $data['current_password'], $data['password'], $data['password_confirm'] );
+				foreach ( $fields as $key => $field ) {
+					if ( in_array( $field['id'], array( 'current_password', 'password', 'password_confirm' ) ) ) {
+						unset( $fields[ $key ] );
+					}
+				}
+			}
+
 		}
 
 		$e = new WP_Error();
@@ -763,10 +824,8 @@ class LLMS_Person_Handler {
 				if ( ! $skip_email && email_exists( $val ) ) {
 					$e->add( $field['id'], sprintf( __( 'An account with the email address "%s" already exists.', 'lifterlms' ), $val ), 'email-exists' );
 				}
-			}
-
-			// validate the username
-			if ( 'user_login' === $name ) {
+			} // validate the username
+			elseif ( 'user_login' === $name ) {
 
 				// blacklist usernames for security purposes
 				$banned_usernames = apply_filters( 'llms_usernames_blacklist', array( 'admin', 'test', 'administrator', 'password', 'testing' ) );
@@ -782,8 +841,7 @@ class LLMS_Person_Handler {
 				}
 
 			}
-
-			if ( 'llms_voucher' === $name && ! empty( $val ) ) {
+			elseif ( 'llms_voucher' === $name && ! empty( $val ) ) {
 
 				$v = new LLMS_Voucher();
 				$check = $v->check_voucher( $val );
@@ -791,6 +849,12 @@ class LLMS_Person_Handler {
 					$e->add( $field['id'], $check->get_error_message(), 'voucher-' . $check->get_error_code() );
 				}
 
+			}
+			elseif ( 'current_password' === $name ) {
+				$user = wp_get_current_user();
+				if ( ! wp_check_password( $val, $user->data->user_pass, $user->ID ) ) {
+					$e->add( $field['id'], sprintf( __( 'The submitted %s was incorrect.', 'lifterlms' ), $field['label'] ), 'incorrect-password' );
+				}
 			}
 
 			// scrub and check field data types

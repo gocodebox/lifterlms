@@ -1997,6 +1997,9 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 .llms-student-dashboard .llms-status.llms-pending, .llms-student-dashboard .llms-status.llms-refunded {
   background-color: orange;
 }
+.llms-student-dashboard .llms-person-form-wrapper .llms-change-password {
+  display: none;
+}
 
 /* My Courses */
 .llms-my-courses {

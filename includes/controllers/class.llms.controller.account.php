@@ -50,6 +50,8 @@ class LLMS_Controller_Account {
 
 		} else {
 
+			llms_add_notice( __( 'Your account information has been saved.', 'lifterlms' ), 'success' );
+
 			// handle redirect
 			wp_safe_redirect( apply_filters( 'lifterlms_update_account_redirect', llms_get_endpoint_url( 'edit-account', '', llms_get_page_url( 'myaccount' ) ) ) );
 			exit;
