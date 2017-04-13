@@ -2,8 +2,8 @@
 /**
  * User Handling for login and registration (mostly)
  *
- * @since  3.0.0
- * @version  3.0.0
+ * @since    3.0.0
+ * @version  3.7.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Person_Handler {
@@ -120,11 +120,11 @@ class LLMS_Person_Handler {
 	 *
 	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields()
 	 *
-	 * @param    string     $screen  name os the screen [update|checkout|registration]
+	 * @param    string     $screen  name os the screen [account|checkout|registration]
 	 * @param    array|int  $data    array of data to fill fields with or a WP User ID
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.0
 	 */
 	public static function get_available_fields( $screen = 'registration', $data = array() ) {
 
@@ -133,8 +133,8 @@ class LLMS_Person_Handler {
 		// setup all the fields to load
 		$fields = array();
 
-		// this isn't needed if we're on an update screen or
-		if ( 'update' !== $screen && ( 'checkout' !== $screen || ! $uid ) ) {
+		// this isn't needed if we're on an account screen or
+		if ( 'account' !== $screen && ( 'checkout' !== $screen || ! $uid ) ) {
 			$fields[] = array(
 				'columns' => 12,
 				'id' => 'user_login',
@@ -170,44 +170,47 @@ class LLMS_Person_Handler {
 				);
 			}
 
-			$fields[] = array(
-				'columns' => 6,
-				'classes' => 'llms-password',
-				'id' => 'password',
-				'label' => __( 'Password', 'lifterlms' ),
-				'last_column' => false,
-				'matched' => 'password_confirm',
-				'type'  => 'password',
-				'required' => true,
-			);
-			$fields[] = array(
-				'columns' => 6,
-				'classes' => 'llms-password-confirm',
-				'id' => 'password_confirm',
-				'label' => __( 'Confirm Password', 'lifterlms' ),
-				'last_column' => true,
-				'match' => 'password',
-				'required' => true,
-				'type'  => 'password',
-			);
-
-			if ( 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
-				$strength = llms_get_minimum_password_strength();
-				if ( 'strong' === $strength ) {
-					$desc = __( 'A %s password is required.', 'lifterlms' );
-				} else {
-					$desc = __( 'A minimum password strength of %s is required.', 'lifterlms' );
-				}
-
+			if ( 'account' !== $screen ) {
 				$fields[] = array(
-					'columns' => 12,
-					'classes' => 'llms-password-strength-meter',
-					'description' => sprintf( $desc, llms_get_minimum_password_strength_name() ) . ' ' . __( 'The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ),
-					'id' => 'llms-password-strength-meter',
-					'last_column' => true,
-					'type'  => 'html',
+					'columns' => 6,
+					'classes' => 'llms-password',
+					'id' => 'password',
+					'label' => __( 'Password', 'lifterlms' ),
+					'last_column' => false,
+					'matched' => 'password_confirm',
+					'type'  => 'password',
+					'required' => ( 'checkout' === $screen ) ? true : false,
 				);
+				$fields[] = array(
+					'columns' => 6,
+					'classes' => 'llms-password-confirm',
+					'id' => 'password_confirm',
+					'label' => __( 'Confirm Password', 'lifterlms' ),
+					'last_column' => true,
+					'match' => 'password',
+					'required' => ( 'checkout' === $screen ) ? true : false,
+					'type'  => 'password',
+				);
+
+				if ( 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
+					$strength = llms_get_minimum_password_strength();
+					if ( 'strong' === $strength ) {
+						$desc = __( 'A %s password is required.', 'lifterlms' );
+					} else {
+						$desc = __( 'A minimum password strength of %s is required.', 'lifterlms' );
+					}
+
+					$fields[] = array(
+						'columns' => 12,
+						'classes' => 'llms-password-strength-meter',
+						'description' => sprintf( $desc, llms_get_minimum_password_strength_name() ) . ' ' . __( 'The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ),
+						'id' => 'llms-password-strength-meter',
+						'last_column' => true,
+						'type'  => 'html',
+					);
+				}
 			}
+
 		}
 
 		$names = get_option( 'lifterlms_user_info_field_names_' . $screen . '_visibility' );
@@ -337,11 +340,11 @@ class LLMS_Person_Handler {
 	 * Field an array of user fields retrieved from self::get_available_fields() with data
 	 * the resulting array will be the data retrived from self::get_available_fields() with "value" keys filled for each field
 	 *
-	 * @param  array $fields array of fields from self::get_available_fields()
-	 * @param  array $data   array of data (from a $_POST or function)
-	 * @return array
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @param    array $fields array of fields from self::get_available_fields()
+	 * @param    array $data   array of data (from a $_POST or function)
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.7.0
 	 */
 	private static function fill_fields( $fields, $data ) {
 
@@ -359,6 +362,9 @@ class LLMS_Person_Handler {
 			if ( isset( $data[ $name ] ) ) {
 				$field['value'] = $data[ $name ];
 			} elseif ( isset( $user ) ) {
+				if ( 'email_address' === $name ) {
+					$name = 'user_email';
+				}
 				$field['value'] = $user->{$name};
 			}
 		}
@@ -401,11 +407,13 @@ class LLMS_Person_Handler {
 				'ID' => $data['user_id'],
 			);
 
+			if ( isset( $data['email_address'] ) ) {
+				$insert_data['user_email'] = $data['email_address'];
+			}
+
 			$extra_data = array(
 				'first_name',
 				'last_name',
-				'user_email',
-				'user_pass',
 			);
 
 			$insert_func = 'wp_update_user';
@@ -634,7 +642,7 @@ class LLMS_Person_Handler {
 	 * @param  string $screen  screen to perform validations for, accepts "update" or "checkout"
 	 * @return int|WP_Error
 	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.0
 	 */
 	public static function update( $data = array(), $screen = 'update' ) {
 
@@ -704,7 +712,7 @@ class LLMS_Person_Handler {
 	 * @param    string $screen screen to validate fields against, accepts "checkout", "registration", or "update"
 	 * @return   true|WP_Error
 	 * @since    3.0.0
-	 * @version  3.4.1
+	 * @version  3.7.0
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 
@@ -741,7 +749,18 @@ class LLMS_Person_Handler {
 
 			// check email field for uniqueness
 			if ( 'email_address' === $name ) {
-				if ( email_exists( $val ) ) {
+
+				$skip_email = false;
+
+				// only run this check when we're trying to change the email address for an account update
+				if ( 'account' === $screen ) {
+					$user = wp_get_current_user();
+					if ( $data['email_address'] === $user->user_email ) {
+						$skip_email = true;
+					}
+				}
+
+				if ( ! $skip_email && email_exists( $val ) ) {
 					$e->add( $field['id'], sprintf( __( 'An account with the email address "%s" already exists.', 'lifterlms' ), $val ), 'email-exists' );
 				}
 			}

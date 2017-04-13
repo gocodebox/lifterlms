@@ -268,15 +268,16 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
 /**
  * Perform validations according to $screen and updates the user
  *
- * @see  LLMS_Person_Handler::update()
+ * @see      LLMS_Person_Handler::update()
  *
- * @param  array  $data   array of user data
- * @param  string $screen  screen to perform validations for, accepts "update" or "checkout"
- * @return int|WP_Error
+ * @param    array  $data   array of user data
+ * @param    string $screen  screen to perform validations for, accepts "account" or "checkout"
+ * @return   int|WP_Error
  *
- * @since  3.0.0
+ * @since    3.0.0
+ * @version  3.7.0
  */
-function llms_update_update( $data = array(), $screen = 'update' ) {
+function llms_update_user( $data = array(), $screen = 'account' ) {
 	return LLMS_Person_Handler::update( $data, $screen );
 }
 
