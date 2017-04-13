@@ -478,7 +478,6 @@ class LLMS_Person_Handler {
 			$insert_func = 'wp_update_user';
 			$meta_func = 'update_user_meta';
 
-
 		} else {
 
 			return new WP_Error( 'invalid', __( 'Invalid action' ) );
@@ -851,8 +850,7 @@ class LLMS_Person_Handler {
 
 				}
 
-			}
-			elseif ( 'llms_voucher' === $name && ! empty( $val ) ) {
+			} elseif ( 'llms_voucher' === $name && ! empty( $val ) ) {
 
 				$v = new LLMS_Voucher();
 				$check = $v->check_voucher( $val );
@@ -860,8 +858,7 @@ class LLMS_Person_Handler {
 					$e->add( $field['id'], $check->get_error_message(), 'voucher-' . $check->get_error_code() );
 				}
 
-			}
-			elseif ( 'current_password' === $name ) {
+			} elseif ( 'current_password' === $name ) {
 				$user = wp_get_current_user();
 				if ( ! wp_check_password( $val, $user->data->user_pass, $user->ID ) ) {
 					$e->add( $field['id'], sprintf( __( 'The submitted %s was incorrect.', 'lifterlms' ), $field['label'] ), 'incorrect-password' );
