@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.3
-Stable tag: 3.6.2
+Stable tag: 3.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,28 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.7.0 - 2017/04/13 =
+-----------------------
+
+**View Management**
+
++ All new view management for users to make editing content easier for course builders
++ Admins may customize the roles of users who can access view management
++ Qualifying users can view content as an enrolled student or a non-enrolled visitor
++ Default view allows users to bypass all restricitons (drip, membership, enrollment, and so on) for easy course navigation and management
+
+**Improvements**
+
++ Edit Account Screen now utilizes updated APIs for better customization management
++ Improve intelligence of enqueued admin js & css files
+
+**Fixes**
+
++ Fixed coupon calculation issue related to currencies using commas as the decimal separator
++ Properly display track related information when reviewing engagements on the admin panel
++ fixed issue preventing course tracks from being recorded as completed
+
 
 = v3.6.2 - 2017/04/10 =
 -----------------------

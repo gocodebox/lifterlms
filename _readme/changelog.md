@@ -1,5 +1,27 @@
 == Changelog ==
 
+= v3.7.0 - 2017/04/13 =
+-----------------------
+
+**View Management**
+
++ All new view management for users to make editing content easier for course builders
++ Admins may customize the roles of users who can access view management
++ Qualifying users can view content as an enrolled student or a non-enrolled visitor
++ Default view allows users to bypass all restricitons (drip, membership, enrollment, and so on) for easy course navigation and management
+
+**Improvements**
+
++ Edit Account Screen now utilizes updated APIs for better customization management
++ Improve intelligence of enqueued admin js & css files
+
+**Fixes**
+
++ Fixed coupon calculation issue related to currencies using commas as the decimal separator
++ Properly display track related information when reviewing engagements on the admin panel
++ fixed issue preventing course tracks from being recorded as completed
+
+
 = v3.6.2 - 2017/04/10 =
 -----------------------
 
