@@ -2366,6 +2366,11 @@ div[id^="lifterlms-"] .inside {
   width: 13px;
 }
 
+a.llms-view-as {
+  line-height: 2;
+  margin-right: 8px;
+}
+
 .llms-table-wrap {
   position: relative;
 }

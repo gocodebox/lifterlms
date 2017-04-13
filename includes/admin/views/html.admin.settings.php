@@ -30,9 +30,7 @@
 
 		<div id="llms-form-wrapper">
 
-		    <?php if ( 'general' !== $current_tab ) : ?>
-			    <input name="save" class="llms-button-primary" type="submit" value="<?php _e( 'Save Changes', 'lifterlms' ); ?>" />
-		    <?php endif; ?>
+			<input name="save" class="llms-button-primary" type="submit" value="<?php _e( 'Save Changes', 'lifterlms' ); ?>" />
 
 			<?php wp_nonce_field( 'lifterlms-settings' ); ?>
 

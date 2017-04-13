@@ -2,7 +2,7 @@
 /**
  * Tests for LifterLMS Student Functions
  * @since    3.5.0
- * @version  3.5.1
+ * @version  3.7.0
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -18,7 +18,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.7.0
 	 */
 	public function test_completion() {
 
@@ -27,6 +27,10 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 		// Create new course
 		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
+
+		// add it to a track
+		$term = wp_insert_term( 'test track', 'course_track' );
+		wp_set_object_terms( $course, array( $term['term_id'] ), 'course_track', false );
 
 		// Create two sections assigned to course
 		$section1 = LLMS_POST_Handler::create_section( $course, 'test-section' );
@@ -80,6 +84,9 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertTrue( llms_is_complete( $user, $section2, 'section' ) );
 		$this->assertTrue( llms_is_complete( $user, $course, 'course' ) );
 
+		// check the track
+		$this->assertTrue( llms_is_complete( $user, $term['term_id'], 'course_track' ) );
+
 		// Mark lesson 1 section 2 INcomplete
 		llms_mark_incomplete( $user, $lesson1_section2, 'lesson', 'test-mark-incomplete' );
 
@@ -112,6 +119,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
 		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
 		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
+
 	}
 
 	/**

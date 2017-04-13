@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  3.3.0
+* @version  3.7.0
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
@@ -439,19 +439,23 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * Determine if students can access course content based on the current date
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.0
 	 */
 	public function is_enrollment_open() {
 
 		// if no period is set, enrollment is automatically open
 		if ( 'yes' !== $this->get( 'enrollment_period' ) ) {
-			return true;
+
+			$ret = true;
+
 		} // time period exists, check against the current date
 		else {
 
-			return ( $this->has_date_passed( 'enrollment_start_date' ) && ! $this->has_date_passed( 'enrollment_end_date' ) );
+			$ret = ( $this->has_date_passed( 'enrollment_start_date' ) && ! $this->has_date_passed( 'enrollment_end_date' ) );
 
 		}
+
+		return apply_filters( 'llms_is_course_enrollment_open', $ret, $this );
 
 	}
 
@@ -463,21 +467,23 @@ class LLMS_Course extends LLMS_Post_Model {
 	 *
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.0
 	 */
 	public function is_open() {
 
 		// if a course time period is not enabled, just return true (content is accessible)
 		if ( 'yes' !== $this->get( 'time_period' ) ) {
 
-			return true;
+			$ret = true;
 
 		} // time period exists, check against the current date
 		else {
 
-			return ( $this->has_date_passed( 'start_date' ) && ! $this->has_date_passed( 'end_date' ) );
+			$ret = ( $this->has_date_passed( 'start_date' ) && ! $this->has_date_passed( 'end_date' ) );
 
 		}
+
+		return apply_filters( 'llms_is_course_open', $ret, $this );
 
 	}
 

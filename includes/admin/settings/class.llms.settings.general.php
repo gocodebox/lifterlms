@@ -2,7 +2,7 @@
 /**
  * Admin Settings Page, General Tab
  * @since  1.0.0
- * @version  3.5.0
+ * @version  3.7.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -31,130 +31,153 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 *
 	 * @return array
 	 * @since  1.0.0
-	 * @version  3.5.0
+	 * @version  3.7.0
 	 */
 	public function get_settings() {
 
-		return apply_filters( 'lifterlms_general_settings', array(
+		$settings = array();
+		$settings[] = array(
+			'type' => 'custom-html',
+			'value' => self::get_stats_widgets(),
+		);
 
-			array(
-					'type' => 'custom-html',
-					'value' => self::get_stats_widgets(),
+		$settings[] = array(
+			'type' => 'custom-html',
+			'value' => self::get_small_banners(),
+		);
+
+		$settings[] = array(
+			'type' => 'sectionstart',
+			'id' => 'general_information',
+			'class' => 'top',
+		);
+
+		$settings[] = array(
+			'title' => __( 'Quick Links', 'lifterlms' ),
+			'type' => 'title',
+			'desc' => '
+				<div class="llms-list">
+					<ul>
+						<li><p>' . sprintf( __( 'Version: %s', 'lifterlms' ), LLMS()->version ) . '</p></li>
+						<li><p>' . sprintf( __( 'Need help? Get support on the %1$sforums%2$s', 'lifterlms' ), '<a href="https://wordpress.org/support/plugin/lifterlms" target="_blank">' , '</a>' ) . '</p></li>
+						<li><p>' . sprintf( __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Get started at %s', 'lifterlms' ), '<a href="https://lifterlms.com/docs" target="_blank">https://lifterlms.com/docs</a>' ) . '</p></li>
+						<li><p>' . sprintf( __( 'Get LifterLMS news, updates, and more on our %1$sblog%2$s', 'lifterlms' ), '<a href="http://blog.lifterlms.com/" target="_blank">', '</a>' ) . '</p></li>
+					</ul>
+				</div>',
+			'id' => 'activation_options',
+		);
+
+		$settings[] = array(
+			'type' => 'sectionend',
+			'id' => 'general_information',
+		);
+
+		$settings[] = array(
+			'id' => 'section_features',
+			'type' => 'sectionstart',
+		);
+
+		$settings[] = array(
+			'id' => 'features',
+			'title' => __( 'Features', 'lifterlms' ),
+			'type' => 'title',
+		);
+
+		$settings[] = array(
+			'type' => 'custom-html',
+			'value' => sprintf(
+				__( 'Automatic Recurring Payments: <strong>%s</strong>', 'lifterlms' ),
+				LLMS_Site::get_feature( 'recurring_payments' ) ? __( 'Enabled', 'lifterlms' ) : __( 'Disabled', 'lifterlms' )
 			),
+		);
 
-			array(
-					'type' => 'custom-html',
-					'value' => self::get_small_banners(),
+		$settings[] = array(
+			'id' => 'section_tools',
+			'type' => 'sectionend',
+		);
+
+		$settings[] = array(
+			'id' => 'section_tools',
+			'type' => 'sectionstart',
+		);
+
+		$settings[] = array(
+			'id' => 'tools_utilities',
+			'title' => __( 'Tools and Utilities', 'lifterlms' ),
+			'type' => 'title',
+		);
+
+		$roles = [];
+		$wp_roles = wp_roles()->roles;
+		foreach ( $wp_roles as $key => $wp_role ) {
+			if ( 'student' === $key ) { continue; }
+			$roles[ $key ] = $wp_role['name'];
+		}
+		$settings[] = array(
+			'class' => 'llms-select2',
+			'custom_attributes' => array(
+				'data-placeholder' => __( 'Select user roles', 'lifterlms' ),
 			),
+			'default' => array( 'administrator' ),
+			'desc' => __( 'Users with the selected roles will bypass enrollment, drip, and prerequisite restrictions for courses and memberships.', 'lifterlms' ),
+			'id' => 'llms_grant_site_access',
+			'options' => $roles,
+			'title' => __( 'Unrestricted Preview Access', 'lifterlms' ),
+			'type' => 'multiselect',
+		);
 
-			array( 'type' => 'sectionstart', 'id' => 'general_information', 'class' => 'top' ),
+		$settings[] = array(
+			'desc' => __( 'Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site.', 'lifterlms' ),
+			'name' => 'automatic-payments',
+			'title' => __( 'Automatic Payments', 'lifterlms' ),
+			'type' 		=> 'button',
+			'value' => __( 'Reset Automatic Payments', 'lifterlms' ),
+		);
 
-			array(
-				'title' => __( 'Quick Links',
-				'lifterlms' ),
-					'type' => 'title',
-					'desc' => '
+		$settings[] = array(
+			'desc' => __( 'Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help.', 'lifterlms' ),
+			'name' => 'clear-sessions',
+			'title' => __( 'Sessions', 'lifterlms' ),
+			'type' 		=> 'button',
+			'value' => __( 'Clear All Session Data', 'lifterlms' ),
+		);
 
-					<div class="llms-list">
-						<ul>
-							<li><p>' . sprintf( __( 'Version: %s', 'lifterlms' ), LLMS()->version ) . '</p></li>
-							<li><p>' . sprintf( __( 'Need help? Get support on the %1$sforums%2$s', 'lifterlms' ), '<a href="https://wordpress.org/support/plugin/lifterlms" target="_blank">' , '</a>' ) . '</p></li>
-							<li><p>' . sprintf( __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Get started at %s', 'lifterlms' ), '<a href="https://lifterlms.com/docs" target="_blank">https://lifterlms.com/docs</a>' ) . '</p></li>
-							<li><p>' . sprintf( __( 'Get LifterLMS news, updates, and more on our %1$sblog%2$s', 'lifterlms' ), '<a href="http://blog.lifterlms.com/" target="_blank">', '</a>' ) . '</p></li>
-						</ul>
-					</div>',
-				'id' => 'activation_options',
-			),
+		$settings[] = array(
+			'desc' => __( 'If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here.', 'lifterlms' ),
+			'name' => 'reset-tracking',
+			'title' => __( 'Tracking Status', 'lifterlms' ),
+			'type' 		=> 'button',
+			'value' => __( 'Reset Tracking Status', 'lifterlms' ),
+		);
 
-			array( 'type' => 'sectionend', 'id' => 'general_information' ),
+		$settings[] = array(
+			'value' => '
+				<tr valign="top"><th><label>' . __( 'Setup Wizard', 'lifterlms' ) . '</label></th>
+				<td class="forminp forminp-button">
+				<div id="llms-form-wrapper">
+					<span class="description">' . __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ) . '</span>
+					<br><br>
+					<a class="llms-button-primary" href="' . admin_url() . '?page=llms-setup">' . __( 'Return to Setup Wizard', 'lifterlms' ) . '</a>
+				</div>
+				</td></tr>
+			',
+			'type' => 'custom-html-no-wrap',
+		);
 
-			array(
-				'id' => 'section_features',
-				'type' => 'sectionstart',
-			),
+		$settings[] = array(
+			'desc' => __( 'Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed.', 'lifterlms' ),
+			'name' => 'clear-cache',
+			'title' => __( 'Clear Student Progress Cache', 'lifterlms' ),
+			'type' 		=> 'button',
+			'value' => __( 'Clear Cache', 'lifterlms' ),
+		);
 
-			array(
-				'id' => 'features',
-				'title' => __( 'Features', 'lifterlms' ),
-				'type' => 'title',
-			),
+		$settings[] = array(
+			'id' => 'section_tools',
+			'type' => 'sectionend',
+		);
 
-			array(
-				'type' => 'custom-html',
-				'value' => sprintf(
-					__( 'Automatic Recurring Payments: <strong>%s</strong>', 'lifterlms' ),
-					LLMS_Site::get_feature( 'recurring_payments' ) ? __( 'Enabled', 'lifterlms' ) : __( 'Disabled', 'lifterlms' )
-				),
-			),
-
-			array(
-				'id' => 'section_tools',
-				'type' => 'sectionend',
-			),
-
-			array(
-				'id' => 'section_tools',
-				'type' => 'sectionstart',
-			),
-
-			array(
-				'id' => 'tools_utilities',
-				'title' => __( 'Tools and Utilities', 'lifterlms' ),
-				'type' => 'title',
-			),
-
-			array(
-				'desc' => __( 'Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site.', 'lifterlms' ),
-				'name' => 'automatic-payments',
-				'title' => __( 'Automatic Payments', 'lifterlms' ),
-				'type' 		=> 'button',
-				'value' => __( 'Reset Automatic Payments', 'lifterlms' ),
-			),
-
-			array(
-				'desc' => __( 'Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help.', 'lifterlms' ),
-				'name' => 'clear-sessions',
-				'title' => __( 'Sessions', 'lifterlms' ),
-				'type' 		=> 'button',
-				'value' => __( 'Clear All Session Data', 'lifterlms' ),
-			),
-
-			array(
-				'desc' => __( 'If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here.', 'lifterlms' ),
-				'name' => 'reset-tracking',
-				'title' => __( 'Tracking Status', 'lifterlms' ),
-				'type' 		=> 'button',
-				'value' => __( 'Reset Tracking Status', 'lifterlms' ),
-			),
-
-			array(
-				'value' => '
-					<tr valign="top"><th><label>' . __( 'Setup Wizard', 'lifterlms' ) . '</label></th>
-					<td class="forminp forminp-button">
-					<div id="llms-form-wrapper">
-						<span class="description">' . __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ) . '</span>
-						<br><br>
-						<a class="llms-button-primary" href="' . admin_url() . '?page=llms-setup">' . __( 'Return to Setup Wizard', 'lifterlms' ) . '</a>
-					</div>
-					</td></tr>
-				',
-				'type' => 'custom-html-no-wrap',
-			),
-
-			array(
-				'desc' => __( 'Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed.', 'lifterlms' ),
-				'name' => 'clear-cache',
-				'title' => __( 'Clear Student Progress Cache', 'lifterlms' ),
-				'type' 		=> 'button',
-				'value' => __( 'Clear Cache', 'lifterlms' ),
-			),
-
-			array(
-				'id' => 'section_tools',
-				'type' => 'sectionend',
-			),
-
-		) );
+		return apply_filters( 'lifterlms_general_settings', $settings );
 
 	}
 

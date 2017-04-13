@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.6.0
+ * @version 3.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -610,10 +610,10 @@ class LLMS_Student {
 	/**
 	 * Get the current enrollment status of a student for a particular product
 	 *
-	 * @param  int $product_id WP Post ID of a Course, Lesson, or Membership
-	 * @return false|string
-	 * @since  3.0.0
-	 * @version 3.0.0
+	 * @param    int $product_id WP Post ID of a Course, Lesson, or Membership
+	 * @return   false|string
+	 * @since    3.0.0
+	 * @version  3.7.0
 	 */
 	public function get_enrollment_status( $product_id ) {
 
@@ -635,12 +635,14 @@ class LLMS_Student {
 		global $wpdb;
 
 		// get the most recent recorded status
-		$q = $wpdb->get_var( $wpdb->prepare(
+		$status = $wpdb->get_var( $wpdb->prepare(
 			"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
 			array( $this->get_id(), $product_id )
 		) );
 
-		return ( $q ) ? $q : false;
+		$status = ( $status ) ? $status : false;
+
+		return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id );
 
 	}
 
@@ -1031,10 +1033,10 @@ class LLMS_Student {
 	/**
 	 * Get students progress through a course or track
 	 * @param    int        $object_id  course or track id
-	 * @param    string     $type       object type [course|track]
+	 * @param    string     $type       object type [course|course_track|section]
 	 * @return   float
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.0
 	 */
 	public function get_progress( $object_id, $type = 'course' ) {
 
@@ -1052,7 +1054,7 @@ class LLMS_Student {
 				}
 			}
 
-		} elseif ( 'track' === $type ) {
+		} elseif ( 'course_track' === $type ) {
 
 			$track = new LLMS_Track( $object_id );
 			$courses = $track->get_courses();
@@ -1179,7 +1181,7 @@ class LLMS_Student {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.3.1
+	 * @version  3.7.0
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
@@ -1187,13 +1189,13 @@ class LLMS_Student {
 
 			case 'course':
 			case 'section':
-			case 'track':
-				return ( 100 == $this->get_progress( $object_id, $type ) );
+			case 'course_track':
+				$ret = ( 100 == $this->get_progress( $object_id, $type ) );
 			break;
 
 			case 'lesson':
 				global $wpdb;
-				$q = $wpdb->get_var( $wpdb->prepare(
+				$query = $wpdb->get_var( $wpdb->prepare(
 					"SELECT COUNT(*)
 					 FROM {$wpdb->prefix}lifterlms_user_postmeta
 					 WHERE user_id = %d
@@ -1205,10 +1207,15 @@ class LLMS_Student {
 					;",
 					array( $this->get_id(), $object_id )
 				) );
-				return ( $q >= 1 );
+				$ret = ( $query >= 1 );
 			break;
 
+			default:
+				$ret = false;
+
 		}
+
+		return apply_filters( 'llms_is_' . $type . '_complete', $ret, $object_id, $type, $this );
 
 	}
 
@@ -1437,7 +1444,7 @@ class LLMS_Student {
 	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.7.0
 	 */
 	public function mark_complete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
@@ -1448,7 +1455,7 @@ class LLMS_Student {
 			$object = llms_get_post( $object_id );
 		} // tracks
 		elseif ( 'course_track' === $object_type ) {
-			$object = get_term( $object_id );
+			$object = get_term( $object_id, 'course_track' );
 		} // i said no
 		else {
 			return false;
@@ -1479,7 +1486,7 @@ class LLMS_Student {
 
 			case 'course':
 				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
-				$parent_type = 'track';
+				$parent_type = 'course_track';
 			break;
 
 		}
@@ -1507,6 +1514,8 @@ class LLMS_Student {
 
 			}
 
+			do_action( 'after_llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
+
 			return true;
 
 		}
@@ -1526,7 +1535,7 @@ class LLMS_Student {
 	 * @see    llms_mark_incomplete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.7.0
 	 */
 	public function mark_incomplete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
@@ -1537,7 +1546,7 @@ class LLMS_Student {
 			$object = llms_get_post( $object_id );
 		} // tracks
 		elseif ( 'course_track' === $object_type ) {
-			$object = get_term( $object_id );
+			$object = get_term( $object_id, 'course_track' );
 		} // i said no
 		else {
 			return false;
@@ -1568,7 +1577,7 @@ class LLMS_Student {
 
 			case 'course':
 				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
-				$parent_type = 'track';
+				$parent_type = 'course_track';
 			break;
 
 		}

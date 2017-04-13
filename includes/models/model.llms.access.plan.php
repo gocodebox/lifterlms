@@ -2,7 +2,7 @@
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.5.3
+ * @version  3.7.0
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -200,7 +200,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param   string $format     optionl return format as passed to llms_price()
 	 * @return  mixed
 	 * @since   3.0.0
-	 * @version 3.2.7
+	 * @version 3.7.0
 	 */
 	public function get_price_with_coupon( $key, $coupon_id, $price_args = array(), $format = 'html' ) {
 
@@ -260,7 +260,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 					$price = strip_tags( $price );
 				}
 			} elseif ( 'float' === $format ) {
-				$price = floatval( number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), '' ) );
+				$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
 			} else {
 				$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format . '_with_coupon', $price, $key, $price_args, $format, $this );
 			}
