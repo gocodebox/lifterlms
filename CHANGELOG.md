@@ -9,6 +9,7 @@ v3.7.0 - 2017/04/13
 + Admins may customize the roles of users who can access view management
 + Qualifying users can view content as an enrolled student or a non-enrolled visitor
 + Default view allows users to bypass all restricitons (drip, membership, enrollment, and so on) for easy course navigation and management
++ Thanks to [@fabianmarz](https://github.com/fabianmarz) and the team at and the team at [netzstrategen](https://github.com/netzstrategen) for their assistance with this feature!
 
 **Improvements**
 
