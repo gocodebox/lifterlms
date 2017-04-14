@@ -200,7 +200,7 @@ class LLMS_Notifications {
 			'email',
 		);
 
-		foreach ( $processors as $name )  {
+		foreach ( $processors as $name ) {
 			$this->load_processor( $name );
 		}
 

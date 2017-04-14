@@ -103,8 +103,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 						'type' => 'checkbox',
 					);
 
-
-
 					if ( 0 === $i ) {
 						$sub_settings['title'] = __( 'Subscribers', 'lifterlms' );
 						$sub_settings['checkboxgroup'] = 'start';
@@ -126,7 +124,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 				}
 
-
 			} else {
 
 				$settings[] = array(
@@ -140,7 +137,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 			$settings[] = array(
 				'id' => 'notification_options_invalid_error',
 				'type' => 'custom-html',
-				'value' => '<small><a href="' . $back_url . '">' . __( 'Back to all notifications', 'lifterlms' ) . '</a></small>'
+				'value' => '<small><a href="' . $back_url . '">' . __( 'Back to all notifications', 'lifterlms' ) . '</a></small>',
 			);
 
 		} else {
@@ -153,13 +150,10 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		}
 
-
-
 		$settings[] = array(
 			'id' => 'notification_options',
 			'type' => 'sectionend',
 		);
-
 
 		return apply_filters( 'lifterlms_notifications_settings', $settings );
 

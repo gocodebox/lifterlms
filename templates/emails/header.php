@@ -64,7 +64,7 @@ $mailer = LLMS()->mailer();
 			table[class=body] .main {
 				border-left-width: 0 !important;
 				border-radius: 0 !important;
-				border-right-width: 0 !important; }}
+				border-right-width: 0 !important; } }
 		</style>
 	</head>
 	<body class="" style="background-color:<?php $mailer->get_css( 'background-color' ); ?>;color:<?php $mailer->get_css( 'font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;-webkit-font-smoothing:antialiased;font-size:<?php $mailer->get_css( 'font-size' ); ?>;line-height:1.4;margin:0;padding:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;">
@@ -84,7 +84,7 @@ $mailer = LLMS()->mailer();
 
 						<!-- <span class="preheader" style="color:transparent;display:none;height:0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;visibility:hidden;width:0;">This is preheader text. Some clients will show this text as a preview.</span> -->
 
-						<?php if ( ! empty( $email_heading ) ): ?>
+						<?php if ( ! empty( $email_heading ) ) : ?>
 						<!-- START HEADING AREA -->
 						<table class="main" style="background:<?php $mailer->get_css( 'heading-background-color' ); ?>;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;border-radius:<?php printf( '%1$s %1$s 0 0', $mailer->get_css( 'border-radius' ) ); ?>;width:100%;">
 							<tr>

@@ -113,7 +113,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 			'name' => __( 'Name', 'lifterlms' ),
 			'type' => __( 'Type', 'lifterlms' ),
 			'subscribers' => __( 'Subscribers', 'lifterlms' ),
-			'configure' => __( 'Configure', 'lifterlms' )
+			'configure' => __( 'Configure', 'lifterlms' ),
 		);
 
 		return $cols;

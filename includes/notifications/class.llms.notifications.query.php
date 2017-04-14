@@ -193,7 +193,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 			$where .= $wpdb->prepare( ' AND subscriber = %s', $subsciber );
 		}
 
-
 		return $where;
 
 	}

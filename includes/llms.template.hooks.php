@@ -156,7 +156,7 @@ add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar' );
  ***********************************************************************/
 add_action( 'lifterlms_email_header', 'llms_email_header', 10, 1 );
 add_action( 'lifterlms_email_body',   'llms_email_body',   10, 1 );
-add_action( 'lifterlms_email_footer', 'llms_email_footer', 10    );
+add_action( 'lifterlms_email_footer', 'llms_email_footer', 10 );
 
 
 if ( ! is_admin() ) {

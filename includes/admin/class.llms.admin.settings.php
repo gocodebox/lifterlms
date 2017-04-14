@@ -769,7 +769,6 @@ class LLMS_Admin_Settings {
 	    // Options to update will be stored here
 	    $update_options = array();
 
-
 	    // Loop options and get values to save
 	    foreach ( $settings as $value ) {
 

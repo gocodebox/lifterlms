@@ -152,7 +152,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 				if ( 'no' === $enabled ) {
 					continue;
-				} elseif ( 'custom' === $subscriber_key )  {
+				} elseif ( 'custom' === $subscriber_key ) {
 					$this->add_custom_subscriptions( $type );
 				}
 

@@ -133,7 +133,7 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 					'title' => __( 'Lesson Author', 'lifterlms' ),
 				);
 				$options[] = array(
-					'description' =>  __( 'Enter additional email addresses which will recieve this notification. Separate multilpe addresses with commas.', 'lifterlms' ),
+					'description' => __( 'Enter additional email addresses which will recieve this notification. Separate multilpe addresses with commas.', 'lifterlms' ),
 					'enabled' => 'no',
 					'id' => 'custom',
 					'title' => __( 'Additional Recipients', 'lifterlms' ),

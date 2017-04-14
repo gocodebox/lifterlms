@@ -12,12 +12,12 @@ interface LLMS_Interface_Notification_Manager {
 	/**
 	 * Characters added before merge codes
 	 */
-	CONST MERGE_CODE_PREFIX = '{{';
+	const MERGE_CODE_PREFIX = '{{';
 
 	/**
 	 * Characters added after merge codes
 	 */
-	CONST MERGE_CODE_SUFFIX = '}}';
+	const MERGE_CODE_SUFFIX = '}}';
 
 	/**
 	 * Callback function for notifications

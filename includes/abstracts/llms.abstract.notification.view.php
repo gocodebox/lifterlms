@@ -173,7 +173,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		?>
 			<div class="<?php echo implode( ' ', $classes ); ?>"<?php echo $atts; ?> id="llms-notification-<?php echo $this->id; ?>">
 
-				<?php if ( $this->basic_options['dismissible'] ): ?>
+				<?php if ( $this->basic_options['dismissible'] ) : ?>
 					<i class="llms-notification-dismiss fa fa-times-circle" aria-hidden="true"></i>
 				<?php endif; ?>
 
@@ -197,7 +197,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 			</div>
 		<?php
 
-		$html = trim( preg_replace( '/\s+/S', " ", ob_get_clean() ) );
+		$html = trim( preg_replace( '/\s+/S', ' ', ob_get_clean() ) );
 		return apply_filters( $this->get_filter( 'get_basic_html' ), $html, $this );
 
 	}
