@@ -12,32 +12,28 @@ abstract class LLMS_Abstract_Email {
 
 	protected $id = '';
 
-	protected $enabled = true;
 	protected $content_type = 'text/html';
-	protected $headers = array();
+
+	protected $body = '';
 	protected $heading = '';
-	protected $recipient = array();
 	protected $subject = '';
 
-	protected $find = array();
-	protected $replace = array();
+	private $headers = array();
+	private $find = array();
+	private $recipient = array();
+	private $replace = array();
 
-	/**
-	 * Get the html content of the email
-	 * @return   string
-	 * @since    1.0.0
-	 * @version  [version]
-	 */
-	abstract public function get_content_html();
+	protected $template_html = 'emails/template.php';
 
 	/**
 	 * Initializer
-	 * Children can configure the email in this function called by the __construct() functino
+	 * Children can configure the email in this function called by the __construct() function
+	 * @param    array     $args  optional arguments passed in from the constructor
 	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	abstract protected function init();
+	abstract protected function init( $args );
 
 	/**
 	 * Constructor
@@ -45,45 +41,127 @@ abstract class LLMS_Abstract_Email {
 	 * @since    1.0.0
 	 * @version  [version]
 	 */
-	public function __construct() {
+	public function __construct( $args = array() ) {
 
-		$this->headers = array(
-			'Content-Type: ' . $this->get_content_type(),
-		);
+		$this->add_header( 'Content-Type', $this->get_content_type() );
 
-		$this->find = array(
-			'{blogname}',
-			'{site_title}',
-		);
-		$this->replace = array(
-			get_bloginfo( 'name', 'display' ),
-			get_bloginfo( 'name', 'display' ),
-		);
+		$this->add_merge_data( array(
+			'{blogname}' => get_bloginfo( 'name', 'display' ),
+			'{site_title}' => get_bloginfo( 'name', 'display' ),
+		) );
 
-		$this->init();
+		$this->init( $args );
 
 	}
 
-	protected function add_merge_data( $data = array() ) {
+
+	public function add_header( $key, $val ) {
+
+		array_push( $this->headers, sprintf( '%1$s: %2$s', $key, $val ) );
+
+	}
+
+	public function add_merge_data( $data = array() ) {
 
 		foreach ( $data as $find => $replace ) {
 
-			$this->find[ $find ];
-			$this->replace[ $replace ];
+			array_push( $this->find, $find );
+			array_push( $this->replace, $replace );
 
 		}
 
 	}
 
 	/**
-	 * Get the blogname option
+	 * Add a single recipient for sending to, cc, or bcc
+	 * @param    int|string  $address  if string, must be a valid email address
+	 *                                 if int, must be the WP User ID of a user
+	 * @param    string      $type     recipient type [to,cc,bcc]
+	 * @param    string      $name     recipent name (optional)
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function add_recipient( $address, $type = 'to', $name = '' ) {
+
+		// if an ID was supplied, get the information from the student object
+		if ( is_numeric( $address ) ) {
+			$student = new LLMS_Student( $address );
+			$address = $student->get( 'user_email' );
+			$name = $student->get_name();
+		}
+
+		// ensure address is a valid email
+		if ( ! filter_var( $address, FILTER_VALIDATE_EMAIL ) ) {
+			return false;
+		}
+
+		// if a name is supplied format the name & address
+		if ( $name ) {
+			$address = sprintf( '%1$s <%2$s>', $name, $address );
+		}
+
+		if ( 'to' === $type ) {
+
+			array_push( $this->recipient, $address );
+			return true;
+
+		} elseif ( 'cc' === $type || 'bcc' === $type ) {
+
+			$this->add_header( ucfirst( $type ), $address );
+			return true;
+
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Add multiple recipents
+	 * @param    array      $recipients  array of recipient information
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function add_recipients( $recipients = array() ) {
+
+		foreach ( $recipients as $data ) {
+
+			$data = wp_parse_args( $data, array(
+				'address' => '',
+				'type' => 'to',
+				'name' => '',
+			) );
+
+			if ( $data['address'] ) {
+				$this->add_recipient( $data['address'], $data['type'], $data['name'] );
+			}
+
+		}
+
+	}
+
+	/**
+	 *  Format string method
+	 *  Finds and replaces merge fields with appropriate data
+	 * @param    string  $string  string to be formatted
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version] - use core functions rather than get_option()
+	 * @version  1.0.0
 	 */
-	protected function get_blogname() {
-		llms_deprecated_function( 'LLMS_Email::get_blogname', '[version]', 'get_bloginfo( \'name\', \'display\' )' );
-		return get_bloginfo( 'name', 'display' );
+	public function format_string( $string ) {
+		return str_replace( $this->find, $this->replace, $string );
+	}
+
+	/**
+	 * Get the body content of the email
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_body() {
+		return apply_filters( 'llms_email_body', $this->format_string( $this->body ), $this );
 	}
 
 	/**
@@ -96,6 +174,23 @@ abstract class LLMS_Abstract_Email {
 
 		$content = apply_filters( 'llms_email_content_get_content', $this->get_content_html(), $this );
 		return wordwrap( $content, 70 );
+
+	}
+
+	/**
+	 * Get the HTML email content
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_content_html() {
+
+		ob_start();
+		llms_get_template( $this->template_html, array(
+			'email_heading' => $this->get_heading(),
+			'email_message' => $this->get_body(),
+		) );
+		return apply_filters( 'llms_email_content_get_content_html', ob_get_clean(), $this );
 
 	}
 
@@ -179,59 +274,27 @@ abstract class LLMS_Abstract_Email {
 		return apply_filters( 'lifterlms_email_enabled', $this->enabled, $this );
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/**
-	 *  Format string method
-	 *  Finds and replaces merge fields with appropriate data
-	 *
-	 * @param  string $string [string to be formatted]
-	 * @return string         [Formatted string with raw data in replace of merge fields]
-	 */
-	public function format_string( $string ) {
-		return str_replace( $this->find, $this->replace, $string );
-	}
-
-
-
-
-
-
-
 	/**
 	 * Send email
-	 *
-	 * @param  string $to      [to email address]
-	 * @param  string $subject [the email subject]
-	 * @param  string $message [the html formatted message]
-	 * @param  string $headers [the email headers]
-	 *
-	 * @return bool $return [Whether or not the email was sent successfully]
+	 * @return bool
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
-	public function send( $to, $subject, $message, $headers ) {
+	public function send() {
+
+		do_action( 'lifterlms_email_' . $this->id . '_before_send', $this );
 
 		add_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
 		add_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
 		add_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
 
-		$return = wp_mail( $to, $subject, $message, $headers );
+		$return = wp_mail( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
 
 		remove_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
 		remove_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
 		remove_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
+
+		do_action( 'lifterlms_email_' . $this->id . '_after_send', $this, $return );
 
 		return $return;
 

@@ -47,8 +47,10 @@ class LLMS_Emails {
 	private function __construct() {
 
 		// Include email child classes
-		$this->emails['LLMS_Email_Engagement'] = include_once( 'emails/class.llms.email.engagement.php' );
-		$this->emails['LLMS_Email_Reset_Password']= include_once( 'emails/class.llms.email.reset.password.php' );
+		require_once 'emails/class.llms.email.engagement.php';
+		$this->emails['engagement'] = 'LLMS_Email_Engagement';
+
+		// $this->emails['LLMS_Email_Reset_Password']= include_once( 'emails/class.llms.email.reset.password.php' );
 
 		$this->emails = apply_filters( 'lifterlms_email_classes', $this->emails );
 
@@ -116,6 +118,21 @@ class LLMS_Emails {
 	}
 
 	/**
+	 * Retrieve a new instance of an email
+	 * @param    string     $id    email id
+	 * @param    array      $args  optional arguments to pass to the email
+	 * @return   obj|null
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_email( $id, $args = array() ) {
+		$emails = $this->get_emails();
+		if ( isset( $emails[ $id ] ) ) {
+			return new $emails[ $id ]( $args );
+		}
+	}
+
+	/**
 	 * Get all email objects
 	 * @return array [Array of all email objects]
 	 * @since    1.0.0
@@ -124,6 +141,7 @@ class LLMS_Emails {
 	public function get_emails() {
 		return $this->emails;
 	}
+
 
 	/**
 	 * Send email
@@ -155,23 +173,6 @@ class LLMS_Emails {
 		remove_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
 
 		return $send;
-
-	}
-
-	/**
-	 * Send an email related to an engagement
-	 * Calls trigger method passing arguments
-	 * @param  int $person_id        WP User ID
-	 * @param  int $email            WP Post ID of the Email Post to send
-	 * @param  int $related_post_id  WP Post ID of the triggering post
-	 * @return void
-	 * @since    ??
-	 * @version  ??
-	 */
-	public function trigger_engagement( $person_id, $email_id, $related_post_id ) {
-
-		$email = $this->emails['LLMS_Email_Engagement'];
-		$email->trigger( $person_id, $email_id, $related_post_id );
 
 	}
 
