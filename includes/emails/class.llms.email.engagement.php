@@ -8,9 +8,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Email_Engagement extends LLMS_Abstract_Email {
+class LLMS_Email_Engagement extends LLMS_Email {
 
-	protected $id = 'engagement_email';
+	protected $id = 'engagement';
 
 	/**
 	 * Initialize all variables

@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 *
 * Generates and sends password reset email
 */
-class LLMS_Email_Reset_Password extends LLMS_Abstract_Email {
+class LLMS_Email_Reset_Password extends LLMS_Email {
 
 	/** @var string */
 	var $user_login;

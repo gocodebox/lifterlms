@@ -1,6 +1,6 @@
 <?php
 /**
-* Email Abstract
+* Email Base Class
 *
 * @since    1.0.0
 * @version  [version]
@@ -8,9 +8,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-abstract class LLMS_Abstract_Email {
+class LLMS_Email {
 
-	protected $id = '';
+	protected $id = 'generic';
 
 	protected $content_type = 'text/html';
 
@@ -33,7 +33,7 @@ abstract class LLMS_Abstract_Email {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	abstract protected function init( $args );
+	protected function init( $args ) {}
 
 	/**
 	 * Constructor
@@ -54,13 +54,27 @@ abstract class LLMS_Abstract_Email {
 
 	}
 
-
+	/**
+	 * Add a single header to the email headers array
+	 * @param    string     $key   header key eg: 'Cc'
+	 * @param    string     $val   header value eg: 'noreply@website.tld'
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function add_header( $key, $val ) {
 
 		array_push( $this->headers, sprintf( '%1$s: %2$s', $key, $val ) );
 
 	}
 
+	/**
+	 * Add merge data that will be used in the email
+	 * @param    array      $data    associative array where
+	 *                               	$key = merge field
+	 *                               	$val = merge value
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function add_merge_data( $data = array() ) {
 
 		foreach ( $data as $find => $replace ) {
@@ -265,13 +279,63 @@ abstract class LLMS_Abstract_Email {
 	}
 
 	/**
-	 * Checks if email is enabled.
-	 * @return   boolean
-	 * @since    1.0.0
-	 * @version  1.0.0
+	 * Set the body for the email
+	 * @param    string     $body   text or html body content for the email
+	 * @return   $this
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	public function is_enabled() {
-		return apply_filters( 'lifterlms_email_enabled', $this->enabled, $this );
+	public function set_body( $body = '' ) {
+		$this->body = $body;
+		return $this;
+	}
+
+	/**
+	 * set the content_type for the email
+	 * @param    string     $content_type   content type (for the header)
+	 * @return   $this
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function set_content_type( $content_type = 'text/html' ) {
+		$this->content_type = $content_type;
+		return $this;
+	}
+
+	/**
+	 * set the heading for the email
+	 * @param    string     $heading    text string to use for the email heading
+	 * @return   $this
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function set_heading( $heading = '' ) {
+		$this->heading = $heading;
+		return $this;
+	}
+
+	/**
+	 * Set the ID of the email
+	 * @param    string     $id   id string
+	 * @return   $this
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function set_id( $id = '' ) {
+		$this->id = $id;
+		return $this;
+	}
+
+	/**
+	 * set the subject for the email
+	 * @param    string     $content_type    text string to use for the email subject
+	 * @return   $this
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function set_subject( $subject = '' ) {
+		$this->subject = $subject;
+		return $this;
 	}
 
 	/**
