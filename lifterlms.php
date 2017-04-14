@@ -319,9 +319,9 @@ final class LifterLMS {
 	 * Load Hooks
 	 */
 	public function include_template_functions() {
-		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+		// if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			include_once( 'includes/llms.template.functions.php' );
-		}
+		// }
 	}
 
 	/**

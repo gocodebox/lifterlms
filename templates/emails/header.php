@@ -1,4 +1,9 @@
 <?php
+/**
+ * LifterLMS Email Header Template
+ * @since    1.0.0
+ * @version  [version]
+ */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -79,7 +84,7 @@ $mailer = LLMS()->mailer();
 
 						<!-- <span class="preheader" style="color:transparent;display:none;height:0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;visibility:hidden;width:0;">This is preheader text. Some clients will show this text as a preview.</span> -->
 
-						<?php if ( isset( $email_heading ) ): ?>
+						<?php if ( ! empty( $email_heading ) ): ?>
 						<!-- START HEADING AREA -->
 						<table class="main" style="background:<?php $mailer->get_css( 'heading-background-color' ); ?>;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;border-radius:<?php printf( '%1$s %1$s 0 0', $mailer->get_css( 'border-radius' ) ); ?>;width:100%;">
 							<tr>
@@ -97,7 +102,7 @@ $mailer = LLMS()->mailer();
 						<!-- END HEADING AREA -->
 						<?php endif; ?>
 
-						<table class="main" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;background:#fff;border-radius:<?php echo isset( $email_heading ) ? sprintf( '0 0 %1$s %1$s', $mailer->get_css( 'border-radius' ) ) : $mailer->get_css( 'border-radius' ); ?>;width:100%;">
+						<table class="main" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;background:#fff;border-radius:<?php echo ! empty( $email_heading ) ? sprintf( '0 0 %1$s %1$s', $mailer->get_css( 'border-radius' ) ) : $mailer->get_css( 'border-radius' ); ?>;width:100%;">
 							<tr>
 								<td class="wrapper" style="color:<?php $mailer->get_css( 'font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;box-sizing:border-box;padding:20px;">
 									<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;">

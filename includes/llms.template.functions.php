@@ -64,6 +64,52 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 }
 
 /**
+ * Output email body content
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'llms_email_body' ) ) {
+
+	function llms_email_body( $content = '' ) {
+		echo apply_filters( 'the_content', $content );
+	}
+
+}
+
+
+/**
+ * Output email footer template
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'llms_email_footer' ) ) {
+
+	function llms_email_footer() {
+		llms_get_template( 'emails/footer.php' );
+	}
+
+}
+
+/**
+ * Output email header template with optional heading
+ * @param    string  $heading   optional heading text to output above the main content
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'llms_email_header' ) ) {
+
+	function llms_email_header( $heading = '' ) {
+		llms_get_template( 'emails/header.php', array(
+			'email_heading' => $heading,
+		) );
+	}
+
+}
+
+/**
  * Post Template Include
  * Appends LLMS content above and below post content
  * @param  string $content [WP post content]

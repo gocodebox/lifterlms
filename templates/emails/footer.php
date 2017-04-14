@@ -1,4 +1,9 @@
 <?php
+/**
+ * LifterLMS Emails Footer Template
+ * @since    1.0.0
+ * @version  [version]
+ */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $mailer = LLMS()->mailer();
