@@ -46,6 +46,10 @@ class LLMS_Emails {
 	 */
 	private function __construct() {
 
+		// email base class
+		require_once 'emails/class.llms.email.php';
+		$this->emails['generic'] = 'LLMS_Email';
+
 		// Include email child classes
 		require_once 'emails/class.llms.email.engagement.php';
 		$this->emails['engagement'] = 'LLMS_Email_Engagement';
@@ -54,30 +58,6 @@ class LLMS_Emails {
 
 		$this->emails = apply_filters( 'lifterlms_email_classes', $this->emails );
 
-		add_action( 'lifterlms_email_header', array( $this, 'email_header' ) );
-		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
-
-	}
-
-	/**
-	 * get email footer string
-	 * @return string [Email footer option as string]
-	 * @since    1.0.0
-	 * @version  1.0.0
-	 */
-	public function email_footer() {
-		llms_get_template( 'emails/footer.php' );
-	}
-
-	/**
-	 * Get email header option
-	 * @param  string $email_heading [text email heading option]
-	 * @return string [email heading]
-	 * @since    1.0.0
-	 * @version  1.0.0
-	 */
-	public function email_header( $email_heading ) {
-		llms_get_template( 'emails/header.php', array( 'email_heading' => $email_heading ) );
 	}
 
 	/**
@@ -121,15 +101,24 @@ class LLMS_Emails {
 	 * Retrieve a new instance of an email
 	 * @param    string     $id    email id
 	 * @param    array      $args  optional arguments to pass to the email
-	 * @return   obj|null
+	 * @return   obj
 	 * @since    [version]
 	 * @version  [version]
 	 */
 	public function get_email( $id, $args = array() ) {
+
 		$emails = $this->get_emails();
+
+		// if we have an email matching the ID, return an instance of that email class
 		if ( isset( $emails[ $id ] ) ) {
 			return new $emails[ $id ]( $args );
 		}
+
+		// otherwise return a generic email and set the ID to be the requested ID
+		$generic = new $emails['generic']( $args );
+		$generic->set_id( $id );
+		return $generic;
+
 	}
 
 	/**
