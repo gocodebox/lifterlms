@@ -57,7 +57,7 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
  * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID
  * @return   boolean
  * @since    3.7.0
- * @version  3.7.0
+ * @version  3.7.1
  */
 function llms_can_user_bypass_restrictions( $user ) {
 
@@ -65,7 +65,12 @@ function llms_can_user_bypass_restrictions( $user ) {
 		$user = new LLMS_Student( $user );
 	}
 
-	if ( array_intersect( $user->get( 'user' )->roles, get_option( 'llms_grant_site_access', array() ) ) ) {
+	$roles = get_option( 'llms_grant_site_access', '' );
+	if ( ! $roles ) {
+		$roles = array();
+	}
+
+	if ( array_intersect( $user->get( 'user' )->roles, $roles ) ) {
 		return true;
 	}
 
