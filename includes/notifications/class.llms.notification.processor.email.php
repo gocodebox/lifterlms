@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS Notification Backgroung Processor Abstract
+ * Notification Background Processor: Emails
  *
  * @since    [version]
  * @version  [version]

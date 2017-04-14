@@ -1,4 +1,11 @@
 <?php
+/**
+ * Notification View Abstract
+ * @since    [version]
+ * @version  [version]
+ */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 

@@ -1,4 +1,11 @@
 <?php
+/**
+ * Notification Controller Abstract
+ * @since    [version]
+ * @version  [version]
+ */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Options_Data implements LLMS_Interface_Notification_Controller {
 
@@ -125,7 +132,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		add_action( $this->action_hook, array( $this, 'action_callback' ), $this->action_accepted_arguments, $this->action_priority );
 
 	}
-
 
 	private function add_custom_subscriptions( $type ) {
 		$option = $this->get_option( $type . '_custom_subscribers' );

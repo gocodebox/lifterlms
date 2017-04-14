@@ -1,4 +1,11 @@
 <?php
+/**
+ * Notification View: Lesson Complete
+ * @since    [version]
+ * @version  [version]
+ */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_View {
 

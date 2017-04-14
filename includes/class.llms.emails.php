@@ -131,38 +131,4 @@ class LLMS_Emails {
 		return $this->emails;
 	}
 
-
-	/**
-	 * Send email
-	 * Sends email using wp_mail
-	 *
-	 * @param  string $to           [email address of recipient]
-	 * @param  string $subject      [email subject]
-	 * @param  string $message      [email message]
-	 * @param  string $headers      [email headers]
-	 * @param  string $attachments  [Email Attachements]
-	 * @param  string $content_type [Email content type: html or text]
-	 *
-	 * @return bool
-	 *
-	 */
-	public function send( $to = array(), $subject = array(), $message = '', $headers = array(), $attachments = '' ) {
-
-		// Filters for the email
-		add_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
-		add_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
-		add_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
-
-		// Send
-		$send = wp_mail( $to, $subject, $message, $headers, $attachments );
-
-		// Unhook filters
-		remove_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
-		remove_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
-		remove_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
-
-		return $send;
-
-	}
-
 }

@@ -31,7 +31,7 @@ class LLMS_Notifications {
 
 	/**
 	 * Array of processors needing to be dispatched on shutdown
-	 * @var  [type]
+	 * @var  array
 	 */
 	private $processors_to_dispatch = array();
 
@@ -239,6 +239,14 @@ class LLMS_Notifications {
 
 	}
 
+	/**
+	 * Load a single processor
+	 * @param    string     $type   processor type id
+	 * @param    string     $path   optional path (for allowing 3rd party processor loading)
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function load_processor( $type, $path = null ) {
 
 		// default path for core processors
