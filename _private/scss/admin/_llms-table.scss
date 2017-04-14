@@ -45,6 +45,13 @@
 			display: none;
 		}
 
+		.llms-button-primary,
+		.llms-button-secondary,
+		.llms-button-action,
+		.llms-button-danger {
+			display: inline-block;
+		}
+
 	}
 
 	thead th,

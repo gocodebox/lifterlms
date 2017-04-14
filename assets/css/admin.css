@@ -2417,6 +2417,15 @@ a.llms-view-as {
 .llms-table td.expandable.closed, .llms-table th.expandable.closed {
   display: none;
 }
+.llms-table td .llms-button-primary,
+.llms-table td .llms-button-secondary,
+.llms-table td .llms-button-action,
+.llms-table td .llms-button-danger, .llms-table th .llms-button-primary,
+.llms-table th .llms-button-secondary,
+.llms-table th .llms-button-action,
+.llms-table th .llms-button-danger {
+  display: inline-block;
+}
 .llms-table thead th,
 .llms-table tfoot th {
   background-color: #eaeaea;
