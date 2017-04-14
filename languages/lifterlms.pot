@@ -180,7 +180,7 @@ msgstr ""
 msgid "Certificates Issued"
 msgstr ""
 
-#: includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:315, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:86, includes/admin/settings/class.llms.settings.memberships.php:19, includes/functions/llms.functions.person.php:314, includes/integrations/class.llms.integration.buddypress.php:59, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:202, templates/admin/reporting/nav-filters.php:84
+#: includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:315, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:86, includes/admin/settings/class.llms.settings.memberships.php:19, includes/functions/llms.functions.person.php:319, includes/integrations/class.llms.integration.buddypress.php:59, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:202, templates/admin/reporting/nav-filters.php:84
 msgid "Memberships"
 msgstr ""
 
@@ -6643,27 +6643,27 @@ msgstr ""
 msgid "Zambian kwacha"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:127
+#: includes/functions/llms.functions.person.php:132
 msgid "strong"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:131
+#: includes/functions/llms.functions.person.php:136
 msgid "medium"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:135
+#: includes/functions/llms.functions.person.php:140
 msgid "weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:139
+#: includes/functions/llms.functions.person.php:144
 msgid "very weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:313
+#: includes/functions/llms.functions.person.php:318
 msgid "Last Login"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:342
+#: includes/functions/llms.functions.person.php:347
 msgid "Never"
 msgstr ""
 

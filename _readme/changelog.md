@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.7.1 - 2017/04/14 =
+-----------------------
+
++ Fix php notice when no roles are selected for preview management feature
+
+
 = v3.7.0 - 2017/04/13 =
 -----------------------
 
