@@ -56,64 +56,6 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Get the fields for the login form
-	 * @param    string     $layout  form layout [columns|stacked]
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.4
-	 */
-	public static function get_login_fields( $layout = 'columns' ) {
-
-		$gen_usernames = ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) );
-
-		return apply_filters( 'lifterlms_person_login_fields', array(
-			array(
-				'columns' => ( 'columns' == $layout ) ? 6 : 12,
-				'id' => 'llms_login',
-				'label' => $gen_usernames ? __( 'Email Address', 'lifterlms' ) : __( 'Username or Email Address', 'lifterlms' ),
-				'last_column' => ( 'columns' == $layout ) ? false : true,
-				'required' => true,
-				'type'  => $gen_usernames ? 'email' : 'text',
-			),
-			array(
-				'columns' => ( 'columns' == $layout ) ? 6 : 12,
-				'id' => 'llms_password',
-				'label' => __( 'Password', 'lifterlms' ),
-				'last_column' => ( 'columns' == $layout ) ? true : true,
-				'required' => true,
-				'type'  => 'password',
-			),
-			array(
-				'columns' => ( 'columns' == $layout ) ? 3 : 12,
-				'classes' => 'llms-button-action',
-				'id' => 'llms_login_button',
-				'value' => __( 'Login', 'lifterlms' ),
-				'last_column' => ( 'columns' == $layout ) ? false : true,
-				'required' => false,
-				'type'  => 'submit',
-			),
-			array(
-				'columns' => ( 'columns' == $layout ) ? 6 : 6,
-				'id' => 'llms_remember',
-				'label' => __( 'Remember me', 'lifterlms' ),
-				'last_column' => false,
-				'required' => false,
-				'type'  => 'checkbox',
-			),
-			array(
-				'columns' => ( 'columns' == $layout ) ? 3 : 6,
-				'id' => 'llms_lost_password',
-				'last_column' => true,
-				'description' => '<a href="' . esc_url( llms_lostpassword_url() ) . '">' . __( 'Lost your password?', 'lifterlms' ) . '</a>',
-				'type' => 'html',
-				'wrapper_classes' => 'align-right',
-			),
-		) );
-
-	}
-
-
-	/**
 	 * Retreive an array of fields for a specific screen
 	 *
 	 * Each array represents a form field that can be passed to llms_form_field()
@@ -306,6 +248,63 @@ class LLMS_Person_Handler {
 	}
 
 	/**
+	 * Get the fields for the login form
+	 * @param    string     $layout  form layout [columns|stacked]
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.4
+	 */
+	public static function get_login_fields( $layout = 'columns' ) {
+
+		$gen_usernames = ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) );
+
+		return apply_filters( 'lifterlms_person_login_fields', array(
+			array(
+				'columns' => ( 'columns' == $layout ) ? 6 : 12,
+				'id' => 'llms_login',
+				'label' => $gen_usernames ? __( 'Email Address', 'lifterlms' ) : __( 'Username or Email Address', 'lifterlms' ),
+				'last_column' => ( 'columns' == $layout ) ? false : true,
+				'required' => true,
+				'type'  => $gen_usernames ? 'email' : 'text',
+			),
+			array(
+				'columns' => ( 'columns' == $layout ) ? 6 : 12,
+				'id' => 'llms_password',
+				'label' => __( 'Password', 'lifterlms' ),
+				'last_column' => ( 'columns' == $layout ) ? true : true,
+				'required' => true,
+				'type'  => 'password',
+			),
+			array(
+				'columns' => ( 'columns' == $layout ) ? 3 : 12,
+				'classes' => 'llms-button-action',
+				'id' => 'llms_login_button',
+				'value' => __( 'Login', 'lifterlms' ),
+				'last_column' => ( 'columns' == $layout ) ? false : true,
+				'required' => false,
+				'type'  => 'submit',
+			),
+			array(
+				'columns' => ( 'columns' == $layout ) ? 6 : 6,
+				'id' => 'llms_remember',
+				'label' => __( 'Remember me', 'lifterlms' ),
+				'last_column' => false,
+				'required' => false,
+				'type'  => 'checkbox',
+			),
+			array(
+				'columns' => ( 'columns' == $layout ) ? 3 : 6,
+				'id' => 'llms_lost_password',
+				'last_column' => true,
+				'description' => '<a href="' . esc_url( llms_lostpassword_url() ) . '">' . __( 'Lost your password?', 'lifterlms' ) . '</a>',
+				'type' => 'html',
+				'wrapper_classes' => 'align-right',
+			),
+		) );
+
+	}
+
+	/**
 	 * Retreive an array of password fields for a specific screen
 	 *
 	 * Each array represents a form field that can be passed to llms_form_field()
@@ -387,6 +386,78 @@ class LLMS_Person_Handler {
 
 		return $fields;
 
+	}
+
+	/**
+	 * Retrieve fields for password recovery
+	 * This is for the form that sends a password reset email
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function get_lost_password_fields() {
+
+		$gen_usernames = ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) );
+
+		if ( $gen_usernames ) {
+			$message = __( 'Lost your password? Enter your email address and we will send you a link to reset it.', 'lifterlms' );
+		} else {
+			$message = __( 'Lost your password? Enter your username or email address and we will send you a link to reset it.', 'lifterlms' );
+		}
+
+		return apply_filters( 'lifterlms_lost_password_fields', array(
+			array(
+				'columns' => 12,
+				'id' => 'llms_lost_password_message',
+				'last_column' => true,
+				'type' => 'html',
+				'value' => apply_filters( 'lifterlms_lost_password_message', $message ),
+			),
+			array(
+				'columns' => 12,
+				'id' => 'llms_login',
+				'label' => $gen_usernames ? __( 'Email Address', 'lifterlms' ) : __( 'Username or Email Address', 'lifterlms' ),
+				'last_column' => true,
+				'required' => true,
+				'type'  => $gen_usernames ? 'email' : 'text',
+			),
+			array(
+				'columns' => 12,
+				'classes' => 'llms-button-action auto',
+				'id' => 'llms_lost_password_button',
+				'value' => __( 'Reset Password', 'lifterlms' ),
+				'last_column' => true,
+				'required' => false,
+				'type'  => 'submit',
+			),
+		) );
+
+	}
+
+	public static function get_password_reset_fields( $key = '', $login = '' ) {
+		$fields = self::get_password_fields( 'reset' );
+		$fields[] = array(
+			'columns' => 12,
+			'classes' => 'llms-button-action auto',
+			'id' => 'llms_lost_password_button',
+			'value' => __( 'Update Password', 'lifterlms' ),
+			'last_column' => true,
+			'required' => false,
+			'type'  => 'submit',
+		);
+		$fields[] = array(
+			'id' => 'llms_reset_key',
+			'required' => true,
+			'type' => 'hidden',
+			'value' => $key,
+		);
+		$fields[] = array(
+			'id' => 'llms_reset_login',
+			'required' => true,
+			'type' => 'hidden',
+			'value' => $login,
+		);
+		return apply_filters( 'lifterlms_lost_password_fields', $fields );
 	}
 
 	/**
@@ -772,13 +843,17 @@ class LLMS_Person_Handler {
 	 * @param    string $screen screen to validate fields against, accepts "checkout", "registration", or "update"
 	 * @return   true|WP_Error
 	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 
 		if ( 'login' === $screen ) {
 
 			$fields = self::get_login_fields();
+
+		} elseif ( 'reset_password' === $screen ) {
+
+			$fields = self::get_password_reset_fields();
 
 		} else {
 

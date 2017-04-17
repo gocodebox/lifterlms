@@ -48,6 +48,8 @@ class LLMS_Email {
 		$this->add_merge_data( array(
 			'{blogname}' => get_bloginfo( 'name', 'display' ),
 			'{site_title}' => get_bloginfo( 'name', 'display' ),
+			'{divider}' => LLMS()->mailer()->get_divider_html(),
+			'{button_style}' => LLMS()->mailer()->get_button_style(),
 		) );
 
 		$this->init( $args );

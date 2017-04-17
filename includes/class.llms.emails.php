@@ -54,10 +54,33 @@ class LLMS_Emails {
 		require_once 'emails/class.llms.email.engagement.php';
 		$this->emails['engagement'] = 'LLMS_Email_Engagement';
 
-		// $this->emails['LLMS_Email_Reset_Password']= include_once( 'emails/class.llms.email.reset.password.php' );
+		require_once 'emails/class.llms.email.reset.password.php';
+		$this->emails['reset_password'] = 'LLMS_Email_Reset_Password';
 
 		$this->emails = apply_filters( 'lifterlms_email_classes', $this->emails );
 
+	}
+
+	/**
+	 * Get a string of inline CSS to add to an email button
+	 * Use {button_style} merge code to output in HTML emails
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_button_style() {
+		$rules = apply_filters( 'llms_email_button_css', array(
+			'background-color' => $this->get_css( 'button-background-color', false ),
+			'color' => $this->get_css( 'button-font-color', false ),
+			'display' => 'inline-block',
+			'padding' => '10px 15px',
+			'text-decoration' => 'none',
+		) );
+		$styles = '';
+		foreach ( $rules as $rule => $style ) {
+			$styles .= sprintf( '%1$s:%2$s !important;', $rule, $style );
+		}
+		return $styles;
 	}
 
 	/**
@@ -73,6 +96,9 @@ class LLMS_Emails {
 		$css = apply_filters( 'llms_email_css', array(
 			'background-color' => '#f6f6f6',
 			'border-radius' => '3px',
+			'button-background-color' => '#2295ff',
+			'button-font-color' => '#ffffff',
+			'divider-color' => '#cecece',
 			'font-color' => '#222222',
 			'font-family' => 'sans-serif',
 			'font-size' => '15px',
@@ -95,6 +121,17 @@ class LLMS_Emails {
 
 		return '';
 
+	}
+
+	/**
+	 * Get an HTML divider for use in HTML emails
+	 * Can use shortcode {divider} to output in any email
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_divider_html() {
+		return '<div style="height:1px;width:100%;margin:15px auto;background-color:' . $this->get_css( 'divider-color', false ) . '"></div>';
 	}
 
 	/**
