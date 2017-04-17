@@ -753,9 +753,77 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
 	return $string;
 }
 
+/**
+ * Verify nonce with additional checks to confirm request method
+ * Skips verification if the nonce is not set
+ * Useful for checking nonce for various LifterLMS forms which check for the form submission on init actions
+ * @param    string     $nonce           name of the nonce field
+ * @param    string     $action          name of the action
+ * @param    string     $request_method  name of the intended request method
+ * @return   null|false|int
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
 
+	if ( strtoupper( getenv( 'REQUEST_METHOD' ) ) !== $request_method ) {
+		return;
+	}
 
+	if ( empty( $_REQUEST[ $nonce ] ) ) {
+		return;
+	}
+
+	return wp_verify_nonce( $_REQUEST[ $nonce ], $action );
+
+}
+
+/**
+ * Verifies a plain text password key for a user (by login) against the hashed key in the database
+ * @param    string     $key    plain text activation key
+ * @param    string     $login  user login
+ * @return   boolean
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_verify_password_reset_key( $key = '', $login = '' ) {
+
+	$key = preg_replace( '/[^a-z0-9]/i', '', $key );
+	if ( empty( $key ) || ! is_string( $key ) ) {
+		return false;
+	}
+
+	if ( empty( $login ) || ! is_string( $login ) ) {
+		return false;
+	}
+
+	global $wpdb;
+	$user_key = $wpdb->get_var( $wpdb->prepare(
+		"SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s",
+		$login
+	) );
+
+	if ( empty( $user_key ) ) {
+		return false;
+	}
+
+	global $wp_hasher;
+
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
+	}
+
+	$valid = $wp_hasher->CheckPassword( $key, $user_key );
+
+	if ( empty( $valid ) ) {
+		return false;
+	}
+
+	return true;
+
+}
 
 
 
