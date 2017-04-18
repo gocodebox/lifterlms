@@ -13,7 +13,7 @@ class LLMS_Controller_Account {
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'update' ) );
-		add_action( 'init', array( $this, 'lost_password' ), 15 ); // wait until template functions are loaded since were sending an email
+		add_action( 'init', array( $this, 'lost_password' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 
 	}

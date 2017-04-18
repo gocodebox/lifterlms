@@ -103,15 +103,22 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	}
 
 	/**
+	 * Setup notification subject for output
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function set_subject() {
+		return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{LESSON_TITLE}}' );
+	}
+
+	/**
 	 * Setup notification title for output
 	 * @return   string
 	 * @since    [version]
 	 * @version  [version]
 	 */
 	protected function set_title() {
-		if ( 'email' === $this->notification->get( 'type' ) ) {
-			return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{LESSON_TITLE}}' );
-		}
 		return  sprintf( __( '%s Completed a Lesson', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
 

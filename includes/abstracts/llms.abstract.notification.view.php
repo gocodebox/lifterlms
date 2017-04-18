@@ -97,7 +97,16 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	abstract protected function set_merge_codes();
 
 	/**
-	 * Setup notification icon for output
+	 * Setup notification subject line for outpet
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	abstract protected function set_subject();
+
+	/**
+	 * Setup notification title for output
+	 * On an email the title acts as the "heading" element
 	 * @return   string
 	 * @since    [version]
 	 * @version  [version]
@@ -329,6 +338,20 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 */
 	protected function get_option_prefix() {
 		return sprintf( '%1$snotification_%2$s_%3$s_', $this->option_prefix, $this->trigger_id, $this->notification->get( 'type' ) );
+	}
+
+	/**
+	 * Retrieve the subject for the notification (if supported)
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_subject( $merge = true ) {
+		$subject = $this->get_option( 'subject', $this->set_subject() );
+		if ( $merge ) {
+			$subject = $this->get_merged_string( $subject );
+		}
+		return apply_filters( $this->get_filter( 'get_subject' ), $subject, $this );
 	}
 
 	/**

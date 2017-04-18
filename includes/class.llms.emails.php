@@ -46,6 +46,9 @@ class LLMS_Emails {
 	 */
 	private function __construct() {
 
+		// template functions
+		LLMS()->include_template_functions();
+
 		// email base class
 		require_once 'emails/class.llms.email.php';
 		$this->emails['generic'] = 'LLMS_Email';

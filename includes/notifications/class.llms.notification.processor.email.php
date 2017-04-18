@@ -35,7 +35,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 		// setup the email
 		$mailer = LLMS()->mailer()->get_email( 'notification' );
 		$mailer->add_recipient( $notification->get( 'subscriber' ), 'to' );
-		$mailer->set_body( $view->get_html() )->set_subject( $view->get_title() );
+		$mailer->set_subject( $view->get_subject() )->set_heading( $view->get_title() )->set_body( $view->get_html() );
 
 		// log when wp_mail fails
 		if ( $mailer->send() ) {

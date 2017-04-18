@@ -59,10 +59,20 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 					'id' => 'notification_options_subtitle',
 				);
 
+				if ( 'email' === $type ) {
+					$settings[] = array(
+						'after_html' => llms_merge_code_button( '#' . $view->get_option_name( 'subject' ), false, $view->get_merge_codes() ),
+						'title' => __( 'Subject', 'lifterlms' ),
+						'type' => 'text',
+						'id' => $view->get_option_name( 'subject' ),
+						'value' => $view->get_subject( false ),
+					);
+				}
+
 				$settings[] = array(
 					'after_html' => llms_merge_code_button( '#' . $view->get_option_name( 'title' ), false, $view->get_merge_codes() ),
 					'id' => $view->get_option_name( 'title' ),
-					'title' => __( 'Title / Subject', 'lifterlms' ),
+					'title' => ( 'email' === $type ) ? __( 'Heading', 'lifterlms' ) : __( 'Title', 'lifterlms' ),
 					'type' => 'text',
 					'value' => $view->get_title( false ),
 				);
@@ -85,12 +95,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 						'value' => $view->get_icon(),
 					);
 				}
-
-				$settings[] = array(
-					'title' => __( 'Subscribers', 'lifterlms' ),
-					'type' => 'subtitle',
-					'id' => 'notification_options_subtitle_subscribers',
-				);
 
 				$subscribers = $controller->get_subscriber_options( $type );
 
