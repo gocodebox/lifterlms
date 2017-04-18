@@ -28,9 +28,9 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 		switch ( $key ) {
 
-			case 'types':
+			case 'configure':
 				$links = array();
-				foreach( $data['types'] as $type => $name ) {
+				foreach( $data['configure'] as $type => $name ) {
 					$url = esc_url( add_query_arg( array(
 						'notification' => $data['id'],
 						'type' => $type,
@@ -65,7 +65,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 			$rows[] = array(
 				'id' => $controller->id,
 				'notification' => $controller->get_title(),
-				'types' => $controller->get_supported_types(),
+				'configure' => $controller->get_supported_types(),
 			);
 
 		}
@@ -92,7 +92,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 	public function set_columns() {
 		$cols = array(
 			'notification' => __( 'Notification', 'lifterlms' ),
-			'types' => __( 'Types', 'lifterlms' ),
+			'configure' => __( 'Configure', 'lifterlms' ),
 		);
 
 		return $cols;

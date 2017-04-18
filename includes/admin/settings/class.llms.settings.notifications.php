@@ -20,6 +20,13 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	}
 
+	/**
+	 * Get a breadcrumb custom html for use on notification settings screens (not on the table)
+	 * @param    string     $current_title  the title of the current notification
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	private function get_breadcrumbs( $current_title ) {
 		return array(
 			'id' => 'notification_options_breadcrumbs',
@@ -28,6 +35,77 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		);
 	}
 
+	/**
+	 * Get settings specific to the current notification type
+	 * @param    obj     $controller  instance of an LLMS_Notification_Controller
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function get_notification_settings( $controller ) {
+
+		$settings = array();
+
+		// setup vars
+		$type = sanitize_text_field( $_GET['type'] );
+		$types = $controller->get_supported_types();
+		$title = $controller->get_title() . ' (' . $types[ $type ] . ')';
+		$view = $controller->get_mock_view( $type );
+
+		// so the merge code button can use it i
+		$this->view = $view;
+
+		// output the merge code button for the WYSIWYG editor
+		add_action( 'media_buttons', array( $this, 'merge_code_button' ) );
+
+		// add a breadcrumb on the top of the page
+		$settings[] = $this->get_breadcrumbs( $title );
+
+		// add field options for the view
+		$settings = array_merge( $settings, $view->get_field_options( $type ) );
+
+		$subscribers = $controller->get_subscriber_options( $type );
+
+		foreach ( $subscribers as $i => $data ) {
+
+			$sub_settings = array(
+				'default' => $data['enabled'],
+				'desc' => $data['title'],
+				'id' => sprintf( '%1$s[%2$s]', $controller->get_option_name( $type . '_subscribers' ), $data['id'] ),
+				'type' => 'checkbox',
+			);
+
+			if ( 0 === $i ) {
+				$sub_settings['title'] = __( 'Subscribers', 'lifterlms' );
+				$sub_settings['checkboxgroup'] = 'start';
+			} elseif ( count( $subscribers ) - 1 === $i ) {
+				$sub_settings['checkboxgroup'] = 'end';
+			} else {
+				$sub_settings['checkboxgroup'] = 'middle';
+			}
+
+			$settings[] = $sub_settings;
+
+			if ( 'custom' === $data['id'] ) {
+				$settings[] = array(
+					'desc' => '<br>' . $data['description'],
+					'id' => $controller->get_option_name( $type . '_custom_subscribers' ),
+					'type' => 'text',
+				);
+			}
+
+		}
+
+		return apply_filters( 'llms_notification_settings_' . $controller->id . '_' . $type, $settings, $controller, $view );
+
+	}
+
+	/**
+	 * Get settings array
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function get_settings() {
 
 		$settings = array();
@@ -50,55 +128,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 			if ( $controller ) {
 
-				// setup vars
-				$type = sanitize_text_field( $_GET['type'] );
-				$types = $controller->get_supported_types();
-				$title = $controller->get_title() . ' (' . $types[ $type ] . ')';
-				$view = $controller->get_mock_view( $type );
-
-				// so the merge code button can use it i
-				$this->view = $view;
-
-				// output the merge code button for the WYSIWYG editor
-				add_action( 'media_buttons', array( $this, 'merge_code_button' ) );
-
-				// add a breadcrumb on the top of the page
-				$settings[] = $this->get_breadcrumbs( $title );
-
-				// add field options for the view
-				$settings = array_merge( $settings, $view->get_field_options( $type ) );
-
-				$subscribers = $controller->get_subscriber_options( $type );
-
-				foreach ( $subscribers as $i => $data ) {
-
-					$sub_settings = array(
-						'default' => $data['enabled'],
-						'desc' => $data['title'],
-						'id' => sprintf( '%1$s[%2$s]', $controller->get_option_name( $type . '_subscribers' ), $data['id'] ),
-						'type' => 'checkbox',
-					);
-
-					if ( 0 === $i ) {
-						$sub_settings['title'] = __( 'Subscribers', 'lifterlms' );
-						$sub_settings['checkboxgroup'] = 'start';
-					} elseif ( count( $subscribers ) - 1 === $i ) {
-						$sub_settings['checkboxgroup'] = 'end';
-					} else {
-						$sub_settings['checkboxgroup'] = 'middle';
-					}
-
-					$settings[] = $sub_settings;
-
-					if ( 'custom' === $data['id'] ) {
-						$settings[] = array(
-							'desc' => '<br>' . $data['description'],
-							'id' => $controller->get_option_name( $type . '_custom_subscribers' ),
-							'type' => 'text',
-						);
-					}
-
-				}
+				$settings = array_merge( $settings, $this->get_notification_settings( $controller ) );
 
 			} else {
 
