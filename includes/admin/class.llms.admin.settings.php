@@ -1,14 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Admin Settings Class
 *
 * Settings field Factory
-*
-* @author codeBOX
-* @project lifterLMS
+* @since    1.0.0
+* @version  [version]
 */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Admin_Settings {
 
 	/**
@@ -183,7 +182,7 @@ class LLMS_Admin_Settings {
 	 * @param  array $field array of field settings
 	 * @return void
 	 *
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public static function output_field( $field ) {
 
