@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.7.2 - 2017/04/17 =
+-----------------------
+
++ Resolved a JS errors on admin panel resulting from overly strict asset loading added in 3.7.0
+
+
 = v3.7.1 - 2017/04/14 =
 -----------------------
 

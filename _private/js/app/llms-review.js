@@ -77,6 +77,5 @@ LLMS.Review = {
 			}
 		});
 
-		console.log('Review Methods Bound');
 	},
 };

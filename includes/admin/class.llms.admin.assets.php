@@ -2,7 +2,7 @@
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.7.0
+* @version  3.7.2
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -31,11 +31,13 @@ class LLMS_Admin_Assets {
 	 * Determine if the current screen should load LifterLMS assets
 	 * @return   boolean
 	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @version  3.7.2
 	 */
 	public function is_llms_page() {
 
 		$screen = get_current_screen();
+
+		// var_dump( $screen );
 
 		$id = str_replace( 'edit-', '', $screen->id );
 
@@ -44,6 +46,8 @@ class LLMS_Admin_Assets {
 		} elseif ( false !== strpos( $id, 'llms' ) ) {
 			return true;
 		} elseif ( in_array( $id, array( 'course', 'lesson' ) ) ) {
+			return true;
+		} elseif ( ! empty( $screen->post_type ) && post_type_supports( $screen->post_type, 'llms-membership-restrictions' ) ) {
 			return true;
 		}
 
@@ -225,13 +229,9 @@ class LLMS_Admin_Assets {
 	 * Initialize the "llms" object for other scripts to hook into
 	 * @return void
 	 * @since    1.0.0
-	 * @version  3.7.0
+	 * @version  3.7.2
 	 */
 	public function admin_print_scripts() {
-
-		if ( ! $this->is_llms_page() ) {
-			return;
-		}
 
 		global $post;
 		if ( ! empty( $post ) ) {
