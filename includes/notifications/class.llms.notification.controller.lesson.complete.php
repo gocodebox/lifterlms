@@ -28,12 +28,6 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	protected $action_hook = 'lifterlms_lesson_completed';
 
 	/**
-	 * Array of supported notification types
-	 * @var  array
-	 */
-	protected $supported_types = array( 'basic', 'email' );
-
-	/**
 	 * Callback function called when a lesson is completed by a student
 	 * @param    int     $student_id  WP User ID of a LifterLMS Student
 	 * @param    int     $lesson_id   WP Post ID of a LifterLMS Lesson
@@ -145,7 +139,6 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 		return $options;
 
 	}
-
 
 }
 

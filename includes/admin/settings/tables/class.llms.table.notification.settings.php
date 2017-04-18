@@ -28,16 +28,16 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 		switch ( $key ) {
 
-			case 'configure':
-				$url = esc_url( add_query_arg( array(
-					'notification' => $data['id'],
-					'type' => $data['type'],
-				) ) );
-				$value = '<a class="llms-button-secondary small" href="' . $url . '"><span class="dashicons dashicons-admin-generic"></span></a>';
-			break;
-
-			case 'subscribers':
-				$value = $data['subscribers'];
+			case 'types':
+				$links = array();
+				foreach( $data['types'] as $type => $name ) {
+					$url = esc_url( add_query_arg( array(
+						'notification' => $data['id'],
+						'type' => $type,
+					) ) );
+					$links[] = '<a href="' . $url . '">' . $name . '</a>';
+				}
+				$value = implode( ', ', $links );
 			break;
 
 			default:
@@ -62,34 +62,15 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 		foreach ( LLMS()->notifications()->get_controllers() as $controller ) {
 
-			$base = array(
+			$rows[] = array(
 				'id' => $controller->id,
-				'name' => $controller->get_title(),
-				'subscribers' => array(),
-				'type' => '',
+				'notification' => $controller->get_title(),
+				'types' => $controller->get_supported_types(),
 			);
-
-			foreach ( $controller->get_supported_types() as $type ) {
-				$base['type'] = $type;
-				$base['subscribers'] = $this->get_subscribers_settings( $controller, $type );
-				$rows[] = $base;
-			}
 
 		}
 
 		$this->tbody_data = $rows;
-	}
-
-	private function get_subscribers_settings( $controller, $type ) {
-		$default = $controller->get_subscriber_options( $type );
-		$saved = $controller->get_option( $type . '_subscribers' );
-		$ret = array();
-		foreach ( $default as $subscriber ) {
-			if ( isset( $saved[ $subscriber['id'] ] ) && 'yes' === $saved[ $subscriber['id'] ] ) {
-				$ret[] = $subscriber['title'];
-			}
-		}
-		return implode( ', ', $ret );
 	}
 
 	/**
@@ -110,10 +91,8 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 	 */
 	public function set_columns() {
 		$cols = array(
-			'name' => __( 'Name', 'lifterlms' ),
-			'type' => __( 'Type', 'lifterlms' ),
-			'subscribers' => __( 'Subscribers', 'lifterlms' ),
-			'configure' => __( 'Configure', 'lifterlms' ),
+			'notification' => __( 'Notification', 'lifterlms' ),
+			'types' => __( 'Types', 'lifterlms' ),
 		);
 
 		return $cols;

@@ -85,7 +85,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	abstract protected function set_subscriber_options( $type );
 
 
-
 	/**
 	 * Holds singletons for extending classes
 	 * @var  array
@@ -146,7 +145,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	private function add_subscriptions() {
 
-		foreach ( $this->get_supported_types() as $type ) {
+		foreach ( $this->get_supported_types() as $type => $name ) {
 
 			foreach ( $this->get_option( $type . '_subscribers', array() ) as $subscriber_key => $enabled ) {
 
@@ -196,7 +195,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	public function get_subscriber_options( $type ) {
-		return apply_filters( 'llms_notification_' . $this->id . '_supported_types', $this->set_subscriber_options( $type ), $this );
+		return apply_filters( 'llms_notification_' . $this->id . '_subscriber_options', $this->set_subscriber_options( $type ), $this );
 	}
 
 	/**
@@ -229,7 +228,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @version  [version]
 	 */
 	public function get_supported_types() {
-		return apply_filters( 'llms_notification_' . $this->id . '_supported_types', $this->supported_types, $this );
+		return apply_filters( 'llms_notification_' . $this->id . '_supported_types', $this->set_supported_types(), $this );
 	}
 
 	/**
@@ -292,6 +291,21 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
+	 * Determine what types are supported
+	 * Extending classes can override this function in order to add or remove support
+	 * 3rd parties should add support via filter on $this->get_supported_types()
+	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function set_supported_types() {
+		return array(
+			'basic' => __( 'Basic', 'lifterlms' ),
+			'email' => __( 'Email', 'lifterlms' ),
+		);
+	}
+
+	/**
 	 * Subscribe a user to a notification type
 	 * @param    mixed     $subscriber  WP User ID, email address, etc...
 	 * @param    string    $type        Identifier for a subscription type eg: basic
@@ -324,7 +338,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @version  [version]
 	 */
 	public function supports( $type ) {
-		return in_array( $type, $this->get_supported_types() );
+		return in_array( $type, array_keys( $this->get_supported_types() ) );
 	}
 
 }

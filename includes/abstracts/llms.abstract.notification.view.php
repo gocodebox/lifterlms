@@ -145,7 +145,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	protected function get_basic_html() {
+	private function get_basic_html() {
 
 		// setup html classes
 		$classes = array(
@@ -231,7 +231,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function get_email_html() {
+	private function get_email_html() {
 		return apply_filters( $this->get_filter( 'get_basic_html' ), $this->get_body(), $this );
 	}
 
@@ -244,6 +244,57 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 */
 	protected function get_filter( $hook ) {
 		return 'llms_notification_view' . $this->trigger_id . '_' . $hook;
+	}
+
+	/**
+	 * Get an array of field-related options to be add to the notifications view config page on the admin panel
+	 * @param    [type]     $type  [description]
+	 * @return   [type]            [description]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_field_options( $type ) {
+
+		$options = array();
+
+		if ( 'email' === $type ) {
+			$options[] = array(
+				'after_html' => llms_merge_code_button( '#' . $this->get_option_name( 'subject' ), false, $this->get_merge_codes() ),
+				'id' => $this->get_option_name( 'subject' ),
+				'title' => __( 'Subject', 'lifterlms' ),
+				'type' => 'text',
+				'value' => $this->get_subject( false ),
+			);
+		}
+
+		$options[] = array(
+			'after_html' => llms_merge_code_button( '#' . $this->get_option_name( 'title' ), false, $this->get_merge_codes() ),
+			'id' => $this->get_option_name( 'title' ),
+			'title' => ( 'email' === $type ) ? __( 'Heading', 'lifterlms' ) : __( 'Title', 'lifterlms' ),
+			'type' => 'text',
+			'value' => $this->get_title( false ),
+		);
+
+		$options[] = array(
+			'editor_settings' => array(
+				'teeny' => true,
+			),
+			'id' => $this->get_option_name( 'body' ),
+			'title' => __( 'Body', 'lifterlms' ),
+			'type' => 'wpeditor',
+			'value' => $this->get_body( false ),
+		);
+
+		if ( 'basic' === $type ) {
+			$options[] = array(
+				'id' => $this->get_option_name( 'icon' ),
+				'title' => __( 'Icon', 'lifterlms' ),
+				'type' => 'text',
+				'value' => $this->get_icon(),
+			);
+		}
+
+		return apply_filters( $this->get_filter( 'get_field_options' ), $options, $this );
 	}
 
 	/**
