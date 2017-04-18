@@ -223,6 +223,11 @@ class LLMS_Admin_Assets {
 
 		}
 
+		if ( 'lifterlms_page_llms-settings' == $screen->id ) {
+			wp_enqueue_media();
+			wp_enqueue_script( 'llms-admin-settings', plugins_url( '/assets/js/llms-admin-settings' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
+		}
+
 	}
 
 	/**

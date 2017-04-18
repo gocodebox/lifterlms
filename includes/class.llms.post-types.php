@@ -44,7 +44,7 @@ class LLMS_Post_Types {
 	 * @return void
 	 *
 	 * @since    2.4.1
-	 * @version  3.0.4
+	 * @version  [version]
 	 */
 	public static function add_thumbnail_support() {
 
@@ -64,6 +64,8 @@ class LLMS_Post_Types {
 			add_post_type_support( $p, 'thumbnail' );
 
 		}
+
+		add_image_size( 'llms_notification_icon', 64, 64, true );
 
 	}
 

@@ -2371,6 +2371,16 @@ a.llms-view-as {
   margin-right: 8px;
 }
 
+.llms-image-field-preview {
+  max-height: 80px;
+  vertical-align: middle;
+  width: auto;
+}
+
+.llms-image-field-remove.hidden {
+  display: none;
+}
+
 .llms-table-wrap {
   position: relative;
 }

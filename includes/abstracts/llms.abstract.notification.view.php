@@ -174,7 +174,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		// get variables
 		$title = $this->get_title();
-		$icon = $this->get_icon();
+		$icon = $this->get_icon_src();
 		$body = $this->get_body();
 		$footer = $this->get_footer();
 
@@ -288,8 +288,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		if ( 'basic' === $type ) {
 			$options[] = array(
 				'id' => $this->get_option_name( 'icon' ),
+				'image_size' => 'llms_notification_icon',
 				'title' => __( 'Icon', 'lifterlms' ),
-				'type' => 'text',
+				'type' => 'image',
 				'value' => $this->get_icon(),
 			);
 		}
@@ -338,14 +339,33 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Retrieve the icon for the notification
-	 * @return   string
+	 * Retrieve the icon id for the notification
+	 * Returns an attachment id for the image
+	 * @return   int
 	 * @since    [version]
 	 * @version  [version]
 	 */
 	public function get_icon() {
 		$icon = $this->get_option( 'icon', $this->set_icon() );
 		return apply_filters( $this->get_filter( 'get_icon' ), $icon, $this );
+	}
+
+	/**
+	 * Retrieve the icon src for the notification
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_icon_src() {
+		$id = $this->get_icon();
+		$src = '';
+		if ( $id ) {
+			$src = wp_get_attachment_image_src( $id, 'llms_notification_icon' );
+			if ( is_array( $src ) ) {
+				$src = $src[0];
+			}
+		}
+		return apply_filters( $this->get_filter( 'get_icon_src' ), $src, $this );
 	}
 
 	/**

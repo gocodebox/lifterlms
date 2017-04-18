@@ -534,6 +534,42 @@ class LLMS_Admin_Settings {
 				}
 			break;
 
+			case 'image':
+
+				$type 			= $field['type'];
+				$class 			= '';
+
+				if ( $option_value ) {
+					$size = isset( $field['image_size'] ) ? $field['image_size'] : 'medium';
+					$attachment = wp_get_attachment_image_src( $option_value, $size );
+					$src = $attachment[0];
+				} else {
+					$src = '';
+				}
+
+				?><tr valign="top">
+					<th>
+						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+						<?php echo $tooltip; ?>
+					</th>
+					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+
+						<img class="llms-image-field-preview" src="<?php echo $src; ?>">
+						<input class="llms-button-secondary llms-image-field-upload" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button" value="<?php echo __( 'Select', 'lifterlms' ); ?>">
+						<input class="llms-button-danger small llms-image-field-remove<?php echo ( ! $src ) ? ' hidden' : '' ?>" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button" value="<?php echo __( 'Remove', 'lifterlms' ); ?>">
+						<input
+							name="<?php echo esc_attr( $field['id'] ); ?>"
+							id="<?php echo esc_attr( $field['id'] ); ?>"
+							type="hidden"
+							style="<?php echo esc_attr( $field['css'] ); ?>"
+							value="<?php echo esc_attr( $option_value ); ?>"
+							class="<?php echo esc_attr( $field['class'] ); ?>"
+							<?php echo implode( ' ', $custom_attributes ); ?>
+							/> <?php echo $description; ?> <?php echo isset( $field['after_html'] ) ? $field['after_html'] : ''; ?>
+					</td>
+				</tr><?php
+			break;
+
 			// Single page selects
 			case 'single_select_page' :
 
@@ -822,6 +858,7 @@ class LLMS_Admin_Settings {
 		    	case 'single_select_membership' :
 		    	case 'radio' :
 		    	case 'hidden' :
+		    	case 'image' :
 
 					if ( isset( $_POST[ $value['id'] ] ) ) {
 		            	$option_value = llms_clean( stripslashes( $_POST[ $value['id'] ] ) );
