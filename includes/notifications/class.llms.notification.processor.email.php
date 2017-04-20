@@ -32,6 +32,11 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 
 		$view = $notification->get_view();
 
+		if ( ! $view ) {
+			$this->log( 'ID#' . $notification_id );
+			return false;
+		}
+
 		// setup the email
 		$mailer = LLMS()->mailer()->get_email( 'notification' );
 		$mailer->add_recipient( $notification->get( 'subscriber' ), 'to' );

@@ -426,16 +426,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Retrieve an array of supported types for the notifications
-	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function get_supported_types() {
-		return apply_filters( $this->get_filter( 'get_supported_types' ), $this->supports, $this );
-	}
-
-	/**
 	 * Retrieve the title for the notification
 	 * @return   string
 	 * @since    [version]

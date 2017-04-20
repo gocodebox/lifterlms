@@ -330,6 +330,7 @@ class LLMS_Admin_Settings {
 			case 'text':
 			case 'email':
 			case 'number':
+			case 'password':
 
 				$type 			= $field['type'];
 				$class 			= '';
