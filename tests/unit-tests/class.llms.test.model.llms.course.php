@@ -92,7 +92,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 * Test perequisite functions related to courses
 	 * @return   void
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  3.7.3
 	 */
 	public function test_get_prerequisites() {
 
