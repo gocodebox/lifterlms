@@ -282,7 +282,7 @@ class LLMS_Template_Loader {
 				apply_filters( 'llms_restricted_by_membership_redirect', $redirect, $info )
 			);
 
-		}
+		} // End if().
 
 	}
 
@@ -376,18 +376,6 @@ class LLMS_Template_Loader {
 				$template = 'single-no-access.php';
 			}
 
-			// } elseif ( is_single() && get_post_type() == 'llms_membership' ) {
-
-			// 	return $template;
-
-			// } elseif ( is_single() && get_post_type() == 'course' ) {
-
-			// 	return $template;
-
-			// } elseif ( is_single() && get_post_type() == 'lesson' ) {
-
-			// 	return $template;
-
 		} elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'llms_shop' ) ) ) {
 
 			$template = 'archive-course.php';
@@ -410,7 +398,7 @@ class LLMS_Template_Loader {
 
 			return $template;
 
-		}
+		} // End if().
 
 		// check for an override file
 		$override = llms_get_template_override( $template );
