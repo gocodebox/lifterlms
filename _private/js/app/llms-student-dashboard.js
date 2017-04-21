@@ -4,19 +4,28 @@
  * Student Dashboard related JS
  * @type  {Object}
  * @since    3.7.0
- * @version  3.7.0
+ * @version  3.7.4
  */
 LLMS.StudentDashboard = {
+
+	/**
+	 * Will show the number of meters on the page
+	 * Used to conditionally bind meter-related events only when meters
+	 * actually exist
+	 * @type  int
+	 */
+	meter_exists: 0,
 
 	/**
 	 * Init
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @version  3.7.4
 	 */
 	init: function() {
 
 		if ( $( '.llms-student-dashboard' ).length ) {
+			this.meter_exists = $( '.llms-password-strength-meter' ).length;
 			this.bind();
 		}
 
@@ -26,7 +35,7 @@ LLMS.StudentDashboard = {
 	 * Bind DOM events
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @version  3.7.4
 	 */
 	bind: function() {
 
@@ -60,9 +69,18 @@ LLMS.StudentDashboard = {
 
 		// this will remove the required by default without having to mess with
 		// conditionals in PHP and still allows the required * to show in the label
-		$( '.llms-person-form.edit-account' ).on( 'llms-password-strength-ready', function() {
+
+		if ( this.meter_exists ) {
+
+			$( '.llms-person-form.edit-account' ).on( 'llms-password-strength-ready', function() {
+				self.password_toggle( 'hide' );
+			} );
+
+		} else {
+
 			self.password_toggle( 'hide' );
-		} );
+
+		}
 
 	},
 
@@ -71,7 +89,7 @@ LLMS.StudentDashboard = {
 	 * @param    string   action  [show|hide]
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @version  3.7.4
 	 */
 	password_toggle: function( action ) {
 
@@ -79,7 +97,8 @@ LLMS.StudentDashboard = {
 			action = 'show';
 		}
 
-		var $pwds = $( '#password, #password_confirm, #current_password' ),
+		var self = this,
+			$pwds = $( '#password, #password_confirm, #current_password' ),
 			$form = $( '#password' ).closest( 'form' );
 
 		// hide or show the fields
@@ -88,16 +107,26 @@ LLMS.StudentDashboard = {
 		if ( 'show' === action ) {
 			// make passwords required
 			$pwds.attr( 'required', 'required' );
-			// add the strength check on form submission
-			$form.on( 'submit', LLMS.PasswordStrength, LLMS.PasswordStrength.submit );
+
+			if ( self.meter_exists ) {
+				// add the strength check on form submission
+				$form.on( 'submit', LLMS.PasswordStrength, LLMS.PasswordStrength.submit );
+			}
+
 		} else {
 			// remove requirement so form can be submitted while fields are hidden
 			// and clear the password out of the fields if typing started
 			$pwds.removeAttr( 'required' ).val( '' );
-			// remove the password strength submission check
-			$form.off( 'submit', LLMS.PasswordStrength.submit );
-			// clears the meter
-			LLMS.PasswordStrength.check_strength();
+
+			if ( self.meter_exists ) {
+
+				// remove the password strength submission check
+				$form.off( 'submit', LLMS.PasswordStrength.submit );
+				// clears the meter
+				LLMS.PasswordStrength.check_strength();
+
+			}
+
 		}
 
 	},
