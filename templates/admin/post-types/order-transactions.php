@@ -1,8 +1,8 @@
 <?php
 /**
- * Individual Access Plan
- *
- * @since  3.5.0
+ * Transactions Table Metabox for Orders
+ * @since    3.5.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
@@ -23,7 +23,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 			<th class="expandable closed"><?php _e( 'Gateway', 'lifterlms' ); ?></th>
 			<th class="expandable closed"><?php _e( 'Source', 'lifterlms' ); ?></th>
 			<th class="expandable closed"><?php _e( 'Transaction ID', 'lifterlms' ); ?></th>
-			<th><?php _e( 'Actions', 'lifterlms' ); ?></th>
+			<th class="expandable"><?php _e( 'Actions', 'lifterlms' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -69,10 +69,11 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 							<?php endif; ?>
 						<?php endif; ?>
 					</td>
-					<td>
+					<td class="expandable">
 						<?php if ( $txn->can_be_refunded() ) : ?>
 							<button class="button" data-gateway="<?php echo $gateway->get_admin_title(); ?>" data-gateway-supports="<?php echo ( $gateway->supports( 'refunds' ) ); ?>" data-refundable="<?php echo $txn->get_refundable_amount(); ?>" name="llms-refund-toggle" type="button"><?php _e( 'Refund', 'lifterlms' ); ?></button>
 						<?php endif; ?>
+						<button class="button" name="llms_resend_receipt" type="submit" value="<?php echo $txn->get( 'id' ); ?>"><?php _e( 'Resend Receipt', 'lifterlms' ); ?></button>
 					</td>
 				</tr>
 			<?php endforeach; ?>
