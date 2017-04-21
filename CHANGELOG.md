@@ -4,6 +4,8 @@ v3.7.3 - 2017/04/20
 -------------------
 
 + Fixed issues where Course Track checks were not functioning properly with relation to prerequisite associations
++ `LLMS_Generator` can now be used to generate course(s) from a raw array of course data using the SingleCourseGenerator and BulkCourseGenerator
++ `LLMS_Generator` default post status can be set at runtime using `set_default_post_status()`
 
 ### Template Updates
 
