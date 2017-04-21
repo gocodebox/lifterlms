@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, tpkemme, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.7.3
-Stable tag: 3.7.2
+Tested up to: 4.7.4
+Stable tag: 3.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,20 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.7.3 - 2017/04/21 =
+-----------------------
+
++ Fixed issues where Course Track checks were not functioning properly with relation to prerequisite associations
++ `LLMS_Generator` can now be used to generate course(s) from a raw array of course data using the SingleCourseGenerator and BulkCourseGenerator
++ `LLMS_Generator` default post status can be set at runtime using `set_default_post_status()`
++ Fixed an issue causing JS errors on the `wp-login.php` screen
++ Tested up to WordPress 4.7.4
+
+### Template Updates
+
++ `course/prerequisites.php` - Prerequisite checks check for 'course_track' rather than 'track'
+
 
 = v3.7.2 - 2017/04/17 =
 -----------------------

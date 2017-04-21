@@ -3095,7 +3095,7 @@ msgstr ""
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
-#: includes/class.llms.ajax.php:242, includes/class.llms.ajax.php:290, includes/class.llms.lesson.handler.php:31, includes/class.llms.post.handler.php:196
+#: includes/class.llms.ajax.php:246, includes/class.llms.ajax.php:294, includes/class.llms.lesson.handler.php:31, includes/class.llms.post.handler.php:196
 msgid "unassigned"
 msgstr ""
 
@@ -3208,47 +3208,47 @@ msgstr ""
 msgid "This gateway cannot process recurring transactions"
 msgstr ""
 
-#: includes/class.llms.generator.php:166
+#: includes/class.llms.generator.php:176
 msgid "No generator supplied."
 msgstr ""
 
-#: includes/class.llms.generator.php:208
+#: includes/class.llms.generator.php:218
 msgid "Missing required \"courses\" array"
 msgstr ""
 
-#: includes/class.llms.generator.php:210
+#: includes/class.llms.generator.php:220
 msgid "\"courses\" must be an array"
 msgstr ""
 
-#: includes/class.llms.generator.php:297
+#: includes/class.llms.generator.php:307
 msgid "Error creating course"
 msgstr ""
 
-#: includes/class.llms.generator.php:370
+#: includes/class.llms.generator.php:385
 msgid "Error creating lesson"
 msgstr ""
 
-#: includes/class.llms.generator.php:432
+#: includes/class.llms.generator.php:449
 msgid "Error creating quiz"
 msgstr ""
 
-#: includes/class.llms.generator.php:479
+#: includes/class.llms.generator.php:496
 msgid "Error creating question"
 msgstr ""
 
-#: includes/class.llms.generator.php:517
+#: includes/class.llms.generator.php:534
 msgid "Error creating section"
 msgstr ""
 
-#: includes/class.llms.generator.php:731
+#: includes/class.llms.generator.php:770
 msgid "Error creating new term \"%s\""
 msgstr ""
 
-#: includes/class.llms.generator.php:894
+#: includes/class.llms.generator.php:943
 msgid "The supplied file cannot be processed by the importer."
 msgstr ""
 
-#: includes/class.llms.generator.php:908
+#: includes/class.llms.generator.php:957
 msgid "Invalid generator supplied"
 msgstr ""
 
@@ -4865,15 +4865,15 @@ msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:244
+#: includes/class.llms.template.loader.php:306
 msgid "It looks like you're trying to test a quiz you just made. To test your quiz please read our documentation at %s"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:248
+#: includes/class.llms.template.loader.php:310
 msgid "You cannot access quizzes directly. Please return to the associated lesson and start the quiz from there."
 msgstr ""
 
-#: includes/class.llms.template.loader.php:254
+#: includes/class.llms.template.loader.php:316
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
@@ -5001,12 +5001,22 @@ msgstr ""
 msgid "Password Reset Instructions"
 msgstr ""
 
-#: includes/functions/llms.functions.access.php:194
+#: includes/functions/llms.functions.access.php:179
+msgctxt "restricted by course prerequisite message"
+msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite course \"%2$s\" is completed."
+msgstr ""
+
+#: includes/functions/llms.functions.access.php:186
+msgctxt "restricted by course track prerequisite message"
+msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite track \"%2$s\" is completed."
+msgstr ""
+
+#: includes/functions/llms.functions.access.php:208
 msgctxt "lesson restricted by drip settings message"
 msgid "The lesson \"%1$s\" will be available on %2$s"
 msgstr ""
 
-#: includes/functions/llms.functions.access.php:201
+#: includes/functions/llms.functions.access.php:215
 msgctxt "lesson restricted by prerequisite message"
 msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite \"%2$s\" is completed."
 msgstr ""
