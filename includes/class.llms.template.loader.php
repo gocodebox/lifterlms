@@ -1,6 +1,8 @@
 <?php
 /**
 * Template loader class
+* @since    1.0.0
+* @version  3.7.3
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -10,8 +12,8 @@ class LLMS_Template_Loader {
 	/**
 	* Constructor
 	*
-	* @since   1.0.0
-	* @version 3.1.6
+	* @since    1.0.0
+	* @version  3.7.3
 	*/
 	public function __construct() {
 
@@ -20,6 +22,8 @@ class LLMS_Template_Loader {
 
 		// restriction actions for each kind of restriction
 		$reasons = apply_filters( 'llms_restriction_reasons', array(
+			'course_prerequisite',
+			'course_track_prerequisite',
 			'course_time_period',
 			'enrollment_lesson',
 			'lesson_drip',
@@ -53,6 +57,64 @@ class LLMS_Template_Loader {
 			wp_redirect( $redirect );
 			exit;
 		}
+
+	}
+
+	/**
+	 * Handle redirects and messages when a user attempts to access an item
+	 * retricted by a course track prerequisite
+	 *
+	 * redirect to parent course and display message
+	 * if course do nothing
+	 *
+	 * @param    array     $info  array of restriction info from llms_page_restricted()
+	 * @return   void
+	 * @since    3.7.3
+	 * @version  3.7.3
+	 */
+	public function restricted_by_course_track_prerequisite( $info ) {
+
+		if ( 'course' === get_post_type( $info['content_id'] ) ) {
+			return;
+		}
+
+		$msg = llms_get_restriction_message( $info );
+		$course = llms_get_post_parent_course( $info['content_id'] );
+		$redirect = get_permalink( $course->get( 'id' ) );
+		$this->handle_restriction(
+			apply_filters( 'llms_restricted_by_course_track_prerequisite_message', $msg, $info ),
+			apply_filters( 'llms_restricted_by_course_track_prerequisite_redirect', $redirect, $info ),
+			'error'
+		);
+
+	}
+
+	/**
+	 * Handle redirects and messages when a user attempts to access an item
+	 * retricted by a course prerequisite
+	 *
+	 * redirect to parent course and display message
+	 * if course do nothing
+	 *
+	 * @param    array     $info  array of restriction info from llms_page_restricted()
+	 * @return   void
+	 * @since    3.7.3
+	 * @version  3.7.3
+	 */
+	public function restricted_by_course_prerequisite( $info ) {
+
+		if ( 'course' === get_post_type( $info['content_id'] ) ) {
+			return;
+		}
+
+		$msg = llms_get_restriction_message( $info );
+		$course = llms_get_post_parent_course( $info['content_id'] );
+		$redirect = get_permalink( $course->get( 'id' ) );
+		$this->handle_restriction(
+			apply_filters( 'llms_restricted_by_course_prerequisite_message', $msg, $info ),
+			apply_filters( 'llms_restricted_by_course_prerequisite_redirect', $redirect, $info ),
+			'error'
+		);
 
 	}
 
@@ -220,7 +282,7 @@ class LLMS_Template_Loader {
 				apply_filters( 'llms_restricted_by_membership_redirect', $redirect, $info )
 			);
 
-		}
+		} // End if().
 
 	}
 
@@ -314,18 +376,6 @@ class LLMS_Template_Loader {
 				$template = 'single-no-access.php';
 			}
 
-			// } elseif ( is_single() && get_post_type() == 'llms_membership' ) {
-
-			// 	return $template;
-
-			// } elseif ( is_single() && get_post_type() == 'course' ) {
-
-			// 	return $template;
-
-			// } elseif ( is_single() && get_post_type() == 'lesson' ) {
-
-			// 	return $template;
-
 		} elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'llms_shop' ) ) ) {
 
 			$template = 'archive-course.php';
@@ -348,7 +398,7 @@ class LLMS_Template_Loader {
 
 			return $template;
 
-		}
+		} // End if().
 
 		// check for an override file
 		$override = llms_get_template_override( $template );

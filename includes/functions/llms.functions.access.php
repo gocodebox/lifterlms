@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  3.5.3
+ * @version  3.7.3
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -127,11 +127,11 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 			}
 
-			if ( $lesson_id = llms_is_post_restricted_by_prerequisite( $post_id, $user_id ) ) {
+			if ( $prereq_data = llms_is_post_restricted_by_prerequisite( $post_id, $user_id ) ) {
 
 				$results['is_restricted'] = true;
-				$results['reason'] = 'lesson_prerequisite';
-				$results['restriction_id'] = $lesson_id;
+				$results['reason'] = sprintf( '%s_prerequisite', $prereq_data['type'] );
+				$results['restriction_id'] = $prereq_data['id'];
 				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
@@ -164,13 +164,27 @@ function llms_page_restricted( $post_id, $user_id = null ) {
  * @param    array     $restriction  array of data from llms_page_restricted()
  * @return   string
  * @since    3.2.4
- * @version  3.4.0
+ * @version  3.7.3
  */
 function llms_get_restriction_message( $restriction ) {
 
 	$msg = __( 'You do not have permission to access to this content', 'lifterlms' );
 
 	switch ( $restriction['reason'] ) {
+
+		case 'course_prerequisite':
+			$lesson = new LLMS_Lesson( $restriction['content_id'] );
+			$course_id = $restriction['restriction_id'];
+			$prereq_link = '<a href="' . get_permalink( $course_id ) . '">' . get_the_title( $course_id ) . '</a>';
+			$msg = sprintf( _x( 'The lesson "%1$s" cannot be accessed until the required prerequisite course "%2$s" is completed.', 'restricted by course prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
+		break;
+
+		case 'course_track_prerequisite':
+			$lesson = new LLMS_Lesson( $restriction['content_id'] );
+			$track = new LLMS_Track( $restriction['restriction_id'] );
+			$prereq_link = '<a href="' . $track->get_permalink() . '">' . $track->term->name . '</a>';
+			$msg = sprintf( _x( 'The lesson "%1$s" cannot be accessed until the required prerequisite track "%2$s" is completed.', 'restricted by course track prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
+		break;
 
 		// this particular case is only utilized by lessons, courses do the check differently in the template
 		case 'course_time_period':
@@ -258,10 +272,14 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 /**
  * Determine if a lesson/quiz is restricted by a prerequisite lesson
  * @param    int     $post_id  WP Post ID of a lesson or quiz
- * @return   int|false         false if the post is not restricted or the user has completed the prereq
- *                             WP Post ID of the prerequisite lesson if it is
+ * @return   array|false       false if the post is not restricted or the user has completed the prereq
+ *                             associative array with prereq type and prereq id
+ *                             array(
+ *                             		type => [course|course_track|lesson]
+ *                             		id => int (object id)
+ *                             )
  * @since    3.0.0
- * @version  3.6.1
+ * @version  3.7.3
  */
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
@@ -293,30 +311,41 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 	$prerequisites = array();
 
 	if ( $course->has_prerequisite( 'course' ) ) {
-		$prerequisites[ $course->get_prerequisite_id( 'course' ) ] = 'course';
+		$prerequisites[] = array(
+			'id' => $course->get_prerequisite_id( 'course' ),
+			'type' => 'course',
+		);
 	}
 
-	if ( $course->has_prerequisite( 'track' ) ) {
-		$prerequisites[ $course->get_prerequisite_id( 'track' ) ] = 'track';
+	if ( $course->has_prerequisite( 'course_track' ) ) {
+		$prerequisites[] = array(
+			'id' => $course->get_prerequisite_id( 'course_track' ),
+			'type' => 'course_track',
+		);
 	}
 
 	if ( $lesson->has_prerequisite() ) {
-		$prerequisites[ $lesson->get_prerequisite() ] = 'lesson';
+		$prerequisites[] = array(
+			'id' => $lesson->get_prerequisite(),
+			'type' => 'lesson',
+		);
 	}
 
 	// prereqs exist and user is not logged in
 	// return the first prereq id
 	if ( $prerequisites && ! $user_id ) {
-		return array_shift( array_keys( $prerequisites ) );
+		// $keys = array_keys( $prerequisites );
+		// return array_shift( $keys );
+		return array_shift( $prerequisites );
 	} // student is logged in, check completion of the preq
 	// if incomplete, send the prereq id
 	// otherwise return false
 	else {
 
 		$student = new LLMS_Student( $user_id );
-		foreach ( $prerequisites as $obj_id => $obj_type ) {
-			if ( ! $student->is_complete( $obj_id, $obj_type ) ) {
-				return $obj_id;
+		foreach ( $prerequisites as $prereq ) {
+			if ( ! $student->is_complete( $prereq['id'], $prereq['type'] ) ) {
+				return $prereq;
 			}
 		}
 

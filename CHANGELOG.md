@@ -1,5 +1,25 @@
 == Changelog ==
 
+v3.7.4 - 2017/04/??
+-------------------
+
++ Fix issue preventing edit account form submission on student dashboard when password strength meter is disabled
+
+
+v3.7.3 - 2017/04/21
+-------------------
+
++ Fixed issues where Course Track checks were not functioning properly with relation to prerequisite associations
++ `LLMS_Generator` can now be used to generate course(s) from a raw array of course data using the SingleCourseGenerator and BulkCourseGenerator
++ `LLMS_Generator` default post status can be set at runtime using `set_default_post_status()`
++ Fixed an issue causing JS errors on the `wp-login.php` screen
++ Tested up to WordPress 4.7.4
+
+### Template Updates
+
++ `course/prerequisites.php` - Prerequisite checks check for 'course_track' rather than 'track'
+
+
 v3.7.2 - 2017/04/17
 -------------------
 

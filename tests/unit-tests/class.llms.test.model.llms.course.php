@@ -92,7 +92,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 * Test perequisite functions related to courses
 	 * @return   void
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  3.7.3
 	 */
 	public function test_get_prerequisites() {
 
@@ -103,9 +103,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		// no prereqs
 		$this->assertFalse( $course->has_prerequisite( 'any' ) );
 		$this->assertFalse( $course->has_prerequisite( 'course' ) );
-		$this->assertFalse( $course->has_prerequisite( 'track' ) );
+		$this->assertFalse( $course->has_prerequisite( 'course_track' ) );
 		$this->assertFalse( $course->get_prerequisite_id( 'course' ) );
-		$this->assertFalse( $course->get_prerequisite_id( 'track' ) );
+		$this->assertFalse( $course->get_prerequisite_id( 'course_track' ) );
 
 		$course->set( 'prerequisite', $prereq_course->get( 'id' ) );
 		$course->set( 'prerequisite_track', $prereq_track['term_id'] );
@@ -113,24 +113,24 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		// still no prereqs
 		$this->assertFalse( $course->has_prerequisite( 'any' ) );
 		$this->assertFalse( $course->has_prerequisite( 'course' ) );
-		$this->assertFalse( $course->has_prerequisite( 'track' ) );
+		$this->assertFalse( $course->has_prerequisite( 'course_track' ) );
 		$this->assertFalse( $course->get_prerequisite_id( 'course' ) );
-		$this->assertFalse( $course->get_prerequisite_id( 'track' ) );
+		$this->assertFalse( $course->get_prerequisite_id( 'course_track' ) );
 
 		$course->set( 'has_prerequisite', 'yes' );
 
 		// have prereqs
 		$this->assertTrue( $course->has_prerequisite( 'any' ) );
 		$this->assertTrue( $course->has_prerequisite( 'course' ) );
-		$this->assertTrue( $course->has_prerequisite( 'track' ) );
+		$this->assertTrue( $course->has_prerequisite( 'course_track' ) );
 		$this->assertEquals( $prereq_course->get( 'id' ), $course->get_prerequisite_id( 'course' ) );
-		$this->assertEquals( $prereq_track['term_id'], $course->get_prerequisite_id( 'track' ) );
+		$this->assertEquals( $prereq_track['term_id'], $course->get_prerequisite_id( 'course_track' ) );
 
 		$course->set( 'prerequisite', 0 );
 
 		$this->assertTrue( $course->has_prerequisite( 'any' ) );
 		$this->assertFalse( $course->has_prerequisite( 'course' ) );
-		$this->assertTrue( $course->has_prerequisite( 'track' ) );
+		$this->assertTrue( $course->has_prerequisite( 'course_track' ) );
 		$this->assertEquals( 0, $course->get_prerequisite_id( 'course' ) );
 
 		$course->set( 'prerequisite', 'string' );
