@@ -326,7 +326,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	if ( $lesson->has_prerequisite() ) {
 		$prerequisites[] = array(
-			'id' =>  $lesson->get_prerequisite(),
+			'id' => $lesson->get_prerequisite(),
 			'type' => 'lesson',
 		);
 	}
