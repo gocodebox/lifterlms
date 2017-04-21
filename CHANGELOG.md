@@ -3,6 +3,7 @@
 v3.7.3 - 2017/04/20
 -------------------
 
++ Fixed issues where Course Track checks were not functioning properly with relation to prerequisite associations
 
 ### Template Updates
 
