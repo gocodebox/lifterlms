@@ -1,5 +1,14 @@
 == Changelog ==
 
+v3.7.3 - 2017/04/20
+-------------------
+
+
+### Template Updates
+
++ `course/prerequisites.php` - Prerequisite checks check for 'course_track' rather than 'track'
+
+
 v3.7.2 - 2017/04/17
 -------------------
 
