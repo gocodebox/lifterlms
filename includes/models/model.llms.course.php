@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  3.7.0
+* @version  3.7.3
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
@@ -61,8 +61,10 @@ class LLMS_Course extends LLMS_Post_Model {
 
 	/**
 	 * Get course's prerequisite id based on the type of prerequsite
-	 * @param  string     $type  Type of prereq to retrieve id for [course|track]
-	 * @return int|false         Post ID of a course, taxonomy ID of a track, or false if none found
+	 * @param    string     $type  Type of prereq to retrieve id for [course|track]
+	 * @return   int|false         Post ID of a course, taxonomy ID of a track, or false if none found
+	 * @since    3.0.0
+	 * @version  3.7.3
 	 */
 	public function get_prerequisite_id( $type = 'course' ) {
 
@@ -74,7 +76,7 @@ class LLMS_Course extends LLMS_Post_Model {
 					$key = 'prerequisite';
 				break;
 
-				case 'track':
+				case 'course_track':
 					$key = 'prerequisite_track';
 				break;
 
@@ -409,7 +411,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @param    string   $type  determine if a specific type of prereq exists [any|course|track]
 	 * @return   boolean         Returns true if prereq is enabled and there is a prerequisite course or track
 	 * @since    3.0.0
-	 * @version  3.4.0
+	 * @version  3.7.3
 	 */
 	public function has_prerequisite( $type = 'any' ) {
 
@@ -423,7 +425,7 @@ class LLMS_Course extends LLMS_Post_Model {
 
 				return ! empty( $this->get( 'prerequisite' ) );
 
-			} elseif ( 'track' === $type ) {
+			} elseif ( 'course_track' === $type ) {
 
 				return ! empty( $this->get( 'prerequisite_track' ) );
 
