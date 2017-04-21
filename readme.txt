@@ -166,6 +166,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+v3.7.4 - 2017/04/??
+-----------------------
+
++ Fix issue preventing edit account form submission on student dashboard when password strength meter is disabled
+
+
 = v3.7.3 - 2017/04/21 =
 -----------------------
 
