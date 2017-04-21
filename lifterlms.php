@@ -11,7 +11,7 @@
  * License: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 4.0
- * Tested up to: 4.7.2
+ * Tested up to: 4.7.4
  *
  * @package     LifterLMS
  * @category 	Core
