@@ -22,14 +22,17 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	protected $action_accepted_arguments = 1;
 
 	/**
-	 * Action hook used to trigger sending of the notification
-	 * @var  string
+	 * Action hooks used to trigger sending of the notification
+	 * @var  array
 	 */
-	protected $action_hook = 'lifterlms_transaction_status_succeeded';
+	protected $action_hooks = array(
+		'lifterlms_resend_transaction_receipt',
+		'lifterlms_transaction_status_succeeded',
+	);
 
 	/**
 	 * Callback function called when a lesson is completed by a student
-	 * @param    int     $transactin   Instance of a LLMS_Transaction
+	 * @param    int     $transaction   Instance of a LLMS_Transaction
 	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
