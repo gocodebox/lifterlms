@@ -22,10 +22,10 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	protected $action_accepted_arguments = 1;
 
 	/**
-	 * Action hook used to trigger sending of the notification
-	 * @var  string
+	 * Action hooks used to trigger sending of the notification
+	 * @var  array
 	 */
-	protected $action_hook = '';
+	protected $action_hooks = array();
 
 	/**
 	 * Priority used when adding action hook
@@ -116,7 +116,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 */
 	private function __construct() {
 
-		$this->add_action();
+		$this->add_actions();
 
 	}
 
@@ -126,9 +126,12 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	protected function add_action() {
+	protected function add_actions() {
 
-		add_action( $this->action_hook, array( $this, 'action_callback' ), $this->action_accepted_arguments, $this->action_priority );
+		foreach ( $this->action_hooks as $hook ) {
+			add_action( $hook, array( $this, 'action_callback' ), $this->action_accepted_arguments, $this->action_priority );
+		}
+
 
 	}
 
