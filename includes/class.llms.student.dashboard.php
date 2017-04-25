@@ -1,8 +1,8 @@
 <?php
 /**
  * Retrieve data sets used by various other classes and functions
- * @since  3.0.0
- * @version  3.6.0
+ * @since    3.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -214,7 +214,7 @@ class LLMS_Student_Dashboard {
 	 * Endpoint to output orders content
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public static function output_orders_content() {
 
@@ -225,13 +225,22 @@ class LLMS_Student_Dashboard {
 		if ( ! empty( $wp->query_vars['orders'] ) ) {
 
 			$order = new LLMS_Order( $wp->query_vars['orders'] );
+
 			// ensure people can't locate other peoples orders by dropping numbers into the url bar
 			if ( get_current_user_id() !== $order->get( 'user_id' ) ) {
 				$order = false;
+				$transactions = array();
+			} else {
+				$transactions = $order->get_transactions( array(
+					'per_page' => apply_filters( 'llms_student_dashboard_transactions_per_page', 20 ),
+					'paged' => isset( $_GET['txnpage'] ) ? absint( $_GET['txnpage'] ) : 1,
+				) );
 			}
+
 
 			llms_get_template( 'myaccount/view-order.php', array(
 				'order' => $order,
+				'transactions' => $transactions,
 			) );
 
 		} else {
