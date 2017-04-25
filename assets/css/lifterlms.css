@@ -2028,49 +2028,58 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   margin-bottom: 25px;
 }
 .llms-student-dashboard .orders-table {
-  border-color: #efefef;
-  border-style: solid;
-  border-width: 1px 1px 0 1px;
+  border: none;
   width: 100%;
 }
 .llms-student-dashboard .orders-table thead {
   display: none;
-}
-.llms-student-dashboard .orders-table thead th {
-  font-weight: 700;
 }
 @media all and (min-width: 600px) {
   .llms-student-dashboard .orders-table thead {
     display: table-header-group;
   }
 }
-.llms-student-dashboard .orders-table tbody tr:nth-child(odd) {
-  background-color: #fafafa;
+.llms-student-dashboard .orders-table tfoot th, .llms-student-dashboard .orders-table tfoot td {
+  padding: 10px;
+  text-align: right;
 }
-.llms-student-dashboard .orders-table td {
+.llms-student-dashboard .orders-table tfoot th:last-child, .llms-student-dashboard .orders-table tfoot td:last-child {
+  border-bottom-width: 0;
+}
+.llms-student-dashboard .orders-table th {
+  font-weight: 700;
+}
+.llms-student-dashboard .orders-table th, .llms-student-dashboard .orders-table td {
   border-color: #efefef;
   border-style: solid;
   border-width: 0;
   display: block;
-  text-align: center;
   padding: 5px 10px;
 }
-.llms-student-dashboard .orders-table td .llms-button-primary {
+.llms-student-dashboard .orders-table th .llms-button-primary, .llms-student-dashboard .orders-table td .llms-button-primary {
   display: inline-block;
 }
-.llms-student-dashboard .orders-table td:last-child {
+.llms-student-dashboard .orders-table th:last-child, .llms-student-dashboard .orders-table td:last-child {
   border-bottom-width: 1px;
 }
-.llms-student-dashboard .orders-table td:before {
+.llms-student-dashboard .orders-table th:before, .llms-student-dashboard .orders-table td:before {
   content: attr(data-label);
 }
 @media all and (min-width: 600px) {
-  .llms-student-dashboard .orders-table td {
+  .llms-student-dashboard .orders-table th, .llms-student-dashboard .orders-table td {
     border-bottom-width: 1px;
     display: table-cell;
   }
-  .llms-student-dashboard .orders-table td:before {
+  .llms-student-dashboard .orders-table th:first-child, .llms-student-dashboard .orders-table td:first-child {
+    width: 220px;
+  }
+  .llms-student-dashboard .orders-table th:before, .llms-student-dashboard .orders-table td:before {
     display: none;
+  }
+}
+@media all and (min-width: 600px) {
+  .llms-student-dashboard .orders-table.transactions th:first-child {
+    width: auto;
   }
 }
 .llms-student-dashboard .llms-status {
