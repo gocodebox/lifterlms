@@ -463,7 +463,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		$new_string = '';
 		foreach ( $sentences as $key => $sentence ) {
 
-			$new_string .= ( $key & 1 ) == 0 ? ucfirst( trim( $sentence ) ) : $sentence . ' ';
+			// $new_string .= ( $key & 1 ) == 0 ? ucfirst( trim( $sentence ) ) : $sentence . ' ';
+			$new_string .= ( $key & 1 ) == 0 ? ucfirst( trim( $sentence ) ) : $sentence;
 
 		}
 
