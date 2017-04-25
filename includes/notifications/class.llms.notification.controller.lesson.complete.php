@@ -22,10 +22,10 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	protected $action_accepted_arguments = 2;
 
 	/**
-	 * Action hook used to trigger sending of the notification
-	 * @var  string
+	 * Action hooks used to trigger sending of the notification
+	 * @var  array
 	 */
-	protected $action_hook = 'lifterlms_lesson_completed';
+	protected $action_hooks = array( 'lifterlms_lesson_completed' );
 
 	/**
 	 * Callback function called when a lesson is completed by a student
