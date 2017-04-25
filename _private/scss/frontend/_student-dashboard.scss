@@ -36,31 +36,33 @@
 
 	.orders-table {
 
-		border-color: #efefef;
-		border-style: solid;
-		border-width: 1px 1px 0 1px;
+		border: none;
 		width: 100%;
 
 		thead {
 			display: none;
-			th {
-				font-weight: 700;
-			}
 			@media all and ( min-width: 600px ) {
 				display: table-header-group;
 			}
 		}
 
-		tbody {
-			tr:nth-child( odd ) { background-color: #fafafa; }
+		tfoot {
+			th, td {
+				padding: 10px;
+				text-align: right;
+				&:last-child { border-bottom-width: 0; }
+			}
 		}
 
-		td {
+		th {
+			font-weight: 700;
+		}
+
+		th, td {
 			border-color: #efefef;
 			border-style: solid;
 			border-width: 0;
 			display: block;
-			text-align: center;
 			padding: 5px 10px;
 
 			.llms-button-primary {
@@ -78,9 +80,14 @@
 			@media all and ( min-width: 600px ) {
 				border-bottom-width: 1px;
 				display: table-cell;
+				&:first-child { width: 220px; }
 				&:before { display: none; }
 			}
 
+		}
+
+		@media all and ( min-width: 600px ) {
+			&.transactions th:first-child  {width: auto; }
 		}
 
 	}
