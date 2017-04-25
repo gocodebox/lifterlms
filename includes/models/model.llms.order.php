@@ -1,8 +1,8 @@
 <?php
 /**
  * LifterLMS Order Model
- * @since  3.0.0
- * @version  3.0.0
+ * @since    3.0.0
+ * @version  [version]
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -373,6 +373,16 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		return $comments;
 
+	}
+
+	/**
+	 * Retrieve an LLMS_Post_Model object for the associated product
+	 * @return   obj       LLMS_Course / LLMS_Membership instance
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_product() {
+		return llms_get_post( $this->get( 'product_id' ) );
 	}
 
 	/**
@@ -787,21 +797,13 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Get a link to view the order on the student dashboard
-	 * Checks permissions, only the purchasing viewer or an admin should be able to view
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function get_view_link() {
 
-		$link = '';
-
-		if ( current_user_can( apply_filters( 'llms_order_get_view_link_permission', 'manage_options' ) ) || get_current_user_id() === $this->get( 'user_id' ) ) {
-
-			$link = llms_get_endpoint_url( 'orders', $this->get( 'id' ), llms_get_page_url( 'myaccount' ) );
-
-		}
-
+		$link = llms_get_endpoint_url( 'orders', $this->get( 'id' ), llms_get_page_url( 'myaccount' ) );
 		return apply_filters( 'llms_order_get_view_link', $link, $this );
 
 	}
