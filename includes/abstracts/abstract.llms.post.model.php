@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since  3.0.0
- * @since  3.7.0
+ * @since  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -415,11 +415,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Retrieve a label from the post type data object's labels object
-	 * @param  string $label key for the label
-	 * @return string
-	 * @since  3.0.0
+	 * @param    string $label key for the label
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
-	public function get_post_type_label( $label = 'singular' ) {
+	public function get_post_type_label( $label = 'singular_name' ) {
 		$obj = $this->get_post_type_data();
 		if ( property_exists( $obj, 'labels' ) && property_exists( $obj->labels, $label ) ) {
 			return $obj->labels->$label;
