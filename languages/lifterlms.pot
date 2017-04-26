@@ -428,23 +428,23 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:62, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:511, includes/class.llms.install.php:531
+#: includes/admin/class.llms.admin.notices.core.php:63, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:511, includes/class.llms.install.php:531
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:65, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:515, includes/class.llms.install.php:535
+#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:515, includes/class.llms.install.php:535
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:103
+#: includes/admin/class.llms.admin.notices.core.php:109
 msgid "No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:104
+#: includes/admin/class.llms.admin.notices.core.php:110
 msgid "For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:131
+#: includes/admin/class.llms.admin.notices.core.php:137
 msgid "<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS."
 msgstr ""
 
