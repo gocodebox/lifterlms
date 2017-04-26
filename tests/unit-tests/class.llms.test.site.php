@@ -1,11 +1,17 @@
 <?php
 /**
  * Tests for LLMS_Site
- * @since    3.7.0
- * @version  3.7.0
+ * @since    3.7.4
+ * @version  3.7.4
  */
 class LLMS_Test_Site extends LLMS_UnitTestCase {
 
+	/**
+	 * Test clear_lock_url() function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_clear_lock_url() {
 
 		update_option( 'llms_site_url', 'http://mockurl.tld/' );
@@ -14,6 +20,12 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test lock url getter and setter functions
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_get_set_lock_url() {
 
 		$urls = array(
@@ -51,6 +63,12 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test feature getter and setter functions
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_get_set_features() {
 
 		// should return an array of defaults even when option doesnt exist
@@ -73,6 +91,12 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test is_clone() function
+	 * @return   void
+	 * @since    3.7.4
+	 * @version  3.7.4
+	 */
 	public function test_is_clone() {
 
 		$original = get_site_url();
@@ -94,6 +118,12 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test is_clone_ignored() function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_is_clone_ignored() {
 
 		$this->assertFalse( LLMS_Site::is_clone_ignored() );
