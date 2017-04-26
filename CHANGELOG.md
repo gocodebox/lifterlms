@@ -1,8 +1,11 @@
 == Changelog ==
 
-v3.7.4 - 2017/04/??
+v3.7.4 - 2017/04/26
 -------------------
 
++ When cloned site detected automatically disable recurring_payments feature & trigger an action 3rd parties can hook into for custom 3rd party features
++ Add better JS dependency management to prevent issues where assets loaded in the wrong order
++ Fix issue where dismiss icon on LifterLMS admin notices was positioned poorly on non-LifterLMS admin screens
 + Fix issue preventing edit account form submission on student dashboard when password strength meter is disabled
 
 

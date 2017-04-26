@@ -1,10 +1,10 @@
 === LifterLMS ===
-Contributors: thomasplevy, chrisbadgett, tpkemme, kathy11, lifterlms, codeboxllc
+Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.4
-Stable tag: 3.7.3
+Stable tag: 3.7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,9 +166,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-v3.7.4 - 2017/04/??
+= v3.7.4 - 2017/04/26 =
 -----------------------
 
++ When cloned site detected automatically disable recurring_payments feature & trigger an action 3rd parties can hook into for custom 3rd party features
++ Add better JS dependency management to prevent issues where assets loaded in the wrong order
++ Fix issue where dismiss icon on LifterLMS admin notices was positioned poorly on non-LifterLMS admin screens
 + Fix issue preventing edit account form submission on student dashboard when password strength meter is disabled
 
 

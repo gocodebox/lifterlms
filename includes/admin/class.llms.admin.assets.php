@@ -83,7 +83,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.7.0
+	 * @version  3.7.4
 	 */
 	public function admin_scripts() {
 		global $post_type;
@@ -149,7 +149,7 @@ class LLMS_Admin_Assets {
 			if ( 'course' == $post_type || 'llms_membership' == $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-students', plugins_url( '/assets/js/llms-metabox-students' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-select2' ), '', true );
-				wp_enqueue_script( 'llms-metabox-product', plugins_url( '/assets/js/llms-metabox-product' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'top-modal' ), '', true );
+				wp_enqueue_script( 'llms-metabox-product', plugins_url( '/assets/js/llms-metabox-product' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms', 'top-modal' ), '', true );
 
 			}
 
@@ -186,7 +186,7 @@ class LLMS_Admin_Assets {
 			if ( 'lifterlms_page_llms-reporting' === $screen->base || 'lifterlms_page_llms-settings' === $screen->base ) {
 
 				wp_register_script( 'llms-google-charts', 'https://www.gstatic.com/charts/loader.js' );
-				wp_register_script( 'llms-analytics', plugins_url( '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-admin-scripts', 'llms-google-charts' ), '', true );
+				wp_register_script( 'llms-analytics', plugins_url( '/assets/js/llms-analytics' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms', 'llms-admin-scripts', 'llms-google-charts' ), '', true );
 
 				if ( 'lifterlms_page_llms-settings' === $screen->base ) {
 

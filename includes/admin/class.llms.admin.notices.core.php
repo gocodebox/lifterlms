@@ -2,8 +2,8 @@
 /**
  * Manage core admin notices
  *
- * @since 3.0.0
- * @version  3.0.0
+ * @since    3.0.0
+ * @version  3.7.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -51,13 +51,14 @@ class LLMS_Admin_Notices_Core {
 	 * from the button on the general settings tab
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.4
 	 */
 	public static function check_staging() {
 
 		$id = 'maybe-staging';
 
 		if ( isset( $_GET['llms-staging-status'] ) && isset( $_GET['_llms_staging_nonce'] ) ) {
+
 			if ( ! wp_verify_nonce( $_GET['_llms_staging_nonce'], 'llms_staging_status' ) ) {
 				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 			}
@@ -78,7 +79,12 @@ class LLMS_Admin_Notices_Core {
 
 		}
 
-		if ( ! LLMS_Site::is_clone_ignored() && ! LLMS_Admin_Notices::has_notice( $id ) && ( LLMS_Site::is_clone() ) ) {
+		if ( ! LLMS_Site::is_clone_ignored() && ! LLMS_Admin_Notices::has_notice( $id ) && LLMS_Site::is_clone() ) {
+
+			do_action( 'llms_site_clone_detected' );
+
+			// disable recurring payments immediately
+			LLMS_Site::update_feature( 'recurring_payments', false );
 
 			LLMS_Admin_Notices::add_notice( $id, array(
 				'type' => 'info',
@@ -117,7 +123,7 @@ class LLMS_Admin_Notices_Core {
 	 * Check theme support for LifterLMS Sidebars
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.1.7
+	 * @version  3.7.4
 	 */
 	public static function sidebar_support() {
 
