@@ -25,7 +25,7 @@ class LLMS_Shortcode_My_Account {
 	* Lost password template
 	* @return   void
 	* @since    1.0.0
-	* @version  [version]
+	* @version  3.8.0
 	*/
 	public static function lost_password() {
 

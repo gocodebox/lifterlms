@@ -392,8 +392,8 @@ class LLMS_Person_Handler {
 	 * Retrieve fields for password recovery
 	 * This is for the form that sends a password reset email
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public static function get_lost_password_fields() {
 
@@ -843,7 +843,7 @@ class LLMS_Person_Handler {
 	 * @param    string $screen screen to validate fields against, accepts "checkout", "registration", or "update"
 	 * @return   true|WP_Error
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 

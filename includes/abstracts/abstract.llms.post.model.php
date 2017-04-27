@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since  3.0.0
- * @since  [version]
+ * @since  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -384,7 +384,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *                                 additional custom images are added
 	 * @return   string                empty string if no image or not supported
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function get_image( $size = 'full', $key = '' ) {
 		if ( 'thumbnail' === $key && post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
@@ -426,7 +426,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $label key for the label
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function get_post_type_label( $label = 'singular_name' ) {
 		$obj = $this->get_post_type_data();

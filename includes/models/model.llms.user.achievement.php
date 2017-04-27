@@ -1,8 +1,8 @@
 <?php
 /**
  * LifterLMS User Achievement
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -23,8 +23,8 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	 * Get the WP Post ID of the post which triggered the earning of the achievement
 	 * This would be a lesson, course, section, track, etc...
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_related_post_id() {
 		$meta = $this->get_user_postmeta();
@@ -34,8 +34,8 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	/**
 	 * Retrieve the user id of the user who earned the achievement
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_user_id() {
 		$meta = $this->get_user_postmeta();
@@ -45,8 +45,8 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	/**
 	 * Retrieve user postmeta data for the achievement
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_user_postmeta() {
 		global $wpdb;

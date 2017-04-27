@@ -3,7 +3,7 @@
  * Metaboxes for Orders
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -76,8 +76,8 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 * Resend a receipt for a transaction
 	 * @param    int     $post_id  WP Post ID of the current order
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function resend_receipt( $post_id ) {
 		if ( ! is_numeric( $_POST['llms_resend_receipt'] ) ) {
@@ -92,7 +92,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function save( $post_id ) {
 

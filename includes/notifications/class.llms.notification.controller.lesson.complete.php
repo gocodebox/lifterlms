@@ -1,8 +1,8 @@
 <?php
 /**
  * Notification Controller: Lesson Complete
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -32,8 +32,8 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	 * @param    int     $student_id  WP User ID of a LifterLMS Student
 	 * @param    int     $lesson_id   WP Post ID of a LifterLMS Lesson
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function action_callback( $student_id = null, $lesson_id = null ) {
 
@@ -50,8 +50,8 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 * @param    string     $subscriber  subscriber type string
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -82,8 +82,8 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	 * Get the translateable title for the notification
 	 * used on settings screens
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_title() {
 		return __( 'Lesson Complete', 'lifterlms' );
@@ -93,8 +93,8 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	 * Setup the subscriber options for the notification
 	 * @param    string     $type  notification type id
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_subscriber_options( $type ) {
 

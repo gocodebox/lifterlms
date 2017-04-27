@@ -24,8 +24,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * Get a breadcrumb custom html for use on notification settings screens (not on the table)
 	 * @param    string     $current_title  the title of the current notification
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function get_breadcrumbs( $current_title ) {
 		return array(
@@ -39,8 +39,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * Get settings specific to the current notification type
 	 * @param    obj     $controller  instance of an LLMS_Notification_Controller
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function get_notification_settings( $controller ) {
 
@@ -103,8 +103,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Get settings array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_settings() {
 
@@ -162,8 +162,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Output a merge code button in the WYSIWYG editor
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function merge_code_button() {
 

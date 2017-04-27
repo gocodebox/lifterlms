@@ -281,7 +281,7 @@ function llms_get_product_visibility_options() {
 * @param    integer    $skip         number of results to skip (for pagination)
 * @return   array
 * @since    3.0.0
-* @version  [version]
+* @version  3.8.0
 */
 function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
 
@@ -761,8 +761,8 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
  * @param    string     $action          name of the action
  * @param    string     $request_method  name of the intended request method
  * @return   null|false|int
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
@@ -783,8 +783,8 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
  * @param    string     $key    plain text activation key
  * @param    string     $login  user login
  * @return   boolean
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 function llms_verify_password_reset_key( $key = '', $login = '' ) {
 

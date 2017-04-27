@@ -4,7 +4,7 @@
 *
 * Settings field Factory
 * @since    1.0.0
-* @version  [version]
+* @version  3.8.0
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -182,7 +182,7 @@ class LLMS_Admin_Settings {
 	 * @param  array $field array of field settings
 	 * @return void
 	 *
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public static function output_field( $field ) {
 

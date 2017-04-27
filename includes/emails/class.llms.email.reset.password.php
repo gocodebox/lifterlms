@@ -2,7 +2,7 @@
 /**
  * LifterLMS Password Reset Email
  * @since    1.0.0
- * @version  [version]
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,8 +15,8 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 	 * Initiailizer
 	 * @param    array      $args  associative array of user related data for the email to be sent
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function init( $args = array() ) {
 
@@ -36,8 +36,8 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 	 * Custom content for the password reset email
 	 * @param    array     $data  associative array of user related data for the email to be sent
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_body_content( $data ) {
 

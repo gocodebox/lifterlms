@@ -66,8 +66,8 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 /**
  * Output email body content
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 if ( ! function_exists( 'llms_email_body' ) ) {
 
@@ -81,8 +81,8 @@ if ( ! function_exists( 'llms_email_body' ) ) {
 /**
  * Output email footer template
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 if ( ! function_exists( 'llms_email_footer' ) ) {
 
@@ -96,8 +96,8 @@ if ( ! function_exists( 'llms_email_footer' ) ) {
  * Output email header template with optional heading
  * @param    string  $heading   optional heading text to output above the main content
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 if ( ! function_exists( 'llms_email_header' ) ) {
 

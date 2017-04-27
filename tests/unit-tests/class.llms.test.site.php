@@ -9,8 +9,8 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	/**
 	 * Test clear_lock_url() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function test_clear_lock_url() {
 
@@ -23,8 +23,8 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	/**
 	 * Test lock url getter and setter functions
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function test_get_set_lock_url() {
 
@@ -66,8 +66,8 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	/**
 	 * Test feature getter and setter functions
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function test_get_set_features() {
 
@@ -121,8 +121,8 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	/**
 	 * Test is_clone_ignored() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function test_is_clone_ignored() {
 

@@ -2,8 +2,8 @@
 /**
  * LifterLMS Notification Backgroung Processor Abstract
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -21,8 +21,8 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function __construct() {
 
@@ -39,8 +39,8 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 	/**
 	 * Called when queue is emptied and action is complete
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function complete() {
 
@@ -52,8 +52,8 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 	/**
 	 * Starts the queue
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function dispatch() {
 
@@ -77,8 +77,8 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 	 * so that we can redirect and manually call the cronjob
 	 *
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function handle_cron_healthcheck() {
 		if ( $this->is_process_running() ) {
@@ -96,8 +96,8 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 	/**
 	 * Returns true if the processor is running
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function is_processing() {
 		return ( false === $this->is_queue_empty() );
@@ -107,8 +107,8 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 	 * Log event data to an update file when logging enabled
 	 * @param    mixed     $data  data to log
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function log( $data ) {
 

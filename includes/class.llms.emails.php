@@ -5,7 +5,7 @@
 * Manages finding the appropriate email
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.8.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -42,7 +42,7 @@ class LLMS_Emails {
 	 * Initializes class
 	 * Adds actions to trigger emails off of events
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	private function __construct() {
 
@@ -68,8 +68,8 @@ class LLMS_Emails {
 	 * Get a string of inline CSS to add to an email button
 	 * Use {button_style} merge code to output in HTML emails
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_button_style() {
 		$rules = apply_filters( 'llms_email_button_css', array(
@@ -91,8 +91,8 @@ class LLMS_Emails {
 	 * @param    string     $rule  name of the css rule
 	 * @param    boolean    $echo  if true, echo the definition
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_css( $rule = '', $echo = true ) {
 
@@ -130,8 +130,8 @@ class LLMS_Emails {
 	 * Get an HTML divider for use in HTML emails
 	 * Can use shortcode {divider} to output in any email
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_divider_html() {
 		return '<div style="height:1px;width:100%;margin:15px auto;background-color:' . $this->get_css( 'divider-color', false ) . '"></div>';
@@ -142,8 +142,8 @@ class LLMS_Emails {
 	 * @param    string     $id    email id
 	 * @param    array      $args  optional arguments to pass to the email
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_email( $id, $args = array() ) {
 

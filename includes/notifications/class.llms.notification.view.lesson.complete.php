@@ -1,8 +1,8 @@
 <?php
 /**
  * Notification View: Lesson Complete
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -34,8 +34,8 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup body content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
@@ -47,8 +47,8 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup footer content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_footer() {
 		return '';
@@ -57,8 +57,8 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup notification icon for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_icon() {
 		return '';
@@ -67,8 +67,8 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup merge codes that can be used with the notification
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -81,8 +81,8 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	 * Replace merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -105,8 +105,8 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup notification subject for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_subject() {
 		return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{LESSON_TITLE}}' );
@@ -115,8 +115,8 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup notification title for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_title() {
 		return  sprintf( __( '%s Completed a Lesson', 'lifterlms' ), '{{STUDENT_NAME}}' );

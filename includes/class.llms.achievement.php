@@ -89,7 +89,7 @@ class LLMS_Achievement {
 	 * @param    string    $content  achievement body content
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function create( $content ) {
 		global $wpdb;

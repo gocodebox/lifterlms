@@ -18,8 +18,8 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	/**
 	 * Get an array of allowed notification statuses
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function get_available_statuses() {
 		return array( 'new', 'sent', 'read', 'unread', 'deleted' );
@@ -28,8 +28,8 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	/**
 	 * Get the available notification types
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function get_available_types() {
 		return array( 'basic', 'email' );
@@ -97,8 +97,8 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	/**
 	 * Parse submitted statuses
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function parse_statuses() {
 
@@ -119,8 +119,8 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	/**
 	 * Parse submitted types
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function parse_types() {
 

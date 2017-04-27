@@ -3,7 +3,7 @@
 * Email Base Class
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.8.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -30,8 +30,8 @@ class LLMS_Email {
 	 * Children can configure the email in this function called by the __construct() function
 	 * @param    array     $args  optional arguments passed in from the constructor
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function init( $args ) {}
 
@@ -39,7 +39,7 @@ class LLMS_Email {
 	 * Constructor
 	 * Sets up data needed to generate email content
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function __construct( $args = array() ) {
 
@@ -60,8 +60,8 @@ class LLMS_Email {
 	 * Add a single header to the email headers array
 	 * @param    string     $key   header key eg: 'Cc'
 	 * @param    string     $val   header value eg: 'noreply@website.tld'
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function add_header( $key, $val ) {
 
@@ -74,8 +74,8 @@ class LLMS_Email {
 	 * @param    array      $data    associative array where
 	 *                               	$key = merge field
 	 *                               	$val = merge value
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function add_merge_data( $data = array() ) {
 
@@ -95,8 +95,8 @@ class LLMS_Email {
 	 * @param    string      $type     recipient type [to,cc,bcc]
 	 * @param    string      $name     recipent name (optional)
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function add_recipient( $address, $type = 'to', $name = '' ) {
 
@@ -137,8 +137,8 @@ class LLMS_Email {
 	 * Add multiple recipents
 	 * @param    array      $recipients  array of recipient information
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function add_recipients( $recipients = array() ) {
 
@@ -173,8 +173,8 @@ class LLMS_Email {
 	/**
 	 * Get the body content of the email
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_body() {
 		return apply_filters( 'llms_email_body', $this->format_string( $this->body ), $this );
@@ -184,7 +184,7 @@ class LLMS_Email {
 	 * Get email content
 	 * @return string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function get_content() {
 
@@ -196,8 +196,8 @@ class LLMS_Email {
 	/**
 	 * Get the HTML email content
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_content_html() {
 
@@ -214,7 +214,7 @@ class LLMS_Email {
 	 * Get the content type
 	 * @return string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function get_content_type() {
 		return apply_filters( 'llms_email_content_type', $this->content_type, $this );
@@ -244,7 +244,7 @@ class LLMS_Email {
 	 * Get email headers
 	 * @return   string|array
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function get_headers() {
 		return apply_filters( 'lifterlms_email_headers', $this->headers, $this->id );
@@ -254,7 +254,7 @@ class LLMS_Email {
 	 * Get the text of the email "heading"
 	 * @return string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function get_heading() {
 		return apply_filters( 'lifterlms_email_heading', $this->format_string( $this->heading ), $this );
@@ -264,7 +264,7 @@ class LLMS_Email {
 	 * Get recipient email address
 	 * @return   string|array
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function get_recipient() {
 		return apply_filters( 'lifterlms_email_recipient', $this->recipient, $this );
@@ -274,7 +274,7 @@ class LLMS_Email {
 	 * Get email subject
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function get_subject() {
 		return apply_filters( 'lifterlms_email_subject', $this->format_string( $this->subject ), $this );
@@ -284,8 +284,8 @@ class LLMS_Email {
 	 * Set the body for the email
 	 * @param    string     $body   text or html body content for the email
 	 * @return   $this
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function set_body( $body = '' ) {
 		$this->body = $body;
@@ -296,8 +296,8 @@ class LLMS_Email {
 	 * set the content_type for the email
 	 * @param    string     $content_type   content type (for the header)
 	 * @return   $this
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function set_content_type( $content_type = 'text/html' ) {
 		$this->content_type = $content_type;
@@ -308,8 +308,8 @@ class LLMS_Email {
 	 * set the heading for the email
 	 * @param    string     $heading    text string to use for the email heading
 	 * @return   $this
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function set_heading( $heading = '' ) {
 		$this->heading = $heading;
@@ -320,8 +320,8 @@ class LLMS_Email {
 	 * Set the ID of the email
 	 * @param    string     $id   id string
 	 * @return   $this
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function set_id( $id = '' ) {
 		$this->id = $id;
@@ -332,8 +332,8 @@ class LLMS_Email {
 	 * set the subject for the email
 	 * @param    string     $content_type    text string to use for the email subject
 	 * @return   $this
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function set_subject( $subject = '' ) {
 		$this->subject = $subject;
@@ -344,7 +344,7 @@ class LLMS_Email {
 	 * Send email
 	 * @return bool
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function send() {
 

@@ -10,8 +10,8 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_controller() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function test_get_controller() {
 
@@ -28,8 +28,8 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test get_controllers() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function test_get_controllers() {
 
@@ -48,8 +48,8 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test get_processor() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function test_get_processor() {
 
@@ -66,8 +66,8 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * test get_processors() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_processors() {
 

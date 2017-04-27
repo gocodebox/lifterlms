@@ -1,7 +1,7 @@
 /**
  * JS events for the view manager
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 ;( function( $, undefined ) {
 
@@ -15,8 +15,8 @@
 		/**
 		 * Set the current Nonce
 		 * @param    string   nonce    a nonce
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.set_nonce = function( nonce ) {
 			currentNonce = nonce;
@@ -26,8 +26,8 @@
 		/**
 		 * Set the current view
 		 * @param    string   view   a view option
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.set_view = function( view ) {
 			currentView = view;
@@ -37,8 +37,8 @@
 		/**
 		 * Update various links on the page for easy navigation when using views
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.update_links = function() {
 

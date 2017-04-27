@@ -3,7 +3,7 @@
  * User Account Edit Forms
  *
  * @since   3.7.0
- * @version [version]
+ * @version 3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -66,8 +66,8 @@ class LLMS_Controller_Account {
 	 * Handle form submission of the Lost Password form
 	 * This is the form that sends a password recovery email with a link to reset the password
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function lost_password() {
 
@@ -148,8 +148,8 @@ class LLMS_Controller_Account {
 	 * Handle form submission of the Reset Password form
 	 * This is the form that actually updates a users password
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function reset_password() {
 

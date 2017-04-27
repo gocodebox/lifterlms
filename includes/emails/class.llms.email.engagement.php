@@ -17,7 +17,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	 * @param    array   $args   associative array of engagement args
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function init( $args ) {
 
@@ -65,7 +65,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	 * @param    string  $list  unmerged, comma-separated list of emails
 	 * @return   array
 	 * @since    3.1.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	private function merge_emails( $list ) {
 

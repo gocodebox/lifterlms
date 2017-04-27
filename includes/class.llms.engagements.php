@@ -155,7 +155,7 @@ class LLMS_Engagements {
 	 * @return void
 	 *
 	 * @since    2.3.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function handle_email( $args ) {
 

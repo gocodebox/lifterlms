@@ -44,7 +44,7 @@ class LLMS_Post_Types {
 	 * @return void
 	 *
 	 * @since    2.4.1
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public static function add_thumbnail_support() {
 

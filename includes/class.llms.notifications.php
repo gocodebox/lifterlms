@@ -3,8 +3,8 @@
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
  *
- * @since     [version]
- * @version   [version]
+ * @since     3.8.0
+ * @version   3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -44,8 +44,8 @@ class LLMS_Notifications {
 	/**
 	 * Main Instance
 	 * @return    LLMS_Controller_Notifications
-	 * @since     [version]
-	 * @version   [version]
+	 * @since     3.8.0
+	 * @version   3.8.0
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -56,8 +56,8 @@ class LLMS_Notifications {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function __construct() {
 
@@ -70,8 +70,8 @@ class LLMS_Notifications {
 	 * On shutdown, check for processors that have items in the queue that need to be saved
 	 * save & dispatch the backgroun process
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function dispatch_processors() {
 
@@ -89,8 +89,8 @@ class LLMS_Notifications {
 	/**
 	 * Get the directory path for core notification classes
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function get_directory() {
 		return LLMS_PLUGIN_DIR . 'includes/notifications/';
@@ -100,8 +100,8 @@ class LLMS_Notifications {
 	 * Get a single controller instance
 	 * @param    string     $controller  trigger id (eg: lesson_complete)
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_controller( $controller ) {
 		if ( isset( $this->controllers[ $controller ] ) ) {
@@ -113,8 +113,8 @@ class LLMS_Notifications {
 	/**
 	 * Get loaded controllers
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_controllers() {
 		return $this->controllers;
@@ -124,8 +124,8 @@ class LLMS_Notifications {
 	 * Retrieve a single processor instance
 	 * @param    string     $processor  name of the processor (eg: email)
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_processor( $processor ) {
 		if ( isset( $this->processors[ $processor ] ) ) {
@@ -137,8 +137,8 @@ class LLMS_Notifications {
 	/**
 	 * Get loaded processors
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_processors() {
 		return $this->processors;
@@ -148,8 +148,8 @@ class LLMS_Notifications {
 	 * Retrieve a view instance of a notification
 	 * @param    obj       $notification  instance of an LLMS_Notification
 	 * @return   obj|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_view( $notification ) {
 
@@ -169,8 +169,8 @@ class LLMS_Notifications {
 	 * Get the classname for the view of a given notification based off it's trigger
 	 * @param    string     $trigger  trigger id (eg: lesson_complete)
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function get_view_classname( $trigger ) {
 		$name = str_replace( ' ', '_', ucwords( str_replace( '_', ' ', $trigger ) ) );
@@ -180,8 +180,8 @@ class LLMS_Notifications {
 	/**
 	 * Load all notifications
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function load() {
 
@@ -221,8 +221,8 @@ class LLMS_Notifications {
 	 * @param    string     $trigger  trigger id (eg: lesson_complete)
 	 * @param    string     $path     full path to the controller file, allows third parties to load external controllers
 	 * @return   boolean              true if the controller is added and loaded, false otherwise
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function load_controller( $trigger, $path = null ) {
 
@@ -247,8 +247,8 @@ class LLMS_Notifications {
 	 * @param    string     $type   processor type id
 	 * @param    string     $path   optional path (for allowing 3rd party processor loading)
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function load_processor( $type, $path = null ) {
 
@@ -272,8 +272,8 @@ class LLMS_Notifications {
 	 * @param    string     $trigger  trigger id (eg: lesson_complete)
 	 * @param    string     $path     full path to the view file, allows third parties to load external views
 	 * @return   boolean              true if the view is added and loaded, false otherwise
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function load_view( $trigger, $path = null ) {
 
@@ -299,8 +299,8 @@ class LLMS_Notifications {
 	 * Eg lesson_complete to lesson.complete
 	 * @param    string     $name  trigger name
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function name_to_file( $name ) {
 		return str_replace( '_', '.', $name );
@@ -310,8 +310,8 @@ class LLMS_Notifications {
 	 * Schedule a processor to dispatch its queue on shutdown
 	 * @param    string     $type  processor name/type (eg: email)
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function schedule_processing( $type ) {
 

@@ -1,8 +1,8 @@
 <?php
 /**
  * Notification View: Purchase Receipt
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -18,8 +18,8 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup body content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_body() {
 
@@ -61,8 +61,8 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup footer content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_footer() {
 		return '';
@@ -71,8 +71,8 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup notification icon for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_icon() {
 		return '';
@@ -81,8 +81,8 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup merge codes that can be used with the notification
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -104,8 +104,8 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	 * Replace merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -176,8 +176,8 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup notification subject for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_subject() {
 		return sprintf( __( 'Purchase Receipt for %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
@@ -186,8 +186,8 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup notification title for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_title() {
 		return sprintf( __( 'Purchase Receipt for Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );

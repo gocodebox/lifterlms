@@ -2,7 +2,7 @@
 /**
  * Transactions Table Metabox for Orders
  * @since    3.5.0
- * @version  [version]
+ * @version  3.8.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }

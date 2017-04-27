@@ -1,7 +1,7 @@
 /**
  * LifterLMS Basic Notifications Displayer
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 ;( function( $ ) {
 
@@ -16,8 +16,8 @@
 		/**
 		 * Bind dom events
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		function bind_events() {
 			$( 'body' ).on( 'click', '.llms-notification-dismiss', function() {
@@ -28,8 +28,8 @@
 		/**
 		 * Clear the currently running heartbeat
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		function clear_heartbeat() {
 			clearInterval( heartbeat );
@@ -39,8 +39,8 @@
 		 * Heartbeat callback function
 		 * @param    {[type]}   trigger  [description]
 		 * @return   {[type]}            [description]
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		function do_heartbeat( trigger ) {
 
@@ -59,8 +59,8 @@
 		 * Heartbeat function
 		 * @param    {Function}  cb  callbace
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		pump = function( cb ) {
 
@@ -110,8 +110,8 @@
 		/**
 		 * Start the heartbeat
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		function start_heartbeat() {
 			heartbeat = setInterval( do_heartbeat, heartbeat_interval );
@@ -132,8 +132,8 @@
 		/**
 		 * Initialize
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.init = function() {
 
@@ -158,8 +158,8 @@
 		 * Queue notifications to be displayed
 		 * @param    object   new_notis  array of notifications
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.queue = function( new_notis ) {
 
@@ -186,8 +186,8 @@
 		 * Dismiss a notification
 		 * @param    obj   $el  notification dom element
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.dismiss = function( $el ) {
 			var self = this;
@@ -202,8 +202,8 @@
 		 * Determine if a notification already exists in the notifications array
 		 * @param    int        id  notification id
 		 * @return   int|false      index of the notification in the array OR false if not found
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.notification_exists = function( id ) {
 
@@ -228,8 +228,8 @@
 		 * used for notification positiioning
 		 * @param    obj   $relative_el  element to get an offset relative to
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.get_offset = function( $relative_el ) {
 
@@ -253,8 +253,8 @@
 		/**
 		 * Determine if there are notifications to show
 		 * @return   Boolean
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.has_notifications = function() {
 			return ( notifications.length );
@@ -263,8 +263,8 @@
 		/**
 		 * Determine if a user is logged in
 		 * @return   boolean
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.is_user_logged_in = function() {
 			return $( 'body' ).hasClass( 'logged-in' );
@@ -274,8 +274,8 @@
 		 * Reposition elements, starting with the specified element
 		 * @param    obj   $start_el  element to start repositioning with
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.reposition = function( $start_el ) {
 
@@ -302,8 +302,8 @@
 		/**
 		 * Show all queued notifications
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.show_all = function() {
 
@@ -335,8 +335,8 @@
 		 * Show a single notification
 		 * @param    object   n  notification object data
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.8.0
+		 * @version  3.8.0
 		 */
 		this.show_one = function( n ) {
 

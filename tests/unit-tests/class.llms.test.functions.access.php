@@ -21,8 +21,8 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	/**
 	 * Test the llms_is_post_restricted_by_prerequisite() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function test_llms_is_post_restricted_by_prerequisite() {
 

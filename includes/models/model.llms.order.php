@@ -2,7 +2,7 @@
 /**
  * LifterLMS Order Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.8.0
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -378,8 +378,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve an LLMS_Post_Model object for the associated product
 	 * @return   obj       LLMS_Course / LLMS_Membership instance
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_product() {
 		return llms_get_post( $this->get( 'product_id' ) );
@@ -799,7 +799,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Get a link to view the order on the student dashboard
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public function get_view_link() {
 

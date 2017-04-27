@@ -3,8 +3,8 @@
  * LifterLMS Notificaiton Model
  * Used for notification CRUD and Display
  *
- * @since   [version]
- * @version [version]
+ * @since   3.8.0
+ * @version 3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -91,8 +91,8 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Constructor
 	 * @param    int     $notification  Notification ID
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function __construct( $notification = null ) {
 
@@ -106,8 +106,8 @@ class LLMS_Notification implements JsonSerializable {
 	 * Get notification properties
 	 * @param    string     $key  key to retrieve
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function __get( $key ) {
 		return $this->get( $key, false );
@@ -117,8 +117,8 @@ class LLMS_Notification implements JsonSerializable {
 	 * Create a new notification in the database
 	 * @param    array      $data  notification data
 	 * @return   int|false         new notification id on success, false otherwise
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function create( $data = array() ) {
 
@@ -164,8 +164,8 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Determine if the triggering user is the subsriber
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function is_subscriber_self() {
 		return ( $this->get( 'subscriber' ) == $this->get( 'user_id' ) );
@@ -175,8 +175,8 @@ class LLMS_Notification implements JsonSerializable {
 	 * Get notification properties
 	 * @param    string     $key  key to retrieve
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get( $key, $skip_cache = false ) {
 
@@ -199,8 +199,8 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Retrieve the HTML for the current notification
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_html() {
 		$view = $this->get_view();
@@ -213,8 +213,8 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Get the tablename for notification data
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	private function get_table() {
 		global $wpdb;
@@ -224,8 +224,8 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Retrieve an instance of the notification view class for the notification
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_view() {
 		return LLMS()->notifications()->get_view( $this );
@@ -234,8 +234,8 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Called when converting a notification to JSON
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function jsonSerialize() {
 		return $this->toArray();
@@ -244,8 +244,8 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Load all notification data into the instance
 	 * @return   self
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function load() {
 
@@ -272,8 +272,8 @@ class LLMS_Notification implements JsonSerializable {
 	 * Set object variables
 	 * @param    string     $key  variable name
 	 * @param    mixed     $val  data
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function set( $key, $val ) {
 
@@ -306,8 +306,8 @@ class LLMS_Notification implements JsonSerializable {
 	 * Convert the notification to an array
 	 * access to all properties and meta items will be made accessible
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function toArray() {
 		return get_object_vars( $this->load() );

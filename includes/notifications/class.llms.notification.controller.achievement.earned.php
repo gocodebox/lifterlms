@@ -1,8 +1,8 @@
 <?php
 /**
  * Notification Controller: Achievement Earned
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -33,8 +33,8 @@ class LLMS_Notification_Controller_Achievement_Earned extends LLMS_Abstract_Noti
 	 * @param    int     $achievement_id   WP Post ID of the new achivement post
 	 * @param    int     $related_post_id  WP Post ID of the post which triggered the achievement to be awardes
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function action_callback( $user_id = null, $achievement_id = null, $related_post_id = null ) {
 
@@ -49,8 +49,8 @@ class LLMS_Notification_Controller_Achievement_Earned extends LLMS_Abstract_Noti
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 * @param    string     $subscriber  subscriber type string
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -73,8 +73,8 @@ class LLMS_Notification_Controller_Achievement_Earned extends LLMS_Abstract_Noti
 	 * Get the translateable title for the notification
 	 * used on settings screens
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_title() {
 		return __( 'Achievement Earned', 'lifterlms' );
@@ -84,8 +84,8 @@ class LLMS_Notification_Controller_Achievement_Earned extends LLMS_Abstract_Noti
 	 * Setup the subscriber options for the notification
 	 * @param    string     $type  notification type id
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_subscriber_options( $type ) {
 
@@ -112,8 +112,8 @@ class LLMS_Notification_Controller_Achievement_Earned extends LLMS_Abstract_Noti
 	 * Extending classes can override this function in order to add or remove support
 	 * 3rd parties should add support via filter on $this->get_supported_types()
 	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_supported_types() {
 		return array(

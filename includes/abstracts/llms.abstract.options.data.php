@@ -2,8 +2,8 @@
 /**
  * LifterLMS Options Table Data Store Abstract
  *
- * @since   [version]
- * @version [version]
+ * @since   3.8.0
+ * @version 3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -17,8 +17,8 @@ abstract class LLMS_Abstract_Options_Data {
 	 * @param    string     $name     option name (unprefixed)
 	 * @param    mixed      $default  default value to use if no option is found
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_option( $name, $default = '' ) {
 		$val = get_option( $this->get_option_name( $name ), '' );
@@ -31,8 +31,8 @@ abstract class LLMS_Abstract_Options_Data {
 	/**
 	 * Retrieve a prefix for options
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function get_option_prefix() {
 		return $this->option_prefix;
@@ -44,8 +44,8 @@ abstract class LLMS_Abstract_Options_Data {
 	 * in addition to llms_notification
 	 * @param    string     $name  option name (unprefixed)
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_option_name( $name ) {
 		return $this->get_option_prefix() . $name;

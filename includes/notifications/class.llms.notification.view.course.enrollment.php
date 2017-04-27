@@ -1,8 +1,8 @@
 <?php
 /**
  * Notification View: Course Enrollment
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -34,8 +34,8 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	/**
 	 * Setup body content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_body() {
 		return sprintf( __( 'Congratulations! %1$s enrolled in %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{COURSE_TITLE}}' );
@@ -44,8 +44,8 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	/**
 	 * Setup footer content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_footer() {
 		return '';
@@ -54,8 +54,8 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	/**
 	 * Setup notification icon for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_icon() {
 		return '';
@@ -64,8 +64,8 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	/**
 	 * Setup merge codes that can be used with the notification
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -78,8 +78,8 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 * Replace merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -102,8 +102,8 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	/**
 	 * Setup notification subject for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_subject() {
 		return sprintf( __( '%1$s enrolled in %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{COURSE_TITLE}}' );
@@ -112,8 +112,8 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	/**
 	 * Setup notification title for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_title() {
 		return __( 'Course enrollment success!', 'lifterlms' );

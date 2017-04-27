@@ -2,7 +2,7 @@
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -214,7 +214,7 @@ class LLMS_Student_Dashboard {
 	 * Endpoint to output orders content
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.8.0
 	 */
 	public static function output_orders_content() {
 

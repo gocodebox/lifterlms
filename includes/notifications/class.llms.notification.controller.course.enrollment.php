@@ -1,8 +1,8 @@
 <?php
 /**
  * Notification Controller: Course Enrollment
- * @since    [version]
- * @version  [version]
+ * @since    3.8.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -35,8 +35,8 @@ class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notif
 	 * @param    int     $user_id     WP User ID of the user
 	 * @param    int     $course_id   WP Post ID of the course
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function action_callback( $user_id = null, $course_id = null ) {
 
@@ -52,8 +52,8 @@ class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notif
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 * @param    string     $subscriber  subscriber type string
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -80,8 +80,8 @@ class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notif
 	 * Get the translateable title for the notification
 	 * used on settings screens
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_title() {
 		return __( 'Course Enrollment', 'lifterlms' );
@@ -91,8 +91,8 @@ class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notif
 	 * Setup the subscriber options for the notification
 	 * @param    string     $type  notification type id
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_subscriber_options( $type ) {
 
