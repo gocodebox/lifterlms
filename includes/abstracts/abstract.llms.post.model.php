@@ -384,11 +384,19 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *                                 additional custom images are added
 	 * @return   string                empty string if no image or not supported
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function get_image( $size = 'full', $key = '' ) {
-		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
+		if ( 'thumbnail' === $key && post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
 			$url = get_the_post_thumbnail_url( $this->get( 'id' ), $size );
+		} else {
+			$id = $this->get( $key );
+			if ( is_numeric( $id ) ) {
+				$src = wp_get_attachment_image_src( $id, $size );
+				if ( $src ) {
+					$url = $src[0];
+				}
+			}
 		}
 		return ! empty( $url ) ? $url : '';
 	}
