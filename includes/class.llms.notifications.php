@@ -186,6 +186,7 @@ class LLMS_Notifications {
 	private function load() {
 
 		$triggers = array(
+			'achievement_earned',
 			'lesson_complete',
 			'purchase_receipt',
 		);
