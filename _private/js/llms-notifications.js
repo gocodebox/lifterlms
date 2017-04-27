@@ -1,3 +1,8 @@
+/**
+ * LifterLMS Basic Notifications Displayer
+ * @since    [version]
+ * @version  [version]
+ */
 ;( function( $ ) {
 
 	var llms_notifications = function() {
@@ -8,16 +13,35 @@
 			dismissals = [],
 			heartbeat;
 
+		/**
+		 * Bind dom events
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		function bind_events() {
 			$( 'body' ).on( 'click', '.llms-notification-dismiss', function() {
 				self.dismiss( $( this ).closest( '.llms-notification' ) );
 			} );
 		};
 
+		/**
+		 * Clear the currently running heartbeat
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		function clear_heartbeat() {
 			clearInterval( heartbeat );
 		};
 
+		/**
+		 * Heartbeat callback function
+		 * @param    {[type]}   trigger  [description]
+		 * @return   {[type]}            [description]
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		function do_heartbeat( trigger ) {
 
 			pump( function() {
@@ -31,6 +55,13 @@
 
 		};
 
+		/**
+		 * Heartbeat function
+		 * @param    {Function}  cb  callbace
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		pump = function( cb ) {
 
 			LLMS.Ajax.call( {
@@ -76,11 +107,15 @@
 
 		};
 
+		/**
+		 * Start the heartbeat
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		function start_heartbeat() {
 			heartbeat = setInterval( do_heartbeat, heartbeat_interval );
 		};
-
-
 
 		/**
 		 * Prevent multiple simultaneous ajax calls from being made
@@ -94,6 +129,12 @@
 		 */
 		this.restart_heartbeat = false;
 
+		/**
+		 * Initialize
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.init = function() {
 
 			var self = this;
@@ -113,7 +154,13 @@
 
 		};
 
-
+		/**
+		 * Queue notifications to be displayed
+		 * @param    object   new_notis  array of notifications
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.queue = function( new_notis ) {
 
 			var self = this;
@@ -135,6 +182,13 @@
 
 		};
 
+		/**
+		 * Dismiss a notification
+		 * @param    obj   $el  notification dom element
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.dismiss = function( $el ) {
 			var self = this;
 			$el.removeClass( 'visible' );
@@ -169,6 +223,14 @@
 
 		};
 
+		/**
+		 * Get the vertiacl offset (on screen) relative to an element
+		 * used for notification positiioning
+		 * @param    obj   $relative_el  element to get an offset relative to
+		 * @return   int
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.get_offset = function( $relative_el ) {
 
 			var spacer = 12;
@@ -208,6 +270,13 @@
 			return $( 'body' ).hasClass( 'logged-in' );
 		};
 
+		/**
+		 * Reposition elements, starting with the specified element
+		 * @param    obj   $start_el  element to start repositioning with
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.reposition = function( $start_el ) {
 
 			var self = this,
@@ -230,6 +299,12 @@
 
 		};
 
+		/**
+		 * Show all queued notifications
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.show_all = function() {
 
 			var self = this,
@@ -256,6 +331,13 @@
 
 		}
 
+		/**
+		 * Show a single notification
+		 * @param    object   n  notification object data
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.show_one = function( n ) {
 
 			var self = this,
