@@ -79,11 +79,18 @@ class LLMS_Achievement {
 	 * Generate HTML output of achievement
 	 * Converts merge fields to raw data sources and wraps content in HTML
 	 * then saves new achivement post and updates user_postmeta table.
-	 *
-	 * @return [type] [description]
+	 * @return   void
+	 * @since    1.0.0
 	 */
 	function get_content_html() {}
 
+	/**
+	 * Create the achivement
+	 * @param    string    $content  achievement body content
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  [version]
+	 */
 	public function create( $content ) {
 		global $wpdb;
 
@@ -117,6 +124,13 @@ class LLMS_Achievement {
 				)
 			);
 		}
+
+		/**
+		 * Allow 3rd parties to hook into the generation of an achievement
+		 * Notifications uses this
+		 * note 3rd param $this->lesson_id is actually the related post id (but misnamed)
+		 */
+		do_action( 'llms_user_earned_achievement', $this->userid, $new_user_achievement_id, $this->lesson_id );
 
 	}
 
