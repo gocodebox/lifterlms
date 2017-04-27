@@ -499,16 +499,14 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 */
 	private function sentence_case( $string ) {
 
-		$sentences = preg_split( '/([.?!]+)/', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
+		$sentences = preg_split( '/(\.|\?|\!)(\s|$)+/', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
 		$new_string = '';
 		foreach ( $sentences as $key => $sentence ) {
-
-			// $new_string .= ( $key & 1 ) == 0 ? ucfirst( trim( $sentence ) ) : $sentence . ' ';
-			$new_string .= ( $key & 1 ) == 0 ? ucfirst( trim( $sentence ) ) : $sentence;
-
+			$new_string .= 1 === strlen( $sentence ) ? $sentence . ' ' : ucfirst( trim( $sentence ) );
 		}
 
 		return trim( $new_string );
+
 	}
 
 	/**
