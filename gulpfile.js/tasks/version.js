@@ -24,7 +24,7 @@ gulp.task( 'versioner', function() {
 		return;
 	}
 
-	return gulp.src( './includes/notifications/*.php', { base: './' } )
+	return gulp.src( [ './lifterlms.php', './includes/**/*.php', './templates/**/*.php', './tests/**/*.php', './_private/**/*.js'  ], { base: './' } )
 		.pipe( replace( /(\* @(since|version) +\[version\])/g, function( string ) {
 			return string.replace( '[version]', the_version );
 		} ) )
