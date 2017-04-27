@@ -18,8 +18,6 @@ v3.8.0-alpha.1 - 2017/04/27
 + Added the functionality for image upload via options & settings api
 
 
-
-
 v3.7.4 - 2017/04/26
 -------------------
 

@@ -166,6 +166,24 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+v3.8.0-alpha.1 - 2017/04/27
+-------------------------------
+
++ Automatic email and basic (on-screen) notifications:
+  + Achievement earned
+  + Course enrollment
+  + Purchase reciept
+  + Lesson completed
+  + Full list of scheduled notifications available [here](https://github.com/gocodebox/lifterlms/issues/315)
+
++ Updated LLMS_Email class and functionality
++ Email templates have been completely rewritten and styled
+  + Temporary email style customization guide [here](https://gist.github.com/thomasplevy/0d3072633141d129cfc716740f302385)
+  + Email branding will be added to LifterLMS Labs, follow progress [here](https://github.com/gocodebox/lifterlms/issues/316)
++ Updated and rewritten password reset flow
++ Added the functionality for image upload via options & settings api
+
+
 = v3.7.4 - 2017/04/26 =
 -----------------------
 
