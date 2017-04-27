@@ -10,7 +10,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-abstract class LLMS_Integration {
+abstract class LLMS_Abstract_Integration {
 
 	/**
 	 * Detemine if the integration had been enabled via checkbox

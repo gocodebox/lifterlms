@@ -41,6 +41,7 @@ class LLMS_Integrations {
 		$load_integrations = apply_filters( 'lifterlms_integrations', array(
 			'LLMS_Integration_bbPress',
 			'LLMS_Integration_Buddypress',
+			'LLMS_Integration_Facebook',
 		) );
 
 		$order_end = 999;
