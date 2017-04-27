@@ -145,11 +145,19 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		}
 	}
 
+	/**
+	 * Adds subscribers before sending a notifications
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	private function add_subscriptions() {
 
 		foreach ( $this->get_supported_types() as $type => $name ) {
 
-			foreach ( $this->get_option( $type . '_subscribers', array() ) as $subscriber_key => $enabled ) {
+			$defaults = wp_list_pluck( $this->get_subscriber_options( $type ), 'enabled', 'id' );
+
+			foreach ( $this->get_option( $type . '_subscribers', $defaults ) as $subscriber_key => $enabled ) {
 
 				if ( 'no' === $enabled ) {
 					continue;
@@ -171,6 +179,16 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	}
 
+	/**
+	 * Get a fake instance of a view, used for managing options & customization on the admin panel
+	 * @param    string   $type        notification type
+	 * @param    int      $subscriber  subscriber id
+	 * @param    int      $user_id     user id
+	 * @param    int      $post_id     post id
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function get_mock_view( $type = 'basic', $subscriber = null, $user_id = null, $post_id = null ) {
 
 		$notification = new LLMS_Notification();
@@ -183,7 +201,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		return LLMS()->notifications()->get_view( $notification );
 
 	}
-
 
 	/**
 	 * Retrieve a prefix for options related to the notification
