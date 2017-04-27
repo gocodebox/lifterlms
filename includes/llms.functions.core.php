@@ -766,7 +766,6 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
  */
 function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
-
 	if ( strtoupper( getenv( 'REQUEST_METHOD' ) ) !== $request_method ) {
 		return;
 	}

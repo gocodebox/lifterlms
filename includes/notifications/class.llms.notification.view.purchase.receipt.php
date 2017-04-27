@@ -34,7 +34,6 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 		$tr_style = 'color:inherit;font-family:inherit;font-size:inherit;';
 		$td_style = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
 
-
 		$rows = array(
 			'TRANSACTION_DATE' => __( 'Date', 'lifterlms' ),
 			'PRODUCT_TITLE_LINK' => '{{PRODUCT_TYPE}}',
@@ -46,7 +45,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 
 		ob_start();
 		?><table style="<?php echo $table_style; ?>">
-		<?php foreach( $rows as $code => $name ) : ?>
+		<?php foreach ( $rows as $code => $name ) : ?>
 			<tr style="<?php echo $tr_style; ?>">
 				<th style="<?php echo $td_style; ?>width:33.3333%;"><?php echo $name; ?></th>
 				<td style="<?php echo $td_style; ?>">{{<?php echo $code; ?>}}</td>

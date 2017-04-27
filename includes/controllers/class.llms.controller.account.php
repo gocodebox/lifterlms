@@ -132,7 +132,6 @@ class LLMS_Controller_Account {
 			'login_display' => 'email' === $get_by ? $user->user_email : $user->user_login,
 		) );
 
-
 		if ( $email ) {
 
 			if ( $email->send() ) {

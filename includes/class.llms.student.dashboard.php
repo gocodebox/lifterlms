@@ -237,7 +237,6 @@ class LLMS_Student_Dashboard {
 				) );
 			}
 
-
 			llms_get_template( 'myaccount/view-order.php', array(
 				'order' => $order,
 				'transactions' => $transactions,

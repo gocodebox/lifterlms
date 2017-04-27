@@ -164,7 +164,7 @@ $gateway = $order->get_gateway();
 					<tr>
 				</thead>
 				<tbody>
-				<?php foreach( $transactions['transactions'] as $txn ) : ?>
+				<?php foreach ( $transactions['transactions'] as $txn ) : ?>
 					<tr>
 						<th><?php echo $txn->get( 'id' ); ?></th>
 						<th><?php echo $txn->get_status_name(); ?></th>

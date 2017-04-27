@@ -132,7 +132,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			add_action( $hook, array( $this, 'action_callback' ), $this->action_accepted_arguments, $this->action_priority );
 		}
 
-
 	}
 
 	private function add_custom_subscriptions( $type ) {

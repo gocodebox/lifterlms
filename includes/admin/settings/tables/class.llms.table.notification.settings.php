@@ -30,7 +30,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 			case 'configure':
 				$links = array();
-				foreach( $data['configure'] as $type => $name ) {
+				foreach ( $data['configure'] as $type => $name ) {
 					$url = esc_url( add_query_arg( array(
 						'notification' => $data['id'],
 						'type' => $type,
