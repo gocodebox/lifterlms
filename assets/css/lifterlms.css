@@ -1001,6 +1001,8 @@ svg .llms-animated-circle {
   display: flex;
 }
 .llms-notification .llms-notification-main {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
   -webkit-box-flex: 4;
       -ms-flex: 4;
           flex: 4;
@@ -1023,6 +1025,8 @@ svg .llms-animated-circle {
   margin-bottom: 8px;
 }
 .llms-notification .llms-notification-aside {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
