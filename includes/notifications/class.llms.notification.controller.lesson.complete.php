@@ -122,7 +122,7 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 					'title' => __( 'Course Author', 'lifterlms' ),
 				);
 				$options[] = array(
-					'enabled' => 'yes',
+					'enabled' => 'no',
 					'id' => 'lesson_author',
 					'title' => __( 'Lesson Author', 'lifterlms' ),
 				);

@@ -51,7 +51,7 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	 * @version  [version]
 	 */
 	protected function set_footer() {
-		return 'This is a Footer';
+		return '';
 	}
 
 	/**
