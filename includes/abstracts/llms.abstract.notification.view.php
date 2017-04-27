@@ -32,6 +32,12 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	protected $post;
 
 	/**
+	 * Supported fields for notification types
+	 * @var  array
+	 */
+	protected $supported_fields = array();
+
+	/**
 	 * Notification Trigger ID
 	 * @var  [type]
 	 */
@@ -257,7 +263,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		$options = array();
 
-		if ( 'email' === $type ) {
+		if ( $this->has_field_support( $type, 'subject' ) ) {
 			$options[] = array(
 				'after_html' => llms_merge_code_button( '#' . $this->get_option_name( 'subject' ), false, $this->get_merge_codes() ),
 				'id' => $this->get_option_name( 'subject' ),
@@ -267,25 +273,29 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 			);
 		}
 
-		$options[] = array(
-			'after_html' => llms_merge_code_button( '#' . $this->get_option_name( 'title' ), false, $this->get_merge_codes() ),
-			'id' => $this->get_option_name( 'title' ),
-			'title' => ( 'email' === $type ) ? __( 'Heading', 'lifterlms' ) : __( 'Title', 'lifterlms' ),
-			'type' => 'text',
-			'value' => $this->get_title( false ),
-		);
+		if ( $this->has_field_support( $type, 'title' ) ) {
+			$options[] = array(
+				'after_html' => llms_merge_code_button( '#' . $this->get_option_name( 'title' ), false, $this->get_merge_codes() ),
+				'id' => $this->get_option_name( 'title' ),
+				'title' => ( 'email' === $type ) ? __( 'Heading', 'lifterlms' ) : __( 'Title', 'lifterlms' ),
+				'type' => 'text',
+				'value' => $this->get_title( false ),
+			);
+		}
 
-		$options[] = array(
-			'editor_settings' => array(
-				'teeny' => true,
-			),
-			'id' => $this->get_option_name( 'body' ),
-			'title' => __( 'Body', 'lifterlms' ),
-			'type' => 'wpeditor',
-			'value' => $this->get_body( false ),
-		);
+		if ( $this->has_field_support( $type, 'body' ) ) {
+			$options[] = array(
+				'editor_settings' => array(
+					'teeny' => true,
+				),
+				'id' => $this->get_option_name( 'body' ),
+				'title' => __( 'Body', 'lifterlms' ),
+				'type' => 'wpeditor',
+				'value' => $this->get_body( false ),
+			);
+		}
 
-		if ( 'basic' === $type ) {
+		if ( $this->has_field_support( $type, 'icon' ) ) {
 			$options[] = array(
 				'id' => $this->get_option_name( 'icon' ),
 				'image_size' => 'llms_notification_icon',
@@ -426,6 +436,16 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
+	 * Get supported fields and allow filtering for 3rd parties
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_supported_fields() {
+		return apply_filters( $this->get_filter( 'get_supported_fields' ), $this->set_supported_fields(), $this );
+	}
+
+	/**
 	 * Retrieve the title for the notification
 	 * @return   string
 	 * @since    [version]
@@ -437,6 +457,26 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 			$title = $this->get_merged_string( $title );
 		}
 		return apply_filters( $this->get_filter( 'get_title' ), $title, $this );
+	}
+
+	/**
+	 * Determine if the current view supports a field by ID
+	 * @param    string     $type   notification type [email|basic]
+	 * @param    string     $field  field id
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function has_field_support( $type, $field ) {
+		$fields = $this->get_supported_fields();
+		if ( ! isset( $fields[ $type ] ) ) {
+			return false;
+		}
+		$type_fields = $fields[ $type ];
+		if ( ! isset( $type_fields[ $field ] ) ) {
+			return false;
+		}
+		return $type_fields[ $field ];
 	}
 
 	/**
@@ -469,6 +509,29 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return trim( $new_string );
+	}
+
+	/**
+	 * Define field support for the view
+	 * Extending classes can override this
+	 * 3rd parties should filter $this->get_supported_fields()
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function set_supported_fields() {
+		return array(
+			'basic' => array(
+				'body' => true,
+				'title' => true,
+				'icon' => true,
+			),
+			'email' => array(
+				'body' => true,
+				'subject' => true,
+				'title' => true,
+			),
+		);
 	}
 
 }
