@@ -124,11 +124,11 @@ msgstr ""
 msgid "This completion percentage is an estimate, please be patient and %sclick here%s for more information."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:322, includes/notifications/class.llms.notification.controller.achievement.earned.php:120, includes/notifications/class.llms.notification.controller.purchase.receipt.php:88
+#: includes/abstracts/llms.abstract.notification.controller.php:322, includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:120, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:88
 msgid "Basic"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:323, includes/class.llms.post-types.php:729, includes/notifications/class.llms.notification.controller.purchase.receipt.php:89
+#: includes/abstracts/llms.abstract.notification.controller.php:323, includes/class.llms.post-types.php:729, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:89
 msgid "Email"
 msgstr ""
 
@@ -452,11 +452,11 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:63, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:511, includes/class.llms.install.php:531
+#: includes/admin/class.llms.admin.notices.core.php:63, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:526, includes/class.llms.install.php:546
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:515, includes/class.llms.install.php:535
+#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:530, includes/class.llms.install.php:550
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -2124,7 +2124,7 @@ msgstr ""
 msgid "%d days"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:37, includes/notifications/class.llms.notification.view.lesson.complete.php:75
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:37, includes/notifications/views/class.llms.notification.view.lesson.complete.php:75
 msgid "Lesson Title"
 msgstr ""
 
@@ -2136,7 +2136,7 @@ msgstr ""
 msgid "Prerequisite"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:41, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, includes/notifications/class.llms.notification.view.purchase.receipt.php:38, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order.php:161
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:41, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:38, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order.php:161
 msgid "Date"
 msgstr ""
 
@@ -3320,7 +3320,7 @@ msgstr ""
 msgid "My Courses"
 msgstr ""
 
-#: includes/class.llms.install.php:237, includes/class.llms.view.manager.php:182, includes/functions/llms.functions.updates.php:698, includes/notifications/class.llms.notification.controller.achievement.earned.php:100, includes/notifications/class.llms.notification.controller.course.enrollment.php:107, includes/notifications/class.llms.notification.controller.course.enrollment.php:120, includes/notifications/class.llms.notification.controller.lesson.complete.php:109, includes/notifications/class.llms.notification.controller.lesson.complete.php:117, includes/notifications/class.llms.notification.controller.purchase.receipt.php:121
+#: includes/class.llms.install.php:237, includes/class.llms.view.manager.php:182, includes/functions/llms.functions.updates.php:698, includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:100, includes/notifications/controllers/class.llms.notification.controller.course.complete.php:104, includes/notifications/controllers/class.llms.notification.controller.course.complete.php:112, includes/notifications/controllers/class.llms.notification.controller.course.enrollment.php:107, includes/notifications/controllers/class.llms.notification.controller.course.enrollment.php:120, includes/notifications/controllers/class.llms.notification.controller.lesson.complete.php:109, includes/notifications/controllers/class.llms.notification.controller.lesson.complete.php:117, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:121
 msgid "Student"
 msgstr ""
 
@@ -3339,7 +3339,7 @@ msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:588
+#: includes/class.llms.install.php:603
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -7072,161 +7072,169 @@ msgstr ""
 msgid "Trial"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.controller.achievement.earned.php:80
+#: includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:80
 msgid "Achievement Earned"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.controller.course.enrollment.php:87
-msgid "Course Enrollment"
+#: includes/notifications/controllers/class.llms.notification.controller.course.complete.php:84, templates/course/progress.php:33
+msgid "Course Complete"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.controller.course.enrollment.php:112, includes/notifications/class.llms.notification.controller.course.enrollment.php:125, includes/notifications/class.llms.notification.controller.lesson.complete.php:122
+#: includes/notifications/controllers/class.llms.notification.controller.course.complete.php:117, includes/notifications/controllers/class.llms.notification.controller.course.enrollment.php:112, includes/notifications/controllers/class.llms.notification.controller.course.enrollment.php:125, includes/notifications/controllers/class.llms.notification.controller.lesson.complete.php:122
 msgid "Course Author"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.controller.course.enrollment.php:128, includes/notifications/class.llms.notification.controller.lesson.complete.php:130, includes/notifications/class.llms.notification.controller.purchase.receipt.php:124
+#: includes/notifications/controllers/class.llms.notification.controller.course.complete.php:120, includes/notifications/controllers/class.llms.notification.controller.course.enrollment.php:128, includes/notifications/controllers/class.llms.notification.controller.lesson.complete.php:130, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:124
 msgid "Enter additional email addresses which will recieve this notification. Separate multilpe addresses with commas."
 msgstr ""
 
-#: includes/notifications/class.llms.notification.controller.course.enrollment.php:131, includes/notifications/class.llms.notification.controller.lesson.complete.php:133, includes/notifications/class.llms.notification.controller.purchase.receipt.php:127
+#: includes/notifications/controllers/class.llms.notification.controller.course.complete.php:123, includes/notifications/controllers/class.llms.notification.controller.course.enrollment.php:131, includes/notifications/controllers/class.llms.notification.controller.lesson.complete.php:133, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:127
 msgid "Additional Recipients"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.controller.lesson.complete.php:89, templates/course/complete-lesson-link.php:31
+#: includes/notifications/controllers/class.llms.notification.controller.course.enrollment.php:87
+msgid "Course Enrollment"
+msgstr ""
+
+#: includes/notifications/controllers/class.llms.notification.controller.lesson.complete.php:89, templates/course/complete-lesson-link.php:31
 msgid "Lesson Complete"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.controller.lesson.complete.php:127
+#: includes/notifications/controllers/class.llms.notification.controller.lesson.complete.php:127
 msgid "Lesson Author"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.controller.purchase.receipt.php:101
+#: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:101
 msgid "Purchase Receipt"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.achievement.earned.php:77
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:77
 msgid "Achievment Content"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.achievement.earned.php:78
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:78
 msgid "Achievment Image"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.achievement.earned.php:79
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:79
 msgid "Achievment Image URL"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.achievement.earned.php:80
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:80
 msgid "Achievment Title"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.achievement.earned.php:81, includes/notifications/class.llms.notification.view.course.enrollment.php:73, includes/notifications/class.llms.notification.view.lesson.complete.php:76, includes/notifications/class.llms.notification.view.purchase.receipt.php:95
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:81, includes/notifications/views/class.llms.notification.view.course.complete.php:76, includes/notifications/views/class.llms.notification.view.course.enrollment.php:73, includes/notifications/views/class.llms.notification.view.lesson.complete.php:76, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:95
 msgid "Student Name"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.achievement.earned.php:105
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:105
 msgctxt "Achievement icon alt text"
 msgid "%s Icon"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.achievement.earned.php:146
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:146
 msgid "You've been awarded an achievement!"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.course.enrollment.php:41
-msgid "Congratulations! %1$s enrolled in %2$s"
-msgstr ""
-
-#: includes/notifications/class.llms.notification.view.course.enrollment.php:72
-msgid "Course Title"
-msgstr ""
-
-#: includes/notifications/class.llms.notification.view.course.enrollment.php:109
-msgid "%1$s enrolled in %2$s"
-msgstr ""
-
-#: includes/notifications/class.llms.notification.view.course.enrollment.php:119
-msgid "Course enrollment success!"
-msgstr ""
-
-#: includes/notifications/class.llms.notification.view.lesson.complete.php:42, includes/notifications/class.llms.notification.view.lesson.complete.php:112
+#: includes/notifications/views/class.llms.notification.view.course.complete.php:42, includes/notifications/views/class.llms.notification.view.course.complete.php:112, includes/notifications/views/class.llms.notification.view.lesson.complete.php:42, includes/notifications/views/class.llms.notification.view.lesson.complete.php:112
 msgid "Congratulations! %1$s completed %2$s"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.lesson.complete.php:44
+#: includes/notifications/views/class.llms.notification.view.course.complete.php:44, includes/notifications/views/class.llms.notification.view.lesson.complete.php:44
 msgid "Congratulations! You finished %s"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.lesson.complete.php:122
+#: includes/notifications/views/class.llms.notification.view.course.complete.php:75, includes/notifications/views/class.llms.notification.view.course.enrollment.php:72
+msgid "Course Title"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.course.complete.php:122
+msgid "%s Completed a Course"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.course.enrollment.php:41
+msgid "Congratulations! %1$s enrolled in %2$s"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.course.enrollment.php:109
+msgid "%1$s enrolled in %2$s"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.course.enrollment.php:119
+msgid "Course enrollment success!"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.lesson.complete.php:122
 msgid "%s Completed a Lesson"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:40
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:40
 msgid "Plan"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:41, templates/admin/post-types/order-transactions.php:20, templates/myaccount/view-order.php:162
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:41, templates/admin/post-types/order-transactions.php:20, templates/myaccount/view-order.php:162
 msgid "Amount"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:42, templates/checkout/form-confirm-payment.php:177, templates/myaccount/view-order.php:113
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:42, templates/checkout/form-confirm-payment.php:177, templates/myaccount/view-order.php:113
 msgid "Payment Method"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:43, includes/notifications/class.llms.notification.view.purchase.receipt.php:98, templates/admin/post-types/order-transactions.php:25
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:43, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:98, templates/admin/post-types/order-transactions.php:25
 msgid "Transaction ID"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:55
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:55
 msgid "View Order Details"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:89
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:89
 msgid "Order ID"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:90
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:90
 msgid "Order URL"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:91, templates/admin/post-types/product-access-plan.php:57
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:91, templates/admin/post-types/product-access-plan.php:57
 msgid "Plan Title"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:92
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:92
 msgid "Product Title"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:93
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:93
 msgid "Product Type"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:94
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:94
 msgid "Product Title (Link)"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:96
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:96
 msgid "Transaction Amount"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:97
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:97
 msgid "Transaction Date"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:99
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:99
 msgid "Transaction Source"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:146
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:146
 msgctxt "generic product type description"
 msgid "Item"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:183
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:183
 msgid "Purchase Receipt for %s"
 msgstr ""
 
-#: includes/notifications/class.llms.notification.view.purchase.receipt.php:193
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:193
 msgid "Purchase Receipt for Order #%s"
 msgstr ""
 
@@ -8072,10 +8080,6 @@ msgstr ""
 
 #: templates/course/prerequisites.php:24
 msgid "Before starting this course you must complete the required prerequisite track: %s"
-msgstr ""
-
-#: templates/course/progress.php:33
-msgid "Course Complete"
 msgstr ""
 
 #: templates/course/progress.php:43
