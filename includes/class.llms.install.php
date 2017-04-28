@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.6.0
+ * @version 3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -339,7 +339,7 @@ class LLMS_Install {
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.8.0
 	 */
 	private static function get_schema() {
 
@@ -396,6 +396,21 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
   PRIMARY KEY (`id`),
   KEY `code` (`code`),
   KEY `voucher_id` (`voucher_id`)
+) $collate;
+CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `status` varchar(11) DEFAULT '0',
+  `type` varchar(75) DEFAULT NULL,
+  `subscriber` varchar(255) DEFAULT NULL,
+  `trigger_id` varchar(75) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `post_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `status` (`status`),
+  KEY `type` (`type`),
+  KEY `subscriber` (`subscriber`(191))
 ) $collate;
 ";
 
