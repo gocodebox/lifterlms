@@ -1,8 +1,8 @@
 <?php
 /**
 * Query LifterLMS Students for a given course / membership
-* @since    ??
-* @version  ??
+* @since    3.8.0
+* @version  3.8.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -38,8 +38,8 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve default arguments for a student query
 	 * @return   array
-	 * @since    3.4.0
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function get_default_args() {
 
@@ -84,8 +84,8 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	/**
 	 * Parse arguments needed for the query
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function parse_args() {
 
@@ -140,8 +140,8 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	/**
 	 * Prepare the SQL for the query
 	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function preprare_query() {
 

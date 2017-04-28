@@ -224,7 +224,7 @@ final class LifterLMS {
 
 		}
 
-		include 'includes/class.llms.notifications.php';
+		include 'includes/notifications/class.llms.notifications.php';
 
 		// Date, Number and language formatting
 		include_once( 'includes/class.llms.date.php' );

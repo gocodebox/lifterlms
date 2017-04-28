@@ -228,7 +228,7 @@ class LLMS_Notifications {
 
 		// default path for core views
 		if ( ! $path ) {
-			$path = $this->get_directory() . 'class.llms.notification.controller.' . $this->name_to_file( $trigger ) . '.php';
+			$path = $this->get_directory() . 'controllers/class.llms.notification.controller.' . $this->name_to_file( $trigger ) . '.php';
 		}
 
 		if ( file_exists( $path ) ) {
@@ -254,7 +254,7 @@ class LLMS_Notifications {
 
 		// default path for core processors
 		if ( ! $path ) {
-			$path = $this->get_directory() . 'class.llms.notification.processor.' . $type . '.php';
+			$path = $this->get_directory() . 'processors/class.llms.notification.processor.' . $type . '.php';
 		}
 
 		if ( file_exists( $path ) ) {
@@ -279,7 +279,7 @@ class LLMS_Notifications {
 
 		// default path for core views
 		if ( ! $path ) {
-			$path = $this->get_directory() . 'class.llms.notification.view.' . $this->name_to_file( $trigger ) . '.php';
+			$path = $this->get_directory() . 'views/class.llms.notification.view.' . $this->name_to_file( $trigger ) . '.php';
 		}
 
 		if ( file_exists( $path ) ) {
