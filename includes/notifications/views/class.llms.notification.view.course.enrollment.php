@@ -18,7 +18,7 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 		 * Time in milliseconds to show a notification
 		 * before automatically dismissing it
 		 */
-		'auto_dismiss' => 5000,
+		'auto_dismiss' => 10000,
 		/**
 		 * Enables manual dismissal of notifications
 		 */
@@ -69,6 +69,7 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 */
 	protected function set_merge_codes() {
 		return array(
+			'{{COURSE_PROGRESS}}' => __( 'Course Progress Bar', 'lifterlms' ),
 			'{{COURSE_TITLE}}' => __( 'Course Title', 'lifterlms' ),
 			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
 		);
@@ -84,6 +85,11 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	protected function set_merge_data( $code ) {
 
 		switch ( $code ) {
+
+			case '{{COURSE_PROGRESS}}':
+				$progress = $this->user->get_progress( $this->post->get( 'id' ), 'course' );
+				$code = lifterlms_course_progress_bar( $progress, false, false, false );
+			break;
 
 			case '{{COURSE_TITLE}}':
 				$code = $this->post->get( 'title' );

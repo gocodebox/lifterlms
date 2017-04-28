@@ -18,7 +18,7 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 		 * Time in milliseconds to show a notification
 		 * before automatically dismissing it
 		 */
-		'auto_dismiss' => 5000,
+		'auto_dismiss' => 10000,
 		/**
 		 * Enables manual dismissal of notifications
 		 */

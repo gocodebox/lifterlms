@@ -18,7 +18,7 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 		 * Time in milliseconds to show a notification
 		 * before automatically dismissing it
 		 */
-		'auto_dismiss' => 5000,
+		'auto_dismiss' => 10000,
 		/**
 		 * Enables manual dismissal of notifications
 		 */
@@ -41,7 +41,9 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 		if ( 'email' === $this->notification->get( 'type' ) ) {
 			return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{LESSON_TITLE}}' );
 		}
-		return  sprintf( __( 'Congratulations! You finished %s', 'lifterlms' ), '{{LESSON_TITLE}}' );
+		$content = sprintf( __( 'Congratulations! You finished %s', 'lifterlms' ), '{{LESSON_TITLE}}' );
+		$content .= "\r\n\r\n{{COURSE_PROGRESS}}";
+		return $content;
 	}
 
 	/**
@@ -72,6 +74,8 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	 */
 	protected function set_merge_codes() {
 		return array(
+			'{{COURSE_PROGRESS}}' => __( 'Course Progress Bar', 'lifterlms' ),
+			'{{COURSE_TITLE}}' => __( 'Course Title', 'lifterlms' ),
 			'{{LESSON_TITLE}}' => __( 'Lesson Title', 'lifterlms' ),
 			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
 		);
@@ -87,6 +91,16 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	protected function set_merge_data( $code ) {
 
 		switch ( $code ) {
+
+			case '{{COURSE_PROGRESS}}':
+				$progress = $this->user->get_progress( $this->post->get( 'parent_course' ), 'course' );
+				$code = lifterlms_course_progress_bar( $progress, false, false, false );
+			break;
+
+			case '{{COURSE_TITLE}}':
+				$course = $this->post->get_course();
+				$code = $course->get( 'title' );
+			break;
 
 			case '{{LESSON_TITLE}}':
 				$code = $this->post->get( 'title' );
