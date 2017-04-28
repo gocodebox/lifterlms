@@ -18,11 +18,11 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 		 * Time in milliseconds to show a notification
 		 * before automatically dismissing it
 		 */
-		'auto_dismiss' => 0,
+		'auto_dismiss' => 5000,
 		/**
 		 * Enables manual dismissal of notifications
 		 */
-		'dismissible' => false,
+		'dismissible' => true,
 	);
 
 	/**
