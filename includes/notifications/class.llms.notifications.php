@@ -191,6 +191,7 @@ class LLMS_Notifications {
 			'course_enrollment',
 			'lesson_complete',
 			'purchase_receipt',
+			'section_complete',
 		);
 
 		foreach ( $triggers as $name ) {

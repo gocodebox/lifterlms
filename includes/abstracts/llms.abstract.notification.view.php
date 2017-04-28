@@ -228,7 +228,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		if ( $merge ) {
 			$body = $this->get_merged_string( $body );
 		}
-		return apply_filters( $this->get_filter( 'get_body' ), $body, $this );
+		return apply_filters( $this->get_filter( 'get_body' ), wpautop( $body ), $this );
 	}
 
 	/**
