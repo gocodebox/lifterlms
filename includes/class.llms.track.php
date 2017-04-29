@@ -2,7 +2,7 @@
 /**
  * LifterLMS Course Tracks
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -80,6 +80,16 @@ class LLMS_Track {
 	 */
 	public function get_permalink() {
 		return get_term_link( $this->term->term_id, $this->taxonomy );
+	}
+
+	/**
+	 * Get the track's title
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_title() {
+		return $this->term->name;
 	}
 
 }
