@@ -103,35 +103,14 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 		switch ( $type ) {
 
 			case 'basic':
-				$options[] = array(
-					'enabled' => 'yes',
-					'id' => 'student',
-					'title' => __( 'Student', 'lifterlms' ),
-				);
+				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
 			break;
 
 			case 'email':
-				$options[] = array(
-					'enabled' => 'no',
-					'id' => 'student',
-					'title' => __( 'Student', 'lifterlms' ),
-				);
-				$options[] = array(
-					'enabled' => 'no',
-					'id' => 'course_author',
-					'title' => __( 'Course Author', 'lifterlms' ),
-				);
-				$options[] = array(
-					'enabled' => 'no',
-					'id' => 'lesson_author',
-					'title' => __( 'Lesson Author', 'lifterlms' ),
-				);
-				$options[] = array(
-					'description' => __( 'Enter additional email addresses which will recieve this notification. Separate multilpe addresses with commas.', 'lifterlms' ),
-					'enabled' => 'no',
-					'id' => 'custom',
-					'title' => __( 'Additional Recipients', 'lifterlms' ),
-				);
+				$options[] = $this->get_subscriber_option_array( 'student', 'no' );
+				$options[] = $this->get_subscriber_option_array( 'lesson_author', 'no' );
+				$options[] = $this->get_subscriber_option_array( 'course_author', 'no' );
+				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 			break;
 
 		}

@@ -115,17 +115,8 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		switch ( $type ) {
 
 			case 'email':
-				$options[] = array(
-					'enabled' => 'yes',
-					'id' => 'student',
-					'title' => __( 'Student', 'lifterlms' ),
-				);
-				$options[] = array(
-					'description' => __( 'Enter additional email addresses which will recieve this notification. Separate multilpe addresses with commas.', 'lifterlms' ),
-					'enabled' => 'no',
-					'id' => 'custom',
-					'title' => __( 'Additional Recipients', 'lifterlms' ),
-				);
+				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
+				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 			break;
 
 		}

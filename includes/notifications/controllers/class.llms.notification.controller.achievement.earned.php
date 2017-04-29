@@ -94,11 +94,7 @@ class LLMS_Notification_Controller_Achievement_Earned extends LLMS_Abstract_Noti
 		switch ( $type ) {
 
 			case 'basic':
-				$options[] = array(
-					'enabled' => 'yes',
-					'id' => 'student',
-					'title' => __( 'Student', 'lifterlms' ),
-				);
+				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
 			break;
 
 		}

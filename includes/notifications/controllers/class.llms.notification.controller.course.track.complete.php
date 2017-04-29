@@ -1,19 +1,19 @@
 <?php
 /**
- * Notification Controller: Section Complete
+ * Notification Controller: Course Track Complete
  * @since    3.8.0
  * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notification_Controller {
+class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_Notification_Controller {
 
 	/**
 	 * Trigger Identifier
 	 * @var  [type]
 	 */
-	public $id = 'section_complete';
+	public $id = 'course_track_complete';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
@@ -25,22 +25,21 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 	 * Action hooks used to trigger sending of the notification
 	 * @var  array
 	 */
-	protected $action_hooks = array( 'lifterlms_section_completed' );
+	protected $action_hooks = array( 'lifterlms_course_track_completed' );
 
 	/**
-	 * Callback function called when a section is completed by a student
+	 * Callback function called when a course track is completed by a student
 	 * @param    int     $student_id  WP User ID of a LifterLMS Student
-	 * @param    int     $section_id   WP Post ID of a LifterLMS Section
+	 * @param    int     $course_track_id   WP Post ID of a LifterLMS Course
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
-	public function action_callback( $student_id = null, $section_id = null ) {
+	public function action_callback( $student_id = null, $course_track_id = null ) {
 
 		$this->user_id = $student_id;
-		$this->post_id = $section_id;
-		$this->section = llms_get_post( $section_id );
-		$this->course = $this->section->get_course();
+		$this->post_id = $course_track_id;
+		$this->track = new LLMS_Track( $course_track_id );
 
 		$this->send();
 
@@ -56,10 +55,6 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 	protected function get_subscriber( $subscriber ) {
 
 		switch ( $subscriber ) {
-
-			case 'course_author':
-				$uid = $this->course->get( 'author' );
-			break;
 
 			case 'student':
 				$uid = $this->user_id;
@@ -82,7 +77,7 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 	 * @version  3.8.0
 	 */
 	public function get_title() {
-		return __( 'Section Complete', 'lifterlms' );
+		return __( 'Course Track Complete', 'lifterlms' );
 	}
 
 	/**
@@ -104,7 +99,6 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'student', 'no' );
-				$options[] = $this->get_subscriber_option_array( 'course_author', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 			break;
 
@@ -116,4 +110,4 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 
 }
 
-return LLMS_Notification_Controller_Section_Complete::instance();
+return LLMS_Notification_Controller_Course_Track_Complete::instance();

@@ -213,8 +213,50 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		return sprintf( '%1$snotification_%2$s_', $this->option_prefix, $this->id );
 	}
 
+	/**
+	 * Retrieve get an array of subscriber options for the current notification by type
+	 * @param    string     $type    notification type [basic|email]
+	 * @return   array
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
 	public function get_subscriber_options( $type ) {
 		return apply_filters( 'llms_notification_' . $this->id . '_subscriber_options', $this->set_subscriber_options( $type ), $this );
+	}
+
+	/**
+	 * Get an array of prebuilt subscriber option settings for common subscriptions
+	 * @param    string     $id       id of the subscriber type
+	 * @param    string     $enabled  whether or not the subscription should be enabled by default [yes|no]
+	 * @return   array
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	protected function get_subscriber_option_array( $id, $enabled = 'yes' ) {
+
+		$defaults = array(
+			'student' => array(
+				'title' => __( 'Student', 'lifterlms' ),
+			),
+			'lesson_author' => array(
+				'title' => __( 'Lesson Author', 'lifterlms' ),
+			),
+			'course_author' => array(
+				'title' => __( 'Course Author', 'lifterlms' ),
+			),
+			'custom' => array(
+				'description' => __( 'Enter additional email addresses which will recieve this notification. Separate multiple addresses with commas.', 'lifterlms' ),
+				'title' => __( 'Additional Recipients', 'lifterlms' ),
+			),
+		);
+
+		if ( isset( $defaults[ $id ] ) ) {
+			$arr = $defaults[ $id ];
+			$arr['id'] = $id;
+			$arr['enabled'] = $enabled;
+			return $arr;
+		}
+
 	}
 
 	/**
