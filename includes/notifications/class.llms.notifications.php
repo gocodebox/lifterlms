@@ -189,6 +189,7 @@ class LLMS_Notifications {
 			'achievement_earned',
 			'course_complete',
 			'course_enrollment',
+			'course_track_complete',
 			'lesson_complete',
 			'purchase_receipt',
 			'section_complete',
