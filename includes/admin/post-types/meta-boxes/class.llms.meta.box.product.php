@@ -1,10 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Meta Box Product info
 *
-* @version  3.0.0
+* @since    1.0.0
+* @version  3.8.0
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 	/**
@@ -103,6 +106,13 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 	}
 
+	/**
+	 * Save product information to db
+	 * @param    int     $post_id  ID of the post
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.8.0
+	 */
 	public function save( $post_id ) {
 
 		if ( ! isset( $_POST[ $this->prefix . 'plans' ] ) ) {
@@ -162,19 +172,15 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 				$data['trial_price'] = 0;
 			}
 
-			// set checkboxes to no if not submitted
-			if ( empty( $data['featured'] ) ) {
-				$data['featured'] = 'no';
-			}
-
 			if ( empty( $data['is_free'] ) ) {
 				$data['is_free'] = 'no';
 			}
 
 			foreach ( $data as $key => $val ) {
-
 				$plan->set( $key, $val );
 			}
+
+			$visibility = $plan->set_visibility( $data['visibility'] );
 
 		}
 

@@ -41,6 +41,10 @@ class LLMS_Install {
 			'llms_update_360_set_product_visibility',
 			'llms_update_360_update_db_version',
 		),
+		'3.8.0-alpha.3' => array(
+			'llms_update_380_set_access_plan_visibility',
+			'llms_update_380_update_db_version',
+		),
 	);
 
 	/**
@@ -69,7 +73,6 @@ class LLMS_Install {
 	 * @version  3.0.0
 	 */
 	public static function check_version() {
-
 		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'lifterlms_current_version' ) !== LLMS()->version ) {
 			self::install();
 			do_action( 'lifterlms_updated' );
@@ -261,12 +264,17 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Create default LifterLMS Product Visibility Options
+	 * Create default LifterLMS Product & Access Plan Visibility Options
 	 * @return   void
 	 * @since    3.6.0
-	 * @version  3.6.0
+	 * @version  3.8.0
 	 */
 	public static function create_visibilities() {
+		foreach ( array_keys( llms_get_access_plan_visibility_options() ) as $term ) {
+			if ( ! get_term_by( 'name', $term, 'llms_access_plan_visibility' ) ) {
+				wp_insert_term( $term, 'llms_access_plan_visibility' );
+			}
+		}
 		foreach ( array_keys( llms_get_product_visibility_options() ) as $term ) {
 			if ( ! get_term_by( 'name', $term, 'llms_product_visibility' ) ) {
 				wp_insert_term( $term, 'llms_product_visibility' );

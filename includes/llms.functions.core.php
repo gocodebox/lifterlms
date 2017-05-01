@@ -108,6 +108,20 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 }
 
 /**
+ * Get a list of available access plan visibility options
+ * @return   array
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_get_access_plan_visibility_options() {
+	return apply_filters( 'lifterlms_access_plan_visibility_options', array(
+		'visible' => __( 'Visible', 'lifterlms' ),
+		'hidden' => __( 'Hidden', 'lifterlms' ),
+		'featured' => __( 'Featured', 'lifterlms' ),
+	) );
+}
+
+/**
  * Get themes natively supported by LifterLMS
  * @return array
  * @since 3.0.0

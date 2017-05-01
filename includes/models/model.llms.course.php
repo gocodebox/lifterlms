@@ -527,13 +527,13 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.8.0
 	 */
 	public function toArrayAfter( $arr ) {
 
 		$product = $this->get_product();
 		$arr['access_plans'] = array();
-		foreach ( $product->get_access_plans() as $p ) {
+		foreach ( $product->get_access_plans( false, false ) as $p ) {
 			$arr['access_plans'][] = $p->toArray();
 		}
 

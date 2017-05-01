@@ -20,6 +20,7 @@ if ( ! isset( $plan ) ) {
 
 	$id = 'llms-access-plan-' . $plan->get( 'id' );
 	$order = $plan->get( 'menu_order' );
+	$visibility = $plan->get_visibility();
 	$frequency = $plan->get( 'frequency' );
 	$period = $plan->get( 'period' );
 	$access_expiration = $plan->get( 'access_expiration' );
@@ -69,9 +70,12 @@ if ( ! isset( $plan ) ) {
 		</div>
 
 		<div class="llms-metabox-field d-1of6">
-			<label><?php _e( 'Featured', 'lifterlms' ) ?></label>
-			<input name="_llms_plans[<?php echo $order; ?>][featured]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'featured' ) : 'no' ); ?>>
-			<em><?php _e( 'Highlight this plan', 'lifterlms' ); ?></em>
+			<label><?php _e( 'Visibility', 'lifterlms' ) ?></label>
+			<select name="_llms_plans[<?php echo $order; ?>][visibility]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+				<?php foreach ( llms_get_access_plan_visibility_options() as $val => $name ) : ?>
+					<option value="<?php echo esc_attr( $val ); ?>"<?php selected( $val, ( $plan ) ? $visibility : null ); ?>><?php echo esc_attr( $name ); ?></option>
+				<?php endforeach; ?>
+			</select>
 		</div>
 
 		<div class="llms-metabox-field d-1of6">
