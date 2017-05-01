@@ -402,17 +402,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
-	 * Retrieve the registered Label of the posts current status
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function get_status_name() {
-		$obj = get_post_status_object( $this->get( 'status' ) );
-		return apply_filters( 'llms_get_' . $this->model_post_type . '_status_name', $obj->label );
-	}
-
-	/**
 	 * Retrieve the Post's post type data object
 	 * @return obj
 	 * @since  3.0.0
@@ -558,6 +547,39 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	public function get_properties() {
 		return apply_filters( 'llms_post_model_get_post_properties', $this->properties, $this );
+	}
+
+	/**
+	 * Retrieve the registered Label of the posts current status
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_status_name() {
+		$obj = get_post_status_object( $this->get( 'status' ) );
+		return apply_filters( 'llms_get_' . $this->model_post_type . '_status_name', $obj->label );
+	}
+
+	/**
+	 * Get an array of terms for a given taxonomy for the post
+	 * @param    string     $tax     taxonomy name
+	 * @param    boolean    $single  return only one term as an int, useful for taxes which
+	 *                               can only have one term (eg: visibilities and difficulties and such)
+	 * @return   mixed               when single a single term object or null
+	 *                               when not single an array of term objects
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_terms( $tax, $single = false ) {
+
+		$terms = get_the_terms( $this->get( 'id' ), $tax );
+
+		if ( $single ) {
+			return $terms ? $terms[0] : null;
+		}
+
+		return $terms ? $terms : array();
+
 	}
 
 	/**
@@ -764,6 +786,21 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		}
 
+	}
+
+	/**
+	 * Update terms for the post for a given taxonomy
+	 * @param    array      $terms   array of terms (name or ids)
+	 * @param    string     $tax     the name of the tax
+	 * @param    boolean    $append  if true, will append the terms, false will replace existing terms
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function set_terms( $terms, $tax, $append = false ) {
+		$set = wp_set_object_terms( $this->get( 'id' ), $terms, $tax, $append );
+		// wp_set_object_terms has 3 options when unsuccessful and only 1 for success
+		// an array of terms when successful, let's keep it simple...
+		return is_array( $set );
 	}
 
 	/**
