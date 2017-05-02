@@ -5,7 +5,7 @@
  * @version  3.6.2
  */
 
-if ( ! defined( 'ABSPATH' )) { exit; }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Voucher {
 
@@ -216,7 +216,9 @@ class LLMS_Voucher {
 
 		$data['updated_at'] = date( 'Y-m-d H:i:s' );
 
-		$where = array( 'id' => $data['id'] );
+		$where = array(
+			'id' => $data['id'],
+		);
 		unset( $data['id'] );
 		return $wpdb->update( $this->get_codes_table_name(), $data, $where );
 	}
@@ -235,7 +237,9 @@ class LLMS_Voucher {
 		$data['updated_at'] = date( 'Y-m-d H:i:s' );
 		$data['is_deleted'] = 1;
 
-		$where = array( 'id' => $id );
+		$where = array(
+			'id' => $id,
+		);
 		unset( $data['id'] );
 		return $wpdb->update( $this->get_codes_table_name(), $data, $where );
 	}
@@ -317,12 +321,11 @@ class LLMS_Voucher {
 				return true;
 
 			}
-
 		} else {
 
 			return $voucher ;
 
-		}
+		}// End if().
 
 	}
 
@@ -433,12 +436,12 @@ class LLMS_Voucher {
 
 		$voucher = $this->check_voucher( $code );
 
-		if ($voucher) {
+		if ( $voucher ) {
 			$this->id = $voucher->voucher_id;
 
 			$products = $this->get_products();
 
-			if ( ! empty( $products ) && in_array( $product_id, $products )) {
+			if ( ! empty( $products ) && in_array( $product_id, $products ) ) {
 				return true;
 			}
 		}
@@ -466,7 +469,7 @@ class LLMS_Voucher {
                   AND voucher_id != ' . $this->id;
 		$codes = $wpdb->get_results( $query, ARRAY_A );
 
-		if (count( $codes )) {
+		if ( count( $codes ) ) {
 			return $codes;
 		}
 
@@ -500,6 +503,8 @@ class LLMS_Voucher {
 
 		global $wpdb;
 
-		return $wpdb->delete( $this->get_product_to_voucher_table_name(), array( 'voucher_id' => $this->id ) );
+		return $wpdb->delete( $this->get_product_to_voucher_table_name(), array(
+			'voucher_id' => $this->id,
+		) );
 	}
 }

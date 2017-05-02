@@ -27,7 +27,7 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 
 		parent::output();
 
-		if ($this->field['section'] === 'achievement_meta_box') {
+		if ( $this->field['section'] === 'achievement_meta_box' ) {
 			$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' ); ?>
 			<img id="<?php echo $this->field['id']; ?>" class="llms_achievement_default_image" style="display:none" src="<?php echo $image; ?>">
 			<?php
@@ -37,8 +37,8 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 			<img id="<?php echo $this->field['id']; ?>" class="llms_certificate_default_image" style="display:none" src="<?php echo $image; ?>">
 			<?php
 			$imgclass = 'llms_certificate_image';
-		} //Check existing field and if numeric
-		if (is_numeric( $this->meta )) {
+		} // End if().
+		if ( is_numeric( $this->meta ) ) {
 			$image = wp_get_attachment_image_src( $this->meta, 'medium' );
 			$image = $image[0];
 		} ?>

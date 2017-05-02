@@ -91,10 +91,8 @@ class LLMS_Shortcode_My_Account {
 					llms_get_template( 'global/form-registration.php' );
 
 				}
-
 			}
-
-		} // If user is logged in, display the correct page
+		} // End if().
 		else {
 
 			$tabs = LLMS_Student_Dashboard::get_tabs();
@@ -112,7 +110,6 @@ class LLMS_Shortcode_My_Account {
 				call_user_func( $tabs[ $current_tab ]['content'] );
 
 			}
-
 		}
 
 		do_action( 'lifterlms_after_student_dashboard' );

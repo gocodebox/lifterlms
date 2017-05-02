@@ -381,9 +381,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 							$return .= '<br><em>End Date</em>: ' . date( get_option( 'date_format' , 'Y-m-d' ), $end_date );
 						}
 					}
-
 				}
-
 			} else {
 
 				return 'No memberships';
@@ -394,7 +392,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 
 		default:
 			$return = $val;
-	}
+	}// End switch().
 
 	return $return;
 

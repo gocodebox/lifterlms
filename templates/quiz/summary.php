@@ -23,7 +23,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 		<?php
 
-		foreach ( (array) $last_attempt['questions'] as $key => $question) {
+		foreach ( (array) $last_attempt['questions'] as $key => $question ) {
 
 			$background = $question['correct'] ? 'right' : 'wrong';
 
@@ -81,14 +81,14 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 							<?php
 
-							if ($quiz->show_correct_answer()) {
+							if ( $quiz->show_correct_answer() ) {
 								echo '<li><span class="llms-quiz-summary-label correct-answer">';
 									echo sprintf( __( 'Correct answer: %s', 'lifterlms' ), wp_kses_post( $correct_option['option_text'] ) );
 								echo '</span></li>';
 							}
 
-							if ($question['correct']) {
-								if ($quiz->show_description_right_answer()) {
+							if ( $question['correct'] ) {
+								if ( $quiz->show_description_right_answer() ) {
 									if ( is_array( $answer ) && array_key_exists( 'option_description', $answer ) ) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
 											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $answer['option_description'] ) )
@@ -96,7 +96,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 									}
 								}
 							} else {
-								if ($quiz->show_description_wrong_answer()) {
+								if ( $quiz->show_description_wrong_answer() ) {
 									if ( is_array( $answer ) && array_key_exists( 'option_description', $answer ) ) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
 											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $answer['option_description'] ) )
@@ -114,7 +114,8 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 			</div>
 
-		<?php } ?>
+		<?php }// End foreach().
+	?>
 
 		</div>
 

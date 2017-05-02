@@ -115,7 +115,9 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					$value = $last . ', ' . $first;
 				}
 
-				$url = LLMS_Admin_Reporting::get_current_tab_url( array( 'student_id' => $student->get_id() ) );
+				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
+					'student_id' => $student->get_id(),
+				) );
 				$value = '<a href="' . esc_url( $url ) . '">' . $value . '</a>';
 
 			break;
@@ -132,7 +134,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}
+		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $user );
 
@@ -166,7 +168,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			} else {
 				$page++;
 			}
-
 		}
 
 		return $r;

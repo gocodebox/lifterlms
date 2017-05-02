@@ -39,7 +39,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		// can't refund failed or pending transactions
 		if ( 'llms-txn-failed' === $status || 'llms-txn-pending' === $status ) {
 			return false;
-		} // if we've already refunded the full amount, we can't refund anymore
+		} // End if().
 		elseif ( $this->get_refundable_amount( array(), 'float' ) <= 0 ) {
 			return false;
 		}
@@ -232,7 +232,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 			return $refund_id;
 
-		} // if we actually have a refund
+		} // End if().
 		elseif ( is_string( $refund_id ) ) {
 
 			// filter the note before recording it

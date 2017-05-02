@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.7.0
+ * @version 3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -132,7 +132,6 @@ class LLMS_Student {
 				$this->enroll( $course_id, 'membership_' . $membership_id );
 
 			}
-
 		}
 
 	}
@@ -159,9 +158,7 @@ class LLMS_Student {
 				if ( ! $attempt || $attempt == $data['attempt'] ) {
 					unset( $quizzes[ $i ] );
 				}
-
 			}
-
 		}
 
 		// reindex
@@ -211,7 +208,7 @@ class LLMS_Student {
 
 			$insert = $this->insert_status_postmeta( $product_id, 'enrolled', $trigger );
 
-		} // otherwise insert all enrollment postmeta (full enrollment)
+		} // End if().
 		else {
 
 			$insert = $this->insert_enrollment_postmeta( $product_id, $trigger );
@@ -291,7 +288,6 @@ class LLMS_Student {
 				if ( empty( $best['grade'] ) || $attempt['grade'] >= $best['grade'] ) {
 					$best = $attempt;
 				}
-
 			}
 
 			return $best;
@@ -334,7 +330,6 @@ class LLMS_Student {
 					return get_post( $id );
 				}
 			}
-
 		}
 
 		// couldn't find via enrollment trigger, do a WP_Query
@@ -569,7 +564,7 @@ class LLMS_Student {
 	 * @since    ??
 	 * @version  ??
 	 */
-	public function get_completion_date( $object_id, $format = 'F d, Y'  ) {
+	public function get_completion_date( $object_id, $format = 'F d, Y' ) {
 
 		global $wpdb;
 
@@ -713,7 +708,6 @@ class LLMS_Student {
 					if ( is_numeric( $grade ) ) {
 						array_push( $grades, $grade );
 					}
-
 				}
 
 				$taken = count( $grades );
@@ -732,7 +726,6 @@ class LLMS_Student {
 					} else {
 						$grade = $total / $taken;
 					}
-
 				}
 
 			break;
@@ -753,12 +746,11 @@ class LLMS_Student {
 						$grade = $q->get_best_grade( $this->get_id() );
 
 					}
-
 				}
 
 			break;
 
-		}
+		}// End switch().
 
 		if ( is_numeric( $grade ) ) {
 
@@ -794,7 +786,6 @@ class LLMS_Student {
 			if ( is_numeric( $grade ) ) {
 				$grade = floatval( $grade );
 			}
-
 		}
 
 		// cache disabled or no cached data available
@@ -817,11 +808,11 @@ class LLMS_Student {
 				if ( is_numeric( $g ) ) {
 					array_push( $grades, $g );
 				}
-
 			}
 
 			// if we have at least one grade
-			if ( $count = count( $grades ) ) {
+			$count = count( $grades );
+			if ( $count ) {
 
 				$grade = round( array_sum( $grades ) / $count, 2 );
 
@@ -834,7 +825,7 @@ class LLMS_Student {
 			// cache the grade
 			$this->set( 'overall_grade', $grade );
 
-		}
+		}// End if().
 
 		return apply_filters( 'llms_student_get_overall_grade', $grade, $this );
 
@@ -862,7 +853,6 @@ class LLMS_Student {
 			if ( is_numeric( $progress ) ) {
 				$progress = floatval( $progress );
 			}
-
 		}
 
 		// cache disabled or no cached data available
@@ -880,7 +870,8 @@ class LLMS_Student {
 				array_push( $progresses, $this->get_progress( $course_id, 'course' ) );
 			}
 
-			if ( $count = count( $progresses ) ) {
+			$count = count( $progresses );
+			if ( $count ) {
 
 				$progress = round( array_sum( $progresses ) / $count, 2 );
 
@@ -1018,7 +1009,6 @@ class LLMS_Student {
 				$orders[ $post->ID ] = new LLMS_Order( $post );
 
 			}
-
 		}
 
 		return array(
@@ -1053,7 +1043,6 @@ class LLMS_Student {
 					$completed++;
 				}
 			}
-
 		} elseif ( 'course_track' === $type ) {
 
 			$track = new LLMS_Track( $object_id );
@@ -1064,7 +1053,6 @@ class LLMS_Student {
 					$completed++;
 				}
 			}
-
 		} elseif ( 'section' === $type ) {
 
 			$section = new LLMS_Section( $object_id );
@@ -1075,7 +1063,6 @@ class LLMS_Student {
 					$completed++;
 				}
 			}
-
 		}
 
 		return ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
@@ -1111,7 +1098,6 @@ class LLMS_Student {
 				if ( $lesson && $lesson != $data['assoc_lesson'] ) {
 					unset( $quizzes[ $i ] );
 				}
-
 			}
 
 			// reindex
@@ -1163,7 +1149,6 @@ class LLMS_Student {
 				return ( $order->has_access() && $enrolled );
 
 			}
-
 		}
 
 		// no order found
@@ -1256,7 +1241,6 @@ class LLMS_Student {
 				return false;
 
 			}
-
 		}
 
 		return true;
@@ -1312,7 +1296,6 @@ class LLMS_Student {
 				return false;
 
 			}
-
 		}
 
 		return true;
@@ -1357,7 +1340,6 @@ class LLMS_Student {
 				return false;
 
 			}
-
 		}
 
 		return true;
@@ -1403,7 +1385,6 @@ class LLMS_Student {
 				);
 
 			}
-
 		}
 
 		if ( ! $update ) {
@@ -1453,7 +1434,7 @@ class LLMS_Student {
 		// can only be marked compelete in the following post types
 		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
 			$object = llms_get_post( $object_id );
-		} // tracks
+		} // End if().
 		elseif ( 'course_track' === $object_type ) {
 			$object = get_term( $object_id, 'course_track' );
 		} // i said no
@@ -1511,7 +1492,6 @@ class LLMS_Student {
 					$this->mark_complete( $pid, $parent_type, $trigger );
 
 				}
-
 			}
 
 			do_action( 'after_llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
@@ -1544,7 +1524,7 @@ class LLMS_Student {
 		// can only be marked incompelete in the following post types
 		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
 			$object = llms_get_post( $object_id );
-		} // tracks
+		} // End if().
 		elseif ( 'course_track' === $object_type ) {
 			$object = get_term( $object_id, 'course_track' );
 		} // i said no
@@ -1602,7 +1582,6 @@ class LLMS_Student {
 					$this->mark_incomplete( $pid, $parent_type, $trigger );
 
 				}
-
 			}
 
 			return true;
@@ -1619,13 +1598,14 @@ class LLMS_Student {
 	 * @param    string     $status         status to update the removal to
 	 * @return   void
 	 * @since    2.7
-	 * @version  3.1.4
+	 * @version  3.7.5
 	 */
 	private function remove_membership_level( $membership_id, $status = 'expired' ) {
 
 		// remove the user from the membership level
 		$membership_levels = $this->get_membership_levels();
-		if ( ( $key = array_search( $membership_id, $membership_levels ) ) !== false) {
+		$key = array_search( $membership_id, $membership_levels );
+		if ( false !== $key ) {
 			unset( $membership_levels[ $key ] );
 		}
 		update_user_meta( $this->get_id(), '_llms_restricted_levels', $membership_levels );
@@ -1645,7 +1625,6 @@ class LLMS_Student {
 			foreach ( $courses  as $course_id ) {
 				$this->unenroll( $course_id, 'membership_' . $membership_id, $status );
 			}
-
 		}
 
 	}
@@ -1678,23 +1657,22 @@ class LLMS_Student {
 
 			$update = true;
 
-		} // else we'll check out the trigger
+		} // End if().
 		else {
 
 			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
 
 			// no enrollment trigger exists b/c pre 3.0.0 enrollment, unenroll the user
-			if ( ! $enrollment_trigger  ) {
+			if ( ! $enrollment_trigger ) {
 
 				$update = apply_filters( 'lifterlms_legacy_unenrollment_action', true );
 
-			} // trigger matches the enrollment trigger so unenroll
+			} // End if().
 			elseif ( $enrollment_trigger == $trigger ) {
 
 				$update = true;
 
 			}
-
 		}
 
 		// update if we can
@@ -1722,7 +1700,6 @@ class LLMS_Student {
 				return true;
 
 			}
-
 		}
 
 		// return false if we didn't updat

@@ -15,7 +15,7 @@ $achievements = $user->get_user_achievements( $count, $user_id );
 
 	<?php do_action( 'lifterlms_before_achievements' ); ?>
 
-	<?php if ($achievements) : ?>
+	<?php if ( $achievements ) : ?>
 		<ul class="listing-achievements">
 			<?php foreach ( $achievements as $achievement ) : ?>
 				<li class="achievement-item">

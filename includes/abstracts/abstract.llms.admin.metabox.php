@@ -323,7 +323,7 @@ abstract class LLMS_Admin_Metabox {
 
 							$val = $_POST[ $field['id'] ];
 
-						} // checkboxes with no post data are not checked
+						} // End if().
 						elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
 
 							$val = '';
@@ -340,11 +340,9 @@ abstract class LLMS_Admin_Metabox {
 						unset( $val );
 
 					}
-
 				}
-
 			}
-		}
+		}// End foreach().
 
 	}
 

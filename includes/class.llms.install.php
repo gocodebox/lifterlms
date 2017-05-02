@@ -88,11 +88,11 @@ class LLMS_Install {
 	 */
 	public static function create_cron_jobs() {
 
-		if ( ! wp_next_scheduled( 'lifterlms_cleanup_sessions' )) {
+		if ( ! wp_next_scheduled( 'lifterlms_cleanup_sessions' ) ) {
 			wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
 		}
 
-		if ( ! wp_next_scheduled( 'llms_send_tracking_data' )) {
+		if ( ! wp_next_scheduled( 'llms_send_tracking_data' ) ) {
 			wp_schedule_event( time(), apply_filters( 'llms_tracker_schedule_interval', 'daily' ), 'llms_send_tracking_data' );
 		}
 
@@ -114,7 +114,6 @@ class LLMS_Install {
 				wp_insert_term( $name, 'course_difficulty' );
 
 			}
-
 		}
 
 	}
@@ -123,7 +122,7 @@ class LLMS_Install {
 	 * Create files needed by LifterLMS
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.5
 	 */
 	public static function create_files() {
 
@@ -142,7 +141,8 @@ class LLMS_Install {
 		);
 		foreach ( $files as $file ) {
 			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
-				if ( $file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ) ) {
+				$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' );
+				if ( $file_handle ) {
 					fwrite( $file_handle, $file['content'] );
 					fclose( $file_handle );
 				}
@@ -304,9 +304,7 @@ class LLMS_Install {
 					$queued = true;
 
 				}
-
 			}
-
 		}
 
 		if ( $queued ) {
@@ -363,7 +361,6 @@ class LLMS_Install {
 			if ( ! empty( $wpdb->collate ) ) {
 				$collate .= " COLLATE $wpdb->collate";
 			}
-
 		}
 
 		$tables = "
@@ -509,12 +506,12 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 		foreach ( self::get_difficulties() as $name ) {
 
-			if ( $term = get_term_by( 'name', $name, 'course_difficulty' ) ) {
+			$term = get_term_by( 'name', $name, 'course_difficulty' );
+			if ( $term ) {
 
 				wp_delete_term( $term->term_id, 'course_difficulty' );
 
 			}
-
 		}
 
 	}
@@ -596,7 +593,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 					'template' => 'admin/notices/db-updating.php',
 				) );
 
-			} // update needs to be run
+			} // End if().
 			else {
 
 				LLMS_Admin_Notices::add_notice( 'bg-db-update', array(
@@ -605,7 +602,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 				) );
 
 			}
-
 		} else {
 
 			LLMS_Admin_Notices::add_notice( 'bg-db-update', __( 'The LifterLMS database update is complete.', 'lifterlms' ), array(
@@ -663,7 +659,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 				exit;
 
 			}
-
 		}
 
 	}

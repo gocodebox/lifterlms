@@ -3,7 +3,7 @@
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  * @since    3.5.0
- * @version  3.5.0
+ * @version  3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -47,7 +47,6 @@ class LLMS_Admin_AddOns {
 			foreach ( $this->data['sections'] as $section ) {
 				$content = array_merge( $content, $section );
 			}
-
 		} else {
 
 			$content = $this->data['sections'][ $sec ];
@@ -198,7 +197,7 @@ class LLMS_Admin_AddOns {
 	 * Output the navigation bar
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.7.5
 	 */
 	private function output_navigation() {
 		?>
@@ -208,7 +207,8 @@ class LLMS_Admin_AddOns {
 
 				<?php $active = ( 'all' === $this->get_current_section() ) ? ' llms-active' : ''; ?>
 				<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php echo $this->get_section_title( 'all' ); ?></a></li>
-				<?php foreach ( array_keys( $this->data['sections'] ) as $name ) : $active = ( $this->get_current_section() === $name ) ? ' llms-active' : ''; ?>
+				<?php foreach ( array_keys( $this->data['sections'] ) as $name ) :
+					$active = ( $this->get_current_section() === $name ) ? ' llms-active' : ''; ?>
 					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=' . $name ) ); ?>"><?php echo $this->get_section_title( $name ); ?></a></li>
 				<?php endforeach; ?>
 

@@ -257,8 +257,7 @@ class LLMS_Admin_Notices {
 			if ( isset( $notice['flash'] ) && $notice['flash'] ) {
 				self::delete_notice( $notice_id, 'delete' );
 			}
-
-		}
+		}// End if().
 
 	}
 

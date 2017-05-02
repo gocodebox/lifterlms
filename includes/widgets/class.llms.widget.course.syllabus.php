@@ -16,7 +16,9 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 		WP_Widget::__construct(
 			'course_syllabus',
 			__( 'Course Syllabus', 'lifterlms' ),
-			array( 'description' => __( 'Displays All Course lessons on Course or Lesson page', 'lifterlms' ) )
+			array(
+				'description' => __( 'Displays All Course lessons on Course or Lesson page', 'lifterlms' ),
+			)
 		);
 
 	}

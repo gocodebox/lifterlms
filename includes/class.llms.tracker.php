@@ -48,7 +48,6 @@ class LLMS_Tracker {
 			if ( $last_send && $last_send > apply_filters( 'llms_tracker_send_interval', strtotime( '-1 week' ) ) ) {
 				return;
 			}
-
 		}
 
 		// record a last send time
@@ -56,7 +55,9 @@ class LLMS_Tracker {
 
 		$r = wp_remote_post( self::API_URL, array(
 			// 'sslverify'   => false,
-			'body'        => array( 'data' => json_encode( LLMS_Data::get_data( 'tracker' ) ) ),
+			'body'        => array(
+				'data' => json_encode( LLMS_Data::get_data( 'tracker' ) ),
+			),
 			'cookies'     => array(),
 			'headers'     => array(
 				'user-agent' => 'LifterLMS_Tracker/' . md5( esc_url( home_url( '/' ) ) ) . ';',

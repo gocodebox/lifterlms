@@ -211,7 +211,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				$html = '<span class="llms-lesson-complete"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
 
 			}
-
 		} elseif ( $this->is_free() ) {
 
 			$html = '<span class="llms-icon-free">' . __( 'FREE', 'lifterlms' ) . '</span>';
@@ -440,7 +439,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				$updated_values[ $key ] = $updated_value;
 
 			}
-
 		}
 
 		return $updated_values;
@@ -617,7 +615,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			} else {
 				return false;
 			}
-		}
+		}// End if().
 	}
 
 	/**
@@ -667,7 +665,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			$current_position = $cursection->get_order();
 			$previous_position = $current_position - 1;
 
-			if ($previous_position != 0) {
+			if ( $previous_position != 0 ) {
 				$args = array(
 					'post_type' 		=> 'section',
 					'posts_per_page'	=> 500,
@@ -690,7 +688,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				);
 				$sections = get_posts( $args );
 
-				if ($sections) {
+				if ( $sections ) {
 					$newsection = new LLMS_Section( $sections[0]->ID );
 					$lessons = $newsection->get_children_lessons();
 					return $lessons[ count( $lessons ) -1 ]->ID;
@@ -698,7 +696,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 					return false;
 				}
 			}
-		}
+		}// End if().
 	}
 
 }

@@ -31,14 +31,14 @@ class LLMS_Meta_Box_Expiration {
 		ob_start(); ?>
 
 		<table class="form-table">
-		<?php foreach ($expiration_meta_fields as $field) {
+		<?php foreach ( $expiration_meta_fields as $field ) {
 
 				$meta = get_post_meta( $post->ID, $field['id'], true ); ?>
 
 				<tr>
 					<th><label for="<?php echo $field['id']; ?>"><?php echo $field['label']; ?></label></th>
 					<td>
-					<?php switch ($field['type']) {
+					<?php switch ( $field['type'] ) {
 						// text
 						case 'text':?>
 						
@@ -65,8 +65,8 @@ class LLMS_Meta_Box_Expiration {
 
 							<select name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>">
 							<option value="" disabled selected><?php _e( 'Please select an option...', 'lifterlms' ); ?></option>
-							<?php foreach ($field['options'] as $id => $option) :
-								if ($meta == $id) : ?>
+							<?php foreach ( $field['options'] as $id => $option ) :
+								if ( $meta == $id ) : ?>
 								<option value="<?php echo $id; ?>" selected><?php echo $option; ?></option>
 							<?php else : ?>
 							<option value="<?php echo $id; ?>"><?php echo $option; ?></option>
@@ -82,7 +82,7 @@ class LLMS_Meta_Box_Expiration {
 							$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_coupon.png' ); ?>
 							<img id="<?php echo $field['id']; ?>" class="llms_achievement_default_image" style="display:none" src="<?php echo $image; ?>">
 							<?php //Check existing field and if numeric
-							if (is_numeric( $meta )) {
+							if ( is_numeric( $meta ) ) {
 								$image = wp_get_attachment_image_src( $meta, 'medium' );
 								$image = $image[0];
 							} ?>
@@ -96,7 +96,7 @@ class LLMS_Meta_Box_Expiration {
 						// color
 						case 'color': ?>
 							<?php //Check if Values and If None, then use default
-							if ( ! $meta) {
+							if ( ! $meta ) {
 								$meta = $field['value'];
 							}
 							?>
@@ -105,14 +105,15 @@ class LLMS_Meta_Box_Expiration {
 						
 					<?php break;
 
-} //end switch
+} // End switch().
 
 					?>
 				</td></tr>
 		<?php
 			//endif; //end if in section check
 
-} // end foreach ?>
+} // End foreach().
+?>
 			</table>	
 	<?php
 	echo ob_get_clean();
@@ -150,7 +151,7 @@ class LLMS_Meta_Box_Expiration {
 			),
 		) );
 
-		if (has_filter( 'llms_meta_fields' )) {
+		if ( has_filter( 'llms_meta_fields' ) ) {
 			$expiration_meta_fields = apply_filters( 'llms_meta_fields', $expiration_meta_fields );
 		}
 
@@ -176,13 +177,13 @@ class LLMS_Meta_Box_Expiration {
 		$period = $prefix . 'expiration_period';
 
 		//upate interval textbox
-		if (isset( $_POST[ $interval ] )) {
+		if ( isset( $_POST[ $interval ] ) ) {
 			$update_interval = llms_clean( $_POST[ $interval ] );
 			update_post_meta( $post_id, $interval, ( $update_interval === '' ) ? '' : $update_interval );
 		}
 
 		//update period select
-		if (isset( $_POST[ $period ] )) {
+		if ( isset( $_POST[ $period ] ) ) {
 			$update_period = llms_clean( $_POST[ $period ] );
 			update_post_meta( $post_id, $period, ( $update_period === '' ) ? '' : $update_period );
 		}

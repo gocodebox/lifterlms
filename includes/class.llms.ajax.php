@@ -64,7 +64,6 @@ class LLMS_AJAX {
 			} else {
 				$request[ $key ] = llms_clean( $value );
 			}
-
 		}
 
 		return $request;
@@ -109,7 +108,7 @@ class LLMS_AJAX {
 
 		$comment = '';
 
-		if (isset( $_POST['comment'] )) {
+		if ( isset( $_POST['comment'] ) ) {
 			$comment = filter_var( $_POST['comment'], FILTER_SANITIZE_STRING );
 		}
 
@@ -125,7 +124,7 @@ class LLMS_AJAX {
 
 		$post_id = 0;
 
-		if (isset( $_POST['post_id'] )) {
+		if ( isset( $_POST['post_id'] ) ) {
 			$post_id = absint( filter_var( $_POST['post_id'], FILTER_SANITIZE_NUMBER_INT ) );
 		}
 
@@ -233,9 +232,9 @@ class LLMS_AJAX {
 
 		$options = array();
 
-		if ( ! empty( $lessons )) {
+		if ( ! empty( $lessons ) ) {
 
-			foreach ($lessons as $key => $value) {
+			foreach ( $lessons as $key => $value ) {
 
 				//get parent course if assigned
 				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
@@ -252,7 +251,6 @@ class LLMS_AJAX {
 				);
 
 			}
-
 		}
 
 		echo json_encode( $options );
@@ -281,9 +279,9 @@ class LLMS_AJAX {
 
 		$options = array();
 
-		if ( ! empty( $sections )) {
+		if ( ! empty( $sections ) ) {
 
-			foreach ($sections as $key => $value) {
+			foreach ( $sections as $key => $value ) {
 
 				//get parent course if assigned
 				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
@@ -300,7 +298,6 @@ class LLMS_AJAX {
 				);
 
 			}
-
 		}
 
 		echo json_encode( $options );
@@ -359,11 +356,13 @@ class LLMS_AJAX {
 	 * @return array
 	 */
 	public function get_course_tracks() {
-		$trackslist = get_terms( 'course_track',array( 'hide_empty' => '0' ) );
+		$trackslist = get_terms( 'course_track',array(
+			'hide_empty' => '0',
+		) );
 
 		$tracks = array();
 
-		foreach ((array) $trackslist as $num => $track) {
+		foreach ( (array) $trackslist as $num => $track ) {
 			$tracks[] = array(
 				'ID' 		 => $track->term_id,
 				'post_title' => $track->name,
@@ -398,9 +397,9 @@ class LLMS_AJAX {
 		);
 		$postslist = get_posts( $args );
 
-		if ( ! empty( $postslist )) {
+		if ( ! empty( $postslist ) ) {
 
-			foreach ($postslist as $key => $value) {
+			foreach ( $postslist as $key => $value ) {
 				$value->edit_url = get_edit_post_link( $value->ID );
 			}
 
@@ -447,9 +446,9 @@ class LLMS_AJAX {
 		);
 		$postslist = get_posts( $args );
 
-		if ( ! empty( $postslist )) {
+		if ( ! empty( $postslist ) ) {
 
-			foreach ($postslist as $key => $value) {
+			foreach ( $postslist as $key => $value ) {
 				$value->edit_url = get_edit_post_link( $value->ID, false );
 			}
 
@@ -500,7 +499,7 @@ class LLMS_AJAX {
 		);
 		$postslist = get_posts( $args );
 
-		foreach ($postslist as $key => $value) {
+		foreach ( $postslist as $key => $value ) {
 			$value->edit_url = get_edit_post_link( $value->ID );
 		}
 
@@ -586,13 +585,13 @@ class LLMS_AJAX {
 		$post_id  = $_REQUEST['post_id'];
 
 		// Parse section id and create new array for comparison.
-		function parse_new_sections ( $new_sections_array ) {
+		function parse_new_sections( $new_sections_array ) {
 			$array = array();
 
-		    foreach ($new_sections_array as $key => $value ) {
-				if (is_array( $value ) ) {
-					foreach ($value as $keys => $values) {
-						if ($keys === 'section_id') {
+		    foreach ( $new_sections_array as $key => $value ) {
+				if ( is_array( $value ) ) {
+					foreach ( $value as $keys => $values ) {
+						if ( $keys === 'section_id' ) {
 							array_push( $array, $values );
 						}
 					}
@@ -603,12 +602,12 @@ class LLMS_AJAX {
 		}
 
 		// Parse section ids returned from DB and create new array for comparison.
-		function parse_current_sections ( $current_sections_array ) {
+		function parse_current_sections( $current_sections_array ) {
 		    $array = array();
 
-		    foreach ($current_sections_array[0] as $key => $value ) {
-		    	foreach ($value as $keys => $values ) {
-		    		if ($keys == 'section_id') {
+		    foreach ( $current_sections_array[0] as $key => $value ) {
+		    	foreach ( $value as $keys => $values ) {
+		    		if ( $keys == 'section_id' ) {
 						array_push( $array, $values );
 		    		}
 		    	}
@@ -655,7 +654,7 @@ class LLMS_AJAX {
 			$result_array = array_intersect_assoc( $new_array, $old_array );
 
 			$new_array_duplicates = array_count_values( $result_array );
-			if (array_has_dupes( $new_array )) {
+			if ( array_has_dupes( $new_array ) ) {
 				$success = 'no';
 			} else {
 				update_post_meta( $_REQUEST['post_id'], '_sections', ( $_REQUEST['sections'] === '' ) ? '' : $_REQUEST['sections'] );
@@ -684,9 +683,9 @@ class LLMS_AJAX {
 					$ols_query = new WP_Query( $ols_args );
 
 					while ( $ols_query->have_posts() ) : $ols_query->the_post();
-						if ($section_query->post->ID) {
-							foreach ($new_sections_array as $key => $value) {
-								if ($section_query->post->ID == $value['section_id']) {
+						if ( $section_query->post->ID ) {
+							foreach ( $new_sections_array as $key => $value ) {
+								if ( $section_query->post->ID == $value['section_id'] ) {
 									delete_post_meta( $ols_query->post->ID, '_llms_parent_section', $section_query->post->ID );
 								}
 							}
@@ -694,14 +693,14 @@ class LLMS_AJAX {
 					endwhile;
 					//wp_reset_postdata();
 
-					if ($post_id) {
+					if ( $post_id ) {
 						delete_post_meta( $section_query->post->ID, '_llms_parent_course', $post_id );
 					}
 				endwhile;
 				wp_reset_postdata();
 
 				//find all sections that are currently assigned to the course
-				foreach ($_REQUEST['sections'] as $key => $value) {
+				foreach ( $_REQUEST['sections'] as $key => $value ) {
 					//update _parent_course for section ids
 					update_post_meta( $value['section_id'], '_llms_parent_course', $post_id );
 				}
@@ -717,13 +716,13 @@ class LLMS_AJAX {
 				$rd_query = new WP_Query( $rd_args );
 
 				while ( $rd_query->have_posts() ) : $rd_query->the_post();
-					if ($post_id) {
+					if ( $post_id ) {
 						delete_post_meta( $rd_query->post->ID, '_llms_parent_course', $post_id );
 					}
 				endwhile;
 				wp_reset_postdata();
 
-				foreach ($_REQUEST['sections'] as $key => $value) {
+				foreach ( $_REQUEST['sections'] as $key => $value ) {
 
 					$ls_args = array(
 						'post_type' => 'lesson',
@@ -734,19 +733,19 @@ class LLMS_AJAX {
 					$ls_query = new WP_Query( $ls_args );
 
 					while ( $ls_query->have_posts() ) : $ls_query->the_post();
-						if ($value['section_id']) {
+						if ( $value['section_id'] ) {
 							delete_post_meta( $ls_query->post->ID, '_llms_parent_section', $value['section_id'] );
 						}
 					endwhile;
 					wp_reset_postdata();
 
-					foreach ($value['lessons'] as $keys => $values) {
+					foreach ( $value['lessons'] as $keys => $values ) {
 						update_post_meta( $values['lesson_id'], '_llms_parent_section', $value['section_id'] );
 						update_post_meta( $values['lesson_id'], '_llms_parent_course', $post_id );
 					}
 				}
-			}
-		}
+			}// End if().
+		}// End if().
 
 		//echo json_encode($lesson_ids);
 		die();
@@ -815,13 +814,13 @@ class LLMS_AJAX {
 
 		//if message exists then set message
 		$message = '';
-		if (array_key_exists( 'message', $next_step ) ) {
+		if ( array_key_exists( 'message', $next_step ) ) {
 			$message = $next_step['message'];
 		}
 
 		//if redirect exists set redirect
 		$redirect = '';
-		if (array_key_exists( 'redirect', $next_step ) ) {
+		if ( array_key_exists( 'redirect', $next_step ) ) {
 			$redirect = $next_step['redirect'];
 		}
 
@@ -893,13 +892,13 @@ class LLMS_AJAX {
 
 		//if message exists then set message
 		$message = '';
-		if (array_key_exists( 'message', $next_step ) ) {
+		if ( array_key_exists( 'message', $next_step ) ) {
 			$message = $next_step['message'];
 		}
 
 		//if redirect exists set redirect
 		$redirect = '';
-		if (array_key_exists( 'redirect', $next_step ) ) {
+		if ( array_key_exists( 'redirect', $next_step ) ) {
 			$redirect = $next_step['redirect'];
 		}
 
@@ -937,7 +936,7 @@ class LLMS_AJAX {
 
 		$users_arr = array();
 
-		foreach ($all_users as $user) {
+		foreach ( $all_users as $user ) {
 			$temp['id'] = $user->ID;
 			$temp['name'] = $user->display_name . ' (' . $user->user_email . ')';
 			$users_arr[] = $temp;
@@ -977,7 +976,7 @@ class LLMS_AJAX {
 
 		$users_arr = array();
 
-		foreach ($all_users as $user) {
+		foreach ( $all_users as $user ) {
 			$temp['id'] = $user->ID;
 			$temp['name'] = $user->display_name . ' (' . $user->user_email . ')';
 			$users_arr[] = $temp;
@@ -1009,7 +1008,7 @@ class LLMS_AJAX {
 
 		$users_arr = array();
 
-		foreach ($all_users as $user) {
+		foreach ( $all_users as $user ) {
 			$users_arr[] = $user->ID;
 		}
 

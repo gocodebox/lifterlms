@@ -30,11 +30,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 				<span class="price-sale"><?php echo $plan->get_price( 'sale_price' ); ?></span>
 			<?php endif; ?>
 		<?php endif; ?>
-		<?php if ( $schedule = $plan->get_schedule_details() ) : ?>
+		<?php $schedule = $plan->get_schedule_details();
+		if ( $schedule ) : ?>
 			<?php echo $schedule; ?>
 		<?php endif; ?>
 	</li>
-	<?php if ( $expires = $plan->get_expiration_details() ) : ?>
+	<?php $expires = $plan->get_expiration_details();
+	if ( $expires ) : ?>
 		<li><span class="llms-label"><?php _e( 'Access', 'lifterlms' ); ?>:</span> <?php echo $expires; ?></li>
 	<?php endif; ?>
 </ul>

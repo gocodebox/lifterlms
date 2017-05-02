@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' )) { exit; }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Meta Box Voucher Export
@@ -21,7 +21,7 @@ class LLMS_Meta_Box_Voucher_Export {
 	public static function output( $post ) {
 
 		global $post;
-		if ($post->post_status !== 'publish') {
+		if ( $post->post_status !== 'publish' ) {
 			_e( 'You need to publish this post before you can generate a CSV.', 'lifterlms' );
 			return;
 		}
@@ -60,14 +60,14 @@ class LLMS_Meta_Box_Voucher_Export {
 
 	public static function export() {
 
-		if (empty( $_POST['llms_generate_export'] ) || empty( $_POST['lifterlms_export_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_export_nonce'], 'lifterlms_csv_export_data' )) {
+		if ( empty( $_POST['llms_generate_export'] ) || empty( $_POST['lifterlms_export_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_export_nonce'], 'lifterlms_csv_export_data' ) ) {
 			return false;
 		}
 
 		$type = ( isset( $_POST['llms_voucher_export_type'] ) ) ? $_POST['llms_voucher_export_type'] : false;
-		if (isset( $type ) && ! empty( $type )) {
+		if ( isset( $type ) && ! empty( $type ) ) {
 
-			if ($type === 'vouchers' || $type === 'redeemed') {
+			if ( $type === 'vouchers' || $type === 'redeemed' ) {
 
 				// export CSV
 
@@ -77,7 +77,7 @@ class LLMS_Meta_Box_Voucher_Export {
 				global $post;
 				$voucher = new LLMS_Voucher( $post->ID );
 
-				switch ($type) {
+				switch ( $type ) {
 					case 'vouchers':
 
 						$voucher = new LLMS_Voucher( $post->ID );
@@ -133,19 +133,19 @@ class LLMS_Meta_Box_Voucher_Export {
 						$file_name = 'redeemed_codes.csv';
 
 					break;
-				}
+				}// End switch().
 
 				$send_email = isset( $_POST['llms_voucher_export_send_email'] ) ? $_POST['llms_voucher_export_send_email'] : false;
 
-				if (isset( $send_email ) && ! empty( $send_email ) && $send_email == true) {
+				if ( isset( $send_email ) && ! empty( $send_email ) && $send_email == true ) {
 
 					// send email
 					$email_text = trim( $_POST['llms_voucher_export_email'] );
-					if (isset( $email_text ) && ! empty( $email_text )) {
+					if ( isset( $email_text ) && ! empty( $email_text ) ) {
 
 						$emails = explode( ',', $email_text );
 
-						if ( ! empty( $emails )) {
+						if ( ! empty( $emails ) ) {
 
 							$voucher = new LLMS_Voucher( $post->ID );
 
@@ -157,8 +157,8 @@ class LLMS_Meta_Box_Voucher_Export {
 				}
 
 				self::download_csv( $csv, $file_name );
-			}
-		}
+			}// End if().
+		}// End if().
 
 	}
 
@@ -169,17 +169,17 @@ class LLMS_Meta_Box_Voucher_Export {
 
 		$names = array();
 
-		foreach ($data[0] as $name => $item) {
+		foreach ( $data[0] as $name => $item ) {
 			$names[] = $name;
 		}
 
 		fputcsv( $handle, $names, $delimiter, $enclosure );
 
-		foreach ($data as $line) {
+		foreach ( $data as $line ) {
 			fputcsv( $handle, $line, $delimiter, $enclosure );
 		}
 		rewind( $handle );
-		while ( ! feof( $handle )) {
+		while ( ! feof( $handle ) ) {
 			$contents .= fread( $handle, 8192 );
 		}
 		fclose( $handle );

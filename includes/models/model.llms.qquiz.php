@@ -55,7 +55,7 @@ class LLMS_QQuiz extends LLMS_Post_Model {
 	 * @since    3.3.0
 	 * @version  3.3.0
 	 */
-	public function get_questions( $return = 'questions'  ) {
+	public function get_questions( $return = 'questions' ) {
 
 		$questions = $this->get_questions_raw();
 

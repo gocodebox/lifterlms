@@ -182,7 +182,8 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 			$visibility = $plan->set_visibility( $data['visibility'] );
 
-		}
+		}// End foreach().
+
 
 	}
 

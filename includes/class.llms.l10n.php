@@ -5,12 +5,12 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.4.4
+ * @version 3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_l10n {
+class LLMS_L10n {
 
 	/**
 	 * Create an object of translatable strings

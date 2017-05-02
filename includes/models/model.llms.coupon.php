@@ -77,7 +77,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		// no product restrictions
 		if ( empty( $products ) ) {
 			return true;
-		} // check against the array of products
+		} // End if().
 		else {
 			return in_array( $product_id, $products );
 		}
@@ -148,7 +148,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 			return _x( 'Unlimited', 'Remaining coupon uses', 'lifterlms' );
 
-		} // check usages against allowed uses
+		} // End if().
 		else {
 
 			return $limit - $this->get_uses();
@@ -237,7 +237,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 			$msg = __( 'This coupon has reached its usage limit and can no longer be used.', 'lifterlms' );
 
-		} // expired?
+		} // End if().
 		elseif ( $this->is_expired() ) {
 
 			$msg = sprintf( __( 'This coupon expired on %s and can no longer be used.', 'lifterlms' ), $this->get_date( 'expiration_date', 'F d, Y' ) );

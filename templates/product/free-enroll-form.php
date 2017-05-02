@@ -5,10 +5,10 @@
  * if free checkout is not disabled via filter
  *
  * @since    3.4.0
- * @version  3.5.0
+ * @version  3.7.5
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
 
 $uid = get_current_user_id();
 
@@ -18,7 +18,8 @@ if ( ! $uid || empty( $plan ) || ! $plan->has_free_checkout() ) {
 ?>
 
 <form action="" class="llms-free-enroll-form" method="POST">
-	<?php foreach ( LLMS_Person_Handler::get_available_fields( 'checkout', $uid ) as $field ) : $field['type'] = 'hidden'; ?>
+	<?php foreach ( LLMS_Person_Handler::get_available_fields( 'checkout', $uid ) as $field ) :
+		$field['type'] = 'hidden'; ?>
 		<?php llms_form_field( $field ); ?>
 	<?php endforeach; ?>
 	<?php wp_nonce_field( 'create_pending_order' ); ?>

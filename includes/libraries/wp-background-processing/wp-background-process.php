@@ -505,4 +505,4 @@ if ( ! class_exists( 'WP_Background_Process' ) ) {
 		abstract protected function task( $item );
 
 	}
-}
+}// End if().

@@ -89,7 +89,7 @@ class LLMS_Integration_Buddypress {
 	 * @return boolean
 	 */
 	public function is_enabled() {
-		if (get_option( 'lifterlms_buddypress_enabled' ) == 'yes') {
+		if ( get_option( 'lifterlms_buddypress_enabled' ) == 'yes' ) {
 			return true;
 		}
 		return false;
@@ -101,7 +101,7 @@ class LLMS_Integration_Buddypress {
 	 * @return boolean
 	 */
 	public function is_installed() {
-		if (class_exists( 'BuddyPress' )) {
+		if ( class_exists( 'BuddyPress' ) ) {
 			return true;
 		}
 		return false;

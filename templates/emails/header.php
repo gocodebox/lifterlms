@@ -8,7 +8,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $mailer = LLMS()->mailer();
-
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 	<head>

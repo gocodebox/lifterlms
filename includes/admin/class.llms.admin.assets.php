@@ -2,7 +2,7 @@
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.7.2
+* @version  3.7.5
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -211,9 +211,7 @@ class LLMS_Admin_Assets {
 							}
 						break;
 					}
-
 				}
-
 			}
 
 			wp_enqueue_script( 'top-modal' );
@@ -221,7 +219,7 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'llms' );
 			wp_enqueue_script( 'llms-metaboxes' );
 
-		}
+		}// End if().
 
 		if ( 'lifterlms_page_llms-settings' == $screen->id ) {
 			wp_enqueue_media();
@@ -234,7 +232,7 @@ class LLMS_Admin_Assets {
 	 * Initialize the "llms" object for other scripts to hook into
 	 * @return void
 	 * @since    1.0.0
-	 * @version  3.7.2
+	 * @version  3.7.5
 	 */
 	public function admin_print_scripts() {
 
@@ -261,7 +259,7 @@ class LLMS_Admin_Assets {
 		';
 
 		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
-		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_l10n::get_js_strings( true ) . ';</script>';
+		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';</script>';
 
 	}
 

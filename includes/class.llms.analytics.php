@@ -161,14 +161,11 @@ class LLMS_Analytics {
 								if ( $value->status === 'Enrolled' ) {
 									$daily_total++;
 								}
-
 							}
-
 						}
 					}
 					array_push( $total_by_day[ $i ], $daily_total );
 				}
-
 			} elseif ( isset( $search->memberships ) ) {
 
 				foreach ( $search->memberships as $membership ) {
@@ -184,22 +181,19 @@ class LLMS_Analytics {
 								if ( $value->status === 'Enrolled' ) {
 									$daily_total++;
 								}
-
 							}
-
 						}
 					}
 					array_push( $total_by_day[ $i ], $daily_total );
 				}
-
-			}
+			}// End if().
 
 			//add 1 to array key counter
 			$i++;
 			//add one day to date
 			$date = LLMS_Date::db_date( $date . '+ 1 day' );
 
-		}
+		}// End while().
 
 		return $total_by_day;
 
@@ -221,7 +215,6 @@ class LLMS_Analytics {
 				$total_sold += $order->order_total;
 
 			}
-
 		}
 		return $total_sold;
 	}
@@ -261,9 +254,7 @@ class LLMS_Analytics {
 				if ( ! empty( $order->coupon_id ) ) {
 					$coupons++;
 				}
-
 			}
-
 		}
 
 		return $coupons;
@@ -289,9 +280,7 @@ class LLMS_Analytics {
 					$coupons += $product->get_coupon_discount_total( $order->order_total );
 
 				}
-
 			}
-
 		}
 
 		return $coupons;
@@ -395,7 +384,7 @@ class LLMS_Analytics {
 		);
 
 		$orders = get_posts( $args );
-		foreach ($orders as $order) {
+		foreach ( $orders as $order ) {
 			$total += get_post_meta( $order->ID, '_llms_order_total', true );
 		}
 
@@ -517,12 +506,11 @@ class LLMS_Analytics {
 					array_push( $students_small, $student_data );
 
 				}
-
 			}
 
 			$students_array['large'] = $students_large;
 			//$students_array['small'] = $students_small;
-		}
+		}// End if().
 
 		return $students_array;
 
@@ -567,7 +555,6 @@ class LLMS_Analytics {
 					$units++;
 				}
 			}
-
 		}
 
 		return $units;
@@ -589,7 +576,6 @@ class LLMS_Analytics {
 					$units++;
 				}
 			}
-
 		}
 
 		return $units;
@@ -628,7 +614,6 @@ class LLMS_Analytics {
 				if ( $member->status === 'Enrolled' ) {
 					$current_members++;
 				}
-
 			}
 
 			if ( $total_members == 0 ) {
@@ -636,7 +621,6 @@ class LLMS_Analytics {
 			} else {
 				return ( $current_members / $total_members );
 			}
-
 		}
 	}
 
@@ -699,11 +683,9 @@ class LLMS_Analytics {
 						if ( self::is_lesson_completed( $student->user_id, $lesson->ID, $search->end_date ) ) {
 							$unit++;
 						}
-
 					}
-
 				}
-				if ($all_students > 0) {
+				if ( $all_students > 0 ) {
 					//calculate completion percentage
 					$completion_percent = LLMS_Number::whole_number( ( $unit / $all_students ) );
 				} else {
@@ -718,7 +700,7 @@ class LLMS_Analytics {
 			}
 
 			return $lesson_completions;
-		}
+		}// End if().
 
 	}
 
@@ -744,7 +726,6 @@ class LLMS_Analytics {
 				if ( LLMS_Date::db_date( $results[0]->updated_date ) > $end_date ) {
 					return false;
 				}
-
 			}
 
 			return true;
@@ -812,7 +793,6 @@ class LLMS_Analytics {
 			if ( $exp_date !== $enrollment_date ) {
 				return $exp_date;
 			}
-
 		}
 		return false;
 	}
@@ -863,12 +843,9 @@ class LLMS_Analytics {
 								$last_completed_lesson = get_the_title( $lesson['id'] );
 								$last_completed_lesson_date = LLMS_Date::db_date( $lesson['completed_date'] );
 							}
-
 						}
-
 					}
-
-				} // end lesson loop
+				} // End if().
 
 				//calculate % complete
 				if ( $all_lesson_count == 0 ) {
@@ -895,13 +872,13 @@ class LLMS_Analytics {
 					$profile_link,
 				);
 				array_push( $students_small, $student_data );
-			} // end student loop
+			} // End foreach().
 
 			$student_arrays['large'] = $students_large;
 			$student_arrays['small'] = $students_small;
 
 			return $student_arrays;
-		}
+		}// End if().
 
 	}
 
@@ -927,7 +904,7 @@ class LLMS_Analytics {
 
 				$post = get_post( $value->post_id );
 
-				if (isset( $post )) {
+				if ( isset( $post ) ) {
 					$results[ $key ]->post_title = $post->post_title;
 					$results[ $key ]->post_type = $post->post_type;
 				} else {

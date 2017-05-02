@@ -308,7 +308,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		$html = '<div class="llms-widget-row">';
 
-		foreach ($small_banners as $banner) {
+		foreach ( $small_banners as $banner ) {
 
 			$html .= '<div class="llms-widget-1-4">
 							<div class="llms-widget llms-banner-image">

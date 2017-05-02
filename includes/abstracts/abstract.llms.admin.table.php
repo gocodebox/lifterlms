@@ -323,7 +323,7 @@ abstract class LLMS_Admin_Table {
 		// current order matches submitted order, return oppossite
 		if ( $this->orderby === $orderby ) {
 			return ( 'ASC' === $this->order ) ? 'DESC' : 'ASC';
-		} // return ASC
+		} // End if().
 		else {
 			return 'ASC';
 		}

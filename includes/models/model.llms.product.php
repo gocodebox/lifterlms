@@ -180,7 +180,6 @@ class LLMS_Product extends LLMS_Post_Model {
 			if ( ! $course->has_capacity() ) {
 				return false;
 			}
-
 		}
 
 		return ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );

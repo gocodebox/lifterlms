@@ -26,15 +26,15 @@ class LLMS_Metabox_Table_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 		parent::output(); ?>
 			<table class="llms-table zebra text-left">
 				<thead>
-					<?php foreach ( $this->field['titles'] as $title  ) : ?>
+					<?php foreach ( $this->field['titles'] as $title ) : ?>
 						<th><?php echo $title; ?></th>
 					<?php endforeach; ?>
 				</thead>
 				<tbody>
 					<?php if ( $this->field['table_data'] ) : ?>
-						<?php foreach ( $this->field['table_data'] as $row  ) : ?>
+						<?php foreach ( $this->field['table_data'] as $row ) : ?>
 							<tr>
-								<?php foreach ( $row as $column  ) : ?>
+								<?php foreach ( $row as $column ) : ?>
 									<td><?php echo $column; ?></td>
 								<?php endforeach; ?>
 							</tr>

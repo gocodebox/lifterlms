@@ -39,7 +39,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 
 			<?php
 			//determine if grade, best grade or none should be shown.
-			if (isset( $grade ) && isset( $best_grade )) :
+			if ( isset( $grade ) && isset( $best_grade ) ) :
 			 	$graph_grade = empty( $grade ) ? $best_grade : $grade;
 			?>
 				<input type="hidden" id="llms-grade-value" name="llms_grade" value="<?php echo $graph_grade; ?>" />
@@ -80,7 +80,7 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 						<h6><?php printf( __( 'Date: <span class="llms_content_block">%s</span>', 'lifterlms' ), $start_date ); ?></h6>
 						<h6><?php printf( __( 'Total time: %s', 'lifterlms' ), $time ); ?></h6>
 
-						<?php if ($quiz->show_quiz_results()) { ?>
+						<?php if ( $quiz->show_quiz_results() ) { ?>
 							<a class="view-summary"><?php _e( 'View Summary', 'lifterlms' ); ?></a>
 						<?php } ?>
 
@@ -113,4 +113,5 @@ if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
 
 		</div>
 	</div>
-<?php } ?>
+<?php }// End if().
+	?>

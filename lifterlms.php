@@ -430,13 +430,13 @@ final class LifterLMS {
 	 *
 	 * @param array $links [array of links]
 	 */
-	public function add_action_links ( $links ) {
+	public function add_action_links( $links ) {
 
 		$lifter_links = array(
 			'<a href="' . admin_url( 'admin.php?page=llms-settings' ) . '">' . __( 'Settings', 'lifterlms' ) . '</a>'
 		);
 
-		if (count( $links ) == 3) {
+		if ( count( $links ) == 3 ) {
 			return $links;
 		}
 

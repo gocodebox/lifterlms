@@ -125,7 +125,9 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		}
 
 		$track_options = array();
-		$tracks = get_terms( 'course_track', array( 'hide_empty' => '0' ) );
+		$tracks = get_terms( 'course_track', array(
+			'hide_empty' => '0',
+		) );
 		foreach ( $tracks as $track ) {
 			$track_options[] = array(
 				'key'   => $track->term_id,
@@ -235,7 +237,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 							$val = $_POST[ $field['id'] ];
 
-						} // checkboxes with no post data are not checked
+						} // End if().
 						elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
 
 							$val = '';
@@ -252,12 +254,9 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 						unset( $val );
 
 					}
-
 				}
-
-			}
-
-		}
+			}// End if().
+		}// End foreach().
 
 		// locate and store the trigger post id
 		$type = isset( $_POST[ $this->prefix . 'trigger_type' ] ) ? $_POST[ $this->prefix . 'trigger_type' ] : false;

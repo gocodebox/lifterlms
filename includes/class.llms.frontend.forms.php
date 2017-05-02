@@ -37,11 +37,11 @@ class LLMS_Frontend_Forms {
 	 */
 	public static function llms_get_redirect( $url ) {
 
-		if ( ! empty( $url )) {
+		if ( ! empty( $url ) ) {
 
 			$redirect = esc_url( $url );
 
-		} elseif (wp_get_referer()) {
+		} elseif ( wp_get_referer() ) {
 
 			$redirect = esc_url( wp_get_referer() );
 
@@ -141,9 +141,7 @@ class LLMS_Frontend_Forms {
 						exit;
 					}
 				}
-
 			}
-
 		}
 
 	}
@@ -187,7 +185,6 @@ class LLMS_Frontend_Forms {
 				llms_add_notice( sprintf( __( '%s is now incomplete.', 'lifterlms' ), get_the_title( $lesson_id ) ) );
 
 			}
-
 		}
 
 	}
@@ -199,13 +196,13 @@ class LLMS_Frontend_Forms {
 	 */
 	public function reset_password() {
 
-		if ( ! isset( $_POST['llms_reset_password'] )) {
+		if ( ! isset( $_POST['llms_reset_password'] ) ) {
 
 			return;
 		}
 
 		// process lost password form
-		if (isset( $_POST['user_login'] ) && isset( $_POST['_wpnonce'] )) {
+		if ( isset( $_POST['user_login'] ) && isset( $_POST['_wpnonce'] ) ) {
 
 			wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms-lost_password' );
 
@@ -214,7 +211,7 @@ class LLMS_Frontend_Forms {
 		}
 
 		// process reset password form
-		if (isset( $_POST['password_1'] )
+		if ( isset( $_POST['password_1'] )
 			&& isset( $_POST['password_2'] )
 			&& isset( $_POST['reset_key'] )
 			&& isset( $_POST['reset_login'] )
@@ -224,7 +221,7 @@ class LLMS_Frontend_Forms {
 			// verify reset key again
 			$user = LLMS_Shortcode_My_Account::check_password_reset_key( $_POST['reset_key'], $_POST['reset_login'] );
 
-			if (is_object( $user )) {
+			if ( is_object( $user ) ) {
 
 				// save these values into the form again in case of errors
 				$args['key'] = llms_clean( $_POST['reset_key'] );
@@ -232,14 +229,14 @@ class LLMS_Frontend_Forms {
 
 				wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms-reset_password' );
 
-				if (empty( $_POST['password_1'] ) || empty( $_POST['password_2'] )) {
+				if ( empty( $_POST['password_1'] ) || empty( $_POST['password_2'] ) ) {
 
 					llms_add_notice( __( 'Please enter your password.', 'lifterlms' ), 'error' );
 					$args['form'] = 'reset_password';
 
 				}
 
-				if ($_POST['password_1'] !== $_POST['password_2']) {
+				if ( $_POST['password_1'] !== $_POST['password_2'] ) {
 
 					llms_add_notice( __( 'Passwords do not match.', 'lifterlms' ), 'error' );
 					$args['form'] = 'reset_password';
@@ -249,16 +246,15 @@ class LLMS_Frontend_Forms {
 				$errors = new WP_Error();
 				do_action( 'validate_password_reset', $errors, $user );
 
-				if ($errors->get_error_messages()) {
+				if ( $errors->get_error_messages() ) {
 
-					foreach ($errors->get_error_messages() as $error) {
+					foreach ( $errors->get_error_messages() as $error ) {
 
 						llms_add_notice( $error, 'error' );
 					}
-
 				}
 
-				if (0 == llms_notice_count( 'error' )) {
+				if ( 0 == llms_notice_count( 'error' ) ) {
 
 					LLMS_Shortcode_My_Account::reset_password( $user, $_POST['password_1'] );
 
@@ -268,9 +264,8 @@ class LLMS_Frontend_Forms {
 
 					exit;
 				}
-			}
-
-		}
+			}// End if().
+		}// End if().
 
 	}
 
@@ -284,15 +279,15 @@ class LLMS_Frontend_Forms {
 	public function take_quiz() {
 
 		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
-		if ('POST' !== $request_method) {
+		if ( 'POST' !== $request_method ) {
 			return;
 		}
 
-		if ( ! isset( $_POST['take_quiz'] ) || empty( $_POST['_wpnonce'] )) {
+		if ( ! isset( $_POST['take_quiz'] ) || empty( $_POST['_wpnonce'] ) ) {
 			return;
 		}
 
-		if (isset( $_POST['take_quiz'] )) {
+		if ( isset( $_POST['take_quiz'] ) ) {
 
 			//create quiz session object
 			$quiz = new stdClass();
@@ -335,7 +330,6 @@ class LLMS_Frontend_Forms {
 				llms_add_notice( __( 'Voucher redeemed sucessfully!', 'lifterlms' ), 'success' );
 
 			}
-
 		}
 	}
 

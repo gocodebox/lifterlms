@@ -62,7 +62,6 @@ class LLMS_Admin_Analytics {
 				$analytics[] = include( 'analytics/class.llms.analytics.memberships.php' );
 
 			}
-
 		}
 
 		return self::$analytics;
@@ -121,7 +120,6 @@ class LLMS_Admin_Analytics {
 			foreach ( self::$errors as $error ) {
 				echo '<div class="error"><p><strong>' . esc_html( $error ) . '</strong></p></div>';
 			}
-
 		}
 	}
 
@@ -241,7 +239,7 @@ class LLMS_Admin_Analytics {
 
 	 		//set search object as session object
 		    LLMS()->session->set( 'llms_analytics_sales', $search );
-	    }
+	    }// End if().
 
 	    //course analytics
 	    if ( ! empty( $_POST['action'] ) && ( 'llms-analytics-course' === $_POST['action'] ) && ! empty( $_POST['_wpnonce'] ) ) {
@@ -297,8 +295,6 @@ class LLMS_Admin_Analytics {
 
 					$search->students = $students;
 				}
-
-				// else get the individual course data
 			} else {
 
 				//get course data
@@ -321,13 +317,11 @@ class LLMS_Admin_Analytics {
 					array_push( $search->lessons, get_post( $id ) );
 
 				}
-				//$search->test_student_progress = $course_obj->get_student_progress( '147' );
-
-			}
+			}// End if().
 
 	 		//set search object as session object
 		    LLMS()->session->set( 'llms_analytics_course', $search );
-	    }
+	    }// End if().
 
 	    //membership analytics
 	    if ( ! empty( $_POST['action'] ) && ( 'llms-analytics-membership' === $_POST['action'] ) && ! empty( $_POST['_wpnonce'] ) ) {
@@ -383,8 +377,6 @@ class LLMS_Admin_Analytics {
 
 					$search->members = $members;
 				}
-
-				// else get the individual course data
 			} else {
 
 				//get course data
@@ -401,7 +393,7 @@ class LLMS_Admin_Analytics {
 
 	 		//set search object as session object
 		    LLMS()->session->set( 'llms_analytics_membership', $search );
-	    }
+	    }// End if().
 
 	}
 

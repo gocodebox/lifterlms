@@ -85,7 +85,6 @@ class LLMS_Course extends LLMS_Post_Model {
 			if ( isset( $key ) ) {
 				return $this->get( $key );
 			}
-
 		}
 
 		return false;
@@ -156,7 +155,6 @@ class LLMS_Course extends LLMS_Post_Model {
 				return $term->$field;
 
 			}
-
 		}
 
 	}
@@ -200,7 +198,6 @@ class LLMS_Course extends LLMS_Post_Model {
 				$quizzes[] = $l->get( 'id' );
 
 			}
-
 		}
 
 		return $quizzes;
@@ -411,7 +408,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @param    string   $type  determine if a specific type of prereq exists [any|course|track]
 	 * @return   boolean         Returns true if prereq is enabled and there is a prerequisite course or track
 	 * @since    3.0.0
-	 * @version  3.7.3
+	 * @version  3.7.5
 	 */
 	public function has_prerequisite( $type = 'any' ) {
 
@@ -423,14 +420,13 @@ class LLMS_Course extends LLMS_Post_Model {
 
 			} elseif ( 'course' === $type ) {
 
-				return ! empty( $this->get( 'prerequisite' ) );
+				return ( $this->get( 'prerequisite' ) ) ? true : false;
 
 			} elseif ( 'course_track' === $type ) {
 
-				return ! empty( $this->get( 'prerequisite_track' ) );
+				return ( $this->get( 'prerequisite_track' ) ) ? true : false;
 
 			}
-
 		}
 
 		return false;
@@ -450,7 +446,7 @@ class LLMS_Course extends LLMS_Post_Model {
 
 			$ret = true;
 
-		} // time period exists, check against the current date
+		} // End if().
 		else {
 
 			$ret = ( $this->has_date_passed( 'enrollment_start_date' ) && ! $this->has_date_passed( 'enrollment_end_date' ) );
@@ -478,7 +474,7 @@ class LLMS_Course extends LLMS_Post_Model {
 
 			$ret = true;
 
-		} // time period exists, check against the current date
+		} // End if().
 		else {
 
 			$ret = ( $this->has_date_passed( 'start_date' ) && ! $this->has_date_passed( 'end_date' ) );
@@ -542,9 +538,15 @@ class LLMS_Course extends LLMS_Post_Model {
 			$arr['sections'][] = $s->toArray();
 		}
 
-		$arr['categories'] = $this->get_categories( array( 'fields' => 'names' ) );
-		$arr['tags'] = $this->get_tags( array( 'fields' => 'names' ) );
-		$arr['tracks'] = $this->get_tracks( array( 'fields' => 'names' ) );
+		$arr['categories'] = $this->get_categories( array(
+			'fields' => 'names',
+		) );
+		$arr['tags'] = $this->get_tags( array(
+			'fields' => 'names',
+		) );
+		$arr['tracks'] = $this->get_tracks( array(
+			'fields' => 'names',
+		) );
 
 		$arr['difficulty'] = $this->get_difficulty();
 
@@ -696,7 +698,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		$results = $wpdb->get_results( $wpdb->prepare(
 		'SELECT * FROM ' . $table_name . ' WHERE post_id = %d', $user_id, $post_id) );
 
-		for ($i = 0; $i < count( $results ); $i++) {
+		for ( $i = 0; $i < count( $results ); $i++ ) {
 			$results[ $results[ $i ]->meta_key ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}
@@ -717,7 +719,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		$results = $wpdb->get_results( $wpdb->prepare(
 		'SELECT * FROM ' . $table_name . ' WHERE post_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $post_id, $meta_key ) );
 
-		for ($i = 0; $i < count( $results ); $i++) {
+		for ( $i = 0; $i < count( $results ); $i++ ) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}
@@ -779,7 +781,7 @@ class LLMS_Course extends LLMS_Post_Model {
 				array_push( $lessons_not_completed, $lesson->ID );
 			}
 		}
-		if ($lessons_not_completed) {
+		if ( $lessons_not_completed ) {
 			return $lessons_not_completed[0];
 		}
 	}
@@ -808,10 +810,10 @@ class LLMS_Course extends LLMS_Post_Model {
 
 		$sections = get_posts( $args );
 
-		foreach ($sections as $s) {
+		foreach ( $sections as $s ) {
 			$section = new LLMS_Section( $s->ID );
 			$lessonset = $section->get_children_lessons();
-			foreach ($lessonset as $lessonojb) {
+			foreach ( $lessonset as $lessonojb ) {
 				$lessons[] = $lessonojb->ID;
 			}
 		}
@@ -829,8 +831,8 @@ class LLMS_Course extends LLMS_Post_Model {
 	public function get_syllabus_sections() {
 		$syllabus = $this->get_syllabus();
 		$sections = array();
-		if ($syllabus) {
-			foreach ($syllabus as $key => $value) {
+		if ( $syllabus ) {
+			foreach ( $syllabus as $key => $value ) {
 
 				array_push( $sections,$value['section_id'] );
 			}
@@ -876,7 +878,7 @@ class LLMS_Course extends LLMS_Post_Model {
 			$user_id = get_current_user_id();
 		}
 
-		if ( $this->is_user_enrolled( $user_id = '' ) ) {
+		if ( $this->is_user_enrolled( $user_id ) ) {
 
 			$user_post_data = self::get_user_post_data( $this->id, $user_id );
 
@@ -885,7 +887,6 @@ class LLMS_Course extends LLMS_Post_Model {
 					$enrolled_date = $upd->updated_date;
 				}
 			}
-
 		}
 
 		return $enrolled_date;
@@ -953,7 +954,6 @@ class LLMS_Course extends LLMS_Post_Model {
 						$enrolled = $results;
 					}
 				}
-
 			}
 		}
 
@@ -973,7 +973,6 @@ class LLMS_Course extends LLMS_Post_Model {
 					$enrolled = true;
 				}
 			}
-
 		}
 
 		return $enrolled;
@@ -1018,7 +1017,6 @@ class LLMS_Course extends LLMS_Post_Model {
 
 				}
 			}
-
 		} else {
 
 			$obj->is_enrolled = false;
@@ -1055,9 +1053,7 @@ class LLMS_Course extends LLMS_Post_Model {
 						$section['completed_date'] = $row->updated_date;
 
 					}
-
 				}
-
 			}
 
 			$obj->sections[] = $section;
@@ -1087,18 +1083,14 @@ class LLMS_Course extends LLMS_Post_Model {
 								$lesson['is_complete'] = true;
 								$lesson['completed_date'] = $row->updated_date;
 							}
-
 						}
-
 					}
 
 					$obj->lessons[] = $lesson;
 
 				}
-
 			}
-
-		}
+		}// End foreach().
 
 		return $obj;
 
@@ -1112,9 +1104,9 @@ class LLMS_Course extends LLMS_Post_Model {
 	public function get_membership_link() {
 		$memberships_required = get_post_meta( $this->id, '_llms_restricted_levels', true );
 
-		if (count( $memberships_required ) > 1) {
+		if ( count( $memberships_required ) > 1 ) {
 			$membership_url = get_permalink( llms_get_page_id( 'memberships' ) );
-		} //if only 1 membership level is assigned take visitor to the membership page
+		} // End if().
 		else {
 			$membership_url = get_permalink( $memberships_required[0] );
 		}

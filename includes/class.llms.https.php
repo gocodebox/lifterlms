@@ -44,7 +44,6 @@ class LLMS_HTTPS {
 				exit;
 
 			}
-
 		}
 
 	}
@@ -70,7 +69,6 @@ class LLMS_HTTPS {
 				exit;
 
 			}
-
 		}
 
 	}

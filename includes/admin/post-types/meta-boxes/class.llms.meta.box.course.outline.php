@@ -449,7 +449,8 @@ class LLMS_Meta_Box_Course_Outline {
 				$html .= LLMS_Svg::get_icon( 'llms-icon-lock', 'Prerequisite', $tooltip, $icon_class );
 			$html .= '</span></a></a>';
 
-		if ( $quiz_id = $lesson->get( 'assigned_quiz' ) ) {
+		$quiz_id = $lesson->get( 'assigned_quiz' );
+		if ( $quiz_id ) {
 			$icon_class = 'detail-icon on';
 			$tooltip = sprintf( __( 'Assigned Quiz: %s', 'lifterlms' ), get_the_title( $quiz_id ) );
 		} else {
@@ -463,7 +464,8 @@ class LLMS_Meta_Box_Course_Outline {
 				$html .= LLMS_Svg::get_icon( 'llms-icon-question', 'Quiz', $tooltip, $icon_class );
 			$html .= '</span></a></a>';
 
-		if ( $method = $lesson->get( 'drip_method' ) ) {
+		$method = $lesson->get( 'drip_method' );
+		if ( $method ) {
 
 			$icon_class = 'detail-icon on';
 
@@ -479,7 +481,6 @@ class LLMS_Meta_Box_Course_Outline {
 				break;
 
 			}
-
 		} else {
 			$icon_class = 'detail-icon off';
 			$tooltip = __( 'No Drip Delay', 'lifterlms' );
@@ -556,11 +557,8 @@ class LLMS_Meta_Box_Course_Outline {
 						$update_course_association = $lesson->set_parent_course( $post_id );
 
 					}
-
 				}
-
 			}
-
 		}
 
 		//save section order
@@ -574,7 +572,6 @@ class LLMS_Meta_Box_Course_Outline {
 				$section_order = llms_clean( $sections_order[ $key ] );
 				update_post_meta( $section_id, '_llms_order', $section_order );
 			}
-
 		}
 
 		//save lesson order and parent section
@@ -598,7 +595,6 @@ class LLMS_Meta_Box_Course_Outline {
 				update_post_meta( $lesson_id, '_llms_order', $lesson_order );
 
 			}
-
 		}
 
 		// $general = (isset($_POST['_has_prerequisite']) ? true : false);

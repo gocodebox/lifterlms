@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version 3.2.0
+ * @version 3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -48,7 +48,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	 * @param    int        $course_id  ID of the course
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.7.5
 	 */
 	public function get_data( $key, $course_id ) {
 
@@ -73,7 +73,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 			break;
 
 			case 'id':
-				$value = $value = $this->get_post_link( $course->get( 'id' ) );
+				$value = $this->get_post_link( $course->get( 'id' ) );
 			break;
 
 			case 'name':
@@ -97,7 +97,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}
+		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $course_id );
 

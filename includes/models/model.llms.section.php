@@ -142,9 +142,7 @@ class LLMS_Section extends LLMS_Post_Model {
 				$updated_value = $this->$method($value);
 
 				$updated_values[ $key ] = $updated_value;
-
 			}
-
 		}
 
 		return $updated_values;
@@ -297,7 +295,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 		$total_completed_lessons = 0;
 
-		foreach ($lessons as $lesson) {
+		foreach ( $lessons as $lesson ) {
 
 			$user = new LLMS_Person;
 			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->ID );

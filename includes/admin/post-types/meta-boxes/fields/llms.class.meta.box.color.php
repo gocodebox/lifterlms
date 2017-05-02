@@ -25,7 +25,7 @@ class LLMS_Metabox_Color_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 
 		parent::output();
 
-		if ( ! $this->meta) {
+		if ( ! $this->meta ) {
 			$this->meta = $this->field['value'];
 		}
 		?>

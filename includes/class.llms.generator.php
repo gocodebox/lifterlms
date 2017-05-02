@@ -2,7 +2,7 @@
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  3.7.3
+ * @version  3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -99,7 +99,7 @@ class LLMS_Generator {
 	 * @param    obj      $course_id   WP Post ID of a Course
 	 * @param    array    $raw_terms   array of raw term arrays
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.7.5
 	 */
 	private function add_course_terms( $course_id, $raw_terms ) {
 
@@ -126,7 +126,8 @@ class LLMS_Generator {
 						continue;
 					}
 
-					if ( $term_id = $this->get_term_id( $term_name, $tax ) ) {
+					$term_id = $this->get_term_id( $term_name, $tax );
+					if ( $term_id ) {
 						$terms[] = $term_id;
 					}
 				}
@@ -134,7 +135,6 @@ class LLMS_Generator {
 				wp_set_post_terms( $course_id, $terms, $tax, $append );
 
 			}
-
 		}
 
 	}
@@ -170,7 +170,6 @@ class LLMS_Generator {
 			} else {
 				$wpdb->query( 'COMMIT' );
 			}
-
 		} else {
 
 			return $this->error->add( 'missing-generator', __( 'No generator supplied.', 'lifterlms' ) );
@@ -227,7 +226,6 @@ class LLMS_Generator {
 				$this->create_course( $raw_course );
 
 			}
-
 		}
 
 		$this->handle_prerequisites();
@@ -605,14 +603,11 @@ class LLMS_Generator {
 						if ( $user->user_email == $raw['email'] ) {
 							$author_id = $user->ID;
 						}
-
-					} // use the author id
+					} // End if().
 					else {
 						$author_id = $user->ID;
 					}
-
 				}
-
 			}
 
 			if ( ! $author_id ) {
@@ -626,9 +621,7 @@ class LLMS_Generator {
 					if ( $user ) {
 						$author_id = $user->ID;
 					}
-
 				}
-
 			}
 
 			// no author id, create a new one using the email
@@ -657,10 +650,8 @@ class LLMS_Generator {
 				if ( ! is_wp_error( $author_id ) ) {
 					$this->increment( 'authors' );
 				}
-
 			}
-
-		}
+		}// End if().
 
 		if ( is_wp_error( $author_id ) ) {
 			return $this->error->add( $author_id->get_error_code(), $author_id->get_error_message() );
@@ -771,7 +762,6 @@ class LLMS_Generator {
 			} else {
 				$this->increment( 'terms' );
 			}
-
 		}
 
 		return $term['term_id'];
@@ -817,7 +807,6 @@ class LLMS_Generator {
 							$obj->set( 'has_prerequisite', 'no' );
 						}
 					}
-
 				}
 
 				// if the object has a prereq
@@ -832,7 +821,7 @@ class LLMS_Generator {
 
 						$obj->set( 'prerequisite', $ids[ $old_prereq ] );
 
-					} // sources do not match so we'll clear the prereq
+					} // End if().
 					elseif ( ! isset( $raw['_source'] ) || $raw['_source'] !== get_site_url() ) {
 
 						$obj->set( 'has_prerequisite', 'no' );
@@ -848,14 +837,10 @@ class LLMS_Generator {
 							$obj->set( 'prerequisite', 0 );
 
 						}
-
 					}
-
 				}
-
-			}
-
-		}
+			}// End foreach().
+		}// End foreach().
 
 	}
 
@@ -911,7 +896,6 @@ class LLMS_Generator {
 				$id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE guid = %s", array( $img_src ) ) );
 				set_post_thumbnail( $post_id, $id );
 			}
-
 		}
 
 	}
@@ -947,7 +931,6 @@ class LLMS_Generator {
 				return $this->set_generator( $this->raw['_generator'] );
 
 			}
-
 		}
 
 		$generators = $this->get_generators();

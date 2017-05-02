@@ -147,7 +147,9 @@ class LLMS_Admin_User_Custom_Fields {
 
 		$this->get_fields_with_data( $user );
 
-		llms_get_template( 'admin/user-edit.php', array( 'fields' => $this->fields ) );
+		llms_get_template( 'admin/user-edit.php', array(
+			'fields' => $this->fields,
+		) );
 
 	}
 
@@ -211,7 +213,7 @@ class LLMS_Admin_User_Custom_Fields {
 
 				return sprintf( __( 'Required field "%s" is missing.', 'lifterlms' ), $data['label'] );
 
-			} // allow additional validation to be run on the custom field
+			} // End if().
 			else {
 
 				/**
@@ -230,9 +232,7 @@ class LLMS_Admin_User_Custom_Fields {
 					return $error_msg;
 
 				}
-
 			}
-
 		}
 
 		return false;

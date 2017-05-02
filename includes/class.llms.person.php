@@ -122,9 +122,9 @@ class LLMS_Person {
 
 		$r = array();
 
-		if ($memberships) {
+		if ( $memberships ) {
 
-			foreach ($memberships as $membership_id) {
+			foreach ( $memberships as $membership_id ) {
 
 				$info = $this->get_user_postmeta_data( $user_id, $membership_id );
 
@@ -160,7 +160,7 @@ class LLMS_Person {
 			return;
 		}
 
-		for ($i = 0; $i < count( $results ); $i++) {
+		for ( $i = 0; $i < count( $results ); $i++ ) {
 			$results[ $results[ $i ]->meta_key ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}
@@ -189,7 +189,7 @@ class LLMS_Person {
 			return;
 		}
 
-		for ($i = 0; $i < count( $results ); $i++) {
+		for ( $i = 0; $i < count( $results ); $i++ ) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}

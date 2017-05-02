@@ -62,7 +62,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			foreach ( $results as $result ) {
 				$students[] = new LLMS_Student( $result->id );
 			}
-
 		}
 
 		if ( $this->get( 'suppress_filters' ) ) {

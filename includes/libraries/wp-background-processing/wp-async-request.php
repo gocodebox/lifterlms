@@ -162,4 +162,4 @@ if ( ! class_exists( 'WP_Async_Request' ) ) {
 		abstract protected function handle();
 
 	}
-}
+}// End if().

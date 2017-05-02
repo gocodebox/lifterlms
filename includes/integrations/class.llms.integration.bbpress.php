@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Integration_bbPress {
+class LLMS_Integration_BBPress {
 
 	/**
 	 * Integration ID
@@ -101,7 +101,6 @@ class LLMS_Integration_bbPress {
 				$results['reason'] = 'membership';
 
 			}
-
 		}
 
 		return $results;

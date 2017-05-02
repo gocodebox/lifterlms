@@ -105,7 +105,6 @@ class LLMS_Student_Dashboard {
 				$current_tab = $var;
 				break;
 			}
-
 		}
 
 		if ( 'data' === $return ) {

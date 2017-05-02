@@ -80,7 +80,9 @@ class LLMS_Query {
 	private function get_tax_query( $query = array() ) {
 
 		if ( ! is_array( $query ) ) {
-			$query = array( 'relation' => 'AND' );
+			$query = array(
+				'relation' => 'AND',
+			);
 		}
 
 		$terms = wp_list_pluck(
@@ -200,7 +202,7 @@ class LLMS_Query {
 			// remove action when finished
 			remove_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
 
-		}
+		}// End if().
 
 		if ( $modify_tax_query ) {
 

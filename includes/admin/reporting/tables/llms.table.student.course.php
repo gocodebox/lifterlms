@@ -101,7 +101,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}
+		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $lesson );
 
@@ -145,7 +145,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 				echo '<tr><th class="section-title"></th><th class="section-title" colspan="' . ( $this->get_columns_count() - 1 ) . '">' . sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) . '</th></tr>';
 				$this->current_section = $sid;
 			}
-
 		}
 
 	}

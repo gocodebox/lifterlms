@@ -5,7 +5,7 @@
  * @since   1.0.0
  * @version 3.0.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
 ?>
 	</ul>
 </div><!-- .llms-loop -->

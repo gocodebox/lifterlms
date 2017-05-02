@@ -3,7 +3,7 @@
 * Engagement Email Class
 * Generates emails and sends to user. Triggered from an engagement.
 * @since   1.0.0
-* @version 3.1.0
+* @version 3.8.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

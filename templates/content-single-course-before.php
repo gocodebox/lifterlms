@@ -19,7 +19,7 @@ if ( 'yes' === $course->get( 'time_period' ) ) {
 
 		llms_add_notice( $course->get( 'course_opens_message' ), 'notice' );
 
-	} // course end date has passed
+	} // End if().
 	elseif ( $course->has_date_passed( 'end_date' ) ) {
 
 		llms_add_notice( $course->get( 'course_closed_message' ), 'error' );

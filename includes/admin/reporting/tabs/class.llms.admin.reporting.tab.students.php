@@ -56,7 +56,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 						$links[ $url ] = get_the_title( $_GET['quiz_id'] );
 
 					}
-
 				}
 			}
 		}
@@ -94,7 +93,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 				'student' => new LLMS_Student( intval( $_GET['student_id'] ) ),
 			) );
 
-		} // table
+		} // End if().
 		else {
 
 			llms_get_template( 'admin/reporting/tabs/students/students.php' );

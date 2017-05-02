@@ -29,10 +29,15 @@
     {
       "type": "vcs",
       "url": "https://github.com/gocodebox/action-scheduler"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/ericmann/wp-session-manager"
     }
   ],
   "require": {
-    "gocodebox/action-scheduler": "dev-master"
+    "gocodebox/action-scheduler": "dev-master",
+    "ericmann/wp-session-manager": "dev-master"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master",

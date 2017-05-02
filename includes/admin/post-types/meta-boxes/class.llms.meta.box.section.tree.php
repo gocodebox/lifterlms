@@ -39,17 +39,17 @@ class LLMS_Meta_Box_Section_Tree {
 		);
 		$courses = get_posts( $course_args );
 
-		if ($parent_course ) {
+		if ( $parent_course ) {
 			$course = new LLMS_Course( $parent_course );
 		} else {
 			//need to check if parent course exists
-			foreach ($courses as $key => $value) {
+			foreach ( $courses as $key => $value ) {
 
 				$course = new LLMS_Course( $value->ID );
 				$sections = $course->get_syllabus_sections();
 
-				if ( ! empty( $sections )) {
-					if (in_array( $post->ID, $sections )) {
+				if ( ! empty( $sections ) ) {
+					if ( in_array( $post->ID, $sections ) ) {
 						$parent_course = $value->ID;
 						break;
 					}
@@ -57,13 +57,13 @@ class LLMS_Meta_Box_Section_Tree {
 			}
 		}
 
-		if ($parent_course) {
+		if ( $parent_course ) {
 			$course_edit_link = get_edit_post_link( $parent_course );
 			$course_edit_link_html = '<a href="' . $course_edit_link . '">(View Course)</a>';
 			$course = new LLMS_Course( $parent_course );
 			$course_tree = $course->get_syllabus();
-			foreach ($course_tree as $key => $value) {
-				if ($value['section_id'] == $post->ID) {
+			foreach ( $course_tree as $key => $value ) {
+				if ( $value['section_id'] == $post->ID ) {
 					$lessons = $value['lessons'];
 				}
 			}
@@ -80,12 +80,11 @@ class LLMS_Meta_Box_Section_Tree {
 			$lessons_query = get_posts( $args );
 			$lessons = array();
 			$i = 0;
-			foreach ($lessons_query as $key => $value) {
+			foreach ( $lessons_query as $key => $value ) {
 				$lessons[ $i ]['lesson_id'] = $value->ID;
 				$lessons[ $i ]['position'] = $i + 1;
 				$i++;
 			}
-
 		}
 		?>
 
@@ -94,13 +93,14 @@ class LLMS_Meta_Box_Section_Tree {
 				<label class="llms-access-levels-title"><?php _e( 'Associated Course ' . $course_edit_link_html, 'lifterlms' ) ?></label>
 				<select data-placeholder="Choose a course..." style="width:350px;" id="associated_course" single name="associated_course" class="chosen-select">
 					<option value="" selected>Select a course...</option>
-					<?php foreach ($courses as $key => $value) {
-						if ($value->ID == $parent_course) {
+					<?php foreach ( $courses as $key => $value ) {
+						if ( $value->ID == $parent_course ) {
 					?>
 							<option value="<?php echo $value->ID; ?>" selected ><?php echo $value->post_title; ?></option>
 						<?php } else { ?>
 						<option value="<?php echo $value->ID; ?>"><?php echo $value->post_title; ?></option>
-					<?php } } ?>
+					<?php }
+} ?>
 				</select>
 			</div>
 
@@ -108,8 +108,8 @@ class LLMS_Meta_Box_Section_Tree {
 
 				<span class="llms-access-levels-title"><?php _e( 'Lessons in this section', 'lifterlms' ) ?></span>
 					<?php
-					if ($lessons) :
-						foreach ($lessons as $key => $value) :
+					if ( $lessons ) :
+						foreach ( $lessons as $key => $value ) :
 							$lesson = get_post( $value['lesson_id'] );
 							echo '<ul class="llms-lesson-list"><li>';
 							echo '<span><a href="' . get_edit_post_link( $lesson->ID ) . '"><i class="fa fa-book"></i> ' . $lesson->post_title . '</a></span>';
@@ -136,21 +136,21 @@ class LLMS_Meta_Box_Section_Tree {
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
-		if ($_POST['associated_course']) {
+		if ( $_POST['associated_course'] ) {
 
 			$parent_course = ( llms_clean( $_POST['associated_course'] ) );
 			$lessons = array();
 
-			if ($parent_course) {
+			if ( $parent_course ) {
 				//check if section already belongs to course
 				//first check if section has a parent course assigned
 				$prev_parent = get_post_meta( $post_id, '_llms_parent_course', true );
-				if ($prev_parent == $parent_course) {
+				if ( $prev_parent == $parent_course ) {
 					return;
 				}
 
 				//if no parent course assigned in db then check the courses
-				if ( ! $prev_parent) {
+				if ( ! $prev_parent ) {
 
 					$course_args = array(
 						'posts_per_page'   => 1000,
@@ -161,12 +161,12 @@ class LLMS_Meta_Box_Section_Tree {
 						'suppress_filters' => true,
 					);
 					$courses = get_posts( $course_args );
-					foreach ($courses as $key => $value) {
+					foreach ( $courses as $key => $value ) {
 						$course = new LLMS_Course( $value->ID );
 						$sections = $course->get_syllabus_sections();
 
-						if ( ! empty( $sections )) {
-							if (in_array( $post->ID, $sections )) {
+						if ( ! empty( $sections ) ) {
+							if ( in_array( $post->ID, $sections ) ) {
 								$prev_parent = $value->ID;
 
 								break;
@@ -176,17 +176,17 @@ class LLMS_Meta_Box_Section_Tree {
 				}
 
 				//if section belongs to another course remove it from the previous course
-				if ($prev_parent && $prev_parent != $parent_course) {
+				if ( $prev_parent && $prev_parent != $parent_course ) {
 
 					$prev_course = new LLMS_Course( $prev_parent );
 					$sections = $prev_course->get_syllabus_sections();
 
-					if (in_array( $post_id, $sections )) {
+					if ( in_array( $post_id, $sections ) ) {
 						$pc_syllabus = $prev_course->get_syllabus();
 
-						foreach ($pc_syllabus as $key => $value) {
+						foreach ( $pc_syllabus as $key => $value ) {
 
-							if ($value['section_id'] == $post_id) {
+							if ( $value['section_id'] == $post_id ) {
 
 								$lessons = $value['lessons'];
 								unset( $pc_syllabus[ $key ] );
@@ -200,7 +200,7 @@ class LLMS_Meta_Box_Section_Tree {
 				//append section to new course
 				$course = new LLMS_Course( $parent_course );
 				$syllabus = $course->get_syllabus();
-				if ( ! $syllabus) {
+				if ( ! $syllabus ) {
 					$syllabus = array();
 				}
 				$section_count = count( $syllabus );
@@ -211,7 +211,7 @@ class LLMS_Meta_Box_Section_Tree {
 
 				//find lessons and add them.
 				//check if previous course section area had lessons
-				if (empty( $lessons )) {
+				if ( empty( $lessons ) ) {
 
 					$lesson = array();
 					$i = 0;
@@ -226,8 +226,8 @@ class LLMS_Meta_Box_Section_Tree {
 					)   );
 
 					$position = 0;
-					if ($lesson_ids) {
-						foreach ($lesson_ids as $lesson_id) {
+					if ( $lesson_ids ) {
+						foreach ( $lesson_ids as $lesson_id ) {
 							update_post_meta( $lesson_id, '_llms_parent_course', $parent_course );
 							$position++;
 							$lesson['lesson_id'] = $lesson_id;
@@ -237,7 +237,7 @@ class LLMS_Meta_Box_Section_Tree {
 						}
 					}
 				} else {
-					foreach ($lessons as $key => $value) {
+					foreach ( $lessons as $key => $value ) {
 						update_post_meta( $value['lesson_id'], '_llms_parent_course', $parent_course );
 
 					}
@@ -252,8 +252,8 @@ class LLMS_Meta_Box_Section_Tree {
 				update_post_meta( $post_id, '_llms_parent_course', $parent_course );
 				update_post_meta( $parent_course, '_sections', $syllabus );
 
-			}
-		}
+			}// End if().
+		}// End if().
 
 	}
 
