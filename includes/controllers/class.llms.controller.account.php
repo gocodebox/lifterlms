@@ -32,7 +32,7 @@ class LLMS_Controller_Account {
 		// this shouldn't happen but let's check anyway
 		if ( ! get_current_user_id() ) {
 			return llms_add_notice( __( 'Please log in and try again.', 'lifterlms' ), 'error' );
-		} // attempt to update new user (performs validations)
+		} // End if().
 		else {
 			$person_id = llms_update_user( $_POST, 'account' );
 		}
@@ -43,7 +43,7 @@ class LLMS_Controller_Account {
 				llms_add_notice( $msg, 'error' );
 			}
 			return;
-		} // update should be a user_id at this point, if we're not numeric we have a problem...
+		} // End if().
 		elseif ( ! is_numeric( $person_id ) ) {
 
 			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lirterlms' ), 'error' );

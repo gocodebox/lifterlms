@@ -255,7 +255,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 				array( '%d', '%d', '%s', '%d', '%s' )
 			);
 
-		} // not sent and debug enabled
+		} // End if().
 		elseif ( ! $send && defined( 'LLMS_ENGAGEMENT_DEBUG' ) && LLMS_ENGAGEMENT_DEBUG ) {
 			llms_log( sprintf( 'Error: email `#%d` was not sent', $email_id ) );
 		}

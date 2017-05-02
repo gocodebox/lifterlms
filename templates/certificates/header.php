@@ -12,7 +12,7 @@ $blog_title = get_bloginfo( 'name' );
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<title><?php echo $blog_title; ?><</title>
-	<style type="text/css">		
+	<style type="text/css">
 		body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
 		img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
 		a img {border:none;}
@@ -24,11 +24,11 @@ $blog_title = get_bloginfo( 'name' );
 		#backgroundTable {margin:0; padding:20px; width:100% !important; line-height: 100% !important;}
 		#outlook a {padding:0;}
 		.ExternalClass {width:100%;}
-		.ExternalClass, 
-		.ExternalClass p, 
-		.ExternalClass span, 
-		.ExternalClass font, 
-		.ExternalClass td, 
+		.ExternalClass,
+		.ExternalClass p,
+		.ExternalClass span,
+		.ExternalClass font,
+		.ExternalClass td,
 		.ExternalClass div {line-height: 100%;}
 	</style>
 </head>
@@ -40,7 +40,8 @@ $blog_title = get_bloginfo( 'name' );
 					<tr>
 						<td align="center" valign="top" width="600">
 						<?php
-						if ( $blog_logo = get_option( 'lifterlms_email_header_image' ) ) {
+						$blog_logo = get_option( 'lifterlms_email_header_image' );
+						if ( $blog_logo ) {
 
 							echo '<img class="image_fix" src="' . esc_url( $blog_logo ) . '" alt="' . get_bloginfo( 'name' ) . '"/>';
 						}
@@ -57,7 +58,7 @@ $blog_title = get_bloginfo( 'name' );
 							<table cellpadding="0" cellspacing="0" border="0" align="center">
 								<tr>
 									<td width="600" valign="top">
-									
+
 
 
 

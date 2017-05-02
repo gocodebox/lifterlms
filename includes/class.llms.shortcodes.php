@@ -41,7 +41,6 @@ class LLMS_Shortcodes {
 			if ( file_exists( $path ) ) {
 				require_once $path;
 			}
-
 		}
 
 		// old method
@@ -370,7 +369,6 @@ class LLMS_Shortcodes {
 					$ret = $course->get( $key );
 
 			}
-
 		}
 
 		return apply_filters( 'llms_shortcode_course_info', $ret, $atts );
@@ -421,7 +419,7 @@ class LLMS_Shortcodes {
 		// enqueue match height so the loop isn't all messed up visually
 		self::enqueue_script( 'llms-jquery-matchheight' );
 
-		if (isset( $atts['category'] )) {
+		if ( isset( $atts['category'] ) ) {
 			$tax = array(
 				array(
 					'taxonomy' => 'course_cat',
@@ -507,7 +505,7 @@ class LLMS_Shortcodes {
 
 		ob_start();
 
-		if (isset( $atts['category'] )) {
+		if ( isset( $atts['category'] ) ) {
 			$tax = array(
 						array(
 							'taxonomy' => 'course_cat',
@@ -557,7 +555,7 @@ class LLMS_Shortcodes {
 		),$atts));
 
 		// setup the meta key to search on
-		switch ($stat) {
+		switch ( $stat ) {
 			case 'completed':
 				$key = '_is_complete';
 				$val = false;
@@ -577,20 +575,20 @@ class LLMS_Shortcodes {
 		// get results
 		$results = $person->get_user_postmetas_by_key( $uid,$key );
 
-		if ($results) {
+		if ( $results ) {
 			// unset all items that are not courses
-			foreach ($results as $key => $obj) {
-				if (get_post_type( $obj->post_id ) != $type) {
+			foreach ( $results as $key => $obj ) {
+				if ( get_post_type( $obj->post_id ) != $type ) {
 					unset( $results[ $key ] );
 				}
 			}
 		}
 
 		// filter by value if set
-		if (is_array( $results ) && $val) {
-			foreach ($results as $key => $obj) {
+		if ( is_array( $results ) && $val ) {
+			foreach ( $results as $key => $obj ) {
 				// remove from the results array if $val doesn't match
-				if ($obj->meta_value != $val) {
+				if ( $obj->meta_value != $val ) {
 					unset( $results[ $key ] );
 				}
 			}
@@ -635,7 +633,9 @@ class LLMS_Shortcodes {
 			self::enqueue_script( 'llms-jquery-matchheight' );
 
 			ob_start();
-			llms_get_template( 'product/pricing-table.php', array( 'product' => new LLMS_Product( $atts['product'] ) ) );
+			llms_get_template( 'product/pricing-table.php', array(
+				'product' => new LLMS_Product( $atts['product'] ),
+			) );
 			$ret = ob_get_clean();
 		}
 

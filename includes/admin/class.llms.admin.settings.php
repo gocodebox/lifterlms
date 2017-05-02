@@ -1,14 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Admin Settings Class
-*
 * Settings field Factory
-*
-* @author codeBOX
-* @project lifterLMS
+* @since    1.0.0
+* @version  3.7.5
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Admin_Settings {
 
 	/**
@@ -114,7 +113,6 @@ class LLMS_Admin_Settings {
 			foreach ( self::$errors as $error ) {
 				echo '<div class="error"><p><strong>' . $error . '</strong></p></div>';
 			}
-
 		} elseif ( sizeof( self::$messages ) > 0 ) {
 
 			foreach ( self::$messages as $message ) {
@@ -553,7 +551,7 @@ class LLMS_Admin_Settings {
 	                    <select class="<?php echo $args['class']; ?>" style="<?php echo $field['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
 	                    	<option value=""> <?php _e( 'None', 'lifterlms' ); ?></option>
 		                    <?php foreach ( $posts as $post ) : setup_postdata( $post );
-								if ( $args['selected'] == $post->ID) {
+								if ( $args['selected'] == $post->ID ) {
 									$selected = 'selected';
 								} else {
 									$selected = '';
@@ -572,7 +570,7 @@ class LLMS_Admin_Settings {
 				do_action( 'lifterlms_admin_field_' . $field['type'], $field, $option_value, $description, $tooltip, $custom_attributes );
 
 			break;
-		}
+		}// End switch().
 
 	}
 
@@ -613,6 +611,7 @@ class LLMS_Admin_Settings {
 	 * @return array       associatve array containing field description and tooltip HTML
 	 *
 	 * @since  1.4.5
+	 * @version  3.7.5
 	 */
 	public static function set_field_descriptions( $field = array() ) {
 
@@ -631,7 +630,8 @@ class LLMS_Admin_Settings {
 			$tooltip = '';
 		} else {
 
-			$description = $tooltip = '';
+			$description = '';
+			$tooltip = '';
 
 		}
 
@@ -691,6 +691,7 @@ class LLMS_Admin_Settings {
 	 *
 	 * @param mixed $option
 	 * @return string
+	 * @version  3.7.5
 	 */
 	public static function get_option( $option_name, $default = '' ) {
 		// Array value
@@ -707,9 +708,10 @@ class LLMS_Admin_Settings {
 			$key = key( $option_array[ $option_name ] );
 
 			if ( isset( $option_values[ $key ] ) ) {
-				$option_value = $option_values[ $key ]; } else { 				$option_value = null; }
-
-			// Single value
+				$option_value = $option_values[ $key ];
+			} else {
+				$option_value = null;
+			}
 		} else {
 			$option_value = get_option( $option_name, null );
 		}
@@ -791,7 +793,7 @@ class LLMS_Admin_Settings {
 		    	case 'multiselect' :
 
 			    	if ( isset( $_POST[ $value['id'] ] ) ) {
-			    		foreach ($_POST[ $value['id'] ] as $k => $v) {
+			    		foreach ( $_POST[ $value['id'] ] as $k => $v ) {
 
 			    			$_POST[ $value['id'] ][ $k ] = llms_clean( stripslashes( $v ) );
 			    		}
@@ -809,7 +811,7 @@ class LLMS_Admin_Settings {
 
 		    	break;
 
-	    	}
+	    	}// End switch().
 
 	    	if ( ! is_null( $option_value ) ) {
 		    	// Check if option is an array
@@ -840,7 +842,7 @@ class LLMS_Admin_Settings {
 
 	    	// Custom handling
 	    	do_action( 'lifterlms_update_option', $value );
-	    }
+	    }// End foreach().
 
 	    // Now save the options
 	    foreach ( $update_options as $name => $value ) {

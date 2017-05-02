@@ -4,7 +4,7 @@
  * Used in My Account and My Courses shortcodes
  *
  * @since    3.0.0
- * @version  3.6.0
+ * @version  3.7.5
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $wp_query;
@@ -17,7 +17,8 @@ global $wp_query;
 		<p><?php _e( 'You are not enrolled in any courses.', 'lifterlms' ); ?></p>
 	<?php else : ?>
 		<ul class="listing-courses">
-			<?php foreach ( $courses['results'] as $c ) : $c = new LLMS_Course( $c ); ?>
+			<?php foreach ( $courses['results'] as $c ) :
+				$c = new LLMS_Course( $c ); ?>
 
 				<li class="course-item">
 				    <article class="course">

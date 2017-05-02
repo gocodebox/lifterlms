@@ -29,7 +29,6 @@ class LLMS_Admin_System_Report {
 				self::output_section( $key, $data );
 
 			}
-
 		}
 
 		echo '</div>';

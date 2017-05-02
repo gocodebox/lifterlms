@@ -106,7 +106,7 @@ class LLMS_Achievement {
 			'_achievement_earned' => $new_user_achievement_id,
 		);
 
-		foreach ($user_metadatas as $key => $value) {
+		foreach ( $user_metadatas as $key => $value ) {
 			$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id' 			=> $this->userid,

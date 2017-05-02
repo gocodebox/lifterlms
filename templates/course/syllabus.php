@@ -28,13 +28,15 @@ $sections = $course->get_sections( 'posts' );
 
 	<?php else : ?>
 
-		<?php foreach ( $sections as $s ) : $section = new LLMS_Section( $s->ID ); ?>
+		<?php foreach ( $sections as $s ) :
+			$section = new LLMS_Section( $s->ID ); ?>
 
 			<?php if ( apply_filters( 'llms_display_outline_section_titles', true ) ) : ?>
 				<h3 class="llms-h3 llms-section-title"><?php echo get_the_title( $s->ID ); ?></h3>
 			<?php endif; ?>
 
-			<?php if ( $lessons = $section->get_children_lessons() ) : ?>
+			<?php $lessons = $section->get_children_lessons();
+			if ( $lessons ) : ?>
 
 				<?php foreach ( $lessons as $l ) : ?>
 

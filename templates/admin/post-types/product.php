@@ -44,7 +44,9 @@ if ( ! is_admin() ) { exit; }
 	</div>
 
 	<?php // model of an access plan we'll clone when clicking the "add" button ?>
-	<?php llms_get_template( 'admin/post-types/product-access-plan.php', array( 'course' => $course ) ); ?>
+	<?php llms_get_template( 'admin/post-types/product-access-plan.php', array(
+		'course' => $course,
+	) ); ?>
 
 
 	<div id="llms-delete-plan-modal" class="topModal">

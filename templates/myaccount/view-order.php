@@ -117,7 +117,8 @@ $gateway = $order->get_gateway();
 
 				<tr>
 					<td><strong><?php _e( 'Start Date', 'lifterlms' ); ?></strong></td>
-					<td><?php echo $order->get_date( 'date', 'F j, Y' );; ?></td>
+					<td><?php echo $order->get_date( 'date', 'F j, Y' );
+					; ?></td>
 				</tr>
 				<?php if ( $order->is_recurring() ) : ?>
 					<tr>

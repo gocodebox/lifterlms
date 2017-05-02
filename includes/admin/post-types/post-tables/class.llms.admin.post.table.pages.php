@@ -1,7 +1,8 @@
 <?php
 /**
  * Customize display of the "Page" post tables
- * @since  3.0.0
+ * @since    3.0.0
+ * @version  3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -12,8 +13,9 @@ class LLMS_Admin_Post_Table_Pages {
 
 	/**
 	 * Constructor
-	 * @return  voide
-	 * @since  3.0.0
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
 	 */
 	public function __construct() {
 
@@ -27,13 +29,12 @@ class LLMS_Admin_Post_Table_Pages {
 			);
 
 			foreach ( $pages as $key => $name ) {
-
-				if ( $id = llms_get_page_id( $key ) ) {
+				$id = llms_get_page_id( $key );
+				if ( $id ) {
 
 					$this->pages[ $id ] = $name;
 
 				}
-
 			}
 
 			add_filter( 'display_post_states', array( $this, 'post_states' ), 10, 2 );

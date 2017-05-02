@@ -226,7 +226,7 @@ class LLMS_AJAX_Handler {
 					$limit,
 				);
 
-			} // search for FIRST and LAST names
+			} // End if().
 			elseif ( false !== strpos( $term, ' ' ) ) {
 
 				$term = explode( ' ', $term );
@@ -276,8 +276,7 @@ class LLMS_AJAX_Handler {
 				);
 
 			}
-
-		} // no search query
+		} // End if().
 		else {
 
 			$query = "SELECT
@@ -450,7 +449,7 @@ class LLMS_AJAX_Handler {
 
 			$error->add( 'error', __( 'Please enter a plan ID.', 'lifterlms' ) );
 
-		} // all required fields found
+		} // End if().
 		else {
 
 			$cid = llms_find_coupon( $request['code'] );
@@ -508,10 +507,8 @@ class LLMS_AJAX_Handler {
 						'summary_html' => $summary_html,
 					);
 
-				}
-
-			}
-
+				}// End if().
+			}// End if().
 		}
 
 		// if there are errors, return them
@@ -657,7 +654,9 @@ class LLMS_AJAX_Handler {
 		foreach ( $request['sections'] as $key => $value ) {
 
 			$section = new LLMS_Section( $key );
-			$updated_data[ $key ] = $section->update( array( 'order' => $value ) );
+			$updated_data[ $key ] = $section->update( array(
+				'order' => $value,
+			) );
 
 		}
 

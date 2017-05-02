@@ -143,7 +143,9 @@ class LLMS_Emails {
 	 * @return string [email heading]
 	 */
 	public function email_header( $email_heading ) {
-		llms_get_template( 'emails/header.php', array( 'email_heading' => $email_heading ) );
+		llms_get_template( 'emails/header.php', array(
+			'email_heading' => $email_heading,
+		) );
 	}
 
 

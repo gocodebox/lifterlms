@@ -310,7 +310,6 @@ class LLMS_Template_Loader {
 				$msg = __( 'You cannot access quizzes directly. Please return to the associated lesson and start the quiz from there.', 'lifterlms' );
 
 			}
-
 		} else {
 
 			$msg = __( 'You must be logged in to take quizzes.', 'lifterlms' );
@@ -371,11 +370,10 @@ class LLMS_Template_Loader {
 			// so for these post types we'll return the regular template
 			if ( 'course' === $post_type || 'llms_membership' === $post_type ) {
 				return $template;
-			} // otherwise return the no-access template in case no redirects are specified by the specific restriction action
+			} // End if().
 			else {
 				$template = 'single-no-access.php';
 			}
-
 		} elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'llms_shop' ) ) ) {
 
 			$template = 'archive-course.php';

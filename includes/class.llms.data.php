@@ -138,13 +138,6 @@ class LLMS_Data {
 				$data[ $obj->title ] = $obj->is_available() ? 'Yes' : 'No';
 
 			}
-
-			// if ( method_exists( $obj, 'get_report_data' ) ) {
-
-			// 	array_merge( $data, $obj->get_report_data() );
-
-			// }
-
 		}
 
 		return $data;
@@ -293,7 +286,6 @@ class LLMS_Data {
 			} else {
 				$inactive[ $path ] = $data;
 			}
-
 		}
 
 		return array(

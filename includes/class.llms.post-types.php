@@ -2,7 +2,7 @@
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  3.6.0
+ * @version  3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,7 +14,7 @@ class LLMS_Post_Types {
 	 * @since    1.0.0
 	 * @version  3.0.4
 	 */
-	public static function init () {
+	public static function init() {
 
 		add_action( 'init', array( __CLASS__, 'add_membership_restriction_support' ) );
 		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
@@ -72,7 +72,7 @@ class LLMS_Post_Types {
 	 * @since    1.0.0
 	 * @version  3.6.0
 	 */
-	public static function register_taxonomies () {
+	public static function register_taxonomies() {
 
 		if ( ! taxonomy_exists( 'course_type' ) ) {
 
@@ -206,7 +206,7 @@ class LLMS_Post_Types {
 		        ) )
 		    );
 
-		}
+		}// End if().
 
 		if ( ! taxonomy_exists( 'membership_cat' ) ) {
 
@@ -268,7 +268,7 @@ class LLMS_Post_Types {
 		            ),
 		        ) )
 		    );
-		}
+		}// End if().
 
 		register_taxonomy( 'llms_product_visibility',
 			apply_filters( 'lifterlms_taxonomy_objects_product_visibility', array( 'course', 'llms_membership' ) ),
@@ -308,6 +308,7 @@ class LLMS_Post_Types {
 		 */
 		$course_permalink = empty( $permalinks['course_base'] ) ? _x( 'course', 'slug', 'lifterlms' ) : $permalinks['course_base'];
 
+		$shop_page_id = llms_get_page_id( 'shop' );
 		register_post_type( 'course',
 			apply_filters( 'lifterlms_register_post_type_course',
 				array(
@@ -335,10 +336,14 @@ class LLMS_Post_Types {
 					'publicly_queryable' 	=> true,
 					'exclude_from_search' 	=> false,
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $course_permalink ? array( 'slug' => untrailingslashit( $course_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'rewrite' 				=> $course_permalink ? array(
+						'slug' => untrailingslashit( $course_permalink ),
+						'with_front' => false,
+						'feeds' => true,
+					) : false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author', 'llms-clone-post', 'llms-export-post' ),
-					'has_archive' 			=> ( $shop_page_id = llms_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
+					'has_archive' 			=> ( $shop_page_id && get_page( $shop_page_id ) ) ? get_page_uri( $shop_page_id ) : 'shop',
 					'show_in_nav_menus' 	=> true,
 					'menu_position'         => 52,
 				)
@@ -426,7 +431,11 @@ class LLMS_Post_Types {
 					'exclude_from_search' 	=> true,
 					'show_in_menu' 			=> 'edit.php?post_type=course',
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $lesson_permalink ? array( 'slug' => untrailingslashit( $lesson_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'rewrite' 				=> $lesson_permalink ? array(
+						'slug' => untrailingslashit( $lesson_permalink ),
+						'with_front' => false,
+						'feeds' => true,
+					) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
@@ -438,6 +447,7 @@ class LLMS_Post_Types {
 		 * Membership Post Type
 		 */
 		$membership_permalink = empty( $permalinks['membership_base'] ) ? _x( 'membership', 'slug', 'lifterlms' ) : $permalinks['membership_base'];
+		$membership_page_id = llms_get_page_id( 'memberships' );
 		register_post_type( 'llms_membership',
 			apply_filters( 'lifterlms_register_post_type_membership',
 				array(
@@ -466,10 +476,14 @@ class LLMS_Post_Types {
 					'exclude_from_search' 	=> false,
 					'show_in_menu' 			=> true,
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $membership_permalink ? array( 'slug' => untrailingslashit( $membership_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'rewrite' 				=> $membership_permalink ? array(
+						'slug' => untrailingslashit( $membership_permalink ),
+						'with_front' => false,
+						'feeds' => true,
+					) : false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
-					'has_archive' 			=> ( $membership_page_id = llms_get_page_id( 'memberships' ) ) && get_page( $membership_page_id ) ? get_page_uri( $membership_page_id ) : 'memberships',
+					'has_archive' 			=> ( $membership_page_id && get_page( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : 'memberships',
 					'show_in_nav_menus' 	=> true,
 					'menu_position'         => 52,
 				)
@@ -553,7 +567,9 @@ class LLMS_Post_Types {
 					'query_var' 			=> false,
 					'supports' 				=> array( 'title', 'comments', 'custom-fields' ),
 					'has_archive' 			=> false,
-					'capabilities'  	    => array( 'create_posts' => false ),
+					'capabilities'  	    => array(
+						'create_posts' => false,
+					),
 				)
 			)
 		);
@@ -593,7 +609,9 @@ class LLMS_Post_Types {
 					'query_var' 			=> false,
 					'supports' 				=> array( '' ),
 					'has_archive' 			=> false,
-					'capabilities'  	    => array( 'create_posts' => false ),
+					'capabilities'  	    => array(
+						'create_posts' => false,
+					),
 				)
 			)
 		);
@@ -669,7 +687,11 @@ class LLMS_Post_Types {
 					'exclude_from_search' 	=> true,
 					'show_in_menu' 			=> 'edit.php?post_type=llms_engagement',
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $certificate_permalink ? array( 'slug' => untrailingslashit( $certificate_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'rewrite' 				=> $certificate_permalink ? array(
+						'slug' => untrailingslashit( $certificate_permalink ),
+						'with_front' => false,
+						'feeds' => true,
+					) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor' ),
@@ -708,7 +730,11 @@ class LLMS_Post_Types {
 					'exclude_from_search' 	=> true,
 					'show_in_menu' 			=> false,
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $my_certificate_permalink ? array( 'slug' => untrailingslashit( $my_certificate_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'rewrite' 				=> $my_certificate_permalink ? array(
+						'slug' => untrailingslashit( $my_certificate_permalink ),
+						'with_front' => false,
+						'feeds' => true,
+					) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor' ),
@@ -786,7 +812,11 @@ class LLMS_Post_Types {
 					'exclude_from_search' 	=> true,
 					'show_in_menu' 			=> 'edit.php?post_type=course',
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $quiz_permalink ? array( 'slug' => untrailingslashit( $quiz_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'rewrite' 				=> $quiz_permalink ? array(
+						'slug' => untrailingslashit( $quiz_permalink ),
+						'with_front' => false,
+						'feeds' => true,
+					) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor', 'author', 'custom-fields' ),
@@ -825,7 +855,11 @@ class LLMS_Post_Types {
 					'exclude_from_search' 	=> true,
 					'show_in_menu' 			=> 'edit.php?post_type=course',
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $question_permalink ? array( 'slug' => untrailingslashit( $question_permalink ), 'with_front' => false, 'feeds' => true ) : false,
+					'rewrite' 				=> $question_permalink ? array(
+						'slug' => untrailingslashit( $question_permalink ),
+						'with_front' => false,
+						'feeds' => true,
+					) : false,
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor' ),

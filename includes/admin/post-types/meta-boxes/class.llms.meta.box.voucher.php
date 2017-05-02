@@ -3,7 +3,7 @@
  * Vouchers Metabox
  */
 
-if ( ! defined( 'ABSPATH' )) { exit; }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
@@ -115,8 +115,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 				<script>var delete_icon = '<?php echo $delete_icon ?>';</script>
 
 				<tbody id="llms_voucher_tbody">
-				<?php if ( ! empty( $codes )) :
-					foreach ($codes as $code) : ?>
+				<?php if ( ! empty( $codes ) ) :
+					foreach ( $codes as $code ) : ?>
 						<tr>
 							<td></td>
 							<td>
@@ -175,8 +175,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 				</thead>
 
 				<tbody>
-				<?php if ( ! empty( $redeemed_codes )) :
-					foreach ($redeemed_codes as $redeemed_code) :
+				<?php if ( ! empty( $redeemed_codes ) ) :
+					foreach ( $redeemed_codes as $redeemed_code ) :
 
 						$user = get_user_by( 'id', $redeemed_code->user_id );
 						?>
@@ -211,7 +211,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 */
 	public function save( $post_id ) {
 
-		if ( ! empty( $_POST['llms_generate_export'] ) || empty( $_POST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_meta_nonce'], 'lifterlms_save_data' )) {
+		if ( ! empty( $_POST['llms_generate_export'] ) || empty( $_POST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_meta_nonce'], 'lifterlms_save_data' ) ) {
 			return false;
 		}
 
@@ -224,12 +224,12 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
 		$voucher = new LLMS_Voucher( $post_id );
 
-		if (isset( $llms_codes ) && ! empty( $llms_codes ) && isset( $llms_uses ) && ! empty( $llms_uses )) {
+		if ( isset( $llms_codes ) && ! empty( $llms_codes ) && isset( $llms_uses ) && ! empty( $llms_uses ) ) {
 
-			foreach ($llms_codes as $k => $code) {
-				if (isset( $code ) && ! empty( $code ) && isset( $llms_uses[ $k ] ) && ! empty( $llms_uses[ $k ] )) {
+			foreach ( $llms_codes as $k => $code ) {
+				if ( isset( $code ) && ! empty( $code ) && isset( $llms_uses[ $k ] ) && ! empty( $llms_uses[ $k ] ) ) {
 
-					if (isset( $llms_voucher_code_id[ $k ] )) {
+					if ( isset( $llms_voucher_code_id[ $k ] ) ) {
 
 						$data = array(
 							'code' => $code,
@@ -246,10 +246,10 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 			}
 		}
 
-		if ( ! empty( $codes )) {
-			foreach ($codes as $code) {
+		if ( ! empty( $codes ) ) {
+			foreach ( $codes as $code ) {
 
-				if (isset( $code['id'] )) {
+				if ( isset( $code['id'] ) ) {
 					$voucher->update_voucher_code( $code );
 				} else {
 					$voucher->save_voucher_code( $code );
@@ -263,14 +263,14 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 		$memberships = isset( $_POST['_llms_voucher_membership'] ) ? $_POST['_llms_voucher_membership'] : false;
 		$products = array();
 
-		if (isset( $courses ) && ! empty( $courses )) {
-			foreach ($courses as $item) {
+		if ( isset( $courses ) && ! empty( $courses ) ) {
+			foreach ( $courses as $item ) {
 				$products[] = intval( $item );
 			}
 		}
 
-		if (isset( $memberships ) && ! empty( $memberships )) {
-			foreach ($memberships as $item) {
+		if ( isset( $memberships ) && ! empty( $memberships ) ) {
+			foreach ( $memberships as $item ) {
 				$products[] = intval( $item );
 			}
 		}
@@ -279,18 +279,18 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 		$voucher->delete_products();
 
 		// save new ones
-		if ( ! empty( $products )) {
-			foreach ($products as $item) {
+		if ( ! empty( $products ) ) {
+			foreach ( $products as $item ) {
 				$voucher->save_product( $item );
 			}
 		}
 
 		// set old codes as deleted
-		if (isset( $_POST['delete_ids'] ) && ! empty( $_POST['delete_ids'] )) {
+		if ( isset( $_POST['delete_ids'] ) && ! empty( $_POST['delete_ids'] ) ) {
 			$delete_ids = explode( ',', $_POST['delete_ids'] );
 
-			if ( ! empty( $delete_ids )) {
-				foreach ($delete_ids as $id) {
+			if ( ! empty( $delete_ids ) ) {
+				foreach ( $delete_ids as $id ) {
 					$voucher->delete_voucher_code( $id );
 				}
 			}

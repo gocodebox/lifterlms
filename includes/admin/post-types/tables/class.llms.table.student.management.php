@@ -154,7 +154,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}
+		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $student );
 
@@ -188,7 +188,6 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 			} else {
 				$page++;
 			}
-
 		}
 
 		return $r;

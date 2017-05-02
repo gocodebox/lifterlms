@@ -2,7 +2,7 @@
 /**
  * Individual Access Plan
  *
- * @since  3.5.0
+ * @since  3.7.5
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
@@ -50,7 +50,8 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					<td class="expandable closed"><?php echo $gateway->get_admin_title(); ?></td>
 					<td class="expandable closed">
 						<?php echo $txn->get( 'gateway_source_description' ); ?>
-						<?php if ( $source_id = $txn->get( 'gateway_source_id' ) ) : ?>
+						<?php $source_id = $txn->get( 'gateway_source_id' );
+						if ( $source_id ) : ?>
 							<?php $source = $gateway->get_source_url( $source_id ); ?>
 							<?php if ( false === filter_var( $source, FILTER_VALIDATE_URL ) ) : ?>
 								(<?php echo $source; ?>)
@@ -60,7 +61,8 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 						<?php endif; ?>
 					</td>
 					<td class="expandable closed">
-						<?php if ( $txn_id = $txn->get( 'gateway_transaction_id' ) ) : ?>
+						<?php $txn_id = $txn->get( 'gateway_transaction_id' );
+						if ( $txn_id ) : ?>
 							<?php $txn_url = $gateway->get_transaction_url( $txn_id, $txn->get( 'api_mode' ) ); ?>
 							<?php if ( false === filter_var( $txn_url, FILTER_VALIDATE_URL ) ) : ?>
 								<?php echo $txn_id; ?>

@@ -30,7 +30,9 @@ if ( empty( $_GET['course_id'] ) ) {
 
 	} else {
 
-		llms_get_template( 'admin/reporting/tabs/students/courses-course.php', array( 'student' => $student ) );
+		llms_get_template( 'admin/reporting/tabs/students/courses-course.php', array(
+			'student' => $student,
+		) );
 
 	}
 }

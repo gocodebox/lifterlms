@@ -141,7 +141,9 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	public function get_checkout_url() {
 
 		if ( $this->is_available_to_user( get_current_user_id() ) ) {
-			return llms_get_page_url( 'checkout', array( 'plan' => $this->get( 'id' ) ) );
+			return llms_get_page_url( 'checkout', array(
+				'plan' => $this->get( 'id' ),
+			) );
 		} else {
 			return '#llms-plan-locked';
 		}
@@ -240,11 +242,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			// simple subtraction
 			if ( 'dollar' === $discount_type ) {
 				$price = $price - $coupon_amount;
-			} // calculate the amount and subtract
+			} // End if().
 			elseif ( 'percent' === $discount_type ) {
 				$price = $price - ( $price * ( $coupon_amount / 100 ) );
 			}
-
 		}
 
 		// if price is less than 0 return the pricing text
@@ -264,7 +265,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			} else {
 				$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format . '_with_coupon', $price, $key, $price_args, $format, $this );
 			}
-
 		}
 
 		return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_price_with_coupon', $price, $key, $price_args, $format, $this );
@@ -318,7 +318,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				default:
 					$text = apply_filters( 'llms_default_enroll_button_text', __( 'Buy', 'lifterlms' ), $this );
 			}
-
 		}
 		return $text;
 	}
@@ -393,7 +392,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				$r .= sprintf( _x( 'for %1$d %2$s', 'subscription # of payments', 'lifterlms' ), $length, $this->get_access_period_name( $period, $length ) );
 
 			}
-
 		}
 
 		return apply_filters( 'llms_get_product_schedule_details', sprintf( $r, $this->get( 'period' ), $frequency, $length ), $this );
@@ -480,7 +478,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 					$access = true;
 					break;
 				}
-
 			}
 		}
 
@@ -538,7 +535,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 				return ( $now < $end && $now > $start );
 
-			} // only start
+			} // End if().
 			elseif ( $start && ! $end ) {
 
 				return ( $now > $start );
@@ -549,7 +546,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				return ( $now < $end );
 
 			}
-
 		}
 
 		return false;
@@ -589,7 +585,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			} elseif ( $this->get_price_with_coupon( 'price', $coupon_id, array(), 'float' ) ) {
 				return true;
 			}
-
 		} else {
 
 			if ( $this->has_trial() && $this->get_price( 'trial_price', array(), 'float' ) > 0 ) {
@@ -599,7 +594,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			} elseif ( $this->get_price( 'price', array(), 'float' ) > 0 ) {
 				return true;
 			}
-
 		}
 
 	}

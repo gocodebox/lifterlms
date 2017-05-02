@@ -87,7 +87,6 @@ abstract class LLMS_Metabox_Field {
 			if ( $difficulties ) {
 				return $difficulties[0]->slug;
 			}
-
 		} else {
 			return get_post_meta( $post_id, $field_id, true );
 		}

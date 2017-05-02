@@ -173,7 +173,9 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		//search button
 		$html .= '<div class="llms-search-button">';
 		//$html .= '<input type="submit" name="llms_search" class="button button-primary" id="llms_analytics_search" value="Filter Results" />';
-		$html .= get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
+		$html .= get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array(
+			'id' => 'llms_analytics_search',
+		) );
 		$html .= '</div>';
 
 		$html .= '</div>';
@@ -197,7 +199,6 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 			} else {
 				$total_sold_by_day = array();
 			}
-
 		} else {
 			$total_sold_by_day = array();
 		}

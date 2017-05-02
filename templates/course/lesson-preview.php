@@ -5,7 +5,7 @@
  * @author 		LifterLMS
  * @package 	LifterLMS/Templates
  * @since       1.0.0
- * @version     3.2.5
+ * @version     3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -18,8 +18,11 @@ $data_msg = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( s
 
 		<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
 
-			<?php  if ( apply_filters( 'llms_display_outline_thumbnails', true )  && $thumb = get_the_post_thumbnail( $lesson->get( 'id' ) ) ) : ?>
-				<div class="llms-lesson-thumbnail"><?php echo $thumb; ?></div>
+			<?php  if ( apply_filters( 'llms_display_outline_thumbnails', true ) ) : ?>
+				<?php $thumb = get_the_post_thumbnail( $lesson->get( 'id' ) );
+				if ( $thumb ) : ?>
+					<div class="llms-lesson-thumbnail"><?php echo $thumb; ?></div>
+				<?php endif; ?>
 			<?php endif; ?>
 
 			<aside class="llms-extra">

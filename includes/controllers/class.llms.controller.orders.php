@@ -203,8 +203,7 @@ class LLMS_Controller_Orders {
 				return llms_add_notice( $valid->get_error_message(), 'error' );
 
 			}
-
-		} // no coupon, proceed
+		} // End if().
 		else {
 			$coupon_id = null;
 			$coupon = false;
@@ -220,7 +219,7 @@ class LLMS_Controller_Orders {
 				// gateway must be enabled
 				if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
 					return llms_add_notice( __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ), 'error' );
-				} // if it's a recurring, ensure gateway supports recurring
+				} // End if().
 				elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
 					return llms_add_notice( sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
 					// if it's single, ensure gateway supports singles
@@ -235,7 +234,7 @@ class LLMS_Controller_Orders {
 		// attempt to update the user (performs validations)
 		if ( get_current_user_id() ) {
 			$person_id = LLMS_Person_Handler::update( $_POST, 'checkout' );
-		} // attempt to register new user (performs validations)
+		} // End if().
 		else {
 			$person_id = llms_register_user( $_POST, 'checkout', true );
 		}
@@ -251,7 +250,7 @@ class LLMS_Controller_Orders {
 				llms_add_notice( $msg, 'error' );
 			}
 			return;
-		} // register should be a user_id at this point, if we're not numeric we have a problem...
+		} // End if().
 		elseif ( ! is_numeric( $person_id ) ) {
 			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ), 'error' );
 		} // make sure the user isn't already enrolled in the course or membership
@@ -469,14 +468,14 @@ class LLMS_Controller_Orders {
 
 				$gateway->handle_recurring_transaction( $order );
 
-			} // log an error and do notifications
+			} // End if().
 			else {
 				llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed because the gateway no longer supports recurring payments', 'recurring-payments' );
 				/**
 				 * @todo  notifications....
 				 */
 			}
-		} // record and error and do notifications
+		} // End if().
 		else {
 
 			llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed', 'recurring-payments' );

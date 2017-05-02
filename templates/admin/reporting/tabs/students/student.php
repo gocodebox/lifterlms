@@ -34,7 +34,9 @@ if ( ! is_admin() ) { exit; }
 	</nav>
 
 	<section class="llms-gb-tab">
-		<?php llms_get_template( 'admin/reporting/tabs/students/' . $current_tab . '.php', array( 'student' => $student ) ); ?>
+		<?php llms_get_template( 'admin/reporting/tabs/students/' . $current_tab . '.php', array(
+			'student' => $student,
+		) ); ?>
 	</section>
 
 </section>

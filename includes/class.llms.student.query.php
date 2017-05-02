@@ -153,7 +153,6 @@ class LLMS_Student_Query {
 			foreach ( $this->students as $student ) {
 				$students[] = new LLMS_Student( $student->id );
 			}
-
 		}
 
 		if ( $this->get( 'suppress_filters' ) ) {

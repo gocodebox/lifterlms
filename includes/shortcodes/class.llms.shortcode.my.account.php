@@ -69,10 +69,8 @@ class LLMS_Shortcode_My_Account {
 					llms_get_template( 'global/form-registration.php' );
 
 				}
-
 			}
-
-		} // If user is logged in, display the correct page
+		} // End if().
 		else {
 
 			$tabs = LLMS_Student_Dashboard::get_tabs();
@@ -90,7 +88,6 @@ class LLMS_Shortcode_My_Account {
 				call_user_func( $tabs[ $current_tab ]['content'] );
 
 			}
-
 		}
 
 		do_action( 'lifterlms_after_student_dashboard' );
@@ -117,7 +114,9 @@ class LLMS_Shortcode_My_Account {
 		global $post;
 
 		// arguments to pass to template
-		$args = array( 'form' => 'lost_password' );
+		$args = array(
+			'form' => 'lost_password',
+		);
 
 		// process reset key / login from email confirmation link
 		if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
@@ -130,7 +129,6 @@ class LLMS_Shortcode_My_Account {
 				$args['key'] = esc_attr( $_GET['key'] );
 				$args['login'] = esc_attr( $_GET['login'] );
 			}
-
 		} elseif ( isset( $_GET['reset'] ) ) {
 
 			llms_add_notice( apply_filters( 'lifterlms_password_reset_login_message', __( 'Your password has been reset.', 'lifterlms' )
@@ -208,7 +206,11 @@ class LLMS_Shortcode_My_Account {
 
 		$hashed = $wp_hasher->HashPassword( $key );
 
-		$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
+		$wpdb->update( $wpdb->users, array(
+			'user_activation_key' => $hashed,
+			), array(
+			'user_login' => $user_login,
+		) );
 		$mailer = LLMS()->mailer();
 		do_action( 'lifterlms_reset_password_notification', $user_login, $key );
 

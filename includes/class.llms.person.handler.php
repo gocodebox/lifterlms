@@ -174,7 +174,6 @@ class LLMS_Person_Handler {
 			if ( 'account' !== $screen ) {
 				$fields = self::get_password_fields( $screen, $fields );
 			}
-
 		}
 
 		$names = get_option( 'lifterlms_user_info_field_names_' . $screen . '_visibility' );
@@ -251,7 +250,7 @@ class LLMS_Person_Handler {
 				'required' => ( 'required' === $address ) ? true : false,
 				'type'  => 'select',
 			);
-		}
+		}// End if().
 
 		$phone = get_option( 'lifterlms_user_info_field_phone_' . $screen . '_visibility' );
 		if ( 'hidden' !== $phone ) {
@@ -482,7 +481,7 @@ class LLMS_Person_Handler {
 
 			return new WP_Error( 'invalid', __( 'Invalid action' ) );
 
-		}
+		}// End if().
 
 		foreach ( $extra_data as $field ) {
 			if ( isset( $data[ $field ] ) ) {
@@ -555,7 +554,7 @@ class LLMS_Person_Handler {
 
 			return apply_filters( 'lifterlms_user_login_errors', $valid, $data );
 
-		} // log the user in
+		} // End if().
 		else {
 
 			$creds = array();
@@ -575,7 +574,6 @@ class LLMS_Person_Handler {
 					return $e;
 
 				}
-
 			} else {
 
 				$creds['user_login'] = $data['llms_login'];
@@ -593,7 +591,6 @@ class LLMS_Person_Handler {
 			} else {
 				return $signon->ID;
 			}
-
 		}
 
 	}
@@ -645,7 +642,7 @@ class LLMS_Person_Handler {
 
 			return apply_filters( 'lifterlms_user_registration_errors', $valid, $data, $screen );
 
-		} // register the user
+		} // End if().
 		else {
 
 			do_action( 'lifterlms_user_registration_after_validation', $data, $screen );
@@ -728,7 +725,7 @@ class LLMS_Person_Handler {
 
 			return apply_filters( 'lifterlms_user_update_errors', $valid, $data, $screen );
 
-		} // update the user
+		} // End if().
 		else {
 
 			do_action( 'lifterlms_user_update_after_validation', $data, $screen );
@@ -794,7 +791,6 @@ class LLMS_Person_Handler {
 					}
 				}
 			}
-
 		}
 
 		$e = new WP_Error();
@@ -834,7 +830,7 @@ class LLMS_Person_Handler {
 				if ( ! $skip_email && email_exists( $val ) ) {
 					$e->add( $field['id'], sprintf( __( 'An account with the email address "%s" already exists.', 'lifterlms' ), $val ), 'email-exists' );
 				}
-			} // validate the username
+			} // End if().
 			elseif ( 'user_login' === $name ) {
 
 				// blacklist usernames for security purposes
@@ -849,7 +845,6 @@ class LLMS_Person_Handler {
 					$e->add( $field['id'], sprintf( __( 'An account with the username "%s" already exists.', 'lifterlms' ), $val ), 'username-exists' );
 
 				}
-
 			} elseif ( 'llms_voucher' === $name && ! empty( $val ) ) {
 
 				$v = new LLMS_Voucher();
@@ -857,7 +852,6 @@ class LLMS_Person_Handler {
 				if ( is_wp_error( $check ) ) {
 					$e->add( $field['id'], $check->get_error_message(), 'voucher-' . $check->get_error_code() );
 				}
-
 			} elseif ( 'current_password' === $name ) {
 				$user = wp_get_current_user();
 				if ( ! wp_check_password( $val, $user->data->user_pass, $user->ID ) ) {
@@ -903,8 +897,7 @@ class LLMS_Person_Handler {
 					break;
 
 				}
-
-			}
+			}// End if().
 
 			// store this fields label so it can be used in a match error later if necessary
 			if ( ! empty( $field['matched'] ) ) {
@@ -923,10 +916,8 @@ class LLMS_Person_Handler {
 					$e->add( $field['id'], sprintf( __( '%1$s must match %2$s', 'lifterlms' ), $matched_values[ $field['id'] ], $label ), 'match' );
 
 				}
-
 			}
-
-		}
+		}// End foreach().
 
 		// return errors if we have errors
 		if ( $e->get_error_messages() ) {

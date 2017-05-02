@@ -134,7 +134,7 @@ class LLMS_Admin_Post_Table_Orders {
 
 					echo ' ' . $date;
 
-				} // display the string -- this would be a Lifetime or possibly custom plan
+				} // End if().
 				else {
 
 					echo $date;
@@ -179,7 +179,7 @@ class LLMS_Admin_Post_Table_Orders {
 
 			break;
 
-		}
+		}// End switch().
 	}
 
 	/**
@@ -228,7 +228,7 @@ class LLMS_Admin_Post_Table_Orders {
 						'orderby' => 'ID',
 					)
 				);
-			} // order product
+			} // End if().
 			elseif ( isset( $vars['orderby'] ) && 'product' == $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars,
@@ -246,7 +246,6 @@ class LLMS_Admin_Post_Table_Orders {
 					)
 				);
 			}
-
 		}
 
 		return $vars;
@@ -326,10 +325,8 @@ class LLMS_Admin_Post_Table_Orders {
 					} );
 
 				}
-
-			}
-
-		}
+			}// End if().
+		}// End if().
 
 		return $query;
 

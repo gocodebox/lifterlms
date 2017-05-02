@@ -98,7 +98,6 @@ class LLMS_Admin_Post_Table_Lessons {
 						echo '&ndash;';
 
 					}
-
 				} else {
 
 					echo '&ndash;';
@@ -107,7 +106,7 @@ class LLMS_Admin_Post_Table_Lessons {
 
 			break;
 
-		}
+		}// End switch().
 
 	}
 

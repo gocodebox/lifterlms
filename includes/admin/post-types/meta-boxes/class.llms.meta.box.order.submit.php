@@ -103,7 +103,6 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 				$order->set( 'status', $new_status );
 
 			}
-
 		}
 
 	}

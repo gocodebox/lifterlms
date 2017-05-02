@@ -67,7 +67,8 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				echo isset( $triggers[ $trigger ] ) ? $triggers[ $trigger ] : $trigger;
 
-				if ( $tid = get_post_meta( $post_id, '_llms_engagement_trigger_post', true ) ) {
+				$tid = get_post_meta( $post_id, '_llms_engagement_trigger_post', true );
+				if ( $tid ) {
 
 					echo '<br>';
 
@@ -94,7 +95,8 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				echo isset( $types[ $type ] ) ? $types[ $type ] : $type;
 
-				if ( $eid = get_post_meta( $post_id, '_llms_engagement', true ) ) {
+				$eid = get_post_meta( $post_id, '_llms_engagement', true );
+				if ( $eid ) {
 
 					echo '<br>';
 					printf( '<a href="%s">%s (ID# %d)</a>', get_edit_post_link( $eid ), get_the_title( $eid ), $eid );
@@ -119,7 +121,7 @@ class LLMS_Admin_Post_Table_Engagements {
 
 			break;
 
-		}
+		}// End switch().
 
 	}
 

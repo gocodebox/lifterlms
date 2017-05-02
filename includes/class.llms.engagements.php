@@ -247,7 +247,7 @@ class LLMS_Engagements {
 					'user_id' => null,
 				), $action, $args ) );
 
-		}
+		}// End switch().
 
 		// we need a user and a trigger to proceed, related_post is optional though
 		if ( ! $user_id || ! $trigger_type ) {
@@ -308,7 +308,7 @@ class LLMS_Engagements {
 							'handler_args' => $handler_args,
 						), $e, $user_id, $related_post_id, $trigger_type ) );
 
-				}
+				}// End switch().
 
 				// can't proceed without an action and a handler
 				if ( ! $handler_action && ! $handler_args ) {
@@ -324,16 +324,14 @@ class LLMS_Engagements {
 
 					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, array( $handler_args ) );
 
-				} // otherwise trigger it now
+				} // End if().
 				else {
 
 					do_action( $handler_action, $handler_args );
 
 				}
-
-			}
-
-		}
+			}// End foreach().
+		}// End if().
 
 		$this->log( '======= end maybe_trigger_engagement ========' );
 

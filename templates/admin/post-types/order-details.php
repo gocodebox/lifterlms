@@ -155,7 +155,8 @@ if ( ! is_admin() ) { exit; }
 		<?php if ( $order->is_recurring() ) : ?>
 			<div class="llms-metabox-field">
 				<label><?php _e( 'Next Payment Due Date:', 'lifterlms' ); ?></label>
-				<?php if ( $date = $order->get_next_payment_due_date( 'm/d/Y h:ia' ) ) : ?>
+				<?php $date = $order->get_next_payment_due_date( 'm/d/Y h:ia' );
+				if ( $date ) : ?>
 					<?php echo ( is_wp_error( $date ) ) ? '&ndash;' : $date; ?>
 				<?php endif; ?>
 			</div>

@@ -36,14 +36,11 @@ if ( ! is_admin() ) { exit; }
 
 </div>
 
-
-
-
-
 <div class="d-1of4">
 	<ul>
 		<li><strong><?php _e( 'Address', 'lifterlms' ); ?></strong></li>
-		<?php if ( $address = $student->get( 'billing_address_1' ) ) : ?>
+		<?php $address = $student->get( 'billing_address_1' );
+		if ( $address ) : ?>
 			<li>
 				<?php echo $address; ?><br>
 				<?php echo $student->get( 'billing_address_2' ); ?><br>
@@ -51,7 +48,8 @@ if ( ! is_admin() ) { exit; }
 				<?php echo $student->get( 'billing_country' ); ?>
 			</li>
 		<?php endif; ?>
-		<?php if ( $phone = $student->get( 'phone' ) ) : ?>
+		<?php $phone = $student->get( 'phone' );
+		if ( $phone ) : ?>
 			<li><strong><?php _e( 'Phone', 'lifterlms' ); ?></strong>: <a href="tel:<?php echo $phone; ?>"><?php echo $phone; ?></a></li>
 		<?php endif; ?>
 	</ul>

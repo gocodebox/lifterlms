@@ -28,7 +28,9 @@ class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field implements Meta
 
 		$settings = array(
 			'textarea_name'	=> 'content',
-			'quicktags' 	=> array( 'buttons' => 'em,strong,link' ),
+			'quicktags' 	=> array(
+				'buttons' => 'em,strong,link',
+			),
 			'tinymce' 	=> array(
 				'theme_advanced_buttons1' => 'bold,italic,strikethrough,separator,bullist,numlist,separator,blockquote,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,separator,undo,redo,separator',
 				'theme_advanced_buttons2' => '',

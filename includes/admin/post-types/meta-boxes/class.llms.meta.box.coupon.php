@@ -54,7 +54,6 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 					'title' => get_the_title( $membership_id ) . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $membership_id . ')',
 				);
 			}
-
 		} else {
 
 			$c = false;
@@ -272,7 +271,6 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 				$c->set( $field, $_POST[ $this->prefix . $field ] );
 
 			}
-
 		}
 
 	}

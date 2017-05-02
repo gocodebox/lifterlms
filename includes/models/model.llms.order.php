@@ -107,7 +107,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$author = $user->display_name;
 			$author_email = $user->user_email;
 
-		} // added by the system during a transaction or scheduled action
+		} // End if().
 		else {
 
 			$user_id = 0;
@@ -247,7 +247,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				return 'expired';
 
 			}
-
 		}
 
 		// we're active
@@ -446,7 +445,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			default:
 				$type = 'text';
 
-		}
+		}// End switch().
 
 		return $type;
 
@@ -504,7 +503,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		// single payments will never have a next payment date
 		if ( ! $this->is_recurring() ) {
 			return new WP_Error( 'not-recurring', __( 'Order is not recurring', 'lifterlms' ) );
-		} // only active, failed, or pending subscriptions can have a next payment date
+		} // End if().
 		elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-pending' ) ) ) {
 			return new WP_Error( 'invalid-status', __( 'Invalid order status', 'lifterlms' ), $this->get( 'status' ) );
 		}
@@ -642,7 +641,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		$statuses = llms_get_transaction_statuses();
 
 		// check statuses
-		if ( 'any' !== $statuses  ) {
+		if ( 'any' !== $statuses ) {
 
 			// if status is a string, ensure it's a valid status
 			if ( is_string( $status ) && in_array( $status, $statuses ) ) {
@@ -656,7 +655,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				}
 				$statuses = $temp;
 			}
-
 		}
 
 		// setup type meta query
@@ -778,7 +776,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				$amount = $amount - $refunds;
 
 			}
-
 		}
 
 		return apply_filters( 'llms_order_get_revenue' , $amount, $type, $this );
@@ -923,7 +920,9 @@ class LLMS_Order extends LLMS_Post_Model {
 			$date = $date - ( HOUR_IN_SECONDS * get_option( 'gmt_offset' ) );
 
 			// schedule the payment
-			wc_schedule_single_action( $date, 'llms_charge_recurring_payment', array( 'order_id' => $this->get( 'id' ) ) );
+			wc_schedule_single_action( $date, 'llms_charge_recurring_payment', array(
+				'order_id' => $this->get( 'id' ),
+			) );
 
 		}
 
@@ -996,9 +995,10 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			// will return a timestamp or "Lifetime Access as a string"
 			if ( is_numeric( $expires ) ) {
-				wc_schedule_single_action( $expires, 'llms_access_plan_expiration', array( 'order_id' => $this->get( 'id' ) ) );
+				wc_schedule_single_action( $expires, 'llms_access_plan_expiration', array(
+					'order_id' => $this->get( 'id' ),
+				) );
 			}
-
 		}
 
 	}
@@ -1011,8 +1011,12 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @version  3.0.0
 	 */
 	public function unschedule_recurring_payment() {
-		if ( wc_next_scheduled_action( 'llms_charge_recurring_payment', array( 'order_id' => $this->get( 'id' ) ) ) ) {
-			wc_unschedule_action( 'llms_charge_recurring_payment', array( 'order_id' => $this->get( 'id' ) ) );
+		if ( wc_next_scheduled_action( 'llms_charge_recurring_payment', array(
+			'order_id' => $this->get( 'id' ),
+		) ) ) {
+			wc_unschedule_action( 'llms_charge_recurring_payment', array(
+				'order_id' => $this->get( 'id' ),
+			) );
 		}
 	}
 

@@ -6,7 +6,7 @@
  * @package 	lifterLMS/Templates
  *
  */
-if ($wp_query->max_num_pages < 2) { return; }
+if ( $wp_query->max_num_pages < 2 ) { return; }
 ?>
 
 <nav class="llms-pagination">

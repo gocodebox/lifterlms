@@ -122,28 +122,32 @@ if ( ! isset( $plan ) ) {
 						<option value="0"<?php selected( 0, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
 						<?php $i = 1; while ( $i <= 6 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s year', 'for %s years', $i, 'lifterlms' ), $i ); ?></option>
-						<?php $i++; endwhile; ?>
+						<?php $i++;
+endwhile; ?>
 					</select>
 
 					<select data-controller="llms-plan-period" data-value-is="month" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 						<option value="0"<?php selected( 0, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
 						<?php $i = 1; while ( $i <= 24 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s month', 'for %s months', $i, 'lifterlms' ), $i ); ?></option>
-						<?php $i++; endwhile; ?>
+						<?php $i++;
+endwhile; ?>
 					</select>
 
 					<select data-controller="llms-plan-period" data-value-is="week" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 						<option value="0"<?php selected( 0, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
 						<?php $i = 1; while ( $i <= 52 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s week', 'for %s weeks', $i, 'lifterlms' ), $i ); ?></option>
-						<?php $i++; endwhile; ?>
+						<?php $i++;
+endwhile; ?>
 					</select>
 
 					<select data-controller="llms-plan-period" data-value-is="day" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 						<option value="0"<?php selected( 0, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
 						<?php $i = 1; while ( $i <= 90 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s day', 'for %s days', $i, 'lifterlms' ), $i ); ?></option>
-						<?php $i++; endwhile; ?>
+						<?php $i++;
+endwhile; ?>
 					</select>
 				</div>
 
@@ -282,7 +286,9 @@ if ( ! isset( $plan ) ) {
 				'media_buttons' => false,
 				'teeny' => true,
 				'textarea_name'	=> '_llms_plans[' . $order . '][content]',
-				'quicktags' 	=> array( 'buttons' => 'strong,em,del,ul,ol,li,close' ),
+				'quicktags' 	=> array(
+					'buttons' => 'strong,em,del,ul,ol,li,close',
+				),
 			) ) ); ?>
 		</div>
 

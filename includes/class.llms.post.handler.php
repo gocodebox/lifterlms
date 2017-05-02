@@ -54,7 +54,7 @@ class LLMS_Post_Handler {
 		// Update the post into the database
 		$updated_post_id = wp_update_post( $post_data );
 
-		if ($updated_post_id) {
+		if ( $updated_post_id ) {
 			return array(
 				'id' => $updated_post_id,
 				'title' => $title,
@@ -73,7 +73,7 @@ class LLMS_Post_Handler {
 		// Update the post into the database
 		$updated_post_id = wp_update_post( $post_data );
 
-		if ($updated_post_id) {
+		if ( $updated_post_id ) {
 			return array(
 				'id' => $updated_post_id,
 				'post_excerpt' => $excerpt,
@@ -165,12 +165,11 @@ class LLMS_Post_Handler {
 		);
 		$postslist = get_posts( $args );
 
-		if ( ! empty( $postslist )) {
+		if ( ! empty( $postslist ) ) {
 
-			foreach ($postslist as $key => $value) {
+			foreach ( $postslist as $key => $value ) {
 				$value->edit_url = get_edit_post_link( $value->ID, false );
 			}
-
 		}
 
 		return $postslist;
@@ -183,9 +182,9 @@ class LLMS_Post_Handler {
 
 		$options = array();
 
-		if ( ! empty( $lessons )) {
+		if ( ! empty( $lessons ) ) {
 
-			foreach ($lessons as $key => $value) {
+			foreach ( $lessons as $key => $value ) {
 
 				//get parent course if assigned
 				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
@@ -199,7 +198,6 @@ class LLMS_Post_Handler {
 				$options[ $value->ID ] = $title;
 
 			}
-
 		}
 
 		return $options;

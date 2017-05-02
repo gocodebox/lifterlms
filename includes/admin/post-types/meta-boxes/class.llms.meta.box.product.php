@@ -175,8 +175,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 				$plan->set( $key, $val );
 			}
-
-		}
+		}// End foreach().
 
 	}
 

@@ -31,16 +31,11 @@
 		-->
 		<exclude name="WordPress.Functions.DontExtract"/>
 		<exclude name="WordPress.WP.PreparedSQL"/>
-		<exclude name="WordPress.WP.I18n"/>
 
 		<!--
-		We may want a middle ground though. The best way to do this is add the
-		entire ruleset, then rule by rule, remove ones that don't suit a project. We
-		can do this by running `phpcs` with the '-s' flag, to see the names of the
-		different Sniffs, as their rules are broken. From here, we can opt to
-		exclude problematic sniffs like so.
+		@todo waiting on resolution for this bug report: https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/719
 		-->
-		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing" />
-		<exclude name="WordPress.XSS.EscapeOutput" />
+		<exclude name="WordPress.WP.I18n"/>
+
 	</rule>
 </ruleset>

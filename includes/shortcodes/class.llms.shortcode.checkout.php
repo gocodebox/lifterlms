@@ -135,8 +135,8 @@ class LLMS_Shortcode_Checkout {
 
 				$coupon = LLMS()->session->get( 'llms_coupon' );
 
-				if (isset( $coupon['coupon_id'] ) && isset( $coupon['plan_id'] )) {
-					if ($coupon['plan_id'] == $_GET['plan']) {
+				if ( isset( $coupon['coupon_id'] ) && isset( $coupon['plan_id'] ) ) {
+					if ( $coupon['plan_id'] == $_GET['plan'] ) {
 						$atts['coupon'] = new LLMS_Coupon( $coupon['coupon_id'] );
 					} else {
 						LLMS()->session->set( 'llms_coupon', false );
@@ -146,7 +146,7 @@ class LLMS_Shortcode_Checkout {
 					$atts['coupon'] = false;
 				}
 
-				if (isset( $_POST['llms_order_key'] )) {
+				if ( isset( $_POST['llms_order_key'] ) ) {
 					$atts['order_key'] = sanitize_text_field( $_POST['llms_order_key'] );
 				}
 
@@ -160,8 +160,7 @@ class LLMS_Shortcode_Checkout {
 				self::error( __( 'Invalid access plan.', 'lifterlms' ) );
 
 			}
-
-		} // purchase confirmation where applicable
+		} // End if().
 		elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
 			// $atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );

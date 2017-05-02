@@ -15,13 +15,13 @@ class LLMS_Email {
 	 * Returns if email template is enabled.
 	 * @var bool
 	 */
-	var $enabled = true;
+	public $enabled = true;
 
 	/**
 	 * Email heading
 	 * @var string
 	 */
-	var $heading;
+	public $heading;
 
 	/**
 	 * Constructor

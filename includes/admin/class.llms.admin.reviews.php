@@ -143,7 +143,7 @@ class LLMS_Admin_Reviews {
 			),
 		);
 
-		if (has_filter( 'llms_review_fields' )) {
+		if ( has_filter( 'llms_review_fields' ) ) {
 			$fields = apply_filters( 'llms_review_fields', $fields );
 		}
 
@@ -170,16 +170,16 @@ class LLMS_Admin_Reviews {
 		$num = (isset( $_POST['_llms_num_reviews'] )) ? $_POST['_llms_num_reviews'] : 0;
 		$multiple = (isset( $_POST['_llms_multiple_reviews_disabled'] )) ? $_POST['_llms_multiple_reviews_disabled'] : '';
 
-		if (isset( $_POST['post_ID'] )) {
+		if ( isset( $_POST['post_ID'] ) ) {
 			update_post_meta( $_POST['post_ID'], '_llms_reviews_enabled', $enabled );
 		}
-		if (isset( $_POST['post_ID'] )) {
+		if ( isset( $_POST['post_ID'] ) ) {
 			update_post_meta( $_POST['post_ID'], '_llms_display_reviews', $display );
 		}
-		if (isset( $_POST['post_ID'] )) {
+		if ( isset( $_POST['post_ID'] ) ) {
 			update_post_meta( $_POST['post_ID'], '_llms_num_reviews', $num );
 		}
-		if (isset( $_POST['post_ID'] )) {
+		if ( isset( $_POST['post_ID'] ) ) {
 			update_post_meta( $_POST['post_ID'], '_llms_multiple_reviews_disabled', $multiple );
 		}
 	}

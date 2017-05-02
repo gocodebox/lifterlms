@@ -2,7 +2,7 @@
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.6.0
+* @version  3.7.5
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -60,14 +60,14 @@ class LLMS_Frontend_Assets {
 		// retrieve the current array of scripts
 		$scripts = self::get_inline_scripts( $where );
 
-		$priority = ( string ) $priority;
+		$priority = (string) $priority;
 
 		// if something already exist at the priority, increment until we can save it
 		while ( isset( $scripts[ $priority ] ) ) {
 
-			$priority = ( float ) $priority;
+			$priority = (float) $priority;
 			$priority = $priority + 0.01;
-			$priority = ( string ) $priority;
+			$priority = (string) $priority;
 
 		}
 
@@ -122,7 +122,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.6.0
+	 * @version 3.7.5
 	 */
 	public static function enqueue_scripts() {
 
@@ -165,7 +165,7 @@ class LLMS_Frontend_Assets {
 		);
 		self::enqueue_inline_script(
 			'llms-l10n',
-			'window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_l10n::get_js_strings( true ) . ';'
+			'window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';'
 		);
 
 	}

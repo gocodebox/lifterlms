@@ -84,7 +84,6 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 		} else {
 			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
 		}
-
 	} else {
 
 		if ( ! is_null( $replacement ) ) {
@@ -92,7 +91,6 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 		} else {
 			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
 		}
-
 	}
 
 	// warn on screen
@@ -816,7 +814,7 @@ function llms_clean( $var ) {
  * @return void
  */
 function llms_expire_membership_schedule() {
-	if ( ! wp_next_scheduled( 'llms_check_for_expired_memberships' )) {
+	if ( ! wp_next_scheduled( 'llms_check_for_expired_memberships' ) ) {
 		  wp_schedule_event( time(), 'daily', 'llms_check_for_expired_memberships' );
 	}
 }
@@ -844,7 +842,7 @@ function llms_expire_membership() {
 		return;
 	}
 
-	foreach ($posts as $post) {
+	foreach ( $posts as $post ) {
 
 		//make sure interval and period exist before continuing.
 		$interval = get_post_meta( $post->ID, '_llms_expiration_interval', true );
@@ -862,7 +860,7 @@ function llms_expire_membership() {
 		$results = $wpdb->get_results( $wpdb->prepare(
 		'SELECT * FROM ' . $table_name . ' WHERE post_id = %d AND meta_key = "%s" AND meta_value = %s ORDER BY updated_date DESC', $post->ID, $meta_key_status, $meta_value_status ) );
 
-		for ($i = 0; $i < count( $results ); $i++) {
+		for ( $i = 0; $i < count( $results ); $i++ ) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}
@@ -916,10 +914,8 @@ function llms_expire_membership() {
 					update_user_meta( $user_id, '_llms_restricted_levels', $users_levels );
 				}
 			}
-
-		}
-
-	}
+		}// End foreach().
+	}// End foreach().
 
 }
 add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );

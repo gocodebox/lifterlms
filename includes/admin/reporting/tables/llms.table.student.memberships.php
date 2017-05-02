@@ -3,7 +3,7 @@
  * Individual Student's Memberships Table
  *
  * @since   3.2.0
- * @version 3.2.0
+ * @version 3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -28,14 +28,14 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 	 * @param    int        $membership_id  ID of the membership
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.7.5
 	 */
 	public function get_data( $key, $membership_id ) {
 
 		switch ( $key ) {
 
 			case 'id':
-				$value = $value = $this->get_post_link( $membership_id );
+				$value = $this->get_post_link( $membership_id );
 			break;
 
 			case 'name':

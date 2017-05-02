@@ -116,7 +116,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			return absint( $this->$key );
 
-		} // if it's a WP Post Property, grab it from the object we already have and apply appropriate filters
+		} // End if().
 		elseif ( in_array( $key, $this->get_post_properties() ) ) {
 
 			$post_key = 'post_' . $key;
@@ -511,7 +511,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// check against the properties array
 		if ( in_array( $key, array_keys( $props ) ) ) {
 			$type = $props[ $key ];
-		} // default to text
+		} // End if().
 		else {
 			$type = 'text';
 		}
@@ -656,7 +656,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			break;
 
 			case 'array':
-				$val = ( array ) $val;
+				$val = (array) $val;
 			break;
 
 			case 'bool':
@@ -685,7 +685,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			default:
 				$val = sanitize_text_field( $val );
 
-		}
+		}// End switch().
 
 		return $val;
 
@@ -737,8 +737,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			} else {
 				return false;
 			}
-
-		} // if the property is not unsettable, update the meta value
+		} // End if().
 		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
 
 			$u = update_post_meta( $this->id, $this->meta_prefix . $key, apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this ) );
@@ -747,7 +746,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			} else {
 				return false;
 			}
-
 		} // we have a problem...
 		else {
 

@@ -63,7 +63,6 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 				//$html .= self::full_width_widget( $this->lesson_completion_chart( $search ) );
 				$html .= self::full_width_widget( $this->membership_member_table( $search ) );
 			}
-
 		}
 
 		//return contents
@@ -146,7 +145,9 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 		//search button
 		$html .= '<div class="llms-search-button">';
 		//$html .= '<input type="submit" name="llms_search" class="button button-primary" id="llms_analytics_search" value="Filter Results" />';
-		$html .= get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
+		$html .= get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array(
+			'id' => 'llms_analytics_search',
+		) );
 		$html .= '</div>';
 
 		$html .= '</div>';
@@ -175,7 +176,6 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 				array_unshift( $total_members_by_day, $headers );
 
 			}
-
 		} else {
 			$total_members_by_day = array();
 		}

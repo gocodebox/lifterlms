@@ -210,7 +210,6 @@ class LLMS_Quiz {
 				if ( $value['id'] == $this->id ) {
 					$grade = $value['grade'];
 				}
-
 			}
 		}
 		return round( $grade );
@@ -229,7 +228,7 @@ class LLMS_Quiz {
 		//get all grades and add to grades array
 		$grades = array();
 
-		if ($quiz) {
+		if ( $quiz ) {
 			foreach ( $quiz as $key => $value ) {
 				if ( $value['id'] == $this->id ) {
 					if ( $value['grade'] ) {
@@ -269,7 +268,6 @@ class LLMS_Quiz {
 					$unique_id = $value['wpnonce'];
 				}
 			}
-
 		}
 
 		return $unique_id;
@@ -356,7 +354,6 @@ class LLMS_Quiz {
 					$start_date = $value['start_date'];
 				}
 			}
-
 		}
 
 		return $start_date;
@@ -432,7 +429,6 @@ class LLMS_Quiz {
 				$total_attempts_remaining = 0;
 
 			}
-
 		} else {
 
 			$total_attempts_remaining = _x( 'Unlimited', 'quiz attempts remaining', 'lifterlms' );
@@ -583,7 +579,7 @@ class LLMS_Quiz {
 				'message' => __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ),
 			);
 
-		}
+		}// End if().
 
 	}
 
@@ -631,7 +627,6 @@ class LLMS_Quiz {
 				} else {
 					$quiz->questions[ $key ]['correct'] = false;
 				}
-
 			}
 		}
 
@@ -653,7 +648,6 @@ class LLMS_Quiz {
 					}
 				}
 			}
-
 		}
 
 		update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
@@ -733,15 +727,13 @@ class LLMS_Quiz {
 							if ( ! $student->is_complete( $quiz->assoc_lesson, 'lesson' ) ) {
 								llms_mark_complete( $quiz->user_id, $quiz->assoc_lesson, 'lesson', 'quiz_' . $quiz->id );
 							}
-
 						}
 
 						update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
 						LLMS()->session->set( 'llms_quiz', $quiz );
 
-					}
-
-				}
+					}// End if().
+				}// End foreach().
 
 				// clear "cached" grade so it's recalced next time it's requested
 				$student = new LLMS_Student( $quiz->user_id );
@@ -752,7 +744,7 @@ class LLMS_Quiz {
 				$response['message'] = __( 'There was an error with your quiz.', 'lifterlms' );
 				return $response;
 
-			}
+			}// End if().
 
 			$response['redirect'] = get_permalink( $quiz->id );
 			return $response;
@@ -762,7 +754,7 @@ class LLMS_Quiz {
 			$response['next_question_id'] = $next_question_id;
 			return $response;
 
-		}
+		}// End if().
 
 	}
 
@@ -816,9 +808,9 @@ class LLMS_Quiz {
 
 		$last_attempt = array();
 
-		foreach ( (array) $quiz_data as $quiz) {
-			if (isset( $quiz['id'] ) && (int) $quiz['id'] === (int) $this->get_id()
-				&& (int) $this->get_total_attempts_by_user( $user->get_id() ) === (int) $quiz['attempt']) {
+		foreach ( (array) $quiz_data as $quiz ) {
+			if ( isset( $quiz['id'] ) && (int) $quiz['id'] === (int) $this->get_id()
+				&& (int) $this->get_total_attempts_by_user( $user->get_id() ) === (int) $quiz['attempt'] ) {
 				$last_attempt = $quiz;
 			}
 		}

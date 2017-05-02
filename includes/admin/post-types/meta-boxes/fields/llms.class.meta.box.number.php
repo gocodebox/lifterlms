@@ -24,10 +24,10 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		<input type="number"
 		<?php
-		if (isset( $this->field['min'] )) {
+		if ( isset( $this->field['min'] ) ) {
 			echo 'min="' . $this->field['min'] . '"';
 		}
-		if (isset( $this->field['max'] )) {
+		if ( isset( $this->field['max'] ) ) {
 			echo 'max="' . $this->field['max'] . '"';
 		}
 		?>

@@ -38,9 +38,18 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 			return apply_filters( 'lifterlms_course_settings', array(
 
-				array( 'type' => 'sectionstart', 'id' => 'email_options', 'class' => 'top' ),
+				array(
+					'type' => 'sectionstart',
+					'id' => 'email_options',
+					'class' => 'top',
+				),
 
-				array( 'title' => __( 'Email Settings', 'lifterlms' ), 'type' => 'title','desc' => 'Manage email settings.', 'id' => 'email_options' ),
+				array(
+					'title' => __( 'Email Settings', 'lifterlms' ),
+					'type' => 'title',
+					'desc' => 'Manage email settings.',
+					'id' => 'email_options',
+				),
 
 				array(
 					'title' => __( 'Senders Email Address', 'lifterlms' ),
@@ -75,11 +84,23 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'autoload'  => false,
 				),
 
-				array( 'type' => 'sectionend', 'id' => 'email_options' ),
+				array(
+					'type' => 'sectionend',
+					'id' => 'email_options',
+				),
 
-				array( 'type' => 'sectionstart', 'id' => 'certificates_options', 'class' => 'top' ),
+				array(
+					'type' => 'sectionstart',
+					'id' => 'certificates_options',
+					'class' => 'top',
+				),
 
-				array( 'title' => __( 'Certificates Settings', 'lifterlms' ), 'type' => 'title','desc' => '', 'id' => 'certificates_options' ),
+				array(
+					'title' => __( 'Certificates Settings', 'lifterlms' ),
+					'type' => 'title',
+					'desc' => '',
+					'id' => 'certificates_options',
+				),
 
 				array(
 					'type' => 'desc',
@@ -116,7 +137,10 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'autoload'      => false,
 				),
 
-				array( 'type' => 'sectionend', 'id' => 'certificates_options' ),
+				array(
+					'type' => 'sectionend',
+					'id' => 'certificates_options',
+				),
 
 				)
 			);

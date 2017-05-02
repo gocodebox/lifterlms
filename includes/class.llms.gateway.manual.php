@@ -2,7 +2,8 @@
 /**
 * Manual Payment Gateway Class
 *
-* @version 3.0.0
+* @since   3.0.0
+* @version 3.7.5
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
@@ -53,7 +54,6 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 				echo $this->get_payment_instructions();
 
 			}
-
 		}
 
 	}
@@ -62,10 +62,11 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * Get fields displayed on the checkout form
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.5
 	 */
 	public function get_payment_instructions() {
-		if ( $opt = $this->get_option( 'payment_instructions' ) ) {
+		$opt = $this->get_option( 'payment_instructions' );
+		if ( $opt ) {
 			$fields = '<div class="llms-notice llms-debug">' . wpautop( wptexturize( wp_kses_post( $opt ) ) ) . '</div>';
 		} else {
 			$fields = '';

@@ -48,8 +48,8 @@ class LLMS_Meta_Box_Lesson_Tree {
 				class="chosen-select">';
 			$html .= '<option value="" selected>Select a section...</option>';
 
-		foreach ($all_sections as $key => $value) {
-			if ($value->ID == $parent_section_id) {
+		foreach ( $all_sections as $key => $value ) {
+			if ( $value->ID == $parent_section_id ) {
 
 				$html .= '<option value="' . $value->ID . '" selected >' . $value->post_title . '</option>';
 
@@ -91,7 +91,7 @@ class LLMS_Meta_Box_Lesson_Tree {
 					if ( $lessons ) {
 						foreach ( $lessons as $lesson ) {
 
-							if ($lesson->ID == $post->ID) {
+							if ( $lesson->ID == $post->ID ) {
 								$html .= '<li><span>' . LLMS_Svg::get_icon( 'llms-icon-existing-lesson', 'Lesson', 'Lesson', 'list-icon off' )
 								. ' ' . $lesson->post_title . '</span></li>';
 							} else {
@@ -106,10 +106,8 @@ class LLMS_Meta_Box_Lesson_Tree {
 					$html .= '</li>'; //end section
 					$html .= '</ul>'; //end outline
 				}
-
 			}
-
-		}
+		}// End if().
 
 		$html .= '</div>';
 

@@ -34,7 +34,8 @@ $progress = $student->get_progress( $post->ID, 'course' );
 
 	<?php else : ?>
 
-		<?php if ( $lesson = $student->get_next_lesson( $post->ID ) ) : ?>
+		<?php $lesson = $student->get_next_lesson( $post->ID );
+		if ( $lesson ) : ?>
 
 			<a class="llms-button-primary" href="<?php echo get_permalink( $lesson ); ?>">
 

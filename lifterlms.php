@@ -126,7 +126,7 @@ final class LifterLMS {
 			$path = $this->plugin_path() . '/includes/integrations/';
 		} elseif ( strpos( $class, 'llms_controller_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/controllers/';
-		} elseif (strpos( $class, 'llms_' ) === 0 ) {
+		} elseif ( strpos( $class, 'llms_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/';
 		}
 
@@ -401,13 +401,13 @@ final class LifterLMS {
 	 *
 	 * @param array $links [array of links]
 	 */
-	public function add_action_links ( $links ) {
+	public function add_action_links( $links ) {
 
 		$lifter_links = array(
 			'<a href="' . admin_url( 'admin.php?page=llms-settings' ) . '">' . __( 'Settings', 'lifterlms' ) . '</a>'
 		);
 
-		if (count( $links ) == 3) {
+		if ( count( $links ) == 3 ) {
 			return $links;
 		}
 

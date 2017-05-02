@@ -93,11 +93,22 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'default'	=> 'no',
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
+			array(
+				'type' => 'sectionend',
+				'id' => 'course_archive_options',
+			),
 
-			array( 'type' => 'sectionstart', 'id' => 'general_options' ),
+			array(
+				'type' => 'sectionstart',
+				'id' => 'general_options',
+			),
 
-			array( 'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
+			array(
+				'title' => __( 'Currency Options', 'lifterlms' ),
+				'type' => 'title',
+				'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ),
+				'id' => 'pricing_options',
+			),
 
 			array(
 				'class'     => 'llms-select2',
@@ -170,13 +181,24 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'type'          => 'checkbox',
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'general_options' ),
+			array(
+				'type' => 'sectionend',
+				'id' => 'general_options',
+			),
 
 		);
 
-		$settings[] = array( 'type' => 'sectionstart', 'id' => 'checkout_gateway_settings', 'class' => 'top' );
+		$settings[] = array(
+			'type' => 'sectionstart',
+			'id' => 'checkout_gateway_settings',
+			'class' => 'top',
+		);
 
-		$settings[] = array( 'title' => __( 'Payment Gateways', 'lifterlms' ), 'type' => 'title', 'id' => 'course_options' );
+		$settings[] = array(
+			'title' => __( 'Payment Gateways', 'lifterlms' ),
+			'type' => 'title',
+			'id' => 'course_options',
+		);
 
 		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
 		$total = count( $gateways );
@@ -194,10 +216,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			} else {
 				$i++;
 			}
-
 		}
 
-		$settings[] = array( 'type' => 'sectionend', 'id' => 'general_options' );
+		$settings[] = array(
+			'type' => 'sectionend',
+			'id' => 'general_options',
+		);
 
 		return apply_filters( 'lifterlms_checkout_settings', $settings );
 	}

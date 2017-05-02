@@ -115,7 +115,7 @@ function llms_update_300_create_access_plans() {
 				$single_free_open = false;
 				$recurring_paid = false;
 
-			} // is paid and members only, available to members for free & everyone ala carte
+			} // End if().
 			elseif ( ! $is_free && $members_only ) {
 
 				$free_members_only = true;
@@ -205,7 +205,7 @@ function llms_update_300_create_access_plans() {
 				$plan['menu_order'] = $order;
 				$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-subscription' : '';
 
-				if (isset( $meta['_llms_subscription_first_payment'][0] ) && $meta['_llms_subscription_first_payment'][0] != $meta['_llms_subscription_price'][0] ) {
+				if ( isset( $meta['_llms_subscription_first_payment'][0] ) && $meta['_llms_subscription_first_payment'][0] != $meta['_llms_subscription_price'][0] ) {
 					$plan['trial_offer'] = 'yes';
 					$plan['trial_length'] = $meta['_llms_billing_freq'][0];
 					$plan['trial_period'] = $meta['_llms_billing_period'][0];
@@ -253,9 +253,8 @@ function llms_update_300_create_access_plans() {
 			foreach ( $keys as $key ) {
 				delete_post_meta( $post->ID, $key );
 			}
-
-		}
-	}
+		}// End foreach().
+	}// End if().
 
 }
 
@@ -356,7 +355,6 @@ function llms_update_300_migrate_account_field_options() {
 		if ( $phone ) {
 			update_option( 'lifterlms_user_info_field_phone_' . $screen . '_visibility', $phone );
 		}
-
 	}
 
 	delete_option( 'lifterlms_registration_confirm_email' );
@@ -622,15 +620,14 @@ function llms_update_300_update_orders() {
 
 					foreach ( $metas as $ordermeta => $usermeta ) {
 
-						if ( $v = $student->$usermeta ) {
+						$v = $student->$usermeta;
+						if ( $v ) {
 
 							$order->set( $ordermeta, $v );
 
 						}
-
 					}
 				}
-
 			}
 
 			// setup trial info if there was a first payment recorded
@@ -662,8 +659,8 @@ function llms_update_300_update_orders() {
 			delete_post_meta( $post->ID, '_llms_order_coupon_value' );
 			delete_post_meta( $post->ID, '_llms_order_original_total' );
 
-		}
-	}
+		}// End foreach().
+	}// End if().
 }
 
 /**
