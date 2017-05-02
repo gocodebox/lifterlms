@@ -172,9 +172,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 					$this->subscribe( $subscriber, $type );
 
 				}
-
 			}
-
 		}
 
 	}
@@ -309,7 +307,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 				$this->send_one( $type, $subscriber );
 
 			}
-
 		}
 
 	}
@@ -344,7 +341,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 				LLMS()->notifications()->schedule_processing( $type );
 
 			}
-
 		}
 
 		return $id;

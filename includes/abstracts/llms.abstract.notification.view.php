@@ -403,7 +403,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 			foreach ( array_keys( $this->get_merge_codes() ) as $code ) {
 				$string = str_replace( $code, $this->set_merge_data( $code ), $string );
 			}
-
 		}
 
 		return apply_filters( $this->get_filter( 'get_merged_string' ), $this->sentence_case( $string ), $this );

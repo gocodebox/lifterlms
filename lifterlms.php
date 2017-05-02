@@ -139,7 +139,7 @@ final class LifterLMS {
 		} elseif ( 0 === strpos( $class, 'llms_interface' ) ) {
 			$path = $this->plugin_path() . '/includes/interfaces/';
 			$file = $fileize . '.php';
-		} elseif (strpos( $class, 'llms_' ) === 0 ) {
+		} elseif ( strpos( $class, 'llms_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/';
 		}
 

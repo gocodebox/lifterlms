@@ -81,7 +81,6 @@ class LLMS_Notifications {
 			if ( $processor ) {
 				$processor->save()->dispatch();
 			}
-
 		}
 
 	}

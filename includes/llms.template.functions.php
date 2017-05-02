@@ -73,7 +73,6 @@ if ( ! function_exists( 'llms_email_body' ) ) {
 	function llms_email_body( $content = '' ) {
 		echo apply_filters( 'the_content', $content );
 	}
-
 }
 
 
@@ -88,7 +87,6 @@ if ( ! function_exists( 'llms_email_footer' ) ) {
 	function llms_email_footer() {
 		llms_get_template( 'emails/footer.php' );
 	}
-
 }
 
 /**
@@ -105,7 +103,6 @@ if ( ! function_exists( 'llms_email_header' ) ) {
 			'email_heading' => $heading,
 		) );
 	}
-
 }
 
 /**

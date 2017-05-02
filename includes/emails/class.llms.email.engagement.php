@@ -55,7 +55,6 @@ class LLMS_Email_Engagement extends LLMS_Email {
 			foreach ( $this->merge_emails( $list ) as $email ) {
 				$this->add_recipient( $email, $type );
 			}
-
 		}
 
 	}

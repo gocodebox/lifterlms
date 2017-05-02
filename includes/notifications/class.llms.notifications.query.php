@@ -70,7 +70,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 				$obj = new LLMS_Notification( $result->id );
 				$notifications[] = $obj->load();
 			}
-
 		}
 
 		if ( $this->get( 'suppress_filters' ) ) {

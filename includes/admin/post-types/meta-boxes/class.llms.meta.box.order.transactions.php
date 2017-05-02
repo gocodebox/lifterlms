@@ -110,7 +110,6 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 				break;
 
 			}
-
 		}
 
 	}

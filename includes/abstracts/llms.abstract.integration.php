@@ -57,7 +57,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 		$settings[] = array(
 			'type' => 'sectionstart',
 			'id' => 'llms_integration_' . $this->id . '_start',
-			'class' =>'top'
+			'class' => 'top',
 		);
 		$settings[] = array(
 			'desc' => $this->description,
@@ -75,7 +75,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 		$settings = array_merge( $settings, $this->get_integration_settings() );
 		$settings[] = array(
 			'type' => 'sectionend',
-			'id' => 'llms_integration_' . $this->id . '_end'
+			'id' => 'llms_integration_' . $this->id . '_end',
 		);
 
 		return apply_filters( 'llms_integration_' . $this->id . '_get_settings', $settings, $this );

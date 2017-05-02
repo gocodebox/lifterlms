@@ -120,8 +120,12 @@ class LLMS_Controller_Account {
 		global $wpdb;
 		$wpdb->update(
 			$wpdb->users,
-			array( 'user_activation_key' => $hashed ),
-			array( 'user_login' => $user->user_login )
+			array(
+				'user_activation_key' => $hashed,
+			),
+			array(
+				'user_login' => $user->user_login,
+			)
 		);
 
 		// send the email
@@ -137,7 +141,6 @@ class LLMS_Controller_Account {
 			if ( $email->send() ) {
 				return llms_add_notice( __( 'Check your e-mail for the confirmation link.', 'lifterlms' ) );
 			}
-
 		}
 
 		return llms_add_notice( __( 'Unable to reset password due to an unknown error. Please try again.', 'lifterlms' ), 'error' );

@@ -216,7 +216,6 @@ class LLMS_Engagements {
 
 				llms_log( sprintf( 'Error: email `#%d` was not sent', $email_id ) );
 			}
-
 		}
 
 	}

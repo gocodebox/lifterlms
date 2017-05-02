@@ -49,7 +49,9 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 		) );
 
 		ob_start();
-		llms_get_template( 'emails/reset-password.php', array( 'url' => $url ) );
+		llms_get_template( 'emails/reset-password.php', array(
+			'url' => $url,
+		) );
 		return ob_get_clean();
 
 	}

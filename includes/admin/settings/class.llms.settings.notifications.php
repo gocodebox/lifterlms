@@ -93,7 +93,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 					'type' => 'text',
 				);
 			}
-
 		}
 
 		return apply_filters( 'llms_notification_settings_' . $controller->id . '_' . $type, $settings, $controller, $view );
@@ -139,7 +138,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 				);
 
 			}
-
 		} else {
 
 			$settings[] = array(

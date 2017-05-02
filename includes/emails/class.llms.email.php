@@ -153,7 +153,6 @@ class LLMS_Email {
 			if ( $data['address'] ) {
 				$this->add_recipient( $data['address'], $data['type'], $data['name'] );
 			}
-
 		}
 
 	}

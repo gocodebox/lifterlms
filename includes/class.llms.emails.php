@@ -120,7 +120,6 @@ class LLMS_Emails {
 
 			return $css[ $rule ];
 
-
 		}
 
 	}

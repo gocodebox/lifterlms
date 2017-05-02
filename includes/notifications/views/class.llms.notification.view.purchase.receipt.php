@@ -167,7 +167,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 				$code = $transaction->get( 'gateway_source_description' );
 			break;
 
-		}
+		}// End switch().
 
 		return $code;
 
