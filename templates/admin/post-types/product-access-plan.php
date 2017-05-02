@@ -54,6 +54,8 @@ if ( ! isset( $plan ) ) {
 
 	<section class="llms-collapsible-body">
 
+		<?php do_action( 'llms_access_plan_mb_before_body', $plan, $id, $order ); ?>
+
 		<div class="llms-metabox-field d-1of3">
 			<label><?php _e( 'Plan Title', 'lifterlms' ) ?></label>
 			<input class="llms-plan-title" name="_llms_plans[<?php echo $order; ?>][title]" required="required" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'title' ) . '"' : ' disabled="disabled"'; ?>>
@@ -85,6 +87,8 @@ if ( ! isset( $plan ) ) {
 		</div>
 
 		<div class="clear"></div>
+
+		<?php do_action( 'llms_access_plan_mb_after_row_one', $plan, $id, $order ); ?>
 
 		<div data-controller="llms-plan-is-free" data-value-is-not="yes">
 
@@ -157,6 +161,8 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
+		<?php do_action( 'llms_access_plan_mb_after_row_two', $plan, $id, $order ); ?>
+
 		<div class="d-1of2">
 
 			<div class="llms-metabox-field d-1of2">
@@ -219,6 +225,8 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
+		<?php do_action( 'llms_access_plan_mb_after_row_three', $plan, $id, $order ); ?>
+
 		<div data-controller="llms-plan-frequency" data-value-is-not="0">
 			<div class="llms-metabox-field d-1of5">
 				<label><?php _e( 'Trial Offer', 'lifterlms' ) ?></label>
@@ -251,6 +259,8 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
+		<?php do_action( 'llms_access_plan_mb_after_row_four', $plan, $id, $order ); ?>
+
 		<div data-controller="llms-plan-is-free" data-value-is-not="yes">
 			<div class="llms-metabox-field d-1of5">
 				<label><?php _e( 'Sale Pricing', 'lifterlms' ) ?></label>
@@ -278,6 +288,8 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
+		<?php do_action( 'llms_access_plan_mb_after_row_five', $plan, $id, $order ); ?>
+
 		<div class="llms-metabox-field d-all">
 			<label><?php _e( 'Plan Description', 'lifterlms' ) ?></label>
 			<?php wp_editor( htmlspecialchars_decode( $plan ? $plan->get( 'content' ) : '' ), '_llms_plans_content_' . $id, apply_filters( 'llms_access_plan_editor_settings', array(
@@ -292,6 +304,8 @@ if ( ! isset( $plan ) ) {
 
 		<input class="plan-order" name="_llms_plans[<?php echo $order; ?>][menu_order]" type="hidden" value="<?php echo ( $plan ) ? $plan->get( 'menu_order' ) : $order; ?>"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 		<input name="_llms_plans[<?php echo $order; ?>][id]" type="hidden"<?php echo ( $plan ) ? ' value="' . $plan->get( 'id' ) . '"' : ' disabled="disabled"'; ?>>
+
+		<?php do_action( 'llms_access_plan_mb_after_body', $plan, $id, $order ); ?>
 
 	</section>
 
