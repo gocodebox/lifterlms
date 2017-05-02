@@ -32,6 +32,17 @@ class LLMS_Integrations {
 		$this->init();
 	}
 
+	/**
+	 * Get an integration instance by id
+	 * @param    string     $id  id of the integration
+	 * @return   obj|false
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_integration( $id ) {
+		$available = $this->get_available_integrations();
+		return isset( $available[ $id ] ) ? $available[ $id ] : false;
+	}
 
 	/**
 	 * Initalize Integration Classes
