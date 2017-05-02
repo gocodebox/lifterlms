@@ -7,6 +7,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $mailer = LLMS()->mailer();
+
+$terms = false;
+if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms', 'no' ) ) {
+	$terms = get_option( 'lifterlms_terms_page_id', false );
+}
 ?>
 											</td>
 										</tr>
@@ -26,7 +31,7 @@ $mailer = LLMS()->mailer();
 								<tr>
 									<td class="content-block powered-by" style="font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size-small' ); ?>;vertical-align:top;color:#999999;text-align:center;">
 										<a href="<?php echo esc_url( get_bloginfo( 'url', 'display' ) ); ?>" style="text-decoration:underline;color:<?php $mailer->get_css( 'main-color' ); ?>;"><?php echo get_bloginfo( 'name', 'display' ); ?></a>
-										<?php if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms', 'no' ) && $terms = get_option( 'lifterlms_terms_page_id', false ) ) : ?>
+										<?php if ( $terms ) : ?>
 											| <a alt="<?php echo get_the_title( $terms ); ?>" href="<?php echo get_permalink( $terms ); ?>" style="text-decoration:underline;color:<?php $mailer->get_css( 'main-color' ); ?>;"><?php echo get_the_title( $terms ); ?></a>
 										<?php endif; ?>
 									</td>

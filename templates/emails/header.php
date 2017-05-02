@@ -8,6 +8,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $mailer = LLMS()->mailer();
+$header_image = get_option( 'lifterlms_email_header_image' );
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 	<head>
@@ -72,7 +73,7 @@ $mailer = LLMS()->mailer();
 				<td style="font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;">&nbsp;</td>
 				<td class="container" style="font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;display:block;max-width:<?php $mailer->get_css( 'max-width' ); ?>;padding:10px;width:<?php $mailer->get_css( 'max-width' ); ?>;Margin:0 auto !important;">
 
-					<?php if ( $header_image = get_option( 'lifterlms_email_header_image' ) ) : ?>
+					<?php if ( $header_image ) : ?>
 					<div class="content" style="box-sizing:border-box;display:block;Margin:0 auto;max-width:<?php $mailer->get_css( 'max-width' ); ?>;padding:10px;">
 						<img alt="<?php echo get_bloginfo( 'name' ); ?>" src="<?php echo esc_url( $header_image ); ?>" style="display:block;height:auto;Margin:0 auto;max-width:100%;" />
 					</div>
