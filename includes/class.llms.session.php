@@ -1,11 +1,12 @@
 <?php
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LLMS_Session Class
- *
+ * @since    1.0.0
+ * @version  3.7.5
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Session {
 
 	/**
@@ -26,12 +27,16 @@ class LLMS_Session {
 
 	/**
 	 * Session prefix
-	 *
 	 * @var string
 	 * @access private
 	 */
 	private $prefix = '';
 
+	/**
+	 * Constructor
+	 * @since    1.0.0
+	 * @version  3.7.5
+	 */
 	public function __construct() {
 
 		$this->use_php_sessions = $this->use_php_sessions();
@@ -49,19 +54,7 @@ class LLMS_Session {
 
 		} else {
 
-			// Use WP_Session (default)
-			if ( ! defined( 'WP_SESSION_COOKIE' ) ) {
-				define( 'WP_SESSION_COOKIE', 'llms_wp_session' );
-			}
-
-			if ( ! class_exists( 'Recursive_ArrayAccess' ) ) {
-				require_once 'libraries/wp-session/class-recursive-arrayaccess.php';
-			}
-
-			if ( ! class_exists( 'WP_Session' ) ) {
-				require_once 'libraries/wp-session/class-wp-session.php';
-				require_once 'libraries/wp-session/wp-session.php';
-			}
+			require_once plugin_dir_path( LLMS_PLUGIN_FILE ) . 'vendor/ericmann/wp-session-manager/wp-session-manager.php';
 
 			add_filter( 'wp_session_expiration_variant', array( $this, 'set_expiration_variant_time' ), 99999 );
 			add_filter( 'wp_session_expiration', array( $this, 'set_expiration_time' ), 99999 );
