@@ -1,5 +1,12 @@
 == Changelog ==
 
+v3.7.5 - 2017/05/02
+-------------------
+
++ Upgrade WP Session Manager to latest version
++ Codestyle updates across most files in codebase to bring to most recent styling guidelines put forth by [WP Coding Standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards)
+
+
 v3.7.4 - 2017/04/26
 -------------------
 
