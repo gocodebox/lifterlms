@@ -260,51 +260,51 @@ msgstr ""
 msgid "Total Coupons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:88
+#: includes/admin/class.llms.admin.addons.php:87
 msgid "Affiliates"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:92
+#: includes/admin/class.llms.admin.addons.php:91
 msgid "All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:96
+#: includes/admin/class.llms.admin.addons.php:95
 msgid "Bundles"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:100, includes/admin/settings/class.llms.settings.checkout.php:198
+#: includes/admin/class.llms.admin.addons.php:99, includes/admin/settings/class.llms.settings.checkout.php:198
 msgid "Payment Gateways"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:104
+#: includes/admin/class.llms.admin.addons.php:103
 msgid "E-Mail & Marketing"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:108
+#: includes/admin/class.llms.admin.addons.php:107
 msgid "Themes & Design"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:112
+#: includes/admin/class.llms.admin.addons.php:111
 msgid "Tools & Utilities"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:116
+#: includes/admin/class.llms.admin.addons.php:115
 msgid "Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:120
+#: includes/admin/class.llms.admin.addons.php:119
 msgid "Services"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:137, includes/admin/class.llms.admin.addons.php:222
+#: includes/admin/class.llms.admin.addons.php:136, includes/admin/class.llms.admin.addons.php:221
 msgid "There was an error retrieving add-ons. Please try again."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:143
+#: includes/admin/class.llms.admin.addons.php:142
 msgid "LifterLMS Add-Ons, Services, and Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:170
+#: includes/admin/class.llms.admin.addons.php:169
 msgid "Created by:"
 msgstr ""
 
