@@ -47,7 +47,6 @@ class LLMS_Admin_AddOns {
 			foreach ( $this->data['sections'] as $section ) {
 				$content = array_merge( $content, $section );
 			}
-
 		} else {
 
 			$content = $this->data['sections'][ $sec ];
@@ -119,7 +118,7 @@ class LLMS_Admin_AddOns {
 			case 'services':
 				return __( 'Services', 'lifterlms' );
 			break;
-		}
+		}// End switch().
 		return $name;
 	}
 
@@ -200,7 +199,7 @@ class LLMS_Admin_AddOns {
 
 				$this->output_addon( $addon );
 
-			} ?>
+} ?>
 
 			<?php do_action( 'lifterlms_after_addons' ); ?>
 
