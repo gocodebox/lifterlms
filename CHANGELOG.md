@@ -1,5 +1,14 @@
 == Changelog ==
 
+v3.7.6 - 2017/05/05
+-------------------
+
++ New translations for new categories on Add-ons screen
++ Update to general settings which utilizes featured items from the general settings screen
++ Update readme & related meta files
++ Removed advert image files
+
+
 v3.7.5 - 2017/05/02
 -------------------
 

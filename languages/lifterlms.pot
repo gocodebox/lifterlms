@@ -260,44 +260,52 @@ msgstr ""
 msgid "Total Coupons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:87
+#: includes/admin/class.llms.admin.addons.php:88
 msgid "Affiliates"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:91
+#: includes/admin/class.llms.admin.addons.php:92
 msgid "All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:95, includes/admin/settings/class.llms.settings.checkout.php:198
+#: includes/admin/class.llms.admin.addons.php:96
+msgid "Bundles"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:100, includes/admin/settings/class.llms.settings.checkout.php:198
 msgid "Payment Gateways"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:99
+#: includes/admin/class.llms.admin.addons.php:104
 msgid "E-Mail & Marketing"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:103
+#: includes/admin/class.llms.admin.addons.php:108
 msgid "Themes & Design"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:107
+#: includes/admin/class.llms.admin.addons.php:112
 msgid "Tools & Utilities"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:111
+#: includes/admin/class.llms.admin.addons.php:116
+msgid "Resources"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:120
 msgid "Services"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:128
+#: includes/admin/class.llms.admin.addons.php:137, includes/admin/class.llms.admin.addons.php:222
 msgid "There was an error retrieving add-ons. Please try again."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:134
-msgid "LifterLMS Add-Ons"
+#: includes/admin/class.llms.admin.addons.php:143
+msgid "LifterLMS Add-Ons, Services, and Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:161
-msgid "Developer:"
+#: includes/admin/class.llms.admin.addons.php:170
+msgid "Created by:"
 msgstr ""
 
 #: includes/admin/class.llms.admin.analytics.php:79, includes/admin/class.llms.admin.settings.php:70
@@ -2951,6 +2959,14 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.general.php:237
 msgid "Activity This Week"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.general.php:299
+msgid "Most Popular Add-ons, Services, and Resources"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.general.php:300
+msgid "View More &rarr;"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.integrations.php:19
