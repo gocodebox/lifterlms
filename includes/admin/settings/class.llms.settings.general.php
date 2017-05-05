@@ -282,46 +282,25 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 	}
 
+	/**
+	 * Get advert banner html
+	 * @return   string
+	 * @since    1.0.0
+	 * @version  3.7.6
+	 */
 	public static function get_small_banners() {
-		$small_banners = array(
-				array(
-						'title' => 'Ultimate Course Creation Framework',
-						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/online-course.jpg',
-						'link' => 'http://courseclinic.com/?utm_source=Plugin&utm_medium=Plugin+Settings&utm_campaign=Plugin+to+Course+Clinic+Opt-in',
-				),
-				array(
-						'title' => 'LifterLMS Demo Course',
-						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-expert.jpg',
-						'link' => 'http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?ims=phyxo&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=Demo+Ad+001',
-				),
-				array(
-						'title' => 'Course Blueprint',
-						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/students-engaged.jpg',
-						'link' => 'https://lifterlms.com/free-lifterlms-course?ims=aympo&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=CBP+Ad+001',
-				),
-				array(
-						'title' => 'LifterLMS Optin',
-						'image' => LLMS()->plugin_url() . '/assets/images/admin-banners/lifterlms-optin.jpg',
-						'link' => 'http://lifterlms.com/fast-start?ims=pfckn&utm_campaign=Plugin+Nurture&utm_source=LifterLMS+Plugin&utm_medium=General+Settings+Screen&utm_content=FS+Ad+001',
-				),
-		);
 
-		$html = '<div class="llms-widget-row">';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.addons.php';
+		$view = new LLMS_Admin_AddOns();
+		$url = esc_url( admin_url( 'admin.php?page=llms-add-ons' ) );
 
-		foreach ( $small_banners as $banner ) {
+		ob_start();
+		echo '<br>';
+		echo '<h3 style="display:inline;">' . __( 'Most Popular Add-ons, Services, and Resources', 'lifterlms' ) . '</h3>';
+		echo '&nbsp;&nbsp;&nbsp;<a class="llms-button-primary small" href="' . $url . '">' . __( 'View More &rarr;', 'lifterlms' ) . '</a><br>';
+		$view->output_for_settings();
+		return ob_get_clean();
 
-			$html .= '<div class="llms-widget-1-4">
-							<div class="llms-widget llms-banner-image">
-								<a href="' . $banner['link'] . '" target="_blank">
-									<img width="100%" src="' . $banner['image'] . '" alt="' . $banner['image'] . '">
-								</a>
-							</div>
-						</div>';
-		}
-
-		$html .= '</div>';
-
-		return $html;
 	}
 
 }
