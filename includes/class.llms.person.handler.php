@@ -3,7 +3,7 @@
  * User Handling for login and registration (mostly)
  *
  * @since    3.0.0
- * @version  3.7.0
+ * @version  3.8.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Person_Handler {
@@ -665,8 +665,6 @@ class LLMS_Person_Handler {
 		}
 
 	}
-
-
 
 	/**
 	 * Perform validations according to the registration screen and registers a user
