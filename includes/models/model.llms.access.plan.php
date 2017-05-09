@@ -132,13 +132,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the full URL to the checkout screen for the plan
-	 * @return string
-	 * @since 3.0.0
-	 * @version  3.0.0
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.8.0
 	 */
-	public function get_checkout_url() {
+	public function get_checkout_url( $check_availability = true ) {
 
-		if ( $this->is_available_to_user( get_current_user_id() ) ) {
+		if ( ! $this->check_availability || $this->is_available_to_user( get_current_user_id() ) ) {
 			return llms_get_page_url( 'checkout', array(
 				'plan' => $this->get( 'id' ),
 			) );
