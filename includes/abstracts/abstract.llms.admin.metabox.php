@@ -1,4 +1,10 @@
 <?php
+/**
+* Admin Metabox Class
+* @since    3.0.0
+* @version  3.8.0
+*/
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 // include all classes for each of the metabox types
@@ -6,11 +12,6 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
 	require_once $filename;
 }
 
-/**
-* Admin Settings Class
-*
-* @version  3.0.0
-*/
 abstract class LLMS_Admin_Metabox {
 
 	/**
@@ -136,10 +137,11 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Add an Error Message
 	 * @param string $text
-	 * @return  void
-	 * @since  3.0.0
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.8.0
 	 */
-	protected function add_error( $text ) {
+	public function add_error( $text ) {
 		$this->errors[] = $text;
 	}
 
