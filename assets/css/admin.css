@@ -2761,8 +2761,12 @@ a.llms-view-as {
   box-shadow: inset 0 0 0 1px #e5e5e5;
 }
 
+.llms-access-plan .llms-plan-link,
 .llms-access-plan [data-controller] {
   display: none;
+}
+.llms-access-plan:hover .llms-plan-link, .llms-access-plan.opened .llms-plan-link {
+  display: inline-block;
 }
 .llms-access-plan .llms-metabox-field {
   margin: 5px 0;

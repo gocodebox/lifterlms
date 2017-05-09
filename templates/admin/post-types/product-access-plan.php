@@ -1,8 +1,8 @@
 <?php
 /**
- * Individual Access Plan
- *
- * @since  3.0.0
+ * Individual Access Plan on Admin Panel
+ * @since    3.0.0
+ * @version  3.8.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
@@ -40,6 +40,7 @@ if ( ! isset( $plan ) ) {
 			<?php if ( $plan ) : ?>
 				<span class="llms-plan-title" data-default="<?php _e( 'Unnamed Access Plan', 'lifterlms' ); ?>"><?php echo $plan->get( 'title' ); ?></span>
 				<small>(<?php printf( _x( 'ID# %s', 'Product Access Plan ID', 'lifterlms' ), $plan->get( 'id' ) ); ?>)</small>
+				<small class="llms-plan-link"><a href="<?php echo esc_url( $plan->get_checkout_url( false ) ); ?>"><?php _e( 'Purchase Link', 'lifterlms' ); ?></a></small>
 			<?php else : ?>
 				<span class="llms-plan-title" data-default="<?php _e( 'New Access Plan', 'lifterlms' ); ?>"><?php _e( 'New Access Plan', 'lifterlms' ); ?></span>
 			<?php endif; ?>

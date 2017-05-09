@@ -27,9 +27,19 @@
 
 .llms-access-plan {
 
+	.llms-plan-link,
 	[data-controller] {
 		display: none;
 	}
+
+	&:hover,
+	&.opened {
+		.llms-plan-link {
+			display: inline-block;
+		}
+	}
+
+
 
 	.llms-metabox-field {
 		margin: 5px 0;
