@@ -24,13 +24,13 @@ $field_data = ( 'post' === strtolower( $_SERVER['REQUEST_METHOD'] ) ) ? $_POST :
 
 		<div class="llms-form-fields">
 
-			<?php do_action( 'lifterlms_before_registration_fields' ); ?>
+			<?php do_action( 'lifterlms_before_update_fields' ); ?>
 
 			<?php foreach ( LLMS_Person_Handler::get_available_fields( 'account', $field_data ) as $field ) : ?>
 				<?php llms_form_field( $field ); ?>
 			<?php endforeach; ?>
 
-			<?php do_action( 'lifterlms_after_registration_fields' ); ?>
+			<?php do_action( 'lifterlms_after_update_fields' ); ?>
 
 		</div>
 
