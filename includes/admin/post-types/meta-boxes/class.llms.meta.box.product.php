@@ -178,17 +178,16 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 			foreach ( $props as $prop => $type ) {
 
 				if ( array_key_exists( $prop, $data ) ) {
-				// if the key exists, set it to the submitted value
+					// if the key exists, set it to the submitted value
 
 					$plan->set( $prop, $data[ $prop ] );
 
 				} elseif ( 'yesno' === $type ) {
-				// missing yesno field should be set to no
+					// missing yesno field should be set to no
 
 					$plan->set( $prop, 'no' );
 
 				}
-
 			}
 
 			do_action( 'llms_access_plan_saved', $plan, $data, $this );

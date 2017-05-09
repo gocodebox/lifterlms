@@ -286,9 +286,7 @@ class LLMS_Student_Dashboard {
 							'value' => $student->get_notification_subscription( $type, $controller->id, 'yes' ),
 						);
 					}
-
 				}
-
 			}
 
 			$args = array(
@@ -296,7 +294,7 @@ class LLMS_Student_Dashboard {
 				'settings' => $settings,
 			);
 
-		}
+		}// End if().
 
 		llms_get_template( 'myaccount/my-notifications.php', $args );
 	}
