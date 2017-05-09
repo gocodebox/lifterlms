@@ -159,14 +159,14 @@ function llms_get_core_supported_themes() {
  * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
  *
  * @since    ??
- * @version  ??
+ * @version  3.8.0
  */
 function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	// If not numeric then convert timestamps
-	if ( ! is_int( $time1 ) ) {
+	if ( ! is_numeric( $time1 ) ) {
 		$time1 = strtotime( $time1 );
 	}
-	if ( ! is_int( $time2 ) ) {
+	if ( ! is_numeric( $time2 ) ) {
 		$time2 = strtotime( $time2 );
 	}
 	// If time1 > time2 then swap the 2 values
