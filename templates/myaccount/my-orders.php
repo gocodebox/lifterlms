@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 			<?php foreach ( $orders['orders'] as $order ) : ?>
 				<tr class="llms-order-item <?php echo $order->get( 'status' ); ?>" id="llms-order-<?php $order->get( 'id' ); ?>">
 					<td data-label="<?php _e( 'Order', 'lifterlms' ); ?>: ">
-						<a href="<?php echo $order->get_view_link(); ?>"><?php echo $order->get( 'id' ); ?></a>
+						<a href="<?php echo $order->get_view_link(); ?>">#<?php echo $order->get( 'id' ); ?></a>
 						<span class="llms-status <?php echo $order->get( 'status' ); ?>"><?php echo $order->get_status_name(); ?></span>
 					</td>
 					<td data-label="<?php _e( 'Date', 'lifterlms' ); ?>: "><?php echo $order->get_date( 'date', 'F j, Y' ); ?></td>

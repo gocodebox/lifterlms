@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.7.5
+ * @version 3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -763,6 +763,30 @@ class LLMS_Student {
 	}
 
 	/**
+	 * Retrieve a user's notification subsription preferences for a given type & trigger
+	 * @param    string   $type     notification type: email, basic, etc...
+	 * @param    string   $trigger  notification trigger: eg purchase_reciept, lesson_complete, etc...
+	 * @param    string   $default  value to return if no setting is saved in the db
+	 * @return   string             yes or no
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_notification_subscription( $type, $trigger, $default = 'no' ) {
+
+		$prefs = $this->get( 'notification_subscriptions' );
+		if ( ! $prefs ) {
+			$prefs = array();
+		}
+
+		if ( isset( $prefs[ $type ] ) && isset( $prefs[ $type ][ $trigger ] ) ) {
+			return $prefs[ $type ][ $trigger ];
+		}
+
+		return $default;
+
+	}
+
+	/**
 	 * Retrieve the student's overall grade
 	 * Grade = sum of grades for all courses divided by number of enrolled courses
 	 * if a course has no quizzes in it, it cannot be graded and is therefore excluded from the calculation
@@ -971,7 +995,6 @@ class LLMS_Student {
 		return false;
 
 	}
-
 
 	public function get_orders( $params = array() ) {
 

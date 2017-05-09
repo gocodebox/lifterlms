@@ -15,6 +15,31 @@ class LLMS_Controller_Account {
 		add_action( 'init', array( $this, 'update' ) );
 		add_action( 'init', array( $this, 'lost_password' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
+		add_action( 'init', array( $this, 'cancel_subscription' ) );
+
+	}
+
+	public function cancel_subscription() {
+
+		// invalid nonce or the form wasn't submitted
+		if ( ! llms_verify_nonce( '_cancel_sub_nonce', 'llms_cancel_subscription', 'POST' ) ) {
+			return;
+		}
+
+		// verify required field
+		if ( empty( $_POST['order_id'] ) ) {
+			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
+		}
+
+		$order = llms_get_post( $_POST['order_id'] );
+		$uid = get_current_user_id();
+
+		if ( $uid != $order->get( 'user_id' ) ) {
+			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
+		}
+
+		$order->set_status( 'cancelled' );
+		$order->add_note( __( 'Cancelled by student from account page.', 'lifterlms' ) );
 
 	}
 
