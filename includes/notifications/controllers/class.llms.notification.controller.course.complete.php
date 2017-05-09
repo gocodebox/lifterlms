@@ -102,7 +102,6 @@ class LLMS_Notification_Controller_Course_Complete extends LLMS_Abstract_Notific
 			break;
 
 			case 'email':
-				$options[] = $this->get_subscriber_option_array( 'student', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'course_author', 'yes' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 			break;

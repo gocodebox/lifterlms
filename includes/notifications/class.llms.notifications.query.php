@@ -22,7 +22,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * @version  3.8.0
 	 */
 	private function get_available_statuses() {
-		return array( 'new', 'sent', 'read', 'unread', 'deleted' );
+		return array( 'new', 'sent', 'read', 'unread', 'deleted', 'failed' );
 	}
 
 	/**
@@ -44,7 +44,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	protected function get_default_args() {
 
 		$args = array(
-			'subsciber' => null,
+			'subscriber' => null,
 			'sort' => array(
 				'updated' => 'DESC',
 				'id' => 'DESC',
