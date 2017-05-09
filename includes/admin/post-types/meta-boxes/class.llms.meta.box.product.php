@@ -160,9 +160,10 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 			$plan = new LLMS_Access_Plan( $id, $title );
 
+			$plan->set_visibility( $data['visibility'] );
 			$plan->set( 'product_id', $post_id );
 
-			// set some values based on the priduct being free
+			// set some values based on the product being free
 			if ( ! empty( $data['is_free'] ) && 'yes' === $data['is_free'] ) {
 				$data['price'] = 0;
 				$data['frequency'] = 0;
@@ -172,15 +173,25 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 				$data['trial_price'] = 0;
 			}
 
-			if ( empty( $data['is_free'] ) ) {
-				$data['is_free'] = 'no';
+			$props = $plan->get_properties();
+
+			foreach ( $props as $prop => $type ) {
+
+				if ( array_key_exists( $prop, $data ) ) {
+				// if the key exists, set it to the submitted value
+
+					$plan->set( $prop, $data[ $prop ] );
+
+				} elseif ( 'yesno' === $type ) {
+				// missing yesno field should be set to no
+
+					$plan->set( $prop, 'no' );
+
+				}
+
 			}
 
-			foreach ( $data as $key => $val ) {
-				$plan->set( $key, $val );
-			}
-
-			$visibility = $plan->set_visibility( $data['visibility'] );
+			do_action( 'llms_access_plan_saved', $plan, $data, $this );
 
 		}// End foreach().
 
