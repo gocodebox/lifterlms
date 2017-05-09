@@ -83,7 +83,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.7.4
+	 * @version  3.8.0
 	 */
 	public function admin_scripts() {
 		global $post_type;
@@ -105,11 +105,11 @@ class LLMS_Admin_Assets {
 
 		}
 
-		$tables = array(
+		$tables = apply_filters( 'llms_load_table_resources_pages', array(
 			'course',
 			'lifterlms_page_llms-reporting',
 			'llms_membership',
-		);
+		) );
 		if ( in_array( $screen->id, $tables ) ) {
 			wp_register_script( 'llms-admin-tables',  plugins_url( '/assets/js/llms-admin-tables' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
 			wp_enqueue_script( 'llms-admin-tables' );
