@@ -227,6 +227,7 @@ v3.8.0-alpha.3 - 2017/05/09
   + Section complete
   + Full list of scheduled notifications available [here](https://github.com/gocodebox/lifterlms/issues/315)
 + Hidden Access Plans
++ Notifications history screen on Student Dashboard to review past notifications
 + Updated LLMS_Email class and functionality
 + Email templates have been completely rewritten and styled
   + Temporary email style customization guide [here](https://gist.github.com/thomasplevy/0d3072633141d129cfc716740f302385)
