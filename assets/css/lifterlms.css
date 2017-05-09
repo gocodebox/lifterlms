@@ -1057,6 +1057,37 @@ svg .llms-animated-circle {
           transition: opacity 0.4s ease-in-out;
 }
 
+.llms-sd-notification-center .llms-notification-list,
+.llms-sd-notification-center .llms-notification-list-item {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.llms-sd-notification-center .llms-notification-list-item:hover .llms-notification {
+  background: #fcfcfc;
+}
+.llms-sd-notification-center .llms-notification {
+  opacity: 1;
+  border-top: 1px solid #e5e5e5;
+  padding: 24px;
+  position: relative;
+  right: auto;
+  top: auto;
+  visibility: visible;
+  width: auto;
+}
+.llms-sd-notification-center .llms-notification .llms-notification-aside {
+  max-width: 64px;
+}
+.llms-sd-notification-center .llms-notification .llms-notification-footer {
+  border: none;
+  margin-top: 0;
+  padding: 0;
+}
+.llms-sd-notification-center .llms-notification .llms-progress {
+  display: none !important;
+}
+
 .llms-pagination ul {
   list-style-type: none;
 }
@@ -2032,16 +2063,22 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   margin-bottom: 25px;
 }
 .llms-student-dashboard .orders-table {
-  border: none;
+  border: 1px solid #f5f5f5;
   width: 100%;
 }
 .llms-student-dashboard .orders-table thead {
   display: none;
 }
+.llms-student-dashboard .orders-table thead th, .llms-student-dashboard .orders-table thead td {
+  font-weight: 700;
+}
 @media all and (min-width: 600px) {
   .llms-student-dashboard .orders-table thead {
     display: table-header-group;
   }
+}
+.llms-student-dashboard .orders-table tbody tr:nth-child(even) td, .llms-student-dashboard .orders-table tbody tr:nth-child(even) th {
+  background: #f9f9f9;
 }
 .llms-student-dashboard .orders-table tfoot th, .llms-student-dashboard .orders-table tfoot td {
   padding: 10px;
@@ -2058,7 +2095,8 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   border-style: solid;
   border-width: 0;
   display: block;
-  padding: 5px 10px;
+  padding: 8px 12px;
+  text-align: center;
 }
 .llms-student-dashboard .orders-table th .llms-button-primary, .llms-student-dashboard .orders-table td .llms-button-primary {
   display: inline-block;
@@ -2073,6 +2111,7 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   .llms-student-dashboard .orders-table th, .llms-student-dashboard .orders-table td {
     border-bottom-width: 1px;
     display: table-cell;
+    text-align: left;
   }
   .llms-student-dashboard .orders-table th:first-child, .llms-student-dashboard .orders-table td:first-child {
     width: 220px;
@@ -2088,22 +2127,55 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 }
 .llms-student-dashboard .llms-status {
   color: #fff;
-  border-radius: 4px;
+  border-radius: 3px;
   display: inline-block;
-  font-size: 85%;
-  padding: 3px 8px;
+  font-size: 80%;
+  padding: 3px 6px;
+  vertical-align: middle;
 }
-.llms-student-dashboard .llms-status.llms-active, .llms-student-dashboard .llms-status.llms-completed {
+.llms-student-dashboard .llms-status.llms-active, .llms-student-dashboard .llms-status.llms-completed, .llms-student-dashboard .llms-status.llms-txn-succeeded {
   background-color: #83c373;
 }
-.llms-student-dashboard .llms-status.llms-failed, .llms-student-dashboard .llms-status.llms-expired, .llms-student-dashboard .llms-status.llms-cancelled {
+.llms-student-dashboard .llms-status.llms-failed, .llms-student-dashboard .llms-status.llms-expired, .llms-student-dashboard .llms-status.llms-cancelled, .llms-student-dashboard .llms-status.llms-txn-failed {
   background-color: #e5554e;
 }
-.llms-student-dashboard .llms-status.llms-pending, .llms-student-dashboard .llms-status.llms-refunded {
+.llms-student-dashboard .llms-status.llms-pending, .llms-student-dashboard .llms-status.llms-refunded, .llms-student-dashboard .llms-status.llms-txn-pending, .llms-student-dashboard .llms-status.llms-txn-refunded {
   background-color: orange;
 }
 .llms-student-dashboard .llms-person-form-wrapper .llms-change-password {
   display: none;
+}
+@media all and (min-width: 600px) {
+  .llms-student-dashboard .order-primary {
+    float: left;
+    width: 68%;
+  }
+}
+@media all and (min-width: 600px) {
+  .llms-student-dashboard .order-secondary {
+    float: left;
+    width: 32%;
+  }
+}
+
+.llms-sd-pagination {
+  margin-top: 24px;
+}
+.llms-sd-pagination:before, .llms-sd-pagination:after {
+  content: " ";
+  display: table;
+}
+.llms-sd-pagination:after {
+  clear: both;
+}
+.llms-sd-pagination .llms-button-secondary {
+  display: inline-block;
+}
+.llms-sd-pagination .llms-button-secondary.prev {
+  float: left;
+}
+.llms-sd-pagination .llms-button-secondary.next {
+  float: right;
 }
 
 /* My Courses */

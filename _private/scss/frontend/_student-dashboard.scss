@@ -36,13 +36,24 @@
 
 	.orders-table {
 
-		border: none;
+		border: 1px solid #f5f5f5;
 		width: 100%;
 
 		thead {
 			display: none;
+			th,td {
+				font-weight: 700;
+			}
 			@media all and ( min-width: 600px ) {
 				display: table-header-group;
+			}
+		}
+
+		tbody {
+			tr:nth-child( even ) {
+				td, th {
+					background: #f9f9f9;
+				}
 			}
 		}
 
@@ -63,7 +74,8 @@
 			border-style: solid;
 			border-width: 0;
 			display: block;
-			padding: 5px 10px;
+			padding: 8px 12px;
+			text-align: center;
 
 			.llms-button-primary {
 				display: inline-block;
@@ -80,6 +92,7 @@
 			@media all and ( min-width: 600px ) {
 				border-bottom-width: 1px;
 				display: table-cell;
+				text-align: left;
 				&:first-child { width: 220px; }
 				&:before { display: none; }
 			}
@@ -94,24 +107,29 @@
 
 	.llms-status {
 		color: #fff;
-		border-radius: 4px;
+		border-radius: 3px;
 		display: inline-block;
-		font-size: 85%;
-		padding: 3px 8px;
+		font-size: 80%;
+		padding: 3px 6px;
+		vertical-align: middle;
 
 		&.llms-active,
-		&.llms-completed {
+		&.llms-completed,
+		&.llms-txn-succeeded {
 			background-color: $color-green;
 		}
 
 		&.llms-failed,
 		&.llms-expired,
-		&.llms-cancelled {
+		&.llms-cancelled,
+		&.llms-txn-failed {
 			background-color: $color-red;
 		}
 
 		&.llms-pending,
-		&.llms-refunded {
+		&.llms-refunded,
+		&.llms-txn-pending,
+		&.llms-txn-refunded {
 			background-color: orange;
 		}
 
@@ -121,9 +139,34 @@
 		.llms-change-password { display: none; }
 	}
 
+	.order-primary {
+
+		@media all and ( min-width: 600px ) {
+			float: left;
+			width: 68%;
+		}
+
+	}
+	.order-secondary {
+
+		@media all and ( min-width: 600px ) {
+			float: left;
+			width: 32%;
+		}
+
+	}
+
 }
 
-
+.llms-sd-pagination {
+	margin-top: 24px;
+	@include clearfix;
+	.llms-button-secondary {
+		display: inline-block;
+		&.prev { float: left; }
+		&.next { float: right; }
+	}
+}
 
 
 /* My Courses */

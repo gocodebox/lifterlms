@@ -100,3 +100,41 @@
 	}
 
 }
+
+.llms-sd-notification-center {
+
+	.llms-notification-list,
+	.llms-notification-list-item {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.llms-notification-list-item {
+		&:hover .llms-notification {
+			background: #fcfcfc;
+		}
+	}
+
+	.llms-notification {
+		opacity: 1;
+		border-top: 1px solid #e5e5e5;
+		padding: 24px;
+		position: relative;
+		right: auto;
+		top: auto;
+		visibility: visible;
+		width: auto;
+		.llms-notification-aside {
+			max-width: 64px;
+		}
+		.llms-notification-footer {
+			border: none;
+			margin-top: 0;
+			padding: 0;
+		}
+		.llms-progress {
+			display: none !important;
+		}
+	}
+}
