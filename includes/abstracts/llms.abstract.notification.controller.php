@@ -224,8 +224,8 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Get an array of saved subscriber settings prefilled with defaults for the current notificaton
 	 * @param    string     $type  notification type
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_subscribers_settings( $type ) {
 		$defaults = wp_list_pluck( $this->get_subscriber_options( $type ), 'enabled', 'id' );

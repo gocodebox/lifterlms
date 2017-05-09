@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.4
-Stable tag: 3.7.5
+Stable tag: 3.7.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,33 +15,33 @@ LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and pro
 
 LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
 
->**Universe Bundle, LifterLMS Pro, LaunchPad theme, Boost and More**
+>**Universe Bundle, LifterLMS Pro, LaunchPad theme, Done For You Services and More**
 >
 >Users looking for more timely/in-depth support are encouraged to check out LifterLMS Pro. One-on-one LifterLMS Pro support is responded to within 12 business hours.
 >
->6 achievement badge packs and 6 premium certificate backgrounds graphic assets also come with [LifterLMS Pro](https://lifterlms.com/product/lifterlms-pro/).
+>6 achievement badge packs and 6 premium certificate backgrounds graphic assets also come with [LifterLMS Pro][pro].
 >
->If you are looking for the best WordPress theme to pair with LifterLMS, check out the [LifterLMS LaunchPad Theme](https://lifterlms.com/product/launchpad/).
+>If you are looking for the best WordPress theme to pair with LifterLMS, check out the [LifterLMS LaunchPad Theme][lp].
 >
->You should also check out the [LifterLMS Stripe](https://lifterlms.com/product/stripe-extension/), [LifterLMS PayPal](https://lifterlms.com/product/paypal-extension/), [LifterLMS WooCommerce](https://lifterlms.com/product/woocommerce-extension/), [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/), and [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/) extensions to LifterLMS.
+>You should also check out the [LifterLMS Stripe][stripe], [LifterLMS PayPal][pp], [LifterLMS WooCommerce](wc), [LifterLMS ConvertKit][ck], and [LifterLMS MailChimp][mc] extensions to LifterLMS.
 >
->You can save big and get all the products made by LifterLMS with the [Universe Bundle](https://lifterlms.com/product/universe-bundle/)
+>You can save big and get all the products made by LifterLMS with the [Universe Bundle][bundle].
 >
->If you'd like to be up and running with a beautiful and professional WordPress LMS website in just 5 days, you can also explore our signature "done for you" white glove service called [Boost](https://lifterlms.com/boost/).
+>If you'd like to be up and running with a beautiful and professional WordPress LMS website in just 5 days, you can also explore our signature [Done For You][dfy] white glove service.
 
-Take a look at the explanation videos of LifterLMS. These 17 tutorial videos are included in the [free LifterLMS demo course](http://demo.lifterlms.com).
+Take a look at the explanation videos of LifterLMS. These 17 tutorial videos are included in the [free LifterLMS demo course][demo].
 
 https://www.youtube.com/watch?v=LugJPS7bhxI
 
-More information at [LifterLMS.com](https://lifterlms.com).
+More information at [LifterLMS.com][home].
 
-#### Features
+#### [Features][features]
 
 Whether you're an entrepreneur delivering your own courses, a school with lots of users, a player in the business-to-business corporate training space, or using online courses for marketing purposes, LifterLMS has your back.
 
 LifterLMS works great for health and fitness courses, music courses, real estate courses, language learning courses, and much, much more.
 
-**Learning Management System Features**
+**[Learning Management System Features][feature-lms]**
 
 + Intuitive course builder
 + Use text, video, audio, images, or any combination in your lessons
@@ -51,7 +51,7 @@ LifterLMS works great for health and fitness courses, music courses, real estate
 + Student analytics
 + Student management
 
-**Ecommerce Features**
+**[Ecommerce Features][feature-ecomm]**
 
 + Accept one-time and/or recurring payments for your courses and memberships
 + Coupon system
@@ -60,12 +60,12 @@ LifterLMS works great for health and fitness courses, music courses, real estate
 + Ecommerce analytics
 + Create degree programs or course tracks by grouping courses together that can be taken in any order
 
-**Membership Site Features**
+**[Membership Site Features][feature-membership]**
 
 + Group courses together inside a membership level so you can sell many courses at once
 + Protect non-LMS content, like regular WordPress pages, posts, bbPress forums, and more
 
-**Engagement and Gamification Features**
+**[Engagement and Gamification Features][feature-engagement]**
 
 + Personalized email system triggered on user events in the system that you define
 + Personalized achievement and badge system triggered on user events in the system that you define
@@ -73,33 +73,83 @@ LifterLMS works great for health and fitness courses, music courses, real estate
 
 **Further Reading**
 
-+ The [LifterLMS plugin](https://lifterlms.com/) official homepage
-+ The [LifterLMS knowledgebase](https://lifterlms.com/docs)
-+ The [LifterLMS blog](http://blog.lifterlms.com/)
-+ The [LifterLMS podcast](http://podcast.lifterlms.com/)
++ The [LifterLMS plugin][home] official homepage
++ The [LifterLMS knowledgebase][docs]
++ The [LifterLMS blog][blog]
++ The [LifterLMS podcast][podcast]
 
 #### Join Our Growing Community
 
 When you download LifterLMS, you join a thriving community of education entrepreneurs, developers, and WordPress enthusiasts. We’re one of the fastest growing open source eLearning communities online, and you are welcome here.
 
-If you’re interested in contributing to LifterLMS, head over to the [LifterLMS GitHub Repository](https://github.com/gocodebox/lifterlms/) to find out how you can pitch in.
+If you’re interested in contributing to LifterLMS, head over to the [LifterLMS GitHub Repository][git] to find out how you can pitch in.
 
-Want to add a new language to LifterLMS? Swell! You can contribute via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/lifterlms).
+Want to add a new language to LifterLMS? Swell! You can contribute at [translate.wordpress.org][translate].
 
+Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so you can check out what other LifterLMS users are up to and ask questions to the community.
+
+
+[home]: https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[docs]: https://lifterlms.com/docs/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[blog]: http://blog.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[podcast]: http://podcast.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[git]: https://github.com/gocodebox/lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[demo]: https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[translate]: https://translate.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[facebook]: https://www.facebook.com/groups/lifterlmsvip/
+
+[pro]: https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[stripe]: https://lifterlms.com/product/stripe-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[pp]: https://lifterlms.com/product/paypal-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[wc]: https://lifterlms.com/product/woocommerce-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[mc]: https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[bundle]: https://lifterlms.com/product/universe-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+
+[features]: https://lifterlms.com/features/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[feature-lms]: https://lifterlms.com/features/lms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[feature-ecomm]: https://lifterlms.com/features/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[feature-membership]: https://lifterlms.com/features/membership/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[feature-engagement]: https://lifterlms.com/features/engagement/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 
 
 == Installation ==
 
-Installing the plugin is easy. Just follow these steps:
+#### Minimum System Requirements
 
-1. From the dashboard of your site, navigate to Plugins > Add New.
-2. Select the Upload option and hit "Choose File."
-3. When the popup appears, select the lifterlms-x.x.zip file from your desktop. (The 'x.x' will change depending on the current version number).
-4. Follow the on-screen instructions and wait as the upload completes.
-5. When it's finished, activate the plugin via the prompt. A message will show confirming activation was successful.
-6. Click on Courses > Add Course, and you’re ready to build your first course!
+LifterLMS Requires
 
-That's it! Just configure your settings as you see fit, and you're on your way to creating online courses in style. Need help getting things started? Check out our [Getting Started Guide and Documentation](https://lifterlms.readme.io/docs/getting-started).
++ PHP 5.6 or later
++ MySQL 5.6 or later
++ WordPress 4.0 or later
+
+Visit our [full system requirements](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) for additional information.
+
+#### Automatic Installation
+
+This is the simplest way to install LifterLMS as it utilizes WordPress to handle file transfers and you never need to leave the web browser or admin panel.
+
+1. Log in to your WordPress dashboard.
+2. Navigate to Plugins -> Add New
+3. In the search field type "LifterLMS" and click "Search Plugins"
+4. Once you've located LifterLMS click "Install Now"
+5. Once installation is complete, click "Activate"
+
+#### Manual Installation
+
+To manually install LifterLMS you'll need to download the zip file using the "Download" link on this screen. You'll then need to use FTP to manually upload the files to the proper directory on your webserver.
+
+Please see this [WordPress Codex document](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation) for full instruction on Manual Plugin Installation.
+
+
+#### Setup Wizard
+
+After installing LifterLMS for the first time you will be redirected to the Setup Wizard. This wizard will walk quickly configure LifterLMS so you can get to course creating as quickly as possible. At the conclusion you'll have the option to import a sample course.
+
+You can return to the setup wizard at any time by following [these steps](https://lifterlms.com/docs/rerun-lifterlms-setup-wizard/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+
 
 == Frequently Asked Questions ==
 
@@ -109,42 +159,40 @@ First, make sure that you're running the latest version of LifterLMS. And if you
 
 The most common issues we see are either plugin conflicts, theme conflicts, or outdated servers. You can test if a plugin or theme is conflicting by manually deactivating other plugins until just LifterLMS is running on your site. If the issue persists from there, revert to the default Twenty Fifteen theme. If the issue is resolved after deactivating a specific plugin or your theme, you'll know that is the source of the conflict. If it is a hosting issue, contact your web host and make sure they’re running the most current version of PHP.
 
-Also be sure to check out the official LifterLMS [documentation](https://lifterlms.readme.io/) and [knowledgebase](https://lifterlms.com/docs/).
+Also be sure to check out the official LifterLMS [Knowledge Base](https://lifterlms.com/docs/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 
 #### I'm still stuck. Where do I go to file a bug or ask a question?
 
-Users of the free LifterLMS should post their questions in the plugin's WordPress.org forum. If you find you're not getting support in as timely a fashion as you wish, you might want to consider purchasing a [LifterLMS Pro license](https://lifterlms.com/product/lifterlms-pro).
+Users of the free LifterLMS should post their questions in the plugin's WordPress.org forum. If you find you're not getting support in as timely a fashion as you wish, you might want to consider purchasing a [LifterLMS Pro license](https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
-If you're already a LifterLMS Pro user or you have purchased one of the LifterLMS themes or extensions, you're entitled to log into your account and contact the support team directly on the [LifterLMS website](https://lifterlms.com/my-account/). We can provide a deeper level of support here and address your needs on a daily basis during the work week. Generally, except in times of increased support loads, we reply to all comments within 12 business hours.
+If you're already a LifterLMS Pro user or you have purchased one of the LifterLMS themes or extensions, you're entitled to log into your account and contact the support team directly on the [LifterLMS website](https://lifterlms.com/my-account/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). We can provide a deeper level of support here and address your needs on a daily basis during the work week. Generally, except in times of increased support loads, we reply to all comments within 12 business hours.
 
 
 #### LifterLMS is awesome! Can you set it all up for me?
 
-Yes. You can get an instant quote for the team at LifterLMS to set everything up for you through our signature Boost service. Get an instant quote through our automated quote generation tool on the [LifterLMS website services page](https://lifterlms.com/done-for-you-lms/).
+Yes. You can get an instant quote for the team at LifterLMS to set everything up for you through our signature Done For You service. Get an instant quote through our automated quote generation tool on the [LifterLMS website services page](https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 
 #### I'm interested in LifterLMS Pro, another LifterLMS extension, or a LifterLMS theme, but there are a few questions I've got before making the purchase. Can you help me get those addressed?
 
-Absolutely. If you're not finding your questions answered on the product pages, you can ask your presales questions through this [contact form](https://lifterlms.com/contact/). You can also connect live with a member of our team [here](https://lifterlms.com/contact/).
+Absolutely. If you're not finding your questions answered on the product pages, you can ask your presales questions through this [contact form](https://lifterlms.com/contact/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). You can also connect live with a member of our team [here](https://lifterlms.com/contact/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 
 #### What add-ons are available for LifterLMS, and where can I read more about them?
 
-Currently, the following add-ons are available for LifterLMS:
-
-+ [LifterLMS Stripe Payment Gateway](https://lifterlms.com/product/stripe-extension/), for accepting credit card payments directly on your website and passing the money through Stripe to your bank account.
-+ [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/), for adding your users to a MailChimp email list and organizing them into groups or adding to separate email lists based on the courses they’ve enrolled in.
+You can find a full list of officlai LifterLMS Add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
 
 #### I have a feature idea. What's the best way to tell you about it?
 
-We care about your feature ideas and what you have to say. You can request a feature [here](https://lifterlms.com/contact/). Also be sure to checkout the [LifterLMS product roadmap and changelog](https://lifterlms.com/roadmap/) to see how far we’ve come.
+We care about your feature ideas and what you have to say. You can [request a feature](https://lifterlms.com/contact/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale), [vote on existing feature requests](?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale), and checkout the [product roadmap](https://lifterlms.com/roadmap/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 
 #### I still have questions. Where can I find answers?
 
-Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/).
+Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+
 
 == Screenshots ==
 
@@ -166,22 +214,34 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-v3.8.0-alpha.1 - 2017/04/27
+v3.8.0-alpha.3 - 2017/05/09
 -------------------------------
 
 + Automatic email and basic (on-screen) notifications:
   + Achievement earned
+  + Course complete
   + Course enrollment
-  + Purchase reciept
+  + Course track complete
   + Lesson completed
+  + Purchase reciept
+  + Section complete
   + Full list of scheduled notifications available [here](https://github.com/gocodebox/lifterlms/issues/315)
-
++ Hidden Access Plans
 + Updated LLMS_Email class and functionality
 + Email templates have been completely rewritten and styled
   + Temporary email style customization guide [here](https://gist.github.com/thomasplevy/0d3072633141d129cfc716740f302385)
   + Email branding will be added to LifterLMS Labs, follow progress [here](https://github.com/gocodebox/lifterlms/issues/316)
 + Updated and rewritten password reset flow
 + Added the functionality for image upload via options & settings api
+
+
+= v3.7.6 - 2017/05/05 =
+-----------------------
+
++ New translations for new categories on Add-ons screen
++ Update to general settings which utilizes featured items from the general settings screen
++ Update readme & related meta files
++ Removed advert image files
 
 
 = v3.7.5 - 2017/05/02 =

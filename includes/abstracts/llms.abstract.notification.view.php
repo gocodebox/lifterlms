@@ -239,8 +239,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @param    string     $date    created or updated
 	 * @param    string     $format  valid PHP date format, defaults to WP date format options
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_date( $date = 'created', $format = null ) {
 
@@ -258,8 +258,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * otherwise returns the absolute date
 	 * @param    integer    $max_days  max age of notification to display relative date for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_date_display( $max_days = 5 ) {
 
@@ -280,8 +280,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Retrieve a date relative to the current time
 	 * @param    string     $date  created or updated
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_date_relative( $date = 'created' ) {
 		return llms_get_date_diff( current_time( 'timestamp' ), $this->get_date( $date, 'U' ), 1 );

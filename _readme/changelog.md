@@ -1,21 +1,33 @@
 == Changelog ==
 
-v3.8.0-alpha.1 - 2017/04/27
+v3.8.0-alpha.3 - 2017/05/09
 -------------------------------
 
 + Automatic email and basic (on-screen) notifications:
   + Achievement earned
+  + Course complete
   + Course enrollment
-  + Purchase reciept
+  + Course track complete
   + Lesson completed
+  + Purchase reciept
+  + Section complete
   + Full list of scheduled notifications available [here](https://github.com/gocodebox/lifterlms/issues/315)
-
++ Hidden Access Plans
 + Updated LLMS_Email class and functionality
 + Email templates have been completely rewritten and styled
   + Temporary email style customization guide [here](https://gist.github.com/thomasplevy/0d3072633141d129cfc716740f302385)
   + Email branding will be added to LifterLMS Labs, follow progress [here](https://github.com/gocodebox/lifterlms/issues/316)
 + Updated and rewritten password reset flow
 + Added the functionality for image upload via options & settings api
+
+
+= v3.7.6 - 2017/05/05 =
+-----------------------
+
++ New translations for new categories on Add-ons screen
++ Update to general settings which utilizes featured items from the general settings screen
++ Update readme & related meta files
++ Removed advert image files
 
 
 = v3.7.5 - 2017/05/02 =
