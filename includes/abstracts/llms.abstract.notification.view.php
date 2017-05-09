@@ -183,12 +183,15 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		$icon = $this->get_icon_src();
 		$body = $this->get_body();
 		$footer = $this->get_footer();
+		if ( 'new' !== $this->notification->get( 'status' ) ) {
+			$footer .= $this->get_date_display( 5 );
+		}
 
 		ob_start();
 		?>
 			<div class="<?php echo implode( ' ', $classes ); ?>"<?php echo $atts; ?> id="llms-notification-<?php echo $this->id; ?>">
 
-				<?php if ( $this->basic_options['dismissible'] ) : ?>
+				<?php if ( $this->basic_options['dismissible'] && 'new' === $this->notification->get( 'status' ) ) : ?>
 					<i class="llms-notification-dismiss fa fa-times-circle" aria-hidden="true"></i>
 				<?php endif; ?>
 
@@ -224,11 +227,64 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @version  3.8.0
 	 */
 	public function get_body( $merge = true ) {
-		$body = $this->get_option( 'body', $this->set_body() );
+		$body = $this->get_option( 'body', apply_filters( $this->get_filter( 'set_body' ), $this->set_body(), $this ) );
 		if ( $merge ) {
 			$body = $this->get_merged_string( $body );
 		}
 		return apply_filters( $this->get_filter( 'get_body' ), wpautop( $body ), $this );
+	}
+
+	/**
+	 * Retrieve a formatted date
+	 * @param    string     $date    created or updated
+	 * @param    string     $format  valid PHP date format, defaults to WP date format options
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_date( $date = 'created', $format = null ) {
+
+		if ( ! $format ) {
+			$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+		}
+
+		return date_i18n( $format, strtotime( $this->notification->get( $date ) ) );
+
+	}
+
+	/**
+	 * Get relative or absolute date
+	 * Returns relative if relative date is less than $max_days
+	 * otherwise returns the absolute date
+	 * @param    integer    $max_days  max age of notification to display relative date for
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_date_display( $max_days = 5 ) {
+
+		$now = current_time( 'timestamp' );
+		$created = $this->get_date( 'created', 'U' );
+
+		if ( ( $now - $created ) <= ( $max_days * DAY_IN_SECONDS ) ) {
+
+			return sprintf( _x( 'About %s ago', 'relative date display', 'lifterlms' ), $this->get_date_relative( 'created' ) );
+
+		}
+
+		return $this->get_date( 'created' );
+
+	}
+
+	/**
+	 * Retrieve a date relative to the current time
+	 * @param    string     $date  created or updated
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_date_relative( $date = 'created' ) {
+		return llms_get_date_diff( current_time( 'timestamp' ), $this->get_date( $date, 'U' ), 1 );
 	}
 
 	/**
@@ -356,7 +412,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @version  3.8.0
 	 */
 	public function get_icon() {
-		$icon = $this->get_option( 'icon', $this->set_icon() );
+		$icon = $this->get_option( 'icon', apply_filters( $this->get_filter( 'set_icon' ), $this->set_icon(), $this ) );
 		return apply_filters( $this->get_filter( 'get_icon' ), $icon, $this );
 	}
 
@@ -427,7 +483,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @version  3.8.0
 	 */
 	public function get_subject( $merge = true ) {
-		$subject = $this->get_option( 'subject', $this->set_subject() );
+		$subject = $this->get_option( 'subject', apply_filters( $this->get_filter( 'set_subject' ), $this->set_subject(), $this ) );
 		if ( $merge ) {
 			$subject = $this->get_merged_string( $subject );
 		}
@@ -451,7 +507,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @version  3.8.0
 	 */
 	public function get_title( $merge = true ) {
-		$title = $this->get_option( 'title', $this->set_title() );
+		$title = $this->get_option( 'title', apply_filters( $this->get_filter( 'set_title' ), $this->set_title(), $this ) );
 		if ( $merge ) {
 			$title = $this->get_merged_string( $title );
 		}

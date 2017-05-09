@@ -155,9 +155,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 		foreach ( $this->get_supported_types() as $type => $name ) {
 
-			$defaults = wp_list_pluck( $this->get_subscriber_options( $type ), 'enabled', 'id' );
-
-			foreach ( $this->get_option( $type . '_subscribers', $defaults ) as $subscriber_key => $enabled ) {
+			foreach ( $this->get_subscribers_settings( $type ) as $subscriber_key => $enabled ) {
 
 				if ( 'no' === $enabled ) {
 					continue;
@@ -219,7 +217,19 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @version  3.8.0
 	 */
 	public function get_subscriber_options( $type ) {
-		return apply_filters( 'llms_notification_' . $this->id . '_subscriber_options', $this->set_subscriber_options( $type ), $this );
+		return apply_filters( 'llms_notification_' . $this->id . '_subscriber_options', $this->set_subscriber_options( $type ), $type, $this );
+	}
+
+	/**
+	 * Get an array of saved subscriber settings prefilled with defaults for the current notificaton
+	 * @param    string     $type  notification type
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_subscribers_settings( $type ) {
+		$defaults = wp_list_pluck( $this->get_subscriber_options( $type ), 'enabled', 'id' );
+		return $this->get_option( $type . '_subscribers', $defaults );
 	}
 
 	/**
@@ -230,7 +240,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
-	protected function get_subscriber_option_array( $id, $enabled = 'yes' ) {
+	public function get_subscriber_option_array( $id, $enabled = 'yes' ) {
 
 		$defaults = array(
 			'student' => array(
