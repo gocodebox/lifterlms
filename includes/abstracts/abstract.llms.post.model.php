@@ -543,10 +543,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Retrieve an array of properties defined by the model
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.8.0
 	 */
 	public function get_properties() {
-		return apply_filters( 'llms_post_model_get_post_properties', $this->properties, $this );
+		return apply_filters( 'llms_get_' . $this->model_post_type . '_properties', $this->properties, $this );
 	}
 
 	/**
