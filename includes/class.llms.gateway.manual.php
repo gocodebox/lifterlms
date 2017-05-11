@@ -3,7 +3,7 @@
 * Manual Payment Gateway Class
 *
 * @since   3.0.0
-* @version 3.7.5
+* @version 3.8.0
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
@@ -110,7 +110,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * @param   obj|false $coupon  Instance of LLMS_Coupon applied to the order being processed, or false when none is being used
 	 * @return  void
 	 * @since   3.0.0
-	 * @version 3.0.0
+	 * @version 3.8.0
 	 */
 	public function handle_pending_order( $order, $plan, $person, $coupon = false ) {
 
@@ -121,7 +121,27 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 		// no payment (free orders)
 		if ( floatval( 0 ) === $order->get_initial_price( array(), 'float' ) ) {
 
-			$order->set( 'status', 'llms-completed' );
+			// free access plans do not generate receipts
+			if ( $plan->is_free() ) {
+
+				$order->set( 'status', 'llms-completed' );
+
+			// free trial, reduced to free via coupon, etc...
+			// we do want to record a transaction and then generate a reciept
+			} else {
+
+				// record a $0.00 transaction to ensure a receipt is sent
+				$order->record_transaction( array(
+					'amount' => floatval( 0 ),
+					'source_description' => __( 'Free', 'lifterlms' ),
+					'transaction_id' => uniqid(),
+					'status' => 'llms-txn-succeeded',
+					'payment_gateway' => 'manual',
+					'payment_type' => 'single',
+				) );
+
+			}
+
 			$this->complete_transaction( $order );
 
 		} else {

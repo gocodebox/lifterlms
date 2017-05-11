@@ -75,10 +75,11 @@ class LLMS_Notifications {
 	 */
 	public function dispatch_processors() {
 
-		foreach ( $this->processors_to_dispatch as $name ) {
+		foreach ( $this->processors_to_dispatch as $key => $name ) {
 
 			$processor = $this->get_processor( $name );
 			if ( $processor ) {
+				unset( $this->processors_to_dispatch[ $key ] );
 				$processor->save()->dispatch();
 			}
 		}

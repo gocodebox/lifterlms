@@ -58,10 +58,6 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 
 		switch ( $subscriber ) {
 
-			// case 'author':
-			// 	// $uid = $this->course->get( 'author' );
-			// break;
-
 			case 'student':
 				$uid = $this->user_id;
 			break;

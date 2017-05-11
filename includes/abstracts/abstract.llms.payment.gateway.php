@@ -1,5 +1,12 @@
 <?php
+/**
+ * LifterLMS Payment Gateways Abstract
+ * @since    3.0.0
+ * @version  3.8.0
+ */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 abstract class LLMS_Payment_Gateway {
 
 	/**
@@ -115,7 +122,7 @@ abstract class LLMS_Payment_Gateway {
 	 * @param    string     $msg     optional message to display on the redirect screen
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.4.0
+	 * @version  3.8.0
 	 */
 	public function complete_transaction( $order, $msg = '' ) {
 
@@ -155,6 +162,9 @@ abstract class LLMS_Payment_Gateway {
 		llms_add_notice( $msg, 'success' );
 
 		$this->log( $this->get_admin_title() . ' `complete_transaction()` finished', $redirect, $order, $msg );
+
+		// ensure notification processors get dispatched since shutdown wont be called
+		do_action( 'llms_dispatch_notification_processors' );
 
 		// execute a redirect
 		wp_redirect( $redirect );
