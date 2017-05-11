@@ -118,15 +118,15 @@ abstract class LLMS_Payment_Gateway {
 	/**
 	 * This should be called by the gateway after verifying the transaction was completed successfully
 	 *
-	 * @param    obj        $order   Instance of an LLMS_Order object
-	 * @param    string     $msg     optional message to display on the redirect screen
+	 * @param    obj        $order       Instance of an LLMS_Order object
+	 * @param    string     $deprecated  (deprecated) optional message to display on the redirect screen
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.8.0
 	 */
-	public function complete_transaction( $order, $msg = '' ) {
+	public function complete_transaction( $order, $deprecated = '' ) {
 
-		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order, $msg );
+		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order );
 
 		// redirect to the product's permalink
 		$redirect = get_permalink( $order->get( 'product_id' ) );
@@ -142,26 +142,16 @@ abstract class LLMS_Payment_Gateway {
 
 		$redirect = apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order );
 
-		// default message if non is supplied
-		if ( ! $msg ) {
-			$plan = llms_get_post( $order->get( 'plan_id' ) );
-			if ( $plan && $plan->has_free_checkout() ) {
-				$msg = __( 'Congratulations! You\'ve been enrolled in %s.', 'lifterlms' );
-			} else {
-				$msg = __( 'Congratulations! Your purchase was successful and you\'ve been enrolled in %s.', 'lifterlms' );
-			}
+		// deprecated msg if supplied, will be removed in a future release
+		if ( $deprecated ) {
 
-			$msg = sprintf( $msg, $order->get( 'product_title' ) );
+			llms_deprecated_function( 'LLMS_Payment_Gateway::complete_transaction() with message', '3.8.0', 'LifterLMS enrollment notices' );
+			$deprecated = apply_filters( 'lifterlms_completed_transaction_message', $deprecated, $order );
+			llms_add_notice( $deprecated, 'success' );
 
 		}
 
-		// filter the notice
-		$msg = apply_filters( 'lifterlms_completed_transaction_message', $msg, $order );
-
-		// ouput the notice
-		llms_add_notice( $msg, 'success' );
-
-		$this->log( $this->get_admin_title() . ' `complete_transaction()` finished', $redirect, $order, $msg );
+		$this->log( $this->get_admin_title() . ' `complete_transaction()` finished', $redirect, $order );
 
 		// ensure notification processors get dispatched since shutdown wont be called
 		do_action( 'llms_dispatch_notification_processors' );
