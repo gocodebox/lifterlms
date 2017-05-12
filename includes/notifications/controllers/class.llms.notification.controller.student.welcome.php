@@ -1,19 +1,19 @@
 <?php
 /**
- * Notification Controller: Transaction Success
+ * Notification Controller: Student Welcome
  * @since    3.8.0
  * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notification_Controller {
+class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notification_Controller {
 
 	/**
 	 * Trigger Identifier
 	 * @var  [type]
 	 */
-	public $id = 'purchase_receipt';
+	public $id = 'student_welcome';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
@@ -26,8 +26,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 * @var  array
 	 */
 	protected $action_hooks = array(
-		'lifterlms_resend_transaction_receipt',
-		'lifterlms_transaction_status_succeeded',
+		'lifterlms_user_registered',
 	);
 
 	/**
@@ -37,11 +36,10 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
-	public function action_callback( $transaction = null ) {
+	public function action_callback( $user_id = null ) {
 
-		$order = $transaction->get_order();
-		$this->user_id = $order->get( 'user_id' );
-		$this->post_id = $transaction->get( 'id' );
+		$this->user_id = $user_id;
+		$this->post_id = null;
 
 		$this->send();
 
@@ -93,7 +91,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 * @version  3.8.0
 	 */
 	public function get_title() {
-		return __( 'Purchase Receipt', 'lifterlms' );
+		return __( 'Student Welcome', 'lifterlms' );
 	}
 
 	/**
@@ -122,4 +120,4 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 
 }
 
-return LLMS_Notification_Controller_Purchase_Receipt::instance();
+return LLMS_Notification_Controller_Student_Welcome::instance();
