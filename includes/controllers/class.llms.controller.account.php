@@ -105,28 +105,7 @@ class LLMS_Controller_Account {
 
 		}
 
-		// generate an activation key
-		$key = wp_generate_password( 20, false );
-
-		do_action( 'retrieve_password_key', $user->user_login, $key ); // wp core hook
-
-		// insert the hashed key into the db
-		if ( empty( $wp_hasher ) ) {
-			require_once ABSPATH . 'wp-includes/class-phpass.php';
-			$wp_hasher = new PasswordHash( 8, true );
-		}
-		$hashed = $wp_hasher->HashPassword( $key );
-
-		global $wpdb;
-		$wpdb->update(
-			$wpdb->users,
-			array(
-				'user_activation_key' => $hashed,
-			),
-			array(
-				'user_login' => $user->user_login,
-			)
-		);
+		$key = llms_set_user_password_rest_key( $user->ID );
 
 		// send the email
 		// setup the email
