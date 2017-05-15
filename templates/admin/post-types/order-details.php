@@ -182,17 +182,19 @@ if ( ! is_admin() ) { exit; }
 			<a href="mailto:<?php echo $order->get( 'billing_email' ); ?>"><?php echo $order->get( 'billing_email' ); ?></a>
 		</div>
 
-		<div class="llms-metabox-field">
-			<label><?php _e( 'Buyer Address:', 'lifterlms' ) ?></label>
-			<?php echo $order->get( 'billing_address_1' ); ?><br>
-			<?php if ( isset( $order->billing_address_2 ) ) : ?>
-				<?php echo $order->get( 'billing_address_2' ); ?><br>
-			<?php endif; ?>
-			<?php echo $order->get( 'billing_city' ); ?>,
-			<?php echo $order->get( 'billing_state' ); ?>,
-			<?php echo $order->get( 'billing_zip' ); ?><br>
-			<?php echo $order->get( 'billing_country' ); ?>
-		</div>
+		<?php if ( $order->get( 'billing_address_1' ) ) : ?>
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Buyer Address:', 'lifterlms' ) ?></label>
+				<?php echo $order->get( 'billing_address_1' ); ?><br>
+				<?php if ( isset( $order->billing_address_2 ) ) : ?>
+					<?php echo $order->get( 'billing_address_2' ); ?><br>
+				<?php endif; ?>
+				<?php echo $order->get( 'billing_city' ); ?>,
+				<?php echo $order->get( 'billing_state' ); ?>,
+				<?php echo $order->get( 'billing_zip' ); ?><br>
+				<?php echo $order->get( 'billing_country' ); ?>
+			</div>
+		<?php endif; ?>
 
 		<div class="llms-metabox-field">
 			<label><?php _e( 'Buyer IP Address:', 'lifterlms' ) ?></label>
