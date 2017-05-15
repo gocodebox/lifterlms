@@ -319,6 +319,12 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			}
 		}
 
+		// cleanup subscriptions so if the notification
+		// is triggered again we don't have incorrect subscribers
+		// on the next trigger
+		// this happens when receipts are triggered in bulk by action scheduler
+		$this->unset_subscriptions();
+
 	}
 
 	/**
@@ -406,6 +412,16 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 */
 	public function supports( $type ) {
 		return in_array( $type, array_keys( $this->get_supported_types() ) );
+	}
+
+	/**
+	 * Reset the subscriptions array
+	 * @return   void
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function unset_subscriptions() {
+		$this->subscriptions = array();
 	}
 
 }
