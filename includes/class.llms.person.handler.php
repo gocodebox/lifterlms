@@ -467,12 +467,12 @@ class LLMS_Person_Handler {
 	 * @param    array $data   array of data (from a $_POST or function)
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @version  3.8.0
 	 */
 	private static function fill_fields( $fields, $data ) {
 
 		if ( is_numeric( $data ) ) {
-			$user = new WP_User( $data );
+			$user = new LLMS_Student( $data );
 		}
 
 		foreach ( $fields as &$field ) {
@@ -482,14 +482,31 @@ class LLMS_Person_Handler {
 			}
 
 			$name = isset( $field['name'] ) ? $field['name'] : $field['id'];
+			$val = false;
+
 			if ( isset( $data[ $name ] ) ) {
-				$field['value'] = $data[ $name ];
+
+				$val = $data[ $name ];
+
 			} elseif ( isset( $user ) ) {
+
 				if ( 'email_address' === $name ) {
 					$name = 'user_email';
 				}
-				$field['value'] = $user->{$name};
+				$val = $user->get( $name );
+
 			}
+
+			if ( $val ) {
+				if ( 'checkbox' === $field['type'] ) {
+					if ( $val == $field['value'] ) {
+						$field['selected'] = true;
+					}
+				} else {
+					$field['value'] = $val;
+				}
+			}
+
 		}
 
 		return $fields;
@@ -572,7 +589,7 @@ class LLMS_Person_Handler {
 		$data[ self::$meta_prefix . 'ip_address' ] = llms_get_ip_address();
 
 		// metas
-		$possible_metas = array(
+		$possible_metas = apply_filters( 'llms_person_insert_data_possible_metas', array(
 			self::$meta_prefix . 'billing_address_1',
 			self::$meta_prefix . 'billing_address_2',
 			self::$meta_prefix . 'billing_city',
@@ -581,7 +598,7 @@ class LLMS_Person_Handler {
 			self::$meta_prefix . 'billing_country',
 			self::$meta_prefix . 'ip_address',
 			self::$meta_prefix . 'phone',
-		);
+		) );
 		$insert_metas = array();
 		foreach ( $possible_metas as $meta ) {
 			if ( isset( $data[ $meta ] ) ) {
@@ -937,10 +954,6 @@ class LLMS_Person_Handler {
 
 				switch ( $field['type'] ) {
 
-					// add the opposite value if not set
-					case 'checkbox':
-					break;
-
 					// ensure it's a selectable option
 					case 'select':
 					case 'radio':
@@ -995,7 +1008,6 @@ class LLMS_Person_Handler {
 		// return errors if we have errors
 		if ( $e->get_error_messages() ) {
 			return $e;
-
 		}
 
 		return true;
