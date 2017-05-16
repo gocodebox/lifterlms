@@ -54,14 +54,6 @@ msgstr ""
 msgid "No results were found."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:142
-msgid "Congratulations! You've been enrolled in %s."
-msgstr ""
-
-#: includes/abstracts/abstract.llms.payment.gateway.php:144
-msgid "Congratulations! Your purchase was successful and you've been enrolled in %s."
-msgstr ""
-
 #: includes/abstracts/abstract.llms.payment.gateway.php:221
 msgctxt "Payment gateway title"
 msgid "Enable %s"
@@ -148,11 +140,11 @@ msgstr ""
 msgid "Additional Recipients"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:370, includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:116, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:88
+#: includes/abstracts/llms.abstract.notification.controller.php:376, includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:116
 msgid "Basic"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:371, includes/class.llms.post-types.php:767, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:89
+#: includes/abstracts/llms.abstract.notification.controller.php:377, includes/class.llms.post-types.php:767, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:84, includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:82
 msgid "Email"
 msgstr ""
 
@@ -233,7 +225,7 @@ msgstr ""
 msgid "Certificates Issued"
 msgstr ""
 
-#: includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:316, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:85, includes/admin/settings/class.llms.settings.memberships.php:19, includes/functions/llms.functions.person.php:319, includes/integrations/class.llms.integration.buddypress.php:59, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:217, templates/admin/reporting/nav-filters.php:84
+#: includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:316, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:85, includes/admin/settings/class.llms.settings.memberships.php:19, includes/functions/llms.functions.person.php:377, includes/integrations/class.llms.integration.buddypress.php:59, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:217, templates/admin/reporting/nav-filters.php:84
 msgid "Memberships"
 msgstr ""
 
@@ -453,7 +445,7 @@ msgstr ""
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:60, lifterlms.php:436
+#: includes/admin/class.llms.admin.menus.php:60, lifterlms.php:437
 msgid "Settings"
 msgstr ""
 
@@ -1070,6 +1062,10 @@ msgstr ""
 msgid "Course Length"
 msgstr ""
 
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:77
+msgid "Enter a description of the estimated length. IE: 3 days"
+msgstr ""
+
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:87
 msgid "Choose a course difficulty level. New difficulties can be added via %1$sCourses -> Difficulties%2$s."
 msgstr ""
@@ -1204,6 +1200,10 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:233, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:84
 msgid "Enable Prerequisite"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:234
+msgid "Enable to choose a prerequisite course or course track"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:246
@@ -2846,6 +2846,10 @@ msgstr ""
 msgid "Engagements"
 msgstr ""
 
+#: includes/admin/settings/class.llms.settings.engagements.php:50
+msgid "Manage email settings"
+msgstr ""
+
 #: includes/admin/settings/class.llms.settings.engagements.php:55
 msgid "Senders Email Address"
 msgstr ""
@@ -3291,6 +3295,10 @@ msgstr ""
 msgid "This gateway cannot process recurring transactions"
 msgstr ""
 
+#: includes/class.llms.gateway.manual.php:136, includes/functions/llms.functions.updates.php:192
+msgid "Free"
+msgstr ""
+
 #: includes/class.llms.generator.php:175
 msgid "No generator supplied."
 msgstr ""
@@ -3574,47 +3582,47 @@ msgstr ""
 msgid "Update Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:632
+#: includes/class.llms.person.handler.php:649
 msgid "Could not find an account with the supplied email address and password combination."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:785
+#: includes/class.llms.person.handler.php:802
 msgid "No user ID specified."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:883
+#: includes/class.llms.person.handler.php:900
 msgid "%s is a required field"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:904
+#: includes/class.llms.person.handler.php:921
 msgid "An account with the email address \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:914
+#: includes/class.llms.person.handler.php:931
 msgid "The username \"%s\" is invalid, please try a different username."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:918
+#: includes/class.llms.person.handler.php:935
 msgid "An account with the username \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:931
+#: includes/class.llms.person.handler.php:948
 msgid "The submitted %s was incorrect."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:948
+#: includes/class.llms.person.handler.php:961
 msgid "\"%1$s\" is an invalid option for %2$s"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:960
+#: includes/class.llms.person.handler.php:973
 msgid "%s must be numeric"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:968
+#: includes/class.llms.person.handler.php:981
 msgid "%s must be a valid email address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:989
+#: includes/class.llms.person.handler.php:1002
 msgid "%1$s must match %2$s"
 msgstr ""
 
@@ -5024,23 +5032,23 @@ msgstr ""
 msgid "Password reset is not allowed for this user"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:142
+#: includes/controllers/class.llms.controller.account.php:121
 msgid "Check your e-mail for the confirmation link."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:146
+#: includes/controllers/class.llms.controller.account.php:125
 msgid "Unable to reset password due to an unknown error. Please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:177, includes/controllers/class.llms.controller.account.php:184
+#: includes/controllers/class.llms.controller.account.php:156, includes/controllers/class.llms.controller.account.php:163
 msgid "Invalid Key"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:193
+#: includes/controllers/class.llms.controller.account.php:172
 msgid "Your password has been updated. %1$sClick here to login%2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:75, includes/controllers/class.llms.controller.orders.php:81, includes/shortcodes/class.llms.shortcode.checkout.php:170
+#: includes/controllers/class.llms.controller.orders.php:75, includes/controllers/class.llms.controller.orders.php:81, includes/shortcodes/class.llms.shortcode.checkout.php:172
 msgid "Could not locate an order to confirm."
 msgstr ""
 
@@ -6744,11 +6752,11 @@ msgstr ""
 msgid "very weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:318
+#: includes/functions/llms.functions.person.php:376
 msgid "Last Login"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:347
+#: includes/functions/llms.functions.person.php:405
 msgid "Never"
 msgstr ""
 
@@ -6766,10 +6774,6 @@ msgstr ""
 
 #: includes/functions/llms.functions.updates.php:175
 msgid "One-Time Payment"
-msgstr ""
-
-#: includes/functions/llms.functions.updates.php:192
-msgid "Free"
 msgstr ""
 
 #: includes/functions/llms.functions.updates.php:219
@@ -7127,12 +7131,16 @@ msgstr ""
 msgid "Lesson Complete"
 msgstr ""
 
-#: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:101
+#: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:96
 msgid "Purchase Receipt"
 msgstr ""
 
 #: includes/notifications/controllers/class.llms.notification.controller.section.complete.php:85
 msgid "Section Complete"
+msgstr ""
+
+#: includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:94
+msgid "Student Welcome"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:77
@@ -7151,7 +7159,7 @@ msgstr ""
 msgid "Achievment Title"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:81, includes/notifications/views/class.llms.notification.view.course.complete.php:76, includes/notifications/views/class.llms.notification.view.course.enrollment.php:74, includes/notifications/views/class.llms.notification.view.course.track.complete.php:76, includes/notifications/views/class.llms.notification.view.lesson.complete.php:80, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:95, includes/notifications/views/class.llms.notification.view.section.complete.php:78
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:81, includes/notifications/views/class.llms.notification.view.course.complete.php:76, includes/notifications/views/class.llms.notification.view.course.enrollment.php:74, includes/notifications/views/class.llms.notification.view.course.track.complete.php:76, includes/notifications/views/class.llms.notification.view.lesson.complete.php:80, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:95, includes/notifications/views/class.llms.notification.view.section.complete.php:78, includes/notifications/views/class.llms.notification.view.student.welcome.php:68
 msgid "Student Name"
 msgstr ""
 
@@ -7285,6 +7293,50 @@ msgstr ""
 msgid "%s Completed a Section"
 msgstr ""
 
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:27
+msgid "Hello %s,"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:28
+msgid "Here's some helpful information to help you get started at %s."
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:29
+msgid "Your Login"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:30
+msgid "Your Dashboard"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:31
+msgid "If you forgot or don't have a password you can reset it now so you can login and get started:"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:65
+msgid "Dashboard URL"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:66
+msgid "Password Reset URL"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:67
+msgid "Site Title"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:69
+msgid "Student Login"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:118
+msgid "Welcome to %s"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.student.welcome.php:128
+msgid "Let's get started %s"
+msgstr ""
+
 #: includes/shortcodes/class.llms.shortcode.checkout.php:44
 msgid "You are currently logged in as <em>%1$s</em>. <a href=\"%2$s\">Click here to logout</a>"
 msgstr ""
@@ -7293,11 +7345,11 @@ msgstr ""
 msgid "Already have an account? <a href=\"%s\">Click here to login</a>"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:160
+#: includes/shortcodes/class.llms.shortcode.checkout.php:162
 msgid "Invalid access plan."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:190
+#: includes/shortcodes/class.llms.shortcode.checkout.php:192
 msgid "Your cart is currently empty. Click <a href=\"%s\">here</a> to get started."
 msgstr ""
 
@@ -7473,7 +7525,7 @@ msgstr ""
 msgid "Access Plan Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:49, templates/admin/post-types/order-details.php:68, templates/admin/post-types/order-details.php:218
+#: templates/admin/post-types/order-details.php:49, templates/admin/post-types/order-details.php:68, templates/admin/post-types/order-details.php:220
 msgid "Name:"
 msgstr ""
 
@@ -7541,27 +7593,27 @@ msgstr ""
 msgid "Buyer Email:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:186
+#: templates/admin/post-types/order-details.php:187
 msgid "Buyer Address:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:198
+#: templates/admin/post-types/order-details.php:200
 msgid "Buyer IP Address:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:215
+#: templates/admin/post-types/order-details.php:217
 msgid "Gateway Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:226
+#: templates/admin/post-types/order-details.php:228
 msgid "Transaction ID:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:239
+#: templates/admin/post-types/order-details.php:241
 msgid "Customer ID:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:251
+#: templates/admin/post-types/order-details.php:253
 msgid "Subscription ID:"
 msgstr ""
 

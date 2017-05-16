@@ -3,7 +3,7 @@
  * Checkout Shortcode
  * Sets functionality associated with shortcode [llms_checkout]
  * @since    1.0.0
- * @version  3.4.0
+ * @version  3.7.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -94,11 +94,13 @@ class LLMS_Shortcode_Checkout {
 	 * @param    array   $atts  shortcode atts from originating shortcode
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.2.5
+	 * @version  3.7.7
 	 */
 	public static function output( $atts ) {
 
 		global $wp;
+
+		$atts = $atts ? $atts : array();
 
 		$atts['cols'] = isset( $atts['cols'] ) ? $atts['cols'] : 2;
 

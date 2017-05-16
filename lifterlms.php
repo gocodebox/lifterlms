@@ -36,6 +36,7 @@ require_once 'vendor/autoload.php';
 final class LifterLMS {
 
 	public $version = '3.8.0-alpha.3';
+	public $version = '3.7.7';
 
 	protected static $_instance = null;
 

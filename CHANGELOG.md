@@ -22,6 +22,16 @@ v3.8.0-alpha.3 - 2017/05/09
 + Added the functionality for image upload via options & settings api
 
 
+v3.7.7 - 2017/05/16
+-------------------
+
++ Updated a few strings on the admin panel to be translateable
++ Fix PHP warning output during plugin activation
++ Fix reporting issue related to outputting quiz question answers where the correct answer is the first available answer
++ Fix PHP 7.1 issue on the checkout screen
++ Removed some unnecessary files from vendor libraries
+
+
 v3.7.6 - 2017/05/05
 -------------------
 

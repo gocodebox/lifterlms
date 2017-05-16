@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.4
-Stable tag: 3.7.6
+Stable tag: 3.7.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -227,12 +227,23 @@ v3.8.0-alpha.3 - 2017/05/09
   + Section complete
   + Full list of scheduled notifications available [here](https://github.com/gocodebox/lifterlms/issues/315)
 + Hidden Access Plans
++ Notifications history screen on Student Dashboard to review past notifications
 + Updated LLMS_Email class and functionality
 + Email templates have been completely rewritten and styled
   + Temporary email style customization guide [here](https://gist.github.com/thomasplevy/0d3072633141d129cfc716740f302385)
   + Email branding will be added to LifterLMS Labs, follow progress [here](https://github.com/gocodebox/lifterlms/issues/316)
 + Updated and rewritten password reset flow
 + Added the functionality for image upload via options & settings api
+
+
+= v3.7.7 - 2017/05/16 =
+-----------------------
+
++ Updated a few strings on the admin panel to be translateable
++ Fix PHP warning output during plugin activation
++ Fix reporting issue related to outputting quiz question answers where the correct answer is the first available answer
++ Fix PHP 7.1 issue on the checkout screen
++ Removed some unnecessary files from vendor libraries
 
 
 = v3.7.6 - 2017/05/05 =

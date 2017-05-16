@@ -47,7 +47,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				array(
 					'title' => __( 'Email Settings', 'lifterlms' ),
 					'type' => 'title',
-					'desc' => 'Manage email settings.',
+					'desc' => __( 'Manage email settings', 'lifterlms' ),
 					'id' => 'email_options',
 				),
 
