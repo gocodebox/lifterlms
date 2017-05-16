@@ -260,51 +260,51 @@ msgstr ""
 msgid "Total Coupons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:88
+#: includes/admin/class.llms.admin.addons.php:87
 msgid "Affiliates"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:92
+#: includes/admin/class.llms.admin.addons.php:91
 msgid "All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:96
+#: includes/admin/class.llms.admin.addons.php:95
 msgid "Bundles"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:100, includes/admin/settings/class.llms.settings.checkout.php:198
+#: includes/admin/class.llms.admin.addons.php:99, includes/admin/settings/class.llms.settings.checkout.php:198
 msgid "Payment Gateways"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:104
+#: includes/admin/class.llms.admin.addons.php:103
 msgid "E-Mail & Marketing"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:108
+#: includes/admin/class.llms.admin.addons.php:107
 msgid "Themes & Design"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:112
+#: includes/admin/class.llms.admin.addons.php:111
 msgid "Tools & Utilities"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:116
+#: includes/admin/class.llms.admin.addons.php:115
 msgid "Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:120
+#: includes/admin/class.llms.admin.addons.php:119
 msgid "Services"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:137, includes/admin/class.llms.admin.addons.php:222
+#: includes/admin/class.llms.admin.addons.php:136, includes/admin/class.llms.admin.addons.php:221
 msgid "There was an error retrieving add-ons. Please try again."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:143
+#: includes/admin/class.llms.admin.addons.php:142
 msgid "LifterLMS Add-Ons, Services, and Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:170
+#: includes/admin/class.llms.admin.addons.php:169
 msgid "Created by:"
 msgstr ""
 
@@ -1009,6 +1009,10 @@ msgstr ""
 msgid "Course Length"
 msgstr ""
 
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:77
+msgid "Enter a description of the estimated length. IE: 3 days"
+msgstr ""
+
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:87
 msgid "Choose a course difficulty level. New difficulties can be added via %1$sCourses -> Difficulties%2$s."
 msgstr ""
@@ -1143,6 +1147,10 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:233, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:84
 msgid "Enable Prerequisite"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:234
+msgid "Enable to choose a prerequisite course or course track"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:246
@@ -2775,6 +2783,10 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.engagements.php:21, includes/class.llms.post-types.php:500
 msgid "Engagements"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:50
+msgid "Manage email settings"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.engagements.php:55
@@ -4907,7 +4919,7 @@ msgstr ""
 msgid "Your account information has been saved."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:75, includes/controllers/class.llms.controller.orders.php:81, includes/shortcodes/class.llms.shortcode.checkout.php:170
+#: includes/controllers/class.llms.controller.orders.php:75, includes/controllers/class.llms.controller.orders.php:81, includes/shortcodes/class.llms.shortcode.checkout.php:172
 msgid "Could not locate an order to confirm."
 msgstr ""
 
@@ -6986,11 +6998,11 @@ msgstr ""
 msgid "Already have an account? <a href=\"%s\">Click here to login</a>"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:160
+#: includes/shortcodes/class.llms.shortcode.checkout.php:162
 msgid "Invalid access plan."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:190
+#: includes/shortcodes/class.llms.shortcode.checkout.php:192
 msgid "Your cart is currently empty. Click <a href=\"%s\">here</a> to get started."
 msgstr ""
 

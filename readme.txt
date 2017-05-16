@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.4
-Stable tag: 3.7.6
+Stable tag: 3.7.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -213,6 +213,15 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.7.7 - 2017/05/16 =
+-----------------------
+
++ Updated a few strings on the admin panel to be translateable
++ Fix PHP warning output during plugin activation
++ Fix reporting issue related to outputting quiz question answers where the correct answer is the first available answer
++ Fix PHP 7.1 issue on the checkout screen
+
 
 = v3.7.6 - 2017/05/05 =
 -----------------------

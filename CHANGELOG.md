@@ -1,5 +1,14 @@
 == Changelog ==
 
+v3.7.7 - 2017/05/16
+-------------------
+
++ Updated a few strings on the admin panel to be translateable
++ Fix PHP warning output during plugin activation
++ Fix reporting issue related to outputting quiz question answers where the correct answer is the first available answer
++ Fix PHP 7.1 issue on the checkout screen
+
+
 v3.7.6 - 2017/05/05
 -------------------
 
