@@ -221,6 +221,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Fix PHP warning output during plugin activation
 + Fix reporting issue related to outputting quiz question answers where the correct answer is the first available answer
 + Fix PHP 7.1 issue on the checkout screen
++ Removed some unnecessary files from vendor libraries
 
 
 = v3.7.6 - 2017/05/05 =
