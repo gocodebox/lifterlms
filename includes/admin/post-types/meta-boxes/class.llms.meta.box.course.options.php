@@ -74,7 +74,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'type'		=> 'text',
 						'label'		=> __( 'Course Length', 'lifterlms' ),
-						'desc' 		=> 'Enter a description of the estimated length. IE: 3 days',
+						'desc' 		=> __( 'Enter a description of the estimated length. IE: 3 days', 'lifterlms' ),
 						'id' 		=> $this->prefix . 'length',
 						'class' 	=> 'input-full',
 						'value' 	=> '',
@@ -231,7 +231,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'is_controller' => true,
 						'type'		=> 'checkbox',
 						'label'		=> __( 'Enable Prerequisite', 'lifterlms' ),
-						'desc' 		=> 'Enable to choose a prerequisite course or course track',
+						'desc' 		=> __( 'Enable to choose a prerequisite course or course track', 'lifterlms' ),
 						'id' 		=> $this->prefix . 'has_prerequisite',
 						'class' 	=> '',
 						'value' 	=> 'yes',
