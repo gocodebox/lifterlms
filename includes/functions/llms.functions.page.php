@@ -91,7 +91,7 @@ function llms_get_page_id( $page ) {
 
 /**
  * Retrive the URL for a LifterLMS Page
- * EG: 'checkout', 'memberships', etc...
+ * EG: 'checkout', 'memberships', 'myaccount', 'courses' etc...
  * @param  string $page name of the page
  * @param  array  $args optional array of query arguments that can be passed to add_query_arg()
  * @return string
