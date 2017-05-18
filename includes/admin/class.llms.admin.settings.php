@@ -539,9 +539,15 @@ class LLMS_Admin_Settings {
 				$class 			= '';
 
 				if ( $option_value ) {
-					$size = isset( $field['image_size'] ) ? $field['image_size'] : 'medium';
-					$attachment = wp_get_attachment_image_src( $option_value, $size );
-					$src = $attachment[0];
+					// media lib object ID
+					if ( is_numeric( $option_value ) ) {
+						$size = isset( $field['image_size'] ) ? $field['image_size'] : 'medium';
+						$attachment = wp_get_attachment_image_src( $option_value, $size );
+						$src = $attachment[0];
+					} else {
+					// raw img src
+						$src = $option_value;
+					}
 				} else {
 					$src = '';
 				}

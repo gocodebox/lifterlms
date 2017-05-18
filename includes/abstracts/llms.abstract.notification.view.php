@@ -180,7 +180,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		// get variables
 		$title = $this->get_title();
-		$icon = $this->get_icon_src();
+		$icon = ( 'yes' === $this->get_option( 'icon_hide', 'no' ) ) ? '' : $this->get_icon_src();
 		$body = $this->get_body();
 		$footer = $this->get_footer();
 		if ( 'new' !== $this->notification->get( 'status' ) ) {
@@ -359,6 +359,13 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 				'type' => 'image',
 				'value' => $this->get_icon(),
 			);
+			$options[] = array(
+				'default' => 'no',
+				'description' => __( 'When checked the icon will not be displayed when showing this notification.', 'lifterlms' ),
+				'id' => $this->get_option_name( 'icon_hide' ),
+				'title' => __( 'Disable Icon', 'lifterlms' ),
+				'type' => 'checkbox',
+			);
 		}
 
 		return apply_filters( $this->get_filter( 'get_field_options' ), $options, $this );
@@ -407,7 +414,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve the icon id for the notification
 	 * Returns an attachment id for the image
-	 * @return   int
+	 * @return   mixed
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -423,13 +430,15 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @version  3.8.0
 	 */
 	public function get_icon_src() {
-		$id = $this->get_icon();
 		$src = '';
-		if ( $id ) {
-			$src = wp_get_attachment_image_src( $id, 'llms_notification_icon' );
+		$val = $this->get_icon();
+		if ( is_numeric( $val ) ) {
+			$src = wp_get_attachment_image_src( $val, 'llms_notification_icon' );
 			if ( is_array( $src ) ) {
 				$src = $src[0];
 			}
+		} else {
+			$src = $val;
 		}
 		return apply_filters( $this->get_filter( 'get_icon_src' ), $src, $this );
 	}
