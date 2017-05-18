@@ -103,9 +103,9 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{CERTIFICATE_CONTENT}}' => __( 'Certificate Title', 'lifterlms' ),
+			'{{CERTIFICATE_CONTENT}}' => __( 'Certificate Content', 'lifterlms' ),
 			'{{CERTIFICATE_TITLE}}' => __( 'Certificate Title', 'lifterlms' ),
-			'{{CERTIFICATE_URL}}' => __( 'Certificate Title', 'lifterlms' ),
+			'{{CERTIFICATE_URL}}' => __( 'Certificate URL', 'lifterlms' ),
 			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
 			'{{MINI_CERTIFICATE}}' => __( 'Mini Certificate', 'lifterlms' ),
 		);

@@ -1,19 +1,19 @@
 <?php
 /**
- * Notification Controller: Course Enrollment
+ * Notification Controller: Enrollment
  * @since    3.8.0
  * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notification_Controller {
+class LLMS_Notification_Controller_Enrollment extends LLMS_Abstract_Notification_Controller {
 
 	/**
 	 * Trigger Identifier
 	 * @var  [type]
 	 */
-	public $id = 'course_enrollment';
+	public $id = 'enrollment';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
@@ -27,22 +27,22 @@ class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notif
 	 */
 	protected $action_hooks = array(
 		'llms_user_enrolled_in_course',
-		// 'llms_user_added_to_membership_level',
+		'llms_user_added_to_membership_level',
 	);
 
 	/**
 	 * Callback function, called after enrollment into a course
 	 * @param    int     $user_id     WP User ID of the user
-	 * @param    int     $course_id   WP Post ID of the course
+	 * @param    int     $post_id   WP Post ID of the course or membership
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
-	public function action_callback( $user_id = null, $course_id = null ) {
+	public function action_callback( $user_id = null, $post_id = null ) {
 
 		$this->user_id = $user_id;
-		$this->post_id = $course_id;
-		$this->course = llms_get_post( $course_id );
+		$this->post_id = $post_id;
+		$this->course = llms_get_post( $post_id );
 
 		$this->send();
 
@@ -59,7 +59,7 @@ class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notif
 
 		switch ( $subscriber ) {
 
-			case 'course_author':
+			case 'author':
 				$uid = $this->course->get( 'author' );
 			break;
 
@@ -84,7 +84,7 @@ class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notif
 	 * @version  3.8.0
 	 */
 	public function get_title() {
-		return __( 'Course Enrollment', 'lifterlms' );
+		return __( 'Enrollment', 'lifterlms' );
 	}
 
 	/**
@@ -102,11 +102,11 @@ class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notif
 
 			case 'basic':
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
-				$options[] = $this->get_subscriber_option_array( 'course_author', 'no' );
+				$options[] = $this->get_subscriber_option_array( 'author', 'no' );
 			break;
 
 			case 'email':
-				$options[] = $this->get_subscriber_option_array( 'course_author', 'no' );
+				$options[] = $this->get_subscriber_option_array( 'author', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 			break;
 
@@ -118,4 +118,4 @@ class LLMS_Notification_Controller_Course_Enrollment extends LLMS_Abstract_Notif
 
 }
 
-return LLMS_Notification_Controller_Course_Enrollment::instance();
+return LLMS_Notification_Controller_Enrollment::instance();
