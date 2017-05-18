@@ -1146,6 +1146,8 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 
 	function lifterlms_course_progress_bar( $progress, $link = false, $button = true, $echo = true ) {
 
+		$progress = round( $progress, 2 );
+
 		$tag = ($link) ? 'a' : 'span';
 		$href = ($link) ? ' href=" ' . $link . ' "' : '';
 
