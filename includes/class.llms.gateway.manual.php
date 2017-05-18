@@ -126,8 +126,8 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 				$order->set( 'status', 'llms-completed' );
 
-			// free trial, reduced to free via coupon, etc...
-			// we do want to record a transaction and then generate a reciept
+				// free trial, reduced to free via coupon, etc...
+				// we do want to record a transaction and then generate a reciept
 			} else {
 
 				// record a $0.00 transaction to ensure a receipt is sent

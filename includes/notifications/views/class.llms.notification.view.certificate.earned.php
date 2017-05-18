@@ -82,7 +82,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 */
 	protected function set_footer() {
 		$url = $this->set_merge_data( '{{CERTIFICATE_URL}}' );
-		return '<a href="' . esc_url( $url ) .'">' . __( 'View Full Certificate', 'lifterlms' ) . '</a>';
+		return '<a href="' . esc_url( $url ) . '">' . __( 'View Full Certificate', 'lifterlms' ) . '</a>';
 	}
 
 	/**

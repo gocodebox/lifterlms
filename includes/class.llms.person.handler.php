@@ -506,7 +506,6 @@ class LLMS_Person_Handler {
 					$field['value'] = $val;
 				}
 			}
-
 		}
 
 		return $fields;

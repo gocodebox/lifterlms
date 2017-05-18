@@ -545,7 +545,7 @@ class LLMS_Admin_Settings {
 						$attachment = wp_get_attachment_image_src( $option_value, $size );
 						$src = $attachment[0];
 					} else {
-					// raw img src
+						// raw img src
 						$src = $option_value;
 					}
 				} else {
