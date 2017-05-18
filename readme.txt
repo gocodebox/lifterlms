@@ -214,26 +214,23 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-v3.8.0-alpha.3 - 2017/05/09
--------------------------------
+v3.8.0-rc.1 - 2017/05/18
+----------------------------
 
-+ Automatic email and basic (on-screen) notifications:
-  + Achievement earned
-  + Course complete
-  + Course enrollment
-  + Course track complete
-  + Lesson completed
-  + Purchase reciept
-  + Section complete
-  + Full list of scheduled notifications available [here](https://github.com/gocodebox/lifterlms/issues/315)
++ Automatic email and basic (on-screen) notifications for various events within LifterLMS
+  + All notifications can be customized
+  + Email notifications can be optionally sent to custom email address, course authors, and more
++ Students will automatically receive email receipts when making purchases and when recurring access plans rebill
 + Hidden Access Plans
-+ Notifications history screen on Student Dashboard to review past notifications
++ Notifications history screen on Student Dashboard to review past notifications that have been received
 + Updated LLMS_Email class and functionality
 + Email templates have been completely rewritten and styled
   + Temporary email style customization guide [here](https://gist.github.com/thomasplevy/0d3072633141d129cfc716740f302385)
   + Email branding will be added to LifterLMS Labs, follow progress [here](https://github.com/gocodebox/lifterlms/issues/316)
 + Updated and rewritten password reset flow
++ Earned certificates are only accessible by the student who earned the certificate
 + Added the functionality for image upload via options & settings api
++ Removed a handful of unused templates related to LifterLMS certificates that were replaced a long time ago but still existed in the codebase for unknown reasons.
 
 
 = v3.7.7 - 2017/05/16 =
