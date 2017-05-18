@@ -193,6 +193,8 @@ class LLMS_Notifications {
 			'enrollment',
 			'lesson_complete',
 			'purchase_receipt',
+			'quiz_failed',
+			'quiz_passed',
 			'section_complete',
 			'student_welcome',
 		);

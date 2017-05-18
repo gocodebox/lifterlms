@@ -243,6 +243,9 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	public function get_subscriber_option_array( $id, $enabled = 'yes' ) {
 
 		$defaults = array(
+			'author' => array(
+				'title' => __( 'Author', 'lifterlms' ),
+			),
 			'student' => array(
 				'title' => __( 'Student', 'lifterlms' ),
 			),
