@@ -3,6 +3,7 @@
 v3.8.0-rc.1 - 2017/05/18
 ------------------------
 
++ Earned certificates are only accessible by the student who earned the certificate
 + Removed a handful of unused templates related to LifterLMS certificates that were replaced a long time ago but still existed in the codebase for unknown reasons.
 
 
