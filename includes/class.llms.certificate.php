@@ -82,8 +82,10 @@ class LLMS_Certificate {
 
 	/**
 	 * Create Certificate
-	 * @param  string $content [html formatted post content]
-	 * @return void
+	 * @param    string $content [html formatted post content]
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.8.0
 	 */
 	public function create( $content ) {
 		global $wpdb;
@@ -117,6 +119,13 @@ class LLMS_Certificate {
 				)
 			);
 		}
+
+		/**
+		 * Allow 3rd parties to hook into the generation of an achievement
+		 * Notifications uses this
+		 * note 3rd param $this->lesson_id is actually the related post id (but misnamed)
+		 */
+		do_action( 'llms_user_earned_certificate', $this->userid, $new_user_certificate_id, $this->lesson_id );
 
 	}
 

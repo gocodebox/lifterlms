@@ -1024,6 +1024,23 @@ svg .llms-animated-circle {
 .llms-notification .llms-notification-body p {
   margin-bottom: 8px;
 }
+.llms-notification .llms-notification-body .llms-mini-cert {
+  background: #f6f6f6;
+  border: 4px double #b0b0b0;
+  padding: 24px 8px;
+}
+.llms-notification .llms-notification-body .llms-mini-cert .llms-mini-cert-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.llms-notification .llms-notification-body .llms-mini-cert p, .llms-notification .llms-notification-body .llms-mini-cert li {
+  font-size: 14px;
+}
+.llms-notification .llms-notification-body .llms-mini-cert p:last-child, .llms-notification .llms-notification-body .llms-mini-cert li:last-child {
+  margin-bottom: 0;
+}
 .llms-notification .llms-notification-aside {
   -ms-flex-item-align: start;
       align-self: flex-start;
@@ -1082,11 +1099,20 @@ svg .llms-animated-circle {
 }
 .llms-sd-notification-center .llms-notification .llms-notification-footer {
   border: none;
-  margin-top: 0;
   padding: 0;
+  text-align: left;
 }
 .llms-sd-notification-center .llms-notification .llms-progress {
   display: none !important;
+}
+.llms-sd-notification-center .llms-notification .llms-notification-date {
+  color: #515151;
+  float: left;
+  margin-right: 6px;
+}
+.llms-sd-notification-center .llms-notification .llms-mini-cert {
+  margin: 0 auto;
+  max-width: 380px;
 }
 
 .llms-pagination ul {

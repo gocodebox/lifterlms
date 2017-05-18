@@ -9,7 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $cert = new LLMS_User_Certificate( get_the_ID() );
-if ( get_current_user_id() !== $cert->get_user_id() ) {
+if ( get_current_user_id() != $cert->get_user_id() ) {
 	return _e( 'Certificate not found.', 'lifterlms' );
 }
 

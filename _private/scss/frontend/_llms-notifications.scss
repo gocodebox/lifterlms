@@ -45,6 +45,7 @@
 	.llms-notification-content {
 		align-items: center;
 		display: flex;
+
 	}
 
 		.llms-notification-main {
@@ -66,6 +67,22 @@
 				}
 				p {
 					margin-bottom: 8px;
+				}
+
+				.llms-mini-cert {
+					background: #f6f6f6;
+					border: 4px double #b0b0b0;
+					padding: 24px 8px;
+					.llms-mini-cert-title {
+						font-size: 16px;
+						font-weight: 700;
+						margin-bottom: 8px;
+						text-align: center;
+					}
+					p,li {
+						font-size: 14px;
+						&:last-child { margin-bottom: 0; }
+					}
 				}
 			}
 
@@ -131,11 +148,20 @@
 		}
 		.llms-notification-footer {
 			border: none;
-			margin-top: 0;
 			padding: 0;
+			text-align: left;
 		}
 		.llms-progress {
 			display: none !important;
+		}
+		.llms-notification-date {
+			color: #515151;
+			float: left;
+			margin-right: 6px;
+		}
+		.llms-mini-cert {
+			margin: 0 auto;
+			max-width: 380px;
 		}
 	}
 }

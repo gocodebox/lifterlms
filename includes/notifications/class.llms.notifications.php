@@ -187,6 +187,7 @@ class LLMS_Notifications {
 
 		$triggers = array(
 			'achievement_earned',
+			'certificate_earned',
 			'course_complete',
 			'course_enrollment',
 			'course_track_complete',

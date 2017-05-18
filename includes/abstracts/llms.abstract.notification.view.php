@@ -184,7 +184,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		$body = $this->get_body();
 		$footer = $this->get_footer();
 		if ( 'new' !== $this->notification->get( 'status' ) ) {
-			$footer .= $this->get_date_display( 5 );
+			$footer .= '<span class="llms-notification-date">' . $this->get_date_display( 5 ) . '</span>';
 		}
 
 		ob_start();
