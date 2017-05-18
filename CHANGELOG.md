@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.8.0-rc.1 - 2017/05/18
+------------------------
+
++ Removed a handful of unused templates related to LifterLMS certificates that were replaced a long time ago but still existed in the codebase for unknown reasons.
+
+
 v3.8.0-alpha.3 - 2017/05/09
 ---------------------------
 
