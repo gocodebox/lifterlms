@@ -107,7 +107,6 @@ class LLMS_Controller_Account {
 
 		$key = llms_set_user_password_rest_key( $user->ID );
 
-		// send the email
 		// setup the email
 		$email = LLMS()->mailer()->get_email( 'reset_password', array(
 			'key' => $key,
@@ -115,6 +114,7 @@ class LLMS_Controller_Account {
 			'login_display' => 'email' === $get_by ? $user->user_email : $user->user_login,
 		) );
 
+		// send the email
 		if ( $email ) {
 
 			if ( $email->send() ) {
