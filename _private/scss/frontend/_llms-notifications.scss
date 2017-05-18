@@ -5,21 +5,21 @@
 	background: #fff;
 	box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
 	border-top: 4px solid $color-blue;
+	left: 12px;
 	opacity: 0;
 	padding: 12px;
 	position: fixed;
-	right: -800px;
+	right: 12px;
 	top: 24px;
 	transition:
 		opacity 0.4s ease-in-out,
 		right 0.4s ease-in-out,
 	;
 	visibility: none;
-	width: 360px;
+	width: auto;
 
 	&.visible {
 		opacity: 1;
-		right: 24px;
 		transition:
 			opacity 0.4s ease-in-out,
 			right 0.4s ease-in-out,
@@ -30,14 +30,9 @@
 		visibility: visible;
 
 		&:hover {
-			// background: #eee;
-			// right: 6px;
-			// transform: scale( .975 );
-
 			.llms-notification-dismiss {
 				opacity: 1;
 			}
-
 		}
 
 	}
@@ -109,7 +104,6 @@
 	.llms-notification-dismiss {
 		color: $color-danger;
 		cursor: pointer;
-		opacity: 0;
 		font-size: 22px;
 		position: absolute;
 		right: 10px;
@@ -137,6 +131,7 @@
 	.llms-notification {
 		opacity: 1;
 		border-top: 1px solid #e5e5e5;
+		left: auto;
 		padding: 24px;
 		position: relative;
 		right: auto;
@@ -162,6 +157,20 @@
 		.llms-mini-cert {
 			margin: 0 auto;
 			max-width: 380px;
+		}
+	}
+}
+
+@media all and (min-width: 480px) {
+	.llms-notification {
+		left: auto;
+		right: -800px;
+		width: 360px;
+		&.visible {
+			right: 24px;
+		}
+		.llms-notification-dismiss {
+			opacity: 0;
 		}
 	}
 }

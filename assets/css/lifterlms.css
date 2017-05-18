@@ -965,15 +965,16 @@ svg .llms-animated-circle {
   background: #fff;
   box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
   border-top: 4px solid #2295ff;
+  left: 12px;
   opacity: 0;
   padding: 12px;
   position: fixed;
-  right: -800px;
+  right: 12px;
   top: 24px;
   -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
           transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
   visibility: none;
-  width: 360px;
+  width: auto;
 }
 .llms-notification:before, .llms-notification:after {
   content: " ";
@@ -984,7 +985,6 @@ svg .llms-animated-circle {
 }
 .llms-notification.visible {
   opacity: 1;
-  right: 24px;
   -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
           transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, transform 0.2s ease-in-out;
   visibility: visible;
@@ -1066,7 +1066,6 @@ svg .llms-animated-circle {
 .llms-notification .llms-notification-dismiss {
   color: #e5554e;
   cursor: pointer;
-  opacity: 0;
   font-size: 22px;
   position: absolute;
   right: 10px;
@@ -1087,6 +1086,7 @@ svg .llms-animated-circle {
 .llms-sd-notification-center .llms-notification {
   opacity: 1;
   border-top: 1px solid #e5e5e5;
+  left: auto;
   padding: 24px;
   position: relative;
   right: auto;
@@ -1115,6 +1115,19 @@ svg .llms-animated-circle {
   max-width: 380px;
 }
 
+@media all and (min-width: 480px) {
+  .llms-notification {
+    left: auto;
+    right: -800px;
+    width: 360px;
+  }
+  .llms-notification.visible {
+    right: 24px;
+  }
+  .llms-notification .llms-notification-dismiss {
+    opacity: 0;
+  }
+}
 .llms-pagination ul {
   list-style-type: none;
 }
