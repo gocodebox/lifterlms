@@ -61,7 +61,7 @@ class LLMS_Notification_View_Course_Track_Complete extends LLMS_Abstract_Notific
 	 * @version  3.8.0
 	 */
 	protected function set_icon() {
-		return '';
+		return $this->get_icon_default( 'positive' );
 	}
 
 	/**

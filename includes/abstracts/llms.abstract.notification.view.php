@@ -424,6 +424,22 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
+	 * Retrieve a default icon for the notificiation based on the notification type
+	 * @param    string     $type  type of icon [positive|negative]
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_icon_default( $type ) {
+		if ( 'positive' !== $type && 'negative' !== $type ) {
+			$ret = '';
+		} else {
+			$ret = LLMS()->plugin_url() . '/assets/images/notifications/icon-' . $type . '.png';
+		}
+		return apply_filters( 'llms_notification_get_icon_default', $ret, $type, $this );
+	}
+
+	/**
 	 * Retrieve the icon src for the notification
 	 * @return   string
 	 * @since    3.8.0

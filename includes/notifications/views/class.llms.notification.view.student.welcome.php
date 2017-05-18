@@ -51,7 +51,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 	 * @version  3.8.0
 	 */
 	protected function set_icon() {
-		return '';
+		return $this->get_icon_default( 'positive' );
 	}
 
 	/**

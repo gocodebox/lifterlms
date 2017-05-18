@@ -58,7 +58,7 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 * @version  3.8.0
 	 */
 	protected function set_icon() {
-		return '';
+		return $this->get_icon_default( 'positive' );
 	}
 
 	/**
