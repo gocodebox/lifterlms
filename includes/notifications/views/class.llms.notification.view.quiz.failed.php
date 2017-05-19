@@ -39,9 +39,9 @@ class LLMS_Notification_View_Quiz_Failed extends LLMS_Abstract_Notification_View
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
-			return sprintf( __( 'Congratulations! %1$s failed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{QUIZ_TITLE}}' );
+			return sprintf( __( '%1$s failed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{QUIZ_TITLE}}' );
 		}
-		$content = sprintf( __( 'Congratulations! You failed %s!', 'lifterlms' ), '{{QUIZ_TITLE}}' );
+		$content = sprintf( __( 'You failed %s!', 'lifterlms' ), '{{QUIZ_TITLE}}' );
 		$content .= "\r\n\r\n{{GRADE_BAR}}";
 		return $content;
 	}
