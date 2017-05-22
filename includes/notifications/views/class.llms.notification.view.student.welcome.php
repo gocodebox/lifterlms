@@ -102,7 +102,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 				$code = $this->user->get( $field );
 			break;
 
-		}// End switch().
+		}
 
 		return $code;
 

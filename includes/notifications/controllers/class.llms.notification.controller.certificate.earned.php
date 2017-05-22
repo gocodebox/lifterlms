@@ -40,6 +40,7 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 
 		$this->user_id = $user_id;
 		$this->post_id = $certificate_id;
+		$this->related_post_id = $related_post_id;
 
 		$this->send();
 
