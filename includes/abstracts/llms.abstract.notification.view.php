@@ -183,39 +183,22 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		$icon = ( 'yes' === $this->get_option( 'icon_hide', 'no' ) ) ? '' : $this->get_icon_src();
 		$body = $this->get_body();
 		$footer = $this->get_footer();
-		if ( 'new' !== $this->notification->get( 'status' ) ) {
-			$footer .= '<span class="llms-notification-date">' . $this->get_date_display( 5 ) . '</span>';
-		}
 
 		ob_start();
-		?>
-			<div class="<?php echo implode( ' ', $classes ); ?>"<?php echo $atts; ?> id="llms-notification-<?php echo $this->id; ?>">
-
-				<?php if ( $this->basic_options['dismissible'] && 'new' === $this->notification->get( 'status' ) ) : ?>
-					<i class="llms-notification-dismiss fa fa-times-circle" aria-hidden="true"></i>
-				<?php endif; ?>
-
-				<section class="llms-notification-content">
-					<div class="llms-notification-main">
-						<h4 class="llms-notification-title"><?php echo $title; ?></h4>
-						<div class="llms-notification-body"><?php echo $body; ?></div>
-					</div>
-
-					<?php if ( $icon ) : ?>
-						<aside class="llms-notification-aside">
-							<img class="llms-notification-icon" alt="<?php echo $title; ?>" src="<?php echo $icon; ?>">
-						</aside>
-					<?php endif; ?>
-				</section>
-
-				<?php if ( $footer ) : ?>
-					<footer class="llms-notification-footer"><?php echo $footer; ?></footer>
-				<?php endif; ?>
-
-			</div>
-		<?php
-
+		llms_get_template( 'notifications/basic.php', array(
+			'atts' => $atts,
+			'body' => $body,
+			'classes' => implode( ' ', $classes ),
+			'date' => $this->get_date_display( 5 ),
+			'dismissible' => $this->basic_options['dismissible'],
+			'footer' => $footer,
+			'icon' => $icon,
+			'id' => $this->id,
+			'status' => $this->notification->get( 'status' ),
+			'title' => $title,
+		) );
 		$html = trim( preg_replace( '/\s+/S', ' ', ob_get_clean() ) );
+
 		return apply_filters( $this->get_filter( 'get_basic_html' ), $html, $this );
 
 	}
@@ -581,7 +564,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		$sentences = preg_split( '/(\.|\?|\!)(\s|$)+/', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
 		$new_string = '';
-		foreach ( $sentences as $key => $sentence ) {
+		foreach ( $sentences as $sentence ) {
 			$new_string .= 1 === strlen( $sentence ) ? $sentence . ' ' : ucfirst( trim( $sentence ) );
 		}
 
