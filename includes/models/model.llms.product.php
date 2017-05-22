@@ -5,7 +5,7 @@
 * Both Courses and Memberships are sellable and can be instantiated as a product
 *
 * @since    1.0.0
-* @version  3.6.0
+* @version  3.8.0
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -29,12 +29,13 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	/**
 	 * Get all access plans for the product
-	 * @param    boolean    $free_only  only include free access plans if true
-	 * @return array of LLMS_Access_Plans instances
-	 * @since  3.0.0
-	 * @version 3.0.0
+	 * @param    boolean  $free_only     only include free access plans if true
+	 * @param    boolean  $visible_only  excludes hidden access plans from results
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.8.0
 	 */
-	public function get_access_plans( $free_only = false ) {
+	public function get_access_plans( $free_only = false, $visible_only = true ) {
 
 		$args = array(
 			'meta_key' => '_llms_product_id',
@@ -46,29 +47,42 @@ class LLMS_Product extends LLMS_Post_Model {
 			'status' => 'publish',
 		);
 
+		// filter results to only free access plans
 		if ( $free_only ) {
-
 			$args['meta_query'] = array(
 				array(
 					'key' => '_llms_is_free',
 					'value' => 'yes',
 				),
 			);
-
 		}
 
-		$q = new WP_Query( apply_filters( 'llms_get_product_access_plans_args ', $args, $this, $free_only ) );
+		// exclude hidden access plans from the results
+		if ( $visible_only ) {
+			$args['tax_query'] = array(
+				array(
+					'field' => 'name',
+					'operator' => 'NOT IN',
+					'terms' => array( 'hidden' ),
+					'taxonomy' => 'llms_access_plan_visibility',
+				),
+			);
+		}
 
+		$query = new WP_Query( apply_filters( 'llms_get_product_access_plans_args ', $args, $this, $free_only, $visible_only ) );
+
+		// retup return
 		$plans = array();
 
 		// if we have plans, setup access plan instances
-		if ( $q->have_posts() ) {
-			foreach ( $q->posts as $post ) {
+		if ( $query->have_posts() ) {
+			foreach ( $query->posts as $post ) {
 				$plans[] = new LLMS_Access_Plan( $post );
 			}
 		}
 
 		return $plans;
+
 	}
 
 	/**
@@ -152,7 +166,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * If the product is a course, additionally checks to ensure course enrollment is open and has capacity
 	 * @return  boolean
 	 * @since   3.0.0
-	 * @version 3.0.0
+	 * @version 3.8.0
 	 */
 	public function is_purchasable() {
 		$gateways = LLMS()->payment_gateways();
@@ -168,7 +182,7 @@ class LLMS_Product extends LLMS_Post_Model {
 			}
 		}
 
-		return ( $this->get_access_plans() && $gateways->has_gateways( true ) );
+		return ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );
 
 	}
 

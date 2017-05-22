@@ -162,6 +162,35 @@ class LLMS_AJAX_Handler {
 
 	}
 
+
+	public static function notifications_heartbeart( $request ) {
+
+		$ret = array(
+			'new' => array(),
+		);
+
+		if ( ! empty( $request['dismissals'] ) ) {
+			foreach ( $request['dismissals'] as $nid ) {
+				$noti = new LLMS_Notification( $nid );
+				if ( get_current_user_id() == $noti->get( 'subscriber' ) ) {
+					$noti->set( 'status', 'read' );
+				}
+			}
+		}
+
+		$query = new LLMS_Notifications_Query( array(
+			'per_page' => 5,
+			'statuses' => 'new',
+			'types' => 'basic',
+			'subscriber' => get_current_user_id(),
+		) );
+
+		$ret['new'] = $query->get_notifications();
+
+		return $ret;
+
+	}
+
 	/**
 	 * Remove a course from the list of membership auto enrollment courses
 	 * called from "Auto Enrollment" tab of LLMS Membership Metaboxes

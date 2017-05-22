@@ -1,14 +1,15 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
-* Emails Class
+* LifterLMS Emails Class
 *
 * Manages finding the appropriate email
 *
-* @author codeBOX
-* @project lifterLMS
+* @since    1.0.0
+* @version  3.8.0
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Emails {
 
 	/**
@@ -16,30 +17,6 @@ class LLMS_Emails {
 	 * @var object
 	 */
 	public $emails;
-
-	/**
-	 * Content of email
-	 * @var string
-	 */
-	public $email_content;
-
-	/**
-	 * private from address
-	 * @var string
-	 */
-	private $_from_address;
-
-	/**
-	 * private from name
-	 * @var string
-	 */
-	private $_from_name;
-
-	/**
-	 * private content type
-	 * @var string
-	 */
-	private $_content_type;
 
 	/**
 	 * protected private instance of email
@@ -50,10 +27,13 @@ class LLMS_Emails {
 	/**
 	 * Create instance of class
 	 * @var object self
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self(); }
+			self::$_instance = new self();
+		}
 		return self::$_instance;
 	}
 
@@ -61,179 +41,147 @@ class LLMS_Emails {
 	 * Constructor
 	 * Initializes class
 	 * Adds actions to trigger emails off of events
+	 * @since    1.0.0
+	 * @version  3.8.0
 	 */
 	private function __construct() {
 
-		$this->init();
+		// template functions
+		LLMS()->include_template_functions();
 
-		add_action( 'lifterlms_email_header', array( $this, 'email_header' ) );
-		add_action( 'lifterlms_email_footer', array( $this, 'email_footer' ) );
-
-		/**
-		 * @todo  figure out why this is here and what it does...
-		 *        there's probably no good reason, if that's the case remove it
-		 */
-		do_action( 'lifterlms_email', $this );
-
-	}
-
-	/**
-	 * Include all email child classes
-	 * @return void
-	 */
-	public function init() {
-
-		// Include email base class
-		include_once( 'class.llms.email.php' );
+		// email base class
+		require_once 'emails/class.llms.email.php';
+		$this->emails['generic'] = 'LLMS_Email';
 
 		// Include email child classes
-		$this->emails['LLMS_Email_Engagement']      		= include_once( 'emails/class.llms.email.engagement.php' );
-		$this->emails['LLMS_Email_Reset_Password']   		= include_once( 'emails/class.llms.email.reset.password.php' );
+		require_once 'emails/class.llms.email.engagement.php';
+		$this->emails['engagement'] = 'LLMS_Email_Engagement';
+
+		require_once 'emails/class.llms.email.reset.password.php';
+		$this->emails['reset_password'] = 'LLMS_Email_Reset_Password';
 
 		$this->emails = apply_filters( 'lifterlms_email_classes', $this->emails );
 
 	}
 
+	/**
+	 * Get a string of inline CSS to add to an email button
+	 * Use {button_style} merge code to output in HTML emails
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_button_style() {
+		$rules = apply_filters( 'llms_email_button_css', array(
+			'background-color' => $this->get_css( 'button-background-color', false ),
+			'color' => $this->get_css( 'button-font-color', false ),
+			'display' => 'inline-block',
+			'padding' => '10px 15px',
+			'text-decoration' => 'none',
+		) );
+		$styles = '';
+		foreach ( $rules as $rule => $style ) {
+			$styles .= sprintf( '%1$s:%2$s !important;', $rule, $style );
+		}
+		return $styles;
+	}
+
+	/**
+	 * Get css rules specific to the the email templates
+	 * @param    string     $rule  name of the css rule
+	 * @param    boolean    $echo  if true, echo the definition
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_css( $rule = '', $echo = true ) {
+
+		$css = apply_filters( 'llms_email_css', array(
+			'background-color' => '#f6f6f6',
+			'border-radius' => '3px',
+			'button-background-color' => '#2295ff',
+			'button-font-color' => '#ffffff',
+			'divider-color' => '#cecece',
+			'font-color' => '#222222',
+			'font-family' => 'sans-serif',
+			'font-size' => '15px',
+			'font-size-small' => '13px',
+			'heading-background-color' => '#2295ff',
+			'heading-font-color' => '#ffffff',
+			'main-color' => '#2295ff',
+			'max-width' => '580px',
+		) );
+
+		if ( isset( $css[ $rule ] ) ) {
+
+			if ( $echo ) {
+				echo $css[ $rule ];
+			}
+
+			return $css[ $rule ];
+
+		}
+
+	}
+
+	/**
+	 * Get an HTML divider for use in HTML emails
+	 * Can use shortcode {divider} to output in any email
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_divider_html() {
+		return '<div style="height:1px;width:100%;margin:15px auto;background-color:' . $this->get_css( 'divider-color', false ) . '"></div>';
+	}
+
+	/**
+	 * Retrieve a new instance of an email
+	 * @param    string     $id    email id
+	 * @param    array      $args  optional arguments to pass to the email
+	 * @return   obj
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_email( $id, $args = array() ) {
+
+		$emails = $this->get_emails();
+
+		// if we have an email matching the ID, return an instance of that email class
+		if ( isset( $emails[ $id ] ) ) {
+			return new $emails[ $id ]( $args );
+		}
+
+		// otherwise return a generic email and set the ID to be the requested ID
+		$generic = new $emails['generic']( $args );
+		$generic->set_id( $id );
+		return $generic;
+
+	}
 
 	/**
 	 * Get all email objects
 	 * @return array [Array of all email objects]
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	public function get_emails() {
 		return $this->emails;
 	}
 
-
 	/**
-	 * [get_from_name description]
-	 * @return [type] [description]
+	 * Retrieve the source url of the header image as defined in LifterLMS settings
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
-	public function get_from_name() {
-		if ( ! $this->_from_name ) {
-			$this->_from_name = get_option( 'lifterlms_email_from_name' ); }
-
-		return wp_specialchars_decode( $this->_from_name );
-	}
-
-
-	/**
-	 * Get from email option data
-	 * @return string [From email option in settings->email]
-	 */
-	public function get_from_address() {
-		if ( ! $this->_from_address ) {
-			$this->_from_address = get_option( 'lifterlms_email_from_address' ); }
-
-		return $this->_from_address;
-	}
-
-
-	/**
-	 * Get the content type
-	 * @return string [always returns text/html]
-	 */
-	public function get_content_type() {
-		return $this->_content_type;
-	}
-
-
-	/**
-	 * Get email header option
-	 * @param  string $email_heading [text email heading option]
-	 * @return string [email heading]
-	 */
-	public function email_header( $email_heading ) {
-		llms_get_template( 'emails/header.php', array(
-			'email_heading' => $email_heading,
-		) );
-	}
-
-
-	/**
-	 * get email footer string
-	 * @return string [Email footer option as string]
-	 */
-	public function email_footer() {
-		llms_get_template( 'emails/footer.php' );
-	}
-
-
-	/**
-	 * Wrap email content
-	 * Adds wpautop and wptexturize to content
-	 *
-	 * @param  string  $email_heading [email heading string]
-	 * @param  string  $message       [message string (email content)]
-	 * @param  bool  $plain_text      [If plain text then just return content unwrapped]
-	 *
-	 * @return [type]                 [description]
-	 */
-	public function wrap_message( $email_heading, $message, $plain_text = false ) {
-		// Buffer
-		ob_start();
-
-		do_action( 'lifterlms_email_header', $email_heading );
-
-		echo wpautop( wptexturize( $message ) );
-
-		do_action( 'lifterlms_email_footer' );
-
-		// Get contents
-		$message = ob_get_clean();
-
-		return $message;
-	}
-
-
-	/**
-	 * Send email
-	 * Sends email using wp_mail
-	 *
-	 * @param  string $to           [email address of recipient]
-	 * @param  string $subject      [email subject]
-	 * @param  string $message      [email message]
-	 * @param  string $headers      [email headers]
-	 * @param  string $attachments  [Email Attachements]
-	 * @param  string $content_type [Email content type: html or text]
-	 *
-	 * @return void
-	 *
-	 */
-	public function send( $to, $subject, $message, $headers = "Content-Type: text/html\r\n", $attachments = '', $content_type = 'text/html' ) {
-
-		// Set content type
-		$this->_content_type = $content_type;
-
-		// Filters for the email
-		add_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
-		add_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
-		add_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
-
-		// Send
-		wp_mail( $to, $subject, $message, $headers, $attachments );
-
-		// Unhook filters
-		remove_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
-		remove_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
-		remove_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
-	}
-
-
-	/**
-	 * Send an email related to an engagement
-	 * Calls trigger method passing arguments
-	 *
-	 * @param  int $person_id        WP User ID
-	 * @param  int $email            WP Post ID of the Email Post to send
-	 * @param  int $related_post_id  WP Post ID of the triggering post
-	 *
-	 * @return void
-	 */
-	public function trigger_engagement( $person_id, $email_id, $related_post_id ) {
-
-		$email = $this->emails['LLMS_Email_Engagement'];
-		$email->trigger( $person_id, $email_id, $related_post_id );
-
+	public function get_header_image_src() {
+		$src = get_option( 'lifterlms_email_header_image', '' );
+		if ( is_numeric( $src ) ) {
+			$attachment = wp_get_attachment_image_src( $src, 'full' );
+			$src = $attachment ? $attachment[0] : '';
+		}
+		return apply_filters( 'llms_email_header_image_src', $src );
 	}
 
 }

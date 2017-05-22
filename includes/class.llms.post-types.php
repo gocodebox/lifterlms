@@ -2,7 +2,7 @@
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  3.7.5
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -44,7 +44,7 @@ class LLMS_Post_Types {
 	 * @return void
 	 *
 	 * @since    2.4.1
-	 * @version  3.0.4
+	 * @version  3.8.0
 	 */
 	public static function add_thumbnail_support() {
 
@@ -65,12 +65,14 @@ class LLMS_Post_Types {
 
 		}
 
+		add_image_size( 'llms_notification_icon', 64, 64, true );
+
 	}
 
 	/**
 	 * Register Taxonomies
 	 * @since    1.0.0
-	 * @version  3.6.0
+	 * @version  3.8.0
 	 */
 	public static function register_taxonomies() {
 
@@ -273,6 +275,18 @@ class LLMS_Post_Types {
 		register_taxonomy( 'llms_product_visibility',
 			apply_filters( 'lifterlms_taxonomy_objects_product_visibility', array( 'course', 'llms_membership' ) ),
 			apply_filters( 'lifterlms_taxonomy_args_product_visibility', array(
+				'hierarchical'      => false,
+				'show_ui'           => false,
+				'show_in_nav_menus' => false,
+				'query_var'         => is_admin(),
+				'rewrite'           => false,
+				'public'            => false,
+			) )
+		);
+
+		register_taxonomy( 'llms_access_plan_visibility',
+			apply_filters( 'lifterlms_taxonomy_objects_access_plan_visibility', array( 'llms_access_plan' ) ),
+			apply_filters( 'lifterlms_taxonomy_args_access_plan_visibility', array(
 				'hierarchical'      => false,
 				'show_ui'           => false,
 				'show_in_nav_menus' => false,

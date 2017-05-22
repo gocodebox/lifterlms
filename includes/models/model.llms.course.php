@@ -392,7 +392,7 @@ class LLMS_Course extends LLMS_Post_Model {
 			return true;
 		}
 
-		// run a query and utilize the "found_students" so we perform a smaller query
+		// run a query and utilize the "found_results" so we perform a smaller query
 		$query = new LLMS_Student_Query( array(
 			'post_id' => $this->get( 'id' ),
 			'statuses' => array( 'enrolled' ),
@@ -400,7 +400,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		) );
 
 		// compare results
-		return ( $query->found_students < $capacity );
+		return ( $query->found_results < $capacity );
 	}
 
 	/**
@@ -523,13 +523,13 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.8.0
 	 */
 	public function toArrayAfter( $arr ) {
 
 		$product = $this->get_product();
 		$arr['access_plans'] = array();
-		foreach ( $product->get_access_plans() as $p ) {
+		foreach ( $product->get_access_plans( false, false ) as $p ) {
 			$arr['access_plans'][] = $p->toArray();
 		}
 

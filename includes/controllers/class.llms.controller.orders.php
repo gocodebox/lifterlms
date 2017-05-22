@@ -142,7 +142,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.5.0
+	 * @version  3.8.0
 	 */
 	public function create_pending_order() {
 
@@ -293,104 +293,7 @@ class LLMS_Controller_Orders {
 		// add order key to globals so the order can be retried if processing errors occur
 		$_POST['llms_order_key'] = $order->get( 'order_key' );
 
-		// user related information
-		$order->set( 'user_id', $person_id );
-		$order->set( 'user_ip_address', llms_get_ip_address() );
-		$order->set( 'billing_address_1', $person->get( 'billing_address_1' ) );
-		$order->set( 'billing_address_2', $person->get( 'billing_address_2' ) );
-		$order->set( 'billing_city', $person->get( 'billing_city' ) );
-		$order->set( 'billing_country', $person->get( 'billing_country' ) );
-		$order->set( 'billing_email', $person->get( 'user_email' ) );
-		$order->set( 'billing_first_name', $person->get( 'first_name' ) );
-		$order->set( 'billing_last_name', $person->get( 'last_name' ) );
-		$order->set( 'billing_state', $person->get( 'billing_state' ) );
-		$order->set( 'billing_zip', $person->get( 'billing_zip' ) );
-
-		// access plan data
-		$order->set( 'plan_id', $plan->get( 'id' ) );
-		$order->set( 'plan_title', $plan->get( 'title' ) );
-		$order->set( 'plan_sku', $plan->get( 'sku' ) );
-
-		// product data
-		$order->set( 'product_id', $product->get( 'id' ) );
-		$order->set( 'product_title', $product->get( 'title' ) );
-		$order->set( 'product_sku', $product->get( 'sku' ) );
-		$order->set( 'product_type', $plan->get_product_type() );
-
-		$order->set( 'payment_gateway', $gateway->get_id() );
-		$order->set( 'gateway_api_mode', $gateway->get_api_mode() );
-
-		// trial data
-		if ( $plan->has_trial() ) {
-			$order->set( 'trial_offer', 'yes' );
-			$order->set( 'trial_length', $plan->get( 'trial_length' ) );
-			$order->set( 'trial_period', $plan->get( 'trial_period' ) );
-			$trial_price = $plan->get_price( 'trial_price', array(), 'float' );
-			$order->set( 'trial_original_total', $trial_price );
-			$trial_total = $coupon ? $plan->get_price_with_coupon( 'trial_price', $coupon, array(), 'float' ) : $trial_price;
-			$order->set( 'trial_total', $trial_total );
-		} else {
-			$order->set( 'trial_offer', 'no' );
-		}
-
-		$price = $plan->get_price( 'price', array(), 'float' );
-		$order->set( 'currency', get_lifterlms_currency() );
-
-		// price data
-		if ( $plan->is_on_sale() ) {
-			$price_key = 'sale_price';
-			$order->set( 'on_sale', 'yes' );
-			$sale_price = $plan->get( 'sale_price', array(), 'float' );
-			$order->set( 'sale_price', $sale_price );
-			$order->set( 'sale_value', $price - $sale_price );
-		} else {
-			$price_key = 'price';
-			$order->set( 'on_sale', 'no' );
-		}
-
-		// store original total before any discounts
-		$order->set( 'original_total', $price );
-
-		// get the actual total due after discounts if any are applicable
-		$total = $coupon ? $plan->get_price_with_coupon( $price_key, $coupon, array(), 'float' ) : $$price_key;
-		$order->set( 'total', $total );
-
-		// coupon data
-		if ( $coupon ) {
-			$order->set( 'coupon_id', $coupon->get( 'id' ) );
-			$order->set( 'coupon_amount', $coupon->get( 'coupon_amount' ) );
-			$order->set( 'coupon_code', $coupon->get( 'title' ) );
-			$order->set( 'coupon_type', $coupon->get( 'discount_type' ) );
-			$order->set( 'coupon_used', 'yes' );
-			$order->set( 'coupon_value', $$price_key - $total );
-			if ( $plan->has_trial() && $coupon->has_trial_discount() ) {
-				$order->set( 'coupon_amount_trial', $coupon->get( 'trial_amount' ) );
-				$order->set( 'coupon_value_trial', $trial_price - $trial_total );
-			}
-		} else {
-			$order->set( 'coupon_used', 'no' );
-		}
-
-		// get all billing schedule related information
-		$order->set( 'billing_frequency', $plan->get( 'frequency' ) );
-		if ( $plan->is_recurring() ) {
-			$order->set( 'billing_length', $plan->get( 'length' ) );
-			$order->set( 'billing_period', $plan->get( 'period' ) );
-			$order->set( 'order_type', 'recurring' );
-		} else {
-			$order->set( 'order_type', 'single' );
-		}
-
-		$order->set( 'access_expiration', $plan->get( 'access_expiration' ) );
-
-		// get access related data so when payment is complete we can calculate the actual expiration date
-		if ( $plan->can_expire() ) {
-			$order->set( 'access_expires', $plan->get( 'access_expires' ) );
-			$order->set( 'access_length', $plan->get( 'access_length' ) );
-			$order->set( 'access_period', $plan->get( 'access_period' ) );
-		}
-
-		do_action( 'lifterlms_new_pending_order', $order, $person );
+		$order->init( $person, $plan, $gateway, $coupon );
 
 		// pass to the gateway to start processing
 		$gateway->handle_pending_order( $order, $plan, $person, $coupon );

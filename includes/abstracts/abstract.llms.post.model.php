@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since  3.0.0
- * @since  3.7.0
+ * @since  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -384,24 +384,21 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *                                 additional custom images are added
 	 * @return   string                empty string if no image or not supported
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.8.0
 	 */
 	public function get_image( $size = 'full', $key = '' ) {
-		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
+		if ( 'thumbnail' === $key && post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
 			$url = get_the_post_thumbnail_url( $this->get( 'id' ), $size );
+		} else {
+			$id = $this->get( $key );
+			if ( is_numeric( $id ) ) {
+				$src = wp_get_attachment_image_src( $id, $size );
+				if ( $src ) {
+					$url = $src[0];
+				}
+			}
 		}
 		return ! empty( $url ) ? $url : '';
-	}
-
-	/**
-	 * Retrieve the registered Label of the posts current status
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function get_status_name() {
-		$obj = get_post_status_object( $this->get( 'status' ) );
-		return apply_filters( 'llms_get_' . $this->model_post_type . '_status_name', $obj->label );
 	}
 
 	/**
@@ -415,11 +412,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Retrieve a label from the post type data object's labels object
-	 * @param  string $label key for the label
-	 * @return string
-	 * @since  3.0.0
+	 * @param    string $label key for the label
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.8.0
 	 */
-	public function get_post_type_label( $label = 'singular' ) {
+	public function get_post_type_label( $label = 'singular_name' ) {
 		$obj = $this->get_post_type_data();
 		if ( property_exists( $obj, 'labels' ) && property_exists( $obj->labels, $label ) ) {
 			return $obj->labels->$label;
@@ -545,10 +543,43 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Retrieve an array of properties defined by the model
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.8.0
 	 */
 	public function get_properties() {
-		return apply_filters( 'llms_post_model_get_post_properties', $this->properties, $this );
+		return apply_filters( 'llms_get_' . $this->model_post_type . '_properties', $this->properties, $this );
+	}
+
+	/**
+	 * Retrieve the registered Label of the posts current status
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_status_name() {
+		$obj = get_post_status_object( $this->get( 'status' ) );
+		return apply_filters( 'llms_get_' . $this->model_post_type . '_status_name', $obj->label );
+	}
+
+	/**
+	 * Get an array of terms for a given taxonomy for the post
+	 * @param    string     $tax     taxonomy name
+	 * @param    boolean    $single  return only one term as an int, useful for taxes which
+	 *                               can only have one term (eg: visibilities and difficulties and such)
+	 * @return   mixed               when single a single term object or null
+	 *                               when not single an array of term objects
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_terms( $tax, $single = false ) {
+
+		$terms = get_the_terms( $this->get( 'id' ), $tax );
+
+		if ( $single ) {
+			return $terms ? $terms[0] : null;
+		}
+
+		return $terms ? $terms : array();
+
 	}
 
 	/**
@@ -753,6 +784,21 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		}
 
+	}
+
+	/**
+	 * Update terms for the post for a given taxonomy
+	 * @param    array      $terms   array of terms (name or ids)
+	 * @param    string     $tax     the name of the tax
+	 * @param    boolean    $append  if true, will append the terms, false will replace existing terms
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function set_terms( $terms, $tax, $append = false ) {
+		$set = wp_set_object_terms( $this->get( 'id' ), $terms, $tax, $append );
+		// wp_set_object_terms has 3 options when unsuccessful and only 1 for success
+		// an array of terms when successful, let's keep it simple...
+		return is_array( $set );
 	}
 
 	/**

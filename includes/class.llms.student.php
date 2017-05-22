@@ -54,7 +54,7 @@ class LLMS_Student {
 	 * Magic Getter for User Data
 	 * Mapped directly to the WP_User class
 	 * @since   3.0.0
-	 * @version 3.0.0
+	 * @version 3.8.0
 	 * @param   string $key key of the property to get a value for
 	 * @return  mixed
 	 */
@@ -82,7 +82,7 @@ class LLMS_Student {
 			$key = $this->meta_prefix . $key;
 		}
 
-		return $this->user->get( $key );
+		return apply_filters( 'llms_get_student_meta_' . $key, $this->user->get( $key ), $this );
 
 	}
 

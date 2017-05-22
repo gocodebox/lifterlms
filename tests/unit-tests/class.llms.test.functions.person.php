@@ -9,8 +9,8 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_can_user_bypass_restrictions()
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function test_llms_can_user_bypass_restrictions() {
 

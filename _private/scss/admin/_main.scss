@@ -422,3 +422,13 @@ a.llms-view-as {
 	line-height: 2;
 	margin-right: 8px;
 }
+
+.llms-image-field-preview {
+	max-height: 80px;
+	vertical-align: middle;
+	width: auto;
+}
+
+.llms-image-field-remove {
+	&.hidden { display: none; }
+}

@@ -1,8 +1,8 @@
 <?php
 /**
  * LifterLMS Order Model
- * @since  3.0.0
- * @version  3.0.0
+ * @since    3.0.0
+ * @version  3.8.0
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -16,6 +16,7 @@
  * @property   $billing_email  (string)  customer email address
  * @property   $billing_first_name  (string)  customer first name
  * @property   $billing_last_name  (string)  customer last name
+ * @property   $billing_phone  (string)  customer phone number
  * @property   $billing_state  (string)  customer billing state
  * @property   $billing_zip  (string)  customer billing zip/postal code
 
@@ -80,7 +81,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Order extends LLMS_Post_Model {
 
-	protected $db_post_type = 'llms_order'; // maybe fix this
+	protected $db_post_type = 'llms_order';
 	protected $model_post_type = 'order';
 
 	/**
@@ -372,6 +373,16 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		return $comments;
 
+	}
+
+	/**
+	 * Retrieve an LLMS_Post_Model object for the associated product
+	 * @return   obj       LLMS_Course / LLMS_Membership instance
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_product() {
+		return llms_get_post( $this->get( 'product_id' ) );
 	}
 
 	/**
@@ -784,21 +795,13 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Get a link to view the order on the student dashboard
-	 * Checks permissions, only the purchasing viewer or an admin should be able to view
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.8.0
 	 */
 	public function get_view_link() {
 
-		$link = '';
-
-		if ( current_user_can( apply_filters( 'llms_order_get_view_link_permission', 'manage_options' ) ) || get_current_user_id() === $this->get( 'user_id' ) ) {
-
-			$link = llms_get_endpoint_url( 'orders', $this->get( 'id' ), llms_get_page_url( 'myaccount' ) );
-
-		}
-
+		$link = llms_get_endpoint_url( 'orders', $this->get( 'id' ), llms_get_page_url( 'myaccount' ) );
 		return apply_filters( 'llms_order_get_view_link', $link, $this );
 
 	}
@@ -873,6 +876,125 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function has_trial_ended() {
 		return ( current_time( 'timestamp' ) >= $this->get_trial_end_date( 'U' ) );
+	}
+
+	/**
+	 * Initialize a pending order
+	 * Used during checkout
+	 * Assumes all data passed in has already been validated
+	 * @param    obj     $person   LLMS_Student
+	 * @param    obj     $plan     LLMS_Access_Plan
+	 * @param    obj     $gateway  LLMS_Gateway
+	 * @param    mixed   $coupon   LLMS_Coupon or false
+	 * @return   obj               $this
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function init( $person, $plan, $gateway, $coupon = false ) {
+
+		// user related information
+		$this->set( 'user_id', $person->get_id() );
+		$this->set( 'user_ip_address', llms_get_ip_address() );
+		$this->set( 'billing_address_1', $person->get( 'billing_address_1' ) );
+		$this->set( 'billing_address_2', $person->get( 'billing_address_2' ) );
+		$this->set( 'billing_city', $person->get( 'billing_city' ) );
+		$this->set( 'billing_country', $person->get( 'billing_country' ) );
+		$this->set( 'billing_email', $person->get( 'user_email' ) );
+		$this->set( 'billing_first_name', $person->get( 'first_name' ) );
+		$this->set( 'billing_last_name', $person->get( 'last_name' ) );
+		$this->set( 'billing_state', $person->get( 'billing_state' ) );
+		$this->set( 'billing_zip', $person->get( 'billing_zip' ) );
+		$this->set( 'billing_phone', $person->get( 'phone' ) );
+
+		// access plan data
+		$this->set( 'plan_id', $plan->get( 'id' ) );
+		$this->set( 'plan_title', $plan->get( 'title' ) );
+		$this->set( 'plan_sku', $plan->get( 'sku' ) );
+
+		// product data
+		$product = $plan->get_product();
+		$this->set( 'product_id', $product->get( 'id' ) );
+		$this->set( 'product_title', $product->get( 'title' ) );
+		$this->set( 'product_sku', $product->get( 'sku' ) );
+		$this->set( 'product_type', $plan->get_product_type() );
+
+		$this->set( 'payment_gateway', $gateway->get_id() );
+		$this->set( 'gateway_api_mode', $gateway->get_api_mode() );
+
+		// trial data
+		if ( $plan->has_trial() ) {
+			$this->set( 'trial_offer', 'yes' );
+			$this->set( 'trial_length', $plan->get( 'trial_length' ) );
+			$this->set( 'trial_period', $plan->get( 'trial_period' ) );
+			$trial_price = $plan->get_price( 'trial_price', array(), 'float' );
+			$this->set( 'trial_original_total', $trial_price );
+			$trial_total = $coupon ? $plan->get_price_with_coupon( 'trial_price', $coupon, array(), 'float' ) : $trial_price;
+			$this->set( 'trial_total', $trial_total );
+		} else {
+			$this->set( 'trial_offer', 'no' );
+		}
+
+		$price = $plan->get_price( 'price', array(), 'float' );
+		$this->set( 'currency', get_lifterlms_currency() );
+
+		// price data
+		if ( $plan->is_on_sale() ) {
+			$price_key = 'sale_price';
+			$this->set( 'on_sale', 'yes' );
+			$sale_price = $plan->get( 'sale_price', array(), 'float' );
+			$this->set( 'sale_price', $sale_price );
+			$this->set( 'sale_value', $price - $sale_price );
+		} else {
+			$price_key = 'price';
+			$this->set( 'on_sale', 'no' );
+		}
+
+		// store original total before any discounts
+		$this->set( 'original_total', $price );
+
+		// get the actual total due after discounts if any are applicable
+		$total = $coupon ? $plan->get_price_with_coupon( $price_key, $coupon, array(), 'float' ) : $$price_key;
+		$this->set( 'total', $total );
+
+		// coupon data
+		if ( $coupon ) {
+			$this->set( 'coupon_id', $coupon->get( 'id' ) );
+			$this->set( 'coupon_amount', $coupon->get( 'coupon_amount' ) );
+			$this->set( 'coupon_code', $coupon->get( 'title' ) );
+			$this->set( 'coupon_type', $coupon->get( 'discount_type' ) );
+			$this->set( 'coupon_used', 'yes' );
+			$this->set( 'coupon_value', $$price_key - $total );
+			if ( $plan->has_trial() && $coupon->has_trial_discount() ) {
+				$this->set( 'coupon_amount_trial', $coupon->get( 'trial_amount' ) );
+				$this->set( 'coupon_value_trial', $trial_price - $trial_total );
+			}
+		} else {
+			$this->set( 'coupon_used', 'no' );
+		}
+
+		// get all billing schedule related information
+		$this->set( 'billing_frequency', $plan->get( 'frequency' ) );
+		if ( $plan->is_recurring() ) {
+			$this->set( 'billing_length', $plan->get( 'length' ) );
+			$this->set( 'billing_period', $plan->get( 'period' ) );
+			$this->set( 'order_type', 'recurring' );
+		} else {
+			$this->set( 'order_type', 'single' );
+		}
+
+		$this->set( 'access_expiration', $plan->get( 'access_expiration' ) );
+
+		// get access related data so when payment is complete we can calculate the actual expiration date
+		if ( $plan->can_expire() ) {
+			$this->set( 'access_expires', $plan->get( 'access_expires' ) );
+			$this->set( 'access_length', $plan->get( 'access_length' ) );
+			$this->set( 'access_period', $plan->get( 'access_period' ) );
+		}
+
+		do_action( 'lifterlms_new_pending_order', $this, $person );
+
+		return $this;
+
 	}
 
 	/**
@@ -970,6 +1092,27 @@ class LLMS_Order extends LLMS_Post_Model {
 		$txn->set( 'status', $status );
 
 		return $txn;
+
+	}
+
+	/**
+	 * Update the status of an order
+	 * @param    string     $status  status name, accepts unprefixed statuses
+	 * @return   void
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function set_status( $status ) {
+
+		if ( false === strpos( 'llms-', $status ) ) {
+			$status = 'llms-' . $status;
+		}
+
+		$statuses = array_keys( llms_get_order_statuses( $this->get( 'order_type' ) ) );
+
+		if ( in_array( $status, $statuses ) ) {
+			$this->set( 'status', $status );
+		}
 
 	}
 

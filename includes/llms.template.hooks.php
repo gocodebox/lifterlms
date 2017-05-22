@@ -149,8 +149,14 @@ add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_das
 add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar' );
 
 
-
-
+/***********************************************************************
+ *
+ * Emails
+ *
+ ***********************************************************************/
+add_action( 'lifterlms_email_header', 'llms_email_header', 10, 1 );
+add_action( 'lifterlms_email_body',   'llms_email_body',   10, 1 );
+add_action( 'lifterlms_email_footer', 'llms_email_footer', 10 );
 
 
 if ( ! is_admin() ) {

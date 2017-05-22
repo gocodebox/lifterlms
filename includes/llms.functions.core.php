@@ -106,6 +106,20 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 }
 
 /**
+ * Get a list of available access plan visibility options
+ * @return   array
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_get_access_plan_visibility_options() {
+	return apply_filters( 'lifterlms_access_plan_visibility_options', array(
+		'visible' => __( 'Visible', 'lifterlms' ),
+		'hidden' => __( 'Hidden', 'lifterlms' ),
+		'featured' => __( 'Featured', 'lifterlms' ),
+	) );
+}
+
+/**
  * Get themes natively supported by LifterLMS
  * @return array
  * @since 3.0.0
@@ -145,14 +159,14 @@ function llms_get_core_supported_themes() {
  * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
  *
  * @since    ??
- * @version  ??
+ * @version  3.8.0
  */
 function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	// If not numeric then convert timestamps
-	if ( ! is_int( $time1 ) ) {
+	if ( ! is_numeric( $time1 ) ) {
 		$time1 = strtotime( $time1 );
 	}
-	if ( ! is_int( $time2 ) ) {
+	if ( ! is_numeric( $time2 ) ) {
 		$time2 = strtotime( $time2 );
 	}
 	// If time1 > time2 then swap the 2 values
@@ -279,7 +293,7 @@ function llms_get_product_visibility_options() {
 * @param    integer    $skip         number of results to skip (for pagination)
 * @return   array
 * @since    3.0.0
-* @version  3.6.0
+* @version  3.8.0
 */
 function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
 
@@ -293,8 +307,8 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 		),
 	) );
 
-	if ( $query->students ) {
-		return wp_list_pluck( $query->students, 'id' );
+	if ( $query->results ) {
+		return wp_list_pluck( $query->results, 'id' );
 	}
 
 	return array();
@@ -751,9 +765,76 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
 	return $string;
 }
 
+/**
+ * Verify nonce with additional checks to confirm request method
+ * Skips verification if the nonce is not set
+ * Useful for checking nonce for various LifterLMS forms which check for the form submission on init actions
+ * @param    string     $nonce           name of the nonce field
+ * @param    string     $action          name of the action
+ * @param    string     $request_method  name of the intended request method
+ * @return   null|false|int
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
+	if ( strtoupper( getenv( 'REQUEST_METHOD' ) ) !== $request_method ) {
+		return;
+	}
 
+	if ( empty( $_REQUEST[ $nonce ] ) ) {
+		return;
+	}
 
+	return wp_verify_nonce( $_REQUEST[ $nonce ], $action );
+
+}
+
+/**
+ * Verifies a plain text password key for a user (by login) against the hashed key in the database
+ * @param    string     $key    plain text activation key
+ * @param    string     $login  user login
+ * @return   boolean
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_verify_password_reset_key( $key = '', $login = '' ) {
+
+	$key = preg_replace( '/[^a-z0-9]/i', '', $key );
+	if ( empty( $key ) || ! is_string( $key ) ) {
+		return false;
+	}
+
+	if ( empty( $login ) || ! is_string( $login ) ) {
+		return false;
+	}
+
+	global $wpdb;
+	$user_key = $wpdb->get_var( $wpdb->prepare(
+		"SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s",
+		$login
+	) );
+
+	if ( empty( $user_key ) ) {
+		return false;
+	}
+
+	global $wp_hasher;
+
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
+	}
+
+	$valid = $wp_hasher->CheckPassword( $key, $user_key );
+
+	if ( empty( $valid ) ) {
+		return false;
+	}
+
+	return true;
+
+}
 
 
 

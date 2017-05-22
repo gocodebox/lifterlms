@@ -63,6 +63,49 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 }// End if().
 
 /**
+ * Output email body content
+ * @return   void
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+if ( ! function_exists( 'llms_email_body' ) ) {
+
+	function llms_email_body( $content = '' ) {
+		echo apply_filters( 'the_content', $content );
+	}
+}
+
+
+/**
+ * Output email footer template
+ * @return   void
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+if ( ! function_exists( 'llms_email_footer' ) ) {
+
+	function llms_email_footer() {
+		llms_get_template( 'emails/footer.php' );
+	}
+}
+
+/**
+ * Output email header template with optional heading
+ * @param    string  $heading   optional heading text to output above the main content
+ * @return   void
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+if ( ! function_exists( 'llms_email_header' ) ) {
+
+	function llms_email_header( $heading = '' ) {
+		llms_get_template( 'emails/header.php', array(
+			'email_heading' => $heading,
+		) );
+	}
+}
+
+/**
  * Post Template Include
  * Appends LLMS content above and below post content
  * @param  string $content [WP post content]
@@ -1102,6 +1145,8 @@ if ( ! function_exists( 'lifterlms_template_loop_progress' ) ) {
 if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 
 	function lifterlms_course_progress_bar( $progress, $link = false, $button = true, $echo = true ) {
+
+		$progress = round( $progress, 2 );
 
 		$tag = ($link) ? 'a' : 'span';
 		$href = ($link) ? ' href=" ' . $link . ' "' : '';

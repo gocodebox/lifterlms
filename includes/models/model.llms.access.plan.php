@@ -2,7 +2,7 @@
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.7.0
+ * @version  3.8.0
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -12,7 +12,6 @@
  * @property  $availability_restrictions (array)  Indexed array of LifterLMS Membership IDs a user must belong to to use the access plan. Only applicable if $availability is "members".
  * @property  $content  (string)  Plan description (post_content)
  * @property  $enroll_text  (string)  Text to display on buy buttons
- * @property  $featured (string)  Feature the plan on the pricing table [yes|no]
  * @property  $frequency  (int)  Frequency of billing. 0 = a one-time payment [0-6]
  * @property  $id  (int)  Post ID
  * @property  $is_free  (string)  Whether or not the plan requires payment [yes|no]
@@ -46,7 +45,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		'availability_restrictions' => 'array',
 		'content' => 'string',
 		'enroll_text' => 'string',
-		'featured' => 'yesno',
 		'frequency' => 'absint',
 		'is_free' => 'yesno',
 		'length' => 'absint',
@@ -134,13 +132,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the full URL to the checkout screen for the plan
-	 * @return string
-	 * @since 3.0.0
-	 * @version  3.0.0
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.8.0
 	 */
-	public function get_checkout_url() {
+	public function get_checkout_url( $check_availability = true ) {
 
-		if ( $this->is_available_to_user( get_current_user_id() ) ) {
+		if ( ! $this->check_availability || $this->is_available_to_user( get_current_user_id() ) ) {
 			return llms_get_page_url( 'checkout', array(
 				'plan' => $this->get( 'id' ),
 			) );
@@ -420,6 +418,18 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Get the access plans visibility setting
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_visibility() {
+		$term = $this->get_terms( 'llms_access_plan_visibility', true );
+		$ret = ( $term && $term->name ) ? $term->name : 'visible';
+		return apply_filters( 'llms_get_access_plan_visibility', $ret, $this );
+	}
+
+	/**
 	 * Determine if the plan has availability restrictions
 	 * Related product must be a COURSE
 	 * Availability must be set to "members" and at least one membership must be selected
@@ -489,10 +499,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Determine if the plan is marked as "featured"
 	 * @return boolean
 	 * @since 3.0.0
-	 * @version  3.0.0
+	 * @version  3.8.0
 	 */
 	public function is_featured() {
-		return ( 'yes' === $this->get( 'featured' ) );
+		return ( 'featured' === $this->get_visibility() );
 	}
 
 	/**
@@ -553,9 +563,20 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Determine if the plan is visible
+	 * Both featured and visible access plans are considered visible
+	 * @return   boolean
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function is_visible() {
+		return ( 'hidden' !== $this->get_visibility() );
+	}
+
+	/**
 	 * Determine if the Access Plan has recurring payments
 	 * @return  boolean   true if it is recurring, false otherwise
-	 * @since 3.0.0
+	 * @since   3.0.0
 	 * @version 3.0.0
 	 */
 	public function is_recurring() {
@@ -596,6 +617,16 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			}
 		}
 
+	}
+
+	/**
+	 * Update the visibility term for the access plan
+	 * @param    string     $visibility  access plan name
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function set_visibility( $visibility ) {
+		return $this->set_terms( array( $visibility ), 'llms_access_plan_visibility', false );
 	}
 
 }

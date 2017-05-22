@@ -1,8 +1,8 @@
 <?php
 /**
  * Retrieve data sets used by various other classes and functions
- * @since  3.0.0
- * @version  3.6.0
+ * @since    3.0.0
+ * @version  3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -119,7 +119,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.2.3
+	 * @version  3.8.0
 	 */
 	public static function get_tabs() {
 
@@ -134,6 +134,11 @@ class LLMS_Student_Dashboard {
 				'content' => array( __CLASS__, 'output_courses_content' ),
 				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'my-courses' ),
 				'title' => __( 'My Courses', 'lifterlms' ),
+			),
+			'notifications' => array(
+				'content' => array( __CLASS__, 'output_notifications_content' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_notifications_endpoint', 'notifications' ),
+				'title' => __( 'Notifications', 'lifterlms' ),
 			),
 			'edit-account' => array(
 				'content' => array( __CLASS__, 'output_edit_account_content' ),
@@ -210,10 +215,95 @@ class LLMS_Student_Dashboard {
 	}
 
 	/**
+	 * Callback to oupput the notifications content
+	 * @return   void
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public static function output_notifications_content() {
+
+		$url = llms_get_endpoint_url( 'notifications', '', llms_get_page_url( 'myaccount' ) );
+
+		$sections = array(
+			array(
+				'url' => $url,
+				'name' => __( 'View Notifications', 'lifterlms' ),
+			),
+			array(
+				'url' => add_query_arg( 'sdview', 'prefs', $url ),
+				'name' => __( 'Manage Preferences', 'lifterlms' ),
+			),
+		);
+
+		$view = isset( $_GET['sdview'] ) ? $_GET['sdview'] : 'view';
+
+		if ( 'view' === $view ) {
+
+			$page = isset( $_GET['sdpage'] ) ? absint( $_GET['sdpage'] ) : 1;
+
+			$notifications = new LLMS_Notifications_Query( array(
+				'page' => $page,
+				'per_page' => 25,
+				'subscriber' => get_current_user_id(),
+				'sort' => array(
+					'created' => 'DESC',
+					'id' => 'DESC',
+				),
+				'types' => 'basic',
+			) );
+
+			$pagination = array(
+				'next' => $notifications->is_last_page() ? '' : add_query_arg( 'sdpage', $page + 1, $url ),
+				'prev' => $notifications->is_first_page() ? '' : add_query_arg( 'sdpage', $page - 1, $url ),
+			);
+
+			$args = array(
+				'notifications' => $notifications->get_notifications(),
+				'pagination' => $pagination,
+				'sections' => $sections,
+			);
+
+		} else {
+
+			$types = apply_filters( 'llms_notification_subscriber_manageable_types', array( 'email' ) );
+
+			$settings = array();
+			$student = new LLMS_Student( get_current_user_id() );
+
+			foreach ( LLMS()->notifications()->get_controllers() as $controller ) {
+
+				foreach ( $types as $type ) {
+
+					$configs = $controller->get_subscribers_settings( $type );
+					if ( in_array( 'student', array_keys( $configs ) ) && 'yes' === $configs['student'] ) {
+
+						if ( ! isset( $settings[ $type ] ) ) {
+							$settings[ $type ] = array();
+						}
+
+						$settings[ $type ][ $controller->id ] = array(
+							'name' => $controller->get_title(),
+							'value' => $student->get_notification_subscription( $type, $controller->id, 'yes' ),
+						);
+					}
+				}
+			}
+
+			$args = array(
+				'sections' => $sections,
+				'settings' => $settings,
+			);
+
+		}// End if().
+
+		llms_get_template( 'myaccount/my-notifications.php', $args );
+	}
+
+	/**
 	 * Endpoint to output orders content
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.8.0
 	 */
 	public static function output_orders_content() {
 
@@ -224,13 +314,21 @@ class LLMS_Student_Dashboard {
 		if ( ! empty( $wp->query_vars['orders'] ) ) {
 
 			$order = new LLMS_Order( $wp->query_vars['orders'] );
+
 			// ensure people can't locate other peoples orders by dropping numbers into the url bar
 			if ( get_current_user_id() !== $order->get( 'user_id' ) ) {
 				$order = false;
+				$transactions = array();
+			} else {
+				$transactions = $order->get_transactions( array(
+					'per_page' => apply_filters( 'llms_student_dashboard_transactions_per_page', 20 ),
+					'paged' => isset( $_GET['txnpage'] ) ? absint( $_GET['txnpage'] ) : 1,
+				) );
 			}
 
 			llms_get_template( 'myaccount/view-order.php', array(
 				'order' => $order,
+				'transactions' => $transactions,
 			) );
 
 		} else {

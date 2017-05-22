@@ -8,6 +8,11 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+$cert = new LLMS_User_Certificate( get_the_ID() );
+if ( get_current_user_id() != $cert->get_user_id() ) {
+	return _e( 'Certificate not found.', 'lifterlms' );
+}
+
 $image = llms_get_certificate_image();
 ?>
 <div class="llms-certificate-container" style="width:<?php echo $image['width']; ?>px; height:<?php echo $image['height']; ?>px;">

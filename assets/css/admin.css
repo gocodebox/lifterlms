@@ -1617,6 +1617,7 @@ body.modal-open {
   vertical-align: middle;
 }
 .button.llms-merge-code-button img {
+  margin-right: 3px;
   margin-top: -3px;
   vertical-align: middle;
 }
@@ -1663,6 +1664,7 @@ body.modal-open {
 }
 .llms-merge-codes.active {
   display: block;
+  z-index: 777;
 }
 
 /******************************************************************
@@ -2371,6 +2373,16 @@ a.llms-view-as {
   margin-right: 8px;
 }
 
+.llms-image-field-preview {
+  max-height: 80px;
+  vertical-align: middle;
+  width: auto;
+}
+
+.llms-image-field-remove.hidden {
+  display: none;
+}
+
 .llms-table-wrap {
   position: relative;
 }
@@ -2416,6 +2428,15 @@ a.llms-view-as {
 }
 .llms-table td.expandable.closed, .llms-table th.expandable.closed {
   display: none;
+}
+.llms-table td .llms-button-primary,
+.llms-table td .llms-button-secondary,
+.llms-table td .llms-button-action,
+.llms-table td .llms-button-danger, .llms-table th .llms-button-primary,
+.llms-table th .llms-button-secondary,
+.llms-table th .llms-button-action,
+.llms-table th .llms-button-danger {
+  display: inline-block;
 }
 .llms-table thead th,
 .llms-table tfoot th {
@@ -2740,8 +2761,12 @@ a.llms-view-as {
   box-shadow: inset 0 0 0 1px #e5e5e5;
 }
 
+.llms-access-plan .llms-plan-link,
 .llms-access-plan [data-controller] {
   display: none;
+}
+.llms-access-plan:hover .llms-plan-link, .llms-access-plan.opened .llms-plan-link {
+  display: inline-block;
 }
 .llms-access-plan .llms-metabox-field {
   margin: 5px 0;

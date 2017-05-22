@@ -5,7 +5,7 @@
  * Class used managing front end facing forms.
  *
  * @since   1.0.0
- * @version 3.7.0
+ * @version 3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -21,7 +21,6 @@ class LLMS_Frontend_Forms {
 
 		add_action( 'init', array( $this, 'login' ) );
 		add_action( 'init', array( $this, 'voucher_check' ) );
-		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
 		add_action( 'init', array( $this, 'mark_incomplete' ) );
 		add_action( 'init', array( $this, 'take_quiz' ) );

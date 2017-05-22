@@ -151,18 +151,74 @@ class LLMS_Engagements {
 	 * @param array $args  indexed array of args
 	 *                     0 => WP User ID
 	 *                     1 => WP Post ID of the email post
-	 *
+	 *                     2 => WP Post ID of the triggering post
 	 * @return void
 	 *
-	 * @since 2.3.0
+	 * @since    2.3.0
+	 * @version  3.8.0
 	 */
 	public function handle_email( $args ) {
+
 		$this->log( '======== handle_email() =======' );
 		$this->log( $args );
-		$m = LLMS()->mailer();
-		$m->trigger_engagement( $args[0], $args[1], $args[2] );
-	}
 
+		$person_id = $args[0];
+		$email_id = $args[1];
+		$related_id = $args[2];
+
+		// dupcheck
+		global $wpdb;
+
+		$res = (int) $wpdb->get_var( $wpdb->prepare( "
+			SELECT count( meta_id )
+			FROM {$wpdb->prefix}lifterlms_user_postmeta
+			WHERE post_id = %d
+			  AND user_id = %d
+			  AND meta_value = %d
+			  LIMIT 1
+			;",
+			array(
+				$related_id,
+				$person_id,
+				$email_id,
+			)
+		) );
+
+		if ( $res >= 1 ) {
+			llms_log( sprintf( 'Email `#%d` was not sent because of dupcheck', $email_id ) );
+			return;
+		}
+
+		// setup the email
+		$email = LLMS()->mailer()->get_email( 'engagement', array(
+			'person_id' => $args[0],
+			'email_id' => $args[1],
+			'related_id' => $args[2],
+		) );
+
+		if ( $email ) {
+
+			if ( $email->send() ) {
+
+				$wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+					array(
+						'user_id' 			=> $person_id,
+						'post_id' 			=> $related_id,
+						'meta_key'			=> '_email_sent',
+						'meta_value'		=> $email_id,
+						'updated_date'		=> current_time( 'mysql' ),
+					),
+					array( '%d', '%d', '%s', '%d', '%s' )
+				);
+				llms_log( sprintf( 'Email `#%d` sent sucessfully', $email_id ) );
+
+			} else {
+
+				llms_log( sprintf( 'Error: email `#%d` was not sent', $email_id ) );
+			}
+		}
+
+	}
 
 	/**
 	 * Log debug data to the WordPress debug.log file
