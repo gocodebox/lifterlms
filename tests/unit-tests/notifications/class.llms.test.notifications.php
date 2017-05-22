@@ -69,7 +69,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
-	public function get_processors() {
+	public function test_get_processors() {
 
 		$main = LLMS()->notifications();
 
