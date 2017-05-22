@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.7.4
-Stable tag: 3.7.7
+Stable tag: 3.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -214,23 +214,28 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-v3.8.0-rc.1 - 2017/05/18
-----------------------------
+= v3.8.0 - 2017/05/20 =
+-----------------------
 
 + Automatic email and basic (on-screen) notifications for various events within LifterLMS
   + All notifications can be customized
   + Email notifications can be optionally sent to custom email address, course authors, and more
 + Students will automatically receive email receipts when making purchases and when recurring access plans rebill
 + Hidden Access Plans
++ Add a "Purchase Link" view button to access plans so admins can quickly grab the direct URL to an access plan
 + Notifications history screen on Student Dashboard to review past notifications that have been received
 + Updated LLMS_Email class and functionality
 + Email templates have been completely rewritten and styled
-  + Temporary email style customization guide [here](https://gist.github.com/thomasplevy/0d3072633141d129cfc716740f302385)
-  + Email branding will be added to LifterLMS Labs, follow progress [here](https://github.com/gocodebox/lifterlms/issues/316)
 + Updated and rewritten password reset flow
 + Earned certificates are only accessible by the student who earned the certificate
 + Added the functionality for image upload via options & settings api
 + Removed a handful of unused templates related to LifterLMS certificates that were replaced a long time ago but still existed in the codebase for unknown reasons.
++ Fixed filter on engagements settings page
++ Minor adjustments to language and settings order on Engagements settings screen for email settings
++ Email Header Image field is now an upload field as opposed to a "paste a url here" setting
++ Phone number recorded to order and displayed on order for admin panel during purchases
++ Order details now display full country name as opposed to the country code
++ Fix installation script to ensure admin can preview by default
 
 
 = v3.7.7 - 2017/05/16 =

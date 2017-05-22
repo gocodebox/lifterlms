@@ -71,7 +71,7 @@ msgstr ""
 msgid "The title the user sees during checkout."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:232, includes/abstracts/llms.abstract.notification.view.php:336, includes/notifications/views/class.llms.notification.view.enrollment.php:72
+#: includes/abstracts/abstract.llms.payment.gateway.php:232, includes/abstracts/llms.abstract.notification.view.php:319, includes/notifications/views/class.llms.notification.view.enrollment.php:72
 msgid "Title"
 msgstr ""
 
@@ -124,7 +124,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:250, includes/class.llms.install.php:240, includes/class.llms.view.manager.php:182, includes/functions/llms.functions.updates.php:695
+#: includes/abstracts/llms.abstract.notification.controller.php:250, includes/class.llms.install.php:236, includes/class.llms.view.manager.php:182, includes/functions/llms.functions.updates.php:695
 msgid "Student"
 msgstr ""
 
@@ -144,40 +144,40 @@ msgstr ""
 msgid "Additional Recipients"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:379, includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:116, includes/notifications/controllers/class.llms.notification.controller.certificate.earned.php:116
+#: includes/abstracts/llms.abstract.notification.controller.php:378, includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:117, includes/notifications/controllers/class.llms.notification.controller.certificate.earned.php:117
 msgid "Basic"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:380, includes/class.llms.post-types.php:767, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:84, includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:82
+#: includes/abstracts/llms.abstract.notification.controller.php:379, includes/class.llms.post-types.php:767, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:91, includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:82
 msgid "Email"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:271
+#: includes/abstracts/llms.abstract.notification.view.php:254
 msgctxt "relative date display"
 msgid "About %s ago"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:326
+#: includes/abstracts/llms.abstract.notification.view.php:309
 msgid "Subject"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:336
+#: includes/abstracts/llms.abstract.notification.view.php:319
 msgid "Heading"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:348
+#: includes/abstracts/llms.abstract.notification.view.php:331
 msgid "Body"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:358
+#: includes/abstracts/llms.abstract.notification.view.php:341
 msgid "Icon"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:364
+#: includes/abstracts/llms.abstract.notification.view.php:347
 msgid "When checked the icon will not be displayed when showing this notification."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:366
+#: includes/abstracts/llms.abstract.notification.view.php:349
 msgid "Disable Icon"
 msgstr ""
 
@@ -493,11 +493,11 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:63, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:531, includes/class.llms.install.php:551
+#: includes/admin/class.llms.admin.notices.core.php:63, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:527, includes/class.llms.install.php:547
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:535, includes/class.llms.install.php:555
+#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:531, includes/class.llms.install.php:551
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -585,19 +585,15 @@ msgstr ""
 msgid "Your settings have been saved."
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:563
-msgid "Select"
+#: includes/admin/class.llms.admin.settings.php:565
+msgid "Upload"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:564
-msgid "Remove"
-msgstr ""
-
-#: includes/admin/class.llms.admin.settings.php:598
+#: includes/admin/class.llms.admin.settings.php:603
 msgid "Select a page&hellip;"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:624
+#: includes/admin/class.llms.admin.settings.php:629
 msgid "None"
 msgstr ""
 
@@ -713,7 +709,7 @@ msgstr ""
 msgid "LifterLMS has a few essential pages. The following will be created automatically if they don't already exist."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:319, includes/admin/settings/class.llms.settings.courses.php:84, includes/class.llms.install.php:193
+#: includes/admin/class.llms.admin.setup.wizard.php:319, includes/admin/settings/class.llms.settings.courses.php:84, includes/class.llms.install.php:189
 msgid "Course Catalog"
 msgstr ""
 
@@ -721,7 +717,7 @@ msgstr ""
 msgid "This page is where your visitors will find a list of all your available courses."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:323, includes/class.llms.install.php:199
+#: includes/admin/class.llms.admin.setup.wizard.php:323, includes/class.llms.install.php:195
 msgid "Membership Catalog"
 msgstr ""
 
@@ -1452,7 +1448,7 @@ msgstr ""
 msgid "No Lesson Content"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:21, includes/admin/settings/class.llms.settings.engagements.php:48
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:21, includes/admin/settings/class.llms.settings.engagements.php:44
 msgid "Email Settings"
 msgstr ""
 
@@ -2206,7 +2202,7 @@ msgstr ""
 msgid "Recurring"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:171, templates/admin/post-types/order-details.php:151, templates/myaccount/view-order.php:107
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:171, templates/admin/post-types/order-details.php:153, templates/myaccount/view-order.php:107
 msgid "One-time"
 msgstr ""
 
@@ -2286,7 +2282,7 @@ msgstr ""
 msgid "Students"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:211, includes/admin/reporting/tables/llms.table.students.php:300, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:60, includes/admin/settings/class.llms.settings.general.php:254
+#: includes/admin/reporting/class.llms.admin.reporting.php:211, includes/admin/reporting/tables/llms.table.students.php:300, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:60, includes/admin/settings/class.llms.settings.general.php:258
 msgid "Enrollments"
 msgstr ""
 
@@ -2363,19 +2359,19 @@ msgstr ""
 msgid "Achievements"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:54, includes/admin/settings/class.llms.settings.general.php:260
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:54, includes/admin/settings/class.llms.settings.general.php:264
 msgid "Registrations"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:56, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:62, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:68, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:74, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:56, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:62, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:68, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:74, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:82, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:88, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:94, includes/admin/settings/class.llms.settings.general.php:256, includes/admin/settings/class.llms.settings.general.php:262, includes/admin/settings/class.llms.settings.general.php:268, includes/admin/settings/class.llms.settings.general.php:274
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:56, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:62, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:68, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:74, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:56, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:62, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:68, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:74, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:82, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:88, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:94, includes/admin/settings/class.llms.settings.general.php:260, includes/admin/settings/class.llms.settings.general.php:266, includes/admin/settings/class.llms.settings.general.php:272, includes/admin/settings/class.llms.settings.general.php:278
 msgid "loading..."
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:57, includes/admin/settings/class.llms.settings.general.php:263
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:57, includes/admin/settings/class.llms.settings.general.php:267
 msgid "Number of total user registrations during the selected period"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:63, includes/admin/settings/class.llms.settings.general.php:257
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:63, includes/admin/settings/class.llms.settings.general.php:261
 msgid "Number of total enrollments during the selected period"
 msgstr ""
 
@@ -2387,11 +2383,11 @@ msgstr ""
 msgid "Number of total courses completed during the selected period"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:72, includes/admin/settings/class.llms.settings.general.php:272
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:72, includes/admin/settings/class.llms.settings.general.php:276
 msgid "Lessons Completed"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:75, includes/admin/settings/class.llms.settings.general.php:275
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:75, includes/admin/settings/class.llms.settings.general.php:279
 msgid "Number of total lessons completed during the selected period"
 msgstr ""
 
@@ -2403,11 +2399,11 @@ msgstr ""
 msgid "Number of new active or completed orders placed within this period"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:60, includes/admin/reporting/widgets/class.llms.analytics.widget.sold.php:24, includes/admin/settings/class.llms.settings.general.php:266
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:60, includes/admin/reporting/widgets/class.llms.analytics.widget.sold.php:24, includes/admin/settings/class.llms.settings.general.php:270
 msgid "Net Sales"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:63, includes/admin/settings/class.llms.settings.general.php:269
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.sales.php:63, includes/admin/settings/class.llms.settings.general.php:273
 msgid "Total of all successful transactions during this period"
 msgstr ""
 
@@ -2854,203 +2850,199 @@ msgstr ""
 msgid "Catalog Sorting"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:21, includes/class.llms.post-types.php:514
+#: includes/admin/settings/class.llms.settings.engagements.php:20, includes/class.llms.post-types.php:514
 msgid "Engagements"
 msgstr ""
 
+#: includes/admin/settings/class.llms.settings.engagements.php:46
+msgid "Settings for all emails sent by LifterLMS. Notification and engagement emails will adhere to these settings."
+msgstr ""
+
 #: includes/admin/settings/class.llms.settings.engagements.php:50
-msgid "Manage email settings"
+msgid "Sender Name"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:55
-msgid "Senders Email Address"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.engagements.php:56
-msgid "Email Address displayed in the From field"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.engagements.php:63
-msgid "Name of Sender"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.engagements.php:64
+#: includes/admin/settings/class.llms.settings.engagements.php:51
 msgid "Name to be displayed in From field"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:71
-msgid "Email Footer Text"
+#: includes/admin/settings/class.llms.settings.engagements.php:58
+msgid "Sender Email"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:72
-msgid "Text you would like displayed in the footer of all emails."
+#: includes/admin/settings/class.llms.settings.engagements.php:59
+msgid "Email Address displayed in the From field"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:79
+#: includes/admin/settings/class.llms.settings.engagements.php:66
 msgid "Header Image"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:80
-msgid "Enter the url for the email header (logo).<a href=\"%s\">Upload an image</a>."
+#: includes/admin/settings/class.llms.settings.engagements.php:73
+msgid "Email Footer Text"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:99
+#: includes/admin/settings/class.llms.settings.engagements.php:74
+msgid "Text you would like displayed in the footer of all emails."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:93
 msgid "Certificates Settings"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:107
+#: includes/admin/settings/class.llms.settings.engagements.php:101
 msgid "Background Image Settings"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:108
+#: includes/admin/settings/class.llms.settings.engagements.php:102
 msgid "Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href=\"http://wordpress.org/extend/plugins/regenerate-thumbnails/\" target=\"_blank\">regenerate your thumbnails</a>."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:113
+#: includes/admin/settings/class.llms.settings.engagements.php:107
 msgid "Image Width"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:114, includes/admin/settings/class.llms.settings.engagements.php:124
+#: includes/admin/settings/class.llms.settings.engagements.php:108, includes/admin/settings/class.llms.settings.engagements.php:118
 msgid "in pixels"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:122
+#: includes/admin/settings/class.llms.settings.engagements.php:116
 msgid "Image Height"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:131
+#: includes/admin/settings/class.llms.settings.engagements.php:125
 msgid "Legacy compatibility"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:132
+#: includes/admin/settings/class.llms.settings.engagements.php:126
 msgid "Use legacy certificate image sizes."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:133
+#: includes/admin/settings/class.llms.settings.engagements.php:127
 msgid "Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:56
+#: includes/admin/settings/class.llms.settings.general.php:60
 msgid "Quick Links"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:61
+#: includes/admin/settings/class.llms.settings.general.php:65
 msgid "Version: %s"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:62
+#: includes/admin/settings/class.llms.settings.general.php:66
 msgid "Need help? Get support on the %1$sforums%2$s"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:63
+#: includes/admin/settings/class.llms.settings.general.php:67
 msgid "Looking for a quickstart guide, shortcodes, or developer documentation? Get started at %s"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:64
+#: includes/admin/settings/class.llms.settings.general.php:68
 msgid "Get LifterLMS news, updates, and more on our %1$sblog%2$s"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:82
+#: includes/admin/settings/class.llms.settings.general.php:86
 msgid "Features"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:89
+#: includes/admin/settings/class.llms.settings.general.php:93
 msgid "Automatic Recurring Payments: <strong>%s</strong>"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:90
+#: includes/admin/settings/class.llms.settings.general.php:94
 msgid "Enabled"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:90
+#: includes/admin/settings/class.llms.settings.general.php:94
 msgid "Disabled"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:106
+#: includes/admin/settings/class.llms.settings.general.php:110
 msgid "Tools and Utilities"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:119
+#: includes/admin/settings/class.llms.settings.general.php:123
 msgid "Select user roles"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:122
+#: includes/admin/settings/class.llms.settings.general.php:126
 msgid "Users with the selected roles will bypass enrollment, drip, and prerequisite restrictions for courses and memberships."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:125
+#: includes/admin/settings/class.llms.settings.general.php:129
 msgid "Unrestricted Preview Access"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:130
+#: includes/admin/settings/class.llms.settings.general.php:134
 msgid "Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:132
+#: includes/admin/settings/class.llms.settings.general.php:136
 msgid "Automatic Payments"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:134
+#: includes/admin/settings/class.llms.settings.general.php:138
 msgid "Reset Automatic Payments"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:138
+#: includes/admin/settings/class.llms.settings.general.php:142
 msgid "Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:140
+#: includes/admin/settings/class.llms.settings.general.php:144
 msgid "Sessions"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:142
+#: includes/admin/settings/class.llms.settings.general.php:146
 msgid "Clear All Session Data"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:146
+#: includes/admin/settings/class.llms.settings.general.php:150
 msgid "If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:148
+#: includes/admin/settings/class.llms.settings.general.php:152
 msgid "Tracking Status"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:150
+#: includes/admin/settings/class.llms.settings.general.php:154
 msgid "Reset Tracking Status"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:155
+#: includes/admin/settings/class.llms.settings.general.php:159
 msgid "Setup Wizard"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:158
+#: includes/admin/settings/class.llms.settings.general.php:162
 msgid "If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:160
+#: includes/admin/settings/class.llms.settings.general.php:164
 msgid "Return to Setup Wizard"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:168
+#: includes/admin/settings/class.llms.settings.general.php:172
 msgid "Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:170
+#: includes/admin/settings/class.llms.settings.general.php:174
 msgid "Clear Student Progress Cache"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:172
+#: includes/admin/settings/class.llms.settings.general.php:176
 msgid "Clear Cache"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:237
+#: includes/admin/settings/class.llms.settings.general.php:241
 msgid "Activity This Week"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:299
+#: includes/admin/settings/class.llms.settings.general.php:303
 msgid "Most Popular Add-ons, Services, and Resources"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:300
+#: includes/admin/settings/class.llms.settings.general.php:304
 msgid "View More &rarr;"
 msgstr ""
 
@@ -3355,30 +3347,30 @@ msgstr ""
 msgid "Invalid generator supplied"
 msgstr ""
 
-#: includes/class.llms.install.php:205
+#: includes/class.llms.install.php:201
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:211, includes/class.llms.student.dashboard.php:136
+#: includes/class.llms.install.php:207, includes/class.llms.student.dashboard.php:136
 msgid "My Courses"
 msgstr ""
 
-#: includes/class.llms.install.php:338
+#: includes/class.llms.install.php:334
 msgctxt "course difficulty name"
 msgid "Beginner"
 msgstr ""
 
-#: includes/class.llms.install.php:339
+#: includes/class.llms.install.php:335
 msgctxt "course difficulty name"
 msgid "Intermediate"
 msgstr ""
 
-#: includes/class.llms.install.php:340
+#: includes/class.llms.install.php:336
 msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:607
+#: includes/class.llms.install.php:603
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -7036,41 +7028,41 @@ msgstr ""
 msgid "This coupon cannot be used to purchase \"%s\"."
 msgstr ""
 
-#: includes/models/model.llms.order.php:114
+#: includes/models/model.llms.order.php:115
 msgctxt "default order note author"
 msgid "LifterLMS"
 msgstr ""
 
-#: includes/models/model.llms.order.php:180, templates/admin/post-types/product-access-plan.php:176
+#: includes/models/model.llms.order.php:181, templates/admin/post-types/product-access-plan.php:176
 msgid "Lifetime Access"
 msgstr ""
 
-#: includes/models/model.llms.order.php:191
+#: includes/models/model.llms.order.php:192
 msgid "To be Determined"
 msgstr ""
 
-#: includes/models/model.llms.order.php:303
+#: includes/models/model.llms.order.php:304
 msgid "Order &ndash; %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:303
+#: includes/models/model.llms.order.php:304
 msgctxt "Order date parsed by strftime"
 msgid "%1$b %2$d, %Y @ %I:%M %p"
 msgstr ""
 
-#: includes/models/model.llms.order.php:331, includes/models/model.llms.transaction.php:121
+#: includes/models/model.llms.order.php:332, includes/models/model.llms.transaction.php:121
 msgid "Payment gateway %s could not be located or is no longer enabled"
 msgstr ""
 
-#: includes/models/model.llms.order.php:515
+#: includes/models/model.llms.order.php:516
 msgid "Order is not recurring"
 msgstr ""
 
-#: includes/models/model.llms.order.php:518
+#: includes/models/model.llms.order.php:519
 msgid "Invalid order status"
 msgstr ""
 
-#: includes/models/model.llms.order.php:534
+#: includes/models/model.llms.order.php:535
 msgid "All recurring transactions completed"
 msgstr ""
 
@@ -7123,11 +7115,11 @@ msgstr ""
 msgid "Trial"
 msgstr ""
 
-#: includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:80
+#: includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:81
 msgid "Achievement Earned"
 msgstr ""
 
-#: includes/notifications/controllers/class.llms.notification.controller.certificate.earned.php:80
+#: includes/notifications/controllers/class.llms.notification.controller.certificate.earned.php:81
 msgid "Certificate Earned"
 msgstr ""
 
@@ -7147,7 +7139,7 @@ msgstr ""
 msgid "Lesson Complete"
 msgstr ""
 
-#: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:96
+#: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:103
 msgid "Purchase Receipt"
 msgstr ""
 
@@ -7183,7 +7175,7 @@ msgstr ""
 msgid "Achievment Title"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:81, includes/notifications/views/class.llms.notification.view.certificate.earned.php:109, includes/notifications/views/class.llms.notification.view.course.complete.php:76, includes/notifications/views/class.llms.notification.view.course.track.complete.php:76, includes/notifications/views/class.llms.notification.view.enrollment.php:74, includes/notifications/views/class.llms.notification.view.lesson.complete.php:80, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:95, includes/notifications/views/class.llms.notification.view.quiz.failed.php:83, includes/notifications/views/class.llms.notification.view.quiz.passed.php:83, includes/notifications/views/class.llms.notification.view.section.complete.php:78, includes/notifications/views/class.llms.notification.view.student.welcome.php:68
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:81, includes/notifications/views/class.llms.notification.view.certificate.earned.php:109, includes/notifications/views/class.llms.notification.view.course.complete.php:76, includes/notifications/views/class.llms.notification.view.course.track.complete.php:76, includes/notifications/views/class.llms.notification.view.enrollment.php:74, includes/notifications/views/class.llms.notification.view.lesson.complete.php:80, includes/notifications/views/class.llms.notification.view.quiz.failed.php:83, includes/notifications/views/class.llms.notification.view.quiz.passed.php:83, includes/notifications/views/class.llms.notification.view.section.complete.php:78, includes/notifications/views/class.llms.notification.view.student.welcome.php:68
 msgid "Student Name"
 msgstr ""
 
@@ -7276,7 +7268,7 @@ msgstr ""
 msgid "Payment Method"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:43, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:98, templates/admin/post-types/order-transactions.php:25
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:43, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:100, templates/admin/post-types/order-transactions.php:25
 msgid "Transaction ID"
 msgstr ""
 
@@ -7285,60 +7277,72 @@ msgid "View Order Details"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:89
-msgid "Order ID"
+msgid "Customer Address"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:90
-msgid "Order URL"
+msgid "Customer Name"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:91, templates/admin/post-types/product-access-plan.php:61
-msgid "Plan Title"
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:91
+msgid "Customer Phone"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:92
-msgid "Product Title"
+msgid "Order ID"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:93
-msgid "Product Type"
+msgid "Order URL"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:94
-msgid "Product Title (Link)"
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:94, templates/admin/post-types/product-access-plan.php:61
+msgid "Plan Title"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:95
+msgid "Product Title"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:96
-msgid "Transaction Amount"
+msgid "Product Type"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:97
-msgid "Transaction Date"
+msgid "Product Title (Link)"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:98
+msgid "Transaction Amount"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:99
+msgid "Transaction Date"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:101
 msgid "Transaction Source"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:146
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:174
 msgctxt "generic product type description"
 msgid "Item"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:183
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:207
 msgid "Purchase Receipt for %s"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:193
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:217
 msgid "Purchase Receipt for Order #%s"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.quiz.failed.php:42
-msgid "Congratulations! %1$s failed %2$s"
+#: includes/notifications/views/class.llms.notification.view.quiz.failed.php:42, includes/notifications/views/class.llms.notification.view.quiz.failed.php:141
+msgid "%1$s failed %2$s"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.quiz.failed.php:44
-msgid "Congratulations! You failed %s!"
+msgid "You failed %s!"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.quiz.failed.php:80, includes/notifications/views/class.llms.notification.view.quiz.passed.php:80
@@ -7347,10 +7351,6 @@ msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.quiz.failed.php:82, includes/notifications/views/class.llms.notification.view.quiz.passed.php:82
 msgid "Quiz Title"
-msgstr ""
-
-#: includes/notifications/views/class.llms.notification.view.quiz.failed.php:141
-msgid "%1$s failed %2$s"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.quiz.failed.php:151
@@ -7581,123 +7581,127 @@ msgstr ""
 msgid "Enable Automatic Payments"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:13
+#: templates/admin/post-types/order-details.php:15
 msgid "This order was processed in the gateway's testing mode"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:19
+#: templates/admin/post-types/order-details.php:21
 msgid "Order #%s"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:20
+#: templates/admin/post-types/order-details.php:22
 msgid "Processed by %s"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:27
+#: templates/admin/post-types/order-details.php:29
 msgid "Order Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:30
+#: templates/admin/post-types/order-details.php:32
 msgid "Order Date:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:35
+#: templates/admin/post-types/order-details.php:37
 msgid "Order Status:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:46
+#: templates/admin/post-types/order-details.php:48
 msgid "Access Plan Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:49, templates/admin/post-types/order-details.php:68, templates/admin/post-types/order-details.php:220
+#: templates/admin/post-types/order-details.php:51, templates/admin/post-types/order-details.php:70, templates/admin/post-types/order-details.php:230
 msgid "Name:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:55, templates/admin/post-types/order-details.php:74
+#: templates/admin/post-types/order-details.php:57, templates/admin/post-types/order-details.php:76
 msgid "SKU:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:65
+#: templates/admin/post-types/order-details.php:67
 msgid "Product Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:88
+#: templates/admin/post-types/order-details.php:90
 msgid "Trial Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:92, templates/admin/post-types/order-details.php:120
+#: templates/admin/post-types/order-details.php:94, templates/admin/post-types/order-details.php:122
 msgid "Original Total:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:97, templates/admin/post-types/order-details.php:134
+#: templates/admin/post-types/order-details.php:99, templates/admin/post-types/order-details.php:136
 msgid "Coupon Discount:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:105, templates/admin/post-types/order-details.php:143
+#: templates/admin/post-types/order-details.php:107, templates/admin/post-types/order-details.php:145
 msgid "Total:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:107, templates/admin/post-types/order-details.php:148, templates/myaccount/view-order.php:64, templates/myaccount/view-order.php:104
+#: templates/admin/post-types/order-details.php:109, templates/admin/post-types/order-details.php:150, templates/myaccount/view-order.php:64, templates/myaccount/view-order.php:104
 msgid "for %1$d %2$s"
 msgid_plural "for %1$d %2$ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/admin/post-types/order-details.php:111
+#: templates/admin/post-types/order-details.php:113
 msgid "Trial End Date:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:116
+#: templates/admin/post-types/order-details.php:118
 msgid "Payment Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:126
+#: templates/admin/post-types/order-details.php:128
 msgid "Sale Discount:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:146, templates/myaccount/view-order.php:102
+#: templates/admin/post-types/order-details.php:148, templates/myaccount/view-order.php:102
 msgid "Every %2$s"
 msgid_plural "Every %1$d %2$ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/admin/post-types/order-details.php:157
+#: templates/admin/post-types/order-details.php:159
 msgid "Next Payment Due Date:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:173
+#: templates/admin/post-types/order-details.php:175
 msgid "Customer Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:176
+#: templates/admin/post-types/order-details.php:178
 msgid "Buyer Name:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:181
+#: templates/admin/post-types/order-details.php:183
 msgid "Buyer Email:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:187
+#: templates/admin/post-types/order-details.php:189
 msgid "Buyer Address:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:200
+#: templates/admin/post-types/order-details.php:203
+msgid "Buyer Phone:"
+msgstr ""
+
+#: templates/admin/post-types/order-details.php:210
 msgid "Buyer IP Address:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:217
+#: templates/admin/post-types/order-details.php:227
 msgid "Gateway Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:228
+#: templates/admin/post-types/order-details.php:238
 msgid "Transaction ID:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:241
+#: templates/admin/post-types/order-details.php:251
 msgid "Customer ID:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:253
+#: templates/admin/post-types/order-details.php:263
 msgid "Subscription ID:"
 msgstr ""
 
