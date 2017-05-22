@@ -19,7 +19,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	 * Number of accepted arguments passed to the callback function
 	 * @var  integer
 	 */
-	protected $action_accepted_arguments = 1;
+	protected $action_accepted_args = 1;
 
 	/**
 	 * Action hooks used to trigger sending of the notification

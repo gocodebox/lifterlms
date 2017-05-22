@@ -19,7 +19,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	 * Number of accepted arguments passed to the callback function
 	 * @var  integer
 	 */
-	protected $action_accepted_arguments = 2;
+	protected $action_accepted_args = 2;
 
 	/**
 	 * Action hooks used to trigger sending of the notification

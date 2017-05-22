@@ -19,7 +19,7 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	 * Number of accepted arguments passed to the callback function
 	 * @var  integer
 	 */
-	protected $action_accepted_arguments = 3;
+	protected $action_accepted_args = 3;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
