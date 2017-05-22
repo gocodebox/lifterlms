@@ -1,7 +1,7 @@
 == Changelog ==
 
-v3.8.0-rc.1 - 2017/05/18
-------------------------
+v3.8.0 - 2017/05/20
+-------------------
 
 + Automatic email and basic (on-screen) notifications for various events within LifterLMS
   + All notifications can be customized
@@ -12,8 +12,6 @@ v3.8.0-rc.1 - 2017/05/18
 + Notifications history screen on Student Dashboard to review past notifications that have been received
 + Updated LLMS_Email class and functionality
 + Email templates have been completely rewritten and styled
-  + Temporary email style customization guide [here](https://gist.github.com/thomasplevy/0d3072633141d129cfc716740f302385)
-  + Email branding will be added to LifterLMS Labs, follow progress [here](https://github.com/gocodebox/lifterlms/issues/316)
 + Updated and rewritten password reset flow
 + Earned certificates are only accessible by the student who earned the certificate
 + Added the functionality for image upload via options & settings api
@@ -23,6 +21,7 @@ v3.8.0-rc.1 - 2017/05/18
 + Email Header Image field is now an upload field as opposed to a "paste a url here" setting
 + Phone number recorded to order and displayed on order for admin panel during purchases
 + Order details now display full country name as opposed to the country code
++ Fix installation script to ensure admin can preview by default
 
 
 v3.7.7 - 2017/05/16

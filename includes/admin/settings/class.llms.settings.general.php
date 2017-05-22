@@ -28,23 +28,27 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 	/**
 	 * Get settings array
-	 *
 	 * @return array
 	 * @since  1.0.0
 	 * @version  3.8.0
 	 */
-	public function get_settings() {
+	public function get_settings( $settings_only = false ) {
 
 		$settings = array();
-		$settings[] = array(
-			'type' => 'custom-html',
-			'value' => self::get_stats_widgets(),
-		);
 
-		$settings[] = array(
-			'type' => 'custom-html',
-			'value' => self::get_small_banners(),
-		);
+		if ( ! $settings_only ) {
+
+			$settings[] = array(
+				'type' => 'custom-html',
+				'value' => self::get_stats_widgets(),
+			);
+
+			$settings[] = array(
+				'type' => 'custom-html',
+				'value' => self::get_small_banners(),
+			);
+
+		}
 
 		$settings[] = array(
 			'type' => 'sectionstart',
