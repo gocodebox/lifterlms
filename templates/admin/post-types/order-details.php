@@ -194,7 +194,7 @@ if ( ! is_admin() ) { exit; }
 				<?php echo $order->get( 'billing_city' ); ?>,
 				<?php echo $order->get( 'billing_state' ); ?>,
 				<?php echo $order->get( 'billing_zip' ); ?><br>
-				<?php echo $order->get( 'billing_country' ); ?>
+				<?php echo llms_get_country_name( $order->get( 'billing_country' ) ); ?>
 			</div>
 		<?php endif; ?>
 
