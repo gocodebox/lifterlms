@@ -8,6 +8,7 @@ v3.8.0-rc.1 - 2017/05/18
   + Email notifications can be optionally sent to custom email address, course authors, and more
 + Students will automatically receive email receipts when making purchases and when recurring access plans rebill
 + Hidden Access Plans
++ Purchase link tktktktkt
 + Notifications history screen on Student Dashboard to review past notifications that have been received
 + Updated LLMS_Email class and functionality
 + Email templates have been completely rewritten and styled
@@ -17,6 +18,9 @@ v3.8.0-rc.1 - 2017/05/18
 + Earned certificates are only accessible by the student who earned the certificate
 + Added the functionality for image upload via options & settings api
 + Removed a handful of unused templates related to LifterLMS certificates that were replaced a long time ago but still existed in the codebase for unknown reasons.
++ Fixed filter on engagements settings page
++ Minor adjustments to language and settings order on Engagements settings screen for email settings
++ Email Header Image field is now an upload field as opposed to a "paste a url here" setting
 
 
 v3.7.7 - 2017/05/16
