@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.8.1 - 2017/05/20
+-------------------
+
++ Fix merge code issue related to quiz notifications
+
+
 v3.8.0 - 2017/05/20
 -------------------
 

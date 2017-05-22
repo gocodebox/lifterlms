@@ -109,11 +109,15 @@ class LLMS_Quiz {
 	 * Retrieve the course associated with the lesson
 	 * @return   obj|null     Instance of the LLMS_Course or null
 	 * @since    3.6.0
-	 * @version  3.6.0
+	 * @version  3.8.1
 	 */
-	public function get_course() {
+	public function get_course( $user_id = null ) {
 
-		$lesson_id = $this->get_assoc_lesson( get_current_user_id() );
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		$lesson_id = $this->get_assoc_lesson( $user_id );
 
 		// this handles getting the lesson when the quiz hasn't been saved yet or has just been started
 		if ( ! $lesson_id ) {
