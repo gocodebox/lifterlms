@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Notification Controller: Transaction Success

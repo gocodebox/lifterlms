@@ -31,7 +31,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 *
 	 * @return array
 	 * @since  1.0.0
-	 * @version  3.7.0
+	 * @version  3.8.0
 	 */
 	public function get_settings() {
 
@@ -107,7 +107,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			'type' => 'title',
 		);
 
-		$roles = [];
+		$roles = array();
 		$wp_roles = wp_roles()->roles;
 		foreach ( $wp_roles as $key => $wp_role ) {
 			if ( 'student' === $key ) { continue; }
