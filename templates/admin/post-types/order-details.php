@@ -2,8 +2,10 @@
 /**
  * Order Details metabox for Order on Admin Panel
  *
- * @since  3.0.0
+ * @since    3.0.0
+ * @version  3.8.0
  */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
 ?>
@@ -195,6 +197,14 @@ if ( ! is_admin() ) { exit; }
 				<?php echo $order->get( 'billing_country' ); ?>
 			</div>
 		<?php endif; ?>
+
+		<?php if ( $order->get( 'billing_phone' ) ) : ?>
+			<div class="llms-metabox-field">
+			<label><?php _e( 'Buyer Phone:', 'lifterlms' ) ?></label>
+				<?php echo $order->get( 'billing_phone' ); ?>
+			</div>
+		<?php endif; ?>
+
 
 		<div class="llms-metabox-field">
 			<label><?php _e( 'Buyer IP Address:', 'lifterlms' ) ?></label>

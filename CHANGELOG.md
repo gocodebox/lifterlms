@@ -21,6 +21,7 @@ v3.8.0-rc.1 - 2017/05/18
 + Fixed filter on engagements settings page
 + Minor adjustments to language and settings order on Engagements settings screen for email settings
 + Email Header Image field is now an upload field as opposed to a "paste a url here" setting
++ Phone number recorded to order and displayed on order for admin panel during purchases
 
 
 v3.7.7 - 2017/05/16

@@ -16,6 +16,7 @@
  * @property   $billing_email  (string)  customer email address
  * @property   $billing_first_name  (string)  customer first name
  * @property   $billing_last_name  (string)  customer last name
+ * @property   $billing_phone  (string)  customer phone number
  * @property   $billing_state  (string)  customer billing state
  * @property   $billing_zip  (string)  customer billing zip/postal code
 
@@ -903,6 +904,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		$this->set( 'billing_last_name', $person->get( 'last_name' ) );
 		$this->set( 'billing_state', $person->get( 'billing_state' ) );
 		$this->set( 'billing_zip', $person->get( 'billing_zip' ) );
+		$this->set( 'billing_phone', $person->get( 'phone' ) );
 
 		// access plan data
 		$this->set( 'plan_id', $plan->get( 'id' ) );
