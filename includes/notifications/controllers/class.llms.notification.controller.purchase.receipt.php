@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Notification Controller: Transaction Success
@@ -58,6 +59,13 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 
 		switch ( $subscriber ) {
 
+			case 'author':
+				$txn = llms_get_post( $this->post_id );
+				$order = $txn->get_order();
+				$product = $order->get_product();
+				$uid = $product->get( 'author' );
+			break;
+
 			case 'student':
 				$uid = $this->user_id;
 			break;
@@ -110,6 +118,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		switch ( $type ) {
 
 			case 'email':
+				$options[] = $this->get_subscriber_option_array( 'author', 'yes' );
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 			break;
