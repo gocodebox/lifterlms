@@ -357,6 +357,13 @@
 			var self = this,
 				$html = $( n.html );
 
+			$html.find( 'a' ).on( 'click', function( e ) {
+				e.preventDefault();
+				var $this = $( this );
+				add_dismissal( $html.attr( 'data-id' ) );
+				window.location = $this.attr( 'href' );
+			} );
+
 			$( 'body' ).append( $html );
 			$html.css( 'top', self.get_offset() );
 
