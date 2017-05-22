@@ -746,6 +746,18 @@ function get_lifterlms_thousand_separator() {
 }
 
 /**
+ * Retrieve the country name by country code
+ * @param    string     $code  country code
+ * @return   string
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_get_country_name( $code ) {
+	$countries = get_lifterlms_countries();
+	return isset( $countries[ $code ] ) ? $countries[ $code ] : $code;
+}
+
+/**
  * Get a formatted price price
  * @param  int    $price Price to display
  * @param  array  $args  array of arguments
