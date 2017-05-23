@@ -1,9 +1,9 @@
 == Changelog ==
 
-v3.8.1 - 2017/05/20
+v3.8.1 - 2017/05/21
 -------------------
 
-+ Fix merge code issue related to quiz notifications
++ Fix merge code issue related to course title on quiz notifications
 
 
 v3.8.0 - 2017/05/20
