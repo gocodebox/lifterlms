@@ -4864,24 +4864,24 @@ msgid_plural "Succeeded <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.quiz.php:434
+#: includes/class.llms.quiz.php:438
 msgctxt "quiz attempts remaining"
 msgid "Unlimited"
 msgstr ""
 
-#: includes/class.llms.quiz.php:555
+#: includes/class.llms.quiz.php:559
 msgid "There are no questions associated with this quiz."
 msgstr ""
 
-#: includes/class.llms.quiz.php:579
+#: includes/class.llms.quiz.php:583
 msgid "There was an error starting the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.quiz.php:601
+#: includes/class.llms.quiz.php:605
 msgid "There was an error finding the associated quiz. Please return to the lesson and begin quiz again."
 msgstr ""
 
-#: includes/class.llms.quiz.php:744
+#: includes/class.llms.quiz.php:748
 msgid "There was an error with your quiz."
 msgstr ""
 
