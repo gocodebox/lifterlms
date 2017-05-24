@@ -2,7 +2,7 @@
 /**
  * Notification View: Achievement Earned
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.8.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -87,7 +87,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.8.2
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -117,7 +117,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 			break;
 
 			case '{{STUDENT_NAME}}':
-				$code = $this->is_for_self() ? 'you' : $this->user->get_name();
+				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
 			break;
 
 		}

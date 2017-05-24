@@ -2,7 +2,7 @@
 /**
  * Notification View: Student Welcome
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.8.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -75,7 +75,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.8.2
 	 */
 	protected function set_merge_data( $code ) {
 

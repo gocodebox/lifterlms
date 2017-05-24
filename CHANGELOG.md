@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.8.2 - 2017/05/24
+-------------------
+
++ Make student name self fallback (you) i18n friendly
+
+
 v3.8.1 - 2017/05/21
 -------------------
 
