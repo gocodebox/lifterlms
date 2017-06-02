@@ -1,9 +1,17 @@
 == Changelog ==
 
+= v3.9.1 - 2017/06/02 =
+-----------------------
+
++ Fix engagement triggers with relation to quizzes to properly recieve 3.9 api updates
++ Fix quiz attempt counting issue resulting in the total attempts by a student always being one more than the actual value
++ Fix membership access plan restrictions tooltip
+
+
 = v3.9.0 - 2017/06/02 =
 -----------------------
 
-### Quizzes
+##### Quizzes
 
 + All new quiz results interface for students
   + Donut charts are now animated
@@ -24,14 +32,16 @@
   + Ajax handler functions of the same names should be used instead.
   + To programmatically "take" quizzes use related functions of similar names from the `LLMS_Quiz_Attempt` class
 
-### Templates changed
+##### Templates changed
 
 + New
   + [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
 
 + Updated
   + [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
+  + [content-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/content-certificate.php)
   + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
+  + [myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
   + [quiz/next-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/next-question.php)
   + [quiz/previous-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/previous-question.php)
   + [quiz/question-count.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/question-count.php)
@@ -49,8 +59,11 @@
   + quiz/passing-percent.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
   + quiz/time-limit.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
 
-### Fixes
+##### Fixes
 
++ Student Dasbhoard notifications page will not display pagination links unless there's results to page through
++ Student Dasbhoard notifications page will now display a message when no notifications are found
++ Certificate previewing now takes into consideration the preview setting roles to allow admins (or other roles) to preview certificates
 + Made student name self fallback (you) i18n friendly
 
 

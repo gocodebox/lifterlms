@@ -3433,67 +3433,67 @@ msgctxt "password strength meter"
 msgid "Very Weak"
 msgstr ""
 
-#: includes/class.llms.l10n.php:70
-msgid "This plan is for members only. Click the links above to learn more."
+#: includes/class.llms.l10n.php:72
+msgid "Members Only Pricing"
 msgstr ""
 
-#: includes/class.llms.l10n.php:77, includes/functions/llms.functions.access.php:175
+#: includes/class.llms.l10n.php:79, includes/functions/llms.functions.access.php:175
 msgid "You do not have permission to access to this content"
 msgstr ""
 
-#: includes/class.llms.l10n.php:84
+#: includes/class.llms.l10n.php:86
 msgid "An unknown error occurred. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.php:85
+#: includes/class.llms.l10n.php:87
 msgid "Hide Summary"
 msgstr ""
 
-#: includes/class.llms.l10n.php:86
+#: includes/class.llms.l10n.php:88
 msgid "Loading..."
 msgstr ""
 
-#: includes/class.llms.l10n.php:87
+#: includes/class.llms.l10n.php:89
 msgid "Loading Question..."
 msgstr ""
 
-#: includes/class.llms.l10n.php:88
+#: includes/class.llms.l10n.php:90
 msgid "Loading Quiz..."
 msgstr ""
 
-#: includes/class.llms.l10n.php:89
+#: includes/class.llms.l10n.php:91
 msgid "Loading Quiz Results..."
 msgstr ""
 
-#: includes/class.llms.l10n.php:90, templates/quiz/results.php:40
+#: includes/class.llms.l10n.php:92, templates/quiz/results.php:40
 msgid "View Summary"
 msgstr ""
 
-#: includes/class.llms.l10n.php:91
+#: includes/class.llms.l10n.php:93
 msgid "You must enter an answer to continue."
 msgstr ""
 
-#: includes/class.llms.l10n.php:104
+#: includes/class.llms.l10n.php:106
 msgid "An unknown error occurred, please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.php:105
+#: includes/class.llms.l10n.php:107
 msgid "Are you sure you want to delete this quiz attempt? This action cannot be undone!"
 msgstr ""
 
-#: includes/class.llms.l10n.php:112
+#: includes/class.llms.l10n.php:114
 msgid "Error"
 msgstr ""
 
-#: includes/class.llms.l10n.php:113
+#: includes/class.llms.l10n.php:115
 msgid "Filter by Student(s)"
 msgstr ""
 
-#: includes/class.llms.l10n.php:114
+#: includes/class.llms.l10n.php:116
 msgid "Request timed out"
 msgstr ""
 
-#: includes/class.llms.l10n.php:115
+#: includes/class.llms.l10n.php:117
 msgid "Retry"
 msgstr ""
 
@@ -4896,7 +4896,7 @@ msgid_plural "Succeeded <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.quiz.php:453
+#: includes/class.llms.quiz.php:457
 msgctxt "quiz attempts remaining"
 msgid "Unlimited"
 msgstr ""
@@ -6765,11 +6765,11 @@ msgstr ""
 msgid "Never"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:88, includes/models/model.llms.access.plan.php:309
+#: includes/functions/llms.functions.updates.php:88, includes/models/model.llms.access.plan.php:308
 msgid "Enroll"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:88, includes/models/model.llms.access.plan.php:313
+#: includes/functions/llms.functions.updates.php:88, includes/models/model.llms.access.plan.php:312
 msgid "Join"
 msgstr ""
 
@@ -6974,40 +6974,40 @@ msgid_plural "days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/models/model.llms.access.plan.php:158, includes/models/model.llms.lesson.php:216
+#: includes/models/model.llms.access.plan.php:157, includes/models/model.llms.lesson.php:216
 msgid "FREE"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:317
+#: includes/models/model.llms.access.plan.php:316
 msgid "Buy"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:337
+#: includes/models/model.llms.access.plan.php:336
 msgctxt "Access expiration date"
 msgid "access until %s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:343
+#: includes/models/model.llms.access.plan.php:342
 msgctxt "Access period description"
 msgid "%1$d %2$s of access"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:373
+#: includes/models/model.llms.access.plan.php:372
 msgctxt "subscription schedule"
 msgid "per %s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:381
+#: includes/models/model.llms.access.plan.php:380
 msgctxt "subscription schedule"
 msgid "every %1$d %2$s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:390
+#: includes/models/model.llms.access.plan.php:389
 msgctxt "subscription # of payments"
 msgid "for %1$d %2$s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:413
+#: includes/models/model.llms.access.plan.php:412
 msgctxt "trial offer description"
 msgid "for %1$d %2$s"
 msgstr ""
