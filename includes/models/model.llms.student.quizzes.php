@@ -1,6 +1,8 @@
 <?php
 /**
  * Student Quiz Data
+ * Rather than instatiating this class directly
+ * use LLMS_Student->quizzes()
  * @since   [version]
  * @version [version]
  */
