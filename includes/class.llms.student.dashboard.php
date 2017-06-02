@@ -253,7 +253,7 @@ class LLMS_Student_Dashboard {
 			) );
 
 			$pagination = array(
-				'next' => $notifications->is_last_page() || !  $notifications->found_results ? '' : add_query_arg( 'sdpage', $page + 1, $url ),
+				'next' => $notifications->is_last_page() || ! $notifications->found_results ? '' : add_query_arg( 'sdpage', $page + 1, $url ),
 				'prev' => $notifications->is_first_page() ? '' : add_query_arg( 'sdpage', $page - 1, $url ),
 			);
 
