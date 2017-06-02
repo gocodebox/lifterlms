@@ -5,7 +5,7 @@
  * Class used managing front end facing forms.
  *
  * @since   1.0.0
- * @version 3.8.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -23,7 +23,6 @@ class LLMS_Frontend_Forms {
 		add_action( 'init', array( $this, 'voucher_check' ) );
 		add_action( 'init', array( $this, 'mark_complete' ) );
 		add_action( 'init', array( $this, 'mark_incomplete' ) );
-		add_action( 'init', array( $this, 'take_quiz' ) );
 
 	}
 
@@ -267,41 +266,6 @@ class LLMS_Frontend_Forms {
 			}// End if().
 		}// End if().
 
-	}
-
-	/**
-	 * Take quiz submit handler from lesson
-	 * Redirect user to quiz if quiz is available for lesson.
-	 * Creates session object llms_quiz
-	 *
-	 * @return void
-	 */
-	public function take_quiz() {
-
-		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
-		if ( 'POST' !== $request_method ) {
-			return;
-		}
-
-		if ( ! isset( $_POST['take_quiz'] ) || empty( $_POST['_wpnonce'] ) ) {
-			return;
-		}
-
-		if ( isset( $_POST['take_quiz'] ) ) {
-
-			//create quiz session object
-			$quiz = new stdClass();
-			$quiz->id = $_POST['quiz_id'];
-			$quiz->assoc_lesson = $_POST['associated_lesson'];
-			$quiz->user_id = (int) get_current_user_id();
-
-			LLMS()->session->set( 'llms_quiz', $quiz );
-
-			//redirect user to quiz page
-			$redirect = get_permalink( $_POST['quiz_id'] );
-			wp_redirect( apply_filters( 'lifterlms_lesson_start_quiz_redirect', $redirect ) );
-			exit;
-		}
 	}
 
 	/**
