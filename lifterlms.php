@@ -265,7 +265,6 @@ final class LifterLMS {
 		include_once( 'includes/notifications/class.llms.notifications.query.php' );
 
 		// Classes
-		include_once( 'includes/class.llms.student.php' );
 		include_once( 'includes/class.llms.lesson.handler.php' );
 		include_once( 'includes/class.llms.quiz.php' );
 		include_once( 'includes/class.llms.course.factory.php' );
@@ -285,6 +284,7 @@ final class LifterLMS {
 		// controllers
 		include_once( 'includes/controllers/class.llms.controller.orders.php' );
 		include_once( 'includes/controllers/class.llms.controller.account.php' );
+		include_once( 'includes/controllers/class.llms.controller.quizzes.php' );
 		include_once( 'includes/controllers/class.llms.controller.registration.php' );
 
 		// comments
