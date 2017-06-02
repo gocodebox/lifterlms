@@ -403,23 +403,27 @@ class LLMS_Quiz {
 
 	/**
 	 * Get total attempts by user
-	 * @param  int $user_id [ID of user]
-	 * @return int [number of times user has taken quiz]
+	 * @param    int $user_id [ID of user]
+	 * @return   int [number of times user has taken quiz]
+	 * @since    1.0.0
+	 * @version  3.9.1
 	 */
 	public function get_total_attempts_by_user( $user_id ) {
-		global $wpdb;
-		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
-		$attempts = 0;
 
-		if ( $quiz ) {
-			foreach ( $quiz as $key => $value ) {
-				if ( $value['id'] == $this->id ) {
-					$attempts++;
-				}
+		$student = llms_get_student( $user_id );
+		if ( ! $student ) {
+			return 0;
+		}
+
+		$attempts = $student->quizzes()->get_all( $this->get_id() );
+		foreach ( $attempts as $key => $attempt ) {
+			$attempt = new LLMS_Quiz_Attempt( $attempt );
+			if ( $attempt->get( 'current' ) ) {
+				unset( $attempts[ $key ] );
 			}
 		}
 
-		return $attempts;
+		return count( $attempts );
 	}
 
 	/**
