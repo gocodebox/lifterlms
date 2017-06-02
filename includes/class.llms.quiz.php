@@ -366,24 +366,39 @@ class LLMS_Quiz {
 
 	/**
 	 * Get lesson associated with quiz
-	 * @param  int $user_id [ID of user]
-	 * @return int [ID of associated lesson with quiz attempt]
+	 * @param    int $user_id [ID of user]
+	 * @return   int [ID of associated lesson with quiz attempt]
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function get_assoc_lesson( $user_id ) {
 
-		$lesson = false;
-		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
-
-		if ( ! $quiz ) {
+		$student = llms_get_student( $user_id );
+		if ( ! $student ) {
 			return false;
 		}
-		foreach ( $quiz as $key => $value ) {
-			if ( $value['id'] == $this->id ) {
-				$lesson = $value['assoc_lesson'];
-			}
+
+		// if there's only one possible lesson the quiz can be associated with
+		// return that lesson id
+		$query = new WP_Query( array(
+			'post_status' => 'publish',
+			'post_type' => 'lesson',
+			'posts_per_page' => 1,
+			'meta_key' => '_llms_assigned_quiz',
+			'meta_value' => $this->get_id(),
+		) );
+
+		if ( 1 == $query->found_posts ) {
+			return $query->posts[0]->ID;
 		}
 
-		return $lesson;
+		$current = $student->quizzes()->get_current_attempt( $this->get_id() );
+		if ( $current ) {
+			return $current->get( 'lesson_id' );
+		}
+
+		return false;
+
 	}
 
 	/**
@@ -507,262 +522,6 @@ class LLMS_Quiz {
 	}
 
 	/**
-	 * Start Quiz submit handler
-	 * Performs security and verification checks
-	 * If quiz is enabled for user redirects user to 1st question.
-	 *
-	 * @return void
-	 */
-	public static function start_quiz( $quiz_id, $user_id ) {
-
-		$quiz = LLMS()->session->get( 'llms_quiz' );
-
-		if ( $quiz && $quiz->id == $quiz_id && $quiz->user_id == $user_id ) {
-
-			$quiz->start_date = current_time( 'mysql' );
-			$quiz->end_date   = '';
-			$quiz->grade      = 0;
-			$quiz->passed     = false;
-
-			//get existing quiz object from database
-			$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
-
-			//count previous attempts and set quiz attempt to +1 of quiz attempt count
-			$attempts = 0;
-
-			if ( $quiz_data ) {
-
-				foreach ( $quiz_data as $key => $value ) {
-					if ( $value['id'] == $quiz->id ) {
-						$attempts++;
-					}
-				}
-			}
-
-			$quiz->attempt = ( $attempts + 1 );
-			$quiz->wpnonce = wp_create_nonce( 'my-action_' . $quiz->id . $quiz->attempt );
-			//add questions to quiz object
-			//question_id (int), answer (string), correct (bool)
-			$quiz_obj = new LLMS_Quiz( $quiz->id );
-
-			//$all_questions = array();
-			$questions = $quiz_obj->get_questions();
-
-			if ( $questions ) {
-				foreach ( $questions as $key => $value ) {
-					$questions[ $key ]['answer']  = '';
-					$questions[ $key ]['correct'] = false;
-				}
-
-				$quiz->questions = $questions;
-			} else {
-				return llms_add_notice( __( 'There are no questions associated with this quiz.', 'lifterlms' ), 'error' );
-			}
-
-			//save quiz object to usermeta
-			$quiz_array = (array) $quiz;
-
-			if ( $quiz_data ) {
-				array_push( $quiz_data, $quiz_array );
-			} else {
-				$quiz_data    = array();
-				$quiz_data[] = $quiz_array;
-			}
-
-			update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
-
-			//save quiz object to session
-			LLMS()->session->set( 'llms_quiz', $quiz );
-
-			//return first question in quiz
-			return $quiz->questions[0]['id'];
-
-		} else {
-
-			return array(
-				'message' => __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ),
-			);
-
-		}// End if().
-
-	}
-
-	/**
-	 * answer question form post (next lesson / complete quiz button click)
-	 * inserts answer in database and adds it to current quiz session
-	 * @return void
-	 * @since    1.0.0
-	 * @version  3.4.1
-	 */
-	public static function answer_question( $quiz_id, $question_id, $question_type, $answer, $complete ) {
-
-		//get quiz object from session
-		$quiz = LLMS()->session->get( 'llms_quiz' );
-
-			//if quiz session does not exist return an error message to the user.
-		if ( empty( $quiz ) ) {
-
-			$response['message'] = __( 'There was an error finding the associated quiz. Please return to the lesson and begin quiz again.', 'lifterlms' );
-			return $response;
-
-		}
-
-		//get question meta data
-		$correct_option   = '';
-		$question_options = get_post_meta( $question_id, '_llms_question_options', true );
-
-		foreach ( $question_options as $key => $value ) {
-			if ( $value['correct_option'] ) {
-				$correct_option = $key;
-			}
-		}
-
-		//update quiz object
-		foreach ( (array) $quiz->questions as $key => $value ) {
-
-			if ( $value['id'] == $question_id ) {
-
-				$current_question = $value['id'];
-
-				$quiz->questions[ $key ]['answer'] = $answer;
-
-				if ( $answer == $correct_option ) {
-					$quiz->questions[ $key ]['correct'] = true;
-				} else {
-					$quiz->questions[ $key ]['correct'] = false;
-				}
-			}
-		}
-
-		LLMS()->session->set( 'llms_quiz', $quiz );
-
-		//update quiz user meta data
-		$quiz_data = get_user_meta( $quiz->user_id, 'llms_quiz_data', true );
-
-		foreach ( $quiz_data as $key => $value ) {
-
-			if ( $value['wpnonce'] == $quiz->wpnonce ) {
-
-				foreach ( $quiz_data[ $key ]['questions'] as $id => $data ) {
-					if ( $data['id'] == $question_id ) {
-
-						$quiz_data[ $key ]['questions'][ $id ]['answer']  = $quiz->questions[ $id ]['answer'];
-						$quiz_data[ $key ]['questions'][ $id ]['correct'] = $quiz->questions[ $id ]['correct'];
-
-					}
-				}
-			}
-		}
-
-		update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
-
-		//if another question exists in lessons array then take user to next question
-		foreach ( (array) $quiz->questions as $k => $q ) {
-			if ( $q['id'] == $current_question ) {
-				$next_question = $k + 1;
-			}
-			if ( ! empty( $next_question ) && $k == $next_question ) {
-				$next_question_id = $q['id'];
-			}
-		}
-
-		//setup response array
-		$response = array();
-
-		//if there is not a next querstion end the quiz
-		if ( empty( $next_question_id ) || $complete ) {
-
-			$quiz->end_date = current_time( 'mysql' );
-
-			//save quiz object to usermeta
-			$quiz_array = (array) $quiz;
-
-			if ( $quiz_data ) {
-
-				foreach ( $quiz_data as $id => $q ) {
-
-					if ( $q['wpnonce'] == $quiz->wpnonce ) {
-
-						$points = 0;
-
-						//set the end time
-						$quiz_data[ $id ]['end_date'] = $quiz->end_date;
-
-						$quiz_obj = new LLMS_Quiz( $quiz->id );
-
-						//get grade
-						//get total points earned
-						foreach ( $q['questions'] as $key => $value ) {
-							if ( $value['correct'] ) {
-								$points += $value['points'];
-							}
-						}
-
-						//calculate grade
-						if ( $points == 0 ) {
-							$quiz_data[ $id ]['grade'] = 0;
-						} else {
-							$quiz_data[ $id ]['grade'] = $quiz_obj->get_grade( $points );
-
-							$quiz_data[ $id ]['passed'] = $quiz_obj->is_passing_score( $quiz->user_id, $quiz_data[ $id ]['grade'] );
-						}
-
-						do_action( 'lifterlms_quiz_completed', $quiz->user_id, $quiz_data[ $id ] );
-
-						if ( $quiz_data[ $id ]['passed'] ) {
-
-							$passed = true;
-							do_action( 'lifterlms_quiz_passed', $quiz->user_id, $quiz_data[ $id ] );
-
-						} else {
-
-							$passed = false;
-							do_action( 'lifterlms_quiz_failed', $quiz->user_id, $quiz_data[ $id ] );
-
-						}
-
-						// mark lesson complete
-						$lesson = llms_get_post( $quiz->assoc_lesson );
-						$passing_required = ( 'yes' === $lesson->get( 'require_passing_grade' ) );
-						if ( ! $passing_required || ( $passing_required && $passed ) ) {
-
-							// mark associated lesson complete only if it hasn't been completed before
-							$student = new LLMS_Student( $quiz->user_id );
-							if ( ! $student->is_complete( $quiz->assoc_lesson, 'lesson' ) ) {
-								llms_mark_complete( $quiz->user_id, $quiz->assoc_lesson, 'lesson', 'quiz_' . $quiz->id );
-							}
-						}
-
-						update_user_meta( $quiz->user_id, 'llms_quiz_data', $quiz_data );
-						LLMS()->session->set( 'llms_quiz', $quiz );
-
-					}// End if().
-				}// End foreach().
-
-				// clear "cached" grade so it's recalced next time it's requested
-				$student = new LLMS_Student( $quiz->user_id );
-				$student->set( 'overall_grade', '' );
-
-			} else {
-
-				$response['message'] = __( 'There was an error with your quiz.', 'lifterlms' );
-				return $response;
-
-			}// End if().
-
-			$response['redirect'] = get_permalink( $quiz->id );
-			return $response;
-
-		} else {
-
-			$response['next_question_id'] = $next_question_id;
-			return $response;
-
-		}// End if().
-
-	}
-
-	/**
 	 * Previous question button click
 	 * Finds the previous question and redirects the user to the post
 	 *
@@ -808,7 +567,11 @@ class LLMS_Quiz {
 
 	public function get_users_last_attempt( $user ) {
 
-		$quiz_data = $user->get_quiz_data();
+		if ( is_a( $user, '\LLMS\Users\User' ) ) {
+			$user = llms_get_student( $user->get_id() );
+		}
+
+		$quiz_data = $user->quizzes()->get_all();
 
 		$last_attempt = array();
 
