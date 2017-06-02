@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  3.7.3
+ * @version  [version]
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -15,7 +15,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 *                                   fractions will be rounded up
 	 * @return   void
 	 * @since    3.7.3
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
 	protected function complete_courses_for_student( $student_id = 0, $course_ids = array(), $perc = 100 ) {
 
@@ -41,7 +41,25 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 					break;
 				}
 
-				$student->mark_complete( $lid, 'lesson' );
+				$lesson = llms_get_post( $lid );
+				if ( $lesson->has_quiz() ) {
+
+					$attempt = LLMS_Quiz_Attempt::init( $lesson->get( 'assigned_quiz' ), $lid, $student->get_id() )->save()->start();
+					while ( $attempt->get_next_question() ) {
+
+						$question_id = $attempt->get_next_question();
+						$question = llms_get_post( $question_id );
+						$options = $question->get_options();
+						$attempt->answer_question( $question_id, rand( 0, ( count( $options ) - 1 ) ) );
+
+					}
+
+					$attempt->end();
+
+				} else {
+					$student->mark_complete( $lid, 'lesson' );
+				}
+
 
 			}
 
@@ -88,7 +106,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * @param    int     $num_quizzes   number of quizzes for each section in the course
 	 * @return   array
 	 * @since    3.7.3
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
 	private function get_mock_course_array( $iterator, $num_sections, $num_lessons, $num_quizzes ) {
 
@@ -119,20 +137,36 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 
 					$lesson['assigned_quiz'] = array(
 						'title' => sprintf( 'mock quiz %d', $lessons_i ),
-						'questions' => array( array(
-							'title' => 'q1',
-							'type' => 'single_choice',
-							'options' => array(
-								array(
-									'option_text' => 'o1',
-									'correct_option' => true,
-								),
-								array(
-									'option_text' => 'o2',
-									'correct_option' => false,
+						'questions' => array(
+							array(
+								'title' => 'q1',
+								'type' => 'single_choice',
+								'options' => array(
+									array(
+										'option_text' => 'o1',
+										'correct_option' => true,
+									),
+									array(
+										'option_text' => 'o2',
+										'correct_option' => false,
+									),
 								),
 							),
-						) ),
+							array(
+								'title' => 'q2',
+								'type' => 'single_choice',
+								'options' => array(
+									array(
+										'option_text' => 'o1',
+										'correct_option' => true,
+									),
+									array(
+										'option_text' => 'o2',
+										'correct_option' => false,
+									),
+								),
+							),
+						),
 					);
 
 				}
