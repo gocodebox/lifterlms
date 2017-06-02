@@ -5,108 +5,21 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.7.5
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Student {
-
-	private $meta_prefix = 'llms_';
+class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
-	 * Instance of WP_User
-	 * @var obj
+	 * Retrieve an instance of the student quiz data model
+	 * @return   LLMS_Student_Quizzes
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	private $user;
-
-	/**
-	 * Student's WordPress User ID
-	 * @var int
-	 */
-	private $user_id;
-
-	/**
-	 * Constructor
-	 *
-	 * If no user id provided, will attempt to use the current user id
-	 *
-	 * @param int $user_id WP User ID
-	 * @return void
-	 *
-	 * @since  2.2.3
-	 */
-	public function __construct( $user_id = null ) {
-
-		if ( ! $user_id && get_current_user_id() ) {
-
-			$user_id = get_current_user_id();
-
-		}
-
-		$this->user_id = intval( $user_id );
-
-		$this->user = new WP_User( $this->user_id );
-
-	}
-
-	/**
-	 * Magic Getter for User Data
-	 * Mapped directly to the WP_User class
-	 * @since   3.0.0
-	 * @version 3.8.0
-	 * @param   string $key key of the property to get a value for
-	 * @return  mixed
-	 */
-	public function __get( $key ) {
-
-		// array of items we should *not* add the $this->meta_prefix to
-		$unprefixed = array(
-			'description',
-			'display_name',
-			'first_name',
-			'last_name',
-			'nickname',
-			'user_login',
-			'user_nicename',
-			'user_email',
-			'user_registered',
-		);
-
-		// add the meta prefix to things that aren't in the above array
-		// only if the meta prefix isn't already there
-		// this means that the following will output the same data
-		// $this->get( 'llms_billing_address_1')
-		// $this->get( 'billing_address_1')
-		if ( false === strpos( $key, $this->meta_prefix ) && ! in_array( $key, $unprefixed ) ) {
-			$key = $this->meta_prefix . $key;
-		}
-
-		return apply_filters( 'llms_get_student_meta_' . $key, $this->user->get( $key ), $this );
-
-	}
-
-	/**
-	 * Allows direct access to WP_User object for retrieving user data from the user or usermeta tables
-	 * @since   3.0.0
-	 * @version 3.0.0
-	 * @param   string $key key of the property to get a value for
-	 * @return  mixed
-	 */
-	public function get( $key ) {
-		return $this->$key;
-	}
-
-	/**
-	 * Update a meta property for the user
-	 * @param    string     $key    meta key
-	 * @param    mixed      $value  meta value
-	 * @since    3.2.0
-	 * @version  3.2.0
-	 */
-	public function set( $key, $value, $prefix = true ) {
-		$key = $prefix ? $this->meta_prefix . $key : $key;
-		update_user_meta( $this->get_id(), $key, $value );
+	public function quizzes() {
+		return new LLMS_Student_Quizzes( $this->get_id() );
 	}
 
 	/**
@@ -133,42 +46,6 @@ class LLMS_Student {
 
 			}
 		}
-
-	}
-
-	/**
-	 * Remove Student Quiz attempts
-	 * @param    int     $quiz_id    WP Post ID of a Quiz
-	 * @param    int     $lesson_id  WP Post ID of a lesson
-	 * @param    int     $attempt    optional attempt number, if ommitted all attempts for quiz & lesson will be deleted
-	 * @return   array               updated array quiz data for the student
-	 * @since    3.4.4
-	 * @version  3.4.4
-	 */
-	public function delete_quiz_attempt( $quiz_id, $lesson_id, $attempt = null ) {
-
-		// get all quiz data
-		$quizzes = $this->get_quiz_data();
-
-		foreach ( $quizzes as $i => $data ) {
-
-			if ( $quiz_id == $data['id'] && $lesson_id == $data['assoc_lesson'] ) {
-
-				// no attempt or the submitted attempt equals the current attempt
-				if ( ! $attempt || $attempt == $data['attempt'] ) {
-					unset( $quizzes[ $i ] );
-				}
-			}
-		}
-
-		// reindex
-		$quizzes = array_values( $quizzes );
-
-		// save
-		$this->set( 'quiz_data', $quizzes );
-
-		// return updated quiz data
-		return $quizzes;
 
 	}
 
@@ -275,31 +152,6 @@ class LLMS_Student {
 	}
 
 
-	public function get_best_quiz_attempt( $quiz = null, $lesson = null ) {
-
-		$attempts = $this->get_quiz_data( $quiz, $lesson );
-
-		if ( $attempts ) {
-
-			$best = null;
-
-			foreach ( $attempts as $attempt ) {
-
-				if ( empty( $best['grade'] ) || $attempt['grade'] >= $best['grade'] ) {
-					$best = $attempt;
-				}
-			}
-
-			return $best;
-
-		} else {
-
-			return false;
-
-		}
-
-	}
-
 	/**
 	 * Retrieve the order which enrolled a studnet in a given course or membership
 	 * Retrieves the most recently updated order for the given product
@@ -358,18 +210,6 @@ class LLMS_Student {
 
 		// couldn't find an order, return false
 		return false;
-
-	}
-
-	/**
-	 * Retrive the student's user id
-	 * @return int
-	 *
-	 * @since  2.2.3
-	 */
-	public function get_id() {
-
-		return $this->user_id;
 
 	}
 
@@ -1070,46 +910,6 @@ class LLMS_Student {
 	}
 
 	/**
-	 * Retrieve quiz data for a student for a lesson / quiz combination
-	 * @param    int     $quiz    WP Post ID of a Quiz
-	 * @param    int     $lesson  WP Post ID of a lesson
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
-	 */
-	public function get_quiz_data( $quiz = null, $lesson = null ) {
-
-		// get all quiz data
-		$quizzes = $this->get( 'quiz_data' );
-
-		if ( ! is_array( $quizzes ) ) {
-			$quizzes = array();
-		}
-
-		// reduce the data to those matching the requested quiz & lesson
-		if ( $quizzes && ( $quiz || $lesson ) ) {
-
-			foreach ( $quizzes as $i => $data ) {
-
-				if ( $quiz && $quiz != $data['id'] ) {
-					unset( $quizzes[ $i ] );
-				}
-
-				if ( $lesson && $lesson != $data['assoc_lesson'] ) {
-					unset( $quizzes[ $i ] );
-				}
-			}
-
-			// reindex
-			$quizzes = array_values( $quizzes );
-
-		}
-
-		return apply_filters( 'llms_student_get_quiz_data', $quizzes, $quiz, $lesson );
-
-	}
-
-	/**
 	 * Retrieve the Students original registration date in chosen format
 	 * @param    string     $format  any date format that can be passed to date()
 	 * @return   string
@@ -1705,6 +1505,64 @@ class LLMS_Student {
 		// return false if we didn't updat
 		return false;
 
+	}
+
+
+
+
+
+	/*
+		       /$$                                                               /$$                     /$$
+		      | $$                                                              | $$                    | $$
+		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
+		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
+		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
+		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
+		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
+		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
+		                    | $$
+		                    | $$
+		                    |__/
+	*/
+
+	/**
+	 * Remove Student Quiz attempts
+	 * @param    int     $quiz_id    WP Post ID of a Quiz
+	 * @param    int     $lesson_id  WP Post ID of a lesson
+	 * @param    int     $attempt    optional attempt number, if ommitted all attempts for quiz & lesson will be deleted
+	 * @return   array               updated array quiz data for the student
+	 * @since    3.4.4
+	 * @version  [version]
+	 */
+	public function delete_quiz_attempt( $quiz_id, $lesson_id, $attempt = null ) {
+		llms_deprecated_function( 'LLMS_Student->delete_quiz_attempt()', '[version]', 'LLMS_Student->quizzes()->delete_attempt()' );
+		return $this->quizzes()->delete_attempt( $quiz_id, $lesson_id, $attempt );
+	}
+
+	/**
+	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination
+	 * @param    int     $quiz_id    WP Post ID of a Quiz
+	 * @param    int     $lesson_id  WP Post ID of a lesson
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_best_quiz_attempt( $quiz = null, $lesson = null ) {
+		llms_deprecated_function( 'LLMS_Student->get_best_quiz_attempt()', '[version]', 'LLMS_Student->quizzes()->get_best_attempt()' );
+		return $this->quizzes()->get_best_attempt( $quiz, $lesson );
+	}
+
+	/**
+	 * Retrieve quiz data for a student for a lesson / quiz combination
+	 * @param    int     $quiz    WP Post ID of a Quiz
+	 * @param    int     $lesson  WP Post ID of a lesson
+	 * @return   array
+	 * @since    3.2.0
+	 * @version  [version]
+	 */
+	public function get_quiz_data( $quiz = null, $lesson = null ) {
+		llms_deprecated_function( 'LLMS_Student->get_quiz_data()', '[version]', 'LLMS_Student->quizzes()->get_all()' );
+		return $this->quizzes()->get_all( $quiz, $lesson );
 	}
 
 }
