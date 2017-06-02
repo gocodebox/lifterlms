@@ -2,116 +2,71 @@
 /**
  * Quiz Results Template
  * @since    1.0.0
- * @version  3.2.4
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-global $quiz;
-$user_id = get_current_user_id();
+$student = llms_get_student();
+$attempt = isset( $_GET['attempt_key'] ) ? $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] ) : false;
+$siblings = isset( $_GET['attempt_key'] ) ? $student->quizzes()->get_sibling_attempts_by_key( $_GET['attempt_key'] ) : false;
+if ( ! $attempt || in_array( $attempt->get_status(), array( 'new', 'in-progress' ) ) ) {
+	$show_result = false;
+} else {
+	$show_result = true;
+	$quiz = $attempt->get_quiz();
+	$donut_class = array( $attempt->get( 'passed' ) ? 'passing' : 'failing' );
+}
+?>
 
-$quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
-$quiz_session = LLMS()->session->get( 'llms_quiz' );
+<div class="clear"></div>
+<div class="llms-quiz-results">
 
-if ( $quiz->get_total_attempts_by_user( $user_id ) ) {
+	<?php if ( $show_result ) : ?>
+		<h2 class="llms-quiz-results-title"><?php printf( __( 'Attempt #%d Results', 'lifterlms' ), $attempt->get( 'attempt' ) ); ?></h2>
 
-	$grade = $quiz->get_user_grade( $user_id );
-	$quiz->is_passing_score( $user_id, $grade );
-	$passing_percent = $quiz->get_passing_percent();
+		<aside class="llms-quiz-results-aside">
+			<?php echo llms_get_donut( $attempt->get( 'grade' ), $attempt->l10n( 'passed' ), 'default', $donut_class ); ?>
+		</aside>
 
-	$start_date = $quiz->get_start_date( $user_id );
+		<section class="llms-quiz-results-main">
+			<ul class="llms-quiz-meta-info">
+				<li class="llms-quiz-meta-item"><?php printf( __( 'Status: %s', 'lifterlms' ), $attempt->l10n( 'passed' ) ); ?></li>
+				<li class="llms-quiz-meta-item"><?php printf( __( 'Grade: %s', 'lifterlms' ), round( $attempt->get( 'grade' ), 2 ) . '%' ); ?></li>
+				<li class="llms-quiz-meta-item"><?php printf( __( 'Correct Answers: %1$d / %2$d', 'lifterlms' ), $attempt->get_count( 'correct_answers' ), $attempt->get_count( 'questions' ) ); ?></li>
+				<li class="llms-quiz-meta-item"><?php printf( __( 'Completed: %s', 'lifterlms' ), $attempt->get_date( 'start' ) ); ?></li>
+				<li class="llms-quiz-meta-item"><?php printf( __( 'Total time: %s', 'lifterlms' ), $attempt->get_time() ); ?></li>
+				<?php if ( $quiz->show_quiz_results() ) : ?>
+					<li class="llms-quiz-meta-item"><a class="view-summary" href="#"><?php _e( 'View Summary', 'lifterlms' ); ?></a></li>
+				<?php endif; ?>
+			</ul>
+		</section>
 
+		<?php if ( $quiz->show_quiz_results() ) : ?>
+			<?php llms_get_template( 'quiz/summary.php' ); ?>
+		<?php endif; ?>
+	<?php endif; ?>
 
-	$is_passing_score = $quiz->is_passing_score( $user_id, $grade );
-	$best_grade = $quiz->get_best_grade( $user_id );
-	$time = $quiz->get_total_time( $user_id );
-	$start_date = date_i18n( 'M d, Y', strtotime( $quiz->get_start_date( $user_id ) ) );
+	<?php if ( $siblings && count( $siblings ) > 1 ) : ?>
+		<section class="llms-quiz-results-history">
+			<h2 class="llms-quiz-results-title"><?php _e( 'View Previous Attempts', 'lifterlms' ); ?></h2>
+			<select id="llms-quiz-attempt-select">
+				<option value="">-- <?php _e( 'Select an Attempt', 'lifterlms' ); ?> --</option>
+				<?php foreach ( $siblings as $sibling ) :
+					$sibling = new LLMS_Quiz_Attempt( $sibling );
+					if ( in_array( $sibling->get_status(), array( 'new', 'in-progress' ) ) ) {
+						continue;
+					} elseif ( $attempt && $attempt->get( 'attempt' ) == $sibling->get( 'attempt' ) ) {
+						continue;
+					}
+					?>
+					<option value="<?php echo esc_url( $sibling->get_permalink() ); ?>">
+						<?php // translators: 1: attempt number; 2: grade percentage; 3: pass/fail text ?>
+						<?php printf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $sibling->get( 'attempt' ), round( $sibling->get( 'grade' ), 2 ) . '%', $sibling->l10n( 'passed' ) ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+		</section>
+	<?php endif; ?>
 
-	$best = $quiz->get_best_quiz_attempt( $user_id );
-	$best_time = $quiz->get_total_time( $user_id, $best );
-	$best_passing = $quiz->is_passing_score( $user_id, $best );
-	?>
-
-	<div class="clear"></div>
-	<div class="llms-template-wrapper">
-		<div class="llms-quiz-results">
-		<h3><?php _e( 'Quiz Results', 'lifterlms' ); ?></h3>
-
-			<?php
-			//determine if grade, best grade or none should be shown.
-			if ( isset( $grade ) && isset( $best_grade ) ) :
-			 	$graph_grade = empty( $grade ) ? $best_grade : $grade;
-			?>
-				<input type="hidden" id="llms-grade-value" name="llms_grade" value="<?php echo $graph_grade; ?>" />
-				<div class="llms-progress-circle">
-				  <svg>
-			      <g>
-			         <circle cx="-40" cy="40" r="68" class="llms-background-circle" transform="translate(50,50) rotate(-90)"  />
-			      </g>
-				    <g>
-				      <circle cx="-40" cy="40" r="68" class="llms-animated-circle" transform="translate(50,50) rotate(-90)"  />
-				    </g>
-				    <g>
-				     <circle cx="40" cy="40" r="63" transform="translate(50,50)"  />
-				    </g>
-				  </svg>
-
-				  <div class="llms-progress-circle-count"><?php echo $graph_grade; ?>%</div>
-				</div>
-
-			<?php endif; ?>
-
-			<div class="llms-quiz-result-details">
-
-				<?php //if ($grade) : ?>
-				<ul>
-					<li>
-						<h4><?php printf( __( 'Your Score: %s', 'lifterlms' ), $grade ); ?>%</h4>
-						<h5 class="llms-content-block">
-							<?php
-							if ( $is_passing_score ) {
-								echo apply_filters( 'lifterlms_quiz_passed_text', __( 'Passed', 'lifterlms' ) );
-							} else {
-								echo apply_filters( 'lifterlms_quiz_failed_text', __( 'Failed', 'lifterlms' ) );
-							}
-							?>
-						</h5>
-						<h6><?php printf( __( '%1$d / %2$d correct answers', 'lifterlms' ), $quiz->get_correct_answers_count( $user_id ), $quiz->get_question_count() ); ?></h6>
-						<h6><?php printf( __( 'Date: <span class="llms_content_block">%s</span>', 'lifterlms' ), $start_date ); ?></h6>
-						<h6><?php printf( __( 'Total time: %s', 'lifterlms' ), $time ); ?></h6>
-
-						<?php if ( $quiz->show_quiz_results() ) { ?>
-							<a class="view-summary"><?php _e( 'View Summary', 'lifterlms' ); ?></a>
-						<?php } ?>
-
-					</li>
-					</li>
-				</ul>
-				<?php //endif; ?>
-
-				<?php //if ($best_grade ) ) : ?>
-				<ul>
-					<li>
-						<h4><?php printf( __( 'Best Score: %1$d%', 'lifterlms' ), $best_grade ); ?>%</h4>
-						<h5>
-							<?php
-							if ( $best_passing ) {
-								echo apply_filters( 'lifterlms_quiz_passed_text', __( 'Passed', 'lifterlms' ) );
-							} else {
-								echo apply_filters( 'lifterlms_quiz_failed_text', __( 'Failed', 'lifterlms' ) );
-							}
-							?>
-						</h5>
-						<h6><?php printf( __( '%1$d / %1$d correct answers', 'lifterlms' ), $quiz->get_correct_answers_count( $user_id, $best ), $quiz->get_question_count() ); ?></h6>
-						<h6><?php printf( __( 'Date: <span class="llms_content_block">%s</span>', 'lifterlms' ), $start_date ); ?></h6>
-						<h6><?php printf( __( 'Total time: %s', 'lifterlms' ), $best_time ); ?></h6>
-					</li>
-				</ul>
-				<?php //endif; ?>
-
-			</div>
-
-		</div>
-	</div>
-<?php }// End if().
-	?>
+</div>

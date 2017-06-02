@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Single Quiz: Timer
+ * @since    1.0.0
+ * @version  [version]
+ */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $quiz;
 

@@ -1,7 +1,8 @@
 <?php
 /**
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * Single Quiz: Single Choice Question
+ * @since    1.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

@@ -1,7 +1,8 @@
 <?php
 /**
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * Single Quiz: Single Choice Question AJAX
+ * @since    1.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -11,13 +12,9 @@ $quiz_obj = $quiz;
 
 $question = new LLMS_Question( $args['question_id'] );
 
-
 $options = $question->get_options();
 
 $question_key = isset( $quiz ) ? $quiz->get_question_key : 0;
-
-$quiz_session = LLMS()->session->get( 'llms_quiz' );
-$quiz = $quiz_session;
 
 $answer = '';
 if ( ! empty( $quiz_session->questions ) ) {
@@ -54,7 +51,7 @@ if ( ! empty( $quiz_session->questions ) ) {
 			<input type="radio" name="llms_option_selected" id="question-answer" value="<?php echo $key; ?>" <?php echo $checked; ?>/>
 			<input type="hidden" name="question_type" id="question-type" value="single_choice" />
 			<input type="hidden" name="question_id" id="question-id" value="<?php echo $question->id ?>" />
-			<input type="hidden" name="quiz_id" id="quiz-id" value="<?php echo $quiz->id ?>" />
+			<input type="hidden" name="quiz_id" id="quiz-id" value="<?php echo $quiz->get_id() ?>" />
 			<?php echo wp_kses_post( $option ); ?>
 		</label>
 	</div>

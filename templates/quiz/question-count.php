@@ -1,7 +1,8 @@
 <?php
 /**
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * Single Quiz: Question Count
+ * @since    1.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -34,11 +35,3 @@ if ( ! empty( $quiz ) ) {
 }
 ?>
 </p>
-<?php
-
-
-
-
-
-
-

@@ -1,43 +1,24 @@
 <?php
 /**
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * Single Quiz: Return to Lesson Link
+ * @since    1.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+global $llms_quiz_attempt, $quiz, $post;
 
-global $quiz;
-
-if ( ! $quiz ) {
-
+if ( $llms_quiz_attempt ) {
+	$lesson = $llms_quiz_attempt->get( 'lesson_id' );
+} elseif ( ! $quiz ) {
 	$quiz = new LLMS_Quiz( $post->ID );
-
-}
-
-$user_id = get_current_user_id();
-$quiz_session = LLMS()->session->get( 'llms_quiz' );
-
-
-$lesson = $quiz->get_assoc_lesson( $user_id );
-
-if ( ! $lesson ) {
-	$quiz_session = LLMS()->session->get( 'llms_quiz' );
-	$lesson = $quiz_session->assoc_lesson;
-	$lesson_link = get_permalink( $lesson );
+	$lesson = $quiz->get_assoc_lesson( get_current_user_id() );
 } else {
-	$lesson_link = get_permalink( $lesson );
+	return;
 }
-
-if ( $lesson ) {
-
-}
-
-if ( ! empty( $lesson ) ) :
 ?>
 
 <div class="clear"></div>
 <div class="llms-return">
-	<?php printf( __( '<a href="%s">Return to Lesson</a>', 'lifterlms' ), $lesson_link );?>
+	<a href="<?php echo esc_url( get_permalink( $lesson ) ); ?>"><?php _e( 'Return to Lesson', 'lifterlms' ); ?></a>
 </div>
-
-<?php endif; ?>
