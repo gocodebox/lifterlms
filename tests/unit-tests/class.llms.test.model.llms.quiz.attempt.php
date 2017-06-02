@@ -6,6 +6,12 @@
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
+	/**
+	 * test get status function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_get_status() {
 
 		$uid = $this->factory->user->create();
@@ -34,6 +40,12 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * test get key function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_get_key() {
 
 		$uid = $this->factory->user->create();
@@ -52,6 +64,12 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * test get student function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_get_student() {
 
 		$uid = $this->factory->user->create();
@@ -68,6 +86,12 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * test getters and setters and save method
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_getters_setters_and_save() {
 
 		$uid = $this->factory->user->create();
@@ -108,6 +132,12 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * test static init function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_init() {
 
 		$uid = $this->factory->user->create();
@@ -148,6 +178,12 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * test quiz start
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_start() {
 
 		$uid = $this->factory->user->create();
@@ -165,7 +201,12 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	}
 
-
+	/**
+	 * take a whole quiz
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_take_a_quiz() {
 
 		$uid = $this->factory->user->create();
