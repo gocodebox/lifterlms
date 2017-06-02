@@ -521,19 +521,20 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
  * @return   bool|int          if the post is not restricted returns false
  *                             if the post is restricted, returns the quiz id
  * @since    3.1.6
- * @version  3.1.6
+ * @version  [version]
  */
 function llms_is_quiz_accessible( $post_id, $user_id = null ) {
 
-	$quiz = new LLMS_Quiz( $post_id );
-	$lesson_id = $quiz->get_assoc_lesson( $user_id );
+	$lesson_id = false;
 
-	// if we don't have a lesson id, try to retrieve it from the session
-	if ( ! $lesson_id ) {
-		$quiz = LLMS()->session->get( 'llms_quiz' );
-		if ( $quiz ) {
-			$lesson_id = $quiz->assoc_lesson;
+	if ( isset( $_GET['attempt_key'] ) ) {
+
+		$student = llms_get_student( $user_id );
+		$attempt = $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] );
+		if ( $attempt ) {
+			$lesson_id = $attempt->get( 'lesson_id' );
 		}
+
 	}
 
 	// no lesson or the user is not enrolled
