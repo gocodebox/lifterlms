@@ -31,6 +31,7 @@ v3.9.0 - 2017/06/02
 
 + Updated
   + [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
+  + [content-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/content-certificate.php)
   + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
   + [quiz/next-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/next-question.php)
   + [quiz/previous-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/previous-question.php)
@@ -51,6 +52,7 @@ v3.9.0 - 2017/06/02
 
 ### Fixes
 
++ Certificate previewing now takes into consideration the preview setting roles to allow admins (or other roles) to preview certificates
 + Made student name self fallback (you) i18n friendly
 
 

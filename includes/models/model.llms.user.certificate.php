@@ -2,7 +2,7 @@
 /**
  * LifterLMS User Certificate
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -35,11 +35,11 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 * Retrieve the user id of the user who earned the certificate
 	 * @return   int
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.9.0
 	 */
 	public function get_user_id() {
 		$meta = $this->get_user_postmeta();
-		return $meta->user_id;
+		return isset( $meta->user_id ) ? $meta->user_id : null;
 	}
 
 	/**
