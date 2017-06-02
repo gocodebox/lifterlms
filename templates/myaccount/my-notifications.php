@@ -2,7 +2,7 @@
 /**
  * Notifications Center
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.9.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 $sep = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;' );
@@ -20,13 +20,17 @@ $sep = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;'
 
 	<?php if ( isset( $notifications ) ) : ?>
 
-		<ol class="llms-notification-list">
-		<?php foreach ( $notifications as $noti ) : ?>
-			<li class="llms-notification-list-item">
-				<?php echo $noti->get_html(); ?>
-			</li>
-		<?php endforeach; ?>
-		</ol>
+		<?php if ( ! $notifications ) : ?>
+			<p><?php _e( 'You have no notifications.', 'lifterlms' ); ?></p>
+		<?php else : ?>
+			<ol class="llms-notification-list">
+			<?php foreach ( $notifications as $noti ) : ?>
+				<li class="llms-notification-list-item">
+					<?php echo $noti->get_html(); ?>
+				</li>
+			<?php endforeach; ?>
+			</ol>
+		<?php endif; ?>
 
 		<footer class="llms-sd-pagination llms-my-notifications-pagination">
 			<?php if ( $pagination['prev'] ) : ?>
