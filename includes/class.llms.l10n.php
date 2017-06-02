@@ -84,7 +84,7 @@ class LLMS_L10n {
 			'An unknown error occurred. Please try again.' => __( 'An unknown error occurred. Please try again.', 'lifterlms' ),
 			'Hide Summary' => __( 'Hide Summary', 'lifterlms' ),
 			'Loading...' => __( 'Loading...', 'lifterlms' ),
- 			'Loading Question...' => __( 'Loading Question...', 'lifterlms' ),
+				'Loading Question...' => __( 'Loading Question...', 'lifterlms' ),
 			'Loading Quiz...' => __( 'Loading Quiz...', 'lifterlms' ),
 			'Loading Quiz Results...' => __( 'Loading Quiz Results...', 'lifterlms' ),
 			'View Summary' => __( 'View Summary', 'lifterlms' ),

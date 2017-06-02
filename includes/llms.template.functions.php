@@ -814,7 +814,6 @@ function llms_setup_quiz_data( $post ) {
 			if ( isset( $_GET['attempt_key'] ) && $student ) {
 				$GLOBALS['llms_quiz_attempt'] = $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] );
 			}
-
 		}
 	}
 

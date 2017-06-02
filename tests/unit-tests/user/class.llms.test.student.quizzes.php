@@ -32,7 +32,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 
 	/**
 	 * test delet_attempt method
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.9.0
 	 * @version  3.9.0
 	 */
@@ -56,7 +56,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_all
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.9.0
 	 * @version  3.9.0
 	 */
@@ -86,7 +86,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_attempt() method
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.9.0
 	 * @version  3.9.0
 	 */
@@ -100,7 +100,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 			$id = rand( 0, count( $attempts ) - 1 );
 			$attempt = $attempts[ $id ];
 			$got = $student->quizzes()->get_attempt( $attempt['id'], $attempt['assoc_lesson'], $attempt['attempt'] );
-			$this->assertEquals( $attempt, $got->toArray() );
+			$this->assertEquals( $attempt, $got->to_array() );
 
 			$i++;
 
@@ -122,7 +122,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_last_attempt method
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.9.0
 	 * @version  3.9.0
 	 */
@@ -144,7 +144,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 
 	/**
 	 * test the save_attempt() method
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.9.0
 	 * @version  3.9.0
 	 */
@@ -165,7 +165,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 			$this->assertTrue( $this->in_array( $attempt, $student->quizzes()->get_all() ) );
 
 			// create a new attempt
-			$last = $student->quizzes()->get_last_attempt( $attempt['id'], $attempt['assoc_lesson'] )->toArray();
+			$last = $student->quizzes()->get_last_attempt( $attempt['id'], $attempt['assoc_lesson'] )->to_array();
 			$last['attempt']++;
 
 			$total_attempts = count( $student->quizzes()->get_all() ) + 1;

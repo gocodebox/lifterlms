@@ -534,7 +534,6 @@ function llms_is_quiz_accessible( $post_id, $user_id = null ) {
 		if ( $attempt ) {
 			$lesson_id = $attempt->get( 'lesson_id' );
 		}
-
 	}
 
 	// no lesson or the user is not enrolled

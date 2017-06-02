@@ -75,7 +75,7 @@ class LLMS_Quiz_Attempt {
 		$quiz = $this->get_quiz();
 
 		if ( 0 === $points ) {
- 			$grade = 0;
+				$grade = 0;
 		} else {
 			$grade = $quiz->get_grade( $points );
 		}
@@ -122,7 +122,6 @@ class LLMS_Quiz_Attempt {
 					llms_mark_complete( $this->get( 'user_id' ), $this->get( 'lesson_id' ), 'lesson', 'quiz_' . $this->get( 'quiz_id' ) );
 				}
 			}
-
 		}
 
 		// clear "cached" grade so it's recalced next time it's requested
@@ -234,7 +233,9 @@ class LLMS_Quiz_Attempt {
 	 */
 	public function get_key() {
 		return base64_encode( implode( '|', array(
-			$this->get( 'quiz_id' ), $this->get( 'lesson_id' ), $this->get( 'attempt' ),
+			$this->get( 'quiz_id' ),
+			$this->get( 'lesson_id' ),
+			$this->get( 'attempt' ),
 		) ) );
 	}
 
@@ -329,7 +330,7 @@ class LLMS_Quiz_Attempt {
 	 */
 	public function get_status() {
 
-		$start = $this->get( 'start_date');
+		$start = $this->get( 'start_date' );
 		$end = $this->get( 'end_date' );
 
 		// quiz has been initialized but hasn't been started yet
@@ -441,7 +442,7 @@ class LLMS_Quiz_Attempt {
 	 * @version  3.9.0
 	 */
 	public function save() {
-		$this->get_student()->quizzes()->save_attempt( $this->toArray() );
+		$this->get_student()->quizzes()->save_attempt( $this->to_array() );
 		return $this;
 
 	}
@@ -479,7 +480,7 @@ class LLMS_Quiz_Attempt {
 	 * @since    3.9.0
 	 * @version  3.9.0
 	 */
-	public function toArray() {
+	public function to_array() {
 		return $this->data;
 	}
 

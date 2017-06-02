@@ -26,7 +26,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 		$id = $this->get_attempt_index( $quiz_id, $lesson_id, $attempt );
 
-		if ( false !== $id )  {
+		if ( false !== $id ) {
 			unset( $quizzes[ $id ] );
 		}
 

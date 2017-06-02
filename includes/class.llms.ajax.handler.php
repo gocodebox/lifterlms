@@ -464,7 +464,7 @@ class LLMS_AJAX_Handler {
 				return $err;
 			}
 
-			if ( ! isset( $request[ 'quiz_id' ] ) ) {
+			if ( ! isset( $request['quiz_id'] ) ) {
 				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
 				return $err;
 			}
