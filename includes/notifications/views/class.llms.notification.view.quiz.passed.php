@@ -2,7 +2,7 @@
 /**
  * Notification View: Quiz Passed
  * @since    3.8.0
- * @version  3.8.2
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -89,36 +89,35 @@ class LLMS_Notification_View_Quiz_Passed extends LLMS_Abstract_Notification_View
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.2
+	 * @version  [version]
 	 */
 	protected function set_merge_data( $code ) {
 
 		$quiz = new LLMS_Quiz( $this->notification->get( 'post_id' ) );
+		$attempt = $this->user->quizzes()->get_last_completed_attempt( $this->notification->get( 'post_id' ) );
+		$lesson = llms_get_post( $attempt->get( 'lesson_id' ) );
 
 		switch ( $code ) {
 
 			case '{{COURSE_TITLE}}':
-				$course = $quiz->get_course( $this->user->get_id() );
+				$course = $lesson->get_course();
 				$code = $course->get( 'title' );
 			break;
 
 			case '{{GRADE}}':
-				$last_attempt = $quiz->get_users_last_attempt( $this->user );
-				$code = round( $last_attempt['grade'], 2 ) . '%';
+				$code = round( $attempt->get( 'grade' ), 2 ) . '%';
 			break;
 
 			case '{{GRADE_BAR}}':
-				$last_attempt = $quiz->get_users_last_attempt( $this->user );
-				$code = lifterlms_course_progress_bar( $last_attempt['grade'], false, false, false );
+				$code = lifterlms_course_progress_bar( $attempt->get( 'grade' ), false, false, false );
 			break;
 
 			case '{{LESSON_TITLE}}':
-				$lesson = llms_get_post( $quiz->get_assoc_lesson( $this->user->get_id() ) );
 				$code = $lesson->get( 'title' );
 			break;
 
 			case '{{QUIZ_TITLE}}':
-				$code = get_the_title( $quiz->id );
+				$code = get_the_title( $quiz->get_id() );
 			break;
 
 			case '{{STUDENT_NAME}}':
