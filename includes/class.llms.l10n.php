@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.9.0
+ * @version 3.9.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.9.0
+	 * @version 3.9.1
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -66,8 +66,10 @@ class LLMS_L10n {
 
 			/**
 			 * file: _private/js/app/llms-pricing-tables.js
+			 * @since    3.0.0
+			 * @version  3.9.1
 			 */
-			'This plan is for members only. Click the links above to learn more.' => __( 'This plan is for members only. Click the links above to learn more.', 'lifterlms' ),
+			'Members Only Pricing' => __( 'Members Only Pricing', 'lifterlms' ),
 
 			/**
 			 * file: _private/js/app/llms-syllabus.js

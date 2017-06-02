@@ -36,3 +36,28 @@
 	}
 
 }
+
+
+
+.webui-popover-title {
+	font-size: initial;
+	font-weight: initial;
+	line-height: initial;
+}
+.webui-popover-inverse {
+	.webui-popover-inner .close {
+		color: #fff;
+		opacity: 0.6;
+		text-shadow: none;
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+	.webui-popover-content a {
+		color: #fff;
+		text-decoration: underline;
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}

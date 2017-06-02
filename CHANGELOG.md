@@ -5,6 +5,7 @@ v3.9.1 - 2017/06/02
 
 + Fix engagement triggers with relation to quizzes to properly recieve 3.9 api updates
 + Fix quiz attempt counting issue resulting in the total attempts by a student always being one more than the actual value
++ Fix membership access plan restrictions tooltip
 
 
 v3.9.0 - 2017/06/02

@@ -1212,6 +1212,28 @@ svg .llms-animated-circle {
   width: 0;
 }
 
+.webui-popover-title {
+  font-size: initial;
+  font-weight: initial;
+  line-height: initial;
+}
+
+.webui-popover-inverse .webui-popover-inner .close {
+  color: #fff;
+  opacity: 0.6;
+  text-shadow: none;
+}
+.webui-popover-inverse .webui-popover-inner .close:hover {
+  opacity: 0.8;
+}
+.webui-popover-inverse .webui-popover-content a {
+  color: #fff;
+  text-decoration: underline;
+}
+.webui-popover-inverse .webui-popover-content a:hover {
+  text-decoration: none;
+}
+
 .single-llms_quiz .llms-return {
   margin-bottom: 10px;
 }
@@ -1743,6 +1765,9 @@ svg .llms-animated-circle {
   padding: 2px 3px;
   vertical-align: top;
 }
+.llms-access-plan .llms-access-plan-restrictions ul {
+  margin: 0;
+}
 
 .llms-access-plan-featured {
   color: #fff;
@@ -1834,15 +1859,29 @@ svg .llms-animated-circle {
   padding: 10px;
   margin: 0 2px 2px 2px;
 }
-.llms-access-plan-footer .llms-button-action {
-  position: relative;
-}
-.llms-access-plan-footer .llms-button-action .llms-tooltip {
-  min-width: 280px;
-  z-index: 1;
-}
 .llms-access-plan-footer .llms-access-plan-pricing {
   padding: 0 0 10px;
+}
+
+.webui-popover-content .llms-members-only-restrictions {
+  text-align: center;
+}
+.webui-popover-content .llms-members-only-restrictions ul, .webui-popover-content .llms-members-only-restrictions ol, .webui-popover-content .llms-members-only-restrictions li, .webui-popover-content .llms-members-only-restrictions p {
+  margin: 0;
+  padding: 0;
+}
+.webui-popover-content .llms-members-only-restrictions ul, .webui-popover-content .llms-members-only-restrictions ol, .webui-popover-content .llms-members-only-restrictions li {
+  list-style-type: none;
+}
+.webui-popover-content .llms-members-only-restrictions li {
+  padding: 8px 0;
+  border-top: 1px solid #3b3b3b;
+}
+.webui-popover-content .llms-members-only-restrictions li:first-child {
+  border-top: none;
+}
+.webui-popover-content .llms-members-only-restrictions li a {
+  display: block;
 }
 
 .llms-checkout-wrapper form.llms-login {

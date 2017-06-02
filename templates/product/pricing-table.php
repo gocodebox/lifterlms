@@ -102,7 +102,7 @@ $free_only = ( $has_free && ! $purchaseable );
 						<?php llms_get_template( 'product/free-enroll-form.php', array(
 							'plan' => $plan,
 						) ); ?>
-					<?php else : ?>
+					<?php else : $plan->get_checkout_url(); ?>
 						<a class="llms-button-action button" href="<?php echo $plan->get_checkout_url(); ?>"><?php echo $plan->get_enroll_text(); ?></a>
 					<?php endif; ?>
 
