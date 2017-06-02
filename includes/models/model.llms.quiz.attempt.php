@@ -1,8 +1,8 @@
 <?php
 /**
  * Quiz Attempt Model
- * @since   [version]
- * @version [version]
+ * @since   3.9.0
+ * @version 3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,8 +14,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Constructor
 	 * @param    array      $data  raw array of quiz data
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function __construct( $data = array() ) {
 
@@ -34,8 +34,8 @@ class LLMS_Quiz_Attempt {
 	 * @param    int     $answer       index/key of the selected answer option
 	 *                                 as found in the array of options retrieved by LLMS_Question->get_options()
 	 * @return   $this
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function answer_question( $question_id, $answer ) {
 
@@ -59,8 +59,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Calculate and the grade for a completed quiz
 	 * @return   $this      for chaining
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	private function calculate_grade() {
 
@@ -92,8 +92,8 @@ class LLMS_Quiz_Attempt {
 	 * Sets end date, unsets the quiz as the current quiz, and records a grade
 	 * @param    boolean   $silent   if true, will not trigger actions or mark related lesson as complete
 	 * @return   $this
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function end( $silent = false ) {
 
@@ -136,8 +136,8 @@ class LLMS_Quiz_Attempt {
 	 * Get the value of a field
 	 * @param    string     $key  name of the field
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get( $key ) {
 		$key = $this->get_field_alias( $key );
@@ -151,8 +151,8 @@ class LLMS_Quiz_Attempt {
 	 * Retrieve a count for various pieces of information related to the attempt
 	 * @param    string     $key  data to count
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_count( $key ) {
 
@@ -177,8 +177,8 @@ class LLMS_Quiz_Attempt {
 	 * @param    string     $key     start or end
 	 * @param    string     $format  output date format (PHP), uses wordpress format options if none provided
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_date( $key, $format = null ) {
 
@@ -193,8 +193,8 @@ class LLMS_Quiz_Attempt {
 	 * Futurproofing for more consistent data structures
 	 * @param    string     $key  key name
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	private function get_field_alias( $key ) {
 		$aliases = array(
@@ -211,8 +211,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Retrieve the first question for the attempt
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_first_question() {
 
@@ -229,8 +229,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Get an encoded attempt key that can be passed in URLs and the like
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_key() {
 		return base64_encode( implode( '|', array(
@@ -241,8 +241,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Retrieve a blank array of default data for a new quiz attempt
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	private function get_new_data() {
 
@@ -266,8 +266,8 @@ class LLMS_Quiz_Attempt {
 	 * Retrieve an array of blank questions for insertion into a new attempt during initialization
 	 * @param    int     $quiz_id  WP Post ID of the quiz
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	private function get_new_questions( $quiz_id ) {
 		$qquiz = new LLMS_QQuiz( $quiz_id );
@@ -286,8 +286,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Retrieve the next unanswered question in the attempt
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_next_question() {
 
@@ -304,8 +304,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Retrieve a permalink for the attempt
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_permalink() {
 		return add_query_arg( 'attempt_key', $this->get_key(), get_permalink( $this->get_quiz()->get_id() ) );
@@ -314,8 +314,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Get an instance of the LLMS_Quiz for the attempt
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_quiz() {
 		return llms_get_post( $this->get( 'quiz_id' ) );
@@ -324,8 +324,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Get the attempts status based on start and end dates
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_status() {
 
@@ -356,8 +356,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Get an LLMS_Student for the quiz
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_student() {
 		return llms_get_student( $this->get( 'student_id' ) );
@@ -367,8 +367,8 @@ class LLMS_Quiz_Attempt {
 	 * Get the time spent on the quiz from start to end
 	 * @param    integer    $precision  precision passed to llms_get_date_diff
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_time( $precision = 2 ) {
 		return llms_get_date_diff( $this->get_date( 'start', 'U' ), $this->get_date( 'end', 'U' ), $precision );
@@ -382,8 +382,8 @@ class LLMS_Quiz_Attempt {
 	 * @param    int       $lesson_id  WP Post ID of the lesson
 	 * @param    mixed     $student    accepts anything that can be passed to llms_get_student
 	 * @return   obj                   $this (for chaining)
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public static function init( $quiz_id, $lesson_id, $student = null ) {
 
@@ -419,8 +419,8 @@ class LLMS_Quiz_Attempt {
 	 * Translate attempt related strings
 	 * @param    string     $key  key to translate
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function l10n( $key ) {
 
@@ -437,8 +437,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Save the current state of the attempt to the database
 	 * @return   obj          $this for chaining
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function save() {
 		$this->get_student()->quizzes()->save_attempt( $this->toArray() );
@@ -451,8 +451,8 @@ class LLMS_Quiz_Attempt {
 	 * @param    string     $key   field key
 	 * @param    mixed      $val   field value
 	 * @return   obj               $this for chaining
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function set( $key, $val ) {
 		$this->data[ $this->get_field_alias( $key ) ] = $val;
@@ -462,8 +462,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Record the attempt as started
 	 * @return   obj             $this for chaining
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function start() {
 
@@ -476,8 +476,8 @@ class LLMS_Quiz_Attempt {
 	/**
 	 * Retrieve the private data array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function toArray() {
 		return $this->data;

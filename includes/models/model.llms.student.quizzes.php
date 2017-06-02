@@ -3,8 +3,8 @@
  * Student Quiz Data
  * Rather than instatiating this class directly
  * use LLMS_Student->quizzes()
- * @since   [version]
- * @version [version]
+ * @since   3.9.0
+ * @version 3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -17,8 +17,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    int     $lesson_id  WP Post ID of a lesson
 	 * @param    int     $attempt    attempt number
 	 * @return   array               updated array quiz data for the student
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function delete_attempt( $quiz_id, $lesson_id, $attempt ) {
 
@@ -46,8 +46,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    int     $quiz    WP Post ID of a Quiz
 	 * @param    int     $lesson  WP Post ID of a lesson
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_all( $quiz = null, $lesson = null ) {
 
@@ -87,8 +87,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    int     $lesson_id  WP Post ID of a lesson
 	 * @param    int     $attempt    attempt number
 	 * @return   false|obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_attempt( $quiz, $lesson, $attempt ) {
 
@@ -106,8 +106,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Decodes an attempt string and returns the associated attempt
 	 * @param    string     $attempt_key  encoded attempt key
 	 * @return   obj|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_attempt_by_key( $attempt_key ) {
 
@@ -123,8 +123,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Get all the attempts for a given quiz/lesson from an attempt key
 	 * @param    string     $attempt_key  an encoded attempt key
 	 * @return   false|array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_sibling_attempts_by_key( $attempt_key ) {
 
@@ -143,8 +143,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    int     $lesson_id  WP Post ID of a lesson
 	 * @param    int     $attempt    attempt number
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	private function get_attempt_index( $quiz, $lesson, $attempt ) {
 
@@ -166,8 +166,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    int     $quiz_id    WP Post ID of a Quiz
 	 * @param    int     $lesson_id  WP Post ID of a lesson
 	 * @return   false|array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_best_attempt( $quiz = null, $lesson = null ) {
 
@@ -197,8 +197,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Replaces quiz data stored in the session
 	 * @param    int        $quiz    WP_Post ID of the quiz to retrieve the current attempt for
 	 * @return   false|obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_current_attempt( $quiz ) {
 
@@ -218,8 +218,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    int     $quiz    WP Post ID of the quiz
 	 * @param    int     $lesson  WP Post ID of the lesson
 	 * @return   obj|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_last_attempt( $quiz, $lesson ) {
 
@@ -240,8 +240,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    int     $quiz    WP Post ID of a Quiz
 	 * @param    int     $lesson  WP Post ID of a Lesson
 	 * @return   false|obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_last_completed_attempt( $quiz = null, $lesson = null ) {
 		$attempts = $this->get_all( $quiz, $lesson );
@@ -261,8 +261,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Parse an attempt key into it's parts
 	 * @param    string     $attempt_key  an encoded attempt key
 	 * @return   array|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	private function parse_attempt_key( $attempt_key ) {
 
@@ -285,8 +285,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * If updating a single attempt the data MUST be merged back into the raw data array otherwise data will be lost
 	 * @param    array     $quizzes   quiz data array
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	private function save( $quizzes ) {
 		return apply_filters( 'llms_student_quizzes_save', $this->set( 'quiz_data', $quizzes ), $this );
@@ -299,8 +299,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * if the attempt is new it will be appended to the list of quizzes
 	 * @param    array     $attempt_data   raw attempt data array
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function save_attempt( $attempt_data ) {
 		$quizzes = $this->get_all();

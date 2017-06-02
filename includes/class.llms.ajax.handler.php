@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.9.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -14,7 +14,7 @@ class LLMS_AJAX_Handler {
 	 * @param    array     $request  array of request data
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	public static function bulk_enroll_membership_into_course( $request ) {
 
@@ -106,7 +106,7 @@ class LLMS_AJAX_Handler {
 	 * Delete a student's quiz attempt
 	 * Called from student quiz reporting screen
 	 * @since    3.4.4
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	public static function delete_quiz_attempt( $request ) {
 
@@ -342,8 +342,8 @@ class LLMS_AJAX_Handler {
 	 *                               	(int) lesson_id
 	 *
 	 * @return   obj|array           WP_Error on error or array containing html template of the first question
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public static function quiz_start( $request ) {
 
@@ -394,8 +394,8 @@ class LLMS_AJAX_Handler {
 	 * [quiz_answer_question description]
 	 * @param    [type]     $request  [description]
 	 * @return   [type]               [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public static function quiz_answer_question( $request ) {
 

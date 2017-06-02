@@ -2,8 +2,8 @@
 /**
  * Quiz related con
  *
- * @since   [version]
- * @version [version]
+ * @since   3.9.0
+ * @version 3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -20,7 +20,7 @@ class LLMS_Controller_Quizzes {
 	 * Handle form submission of the "take quiz" button attached to lessons with quizzes
 	 * @return  void
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.9.0
 	 */
 	public function take_quiz() {
 

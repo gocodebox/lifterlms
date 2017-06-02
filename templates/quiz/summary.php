@@ -2,7 +2,7 @@
 /**
  * Single Quiz: Summary accordion
  * @since    1.0.0
- * @version  [version]
+ * @version  3.9.0
  */
 
 $student = llms_get_student();

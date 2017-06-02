@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version [version]
+ * @version 3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,8 +15,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve an instance of the student quiz data model
 	 * @return   LLMS_Student_Quizzes
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function quizzes() {
 		return new LLMS_Student_Quizzes( $this->get_id() );
@@ -1532,7 +1532,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    int     $attempt    optional attempt number, if ommitted all attempts for quiz & lesson will be deleted
 	 * @return   array               updated array quiz data for the student
 	 * @since    3.4.4
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	public function delete_quiz_attempt( $quiz_id, $lesson_id, $attempt = null ) {
 		llms_deprecated_function( 'LLMS_Student->delete_quiz_attempt()', '[version]', 'LLMS_Student->quizzes()->delete_attempt()' );
@@ -1544,8 +1544,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    int     $quiz_id    WP Post ID of a Quiz
 	 * @param    int     $lesson_id  WP Post ID of a lesson
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_best_quiz_attempt( $quiz = null, $lesson = null ) {
 		llms_deprecated_function( 'LLMS_Student->get_best_quiz_attempt()', '[version]', 'LLMS_Student->quizzes()->get_best_attempt()' );
@@ -1558,7 +1558,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    int     $lesson  WP Post ID of a lesson
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	public function get_quiz_data( $quiz = null, $lesson = null ) {
 		llms_deprecated_function( 'LLMS_Student->get_quiz_data()', '[version]', 'LLMS_Student->quizzes()->get_all()' );

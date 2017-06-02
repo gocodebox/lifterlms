@@ -5,8 +5,8 @@
  * Create a Donut Chart
  * @source   https://gist.github.com/joeyinbox/8205962
  * @param    obj   $el  jQuery element to draw a chart within
- * @since    [version]
- * @version  [version]
+ * @since    3.9.0
+ * @version  3.9.0
  */
 LLMS.Donut = function( $el ) {
 

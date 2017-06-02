@@ -22,7 +22,7 @@ class LLMS_Table_Questions extends LLMS_Admin_Table {
 	 * @param    mixed      $data  object of achievment data
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	public function get_data( $key, $data ) {
 

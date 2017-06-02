@@ -57,7 +57,7 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
  * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be uesd
  * @return   boolean
  * @since    3.7.0
- * @version  [version]
+ * @version  3.9.0
  */
 function llms_can_user_bypass_restrictions( $user = null ) {
 
@@ -158,7 +158,7 @@ function llms_get_minimum_password_strength_name() {
  * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any student class extending this class
  * @return   obj|false        LLMS_Student instance on success, false if user not found
  * @since    3.8.0
- * @version  [version]
+ * @version  3.9.0
  */
 function llms_get_student( $user = null ) {
 	$student = new LLMS_Student( $user );

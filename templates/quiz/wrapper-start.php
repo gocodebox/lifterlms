@@ -1,7 +1,7 @@
 <?php
 /**
  * Single Quiz: Wrapper Start
- * @version  [version]
+ * @version  3.9.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $question;

@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  [version]
+ * @version  3.9.0
  */
 LLMS.Quiz = {
 
@@ -32,7 +32,7 @@ LLMS.Quiz = {
 	 * init
 	 * loads class methods
 	 * @since    1.0.0
- 	 * @version  [version]
+ 	 * @version  3.9.0
 	 */
 	init: function() {
 
@@ -49,7 +49,7 @@ LLMS.Quiz = {
 	 * Bind DOM events
 	 * @return void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	bind: function() {
 
@@ -110,7 +110,7 @@ LLMS.Quiz = {
 	 * Answer a Question
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	answer_question: function() {
 
@@ -174,7 +174,7 @@ LLMS.Quiz = {
 	 * & during unload events to record the attempt as abandoned
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	complete_quiz: function() {
 
@@ -219,8 +219,8 @@ LLMS.Quiz = {
 	 * Redirect on quiz comlpetion / timeout
 	 * @param    string   url  redirect url
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	redirect: function( url ) {
 
@@ -235,7 +235,7 @@ LLMS.Quiz = {
 	 * Return to the previous question
 	 * @return   void
 	 * @since    1.0.0
- 	 * @version  [version]
+ 	 * @version  3.9.0
 	 */
 	previous_question: function() {
 
@@ -254,7 +254,7 @@ LLMS.Quiz = {
 	 * Start a Quiz via AJAX call
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	start_quiz: function () {
 
@@ -377,8 +377,8 @@ LLMS.Quiz = {
 	 * Load the HTML of a question into the DOM and the question cache
 	 * @param    string   html  string of html
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	load_question: function( html ) {
 
@@ -401,8 +401,8 @@ LLMS.Quiz = {
 	 * @param    string   display  show|hide
 	 * @param    string   msg      text to display when showing
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	toggle_loader: function( display, msg ) {
 

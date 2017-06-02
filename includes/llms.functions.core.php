@@ -239,8 +239,8 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * @param    string     $size        size of the chart (small, default, large)
  * @param    array      $classes     additional custom css classes to add to the chart element
  * @return   string
- * @since    [version]
- * @version  [version]
+ * @since    3.9.0
+ * @version  3.9.0
  */
 function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = array() ) {
 	$classes = array_merge( array( 'llms-donut', $size ), $classes );

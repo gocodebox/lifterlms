@@ -1,16 +1,16 @@
 <?php
 /**
  * Tests for the LLMS_Install Class
- * @since    [version]
- * @version  [version]
+ * @since    3.9.0
+ * @version  3.9.0
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	/**
 	 * test get status function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_get_status() {
 
@@ -43,8 +43,8 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * test get key function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_get_key() {
 
@@ -67,8 +67,8 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * test get student function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_get_student() {
 
@@ -89,8 +89,8 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * test getters and setters and save method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_getters_setters_and_save() {
 
@@ -135,8 +135,8 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * test static init function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_init() {
 
@@ -181,8 +181,8 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * test quiz start
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_start() {
 
@@ -204,8 +204,8 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * take a whole quiz
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_take_a_quiz() {
 

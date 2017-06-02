@@ -1,16 +1,16 @@
 <?php
 /**
  * Tests for LLMS_Abstract_User_Data
- * @since    [version]
- * @version  [version]
+ * @since    3.9.0
+ * @version  3.9.0
  */
 class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * Test exists funciton
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function text_exists() {
 
@@ -27,8 +27,8 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 	/**
 	 * test get_id method
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_get_id() {
 
@@ -41,8 +41,8 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 	/**
 	 * test get_user method
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_get_user() {
 
@@ -55,8 +55,8 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test Student Getters and Setters
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_getters_setters() {
 

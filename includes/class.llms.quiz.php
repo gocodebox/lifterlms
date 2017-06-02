@@ -369,7 +369,7 @@ class LLMS_Quiz {
 	 * @param    int $user_id [ID of user]
 	 * @return   int [ID of associated lesson with quiz attempt]
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	public function get_assoc_lesson( $user_id ) {
 

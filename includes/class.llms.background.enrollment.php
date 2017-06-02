@@ -17,7 +17,7 @@ class LLMS_Background_Enrollment extends WP_Background_Process {
 	 * @param    array     $item  array of processing data
 	 * @return   boolean
 	 * @since    3.4.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	protected function task( $item ) {
 

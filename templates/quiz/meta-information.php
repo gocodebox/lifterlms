@@ -1,8 +1,8 @@
 <?php
 /**
  * Single Quiz: Meta Information
- * @since    [version]
- * @version  [version]
+ * @since    3.9.0
+ * @version  3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

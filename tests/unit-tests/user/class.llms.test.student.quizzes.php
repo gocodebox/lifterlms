@@ -1,8 +1,8 @@
 <?php
 /**
  * Tests for LifterLMS Student Functions
- * @since    [version]
- * @version  [version]
+ * @since    3.9.0
+ * @version  3.9.0
  */
 class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 
@@ -22,8 +22,8 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	 * @param    array     $part   array to look for
 	 * @param    array     $whole  array to look in
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	private function in_array( $part, $whole ) {
 		$pos = strpos( serialize( $whole ), serialize( $part ) );
@@ -33,8 +33,8 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * test delet_attempt method
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_delete_attempt() {
 
@@ -57,8 +57,8 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test get_all
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_get_all() {
 
@@ -87,8 +87,8 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test get_attempt() method
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_get_attempt() {
 
@@ -123,8 +123,8 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test get_last_attempt method
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_get_last_attempt() {
 
@@ -145,8 +145,8 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * test the save_attempt() method
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function test_save_attempt() {
 

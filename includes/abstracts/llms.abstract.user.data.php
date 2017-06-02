@@ -2,8 +2,8 @@
 /**
  * LifterLMS User Data Abstract
  *
- * @since   [version]
- * @version [version]
+ * @since   3.9.0
+ * @version 3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -35,7 +35,7 @@ abstract class LLMS_Abstract_User_Data {
 	 * @param    mixed     $user   WP_User ID, instance of WP_User, or instance of any student class extending this class
 	 * @return   void
 	 * @since    2.2.3
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	public function __construct( $user = null ) {
 
@@ -53,7 +53,7 @@ abstract class LLMS_Abstract_User_Data {
 	 * @param    string $key key of the property to get a value for
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	public function __get( $key ) {
 
@@ -86,8 +86,8 @@ abstract class LLMS_Abstract_User_Data {
 	/**
 	 * Determine if the user exists
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function exists() {
 		return ( $this->user && $this->user->exists() );
@@ -107,8 +107,8 @@ abstract class LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve the user id
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_id() {
 		return $this->id;
@@ -117,8 +117,8 @@ abstract class LLMS_Abstract_User_Data {
 	/**
 	 * Allow extending classes to access the main student class
 	 * @return   LLMS_Student|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	protected function get_student() {
 		return llms_get_student( $this->get_id() );
@@ -127,8 +127,8 @@ abstract class LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve the instance of the WP User for the student
 	 * @return   WP_User
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_user() {
 		return $this->user;
@@ -138,8 +138,8 @@ abstract class LLMS_Abstract_User_Data {
 	 * Retrieve the User ID based on object
 	 * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any student class extending this class
 	 * @return   mixed            int if a user id can be found, otherwise fale
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	protected function get_user_id( $user ) {
 

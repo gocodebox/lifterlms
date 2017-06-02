@@ -1,9 +1,57 @@
 == Changelog ==
 
-v3.8.2 - 2017/05/24
+v3.9.0 - 2017/06/02
 -------------------
 
-+ Make student name self fallback (you) i18n friendly
+### Quizzes
+
++ All new quiz results interface for students
+  + Donut charts are now animated
+  + Donuts will be green for passing attempt and red for failing
+  + Students can now review previous quiz attempts and summaries
+  + Removed the juxtaposition of the current and best attempts to reduce confusion on the interface
+  + Improved the consistency of the quiz meta information markup
+  + Adjusted various pieces of language for an improved student experience
++ Improvements to the quiz taking experience
+  + Added the LLMS_Spinner (seen on checkout screens and various places on the admin panel) and various loading messages when starting quiz, transitioning between questions, and completing a quiz
+  + Better error handling and management should issues arise during a quiz
+  + Better unload & beforeunload JS management to warn students when they attempt to leave a quiz in progress
++ Improved quiz data handling and management
+  + Improved API calls and handlers related to taking quizzes for increased performance and consistency
+  + quiz data can now be programattically queried via consistent apis and data classes, see `LLMS_Student->quizzes()` and `LLMS_Quiz_Attempt`
++ Quizzes no longer rely on session and cookie data. All quiz data will always be saved directly to the database and related to the student. Fixes an issue on certain servers preventing student from starting quizzes.
++ Deprecated `LLMS_Quiz::start_quiz()`, `LLMS_Quiz::answer_question()`, and, `LLMS_Quiz::complete_quiz()`
+  + Ajax handler functions of the same names should be used instead.
+  + To programmatically "take" quizzes use related functions of similar names from the `LLMS_Quiz_Attempt` class
+
+### Templates changed
+
++ New
+  + [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
+
++ Updated
+  + [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
+  + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
+  + [quiz/next-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/next-question.php)
+  + [quiz/previous-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/previous-question.php)
+  + [quiz/question-count.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/question-count.php)
+  + [quiz/quiz-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/quiz-question.php)
+  + [quiz/quiz-wrapper-end.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/quiz-wrapper-end.php)
+  + [quiz/quiz-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/quiz-wrapper-start.php)
+  + [quiz/results.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results.php)
+  + [quiz/return-to-lesson.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/return-to-lesson.php)
+  + [quiz/single-choice_ajax.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/single-choice_ajax.php)
+  + [quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/start-button.php)
+  + [quiz/summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/summary.php)
+
++ Removed
+  + quiz/attempts.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
+  + quiz/passing-percent.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
+  + quiz/time-limit.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
+
+### Fixes
+
++ Made student name self fallback (you) i18n friendly
 
 
 v3.8.1 - 2017/05/21

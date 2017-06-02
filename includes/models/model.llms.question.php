@@ -3,7 +3,7 @@
  * LifterLMS Quiz Question
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.9.0
  *
  * @property  $question_type  (string)  type of question
  */
@@ -22,7 +22,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Get the correct option for the question
 	 * @return   array|null
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.9.0
 	 */
 	public function get_correct_option() {
 		$options = $this->get_options();
@@ -36,8 +36,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Get the key of the correct option
 	 * @return   int|null
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.9.0
+	 * @version  3.9.0
 	 */
 	public function get_correct_option_key() {
 		$options = $this->get_options();
