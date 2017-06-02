@@ -1,11 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Engagments Class
-*
 * Finds and triggers the appropriate engagement
+* @since    2.3.0
+* @version  3.9.1
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Engagements {
 
 	/**
@@ -245,7 +247,7 @@ class LLMS_Engagements {
 	 * @return   void
 	 *
 	 * @since    2.3.0
-	 * @version  3.4.1
+	 * @version  3.9.1
 	 */
 	public function maybe_trigger_engagement() {
 
@@ -278,7 +280,7 @@ class LLMS_Engagements {
 			case 'lifterlms_quiz_passed':
 			case 'lifterlms_quiz_failed':
 				$user_id = absint( $args[0] );
-				$related_post_id = absint( $args[1]['id'] );
+				$related_post_id = absint( $args[1] );
 				$trigger_type = str_replace( 'lifterlms_', '', $action );
 			break;
 

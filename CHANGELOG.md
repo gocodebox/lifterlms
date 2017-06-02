@@ -1,9 +1,15 @@
 == Changelog ==
 
+v3.9.1 - 2017/06/02
+-------------------
+
++ Fix engagement triggers with relation to quizzes to properly recieve 3.9 api updates
+
+
 v3.9.0 - 2017/06/02
 -------------------
 
-### Quizzes
+##### Quizzes
 
 + All new quiz results interface for students
   + Donut charts are now animated
@@ -24,7 +30,7 @@ v3.9.0 - 2017/06/02
   + Ajax handler functions of the same names should be used instead.
   + To programmatically "take" quizzes use related functions of similar names from the `LLMS_Quiz_Attempt` class
 
-### Templates changed
+##### Templates changed
 
 + New
   + [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
@@ -51,7 +57,7 @@ v3.9.0 - 2017/06/02
   + quiz/passing-percent.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
   + quiz/time-limit.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
 
-### Fixes
+##### Fixes
 
 + Student Dasbhoard notifications page will not display pagination links unless there's results to page through
 + Student Dasbhoard notifications page will now display a message when no notifications are found
