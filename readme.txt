@@ -245,7 +245,9 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 + Updated
   + [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
+  + [content-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/content-certificate.php)
   + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
+  + [myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
   + [quiz/next-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/next-question.php)
   + [quiz/previous-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/previous-question.php)
   + [quiz/question-count.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/question-count.php)
@@ -265,6 +267,9 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 ### Fixes
 
++ Student Dasbhoard notifications page will not display pagination links unless there's results to page through
++ Student Dasbhoard notifications page will now display a message when no notifications are found
++ Certificate previewing now takes into consideration the preview setting roles to allow admins (or other roles) to preview certificates
 + Made student name self fallback (you) i18n friendly
 
 
