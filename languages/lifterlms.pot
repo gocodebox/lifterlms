@@ -38,11 +38,11 @@ msgstr ""
 msgid "First"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:498, templates/myaccount/my-courses.php:77, templates/myaccount/my-notifications.php:33, templates/myaccount/my-orders.php:55, templates/myaccount/view-order.php:190
+#: includes/abstracts/abstract.llms.admin.table.php:498, templates/myaccount/my-courses.php:77, templates/myaccount/my-notifications.php:37, templates/myaccount/my-orders.php:55, templates/myaccount/view-order.php:190
 msgid "Back"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:286, includes/class.llms.shortcodes.php:480, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:84, templates/myaccount/my-notifications.php:37, templates/myaccount/my-orders.php:61, templates/myaccount/view-order.php:193
+#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:286, includes/class.llms.shortcodes.php:480, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:84, templates/myaccount/my-notifications.php:41, templates/myaccount/my-orders.php:61, templates/myaccount/view-order.php:193
 msgid "Next"
 msgstr ""
 
@@ -6913,7 +6913,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: includes/llms.functions.core.php:630, includes/models/model.llms.quiz.attempt.php:429, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
+#: includes/llms.functions.core.php:630, includes/models/model.llms.quiz.attempt.php:430, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
 msgid "Failed"
 msgstr ""
 
@@ -6930,19 +6930,19 @@ msgctxt "terms and conditions checkbox"
 msgid "I have read and agree to the <a href=\"%1$s\" target=\"_blank\">%2$s</a>."
 msgstr ""
 
-#: includes/llms.template.functions.php:997
+#: includes/llms.template.functions.php:996
 msgid "Search Results: &ldquo;%s&rdquo;"
 msgstr ""
 
-#: includes/llms.template.functions.php:1000
+#: includes/llms.template.functions.php:999
 msgid "&nbsp;&ndash; Page %s"
 msgstr ""
 
-#: includes/llms.template.functions.php:1119
+#: includes/llms.template.functions.php:1118
 msgid "%s"
 msgstr ""
 
-#: includes/llms.template.functions.php:1126, templates/course/progress.php:48
+#: includes/llms.template.functions.php:1125, templates/course/progress.php:48
 msgid "Continue"
 msgstr ""
 
@@ -7067,11 +7067,11 @@ msgstr ""
 msgid "All recurring transactions completed"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:392
+#: includes/models/model.llms.quiz.attempt.php:393
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:429, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
+#: includes/models/model.llms.quiz.attempt.php:430, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
 msgid "Passed"
 msgstr ""
 
@@ -8215,11 +8215,11 @@ msgstr ""
 msgid "Access"
 msgstr ""
 
-#: templates/content-certificate.php:13
+#: templates/content-certificate.php:14
 msgid "Certificate not found."
 msgstr ""
 
-#: templates/content-certificate.php:37
+#: templates/content-certificate.php:38
 msgid "Print Certificate"
 msgstr ""
 
@@ -8412,6 +8412,10 @@ msgstr ""
 
 #: templates/myaccount/my-memberships.php:39
 msgid "You are not currently enrolled in any memberships."
+msgstr ""
+
+#: templates/myaccount/my-notifications.php:24
+msgid "You have no notifications."
 msgstr ""
 
 #: templates/myaccount/my-orders.php:13
