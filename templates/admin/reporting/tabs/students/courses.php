@@ -22,8 +22,8 @@ if ( empty( $_GET['course_id'] ) ) {
 		$lesson_id = intval( $_GET['lesson_id'] );
 
 		llms_get_template( 'admin/reporting/tabs/students/courses-quiz.php', array(
-			'attempts' => $student->get_quiz_data( $quiz_id, $lesson_id ),
-			'best_attempt' => $student->get_best_quiz_attempt( $quiz_id, $lesson_id ),
+			'attempts' => $student->quizzes()->get_all( $quiz_id, $lesson_id ),
+			'best_attempt' => $student->quizzes()->get_best_attempt( $quiz_id, $lesson_id ),
 			'quiz_id' => $quiz_id,
 			'student' => $student,
 		) );
