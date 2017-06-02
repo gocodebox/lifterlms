@@ -22,7 +22,7 @@ class LLMS_Table_Questions extends LLMS_Admin_Table {
 	 * @param    mixed      $data  object of achievment data
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.7.7
+	 * @version  [version]
 	 */
 	public function get_data( $key, $data ) {
 
@@ -58,7 +58,7 @@ class LLMS_Table_Questions extends LLMS_Admin_Table {
 			case 'selected':
 				$q = new LLMS_Question( $data['id'] );
 				$options = $q->get_options();
-				if ( isset( $data['answer'] ) ) {
+				if ( isset( $data['answer'] ) && isset( $options[ $data['answer'] ]['option_text'] ) ) {
 					$value = wp_kses_post( $options[ $data['answer'] ]['option_text'] );
 				} else {
 					$value = '';
