@@ -1,12 +1,13 @@
 #llms-quiz-timer {
+	display: none;
 	float: right;
 	width: 100%;
-	clear: both;	
+	clear: both;
 }
 .countdown-label {
   	margin-top: 6px;
 	text-align: center;
-	
+
 	display: inline-block;
 
 
@@ -42,14 +43,14 @@ text-shadow: 1px 1px 0px #ccc;
 	display: inline-block;
   font-family: Arial, sans-serif;
 	text-align: center;
-  
+
   padding: 0;
   border-radius: 5px 5px 0 0;
   font-size: 48px;
   font-weight: thin;
   display: block;
   line-height: 1.4;
-    
+
 }
 
 .color-full {
@@ -69,10 +70,6 @@ text-shadow: 1px 1px 0px #ccc;
 	padding: 18px 0;
 	position: relative;
 }
-
-
-
-
 
 #countdown .labels{
 	width: 100%;

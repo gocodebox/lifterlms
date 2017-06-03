@@ -544,7 +544,6 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
 if ( ! function_exists( 'lifterlms_template_complete_lesson_link' ) ) {
 
 	function lifterlms_template_complete_lesson_link() {
-
 		llms_get_template( 'course/complete-lesson-link.php' );
 	}
 }
@@ -570,30 +569,6 @@ if ( ! function_exists( 'lifterlms_template_single_membership_title' ) ) {
 	function lifterlms_template_single_membership_title() {
 
 		llms_get_template( 'membership/title.php' );
-	}
-}
-
-/**
- * Quiz attempts Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_attempts' ) ) {
-
-	function lifterlms_template_quiz_attempts() {
-
-		llms_get_template( 'quiz/attempts.php' );
-	}
-}
-
-/**
- * Quiz timer
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_time_limit' ) ) {
-
-	function lifterlms_template_quiz_time_limit() {
-
-		llms_get_template( 'quiz/time-limit.php' );
 	}
 }
 
@@ -661,11 +636,9 @@ if ( ! function_exists( 'lifterlms_template_quiz_return_link' ) ) {
  * Passing Percent Template Include
  * @return void
  */
-if ( ! function_exists( 'lifterlms_template_passing_percent' ) ) {
-
-	function lifterlms_template_passing_percent() {
-
-		llms_get_template( 'quiz/passing-percent.php' );
+if ( ! function_exists( 'lifterlms_template_quiz_meta_info' ) ) {
+	function lifterlms_template_quiz_meta_info() {
+		llms_get_template( 'quiz/meta-information.php' );
 	}
 }
 
@@ -779,24 +752,8 @@ if ( ! function_exists( 'lifterlms_template_question_wrapper_end' ) ) {
  * @return void
  */
 if ( ! function_exists( 'lifterlms_template_quiz_results' ) ) {
-
 	function lifterlms_template_quiz_results() {
-
 		llms_get_template( 'quiz/results.php' );
-	}
-}
-
-/**
- * Quiz Results Summary Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_summary' ) ) {
-
-	function lifterlms_template_quiz_summary() {
-		global $post;
-		if ( get_post_meta( $post->ID, '_llms_show_results', true ) ) {
-			llms_get_template( 'quiz/summary.php' );
-		}
 	}
 }
 
@@ -841,17 +798,22 @@ function llms_setup_quiz_data( $post ) {
 	if ( ! is_admin() ) {
 
 		if ( $post->post_type == 'llms_quiz' ) {
+
 			unset( $GLOBALS['quiz'] );
 
 			if ( is_int( $post ) ) {
-				$post = get_post( $post ); }
+				$post = get_post( $post );
+			}
 
 			if ( empty( $post->post_type ) ) {
-				return; }
+				return;
+			}
 
-				$GLOBALS['quiz'] = llms_get_quiz( $post );
-
-				return $GLOBALS['quiz'];
+			$GLOBALS['quiz'] = llms_get_quiz( $post );
+			$student = llms_get_student();
+			if ( isset( $_GET['attempt_key'] ) && $student ) {
+				$GLOBALS['llms_quiz_attempt'] = $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] );
+			}
 		}
 	}
 
@@ -1145,6 +1107,8 @@ if ( ! function_exists( 'lifterlms_template_loop_progress' ) ) {
 if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 
 	function lifterlms_course_progress_bar( $progress, $link = false, $button = true, $echo = true ) {
+
+		$progress = round( $progress, 2 );
 
 		$tag = ($link) ? 'a' : 'span';
 		$href = ($link) ? ' href=" ' . $link . ' "' : '';

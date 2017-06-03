@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Single Quiz: Wrapper Start
+ * @version  3.9.0
+ */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $question;
 ?>

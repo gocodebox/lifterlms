@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.7.5
+ * @version 3.9.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.4.0
+	 * @version 3.9.1
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -32,12 +32,6 @@ class LLMS_L10n {
 		// alphabatize the array so we can quickly find strings
 		// include references to the JS file where the string is used so we can cleanup if needed in the future
 		$strings = array(
-
-			/**
-			 * file: _private/js/llms-ajax.js
-			 */
-			'Loading Question...' => __( 'Loading Question...', 'lifterlms' ),
-			'Loading Quiz Results...' => __( 'Loading Quiz Results...', 'lifterlms' ),
 
 			/**
 			 * file: _private/js/llms-metabox-product.js
@@ -72,8 +66,10 @@ class LLMS_L10n {
 
 			/**
 			 * file: _private/js/app/llms-pricing-tables.js
+			 * @since    3.0.0
+			 * @version  3.9.1
 			 */
-			'This plan is for members only. Click the links above to learn more.' => __( 'This plan is for members only. Click the links above to learn more.', 'lifterlms' ),
+			'Members Only Pricing' => __( 'Members Only Pricing', 'lifterlms' ),
 
 			/**
 			 * file: _private/js/app/llms-syllabus.js
@@ -85,9 +81,14 @@ class LLMS_L10n {
 			/**
 			 * file: _private/js/app/llms-quiz.js
 			 * @since   2.7.3
-			 * @version 2.7.4
+			 * @version 3.9.0
 			 */
+			'An unknown error occurred. Please try again.' => __( 'An unknown error occurred. Please try again.', 'lifterlms' ),
 			'Hide Summary' => __( 'Hide Summary', 'lifterlms' ),
+			'Loading...' => __( 'Loading...', 'lifterlms' ),
+				'Loading Question...' => __( 'Loading Question...', 'lifterlms' ),
+			'Loading Quiz...' => __( 'Loading Quiz...', 'lifterlms' ),
+			'Loading Quiz Results...' => __( 'Loading Quiz Results...', 'lifterlms' ),
 			'View Summary' => __( 'View Summary', 'lifterlms' ),
 			'You must enter an answer to continue.' => __( 'You must enter an answer to continue.', 'lifterlms' ),
 		);

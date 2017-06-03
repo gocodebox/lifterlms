@@ -67,7 +67,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 						if ( in_array( $option['key'], $selected ) ) {
 							$selected_text = ' selected="selected" ';
 						}
-					} elseif ( $option['key'] == $selected ) {
+					} elseif ( isset( $option['key'] ) && $option['key'] == $selected ) {
 						$selected_text = ' selected="selected" ';
 					} elseif ( $key === $selected ) {
 						$selected_text = ' selected="selected" ';

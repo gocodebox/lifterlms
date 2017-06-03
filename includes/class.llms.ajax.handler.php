@@ -1,14 +1,11 @@
 <?php
+/**
+ * LifterLMS AJAX Event Handler
+ * @since    1.0.0
+ * @version  3.9.0
+ */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* lifterLMS AJAX Event Handler
-*
-* Handles server side ajax communication.
-*
-* @author codeBOX
-* @project lifterLMS
-*/
 class LLMS_AJAX_Handler {
 
 	/**
@@ -17,7 +14,7 @@ class LLMS_AJAX_Handler {
 	 * @param    array     $request  array of request data
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  3.9.0
 	 */
 	public static function bulk_enroll_membership_into_course( $request ) {
 
@@ -34,7 +31,7 @@ class LLMS_AJAX_Handler {
 
 		$query = new LLMS_Student_Query( $args );
 
-		if ( $query->found_students ) {
+		if ( $query->found_results ) {
 
 			$handler = LLMS()->background_handlers['enrollment'];
 
@@ -109,7 +106,7 @@ class LLMS_AJAX_Handler {
 	 * Delete a student's quiz attempt
 	 * Called from student quiz reporting screen
 	 * @since    3.4.4
-	 * @version  3.4.4
+	 * @version  3.9.0
 	 */
 	public static function delete_quiz_attempt( $request ) {
 
@@ -122,7 +119,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		$student = new LLMS_Student( $request['user'] );
-		$student->delete_quiz_attempt( $request['quiz'], $request['lesson'], $request['attempt'] );
+		$student->quizzes()->delete_attempt( $request['quiz'], $request['lesson'], $request['attempt'] );
 
 		return true;
 
@@ -332,6 +329,161 @@ class LLMS_AJAX_Handler {
 		) );
 
 		wp_die();
+
+	}
+
+	/**
+	 * Start a Quiz Attempt
+	 * @param    array     $request  $_POST data
+	 *                               required:
+	 *                               	(string) attemptkey
+	 *                               or
+	 *                               	(int) quiz_id
+	 *                               	(int) lesson_id
+	 *
+	 * @return   obj|array           WP_Error on error or array containing html template of the first question
+	 * @since    3.9.0
+	 * @version  3.9.0
+	 */
+	public static function quiz_start( $request ) {
+
+		$err = new WP_Error();
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$attempt = false;
+		if ( isset( $request['attempt_key'] ) && $request['attempt_key'] ) {
+			$attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );
+		}
+
+		if ( ! $attempt || 'new' !== $attempt->get_status() ) {
+
+			if ( ! isset( $request['quiz_id'] ) || ! isset( $request['lesson_id'] ) ) {
+				$err->add( 400, __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ) );
+				return $err;
+			}
+
+			$attempt = LLMS_Quiz_Attempt::init( absint( $request['quiz_id'] ), absint( $request['lesson_id'] ), $student->get( 'id' ) );
+
+		}
+
+		$question_id = $attempt->get_first_question();
+		if ( ! $question_id ) {
+			$err->add( 404, __( 'Unable to start quiz because the quiz does not contain any questions.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$attempt->start();
+		$html = llms_get_template_ajax( 'content-single-question.php', array(
+			'attempt' => $attempt,
+			'quiz_id' => $attempt->get( 'quiz_id' ),
+			'question_id' => $question_id,
+		) );
+
+		return array(
+			'html' => $html,
+		);
+
+	}
+
+	/**
+	 * [quiz_answer_question description]
+	 * @param    [type]     $request  [description]
+	 * @return   [type]               [description]
+	 * @since    3.9.0
+	 * @version  3.9.0
+	 */
+	public static function quiz_answer_question( $request ) {
+
+		$err = new WP_Error();
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$required = array( 'quiz_id', 'question_id', 'question_type', 'answer' );
+		foreach ( $required as $key ) {
+			if ( ! isset( $request[ $key ] ) ) {
+				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
+				return $err;
+			}
+		}
+
+		$quiz_id = absint( $request['quiz_id'] );
+		$question_id = absint( $request['question_id'] );
+		$answer = sanitize_text_field( $request['answer'] );
+
+		$attempt = $student->quizzes()->get_current_attempt( $quiz_id );
+		if ( ! $attempt ) {
+			$err->add( 500, __( 'There was an error recording your answer the quiz. Please return to the lesson and begin again.', 'lifterlms' ) );
+			return $err;
+		}
+
+		// record the answe
+		$attempt->answer_question( $question_id, $answer );
+
+		// get the next question
+		$question_id = $attempt->get_next_question();
+
+		// return html for the next question
+		if ( $question_id ) {
+
+			$html = llms_get_template_ajax( 'content-single-question.php', array(
+				'attempt' => $attempt,
+				'quiz_id' => $attempt->get( 'quiz_id' ),
+				'question_id' => $question_id,
+			) );
+
+			return array(
+				'html' => $html,
+			);
+
+		} else {
+
+			return self::quiz_end( $request, $attempt );
+
+		}
+
+	}
+
+	public static function quiz_end( $request, $attempt = null ) {
+
+		$err = new WP_Error();
+
+		if ( ! $attempt ) {
+
+			$student = llms_get_student();
+			if ( ! $student ) {
+				$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
+				return $err;
+			}
+
+			if ( ! isset( $request['quiz_id'] ) ) {
+				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
+				return $err;
+			}
+
+			$attempt = $student->quizzes()->get_current_attempt( $quiz_id );
+
+		}
+
+		// record the attempt's completion
+		$attempt->end();
+
+		// setup a redirect
+		$url = add_query_arg( array(
+			'attempt_key' => $attempt->get_key(),
+		), get_permalink( $attempt->get( 'quiz_id' ) ) );
+
+		return array(
+			'redirect' => apply_filters( 'llms_quiz_complete_redirect', $url, $attempt ),
+		);
 
 	}
 

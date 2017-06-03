@@ -69,7 +69,7 @@ class LLMS_Product extends LLMS_Post_Model {
 			);
 		}
 
-		$query = new WP_Query( apply_filters( 'llms_get_product_access_plans_args ', $args, $this, $free_only, $visible_only ) );
+		$query = new WP_Query( apply_filters( 'llms_get_product_access_plans_args', $args, $this, $free_only, $visible_only ) );
 
 		// retup return
 		$plans = array();

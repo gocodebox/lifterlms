@@ -41,7 +41,7 @@ class LLMS_Install {
 			'llms_update_360_set_product_visibility',
 			'llms_update_360_update_db_version',
 		),
-		'3.8.0-alpha.3' => array(
+		'3.8.0' => array(
 			'llms_update_380_set_access_plan_visibility',
 			'llms_update_380_update_db_version',
 		),
@@ -155,7 +155,7 @@ class LLMS_Install {
 	 * Store all default options in the DB
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.5.1
+	 * @version 3.8.0
 	 */
 	public static function create_options() {
 
@@ -164,11 +164,7 @@ class LLMS_Install {
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
 		foreach ( $settings as $section ) {
-			// skip general settings since this screen doesn't actually have any settings on it
-			if ( 'general' === $section->id ) {
-				continue;
-			}
-			foreach ( $section->get_settings() as $value ) {
+			foreach ( $section->get_settings( true ) as $value ) {
 				if ( isset( $value['default'] ) && isset( $value['id'] ) ) {
 					$autoload = isset( $value['autoload'] ) ? (bool) $value['autoload'] : true;
 					add_option( $value['id'], $value['default'], '', ( $autoload ? 'yes' : 'no' ) );

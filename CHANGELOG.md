@@ -1,21 +1,119 @@
 == Changelog ==
 
-v3.8.0-alpha.1 - 2017/04/27
----------------------------
+v3.9.1 - 2017/06/02
+-------------------
 
-+ Automatic email and basic (on-screen) notifications:
-  + Achievement earned
-  + Course enrollment
-  + Purchase reciept
-  + Lesson completed
-  + Full list of scheduled notifications available [here](https://github.com/gocodebox/lifterlms/issues/315)
++ Fix engagement triggers with relation to quizzes to properly recieve 3.9 api updates
++ Fix quiz attempt counting issue resulting in the total attempts by a student always being one more than the actual value
++ Fix membership access plan restrictions tooltip
 
+
+v3.9.0 - 2017/06/02
+-------------------
+
+##### Quizzes
+
++ All new quiz results interface for students
+  + Donut charts are now animated
+  + Donuts will be green for passing attempt and red for failing
+  + Students can now review previous quiz attempts and summaries
+  + Removed the juxtaposition of the current and best attempts to reduce confusion on the interface
+  + Improved the consistency of the quiz meta information markup
+  + Adjusted various pieces of language for an improved student experience
++ Improvements to the quiz taking experience
+  + Added the LLMS_Spinner (seen on checkout screens and various places on the admin panel) and various loading messages when starting quiz, transitioning between questions, and completing a quiz
+  + Better error handling and management should issues arise during a quiz
+  + Better unload & beforeunload JS management to warn students when they attempt to leave a quiz in progress
++ Improved quiz data handling and management
+  + Improved API calls and handlers related to taking quizzes for increased performance and consistency
+  + quiz data can now be programattically queried via consistent apis and data classes, see `LLMS_Student->quizzes()` and `LLMS_Quiz_Attempt`
++ Quizzes no longer rely on session and cookie data. All quiz data will always be saved directly to the database and related to the student. Fixes an issue on certain servers preventing student from starting quizzes.
++ Deprecated `LLMS_Quiz::start_quiz()`, `LLMS_Quiz::answer_question()`, and, `LLMS_Quiz::complete_quiz()`
+  + Ajax handler functions of the same names should be used instead.
+  + To programmatically "take" quizzes use related functions of similar names from the `LLMS_Quiz_Attempt` class
+
+##### Templates changed
+
++ New
+  + [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
+
++ Updated
+  + [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
+  + [content-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/content-certificate.php)
+  + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
+  + [myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
+  + [quiz/next-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/next-question.php)
+  + [quiz/previous-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/previous-question.php)
+  + [quiz/question-count.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/question-count.php)
+  + [quiz/quiz-question.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/quiz-question.php)
+  + [quiz/quiz-wrapper-end.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/quiz-wrapper-end.php)
+  + [quiz/quiz-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/quiz-wrapper-start.php)
+  + [quiz/results.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results.php)
+  + [quiz/return-to-lesson.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/return-to-lesson.php)
+  + [quiz/single-choice_ajax.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/single-choice_ajax.php)
+  + [quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/start-button.php)
+  + [quiz/summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/summary.php)
+
++ Removed
+  + quiz/attempts.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
+  + quiz/passing-percent.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
+  + quiz/time-limit.php - replaced by [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
+
+##### Fixes
+
++ Student Dasbhoard notifications page will not display pagination links unless there's results to page through
++ Student Dasbhoard notifications page will now display a message when no notifications are found
++ Certificate previewing now takes into consideration the preview setting roles to allow admins (or other roles) to preview certificates
++ Made student name self fallback (you) i18n friendly
+
+
+v3.8.1 - 2017/05/21
+-------------------
+
++ Fix merge code issue related to course title on quiz notifications
+
+
+v3.8.0 - 2017/05/20
+-------------------
+
++ Automatic email and basic (on-screen) notifications for various events within LifterLMS
+  + All notifications can be customized
+  + Email notifications can be optionally sent to custom email address, course authors, and more
++ Students will automatically receive email receipts when making purchases and when recurring access plans rebill
++ Hidden Access Plans
++ Add a "Purchase Link" view button to access plans so admins can quickly grab the direct URL to an access plan
++ Notifications history screen on Student Dashboard to review past notifications that have been received
 + Updated LLMS_Email class and functionality
 + Email templates have been completely rewritten and styled
-  + Temporary email style customization guide [here](https://gist.github.com/thomasplevy/0d3072633141d129cfc716740f302385)
-  + Email branding will be added to LifterLMS Labs, follow progress [here](https://github.com/gocodebox/lifterlms/issues/316)
 + Updated and rewritten password reset flow
++ Earned certificates are only accessible by the student who earned the certificate
 + Added the functionality for image upload via options & settings api
++ Removed a handful of unused templates related to LifterLMS certificates that were replaced a long time ago but still existed in the codebase for unknown reasons.
++ Fixed filter on engagements settings page
++ Minor adjustments to language and settings order on Engagements settings screen for email settings
++ Email Header Image field is now an upload field as opposed to a "paste a url here" setting
++ Phone number recorded to order and displayed on order for admin panel during purchases
++ Order details now display full country name as opposed to the country code
++ Fix installation script to ensure admin can preview by default
+
+
+v3.7.7 - 2017/05/16
+-------------------
+
++ Updated a few strings on the admin panel to be translateable
++ Fix PHP warning output during plugin activation
++ Fix reporting issue related to outputting quiz question answers where the correct answer is the first available answer
++ Fix PHP 7.1 issue on the checkout screen
++ Removed some unnecessary files from vendor libraries
+
+
+v3.7.6 - 2017/05/05
+-------------------
+
++ New translations for new categories on Add-ons screen
++ Update to general settings which utilizes featured items from the general settings screen
++ Update readme & related meta files
++ Removed advert image files
 
 
 v3.7.5 - 2017/05/02

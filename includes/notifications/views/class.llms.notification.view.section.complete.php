@@ -2,7 +2,7 @@
 /**
  * Notification View: Section Complete
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.8.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -61,7 +61,7 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	 * @version  3.8.0
 	 */
 	protected function set_icon() {
-		return '';
+		return $this->get_icon_default( 'positive' );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.8.2
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -105,7 +105,7 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 			break;
 
 			case '{{STUDENT_NAME}}':
-				$code = $this->is_for_self() ? 'you' : $this->user->get_name();
+				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
 			break;
 
 		}

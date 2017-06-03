@@ -92,7 +92,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
  *                               what is available for the post type
  * @return   void|string
  * @since    3.1.0
- * @version  3.7.5
+ * @version  3.8.0
  */
 function llms_merge_code_button( $target = 'content', $echo = true, $codes = array() ) {
 
@@ -125,6 +125,8 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 			}
 		}
 	}
+
+	$codes = apply_filters( 'llms_merge_codes_for_button', $codes, $screen, $target );
 
 	if ( ! $codes ) {
 		return;

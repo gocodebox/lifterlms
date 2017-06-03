@@ -180,42 +180,25 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		// get variables
 		$title = $this->get_title();
-		$icon = $this->get_icon_src();
+		$icon = ( 'yes' === $this->get_option( 'icon_hide', 'no' ) ) ? '' : $this->get_icon_src();
 		$body = $this->get_body();
 		$footer = $this->get_footer();
-		if ( 'new' !== $this->notification->get( 'status' ) ) {
-			$footer .= $this->get_date_display( 5 );
-		}
 
 		ob_start();
-		?>
-			<div class="<?php echo implode( ' ', $classes ); ?>"<?php echo $atts; ?> id="llms-notification-<?php echo $this->id; ?>">
-
-				<?php if ( $this->basic_options['dismissible'] && 'new' === $this->notification->get( 'status' ) ) : ?>
-					<i class="llms-notification-dismiss fa fa-times-circle" aria-hidden="true"></i>
-				<?php endif; ?>
-
-				<section class="llms-notification-content">
-					<div class="llms-notification-main">
-						<h4 class="llms-notification-title"><?php echo $title; ?></h4>
-						<div class="llms-notification-body"><?php echo $body; ?></div>
-					</div>
-
-					<?php if ( $icon ) : ?>
-						<aside class="llms-notification-aside">
-							<img class="llms-notification-icon" alt="<?php echo $title; ?>" src="<?php echo $icon; ?>">
-						</aside>
-					<?php endif; ?>
-				</section>
-
-				<?php if ( $footer ) : ?>
-					<footer class="llms-notification-footer"><?php echo $footer; ?></footer>
-				<?php endif; ?>
-
-			</div>
-		<?php
-
+		llms_get_template( 'notifications/basic.php', array(
+			'atts' => $atts,
+			'body' => $body,
+			'classes' => implode( ' ', $classes ),
+			'date' => $this->get_date_display( 5 ),
+			'dismissible' => $this->basic_options['dismissible'],
+			'footer' => $footer,
+			'icon' => $icon,
+			'id' => $this->id,
+			'status' => $this->notification->get( 'status' ),
+			'title' => $title,
+		) );
 		$html = trim( preg_replace( '/\s+/S', ' ', ob_get_clean() ) );
+
 		return apply_filters( $this->get_filter( 'get_basic_html' ), $html, $this );
 
 	}
@@ -239,8 +222,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @param    string     $date    created or updated
 	 * @param    string     $format  valid PHP date format, defaults to WP date format options
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_date( $date = 'created', $format = null ) {
 
@@ -258,8 +241,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * otherwise returns the absolute date
 	 * @param    integer    $max_days  max age of notification to display relative date for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_date_display( $max_days = 5 ) {
 
@@ -280,8 +263,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Retrieve a date relative to the current time
 	 * @param    string     $date  created or updated
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_date_relative( $date = 'created' ) {
 		return llms_get_date_diff( current_time( 'timestamp' ), $this->get_date( $date, 'U' ), 1 );
@@ -359,6 +342,13 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 				'type' => 'image',
 				'value' => $this->get_icon(),
 			);
+			$options[] = array(
+				'default' => 'no',
+				'description' => __( 'When checked the icon will not be displayed when showing this notification.', 'lifterlms' ),
+				'id' => $this->get_option_name( 'icon_hide' ),
+				'title' => __( 'Disable Icon', 'lifterlms' ),
+				'type' => 'checkbox',
+			);
 		}
 
 		return apply_filters( $this->get_filter( 'get_field_options' ), $options, $this );
@@ -407,7 +397,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve the icon id for the notification
 	 * Returns an attachment id for the image
-	 * @return   int
+	 * @return   mixed
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -417,19 +407,37 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
+	 * Retrieve a default icon for the notificiation based on the notification type
+	 * @param    string     $type  type of icon [positive|negative]
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_icon_default( $type ) {
+		if ( 'positive' !== $type && 'negative' !== $type ) {
+			$ret = '';
+		} else {
+			$ret = LLMS()->plugin_url() . '/assets/images/notifications/icon-' . $type . '.png';
+		}
+		return apply_filters( 'llms_notification_get_icon_default', $ret, $type, $this );
+	}
+
+	/**
 	 * Retrieve the icon src for the notification
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
 	public function get_icon_src() {
-		$id = $this->get_icon();
 		$src = '';
-		if ( $id ) {
-			$src = wp_get_attachment_image_src( $id, 'llms_notification_icon' );
+		$val = $this->get_icon();
+		if ( is_numeric( $val ) ) {
+			$src = wp_get_attachment_image_src( $val, 'llms_notification_icon' );
 			if ( is_array( $src ) ) {
 				$src = $src[0];
 			}
+		} else {
+			$src = $val;
 		}
 		return apply_filters( $this->get_filter( 'get_icon_src' ), $src, $this );
 	}
@@ -556,7 +564,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		$sentences = preg_split( '/(\.|\?|\!)(\s|$)+/', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
 		$new_string = '';
-		foreach ( $sentences as $key => $sentence ) {
+		foreach ( $sentences as $sentence ) {
 			$new_string .= 1 === strlen( $sentence ) ? $sentence . ' ' : ucfirst( trim( $sentence ) );
 		}
 

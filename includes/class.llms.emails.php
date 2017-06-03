@@ -169,4 +169,19 @@ class LLMS_Emails {
 		return $this->emails;
 	}
 
+	/**
+	 * Retrieve the source url of the header image as defined in LifterLMS settings
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_header_image_src() {
+		$src = get_option( 'lifterlms_email_header_image', '' );
+		if ( is_numeric( $src ) ) {
+			$attachment = wp_get_attachment_image_src( $src, 'full' );
+			$src = $attachment ? $attachment[0] : '';
+		}
+		return apply_filters( 'llms_email_header_image_src', $src );
+	}
+
 }

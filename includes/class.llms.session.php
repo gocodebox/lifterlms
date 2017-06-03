@@ -2,7 +2,7 @@
 /**
  * LLMS_Session Class
  * @since    1.0.0
- * @version  3.7.5
+ * @version  3.7.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -80,7 +80,7 @@ class LLMS_Session {
 		if ( $this->use_php_sessions ) {
 			$this->session = isset( $_SESSION[ 'llms' . $this->prefix ] ) && is_array( $_SESSION[ 'llms' . $this->prefix ] ) ? $_SESSION[ 'llms' . $this->prefix ] : array();
 		} else {
-			$this->session = WP_Session::get_instance();
+			$this->session = @WP_Session::get_instance();
 		}
 
 		return $this->session;

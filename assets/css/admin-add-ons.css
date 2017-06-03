@@ -1,9 +1,3 @@
-@media only screen and (min-width: 768px) {
-  .llms-nav-tab-wrapper {
-    display: inline-block;
-  }
-}
-
 .llms-addons-wrap:before, .llms-addons-wrap:after {
   content: " ";
   display: table;

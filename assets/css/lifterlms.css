@@ -1,4 +1,4 @@
-.llms-quiz-results:before, .llms-pagination ul:before, .llms-my-achievements ul.listing-achievements:before, .llms-quiz-results:after, .llms-pagination ul:after, .llms-my-achievements ul.listing-achievements:after,
+.llms-pagination ul:before, .llms-my-achievements ul.listing-achievements:before, .llms-pagination ul:after, .llms-my-achievements ul.listing-achievements:after,
 .llms-loop-list:before,
 .llms-course-navigation:before,
 .llms-access-plans:before,
@@ -14,7 +14,7 @@
   content: " ";
   display: table;
 }
-.llms-quiz-results:after, .llms-pagination ul:after, .llms-my-achievements ul.listing-achievements:after,
+.llms-pagination ul:after, .llms-my-achievements ul.listing-achievements:after,
 .llms-loop-list:after,
 .llms-course-navigation:after,
 .llms-access-plans:after,
@@ -148,6 +148,79 @@
   background: #e86660;
 }
 
+.llms-donut {
+  background-color: #f1f1f1;
+  background-image: none;
+  border-radius: 50%;
+  color: #ef476f;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  width: 200px;
+}
+.llms-donut:before, .llms-donut:after {
+  content: " ";
+  display: table;
+}
+.llms-donut:after {
+  clear: both;
+}
+.llms-donut svg {
+  overflow: visible !important;
+  pointer-events: none;
+}
+.llms-donut svg path {
+  fill: none;
+  stroke-width: 35px;
+  stroke: #ef476f;
+}
+.llms-donut.small {
+  height: 100px;
+  width: 100px;
+}
+.llms-donut.small .percentage {
+  font-size: 18px;
+}
+.llms-donut.large {
+  height: 260px;
+  width: 260px;
+}
+.llms-donut.large .percentage {
+  font-size: 48px;
+}
+.llms-donut .inside {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #fff;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  height: 80%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 80%;
+  top: 50%;
+  z-index: 3;
+}
+.llms-donut .percentage {
+  line-height: 1.2;
+  font-size: 34px;
+}
+.llms-donut .caption {
+  font-size: 50%;
+}
+
 .llms-membership-image {
   display: block;
   margin: 0 auto;
@@ -180,17 +253,6 @@
 
 .llms-featured-image {
   text-align: center;
-}
-
-/* My Quizes */
-.llms-quiz-results {
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-  position: relative;
-}
-
-.llms-quiz-results > h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
 }
 
 /* Genisis Overrides */
@@ -531,30 +593,6 @@ svg .llms-animated-circle {
   stroke-dashoffset: 410;
 }
 
-.llms-quiz-result-details {
-  float: left;
-}
-.llms-quiz-result-details ul {
-  list-style-type: none;
-  float: left;
-}
-.llms-quiz-result-details ul li {
-  list-style-type: none;
-  font-size: 20px;
-}
-
-.llms-attempts {
-  font-weight: bold;
-}
-
-.llms-pass-perc {
-  font-weight: bold;
-}
-
-.llms-content-block {
-  margin: 6px 0;
-}
-
 .llms-widget-syllabus .llms-lesson-complete, .llms-widget-syllabus .lesson-complete-placeholder {
   font-size: 1.2em;
   margin-right: 6px;
@@ -585,14 +623,6 @@ svg .llms-animated-circle {
 .llms-widget-syllabus ul li ul li {
   margin: 0 0 2px 0;
   padding: 0;
-}
-
-.llms-question-wrapper {
-  margin: 40px 0 20px 0;
-}
-
-.llms-question-count {
-  margin-bottom: 20px;
 }
 
 .llms-remove-coupon {
@@ -965,15 +995,16 @@ svg .llms-animated-circle {
   background: #fff;
   box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
   border-top: 4px solid #2295ff;
+  left: 12px;
   opacity: 0;
   padding: 12px;
   position: fixed;
-  right: -800px;
+  right: 12px;
   top: 24px;
   -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
           transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
   visibility: none;
-  width: 360px;
+  width: auto;
 }
 .llms-notification:before, .llms-notification:after {
   content: " ";
@@ -984,7 +1015,6 @@ svg .llms-animated-circle {
 }
 .llms-notification.visible {
   opacity: 1;
-  right: 24px;
   -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
           transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, transform 0.2s ease-in-out;
   visibility: visible;
@@ -1024,6 +1054,23 @@ svg .llms-animated-circle {
 .llms-notification .llms-notification-body p {
   margin-bottom: 8px;
 }
+.llms-notification .llms-notification-body .llms-mini-cert {
+  background: #f6f6f6;
+  border: 4px double #b0b0b0;
+  padding: 24px 8px;
+}
+.llms-notification .llms-notification-body .llms-mini-cert .llms-mini-cert-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.llms-notification .llms-notification-body .llms-mini-cert p, .llms-notification .llms-notification-body .llms-mini-cert li {
+  font-size: 14px;
+}
+.llms-notification .llms-notification-body .llms-mini-cert p:last-child, .llms-notification .llms-notification-body .llms-mini-cert li:last-child {
+  margin-bottom: 0;
+}
 .llms-notification .llms-notification-aside {
   -ms-flex-item-align: start;
       align-self: flex-start;
@@ -1042,13 +1089,13 @@ svg .llms-animated-circle {
 .llms-notification .llms-notification-footer {
   border-top: 1px solid #e5e5e5;
   font-size: 12px;
-  padding: 6px 6px 0;
   margin-top: 12px;
+  padding: 6px 6px 0;
+  text-align: right;
 }
 .llms-notification .llms-notification-dismiss {
   color: #e5554e;
   cursor: pointer;
-  opacity: 0;
   font-size: 22px;
   position: absolute;
   right: 10px;
@@ -1069,6 +1116,7 @@ svg .llms-animated-circle {
 .llms-sd-notification-center .llms-notification {
   opacity: 1;
   border-top: 1px solid #e5e5e5;
+  left: auto;
   padding: 24px;
   position: relative;
   right: auto;
@@ -1081,13 +1129,35 @@ svg .llms-animated-circle {
 }
 .llms-sd-notification-center .llms-notification .llms-notification-footer {
   border: none;
-  margin-top: 0;
   padding: 0;
+  text-align: left;
 }
 .llms-sd-notification-center .llms-notification .llms-progress {
   display: none !important;
 }
+.llms-sd-notification-center .llms-notification .llms-notification-date {
+  color: #515151;
+  float: left;
+  margin-right: 6px;
+}
+.llms-sd-notification-center .llms-notification .llms-mini-cert {
+  margin: 0 auto;
+  max-width: 380px;
+}
 
+@media all and (min-width: 480px) {
+  .llms-notification {
+    left: auto;
+    right: -800px;
+    width: 360px;
+  }
+  .llms-notification.visible {
+    right: 24px;
+  }
+  .llms-notification .llms-notification-dismiss {
+    opacity: 0;
+  }
+}
 .llms-pagination ul {
   list-style-type: none;
 }
@@ -1142,7 +1212,98 @@ svg .llms-animated-circle {
   width: 0;
 }
 
+.webui-popover-title {
+  font-size: initial;
+  font-weight: initial;
+  line-height: initial;
+}
+
+.webui-popover-inverse .webui-popover-inner .close {
+  color: #fff;
+  opacity: 0.6;
+  text-shadow: none;
+}
+.webui-popover-inverse .webui-popover-inner .close:hover {
+  opacity: 0.8;
+}
+.webui-popover-inverse .webui-popover-content a {
+  color: #fff;
+  text-decoration: underline;
+}
+.webui-popover-inverse .webui-popover-content a:hover {
+  text-decoration: none;
+}
+
+.single-llms_quiz .llms-return {
+  margin-bottom: 10px;
+}
+.single-llms_quiz .llms-quiz-results:before, .single-llms_quiz .llms-quiz-results:after {
+  content: " ";
+  display: table;
+}
+.single-llms_quiz .llms-quiz-results:after {
+  clear: both;
+}
+.single-llms_quiz .llms-quiz-results .llms-donut.passing {
+  color: #83c373;
+}
+.single-llms_quiz .llms-quiz-results .llms-donut.passing svg path {
+  stroke: #83c373;
+}
+.single-llms_quiz .llms-quiz-results .llms-donut.failing {
+  color: #e5554e;
+}
+.single-llms_quiz .llms-quiz-results .llms-donut.failing svg path {
+  stroke: #e5554e;
+}
+.single-llms_quiz .llms-quiz-results .llms-quiz-results-aside,
+.single-llms_quiz .llms-quiz-results .llms-quiz-results-main,
+.single-llms_quiz .llms-quiz-results .llms-quiz-results-history {
+  margin-bottom: 20px;
+}
+@media all and (min-width: 600px) {
+  .single-llms_quiz .llms-quiz-results .llms-quiz-results-aside {
+    float: left;
+    width: 220px;
+  }
+  .single-llms_quiz .llms-quiz-results .llms-quiz-results-main,
+  .single-llms_quiz .llms-quiz-results .llms-quiz-results-history {
+    float: left;
+    width: calc( 100% - 300px );
+  }
+}
+.single-llms_quiz ul.llms-quiz-meta-info,
+.single-llms_quiz ul.llms-quiz-meta-info li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.single-llms_quiz ul.llms-quiz-meta-info {
+  margin-bottom: 10px;
+}
+.single-llms_quiz .llms-quiz-buttons {
+  margin-top: 10px;
+  text-align: left;
+}
+
+.llms-quiz-question-wrapper {
+  min-height: 200px;
+  position: relative;
+}
+.llms-quiz-question-wrapper:empty {
+  min-height: 0;
+}
+.llms-quiz-question-wrapper .llms-quiz-loading {
+  bottom: 20px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  z-index: 1;
+}
+
 #llms-quiz-timer {
+  display: none;
   float: right;
   width: 100%;
   clear: both;
@@ -1604,6 +1765,9 @@ svg .llms-animated-circle {
   padding: 2px 3px;
   vertical-align: top;
 }
+.llms-access-plan .llms-access-plan-restrictions ul {
+  margin: 0;
+}
 
 .llms-access-plan-featured {
   color: #fff;
@@ -1695,15 +1859,29 @@ svg .llms-animated-circle {
   padding: 10px;
   margin: 0 2px 2px 2px;
 }
-.llms-access-plan-footer .llms-button-action {
-  position: relative;
-}
-.llms-access-plan-footer .llms-button-action .llms-tooltip {
-  min-width: 280px;
-  z-index: 1;
-}
 .llms-access-plan-footer .llms-access-plan-pricing {
   padding: 0 0 10px;
+}
+
+.webui-popover-content .llms-members-only-restrictions {
+  text-align: center;
+}
+.webui-popover-content .llms-members-only-restrictions ul, .webui-popover-content .llms-members-only-restrictions ol, .webui-popover-content .llms-members-only-restrictions li, .webui-popover-content .llms-members-only-restrictions p {
+  margin: 0;
+  padding: 0;
+}
+.webui-popover-content .llms-members-only-restrictions ul, .webui-popover-content .llms-members-only-restrictions ol, .webui-popover-content .llms-members-only-restrictions li {
+  list-style-type: none;
+}
+.webui-popover-content .llms-members-only-restrictions li {
+  padding: 8px 0;
+  border-top: 1px solid #3b3b3b;
+}
+.webui-popover-content .llms-members-only-restrictions li:first-child {
+  border-top: none;
+}
+.webui-popover-content .llms-members-only-restrictions li a {
+  display: block;
 }
 
 .llms-checkout-wrapper form.llms-login {

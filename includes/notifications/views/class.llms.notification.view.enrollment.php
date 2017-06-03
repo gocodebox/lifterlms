@@ -2,12 +2,12 @@
 /**
  * Notification View: Course Enrollment
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.8.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notification_View {
+class LLMS_Notification_View_Enrollment extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Settings for basic notifications
@@ -29,7 +29,7 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 * Notification Trigger ID
 	 * @var  [type]
 	 */
-	public $trigger_id = 'course_enrollment';
+	public $trigger_id = 'enrollment';
 
 	/**
 	 * Setup body content for output
@@ -38,7 +38,7 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 * @version  3.8.0
 	 */
 	protected function set_body() {
-		return sprintf( __( 'Congratulations! %1$s enrolled in %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{COURSE_TITLE}}' );
+		return sprintf( __( 'Congratulations! %1$s enrolled in %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{TITLE}}' );
 	}
 
 	/**
@@ -58,7 +58,7 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 * @version  3.8.0
 	 */
 	protected function set_icon() {
-		return '';
+		return $this->get_icon_default( 'positive' );
 	}
 
 	/**
@@ -69,8 +69,8 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{COURSE_PROGRESS}}' => __( 'Course Progress Bar', 'lifterlms' ),
-			'{{COURSE_TITLE}}' => __( 'Course Title', 'lifterlms' ),
+			'{{TITLE}}' => __( 'Title', 'lifterlms' ),
+			'{{TYPE}}' => __( 'Type (Course or Membership)', 'lifterlms' ),
 			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
 		);
 	}
@@ -80,23 +80,22 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.8.2
 	 */
 	protected function set_merge_data( $code ) {
 
 		switch ( $code ) {
 
-			case '{{COURSE_PROGRESS}}':
-				$progress = $this->user->get_progress( $this->post->get( 'id' ), 'course' );
-				$code = lifterlms_course_progress_bar( $progress, false, false, false );
-			break;
-
-			case '{{COURSE_TITLE}}':
+			case '{{TITLE}}':
 				$code = $this->post->get( 'title' );
 			break;
 
+			case '{{TYPE}}':
+				$code = $this->post->get_post_type_label();
+			break;
+
 			case '{{STUDENT_NAME}}':
-				$code = $this->is_for_self() ? 'you' : $this->user->get_name();
+				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
 			break;
 
 		}
@@ -112,7 +111,7 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 * @version  3.8.0
 	 */
 	protected function set_subject() {
-		return sprintf( __( '%1$s enrolled in %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{COURSE_TITLE}}' );
+		return sprintf( __( '%1$s enrolled in %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{TITLE}}' );
 	}
 
 	/**
@@ -122,7 +121,7 @@ class LLMS_Notification_View_Course_Enrollment extends LLMS_Abstract_Notificatio
 	 * @version  3.8.0
 	 */
 	protected function set_title() {
-		return __( 'Course enrollment success!', 'lifterlms' );
+		return sprintf( __( '%1$s enrollment success!', 'lifterlms' ), '{{TYPE}}' );
 	}
 
 }

@@ -2,7 +2,7 @@
 /**
  * Notification View: Purchase Receipt
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.8.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -86,13 +86,15 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	 */
 	protected function set_merge_codes() {
 		return array(
+			'{{CUSTOMER_ADDRESS}}' => __( 'Customer Address', 'lifterlms' ),
+			'{{CUSTOMER_NAME}}' => __( 'Customer Name', 'lifterlms' ),
+			'{{CUSTOMER_PHONE}}' => __( 'Customer Phone', 'lifterlms' ),
 			'{{ORDER_ID}}' => __( 'Order ID', 'lifterlms' ),
 			'{{ORDER_URL}}' => __( 'Order URL', 'lifterlms' ),
 			'{{PLAN_TITLE}}' => __( 'Plan Title', 'lifterlms' ),
 			'{{PRODUCT_TITLE}}' => __( 'Product Title', 'lifterlms' ),
 			'{{PRODUCT_TYPE}}' => __( 'Product Type', 'lifterlms' ),
 			'{{PRODUCT_TITLE_LINK}}' => __( 'Product Title (Link)', 'lifterlms' ),
-			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
 			'{{TRANSACTION_AMOUNT}}' => __( 'Transaction Amount', 'lifterlms' ),
 			'{{TRANSACTION_DATE}}' => __( 'Transaction Date', 'lifterlms' ),
 			'{{TRANSACTION_ID}}' => __( 'Transaction ID', 'lifterlms' ),
@@ -105,7 +107,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.8.2
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -113,6 +115,32 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 		$order = $transaction->get_order();
 
 		switch ( $code ) {
+
+			case '{{CUSTOMER_ADDRESS}}':
+				$code = '';
+				if ( isset( $order->billing_address_1 ) ) {
+					$code .= $order->get( 'billing_address_1' );
+					if ( isset( $order->billing_address_2 ) ) {
+						$code .= ' ';
+						$code .= $order->get( 'billing_address_2' );
+					}
+					$code .= ', ';
+					$code .= $order->get( 'billing_city' );
+					$code .= $order->get( 'billing_state' );
+					$code .= ', ';
+					$code .= $order->get( 'billing_zip' );
+					$code .= ', ';
+					$code .= llms_get_country_name( $order->get( 'billing_country' ) );
+				}
+			break;
+
+			case '{{CUSTOMER_NAME}}':
+				$code = $order->get_customer_name();
+			break;
+
+			case '{{CUSTOMER_PHONE}}':
+				$code = $order->get( 'billing_phone' );
+			break;
 
 			case '{{ORDER_ID}}':
 				$code = $order->get( 'id' );
@@ -145,10 +173,6 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 				} else {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
 				}
-			break;
-
-			case '{{STUDENT_NAME}}':
-				$code = $this->is_for_self() ? 'you' : $this->user->get_name();
 			break;
 
 			case '{{TRANSACTION_AMOUNT}}':

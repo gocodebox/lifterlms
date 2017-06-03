@@ -19,7 +19,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Number of accepted arguments passed to the callback function
 	 * @var  integer
 	 */
-	protected $action_accepted_arguments = 1;
+	protected $action_accepted_args = 1;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
@@ -129,7 +129,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	protected function add_actions() {
 
 		foreach ( $this->action_hooks as $hook ) {
-			add_action( $hook, array( $this, 'action_callback' ), $this->action_accepted_arguments, $this->action_priority );
+			add_action( $hook, array( $this, 'action_callback' ), $this->action_accepted_args, $this->action_priority );
 		}
 
 	}
@@ -153,7 +153,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 */
 	private function add_subscriptions() {
 
-		foreach ( $this->get_supported_types() as $type => $name ) {
+		foreach ( array_keys( $this->get_supported_types() ) as $type ) {
 
 			foreach ( $this->get_subscribers_settings( $type ) as $subscriber_key => $enabled ) {
 
@@ -191,7 +191,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		$notification->set( 'type', $type );
 		$notification->set( 'subscriber', $subscriber ? $subscriber : get_current_user_id() );
 		$notification->set( 'user_id', $user_id ? $user_id : get_current_user_id() );
-		$notification->set( 'post_id', null );
+		$notification->set( 'post_id', $post_id );
 		$notification->set( 'trigger_id', $this->id );
 
 		return LLMS()->notifications()->get_view( $notification );
@@ -224,8 +224,8 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Get an array of saved subscriber settings prefilled with defaults for the current notificaton
 	 * @param    string     $type  notification type
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_subscribers_settings( $type ) {
 		$defaults = wp_list_pluck( $this->get_subscriber_options( $type ), 'enabled', 'id' );
@@ -243,6 +243,9 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	public function get_subscriber_option_array( $id, $enabled = 'yes' ) {
 
 		$defaults = array(
+			'author' => array(
+				'title' => __( 'Author', 'lifterlms' ),
+			),
 			'student' => array(
 				'title' => __( 'Student', 'lifterlms' ),
 			),
@@ -281,12 +284,11 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	/**
 	 * Retrieve subscribers
-	 * @param    [type]     $type  [description]
-	 * @return   [type]            [description]
+	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
-	public function get_subscriptions( $type = null ) {
+	public function get_subscriptions() {
 		return $this->subscriptions;
 	}
 
@@ -318,6 +320,12 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 			}
 		}
+
+		// cleanup subscriptions so if the notification
+		// is triggered again we don't have incorrect subscribers
+		// on the next trigger
+		// this happens when receipts are triggered in bulk by action scheduler
+		$this->unset_subscriptions();
 
 	}
 
@@ -406,6 +414,16 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 */
 	public function supports( $type ) {
 		return in_array( $type, array_keys( $this->get_supported_types() ) );
+	}
+
+	/**
+	 * Reset the subscriptions array
+	 * @return   void
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function unset_subscriptions() {
+		$this->subscriptions = array();
 	}
 
 }

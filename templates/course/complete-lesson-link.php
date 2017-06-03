@@ -4,7 +4,7 @@
  * Mark Complete & Mark Incomplete buttons
  * Take Quiz Button when quiz attached
  * @since    1.0.0
- * @version  3.5.0
+ * @version  3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -101,7 +101,7 @@ $quiz_id = $lesson->get( 'assigned_quiz' );
 		 	<input type="hidden" name="quiz_id" value="<?php echo esc_attr( $quiz_id ); ?>">
 		 	<input type="hidden" name="action" value="take_quiz">
 
-		 	<?php wp_nonce_field( 'take_quiz' ); ?>
+		 	<?php wp_nonce_field( 'take_quiz', '_llms_take_quiz_nonce' ); ?>
 
 			<?php llms_form_field( array(
 				'columns' => 12,

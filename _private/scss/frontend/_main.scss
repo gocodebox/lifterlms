@@ -46,20 +46,6 @@
   text-align: center;
 }
 
-
-/* My Quizes */
-.llms-quiz-results {
-  @extend %cf;
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-  position: relative;
-}
-.llms-quiz-results > h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
-}
-
-
-
 /* Genisis Overrides */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
@@ -364,27 +350,11 @@ svg .llms-animated-circle {
   stroke-dashoffset: 430 - 20
 }
 
-.llms-quiz-result-details {
-  float: left;
-  ul {
-    list-style-type: none;
-    float: left;
-    li {
-      list-style-type: none;
-      font-size: 20px;
-    }
-  }
-}
-.llms-attempts {
-  font-weight: bold;
-}
 
-.llms-pass-perc {
-  font-weight: bold;
-}
-.llms-content-block {
-  margin: 6px 0;
-}
+
+
+
+
 
 .llms-widget-syllabus {
 
@@ -424,14 +394,6 @@ svg .llms-animated-circle {
   }
 }
 
-.llms-question-wrapper {
-  margin: 40px 0 20px 0;
-}
-
-
-.llms-question-count {
-  margin-bottom: 20px;
-}
 
 
 .llms-remove-coupon {

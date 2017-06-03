@@ -26,6 +26,19 @@
 		};
 
 		/**
+		 * Add a dismissal to the array of dismissals to be pushed to the server
+		 * during the next heartbeat
+		 * @param    int   id  notification ID
+		 * @since    3.8.0
+		 * @version  3.8.0
+		 */
+		function add_dismissal( id ) {
+			if ( -1 === dismissals.indexOf( id ) ) {
+				dismissals.push( id );
+			}
+		};
+
+		/**
 		 * Clear the currently running heartbeat
 		 * @return   void
 		 * @since    3.8.0
@@ -64,6 +77,8 @@
 		 */
 		pump = function( cb ) {
 
+			var clear_dismissals = dismissals.length ? true : false;
+
 			LLMS.Ajax.call( {
 				data: {
 					action: 'notifications_heartbeart',
@@ -93,12 +108,11 @@
 				},
 				success: function( r ) {
 
-					dismissals = [];
+					dismissals = clear_dismissals ? [] : dismissals;
 
 					if ( r.success && r.data ) {
 						self.queue( r.data.new );
 					}
-
 
 					cb();
 
@@ -192,7 +206,7 @@
 		this.dismiss = function( $el ) {
 			var self = this;
 			$el.removeClass( 'visible' );
-			dismissals.push( $el.attr( 'data-id' ) );
+			add_dismissal( $el.attr( 'data-id' ) );
 			setTimeout( function() {
 				self.reposition( $el.next( '.llms-notification.visible' ) );
 			}, 10 );
@@ -343,6 +357,13 @@
 			var self = this,
 				$html = $( n.html );
 
+			$html.find( 'a' ).on( 'click', function( e ) {
+				e.preventDefault();
+				var $this = $( this );
+				add_dismissal( $html.attr( 'data-id' ) );
+				window.location = $this.attr( 'href' );
+			} );
+
 			$( 'body' ).append( $html );
 			$html.css( 'top', self.get_offset() );
 
@@ -352,6 +373,11 @@
 
 			// if it's auto dismissing, set up a dismissal
 			if ( $html.attr( 'data-auto-dismiss' ) ) {
+				// automatically schedule automatic dismissals
+				// to prevent the notification from displaying again
+				// if the auto-dismiss timeout isn't reached
+				// before the page unloads
+				add_dismissal( $html.attr( 'data-id' ) );
 				setTimeout( function() {
 					self.dismiss( $html );
 				}, $html.attr( 'data-auto-dismiss' ) );

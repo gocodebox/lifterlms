@@ -19,7 +19,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 * Number of accepted arguments passed to the callback function
 	 * @var  integer
 	 */
-	protected $action_accepted_arguments = 1;
+	protected $action_accepted_args = 1;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
@@ -58,9 +58,12 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 
 		switch ( $subscriber ) {
 
-			// case 'author':
-			// 	// $uid = $this->course->get( 'author' );
-			// break;
+			case 'author':
+				$txn = llms_get_post( $this->post_id );
+				$order = $txn->get_order();
+				$product = $order->get_product();
+				$uid = $product->get( 'author' );
+			break;
 
 			case 'student':
 				$uid = $this->user_id;
@@ -85,7 +88,6 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 */
 	protected function set_supported_types() {
 		return array(
-			// 'basic' => __( 'Basic', 'lifterlms' ),
 			'email' => __( 'Email', 'lifterlms' ),
 		);
 	}
@@ -115,6 +117,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		switch ( $type ) {
 
 			case 'email':
+				$options[] = $this->get_subscriber_option_array( 'author', 'yes' );
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 			break;

@@ -6,7 +6,7 @@
 @import "_includes/extends";
 @import "_includes/mixins";
 @import "_includes/buttons";
-
+@import "_includes/llms-donut";
 
 @import "frontend/main";
 @import "frontend/loop";
@@ -20,8 +20,8 @@
 @import "frontend/llms-pagination";
 @import "frontend/tooltip";
 
+@import "frontend/llms-quizzes";
 @import "frontend/quiz-timer";
-
 @import "frontend/quiz-accordion";
 
 @import "frontend/voucher";

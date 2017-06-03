@@ -75,10 +75,11 @@ class LLMS_Notifications {
 	 */
 	public function dispatch_processors() {
 
-		foreach ( $this->processors_to_dispatch as $name ) {
+		foreach ( $this->processors_to_dispatch as $key => $name ) {
 
 			$processor = $this->get_processor( $name );
 			if ( $processor ) {
+				unset( $this->processors_to_dispatch[ $key ] );
 				$processor->save()->dispatch();
 			}
 		}
@@ -186,12 +187,16 @@ class LLMS_Notifications {
 
 		$triggers = array(
 			'achievement_earned',
+			'certificate_earned',
 			'course_complete',
-			'course_enrollment',
 			'course_track_complete',
+			'enrollment',
 			'lesson_complete',
 			'purchase_receipt',
+			'quiz_failed',
+			'quiz_passed',
 			'section_complete',
+			'student_welcome',
 		);
 
 		foreach ( $triggers as $name ) {

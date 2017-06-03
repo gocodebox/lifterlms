@@ -232,6 +232,31 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 }
 
 /**
+ * Retrieve the HTML for a donut chart
+ * Note that this must be used in conjunction with some JS to initialize the chart!
+ * @param    [type]     $percentage  percentage to display
+ * @param    string     $text        optional text/caption to display (short)
+ * @param    string     $size        size of the chart (small, default, large)
+ * @param    array      $classes     additional custom css classes to add to the chart element
+ * @return   string
+ * @since    3.9.0
+ * @version  3.9.0
+ */
+function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = array() ) {
+	$classes = array_merge( array( 'llms-donut', $size ), $classes );
+	$classes = implode( ' ', $classes );
+	return '
+		<div class="' . $classes . '" data-perc="' . $percentage . '">
+			<div class="inside">
+				<div class="percentage">
+					' . round( $percentage, 2 ) . '<small>%</small>
+					<div class="caption">' . $text . '</div>
+				</div>
+			</div>
+		</div>';
+}
+
+/**
  * Get a list of registered engagement triggers
  * @return   array
  * @since    3.1.0

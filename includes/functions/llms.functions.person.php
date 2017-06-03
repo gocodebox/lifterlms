@@ -54,15 +54,17 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
 
 /**
  * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
- * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID
+ * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be uesd
  * @return   boolean
  * @since    3.7.0
- * @version  3.7.1
+ * @version  3.9.0
  */
-function llms_can_user_bypass_restrictions( $user ) {
+function llms_can_user_bypass_restrictions( $user = null ) {
 
-	if ( ! is_a( $user, 'LLMS_Student' ) ) {
-		$user = new LLMS_Student( $user );
+	$user = llms_get_student( $user );
+
+	if ( ! $user ) {
+		return false;
 	}
 
 	$roles = get_option( 'llms_grant_site_access', '' );
@@ -70,7 +72,7 @@ function llms_can_user_bypass_restrictions( $user ) {
 		$roles = array();
 	}
 
-	if ( array_intersect( $user->get( 'user' )->roles, $roles ) ) {
+	if ( array_intersect( $user->get_user()->roles, $roles ) ) {
 		return true;
 	}
 
@@ -149,6 +151,18 @@ function llms_get_minimum_password_strength_name() {
 	}
 
 	return $r;
+}
+
+/**
+ * Get an LLMS_Student
+ * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any student class extending this class
+ * @return   obj|false        LLMS_Student instance on success, false if user not found
+ * @since    3.8.0
+ * @version  3.9.0
+ */
+function llms_get_student( $user = null ) {
+	$student = new LLMS_Student( $user );
+	return $student->exists() ? $student : false;
 }
 
 /**
@@ -250,6 +264,44 @@ function llms_set_person_auth_cookie( $user_id, $remember = false ) {
 	wp_set_current_user( $user_id );
 	wp_set_auth_cookie( $user_id, false );
 	update_user_meta( $user_id, 'llms_last_login', current_time( 'mysql' ) );
+}
+
+/**
+ * Generate a user password reset key, hash it, and store it in the database
+ * @param    int     $user_id  WP_User ID
+ * @return   string
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_set_user_password_rest_key( $user_id ) {
+
+	$user = get_user_by( 'ID', $user_id );
+
+	// generate an activation key
+	$key = wp_generate_password( 20, false );
+
+	do_action( 'retrieve_password_key', $user->user_login, $key ); // wp core hook
+
+	// insert the hashed key into the db
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
+	}
+	$hashed = $wp_hasher->HashPassword( $key );
+
+	global $wpdb;
+	$wpdb->update(
+		$wpdb->users,
+		array(
+			'user_activation_key' => $hashed,
+		),
+		array(
+			'user_login' => $user->user_login,
+		)
+	);
+
+	return $key;
+
 }
 
 /**

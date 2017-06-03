@@ -539,9 +539,15 @@ class LLMS_Admin_Settings {
 				$class 			= '';
 
 				if ( $option_value ) {
-					$size = isset( $field['image_size'] ) ? $field['image_size'] : 'medium';
-					$attachment = wp_get_attachment_image_src( $option_value, $size );
-					$src = $attachment[0];
+					// media lib object ID
+					if ( is_numeric( $option_value ) ) {
+						$size = isset( $field['image_size'] ) ? $field['image_size'] : 'medium';
+						$attachment = wp_get_attachment_image_src( $option_value, $size );
+						$src = $attachment[0];
+					} else {
+						// raw img src
+						$src = $option_value;
+					}
 				} else {
 					$src = '';
 				}
@@ -554,8 +560,13 @@ class LLMS_Admin_Settings {
 					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
 
 						<img class="llms-image-field-preview" src="<?php echo $src; ?>">
-						<input class="llms-button-secondary llms-image-field-upload" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button" value="<?php echo __( 'Select', 'lifterlms' ); ?>">
-						<input class="llms-button-danger small llms-image-field-remove<?php echo ( ! $src ) ? ' hidden' : '' ?>" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button" value="<?php echo __( 'Remove', 'lifterlms' ); ?>">
+						<button class="llms-button-secondary llms-image-field-upload" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button">
+							<span class="dashicons dashicons-admin-media"></span>
+							<?php _e( 'Upload', 'lifterlms' ); ?>
+						</button>
+						<button class="llms-button-danger llms-image-field-remove<?php echo ( ! $src ) ? ' hidden' : '' ?>" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button">
+							<span class="dashicons dashicons-no"></span>
+						</button>
 						<input
 							name="<?php echo esc_attr( $field['id'] ); ?>"
 							id="<?php echo esc_attr( $field['id'] ); ?>"

@@ -1,12 +1,6 @@
 @import "_includes/vars";
 @import "_includes/mixins";
 
-.llms-nav-tab-wrapper {
-	@media only screen and ( min-width: 768px ) {
-		display: inline-block;
-	}
-}
-
 .llms-addons-wrap {
 
 	@include clearfix();

@@ -3,7 +3,7 @@
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  * @since    3.5.0
- * @version  3.7.5
+ * @version  3.7.6
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -78,7 +78,7 @@ class LLMS_Admin_AddOns {
 	 * @param    sring     $name  section name (untranslated key)
 	 * @return   string
 	 * @since    3.5.0
-	 * @version  3.5.3
+	 * @version  3.7.6
 	 */
 	private function get_section_title( $name ) {
 		switch ( $name ) {
@@ -89,6 +89,10 @@ class LLMS_Admin_AddOns {
 
 			case 'all':
 				return __( 'All', 'lifterlms' );
+			break;
+
+			case 'bundles':
+				return __( 'Bundles', 'lifterlms' );
 			break;
 
 			case 'gateways':
@@ -107,10 +111,14 @@ class LLMS_Admin_AddOns {
 				return __( 'Tools & Utilities', 'lifterlms' );
 			break;
 
+			case 'resources':
+				return __( 'Resources', 'lifterlms' );
+			break;
+
 			case 'services':
 				return __( 'Services', 'lifterlms' );
 			break;
-		}
+		}// End switch().
 		return $name;
 	}
 
@@ -131,7 +139,7 @@ class LLMS_Admin_AddOns {
 		}
 		?>
 		<div class="wrap lifterlms lifterlms-settings">
-			<h1><?php _e( 'LifterLMS Add-Ons', 'lifterlms' ); ?></h1>
+			<h1><?php _e( 'LifterLMS Add-Ons, Services, and Resources', 'lifterlms' ); ?></h1>
 			<?php $this->output_navigation(); ?>
 			<?php $this->output_content(); ?>
 		</div>
@@ -143,7 +151,7 @@ class LLMS_Admin_AddOns {
 	 * @param    array   $addon  associative array of add-on data
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.7.6
 	 */
 	private function output_addon( $addon ) {
 		$featured = $addon['featured'] ? ' featured' : '';
@@ -158,7 +166,7 @@ class LLMS_Admin_AddOns {
 					<p><?php echo $addon['description']; ?></p>
 				</section>
 				<footer>
-					<span><?php _e( 'Developer:', 'lifterlms' ); ?></span>
+					<span><?php _e( 'Created by:', 'lifterlms' ); ?></span>
 					<span><?php echo $addon['developer']; ?></span>
 					<?php if ( $addon['developer_image'] ) : ?>
 						<img alt="<?php echo $addon['developer']; ?> logo" src="<?php echo esc_url( $addon['developer_image'] ); ?>">
@@ -171,26 +179,51 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Output the addon list for the current section
+	 * @param    bool   $featured   if true, only outputs featured addons
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.7.6
 	 */
-	private function output_content() {
+	private function output_content( $featured = false ) {
 		$addons = $this->get_current_section_content();
 		?>
 		<ul class="llms-addons-wrap">
 
 			<?php do_action( 'lifterlms_before_addons' ); ?>
 
-			<?php foreach ( $addons as $addon ) : ?>
-				<?php $this->output_addon( $addon ); ?>
+			<?php foreach ( $addons as $addon ) {
 
-			<?php endforeach; ?>
+				if ( $featured && ! $addon['featured'] ) {
+					continue;
+				}
+
+				$this->output_addon( $addon );
+
+} ?>
 
 			<?php do_action( 'lifterlms_after_addons' ); ?>
 
 		</ul>
 		<?php
+	}
+
+	/**
+	 * Outputs most popular resources
+	 * used on general settings screen
+	 * @return   void
+	 * @since    3.7.6
+	 * @version  3.7.6
+	 */
+	public function output_for_settings() {
+
+		if ( is_wp_error( $this->get_data() ) ) {
+
+			_e( 'There was an error retrieving add-ons. Please try again.', 'lifterlms' );
+			return;
+
+		}
+		$this->output_content( true );
+
 	}
 
 	/**

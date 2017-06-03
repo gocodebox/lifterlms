@@ -218,7 +218,7 @@ class LLMS_Student_Dashboard {
 	 * Callback to oupput the notifications content
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.9.0
 	 */
 	public static function output_notifications_content() {
 
@@ -253,7 +253,7 @@ class LLMS_Student_Dashboard {
 			) );
 
 			$pagination = array(
-				'next' => $notifications->is_last_page() ? '' : add_query_arg( 'sdpage', $page + 1, $url ),
+				'next' => $notifications->is_last_page() || ! $notifications->found_results ? '' : add_query_arg( 'sdpage', $page + 1, $url ),
 				'prev' => $notifications->is_first_page() ? '' : add_query_arg( 'sdpage', $page - 1, $url ),
 			);
 
@@ -286,9 +286,7 @@ class LLMS_Student_Dashboard {
 							'value' => $student->get_notification_subscription( $type, $controller->id, 'yes' ),
 						);
 					}
-
 				}
-
 			}
 
 			$args = array(
@@ -296,7 +294,7 @@ class LLMS_Student_Dashboard {
 				'settings' => $settings,
 			);
 
-		}
+		}// End if().
 
 		llms_get_template( 'myaccount/my-notifications.php', $args );
 	}

@@ -8,7 +8,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $mailer = LLMS()->mailer();
-$header_image = get_option( 'lifterlms_email_header_image' );
+$header_image = $mailer->get_header_image_src();
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 	<head>
@@ -65,6 +65,7 @@ $header_image = get_option( 'lifterlms_email_header_image' );
 				border-left-width: 0 !important;
 				border-radius: 0 !important;
 				border-right-width: 0 !important; } }
+		<?php do_action( 'llms_email_after_css' ); ?>
 		</style>
 	</head>
 	<body class="" style="background-color:<?php $mailer->get_css( 'background-color' ); ?>;color:<?php $mailer->get_css( 'font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;-webkit-font-smoothing:antialiased;font-size:<?php $mailer->get_css( 'font-size' ); ?>;line-height:1.4;margin:0;padding:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;">
