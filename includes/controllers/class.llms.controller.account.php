@@ -21,6 +21,8 @@ class LLMS_Controller_Account {
 
 	public function cancel_subscription() {
 
+		return;
+
 		// invalid nonce or the form wasn't submitted
 		if ( ! llms_verify_nonce( '_cancel_sub_nonce', 'llms_cancel_subscription', 'POST' ) ) {
 			return;

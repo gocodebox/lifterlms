@@ -38,11 +38,11 @@ msgstr ""
 msgid "First"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:498, templates/myaccount/my-courses.php:77, templates/myaccount/my-notifications.php:37, templates/myaccount/my-orders.php:55, templates/myaccount/view-order.php:190
+#: includes/abstracts/abstract.llms.admin.table.php:498, templates/myaccount/my-courses.php:77, templates/myaccount/my-notifications.php:37, templates/myaccount/my-orders.php:55, templates/myaccount/view-order.php:238
 msgid "Back"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:286, includes/class.llms.shortcodes.php:480, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:84, templates/myaccount/my-notifications.php:41, templates/myaccount/my-orders.php:61, templates/myaccount/view-order.php:193
+#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:286, includes/class.llms.shortcodes.php:480, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:84, templates/myaccount/my-notifications.php:41, templates/myaccount/my-orders.php:61, templates/myaccount/view-order.php:241
 msgid "Next"
 msgstr ""
 
@@ -2111,7 +2111,7 @@ msgstr ""
 msgid "Usage / Limit"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:37, templates/myaccount/view-order.php:145
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:37, templates/myaccount/view-order.php:150
 msgid "Expiration Date"
 msgstr ""
 
@@ -2155,7 +2155,7 @@ msgstr ""
 msgid "Prerequisite"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:41, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:38, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order.php:161
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:41, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:38, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order.php:207
 msgid "Date"
 msgstr ""
 
@@ -2171,7 +2171,7 @@ msgstr ""
 msgid "Access Status"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:46, templates/myaccount/view-order.php:39
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:46, templates/myaccount/view-order.php:44
 msgid "Product"
 msgstr ""
 
@@ -2202,7 +2202,7 @@ msgstr ""
 msgid "Recurring"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:171, templates/admin/post-types/order-details.php:153, templates/myaccount/view-order.php:107
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:171, templates/admin/post-types/order-details.php:153, templates/myaccount/view-order.php:112
 msgid "One-time"
 msgstr ""
 
@@ -2234,7 +2234,7 @@ msgstr ""
 msgid "Reactivate Enrollment"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:148, templates/myaccount/view-order.php:22
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:148, templates/myaccount/view-order.php:23
 msgid "Order #%d"
 msgstr ""
 
@@ -2246,7 +2246,7 @@ msgstr ""
 msgid "Manage Existing Enrollments"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:331, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:188, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:280, templates/admin/post-types/order-transactions.php:17, templates/myaccount/view-order.php:159
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:331, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:188, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:280, templates/admin/post-types/order-transactions.php:17
 msgid "ID"
 msgstr ""
 
@@ -2254,7 +2254,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:340, includes/admin/reporting/tables/llms.table.student.courses.php:195, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/students/courses-quiz.php:22, templates/myaccount/view-order.php:29, templates/myaccount/view-order.php:160
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:340, includes/admin/reporting/tables/llms.table.student.courses.php:195, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/students/courses-quiz.php:22, templates/myaccount/view-order.php:34
 msgid "Status"
 msgstr ""
 
@@ -3271,7 +3271,7 @@ msgstr ""
 msgid "Voucher redeemed sucessfully!"
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:26, includes/controllers/class.llms.controller.account.php:81
+#: includes/class.llms.frontend.password.php:26, includes/controllers/class.llms.controller.account.php:106
 msgid "Enter a username or e-mail address."
 msgstr ""
 
@@ -4233,7 +4233,7 @@ msgstr ""
 msgid "This is where orders are managed"
 msgstr ""
 
-#: includes/class.llms.post-types.php:599
+#: includes/class.llms.post-types.php:599, templates/myaccount/view-order.php:206
 msgid "Transaction"
 msgstr ""
 
@@ -4738,7 +4738,7 @@ msgstr ""
 msgid "Access Plans"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1009, templates/checkout/form-summary.php:12, templates/myaccount/view-order.php:34
+#: includes/class.llms.post-types.php:1009, templates/checkout/form-summary.php:12, templates/myaccount/view-order.php:39
 msgid "Access Plan"
 msgstr ""
 
@@ -5017,35 +5017,43 @@ msgstr ""
 msgid "You have already redeemed this voucher."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:36
+#: includes/controllers/class.llms.controller.account.php:31, includes/controllers/class.llms.controller.account.php:38
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.account.php:42
+msgid "Cancelled by student from account page."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.account.php:61
 msgid "Please log in and try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:55
+#: includes/controllers/class.llms.controller.account.php:80
 msgid "Your account information has been saved."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:90
+#: includes/controllers/class.llms.controller.account.php:115
 msgid "Invalid username or e-mail address."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:100
+#: includes/controllers/class.llms.controller.account.php:125
 msgid "Password reset is not allowed for this user"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:121
+#: includes/controllers/class.llms.controller.account.php:146
 msgid "Check your e-mail for the confirmation link."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:125
+#: includes/controllers/class.llms.controller.account.php:150
 msgid "Unable to reset password due to an unknown error. Please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:156, includes/controllers/class.llms.controller.account.php:163
+#: includes/controllers/class.llms.controller.account.php:181, includes/controllers/class.llms.controller.account.php:188
 msgid "Invalid Key"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:172
+#: includes/controllers/class.llms.controller.account.php:197
 msgid "Your password has been updated. %1$sClick here to login%2$s"
 msgstr ""
 
@@ -7085,7 +7093,7 @@ msgctxt "lesson grade when lesson has no quiz"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:661
+#: includes/models/model.llms.student.php:685
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
@@ -7288,11 +7296,11 @@ msgstr ""
 msgid "Plan"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:41, templates/admin/post-types/order-transactions.php:20, templates/myaccount/view-order.php:162
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:41, templates/admin/post-types/order-transactions.php:20, templates/myaccount/view-order.php:208
 msgid "Amount"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:42, templates/checkout/form-confirm-payment.php:177, templates/myaccount/view-order.php:113
+#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:42, templates/checkout/form-confirm-payment.php:177, templates/myaccount/view-order.php:118
 msgid "Payment Method"
 msgstr ""
 
@@ -7665,7 +7673,7 @@ msgstr ""
 msgid "Total:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:109, templates/admin/post-types/order-details.php:150, templates/myaccount/view-order.php:64, templates/myaccount/view-order.php:104
+#: templates/admin/post-types/order-details.php:109, templates/admin/post-types/order-details.php:150, templates/myaccount/view-order.php:69, templates/myaccount/view-order.php:109
 msgid "for %1$d %2$s"
 msgid_plural "for %1$d %2$ss"
 msgstr[0] ""
@@ -7683,7 +7691,7 @@ msgstr ""
 msgid "Sale Discount:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:148, templates/myaccount/view-order.php:102
+#: templates/admin/post-types/order-details.php:148, templates/myaccount/view-order.php:107
 msgid "Every %2$s"
 msgid_plural "Every %1$d %2$ss"
 msgstr[0] ""
@@ -8442,43 +8450,47 @@ msgstr ""
 msgid "Invalid Order"
 msgstr ""
 
-#: templates/myaccount/view-order.php:46, templates/myaccount/view-order.php:71
+#: templates/myaccount/view-order.php:51, templates/myaccount/view-order.php:76
 msgid "Original Total"
 msgstr ""
 
-#: templates/myaccount/view-order.php:51, templates/myaccount/view-order.php:87
+#: templates/myaccount/view-order.php:56, templates/myaccount/view-order.php:92
 msgid "Coupon Discount"
 msgstr ""
 
-#: templates/myaccount/view-order.php:61
+#: templates/myaccount/view-order.php:66
 msgid "Trial Total"
 msgstr ""
 
-#: templates/myaccount/view-order.php:77
+#: templates/myaccount/view-order.php:82
 msgid "Sale Discount"
 msgstr ""
 
-#: templates/myaccount/view-order.php:98
+#: templates/myaccount/view-order.php:103
 msgid "Total"
 msgstr ""
 
-#: templates/myaccount/view-order.php:124
+#: templates/myaccount/view-order.php:129
 msgid "Start Date"
 msgstr ""
 
-#: templates/myaccount/view-order.php:129
+#: templates/myaccount/view-order.php:134
 msgid "Last Payment Date"
 msgstr ""
 
-#: templates/myaccount/view-order.php:133
+#: templates/myaccount/view-order.php:138
 msgid "Next Payment Date"
 msgstr ""
 
-#: templates/myaccount/view-order.php:155
-msgid "Order Transactions"
+#: templates/myaccount/view-order.php:170
+msgid "Update Payment Method"
 msgstr ""
 
-#: templates/myaccount/view-order.php:163
+#: templates/myaccount/view-order.php:182
+msgid "Cancel Subscription"
+msgstr ""
+
+#: templates/myaccount/view-order.php:209
 msgid "Method"
 msgstr ""
 

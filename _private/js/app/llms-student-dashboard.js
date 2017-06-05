@@ -9,6 +9,12 @@
 LLMS.StudentDashboard = {
 
 	/**
+	 * Slug for the current screen/endpoint
+	 * @type  {String}
+	 */
+	screen: '',
+
+	/**
 	 * Will show the number of meters on the page
 	 * Used to conditionally bind meter-related events only when meters
 	 * actually exist
@@ -27,6 +33,13 @@ LLMS.StudentDashboard = {
 		if ( $( '.llms-student-dashboard' ).length ) {
 			this.meter_exists = $( '.llms-password-strength-meter' ).length;
 			this.bind();
+
+			if ( 'orders' === this.get_screen() ) {
+
+				this.bind_orders();
+
+			}
+
 		}
 
 	},
@@ -82,6 +95,41 @@ LLMS.StudentDashboard = {
 
 		}
 
+	},
+
+	bind_orders: function() {
+
+		$( '#llms-cancel-subscription-form' ).on( 'submit', this.order_cancel_warning );
+
+	},
+
+	/**
+	 * Get the current dashboard endpoint/tab slug
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	get_screen: function() {
+		if ( !this.screen ) {
+			this.screen = $( '.llms-student-dashboard' ).attr( 'data-current' );
+		}
+		return this.screen;
+	},
+
+	/**
+	 * Show a confirmation warning when Cancel Subscription form is submitted
+	 * @param    obj   e  JS event data
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	order_cancel_warning: function( e ) {
+		e.preventDefault();
+		var msg = 'Are you sure you want to cancel your subscription?';
+		if ( window.confirm( LLMS.l10n.translate( msg ) ) ) {
+			$( this ).off( 'submit', this.order_cancel_warning );
+			$( this ).submit();
+		}
 	},
 
 	/**

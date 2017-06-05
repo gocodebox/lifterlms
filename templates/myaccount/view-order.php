@@ -173,7 +173,7 @@ $gateway = $order->get_gateway();
 						'type'  => 'button',
 					) ); ?>
 
-					<form action="" method="POST">
+					<form action="" id="llms-cancel-subscription-form" method="POST">
 
 						<?php llms_form_field( array(
 							'columns' => 12,

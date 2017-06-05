@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.9.1
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.9.1
+	 * @version [version]
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -70,6 +70,13 @@ class LLMS_L10n {
 			 * @version  3.9.1
 			 */
 			'Members Only Pricing' => __( 'Members Only Pricing', 'lifterlms' ),
+
+			/**
+			 * file: _private/js/app/llms-student-dashboard.js
+			 * @since    [version]
+			 * @version  [version]
+			 */
+			'Are you sure you want to cancel your subscription?' => __( 'Are you sure you want to cancel your subscription?', 'lifterlms' ),
 
 			/**
 			 * file: _private/js/app/llms-syllabus.js
