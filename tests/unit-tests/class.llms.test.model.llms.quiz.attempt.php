@@ -36,9 +36,12 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 * @since    3.9.2
 	 * @version  3.9.2
 	 */
-	private function take_a_quiz( $desired_grade, $passing_percent, $num_questions = 15 ) {
+	private function take_a_quiz( $desired_grade, $passing_percent, $num_questions = 15, $attempt = null ) {
 
-		$attempt = $this->get_mock_attempt( $num_questions );
+		if ( ! $attempt ) {
+			$attempt = $this->get_mock_attempt( $num_questions );
+		}
+
 
 		update_post_meta( $attempt->get( 'quiz_id' ), '_llms_passing_percent', $passing_percent );
 		$to_answer_correctly = 0 === $desired_grade ? 0 : $desired_grade / 100 * $num_questions;
@@ -68,6 +71,26 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 		$attempt->end();
 
 		return $attempt;
+
+	}
+
+
+
+
+	public function test_grading_with_floats() {
+
+		$attempt = $this->get_mock_attempt( 6 );
+
+		$questions = $attempt->get( 'questions' );
+		foreach ( $questions as $key => $data ) {
+			$questions[ $key ]['points'] = 3.3333;
+		}
+
+		$attempt->set( 'questions', $questions );
+		$attempt->save();
+
+		$attempt = $this->take_a_quiz( 67, 65, 6, $attempt );
+		$this->assertEquals( 66.67, $attempt->get( 'grade' ) );
 
 	}
 

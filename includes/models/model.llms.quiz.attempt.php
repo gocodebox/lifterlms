@@ -64,7 +64,7 @@ class LLMS_Quiz_Attempt {
 	 */
 	private function calculate_grade() {
 
-		$grade = $this->get_count( 'points' ) * $this->calculate_point_weight();
+		$grade = round( $this->get_count( 'points' ) * $this->calculate_point_weight(), 2 );
 		$quiz = $this->get_quiz();
 		$min_grade = $quiz ? $quiz->get_passing_percent() : 100;
 
