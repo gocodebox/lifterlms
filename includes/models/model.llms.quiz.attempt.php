@@ -2,7 +2,7 @@
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version 3.9.0
+ * @version 3.9.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -60,31 +60,29 @@ class LLMS_Quiz_Attempt {
 	 * Calculate and the grade for a completed quiz
 	 * @return   $this      for chaining
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  3.9.2
 	 */
 	private function calculate_grade() {
 
-		$points = 0;
-
-		foreach ( $this->get( 'questions' ) as $data ) {
-			if ( $data['correct'] ) {
-				$points += $data['points'];
-			}
-		}
-
+		$grade = $this->get_count( 'points' ) * $this->calculate_point_weight();
 		$quiz = $this->get_quiz();
-
-		if ( 0 === $points ) {
-				$grade = 0;
-		} else {
-			$grade = $quiz->get_grade( $points );
-		}
+		$min_grade = $quiz ? $quiz->get_passing_percent() : 100;
 
 		$this->set( 'grade', $grade );
-		$this->set( 'passed', $quiz->is_passing_score( null, $grade ) );
+		$this->set( 'passed', ( $min_grade <= $grade ) );
 
 		return $this;
 
+	}
+
+	/**
+	 * Calculate the weight of each point
+	 * @return   float
+	 * @since    3.9.2
+	 * @version  3.9.2
+	 */
+	private function calculate_point_weight() {
+		return ( 100 / $this->get_count( 'available_points' ) );
 	}
 
 	/**
@@ -157,14 +155,30 @@ class LLMS_Quiz_Attempt {
 
 		$count = 0;
 		$questions = $this->get( 'questions' );
-		if ( 'questions' === $key ) {
-			return count( $questions );
-		} elseif ( 'correct_answers' === $key ) {
-			foreach ( $questions as $data ) {
-				if ( $data['correct'] ) {
-					$count++;
+
+		switch ( $key ) {
+
+			case 'available_points':
+			case 'correct_answers':
+			case 'points':
+				foreach ( $questions as $data ) {
+					// get the total number of correct answers
+					if ( 'correct_answers' === $key && $data['correct'] ) {
+						$count++;
+					// get the total number of earned points
+					} elseif ( 'points' === $key && $data['correct'] ) {
+						$count += $data['points'];
+					// get the total number of possible points
+					} elseif ( 'available_points' === $key )  {
+						$count += $data['points'];
+					}
 				}
-			}
+			break;
+
+			case 'questions':
+				return count( $questions );
+			break;
+
 		}
 
 		return $count;
@@ -222,6 +236,27 @@ class LLMS_Quiz_Attempt {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Get the numeric order of a question in a given quiz
+	 * @param    int     $question_id  WP Post ID of the LLMS_Question
+	 * @return   int
+	 * @since    3.9.2
+	 * @version  3.9.2
+	 */
+	public function get_question_order( $question_id ) {
+
+		foreach ( $this->get( 'questions' ) as $order => $data ) {
+
+			if ( $data['id'] == $question_id ) {
+				return $order + 1;
+			}
+
+		}
+
+		return 0;
 
 	}
 
@@ -414,6 +449,16 @@ class LLMS_Quiz_Attempt {
 
 		return $attempt;
 
+	}
+
+	/**
+	 * Determine if the attempt was passing
+	 * @return   boolean
+	 * @since    3.9.2
+	 * @version  3.9.2
+	 */
+	public function is_passing() {
+		return $this->get( 'passed' );
 	}
 
 	/**
