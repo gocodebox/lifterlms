@@ -4,10 +4,12 @@ v3.9.2 - 2017/06/06
 -------------------
 
 + Only display quiz time limit meta information when a time limit exists
++ Fix display of quiz question order (question x of x)
 
 ##### Templates Changed
 
 + [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
++ [quiz/question-count.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/question-count.php)
 
 
 v3.9.1 - 2017/06/02
