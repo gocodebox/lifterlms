@@ -1,5 +1,15 @@
 == Changelog ==
 
+v3.9.2 - 2017/06/06
+-------------------
+
++ Only display quiz time limit meta information when a time limit exists
+
+##### Templates Changed
+
++ [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
+
+
 v3.9.1 - 2017/06/02
 -------------------
 
