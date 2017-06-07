@@ -6913,7 +6913,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: includes/llms.functions.core.php:630, includes/models/model.llms.quiz.attempt.php:430, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
+#: includes/llms.functions.core.php:630, includes/models/model.llms.quiz.attempt.php:474, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
 msgid "Failed"
 msgstr ""
 
@@ -7067,11 +7067,11 @@ msgstr ""
 msgid "All recurring transactions completed"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:393
+#: includes/models/model.llms.quiz.attempt.php:427
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:430, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
+#: includes/models/model.llms.quiz.attempt.php:474, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
 msgid "Passed"
 msgstr ""
 
@@ -8530,7 +8530,7 @@ msgstr ""
 msgid "Previous Question"
 msgstr ""
 
-#: templates/quiz/question-count.php:33
+#: templates/quiz/question-count.php:19
 msgid "Question %1$d of %2$d"
 msgstr ""
 

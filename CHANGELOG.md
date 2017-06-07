@@ -1,8 +1,10 @@
 == Changelog ==
 
-v3.9.2 - 2017/06/06
+v3.9.2 - 2017/06/07
 -------------------
 
++ Tested up to WordPress 4.8
++ Fixed issue with merge codes on WP Editors for notifications, emails, etc...
 + Update notifications query to only return results related to posts which actually exist. Prevents errors occuring when reviewing achievements on the student dashboard for courses, lesseons, etc which have been deleted/trashed.
 + Only display quiz time limit meta information when a time limit exists
 + Fix display of quiz question order (question x of x)
