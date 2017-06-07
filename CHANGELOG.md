@@ -3,6 +3,7 @@
 v3.9.2 - 2017/06/06
 -------------------
 
++ Update notifications query to only return results related to posts which actually exist. Prevents errors occuring when reviewing achievements on the student dashboard for courses, lesseons, etc which have been deleted/trashed.
 + Only display quiz time limit meta information when a time limit exists
 + Fix display of quiz question order (question x of x)
 + Improved logic powering quiz attempt grading for increased consistency, especially with regards to floats and rounding

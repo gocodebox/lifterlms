@@ -2,7 +2,7 @@
 /**
 * Query LifterLMS Students for a given course / membership
 * @since    3.8.0
-* @version  3.8.0
+* @version  3.9.2
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -140,7 +140,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Prepare the SQL for the query
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.9.2
 	 */
 	protected function preprare_query() {
 
@@ -154,7 +154,9 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		$sql = $wpdb->prepare(
 			"SELECT SQL_CALC_FOUND_ROWS *
 
-			FROM {$wpdb->prefix}lifterlms_notifications
+			FROM {$wpdb->prefix}lifterlms_notifications AS n
+
+			LEFT JOIN wp_posts AS p on p.ID = n.post_id
 
 			{$this->sql_where()}
 
@@ -169,27 +171,62 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	}
 
+	/**
+	 * Retrieve the prepared SQL for the ORDER clase
+	 * Slightly modified from abstract to include the table name to prevent ambiguous errors
+	 * @return   string
+	 * @since    3.9.2
+	 * @version  3.9.2
+	 */
+	protected function sql_orderby() {
+
+		$sql = 'ORDER BY';
+
+		$comma = false;
+
+		foreach ( $this->get( 'sort' ) as $orderby => $order ) {
+			$pre = ( $comma ) ? ', ' : ' ';
+			$sql .= $pre . "n.{$orderby} {$order}";
+			$comma = true;
+		}
+
+		if ( $this->get( 'suppress_filters' ) ) {
+			return $sql;
+		}
+
+		return apply_filters( $this->get_filter( 'orderby' ), $sql, $this );
+
+	}
+
+	/**
+	 * Retrieve the prepared SQL for the WHERE clause
+	 * @return   string
+	 * @since    3.8.0
+	 * @version  3.9.2
+	 */
 	private function sql_where() {
 
 		global $wpdb;
 
 		$where = 'WHERE 1';
 
+		$where .= " AND p.post_status = 'publish')";
+
 		$statuses = $this->get( 'statuses' );
 		if ( $statuses ) {
 			$statuses = array_map( array( $this, 'escape_and_quote_string' ), $statuses );
-			$where .= sprintf( ' AND status IN( %s )', implode( ', ', $statuses ) );
+			$where .= sprintf( ' AND n.status IN( %s )', implode( ', ', $statuses ) );
 		}
 
 		$types = $this->get( 'types' );
 		if ( $types ) {
 			$types = array_map( array( $this, 'escape_and_quote_string' ), $types );
-			$where .= sprintf( ' AND type IN( %s )', implode( ', ', $types ) );
+			$where .= sprintf( ' AND n.type IN( %s )', implode( ', ', $types ) );
 		}
 
 		$subsciber = $this->get( 'subscriber' );
 		if ( $subsciber ) {
-			$where .= $wpdb->prepare( ' AND subscriber = %s', $subsciber );
+			$where .= $wpdb->prepare( ' AND n.subscriber = %s', $subsciber );
 		}
 
 		return $where;
