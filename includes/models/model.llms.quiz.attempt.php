@@ -165,11 +165,11 @@ class LLMS_Quiz_Attempt {
 					// get the total number of correct answers
 					if ( 'correct_answers' === $key && $data['correct'] ) {
 						$count++;
-					// get the total number of earned points
+						// get the total number of earned points
 					} elseif ( 'points' === $key && $data['correct'] ) {
 						$count += $data['points'];
-					// get the total number of possible points
-					} elseif ( 'available_points' === $key )  {
+						// get the total number of possible points
+					} elseif ( 'available_points' === $key ) {
 						$count += $data['points'];
 					}
 				}
@@ -253,7 +253,6 @@ class LLMS_Quiz_Attempt {
 			if ( $data['id'] == $question_id ) {
 				return $order + 1;
 			}
-
 		}
 
 		return 0;
