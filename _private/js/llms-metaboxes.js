@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.8.0
+ * @version  3.9.2
  */
 ( function( $ ) {
 
@@ -421,7 +421,7 @@
 		 * Binds custom llms merge code buttons
 		 * @return   void
 		 * @since    3.1.0
-		 * @version  3.8.0
+		 * @version  3.9.2
 		 */
 		this.bind_merge_code_buttons = function() {
 
@@ -441,9 +441,9 @@
 				// dealing with a tinymce instance
 				if ( -1 === target.indexOf( '#' ) ) {
 
-					var qtags = window.QTags;
-					if ( undefined !== qtags ) {
-						qtags.insertContent( code );
+					var editor = window.tinymce.editors[ target ];
+					if ( editor ) {
+						editor.insertContent( code );
 					} // fallback in case we can't access the editor directly
 					else {
 						alert( LLMS.l10n.translate( 'Copy this code and paste it into the desired area' ) + ': ' + code );
