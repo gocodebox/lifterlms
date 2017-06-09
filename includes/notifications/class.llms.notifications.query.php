@@ -2,7 +2,7 @@
 /**
 * Query LifterLMS Students for a given course / membership
 * @since    3.8.0
-* @version  3.9.2
+* @version  3.9.3
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -202,7 +202,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Retrieve the prepared SQL for the WHERE clause
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.9.2
+	 * @version  3.9.3
 	 */
 	private function sql_where() {
 
@@ -210,7 +210,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 		$where = 'WHERE 1';
 
-		$where .= " AND p.post_status = 'publish')";
+		$where .= " AND p.post_status = 'publish'";
 
 		$statuses = $this->get( 'statuses' );
 		if ( $statuses ) {
