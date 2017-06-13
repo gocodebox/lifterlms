@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 3.9.4
+Stable tag: 3.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -213,6 +213,15 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.9.5 - 2017/06/13 =
+-----------------------
+
++ Increased css z-index of basic notifications to prevent issues with themes that have high z-index on menus and other elements
++ Increased the frequency of basic notification heartbeat check from 10 to 20 seconds
++ Added filter to allow for customization of the notifications heartbeat interval, example [here](https://lifterlms.com/docs/lifterlms-filters/#llms_notifications_settings).
++ Fixed error related to password reset when the "Disable Usernames" account setting is disabled
+
 
 = v3.9.4 - 2017/06/12 =
 -----------------------

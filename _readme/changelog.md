@@ -1,5 +1,14 @@
 == Changelog ==
 
+= v3.9.5 - 2017/06/13 =
+-----------------------
+
++ Increased css z-index of basic notifications to prevent issues with themes that have high z-index on menus and other elements
++ Increased the frequency of basic notification heartbeat check from 10 to 20 seconds
++ Added filter to allow for customization of the notifications heartbeat interval, example [here](https://lifterlms.com/docs/lifterlms-filters/#llms_notifications_settings).
++ Fixed error related to password reset when the "Disable Usernames" account setting is disabled
+
+
 = v3.9.4 - 2017/06/12 =
 -----------------------
 

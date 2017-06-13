@@ -5025,27 +5025,27 @@ msgstr ""
 msgid "Your account information has been saved."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:90
+#: includes/controllers/class.llms.controller.account.php:105
 msgid "Invalid username or e-mail address."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:100
+#: includes/controllers/class.llms.controller.account.php:115
 msgid "Password reset is not allowed for this user"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:121
+#: includes/controllers/class.llms.controller.account.php:136
 msgid "Check your e-mail for the confirmation link."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:125
+#: includes/controllers/class.llms.controller.account.php:140
 msgid "Unable to reset password due to an unknown error. Please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:156, includes/controllers/class.llms.controller.account.php:163
+#: includes/controllers/class.llms.controller.account.php:171, includes/controllers/class.llms.controller.account.php:178
 msgid "Invalid Key"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:172
+#: includes/controllers/class.llms.controller.account.php:187
 msgid "Your password has been updated. %1$sClick here to login%2$s"
 msgstr ""
 
