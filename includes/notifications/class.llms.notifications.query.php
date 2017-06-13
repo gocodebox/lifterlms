@@ -2,7 +2,7 @@
 /**
 * Query LifterLMS Students for a given course / membership
 * @since    3.8.0
-* @version  3.9.3
+* @version  3.9.4
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -140,7 +140,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Prepare the SQL for the query
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.9.2
+	 * @version  3.9.4
 	 */
 	protected function preprare_query() {
 
@@ -156,7 +156,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 			FROM {$wpdb->prefix}lifterlms_notifications AS n
 
-			LEFT JOIN wp_posts AS p on p.ID = n.post_id
+			LEFT JOIN {$wpdb->posts} AS p on p.ID = n.post_id
 
 			{$this->sql_where()}
 

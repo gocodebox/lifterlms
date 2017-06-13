@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.9.4 - 2017/06/12
+-------------------
+
++ Fix hardcoded db reference to `wp_posts` table
+
+
 v3.9.3 - 2017/06/09
 -------------------
 
