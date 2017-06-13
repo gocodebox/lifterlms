@@ -3,7 +3,7 @@
  * User Account Edit Forms
  *
  * @since   3.7.0
- * @version 3.8.0
+ * @version 3.9.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -67,7 +67,7 @@ class LLMS_Controller_Account {
 	 * This is the form that sends a password recovery email with a link to reset the password
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.9.5
 	 */
 	public function lost_password() {
 
@@ -82,10 +82,25 @@ class LLMS_Controller_Account {
 		}
 
 		$login = trim( $_POST['llms_login'] );
-		$get_by = ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) ) ? 'email' : 'login';
 
-		// make sure user exists
-		$user = get_user_by( $get_by, $login );
+		// always check email
+		$get_by = array( 'email' );
+		// add login if username generation is disabled (eg users create their own usernames)
+		if ( 'no' === get_option( 'lifterlms_registration_generate_username' ) ) {
+			$get_by[] = 'login';
+		}
+
+		$user = null;
+		// check each field to find the user
+		foreach ( $get_by as $field ) {
+			$user = get_user_by( $field, $login );
+			// if we find a user skip the next check
+			if ( $user ) {
+				break;
+			}
+		}
+
+		// if we don't have a user return an error
 		if ( ! $user ) {
 			return llms_add_notice( __( 'Invalid username or e-mail address.', 'lifterlms' ), 'error' );
 		}
