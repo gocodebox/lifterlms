@@ -15,8 +15,6 @@ LifterLMS
 
 ### Documentation
 + [https://lifterlms.com/docs/](https://lifterlms.com/docs/)
-+ [https://lifterlms.readme.io](https://lifterlms.readme.io)
-
 
 ### Support
 
