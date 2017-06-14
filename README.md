@@ -1,6 +1,10 @@
 LifterLMS
 ==========
 
+[![WordPress plugin](https://img.shields.io/wordpress/plugin/v/lifterlms.svg)]()
+[![WordPress](https://img.shields.io/wordpress/v/lifterlms.svg)]()
+[![WordPress rating](https://img.shields.io/wordpress/plugin/r/lifterlms.svg)]()
+[![WordPress](https://img.shields.io/wordpress/plugin/dt/lifterlms.svg)]()
 [![Build Status](https://travis-ci.org/gocodebox/lifterlms.svg?branch=master)](https://travis-ci.org/gocodebox/lifterlms)
 [![Code Climate](https://codeclimate.com/github/gocodebox/lifterlms/badges/gpa.svg)](https://codeclimate.com/github/gocodebox/lifterlms)
 [![Test Coverage](https://codeclimate.com/github/gocodebox/lifterlms/badges/coverage.svg)](https://codeclimate.com/github/gocodebox/lifterlms/coverage)
