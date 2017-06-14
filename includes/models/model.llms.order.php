@@ -2,7 +2,7 @@
 /**
  * LifterLMS Order Model
  * @since    3.0.0
- * @version  3.8.0
+ * @version  [version]
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -84,6 +84,62 @@ class LLMS_Order extends LLMS_Post_Model {
 	protected $db_post_type = 'llms_order';
 	protected $model_post_type = 'order';
 
+	protected $properties = array(
+
+		'coupon_amount' => 'float',
+		'coupon_amout_trial' => 'float',
+		'coupon_value' => 'float',
+		'coupon_value_trial' => 'float',
+		'original_total' => 'float',
+		'sale_price' => 'float',
+		'sale_value' => 'float',
+		'total' => 'float',
+		'trial_original_total' => 'float',
+		'trial_total' => 'float',
+
+		'access_length' => 'absint',
+		'billing_frequency' => 'absint',
+		'billing_length' => 'absint',
+		'coupon_id' => 'absint',
+		'plan_id' => 'absint',
+		'product_id' => 'absint',
+		'trial_length' => 'absint',
+		'user_id' => 'absint',
+
+		'access_expiration' => 'text',
+		'access_expires' => 'text',
+		'access_period' => 'text',
+		'billing_address_1' => 'text',
+		'billing_address_2' => 'text',
+		'billing_city' => 'text',
+		'billing_country' => 'text',
+		'billing_email' => 'text',
+		'billing_first_name' => 'text',
+		'billing_last_name' => 'text',
+		'billing_state' => 'text',
+		'billing_zip' => 'text',
+		'billing_period' => 'text',
+		'coupon_code' => 'text',
+		'coupon_type' => 'text',
+		'coupon_used' => 'text',
+		'currency' => 'text',
+		'on_sale' => 'text',
+		'order_key' => 'text',
+		'order_type' => 'text',
+		'payment_gateway' => 'text',
+		'plan_sku' => 'text',
+		'plan_title' => 'text',
+		'product_sku' => 'text',
+		'product_type' => 'text',
+		'title' => 'text',
+		'gateway_api_mode' => 'text',
+		'gateway_customer_id' => 'text',
+		'trial_offer' => 'text',
+		'trial_period' => 'text',
+		'user_ip_address' => 'text',
+
+	);
+
 	/**
 	 * Add an admin-only note to the order visible on the admin panel
 	 * notes are recorded using the wp comments API & DB
@@ -108,8 +164,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$author = $user->display_name;
 			$author_email = $user->user_email;
 
-		} // End if().
-		else {
+		} else {
 
 			$user_id = 0;
 			$author = _x( 'LifterLMS', 'default order note author', 'lifterlms' );
@@ -209,7 +264,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *                         'expired'  if access has expired according to $this->get_access_expiration_date()
 	 *                         'active'   otherwise
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function get_access_status() {
 
@@ -239,7 +294,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		// to determine if access has expired
 		if ( is_numeric( $expires ) ) {
 
-			$now = current_time( 'timestamp' );
+			$now = llms_current_time( 'timestamp' );
 
 			// expiration date is in the past
 			// eg: the access has already expired
@@ -386,84 +441,6 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get a property's data type for scrubbing
-	 * used by $this->scrub() to determine how to scrub the property
-	 * @param  string $key  property key
-	 * @since  3.0.0
-	 * @version  3.0.0
-	 * @return string
-	 */
-	protected function get_property_type( $key ) {
-
-		switch ( $key ) {
-
-			case 'coupon_amount':
-			case 'coupon_amout_trial':
-			case 'coupon_value':
-			case 'coupon_value_trial':
-			case 'original_total':
-			case 'sale_price':
-			case 'sale_value':
-			case 'total':
-			case 'trial_original_total':
-			case 'trial_total':
-				$type = 'float';
-			break;
-
-			case 'access_length':
-			case 'billing_frequency':
-			case 'billing_length':
-			case 'coupon_id':
-			case 'id':
-			case 'plan_id':
-			case 'product_id':
-			case 'trial_length':
-			case 'user_id':
-				$type = 'absint';
-			break;
-
-			case 'access_expiration':
-			case 'access_expires':
-			case 'access_period':
-			case 'billing_address_1':
-			case 'billing_address_2':
-			case 'billing_city':
-			case 'billing_country':
-			case 'billing_email':
-			case 'billing_first_name':
-			case 'billing_last_name':
-			case 'billing_state':
-			case 'billing_zip':
-			case 'billing_period':
-			case 'coupon_code':
-			case 'coupon_type':
-			case 'coupon_used':
-			case 'currency':
-			case 'on_sale':
-			case 'order_key':
-			case 'order_type':
-			case 'payment_gateway':
-			case 'plan_sku':
-			case 'plan_title':
-			case 'product_sku':
-			case 'product_type':
-			case 'title':
-			case 'gateway_api_mode':
-			case 'gateway_customer_id':
-			case 'trial_offer':
-			case 'trial_period':
-			case 'user_ip_address':
-			default:
-				$type = 'text';
-
-		}// End switch().
-
-		return $type;
-
-	}
-
-
-	/**
 	 * Retrieve the last (most recent) transaction processed for the order
 	 * @param    array|string  $status  filter by status (see transaction statuses)
 	 * @param    array|string  $type    filter by type [recurring|single|trial]
@@ -514,8 +491,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		// single payments will never have a next payment date
 		if ( ! $this->is_recurring() ) {
 			return new WP_Error( 'not-recurring', __( 'Order is not recurring', 'lifterlms' ) );
-		} // End if().
-		elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-pending' ) ) ) {
+		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-pending' ) ) ) {
 			return new WP_Error( 'invalid-status', __( 'Invalid order status', 'lifterlms' ), $this->get( 'status' ) );
 		}
 
@@ -1020,7 +996,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Schedules the next payment due on a recurring order
 	 * Can be called witnout consequence on a single payment order
-	 * Will always unschedule the scheduled action (if one exists) before scheduling anothes
+	 * Will always unschedule the scheduled action (if one exists) before scheduling another
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.1.7
@@ -1164,4 +1140,3 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 }
-

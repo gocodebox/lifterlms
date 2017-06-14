@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  3.9.0
+ * @version  3.9.2
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -79,12 +79,12 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * @since    3.7.3
 	 * @version  3.7.3
 	 */
-	protected function generate_mock_courses( $num_courses = 1, $num_sections = 5, $num_lessons = 5, $num_quizzes = 1 ) {
+	protected function generate_mock_courses( $num_courses = 1, $num_sections = 5, $num_lessons = 5, $num_quizzes = 1, $num_questions = 5 ) {
 
 		$courses = array();
 		$i = 1;
 		while ( $i <= $num_courses ) {
-			$courses[] = $this->get_mock_course_array( $i, $num_sections, $num_lessons, $num_quizzes );
+			$courses[] = $this->get_mock_course_array( $i, $num_sections, $num_lessons, $num_quizzes, $num_questions );
 			$i++;
 		}
 
@@ -106,9 +106,9 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * @param    int     $num_quizzes   number of quizzes for each section in the course
 	 * @return   array
 	 * @since    3.7.3
-	 * @version  3.9.0
+	 * @version  3.9.2
 	 */
-	private function get_mock_course_array( $iterator, $num_sections, $num_lessons, $num_quizzes ) {
+	private function get_mock_course_array( $iterator, $num_sections, $num_lessons, $num_quizzes, $num_questions ) {
 
 		$mock = array(
 			'title' => sprintf( 'mock course %d', $iterator ),
@@ -137,37 +137,34 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 
 					$lesson['assigned_quiz'] = array(
 						'title' => sprintf( 'mock quiz %d', $lessons_i ),
-						'questions' => array(
-							array(
-								'title' => 'q1',
-								'type' => 'single_choice',
-								'options' => array(
-									array(
-										'option_text' => 'o1',
-										'correct_option' => true,
-									),
-									array(
-										'option_text' => 'o2',
-										'correct_option' => false,
-									),
-								),
-							),
-							array(
-								'title' => 'q2',
-								'type' => 'single_choice',
-								'options' => array(
-									array(
-										'option_text' => 'o1',
-										'correct_option' => true,
-									),
-									array(
-										'option_text' => 'o2',
-										'correct_option' => false,
-									),
-								),
-							),
-						),
 					);
+
+					$questions = array();
+					$questions_i = 1;
+					while ( $questions_i <= $num_questions ) {
+
+						$options_i = 1;
+						$total_options = rand( 2, 5 );
+						$correct_option = rand( $options_i, $total_options );
+						$options = array();
+						while( $options_i <= $total_options ) {
+							$options[] = array(
+								'option_text' => sprintf( 'option %d', $options_i ),
+								'correct_option' => ( $options_i === $correct_option ),
+							);
+							$options_i++;
+						}
+						$questions[] = array(
+							'title' => sprintf( 'question %d', $questions_i ),
+							'type' => 'single_choice',
+							'options' => $options,
+						);
+
+						$questions_i++;
+
+					}
+
+					$lesson['assigned_quiz']['questions'] = $questions;
 
 				}
 

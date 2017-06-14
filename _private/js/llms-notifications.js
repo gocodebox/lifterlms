@@ -1,14 +1,15 @@
 /**
  * LifterLMS Basic Notifications Displayer
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.9.5
  */
 ;( function( $ ) {
 
 	var llms_notifications = function() {
 
 		var self = this,
-			heartbeat_interval = 10000,
+			settings = ( window.llms && window.llms.notification_settings ) ? window.llms.notification_settings : {},
+			heartbeat_interval = settings.heartbeat_interval ? settings.heartbeat_interval : 20000,
 			notifications = [],
 			dismissals = [],
 			heartbeat;

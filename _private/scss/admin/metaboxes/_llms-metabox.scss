@@ -40,6 +40,16 @@
 		font-style: italic;
 	}
 
+	a.llms-editable {
+		color: $color-grey;
+		text-decoration: none;
+		&:hover {
+			color: $color-brand-blue;
+		}
+	}
+
+	h4 a.llms-editable { float: right; }
+
 }
 
 .llms-metabox-section {

@@ -1005,6 +1005,7 @@ svg .llms-animated-circle {
           transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
   visibility: none;
   width: auto;
+  z-index: 7777;
 }
 .llms-notification:before, .llms-notification:after {
   content: " ";

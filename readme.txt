@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.7.4
-Stable tag: 3.9.1
+Tested up to: 4.8
+Stable tag: 3.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -213,6 +213,43 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.9.5 - 2017/06/13 =
+-----------------------
+
++ Increased css z-index of basic notifications to prevent issues with themes that have high z-index on menus and other elements
++ Increased the frequency of basic notification heartbeat check from 10 to 20 seconds
++ Added filter to allow for customization of the notifications heartbeat interval, example [here](https://lifterlms.com/docs/lifterlms-filters/#llms_notifications_settings).
++ Fixed error related to password reset when the "Disable Usernames" account setting is disabled
+
+
+= v3.9.4 - 2017/06/12 =
+-----------------------
+
++ Fix hardcoded db reference to `wp_posts` table
+
+
+= v3.9.3 - 2017/06/09 =
+-----------------------
+
++ Fix typo in notifications query
+
+
+= v3.9.2 - 2017/06/07 =
+-----------------------
+
++ Tested up to WordPress 4.8
++ Fixed issue with merge codes on WP Editors for notifications, emails, etc...
++ Update notifications query to only return results related to posts which actually exist. Prevents errors occuring when reviewing achievements on the student dashboard for courses, lesseons, etc which have been deleted/trashed.
++ Only display quiz time limit meta information when a time limit exists
++ Fix display of quiz question order (question x of x)
++ Improved logic powering quiz attempt grading for increased consistency, especially with regards to floats and rounding
+
+##### Templates Changed
+
++ [quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/meta-information.php)
++ [quiz/question-count.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/question-count.php)
+
 
 = v3.9.1 - 2017/06/02 =
 -----------------------

@@ -2,7 +2,7 @@
 /**
  * Single Quiz: Meta Information
  * @since    3.9.0
- * @version  3.9.0
+ * @version  3.9.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -34,7 +34,7 @@ $time_limit = $quiz->get_time_limit();
 		<?php printf( __( 'Remaining Attempts: %s', 'lifterlms' ), '<span class="llms-attempts">' . $attempts_left . '</span>' ); ?>
 	</li>
 
-	<?php if ( $passing_percent ) : ?>
+	<?php if ( $time_limit ) : ?>
 	<li class="llms-quiz-meta-item passing-percent">
 		<?php printf( __( 'Time Limit: %s', 'lifterlms' ), '<span class="llms-time-limit">' . LLMS_Date::convert_to_hours_minutes_string( $time_limit ) . '</span>' ); ?>
 	</li>

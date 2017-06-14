@@ -2595,6 +2595,16 @@ a.llms-view-as {
   color: #e5554e;
   font-style: italic;
 }
+#poststuff .llms-metabox a.llms-editable {
+  color: #999;
+  text-decoration: none;
+}
+#poststuff .llms-metabox a.llms-editable:hover {
+  color: #2295ff;
+}
+#poststuff .llms-metabox h4 a.llms-editable {
+  float: right;
+}
 
 .llms-metabox-section {
   background: #fff;

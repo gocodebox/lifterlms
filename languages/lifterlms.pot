@@ -3271,7 +3271,7 @@ msgstr ""
 msgid "Voucher redeemed sucessfully!"
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:26, includes/controllers/class.llms.controller.account.php:106
+#: includes/class.llms.frontend.password.php:26, includes/controllers/class.llms.controller.account.php:108
 msgid "Enter a username or e-mail address."
 msgstr ""
 
@@ -3437,63 +3437,67 @@ msgstr ""
 msgid "Members Only Pricing"
 msgstr ""
 
-#: includes/class.llms.l10n.php:79, includes/functions/llms.functions.access.php:175
+#: includes/class.llms.l10n.php:79
+msgid "Are you sure you want to cancel your subscription?"
+msgstr ""
+
+#: includes/class.llms.l10n.php:86, includes/functions/llms.functions.access.php:175
 msgid "You do not have permission to access to this content"
 msgstr ""
 
-#: includes/class.llms.l10n.php:86
+#: includes/class.llms.l10n.php:93
 msgid "An unknown error occurred. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.php:87
+#: includes/class.llms.l10n.php:94
 msgid "Hide Summary"
 msgstr ""
 
-#: includes/class.llms.l10n.php:88
+#: includes/class.llms.l10n.php:95
 msgid "Loading..."
 msgstr ""
 
-#: includes/class.llms.l10n.php:89
+#: includes/class.llms.l10n.php:96
 msgid "Loading Question..."
 msgstr ""
 
-#: includes/class.llms.l10n.php:90
+#: includes/class.llms.l10n.php:97
 msgid "Loading Quiz..."
 msgstr ""
 
-#: includes/class.llms.l10n.php:91
+#: includes/class.llms.l10n.php:98
 msgid "Loading Quiz Results..."
 msgstr ""
 
-#: includes/class.llms.l10n.php:92, templates/quiz/results.php:40
+#: includes/class.llms.l10n.php:99, templates/quiz/results.php:40
 msgid "View Summary"
 msgstr ""
 
-#: includes/class.llms.l10n.php:93
+#: includes/class.llms.l10n.php:100
 msgid "You must enter an answer to continue."
 msgstr ""
 
-#: includes/class.llms.l10n.php:106
+#: includes/class.llms.l10n.php:113
 msgid "An unknown error occurred, please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.php:107
+#: includes/class.llms.l10n.php:114
 msgid "Are you sure you want to delete this quiz attempt? This action cannot be undone!"
 msgstr ""
 
-#: includes/class.llms.l10n.php:114
+#: includes/class.llms.l10n.php:121
 msgid "Error"
 msgstr ""
 
-#: includes/class.llms.l10n.php:115
+#: includes/class.llms.l10n.php:122
 msgid "Filter by Student(s)"
 msgstr ""
 
-#: includes/class.llms.l10n.php:116
+#: includes/class.llms.l10n.php:123
 msgid "Request timed out"
 msgstr ""
 
-#: includes/class.llms.l10n.php:117
+#: includes/class.llms.l10n.php:124
 msgid "Retry"
 msgstr ""
 
@@ -5017,43 +5021,43 @@ msgstr ""
 msgid "You have already redeemed this voucher."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:31, includes/controllers/class.llms.controller.account.php:38
+#: includes/controllers/class.llms.controller.account.php:33, includes/controllers/class.llms.controller.account.php:40
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:42
+#: includes/controllers/class.llms.controller.account.php:44
 msgid "Cancelled by student from account page."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:61
+#: includes/controllers/class.llms.controller.account.php:63
 msgid "Please log in and try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:80
+#: includes/controllers/class.llms.controller.account.php:82
 msgid "Your account information has been saved."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:115
+#: includes/controllers/class.llms.controller.account.php:132
 msgid "Invalid username or e-mail address."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:125
+#: includes/controllers/class.llms.controller.account.php:142
 msgid "Password reset is not allowed for this user"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:146
+#: includes/controllers/class.llms.controller.account.php:163
 msgid "Check your e-mail for the confirmation link."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:150
+#: includes/controllers/class.llms.controller.account.php:167
 msgid "Unable to reset password due to an unknown error. Please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:181, includes/controllers/class.llms.controller.account.php:188
+#: includes/controllers/class.llms.controller.account.php:198, includes/controllers/class.llms.controller.account.php:205
 msgid "Invalid Key"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:197
+#: includes/controllers/class.llms.controller.account.php:214
 msgid "Your password has been updated. %1$sClick here to login%2$s"
 msgstr ""
 
@@ -6921,7 +6925,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: includes/llms.functions.core.php:630, includes/models/model.llms.quiz.attempt.php:430, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
+#: includes/llms.functions.core.php:630, includes/models/model.llms.quiz.attempt.php:474, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
 msgid "Failed"
 msgstr ""
 
@@ -7075,11 +7079,11 @@ msgstr ""
 msgid "All recurring transactions completed"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:393
+#: includes/models/model.llms.quiz.attempt.php:427
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:430, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
+#: includes/models/model.llms.quiz.attempt.php:474, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
 msgid "Passed"
 msgstr ""
 
@@ -8542,7 +8546,7 @@ msgstr ""
 msgid "Previous Question"
 msgstr ""
 
-#: templates/quiz/question-count.php:33
+#: templates/quiz/question-count.php:19
 msgid "Question %1$d of %2$d"
 msgstr ""
 

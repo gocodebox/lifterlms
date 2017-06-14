@@ -200,7 +200,7 @@ $gateway = $order->get_gateway();
 
 		<?php if ( $transactions['transactions'] ) : ?>
 
-			<table class="orders-table transactions">
+			<table class="orders-table transactions" id="llms-txns">
 				<thead>
 					<tr>
 						<th><?php _e( 'Transaction', 'lifterlms' ); ?></th>
@@ -235,10 +235,10 @@ $gateway = $order->get_gateway();
 						<tr>
 							<td colspan="5">
 								<?php if ( $transactions['page'] > 1 ) : ?>
-									<a class="llms-button-secondary small" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] - 1 ) ); ?>"><?php _e( 'Back', 'lifterlms' ); ?></a>
+									<a class="llms-button-secondary small" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] - 1 ) ); ?>#llms-txns"><?php _e( 'Back', 'lifterlms' ); ?></a>
 								<?php endif; ?>
 								<?php if ( $transactions['page'] < $transactions['pages'] ) : ?>
-									<a class="llms-button-secondary small" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] + 1 ) ); ?>"><?php _e( 'Next', 'lifterlms' ); ?></a>
+									<a class="llms-button-secondary small" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] + 1 ) ); ?>#llms-txns"><?php _e( 'Next', 'lifterlms' ); ?></a>
 								<?php endif; ?>
 							</td>
 						</tr>
