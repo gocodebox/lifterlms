@@ -766,7 +766,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$args[ $post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
 
 			if ( wp_update_post( $args ) ) {
-				$this->post->$post_key = $val;
+				$this->post->{$post_key} = $val;
 				return true;
 			} else {
 				return false;

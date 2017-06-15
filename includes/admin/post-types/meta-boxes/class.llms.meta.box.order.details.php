@@ -88,7 +88,6 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 			if ( isset( $_POST[ $key ] ) ) {
 				$order->set( $key, sanitize_text_field( $_POST[ $key ] ) );
 			}
-
 		}
 
 	}
