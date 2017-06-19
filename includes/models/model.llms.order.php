@@ -348,15 +348,15 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
-	 * @param  string  $title   Title to create the post with
-	 * @return array
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @param    string  $title   Title to create the post with
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	protected function get_creation_args( $title = '' ) {
 
 		if ( empty( $title ) ) {
-			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%1$b %2$d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
+			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
 		}
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', array(
@@ -419,11 +419,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	public function get_notes( $number = 10, $page = 1 ) {
 
 		$comments = get_comments( array(
-			'approve' => 'approve',
+			'status' => 'approve',
 			'number'  => $number,
 			'offset'  => ( $page - 1 ) * $number,
 			'post_id' => $this->get( 'id' ),
-			'type'    => '',
 		) );
 
 		return $comments;
@@ -848,10 +847,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determine if the trial period has ended for the order
 	 * @return   boolean     true if ended, false if not ended
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function has_trial_ended() {
-		return ( current_time( 'timestamp' ) >= $this->get_trial_end_date( 'U' ) );
+		return ( llms_current_time( 'timestamp' ) >= $this->get_trial_end_date( 'U' ) );
 	}
 
 	/**
@@ -1076,11 +1075,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    string     $status  status name, accepts unprefixed statuses
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function set_status( $status ) {
 
-		if ( false === strpos( 'llms-', $status ) ) {
+		if ( false === strpos( $status, 'llms-' ) ) {
 			$status = 'llms-' . $status;
 		}
 

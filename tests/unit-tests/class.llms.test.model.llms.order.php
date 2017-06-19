@@ -9,7 +9,52 @@
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	public function setUp() {
+
 		$this->create();
+
+	}
+
+	private function get_order( $coupon = false ) {
+
+		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		update_option( $manual->get_option_name( 'enabled' ), 'yes' );
+
+		$course = $this->generate_mock_courses( 1 );
+		$course_id = $course[0];
+
+		$plan = new LLMS_Access_Plan( 'new', 'Test Access Plan' );
+		$plan_data = array(
+			'access_expiration' => 'lifetime',
+			'frequency' => 1,
+			'is_free' => 'no',
+			'length' => 0,
+			'on_sale' => 'no',
+			'period' => 'day',
+			'price' => 25.99,
+			'product_id' => $course_id,
+			'sku' => 'accessplansku',
+			'title' => 'Access Plan',
+		);
+
+		foreach ( $plan_data as $key => $val ) {
+			$plan->set( $key, $val );
+		}
+
+		if ( $coupon ) {
+			$coupon = new LLMS_Coupon( 'new', 'couponcode' );
+			$coupon_data = array(
+				'coupon_amount' => 10,
+				'discount_type' => 'percent',
+				'plan_type' => 'any',
+			);
+			foreach ( $coupon_data as $key => $val ) {
+				$coupon->set( $key, $val );
+			}
+		}
+
+		$order = new LLMS_Order( 'new' );
+		return $order->init( $this->get_mock_student(), $plan, $manual, $coupon );
+
 	}
 
 	/**
@@ -315,8 +360,237 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			llms_mock_current_time( $data['now'] );
 			$this->obj->set( 'access_expires', $data['expires'] );
 			$this->assertEquals( $data['expect'], $this->obj->get_access_status() );
+			if ( 'active' === $data['expect'] ) {
+				$this->assertTrue( $this->obj->has_access() );
+			} else {
+				$this->assertFalse( $this->obj->has_access() );
+			}
 		}
 
 	}
+
+	// public function test_get_coupon_amount() {}
+
+	public function test_get_customer_name() {
+		$first = 'Jeffrey';
+		$last = 'Lebowski';
+		$this->obj->set( 'billing_first_name', $first );
+		$this->obj->set( 'billing_last_name', $last );
+		$this->assertEquals( $first . ' ' . $last,  $this->obj->get_customer_name() );
+	}
+
+	public function test_get_gateway() {
+
+		// gateway doesn't exist
+		$this->obj->set( 'payment_gateway', 'garbage' );
+		$this->assertTrue( is_a( $this->obj->get_gateway(), 'WP_Error' ) );
+
+		// real gateway that's not enabled
+		$this->obj->set( 'payment_gateway', 'manual' );
+		$this->assertTrue( is_a( $this->obj->get_gateway(), 'WP_Error' ) );
+
+		// enabled gateway responds with the gateway instance
+		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		update_option( $manual->get_option_name( 'enabled' ), 'yes' );
+		$this->assertTrue( is_a( $this->obj->get_gateway(), 'LLMS_Payment_Gateway_Manual' ) );
+
+	}
+
+	// public function get_initial_price() {}
+
+	public function test_get_notes() {
+
+		$i = 1;
+		while( $i <= 10 ) {
+
+			$this->obj->add_note( sprintf( 'note %d', $i ) );
+			$i++;
+
+		}
+
+		// remove filter so we can test order notes
+		remove_filter( 'comments_clauses', array( 'LLMS_Comments', 'exclude_order_comments' ) );
+
+		$notes = $this->obj->get_notes( 1, 1 );
+
+		$this->assertCount( 1, $notes );
+		$this->assertTrue( is_a( $notes[0], 'WP_Comment' ) );
+
+		$notes_p_1 = $this->obj->get_notes( 5, 1 );
+		$notes_p_2 = $this->obj->get_notes( 5, 2 );
+		$this->assertCount( 5, $notes_p_1 );
+		$this->assertCount( 5, $notes_p_2 );
+		$this->assertTrue( $notes_p_2 !== $notes_p_1 );
+
+		add_filter( 'comments_clauses', array( 'LLMS_Comments', 'exclude_order_comments' ) );
+
+	}
+
+	public function test_get_product() {
+
+		$course = new LLMS_Course( 'new' );
+
+		$this->obj->set( 'product_id', $course->get( 'id' ) );
+		$this->assertTrue( is_a( $this->obj->get_product(), 'LLMS_Course' ) );
+
+	}
+
+	// public function test_get_last_transaction() {}
+
+	// public function test_get_last_transaction_date() {}
+
+	// public function test_get_next_payment_due_date() {}
+
+	// public function test_get_transaction_total() {}
+
+	// public function test_get_start_date() {}
+
+	// public function test_get_transactions() {}
+
+	public function test_get_trial_end_date() {
+
+		$this->obj->set( 'order_type', 'recurring' );
+
+		// no trial so false for end date
+		$this->assertFalse( $this->obj->get_trial_end_date() );
+
+		// enable trial
+		$this->obj->set( 'trial_offer', 'yes' );
+		$start = $this->obj->get_start_date( 'U' );
+
+		// run a bunch of tests
+		foreach ( array( 'day', 'week', 'month', 'year' ) as $period ) {
+
+			$this->obj->set( 'trial_period', $period );
+			$i = 1;
+			while ( $i <= 5 ) {
+
+				$this->obj->set( 'trial_length', $i );
+				$expect = strtotime( '+' . $i . ' ' . $period, $start );
+				$this->assertEquals( $expect, $this->obj->get_trial_end_date( 'U' ) );
+				$i++;
+
+				// trial is not over
+				$this->assertFalse( $this->obj->has_trial_ended() );
+
+				// change date to future
+				llms_mock_current_time( date( 'Y-m-d H:i:s', $this->obj->get_trial_end_date( 'U' ) + HOUR_IN_SECONDS ) );
+				$this->assertTrue( $this->obj->has_trial_ended() );
+
+				// return to real date
+				llms_mock_current_time( date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+
+			}
+
+		}
+
+	}
+
+	// public function test_get_revenue() {}
+
+	public function test_has_coupon() {
+
+		$this->obj->set( 'coupon_used', 'whatarst' );
+		$this->assertFalse( $this->obj->has_coupon() );
+
+		$this->obj->set( 'coupon_used', 'no' );
+		$this->assertFalse( $this->obj->has_coupon() );
+
+		$this->obj->set( 'coupon_used', '' );
+		$this->assertFalse( $this->obj->has_coupon() );
+
+		$this->obj->set( 'coupon_used', 'yes' );
+		$this->assertTrue( $this->obj->has_coupon() );
+
+	}
+
+	public function test_has_discount() {
+
+		$this->obj->set( 'coupon_used', 'yes' );
+		$this->assertTrue( $this->obj->has_discount() );
+
+		$this->obj->set( 'coupon_used', 'no' );
+		$this->assertFalse( $this->obj->has_discount() );
+
+		$this->obj->set( 'on_sale', 'yes' );
+		$this->assertTrue( $this->obj->has_discount() );
+
+		$this->obj->set( 'on_sale', 'no' );
+		$this->assertFalse( $this->obj->has_discount() );
+
+	}
+
+	public function test_has_sale() {
+
+		$this->obj->set( 'on_sale', 'whatarst' );
+		$this->assertFalse( $this->obj->has_sale() );
+
+		$this->obj->set( 'on_sale', 'no' );
+		$this->assertFalse( $this->obj->has_sale() );
+
+		$this->obj->set( 'on_sale', '' );
+		$this->assertFalse( $this->obj->has_sale() );
+
+		$this->obj->set( 'on_sale', 'yes' );
+		$this->assertTrue( $this->obj->has_sale() );
+
+	}
+
+	// public function test_has_scheduled_payment() {}
+
+	public function test_has_trial() {
+
+		$this->obj->set( 'order_type', 'recurring' );
+
+		$this->obj->set( 'trial_offer', 'whatarst' );
+		$this->assertFalse( $this->obj->has_trial() );
+
+		$this->obj->set( 'trial_offer', 'no' );
+		$this->assertFalse( $this->obj->has_trial() );
+
+		$this->obj->set( 'trial_offer', '' );
+		$this->assertFalse( $this->obj->has_trial() );
+
+		$this->obj->set( 'trial_offer', 'yes' );
+		$this->assertTrue( $this->obj->has_trial() );
+
+	}
+
+	// public function test_init() {}
+
+	public function test_is_recurring() {
+
+		$this->assertFalse( $this->obj->is_recurring() );
+		$this->obj->set( 'order_type', 'recurring' );
+		$this->assertTrue( $this->obj->is_recurring() );
+
+	}
+
+	// public function test_maybe_schedule_payment() {}
+
+	// public function test_record_transaction() {}
+
+	public function test_set_status() {
+
+		$this->obj->set_status( 'fakestatus' );
+		$this->assertNotEquals( 'fakestatus', $this->obj->get( 'status' ) );
+
+		$this->obj->set( 'order_type', 'single' );
+		foreach ( array_keys( llms_get_order_statuses( 'single' ) ) as $status ) {
+
+			$this->obj->set_status( $status );
+			$this->assertEquals( $status, $this->obj->get( 'status' ) );
+
+			$unprefixed = str_replace( 'llms-', '', $status );
+			$this->obj->set_status( $unprefixed );
+			$this->assertEquals( $status, $this->obj->get( 'status' ) );
+
+		}
+
+	}
+
+	// public function test_start_access() {}
+
+	// public function test_unschedule_recurring_payment() {}
 
 }
