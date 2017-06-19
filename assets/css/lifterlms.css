@@ -2318,7 +2318,7 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 .llms-student-dashboard .llms-status.llms-failed, .llms-student-dashboard .llms-status.llms-expired, .llms-student-dashboard .llms-status.llms-cancelled, .llms-student-dashboard .llms-status.llms-txn-failed {
   background-color: #e5554e;
 }
-.llms-student-dashboard .llms-status.llms-pending, .llms-student-dashboard .llms-status.llms-refunded, .llms-student-dashboard .llms-status.llms-txn-pending, .llms-student-dashboard .llms-status.llms-txn-refunded {
+.llms-student-dashboard .llms-status.llms-on-hold, .llms-student-dashboard .llms-status.llms-pending, .llms-student-dashboard .llms-status.llms-refunded, .llms-student-dashboard .llms-status.llms-txn-pending, .llms-student-dashboard .llms-status.llms-txn-refunded {
   background-color: orange;
 }
 .llms-student-dashboard .llms-person-form-wrapper .llms-change-password {
