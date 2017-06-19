@@ -3,7 +3,7 @@
 * Manual Payment Gateway Class
 *
 * @since   3.0.0
-* @version 3.8.0
+* @version [version]
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
@@ -11,8 +11,8 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	/**
 	 * Constructor
 	 * @return  void
-	 * @since  3.0.0
-	 * @version 3.0.0
+	 * @since   3.0.0
+	 * @version [version]
 	 */
 	public function __construct() {
 
@@ -27,7 +27,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 			'checkout_fields' => false,
 			'refunds' => false, // manual refunds are available always for all gateways and are not handled by this class
 			'single_payments' => true,
-			'recurring_payments' => false, // @todo make it work for recurring
+			'recurring_payments' => true,
 			'test_mode' => false,
 		);
 
@@ -40,16 +40,17 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * Output payment instructions if the order is pending
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function before_view_order_table() {
+
 		global $wp;
 
 		if ( ! empty( $wp->query_vars['orders'] ) ) {
 
 			$order = new LLMS_Order( intval( $wp->query_vars['orders'] ) );
 
-			if ( in_array( $order->get( 'status' ), array( 'llms-pending' ) ) ) {
+			if ( in_array( $order->get( 'status' ), array( 'llms-pending', 'llms-on-hold' ) ) ) {
 
 				echo $this->get_payment_instructions();
 
@@ -110,13 +111,9 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * @param   obj|false $coupon  Instance of LLMS_Coupon applied to the order being processed, or false when none is being used
 	 * @return  void
 	 * @since   3.0.0
-	 * @version 3.8.0
+	 * @version [version]
 	 */
 	public function handle_pending_order( $order, $plan, $person, $coupon = false ) {
-
-		if ( $order->is_recurring() ) {
-			return llms_add_notice( __( 'This gateway cannot process recurring transactions', 'lifterlms' ), 'error' );
-		}
 
 		// no payment (free orders)
 		if ( floatval( 0 ) === $order->get_initial_price( array(), 'float' ) ) {
@@ -146,11 +143,29 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 		} else {
 
+			// @todo send payment instructions email
+
+			// show the user payment instructions for the order
 			do_action( 'lifterlms_handle_pending_order_complete', $order );
 			wp_redirect( $order->get_view_link() );
 			exit;
 
 		}
+
+	}
+
+	/**
+	 * Called by scheduled actions to charge an order for a scheduled recurring transaction
+	 * This function must be defined by gateways which support recurring transactions
+	 * @param    obj       $order   Instance LLMS_Order for the order being processed
+	 * @return   mixed
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function handle_recurring_transaction( $order ) {
+
+		// @todo send payment instructions email
+		$order->set_status( 'on-hold' );
 
 	}
 

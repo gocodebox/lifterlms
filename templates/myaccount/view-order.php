@@ -160,18 +160,17 @@ $gateway = $order->get_gateway();
 
 			<?php if ( $order->is_recurring() ) : ?>
 
+				<?php llms_form_field( array(
+					'columns' => 12,
+					'classes' => 'llms-button-primary',
+					'id' => 'llms_update_payment_method',
+					'value' => __( 'Update Payment Method', 'lifterlms' ),
+					'last_column' => true,
+					'required' => false,
+					'type'  => 'button',
+				) ); ?>
 
 				<?php if ( 'llms-active' === $order->get( 'status' ) ) : ?>
-
-					<?php llms_form_field( array(
-						'columns' => 12,
-						'classes' => 'llms-button-primary',
-						'id' => 'llms_update_payment_method',
-						'value' => __( 'Update Payment Method', 'lifterlms' ),
-						'last_column' => true,
-						'required' => false,
-						'type'  => 'button',
-					) ); ?>
 
 					<form action="" id="llms-cancel-subscription-form" method="POST">
 
