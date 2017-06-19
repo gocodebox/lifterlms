@@ -10,34 +10,52 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	public function setUp() {
 
+		parent::setUp();
 		$this->create();
 
 	}
 
-	private function get_order( $coupon = false ) {
-
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
-		update_option( $manual->get_option_name( 'enabled' ), 'yes' );
+	private function get_plan( $price = 25.99, $frequency = 1, $expiration = 'lifetime', $on_sale = false, $trial = false ) {
 
 		$course = $this->generate_mock_courses( 1 );
 		$course_id = $course[0];
 
 		$plan = new LLMS_Access_Plan( 'new', 'Test Access Plan' );
 		$plan_data = array(
-			'access_expiration' => 'lifetime',
-			'frequency' => 1,
+			'access_expiration' => $expiration,
+			'access_expires' => ( 'limited-date' === $expiration ) ? date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) : '',
+			'access_length' => '1',
+			'access_period' => 'year',
+			'frequency' => $frequency,
 			'is_free' => 'no',
 			'length' => 0,
-			'on_sale' => 'no',
+			'on_sale' => $on_sale ? 'yes' : 'no',
 			'period' => 'day',
-			'price' => 25.99,
+			'price' => $price,
 			'product_id' => $course_id,
+			'sale_price' => round( $price - ( $price * .1 ), 2 ),
 			'sku' => 'accessplansku',
-			'title' => 'Access Plan',
+			'trial_length' => 1,
+			'trial_offer' => $trial ? 'yes' : 'no',
+			'trial_period' => 'week',
+			'trial_price' => 1.00,
 		);
 
 		foreach ( $plan_data as $key => $val ) {
 			$plan->set( $key, $val );
+		}
+
+		return $plan;
+
+	}
+
+	private function get_order( $plan = null, $coupon = false ) {
+
+		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
+
+		if ( ! $plan ) {
+			$plan = $this->get_plan();
 		}
 
 		if ( $coupon ) {
@@ -53,7 +71,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		}
 
 		$order = new LLMS_Order( 'new' );
-		return $order->init( $this->get_mock_student(), $plan, $manual, $coupon );
+		return $order->init( $this->get_mock_student(), $plan, $gateway, $coupon );
 
 	}
 
@@ -396,7 +414,18 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// public function get_initial_price() {}
+	public function test_get_initial_price() {
+
+		// no trial
+		$order = $this->get_order();
+		$this->assertEquals( 25.99, $order->get_initial_price( array(), 'float' ) );
+
+		// with trial
+		$trial_plan = $this->get_plan( 25.99, 1, 'lifetime', false, true );
+		$order = $this->get_order( $trial_plan );
+		$this->assertEquals( 1.00, $order->get_initial_price( array(), 'float' ) );
+
+	}
 
 	public function test_get_notes() {
 
@@ -439,7 +468,19 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	// public function test_get_last_transaction_date() {}
 
-	// public function test_get_next_payment_due_date() {}
+	public function test_get_next_payment_due_date() {
+
+		// one-time payments
+		$plan = $this->get_plan( 25.99, 0 );
+		$order = $this->get_order( $plan );
+		$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
+
+		// recurring
+		// $order = $this->get_order();
+		// var_dump( $order->get_next_payment_due_date() );
+
+
+	}
 
 	// public function test_get_transaction_total() {}
 
@@ -568,7 +609,21 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	// public function test_maybe_schedule_payment() {}
 
-	// public function test_record_transaction() {}
+	public function test_record_transaction() {
+
+		$order = $this->get_order();
+		$txn = $order->record_transaction( array(
+			'amount' => 25.99,
+			'status' => 'llms-txn-succeeded',
+			'payment_type' => 'recurring',
+		) );
+		$this->assertTrue( is_a( $txn, 'LLMS_Transaction' ) );
+		$order = llms_get_post( $order->get( 'id' ) );
+		$this->assertEquals( 'llms-active', $order->get( 'status' ) );
+		$this->assertEquals( 1, did_action( 'lifterlms_transaction_status_succeeded' ) );
+		$this->assertEquals( 1, did_action( 'lifterlms_order_status_active' ) );
+
+	}
 
 	public function test_set_status() {
 
