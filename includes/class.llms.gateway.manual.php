@@ -164,8 +164,13 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 */
 	public function handle_recurring_transaction( $order ) {
 
-		// @todo send payment instructions email
-		$order->set_status( 'on-hold' );
+		// switch to order on hold if it's a paid order
+		if ( $order->get_price( 'total', array(), 'float' ) > 0 ) {
+
+			// @todo send payment instructions email
+			$order->set_status( 'on-hold' );
+
+		}
 
 	}
 
