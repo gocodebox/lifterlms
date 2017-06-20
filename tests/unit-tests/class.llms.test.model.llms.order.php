@@ -493,18 +493,24 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'order_type', 'recurring' );
 
 		// no trial so false for end date
-		$this->assertFalse( $this->obj->get_trial_end_date() );
+		$this->assertEmpty( $this->obj->get_trial_end_date() );
 
 		// enable trial
 		$this->obj->set( 'trial_offer', 'yes' );
 		$start = $this->obj->get_start_date( 'U' );
 
-		// run a bunch of tests
+		// when the date is saved the getter shouldn't calculate a new date and should return the saved date
+		$set = '2017-05-05 13:42:19';
+		$this->obj->set( 'date_trial_end', $set );
+		$this->assertEquals( $set, $this->obj->get_trial_end_date() );
+		$this->obj->set( 'date_trial_end', '' );
+
+		// run a bunch of tests testing the dynamic calculations for various periods and whatever...
 		foreach ( array( 'day', 'week', 'month', 'year' ) as $period ) {
 
 			$this->obj->set( 'trial_period', $period );
 			$i = 1;
-			while ( $i <= 5 ) {
+			while ( $i <= 3 ) {
 
 				$this->obj->set( 'trial_length', $i );
 				$expect = strtotime( '+' . $i . ' ' . $period, $start );
@@ -597,7 +603,23 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// public function test_init() {}
+	public function test_init() {
+
+		// test initialization of a trial
+		$plan = $this->get_plan( 25.99, 1, 'lifetime', false, true );
+		$order = $this->get_order( $plan );
+
+		$this->assertTrue( $order->has_trial() );
+		$this->assertNotEmpty( $order->get( 'date_trial_end' ) );
+
+
+		// test initialization of an order with a plan that ends
+		$plan = $this->get_plan();
+		$plan->set( 'length', 5 );
+		$order = $this->get_order( $plan );
+		$this->assertNotEmpty( $order->get( 'date_billing_end' ) );
+
+	}
 
 	public function test_is_recurring() {
 

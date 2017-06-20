@@ -87,7 +87,25 @@
 			width: 45px;
 		}
 
+
+		.llms-datetime-field {
+
+			.llms-date-input {
+				width: 95px;
+			}
+			.llms-time-input {
+				width: 45px;
+			}
+			em {
+				font-style: normal;
+				padding: 0 3px;
+			}
+
+		}
+
 	}
+
+
 }
 
 .llms-collapsible {

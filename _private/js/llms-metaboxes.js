@@ -190,21 +190,43 @@
 
 		};
 
+		/**
+		 * Bind a single datepicker element
+		 * @param    obj   $el  jQuery selector for the input to bind the datepicker to
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  [version]
+		 */
+		this.bind_datepicker = function( $el ) {
+			var format = $el.attr( 'data-format' ) || 'mm/dd/yy',
+				maxDate = $el.attr( 'data-max-date' ) || null,
+				minDate = $el.attr( 'data-min-date' ) || null;
+			$el.datepicker( {
+				dateFormat: format,
+				maxDate: maxDate,
+				minDate: minDate,
+			} );
+		}
 
 		/**
 		 * Bind all LifterLMS datepickers
-		 * @return void
-		 * @since  3.0.0
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  [version]
 		 */
 		this.bind_datepickers = function() {
 
-			$('.llms-datepicker').datepicker( {
-				dateFormat: "mm/dd/yy"
+			var self = this;
+
+			$('.llms-datepicker').each( function() {
+				self.bind_datepicker( $( this ) );
 			} );
 
 		};
 
 		this.bind_editables = function() {
+
+			var self = this;
 
 			function make_editable( $field ) {
 
@@ -216,6 +238,24 @@
 
 				if ( 'select' === type ) {
 					console.log( select );
+				} else if ( 'datetime' === type ) {
+
+					$input = $( '<div class="llms-datetime-field" />' );
+
+					val = JSON.parse( val );
+					var format = $field.attr( 'data-llms-editable-date-format' ) || '',
+						min_date = $field.attr( 'data-llms-editable-date-min' ) || '',
+						max_date = $field.attr( 'data-llms-editable-date-max' ) || '';
+
+					$picker = $( '<input class="llms-date-input llms-datepicker" data-format="' + format + '" data-max-date="' + max_date + '" data-min-date="' + min_date + '" name="' + name + '[date]" type="text" value="' +  val.date + '">' );
+					self.bind_datepicker( $picker );
+					$input.append( $picker );
+					$input.append( '<em>@</em>');
+
+					$input.append( '<input class="llms-time-input" max="23" min="0" name="' + name + '[hour]" type="number" value="' +  val.hour + '">' );
+					$input.append( '<em>:</em>');
+					$input.append( '<input class="llms-time-input" max="59" min="0" name="' + name + '[minute]" type="number" value="' +  val.minute + '">' );
+
 				} else {
 					$input = $( '<input name="' + name + '" type="' + type + '" value="' + val + '">');
 				}
@@ -229,8 +269,14 @@
 				e.preventDefault();
 
 				var $btn = $( this ),
-					$section = $btn.closest( '.llms-metabox-section' ),
-					$fields = $section.find( '[data-llms-editable]' );
+					$fields;
+
+				if ( $btn.attr( 'data-fields' ) ) {
+					$fields = $( $btn.attr( 'data-fields' ) );
+				} else {
+					$fields = $btn.closest( '.llms-metabox-section' ).find( '[data-llms-editable]' );
+				}
+
 
 				$btn.remove();
 

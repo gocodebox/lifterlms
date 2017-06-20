@@ -35,6 +35,10 @@
  *
  * @property   $currency  (string)  Transaction's currency code
  *
+ * @property   $date_billing_end  (string)  Date when billing should cease, only when $billing_length is greater than 0 [format (datetime) Y-m-d H:i:s]
+ * @property   $date_next_payment  (string)  Date when the next recurring payment is due use function get_next_payment_due_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
+ * @property   $date_trial_end  (string)  Date when the trial ends for orders with a trial, use function get_trial_end_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
+ *
  * @property   $gateway_api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
  * @property   $gateway_customer_id  (string)  Gateway's unique ID for the customer who placed the order
  * @property   $gateway_source_id  (string)  Gateway's unique ID for the card or source to be used for recurring subscriptions (if recurring is supported)
@@ -138,6 +142,10 @@ class LLMS_Order extends LLMS_Post_Model {
 		'trial_period' => 'text',
 		'user_ip_address' => 'text',
 
+		'date_billing_end' => 'text',
+		'date_next_payment' => 'text',
+		'date_trial_end' => 'text',
+
 	);
 
 	/**
@@ -203,6 +211,128 @@ class LLMS_Order extends LLMS_Post_Model {
 	protected function after_create() {
 		// add a random key that can be passed in the URL and whatever
 		$this->set( 'order_key', $this->generate_order_key() );
+	}
+
+	/**
+	 * Calculate the date when billing should
+	 * applicable to orders created from plans with a set # of billing intervals
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function calculate_billing_end_date() {
+
+		$end = 0;
+
+		$num_payments = $this->get( 'billing_length' );
+		if ( $num_payments ) {
+
+			$start = $this->get_date( 'date', 'U' );
+
+			$period = $this->get( 'billing_period' );
+			$frequency = $this->get( 'billing_frequency' );
+
+			$end = $start;
+
+			$i = 0;
+			while ( $i < $num_payments ) {
+				$end = strtotime( '+' . $frequency . ' ' . $period, $end );
+				$i++;
+			}
+
+		}
+
+		return apply_filters( 'llms_order_calculate_billing_end_date', $end, $this );
+
+	}
+
+	/**
+	 * Calculate the next payment due date
+	 * @param    string     $format  return format
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function calculate_next_payment_date( $format = 'Y-m-d H:i:s') {
+
+		$start_time = $this->get_date( 'date', 'U' );
+		$end_time = $this->get_date( 'date_billing_end', 'U' );
+		$next_payment_time = $this->get_date( 'date_next_payment', 'U' );
+
+		// if were on a trial and the trial hasn't ended yet next payment date is the date the trial ends
+		if ( $this->has_trial() && ! $this->has_trial_ended() ) {
+
+			$next_payment_time = $this->get_trial_end_date( 'U' );
+
+		} else {
+
+			// assume we'll start from the order start date
+			$from_time = $start_time;
+
+			if ( $next_payment_time && $next_payment_time < llms_current_time( 'timestamp' ) ) {
+				// if we have a saved next payment that's old we can calculate from there
+
+				$from_time = $next_payment_time;
+
+			} else {
+
+				// check previous transactions and get the date from there
+				// this will be true of orders created prior to 3.10 when no payment dates were saved
+
+				$last_txn = $this->get_last_transaction( array( 'llms-txn-succeeded', 'llms-txn-refunded' ), 'recurring' );
+				$last_txn_time = $last_txn ? $last_txn->get_date( 'date', 'U' ) : 0;
+				if ( $last_txn_time && $last_txn_time < llms_current_time( 'timestamp' ) ) {
+					$from_time = $last_txn_time;
+				}
+
+			}
+
+			$period = $this->get( 'billing_period' );
+			$frequency = $this->get( 'billing_frequency' );
+			$next_payment_time = strtotime( '+' . $frequency . ' ' . $period, $from_time );
+
+			// Make sure the next payment is more than 2 hours in the future
+			// this ensures changes to the site's timezone because of daylight savings will never cause a 2nd renewal payment to be processed on the same day
+			// thanks WooCommerce Subscriptions <3
+			$i = 1;
+			while ( $next_payment_time < ( llms_current_time( 'timestamp', true ) + 2 * HOUR_IN_SECONDS ) && $i < 3000 ) {
+				$next_payment_time = strtotime( '+' . $frequency . ' ' . $period, $next_payment_time );
+				$i++;
+			}
+
+		}
+
+		// if the next payment is after the end time (where applicaple)
+		if ( 0 != $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
+			$ret = '';
+		} elseif ( $next_payment_time > 0 ) {
+			$ret = date_i18n( $format, $next_payment_time );
+		}
+
+		return apply_filters( 'llms_order_calculate_next_payment_date', $ret, $format, $this );
+
+	}
+
+	/**
+	 * Calculate the end date of the trial
+	 * @param    string     $format  desired return format of the date
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function calculate_trial_end_date( $format = 'Y-m-d H:i:s' ) {
+
+		$start = $this->get_date( 'date', 'U' ); // start with the date the order was initially created
+
+		$length = $this->get( 'trial_length' );
+		$period = $this->get( 'trial_period' );
+
+		$end = strtotime( '+' . $length . ' ' . $period, $start );
+
+		$ret = date_i18n( $format, $end );
+
+		return apply_filters( 'llms_order_calculate_trial_end_date', $ret, $format, $this );
+
 	}
 
 	/**
@@ -477,63 +607,31 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 	}
 
-
 	/**
 	 * Retrive the due date of the next payment according to access plan terms
 	 * @param    string     $format  date format to return the date in (see php date())
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.2.5
+	 * @version  [version]
 	 */
 	public function get_next_payment_due_date( $format = 'Y-m-d H:i:s' ) {
 
 		// single payments will never have a next payment date
 		if ( ! $this->is_recurring() ) {
 			return new WP_Error( 'not-recurring', __( 'Order is not recurring', 'lifterlms' ) );
-		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-pending' ) ) ) {
+		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending' ) ) ) {
 			return new WP_Error( 'invalid-status', __( 'Invalid order status', 'lifterlms' ), $this->get( 'status' ) );
 		}
 
-		// check the number of recurring payments made
-		// if we've reached that number in successful txns
-		// return false b/c no more payments are due
-		$num_payments = $this->get( 'billing_length' );
-		if ( $num_payments ) {
-			$txns = $this->get_transactions( array(
-				'per_page' => -1,
-				'status' => 'llms-txn-succeeded',
-				'type' => 'recurring',
-			) );
+		// retrieve the saved due date
+		$next_payment_date = $this->get_date( 'date_next_payment', 'U' );
 
-			// billing has completed
-			if ( $txns['count'] >= $num_payments ) {
-				return new WP_Error( 'completed', __( 'All recurring transactions completed', 'lifterlms' ) );
-			}
+		// calculate it if not saved
+		if ( ! $next_payment_date ) {
+			$next_payment_date = $this->calculate_next_payment_date( 'U' );
 		}
 
-		// if were on a trial and the trial hasn't ended yet next payment date is the date the trial ends
-		if ( $this->has_trial() && ! $this->has_trial_ended() ) {
-
-			$next = $this->get_trial_end_date( 'U' );
-
-		} else {
-
-			// get the date of the last successful txn
-			$last_date = strtotime( $this->get_last_transaction_date( 'llms-txn-succeeded', 'recurring' ) );
-
-			// if there's no transaction, use now for calculation
-			if ( ! $last_date ) {
-				$last_date = current_time( 'timestamp' );
-			}
-
-			$period = $this->get( 'billing_period' );
-			$frequency = $this->get( 'billing_frequency' );
-
-			$next = strtotime( '+' . $frequency . ' ' . $period, $last_date );
-
-		}
-
-		return date_i18n( $format, apply_filters( 'llms_order_get_next_payment_due_date', $next, $this ) );
+		return date_i18n( $format, apply_filters( 'llms_order_get_next_payment_due_date', $next_payment_date, $this, $format ) );
 
 	}
 
@@ -711,7 +809,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the date when a trial will end
 	 * @param    string     $format  date return format
-	 * @return   bool|string         returns false if order has no trial or the date string
+	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -719,22 +817,23 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		if ( ! $this->has_trial() ) {
 
-			$r = false;
+			$trial_end_date = '';
 
 		} else {
 
-			$start = $this->get_start_date( 'U' );
+			// retrieve the saved end date
+			$trial_end_date = $this->get_date( 'date_trial_end', $format );
 
-			$length = $this->get( 'trial_length' );
-			$period = $this->get( 'trial_period' );
+			// if not saved, calculate it
+			if ( ! $trial_end_date ) {
 
-			$end = strtotime( '+' . $length . ' ' . $period, $start );
+				$trial_end_date = $this->calculate_trial_end_date( $format );
 
-			$r = date_i18n( $format, $end );
+			}
 
 		}
 
-		return apply_filters( 'llms_order_get_trial_end_date', $r, $this );
+		return apply_filters( 'llms_order_get_trial_end_date', $trial_end_date, $this );
 
 	}
 
@@ -863,7 +962,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    mixed   $coupon   LLMS_Coupon or false
 	 * @return   obj               $this
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function init( $person, $plan, $gateway, $coupon = false ) {
 
@@ -905,6 +1004,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->set( 'trial_original_total', $trial_price );
 			$trial_total = $coupon ? $plan->get_price_with_coupon( 'trial_price', $coupon, array(), 'float' ) : $trial_price;
 			$this->set( 'trial_total', $trial_total );
+			$this->set( 'date_trial_end', $this->calculate_trial_end_date() );
 		} else {
 			$this->set( 'trial_offer', 'no' );
 		}
@@ -953,6 +1053,10 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->set( 'billing_length', $plan->get( 'length' ) );
 			$this->set( 'billing_period', $plan->get( 'period' ) );
 			$this->set( 'order_type', 'recurring' );
+			if ( $plan->get( 'length' ) ) {
+				$this->set( 'date_billing_end', date_i18n( 'Y-m-d H:i:s', $this->calculate_billing_end_date() ) );
+			}
+			$this->set( 'date_next_payment', $this->calculate_next_payment_date() );
 		} else {
 			$this->set( 'order_type', 'single' );
 		}
@@ -998,12 +1102,16 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Will always unschedule the scheduled action (if one exists) before scheduling another
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.1.7
+	 * @version  [version]
 	 */
-	public function maybe_schedule_payment() {
+	public function maybe_schedule_payment( $recalc = true ) {
 
 		if ( ! $this->is_recurring() ) {
 			return;
+		}
+
+		if ( $recalc ) {
+			$this->set( 'date_next_payment', $this->calculate_next_payment_date() );
 		}
 
 		$date = $this->get_next_payment_due_date( 'U' );
@@ -1067,6 +1175,28 @@ class LLMS_Order extends LLMS_Post_Model {
 		$txn->set( 'status', $status );
 
 		return $txn;
+
+	}
+
+	/**
+	 * Date field setter for date fields that require things to be updated when their value changes
+	 * Mainly date_next_payment and date_trial_end which are editable from the admin panel
+	 * @param    string     $date_key  date field to set
+	 * @param    string     $date_val  value, should always be in the database format (Y-m-d H:i:s)
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function set_date( $date_key, $date_val ) {
+
+		$this->set( 'date_' . $date_key, $date_val );
+
+		if ( 'trial_end' === $date_key ) {
+
+			$this->set_date( 'next_payment', $this->calculate_next_payment_date() );
+
+		}
+
+		$this->maybe_schedule_payment( false );
 
 	}
 

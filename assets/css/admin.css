@@ -2637,6 +2637,16 @@ a.llms-view-as {
 .llms-metabox-section .llms-metabox-field input.sm-text {
   width: 45px;
 }
+.llms-metabox-section .llms-metabox-field .llms-datetime-field .llms-date-input {
+  width: 95px;
+}
+.llms-metabox-section .llms-metabox-field .llms-datetime-field .llms-time-input {
+  width: 45px;
+}
+.llms-metabox-section .llms-metabox-field .llms-datetime-field em {
+  font-style: normal;
+  padding: 0 3px;
+}
 
 .llms-collapsible {
   border: 1px solid #e5e5e5;
