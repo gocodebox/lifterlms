@@ -2713,6 +2713,7 @@ a.llms-view-as {
   display: none;
 }
 
+#lifterlms-order-details .handlediv,
 #lifterlms-order-details .handlediv.button-link,
 #lifterlms-order-details .hndle.ui-sortable-handle {
   display: none;
