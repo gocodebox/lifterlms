@@ -36,6 +36,7 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_order_status_cancelled', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_expired', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_failed', array( $this, 'error_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_on-hold', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_trash', array( $this, 'error_order' ), 10, 1 );
 
 		/**
@@ -303,10 +304,11 @@ class LLMS_Controller_Orders {
 	/**
 	 * Called when an order's status changes to refunded, cancelled, expired, or failed
 	 *
-	 * @param  obj    $order  instance of an LLMS_Order
-	 * @return void
+	 * @param    obj    $order  instance of an LLMS_Order
+	 * @return   void
 	 *
-	 * @since  3.0.0
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public function error_order( $order ) {
 
@@ -314,6 +316,7 @@ class LLMS_Controller_Orders {
 
 			case 'lifterlms_order_status_trash':
 			case 'lifterlms_order_status_cancelled':
+			case 'lifterlms_order_status_on-hold':
 			case 'lifterlms_order_status_refunded':
 				$status = 'cancelled';
 			break;
@@ -397,7 +400,7 @@ class LLMS_Controller_Orders {
 	 * @param    obj     $txn  Instance of the LLMS_Transaction
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function transaction_failed( $txn ) {
 
@@ -406,7 +409,15 @@ class LLMS_Controller_Orders {
 		// halt if legacy
 		if ( $order->is_legacy() ) { return; }
 
-		$order->set( 'status', 'llms-failed' );
+		if ( $order->can_be_retried() ) {
+
+			$order->maybe_schedule_retry();
+
+		} else {
+
+			$order->set( 'status', 'llms-failed' );
+
+		}
 
 	}
 
@@ -433,7 +444,7 @@ class LLMS_Controller_Orders {
 	 * @param    obj     $txn  Instance of the LLMS_Transaction
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function transaction_succeeded( $txn ) {
 
@@ -446,6 +457,7 @@ class LLMS_Controller_Orders {
 		// update the status based on the order type
 		$status = $order->is_recurring() ? 'llms-active' : 'llms-completed';
 		$order->set( 'status', $status );
+		$order->set( 'last_retry_rule', '' ); // retries should always start with tne first rule for new transactions
 
 		// maybe schedule a payment
 		$order->maybe_schedule_payment();

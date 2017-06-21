@@ -2,7 +2,7 @@
 /**
  * LifterLMS Payment Gateways Abstract
  * @since    3.0.0
- * @version  3.8.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -70,8 +70,9 @@ abstract class LLMS_Payment_Gateway {
 
 	/**
 	 * Array of supported gateway features
-	 * @var array
-	 * @since  3.0.0
+	 * @var      array
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public $supports = array(
 		'checkout_fields' => false,
@@ -81,6 +82,7 @@ abstract class LLMS_Payment_Gateway {
 		'recurring_payments' => false,
 		'recurring_cancellation' => false,
 		'recurring_reactivation' => false,
+		'recurring_retry' => false,
 		'recurring_suspension' => false,
 		'test_mode' => false,
 	);

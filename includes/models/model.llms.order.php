@@ -46,6 +46,8 @@
  *
  * @property   $id  (int)  WP Post ID of the order
  *
+ * @property   $last_retry_rule  (int)  Rule number for current retry step for the order
+ *
  * @property   $on_sale  (string)  Whether or not sale pricing was used for the plan [yes|no]
  * @property   $order_key  (string) A unique identifer for the order that can be passed safely in URLs
  * @property   $order_type  (string)  Single or recurring order [single|recurring]
@@ -331,6 +333,39 @@ class LLMS_Order extends LLMS_Post_Model {
 		$ret = date_i18n( $format, $end );
 
 		return apply_filters( 'llms_order_calculate_trial_end_date', $ret, $format, $this );
+
+	}
+
+	/**
+	 * Determine if the order can be retried for recurring payments
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function can_be_retried() {
+
+		// only recurring orders can be retried
+		if ( ! $this->is_recurring() ) {
+			return false;
+		}
+
+		if ( 'yes' !== get_option( 'lifterlms_recurring_payment_retry', 'yes' ) ) {
+			return false;
+		}
+
+		// only active & on-hold orders qualify for a retry
+		if ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) {
+			return false;
+		}
+
+		// if the gateway isn't active or the gateway doesn't support recurring retries
+		$gateway = $this->get_gateway();
+		if ( is_wp_error( $gateway ) || ! $gateway->supports( 'recurring_retry' ) ) {
+			return false;
+		}
+
+		// if we're here, we can retry
+		return true;
 
 	}
 
@@ -638,6 +673,41 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Get configured payment retry rules
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function get_retry_rules() {
+
+		$rules = array(
+			array(
+				'delay' => HOUR_IN_SECONDS * 12,
+				'status' => 'on-hold',
+				'notifications' => false,
+			),
+			array(
+				'delay' => DAY_IN_SECONDS,
+				'status' => 'on-hold',
+				'notifications' => true,
+			),
+			array(
+				'delay' => DAY_IN_SECONDS * 2,
+				'status' => 'on-hold',
+				'notifications' => true,
+			),
+			array(
+				'delay' => DAY_IN_SECONDS * 3,
+				'status' => 'on-hold',
+				'notifications' => true,
+			),
+		);
+
+		return apply_filters( 'llms_order_automatic_retry_rules', $rules, $this );
+
+	}
+
+	/**
 	 * SQL query to retrieve total amounts for transactions by type
 	 * @param    stirng  $type  'amount' or 'refund_amount'
 	 * @return   float
@@ -710,7 +780,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    array      $args  array of query argument data, see example of arguments below
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function get_transactions( $args = array() ) {
 
@@ -734,9 +804,9 @@ class LLMS_Order extends LLMS_Post_Model {
 				$statuses = array( $status );
 			} elseif ( is_array( $status ) ) {
 				$temp = array();
-				foreach ( $status as $s ) {
-					if ( in_array( $s, $statuses ) ) {
-						$temp[] = $s;
+				foreach ( $status as $stat ) {
+					if ( in_array( $stat, $statuses ) ) {
+						$temp[] = $stat;
 					}
 				}
 				$statuses = $temp;
@@ -796,7 +866,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		$transactions = array();
 
 		foreach ( $query->posts as $post ) {
-			$transactions[ $post->ID ] = new LLMS_Transaction( $post );
+			$transactions[ $post->ID ] = llms_get_post( $post );
 		}
 
 		return array(
@@ -1130,6 +1200,65 @@ class LLMS_Order extends LLMS_Post_Model {
 			wc_schedule_single_action( $date, 'llms_charge_recurring_payment', array(
 				'order_id' => $this->get( 'id' ),
 			) );
+
+		}
+
+	}
+
+	/**
+	 * Handles scheduling recurring payment retries when the gateway supports them
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function maybe_schedule_retry() {
+
+		if ( ! $this->can_be_retried() ) {
+			return;
+		}
+
+		$current_rule = $this->get( 'last_retry_rule' );
+		if ( '' === $current_rule ) {
+			$current_rule = 0;
+		} else {
+			$current_rule = $current_rule + 1;
+		}
+		$rules = $this->get_retry_rules();
+
+		if ( isset( $rules[ $current_rule ] ) ) {
+
+			$rule = $rules[ $current_rule ];
+
+			$next_payment_time = current_time( 'timestamp' ) + $rule['delay'];
+
+			// update the status
+			$this->set_status( $rule['status'] );
+
+			// set the next payment date based on the rule's delay
+			$this->set_date( 'next_payment', date_i18n( 'Y-m-d H:i:s', $next_payment_time ) );
+
+			// save the rule for reference on potential future retries
+			$this->set( 'last_retry_rule', $current_rule );
+
+			// if notifications should be sent, trigger them
+			if ( $rule['notifications'] ) {
+				do_action( 'llms_send_automatic_payment_retry_notification', $this );
+			}
+
+			$this->add_note( sprintf( esc_html__( 'Automatic retry attempt scheduled for %s', 'lifterlms' ), date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_payment_time ) ) );
+
+			// generic action
+			do_action( 'llms_automatic_payment_retry_scheduled', $this );
+
+		// we are out of rules, fail the order, move on with our lives
+		} else {
+
+			$this->set_status( 'failed' );
+			$this->set( 'last_retry_rule', '' );
+
+			$this->add_note( esc_html__( 'Maximum retry attempts reached.', 'lifterlms' ) );
+
+			do_action( 'llms_automatic_payment_maximum_retries_reached', $this );
 
 		}
 

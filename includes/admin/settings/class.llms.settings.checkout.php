@@ -10,7 +10,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 * Allow settings page to determine if a rewrite flush is required
 	 * @var      boolean
 	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @version  [version]
 	 */
 	protected $flush = true;
 
@@ -33,7 +33,9 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	/**
 	 * Get settings array
 	 *
-	 * @return array
+	 * @return   array
+	 * @since    3.0.4
+	 * @version  [version]
 	 */
 	public function get_settings() {
 
@@ -91,6 +93,15 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'id' 		=> 'lifterlms_checkout_force_ssl',
 				'type' 		=> 'checkbox',
 				'default'	=> 'no',
+			),
+
+			array(
+				'default'	=> 'yes',
+				'desc' => __( 'Enable automatic retry of failed recurring payments.', 'lifterlms' ) .
+							  '<br><span class="description">' . sprintf( __( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn more%2$s.', 'lifterlms' ), '<a href="#" target="_blank">', '</a>' ) . '</span>',
+				'id' => 'lifterlms_recurring_payment_retry',
+				'title' => __( 'Retry Failed Payments', 'lifterlms' ),
+				'type' 		=> 'checkbox',
 			),
 
 			array(

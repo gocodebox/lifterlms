@@ -15,6 +15,19 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	private function mock_gateway_support( $feature ) {
+
+		global $llms_mock_gateway_feature;
+		$llms_mock_gateway_feature = $feature;
+
+		add_filter( 'llms_get_gateway_supported_features', function( $features ) {
+			global $llms_mock_gateway_feature;
+			$features[ $llms_mock_gateway_feature ] = true;
+			return $features;
+		} );
+
+	}
+
 	private function get_plan( $price = 25.99, $frequency = 1, $expiration = 'lifetime', $on_sale = false, $trial = false ) {
 
 		$course = $this->generate_mock_courses( 1 );
@@ -254,6 +267,31 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	public function test_can_be_retried() {
+
+		$order = $this->get_order();
+
+		// pending order can't be retried
+		$this->assertFalse( $order->can_be_retried() );
+
+		// active can be retried
+		$order->set_status( 'llms-active' );
+
+		// gateway doesn't support retries
+		$this->assertFalse( $order->can_be_retried() );
+
+		// allow the gateway to support retries
+		$this->mock_gateway_support( 'recurring_retry' );
+
+		// can be retried now
+		$this->assertTrue( $order->can_be_retried() );
+
+		// on hold can be retried
+		$order->set_status( 'llms-on-hold' );
+		$this->assertTrue( $order->can_be_retried() );
+
+	}
+
 	/**
 	 * Test the generate_order_key() method
 	 * @return   [type]     [description]
@@ -403,12 +441,14 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'payment_gateway', 'garbage' );
 		$this->assertTrue( is_a( $this->obj->get_gateway(), 'WP_Error' ) );
 
-		// real gateway that's not enabled
+		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
 		$this->obj->set( 'payment_gateway', 'manual' );
+
+		// real gateway that's not enabled
+		update_option( $manual->get_option_name( 'enabled' ), 'no' );
 		$this->assertTrue( is_a( $this->obj->get_gateway(), 'WP_Error' ) );
 
 		// enabled gateway responds with the gateway instance
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $manual->get_option_name( 'enabled' ), 'yes' );
 		$this->assertTrue( is_a( $this->obj->get_gateway(), 'LLMS_Payment_Gateway_Manual' ) );
 
@@ -572,7 +612,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 				$this->obj->set( 'trial_length', $i );
 				$expect = strtotime( '+' . $i . ' ' . $period, $start );
 				$this->assertEquals( $expect, $this->obj->get_trial_end_date( 'U' ) );
-				$i++;
 
 				// trial is not over
 				$this->assertFalse( $this->obj->has_trial_ended() );
@@ -583,6 +622,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 				// return to real date
 				llms_mock_current_time( date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+
+				$i++;
 
 			}
 
@@ -687,6 +728,47 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	// public function test_maybe_schedule_payment() {}
+	public function test_maybe_schedule_retry() {
+
+		$this->mock_gateway_support( 'recurring_retry' );
+
+		$order = $this->get_order();
+		$order->set_status( 'on-hold' );
+
+		$i = 1;
+		while ( $i <= 5 ) {
+
+			$original_next_date = $order->get_next_payment_due_date( 'U' );
+
+			$txn = $order->record_transaction( array(
+				'amount' => 25.99,
+				'status' => 'llms-txn-pending',
+				'payment_type' => 'recurring',
+			) );
+			$txn->set( 'status', 'llms-txn-failed' );
+
+			$order = llms_get_post( $order->get( 'id' ) );
+
+			if ( $i <= 4 ) {
+
+				$this->assertEquals( $i, did_action( 'llms_automatic_payment_retry_scheduled' ) );
+				$this->assertEquals( $i - 1, $order->get( 'last_retry_rule' ) );
+				$this->assertNotEquals( $original_next_date, $order->get_next_payment_due_date( 'U' ) );
+
+			} else {
+
+				$this->assertEquals( 1, did_action( 'llms_automatic_payment_maximum_retries_reached' ) );
+				$this->assertEquals( '', $order->get( 'last_retry_rule' ) );
+				$this->assertEquals( 'llms-failed', $order->get( 'status' ) );
+
+			}
+
+
+			$i++;
+
+		}
+
+	}
 
 	public function test_record_transaction() {
 
