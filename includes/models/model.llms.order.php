@@ -278,7 +278,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 				// check previous transactions and get the date from there
 				// this will be true of orders created prior to 3.10 when no payment dates were saved
-
 				$last_txn = $this->get_last_transaction( array( 'llms-txn-succeeded', 'llms-txn-refunded' ), 'recurring' );
 				$last_txn_time = $last_txn ? $last_txn->get_date( 'date', 'U' ) : 0;
 				if ( $last_txn_time && $last_txn_time < llms_current_time( 'timestamp' ) ) {
@@ -629,6 +628,9 @@ class LLMS_Order extends LLMS_Post_Model {
 		// calculate it if not saved
 		if ( ! $next_payment_date ) {
 			$next_payment_date = $this->calculate_next_payment_date( 'U' );
+			if ( ! $next_payment_date ) {
+				return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
+			}
 		}
 
 		return date_i18n( $format, apply_filters( 'llms_order_get_next_payment_due_date', $next_payment_date, $this, $format ) );

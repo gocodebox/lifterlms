@@ -25,17 +25,21 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 	}
 
-	private function get_date_fields( $order ) {
-		$fields = array(
-			'trial_end' => array(
-				'min_date' => $order->get_date( 'date', 'Y-m-d' ),
-				'date' => $order->get_trial_end_date( 'Y-m-d' ),
-				'hour' => $order->get_trial_end_date( 'H' ),
-				'minute' => $order->get_trial_end_date( 'i' ),
-			),
-		);
+	/**
+	 * Retrieve json to be used by the llms-editable date fields
+	 * @param    int     $time  timestamp
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function get_editable_date_json( $time ) {
 
-		return $fields;
+		return json_encode( array(
+			'date' => date_i18n( 'Y-m-d', $time ),
+			'hour' => date_i18n( 'H', $time ),
+			'minute' => date_i18n( 'i', $time ),
+		) );
+
 	}
 
 	/**
@@ -61,26 +65,11 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 		$current_status = $order->get( 'status' );
 
 		if ( $order->is_legacy() ) {
-
-			_e( 'The status of a Legacy order cannot be changed.', 'lifterlms' );
-			return;
-
+			return _e( 'The status of a Legacy order cannot be changed.', 'lifterlms' );
 		}
 
 		$date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-
 		$statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'single' );
-
-		$trial_editable_val = array(
-			'date' => $order->get_trial_end_date( 'Y-m-d' ),
-			'hour' => $order->get_trial_end_date( 'H' ),
-			'minute' => $order->get_trial_end_date( 'i' ),
-		);
-		$next_editable_val = array(
-			'date' => $order->get_next_payment_due_date( 'Y-m-d' ),
-			'hour' => $order->get_next_payment_due_date( 'H' ),
-			'minute' => $order->get_next_payment_due_date( 'i' ),
-		);
 		?>
 		<div class="llms-metabox">
 
@@ -102,6 +91,8 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 				<?php if ( $order->is_recurring() ) : ?>
 
+					<?php $next_time = $order->get_next_payment_due_date( 'U' ); ?>
+
 					<?php if ( $order->has_trial() ) : ?>
 						<div class="llms-metabox-field">
 							<label><?php _e( 'Trial End Date', 'lifterlms' ) ?>:</label>
@@ -111,7 +102,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 								data-llms-editable-date-format="yy-mm-dd"
 								data-llms-editable-date-min="<?php echo $order->get_date( 'date', 'Y-m-d' ); ?>"
 								data-llms-editable-type="datetime"
-								data-llms-editable-value='<?php echo json_encode( $trial_editable_val ); ?>'><?php echo $order->get_trial_end_date( $date_format ); ?></span>
+								data-llms-editable-value='<?php echo $this->get_editable_date_json( $order->get_trial_end_date( 'U' ) ); ?>'><?php echo $order->get_trial_end_date( $date_format ); ?></span>
 							<?php if ( ! $order->has_trial_ended() ): ?>
 								<a class="llms-editable" data-fields="#llms-editable-trial-end-date" href="#"><span class="dashicons dashicons-edit"></span></a>
 							<?php endif; ?>
@@ -120,14 +111,18 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 					<div class="llms-metabox-field">
 						<label><?php _e( 'Next Payment Date', 'lifterlms' ) ?>:</label>
-						<span
-							id="llms-editable-next-payment-date"
-							data-llms-editable="_llms_date_next_payment"
-							data-llms-editable-date-format="yy-mm-dd"
-							data-llms-editable-date-min="<?php echo current_time( 'Y-m-d' ); ?>"
-							data-llms-editable-type="datetime"
-							data-llms-editable-value='<?php echo json_encode( $next_editable_val ); ?>'><?php echo $order->get_next_payment_due_date( $date_format ); ?></span>
+						<?php if ( is_wp_error( $next_time ) ) : ?>
+							<?php echo $next_time->get_error_message(); ?>
+						<?php else: ?>
+							<span
+								id="llms-editable-next-payment-date"
+								data-llms-editable="_llms_date_next_payment"
+								data-llms-editable-date-format="yy-mm-dd"
+								data-llms-editable-date-min="<?php echo current_time( 'Y-m-d' ); ?>"
+								data-llms-editable-type="datetime"
+								data-llms-editable-value='<?php echo $this->get_editable_date_json( $next_time ); ?>'><?php echo date_i18n( $date_format, $next_time ); ?></span>
 							<a class="llms-editable" data-fields="#llms-editable-next-payment-date" href="#"><span class="dashicons dashicons-edit"></span></a>
+						<?php endif; ?>
 					</div>
 
 				<?php endif; ?>

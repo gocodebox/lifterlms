@@ -475,8 +475,65 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$order = $this->get_order( $plan );
 		$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
 
+
+		$original_time = current_time( 'Y-m-d H:i:s' );
 		// recurring
-		// $order = $this->get_order();
+		$plan = $this->get_plan();
+		foreach ( array( 'day', 'week', 'month', 'year' ) as $period ) {
+
+			llms_mock_current_time( $original_time );
+
+			$plan->set( 'period', $period );
+
+			// test due date with a trial
+			$plan->set( 'trial_offer', 'yes' );
+			$order = $this->get_order( $plan );
+			$this->assertEquals( $order->get_trial_end_date(),  $order->get_next_payment_due_date() );
+			$plan->set( 'trial_offer', 'no' );
+
+			// perform calculation tests against different frequencies
+			$i = 1;
+			while ( $i <= 3 ) {
+
+				$plan->set( 'frequency', $i );
+
+				$order = $this->get_order( $plan );
+
+				$expect = strtotime( "+{$i} {$period}", $order->get_date( 'date', 'U' ) );
+				$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U') );
+
+				// time travel a bit and recalculate the time
+				llms_mock_current_time( date( 'Y-m-d H:i:s', $expect + HOUR_IN_SECONDS * 2 ) );
+				$future_expect = strtotime( "+{$i} {$period}", $expect );
+
+				// this will calculate the next payment date based off of the saved next payment date (which is now in the past)
+				$order->maybe_schedule_payment( true );
+				$this->assertEquals( $future_expect, $order->get_next_payment_due_date( 'U' ) );
+
+				// recalculate off a transaction -- this is the fallback for pre 3.10 orders
+				// occurs only when no date_next_payment is set
+				$order->set( 'date_next_payment', '' );
+				$order->record_transaction( array(
+					'amount' => 25.99,
+					'completed_date' => $original_time,
+					'status' => 'llms-txn-succeeded',
+					'payment_type' => 'recurring',
+				) );
+				$order->maybe_schedule_payment( true );
+				$this->assertEquals( date( 'Y-m-d H:i', $future_expect ), $order->get_next_payment_due_date( 'Y-m-d H:i' ) );
+
+				// plan ends so func should return a WP_Error
+				$order->set( 'date_billing_end', date( 'Y-m-d H:i:s', $future_expect - DAY_IN_SECONDS ) );
+				$order->maybe_schedule_payment( true );
+				$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
+				$order->set( 'date_billing_end', 0 );
+
+				$i++;
+
+			}
+
+		}
+
 		// var_dump( $order->get_next_payment_due_date() );
 
 
