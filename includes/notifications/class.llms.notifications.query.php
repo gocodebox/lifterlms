@@ -210,10 +210,9 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 		$where = 'WHERE 1';
 
-		$post_statuses = array_merge( 'publish', array_keys( llms_get_order_statuses() ) );
-		$post_statuses = implode( ', ', $post_statuses );
-
-		$where .= sprintf( " AND p.post_status IN ( %s )". $post_statuses );
+		$post_statuses = array_merge( array( 'publish' ), array_keys( llms_get_order_statuses() ) );
+		$post_statuses = array_map( array( $this, 'escape_and_quote_string' ), $post_statuses );
+		$where .= sprintf( ' AND p.post_status IN ( %s )', implode( ', ', $post_statuses ) );
 
 		$statuses = $this->get( 'statuses' );
 		if ( $statuses ) {
