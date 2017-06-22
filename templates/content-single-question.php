@@ -13,7 +13,6 @@ $loop = new WP_Query( array(
 	'p' => $args['question_id'],
 	'posts_per_page' => 1,
 ) );
-var_dump( $args['question_id'], $loop );
 
 if ( ! $loop->have_posts() ) {
 
