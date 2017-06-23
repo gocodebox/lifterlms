@@ -609,6 +609,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			$i = 1;
 			while ( $i <= 3 ) {
 
+				llms_mock_current_time( date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+
 				$this->obj->set( 'trial_length', $i );
 				$expect = strtotime( '+' . $i . ' ' . $period, $start );
 				$this->assertEquals( $expect, $this->obj->get_trial_end_date( 'U' ) );
@@ -619,9 +621,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 				// change date to future
 				llms_mock_current_time( date( 'Y-m-d H:i:s', $this->obj->get_trial_end_date( 'U' ) + HOUR_IN_SECONDS ) );
 				$this->assertTrue( $this->obj->has_trial_ended() );
-
-				// return to real date
-				llms_mock_current_time( date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
 
 				$i++;
 

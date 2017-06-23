@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version 3.5.0
+ * @version [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -14,6 +14,7 @@ class LLMS_Controller_Orders {
 		// form actions
 		add_action( 'init', array( $this, 'create_pending_order' ) );
 		add_action( 'init', array( $this, 'confirm_pending_order' ) );
+		add_action( 'init', array( $this, 'switch_payment_source' ) );
 
 		// this action adds our lifterlms specific actions when order & transaction statuses change
 		add_action( 'transition_post_status', array( $this, 'transition_status' ), 10, 3 );
@@ -143,7 +144,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function create_pending_order() {
 
@@ -215,21 +216,11 @@ class LLMS_Controller_Orders {
 			return llms_add_notice( __( 'No payment method selected.', 'lifterlms' ), 'error' );
 		} else {
 			$gid = empty( $_POST['llms_payment_gateway'] ) ? 'manual' : $_POST['llms_payment_gateway'];
-			$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gid );
-			if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
-				// gateway must be enabled
-				if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
-					return llms_add_notice( __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ), 'error' );
-				} // End if().
-				elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
-					return llms_add_notice( sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
-					// if it's single, ensure gateway supports singles
-				} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
-					return llms_add_notice( sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
-				}
-			} else {
-				return llms_add_notice( __( 'An invalid payment method was selected.', 'lifterlms' ), 'error' );
+			$gateway = $this->validate_selected_gateway( $gid, $plan );
+			if ( is_wp_error( $gateway ) ) {
+				return llms_add_notice( $gateway->get_error_message(), 'error' );
 			}
+
 		}
 
 		// attempt to update the user (performs validations)
@@ -396,6 +387,49 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
+	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function switch_payment_source() {
+
+		// invalid nonce or the form wasn't submitted
+		if ( ! llms_verify_nonce( '_switch_source_nonce', 'llms_switch_order_source', 'POST' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['order_id'] ) && ! is_numeric( $_POST['order_id'] ) && 0 == $_POST['order_id'] ) {
+			return llms_add_notice( __( 'Missing order information.', 'lifterlms' ), 'error' );
+		}
+
+		$order = llms_get_post( $_POST['order_id'] );
+		if ( ! is_a( $order, 'LLMS_Order' ) ) {
+			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
+		}
+
+		if ( get_current_user_id() != $order->get( 'user_id' ) ) {
+			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
+		}
+
+		if ( empty( $_POST['llms_payment_gateway'] ) ) {
+			return llms_add_notice( __( 'Missing gateway information.', 'lifterlms' ), 'error' );
+		}
+
+		$plan = llms_get_post( $order->get( 'plan_id' ) );
+		$gateway_id = sanitize_text_field( $_POST['llms_payment_gateway'] );
+		$gateway = $this->validate_selected_gateway( $gateway_id, $plan );
+
+		if ( is_wp_error( $gateway ) ) {
+			return llms_add_notice( $gateway->get_error_message(), 'error' );
+		}
+
+		// handoff to the gateway
+		$gateway->handle_payment_source_switch( $order, $_POST );
+
+	}
+
+	/**
 	 * When a transaction fails, update the parent order's status
 	 * @param    obj     $txn  Instance of the LLMS_Transaction
 	 * @return   void
@@ -499,6 +533,50 @@ class LLMS_Controller_Orders {
 
 		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj );
 		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj );
+
+	}
+
+	/**
+	 * Validate a gateway can be used to process the current action / transaction
+	 * @param    string     $gateway_id  gateway's id
+	 * @param    obj        $plan        instance of the LLMS_Access_Plan related to the action/transaction
+	 * @return   mixed                   WP_Error or LLMS_Payment_Gateway subclass
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function validate_selected_gateway( $gateway_id, $plan ) {
+
+		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
+		$err = new WP_Error();
+
+		// valid gateway
+		if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
+
+			// gateway not enabled
+			if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
+
+				return $err->add( 'gateway-error', __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ) );
+
+			// it's a recurring plan and the gateway doesn't support recurring
+			} elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
+
+				return $err->add( 'gateway-error', sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
+
+			// not recurring and the gateway doesn't support single payments
+			} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
+
+				return $err->add( 'gateway-error', sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
+
+			}
+
+		// not a valid gateway
+		} else {
+
+			return $err->add( 'invalid-gateway', __( 'An invalid payment method was selected.', 'lifterlms' ) );
+
+		}
+
+		return $gateway;
 
 	}
 
