@@ -11,6 +11,8 @@ if ( ! $order ) {
 }
 
 $gateway = $order->get_gateway();
+
+llms_print_notices();
 ?>
 
 <div class="llms-sd-section llms-view-order">
@@ -122,6 +124,7 @@ $gateway = $order->get_gateway();
 							<?php else : ?>
 								<?php echo $gateway->get_title(); ?>
 							<?php endif; ?>
+							<?php do_action( 'lifterlms_view_order_after_payment_method', $order ); ?>
 						</td>
 					</tr>
 
@@ -160,17 +163,15 @@ $gateway = $order->get_gateway();
 
 			<?php if ( $order->is_recurring() ) : ?>
 
-				<?php llms_form_field( array(
-					'columns' => 12,
-					'classes' => 'llms-button-primary',
-					'id' => 'llms_update_payment_method',
-					'value' => __( 'Update Payment Method', 'lifterlms' ),
-					'last_column' => true,
-					'required' => false,
-					'type'  => 'button',
-				) ); ?>
+				<?php if ( in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
 
-				<?php if ( 'llms-active' === $order->get( 'status' ) ) : ?>
+					<?php llms_get_template( 'checkout/form-switch-source.php', array(
+						'order' => $order,
+					) ); ?>
+
+				<?php endif; ?>
+
+				<?php if ( in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
 
 					<form action="" id="llms-cancel-subscription-form" method="POST">
 
@@ -197,55 +198,7 @@ $gateway = $order->get_gateway();
 
 		<div class="clear"></div>
 
-		<?php if ( $transactions['transactions'] ) : ?>
-
-			<table class="orders-table transactions" id="llms-txns">
-				<thead>
-					<tr>
-						<th><?php _e( 'Transaction', 'lifterlms' ); ?></th>
-						<th><?php _e( 'Date', 'lifterlms' ); ?></th>
-						<th><?php _e( 'Amount', 'lifterlms' ); ?></th>
-						<th><?php _e( 'Method', 'lifterlms' ); ?></th>
-					<tr>
-				</thead>
-				<tbody>
-				<?php foreach ( $transactions['transactions'] as $txn ) : ?>
-					<tr>
-						<th>
-							#<?php echo $txn->get( 'id' ); ?>
-							<span class="llms-status <?php echo $txn->get( 'status' ); ?>"><?php echo $txn->get_status_name(); ?></span>
-						</th>
-						<th><?php echo $txn->get_date( 'date' ); ?></th>
-						<th>
-							<?php $refund_amount = $txn->get_price( 'refund_amount', array(), 'float' ); ?>
-							<?php if ( $refund_amount ) : ?>
-								<del><?php echo $txn->get_price( 'amount' ); ?></del>
-								<?php echo $txn->get_net_amount(); ?>
-							<?php else : ?>
-								<?php echo $txn->get_price( 'amount' ); ?>
-							<?php endif; ?>
-						</th>
-						<th><?php echo $txn->get( 'gateway_source_description' ); ?></th>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
-				<?php if ( $transactions['pages'] > 1 ) : ?>
-					<tfoot>
-						<tr>
-							<td colspan="5">
-								<?php if ( $transactions['page'] > 1 ) : ?>
-									<a class="llms-button-secondary small" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] - 1 ) ); ?>#llms-txns"><?php _e( 'Back', 'lifterlms' ); ?></a>
-								<?php endif; ?>
-								<?php if ( $transactions['page'] < $transactions['pages'] ) : ?>
-									<a class="llms-button-secondary small" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] + 1 ) ); ?>#llms-txns"><?php _e( 'Next', 'lifterlms' ); ?></a>
-								<?php endif; ?>
-							</td>
-						</tr>
-					</tfoot>
-				<?php endif; ?>
-			</table>
-
-		<?php endif; ?>
+		<?php llms_get_template( 'myaccount/view-order-transactions.php', array( 'transactions' => $transactions ) ); ?>
 
 		<?php do_action( 'lifterlms_after_view_order_table' ); ?>
 
