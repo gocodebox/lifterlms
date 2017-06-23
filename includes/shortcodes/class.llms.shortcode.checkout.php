@@ -162,8 +162,8 @@ class LLMS_Shortcode_Checkout {
 				self::error( __( 'Invalid access plan.', 'lifterlms' ) );
 
 			}
-		} // End if().
-		elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
+
+		}  elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
 			// $atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
 
