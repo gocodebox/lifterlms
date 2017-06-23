@@ -80,10 +80,7 @@ abstract class LLMS_Payment_Gateway {
 		'refunds' => false,
 		'single_payments' => false,
 		'recurring_payments' => false,
-		'recurring_cancellation' => false,
-		'recurring_reactivation' => false,
 		'recurring_retry' => false,
-		'recurring_suspension' => false,
 		'test_mode' => false,
 	);
 
@@ -462,6 +459,25 @@ abstract class LLMS_Payment_Gateway {
 	 */
 	public function get_transaction_url( $transaction_id, $api_mode = 'live' ) {
 		return $transaction_id;
+	}
+
+	/**
+	 * Called when the Update Payment Method form is submitted from a single order view on the student dashboard
+	 *
+	 * Gateways should do whatever the gateway needs to do to validate the new payment method and save it to the order
+	 * so that future payments on the order will use this new source
+	 *
+	 * This should be an abstract function but experience has taught me that no one will upgrade follow our instructions
+	 * and they'll end up with 500 errors and debug mode disabled and send me giant frustrated question marks
+	 *
+	 * @param    obj     $order      Instance of the LLMS_Order
+	 * @param    array   $form_data  Additional data passed from the submitted form (EG $_POST)
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function handle_payment_source_switch( $order, $form_data = array() ) {
+		return llms_add_notice( sprintf( esc_html__( 'The selected payment Gateway "%s" does not support payment method switching.', 'lifterlms' ), $this->get_title() ), 'error' );
 	}
 
 	/**
