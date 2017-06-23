@@ -19,9 +19,13 @@ class LLMS_Controller_Account {
 
 	}
 
+	/**
+	 * Lets student cancel recurring access plan subscriptions from the student dashboard view order screen
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function cancel_subscription() {
-
-		return;
 
 		// invalid nonce or the form wasn't submitted
 		if ( ! llms_verify_nonce( '_cancel_sub_nonce', 'llms_cancel_subscription', 'POST' ) ) {
