@@ -50,7 +50,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 			$order = new LLMS_Order( intval( $wp->query_vars['orders'] ) );
 
-			if ( in_array( $order->get( 'status' ), array( 'llms-pending', 'llms-on-hold' ) ) ) {
+			if ( 'manual' === $order->get( 'payment_gateway' ) && in_array( $order->get( 'status' ), array( 'llms-pending', 'llms-on-hold' ) ) ) {
 
 				echo $this->get_payment_instructions();
 
