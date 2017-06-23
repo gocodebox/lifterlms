@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.10.0 - 2017/06/??
+--------------------
+
++ Force SSL setting now applies to Student Dashboard screens. This is useful as Google now recommends any page where a password is submitted should be encrypted and allows gateway communication from student dashboard screen with APIs that require an SSL connection.
+
+
 v3.9.5 - 2017/06/13
 -------------------
 
