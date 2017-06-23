@@ -4,7 +4,7 @@
  * Student Dashboard related JS
  * @type  {Object}
  * @since    3.7.0
- * @version  3.7.4
+ * @version  [version]
  */
 LLMS.StudentDashboard = {
 
@@ -26,7 +26,7 @@ LLMS.StudentDashboard = {
 	 * Init
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  3.7.4
+	 * @version  [version]
 	 */
 	init: function() {
 
@@ -97,6 +97,12 @@ LLMS.StudentDashboard = {
 
 	},
 
+	/**
+	 * Bind events related to the orders screen on the dashboard
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	bind_orders: function() {
 
 		$( '#llms-cancel-subscription-form' ).on( 'submit', this.order_cancel_warning );
