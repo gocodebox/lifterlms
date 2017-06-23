@@ -101,6 +101,35 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	}
 
 	/**
+	 * Called when the Update Payment Method form is submitted from a single order view on the student dashboard
+	 *
+	 * Gateways should do whatever the gateway needs to do to validate the new payment method and save it to the order
+	 * so that future payments on the order will use this new source
+	 *
+	 * @param    obj     $order      Instance of the LLMS_Order
+	 * @param    array   $form_data  Additional data passed from the submitted form (EG $_POST)
+	 * @return   void
+	 * @since    4.2.0
+	 * @version  4.2.0
+	 */
+	public function handle_payment_source_switch( $order, $form_data = array() ) {
+
+		$previous_gateway = $order->get( 'payment_gateway' );
+
+		if ( $this->get_id() === $previous_gateway ) {
+			return;
+		}
+
+		$order->set( 'payment_gateway', $this->get_id() );
+		$order->set( 'gateway_customer_id', '' );
+		$order->set( 'gateway_source_id', '' );
+		$order->set( 'gateway_subscription_id', '' );
+
+		$order->add_note( sprintf( __( 'Payment method switched from "%1$s" to "%2$s"', 'lifterlms' ), $previous_gateway, $this->get_admin_title() ) );
+
+	}
+
+	/**
 	 * Handle a Pending Order
 	 * Called by LLMS_Controller_Orders->create_pending_order() on checkout form submission
 	 * All data will be validated before it's passed to this function
