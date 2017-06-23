@@ -155,6 +155,33 @@
 			width: 32%;
 		}
 
+		form {
+			margin-bottom: 0;
+		}
+
+	}
+
+	.llms-switch-payment-source {
+		.llms-notice,
+		.entry-content .llms-notice {
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+	}
+	.llms-switch-payment-source-main {
+		border: none;
+		display: none;
+		margin: 0;
+		ul.llms-payment-gateways {
+			padding: 10px 15px 0;
+			margin: 0;
+		}
+		ul.llms-order-summary {
+			padding: 0 25px 10px;
+			margin: 0;
+			list-style-type: none;
+			li { list-style-type: none; }
+		}
 	}
 
 }

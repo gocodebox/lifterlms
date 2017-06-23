@@ -100,6 +100,10 @@ LLMS.StudentDashboard = {
 	bind_orders: function() {
 
 		$( '#llms-cancel-subscription-form' ).on( 'submit', this.order_cancel_warning );
+		$( '#llms_update_payment_method' ).on( 'click', function() {
+			$( 'input[name="llms_payment_gateway"]:checked' ).trigger( 'change' );
+			$( this ).closest( 'form' ).find( '.llms-switch-payment-source-main' ).slideToggle( '200' );
+		} );
 
 	},
 
@@ -125,7 +129,7 @@ LLMS.StudentDashboard = {
 	 */
 	order_cancel_warning: function( e ) {
 		e.preventDefault();
-		var msg = 'Are you sure you want to cancel your subscription?';
+		var msg = LLMS.l10n.translate( 'Are you sure you want to cancel your subscription?' );
 		if ( window.confirm( LLMS.l10n.translate( msg ) ) ) {
 			$( this ).off( 'submit', this.order_cancel_warning );
 			$( this ).submit();
