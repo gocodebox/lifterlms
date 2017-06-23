@@ -2336,6 +2336,31 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
     width: 32%;
   }
 }
+.llms-student-dashboard .order-secondary form {
+  margin-bottom: 0;
+}
+.llms-student-dashboard .llms-switch-payment-source .llms-notice,
+.llms-student-dashboard .llms-switch-payment-source .entry-content .llms-notice {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.llms-student-dashboard .llms-switch-payment-source-main {
+  border: none;
+  display: none;
+  margin: 0;
+}
+.llms-student-dashboard .llms-switch-payment-source-main ul.llms-payment-gateways {
+  padding: 10px 15px 0;
+  margin: 0;
+}
+.llms-student-dashboard .llms-switch-payment-source-main ul.llms-order-summary {
+  padding: 0 25px 10px;
+  margin: 0;
+  list-style-type: none;
+}
+.llms-student-dashboard .llms-switch-payment-source-main ul.llms-order-summary li {
+  list-style-type: none;
+}
 
 .llms-sd-pagination {
   margin-top: 24px;
