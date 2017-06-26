@@ -79,7 +79,9 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		// $gateway = $order->get_gateway();
 
 		$fields = array(
+			'payment_gateway',
 			'gateway_customer_id',
+			'gateway_subscription_id',
 			'gateway_source_id',
 		);
 

@@ -155,6 +155,26 @@ class LLMS_Payment_Gateways {
 	}
 
 	/**
+	 * Get an array of payment gateways which support a specific gateway feature
+	 * @param    string    $feature  a gateway feature string
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_supporting_gateways( $feature ) {
+
+		$gateways = array();
+		foreach ( $this->get_enabled_payment_gateways() as $id => $gateway ) {
+			if ( $gateway->supports( $feature ) ) {
+				$gateways[ $id ] = $gateway;
+			}
+		}
+
+		return apply_filters( 'lifterlms_supporting_payment_gateways', $gateways, $feature );
+
+	}
+
+	/**
 	 * Determine if any payment gateways are registered
 	 * @param boolean  $enabled   if true, will check only enabled gateways
 	 * @return boolean

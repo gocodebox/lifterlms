@@ -17,6 +17,17 @@ abstract class LLMS_Payment_Gateway {
 	public $admin_description = '';
 
 	/**
+	 * Fields the gateway uses on the admin panel when displaying/editing an order
+	 * @var    array
+	 * @since  3.10.0
+	 */
+	public $admin_order_fields = array(
+		'customer' => false,
+		'subscription' => false,
+		'source' => false,
+	);
+
+	/**
 	 * Optional gateway title for the admin panel
 	 * @var string
 	 * @since  3.0.0
@@ -197,6 +208,34 @@ abstract class LLMS_Payment_Gateway {
 	}
 
 	/**
+	 * Get data about the fields displayed on the admin panel when viewing an order
+	 * processed via this gateway
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_admin_order_fields() {
+		$fields = array(
+			'customer' => array(
+				'label' => __( 'Customer ID', 'lifterlms' ),
+				'enabled' => $this->admin_order_fields['customer'],
+				'name' => 'gateway_customer_id',
+			),
+			'source' => array(
+				'label' => __( 'Source ID', 'lifterlms' ),
+				'enabled' => $this->admin_order_fields['source'],
+				'name' => 'gateway_source_id',
+			),
+			'subscription' => array(
+				'label' => __( 'Subscription ID', 'lifterlms' ),
+				'enabled' => $this->admin_order_fields['subscription'],
+				'name' => 'gateway_subscription_id',
+			),
+		);
+		return apply_filters( 'llms_get_gateway_admin_order_fields', $fields, $this->id );
+	}
+
+	/**
 	 * Get default dageway admin settinds fields
 	 * @return   array
 	 * @since    3.0.0
@@ -360,6 +399,45 @@ abstract class LLMS_Payment_Gateway {
 	 */
 	public function get_id() {
 		return $this->id;
+	}
+
+	/**
+	 * Retrieve an HTML link to a customer, subscription, or source URL
+	 * If no URL provided returns the item value as string
+	 * @param    string     $item_key    the key of the item to retrieve a URL for
+	 * @param    string     $item_value  the value of the item to retrieve
+	 * @param    string     $api_mode    the current api mode to retrieve the URL for
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_item_link( $item_key, $item_value, $api_mode = 'live' ) {
+
+		switch ( $item_key ) {
+
+			case 'customer':
+				$url = $this->get_customer_url( $item_value, $api_mode );
+			break;
+
+			case 'subscription':
+				$url = $this->get_subscription_url( $item_value, $api_mode );
+			break;
+
+			case 'source':
+				$url = $this->get_source_url( $item_value, $api_mode );
+			break;
+
+			default :
+				$url = $item_value;
+
+		}
+
+	 	if ( false === filter_var( $url, FILTER_VALIDATE_URL ) ) {
+	 		return $item_value;
+	 	} else {
+	 		return sprintf( '<a href="%1$s" target="_blank">%2$s</a>', $url, $item_value );
+	 	}
+
 	}
 
 	/**

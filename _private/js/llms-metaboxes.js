@@ -1,10 +1,9 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.9.2
+ * @version  [version]
  */
 ( function( $ ) {
-
 
 	$.fn.llmsCollapsible = function() {
 
@@ -224,6 +223,12 @@
 
 		};
 
+		/**
+		 * Bind llms-editable metabox fields and related dom interactions
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.bind_editables = function() {
 
 			var self = this;
@@ -233,11 +238,24 @@
 				var $label = $field.find( 'label' ).clone(),
 					name = $field.attr( 'data-llms-editable' ),
 					type = $field.attr( 'data-llms-editable-type' ),
+					required = $field.attr( 'data-llms-editable-required' ) || 'no',
 					val = $field.attr( 'data-llms-editable-value' ),
 					$input;
 
+				required = ( 'yes' === required ) ? ' required="required"' : '';
+
 				if ( 'select' === type ) {
-					console.log( select );
+
+					var options = JSON.parse( $field.attr( 'data-llms-editable-options' ) ),
+						selected;
+
+					$input = $( '<select name="' + name + '"' + required + ' />');
+					for ( var key in options ) {
+						selected = val === key ? ' selected="selected"' : '';
+						$input.append( '<option value="' + key + '"' + selected + '>' + options[ key ] + '</option>' );
+					}
+
+
 				} else if ( 'datetime' === type ) {
 
 					$input = $( '<div class="llms-datetime-field" />' );
@@ -257,7 +275,8 @@
 					$input.append( '<input class="llms-time-input" max="59" min="0" name="' + name + '[minute]" type="number" value="' +  val.minute + '">' );
 
 				} else {
-					$input = $( '<input name="' + name + '" type="' + type + '" value="' + val + '">');
+
+					$input = $( '<input name="' + name + '" type="' + type + '" value="' + val + '"' + required + '>');
 				}
 
 				$field.empty().append( $label ).append( $input );
@@ -436,7 +455,7 @@
 		 * Actions for ORDERS
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  [version]
 		 */
 		this.bind_llms_order = function() {
 
@@ -497,6 +516,54 @@
 					$btn.text( LLMS.l10n.translate( 'Record a Manual Payment' ) );
 					$btn.attr( 'data-action', '' );
 					$row.next( 'tr' ).remove();
+
+				}
+
+			} );
+
+			// cache the original value when focusing on a payment gateway select
+			// used below so the original field related data can be restored when switching back to the orignially selected gateway
+			$( '.llms-metabox' ).one( 'focus', '.llms-metabox-field[data-llms-editable="payment_gateway"] select', function() {
+
+				if ( ! $( this ).attr( 'data-original-value' ) ) {
+					$( this ).attr( 'data-original-value', $( this ).val() );
+				}
+
+			} );
+
+			// when selecting a new payment gateway get field data and update the dom to only display the fields
+			// supported/needed by the newly selected gateway
+			$( '.llms-metabox' ).on( 'change', '.llms-metabox-field[data-llms-editable="payment_gateway"] select', function() {
+
+				var $select = $( this ),
+					gateway = $select.val(),
+					data = JSON.parse( $select.closest( '.llms-metabox-field' ).attr( 'data-gateway-fields' ) ),
+					gateway_data = data[ gateway ];
+
+				for ( var field in gateway_data ) {
+
+					var $field = $( 'input[name="' + gateway_data[ field ].name + '"]' ),
+						$wrap = $field.closest( '.llms-metabox-field' );
+
+					// if the field is enabled show it the field and, if we're switching back to the originally selected
+					// gateway, reload the value from the dom
+					if ( gateway_data[ field ].enabled ) {
+
+						$wrap.show();
+						$field.attr( 'required', 'required' );
+						if ( gateway === $select.attr( 'data-original-value') ) {
+							$field.val( $wrap.attr( 'data-llms-editable-value' ) );
+						}
+
+					// otherwise hide the field and clear the value
+					// this will ensure it gets updated in the database
+					} else {
+
+						$field.attr( 'value', '' );
+						$field.removeAttr( 'required' );
+						$wrap.hide();
+
+					}
 
 				}
 

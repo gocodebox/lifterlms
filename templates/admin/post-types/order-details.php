@@ -8,6 +8,15 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
+
+// used to allow admins to switch payment gateways
+$gateway_feature = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
+$switchable_gateways = array();
+$switchable_gateway_fields = array();
+foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature ) as $id => $gateway_obj ) {
+	$switchable_gateways[ $id ] = $gateway_obj->get_admin_title();
+	$switchable_gateway_fields[ $id ] = $gateway_obj->get_admin_order_fields();
+}
 ?>
 <div class="llms-metabox">
 
@@ -204,61 +213,19 @@ if ( ! is_admin() ) { exit; }
 
 			<h4><?php _e( 'Gateway Information', 'lifterlms' ); ?><a class="llms-editable" href="#"><span class="dashicons dashicons-edit"></span></a></h4>
 
-			<div class="llms-metabox-field d-1of4">
+			<div class="llms-metabox-field d-1of4" data-gateway-fields='<?php echo json_encode( $switchable_gateway_fields ); ?>' data-llms-editable="payment_gateway" data-llms-editable-options='<?php echo json_encode( $switchable_gateways ); ?>' data-llms-editable-type="select" data-llms-editable-value="<?php echo $order->get( 'payment_gateway' ); ?>">
 				<label><?php _e( 'Name:', 'lifterlms' ); ?></label>
 				<?php echo is_wp_error( $gateway ) ? $order->get( 'payment_gateway' ) : $gateway->get_admin_title(); ?>
 			</div>
 
+			<?php foreach ( $gateway->get_admin_order_fields() as $field => $data ) : ?>
 
-			<?php if ( isset( $order->transaction_id ) ) : ?>
-				<?php $transaction = is_wp_error( $gateway ) ? $order->get( 'transaction_id' ) : $gateway->get_transaction_url( $order->get( 'transaction_id' ) ); ?>
-				<div class="llms-metabox-field d-1of4">
-					<label><?php _e( 'Transaction ID:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $transaction, FILTER_VALIDATE_URL ) ) : ?>
-						<?php echo $transaction; ?>
-					<?php else : ?>
-						<a href="<?php echo $transaction; ?>" target="_blank"><?php echo $order->get( 'transaction_id' ); ?></a>
-					<?php endif; ?>
+				<div class="llms-metabox-field d-1of4"<?php echo ! $data['enabled'] ? ' style="display:none;"' : ' '; ?>data-llms-editable="<?php echo $data['name']; ?>" data-llms-editable-required="yes" data-llms-editable-type="text" data-llms-editable-value="<?php echo $order->get( $data['name'] ); ?>">
+					<label><?php echo $data['label']; ?></label>
+					<?php echo $gateway->get_item_link( $field, $order->get( $data['name'] ), $order->get( 'api_mode' ) ); ?>
 				</div>
-			<?php endif; ?>
 
-
-			<?php if ( isset( $order->gateway_customer_id ) ) : ?>
-				<?php $customer = is_wp_error( $gateway ) ? $order->get( 'gateway_customer_id' ) : $gateway->get_customer_url( $order->get( 'gateway_customer_id' ), $order->get( 'gateway_api_mode' ) ); ?>
-				<div class="llms-metabox-field d-1of4" data-llms-editable="gateway_customer_id" data-llms-editable-type="text" data-llms-editable-value="<?php echo $order->get( 'gateway_customer_id' ); ?>">
-					<label><?php _e( 'Customer ID:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $customer, FILTER_VALIDATE_URL ) ) : ?>
-						<?php echo $customer; ?>
-					<?php else : ?>
-						<a href="<?php echo $customer; ?>" target="_blank"><?php echo $order->get( 'gateway_customer_id' ); ?></a>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
-
-			<?php if ( isset( $order->gateway_subscription_id ) ) : ?>
-				<?php $subscription = is_wp_error( $gateway ) ? $order->get( 'gateway_subscription_id' ) : $gateway->get_subscription_url( $order->get( 'gateway_subscription_id' ), $order->get( 'gateway_api_mode' ) ); ?>
-				<div class="llms-metabox-field d-1of4" >
-					<label><?php _e( 'Subscription ID:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $subscription, FILTER_VALIDATE_URL ) ) : ?>
-						<?php echo $subscription; ?>
-					<?php else : ?>
-						<a href="<?php echo $subscription; ?>" target="_blank"><?php echo $order->get( 'gateway_subscription_id' ); ?></a>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
-
-			<?php $source_id = $order->get( 'gateway_source_id' ); ?>
-			<?php if ( $source_id ) : ?>
-				<?php $source = $gateway->get_source_url( $source_id ); ?>
-				<div class="llms-metabox-field d-1of4" data-llms-editable="gateway_source_id" data-llms-editable-type="text" data-llms-editable-value="<?php echo $source_id; ?>">
-					<label><?php _e( 'Source:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $source, FILTER_VALIDATE_URL ) ) : ?>
-						<?php echo $source; ?>
-					<?php else : ?>
-						<a href="<?php echo $source; ?>" target="_blank"><?php echo $source_id; ?></a>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
+			<?php endforeach; ?>
 
 			<?php do_action( 'lifterlms_order_meta_box_after_gateway_information', $order ); ?>
 
