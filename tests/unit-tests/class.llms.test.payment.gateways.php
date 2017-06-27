@@ -33,6 +33,8 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 		$gways = LLMS()->payment_gateways();
 
+		$this->toggle_gateway( 'manual', 'off' );
+
 		$this->assertEquals( array(), $gways->get_enabled_payment_gateways() );
 
 		// enable the manual gateway
@@ -91,6 +93,7 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 		$this->assertTrue( $gways->has_gateways( false ) );
 
 		// check enabled
+		$this->toggle_gateway( 'manual', 'off' );
 		$this->assertFalse( $gways->has_gateways( true ) );
 
 		$this->toggle_gateway( 'manual', 'on' );
