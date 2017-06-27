@@ -68,7 +68,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	public function get_payment_instructions() {
 		$opt = $this->get_option( 'payment_instructions' );
 		if ( $opt ) {
-			$fields = '<div class="llms-notice llms-debug">' . wpautop( wptexturize( wp_kses_post( $opt ) ) ) . '</div>';
+			$fields = '<div class="llms-notice llms-info"><h3>' . esc_html__( 'Payment Instructions', 'lifterlms' ) . '</h3>' . wpautop( wptexturize( wp_kses_post( $opt ) ) ) . '</div>';
 		} else {
 			$fields = '';
 		}
