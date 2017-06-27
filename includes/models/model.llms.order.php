@@ -241,7 +241,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				$end = strtotime( '+' . $frequency . ' ' . $period, $end );
 				$i++;
 			}
-
 		}
 
 		return apply_filters( 'llms_order_calculate_billing_end_date', $end, $this );
@@ -255,7 +254,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function calculate_next_payment_date( $format = 'Y-m-d H:i:s') {
+	private function calculate_next_payment_date( $format = 'Y-m-d H:i:s' ) {
 
 		$start_time = $this->get_date( 'date', 'U' );
 		$end_time = $this->get_date( 'date_billing_end', 'U' );
@@ -285,7 +284,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				if ( $last_txn_time && $last_txn_time < llms_current_time( 'timestamp' ) ) {
 					$from_time = $last_txn_time;
 				}
-
 			}
 
 			$period = $this->get( 'billing_period' );
@@ -300,8 +298,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				$next_payment_time = strtotime( '+' . $frequency . ' ' . $period, $next_payment_time );
 				$i++;
 			}
-
-		}
+		}// End if().
 
 		// if the next payment is after the end time (where applicaple)
 		if ( 0 != $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
@@ -902,7 +899,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				$trial_end_date = $this->calculate_trial_end_date( $format );
 
 			}
-
 		}
 
 		return apply_filters( 'llms_order_get_trial_end_date', $trial_end_date, $this );
@@ -1250,7 +1246,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			// generic action
 			do_action( 'llms_automatic_payment_retry_scheduled', $this );
 
-		// we are out of rules, fail the order, move on with our lives
+			// we are out of rules, fail the order, move on with our lives
 		} else {
 
 			$this->set_status( 'failed' );
@@ -1260,7 +1256,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			do_action( 'llms_automatic_payment_maximum_retries_reached', $this );
 
-		}
+		}// End if().
 
 	}
 

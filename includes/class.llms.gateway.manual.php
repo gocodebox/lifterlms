@@ -170,7 +170,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 			$this->complete_transaction( $order );
 
-		// payment due
+			// payment due
 		} else {
 
 			/**
@@ -183,7 +183,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 			wp_redirect( $order->get_view_link() );
 			exit;
 
-		}
+		}// End if().
 
 	}
 

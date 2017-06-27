@@ -162,8 +162,7 @@ class LLMS_Shortcode_Checkout {
 				self::error( __( 'Invalid access plan.', 'lifterlms' ) );
 
 			}
-
-		}  elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
+		} elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
 			// $atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
 
@@ -183,15 +182,15 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
-			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
+					$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
 
-			self::confirm_payment( $atts );
+					self::confirm_payment( $atts );
 
 		} else {
 
 			return self::error( sprintf( __( 'Your cart is currently empty. Click <a href="%s">here</a> to get started.', 'lifterlms' ), llms_get_page_url( 'courses' ) ) );
 
-		}
+		}// End if().
 
 		echo '</div><!-- .llms-checkout-wrapper -->';
 

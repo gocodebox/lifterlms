@@ -103,7 +103,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 								data-llms-editable-date-min="<?php echo $order->get_date( 'date', 'Y-m-d' ); ?>"
 								data-llms-editable-type="datetime"
 								data-llms-editable-value='<?php echo $this->get_editable_date_json( $order->get_trial_end_date( 'U' ) ); ?>'><?php echo $order->get_trial_end_date( $date_format ); ?></span>
-							<?php if ( ! $order->has_trial_ended() ): ?>
+							<?php if ( ! $order->has_trial_ended() ) : ?>
 								<a class="llms-editable" data-fields="#llms-editable-trial-end-date" href="#"><span class="dashicons dashicons-edit"></span></a>
 							<?php endif; ?>
 						</div>
@@ -113,7 +113,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 						<label><?php _e( 'Next Payment Date', 'lifterlms' ) ?>:</label>
 						<?php if ( is_wp_error( $next_time ) ) : ?>
 							<?php echo $next_time->get_error_message(); ?>
-						<?php else: ?>
+						<?php else : ?>
 							<span
 								id="llms-editable-next-payment-date"
 								data-llms-editable="_llms_date_next_payment"
@@ -190,9 +190,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 				if ( $new_date !== $saved_date ) {
 					$order->set_date( str_replace( '_llms_date_', '', $key ), $new_date . ':00' );
 				}
-
 			}
-
 		}
 
 	}

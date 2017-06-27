@@ -198,7 +198,9 @@ llms_print_notices();
 
 		<div class="clear"></div>
 
-		<?php llms_get_template( 'myaccount/view-order-transactions.php', array( 'transactions' => $transactions ) ); ?>
+		<?php llms_get_template( 'myaccount/view-order-transactions.php', array(
+			'transactions' => $transactions,
+		) ); ?>
 
 		<?php do_action( 'lifterlms_after_view_order_table' ); ?>
 
