@@ -116,7 +116,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 * @version  [version]
 	 */
 	protected function set_icon() {
-		return $this->get_icon_default( 'negative' );
+		return $this->get_icon_default( 'warning' );
 	}
 
 	/**
