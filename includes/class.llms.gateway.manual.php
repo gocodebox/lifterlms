@@ -170,9 +170,13 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 			$this->complete_transaction( $order );
 
+		// payment due
 		} else {
 
-			// @todo send payment instructions email
+			/**
+			 * @hooked LLMS_Notification: manual_payment_due - 10
+			 */
+			do_action( 'llms_manual_payment_due', $order, $this );
 
 			// show the user payment instructions for the order
 			do_action( 'lifterlms_handle_pending_order_complete', $order );
@@ -196,8 +200,13 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 		// switch to order on hold if it's a paid order
 		if ( $order->get_price( 'total', array(), 'float' ) > 0 ) {
 
-			// @todo send payment instructions email
+			// update status
 			$order->set_status( 'on-hold' );
+
+			/**
+			 * @hooked LLMS_Notification: manual_payment_due - 10
+			 */
+			do_action( 'llms_manual_payment_due', $order, $this );
 
 		}
 
@@ -212,5 +221,6 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	public function is_enabled() {
 		return ( 'yes' === $this->get_enabled() ) ? true : false;
 	}
+
 
 }

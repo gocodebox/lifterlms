@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_View {
+class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Settings for basic notifications
@@ -30,7 +30,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 * Notification Trigger ID
 	 * @var  [type]
 	 */
-	public $trigger_id = 'payment_retry';
+	public $trigger_id = 'manual_payment_due';
 
 	/**
 	 * Setup body content for output
@@ -53,7 +53,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 * @version  [version]
 	 */
 	private function set_body_basic() {
-		return esc_html__( 'Head over to the order to see what went wrong and update your payment method to reactivate your subscription.', 'lifterlms' );
+		return __( 'Head over to your dashboard for payment instructions.', 'lifterlms' );
 	}
 
 	/**
@@ -82,8 +82,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 		ob_start();
 		?><p><?php printf( __( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' ); ?></p>
-		<p><?php printf( __( 'The automatic payment for your subscription to %1$s has failed. We\'ll automatically retry this charge on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' ); ?></p>
-		<p><?php printf( __( 'To reactivate your subscription you can login to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">','</a>' ); ?></p>
+		<p><?php printf( __( 'A payment for your subscription to %1$s is due.', 'lifterlms' ), '{{PRODUCT_TITLE}}' ); ?></p>
+		<p><?php printf( __( 'Sign in to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">','</a>' ); ?></p>
 		<h4><?php printf( __( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
 		<table style="<?php echo $table_style; ?>">
 		<?php foreach ( $rows as $code => $name ) : ?>
@@ -93,7 +93,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 			</tr>
 		<?php endforeach; ?>
 		</table>
-		<p><a href="{{ORDER_URL}}"><?php _e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
+		<p><a href="{{ORDER_URL}}"><?php _e( 'Pay Invoice', 'lifterlms' ); ?></a></p>
 		<?php
 		return ob_get_clean();
 	}
@@ -106,7 +106,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 */
 	protected function set_footer() {
 		$url = $this->set_merge_data( '{{ORDER_URL}}' );
-		return '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Update Payment Method', 'lifterlms' ) . '</a>';
+		return '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Pay Now', 'lifterlms' ) . '</a>';
 	}
 
 	/**
@@ -234,7 +234,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 * @version  [version]
 	 */
 	protected function set_subject() {
-		return sprintf( __( 'Automatic payment for %1$s failed, retry scheduled for %2$s', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
+		return sprintf( __( 'A payment is due for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 
 	/**
@@ -245,9 +245,9 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 */
 	protected function set_title() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
-			return sprintf( __( 'Automatic payment failed for order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
+			return sprintf( __( 'Payment Due for Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
 		}
-		return sprintf( __( 'An automatic payment failed for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
+		return sprintf( __( 'A payment is due for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 
 }

@@ -192,6 +192,7 @@ class LLMS_Notifications {
 			'course_track_complete',
 			'enrollment',
 			'lesson_complete',
+			'manual_payment_due',
 			'payment_retry',
 			'purchase_receipt',
 			'quiz_failed',
