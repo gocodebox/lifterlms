@@ -11,16 +11,17 @@ LifterLMS
 
 [LifterLMS](https://lifterlms.com), the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
 
+
 ### [Changelog](./CHANGELOG.md)
+
 
 ### Documentation
 + [https://lifterlms.com/docs/](https://lifterlms.com/docs/)
 
-### Support
 
-This is a developer's portal for the LifterLMS team and any members of the community who wish to contribute to LifterLMS.
+### Getting Help and Support Support
 
-This is _not_ a support form. If you require support please visit the [forums](https://wordpress.org/support/plugin/lifterlms) or become a [LifterLMS Pro Member](https://lifterlms.com/product/lifterlms-pro) and submit a [support ticket](https://lifterlms.com/my-account/my-tickets).
+GitHub is for bug reports and contributions only! If you have a support question or a request for a customization this is not the right place to post it. Please refer to [LifterLMS Support](https://lifterlms.com/my-account/my-tickets) or the [community forums](https://wordpress.org/support/plugin/lifterlms). If you're looking for help customizing LifterLMS, please consider hiring a [LifterLMS Expert](https://lifterlms.com/docs/do-you-have-any-recommended-developers-who-can-modifycustomize-lifterlms/).
 
 
 ### Reporting a Bug
@@ -30,6 +31,11 @@ Bugs can be reported at [https://github.com/gocodebox/lifterlms/issues/new](http
 Before reporting a bug, [search existing issues](https://github.com/gocodebox/lifterlms/issues) and ensure you're not creating a duplicate. If the issue already exists you can add your information to the existing report.
 
 Also check our [known issues and conflicts](https://lifterlms.com/doc-category/lifterlms/known-conflicts/) for possible resolutions.
+
+
+### Contributing
+
+Interested in contributing to LifterLMS? We'd love to have your contributions. Read our contributor's guidelines [here](.github/CONTRIBUTING.md).
 
 
 ### Installing for Development
@@ -77,16 +83,3 @@ To see all options:
 
 + `./vendor/bin/phpcbf` to run on all php files
 + `./vendor/bin/phpcbf path/to/file.php` to run on a specific file
-
-
-### Contributing
-
-+ Fork the repository on GitHub.
-+ Create a new branch from the 'master' branch.
-+ Make the changes to your forked repository.
-+ Ensure you stick to the WordPress Coding Standards and have properly documented any new functions, actions and filters following the documentation standards.
-+ When committing, reference your issue (if present) and include a note about the fix.
-+ Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
-+ Push the changes to your fork
-+ Submit a pull request to the 'master' branch of the LifterLMS repo.
-+ At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary. We're newly open source and supporting users and customers and our own internal pull requests and releases will take priority over pull requests from the community. Please be patient!
