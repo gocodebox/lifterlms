@@ -43,7 +43,7 @@ $gateway = LLMS()->payment_gateways()->get_gateway_by_id( $confirm );
 				</ul>
 			<?php endif; ?>
 
-		<?php elseif ( $confirm && $gateway ): ?>
+		<?php elseif ( $confirm && $gateway ) : ?>
 
 			<div class="llms-payment-method">
 				<?php do_action( 'lifterlms_checkout_confirm_before_payment_method', $gateway->get_id(), 'switch' ); ?>
