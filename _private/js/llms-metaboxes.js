@@ -545,6 +545,10 @@
 					var $field = $( 'input[name="' + gateway_data[ field ].name + '"]' ),
 						$wrap = $field.closest( '.llms-metabox-field' );
 
+					// always clear the value when switching
+					// ensures that outdated data is removed from the DB
+					$field.attr( 'value', '' );
+
 					// if the field is enabled show it the field and, if we're switching back to the originally selected
 					// gateway, reload the value from the dom
 					if ( gateway_data[ field ].enabled ) {
@@ -555,11 +559,10 @@
 							$field.val( $wrap.attr( 'data-llms-editable-value' ) );
 						}
 
-					// otherwise hide the field and clear the value
+					// otherwise hide the field
 					// this will ensure it gets updated in the database
 					} else {
 
-						$field.attr( 'value', '' );
 						$field.removeAttr( 'required' );
 						$wrap.hide();
 
