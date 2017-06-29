@@ -1,12 +1,13 @@
 <?php
 /**
  * My Account Navigation Links
- * @since  2.?.?
- * @version 3.0.4
+ * @since    2.?.?
+ * @version [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $sep = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;' );
+$current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
 ?>
 <nav class="llms-sd-nav">
 
@@ -14,7 +15,10 @@ $sep = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;'
 
 	<ul class="llms-sd-items">
 		<?php foreach ( LLMS_Student_Dashboard::get_tabs() as $var => $data ) : ?>
-			<li class="llms-sd-item"><a class="llms-sd-link" href="<?php echo isset( $data['url'] ) ? $data['url'] : llms_get_endpoint_url( $var, '', llms_get_page_url( 'myaccount' ) ); ?>"><?php echo $data['title']; ?></a><span class="llms-sep"><?php echo $sep; ?></span></li>
+			<li class="llms-sd-item <?php printf( '%1$s %2$s', $var, ( $var === $current ) ? ' current' : '' ); ?>">
+				<a class="llms-sd-link" href="<?php echo isset( $data['url'] ) ? $data['url'] : llms_get_endpoint_url( $var, '', llms_get_page_url( 'myaccount' ) ); ?>"><?php echo $data['title']; ?></a>
+				<span class="llms-sep"><?php echo $sep; ?></span>
+			</li>
 		<?php endforeach; ?>
 	</ul>
 

@@ -105,6 +105,11 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	private $total_tabs = 0;
 
+	/**
+	 * Metabox Version Numbers
+	 * @var  integer
+	 */
+	private $version = 1;
 
 	/**
 	 * Constructor

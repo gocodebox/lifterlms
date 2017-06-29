@@ -2,7 +2,7 @@
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  3.8.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -411,10 +411,10 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @param    string     $type  type of icon [positive|negative]
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function get_icon_default( $type ) {
-		if ( 'positive' !== $type && 'negative' !== $type ) {
+		if ( ! in_array( $type, array( 'negative', 'positive', 'warning' ) ) ) {
 			$ret = '';
 		} else {
 			$ret = LLMS()->plugin_url() . '/assets/images/notifications/icon-' . $type . '.png';

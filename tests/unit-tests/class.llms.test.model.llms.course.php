@@ -1,6 +1,8 @@
 <?php
 /**
  * Tests for LifterLMS Course Model
+ * @group    LLMS_Course
+ * @group    LLMS_Post_Model
  * @since    3.4.0
  * @version  3.4.0
  */

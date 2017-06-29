@@ -8,7 +8,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 llms_print_notices();
-
 $loop = new WP_Query( array(
 	'post_type' => 'llms_question',
 	'p' => $args['question_id'],

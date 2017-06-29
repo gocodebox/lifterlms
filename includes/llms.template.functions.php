@@ -1829,11 +1829,12 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_title' ) ) {
  * output the student dashboard wrapper opening tags
  * @return   void
  * @since    3.0.0
- * @version  3.0.0
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) :
 	function lifterlms_template_student_dashboard_wrapper_open() {
-		echo '<div class="llms-student-dashboard">';
+		$current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
+		echo '<div class="llms-student-dashboard ' . $current . '" data-current="' . $current . '">';
 	}
 endif;
 

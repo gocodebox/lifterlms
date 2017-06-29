@@ -1,10 +1,9 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.9.2
+ * @version  [version]
  */
 ( function( $ ) {
-
 
 	$.fn.llmsCollapsible = function() {
 
@@ -88,6 +87,10 @@
 
 			if ( $( '.llms-merge-code-button' ).length ) {
 				this.bind_merge_code_buttons();
+			}
+
+			if ( $( 'a.llms-editable' ).length ) {
+				this.bind_editables();
 			}
 
 		};
@@ -186,20 +189,123 @@
 
 		};
 
+		/**
+		 * Bind a single datepicker element
+		 * @param    obj   $el  jQuery selector for the input to bind the datepicker to
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  [version]
+		 */
+		this.bind_datepicker = function( $el ) {
+			var format = $el.attr( 'data-format' ) || 'mm/dd/yy',
+				maxDate = $el.attr( 'data-max-date' ) || null,
+				minDate = $el.attr( 'data-min-date' ) || null;
+			$el.datepicker( {
+				dateFormat: format,
+				maxDate: maxDate,
+				minDate: minDate,
+			} );
+		}
 
 		/**
 		 * Bind all LifterLMS datepickers
-		 * @return void
-		 * @since  3.0.0
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  [version]
 		 */
 		this.bind_datepickers = function() {
 
-			$('.llms-datepicker').datepicker( {
-				dateFormat: "mm/dd/yy"
+			var self = this;
+
+			$('.llms-datepicker').each( function() {
+				self.bind_datepicker( $( this ) );
 			} );
 
 		};
 
+		/**
+		 * Bind llms-editable metabox fields and related dom interactions
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		this.bind_editables = function() {
+
+			var self = this;
+
+			function make_editable( $field ) {
+
+				var $label = $field.find( 'label' ).clone(),
+					name = $field.attr( 'data-llms-editable' ),
+					type = $field.attr( 'data-llms-editable-type' ),
+					required = $field.attr( 'data-llms-editable-required' ) || 'no',
+					val = $field.attr( 'data-llms-editable-value' ),
+					$input;
+
+				required = ( 'yes' === required ) ? ' required="required"' : '';
+
+				if ( 'select' === type ) {
+
+					var options = JSON.parse( $field.attr( 'data-llms-editable-options' ) ),
+						selected;
+
+					$input = $( '<select name="' + name + '"' + required + ' />');
+					for ( var key in options ) {
+						selected = val === key ? ' selected="selected"' : '';
+						$input.append( '<option value="' + key + '"' + selected + '>' + options[ key ] + '</option>' );
+					}
+
+
+				} else if ( 'datetime' === type ) {
+
+					$input = $( '<div class="llms-datetime-field" />' );
+
+					val = JSON.parse( val );
+					var format = $field.attr( 'data-llms-editable-date-format' ) || '',
+						min_date = $field.attr( 'data-llms-editable-date-min' ) || '',
+						max_date = $field.attr( 'data-llms-editable-date-max' ) || '';
+
+					$picker = $( '<input class="llms-date-input llms-datepicker" data-format="' + format + '" data-max-date="' + max_date + '" data-min-date="' + min_date + '" name="' + name + '[date]" type="text" value="' +  val.date + '">' );
+					self.bind_datepicker( $picker );
+					$input.append( $picker );
+					$input.append( '<em>@</em>');
+
+					$input.append( '<input class="llms-time-input" max="23" min="0" name="' + name + '[hour]" type="number" value="' +  val.hour + '">' );
+					$input.append( '<em>:</em>');
+					$input.append( '<input class="llms-time-input" max="59" min="0" name="' + name + '[minute]" type="number" value="' +  val.minute + '">' );
+
+				} else {
+
+					$input = $( '<input name="' + name + '" type="' + type + '" value="' + val + '"' + required + '>');
+				}
+
+				$field.empty().append( $label ).append( $input );
+
+			};
+
+			$( 'a.llms-editable' ).on( 'click', function( e ) {
+
+				e.preventDefault();
+
+				var $btn = $( this ),
+					$fields;
+
+				if ( $btn.attr( 'data-fields' ) ) {
+					$fields = $( $btn.attr( 'data-fields' ) );
+				} else {
+					$fields = $btn.closest( '.llms-metabox-section' ).find( '[data-llms-editable]' );
+				}
+
+
+				$btn.remove();
+
+				$fields.each( function() {
+					make_editable( $( this ) );
+				} );
+
+			} );
+
+		};
 
 		/**
 		 * Bind Engagement post type JS
@@ -349,7 +455,7 @@
 		 * Actions for ORDERS
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  [version]
 		 */
 		this.bind_llms_order = function() {
 
@@ -410,6 +516,57 @@
 					$btn.text( LLMS.l10n.translate( 'Record a Manual Payment' ) );
 					$btn.attr( 'data-action', '' );
 					$row.next( 'tr' ).remove();
+
+				}
+
+			} );
+
+			// cache the original value when focusing on a payment gateway select
+			// used below so the original field related data can be restored when switching back to the orignially selected gateway
+			$( '.llms-metabox' ).one( 'focus', '.llms-metabox-field[data-llms-editable="payment_gateway"] select', function() {
+
+				if ( ! $( this ).attr( 'data-original-value' ) ) {
+					$( this ).attr( 'data-original-value', $( this ).val() );
+				}
+
+			} );
+
+			// when selecting a new payment gateway get field data and update the dom to only display the fields
+			// supported/needed by the newly selected gateway
+			$( '.llms-metabox' ).on( 'change', '.llms-metabox-field[data-llms-editable="payment_gateway"] select', function() {
+
+				var $select = $( this ),
+					gateway = $select.val(),
+					data = JSON.parse( $select.closest( '.llms-metabox-field' ).attr( 'data-gateway-fields' ) ),
+					gateway_data = data[ gateway ];
+
+				for ( var field in gateway_data ) {
+
+					var $field = $( 'input[name="' + gateway_data[ field ].name + '"]' ),
+						$wrap = $field.closest( '.llms-metabox-field' );
+
+					// always clear the value when switching
+					// ensures that outdated data is removed from the DB
+					$field.attr( 'value', '' );
+
+					// if the field is enabled show it the field and, if we're switching back to the originally selected
+					// gateway, reload the value from the dom
+					if ( gateway_data[ field ].enabled ) {
+
+						$wrap.show();
+						$field.attr( 'required', 'required' );
+						if ( gateway === $select.attr( 'data-original-value') ) {
+							$field.val( $wrap.attr( 'data-llms-editable-value' ) );
+						}
+
+					// otherwise hide the field
+					// this will ensure it gets updated in the database
+					} else {
+
+						$field.removeAttr( 'required' );
+						$wrap.hide();
+
+					}
 
 				}
 

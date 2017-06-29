@@ -724,9 +724,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Setter
-	 * @param  string $key  key of the property
-	 * @param  mixed  $val  value to set the property with
-	 * @return boolean      true on success, false on error or if the submitted value is the same as what's in the database
+	 * @param    string $key  key of the property
+	 * @param    mixed  $val  value to set the property with
+	 * @return   boolean      true on success, false on error or if the submitted value is the same as what's in the database
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public function set( $key, $val ) {
 
@@ -764,6 +766,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$args[ $post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
 
 			if ( wp_update_post( $args ) ) {
+				$this->post->{$post_key} = $val;
 				return true;
 			} else {
 				return false;

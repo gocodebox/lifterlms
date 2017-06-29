@@ -269,6 +269,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			'llms-completed',
 			'llms-expired',
 			'llms-failed',
+			'llms-on-hold',
 			'llms-pending',
 			'llms-refunded',
 		), array_keys( llms_get_order_statuses() ) );
@@ -280,6 +281,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			'llms-cancelled',
 			'llms-expired',
 			'llms-failed',
+			'llms-on-hold',
 			'llms-pending',
 			'llms-refunded',
 		), array_keys( llms_get_order_statuses( 'recurring' ) ) );

@@ -2,7 +2,7 @@
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  3.8.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -1051,7 +1051,7 @@ class LLMS_Post_Types {
 	 * Register post statuses
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.4
+	 * @version  [version]
 	 */
 	public static function register_post_statuses() {
 
@@ -1083,6 +1083,14 @@ class LLMS_Post_Types {
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
 					'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'lifterlms' ),
+				),
+				'llms-on-hold'  => array(
+					'label'                     => _x( 'On Hold', 'Order status', 'lifterlms' ),
+					'public'                    => true,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					'label_count'               => _n_noop( 'On Hold <span class="count">(%s)</span>', 'On Hold <span class="count">(%s)</span>', 'lifterlms' ),
 				),
 
 				// shared

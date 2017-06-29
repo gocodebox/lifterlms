@@ -618,7 +618,7 @@ function llms_get_order_status_name( $status ) {
  * @param    string  $order_type  filter stauses which are specific to the supplied order type, defaults to any statuses
  * @return   array
  * @since    3.0.0
- * @version  3.0.0
+ * @version  [version]
  */
 function llms_get_order_statuses( $order_type = 'any' ) {
 
@@ -628,6 +628,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 		'llms-completed' => __( 'Completed', 'lifterlms' ),
 		'llms-expired'   => __( 'Expired', 'lifterlms' ),
 		'llms-failed'    => __( 'Failed', 'lifterlms' ),
+		'llms-on-hold'   => __( 'On Hold', 'lifterlms' ),
 		'llms-pending'   => __( 'Pending', 'lifterlms' ),
 		'llms-refunded'  => __( 'Refunded', 'lifterlms' ),
 	);
@@ -641,6 +642,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 		case 'single':
 			unset( $statuses['llms-active'] );
 			unset( $statuses['llms-expired'] );
+			unset( $statuses['llms-on-hold'] );
 		break;
 	}
 

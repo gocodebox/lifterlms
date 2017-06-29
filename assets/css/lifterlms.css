@@ -2318,7 +2318,7 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 .llms-student-dashboard .llms-status.llms-failed, .llms-student-dashboard .llms-status.llms-expired, .llms-student-dashboard .llms-status.llms-cancelled, .llms-student-dashboard .llms-status.llms-txn-failed {
   background-color: #e5554e;
 }
-.llms-student-dashboard .llms-status.llms-pending, .llms-student-dashboard .llms-status.llms-refunded, .llms-student-dashboard .llms-status.llms-txn-pending, .llms-student-dashboard .llms-status.llms-txn-refunded {
+.llms-student-dashboard .llms-status.llms-on-hold, .llms-student-dashboard .llms-status.llms-pending, .llms-student-dashboard .llms-status.llms-refunded, .llms-student-dashboard .llms-status.llms-txn-pending, .llms-student-dashboard .llms-status.llms-txn-refunded {
   background-color: orange;
 }
 .llms-student-dashboard .llms-person-form-wrapper .llms-change-password {
@@ -2335,6 +2335,33 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
     float: left;
     width: 32%;
   }
+}
+.llms-student-dashboard .order-secondary form {
+  margin-bottom: 0;
+}
+.llms-student-dashboard .llms-switch-payment-source .llms-notice,
+.llms-student-dashboard .llms-switch-payment-source .entry-content .llms-notice {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.llms-student-dashboard .llms-switch-payment-source-main {
+  border: none;
+  display: none;
+  margin: 0;
+}
+.llms-student-dashboard .llms-switch-payment-source-main ul.llms-payment-gateways {
+  padding: 10px 15px 0;
+  margin: 0;
+}
+.llms-student-dashboard .llms-switch-payment-source-main .llms-payment-method,
+.llms-student-dashboard .llms-switch-payment-source-main ul.llms-order-summary {
+  padding: 0 25px 10px;
+  margin: 0;
+  list-style-type: none;
+}
+.llms-student-dashboard .llms-switch-payment-source-main .llms-payment-method li,
+.llms-student-dashboard .llms-switch-payment-source-main ul.llms-order-summary li {
+  list-style-type: none;
 }
 
 .llms-sd-pagination {

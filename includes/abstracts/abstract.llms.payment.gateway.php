@@ -2,7 +2,7 @@
 /**
  * LifterLMS Payment Gateways Abstract
  * @since    3.0.0
- * @version  3.8.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,6 +15,17 @@ abstract class LLMS_Payment_Gateway {
 	 * @since  3.0.0
 	 */
 	public $admin_description = '';
+
+	/**
+	 * Fields the gateway uses on the admin panel when displaying/editing an order
+	 * @var    array
+	 * @since  3.10.0
+	 */
+	public $admin_order_fields = array(
+		'customer' => false,
+		'subscription' => false,
+		'source' => false,
+	);
 
 	/**
 	 * Optional gateway title for the admin panel
@@ -70,8 +81,9 @@ abstract class LLMS_Payment_Gateway {
 
 	/**
 	 * Array of supported gateway features
-	 * @var array
-	 * @since  3.0.0
+	 * @var      array
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public $supports = array(
 		'checkout_fields' => false,
@@ -79,9 +91,7 @@ abstract class LLMS_Payment_Gateway {
 		'refunds' => false,
 		'single_payments' => false,
 		'recurring_payments' => false,
-		'recurring_cancellation' => false,
-		'recurring_reactivation' => false,
-		'recurring_suspension' => false,
+		'recurring_retry' => false,
 		'test_mode' => false,
 	);
 
@@ -195,6 +205,34 @@ abstract class LLMS_Payment_Gateway {
 	 */
 	public function get_admin_title() {
 		return apply_filters( 'llms_get_gateway_admin_title', $this->admin_title, $this->id );
+	}
+
+	/**
+	 * Get data about the fields displayed on the admin panel when viewing an order
+	 * processed via this gateway
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_admin_order_fields() {
+		$fields = array(
+			'customer' => array(
+				'label' => __( 'Customer ID', 'lifterlms' ),
+				'enabled' => $this->admin_order_fields['customer'],
+				'name' => 'gateway_customer_id',
+			),
+			'source' => array(
+				'label' => __( 'Source ID', 'lifterlms' ),
+				'enabled' => $this->admin_order_fields['source'],
+				'name' => 'gateway_source_id',
+			),
+			'subscription' => array(
+				'label' => __( 'Subscription ID', 'lifterlms' ),
+				'enabled' => $this->admin_order_fields['subscription'],
+				'name' => 'gateway_subscription_id',
+			),
+		);
+		return apply_filters( 'llms_get_gateway_admin_order_fields', $fields, $this->id );
 	}
 
 	/**
@@ -364,6 +402,45 @@ abstract class LLMS_Payment_Gateway {
 	}
 
 	/**
+	 * Retrieve an HTML link to a customer, subscription, or source URL
+	 * If no URL provided returns the item value as string
+	 * @param    string     $item_key    the key of the item to retrieve a URL for
+	 * @param    string     $item_value  the value of the item to retrieve
+	 * @param    string     $api_mode    the current api mode to retrieve the URL for
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_item_link( $item_key, $item_value, $api_mode = 'live' ) {
+
+		switch ( $item_key ) {
+
+			case 'customer':
+				$url = $this->get_customer_url( $item_value, $api_mode );
+			break;
+
+			case 'subscription':
+				$url = $this->get_subscription_url( $item_value, $api_mode );
+			break;
+
+			case 'source':
+				$url = $this->get_source_url( $item_value, $api_mode );
+			break;
+
+			default :
+				$url = $item_value;
+
+		}
+
+	 	if ( false === filter_var( $url, FILTER_VALIDATE_URL ) ) {
+	 		return $item_value;
+	 	} else {
+	 		return sprintf( '<a href="%1$s" target="_blank">%2$s</a>', $url, $item_value );
+	 	}
+
+	}
+
+	/**
 	 * Get the value of the logging setting
 	 * @return   string
 	 * @since    3.0.0
@@ -460,6 +537,25 @@ abstract class LLMS_Payment_Gateway {
 	 */
 	public function get_transaction_url( $transaction_id, $api_mode = 'live' ) {
 		return $transaction_id;
+	}
+
+	/**
+	 * Called when the Update Payment Method form is submitted from a single order view on the student dashboard
+	 *
+	 * Gateways should do whatever the gateway needs to do to validate the new payment method and save it to the order
+	 * so that future payments on the order will use this new source
+	 *
+	 * This should be an abstract function but experience has taught me that no one will upgrade follow our instructions
+	 * and they'll end up with 500 errors and debug mode disabled and send me giant frustrated question marks
+	 *
+	 * @param    obj     $order      Instance of the LLMS_Order
+	 * @param    array   $form_data  Additional data passed from the submitted form (EG $_POST)
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function handle_payment_source_switch( $order, $form_data = array() ) {
+		return llms_add_notice( sprintf( esc_html__( 'The selected payment Gateway "%s" does not support payment method switching.', 'lifterlms' ), $this->get_title() ), 'error' );
 	}
 
 	/**

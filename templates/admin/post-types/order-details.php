@@ -3,11 +3,20 @@
  * Order Details metabox for Order on Admin Panel
  *
  * @since    3.0.0
- * @version  3.8.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
+
+// used to allow admins to switch payment gateways
+$gateway_feature = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
+$switchable_gateways = array();
+$switchable_gateway_fields = array();
+foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature ) as $id => $gateway_obj ) {
+	$switchable_gateways[ $id ] = $gateway_obj->get_admin_title();
+	$switchable_gateway_fields[ $id ] = $gateway_obj->get_admin_order_fields();
+}
 ?>
 <div class="llms-metabox">
 
@@ -26,20 +35,12 @@ if ( ! is_admin() ) { exit; }
 
 	<div class="llms-metabox-section d-1of3">
 
-		<h4><?php _e( 'Order Information', 'lifterlms' ); ?></h4>
-
-		<div class="llms-metabox-field">
-			<label><?php _e( 'Order Date:', 'lifterlms' ) ?></label>
-			<?php echo $order->get_date( 'date', 'm/d/Y h:ia' ); ?>
-		</div>
-
-		<div class="llms-metabox-field">
-			<label><?php _e( 'Order Status:', 'lifterlms' ) ?></label>
-			<?php echo $order->get_status_name(); ?>
-		</div>
-
-		<?php do_action( 'lifterlms_order_meta_box_after_order_information', $order ); ?>
-
+		<?php
+			/**
+			 * THIS ACTION HOOK TO BE DEPRECATED!
+			 */
+			do_action( 'lifterlms_order_meta_box_after_order_information', $order );
+		?>
 
 		<?php do_action( 'lifterlms_order_meta_box_before_plan_information', $order ); ?>
 
@@ -109,10 +110,6 @@ if ( ! is_admin() ) { exit; }
 				<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'trial_length' ), 'lifterlms' ), $order->get( 'trial_length' ), $order->get( 'trial_period' ) ); ?>
 			</div>
 
-			<div class="llms-metabox-field">
-				<label><?php _e( 'Trial End Date:', 'lifterlms' ); ?></label>
-				<?php echo $order->get_trial_end_date( 'm/d/Y h:ia' ); ?>
-			</div>
 		<?php endif; ?>
 
 		<h4><?php _e( 'Payment Information', 'lifterlms' ); ?></h4>
@@ -153,16 +150,6 @@ if ( ! is_admin() ) { exit; }
 				<?php _e( 'One-time', 'lifterlms' ); ?>
 			<?php endif; ?>
 		</div>
-
-		<?php if ( $order->is_recurring() ) : ?>
-			<div class="llms-metabox-field">
-				<label><?php _e( 'Next Payment Due Date:', 'lifterlms' ); ?></label>
-				<?php $date = $order->get_next_payment_due_date( 'm/d/Y h:ia' );
-				if ( $date ) : ?>
-					<?php echo ( is_wp_error( $date ) ) ? '&ndash;' : $date; ?>
-				<?php endif; ?>
-			</div>
-		<?php endif; ?>
 
 		<?php do_action( 'lifterlms_order_meta_box_after_payment_information', $order ); ?>
 
@@ -224,50 +211,21 @@ if ( ! is_admin() ) { exit; }
 
 		<div class="llms-metabox-section d-all">
 
-			<h4><?php _e( 'Gateway Information', 'lifterlms' ); ?></h4>
+			<h4><?php _e( 'Gateway Information', 'lifterlms' ); ?><a class="llms-editable" href="#"><span class="dashicons dashicons-edit"></span></a></h4>
 
-			<div class="llms-metabox-field d-1of4">
+			<div class="llms-metabox-field d-1of4" data-gateway-fields='<?php echo json_encode( $switchable_gateway_fields ); ?>' data-llms-editable="payment_gateway" data-llms-editable-options='<?php echo json_encode( $switchable_gateways ); ?>' data-llms-editable-type="select" data-llms-editable-value="<?php echo $order->get( 'payment_gateway' ); ?>">
 				<label><?php _e( 'Name:', 'lifterlms' ); ?></label>
 				<?php echo is_wp_error( $gateway ) ? $order->get( 'payment_gateway' ) : $gateway->get_admin_title(); ?>
 			</div>
 
+			<?php foreach ( $gateway->get_admin_order_fields() as $field => $data ) : ?>
 
-			<?php if ( isset( $order->transaction_id ) ) : ?>
-				<?php $transaction = is_wp_error( $gateway ) ? $order->get( 'transaction_id' ) : $gateway->get_transaction_url( $order->get( 'transaction_id' ) ); ?>
-				<div class="llms-metabox-field d-1of4">
-					<label><?php _e( 'Transaction ID:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $transaction, FILTER_VALIDATE_URL ) ) : ?>
-						<?php echo $transaction; ?>
-					<?php else : ?>
-						<a href="<?php echo $transaction; ?>" target="_blank"><?php echo $order->get( 'transaction_id' ); ?></a>
-					<?php endif; ?>
+				<div class="llms-metabox-field d-1of4"<?php echo ! $data['enabled'] ? ' style="display:none;"' : ' '; ?>data-llms-editable="<?php echo $data['name']; ?>" data-llms-editable-required="yes" data-llms-editable-type="text" data-llms-editable-value="<?php echo $order->get( $data['name'] ); ?>">
+					<label><?php echo $data['label']; ?></label>
+					<?php echo $gateway->get_item_link( $field, $order->get( $data['name'] ), $order->get( 'api_mode' ) ); ?>
 				</div>
-			<?php endif; ?>
 
-
-			<?php if ( isset( $order->gateway_customer_id ) ) : ?>
-				<?php $customer = is_wp_error( $gateway ) ? $order->get( 'gateway_customer_id' ) : $gateway->get_customer_url( $order->get( 'gateway_customer_id' ), $order->get( 'gateway_api_mode' ) ); ?>
-				<div class="llms-metabox-field d-1of4">
-					<label><?php _e( 'Customer ID:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $customer, FILTER_VALIDATE_URL ) ) : ?>
-						<?php echo $customer; ?>
-					<?php else : ?>
-						<a href="<?php echo $customer; ?>" target="_blank"><?php echo $order->get( 'gateway_customer_id' ); ?></a>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
-
-			<?php if ( isset( $order->gateway_subscription_id ) ) : ?>
-				<?php $subscription = is_wp_error( $gateway ) ? $order->get( 'gateway_subscription_id' ) : $gateway->get_subscription_url( $order->get( 'gateway_subscription_id' ), $order->get( 'gateway_api_mode' ) ); ?>
-				<div class="llms-metabox-field d-1of4">
-					<label><?php _e( 'Subscription ID:', 'lifterlms' ); ?></label>
-					<?php if ( false === filter_var( $subscription, FILTER_VALIDATE_URL ) ) : ?>
-						<?php echo $subscription; ?>
-					<?php else : ?>
-						<a href="<?php echo $subscription; ?>" target="_blank"><?php echo $order->get( 'gateway_subscription_id' ); ?></a>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
+			<?php endforeach; ?>
 
 			<?php do_action( 'lifterlms_order_meta_box_after_gateway_information', $order ); ?>
 

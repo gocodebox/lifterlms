@@ -2585,7 +2585,7 @@ a.llms-view-as {
   background: #ffffd7;
   font-style: italic;
   left: 0;
-  padding: 1px;
+  padding: 2px;
   position: absolute;
   right: 0;
   top: 0;
@@ -2594,6 +2594,16 @@ a.llms-view-as {
 #poststuff .llms-metabox .llms-error {
   color: #e5554e;
   font-style: italic;
+}
+#poststuff .llms-metabox a.llms-editable {
+  color: #999;
+  text-decoration: none;
+}
+#poststuff .llms-metabox a.llms-editable:hover {
+  color: #2295ff;
+}
+#poststuff .llms-metabox h4 a.llms-editable {
+  float: right;
 }
 
 .llms-metabox-section {
@@ -2626,6 +2636,16 @@ a.llms-view-as {
 }
 .llms-metabox-section .llms-metabox-field input.sm-text {
   width: 45px;
+}
+.llms-metabox-section .llms-metabox-field .llms-datetime-field .llms-date-input {
+  width: 95px;
+}
+.llms-metabox-section .llms-metabox-field .llms-datetime-field .llms-time-input {
+  width: 45px;
+}
+.llms-metabox-section .llms-metabox-field .llms-datetime-field em {
+  font-style: normal;
+  padding: 0 3px;
 }
 
 .llms-collapsible {
@@ -2693,6 +2713,7 @@ a.llms-view-as {
   display: none;
 }
 
+#lifterlms-order-details .handlediv,
 #lifterlms-order-details .handlediv.button-link,
 #lifterlms-order-details .hndle.ui-sortable-handle {
   display: none;
