@@ -1,5 +1,36 @@
 == Changelog ==
 
+v3.10.0 - 2017/06/??
+------------------------
+
+##### Recurring Order Management (for Admins)
+
++ Admins can now edit various pieces of data related to a recurring order from the order screen on the admin panel
+  + Allow editing of the Next Payment Date
+  + Allow editing of the Trial End Date (when a trial is active for the order)
+  + Edit Payment Gateway and related gateway fields (Customer ID, Source ID, and Subscription ID)
++ If you're using LifterLMS Stripe or LifterLMS PayPal please update to the latest version of these add-ons to take advantage of these new features!
+
+##### Recurring Order Management (for Students)
+
++ Students can now switch the payment method (source) for their recurring subscritions from the student dashboard
++ Students can now cancel their recurring orders to prevent future payments on recurring orders
++ If you're using LifterLMS Stripe or LifterLMS PayPal please update to the latest version of these add-ons to take advantage of these new features!
+
+##### Automatic Payment Retries (for supporting gateways)
+
++ LifterLMS Stripe and LifterLMS PayPal can now automatically retry failed payments to help recover lost revenue as a result of temporary declines to payment sources. Please see our documentation on this new feature [here](https://lifterlms.com/docs/automatic-retry-failed-payments/).
++ If you're using LifterLMS Stripe or LifterLMS PayPal please update to the latest version of these add-ons to take advantage of these new features!
+
+##### Manual Payment Gateway Enhancements
+
++ The Manual Payment Gateway (bundled with LifterLMS Core) can now handle recurring payments. For more information on utilizing recurring payments with the Manual Gateway please see the [gateway documentation](https://lifterlms.com/docs/using-lifterlms-manual-payment-gateway/).
+
+##### Updates and Fixes
+
++ Force SSL setting now applies to Student Dashboard screens. This is useful as Google now recommends any page where a password is submitted should be encrypted and allows gateway communication from student dashboard screen with APIs that require an SSL connection.
+
+
 = v3.9.5 - 2017/06/13 =
 -----------------------
 

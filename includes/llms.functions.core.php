@@ -618,7 +618,7 @@ function llms_get_order_status_name( $status ) {
  * @param    string  $order_type  filter stauses which are specific to the supplied order type, defaults to any statuses
  * @return   array
  * @since    3.0.0
- * @version  [version]
+ * @version  3.10.0
  */
 function llms_get_order_statuses( $order_type = 'any' ) {
 

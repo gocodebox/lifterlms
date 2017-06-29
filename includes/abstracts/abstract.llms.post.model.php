@@ -728,7 +728,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    mixed  $val  value to set the property with
 	 * @return   boolean      true on success, false on error or if the submitted value is the same as what's in the database
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function set( $key, $val ) {
 

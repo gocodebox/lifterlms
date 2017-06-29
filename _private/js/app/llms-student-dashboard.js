@@ -4,7 +4,7 @@
  * Student Dashboard related JS
  * @type  {Object}
  * @since    3.7.0
- * @version  [version]
+ * @version  3.10.0
  */
 LLMS.StudentDashboard = {
 
@@ -26,7 +26,7 @@ LLMS.StudentDashboard = {
 	 * Init
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	init: function() {
 
@@ -100,8 +100,8 @@ LLMS.StudentDashboard = {
 	/**
 	 * Bind events related to the orders screen on the dashboard
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	bind_orders: function() {
 
@@ -116,8 +116,8 @@ LLMS.StudentDashboard = {
 	/**
 	 * Get the current dashboard endpoint/tab slug
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	get_screen: function() {
 		if ( !this.screen ) {
@@ -130,8 +130,8 @@ LLMS.StudentDashboard = {
 	 * Show a confirmation warning when Cancel Subscription form is submitted
 	 * @param    obj   e  JS event data
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	order_cancel_warning: function( e ) {
 		e.preventDefault();

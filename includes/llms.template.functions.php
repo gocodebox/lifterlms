@@ -1829,7 +1829,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_title' ) ) {
  * output the student dashboard wrapper opening tags
  * @return   void
  * @since    3.0.0
- * @version  [version]
+ * @version  3.10.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) :
 	function lifterlms_template_student_dashboard_wrapper_open() {

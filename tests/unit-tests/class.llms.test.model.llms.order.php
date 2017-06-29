@@ -3,8 +3,8 @@
  * Tests for LifterLMS Course Model
  * @group    LLMS_Order
  * @group    LLMS_Post_Model
- * @since    [version]
- * @version  [version]
+ * @since    3.10.0
+ * @version  3.10.0
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -104,8 +104,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function get_properties() {
 		return array(
@@ -169,8 +169,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function get_data() {
 		return array(
@@ -233,8 +233,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the add_note() method
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function test_add_note() {
 
@@ -295,8 +295,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the generate_order_key() method
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function test_generate_order_key() {
 
@@ -308,8 +308,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get_access_expiration_date() method
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function test_get_access_expiration_date() {
 

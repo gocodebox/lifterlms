@@ -4,8 +4,8 @@
  * Included on single order view pages via Student Dashboard
  *
  * @package   LifterLMS/Templates
- * @since     [version]
- * @version   [version]
+ * @since     3.10.0
+ * @version   3.10.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 

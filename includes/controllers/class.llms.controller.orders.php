@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version [version]
+ * @version 3.10.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -144,7 +144,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @return void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function create_pending_order() {
 
@@ -298,7 +298,7 @@ class LLMS_Controller_Orders {
 	 * @return   void
 	 *
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function error_order( $order ) {
 
@@ -388,8 +388,8 @@ class LLMS_Controller_Orders {
 	/**
 	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function switch_payment_source() {
 
@@ -433,7 +433,7 @@ class LLMS_Controller_Orders {
 	 * @param    obj     $txn  Instance of the LLMS_Transaction
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function transaction_failed( $txn ) {
 
@@ -477,7 +477,7 @@ class LLMS_Controller_Orders {
 	 * @param    obj     $txn  Instance of the LLMS_Transaction
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function transaction_succeeded( $txn ) {
 
@@ -540,8 +540,8 @@ class LLMS_Controller_Orders {
 	 * @param    string     $gateway_id  gateway's id
 	 * @param    obj        $plan        instance of the LLMS_Access_Plan related to the action/transaction
 	 * @return   mixed                   WP_Error or LLMS_Payment_Gateway subclass
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function validate_selected_gateway( $gateway_id, $plan ) {
 

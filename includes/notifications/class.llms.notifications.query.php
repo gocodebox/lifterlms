@@ -2,7 +2,7 @@
 /**
 * Query LifterLMS Students for a given course / membership
 * @since    3.8.0
-* @version  [version]
+* @version  3.10.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -202,7 +202,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Retrieve the prepared SQL for the WHERE clause
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	private function sql_where() {
 

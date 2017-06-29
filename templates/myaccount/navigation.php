@@ -2,7 +2,7 @@
 /**
  * My Account Navigation Links
  * @since    2.?.?
- * @version [version]
+ * @version 3.10.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 

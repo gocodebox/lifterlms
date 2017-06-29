@@ -1,8 +1,8 @@
 <?php
 /**
  * Notification Controller: Payment Retry Scheduled
- * @since    [version]
- * @version  [version]
+ * @since    3.10.0
+ * @version  3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -33,8 +33,8 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	 * Callback function called when a payment retry is scheduled
 	 * @param    int     $order   Instance of an LLMS_Order
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function action_callback( $order = null ) {
 
@@ -49,8 +49,8 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 * @param    string     $subscriber  subscriber type string
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -86,8 +86,8 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	 * Extending classes can override this function in order to add or remove support
 	 * 3rd parties should add support via filter on $this->get_supported_types()
 	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_supported_types() {
 		return array(
@@ -100,8 +100,8 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	 * Get the translateable title for the notification
 	 * used on settings screens
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function get_title() {
 		return __( 'Payment Retry Scheduled', 'lifterlms' );
@@ -111,8 +111,8 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	 * Setup the subscriber options for the notification
 	 * @param    string     $type  notification type id
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_subscriber_options( $type ) {
 

@@ -3,7 +3,7 @@
  * Student Management table on Courses and Memberships
  *
  * @since   3.8.0
- * @version [version]
+ * @version 3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -54,7 +54,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function get_results( $args = array() ) {
 
@@ -105,8 +105,8 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 	 * @param    array     $row_a  first row to compare
 	 * @param    array     $row_b  second row to compare
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function sort_rows( $row_a, $row_b ) {
 		return strcmp( $row_a['notification'], $row_b['notification'] );

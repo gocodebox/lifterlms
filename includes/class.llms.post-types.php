@@ -2,7 +2,7 @@
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  [version]
+ * @version  3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -1051,7 +1051,7 @@ class LLMS_Post_Types {
 	 * Register post statuses
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public static function register_post_statuses() {
 

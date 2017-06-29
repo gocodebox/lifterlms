@@ -1,8 +1,8 @@
 <?php
 /**
  * Notification View: Purchase Receipt
- * @since    [version]
- * @version  [version]
+ * @since    3.10.0
+ * @version  3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -35,8 +35,8 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup body content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_body() {
 
@@ -49,8 +49,8 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 
 	/**
 	 * Setup default notification body for basic notifications
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function set_body_basic() {
 		return __( 'Head over to your dashboard for payment instructions.', 'lifterlms' );
@@ -58,8 +58,8 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 
 	/**
 	 * Setup default notification body for email notifications
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function set_body_email() {
 		$mailer = LLMS()->mailer();
@@ -101,8 +101,8 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup footer content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_footer() {
 		$url = $this->set_merge_data( '{{ORDER_URL}}' );
@@ -112,8 +112,8 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification icon for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'warning' );
@@ -122,8 +122,8 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup merge codes that can be used with the notification
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -145,8 +145,8 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	 * Replace merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -230,8 +230,8 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification subject for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_subject() {
 		return sprintf( __( 'A payment is due for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
@@ -240,8 +240,8 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification title for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_title() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {

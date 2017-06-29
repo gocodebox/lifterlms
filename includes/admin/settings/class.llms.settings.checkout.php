@@ -10,7 +10,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 * Allow settings page to determine if a rewrite flush is required
 	 * @var      boolean
 	 * @since    3.0.4
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	protected $flush = true;
 
@@ -35,7 +35,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 *
 	 * @return   array
 	 * @since    3.0.4
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function get_settings() {
 

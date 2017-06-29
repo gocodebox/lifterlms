@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.10.0
  */
 ( function( $ ) {
 
@@ -194,7 +194,7 @@
 		 * @param    obj   $el  jQuery selector for the input to bind the datepicker to
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.10.0
 		 */
 		this.bind_datepicker = function( $el ) {
 			var format = $el.attr( 'data-format' ) || 'mm/dd/yy',
@@ -211,7 +211,7 @@
 		 * Bind all LifterLMS datepickers
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.10.0
 		 */
 		this.bind_datepickers = function() {
 
@@ -226,8 +226,8 @@
 		/**
 		 * Bind llms-editable metabox fields and related dom interactions
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.10.0
+		 * @version  3.10.0
 		 */
 		this.bind_editables = function() {
 
@@ -455,7 +455,7 @@
 		 * Actions for ORDERS
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.10.0
 		 */
 		this.bind_llms_order = function() {
 

@@ -158,8 +158,8 @@ class LLMS_Payment_Gateways {
 	 * Get an array of payment gateways which support a specific gateway feature
 	 * @param    string    $feature  a gateway feature string
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function get_supporting_gateways( $feature ) {
 

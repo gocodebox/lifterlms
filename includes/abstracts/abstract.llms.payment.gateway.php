@@ -2,7 +2,7 @@
 /**
  * LifterLMS Payment Gateways Abstract
  * @since    3.0.0
- * @version  [version]
+ * @version  3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -83,7 +83,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Array of supported gateway features
 	 * @var      array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public $supports = array(
 		'checkout_fields' => false,
@@ -211,8 +211,8 @@ abstract class LLMS_Payment_Gateway {
 	 * Get data about the fields displayed on the admin panel when viewing an order
 	 * processed via this gateway
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function get_admin_order_fields() {
 		$fields = array(
@@ -408,8 +408,8 @@ abstract class LLMS_Payment_Gateway {
 	 * @param    string     $item_value  the value of the item to retrieve
 	 * @param    string     $api_mode    the current api mode to retrieve the URL for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function get_item_link( $item_key, $item_value, $api_mode = 'live' ) {
 
@@ -551,8 +551,8 @@ abstract class LLMS_Payment_Gateway {
 	 * @param    obj     $order      Instance of the LLMS_Order
 	 * @param    array   $form_data  Additional data passed from the submitted form (EG $_POST)
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function handle_payment_source_switch( $order, $form_data = array() ) {
 		return llms_add_notice( sprintf( esc_html__( 'The selected payment Gateway "%s" does not support payment method switching.', 'lifterlms' ), $this->get_title() ), 'error' );

@@ -3,7 +3,7 @@
  * Handle HTTPS related redirects
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -30,7 +30,7 @@ class LLMS_HTTPS {
 	 * Redircet to https checkout page is force is enabled
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function force_https_redirect() {
 
@@ -55,7 +55,7 @@ class LLMS_HTTPS {
 	 * Redirect back to http when not on checkout if force ssl is enabled and the site isn't fully ssl'd
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function unforce_https_redirect() {
 

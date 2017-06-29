@@ -29,8 +29,8 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * Retrieve json to be used by the llms-editable date fields
 	 * @param    int     $time  timestamp
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function get_editable_date_json( $time ) {
 
@@ -57,7 +57,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @param object $post WP global post object
 	 * @return void
 	 *
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function output() {
 
@@ -146,7 +146,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  WP Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function save( $post_id ) {
 

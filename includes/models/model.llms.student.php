@@ -608,8 +608,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string   $trigger  notification trigger: eg purchase_reciept, lesson_complete, etc...
 	 * @param    string   $default  value to return if no setting is saved in the db
 	 * @return   string             yes or no
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function get_notification_subscription( $type, $trigger, $default = 'no' ) {
 

@@ -3,7 +3,7 @@
  * Order Details Metabox
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -68,7 +68,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function save( $post_id ) {
 

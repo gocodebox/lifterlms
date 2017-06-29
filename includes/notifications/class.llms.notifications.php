@@ -4,7 +4,7 @@
  * Loads and allows interactions with notification views, controllers, and processors
  *
  * @since     3.8.0
- * @version   [version]
+ * @version   3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -181,7 +181,7 @@ class LLMS_Notifications {
 	 * Load all notifications
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	private function load() {
 

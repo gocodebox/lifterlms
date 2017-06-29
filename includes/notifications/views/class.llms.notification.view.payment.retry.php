@@ -1,8 +1,8 @@
 <?php
 /**
  * Notification View: Purchase Receipt
- * @since    [version]
- * @version  [version]
+ * @since    3.10.0
+ * @version  3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -35,8 +35,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	/**
 	 * Setup body content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_body() {
 
@@ -49,8 +49,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Setup default notification body for basic notifications
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function set_body_basic() {
 		return esc_html__( 'Head over to the order to see what went wrong and update your payment method to reactivate your subscription.', 'lifterlms' );
@@ -58,8 +58,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Setup default notification body for email notifications
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function set_body_email() {
 		$mailer = LLMS()->mailer();
@@ -101,8 +101,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	/**
 	 * Setup footer content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_footer() {
 		$url = $this->set_merge_data( '{{ORDER_URL}}' );
@@ -112,8 +112,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	/**
 	 * Setup notification icon for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'warning' );
@@ -122,8 +122,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	/**
 	 * Setup merge codes that can be used with the notification
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -145,8 +145,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 * Replace merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -230,8 +230,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	/**
 	 * Setup notification subject for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_subject() {
 		return sprintf( __( 'Automatic payment for %1$s failed, retry scheduled for %2$s', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
@@ -240,8 +240,8 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	/**
 	 * Setup notification title for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	protected function set_title() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {

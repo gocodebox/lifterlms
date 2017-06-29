@@ -1,8 +1,8 @@
 <?php
 /**
  * View an Order
- * @since    [version]
- * @version  [version]
+ * @since    3.10.0
+ * @version  3.10.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 

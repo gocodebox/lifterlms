@@ -3,7 +3,7 @@
 * Manual Payment Gateway Class
 *
 * @since   3.0.0
-* @version [version]
+* @version 3.10.0
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
@@ -12,7 +12,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * Constructor
 	 * @return  void
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.10.0
 	 */
 	public function __construct() {
 
@@ -40,7 +40,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * Output payment instructions if the order is pending
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function before_view_order_table() {
 
@@ -109,8 +109,8 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * @param    obj     $order      Instance of the LLMS_Order
 	 * @param    array   $form_data  Additional data passed from the submitted form (EG $_POST)
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function handle_payment_source_switch( $order, $form_data = array() ) {
 
@@ -140,7 +140,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * @param   obj|false $coupon  Instance of LLMS_Coupon applied to the order being processed, or false when none is being used
 	 * @return  void
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.10.0
 	 */
 	public function handle_pending_order( $order, $plan, $person, $coupon = false ) {
 
@@ -192,8 +192,8 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * This function must be defined by gateways which support recurring transactions
 	 * @param    obj       $order   Instance LLMS_Order for the order being processed
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function handle_recurring_transaction( $order ) {
 

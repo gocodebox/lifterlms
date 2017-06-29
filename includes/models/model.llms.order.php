@@ -2,7 +2,7 @@
 /**
  * LifterLMS Order Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.10.0
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -219,8 +219,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Calculate the date when billing should
 	 * applicable to orders created from plans with a set # of billing intervals
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function calculate_billing_end_date() {
 
@@ -251,8 +251,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Calculate the next payment due date
 	 * @param    string     $format  return format
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function calculate_next_payment_date( $format = 'Y-m-d H:i:s' ) {
 
@@ -315,8 +315,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Calculate the end date of the trial
 	 * @param    string     $format  desired return format of the date
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function calculate_trial_end_date( $format = 'Y-m-d H:i:s' ) {
 
@@ -336,8 +336,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if the order can be retried for recurring payments
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function can_be_retried() {
 
@@ -425,7 +425,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *                         'expired'  if access has expired according to $this->get_access_expiration_date()
 	 *                         'active'   otherwise
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function get_access_status() {
 
@@ -512,7 +512,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    string  $title   Title to create the post with
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	protected function get_creation_args( $title = '' ) {
 
@@ -643,7 +643,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    string     $format  date format to return the date in (see php date())
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function get_next_payment_due_date( $format = 'Y-m-d H:i:s' ) {
 
@@ -672,8 +672,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Get configured payment retry rules
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	private function get_retry_rules() {
 
@@ -777,7 +777,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    array      $args  array of query argument data, see example of arguments below
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function get_transactions( $args = array() ) {
 
@@ -1014,7 +1014,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determine if the trial period has ended for the order
 	 * @return   boolean     true if ended, false if not ended
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function has_trial_ended() {
 		return ( llms_current_time( 'timestamp' ) >= $this->get_trial_end_date( 'U' ) );
@@ -1030,7 +1030,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    mixed   $coupon   LLMS_Coupon or false
 	 * @return   obj               $this
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function init( $person, $plan, $gateway, $coupon = false ) {
 
@@ -1170,7 +1170,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Will always unschedule the scheduled action (if one exists) before scheduling another
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function maybe_schedule_payment( $recalc = true ) {
 
@@ -1204,8 +1204,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Handles scheduling recurring payment retries when the gateway supports them
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function maybe_schedule_retry() {
 
@@ -1310,8 +1310,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Mainly date_next_payment and date_trial_end which are editable from the admin panel
 	 * @param    string     $date_key  date field to set
 	 * @param    string     $date_val  value, should always be in the database format (Y-m-d H:i:s)
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.10.0
+	 * @version  3.10.0
 	 */
 	public function set_date( $date_key, $date_val ) {
 
@@ -1332,7 +1332,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    string     $status  status name, accepts unprefixed statuses
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.10.0
 	 */
 	public function set_status( $status ) {
 
