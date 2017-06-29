@@ -3,7 +3,7 @@
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  * @since    3.5.0
- * @version  3.7.6
+ * @version  3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -78,7 +78,7 @@ class LLMS_Admin_AddOns {
 	 * @param    sring     $name  section name (untranslated key)
 	 * @return   string
 	 * @since    3.5.0
-	 * @version  3.7.6
+	 * @version  3.10.0
 	 */
 	private function get_section_title( $name ) {
 		switch ( $name ) {
