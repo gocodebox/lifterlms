@@ -13,12 +13,12 @@ class LLMS_Admin_AddOns {
 	/**
 	 * Url Where addon JSON information is pulled from
 	 */
-	// const DATA_URL = 'http://d34dpc7391qduo.cloudfront.net/addons/addons.json';
+	const DATA_URL = 'http://d34dpc7391qduo.cloudfront.net/addons/addons.json';
 
 	/**
 	 * This URL is good for development since it wont be cached as hard
 	 */
-	const DATA_URL = 'https://s3-us-west-2.amazonaws.com/lifterlms/addons/addons.json';
+	// const DATA_URL = 'https://s3-us-west-2.amazonaws.com/lifterlms/addons/addons.json';
 
 	/**
 	 * Get the current section from the query string
