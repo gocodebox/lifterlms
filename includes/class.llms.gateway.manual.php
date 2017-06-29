@@ -109,8 +109,8 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * @param    obj     $order      Instance of the LLMS_Order
 	 * @param    array   $form_data  Additional data passed from the submitted form (EG $_POST)
 	 * @return   void
-	 * @since    4.2.0
-	 * @version  4.2.0
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public function handle_payment_source_switch( $order, $form_data = array() ) {
 

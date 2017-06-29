@@ -163,9 +163,10 @@ llms_print_notices();
 
 			<?php if ( $order->is_recurring() ) : ?>
 
-				<?php if ( in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
+				<?php if ( isset( $_GET['confirm-switch'] ) || in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold', 'llms-pending' ) ) ) : ?>
 
 					<?php llms_get_template( 'checkout/form-switch-source.php', array(
+						'confirm' => isset( $_GET['confirm-switch'] ) ? sanitize_text_field( $_GET['confirm-switch'] ) : null,
 						'order' => $order,
 					) ); ?>
 
