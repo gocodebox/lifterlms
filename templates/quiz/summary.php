@@ -2,7 +2,7 @@
 /**
  * Single Quiz: Summary accordion
  * @since    1.0.0
- * @version  3.9.0
+ * @version  3.10.0
  */
 
 $student = llms_get_student();
@@ -23,7 +23,7 @@ $quiz = $attempt->get_quiz();
 			$options = $question_object->get_options();
 			$correct_option = $question_object->get_correct_option();
 			$answer = isset( $options[ $question['answer'] ] ) ? $options[ $question['answer'] ] : array(
-				'option_text' => __( 'No anwser selected', 'lifterlms' ),
+				'option_text' => __( 'No answer selected', 'lifterlms' ),
 			);
 			?>
 

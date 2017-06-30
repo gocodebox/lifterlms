@@ -334,50 +334,54 @@ msgid "Total Coupons"
 msgstr ""
 
 #: includes/admin/class.llms.admin.addons.php:87
-msgid "Affiliates"
+msgid "Advanced"
 msgstr ""
 
 #: includes/admin/class.llms.admin.addons.php:91
-msgid "All"
+msgid "Affiliates"
 msgstr ""
 
 #: includes/admin/class.llms.admin.addons.php:95
+msgid "All"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:99
 msgid "Bundles"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:99, includes/admin/settings/class.llms.settings.checkout.php:209
+#: includes/admin/class.llms.admin.addons.php:103, includes/admin/settings/class.llms.settings.checkout.php:209
 msgid "Payment Gateways"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:103
+#: includes/admin/class.llms.admin.addons.php:107
 msgid "E-Mail & Marketing"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:107
+#: includes/admin/class.llms.admin.addons.php:111
 msgid "Themes & Design"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:111
+#: includes/admin/class.llms.admin.addons.php:115
 msgid "Tools & Utilities"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:115
+#: includes/admin/class.llms.admin.addons.php:119
 msgid "Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:119
+#: includes/admin/class.llms.admin.addons.php:123
 msgid "Services"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:136, includes/admin/class.llms.admin.addons.php:221
+#: includes/admin/class.llms.admin.addons.php:140, includes/admin/class.llms.admin.addons.php:225
 msgid "There was an error retrieving add-ons. Please try again."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:142
+#: includes/admin/class.llms.admin.addons.php:146
 msgid "LifterLMS Add-Ons, Services, and Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:169
+#: includes/admin/class.llms.admin.addons.php:173
 msgid "Created by:"
 msgstr ""
 
@@ -8702,7 +8706,7 @@ msgid "You are not able take this quiz"
 msgstr ""
 
 #: templates/quiz/summary.php:26
-msgid "No anwser selected"
+msgid "No answer selected"
 msgstr ""
 
 #: templates/quiz/summary.php:65
