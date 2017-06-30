@@ -31,6 +31,21 @@ v3.10.0 - 2017/06/??
 + Force SSL setting now applies to Student Dashboard screens. This is useful as Google now recommends any page where a password is submitted should be encrypted and allows gateway communication from student dashboard screen with APIs that require an SSL connection.
 + Fixed spelling error related to quizzes
 
+##### Templates changed
+
+**NEW**
+
++ [checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-switch-source.php)
++ [myaccount/view-order-transactions.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order-transactions.php)
+
+**UPDATED**
+
++ [admin/post-types/order-details.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/order-details.php)
++ [myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-orders.php)
++ [myaccount/navigation.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/navigation.php)
++ [myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
++ [quiz/summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/summary.php)
+
 
 v3.9.5 - 2017/06/13
 -------------------
