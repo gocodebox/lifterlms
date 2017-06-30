@@ -47,6 +47,11 @@
 					self.change_page( $table, $( this ) );
 				} );
 
+				$table.on( 'click', 'button[name="llms-table-export"]', function( e ) {
+					e.preventDefault();
+					self.export( $table, $( this ) );
+				} );
+
 				$table.on( 'click', 'a.llms-sortable', function( e ) {
 					e.preventDefault();
 					self.change_order( $table, $( this ) );
@@ -124,6 +129,40 @@
 			} );
 
 		};
+
+		this.export = function( $table, $btn ) {
+
+			LLMS.Ajax.call( {
+				data: {
+					action: 'export_admin_table',
+					handler: $table.attr( 'data-handler' ),
+				},
+				beforeSend: function() {
+
+					LLMS.Spinner.start( $table.closest( '.llms-table-wrap' ) );
+					$btn.attr( 'disabled', 'disabled' );
+
+				},
+				success: function( r ) {
+
+					LLMS.Spinner.stop( $table.closest( '.llms-table-wrap' ) )
+
+					if ( r.success ) {
+
+						$table.find( '.llms-table-export' ).append( '<em><small>' + r.data.message + '</small></em>' );
+
+					// 	$table.attr( 'data-args', r.data.args );
+
+					// 	$table.find( 'thead' ).replaceWith( r.data.thead );
+					// 	$table.find( 'tbody' ).replaceWith( r.data.tbody );
+					// 	$table.find( 'tfoot' ).replaceWith( r.data.tfoot );
+
+					}
+
+				}
+			} );
+
+		}
 
 		/**
 		 * Retrieve arguments stored in the table and parse into a readable object
