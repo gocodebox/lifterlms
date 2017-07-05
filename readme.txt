@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 3.9.5
+Stable tag: 3.10.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -214,7 +214,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-v3.10.0 - 2017/06/??
+= v3.10.0 - 2017/07/05 =
 ------------------------
 
 ##### Recurring Order Management (for Admins)
