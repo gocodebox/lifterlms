@@ -1,6 +1,6 @@
 == Changelog ==
 
-v3.10.0 - 2017/06/??
+v3.10.0 - 2017/07/05
 --------------------
 
 ##### Recurring Order Management (for Admins)
