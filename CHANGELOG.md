@@ -12,6 +12,7 @@ v3.10.1 - 2017/07/12
 
 ##### Updates
 
++ Add new filter `llms_allow_subscription_cancellation` useful for preventing students from self-cancelling their subscriptions on the student dashboard. [More info](https://lifterlms.com/docs/lifterlms-filters/#llms_allow_subscription_cancellation).
 + Add new API for querying students via AJAX select2 elements
 + Select2 Post Query elements can now query multiple post types simultaneously
 + Seletc2 Post Query elements can now support `<optgroup>`

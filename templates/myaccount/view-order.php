@@ -2,7 +2,7 @@
 /**
  * View an Order
  * @since    3.0.0
- * @version  3.8.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -172,7 +172,7 @@ llms_print_notices();
 
 				<?php endif; ?>
 
-				<?php if ( in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
+				<?php if ( apply_filters( 'llms_allow_subscription_cancellation', true ) && in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
 
 					<form action="" id="llms-cancel-subscription-form" method="POST">
 
