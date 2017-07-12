@@ -3,7 +3,7 @@
  * LifterLMS User Data Abstract
  *
  * @since   3.9.0
- * @version 3.9.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -53,7 +53,7 @@ abstract class LLMS_Abstract_User_Data {
 	 * @param    string $key key of the property to get a value for
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	public function __get( $key ) {
 
@@ -77,6 +77,10 @@ abstract class LLMS_Abstract_User_Data {
 		// $this->get( 'billing_address_1')
 		if ( false === strpos( $key, $this->meta_prefix ) && ! in_array( $key, $unprefixed ) ) {
 			$key = $this->meta_prefix . $key;
+		}
+
+		if ( ! $this->exists() ) {
+			return '';
 		}
 
 		return apply_filters( 'llms_get_student_meta_' . $key, $this->user->get( $key ), $this );
