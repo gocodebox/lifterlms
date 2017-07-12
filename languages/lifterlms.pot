@@ -585,20 +585,52 @@ msgstr ""
 msgid "$title. draft updated. <a target=\"_blank\" href=\"%s\">Preview .$title.</a>"
 msgstr ""
 
-#: includes/admin/class.llms.admin.reviews.php:47, includes/class.llms.review.php:111
+#: includes/admin/class.llms.admin.reviews.php:48, includes/class.llms.review.php:111
 msgid "Review Title"
 msgstr ""
 
-#: includes/admin/class.llms.admin.reviews.php:48
+#: includes/admin/class.llms.admin.reviews.php:49
 msgid "Course Reviewed"
 msgstr ""
 
-#: includes/admin/class.llms.admin.reviews.php:49
+#: includes/admin/class.llms.admin.reviews.php:50
 msgid "Review Author"
 msgstr ""
 
-#: includes/admin/class.llms.admin.reviews.php:50
+#: includes/admin/class.llms.admin.reviews.php:51
 msgid "Review Date"
+msgstr ""
+
+#: includes/admin/class.llms.admin.reviews.php:106
+msgid "Enable Reviews"
+msgstr ""
+
+#: includes/admin/class.llms.admin.reviews.php:107
+msgid "Select to enable reviews."
+msgstr ""
+
+#: includes/admin/class.llms.admin.reviews.php:116
+msgid "Display Reviews"
+msgstr ""
+
+#: includes/admin/class.llms.admin.reviews.php:117
+msgid "Select to display reviews on the page."
+msgstr ""
+
+#: includes/admin/class.llms.admin.reviews.php:127
+msgid "Number of Reviews"
+msgstr ""
+
+#: includes/admin/class.llms.admin.reviews.php:128
+msgid "Number of reviews to display on the page."
+msgstr ""
+
+#: includes/admin/class.llms.admin.reviews.php:137
+msgid "Prevent Multiple Reviews"
+msgstr ""
+
+#: includes/admin/class.llms.admin.reviews.php:138
+msgid "Select to prevent a user from submitting more than one review."
 msgstr ""
 
 #: includes/admin/class.llms.admin.settings.php:78
@@ -966,7 +998,7 @@ msgstr ""
 msgid "Coupon Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:576, includes/llms.functions.core.php:753
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:637, includes/llms.functions.core.php:753
 msgid "ID#"
 msgstr ""
 
@@ -3190,7 +3222,7 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:22, includes/class.llms.ajax.handler.php:68, includes/class.llms.ajax.handler.php:598
+#: includes/class.llms.ajax.handler.php:22, includes/class.llms.ajax.handler.php:68, includes/class.llms.ajax.handler.php:677
 msgid "Missing required parameters"
 msgstr ""
 
@@ -3214,39 +3246,39 @@ msgstr ""
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:354, includes/class.llms.ajax.handler.php:406, includes/class.llms.ajax.handler.php:463, includes/class.llms.template.loader.php:315
+#: includes/class.llms.ajax.handler.php:405, includes/class.llms.ajax.handler.php:457, includes/class.llms.ajax.handler.php:514, includes/class.llms.template.loader.php:315
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:366
+#: includes/class.llms.ajax.handler.php:417
 msgid "There was an error starting the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:376
+#: includes/class.llms.ajax.handler.php:427
 msgid "Unable to start quiz because the quiz does not contain any questions."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:413, includes/class.llms.ajax.handler.php:468
+#: includes/class.llms.ajax.handler.php:464, includes/class.llms.ajax.handler.php:519
 msgid "Missing required parameters. Could not proceed."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:424
+#: includes/class.llms.ajax.handler.php:475
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:602
+#: includes/class.llms.ajax.handler.php:681
 msgid "Invalid status"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:626
+#: includes/class.llms.ajax.handler.php:705
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:631
+#: includes/class.llms.ajax.handler.php:710
 msgid "Please enter a plan ID."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:640, includes/controllers/class.llms.controller.orders.php:196
+#: includes/class.llms.ajax.handler.php:719, includes/controllers/class.llms.controller.orders.php:196
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -7307,7 +7339,7 @@ msgctxt "Achievement icon alt text"
 msgid "%s Icon"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:120, includes/notifications/views/class.llms.notification.view.certificate.earned.php:144, includes/notifications/views/class.llms.notification.view.course.complete.php:96, includes/notifications/views/class.llms.notification.view.course.track.complete.php:97, includes/notifications/views/class.llms.notification.view.enrollment.php:98, includes/notifications/views/class.llms.notification.view.lesson.complete.php:110, includes/notifications/views/class.llms.notification.view.quiz.failed.php:124, includes/notifications/views/class.llms.notification.view.quiz.passed.php:124, includes/notifications/views/class.llms.notification.view.section.complete.php:108
+#: includes/notifications/views/class.llms.notification.view.achievement.earned.php:120, includes/notifications/views/class.llms.notification.view.certificate.earned.php:144, includes/notifications/views/class.llms.notification.view.course.complete.php:96, includes/notifications/views/class.llms.notification.view.course.track.complete.php:97, includes/notifications/views/class.llms.notification.view.enrollment.php:98, includes/notifications/views/class.llms.notification.view.lesson.complete.php:114, includes/notifications/views/class.llms.notification.view.quiz.failed.php:131, includes/notifications/views/class.llms.notification.view.quiz.passed.php:131, includes/notifications/views/class.llms.notification.view.section.complete.php:112
 msgid "you"
 msgstr ""
 
@@ -7335,7 +7367,7 @@ msgstr ""
 msgid "You've earned a certificate!"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.course.complete.php:42, includes/notifications/views/class.llms.notification.view.course.complete.php:112, includes/notifications/views/class.llms.notification.view.course.track.complete.php:42, includes/notifications/views/class.llms.notification.view.course.track.complete.php:113, includes/notifications/views/class.llms.notification.view.lesson.complete.php:42, includes/notifications/views/class.llms.notification.view.lesson.complete.php:126, includes/notifications/views/class.llms.notification.view.section.complete.php:42, includes/notifications/views/class.llms.notification.view.section.complete.php:124
+#: includes/notifications/views/class.llms.notification.view.course.complete.php:42, includes/notifications/views/class.llms.notification.view.course.complete.php:112, includes/notifications/views/class.llms.notification.view.course.track.complete.php:42, includes/notifications/views/class.llms.notification.view.course.track.complete.php:113, includes/notifications/views/class.llms.notification.view.lesson.complete.php:42, includes/notifications/views/class.llms.notification.view.lesson.complete.php:130, includes/notifications/views/class.llms.notification.view.section.complete.php:42, includes/notifications/views/class.llms.notification.view.section.complete.php:128
 msgid "Congratulations! %1$s completed %2$s"
 msgstr ""
 
@@ -7379,7 +7411,7 @@ msgstr ""
 msgid "Course Progress Bar"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.lesson.complete.php:136
+#: includes/notifications/views/class.llms.notification.view.lesson.complete.php:140
 msgid "%s Completed a Lesson"
 msgstr ""
 
@@ -7536,7 +7568,7 @@ msgstr ""
 msgid "Purchase Receipt for Order #%s"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.quiz.failed.php:42, includes/notifications/views/class.llms.notification.view.quiz.failed.php:140
+#: includes/notifications/views/class.llms.notification.view.quiz.failed.php:42, includes/notifications/views/class.llms.notification.view.quiz.failed.php:147
 msgid "%1$s failed %2$s"
 msgstr ""
 
@@ -7552,11 +7584,11 @@ msgstr ""
 msgid "Quiz Title"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.quiz.failed.php:150
+#: includes/notifications/views/class.llms.notification.view.quiz.failed.php:157
 msgid "%s failed a quiz"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.quiz.passed.php:42, includes/notifications/views/class.llms.notification.view.quiz.passed.php:140
+#: includes/notifications/views/class.llms.notification.view.quiz.passed.php:42, includes/notifications/views/class.llms.notification.view.quiz.passed.php:147
 msgid "Congratulations! %1$s passed %2$s"
 msgstr ""
 
@@ -7564,7 +7596,7 @@ msgstr ""
 msgid "Congratulations! You passed %s!"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.quiz.passed.php:150
+#: includes/notifications/views/class.llms.notification.view.quiz.passed.php:157
 msgid "%s passed a quiz"
 msgstr ""
 
@@ -7572,7 +7604,7 @@ msgstr ""
 msgid "Section Title"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.section.complete.php:134
+#: includes/notifications/views/class.llms.notification.view.section.complete.php:138
 msgid "%s Completed a Section"
 msgstr ""
 
