@@ -282,7 +282,7 @@ class LLMS_AJAX_Handler {
 					$limit,
 				);
 
-			// search for login, display name, or email
+				// search for login, display name, or email
 			} else {
 
 				$query = "SELECT
@@ -305,9 +305,7 @@ class LLMS_AJAX_Handler {
 					$limit,
 				);
 
-			}
-
-		// no search query
+			}// End if().
 		} else {
 
 			$query = "SELECT
@@ -323,7 +321,7 @@ class LLMS_AJAX_Handler {
 				$limit,
 			);
 
-		}
+		}// End if().
 
 		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) );
 
@@ -344,14 +342,12 @@ class LLMS_AJAX_Handler {
 						continue 2;
 
 					}
-
 				}
 
 				// if we get here that means the user isn't enrolled in any of the check posts
 				// remove them from the results
 				unset( $res[ $key ] );
 			}
-
 		}
 
 		if ( $not_enrolled_in ) {
@@ -373,11 +369,8 @@ class LLMS_AJAX_Handler {
 						continue 2;
 
 					}
-
 				}
-
 			}
-
 		}
 
 		echo json_encode( array(
@@ -662,7 +655,6 @@ class LLMS_AJAX_Handler {
 				$r[] = $item;
 
 			}
-
 		}
 
 		echo json_encode( array(
