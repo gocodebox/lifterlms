@@ -3,7 +3,16 @@
 v3.10.1 - 2017/07/12
 --------------------
 
+##### Bugfixes
+
 + Fix error causing email notifications being sent after related user has been deleted
++ Fix typo preventing `llms_form_field()` from outputting textareas
+
+##### Updates
+
++ Add new API for querying students via AJAX select2 elements
++ Select2 Post Query elements can now query multiple post types simultaneously
++ Seletc2 Post Query elements can now support `<optgroup>`
 
 
 v3.10.0 - 2017/07/05

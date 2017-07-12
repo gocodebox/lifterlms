@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.10.0
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -50,6 +50,8 @@
 			$( '.llms-select2-post' ).each( function() {
 				self.post_select( $( this ) );
 			} );
+
+			$( '.llms-select2-student' ).llmsStudentsSelect2();
 
 			$( '.llms-collapsible-group' ).llmsCollapsible();
 
@@ -645,9 +647,9 @@
 
 		/**
 		 * Enable WP Post Table searches for applicable select2 boxes
-		 * @since 3.0.0
-		 * @version 3.0.0
-		 * @return  void
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  [version]
 		 */
 		this.post_select = function( $el ) {
 
@@ -672,13 +674,39 @@
 						};
 					},
 					processResults: function( data, params ) {
+
+						// recursive function for creating
+						function map_data( items ) {
+
+							// this is a flat array of results
+							// used when only one post type is selected
+							// and to format children when using optgroups with multiple post types
+							if ( Array.isArray( items ) ) {
+								return $.map( items, function( item ) {
+									return format_item( item );
+								} );
+
+							// this sets up the top level optgroups when using multiple post types
+							} else {
+								return $.map( items, function( item ) {
+									return {
+										text: item.label,
+										children: map_data( item.items ),
+									}
+								} );
+							}
+						}
+
+						// format a single result (option)
+						function format_item( item ) {
+							return {
+								text: item.name,
+								id: item.id,
+							};
+						}
+
 						return {
-							results: $.map( data.items, function( item ) {
-								return {
-									text: item.name,
-									id: item.id,
-								};
-							} ),
+							results: map_data( data.items ),
 							pagination: {
 								more: data.more
 							}

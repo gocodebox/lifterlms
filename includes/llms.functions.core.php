@@ -375,7 +375,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  3.5.2
+ * @version  [version]
  */
 function llms_form_field( $field = array(), $echo = true ) {
 
@@ -485,7 +485,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 			break;
 
 		case 'textarea':
-			$r .= '<textrea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
+			$r .= '<textarea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
 			break;
 
 		default:
@@ -769,6 +769,35 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 	}
 	return apply_filters( 'llms_make_select2_post_array', $ret, $post_ids );
 
+}
+
+/**
+ * Create an array that can be passed to metabox select elements
+ * configured as an llms-select2-student query-ier
+ * @param    array      $post_ids  indexed array of WordPress User IDs
+ * @param    string     $template  an optional template to customize the way the results look
+ *                                 %1$s = student name
+ *                                 %2$s = student email
+ * @return   array
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_make_select2_student_array( $user_ids = array(), $template = '' ) {
+	if ( ! $template ) {
+		$template = '%1$s &lt;%2$s&gt;';
+	}
+	if ( ! is_array( $user_ids ) ) {
+		$user_ids = array( $user_ids );
+	}
+	$ret = array();
+	foreach ( $user_ids as $id ) {
+		$student = llms_get_student( $id );
+		$ret[] = array(
+			'key' => $id,
+			'title' => sprintf( $template, $student->get_name(), $student->get( 'user_email' ) ),
+		);
+	}
+	return apply_filters( 'llms_make_select2_student_array', $ret, $user_ids );
 }
 
 /**

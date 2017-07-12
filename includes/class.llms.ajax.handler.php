@@ -217,7 +217,9 @@ class LLMS_AJAX_Handler {
 	 * 		last name
 	 * 		email
 	 *
-	 * @return json
+	 * @return   json
+	 * @since    ??
+	 * @version  [version]
 	 */
 	public static function query_students() {
 
@@ -225,6 +227,9 @@ class LLMS_AJAX_Handler {
 		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
 
 		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+
+		$enrolled_in = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['enrolled_in'] ) : null;
+		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['not_enrolled_in'] ) : null;
 
 		global $wpdb;
 
@@ -252,8 +257,7 @@ class LLMS_AJAX_Handler {
 					$limit,
 				);
 
-			} // End if().
-			elseif ( false !== strpos( $term, ' ' ) ) {
+			} elseif ( false !== strpos( $term, ' ' ) ) {
 
 				$term = explode( ' ', $term );
 
@@ -278,8 +282,8 @@ class LLMS_AJAX_Handler {
 					$limit,
 				);
 
-			} // search for login, display name, or email
-			else {
+			// search for login, display name, or email
+			} else {
 
 				$query = "SELECT
 							  ID AS id
@@ -302,8 +306,9 @@ class LLMS_AJAX_Handler {
 				);
 
 			}
-		} // End if().
-		else {
+
+		// no search query
+		} else {
 
 			$query = "SELECT
 						  ID AS id
@@ -320,11 +325,64 @@ class LLMS_AJAX_Handler {
 
 		}
 
-		$r = $wpdb->get_results( $wpdb->prepare( $query, $vars ) );
+		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) );
+
+		if ( $enrolled_in ) {
+
+			$checks = explode( ',', $enrolled_in );
+			$checks = array_map( 'trim', $checks );
+
+			// loop through each user
+			foreach ( $res as $key => $user ) {
+
+				// loop through each check -- this is an OR relationship situation
+				foreach ( $checks as $id ) {
+
+					// if the user is enrolled break to the next user, they can stay
+					if ( llms_is_user_enrolled( $user->id, $id ) ) {
+
+						continue 2;
+
+					}
+
+				}
+
+				// if we get here that means the user isn't enrolled in any of the check posts
+				// remove them from the results
+				unset( $res[ $key ] );
+			}
+
+		}
+
+		if ( $not_enrolled_in ) {
+
+			$checks = explode( ',', $enrolled_in );
+			$checks = array_map( 'trim', $checks );
+
+			// loop through each user
+			foreach ( $res as $key => $user ) {
+
+				// loop through each check -- this is an OR relationship situation
+				// if the user is enrolled in any of the courses they need to be filtered out
+				foreach ( $checks as $id ) {
+
+					// if the user is enrolled break remove them and break to the next user
+					if ( llms_is_user_enrolled( $user->id, $id ) ) {
+
+						unset( $res[ $key ] );
+						continue 2;
+
+					}
+
+				}
+
+			}
+
+		}
 
 		echo json_encode( array(
-			'items' => $r,
-			'more' => count( $r ) === $limit,
+			'items' => $res,
+			'more' => count( $res ) === $limit,
 			'success' => true,
 		) );
 
@@ -530,35 +588,43 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Handle Select2 Search boxes for WordPress Posts by Post Type
-	 * @since 3.0.0
-	 * @version 3.0.0
+	 * @since   3.0.0
+	 * @version [version]
 	 * @return  string/json
 	 */
 	public static function select2_query_posts() {
 
+		global $wpdb;
+
 		// grab the search term if it exists
 		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
 
+		// get the page
 		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
 
-		global $wpdb;
+		$post_type = sanitize_text_field( $_REQUEST['post_type'] );
+		$post_types_array = explode( ',', $post_type );
+		foreach ( $post_types_array as &$str ) {
+			$str = "'" . esc_sql( trim( $str ) ) . "'";
+		}
+		$post_types = implode( ',', $post_types_array );
 
 		$limit = 30;
 		$start = $limit * $page;
 
 		if ( $term ) {
 			$like = " AND post_title LIKE '%s'";
-			$vars = array( $_REQUEST['post_type'], '%' . $term . '%', $start, $limit );
+			$vars = array( '%' . $term . '%', $start, $limit );
 		} else {
 			$like = '';
-			$vars = array( $_REQUEST['post_type'], $start, $limit );
+			$vars = array( $start, $limit );
 		}
 
 		$posts = $wpdb->get_results( $wpdb->prepare(
-			"SELECT ID, post_title
+			"SELECT ID, post_title, post_type
 			 FROM $wpdb->posts
 			 WHERE
-			 	    post_type = %s
+			 	post_type IN ( $post_types )
 			 	AND post_status = 'publish'
 			 	$like
 			 ORDER BY post_title
@@ -569,12 +635,33 @@ class LLMS_AJAX_Handler {
 
 		$r = array();
 
+		$grouping = ( count( $post_types_array ) > 1 );
+
 		foreach ( $posts as $p ) {
 
-			$r[] = array(
+			$item = array(
 				'id' => $p->ID,
 				'name' => $p->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $p->ID . ')',
 			);
+
+			if ( $grouping ) {
+
+				// setup an object for the optgroup if it's not already set up
+				if ( ! isset( $r[ $p->post_type ] ) ) {
+					$obj = get_post_type_object( $p->post_type );
+					$r[ $p->post_type ] = array(
+						'label' => $obj->labels->name,
+						'items' => array(),
+					);
+				}
+
+				$r[ $p->post_type ]['items'][] = $item;
+
+			} else {
+
+				$r[] = $item;
+
+			}
 
 		}
 
