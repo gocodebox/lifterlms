@@ -2,7 +2,7 @@
 /**
  * Notification View: Lesson Complete
  * @since    3.8.0
- * @version  3.8.2
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -86,7 +86,7 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.2
+	 * @version  [version]
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -99,7 +99,11 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 
 			case '{{COURSE_TITLE}}':
 				$course = $this->post->get_course();
-				$code = $course->get( 'title' );
+				if ( $course ) {
+					$code = $course->get( 'title' );
+				} else {
+					$code = '';
+				}
 			break;
 
 			case '{{LESSON_TITLE}}':

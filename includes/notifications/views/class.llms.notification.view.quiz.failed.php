@@ -2,7 +2,7 @@
 /**
  * Notification View: Quiz Failed
  * @since    3.8.0
- * @version  3.9.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -89,19 +89,26 @@ class LLMS_Notification_View_Quiz_Failed extends LLMS_Abstract_Notification_View
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	protected function set_merge_data( $code ) {
 
 		$quiz = new LLMS_Quiz( $this->notification->get( 'post_id' ) );
 		$attempt = $this->user->quizzes()->get_last_completed_attempt( $this->notification->get( 'post_id' ) );
 		$lesson = llms_get_post( $attempt->get( 'lesson_id' ) );
+		if ( ! $lesson ) {
+			return '';
+		}
 
 		switch ( $code ) {
 
 			case '{{COURSE_TITLE}}':
 				$course = $lesson->get_course();
-				$code = $course->get( 'title' );
+				if ( $course ) {
+					$code = $course->get( 'title' );
+				} else {
+					$code = '';
+				}
 			break;
 
 			case '{{GRADE}}':

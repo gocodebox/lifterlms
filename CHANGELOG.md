@@ -6,6 +6,7 @@ v3.10.1 - 2017/07/12
 ##### Bugfixes
 
 + Prevent errors related to attempting to display notification data related to deleted students
++ Fix errors related to displaying notifications for deleted post (courses, sections, lessons, quizzes, etc...)
 + Fix error causing email notifications being sent after related user has been deleted
 + Fix typo preventing `llms_form_field()` from outputting textareas
 
