@@ -14,6 +14,10 @@ v3.10.1 - 2017/07/12
 + Select2 Post Query elements can now query multiple post types simultaneously
 + Seletc2 Post Query elements can now support `<optgroup>`
 
+###### i18n
+
++ Course option metabox for reviews is not translateable
+
 
 v3.10.0 - 2017/07/05
 --------------------
