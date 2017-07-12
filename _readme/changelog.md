@@ -1,6 +1,28 @@
 == Changelog ==
 
-v3.10.0 - 2017/06/??
+= v3.10.1 - 2017/07/12 =
+------------------------
+
+##### Bugfixes
+
++ Prevent errors related to attempting to display notification data related to deleted students
++ Fix errors related to displaying notifications for deleted post (courses, sections, lessons, quizzes, etc...)
++ Fix error causing email notifications being sent after related user has been deleted
++ Fix typo preventing `llms_form_field()` from outputting textareas
+
+##### Updates
+
++ Add new filter `llms_allow_subscription_cancellation` useful for preventing students from self-cancelling their subscriptions on the student dashboard. [More info](https://lifterlms.com/docs/lifterlms-filters/#llms_allow_subscription_cancellation).
++ Add new API for querying students via AJAX select2 elements
++ Select2 Post Query elements can now query multiple post types simultaneously
++ Seletc2 Post Query elements can now support `<optgroup>`
+
+###### i18n
+
++ Course option metabox for reviews is not translateable
+
+
+= v3.10.0 - 2017/07/05 =
 ------------------------
 
 ##### Recurring Order Management (for Admins)

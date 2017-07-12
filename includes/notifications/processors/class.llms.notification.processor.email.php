@@ -3,7 +3,7 @@
  * Notification Background Processor: Emails
  *
  * @since    3.8.0
- * @version  [version]
+ * @version  3.10.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -22,7 +22,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 	 * @return   boolean                   false removes item from the queue
 	 *                                     true leaves it in the queue for further processing
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.10.1
 	 */
 	protected function task( $notification_id ) {
 

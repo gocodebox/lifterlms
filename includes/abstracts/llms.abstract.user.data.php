@@ -3,7 +3,7 @@
  * LifterLMS User Data Abstract
  *
  * @since   3.9.0
- * @version [version]
+ * @version 3.10.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -53,7 +53,7 @@ abstract class LLMS_Abstract_User_Data {
 	 * @param    string $key key of the property to get a value for
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.10.1
 	 */
 	public function __get( $key ) {
 

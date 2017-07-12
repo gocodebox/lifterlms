@@ -219,7 +219,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @return   json
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.10.1
 	 */
 	public static function query_students() {
 
@@ -582,7 +582,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Handle Select2 Search boxes for WordPress Posts by Post Type
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.10.1
 	 * @return  string/json
 	 */
 	public static function select2_query_posts() {

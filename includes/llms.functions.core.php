@@ -375,7 +375,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  [version]
+ * @version  3.10.1
  */
 function llms_form_field( $field = array(), $echo = true ) {
 
@@ -779,8 +779,8 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
  *                                 %1$s = student name
  *                                 %2$s = student email
  * @return   array
- * @since    [version]
- * @version  [version]
+ * @since    3.10.1
+ * @version  3.10.1
  */
 function llms_make_select2_student_array( $user_ids = array(), $template = '' ) {
 	if ( ! $template ) {

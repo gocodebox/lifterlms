@@ -3,7 +3,7 @@
 * Email Base Class
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.10.1
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -96,7 +96,7 @@ class LLMS_Email {
 	 * @param    string      $name     recipent name (optional)
 	 * @return   boolean
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.10.1
 	 */
 	public function add_recipient( $address, $type = 'to', $name = '' ) {
 
