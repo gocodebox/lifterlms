@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.10.1 - 2017/07/12
+--------------------
+
++ Fix error causing email notifications being sent after related user has been deleted
+
+
 v3.10.0 - 2017/07/05
 --------------------
 

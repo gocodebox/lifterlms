@@ -3,7 +3,7 @@
 * Email Base Class
 *
 * @since    1.0.0
-* @version  3.8.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -96,13 +96,16 @@ class LLMS_Email {
 	 * @param    string      $name     recipent name (optional)
 	 * @return   boolean
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function add_recipient( $address, $type = 'to', $name = '' ) {
 
 		// if an ID was supplied, get the information from the student object
 		if ( is_numeric( $address ) ) {
-			$student = new LLMS_Student( $address );
+			$student = llms_get_student( $address );
+			if ( ! $student ) {
+				return false;
+			}
 			$address = $student->get( 'user_email' );
 			$name = $student->get_name();
 		}
