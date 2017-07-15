@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 3.10.1
+Stable tag: 3.10.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -213,6 +213,18 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.10.2 - 2017/07/14 =
+------------------------
+
++ Fix fatal error related to purchase receipts for trashed or deleted orders
++ l10n "Reviews" tab title on course settings
++ Remove commented out sample preheader text from email header template which was displaying in some email clients.
+
+##### Template Updates
+
++ [emails/header.php](https://github.com/gocodebox/lifterlms/blob/master/templates/emails/header.php)
+
 
 = v3.10.1 - 2017/07/12 =
 ------------------------

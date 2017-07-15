@@ -164,7 +164,7 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:379, includes/class.llms.post-types.php:767, includes/notifications/controllers/class.llms.notification.controller.manual.payment.due.php:95, includes/notifications/controllers/class.llms.notification.controller.payment.retry.php:95, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:91, includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:82
+#: includes/abstracts/llms.abstract.notification.controller.php:379, includes/class.llms.post-types.php:767, includes/notifications/controllers/class.llms.notification.controller.manual.payment.due.php:95, includes/notifications/controllers/class.llms.notification.controller.payment.retry.php:95, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:97, includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:82
 msgid "Email"
 msgstr ""
 
@@ -631,6 +631,10 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.reviews.php:138
 msgid "Select to prevent a user from submitting more than one review."
+msgstr ""
+
+#: includes/admin/class.llms.admin.reviews.php:152, includes/class.llms.post-types.php:969
+msgid "Reviews"
 msgstr ""
 
 #: includes/admin/class.llms.admin.settings.php:78
@@ -4761,10 +4765,6 @@ msgstr ""
 msgid "This is where voucher are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:969
-msgid "Reviews"
-msgstr ""
-
 #: includes/class.llms.post-types.php:970
 msgid "Review"
 msgstr ""
@@ -7294,7 +7294,7 @@ msgstr ""
 msgid "Payment Retry Scheduled"
 msgstr ""
 
-#: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:103
+#: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:109
 msgid "Purchase Receipt"
 msgstr ""
 
