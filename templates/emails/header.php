@@ -2,7 +2,7 @@
 /**
  * LifterLMS Email Header Template
  * @since    1.0.0
- * @version  3.8.0
+ * @version  3.10.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -82,8 +82,6 @@ $header_image = $mailer->get_header_image_src();
 
 					<!-- START CENTERED WHITE CONTAINER -->
 					<div class="content" style="box-sizing:border-box;color:<?php $mailer->get_css( 'font-color' ); ?>;display:block;Margin:0 auto;max-width:<?php $mailer->get_css( 'max-width' ); ?>;padding:10px;">
-
-						<!-- <span class="preheader" style="color:transparent;display:none;height:0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;visibility:hidden;width:0;">This is preheader text. Some clients will show this text as a preview.</span> -->
 
 						<?php if ( ! empty( $email_heading ) ) : ?>
 						<!-- START HEADING AREA -->
