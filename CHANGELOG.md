@@ -1,5 +1,17 @@
 == Changelog ==
 
+v3.10.2 - 2017/07/14
+--------------------
+
++ Fix fatal error related to purchase receipts for trashed or deleted orders
++ l10n "Reviews" tab title on course settings
++ Remove commented out sample preheader text from email header template which was displaying in some email clients.
+
+##### Template Updates
+
++ [emails/header.php](https://github.com/gocodebox/lifterlms/blob/master/templates/emails/header.php)
+
+
 v3.10.1 - 2017/07/12
 --------------------
 
