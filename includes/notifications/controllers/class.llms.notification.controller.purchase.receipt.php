@@ -2,7 +2,7 @@
 /**
  * Notification Controller: Transaction Success
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.10.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -52,7 +52,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 * @param    string     $subscriber  subscriber type string
 	 * @return   int|false
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.10.2
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -61,7 +61,13 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 			case 'author':
 				$txn = llms_get_post( $this->post_id );
 				$order = $txn->get_order();
+				if ( ! $order ) {
+					return false;
+				}
 				$product = $order->get_product();
+				if ( ! $product ) {
+					return false;
+				}
 				$uid = $product->get( 'author' );
 			break;
 
