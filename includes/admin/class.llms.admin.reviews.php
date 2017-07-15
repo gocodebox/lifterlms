@@ -149,7 +149,7 @@ class LLMS_Admin_Reviews {
 		}
 
 		$metaboxtab = array(
-			'title' => 'Reviews',
+			'title' => __( 'Reviews', 'lifterlms' ),
 			'fields' => $fields,
 		);
 		array_push( $content, $metaboxtab );
