@@ -62,7 +62,7 @@ class LLMS_Admin_Post_Table_Questions {
 		$this->quiz_p_id = 0;
 		$this->lesson_p_id  = 0;
 		$all_quizes = $this->get_posts( 'llms_quiz' );
-				foreach( $all_quizes as $q_id ) {
+				foreach( $all_quizes as $q_id ) { 
 					
 					//get questions of quiz 
 					$q = array(); 
