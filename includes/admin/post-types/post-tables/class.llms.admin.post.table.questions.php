@@ -105,11 +105,11 @@ class LLMS_Admin_Post_Table_Questions {
 			break;
 			case 'quiz' :
 					$edit_link = get_edit_post_link( $this->quiz_p_id );
-						if ( ! empty ( $this->quiz_p_id ) ) { 
+						if ( ! empty( $this->quiz_p_id ) ) { 
 							printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->quiz_p_id ) );
 						}
 			break;
-		}// End switch
+		}// End switch()
 	}
 
 	/**
@@ -147,7 +147,7 @@ class LLMS_Admin_Post_Table_Questions {
 			</script>
 			<?php 
 
-		 //get all lessons of course 
+			//get all lessons of course 
 			//TO DO: use clasess :issue arise after submitting using classes 
 			$filter_all_lessons = array();
 			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):''; 
@@ -179,7 +179,7 @@ class LLMS_Admin_Post_Table_Questions {
 			}
 			 foreach ( $filter_all_lessons as $lesson_id ) { 
 				 $parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
-				 if ( $selected_course_id==$parent_id ) { 
+				 if ( $selected_course_id == $parent_id ) { 
 					  $quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 				 }
 			}
@@ -210,9 +210,9 @@ class LLMS_Admin_Post_Table_Questions {
 				ORDER BY post_date DESC
 			", $post_type ) );
 			$month_count = count( $months );
-			if ( !$month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
+			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
 			return;
-			$m = isset( $_GET['m'] ) ? ( int ) $_GET['m'] : 0;
+			$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 			?>
 					<label for="filter-by-date" class="screen-reader-text"><?php _e( 'Filter by date', 'lifterlms' ); ?></label>
 					<select name="m" id="filter-by-date">
@@ -224,7 +224,7 @@ class LLMS_Admin_Post_Table_Questions {
 						$month = zeroise( $arc_row->month, 2 );
 						$year = $arc_row->year;
 						printf( "<option %s value='%s'>%s</option>\n",
-							selected( $m, $year . $month, false ),
+ 							selected( $m, $year . $month, false ),
 							esc_attr( $arc_row->year . $month ),
 							sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
 						);
@@ -251,11 +251,11 @@ class LLMS_Admin_Post_Table_Questions {
 			ORDER BY ID DESC',
 			$wpdb->posts,
 			'publish',         
-			''.$post_type.''
+			''. $post_type .''
 		);
 		return $wpdb->get_col( $query );
 	}
- 
+
 	/**
 	 * Change query on filter submit
 	 * 
@@ -268,16 +268,16 @@ class LLMS_Admin_Post_Table_Questions {
 		if ( isset( $_GET['post_type'] ) ) { 
 			$type = $_GET['post_type'];
 		}
-		if ( 'llms_question' == $type && is_admin() && $pagenow=='edit.php' && isset($_GET['filter_course_id']) && $_GET['filter_course_id'] != '') { 
-			$selected_course_id = isset($_GET['filter_course_id'])? sanitize_text_field($_GET['filter_course_id']):'';
+		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '') { 
+			$selected_course_id = isset( $_GET['filter_course_id'])? sanitize_text_field( $_GET['filter_course_id'] ):'';
 			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
 			$selected_quiz_id = isset( $_GET['filter_quiz_id'] )? sanitize_text_field( $_GET['filter_quiz_id'] ):'';
 			
 			//get all lessons of course 
 			$lesson	= new LLMS_Lesson( $selected_lesson_id );
-			$l_id =	$lesson->get( 'assigned_quiz' );
+			$l_id = $lesson->get( 'assigned_quiz' );
 		} else { 
-			$all_less =	$this->get_posts( 'lesson' );
+			$all_less = $this->get_posts( 'lesson' );
 			if ( $selected_lesson_id ) { 
 
 				//to check if single lesson is set then no need for all lesson 
@@ -285,7 +285,7 @@ class LLMS_Admin_Post_Table_Questions {
 			}
 			 foreach ( $all_less as $lesson_id ) { 
 				 $parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
-				 if ( $selected_course_id==$parent_id ) { 
+				 if ( $selected_course_id == $parent_id ) { 
 					  $quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 				 }
 			} 
@@ -293,7 +293,7 @@ class LLMS_Admin_Post_Table_Questions {
 			// array unique 
 			$quiz_ids = array_unique( $quiz_ids );
 			//remove 0 value array 
-			 if ( !$selected_lesson_id ) { 
+			 if ( ! $selected_lesson_id ) { 
 				$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
 			} 
 
@@ -309,7 +309,7 @@ class LLMS_Admin_Post_Table_Questions {
 					$q = get_post_meta( $single_q_id, '_llms_questions', true );
 					$questions_ids[] = wp_list_pluck( $q, 'id' );
 				}
-				$l_id ='novalue';
+				$l_id = 'novalue';
 				if ( is_array( $quiz_ids ) ) {
 
 				}
@@ -332,8 +332,8 @@ class LLMS_Admin_Post_Table_Questions {
 			//if no lesson on course 
 			//set to no quiz found
 			$query->query_vars['post__in'] = array( 0 );
-		}
-		}
+		}//End if()
+		}//End if()
 	}
 	/**
 	 * Hide default date filter  only on llms_quiz post types 
@@ -342,7 +342,7 @@ class LLMS_Admin_Post_Table_Questions {
 	 * @Since 3.9.6
 	 */
 	public function default_date_filter( $months, $post_type ) { 
-		if ( $post_type=='llms_question' ) { 
+		if ( $post_type == 'llms_question' ) { 
 			return array();
 		}
 		return $months;
