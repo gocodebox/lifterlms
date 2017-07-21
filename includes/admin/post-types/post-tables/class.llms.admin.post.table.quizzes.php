@@ -79,7 +79,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 						$edit_link = get_edit_post_link( $parent_id );
 
 						if ( ! empty( $parent_id ) ) {
-							printf( ( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $parent_id ) );
+							printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $parent_id ) );
 						}
 					}
 				}
@@ -87,14 +87,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 			break;
 
 			case 'lesson' :
-/* 
-				$section = $l->get_parent_section();
 
-				$edit_link = get_edit_post_link( $section );
-
-				if ( ! empty( $section ) ) {
-					printf( ( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $section ) );
-				} */
 				$all_less 	=	$this->get_posts('lesson');
 				foreach($all_less  as $lesson_id) {
 					$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
@@ -104,7 +97,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 						$edit_link = get_edit_post_link( $lesson_id );
 
 						if ( ! empty( $lesson_id ) ) {
-							printf( ( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $lesson_id ) );
+							printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $lesson_id ) );
 						}
 						
 					}
@@ -125,9 +118,8 @@ class LLMS_Admin_Post_Table_Quizzes {
 	 public function filters($post_type) {
 		
 		//only add filter to post type you want
-		if ('llms_quiz' == $post_type) {
-				
-			?>
+		if ( 'llms_quiz' !== $post_type ) { return; }
+	?>
 			<?php $selected_course_id = isset($_GET['filter_course_id'])? sanitize_text_field($_GET['filter_course_id']):''; ?>
 			<select name="filter_course_id" id="filter_course_id">
 				<option value=""><?php _e('All Courses ', 'lifterlms'); ?></option>
@@ -201,14 +193,13 @@ class LLMS_Admin_Post_Table_Quizzes {
 							selected( $m, $year . $month, false ),
 							esc_attr( $arc_row->year . $month ),
 							
-							sprintf( ( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
+							sprintf('%1$s %2$d', $wp_locale->get_month( $month ), $year )
 						);
 					}
 			?>
 					</select>
 			<?php
 		
-		}
 	}
 	/**
 	 * Get posts 

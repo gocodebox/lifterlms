@@ -116,7 +116,7 @@ class LLMS_Admin_Post_Table_Questions {
 					$edit_link = get_edit_post_link( $parent_id );
 
 						if ( ! empty( $parent_id ) ) {
-							printf( ( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $parent_id ) );
+							printf( '<a href="%1$s">%2$s</a>' , $edit_link, get_the_title( $parent_id ) );
 						}
 					
 
@@ -126,7 +126,7 @@ class LLMS_Admin_Post_Table_Questions {
 			
 						$edit_link = get_edit_post_link( $this->lesson_p_id );	
 							if ( ! empty( $this->lesson_p_id ) ) {
-								printf( ( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $this->lesson_p_id ) );
+								printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->lesson_p_id ) );
 							}
 							
 						
@@ -137,7 +137,7 @@ class LLMS_Admin_Post_Table_Questions {
 						
 						
 						if ( ! empty( $this->quiz_p_id ) ) {
-							printf( ( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $this->quiz_p_id ) );
+							printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->quiz_p_id ) );
 						}
 				
 
@@ -156,9 +156,9 @@ class LLMS_Admin_Post_Table_Questions {
 	 public function filters($post_type) {
 		
 		//only add filter to post type you want
-		if ('llms_question' == $post_type) {
-				
-			?>
+		
+		if ( 'llms_question' !== $post_type ) { return; }
+		?>
 			<?php $selected_course_id = isset($_GET['filter_course_id'])? sanitize_text_field($_GET['filter_course_id']):''; ?>
 			<select name="filter_course_id" id="filter_course_id">
 				<option value=""><?php _e('All Courses ', 'lifterlms'); ?></option>
@@ -277,14 +277,13 @@ class LLMS_Admin_Post_Table_Questions {
 							selected( $m, $year . $month, false ),
 							esc_attr( $arc_row->year . $month ),
 							
-							sprintf( ( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
+							sprintf('%1$s %2$d', $wp_locale->get_month( $month ), $year )
 						);
 					}
 			?>
 					</select>
 			<?php
 		
-		}
 	}
 	/**
 	 * Get posts 

@@ -76,7 +76,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				$edit_link = get_edit_post_link( $course );
 
 				if ( ! empty( $course ) ) {
-					printf( ( '<a href="%1$s">%2$s</a>' ), $edit_link , get_the_title( $course ) );
+					printf('<a href="%1$s">%2$s</a>', $edit_link , get_the_title( $course ) );
 				}
 
 			break;
@@ -88,7 +88,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				$edit_link = get_edit_post_link( $section );
 
 				if ( ! empty( $section ) ) {
-					printf( ( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $section ) );
+					printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $section ) );
 				}
 
 			break;
@@ -102,7 +102,7 @@ class LLMS_Admin_Post_Table_Lessons {
 
 					if ( $prereq ) {
 
-						printf( ( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $prereq ) );
+						printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $prereq ) );
 
 					} else {
 
@@ -129,8 +129,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 public function filters($post_type) {
 		
 		//only add filter to post type you want
-		if ('lesson' == $post_type) {
-			 
+		if ( 'lesson' !== $post_type ) { return; }
 			global $wpdb;
 			/** Grab  courses from  DB */
 			$query = $wpdb->prepare('
@@ -184,7 +183,7 @@ class LLMS_Admin_Post_Table_Lessons {
 							selected( $m, $year . $month, false ),
 							esc_attr( $arc_row->year . $month ),
 							
-							sprintf( ( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
+							sprintf('%1$s %2$d', $wp_locale->get_month( $month ), $year )
 						);
 					}
 			?>
@@ -192,7 +191,7 @@ class LLMS_Admin_Post_Table_Lessons {
 			<?php
 		
 			//date filter ends 
-		}//end of post type check
+		
 	}
 	/**
 	 * Change query on filter submit
