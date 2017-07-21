@@ -64,7 +64,7 @@ class LLMS_Admin_Post_Table_Questions {
 		$all_quizes = $this->get_posts( 'llms_quiz' );
 		foreach ( $all_quizes as $q_id ) {
 			//get questions of quiz
-			$q = array(); 
+			$q = array();
 			$q = get_post_meta( $q_id, '_llms_questions', true );
 			$r = wp_list_pluck( $q, 'id' );
 
@@ -73,7 +73,7 @@ class LLMS_Admin_Post_Table_Questions {
 				$edit_link = get_edit_post_link( $q_id );
 
 				//set quiz id
-				$this->quiz_p_id = $q_id;											
+				$this->quiz_p_id = $q_id;
 			}
 		}
 		$all_less = $this->get_posts( 'lesson' );
@@ -97,30 +97,30 @@ class LLMS_Admin_Post_Table_Questions {
 				if ( ! empty( $parent_id ) ) {
 					printf( '<a href="%1$s">%2$s</a>' , $edit_link, get_the_title( $parent_id ) );
 				}
-				break;
-				case 'lesson' :
-					$edit_link = get_edit_post_link( $this->lesson_p_id );
-					if ( ! empty( $this->lesson_p_id ) ) {
-						printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->lesson_p_id ) );
+			break;
+			case 'lesson' :
+				$edit_link = get_edit_post_link( $this->lesson_p_id );
+				if ( ! empty( $this->lesson_p_id ) ) {
+					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->lesson_p_id ) );
+				}
+			break;
+			case 'quiz' :
+				$edit_link = get_edit_post_link( $this->quiz_p_id );
+					if ( ! empty( $this->quiz_p_id ) ) {
+						printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->quiz_p_id ) );
 					}
-					break;
-					case 'quiz' :
-						$edit_link = get_edit_post_link( $this->quiz_p_id );
-						if ( ! empty( $this->quiz_p_id ) ) {
-							printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->quiz_p_id ) );
-						}
-					break;
-		}// End switch()
+			break;
+		}// End switch().
 	}
 
 	/**
-	 * Add  filters
-	 * 
+	 * Add filters
+	 *
 	 * @return string/html
 	 * @since 3.9.6
 	 */
 	public function filters( $post_type ) {
-		
+
 		//only add filter to post type you want
 		if ( 'llms_question' !== $post_type ) { return; }
 		?>
@@ -146,18 +146,18 @@ class LLMS_Admin_Post_Table_Questions {
 				} );
 			} );
 			</script>
-			<?php 
+			<?php
 
 			//get all lessons of course
 			//TO DO: use clasess :issue arise after submitting using classes
 			$filter_all_lessons = array();
-			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):''; 
+			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
 			$all_less = $this->get_posts( 'lesson' );
 			foreach ( $all_less as $lesson_id ) {
-				 $parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
-				 if ( $selected_course_id == $parent_id ) {
-					  $filter_all_lessons[] = $lesson_id;
-				 }
+				$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
+				if ( $selected_course_id == $parent_id ) {
+					$filter_all_lessons[] = $lesson_id;
+				}
 			}
 			?>
 			<?php ?>
@@ -168,21 +168,21 @@ class LLMS_Admin_Post_Table_Questions {
 				<?php } ?>
 			</select>
 			<!-- quiz -->
-			<?php 
+			<?php
 			$selected_quiz_id = isset( $_GET['filter_quiz_id'] )? sanitize_text_field( $_GET['filter_quiz_id'] ):'';
 			$quiz_ids = array();
-			
+
 			//when lesson is selected
 			if ( $selected_lesson_id ) {
 
 				//to check if single lesson is set then no need for all lesson
 				$filter_all_lessons = array( $selected_lesson_id );
 			}
-			 foreach ( $filter_all_lessons as $lesson_id ) {
-				 $parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
-				 if ( $selected_course_id == $parent_id ) {
-					  $quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
-				 }
+			foreach ( $filter_all_lessons as $lesson_id ) {
+				$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
+				if ( $selected_course_id == $parent_id ) {
+					$quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
+				}
 			}
 			$quiz_ids = array_unique( $quiz_ids );
 
@@ -211,7 +211,11 @@ class LLMS_Admin_Post_Table_Questions {
 				ORDER BY post_date DESC
 			", $post_type ) );
 			$month_count = count( $months );
-			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
+			if ( ! $month_count || ( 
+						1 == $month_count 
+						&& 0 == $months[0]->month 
+					) 
+			   )
 			return;
 			$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 			?>
@@ -219,17 +223,19 @@ class LLMS_Admin_Post_Table_Questions {
 					<select name="m" id="filter-by-date">
 					<option <?php selected( $m, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
 			<?php
-					foreach ( $months as $arc_row ) {
-						if ( 0 == $arc_row->year )
-							continue;
-						$month = zeroise( $arc_row->month, 2 );
-						$year = $arc_row->year;
-						printf( "<option %s value='%s'>%s</option>\n",
- 							selected( $m, $year . $month, false ),
-							esc_attr( $arc_row->year . $month ),
-							sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
-						);
-					}
+			foreach ( $months as $arc_row ) {
+				if ( 
+					0 == $arc_row->year 
+				)
+				continue;
+				$month = zeroise( $arc_row->month, 2 );
+				$year = $arc_row->year;
+				printf( "<option %s value='%s'>%s</option>\n",
+					selected( $m, $year . $month, false ),
+					esc_attr( $arc_row->year . $month ),
+					sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
+				);
+			}
 			?>
 					</select>
 			<?php
@@ -237,8 +243,8 @@ class LLMS_Admin_Post_Table_Questions {
 
 	/**
 	 * Get posts
-	 * 
-	 * @arg: post type 
+	 *
+	 * @arg: post type
 	 * @return array
 	 * @since 3.9.6
 	 */
@@ -252,14 +258,14 @@ class LLMS_Admin_Post_Table_Questions {
 			ORDER BY ID DESC',
 			$wpdb->posts,
 			'publish',
-			''. $post_type .''
+			'' . $post_type . ''
 		);
 		return $wpdb->get_col( $query );
 	}
 
 	/**
 	 * Change query on filter submit
-	 * 
+	 *
 	 * @return Void
 	 * @Since 3.9.6
 	 */
@@ -269,11 +275,11 @@ class LLMS_Admin_Post_Table_Questions {
 		if ( isset( $_GET['post_type'] ) ) {
 			$type = $_GET['post_type'];
 		}
-		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '') {
-			$selected_course_id = isset( $_GET['filter_course_id'])? sanitize_text_field( $_GET['filter_course_id'] ):'';
+		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
+			$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):'';
 			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
 			$selected_quiz_id = isset( $_GET['filter_quiz_id'] )? sanitize_text_field( $_GET['filter_quiz_id'] ):'';
-			
+
 			//get all lessons of course
 			$lesson	= new LLMS_Lesson( $selected_lesson_id );
 			$l_id = $lesson->get( 'assigned_quiz' );
@@ -281,71 +287,73 @@ class LLMS_Admin_Post_Table_Questions {
 			$all_less = $this->get_posts( 'lesson' );
 			if ( $selected_lesson_id ) {
 
-				//to check if single lesson is set then no need for all lesson 
+				//to check if single lesson is set then no need for all lesson
 				$all_less = array( $selected_lesson_id );
 			}
-			 foreach ( $all_less as $lesson_id ) {
-				 $parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
-				 if ( $selected_course_id == $parent_id ) {
-					  $quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
-				 }
+			foreach ( $all_less as $lesson_id ) {
+				$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
+				if ( $selected_course_id == $parent_id ) {
+					$quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
+				}
 			}
-		if ( ! empty( $quiz_ids ) ) {
-			// array unique
-			$quiz_ids = array_unique( $quiz_ids );
-			//remove 0 value array
-			 if ( ! $selected_lesson_id ) {
-				$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
-			}
+			if ( ! empty( $quiz_ids ) ) {
+				// array unique
+				$quiz_ids = array_unique( $quiz_ids );
+				//remove 0 value array
+				if ( ! $selected_lesson_id ) {
+					$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
+				}
 
-			//get questions of quiz 
-			$q = array(); 
-			$questions_ids = array(); 
+				//get questions of quiz 
+				$q = array(); 
+				$questions_ids = array(); 
 
-			//set seleted quiz 
-			if ( $selected_quiz_id ) {
-				$quiz_ids = array( $selected_quiz_id );
-			}
-			foreach ( $quiz_ids as $single_q_id ) {
-				$q = get_post_meta( $single_q_id, '_llms_questions', true );
-				$questions_ids[] = wp_list_pluck( $q, 'id' );
-			}
-			$l_id = 'novalue';
-			if ( is_array( $quiz_ids ) ) {
-			}
-			if ( ! empty( $questions_ids ) ) {
-				if ( is_array( $questions_ids[0] ) ) {
-					$l_id = implode( ',',$questions_ids[0] );
-				} 
-			}
-			if ( $l_id ) {
+				//set seleted quiz 
+				if ( $selected_quiz_id ) {
+					$quiz_ids = array( $selected_quiz_id );
+				}
+				foreach ( $quiz_ids as $single_q_id ) {
+					$q = get_post_meta( $single_q_id, '_llms_questions', true );
+					$questions_ids[] = wp_list_pluck( $q, 'id' );
+				}
+				$l_id = 'novalue';
+				if ( is_array( $quiz_ids ) ) {
+				}
+				if ( ! empty( $questions_ids ) ) {
+					if ( is_array( $questions_ids[0] ) ) {
+						$l_id = implode( ',',$questions_ids[0] );
+					} 
+				}
+				if ( $l_id ) {
 
-			//set query var these quizes will show
-			$query->query_vars['post__in'] = $questions_ids[0];
-			}
-			if ( $l_id == 0 ) {
+					//set query var these quizes will show
+					$query->query_vars['post__in'] = $questions_ids[0];
+				}
+				if ( $l_id == 0 ) {
 				
-				//set query var these quizes will show
+					//set query var these quizes will show
+					$query->query_vars['post__in'] = array( 0 );
+				}
+			} else {
+
+				//if no lesson on course
+				//set to no quiz found
 				$query->query_vars['post__in'] = array( 0 );
-			}
-		} else {
-			//if no lesson on course
-			//set to no quiz found
-			$query->query_vars['post__in'] = array( 0 );
-		}//End if()
-	}//End if()
-}
-/**
- * Hide default date filter  only on llms_quiz post types 
- * 
- * @return empty array | months array 
- * @Since 3.9.6
- */
-public function default_date_filter( $months, $post_type ) {
-	if ( $post_type == 'llms_question' ) {
-		return array();
+			}//End if().
+		}//End if().
 	}
-	return $months;
-}
+
+	/**
+ 	 * Hide default date filter  only on llms_quiz post types 
+ 	 *
+ 	 * @return empty array | months array
+ 	 * @Since 3.9.6
+ 	 */
+	public function default_date_filter( $months, $post_type ) {
+		if ( $post_type == 'llms_question' ) {
+			return array();
+		}
+		return $months;
+	}
 }
 return new LLMS_Admin_Post_Table_Questions();
