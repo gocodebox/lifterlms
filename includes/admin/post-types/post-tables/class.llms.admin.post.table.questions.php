@@ -42,9 +42,8 @@ class LLMS_Admin_Post_Table_Questions {
 			'cb' => '<input type="checkbox" />',
 			'title' => __( 'Lesson Title', 'lifterlms' ),
 			'course' => __( 'Course', 'lifterlms' ),
-			'lesson' => __( 'Lesson', 'lifterlms' ),
+		'lesson' => __( 'Lesson', 'lifterlms' ),
 			'quiz' => __( 'Quiz', 'lifterlms' ),
-			//'prereq' => __( 'Prerequisite', 'lifterlms' ),
 			'date' => __( 'Date', 'lifterlms' ),
 		);
 		return $columns;
@@ -61,7 +60,7 @@ class LLMS_Admin_Post_Table_Questions {
 	public function manage_columns( $column, $post_id ) {
 		//set data starts 
 		$this->quiz_p_id = 0;
-		$this->lesson_p_id  =0;
+		$this->lesson_p_id  = 0;
 		$all_quizes = $this->get_posts( 'llms_quiz' );
 				foreach( $all_quizes as $q_id ) {
 					
@@ -77,7 +76,7 @@ class LLMS_Admin_Post_Table_Questions {
 						$this->quiz_p_id = $q_id;											
 					}
 				}
-				$all_less 	=	$this->get_posts( 'lesson' );
+				$all_less =	$this->get_posts( 'lesson' );
 				foreach( $all_less as $lesson_id ) {
 					$quiz_id = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 					if( $this->quiz_p_id ) {
