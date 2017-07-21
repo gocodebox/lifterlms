@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /**
  * Add, Customize, and Manage LifterLMS Quizzes Post Table Columns
@@ -29,7 +29,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 		add_action( 'pre_get_posts', array( $this, 'query_posts_filter' ), 10,1 );
 
 		//disable default date 
-		add_filter( 'months_dropdown_results', array( $this, 'default_date_filter' ), 10 ,2);
+		add_filter( 'months_dropdown_results', array( $this, 'default_date_filter' ), 10 ,2 );
 
 	}
 
@@ -71,8 +71,8 @@ class LLMS_Admin_Post_Table_Quizzes {
 
 			case 'course' :
 
-				$all_less 	=	$this->get_posts('lesson');
-				foreach($all_less  as $lesson_id) {
+				$all_less 	=	$this->get_posts( 'lesson' );
+				foreach( $all_less  as $lesson_id ) {
 					$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
 					$quiz_id = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 					if($quiz_id == $post_id) {
@@ -88,7 +88,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 
 			case 'lesson' :
 
-				$all_less 	=	$this->get_posts('lesson');
+				$all_less 	=	$this->get_posts( 'lesson' );
 				foreach($all_less  as $lesson_id) {
 					$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
 					$quiz_id = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
@@ -115,7 +115,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 	 * @return string/html
 	 * @since 3.9.6
 	 */
-	 public function filters($post_type) {
+	 public function filters( $post_type ) {
 		
 		//only add filter to post type you want
 		if ( 'llms_quiz' !== $post_type ) { return; }
@@ -142,8 +142,8 @@ class LLMS_Admin_Post_Table_Quizzes {
 			//$crs_obj 			= 	new LLMS_Course($selected_course_id);
 			//$filter_all_lessons = 	$crs_obj->get_lesson_ids();
 			
-			$all_less 	=	$this->get_posts('lesson');
-			foreach($all_less  as $lesson_id) {
+			$all_less 	=	$this->get_posts( 'lesson' );
+			foreach( $all_less  as $lesson_id ) {
 				 $parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
 				 if($selected_course_id==$parent_id) {
 									 
@@ -154,11 +154,11 @@ class LLMS_Admin_Post_Table_Quizzes {
 			} 
 			
 			?>
-			<?php $selected_lesson_id = isset($_GET['filter_lesson_id'])? sanitize_text_field($_GET['filter_lesson_id']):''; ?>
+			<?php $selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):''; ?>
 			<select name="filter_lesson_id" id="filter_lesson_id">
-				<option value=""><?php _e('All Lessons ', 'lifterlms'); ?></option>
-				<?php foreach($filter_all_lessons  as $lesson_id) { ?>
-					<option value="<?php echo $lesson_id; ?>" <?php selected( $lesson_id,$selected_lesson_id ); ?> ><?php echo get_the_title($lesson_id); ?></option>
+				<option value=""><?php _e( 'All Lessons ', 'lifterlms' ); ?></option>
+				<?php foreach( $filter_all_lessons  as $lesson_id ) { ?>
+					<option value="<?php echo $lesson_id; ?>" <?php selected( $lesson_id,$selected_lesson_id ); ?> ><?php echo get_the_title( $lesson_id ); ?></option>
 				<?php } ?>
 			</select>
 			<?php
