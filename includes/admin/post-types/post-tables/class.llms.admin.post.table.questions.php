@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Add, Customize, and Manage LifterLMS Questions Post Table Columns
  *
