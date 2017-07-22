@@ -297,8 +297,8 @@ class LLMS_Admin_Post_Table_Questions {
 				}
 
 				//get questions of quiz
-				$q = array(); 
-				$questions_ids = array(); 
+				$q = array();
+				$questions_ids = array();
 
 				//set seleted quiz
 				if ( $selected_quiz_id ) {
