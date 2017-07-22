@@ -65,14 +65,14 @@ class LLMS_Admin_Post_Table_Lessons {
 				$course = $l->get_parent_course();
 				$edit_link = get_edit_post_link( $course );
 				if ( ! empty( $course ) ) {
-					printf('<a href="%1$s">%2$s</a>', $edit_link , get_the_title( $course ) );
+					printf( '<a href="%1$s">%2$s</a>', $edit_link , get_the_title( $course ) );
 				}
 			break;
 			case 'section' :
 				$section = $l->get_parent_section();
 				$edit_link = get_edit_post_link( $section );
 				if ( ! empty( $section ) ) {
-					printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $section ) );
+					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $section ) );
 				}
 			break;
 			case 'prereq' :
@@ -80,7 +80,7 @@ class LLMS_Admin_Post_Table_Lessons {
 					$prereq = $l->get( 'prerequisite' );
 					$edit_link = get_edit_post_link( $prereq );
 					if ( $prereq ) {
-						printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $prereq ) );
+						printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $prereq ) );
 					} else {
 						echo '&ndash;';
 					}
@@ -111,17 +111,18 @@ class LLMS_Admin_Post_Table_Lessons {
 				'publish',          // Post status - change as required
 				'course'
 			);
-			$courses_array = $wpdb->get_col($query);
+			$courses_array = $wpdb->get_col( $query );
 			?>
-			<?php $selected_course_id = isset($_GET['flt_course_id'])? sanitize_text_field($_GET['flt_course_id']):''; ?>
+			<?php $selected_course_id = isset( $_GET['flt_course_id'] )? sanitize_text_field( $_GET['flt_course_id'] ):''; ?>
 			<select name="flt_course_id">
-				<option value=""><?php _e('All Courses ', 'lifterlms'); ?></option>
-				<?php foreach($courses_array as $course_id) { ?>
-					<option value="<?php echo $course_id; ?>" <?php selected( $course_id,$selected_course_id ); ?> ><?php echo get_the_title($course_id); ?></option>
+				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
+				<?php foreach( $courses_array as $course_id ) { ?>
+					<option value="<?php echo $course_id; ?>" <?php selected( $course_id,$selected_course_id ); ?> ><?php echo get_the_title( $course_id ); ?></option>
 				<?php } ?>
 			</select>
 			<?php
-			//date filter 
+
+		 	//date filter 
 			global $wpdb ,$wp_locale;
 			$extra_checks = "AND post_status != 'auto-draft'";
 			$months = $wpdb->get_results( $wpdb->prepare( "
@@ -148,7 +149,7 @@ class LLMS_Admin_Post_Table_Lessons {
 						printf( "<option %s value='%s'>%s</option>\n",
 							selected( $m, $year . $month, false ),
 							esc_attr( $arc_row->year . $month ),
-							sprintf('%1$s %2$d', $wp_locale->get_month( $month ), $year )
+							sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
 						);
 					}
 			?>
@@ -159,29 +160,29 @@ class LLMS_Admin_Post_Table_Lessons {
 	}
 	/**
 	 * Change query on filter submit
-	 * 
+	 *
 	 * @return Void
 	 * @Since 3.9.6
 	 */
 	public function query_posts_filter( $query ) {
 		global $pagenow;
 		$type = 'post';
-		if (isset($_GET['post_type'])) {
+		if ( isset( $_GET['post_type'] ) ) {
 			$type = $_GET['post_type'];
 		}
-		if ( 'lesson' == $type && is_admin() && $pagenow=='edit.php' && isset($_GET['flt_course_id']) && $_GET['flt_course_id'] != '') {
+		if ( 'lesson' == $type && is_admin() && $pagenow=='edit.php' && isset( $_GET['flt_course_id'] ) && $_GET['flt_course_id'] != '') {
 			$query->query_vars['meta_key'] = '_llms_parent_course';
-			$query->query_vars['meta_value'] = sanitize_text_field($_GET['flt_course_id']);
+			$query->query_vars['meta_value'] = sanitize_text_field( $_GET['flt_course_id'] );
 		}
 	}
 	/**
-	 * Hide default date filter  only on lesson post types 
-	 * 
-	 * @return empty array | months array 
+	 * Hide default date filter  only on lesson post types
+	 *
+	 * @return empty array | months array
 	 * @Since 3.9.6
 	 */
-	public function default_date_filter( $months, $post_type) {
-		if($post_type=='lesson') {
+	public function default_date_filter( $months, $post_type ) {
+		if ( $post_type=='lesson' ) {
 			return array();
 		}
 		return $months;
