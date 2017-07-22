@@ -27,7 +27,7 @@ class LLMS_Admin_Post_Table_Lessons {
 		//change query
 		add_filter( 'parse_query', array( $this, 'query_posts_filter' ), 10 );
 
-		//disable default date 
+		//disable default date
 		add_filter( 'months_dropdown_results', array( $this, 'default_date_filter' ), 10 ,2 );
 	}
 
