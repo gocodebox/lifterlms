@@ -314,7 +314,7 @@ class LLMS_Admin_Post_Table_Questions {
 				if ( ! empty( $questions_ids ) ) {
 					if ( is_array( $questions_ids[0] ) ) {
 						$l_id = implode( ',',$questions_ids[0] );
-					} 
+					}
 				}
 				if ( $l_id ) {
 
@@ -322,7 +322,7 @@ class LLMS_Admin_Post_Table_Questions {
 					$query->query_vars['post__in'] = $questions_ids[0];
 				}
 				if ( $l_id == 0 ) {
-				
+
 					//set query var these quizes will show
 					$query->query_vars['post__in'] = array( 0 );
 				}
@@ -336,7 +336,7 @@ class LLMS_Admin_Post_Table_Questions {
 	}
 
 	/**
-	 * Hide default date filter  only on llms_quiz post types 
+	 * Hide default date filter  only on llms_quiz post types
 	 *
 	 * @return empty array | months array
 	 * @Since 3.9.6
