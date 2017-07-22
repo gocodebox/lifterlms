@@ -296,11 +296,11 @@ class LLMS_Admin_Post_Table_Questions {
 					$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
 				}
 
-				//get questions of quiz 
+				//get questions of quiz
 				$q = array(); 
 				$questions_ids = array(); 
 
-				//set seleted quiz 
+				//set seleted quiz
 				if ( $selected_quiz_id ) {
 					$quiz_ids = array( $selected_quiz_id );
 				}
