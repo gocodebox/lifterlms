@@ -76,8 +76,7 @@ class LLMS_Admin_Post_Table_Questions {
 				$this->quiz_p_id = $q_id;
 			}
 		}
-		$all_less = $this->get_posts( 'lesson' );
-		foreach ( $all_less as $lesson_id ) {
+		$all_less = $this->get_posts( 'lesson' );		foreach ( $all_less as $lesson_id ) {
 			$quiz_id = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 			if ( $this->quiz_p_id ) {
 				if ( $quiz_id == $this->quiz_p_id ) {
@@ -106,9 +105,9 @@ class LLMS_Admin_Post_Table_Questions {
 			break;
 			case 'quiz' :
 				$edit_link = get_edit_post_link( $this->quiz_p_id );
-					if ( ! empty( $this->quiz_p_id ) ) {
-						printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->quiz_p_id ) );
-					}
+				if ( ! empty( $this->quiz_p_id ) ) {
+					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->quiz_p_id ) );
+				}
 			break;
 		}// End switch().
 	}
@@ -211,11 +210,12 @@ class LLMS_Admin_Post_Table_Questions {
 				ORDER BY post_date DESC
 			", $post_type ) );
 			$month_count = count( $months );
-			if ( ! $month_count || ( 
-						1 == $month_count 
-						&& 0 == $months[0]->month 
-					) 
-			   )
+			if ( 
+					! $month_count || ( 
+					1 == $month_count 
+					&& 0 == $months[0]->month 
+				) 
+			)
 			return;
 			$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 			?>
@@ -344,7 +344,7 @@ class LLMS_Admin_Post_Table_Questions {
 	}
 
 	/**
- 	 * Hide default date filter  only on llms_quiz post types 
+	 * Hide default date filter  only on llms_quiz post types 
  	 *
  	 * @return empty array | months array
  	 * @Since 3.9.6
