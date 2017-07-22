@@ -295,7 +295,7 @@ class LLMS_Admin_Post_Table_Questions {
 				if ( $selected_course_id == $parent_id ) {
 					$quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 				}
- 			}
+			}
 			if ( ! empty( $quiz_ids ) ) {
 				// array unique
 				$quiz_ids = array_unique( $quiz_ids );
@@ -345,10 +345,10 @@ class LLMS_Admin_Post_Table_Questions {
 
 	/**
 	 * Hide default date filter  only on llms_quiz post types 
- 	 *
- 	 * @return empty array | months array
- 	 * @Since 3.9.6
- 	 */
+	 *
+	 * @return empty array | months array
+	 * @Since 3.9.6
+	 */
 	public function default_date_filter( $months, $post_type ) {
 		if ( $post_type == 'llms_question' ) {
 			return array();
