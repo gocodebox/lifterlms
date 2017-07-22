@@ -18,31 +18,27 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @version  3.2.3
 	 */
 	public function __construct() {
-	
 		add_filter( 'manage_lesson_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_lesson_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
-		
+
 		//add course filter 
 		add_action( 'restrict_manage_posts', array( $this, 'filters' ), 10 );
-		
+
 		//change query
 		add_filter( 'parse_query', array( $this, 'query_posts_filter' ), 10 );
-		
-		//disable default date 
-		//add_filter('months_dropdown_results', '__return_empty_array');
-		add_filter( 'months_dropdown_results', array( $this, 'default_date_filter' ), 10 ,2 );
 
+		//disable default date 
+		add_filter( 'months_dropdown_results', array( $this, 'default_date_filter' ), 10 ,2 );
 	}
 
 	/**
 	 * Add Custom lesson Columns
-	 * @param   array  $columns  array of default columns
-	 * @return  array
+	 * @param  array   $columns  array of default columns
+	 * @return array
 	 * @since    3.2.3
 	 * @version  3.2.3
 	 */
 	public function add_columns( $columns ) {
-
 		$columns = array(
 			'cb' => '<input type="checkbox" />',
 			'title' => __( 'Lesson Title', 'lifterlms' ),
@@ -51,10 +47,8 @@ class LLMS_Admin_Post_Table_Lessons {
 			'prereq' => __( 'Prerequisite', 'lifterlms' ),
 			'date' => __( 'Date', 'lifterlms' ),
 		);
-
 		return $columns;
 	}
-
 
 	/**
 	 * Manage content of custom lesson columns
@@ -65,61 +59,38 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @version  3.2.3
 	 */
 	public function manage_columns( $column, $post_id ) {
-
 		$l = new LLMS_Lesson( $post_id );
-
 		switch ( $column ) {
-
 			case 'course' :
-
 				$course = $l->get_parent_course();
 				$edit_link = get_edit_post_link( $course );
-
 				if ( ! empty( $course ) ) {
 					printf('<a href="%1$s">%2$s</a>', $edit_link , get_the_title( $course ) );
 				}
-
 			break;
-
 			case 'section' :
-
 				$section = $l->get_parent_section();
-
 				$edit_link = get_edit_post_link( $section );
-
 				if ( ! empty( $section ) ) {
 					printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $section ) );
 				}
-
 			break;
-
 			case 'prereq' :
-
 				if ( $l->has_prerequisite() ) {
-
 					$prereq = $l->get( 'prerequisite' );
 					$edit_link = get_edit_post_link( $prereq );
-
 					if ( $prereq ) {
-
 						printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $prereq ) );
-
 					} else {
-
 						echo '&ndash;';
-
 					}
 				} else {
-
 					echo '&ndash;';
-
 				}
-
 			break;
-
 		}// End switch().
-
 	}
+
 	/**
 	 * Add  filters
 	 * 
@@ -127,7 +98,6 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @since 3.9.6
 	 */
 	 public function filters($post_type) {
-		
 		//only add filter to post type you want
 		if ( 'lesson' !== $post_type ) { return; }
 			global $wpdb;
@@ -142,7 +112,6 @@ class LLMS_Admin_Post_Table_Lessons {
 				'course'
 			);
 			$courses_array = $wpdb->get_col($query);
-			
 			?>
 			<?php $selected_course_id = isset($_GET['flt_course_id'])? sanitize_text_field($_GET['flt_course_id']):''; ?>
 			<select name="flt_course_id">
@@ -162,12 +131,9 @@ class LLMS_Admin_Post_Table_Lessons {
 				$extra_checks
 				ORDER BY post_date DESC
 			", $post_type ) );
-			
-		
 			$month_count = count( $months );
 			if ( !$month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
 			return;
-			
 			$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 			?>
 					<label for="filter-by-date" class="screen-reader-text"><?php _e( 'Filter by date', 'lifterlms' ); ?></label>
@@ -182,7 +148,6 @@ class LLMS_Admin_Post_Table_Lessons {
 						printf( "<option %s value='%s'>%s</option>\n",
 							selected( $m, $year . $month, false ),
 							esc_attr( $arc_row->year . $month ),
-							
 							sprintf('%1$s %2$d', $wp_locale->get_month( $month ), $year )
 						);
 					}
@@ -191,7 +156,6 @@ class LLMS_Admin_Post_Table_Lessons {
 			<?php
 		
 			//date filter ends 
-		
 	}
 	/**
 	 * Change query on filter submit
@@ -217,14 +181,10 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @Since 3.9.6
 	 */
 	public function default_date_filter( $months, $post_type) {
-		
 		if($post_type=='lesson') {
-			
 			return array();
 		}
 		return $months;
-		
 	}
-
 }
 return new LLMS_Admin_Post_Table_Lessons();
