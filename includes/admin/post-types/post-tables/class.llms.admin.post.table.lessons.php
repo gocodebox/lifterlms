@@ -21,7 +21,7 @@ class LLMS_Admin_Post_Table_Lessons {
 		add_filter( 'manage_lesson_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_lesson_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
 
-		//add course filter 
+		//add course filter
 		add_action( 'restrict_manage_posts', array( $this, 'filters' ), 10 );
 
 		//change query
@@ -93,11 +93,11 @@ class LLMS_Admin_Post_Table_Lessons {
 
 	/**
 	 * Add  filters
-	 * 
+	 *
 	 * @return string/html
 	 * @since 3.9.6
 	 */
-	 public function filters($post_type) {
+	public function filters( $post_type ) {
 		//only add filter to post type you want
 		if ( 'lesson' !== $post_type ) { return; }
 			global $wpdb;
@@ -116,13 +116,13 @@ class LLMS_Admin_Post_Table_Lessons {
 			<?php $selected_course_id = isset( $_GET['flt_course_id'] )? sanitize_text_field( $_GET['flt_course_id'] ):''; ?>
 			<select name="flt_course_id">
 				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
-				<?php foreach( $courses_array as $course_id ) { ?>
+				<?php foreach ( $courses_array as $course_id ) { ?>
 					<option value="<?php echo $course_id; ?>" <?php selected( $course_id,$selected_course_id ); ?> ><?php echo get_the_title( $course_id ); ?></option>
 				<?php } ?>
 			</select>
 			<?php
 
-		 	//date filter 
+		 	//date filter
 			global $wpdb ,$wp_locale;
 			$extra_checks = "AND post_status != 'auto-draft'";
 			$months = $wpdb->get_results( $wpdb->prepare( "
@@ -133,7 +133,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				ORDER BY post_date DESC
 			", $post_type ) );
 			$month_count = count( $months );
-			if ( !$month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
+			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
 			return;
 			$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 			?>
@@ -141,22 +141,22 @@ class LLMS_Admin_Post_Table_Lessons {
 					<select name="m" id="filter-by-date">
 						<option <?php selected( $m, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
 			<?php
-					foreach ( $months as $arc_row ) {
-						if ( 0 == $arc_row->year )
-							continue;
-						$month = zeroise( $arc_row->month, 2 );
-						$year = $arc_row->year;
-						printf( "<option %s value='%s'>%s</option>\n",
-							selected( $m, $year . $month, false ),
-							esc_attr( $arc_row->year . $month ),
-							sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
-						);
-					}
+			foreach ( $months as $arc_row ) {
+				if ( 0 == $arc_row->year )
+				continue;
+				$month = zeroise( $arc_row->month, 2 );
+				$year = $arc_row->year;
+				printf( "<option %s value='%s'>%s</option>\n",
+					selected( $m, $year . $month, false ),
+					esc_attr( $arc_row->year . $month ),
+					sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
+				);
+			}
 			?>
 					</select>
 			<?php
-		
-			//date filter ends 
+
+			//date filter ends
 	}
 	/**
 	 * Change query on filter submit
@@ -170,7 +170,7 @@ class LLMS_Admin_Post_Table_Lessons {
 		if ( isset( $_GET['post_type'] ) ) {
 			$type = $_GET['post_type'];
 		}
-		if ( 'lesson' == $type && is_admin() && $pagenow=='edit.php' && isset( $_GET['flt_course_id'] ) && $_GET['flt_course_id'] != '') {
+		if ( 'lesson' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['flt_course_id'] ) && $_GET['flt_course_id'] != '' ) {
 			$query->query_vars['meta_key'] = '_llms_parent_course';
 			$query->query_vars['meta_value'] = sanitize_text_field( $_GET['flt_course_id'] );
 		}
@@ -182,7 +182,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @Since 3.9.6
 	 */
 	public function default_date_filter( $months, $post_type ) {
-		if ( $post_type=='lesson' ) {
+		if ( $post_type == 'lesson' ) {
 			return array();
 		}
 		return $months;
