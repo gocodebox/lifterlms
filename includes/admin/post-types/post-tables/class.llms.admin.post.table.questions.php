@@ -210,12 +210,7 @@ class LLMS_Admin_Post_Table_Questions {
 				ORDER BY post_date DESC
 			", $post_type ) );
 			$month_count = count( $months );
-			if ( 
-					! $month_count || ( 
-					1 == $month_count 
-					&& 0 == $months[0]->month 
-				) 
-			)
+			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
 			return;
 			$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 			?>
@@ -224,9 +219,7 @@ class LLMS_Admin_Post_Table_Questions {
 					<option <?php selected( $m, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
 			<?php
 			foreach ( $months as $arc_row ) {
-				if ( 
-					0 == $arc_row->year 
-				)
+				if ( 0 == $arc_row->year )
 				continue;
 				$month = zeroise( $arc_row->month, 2 );
 				$year = $arc_row->year;
