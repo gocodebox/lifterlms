@@ -295,7 +295,7 @@ class LLMS_Admin_Post_Table_Questions {
 				if ( $selected_course_id == $parent_id ) {
 					$quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 				}
-			}
+ 			}
 			if ( ! empty( $quiz_ids ) ) {
 				// array unique
 				$quiz_ids = array_unique( $quiz_ids );
@@ -339,8 +339,8 @@ class LLMS_Admin_Post_Table_Questions {
 				//if no lesson on course
 				//set to no quiz found
 				$query->query_vars['post__in'] = array( 0 );
-			}//End if().
-		}//End if().
+			}// End if().
+		}// End if().
 	}
 
 	/**
