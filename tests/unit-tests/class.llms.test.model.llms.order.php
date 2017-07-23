@@ -8,6 +8,12 @@
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
+	/**
+	 * Consider dates equal for +/- 2 mins
+	 * @var  integer
+	 */
+	private $date_delta = 120;
+
 	public function setUp() {
 
 		parent::setUp();
@@ -528,7 +534,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			// test due date with a trial
 			$plan->set( 'trial_offer', 'yes' );
 			$order = $this->get_order( $plan );
-			$this->assertEquals( $order->get_trial_end_date(),  $order->get_next_payment_due_date() );
+			$this->assertEquals( strtotime( $order->get_trial_end_date() ), strtotime( $order->get_next_payment_due_date() ), '', $this->date_delta );
 			$plan->set( 'trial_offer', 'no' );
 
 			// perform calculation tests against different frequencies
@@ -560,7 +566,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 					'payment_type' => 'recurring',
 				) );
 				$order->maybe_schedule_payment( true );
-				$this->assertEquals( date( 'Y-m-d H:i', $future_expect ), $order->get_next_payment_due_date( 'Y-m-d H:i' ) );
+
+				$this->assertEquals( strtotime( date( 'Y-m-d H:i', $future_expect ) ), strtotime( $order->get_next_payment_due_date( 'Y-m-d H:i' ) ), '', $this->date_delta );
 
 				// plan ends so func should return a WP_Error
 				$order->set( 'date_billing_end', date( 'Y-m-d H:i:s', $future_expect - DAY_IN_SECONDS ) );
@@ -573,9 +580,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			}
 
 		}
-
-		// var_dump( $order->get_next_payment_due_date() );
-
 
 	}
 
