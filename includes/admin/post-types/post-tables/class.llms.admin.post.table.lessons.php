@@ -38,16 +38,14 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @since    3.2.3
 	 * @version  3.2.3
 	 */
-	public function add_columns( $columns ) {
-		$columns = array(
-			'cb' => '<input type="checkbox" />',
-			'title' => __( 'Lesson Title', 'lifterlms' ),
-			'course' => __( 'Course', 'lifterlms' ),
-			'section' => __( 'Section', 'lifterlms' ),
-			'prereq' => __( 'Prerequisite', 'lifterlms' ),
-			'date' => __( 'Date', 'lifterlms' ),
-		);
-		return $columns;
+	public function add_columns( $lessons_columns ) {
+		$lessons_columns['cb'] = '<input type="checkbox" />';
+		$lessons_columns['title'] = __( 'Lesson Title', 'lifterlms' );
+		$lessons_columns['section'] = __( 'Section', 'lifterlms' );
+		$lessons_columns['course'] = __( 'Course', 'lifterlms' );
+		$lessons_columns['prereq'] = __( 'Prerequisite', 'lifterlms' );
+		$lessons_columns['date'] = __( 'Date', 'lifterlms' );
+		return $lessons_columns;
 	}
 
 	/**
@@ -59,25 +57,25 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @version  3.2.3
 	 */
 	public function manage_columns( $column, $post_id ) {
-		$l = new LLMS_Lesson( $post_id );
+		$crnt_l = new LLMS_Lesson( $post_id );
 		switch ( $column ) {
 			case 'course' :
-				$course = $l->get_parent_course();
+				$course = $crnt_l->get_parent_course();
 				$edit_link = get_edit_post_link( $course );
 				if ( ! empty( $course ) ) {
 					printf( '<a href="%1$s">%2$s</a>', $edit_link , get_the_title( $course ) );
 				}
 			break;
 			case 'section' :
-				$section = $l->get_parent_section();
+				$section = $crnt_l->get_parent_section();
 				$edit_link = get_edit_post_link( $section );
 				if ( ! empty( $section ) ) {
 					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $section ) );
 				}
 			break;
 			case 'prereq' :
-				if ( $l->has_prerequisite() ) {
-					$prereq = $l->get( 'prerequisite' );
+				if ( $crnt_l->has_prerequisite() ) {
+					$prereq = $crnt_l->get( 'prerequisite' );
 					$edit_link = get_edit_post_link( $prereq );
 					if ( $prereq ) {
 						printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $prereq ) );
@@ -88,7 +86,7 @@ class LLMS_Admin_Post_Table_Lessons {
 					echo '&ndash;';
 				}
 			break;
-		}// End switch().
+		}
 	}
 
 	/**
@@ -112,8 +110,8 @@ class LLMS_Admin_Post_Table_Lessons {
 				'course'
 			);
 			$courses_array = $wpdb->get_col( $query );
+			$selected_course_id = sanitize_text_field( $_GET['flt_course_id'] );
 			?>
-			<?php $selected_course_id = isset( $_GET['flt_course_id'] )? sanitize_text_field( $_GET['flt_course_id'] ):''; ?>
 			<select name="flt_course_id">
 				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
 				<?php foreach ( $courses_array as $course_id ) { ?>
@@ -133,21 +131,23 @@ class LLMS_Admin_Post_Table_Lessons {
 				ORDER BY post_date DESC
 			", $post_type ) );
 			$month_count = count( $months );
-			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
-			return;
-			$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
+			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ) {
+				 return;
+			}
+			$m_llms = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 			?>
 					<label for="filter-by-date" class="screen-reader-text"><?php _e( 'Filter by date', 'lifterlms' ); ?></label>
 					<select name="m" id="filter-by-date">
-						<option <?php selected( $m, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
+						<option <?php selected( $m_llms, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
 			<?php
 			foreach ( $months as $arc_row ) {
-				if ( 0 == $arc_row->year )
-				continue;
+				if ( 0 == $arc_row->year ) {
+					 continue;
+				}
 				$month = zeroise( $arc_row->month, 2 );
 				$year = $arc_row->year;
 				printf( "<option %s value='%s'>%s</option>\n",
-					selected( $m, $year . $month, false ),
+					selected( $m_llms, $year . $month, false ),
 					esc_attr( $arc_row->year . $month ),
 					sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
 				);
