@@ -1,7 +1,13 @@
-( function( $ ) {
+/**
+ * LifterLMS Admin Panel Javascript
+ * @param    obj   $  traditional jQuery reference
+ * @return   void
+ * @since    ??
+ * @version  [version]
+ */
+;( function( $ ) {
 
 	window.llms = window.llms || {};
-
 
 	window.llms.widgets = function() {
 
@@ -37,9 +43,6 @@
 
 		}
 
-
-
-
 		// go
 		this.init();
 
@@ -49,12 +52,20 @@
 
 	var llms_widgets = new window.llms.widgets();
 
-
+	/**
+	 * Simple jQuery plugin to transform select elements into Select2-powered elements to query for Students via AJAX
+	 * @param    obj   options  options passed to Select2
+	 *                          each default option will pulled from the elements data-attributes
+	 * @return   void
+	 * @since    ??
+	 * @version  [version]
+	 */
 	$.fn.llmsStudentsSelect2 = function( options ) {
 
 		var self = this,
 			options = options || {},
 			defaults = {
+				allow_clear: false,
 				enrolled_in: '',
 				multiple: false,
 				not_enrolled_in: '',
@@ -71,7 +82,7 @@
 		options = $.extend( defaults, options );
 
 		this.llmsSelect2({
-			allowClear: false,
+			allowClear: options.allow_clear,
 			ajax: {
 				dataType: 'JSON',
 				delay: 250,
