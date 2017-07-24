@@ -2,7 +2,7 @@
 /**
  * Notification Controller Abstract
  * @since    3.8.0
- * @version  3.8.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -32,6 +32,12 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @var  integer
 	 */
 	protected $action_priority = 15;
+
+	/**
+	 * If true, will automatically dupcheck before sending
+	 * @var  boolean
+	 */
+	protected $auto_dupcheck = false;
 
 	/**
 	 * WP Post ID associated with the triggering action
@@ -303,12 +309,36 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
+	 * Determine if the notification is a potential duplicate
+	 * @param    string     $type        notification type id
+	 * @param    mixed      $subscriber  WP User ID for the subscriber, email address, phone number, etc...
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_subscriber_received( $type, $subscriber ) {
+
+		$query = new LLMS_Notifications_Query( array(
+			'post_id' => $this->post_id,
+			'subscriber' => $subscriber,
+			'type' => $type,
+			'trigger_id' => $this->id,
+			'user_id' => $this->user_id,
+		) );
+
+		return $query->found_results ? true : false;
+
+	}
+
+	/**
 	 * Send all the subscriptions
+	 * @param    bool   $force  if true, will force a send even if duplicate's
+	 *                          only applies to controllers that flag $this->auto_dupcheck to true
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
-	public function send() {
+	public function send( $force = false ) {
 
 		$this->add_subscriptions();
 
@@ -316,7 +346,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 			foreach ( $types as $type ) {
 
-				$this->send_one( $type, $subscriber );
+				$this->send_one( $type, $subscriber, $force );
 
 			}
 		}
@@ -331,13 +361,23 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	/**
 	 * Send a notification for a subscriber
-	 * @param    string     $type           notification type id
-	 * @param    mixed      $subscriber     WP User ID for the subscriber, email address, phone number, etc...
+	 * @param    string     $type        notification type id
+	 * @param    mixed      $subscriber  WP User ID for the subscriber, email address, phone number, etc...
+	 * @param    bool       $force       if true, will force a send even if duplicate's
+	 *                                   only applies to controllers that flag $this->auto_dupcheck to true
 	 * @return   int|false
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
-	private function send_one( $type, $subscriber ) {
+	private function send_one( $type, $subscriber, $force = false ) {
+
+		// if autodupcheck is set
+		// and the send function doesn't override the dupcheck
+		// and the subscriber has already receieved the notification
+		// skip it
+		if ( $this->auto_dupcheck && ! $force && $this->has_subscriber_received( $type, $subscriber ) ) {
+			return false;
+		}
 
 		$notification = new LLMS_Notification();
 		$id = $notification->create( array(
