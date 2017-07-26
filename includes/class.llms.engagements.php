@@ -3,7 +3,7 @@
 * Engagments Class
 * Finds and triggers the appropriate engagement
 * @since    2.3.0
-* @version  3.9.1
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -55,12 +55,13 @@ class LLMS_Engagements {
 	 * @return  void
 	 *
 	 * @since    2.3.0
-	 * @version  3.3.1
+	 * @version  [version]
 	 */
 	private function add_actions() {
 
 		$actions = apply_filters( 'lifterlms_engagement_actions', array(
 
+			'lifterlms_access_plan_purchased',
 			'lifterlms_course_completed',
 			'lifterlms_course_track_completed',
 			'lifterlms_created_person',
@@ -247,7 +248,7 @@ class LLMS_Engagements {
 	 * @return   void
 	 *
 	 * @since    2.3.0
-	 * @version  3.9.1
+	 * @version  [version]
 	 */
 	public function maybe_trigger_engagement() {
 
@@ -291,6 +292,8 @@ class LLMS_Engagements {
 				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_enrollment';
 			break;
 
+
+			case 'lifterlms_access_plan_purchased' :
 			case 'lifterlms_product_purchased' :
 				$user_id = intval( $args[0] );
 				$related_post_id = intval( $args[1] );

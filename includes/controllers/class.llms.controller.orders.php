@@ -101,7 +101,8 @@ class LLMS_Controller_Orders {
 	 * @param  obj    $order  Instance of an LLMS_Order
 	 * @return void
 	 *
-	 * @version  3.0.0
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function complete_order( $order ) {
 
@@ -122,6 +123,7 @@ class LLMS_Controller_Orders {
 
 		// trigger purchase action, used by engagements
 		do_action( 'lifterlms_product_purchased', $user_id, $product_id );
+		do_action( 'lifterlms_access_plan_purchased', $user_id, $order->get( 'plan_id' ) );
 
 		// maybe schedule a payment
 		$order->maybe_schedule_payment();

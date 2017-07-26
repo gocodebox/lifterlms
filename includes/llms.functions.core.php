@@ -260,11 +260,12 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
  * Get a list of registered engagement triggers
  * @return   array
  * @since    3.1.0
- * @version  3.3.1
+ * @version  [version]
  */
 function llms_get_engagement_triggers() {
 	return apply_filters( 'lifterlms_engagement_triggers', array(
 		'user_registration' => __( 'Student creates a new account', 'lifterlms' ),
+		'access_plan_purchased' => __( 'Student Purchases an Access Plan', 'lifterlms' ),
 		'course_enrollment' => __( 'Student enrolls in a course', 'lifterlms' ),
 		'course_purchased' => __( 'Student purchases a course', 'lifterlms' ),
 		'course_completed' => __( 'Student completes a course', 'lifterlms' ),

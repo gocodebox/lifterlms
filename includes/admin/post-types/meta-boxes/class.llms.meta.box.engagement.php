@@ -2,7 +2,7 @@
 /**
 * Engagements Metabox
 * @since    1.0.0
-* @version  3.1.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -30,7 +30,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 	 * Return an empty array because the metabox fields here are completely custom
 	 * @return   array
 	 * @since    1.0.0
-	 * @version  3.3.1
+	 * @version  [version]
 	 */
 	public function get_fields() {
 
@@ -67,6 +67,14 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				'controller_value' => array( 'lesson_completed' ),
 				'id' => '_faux_engagement_trigger_post_lesson',
 				'label' => __( 'Select a Lesson', 'lifterlms' ),
+			),
+
+			'llms_access_plan' => array(
+				'controller_value' => array(
+					'access_plan_purchased',
+				),
+				'id' => '_faux_engagement_trigger_post_access_plan',
+				'label' => __( 'Select an Access Plan', 'lifterlms' ),
 			),
 
 			'llms_membership' => array(
@@ -204,7 +212,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  WP Post ID of the engagement
 	 * @return   void
 	 * @since    3.1.0
-	 * @version  3.3.1
+	 * @version  [version]
 	 */
 	public function save( $post_id ) {
 
@@ -261,6 +269,10 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		// locate and store the trigger post id
 		$type = isset( $_POST[ $this->prefix . 'trigger_type' ] ) ? $_POST[ $this->prefix . 'trigger_type' ] : false;
 		switch ( $type ) {
+
+			case 'access_plan_purchased':
+				$var = 'access_plan';
+			break;
 
 			case 'course_completed':
 			case 'course_purchased':

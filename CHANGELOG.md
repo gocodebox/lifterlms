@@ -3,6 +3,7 @@
 v3.10.3 - 2017/07/??
 --------------------
 
++ New engagement trigger "Student purchases access plan" allows engagements to be triggered from a specific access plan!
 + Minor performance improvements to notification-related database queries
 + Fix issue causing payment gateways to always use test mode links from Orders on the admin panel
 + Added default email notification merge code for outputting an HTML divider
