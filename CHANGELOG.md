@@ -3,7 +3,9 @@
 v3.10.3 - 2017/07/??
 --------------------
 
++ Minor performance improvements to notification-related database queries
 + Fix issue causing payment gateways to always use test mode links from Orders on the admin panel
++ Added default email notification merge code for outputting an HTML divider
 
 
 v3.10.2 - 2017/07/14

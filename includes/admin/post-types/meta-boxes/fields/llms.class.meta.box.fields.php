@@ -31,7 +31,7 @@ abstract class LLMS_Metabox_Field {
 	public function output() {
 
 		global $post;
-		if ( ! metadata_exists( 'post', $post->ID, $this->field['id'] ) && ! empty( $this->field['default'] ) ) {
+		if ( ( ! metadata_exists( 'post', $post->ID, $this->field['id'] ) || 'auto-draft' === $post->post_status ) && ! empty( $this->field['default'] ) ) {
 			$this->meta = $this->field['default'];
 		} else {
 			$this->meta = self::get_post_meta( $post->ID, $this->field['id'] );
