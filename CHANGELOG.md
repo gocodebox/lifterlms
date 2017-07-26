@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.10.3 - 2017/07/??
+--------------------
+
++ Fix issue causing payment gateways to always use test mode links from Orders on the admin panel
+
+
 v3.10.2 - 2017/07/14
 --------------------
 

@@ -3,7 +3,7 @@
  * Order Details metabox for Order on Admin Panel
  *
  * @since    3.0.0
- * @version  3.10.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -222,7 +222,7 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 				<div class="llms-metabox-field d-1of4"<?php echo ! $data['enabled'] ? ' style="display:none;"' : ' '; ?>data-llms-editable="<?php echo $data['name']; ?>" data-llms-editable-required="yes" data-llms-editable-type="text" data-llms-editable-value="<?php echo $order->get( $data['name'] ); ?>">
 					<label><?php echo $data['label']; ?></label>
-					<?php echo $gateway->get_item_link( $field, $order->get( $data['name'] ), $order->get( 'api_mode' ) ); ?>
+					<?php echo $gateway->get_item_link( $field, $order->get( $data['name'] ), $order->get( 'gateway_api_mode' ) ); ?>
 				</div>
 
 			<?php endforeach; ?>
