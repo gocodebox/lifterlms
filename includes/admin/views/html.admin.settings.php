@@ -31,9 +31,13 @@
 
 		<div id="llms-form-wrapper">
 
-			<input name="save" class="llms-button-primary" type="submit" value="<?php _e( 'Save Changes', 'lifterlms' ); ?>" />
+			<?php do_action( 'llms_before_admin_settings_save_button' ); ?>
+
+			<input name="save" class="llms-button-primary" type="submit" value="<?php echo apply_filters( 'llms_admin_settings_submit_button_text', __( 'Save Changes', 'lifterlms' ), $current_tab ); ?>" />
 
 			<?php wp_nonce_field( 'lifterlms-settings' ); ?>
+
+			<?php do_action( 'llms_after_admin_settings_save_button' ); ?>
 
 		</div>
 
