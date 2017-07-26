@@ -1,8 +1,16 @@
 <?php
 /**
 * Query LifterLMS Students for a given course / membership
+* @example
+* 	$query = new LLMS_Notifications_Query( array(
+* 		'subscriber' => 123, // null
+* 		'per_page' => 10,
+* 		'statuses' => 'new', // array( 'new', 'read', '...' )
+* 		'types' => 'basic', // array( 'basic', 'email', '...' )
+*  	) );
+*
 * @since    3.8.0
-* @version  3.10.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -39,18 +47,21 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Retrieve default arguments for a student query
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	protected function get_default_args() {
 
 		$args = array(
+			'post_id' => null,
 			'subscriber' => null,
 			'sort' => array(
 				'updated' => 'DESC',
 				'id' => 'DESC',
 			),
 			'statuses' => array(),
+			'triggers' => array(),
 			'types' => array(),
+			'user_id' => null,
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
@@ -59,6 +70,12 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	}
 
+	/**
+	 * Convert raw results to notification objects
+	 * @return   array
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
 	public function get_notifications() {
 
 		$notifications = array();
@@ -137,6 +154,25 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	}
 
 	/**
+	 * Parse submitted triggers
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function parse_triggers() {
+
+		$triggers = $this->arguments['triggers'];
+
+		// allow strings to be submitted when only requesting one status
+		if ( is_string( $triggers ) ) {
+			$triggers = array( $triggers );
+		}
+
+		$this->arguments['triggers'] = $triggers;
+
+	}
+
+	/**
 	 * Prepare the SQL for the query
 	 * @return   void
 	 * @since    3.8.0
@@ -202,7 +238,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Retrieve the prepared SQL for the WHERE clause
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	private function sql_where() {
 
@@ -214,21 +250,36 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		$post_statuses = array_map( array( $this, 'escape_and_quote_string' ), $post_statuses );
 		$where .= sprintf( ' AND p.post_status IN ( %s )', implode( ', ', $post_statuses ) );
 
-		$statuses = $this->get( 'statuses' );
-		if ( $statuses ) {
-			$statuses = array_map( array( $this, 'escape_and_quote_string' ), $statuses );
-			$where .= sprintf( ' AND n.status IN( %s )', implode( ', ', $statuses ) );
+		// these args are all "whered" in the same way
+		$wheres = array(
+			'statuses' => 'status',
+			'triggers' => 'trigger_id',
+			'types' => 'type',
+		);
+
+		// loop through them and build the where clauses based off the submitted data
+		foreach ( $wheres as $arg_name => $col_name ) {
+
+			$arg = $this->get( $arg_name );
+			if ( $arg ) {
+				$prepped = array_map( array( $this, 'escape_and_quote_string' ), $arg );
+				$where .= sprintf( ' AND n.%1$s IN( %2$s )', $col_name, implode( ', ', $prepped ) );
+			}
+
 		}
 
-		$types = $this->get( 'types' );
-		if ( $types ) {
-			$types = array_map( array( $this, 'escape_and_quote_string' ), $types );
-			$where .= sprintf( ' AND n.type IN( %s )', implode( ', ', $types ) );
-		}
-
+		// add subscriber info if set
 		$subsciber = $this->get( 'subscriber' );
 		if ( $subsciber ) {
 			$where .= $wpdb->prepare( ' AND n.subscriber = %s', $subsciber );
+		}
+
+		// add post and user id checks
+		foreach ( array( 'post_id', 'user_id' ) as $var ) {
+			$arg = $this->get( $var );
+			if ( $arg ) {
+				$where .= $wpdb->prepare( ' AND n.%1$s = %2$d', $var, $arg );
+			}
 		}
 
 		return $where;
