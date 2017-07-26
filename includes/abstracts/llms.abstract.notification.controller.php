@@ -321,7 +321,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		$query = new LLMS_Notifications_Query( array(
 			'post_id' => $this->post_id,
 			'subscriber' => $subscriber,
-			'type' => $type,
+			'types' => $type,
 			'trigger_id' => $this->id,
 			'user_id' => $this->user_id,
 		) );
@@ -376,6 +376,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		// and the subscriber has already receieved the notification
 		// skip it
 		if ( $this->auto_dupcheck && ! $force && $this->has_subscriber_received( $type, $subscriber ) ) {
+			// llms_log( sprintf( 'Skipped %1$s to subscriber "%2$s" bc of dupcheck', $type, $subscriber ), 'notifications' );
 			return false;
 		}
 

@@ -2,7 +2,7 @@
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  3.10.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -446,10 +446,36 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Get available merge codes for the current notification
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function get_merge_codes() {
-		return apply_filters( $this->get_filter( 'get_merge_codes' ), $this->set_merge_codes(), $this );
+		$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
+		asort( $codes );
+		return apply_filters( $this->get_filter( 'get_merge_codes' ), $codes, $this );
+	}
+
+	/**
+	 * Get default merge codes available to all notifications of a given type
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_merge_code_defaults() {
+
+		switch ( $this->notification->get( 'type' ) ) {
+
+			case 'email':
+				$codes = array(
+					'{{DIVIDER}}' => __( 'Divider Line', 'lifterlms' ),
+				);
+			break;
+
+			default:
+				$codes = array();
+		}
+
+		return $codes;
+
 	}
 
 	/**
@@ -465,7 +491,21 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		if ( false !== strpos( $string, '{{' ) ) {
 
 			foreach ( array_keys( $this->get_merge_codes() ) as $code ) {
-				$string = str_replace( $code, $this->set_merge_data( $code ), $string );
+
+				// set defaults
+				if ( in_array( $code, array_keys( $this->get_merge_code_defaults() ) ) ) {
+
+					$func = 'set_merge_data_default';
+
+				// set customs with extended class func
+				} else {
+
+					$func = 'set_merge_data';
+
+				}
+
+				$string = str_replace( $code, $this->$func( $code ), $string );
+
 			}
 		}
 
@@ -569,6 +609,29 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return trim( $new_string );
+
+	}
+
+	/**
+	 * Replace default merge codes with actual values
+	 * @param    string   $code  the merge code to ge merged data for
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function set_merge_data_default( $code ) {
+
+		$mailer = LLMS()->mailer();
+
+		switch ( $code ) {
+
+			case '{{DIVIDER}}':
+				$code = $mailer->get_divider_html();
+			break;
+
+		}
+
+		return $code;
 
 	}
 
