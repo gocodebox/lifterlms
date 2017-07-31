@@ -10,7 +10,7 @@
 *  	) );
 *
 * @since    3.8.0
-* @version  [version]
+* @version  3.11.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -47,7 +47,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Retrieve default arguments for a student query
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	protected function get_default_args() {
 
@@ -156,8 +156,8 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	/**
 	 * Parse submitted triggers
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	private function parse_triggers() {
 
@@ -238,7 +238,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Retrieve the prepared SQL for the WHERE clause
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	private function sql_where() {
 

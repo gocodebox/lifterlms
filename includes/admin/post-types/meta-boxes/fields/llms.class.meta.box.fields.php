@@ -3,7 +3,7 @@
 * Metabox_Field Parent Class
 * Contains base code for each of the Metabox Fields
 * @since    ??
-* @version  [version]
+* @version  3.11.0
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -25,7 +25,7 @@ abstract class LLMS_Metabox_Field {
 	 * outputs the head for each of the field types
 	 * @todo  all the unset variables here should be defaulted somewhere else probably
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	public function output() {
 

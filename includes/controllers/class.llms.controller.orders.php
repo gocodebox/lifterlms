@@ -102,7 +102,7 @@ class LLMS_Controller_Orders {
 	 * @return void
 	 *
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	public function complete_order( $order ) {
 

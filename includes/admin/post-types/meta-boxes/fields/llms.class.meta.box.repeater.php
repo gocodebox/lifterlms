@@ -1,8 +1,8 @@
 <?php
 /**
  * Metabox Repeater Field
- * @since    [version]
- * @version  [version]
+ * @since    3.11.0
+ * @version  3.11.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -12,8 +12,8 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 	/**
 	 * Class constructor
 	 * @param array $_field Array containing information about field
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	function __construct( $_field ) {
 
@@ -42,8 +42,8 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 	/**
 	 * Retrieve the HTML for the repeater add more button
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	private function get_button() {
 
@@ -139,8 +139,8 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 	/**
 	 * Outputs the Html for the given field
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	public function output() {
 

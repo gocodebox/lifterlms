@@ -1,8 +1,8 @@
 /**
  * LifterLMS Admin Metabox Repeater Field
  * @type  {Object}
- * @since    [version]
- * @version  [version]
+ * @since    3.11.0
+ * @version  3.11.0
  */
 this.repeaters = {
 
@@ -21,8 +21,8 @@ this.repeaters = {
 	/**
 	 * Init
 	 * @return   {[type]}   [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	init: function() {
 
@@ -50,8 +50,8 @@ this.repeaters = {
 	/**
 	 * Bind DOM Events
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	bind: function() {
 
@@ -104,8 +104,8 @@ this.repeaters = {
 	 * @param    obj    data       optional object of data to fill fields in the row with
 	 * @param    bool   expand     if true, will automatically open the row after adding it to the dom
 	 * @return 	 void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	add_row: function( $repeater, data, expand ) {
 
@@ -143,8 +143,8 @@ this.repeaters = {
 	 * Bind DOM events for a single repeater row
 	 * @param    obj   $row  jQuery selector for the row
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	bind_row: function( $row ) {
 
@@ -164,8 +164,8 @@ this.repeaters = {
 	 * Bind row header events
 	 * @param    obj   $row  jQuery selector for the row
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	bind_row_header: function( $row ) {
 
@@ -189,8 +189,8 @@ this.repeaters = {
 	 * Handle WP Post form submission to ensure repeaters are saved before submitting the form to save/publish the post
 	 * @param    obj   e  JS event object
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	handle_submit: function( e ) {
 
@@ -226,8 +226,8 @@ this.repeaters = {
 	/**
 	 * Load repereater data from the server and create rows in the DOM
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	load: function() {
 
@@ -263,8 +263,8 @@ this.repeaters = {
 	 * @param    obj          $row  jQuery selector for the row
 	 * @param    int|string   index  index (or id) to use when renaming
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	reindex: function( $row, index ) {
 
@@ -300,8 +300,8 @@ this.repeaters = {
 	 * Save a single repeaters data to the server
 	 * @param    obj   $repeater  jQuery selector for a repeater element
 	 * @return   vois
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	save: function( $repeater ) {
 		this.store( $repeater, 'save' );
@@ -311,8 +311,8 @@ this.repeaters = {
 	 * Convert a repeater element into an array of objects that can be saved to the database
 	 * @param    obj   $repeater  jQuery selector for a repeater element
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	serialize: function( $repeater ) {
 
@@ -356,8 +356,8 @@ this.repeaters = {
 	 * @param    string    action     action to call [save|load]
 	 * @param    function  cb         callback function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	store: function( $repeater, action, cb ) {
 

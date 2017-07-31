@@ -4,7 +4,7 @@
  * Used in My Account and My Courses shortcodes
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.11.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $wp_query;

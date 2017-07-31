@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.11.0
  */
 ( function( $ ) {
 
@@ -42,7 +42,7 @@
 		 * Initialize
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.11.0
 		 */
 		this.init = function() {
 
@@ -137,7 +137,7 @@
 		 * @param    obj   $controllerss  jQuery selctor for checkboxes to be bound as checkbox controllers
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.11.0
 		 */
 		this.bind_cb_controllers = function( $controllers ) {
 
@@ -173,7 +173,7 @@
 		 * @param    obj   $controllerss  jQuery selctor for elements to be bound as checkbox controllers
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.11.0
 		 */
 		this.bind_controllers = function( $controllers ) {
 
@@ -256,7 +256,7 @@
 		 * @param    obj   $datepickers  jQuery selector for the elements to bind
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.11.0
 		 */
 		this.bind_datepickers = function( $datepickers ) {
 

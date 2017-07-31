@@ -2,7 +2,7 @@
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  [version]
+ * @version  3.11.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -446,7 +446,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Get available merge codes for the current notification
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	public function get_merge_codes() {
 		$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
@@ -457,8 +457,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Get default merge codes available to all notifications of a given type
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	protected function get_merge_code_defaults() {
 
@@ -616,8 +616,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Replace default merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	protected function set_merge_data_default( $code ) {
 

@@ -3,7 +3,7 @@
 * Engagments Class
 * Finds and triggers the appropriate engagement
 * @since    2.3.0
-* @version  [version]
+* @version  3.11.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -55,7 +55,7 @@ class LLMS_Engagements {
 	 * @return  void
 	 *
 	 * @since    2.3.0
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	private function add_actions() {
 
@@ -248,7 +248,7 @@ class LLMS_Engagements {
 	 * @return   void
 	 *
 	 * @since    2.3.0
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	public function maybe_trigger_engagement() {
 

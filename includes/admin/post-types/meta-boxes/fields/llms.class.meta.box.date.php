@@ -3,7 +3,7 @@
  * Date Picker Field
  * Pass in 'llms-datepicker' for the class for the field to automatically use jQuery datepicker!
  * @since    ??
- * @version  [version]
+ * @version  3.11.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,7 +14,7 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 	 * Class constructor
 	 * @param    array $_field Array containing information about field
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	function __construct( $_field ) {
 
@@ -32,8 +32,8 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 	 * Construct data attributes for the field
 	 * sets up jQuery datepicker
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	public function get_data_attrs() {
 
@@ -58,7 +58,7 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 	 * outputs the Html for the given field
 	 * @return HTML
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	public function output() {
 

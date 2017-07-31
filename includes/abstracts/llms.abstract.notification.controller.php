@@ -2,7 +2,7 @@
 /**
  * Notification Controller Abstract
  * @since    3.8.0
- * @version  [version]
+ * @version  3.11.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -313,8 +313,8 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @param    string     $type        notification type id
 	 * @param    mixed      $subscriber  WP User ID for the subscriber, email address, phone number, etc...
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.0
+	 * @version  3.11.0
 	 */
 	public function has_subscriber_received( $type, $subscriber ) {
 
@@ -336,7 +336,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 *                          only applies to controllers that flag $this->auto_dupcheck to true
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	public function send( $force = false ) {
 
@@ -367,7 +367,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 *                                   only applies to controllers that flag $this->auto_dupcheck to true
 	 * @return   int|false
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.11.0
 	 */
 	private function send_one( $type, $subscriber, $force = false ) {
 
