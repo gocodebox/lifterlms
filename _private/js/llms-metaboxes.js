@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.10.1
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -34,18 +34,19 @@
 	var Metaboxes = function() {
 
 		/**
+		 * load all partials
+		 */
+		//= include /partials/*.js
+
+		/**
 		 * Initialize
-		 * @return void
-		 * @since  3.0.0
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  [version]
 		 */
 		this.init = function() {
 
 			var self = this;
-
-			// regularly initialize select2 with no options or options passed via data-attrs
-			$( '.llms-select2' ).llmsSelect2( {
-				width: '100%',
-			} );
 
 			$( '.llms-select2-post' ).each( function() {
 				self.post_select( $( this ) );
@@ -57,22 +58,64 @@
 
 			this.bind_tabs();
 
-			// bind all datepickers if datepickers exist
-			if ( $( '.llms-datepicker' ).length ) {
-				this.bind_datepickers();
-			}
+			// bind everything better and less repetatively...
+			var bindings = [
+				{
+					selector: $( '.llms-datepicker' ),
+					func: 'bind_datepickers',
+				},
+				{
+					selector: $( '.llms-select2' ),
+					func: function( $selector ) {
+						$selector.llmsSelect2( {
+							width: '100%',
+						} );
+					},
+				},
+				{
+					selector: $( 'input[type="checkbox"][data-controls]' ),
+					func: 'bind_cb_controllers',
+				},
+				{
+					selector: $( '[data-is-controller]' ),
+					func: 'bind_controllers',
+				},
+				{
+					selector: $( '.llms-table' ),
+					func: 'bind_tables',
+				},
+				{
+					selector: $( '.llms-merge-code-wrapper' ),
+					func: 'bind_merge_code_buttons',
+				},
+				{
+					selector: $( 'a.llms-editable' ),
+					func: 'bind_editables',
+				},
+			];
 
-			if ( $( 'input[type="checkbox"][data-controls]' ).length ) {
-				this.bind_cb_controllers();
-			}
+			// bind all the bindables but don't bind things in repeaters
+			$.each( bindings, function( index, obj ) {
 
-			if ( $( '[data-is-controller]' ).length ) {
-				this.bind_controllers();
-			}
+				if ( obj.selector.length ) {
 
-			if ( $( '.llms-table' ).length ) {
-				this.bind_tables();
-			}
+					// reduce the selector to exclude items in a repeater
+					var reduced = obj.selector.filter( function() {
+						return ( 0 === $( this ).closest( '.llms-repeater-model' ).length );
+					} );
+
+					// bind by string
+					if ( 'string' === typeof obj.func ) {
+						self[ obj.func ]( reduced );
+					}
+					// bind by an anonymous function
+					else if ( 'function' === typeof obj.func ) {
+						obj.func( reduced );
+					}
+
+				}
+
+			} );
 
 			// if a post type is set & a bind exists for it, bind it
 			if ( window.llms.post.post_type ) {
@@ -87,24 +130,20 @@
 
 			}
 
-			if ( $( '.llms-merge-code-button' ).length ) {
-				this.bind_merge_code_buttons();
-			}
-
-			if ( $( 'a.llms-editable' ).length ) {
-				this.bind_editables();
-			}
-
 		};
 
 		/**
 		 * Bind checkboxes that control the display of other elements
-		 * @since 3.0.0
-		 * @return void
+		 * @param    obj   $controllerss  jQuery selctor for checkboxes to be bound as checkbox controllers
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  [version]
 		 */
-		this.bind_cb_controllers = function() {
+		this.bind_cb_controllers = function( $controllers ) {
 
-			$( 'input[type="checkbox"][data-controls]' ).each( function() {
+			$controllers = $controllers || $( 'input[type="checkbox"][data-controls]' );
+
+			$controllers.each( function() {
 
 				var $cb = $( this ),
 					$controlled = $( $cb.attr( 'data-controls' ) ).closest( '.llms-mb-list' );
@@ -131,12 +170,16 @@
 
 		/**
 		 * Bind elements that control the display of other elements
-		 * @since 3.0.0
-		 * @return void
+		 * @param    obj   $controllerss  jQuery selctor for elements to be bound as checkbox controllers
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  [version]
 		 */
-		this.bind_controllers = function() {
+		this.bind_controllers = function( $controllers ) {
 
-			$( '[data-is-controller]' ).each( function() {
+			$controllers = $controllers || $( '[data-is-controller]' );
+
+			$controllers.each( function() {
 
 				var $el = $( this ),
 					$controlled = $( '[data-controller="#' + $el.attr( 'id' ) + '"]' ),
@@ -168,7 +211,6 @@
 							vals.push( possible );
 
 						}
-
 
 						if ( -1 !== vals.indexOf( val ) ) {
 
@@ -211,15 +253,18 @@
 
 		/**
 		 * Bind all LifterLMS datepickers
+		 * @param    obj   $datepickers  jQuery selector for the elements to bind
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.10.0
+		 * @version  [version]
 		 */
-		this.bind_datepickers = function() {
+		this.bind_datepickers = function( $datepickers ) {
 
 			var self = this;
 
-			$('.llms-datepicker').each( function() {
+			$datepickers = $datepickers || $('.llms-datepicker');
+
+			$datepickers.each( function() {
 				self.bind_datepicker( $( this ) );
 			} );
 
@@ -582,15 +627,17 @@
 		 * @since    3.1.0
 		 * @version  3.9.2
 		 */
-		this.bind_merge_code_buttons = function() {
+		this.bind_merge_code_buttons = function( $wrappers ) {
 
-			$( '.llms-merge-code-button' ).on( 'click', function() {
+			$wrappers = $wrappers || $( '.llms-merge-code-wrapper' );
+
+			$wrappers.find( '.llms-merge-code-button' ).on( 'click', function() {
 
 				$( this ).next( '.llms-merge-codes' ).toggleClass( 'active' );
 
 			} );
 
-			$( '.llms-merge-codes li' ).on( 'click', function() {
+			$wrappers.find( '.llms-merge-codes li' ).on( 'click', function() {
 
 				var $el = $( this ),
 					$parent = $el.closest( '.llms-merge-codes' ),
