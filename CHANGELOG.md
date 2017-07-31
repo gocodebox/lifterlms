@@ -1,13 +1,17 @@
 == Changelog ==
 
-v3.10.3 - 2017/07/??
+v3.11.0 - 2017/07/31
 --------------------
 
 + New engagement trigger "Student purchases access plan" allows engagements to be triggered from a specific access plan!
 + Minor performance improvements to notification-related database queries
 + Fix issue causing payment gateways to always use test mode links from Orders on the admin panel
 + Added default email notification merge code for outputting an HTML divider
++ Added new actions to Dashboard template to allow adding custom content to course tiles on the dashboard
 
+##### Template Updates
+
++ [myaccount/my-courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-courses.php)
 
 v3.10.2 - 2017/07/14
 --------------------

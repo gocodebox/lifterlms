@@ -4,7 +4,7 @@
  * Used in My Account and My Courses shortcodes
  *
  * @since    3.0.0
- * @version  3.7.5
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 global $wp_query;
@@ -17,40 +17,46 @@ global $wp_query;
 		<p><?php _e( 'You are not enrolled in any courses.', 'lifterlms' ); ?></p>
 	<?php else : ?>
 		<ul class="listing-courses">
-			<?php foreach ( $courses['results'] as $c ) :
-				$c = new LLMS_Course( $c ); ?>
+			<?php foreach ( $courses['results'] as $course ) :
+				$course = new LLMS_Course( $course ); ?>
 
 				<li class="course-item">
 				    <article class="course">
 					    <section class="info">
+
+					    	<?php do_action( 'llms_my_course_tile_before_info', $course ); ?>
+
 						    <div class="course-image llms-image-thumb effect">
-						    	<?php echo lifterlms_get_featured_image( $c->get_id() ); ?>
+						    	<?php echo lifterlms_get_featured_image( $course->get_id() ); ?>
 							</div>
 
 							<div class="meta">
 								<?php echo apply_filters( 'lifterlms_my_courses_enrollment_status_html',
 									'<span class="llms-sts-enrollment">
 										<span class="llms-sts-label">' . __( 'Status:','lifterlms' ) . '</span>
-										<span class="llms-sts-current">' . llms_get_enrollment_status_name( $student->get_enrollment_status( $c->get_id() ) ) . '</span>
+										<span class="llms-sts-current">' . llms_get_enrollment_status_name( $student->get_enrollment_status( $course->get_id() ) ) . '</span>
 									</span>'
 								); ?>
 
 								<?php echo apply_filters('lifterlms_my_courses_start_date_html',
-									'<p class="llms-start-date">' . __( 'Course Started','lifterlms' ) . ' - ' . $student->get_enrollment_date( $c->get_id(), 'enrolled' ) . '</p>'
+									'<p class="llms-start-date">' . __( 'Course Started','lifterlms' ) . ' - ' . $student->get_enrollment_date( $course->get_id(), 'enrolled' ) . '</p>'
 								); ?>
 
-								<h3><a href="<?php echo $c->get_permalink(); ?>"><?php echo $c->get_title(); ?></a></h3>
+								<h3><a href="<?php echo $course->get_permalink(); ?>"><?php echo $course->get_title(); ?></a></h3>
 
 								<?php if ( 'yes' === get_option( 'lifterlms_course_display_author' ) ) : ?>
-									<p class="author"><?php printf( __( 'Author: %s', 'lifterlms' ), '<span>' . $c->get_author_name() . '</span>' ); ?></p>
+									<p class="author"><?php printf( __( 'Author: %s', 'lifterlms' ), '<span>' . $course->get_author_name() . '</span>' ); ?></p>
 								<?php endif; ?>
 							</div>
+
+							<?php do_action( 'llms_my_course_tile_after_info', $course ); ?>
+
 						</section>
 
 						<div class="clear"></div>
 
 						<div class="llms-progress">
-							<?php $progress = $c->get_percent_complete( $student->get_id() ); ?>
+							<?php $progress = $course->get_percent_complete( $student->get_id() ); ?>
 							<div class="progress__indicator"><?php echo $progress; ?>%</div>
 							<div class="llms-progress-bar">
 							    <div class="progress-bar-complete" style="width:<?php echo $progress ?>%"></div>
@@ -58,7 +64,7 @@ global $wp_query;
 						</div>
 
 						<div class="course-link">
-							<a href="<?php echo $c->get_permalink(); ?>" class="button llms-button-primary"><?php echo apply_filters( 'lifterlms_my_courses_course_button_text', __( 'View Course', 'lifterlms' ) ); ?></a>
+							<a href="<?php echo $course->get_permalink(); ?>" class="button llms-button-primary"><?php echo apply_filters( 'lifterlms_my_courses_course_button_text', __( 'View Course', 'lifterlms' ) ); ?></a>
 					 	</div>
 
 					  	<div class="clear"></div>
