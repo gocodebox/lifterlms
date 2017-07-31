@@ -1,14 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Metabox_Field Parent Class
-*
 * Contains base code for each of the Metabox Fields
-*
-* @author codeBOX
-* @project lifterLMS
+* @since    ??
+* @version  [version]
 */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 abstract class LLMS_Metabox_Field {
 
 	/**
@@ -23,10 +21,11 @@ abstract class LLMS_Metabox_Field {
 	 */
 	public $meta;
 
-
 	/**
 	 * outputs the head for each of the field types
 	 * @todo  all the unset variables here should be defaulted somewhere else probably
+	 * @since    ??
+	 * @version  [version]
 	 */
 	public function output() {
 
@@ -52,14 +51,18 @@ abstract class LLMS_Metabox_Field {
 			$this->field['desc'] = '';
 		}
 
+		$wrapper_classes = array( 'llms-mb-list' );
+		$wrapper_classes[] = $this->field['id'];
+		$wrapper_classes[] = $this->field['type'];
+		$wrapper_classes = array_merge( $wrapper_classes, explode( ' ', $this->field['group'] ) );
+
 		?>
-		<li class="llms-mb-list <?php echo $this->field['group']; ?>"<?php echo $controller . $controller_value; ?>>
-		<!--label and description-->
-		<div class="description <?php echo $this->field['desc_class']; ?>">
-			<label for="<?php echo $this->field['id']; ?>"><?php echo $this->field['label']; ?></label>
-			<?php echo $this->field['desc'] ?>
-			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ) : ?><em>(required)</em><?php endif; ?>
-		</div> <?php
+		<li class="<?php echo implode( ' ', $wrapper_classes ); ?>"<?php echo $controller . $controller_value; ?>>
+			<div class="description <?php echo $this->field['desc_class']; ?>">
+				<label for="<?php echo $this->field['id']; ?>"><?php echo $this->field['label']; ?></label>
+				<?php echo $this->field['desc'] ?>
+				<?php if ( isset( $this->field['required'] ) && $this->field['required'] ) : ?><em>(required)</em><?php endif; ?>
+			</div> <?php
 	}
 
 	/**
