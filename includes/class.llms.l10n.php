@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.10.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.10.0
+	 * @version [version]
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -38,18 +38,18 @@ class LLMS_L10n {
 			 * @since    3.0.0
 			 * @version  3.0.0
 			 */
-			'There was an error loading the necessary resources. Please try again.' => __( 'There was an error loading the necessary resources. Please try again.', 'lifterlms' ),
+			'There was an error loading the necessary resources. Please try again.' => esc_html__( 'There was an error loading the necessary resources. Please try again.', 'lifterlms' ),
 
 			/**
 			 * file: _private/js/llms-metaboxes.js
 			 * @since    3.0.0
 			 * @version  3.4.0
 			 */
-			'Cancel' => __( 'Cancel', 'lifterlms' ),
-			'Copy this code and paste it into the desired area' => __( 'Copy this code and paste it into the desired area', 'lifterlms' ),
-			'membership_bulk_enrollment_warning' => __( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
-			'Record a Manual Payment' => __( 'Record a Manual Payment', 'lifterlms' ),
-			'Refund' => __( 'Refund', 'lifterlms' ),
+			'Cancel' => esc_html__( 'Cancel', 'lifterlms' ),
+			'Copy this code and paste it into the desired area' => esc_html__( 'Copy this code and paste it into the desired area', 'lifterlms' ),
+			'membership_bulk_enrollment_warning' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
+			'Record a Manual Payment' => esc_html__( 'Record a Manual Payment', 'lifterlms' ),
+			'Refund' => esc_html__( 'Refund', 'lifterlms' ),
 
 			/**
 			 * file: _private/js/app/llms-password-strength.js
@@ -59,7 +59,7 @@ class LLMS_L10n {
 			'Medium' => _x( 'Medium', 'password strength meter', 'lifterlms' ),
 			'Mismatch' => _x( 'Mismatch', 'password strength meter', 'lifterlms' ),
 			'Strong' => _x( 'Strong', 'password strength meter', 'lifterlms' ),
-			'There is an issue with your chosen password.' => __( 'There is an issue with your chosen password.', 'lifterlms' ),
+			'There is an issue with your chosen password.' => esc_html__( 'There is an issue with your chosen password.', 'lifterlms' ),
 			'Too Short' => _x( 'Too Short', 'password length validation', 'lifterlms' ),
 			'Very Weak' => _x( 'Very Weak', 'password strength meter', 'lifterlms' ),
 			'Weak' => _x( 'Weak', 'password strength meter', 'lifterlms' ),
@@ -69,35 +69,36 @@ class LLMS_L10n {
 			 * @since    3.0.0
 			 * @version  3.9.1
 			 */
-			'Members Only Pricing' => __( 'Members Only Pricing', 'lifterlms' ),
+			'Members Only Pricing' => esc_html__( 'Members Only Pricing', 'lifterlms' ),
 
 			/**
 			 * file: _private/js/app/llms-student-dashboard.js
 			 * @since    3.10.0
 			 * @version  3.10.0
 			 */
-			'Are you sure you want to cancel your subscription?' => __( 'Are you sure you want to cancel your subscription?', 'lifterlms' ),
+			'Are you sure you want to cancel your subscription?' => esc_html__( 'Are you sure you want to cancel your subscription?', 'lifterlms' ),
 
 			/**
 			 * file: _private/js/app/llms-syllabus.js
 			 * @since   3.2.4
 			 * @version 3.2.4
 			 */
-			'You do not have permission to access to this content' => __( 'You do not have permission to access to this content', 'lifterlms' ),
+			'You do not have permission to access to this content' => esc_html__( 'You do not have permission to access to this content', 'lifterlms' ),
 
 			/**
 			 * file: _private/js/app/llms-quiz.js
 			 * @since   2.7.3
 			 * @version 3.9.0
 			 */
-			'An unknown error occurred. Please try again.' => __( 'An unknown error occurred. Please try again.', 'lifterlms' ),
-			'Hide Summary' => __( 'Hide Summary', 'lifterlms' ),
-			'Loading...' => __( 'Loading...', 'lifterlms' ),
-				'Loading Question...' => __( 'Loading Question...', 'lifterlms' ),
-			'Loading Quiz...' => __( 'Loading Quiz...', 'lifterlms' ),
-			'Loading Quiz Results...' => __( 'Loading Quiz Results...', 'lifterlms' ),
-			'View Summary' => __( 'View Summary', 'lifterlms' ),
-			'You must enter an answer to continue.' => __( 'You must enter an answer to continue.', 'lifterlms' ),
+			'An unknown error occurred. Please try again.' => esc_html__( 'An unknown error occurred. Please try again.', 'lifterlms' ),
+			'Hide Summary' => esc_html__( 'Hide Summary', 'lifterlms' ),
+			'Loading...' => esc_html__( 'Loading...', 'lifterlms' ),
+				'Loading Question...' => esc_html__( 'Loading Question...', 'lifterlms' ),
+			'Loading Quiz...' => esc_html__( 'Loading Quiz...', 'lifterlms' ),
+			'Loading Quiz Results...' => esc_html__( 'Loading Quiz Results...', 'lifterlms' ),
+			'View Summary' => esc_html__( 'View Summary', 'lifterlms' ),
+			'You must enter an answer to continue.' => esc_html__( 'You must enter an answer to continue.', 'lifterlms' ),
+
 		);
 
 		// add strings that should only be translated on the admin panel
@@ -110,18 +111,25 @@ class LLMS_L10n {
 				 * @since   3.4.4
 				 * @version 3.4.4
 				 */
-				'An unknown error occurred, please try again.' => __( 'An unknown error occurred, please try again.', 'lifterlms' ),
-				'delete_quiz_attempt' => __( 'Are you sure you want to delete this quiz attempt? This action cannot be undone!', 'lifterlms' ),
+				'An unknown error occurred, please try again.' => esc_html__( 'An unknown error occurred, please try again.', 'lifterlms' ),
+				'delete_quiz_attempt' => esc_html__( 'Are you sure you want to delete this quiz attempt? This action cannot be undone!', 'lifterlms' ),
 
 				/**
 				 * file: _private/js/llms-analytics.js
 				 * @since   3.0.0
 				 * @version 3.0.0
 				 */
-				'Error' => __( 'Error', 'lifterlms' ),
-				'Filter by Student(s)' => __( 'Filter by Student(s)', 'lifterlms' ),
-				'Request timed out' => __( 'Request timed out', 'lifterlms' ),
-				'Retry' => __( 'Retry', 'lifterlms' ),
+				'Error' => esc_html__( 'Error', 'lifterlms' ),
+				'Filter by Student(s)' => esc_html__( 'Filter by Student(s)', 'lifterlms' ),
+				'Request timed out' => esc_html__( 'Request timed out', 'lifterlms' ),
+				'Retry' => esc_html__( 'Retry', 'lifterlms' ),
+
+				/**
+				 * file: _private/js/partials/_metabox-field-repeater.js
+				 * @since    [version]
+				 * @version  [version]
+				 */
+				'Are you sure you want to delete this template? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this template? This cannot be undone.', 'lifterlms' ),
 
 			);
 
