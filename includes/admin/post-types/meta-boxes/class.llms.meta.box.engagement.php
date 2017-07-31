@@ -306,7 +306,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			default:
 				$var = false;
 
-		}
+		}// End switch().
 
 		if ( $var ) {
 

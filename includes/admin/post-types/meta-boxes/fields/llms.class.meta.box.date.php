@@ -49,7 +49,6 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 			if ( $val ) {
 				$data_attrs .= sprintf( '%1$s="%2$s"', $attr, $val );
 			}
-
 		}
 		return $data_attrs;
 

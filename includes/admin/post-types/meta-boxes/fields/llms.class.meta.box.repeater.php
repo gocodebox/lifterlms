@@ -150,7 +150,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 		echo '<div class="llms-repeater-model" id="' . $this->field['id'] . '-model" style="display:none;">' . $this->get_row( 'model' ) . '</div>';
 
-		echo '<div class="llms-collapsible-group llms-repeater-rows">' .  $this->get_rows() . '</div>';
+		echo '<div class="llms-collapsible-group llms-repeater-rows">' . $this->get_rows() . '</div>';
 
 		echo '<footer class="llms-mb-repeater-footer">';
 			echo $this->get_button();

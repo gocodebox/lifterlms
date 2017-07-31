@@ -292,7 +292,6 @@ class LLMS_Engagements {
 				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_enrollment';
 			break;
 
-
 			case 'lifterlms_access_plan_purchased' :
 			case 'lifterlms_product_purchased' :
 				$user_id = intval( $args[0] );

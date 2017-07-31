@@ -23,7 +23,6 @@ class LLMS_Metabox_Editor_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	 */
 	public function output() {
 
-
 		global $post;
 
 		parent::output();

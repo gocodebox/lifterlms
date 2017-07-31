@@ -265,7 +265,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 				$prepped = array_map( array( $this, 'escape_and_quote_string' ), $arg );
 				$where .= sprintf( ' AND n.%1$s IN( %2$s )', $col_name, implode( ', ', $prepped ) );
 			}
-
 		}
 
 		// add subscriber info if set

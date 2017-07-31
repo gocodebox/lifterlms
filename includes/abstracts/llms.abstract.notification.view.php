@@ -497,7 +497,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 					$func = 'set_merge_data_default';
 
-				// set customs with extended class func
+					// set customs with extended class func
 				} else {
 
 					$func = 'set_merge_data';
