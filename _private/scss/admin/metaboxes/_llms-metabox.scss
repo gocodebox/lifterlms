@@ -134,6 +134,12 @@
 		@extend %clearfix;
 		padding: 10px;
 
+		h3 {
+			color: #777;
+			margin: 0;
+			font-size: 16px;
+		}
+
 		.dashicons-arrow-up {
 			display: inline;
 		}
