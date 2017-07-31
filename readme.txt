@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 3.10.2
+Stable tag: 3.11.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -213,6 +213,20 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 15. LifterLMS Course Analytics
 
 == Changelog ==
+
+= v3.11.0 - 2017/07/31 =
+------------------------
+
++ New engagement trigger "Student purchases access plan" allows engagements to be triggered from a specific access plan!
++ Minor performance improvements to notification-related database queries
++ Fix issue causing payment gateways to always use test mode links from Orders on the admin panel
++ Added default email notification merge code for outputting an HTML divider
++ Added new actions to Dashboard template to allow adding custom content to course tiles on the dashboard
+
+##### Template Updates
+
++ [myaccount/my-courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-courses.php)
+
 
 = v3.10.2 - 2017/07/14 =
 ------------------------
