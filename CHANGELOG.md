@@ -13,6 +13,7 @@ v3.11.0 - 2017/07/31
 
 + [myaccount/my-courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-courses.php)
 
+
 v3.10.2 - 2017/07/14
 --------------------
 
