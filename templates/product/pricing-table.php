@@ -4,7 +4,7 @@
  *
  * @property  obj   $product   WP_Product object
  * @since     3.0.0
- * @version   3.7.5
+ * @version   [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
@@ -15,7 +15,7 @@ $has_free = $product->has_free_access_plan();
 $free_only = ( $has_free && ! $purchaseable );
 ?>
 
-<?php if ( ! $is_enrolled && ( $purchaseable || $has_free ) ) : ?>
+<?php if ( ! apply_filters( 'llms_product_pricing_table_enrollment_status', $is_enrolled ) && ( $purchaseable || $has_free ) ) : ?>
 
 	<?php do_action( 'lifterlms_before_access_plans', $product->get( 'id' ) ); ?>
 
