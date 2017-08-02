@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  3.6.0
+* @version  [version]
 */
 class LLMS_Shortcodes {
 
@@ -11,7 +11,7 @@ class LLMS_Shortcodes {
 	* init shortcodes array
 	* @return void
 	* @since    1.0.0
-	* @version  3.6.0
+	* @version  [version]
 	*/
 	public static function init() {
 
@@ -19,6 +19,7 @@ class LLMS_Shortcodes {
 		$scs = apply_filters( 'llms_load_shortcodes', array(
 			'LLMS_Shortcode_Course_Author',
 			'LLMS_Shortcode_Course_Continue',
+			'LLMS_Shortcode_Course_Continue_Button',
 			'LLMS_Shortcode_Course_Meta_Info',
 			'LLMS_Shortcode_Course_Outline',
 			'LLMS_Shortcode_Course_Prerequisites',

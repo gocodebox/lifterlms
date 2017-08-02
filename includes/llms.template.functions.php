@@ -1134,6 +1134,81 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 }
 
 
+/**
+ * Outupt a course continue button linking to the incomplete lesson for a given student
+ * If the course is complete "Course Complete" is displayed
+ * @param    int        $post_id   WP Post ID for a course, lesson, or quiz
+ * @param    obj        $student   instance of an LLMS_Student, defaults to current student
+ * @param    integer    $progress  current progress of the student through the course
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
+
+	function lifterlms_course_continue_button( $post_id = null, $student = null, $progress = 0 ) {
+
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+			if ( ! $post_id ) {
+				return '';
+			}
+		}
+
+		$course = llms_get_post( $post_id );
+		if ( ! $course ) {
+			return '';
+		}
+
+		if ( in_array( $course->get( 'type' ), array( 'lesson', 'quiz' ) ) ) {
+			$course = llms_get_post_parent_course( $course->get( 'id' ) );
+			if ( ! $course ) {
+				return '';
+			}
+		}
+
+		if ( ! $student ) {
+			$student = llms_get_student();
+		}
+		if ( ! $student->exists() ) {
+			return '';
+		}
+
+		if ( is_null( $progress ) ) {
+			$progress = $student->get_progress( $course->get( 'id' ), 'course' );
+		}
+
+		if ( 100 == $progress ) {
+
+			echo '<p class="llms-course-complete-text">' . apply_filters( 'llms_course_continue_button_complete_text', __( 'Course Complete', 'lifterlms' ), $course ) . '</p>';
+
+		} else {
+
+			$lesson = apply_filters( 'llms_course_continue_button_next_lesson', $student->get_next_lesson( $course->get( 'id' ) ), $course, $student );
+			if ( $lesson ) { ?>
+
+				<a class="llms-button-primary llms-course-continue-button" href="<?php echo get_permalink( $lesson ); ?>">
+
+					<?php if ( 0 == $progress ) : ?>
+
+						<?php _e( 'Get Started', 'lifterlms' ); ?>
+
+					<?php else : ?>
+
+						<?php _e( 'Continue', 'lifterlms' ); ?>
+
+					<?php endif; ?>
+
+				</a>
+
+			<?php }
+
+		}
+
+	}
+
+}
+
 
 /**
  * Is template filtered

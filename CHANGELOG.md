@@ -3,8 +3,13 @@
 v3.11.1 - 2017/08/02
 --------------------
 
++ Added filter `llms_product_pricing_table_enrollment_status` to allow forceful display of course/membership pricing tables regardless of user enrollment status.
 + Fix course author shortcode to allow usage outside of a course via the `course_id` parameter.
 
+##### Template Updates
+
++ [product/pricing-table.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/pricing-table.php)
++ [product/course/progress.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/course/progress.php)
 
 
 v3.11.0 - 2017/07/31
