@@ -1,5 +1,12 @@
 == Changelog ==
 
+v3.11.1 - 2017/08/02
+--------------------
+
++ Fix course author shortcode to allow usage outside of a course via the `course_id` parameter.
+
+
+
 v3.11.0 - 2017/07/31
 --------------------
 

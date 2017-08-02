@@ -5,7 +5,7 @@
  * [lifterlms_course_author]
  *
  * @since    3.6.0
- * @version  3.6.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -34,10 +34,33 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 	}
 
 	/**
+	 * Retrieve the author ID of th course
+	 * Lessons and Quizzes cascade up
+	 * @return   int|null
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function get_author_id() {
+
+		$post = llms_get_post( $this->get_attribute( 'course_id' ) );
+		if ( ! $post ) {
+			return null;
+		}
+		if ( in_array( $post, array( 'lesson', 'quiz' ) ) ) {
+			$course = llms_get_post_parent_course( $post->get( 'id' ) );
+			if ( ! $course ) {
+				return null;
+			}
+		}
+		return $post->get( 'author' );
+
+	}
+
+	/**
 	 * Call the template function for the course element
 	 * @return   void
 	 * @since    3.6.0
-	 * @version  3.6.0
+	 * @version  [version]
 	 */
 	protected function template_function() {
 
@@ -45,6 +68,7 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 		echo llms_get_author( array(
 			'avatar_size' => $this->get_attribute( 'avatar_size' ),
 			'bio' => ( 'yes' === $this->get_attribute( 'bio' ) ) ? true : false,
+			'user_id' => $this->get_author_id(),
 		) );
 		echo '</div><!-- .llms-meta-info -->';
 
