@@ -1202,12 +1202,10 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 				</a>
 
 			<?php }
-
 		}
 
 	}
-
-}
+}// End if().
 
 
 /**
