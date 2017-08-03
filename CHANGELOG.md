@@ -3,6 +3,7 @@
 v3.11.1 - 2017/08/02
 --------------------
 
++ New shortcode: `[lifterlms_course_continue_button]`. See [shortcode docs](#) for more information.
 + Added filter `llms_product_pricing_table_enrollment_status` to allow forceful display of course/membership pricing tables regardless of user enrollment status.
 + Fix course author shortcode to allow usage outside of a course via the `course_id` parameter.
 
