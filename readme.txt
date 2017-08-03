@@ -214,6 +214,20 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v3.11.1 - 2017/08/03 =
+------------------------
+
++ New shortcode: `[lifterlms_course_continue_button]`. See [shortcode docs](https://lifterlms.com/docs/shortcodes/#lifterlms_course_continue_button) for more information.
++ New shortcode: `[lifterlms_lesson_mark_complete]`. See [shortcode docs](https://lifterlms.com/docs/shortcodes/#lifterlms_lesson_mark_complete) for more information.
++ Added filter `llms_product_pricing_table_enrollment_status` to allow forceful display of course/membership pricing tables regardless of user enrollment status.
++ Fix course author shortcode to allow usage outside of a course via the `course_id` parameter.
+
+##### Template Updates
+
++ [product/pricing-table.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/pricing-table.php)
++ [product/course/progress.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/course/progress.php)
+
+
 = v3.11.0 - 2017/07/31 =
 ------------------------
 
