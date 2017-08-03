@@ -5,7 +5,7 @@
  * [lifterlms_course_author]
  *
  * @since    3.6.0
- * @version  [version]
+ * @version  3.11.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -37,8 +37,8 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 	 * Retrieve the author ID of th course
 	 * Lessons and Quizzes cascade up
 	 * @return   int|null
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.1
+	 * @version  3.11.1
 	 */
 	private function get_author_id() {
 
@@ -60,7 +60,7 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 	 * Call the template function for the course element
 	 * @return   void
 	 * @since    3.6.0
-	 * @version  [version]
+	 * @version  3.11.1
 	 */
 	protected function template_function() {
 

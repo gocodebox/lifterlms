@@ -4,7 +4,7 @@
  *
  * @property  obj   $product   WP_Product object
  * @since     3.0.0
- * @version   [version]
+ * @version   3.11.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().

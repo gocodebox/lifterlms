@@ -3,7 +3,7 @@
  * Display a course progress bar and
  * a button for the next incomplete lesson in the course
  * @since    1.0.0
- * @version  [version]
+ * @version  3.11.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

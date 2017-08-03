@@ -1141,8 +1141,8 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
  * @param    obj        $student   instance of an LLMS_Student, defaults to current student
  * @param    integer    $progress  current progress of the student through the course
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.11.1
+ * @version  3.11.1
  */
 if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 

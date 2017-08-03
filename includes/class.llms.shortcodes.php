@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.11.1
 */
 class LLMS_Shortcodes {
 
@@ -11,7 +11,7 @@ class LLMS_Shortcodes {
 	* init shortcodes array
 	* @return void
 	* @since    1.0.0
-	* @version  [version]
+	* @version  3.11.1
 	*/
 	public static function init() {
 

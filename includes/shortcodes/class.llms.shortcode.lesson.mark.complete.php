@@ -4,8 +4,8 @@
  *
  * [lifterlms_lesson_mark_complete]
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.11.1
+ * @version  3.11.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -25,8 +25,8 @@ class LLMS_Shortcode_Lesson_Mark_Complete extends LLMS_Shortcode {
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.1
+	 * @version  3.11.1
 	 */
 	protected function get_output() {
 

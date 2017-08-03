@@ -42,7 +42,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:286, includes/class.llms.shortcodes.php:480, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:90, templates/myaccount/my-notifications.php:41, templates/myaccount/my-orders.php:61, templates/myaccount/view-order-transactions.php:52
+#: includes/abstracts/abstract.llms.admin.table.php:501, includes/class.llms.shortcodes.php:288, includes/class.llms.shortcodes.php:482, templates/loop/pagination.php:20, templates/myaccount/my-courses.php:90, templates/myaccount/my-notifications.php:41, templates/myaccount/my-orders.php:61, templates/myaccount/view-order-transactions.php:52
 msgid "Next"
 msgstr ""
 
@@ -5040,7 +5040,7 @@ msgstr ""
 msgid "Leave Review"
 msgstr ""
 
-#: includes/class.llms.shortcodes.php:285, includes/class.llms.shortcodes.php:479, templates/loop/pagination.php:19
+#: includes/class.llms.shortcodes.php:287, includes/class.llms.shortcodes.php:481, templates/loop/pagination.php:19
 msgid "Previous"
 msgstr ""
 
@@ -7077,8 +7077,16 @@ msgstr ""
 msgid "%s"
 msgstr ""
 
-#: includes/llms.template.functions.php:1125, templates/course/progress.php:48
+#: includes/llms.template.functions.php:1125, includes/llms.template.functions.php:1198
 msgid "Continue"
+msgstr ""
+
+#: includes/llms.template.functions.php:1183, includes/notifications/controllers/class.llms.notification.controller.course.complete.php:84
+msgid "Course Complete"
+msgstr ""
+
+#: includes/llms.template.functions.php:1194
+msgid "Get Started"
 msgstr ""
 
 #: includes/models/model.llms.access.plan.php:96
@@ -7288,10 +7296,6 @@ msgstr ""
 
 #: includes/notifications/controllers/class.llms.notification.controller.certificate.earned.php:81
 msgid "Certificate Earned"
-msgstr ""
-
-#: includes/notifications/controllers/class.llms.notification.controller.course.complete.php:84, templates/course/progress.php:33
-msgid "Course Complete"
 msgstr ""
 
 #: includes/notifications/controllers/class.llms.notification.controller.course.track.complete.php:80
@@ -8490,10 +8494,6 @@ msgstr ""
 
 #: templates/course/prerequisites.php:26
 msgid "Before starting this course you must complete the required prerequisite track: %s"
-msgstr ""
-
-#: templates/course/progress.php:44
-msgid "Get Started"
 msgstr ""
 
 #: templates/course/syllabus.php:27
