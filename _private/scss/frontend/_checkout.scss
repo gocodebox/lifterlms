@@ -110,11 +110,12 @@
 
 		}
 
-
+		.llms-checkout-wrapper ul.llms-payment-gateways {
+			margin: 5px 0 0;
+			padding: 0;
+		}
 		ul.llms-payment-gateways {
 			list-style-type: none;
-			margin: 0;
-			padding: 0;
 
 			li:last-child:after {
 				border-bottom: 1px solid #dadada;

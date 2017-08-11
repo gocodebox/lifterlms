@@ -432,3 +432,18 @@ a.llms-view-as {
 .llms-image-field-remove {
 	&.hidden { display: none; }
 }
+
+.llms-log-viewer {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	margin: 20px 0;
+	padding: 25px;
+
+	pre {
+		font-family: monospace;
+		margin: 0;
+		padding: 0;
+		white-space: pre-wrap;
+	}
+}
