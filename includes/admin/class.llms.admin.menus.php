@@ -18,6 +18,8 @@ class LLMS_Admin_Menus {
 	 */
 	public function __construct() {
 
+		add_action( 'admin_init', array( $this, 'status_page_actions' ) );
+
 		add_filter( 'custom_menu_order', array( $this, 'submenu_order' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu_late' ), 7777 );
@@ -63,7 +65,7 @@ class LLMS_Admin_Menus {
 
 			add_submenu_page( 'lifterlms', __( 'LifterLMS Import', 'lifterlms' ), __( 'Import', 'lifterlms' ), apply_filters( 'lifterlms_admin_import_access', 'manage_options' ), 'llms-import', array( $this, 'import_page_init' ) );
 
-			add_submenu_page( 'lifterlms', __( 'LifterLMS System report', 'lifterlms' ), __( 'System Report', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-system-report', array( $this, 'system_report_page_init' ) );
+			add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-status', array( $this, 'status_page_init' ) );
 
 		}
 
@@ -132,12 +134,25 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Output the HTLM for the System Report page
-	 * @return void
+	 * Handle form submission actiosn on the status pages
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	public function system_report_page_init() {
-		include_once( 'class.llms.admin.system-report.php' );
-		LLMS_Admin_System_Report::output();
+	public function status_page_actions() {
+		require_once 'class.llms.admin.page.status.php';
+		LLMS_Admin_Page_Status::handle_actions();
+	}
+
+	/**
+	 * Output the HTML for the Status Pages
+	 * @return   void
+	 * @since    ??
+	 * @version  [version]
+	 */
+	public function status_page_init() {
+		require_once 'class.llms.admin.page.status.php';
+		LLMS_Admin_Page_Status::output();
 	}
 }
 
