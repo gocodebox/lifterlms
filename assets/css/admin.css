@@ -2357,6 +2357,22 @@ a.llms-view-as {
   white-space: pre-wrap;
 }
 
+.llms-status--tools .llms-table {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+.llms-status--tools .llms-table td, .llms-status--tools .llms-table th {
+  padding: 10px;
+  vertical-align: top;
+}
+.llms-status--tools .llms-table th {
+  width: 28%;
+}
+.llms-status--tools .llms-table p {
+  margin: 0 0 10px;
+}
+
 .llms-table-wrap {
   position: relative;
 }
@@ -2461,10 +2477,10 @@ a.llms-view-as {
   text-align: right;
   border-bottom: none;
 }
-.llms-table.zebra tbody tr:nth-child(even) td {
+.llms-table.zebra tbody tr:nth-child(even) th, .llms-table.zebra tbody tr:nth-child(even) td {
   background-color: #fafafa;
 }
-.llms-table.zebra tbody tr:nth-child(odd) td {
+.llms-table.zebra tbody tr:nth-child(odd) th, .llms-table.zebra tbody tr:nth-child(odd) td {
   background-color: #fff;
 }
 .llms-table.text-left td, .llms-table.text-left th {

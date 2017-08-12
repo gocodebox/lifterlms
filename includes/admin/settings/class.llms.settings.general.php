@@ -1,8 +1,8 @@
 <?php
 /**
  * Admin Settings Page, General Tab
- * @since  1.0.0
- * @version  3.7.0
+ * @since    1.0.0
+ * @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -22,7 +22,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'register_hooks' ) );
 
 	}
 
@@ -96,7 +95,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		);
 
 		$settings[] = array(
-			'id' => 'section_tools',
+			'id' => 'section_features',
 			'type' => 'sectionend',
 		);
 
@@ -106,8 +105,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		);
 
 		$settings[] = array(
-			'id' => 'tools_utilities',
-			'title' => __( 'Tools and Utilities', 'lifterlms' ),
+			'id' => 'general_settings',
+			'title' => __( 'General Settings', 'lifterlms' ),
 			'type' => 'title',
 		);
 
@@ -131,94 +130,11 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		);
 
 		$settings[] = array(
-			'desc' => __( 'Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site.', 'lifterlms' ),
-			'name' => 'automatic-payments',
-			'title' => __( 'Automatic Payments', 'lifterlms' ),
-			'type' 		=> 'button',
-			'value' => __( 'Reset Automatic Payments', 'lifterlms' ),
-		);
-
-		$settings[] = array(
-			'desc' => __( 'Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help.', 'lifterlms' ),
-			'name' => 'clear-sessions',
-			'title' => __( 'Sessions', 'lifterlms' ),
-			'type' 		=> 'button',
-			'value' => __( 'Clear All Session Data', 'lifterlms' ),
-		);
-
-		$settings[] = array(
-			'desc' => __( 'If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here.', 'lifterlms' ),
-			'name' => 'reset-tracking',
-			'title' => __( 'Tracking Status', 'lifterlms' ),
-			'type' 		=> 'button',
-			'value' => __( 'Reset Tracking Status', 'lifterlms' ),
-		);
-
-		$settings[] = array(
-			'value' => '
-				<tr valign="top"><th><label>' . __( 'Setup Wizard', 'lifterlms' ) . '</label></th>
-				<td class="forminp forminp-button">
-				<div id="llms-form-wrapper">
-					<span class="description">' . __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ) . '</span>
-					<br><br>
-					<a class="llms-button-primary" href="' . admin_url() . '?page=llms-setup">' . __( 'Return to Setup Wizard', 'lifterlms' ) . '</a>
-				</div>
-				</td></tr>
-			',
-			'type' => 'custom-html-no-wrap',
-		);
-
-		$settings[] = array(
-			'desc' => __( 'Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed.', 'lifterlms' ),
-			'name' => 'clear-cache',
-			'title' => __( 'Clear Student Progress Cache', 'lifterlms' ),
-			'type' 		=> 'button',
-			'value' => __( 'Clear Cache', 'lifterlms' ),
-		);
-
-		$settings[] = array(
-			'id' => 'section_tools',
+			'id' => 'general_settings',
 			'type' => 'sectionend',
 		);
 
 		return apply_filters( 'lifterlms_general_settings', $settings );
-
-	}
-
-	/**
-	 * register new hooks
-	 * @return void
-	 * @since  1.0.0
-	 * @version  3.0.0
-	 */
-	public function register_hooks() {
-
-		// @todo this doesnt appaer like it does what its supposed to...
-		if ( isset( $_POST['clear-sessions'] ) ) {
-			session_unset();
-		}
-
-		if ( isset( $_POST['clear-cache'] ) ) {
-
-			global $wpdb;
-
-			// Delete all cached student data
-			$wpdb->query( $wpdb->prepare(
-				"DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = %s or meta_key = %s;",
-				'llms_overall_progress', 'llms_overall_grade'
-			) );
-
-		}
-
-		if ( isset( $_POST['reset-tracking'] ) ) {
-			update_option( 'llms_allow_tracking', 'no' );
-		}
-
-		// deletes the "ignore" url so the staging modal will re-appear
-		if ( isset( $_POST['automatic-payments'] ) ) {
-			LLMS_Site::clear_lock_url();
-			update_option( 'llms_site_url_ignore', 'no' );
-		}
 
 	}
 

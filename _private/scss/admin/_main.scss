@@ -447,3 +447,21 @@ a.llms-view-as {
 		white-space: pre-wrap;
 	}
 }
+
+.llms-status--tools {
+	.llms-table {
+		background: #fff;
+		border: 1px solid #e5e5e5;
+		box-shadow: 0 1px 1px rgba(0,0,0,.04);
+		td, th {
+			padding: 10px;
+			vertical-align: top;
+		}
+		th {
+			width: 28%;
+		}
+		p {
+			margin: 0 0 10px;
+		}
+	}
+}
