@@ -44,11 +44,14 @@ class LLMS_Admin_System_Report {
 		?>
 		<div class="llms-widget-full top">
 			<div class="llms-widget">
-				<p class="llms-label"><?php _e( 'Copy System Report for Support', 'lifterlms' ); ?></p>
+				<p class="llms-label"><?php _e( 'Support', 'lifterlms' ); ?></p>
 				<p class="llms-description">
 					<div id="llms-debug-report">
 						<textarea style="display:none;width: 100%" rows="12" readonly="readonly"></textarea>
-						<p class="submit"><button id="copy-for-support" class="llms-button-primary" href="#" ><?php _e( 'Copy for Support', 'lifterlms' ); ?></button></p>
+						<p class="submit">
+							<button id="copy-for-support" class="llms-button-primary"><?php _e( 'Copy for Support', 'lifterlms' ); ?></button>
+							<a class="llms-button-secondary" href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_medium=System%20Report&utm_campaign=Get%20Help&utm_content=button001" target="_blank"><?php _e( 'Get Help', 'lifterlms' ); ?></a>
+						</p>
 					</div>
 				</p>
 			</div>
