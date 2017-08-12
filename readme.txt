@@ -214,6 +214,14 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+= v3.11.2 - 2017/08/11 =
+------------------------
+
++ System status page
++ log viewer
++ template overrides on system report
+
+
 = v3.11.1 - 2017/08/03 =
 ------------------------
 
