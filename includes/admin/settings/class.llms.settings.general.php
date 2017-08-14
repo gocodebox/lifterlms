@@ -27,9 +27,9 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 	/**
 	 * Get settings array
-	 * @return array
-	 * @since  1.0.0
-	 * @version  3.8.0
+	 * @return   array
+	 * @since    1.0.0
+	 * @version  3.11.2
 	 */
 	public function get_settings( $settings_only = false ) {
 
