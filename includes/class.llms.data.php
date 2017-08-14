@@ -444,7 +444,6 @@ class LLMS_Data {
 					'template' => $name,
 				);
 			}
-
 		}
 
 		return $overrides;

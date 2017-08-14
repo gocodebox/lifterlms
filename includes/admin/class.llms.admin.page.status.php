@@ -201,7 +201,6 @@ class LLMS_Admin_Page_Status {
 				wp_safe_redirect( esc_url_raw( self::get_url( 'logs' ) ) );
 				exit();
 			}
-
 		}
 
 	}
@@ -240,7 +239,9 @@ class LLMS_Admin_Page_Status {
 
 			<h2>
 				<?php printf( esc_html__( 'Viewing: %s', 'lifterlms' ), $logs[ $current ] ); ?>
-				<a class="llms-button-danger small" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'llms_delete_log' => $current ), admin_url( 'admin.php?page=llms-status&tab=logs' ) ), 'delete_log' ) ); ?>""><?php _e( 'Delete Log', 'lifterlms' ); ?></a>
+				<a class="llms-button-danger small" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array(
+					'llms_delete_log' => $current,
+				), admin_url( 'admin.php?page=llms-status&tab=logs' ) ), 'delete_log' ) ); ?>""><?php _e( 'Delete Log', 'lifterlms' ); ?></a>
 			</h2>
 
 			<div class="llms-log-viewer">
@@ -294,7 +295,6 @@ class LLMS_Admin_Page_Status {
 			),
 
 		) );
-
 
 		?>
 		<form action="<?php echo esc_url( self::get_url( 'tools' ) ); ?>" method="POST">
