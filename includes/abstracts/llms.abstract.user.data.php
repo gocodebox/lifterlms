@@ -3,7 +3,7 @@
  * LifterLMS User Data Abstract
  *
  * @since   3.9.0
- * @version 3.10.1
+ * @version 3.11.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,19 +14,19 @@ abstract class LLMS_Abstract_User_Data {
 	 * Student's WordPress User ID
 	 * @var int
 	 */
-	private $id;
+	protected $id;
 
 	/**
 	 * User postmeta key prefix
 	 * @var  string
 	 */
-	private $meta_prefix = 'llms_';
+	protected $meta_prefix = 'llms_';
 
 	/**
 	 * Instance of the WP_User
 	 * @var obj
 	 */
-	private $user;
+	protected $user;
 
 	/**
 	 * Constructor
