@@ -1,8 +1,8 @@
 <?php
 /**
  * Admin Status Pages
- * @since    [version]
- * @version  [version]
+ * @since    3.11.2
+ * @version  3.11.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -12,8 +12,8 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Handle tools actions
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	private static function do_tool() {
 
@@ -62,8 +62,8 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Handle form / link actions on the status pages
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	public static function handle_actions() {
 
@@ -79,8 +79,8 @@ class LLMS_Admin_Page_Status {
 	 * Retrieve the URL to the status page
 	 * @param    string     $tab  optionally add a tab
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	public static function get_url( $tab = null ) {
 		$args = array(
@@ -95,8 +95,8 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Retrieve an array of log files
 	 * @return   array         log key => log file name
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	private static function get_logs() {
 
@@ -175,8 +175,8 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Delete a log file
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	private static function remove_log_file() {
 
@@ -209,8 +209,8 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Output the HTML for the Logs tab
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	private static function output_logs_content() {
 
@@ -256,8 +256,8 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Output the HTML for the tools tab
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	private static function output_tools_content() {
 

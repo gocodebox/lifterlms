@@ -33,8 +33,15 @@ if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 	LLMS_Install::remove_difficulties();
 
 	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'lifterlms\_%';" );
+	// same query with llms
 
 	remove_role( 'student' );
+
+	// delete custom tables
+	// delete all custom post types
+	// delete all custom post meta
+	// delete all custom user meta
+	// delete custom tax terms
 
 
 }

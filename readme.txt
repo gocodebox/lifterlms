@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.8
-Stable tag: 3.11.0
+Tested up to: 4.8.1
+Stable tag: 3.11.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -196,30 +196,47 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Screenshots ==
 
-1. LifterLMS Course Settings
-2. LifterLMS Course Builder
-3. LifterLMS Course
-4. LifterLMS Achievements
-5. LifterLMS Sidebar Widgets
-6. LifterLMS Course Tiles
-7. LifterLMS Sales Analytics
-8. LifterLMS Lesson Completion Analytics
-9. LifterLMS Membership Settings
-10. LifterLMS Lesson
-11. LifterLMS Certificate
-12. LifterLMS Student Analytics
-13. LifterLMS Creating and Engagement
-14. LifterLMS Student Dashboard
-15. LifterLMS Course Analytics
+1. LifterLMS Courses
+2. LifterLMS Pricing Tables
+3. LifterLMS Checkout
+4. LifterLMS Lessons
+5. LifterLMS Achievement Earned
+6. LifterLMS Achievement Badges
+7. LifterLMS Quiz Results
+8. LifterLMS Student Dashboard
+9. LifterLMS Certificates
+10. LifterLMS Sales Reporting
+11. LifterLMS Student Reporting
+12. LifterLMS Enrollment Reporting
+13. LifterLMS Sidebar Widgets
+14. LifterLMS Subscription Management
+15. LifterLMS Settings
+16. LifterLMS Course Builder
+17. LifterLMS Lesson Settings
+18. LifterLMS Engagements
+19. LifterLMS Email Engagements
+20. LifterLMS Course Access Plans
+21. LifterLMS Update Upcoming Order Details
+22. LifterLMS Lock Down Non LMS Content with Memberships
+23. LifterLMS Membership Course Bundles and Auto Enrollment
+24. LifterLMS Business to Business Bulk Enrollment Activations with Vouchers
+
 
 == Changelog ==
 
-= v3.11.2 - 2017/08/11 =
+= v3.11.2 - 2017/08/14 =
 ------------------------
 
-+ System status page
-+ log viewer
-+ template overrides on system report
++ Tested up to WP Core 3.8.1
+
+##### System Status and Reporting updates
+
++ System Report renamed to "Status"
++ Added information of template overrides to the system report
++ Added "Get Help" button linking to LifterLMS Ticketing submission page
++ Added "Logs" tab which allows for easy viewing & managment of LifterLMS logs
++ Added "Tools and Utilities" tab and moved tools from the General Settings screen to this tab
++ Improved Session Reset tool
 
 
 = v3.11.1 - 2017/08/03 =

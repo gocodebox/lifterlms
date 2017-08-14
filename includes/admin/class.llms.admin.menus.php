@@ -4,7 +4,7 @@
  *
  * Sets up admin menu items.
  * @since   1.0.0
- * @version 3.5.0
+ * @version 3.11.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -136,8 +136,8 @@ class LLMS_Admin_Menus {
 	/**
 	 * Handle form submission actiosn on the status pages
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	public function status_page_actions() {
 		require_once 'class.llms.admin.page.status.php';
@@ -148,7 +148,7 @@ class LLMS_Admin_Menus {
 	 * Output the HTML for the Status Pages
 	 * @return   void
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.11.2
 	 */
 	public function status_page_init() {
 		require_once 'class.llms.admin.page.status.php';

@@ -2,8 +2,8 @@
 /**
  * LifterLMS User Data Abstract
  *
- * @since   [version]
- * @version [version]
+ * @since   3.11.2
+ * @version 3.11.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -33,8 +33,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    array  $data      array of data to pass in the body of the request
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	public function __construct( $resource, $data, $method = null ) {
 
@@ -48,8 +48,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    array  $data      array of data to pass in the body of the request
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	private function call( $resource, $data, $method = null ) {
 
@@ -90,8 +90,8 @@ abstract class LLMS_Abstract_API_Handler {
 	/**
 	 * Retrive the private "error_message" variable
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	public function get_error_message() {
 
@@ -102,8 +102,8 @@ abstract class LLMS_Abstract_API_Handler {
 	/**
 	 * Get the private "error_object" variable
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	public function get_error_object() {
 
@@ -114,8 +114,8 @@ abstract class LLMS_Abstract_API_Handler {
 	/**
 	 * Retrive the private "error_type" variable
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	public function get_error_type() {
 
@@ -126,8 +126,8 @@ abstract class LLMS_Abstract_API_Handler {
 	/**
 	 * Retrive the private "result" variable
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	public function get_result() {
 
@@ -138,8 +138,8 @@ abstract class LLMS_Abstract_API_Handler {
 	/**
 	 * Determine if the response is an error
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	public function is_error() {
 
@@ -151,8 +151,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 * Parse the body of the response and set a success/error
 	 * @param    array     $response  response data
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	abstract protected function parse_response( $response );
 
@@ -164,8 +164,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string $type     error code or type
 	 * @param    object $obj      full error object or api response
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	protected function set_error( $message, $type, $obj ) {
 
@@ -179,8 +179,8 @@ abstract class LLMS_Abstract_API_Handler {
 	/**
 	 * Set the result
 	 * @param    mixed     $result  result data
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	protected function set_result( $result ) {
 		$this->result = $result;
@@ -192,8 +192,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string     $method    request method
 	 * @param    string     $resource  requested resource
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	abstract protected function set_request_body( $data, $method, $resource );
 
@@ -203,8 +203,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string     $resource  request resource
 	 * @param    string     $method    request method
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	protected function set_request_headers( $headers, $resource, $method ) {
 		return $headers;
@@ -215,8 +215,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string     $resource  requested resource
 	 * @param    string     $method    request method
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	abstract protected function set_request_url( $resource, $method );
 

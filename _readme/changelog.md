@@ -1,11 +1,18 @@
 == Changelog ==
 
-= v3.11.2 - 2017/08/11 =
+= v3.11.2 - 2017/08/14 =
 ------------------------
 
-+ System status page
-+ log viewer
-+ template overrides on system report
++ Tested up to WP Core 3.8.1
+
+##### System Status and Reporting updates
+
++ System Report renamed to "Status"
++ Added information of template overrides to the system report
++ Added "Get Help" button linking to LifterLMS Ticketing submission page
++ Added "Logs" tab which allows for easy viewing & managment of LifterLMS logs
++ Added "Tools and Utilities" tab and moved tools from the General Settings screen to this tab
++ Improved Session Reset tool
 
 
 = v3.11.1 - 2017/08/03 =

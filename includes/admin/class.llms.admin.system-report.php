@@ -3,7 +3,7 @@
  * Admin System Report Class
  *
  * @since    2.1.0
- * @version  [version]
+ * @version  3.11.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -38,7 +38,7 @@ class LLMS_Admin_System_Report {
 	/**
 	 * Output the copy for support box
 	 * @since    2.1.0
-	 * @version  [version]
+	 * @version  3.11.2
 	 */
 	public static function output_copy_box() {
 		?>
@@ -92,7 +92,7 @@ class LLMS_Admin_System_Report {
 	 * @param    arry     $data             array of data for the section
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.11.2
 	 */
 	public static function output_section( $section_title, $data ) {
 
@@ -143,8 +143,8 @@ class LLMS_Admin_System_Report {
 	 * Output data related to an overridden template system report
 	 * @param    array     $data  array of template data
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	private static function template_item( $data ) {
 		echo '<strong>' . $data['template'] . ' (ver: ' . $data['core_version'] . ')</strong>: ';

@@ -2,7 +2,7 @@
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.11.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,7 +15,7 @@ class LLMS_Data {
 	 * @param    string     $format   data return format (unused for unrecalled reasons)
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.11.2
 	 */
 	public static function get_data( $dataset, $format = 'array' ) {
 
@@ -98,8 +98,8 @@ class LLMS_Data {
 	 * Copied from WCs get_file_version which is based on WP Core's get_file_data function.
 	 * @param    string    $file   Path to the file
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	private static function get_file_version( $file ) {
 
@@ -421,8 +421,8 @@ class LLMS_Data {
 	/**
 	 * Retrieve information about template overrides
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.11.2
+	 * @version  3.11.2
 	 */
 	private static function get_templates_data() {
 
@@ -455,7 +455,7 @@ class LLMS_Data {
 	 * Get an array of theme data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.11.2
 	 */
 	private static function get_theme_data() {
 
