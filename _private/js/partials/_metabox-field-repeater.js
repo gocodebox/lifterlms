@@ -20,9 +20,9 @@ this.repeaters = {
 
 	/**
 	 * Init
-	 * @return   {[type]}   [description]
+	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @version  [version]
 	 */
 	init: function() {
 
@@ -34,7 +34,7 @@ this.repeaters = {
 
 			// wait for tinyMCE just in case their editors in the repeaters
 			LLMS.wait_for( function() {
-				return ( 'undefined' !== tinyMCE );
+				return ( 'undefined' !== typeof tinyMCE );
 			}, function() {
 				self.load();
 				self.bind();
@@ -51,7 +51,7 @@ this.repeaters = {
 	 * Bind DOM Events
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @version  [version]
 	 */
 	bind: function() {
 
@@ -79,6 +79,14 @@ this.repeaters = {
 				},
 				stop: function( event, ui ) {
 					$rows.removeClass( 'dragging' );
+
+					var $eds = ui.item.find( 'textarea.wp-editor-area' );
+					$eds.each( function() {
+						var ed_id = $( this ).attr( 'id' );
+						tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, ed_id );
+						tinyMCE.EditorManager.execCommand( 'mceAddEditor', true, ed_id );
+					} );
+
 					self.save( $repeater );
 				},
 			} );
@@ -291,6 +299,10 @@ this.repeaters = {
 		replace_attr( $row.find( '[data-controller]' ), 'data-controller' );
 		replace_attr( $row.find( '[data-controller]' ), 'data-controller' );
 		replace_attr( $row.find( 'button.wp-switch-editor' ), 'data-wp-editor-id' );
+		replace_attr( $row.find( 'button.wp-switch-editor' ), 'id' );
+		replace_attr( $row.find( '.wp-editor-tools' ), 'id' );
+		replace_attr( $row.find( '.wp-editor-container' ), 'id' );
+
 
 		return $ed.attr( 'id' );
 
