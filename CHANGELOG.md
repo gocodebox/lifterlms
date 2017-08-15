@@ -5,6 +5,9 @@ v3.12.0 - 2017/08/15
 
 + New quiz feature: randomize the order of quiz questions each attempt! Props to [Larry Groebe](https://github.com/larrygroebe)
 + Fixed logic error related to access checks when bubbling from quiz->lesson->course
++ Fixed JS loader check for tinyMCE editors in repeater fields
++ Fixed CSS issue related to tinyMCE editors in repeater fields
++ Fixed issue causing tinyMCE editors in repeater fields to stop working after reordering rows
 
 ##### Admin Post Table Upgrades
 
