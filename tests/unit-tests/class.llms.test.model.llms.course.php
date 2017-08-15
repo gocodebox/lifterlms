@@ -86,10 +86,6 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		);
 	}
 
-
-
-
-
 	/**
 	 * Test perequisite functions related to courses
 	 * @return   void

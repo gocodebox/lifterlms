@@ -89,11 +89,9 @@ class LLMS_Admin_Post_Table_Quiz_Questions {
 					if ( $i + 1 < $total ) {
 						echo ', ';
 					}
-
 				}
 
 			break;
-
 
 		} // End switch().
 
@@ -127,7 +125,6 @@ class LLMS_Admin_Post_Table_Quiz_Questions {
 		$query->set( 'post__in', $quiz->get_questions( 'ids' ) );
 
 		return $query;
-
 
 	}
 

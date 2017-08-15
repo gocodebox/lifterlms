@@ -62,7 +62,6 @@ class LLMS_Admin_Post_Table_Quizzes {
 		$course_id = isset( $_GET['llms_filter_course_id'] ) ? absint( $_GET['llms_filter_course_id'] ) : false;
 		echo LLMS_Admin_Post_Tables::get_post_type_filter_html( 'llms_filter_course_id', 'course', $course_id );
 
-
 		$lesson_id = isset( $_GET['llms_filter_lesson_id'] ) ? absint( $_GET['llms_filter_lesson_id'] ) : false;
 		echo LLMS_Admin_Post_Tables::get_post_type_filter_html( 'llms_filter_lesson_id', 'lesson', $lesson_id );
 
@@ -97,7 +96,6 @@ class LLMS_Admin_Post_Table_Quizzes {
 					if ( $i + 1 < $total ) {
 						echo ', ';
 					}
-
 				}
 
 			break;
@@ -112,11 +110,9 @@ class LLMS_Admin_Post_Table_Quizzes {
 					if ( $i + 1 < $total ) {
 						echo ', ';
 					}
-
 				}
 
 			break;
-
 
 		} // End switch().
 
@@ -165,7 +161,6 @@ class LLMS_Admin_Post_Table_Quizzes {
 		$query->set( 'post__in', array_unique( $post_ids ) );
 
 		return $query;
-
 
 	}
 
