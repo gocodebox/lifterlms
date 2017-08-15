@@ -315,7 +315,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * @version  3.3.0
 	 */
 	public function get_product() {
-			return new LLMS_Product( $this->get( 'id' ) );
+		return new LLMS_Product( $this->get( 'id' ) );
 	}
 
 	/**
