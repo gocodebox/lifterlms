@@ -306,7 +306,6 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 			}
 			$lesson_id = $lessons[0];
 		}
-	// dont pass other post types in here dumb dumb
 	} else {
 		return false;
 	}
@@ -344,7 +343,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 		return array_shift( $prerequisites );
 
-	// if incomplete, send the prereq id
+		// if incomplete, send the prereq id
 	} else {
 
 		$student = new LLMS_Student( $user_id );
@@ -353,7 +352,6 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 				return $prereq;
 			}
 		}
-
 	}
 
 	// otherwise return false
