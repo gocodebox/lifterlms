@@ -4,7 +4,7 @@
  * @group    LLMS_Course
  * @group    LLMS_Post_Model
  * @since    3.4.0
- * @version  3.4.0
+ * @version  [version]
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -87,6 +87,45 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test Audio and Video Embeds
+	 * @return   void
+	 * @since    3.4.0
+	 * @version  3.4.0
+	 */
+	public function test_get_embeds() {
+
+		$audio_url = 'https://open.spotify.com/track/1rNUOtuCWv1qswqsMFvzvz';
+		$video_url = 'https://www.youtube.com/watch?v=MhQlNwxn5oo';
+
+		$course = new LLMS_Course( 'new', 'Course With Embeds' );
+
+		// empty string when none set
+		$this->assertEmpty( $course->get_audio() );
+		$this->assertEmpty( $course->get_video() );
+
+		$course->set( 'audio_embed', $audio_url );
+		$course->set( 'video_embed', $video_url );
+
+		$audio_embed = $course->get_audio();
+		$video_embed = $course->get_video();
+
+		// string
+		$this->assertTrue( is_string( $audio_embed ) );
+		$this->assertTrue( is_string( $video_embed ) );
+
+		// should be an iframe for valid embeds
+		$this->assertEquals( 0, strpos( $audio_embed, '<iframe' ) );
+		$this->assertEquals( 0, strpos( $video_embed, '<iframe' ) );
+
+		// fallbacks should be a link to the URL
+		$course->set( 'audio_embed', 'http://lifterlms.com/not/embeddable' );
+		$course->set( 'video_embed', 'http://lifterlms.com/not/embeddable' );
+		$this->assertEquals( 0, strpos( $audio_embed, '<a' ) );
+		$this->assertEquals( 0, strpos( $video_embed, '<a' ) );
+
+	}
+
+	/**
 	 * Test perequisite functions related to courses
 	 * @return   void
 	 * @since    3.4.0
@@ -138,41 +177,143 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test Audio and Video Embeds
+	 * Test the get lessons function
 	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	public function test_get_embeds() {
+	public function test_get_lessons() {
 
-		$audio_url = 'https://open.spotify.com/track/1rNUOtuCWv1qswqsMFvzvz';
-		$video_url = 'https://www.youtube.com/watch?v=MhQlNwxn5oo';
+		$course = llms_get_post( $this->generate_mock_courses( 1, 2, 2, 0, 0 )[0] );
 
-		$course = new LLMS_Course( 'new', 'Course With Embeds' );
+		// get just ids
+		$lessons = $course->get_lessons( 'ids' );
+		$this->assertEquals( 4, count( $lessons ) );
+		array_map( function( $id ) {
+			$this->assertTrue( is_numeric( $id ) );
+		}, $lessons );
 
-		// empty string when none set
-		$this->assertEmpty( $course->get_audio() );
-		$this->assertEmpty( $course->get_video() );
+		// wp post objects
+		$lessons = $course->get_lessons( 'posts' );
+		$this->assertEquals( 4, count( $lessons ) );
+		array_map( function( $post ) {
+			$this->assertTrue( is_a( $post, 'WP_Post' ) );
+		}, $lessons );
 
-		$course->set( 'audio_embed', $audio_url );
-		$course->set( 'video_embed', $video_url );
+		// lesson objects
+		$lessons = $course->get_lessons( 'lessons' );
+		$this->assertEquals( 4, count( $lessons ) );
+		array_map( function( $lesson ) {
+			$this->assertTrue( is_a( $lesson, 'LLMS_Lesson' ) );
+		}, $lessons );
 
-		$audio_embed = $course->get_audio();
-		$video_embed = $course->get_video();
+	}
 
-		// string
-		$this->assertTrue( is_string( $audio_embed ) );
-		$this->assertTrue( is_string( $video_embed ) );
+	/**
+	 * Test the get quizzes function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_quizzes() {
 
-		// should be an iframe for valid embeds
-		$this->assertEquals( 0, strpos( $audio_embed, '<iframe' ) );
-		$this->assertEquals( 0, strpos( $video_embed, '<iframe' ) );
+		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 5, 3, 1 )[0] );
 
-		// fallbacks should be a link to the URL
-		$course->set( 'audio_embed', 'http://lifterlms.com/not/embeddable' );
-		$course->set( 'video_embed', 'http://lifterlms.com/not/embeddable' );
-		$this->assertEquals( 0, strpos( $audio_embed, '<a' ) );
-		$this->assertEquals( 0, strpos( $video_embed, '<a' ) );
+		$quizzes = $course->get_quizzes();
+		$this->assertEquals( 3, count( $quizzes ) );
+		array_map( function( $id ) {
+			$this->assertTrue( is_numeric( $id ) );
+		}, $quizzes );
+
+	}
+
+	/**
+	 * Test the get sections function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_sections() {
+
+		$course = llms_get_post( $this->generate_mock_courses( 1, 4, 0, 0, 0 )[0] );
+
+		// get just ids
+		$sections = $course->get_sections( 'ids' );
+		$this->assertEquals( 4, count( $sections ) );
+		array_map( function( $id ) {
+			$this->assertTrue( is_numeric( $id ) );
+		}, $sections );
+
+		// wp post objects
+		$sections = $course->get_sections( 'posts' );
+		$this->assertEquals( 4, count( $sections ) );
+		array_map( function( $post ) {
+			$this->assertTrue( is_a( $post, 'WP_Post' ) );
+		}, $sections );
+
+		// section objects
+		$sections = $course->get_sections( 'sections' );
+		$this->assertEquals( 4, count( $sections ) );
+		array_map( function( $section ) {
+			$this->assertTrue( is_a( $section, 'LLMS_Section' ) );
+		}, $sections );
+
+	}
+
+	/**
+	 * Test the get students function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_students() {
+
+		$this->create();
+
+		$students = $this->factory->user->create_many( 10, array( 'role' => 'student' ) );
+		foreach ( $students as $sid ) {
+			llms_enroll_student( $sid, $this->obj->get( 'id' ), 'testing' );
+		}
+
+		$this->assertEquals( 5, count( $this->obj->get_students( array( 'enrolled' ), 5 ) ) );
+		$this->assertEquals( 10, count( $this->obj->get_students() ) );
+
+	}
+
+	/**
+	 * Test the has_capacity function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_has_capacity() {
+
+		$this->create();
+		// has capacity when nothing set
+		$this->assertTrue( $this->obj->has_capacity() );
+
+		$students = $this->factory->user->create_many( 10, array( 'role' => 'student' ) );
+		foreach ( $students as $sid ) {
+			llms_enroll_student( $sid, $this->obj->get( 'id' ), 'testing' );
+		}
+
+		// has capacity when students enrolled and nothing set
+		$this->assertTrue( $this->obj->has_capacity() );
+
+		// enabled capacity
+		$this->obj->set( 'enable_capacity', 'yes' );
+		$this->obj->set( 'capacity', 25 );
+
+		// still open
+		$this->assertTrue( $this->obj->has_capacity() );
+
+		// over capacity
+		$this->obj->set( 'capacity', 5 );
+		$this->assertFalse( $this->obj->has_capacity() );
+
+		// disable capacity
+		$this->obj->set( 'enable_capacity', 'no' );
+		$this->assertTrue( $this->obj->has_capacity() );
 
 	}
 
