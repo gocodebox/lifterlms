@@ -1,5 +1,24 @@
 == Changelog ==
 
+v3.12.0 - 2017/08/15
+--------------------
+
++ New quiz feature: randomize the order of quiz questions each attempt! Props to [Larry Groebe](https://github.com/larrygroebe)
++ Fixed logic error related to access checks when bubbling from quiz->lesson->course
+
+##### Admin Post Table Upgrades
+
++ Lessons:
+  + Fix section titles which formerly were a dead link. Now they're just text
+  + Add filtering the table by associated course
++ Quizzes:
+  + Display associated course and lesson columns with links
+  + Add filtering by associated course and/or lesson
++ Quiz Questions:
+  + Display associated Quizzes with links
+  + Add filtering by associated quiz
+
+
 v3.11.2 - 2017/08/14
 --------------------
 
