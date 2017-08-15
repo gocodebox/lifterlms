@@ -1,6 +1,7 @@
 <?php
 /**
  * Tests for LifterLMS Access Functions
+ * @group    access
  * @since    3.7.3
  * @version  3.7.3
  */
@@ -69,7 +70,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 * @param    int        $user_id           wp user id of a student
 	 * @return   void
 	 * @since    3.7.3
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
 	private function prereq_tests( $test_ids = array(), $course, $prereq_course_id, $track_id, $user_id = null ) {
 
@@ -82,6 +83,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 			$course->set( 'prerequisite_track', '' );
 
 			$post = llms_get_post( $test_id );
+
 			if ( 'lesson' === get_post_type( $test_id ) && $post->has_prerequisite() ) {
 
 				$lesson_prereq_id = $post->get( 'prerequisite' );
@@ -91,18 +93,11 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 				);
 				$this->assertEquals( $lesson_res, llms_is_post_restricted_by_prerequisite( $test_id, $user_id ) );
 
-			} else {
-
-				// no prereq
-				$this->assertFalse( llms_is_post_restricted_by_prerequisite( $test_id, $user_id ) );
-
 			}
-
 
 			// set a course prereq
 			$course->set( 'has_prerequisite', 'yes' );
 			$course->set( 'prerequisite', $prereq_course_id );
-
 			$prereq_course_res = $student && $student->is_complete( $prereq_course_id, 'course' ) ? false : array(
 				'type' => 'course',
 				'id' => $prereq_course_id,
