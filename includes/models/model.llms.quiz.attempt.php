@@ -305,6 +305,7 @@ class LLMS_Quiz_Attempt {
 	 * @version  3.9.0
 	 */
 	private function get_new_questions( $quiz_id ) {
+
 		$qquiz = new LLMS_QQuiz( $quiz_id );
 		$questions = array();
 		foreach ( $qquiz->get_questions( 'ids' ) as $qid ) {
@@ -315,7 +316,13 @@ class LLMS_Quiz_Attempt {
 				'correct' => null,
 			);
 		}
+
+		if ( 'yes' === $qquiz->get( 'random_questions' ) ) {
+			shuffle( $questions );
+		}
+
 		return $questions;
+
 	}
 
 	/**

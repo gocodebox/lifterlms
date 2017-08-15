@@ -3,7 +3,7 @@
  * Quiz Metabox
  *
  * @since    1.0.0
- * @version  3.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -29,10 +29,9 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox {
 	/**
 	 * This function is where extending classes can configure all the fields within the metabox
 	 * The function must return an array which can be consumed by the "output" function
-	 *
 	 * @return array
-	 *
-	 * @since  3.0.0
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public function get_fields() {
 
@@ -72,6 +71,16 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox {
 						'desc_class' => 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
+					),
+					array(
+						'type'  	=> 'checkbox',
+						'label'  	=> __( 'Randomize Questions', 'lifterlms' ),
+						'desc'  	=> __( 'Select to randomize the order of questions on each attempt', 'lifterlms' ),
+						'id'    	=> $this->prefix . 'random_questions',
+						'class' 	=> '',
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
+						'group' 	=> '',
+						'value' 	=> 'yes',
 					),
 					array(
 						'type'  	=> 'checkbox',

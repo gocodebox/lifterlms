@@ -1,8 +1,9 @@
 <?php
 /**
  * Tests for the LLMS_Install Class
+ * @group    quizzes
  * @since    3.9.0
- * @version  3.9.2
+ * @version  [version]
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
@@ -29,20 +30,21 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	/**
 	 * [take_a_quiz description]
-	 * @param    [type]     $desired_grade    [description]
-	 * @param    [type]     $passing_percent  [description]
-	 * @param    integer    $num_questions    [description]
+	 * @param    [type]     $desired_grade    grade for the attempt
+	 * @param    [type]     $passing_percent  required passing percentage
+	 * @param    integer    $num_questions    number of questions in the quiz
+	 * @param    string     $rand             whether to randomize question order
 	 * @return   [type]                       [description]
 	 * @since    3.9.2
-	 * @version  3.9.2
+	 * @version  [version]
 	 */
-	private function take_a_quiz( $desired_grade, $passing_percent, $num_questions = 15, $attempt = null ) {
+	private function take_a_quiz( $desired_grade, $passing_percent, $num_questions = 15, $attempt = null, $rand = 'no' ) {
 
 		if ( ! $attempt ) {
 			$attempt = $this->get_mock_attempt( $num_questions );
 		}
 
-
+		update_post_meta( $attempt->get( 'quiz_id' ), '_llms_random_questions', $rand );
 		update_post_meta( $attempt->get( 'quiz_id' ), '_llms_passing_percent', $passing_percent );
 		$to_answer_correctly = 0 === $desired_grade ? 0 : $desired_grade / 100 * $num_questions;
 
@@ -73,8 +75,6 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 		return $attempt;
 
 	}
-
-
 
 
 	public function test_grading_with_floats() {
@@ -319,7 +319,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 * pass/fail/complete actions
 	 * @return   [type]     [description]
 	 * @since    3.9.2
-	 * @version  3.9.2
+	 * @version  [version]
 	 */
 	public function test_take_some_quizzes( ) {
 
@@ -329,7 +329,8 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 		$num_fail = 0;
 		while ( $i <= 100 ) {
 
-			$attempt = $this->take_a_quiz( $i, 65, 25 );
+			$rand = rand( 0, 1 ) ? 'yes' : 'no';
+			$attempt = $this->take_a_quiz( $i, 65, 25, null, $rand );
 
 			if ( 0 === $i ) {
 				$grade = 0;
