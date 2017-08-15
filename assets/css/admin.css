@@ -2819,6 +2819,9 @@ a.llms-view-as {
   text-align: right;
   margin-top: 20px;
 }
+.llms-mb-list.repeater .tmce-active .wp-editor-area {
+  color: #32373c;
+}
 
 .llms-order-status-icon.llms-active, .llms-order-status-icon.llms-completed {
   color: green;
