@@ -1,9 +1,8 @@
 <?php
 /**
- * Add, Customize, and Manage LifterLMS Coupon Post Table Columns
- *
+ * Add, Customize, and Manage LifterLMS Lesson posts table Columns
  * @since    3.2.3
- * @version  3.2.3
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,12 +13,15 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * Constructor
 	 * @return  void
 	 * @since    3.2.3
-	 * @version  3.2.3
+	 * @version  [version]
 	 */
 	public function __construct() {
 
 		add_filter( 'manage_lesson_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_lesson_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
+
+		add_action( 'restrict_manage_posts', array( $this, 'add_filters' ), 10, 2 );
+		add_filter( 'parse_query', array( $this, 'parse_query_filters' ), 10, 1 );
 
 	}
 
@@ -28,7 +30,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @param   array  $columns  array of default columns
 	 * @return  array
 	 * @since    3.2.3
-	 * @version  3.2.3
+	 * @version  [version]
 	 */
 	public function add_columns( $columns ) {
 
@@ -38,12 +40,31 @@ class LLMS_Admin_Post_Table_Lessons {
 			'course' => __( 'Course', 'lifterlms' ),
 			'section' => __( 'Section', 'lifterlms' ),
 			'prereq' => __( 'Prerequisite', 'lifterlms' ),
+			'author' => __( 'Author', 'lifterlms' ),
 			'date' => __( 'Date', 'lifterlms' ),
 		);
 
 		return $columns;
 	}
 
+	/**
+	 * Add filters to the top of the post table
+	 * @param    string     $post_type  Post Type of the current posts table
+	 * @param    string     $which      positioning of the filters [top|bottom]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function add_filters( $post_type, $which ) {
+
+		// only for the correct post type & position
+		if ( 'lesson' !== $post_type || 'top' !== $which ) {
+			return;
+		}
+
+		$selected = isset( $_GET['llms_filter_course_id'] ) ? absint( $_GET['llms_filter_course_id'] ) : false;
+		echo LLMS_Admin_Post_Tables::get_post_type_filter_html( 'llms_filter_course_id', 'course', $selected );
+
+	}
 
 	/**
 	 * Manage content of custom lesson columns
@@ -51,17 +72,20 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @param  int    $post_id  WP Post ID of the lesson for the row
 	 * @return void
 	 * @since    3.2.3
-	 * @version  3.2.3
+	 * @version  [version]
 	 */
 	public function manage_columns( $column, $post_id ) {
 
-		$l = new LLMS_Lesson( $post_id );
+		$lesson = llms_get_post( $post_id );
+		if ( ! $lesson ) {
+			return;
+		}
 
 		switch ( $column ) {
 
 			case 'course' :
 
-				$course = $l->get_parent_course();
+				$course = $lesson->get_parent_course();
 				$edit_link = get_edit_post_link( $course );
 
 				if ( ! empty( $course ) ) {
@@ -72,21 +96,18 @@ class LLMS_Admin_Post_Table_Lessons {
 
 			case 'section' :
 
-				$section = $l->get_parent_section();
-
-				$edit_link = get_edit_post_link( $section );
-
+				$section = $lesson->get_parent_section();
 				if ( ! empty( $section ) ) {
-					printf( __( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $section ) );
+					echo get_the_title( $section );
 				}
 
 			break;
 
 			case 'prereq' :
 
-				if ( $l->has_prerequisite() ) {
+				if ( $lesson->has_prerequisite() ) {
 
-					$prereq = $l->get( 'prerequisite' );
+					$prereq = $lesson->get( 'prerequisite' );
 					$edit_link = get_edit_post_link( $prereq );
 
 					if ( $prereq ) {
@@ -107,6 +128,53 @@ class LLMS_Admin_Post_Table_Lessons {
 			break;
 
 		}// End switch().
+
+	}
+
+	/**
+	 * Modify the main WP Query
+	 * @param    obj     $query  WP_Query
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function parse_query_filters( $query ) {
+
+		// only modify admin & main query
+		if ( ! ( is_admin() && $query->is_main_query() ) ) {
+			return $query;
+		}
+
+		// dont proceed if it's not our post type
+		if ( 'lesson' !== $query->query['post_type'] ) {
+			return $query;
+		}
+
+		// if none of our custom filters are set, don't proceed
+		if ( ! isset( $_REQUEST['llms_filter_course_id'] ) ) {
+			return $query;
+		}
+
+		// get the query or a default to work with
+		$meta_query = $query->get( 'meta_query' );
+		if ( ! $meta_query ) {
+			$meta_query = array();
+		}
+
+		// set an and relation for our filters
+		// if other filters already exist, we'll ensure we obey them as well this way
+		$meta_query['relation'] = 'AND';
+
+		$meta_query[] = array(
+			'compare' => '=',
+			'key' => '_llms_parent_course',
+			'value' => absint( $_REQUEST['llms_filter_course_id'] ),
+		);
+
+		$query->set( 'meta_query', $meta_query );
+
+		return $query;
+
 
 	}
 

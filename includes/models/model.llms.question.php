@@ -3,7 +3,7 @@
  * LifterLMS Quiz Question
  *
  * @since    1.0.0
- * @version  3.9.0
+ * @version  [version]
  *
  * @property  $question_type  (string)  type of question
  */
@@ -58,6 +58,35 @@ class LLMS_Question extends LLMS_Post_Model {
 	public function get_options() {
 		$options = get_post_meta( $this->get( 'id' ), $this->meta_prefix . 'question_options', true );
 		return $options ? $options : array();
+	}
+
+	/**
+	 * Retrieve quizzes this quiz is assigned to
+	 * @return   array              array of WP_Post IDs (quiz post types)
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_quizzes() {
+
+		$id = absint( $this->get( 'id' ) );
+		$len = strlen( strval( $id ) );
+
+		$str_like = '%' . sprintf( 's:2:"id";s:%1$d:"%2$s";', $len, $id ) . '%';
+		$int_like = '%' . sprintf( 's:2:"id";i:%1$s;', $id ) . '%';
+
+		global $wpdb;
+		$query = $wpdb->get_col(
+			"SELECT post_id
+			 FROM {$wpdb->postmeta}
+			 WHERE meta_key = '_llms_questions'
+			   AND (
+			   	      meta_value LIKE '{$str_like}'
+			   	   OR meta_value LIKE '{$int_like}'
+			   );"
+		);
+
+		return $query;
+
 	}
 
 	/**

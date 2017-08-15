@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  3.7.3
+* @version  [version]
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
@@ -187,19 +187,20 @@ class LLMS_Course extends LLMS_Post_Model {
 
 	}
 
+	/**
+	 * Retrieve an array of quizzes within a course
+	 * @return   array            array of WP_Post IDs of the quizzes
+	 * @since    ??
+	 * @version  [version]
+	 */
 	public function get_quizzes() {
 
 		$quizzes = array();
-
-		foreach ( $this->get_lessons( 'lessons' ) as $l ) {
-
-			if ( $l->get( 'assigned_quiz' ) ) {
-
-				$quizzes[] = $l->get( 'id' );
-
+		foreach ( $this->get_lessons( 'lessons' ) as $lesson ) {
+			if ( $lesson->has_quiz() ) {
+				$quizzes[] = $lesson->get( 'assigned_quiz' );
 			}
 		}
-
 		return $quizzes;
 
 	}

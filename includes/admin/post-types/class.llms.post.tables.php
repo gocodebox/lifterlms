@@ -1,8 +1,8 @@
 <?php
 /**
  * General post table management
- *
- * @since  3.0.0
+ * @since    3.0.0
+ * @version  3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -11,8 +11,8 @@ class LLMS_Admin_Post_Tables {
 
 	/**
 	 * Constructor
-	 *
-	 * @since  3.0.0
+	 * @since    3.0.0
+	 * @version  3.0.0
 	 */
 	public function __construct() {
 
@@ -106,6 +106,36 @@ class LLMS_Admin_Post_Tables {
 
 		}
 
+	}
+
+	/**
+	 * Get the HTML for a post type select2 filter
+	 * @param    string     $name       name of the select element
+	 * @param    string     $post_type  post type to search by
+	 * @param    array      $selected   array of POST IDs to use for the pre-selected options on page load
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function get_post_type_filter_html( $name, $post_type = 'course', $selected = array() ) {
+		$obj = get_post_type_object( $post_type );
+		$label = $obj->labels->singular_name;
+		ob_start();
+		?>
+		<span class="llms-post-table-post-filter">
+			<label for="<?php printf( 'filter-by-llms-post-%s', $post_type ); ?>" class="screen-reader-text">
+				<?php printf( esc_html__( 'Filter by %s', 'lifterlms' ), $label ); ?>
+			</label>
+			<select class="llms-select2-post" data-allow_clear="true" data-placeholder="<?php printf( esc_attr__( 'Filter by %s', 'lifterlms' ), $label ); ?>" data-post-type="<?php echo $post_type; ?>" name="<?php echo $name; ?>" id="<?php printf( 'filter-by-llms-post-%s', $post_type ); ?>">
+				<?php if ( $selected ) : ?>
+					<?php foreach ( llms_make_select2_post_array( $selected ) as $data ) : ?>
+						<option value="<?php echo $data['key']; ?>"><?php echo $data['title']; ?></option>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</select>
+		</span>
+		<?php
+		return ob_get_clean();
 	}
 
 

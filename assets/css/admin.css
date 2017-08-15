@@ -2830,6 +2830,13 @@ a.llms-view-as {
   color: orange;
 }
 
+.llms-post-table-post-filter {
+  display: inline-block;
+  margin-right: 6px;
+  max-width: 100%;
+  width: 220px;
+}
+
 .llms-nav-tab-wrapper {
   background: #2295ff;
   margin: 20px 0;

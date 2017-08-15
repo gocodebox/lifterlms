@@ -2,7 +2,7 @@
 /**
  * LifterLMS Quiz Model
  * @since    3.3.0
- * @version  3.3.0
+ * @version  [version]
  *
  * @property  $allowed_attempts  (int)  Number of times a student is allowed to take the quiz before being locked out of it
  * @property  $passing_percent  (float)  Grade required for a student to "pass" the quiz
@@ -28,6 +28,38 @@ class LLMS_QQuiz extends LLMS_Post_Model {
 		'show_results' => 'yesno',
 		'time_limit' => 'int',
 	);
+
+	/**
+	 * Retrieve lessons this quiz is assigned to
+	 * @param    string    $return  format of the return [ids|lessons]
+	 * @return   array              array of WP_Post IDs (lesson post types)
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_lessons( $return = 'ids' ) {
+
+		global $wpdb;
+		$query = $wpdb->get_col( $wpdb->prepare(
+			"SELECT post_id
+			 FROM {$wpdb->postmeta}
+			 WHERE meta_key = '_llms_assigned_quiz'
+			   AND meta_value = %d;",
+			$this->get( 'id' )
+		) );
+
+		// return just the ids
+		if ( 'ids' === $return ) {
+			return $query;
+		}
+
+		// setup lesson objects
+		$ret = array();
+		foreach ( $query as $id ) {
+			$ret[] = llms_get_post( $id );
+		}
+		return $ret;
+
+	}
 
 	/**
 	 * Get the (points) value of a question
