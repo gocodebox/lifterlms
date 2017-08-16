@@ -2,7 +2,7 @@
  * LifterLMS Admin Metabox Repeater Field
  * @type  {Object}
  * @since    3.11.0
- * @version  3.11.0
+ * @version  [version]
  */
 this.repeaters = {
 
