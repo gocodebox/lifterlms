@@ -3,7 +3,7 @@
  * Order Details metabox for Order on Admin Panel
  *
  * @since    3.0.0
- * @version  3.11.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -143,8 +143,8 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 			<?php echo $order->get_price( 'total' ); ?>
 			<?php if ( $order->is_recurring() ) : ?>
 				<?php printf( _n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ), $order->get( 'billing_frequency' ), $order->get( 'billing_period' ) ); ?>
-				<?php if ( $order->get( 'billing_cycle' ) > 0 ) : ?>
-					<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_cycle' ), 'lifterlms' ), $order->get( 'billing_cycle' ), $order->get( 'billing_period' ) ); ?>
+				<?php if ( $order->get( 'billing_length' ) > 0 ) : ?>
+					<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_length' ), 'lifterlms' ), $order->get( 'billing_length' ), $order->get( 'billing_period' ) ); ?>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php _e( 'One-time', 'lifterlms' ); ?>

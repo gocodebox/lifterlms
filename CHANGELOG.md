@@ -1,6 +1,6 @@
 == Changelog ==
 
-v3.12.0 - 2017/08/15
+v3.12.0 - 2017/08/??
 --------------------
 
 + New quiz feature: randomize the order of quiz questions each attempt! Props to [Larry Groebe](https://github.com/larrygroebe)
@@ -8,6 +8,8 @@ v3.12.0 - 2017/08/15
 + Fixed JS loader check for tinyMCE editors in repeater fields
 + Fixed CSS issue related to tinyMCE editors in repeater fields
 + Fixed issue causing tinyMCE editors in repeater fields to stop working after reordering rows
++ LifterLMS alert box notices are now cleared during shutdown instead of immediately after rendering. Fixes some plugin compatibility issues.
++ Fix reference to invalid meta key on order notes admin screen.
 
 ##### Admin Post Table Upgrades
 
@@ -20,6 +22,10 @@ v3.12.0 - 2017/08/15
 + Quiz Questions:
   + Display associated Quizzes with links
   + Add filtering by associated quiz
+
+##### Template Updates
+
++ [admin/post-types/order-details.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/order-details.php)
 
 
 v3.11.2 - 2017/08/14
