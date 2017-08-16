@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since  3.0.0
- * @since  3.11.0
+ * @since  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -669,10 +669,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Scrub fields according to datatype
-	 * @param  mixed  $val   property value to scrub
-	 * @param  string $type  data type
-	 * @return mixed
-	 * @since  3.0.0
+	 * @param    mixed  $val   property value to scrub
+	 * @param    string $type  data type
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	protected function scrub_field( $val, $type ) {
 
@@ -687,6 +688,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			break;
 
 			case 'array':
+				if ( '' === $val ) {
+					$val = array();
+				}
 				$val = (array) $val;
 			break;
 
