@@ -445,11 +445,9 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 	 */
 	public static function install() {
 
-
 		if ( ! is_blog_installed() ) {
 			return;
 		}
-
 
 		do_action( 'lifterlms_before_install' );
 
