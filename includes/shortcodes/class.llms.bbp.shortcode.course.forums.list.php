@@ -48,7 +48,7 @@ class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Elemen
 		if ( $forums ) {
 			echo '<div class="llms-bbp-course-forums-wrap">';
 				echo '<ul class="llms-bbp-course-forums-list">';
-				foreach ( $forums as $forum_id ) : ?>
+			foreach ( $forums as $forum_id ) : ?>
 					<li><a class="llms-bbp-forum-title" href="<?php bbp_forum_permalink( $forum_id ); ?>">
 						<?php bbp_forum_title( $forum_id ); ?>
 					</a></li>

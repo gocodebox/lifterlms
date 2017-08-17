@@ -53,9 +53,9 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 
 		echo $args['before_widget'];
 
-			if ( ! empty( $instance['title'] ) ) {
-				echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
-			}
+		if ( ! empty( $instance['title'] ) ) {
+			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+		}
 
 			echo do_shortcode( '[lifterlms_bbp_course_forums]' );
 
