@@ -882,6 +882,32 @@ function llms_update_3120_update_order_end_dates() {
 }
 
 /**
+ * Rename options for bbPress and BuddyPress to follow the abstract integration options structure
+ */
+function llms_update_3120_update_integration_options() {
+
+	global $wpdb;
+	$wpdb->update( $wpdb->options,
+		array(
+			'option_name' => 'llms_integration_bbpress_enabled'
+		),
+		array(
+			'option_name' => 'lifterlms_bbpress_enabled',
+		)
+	);
+
+	$wpdb->update( $wpdb->options,
+		array(
+			'option_name' => 'llms_integration_buddypress_enabled'
+		),
+		array(
+			'option_name' => 'lifterlms_buddypress_enabled',
+		)
+	);
+
+}
+
+/**
  * Update db version at conclusion of 3.12.0 updates
  */
 function llms_update_3120_update_db_version() {

@@ -47,6 +47,7 @@ class LLMS_Install {
 		),
 		'3.12.0' => array(
 			'llms_update_3120_update_order_end_dates',
+			'llms_update_3120_update_integration_options',
 			'llms_update_3120_update_db_version',
 		),
 	);
