@@ -27,7 +27,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	protected function configure() {
 
 		$this->title = __( 'BuddyPress', 'lifterlms' );
-		$this->description = sprintf( __( 'Add LifterLMS information to BuddyPress profiles. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' );
+		$this->description = sprintf( __( 'Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories. %1$sLearn More%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' );
 
 		if ( $this->is_available() ) {
 
