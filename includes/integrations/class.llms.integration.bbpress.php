@@ -32,6 +32,15 @@ class LLMS_Integration_BBPress {
 
 		if ( $this->is_available() ) {
 
+			// custom engagements
+			add_filter( 'lifterlms_engagement_triggers', array( $this, 'register_engagement_triggers' ) );
+
+			add_action( 'bbp_new_topic', array( LLMS()->engagements(), 'maybe_trigger_engagement' ), 10, 4 );
+			add_action( 'bbp_new_reply', array( LLMS()->engagements(), 'maybe_trigger_engagement' ), 10, 5 );
+
+			add_filter( 'lifterlms_external_engagement_query_arguments', array( $this, 'engagement_query_args' ), 10, 3 );
+
+
 			// register shortcode
 			add_filter( 'llms_load_shortcodes', array( $this, 'register_shortcodes' ) );
 
@@ -110,8 +119,40 @@ class LLMS_Integration_BBPress {
 			),
 		);
 
-
 		return $fields;
+	}
+
+	/**
+	 * Parse action arguments for bbPress engagements and pass them back to the LLMS Engagements handler
+	 * @param    array     $query_args  query args for handler
+	 * @param    string    $action      triggering action name
+	 * @param    array     $orig_args   original arguments from the action (indexed array)
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function engagement_query_args( $query_args, $action, $orig_args ) {
+
+		if ( in_array( $action, array( 'bbp_new_reply', 'bbp_new_topic' ) ) ) {
+
+			$query_args['trigger_type'] = $action;
+			$query_args['related_post_id'] = '';
+
+			if ( 'bbp_new_reply' === $action ) {
+
+				$query_args['user_id'] = $orig_args[4]; // $reply_author
+
+			} elseif ( 'bbp_new_topic' === $action ) {
+
+				$query_args['user_id'] = $orig_args[3]; // $topic_author
+
+			}
+
+		}
+
+		return $query_args;
+
+
 	}
 
 	/**
@@ -163,7 +204,7 @@ class LLMS_Integration_BBPress {
 			 WHERE metas.meta_key = '_llms_bbp_forum_ids'
 			   AND metas.meta_value LIKE %s
 			   AND posts.post_status = 'publish';",
-			   '%' . sprintf( 'i:%d;', absint( $forum_id ) ) . '%'
+			'%' . sprintf( 'i:%d;', absint( $forum_id ) ) . '%'
 		) );
 
 		$query = array_map( 'absint', $query );
@@ -215,6 +256,13 @@ class LLMS_Integration_BBPress {
 		return $classes;
 	}
 
+	/**
+	 * Check forum restrictions for course restrictions
+	 * @param    array     $results  array of restriction results
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function restriction_checks_courses( $results ) {
 
 		$post_id = null;
@@ -229,7 +277,7 @@ class LLMS_Integration_BBPress {
 
 				$post_id = $courses[0];
 
-			// courses and a user, find at least one enrollment
+				// courses and a user, find at least one enrollment
 			} elseif ( $courses && $user_id ) {
 
 				foreach ( $courses as $course_id ) {
@@ -237,15 +285,13 @@ class LLMS_Integration_BBPress {
 					// but dont break because we may find an enrollment later
 					if ( ! llms_is_user_enrolled( $user_id, $course_id ) ) {
 						$post_id = $course_id;
-					// enrolled in one, reset the post id and break
+						// enrolled in one, reset the post id and break
 					} else {
 						$post_id = null;
 						break;
 					}
 				}
-
 			}
-
 		} elseif ( bbp_is_topic( $results['content_id'] ) ) {
 
 			$post_id = bbp_get_topic_forum_id( $results['content_id'] );
@@ -275,13 +321,13 @@ class LLMS_Integration_BBPress {
 		$post_id = null;
 
 		// forum archive, grab the page (if set)
- 		if ( bbp_is_forum_archive() ) {
+		if ( bbp_is_forum_archive() ) {
 
- 			$page = bbp_get_page_by_path( bbp_get_root_slug() );
- 			$post_id = ( $page && $page->ID ) ? $page->ID : null;
- 			$reason = 'membership';
+			$page = bbp_get_page_by_path( bbp_get_root_slug() );
+			$post_id = ( $page && $page->ID ) ? $page->ID : null;
+			$reason = 'membership';
 
- 		} elseif ( bbp_is_topic( $results['content_id'] ) ) {
+		} elseif ( bbp_is_topic( $results['content_id'] ) ) {
 
 			$post_id = bbp_get_topic_forum_id( $results['content_id'] );
 			$reason = 'membership';
@@ -298,11 +344,23 @@ class LLMS_Integration_BBPress {
 				$results['reason'] = 'membership';
 
 			}
-
 		}
 
 		return $results;
 
+	}
+
+	/**
+	 * Register engagement triggers
+	 * @param    array     $triggers  existing triggers
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function register_engagement_triggers( $triggers ) {
+		$triggers['bbp_new_topic'] = __( 'Student creates a new forum topic', 'lifterlms' );
+		$triggers['bbp_new_reply'] = __( 'Student creates a new forum reply', 'lifterlms' );
+		return $triggers;
 	}
 
 	/**
