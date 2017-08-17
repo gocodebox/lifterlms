@@ -10,14 +10,49 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
+	/**
+	 * Integration ID
+	 * Defined by extending class as a variable
+	 * @var  string
+	 */
 	public $id = '';
+
+	/**
+	 * Integration Title
+	 * Should be defined by extending class in configure() function (so it can be i18n)
+	 * @var  string
+	 */
 	public $title = '';
+
+	/**
+	 * Integration Description
+	 * Should be defined by extending class in configure() function (so it can be i18n)
+	 * @var  string
+	 */
 	public $description = '';
 
+	/**
+	 * Integration Priority
+	 * Detemines the order of the settings on the Integrations settings table
+	 * Don't be arrogant developers, your integration may not be the most important to the user
+	 * even if it is the most important to you
+	 *
+	 * Core integrations fire at 5
+	 *
+	 * @var  integer
+	 */
+	protected $priority = 20;
+
+	/**
+	 * Constructor
+	 * @return   void
+	 * @since    3.8.0
+	 * @version  [version]
+	 */
 	public function __construct() {
 
 		$this->configure();
-		add_filter( 'lifterlms_integrations_settings', array( $this, 'add_settings' ), 10, 1 );
+		add_filter( 'lifterlms_integrations_settings', array( $this, 'add_settings' ), $this->priority, 1 );
 
 	}
 
