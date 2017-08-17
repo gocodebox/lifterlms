@@ -2,33 +2,48 @@
 /**
  * BuddyPress Integration
  * @since    1.0.0
- * @version  3.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Integration_Buddypress {
-	public $id = 'bp';
-	public $title = 'BuddyPress';
+class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
+
+	public $id = 'buddypress';
 
 	/**
-	 * Constructor
-	 *
-	 * @return  null
+	 * Display order on Integrations tab
+	 * @var  integer
 	 */
-	public function __construct() {
-		if ( $this->is_available() ) {
-			add_action( 'bp_setup_nav',array( $this, 'add_profile_nav_items' ) );
-		}
-	}
+	protected $priority = 5;
 
-	public function is_available() {
-		return ( $this->is_enabled() && $this->is_installed() );
+	/**
+	 * Configure the integration
+	 * Do things like configure ID and title here
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function configure() {
+
+		$this->title = __( 'BuddyPress', 'lifterlms' );
+		$this->description = sprintf( __( 'Add LifterLMS information to BuddyPress profiles. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' );
+
+		if ( $this->is_available() ) {
+
+			add_action( 'bp_setup_nav',array( $this, 'add_profile_nav_items' ) );
+
+			add_filter( 'llms_page_restricted_before_check_access', array( $this, 'restriction_checks' ), 40, 1 );
+
+		}
+
 	}
 
 	/**
 	 * Add LLMS navigation items to the BuddyPress User Profile
 	 * @return  null
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 */
 	public function add_profile_nav_items() {
 		global $bp;
@@ -83,36 +98,21 @@ class LLMS_Integration_Buddypress {
 		));
 	}
 
-
-	/**
-	 * Checks checks if the LLMS BuddyPress integration is enabled
-	 * @return boolean
-	 */
-	public function is_enabled() {
-		if ( get_option( 'lifterlms_buddypress_enabled' ) == 'yes' ) {
-			return true;
-		}
-		return false;
-	}
-
-
 	/**
 	 * Checks if the BuddyPress plugin is installed & activated
 	 * @return boolean
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 */
 	public function is_installed() {
-		if ( class_exists( 'BuddyPress' ) ) {
-			return true;
-		}
-		return false;
+		return ( class_exists( 'BuddyPress' ) );
 	}
-
-
-
 
 	/**
 	 * Callback for "Achievements" profile screen
 	 * @return null
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 */
 	public function achievements_screen() {
 		// add_action('bp_template_title', array($this,'achievements_title'));
@@ -120,19 +120,21 @@ class LLMS_Integration_Buddypress {
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
-		/**
-		 * "Achievements" profile screen content
-		 * @return null
-		 */
+	/**
+	 * "Achievements" profile screen content
+	 * @return null
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 */
 	public function achievements_content() {
 		llms_get_template( 'myaccount/my-achievements.php' );
 	}
 
-
-
 	/**
 	 * Callback for "Certificates" profile screen
 	 * @return null
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 */
 	public function certificates_screen() {
 		// add_action('bp_template_title', array($this,'certificates_title'));
@@ -140,19 +142,21 @@ class LLMS_Integration_Buddypress {
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
-		/**
-		 * "Certificates" profile screen content
-		 * @return null
-		 */
+	/**
+	 * "Certificates" profile screen content
+	 * @return null
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 */
 	public function certificates_content() {
 		llms_get_template( 'myaccount/my-certificates.php' );
 	}
 
-
-
 	/**
 	 * Callback for "Courses" profile screen
 	 * @return null
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 */
 	public function courses_screen() {
 		// add_action('bp_template_title', array($this,'courses_title'));
@@ -163,6 +167,8 @@ class LLMS_Integration_Buddypress {
 	/**
 	 * "Courses" profile screen content
 	 * @return null
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 */
 	public function courses_content() {
 		$student = new LLMS_Student();
@@ -179,11 +185,11 @@ class LLMS_Integration_Buddypress {
 		) );
 	}
 
-
-
 	/**
 	 * Callback for "memberships" profile screen
 	 * @return null
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 */
 	public function memberships_screen() {
 		// add_action('bp_template_title', array($this,'memberships_title'));
@@ -194,23 +200,60 @@ class LLMS_Integration_Buddypress {
 	/**
 	 * "memberships" profile screen content
 	 * @return null
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 */
 	public function memberships_content() {
 		llms_get_template( 'myaccount/my-memberships.php' );
 	}
 
+	/**
+	 * Allows restricting of BP Directory Pages for Activity and Members via LifterLMS membership restrictions
+	 * @param    array     $results  array of restriction results
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function restriction_checks( $results ) {
 
+		// only check directories
+		if ( ! bp_is_directory() ) {
+			return $results;
+		}
 
+		$post_id = null;
 
-	// /**
-	//  * Returns a permalink for the registration page as selected in buddypress options
-	//  * @return string / permalink
-	//  */
-	// public function get_registration_permalink() {
-	// 	$option = get_option( 'bp-pages' );
-	// 	if (array_key_exists( 'register', $option )) {
-	// 		return get_the_permalink( $option['register'] );
-	// 	}
-	// }
+		// activity
+		if ( bp_is_activity_component() ) {
+
+			$post_id = bp_core_get_directory_page_id( 'activity' );
+
+		} elseif ( bp_is_members_component() ) {
+
+			$post_id = bp_core_get_directory_page_id( 'members' );
+
+		} elseif ( bp_is_groups_component() ) {
+
+			$post_id = bp_core_get_directory_page_id( 'groups' );
+
+		}
+
+		if ( $post_id ) {
+
+			$restriction_id = llms_is_post_restricted_by_membership( $post_id, get_current_user_id() );
+
+			if ( $restriction_id ) {
+
+				$results['content_id'] = $post_id;
+				$results['restriction_id'] = $restriction_id;
+				$results['reason'] = 'membership';
+
+			}
+
+		}
+
+		return $results;
+
+	}
 
 }
