@@ -16,10 +16,10 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	public $id = 'bbpress';
 
 	/**
-	 * Integration title
-	 * @var  string
+	 * Display order on Integrations tab
+	 * @var  integer
 	 */
-	public $title = '';
+	protected $priority = 5;
 
 	/**
 	 * Configure the integration
@@ -31,6 +31,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	protected function configure() {
 
 		$this->title = __( 'bbPress', 'lifterlms' );
+		$this->description = sprintf( __( 'Restrict forums and topics to memberships, add fourms to courses, and %1$smore%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-bbpress/" target="_blank">', '</a>' );
 
 		if ( $this->is_available() ) {
 
@@ -193,6 +194,13 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 	}
 
+	/**
+	 * Check if a forum is restricted to a course(s)
+	 * @param    int     $forum_id  WP_Post ID of the forum
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function get_forum_course_restrictions( $forum_id ) {
 
 		global $wpdb;
@@ -210,27 +218,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 		return $query;
 
-	}
-
-	/**
-	 * Determine if the integration is available for use
-	 * Must be enabled and the bbPress plugin must be installed & activated
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function is_available() {
-		return ( $this->is_enabled() && $this->is_installed() );
-	}
-
-	/**
-	 * Determine if the integration is enabled via integration settings
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function is_enabled() {
-		return ( 'yes' === get_option( 'lifterlms_bbpress_enabled', 'no' ) );
 	}
 
 	/**
