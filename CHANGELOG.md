@@ -23,11 +23,13 @@ v3.12.0 - 2017/08/17
 + Adds engagement triggers to allow engagements to be fired when a student posts a reply or creates a new topic
 + Improves integration membership restriction check performance
 + Migrated to the `LLMS_Abstract_Integration` class. Visually changes the settings display but has no other impact
++ [More information](https://lifterlms.com/docs/lifterlms-and-bbpress/)
 
 ##### BuddyPress Integration Updates
 
 + Add the ability to restrict activity, group, and memeber directory pages to LifterLMS memberships.
 + Migrated to the `LLMS_Abstract_Integration` class. Visually changes the settings display but has no other impact
++ [More information](https://lifterlms.com/docs/lifterlms-and-bbpress/)
 
 ##### Database update
 
