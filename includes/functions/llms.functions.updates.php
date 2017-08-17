@@ -889,7 +889,7 @@ function llms_update_3120_update_integration_options() {
 	global $wpdb;
 	$wpdb->update( $wpdb->options,
 		array(
-			'option_name' => 'llms_integration_bbpress_enabled'
+			'option_name' => 'llms_integration_bbpress_enabled',
 		),
 		array(
 			'option_name' => 'lifterlms_bbpress_enabled',
@@ -898,7 +898,7 @@ function llms_update_3120_update_integration_options() {
 
 	$wpdb->update( $wpdb->options,
 		array(
-			'option_name' => 'llms_integration_buddypress_enabled'
+			'option_name' => 'llms_integration_buddypress_enabled',
 		),
 		array(
 			'option_name' => 'lifterlms_buddypress_enabled',

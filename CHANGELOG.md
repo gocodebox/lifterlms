@@ -12,7 +12,8 @@ v3.12.0 - 2017/08/17
 + Fix reference to invalid meta key on order notes admin screen.
 + Record order note when orders with a defined length complete
 + When a payment is scheduled for an order with a defined length, calculate end date if no end date is saved
-+ [Database update](https://lifterlms.com/docs/lifterlms-database-updates/#3120): calculate and store end dates for orders created prior to version 3.11.0 which have a defined length and do not have a stored end date.
++ Minor updates to the `LLMS_Abstract_Integration` class
++ Fix undefined reference error on 404 pages resulting from the preview manager.
 
 ##### bbPress Integration Updates
 
@@ -21,6 +22,18 @@ v3.12.0 - 2017/08/17
 + Adds the ability to restrict the page set as the bbPress forum index (via bbPress settings) to be restricted to LifterLMS memberships
 + Adds engagement triggers to allow engagements to be fired when a student posts a reply or creates a new topic
 + Improves integration membership restriction check performance
++ Migrated to the `LLMS_Abstract_Integration` class. Visually changes the settings display but has no other impact
+
+##### BuddyPress Integration Updates
+
++ Add the ability to restrict activity, group, and memeber directory pages to LifterLMS memberships.
++ Migrated to the `LLMS_Abstract_Integration` class. Visually changes the settings display but has no other impact
+
+##### Database update
+
++ calculate and store end dates for orders created prior to version 3.11.0 which have a defined length and do not have a stored end date.
++ migrate bbPress and BuddyPress options to `LLMS_Abstract_Integration` naming convention
++ [More information](https://lifterlms.com/docs/lifterlms-database-updates/#3120)
 
 ##### Admin Post Table Upgrades
 

@@ -249,7 +249,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 				$results['reason'] = 'membership';
 
 			}
-
 		}
 
 		return $results;

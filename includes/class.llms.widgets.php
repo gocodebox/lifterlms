@@ -31,7 +31,7 @@ class LLMS_Widgets {
 			'LLMS_Widget_Course_Syllabus',
 		) );
 
-		if ( class_exists( 'bbPress' ) && 'yes' === get_option( 'lifterlms_bbpress_enabled', 'no' ) ) {
+		if ( class_exists( 'bbPress' ) && 'yes' === get_option( 'llms_integration_bbpress_enabled', 'no' ) ) {
 			require_once LLMS_PLUGIN_DIR . 'includes/widgets/class.llms.bbp.widget.course.forums.list.php';
 			$widgets[] = 'LLMS_BBP_Widget_Course_Forums_List';
 		}
