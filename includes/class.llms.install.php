@@ -441,13 +441,15 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.4.7
+	 * @version [version]
 	 */
 	public static function install() {
+
 
 		if ( ! is_blog_installed() ) {
 			return;
 		}
+
 
 		do_action( 'lifterlms_before_install' );
 
@@ -470,6 +472,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 		$version = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
 
+		// var_dump( $version, $db_version ); die;
+
 		// trigger first time run redirect
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
 
@@ -478,7 +482,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 		}
 
 		// show the update notice since theres db updates to run
-		if ( ! is_null( $db_version ) && version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
+		$versions = array_keys( self::$db_updates );
+		if ( ! is_null( $db_version ) && version_compare( $db_version, end( $versions ), '<' ) ) {
 
 			self::update_notice();
 
