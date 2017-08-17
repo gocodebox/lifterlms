@@ -653,7 +653,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 /**
  * Retrieve the LLMS Post Model for a give post by ID or WP_Post Object
  * @param    obj|int     $post  instance of WP_Post or a WP Post ID
- * @return   obj|false
+ * @return   obj
  * @since    3.3.0
  * @version  3.6.0
  */
