@@ -3,7 +3,7 @@
  * Allow admins to view as various user types
  * to make easier testing and editing of LLMS Content
  * @since    3.7.0
- * @version  3.7.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -55,7 +55,7 @@ class LLMS_View_Manager {
 	 * Add view links to the admin menu bar for qualifying users
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	public function add_menu_items() {
 
@@ -71,7 +71,7 @@ class LLMS_View_Manager {
 
 		// don't need to do anything for most post types
 		global $post;
-		if ( ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership' ) ) ) {
+		if ( ! $post || ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership' ) ) ) {
 			return;
 		}
 
