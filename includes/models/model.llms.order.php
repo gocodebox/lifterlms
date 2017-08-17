@@ -2,7 +2,7 @@
 /**
  * LifterLMS Order Model
  * @since    3.0.0
- * @version  3.10.0
+ * @version  [version]
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -252,12 +252,16 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    string     $format  return format
 	 * @return   string
 	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	private function calculate_next_payment_date( $format = 'Y-m-d H:i:s' ) {
 
 		$start_time = $this->get_date( 'date', 'U' );
 		$end_time = $this->get_date( 'date_billing_end', 'U' );
+		if ( ! $end_time && $this->get( 'billing_length' ) ) {
+			$end_time = $this->calculate_billing_end_date();
+			$this->set( 'date_billing_end', date_i18n( 'Y-m-d H:i:s', $end_time ) );
+		}
 		$next_payment_time = $this->get_date( 'date_next_payment', 'U' );
 
 		// if were on a trial and the trial hasn't ended yet next payment date is the date the trial ends
@@ -1170,7 +1174,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Will always unschedule the scheduled action (if one exists) before scheduling another
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function maybe_schedule_payment( $recalc = true ) {
 
@@ -1184,6 +1188,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$date = $this->get_next_payment_due_date( 'U' );
 
+		// unschedule and reschedule
 		if ( $date && ! is_wp_error( $date ) ) {
 
 			// unschedule the next action (does nothing if no action scheduled)
@@ -1196,6 +1201,18 @@ class LLMS_Order extends LLMS_Post_Model {
 			wc_schedule_single_action( $date, 'llms_charge_recurring_payment', array(
 				'order_id' => $this->get( 'id' ),
 			) );
+
+		} elseif ( is_wp_error( $date ) ) {
+
+			if ( 'plan-ended' === $date->get_error_code() ) {
+
+				// unschedule the next action (does nothing if no action scheduled)
+				$this->unschedule_recurring_payment();
+
+				// add a note that the plan has completed
+				$this->add_note( __( 'Order payment plan completed.', 'lifterlms' ) );
+
+			}
 
 		}
 

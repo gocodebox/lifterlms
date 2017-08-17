@@ -1,6 +1,6 @@
 == Changelog ==
 
-v3.12.0 - 2017/08/??
+v3.12.0 - 2017/08/17
 --------------------
 
 + New quiz feature: randomize the order of quiz questions each attempt! Props to [Larry Groebe](https://github.com/larrygroebe)
@@ -10,6 +10,16 @@ v3.12.0 - 2017/08/??
 + Fixed issue causing tinyMCE editors in repeater fields to stop working after reordering rows
 + LifterLMS alert box notices are now cleared during shutdown instead of immediately after rendering. Fixes some plugin compatibility issues.
 + Fix reference to invalid meta key on order notes admin screen.
++ Record order note when orders with a defined length complete
++ When a payment is scheduled for an order with a defined length, calculate end date if no end date is saved
++ [Database update](https://lifterlms.com/docs/lifterlms-database-updates/#3120): calculate and store end dates for orders created prior to version 3.11.0 which have a defined length and do not have a stored end date.
+
+##### bbPress Integration Updates
+
++ Add "Private" Course Forums which allows forums to be made available only to students enrolled in the associated course
++ Adds a shortcode and widget for outputting a list of forums associated with a course
++ Adds the ability to restrict the page set as the bbPress forum index (via bbPress settings) to be restricted to LifterLMS memberships
++ Improves integration membership restriction check performance
 
 ##### Admin Post Table Upgrades
 

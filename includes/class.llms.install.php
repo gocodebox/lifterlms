@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.8.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -44,6 +44,10 @@ class LLMS_Install {
 		'3.8.0' => array(
 			'llms_update_380_set_access_plan_visibility',
 			'llms_update_380_update_db_version',
+		),
+		'3.12.0' => array(
+			'llms_update_3120_update_order_end_dates',
+			'llms_update_3120_update_db_version',
 		),
 	);
 
