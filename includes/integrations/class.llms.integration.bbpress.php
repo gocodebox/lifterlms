@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Integration_BBPress {
+class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Integration ID
@@ -22,11 +22,13 @@ class LLMS_Integration_BBPress {
 	public $title = '';
 
 	/**
-	 * Constructor
-	 * @since    3.0.0
-	 * @version  [version]
+	 * Configure the integration
+	 * Do things like configure ID and title here
+	 * @return   void
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
-	public function __construct() {
+	protected function configure() {
 
 		$this->title = __( 'bbPress', 'lifterlms' );
 
