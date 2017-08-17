@@ -517,11 +517,11 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:63, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184, includes/class.llms.install.php:537, includes/class.llms.install.php:557
+#: includes/admin/class.llms.admin.notices.core.php:63, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184, includes/class.llms.install.php:535, includes/class.llms.install.php:555
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:541, includes/class.llms.install.php:561
+#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:539, includes/class.llms.install.php:559
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -3498,7 +3498,7 @@ msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:613
+#: includes/class.llms.install.php:611
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
