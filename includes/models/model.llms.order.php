@@ -1213,7 +1213,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				$this->add_note( __( 'Order payment plan completed.', 'lifterlms' ) );
 
 			}
-
 		}
 
 	}

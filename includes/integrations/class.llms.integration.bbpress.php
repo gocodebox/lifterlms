@@ -40,7 +40,6 @@ class LLMS_Integration_BBPress {
 
 			add_filter( 'lifterlms_external_engagement_query_arguments', array( $this, 'engagement_query_args' ), 10, 3 );
 
-
 			// register shortcode
 			add_filter( 'llms_load_shortcodes', array( $this, 'register_shortcodes' ) );
 
@@ -147,11 +146,9 @@ class LLMS_Integration_BBPress {
 				$query_args['user_id'] = $orig_args[3]; // $topic_author
 
 			}
-
 		}
 
 		return $query_args;
-
 
 	}
 

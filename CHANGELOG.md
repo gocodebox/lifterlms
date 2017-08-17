@@ -19,17 +19,18 @@ v3.12.0 - 2017/08/17
 + Add "Private" Course Forums which allows forums to be made available only to students enrolled in the associated course
 + Adds a shortcode and widget for outputting a list of forums associated with a course
 + Adds the ability to restrict the page set as the bbPress forum index (via bbPress settings) to be restricted to LifterLMS memberships
++ Adds engagement triggers to allow engagements to be fired when a student posts a reply or creates a new topic
 + Improves integration membership restriction check performance
 
 ##### Admin Post Table Upgrades
 
-+ Lessons:
++ Lessons
   + Fix section titles which formerly were a dead link. Now they're just text
   + Add filtering the table by associated course
-+ Quizzes:
++ Quizzes
   + Display associated course and lesson columns with links
   + Add filtering by associated course and/or lesson
-+ Quiz Questions:
++ Quiz Questions
   + Display associated Quizzes with links
   + Add filtering by associated quiz
 
