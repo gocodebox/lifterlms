@@ -3,7 +3,7 @@
  * LifterLMS Quiz Question
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.12.0
  *
  * @property  $question_type  (string)  type of question
  */
@@ -63,8 +63,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Retrieve quizzes this quiz is assigned to
 	 * @return   array              array of WP_Post IDs (quiz post types)
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function get_quizzes() {
 

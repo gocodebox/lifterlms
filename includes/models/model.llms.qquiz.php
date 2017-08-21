@@ -2,7 +2,7 @@
 /**
  * LifterLMS Quiz Model
  * @since    3.3.0
- * @version  [version]
+ * @version  3.12.0
  *
  * @property  $allowed_attempts  (int)  Number of times a student is allowed to take the quiz before being locked out of it
  * @property  $passing_percent  (float)  Grade required for a student to "pass" the quiz
@@ -35,8 +35,8 @@ class LLMS_QQuiz extends LLMS_Post_Model {
 	 * Retrieve lessons this quiz is assigned to
 	 * @param    string    $return  format of the return [ids|lessons]
 	 * @return   array              array of WP_Post IDs (lesson post types)
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function get_lessons( $return = 'ids' ) {
 

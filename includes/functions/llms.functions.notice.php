@@ -32,7 +32,7 @@ function llms_add_notice( $message, $notice_type = 'success' ) {
  * Clears all notices from session
  * @return void
  * @since   1.0.0
- * @version [version]
+ * @version 3.12.0
  */
 function llms_clear_notices() {
 	LLMS()->session->set( 'llms_notices', array() );
@@ -52,7 +52,7 @@ function llms_get_notice_types() {
  * Gets messages and errors which are stored in the session, then clears them.
  * @return   string
  * @since    3.0.0
- * @version  [version]
+ * @version  3.12.0
  */
 function llms_get_notices() {
 

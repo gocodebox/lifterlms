@@ -70,7 +70,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 * @param    int        $user_id           wp user id of a student
 	 * @return   void
 	 * @since    3.7.3
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	private function prereq_tests( $test_ids = array(), $course, $prereq_course_id, $track_id, $user_id = null ) {
 

@@ -2,7 +2,7 @@
 /**
  * Add, Customize, and Manage LifterLMS Lesson posts table Columns
  * @since    3.2.3
- * @version  [version]
+ * @version  3.12.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -13,7 +13,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * Constructor
 	 * @return  void
 	 * @since    3.2.3
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	public function __construct() {
 
@@ -30,7 +30,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @param   array  $columns  array of default columns
 	 * @return  array
 	 * @since    3.2.3
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	public function add_columns( $columns ) {
 
@@ -51,8 +51,8 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * Add filters to the top of the post table
 	 * @param    string     $post_type  Post Type of the current posts table
 	 * @param    string     $which      positioning of the filters [top|bottom]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function add_filters( $post_type, $which ) {
 
@@ -72,7 +72,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @param  int    $post_id  WP Post ID of the lesson for the row
 	 * @return void
 	 * @since    3.2.3
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 
@@ -135,8 +135,8 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * Modify the main WP Query
 	 * @param    obj     $query  WP_Query
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function parse_query_filters( $query ) {
 

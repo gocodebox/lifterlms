@@ -4,8 +4,8 @@
  *
  * [lifterlms_bbp_course_forums]
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.12.0
+ * @version  3.12.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -21,8 +21,8 @@ class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Elemen
 	/**
 	 * Retrive the forum ids associated with the course
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	private function get_forums() {
 
@@ -38,8 +38,8 @@ class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Elemen
 	/**
 	 * Call the template function for the course element
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	protected function template_function() {
 

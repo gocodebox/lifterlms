@@ -114,8 +114,8 @@ class LLMS_Admin_Post_Tables {
 	 * @param    string     $post_type  post type to search by
 	 * @param    array      $selected   array of POST IDs to use for the pre-selected options on page load
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public static function get_post_type_filter_html( $name, $post_type = 'course', $selected = array() ) {
 		$obj = get_post_type_object( $post_type );

@@ -2,7 +2,7 @@
  * LifterLMS Admin Metabox Repeater Field
  * @type  {Object}
  * @since    3.11.0
- * @version  [version]
+ * @version  3.12.0
  */
 this.repeaters = {
 
@@ -22,7 +22,7 @@ this.repeaters = {
 	 * Init
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	init: function() {
 
@@ -51,7 +51,7 @@ this.repeaters = {
 	 * Bind DOM Events
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	bind: function() {
 

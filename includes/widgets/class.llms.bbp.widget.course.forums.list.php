@@ -1,8 +1,8 @@
 <?php
 /**
  * LifterLMS Private Areas: Private Area Information Widget
- * @since    [version]
- * @version  [version]
+ * @since    3.12.0
+ * @version  3.12.0
  */
 
 // Restrict direct access
@@ -12,8 +12,8 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function __construct() {
 
@@ -31,8 +31,8 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 	 * @param    array     $args      arguments passed to the widget
 	 * @param    array     $instance  instance information
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function widget( $args, $instance ) {
 
@@ -67,8 +67,8 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 	 * Output widget options form
 	 * @param    array     $instance  instance data
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function form( $instance ) {
 

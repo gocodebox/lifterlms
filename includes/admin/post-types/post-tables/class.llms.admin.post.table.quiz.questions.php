@@ -1,8 +1,8 @@
 <?php
 /**
  * Add, Customize, and Manage LifterLMS question posts table Columns
- * @since    [version]
- * @version  [version]
+ * @since    3.12.0
+ * @version  3.12.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -12,8 +12,8 @@ class LLMS_Admin_Post_Table_Quiz_Questions {
 	/**
 	 * Constructor
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function __construct() {
 
@@ -29,8 +29,8 @@ class LLMS_Admin_Post_Table_Quiz_Questions {
 	 * Add Custom lesson Columns
 	 * @param   array  $columns  array of default columns
 	 * @return  array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function add_columns( $columns ) {
 
@@ -48,8 +48,8 @@ class LLMS_Admin_Post_Table_Quiz_Questions {
 	 * Add filters to the top of the post table
 	 * @param    string     $post_type  Post Type of the current posts table
 	 * @param    string     $which      positioning of the filters [top|bottom]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function add_filters( $post_type, $which ) {
 
@@ -68,8 +68,8 @@ class LLMS_Admin_Post_Table_Quiz_Questions {
 	 * @param    string $column   column key/name
 	 * @param    int    $post_id  WP Post ID of the question for the row
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 
@@ -101,8 +101,8 @@ class LLMS_Admin_Post_Table_Quiz_Questions {
 	 * Modify the main WP Query
 	 * @param    obj     $query  WP_Query
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function parse_query_filters( $query ) {
 

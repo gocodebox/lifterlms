@@ -2,7 +2,7 @@
 /**
 * Admin Settings Page, Integrations Tab
 * @since    1.0.0
-* @version  [version]
+* @version  3.12.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

@@ -2,7 +2,7 @@
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version [version]
+ * @version 3.12.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -302,7 +302,7 @@ class LLMS_Quiz_Attempt {
 	 * @param    int     $quiz_id  WP Post ID of the quiz
 	 * @return   array
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	private function get_new_questions( $quiz_id ) {
 

@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version [version]
+ * @version 3.12.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -441,7 +441,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.12.0
 	 */
 	public static function install() {
 

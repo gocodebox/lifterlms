@@ -2,7 +2,7 @@
 /**
  * BuddyPress Integration
  * @since    1.0.0
- * @version  [version]
+ * @version  3.12.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -21,8 +21,8 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Configure the integration
 	 * Do things like configure ID and title here
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	protected function configure() {
 
@@ -211,8 +211,8 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Allows restricting of BP Directory Pages for Activity and Members via LifterLMS membership restrictions
 	 * @param    array     $results  array of restriction results
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function restriction_checks( $results ) {
 

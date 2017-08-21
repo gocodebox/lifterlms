@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.12.0
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
@@ -191,7 +191,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 * Retrieve an array of quizzes within a course
 	 * @return   array            array of WP_Post IDs of the quizzes
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	public function get_quizzes() {
 

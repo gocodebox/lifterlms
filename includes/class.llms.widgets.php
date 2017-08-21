@@ -3,7 +3,7 @@
 * Base Widgets Class
 * Calls WP register widgets for each widget in filter lifterlms_widgets
 * @since    1.0.0
-* @version  [version]
+* @version  3.12.0
 */
 class LLMS_Widgets {
 
@@ -22,7 +22,7 @@ class LLMS_Widgets {
 	 * Registers all lifterlms_widgets
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	public function register_widgets() {
 

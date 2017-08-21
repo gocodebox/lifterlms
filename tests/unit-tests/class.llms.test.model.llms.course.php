@@ -4,7 +4,7 @@
  * @group    LLMS_Course
  * @group    LLMS_Post_Model
  * @since    3.4.0
- * @version  [version]
+ * @version  3.12.0
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -179,8 +179,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get lessons function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function test_get_lessons() {
 
@@ -212,8 +212,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get quizzes function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function test_get_quizzes() {
 
@@ -230,8 +230,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get sections function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function test_get_sections() {
 
@@ -263,8 +263,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get students function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function test_get_students() {
 
@@ -283,8 +283,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the has_capacity function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function test_has_capacity() {
 

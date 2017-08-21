@@ -2,7 +2,7 @@
 /**
 * bbPress Integration
 * @since    3.0.0
-* @version  [version]
+* @version  3.12.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -68,8 +68,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Register the custom course property with the LLMS_Course Model
 	 * @param    array     $props   default properties
 	 * @param    obj       $course  instance of the LLMS_Course
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function add_course_props( $props, $course ) {
 		$props['bbp_forum_ids'] = 'array';
@@ -91,8 +91,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Register custom bbPress tab with the LLMS Course metabox
 	 * @param    array     $fields  existing fields
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function course_settings_fields( $fields ) {
 
@@ -130,8 +130,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * @param    string    $action      triggering action name
 	 * @param    array     $orig_args   original arguments from the action (indexed array)
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function engagement_query_args( $query_args, $action, $orig_args ) {
 
@@ -160,8 +160,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Add a notice and redirect to the course
 	 * @param    array     $restriction  restriction results from llms_page_restricted()
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function handle_course_forum_restriction( $restriction ) {
 
@@ -175,8 +175,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Retrieve course ids restricted to a LifterLMS course
 	 * @param    mixed     $course  WP_Post, LLMS_Course, or WP_Post ID
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function get_course_forum_ids( $course ) {
 
@@ -198,8 +198,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Check if a forum is restricted to a course(s)
 	 * @param    int     $forum_id  WP_Post ID of the forum
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function get_forum_course_restrictions( $forum_id ) {
 
@@ -234,8 +234,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Register shortcodes via LifterLMS core registration methods
 	 * @param    array     $classes  existing shortcode classes
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function register_shortcodes( $classes ) {
 		$classes[] = 'LLMS_BBP_Shortcode_Course_Forums_List';
@@ -246,8 +246,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Check forum restrictions for course restrictions
 	 * @param    array     $results  array of restriction results
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function restriction_checks_courses( $results ) {
 
@@ -299,8 +299,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Check membership restrictions for Topics and Forum Archive pages
 	 * @param    array     $results  array of restriction results
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function restriction_checks_memberships( $results ) {
 
@@ -340,8 +340,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Register engagement triggers
 	 * @param    array     $triggers  existing triggers
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function register_engagement_triggers( $triggers ) {
 		$triggers['bbp_new_topic'] = __( 'Student creates a new forum topic', 'lifterlms' );
@@ -353,8 +353,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Save course metabox custom fields
 	 * @param    int     $post_id  WP_Post ID of the course
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.12.0
+	 * @version  3.12.0
 	 */
 	public function save_course_settings( $post_id ) {
 

@@ -3,7 +3,7 @@
  * Order Details metabox for Order on Admin Panel
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.12.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

@@ -3,7 +3,7 @@
 * Engagments Class
 * Finds and triggers the appropriate engagement
 * @since    2.3.0
-* @version  [version]
+* @version  3.12.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -228,7 +228,7 @@ class LLMS_Engagements {
 	 * @param    mixed     $log  data to write to the log
 	 * @return   void
 	 * @since    2.7.9
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	public function log( $log ) {
 

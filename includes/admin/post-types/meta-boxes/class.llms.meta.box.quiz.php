@@ -3,7 +3,7 @@
  * Quiz Metabox
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.12.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -31,7 +31,7 @@ class LLMS_Meta_Box_Quiz extends LLMS_Admin_Metabox {
 	 * The function must return an array which can be consumed by the "output" function
 	 * @return array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	public function get_fields() {
 

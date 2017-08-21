@@ -3,7 +3,7 @@
  * Tests for the LLMS_Install Class
  * @group    quizzes
  * @since    3.9.0
- * @version  [version]
+ * @version  3.12.0
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
@@ -36,7 +36,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 * @param    string     $rand             whether to randomize question order
 	 * @return   [type]                       [description]
 	 * @since    3.9.2
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	private function take_a_quiz( $desired_grade, $passing_percent, $num_questions = 15, $attempt = null, $rand = 'no' ) {
 
@@ -319,7 +319,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 * pass/fail/complete actions
 	 * @return   [type]     [description]
 	 * @since    3.9.2
-	 * @version  [version]
+	 * @version  3.12.0
 	 */
 	public function test_take_some_quizzes( ) {
 
