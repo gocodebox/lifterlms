@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.12.1 - 2017/08/21
+--------------------
+
++ Ensure that the bbPress course forums shortcode & widget properly cascade up when used on a lesson or quiz
+
+
 v3.12.0 - 2017/08/17
 --------------------
 
