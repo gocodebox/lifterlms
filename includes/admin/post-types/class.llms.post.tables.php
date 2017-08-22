@@ -2,7 +2,7 @@
 /**
  * General post table management
  * @since    3.0.0
- * @version  3.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -31,11 +31,11 @@ class LLMS_Admin_Post_Tables {
 	 * @param    array     $actions  existing actions
 	 * @param    obj       $post    WP_Post object
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function add_links( $actions, $post ) {
 
-		if ( post_type_supports( $post->post_type, 'llms-clone-post' ) ) {
+		if ( current_user_can( 'edit_post', $post->ID ) && post_type_supports( $post->post_type, 'llms-clone-post' ) ) {
 			$url = add_query_arg( array(
 				'post_type' => $post->post_type,
 				'action' => 'llms-clone-post',
@@ -44,7 +44,7 @@ class LLMS_Admin_Post_Tables {
 			$actions['llms-clone'] = '<a href="' . esc_url( $url ) . '">' . __( 'Clone', 'lifterlms' ) . '</a>';
 		}
 
-		if ( post_type_supports( $post->post_type, 'llms-export-post' ) ) {
+		if ( current_user_can( 'edit_post', $post->ID ) && post_type_supports( $post->post_type, 'llms-export-post' ) ) {
 			$url = add_query_arg( array(
 				'post_type' => $post->post_type,
 				'action' => 'llms-export-post',
