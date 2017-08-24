@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.9.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -503,6 +503,14 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * End a quiz attempt
+	 * @param    [type]     $request  [description]
+	 * @param    [type]     $attempt  [description]
+	 * @return   array
+	 * @since    3.9.0
+	 * @version  [version]
+	 */
 	public static function quiz_end( $request, $attempt = null ) {
 
 		$err = new WP_Error();
@@ -519,6 +527,8 @@ class LLMS_AJAX_Handler {
 				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
 				return $err;
 			}
+
+			$quiz_id = absint( $request['quiz_id'] );
 
 			$attempt = $student->quizzes()->get_current_attempt( $quiz_id );
 

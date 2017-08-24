@@ -224,6 +224,45 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
+v3.13.0-beta.1 - 2017/08/24
+-------------------------------
+
+##### New User Roles
+
++ LMS Administrator
+  + Manage LifterLMS Settings
+  + View LifterLMS reporting
+  + Manage Users (including enrollment)
+  + Create, edit, and delete LifterLMS content (courses, memberships, etc...)
++ Instructor & Instructor's Assistant (currently the same role, it's beta...)
+  + Create, edit, and delete their own LifterLMS content (courses and memberships -- engagements coming soon)
+  + View limited LifterLMS reporting (view reports only for their own students)
+
+##### Uninstall Script
+
++ Uninstall script now removes all the things LifterLMS creates in your database. Uninstallation will only run if a constant is defined.
+
+##### Fixes
+
++ Ensure that the bbPress course forums shortcode & widget properly cascade up when used on a lesson or quiz
+
+##### Template Updates
+
++ [admin/post-types/students.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/students.php)
++ [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
+
+##### Deprecated filters
+
++ The following filters have been removed and are no longer in use.
+  + `lifterlms_admin_courses_access`: replaced with user capability `edit_courses`
+  + `lifterlms_admin_membership_access`: replaced with user capability `edit_memberships`
+  + `lifterlms_admin_reporting_access`: replaced with user capability `manage_lifterlms`
+  + `lifterlms_admin_settings_access`: replaced with user capability `manage_lifterlms`
+  + `lifterlms_admin_import_access`: replaced with user capability `manage_lifterlms`
+  + `lifterlms_admin_system_report_access`: replaced with user capability `manage_lifterlms`
++ In order to provide access to these items you'll want to adjust some custom code as per [this guide](#writethisguide).
+
+
 = v3.12.0 - 2017/08/17 =
 ------------------------
 

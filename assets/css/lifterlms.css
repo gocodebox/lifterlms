@@ -41,8 +41,7 @@
   max-width: 100%;
   padding: 12px 24px;
   position: relative;
-  -webkit-transition: all .5s ease;
-          transition: all .5s ease;
+  transition: all .5s ease;
 }
 .llms-button-action:disabled,
 .llms-button-danger:disabled,
@@ -321,16 +320,13 @@ h1, h2, h3, h4, h5, h6 {
   vertical-align: middle;
   box-shadow: rgba(255, 255, 255, 0.15) 0 1px 1px, inset rgba(0, 0, 0, 0.5) 0 0 0 1px;
   background: #efefef;
-  background-image: -webkit-radial-gradient(center, ellipse, #e5554e 0%, #e5554e 40%, #efefef 45%);
   background-image: radial-gradient(ellipse at center, #e5554e 0%, #e5554e 40%, #efefef 45%);
   background-repeat: no-repeat;
-  -webkit-transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
-          transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
+  transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
 }
 
 .llms-option input[type="radio"]:checked + label span.llms-radio {
-  -webkit-transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
-          transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
+  transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .llms-option input[type="radio"] + label span.llms-radio {
@@ -1001,8 +997,7 @@ svg .llms-animated-circle {
   position: fixed;
   right: 12px;
   top: 24px;
-  -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
-          transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
   visibility: none;
   width: auto;
   z-index: 7777;
@@ -1016,8 +1011,8 @@ svg .llms-animated-circle {
 }
 .llms-notification.visible {
   opacity: 1;
-  -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
-          transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+  transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, transform 0.2s ease-in-out;
   visibility: visible;
 }
 .llms-notification.visible:hover .llms-notification-dismiss {
@@ -1101,8 +1096,7 @@ svg .llms-animated-circle {
   position: absolute;
   right: 10px;
   top: 8px;
-  -webkit-transition: opacity 0.4s ease-in-out;
-          transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 }
 
 .llms-sd-notification-center .llms-notification-list,
@@ -1191,8 +1185,7 @@ svg .llms-animated-circle {
   pointer-events: none;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
-  -webkit-transition: opacity .2s ease, top .2s ease;
-          transition: opacity .2s ease, top .2s ease;
+  transition: opacity .2s ease, top .2s ease;
   max-width: 320px;
 }
 .llms-tooltip.show {
@@ -1681,11 +1674,8 @@ svg .llms-animated-circle {
   position: relative;
   height: 0;
   overflow: hidden;
-  -webkit-transition-timing-function: ease;
   transition-timing-function: ease;
-  -webkit-transition-duration: .35s;
   transition-duration: .35s;
-  -webkit-transition-property: height,visibility;
   transition-property: height, visibility;
 }
 .quiz-summary .wrong {
@@ -2125,18 +2115,15 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   height: 22px;
   margin-right: 5px;
   position: relative;
-  -webkit-transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
-          transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
+  transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
   top: -3px;
   vertical-align: middle;
   width: 22px;
   z-index: 2;
 }
 .llms-form-field.type-radio input[type="radio"]:checked + label:before {
-  -webkit-transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
-          transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
+  transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
   background-position: 0 0;
-  background-image: -webkit-radial-gradient(center, ellipse, #2295ff 0%, #2295ff 40%, #fafafa 45%);
   background-image: radial-gradient(ellipse at center, #2295ff 0%, #2295ff 40%, #fafafa 45%);
 }
 .llms-form-field.type-reset button:not(.auto), .llms-form-field.type-button button:not(.auto), .llms-form-field.type-submit button:not(.auto) {
@@ -2169,8 +2156,7 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   left: 0;
   position: absolute;
   top: 0;
-  -webkit-transition: width .4s ease;
-          transition: width .4s ease;
+  transition: width .4s ease;
 }
 .llms-password-strength-meter.mismatch, .llms-password-strength-meter.too-short, .llms-password-strength-meter.very-weak {
   border-color: #e35b5b;
@@ -2394,7 +2380,6 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 
 .llms-my-courses a {
   -webkit-filter: brightness(100%);
-  -webkit-transition: all .5s ease;
   transition: all .5s ease;
 }
 
@@ -2436,7 +2421,6 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 
 .llms-my-courses ul.listing-courses li.course-item .course .course-image img {
   -webkit-filter: brightness(100%);
-  -webkit-transition: all 1s ease;
   transition: all 1s ease;
 }
 

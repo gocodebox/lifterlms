@@ -38,8 +38,7 @@
   max-width: 100%;
   padding: 12px 24px;
   position: relative;
-  -webkit-transition: all .5s ease;
-          transition: all .5s ease;
+  transition: all .5s ease;
 }
 .llms-button-action:disabled,
 .llms-button-danger:disabled,
@@ -506,8 +505,7 @@ Form Styles
   color: #fefefe !important;
   background: #2295ff !important;
   border-radius: 0;
-  -webkit-transition: .5s;
-          transition: .5s;
+  transition: .5s;
 }
 #llms-form-wrapper #llms_analytics_search:hover {
   background: #0185a3 !important;
@@ -579,8 +577,7 @@ input.llms-toggle-round + label:before {
   right: 1px;
   background-color: #e26049;
   border-radius: 5px;
-  -webkit-transition: background 0.4s;
-          transition: background 0.4s;
+  transition: background 0.4s;
 }
 
 input.llms-toggle-round + label:after {
@@ -591,8 +588,7 @@ input.llms-toggle-round + label:after {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  -webkit-transition: margin 0.4s;
-          transition: margin 0.4s;
+  transition: margin 0.4s;
   z-index: 3;
 }
 
@@ -680,8 +676,7 @@ h1.outline-title {
 
 #llms-outline-menu {
   visibility: hidden;
-  -webkit-transition: opacity 0.3s 0.6s, visibility 0s 0.9s;
-          transition: opacity 0.3s 0.6s, visibility 0s 0.9s;
+  transition: opacity 0.3s 0.6s, visibility 0s 0.9s;
   opacity: 0;
   position: absolute;
   left: -84px;
@@ -692,8 +687,7 @@ h1.outline-title {
 #llms-outline-menu.fade-in {
   visibility: visible;
   opacity: 1;
-  -webkit-transition: opacity 0.1s 0s, visibility 0s 0s;
-          transition: opacity 0.1s 0s, visibility 0s 0s;
+  transition: opacity 0.1s 0s, visibility 0s 0s;
   -webkit-animation: cd-move-in 0.4s;
           animation: cd-move-in 0.4s;
   -webkit-animation-fill-mode: forwards;
@@ -761,8 +755,7 @@ h1.outline-title {
   text-decoration: none;
   color: #fefefe;
   font-size: 13px;
-  -webkit-transition: all 0.3s ease-in;
-          transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
   text-align: left;
 }
 #tooltip_menu a:last-child {
@@ -894,8 +887,7 @@ a.llms-voucher-delete {
   background: #e26049;
   float: right;
   color: #fefefe !important;
-  -webkit-transition: ease .3s all;
-          transition: ease .3s all;
+  transition: ease .3s all;
 }
 a.llms-voucher-delete:hover {
   background: #af3a26;
@@ -1493,8 +1485,7 @@ body.modal-open {
   border: 1px solid #ccc;
   margin: 0 0 24px 0;
   outline: none;
-  -webkit-transition: border 0.3s ease-in-out 0s;
-          transition: border 0.3s ease-in-out 0s;
+  transition: border 0.3s ease-in-out 0s;
 }
 .llms-modal-form textarea:focus,
 .llms-modal-form input[type="text"]:focus,
@@ -1561,8 +1552,7 @@ body.modal-open {
 .llms-modal-form .llms-button-primary, .llms-modal-form .llms-button-secondary {
   padding: 10px 10px;
   border-radius: 0;
-  -webkit-transition: .5s;
-          transition: .5s;
+  transition: .5s;
   box-shadow: 0 1px 1px #ccc;
 }
 .llms-modal-form .llms-button-primary.full, .llms-modal-form .llms-button-secondary.full {
@@ -2673,8 +2663,7 @@ a.llms-view-as {
 .llms-collapsible .llms-collapsible-header .dashicons {
   color: #777;
   cursor: pointer;
-  -webkit-transition: color .4s ease;
-          transition: color .4s ease;
+  transition: color .4s ease;
 }
 .llms-collapsible .llms-collapsible-header .dashicons:hover {
   color: #069cb5;
@@ -2904,8 +2893,7 @@ a.llms-view-as {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
-  -webkit-transition: all .3s ease;
-          transition: all .3s ease;
+  transition: all .3s ease;
 }
 
 #llms-options-page-contents h2 {
@@ -3145,18 +3133,15 @@ a.llms-view-as {
   height: 22px;
   margin-right: 5px;
   position: relative;
-  -webkit-transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
-          transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
+  transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1);
   top: -3px;
   vertical-align: middle;
   width: 22px;
   z-index: 2;
 }
 .llms-form-field.type-radio input[type="radio"]:checked + label:before {
-  -webkit-transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
-          transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
+  transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1);
   background-position: 0 0;
-  background-image: -webkit-radial-gradient(center, ellipse, #2295ff 0%, #2295ff 40%, #fafafa 45%);
   background-image: radial-gradient(ellipse at center, #2295ff 0%, #2295ff 40%, #fafafa 45%);
 }
 .llms-form-field.type-reset button:not(.auto), .llms-form-field.type-button button:not(.auto), .llms-form-field.type-submit button:not(.auto) {
@@ -3189,8 +3174,7 @@ a.llms-view-as {
   left: 0;
   position: absolute;
   top: 0;
-  -webkit-transition: width .4s ease;
-          transition: width .4s ease;
+  transition: width .4s ease;
 }
 .llms-password-strength-meter.mismatch, .llms-password-strength-meter.too-short, .llms-password-strength-meter.very-weak {
   border-color: #e35b5b;
