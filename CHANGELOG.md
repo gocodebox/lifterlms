@@ -1,8 +1,9 @@
 == Changelog ==
 
-v3.12.1 - 2017/08/21
+v3.12.1 - 2017/08/??
 --------------------
 
++ Fix undefined warning related to quiz completion
 + Ensure that the bbPress course forums shortcode & widget properly cascade up when used on a lesson or quiz
 
 
