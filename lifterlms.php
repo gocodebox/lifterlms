@@ -253,7 +253,7 @@ final class LifterLMS {
 		// Hooks
 		include_once( 'includes/llms.template.hooks.php' );
 
-		// Custom Post Type Models
+		// Models
 		require_once 'includes/abstracts/abstract.llms.post.model.php';
 		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/models/*.php', GLOB_NOSORT ) as $model ) {
 			require_once $model;
