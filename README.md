@@ -37,6 +37,9 @@ Also check our [known issues and conflicts](https://lifterlms.com/doc-category/l
 
 Interested in contributing to LifterLMS? We'd love to have your contributions. Read our contributor's guidelines [here](.github/CONTRIBUTING.md).
 
+### Installing for Production Usage
+
+If you clone or download this repo directly it will not run as a plugin inside WordPress! Installable production releases are available in on the [Releases tab](https://github.com/gocodebox/lifterlms/releases). You can get the latest stable release from [WordPress.org](https://downloads.wordpress.org/plugin/lifterlms.zip)
 
 ### Installing for Development
 
