@@ -53,6 +53,64 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
 }
 
 /**
+ * Checks LifterLMS user capabilities against an object
+ * @param    string     $cap     capability name
+ * @param    int        $obj_id  WP_Post or WP_User ID
+ * @return   boolean
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_current_user_can( $cap, $obj_id = null ) {
+
+	$caps = LLMS_Roles::get_all_core_caps();
+	$grant = false;
+
+	if ( in_array( $cap, $caps ) ) {
+
+		// if the user has the cap, maybe do some additional checks
+		if ( current_user_can( $cap ) ) {
+
+			switch ( $cap ) {
+
+				case 'view_lifterlms_reports':
+
+					// can view others reports so its okay
+					if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
+						$grant = true;
+
+					// can only view their own reports check if the student is their instructor
+					} elseif ( $obj_id ) {
+
+						$instructor = llms_get_instructor();
+						$student = llms_get_student( $obj_id );
+						if ( $instructor && $student ) {
+							foreach ( $instructor->get_posts( array( 'posts_per_page' => -1 ), 'ids' ) as $id ) {
+								if ( $student->get_enrollment_status( $id ) ) {
+									$grant = true;
+									break;
+								}
+							}
+						}
+
+					}
+
+				break;
+
+				// no other checks needed
+				default:
+					$grant = true;
+
+			}
+
+		}
+
+	}
+
+	return apply_filters( 'llms_current_user_can_' . $cap, $grant, $obj_id );
+
+}
+
+/**
  * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
  * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be uesd
  * @return   boolean
@@ -111,6 +169,18 @@ add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10, 1 );
 function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
 	return $student->enroll( $product_id, $trigger );
+}
+
+/**
+ * Get an LLMS_Instructor
+ * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any instructor class extending this class
+ * @return   obj|false        LLMS_Instructor instance on success, false if user not found
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_get_instructor( $user = null ) {
+	$student = new LLMS_Instructor( $user );
+	return $student->exists() ? $student : false;
 }
 
 /**
