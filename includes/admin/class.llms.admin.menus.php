@@ -4,7 +4,7 @@
  *
  * Sets up admin menu items.
  * @since   1.0.0
- * @version 3.11.2
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,7 +14,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Constructor
 	 * @since   1.0.0
-	 * @version 3.5.0
+	 * @version [version]
 	 */
 	public function __construct() {
 
@@ -23,6 +23,9 @@ class LLMS_Admin_Menus {
 		add_filter( 'custom_menu_order', array( $this, 'submenu_order' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu_late' ), 7777 );
+
+		// shame shame shame
+		add_action( 'admin_menu', array( $this, 'instructor_menu_hack' ) );
 
 	}
 
@@ -47,27 +50,23 @@ class LLMS_Admin_Menus {
 	 * Admin Menu
 	 * @return void
 	 * @since   1.0.0
-	 * @version 3.3.0
+	 * @version [version]
 	 */
 	public function display_admin_menu() {
 
 		global $menu;
 
-		if ( current_user_can( apply_filters( 'lifterlms_admin_menu_access', 'manage_options' ) ) ) {
+		$menu[51] = array( '', 'read', 'llms-separator','','wp-menu-separator' );
 
-			$menu[51] = array( '', 'read', 'llms-separator','','wp-menu-separator' );
+		add_menu_page( 'lifterlms', 'LifterLMS', 'read', 'lifterlms', '__return_empty_string', plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', 51 );
 
-			add_menu_page( 'lifterlms', 'LifterLMS', apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'lifterlms', array( $this, 'settings_page_init' ), plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterLMS-wp-menu-icon.png', 51 );
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Settings', 'lifterlms' ), __( 'Settings', 'lifterlms' ), 'manage_lifterlms', 'llms-settings', array( $this, 'settings_page_init' ) );
 
-			add_submenu_page( 'lifterlms', __( 'LifterLMS Settings', 'lifterlms' ), __( 'Settings', 'lifterlms' ), apply_filters( 'lifterlms_admin_settings_access', 'manage_options' ), 'llms-settings', array( $this, 'settings_page_init' ) );
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Reporting', 'lifterlms' ), __( 'Reporting', 'lifterlms' ), 'view_lifterlms_reports', 'llms-reporting', array( $this, 'reporting_page_init' ) );
 
-			add_submenu_page( 'lifterlms', __( 'LifterLMS Reporting', 'lifterlms' ), __( 'Reporting', 'lifterlms' ), apply_filters( 'lifterlms_admin_reporting_access', 'manage_options' ), 'llms-reporting', array( $this, 'reporting_page_init' ) );
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Import', 'lifterlms' ), __( 'Import', 'lifterlms' ), 'manage_lifterlms', 'llms-import', array( $this, 'import_page_init' ) );
 
-			add_submenu_page( 'lifterlms', __( 'LifterLMS Import', 'lifterlms' ), __( 'Import', 'lifterlms' ), apply_filters( 'lifterlms_admin_import_access', 'manage_options' ), 'llms-import', array( $this, 'import_page_init' ) );
-
-			add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), apply_filters( 'lifterlms_admin_system_report_access', 'manage_options' ), 'llms-status', array( $this, 'status_page_init' ) );
-
-		}
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), 'manage_lifterlms', 'llms-status', array( $this, 'status_page_init' ) );
 
 	}
 
@@ -75,7 +74,7 @@ class LLMS_Admin_Menus {
 	 * Add items to the admin menu with a later priority
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  [version]
 	 */
 	public function display_admin_menu_late() {
 
@@ -86,9 +85,8 @@ class LLMS_Admin_Menus {
 			return;
 		}
 
-		if ( current_user_can( apply_filters( 'lifterlms_admin_menu_access', 'manage_options' ) ) ) {
-			add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons', 'lifterlms' ), __( 'Add-ons', 'lifterlms' ), 'manage_options', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
-		}
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons', 'lifterlms' ), __( 'Add-ons', 'lifterlms' ), 'manage_lifterlms', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
+
 	}
 
 	/**
@@ -113,6 +111,26 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
+	 * Removes edit.php from the admin menu for instructors/asst instructiors
+	 * note that the post screen is still technically accessible...
+	 * posts will need to be submitted for review as the instructors only actually have
+	 * the capability of a contributor with regards to posts
+	 * but this hack will allow instructors to publish new lessons, quizzes, & questions
+	 * @see      WP Core Issue(s): https://core.trac.wordpress.org/ticket/22895
+	 *           				   https://core.trac.wordpress.org/ticket/16808
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function instructor_menu_hack() {
+
+		$user = wp_get_current_user();
+		if ( array_intersect( array( 'instructor', 'instructors_assistant' ), $user->roles ) ) {
+			remove_menu_page( 'edit.php' );
+		}
+	}
+
+	/**
 	 * Output the HTLM for admin settings screens
 	 * @return void
 	 */
@@ -125,12 +143,18 @@ class LLMS_Admin_Menus {
 	 * Output the HTML for the reporting screens
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function reporting_page_init() {
+
+		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', $_GET['student_id'] ) ) {
+			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
+		}
+
 		require_once 'reporting/class.llms.admin.reporting.php';
 		$gb = new LLMS_Admin_Reporting();
 		$gb->output();
+
 	}
 
 	/**
