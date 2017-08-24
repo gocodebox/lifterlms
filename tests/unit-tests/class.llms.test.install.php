@@ -165,20 +165,6 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test create_roles()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
-	 */
-	public function test_create_roles() {
-
-		remove_role( 'student' );
-		LLMS_Install::create_roles();
-		$this->assertInstanceOf( 'WP_Role', get_role( 'student' ) );
-
-	}
-
-	/**
 	 * Tests for create_tables()
 	 * @return   void
 	 * @since    3.3.1
