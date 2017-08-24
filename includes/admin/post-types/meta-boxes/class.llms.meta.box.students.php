@@ -4,13 +4,19 @@
 *
 * Add & remove students
 * @since    3.0.0
-* @version  3.4.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 
+	/**
+	 * Capability to check in order to display the metabox to the user
+	 * @var    string
+	 * @since  [version]
+	 */
+	public $capability = 'view_lifterlms_reports';
 
 	/**
 	 * Configure the metabox settings
