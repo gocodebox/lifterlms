@@ -2,6 +2,8 @@
 /**
  * Single Student View: Courses Tab
  * This routes to the following templates based on present query vars
+ * @since   3.2.0
+ * @version [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
@@ -29,6 +31,10 @@ if ( empty( $_GET['course_id'] ) ) {
 		) );
 
 	} else {
+
+		if ( ! current_user_can( 'edit_post', $_GET['course_id'] ) ) {
+			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
+		}
 
 		llms_get_template( 'admin/reporting/tabs/students/courses-course.php', array(
 			'student' => $student,
