@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.12.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -221,32 +221,6 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Create LifterLMS user roles
-	 * @return void
-	 * @since  1.0.0
-	 * @version  3.0.0
-	 */
-	public static function create_roles() {
-
-		global $wp_roles;
-
-		if ( ! class_exists( 'WP_Roles' ) ) {
-			return;
-		}
-
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
-
-		add_role( 'student', __( 'Student', 'lifterlms' ),
-			array(
-				'read' => true,
-			)
-		);
-
-	}
-
-	/**
 	 * Create LifterLMS DB tables
 	 * @return  void
 	 * @since   1.0.0
@@ -346,7 +320,7 @@ class LLMS_Install {
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	private static function get_schema() {
 
@@ -365,7 +339,7 @@ class LLMS_Install {
 		}
 
 		$tables = "
-CREATE TABLE {$wpdb->prefix}lifterlms_user_postmeta (
+CREATE TABLE `{$wpdb->prefix}lifterlms_user_postmeta` (
   meta_id bigint(20) NOT NULL auto_increment,
   user_id bigint(20) NOT NULL,
   post_id bigint(20) NOT NULL,
@@ -441,7 +415,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.12.0
+	 * @version [version]
 	 */
 	public static function install() {
 
@@ -454,7 +428,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 		LLMS_Site::set_lock_url();
 		self::create_tables();
 		self::create_options();
-		self::create_roles();
+		LLMS_Roles::install();
 
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
