@@ -65,7 +65,7 @@ class LLMS_Roles {
 			break;
 
 			case 'administrator':
-			case 'lms_administrator':
+			case 'lms_manager':
 				$caps = $all_caps;
 			break;
 
@@ -198,7 +198,7 @@ class LLMS_Roles {
 
 			break;
 
-			case 'lms_administrator' :
+			case 'lms_manager' :
 
 				$add = array(
 					'read_private_pages' => true,
@@ -256,7 +256,7 @@ class LLMS_Roles {
 		return apply_filters( 'llms_get_roles', array(
 			'instructor' => __( 'Instructor', 'lifterlms' ),
 			'instructors_assistant' => __( 'Instructor\'s Assistant', 'lifterlms' ),
-			'lms_administrator' => __( 'LMS Administrator', 'lifterlms' ),
+			'lms_manager' => __( 'LMS Manager', 'lifterlms' ),
 			'student' => __( 'Student', 'lifterlms' ),
 		) );
 

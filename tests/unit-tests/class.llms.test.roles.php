@@ -19,7 +19,7 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 		$expect = array(
 			'instructor' => __( 'Instructor', 'lifterlms' ),
 			'instructors_assistant' => __( 'Instructor\'s Assistant', 'lifterlms' ),
-			'lms_administrator' => __( 'LMS Administrator', 'lifterlms' ),
+			'lms_manager' => __( 'LMS Manager', 'lifterlms' ),
 			'student' => __( 'Student', 'lifterlms' ),
 		);
 		$this->assertEquals( $expect, LLMS_Roles::get_roles() );
