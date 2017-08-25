@@ -517,11 +517,11 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:63, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184, includes/class.llms.install.php:537, includes/class.llms.install.php:557
+#: includes/admin/class.llms.admin.notices.core.php:63, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184, includes/class.llms.install.php:535, includes/class.llms.install.php:555
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:541, includes/class.llms.install.php:561
+#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:539, includes/class.llms.install.php:559
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -1094,7 +1094,7 @@ msgstr ""
 msgid "Coupon Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:637, includes/llms.functions.core.php:754
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:647, includes/llms.functions.core.php:754
 msgid "ID#"
 msgstr ""
 
@@ -3254,7 +3254,7 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:22, includes/class.llms.ajax.handler.php:68, includes/class.llms.ajax.handler.php:677
+#: includes/class.llms.ajax.handler.php:22, includes/class.llms.ajax.handler.php:68, includes/class.llms.ajax.handler.php:687
 msgid "Missing required parameters"
 msgstr ""
 
@@ -3278,7 +3278,7 @@ msgstr ""
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:405, includes/class.llms.ajax.handler.php:457, includes/class.llms.ajax.handler.php:514, includes/class.llms.template.loader.php:315
+#: includes/class.llms.ajax.handler.php:405, includes/class.llms.ajax.handler.php:457, includes/class.llms.ajax.handler.php:522, includes/class.llms.template.loader.php:315
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
@@ -3290,7 +3290,7 @@ msgstr ""
 msgid "Unable to start quiz because the quiz does not contain any questions."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:464, includes/class.llms.ajax.handler.php:519
+#: includes/class.llms.ajax.handler.php:464, includes/class.llms.ajax.handler.php:527
 msgid "Missing required parameters. Could not proceed."
 msgstr ""
 
@@ -3298,19 +3298,19 @@ msgstr ""
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:681
+#: includes/class.llms.ajax.handler.php:691
 msgid "Invalid status"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:705
+#: includes/class.llms.ajax.handler.php:715
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:710
+#: includes/class.llms.ajax.handler.php:720
 msgid "Please enter a plan ID."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:719, includes/controllers/class.llms.controller.orders.php:198
+#: includes/class.llms.ajax.handler.php:729, includes/controllers/class.llms.controller.orders.php:198
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -3498,7 +3498,7 @@ msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:613
+#: includes/class.llms.install.php:611
 msgid "The LifterLMS database update is complete."
 msgstr ""
 

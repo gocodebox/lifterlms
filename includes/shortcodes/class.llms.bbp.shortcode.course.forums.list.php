@@ -5,7 +5,7 @@
  * [lifterlms_bbp_course_forums]
  *
  * @since    3.12.0
- * @version  [version]
+ * @version  3.12.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -22,7 +22,7 @@ class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Elemen
 	 * Retrive the forum ids associated with the course
 	 * @return   array
 	 * @since    3.12.0
-	 * @version  [version]
+	 * @version  3.12.1
 	 */
 	private function get_forums() {
 

@@ -283,7 +283,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  *                             		id => int (object id)
  *                             )
  * @since    3.0.0
- * @version  [version]
+ * @version  3.12.1
  */
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
@@ -371,7 +371,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  * @return   int|false         false if the post is not restricted by course time period
  *                             WP Post ID of the course if it is
  * @since    3.0.0
- * @version  [version]
+ * @version  3.12.1
  */
 function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 

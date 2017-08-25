@@ -1,8 +1,9 @@
 == Changelog ==
 
-v3.12.1 - 2017/08/??
+v3.12.1 - 2017/08/25
 --------------------
 
++ Prevent duplicate loading of repeater metabox fields
 + Fix undefined warning related to quiz completion
 + Ensure that the bbPress course forums shortcode & widget properly cascade up when used on a lesson or quiz
 

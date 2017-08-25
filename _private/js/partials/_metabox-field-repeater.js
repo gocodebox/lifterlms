@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Metabox Repeater Field
  * @since    3.11.0
- * @version  [version]
+ * @version  3.12.1
  */
 this.repeaters = {
 
@@ -234,7 +234,7 @@ this.repeaters = {
 	 * Load repereater data from the server and create rows in the DOM
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  [version]
+	 * @version  3.12.1
 	 */
 	load: function() {
 
