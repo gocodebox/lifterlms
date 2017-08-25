@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.12.1
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -509,7 +509,7 @@ class LLMS_AJAX_Handler {
 	 * @param    [type]     $attempt  [description]
 	 * @return   array
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.12.1
 	 */
 	public static function quiz_end( $request, $attempt = null ) {
 

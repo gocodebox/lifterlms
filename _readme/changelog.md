@@ -18,10 +18,6 @@ v3.13.0-beta.1 - 2017/08/24
 
 + Uninstall script now removes all the things LifterLMS creates in your database. Uninstallation will only run if a constant is defined.
 
-##### Fixes
-
-+ Ensure that the bbPress course forums shortcode & widget properly cascade up when used on a lesson or quiz
-
 ##### Template Updates
 
 + [admin/post-types/students.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/students.php)
@@ -37,6 +33,14 @@ v3.13.0-beta.1 - 2017/08/24
   + `lifterlms_admin_import_access`: replaced with user capability `manage_lifterlms`
   + `lifterlms_admin_system_report_access`: replaced with user capability `manage_lifterlms`
 + In order to provide access to these items you'll want to adjust some custom code as per [this guide](#writethisguide).
+
+
+= v3.12.1 - 2017/08/25 =
+------------------------
+
++ Prevent duplicate loading of repeater metabox fields
++ Fix undefined warning related to quiz completion
++ Ensure that the bbPress course forums shortcode & widget properly cascade up when used on a lesson or quiz
 
 
 = v3.12.0 - 2017/08/17 =

@@ -1,8 +1,7 @@
 /**
  * LifterLMS Admin Metabox Repeater Field
- * @type  {Object}
  * @since    3.11.0
- * @version  3.12.0
+ * @version  3.12.1
  */
 this.repeaters = {
 
@@ -235,7 +234,7 @@ this.repeaters = {
 	 * Load repereater data from the server and create rows in the DOM
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @version  3.12.1
 	 */
 	load: function() {
 
@@ -245,7 +244,15 @@ this.repeaters = {
 
 			var $repeater = $( this );
 
+			// ensure the repeater is only loaded once to prevent duplicates resulting from duplicating binding
+			// on certain sites which I cannot quite explain...
+			if ( $repeater.hasClass( 'is-loaded' ) || $repeater.hasClass( 'processing' ) ) {
+				return;
+			}
+
 			self.store( $repeater, 'load', function( data ) {
+
+				$repeater.addClass( 'is-loaded' );
 
 				$.each( data.data, function( i, obj ) {
 					self.add_row( $repeater, obj, false );
@@ -374,12 +381,14 @@ this.repeaters = {
 	store: function( $repeater, action, cb ) {
 
 		cb = cb || function(){};
-
+console.log( 'store_start' );
 		var self = this,
 			data = {
 				action: $repeater.find( '.llms-repeater-field-handler' ).val(),
 				store_action: action,
 			};
+
+		// if ( $repeater.hasClass( '' ))
 
 		if ( 'save' === action ) {
 			data.rows = self.serialize( $repeater );
@@ -394,6 +403,7 @@ this.repeaters = {
 
 			},
 			success: function( r ) {
+console.log( 'store_end' );
 
 				cb( r );
 				LLMS.Spinner.stop( $repeater );
