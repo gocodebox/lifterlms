@@ -283,7 +283,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  *                             		id => int (object id)
  *                             )
  * @since    3.0.0
- * @version  3.12.0
+ * @version  [version]
  */
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
@@ -298,6 +298,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 			$session = LLMS()->session->get( 'llms_quiz' );
 			$lesson_id = ( $session && isset( $session->assoc_lesson ) ) ? $session->assoc_lesson : false;
 		}
+
 		if ( ! $lesson_id ) {
 			$quiz = new LLMS_QQuiz( $post_id );
 			$lessons = $quiz->get_lessons( 'ids' );
@@ -312,6 +313,10 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	$lesson = llms_get_post( $lesson_id );
 	$course = $lesson->get_course();
+
+	if ( ! $course ) {
+		return false;
+	}
 
 	// get an array of all possible prereqs
 	$prerequisites = array();
@@ -366,7 +371,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  * @return   int|false         false if the post is not restricted by course time period
  *                             WP Post ID of the course if it is
  * @since    3.0.0
- * @version  3.12.0
+ * @version  [version]
  */
 function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 
@@ -383,7 +388,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 
 		$quiz = new LLMS_Quiz( $post_id );
 		$lesson = llms_get_post( $quiz->get_assoc_lesson( $user_id ) );
-		if ( ! $lesson ) {
+		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 			$quiz = new LLMS_QQuiz( $post_id );
 			$lessons = $quiz->get_lessons( 'ids' );
 			if ( ! $lessons ) {
