@@ -3,6 +3,10 @@
 v3.13.0-beta.1 - 2017/08/24
 ---------------------------
 
+##### Updates
+
++ Course and membership categories and tags will now display on their respective post tables for sorting and filtering. They can be disabled on a per-user basis via the screen options.
+
 ##### New User Roles
 
 + LMS Administrator
