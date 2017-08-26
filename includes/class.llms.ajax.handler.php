@@ -219,7 +219,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @return   json
 	 * @since    ??
-	 * @version  3.10.1
+	 * @version  [version]
 	 */
 	public static function query_students() {
 
@@ -231,10 +231,34 @@ class LLMS_AJAX_Handler {
 		$enrolled_in = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['enrolled_in'] ) : null;
 		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['not_enrolled_in'] ) : null;
 
+		$roles = array_key_exists( 'roles', $_REQUEST ) ? sanitize_text_field( $_REQUEST['roles'] ) : null;
+
 		global $wpdb;
 
 		$limit = 30;
 		$start = $limit * $page;
+
+		$vars = array();
+
+		$roles_sql = '';
+		if ( $roles ) {
+			$roles = explode( ',', $roles );
+			$roles = array_map( 'trim', $roles );
+			$total = count( $roles );
+			foreach ( $roles as $i => $role ) {
+				$roles_sql .= "roles.meta_value LIKE '%s'";
+				$vars[] = '%"' . $role . '"%';
+				if ( $total > 1 && $i+1 !== $total ) {
+					$roles_sql .= ' OR ';
+				}
+			}
+
+			$roles_sql = "JOIN $wpdb->usermeta AS roles
+							ON $wpdb->users.ID = roles.user_id
+						   AND roles.meta_key = 'wp_capabilities'
+						   AND ( $roles_sql )
+						";
+		}
 
 		// there was a search query
 		if ( $term ) {
@@ -247,15 +271,16 @@ class LLMS_AJAX_Handler {
 							, user_email AS email
 							, display_name AS name
 						  FROM $wpdb->users
+						  $roles_sql
 						  WHERE user_email LIKE '%s'
 						  ORDER BY display_name
 						  LIMIT %d, %d;";
 
-				$vars = array(
+				$vars = array_merge( $vars, array(
 					'%' . $term . '%',
 					$start,
 					$limit,
-				);
+				) );
 
 			} elseif ( false !== strpos( $term, ' ' ) ) {
 
@@ -266,21 +291,20 @@ class LLMS_AJAX_Handler {
 							, users.user_email AS email
 							, users.display_name AS name
 						  FROM $wpdb->users AS users
+						  $roles_sql
 						  LEFT JOIN wp_usermeta AS fname ON fname.user_id = users.ID
 						  LEFT JOIN wp_usermeta AS lname ON lname.user_id = users.ID
-						  WHERE
-						  	( fname.meta_key = 'first_name' AND fname.meta_value LIKE '%s' )
-						  	AND
-						  	( lname.meta_key = 'last_name' AND lname.meta_value LIKE '%s' )
+						  WHERE ( fname.meta_key = 'first_name' AND fname.meta_value LIKE '%s' )
+						  	AND ( lname.meta_key = 'last_name' AND lname.meta_value LIKE '%s' )
 						  ORDER BY users.display_name
 						  LIMIT %d, %d;";
 
-				$vars = array(
+				$vars = array_merge( $vars, array(
 					'%' . $term[0] . '%', // first name
 					'%' . $term[1] . '%', // last name
 					$start,
 					$limit,
-				);
+				) );
 
 				// search for login, display name, or email
 			} else {
@@ -290,6 +314,7 @@ class LLMS_AJAX_Handler {
 							, user_email AS email
 							, display_name AS name
 						  FROM $wpdb->users
+						  $roles_sql
 						  WHERE
 						  	user_email LIKE '%s'
 						  	OR user_login LIKE '%s'
@@ -297,13 +322,13 @@ class LLMS_AJAX_Handler {
 						  ORDER BY display_name
 						  LIMIT %d, %d;";
 
-				$vars = array(
+				$vars = array_merge( $vars, array(
 					'%' . $term . '%',
 					'%' . $term . '%',
 					'%' . $term . '%',
 					$start,
 					$limit,
-				);
+				) );
 
 			}// End if().
 		} else {
@@ -313,13 +338,14 @@ class LLMS_AJAX_Handler {
 						, user_email AS email
 						, display_name AS name
 					  FROM $wpdb->users
+					  $roles_sql
 					  ORDER BY display_name
 					  LIMIT %d, %d;";
 
-			$vars = array(
+			$vars = array_merge( $vars, array(
 				$start,
 				$limit,
-			);
+			) );
 
 		}// End if().
 

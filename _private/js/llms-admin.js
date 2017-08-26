@@ -3,7 +3,7 @@
  * @param    obj   $  traditional jQuery reference
  * @return   void
  * @since    ??
- * @version  3.11.0
+ * @version  [version]
  */
 ;( function( $ ) {
 
@@ -58,7 +58,7 @@
 	 *                          each default option will pulled from the elements data-attributes
 	 * @return   void
 	 * @since    ??
-	 * @version  3.11.0
+	 * @version  [version]
 	 */
 	$.fn.llmsStudentsSelect2 = function( options ) {
 
@@ -70,6 +70,7 @@
 				multiple: false,
 				not_enrolled_in: '',
 				placeholder: 'Select a student',
+				roles: '',
 				width: '100%',
 			};
 
@@ -95,6 +96,7 @@
 						page: params.page,
 						not_enrolled_in: params.not_enrolled_in || options.not_enrolled_in,
 						enrolled_in: params.enrolled_in || options.enrolled_in,
+						roles: params.roles || options.roles,
 						term: params.term,
 					};
 				},
