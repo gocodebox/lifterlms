@@ -1334,7 +1334,7 @@ Metabox Tabs
   margin: 0;
   border-bottom: 1px solid #ccc;
 }
-.llms-mb-container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li.select {
+.llms-mb-container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li.select:not([class*="d-"]) {
   width: 100%;
 }
 .llms-mb-container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li:last-child {
@@ -1901,10 +1901,6 @@ ul.tabs li {
   font-weight: bold;
 }
 
-.chosen-select {
-  width: 300px;
-}
-
 .myicon:before {
   content: "\2605";
   display: inline-block;
@@ -1962,10 +1958,6 @@ i.section-dismiss:hover {
 .deleteBtn:hover {
   cursor: pointer;
   color: #d54e21;
-}
-
-.select, .input {
-  width: 300px;
 }
 
 #post_course_difficulty {
@@ -2674,6 +2666,13 @@ a.llms-view-as {
 .llms-collapsible .llms-collapsible-body {
   display: none;
   padding: 10px;
+}
+
+._llms_instructors_data.repeater .llms-repeater-rows .llms-repeater-row:first-child .llms-repeater-remove {
+  display: none;
+}
+._llms_instructors_data.repeater .llms-mb-list {
+  padding: 0 5px !important;
 }
 
 #llms-question-container {

@@ -946,6 +946,10 @@ svg .llms-animated-circle {
 .llms-author .name {
   margin-left: 5px;
 }
+.llms-author .label {
+  margin-left: 5px;
+  font-style: italic;
+}
 .llms-author .avatar {
   border-radius: 50%;
 }
@@ -953,6 +957,90 @@ svg .llms-animated-circle {
   margin-top: 5px;
 }
 
+.llms-instructor-info .llms-instructors .llms-author {
+  margin-bottom: 10px;
+}
+.llms-instructor-info .llms-instructors .llms-author .avatar {
+  background: #444;
+  border: 4px solid #444;
+}
+
+@media only screen and (min-width: 800px) {
+  .llms-instructor-info .llms-instructors:before, .llms-instructor-info .llms-instructors:after {
+    content: " ";
+    display: table;
+  }
+  .llms-instructor-info .llms-instructors:after {
+    clear: both;
+  }
+  .llms-instructor-info .llms-instructors .llms-author {
+    float: left;
+    height: 110px;
+    margin-right: 5px;
+    text-align: center;
+    transition: margin 0.1s ease;
+    width: 140px;
+  }
+  .llms-instructor-info .llms-instructors .llms-author:nth-child(n+2) {
+    margin-left: -100px;
+  }
+  .llms-instructor-info .llms-instructors .llms-author .avatar {
+    background: #444;
+    border: 4px solid #444;
+    display: block;
+    margin: 0 auto 10px;
+    transition: -webkit-transform .1s ease;
+    transition: transform .1s ease;
+  }
+  .llms-instructor-info .llms-instructors .llms-author .label,
+  .llms-instructor-info .llms-instructors .llms-author .name {
+    background: #444;
+    color: #fff;
+    display: block;
+    font-weight: 300;
+    opacity: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    position: relative;
+    line-height: 1;
+    margin: 0 -16px;
+    top: 0;
+    transition: opacity 0.1s ease, top 0.3s ease;
+  }
+  .llms-instructor-info .llms-instructors .llms-author .name {
+    border-radius: 4px 4px 0 0;
+    padding-top: 8px;
+  }
+  .llms-instructor-info .llms-instructors .llms-author .name:before {
+    content: '';
+    border: 8px solid transparent;
+    border-bottom-color: #444;
+    margin-left: -8px;
+    position: absolute;
+    left: 50%;
+    top: -16px;
+  }
+  .llms-instructor-info .llms-instructors .llms-author .label {
+    border-radius: 0 0 4px 4px;
+    padding-bottom: 8px;
+  }
+  .llms-instructor-info .llms-instructors:hover .llms-author {
+    margin-left: 0;
+  }
+  .llms-instructor-info .llms-instructors:hover .llms-author:hover {
+    position: relative;
+    z-index: 1;
+  }
+  .llms-instructor-info .llms-instructors:hover .llms-author:hover .avatar {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+  .llms-instructor-info .llms-instructors:hover .llms-author:hover .label,
+  .llms-instructor-info .llms-instructors:hover .llms-author:hover .name {
+    top: 10px;
+    opacity: 1;
+  }
+}
 .llms-notice {
   background: rgba(34, 149, 255, 0.3);
   border-color: #2295ff;
