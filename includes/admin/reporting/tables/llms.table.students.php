@@ -255,7 +255,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					'id' => 'ASC',
 				);
 			break;
-		}
+		}// End switch().
 
 		$query_args = array(
 			'page' => $this->get_current_page(),
@@ -284,7 +284,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 			$query = new LLMS_Student_Query( $query_args );
 
-		// user can only see their own reports, get a list of their students
+			// user can only see their own reports, get a list of their students
 		} elseif ( current_user_can( 'view_lifterlms_reports' ) ) {
 
 			$instructor = llms_get_instructor();

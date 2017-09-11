@@ -129,14 +129,12 @@ class LLMS_Roles {
 						if ( ! in_array( $post_cap, $allowed[ $role ] ) ) {
 							unset( $post_caps[ $post_cap ] );
 						}
-
 					}
-
 				}
 
 				$caps[ $post_type ] = array_fill_keys( array_values( $post_caps ), true );
 
-			}
+			}// End foreach().
 
 			$taxes = array(
 				'course_cat' => 'course_cat',
@@ -162,16 +160,13 @@ class LLMS_Roles {
 						if ( ! in_array( $tax_cap, $allowed ) ) {
 							unset( $tax_caps[ $tax_cap ] );
 						}
-
 					}
-
 				}
 
 				$caps[ $tax ] = array_fill_keys( array_values( $tax_caps ), true );
 
 			}
-
-		}
+		}// End if().
 
 		return apply_filters( 'llms_get_' . $role . '_post_type_caps', $caps );
 
@@ -266,7 +261,7 @@ class LLMS_Roles {
 			default :
 				$add = array();
 
-		}
+		}// End switch().
 
 		return apply_filters( 'llms_get_' . $role . '_wp_caps', array_merge( $add, $caps ) );
 
@@ -368,9 +363,7 @@ class LLMS_Roles {
 				} elseif ( 'remove' === $type ) {
 					$role->remove_cap( $cap );
 				}
-
 			}
-
 		}
 
 	}

@@ -393,27 +393,6 @@ class LLMS_Post_Types {
 			'menu_position' => 52,
 		) );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		/**
 		 * Engagement Post type
 		 */
@@ -1111,7 +1090,6 @@ class LLMS_Post_Types {
 			),
 		) );
 
-
 		// course track
 		self::register_taxonomy( 'course_track', array( 'course' ), array(
 			'label' => __( 'Course Track', 'lifterlms' ),
@@ -1192,7 +1170,7 @@ class LLMS_Post_Types {
 			'query_var' => true,
 			'show_admin_column' => true,
 			'rewrite' => array(
-				'slug' =>_x( 'membership-tag', 'slug', 'lifterlms' ),
+				'slug' => _x( 'membership-tag', 'slug', 'lifterlms' ),
 				'with_front' => false,
 			),
 		) );

@@ -78,20 +78,21 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 					if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
 						$grant = true;
 
-					// can only view their own reports check if the student is their instructor
+						// can only view their own reports check if the student is their instructor
 					} elseif ( $obj_id ) {
 
 						$instructor = llms_get_instructor();
 						$student = llms_get_student( $obj_id );
 						if ( $instructor && $student ) {
-							foreach ( $instructor->get_posts( array( 'posts_per_page' => -1 ), 'ids' ) as $id ) {
+							foreach ( $instructor->get_posts( array(
+								'posts_per_page' => -1,
+							), 'ids' ) as $id ) {
 								if ( $student->get_enrollment_status( $id ) ) {
 									$grant = true;
 									break;
 								}
 							}
 						}
-
 					}
 
 				break;
@@ -101,10 +102,8 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 					$grant = true;
 
 			}
-
 		}
-
-	}
+	}// End if().
 
 	return apply_filters( 'llms_current_user_can_' . $cap, $grant, $obj_id );
 

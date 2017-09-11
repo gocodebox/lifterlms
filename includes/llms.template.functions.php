@@ -1513,7 +1513,6 @@ function llms_get_author( $args = array() ) {
 		$desc = get_the_author_meta( 'description', $user_id );
 	}
 
-
 	ob_start();
 	?>
 	<div class="llms-author<?php echo ( $desc ) ? ' has-bio' : ''; ?>">

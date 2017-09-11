@@ -59,7 +59,7 @@ class LLMS_Admin_Post_Table_Courses {
 	 */
 	private function get_serialized_id( $user_id ) {
 		$val = serialize( array(
-			'id' => absint( $user_id )
+			'id' => absint( $user_id ),
 		) );
 		return str_replace( array( 'a:1:{', '}' ), '', $val );
 	}
@@ -104,7 +104,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 		$url = add_query_arg( array(
 			'post_type' => 'course',
-			'author' => $current_user_id
+			'author' => $current_user_id,
 		), 'edit.php' );
 
 		$class = '';
@@ -117,7 +117,9 @@ class LLMS_Admin_Post_Table_Courses {
 		if ( ! isset( $views['mine'] ) ) {
 
 			$offset = array_search( 'all', array_keys( $views ) );
-			$add = array( 'mine' => '' );
+			$add = array(
+				'mine' => '',
+			);
 			$views = array_slice( $views, 0, $offset + 1 ) + $add + array_slice( $views, $offset + 1 );
 
 		}
@@ -234,7 +236,6 @@ class LLMS_Admin_Post_Table_Courses {
 		// var_dump( $query->query_vars );
 
 		if ( isset( $query->query_vars['post_type'] ) && 'course' === $query->query_vars['post_type'] && ! empty( $query->query_vars['author'] ) ) {
-
 
 			// get the query or a default to work with
 			$meta_query = $query->get( 'meta_query' );

@@ -54,7 +54,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	public function get_courses( $args = array(), $return = 'llms_posts' ) {
 
 		$args = wp_parse_args( $args, array(
-			'post_type' => 'course'
+			'post_type' => 'course',
 		) );
 		return $this->get_posts( $args, $return );
 
@@ -72,7 +72,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	public function get_memberships( $args = array(), $return = 'llms_posts' ) {
 
 		$args = wp_parse_args( $args, array(
-			'post_type' => 'llms_membership'
+			'post_type' => 'llms_membership',
 		) );
 		return $this->get_posts( $args, $return );
 
@@ -134,7 +134,9 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 */
 	public function get_students( $args = array() ) {
 
-		$ids = $this->get_posts( array( 'posts_per_page' => -1 ), 'ids' );
+		$ids = $this->get_posts( array(
+			'posts_per_page' => -1,
+		), 'ids' );
 
 		$args = wp_parse_args( $args, array(
 			'post_id' => $ids,
@@ -188,7 +190,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 				if ( $course ) {
 					$course_id = $course->get( 'id' );
 				}
-
 		}
 
 		if ( $course_id ) {

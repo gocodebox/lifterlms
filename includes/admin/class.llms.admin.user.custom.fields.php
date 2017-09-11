@@ -76,7 +76,6 @@ class LLMS_Admin_User_Custom_Fields {
 			$this->save( $user );
 		}
 
-
 	}
 
 	/**
@@ -222,7 +221,7 @@ class LLMS_Admin_User_Custom_Fields {
 		if ( current_user_can( 'manage_lifterlms' ) ) {
 
 			$users = get_users( array(
-				'role__in' => array( 'administrator', 'lms_manager', 'instructor', ),
+				'role__in' => array( 'administrator', 'lms_manager', 'instructor' ),
 			) );
 			?>
 			<table class="form-table" id="llms-parent-instructors-table" style="display:none;">
@@ -243,9 +242,9 @@ class LLMS_Admin_User_Custom_Fields {
 
 			add_action( 'admin_print_footer_scripts', array( $this, 'output_instructors_assistant_scripts' ) );
 
-		// this will be the case for Instructors only
-		// show a hidden field with the current user's info
-		// when saving it will only save if the created user's role is instructor's assistant
+			// this will be the case for Instructors only
+			// show a hidden field with the current user's info
+			// when saving it will only save if the created user's role is instructor's assistant
 		} elseif ( 'add-new-user' === $user ) {
 			echo '<input type="hidde" name="llms_parent_instructors[]" value="' . get_current_user_id() . '">';
 		}
@@ -287,7 +286,7 @@ class LLMS_Admin_User_Custom_Fields {
 
 		if ( is_numeric( $user ) ) {
 			$user = new WP_User( $user );
-		// an object that's not a WP_User gets passed in during updates
+			// an object that's not a WP_User gets passed in during updates
 		} elseif ( isset( $user->ID ) ) {
 			$user = new WP_User( $user->ID );
 		}

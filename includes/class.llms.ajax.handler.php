@@ -323,7 +323,7 @@ class LLMS_AJAX_Handler {
 			foreach ( $roles as $i => $role ) {
 				$roles_sql .= "roles.meta_value LIKE '%s'";
 				$vars[] = '%"' . $role . '"%';
-				if ( $total > 1 && $i+1 !== $total ) {
+				if ( $total > 1 && $i + 1 !== $total ) {
 					$roles_sql .= ' OR ';
 				}
 			}

@@ -175,7 +175,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			if ( in_array( $field, $search_fields ) ) {
 				return true;
 			}
-
 		}
 
 		return false;
@@ -342,7 +341,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 */
 	private function sql_subquery( $column ) {
 
-		$and = "";
+		$and = '';
 
 		$post_ids = $this->get( 'post_id' );
 		if ( $post_ids ) {

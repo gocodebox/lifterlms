@@ -51,9 +51,7 @@ class LLMS_User_Permissions {
 						unset( $all_roles[ $the_role ] );
 					}
 				}
-
 			}
-
 		}
 
 		return $all_roles;
@@ -80,10 +78,7 @@ class LLMS_User_Permissions {
 			if ( in_array( sprintf( 'edit_others_%s', $cpt ), $cap ) ) {
 				$allcaps = $this->edit_others_lms_content( $allcaps, $cap, $args );
 			}
-
 		}
-
-
 
 		return $allcaps;
 
@@ -116,7 +111,6 @@ class LLMS_User_Permissions {
 		if ( $instructor && $instructor->is_instructor( $args[2] ) ) {
 			$allcaps[ $cap[0] ] = true;
 		}
-
 
 		return $allcaps;
 

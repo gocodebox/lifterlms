@@ -570,7 +570,6 @@ class LLMS_Course extends LLMS_Post_Model {
 
 		}
 
-
 		// allow partial arrays to be passed & we'll fill em up with defaults
 		foreach ( $instructors as &$instructor ) {
 			$instructor = wp_parse_args( $instructor, llms_get_instructor_defaults() );
