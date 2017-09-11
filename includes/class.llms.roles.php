@@ -57,6 +57,7 @@ class LLMS_Roles {
 		switch ( $role ) {
 
 			case 'instructor':
+			case 'instructors_assistant':
 				$caps = $all_caps;
 				unset( $caps['enroll'] );
 				unset( $caps['unenroll'] );
@@ -107,18 +108,25 @@ class LLMS_Roles {
 				if ( in_array( $role, array( 'instructor', 'instructors_assistant' ) ) ) {
 
 					$allowed = array(
-						'delete_posts',
-						'delete_published_posts',
-						'edit_post',
-						'edit_posts',
-						'edit_published_posts',
-						'publish_posts',
-						'create_posts',
+						'instructor' => array(
+							'delete_posts',
+							'delete_published_posts',
+							'edit_post',
+							'edit_posts',
+							'edit_published_posts',
+							'publish_posts',
+							'create_posts',
+						),
+						'instructors_assistant' => array(
+							'edit_post',
+							'edit_posts',
+							'edit_published_posts',
+						),
 					);
 
 					foreach ( $post_caps as $post_cap => $cpt_cap ) {
 
-						if ( ! in_array( $post_cap, $allowed ) ) {
+						if ( ! in_array( $post_cap, $allowed[ $role ] ) ) {
 							unset( $post_caps[ $post_cap ] );
 						}
 
@@ -185,11 +193,29 @@ class LLMS_Roles {
 		switch ( $role ) {
 
 			case 'instructor' :
+
+				$add = array(
+					'create_users' => true,
+					'edit_users' => true,
+					'promote_users' => true,
+
+					'read' => true,
+					'upload_files' => true,
+
+					// see WP Core issue(s)
+					// 		https://core.trac.wordpress.org/ticket/22895
+					// 		https://core.trac.wordpress.org/ticket/16808
+					'edit_posts' => true,
+				);
+
+			break;
+
 			case 'instructors_assistant' :
 
 				$add = array(
 					'read' => true,
 					'upload_files' => true,
+
 					// see WP Core issue(s)
 					// 		https://core.trac.wordpress.org/ticket/22895
 					// 		https://core.trac.wordpress.org/ticket/16808
@@ -203,7 +229,6 @@ class LLMS_Roles {
 				$add = array(
 					'read_private_pages' => true,
 					'read_private_posts' => true,
-					'edit_users' => true,
 					'edit_posts' => true,
 					'edit_pages' => true,
 					'edit_published_posts' => true,
@@ -228,6 +253,8 @@ class LLMS_Roles {
 					'upload_files' => true,
 					'export' => true,
 					'import' => true,
+
+					'edit_users' => true,
 					'create_users' => true,
 					'list_users' => true,
 					'promote_users' => true,
