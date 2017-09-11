@@ -2,17 +2,13 @@
 /**
  * Add LifterLMS fields to the user-edit screen
  * on the WordPress admin Panel
- *
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
- *
- * @since  2.7.0
+ * @since    2.7.0
+ * @version  [version]
  */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 ?>
 
-<h2><?php _e( 'LifterLMS Extra Information' ); ?></h2>
+<h2><?php echo $section_title; ?></h2>
 
 <table class="form-table">
 	<tbody>
