@@ -1486,7 +1486,7 @@ function lifterlms_loop_featured_video() {
  * @param    array      $args  arguments
  * @return   string
  * @since    3.0.0
- * @version  3.0.0
+ * @version  [version]
  */
 function llms_get_author( $args = array() ) {
 
@@ -1494,6 +1494,7 @@ function llms_get_author( $args = array() ) {
 		'avatar' => true,
 		'avatar_size' => 96,
 		'bio' => false,
+		'label' => '',
 		'user_id' => get_the_author_meta( 'ID' ),
 	) ) );
 
@@ -1510,12 +1511,25 @@ function llms_get_author( $args = array() ) {
 	$desc = '';
 	if ( $bio ) {
 		$desc = get_the_author_meta( 'description', $user_id );
-		if ( $desc ) {
-			$desc = '<p class="bio">' . $desc . '</p>';
-		}
 	}
 
-	return apply_filters( 'llms_get_author', '<div class="llms-author">' . $img . '<span class="name">' . $name . '</span>' . $desc . '</div>' );
+
+	ob_start();
+	?>
+	<div class="llms-author<?php echo ( $desc ) ? ' has-bio' : ''; ?>">
+		<?php echo $img; ?>
+		<span class="llms-author-info name"><?php echo $name; ?></span>
+		<?php if ( $label ) : ?>
+			<span class="llms-author-info label"><?php echo $label; ?></span>
+		<?php endif; ?>
+		<?php if ( $desc ) : ?>
+			<p class="llms-author-info bio"><?php echo $desc; ?></p>
+		<?php endif; ?>
+	</div>
+	<?php
+	$html = ob_get_clean();
+
+	return apply_filters( 'llms_get_author', $html );
 
 }
 
