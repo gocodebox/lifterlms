@@ -5,7 +5,7 @@
 * sets up base metabox functionality and global save.
 *
 * @since   1.0.0
-* @version 3.6.0
+* @version [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -23,7 +23,7 @@ class LLMS_Admin_Meta_Boxes {
 	 * Constructor
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.6.0
+	 * @version  [version]
 	 */
 	public function __construct() {
 
@@ -50,6 +50,7 @@ class LLMS_Admin_Meta_Boxes {
 
 		// courses & memberships
 		require_once 'meta-boxes/class.llms.meta.box.visibility.php';
+		require_once 'meta-boxes/class.llms.meta.box.instructors.php';
 		new LLMS_Meta_Box_Product();
 		new LLMS_Meta_Box_Students();
 
@@ -160,7 +161,8 @@ class LLMS_Admin_Meta_Boxes {
 	/**
 	* Remove Metaboxes
 	* @return void
-	* @version  3.4.0
+	* @since    3.4.0
+	* @version  [version]
 	*/
 	public function hide_meta_boxes() {
 
@@ -175,6 +177,8 @@ class LLMS_Admin_Meta_Boxes {
 		// remove some defaults from the course
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
 		remove_meta_box( 'tagsdiv-course_difficulty','course','side' );
+
+		remove_meta_box( 'authordiv', 'course', 'normal' );
 
 	}
 
