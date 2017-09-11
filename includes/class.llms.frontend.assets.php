@@ -31,13 +31,13 @@ class LLMS_Frontend_Assets {
 	 * Replaces non-static __construct() from 3.4.0 & lower
 	 * @return   void
 	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @version  [version]
 	 */
 	public static function init() {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'wp_head', array( __CLASS__, 'output_header_scripts' ) );
-		add_action( 'wp_footer', array( __CLASS__, 'output_footer_scripts' ) );
+		add_action( 'wp_print_footer_scripts', array( __CLASS__, 'output_footer_scripts' ), 1 );
 	}
 
 	/**
