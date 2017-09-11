@@ -151,6 +151,7 @@ class LLMS_Admin_Assets {
 
 				wp_enqueue_script( 'llms-metabox-students', plugins_url( '/assets/js/llms-metabox-students' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms-select2' ), '', true );
 				wp_enqueue_script( 'llms-metabox-product', plugins_url( '/assets/js/llms-metabox-product' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms', 'top-modal' ), '', true );
+				wp_enqueue_script( 'llms-metabox-instructors', plugins_url( '/assets/js/llms-metabox-instructors' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms', 'top-modal' ), '', true );
 
 			}
 
