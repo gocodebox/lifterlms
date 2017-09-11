@@ -107,7 +107,7 @@ class LLMS_Post_Types {
 			'delete_published_posts' => sprintf( 'delete_published_%s', $plural ),
 			'delete_others_posts' => sprintf( 'delete_others_%s', $plural ),
 
-			'create_posts' => sprintf( 'edit_%s', $plural ),
+			'create_posts' => sprintf( 'create_%s', $plural ),
 
 		) );
 
