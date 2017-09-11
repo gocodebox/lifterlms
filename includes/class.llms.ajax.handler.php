@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.12.1
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -156,6 +156,81 @@ class LLMS_AJAX_Handler {
 			return false;
 
 		}
+
+	}
+
+	/**
+	 * Store data for the instructors metabox
+	 * @param    [type]     $request  [description]
+	 * @return   [type]               [description]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function instructors_mb_store( $request ) {
+
+		// validate required params
+		if ( ! isset( $request['store_action'] ) || ! isset( $request['post_id'] ) ) {
+
+			return array(
+				'data' => array(),
+				'message' => __( 'Missing required paramters', 'lifterlms' ),
+				'success' => false,
+			);
+
+		}
+
+		$post = llms_get_post( $request['post_id'] );
+
+		switch ( $request['store_action'] ) {
+
+			case 'load':
+				$instructors = $post->get_instructors();
+			break;
+
+			case 'save':
+
+				$instructors = array();
+
+				foreach ( $request['rows'] as $instructor ) {
+
+					foreach ( $instructor as $key => $val ) {
+
+						$new_key = str_replace( array( 'llms', '_' ), '', $key );
+						$new_key = preg_replace( '/[0-9]+/', '', $new_key );
+						$instructor[ $new_key ] = $val;
+						unset( $instructor[ $key ] );
+
+					}
+
+					$instructors[] = $instructor;
+
+				}
+
+				$post->set_instructors( $instructors );
+
+			break;
+
+		}
+
+		$data = array();
+
+		foreach ( $instructors as $instructor ) {
+
+			$new_instructor = array();
+			foreach ( $instructor as $key => $val ) {
+				if ( 'id' === $key ) {
+					$val = llms_make_select2_student_array( array( $instructor['id'] ) );
+				}
+				$new_instructor[ '_llms_' . $key ] = $val;
+			}
+			$data[] = $new_instructor;
+		}
+
+		wp_send_json( array(
+			'data' => $data,
+			'message' => 'success',
+			'success' => true,
+		) );
 
 	}
 
