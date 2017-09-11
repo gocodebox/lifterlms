@@ -2,7 +2,7 @@
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.9.5
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
