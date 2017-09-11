@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.11.0
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -42,7 +42,7 @@
 		 * Initialize
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.11.0
+		 * @version  [version]
 		 */
 		this.init = function() {
 
@@ -51,8 +51,6 @@
 			$( '.llms-select2-post' ).each( function() {
 				self.post_select( $( this ) );
 			} );
-
-			$( '.llms-select2-student' ).llmsStudentsSelect2();
 
 			$( '.llms-collapsible-group' ).llmsCollapsible();
 
@@ -71,6 +69,12 @@
 							width: '100%',
 						} );
 					},
+				},
+				{
+					selector: $( '.llms-select2-student' ),
+					func: function( $selector ) {
+						$selector.llmsStudentsSelect2();
+					}
 				},
 				{
 					selector: $( 'input[type="checkbox"][data-controls]' ),
