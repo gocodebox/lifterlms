@@ -29,9 +29,6 @@ overflow: visible;
 	margin-right: 10px;
 	font-weight: bold;
 }
-.chosen-select {
-	width: 300px;
-}
 .myicon:before {
 	content: "\2605";
 	display: inline-block;
@@ -81,9 +78,9 @@ i.section-dismiss:hover {
 	cursor: pointer;
 	color: #d54e21;
 }
-.select, .input {
-	width: 300px;
-}
+// .select, .input {
+// 	width: 300px;
+// }
 #post_course_difficulty {
 	min-width: 200px;
 }
