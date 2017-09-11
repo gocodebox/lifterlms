@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.11.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.11.0
+	 * @version [version]
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -127,9 +127,9 @@ class LLMS_L10n {
 				/**
 				 * file: _private/js/partials/_metabox-field-repeater.js
 				 * @since    3.11.0
-				 * @version  3.11.0
+				 * @version  [version]
 				 */
-				'Are you sure you want to delete this template? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this template? This cannot be undone.', 'lifterlms' ),
+				'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this template? This cannot be undone.', 'lifterlms' ),
 
 			);
 
