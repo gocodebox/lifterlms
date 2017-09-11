@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  3.12.0
+* @version  [version]
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
@@ -19,6 +19,7 @@
 * @property $enrollment_start_date  (string)  Before this date, registration is closed
 * @property $end_date   (string)  Date when a course closes. Students may no longer view content or complete lessons / quizzes after this date.
 * @property $has_prerequisite   (string)  Determine if prerequisites are enabled [yes|no]
+* @property $instructors  (array)  Course instructor user information
 * @property $prerequisite   (int)  WP Post ID of a the prerequisite course
 * @property $prerequisite_track   (int)  WP Tax ID of a the prerequisite track
 * @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
@@ -47,6 +48,7 @@ class LLMS_Course extends LLMS_Post_Model {
 		'enrollment_period' => 'yesno',
 		'enrollment_start_date' => 'text',
 		'has_prerequisite' => 'yesno',
+		'instructors' => 'array',
 		'length' => 'text',
 		'prerequisite' => 'absint',
 		'prerequisite_track' => 'absint',
@@ -156,6 +158,38 @@ class LLMS_Course extends LLMS_Post_Model {
 
 			}
 		}
+
+	}
+
+	/**
+	 * Retrieve course instructor information
+	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_instructors( $exclude_hidden = false ) {
+
+		$instructors = $this->get( 'instructors' );
+
+		// if empty, respond with the course author in an array
+		if ( ! $instructors ) {
+			$instructors = array(
+				wp_parse_args( array(
+					'id' => $this->get( 'author' ),
+				), llms_get_instructor_defaults() )
+			);
+		}
+
+		if ( $exclude_hidden ) {
+			foreach ( $instructors as $key => $instructor ) {
+				if ( 'hidden' === $instructor['visibility'] ) {
+					unset( $instructors[ $key ] );
+				}
+			}
+		}
+
+		return apply_filters( 'llms_course_get_instructors', $instructors, $this );
 
 	}
 
@@ -515,6 +549,42 @@ class LLMS_Course extends LLMS_Post_Model {
 		$student = new LLMS_Student( $student_id );
 
 		return $student->is_complete( $prereq_id, $type );
+
+	}
+
+	/**
+	 * Save instructor information
+	 * @param    array      $instructors  array of course instructor information
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function set_instructors( $instructors = array() ) {
+
+		// we cannot allow no instructors to exist...
+		// so we'll revert to the devault current post_author
+		if ( ! $instructors ) {
+
+			// clear so the getter will retrieve the default author
+			$this->set( 'instructors', array() );
+			$instructors = $this->get_instructors();
+
+		}
+
+
+		// allow partial arrays to be passed & we'll fill em up with defaults
+		foreach ( $instructors as &$instructor ) {
+			$instructor = wp_parse_args( $instructor, llms_get_instructor_defaults() );
+			$instructor['id'] = absint( $instructor['id'] );
+		}
+
+		// set the post_author to be the first author in the array
+		$this->set( 'author', $instructors[0]['id'] );
+
+		// save the instructors array
+		$this->set( 'instructors', $instructors );
+
+		// return the instructors array
+		return $instructors;
 
 	}
 
