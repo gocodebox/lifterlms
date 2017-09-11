@@ -22,7 +22,7 @@ Metabox Tabs
             margin: 0;
             border-bottom: 1px solid $color-lightgrey;
 
-            &.select {
+            &.select:not([class*="d-"]) {
             	width: 100%;
             }
 
