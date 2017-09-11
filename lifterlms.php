@@ -184,7 +184,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.8.0
+	 * @version [version]
 	 */
 	private function includes() {
 
@@ -270,6 +270,7 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.course.factory.php' );
 		include_once( 'includes/class.llms.review.php' );
 		include_once( 'includes/class.llms.student.dashboard.php' );
+		include_once( 'includes/class.llms.user.permissions.php' );
 		include_once( 'includes/class.llms.view.manager.php' );
 
 		//handler classes
