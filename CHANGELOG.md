@@ -1,5 +1,11 @@
 == Changelog ==
 
+v3.12.2 - 2017/09/18
+--------------------
+
++ Fix issue with LifterLMS bbPress integration preventing course-restricted topics from being accessible by enrolled students
+
+
 v3.12.1 - 2017/08/25
 --------------------
 
