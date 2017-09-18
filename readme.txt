@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.8.1
-Stable tag: 3.12.1
+Stable tag: 3.12.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -227,6 +227,10 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 v3.13.0-beta.1 - 2017/08/24
 -------------------------------
 
+##### Updates
+
++ Course and membership categories and tags will now display on their respective post tables for sorting and filtering. They can be disabled on a per-user basis via the screen options.
+
 ##### New User Roles
 
 + LMS Administrator
@@ -257,6 +261,19 @@ v3.13.0-beta.1 - 2017/08/24
   + `lifterlms_admin_import_access`: replaced with user capability `manage_lifterlms`
   + `lifterlms_admin_system_report_access`: replaced with user capability `manage_lifterlms`
 + In order to provide access to these items you'll want to adjust some custom code as per [this guide](#writethisguide).
+
+
+= v3.12.2 - 2017/09/18 =
+------------------------
+
+##### Bug fixes
+
++ Fix issue with LifterLMS bbPress integration preventing course-restricted topics from being accessible by enrolled students
++ Fix an issue preventing students expired from courses via access expiration settings from being manually re-enrolled by admins
+
+##### Deprecations
+
++ `LLMS_Student` class function `has_access` is scheduled for depercation in next major release. Developers should switch to `LLMS_Student->is_enrolled()`
 
 
 = v3.12.1 - 2017/08/25 =
