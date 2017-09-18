@@ -226,6 +226,8 @@ class LLMS_Admin_Assets {
 		if ( 'lifterlms_page_llms-settings' == $screen->id ) {
 			wp_enqueue_media();
 			wp_enqueue_script( 'llms-admin-settings', plugins_url( '/assets/js/llms-admin-settings' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
+		} elseif ( 'admin_page_llms-course-builder' === $screen->id ) {
+			wp_enqueue_script( 'llms-builder', plugins_url( '/assets/js/llms-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable' ), LLMS()->version, true );
 		}
 
 	}

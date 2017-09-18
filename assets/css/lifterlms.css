@@ -118,6 +118,13 @@
 .llms-button-secondary.auto {
   width: auto;
 }
+.llms-button-action.full,
+.llms-button-danger.full,
+.llms-button-primary.full,
+.llms-button-secondary.full {
+  display: block;
+  width: 100%;
+}
 .llms-button-action.square,
 .llms-button-danger.square,
 .llms-button-primary.square,

@@ -68,6 +68,8 @@ class LLMS_Admin_Menus {
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), 'manage_lifterlms', 'llms-status', array( $this, 'status_page_init' ) );
 
+		add_submenu_page( null, __( 'LifterLMS Course Builder', 'lifterlms' ), __( 'Course Builder', 'lifterlms' ), 'edit_courses', 'llms-course-builder', array( $this, 'course_builder_init' ) );
+
 	}
 
 	/**
@@ -98,6 +100,17 @@ class LLMS_Admin_Menus {
 		require_once 'class.llms.admin.addons.php';
 		$view = new LLMS_Admin_AddOns();
 		$view->output();
+	}
+
+	/**
+	 * Output the HTML for the Course Builder
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function course_builder_init() {
+		require_once 'class.llms.course.builder.php';
+		LLMS_Course_Builder::output();
 	}
 
 	/**

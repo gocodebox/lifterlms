@@ -1,0 +1,274 @@
+.llms-course-builder {
+	background: #fff;
+	padding: 20px;
+	position: relative;
+
+	&.wrap {
+		margin: 20px 20px 20px 0;
+	}
+
+	h1,h2,h3,h4,h5,h6,ul {
+		margin: 0;
+		padding: 0;
+	}
+
+	.llms-action-icon {
+		color: #aaa;
+		display: inline-block;
+		font-size: 16px;
+		margin-left: 5px;
+		padding: 0 5px;
+		text-decoration: none;
+		&:hover {
+			color: $color-brand-blue;
+		}
+		&.collapse { display: none; }
+		&.expand { display: inline-block; }
+	}
+
+	.opened {
+		.llms-action-icon.collapse { display: inline-block; }
+		.llms-action-icon.expand { display: none; }
+	}
+
+	.llms-builder-main {
+		display: flex;
+		padding: 20px 0 0;
+
+		.llms-course-syllabus {
+			flex: 2.5;
+
+			footer {
+				margin-top: 20px;
+			}
+		}
+
+		.llms-builder-tools {
+			background: #cecece;
+			padding: 20px;
+			flex: 1;
+		}
+	}
+
+
+	.llms-sections {
+		margin-right: 20px;
+	}
+	.llms-lessons {
+		margin: 0 15px;
+	}
+
+	.llms-sections,
+	.llms-lessons {
+		box-shadow: 0 0 0 3px transparent;
+		min-height: 0;
+		transition: box-shadow 0.6s ease, min-height 0.2s ease;
+		&.dragging {
+			box-shadow: 0 0 0 3px $color-brand-blue;
+			min-height: 20px;
+		}
+	}
+
+
+	.llms-section {
+		margin: 0;
+		padding: 0 10px;
+		&:hover {
+			background: inherit;
+		}
+		&:before {
+			background: #ccc;
+			content: '';
+			height: 100%;
+			left: 15px;
+			position: absolute;
+			top: 18px;
+			width: 2px;
+		}
+		&.opened,
+		&.hover-opened {
+			.llms-lesson {
+				display: block;
+			}
+			&:last-child:before {
+				height: 40px;
+			}
+		}
+		&:last-child:before {
+			height: 0;
+		}
+
+		header {
+			padding: 10px 20px;
+			h2, .llms-action-icons {
+				display: inline-block;
+			}
+
+			.llms-drag-utility {
+				background: #fff;
+				border: 2px solid #ccc;
+				border-radius: 50%;
+				height: 8px;
+				left: 10px;
+				position: absolute;
+				top: 13px;
+				width: 8px;
+			}
+
+			.llms-action-icons {
+				opacity: 0;
+				transition: opacity 0.2s ease;
+			}
+			&:hover {
+				> .llms-action-icons {
+					opacity: 1;
+				}
+				.llms-drag-utility {
+					border-radius: 0;
+					border-left-width: 0;
+					border-right-width: 0;
+					cursor: move;
+					left: 9px;
+					width: 14px;
+					&:after {
+						content: '';
+						background: #ccc;
+						left: 0;
+						position: absolute;
+						top: 3px;
+						height: 2px;
+						width: 100%;
+					}
+				}
+			}
+		}
+
+
+	}
+
+	.llms-lesson {
+		display: none;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		&:hover {
+			background: inherit;
+		}
+		&:last-child:before {
+			display: none;
+		}
+
+		header {
+			padding-left: 40px;
+			&:before {
+				background: #ccc;
+				content: '';
+				height: 2px;
+				left: -10px;
+				position: absolute;
+				top: 18px;
+				width: 37px;
+			}
+			&:hover {
+				.llms-drag-utility {
+					background: transparent;
+					height: 8px;
+					left: 25px;
+					top: 13px;
+					width: 12px;
+				}
+			}
+			h2 {
+				font-size: 1em;
+			}
+			.llms-drag-utility {
+				background: #ccc;
+				height: 4px;
+				left: 25px;
+				position: absolute;
+				top: 15px;
+				width: 4px;
+			}
+		}
+	}
+
+	.llms-section,
+	.llms-lesson {
+		&.ui-sortable-helper {
+			border: 1px solid #ccc;
+			background: #fff;
+			.llms-info-icons,
+			.llms-action-icons,
+			header:before,
+			&:after,
+			&:before {
+				display: none;
+			}
+		}
+		&.llms-sortable-placeholder {
+			background: $color-brand-blue;
+			height: 6px;
+		}
+	}
+
+	.llms-info-icons {
+		padding-left: 50px;
+		.llms-info-icon {
+			color: #aaa;
+			&.active {
+				color: $color-brand-blue;
+			}
+		}
+	}
+
+	.llms-info-icons,
+	.llms-action-icons {
+		.tooltip:hover {
+			&:before {
+				left: 0;
+			}
+			&:after {
+				font-size: 12px;
+				left: -10px;
+				text-align: left;
+			}
+		}
+	}
+
+	.llms-inline-edit-wrap {
+		border: 1px solid transparent;
+		padding: 2px 4px;
+		&.active {
+			padding: 0;
+		}
+		&:hover {
+			border-color: #ececec;
+		}
+
+		input {
+			width: 480px;
+			max-width: 100%;
+		}
+
+	}
+
+	.save-status {
+		margin: 10px 0 5px;
+		.unsaved, .saving {
+			display: none;
+		}
+	}
+
+	#llms-spinner-el {
+		display: inline-block;
+		margin-right: 5px;
+		height: 20px;
+		position: relative;
+		vertical-align: middle;
+		width: 20px;
+		.llms-spinning {
+			background: transparent;
+		}
+	}
+
+}

@@ -1055,6 +1055,13 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	public static function llms_builder( $request ) {
+
+		require_once 'admin/class.llms.course.builder.php';
+		return LLMS_Course_Builder::handle_ajax( $request );
+
+	}
+
 }
 
 new LLMS_AJAX_Handler();

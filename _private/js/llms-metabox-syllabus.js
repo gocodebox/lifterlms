@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
 	load_ajax_animation();
 	sections_sortable();
 	order_lessons();
-	
+
 
 });
 
@@ -158,12 +158,12 @@ lessons_sortable = function() {
             jQuery(ui.item).attr("data-order", end_pos);
             order_lessons();
             update_syllabus();
-        } 
+        }
     });
 }
 
 order_lessons = function() {
-	
+
 	jQuery('.course-section').each( function(index) {
 		var section_position = jQuery(this).attr('id');
     	jQuery(this).find('.list_item').each( function(index) {
@@ -404,7 +404,7 @@ add_edit_link = function(post, lesson_id, row_id, type) {
 	edit_link.appendChild(edit_icon);
 	// put components together to build section block
 	if (type == 'lesson') {
-		
+
 		jQuery('#' + row_id).parent().next().append(edit_link);
 	}
 	if (type == 'section') {
@@ -442,7 +442,7 @@ associated_lesson_template = function (lessons, section_id, section_position) {
 
 	    if (lessons.hasOwnProperty(key)) {
 			var select = jQuery('#' + section_position + ' #' + select_class);
-			
+
 			var option = '<option selected value="' + lessons[key]['ID'] + '">' +  lessons[key]['post_title'] + '</option>'
 			jQuery(select).append(option);
 	    }
@@ -479,7 +479,7 @@ delete_this = function(thisButton){
 	 */
 	section_template = function (sections) {
 		var response = sections;
-	
+
         var id = $('.course-section').length + 1;
         var sectionId = 'section_' + id;
 
@@ -501,7 +501,7 @@ delete_this = function(thisButton){
 		select.setAttribute('data-placeholder', 'Select a Section');
 		select.setAttribute('data-type', 'section');
 		select.setAttribute('id', 'section_item_' + id);
-		
+
 		$(select).click(function() { reverse_selection ($(select))});
 		$(select).change(function() { get_edit_link(jQuery(this)); catch_duplicates($(select)); $(this).attr('disabled', 'disbaled'); });
 		$(select).attr("selectedIndex", -1);
@@ -511,7 +511,7 @@ delete_this = function(thisButton){
 		removeBtn.setAttribute('data-code', 'f153');
 		removeBtn.setAttribute('class', 'dashicons dashicons-dismiss section-dismiss');
 		$(removeBtn).click(function() { delete_this($(select)) });
-		
+
 		var moveBtn = document.createElement('i');
 		moveBtn.setAttribute('class', 'fa fa-bars llms-fa-move-lesson');
 
