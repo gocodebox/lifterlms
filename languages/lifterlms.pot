@@ -6956,11 +6956,11 @@ msgstr ""
 msgid "You must be enrolled in this course to access the course forum"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:347
+#: includes/integrations/class.llms.integration.bbpress.php:348
 msgid "Student creates a new forum topic"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:348
+#: includes/integrations/class.llms.integration.bbpress.php:349
 msgid "Student creates a new forum reply"
 msgstr ""
 
