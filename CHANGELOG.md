@@ -3,7 +3,14 @@
 v3.12.2 - 2017/09/18
 --------------------
 
+##### Bug fixes
+
 + Fix issue with LifterLMS bbPress integration preventing course-restricted topics from being accessible by enrolled students
++ Fix an issue preventing students expired from courses via access expiration settings from being manually re-enrolled by admins
+
+##### Deprecations
+
++ `LLMS_Student` class function `has_access` is scheduled for depercation in next major release. Developers should switch to `LLMS_Student->is_enrolled()`
 
 
 v3.12.1 - 2017/08/25

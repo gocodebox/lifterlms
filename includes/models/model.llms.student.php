@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.9.0
+ * @version 3.12.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -947,37 +947,28 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Determine if a student has access to a product's content
-	 * @param    int     $product_id    WP Post ID of a course or membership
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
+	 * @param      int     $product_id    WP Post ID of a course or membership
+	 * @return     boolean
+	 * @since      3.0.0
+	 * @version    3.12.2
+	 * @deprecated 3.12.2   This function previously differed from $this->is_enrolled() by
+	 *                      checking the status of an order and only returning true when
+	 *                      the order status and enrollment status were both true
+	 *                      this causes issues when a student is expired from a limited-access product
+	 *                      and is then manually re-enrolled by an admin
+	 *                      there is no way to change the access expiration information
+	 *                      and the enrollment status says "Enrolled" but the student still cannot
+	 *                      access the content
+	 *
+	 * 						Additionally redundant due to the fact that access is expired automatically
+	 * 						via action scheduler `do_action( 'llms_access_plan_expiration', $order_id );`
+	 * 						This action changes the enrollment status thereby rendering this additional
+	 * 						access check redundant, confusing, unnecessary
+ 	 */
 	public function has_access( $product_id ) {
 
-		$enrolled = $this->is_enrolled( $product_id );
-
-		$order = $this->get_enrollment_order( $product_id );
-
-		// if we have an order, check the access status
-		if ( $order && $order instanceof LLMS_Order ) {
-
-			// legacy orders should return the original enrollment status
-			if ( $order->is_legacy() ) {
-
-				return $enrolled;
-
-			} else {
-
-				// true if access is active and student is enrolled
-				return ( $order->has_access() && $enrolled );
-
-			}
-		}
-
-		// no order found
-		// backwards compatibility
-		// and manual enrollment by admin, voucher enrollment, etc... (?)
-		return $enrolled;
+		llms_deprecated_function( 'LLMS_Student::has_access()', '3.12.2', 'LLMS_Student::is_enrolled()' );
+		return $this->is_enrolled( $product_id );
 
 	}
 
@@ -1224,11 +1215,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Determine if a student is enrolled in a LifterLMS course, lesson, or membership
-	 *
 	 * @param  int $product_id WP Post ID of a Course, Lesson, or Membership
-	 *
 	 * @return boolean
-	 *
 	 * @since  3.0.0
 	 */
 	public function is_enrolled( $product_id ) {

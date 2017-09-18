@@ -2,7 +2,7 @@
 /**
 * bbPress Integration
 * @since    3.0.0
-* @version  [version]
+* @version  3.12.2
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -247,7 +247,7 @@ var_dump( $restriction );
 	 * @param    array     $results  array of restriction results
 	 * @return   array
 	 * @since    3.12.0
-	 * @version  [version]
+	 * @version  3.12.2
 	 */
 	public function restriction_checks_courses( $results ) {
 

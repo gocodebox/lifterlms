@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  3.7.5
+ * @version  3.12.2
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -89,7 +89,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	 * this is run if we have a restriction and a reason for restriction
 	 * and we either don't have a logged in student or the logged in student doesn't have access
 	 */
-	if ( ! empty( $restriction_id ) && ! empty( $reason ) && ( ! $student || ! $student->has_access( $restriction_id ) ) ) {
+	if ( ! empty( $restriction_id ) && ! empty( $reason ) && ( ! $student || ! $student->is_enrolled( $restriction_id ) ) ) {
 
 		$results['is_restricted'] = true;
 		$results['reason'] = $reason;

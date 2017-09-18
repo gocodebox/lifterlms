@@ -1,8 +1,9 @@
 <?php
 /**
  * Tests for LifterLMS Student Functions
+ * @group    LLMS_Student
  * @since    3.5.0
- * @version  3.7.0
+ * @version  3.12.2
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -126,7 +127,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * Test whether a user is_enrolled() in a course or membership
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.12.2
 	 */
 	public function test_enrollment() {
 
@@ -162,6 +163,74 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		// Student should be not enrolled in newly created course/membership
 		$this->assertFalse( llms_is_user_enrolled( $user_id, $course_id ) );
 		$this->assertFalse( llms_is_user_enrolled( $user_id, $memb_id ) );
+
+
+		// these were tests against now deprectaed has_access
+		sleep( 1 );
+
+		$student = $this->get_mock_student();
+
+		$course_id = $this->generate_mock_courses()[0];
+
+		// no access
+		$this->assertFalse( $student->is_enrolled( $course_id ) );
+
+		// has access
+		llms_enroll_student( $student->get_id(), $course_id );
+		$this->assertTrue( $student->is_enrolled( $course_id ) );
+
+		// check access after an access plan has expired access
+		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
+
+		// new student
+		$student = $this->get_mock_student();
+
+		// create an access plan
+		$plan = new LLMS_Access_Plan( 'new', 'Test Access Plan' );
+		$plan_data = array(
+			'access_expiration' => 'limited-period',
+			'access_length' => '1',
+			'access_period' => 'month',
+			'frequency' => 25,
+			'is_free' => 'no',
+			'length' => 0,
+			'on_sale' => 'no',
+			'period' => 'day',
+			'price' => 25.00,
+			'product_id' => $course_id,
+			'sku' => 'accessplansku',
+			'trial_offer' => 'no',
+		);
+		foreach ( $plan_data as $key => $val ) {
+			$plan->set( $key, $val );
+		}
+
+		$order = new LLMS_Order( 'new' );
+		$order->init( $student, $plan, $gateway );
+
+		$order->set( 'status', 'llms-completed' );
+		update_option( $gateway->get_option_name( 'enabled' ), 'no' ); // prevent potential issues elsewhere
+
+		// should be enrolled with no issues
+		$this->assertTrue( $student->is_enrolled( $course_id ) );
+
+		// fast forward
+		llms_mock_current_time( date( 'Y-m-d', current_time( 'timestamp' ) + YEAR_IN_SECONDS ) );
+
+		sleep( 1 ); // so the expiration status is later than the enrollment
+
+		// trigger expiration
+		do_action( 'llms_access_plan_expiration', $order->get( 'id' ) );
+
+		$this->assertFalse( $student->is_enrolled( $course_id ) );
+
+		sleep( 1 );
+
+		// manually re-enroll the student, admin enrollment should take precendence here even though they no longer have access
+		llms_enroll_student( $student->get_id(), $course_id );
+		$this->assertTrue( $student->is_enrolled( $course_id ) );
+
 
 	}
 
@@ -217,7 +286,6 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		) );
 		$student =  new LLMS_Student( $uid );
 		$this->assertEquals( 'Student McStudentFace', $student->get_name() );
-
 
 	}
 
