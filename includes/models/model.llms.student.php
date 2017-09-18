@@ -964,7 +964,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * 						via action scheduler `do_action( 'llms_access_plan_expiration', $order_id );`
 	 * 						This action changes the enrollment status thereby rendering this additional
 	 * 						access check redundant, confusing, unnecessary
- 	 */
+		 */
 	public function has_access( $product_id ) {
 
 		llms_deprecated_function( 'LLMS_Student::has_access()', '3.12.2', 'LLMS_Student::is_enrolled()' );
