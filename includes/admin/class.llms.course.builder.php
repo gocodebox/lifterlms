@@ -9,105 +9,127 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Course_Builder {
 
-	private static function get_settings( $setting = null ) {
-
-		$settings = apply_filters( 'llms_course_builder_get_settings', array(
-			'initial_sections' => 5,
-			'initial_lessons' => 3,
-		) );
-
-		if ( $setting && isset( $settings[ $setting ] ) ) {
-			return $settings[ $setting ];
-		}
-
-		return $settings;
-
-	}
-
-
-
+	/**
+	 * A terrible Rest API
+	 * @param    array     $request  $_REQUEST
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public static function handle_ajax( $request ) {
 
-		switch ( $request['method'] ) {
+		// @todo do some real error handling here
+		if ( ! $request['course_id'] || ! current_user_can( 'edit_course', $request['course_id'] ) ) {
+			return array();
+		}
 
-			case 'load_item':
+		switch ( $request['action_type'] ) {
 
-				$data = array();
-				$type = null;
+			case 'delete':
 
-				switch ( get_post_type( $request['id'] ) ) {
-					case 'section':
-						$data = self::get_section( $request['id'], true );
-						$type = 'section';
-					break;
+				if ( 'model' === $request['object_type'] ) {
+
+					if ( in_array( $request['data_type'], array( 'section', 'lesson' ) ) ) {
+
+						$obj = llms_get_post( $request['model']['id'] );
+
+						// make sure sections are empty before deleting
+						if ( 'section' === $obj->type && $obj->get_lessons( 'ids' ) ) {
+							return array(); // @todo error handling
+						}
+
+						wp_delete_post( $request['model']['id'], true );
+
+					}
 				}
 
-				return array(
-					'item' => $data,
-					'item_type' => $type
-				);
+			break;
+
+			case 'read':
+
+				if ( 'section' === $request['data_type'] && 'collection' === $request['object_type'] ) {
+
+					$course = llms_get_post( $request['course_id'] );
+					$sections = array();
+					foreach ( $course->get_sections( 'ids' ) as $section_id ) {
+						array_push( $sections, self::get_section( $section_id, true ) );
+					}
+					return $sections;
+
+				}
 
 			break;
 
-			case 'load_sections' :
+			case 'update':
 
+				// reorder sectioes or lessons
+				if ( 'collection' === $request['object_type'] && in_array( $request['data_type'], array( 'section', 'lesson' ) ) ) {
 
+					foreach ( $request['models'] as $model ) {
+						$object = llms_get_post( $model['id'] );
+						$object->set( 'order', $model['order'] );
+						// additionally save lessons parent
+						if ( 'lesson' === $request['data_type'] ) {
+							$object->set( 'parent_section', $model['section_id'] );
+						}
+					}
+				} elseif ( 'model' === $request['object_type'] ) {
+
+					$id = ( false === strpos( $request['model']['id'], '_temp_' ) ) ? absint( $request['model']['id'] ) : 'new';
+
+					// create new / update existing sections/lessons
+					if ( 'section' === $request['data_type'] ) {
+
+						$section = new LLMS_Section( $id, $request['model']['title'] );
+
+						if ( 'new' === $id ) {
+							$section->set( 'parent_course', $request['course_id'] );
+							$section->set( 'order', $request['model']['order'] );
+						} else {
+							$section->set( 'title', $request['model']['title'] );
+						}
+
+						wp_send_json( self::get_section( $section->get( 'id' ), false ) );
+
+					} elseif ( 'lesson' === $request['data_type'] ) {
+
+						$lesson = new LLMS_Lesson( $id, $request['model']['title'] );
+
+						if ( 'new' === $id ) {
+							$lesson->set( 'parent_course', $request['course_id'] );
+							$lesson->set( 'parent_section', $request['model']['section_id'] );
+							$lesson->set( 'order', $request['model']['order'] );
+						} else {
+							$lesson->set( 'title', $request['model']['title'] );
+						}
+
+						wp_send_json( self::get_lesson( $lesson->get( 'id' ), false, true ) );
+
+					} elseif ( 'course' === $request['data_type'] ) {
+
+						$course = new LLMS_Course( $id );
+						$course->set( 'title', $request['model']['title'] );
+
+					}
+				}// End if().
 
 			break;
 
-			case 'save_edits':
-
-				$obj = llms_get_post( $request['id'] );
-				$obj->set( $request['field'], $request['value'] );
-
-				return array(
-					'value' => $obj->get( $request['field'] ),
-				);
-
-			break;
-
-		}
+		}// End switch().
 
 		return array();
-	}
-
-	private static function get_course( $course_id ) {
-
-		$threshold = self::get_settings( 'initial_sections' );
-
-		$course = llms_get_post( $course_id );
-		$sections = array();
-
-		$i = 1;
-		foreach ( $course->get_sections( 'ids' ) as $section_id ) {
-
-			if ( $i <= $threshold ) {
-
-				$section_data = self::get_section( $section_id, true );
-
-			} else {
-
-				$section_data = array(
-					'id' => $section_id,
-				);
-
-			}
-
-			array_push( $sections, $section_data );
-
-			$i++;
-		}
-
-		$data = array(
-			'id' => $course->get( 'id' ),
-			'title' => $course->get( 'title' ),
-			'sections' => $sections,
-		);
-
-		return $data;
 
 	}
 
+	/**
+	 * Retrieve lesson data
+	 * @param    int        $lesson_id        WP Post ID of a lesson
+	 * @param    boolean    $include_quizzes  if true, include quiz data
+	 * @param    boolean    $include_meta     if true, include meta data
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public static function get_lesson( $lesson_id, $include_quizzes = false, $include_meta = true ) {
 
 		$lesson = llms_get_post( $lesson_id );
@@ -116,27 +138,63 @@ class LLMS_Course_Builder {
 			'id' => $lesson->get( 'id' ),
 			'title' => $lesson->get( 'title' ),
 			'order' => $lesson->get( 'order' ),
+			'section_id' => $lesson->get( 'parent_section' ),
 		);
 
 		if ( $include_meta ) {
+
+			$quiz_id = $lesson->get( 'assigned_quiz' );
+
 			$data = array_merge( $data, array(
 				'is_free' => $lesson->is_free(),
 				'prerequisite' => $lesson->has_prerequisite() ? self::get_lesson( $lesson->get( 'prerequisite' ), false, false ) : false,
 				'drip_method' => $lesson->get( 'drip_method' ),
 				'days_before_available' => $lesson->get( 'days_before_available' ),
 				'date_available' => $lesson->get( 'date_available' ),
-				'quiz' => $lesson->get( 'assigned_quiz' ),
+				'quiz' => $quiz_id ? self::get_quiz( $quiz_id ) : false,
 				'has_content' => $lesson->get( 'content' ) ? true : false,
+				'edit_url' => current_user_can( 'edit_lesson', $lesson_id ) ? get_edit_post_link( $lesson_id ) : '',
+				'view_url' => get_permalink( $lesson_id ),
 			) );
+
 		}
 
-		if ( $include_quizzes ) {
-		}
+		// if ( $include_quizzes ) {}
 
 		return $data;
 
 	}
 
+	/**
+	 * Retrieve Quiz data
+	 * @param    int        $quiz_id            WP Post ID of a quiz
+	 * @param    boolean    $include_questions  if true, includes question data
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function get_quiz( $quiz_id, $include_questions = false ) {
+
+		$quiz = new LLMS_QQuiz( $quiz_id );
+		$data = array(
+			'id' => $quiz->get( 'id' ),
+			'title' => $quiz->get( 'title' ),
+		);
+
+		// if ( $include_questions ) {}
+
+		return $data;
+
+	}
+
+	/**
+	 * Retrieve an array of data for a section
+	 * @param    int      $section_id       WP Post ID of the section
+	 * @param    bool     $include_lessons  if true, includes children lesson data
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public static function get_section( $section_id, $include_lessons ) {
 
 		$section = llms_get_post( $section_id );
@@ -167,211 +225,260 @@ class LLMS_Course_Builder {
 	 */
 	public static function output() {
 
-		// if ( current_user_can( 'edit_course' ) ) {
-
-		// }
-
 		$course_id = isset( $_GET['course_id'] ) ? absint( $_GET['course_id'] ) : null;
-		if ( $course_id && 'course' !== get_post_type( $course_id ) ) {
-			$course_id = null;
+		if ( ! $course_id || ( $course_id && 'course' !== get_post_type( $course_id ) ) ) {
+			_e( 'Invalid course ID', 'lifterlms' );
+			return;
 		}
-		$page_title = $course_id ? get_the_title( $course_id ) : __( 'Error', 'lifterlms' );
+
+		if ( ! current_user_can( 'edit_course', $course_id ) ) {
+			_e( 'You cannot edit this course!', 'lifterlms' );
+			return;
+		}
 		?>
 
 		<div class="wrap lifterlms llms-course-builder">
 
-			<h1><?php echo $page_title; ?></h1>
+			<div class="llms-builder-inside">
 
 			<?php do_action( 'llms_before_course_builder', $course_id ); ?>
 
-			<?php if ( ! $course_id ) : ?>
-				<p><?php _e( 'Invalid course ID', 'lifterlms' ); ?>
-			<?php else: ?>
+			<header class="llms-builder-page-header" id="llms-course-info"></header>
 
-				<div class="llms-builder-main">
+			<div class="llms-builder-main">
 
-					<section class="llms-course-syllabus llms-course" id="llms-course-syllabus">
-						<?php // self::output_course( $course_id ); ?>
-						<ul class="llms-sections" id="llms-sections"></ul>
+				<section class="llms-course-syllabus llms-course" id="llms-course-syllabus">
+					<ul class="llms-sections" id="llms-sections"></ul>
+				</section>
 
-						<footer>
+				<aside id="llms-builder-tools" class="llms-builder-tools">
 
-							<button class="llms-button-secondary small" id="llms-builder-load-sections" data-type="sections"><?php _e( 'Load more', 'lifterlms' ); ?></button>
+					<h2 class="llms-tools-headline"><?php _e( 'Course Elements', 'lifterlms' ); ?></h2>
 
-						</footer>
+					<ul class="llms-tools-list llms-add-items">
 
-					</section>
+						<li>
+							<button class="llms-add-item" id="llms-new-section" data-model="section">
+								<span class="fa fa-puzzle-piece"></span> <?php _e( 'Section', 'lifterlms' ); ?>
+							</button>
+						</li>
 
-					<aside class="llms-builder-tools">
+						<li>
+							<button class="llms-add-item" id="llms-new-lesson" data-model="lesson">
+								<span class="fa fa-file"></span> <?php _e( 'Lesson', 'lifterlms' ); ?>
+							</button>
+						</li>
 
-						<a href="#llms-toggle-all" data-action="open"><?php _e( 'Open All', 'lifterlms' ); ?></a>
-						<a href="#llms-toggle-all" data-action="close"><?php _e( 'Close All', 'lifterlms' ); ?></a>
+					</ul>
 
-						<footer>
-							<h6 class="save-status" id="save-status">
-								<span class="unsaved"><?php _e( 'You have unsaved changes', 'lifterlms' ); ?></span>
-								<span class="saving"><i id="llms-spinner-el"></i><?php _e( 'Saving changes...', 'lifterlms' ); ?></span>
-							</h6>
-							<button class="llms-button-primary full" disabled="disabled" type="button"><?php _e( 'Save', 'lifterlms' ); ?></button>
-						</footer>
+					<h2 class="llms-tools-headline"><?php _e( 'Tools', 'lifterlms' ); ?></h2>
 
-					</aside>
+					<ul class="llms-tools-list llms-utilities">
 
-				</div>
+						<li>
+							<a class="llms-utility bulk-toggle" href="#llms-bulk-toggle" data-action="expand" id="llms-expand-all">
+								<span class="fa fa-plus-circle"></span>
+								<?php _e( 'Expand All', 'lifterlms' ); ?>
+							</a>
+						</li>
 
-				<?php self::templates(); ?>
+						<li>
+							<a class="llms-utility bulk-toggle" href="#llms-bulk-toggle" data-action="collapse" id="llms-collapse-all">
+								<span class="fa fa-minus-circle"></span>
+								<?php _e( 'Collapse All', 'lifterlms' ); ?>
+							</a>
+						</li>
 
-				<script id="llms-course-object">window.llms_course = <?php echo json_encode( self::get_course( $course_id ) ); ?></script>
+					</ul>
 
-			<?php endif; ?>
+
+					<footer>
+						<h5 class="save-status" data-status="complete" id="save-status">
+							<span class="unsaved"><?php _e( 'You have unsaved changes', 'lifterlms' ); ?></span>
+							<span class="saving"><i id="llms-spinner-el"></i><?php _e( 'Saving changes...', 'lifterlms' ); ?></span>
+						</h5>
+					</footer>
+
+				</aside>
+
+			</div>
+
+			<?php self::templates(); ?>
+
+			<script>window.llms_builder = <?php echo json_encode( array(
+				'id' => absint( $course_id ),
+				'edit_url' => current_user_can( 'edit_course', $course_id ) ? get_edit_post_link( $course_id ) : '',
+				'view_url' => get_permalink( $course_id ),
+				'title' => get_the_title( $course_id ),
+			) ); ?></script>
 
 			<?php do_action( 'llms_after_course_builder', $course_id ); ?>
 
+			</div>
+
 		</div>
 
 		<?php
 
 	}
 
-	private static function output_course( $course_id ) {
+	/**
+	 * Output underscore template HTML
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function templates() {
 
-		$course = llms_get_post( $course_id );
-
-		echo '<ul class="llms-sections">';
-		foreach ( $course->get_sections() as $i => $section ) {
-			self::output_part( $section, $i + 1, false );
-		}
-		echo '</ul>';
-
-	}
-
-	private static function output_info_icons() {
-
-		$icons = array(
+		$lesson_icons = array(
 			'free' => array(
-				'active' => false,
+				'active' => 'is_free',
 				'icon' => 'usd',
-				'text' => esc_attr__( 'Enrollment required', 'lifterlms' ),
+				'text_default' => esc_attr__( 'Enrollment required', 'lifterlms' ),
+				'text_active' => esc_attr__( 'Free Lesson', 'lifterlms' ),
 			),
 			'prerequisite' => array(
-				'active' => false,
+				'active' => 'prerequisite',
 				'icon' => 'lock',
-				'text' => esc_attr__( 'No prerequisite', 'lifterlms' ),
+				'text_default' => esc_attr__( 'No prerequisite', 'lifterlms' ),
+				'text_active' => sprintf( esc_attr__( 'Prerequisite: %s', 'lifterlms' ), '<%- prerequisite.title %>' ),
 			),
 			'drip' => array(
-				'active' => false,
+				'active' => 'drip_method',
 				'icon' => 'calendar',
-				'text' => esc_attr__( 'No drip delay', 'lifterlms' ),
+				'text_default' => esc_attr__( 'No drip delay', 'lifterlms' ),
+				'text_active' => '
+					<% print( LLMS.l10n.translate( "Drip delay" ) + ": " ) %>
+					<% if ( "date" === drip_method ) { print( date_available ) } %>
+					<% if ( "start" === drip_method ) { print( days_before_available + " " + LLMS.l10n.translate( "days after course start date" ) ) } %>
+					<% if ( "enrollment" === drip_method ) { print( days_before_available + " " + LLMS.l10n.translate( "days after enrollment" ) ) } %>
+				',
 			),
 			'quiz' => array(
-				'active' => false,
+				'active' => 'quiz',
 				'icon' => 'question-circle',
-				'text' => esc_attr__( 'No quiz', 'lifterlms' ),
+				'text_default' => esc_attr__( 'No quiz', 'lifterlms' ),
+				'text_active' => sprintf( esc_attr__( 'Quiz: %s', 'lifterlms' ), '<%- quiz.title %>' ),
 			),
 			'content' => array(
-				'active' => false,
+				'active' => 'has_content',
 				'icon' => 'file-text-o',
-				'text' => esc_attr__( 'No content', 'lifterlms' ),
+				'text_default' => esc_attr__( 'No content', 'lifterlms' ),
+				'text_active' => esc_attr__( 'Has content', 'lifterlms' ),
 			),
 		);
-		?>
-		<div class="llms-info-icons">
-			<?php foreach ( $icons as $item => $data ) : ?>
-				<span class="<?php printf( 'llms-info-icon tooltip info--%1$s', $item ); ?>" title="<?php echo esc_attr( $data['text'] ); ?>">
-					<i class="fa <?php printf( 'fa-%s', $data['icon'] ); ?>" aria-hidden="true"></i>
-				</span>
-			<?php endforeach; ?>
-		</div>
-		<?php
-	}
 
-	private static function output_part( $obj, $number, $expand = false ) {
-
-		if ( is_numeric( $obj ) ) {
-			$obj = llms_get_post( $obj );
-		}
-
-		$type = $obj->get( 'type' );
 		?>
 
-		<li class="<?php printf( 'llms-%s', $type ); ?>" data-id="<?php echo $obj->get( 'id' ); ?>" data-order="<?php echo $number; ?>" id="<?php printf( 'llms-%1$s-%2$d', $type, $obj->get( 'id' ) ); ?>">
+		<script type="text/template" id="llms-course-template">
+			<h1 class="llms-headline">
+				<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="<%= title %>" type="text"><%= title %></span>
+			</h1>
+			<div class="llms-action-icons">
+				<% if ( edit_url ) { %>
+					<a class="llms-action-icon" href="<%= edit_url %>"><span class="fa fa-pencil"></span></a>
+				<% } %>
+				<a class="llms-action-icon" href="<%= view_url %>"><span class="fa fa-external-link"></span></a>
+			</div>
+		</script>
 
-			<header>
-
-				<span class="llms-drag-utility <?php printf( 'drag-%s', $type ); ?>"></span>
-
-				<h2><?php printf( '%1$s %2$d: <span class="llms-inline-edit-wrap" data-llms-editable="title">%3$s</span>', $obj->get_post_type_label(), $number, $obj->get( 'title' ) ); ?></h2>
+		<script type="text/template" id="llms-section-template">
+			<header class="llms-builder-header">
+				<span class="llms-drag-utility drag-section"></span>
+				<h2 class="llms-headline">
+					<?php echo get_post_type_object( 'section' )->labels->singular_name; ?> <%= order %>:
+					<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="<%= title %>" type="text"><%= title %></span>
+				</h2>
 
 				<div class="llms-action-icons">
 
-					<?php if ( 'section' === $type ) : ?>
-						<a class="llms-action-icon collapse" href="#llms-toggle">
-							<span class="fa fa-caret-up"></span>
-						</a>
+					<a class="llms-action-icon expand" data-title-default="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>" href="#llms-toggle">
+						<span class="fa fa-plus-circle"></span>
+					</a>
+					<a class="llms-action-icon collapse" data-title-default="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>" href="#llms-toggle">
+						<span class="fa fa-minus-circle"></span>
+					</a>
 
-						<a class="llms-action-icon expand" href="#llms-toggle">
-							<span class="fa fa-caret-down"></span>
+					<% if ( 1 !== order ) { %>
+						<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
+							<span class="fa fa-caret-square-o-up"></span>
 						</a>
-					<?php endif; ?>
+					<% } %>
+					<% if ( this.model.collection && this.model.collection.length !== order ) { %>
+						<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
+							<span class="fa fa-caret-square-o-down"></span>
+						</a>
+					<% } %>
+
+					<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
+						<span class="fa fa-trash"></span>
+					</a>
 
 				</div>
+
+			</header>
+			<ul class="llms-lessons"></ul>
+		</script>
+
+		<script type="text/html" id="llms-lesson-template">
+			<header class="llms-builder-header">
+				<span class="llms-drag-utility drag-lesson"></span>
+				<h3 class="llms-headline">
+					<?php echo get_post_type_object( 'lesson' )->labels->singular_name; ?> <%= order %>:
+					<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="<%= title %>" type="text"><%= title %></span>
+				</h3>
+
+				<div class="llms-action-icons">
+
+					<% if ( edit_url ) { %>
+						<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'Edit lesson settings', 'lifterlms' ); ?>" href="<%= edit_url %>">
+							<span class="fa fa-pencil"></span>
+						</a>
+					<% } %>
+					<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'View lesson', 'lifterlms' ); ?>" href="<%= view_url %>">
+						<span class="fa fa-external-link"></span>
+					</a>
+
+					<% if ( 1 !== order ) { %>
+						<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
+							<span class="fa fa-caret-square-o-up"></span>
+						</a>
+					<% } %>
+					<% if ( this.model.collection && this.model.collection.length !== order ) { %>
+						<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
+							<span class="fa fa-caret-square-o-down"></span>
+						</a>
+					<% } %>
+
+
+					<% if ( 1 !== this.model.get_section().get( 'order' ) ) { %>
+						<a class="llms-action-icon section-prev" data-title-default="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>" href="#llms-section-change">
+							<span class="fa fa-arrow-circle-o-up"></span>
+						</a>
+					<% } %>
+
+					<% if ( ! this.model.get_section().is_last() ) { %>
+						<a class="llms-action-icon section-next" data-title-default="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>" href="#llms-section-change">
+							<span class="fa fa-arrow-circle-o-down"></span>
+						</a>
+					<% } %>
+
+					<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Lesson', 'lifterlms' ); ?>" href="#llms-trash">
+						<span class="fa fa-trash"></span>
+					</a>
+
+				</div>
+
 			</header>
 
-			<?php if ( 'lesson' === $type ) : ?>
-				<?php self::output_info_icons( $obj ); ?>
-			<?php endif; ?>
+			<div class="llms-info-icons">
+			<?php foreach ( $lesson_icons as $icon => $info ) : ?>
+				<span class="llms-info-icon<% <?php echo $info['active']; ?> ? print( ' active' ) : print( '' ) %>" data-title-active="<?php echo $info['text_active']; ?>" data-title-default="<?php echo $info['text_default']; ?>">
+					<i class="fa fa-<?php echo $info['icon']; ?>" aria-hidden="true"></i>
+				</span>
+			<?php endforeach; ?>
+			</div>
 
-			<?php if ( 'section' === $type ) : ?>
-				<ul class="llms-lessons">
-				<?php if ( $expand ) :
-					$lessons = $obj->get_lessons(); ?>
-					<?php if ( $lessons ) : ?>
-						<?php foreach ( $lessons as $i => $lesson ) : ?>
-							<?php self::output_part( $lesson, $i + 1 ); ?>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				<?php endif; ?>
-				</ul>
-			<?php endif; ?>
-
-		</li>
-
-		<?php
-	}
-
-
-	private static function templates() {
-		?>
-		<script type="text/html" id="tmpl-llms-section-template">
-			<li class="llms-builder-item llms-section" data-id="{{data.id}}" data-loaded="no" data-order="{{data.order}}" id="llms-section-{{data.id}}">
-				<header class="llms-builder-header">
-
-					<span class="llms-drag-utility drag-section"></span>
-
-					<h2><?php printf( '%s {{data.order}}: <span class="llms-inline-edit-wrap" data-llms-editable="title">{{data.title}}</span>', get_post_type_object( 'section' )->labels->singular_name ); ?></h2>
-
-					<div class="llms-action-icons">
-						<a class="llms-action-icon collapse" href="#llms-toggle"><span class="fa fa-caret-up"></span></a>
-						<a class="llms-action-icon expand" href="#llms-toggle"><span class="fa fa-caret-down"></span></a>
-					</div>
-				</header>
-				<ul class="llms-lessons"></ul>
-			</li>
-		</script>
-		<script type="text/html" id="tmpl-llms-lesson-template">
-			<li class="llms-builder-item llms-lesson" data-id="{{data.id}}" data-order="{{data.order}}" id="llms-lesson-{{data.id}}">
-				<header class="llms-builder-header">
-
-					<span class="llms-drag-utility drag-lesson"></span>
-
-					<h2><?php printf( '%s {{data.order}}: <span class="llms-inline-edit-wrap" data-llms-editable="title">{{data.title}}</span>', get_post_type_object( 'lesson' )->labels->singular_name ); ?></h2>
-<!-- 								<div class="llms-action-icons">
-						<a class="llms-action-icon collapse" href="#llms-toggle"><span class="fa fa-caret-up"></span></a>
-						<a class="llms-action-icon expand" href="#llms-toggle"><span class="fa fa-caret-down"></span></a>
-					</div> -->
-				</header>
-				<?php self::output_info_icons(); ?>
-			</li>
 		</script>
 		<?php
 	}
