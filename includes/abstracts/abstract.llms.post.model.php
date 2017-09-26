@@ -1,8 +1,8 @@
 <?php
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
- * @since  3.0.0
- * @since  3.12.0
+ * @since    3.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -61,21 +61,24 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Constructor
 	 * Setup ID and related post property
 	 *
-	 * @param int|obj    $model   WP post id, instance of an extending class, instance of WP_Post
-	 * @param  array     $args    args to create the post, only applies when $model is 'new'
-	 * @return  void
-	 * @since  3.0.0
+	 * @param     int|obj    $model   WP post id, instance of an extending class, instance of WP_Post
+	 * @param     array     $args    args to create the post, only applies when $model is 'new'
+	 * @return    void
+	 * @since     3.0.0
+	 * @version   [version]
 	 */
 	public function __construct( $model, $args = array() ) {
 
 		if ( 'new' === $model ) {
 			$model = $this->create( $args );
-			$created = true;
+			if ( ! is_wp_error( $model ) ) {
+				$created = true;
+			}
 		} else {
 			$created = false;
 		}
 
-		if ( empty( $model ) ) {
+		if ( empty( $model ) || is_wp_error( $model ) ) {
 			return;
 		}
 
@@ -259,7 +262,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since  3.0.0
 	 */
 	private function create( $title = '' ) {
-		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ) );
+		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ), true );
 	}
 
 	/**
