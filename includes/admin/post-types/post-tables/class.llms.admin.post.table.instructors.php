@@ -43,13 +43,13 @@ class LLMS_Admin_Post_Table_Instructors {
 	 */
 	public function add_columns( $columns ) {
 
-		$offset = array_search( 'author', array_keys( $columns ) );
+		$offset = array_search( 'title', array_keys( $columns ) );
 
 		$add = array(
 			'llms-instructors' => __( 'Instructors', 'lifterlms' ),
 		);
 
-		return array_slice( $columns, 0, $offset ) + $add + array_slice( $columns, $offset + 1 );
+		return array_slice( $columns, 0, $offset + 1 ) + $add + array_slice( $columns, $offset );
 
 	}
 
