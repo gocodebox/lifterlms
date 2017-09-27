@@ -75,6 +75,7 @@
 					placeholder: 'llms-lesson llms-sortable-placeholder',
 					tolerance: 'pointer',
 					start: function( event, ui ) {
+						console.log( ui );
 						$( '.llms-lessons' ).addClass( 'dragging' );
 					},
 					stop: function( event, ui ) {
@@ -712,8 +713,11 @@
 				},
 				success: function( res ) {
 					LLMS.Spinner.stop( self.$el );
+					App.Methods.draggable();
+					App.Methods.sortable();
 				},
 			} );
+
 
 		},
 
@@ -802,6 +806,18 @@
 		} ),
 		Syllabus: new App.Views.SectionList,
 		Tools: new App.Views.Tools,
+		// Heartbeat: {
+			// onSend: function( event, data ) {
+			// 	data['wp-refresh-post-lock'] = {
+			// 		post_id: window.llms_builder.id,
+			// 		lock: $( '#active_post_lock' ).val(),
+			// 	};
+			// },
+			// onTick: function( event, data ) {
+			// 	console.log( data );
+			// 	$('#active_post_lock').val( data.new_lock );
+			// },
+		// },
 		Status: {
 			saving: [],
 			add: function( id ) {
@@ -820,9 +836,6 @@
 		},
 	};
 
-	App.Methods.draggable();
-	App.Methods.sortable();
-
 	$( '.llms-course-builder' ).height( $( window ).height() - 62 ); // @shame magic numbers...
 
 	// warn during unloads while we're still processing saves
@@ -831,6 +844,11 @@
 			return LLMS.l10n.translate( 'If you leave now your changes may not be saved!' );
 		}
 	} );
+
+	// bind Heartbeat things
+	// $( document )
+	// 	.on( 'heartbeat-send', Instance.Heartbeat.onSend )
+	// 	.on( 'heartbeat-tick.refresh-lock', Instance.Heartbeat.onTick );
 
 
 } )( jQuery );
