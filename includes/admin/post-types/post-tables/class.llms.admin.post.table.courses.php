@@ -18,6 +18,8 @@ class LLMS_Admin_Post_Table_Courses {
 	 */
 	public function __construct() {
 
+		add_filter( 'post_row_actions', array( $this, 'add_links' ), 1, 2 );
+
 		add_filter( 'manage_course_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_course_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
 
@@ -46,6 +48,32 @@ class LLMS_Admin_Post_Table_Courses {
 		);
 
 		return array_slice( $columns, 0, $offset ) + $add + array_slice( $columns, $offset + 1 );
+
+	}
+
+	/**
+	 * Add course builder edit link
+	 * @param    array     $actions  existing actions
+	 * @param    obj       $post     WP_Post object
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function add_links( $actions, $post ) {
+
+		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-clone-post' ) ) {
+
+			$url = add_query_arg( array(
+				'page' => 'llms-course-builder',
+				'course_id' => $post->ID
+			), admin_url( 'admin.php' ) );
+
+			$actions = array_merge( array(
+				'llms-builder' => '<a href="' . esc_url( $url ) . '">' . __( 'Builder', 'lifterlms' ) . '</a>',
+			), $actions );
+
+		}
+
+		return $actions;
 
 	}
 
