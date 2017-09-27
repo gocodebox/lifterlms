@@ -296,19 +296,6 @@ function llms_get_engagement_types() {
 }
 
 /**
- * Get default data for a new instructor
- * @return   array
- * @since    [version]
- * @version  [version]
- */
-function llms_get_instructor_defaults() {
-	return apply_filters( 'llms_get_instructor_defaults', array(
-		'label' => __( 'Author', 'lifterlms' ),
-		'visibility' => 'visible',
-	) );
-}
-
-/**
  * Get a list of available product (course & membership) catalog visibility options
  * @return   array
  * @since    3.6.0
