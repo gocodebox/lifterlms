@@ -174,28 +174,43 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			$post_id = $post->ID;
 		}
 
-		$course_id = false;
+		$check_id = false;
 
 		switch ( get_post_type( $post_id ) ) {
 
 			case 'course':
-				$course_id = $post_id;
+				$check_id = $post_id;
 			break;
 
-			case 'llms_quiz_question':
+			case 'llms_membership':
+				$check_id = $post_id;
+			break;
+
+			case 'llms_question':
+				$question = llms_get_post( $post_id );
+				$check_id = array();
+				foreach ( $question->get_quizzes() as $qid ) {
+					$course = llms_get_post_parent_course( $qid );
+					if ( $course ) {
+						$check_id[] = $course->get( 'id' );
+					}
+				}
 			break;
 
 			default:
 				$course = llms_get_post_parent_course( $post_id );
 				if ( $course ) {
-					$course_id = $course->get( 'id' );
+					$check_id = $course->get( 'id' );
 				}
+
 		}
 
-		if ( $course_id ) {
+		if ( $check_id ) {
+
+			$check_ids = ! is_array( $check_id ) ? array( $check_id ) : $check_id;
 
 			$query = $this->get_posts( array(
-				'p' => $course_id,
+				'post__in' => $check_ids,
 				'posts_per_page' => 1,
 	 		), 'query' );
 
@@ -203,7 +218,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 		}
 
-		return apply_filters( 'llms_instructor_is_instructor', $ret, $post_id, $this );
+		return apply_filters( 'llms_instructor_is_instructor', $ret, $post_id, $check_id, $this );
 
 	}
 

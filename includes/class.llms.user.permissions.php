@@ -71,8 +71,7 @@ class LLMS_User_Permissions {
 	 */
 	public function handle_caps( $allcaps, $cap, $args ) {
 
-		foreach ( array( 'courses', 'lessons', 'sections', 'quizzes', 'quiz_questions' ) as $cpt ) {
-
+		foreach ( array( 'courses', 'lessons', 'sections', 'quizzes', 'questions', 'memberships' ) as $cpt ) {
 			// allow any instructor to edit courses
 			// they're attached to
 			if ( in_array( sprintf( 'edit_others_%s', $cpt ), $cap ) ) {
