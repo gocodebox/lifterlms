@@ -246,7 +246,7 @@ class LLMS_Admin_User_Custom_Fields {
 			// show a hidden field with the current user's info
 			// when saving it will only save if the created user's role is instructor's assistant
 		} elseif ( 'add-new-user' === $user ) {
-			echo '<input type="hidde" name="llms_parent_instructors[]" value="' . get_current_user_id() . '">';
+			echo '<input type="hidden" name="llms_parent_instructors[]" value="' . get_current_user_id() . '">';
 		}
 
 	}
