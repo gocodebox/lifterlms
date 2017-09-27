@@ -32,6 +32,9 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 	 */
 	public function get_fields() {
 
+		$post = llms_get_post( $this->post );
+		$defaults = $post->instructors()->get_defaults();
+
 		return array(
 			array(
 				'title' => __( 'Instructors', 'lifterlms' ),
@@ -62,7 +65,7 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 							array(
 								'group' => 'd-1of6',
 								'class' => 'input-full',
-								'default' => __( 'Author', 'lifterlms' ),
+								'default' => $defaults['label'],
 								'id' => $this->prefix . 'label',
 								'type' => 'text',
 								'label' => __( 'Label', 'lifterlms' ),
@@ -70,6 +73,7 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 							array(
 								'allow_null' => false,
 								'class' => 'llms-select2',
+								'default' => $defaults['visibility'],
 								'group' => 'd-1of6',
 								'id' => $this->prefix . 'visibility',
 								'type' => 'select',
