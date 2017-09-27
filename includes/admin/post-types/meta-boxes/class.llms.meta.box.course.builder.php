@@ -18,9 +18,10 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	public function configure() {
 
 		$this->id = 'course_builder';
-		$this->title = __( 'Course Syllabus', 'lifterlms' );
+		$this->title = __( 'Course Builder', 'lifterlms' );
 		$this->screens = array( 'course' );
 		$this->context = 'side';
+		$this->capability = 'edit_course';
 
 	}
 
@@ -34,10 +35,20 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		return array();
 	}
 
+	/**
+	 * Override the output method to output a button
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function output() {
+		$url = add_query_arg( array(
+			'page' => 'llms-course-builder',
+			'course_id' => $this->post->ID
+		), admin_url( 'admin.php' ) );
 		?>
 		<br class="clear">
-		<a class="llms-button-primary large" href="#llms-launch-builder"><?php _e( 'Launch Course Builder', 'lifterlms' ); ?></a>
+		<a class="llms-button-primary large" href="<?php echo esc_url( $url ); ?>"><?php _e( 'Launch Course Builder', 'lifterlms' ); ?></a>
 		<br class="clear">
 		<br class="clear">
 		<?php

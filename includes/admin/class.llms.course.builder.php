@@ -10,7 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Course_Builder {
 
 	/**
-	 * A terrible Rest API
+	 * A terrible Rest API for the course builder
+	 * @shame    gimme a break pls
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    [version]
@@ -26,6 +27,10 @@ class LLMS_Course_Builder {
 		switch ( $request['action_type'] ) {
 
 			case 'delete':
+
+				if ( ! current_user_can( 'delete_course', $request['course_id'] ) ) {
+					return array(); // @todo better error handling here
+				}
 
 				if ( 'model' === $request['object_type'] ) {
 
@@ -118,6 +123,32 @@ class LLMS_Course_Builder {
 		}// End switch().
 
 		return array();
+
+	}
+
+	/**
+	 * Do post locking stuff on the builder
+	 * Locking the course edit main screen will lock the builder and vice versa... probably need to find a way
+	 * to fix that but for now this'll work just fine and if you're unhappy about it, well, sorry...
+	 *
+	 * @param    int     $course_id  WP Post ID
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function handle_post_locking( $course_id ) {
+
+		if ( ! wp_check_post_lock( $course_id ) ) {
+			$active_post_lock = wp_set_post_lock( $course_id );
+		}
+
+		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
+		if ( ! empty( $active_post_lock ) ) {
+			?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
+		}
+
+		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
+		add_action( 'admin_footer', '_admin_notice_post_locked' );
 
 	}
 
@@ -216,6 +247,23 @@ class LLMS_Course_Builder {
 
 	}
 
+	/**
+	 * Modify the "Take Over" link on the post locked modal to send users to the builder when taking over a course
+	 * @param    string     $link     default post edit link
+	 * @param    int        $post_id  WP Post ID of the course
+	 * @param    string     $context  display context
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function modify_take_over_link( $link, $post_id, $context ) {
+
+		return add_query_arg( array(
+			'page' => 'llms-course-builder',
+			'course_id' => $post_id,
+		), admin_url( 'admin.php' ) );
+
+	}
 
 	/**
 	 * Output the page content
@@ -225,11 +273,15 @@ class LLMS_Course_Builder {
 	 */
 	public static function output() {
 
+		global $post;
+
 		$course_id = isset( $_GET['course_id'] ) ? absint( $_GET['course_id'] ) : null;
 		if ( ! $course_id || ( $course_id && 'course' !== get_post_type( $course_id ) ) ) {
 			_e( 'Invalid course ID', 'lifterlms' );
 			return;
 		}
+
+		$post = get_post( $course_id );
 
 		if ( ! current_user_can( 'edit_course', $course_id ) ) {
 			_e( 'You cannot edit this course!', 'lifterlms' );
@@ -303,7 +355,7 @@ class LLMS_Course_Builder {
 
 			</div>
 
-			<?php self::templates(); ?>
+			<?php self::templates( $course_id ); ?>
 
 			<script>window.llms_builder = <?php echo json_encode( array(
 				'id' => absint( $course_id ),
@@ -319,16 +371,18 @@ class LLMS_Course_Builder {
 		</div>
 
 		<?php
+		self::handle_post_locking( $course_id );
 
 	}
 
 	/**
 	 * Output underscore template HTML
+	 * @param    int   $course_id   WP_Post ID of the course
 	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private static function templates() {
+	private static function templates( $course_id ) {
 
 		$lesson_icons = array(
 			'free' => array(
@@ -410,9 +464,11 @@ class LLMS_Course_Builder {
 						</a>
 					<% } %>
 
-					<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
-						<span class="fa fa-trash"></span>
-					</a>
+					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
+						<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
+							<span class="fa fa-trash"></span>
+						</a>
+					<?php endif; ?>
 
 				</div>
 
@@ -463,9 +519,11 @@ class LLMS_Course_Builder {
 						</a>
 					<% } %>
 
-					<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Lesson', 'lifterlms' ); ?>" href="#llms-trash">
-						<span class="fa fa-trash"></span>
-					</a>
+					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
+						<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Lesson', 'lifterlms' ); ?>" href="#llms-trash">
+							<span class="fa fa-trash"></span>
+						</a>
+					<?php endif; ?>
 
 				</div>
 

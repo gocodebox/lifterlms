@@ -19,6 +19,7 @@ class LLMS_Admin_Menus {
 	public function __construct() {
 
 		add_action( 'admin_init', array( $this, 'status_page_actions' ) );
+		add_action( 'admin_init', array( $this, 'builder_page_actions' ) );
 
 		add_filter( 'custom_menu_order', array( $this, 'submenu_order' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
@@ -44,6 +45,34 @@ class LLMS_Admin_Menus {
 		}
 
 		return $menu_ord;
+	}
+
+
+	/**
+	 * Handle init actions on the course builder page
+	 * Used for post-locking redirects when taking over from another user
+	 * on the course builder page
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function builder_page_actions() {
+
+		if ( ! isset( $_GET['page'] ) || 'llms-course-builder' !== $_GET['page'] ) {
+			return;
+		}
+
+		if ( ! empty( $_GET['get-post-lock'] ) && ! empty( $_GET['course_id'] ) ) {
+			$post_id = absint( $_GET['course_id'] );
+			check_admin_referer( 'lock-post_' . $post_id );
+			wp_set_post_lock( $post_id );
+			wp_redirect( add_query_arg( array(
+				'page' => 'llms-course-builder',
+				'course_id' => $post_id,
+			), admin_url( 'admin.php' ) ) );
+			exit();
+
+		}
 	}
 
 	/**
