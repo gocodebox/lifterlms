@@ -64,7 +64,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 			$url = add_query_arg( array(
 				'page' => 'llms-course-builder',
-				'course_id' => $post->ID
+				'course_id' => $post->ID,
 			), admin_url( 'admin.php' ) );
 
 			$actions = array_merge( array(

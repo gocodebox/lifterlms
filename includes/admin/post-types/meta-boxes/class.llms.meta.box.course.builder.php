@@ -44,7 +44,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	public function output() {
 		$url = add_query_arg( array(
 			'page' => 'llms-course-builder',
-			'course_id' => $this->post->ID
+			'course_id' => $this->post->ID,
 		), admin_url( 'admin.php' ) );
 		?>
 		<br class="clear">
