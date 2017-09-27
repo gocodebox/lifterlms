@@ -31,7 +31,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Course extends LLMS_Post_Model {
+class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
 
 	protected $properties = array(
 		'audio_embed' => 'text',
@@ -60,6 +60,16 @@ class LLMS_Course extends LLMS_Post_Model {
 
 	protected $db_post_type = 'course';
 	protected $model_post_type = 'course';
+
+	/**
+	 * Retrieve an instance of the Post Instructors model
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function instructors() {
+		return new LLMS_Post_Instructors( $this );
+	}
 
 	/**
 	 * Get course's prerequisite id based on the type of prerequsite
@@ -170,26 +180,11 @@ class LLMS_Course extends LLMS_Post_Model {
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
-		$instructors = $this->get( 'instructors' );
-
-		// if empty, respond with the course author in an array
-		if ( ! $instructors ) {
-			$instructors = array(
-				wp_parse_args( array(
-					'id' => $this->get( 'author' ),
-				), llms_get_instructor_defaults() )
-			);
-		}
-
-		if ( $exclude_hidden ) {
-			foreach ( $instructors as $key => $instructor ) {
-				if ( 'hidden' === $instructor['visibility'] ) {
-					unset( $instructors[ $key ] );
-				}
-			}
-		}
-
-		return apply_filters( 'llms_course_get_instructors', $instructors, $this );
+		return apply_filters( 'llms_course_get_instructors',
+			$this->instructors()->get_instructors( $exclude_hidden ),
+			$this,
+			$exclude_hidden
+		);
 
 	}
 
@@ -560,30 +555,7 @@ class LLMS_Course extends LLMS_Post_Model {
 	 */
 	public function set_instructors( $instructors = array() ) {
 
-		// we cannot allow no instructors to exist...
-		// so we'll revert to the devault current post_author
-		if ( ! $instructors ) {
-
-			// clear so the getter will retrieve the default author
-			$this->set( 'instructors', array() );
-			$instructors = $this->get_instructors();
-
-		}
-
-		// allow partial arrays to be passed & we'll fill em up with defaults
-		foreach ( $instructors as &$instructor ) {
-			$instructor = wp_parse_args( $instructor, llms_get_instructor_defaults() );
-			$instructor['id'] = absint( $instructor['id'] );
-		}
-
-		// set the post_author to be the first author in the array
-		$this->set( 'author', $instructors[0]['id'] );
-
-		// save the instructors array
-		$this->set( 'instructors', $instructors );
-
-		// return the instructors array
-		return $instructors;
+		return $this->instructors()->set_instructors( $instructors );
 
 	}
 
