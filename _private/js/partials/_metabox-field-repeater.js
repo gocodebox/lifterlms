@@ -211,11 +211,15 @@ this.repeaters = {
 	 * @param    obj   e  JS event object
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @version  [version]
 	 */
 	handle_submit: function( e ) {
 
 		e.preventDefault();
+
+		// core UX to prevent multi-click/or the appearance of a delay
+		$( '#publish' ).addClass( 'disabled' );
+		$( '#publishing-action .spinner' ).addClass( 'is-active' );
 
 		var self = window.llms.metaboxes.repeaters,
 			i = 0,
@@ -231,7 +235,7 @@ this.repeaters = {
 
 				clearInterval( wait );
 				$( '#post' ).off( 'submit', this.handle_submit );
-				$( '#publish' ).trigger( 'click' );
+				$( '#post' ).trigger( 'submit' );
 
 			} else {
 
