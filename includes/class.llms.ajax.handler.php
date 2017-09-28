@@ -1055,10 +1055,17 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * "API" for the Admin Builder
+	 * @param    [type]     $request  [description]
+	 * @return   [type]               [description]
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public static function llms_builder( $request ) {
 
-		require_once 'admin/class.llms.course.builder.php';
-		return LLMS_Course_Builder::handle_ajax( $request );
+		require_once 'admin/class.llms.admin.builder.php';
+		return LLMS_Admin_Builder::handle_ajax( $request );
 
 	}
 

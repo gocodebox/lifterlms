@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Course_Builder {
+class LLMS_Admin_Builder {
 
 	/**
 	 * A terrible Rest API for the course builder
@@ -143,9 +143,9 @@ class LLMS_Course_Builder {
 		}
 
 		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
-if ( ! empty( $active_post_lock ) ) {
-	?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
-}
+		if ( ! empty( $active_post_lock ) ) {
+			?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
+		}
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
@@ -387,13 +387,13 @@ if ( ! empty( $active_post_lock ) ) {
 		$lesson_icons = array(
 			'free' => array(
 				'active' => 'is_free',
-				'icon' => 'usd',
-				'text_default' => esc_attr__( 'Enrollment required', 'lifterlms' ),
-				'text_active' => esc_attr__( 'Free Lesson', 'lifterlms' ),
+				'icon' => 'unlock',
+				'text_default' => esc_attr__( 'Enrolled students only', 'lifterlms' ),
+				'text_active' => esc_attr__( 'Publicly available', 'lifterlms' ),
 			),
 			'prerequisite' => array(
 				'active' => 'prerequisite',
-				'icon' => 'lock',
+				'icon' => 'link',
 				'text_default' => esc_attr__( 'No prerequisite', 'lifterlms' ),
 				'text_active' => sprintf( esc_attr__( 'Prerequisite: %s', 'lifterlms' ), '<%- prerequisite.title %>' ),
 			),
