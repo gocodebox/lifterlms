@@ -728,7 +728,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				if ( $sections ) {
 					$newsection = new LLMS_Section( $sections[0]->ID );
 					$lessons = $newsection->get_children_lessons();
-					return $lessons[ count( $lessons ) -1 ]->ID;
+					if ( ! $lessons ) {
+						return false;
+					}
+					return $lessons[ count( $lessons ) - 1 ]->ID;
 				} else {
 					return false;
 				}
