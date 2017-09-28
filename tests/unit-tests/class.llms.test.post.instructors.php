@@ -4,8 +4,8 @@
  * @group   LLMS_Post_Instructors
  * @group   LLMS_Course
  * @group   LLMS_Membership
- * @since   [version]
- * @version [version]
+ * @since   3.13.0
+ * @version 3.13.0
  */
 class LLMS_Test_Post_Instructors extends LLMS_UnitTestCase {
 

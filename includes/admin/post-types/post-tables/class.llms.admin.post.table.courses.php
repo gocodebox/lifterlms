@@ -3,7 +3,7 @@
  * Add, Customize, and Manage LifterLMS Course
  *
  * @since    3.3.0
- * @version  [version]
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,7 +14,7 @@ class LLMS_Admin_Post_Table_Courses {
 	 * Constructor
 	 * @return  void
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function __construct() {
 
@@ -29,8 +29,8 @@ class LLMS_Admin_Post_Table_Courses {
 	 * Add course builder edit link
 	 * @param    array     $actions  existing actions
 	 * @param    obj       $post     WP_Post object
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function add_links( $actions, $post ) {
 

@@ -1,8 +1,8 @@
 <?php
 /**
  * LifterLMS Custom Roles and Capabilities
- * @since   [version]
- * @version [version]
+ * @since   3.13.0
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -13,8 +13,8 @@ class LLMS_Roles {
 	 * Retrieve an array of all capabilities for a role
 	 * @param    string     $role  name of the role
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private static function get_all_caps( $role ) {
 
@@ -30,8 +30,8 @@ class LLMS_Roles {
 	/**
 	 * Get an array of registered core lifterlms caps
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function get_all_core_caps() {
 		return apply_filters( 'llms_get_all_core_caps', array(
@@ -47,8 +47,8 @@ class LLMS_Roles {
 	 * Retrieve the LifterLMS core capabilities for a give role
 	 * @param    string     $role  name of the role
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private static function get_core_caps( $role ) {
 
@@ -83,8 +83,8 @@ class LLMS_Roles {
 	 * Retrieve the post type specific capabilities for a give role
 	 * @param    string     $role  name of the role
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private static function get_post_type_caps( $role ) {
 
@@ -176,8 +176,8 @@ class LLMS_Roles {
 	 * Retrieve the core WP capabilities for a give role
 	 * @param    string     $role  name of the role
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private static function get_wp_caps( $role ) {
 
@@ -270,8 +270,8 @@ class LLMS_Roles {
 	/**
 	 * Retrieve LifterLMS roles and role names
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function get_roles() {
 
@@ -288,8 +288,8 @@ class LLMS_Roles {
 	 * Install custom roles and related capabilities
 	 * Called from LLMS_Install during installation and upgrades
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function install() {
 
@@ -323,8 +323,8 @@ class LLMS_Roles {
 	/**
 	 * Uninstall custom roles and remove custom caps from default WP roles
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function remove_roles() {
 
@@ -349,8 +349,8 @@ class LLMS_Roles {
 	 * @param    obj     $role   instance of a WP_Role
 	 * @param    string     $type   update type [add|remove]
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private static function update_caps( $role, $type = 'add' ) {
 

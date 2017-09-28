@@ -3,8 +3,8 @@
 	/**
 	 * Main Application Object
 	 * @type     {Object}
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	var App = {
 		Collections: {},
@@ -20,8 +20,8 @@
 			/**
 			 * Retrieve the last section in the current instance
 			 * @return   obj     App.Models.Section
-			 * @since    [version]
-			 * @version  [version]
+			 * @since    3.13.0
+			 * @version  3.13.0
 			 */
 			get_last_section: function() {
 				return Instance.Syllabus.collection.at( Instance.Syllabus.collection.length - 1 );
@@ -31,8 +31,8 @@
 			 * Bind Draggable Events
 			 * Powers draggable items in the tools sidebar
 			 * @return   void
-			 * @since    [version]
-			 * @version  [version]
+			 * @since    3.13.0
+			 * @version  3.13.0
 			 */
 			draggable: function() {
 				$( '#llms-new-section' ).draggable( {
@@ -73,8 +73,8 @@
 			 * Bind jQuery UI Sortable events
 			 * Powers draggable course elements in the syllabus area
 			 * @return   void
-			 * @since    [version]
-			 * @version  [version]
+			 * @since    3.13.0
+			 * @version  3.13.0
 			 */
 			sortable: function() {
 				$( '.llms-sections' ).sortable( {
@@ -153,16 +153,16 @@
 			 * Use with a Model's View
 			 * Allows editing model.title field via .llms-editable-title elements
 			 * @type     {Object}
-			 * @since    [version]
-			 * @version  [version]
+			 * @since    3.13.0
+			 * @version  3.13.0
 			 */
 			EditableView: {
 
 				/**
 				 * DOM Events
 				 * @type  {Object}
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				events: {
 					'keydown .llms-editable-title': 'on_keydown',
@@ -172,8 +172,8 @@
 				 * Determine if changes have been made to the element
 				 * @param    {[obj]}   event  js event object
 				 * @return   {Boolean}        true when changes have been made, false otherwise
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				has_changed: function( event ) {
 					var $el = $( event.target );
@@ -184,8 +184,8 @@
 				 * Keydown function for .llms-editable-title elements
 				 * @param    {obj]}   event  js event object
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				on_keydown: function( event ) {
 
@@ -225,8 +225,8 @@
 				 * Bound to "escape" key via on_keydwon function
 				 * @param    {[type]}   event  js event object
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				revert_edits: function( event ) {
 					var $el = $( event.target ),
@@ -238,8 +238,8 @@
 				 * Sync chages to the model and DB
 				 * @param    {obj}   event  js event object
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				save_edits: function( event ) {
 
@@ -265,16 +265,16 @@
 			 * Use with a Model's View
 			 * Used with Section and Lesson views
 			 * @type     {Object}
-			 * @since    [version]
-			 * @version  [version]
+			 * @since    3.13.0
+			 * @version  3.13.0
 			 */
 			ShiftableView: {
 
 				/**
 				 * DOM Events
 				 * @type  {Object}
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				events: {
 					'click .llms-action-icon.shift-down': 'shift_down',
@@ -286,8 +286,8 @@
 				 * automatically resorts other items in collection and syncs collection to db
 				 * @param    obj   e  js event object
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				shift_down: function( e ) {
 					e.stopPropagation();
@@ -300,8 +300,8 @@
 				 * automatically resorts other items in collection and syncs collection to db
 				 * @param    obj   e  js event object
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				shift_up: function( e ) {
 					e.stopPropagation();
@@ -316,16 +316,16 @@
 			 * Use with a Collection's View
 			 * Used with Section and Lesson List (collection) views
 			 * @type     {Object}
-			 * @since    [version]
-			 * @version  [version]
+			 * @since    3.13.0
+			 * @version  3.13.0
 			 */
 			SortableView: {
 
 				/**
 				 * DOM Events
 				 * @type  {Object}
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				events: {
 					'update-sort': 'update_sort',
@@ -336,8 +336,8 @@
 				 * Rerenders the view when completed
 				 * @param    {obj}   collection  a backbone collection with models that have an "order" prop
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				sort_collection: function( collection ) {
 
@@ -360,8 +360,8 @@
 				 *                                        	this will be the same if it's a reorder and not moving to a new collection
 				 * @param    {bool}   auto_save        when true, saves to the database
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				update_sort: function ( event, model, order, to_collection, from_collection, auto_save ) {
 
@@ -399,8 +399,8 @@
 			 * Use with a Collection
 			 * Used with Section and Lesson Collections
 			 * @type     {Object}
-			 * @since    [version]
-			 * @version  [version]
+			 * @since    3.13.0
+			 * @version  3.13.0
 			 */
 			SortableCollection: {
 
@@ -413,8 +413,8 @@
 				/**
 				 * DOM Events
 				 * @type  {Object}
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				events: {
 					'change:order': 'sort',
@@ -423,8 +423,8 @@
 				/**
 				 * Retrieve the next order in the collection
 				 * @return   int
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				next_order: function() {
 					if ( ! this.length ) {
@@ -436,8 +436,8 @@
 				/**
 				 * Save collection order to the DB
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				sync_order: function() {
 					var id = _.uniqueId( 'saving_' );
@@ -456,8 +456,8 @@
 			 * Main Syncing
 			 * Used with models and collections for all CRUD operations
 			 * @type  {Object}
-			 * @since    [version]
-			 * @version  [version]
+			 * @since    3.13.0
+			 * @version  3.13.0
 			 */
 			Syncable: {
 				url: ajaxurl,
@@ -469,8 +469,8 @@
 				 * @param    {obj}      object   model or collection being synced
 				 * @param    {obj}      options  optional AJAX options
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.13.0
+				 * @version  3.13.0
 				 */
 				sync: function( method, object, options ) {
 
@@ -534,8 +534,8 @@
 
 	/**
 	 * Course Model
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Models.Course = Backbone.Model.extend( _.defaults( {
 
@@ -544,8 +544,8 @@
 		/**
 		 * New Course Defaults
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		defaults: function() {
 			return {
@@ -559,8 +559,8 @@
 
 	/**
 	 * Lesson Model
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Models.Lesson = Backbone.Model.extend( _.defaults( {
 
@@ -569,8 +569,8 @@
 		/**
 		 * New lesson defaults
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		defaults: function() {
 			var order = this.collection ? this.collection.next_order() : 1,
@@ -600,8 +600,8 @@
 		/**
 		 * Retrieve the parent section of the lesson
 		 * @return   {obj}   App.Models.Section
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		get_section: function() {
 			return Instance.Syllabus.collection.get( this.get( 'section_id' ) );
@@ -611,8 +611,8 @@
 
 	/**
 	 * Section Model
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Models.Section = Backbone.Model.extend( _.defaults( {
 
@@ -621,8 +621,8 @@
 		/**
 		 * New section defaults
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		defaults: function() {
 			var order = this.collection ? this.collection.next_order() : 1;
@@ -636,8 +636,8 @@
 		/**
 		 * Retrieve the next section in the section's collection
 		 * @return   obj     App.Models.Section
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		get_next: function() {
 			return this.collection.at( this.collection.indexOf( this ) + 1 );
@@ -646,8 +646,8 @@
 		/**
 		 * Retrieve the prev section in the section's collection
 		 * @return   obj     App.Models.Section
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		get_prev: function() {
 			return this.collection.at( this.collection.indexOf( this ) - 1 );
@@ -656,8 +656,8 @@
 		/**
 		 * Determines if the section is the last section in the collection
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		is_last: function() {
 			return ( this.get( 'order') === this.collection.length );
@@ -680,8 +680,8 @@
 
 	/**
 	 * Lessons Collection
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Collections.Lessons = Backbone.Collection.extend( _.defaults( {
 
@@ -692,8 +692,8 @@
 
 	/**
 	 * Sections Collection
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Collections.Sections = Backbone.Collection.extend( _.defaults( {
 
@@ -704,8 +704,8 @@
 		 * Parse AJAX response
 		 * @param    obj   response  JSON from the server
 		 * @return   obj             relevant data from the server
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		parse: function( response ) {
 			return response.data;
@@ -728,16 +728,16 @@
 
 	/**
 	 * Single Course View
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Views.Course = Backbone.View.extend( _.defaults( {
 
 		/**
 		 * Get default attributes for the html wrapper element
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		attributes: function() {
 			return {
@@ -760,8 +760,8 @@
 		/**
 		 * HTML element wrapper ID attribute
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		id: function() {
 			return 'llms-course-' + this.model.id;
@@ -782,8 +782,8 @@
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		initialize: function() {
 			this.render();
@@ -792,8 +792,8 @@
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		render: function() {
 			this.$el.html( this.template( this.model.toJSON() ) );
@@ -804,16 +804,16 @@
 
 	/**
 	 * Single Lesson View
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Views.Lesson = Backbone.View.extend( _.defaults( {
 
 		/**
 		 * Get default attributes for the html wrapper element
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		attributes: function() {
 			return {
@@ -831,7 +831,7 @@
 		/**
 		 * DOM Events
 		 * @type    obj
-		 * @since   [version]
+		 * @since   3.13.0
 		 * @versio  [version]
 		 */
 		events: _.defaults( {
@@ -845,8 +845,8 @@
 		/**
 		 * HTML element wrapper ID attribute
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		id: function() {
 			return 'llms-lesson-' + this.model.id;
@@ -869,8 +869,8 @@
 		 * requires a confirmation before removing from collection & syncing
 		 * @param    {obj}   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		delete_lesson: function( event ) {
 
@@ -903,8 +903,8 @@
 		 * @param    {int}   to_section_id    id of the section the lesson was dropped into
 		 * @param    {int}   from_section_id  id of the section the lesson came from (may be undefined)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		drop: function( event, $item, to_section_id, from_section_id ) {
 
@@ -936,8 +936,8 @@
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		render: function() {
 			this.$el.html( this.template( this.model.toJSON() ) );
@@ -948,8 +948,8 @@
 		 * Event handler for moving a lesson to the next section in the sections collection
 		 * this moves lesson DOWN a section
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		section_next: function() {
 
@@ -972,8 +972,8 @@
 		 * Event handler for moving a lesson to the previous section in the sections collection
 		 * this moves lesson UP a section
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		section_prev: function() {
 
@@ -999,8 +999,8 @@
 		 * @param    {obj}   event  js event object
 		 * @param    {obj}   item   jQuery ui sortable item object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		update_parent: function( event, item ) {
 			this.model.set( 'section_id', $( item ).closest( '.llms-section' ).attr( 'data-id' ) );
@@ -1010,16 +1010,16 @@
 
 	/**
 	 * Single Section View
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Views.Section = Backbone.View.extend( _.defaults( {
 
 		/**
 		 * Get default attributes for the html wrapper element
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		attributes: function() {
 			return {
@@ -1036,7 +1036,7 @@
 		/**
 		 * DOM Events
 		 * @type    obj
-		 * @since   [version]
+		 * @since   3.13.0
 		 * @versio  [version]
 		 */
 		events: _.defaults( {
@@ -1049,8 +1049,8 @@
 		/**
 		 * HTML element wrapper ID attribute
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		id: function() {
 			return 'llms-section-' + this.model.id;
@@ -1073,8 +1073,8 @@
 		 * Will only delete empty sections
 		 * @param    {obj}   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		delete_section: function( event ) {
 
@@ -1105,8 +1105,8 @@
 		 * @param    {obj}   event  js event object
 		 * @param    {int}   index  new index of the dropped element
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		drop: function( event, index ) {
 
@@ -1135,8 +1135,8 @@
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		initialize: function() {
 			this.listenTo( this.model, 'sync', this.render );
@@ -1146,8 +1146,8 @@
 		 * Hide lessons in the section
 		 * @param    {obj}   e  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		lessons_hide: function( e ) {
 			e.preventDefault();
@@ -1158,8 +1158,8 @@
 		 * Show lessons in the section
 		 * @param    {obj}   e  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		lessons_show: function( e ) {
 			e.preventDefault();
@@ -1170,8 +1170,8 @@
 		 * Render the section
 		 * Initalizes a new collection and views for all lessons in the section
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		render: function() {
 
@@ -1198,16 +1198,16 @@
 
 	/**
 	 * Lesson List (collection) view
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Views.LessonList = Backbone.View.extend( _.defaults( {
 
 		/**
 		 * Add a lesson to the collection
 		 * @param    {obj}   lesson  model of the lesson
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		add_one: function( lesson ) {
 			var view = new App.Views.Lesson( { model: lesson } );
@@ -1219,8 +1219,8 @@
 		 * @param    {obj}      lesson      model of the lesson to remove
 		 * @param    {obj}      collection  collection to remove the lesson from
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		destroy_one: function( lesson, collection ) {
 			this.sort_collection( collection );
@@ -1231,8 +1231,8 @@
 		 * Initializer
 		 * Bind collection events
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		initialize: function() {
 
@@ -1246,8 +1246,8 @@
 		/**
 		 * Render the view
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		render: function() {
 			this.$el.children().remove();
@@ -1260,8 +1260,8 @@
 	/**
 	 * Section list (colletion) view
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Views.SectionList = Backbone.View.extend( _.defaults( {
 
@@ -1280,8 +1280,8 @@
 		/**
 		 * Add a section to the collection
 		 * @param    {obj}   section  a section model
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		add_one: function( section ) {
 			var view = new App.Views.Section( { model: section } );
@@ -1293,8 +1293,8 @@
 		 * @param    {obj}   section     a model of the section
 		 * @param    {obj}   collection  the collection to remove it from
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		destroy_one: function( section, collection ) {
 			this.sort_collection( collection );
@@ -1306,8 +1306,8 @@
 		 * Setup dom event
 		 * & fetch the starting data for the collection
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		initialize: function() {
 
@@ -1336,8 +1336,8 @@
 		/**
 		 * Render the view
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		render: function() {
 			this.$el.children().remove();
@@ -1349,8 +1349,8 @@
 
 	/**
 	 * "Tools" sidebar view
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	App.Views.Tools = Backbone.View.extend( {
 
@@ -1363,8 +1363,8 @@
 		/**
 		 * Dom Events
 		 * @type     {Object}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		events: {
 			'click button.llms-add-item': 'add_item',
@@ -1374,8 +1374,8 @@
 		/**
 		 * Add a new item to the syllabus (section or lesson)
 		 * @param    {obj}   event  js event object
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		add_item: function( event ) {
 
@@ -1422,8 +1422,8 @@
 		 * Bulk expan and collapse the syllabus via click events
 		 * @param    {obj}   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.13.0
+		 * @version  3.13.0
 		 */
 		bulk_toggle: function( event ) {
 
@@ -1439,8 +1439,8 @@
 	/**
 	 * Main Instance
 	 * @type     {Object}
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	var Instance = {
 		Course: new App.Views.Course( {

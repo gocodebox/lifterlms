@@ -1,7 +1,7 @@
 /**
  * Instructors Metabox
- * @since    [version]
- * @version  [version]
+ * @since    3.13.0
+ * @version  3.13.0
  */
 ( function( $ ) {
 
@@ -13,8 +13,8 @@
 		 * Initialize
 		 *
 		 * @return  void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.13.0
+		 * @version 3.13.0
 		 */
 		this.init = function() {
 

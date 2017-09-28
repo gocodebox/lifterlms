@@ -1,8 +1,8 @@
 <?php
 /**
  * Automation Creation Interface
- * @since   [version]
- * @version [version]
+ * @since   3.13.0
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -12,8 +12,8 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 	/**
 	 * Configure the metabox
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.13.0
+	 * @version 3.13.0
 	 */
 	public function configure() {
 
@@ -27,8 +27,8 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 	/**
 	 * Define metabox fields
 	 * @return  array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.13.0
+	 * @version 3.13.0
 	 */
 	public function get_fields() {
 
@@ -95,8 +95,8 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 	 * Empty save function prevents repeater field from saving empty meta field
 	 * @param    int     $post  WP_Post ID
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function save( $post ) {}
 

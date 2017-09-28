@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version [version]
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -50,7 +50,7 @@ class LLMS_Install {
 			'llms_update_3120_update_integration_options',
 			'llms_update_3120_update_db_version',
 		),
-		'3.13.0' => array(
+		'3.13.0-rc.1' => array(
 			'llms_update_3130_create_default_instructors',
 			'llms_update_3130_update_db_version',
 		),
@@ -324,7 +324,7 @@ class LLMS_Install {
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	private static function get_schema() {
 
@@ -419,7 +419,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.13.0
 	 */
 	public static function install() {
 

@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -65,7 +65,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param     array     $args    args to create the post, only applies when $model is 'new'
 	 * @return    void
 	 * @since     3.0.0
-	 * @version   [version]
+	 * @version   3.13.0
 	 */
 	public function __construct( $model, $args = array() ) {
 

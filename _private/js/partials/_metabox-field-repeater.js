@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Metabox Repeater Field
  * @since    3.11.0
- * @version  [version]
+ * @version  3.13.0
  */
 this.repeaters = {
 
@@ -50,7 +50,7 @@ this.repeaters = {
 	 * Bind DOM Events
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	bind: function() {
 
@@ -163,7 +163,7 @@ this.repeaters = {
 	 * @param    obj   $row  jQuery selector for the row
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	bind_row: function( $row ) {
 
@@ -211,7 +211,7 @@ this.repeaters = {
 	 * @param    obj   e  JS event object
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	handle_submit: function( e ) {
 
@@ -338,7 +338,7 @@ this.repeaters = {
 	 * @param    obj   $repeater  jQuery selector for a repeater element
 	 * @return   vois
 	 * @since    3.11.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	save: function( $repeater ) {
 		$repeater.trigger( 'llms-repeater-before-save', { $el: $repeater } );

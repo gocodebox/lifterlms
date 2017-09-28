@@ -2,7 +2,7 @@
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  [version]
+* @version  3.13.0
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function admin_scripts() {
 		global $post_type;

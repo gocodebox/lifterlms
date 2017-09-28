@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -48,7 +48,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	 * @param    int        $course_id  ID of the course
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function get_data( $key, $course_id ) {
 

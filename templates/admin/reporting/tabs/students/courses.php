@@ -3,7 +3,7 @@
  * Single Student View: Courses Tab
  * This routes to the following templates based on present query vars
  * @since   3.2.0
- * @version [version]
+ * @version 3.13.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }

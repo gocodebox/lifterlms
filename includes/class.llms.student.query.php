@@ -2,7 +2,7 @@
 /**
 * Query LifterLMS Students for a given course / membership
 * @since    3.4.0
-* @version  [version]
+* @version  3.13.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -19,7 +19,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Retrieve default arguments for a student query
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	protected function get_default_args() {
 
@@ -78,7 +78,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * If no valid statuses, returns to the default
 	 * @return   void
 	 * @since    3.4.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	protected function parse_args() {
 
@@ -119,7 +119,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Prepare the SQL for the query
 	 * @return   void
 	 * @since    3.4.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	protected function preprare_query() {
 
@@ -157,8 +157,8 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Determines if a field should be selected/joined based on searching and sorting arguments
 	 * @param    string     $field  field name/key
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private function requires_field( $field ) {
 
@@ -184,7 +184,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Retrieve prepared SQL for the HAVING clause
 	 * @return   string
 	 * @since    3.4.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	private function sql_having() {
 
@@ -203,8 +203,8 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Setup joins based on submitted sort and search args
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private function sql_joins() {
 
@@ -268,8 +268,8 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Setup the SQL for the select statement
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private function sql_select() {
 
@@ -313,8 +313,8 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Generate an SQL IN clause based on submitted status arguements
 	 * @param    string     $column  name of the columen
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private function sql_status_in( $column = 'status' ) {
 		global $wpdb;
@@ -336,8 +336,8 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Generate an SQL subquery for the dynamic status or date values in the main query
 	 * @param    string     $column  column name
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private function sql_subquery( $column ) {
 

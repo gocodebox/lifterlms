@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.13.0
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
@@ -64,8 +64,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	/**
 	 * Retrieve an instance of the Post Instructors model
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function instructors() {
 		return new LLMS_Post_Instructors( $this );
@@ -175,8 +175,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 * Retrieve course instructor information
 	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
@@ -550,8 +550,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	/**
 	 * Save instructor information
 	 * @param    array      $instructors  array of course instructor information
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function set_instructors( $instructors = array() ) {
 

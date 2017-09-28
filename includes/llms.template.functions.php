@@ -1486,7 +1486,7 @@ function lifterlms_loop_featured_video() {
  * @param    array      $args  arguments
  * @return   string
  * @since    3.0.0
- * @version  [version]
+ * @version  3.13.0
  */
 function llms_get_author( $args = array() ) {
 

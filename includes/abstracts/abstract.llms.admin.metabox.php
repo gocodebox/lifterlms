@@ -2,7 +2,7 @@
 /**
 * Admin Metabox Class
 * @since    3.0.0
-* @version  [version]
+* @version  3.13.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -43,7 +43,7 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Capability to check in order to display the metabox to the user
 	 * @var    string
-	 * @since  [version]
+	 * @since  3.13.0
 	 */
 	public $capability = 'edit_post';
 
@@ -286,7 +286,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Utilizes class properties for registration
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function register() {
 

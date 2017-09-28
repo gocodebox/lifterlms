@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -48,7 +48,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function get_data( $key, $student ) {
 
@@ -321,7 +321,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function set_columns() {
 		return array(

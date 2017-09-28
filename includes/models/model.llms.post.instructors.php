@@ -8,8 +8,8 @@
  * Rather than instantiating this class directly
  * you should use LLMS_Course->instructors() or LLMS_Membership()->instructors()
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.13.0
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -21,8 +21,8 @@ class LLMS_Post_Instructors {
 	 * @param    mixed     $post  (obj) LLMS_Post_Model
 	 *                            (obj) WP_Post
 	 *                            (int) WP_Post ID
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function __construct( $post ) {
 
@@ -46,8 +46,8 @@ class LLMS_Post_Instructors {
 	/**
 	 * Retrieve the default attributes for a new post instructor
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_defaults() {
 
@@ -62,8 +62,8 @@ class LLMS_Post_Instructors {
 	 * Retrieve course instructor information
 	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
@@ -93,8 +93,8 @@ class LLMS_Post_Instructors {
 	/**
 	 * Save instructor information
 	 * @param    array      $instructors  array of course instructor information
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function set_instructors( $instructors = array() ) {
 

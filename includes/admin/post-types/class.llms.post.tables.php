@@ -2,7 +2,7 @@
 /**
  * General post table management
  * @since    3.0.0
- * @version  [version]
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -31,7 +31,7 @@ class LLMS_Admin_Post_Tables {
 	 * @param    array     $actions  existing actions
 	 * @param    obj       $post    WP_Post object
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function add_links( $actions, $post ) {
 

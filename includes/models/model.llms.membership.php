@@ -2,7 +2,7 @@
 /**
  * LifterLMS Membership Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.13.0
  *
  * @property  $auto_enroll  (array)  Array of course IDs users will be autoenrolled in upon successfull enrollment in this membership
  * @property  $instructors  (array)  Course instructor user information
@@ -33,8 +33,8 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	/**
 	 * Retrieve an instance of the Post Instructors model
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function instructors() {
 		return new LLMS_Post_Instructors( $this );
@@ -77,8 +77,8 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	 * Retrieve course instructor information
 	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
@@ -130,8 +130,8 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	/**
 	 * Save instructor information
 	 * @param    array      $instructors  array of course instructor information
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function set_instructors( $instructors = array() ) {
 

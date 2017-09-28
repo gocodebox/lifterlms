@@ -2,7 +2,7 @@
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  [version]
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -75,8 +75,8 @@ class LLMS_Post_Types {
 	 *           https://core.trac.wordpress.org/ticket/30991
 	 * @param    [type]     $post_type  [description]
 	 * @return   [type]                 [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function get_post_type_caps( $post_type ) {
 
@@ -117,8 +117,8 @@ class LLMS_Post_Types {
 	 * Retrieve taxonomy capabilities for custom taxonomies
 	 * @param    string|array     $tax  tax name/names (pass array of singular, plural to customize plural spelling)
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function get_tax_caps( $tax ) {
 
@@ -145,8 +145,8 @@ class LLMS_Post_Types {
 	 * @param    string     $name  post type name
 	 * @param    array     $data  post type data
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function register_post_type( $name, $data ) {
 
@@ -160,7 +160,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Post Types
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public static function register_post_types() {
 
@@ -984,8 +984,8 @@ class LLMS_Post_Types {
 	 * @param    string|array  $object  post type object(s) to associate the taxonomy with
 	 * @param    array         $data    taxonomy data
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function register_taxonomy( $name, $object, $data ) {
 
@@ -1003,7 +1003,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Taxonomies
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public static function register_taxonomies() {
 

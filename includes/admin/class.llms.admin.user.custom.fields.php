@@ -3,7 +3,7 @@
  * Add Custom User Fields to user admin panel screens
  * Applies to edit-user.php, user-new.php, & profile.php
  * @since    2.7.0
- * @version  [version]
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,7 +15,7 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Constructor
 	 * @since    2.7.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function __construct() {
 
@@ -48,7 +48,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @param    obj    $user     Instace of WP_User for the user being updated
 	 * @return   void
 	 * @since    2.7.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function add_errors( &$errors, $update, $user ) {
 
@@ -82,7 +82,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * Retrieve an associative array of custom fields and custom field data
 	 * @return   array
 	 * @since    2.7.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function get_fields() {
 
@@ -184,7 +184,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @param    mixed  $user   Instance of WP_User or WP User ID
 	 * @return   void
 	 * @since    2.7.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function output_custom_fields( $user ) {
 
@@ -205,8 +205,8 @@ class LLMS_Admin_User_Custom_Fields {
 	 * Add instructor parent fields for use when creating instructor's assistants
 	 * @param    mixed  $user   Instance of WP_User or WP User ID
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function output_instructors_assistant_fields( $user ) {
 
@@ -255,8 +255,8 @@ class LLMS_Admin_User_Custom_Fields {
 	 * Output JS to handle user interaction with the instructor's parent field
 	 * Display custom field ONLY when creating/editing an instructor's assistant
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function output_instructors_assistant_scripts() {
 		?><script>
@@ -279,8 +279,8 @@ class LLMS_Admin_User_Custom_Fields {
 	 * Save custom field data for a user
 	 * @param    mixed     $user  WP_User or WP_User ID
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function save( $user ) {
 

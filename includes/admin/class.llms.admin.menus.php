@@ -4,7 +4,7 @@
  *
  * Sets up admin menu items.
  * @since   1.0.0
- * @version [version]
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,7 +14,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Constructor
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.13.0
 	 */
 	public function __construct() {
 
@@ -53,8 +53,8 @@ class LLMS_Admin_Menus {
 	 * Used for post-locking redirects when taking over from another user
 	 * on the course builder page
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function builder_page_actions() {
 
@@ -79,7 +79,7 @@ class LLMS_Admin_Menus {
 	 * Admin Menu
 	 * @return void
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.13.0
 	 */
 	public function display_admin_menu() {
 
@@ -105,7 +105,7 @@ class LLMS_Admin_Menus {
 	 * Add items to the admin menu with a later priority
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function display_admin_menu_late() {
 
@@ -134,8 +134,8 @@ class LLMS_Admin_Menus {
 	/**
 	 * Output the HTML for the Course Builder
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function builder_init() {
 		require_once 'class.llms.admin.builder.php';
@@ -161,8 +161,8 @@ class LLMS_Admin_Menus {
 	 * @see      WP Core Issue(s): https://core.trac.wordpress.org/ticket/22895
 	 *           				   https://core.trac.wordpress.org/ticket/16808
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function instructor_menu_hack() {
 
@@ -185,7 +185,7 @@ class LLMS_Admin_Menus {
 	 * Output the HTML for the reporting screens
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function reporting_page_init() {
 

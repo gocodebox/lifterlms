@@ -1,8 +1,8 @@
 <?php
 /**
  * Course Builder
- * @since    [version]
- * @version  [version]
+ * @since    3.13.0
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,8 +14,8 @@ class LLMS_Admin_Builder {
 	 * @shame    gimme a break pls
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -133,8 +133,8 @@ class LLMS_Admin_Builder {
 	 *
 	 * @param    int     $course_id  WP Post ID
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private static function handle_post_locking( $course_id ) {
 
@@ -158,8 +158,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    boolean    $include_quizzes  if true, include quiz data
 	 * @param    boolean    $include_meta     if true, include meta data
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function get_lesson( $lesson_id, $include_quizzes = false, $include_meta = true ) {
 
@@ -201,8 +201,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    int        $quiz_id            WP Post ID of a quiz
 	 * @param    boolean    $include_questions  if true, includes question data
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function get_quiz( $quiz_id, $include_questions = false ) {
 
@@ -223,8 +223,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    int      $section_id       WP Post ID of the section
 	 * @param    bool     $include_lessons  if true, includes children lesson data
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function get_section( $section_id, $include_lessons ) {
 
@@ -253,8 +253,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    int        $post_id  WP Post ID of the course
 	 * @param    string     $context  display context
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function modify_take_over_link( $link, $post_id, $context ) {
 
@@ -268,8 +268,8 @@ if ( ! empty( $active_post_lock ) ) {
 	/**
 	 * Output the page content
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function output() {
 
@@ -379,8 +379,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output underscore template HTML
 	 * @param    int   $course_id   WP_Post ID of the course
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private static function templates( $course_id ) {
 

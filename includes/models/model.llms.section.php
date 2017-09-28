@@ -2,7 +2,7 @@
 /**
  * LLMS Section Model
  * @since    1.0.0
- * @version  [version]
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -32,8 +32,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * when creating a new post
 	 * @param    array  $args   args of data to be passed to wp_insert_post
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	protected function get_creation_args( $args = null ) {
 
@@ -67,8 +67,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Retrieve the previous section
 	 * @return   obj|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_next() {
 
@@ -88,8 +88,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Retrieve the previous section
 	 * @return   obj|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_previous() {
 
@@ -148,8 +148,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Get sibling sections
 	 * @param    string  $return  type of return [ids|posts|sections]
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_siblings( $return = 'sections' ) {
 		$course = $this->get_course();

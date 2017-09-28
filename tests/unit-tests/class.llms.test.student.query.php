@@ -3,7 +3,7 @@
  * Tests for the LLMS_Install Class
  * @group    LLMS_Student_Query
  * @since    3.3.1
- * @version  [version]
+ * @version  3.13.0
  */
 class LLMS_Test_Student_Query extends LLMS_UnitTestCase {
 
@@ -58,8 +58,8 @@ class LLMS_Test_Student_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test some real queries
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function test_get_students() {
 

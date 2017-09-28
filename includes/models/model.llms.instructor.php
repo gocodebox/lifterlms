@@ -2,8 +2,8 @@
 /**
  * LifterLMS Instructor class
  * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant
- * @since   [version]
- * @version [version]
+ * @since   3.13.0
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,8 +14,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * Add a parent instructor to an assistant instructor
 	 * @param    mixed     $parent_id  WP User ID of the parent instructor or array of User IDs to add multiple
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function add_parent( $parent_ids ) {
 
@@ -48,8 +48,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * @param    array      $args    query argument, see $this->get_posts()
 	 * @param    string     $return  return format, see $this->get_posts()
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_courses( $args = array(), $return = 'llms_posts' ) {
 
@@ -66,8 +66,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * @param    array      $args    query argument, see $this->get_posts()
 	 * @param    string     $return  return format, see $this->get_posts()
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_memberships( $args = array(), $return = 'llms_posts' ) {
 
@@ -83,8 +83,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * @param    array      $args    query arguments passed to WP_Query
 	 * @param    string     $return  return format [llms_posts|ids|posts|query]
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_posts( $args = array(), $return = 'llms_posts' ) {
 
@@ -129,8 +129,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * @uses     LLMS_Student_Query
 	 * @param    array      $args  array of args passed to LLMS_Student_Query
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_students( $args = array() ) {
 
@@ -158,8 +158,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * Determine if the user is an instructor on a post
 	 * @param    int     $post_id  WP Post ID of a course or membership
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function is_instructor( $post_id = null ) {
 

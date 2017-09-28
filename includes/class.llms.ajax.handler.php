@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.13.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -163,8 +163,8 @@ class LLMS_AJAX_Handler {
 	 * Store data for the instructors metabox
 	 * @param    [type]     $request  [description]
 	 * @return   [type]               [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function instructors_mb_store( $request ) {
 
@@ -294,7 +294,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @return   json
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public static function query_students() {
 
@@ -1059,8 +1059,8 @@ class LLMS_AJAX_Handler {
 	 * "API" for the Admin Builder
 	 * @param    [type]     $request  [description]
 	 * @return   [type]               [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public static function llms_builder( $request ) {
 

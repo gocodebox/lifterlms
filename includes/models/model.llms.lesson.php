@@ -3,7 +3,7 @@
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.13.0
  *
  * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
  * @property  $audio_embed  (string)  Audio embed URL
@@ -144,8 +144,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * when creating a new post
 	 * @param    array  $args   args of data to be passed to wp_insert_post
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	protected function get_creation_args( $args = null ) {
 

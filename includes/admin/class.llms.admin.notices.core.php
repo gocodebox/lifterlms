@@ -3,7 +3,7 @@
  * Manage core admin notices
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -101,7 +101,7 @@ class LLMS_Admin_Notices_Core {
 	 * Check for gateways and output gateway notice
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public static function gateways() {
 		$id = 'no-gateways';

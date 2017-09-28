@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.13.0-beta.2';
+	public $version = '3.13.0-rc.1';
 
 	protected static $_instance = null;
 
@@ -184,7 +184,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.13.0
 	 */
 	private function includes() {
 

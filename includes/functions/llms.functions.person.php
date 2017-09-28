@@ -57,8 +57,8 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
  * @param    string     $cap     capability name
  * @param    int        $obj_id  WP_Post or WP_User ID
  * @return   boolean
- * @since    [version]
- * @version  [version]
+ * @since    3.13.0
+ * @version  3.13.0
  */
 function llms_current_user_can( $cap, $obj_id = null ) {
 
@@ -174,8 +174,8 @@ function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) 
  * Get an LLMS_Instructor
  * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any instructor class extending this class
  * @return   obj|false        LLMS_Instructor instance on success, false if user not found
- * @since    [version]
- * @version  [version]
+ * @since    3.13.0
+ * @version  3.13.0
  */
 function llms_get_instructor( $user = null ) {
 	$student = new LLMS_Instructor( $user );

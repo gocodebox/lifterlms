@@ -2,7 +2,7 @@
 /**
  * Students Metabox on admin panel
  * @since    3.0.0
- * @version  [version]
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

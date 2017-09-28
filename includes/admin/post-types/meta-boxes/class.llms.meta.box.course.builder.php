@@ -1,8 +1,8 @@
 <?php
 /**
  * Course Builder Metabox
- * @since    [version]
- * @version  [version]
+ * @since    3.13.0
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -12,8 +12,8 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	/**
 	 * Configure the metabox settings
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function configure() {
 
@@ -31,8 +31,8 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	/**
 	 * This metabox has no options
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_fields() {
 		return array();
@@ -43,8 +43,8 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * @param    string     $title  title to display
 	 * @param    boolean    $url    url to link to
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private function get_title_html( $title, $url = false ) {
 
@@ -59,8 +59,8 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	/**
 	 * Override the output method to output a button
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function output() {
 
@@ -112,8 +112,8 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * @param    obj        $section  LLMS_Section object
 	 * @param    string     $which    positioning [current|previous|next]
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private function output_section( $section, $which ) {
 

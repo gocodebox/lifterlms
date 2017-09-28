@@ -1,8 +1,8 @@
 <?php
 /**
  * Filters and actions related to user permissions
- * @since   [version]
- * @version [version]
+ * @since   3.13.0
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -11,8 +11,8 @@ class LLMS_User_Permissions {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function __construct() {
 
@@ -30,8 +30,8 @@ class LLMS_User_Permissions {
 	 * Allows instructors to create & manage assistants
 	 * @param    [type]     $all_roles  [description]
 	 * @return   [type]                 [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function editable_roles( $all_roles ) {
 
@@ -66,8 +66,8 @@ class LLMS_User_Permissions {
 	 *                         [1] User ID
 	 *                         [2] Associated object ID
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function handle_caps( $allcaps, $cap, $args ) {
 
@@ -92,8 +92,8 @@ class LLMS_User_Permissions {
 	 *                         [1] User ID
 	 *                         [2] Associated object ID
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function edit_others_lms_content( $allcaps, $cap, $args ) {
 

@@ -2,8 +2,8 @@
 /**
  * Tests for LifterLMS Custom Post Types
  * @group    LLMS_Roles
- * @since   [version]
- * @version [version]
+ * @since   3.13.0
+ * @version 3.13.0
  */
 class LLMS_Test_Roles extends LLMS_UnitTestCase {
 

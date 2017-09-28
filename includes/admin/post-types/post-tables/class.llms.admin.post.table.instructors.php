@@ -3,8 +3,8 @@
  * Post table stuff for courses and memberships who have custom "instructor" stuff
  * which replaces "Author"
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.13.0
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -20,7 +20,7 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * Constructor
 	 * @return  void
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.13.0
 	 */
 	public function __construct() {
 
@@ -38,8 +38,8 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * Add Custom Columns
 	 * @param    array  $columns array of default columns
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function add_columns( $columns ) {
 
@@ -58,8 +58,8 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * meta field on the usermeta table
 	 * @param    int     $user_id  WP User ID
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	private function get_serialized_id( $user_id ) {
 		$val = serialize( array(
@@ -73,8 +73,8 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * Most of this is based on WordPress core functions found in wp-admin/includes/class-wp-posts-list-table.php
 	 * @param    array     $views  array of view link HTML string
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function get_views( $views ) {
 
@@ -140,8 +140,8 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * @param    string  $column   column key/name
 	 * @param    int     $post_id  WP Post ID of the coupon for the row
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 
@@ -175,8 +175,8 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * Handle course & membership queries for searching by llms_instructors rather than author
 	 * @param    obj     $query  WP_Query
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.13.0
+	 * @version  3.13.0
 	 */
 	public function pre_get_posts( $query ) {
 
