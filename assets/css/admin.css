@@ -72,6 +72,7 @@
 .llms-button-primary.full,
 .llms-button-secondary.full {
   display: block;
+  text-align: center;
   width: 100%;
 }
 .llms-button-action.square,
@@ -3423,10 +3424,10 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
   text-decoration: none;
 }
 .llms-course-builder .llms-builder-tools .llms-add-item {
-  background: #444;
+  background: #2295ff;
   border-radius: 4px;
   border: none;
-  color: #cacaca;
+  color: #fff;
   cursor: pointer;
   display: block;
   margin: 0;
@@ -3438,11 +3439,10 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
   width: 100%;
 }
 .llms-course-builder .llms-builder-tools .llms-add-item:hover {
-  background: #404040;
-  color: #cecece;
+  background: #0077e4;
 }
 .llms-course-builder .llms-builder-tools .llms-add-item .fa {
-  background: #333;
+  background: #243c56;
   border-radius: 4px 0 0 4px;
   display: block;
   font-size: 20px;
@@ -3497,6 +3497,16 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
   box-shadow: 0 0 0 4px #fff, 0 0 0 6px #2295ff;
   border-bottom: none;
   outline: none;
+}
+
+.llms-builder-launcher {
+  padding: 10px 0 0;
+}
+.llms-builder-launcher .llms-button-secondary {
+  box-sizing: border-box;
+}
+.llms-builder-launcher h4 {
+  margin-top: 0;
 }
 
 .llms-form-fields {

@@ -123,6 +123,7 @@
 .llms-button-primary.full,
 .llms-button-secondary.full {
   display: block;
+  text-align: center;
   width: 100%;
 }
 .llms-button-action.square,
