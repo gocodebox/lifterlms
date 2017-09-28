@@ -125,6 +125,15 @@ class LLMS_L10n {
 				'Retry' => esc_html__( 'Retry', 'lifterlms' ),
 
 				/**
+				 * file: _private/js/llms-builder.js
+				 * @since   [version]
+				 * @version [version]
+				 */
+				'Are you sure you want to permanently delete this lesson?' => esc_html__( 'Are you sure you want to permanently delete this lesson?', 'lifterlms' ),
+				'If you leave now your changes may not be saved!' => esc_html__( 'If you leave now your changes may not be saved!', 'lifterlms' ),
+				'You must remove all lessons before deleting a section.' => esc_html__( 'You must remove all lessons before deleting a section.', 'lifterlms' ),
+
+				/**
 				 * file: _private/js/partials/_metabox-field-repeater.js
 				 * @since    3.11.0
 				 * @version  [version]
