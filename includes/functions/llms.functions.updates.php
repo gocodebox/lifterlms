@@ -916,3 +916,39 @@ function llms_update_3120_update_db_version() {
 
 }
 
+/*
+	  /$$$$$$       /$$    /$$$$$$      /$$$$$$
+	 /$$__  $$    /$$$$   /$$__  $$    /$$$_  $$
+	|__/  \ $$   |_  $$  |__/  \ $$   | $$$$\ $$
+	   /$$$$$/     | $$     /$$$$$/   | $$ $$ $$
+	  |___  $$     | $$    |___  $$   | $$\ $$$$
+	 /$$  \ $$     | $$   /$$  \ $$   | $$ \ $$$
+	|  $$$$$$//$$ /$$$$$$|  $$$$$$//$$|  $$$$$$/
+	 \______/|__/|______/ \______/|__/ \______/
+*/
+
+/**
+ * Setup default instructor data for courses and memberships
+ */
+function llms_update_3130_create_default_instructors() {
+
+	$query = new WP_Query( array(
+		'post_type' => array( 'course', 'llms_membership' ),
+		'posts_per_page' => -1,
+	) );
+
+	foreach ( $query->posts as $post ) {
+		$course = llms_get_post( $post );
+		$course->set_instructors();
+	}
+
+}
+
+/**
+ * Update db version at conclusion of 3.13.0 updates
+ */
+function llms_update_3130_update_db_version() {
+
+	LLMS_Install::update_db_version( '3.13.0' );
+
+}

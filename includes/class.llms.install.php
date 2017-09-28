@@ -50,6 +50,10 @@ class LLMS_Install {
 			'llms_update_3120_update_integration_options',
 			'llms_update_3120_update_db_version',
 		),
+		'3.13.0' => array(
+			'llms_update_3130_create_default_instructors',
+			'llms_update_3130_update_db_version',
+		),
 	);
 
 	/**
@@ -443,8 +447,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 		$version = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
-
-		// var_dump( $version, $db_version ); die;
 
 		// trigger first time run redirect
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
