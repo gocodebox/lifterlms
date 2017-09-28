@@ -3164,13 +3164,13 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
 .llms-course-builder .llms-sections,
 .llms-course-builder .llms-lessons {
   box-shadow: 0 0 0 3px transparent;
-  min-height: 0;
+  min-height: 20px;
   transition: box-shadow 0.6s ease, min-height 0.2s ease;
 }
 .llms-course-builder .llms-sections.dragging,
 .llms-course-builder .llms-lessons.dragging {
   box-shadow: 0 0 0 3px #2295ff;
-  min-height: 20px;
+  min-height: 40px;
 }
 .llms-course-builder .llms-section {
   margin: 0;

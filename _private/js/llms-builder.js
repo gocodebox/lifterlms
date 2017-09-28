@@ -109,7 +109,6 @@
 					placeholder: 'llms-lesson llms-sortable-placeholder',
 					tolerance: 'pointer',
 					start: function( event, ui ) {
-						console.log( ui );
 						$( '.llms-lessons' ).addClass( 'dragging' );
 					},
 					stop: function( event, ui ) {
@@ -118,8 +117,6 @@
 
 						var from_section = ui.item.attr( 'data-section-id' ),
 							curr_section = ui.item.closest( '.llms-section' ).attr( 'data-id' );
-
-						console.log( from_section, curr_section );
 
 						ui.item.trigger( 'drop-lesson', [ ui.item, curr_section, from_section ] );
 
@@ -1322,14 +1319,14 @@
 
 			this.collection.fetch( {
 				beforeSend: function() {
-					LLMS.Spinner.start( self.$el );
-					// start the mini spinner that never stops
-					LLMS.Spinner.start( $( '#llms-spinner-el' ), 'small' );
+					LLMS.Spinner.start( $( '.llms-builder-main' ) );
 				},
 				success: function( res ) {
-					LLMS.Spinner.stop( self.$el );
+					LLMS.Spinner.stop( $( '.llms-builder-main' ) );
 					App.Methods.draggable();
 					App.Methods.sortable();
+					// start the mini spinner that never stops
+					LLMS.Spinner.start( $( '#llms-spinner-el' ), 'small' );
 				},
 			} );
 
@@ -1462,7 +1459,6 @@
 				this.update_dom();
 			},
 			update_dom: function() {
-				console.log( this.saving );
 				var status = this.saving.length ? 'saving' : 'complete';
 				$( '#save-status' ).attr( 'data-status', status );
 			},

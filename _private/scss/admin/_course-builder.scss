@@ -115,11 +115,11 @@ body.admin_page_llms-course-builder {
 	.llms-sections,
 	.llms-lessons {
 		box-shadow: 0 0 0 3px transparent;
-		min-height: 0;
+		min-height: 20px;
 		transition: box-shadow 0.6s ease, min-height 0.2s ease;
 		&.dragging {
 			box-shadow: 0 0 0 3px $color-brand-blue;
-			min-height: 20px;
+			min-height: 40px;
 		}
 	}
 
