@@ -37,8 +37,6 @@ class LLMS_Admin_Assets {
 
 		$screen = get_current_screen();
 
-		// var_dump( $screen );
-
 		$id = str_replace( 'edit-', '', $screen->id );
 
 		if ( false !== strpos( $id, 'lifterlms' ) ) {
@@ -132,7 +130,6 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
 			wp_enqueue_script( 'llms-ajax', plugins_url( '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
-			wp_enqueue_script( 'llms-metabox', plugins_url( '/assets/js/llms-metabox' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
 			wp_enqueue_media();
 

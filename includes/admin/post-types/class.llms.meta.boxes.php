@@ -80,10 +80,6 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'add_meta_boxes', array( $this, 'get_meta_boxes' ), 10 );
 		add_action( 'save_post', array( $this, 'save_meta_boxes' ), 10, 2 );
 
-		add_action( 'lifterlms_process_section_meta', 'LLMS_Meta_Box_Section_Tree::save', 10, 2 );
-
-		add_action( 'lifterlms_process_lesson_meta', 'LLMS_Meta_Box_Lesson_Tree::save', 10, 2 );
-
 		add_action( 'lifterlms_process_llms_question_meta', 'LLMS_Meta_Box_Question_General::save', 10, 2 );
 
 		add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
@@ -142,7 +138,7 @@ class LLMS_Admin_Meta_Boxes {
 	* Add Metaboxes
 	* @return   void
 	* @since    1.0.0
-	* @version  3.1.0
+	* @version  [version]
 	*/
 	public function get_meta_boxes() {
 
@@ -151,9 +147,6 @@ class LLMS_Admin_Meta_Boxes {
 		/**
 		 * @todo  transition to new style metaboxes
 		 */
-		add_meta_box( 'lifterlms-course-outline', __( 'Course Outline', 'lifterlms' ), 'LLMS_Meta_Box_Course_Outline::output', 'course', 'normal', 'high' );
-		add_meta_box( 'lifterlms-section-tree', __( 'Section Tree', 'lifterlms' ), 'LLMS_Meta_Box_Section_Tree::output', 'section', 'side' );
-		add_meta_box( 'lifterlms-lesson-tree', __( 'Course Outline', 'lifterlms' ), 'LLMS_Meta_Box_Lesson_Tree::output', 'lesson', 'side' );
 		add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
 		add_meta_box( 'lifterlms-question-general', __( 'Question Settings', 'lifterlms' ), 'LLMS_Meta_Box_Question_General::output', 'llms_question', 'normal' );
 
@@ -178,8 +171,6 @@ class LLMS_Admin_Meta_Boxes {
 		// remove some defaults from the course
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
 		remove_meta_box( 'tagsdiv-course_difficulty','course','side' );
-
-		remove_meta_box( 'authordiv', 'course', 'normal' );
 
 	}
 
