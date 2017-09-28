@@ -65,6 +65,48 @@ class LLMS_Section extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the previous section
+	 * @return   obj|false
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_next() {
+
+		$siblings = $this->get_siblings( 'ids' );
+		$index = array_search( $this->get( 'id' ), $siblings );
+
+		// $index will be false if the current section isn't found (don't know why that would happen....)
+		// $index will equal the length of the array if it's the last one (and there is no next)
+		if ( false === $index || $index === count( $siblings ) - 1 ) {
+			return false;
+		}
+
+		return llms_get_post( $siblings[ $index + 1 ] );
+
+	}
+
+	/**
+	 * Retrieve the previous section
+	 * @return   obj|false
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_previous() {
+
+		$siblings = $this->get_siblings( 'ids' );
+		$index = array_search( $this->get( 'id' ), $siblings );
+
+		// $index will be 0 if we're on the *first* section
+		// $index will be false if the current section isn't found (don't know why that would happen....)
+		if ( $index ) {
+			return llms_get_post( $siblings[ $index - 1 ] );
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Get all lessons in the section
 	 * @param    string  $return  type of return [ids|posts|lessons]
 	 * @return   array
@@ -103,6 +145,18 @@ class LLMS_Section extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Get sibling sections
+	 * @param    string  $return  type of return [ids|posts|sections]
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_siblings( $return = 'sections' ) {
+		$course = $this->get_course();
+		return $course->get_sections( $return );
+	}
+
+	/**
 	 * Add data to the course model when converted to array
 	 * Called before data is sorted and retuned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized
@@ -121,9 +175,6 @@ class LLMS_Section extends LLMS_Post_Model {
 		return $arr;
 
 	}
-
-
-
 
 
 
