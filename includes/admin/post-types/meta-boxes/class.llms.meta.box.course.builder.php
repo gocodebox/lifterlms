@@ -21,7 +21,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		$this->title = __( 'Course Builder', 'lifterlms' );
 		$this->screens = array(
 			'course',
-			'lesson'
+			'lesson',
 		);
 		$this->context = 'side';
 		$this->capability = 'edit_course';

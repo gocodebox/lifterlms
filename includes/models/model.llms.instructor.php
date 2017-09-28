@@ -202,7 +202,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 				if ( $course ) {
 					$check_id = $course->get( 'id' );
 				}
-
 		}
 
 		if ( $check_id ) {

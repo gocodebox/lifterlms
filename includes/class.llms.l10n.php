@@ -144,7 +144,7 @@ class LLMS_L10n {
 
 			$strings = array_merge( $strings, apply_filters( 'lifterlms_js_l10n_admin', $admin_strings ) );
 
-		}
+		}// End if().
 
 		// allow filtering so extensions don't have to implement their own l10n functions
 		$strings = apply_filters( 'lifterlms_js_l10n', $strings );

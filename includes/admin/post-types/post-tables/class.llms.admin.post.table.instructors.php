@@ -25,8 +25,8 @@ class LLMS_Admin_Post_Table_Instructors {
 	public function __construct() {
 
 		foreach ( $this->post_types as $post_type ) {
-			add_filter( 'manage_' . $post_type .  '_posts_columns', array( $this, 'add_columns' ), 10, 1 );
-			add_action( 'manage_' . $post_type .  '_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
+			add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'add_columns' ), 10, 1 );
+			add_action( 'manage_' . $post_type . '_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
 			add_filter( 'views_edit-' . $post_type, array( $this, 'get_views' ), 777, 1 );
 		}
 
