@@ -224,12 +224,21 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-v3.13.0-beta.1 - 2017/08/24
--------------------------------
+v3.13.0-rc.1 - 2017/09/28
+-----------------------------
 
-##### Updates
+##### An All New Course Builder
 
-+ Course and membership categories and tags will now display on their respective post tables for sorting and filtering. They can be disabled on a per-user basis via the screen options.
++ The "Course Outline" metabox found on the admin panel when editing any LifterLMS course has been savagely beaten. We stole its lunch money and we put it towards the construction of an all interface
++ Asynchronous loading: fixes issues where very large courses would drastically slow and possibly even time out the loading of the course edit screen
++ Course outline is now collapsible and expandable. This Fixes issues where it was very hard to move lessons and sections around on very large courses
++ In addition to the familiar (and now improved) drag and drop functionality, you may now also move sections and lessons up and down with button clicks. You can also move lessons between sections with button clicks
++ Add new lessons and sectiosn with a click or drag a new lesson or section into the existing course
++ Edit section and lesson titles faster with inline title editing. No more modals with a potentially slow ajax load to update a title. Click the title, change it, and exit the field to automatically save!
++ Delete sections and lessons with the click of a button
++ Quick links to view (frontend) and edit (backend) lessons
++ Completely internationalized. Thanks for you patience translators!
++ Want to know more? Check out the [docs](#writethedocs).
 
 ##### New User Roles
 
@@ -242,14 +251,47 @@ v3.13.0-beta.1 - 2017/08/24
   + Create, edit, and delete their own LifterLMS content (courses and memberships -- engagements coming soon)
   + View limited LifterLMS reporting (view reports only for their own students)
 
+##### Updates
+
++ The "Lesson Tree" metabox has been replaced with a simplified version of the lesson tree and a link to the launch the Course Builder.
++ Course and membership categories and tags will now display on their respective post tables for sorting and filtering. They can be disabled on a per-user basis via the screen options.
+
 ##### Uninstall Script
 
-+ Uninstall script now removes all the things LifterLMS creates in your database. Uninstallation will only run if a constant is defined.
++ Uninstall script now removes all the things LifterLMS creates in your database if a constant is defined. Read more [here](https://lifterlms.com/docs/remove-lifterlms-data-plugin-uninstallation/).
+
+##### Database Update
+
++ Adds default Instructor data for all LifterLMS Courses & Memberships based off of the post author of the course or membership
++ [More information](https://lifterlms.com/docs/lifterlms-database-updates/#3130)
 
 ##### Template Updates
 
 + [admin/post-types/students.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/students.php)
 + [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
+
+##### Deprecations
+
++ The following AJAX functions are no longer utilized by LifterLMS core. If you are utilizing them find alternatives (they all exist). These will be remove in the next **major** release:
+
+  + `LLMS_AJAX::get_achievements()`
+  + `LLMS_AJAX::get_all_posts()`
+  + `LLMS_AJAX::get_associated_lessons()`
+  + `LLMS_AJAX::get_certificates()`
+  + `LLMS_AJAX::get_courses()`
+  + `LLMS_AJAX::get_course_tracks()`
+  + `LLMS_AJAX::get_emails()`
+  + `LLMS_AJAX::get_enrolled_students()`
+  + `LLMS_AJAX::get_enrolled_students_ids()`
+  + `LLMS_AJAX::get_lesson()`
+  + `LLMS_AJAX::get_lessons()`
+  + `LLMS_AJAX::get_lessons_alt()`
+  + `LLMS_AJAX::get_memberships()`
+  + `LLMS_AJAX::get_question()`
+  + `LLMS_AJAX::get_sections()`
+  + `LLMS_AJAX::get_sections_alt()`
+  + `LLMS_AJAX::get_students()`
+  + `LLMS_AJAX::update_syllabus()`
 
 ##### Deprecated filters
 
