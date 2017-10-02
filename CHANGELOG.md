@@ -30,6 +30,7 @@ v3.13.0 - 2017/10/02
 
 ##### Updates & Fixes
 
++ Tested up to WordPress 4.8.2
 + The "Lesson Tree" metabox has been replaced with a simplified version of the lesson tree and a link to the launch the Course Builder.
 + Course and membership categories and tags will now display on their respective post tables for sorting and filtering. They can be disabled on a per-user basis via the screen options.
 + Removed `var_dump()` from bbPress integration restriction check
