@@ -2,7 +2,7 @@
 /**
 * Admin Metabox Class
 * @since    3.0.0
-* @version  3.8.0
+* @version  3.13.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -39,6 +39,13 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 */
 	public $title;
+
+	/**
+	 * Capability to check in order to display the metabox to the user
+	 * @var    string
+	 * @since  3.13.0
+	 */
+	public $capability = 'edit_post';
 
 	/**
 	 * Optional context to register the metabox with
@@ -277,14 +284,21 @@ abstract class LLMS_Admin_Metabox {
 	 * Register the Metabox using WP Functions
 	 * This is called automatically by constructor
 	 * Utilizes class properties for registration
-	 *
-	 * @return void
-	 * @since  3.0.0
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.13.0
 	 */
 	public function register() {
+
 		global $post;
 		$this->post = $post;
-		add_meta_box( $this->id, $this->title, array( $this, 'output' ), $this->get_screens(), $this->context, $this->priority );
+
+		if ( current_user_can( $this->capability, $this->post->ID ) ) {
+
+			add_meta_box( $this->id, $this->title, array( $this, 'output' ), $this->get_screens(), $this->context, $this->priority );
+
+		}
+
 	}
 
 	/**

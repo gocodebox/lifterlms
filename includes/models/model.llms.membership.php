@@ -1,10 +1,11 @@
 <?php
 /**
  * LifterLMS Membership Model
- * @since  3.0.0
- * @version  3.3.0
+ * @since    3.0.0
+ * @version  3.13.0
  *
  * @property  $auto_enroll  (array)  Array of course IDs users will be autoenrolled in upon successfull enrollment in this membership
+ * @property  $instructors  (array)  Course instructor user information
  * @property  $restriction_redirect_type  (string)  What type of redirect action to take when content is restricted by this membership [none|membership|page|custom]
  * @property  $redirect_page_id  (int)  WP Post ID of a page to redirect users to when $restriction_redirect_type is 'page'
  * @property  $redirect_custom_url  (string)  Arbitrary URL to redirect users to when $restriction_redirect_type is 'custom'
@@ -14,10 +15,30 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-class LLMS_Membership extends LLMS_Post_Model {
+class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
+
+	protected $properties = array(
+		'auto_enroll' => 'array',
+		'instructors' => 'array',
+		'redirect_page_id' => 'absint',
+		'restriction_add_notice' => 'yesno',
+		'restriction_notice' => 'html',
+		'restriction_redirect_type' => 'text',
+		'redirect_custom_url' => 'text',
+	);
 
 	protected $db_post_type = 'llms_membership'; // maybe fix this
 	protected $model_post_type = 'membership';
+
+	/**
+	 * Retrieve an instance of the Post Instructors model
+	 * @return   obj
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public function instructors() {
+		return new LLMS_Post_Instructors( $this );
+	}
 
 	/**
 	 * Add courses to autoenrollment by id
@@ -53,6 +74,23 @@ class LLMS_Membership extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve course instructor information
+	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
+	 * @return   array
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public function get_instructors( $exclude_hidden = false ) {
+
+		return apply_filters( 'llms_membership_get_instructors',
+			$this->instructors()->get_instructors( $exclude_hidden ),
+			$this,
+			$exclude_hidden
+		);
+
+	}
+
+	/**
 	 * Retrieve an instance of the LLMS_Product for this course
 	 * @return   obj         instance of an LLMS_Product
 	 * @since    3.3.0
@@ -60,44 +98,6 @@ class LLMS_Membership extends LLMS_Post_Model {
 	 */
 	public function get_product() {
 		return new LLMS_Product( $this->get( 'id' ) );
-	}
-
-	/**
-	 * Get a property's data type for scrubbing
-	 * used by $this->scrub() to determine how to scrub the property
-	 * @param  string $key  property key
-	 * @return string
-	 * @since  3.0.0
-	 */
-	protected function get_property_type( $key ) {
-
-		switch ( $key ) {
-
-			case 'auto_enroll':
-				$type = 'array';
-			break;
-
-			case 'redirect_page_id':
-				$type = 'absint';
-			break;
-
-			case 'restriction_add_notice':
-				$type = 'yesno';
-			break;
-
-			case 'restriction_notice':
-				$type = 'html';
-			break;
-
-			case 'redirect_custom_url':
-			case 'restriction_redirect_type':
-			default:
-				$type = 'text';
-
-		}
-
-		return $type;
-
 	}
 
 	/**
@@ -125,6 +125,18 @@ class LLMS_Membership extends LLMS_Post_Model {
 	 */
 	public function remove_auto_enroll_course( $course_id ) {
 		return $this->set( 'auto_enroll', array_diff( $this->get_auto_enroll_courses(), array( $course_id ) ) );
+	}
+
+	/**
+	 * Save instructor information
+	 * @param    array      $instructors  array of course instructor information
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public function set_instructors( $instructors = array() ) {
+
+		return $this->instructors()->set_instructors( $instructors );
+
 	}
 
 }

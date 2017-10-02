@@ -2,7 +2,7 @@
 /**
  * LLMS Section Model
  * @since    1.0.0
- * @version  3.6.0
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -25,6 +25,85 @@ class LLMS_Section extends LLMS_Post_Model {
 	 */
 	public function get_course() {
 		return llms_get_post( $this->get( 'parent_course' ) );
+	}
+
+	/**
+	 * An array of default arguments to pass to $this->create()
+	 * when creating a new post
+	 * @param    array  $args   args of data to be passed to wp_insert_post
+	 * @return   array
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	protected function get_creation_args( $args = null ) {
+
+		// allow nothing to be passed in
+		if ( empty( $args ) ) {
+			$args = array();
+		}
+
+		// backwards compat to original 3.0.0 format when just a title was passed in
+		if ( is_string( $args ) ) {
+			$args = array(
+				'post_title' => $args,
+			);
+		}
+
+		$args = wp_parse_args( $args, array(
+			'comment_status' => 'closed',
+			'ping_status'	 => 'closed',
+			'post_author' 	 => get_current_user_id(),
+			'post_content'   => '',
+			'post_excerpt'   => '',
+			'post_status' 	 => 'publish',
+			'post_title'     => '',
+			'post_type' 	 => $this->get( 'db_post_type' ),
+		) );
+
+		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
+
+	}
+
+	/**
+	 * Retrieve the previous section
+	 * @return   obj|false
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public function get_next() {
+
+		$siblings = $this->get_siblings( 'ids' );
+		$index = array_search( $this->get( 'id' ), $siblings );
+
+		// $index will be false if the current section isn't found (don't know why that would happen....)
+		// $index will equal the length of the array if it's the last one (and there is no next)
+		if ( false === $index || $index === count( $siblings ) - 1 ) {
+			return false;
+		}
+
+		return llms_get_post( $siblings[ $index + 1 ] );
+
+	}
+
+	/**
+	 * Retrieve the previous section
+	 * @return   obj|false
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public function get_previous() {
+
+		$siblings = $this->get_siblings( 'ids' );
+		$index = array_search( $this->get( 'id' ), $siblings );
+
+		// $index will be 0 if we're on the *first* section
+		// $index will be false if the current section isn't found (don't know why that would happen....)
+		if ( $index ) {
+			return llms_get_post( $siblings[ $index - 1 ] );
+		}
+
+		return false;
+
 	}
 
 	/**
@@ -66,6 +145,18 @@ class LLMS_Section extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Get sibling sections
+	 * @param    string  $return  type of return [ids|posts|sections]
+	 * @return   array
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public function get_siblings( $return = 'sections' ) {
+		$course = $this->get_course();
+		return $course->get_sections( $return );
+	}
+
+	/**
 	 * Add data to the course model when converted to array
 	 * Called before data is sorted and retuned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized
@@ -84,9 +175,6 @@ class LLMS_Section extends LLMS_Post_Model {
 		return $arr;
 
 	}
-
-
-
 
 
 

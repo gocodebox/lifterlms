@@ -2,7 +2,7 @@
 /**
 * bbPress Integration
 * @since    3.0.0
-* @version  3.12.2
+* @version  3.13.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -161,10 +161,9 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * @param    array     $restriction  restriction results from llms_page_restricted()
 	 * @return   void
 	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @version  3.13.0
 	 */
 	public function handle_course_forum_restriction( $restriction ) {
-		var_dump( $restriction );
 		llms_add_notice( apply_filters( 'llms_bbp_course_forum_restriction_msg', __( 'You must be enrolled in this course to access the course forum', 'lifterlms' ), $restriction ), 'error' );
 		wp_redirect( get_permalink( $restriction['restriction_id'] ) );
 		exit;

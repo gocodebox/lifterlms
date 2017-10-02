@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.8.1
-Stable tag: 3.12.2
+Tested up to: 4.8.2
+Stable tag: 3.13.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -223,6 +223,90 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+= v3.13.0 - 2017/10/02 =
+------------------------
+
+##### An All New Course Builder
+
++ The "Course Outline" metabox found on the admin panel when editing any LifterLMS course has been savagely beaten. We stole its lunch money and we put it towards the construction of an all interface
++ Asynchronous loading: fixes issues where very large courses would drastically slow and possibly even time out the loading of the course edit screen
++ Course outline is now collapsible and expandable. This Fixes issues where it was very hard to move lessons and sections around on very large courses
++ In addition to the familiar (and now improved) drag and drop functionality, you may now also move sections and lessons up and down with button clicks. You can also move lessons between sections with button clicks
++ Add new lessons and sectiosn with a click or drag a new lesson or section into the existing course
++ Edit section and lesson titles faster with inline title editing. No more modals with a potentially slow ajax load to update a title. Click the title, change it, and exit the field to automatically save!
++ Delete sections and lessons with the click of a button
++ Quick links to view (frontend) and edit (backend) lessons
++ Completely internationalized. Thanks for you patience translators!
++ Want to know more? Check out the [docs](https://lifterlms.com/docs/using-course-builder/).
+
+##### New User Roles
+
++ Added new roles to enable you to provide access to LifterLMS (settings, courses building, etc...) without having to make an admin or mess with complicated code snippets.
++ New Roles:
+
+  + LMS Manager: Do everything in LifterLMS and nothing with plugins, themes, core settings, and so on
+  + Instructor: Create, update, and delete courses and memberships
+  + Instructor's Assistant: Edit courses and memberships
+
++ More details and a full list of new LifterLMS capabilities are available [here](https://lifterlms.com/docs/roles-and-capabilities/).
+
+
+##### Updates & Fixes
+
++ Tested up to WordPress 4.8.2
++ The "Lesson Tree" metabox has been replaced with a simplified version of the lesson tree and a link to the launch the Course Builder.
++ Course and membership categories and tags will now display on their respective post tables for sorting and filtering. They can be disabled on a per-user basis via the screen options.
++ Removed `var_dump()` from bbPress integration restriction check
+
+##### Uninstall Script
+
++ Uninstall script now removes all the things LifterLMS creates in your database if a constant is defined. Read more [here](https://lifterlms.com/docs/remove-lifterlms-data-plugin-uninstallation/).
+
+##### Database Update
+
++ Adds default Instructor data for all LifterLMS Courses & Memberships based off of the post author of the course or membership
++ [More information](https://lifterlms.com/docs/lifterlms-database-updates/#3130)
+
+##### Template Updates
+
++ [admin/post-types/students.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/students.php)
++ [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
+
+##### Deprecated Functions
+
++ The following AJAX functions are no longer utilized by LifterLMS core. If you are utilizing them find alternatives (they all exist). These will be remove in the next **major** release:
+
+  + `LLMS_AJAX::get_achievements()`
+  + `LLMS_AJAX::get_all_posts()`
+  + `LLMS_AJAX::get_associated_lessons()`
+  + `LLMS_AJAX::get_certificates()`
+  + `LLMS_AJAX::get_courses()`
+  + `LLMS_AJAX::get_course_tracks()`
+  + `LLMS_AJAX::get_emails()`
+  + `LLMS_AJAX::get_enrolled_students()`
+  + `LLMS_AJAX::get_enrolled_students_ids()`
+  + `LLMS_AJAX::get_lesson()`
+  + `LLMS_AJAX::get_lessons()`
+  + `LLMS_AJAX::get_lessons_alt()`
+  + `LLMS_AJAX::get_memberships()`
+  + `LLMS_AJAX::get_question()`
+  + `LLMS_AJAX::get_sections()`
+  + `LLMS_AJAX::get_sections_alt()`
+  + `LLMS_AJAX::get_students()`
+  + `LLMS_AJAX::update_syllabus()`
+
+##### Removed Filters
+
++ The following filters have been removed and are no longer in use.
+
+  + `lifterlms_admin_courses_access`: replaced with user capability `edit_courses`
+  + `lifterlms_admin_membership_access`: replaced with user capability `edit_memberships`
+  + `lifterlms_admin_reporting_access`: replaced with user capability `manage_lifterlms`
+  + `lifterlms_admin_settings_access`: replaced with user capability `manage_lifterlms`
+  + `lifterlms_admin_import_access`: replaced with user capability `manage_lifterlms`
+  + `lifterlms_admin_system_report_access`: replaced with user capability `manage_lifterlms`
+
 
 = v3.12.2 - 2017/09/18 =
 ------------------------

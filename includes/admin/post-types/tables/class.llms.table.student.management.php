@@ -3,7 +3,7 @@
  * Student Management table on Courses and Memberships
  *
  * @since   3.4.0
- * @version 3.4.0
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -73,9 +73,11 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 * @param    int        $user_id    WP User ID
 	 * @return   mixed
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  3.13.0
 	 */
 	public function get_data( $key, $student ) {
+
+		$value = '';
 
 		switch ( $key ) {
 
@@ -83,12 +85,16 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 				if ( $student->is_enrolled( $this->post_id ) ) {
 					$tid = $student->get_enrollment_trigger_id( $this->post_id );
 					if ( ! $tid ) {
-						$value = '<a class="llms-action-icon llms-remove-student" data-id="' . $student->get_id() . '" href="#llms-student-remove"><span class="tooltip" title="' . __( 'Cancel Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-no"></span></span></a>';
+						if ( current_user_can( 'unenroll' ) ) {
+							$value = '<a class="llms-action-icon llms-remove-student" data-id="' . $student->get_id() . '" href="#llms-student-remove"><span class="tooltip" title="' . __( 'Cancel Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-no"></span></span></a>';
+						}
 					} else {
 						$value = '<a class="llms-action-icon" href="' . get_edit_post_link( $tid ) . '" target="_blank"><span class="tooltip" title="' . __( 'Visit the triggering order to manage this student\'s enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-external"></span></span></a>';
 					}
 				} else {
-					$value = '<a class="llms-action-icon llms-add-student" data-id="' . $student->get_id() . '" href="#llms-student-remove"><span class="tooltip" title="' . __( 'Reactivate Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-update"></span></span></a>';
+					if ( current_user_can( 'enroll' ) ) {
+						$value = '<a class="llms-action-icon llms-add-student" data-id="' . $student->get_id() . '" href="#llms-student-remove"><span class="tooltip" title="' . __( 'Reactivate Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-update"></span></span></a>';
+					}
 				}
 			break;
 
@@ -101,7 +107,12 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 			break;
 
 			case 'id':
-				$value = '<a href="' . esc_url( get_edit_user_link( $student->get_id() ) ) . '">' . $student->get_id() . '</a>';
+				$id = $student->get_id();
+				if ( current_user_can( 'edit_users', $id ) ) {
+					$value = '<a href="' . esc_url( get_edit_user_link( $id ) ) . '">' . $id . '</a>';
+				} else {
+					$value = $id;
+				}
 			break;
 
 			case 'last_lesson':

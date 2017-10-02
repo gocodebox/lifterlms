@@ -1,0 +1,512 @@
+body.admin_page_llms-course-builder {
+	background: #fff;
+	#wpbody-content { padding-bottom: 0; }
+	#wpfooter { display: none; }
+	&.folded {
+		.llms-course-builder {
+			left: 56px;
+		}
+	}
+}
+
+@media (max-width: 960px) {
+	body.admin_page_llms-course-builder.auto-fold {
+		.llms-course-builder {
+			left: 56px;
+		}
+	}
+}
+
+.llms-course-builder {
+	background: #fff;
+	left: 180px;
+	padding: 10px 20px 20px;
+	right: 0;
+	position: fixed;
+	top: 32px;
+
+	&.wrap {
+		margin: 0 0 0 -20px;
+	}
+
+	.llms-builder-page-header {
+		border-bottom: 2px solid #ccc;
+		padding: 10px;
+	}
+
+	.llms-headline {
+		display: inline-block;
+		font-weight: 300;
+		margin: 0;
+		padding: 0;
+		vertical-align: middle;
+	}
+
+	.llms-builder-inside {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	ul, li {
+		margin: 0;
+		padding: 0;
+	}
+
+	.llms-action-icons {
+		display: inline-block;
+		left: -20px;
+		opacity: 0;
+		position: relative;
+		transition: left 0.2s ease, opacity 0.2s ease;
+		vertical-align: middle;
+	}
+	header:hover > .llms-action-icons {
+		left: 0;
+		opacity: 1;
+	}
+
+	.llms-action-icon {
+		color: #aaa;
+		display: inline-block;
+		font-size: 16px;
+		padding: 0 5px;
+		text-decoration: none;
+		&:hover {
+			color: $color-brand-blue;
+			&.trash { color: $color-danger; }
+		}
+		&.collapse { display: none; }
+		&.expand { display: inline-block; }
+	}
+
+	.opened {
+		.llms-action-icon.collapse { display: inline-block; }
+		.llms-action-icon.expand { display: none; }
+	}
+
+	.llms-builder-main {
+		display: flex;
+		height: 100%;
+
+		.llms-course-syllabus {
+			padding: 23px 3px 3px;
+			position: relative;
+			flex: 2.5;
+			height: 100%;
+			overflow: scroll;
+
+			footer {
+				margin-top: 20px;
+			}
+		}
+
+	}
+
+
+	.llms-sections,
+	.llms-lessons {
+		box-shadow: 0 0 0 3px transparent;
+		min-height: 20px;
+		transition: box-shadow 0.6s ease, min-height 0.2s ease;
+		&.dragging {
+			box-shadow: 0 0 0 3px $color-brand-blue;
+			min-height: 40px;
+		}
+	}
+
+	.llms-sections {
+		margin-right: 20px;
+		padding: 10px;
+		&:empty {
+			min-height: 95%;
+		}
+	}
+	.llms-lessons {
+		margin: 0 15px;
+	}
+
+	.llms-section {
+		margin: 0;
+		padding: 0 10px;
+		&:hover {
+			background: inherit;
+		}
+		&:before {
+			background: #ccc;
+			content: '';
+			height: 100%;
+			left: 15px;
+			position: absolute;
+			top: 18px;
+			width: 2px;
+		}
+		&.opened,
+		&.hover-opened {
+			.llms-lessons {
+				padding: 10px;
+			}
+			.llms-lesson {
+				display: block;
+			}
+			&:last-child:before {
+				height: calc( 100% - 65px );
+			}
+		}
+		&:last-child:before {
+			height: 0;
+		}
+
+		header {
+			padding: 10px 20px;
+
+			.llms-headline {
+				max-width: calc( 100% - 65px );
+			}
+
+			.llms-drag-utility {
+				background: #fff;
+				border: 2px solid #ccc;
+				border-radius: 50%;
+				height: 8px;
+				left: 10px;
+				position: absolute;
+				top: 15px;
+				width: 8px;
+			}
+
+			&:hover {
+				.llms-drag-utility {
+					border-color: #fff;
+					cursor: move;
+					&:hover:after {
+						color: $color-brand-blue;
+					}
+					&:after {
+						background: #fff;
+						content: '\00b7\00b7\A\00b7\00b7\A\00b7\00b7';
+						color: #ccc;
+						display: block;
+						font-size: 36px;
+						height: 29px;
+						letter-spacing: -1px;
+						line-height: 8px;
+						left: -8px;
+						position: absolute;
+						text-align: center;
+						top: -10px;
+						width: 23px;
+					}
+				}
+			}
+		}
+
+
+	}
+
+	.llms-lesson {
+		display: none;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		&:hover {
+			background: inherit;
+		}
+		&:last-child:before {
+			display: none;
+		}
+
+		header {
+			padding-left: 30px;
+			&:before {
+				background: #ccc;
+				content: '';
+				height: 2px;
+				left: -20px;
+				position: absolute;
+				top: 20px;
+				width: 35px;
+			}
+			&:hover {
+				.llms-drag-utility {
+					background: transparent;
+					height: 8px;
+					left: 12px;
+					top: 15px;
+					width: 12px;
+				}
+			}
+
+			.llms-headline {
+				font-size: 1em;
+			}
+
+			.llms-drag-utility {
+				background: #ccc;
+				height: 4px;
+				left: 15px;
+				position: absolute;
+				top: 17px;
+				width: 4px;
+			}
+		}
+	}
+
+	.llms-section,
+	.llms-lesson {
+		opacity: 1;
+		left: 0;
+		transition: left 0.3s ease, opacity 0.6s ease;
+		&.brand-new {
+			opacity: 0;
+			left: 300px
+		}
+		&.ui-draggable-dragging,
+		&.ui-sortable-helper {
+			border: 1px solid #ccc;
+			background: #fff;
+			display: block;
+			padding: 5px;
+			transition: opacity 0.6s ease;
+			min-width: 380px;
+			.llms-lessons,
+			header {
+				padding: 0;
+				position: static;
+			}
+			.llms-info-icons,
+			.llms-action-icons,
+			.llms-drag-utility,
+			header:before,
+			&:after,
+			&:before {
+				display: none;
+			}
+		}
+		&.llms-sortable-placeholder {
+			background: $color-brand-blue;
+			height: 6px;
+		}
+	}
+
+	.llms-info-icons {
+		padding-left: 30px;
+		.llms-info-icon {
+			color: #aaa;
+			position: relative;
+			padding: 5px;
+		}
+	}
+
+	.llms-action-icon,
+	.llms-info-icon {
+		position: relative;
+
+		&[data-title-default],
+		&[data-tilte-active] {
+			&:before {
+				bottom: calc( 100% + 4px );
+				background: #444;
+				border-radius: 4px;
+				color: #fff;
+				content: attr(data-title-default);
+				display: none;
+				font-size: 13px;
+				line-height: 1.2;
+				left: -10px;
+				padding: 8px;
+				position: absolute;
+				max-width: 300px;
+				width: max-content;
+			}
+			&:after {
+				content: '';
+				border: 6px solid transparent;
+				border-top-color: #444;
+				display: none;
+				height: 0;
+				left: 3px;
+				position: absolute;
+				top: -4px;
+				width: 0;
+			}
+			&.active {
+				color: $color-brand-blue;
+				&:before {
+					content: attr(data-title-active);
+				}
+			}
+			&:hover:before,
+			&:hover:after {
+				display: block;
+			}
+		}
+	}
+
+	.llms-builder-tools {
+		background: #cecece;
+		flex: 1;
+		position: relative;
+		padding: 40px 20px 80px;
+
+		.llms-tools-headline {
+			margin: 0 0 10px;
+			font-size: 22px;
+			font-weight: 300;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+		}
+
+		.llms-tools-list {
+			margin-bottom: 40px;
+			li {
+				margin-bottom: 10px;
+			}
+		}
+
+		.llms-utility {
+			color: #444;
+			text-decoration: none;
+		}
+
+		.llms-add-item {
+			background: $color-brand-blue;
+			border-radius: 4px;
+			border: none;
+			color: #fff;
+			cursor: pointer;
+			display: block;
+			margin: 0;
+			overflow: hidden;
+			padding: 17px 20px 17px 20px;
+			position: relative;
+			transition: background 0.2s ease, color 0.2s ease;
+			text-align: center;
+			width: 100%;
+
+			&:hover {
+				background: $color-brand-blue-dark;
+			}
+
+			.fa {
+				background: $color-brand-dark-blue;
+				border-radius: 4px 0 0 4px;
+				display: block;
+				font-size: 20px;
+				padding: 15px 20px;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			&[disabled="disabled"] {
+				opacity: 0.4;
+			}
+
+		}
+
+		footer {
+
+			bottom: 0;
+			left: 0;
+			padding: 20px;
+			position: absolute;
+			right: 0;
+
+			.save-status {
+				font-style: italic;
+				line-height: 20px;
+				margin: 0;
+				z-index: 1;
+				.unsaved, .saving {
+					display: none;
+				}
+				&[data-status="saving"] {
+					.saving {
+						display: block;
+					}
+				}
+			}
+
+			#llms-spinner-el {
+				display: inline-block;
+				margin-right: 5px;
+				height: 20px;
+				position: relative;
+				vertical-align: middle;
+				width: 20px;
+				.llms-spinning {
+					background: transparent;
+				}
+			}
+
+		}
+
+	}
+
+	// fields
+	.llms-editable-title {
+		border-bottom: 2px dotted transparent;
+		box-shadow: none;
+		font-size: inherit;
+		font-weight: 500;
+		margin: 0 8px;
+		padding: 0;
+		transition: border 0.2s ease, box-shadow 0.2s ease;
+		&:hover {
+			border-bottom-color: $color-brand-blue;
+		}
+		&:focus {
+			box-shadow: 0 0 0 4px #fff, 0 0 0 6px $color-brand-blue;
+			border-bottom: none;
+			outline: none;
+		}
+	}
+
+}
+
+.llms-builder-tutorial {
+
+	left: 0;
+	position: absolute;
+	text-align: center;
+	top: 200px;
+	width: 100%;
+	z-index: 1;
+
+	.llms-headline {
+		display: block;
+		color: #7a7a7a;
+		font-size: 2em;
+		margin-bottom: 20px;
+	}
+
+	.llms-tutorial-buttons {
+		padding: 20px 0;
+		a {
+			margin: 0 5px;
+		}
+	}
+
+	.llms-tutorial-step {
+		display: none;
+	}
+}
+
+
+// launcher metabox
+.llms-builder-launcher {
+	padding: 10px 0 0;
+	.llms-button-primary {
+		box-sizing: border-box;
+	}
+
+	h4 {
+		margin-top: 0;
+	}
+	h5 {
+		font-size: 1em;
+		margin: 1em 0;
+	}
+}

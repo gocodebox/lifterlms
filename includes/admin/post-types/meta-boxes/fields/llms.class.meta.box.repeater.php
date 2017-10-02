@@ -32,9 +32,6 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 			$_field['button'] = wp_parse_args( $_field['button'], $button_defaults );
 		}
 
-		// $_field['group'] = 'llms-collapsible';
-		// $_field['desc_class'] = 'llms-collapsible-header';
-
 		$this->field = $_field;
 
 	}
@@ -69,15 +66,9 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 	private function get_rows() {
 
-		// $i = 0;
-
 		$rows = '';
-		// while ( $i < 1 ) {
-		// 	$rows .= $this->get_row( $i );
-		// 	$i++;
-		// }
-
 		return $rows;
+
 	}
 
 	private function get_row( $index ) {

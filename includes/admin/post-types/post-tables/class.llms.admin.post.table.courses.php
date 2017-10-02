@@ -3,7 +3,7 @@
  * Add, Customize, and Manage LifterLMS Course
  *
  * @since    3.3.0
- * @version  3.3.0
+ * @version  3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,12 +14,40 @@ class LLMS_Admin_Post_Table_Courses {
 	 * Constructor
 	 * @return  void
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.13.0
 	 */
 	public function __construct() {
 
+		add_filter( 'post_row_actions', array( $this, 'add_links' ), 1, 2 );
+
 		add_filter( 'bulk_actions-edit-course', array( $this, 'register_bulk_actions' ) );
 		add_filter( 'handle_bulk_actions-edit-course', array( $this, 'handle_bulk_actions' ), 10, 3 );
+
+	}
+
+	/**
+	 * Add course builder edit link
+	 * @param    array     $actions  existing actions
+	 * @param    obj       $post     WP_Post object
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public function add_links( $actions, $post ) {
+
+		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-clone-post' ) ) {
+
+			$url = add_query_arg( array(
+				'page' => 'llms-course-builder',
+				'course_id' => $post->ID,
+			), admin_url( 'admin.php' ) );
+
+			$actions = array_merge( array(
+				'llms-builder' => '<a href="' . esc_url( $url ) . '">' . __( 'Builder', 'lifterlms' ) . '</a>',
+			), $actions );
+
+		}
+
+		return $actions;
 
 	}
 
@@ -32,7 +60,7 @@ class LLMS_Admin_Post_Table_Courses {
 	 * @since    3.3.0
 	 * @version  3.3.0
 	 */
-	function handle_bulk_actions( $redirect_to, $doaction, $post_ids ) {
+	public function handle_bulk_actions( $redirect_to, $doaction, $post_ids ) {
 
 		// ensure it's our custom action
 		if ( $doaction !== 'llms_export' ) {
@@ -82,9 +110,6 @@ class LLMS_Admin_Post_Table_Courses {
 		return $actions;
 
 	}
-
-
-
 
 }
 

@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Metabox Repeater Field
  * @since    3.11.0
- * @version  3.12.1
+ * @version  3.13.0
  */
 this.repeaters = {
 
@@ -50,7 +50,7 @@ this.repeaters = {
 	 * Bind DOM Events
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.12.0
+	 * @version  3.13.0
 	 */
 	bind: function() {
 
@@ -93,7 +93,7 @@ this.repeaters = {
 			$repeater.on( 'click', '.llms-repeater-remove', function( e ) {
 				e.stopPropagation();
 				var $row = $( this ).closest( '.llms-repeater-row' );
-				if ( window.confirm( LLMS.l10n.translate( 'Are you sure you want to delete this template? This cannot be undone.' ) ) ) {
+				if ( window.confirm( LLMS.l10n.translate( 'Are you sure you want to delete this row? This cannot be undone.' ) ) ) {
 					$row.remove();
 					setTimeout( function() {
 						self.save( $repeater );
@@ -125,7 +125,19 @@ this.repeaters = {
 
 		if ( data ) {
 			$.each( data, function( key, val ) {
-				$row.find( '[name^="' + key + '"]').val( val );
+
+				var $field = $row.find( '[name^="' + key + '"]');
+
+				if ( $field.hasClass( 'llms-select2-student' ) ) {
+					$.each( val, function( i, data ) {
+						$field.append( '<option value="' + data.key + '" selected="selected">' + data.title + '</option>')
+					} ) ;
+					$field.trigger( 'change' );
+				} else {
+					$field.val( val );
+				}
+
+
 			} );
 		}
 
@@ -151,7 +163,7 @@ this.repeaters = {
 	 * @param    obj   $row  jQuery selector for the row
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @version  3.13.0
 	 */
 	bind_row: function( $row ) {
 
@@ -160,6 +172,8 @@ this.repeaters = {
 		$row.find( '.llms-select2' ).llmsSelect2( {
 			width: '100%',
 		} );
+
+		$row.find( '.llms-select2-student' ).llmsStudentsSelect2();
 
 		this.metaboxes.bind_datepickers( $row.find( '.llms-datepicker' ) );
 		this.metaboxes.bind_controllers( $row.find( '[data-is-controller]' ) );
@@ -197,11 +211,15 @@ this.repeaters = {
 	 * @param    obj   e  JS event object
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @version  3.13.0
 	 */
 	handle_submit: function( e ) {
 
 		e.preventDefault();
+
+		// core UX to prevent multi-click/or the appearance of a delay
+		$( '#publish' ).addClass( 'disabled' );
+		$( '#publishing-action .spinner' ).addClass( 'is-active' );
 
 		var self = window.llms.metaboxes.repeaters,
 			i = 0,
@@ -217,7 +235,7 @@ this.repeaters = {
 
 				clearInterval( wait );
 				$( '#post' ).off( 'submit', this.handle_submit );
-				$( '#publish' ).trigger( 'click' );
+				$( '#post' ).trigger( 'submit' );
 
 			} else {
 
@@ -320,9 +338,10 @@ this.repeaters = {
 	 * @param    obj   $repeater  jQuery selector for a repeater element
 	 * @return   vois
 	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @version  3.13.0
 	 */
 	save: function( $repeater ) {
+		$repeater.trigger( 'llms-repeater-before-save', { $el: $repeater } );
 		this.store( $repeater, 'save' );
 	},
 
@@ -381,14 +400,11 @@ this.repeaters = {
 	store: function( $repeater, action, cb ) {
 
 		cb = cb || function(){};
-console.log( 'store_start' );
 		var self = this,
 			data = {
 				action: $repeater.find( '.llms-repeater-field-handler' ).val(),
 				store_action: action,
 			};
-
-		// if ( $repeater.hasClass( '' ))
 
 		if ( 'save' === action ) {
 			data.rows = self.serialize( $repeater );
@@ -403,7 +419,6 @@ console.log( 'store_start' );
 
 			},
 			success: function( r ) {
-console.log( 'store_end' );
 
 				cb( r );
 				LLMS.Spinner.stop( $repeater );

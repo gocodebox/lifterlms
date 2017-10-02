@@ -1,17 +1,31 @@
 <?php
 /**
  * LifterLMS Course Author Info
- *
  * @since   3.0.0
- * @version 3.0.0
+ * @version 3.13.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
+
+$course = llms_get_post( get_the_ID() );
+$instructors = $course->get_instructors( true );
+if ( ! $instructors ) {
+	return;
+}
+$count = count( $instructors );
 ?>
 
-<h3 class="llms-meta-title"><?php _e( 'Author Information', 'lifterlms' ); ?></h3>
-
-<?php
-echo llms_get_author( array(
-	'avatar_size' => 48,
-	'bio' => true,
-) );
+<section class="llms-instructor-info">
+	<h3 class="llms-meta-title"><?php echo _n( 'Course Instructor', 'Course Instructors', count( $instructors ), 'lifterlms' ); ?></h3>
+	<div class="llms-instructors llms-cols">
+		<?php foreach ( $instructors as $instructor ) : ?>
+			<div class="llms-col-<?php echo $count <= 4 ? $count : 4; ?>">
+				<?php echo llms_get_author( array(
+					'avatar_size' => 100,
+					'bio' => true,
+					'label' => $instructor['label'],
+					'user_id' => $instructor['id'],
+				) ); ?>
+			</div>
+		<?php endforeach ; ?>
+	</div>
+</section>

@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.9.0
+ * @version  3.13.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -159,6 +159,81 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * Store data for the instructors metabox
+	 * @param    [type]     $request  [description]
+	 * @return   [type]               [description]
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public static function instructors_mb_store( $request ) {
+
+		// validate required params
+		if ( ! isset( $request['store_action'] ) || ! isset( $request['post_id'] ) ) {
+
+			return array(
+				'data' => array(),
+				'message' => __( 'Missing required paramters', 'lifterlms' ),
+				'success' => false,
+			);
+
+		}
+
+		$post = llms_get_post( $request['post_id'] );
+
+		switch ( $request['store_action'] ) {
+
+			case 'load':
+				$instructors = $post->get_instructors();
+			break;
+
+			case 'save':
+
+				$instructors = array();
+
+				foreach ( $request['rows'] as $instructor ) {
+
+					foreach ( $instructor as $key => $val ) {
+
+						$new_key = str_replace( array( 'llms', '_' ), '', $key );
+						$new_key = preg_replace( '/[0-9]+/', '', $new_key );
+						$instructor[ $new_key ] = $val;
+						unset( $instructor[ $key ] );
+
+					}
+
+					$instructors[] = $instructor;
+
+				}
+
+				$post->set_instructors( $instructors );
+
+			break;
+
+		}
+
+		$data = array();
+
+		foreach ( $instructors as $instructor ) {
+
+			$new_instructor = array();
+			foreach ( $instructor as $key => $val ) {
+				if ( 'id' === $key ) {
+					$val = llms_make_select2_student_array( array( $instructor['id'] ) );
+				}
+				$new_instructor[ '_llms_' . $key ] = $val;
+			}
+			$data[] = $new_instructor;
+		}
+
+		wp_send_json( array(
+			'data' => $data,
+			'message' => 'success',
+			'success' => true,
+		) );
+
+	}
+
 
 	public static function notifications_heartbeart( $request ) {
 
@@ -219,7 +294,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @return   json
 	 * @since    ??
-	 * @version  3.10.1
+	 * @version  3.13.0
 	 */
 	public static function query_students() {
 
@@ -231,10 +306,34 @@ class LLMS_AJAX_Handler {
 		$enrolled_in = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['enrolled_in'] ) : null;
 		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['not_enrolled_in'] ) : null;
 
+		$roles = array_key_exists( 'roles', $_REQUEST ) ? sanitize_text_field( $_REQUEST['roles'] ) : null;
+
 		global $wpdb;
 
 		$limit = 30;
 		$start = $limit * $page;
+
+		$vars = array();
+
+		$roles_sql = '';
+		if ( $roles ) {
+			$roles = explode( ',', $roles );
+			$roles = array_map( 'trim', $roles );
+			$total = count( $roles );
+			foreach ( $roles as $i => $role ) {
+				$roles_sql .= "roles.meta_value LIKE '%s'";
+				$vars[] = '%"' . $role . '"%';
+				if ( $total > 1 && $i + 1 !== $total ) {
+					$roles_sql .= ' OR ';
+				}
+			}
+
+			$roles_sql = "JOIN $wpdb->usermeta AS roles
+							ON $wpdb->users.ID = roles.user_id
+						   AND roles.meta_key = 'wp_capabilities'
+						   AND ( $roles_sql )
+						";
+		}
 
 		// there was a search query
 		if ( $term ) {
@@ -247,15 +346,16 @@ class LLMS_AJAX_Handler {
 							, user_email AS email
 							, display_name AS name
 						  FROM $wpdb->users
+						  $roles_sql
 						  WHERE user_email LIKE '%s'
 						  ORDER BY display_name
 						  LIMIT %d, %d;";
 
-				$vars = array(
+				$vars = array_merge( $vars, array(
 					'%' . $term . '%',
 					$start,
 					$limit,
-				);
+				) );
 
 			} elseif ( false !== strpos( $term, ' ' ) ) {
 
@@ -266,21 +366,20 @@ class LLMS_AJAX_Handler {
 							, users.user_email AS email
 							, users.display_name AS name
 						  FROM $wpdb->users AS users
+						  $roles_sql
 						  LEFT JOIN wp_usermeta AS fname ON fname.user_id = users.ID
 						  LEFT JOIN wp_usermeta AS lname ON lname.user_id = users.ID
-						  WHERE
-						  	( fname.meta_key = 'first_name' AND fname.meta_value LIKE '%s' )
-						  	AND
-						  	( lname.meta_key = 'last_name' AND lname.meta_value LIKE '%s' )
+						  WHERE ( fname.meta_key = 'first_name' AND fname.meta_value LIKE '%s' )
+						  	AND ( lname.meta_key = 'last_name' AND lname.meta_value LIKE '%s' )
 						  ORDER BY users.display_name
 						  LIMIT %d, %d;";
 
-				$vars = array(
+				$vars = array_merge( $vars, array(
 					'%' . $term[0] . '%', // first name
 					'%' . $term[1] . '%', // last name
 					$start,
 					$limit,
-				);
+				) );
 
 				// search for login, display name, or email
 			} else {
@@ -290,6 +389,7 @@ class LLMS_AJAX_Handler {
 							, user_email AS email
 							, display_name AS name
 						  FROM $wpdb->users
+						  $roles_sql
 						  WHERE
 						  	user_email LIKE '%s'
 						  	OR user_login LIKE '%s'
@@ -297,13 +397,13 @@ class LLMS_AJAX_Handler {
 						  ORDER BY display_name
 						  LIMIT %d, %d;";
 
-				$vars = array(
+				$vars = array_merge( $vars, array(
 					'%' . $term . '%',
 					'%' . $term . '%',
 					'%' . $term . '%',
 					$start,
 					$limit,
-				);
+				) );
 
 			}// End if().
 		} else {
@@ -313,13 +413,14 @@ class LLMS_AJAX_Handler {
 						, user_email AS email
 						, display_name AS name
 					  FROM $wpdb->users
+					  $roles_sql
 					  ORDER BY display_name
 					  LIMIT %d, %d;";
 
-			$vars = array(
+			$vars = array_merge( $vars, array(
 				$start,
 				$limit,
-			);
+			) );
 
 		}// End if().
 
@@ -951,6 +1052,20 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $updated_data;
+
+	}
+
+	/**
+	 * "API" for the Admin Builder
+	 * @param    [type]     $request  [description]
+	 * @return   [type]               [description]
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public static function llms_builder( $request ) {
+
+		require_once 'admin/class.llms.admin.builder.php';
+		return LLMS_Admin_Builder::handle_ajax( $request );
 
 	}
 

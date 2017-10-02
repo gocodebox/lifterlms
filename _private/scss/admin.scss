@@ -71,6 +71,7 @@
 
 // metabox related
 @import "admin/metaboxes/llms-metabox";
+@import "admin/metaboxes/metabox-instructors";
 @import "admin/metaboxes/metabox-quiz-builder";
 @import "admin/metaboxes/metabox-orders";
 @import "admin/metaboxes/metabox-product";
@@ -83,6 +84,7 @@
 @import "admin/tabs";
 @import "admin/fonts";
 @import "admin/reporting";
+@import "admin/course-builder";
 
 @import "_includes/llms-form-field";
 @import "_includes/vendor/_font-awesome";

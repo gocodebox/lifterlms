@@ -1,4 +1,9 @@
 <?php
+/**
+ * Abstract Database Query
+ * @since    3.8.0
+ * @version  3.8.0
+ */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -69,8 +74,8 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Constructor
 	 * @param    array      $args  query arguments
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function __construct( $args = array() ) {
 
@@ -87,8 +92,8 @@ abstract class LLMS_Database_Query {
 	 * Escape and add quotes to a string, useful for array mapping when building queries
 	 * @param    mixed     $input  intupt data
 	 * @return   string
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function escape_and_quote_string( $input ) {
 		return "'" . esc_sql( $input ) . "'";
@@ -99,8 +104,8 @@ abstract class LLMS_Database_Query {
 	 * @param    string     $key      variable key
 	 * @param    mixed      $default  default value
 	 * @return   mixed
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get( $key, $default = '' ) {
 
@@ -114,8 +119,8 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Retrieve default arguments for a the query
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function get_default_args() {
 
@@ -141,8 +146,8 @@ abstract class LLMS_Database_Query {
 	 * Get a string used as filter names unique to the extending query
 	 * @param    string     $filter  filter name
 	 * @return   string
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function get_filter( $filter ) {
 		return 'llms_' . $this->id . '_query_' . $filter;
@@ -151,8 +156,8 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Retrieve an array of results for the given query
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function get_results() {
 
@@ -168,8 +173,8 @@ abstract class LLMS_Database_Query {
 	 * Get the number of results to skip for the query
 	 * based on the current page and per_page vars
 	 * @return   int
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function get_skip() {
 		return absint( ( $this->get( 'page' ) - 1 ) * $this->get( 'per_page' ) );
@@ -178,8 +183,8 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Determine if we're on the first page of results
 	 * @return   boolean
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function is_first_page() {
 		return ( 1 === $this->get( 'page' ) );
@@ -188,8 +193,8 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Determine if we're on the last page of results
 	 * @return   boolean
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function is_last_page() {
 		return ( $this->get( 'page' ) === $this->max_pages );
@@ -198,24 +203,24 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Parse arguments needed for the query
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	abstract protected function parse_args();
 
 	/**
 	 * Prepare the SQL for the query
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	abstract protected function preprare_query();
 
 	/**
 	 * Execute a query
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function query() {
 
@@ -238,8 +243,8 @@ abstract class LLMS_Database_Query {
 	 * @param    string     $key  variable key
 	 * @param    mixed      $val  variable value
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function set( $key, $val ) {
 		$this->query_vars[ $key ] = $val;
@@ -249,8 +254,8 @@ abstract class LLMS_Database_Query {
 	 * Set variables related to total number of results and pages possible
 	 * with supplied arguments
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function set_found_results() {
 
@@ -269,8 +274,8 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Setup arguments prior to a query
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function setup_args() {
 
@@ -289,8 +294,8 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Retrieve the prepared SQL for the ORDER clase
 	 * @return   string
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	protected function sql_orderby() {
 

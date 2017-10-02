@@ -2,7 +2,7 @@
 /**
  * Admin Settings Page, General Tab
  * @since    1.0.0
- * @version  3.11.2
+ * @version  3.13.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -29,7 +29,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * Get settings array
 	 * @return   array
 	 * @since    1.0.0
-	 * @version  3.11.2
+	 * @version  3.13.0
 	 */
 	public function get_settings( $settings_only = false ) {
 
@@ -121,7 +121,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			'custom_attributes' => array(
 				'data-placeholder' => __( 'Select user roles', 'lifterlms' ),
 			),
-			'default' => array( 'administrator' ),
+			'default' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
 			'desc' => __( 'Users with the selected roles will bypass enrollment, drip, and prerequisite restrictions for courses and memberships.', 'lifterlms' ),
 			'id' => 'llms_grant_site_access',
 			'options' => $roles,

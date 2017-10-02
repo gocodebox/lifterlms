@@ -1,0 +1,23 @@
+.llms-cols {
+	@extend %clearfix;
+
+	.llms-col {
+		width: 100%;
+	}
+
+	@media all and (min-width: 600px) {
+		[class*="llms-col-"] {
+			float: left;
+		}
+
+		$cols: 1;
+		@while $cols <= 12 {
+			.llms-col-#{$cols} {
+				width: 100% / $cols;
+			}
+			$cols: $cols + 1;
+		}
+
+	}
+
+}

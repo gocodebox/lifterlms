@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.11.0
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.11.0
+	 * @version 3.13.0
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -125,17 +125,26 @@ class LLMS_L10n {
 				'Retry' => esc_html__( 'Retry', 'lifterlms' ),
 
 				/**
+				 * file: _private/js/llms-builder.js
+				 * @since   3.13.0
+				 * @version 3.13.0
+				 */
+				'Are you sure you want to permanently delete this lesson?' => esc_html__( 'Are you sure you want to permanently delete this lesson?', 'lifterlms' ),
+				'If you leave now your changes may not be saved!' => esc_html__( 'If you leave now your changes may not be saved!', 'lifterlms' ),
+				'You must remove all lessons before deleting a section.' => esc_html__( 'You must remove all lessons before deleting a section.', 'lifterlms' ),
+
+				/**
 				 * file: _private/js/partials/_metabox-field-repeater.js
 				 * @since    3.11.0
-				 * @version  3.11.0
+				 * @version  3.13.0
 				 */
-				'Are you sure you want to delete this template? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this template? This cannot be undone.', 'lifterlms' ),
+				'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this template? This cannot be undone.', 'lifterlms' ),
 
 			);
 
 			$strings = array_merge( $strings, apply_filters( 'lifterlms_js_l10n_admin', $admin_strings ) );
 
-		}
+		}// End if().
 
 		// allow filtering so extensions don't have to implement their own l10n functions
 		$strings = apply_filters( 'lifterlms_js_l10n', $strings );

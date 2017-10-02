@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.12.0
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -49,6 +49,11 @@ class LLMS_Install {
 			'llms_update_3120_update_order_end_dates',
 			'llms_update_3120_update_integration_options',
 			'llms_update_3120_update_db_version',
+		),
+		'3.13.0' => array(
+			'llms_update_3130_create_default_instructors',
+			'llms_update_3130_builder_notice',
+			'llms_update_3130_update_db_version',
 		),
 	);
 
@@ -221,32 +226,6 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Create LifterLMS user roles
-	 * @return void
-	 * @since  1.0.0
-	 * @version  3.0.0
-	 */
-	public static function create_roles() {
-
-		global $wp_roles;
-
-		if ( ! class_exists( 'WP_Roles' ) ) {
-			return;
-		}
-
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
-
-		add_role( 'student', __( 'Student', 'lifterlms' ),
-			array(
-				'read' => true,
-			)
-		);
-
-	}
-
-	/**
 	 * Create LifterLMS DB tables
 	 * @return  void
 	 * @since   1.0.0
@@ -346,7 +325,7 @@ class LLMS_Install {
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @version  3.13.0
 	 */
 	private static function get_schema() {
 
@@ -365,7 +344,7 @@ class LLMS_Install {
 		}
 
 		$tables = "
-CREATE TABLE {$wpdb->prefix}lifterlms_user_postmeta (
+CREATE TABLE `{$wpdb->prefix}lifterlms_user_postmeta` (
   meta_id bigint(20) NOT NULL auto_increment,
   user_id bigint(20) NOT NULL,
   post_id bigint(20) NOT NULL,
@@ -441,7 +420,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.12.0
+	 * @version 3.13.0
 	 */
 	public static function install() {
 
@@ -454,7 +433,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 		LLMS_Site::set_lock_url();
 		self::create_tables();
 		self::create_options();
-		self::create_roles();
+		LLMS_Roles::install();
 
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
@@ -469,8 +448,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 		$version = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
-
-		// var_dump( $version, $db_version ); die;
 
 		// trigger first time run redirect
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {

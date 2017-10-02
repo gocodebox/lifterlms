@@ -1,0 +1,9 @@
+._llms_instructors_data.repeater {
+	.llms-repeater-rows .llms-repeater-row:first-child {
+		.llms-repeater-remove { display: none; }
+	}
+
+	.llms-mb-list {
+		padding: 0 5px !important;
+	}
+}

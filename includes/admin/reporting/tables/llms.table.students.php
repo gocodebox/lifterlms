@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version 3.4.1
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -45,14 +45,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for the columns
 	 * @param    string     $key        the column id / key
-	 * @param    int        $user       Instance of the WP User
+	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.4.1
+	 * @version  3.13.0
 	 */
-	public function get_data( $key, $user ) {
-
-		$student = new LLMS_Student( $user->ID );
+	public function get_data( $key, $student ) {
 
 		switch ( $key ) {
 
@@ -85,15 +83,13 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				$value = '<a href="' . esc_url( $url ) . '">' . count( $this->get_enrollments( $student ) ) . '</a>';
 			break;
 
-			case 'grade':
-				$value = $student->get_overall_grade( true );
-				if ( is_numeric( $value ) ) {
-					$value .= '%';
-				}
-			break;
-
 			case 'id':
-				$value = '<a href="' . esc_url( get_edit_user_link( $student->get_id() ) ) . '">' . $student->get_id() . '</a>';
+				$id = $student->get_id();
+				if ( current_user_can( 'list_users' ) ) {
+					$value = '<a href="' . esc_url( get_edit_user_link( $id ) ) . '">' . $id . '</a>';
+				} else {
+					$value = $id;
+				}
 			break;
 
 			case 'memberships':
@@ -122,9 +118,15 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 			break;
 
-			case 'progress':
+			case 'overall_grade':
+				$value = $student->get_overall_grade( true );
+				if ( is_numeric( $value ) ) {
+					$value .= '%';
+				}
+			break;
+
+			case 'overall_progress':
 				$value = $this->get_progress_bar_html( $student->get_overall_progress( true ) );
-				;
 			break;
 
 			case 'registered':
@@ -136,7 +138,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 		}// End switch().
 
-		return $this->filter_get_data( $value, $key, $user );
+		return $this->filter_get_data( $value, $key, $student );
 
 	}
 
@@ -195,64 +197,112 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 		$this->title = __( 'Students', 'lifterlms' );
 
+		if ( ! $args ) {
+			$args = $this->get_args();
+		}
+
 		$args = $this->clean_args( $args );
 
 		if ( isset( $args['page'] ) ) {
 			$this->current_page = absint( $args['page'] );
 		}
 
-		$per = apply_filters( 'llms_gradebook_' . $this->id . '_per_page', 20 );
+		$this->filter = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
+		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
 
-		$this->order = isset( $args['order'] ) ? $args['order'] : 'ASC';
-		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : 'name';
+		$this->order = isset( $args['order'] ) ? $args['order'] : $this->get_order();
+		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->get_orderby();
 
-		$query = array(
-			'number' => $per,
-			'offset' => ( $this->current_page - 1 ) * $per,
-			'paged' => $this->current_page,
-			'order' => $this->order,
-		);
-
-		switch ( $this->orderby ) {
-
-			case 'grade':
-				$query['meta_key'] = 'llms_overall_grade';
-				$query['orderby'] = 'meta_value_num';
-			break;
-
-			case 'progress':
-				$query['meta_key'] = 'llms_overall_progress';
-				$query['orderby'] = 'meta_value_num';
-			break;
-
-			case 'registered':
-				$query['orderby'] = 'registered';
+		$sort = array();
+		switch ( $this->get_orderby() ) {
+			case 'id':
+				$sort = array(
+					'id' => $this->get_order(),
+				);
 			break;
 
 			case 'name':
-			default:
-				$query['meta_key'] = 'last_name';
-				$query['orderby'] = 'meta_value';
+				$sort = array(
+					'last_name' => $this->get_order(),
+					'first_name' => 'ASC',
+					'id' => 'ASC',
+				);
 			break;
+
+			case 'overall_grade':
+				$sort = array(
+					'overall_grade' => $this->get_order(),
+					'last_name' => 'ASC',
+					'first_name' => 'ASC',
+					'id' => 'ASC',
+				);
+			break;
+
+			case 'overall_progress':
+				$sort = array(
+					'overall_progress' => $this->get_order(),
+					'last_name' => 'ASC',
+					'first_name' => 'ASC',
+					'id' => 'ASC',
+				);
+			break;
+
+			case 'registered':
+				$sort = array(
+					'registered' => $this->get_order(),
+					'last_name' => 'ASC',
+					'first_name' => 'ASC',
+					'id' => 'ASC',
+				);
+			break;
+		}// End switch().
+
+		$query_args = array(
+			'page' => $this->get_current_page(),
+			'post_id' => array(),
+			'per_page' => apply_filters( 'llms_gradebook_' . $this->id . '_per_page', 20 ),
+			'sort' => $sort,
+		);
+
+		if ( 'status' === $this->get_filterby() && 'any' !== $this->get_filter() ) {
+
+			$query_args['statuses'] = array( $this->get_filter() );
 
 		}
 
 		if ( isset( $args['search'] ) ) {
 
 			$this->search = $args['search'];
-			$query['search'] = '*' . $this->search . '*';
+			$query_args['search'] = $this->get_search();
 
 		}
 
-		$q = new WP_User_Query( $query );
+		$query = null;
 
-		$this->max_pages = ceil( $q->total_users / $per );
+		// if you can view others reports, make a regular query
+		if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
 
-		if ( $this->max_pages > $this->current_page ) {
-			$this->is_last_page = false;
+			$query = new LLMS_Student_Query( $query_args );
+
+			// user can only see their own reports, get a list of their students
+		} elseif ( current_user_can( 'view_lifterlms_reports' ) ) {
+
+			$instructor = llms_get_instructor();
+			if ( ! $instructor ) {
+				return;
+			}
+			$query = $instructor->get_students();
+
 		}
 
-		$this->tbody_data = $q->get_results();
+		if ( ! $query ) {
+			return;
+		}
+
+		$this->max_pages = $query->max_pages;
+		$this->is_last_page = $query->is_last_page();
+
+		$this->tbody_data = $query->get_students();
 
 	}
 
@@ -271,12 +321,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.3
+	 * @version  3.13.0
 	 */
 	public function set_columns() {
 		return array(
 			'id' => array(
-				'sortable' => false,
+				'sortable' => true,
 				'title' => __( 'ID', 'lifterlms' ),
 			),
 			'name' => array(
@@ -287,11 +337,11 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				'sortable' => true,
 				'title' => __( 'Registration Date', 'lifterlms' ),
 			),
-			'progress' => array(
+			'overall_progress' => array(
 				'sortable' => true,
 				'title' => __( 'Progress', 'lifterlms' ),
 			),
-			'grade' => array(
+			'overall_grade' => array(
 				'sortable' => true,
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
