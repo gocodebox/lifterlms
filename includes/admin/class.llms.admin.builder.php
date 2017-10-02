@@ -80,10 +80,7 @@ class LLMS_Admin_Builder {
 								$object->set( 'parent_section', $model['section_id'] );
 							}
 						}
-
 					}
-
-
 				} elseif ( 'model' === $request['object_type'] ) {
 
 					$id = ( false === strpos( $request['model']['id'], '_temp_' ) ) ? absint( $request['model']['id'] ) : 'new';
@@ -222,7 +219,7 @@ if ( ! empty( $active_post_lock ) ) {
 				'title' => __( 'Auto-Saves and Save Status', 'lifterlms' ),
 				'placement' => 'top',
 				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' )
+					'next' => __( 'Next', 'lifterlms' ),
 				),
 				'content_main' => __( 'Everything is saved automatically but watch the status indicator to ensure your content is saved before leaving the builder!', 'lifterlms' ),
 			),
@@ -238,7 +235,7 @@ if ( ! empty( $active_post_lock ) ) {
 				'title' => __( 'Reorder Sections', 'lifterlms' ),
 				'placement' => 'bottom',
 				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' )
+					'next' => __( 'Next', 'lifterlms' ),
 				),
 				'content_main' => __( 'Use drag handles to drag and drop sections and reorder them.', 'lifterlms' ),
 			),
@@ -247,7 +244,7 @@ if ( ! empty( $active_post_lock ) ) {
 				'title' => __( 'Rename a Section', 'lifterlms' ),
 				'placement' => 'bottom',
 				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' )
+					'next' => __( 'Next', 'lifterlms' ),
 				),
 				'content_main' => __( 'Click on the title of any section to edit the title. When finished, hit the "Enter" key to save or press "Esc" to quit editing and revert to the original title.', 'lifterlms' ),
 			),
@@ -256,7 +253,7 @@ if ( ! empty( $active_post_lock ) ) {
 				'title' => __( 'Reorder Lessons within a section', 'lifterlms' ),
 				'placement' => 'bottom',
 				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' )
+					'next' => __( 'Next', 'lifterlms' ),
 				),
 				'content_main' => __( 'Use drag handles on a lesson to drag and drop lessons within a section and reorder them. When you have multilpe sections you can also move lessons into another section.', 'lifterlms' ),
 			),
@@ -265,7 +262,7 @@ if ( ! empty( $active_post_lock ) ) {
 				'title' => __( 'Rename a Lesson', 'lifterlms' ),
 				'placement' => 'bottom',
 				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' )
+					'next' => __( 'Next', 'lifterlms' ),
 				),
 				'content_main' => __( 'Click on the title of a lesson to rename it in the same way you can rename sections!', 'lifterlms' ),
 			),
@@ -274,7 +271,7 @@ if ( ! empty( $active_post_lock ) ) {
 				'title' => __( 'Expand and Collapse', 'lifterlms' ),
 				'placement' => 'left',
 				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' )
+					'next' => __( 'Next', 'lifterlms' ),
 				),
 				'content_main' => __( 'Use these expand and collapse buttons to open and close all the sections in the course in one click.', 'lifterlms' ),
 			),
@@ -283,7 +280,7 @@ if ( ! empty( $active_post_lock ) ) {
 				'title' => __( 'Build on!', 'lifterlms' ),
 				'placement' => 'left',
 				'buttons' => array(
-					'next' => __( 'Finish!', 'lifterlms' )
+					'next' => __( 'Finish!', 'lifterlms' ),
 				),
 				'content_main' => __( 'That\'s all! To finish building your course you\'ll want to finish your outline with more sections and lessons. When you\'re satisfied use the pencil icons to leave the builder and start adding content to your lessons.', 'lifterlms' ),
 			),
