@@ -50,8 +50,9 @@ class LLMS_Install {
 			'llms_update_3120_update_integration_options',
 			'llms_update_3120_update_db_version',
 		),
-		'3.13.0-rc.1' => array(
+		'3.13.0' => array(
 			'llms_update_3130_create_default_instructors',
+			'llms_update_3130_builder_notice',
 			'llms_update_3130_update_db_version',
 		),
 	);
