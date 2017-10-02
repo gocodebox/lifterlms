@@ -276,9 +276,9 @@ class LLMS_Roles {
 	public static function get_roles() {
 
 		return apply_filters( 'llms_get_roles', array(
+			'lms_manager' => __( 'LMS Manager', 'lifterlms' ),
 			'instructor' => __( 'Instructor', 'lifterlms' ),
 			'instructors_assistant' => __( 'Instructor\'s Assistant', 'lifterlms' ),
-			'lms_manager' => __( 'LMS Manager', 'lifterlms' ),
 			'student' => __( 'Student', 'lifterlms' ),
 		) );
 
