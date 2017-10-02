@@ -3145,6 +3145,7 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
 }
 .llms-course-builder .llms-builder-main .llms-course-syllabus {
   padding: 23px 3px 3px;
+  position: relative;
   -webkit-box-flex: 2.5;
       -ms-flex: 2.5;
           flex: 2.5;
@@ -3153,13 +3154,6 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
 }
 .llms-course-builder .llms-builder-main .llms-course-syllabus footer {
   margin-top: 20px;
-}
-.llms-course-builder .llms-sections {
-  margin-right: 20px;
-  padding: 10px;
-}
-.llms-course-builder .llms-lessons {
-  margin: 0 15px;
 }
 .llms-course-builder .llms-sections,
 .llms-course-builder .llms-lessons {
@@ -3171,6 +3165,16 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
 .llms-course-builder .llms-lessons.dragging {
   box-shadow: 0 0 0 3px #2295ff;
   min-height: 40px;
+}
+.llms-course-builder .llms-sections {
+  margin-right: 20px;
+  padding: 10px;
+}
+.llms-course-builder .llms-sections:empty {
+  min-height: 95%;
+}
+.llms-course-builder .llms-lessons {
+  margin: 0 15px;
 }
 .llms-course-builder .llms-section {
   margin: 0;
@@ -3451,6 +3455,9 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
   top: 0;
   left: 0;
 }
+.llms-course-builder .llms-builder-tools .llms-add-item[disabled="disabled"] {
+  opacity: 0.4;
+}
 .llms-course-builder .llms-builder-tools footer {
   bottom: 0;
   left: 0;
@@ -3497,6 +3504,30 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
   box-shadow: 0 0 0 4px #fff, 0 0 0 6px #2295ff;
   border-bottom: none;
   outline: none;
+}
+
+.llms-builder-tutorial {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: 200px;
+  width: 100%;
+  z-index: 1;
+}
+.llms-builder-tutorial .llms-headline {
+  display: block;
+  color: #7a7a7a;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+.llms-builder-tutorial .llms-tutorial-buttons {
+  padding: 20px 0;
+}
+.llms-builder-tutorial .llms-tutorial-buttons a {
+  margin: 0 5px;
+}
+.llms-builder-tutorial .llms-tutorial-step {
+  display: none;
 }
 
 .llms-builder-launcher {

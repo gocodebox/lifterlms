@@ -7,6 +7,11 @@
 	 * @version  3.13.0
 	 */
 	var App = {
+
+		$elements: {
+			$main: $( '.llms-builder-main' ),
+		},
+
 		Collections: {},
 		Models: {},
 		Views: {},
@@ -341,9 +346,14 @@
 				 */
 				sort_collection: function( collection ) {
 
-					collection.each( function( model, index ) {
-						model.set( 'order', index + 1 );
-					} );
+					if ( collection.length ) {
+
+						collection.each( function( model, index ) {
+							model.set( 'order', index + 1 );
+						} );
+
+					}
+
 					collection.trigger( 'rerender' );
 
 				},
@@ -484,7 +494,7 @@
 						object_type = 'collection';
 					}
 
-					options.data.course_id = window.llms_builder.id;
+					options.data.course_id = window.llms_builder.course.id;
 					options.data.action_type = method;
 					options.data.object_type = object_type; // eg collection or model
 					options.data.data_type = object.type_id; // eg section or lesson
@@ -1319,17 +1329,21 @@
 
 			this.collection.fetch( {
 				beforeSend: function() {
-					LLMS.Spinner.start( $( '.llms-builder-main' ) );
+					App.$elements.$main.addClass( 'loading' );
+					LLMS.Spinner.start( App.$elements.$main );
+
 				},
 				success: function( res ) {
-					LLMS.Spinner.stop( $( '.llms-builder-main' ) );
+
+					App.$elements.$main.removeClass( 'loading' );
+					LLMS.Spinner.stop( App.$elements.$main );
 					App.Methods.draggable();
 					App.Methods.sortable();
 					// start the mini spinner that never stops
 					LLMS.Spinner.start( $( '#llms-spinner-el' ), 'small' );
+
 				},
 			} );
-
 
 		},
 
@@ -1340,9 +1354,17 @@
 		 * @version  3.13.0
 		 */
 		render: function() {
+
 			this.$el.children().remove();
-			this.collection.each( this.add_one, this );
+
+			if ( this.collection.length ) {
+
+				this.collection.each( this.add_one, this );
+
+			}
+
 			return this;
+
 		},
 
 	}, App.Mixins.SortableView ) );
@@ -1369,6 +1391,20 @@
 		events: {
 			'click button.llms-add-item': 'add_item',
 			'click a.bulk-toggle': 'bulk_toggle',
+		},
+
+		/**
+		 * Initializer
+		 * @return   void
+		 * @since    3.13.0
+		 * @version  3.13.0
+		 */
+		initialize: function() {
+
+			this.listenTo( Instance.Syllabus.collection, 'add', this.maybe_disable );
+			this.listenTo( Instance.Syllabus.collection, 'remove', this.maybe_disable );
+			this.listenTo( Instance.Syllabus.collection, 'sync', this.maybe_disable );
+
 		},
 
 		/**
@@ -1432,7 +1468,185 @@
 				which = $btn.attr( 'data-action' );
 			$( '.llms-section .llms-action-icon.' + which ).trigger( 'click' );
 
-		}
+		},
+
+		maybe_disable: function() {
+
+			var $btn = $( '#llms-new-lesson' );
+
+			if ( ! Instance.Syllabus.collection.length ) {
+				$btn.attr( 'disabled', 'disabled' );
+			} else {
+				$btn.removeAttr( 'disabled' );
+			}
+
+		},
+
+	} );
+
+	/**
+	 * "Tools" sidebar view
+	 * @since    3.13.0
+	 * @version  3.13.
+	 */
+	App.Views.Tutorial = Backbone.View.extend( {
+
+		/**
+		 * HTML element selector
+		 * @type  {String}
+		 */
+		el: '#llms-builder-tutorial',
+
+		/**
+		 * Dom Events
+		 * @type     {Object}
+		 * @since    3.13.0
+		 * @version  3.13.0
+		 */
+		events: {
+			'click #llms-start-tut': 'start',
+		},
+
+		/**
+		 * Get the underscore template
+		 * @type  {[type]}
+		 */
+		template: _.template( $( '#llms-builder-tutorial-template' ).html() ),
+
+		is_active: false,
+		current_step: 0,
+		steps: [],
+
+		/**
+		 * Get object of current step data
+		 * @return   obj
+		 * @since    3.13.0
+		 * @version  3.13.0
+		 */
+		get_current_step: function() {
+			return this.steps[ this.current_step ];
+		},
+
+		/**
+		 * Initializer
+		 * @return   void
+		 * @since    3.13.0
+		 * @version  3.13.0
+		 */
+		initialize: function() {
+
+			this.listenTo( Instance.Syllabus.collection, 'add', this.maybe_render );
+			this.listenTo( Instance.Syllabus.collection, 'remove', this.maybe_render );
+			this.listenTo( Instance.Syllabus.collection, 'sync', this.maybe_render );
+
+			this.steps = window.llms_builder.tutorial;
+
+		},
+
+		/**
+		 * Enables / Disables the tutorial box
+		 * Shows the tutorial when there's no sections in the course
+		 * Hides when there are sectiosn in the course
+		 * @return   void
+		 * @since    3.13.0
+		 * @version  3.13.0
+		 */
+		maybe_render: function() {
+
+			if ( ! Instance.Syllabus.collection.length ) {
+				this.render();
+			} else {
+				this.$el.fadeOut( 200 );
+			}
+
+		},
+
+		/**
+		 * Render the section
+		 * Initalizes a new collection and views for all lessons in the section
+		 * @return   void
+		 * @since    3.13.0
+		 * @version  3.13.0
+		 */
+		render: function() {
+			this.$el.html( this.template() );
+			this.$el.fadeIn( 200 );
+			return this;
+
+		},
+
+		/**
+		 * Start the popover tutorial walkthrough
+		 * @param    obj   e  js event object
+		 * @return   void
+		 * @since    3.13.0
+		 * @version  3.13.0
+		 */
+		start: function( e ) {
+			e.preventDefault();
+			this.show_next_step( 0 );
+		},
+
+		/**
+		 * Show a popover for the next step and bind necessary one-time events
+		 * @param    int   next_step  step index
+		 * @return   void
+		 * @since    3.13.0
+		 * @version  3.13.0
+		 */
+		show_next_step: function( next_step ) {
+
+			this.current_step = next_step;
+
+			var self = this,
+				step = this.get_current_step(),
+				$content = $( '<div class="llms-tutorial-content" />' );
+
+			$content.append( '<p>' + step.content_main + '</p>' );
+			if ( step.content_action ) {
+				$content.append( '<p><strong>' + step.content_action + '</strong></p>' );
+			}
+
+			if ( step.buttons ) {
+				$.each( step.buttons, function( type, text ) {
+					var $btn = $( '<button class="llms-button-primary small" type="button">' + text + '</button>' );
+					$content.append( $btn );
+				} );
+			}
+
+			WebuiPopovers.show( step.el, {
+				animation: 'pop',
+				// backdrop: true,
+				content: $content,
+				closeable: true,
+				// container: '.wrap.llms-course-builder',
+				// multi: true,
+				placement: step.placement || 'auto',
+				title: ( this.current_step + 1 ) + '. ' + step.title,
+				trigger: 'manual',
+				width: 340,
+				onShow: function( $el ) {
+
+					self.is_active = true;
+
+					$( step.el ).add( $el.find( 'button' ) ).one( 'click', function() {
+						$el.remove();
+						if ( self.current_step < self.steps.length - 1 ) {
+							self.show_next_step( self.current_step + 1 );
+						} else {
+							self.is_active = false;
+						}
+					} );
+
+				},
+				onHide: function() {
+
+					self.is_active = false;
+
+				},
+			} );
+
+		},
 
 	} );
 
@@ -1444,10 +1658,9 @@
 	 */
 	var Instance = {
 		Course: new App.Views.Course( {
-			model: new App.Models.Course( window.llms_builder ),
+			model: new App.Models.Course( window.llms_builder.course ),
 		} ),
 		Syllabus: new App.Views.SectionList,
-		Tools: new App.Views.Tools,
 		Status: {
 			saving: [],
 			add: function( id ) {
@@ -1464,6 +1677,21 @@
 			},
 		},
 	};
+
+	Instance.Tools = new App.Views.Tools;
+	Instance.Tutorial = new App.Views.Tutorial;
+
+	// prevent actions outside the intended tutorial action (when the tutorial is active)
+	$( '.wrap.llms-course-builder' ).on( 'click', 'a, button', function( event ) {
+		var $el = $( this );
+		if ( Instance.Tutorial.is_active ) {
+			var step = Instance.Tutorial.get_current_step();
+			if ( $( step.el ) !== $el ) {
+				event.preventDefault();
+				$( step.el ).fadeOut( 100 ).fadeIn( 300 );
+			}
+		}
+	} );
 
 	// set the height of the fixed builder area
 	$( '.llms-course-builder' ).height( $( window ).height() - 62 ); // @shame magic numbers...

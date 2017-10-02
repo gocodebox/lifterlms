@@ -70,14 +70,20 @@ class LLMS_Admin_Builder {
 				// reorder sectioes or lessons
 				if ( 'collection' === $request['object_type'] && in_array( $request['data_type'], array( 'section', 'lesson' ) ) ) {
 
-					foreach ( $request['models'] as $model ) {
-						$object = llms_get_post( $model['id'] );
-						$object->set( 'order', $model['order'] );
-						// additionally save lessons parent
-						if ( 'lesson' === $request['data_type'] ) {
-							$object->set( 'parent_section', $model['section_id'] );
+					if ( isset( $request['models'] ) ) {
+
+						foreach ( $request['models'] as $model ) {
+							$object = llms_get_post( $model['id'] );
+							$object->set( 'order', $model['order'] );
+							// additionally save lessons parent
+							if ( 'lesson' === $request['data_type'] ) {
+								$object->set( 'parent_section', $model['section_id'] );
+							}
 						}
+
 					}
+
+
 				} elseif ( 'model' === $request['object_type'] ) {
 
 					$id = ( false === strpos( $request['model']['id'], '_temp_' ) ) ? absint( $request['model']['id'] ) : 'new';
@@ -197,6 +203,95 @@ if ( ! empty( $active_post_lock ) ) {
 	}
 
 	/**
+	 * Tutorial steps data
+	 * @return   [type]     [description]
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	private static function get_tutorial_steps() {
+		return array(
+			array(
+				'el' => '#llms-new-section',
+				'title' => __( 'Create a Section', 'lifterlms' ),
+				'placement' => 'left',
+				'content_main' => __( 'Sections are the organizational building blocks of a course. A course can be made up of one or more sections and each of these sections contains at least one lesson.', 'lifterlms' ),
+				'content_action' => __( 'Add a section by clicking the "New Section" button on the right.', 'lifterlms' ),
+			),
+			array(
+				'el' => '#llms-builder-tools footer',
+				'title' => __( 'Auto-Saves and Save Status', 'lifterlms' ),
+				'placement' => 'top',
+				'buttons' => array(
+					'next' => __( 'Next', 'lifterlms' )
+				),
+				'content_main' => __( 'Everything is saved automatically but watch the status indicator to ensure your content is saved before leaving the builder!', 'lifterlms' ),
+			),
+			array(
+				'el' => '#llms-new-lesson',
+				'title' => __( 'Create a Lesson', 'lifterlms' ),
+				'placement' => 'left',
+				'content_main' => __( 'Great! Now that you have a section you can start adding lessons to it. Lessons will contain the main content of your course. In a lesson you can add text, video, image, and other types of content.', 'lifterlms' ),
+				'content_action' => __( 'Add a lesson by clicking the "New Lesson" button on the right.', 'lifterlms' ),
+			),
+			array(
+				'el' => '.llms-sections .llms-section:first-child .llms-drag-utility',
+				'title' => __( 'Reorder Sections', 'lifterlms' ),
+				'placement' => 'bottom',
+				'buttons' => array(
+					'next' => __( 'Next', 'lifterlms' )
+				),
+				'content_main' => __( 'Use drag handles to drag and drop sections and reorder them.', 'lifterlms' ),
+			),
+			array(
+				'el' => '.llms-sections .llms-section:first-child > .llms-builder-header .llms-editable-title',
+				'title' => __( 'Rename a Section', 'lifterlms' ),
+				'placement' => 'bottom',
+				'buttons' => array(
+					'next' => __( 'Next', 'lifterlms' )
+				),
+				'content_main' => __( 'Click on the title of any section to edit the title. When finished, hit the "Enter" key to save or press "Esc" to quit editing and revert to the original title.', 'lifterlms' ),
+			),
+			array(
+				'el' => '.llms-sections .llms-section:first-child .llms-lessons .llms-drag-utility',
+				'title' => __( 'Reorder Lessons within a section', 'lifterlms' ),
+				'placement' => 'bottom',
+				'buttons' => array(
+					'next' => __( 'Next', 'lifterlms' )
+				),
+				'content_main' => __( 'Use drag handles on a lesson to drag and drop lessons within a section and reorder them. When you have multilpe sections you can also move lessons into another section.', 'lifterlms' ),
+			),
+			array(
+				'el' => '.llms-sections .llms-section:first-child .llms-lessons .llms-editable-title',
+				'title' => __( 'Rename a Lesson', 'lifterlms' ),
+				'placement' => 'bottom',
+				'buttons' => array(
+					'next' => __( 'Next', 'lifterlms' )
+				),
+				'content_main' => __( 'Click on the title of a lesson to rename it in the same way you can rename sections!', 'lifterlms' ),
+			),
+			array(
+				'el' => '#llms-expand-all',
+				'title' => __( 'Expand and Collapse', 'lifterlms' ),
+				'placement' => 'left',
+				'buttons' => array(
+					'next' => __( 'Next', 'lifterlms' )
+				),
+				'content_main' => __( 'Use these expand and collapse buttons to open and close all the sections in the course in one click.', 'lifterlms' ),
+			),
+			array(
+				'el' => '#llms-builder-tools',
+				'title' => __( 'Build on!', 'lifterlms' ),
+				'placement' => 'left',
+				'buttons' => array(
+					'next' => __( 'Finish!', 'lifterlms' )
+				),
+				'content_main' => __( 'That\'s all! To finish building your course you\'ll want to finish your outline with more sections and lessons. When you\'re satisfied use the pencil icons to leave the builder and start adding content to your lessons.', 'lifterlms' ),
+			),
+
+		);
+	}
+
+	/**
 	 * Retrieve Quiz data
 	 * @param    int        $quiz_id            WP Post ID of a quiz
 	 * @param    boolean    $include_questions  if true, includes question data
@@ -300,6 +395,7 @@ if ( ! empty( $active_post_lock ) ) {
 			<div class="llms-builder-main">
 
 				<section class="llms-course-syllabus llms-course" id="llms-course-syllabus">
+					<div class="llms-builder-tutorial" id="llms-builder-tutorial"></div>
 					<ul class="llms-sections" id="llms-sections"></ul>
 				</section>
 
@@ -358,10 +454,13 @@ if ( ! empty( $active_post_lock ) ) {
 			<?php self::templates( $course_id ); ?>
 
 			<script>window.llms_builder = <?php echo json_encode( array(
-				'id' => absint( $course_id ),
-				'edit_url' => current_user_can( 'edit_course', $course_id ) ? get_edit_post_link( $course_id ) : '',
-				'view_url' => get_permalink( $course_id ),
-				'title' => get_the_title( $course_id ),
+				'course' => array(
+					'id' => absint( $course_id ),
+					'edit_url' => current_user_can( 'edit_course', $course_id ) ? get_edit_post_link( $course_id ) : '',
+					'view_url' => get_permalink( $course_id ),
+					'title' => get_the_title( $course_id ),
+				),
+				'tutorial' => self::get_tutorial_steps(),
 			) ); ?></script>
 
 			<?php do_action( 'llms_after_course_builder', $course_id ); ?>
@@ -421,7 +520,6 @@ if ( ! empty( $active_post_lock ) ) {
 				'text_active' => esc_attr__( 'Has content', 'lifterlms' ),
 			),
 		);
-
 		?>
 
 		<script type="text/template" id="llms-course-template">
@@ -474,6 +572,21 @@ if ( ! empty( $active_post_lock ) ) {
 
 			</header>
 			<ul class="llms-lessons"></ul>
+		</script>
+
+		<script type="text/html" id="llms-builder-tutorial-template">
+
+			<h2 class="llms-headline">Drop a section here to get started!</h2>
+			<div class="llms-tutorial-buttons">
+				<a class="llms-button-primary large" href="#llms-start-tut" id="llms-start-tut">
+					<?php _e( 'Show Me How', 'lifterlms' ); ?>
+					<i class="fa fa-magic" aria-hidden="true"></i>
+				</a>
+				<a class="llms-button-secondary large" href="https://lifterlms.com/docs/using-course-builder/" target="_blank">
+					<?php _e( 'Read the Docs', 'lifterlms' ); ?>
+					<i class="fa fa-book" aria-hidden="true"></i>
+				</a>
+			</div>
 		</script>
 
 		<script type="text/html" id="llms-lesson-template">
