@@ -1,7 +1,7 @@
 == Changelog ==
 
-v3.13.0-rc.1 - 2017/09/28
--------------------------
+v3.13.0 - 2017/10/02
+--------------------
 
 ##### An All New Course Builder
 
@@ -14,20 +14,21 @@ v3.13.0-rc.1 - 2017/09/28
 + Delete sections and lessons with the click of a button
 + Quick links to view (frontend) and edit (backend) lessons
 + Completely internationalized. Thanks for you patience translators!
-+ Want to know more? Check out the [docs](#writethedocs).
++ Want to know more? Check out the [docs](https://lifterlms.com/docs/using-course-builder/).
 
 ##### New User Roles
 
-+ LMS Administrator
-  + Manage LifterLMS Settings
-  + View LifterLMS reporting
-  + Manage Users (including enrollment)
-  + Create, edit, and delete LifterLMS content (courses, memberships, etc...)
-+ Instructor & Instructor's Assistant (currently the same role, it's beta...)
-  + Create, edit, and delete their own LifterLMS content (courses and memberships -- engagements coming soon)
-  + View limited LifterLMS reporting (view reports only for their own students)
++ Added new roles to enable you to provide access to LifterLMS (settings, courses building, etc...) without having to make an admin or mess with complicated code snippets.
++ New Roles:
 
-##### Updates
+  + LMS Manager: Do everything in LifterLMS and nothing with plugins, themes, core settings, and so on
+  + Instructor: Create, update, and delete courses and memberships
+  + Instructor's Assistant: Edit courses and memberships
+
++ More details and a full list of new LifterLMS capabilities are available [here](https://lifterlms.com/docs/roles-and-capabilities/).
+
+
+##### Updates & Fixes
 
 + The "Lesson Tree" metabox has been replaced with a simplified version of the lesson tree and a link to the launch the Course Builder.
 + Course and membership categories and tags will now display on their respective post tables for sorting and filtering. They can be disabled on a per-user basis via the screen options.
@@ -47,7 +48,7 @@ v3.13.0-rc.1 - 2017/09/28
 + [admin/post-types/students.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/students.php)
 + [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
 
-##### Deprecations
+##### Deprecated Functions
 
 + The following AJAX functions are no longer utilized by LifterLMS core. If you are utilizing them find alternatives (they all exist). These will be remove in the next **major** release:
 
@@ -70,16 +71,16 @@ v3.13.0-rc.1 - 2017/09/28
   + `LLMS_AJAX::get_students()`
   + `LLMS_AJAX::update_syllabus()`
 
-##### Deprecated filters
+##### Removed Filters
 
 + The following filters have been removed and are no longer in use.
+
   + `lifterlms_admin_courses_access`: replaced with user capability `edit_courses`
   + `lifterlms_admin_membership_access`: replaced with user capability `edit_memberships`
   + `lifterlms_admin_reporting_access`: replaced with user capability `manage_lifterlms`
   + `lifterlms_admin_settings_access`: replaced with user capability `manage_lifterlms`
   + `lifterlms_admin_import_access`: replaced with user capability `manage_lifterlms`
   + `lifterlms_admin_system_report_access`: replaced with user capability `manage_lifterlms`
-+ In order to provide access to these items you'll want to adjust some custom code as per [this guide](#writethisguide).
 
 
 v3.12.2 - 2017/09/18
