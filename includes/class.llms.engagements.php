@@ -3,7 +3,7 @@
 * Engagments Class
 * Finds and triggers the appropriate engagement
 * @since    2.3.0
-* @version  3.12.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -417,7 +417,8 @@ class LLMS_Engagements {
 	 *         		     )
 	 *         		)
 	 *
-	 * @since  2.3.0
+	 * @since    2.3.0
+	 * @version  [version]
 	 */
 	private function get_engagements( $trigger_type, $related_post_id = '' ) {
 
@@ -427,7 +428,7 @@ class LLMS_Engagements {
 
 			$related_select = ', relation_meta.meta_value AS related_post_id';
 			$related_join = "LEFT JOIN $wpdb->postmeta AS relation_meta ON triggers.ID = relation_meta.post_id";
-			$related_where = "AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND relation_meta.meta_value = %d";
+			$related_where = $wpdb->prepare( "AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND relation_meta.meta_value = %d", $related_post_id );
 
 		} else {
 
@@ -472,7 +473,7 @@ class LLMS_Engagements {
 				$related_where
 			",
 			// prepare variables
-			$trigger_type, $related_post_id
+			$trigger_type
 		), OBJECT );
 
 		$this->log( '$wpdb->last_query' . $wpdb->last_query );
