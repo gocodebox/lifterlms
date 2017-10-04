@@ -2,7 +2,7 @@
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  3.8.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -100,7 +100,6 @@ class LLMS_Student_Dashboard {
 		$tabs = self::get_tabs();
 
 		foreach ( $tabs as $var => $data ) {
-
 			if ( isset( $wp->query_vars[ $var ] ) ) {
 				$current_tab = $var;
 				break;
@@ -119,21 +118,26 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public static function get_tabs() {
 
 		return apply_filters( 'llms_get_student_dashboard_tabs', array(
 			'dashboard' => array(
-				'content' => array( __CLASS__, 'output_dashboard_content' ),
+				'content' => 'lifterlms_template_student_dashboard_home',
 				'endpoint' => false,
 				'title' => __( 'Dashboard', 'lifterlms' ),
 				'url' => llms_get_page_url( 'myaccount' ),
 			),
 			'view-courses' => array(
-				'content' => array( __CLASS__, 'output_courses_content' ),
+				'content' => 'lifterlms_template_student_dashboard_my_courses',
 				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'my-courses' ),
 				'title' => __( 'My Courses', 'lifterlms' ),
+			),
+			'view-achievements' => array(
+				'content' => 'lifterlms_template_student_dashboard_my_achievements',
+				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint', 'my-achievements' ),
+				'title' => __( 'My Achievements', 'lifterlms' ),
 			),
 			'notifications' => array(
 				'content' => array( __CLASS__, 'output_notifications_content' ),
@@ -166,39 +170,28 @@ class LLMS_Student_Dashboard {
 
 	/**
 	 * Callback to output View Courses endpoint content
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.6.0
+	 * @return      void
+	 * @since       3.0.0
+	 * @version     [version]
+	 * @deprecated  3.14.0
 	 */
 	public static function output_courses_content() {
 
-		$limit = isset( $_GET['limit'] ) ? $_GET['limit'] : apply_filters( 'llms_dashboard_courses_per_page', 10 );
-		$skip = isset( $_GET['skip'] ) ? $_GET['skip'] : 0;
-		$courses = self::get_courses( $limit, $skip );
-
-		llms_get_template( 'myaccount/my-courses.php', array(
-			'student' => new LLMS_Student(),
-			'courses' => $courses,
-			'pagination' => $courses['more'],
-		) );
-
+		llms_deprecated_function( 'LLMS_Student_Dashboard::output_courses_content()', '3.14.0', "lifterlms_template_student_dashboard_my_courses( false )" );
+		lifterlms_template_student_dashboard_my_courses( false );
 	}
 
 	/**
 	 * Callback to output main dashboard content
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.6.0
+	 * @return      void
+	 * @since       3.0.0
+	 * @version     [version]
+	 * @deprecated  3.14.0
 	 */
 	public static function output_dashboard_content() {
 
-		$limit = apply_filters( 'llms_dashboard_recent_courses_count', 3 );
-
-		llms_get_template( 'myaccount/dashboard.php', array(
-			'current_user' 	=> get_user_by( 'id', get_current_user_id() ),
-			'student' => new LLMS_Student(),
-			'courses' => self::get_courses( $limit ),
-		) );
+		llms_deprecated_function( 'LLMS_Student_Dashboard::output_dashboard_content()', '3.14.0', "lifterlms_template_student_dashboard_home()" );
+		lifterlms_template_student_dashboard_home();
 
 	}
 

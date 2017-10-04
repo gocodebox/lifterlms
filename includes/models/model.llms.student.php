@@ -122,27 +122,37 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve certificates that a user has earned
-	 * @param  string $orderby field to order the returned results by
-	 * @param  string $order   ordering method for returned results (ASC or DESC)
-	 * @return array           array of objects
-	 *
+	 * Retrieve achievements that a user has earned
+	 * @param    string $orderby field to order the returned results by
+	 * @param    string $order   ordering method for returned results (ASC or DESC)
+	 * @param    string $return  return type
+	 *                           	obj => array of objects from $wpdb->get_results
+	 *                           	achievements => array of LLMS_User_Achievement instances
+	 * @return   array
 	 * @since    ??
 	 * @version  ??
 	 */
-	public function get_achievements( $orderby = 'updated_date', $order = 'DESC' ) {
+	public function get_achievements( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
 
 		$orderby = esc_sql( $orderby );
 		$order = esc_sql( $order );
 
 		global $wpdb;
 
-		$r = $wpdb->get_results( $wpdb->prepare(
+		$query = $wpdb->get_results( $wpdb->prepare(
 			"SELECT post_id, meta_value AS achievement_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
 			$this->get_id()
 		) );
 
-		return $r;
+		if ( $return ) {
+			$ret = array();
+			foreach ( $query as $obj ) {
+				$ret[] = new LLMS_User_Achievement( $obj->achievement_id );
+			}
+			return $ret;
+		}
+
+		return $query;
 
 	}
 
@@ -245,7 +255,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                      @arg string $orderby  table reference and field to order results by
 	 *                      @arg string $order    result order (DESC, ASC)
 	 *                      @arg int    $skip     number of results to skip for pagination purposes
-	 *                      @arg string $status   filter results by enrollment status, "any", "enrolled", or "expired"
+	 *                      @arg string $status   filter results by enrollment status, "any", "enrolled", "cancelled", or "expired"
 	 * @return array        "courses" will contain an array of course ids
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
 	 * @since    3.0.0
@@ -260,7 +270,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'orderby' => 'upm.updated_date',
 			'order'   => 'DESC',
 			'skip'    => 0,
-			'status'  => 'any', // any, enrolled, expired
+			'status'  => 'any', // any, enrolled, cancelled, expired
 		), $args );
 
 		// allow "short" orderby's to be passed in without a table reference
@@ -421,12 +431,16 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Get the formatted date when a user initially enrolled in a product or when they were last updated
 	 * @param   int    $product_id  WP Post ID of a course or membership
 	 * @param   string $date        "enrolled" will get the most recent start date, "updated" will get the most recent status change date
-	 * @param   string $format      date format as accepted by php date()
+	 * @param   string $format      date format as accepted by php date(), if none supplied uses the WP core "date_format" option
 	 * @return  false|string        will return false if the user is not enrolled
 	 * @since   3.0.0
-	 * @version 3.0.0
+	 * @version [version]
 	 */
-	public function get_enrollment_date( $product_id, $date = 'enrolled', $format = 'M d, Y' ) {
+	public function get_enrollment_date( $product_id, $date = 'enrolled', $format = null ) {
+
+		if ( ! $format ) {
+			$format = get_option( 'date_format', 'M d, Y' );
+		}
 
 		global $wpdb;
 

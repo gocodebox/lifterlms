@@ -1,0 +1,84 @@
+ul.llms-achievements-loop,
+.lifterlms ul.llms-achievements-loop {
+
+	@include clearfix();
+	list-style-type: none;
+	margin: 0 -10px;
+	padding: 0;
+
+	li.llms-achievement-loop-item {
+		box-sizing: border-box;
+		display: block;
+		float: left;
+		list-style-type: none;
+		margin: 0;
+		padding: 10px;
+		width: 100%;
+	}
+
+	@media all and (min-width: 600px) {
+		$cols: 1;
+		@while $cols <= 4 {
+			&.loop-cols-#{$cols} li.llms-achievement-loop-item {
+				width: 100% / $cols;
+			}
+			$cols: $cols + 1;
+		}
+	}
+
+}
+
+.llms-achievement {
+
+	background: #f1f1f1;
+	border: none;
+	color: inherit;
+	display: block;
+	text-decoration: none;
+	width: 100%;
+
+	&:hover {
+		background: #eaeaea;
+	}
+
+	.llms-achievement-img {
+		display: block;
+		margin: 0;
+		width: 100%;
+	}
+
+	.llms-achievement-title {
+		font-size: 16px;
+		margin: 0;
+		padding: 10px;
+		text-align: center;
+	}
+
+	.llms-achievement-info,
+	.llms-achievement-date {
+		display: none;
+	}
+
+	.llms-achievement-content {
+		padding: 20px;
+		&:empty {
+			padding: 0;
+		}
+		*:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+}
+
+.llms-achievement-modal {
+	.llms-achievement {
+		background: #fff;
+	}
+	.llms-achievement-info {
+		display: block;
+	}
+	.llms-achievement-title {
+		display: none;
+	}
+}

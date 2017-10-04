@@ -20,6 +20,58 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	);
 
 	/**
+	 * Retrieve the date the achievement was earned (created)
+	 * @param    string     $format  date format string
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_earned_date( $format = null ) {
+		$format = $format ? $format : get_option( 'date_format' );
+		return $this->get_date( 'date', $format );
+	}
+
+	/**
+	 * Retrieve the HTML <img> for the achievement
+	 * @param    array      $size  dimensions of the image to return (width x height)
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_image_html( $size = array() ) {
+
+		return apply_filters( 'llms_achievement_get_image_html',
+			sprintf( '<img alt="%1$s" class="llms-achievement-img" src="%2$s">',
+				esc_attr( $this->get( 'title' ) ),
+				$this->get_image( $size )
+			), $this );
+
+	}
+
+	/**
+	 * Retrieve the image source for the achievement
+	 * @param    array      $size  dimensions of the image to return (width x height)
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_image( $size = array(), $key = 'achievement_image' ) {
+
+		if ( ! $size ) {
+			$size = apply_filters( 'llms_achievement_image_default_size', array( 300, 300 ) );
+		}
+
+		if ( ! $this->get( 'achievement_image' ) ) {
+			$src = LLMS()->plugin_url() . '/assets/images/optional_achievement.png';
+		} else {
+			$src = parent::get_image( $size, $key );
+		}
+
+		return apply_filters( 'llms_achievement_get_image', $src, $this );
+
+	}
+
+	/**
 	 * Get the WP Post ID of the post which triggered the earning of the achievement
 	 * This would be a lesson, course, section, track, etc...
 	 * @return   int

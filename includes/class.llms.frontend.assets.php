@@ -2,7 +2,7 @@
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.13.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -118,12 +118,16 @@ class LLMS_Frontend_Assets {
 			wp_enqueue_style( 'certificates', plugins_url( '/assets/css/certificates' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		}
 
+		if ( is_llms_account_page() ) {
+			wp_enqueue_style( 'iziModal', plugins_url( 'assets/vendor/izimodal/iziModal.min.css', LLMS_PLUGIN_FILE ) );
+		}
+
 	}
 
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.9.5
+	 * @version [version]
 	 */
 	public static function enqueue_scripts() {
 
@@ -136,7 +140,7 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
 		wp_register_script( 'llms-jquery-matchheight', plugins_url( 'assets/js/vendor/jquery.matchHeight.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
-		if ( is_course() || is_membership() || is_lesson() || is_memberships() || is_courses() || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
+		if ( is_llms_account_page() || is_course() || is_membership() || is_lesson() || is_memberships() || is_courses() || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 			wp_enqueue_script( 'llms-jquery-matchheight' );
 		}
 
@@ -166,6 +170,10 @@ class LLMS_Frontend_Assets {
 		if ( ( is_llms_account_page() || is_llms_checkout() ) && 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
 			wp_enqueue_script( 'password-strength-meter' );
 			self::enqueue_inline_pw_script();
+		}
+
+		if ( is_llms_account_page() ) {
+			wp_enqueue_script( 'iziModal', plugins_url( 'assets/vendor/izimodal/iziModal.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '1.5.1', true );
 		}
 
 		$ssl = is_ssl() ? 'https' : 'http';

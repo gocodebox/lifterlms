@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  3.11.1
+* @version  [version]
 */
 class LLMS_Shortcodes {
 
@@ -25,6 +25,7 @@ class LLMS_Shortcodes {
 			'LLMS_Shortcode_Course_Prerequisites',
 			'LLMS_Shortcode_Course_Reviews',
 			'LLMS_Shortcode_Course_Syllabus',
+			'LLMS_Shortcode_Courses',
 			'LLMS_Shortcode_Hide_Content',
 			'LLMS_Shortcode_Lesson_Mark_Complete',
 			'LLMS_Shortcode_Membership_Link',
@@ -45,6 +46,12 @@ class LLMS_Shortcodes {
 			}
 		}
 
+		/**
+		 * @deprecated  2.0.0
+		 * @todo        deprecate
+		 */
+		add_shortcode( 'courses', array( LLMS_Shortcode_Courses::instance(), 'output' ) );
+
 		// old method
 		$shortcodes = array(
 			'lifterlms_access_plan_button' => __CLASS__ . '::access_plan_button',
@@ -52,8 +59,6 @@ class LLMS_Shortcodes {
 			'lifterlms_my_achievements' => __CLASS__ . '::my_achievements',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
 			'lifterlms_course_info' => __CLASS__ . '::course_info',
-			'lifterlms_courses' => __CLASS__ . '::courses', // added here so that we can deprecate the non-prefixed "courses" (maybe)
-				'courses' => __CLASS__ . '::courses', // should be deprecated at some point
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
@@ -407,93 +412,6 @@ class LLMS_Shortcodes {
 			return '';
 		}
 		return get_the_title( $course_id );
-	}
-
-	/**
-	* courses shortcode
-	*
-	* @return   array
-	* @since    1.0.0
-	* @version  3.0.2
-	*/
-	public static function courses( $atts ) {
-
-		// enqueue match height so the loop isn't all messed up visually
-		self::enqueue_script( 'llms-jquery-matchheight' );
-
-		if ( isset( $atts['category'] ) ) {
-			$tax = array(
-				array(
-					'taxonomy' => 'course_cat',
-					'field' => 'slug',
-					'terms' => $atts['category'],
-				),
-			);
-		}
-
-		$args = array(
-			'paged' => get_query_var( 'paged' ),
-			'post_type' => 'course',
-			'post_status' => 'publish',
-			'posts_per_page' => isset( $atts['posts_per_page'] ) ? $atts['posts_per_page'] : -1,
-			'order' => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
-			'orderby' => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
-			'tax_query' => isset( $tax ) ? $tax : '',
-		);
-
-		if ( isset( $atts['id'] ) ) {
-
-			$args['p'] = $atts['id'];
-
-		}
-
-		$query = new WP_Query( $args );
-
-		ob_start();
-
-		if ( $query->have_posts() ) :
-
-			/**
-			 * lifterlms_before_loop hook
-			 * @hooked lifterlms_loop_start - 10
-			 */
-			do_action( 'lifterlms_before_loop' );
-
-			while ( $query->have_posts() ) : $query->the_post();
-
-				llms_get_template_part( 'loop/content', get_post_type() );
-
-			endwhile;
-
-			/**
-			 * lifterlms_before_loop hook
-			 * @hooked lifterlms_loop_end - 10
-			 */
-			do_action( 'lifterlms_after_loop' );
-
-			echo '<nav class="llms-pagination">';
-			echo paginate_links( array(
-				'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
-				'format'       => '?page=%#%',
-				'total'        => $query->max_num_pages,
-				'current'      => max( 1, get_query_var( 'paged' ) ),
-				'prev_next'    => true,
-				'prev_text'    => '«' . __( 'Previous', 'lifterlms' ),
-				'next_text'    => __( 'Next', 'lifterlms' ) . '»',
-				'type'         => 'list',
-			) );
-			echo '</nav>';
-
-		else :
-
-			llms_get_template( 'loop/none-found.php' );
-
-		endif;
-
-		wp_reset_postdata();
-
-		return ob_get_clean();
-
 	}
 
 	/**
