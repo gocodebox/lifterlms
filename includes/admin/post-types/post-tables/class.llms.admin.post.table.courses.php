@@ -3,7 +3,7 @@
  * Add, Customize, and Manage LifterLMS Course
  *
  * @since    3.3.0
- * @version  3.13.0
+ * @version  3.13.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -30,11 +30,11 @@ class LLMS_Admin_Post_Table_Courses {
 	 * @param    array     $actions  existing actions
 	 * @param    obj       $post     WP_Post object
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  3.13.1
 	 */
 	public function add_links( $actions, $post ) {
 
-		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-clone-post' ) ) {
+		if ( 'course' === $post->post_type && current_user_can( 'edit_course', $post->ID ) ) {
 
 			$url = add_query_arg( array(
 				'page' => 'llms-course-builder',

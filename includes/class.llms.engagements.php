@@ -3,7 +3,7 @@
 * Engagments Class
 * Finds and triggers the appropriate engagement
 * @since    2.3.0
-* @version  [version]
+* @version  3.13.1
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -418,7 +418,7 @@ class LLMS_Engagements {
 	 *         		)
 	 *
 	 * @since    2.3.0
-	 * @version  [version]
+	 * @version  3.13.1
 	 */
 	private function get_engagements( $trigger_type, $related_post_id = '' ) {
 
