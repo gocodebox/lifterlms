@@ -2,7 +2,7 @@
 /**
  * Notification Controller: Quiz Passed
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.13.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -33,7 +33,7 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	 * @param    array   $quiz_data   WP Post ID of a LifterLMS quiz
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.13.1
 	 */
 	public function action_callback( $student_id = null, $quiz_data = null ) {
 
@@ -58,7 +58,11 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 		switch ( $subscriber ) {
 
 			case 'course_author':
-				$uid = $this->course->get( 'author' );
+				if ( $this->course ) {
+					$uid = $this->course->get( 'author' );
+				} else {
+					$uid = $this->quiz->post->post_author;
+				}
 			break;
 
 			case 'student':
