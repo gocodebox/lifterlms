@@ -7476,11 +7476,11 @@ msgstr ""
 msgid "Purchase Receipt"
 msgstr ""
 
-#: includes/notifications/controllers/class.llms.notification.controller.quiz.failed.php:85
+#: includes/notifications/controllers/class.llms.notification.controller.quiz.failed.php:89
 msgid "Quiz Failed"
 msgstr ""
 
-#: includes/notifications/controllers/class.llms.notification.controller.quiz.passed.php:85
+#: includes/notifications/controllers/class.llms.notification.controller.quiz.passed.php:89
 msgid "Quiz Passed"
 msgstr ""
 

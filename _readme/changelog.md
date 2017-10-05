@@ -1,5 +1,14 @@
 == Changelog ==
 
+= v3.13.1 - 2017/10/04 =
+------------------------
+
++ Fix caching issue preventing quiz pass & fail engagements from triggering.
++ Fix issue causing the "Builder" link to display on the lesson post table screen.
++ Fix issue preventing new courses & memberships from being moved from draft -> published.
++ Fix `wpdb->prepare()` empty placeholder issue related to engagement queries. Fixes warning added in WP 4.9.
+
+
 = v3.13.0 - 2017/10/02 =
 ------------------------
 
