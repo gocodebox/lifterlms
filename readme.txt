@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.8.2
-Stable tag: 3.13.0
+Stable tag: 3.13.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -231,6 +231,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Fix issue causing the "Builder" link to display on the lesson post table screen.
 + Fix issue preventing new courses & memberships from being moved from draft -> published.
 + Fix `wpdb->prepare()` empty placeholder issue related to engagement queries. Fixes warning added in WP 4.9.
++ Add better version numbering to static assets to prevent caching issues during plugin updates
 
 
 = v3.13.0 - 2017/10/02 =
