@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Metabox Repeater Field
  * @since    3.11.0
- * @version  3.13.0
+ * @version  3.13.1
  */
 this.repeaters = {
 
@@ -211,7 +211,7 @@ this.repeaters = {
 	 * @param    obj   e  JS event object
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.13.0
+	 * @version  3.13.1
 	 */
 	handle_submit: function( e ) {
 
@@ -235,7 +235,8 @@ this.repeaters = {
 
 				clearInterval( wait );
 				$( '#post' ).off( 'submit', this.handle_submit );
-				$( '#post' ).trigger( 'submit' );
+				$( '#publishing-action .spinner' ).removeClass( 'is-active' );
+				$( '#publish' ).removeClass( 'disabled' ).trigger( 'click' );
 
 			} else {
 
