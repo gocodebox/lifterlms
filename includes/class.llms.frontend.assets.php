@@ -110,6 +110,8 @@ class LLMS_Frontend_Assets {
 
 		global $post_type;
 
+		wp_register_style( 'llms-iziModal', plugins_url( 'assets/vendor/izimodal/iziModal.min.css', LLMS_PLUGIN_FILE ) );
+
 		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.css', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_style( 'lifterlms-styles', plugins_url( '/assets/css/lifterlms' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
@@ -119,7 +121,7 @@ class LLMS_Frontend_Assets {
 		}
 
 		if ( is_llms_account_page() ) {
-			wp_enqueue_style( 'iziModal', plugins_url( 'assets/vendor/izimodal/iziModal.min.css', LLMS_PLUGIN_FILE ) );
+			wp_enqueue_style( 'llms-iziModal' );
 		}
 
 	}
@@ -172,8 +174,9 @@ class LLMS_Frontend_Assets {
 			self::enqueue_inline_pw_script();
 		}
 
+		wp_register_script( 'llms-iziModal', plugins_url( 'assets/vendor/izimodal/iziModal.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '1.5.1', true );
 		if ( is_llms_account_page() ) {
-			wp_enqueue_script( 'iziModal', plugins_url( 'assets/vendor/izimodal/iziModal.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '1.5.1', true );
+			wp_enqueue_script( 'llms-iziModal' );
 		}
 
 		$ssl = is_ssl() ? 'https' : 'http';

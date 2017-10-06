@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 * Front end template functions
 */
 
+require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.dashboard.php';
 require 'functions/llms.functions.templates.loop.php';
 
@@ -1718,46 +1719,4 @@ if ( ! function_exists( 'lifterlms_template_single_reviews' ) ) {
 	function lifterlms_template_single_reviews() {
 		LLMS_Reviews::output();
 	}
-}
-
-
-
-
-/**
- * Get the content of a single achievement
- * @param    obj     $achievement  instance of an LLMS_User_Achievement
- * @return   void
- * @since    [version]
- * @version  [version]
- */
-function llms_get_achievement( $achievement ) {
-
-	ob_start();
-
-	llms_get_template( 'achievements/template.php', array(
-		'achievement' => $achievement,
-	) );
-
-	return ob_get_clean();
-
-}
-	/**
-	 * Output the content of a single achievement
-	 * @param    obj     $achievement  instance of an LLMS_User_Achievement
-	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	function llms_the_achievement( $achievement ) {
-		echo llms_get_achievement( $achievement );
-	}
-
-/**
- * Retrieve the number of columns used in achievement loops
- * @return   int
- * @since    [version]
- * @version  [version]
- */
-function llms_get_achievement_loop_columns() {
-	return apply_filters( 'llms_achievement_loop_columns', 4 );
 }

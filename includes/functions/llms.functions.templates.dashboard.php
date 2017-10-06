@@ -55,14 +55,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 
 		ob_start();
 
-		$achievements = $student->get_achievements( 'updated_date', 'DESC', 'achievements' );
-		if ( $preview && $achievements ) {
-			$achievements = array_slice( $achievements, 0, llms_get_achievement_loop_columns() );
-		}
-
-		llms_get_template( 'achievements/loop.php', array(
-			'achievements' => $achievements,
-		) );
+		$limit = $preview ? llms_get_achievement_loop_columns() : false;
+		lifterlms_template_achievements_loop( $student, $limit );
 
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_achievements',

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 	<?php if ( $achievements ) : ?>
 
-		<ul class="llms-achievements-loop listing-achievements <?php printf( 'loop-cols-%d', llms_get_achievement_loop_columns() ); ?>">
+		<ul class="llms-achievements-loop listing-achievements <?php printf( 'loop-cols-%d', $cols ); ?>">
 
 			<?php foreach ( $achievements as $achievement ) : ?>
 
