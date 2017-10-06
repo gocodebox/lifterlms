@@ -4,7 +4,7 @@
 	 * Main Application Object
 	 * @type     {Object}
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	var App = {
 
@@ -570,7 +570,7 @@
 	/**
 	 * Lesson Model
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	App.Models.Lesson = Backbone.Model.extend( _.defaults( {
 
@@ -580,7 +580,7 @@
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  [version]
 		 */
 		defaults: function() {
 			var order = this.collection ? this.collection.next_order() : 1,
@@ -590,6 +590,9 @@
 				type: 'lesson',
 				order: order,
 				section_id: section_id,
+
+				// computed
+				is_last: false,
 
 				// urls
 				edit_url: '',
@@ -603,8 +606,35 @@
 				is_free: false,
 				prerequisite: false,
 				quiz: false,
+			};
+		},
 
-			}
+		/**
+		 * Initializer
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		initialize: function() {
+
+			// set on init
+			this.set( { is_last: this.is_last() }, { silent: true } );
+
+			// update computed prop when
+			this.on( 'change:order', function() {
+				this.set( { is_last: this.is_last() }, { silent: true } );
+			} );
+
+		},
+
+		/**
+		 * Calculate the "is_last" property based on the lesson's order within the collection
+		 * @return   {Boolean}
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		is_last: function() {
+			return ( this.collection && this.collection.length === this.get( 'order' ) );
 		},
 
 		/**
@@ -640,6 +670,9 @@
 				title: 'New Section',
 				type: 'section',
 				order: order,
+
+				// computed
+				is_last: false,
 			};
 		},
 
@@ -664,13 +697,31 @@
 		},
 
 		/**
+		 * Initiailizer
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		initialize: function() {
+
+			// set on init
+			this.set( { is_last: this.is_last() }, { silent: true } );
+
+			// update is_last computed prop when order changes
+			this.on( 'change:order', function() {
+				this.set( { is_last: this.is_last() }, { silent: true } );
+			} );
+
+		},
+
+		/**
 		 * Determines if the section is the last section in the collection
 		 * @return   {Boolean}
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  [version]
 		 */
 		is_last: function() {
-			return ( this.get( 'order') === this.collection.length );
+			return ( this.collection && this.get( 'order') === this.collection.length );
 		},
 
 	}, App.Mixins.Syncable ) );
@@ -739,7 +790,7 @@
 	/**
 	 * Single Course View
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	App.Views.Course = Backbone.View.extend( _.defaults( {
 
@@ -787,7 +838,7 @@
 		 * Get the underscore template
 		 * @type  {[type]}
 		 */
-		template: _.template( $( '#llms-course-template' ).html() ),
+		template: wp.template( 'llms-course-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
@@ -815,7 +866,7 @@
 	/**
 	 * Single Lesson View
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	App.Views.Lesson = Backbone.View.extend( _.defaults( {
 
@@ -840,9 +891,9 @@
 
 		/**
 		 * DOM Events
-		 * @type    obj
-		 * @since   3.13.0
-		 * @versio  [version]
+		 * @type     obj
+		 * @since    3.13.0
+		 * @version  [version]
 		 */
 		events: _.defaults( {
 			'drop-lesson': 'drop',
@@ -872,7 +923,7 @@
 		 * Get the underscore template
 		 * @type  {[type]}
 		 */
-		template: _.template( $( '#llms-lesson-template' ).html() ),
+		template: wp.template( 'llms-lesson-template' ),
 
 		/**
 		 * Event handler for lesson deletion
@@ -1021,7 +1072,7 @@
 	/**
 	 * Single Section View
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	App.Views.Section = Backbone.View.extend( _.defaults( {
 
@@ -1045,9 +1096,9 @@
 
 		/**
 		 * DOM Events
-		 * @type    obj
-		 * @since   3.13.0
-		 * @versio  [version]
+		 * @type     obj
+		 * @since    3.13.0
+		 * @version  [version]
 		 */
 		events: _.defaults( {
 			'drop-section': 'drop',
@@ -1076,7 +1127,7 @@
 		 * Get the underscore template
 		 * @type  {[type]}
 		 */
-		template: _.template( $( '#llms-section-template' ).html() ),
+		template: wp.template( 'llms-section-template' ),
 
 		/**
 		 * Handles deletion of a section
@@ -1181,7 +1232,7 @@
 		 * Initalizes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  [version]
 		 */
 		render: function() {
 
@@ -1487,7 +1538,7 @@
 	/**
 	 * "Tools" sidebar view
 	 * @since    3.13.0
-	 * @version  3.13.
+	 * @version  [version]
 	 */
 	App.Views.Tutorial = Backbone.View.extend( {
 
@@ -1511,7 +1562,7 @@
 		 * Get the underscore template
 		 * @type  {[type]}
 		 */
-		template: _.template( $( '#llms-builder-tutorial-template' ).html() ),
+		template: wp.template( 'llms-builder-tutorial-template' ),
 
 		is_active: false,
 		current_step: 0,
@@ -1702,5 +1753,8 @@
 			return LLMS.l10n.translate( 'If you leave now your changes may not be saved!' );
 		}
 	} );
+
+	// expose the instance to the window
+	window.llms_builder.Instance = Instance;
 
 } )( jQuery );

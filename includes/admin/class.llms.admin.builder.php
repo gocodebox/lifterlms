@@ -2,7 +2,7 @@
 /**
  * Course Builder
  * @since    3.13.0
- * @version  3.13.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -476,42 +476,42 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    int   $course_id   WP_Post ID of the course
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	private static function templates( $course_id ) {
 
 		$lesson_icons = array(
 			'free' => array(
-				'active' => 'is_free',
+				'active' => 'data.is_free',
 				'icon' => 'unlock',
 				'text_default' => esc_attr__( 'Enrolled students only', 'lifterlms' ),
 				'text_active' => esc_attr__( 'Publicly available', 'lifterlms' ),
 			),
 			'prerequisite' => array(
-				'active' => 'prerequisite',
+				'active' => 'data.prerequisite',
 				'icon' => 'link',
 				'text_default' => esc_attr__( 'No prerequisite', 'lifterlms' ),
-				'text_active' => sprintf( esc_attr__( 'Prerequisite: %s', 'lifterlms' ), '<%- prerequisite.title %>' ),
+				'text_active' => sprintf( esc_attr__( 'Prerequisite: %s', 'lifterlms' ), '{{ data.prerequisite.title }}' ),
 			),
 			'drip' => array(
-				'active' => 'drip_method',
+				'active' => 'data.drip_method',
 				'icon' => 'calendar',
 				'text_default' => esc_attr__( 'No drip delay', 'lifterlms' ),
 				'text_active' => '
-					<% print( LLMS.l10n.translate( "Drip delay" ) + ": " ) %>
-					<% if ( "date" === drip_method ) { print( date_available ) } %>
-					<% if ( "start" === drip_method ) { print( days_before_available + " " + LLMS.l10n.translate( "days after course start date" ) ) } %>
-					<% if ( "enrollment" === drip_method ) { print( days_before_available + " " + LLMS.l10n.translate( "days after enrollment" ) ) } %>
+					<# print( LLMS.l10n.translate( "Drip delay" ) + ": " ) #>
+					<# if ( "date" === data.drip_method ) { print( data.date_available ) } #>
+					<# if ( "start" === data.drip_method ) { print( data.days_before_available + " " + LLMS.l10n.translate( "days after course start date" ) ) } #>
+					<# if ( "enrollment" === data.drip_method ) { print( data.days_before_available + " " + LLMS.l10n.translate( "days after enrollment" ) ) } #>
 				',
 			),
 			'quiz' => array(
-				'active' => 'quiz',
+				'active' => 'data.quiz',
 				'icon' => 'question-circle',
 				'text_default' => esc_attr__( 'No quiz', 'lifterlms' ),
-				'text_active' => sprintf( esc_attr__( 'Quiz: %s', 'lifterlms' ), '<%- quiz.title %>' ),
+				'text_active' => sprintf( esc_attr__( 'Quiz: %s', 'lifterlms' ), '{{ data.quiz.title }}' ),
 			),
 			'content' => array(
-				'active' => 'has_content',
+				'active' => 'data.has_content',
 				'icon' => 'file-text-o',
 				'text_default' => esc_attr__( 'No content', 'lifterlms' ),
 				'text_active' => esc_attr__( 'Has content', 'lifterlms' ),
@@ -519,24 +519,24 @@ if ( ! empty( $active_post_lock ) ) {
 		);
 		?>
 
-		<script type="text/template" id="llms-course-template">
+		<script type="text/html" id="tmpl-llms-course-template">
 			<h1 class="llms-headline">
-				<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="<%= title %>" type="text"><%= title %></span>
+				<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="{{{ data.title }}}" type="text">{{{ data.title }}}</span>
 			</h1>
 			<div class="llms-action-icons">
-				<% if ( edit_url ) { %>
-					<a class="llms-action-icon" href="<%= edit_url %>"><span class="fa fa-pencil"></span></a>
-				<% } %>
-				<a class="llms-action-icon" href="<%= view_url %>"><span class="fa fa-external-link"></span></a>
+				<# if ( data.edit_url ) { #>
+					<a class="llms-action-icon" href="{{{ data.edit_url }}}"><span class="fa fa-pencil"></span></a>
+				<# } #>
+				<a class="llms-action-icon" href="{{{ data.view_url }}}"><span class="fa fa-external-link"></span></a>
 			</div>
 		</script>
 
-		<script type="text/template" id="llms-section-template">
+		<script type="text/html" id="tmpl-llms-section-template">
 			<header class="llms-builder-header">
 				<span class="llms-drag-utility drag-section"></span>
 				<h2 class="llms-headline">
-					<?php echo get_post_type_object( 'section' )->labels->singular_name; ?> <%= order %>:
-					<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="<%= title %>" type="text"><%= title %></span>
+					<?php echo get_post_type_object( 'section' )->labels->singular_name; ?> {{{ data.order }}}:
+					<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="{{{ data.title }}}" type="text">{{{ data.title }}}</span>
 				</h2>
 
 				<div class="llms-action-icons">
@@ -548,16 +548,16 @@ if ( ! empty( $active_post_lock ) ) {
 						<span class="fa fa-minus-circle"></span>
 					</a>
 
-					<% if ( 1 !== order ) { %>
+					<# if ( 1 !== data.order ) { #>
 						<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
 							<span class="fa fa-caret-square-o-up"></span>
 						</a>
-					<% } %>
-					<% if ( this.model.collection && this.model.collection.length !== order ) { %>
+					<# } #>
+					<# if ( ! data.is_last ) { #>
 						<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
 							<span class="fa fa-caret-square-o-down"></span>
 						</a>
-					<% } %>
+					<# } #>
 
 					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
 						<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
@@ -571,7 +571,7 @@ if ( ! empty( $active_post_lock ) ) {
 			<ul class="llms-lessons"></ul>
 		</script>
 
-		<script type="text/html" id="llms-builder-tutorial-template">
+		<script type="text/html" id="tmpl-llms-builder-tutorial-template">
 
 			<h2 class="llms-headline">Drop a section here to get started!</h2>
 			<div class="llms-tutorial-buttons">
@@ -584,50 +584,52 @@ if ( ! empty( $active_post_lock ) ) {
 					<i class="fa fa-book" aria-hidden="true"></i>
 				</a>
 			</div>
+
 		</script>
 
-		<script type="text/html" id="llms-lesson-template">
+		<script type="text/html" id="tmpl-llms-lesson-template">
 			<header class="llms-builder-header">
 				<span class="llms-drag-utility drag-lesson"></span>
 				<h3 class="llms-headline">
-					<?php echo get_post_type_object( 'lesson' )->labels->singular_name; ?> <%= order %>:
-					<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="<%= title %>" type="text"><%= title %></span>
+					<?php echo get_post_type_object( 'lesson' )->labels->singular_name; ?> {{{ data.order }}}:
+					<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="{{{ data.title }}}" type="text">{{{ data.title }}}</span>
 				</h3>
 
 				<div class="llms-action-icons">
 
-					<% if ( edit_url ) { %>
-						<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'Edit lesson settings', 'lifterlms' ); ?>" href="<%= edit_url %>">
+					<# data.section = window.llms_builder.Instance.Syllabus.collection.get( data.section_id ); #>
+
+					<# if ( data.edit_url ) { #>
+						<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'Edit lesson settings', 'lifterlms' ); ?>" href="{{{ data.edit_url }}}">
 							<span class="fa fa-pencil"></span>
 						</a>
-					<% } %>
-					<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'View lesson', 'lifterlms' ); ?>" href="<%= view_url %>">
+					<# } #>
+					<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'View lesson', 'lifterlms' ); ?>" href="{{{ data.view_url }}}">
 						<span class="fa fa-external-link"></span>
 					</a>
 
-					<% if ( 1 !== order ) { %>
+					<# if ( 1 !== data.order ) { #>
 						<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
 							<span class="fa fa-caret-square-o-up"></span>
 						</a>
-					<% } %>
-					<% if ( this.model.collection && this.model.collection.length !== order ) { %>
+					<# } #>
+					<# if ( ! data.is_last ) { #>
 						<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
 							<span class="fa fa-caret-square-o-down"></span>
 						</a>
-					<% } %>
+					<# } #>
 
-
-					<% if ( 1 !== this.model.get_section().get( 'order' ) ) { %>
+					<# if ( 1 !== data.section.get( 'order' ) ) { #>
 						<a class="llms-action-icon section-prev" data-title-default="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>" href="#llms-section-change">
 							<span class="fa fa-arrow-circle-o-up"></span>
 						</a>
-					<% } %>
+					<# } #>
 
-					<% if ( ! this.model.get_section().is_last() ) { %>
+					<# if ( ! data.section.is_last() ) { #>
 						<a class="llms-action-icon section-next" data-title-default="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>" href="#llms-section-change">
 							<span class="fa fa-arrow-circle-o-down"></span>
 						</a>
-					<% } %>
+					<# } #>
 
 					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
 						<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Lesson', 'lifterlms' ); ?>" href="#llms-trash">
@@ -641,7 +643,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 			<div class="llms-info-icons">
 			<?php foreach ( $lesson_icons as $icon => $info ) : ?>
-				<span class="llms-info-icon<% <?php echo $info['active']; ?> ? print( ' active' ) : print( '' ) %>" data-title-active="<?php echo $info['text_active']; ?>" data-title-default="<?php echo $info['text_default']; ?>">
+				<span class="llms-info-icon<# <?php echo $info['active']; ?> ? print( ' active' ) : print( '' ) #>" data-title-active="<?php echo $info['text_active']; ?>" data-title-default="<?php echo $info['text_default']; ?>">
 					<i class="fa fa-<?php echo $info['icon']; ?>" aria-hidden="true"></i>
 				</span>
 			<?php endforeach; ?>
