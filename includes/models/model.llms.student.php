@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.14.0
+ * @version 3.14.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -245,7 +245,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                           	certificates => array of LLMS_User_Achievement instances
 	 * @return   array
 	 * @since    2.4.0
-	 * @version  3.14.0
+	 * @version  3.14.1
 	 */
 	public function get_certificates( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
 
@@ -267,7 +267,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			return $ret;
 		}
 
-		return $r;
+		return $query;
 
 	}
 
