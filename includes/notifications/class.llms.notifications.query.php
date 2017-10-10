@@ -10,7 +10,7 @@
 *  	) );
 *
 * @since    3.8.0
-* @version  3.11.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -238,7 +238,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Retrieve the prepared SQL for the WHERE clause
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.11.0
+	 * @version  [version]
 	 */
 	private function sql_where() {
 
@@ -277,7 +277,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		foreach ( array( 'post_id', 'user_id' ) as $var ) {
 			$arg = $this->get( $var );
 			if ( $arg ) {
-				$where .= $wpdb->prepare( ' AND n.%1$s = %2$d', $var, $arg );
+				$where .= sprintf( ' AND n.%1$s = %2$d', esc_sql( $var ), absint( $arg ) );
 			}
 		}
 
