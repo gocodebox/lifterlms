@@ -4,7 +4,7 @@
 	 * Main Application Object
 	 * @type     {Object}
 	 * @since    3.13.0
-	 * @version  3.14.0
+	 * @version  [version]
 	 */
 	var App = {
 
@@ -1769,8 +1769,28 @@
 		}
 	} );
 
-	// set the height of the fixed builder area
-	$( '.llms-course-builder' ).height( $( window ).height() - 62 ); // @shame magic numbers...
+	/**
+	 * Set the fixed height of the builder area
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	function resize_builder() {
+		$( '.llms-course-builder' ).height( $( window ).height() - 62 ); // @shame magic numbers...
+	}
+
+	var resize_timeout;
+	$( window ).on( 'resize', function() {
+
+		clearTimeout( resize_timeout );
+		resize_timeout = setTimeout( function() {
+			resize_builder();
+		}, 250 );
+
+	} );
+
+	// resize on page load
+	resize_builder();
 
 	// warn during unloads while we're still processing saves
 	$( window ).on( 'beforeunload', function( e ) {
