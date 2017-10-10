@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Front end template functions
 */
 
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 require 'functions/llms.functions.templates.achievements.php';
+require 'functions/llms.functions.templates.certificates.php';
 require 'functions/llms.functions.templates.dashboard.php';
 require 'functions/llms.functions.templates.loop.php';
 
