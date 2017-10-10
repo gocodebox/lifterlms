@@ -64,7 +64,6 @@ abstract class LLMS_Abstract_Database_Store {
 			if ( $this->date_updated ) {
 				$this->set( $this->date_updated, current_time( 'mysql' ), false );
 			}
-
 		}
 
 	}
@@ -130,7 +129,9 @@ abstract class LLMS_Abstract_Database_Store {
 
 		$this->$key = $val;
 		if ( $save ) {
-			$update = array( $key => $val );
+			$update = array(
+				$key => $val,
+			);
 			// if update date supported, add an updated date
 			if ( $this->date_updated ) {
 				$update[ $this->date_updated ] = current_time( 'mysql' );
@@ -281,7 +282,6 @@ abstract class LLMS_Abstract_Database_Store {
 
 		}
 
-
 	}
 
 	/**
@@ -293,7 +293,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 */
 	private function get_column_format( $key ) {
 
-		if ( isset ( $this->columns[ $key ] ) ) {
+		if ( isset( $this->columns[ $key ] ) ) {
 			return $this->columns[ $key ];
 		}
 		return '%s';

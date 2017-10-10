@@ -41,10 +41,8 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	public function get_image_html( $size = array() ) {
 
 		return apply_filters( 'llms_achievement_get_image_html',
-			sprintf( '<img alt="%1$s" class="llms-achievement-img" src="%2$s">',
-				esc_attr( $this->get( 'title' ) ),
-				$this->get_image( $size )
-			), $this );
+			sprintf( '<img alt="%1$s" class="llms-achievement-img" src="%2$s">', esc_attr( $this->get( 'title' ) ), $this->get_image( $size ) ),
+		$this );
 
 	}
 

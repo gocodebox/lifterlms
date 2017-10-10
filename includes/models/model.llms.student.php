@@ -267,7 +267,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			return $ret;
 		}
 
-
 		return $r;
 
 	}

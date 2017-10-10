@@ -3,7 +3,7 @@
  * Tests for LifterLMS Custom Post Types
  * @group    LLMS_Roles
  * @since   3.13.0
- * @version 3.13.0
+ * @version 3.14.0
  */
 class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
@@ -51,7 +51,7 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 		$instructor = $wp_roles->get_role( 'instructor' );
 		foreach ( LLMS_Roles::get_all_core_caps() as $cap ) {
 			$has = $instructor->has_cap( $cap );
-			if ( 'view_lifterlms_reports' === $cap ) {
+			if ( in_array( $cap, array( 'view_lifterlms_reports', 'lifterlms_instructor' ) ) ) {
 				$this->assertTrue( $has );
 			} else {
 				$this->assertFalse( $has );

@@ -135,7 +135,7 @@ add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_st
 	add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_certificates', 30 );
 		add_action( 'llms_achievement_content', 'llms_the_achievement', 10 );
 		add_action( 'llms_certificate_preview', 'llms_the_certificate_preview', 10 );
- 	add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_memberships', 40 );
+		add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_memberships', 40 );
 
 add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
 

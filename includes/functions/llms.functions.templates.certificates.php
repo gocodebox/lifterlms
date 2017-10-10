@@ -30,9 +30,9 @@ function llms_get_certificate_preview( $certificate ) {
 	 * @since    3.14.0
 	 * @version  3.14.0
 	 */
-	function llms_the_certificate_preview( $certificate ) {
-		echo llms_get_certificate_preview( $certificate );
-	}
+function llms_the_certificate_preview( $certificate ) {
+	echo llms_get_certificate_preview( $certificate );
+}
 
 /**
  * Retrieve the number of columns used in certificates loops

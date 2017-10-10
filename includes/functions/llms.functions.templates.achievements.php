@@ -29,9 +29,9 @@ function llms_get_achievement( $achievement ) {
 	 * @since    3.14.0
 	 * @version  3.14.0
 	 */
-	function llms_the_achievement( $achievement ) {
-		echo llms_get_achievement( $achievement );
-	}
+function llms_the_achievement( $achievement ) {
+	echo llms_get_achievement( $achievement );
+}
 
 /**
  * Retrieve the number of columns used in achievement loops

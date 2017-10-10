@@ -177,7 +177,7 @@ class LLMS_Student_Dashboard {
 	 */
 	public static function output_courses_content() {
 
-		llms_deprecated_function( 'LLMS_Student_Dashboard::output_courses_content()', '3.14.0', "lifterlms_template_student_dashboard_my_courses( false )" );
+		llms_deprecated_function( 'LLMS_Student_Dashboard::output_courses_content()', '3.14.0', 'lifterlms_template_student_dashboard_my_courses( false )' );
 		lifterlms_template_student_dashboard_my_courses( false );
 
 	}
@@ -191,7 +191,7 @@ class LLMS_Student_Dashboard {
 	 */
 	public static function output_dashboard_content() {
 
-		llms_deprecated_function( 'LLMS_Student_Dashboard::output_dashboard_content()', '3.14.0', "lifterlms_template_student_dashboard_home()" );
+		llms_deprecated_function( 'LLMS_Student_Dashboard::output_dashboard_content()', '3.14.0', 'lifterlms_template_student_dashboard_home()' );
 		lifterlms_template_student_dashboard_home();
 
 	}

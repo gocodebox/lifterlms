@@ -3,6 +3,7 @@
 v3.14.0 - 2017/10/10
 --------------------
 
++ Updated JS for 3.13 course builder to address issues on PHP 5.6 servers with asp_tags enabled
 + Normalized date returns with various dates related to enrollments, achievements, and certificates. These dates now utilize the WP Core `date_format` option.
 + Fixed strict comparison issue related to database query abstract (affected checks for last page & first page on admin reporting screens)
 + Added a new capability `llms_instructor` for admins, lms managers, instructors, and instructor's assistant to easily differentiate "instructors" from "students"

@@ -73,10 +73,10 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
 
-		}
+		}// End if().
 
 	}
-}
+}// End if().
 
 /**
  * Get course tiles for a student's courses
@@ -126,7 +126,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 		}
 
 	}
-}
+}// End if().
 
 
 /**
@@ -171,7 +171,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 		if ( $preview ) {
 			$more = array(
 				'url' => llms_get_endpoint_url( 'view-achievements', '', llms_get_page_url( 'myaccount' ) ),
-				'text' => __( 'View All My Achievements', 'lifterlms' )
+				'text' => __( 'View All My Achievements', 'lifterlms' ),
 			);
 		}
 
@@ -238,7 +238,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		if ( $preview ) {
 			$more = array(
 				'url' => llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ),
-				'text' => __( 'View All My Courses', 'lifterlms' )
+				'text' => __( 'View All My Courses', 'lifterlms' ),
 			);
 		}
 
@@ -254,7 +254,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		) );
 
 	}
-
 }
 
 /**
@@ -283,7 +282,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 		) );
 
 	}
-
 }
 
 /**
