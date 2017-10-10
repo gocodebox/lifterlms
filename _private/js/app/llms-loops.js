@@ -1,7 +1,9 @@
 /* global LLMS, $ */
 
 /**
- * Handle Lesson Preview Elements
+ * LifterLMS Loops JS
+ * @since    3.0.0
+ * @version  [versino]
  */
 LLMS.Loops = {
 
@@ -35,6 +37,7 @@ LLMS.Loops = {
 
 		$( '.llms-loop-item .llms-loop-item-content' ).matchHeight();
 		$( '.llms-achievement-loop-item .llms-achievement' ).matchHeight();
+		$( '.llms-certificate-loop-item .llms-certificate' ).matchHeight();
 
 	},
 
