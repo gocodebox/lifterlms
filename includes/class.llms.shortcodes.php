@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  3.14.0
+* @version  3.14.1
 */
 class LLMS_Shortcodes {
 
@@ -29,6 +29,7 @@ class LLMS_Shortcodes {
 			'LLMS_Shortcode_Hide_Content',
 			'LLMS_Shortcode_Lesson_Mark_Complete',
 			'LLMS_Shortcode_Membership_Link',
+			'LLMS_Shortcode_My_Achievements',
 			'LLMS_Shortcode_Registration',
 		) );
 
@@ -56,7 +57,6 @@ class LLMS_Shortcodes {
 		$shortcodes = array(
 			'lifterlms_access_plan_button' => __CLASS__ . '::access_plan_button',
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
-			'lifterlms_my_achievements' => __CLASS__ . '::my_achievements',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
 			'lifterlms_course_info' => __CLASS__ . '::course_info',
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
@@ -306,27 +306,6 @@ class LLMS_Shortcodes {
 		return ob_get_clean();
 
 	}
-
-
-
-
-	public static function my_achievements( $atts ) {
-
-		extract( shortcode_atts( array(
-			'count' => null,
-			'user_id' => 0,
-		), $atts, 'lifterlms_my_achievements' ) );
-
-		ob_start();
-
-		include( llms_get_template_part_contents( 'myaccount/my', 'achievements' ) );
-
-		$html = ob_get_clean();
-
-		return $html;
-	}
-
-
 
 	/**
 	* Checkout shortcode.

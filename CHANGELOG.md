@@ -1,5 +1,12 @@
 == Changelog ==
 
+v3.14.1 - 2017/10/10
+--------------------
+
++ Fix `[lifterlms_my_achievements]` shortcode
++ Fix reference to deprecated core function related to checking the permissions of content restricted to a membership
+
+
 v3.14.0 - 2017/10/10
 --------------------
 

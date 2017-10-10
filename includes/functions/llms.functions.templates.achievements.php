@@ -1,8 +1,12 @@
 <?php
 /**
  * Achievements & Related template functions
+ * @since    3.14.0
+ * @version  3.14.1
  */
 
+// Restrict direct access
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Get the content of a single achievement
@@ -48,12 +52,13 @@ function llms_get_achievement_loop_columns() {
  * Get template for achievements loop
  * @param    obj       $student  LLMS_Student (uses current if none supplied)
  * @param    bool|int  $limit    number of achievements to show (defaults to all)
+ * @param    int       $columns  number of achievements columns
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  3.14.1
  */
 if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
-	function lifterlms_template_achievements_loop( $student = null, $limit = false ) {
+	function lifterlms_template_achievements_loop( $student = null, $limit = false, $columns = null ) {
 
 		// get the current student if none supplied
 		if ( ! $student ) {
@@ -65,13 +70,12 @@ if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 			return;
 		}
 
-		$cols = llms_get_achievement_loop_columns();
-
+		$cols = $columns ? $columns : llms_get_achievement_loop_columns();
 		// get achievements
 		$achievements = $student->get_achievements( 'updated_date', 'DESC', 'achievements' );
 		if ( $limit && $achievements ) {
 			$achievements = array_slice( $achievements, 0, $limit );
-			if ( $limit < $cols ) {
+			if ( $limit < $cols && ! $columns ) {
 				$cols = $limit;
 			}
 		}
