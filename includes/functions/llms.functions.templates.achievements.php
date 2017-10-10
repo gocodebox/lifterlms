@@ -44,16 +44,15 @@ function llms_get_achievement_loop_columns() {
 }
 
 
+/**
+ * Get template for achievements loop
+ * @param    obj       $student  LLMS_Student (uses current if none supplied)
+ * @param    bool|int  $limit    number of achievements to show (defaults to all)
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
 if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
-
-	/**
-	 * Get template for achievements loop
-	 * @param    obj       $student  LLMS_Student (uses current if none supplied)
-	 * @param    bool|int  $limit    number of achievements to show (defaults to all)
-	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
-	 */
 	function lifterlms_template_achievements_loop( $student = null, $limit = false ) {
 
 		// get the current student if none supplied
@@ -77,12 +76,10 @@ if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 			}
 		}
 
-
 		llms_get_template( 'achievements/loop.php', array(
 			'cols' => $cols,
 			'achievements' => $achievements,
 		) );
 
 	}
-
 }

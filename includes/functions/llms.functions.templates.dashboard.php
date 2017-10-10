@@ -8,6 +8,128 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
+ * Get course tiles for a student's courses
+ * @param    obj        $student  LLMS_Student (current student if none supplied)
+ * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
+	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
+
+		$student = llms_get_student( $student );
+		if ( ! $student ) {
+			return;
+		}
+
+		$courses = $student->get_courses( array(
+			'limit' => 500,
+		) );
+
+		if ( ! $courses['results'] ) {
+
+			printf( '<p>%s</p>', __( 'You are not enrolled in any courses.', 'lifterlms' ) );
+
+		} else {
+
+			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
+			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
+
+			// get sorting option
+			$option = get_option( 'lifterlms_myaccount_courses_in_progress_sorting', 'date,DESC' );
+			// parse to order & orderby
+			$option = explode( ',', $option );
+			$orderby = ! empty( $option[0] ) ? $option[0] : 'date';
+			$order = ! empty( $option[1] ) ? $option[1] : 'DESC';
+
+			// enrollment date will obey the results order
+			if ( 'date' === $orderby ) {
+				$orderby = 'post__in';
+			}
+
+			$per_page = apply_filters( 'llms_dashboard_courses_per_page', get_option( 'lifterlms_shop_courses_per_page', 9 ) );
+			if ( $preview ) {
+				$per_page = apply_filters( 'llms_dashboard_recent_courses_count', llms_get_loop_columns() );
+			}
+
+			$query = new WP_Query( array(
+				'paged' => get_query_var( 'paged' ),
+				'orderby' => $orderby,
+				'order' => $order,
+				'post__in' => $courses['results'],
+				'post_status' => 'publish',
+				'post_type' => 'course',
+				'posts_per_page' => $per_page,
+			) );
+
+			// prevent pagination on the preview
+			if ( $preview ) {
+				$query->max_num_pages = 1;
+			}
+
+			lifterlms_loop( $query );
+
+			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
+			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
+
+		}
+
+	}
+}
+
+/**
+ * Get course tiles for a student's courses
+ * @param    obj        $student  LLMS_Student (current student if none supplied)
+ * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
+	function lifterlms_template_my_memberships_loop( $student = null ) {
+
+		$student = llms_get_student( $student );
+		if ( ! $student ) {
+			return;
+		}
+
+		$memberships = $student->get_membership_levels();
+
+		ob_start();
+
+		if ( ! $memberships ) {
+
+			printf( '<p>%s</p>', __( 'You are not enrolled in any memberships.', 'lifterlms' ) );
+
+		} else {
+
+			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
+			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
+
+			$query = new WP_Query( array(
+				'orderby' => 'title',
+				'order' => 'ASC',
+				'post__in' => $memberships,
+				'post_status' => 'publish',
+				'post_type' => 'llms_membership',
+				'posts_per_page' => llms_get_loop_columns(),
+			) );
+
+			$query->max_num_pages = 1; // prevent pagination here
+
+			lifterlms_loop( $query );
+
+			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
+			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
+
+		}
+
+	}
+}
+
+
+/**
  * Main dashboard homepage template
  * @return void
  * @since    [version]
@@ -70,6 +192,35 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 }
 
 /**
+ * Template for My Certificates on dashboard
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' ) ) {
+	function lifterlms_template_student_dashboard_my_certificates( $preview = false ) {
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			return;
+		}
+
+		ob_start();
+
+		lifterlms_template_certificates_loop( $student );
+
+		llms_get_template( 'myaccount/dashboard-section.php', array(
+			'action' => 'my_certificates',
+			'slug' => 'llms-my-certificates',
+			'title' => __( 'My Certificates', 'lifterlms' ),
+			'content' => ob_get_clean(),
+			'more' => false,
+		) );
+
+	}
+}
+
+/**
  * Template for My Courses section on dashboard index
  * @return   void
  * @since    [version]
@@ -83,74 +234,27 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 			return;
 		}
 
-		$courses = $student->get_courses( array(
-			'limit' => apply_filters( 'llms_dashboard_recent_courses_count', 500 ),
-		) );
 		$more = false;
+		if ( $preview ) {
+			$more = array(
+				'url' => llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ),
+				'text' => __( 'View All My Courses', 'lifterlms' )
+			);
+		}
 
 		ob_start();
-
-		if ( ! $courses['results'] ) {
-
-			printf( '<p>%s</p>', __( 'You are not enrolled in any courses.', 'lifterlms' ) );
-
-		} else {
-
-			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
-			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
-
-			// get sorting option
-			$option = get_option( 'lifterlms_myaccount_courses_in_progress_sorting', 'date,DESC' );
-			// parse to order & orderby
-			$option = explode( ',', $option );
-			$orderby = ! empty( $option[0] ) ? $option[0] : 'date';
-			$order = ! empty( $option[1] ) ? $option[1] : 'DESC';
-
-			// enrollment date will obey the results order
-			if ( 'date' === $orderby ) {
-				$orderby = 'post__in';
-			}
-
-			$per_page = apply_filters( 'llms_dashboard_courses_per_page', get_option( 'lifterlms_shop_courses_per_page', 9 ) );
-			if ( $preview ) {
-				$per_page = apply_filters( 'llms_dashboard_recent_courses_count', llms_get_loop_columns() );
-			}
-
-			$query = new WP_Query( array(
-				'paged' => get_query_var( 'paged' ),
-				'orderby' => $orderby,
-				'order' => $order,
-				'post__in' => $courses['results'],
-				'post_status' => 'publish',
-				'post_type' => 'course',
-				'posts_per_page' => $per_page,
-			) );
-
-			// prevent pagination on the preview
-			if ( $preview ) {
-				$query->max_num_pages = 1;
-				$more = array(
-					'url' => llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ),
-					'text' => __( 'View All My Courses', 'lifterlms' )
-				);
-			}
-
-			lifterlms_loop( $query );
-
-			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
-			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
-
-		}
+		lifterlms_template_my_courses_loop( $student, $preview );
 
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_courses',
 			'slug' => 'llms-my-courses',
 			'title' => __( 'My Courses', 'lifterlms' ),
 			'content' => ob_get_clean(),
-			'more' => $more
+			'more' => $more,
 		) );
 
 	}
+
 }
 
 /**
@@ -167,36 +271,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 			return;
 		}
 
-		$memberships = $student->get_membership_levels();
-
 		ob_start();
-
-		if ( ! $memberships ) {
-
-			printf( '<p>%s</p>', __( 'You are not enrolled in any memberships.', 'lifterlms' ) );
-
-		} else {
-
-			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
-			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
-
-			$query = new WP_Query( array(
-				'orderby' => 'title',
-				'order' => 'ASC',
-				'post__in' => $memberships,
-				'post_status' => 'publish',
-				'post_type' => 'llms_membership',
-				'posts_per_page' => llms_get_loop_columns(),
-			) );
-
-			$query->max_num_pages = 1; // prevent pagination here
-
-			lifterlms_loop( $query );
-
-			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
-			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
-
-		}
+		lifterlms_template_my_memberships_loop( $student );
 
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_memberships',
