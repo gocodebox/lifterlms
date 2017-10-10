@@ -179,6 +179,7 @@ class LLMS_Student_Dashboard {
 
 		llms_deprecated_function( 'LLMS_Student_Dashboard::output_courses_content()', '3.14.0', "lifterlms_template_student_dashboard_my_courses( false )" );
 		lifterlms_template_student_dashboard_my_courses( false );
+
 	}
 
 	/**
@@ -290,6 +291,7 @@ class LLMS_Student_Dashboard {
 		}// End if().
 
 		llms_get_template( 'myaccount/my-notifications.php', $args );
+
 	}
 
 	/**
