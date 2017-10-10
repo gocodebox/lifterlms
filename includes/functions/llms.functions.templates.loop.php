@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -53,8 +53,8 @@ function lifterlms_loop( $query = null ) {
 /**
  * Retrieve the number of columns for llms loops
  * @return   int
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 function llms_get_loop_columns() {
 	return absint( apply_filters( 'lifterlms_loop_columns', 3 ) );
@@ -65,7 +65,7 @@ function llms_get_loop_columns() {
  * Used in templates/loop/loop-start.php
  * @return   string
  * @since    3.0.0
- * @version  [version]
+ * @version  3.14.0
  */
 function llms_get_loop_list_classes() {
 

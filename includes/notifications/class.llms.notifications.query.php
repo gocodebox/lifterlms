@@ -10,7 +10,7 @@
 *  	) );
 *
 * @since    3.8.0
-* @version  [version]
+* @version  3.14.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -238,7 +238,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Retrieve the prepared SQL for the WHERE clause
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	private function sql_where() {
 

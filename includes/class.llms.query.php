@@ -4,7 +4,7 @@
 *
 * Handles queries and endpoints
 * @since   1.0.0
-* @version [version]
+* @version 3.14.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -217,8 +217,8 @@ class LLMS_Query {
 	 * Handles setting the "paged" variable on Student Dashboard endpoints
 	 * which utilize page/{n} style pagination
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function set_dashboard_pagination() {
 

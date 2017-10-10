@@ -4,16 +4,16 @@
 /**
  * Front End Achievements
  * @type     {Object}
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 LLMS.Achievements = {
 
 	/**
 	 * Init
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	init: function() {
 
@@ -31,8 +31,8 @@ LLMS.Achievements = {
 	/**
 	 * Bind DOM events
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	bind: function() {
 
@@ -64,8 +64,8 @@ LLMS.Achievements = {
 	 * Creates modal a modal for an achiemvement
 	 * @param    obj   $el  jQuery selector for the modal card
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	create_modal: function( $el ) {
 
@@ -105,8 +105,8 @@ LLMS.Achievements = {
 	/**
 	 * On page load, opens a modal if the URL contains an achievement in the location hash
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	maybe_open: function() {
 

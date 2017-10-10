@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version [version]
+ * @version 3.14.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,8 +15,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve an instance of the LLMS_Instructor model for the current user
 	 * @return   obj|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function instructor() {
 		if ( $this->is_instructor() ) {
@@ -143,7 +143,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                           	achievements => array of LLMS_User_Achievement instances
 	 * @return   array
 	 * @since    2.4.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	public function get_achievements( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
 
@@ -245,7 +245,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                           	certificates => array of LLMS_User_Achievement instances
 	 * @return   array
 	 * @since    2.4.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	public function get_certificates( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
 
@@ -459,7 +459,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param   string $format      date format as accepted by php date(), if none supplied uses the WP core "date_format" option
 	 * @return  false|string        will return false if the user is not enrolled
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.14.0
 	 */
 	public function get_enrollment_date( $product_id, $date = 'enrolled', $format = null ) {
 
@@ -976,7 +976,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $format  any date format that can be passed to date()
 	 * @return   string
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	public function get_registration_date( $format = '' ) {
 
@@ -1018,8 +1018,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Determine if the student is active in at least one course or membership
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function is_active() {
 
@@ -1093,8 +1093,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Determine if the student is a LifterLMS Instructor (of any kind)
 	 * Can be admin, manager, instructor, assistant
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function is_instructor() {
 		return $this->user->has_cap( 'lifterlms_instructor' );

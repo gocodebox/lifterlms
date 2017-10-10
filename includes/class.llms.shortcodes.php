@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.14.0
 */
 class LLMS_Shortcodes {
 

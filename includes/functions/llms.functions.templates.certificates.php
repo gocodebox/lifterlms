@@ -9,8 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Get the content of a single certificates
  * @param    obj     $certificate  instance of an LLMS_User_Achievement
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 function llms_get_certificate_preview( $certificate ) {
 
@@ -27,8 +27,8 @@ function llms_get_certificate_preview( $certificate ) {
 	 * Output the content of a single certificate
 	 * @param    obj     $certificate  instance of an LLMS_User_Achievement
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	function llms_the_certificate_preview( $certificate ) {
 		echo llms_get_certificate_preview( $certificate );
@@ -37,8 +37,8 @@ function llms_get_certificate_preview( $certificate ) {
 /**
  * Retrieve the number of columns used in certificates loops
  * @return   int
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 function llms_get_certificates_loop_columns() {
 	return apply_filters( 'llms_certificates_loop_columns', 5 );
@@ -50,8 +50,8 @@ function llms_get_certificates_loop_columns() {
  * @param    obj       $student  LLMS_Student (uses current if none supplied)
  * @param    bool|int  $limit    number of certificates to show (defaults to all)
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 	function lifterlms_template_certificates_loop( $student = null, $limit = false ) {

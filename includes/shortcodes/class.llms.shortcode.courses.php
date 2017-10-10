@@ -4,8 +4,8 @@
  *
  * [lifterlms_courses]
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -22,8 +22,8 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	protected function get_default_attributes() {
 		return array(
@@ -41,8 +41,8 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	/**
 	 * Retrieve an array of post ids based on submitted ID parameter and the mine parameter
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	private function get_post__in() {
 
@@ -73,8 +73,8 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	/**
 	 * Retrieve the tax query based on submitted category & visibility
 	 * @return   array|string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	private function get_tax_query() {
 
@@ -122,8 +122,8 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	/**
 	 * Retrieve a WP_Query based on all submitted parameters
 	 * @return   WP_Query
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	private function get_wp_query() {
 
@@ -149,8 +149,8 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	protected function get_output() {
 

@@ -23,8 +23,8 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	 * Retrieve the date the achievement was earned (created)
 	 * @param    string     $format  date format string
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function get_earned_date( $format = null ) {
 		$format = $format ? $format : get_option( 'date_format' );
@@ -35,8 +35,8 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	 * Retrieve the HTML <img> for the achievement
 	 * @param    array      $size  dimensions of the image to return (width x height)
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function get_image_html( $size = array() ) {
 
@@ -52,8 +52,8 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	 * Retrieve the image source for the achievement
 	 * @param    array      $size  dimensions of the image to return (width x height)
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function get_image( $size = array(), $key = 'achievement_image' ) {
 

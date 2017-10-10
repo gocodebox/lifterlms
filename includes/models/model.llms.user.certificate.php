@@ -2,7 +2,7 @@
 /**
  * LifterLMS User Certificate
  * @since    3.8.0
- * @version  [version]
+ * @version  3.14.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -23,8 +23,8 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 * Retrieve the date the achievement was earned (created)
 	 * @param    string     $format  date format string
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function get_earned_date( $format = null ) {
 		$format = $format ? $format : get_option( 'date_format' );

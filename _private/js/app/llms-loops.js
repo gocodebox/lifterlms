@@ -31,7 +31,7 @@ LLMS.Loops = {
 	 * Match the height of .llms-loop-item
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	match_height: function() {
 

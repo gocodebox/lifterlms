@@ -2,7 +2,7 @@
 /**
  * The Template for displaying course archive pagination
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.0
  */
 
 global $wp_query;

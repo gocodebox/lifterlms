@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  [version]
+ * @version  3.14.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    obj        $student  LLMS_Student (current student if none supplied)
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
@@ -83,8 +83,8 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
  * @param    obj        $student  LLMS_Student (current student if none supplied)
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 	function lifterlms_template_my_memberships_loop( $student = null ) {
@@ -132,8 +132,8 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 /**
  * Main dashboard homepage template
  * @return void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_home' ) ) {
 	function lifterlms_template_student_dashboard_home() {
@@ -156,8 +156,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_header' ) ) {
 /**
  * Template for My Achievements on dashboard
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' ) ) {
 	function lifterlms_template_student_dashboard_my_achievements( $preview = false ) {
@@ -194,8 +194,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 /**
  * Template for My Certificates on dashboard
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' ) ) {
 	function lifterlms_template_student_dashboard_my_certificates( $preview = false ) {
@@ -223,8 +223,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 /**
  * Template for My Courses section on dashboard index
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 	function lifterlms_template_student_dashboard_my_courses( $preview = false ) {
@@ -260,8 +260,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 /**
  * Template for My Memberships section on dashboard index
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) ) {
 	function lifterlms_template_student_dashboard_my_memberships() {
@@ -302,7 +302,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_navigation' ) ) {
  * Dashboard title template
  * @return void
  * @since    3.0.0
- * @version  [version]
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_title' ) ) {
 	function lifterlms_template_student_dashboard_title() {

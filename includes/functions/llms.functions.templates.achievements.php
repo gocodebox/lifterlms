@@ -8,8 +8,8 @@
  * Get the content of a single achievement
  * @param    obj     $achievement  instance of an LLMS_User_Achievement
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 function llms_get_achievement( $achievement ) {
 
@@ -26,8 +26,8 @@ function llms_get_achievement( $achievement ) {
 	 * Output the content of a single achievement
 	 * @param    obj     $achievement  instance of an LLMS_User_Achievement
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	function llms_the_achievement( $achievement ) {
 		echo llms_get_achievement( $achievement );
@@ -36,8 +36,8 @@ function llms_get_achievement( $achievement ) {
 /**
  * Retrieve the number of columns used in achievement loops
  * @return   int
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 function llms_get_achievement_loop_columns() {
 	return apply_filters( 'llms_achievement_loop_columns', 4 );
@@ -49,8 +49,8 @@ function llms_get_achievement_loop_columns() {
  * @param    obj       $student  LLMS_Student (uses current if none supplied)
  * @param    bool|int  $limit    number of achievements to show (defaults to all)
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 	function lifterlms_template_achievements_loop( $student = null, $limit = false ) {

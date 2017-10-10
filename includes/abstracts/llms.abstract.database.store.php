@@ -1,8 +1,8 @@
 <?php
 /**
  * WPDB database interactions
- * @since    [version]
- * @version  [version]
+ * @since    3.14.0
+ * @version  3.14.0
  */
 
 // Restrict direct access
@@ -49,8 +49,8 @@ abstract class LLMS_Abstract_Database_Store {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function __construct() {
 
@@ -73,8 +73,8 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Get object data
 	 * @param    string     $key  key to retrieve
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function __get( $key ) {
 
@@ -87,8 +87,8 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    string     $key    key to retrieve
 	 * @param    boolean    $cache  if true, save data to to the object for future gets
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function get( $key, $cache = true ) {
 
@@ -108,8 +108,8 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    string    $key  column name
 	 * @param    mixed     $val  column value
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function __set( $key, $val ) {
 
@@ -123,8 +123,8 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    mixed      $val   column value
 	 * @param    boolean    $save  if true, immediately persists to database
 	 * @return   self
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function set( $key, $val, $save = false ) {
 
@@ -146,8 +146,8 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Setup an object with an array of data
 	 * @param    array     $data  key => val
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function setup( $data ) {
 
@@ -160,8 +160,8 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Create the item in the database
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	private function create() {
 
@@ -182,8 +182,8 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Delete the object from the database
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function delete() {
 
@@ -207,8 +207,8 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Read object data from the database
 	 * @param    array|string  $keys   key name (or array of keys) to retrieve from the database
 	 * @return   array|false           key=>val array of data or false when record not found
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	private function read( $keys ) {
 
@@ -225,8 +225,8 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Update object data in the database
 	 * @param    array     $data  data to update as key=>val
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	private function update( $data ) {
 
@@ -241,8 +241,8 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Load the whole object from the database
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	protected function hydrate() {
 
@@ -261,8 +261,8 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Save object to the database
 	 * Creates is it doesn't already exist, updates if it does
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function save() {
 
@@ -288,8 +288,8 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Retrieve the format for a column
 	 * @param    string    $key  column name
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	private function get_column_format( $key ) {
 
@@ -303,8 +303,8 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Get the ID of the object
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function get_id() {
 		return $this->id;
@@ -313,8 +313,8 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Get the table Name
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	private function get_table() {
 
@@ -326,8 +326,8 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Retrive object as an array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.0
+	 * @version  3.14.0
 	 */
 	public function to_array() {
 

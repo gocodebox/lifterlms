@@ -2,7 +2,7 @@
 /**
  * My Account page
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

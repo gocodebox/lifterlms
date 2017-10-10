@@ -2,8 +2,8 @@
 /**
  * LifterLMS Loop Enrollment Date
  *
- * @since   [version]
- * @version [version]
+ * @since   3.14.0
+ * @version 3.14.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
