@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 ?>
 
-<a class="llms-achievement" data-id="<?php echo $achievement->get( 'id' ); ?>" href="#<?php printf( 'llms-achievement-modal-%d', $achievement->get( 'id' ) ); ?>" id="<?php printf( 'llms-achievement-%d', $achievement->get( 'id' ) ); ?>">
+<a class="llms-achievement" data-id="<?php echo $achievement->get( 'id' ); ?>" href="#<?php printf( 'achievement-%d', $achievement->get( 'id' ) ); ?>" id="<?php printf( 'llms-achievement-%d', $achievement->get( 'id' ) ); ?>">
 
 	<?php do_action( 'lifterlms_before_achievement', $achievement ); ?>
 

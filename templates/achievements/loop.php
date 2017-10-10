@@ -31,4 +31,4 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 	<?php endif; ?>
 
-<?php do_action( 'llms_before_achievement_loop' ); ?>
+<?php do_action( 'llms_after_achievement_loop' ); ?>
