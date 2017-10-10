@@ -3,6 +3,13 @@
 v3.14.1 - 2017/10/10
 --------------------
 
++ Instructor query utilizes correct `$wpdb->prefix` for filtering by role instead of `wp_` which will not work when the `$table_prefix` in wp-config.php is customized
++ include the admin notices class when running database update functions
+
+
+v3.14.1 - 2017/10/10
+--------------------
+
 + Fix `[lifterlms_my_achievements]` shortcode
 + Fix reference to deprecated core function related to checking the permissions of content restricted to a membership
 + Builder titles will be saved on all field focusout/blur events, not just tab & enter key presses

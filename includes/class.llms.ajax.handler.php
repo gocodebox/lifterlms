@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.13.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -294,7 +294,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @return   json
 	 * @since    ??
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public static function query_students() {
 
@@ -330,7 +330,7 @@ class LLMS_AJAX_Handler {
 
 			$roles_sql = "JOIN $wpdb->usermeta AS roles
 							ON $wpdb->users.ID = roles.user_id
-						   AND roles.meta_key = 'wp_capabilities'
+						   AND roles.meta_key = '{$wpdb->prefix}capabilities'
 						   AND ( $roles_sql )
 						";
 		}
