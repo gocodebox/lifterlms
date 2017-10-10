@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.8.2
-Stable tag: 3.14.0
+Stable tag: 3.14.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -223,6 +223,15 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+= v3.14.1 - 2017/10/10 =
+------------------------
+
++ Fix `[lifterlms_my_achievements]` shortcode
++ Fix reference to deprecated core function related to checking the permissions of content restricted to a membership
++ Builder titles will be saved on all field focusout/blur events, not just tab & enter key presses
++ LifterLMS custom meta save metaboxes will not trigger actions during ajax requests
+
 
 = v3.14.0 - 2017/10/10 =
 ------------------------
