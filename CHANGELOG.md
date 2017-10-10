@@ -37,6 +37,12 @@ v3.14.0 - 2017/10/10
 + [myaccount/dashboard.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard.php)
 + [myaccount/header.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/header.php)
 
+##### Deleted Templates
+
++ /myaccount/my-achievements.php
++ /myaccount/my-courses.php
++ /myaccount/my-memberships.php
+
 
 v3.13.1 - 2017/10/04
 --------------------
