@@ -7030,7 +7030,7 @@ msgstr ""
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:280
+#: includes/functions/llms.functions.templates.dashboard.php:279
 msgid "My Memberships"
 msgstr ""
 
@@ -7412,17 +7412,17 @@ msgstr ""
 msgid "Passed"
 msgstr ""
 
-#: includes/models/model.llms.student.php:596
+#: includes/models/model.llms.student.php:595
 msgctxt "course grade when no quizzes taken or in course"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:617
+#: includes/models/model.llms.student.php:616
 msgctxt "lesson grade when lesson has no quiz"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:724
+#: includes/models/model.llms.student.php:723
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""

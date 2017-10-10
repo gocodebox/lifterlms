@@ -3,6 +3,7 @@
 = v3.14.0 - 2017/10/10 =
 ------------------------
 
++ Updated JS for 3.13 course builder to address issues on PHP 5.6 servers with asp_tags enabled
 + Normalized date returns with various dates related to enrollments, achievements, and certificates. These dates now utilize the WP Core `date_format` option.
 + Fixed strict comparison issue related to database query abstract (affected checks for last page & first page on admin reporting screens)
 + Added a new capability `llms_instructor` for admins, lms managers, instructors, and instructor's assistant to easily differentiate "instructors" from "students"
@@ -12,11 +13,35 @@
 
 + Achievements on student dashboard now viewable in popover modal.
 + Achievements tab added to student dashboard
++ Courses, Memberships, Achievements, and Certificates have been updated to have a unified style
++ Courses & Memberships extend the default catalog tiles
++ Courses shortcode has new parameters useful for displaying a list of a specific users courses only. [More info](https://lifterlms.com/docs/shortcodes/#lifterlms_courses)
 
 ##### Deprecated functions
 
 + `LLMS_Student_Dashboard::output_courses_content()` replaced with `lifterlms_template_student_dashboard_my_courses( false )`
 + `LLMS_Student_Dashboard::output_dashboard_content` replaced with `lifterlms_template_student_dashboard_home()`
+
+##### Template Updates
+
++ [achievements/loop.php](https://github.com/gocodebox/lifterlms/blob/master/templates/achievements/loop.php)
++ [achievements/template.php](https://github.com/gocodebox/lifterlms/blob/master/templates/achievements/template.php)
++ [certificates/loop.php](https://github.com/gocodebox/lifterlms/blob/master/templates/certificates/loop.php)
++ [certificates/preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/certificates/preview.php)
++ [loop.php](https://github.com/gocodebox/lifterlms/blob/master/templates/loop.php)
++ [loop/content.php](https://github.com/gocodebox/lifterlms/blob/master/templates/loop/content.php)
++ [loop/enroll-date.php](https://github.com/gocodebox/lifterlms/blob/master/templates/loop/enroll-date.php)
++ [loop/enroll-status.php](https://github.com/gocodebox/lifterlms/blob/master/templates/loop/enroll-status.php)
++ [loop/pagination.php](https://github.com/gocodebox/lifterlms/blob/master/templates/loop/pagination.php)
++ [myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
++ [myaccount/dashboard.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard.php)
++ [myaccount/header.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/header.php)
+
+##### Deleted Templates
+
++ /myaccount/my-achievements.php
++ /myaccount/my-courses.php
++ /myaccount/my-memberships.php
 
 
 = v3.13.1 - 2017/10/04 =
