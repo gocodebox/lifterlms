@@ -2,7 +2,7 @@
 /**
  * LifterLMS Custom Roles and Capabilities
  * @since   3.13.0
- * @version 3.13.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -31,10 +31,11 @@ class LLMS_Roles {
 	 * Get an array of registered core lifterlms caps
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public static function get_all_core_caps() {
 		return apply_filters( 'llms_get_all_core_caps', array(
+			'lifterlms_instructor',
 			'manage_lifterlms',
 			'view_lifterlms_reports',
 			'view_others_lifterlms_reports',
