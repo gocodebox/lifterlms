@@ -1080,23 +1080,37 @@ svg .llms-animated-circle {
 }
 
 ul.llms-achievements-loop,
-.lifterlms ul.llms-achievements-loop {
+.lifterlms ul.llms-achievements-loop,
+ul.llms-certificates-loop,
+.lifterlms ul.llms-certificates-loop {
   list-style-type: none;
   margin: 0 -10px;
   padding: 0;
 }
 ul.llms-achievements-loop:before, ul.llms-achievements-loop:after,
 .lifterlms ul.llms-achievements-loop:before,
-.lifterlms ul.llms-achievements-loop:after {
+.lifterlms ul.llms-achievements-loop:after,
+ul.llms-certificates-loop:before,
+ul.llms-certificates-loop:after,
+.lifterlms ul.llms-certificates-loop:before,
+.lifterlms ul.llms-certificates-loop:after {
   content: " ";
   display: table;
 }
 ul.llms-achievements-loop:after,
-.lifterlms ul.llms-achievements-loop:after {
+.lifterlms ul.llms-achievements-loop:after,
+ul.llms-certificates-loop:after,
+.lifterlms ul.llms-certificates-loop:after {
   clear: both;
 }
 ul.llms-achievements-loop li.llms-achievement-loop-item,
-.lifterlms ul.llms-achievements-loop li.llms-achievement-loop-item {
+ul.llms-achievements-loop li.llms-certificate-loop-item,
+.lifterlms ul.llms-achievements-loop li.llms-achievement-loop-item,
+.lifterlms ul.llms-achievements-loop li.llms-certificate-loop-item,
+ul.llms-certificates-loop li.llms-achievement-loop-item,
+ul.llms-certificates-loop li.llms-certificate-loop-item,
+.lifterlms ul.llms-certificates-loop li.llms-achievement-loop-item,
+.lifterlms ul.llms-certificates-loop li.llms-certificate-loop-item {
   box-sizing: border-box;
   display: block;
   float: left;
@@ -1106,25 +1120,55 @@ ul.llms-achievements-loop li.llms-achievement-loop-item,
   width: 100%;
 }
 @media all and (min-width: 600px) {
-  ul.llms-achievements-loop.loop-cols-1 li.llms-achievement-loop-item,
-  .lifterlms ul.llms-achievements-loop.loop-cols-1 li.llms-achievement-loop-item {
+  ul.llms-achievements-loop.loop-cols-1 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-1 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-1 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-1 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-1 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-1 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-1 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-1 li.llms-certificate-loop-item {
     width: 100%;
   }
-  ul.llms-achievements-loop.loop-cols-2 li.llms-achievement-loop-item,
-  .lifterlms ul.llms-achievements-loop.loop-cols-2 li.llms-achievement-loop-item {
+  ul.llms-achievements-loop.loop-cols-2 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-2 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-2 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-2 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-2 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-2 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-2 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-2 li.llms-certificate-loop-item {
     width: 50%;
   }
-  ul.llms-achievements-loop.loop-cols-3 li.llms-achievement-loop-item,
-  .lifterlms ul.llms-achievements-loop.loop-cols-3 li.llms-achievement-loop-item {
+  ul.llms-achievements-loop.loop-cols-3 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-3 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-3 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-3 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-3 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-3 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-3 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-3 li.llms-certificate-loop-item {
     width: 33.33333%;
   }
-  ul.llms-achievements-loop.loop-cols-4 li.llms-achievement-loop-item,
-  .lifterlms ul.llms-achievements-loop.loop-cols-4 li.llms-achievement-loop-item {
+  ul.llms-achievements-loop.loop-cols-4 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-4 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-4 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-4 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-4 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-4 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-4 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-4 li.llms-certificate-loop-item {
     width: 25%;
+  }
+  ul.llms-achievements-loop.loop-cols-5 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-5 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-5 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-5 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-5 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-5 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item {
+    width: 20%;
   }
 }
 
-.llms-achievement {
+.llms-achievement,
+.llms-certificate {
   background: #f1f1f1;
   border: none;
   color: inherit;
@@ -1132,32 +1176,57 @@ ul.llms-achievements-loop li.llms-achievement-loop-item,
   text-decoration: none;
   width: 100%;
 }
-.llms-achievement:hover {
+.llms-achievement:hover,
+.llms-certificate:hover {
   background: #eaeaea;
 }
-.llms-achievement .llms-achievement-img {
+.llms-achievement .llms-achievement-img,
+.llms-certificate .llms-achievement-img {
   display: block;
   margin: 0;
   width: 100%;
 }
-.llms-achievement .llms-achievement-title {
+.llms-achievement .llms-achievement-title,
+.llms-certificate .llms-achievement-title {
   font-size: 16px;
   margin: 0;
   padding: 10px;
   text-align: center;
 }
+.llms-achievement .llms-certificate-title,
+.llms-certificate .llms-certificate-title {
+  font-size: 16px;
+  margin: 0;
+  padding: 0 0 10px;
+}
 .llms-achievement .llms-achievement-info,
-.llms-achievement .llms-achievement-date {
+.llms-achievement .llms-achievement-date,
+.llms-certificate .llms-achievement-info,
+.llms-certificate .llms-achievement-date {
   display: none;
 }
-.llms-achievement .llms-achievement-content {
+.llms-achievement .llms-achievement-content,
+.llms-certificate .llms-achievement-content {
   padding: 20px;
 }
-.llms-achievement .llms-achievement-content:empty {
+.llms-achievement .llms-achievement-content:empty,
+.llms-certificate .llms-achievement-content:empty {
   padding: 0;
 }
-.llms-achievement .llms-achievement-content *:last-child {
+.llms-achievement .llms-achievement-content *:last-child,
+.llms-certificate .llms-achievement-content *:last-child {
   margin-bottom: 0;
+}
+
+.llms-certificate {
+  border: 4px double #f1f1f1;
+  padding: 20px 10px;
+  background: #fff;
+  text-align: center;
+}
+.llms-certificate:hover {
+  background: #fff;
+  border-color: #eaeaea;
 }
 
 .llms-achievement-modal .llms-achievement {
