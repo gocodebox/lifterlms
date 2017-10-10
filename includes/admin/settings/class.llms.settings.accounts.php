@@ -84,6 +84,15 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			array(
+				'title' => __( 'View Achievements', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'List of all the student\'s achievements', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_achievements_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'my-achievements',
+				'desc_tip'	=> true,
+			),
+
+			array(
 				'title' => __( 'Notifications', 'lifterlms' ),
 				'desc' 		=> '<br>' . __( 'View Notifications and adjust notification settings', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_notifications_endpoint',

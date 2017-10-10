@@ -4,7 +4,7 @@
 	 * Main Application Object
 	 * @type     {Object}
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	var App = {
 
@@ -570,7 +570,7 @@
 	/**
 	 * Lesson Model
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	App.Models.Lesson = Backbone.Model.extend( _.defaults( {
 
@@ -580,7 +580,7 @@
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.14.0
 		 */
 		defaults: function() {
 			var order = this.collection ? this.collection.next_order() : 1,
@@ -612,8 +612,8 @@
 		/**
 		 * Initializer
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.0
+		 * @version  3.14.0
 		 */
 		initialize: function() {
 
@@ -630,8 +630,8 @@
 		/**
 		 * Calculate the "is_last" property based on the lesson's order within the collection
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.0
+		 * @version  3.14.0
 		 */
 		is_last: function() {
 			return ( this.collection && this.collection.length === this.get( 'order' ) );
@@ -699,8 +699,8 @@
 		/**
 		 * Initiailizer
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.0
+		 * @version  3.14.0
 		 */
 		initialize: function() {
 
@@ -718,7 +718,7 @@
 		 * Determines if the section is the last section in the collection
 		 * @return   {Boolean}
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.14.0
 		 */
 		is_last: function() {
 			return ( this.collection && this.get( 'order') === this.collection.length );
@@ -790,7 +790,7 @@
 	/**
 	 * Single Course View
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	App.Views.Course = Backbone.View.extend( _.defaults( {
 
@@ -866,7 +866,7 @@
 	/**
 	 * Single Lesson View
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	App.Views.Lesson = Backbone.View.extend( _.defaults( {
 
@@ -893,7 +893,7 @@
 		 * DOM Events
 		 * @type     obj
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.14.0
 		 */
 		events: _.defaults( {
 			'drop-lesson': 'drop',
@@ -1072,7 +1072,7 @@
 	/**
 	 * Single Section View
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	App.Views.Section = Backbone.View.extend( _.defaults( {
 
@@ -1098,7 +1098,7 @@
 		 * DOM Events
 		 * @type     obj
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.14.0
 		 */
 		events: _.defaults( {
 			'drop-section': 'drop',
@@ -1232,7 +1232,7 @@
 		 * Initalizes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.14.0
 		 */
 		render: function() {
 
@@ -1538,7 +1538,7 @@
 	/**
 	 * "Tools" sidebar view
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	App.Views.Tutorial = Backbone.View.extend( {
 

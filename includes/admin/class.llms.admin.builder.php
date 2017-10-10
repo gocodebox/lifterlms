@@ -2,7 +2,7 @@
 /**
  * Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.14.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -476,7 +476,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    int   $course_id   WP_Post ID of the course
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.0
 	 */
 	private static function templates( $course_id ) {
 

@@ -1,4 +1,4 @@
-.llms-pagination ul:before, .llms-my-achievements ul.listing-achievements:before, .llms-pagination ul:after, .llms-my-achievements ul.listing-achievements:after,
+.llms-pagination ul:before, .llms-pagination ul:after,
 .llms-cols:before,
 .llms-loop-list:before,
 .llms-course-navigation:before,
@@ -16,7 +16,7 @@
   content: " ";
   display: table;
 }
-.llms-pagination ul:after, .llms-my-achievements ul.listing-achievements:after,
+.llms-pagination ul:after,
 .llms-cols:after,
 .llms-loop-list:after,
 .llms-course-navigation:after,
@@ -1077,6 +1077,166 @@ svg .llms-animated-circle {
 }
 .entry-content .llms-notice li {
   list-style-type: none;
+}
+
+ul.llms-achievements-loop,
+.lifterlms ul.llms-achievements-loop,
+ul.llms-certificates-loop,
+.lifterlms ul.llms-certificates-loop {
+  list-style-type: none;
+  margin: 0 -10px;
+  padding: 0;
+}
+ul.llms-achievements-loop:before, ul.llms-achievements-loop:after,
+.lifterlms ul.llms-achievements-loop:before,
+.lifterlms ul.llms-achievements-loop:after,
+ul.llms-certificates-loop:before,
+ul.llms-certificates-loop:after,
+.lifterlms ul.llms-certificates-loop:before,
+.lifterlms ul.llms-certificates-loop:after {
+  content: " ";
+  display: table;
+}
+ul.llms-achievements-loop:after,
+.lifterlms ul.llms-achievements-loop:after,
+ul.llms-certificates-loop:after,
+.lifterlms ul.llms-certificates-loop:after {
+  clear: both;
+}
+ul.llms-achievements-loop li.llms-achievement-loop-item,
+ul.llms-achievements-loop li.llms-certificate-loop-item,
+.lifterlms ul.llms-achievements-loop li.llms-achievement-loop-item,
+.lifterlms ul.llms-achievements-loop li.llms-certificate-loop-item,
+ul.llms-certificates-loop li.llms-achievement-loop-item,
+ul.llms-certificates-loop li.llms-certificate-loop-item,
+.lifterlms ul.llms-certificates-loop li.llms-achievement-loop-item,
+.lifterlms ul.llms-certificates-loop li.llms-certificate-loop-item {
+  box-sizing: border-box;
+  display: block;
+  float: left;
+  list-style-type: none;
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+}
+@media all and (min-width: 600px) {
+  ul.llms-achievements-loop.loop-cols-1 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-1 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-1 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-1 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-1 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-1 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-1 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-1 li.llms-certificate-loop-item {
+    width: 100%;
+  }
+  ul.llms-achievements-loop.loop-cols-2 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-2 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-2 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-2 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-2 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-2 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-2 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-2 li.llms-certificate-loop-item {
+    width: 50%;
+  }
+  ul.llms-achievements-loop.loop-cols-3 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-3 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-3 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-3 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-3 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-3 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-3 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-3 li.llms-certificate-loop-item {
+    width: 33.33333%;
+  }
+  ul.llms-achievements-loop.loop-cols-4 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-4 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-4 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-4 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-4 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-4 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-4 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-4 li.llms-certificate-loop-item {
+    width: 25%;
+  }
+  ul.llms-achievements-loop.loop-cols-5 li.llms-achievement-loop-item, ul.llms-achievements-loop.loop-cols-5 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-5 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-achievements-loop.loop-cols-5 li.llms-certificate-loop-item,
+  ul.llms-certificates-loop.loop-cols-5 li.llms-achievement-loop-item,
+  ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-5 li.llms-achievement-loop-item,
+  .lifterlms ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item {
+    width: 20%;
+  }
+}
+
+.llms-achievement,
+.llms-certificate {
+  background: #f1f1f1;
+  border: none;
+  color: inherit;
+  display: block;
+  text-decoration: none;
+  width: 100%;
+}
+.llms-achievement:hover,
+.llms-certificate:hover {
+  background: #eaeaea;
+}
+.llms-achievement .llms-achievement-img,
+.llms-certificate .llms-achievement-img {
+  display: block;
+  margin: 0;
+  width: 100%;
+}
+.llms-achievement .llms-achievement-title,
+.llms-certificate .llms-achievement-title {
+  font-size: 16px;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+}
+.llms-achievement .llms-certificate-title,
+.llms-certificate .llms-certificate-title {
+  font-size: 16px;
+  margin: 0;
+  padding: 0 0 10px;
+}
+.llms-achievement .llms-achievement-info,
+.llms-achievement .llms-achievement-date,
+.llms-certificate .llms-achievement-info,
+.llms-certificate .llms-achievement-date {
+  display: none;
+}
+.llms-achievement .llms-achievement-content,
+.llms-certificate .llms-achievement-content {
+  padding: 20px;
+}
+.llms-achievement .llms-achievement-content:empty,
+.llms-certificate .llms-achievement-content:empty {
+  padding: 0;
+}
+.llms-achievement .llms-achievement-content *:last-child,
+.llms-certificate .llms-achievement-content *:last-child {
+  margin-bottom: 0;
+}
+
+.llms-certificate {
+  border: 4px double #f1f1f1;
+  padding: 20px 10px;
+  background: #fff;
+  text-align: center;
+}
+.llms-certificate:hover {
+  background: #fff;
+  border-color: #eaeaea;
+}
+
+.llms-achievement-modal .llms-achievement {
+  background: #fff;
+}
+.llms-achievement-modal .llms-achievement-info {
+  display: block;
+}
+.llms-achievement-modal .llms-achievement-title {
+  display: none;
 }
 
 .llms-notification {
@@ -2298,6 +2458,11 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   text-align: left;
 }
 
+.llms-student-dashboard {
+  /**
+   * Dashboard Home
+   */
+}
 .llms-student-dashboard .llms-sd-title {
   margin: 25px 0;
 }
@@ -2321,6 +2486,9 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 }
 .llms-student-dashboard .llms-sd-section {
   margin-bottom: 25px;
+}
+.llms-student-dashboard .llms-sd-section .llms-sd-section-footer {
+  margin-top: 10px;
 }
 .llms-student-dashboard .orders-table {
   border: 1px solid #f5f5f5;
@@ -2444,6 +2612,9 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 .llms-student-dashboard .llms-switch-payment-source-main ul.llms-order-summary li {
   list-style-type: none;
 }
+.llms-student-dashboard .llms-loop-list {
+  margin: 0 -10px;
+}
 
 .llms-sd-pagination {
   margin-top: 24px;
@@ -2463,195 +2634,6 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 }
 .llms-sd-pagination .llms-button-secondary.next {
   float: right;
-}
-
-/* My Courses */
-.llms-my-courses {
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-}
-
-.llms-my-courses a {
-  -webkit-filter: brightness(100%);
-  transition: all .5s ease;
-}
-
-.llms-my-courses ul.listing-courses {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.llms-my-courses > h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
-}
-
-.llms-my-courses ul.listing-courses li.course-item {
-  margin: 10px 0;
-  padding: 10px 0;
-  list-style-type: none;
-  width: 100%;
-  border-bottom: 2px solid #f5f5f5;
-}
-
-.llms-my-courses ul.listing-courses li.course-item:first-child {
-  border-bottom: 2px solid #f5f5f5;
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .course-image {
-  float: left;
-  margin-right: 20px;
-  border: 1px solid #f5f5f5;
-  padding: 4px;
-  overflow: hidden;
-}
-@media screen and (max-width: 641px) {
-  .llms-my-courses ul.listing-courses li.course-item .course .course-image {
-    width: 100%;
-  }
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .course-image img {
-  -webkit-filter: brightness(100%);
-  transition: all 1s ease;
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .course-image img:hover {
-  -webkit-filter: brightness(80%);
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course h3 {
-  margin: 10px 0;
-  display: block;
-  clear: none;
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course p {
-  margin: 0;
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .info {
-  float: left;
-  width: 100%;
-}
-
-.llms-sts-enrollment {
-  display: inline-block;
-}
-
-.llms-sts-enrollment .llms-sts-current {
-  font-weight: 400;
-}
-
-.llms-start-date {
-  float: right;
-  text-align: right;
-}
-@media screen and (max-width: 641px) {
-  .llms-start-date {
-    float: none;
-    text-align: left;
-  }
-}
-
-.llms-my-courses ul.listing-courses li.course-item .course .course-message {
-  border-radius: 3px;
-  z-index: 10;
-  margin: 10px 0;
-  padding: 15px 20px;
-  border: 1px solid #ccc;
-}
-
-.course-message p {
-  margin: 0;
-}
-
-.course-link {
-  text-align: center;
-}
-
-/* my certificates grid */
-.llms-my-certificates {
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-}
-.llms-my-certificates h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
-}
-.llms-my-certificates ul.listing-certificates {
-  width: 100%;
-  margin: 0;
-}
-.llms-my-certificates ul.listing-certificates li.certificate-item {
-  border-radius: 3px;
-  z-index: 10;
-  margin: 10px 0;
-  padding: 15px 20px;
-  border: 1px solid #ccc;
-  list-style-type: none;
-  width: 100%;
-  overflow: auto;
-}
-.llms-my-certificates ul.listing-certificates li.certificate-item div {
-  display: block;
-  width: 30%;
-  float: left;
-  text-align: right;
-}
-.llms-my-certificates ul.listing-certificates li.certificate-item div p, .llms-my-certificates ul.listing-certificates li.certificate-item div h4 {
-  margin: 0;
-}
-.llms-my-certificates ul.listing-certificates li.certificate-item div:first-child {
-  width: 40%;
-  text-align: left;
-}
-
-.llms-my-achievements {
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-}
-.llms-my-achievements h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
-}
-.llms-my-achievements ul.listing-achievements {
-  margin: 0;
-  width: 100%;
-}
-.llms-my-achievements ul.listing-achievements li.achievement-item {
-  border-radius: 3px;
-  margin: 1% 1% 0 0;
-  padding: 15px 20px;
-  border: 1px solid #ccc;
-  list-style-type: none;
-  width: 32.333%;
-  overflow: auto;
-  min-width: 200px;
-  z-index: 10;
-  float: left;
-  text-align: center;
-}
-.llms-my-achievements ul.listing-achievements li.achievement-item p, .llms-my-achievements ul.listing-achievements li.achievement-item h4 {
-  margin: 0;
-}
-
-/* my certificates grid */
-.llms-my-memberships {
-  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-}
-.llms-my-memberships h3 {
-  background-color: #f5f5f5;
-  padding: 4px;
-}
-.llms-my-memberships ul.listing-memberships {
-  width: 100%;
-  margin: 0;
-}
-.llms-my-memberships ul.listing-memberships li.membership-item {
-  padding: 15px 20px;
-  border: 1px solid #ccc;
-  list-style-type: none;
-  width: 100%;
-  overflow: auto;
 }
 
 /*!

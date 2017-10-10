@@ -2,7 +2,7 @@
 /**
  * Abstract Database Query
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.14.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -184,20 +184,20 @@ abstract class LLMS_Database_Query {
 	 * Determine if we're on the first page of results
 	 * @return   boolean
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.14.0
 	 */
 	public function is_first_page() {
-		return ( 1 === $this->get( 'page' ) );
+		return ( 1 === absint( $this->get( 'page' ) ) );
 	}
 
 	/**
 	 * Determine if we're on the last page of results
 	 * @return   boolean
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.14.0
 	 */
 	public function is_last_page() {
-		return ( $this->get( 'page' ) === $this->max_pages );
+		return ( absint( $this->get( 'page' ) ) === $this->max_pages );
 	}
 
 	/**

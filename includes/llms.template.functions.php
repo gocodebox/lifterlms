@@ -1,9 +1,14 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Front end template functions
 */
 
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+require 'functions/llms.functions.templates.achievements.php';
+require 'functions/llms.functions.templates.certificates.php';
+require 'functions/llms.functions.templates.dashboard.php';
+require 'functions/llms.functions.templates.loop.php';
 
 /**
  * Get the HTML for the Terms field displayed on reg forms
@@ -1029,72 +1034,7 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 
 
 
-/**
- * Get Archive loop start
- * @return  void
- * @since   1.0.0
- * @version 3.0.0
- */
-if ( ! function_exists( 'lifterlms_loop_start' ) ) {
-	function lifterlms_loop_start() {
-		llms_get_template( 'loop/loop-start.php' );
-	}
-}
 
-/**
- * Get archive loop end
- * @return  void
- * @since   1.0.0
- * @version 3.0.0
- */
-if ( ! function_exists( 'lifterlms_loop_end' ) ) {
-	function lifterlms_loop_end() {
-		llms_get_template( 'loop/loop-end.php' );
-	}
-}
-
-/**
- * Archive loop link start
- * @return  void
- * @since   1.0.0
- * @version 3.0.0
- */
-if ( ! function_exists( 'lifterlms_loop_link_start' ) ) {
-	function lifterlms_loop_link_start() {
-		echo '<a class="llms-loop-link" href="' . get_the_permalink() . '">';
-	}
-}
-
-/**
- * Archive loop link end
- * @return  void
- * @since   1.0.0
- * @version 3.0.0
- */
-if ( ! function_exists( 'lifterlms_loop_link_end' ) ) {
-	function lifterlms_loop_link_end() {
-		echo '</a><!-- .llms-loop-link -->';
-	}
-}
-
-/**
- * Archive loop progress bar for courses
- * @return  void
- * @since   1.0.0
- * @version 3.0.0
- */
-if ( ! function_exists( 'lifterlms_template_loop_progress' ) ) {
-	function lifterlms_template_loop_progress() {
-		$uid = get_current_user_id();
-		$cid = get_the_ID();
-		if ( 'course' === get_post_type() && $uid ) {
-
-			$student = new LLMS_Student( $uid );
-			lifterlms_course_progress_bar( $student->get_progress( $cid, 'course' ), false, false );
-
-		}
-	}
-}
 
 /**
  * Outputs the html for a progress bar
@@ -1306,74 +1246,13 @@ if ( ! function_exists( 'is_quiz' ) ) {
 }
 
 /**
- * Get loop item author template
+ * Get single post author template
  * @return void
  */
 if ( ! function_exists( 'lifterlms_template_course_author' ) ) {
 
 	function lifterlms_template_course_author() {
 		llms_get_template( 'course/author.php' );
-	}
-}
-
-
-/**
- * Get loop item author template
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_loop_author' ) ) {
-
-	function lifterlms_template_loop_author() {
-		llms_get_template( 'loop/author.php' );
-	}
-}
-
-
-/**
- * Lesson Length Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_loop_length' ) ) {
-
-	function lifterlms_template_loop_length() {
-		if ( 'course' === get_post_type( get_the_ID() ) ) {
-			llms_get_template( 'course/length.php' );
-		}
-	}
-}
-
-/**
- * Course Difficulty Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_loop_difficulty' ) ) {
-
-	function lifterlms_template_loop_difficulty() {
-		if ( 'course' === get_post_type( get_the_ID() ) ) {
-			llms_get_template( 'course/difficulty.php' );
-		}
-	}
-}
-
-/**
- * Product Thumbnail Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_loop_thumbnail' ) ) {
-
-	function lifterlms_template_loop_thumbnail() {
-		llms_get_template( 'loop/featured-image.php' );
-	}
-}
-
-/**
- * product View Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_loop_view_link' ) ) {
-
-	function lifterlms_template_loop_view_link() {
-		llms_get_template( 'loop/view-link.php' );
 	}
 }
 
@@ -1461,24 +1340,7 @@ function llms_featured_img( $post_id, $size ) {
 	return apply_filters( 'lifterlms_featured_img', '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">' );
 }
 
-/**
- * Output a featured video on the course tile in a LifterLMS Loop
- * @return   void
- * @since    3.3.0
- * @version  3.3.0
- */
-function lifterlms_loop_featured_video() {
-	global $post;
-	if ( 'course' === $post->post_type ) {
-		$course = llms_get_post( $post );
-		if ( 'yes' === $course->get( 'tile_featured_video' ) ) {
-			$video = $course->get_video();
-			if ( $video ) {
-				echo $video;
-			}
-		}
-	}
-}
+
 
 
 /**
@@ -1848,87 +1710,6 @@ function llms_post_classes( $classes, $class = array(), $post_id = '' ) {
 	return $classes;
 
 }
-
-
-/**
- * Get classes to add to the loop wrapper based on the queried object
- * @return   string
- * @since    3.0.0
- * @version  3.0.0
- */
-function llms_get_loop_list_classes() {
-
-	$classes = array();
-
-	$obj = get_queried_object();
-
-	if ( $obj && $obj->name ) {
-		$classes[] = 'llms-' . str_replace( 'llms_', '', $obj->name ) . '-list';
-	}
-
-	$cols = apply_filters( 'lifterlms_loop_columns', 3 );
-
-	if ( ! empty( $cols ) && is_numeric( $cols ) ) {
-
-		$classes[] = 'cols-' . $cols;
-
-	}
-
-	return ' ' . implode( ' ', apply_filters( 'llms_get_loop_list_classes', $classes ) );
-
-}
-
-
-/**
- * Dashboard Navigation template
- * @return void
- * @since    3.0.0
- * @version  3.0.0
- */
-if ( ! function_exists( 'lifterlms_template_student_dashboard_navigation' ) ) {
-	function lifterlms_template_student_dashboard_navigation() {
-		llms_get_template( 'myaccount/navigation.php' );
-	}
-}
-
-/**
- * Dashboard Navigation template
- * @return void
- * @since    3.0.0
- * @version  3.0.0
- */
-if ( ! function_exists( 'lifterlms_template_student_dashboard_title' ) ) {
-	function lifterlms_template_student_dashboard_title() {
-		$data = LLMS_Student_Dashboard::get_current_tab();
-		$title = isset( $data['title'] ) ? $data['title'] : '';
-		echo apply_filters( 'lifterlms_student_dashboard_title', '<h3 class="llms-sd-title">' . $title . '</h3>' );
-	}
-}
-
-/**
- * output the student dashboard wrapper opening tags
- * @return   void
- * @since    3.0.0
- * @version  3.10.0
- */
-if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) :
-	function lifterlms_template_student_dashboard_wrapper_open() {
-		$current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
-		echo '<div class="llms-student-dashboard ' . $current . '" data-current="' . $current . '">';
-	}
-endif;
-
-/**
- * output the student dashboard wrapper opening tags
- * @return   void
- * @since    3.0.0
- * @version  3.0.0
- */
-if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_close' ) ) :
-	function lifterlms_template_student_dashboard_wrapper_close() {
-		echo '</div><!-- .llms-student-dashboard -->';
-	}
-endif;
 
 /**
  * Output course reviews

@@ -1,10 +1,11 @@
 <?php
 /**
-* Template Add Actions
+* LifterLMS Template Actions
+* @since    1.0.0
+* @version  3.14.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 
 /***********************************************************************
  *
@@ -58,6 +59,7 @@ add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_lesson_
  *
  ***********************************************************************/
 add_action( 'lifterlms_before_loop', 'lifterlms_loop_start', 10 );
+add_action( 'lifterlms_loop', 'lifterlms_loop', 10 );
 add_action( 'lifterlms_after_loop', 'lifterlms_loop_end', 10 );
 
 
@@ -116,6 +118,27 @@ add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_singl
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_question_wrapper_end', 10 );
 
 
+/***********************************************************************
+ *
+ * Student Dashboard
+ *
+ ***********************************************************************/
+add_action( 'lifterlms_before_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_open', 10 );
+
+add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_student_dashboard_header', 10 );
+
+	add_action( 'lifterlms_student_dashboard_header', 'lifterlms_template_student_dashboard_navigation', 10 );
+	add_action( 'lifterlms_student_dashboard_header', 'lifterlms_template_student_dashboard_title', 20 );
+
+	add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_courses', 10 );
+	add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_achievements', 20 );
+	add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_certificates', 30 );
+		add_action( 'llms_achievement_content', 'llms_the_achievement', 10 );
+		add_action( 'llms_certificate_preview', 'llms_the_certificate_preview', 10 );
+		add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_memberships', 40 );
+
+add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
+
 
 
 
@@ -134,15 +157,6 @@ add_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_pri
 
 //After Membership Summary
 
-/**
- * Student Dashboard
- */
-add_action( 'lifterlms_before_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_open', 10 );
-
-add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_student_dashboard_navigation', 10 );
-add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_student_dashboard_title', 20 );
-
-add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
 
 
 add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar' );
