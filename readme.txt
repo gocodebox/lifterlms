@@ -231,6 +231,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Fix reference to deprecated core function related to checking the permissions of content restricted to a membership
 + Builder titles will be saved on all field focusout/blur events, not just tab & enter key presses
 + LifterLMS custom meta save metaboxes will not trigger actions during ajax requests
++ Fix issue displaying certificates on admin panel reporting screens
 
 
 = v3.14.0 - 2017/10/10 =
