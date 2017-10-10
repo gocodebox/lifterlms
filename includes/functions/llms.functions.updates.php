@@ -5,7 +5,7 @@
  * Functions here are used by the background updater during db updates
  *
  * @since    3.4.3
- * @version  3.4.3
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -944,7 +944,12 @@ function llms_update_3130_create_default_instructors() {
 
 }
 
+/**
+ * Add an admin notice about the new builder
+ */
 function llms_update_3130_builder_notice() {
+
+	require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 
 	LLMS_Admin_Notices::add_notice( 'update-3130', array(
 		'html' => sprintf(
