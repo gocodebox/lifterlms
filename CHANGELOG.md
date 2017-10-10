@@ -1,5 +1,24 @@
 == Changelog ==
 
+v3.14.0 - 2017/10/10
+--------------------
+
++ Normalized date returns with various dates related to enrollments, achievements, and certificates. These dates now utilize the WP Core `date_format` option.
++ Fixed strict comparison issue related to database query abstract (affected checks for last page & first page on admin reporting screens)
++ Added a new capability `llms_instructor` for admins, lms managers, instructors, and instructor's assistant to easily differentiate "instructors" from "students"
++ Fix `$wpdb->prepare` issue related to notification queries. Fixes WP 4.9-beta issue.
+
+##### Student Dashboard Updates
+
++ Achievements on student dashboard now viewable in popover modal.
++ Achievements tab added to student dashboard
+
+##### Deprecated functions
+
++ `LLMS_Student_Dashboard::output_courses_content()` replaced with `lifterlms_template_student_dashboard_my_courses( false )`
++ `LLMS_Student_Dashboard::output_dashboard_content` replaced with `lifterlms_template_student_dashboard_home()`
+
+
 v3.13.1 - 2017/10/04
 --------------------
 
@@ -8,9 +27,6 @@ v3.13.1 - 2017/10/04
 + Fix issue preventing new courses & memberships from being moved from draft -> published.
 + Fix `wpdb->prepare()` empty placeholder issue related to engagement queries. Fixes warning added in WP 4.9.
 + Add better version numbering to static assets to prevent caching issues during plugin updates
-
-
-
 
 
 v3.13.0 - 2017/10/02
