@@ -2,7 +2,7 @@
 /**
 * Admin Metabox Class
 * @since    3.0.0
-* @version  3.13.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -309,14 +309,18 @@ abstract class LLMS_Admin_Metabox {
 	 * This function is dumb. If the fields need to output error messages or do validation
 	 * Override this method and create a custom save method to accommodate the validations or conditions
 	 *
-	 * @param  int   $post_id   WP Post ID of the post being saved
-	 * @return void
-	 * @since  3.0.0
+	 * @param    int   $post_id   WP Post ID of the post being saved
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	protected function save( $post_id ) {
 
 		// dont save metabox during a quick save action
 		if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
+			return;
+		// don't save during ajax calls
+		} elseif ( llms_is_ajax() ) {
 			return;
 		}
 
