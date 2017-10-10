@@ -159,7 +159,7 @@
 			 * Allows editing model.title field via .llms-editable-title elements
 			 * @type     {Object}
 			 * @since    3.13.0
-			 * @version  [version]
+			 * @version  3.14.1
 			 */
 			EditableView: {
 
@@ -191,8 +191,8 @@
 				 * Automatically saves changes if changes have been made
 				 * @param    obj   event  js event object
 				 * @return   void
-				 * @since    [version]
-				 * @version  [version]
+				 * @since    3.14.1
+				 * @version  3.14.1
 				 */
 				on_blur: function( event ) {
 
@@ -213,7 +213,7 @@
 				 * @param    {obj]}   event  js event object
 				 * @return   void
 				 * @since    3.13.0
-				 * @version  [version]
+				 * @version  3.14.1
 				 */
 				on_keydown: function( event ) {
 
@@ -1012,8 +1012,8 @@
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.1
+		 * @version  3.14.1
 		 */
 		initialize: function() {
 			this.listenTo( this.model, 'sync', this.render );

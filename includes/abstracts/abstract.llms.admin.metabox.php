@@ -2,7 +2,7 @@
 /**
 * Admin Metabox Class
 * @since    3.0.0
-* @version  [version]
+* @version  3.14.1
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -312,14 +312,14 @@ abstract class LLMS_Admin_Metabox {
 	 * @param    int   $post_id   WP Post ID of the post being saved
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.14.1
 	 */
 	protected function save( $post_id ) {
 
 		// dont save metabox during a quick save action
 		if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
 			return;
-		// don't save during ajax calls
+			// don't save during ajax calls
 		} elseif ( llms_is_ajax() ) {
 			return;
 		}

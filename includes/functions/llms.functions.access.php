@@ -431,7 +431,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
  * @return   bool|int          WP_Post ID of the membership if a restriction is found
  *                             false if no restrictions found
  * @since    3.0.0
- * @version  [version]
+ * @version  3.14.1
  */
 function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
@@ -476,7 +476,6 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 				if ( $student->is_enrolled( $mid ) ) {
 					break;
 				}
-
 			}
 		}
 
