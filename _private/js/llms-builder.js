@@ -159,7 +159,7 @@
 			 * Allows editing model.title field via .llms-editable-title elements
 			 * @type     {Object}
 			 * @since    3.13.0
-			 * @version  3.13.0
+			 * @version  [version]
 			 */
 			EditableView: {
 
@@ -170,6 +170,7 @@
 				 * @version  3.13.0
 				 */
 				events: {
+					'focusout .llms-editable-title': 'on_blur',
 					'keydown .llms-editable-title': 'on_keydown',
 				},
 
@@ -186,33 +187,45 @@
 				},
 
 				/**
+				 * Blur/focusout function for .llms-editable-title elements
+				 * Automatically saves changes if changes have been made
+				 * @param    obj   event  js event object
+				 * @return   void
+				 * @since    [version]
+				 * @version  [version]
+				 */
+				on_blur: function( event ) {
+
+					event.stopPropagation();
+
+					var self = this,
+						changed = this.has_changed( event );
+
+					if ( changed ) {
+						this.save_edits( event );
+					}
+
+				},
+
+				/**
 				 * Keydown function for .llms-editable-title elements
+				 * Blurs
 				 * @param    {obj]}   event  js event object
 				 * @return   void
 				 * @since    3.13.0
-				 * @version  3.13.0
+				 * @version  [version]
 				 */
 				on_keydown: function( event ) {
 
 					event.stopPropagation();
 
 					var self = this,
-						changed = this.has_changed( event ),
 						key = event.which || event.keyCode;
 
 					switch ( key ) {
 
-						case 9: // tab
-							if ( changed ) {
-								this.save_edits( event );
-							}
-						break;
-
 						case 13: // enter
 							event.preventDefault();
-							if ( changed ) {
-								this.save_edits( event );
-							}
 							event.target.blur();
 						break;
 
@@ -221,6 +234,7 @@
 							this.revert_edits( event );
 							event.target.blur();
 						break;
+
 					}
 
 				},
@@ -848,6 +862,7 @@
 		 */
 		initialize: function() {
 			this.render();
+			this.listenTo( this.model, 'sync', this.render );
 		},
 
 		/**
@@ -992,6 +1007,16 @@
 
 			this.$el.trigger( 'update-sort', [ this.model, $item.index() + 1, to_collection, from_collection, auto_save ] );
 
+		},
+
+		/**
+		 * Initialization callback func (renders the element on screen)
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		initialize: function() {
+			this.listenTo( this.model, 'sync', this.render );
 		},
 
 		/**
