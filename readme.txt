@@ -224,12 +224,11 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 == Changelog ==
 
-= v3.14.1 - 2017/10/11 =
+= v3.14.2 - 2017/10/11 =
 ------------------------
 
 + Instructor query utilizes correct `$wpdb->prefix` for filtering by role instead of `wp_` which will not work when the `$table_prefix` in wp-config.php is customized
 + include the admin notices class when running database update functions
-
 
 
 = v3.14.1 - 2017/10/10 =
