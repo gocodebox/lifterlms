@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.2
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -294,7 +294,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @return   json
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.14.2
 	 */
 	public static function query_students() {
 

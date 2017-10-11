@@ -4,7 +4,7 @@
 	 * Main Application Object
 	 * @type     {Object}
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.2
 	 */
 	var App = {
 
@@ -1772,8 +1772,8 @@
 	/**
 	 * Set the fixed height of the builder area
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.2
+	 * @version  3.14.2
 	 */
 	function resize_builder() {
 		$( '.llms-course-builder' ).height( $( window ).height() - 62 ); // @shame magic numbers...
