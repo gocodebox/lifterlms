@@ -67,7 +67,7 @@ class LLMS_Admin_Builder {
 
 			case 'update':
 
-				// reorder sectioes or lessons
+				// reorder sections or lessons
 				if ( 'collection' === $request['object_type'] && in_array( $request['data_type'], array( 'section', 'lesson' ) ) ) {
 
 					if ( isset( $request['models'] ) ) {
@@ -81,6 +81,7 @@ class LLMS_Admin_Builder {
 							}
 						}
 					}
+
 				} elseif ( 'model' === $request['object_type'] ) {
 
 					$id = ( false === strpos( $request['model']['id'], '_temp_' ) ) ? absint( $request['model']['id'] ) : 'new';
@@ -103,11 +104,11 @@ class LLMS_Admin_Builder {
 
 						$lesson = new LLMS_Lesson( $id, $request['model']['title'] );
 
-						if ( 'new' === $id ) {
-							$lesson->set( 'parent_course', $request['course_id'] );
-							$lesson->set( 'parent_section', $request['model']['section_id'] );
-							$lesson->set( 'order', $request['model']['order'] );
-						} else {
+						$lesson->set( 'parent_course', $request['course_id'] );
+						$lesson->set( 'parent_section', $request['model']['section_id'] );
+						$lesson->set( 'order', $request['model']['order'] );
+
+						if ( 'new' !== $id ) {
 							$lesson->set( 'title', $request['model']['title'] );
 						}
 
@@ -120,6 +121,13 @@ class LLMS_Admin_Builder {
 
 					}
 				}// End if().
+
+			break;
+
+			case 'search':
+				$page = isset( $request['page'] ) ? $request['page'] : 1;
+				$term = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
+				wp_send_json( self::get_orphaned_lessons( $term, $page ) );
 
 			break;
 
@@ -146,9 +154,10 @@ class LLMS_Admin_Builder {
 		}
 
 		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
-if ( ! empty( $active_post_lock ) ) {
-	?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
-}
+
+		if ( ! empty( $active_post_lock ) ) {
+			?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
+		}
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
@@ -196,6 +205,73 @@ if ( ! empty( $active_post_lock ) ) {
 		// if ( $include_quizzes ) {}
 
 		return $data;
+
+	}
+
+	private static function get_orphaned_lessons( $search_term = '', $page = 1 ) {
+
+		global $wpdb;
+
+		$limit = 50;
+		$skip = ( $page - 1 ) * $limit;
+
+		$query = $wpdb->get_results( $wpdb->prepare(
+			"SELECT SQL_CALC_FOUND_ROWS l.ID AS `id`, l.post_title AS `title`
+			   FROM {$wpdb->posts} AS l
+
+			   JOIN {$wpdb->postmeta} AS m
+			     ON l.ID = m.post_id
+			    AND meta_key = '_llms_parent_course'
+
+			  WHERE l.post_type = 'lesson'
+			    AND l.post_status IN ( 'publish', 'draft', 'pending' )
+			    AND m.meta_value NOT IN ( SELECT ID FROM {$wpdb->posts} WHERE post_type = 'course' )
+			    AND l.post_title LIKE '%s'
+			  LIMIT %d, %d;",
+			  '%' . $search_term . '%', $skip, $limit
+		), ARRAY_A );
+
+		$sql = $wpdb->last_query;
+
+		$found = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) );
+		$more = false;
+		if ( $found ) {
+			$pages = ceil( $found / $limit );
+			$more = ( $page < $pages );
+		}
+
+		foreach ( $query as &$result ) {
+			$result['text'] = sprintf( '%1$s (#%2$d)', $result['title'], $result['id'] );
+		}
+
+		$ret = array(
+			'sql' => $sql,
+			'results' => $query,
+			'pagination' => array(
+				'more' => $more,
+			),
+		);
+
+		// $query = new WP_Query( array(
+		// 	'page' => $page,
+		// 	'posts_per_page' => 30,
+		// 	'post_status' => array( 'publish', 'draft', 'pending' ),
+		// 	'post_type' => 'lesson',
+		// 	'meta_query' => array(
+		// 		'relation' => 'OR',
+		// 		array(
+		// 			'compare' => '=',
+		// 			'key' => '_llms_parent_course',
+		// 			'value' => '',
+		// 		),
+		// 		array(
+		// 			'compare' => 'NOT EXISTS',
+		// 			'key' => '_llms_parent_course',
+		// 		),
+		// 	),
+		// ) );
+
+		return $ret;
 
 	}
 
@@ -403,14 +479,20 @@ if ( ! empty( $active_post_lock ) ) {
 					<ul class="llms-tools-list llms-add-items">
 
 						<li>
-							<button class="llms-add-item" id="llms-new-section" data-model="section">
+							<button class="llms-tool-button llms-add-item" id="llms-new-section" data-model="section">
 								<span class="fa fa-puzzle-piece"></span> <?php _e( 'Section', 'lifterlms' ); ?>
 							</button>
 						</li>
 
 						<li>
-							<button class="llms-add-item" id="llms-new-lesson" data-model="lesson">
-								<span class="fa fa-file"></span> <?php _e( 'Lesson', 'lifterlms' ); ?>
+							<button class="llms-tool-button llms-add-item" id="llms-new-lesson" data-model="lesson">
+								<span class="fa fa-file"></span> <?php _e( 'New Lesson', 'lifterlms' ); ?>
+							</button>
+						</li>
+
+						<li>
+							<button class="llms-tool-button" id="llms-existing-lesson" data-model="lesson">
+								<span class="fa fa-file-text"></span> <?php _e( 'Existing Lesson', 'lifterlms' ); ?>
 							</button>
 						</li>
 
@@ -573,7 +655,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 		<script type="text/html" id="tmpl-llms-builder-tutorial-template">
 
-			<h2 class="llms-headline">Drop a section here to get started!</h2>
+			<h2 class="llms-headline"><?php _e( 'Drop a section here to get started!', 'lifterlms' ); ?></h2>
 			<div class="llms-tutorial-buttons">
 				<a class="llms-button-primary large" href="#llms-start-tut" id="llms-start-tut">
 					<?php _e( 'Show Me How', 'lifterlms' ); ?>
@@ -650,6 +732,7 @@ if ( ! empty( $active_post_lock ) ) {
 			</div>
 
 		</script>
+
 		<?php
 	}
 

@@ -681,6 +681,7 @@
 		defaults: function() {
 			var order = this.collection ? this.collection.next_order() : 1;
 			return {
+				active: false,
 				title: 'New Section',
 				type: 'section',
 				order: order,
@@ -1095,6 +1096,79 @@
 	}, App.Mixins.EditableView, App.Mixins.ShiftableView ) );
 
 	/**
+	 * Existing Lesson Popover content View
+	 * @since    3.13.0
+	 * @version  3.14.0
+	 */
+	App.Views.LessonSearchPopover = Backbone.View.extend( {
+
+		/**
+		 * DOM Events
+		 * @type     obj
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		events: {
+			'select2:select': 'add_lesson',
+		},
+
+		/**
+		 * Wrapper Tag name
+		 * @type  {String}
+		 */
+		tagName: 'select',
+
+		add_lesson: function( event ) {
+
+			Instance.Tools.create_item( 'lesson', {
+				id: event.params.data.id,
+				title: event.params.data.title
+			} );
+
+		},
+
+		/**
+		 * Render the section
+		 * Initalizes a new collection and views for all lessons in the section
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		render: function() {
+			var self = this;
+			setTimeout( function () {
+				self.$el.llmsSelect2( {
+					ajax: {
+						dataType: 'JSON',
+						delay: 250,
+						method: 'POST',
+						url: window.ajaxurl,
+						data: function( params ) {
+							return {
+								action: 'llms_builder',
+								action_type: 'search',
+								course_id: window.llms_builder.course.id,
+								term: params.term,
+								page: params.page,
+								_ajax_nonce: wp_ajax_data.nonce,
+							};
+						},
+						error: function( xhr, status, error ) {
+							console.log( status, error );
+						},
+					},
+					placeholder: LLMS.l10n.translate( 'Search for existing lessons...' ),
+					dropdownParent: $( '.webui-popover-inner' ),
+					width: '100%',
+				} )
+			}, 0 );
+			return this;
+
+		},
+
+	} );
+
+	/**
 	 * Single Section View
 	 * @since    3.13.0
 	 * @version  3.14.0
@@ -1226,6 +1300,7 @@
 		 */
 		initialize: function() {
 			this.listenTo( this.model, 'sync', this.render );
+			this.listenTo( this.model, 'change:active', this.toggle_active );
 		},
 
 		/**
@@ -1466,6 +1541,7 @@
 		 */
 		events: {
 			'click button.llms-add-item': 'add_item',
+			'click button#llms-existing-lesson': 'show_search_popover',
 			'click a.bulk-toggle': 'bulk_toggle',
 		},
 
@@ -1494,39 +1570,11 @@
 			event.preventDefault();
 
 			var $btn = $( event.target ),
-				model = $btn.attr( 'data-model' ),
-				collection = 'section' === model ? Instance.Syllabus.collection : App.Methods.get_last_section().Lessons.collection;
+				type = $btn.attr( 'data-model' );
 
-			var temp_id = _.uniqueId( model + '_temp_' );
-
-			collection.create( { id: temp_id }, {
-				beforeSend: function() {
-					Instance.Status.add( temp_id );
-				},
-				success: function( res ) {
-					Instance.Status.remove( temp_id );
-				},
+			this.create_item( type, {
+				id: _.uniqueId( type + '_temp_' )
 			} );
-
-			var $el = $( '#llms-' + model + '-' + temp_id );
-			$el.addClass( 'brand-new' );
-
-			setTimeout( function() {
-				$el.removeClass( 'brand-new' );
-			}, 10 );
-
-			// open section
-			if ( 'lesson' === model ) {
-				$el.closest( '.llms-section' ).addClass( 'opened' );
-			}
-
-			// scroll to bottom
-			var $wrap = $( '#llms-course-syllabus' );
-			$wrap.animate( {
-				scrollTop: $wrap[0].scrollHeight - $wrap[0].clientHeight,
-			}, 200 );
-
-			App.Methods.sortable();
 
 		},
 
@@ -1546,15 +1594,82 @@
 
 		},
 
+		create_item: function( type, model ) {
+
+			var collection = 'section' === type ? Instance.Syllabus.collection : App.Methods.get_last_section().Lessons.collection;
+
+			collection.create( model, {
+				beforeSend: function() {
+					Instance.Status.add( model.id );
+				},
+				success: function( res ) {
+					Instance.Status.remove( model.id );
+				},
+			} );
+
+			var $el = $( '#llms-' + type + '-' + model.id );
+			$el.addClass( 'brand-new' );
+
+			setTimeout( function() {
+				$el.removeClass( 'brand-new' );
+			}, 10 );
+
+			// open section
+			if ( 'lesson' === type ) {
+				$el.closest( '.llms-section' ).addClass( 'opened' );
+			}
+
+			// scroll to bottom
+			var $wrap = $( '#llms-course-syllabus' );
+			$wrap.animate( {
+				scrollTop: $wrap[0].scrollHeight - $wrap[0].clientHeight,
+			}, 200 );
+
+			App.Methods.sortable();
+
+
+		},
+
+		/**
+		 * Disable the lesson tools when there's no section in the course
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		maybe_disable: function() {
 
-			var $btn = $( '#llms-new-lesson' );
+			var $btns = $( '#llms-new-lesson, #llms-existing-lesson' );
 
 			if ( ! Instance.Syllabus.collection.length ) {
-				$btn.attr( 'disabled', 'disabled' );
+				$btns.attr( 'disabled', 'disabled' );
 			} else {
-				$btn.removeAttr( 'disabled' );
+				$btns.removeAttr( 'disabled' );
 			}
+
+		},
+
+		show_search_popover: function( e ) {
+
+			WebuiPopovers.show( e.target, {
+				animation: 'pop',
+				backdrop: true,
+				content: new App.Views.LessonSearchPopover().render().$el,
+				closeable: true,
+				dismissible: true,
+				placement: 'left',
+				// style: 'inverse',
+				title: LLMS.l10n.translate( 'Add an Existing Lesson' ),
+				trigger: 'manual',
+				width: 340,
+				onShow: function( $popover ) {
+					$( '.webui-popover-backdrop' ).one( 'click', function() {
+						WebuiPopovers.hide( e.target );
+					} );
+				},
+				onHide: function() {
+					console.log( 'hiding' );
+				},
+			} );
 
 		},
 
