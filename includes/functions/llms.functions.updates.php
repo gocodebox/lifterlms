@@ -5,7 +5,7 @@
  * Functions here are used by the background updater during db updates
  *
  * @since    3.4.3
- * @version  [version]
+ * @version  3.14.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

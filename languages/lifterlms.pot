@@ -7058,7 +7058,7 @@ msgstr ""
 msgid "This order was migrated to the LifterLMS 3.0 data structure. %1$sLearn more%2$s."
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:951
+#: includes/functions/llms.functions.updates.php:956
 msgid "Welcome to LifterLMS 3.13.0! We've packed a ton of features into this release: Take a moment to get familiar with the all new %1$scourse builder%3$s and our new %2$suser roles%3$s."
 msgstr ""
 
