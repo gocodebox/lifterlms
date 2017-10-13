@@ -2,7 +2,7 @@
 /**
  * Course Builder
  * @since    3.13.0
- * @version  3.14.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,7 +15,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -133,7 +133,7 @@ class LLMS_Admin_Builder {
 			case 'search':
 				$page = isset( $request['page'] ) ? $request['page'] : 1;
 				$term = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
-				wp_send_json( self::get_orphaned_lessons( $term, $page ) );
+				wp_send_json( self::get_orphaned_lessons( absint( $request['course_id'] ), $term, $page ) );
 
 			break;
 
@@ -214,12 +214,46 @@ class LLMS_Admin_Builder {
 
 	}
 
-	private static function get_orphaned_lessons( $search_term = '', $page = 1 ) {
+	/**
+	 * Retrieve a list of orphaned lessons filtered by current user's permissions
+	 * Used for ajax searching to add existing lessons
+	 * @param    int        $course_id    WP Post ID of the course
+	 * @param    string     $search_term  optional search term (searches post_title)
+	 * @param    integer    $page         page, used when paginating search results
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function get_orphaned_lessons( $course_id, $search_term = '', $page = 1 ) {
 
 		global $wpdb;
 
 		$limit = 50;
 		$skip = ( $page - 1 ) * $limit;
+
+		$author_sql = '';
+
+		// if can't manage LifterLMS current user is either an instructor or an instructor's assistant
+		if ( ! current_user_can( 'manage_lifterlms', $course_id ) ) {
+
+			$instructor = llms_get_instructor();
+
+			$parents = $instructor->get( 'parent_instructors' );
+			if ( ! $parents ) {
+				$parents = array();
+			}
+
+			$ids = array_unique( array_merge(
+				array( get_current_user_id() ),
+				$instructor->get_assistants(),
+				$parents
+			) );
+			$ids = array_map( 'absint', $ids );
+			llms_log( $ids );
+			$author_sql = sprintf( 'AND post_author IN ( %s )', implode( ', ', $ids ) );
+
+
+		}
 
 		$query = $wpdb->get_results( $wpdb->prepare(
 			"SELECT SQL_CALC_FOUND_ROWS l.ID AS `id`, l.post_title AS `title`
@@ -233,6 +267,7 @@ class LLMS_Admin_Builder {
 			    AND l.post_status IN ( 'publish', 'draft', 'pending' )
 			    AND m.meta_value NOT IN ( SELECT ID FROM {$wpdb->posts} WHERE post_type = 'course' )
 			    AND l.post_title LIKE '%s'
+			    {$author_sql}
 			  LIMIT %d, %d;",
 			  '%' . $search_term . '%', $skip, $limit
 		), ARRAY_A );
@@ -257,25 +292,6 @@ class LLMS_Admin_Builder {
 				'more' => $more,
 			),
 		);
-
-		// $query = new WP_Query( array(
-		// 	'page' => $page,
-		// 	'posts_per_page' => 30,
-		// 	'post_status' => array( 'publish', 'draft', 'pending' ),
-		// 	'post_type' => 'lesson',
-		// 	'meta_query' => array(
-		// 		'relation' => 'OR',
-		// 		array(
-		// 			'compare' => '=',
-		// 			'key' => '_llms_parent_course',
-		// 			'value' => '',
-		// 		),
-		// 		array(
-		// 			'compare' => 'NOT EXISTS',
-		// 			'key' => '_llms_parent_course',
-		// 		),
-		// 	),
-		// ) );
 
 		return $ret;
 
@@ -564,7 +580,7 @@ class LLMS_Admin_Builder {
 	 * @param    int   $course_id   WP_Post ID of the course
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.14.0
+	 * @version  [version]
 	 */
 	private static function templates( $course_id ) {
 
