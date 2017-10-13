@@ -81,7 +81,6 @@ class LLMS_Admin_Builder {
 							}
 						}
 					}
-
 				} elseif ( 'model' === $request['object_type'] ) {
 
 					$id = ( false === strpos( $request['model']['id'], '_temp_' ) ) ? absint( $request['model']['id'] ) : 'new';
@@ -125,7 +124,7 @@ class LLMS_Admin_Builder {
 						$course = new LLMS_Course( $id );
 						$course->set( 'title', $request['model']['title'] );
 
-					}
+					}// End if().
 				}// End if().
 
 			break;
@@ -161,9 +160,9 @@ class LLMS_Admin_Builder {
 
 		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
 
-		if ( ! empty( $active_post_lock ) ) {
-			?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
-		}
+if ( ! empty( $active_post_lock ) ) {
+	?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
+}
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
@@ -252,7 +251,6 @@ class LLMS_Admin_Builder {
 			llms_log( $ids );
 			$author_sql = sprintf( 'AND post_author IN ( %s )', implode( ', ', $ids ) );
 
-
 		}
 
 		$query = $wpdb->get_results( $wpdb->prepare(
@@ -269,7 +267,7 @@ class LLMS_Admin_Builder {
 			    AND l.post_title LIKE '%s'
 			    {$author_sql}
 			  LIMIT %d, %d;",
-			  '%' . $search_term . '%', $skip, $limit
+			'%' . $search_term . '%', $skip, $limit
 		), ARRAY_A );
 
 		$sql = $wpdb->last_query;
