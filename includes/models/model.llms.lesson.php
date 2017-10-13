@@ -3,7 +3,7 @@
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.13.0
+ * @version  [version]
  *
  * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
  * @property  $audio_embed  (string)  Audio embed URL
@@ -133,10 +133,14 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Retrieve an instance of LLMS_Course for the lesson's parent course
 	 * @return   obj|null
 	 * @since    3.0.0
-	 * @version  3.6.0
+	 * @version  [version]
 	 */
 	public function get_course() {
-		return llms_get_post( $this->get_parent_course() );
+		$course_id = $this->get( 'parent_course' );
+		if ( ! $course_id ) {
+			return null;
+		}
+		return llms_get_post( $course_id );
 	}
 
 	/**
