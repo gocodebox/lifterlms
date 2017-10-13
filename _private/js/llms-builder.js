@@ -504,8 +504,13 @@
 
 					if ( object instanceof Backbone.Model ) {
 						object_type = 'model';
+						// console.log( object.hasChanged(), object.changed );
 					} else if ( object instanceof Backbone.Collection ) {
 						object_type = 'collection';
+						// console.log( object );
+						// object.each( function( model ) {
+						// 	console.log( model.hasChanged(), model.changed );
+						// } );
 					}
 
 					options.data.course_id = window.llms_builder.course.id;
@@ -584,7 +589,7 @@
 	/**
 	 * Lesson Model
 	 * @since    3.13.0
-	 * @version  3.14.0
+	 * @version  [version]
 	 */
 	App.Models.Lesson = Backbone.Model.extend( _.defaults( {
 
@@ -605,9 +610,6 @@
 				order: order,
 				section_id: section_id,
 
-				// computed
-				is_last: false,
-
 				// urls
 				edit_url: '',
 				view_url: '',
@@ -627,28 +629,34 @@
 		 * Initializer
 		 * @return   void
 		 * @since    3.14.0
-		 * @version  3.14.0
+		 * @version  [version]
 		 */
 		initialize: function() {
 
-			// set on init
-			this.set( { is_last: this.is_last() }, { silent: true } );
-
-			// update computed prop when
-			this.on( 'change:order', function() {
-				this.set( { is_last: this.is_last() }, { silent: true } );
-			} );
+			this.listenTo( this, 'detach', this.detach );
 
 		},
 
 		/**
-		 * Calculate the "is_last" property based on the lesson's order within the collection
-		 * @return   {Boolean}
-		 * @since    3.14.0
-		 * @version  3.14.0
+		 * Detach lesson from section
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
 		 */
-		is_last: function() {
-			return ( this.collection && this.collection.length === this.get( 'order' ) );
+		detach: function() {
+
+			var id = 'detach_' + this.id;
+
+			this.set( 'section_id', '' );
+			this.collection.remove( this.id );
+			this.save( null, {
+				beforeSend: function() {
+					Instance.Status.add( id );
+				},
+				success: function( res ) {
+					Instance.Status.remove( id );
+				},
+			} );
 		},
 
 		/**
@@ -666,7 +674,7 @@
 	/**
 	 * Section Model
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	App.Models.Section = Backbone.Model.extend( _.defaults( {
 
@@ -676,7 +684,7 @@
 		 * New section defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  version
 		 */
 		defaults: function() {
 			var order = this.collection ? this.collection.next_order() : 1;
@@ -685,9 +693,6 @@
 				title: 'New Section',
 				type: 'section',
 				order: order,
-
-				// computed
-				is_last: false,
 			};
 		},
 
@@ -709,34 +714,6 @@
 		 */
 		get_prev: function() {
 			return this.collection.at( this.collection.indexOf( this ) - 1 );
-		},
-
-		/**
-		 * Initiailizer
-		 * @return   void
-		 * @since    3.14.0
-		 * @version  3.14.0
-		 */
-		initialize: function() {
-
-			// set on init
-			this.set( { is_last: this.is_last() }, { silent: true } );
-
-			// update is_last computed prop when order changes
-			this.on( 'change:order', function() {
-				this.set( { is_last: this.is_last() }, { silent: true } );
-			} );
-
-		},
-
-		/**
-		 * Determines if the section is the last section in the collection
-		 * @return   {Boolean}
-		 * @since    3.13.0
-		 * @version  3.14.0
-		 */
-		is_last: function() {
-			return ( this.collection && this.get( 'order') === this.collection.length );
 		},
 
 	}, App.Mixins.Syncable ) );
@@ -882,7 +859,7 @@
 	/**
 	 * Single Lesson View
 	 * @since    3.13.0
-	 * @version  3.14.0
+	 * @version  [version]
 	 */
 	App.Views.Lesson = Backbone.View.extend( _.defaults( {
 
@@ -909,7 +886,7 @@
 		 * DOM Events
 		 * @type     obj
 		 * @since    3.13.0
-		 * @version  3.14.0
+		 * @version  [version]
 		 */
 		events: _.defaults( {
 			'drop-lesson': 'drop',
@@ -917,6 +894,7 @@
 			'click .llms-action-icon.section-prev': 'section_prev',
 			'click .llms-action-icon.section-next': 'section_next',
 			'click .llms-action-icon.trash': 'delete_lesson',
+			'click .llms-action-icon.detach': 'detach_lesson',
 		}, App.Mixins.EditableView.events, App.Mixins.ShiftableView.events ),
 
 		/**
@@ -974,6 +952,21 @@
 		},
 
 		/**
+		 * Removes a lesson from the course (turns it into an orphan)
+		 * @param    obj   event  js event obj
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		detach_lesson: function( event ) {
+
+			event.stopPropagation();
+			event.preventDefault();
+			this.model.trigger( 'detach' );
+
+		},
+
+		/**
 		 * Draggable/Sortable DROP event
 		 * @param    {obj}   event            js event obj
 		 * @param    {obj}   $item            jQuery obj of the dropped item
@@ -1027,6 +1020,9 @@
 		 * @version  3.13.0
 		 */
 		render: function() {
+			if ( ! this.model.get( 'section_id' ) ) {
+				return this;
+			}
 			this.$el.html( this.template( this.model.toJSON() ) );
 			return this;
 		},
@@ -1118,12 +1114,22 @@
 		 */
 		tagName: 'select',
 
+		/**
+		 * Select event, adds the existing lesson to the course
+		 * @param    obj   event  select2:select event object
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		add_lesson: function( event ) {
+
+			WebuiPopovers.hide( $( '#llms-existing-lesson' ) );
 
 			Instance.Tools.create_item( 'lesson', {
 				id: event.params.data.id,
 				title: event.params.data.title
 			} );
+
+			this.$el.val( null ).trigger( 'change' );
 
 		},
 
@@ -1153,14 +1159,14 @@
 								_ajax_nonce: wp_ajax_data.nonce,
 							};
 						},
-						error: function( xhr, status, error ) {
-							console.log( status, error );
-						},
+						// error: function( xhr, status, error ) {
+						// 	console.log( status, error );
+						// },
 					},
 					placeholder: LLMS.l10n.translate( 'Search for existing lessons...' ),
 					dropdownParent: $( '.webui-popover-inner' ),
 					width: '100%',
-				} )
+				} );
 			}, 0 );
 			return this;
 
@@ -1200,10 +1206,10 @@
 		 * @version  3.14.0
 		 */
 		events: _.defaults( {
-			'drop-section': 'drop',
 			'click .llms-action-icon.expand': 'lessons_show',
 			'click .llms-action-icon.collapse': 'lessons_hide',
 			'click .llms-action-icon.trash': 'delete_section',
+			'drop-section': 'drop',
 		}, App.Mixins.EditableView.events, App.Mixins.ShiftableView.events ),
 
 		/**
@@ -1300,7 +1306,6 @@
 		 */
 		initialize: function() {
 			this.listenTo( this.model, 'sync', this.render );
-			this.listenTo( this.model, 'change:active', this.toggle_active );
 		},
 
 		/**
@@ -1376,33 +1381,35 @@
 		},
 
 		/**
-		 * Remove a lesson from a collection
-		 * @param    {obj}      lesson      model of the lesson to remove
-		 * @param    {obj}      collection  collection to remove the lesson from
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		destroy_one: function( lesson, collection ) {
-			this.sort_collection( collection );
-			collection.sync_order();
-		},
-
-		/**
 		 * Initializer
 		 * Bind collection events
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  [version]
 		 */
 		initialize: function() {
 
 			this.listenTo( this.collection, 'add', this.add_one );
-			this.listenTo( this.collection, 'destroy', this.destroy_one );
+			this.listenTo( this.collection, 'destroy', this.remove_one );
+			this.listenTo( this.collection, 'remove', this.remove_one );
 			this.listenTo( this.collection, 'rerender', this.render );
 			App.Methods.sortable();
 
 		},
+
+		/**
+		 * Remove a lesson from a collection
+		 * @param    {obj}      lesson      model of the lesson to remove
+		 * @param    {obj}      collection  collection to remove the lesson from
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		remove_one: function( lesson, collection ) {
+			this.sort_collection( collection );
+			collection.sync_order();
+		},
+
 
 		/**
 		 * Render the view
@@ -1523,7 +1530,7 @@
 	/**
 	 * "Tools" sidebar view
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	App.Views.Tools = Backbone.View.extend( {
 
@@ -1537,7 +1544,7 @@
 		 * Dom Events
 		 * @type     {Object}
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  [version]
 		 */
 		events: {
 			'click button.llms-add-item': 'add_item',
@@ -1594,6 +1601,14 @@
 
 		},
 
+		/**
+		 * Creates a model (section or lesson)
+		 * @param    string   type   model type [section or lesson]
+		 * @param    obj      model  model object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		create_item: function( type, model ) {
 
 			var collection = 'section' === type ? Instance.Syllabus.collection : App.Methods.get_last_section().Lessons.collection;
@@ -1627,7 +1642,6 @@
 
 			App.Methods.sortable();
 
-
 		},
 
 		/**
@@ -1648,6 +1662,13 @@
 
 		},
 
+		/**
+		 * Show a popover to select an existing lesson
+		 * @param    obj   e  js click event obj
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		show_search_popover: function( e ) {
 
 			WebuiPopovers.show( e.target, {
@@ -1656,8 +1677,8 @@
 				content: new App.Views.LessonSearchPopover().render().$el,
 				closeable: true,
 				dismissible: true,
+				multi: false,
 				placement: 'left',
-				// style: 'inverse',
 				title: LLMS.l10n.translate( 'Add an Existing Lesson' ),
 				trigger: 'manual',
 				width: 340,
@@ -1666,9 +1687,9 @@
 						WebuiPopovers.hide( e.target );
 					} );
 				},
-				onHide: function() {
-					console.log( 'hiding' );
-				},
+				// onHide: function( $element ) {
+					// $element.remove();
+				// },
 			} );
 
 		},

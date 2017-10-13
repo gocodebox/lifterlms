@@ -104,12 +104,18 @@ class LLMS_Admin_Builder {
 
 						$lesson = new LLMS_Lesson( $id, $request['model']['title'] );
 
-						$lesson->set( 'parent_course', $request['course_id'] );
 						$lesson->set( 'parent_section', $request['model']['section_id'] );
 						$lesson->set( 'order', $request['model']['order'] );
 
 						if ( 'new' !== $id ) {
 							$lesson->set( 'title', $request['model']['title'] );
+						}
+
+						// detach the lesson
+						if ( '' === $request['model']['section_id'] ) {
+							$lesson->set( 'parent_course', '' );
+						} else {
+							$lesson->set( 'parent_course', $request['course_id'] );
 						}
 
 						wp_send_json( self::get_lesson( $lesson->get( 'id' ), false, true ) );
@@ -630,19 +636,16 @@ class LLMS_Admin_Builder {
 						<span class="fa fa-minus-circle"></span>
 					</a>
 
-					<# if ( 1 !== data.order ) { #>
-						<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
-							<span class="fa fa-caret-square-o-up"></span>
-						</a>
-					<# } #>
-					<# if ( ! data.is_last ) { #>
-						<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
-							<span class="fa fa-caret-square-o-down"></span>
-						</a>
-					<# } #>
+					<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
+						<span class="fa fa-caret-square-o-up"></span>
+					</a>
+
+					<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
+						<span class="fa fa-caret-square-o-down"></span>
+					</a>
 
 					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-						<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
+						<a class="llms-action-icon trash danger" data-title-default="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
 							<span class="fa fa-trash"></span>
 						</a>
 					<?php endif; ?>
@@ -679,8 +682,6 @@ class LLMS_Admin_Builder {
 
 				<div class="llms-action-icons">
 
-					<# data.section = window.llms_builder.Instance.Syllabus.collection.get( data.section_id ); #>
-
 					<# if ( data.edit_url ) { #>
 						<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'Edit lesson settings', 'lifterlms' ); ?>" href="{{{ data.edit_url }}}">
 							<span class="fa fa-pencil"></span>
@@ -690,31 +691,28 @@ class LLMS_Admin_Builder {
 						<span class="fa fa-external-link"></span>
 					</a>
 
-					<# if ( 1 !== data.order ) { #>
-						<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
-							<span class="fa fa-caret-square-o-up"></span>
-						</a>
-					<# } #>
-					<# if ( ! data.is_last ) { #>
-						<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
-							<span class="fa fa-caret-square-o-down"></span>
-						</a>
-					<# } #>
+					<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
+						<span class="fa fa-caret-square-o-up"></span>
+					</a>
 
-					<# if ( 1 !== data.section.get( 'order' ) ) { #>
-						<a class="llms-action-icon section-prev" data-title-default="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>" href="#llms-section-change">
-							<span class="fa fa-arrow-circle-o-up"></span>
-						</a>
-					<# } #>
+					<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
+						<span class="fa fa-caret-square-o-down"></span>
+					</a>
 
-					<# if ( ! data.section.is_last() ) { #>
-						<a class="llms-action-icon section-next" data-title-default="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>" href="#llms-section-change">
-							<span class="fa fa-arrow-circle-o-down"></span>
-						</a>
-					<# } #>
+					<a class="llms-action-icon section-prev" data-title-default="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>" href="#llms-section-change">
+						<span class="fa fa-arrow-circle-o-up"></span>
+					</a>
+
+					<a class="llms-action-icon section-next" data-title-default="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>" href="#llms-section-change">
+						<span class="fa fa-arrow-circle-o-down"></span>
+					</a>
+
+					<a class="llms-action-icon detach danger" data-title-default="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" href="#llms-detach">
+						<span class="fa fa-chain-broken"></span>
+					</a>
 
 					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-						<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Lesson', 'lifterlms' ); ?>" href="#llms-trash">
+						<a class="llms-action-icon trash danger" data-title-default="<?php esc_attr_e( 'Delete Lesson', 'lifterlms' ); ?>" href="#llms-trash">
 							<span class="fa fa-trash"></span>
 						</a>
 					<?php endif; ?>

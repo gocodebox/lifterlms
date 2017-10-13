@@ -3122,7 +3122,7 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
 .llms-course-builder .llms-action-icon:hover {
   color: #2295ff;
 }
-.llms-course-builder .llms-action-icon:hover.trash {
+.llms-course-builder .llms-action-icon:hover.danger {
   color: #e5554e;
 }
 .llms-course-builder .llms-action-icon.collapse {
@@ -3207,6 +3207,18 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
 .llms-course-builder .llms-section:last-child:before {
   height: 0;
 }
+.llms-course-builder .llms-section:first-child > .llms-builder-header .llms-action-icon.shift-up {
+  display: none;
+}
+.llms-course-builder .llms-section:last-child > .llms-builder-header .llms-action-icon.shift-down {
+  display: none;
+}
+.llms-course-builder .llms-section:first-child .llms-action-icon.section-prev {
+  display: none;
+}
+.llms-course-builder .llms-section:last-child .llms-action-icon.section-next {
+  display: none;
+}
 .llms-course-builder .llms-section header {
   padding: 10px 20px;
 }
@@ -3255,6 +3267,12 @@ body.admin_page_llms-course-builder.folded .llms-course-builder {
   background: inherit;
 }
 .llms-course-builder .llms-lesson:last-child:before {
+  display: none;
+}
+.llms-course-builder .llms-lesson:first-child .llms-action-icon.shift-up {
+  display: none;
+}
+.llms-course-builder .llms-lesson:last-child .llms-action-icon.shift-down {
   display: none;
 }
 .llms-course-builder .llms-lesson header {
