@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v3.14.3 - 2017/10/12 =
+------------------------
+
++ Fix [lifterlms_my_account] shortcode issue affecting Divi theme users
+
+
 = v3.14.2 - 2017/10/11 =
 ------------------------
 
