@@ -3545,7 +3545,7 @@ msgstr ""
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:217, includes/class.llms.student.dashboard.php:135, includes/functions/llms.functions.templates.dashboard.php:251
+#: includes/class.llms.install.php:217, includes/class.llms.student.dashboard.php:135, includes/functions/llms.functions.templates.dashboard.php:248
 msgid "My Courses"
 msgstr ""
 
@@ -4401,7 +4401,7 @@ msgctxt "slug"
 msgid "my_certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:613, includes/functions/llms.functions.templates.dashboard.php:215
+#: includes/class.llms.post-types.php:613, includes/functions/llms.functions.templates.dashboard.php:212
 msgid "My Certificates"
 msgstr ""
 
@@ -5182,7 +5182,7 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:140, includes/functions/llms.functions.templates.dashboard.php:186
+#: includes/class.llms.student.dashboard.php:140, includes/functions/llms.functions.templates.dashboard.php:184
 msgid "My Achievements"
 msgstr ""
 
@@ -7018,19 +7018,19 @@ msgstr ""
 msgid "You are not enrolled in any courses."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:103
+#: includes/functions/llms.functions.templates.dashboard.php:101
 msgid "You are not enrolled in any memberships."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:174
+#: includes/functions/llms.functions.templates.dashboard.php:172
 msgid "View All My Achievements"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:241
+#: includes/functions/llms.functions.templates.dashboard.php:238
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:279
+#: includes/functions/llms.functions.templates.dashboard.php:276
 msgid "My Memberships"
 msgstr ""
 
@@ -8759,10 +8759,6 @@ msgstr ""
 
 #: templates/membership/price.php:25
 msgid "or"
-msgstr ""
-
-#: templates/myaccount/dashboard.php:39
-msgid "<p>Hello <strong>%1$s</strong></p>"
 msgstr ""
 
 #: templates/myaccount/form-edit-account.php:45

@@ -84,7 +84,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  3.14.3
  */
 if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 	function lifterlms_template_my_memberships_loop( $student = null ) {
@@ -95,8 +95,6 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 		}
 
 		$memberships = $student->get_membership_levels();
-
-		ob_start();
 
 		if ( ! $memberships ) {
 
@@ -206,7 +204,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 		}
 
 		ob_start();
-
 		lifterlms_template_certificates_loop( $student );
 
 		llms_get_template( 'myaccount/dashboard-section.php', array(
