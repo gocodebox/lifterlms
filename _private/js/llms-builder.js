@@ -589,7 +589,7 @@
 	/**
 	 * Lesson Model
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.4
 	 */
 	App.Models.Lesson = Backbone.Model.extend( _.defaults( {
 
@@ -629,7 +629,7 @@
 		 * Initializer
 		 * @return   void
 		 * @since    3.14.0
-		 * @version  [version]
+		 * @version  3.14.4
 		 */
 		initialize: function() {
 
@@ -640,8 +640,8 @@
 		/**
 		 * Detach lesson from section
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.4
+		 * @version  3.14.4
 		 */
 		detach: function() {
 
@@ -674,7 +674,7 @@
 	/**
 	 * Section Model
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.4
 	 */
 	App.Models.Section = Backbone.Model.extend( _.defaults( {
 
@@ -859,7 +859,7 @@
 	/**
 	 * Single Lesson View
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.4
 	 */
 	App.Views.Lesson = Backbone.View.extend( _.defaults( {
 
@@ -886,7 +886,7 @@
 		 * DOM Events
 		 * @type     obj
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.14.4
 		 */
 		events: _.defaults( {
 			'drop-lesson': 'drop',
@@ -955,8 +955,8 @@
 		 * Removes a lesson from the course (turns it into an orphan)
 		 * @param    obj   event  js event obj
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.4
+		 * @version  3.14.4
 		 */
 		detach_lesson: function( event ) {
 
@@ -1101,8 +1101,8 @@
 		/**
 		 * DOM Events
 		 * @type     obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.4
+		 * @version  3.14.4
 		 */
 		events: {
 			'select2:select': 'add_lesson',
@@ -1117,8 +1117,8 @@
 		/**
 		 * Select event, adds the existing lesson to the course
 		 * @param    obj   event  select2:select event object
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.4
+		 * @version  3.14.4
 		 */
 		add_lesson: function( event ) {
 
@@ -1137,8 +1137,8 @@
 		 * Render the section
 		 * Initalizes a new collection and views for all lessons in the section
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.4
+		 * @version  3.14.4
 		 */
 		render: function() {
 			var self = this;
@@ -1385,7 +1385,7 @@
 		 * Bind collection events
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.14.4
 		 */
 		initialize: function() {
 
@@ -1402,8 +1402,8 @@
 		 * @param    {obj}      lesson      model of the lesson to remove
 		 * @param    {obj}      collection  collection to remove the lesson from
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.4
+		 * @version  3.14.4
 		 */
 		remove_one: function( lesson, collection ) {
 			this.sort_collection( collection );
@@ -1530,7 +1530,7 @@
 	/**
 	 * "Tools" sidebar view
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.4
 	 */
 	App.Views.Tools = Backbone.View.extend( {
 
@@ -1544,7 +1544,7 @@
 		 * Dom Events
 		 * @type     {Object}
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.14.4
 		 */
 		events: {
 			'click button.llms-add-item': 'add_item',
@@ -1606,8 +1606,8 @@
 		 * @param    string   type   model type [section or lesson]
 		 * @param    obj      model  model object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.4
+		 * @version  3.14.4
 		 */
 		create_item: function( type, model ) {
 
@@ -1647,8 +1647,8 @@
 		/**
 		 * Disable the lesson tools when there's no section in the course
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.4
+		 * @version  3.14.4
 		 */
 		maybe_disable: function() {
 
@@ -1666,8 +1666,8 @@
 		 * Show a popover to select an existing lesson
 		 * @param    obj   e  js click event obj
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.14.4
+		 * @version  3.14.4
 		 */
 		show_search_popover: function( e ) {
 

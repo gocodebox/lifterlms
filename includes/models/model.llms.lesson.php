@@ -3,7 +3,7 @@
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.4
  *
  * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
  * @property  $audio_embed  (string)  Audio embed URL
@@ -133,7 +133,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Retrieve an instance of LLMS_Course for the lesson's parent course
 	 * @return   obj|null
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.14.4
 	 */
 	public function get_course() {
 		$course_id = $this->get( 'parent_course' );

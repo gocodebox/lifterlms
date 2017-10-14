@@ -2,7 +2,7 @@
 /**
  * BuddyPress Integration
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -112,7 +112,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Callback for "Achievements" profile screen
 	 * @return null
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.14.4
 	 */
 	public function achievements_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_achievements' );
@@ -123,7 +123,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Callback for "Certificates" profile screen
 	 * @return null
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.14.4
 	 */
 	public function certificates_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_certificates' );
@@ -134,7 +134,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Callback for "Courses" profile screen
 	 * @return null
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.14.4
 	 */
 	public function courses_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_courses' );
@@ -145,7 +145,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Callback for "memberships" profile screen
 	 * @return null
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.14.4
 	 */
 	public function memberships_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_memberships' );

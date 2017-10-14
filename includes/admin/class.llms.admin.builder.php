@@ -2,7 +2,7 @@
 /**
  * Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.14.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,7 +15,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.4
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -220,8 +220,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    string     $search_term  optional search term (searches post_title)
 	 * @param    integer    $page         page, used when paginating search results
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.4
+	 * @version  3.14.4
 	 */
 	private static function get_orphaned_lessons( $course_id, $search_term = '', $page = 1 ) {
 
@@ -578,7 +578,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    int   $course_id   WP_Post ID of the course
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.4
 	 */
 	private static function templates( $course_id ) {
 

@@ -3,7 +3,7 @@
  * LifterLMS Instructor class
  * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant
  * @since   3.13.0
- * @version [version]
+ * @version 3.14.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,7 +15,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * @param    mixed     $parent_id  WP User ID of the parent instructor or array of User IDs to add multiple
 	 * @return   boolean
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.4
 	 */
 	public function add_parent( $parent_ids ) {
 
@@ -45,8 +45,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve an array of user ids for assistant instructors attached to the current instructor
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.4
+	 * @version  3.14.4
 	 */
 	public function get_assistants() {
 
