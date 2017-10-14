@@ -2,7 +2,7 @@
 /**
  * BuddyPress Integration
  * @since    1.0.0
- * @version  3.12.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -112,99 +112,44 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Callback for "Achievements" profile screen
 	 * @return null
 	 * @since   1.0.0
-	 * @version 1.0.0
+	 * @version [version]
 	 */
 	public function achievements_screen() {
-		// add_action('bp_template_title', array($this,'achievements_title'));
-		add_action( 'bp_template_content', array( $this, 'achievements_content' ) );
+		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_achievements' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-	}
-
-	/**
-	 * "Achievements" profile screen content
-	 * @return null
-	 * @since   1.0.0
-	 * @version 1.0.0
-	 */
-	public function achievements_content() {
-		llms_get_template( 'myaccount/my-achievements.php' );
 	}
 
 	/**
 	 * Callback for "Certificates" profile screen
 	 * @return null
 	 * @since   1.0.0
-	 * @version 1.0.0
+	 * @version [version]
 	 */
 	public function certificates_screen() {
-		// add_action('bp_template_title', array($this,'certificates_title'));
-		add_action( 'bp_template_content', array( $this, 'certificates_content' ) );
+		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_certificates' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-	}
-
-	/**
-	 * "Certificates" profile screen content
-	 * @return null
-	 * @since   1.0.0
-	 * @version 1.0.0
-	 */
-	public function certificates_content() {
-		llms_get_template( 'myaccount/my-certificates.php' );
 	}
 
 	/**
 	 * Callback for "Courses" profile screen
 	 * @return null
 	 * @since   1.0.0
-	 * @version 1.0.0
+	 * @version [version]
 	 */
 	public function courses_screen() {
-		// add_action('bp_template_title', array($this,'courses_title'));
-		add_action( 'bp_template_content', array( $this, 'courses_content' ) );
+		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_courses' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-	}
-
-	/**
-	 * "Courses" profile screen content
-	 * @return null
-	 * @since   1.0.0
-	 * @version 1.0.0
-	 */
-	public function courses_content() {
-		$student = new LLMS_Student();
-		$courses = $student->get_courses( array(
-			'limit' => ( ! isset( $_GET['limit'] ) ) ? 10 : $_GET['limit'],
-			'skip' => ( ! isset( $_GET['skip'] ) ) ? 0 : $_GET['skip'],
-			'status' => 'enrolled',
-		) );
-
-		llms_get_template( 'myaccount/my-courses.php', array(
-			'student' => $student,
-			'courses' => $courses,
-			'pagination' => $courses['more'],
-		) );
 	}
 
 	/**
 	 * Callback for "memberships" profile screen
 	 * @return null
 	 * @since   1.0.0
-	 * @version 1.0.0
+	 * @version [version]
 	 */
 	public function memberships_screen() {
-		// add_action('bp_template_title', array($this,'memberships_title'));
-		add_action( 'bp_template_content', array( $this, 'memberships_content' ) );
+		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_memberships' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-	}
-
-	/**
-	 * "memberships" profile screen content
-	 * @return null
-	 * @since   1.0.0
-	 * @version 1.0.0
-	 */
-	public function memberships_content() {
-		llms_get_template( 'myaccount/my-memberships.php' );
 	}
 
 	/**
