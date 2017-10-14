@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v3.14.4 - 2017/10/13 =
+------------------------
+
++ You were right and we were wrong & we are sorry. This update returns the ability to add existing lessons to a course via the course builder.
++ Lessons added to a section will no longer visually disappear when editing a section title on the course builder
++ BuddyPress integration BP template fixes
+
+
 = v3.14.3 - 2017/10/12 =
 ------------------------
 
