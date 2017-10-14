@@ -2,70 +2,189 @@
 
 LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
 
->**Universe Bundle, LifterLMS Pro, LaunchPad theme, Done For You Services and More**
->
->Users looking for more timely/in-depth support are encouraged to check out LifterLMS Pro. One-on-one LifterLMS Pro support is responded to within 12 business hours.
->
->6 achievement badge packs and 6 premium certificate backgrounds graphic assets also come with [LifterLMS Pro][pro].
->
->If you are looking for the best WordPress theme to pair with LifterLMS, check out the [LifterLMS LaunchPad Theme][lp].
->
->You should also check out the [LifterLMS Stripe][stripe], [LifterLMS PayPal][pp], [LifterLMS WooCommerce](wc), [LifterLMS ConvertKit][ck], and [LifterLMS MailChimp][mc] extensions to LifterLMS.
->
->You can save big and get all the products made by LifterLMS with the [Universe Bundle][bundle].
->
->If you'd like to be up and running with a beautiful and professional WordPress LMS website in just 5 days, you can also explore our signature [Done For You][dfy] white glove service.
-
-Take a look at the explanation videos of LifterLMS. These 17 tutorial videos are included in the [free LifterLMS demo course][demo].
-
 https://www.youtube.com/watch?v=LugJPS7bhxI
 
-More information at [LifterLMS.com][home].
 
-#### [Features][features]
+# **Extend and Enhance LifterLMS with Add-ons**
 
-Whether you're an entrepreneur delivering your own courses, a school with lots of users, a player in the business-to-business corporate training space, or using online courses for marketing purposes, LifterLMS has your back.
+#### **Advanced**
 
-LifterLMS works great for health and fitness courses, music courses, real estate courses, language learning courses, and much, much more.
+_Courses + Community + Coaching = Engagement_
 
-**[Learning Management System Features][feature-lms]**
++ [LifterLMS Private Areas][pa]
++ [LifterLMS Social Learning][sl]
 
-+ Intuitive course builder
-+ Use text, video, audio, images, or any combination in your lessons
-+ Quizzing
-+ Prerequisites
-+ Student dashboards
-+ Student analytics
+#### **Integrations**
+
+_Integrate with the third-party tools you know and love_
+
++ [LifterLMS Stripe][stripe]
++ [LifterLMS PayPal][pp]
++ [LifterLMS Authorize.Net][anet]
++ [LifterLMS WooCommerce][wc]
++ [LifterLMS ConvertKit][ck]
++ [LifterLMS MailChimp][mc]
+
+#### **Design Tools**
+
+_Make your learning platform beautiful_
+
++ [LifterLMS Pro][pro]
++ [LifterLMS LaunchPad Theme][lp]
+
+#### **Support**
+
+_Our world-class support has your back_
+
++ [LifterLMS Pro][pro]
++ [LifterLMS Office Hours][oh]
+
+#### **Save Big with a Bundle**
+
+_Save money while unlocking the full potential of your learning platform_
+
++ [Infinity Bundle][infinity]
++ [Universe Bundle][universe]
+
+
+# **Give LifterLMS a Try**
+
+_Try LifterLMS and the premium add-ons before investing any time_
+
++ [Try LifterLMS for $1][try]
++ [Take a Free Course][demo]
+
+
+# **[LifterLMS Features][features]**
+
+_With LifterLMS and LifterLMS Add-ons you can..._
+
+#### **Create Courses**
+
++ Multimedia lessons
++ Quizzes
++ Course builder
++ Drip Content
++ Pre-requisites
++ Course tracks
++ Assignments (coming soon)
++ Quiz time limits
++ Student dashboard
++ Multi-instructor
++ Lesson downloads
++ Course import & export
++ Discussion areas
++ Instructional design
++ Forum integrations
++ Graphics pack
++ Course reviews
+
+#### **Build an Education-Based Business**
+
++ Credit card payments
++ One-time payments
++ Recurring payments
++ Payment plans
++ Unlimited pricing models
++ PayPal
++ Subscriptions
++ Checkout
++ Free courses
++ Course bundles
++ Private coaching upsells
++ Coupons
++ Bulk sales
++ Affiliate ready
++ Native sales pages
++ Offline sales
++ Customizable enrollment
++ Country and currency
++ E-commerce dashboard
++ Credit card management
++ Subscription switching
++ Payment switching
+
+#### **Engage Your Students**
+
++ Achievement bages
++ Certificates
++ Peronalized email
++ Social learning
++ Private coaching
++ Text messaging
+
+#### **Offer Memberships**
+
++ Sitewide membership
++ Course bundles
++ Traditional memberships
++ Automatic course enrollment
++ Bulk course enrollment
++ Content restrictions
++ Members-only payment plans
++ Private group discussions
++ Members-only forums
+
+#### **Integrate with the Tools You Need**
+
++ Payment gateways
++ Email marketing
++ Forums
++ Mobile friendly
++ Use any theme
++ Built for compatibility
++ CRMs
++ E-learning authoring tools
++ Tin Can API (xAPI)
+
+#### **Secure and Protect Your Content**
+
++ Course protection
++ User account management and registration
++ Members-only content
++ Restricted access
++ Password management
++ Self-hosted
+
+#### **Own and Manage Your Platform**
+
++ Detailed reporting
++ Gradebook
++ Email notifications
++ Bulk enrollments
 + Student management
++ Access management
++ Web design management
++ Branding & Typography
++ LMS Roles
++ Security
++ Require terms
++ Scaleable
++ Layout
++ Testing tools
 
-**[Ecommerce Features][feature-ecomm]**
+#### **Get Support**
 
-+ Accept one-time and/or recurring payments for your courses and memberships
-+ Coupon system
-+ A voucher code system so you can grant access to large groups of people
-+ Accept credit cards directly on your site with the LifterLMS Stripe Extension
-+ Ecommerce analytics
-+ Create degree programs or course tracks by grouping courses together that can be taken in any order
++ Technical support
++ Live office hours
++ Free training courses
++ Setup wizard
++ Detailed documentation
++ Dynamic resources
++ Demo course
++ System analyzer
++ User community
++ Developer ecosystem
 
-**[Membership Site Features][feature-membership]**
+#### **Further Reading**
 
-+ Group courses together inside a membership level so you can sell many courses at once
-+ Protect non-LMS content, like regular WordPress pages, posts, bbPress forums, and more
++ The [LifterLMS Official Homepage][home]
++ The [LifterLMS Knowledgebase][docs]
++ The [LifterLMS Blog][blog]
++ The [LifterLMS Podcast][podcast]
 
-**[Engagement and Gamification Features][feature-engagement]**
 
-+ Personalized email system triggered on user events in the system that you define
-+ Personalized achievement and badge system triggered on user events in the system that you define
-+ Personalized certificate system
-
-**Further Reading**
-
-+ The [LifterLMS plugin][home] official homepage
-+ The [LifterLMS knowledgebase][docs]
-+ The [LifterLMS blog][blog]
-+ The [LifterLMS podcast][podcast]
-
-#### Join Our Growing Community
+# **Join Our Growing Community**
 
 When you download LifterLMS, you join a thriving community of education entrepreneurs, developers, and WordPress enthusiasts. We’re one of the fastest growing open source eLearning communities online, and you are welcome here.
 
@@ -85,15 +204,21 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 [translate]: https://translate.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [facebook]: https://www.facebook.com/groups/lifterlmsvip/
 
-[pro]: https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[stripe]: https://lifterlms.com/product/stripe-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[pp]: https://lifterlms.com/product/paypal-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[wc]: https://lifterlms.com/product/woocommerce-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[mc]: https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[bundle]: https://lifterlms.com/product/universe-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[anet]: https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[mc]: https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[oh]: https://lifterlms.com/product/office-hours/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[pa]: https://lifterlms.com/product/private-areas/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[pp]: https://lifterlms.com/product/paypal-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[pro]: https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[sl]: https://lifterlms.com/product/social-learning/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[stripe]: https://lifterlms.com/product/stripe-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[try]: https://lifterlms.com/product/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[universe]: https://lifterlms.com/product/universe-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[wc]: https://lifterlms.com/product/woocommerce-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 
 [features]: https://lifterlms.com/features/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [feature-lms]: https://lifterlms.com/features/lms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale

@@ -75,7 +75,7 @@ body.admin_page_llms-course-builder {
 		text-decoration: none;
 		&:hover {
 			color: $color-brand-blue;
-			&.trash { color: $color-danger; }
+			&.danger { color: $color-danger; }
 		}
 		&.collapse { display: none; }
 		&.expand { display: inline-block; }
@@ -142,6 +142,9 @@ body.admin_page_llms-course-builder {
 			top: 18px;
 			width: 2px;
 		}
+		&.active {
+			background: red;
+		}
 		&.opened,
 		&.hover-opened {
 			.llms-lessons {
@@ -157,6 +160,12 @@ body.admin_page_llms-course-builder {
 		&:last-child:before {
 			height: 0;
 		}
+
+		&:first-child > .llms-builder-header .llms-action-icon.shift-up { display: none; }
+		&:last-child > .llms-builder-header .llms-action-icon.shift-down { display: none; }
+
+		&:first-child .llms-action-icon.section-prev { display: none; }
+		&:last-child .llms-action-icon.section-next { display: none; }
 
 		header {
 			padding: 10px 20px;
@@ -216,6 +225,10 @@ body.admin_page_llms-course-builder {
 		&:last-child:before {
 			display: none;
 		}
+
+		// hide action icons based on position
+		&:first-child .llms-action-icon.shift-up { display: none; }
+		&:last-child .llms-action-icon.shift-down { display: none; }
 
 		header {
 			padding-left: 30px;
@@ -370,7 +383,7 @@ body.admin_page_llms-course-builder {
 			text-decoration: none;
 		}
 
-		.llms-add-item {
+		.llms-tool-button {
 			background: $color-brand-blue;
 			border-radius: 4px;
 			border: none;

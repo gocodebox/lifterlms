@@ -2,7 +2,7 @@
 /**
  * Course Builder
  * @since    3.13.0
- * @version  3.14.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,7 +15,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -67,7 +67,7 @@ class LLMS_Admin_Builder {
 
 			case 'update':
 
-				// reorder sectioes or lessons
+				// reorder sections or lessons
 				if ( 'collection' === $request['object_type'] && in_array( $request['data_type'], array( 'section', 'lesson' ) ) ) {
 
 					if ( isset( $request['models'] ) ) {
@@ -103,12 +103,18 @@ class LLMS_Admin_Builder {
 
 						$lesson = new LLMS_Lesson( $id, $request['model']['title'] );
 
-						if ( 'new' === $id ) {
-							$lesson->set( 'parent_course', $request['course_id'] );
-							$lesson->set( 'parent_section', $request['model']['section_id'] );
-							$lesson->set( 'order', $request['model']['order'] );
-						} else {
+						$lesson->set( 'parent_section', $request['model']['section_id'] );
+						$lesson->set( 'order', $request['model']['order'] );
+
+						if ( 'new' !== $id ) {
 							$lesson->set( 'title', $request['model']['title'] );
+						}
+
+						// detach the lesson
+						if ( '' === $request['model']['section_id'] ) {
+							$lesson->set( 'parent_course', '' );
+						} else {
+							$lesson->set( 'parent_course', $request['course_id'] );
 						}
 
 						wp_send_json( self::get_lesson( $lesson->get( 'id' ), false, true ) );
@@ -118,8 +124,15 @@ class LLMS_Admin_Builder {
 						$course = new LLMS_Course( $id );
 						$course->set( 'title', $request['model']['title'] );
 
-					}
+					}// End if().
 				}// End if().
+
+			break;
+
+			case 'search':
+				$page = isset( $request['page'] ) ? $request['page'] : 1;
+				$term = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
+				wp_send_json( self::get_orphaned_lessons( absint( $request['course_id'] ), $term, $page ) );
 
 			break;
 
@@ -146,6 +159,7 @@ class LLMS_Admin_Builder {
 		}
 
 		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
+
 if ( ! empty( $active_post_lock ) ) {
 	?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
 }
@@ -196,6 +210,88 @@ if ( ! empty( $active_post_lock ) ) {
 		// if ( $include_quizzes ) {}
 
 		return $data;
+
+	}
+
+	/**
+	 * Retrieve a list of orphaned lessons filtered by current user's permissions
+	 * Used for ajax searching to add existing lessons
+	 * @param    int        $course_id    WP Post ID of the course
+	 * @param    string     $search_term  optional search term (searches post_title)
+	 * @param    integer    $page         page, used when paginating search results
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function get_orphaned_lessons( $course_id, $search_term = '', $page = 1 ) {
+
+		global $wpdb;
+
+		$limit = 50;
+		$skip = ( $page - 1 ) * $limit;
+
+		$author_sql = '';
+
+		// if can't manage LifterLMS current user is either an instructor or an instructor's assistant
+		if ( ! current_user_can( 'manage_lifterlms', $course_id ) ) {
+
+			$instructor = llms_get_instructor();
+
+			$parents = $instructor->get( 'parent_instructors' );
+			if ( ! $parents ) {
+				$parents = array();
+			}
+
+			$ids = array_unique( array_merge(
+				array( get_current_user_id() ),
+				$instructor->get_assistants(),
+				$parents
+			) );
+			$ids = array_map( 'absint', $ids );
+			llms_log( $ids );
+			$author_sql = sprintf( 'AND post_author IN ( %s )', implode( ', ', $ids ) );
+
+		}
+
+		$query = $wpdb->get_results( $wpdb->prepare(
+			"SELECT SQL_CALC_FOUND_ROWS l.ID AS `id`, l.post_title AS `title`
+			   FROM {$wpdb->posts} AS l
+
+			   JOIN {$wpdb->postmeta} AS m
+			     ON l.ID = m.post_id
+			    AND meta_key = '_llms_parent_course'
+
+			  WHERE l.post_type = 'lesson'
+			    AND l.post_status IN ( 'publish', 'draft', 'pending' )
+			    AND m.meta_value NOT IN ( SELECT ID FROM {$wpdb->posts} WHERE post_type = 'course' )
+			    AND l.post_title LIKE '%s'
+			    {$author_sql}
+			  LIMIT %d, %d;",
+			'%' . $search_term . '%', $skip, $limit
+		), ARRAY_A );
+
+		$sql = $wpdb->last_query;
+
+		$found = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) );
+		$more = false;
+		if ( $found ) {
+			$pages = ceil( $found / $limit );
+			$more = ( $page < $pages );
+		}
+
+		foreach ( $query as &$result ) {
+			$result['text'] = sprintf( '%1$s (#%2$d)', $result['title'], $result['id'] );
+		}
+
+		$ret = array(
+			'sql' => $sql,
+			'results' => $query,
+			'pagination' => array(
+				'more' => $more,
+			),
+		);
+
+		return $ret;
 
 	}
 
@@ -403,14 +499,20 @@ if ( ! empty( $active_post_lock ) ) {
 					<ul class="llms-tools-list llms-add-items">
 
 						<li>
-							<button class="llms-add-item" id="llms-new-section" data-model="section">
+							<button class="llms-tool-button llms-add-item" id="llms-new-section" data-model="section">
 								<span class="fa fa-puzzle-piece"></span> <?php _e( 'Section', 'lifterlms' ); ?>
 							</button>
 						</li>
 
 						<li>
-							<button class="llms-add-item" id="llms-new-lesson" data-model="lesson">
-								<span class="fa fa-file"></span> <?php _e( 'Lesson', 'lifterlms' ); ?>
+							<button class="llms-tool-button llms-add-item" id="llms-new-lesson" data-model="lesson">
+								<span class="fa fa-file"></span> <?php _e( 'New Lesson', 'lifterlms' ); ?>
+							</button>
+						</li>
+
+						<li>
+							<button class="llms-tool-button" id="llms-existing-lesson" data-model="lesson">
+								<span class="fa fa-file-text"></span> <?php _e( 'Existing Lesson', 'lifterlms' ); ?>
 							</button>
 						</li>
 
@@ -476,7 +578,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    int   $course_id   WP_Post ID of the course
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.14.0
+	 * @version  [version]
 	 */
 	private static function templates( $course_id ) {
 
@@ -548,19 +650,16 @@ if ( ! empty( $active_post_lock ) ) {
 						<span class="fa fa-minus-circle"></span>
 					</a>
 
-					<# if ( 1 !== data.order ) { #>
-						<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
-							<span class="fa fa-caret-square-o-up"></span>
-						</a>
-					<# } #>
-					<# if ( ! data.is_last ) { #>
-						<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
-							<span class="fa fa-caret-square-o-down"></span>
-						</a>
-					<# } #>
+					<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
+						<span class="fa fa-caret-square-o-up"></span>
+					</a>
+
+					<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
+						<span class="fa fa-caret-square-o-down"></span>
+					</a>
 
 					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-						<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
+						<a class="llms-action-icon trash danger" data-title-default="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
 							<span class="fa fa-trash"></span>
 						</a>
 					<?php endif; ?>
@@ -573,7 +672,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 		<script type="text/html" id="tmpl-llms-builder-tutorial-template">
 
-			<h2 class="llms-headline">Drop a section here to get started!</h2>
+			<h2 class="llms-headline"><?php _e( 'Drop a section here to get started!', 'lifterlms' ); ?></h2>
 			<div class="llms-tutorial-buttons">
 				<a class="llms-button-primary large" href="#llms-start-tut" id="llms-start-tut">
 					<?php _e( 'Show Me How', 'lifterlms' ); ?>
@@ -597,8 +696,6 @@ if ( ! empty( $active_post_lock ) ) {
 
 				<div class="llms-action-icons">
 
-					<# data.section = window.llms_builder.Instance.Syllabus.collection.get( data.section_id ); #>
-
 					<# if ( data.edit_url ) { #>
 						<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'Edit lesson settings', 'lifterlms' ); ?>" href="{{{ data.edit_url }}}">
 							<span class="fa fa-pencil"></span>
@@ -608,31 +705,28 @@ if ( ! empty( $active_post_lock ) ) {
 						<span class="fa fa-external-link"></span>
 					</a>
 
-					<# if ( 1 !== data.order ) { #>
-						<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
-							<span class="fa fa-caret-square-o-up"></span>
-						</a>
-					<# } #>
-					<# if ( ! data.is_last ) { #>
-						<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
-							<span class="fa fa-caret-square-o-down"></span>
-						</a>
-					<# } #>
+					<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
+						<span class="fa fa-caret-square-o-up"></span>
+					</a>
 
-					<# if ( 1 !== data.section.get( 'order' ) ) { #>
-						<a class="llms-action-icon section-prev" data-title-default="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>" href="#llms-section-change">
-							<span class="fa fa-arrow-circle-o-up"></span>
-						</a>
-					<# } #>
+					<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
+						<span class="fa fa-caret-square-o-down"></span>
+					</a>
 
-					<# if ( ! data.section.is_last() ) { #>
-						<a class="llms-action-icon section-next" data-title-default="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>" href="#llms-section-change">
-							<span class="fa fa-arrow-circle-o-down"></span>
-						</a>
-					<# } #>
+					<a class="llms-action-icon section-prev" data-title-default="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>" href="#llms-section-change">
+						<span class="fa fa-arrow-circle-o-up"></span>
+					</a>
+
+					<a class="llms-action-icon section-next" data-title-default="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>" href="#llms-section-change">
+						<span class="fa fa-arrow-circle-o-down"></span>
+					</a>
+
+					<a class="llms-action-icon detach danger" data-title-default="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" href="#llms-detach">
+						<span class="fa fa-chain-broken"></span>
+					</a>
 
 					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-						<a class="llms-action-icon trash" data-title-default="<?php esc_attr_e( 'Delete Lesson', 'lifterlms' ); ?>" href="#llms-trash">
+						<a class="llms-action-icon trash danger" data-title-default="<?php esc_attr_e( 'Delete Lesson', 'lifterlms' ); ?>" href="#llms-trash">
 							<span class="fa fa-trash"></span>
 						</a>
 					<?php endif; ?>
@@ -650,6 +744,7 @@ if ( ! empty( $active_post_lock ) ) {
 			</div>
 
 		</script>
+
 		<?php
 	}
 

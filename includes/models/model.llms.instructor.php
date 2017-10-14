@@ -3,7 +3,7 @@
  * LifterLMS Instructor class
  * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant
  * @since   3.13.0
- * @version 3.13.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,7 +15,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * @param    mixed     $parent_id  WP User ID of the parent instructor or array of User IDs to add multiple
 	 * @return   boolean
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function add_parent( $parent_ids ) {
 
@@ -35,10 +35,30 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 		$parent_ids = array_map( 'absint', $parent_ids );
 
 		// add the new parents
-		$parents = array_merge( $parents, $parent_ids );
+		$parents = array_unique( array_merge( $parents, $parent_ids ) );
 
 		// remove duplicates and save
 		return $this->set( 'parent_instructors', array_unique( $parents ) );
+
+	}
+
+	/**
+	 * Retrieve an array of user ids for assistant instructors attached to the current instructor
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_assistants() {
+
+		global $wpdb;
+		$results = $wpdb->get_col( $wpdb->prepare(
+			"SELECT user_id FROM {$wpdb->usermeta}
+			 WHERE meta_key = 'llms_parent_instructors'
+			   AND meta_value LIKE %s;",
+			'%i:' . get_current_user_id() . ';%'
+		) );
+
+		return $results;
 
 	}
 
