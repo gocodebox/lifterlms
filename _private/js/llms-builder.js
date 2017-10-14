@@ -684,7 +684,7 @@
 		 * New section defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  version
+		 * @version  3.14.4
 		 */
 		defaults: function() {
 			var order = this.collection ? this.collection.next_order() : 1;
@@ -692,6 +692,7 @@
 				active: false,
 				title: 'New Section',
 				type: 'section',
+				lessons: [],
 				order: order,
 			};
 		},
@@ -740,6 +741,7 @@
 
 		model: App.Models.Lesson,
 		type_id: 'lesson',
+
 
 	}, App.Mixins.Syncable, App.Mixins.SortableCollection ) );
 
@@ -1306,6 +1308,13 @@
 		 */
 		initialize: function() {
 			this.listenTo( this.model, 'sync', this.render );
+
+			// setup lessons child view & collection
+			this.model.Lessons = new App.Views.LessonList( {
+				collection: new App.Collections.Lessons,
+			} );
+			this.model.Lessons.collection.add( this.model.get( 'lessons' ) );
+
 		},
 
 		/**
@@ -1344,12 +1353,8 @@
 			// render inside
 			this.$el.html( this.template( this.model.toJSON() ) );
 
-			// setup lessons child view & collection
-			this.model.Lessons = new App.Views.LessonList( {
-				el: this.$el.find( '.llms-lessons' ),
-				collection: new App.Collections.Lessons,
-			} );
-			this.model.Lessons.collection.add( this.model.get( 'lessons' ) );
+			this.model.Lessons.setElement( this.$el.find( '.llms-lessons' ) ).render();
+			// this.model.Lessons.render();
 
 			// if the id has changed (when creating a new section for example) update the attributes and id
 			if ( this.$el.attr( 'id' ) != this.model.id ) {
@@ -1393,7 +1398,6 @@
 			this.listenTo( this.collection, 'destroy', this.remove_one );
 			this.listenTo( this.collection, 'remove', this.remove_one );
 			this.listenTo( this.collection, 'rerender', this.render );
-			App.Methods.sortable();
 
 		},
 
@@ -1415,11 +1419,12 @@
 		 * Render the view
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  3.14.4
 		 */
 		render: function() {
 			this.$el.children().remove();
 			this.collection.each( this.add_one, this );
+			App.Methods.sortable();
 			return this;
 		},
 
