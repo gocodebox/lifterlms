@@ -1196,10 +1196,18 @@
 		},
 
 		/**
-		 * HTML class names
-		 * @type  {String}
+		 * Return CSS classes for the html wrapper element
+		 * @return   string
+		 * @since    3.14.5
+		 * @version  3.14.5
 		 */
-		className: 'llms-builder-item llms-section',
+		className: function() {
+			var classes = [ 'llms-builder-item', 'llms-section' ];
+			if ( this.model.get( 'opened' ) ) {
+				classes.push( 'opened' );
+			}
+			return classes.join( ' ' );
+		},
 
 		/**
 		 * DOM Events
@@ -1304,16 +1312,22 @@
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  3.14.5
 		 */
 		initialize: function() {
-			this.listenTo( this.model, 'sync', this.render );
 
-			// setup lessons child view & collection
-			this.model.Lessons = new App.Views.LessonList( {
-				collection: new App.Collections.Lessons,
-			} );
-			this.model.Lessons.collection.add( this.model.get( 'lessons' ) );
+			// this.listenTo( this.model, 'sync', this.render );
+
+			if ( ! this.model.Lessons ) {
+
+				// setup lessons child view & collection
+				this.model.Lessons = new App.Views.LessonList( {
+					collection: new App.Collections.Lessons,
+				} );
+				this.model.Lessons.collection.add( this.model.get( 'lessons' ) );
+
+			}
+
 
 		},
 
@@ -1322,11 +1336,12 @@
 		 * @param    {obj}   e  js event object
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  3.14.5
 		 */
 		lessons_hide: function( e ) {
 			e.preventDefault();
 			this.$el.removeClass( 'opened' );
+			this.model.set( 'opened', false );
 		},
 
 		/**
@@ -1334,11 +1349,12 @@
 		 * @param    {obj}   e  js event object
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  3.14.5
 		 */
 		lessons_show: function( e ) {
 			e.preventDefault();
 			this.$el.addClass( 'opened' );
+			this.model.set( 'opened', true );
 		},
 
 		/**
@@ -1346,7 +1362,7 @@
 		 * Initalizes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.14.0
+		 * @version  3.14.4
 		 */
 		render: function() {
 
@@ -1354,7 +1370,6 @@
 			this.$el.html( this.template( this.model.toJSON() ) );
 
 			this.model.Lessons.setElement( this.$el.find( '.llms-lessons' ) ).render();
-			// this.model.Lessons.render();
 
 			// if the id has changed (when creating a new section for example) update the attributes and id
 			if ( this.$el.attr( 'id' ) != this.model.id ) {
@@ -1363,6 +1378,7 @@
 			}
 
 			return this;
+
 		},
 
 	}, App.Mixins.EditableView, App.Mixins.ShiftableView ) );
@@ -1514,17 +1530,17 @@
 		 * Render the view
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  3.14.5
 		 */
 		render: function() {
 
 			this.$el.children().remove();
 
 			if ( this.collection.length ) {
-
 				this.collection.each( this.add_one, this );
-
 			}
+
+			App.Methods.sortable();
 
 			return this;
 

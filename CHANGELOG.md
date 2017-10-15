@@ -1,5 +1,12 @@
 == Changelog ==
 
+v3.14.5 - 2017/10/14
+--------------------
+
++ Course builder will persist open/collapsed state of sections when they are re-orderd
++ Course builder lessons in a section are draggable after reordering a section
+
+
 v3.14.4 - 2017/10/13
 --------------------
 

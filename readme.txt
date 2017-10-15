@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.8.2
-Stable tag: 3.14.4
+Stable tag: 3.14.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -348,6 +348,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+= v3.14.5 - 2017/10/14 =
+------------------------
+
++ Course builder will persist open/collapsed state of sections when they are re-orderd
++ Course builder lessons in a section are draggable after reordering a section
+
 
 = v3.14.4 - 2017/10/13 =
 ------------------------
