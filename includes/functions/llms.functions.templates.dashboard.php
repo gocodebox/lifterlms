@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  3.14.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
@@ -46,6 +46,8 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			// enrollment date will obey the results order
 			if ( 'date' === $orderby ) {
 				$orderby = 'post__in';
+			} elseif ( 'order' === $orderby ) {
+				$orderby = 'menu_order';
 			}
 
 			$per_page = apply_filters( 'llms_dashboard_courses_per_page', get_option( 'lifterlms_shop_courses_per_page', 9 ) );
