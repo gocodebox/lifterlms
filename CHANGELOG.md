@@ -1,5 +1,13 @@
 == Changelog ==
 
+v3.14.6 - 2017/10/21
+--------------------
+
++ Fix: `<iframes>` are no longer stripped when exporting or duplicating courses (this applies to lessons within the courses as well)
++ Fix: Achievements on student dashboard now output the correct achievement title
++ Fix: Courses on student dashboard ordered by Order attributes will obey settings correctly
+
+
 v3.14.5 - 2017/10/14
 --------------------
 

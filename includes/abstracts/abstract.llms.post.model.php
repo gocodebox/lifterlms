@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.14.6
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -260,7 +260,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string  $title   Title to create the post with
 	 * @return   int    WP Post ID of the new Post on success or 0 on error
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.14.6
 	 */
 	private function create( $title = '' ) {
 		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ), true );
@@ -304,7 +304,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Trigger an export download of the given post type
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.14.6
 	 */
 	public function export() {
 

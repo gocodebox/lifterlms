@@ -3557,7 +3557,7 @@ msgstr ""
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:217, includes/class.llms.student.dashboard.php:135, includes/functions/llms.functions.templates.dashboard.php:248
+#: includes/class.llms.install.php:217, includes/class.llms.student.dashboard.php:135, includes/functions/llms.functions.templates.dashboard.php:250
 msgid "My Courses"
 msgstr ""
 
@@ -4413,7 +4413,7 @@ msgctxt "slug"
 msgid "my_certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:613, includes/functions/llms.functions.templates.dashboard.php:212
+#: includes/class.llms.post-types.php:613, includes/functions/llms.functions.templates.dashboard.php:214
 msgid "My Certificates"
 msgstr ""
 
@@ -5194,7 +5194,7 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:140, includes/functions/llms.functions.templates.dashboard.php:184
+#: includes/class.llms.student.dashboard.php:140, includes/functions/llms.functions.templates.dashboard.php:186
 msgid "My Achievements"
 msgstr ""
 
@@ -7030,19 +7030,19 @@ msgstr ""
 msgid "You are not enrolled in any courses."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:101
+#: includes/functions/llms.functions.templates.dashboard.php:103
 msgid "You are not enrolled in any memberships."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:172
+#: includes/functions/llms.functions.templates.dashboard.php:174
 msgid "View All My Achievements"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:238
+#: includes/functions/llms.functions.templates.dashboard.php:240
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:276
+#: includes/functions/llms.functions.templates.dashboard.php:278
 msgid "My Memberships"
 msgstr ""
 
