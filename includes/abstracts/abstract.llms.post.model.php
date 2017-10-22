@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.13.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -257,9 +257,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Create a new post of the Instantiated Model
 	 * This can be called by instantiating an instance with "new"
 	 * as the value passed to the constructor
-	 * @param  string  $title   Title to create the post with
-	 * @return int    WP Post ID of the new Post on success or 0 on error
-	 * @since  3.0.0
+	 * @param    string  $title   Title to create the post with
+	 * @return   int    WP Post ID of the new Post on success or 0 on error
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	private function create( $title = '' ) {
 		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ), true );
@@ -278,11 +279,23 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			return;
 		}
 
+		global $allowedposttags;
+		$allowedposttags['iframe'] = array(
+			'allowfullscreen' => true,
+			'frameborder' => true,
+			'height' => true,
+			'src' => true,
+			'width' => true,
+		);
+
 		$generator = new LLMS_Generator( $this->toArray() );
 		$generator->set_generator( 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Cloner' );
 		if ( ! $generator->is_error() ) {
 			$generator->generate();
 		}
+
+		unset( $allowedposttags['iframe'] );
+
 		return $generator->get_results();
 
 	}
@@ -291,7 +304,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Trigger an export download of the given post type
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function export() {
 
@@ -310,6 +323,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 
+		global $allowedposttags;
+		$allowedposttags['iframe'] = array(
+			'allowfullscreen' => true,
+			'frameborder' => true,
+			'height' => true,
+			'src' => true,
+			'width' => true,
+		);
+
 		$arr = $this->toArray();
 
 		$arr['_generator'] = 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Exporter';
@@ -319,6 +341,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		ksort( $arr );
 
 		echo json_encode( $arr );
+
+		unset( $allowedposttags['iframe'] );
 
 		die();
 
