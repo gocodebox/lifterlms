@@ -2,7 +2,7 @@
 /**
  * Single Achievement Template
  * @since    1.0.0
- * @version  3.14.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 	<div class="llms-achievement-image"><?php echo $achievement->get_image_html(); ?></div>
 
-	<h4 class="llms-achievement-title"><?php echo $achievement->get( 'title' ); ?></h4>
+	<h4 class="llms-achievement-title"><?php echo $achievement->get( 'achievement_title' ); ?></h4>
 
 	<div class="llms-achievement-info">
 		<div class="llms-achievement-content"><?php echo $achievement->get( 'content' ); ?></div>
