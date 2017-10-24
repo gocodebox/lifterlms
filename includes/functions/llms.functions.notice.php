@@ -126,8 +126,9 @@ function llms_print_notice( $message, $notice_type = 'success' ) {
  * Prints all notices
  * @return  void
  * @since   1.0.0
- * @version 3.0.0
+ * @version [version]
  */
 function llms_print_notices() {
 	echo llms_get_notices();
+	llms_clear_notices();
 }
