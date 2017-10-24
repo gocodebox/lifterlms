@@ -2,7 +2,7 @@
 /**
  * Course Builder
  * @since    3.13.0
- * @version  3.14.4
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -221,7 +221,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    integer    $page         page, used when paginating search results
 	 * @return   array
 	 * @since    3.14.4
-	 * @version  3.14.4
+	 * @version  [version]
 	 */
 	private static function get_orphaned_lessons( $course_id, $search_term = '', $page = 1 ) {
 
@@ -257,13 +257,16 @@ if ( ! empty( $active_post_lock ) ) {
 			"SELECT SQL_CALC_FOUND_ROWS l.ID AS `id`, l.post_title AS `title`
 			   FROM {$wpdb->posts} AS l
 
-			   JOIN {$wpdb->postmeta} AS m
+			   LEFT JOIN {$wpdb->postmeta} AS m
 			     ON l.ID = m.post_id
 			    AND meta_key = '_llms_parent_course'
 
 			  WHERE l.post_type = 'lesson'
 			    AND l.post_status IN ( 'publish', 'draft', 'pending' )
-			    AND m.meta_value NOT IN ( SELECT ID FROM {$wpdb->posts} WHERE post_type = 'course' )
+			    AND (
+			    	   m.meta_value IS NULL
+			    	OR m.meta_value NOT IN ( SELECT ID FROM {$wpdb->posts} WHERE post_type = 'course' )
+			    )
 			    AND l.post_title LIKE '%s'
 			    {$author_sql}
 			  LIMIT %d, %d;",
