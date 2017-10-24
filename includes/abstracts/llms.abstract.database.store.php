@@ -2,7 +2,7 @@
 /**
  * WPDB database interactions
  * @since    3.14.0
- * @version  3.14.0
+ * @version  [version]
  */
 
 // Restrict direct access
@@ -79,6 +79,16 @@ abstract class LLMS_Abstract_Database_Store {
 
 		return $this->data[ $key ];
 
+	}
+
+	/**
+	 * Determine if the item exists in the database
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function exists() {
+		return $this->read( 'id' ) ? true : false;
 	}
 
 	/**
