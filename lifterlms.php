@@ -184,7 +184,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.13.0
+	 * @version [version]
 	 */
 	private function includes() {
 
@@ -223,6 +223,9 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
 
 		}
+
+		// nav menus
+		require_once 'includes/class.llms.nav.menus.php';
 
 		include 'includes/notifications/class.llms.notifications.php';
 
