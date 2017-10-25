@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/index.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/namespace-LLMS.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/namespace-LLMS.Users.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/namespace-None.html</loc>
+</url>
+
+
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS.Users.User.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Abstract_API_Handler.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Abstract_Database_Store.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Abstract_Integration.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Abstract_Notification_Controller.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Abstract_Notification_Processor.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Abstract_Notification_View.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Abstract_Options_Data.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Abstract_User_Data.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Access_Plan.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Achievement.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Achievement_User.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Achievements.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_AddOns.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Analytics.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Assets.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Builder.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Import.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Menus.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Meta_Boxes.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Metabox.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Notices.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Notices_Core.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Page_Status.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Table_Coupons.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Table_Courses.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Table_Engagements.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Table_Instructors.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Table_Lessons.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Table_Orders.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Table_Pages.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Table_Quiz_Questions.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Table_Quizzes.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Tables.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Post_Types.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Reporting.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Reporting_Tab_Enrollments.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Reporting_Tab_Sales.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Reporting_Tab_Students.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Reviews.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Settings.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Setup_Wizard.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_System_Report.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_Table.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Admin_User_Custom_Fields.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_AJAX.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_AJAX_Handler.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Coupons_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Coursecompletions_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Courses.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Discounts_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Enrollments_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Lessoncompletions_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Memberships.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Page.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Refunded_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Refunds_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Registrations_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Revenue_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Sales.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Sales_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Sold_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Analytics_Widget_Ajax.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Background_Enrollment.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Background_Updater.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_BBP_Shortcode_Course_Forums_List.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_BBP_Widget_Course_Forums_List.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Certificate.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Certificate_User.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Certificates.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Comments.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Controller_Account.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Controller_Orders.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Controller_Quizzes.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Controller_Registration.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Coupon.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Course.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Course_Basic.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Course_Factory.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Course_Handler.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Data.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Database_Query.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Date.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Email.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Email_Engagement.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Email_Reset_Password.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Emails.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Engagements.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Frontend_Assets.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Frontend_Forms.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Frontend_Password.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Generator.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_HTTPS.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Install.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Instructor.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Integration_BBPress.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Integration_Buddypress.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Integrations.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_L10n.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Lesson.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Lesson_Basic.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Lesson_Handler.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Membership.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Access.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Achievement.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Certificate.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Coupon.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Course_Options.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Course_Short_Description.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Email_Settings.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Engagement.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Expiration.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Lesson.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Membership.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Order_Details.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Order_Enrollment.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Order_Notes.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Order_Submit.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Order_Transactions.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Product.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Question_General.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Quiz.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Quiz_Questions.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Students.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Video.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Visibility.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Voucher.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Meta_Box_Voucher_Export.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Button_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Checkbox_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Color_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Course_Builder.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Custom_Html_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Date_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Editor_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Image_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Instructors.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Number_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Post_Content_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Post_Excerpt_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Repeater_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Search_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Select_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Table_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Text_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Textarea_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Metabox_Textarea_W_Tags_Field.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Achievement_Earned.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Certificate_Earned.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Course_Complete.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Course_Track_Complete.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Enrollment.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Lesson_Complete.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Manual_Payment_Due.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Payment_Retry.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Purchase_Receipt.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Quiz_Failed.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Quiz_Passed.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Section_Complete.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Controller_Student_Welcome.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_Processor_Email.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Achievement_Earned.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Certificate_Earned.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Course_Complete.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Course_Track_Complete.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Enrollment.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Lesson_Complete.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Manual_Payment_Due.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Payment_Retry.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Purchase_Receipt.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Quiz_Failed.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Quiz_Passed.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Section_Complete.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notification_View_Student_Welcome.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notifications.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Notifications_Query.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Number.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_OEmbed.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Order.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Payment_Gateway.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Payment_Gateway_Manual.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Payment_Gateways.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Person.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Person_Handler.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_PlayNice.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Post_Handler.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Post_Instructors.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Post_Model.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Post_Types.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Product.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_QQuiz.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Query.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Question.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Quiz.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Quiz_Attempt.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Reviews.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Roles.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Section.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Session.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Settings_Accounts.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Settings_Checkout.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Settings_Courses.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Settings_Engagements.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Settings_General.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Settings_Integrations.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Settings_Memberships.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Settings_Notifications.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Settings_Page.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Checkout.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Course_Author.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Course_Continue.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Course_Continue_Button.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Course_Element.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Course_Meta_Info.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Course_Outline.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Course_Prerequisites.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Course_Reviews.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Course_Syllabus.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Courses.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Hide_Content.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Lesson_Mark_Complete.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Membership_Link.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_My_Account.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_My_Achievements.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcode_Registration.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Shortcodes.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Sidebars.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Site.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Student.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Student_Dashboard.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Student_Query.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Student_Quizzes.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Svg.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Table_Achievements.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Table_NotificationSettings.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Table_Questions.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Table_Student_Certificates.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Table_Student_Course.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Table_Student_Courses.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Table_Student_Memberships.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Table_StudentManagement.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Table_Students.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Template_Loader.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Track.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Tracker.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Transaction.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Update.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_User_Achievement.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_User_Certificate.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_User_Permissions.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_View_Manager.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Voucher.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Widget.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Widget_Course_Progress.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Widget_Course_Syllabus.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Widgets.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Interface_Notification_Controller.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Interface_Notification_Manager.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/class-LLMS_Interface_Post_Instructors.html</loc>
+</url>
+<url>
+	<loc>https://docs.lifterlms.com/llms-apidocs/function-LLMS.html</loc>
+</url>
+</urlset>

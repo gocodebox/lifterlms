@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Function llms_get_certificate_preview | LifterLMS 3.0.x Code Reference</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="main">
+					<a href="namespace-LLMS.html">
+						LLMS<span></span>
+					</a>
+
+						<ul>
+				<li class="main">
+					<a href="namespace-LLMS.Users.html">
+						Users					</a>
+
+						</li>
+							</ul></li>
+				<li class="active">
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-LifterLMS.html">LifterLMS</a></li>
+				<li><a href="class-LLMS_Abstract_API_Handler.html">LLMS_Abstract_API_Handler</a></li>
+				<li><a href="class-LLMS_Abstract_Database_Store.html">LLMS_Abstract_Database_Store</a></li>
+				<li><a href="class-LLMS_Abstract_Integration.html">LLMS_Abstract_Integration</a></li>
+				<li><a href="class-LLMS_Abstract_Notification_Controller.html">LLMS_Abstract_Notification_Controller</a></li>
+				<li><a href="class-LLMS_Abstract_Notification_Processor.html">LLMS_Abstract_Notification_Processor</a></li>
+				<li><a href="class-LLMS_Abstract_Notification_View.html">LLMS_Abstract_Notification_View</a></li>
+				<li><a href="class-LLMS_Abstract_Options_Data.html">LLMS_Abstract_Options_Data</a></li>
+				<li><a href="class-LLMS_Abstract_User_Data.html">LLMS_Abstract_User_Data</a></li>
+				<li><a href="class-LLMS_Access_Plan.html">LLMS_Access_Plan</a></li>
+				<li><a href="class-LLMS_Achievement.html">LLMS_Achievement</a></li>
+				<li><a href="class-LLMS_Achievement_User.html">LLMS_Achievement_User</a></li>
+				<li><a href="class-LLMS_Achievements.html">LLMS_Achievements</a></li>
+				<li><a href="class-LLMS_Admin_AddOns.html">LLMS_Admin_AddOns</a></li>
+				<li><a href="class-LLMS_Admin_Analytics.html">LLMS_Admin_Analytics</a></li>
+				<li><a href="class-LLMS_Admin_Assets.html">LLMS_Admin_Assets</a></li>
+				<li><a href="class-LLMS_Admin_Builder.html">LLMS_Admin_Builder</a></li>
+				<li><a href="class-LLMS_Admin_Import.html">LLMS_Admin_Import</a></li>
+				<li><a href="class-LLMS_Admin_Menus.html">LLMS_Admin_Menus</a></li>
+				<li><a href="class-LLMS_Admin_Meta_Boxes.html">LLMS_Admin_Meta_Boxes</a></li>
+				<li><a href="class-LLMS_Admin_Metabox.html">LLMS_Admin_Metabox</a></li>
+				<li><a href="class-LLMS_Admin_Notices.html">LLMS_Admin_Notices</a></li>
+				<li><a href="class-LLMS_Admin_Notices_Core.html">LLMS_Admin_Notices_Core</a></li>
+				<li><a href="class-LLMS_Admin_Page_Status.html">LLMS_Admin_Page_Status</a></li>
+				<li><a href="class-LLMS_Admin_Post_Table_Coupons.html">LLMS_Admin_Post_Table_Coupons</a></li>
+				<li><a href="class-LLMS_Admin_Post_Table_Courses.html">LLMS_Admin_Post_Table_Courses</a></li>
+				<li><a href="class-LLMS_Admin_Post_Table_Engagements.html">LLMS_Admin_Post_Table_Engagements</a></li>
+				<li><a href="class-LLMS_Admin_Post_Table_Instructors.html">LLMS_Admin_Post_Table_Instructors</a></li>
+				<li><a href="class-LLMS_Admin_Post_Table_Lessons.html">LLMS_Admin_Post_Table_Lessons</a></li>
+				<li><a href="class-LLMS_Admin_Post_Table_Orders.html">LLMS_Admin_Post_Table_Orders</a></li>
+				<li><a href="class-LLMS_Admin_Post_Table_Pages.html">LLMS_Admin_Post_Table_Pages</a></li>
+				<li><a href="class-LLMS_Admin_Post_Table_Quiz_Questions.html">LLMS_Admin_Post_Table_Quiz_Questions</a></li>
+				<li><a href="class-LLMS_Admin_Post_Table_Quizzes.html">LLMS_Admin_Post_Table_Quizzes</a></li>
+				<li><a href="class-LLMS_Admin_Post_Tables.html">LLMS_Admin_Post_Tables</a></li>
+				<li><a href="class-LLMS_Admin_Post_Types.html">LLMS_Admin_Post_Types</a></li>
+				<li><a href="class-LLMS_Admin_Reporting.html">LLMS_Admin_Reporting</a></li>
+				<li><a href="class-LLMS_Admin_Reporting_Tab_Enrollments.html">LLMS_Admin_Reporting_Tab_Enrollments</a></li>
+				<li><a href="class-LLMS_Admin_Reporting_Tab_Sales.html">LLMS_Admin_Reporting_Tab_Sales</a></li>
+				<li><a href="class-LLMS_Admin_Reporting_Tab_Students.html">LLMS_Admin_Reporting_Tab_Students</a></li>
+				<li><a href="class-LLMS_Admin_Reviews.html">LLMS_Admin_Reviews</a></li>
+				<li><a href="class-LLMS_Admin_Settings.html">LLMS_Admin_Settings</a></li>
+				<li><a href="class-LLMS_Admin_Setup_Wizard.html">LLMS_Admin_Setup_Wizard</a></li>
+				<li><a href="class-LLMS_Admin_System_Report.html">LLMS_Admin_System_Report</a></li>
+				<li><a href="class-LLMS_Admin_Table.html">LLMS_Admin_Table</a></li>
+				<li><a href="class-LLMS_Admin_User_Custom_Fields.html">LLMS_Admin_User_Custom_Fields</a></li>
+				<li><a href="class-LLMS_AJAX.html">LLMS_AJAX</a></li>
+				<li><a href="class-LLMS_AJAX_Handler.html">LLMS_AJAX_Handler</a></li>
+				<li><a href="class-LLMS_Analytics.html">LLMS_Analytics</a></li>
+				<li><a href="class-LLMS_Analytics_Coupons_Widget.html">LLMS_Analytics_Coupons_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Coursecompletions_Widget.html">LLMS_Analytics_Coursecompletions_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Courses.html">LLMS_Analytics_Courses</a></li>
+				<li><a href="class-LLMS_Analytics_Discounts_Widget.html">LLMS_Analytics_Discounts_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Enrollments_Widget.html">LLMS_Analytics_Enrollments_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Lessoncompletions_Widget.html">LLMS_Analytics_Lessoncompletions_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Memberships.html">LLMS_Analytics_Memberships</a></li>
+				<li><a href="class-LLMS_Analytics_Page.html">LLMS_Analytics_Page</a></li>
+				<li><a href="class-LLMS_Analytics_Refunded_Widget.html">LLMS_Analytics_Refunded_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Refunds_Widget.html">LLMS_Analytics_Refunds_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Registrations_Widget.html">LLMS_Analytics_Registrations_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Revenue_Widget.html">LLMS_Analytics_Revenue_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Sales.html">LLMS_Analytics_Sales</a></li>
+				<li><a href="class-LLMS_Analytics_Sales_Widget.html">LLMS_Analytics_Sales_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Sold_Widget.html">LLMS_Analytics_Sold_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Widget.html">LLMS_Analytics_Widget</a></li>
+				<li><a href="class-LLMS_Analytics_Widget_Ajax.html">LLMS_Analytics_Widget_Ajax</a></li>
+				<li><a href="class-LLMS_Background_Enrollment.html">LLMS_Background_Enrollment</a></li>
+				<li><a href="class-LLMS_Background_Updater.html">LLMS_Background_Updater</a></li>
+				<li><a href="class-LLMS_BBP_Shortcode_Course_Forums_List.html">LLMS_BBP_Shortcode_Course_Forums_List</a></li>
+				<li><a href="class-LLMS_BBP_Widget_Course_Forums_List.html">LLMS_BBP_Widget_Course_Forums_List</a></li>
+				<li><a href="class-LLMS_Certificate.html">LLMS_Certificate</a></li>
+				<li><a href="class-LLMS_Certificate_User.html">LLMS_Certificate_User</a></li>
+				<li><a href="class-LLMS_Certificates.html">LLMS_Certificates</a></li>
+				<li><a href="class-LLMS_Comments.html">LLMS_Comments</a></li>
+				<li><a href="class-LLMS_Controller_Account.html">LLMS_Controller_Account</a></li>
+				<li><a href="class-LLMS_Controller_Orders.html">LLMS_Controller_Orders</a></li>
+				<li><a href="class-LLMS_Controller_Quizzes.html">LLMS_Controller_Quizzes</a></li>
+				<li><a href="class-LLMS_Controller_Registration.html">LLMS_Controller_Registration</a></li>
+				<li><a href="class-LLMS_Coupon.html">LLMS_Coupon</a></li>
+				<li><a href="class-LLMS_Course.html">LLMS_Course</a></li>
+				<li><a href="class-LLMS_Course_Basic.html">LLMS_Course_Basic</a></li>
+				<li><a href="class-LLMS_Course_Factory.html">LLMS_Course_Factory</a></li>
+				<li><a href="class-LLMS_Course_Handler.html">LLMS_Course_Handler</a></li>
+				<li><a href="class-LLMS_Data.html">LLMS_Data</a></li>
+				<li><a href="class-LLMS_Database_Query.html">LLMS_Database_Query</a></li>
+				<li><a href="class-LLMS_Date.html">LLMS_Date</a></li>
+				<li><a href="class-LLMS_Email.html">LLMS_Email</a></li>
+				<li><a href="class-LLMS_Email_Engagement.html">LLMS_Email_Engagement</a></li>
+				<li><a href="class-LLMS_Email_Reset_Password.html">LLMS_Email_Reset_Password</a></li>
+				<li><a href="class-LLMS_Emails.html">LLMS_Emails</a></li>
+				<li><a href="class-LLMS_Engagements.html">LLMS_Engagements</a></li>
+				<li><a href="class-LLMS_Frontend_Assets.html">LLMS_Frontend_Assets</a></li>
+				<li><a href="class-LLMS_Frontend_Forms.html">LLMS_Frontend_Forms</a></li>
+				<li><a href="class-LLMS_Frontend_Password.html">LLMS_Frontend_Password</a></li>
+				<li><a href="class-LLMS_Generator.html">LLMS_Generator</a></li>
+				<li><a href="class-LLMS_HTTPS.html">LLMS_HTTPS</a></li>
+				<li><a href="class-LLMS_Install.html">LLMS_Install</a></li>
+				<li><a href="class-LLMS_Instructor.html">LLMS_Instructor</a></li>
+				<li><a href="class-LLMS_Integration_BBPress.html">LLMS_Integration_BBPress</a></li>
+				<li><a href="class-LLMS_Integration_Buddypress.html">LLMS_Integration_Buddypress</a></li>
+				<li><a href="class-LLMS_Integrations.html">LLMS_Integrations</a></li>
+				<li><a href="class-LLMS_L10n.html">LLMS_L10n</a></li>
+				<li><a href="class-LLMS_Lesson.html">LLMS_Lesson</a></li>
+				<li><a href="class-LLMS_Lesson_Basic.html">LLMS_Lesson_Basic</a></li>
+				<li><a href="class-LLMS_Lesson_Handler.html">LLMS_Lesson_Handler</a></li>
+				<li><a href="class-LLMS_Membership.html">LLMS_Membership</a></li>
+				<li><a href="class-LLMS_Meta_Box_Access.html">LLMS_Meta_Box_Access</a></li>
+				<li><a href="class-LLMS_Meta_Box_Achievement.html">LLMS_Meta_Box_Achievement</a></li>
+				<li><a href="class-LLMS_Meta_Box_Certificate.html">LLMS_Meta_Box_Certificate</a></li>
+				<li><a href="class-LLMS_Meta_Box_Coupon.html">LLMS_Meta_Box_Coupon</a></li>
+				<li><a href="class-LLMS_Meta_Box_Course_Options.html">LLMS_Meta_Box_Course_Options</a></li>
+				<li><a href="class-LLMS_Meta_Box_Course_Short_Description.html">LLMS_Meta_Box_Course_Short_Description</a></li>
+				<li><a href="class-LLMS_Meta_Box_Email_Settings.html">LLMS_Meta_Box_Email_Settings</a></li>
+				<li><a href="class-LLMS_Meta_Box_Engagement.html">LLMS_Meta_Box_Engagement</a></li>
+				<li><a href="class-LLMS_Meta_Box_Expiration.html">LLMS_Meta_Box_Expiration</a></li>
+				<li><a href="class-LLMS_Meta_Box_Lesson.html">LLMS_Meta_Box_Lesson</a></li>
+				<li><a href="class-LLMS_Meta_Box_Membership.html">LLMS_Meta_Box_Membership</a></li>
+				<li><a href="class-LLMS_Meta_Box_Order_Details.html">LLMS_Meta_Box_Order_Details</a></li>
+				<li><a href="class-LLMS_Meta_Box_Order_Enrollment.html">LLMS_Meta_Box_Order_Enrollment</a></li>
+				<li><a href="class-LLMS_Meta_Box_Order_Notes.html">LLMS_Meta_Box_Order_Notes</a></li>
+				<li><a href="class-LLMS_Meta_Box_Order_Submit.html">LLMS_Meta_Box_Order_Submit</a></li>
+				<li><a href="class-LLMS_Meta_Box_Order_Transactions.html">LLMS_Meta_Box_Order_Transactions</a></li>
+				<li><a href="class-LLMS_Meta_Box_Product.html">LLMS_Meta_Box_Product</a></li>
+				<li><a href="class-LLMS_Meta_Box_Question_General.html">LLMS_Meta_Box_Question_General</a></li>
+				<li><a href="class-LLMS_Meta_Box_Quiz.html">LLMS_Meta_Box_Quiz</a></li>
+				<li><a href="class-LLMS_Meta_Box_Quiz_Questions.html">LLMS_Meta_Box_Quiz_Questions</a></li>
+				<li><a href="class-LLMS_Meta_Box_Students.html">LLMS_Meta_Box_Students</a></li>
+				<li><a href="class-LLMS_Meta_Box_Video.html">LLMS_Meta_Box_Video</a></li>
+				<li><a href="class-LLMS_Meta_Box_Visibility.html">LLMS_Meta_Box_Visibility</a></li>
+				<li><a href="class-LLMS_Meta_Box_Voucher.html">LLMS_Meta_Box_Voucher</a></li>
+				<li><a href="class-LLMS_Meta_Box_Voucher_Export.html">LLMS_Meta_Box_Voucher_Export</a></li>
+				<li><a href="class-LLMS_Metabox_Button_Field.html">LLMS_Metabox_Button_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Checkbox_Field.html">LLMS_Metabox_Checkbox_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Color_Field.html">LLMS_Metabox_Color_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Course_Builder.html">LLMS_Metabox_Course_Builder</a></li>
+				<li><a href="class-LLMS_Metabox_Custom_Html_Field.html">LLMS_Metabox_Custom_Html_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Date_Field.html">LLMS_Metabox_Date_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Editor_Field.html">LLMS_Metabox_Editor_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Field.html">LLMS_Metabox_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Image_Field.html">LLMS_Metabox_Image_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Instructors.html">LLMS_Metabox_Instructors</a></li>
+				<li><a href="class-LLMS_Metabox_Number_Field.html">LLMS_Metabox_Number_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Post_Content_Field.html">LLMS_Metabox_Post_Content_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Post_Excerpt_Field.html">LLMS_Metabox_Post_Excerpt_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Repeater_Field.html">LLMS_Metabox_Repeater_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Search_Field.html">LLMS_Metabox_Search_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Select_Field.html">LLMS_Metabox_Select_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Table_Field.html">LLMS_Metabox_Table_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Text_Field.html">LLMS_Metabox_Text_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Textarea_Field.html">LLMS_Metabox_Textarea_Field</a></li>
+				<li><a href="class-LLMS_Metabox_Textarea_W_Tags_Field.html">LLMS_Metabox_Textarea_W_Tags_Field</a></li>
+				<li><a href="class-LLMS_Notification.html">LLMS_Notification</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Achievement_Earned.html">LLMS_Notification_Controller_Achievement_Earned</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Certificate_Earned.html">LLMS_Notification_Controller_Certificate_Earned</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Course_Complete.html">LLMS_Notification_Controller_Course_Complete</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Course_Track_Complete.html">LLMS_Notification_Controller_Course_Track_Complete</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Enrollment.html">LLMS_Notification_Controller_Enrollment</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Lesson_Complete.html">LLMS_Notification_Controller_Lesson_Complete</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Manual_Payment_Due.html">LLMS_Notification_Controller_Manual_Payment_Due</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Payment_Retry.html">LLMS_Notification_Controller_Payment_Retry</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Purchase_Receipt.html">LLMS_Notification_Controller_Purchase_Receipt</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Quiz_Failed.html">LLMS_Notification_Controller_Quiz_Failed</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Quiz_Passed.html">LLMS_Notification_Controller_Quiz_Passed</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Section_Complete.html">LLMS_Notification_Controller_Section_Complete</a></li>
+				<li><a href="class-LLMS_Notification_Controller_Student_Welcome.html">LLMS_Notification_Controller_Student_Welcome</a></li>
+				<li><a href="class-LLMS_Notification_Processor_Email.html">LLMS_Notification_Processor_Email</a></li>
+				<li><a href="class-LLMS_Notification_View_Achievement_Earned.html">LLMS_Notification_View_Achievement_Earned</a></li>
+				<li><a href="class-LLMS_Notification_View_Certificate_Earned.html">LLMS_Notification_View_Certificate_Earned</a></li>
+				<li><a href="class-LLMS_Notification_View_Course_Complete.html">LLMS_Notification_View_Course_Complete</a></li>
+				<li><a href="class-LLMS_Notification_View_Course_Track_Complete.html">LLMS_Notification_View_Course_Track_Complete</a></li>
+				<li><a href="class-LLMS_Notification_View_Enrollment.html">LLMS_Notification_View_Enrollment</a></li>
+				<li><a href="class-LLMS_Notification_View_Lesson_Complete.html">LLMS_Notification_View_Lesson_Complete</a></li>
+				<li><a href="class-LLMS_Notification_View_Manual_Payment_Due.html">LLMS_Notification_View_Manual_Payment_Due</a></li>
+				<li><a href="class-LLMS_Notification_View_Payment_Retry.html">LLMS_Notification_View_Payment_Retry</a></li>
+				<li><a href="class-LLMS_Notification_View_Purchase_Receipt.html">LLMS_Notification_View_Purchase_Receipt</a></li>
+				<li><a href="class-LLMS_Notification_View_Quiz_Failed.html">LLMS_Notification_View_Quiz_Failed</a></li>
+				<li><a href="class-LLMS_Notification_View_Quiz_Passed.html">LLMS_Notification_View_Quiz_Passed</a></li>
+				<li><a href="class-LLMS_Notification_View_Section_Complete.html">LLMS_Notification_View_Section_Complete</a></li>
+				<li><a href="class-LLMS_Notification_View_Student_Welcome.html">LLMS_Notification_View_Student_Welcome</a></li>
+				<li><a href="class-LLMS_Notifications.html">LLMS_Notifications</a></li>
+				<li><a href="class-LLMS_Notifications_Query.html">LLMS_Notifications_Query</a></li>
+				<li><a href="class-LLMS_Number.html">LLMS_Number</a></li>
+				<li><a href="class-LLMS_OEmbed.html">LLMS_OEmbed</a></li>
+				<li><a href="class-LLMS_Order.html">LLMS_Order</a></li>
+				<li><a href="class-LLMS_Payment_Gateway.html">LLMS_Payment_Gateway</a></li>
+				<li><a href="class-LLMS_Payment_Gateway_Manual.html">LLMS_Payment_Gateway_Manual</a></li>
+				<li><a href="class-LLMS_Payment_Gateways.html">LLMS_Payment_Gateways</a></li>
+				<li><a href="class-LLMS_Person.html">LLMS_Person</a></li>
+				<li><a href="class-LLMS_Person_Handler.html">LLMS_Person_Handler</a></li>
+				<li><a href="class-LLMS_PlayNice.html">LLMS_PlayNice</a></li>
+				<li><a href="class-LLMS_Post_Handler.html">LLMS_Post_Handler</a></li>
+				<li><a href="class-LLMS_Post_Instructors.html">LLMS_Post_Instructors</a></li>
+				<li><a href="class-LLMS_Post_Model.html">LLMS_Post_Model</a></li>
+				<li><a href="class-LLMS_Post_Types.html">LLMS_Post_Types</a></li>
+				<li><a href="class-LLMS_Product.html">LLMS_Product</a></li>
+				<li><a href="class-LLMS_QQuiz.html">LLMS_QQuiz</a></li>
+				<li><a href="class-LLMS_Query.html">LLMS_Query</a></li>
+				<li><a href="class-LLMS_Question.html">LLMS_Question</a></li>
+				<li><a href="class-LLMS_Quiz.html">LLMS_Quiz</a></li>
+				<li><a href="class-LLMS_Quiz_Attempt.html">LLMS_Quiz_Attempt</a></li>
+				<li><a href="class-LLMS_Reviews.html">LLMS_Reviews</a></li>
+				<li><a href="class-LLMS_Roles.html">LLMS_Roles</a></li>
+				<li><a href="class-LLMS_Section.html">LLMS_Section</a></li>
+				<li><a href="class-LLMS_Session.html">LLMS_Session</a></li>
+				<li><a href="class-LLMS_Settings_Accounts.html">LLMS_Settings_Accounts</a></li>
+				<li><a href="class-LLMS_Settings_Checkout.html">LLMS_Settings_Checkout</a></li>
+				<li><a href="class-LLMS_Settings_Courses.html">LLMS_Settings_Courses</a></li>
+				<li><a href="class-LLMS_Settings_Engagements.html">LLMS_Settings_Engagements</a></li>
+				<li><a href="class-LLMS_Settings_General.html">LLMS_Settings_General</a></li>
+				<li><a href="class-LLMS_Settings_Integrations.html">LLMS_Settings_Integrations</a></li>
+				<li><a href="class-LLMS_Settings_Memberships.html">LLMS_Settings_Memberships</a></li>
+				<li><a href="class-LLMS_Settings_Notifications.html">LLMS_Settings_Notifications</a></li>
+				<li><a href="class-LLMS_Settings_Page.html">LLMS_Settings_Page</a></li>
+				<li><a href="class-LLMS_Shortcode.html">LLMS_Shortcode</a></li>
+				<li><a href="class-LLMS_Shortcode_Checkout.html">LLMS_Shortcode_Checkout</a></li>
+				<li><a href="class-LLMS_Shortcode_Course_Author.html">LLMS_Shortcode_Course_Author</a></li>
+				<li><a href="class-LLMS_Shortcode_Course_Continue.html">LLMS_Shortcode_Course_Continue</a></li>
+				<li><a href="class-LLMS_Shortcode_Course_Continue_Button.html">LLMS_Shortcode_Course_Continue_Button</a></li>
+				<li><a href="class-LLMS_Shortcode_Course_Element.html">LLMS_Shortcode_Course_Element</a></li>
+				<li><a href="class-LLMS_Shortcode_Course_Meta_Info.html">LLMS_Shortcode_Course_Meta_Info</a></li>
+				<li><a href="class-LLMS_Shortcode_Course_Outline.html">LLMS_Shortcode_Course_Outline</a></li>
+				<li><a href="class-LLMS_Shortcode_Course_Prerequisites.html">LLMS_Shortcode_Course_Prerequisites</a></li>
+				<li><a href="class-LLMS_Shortcode_Course_Reviews.html">LLMS_Shortcode_Course_Reviews</a></li>
+				<li><a href="class-LLMS_Shortcode_Course_Syllabus.html">LLMS_Shortcode_Course_Syllabus</a></li>
+				<li><a href="class-LLMS_Shortcode_Courses.html">LLMS_Shortcode_Courses</a></li>
+				<li><a href="class-LLMS_Shortcode_Hide_Content.html">LLMS_Shortcode_Hide_Content</a></li>
+				<li><a href="class-LLMS_Shortcode_Lesson_Mark_Complete.html">LLMS_Shortcode_Lesson_Mark_Complete</a></li>
+				<li><a href="class-LLMS_Shortcode_Membership_Link.html">LLMS_Shortcode_Membership_Link</a></li>
+				<li><a href="class-LLMS_Shortcode_My_Account.html">LLMS_Shortcode_My_Account</a></li>
+				<li><a href="class-LLMS_Shortcode_My_Achievements.html">LLMS_Shortcode_My_Achievements</a></li>
+				<li><a href="class-LLMS_Shortcode_Registration.html">LLMS_Shortcode_Registration</a></li>
+				<li><a href="class-LLMS_Shortcodes.html">LLMS_Shortcodes</a></li>
+				<li><a href="class-LLMS_Sidebars.html">LLMS_Sidebars</a></li>
+				<li><a href="class-LLMS_Site.html">LLMS_Site</a></li>
+				<li><a href="class-LLMS_Student.html">LLMS_Student</a></li>
+				<li><a href="class-LLMS_Student_Dashboard.html">LLMS_Student_Dashboard</a></li>
+				<li><a href="class-LLMS_Student_Query.html">LLMS_Student_Query</a></li>
+				<li><a href="class-LLMS_Student_Quizzes.html">LLMS_Student_Quizzes</a></li>
+				<li><a href="class-LLMS_Svg.html">LLMS_Svg</a></li>
+				<li><a href="class-LLMS_Table_Achievements.html">LLMS_Table_Achievements</a></li>
+				<li><a href="class-LLMS_Table_NotificationSettings.html">LLMS_Table_NotificationSettings</a></li>
+				<li><a href="class-LLMS_Table_Questions.html">LLMS_Table_Questions</a></li>
+				<li><a href="class-LLMS_Table_Student_Certificates.html">LLMS_Table_Student_Certificates</a></li>
+				<li><a href="class-LLMS_Table_Student_Course.html">LLMS_Table_Student_Course</a></li>
+				<li><a href="class-LLMS_Table_Student_Courses.html">LLMS_Table_Student_Courses</a></li>
+				<li><a href="class-LLMS_Table_Student_Memberships.html">LLMS_Table_Student_Memberships</a></li>
+				<li><a href="class-LLMS_Table_StudentManagement.html">LLMS_Table_StudentManagement</a></li>
+				<li><a href="class-LLMS_Table_Students.html">LLMS_Table_Students</a></li>
+				<li><a href="class-LLMS_Template_Loader.html">LLMS_Template_Loader</a></li>
+				<li><a href="class-LLMS_Track.html">LLMS_Track</a></li>
+				<li><a href="class-LLMS_Tracker.html">LLMS_Tracker</a></li>
+				<li><a href="class-LLMS_Transaction.html">LLMS_Transaction</a></li>
+				<li><a href="class-LLMS_Update.html">LLMS_Update</a></li>
+				<li><a href="class-LLMS_User_Achievement.html">LLMS_User_Achievement</a></li>
+				<li><a href="class-LLMS_User_Certificate.html">LLMS_User_Certificate</a></li>
+				<li><a href="class-LLMS_User_Permissions.html">LLMS_User_Permissions</a></li>
+				<li><a href="class-LLMS_View_Manager.html">LLMS_View_Manager</a></li>
+				<li><a href="class-LLMS_Voucher.html">LLMS_Voucher</a></li>
+				<li><a href="class-LLMS_Widget.html">LLMS_Widget</a></li>
+				<li><a href="class-LLMS_Widget_Course_Progress.html">LLMS_Widget_Course_Progress</a></li>
+				<li><a href="class-LLMS_Widget_Course_Syllabus.html">LLMS_Widget_Course_Syllabus</a></li>
+				<li><a href="class-LLMS_Widgets.html">LLMS_Widgets</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-LLMS_Interface_Notification_Controller.html">LLMS_Interface_Notification_Controller</a></li>
+				<li><a href="class-LLMS_Interface_Notification_Manager.html">LLMS_Interface_Notification_Manager</a></li>
+				<li><a href="class-LLMS_Interface_Post_Instructors.html">LLMS_Interface_Post_Instructors</a></li>
+				<li><a href="class-Meta_Box_Field_Interface.html">Meta_Box_Field_Interface</a></li>
+			</ul>
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-get_available_payment_options.html">get_available_payment_options</a></li>
+				<li><a href="function-get_course.html">get_course</a></li>
+				<li><a href="function-get_lesson.html">get_lesson</a></li>
+				<li><a href="function-get_lesson_data.html">get_lesson_data</a></li>
+				<li><a href="function-get_lifterlms_countries.html">get_lifterlms_countries</a></li>
+				<li><a href="function-get_lifterlms_country.html">get_lifterlms_country</a></li>
+				<li><a href="function-get_lifterlms_currencies.html">get_lifterlms_currencies</a></li>
+				<li><a href="function-get_lifterlms_currency.html">get_lifterlms_currency</a></li>
+				<li><a href="function-get_lifterlms_currency_name.html">get_lifterlms_currency_name</a></li>
+				<li><a href="function-get_lifterlms_currency_symbol.html">get_lifterlms_currency_symbol</a></li>
+				<li><a href="function-get_lifterlms_decimal_separator.html">get_lifterlms_decimal_separator</a></li>
+				<li><a href="function-get_lifterlms_decimals.html">get_lifterlms_decimals</a></li>
+				<li><a href="function-get_lifterlms_price_format.html">get_lifterlms_price_format</a></li>
+				<li><a href="function-get_lifterlms_thousand_separator.html">get_lifterlms_thousand_separator</a></li>
+				<li><a href="function-get_lifterlms_trim_zero_decimals.html">get_lifterlms_trim_zero_decimals</a></li>
+				<li><a href="function-get_product_query_var.html">get_product_query_var</a></li>
+				<li><a href="function-get_section_data.html">get_section_data</a></li>
+				<li><a href="function-is_course.html">is_course</a></li>
+				<li><a href="function-is_course_category.html">is_course_category</a></li>
+				<li><a href="function-is_course_taxonomy.html">is_course_taxonomy</a></li>
+				<li><a href="function-is_courses.html">is_courses</a></li>
+				<li><a href="function-is_filtered.html">is_filtered</a></li>
+				<li><a href="function-is_lesson.html">is_lesson</a></li>
+				<li><a href="function-is_lifterlms.html">is_lifterlms</a></li>
+				<li><a href="function-is_llms_account_page.html">is_llms_account_page</a></li>
+				<li><a href="function-is_llms_checkout.html">is_llms_checkout</a></li>
+				<li><a href="function-is_membership.html">is_membership</a></li>
+				<li><a href="function-is_memberships.html">is_memberships</a></li>
+				<li><a href="function-is_quiz.html">is_quiz</a></li>
+				<li><a href="function-lifterlms_course_continue_button.html">lifterlms_course_continue_button</a></li>
+				<li><a href="function-lifterlms_course_progress_bar.html">lifterlms_course_progress_bar</a></li>
+				<li><a href="function-lifterlms_get_content.html">lifterlms_get_content</a></li>
+				<li><a href="function-lifterlms_get_course_thumbnail.html">lifterlms_get_course_thumbnail</a></li>
+				<li><a href="function-lifterlms_get_featured_image.html">lifterlms_get_featured_image</a></li>
+				<li><a href="function-lifterlms_get_featured_image_banner.html">lifterlms_get_featured_image_banner</a></li>
+				<li><a href="function-lifterlms_get_sidebar.html">lifterlms_get_sidebar</a></li>
+				<li><a href="function-lifterlms_loop.html">lifterlms_loop</a></li>
+				<li><a href="function-lifterlms_loop_end.html">lifterlms_loop_end</a></li>
+				<li><a href="function-lifterlms_loop_featured_video.html">lifterlms_loop_featured_video</a></li>
+				<li><a href="function-lifterlms_loop_link_end.html">lifterlms_loop_link_end</a></li>
+				<li><a href="function-lifterlms_loop_link_start.html">lifterlms_loop_link_start</a></li>
+				<li><a href="function-lifterlms_loop_start.html">lifterlms_loop_start</a></li>
+				<li><a href="function-lifterlms_output_content_wrapper.html">lifterlms_output_content_wrapper</a></li>
+				<li><a href="function-lifterlms_output_content_wrapper_end.html">lifterlms_output_content_wrapper_end</a></li>
+				<li><a href="function-lifterlms_page_title.html">lifterlms_page_title</a></li>
+				<li><a href="function-lifterlms_template_achievements_loop.html">lifterlms_template_achievements_loop</a></li>
+				<li><a href="function-lifterlms_template_certificates_loop.html">lifterlms_template_certificates_loop</a></li>
+				<li><a href="function-lifterlms_template_complete_lesson_link.html">lifterlms_template_complete_lesson_link</a></li>
+				<li><a href="function-lifterlms_template_course_author.html">lifterlms_template_course_author</a></li>
+				<li><a href="function-lifterlms_template_lesson_navigation.html">lifterlms_template_lesson_navigation</a></li>
+				<li><a href="function-lifterlms_template_loop_author.html">lifterlms_template_loop_author</a></li>
+				<li><a href="function-lifterlms_template_loop_difficulty.html">lifterlms_template_loop_difficulty</a></li>
+				<li><a href="function-lifterlms_template_loop_enroll_date.html">lifterlms_template_loop_enroll_date</a></li>
+				<li><a href="function-lifterlms_template_loop_enroll_status.html">lifterlms_template_loop_enroll_status</a></li>
+				<li><a href="function-lifterlms_template_loop_length.html">lifterlms_template_loop_length</a></li>
+				<li><a href="function-lifterlms_template_loop_progress.html">lifterlms_template_loop_progress</a></li>
+				<li><a href="function-lifterlms_template_loop_thumbnail.html">lifterlms_template_loop_thumbnail</a></li>
+				<li><a href="function-lifterlms_template_loop_view_link.html">lifterlms_template_loop_view_link</a></li>
+				<li><a href="function-lifterlms_template_my_courses_loop.html">lifterlms_template_my_courses_loop</a></li>
+				<li><a href="function-lifterlms_template_my_memberships_loop.html">lifterlms_template_my_memberships_loop</a></li>
+				<li><a href="function-lifterlms_template_pricing_table.html">lifterlms_template_pricing_table</a></li>
+				<li><a href="function-lifterlms_template_question_wrapper_end.html">lifterlms_template_question_wrapper_end</a></li>
+				<li><a href="function-lifterlms_template_question_wrapper_start.html">lifterlms_template_question_wrapper_start</a></li>
+				<li><a href="function-lifterlms_template_quiz_meta_info.html">lifterlms_template_quiz_meta_info</a></li>
+				<li><a href="function-lifterlms_template_quiz_question.html">lifterlms_template_quiz_question</a></li>
+				<li><a href="function-lifterlms_template_quiz_results.html">lifterlms_template_quiz_results</a></li>
+				<li><a href="function-lifterlms_template_quiz_return_link.html">lifterlms_template_quiz_return_link</a></li>
+				<li><a href="function-lifterlms_template_quiz_timer.html">lifterlms_template_quiz_timer</a></li>
+				<li><a href="function-lifterlms_template_quiz_wrapper_end.html">lifterlms_template_quiz_wrapper_end</a></li>
+				<li><a href="function-lifterlms_template_quiz_wrapper_start.html">lifterlms_template_quiz_wrapper_start</a></li>
+				<li><a href="function-lifterlms_template_single_audio.html">lifterlms_template_single_audio</a></li>
+				<li><a href="function-lifterlms_template_single_course_categories.html">lifterlms_template_single_course_categories</a></li>
+				<li><a href="function-lifterlms_template_single_course_content.html">lifterlms_template_single_course_content</a></li>
+				<li><a href="function-lifterlms_template_single_course_progress.html">lifterlms_template_single_course_progress</a></li>
+				<li><a href="function-lifterlms_template_single_course_tags.html" class="invalid">lifterlms_template_single_course_tags</a></li>
+				<li><a href="function-lifterlms_template_single_course_tracks.html">lifterlms_template_single_course_tracks</a></li>
+				<li><a href="function-lifterlms_template_single_difficulty.html">lifterlms_template_single_difficulty</a></li>
+				<li><a href="function-lifterlms_template_single_featured_image.html">lifterlms_template_single_featured_image</a></li>
+				<li><a href="function-lifterlms_template_single_full_description.html">lifterlms_template_single_full_description</a></li>
+				<li><a href="function-lifterlms_template_single_length.html">lifterlms_template_single_length</a></li>
+				<li><a href="function-lifterlms_template_single_lesson_audio.html">lifterlms_template_single_lesson_audio</a></li>
+				<li><a href="function-lifterlms_template_single_lesson_video.html">lifterlms_template_single_lesson_video</a></li>
+				<li><a href="function-lifterlms_template_single_membership_full_description.html">lifterlms_template_single_membership_full_description</a></li>
+				<li><a href="function-lifterlms_template_single_membership_title.html">lifterlms_template_single_membership_title</a></li>
+				<li><a href="function-lifterlms_template_single_meta_wrapper_end.html">lifterlms_template_single_meta_wrapper_end</a></li>
+				<li><a href="function-lifterlms_template_single_meta_wrapper_start.html">lifterlms_template_single_meta_wrapper_start</a></li>
+				<li><a href="function-lifterlms_template_single_next_question.html">lifterlms_template_single_next_question</a></li>
+				<li><a href="function-lifterlms_template_single_parent_course.html">lifterlms_template_single_parent_course</a></li>
+				<li><a href="function-lifterlms_template_single_prerequisites.html">lifterlms_template_single_prerequisites</a></li>
+				<li><a href="function-lifterlms_template_single_prev_question.html">lifterlms_template_single_prev_question</a></li>
+				<li><a href="function-lifterlms_template_single_question_count.html">lifterlms_template_single_question_count</a></li>
+				<li><a href="function-lifterlms_template_single_reviews.html">lifterlms_template_single_reviews</a></li>
+				<li><a href="function-lifterlms_template_single_short_description.html">lifterlms_template_single_short_description</a></li>
+				<li><a href="function-lifterlms_template_single_single_choice.html">lifterlms_template_single_single_choice</a></li>
+				<li><a href="function-lifterlms_template_single_single_choice_ajax.html">lifterlms_template_single_single_choice_ajax</a></li>
+				<li><a href="function-lifterlms_template_single_syllabus.html">lifterlms_template_single_syllabus</a></li>
+				<li><a href="function-lifterlms_template_single_title.html">lifterlms_template_single_title</a></li>
+				<li><a href="function-lifterlms_template_single_video.html">lifterlms_template_single_video</a></li>
+				<li><a href="function-lifterlms_template_start_button.html">lifterlms_template_start_button</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_header.html">lifterlms_template_student_dashboard_header</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_home.html">lifterlms_template_student_dashboard_home</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_my_achievements.html">lifterlms_template_student_dashboard_my_achievements</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_my_certificates.html">lifterlms_template_student_dashboard_my_certificates</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_my_courses.html">lifterlms_template_student_dashboard_my_courses</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_my_memberships.html">lifterlms_template_student_dashboard_my_memberships</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_navigation.html">lifterlms_template_student_dashboard_navigation</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_title.html">lifterlms_template_student_dashboard_title</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_wrapper_close.html">lifterlms_template_student_dashboard_wrapper_close</a></li>
+				<li><a href="function-lifterlms_template_student_dashboard_wrapper_open.html">lifterlms_template_student_dashboard_wrapper_open</a></li>
+				<li><a href="function-LLMS.html">LLMS</a></li>
+				<li><a href="function-llms_add_notice.html">llms_add_notice</a></li>
+				<li><a href="function-llms_add_query_var_product_id.html">llms_add_query_var_product_id</a></li>
+				<li><a href="function-llms_add_user_table_columns.html">llms_add_user_table_columns</a></li>
+				<li><a href="function-llms_add_user_table_rows.html">llms_add_user_table_rows</a></li>
+				<li><a href="function-llms_agree_to_terms_form_field.html">llms_agree_to_terms_form_field</a></li>
+				<li><a href="function-llms_are_terms_and_conditions_required.html">llms_are_terms_and_conditions_required</a></li>
+				<li><a href="function-llms_can_user_bypass_restrictions.html">llms_can_user_bypass_restrictions</a></li>
+				<li><a href="function-llms_cancel_payment_url.html">llms_cancel_payment_url</a></li>
+				<li><a href="function-llms_clean.html">llms_clean</a></li>
+				<li><a href="function-llms_clear_notices.html">llms_clear_notices</a></li>
+				<li><a href="function-llms_confirm_payment_url.html">llms_confirm_payment_url</a></li>
+				<li><a href="function-llms_create_new_person.html" class="deprecated">llms_create_new_person</a></li>
+				<li><a href="function-llms_create_page.html">llms_create_page</a></li>
+				<li><a href="function-llms_current_time.html">llms_current_time</a></li>
+				<li><a href="function-llms_current_user_can.html">llms_current_user_can</a></li>
+				<li><a href="function-llms_deprecated_function.html">llms_deprecated_function</a></li>
+				<li><a href="function-llms_disable_admin_bar.html">llms_disable_admin_bar</a></li>
+				<li><a href="function-llms_email_body.html">llms_email_body</a></li>
+				<li><a href="function-llms_email_footer.html">llms_email_footer</a></li>
+				<li><a href="function-llms_email_header.html">llms_email_header</a></li>
+				<li><a href="function-llms_enroll_student.html">llms_enroll_student</a></li>
+				<li><a href="function-llms_expire_membership.html">llms_expire_membership</a></li>
+				<li><a href="function-llms_expire_membership_schedule.html">llms_expire_membership_schedule</a></li>
+				<li><a href="function-llms_featured_img.html">llms_featured_img</a></li>
+				<li><a href="function-llms_find_coupon.html">llms_find_coupon</a></li>
+				<li><a href="function-llms_form_field.html">llms_form_field</a></li>
+				<li><a href="function-llms_format_decimal.html">llms_format_decimal</a></li>
+				<li><a href="function-llms_get_access_plan_visibility_options.html">llms_get_access_plan_visibility_options</a></li>
+				<li><a href="function-llms_get_achievement.html">llms_get_achievement</a></li>
+				<li><a href="function-llms_get_achievement_loop_columns.html">llms_get_achievement_loop_columns</a></li>
+				<li><a href="function-llms_get_author.html">llms_get_author</a></li>
+				<li><a href="function-llms_get_certificate_content.html">llms_get_certificate_content</a></li>
+				<li><a href="function-llms_get_certificate_image.html">llms_get_certificate_image</a></li>
+				<li class="active"><a href="function-llms_get_certificate_preview.html">llms_get_certificate_preview</a></li>
+				<li><a href="function-llms_get_certificate_title.html">llms_get_certificate_title</a></li>
+				<li><a href="function-llms_get_certificates_loop_columns.html">llms_get_certificates_loop_columns</a></li>
+				<li><a href="function-llms_get_core_supported_themes.html">llms_get_core_supported_themes</a></li>
+				<li><a href="function-llms_get_country_name.html">llms_get_country_name</a></li>
+				<li><a href="function-llms_get_date_diff.html">llms_get_date_diff</a></li>
+				<li><a href="function-llms_get_donut.html">llms_get_donut</a></li>
+				<li><a href="function-llms_get_endpoint_url.html">llms_get_endpoint_url</a></li>
+				<li><a href="function-llms_get_engagement_triggers.html">llms_get_engagement_triggers</a></li>
+				<li><a href="function-llms_get_engagement_types.html">llms_get_engagement_types</a></li>
+				<li><a href="function-llms_get_enrolled_students.html">llms_get_enrolled_students</a></li>
+				<li><a href="function-llms_get_enrollment_status_name.html">llms_get_enrollment_status_name</a></li>
+				<li><a href="function-llms_get_enrollment_statuses.html">llms_get_enrollment_statuses</a></li>
+				<li><a href="function-llms_get_excerpt.html">llms_get_excerpt</a></li>
+				<li><a href="function-llms_get_image_size.html">llms_get_image_size</a></li>
+				<li><a href="function-llms_get_instructor.html">llms_get_instructor</a></li>
+				<li><a href="function-llms_get_ip_address.html">llms_get_ip_address</a></li>
+				<li><a href="function-llms_get_log_path.html">llms_get_log_path</a></li>
+				<li><a href="function-llms_get_login_form.html">llms_get_login_form</a></li>
+				<li><a href="function-llms_get_loop_columns.html">llms_get_loop_columns</a></li>
+				<li><a href="function-llms_get_loop_list_classes.html">llms_get_loop_list_classes</a></li>
+				<li><a href="function-llms_get_minimum_password_strength.html">llms_get_minimum_password_strength</a></li>
+				<li><a href="function-llms_get_minimum_password_strength_name.html">llms_get_minimum_password_strength_name</a></li>
+				<li><a href="function-llms_get_notice_types.html">llms_get_notice_types</a></li>
+				<li><a href="function-llms_get_notices.html">llms_get_notices</a></li>
+				<li><a href="function-llms_get_order_by_key.html">llms_get_order_by_key</a></li>
+				<li><a href="function-llms_get_order_status_name.html">llms_get_order_status_name</a></li>
+				<li><a href="function-llms_get_order_statuses.html">llms_get_order_statuses</a></li>
+				<li><a href="function-llms_get_page_id.html">llms_get_page_id</a></li>
+				<li><a href="function-llms_get_page_url.html">llms_get_page_url</a></li>
+				<li><a href="function-llms_get_post.html">llms_get_post</a></li>
+				<li><a href="function-llms_get_post_content.html">llms_get_post_content</a></li>
+				<li><a href="function-llms_get_post_parent_course.html">llms_get_post_parent_course</a></li>
+				<li><a href="function-llms_get_product.html">llms_get_product</a></li>
+				<li><a href="function-llms_get_product_visibility_options.html">llms_get_product_visibility_options</a></li>
+				<li><a href="function-llms_get_question.html">llms_get_question</a></li>
+				<li><a href="function-llms_get_quiz.html">llms_get_quiz</a></li>
+				<li><a href="function-llms_get_restriction_message.html">llms_get_restriction_message</a></li>
+				<li><a href="function-llms_get_student.html">llms_get_student</a></li>
+				<li><a href="function-llms_get_template.html">llms_get_template</a></li>
+				<li><a href="function-llms_get_template_ajax.html">llms_get_template_ajax</a></li>
+				<li><a href="function-llms_get_template_override.html">llms_get_template_override</a></li>
+				<li><a href="function-llms_get_template_part.html">llms_get_template_part</a></li>
+				<li><a href="function-llms_get_template_part_contents.html">llms_get_template_part_contents</a></li>
+				<li><a href="function-llms_get_transaction_statuses.html">llms_get_transaction_statuses</a></li>
+				<li><a href="function-llms_is_ajax.html">llms_is_ajax</a></li>
+				<li><a href="function-llms_is_complete.html">llms_is_complete</a></li>
+				<li><a href="function-llms_is_page_restricted.html">llms_is_page_restricted</a></li>
+				<li><a href="function-llms_is_post_restricted_by_drip_settings.html">llms_is_post_restricted_by_drip_settings</a></li>
+				<li><a href="function-llms_is_post_restricted_by_membership.html">llms_is_post_restricted_by_membership</a></li>
+				<li><a href="function-llms_is_post_restricted_by_prerequisite.html">llms_is_post_restricted_by_prerequisite</a></li>
+				<li><a href="function-llms_is_post_restricted_by_sitewide_membership.html">llms_is_post_restricted_by_sitewide_membership</a></li>
+				<li><a href="function-llms_is_post_restricted_by_time_period.html">llms_is_post_restricted_by_time_period</a></li>
+				<li><a href="function-llms_is_quiz_accessible.html">llms_is_quiz_accessible</a></li>
+				<li><a href="function-llms_is_site_https.html">llms_is_site_https</a></li>
+				<li><a href="function-llms_is_user_enrolled.html">llms_is_user_enrolled</a></li>
+				<li><a href="function-llms_locate_template.html">llms_locate_template</a></li>
+				<li><a href="function-llms_log.html">llms_log</a></li>
+				<li><a href="function-llms_lostpassword_url.html">llms_lostpassword_url</a></li>
+				<li><a href="function-llms_make_select2_post_array.html">llms_make_select2_post_array</a></li>
+				<li><a href="function-llms_make_select2_student_array.html">llms_make_select2_student_array</a></li>
+				<li><a href="function-llms_mark_complete.html">llms_mark_complete</a></li>
+				<li><a href="function-llms_mark_incomplete.html">llms_mark_incomplete</a></li>
+				<li><a href="function-llms_merge_code_button.html">llms_merge_code_button</a></li>
+				<li><a href="function-llms_notice_count.html">llms_notice_count</a></li>
+				<li><a href="function-llms_page_restricted.html">llms_page_restricted</a></li>
+				<li><a href="function-llms_person_edit_account_url.html">llms_person_edit_account_url</a></li>
+				<li><a href="function-llms_person_my_courses_url.html">llms_person_my_courses_url</a></li>
+				<li><a href="function-llms_person_redeem_voucher_url.html">llms_person_redeem_voucher_url</a></li>
+				<li><a href="function-llms_placeholder_img.html">llms_placeholder_img</a></li>
+				<li><a href="function-llms_placeholder_img_src.html">llms_placeholder_img_src</a></li>
+				<li><a href="function-llms_post_classes.html">llms_post_classes</a></li>
+				<li><a href="function-llms_price.html">llms_price</a></li>
+				<li><a href="function-llms_price_raw.html">llms_price_raw</a></li>
+				<li><a href="function-llms_print_notice.html">llms_print_notice</a></li>
+				<li><a href="function-llms_print_notices.html">llms_print_notices</a></li>
+				<li><a href="function-llms_register_certificate_image_size.html">llms_register_certificate_image_size</a></li>
+				<li><a href="function-llms_register_user.html">llms_register_user</a></li>
+				<li><a href="function-llms_set_person_auth_cookie.html">llms_set_person_auth_cookie</a></li>
+				<li><a href="function-llms_set_user_password_rest_key.html">llms_set_user_password_rest_key</a></li>
+				<li><a href="function-llms_setup_course_data.html">llms_setup_course_data</a></li>
+				<li><a href="function-llms_setup_lesson_data.html">llms_setup_lesson_data</a></li>
+				<li><a href="function-llms_setup_product_data.html">llms_setup_product_data</a></li>
+				<li><a href="function-llms_setup_question_data.html">llms_setup_question_data</a></li>
+				<li><a href="function-llms_setup_quiz_data.html">llms_setup_quiz_data</a></li>
+				<li><a href="function-llms_shuffle_assoc.html">llms_shuffle_assoc</a></li>
+				<li><a href="function-llms_template_redirect.html">llms_template_redirect</a></li>
+				<li><a href="function-llms_the_achievement.html">llms_the_achievement</a></li>
+				<li><a href="function-llms_the_certificate_preview.html">llms_the_certificate_preview</a></li>
+				<li><a href="function-llms_trim_string.html">llms_trim_string</a></li>
+				<li><a href="function-llms_trim_zeros.html">llms_trim_zeros</a></li>
+				<li><a href="function-llms_unenroll_student.html">llms_unenroll_student</a></li>
+				<li><a href="function-llms_update_300_create_access_plans.html">llms_update_300_create_access_plans</a></li>
+				<li><a href="function-llms_update_300_del_deprecated_options.html">llms_update_300_del_deprecated_options</a></li>
+				<li><a href="function-llms_update_300_migrate_account_field_options.html">llms_update_300_migrate_account_field_options</a></li>
+				<li><a href="function-llms_update_300_migrate_coupon_data.html">llms_update_300_migrate_coupon_data</a></li>
+				<li><a href="function-llms_update_300_migrate_course_postmeta.html">llms_update_300_migrate_course_postmeta</a></li>
+				<li><a href="function-llms_update_300_migrate_email_postmeta.html">llms_update_300_migrate_email_postmeta</a></li>
+				<li><a href="function-llms_update_300_migrate_lesson_postmeta.html">llms_update_300_migrate_lesson_postmeta</a></li>
+				<li><a href="function-llms_update_300_migrate_order_data.html">llms_update_300_migrate_order_data</a></li>
+				<li><a href="function-llms_update_300_update_db_version.html">llms_update_300_update_db_version</a></li>
+				<li><a href="function-llms_update_300_update_orders.html">llms_update_300_update_orders</a></li>
+				<li><a href="function-llms_update_303_update_db_version.html">llms_update_303_update_db_version</a></li>
+				<li><a href="function-llms_update_303_update_students_role.html">llms_update_303_update_students_role</a></li>
+				<li><a href="function-llms_update_3120_update_db_version.html">llms_update_3120_update_db_version</a></li>
+				<li><a href="function-llms_update_3120_update_integration_options.html">llms_update_3120_update_integration_options</a></li>
+				<li><a href="function-llms_update_3120_update_order_end_dates.html">llms_update_3120_update_order_end_dates</a></li>
+				<li><a href="function-llms_update_3130_builder_notice.html">llms_update_3130_builder_notice</a></li>
+				<li><a href="function-llms_update_3130_create_default_instructors.html">llms_update_3130_create_default_instructors</a></li>
+				<li><a href="function-llms_update_3130_update_db_version.html">llms_update_3130_update_db_version</a></li>
+				<li><a href="function-llms_update_343_update_db_version.html">llms_update_343_update_db_version</a></li>
+				<li><a href="function-llms_update_343_update_relationships.html">llms_update_343_update_relationships</a></li>
+				<li><a href="function-llms_update_360_set_product_visibility.html">llms_update_360_set_product_visibility</a></li>
+				<li><a href="function-llms_update_360_update_db_version.html">llms_update_360_update_db_version</a></li>
+				<li><a href="function-llms_update_380_set_access_plan_visibility.html">llms_update_380_set_access_plan_visibility</a></li>
+				<li><a href="function-llms_update_380_update_db_version.html">llms_update_380_update_db_version</a></li>
+				<li><a href="function-llms_update_user.html">llms_update_user</a></li>
+				<li><a href="function-llms_update_util_rekey_meta.html">llms_update_util_rekey_meta</a></li>
+				<li><a href="function-llms_verify_nonce.html">llms_verify_nonce</a></li>
+				<li><a href="function-llms_verify_password_reset_key.html">llms_verify_password_reset_key</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-None.html" title="Summary of None"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Function</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+				<li>
+					<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+						<span>Deprecated</span>
+					</a>
+				</li>
+				<li>
+					<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+						<span>Todo</span>
+					</a>
+				</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="function">
+	<h1>Function llms_get_certificate_preview</h1>
+
+
+	<div class="description">
+	<p>Get the content of a single certificates</p>
+	</div>
+
+	<div class="info">
+		
+		
+				<b>Version:</b>
+				3.14.0<br>
+				<b>Since:</b>
+				3.14.0<br>
+		<b>Located at</b>
+		<a href="source-function-llms_get_certificate_preview.html#8-25" title="Go to source code">
+			includes/functions/llms.functions.templates.certificates.php
+		</a><br>
+	</div>
+
+
+	<table class="summary" id="parameters">
+	<caption>Parameters summary</caption>
+	<tr id="$certificate">
+		<td class="name"><code>obj</code></td>
+		<td class="value"><code><var>$certificate</var></code></td>
+		<td>instance of an LLMS_User_Achievement</td>
+	</tr>
+	</table>
+
+
+
+</div>
+
+	<div id="footer">
+		LifterLMS 3.0.x Code Reference API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js?31f6c6e9cc7d5acc08cb315e47bab6c7455dfc23"></script>
+<script src="elementlist.js?d9926d3ed221cc8ccee4b00db1a6a179d88caa74"></script>
+</body>
+</html>
