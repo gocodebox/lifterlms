@@ -3,7 +3,7 @@
  * Manage core admin notices
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.14.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -163,8 +163,8 @@ class LLMS_Admin_Notices_Core {
 	 * Removes the current sidebar notice (if present) and clears notice delay transients
 	 * Called when theme is switched
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.7
+	 * @version  3.14.7
 	 */
 	public static function clear_sidebar_notice() {
 		if ( LLMS_Admin_Notices::has_notice( 'sidebars' ) ) {

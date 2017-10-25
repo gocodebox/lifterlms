@@ -2,7 +2,7 @@
 /**
  * Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.14.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -221,7 +221,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    integer    $page         page, used when paginating search results
 	 * @return   array
 	 * @since    3.14.4
-	 * @version  [version]
+	 * @version  3.14.7
 	 */
 	private static function get_orphaned_lessons( $course_id, $search_term = '', $page = 1 ) {
 

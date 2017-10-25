@@ -4,15 +4,15 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * LifterLMS Navigation Menus
- * @since    [version]
- * @version  [version]
+ * @since    3.14.7
+ * @version  3.14.7
  */
 class LLMS_Nav_Menus {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.7
+	 * @version  3.14.7
 	 */
 	public function __construct() {
 
@@ -33,8 +33,8 @@ class LLMS_Nav_Menus {
 	/**
 	 * Add nav menu metabox
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.7
+	 * @version  3.14.7
 	 */
 	public function add_metabox() {
 
@@ -50,8 +50,8 @@ class LLMS_Nav_Menus {
 	 * @param    string     $object  requested menu item object
 	 * @param    integer    $page    requested page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.7
+	 * @version  3.14.7
 	 */
 	public function customize_add_items( $items = array(), $type = '', $object = '', $page = 0 ) {
 
@@ -78,8 +78,8 @@ class LLMS_Nav_Menus {
 	 * Add the LifterLMS menu item section to the customizer
 	 * @param    array     $types  existing menu item types
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.7
+	 * @version  3.14.7
 	 */
 	public function customize_add_type( $types ) {
 
@@ -97,8 +97,8 @@ class LLMS_Nav_Menus {
 	 * Also hides URLs that should only be available to logged in users
 	 * @param    array     $items  nav menu items
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.7
+	 * @version  3.14.7
 	 */
 	public function filter_nav_items( $items ) {
 
@@ -133,8 +133,8 @@ class LLMS_Nav_Menus {
 	/**
 	 * Retrieve a filtered array of custom LifterLMS nav menu items
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.7
+	 * @version  3.14.7
 	 */
 	private function get_nav_items() {
 
@@ -171,8 +171,8 @@ class LLMS_Nav_Menus {
 	/**
 	 * Output the metabox
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.7
+	 * @version  3.14.7
 	 */
 	public function output() {
 
@@ -215,8 +215,8 @@ class LLMS_Nav_Menus {
 	/**
 	 * Output JS to ensure that users don't edit the #llms-signout URL that's replaced dynamically with an actual signout link
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.7
+	 * @version  3.14.7
 	 */
 	public function output_scripts() {
 		?>
