@@ -1,5 +1,5 @@
 LifterLMS
-==========
+=========
 
 [![WordPress plugin](https://img.shields.io/wordpress/plugin/v/lifterlms.svg)]()
 [![WordPress](https://img.shields.io/wordpress/v/lifterlms.svg)]()
