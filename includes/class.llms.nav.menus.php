@@ -124,9 +124,7 @@ class LLMS_Nav_Menus {
 						unset( $items[ $i ] );
 					}
 				}
-
 			}
-
 		}
 
 		return $items;
@@ -153,13 +151,12 @@ class LLMS_Nav_Menus {
 				);
 
 			}
-
 		}
 
 		$items['signin'] = array(
 			'url' => '#llms-signin',
 			'label' => __( 'Sign In', 'lifterlms' ),
-			'title' => __( 'Sign In', 'lifterlms' )
+			'title' => __( 'Sign In', 'lifterlms' ),
 		);
 		$items['signout'] = array(
 			'url' => '#llms-signout',
