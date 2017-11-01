@@ -1,7 +1,7 @@
 /**
  * LifterLMS Basic Notifications Displayer
  * @since    3.8.0
- * @version  3.9.5
+ * @version  [version]
  */
 ;( function( $ ) {
 
@@ -9,7 +9,8 @@
 
 		var self = this,
 			settings = ( window.llms && window.llms.notification_settings ) ? window.llms.notification_settings : {},
-			heartbeat_interval = settings.heartbeat_interval ? settings.heartbeat_interval : 20000,
+			heartbeat_delay = settings.heartbeat_delay ? settings.heartbeat_delay : 0,
+			heartbeat_interval = settings.heartbeat_interval ? settings.heartbeat_interval : 30000,
 			notifications = [],
 			dismissals = [],
 			heartbeat;
@@ -31,12 +32,45 @@
 		 * during the next heartbeat
 		 * @param    int   id  notification ID
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		function add_dismissal( id ) {
-			if ( -1 === dismissals.indexOf( id ) ) {
-				dismissals.push( id );
+
+			$.map( dismissals, function( item ) {
+				if ( id == item.id ) {
+					return;
+				}
+			} );
+
+			dismissals.push( {
+				id: id,
+				status: 'read',
+			} );
+
+		};
+
+		/**
+		 * Remove a dismissal from the array of dismissals
+		 * @param    int   id  notification id
+		 * @return   {[type]}
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		function remove_dismissal( id ) {
+
+			var index = null;
+
+			$.map( dismissals, function( item, i ) {
+				if ( id == item.id ) {
+					index = i;
+					return;
+				}
+			} );
+
+			if ( null !== index ) {
+				dismissals.splice( index, 1 );
 			}
+
 		};
 
 		/**
@@ -51,16 +85,22 @@
 
 		/**
 		 * Heartbeat callback function
-		 * @param    {[type]}   trigger  [description]
-		 * @return   {[type]}            [description]
+		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
-		function do_heartbeat( trigger ) {
+		function do_heartbeat() {
 
 			pump( function() {
 
-				if ( ( trigger && 'unload' === trigger ) || ! self.has_notifications ) {
+				if ( self.restart_heartbeat ) {
+					self.restart_heartbeat = false;
+					start_heartbeat();
+				}
+
+				self.block_ajax = false;
+
+				if ( ! self.has_notifications ) {
 					return;
 				}
 				self.show_all();
@@ -74,50 +114,105 @@
 		 * @param    {Function}  cb  callbace
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		pump = function( cb ) {
 
-			var clear_dismissals = dismissals.length ? true : false;
+			// ajax is blocked, restart the heart and try again on the next interval
+			if ( self.block_ajax ) {
+				self.restart_heartbeat = true;
+				clear_heartbeat();
+				return cb();
+			}
+
+			// block ajax until this pump is finished
+			self.block_ajax = true;
+
+			if ( ! dismissals.length ) {
+
+				retrieve( function() {
+					cb();
+				} );
+
+			} else {
+
+				update( function() {
+					retrieve( function() {
+						cb();
+					} );
+				} );
+
+			}
+
+		};
+
+		/**
+		 * GET request to retrieve new notifications
+		 * @param    {Function}  cb  callback function
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		retrieve = function( cb ) {
 
 			LLMS.Ajax.call( {
+				llms_rest: true,
+				llms_rest_endpoint: 'notifications',
+				type: 'GET',
 				data: {
-					action: 'notifications_heartbeart',
-					dismissals: dismissals,
+					per_page: 5,
+					status: 'new',
+					subscriber: 'self',
+					type: 'basic',
 				},
-				beforeSend: function() {
+				success: function( r, status, xhr ) {
 
-					if ( self.block_ajax ) {
-						self.restart_heartbeat = true;
-						clear_heartbeat();
-						cb();
-						return false;
-					}
-
-					self.block_ajax = true;
-
-				},
-				complete: function() {
-
-					if ( self.restart_heartbeat ) {
-						self.restart_heartbeat = false;
-						start_heartbeat();
-					}
-
-					self.block_ajax = false;
-
-				},
-				success: function( r ) {
-
-					dismissals = clear_dismissals ? [] : dismissals;
-
-					if ( r.success && r.data ) {
-						self.queue( r.data.new );
+					if ( 'success' === status && r.length ) {
+						self.queue( r );
+						self.empties = 0;
+					} else {
+						// slow down the interval every 3 empty requests
+						self.empties++;
+						if ( 0 === self.empties % 3 ) {
+							heartbeat_interval += heartbeat_interval / 2;
+							self.restart_heartbeat = true;
+							clear_heartbeat();
+						}
 					}
 
 					cb();
 
 				}
+			} );
+		}
+
+		/**
+		 * PUT request to update notification read status
+		 * @param    {Function}  cb  callback function
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		update = function( cb ) {
+
+			LLMS.Ajax.call( {
+				llms_rest: true,
+				llms_rest_endpoint: 'notifications/batch',
+				type: 'PUT',
+				data: {
+					update: dismissals,
+				},
+				success: function( r, status, xhr ) {
+
+					$.each( r.update, function( i, item ) {
+						remove_dismissal( item.id );
+					} );
+					if ( cb ) {
+						cb();
+					}
+
+				}
+
 			} );
 
 		};
@@ -145,10 +240,16 @@
 		this.restart_heartbeat = false;
 
 		/**
+		 * Count empty retrieve requests
+		 * @type  {Number}
+		 */
+		this.empties = 0;
+
+		/**
 		 * Initialize
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		this.init = function() {
 
@@ -159,13 +260,21 @@
 			}
 
 			window.onbeforeunload = function() {
-				do_heartbeat( 'unload' );
+
+				if ( dismissals.length ) {
+					update();
+				}
+
 			};
 
 			bind_events();
 
-			do_heartbeat();
-			start_heartbeat();
+			setTimeout( function() {
+				do_heartbeat();
+				setTimeout( function() {
+					start_heartbeat();
+				}, heartbeat_delay );
+			}, heartbeat_delay );
 
 		};
 
@@ -351,9 +460,14 @@
 		 * @param    object   n  notification object data
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		this.show_one = function( n ) {
+
+			if ( ! n.html ) {
+				add_dismissal( n.id );
+				return;
+			}
 
 			var self = this,
 				$html = $( n.html );
@@ -383,7 +497,6 @@
 					self.dismiss( $html );
 				}, $html.attr( 'data-auto-dismiss' ) );
 			}
-
 
 		}
 
