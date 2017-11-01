@@ -2,7 +2,7 @@
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.14.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -129,7 +129,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.14.0
+	 * @version [version]
 	 */
 	public static function enqueue_scripts() {
 
@@ -156,7 +156,8 @@ class LLMS_Frontend_Assets {
 		wp_register_script( 'llms-notifications', plugins_url( '/assets/js/llms-notifications' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 		if ( get_current_user_id() ) {
 			$notification_settings = apply_filters( 'llms_notifications_settings', array(
-				'heartbeat_interval' => 20000,
+				'heartbeat_delay' => 0,
+				'heartbeat_interval' => 30000,
 			) );
 			self::enqueue_inline_script(
 				'llms-notifications-settings',
@@ -183,6 +184,13 @@ class LLMS_Frontend_Assets {
 		self::enqueue_inline_script(
 			'llms-ajaxurl',
 			'window.llms = window.llms || {};window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php', $ssl ) . '";'
+		);
+		self::enqueue_inline_script(
+			'llms-resturl',
+			'window.llms.rest = ' . json_encode( array(
+				'url' => LLMS()->api->get_url(),
+				'nonce' => wp_create_nonce( 'wp_rest' ),
+			) ) . ';'
 		);
 		self::enqueue_inline_script(
 			'llms-LLMS-obj',
