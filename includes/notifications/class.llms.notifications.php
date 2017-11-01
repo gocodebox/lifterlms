@@ -1,14 +1,15 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
- *
- * @since     3.8.0
- * @version   3.10.0
+ * @author    LifterLMS
+ * @category  Notifications
+ * @package   LifterLMS/Notifications
+ * @since    3.8.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notifications {
 
 	/**
@@ -143,6 +144,27 @@ class LLMS_Notifications {
 	public function get_processors() {
 		return $this->processors;
 	}
+
+	/**
+	 * Get available notification statuses
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_statuses() {
+		return apply_filters( 'llms_notification_statuses', array( 'new', 'sent', 'read', 'unread', 'deleted', 'failed' ), $this );
+	}
+
+	/**
+	 * Get available notification types
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_types() {
+		return apply_filters( 'llms_notification_types', array( 'basic', 'email' ), $this );
+	}
+
 
 	/**
 	 * Retrieve a view instance of a notification
