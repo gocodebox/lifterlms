@@ -2,7 +2,7 @@
 /**
  * Course Builder
  * @since    3.13.0
- * @version  3.14.7
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -221,7 +221,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    integer    $page         page, used when paginating search results
 	 * @return   array
 	 * @since    3.14.4
-	 * @version  3.14.7
+	 * @version  [version]
 	 */
 	private static function get_orphaned_lessons( $course_id, $search_term = '', $page = 1 ) {
 
@@ -248,7 +248,6 @@ if ( ! empty( $active_post_lock ) ) {
 				$parents
 			) );
 			$ids = array_map( 'absint', $ids );
-			llms_log( $ids );
 			$author_sql = sprintf( 'AND post_author IN ( %s )', implode( ', ', $ids ) );
 
 		}
@@ -287,7 +286,7 @@ if ( ! empty( $active_post_lock ) ) {
 		}
 
 		$ret = array(
-			'sql' => $sql,
+			// 'sql' => $sql,
 			'results' => $query,
 			'pagination' => array(
 				'more' => $more,
