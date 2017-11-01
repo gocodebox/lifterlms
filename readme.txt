@@ -350,6 +350,19 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+v3.15.0-alpha.1 - 2017-11-01
+--------------------------------
+
++ Replace notifications heartbeat with AJAX calls to notifications REST API endpoints
+
+
+v3.14.8 - 2017-11-??
+------------------------
+
++ Removed logging and debugging functions from admin builder class
++ Fix: Show all memberships on dashboard
+
+
 = v3.14.7 - 2017-10-25 =
 ------------------------
 

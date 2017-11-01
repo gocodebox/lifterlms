@@ -1,0 +1,44 @@
+{
+	"info": {
+		"name": "LifterLMS Rest API",
+		"_postman_id": "6d8a963c-c8b6-a8f0-0b3f-89963042d796",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://local.wordpress.dev/wp-json/llms/v1/notifications",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-WP-NONCE",
+						"value": "0e5bb37795"
+					},
+					{
+						"key": "cookie",
+						"value": "__distillery=e5c65dd_5c6926ac-ca06-4625-b9f5-df7f931435bf-3f844734f-bd6d78e0ce3e-3f1f; muxData=mux_viewer_id=ab9e1cfe-cae5-46cf-afb2-72045b097bea&msn=0.667136557785379; woocommerce_items_in_cart=1; woocommerce_cart_hash=a8686f476ee803d7b1c3504990c488eb; wp_woocommerce_session_9416a7b43bd88dae58cf6c88b9f89f3f=1%7C%7C1509550968%7C%7C1509547368%7C%7C38523a9f33fc703f77b380d6b06f395e; wordpress_logged_in_9416a7b43bd88dae58cf6c88b9f89f3f=admin%7C1509577618%7Cs9FKSbu92eyhe9s933w5zFZOnfUYkGew3q24zW72hQ4%7Cb4765ee692acf61c00aaf9c433945203678f99788aafa71e9fcdd8f521df7095; __stripe_mid=b6e64bbf-e56f-4b08-9bcb-22edd78fe13e; __stripe_sid=a64a4a57-a9cb-4896-ab84-dfcd0def6b0e; _wp_session=cd68a2ea8aac089623ef341e834f756f%7C%7C1509507349%7C%7C1569080149"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://local.wordpress.dev/wp-json/llms/v1/notifications",
+					"protocol": "http",
+					"host": [
+						"local",
+						"wordpress",
+						"dev"
+					],
+					"path": [
+						"wp-json",
+						"llms",
+						"v1",
+						"notifications"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		}
+	]
+}
