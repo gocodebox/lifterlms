@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  3.14.6
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -86,7 +86,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
  * @since    3.14.0
- * @version  3.14.3
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 	function lifterlms_template_my_memberships_loop( $student = null ) {
@@ -113,7 +113,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 				'post__in' => $memberships,
 				'post_status' => 'publish',
 				'post_type' => 'llms_membership',
-				'posts_per_page' => llms_get_loop_columns(),
+				'posts_per_page' => -1,
 			) );
 
 			$query->max_num_pages = 1; // prevent pagination here
