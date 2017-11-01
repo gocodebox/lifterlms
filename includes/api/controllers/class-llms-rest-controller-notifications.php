@@ -111,7 +111,11 @@ class LLMS_REST_Controller_Notifications extends LLMS_Abstract_REST_Controller {
 				if ( is_wp_error( $_response ) ) {
 					$response['update'][] = array(
 						'id'    => $item['id'],
-						'error' => array( 'code' => $_response->get_error_code(), 'message' => $_response->get_error_message(), 'data' => $_response->get_error_data() ),
+						'error' => array(
+							'code' => $_response->get_error_code(),
+							'message' => $_response->get_error_message(),
+							'data' => $_response->get_error_data(),
+						),
 					);
 				} else {
 					$response['update'][] = $wp_rest_server->response_to_data( $_response, '' );
@@ -189,9 +193,10 @@ class LLMS_REST_Controller_Notifications extends LLMS_Abstract_REST_Controller {
 
 			$notification = new LLMS_Notification( $request->get_param( 'id' ) );
 			if ( get_current_user_id() != $notification->get( 'subscriber' ) ) {
-				return new WP_Error( 'llms_rest_cannot_view', __( 'Sorry, you cannot view this resource.', 'lifterlms' ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error( 'llms_rest_cannot_view', __( 'Sorry, you cannot view this resource.', 'lifterlms' ), array(
+					'status' => rest_authorization_required_code(),
+				) );
 			}
-
 		}
 
 		return true;
@@ -352,16 +357,19 @@ class LLMS_REST_Controller_Notifications extends LLMS_Abstract_REST_Controller {
 
 		if ( ! is_user_logged_in() ) {
 
-			return new WP_Error( 'llms_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'lifterlms' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'llms_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'lifterlms' ), array(
+				'status' => rest_authorization_required_code(),
+			) );
 
 		} elseif ( 'self' !== $request->get_param( 'subscriber' ) && get_current_user_id() !== $request->get_param( 'subscriber' ) ) {
 
 			if ( ! current_user_can( 'manage_lifterlms' ) ) {
 
-				return new WP_Error( 'llms_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'lifterlms' ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error( 'llms_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'lifterlms' ), array(
+					'status' => rest_authorization_required_code(),
+				) );
 
 			}
-
 		}
 
 		return true;
@@ -480,7 +488,6 @@ class LLMS_REST_Controller_Notifications extends LLMS_Abstract_REST_Controller {
 				$notification->set( $key, $val );
 
 			}
-
 		}
 
 		return rest_ensure_response( $this->prepare_item_for_response( $request->get_param( 'id' ), $request ) );
@@ -500,9 +507,10 @@ class LLMS_REST_Controller_Notifications extends LLMS_Abstract_REST_Controller {
 
 			$notification = new LLMS_Notification( $request->get_param( 'id' ) );
 			if ( get_current_user_id() != $notification->get( 'subscriber' ) ) {
-				return new WP_Error( 'llms_rest_cannot_view', __( 'Sorry, you cannot update resources.', 'lifterlms' ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error( 'llms_rest_cannot_view', __( 'Sorry, you cannot update resources.', 'lifterlms' ), array(
+					'status' => rest_authorization_required_code(),
+				) );
 			}
-
 		}
 
 		return true;

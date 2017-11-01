@@ -58,7 +58,9 @@ abstract class LLMS_Abstract_REST_Controller extends WP_REST_Controller {
 		// }
 
 		if ( $total > $limit ) {
-			return new WP_Error( 'llms_rest_request_entity_too_large', sprintf( __( 'Unable to accept more than %s items for this request.', 'lifterlms' ), $limit ), array( 'status' => 413 ) );
+			return new WP_Error( 'llms_rest_request_entity_too_large', sprintf( __( 'Unable to accept more than %s items for this request.', 'lifterlms' ), $limit ), array(
+				'status' => 413,
+			) );
 		}
 
 		return true;
