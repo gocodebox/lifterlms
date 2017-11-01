@@ -4,7 +4,8 @@
 /**
  * Main Ajax class
  * Handles Primary Ajax connection
- * @type {Object}
+ * @since   1.0.0
+ * @version [version]
  */
 LLMS.Ajax = {
 
@@ -51,31 +52,54 @@ LLMS.Ajax = {
 	/**
 	 * initilize Ajax methods
 	 * loads class methods
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
-	init: function(obj) {
+	init: function( obj ) {
 
-		//if obj is not of type object or null return false;
-		if( obj === null || typeof obj !== 'object' ) {
+		var self = this;
+
+		// if obj is not of type object or null return false;
+		if ( obj === null || typeof obj !== 'object' ) {
 			return false;
 		}
 
 		//set object defaults if values are not supplied
-		obj.url			= this.url;
-		obj.type 		= 'type' 		in obj ? obj.type 		: this.type;
-		obj.data 		= 'data' 		in obj ? obj.data 		: this.data;
-		obj.cache 		= 'cache' 		in obj ? obj.cache 		: this.cache;
-		obj.dataType 	= 'dataType'	in obj ? obj.dataType 	: this.dataType;
-		obj.async 		= 'async'		in obj ? obj.async 		: this.async;
+		obj.url			= self.url;
+		obj.type 		= 'type' 		in obj ? obj.type 		: self.type;
+		obj.data 		= 'data' 		in obj ? obj.data 		: self.data;
+		obj.cache 		= 'cache' 		in obj ? obj.cache 		: self.cache;
+		obj.dataType 	= 'dataType'	in obj ? obj.dataType 	: self.dataType;
+		obj.async 		= 'async'		in obj ? obj.async 		: self.async;
 
-		//add nonce to data object
-		obj.data._ajax_nonce = wp_ajax_data.nonce;
+		// add extra data when not using REST
+		if ( !obj.llms_rest ) {
 
-		//add post id to data object
-		var $R = LLMS.Rest,
-		query_vars = $R.get_query_vars();
-		obj.data.post_id = 'post' in query_vars ? query_vars.post : null;
-		if ( !obj.data.post_id && $( 'input#post_ID' ).length ) {
-			obj.data.post_id = $( 'input#post_ID' ).val();
+			// add nonce to data object
+			obj.data._ajax_nonce = wp_ajax_data.nonce;
+
+			//add post id to data object
+			var $R = LLMS.Rest,
+			query_vars = $R.get_query_vars();
+			obj.data.post_id = 'post' in query_vars ? query_vars.post : null;
+			if ( !obj.data.post_id && $( 'input#post_ID' ).length ) {
+				obj.data.post_id = $( 'input#post_ID' ).val();
+			}
+
+		// use REST
+		} else {
+
+			obj.url = window.llms.rest.url + obj.llms_rest_endpoint;
+
+			var before = obj.beforeSend;
+
+			obj.beforeSend = function( xhr, settings ) {
+				xhr.setRequestHeader( 'X-WP-Nonce', window.llms.rest.nonce );
+				if ( 'function' === typeof before ) {
+					return before( xhr, settings );
+				}
+			};
+
 		}
 
 		return obj;
