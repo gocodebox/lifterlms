@@ -1,20 +1,22 @@
 <?php
-/**
-* Query LifterLMS Students for a given course / membership
-* @example
-* 	$query = new LLMS_Notifications_Query( array(
-* 		'subscriber' => 123, // null
-* 		'per_page' => 10,
-* 		'statuses' => 'new', // array( 'new', 'read', '...' )
-* 		'types' => 'basic', // array( 'basic', 'email', '...' )
-*  	) );
-*
-* @since    3.8.0
-* @version  3.14.0
-*/
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * Query LifterLMS Notifications
+ * @example
+ * 	$query = new LLMS_Notifications_Query( array(
+ * 		'subscriber' => 123, // null
+ * 		'per_page' => 10,
+ * 		'statuses' => 'new', // array( 'new', 'read', '...' )
+ * 		'types' => 'basic', // array( 'basic', 'email', '...' )
+ *  	) );
+ * @author    LifterLMS
+ * @category  Notifications
+ * @package   LifterLMS/Notifications
+ * @since     3.8.0
+ * @version   [version]
+ */
 class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
@@ -27,20 +29,20 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Get an array of allowed notification statuses
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	private function get_available_statuses() {
-		return array( 'new', 'sent', 'read', 'unread', 'deleted', 'failed' );
+		return LLMS()->notifications()->get_statuses();
 	}
 
 	/**
 	 * Get the available notification types
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	private function get_available_types() {
-		return array( 'basic', 'email' );
+		return LLMS()->notifications()->get_types();
 	}
 
 	/**
@@ -176,7 +178,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Prepare the SQL for the query
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.9.4
+	 * @version  [version]
 	 */
 	protected function preprare_query() {
 
@@ -188,7 +190,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		);
 
 		$sql = $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS *
+			"SELECT SQL_CALC_FOUND_ROWS n.*
 
 			FROM {$wpdb->prefix}lifterlms_notifications AS n
 
