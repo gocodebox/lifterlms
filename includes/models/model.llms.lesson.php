@@ -3,7 +3,7 @@
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.14.4
+ * @version  [version]
  *
  * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
  * @property  $audio_embed  (string)  Audio embed URL
@@ -314,6 +314,21 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function has_prerequisite() {
 
 		return ( 'yes' == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
+
+	}
+
+	/**
+	 * Determine if the slug (post name) of a lesson has been modified
+	 * Ensures that lessons created via the builder with "New Lesson" as the title (default slug "new-lesson-{$num}")
+	 * have their slug renamed when the title is renamed for the first time
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_modified_slug() {
+
+		$default = sanitize_title( __( 'New Lesson', 'lifterlms' ) );
+		return ( false === strpos( $this->get( 'name' ), $default ) );
 
 	}
 
