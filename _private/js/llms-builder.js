@@ -4,7 +4,7 @@
 	 * Main Application Object
 	 * @type     {Object}
 	 * @since    3.13.0
-	 * @version  3.14.2
+	 * @version  [version]
 	 */
 	var App = {
 
@@ -589,7 +589,7 @@
 	/**
 	 * Lesson Model
 	 * @since    3.13.0
-	 * @version  3.14.4
+	 * @version  [version]
 	 */
 	App.Models.Lesson = Backbone.Model.extend( _.defaults( {
 
@@ -599,13 +599,13 @@
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  3.14.0
+		 * @version  [version]
 		 */
 		defaults: function() {
 			var order = this.collection ? this.collection.next_order() : 1,
 				section_id = App.Methods.get_last_section().id;
 			return {
-				title: 'New Lesson',
+				title: LLMS.l10n.translate( 'New Lesson' ),
 				type: 'lesson',
 				order: order,
 				section_id: section_id,
@@ -1708,9 +1708,6 @@
 						WebuiPopovers.hide( e.target );
 					} );
 				},
-				// onHide: function( $element ) {
-					// $element.remove();
-				// },
 			} );
 
 		},
