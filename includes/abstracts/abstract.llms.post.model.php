@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.14.6
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -268,9 +268,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Clones the Post if the post is cloneable
-	 * @return   mixed         WP_Error or array of generator results
+	 * @return   mixed         WP_Error or WP Post ID of the clone (new) post
 	 * @since    3.3.0
-	 * @version  3.11.0
+	 * @version  [version]
 	 */
 	public function clone_post() {
 
@@ -296,7 +296,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		unset( $allowedposttags['iframe'] );
 
-		return $generator->get_results();
+		$generated = $generator->get_generated_posts();
+		if ( isset( $generated[ $this->db_post_type ] ) ) {
+			return $generated[ $this->db_post_type ][0];
+		}
+
+		return new WP_Error( 'generator-error', __( 'An unknown error occurred during post cloning. Please try again.', 'lifterlms' ) );
 
 	}
 
