@@ -5,9 +5,17 @@ v3.14.8 - 2017-11-??
 --------------------
 
 + Lessons can be cloned via the "Clone" action from the lessons post table
+
+##### Builder Improvements & Fixes
+
 + Lessons created via Course builder will have their slugs renamed the first time the lesson title is updated via the builder
++ No longer display notices on the course builder
++ Add extra space to the scollable area on course builder
 + Removed logging and debugging functions from admin builder class
 + JS-generated error messages on the course builder are now translateable
+
+##### Bug Fixes
+
 + Fix: Show all memberships on dashboard
 
 

@@ -483,9 +483,6 @@ if ( ! empty( $active_post_lock ) ) {
 
 		<div class="wrap lifterlms llms-course-builder">
 
-			<!-- give admin notices a home -->
-			<h1 style="display:none;"></h1>
-
 			<div class="llms-builder-inside">
 
 			<?php do_action( 'llms_before_course_builder', $course_id ); ?>
