@@ -16,12 +16,6 @@ class LLMS_Generator {
 	public $error;
 
 	/**
-	 * Array of generated course ids
-	 * @var  array
-	 */
-	private $courses = array();
-
-	/**
 	 * Default post status when status isn't set in $raw for a given post
 	 * @var  string
 	 */
@@ -32,6 +26,12 @@ class LLMS_Generator {
 	 * @var  string
 	 */
 	private $generator = '';
+
+	/**
+	 * Array of generated posts
+	 * @var  array
+	 */
+	private $posts = array();
 
 	/**
 	 * Raw contents passed into the generator's constructor
@@ -322,7 +322,7 @@ class LLMS_Generator {
 		}
 
 		$this->increment( 'courses' );
-		array_push( $this->courses, $course->get( 'id' ) );
+		$this->record_generation( $course->get( 'id' ), 'course' );
 
 		// save the tempid
 		$tempid = $this->store_temp_id( $raw, $course );
@@ -378,7 +378,7 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   mixed                          lesson id or WP_Error
 	 * @since    3.3.0
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
 	private function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
 
@@ -400,6 +400,7 @@ class LLMS_Generator {
 		}
 
 		$this->increment( 'lessons' );
+		$this->record_generation( $lesson->get( 'id' ), 'lesson' );
 
 		// save the tempid
 		$tempid = $this->store_temp_id( $raw, $lesson );
@@ -717,17 +718,30 @@ class LLMS_Generator {
 	 * Retrieve the array of generated course ids
 	 * @return   array
 	 * @since    3.7.3
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
 	public function get_generated_courses() {
-		return $this->courses;
+		if ( isset( $this->posts['courses'] ) ) {
+			return $this->posts['courses'];
+		}
+		return array();
+	}
+
+	/**
+	 * Retrieve the array of generated course ids
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_generated_posts() {
+		return $this->posts;
 	}
 
 	/**
 	 * Get an array of valid LifterLMS generators
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
 	private function get_generators() {
 		return apply_filters( 'llms_generators', array(
@@ -882,6 +896,25 @@ class LLMS_Generator {
 	 */
 	public function is_error() {
 		return ( $this->error->get_error_messages() );
+	}
+
+	/**
+	 * Records a generated post id
+	 * @param    int      $id    WP Post ID of the generated post
+	 * @param    string   $type  key of the stat to increment
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function record_generation( $id, $type ) {
+
+		// add the id to the type array
+		if ( ! isset( $this->posts[ $type ] ) ) {
+			$this->posts[ $type ] = array();
+		}
+
+		array_push( $this->posts[ $type ], $id );
+
 	}
 
 	/**
