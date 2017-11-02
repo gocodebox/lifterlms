@@ -7,6 +7,18 @@ body.admin_page_llms-course-builder {
 			left: 56px;
 		}
 	}
+
+	.webui-popover {
+		.select2-container--default {
+			.select2-results__group {
+				font-size: 16px;
+			}
+			.select2-results__option .select2-results__option {
+				padding-left: 2em;
+			}
+		}
+
+	}
 }
 
 @media (max-width: 960px) {
@@ -118,7 +130,7 @@ body.admin_page_llms-course-builder {
 
 	.llms-sections {
 		margin-right: 20px;
-		padding: 10px 10px 80px;
+		padding: 10px 10px 40px;
 		&:empty {
 			min-height: 95%;
 		}
