@@ -17,7 +17,7 @@ class LLMS_Background_Enrollment extends WP_Background_Process {
 	 * @param    array     $item  array of processing data
 	 * @return   boolean
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  3.9.0
 	 */
 	protected function task( $item ) {
 
@@ -28,7 +28,7 @@ class LLMS_Background_Enrollment extends WP_Background_Process {
 
 		$query = new LLMS_Student_Query( $item['query_args'] );
 
-		if ( $query->students ) {
+		if ( $query->found_results ) {
 			foreach ( $query->get_students() as $student ) {
 				$student->enroll( $item['enroll_into_id'], $item['trigger'] );
 			}

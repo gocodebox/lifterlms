@@ -244,7 +244,7 @@ abstract class LLMS_Analytics_Widget {
 		// no output options
 		if ( in_array( $this->query_function, array( 'get_var', 'get_col' ) ) ) {
 			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ) );
-		} // output options
+		} // End if().
 		else {
 			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ), $this->output_type );
 		}

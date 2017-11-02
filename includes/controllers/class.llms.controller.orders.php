@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version 3.4.0
+ * @version 3.10.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -14,6 +14,7 @@ class LLMS_Controller_Orders {
 		// form actions
 		add_action( 'init', array( $this, 'create_pending_order' ) );
 		add_action( 'init', array( $this, 'confirm_pending_order' ) );
+		add_action( 'init', array( $this, 'switch_payment_source' ) );
 
 		// this action adds our lifterlms specific actions when order & transaction statuses change
 		add_action( 'transition_post_status', array( $this, 'transition_status' ), 10, 3 );
@@ -36,6 +37,7 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_order_status_cancelled', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_expired', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_failed', array( $this, 'error_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_on-hold', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_trash', array( $this, 'error_order' ), 10, 1 );
 
 		/**
@@ -99,7 +101,8 @@ class LLMS_Controller_Orders {
 	 * @param  obj    $order  Instance of an LLMS_Order
 	 * @return void
 	 *
-	 * @version  3.0.0
+	 * @since    1.0.0
+	 * @version  3.11.0
 	 */
 	public function complete_order( $order ) {
 
@@ -120,6 +123,7 @@ class LLMS_Controller_Orders {
 
 		// trigger purchase action, used by engagements
 		do_action( 'lifterlms_product_purchased', $user_id, $product_id );
+		do_action( 'lifterlms_access_plan_purchased', $user_id, $order->get( 'plan_id' ) );
 
 		// maybe schedule a payment
 		$order->maybe_schedule_payment();
@@ -141,8 +145,8 @@ class LLMS_Controller_Orders {
 	 * 			triggering the "lifterlms_process_payment_redirect" // todo check this last statement
 	 *
 	 * @return void
-	 *
-	 * @version  3.0.0
+	 * @since    3.0.0
+	 * @version  3.10.0
 	 */
 	public function create_pending_order() {
 
@@ -203,8 +207,7 @@ class LLMS_Controller_Orders {
 				return llms_add_notice( $valid->get_error_message(), 'error' );
 
 			}
-
-		} // no coupon, proceed
+		} // End if().
 		else {
 			$coupon_id = null;
 			$coupon = false;
@@ -215,38 +218,32 @@ class LLMS_Controller_Orders {
 			return llms_add_notice( __( 'No payment method selected.', 'lifterlms' ), 'error' );
 		} else {
 			$gid = empty( $_POST['llms_payment_gateway'] ) ? 'manual' : $_POST['llms_payment_gateway'];
-			$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gid );
-			if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
-				// gateway must be enabled
-				if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
-					return llms_add_notice( __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ), 'error' );
-				} // if it's a recurring, ensure gateway supports recurring
-				elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
-					return llms_add_notice( sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
-					// if it's single, ensure gateway supports singles
-				} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
-					return llms_add_notice( sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ), 'error' );
-				}
-			} else {
-				return llms_add_notice( __( 'An invalid payment method was selected.', 'lifterlms' ), 'error' );
+			$gateway = $this->validate_selected_gateway( $gid, $plan );
+			if ( is_wp_error( $gateway ) ) {
+				return llms_add_notice( $gateway->get_error_message(), 'error' );
 			}
 		}
 
 		// attempt to update the user (performs validations)
 		if ( get_current_user_id() ) {
 			$person_id = LLMS_Person_Handler::update( $_POST, 'checkout' );
-		} // attempt to register new user (performs validations)
+		} // End if().
 		else {
 			$person_id = llms_register_user( $_POST, 'checkout', true );
 		}
 
 		// validation or registration issues
 		if ( is_wp_error( $person_id ) ) {
+			// existing user fails validation from the free checkout form
+			if ( isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] ) {
+				wp_redirect( $plan->get_checkout_url() );
+				exit;
+			}
 			foreach ( $person_id->get_error_messages() as $msg ) {
 				llms_add_notice( $msg, 'error' );
 			}
 			return;
-		} // register should be a user_id at this point, if we're not numeric we have a problem...
+		} // End if().
 		elseif ( ! is_numeric( $person_id ) ) {
 			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ), 'error' );
 		} // make sure the user isn't already enrolled in the course or membership
@@ -289,104 +286,7 @@ class LLMS_Controller_Orders {
 		// add order key to globals so the order can be retried if processing errors occur
 		$_POST['llms_order_key'] = $order->get( 'order_key' );
 
-		// user related information
-		$order->set( 'user_id', $person_id );
-		$order->set( 'user_ip_address', llms_get_ip_address() );
-		$order->set( 'billing_address_1', $person->get( 'billing_address_1' ) );
-		$order->set( 'billing_address_2', $person->get( 'billing_address_2' ) );
-		$order->set( 'billing_city', $person->get( 'billing_city' ) );
-		$order->set( 'billing_country', $person->get( 'billing_country' ) );
-		$order->set( 'billing_email', $person->get( 'user_email' ) );
-		$order->set( 'billing_first_name', $person->get( 'first_name' ) );
-		$order->set( 'billing_last_name', $person->get( 'last_name' ) );
-		$order->set( 'billing_state', $person->get( 'billing_state' ) );
-		$order->set( 'billing_zip', $person->get( 'billing_zip' ) );
-
-		// access plan data
-		$order->set( 'plan_id', $plan->get( 'id' ) );
-		$order->set( 'plan_title', $plan->get( 'title' ) );
-		$order->set( 'plan_sku', $plan->get( 'sku' ) );
-
-		// product data
-		$order->set( 'product_id', $product->get( 'id' ) );
-		$order->set( 'product_title', $product->get( 'title' ) );
-		$order->set( 'product_sku', $product->get( 'sku' ) );
-		$order->set( 'product_type', $plan->get_product_type() );
-
-		$order->set( 'payment_gateway', $gateway->get_id() );
-		$order->set( 'gateway_api_mode', $gateway->get_api_mode() );
-
-		// trial data
-		if ( $plan->has_trial() ) {
-			$order->set( 'trial_offer', 'yes' );
-			$order->set( 'trial_length', $plan->get( 'trial_length' ) );
-			$order->set( 'trial_period', $plan->get( 'trial_period' ) );
-			$trial_price = $plan->get_price( 'trial_price', array(), 'float' );
-			$order->set( 'trial_original_total', $trial_price );
-			$trial_total = $coupon ? $plan->get_price_with_coupon( 'trial_price', $coupon, array(), 'float' ) : $trial_price;
-			$order->set( 'trial_total', $trial_total );
-		} else {
-			$order->set( 'trial_offer', 'no' );
-		}
-
-		$price = $plan->get_price( 'price', array(), 'float' );
-		$order->set( 'currency', get_lifterlms_currency() );
-
-		// price data
-		if ( $plan->is_on_sale() ) {
-			$price_key = 'sale_price';
-			$order->set( 'on_sale', 'yes' );
-			$sale_price = $plan->get( 'sale_price', array(), 'float' );
-			$order->set( 'sale_price', $sale_price );
-			$order->set( 'sale_value', $price - $sale_price );
-		} else {
-			$price_key = 'price';
-			$order->set( 'on_sale', 'no' );
-		}
-
-		// store original total before any discounts
-		$order->set( 'original_total', $price );
-
-		// get the actual total due after discounts if any are applicable
-		$total = $coupon ? $plan->get_price_with_coupon( $price_key, $coupon, array(), 'float' ) : $$price_key;
-		$order->set( 'total', $total );
-
-		// coupon data
-		if ( $coupon ) {
-			$order->set( 'coupon_id', $coupon->get( 'id' ) );
-			$order->set( 'coupon_amount', $coupon->get( 'coupon_amount' ) );
-			$order->set( 'coupon_code', $coupon->get( 'title' ) );
-			$order->set( 'coupon_type', $coupon->get( 'discount_type' ) );
-			$order->set( 'coupon_used', 'yes' );
-			$order->set( 'coupon_value', $$price_key - $total );
-			if ( $plan->has_trial() && $coupon->has_trial_discount() ) {
-				$order->set( 'coupon_amount_trial', $coupon->get( 'trial_amount' ) );
-				$order->set( 'coupon_value_trial', $trial_price - $trial_total );
-			}
-		} else {
-			$order->set( 'coupon_used', 'no' );
-		}
-
-		// get all billing schedule related information
-		$order->set( 'billing_frequency', $plan->get( 'frequency' ) );
-		if ( $plan->is_recurring() ) {
-			$order->set( 'billing_length', $plan->get( 'length' ) );
-			$order->set( 'billing_period', $plan->get( 'period' ) );
-			$order->set( 'order_type', 'recurring' );
-		} else {
-			$order->set( 'order_type', 'single' );
-		}
-
-		$order->set( 'access_expiration', $plan->get( 'access_expiration' ) );
-
-		// get access related data so when payment is complete we can calculate the actual expiration date
-		if ( $plan->can_expire() ) {
-			$order->set( 'access_expires', $plan->get( 'access_expires' ) );
-			$order->set( 'access_length', $plan->get( 'access_length' ) );
-			$order->set( 'access_period', $plan->get( 'access_period' ) );
-		}
-
-		do_action( 'lifterlms_new_pending_order', $order, $person );
+		$order->init( $person, $plan, $gateway, $coupon );
 
 		// pass to the gateway to start processing
 		$gateway->handle_pending_order( $order, $plan, $person, $coupon );
@@ -396,10 +296,11 @@ class LLMS_Controller_Orders {
 	/**
 	 * Called when an order's status changes to refunded, cancelled, expired, or failed
 	 *
-	 * @param  obj    $order  instance of an LLMS_Order
-	 * @return void
+	 * @param    obj    $order  instance of an LLMS_Order
+	 * @return   void
 	 *
-	 * @since  3.0.0
+	 * @since    3.0.0
+	 * @version  3.10.0
 	 */
 	public function error_order( $order ) {
 
@@ -407,6 +308,7 @@ class LLMS_Controller_Orders {
 
 			case 'lifterlms_order_status_trash':
 			case 'lifterlms_order_status_cancelled':
+			case 'lifterlms_order_status_on-hold':
 			case 'lifterlms_order_status_refunded':
 				$status = 'cancelled';
 			break;
@@ -464,14 +366,14 @@ class LLMS_Controller_Orders {
 
 				$gateway->handle_recurring_transaction( $order );
 
-			} // log an error and do notifications
+			} // End if().
 			else {
 				llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed because the gateway no longer supports recurring payments', 'recurring-payments' );
 				/**
 				 * @todo  notifications....
 				 */
 			}
-		} // record and error and do notifications
+		} // End if().
 		else {
 
 			llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed', 'recurring-payments' );
@@ -486,11 +388,54 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
+	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
+	 * @return   void
+	 * @since    3.10.0
+	 * @version  3.10.0
+	 */
+	public function switch_payment_source() {
+
+		// invalid nonce or the form wasn't submitted
+		if ( ! llms_verify_nonce( '_switch_source_nonce', 'llms_switch_order_source', 'POST' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['order_id'] ) && ! is_numeric( $_POST['order_id'] ) && 0 == $_POST['order_id'] ) {
+			return llms_add_notice( __( 'Missing order information.', 'lifterlms' ), 'error' );
+		}
+
+		$order = llms_get_post( $_POST['order_id'] );
+		if ( ! is_a( $order, 'LLMS_Order' ) ) {
+			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
+		}
+
+		if ( get_current_user_id() != $order->get( 'user_id' ) ) {
+			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
+		}
+
+		if ( empty( $_POST['llms_payment_gateway'] ) ) {
+			return llms_add_notice( __( 'Missing gateway information.', 'lifterlms' ), 'error' );
+		}
+
+		$plan = llms_get_post( $order->get( 'plan_id' ) );
+		$gateway_id = sanitize_text_field( $_POST['llms_payment_gateway'] );
+		$gateway = $this->validate_selected_gateway( $gateway_id, $plan );
+
+		if ( is_wp_error( $gateway ) ) {
+			return llms_add_notice( $gateway->get_error_message(), 'error' );
+		}
+
+		// handoff to the gateway
+		$gateway->handle_payment_source_switch( $order, $_POST );
+
+	}
+
+	/**
 	 * When a transaction fails, update the parent order's status
 	 * @param    obj     $txn  Instance of the LLMS_Transaction
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.10.0
 	 */
 	public function transaction_failed( $txn ) {
 
@@ -499,7 +444,15 @@ class LLMS_Controller_Orders {
 		// halt if legacy
 		if ( $order->is_legacy() ) { return; }
 
-		$order->set( 'status', 'llms-failed' );
+		if ( $order->can_be_retried() ) {
+
+			$order->maybe_schedule_retry();
+
+		} else {
+
+			$order->set( 'status', 'llms-failed' );
+
+		}
 
 	}
 
@@ -526,7 +479,7 @@ class LLMS_Controller_Orders {
 	 * @param    obj     $txn  Instance of the LLMS_Transaction
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.10.0
 	 */
 	public function transaction_succeeded( $txn ) {
 
@@ -539,6 +492,7 @@ class LLMS_Controller_Orders {
 		// update the status based on the order type
 		$status = $order->is_recurring() ? 'llms-active' : 'llms-completed';
 		$order->set( 'status', $status );
+		$order->set( 'last_retry_rule', '' ); // retries should always start with tne first rule for new transactions
 
 		// maybe schedule a payment
 		$order->maybe_schedule_payment();
@@ -580,6 +534,48 @@ class LLMS_Controller_Orders {
 
 		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj );
 		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj );
+
+	}
+
+	/**
+	 * Validate a gateway can be used to process the current action / transaction
+	 * @param    string     $gateway_id  gateway's id
+	 * @param    obj        $plan        instance of the LLMS_Access_Plan related to the action/transaction
+	 * @return   mixed                   WP_Error or LLMS_Payment_Gateway subclass
+	 * @since    3.10.0
+	 * @version  3.10.0
+	 */
+	private function validate_selected_gateway( $gateway_id, $plan ) {
+
+		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
+		$err = new WP_Error();
+
+		// valid gateway
+		if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
+
+			// gateway not enabled
+			if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
+
+				return $err->add( 'gateway-error', __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ) );
+
+				// it's a recurring plan and the gateway doesn't support recurring
+			} elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
+
+				return $err->add( 'gateway-error', sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
+
+				// not recurring and the gateway doesn't support single payments
+			} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
+
+				return $err->add( 'gateway-error', sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
+
+			}
+		} else {
+
+			return $err->add( 'invalid-gateway', __( 'An invalid payment method was selected.', 'lifterlms' ) );
+
+		}
+
+		return $gateway;
 
 	}
 

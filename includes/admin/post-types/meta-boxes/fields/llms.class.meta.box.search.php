@@ -32,7 +32,7 @@ class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		>
 		    <!--<option value="">None</option>-->
 
-			<?php foreach ( $this->field['value'] as $option  ) :
+			<?php foreach ( $this->field['value'] as $option ) :
 				if ( $option['key'] == $this->meta ) :
 			?>
 				<!--<option value="<?php echo $option['key']; ?>" selected="selected"><?php echo $option['title']; ?></option>-->

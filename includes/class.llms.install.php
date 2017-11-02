@@ -2,13 +2,12 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.4.3
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Install {
-
 
 	public static $background_updater;
 
@@ -38,6 +37,24 @@ class LLMS_Install {
 			'llms_update_343_update_relationships',
 			'llms_update_343_update_db_version',
 		),
+		'3.6.0' => array(
+			'llms_update_360_set_product_visibility',
+			'llms_update_360_update_db_version',
+		),
+		'3.8.0' => array(
+			'llms_update_380_set_access_plan_visibility',
+			'llms_update_380_update_db_version',
+		),
+		'3.12.0' => array(
+			'llms_update_3120_update_order_end_dates',
+			'llms_update_3120_update_integration_options',
+			'llms_update_3120_update_db_version',
+		),
+		'3.13.0' => array(
+			'llms_update_3130_create_default_instructors',
+			'llms_update_3130_builder_notice',
+			'llms_update_3130_update_db_version',
+		),
 	);
 
 	/**
@@ -66,7 +83,6 @@ class LLMS_Install {
 	 * @version  3.0.0
 	 */
 	public static function check_version() {
-
 		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'lifterlms_current_version' ) !== LLMS()->version ) {
 			self::install();
 			do_action( 'lifterlms_updated' );
@@ -82,11 +98,11 @@ class LLMS_Install {
 	 */
 	public static function create_cron_jobs() {
 
-		if ( ! wp_next_scheduled( 'lifterlms_cleanup_sessions' )) {
+		if ( ! wp_next_scheduled( 'lifterlms_cleanup_sessions' ) ) {
 			wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
 		}
 
-		if ( ! wp_next_scheduled( 'llms_send_tracking_data' )) {
+		if ( ! wp_next_scheduled( 'llms_send_tracking_data' ) ) {
 			wp_schedule_event( time(), apply_filters( 'llms_tracker_schedule_interval', 'daily' ), 'llms_send_tracking_data' );
 		}
 
@@ -108,7 +124,6 @@ class LLMS_Install {
 				wp_insert_term( $name, 'course_difficulty' );
 
 			}
-
 		}
 
 	}
@@ -117,7 +132,7 @@ class LLMS_Install {
 	 * Create files needed by LifterLMS
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.7.5
 	 */
 	public static function create_files() {
 
@@ -136,7 +151,8 @@ class LLMS_Install {
 		);
 		foreach ( $files as $file ) {
 			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
-				if ( $file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ) ) {
+				$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' );
+				if ( $file_handle ) {
 					fwrite( $file_handle, $file['content'] );
 					fclose( $file_handle );
 				}
@@ -149,7 +165,7 @@ class LLMS_Install {
 	 * Store all default options in the DB
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.8.0
 	 */
 	public static function create_options() {
 
@@ -158,7 +174,7 @@ class LLMS_Install {
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
 		foreach ( $settings as $section ) {
-			foreach ( $section->get_settings() as $value ) {
+			foreach ( $section->get_settings( true ) as $value ) {
 				if ( isset( $value['default'] ) && isset( $value['id'] ) ) {
 					$autoload = isset( $value['autoload'] ) ? (bool) $value['autoload'] : true;
 					add_option( $value['id'], $value['default'], '', ( $autoload ? 'yes' : 'no' ) );
@@ -210,32 +226,6 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Create LifterLMS user roles
-	 * @return void
-	 * @since  1.0.0
-	 * @version  3.0.0
-	 */
-	public static function create_roles() {
-
-		global $wp_roles;
-
-		if ( ! class_exists( 'WP_Roles' ) ) {
-			return;
-		}
-
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
-
-		add_role( 'student', __( 'Student', 'lifterlms' ),
-			array(
-				'read' => true,
-			)
-		);
-
-	}
-
-	/**
 	 * Create LifterLMS DB tables
 	 * @return  void
 	 * @since   1.0.0
@@ -251,6 +241,25 @@ class LLMS_Install {
 
 		dbDelta( self::get_schema() );
 
+	}
+
+	/**
+	 * Create default LifterLMS Product & Access Plan Visibility Options
+	 * @return   void
+	 * @since    3.6.0
+	 * @version  3.8.0
+	 */
+	public static function create_visibilities() {
+		foreach ( array_keys( llms_get_access_plan_visibility_options() ) as $term ) {
+			if ( ! get_term_by( 'name', $term, 'llms_access_plan_visibility' ) ) {
+				wp_insert_term( $term, 'llms_access_plan_visibility' );
+			}
+		}
+		foreach ( array_keys( llms_get_product_visibility_options() ) as $term ) {
+			if ( ! get_term_by( 'name', $term, 'llms_product_visibility' ) ) {
+				wp_insert_term( $term, 'llms_product_visibility' );
+			}
+		}
 	}
 
 	/**
@@ -275,17 +284,27 @@ class LLMS_Install {
 					$queued = true;
 
 				}
-
 			}
-
 		}
 
 		if ( $queued ) {
-			self::$background_updater->save()->dispatch();
+			add_action( 'shutdown', array( __CLASS__, 'dispatch_db_updates' ) );
 		}
 
-		self::update_notice();
+	}
 
+	/**
+	 * Dispatches the bg updater
+	 * Prevents small database updates from displaying the "updating" admin notice
+	 * instead of the "completed" notice
+	 * These small updates would finish on a second thread faster than the main
+	 * thread and the wrong notice would be displayed
+	 * @return   void
+	 * @since    3.4.3
+	 * @version  3.4.3
+	 */
+	public static function dispatch_db_updates() {
+		self::$background_updater->save()->dispatch();
 	}
 
 	/**
@@ -306,7 +325,7 @@ class LLMS_Install {
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.13.0
 	 */
 	private static function get_schema() {
 
@@ -322,11 +341,10 @@ class LLMS_Install {
 			if ( ! empty( $wpdb->collate ) ) {
 				$collate .= " COLLATE $wpdb->collate";
 			}
-
 		}
 
 		$tables = "
-CREATE TABLE {$wpdb->prefix}lifterlms_user_postmeta (
+CREATE TABLE `{$wpdb->prefix}lifterlms_user_postmeta` (
   meta_id bigint(20) NOT NULL auto_increment,
   user_id bigint(20) NOT NULL,
   post_id bigint(20) NOT NULL,
@@ -364,6 +382,21 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
   KEY `code` (`code`),
   KEY `voucher_id` (`voucher_id`)
 ) $collate;
+CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `status` varchar(11) DEFAULT '0',
+  `type` varchar(75) DEFAULT NULL,
+  `subscriber` varchar(255) DEFAULT NULL,
+  `trigger_id` varchar(75) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `post_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `status` (`status`),
+  KEY `type` (`type`),
+  KEY `subscriber` (`subscriber`(191))
+) $collate;
 ";
 
 		return $tables;
@@ -374,7 +407,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * Initializes the bg updater class
 	 * @return   void
 	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @version  3.6.0
 	 */
 	public static function init_background_updater() {
 
@@ -387,7 +420,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.4.3
+	 * @version 3.13.0
 	 */
 	public static function install() {
 
@@ -400,7 +433,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 		LLMS_Site::set_lock_url();
 		self::create_tables();
 		self::create_options();
-		self::create_roles();
+		LLMS_Roles::install();
 
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
@@ -411,9 +444,10 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 		self::create_cron_jobs();
 		self::create_files();
 		self::create_difficulties();
+		self::create_visibilities();
 
 		$version = get_option( 'lifterlms_current_version', null );
-		$db_version = get_option( 'lifterlms_db_version', null );
+		$db_version = get_option( 'lifterlms_db_version', $version );
 
 		// trigger first time run redirect
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
@@ -423,7 +457,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 		}
 
 		// show the update notice since theres db updates to run
-		if ( ! is_null( $db_version ) && version_compare( $db_version, max( array_keys( self::$db_updates ) ), '<' ) ) {
+		$versions = array_keys( self::$db_updates );
+		if ( ! is_null( $db_version ) && version_compare( $db_version, end( $versions ), '<' ) ) {
 
 			self::update_notice();
 
@@ -452,12 +487,12 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		foreach ( self::get_difficulties() as $name ) {
 
-			if ( $term = get_term_by( 'name', $name, 'course_difficulty' ) ) {
+			$term = get_term_by( 'name', $name, 'course_difficulty' );
+			if ( $term ) {
 
 				wp_delete_term( $term->term_id, 'course_difficulty' );
 
 			}
-
 		}
 
 	}
@@ -483,10 +518,10 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 			// prevent page refreshes from trigerring a second queue / batch
 			if ( ! self::$background_updater->is_updating() ) {
-
 				self::db_updates();
-
 			}
+
+			self::update_notice();
 
 		}
 
@@ -521,33 +556,36 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 
 		include_once 'admin/class.llms.admin.notices.php';
 
-		if ( LLMS_Admin_Notices::has_notice( 'db-update' ) ) {
-			LLMS_Admin_Notices::delete_notice( 'db-update' );
+		if ( LLMS_Admin_Notices::has_notice( 'bg-db-update' ) ) {
+			LLMS_Admin_Notices::delete_notice( 'bg-db-update' );
 		}
 
 		if ( version_compare( get_option( 'lifterlms_db_version' ), LLMS()->version, '<' ) ) {
 
+			if ( ! self::$background_updater ) {
+				self::init_background_updater();
+			}
+
 			// update is running or button was just pressed
 			if ( self::$background_updater->is_updating() || ! empty( $_GET['llms-db-update'] ) ) {
 
-				LLMS_Admin_Notices::add_notice( 'db-update', array(
+				LLMS_Admin_Notices::add_notice( 'bg-db-update', array(
 					'dismissible' => false,
 					'template' => 'admin/notices/db-updating.php',
 				) );
 
-			} // update needs to be run
+			} // End if().
 			else {
 
-				LLMS_Admin_Notices::add_notice( 'db-update', array(
+				LLMS_Admin_Notices::add_notice( 'bg-db-update', array(
 					'dismissible' => false,
 					'template' => 'admin/notices/db-update.php',
 				) );
 
 			}
-
 		} else {
 
-			LLMS_Admin_Notices::add_notice( 'db-update', __( 'The LifterLMS database update is complete.', 'lifterlms' ), array(
+			LLMS_Admin_Notices::add_notice( 'bg-db-update', __( 'The LifterLMS database update is complete.', 'lifterlms' ), array(
 				'dismissible' => true,
 				'dismiss_for_days' => 0,
 			) );
@@ -561,10 +599,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * @param  string $version version number
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.4.3
 	 */
 	public static function update_db_version( $version = null ) {
-		update_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
+		delete_option( 'lifterlms_db_version' );
+		add_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
 	}
 
 	/**
@@ -572,10 +611,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 	 * @param  string $version version number
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.3.1 - made public
+	 * @version  3.4.3
 	 */
 	public static function update_llms_version( $version = null ) {
-		update_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
+		delete_option( 'lifterlms_current_version' );
+		add_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
 	}
 
 	/**
@@ -600,7 +640,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
 				exit;
 
 			}
-
 		}
 
 	}

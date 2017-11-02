@@ -4,9 +4,10 @@
  *
  * @since  3.0.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
 
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+if ( ! is_admin() ) { exit; }
 ?>
 <div class="llms-metabox" id="llms-product-options-access-plans">
 
@@ -30,7 +31,7 @@ if ( ! is_admin() ) { exit; }
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
 		<p class="no-plans-message"><?php printf( __( 'No access plans exist for your %s.', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></p>
-		<?php foreach ( $product->get_access_plans() as $plan ) : ?>
+		<?php foreach ( $product->get_access_plans( false, false ) as $plan ) : ?>
 			<?php llms_get_template( 'admin/post-types/product-access-plan.php', array(
 				'course' => $course,
 				'plan' => $plan,
@@ -44,7 +45,9 @@ if ( ! is_admin() ) { exit; }
 	</div>
 
 	<?php // model of an access plan we'll clone when clicking the "add" button ?>
-	<?php llms_get_template( 'admin/post-types/product-access-plan.php', array( 'course' => $course ) ); ?>
+	<?php llms_get_template( 'admin/post-types/product-access-plan.php', array(
+		'course' => $course,
+	) ); ?>
 
 
 	<div id="llms-delete-plan-modal" class="topModal">

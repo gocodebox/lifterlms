@@ -88,12 +88,11 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 			if ( ! empty( $next_url ) ) {
 				echo '<a class="button" href="' . $next_url . '">' . sprintf( __( 'Older %s', 'lifterlms' ), '&raquo;' ) . '</a>';
 			}
-
 		} else {
 
 			_e( 'No order notes found.', 'lifterlms' );
 
-		}
+		}// End if().
 
 	}
 

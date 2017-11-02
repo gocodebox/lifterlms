@@ -4,9 +4,10 @@
 
 @import "_includes/vars";
 @import "_includes/extends";
+@import "_includes/grid";
 @import "_includes/mixins";
 @import "_includes/buttons";
-
+@import "_includes/llms-donut";
 
 @import "frontend/main";
 @import "frontend/loop";
@@ -16,11 +17,13 @@
 @import "frontend/llms-author";
 
 @import "frontend/notices";
+@import "frontend/llms-achievements-certs";
+@import "frontend/llms-notifications";
 @import "frontend/llms-pagination";
 @import "frontend/tooltip";
 
+@import "frontend/llms-quizzes";
 @import "frontend/quiz-timer";
-
 @import "frontend/quiz-accordion";
 
 @import "frontend/voucher";

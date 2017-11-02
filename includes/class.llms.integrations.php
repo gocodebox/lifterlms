@@ -32,6 +32,17 @@ class LLMS_Integrations {
 		$this->init();
 	}
 
+	/**
+	 * Get an integration instance by id
+	 * @param    string     $id  id of the integration
+	 * @return   obj|false
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_integration( $id ) {
+		$available = $this->get_available_integrations();
+		return isset( $available[ $id ] ) ? $available[ $id ] : false;
+	}
 
 	/**
 	 * Initalize Integration Classes
@@ -39,13 +50,13 @@ class LLMS_Integrations {
 	 */
 	public function init() {
 		$load_integrations = apply_filters( 'lifterlms_integrations', array(
-			'LLMS_Integration_bbPress',
+			'LLMS_Integration_BBPress',
 			'LLMS_Integration_Buddypress',
 		) );
 
 		$order_end = 999;
 
-		foreach ($load_integrations as $integration) :
+		foreach ( $load_integrations as $integration ) :
 
 			$load_integration = new $integration();
 
@@ -90,7 +101,8 @@ class LLMS_Integrations {
 
 		if ( sizeof( $this->integrations ) > 0 ) {
 			foreach ( $this->integrations as $integration ) {
-				$_available_integrations[ $integration->id ] = $integration; } }
+				$_available_integrations[ $integration->id ] = $integration; }
+		}
 
 		return $_available_integrations;
 	}

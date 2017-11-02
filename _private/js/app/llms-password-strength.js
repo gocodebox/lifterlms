@@ -4,6 +4,7 @@
 /**
  * Handle Password Strength Meter for registration and password update fields
  * @since 3.0.0
+ * @version  3.7.0
  */
 
 $.extend( LLMS.PasswordStrength, {
@@ -16,6 +17,8 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * init
 	 * loads class methods
+	 * @since    3.0.0
+	 * @version  3.7.0
 	 */
 	init: function() {
 
@@ -52,6 +55,7 @@ $.extend( LLMS.PasswordStrength, {
 				} else {
 
 					self.bind();
+					self.$form.trigger( 'llms-password-strength-ready' );
 
 				}
 

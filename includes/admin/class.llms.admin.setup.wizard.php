@@ -2,7 +2,7 @@
 /**
  * Display a Setup Wizard
  * @since    3.0.0
- * @version  3.3.0
+ * @version  3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -195,7 +195,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Output the HTML content of the setup page
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.3.0
+	 * @version  3.7.5
 	 */
 	public function output() {
 
@@ -233,10 +233,12 @@ class LLMS_Admin_Setup_Wizard {
 								<a href="<?php echo esc_url( admin_url() ); ?>" class="llms-button-secondary large"><?php _e( 'Skip setup', 'lifterlms' ); ?></a>
 								<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="llms-button-primary large"><?php _e( 'Get Started Now', 'lifterlms' ); ?></a>
 							<?php else : ?>
-								<?php if ( $prev = $this->get_prev_step() ) : ?>
+								<?php $prev = $this->get_prev_step();
+								if ( $prev ) : ?>
 									<a class="back-link" href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
 								<?php endif; ?>
-								<?php if ( $next = $this->get_next_step() ) : ?>
+								<?php $next = $this->get_next_step();
+								if ( $next ) : ?>
 									<a href="<?php echo $this->get_step_url( $next ); ?>" class="llms-button-secondary large"><?php echo $this->get_skip_text( $current ); ?></a>
 								<?php endif; ?>
 
@@ -381,7 +383,7 @@ class LLMS_Admin_Setup_Wizard {
 				<?php
 			break;
 
-		}
+		}// End switch().
 
 	}
 
@@ -415,7 +417,6 @@ class LLMS_Admin_Setup_Wizard {
 						return;
 
 					}
-
 				}
 
 			break;
@@ -471,7 +472,7 @@ class LLMS_Admin_Setup_Wizard {
 				$r = false;
 
 			break;
-		}
+		}// End switch().
 
 		if ( false === $r ) {
 

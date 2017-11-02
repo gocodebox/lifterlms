@@ -65,25 +65,50 @@ class LLMS_Admin_Import {
 
 					// translate like a boss ya'll
 					switch ( $stat ) {
-						case 'authors':   $name = __( 'Authors', 'lifterlms' ); break;
-						case 'courses':   $name = __( 'Courses', 'lifterlms' ); break;
-						case 'sections':  $name = __( 'Sections', 'lifterlms' ); break;
-						case 'lessons':   $name = __( 'Lessons', 'lifterlms' ); break;
-						case 'plans':     $name = __( 'Plans', 'lifterlms' ); break;
-						case 'quizzes':   $name = __( 'Quizzes', 'lifterlms' ); break;
-						case 'questions': $name = __( 'Questions', 'lifterlms' ); break;
-						case 'terms':     $name = __( 'Terms', 'lifterlms' ); break;
+
+						case 'authors':
+							$name = __( 'Authors', 'lifterlms' );
+						break;
+
+						case 'courses':
+							$name = __( 'Courses', 'lifterlms' );
+						break;
+
+						case 'sections':
+							$name = __( 'Sections', 'lifterlms' );
+						break;
+
+						case 'lessons':
+							$name = __( 'Lessons', 'lifterlms' );
+						break;
+
+						case 'plans':
+							$name = __( 'Plans', 'lifterlms' );
+						break;
+
+						case 'quizzes':
+							$name = __( 'Quizzes', 'lifterlms' );
+						break;
+
+						case 'questions':
+							$name = __( 'Questions', 'lifterlms' );
+						break;
+
+						case 'terms':
+							$name = __( 'Terms', 'lifterlms' );
+						break;
+
 					}
 
 					$msg .= '<li>' . sprintf( '%s: %d', $name, $count ) . '</li>';
 
-				}
+				}// End foreach().
 
 				$msg .= '</ul>';
 
 				return LLMS_Admin_Notices::flash_notice( $msg, 'success' );
-			}
-		}
+			}// End if().
+		}// End if().
 
 	}
 
@@ -131,14 +156,13 @@ class LLMS_Admin_Import {
 					$error_message = __( 'Unknown upload error.', 'lifterlms' );
 				break;
 			}
-
 		} else {
 			$info = pathinfo( $file['name'] );
 
 			if ( 'json' !== strtolower( $info['extension'] ) ) {
 				$msg = __( 'Only valid JSON files can be imported.', 'lifterlms' );
 			}
-		}
+		}// End if().
 		if ( ! empty( $msg ) ) {
 			return new WP_Error( 'upload-error', $msg );
 		}

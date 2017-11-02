@@ -1,18 +1,13 @@
 <?php
-use LLMS\Users\User;
+/**
+ * Single Quiz: Summary accordion
+ * @since    1.0.0
+ * @version  3.10.0
+ */
 
-global $quiz;
-
-$quiz_session = LLMS()->session->get( 'llms_quiz' );
-
-$user = new User();
-
-$last_attempt = $quiz->get_users_last_attempt( $user );
-
-$user_id = get_current_user_id();
-
-$quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
-
+$student = llms_get_student();
+$attempt = isset( $_GET['attempt_key'] ) ? $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] ) : false;
+$quiz = $attempt->get_quiz();
 ?>
 
 <div class ="llms-template-wrapper quiz-summary">
@@ -21,21 +16,15 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 		<div class="panel-group collapsed" id="accordion" role="tablist" aria-multiselectable="true">
 
-		<?php
-
-		foreach ( (array) $last_attempt['questions'] as $key => $question) {
-
+		<?php foreach ( $attempt->get( 'questions' ) as $key => $question ) :
 			$background = $question['correct'] ? 'right' : 'wrong';
-
 			$icon = $question['correct'] ? 'llms-icon-checkmark' :  'llms-icon-close';
-
 			$question_object = new LLMS_Question( $question['id'] );
-
 			$options = $question_object->get_options();
-
 			$correct_option = $question_object->get_correct_option();
-
-			$answer = $options[ $question['answer'] ];
+			$answer = isset( $options[ $question['answer'] ] ) ? $options[ $question['answer'] ] : array(
+				'option_text' => __( 'No answer selected', 'lifterlms' ),
+			);
 			?>
 
 			<div class="panel panel-default">
@@ -81,14 +70,14 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 							<?php
 
-							if ($quiz->show_correct_answer()) {
+							if ( $quiz->show_correct_answer() ) {
 								echo '<li><span class="llms-quiz-summary-label correct-answer">';
-									echo sprintf( __( 'Correct answer: %s', 'lifterlsm' ), wp_kses_post( $correct_option['option_text'] ) );
+									echo sprintf( __( 'Correct answer: %s', 'lifterlms' ), wp_kses_post( $correct_option['option_text'] ) );
 								echo '</span></li>';
 							}
 
-							if ($question['correct']) {
-								if ($quiz->show_description_right_answer()) {
+							if ( $question['correct'] ) {
+								if ( $quiz->show_description_right_answer() ) {
 									if ( is_array( $answer ) && array_key_exists( 'option_description', $answer ) ) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
 											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $answer['option_description'] ) )
@@ -96,7 +85,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 									}
 								}
 							} else {
-								if ($quiz->show_description_wrong_answer()) {
+								if ( $quiz->show_description_wrong_answer() ) {
 									if ( is_array( $answer ) && array_key_exists( 'option_description', $answer ) ) {
 										echo '<li><span class="llms-quiz-summary-label clarification">' .
 											sprintf( __( 'Clarification: %s', 'lifterlms' ), wpautop( $answer['option_description'] ) )
@@ -114,8 +103,7 @@ $quiz_data = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 			</div>
 
-		<?php } ?>
-
+		<?php endforeach; ?>
 		</div>
 
 	</div>

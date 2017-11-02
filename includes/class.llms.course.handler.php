@@ -37,21 +37,19 @@ class LLMS_Course_Handler {
 	    	);
 	    	$all_users = get_users( $user_args );
 
-	    	foreach ( $all_users as $key => $value  ) {
+	    	foreach ( $all_users as $key => $value ) {
 	    		if ( llms_is_user_enrolled( $value->ID, $post_id ) ) {
 	    			$enrolled_students[ $value->ID ] = $value->display_name;
 	    			array_push( $enrolled_student_ids, $value->ID );
 
 	    		}
 	    	}
+		} else {
 
-	    } else {
-
-	    	foreach ( $enrolled_students as $user  ) {
+	    	foreach ( $enrolled_students as $user ) {
 	    			array_push( $enrolled_student_ids, $user->ID );
-	    	}
-
-	    }
+			}
+		}
 
 	    //query users not enrolled
 		$user_args = array(

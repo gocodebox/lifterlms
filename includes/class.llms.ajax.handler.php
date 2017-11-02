@@ -1,14 +1,11 @@
 <?php
+/**
+ * LifterLMS AJAX Event Handler
+ * @since    1.0.0
+ * @version  3.14.2
+ */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-* lifterLMS AJAX Event Handler
-*
-* Handles server side ajax communication.
-*
-* @author codeBOX
-* @project lifterLMS
-*/
 class LLMS_AJAX_Handler {
 
 	/**
@@ -17,7 +14,7 @@ class LLMS_AJAX_Handler {
 	 * @param    array     $request  array of request data
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  3.9.0
 	 */
 	public static function bulk_enroll_membership_into_course( $request ) {
 
@@ -34,7 +31,7 @@ class LLMS_AJAX_Handler {
 
 		$query = new LLMS_Student_Query( $args );
 
-		if ( $query->found_students ) {
+		if ( $query->found_results ) {
 
 			$handler = LLMS()->background_handlers['enrollment'];
 
@@ -90,9 +87,7 @@ class LLMS_AJAX_Handler {
 
 		// shouldn't be possible
 		if ( empty( $request['plan_id'] ) ) {
-
 			die();
-
 		}
 
 		if ( ! wp_trash_post( $request['plan_id'] ) ) {
@@ -102,6 +97,29 @@ class LLMS_AJAX_Handler {
 			return $err;
 
 		}
+
+		return true;
+
+	}
+
+	/**
+	 * Delete a student's quiz attempt
+	 * Called from student quiz reporting screen
+	 * @since    3.4.4
+	 * @version  3.9.0
+	 */
+	public static function delete_quiz_attempt( $request ) {
+
+		$required = array( 'attempt', 'lesson', 'quiz', 'user' );
+		foreach ( $required as $param ) {
+			if ( empty( $request[ $param ] ) ) {
+				return new WP_Error( 400, __( 'Error deleting quiz attempt: Missing required parameter!', 'lifterlms' ) );
+			}
+			$request[ $param ] = intval( $request[ $param ] );
+		}
+
+		$student = new LLMS_Student( $request['user'] );
+		$student->quizzes()->delete_attempt( $request['quiz'], $request['lesson'], $request['attempt'] );
 
 		return true;
 
@@ -142,6 +160,110 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Store data for the instructors metabox
+	 * @param    [type]     $request  [description]
+	 * @return   [type]               [description]
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public static function instructors_mb_store( $request ) {
+
+		// validate required params
+		if ( ! isset( $request['store_action'] ) || ! isset( $request['post_id'] ) ) {
+
+			return array(
+				'data' => array(),
+				'message' => __( 'Missing required paramters', 'lifterlms' ),
+				'success' => false,
+			);
+
+		}
+
+		$post = llms_get_post( $request['post_id'] );
+
+		switch ( $request['store_action'] ) {
+
+			case 'load':
+				$instructors = $post->get_instructors();
+			break;
+
+			case 'save':
+
+				$instructors = array();
+
+				foreach ( $request['rows'] as $instructor ) {
+
+					foreach ( $instructor as $key => $val ) {
+
+						$new_key = str_replace( array( 'llms', '_' ), '', $key );
+						$new_key = preg_replace( '/[0-9]+/', '', $new_key );
+						$instructor[ $new_key ] = $val;
+						unset( $instructor[ $key ] );
+
+					}
+
+					$instructors[] = $instructor;
+
+				}
+
+				$post->set_instructors( $instructors );
+
+			break;
+
+		}
+
+		$data = array();
+
+		foreach ( $instructors as $instructor ) {
+
+			$new_instructor = array();
+			foreach ( $instructor as $key => $val ) {
+				if ( 'id' === $key ) {
+					$val = llms_make_select2_student_array( array( $instructor['id'] ) );
+				}
+				$new_instructor[ '_llms_' . $key ] = $val;
+			}
+			$data[] = $new_instructor;
+		}
+
+		wp_send_json( array(
+			'data' => $data,
+			'message' => 'success',
+			'success' => true,
+		) );
+
+	}
+
+
+	public static function notifications_heartbeart( $request ) {
+
+		$ret = array(
+			'new' => array(),
+		);
+
+		if ( ! empty( $request['dismissals'] ) ) {
+			foreach ( $request['dismissals'] as $nid ) {
+				$noti = new LLMS_Notification( $nid );
+				if ( get_current_user_id() == $noti->get( 'subscriber' ) ) {
+					$noti->set( 'status', 'read' );
+				}
+			}
+		}
+
+		$query = new LLMS_Notifications_Query( array(
+			'per_page' => 5,
+			'statuses' => 'new',
+			'types' => 'basic',
+			'subscriber' => get_current_user_id(),
+		) );
+
+		$ret['new'] = $query->get_notifications();
+
+		return $ret;
+
+	}
+
+	/**
 	 * Remove a course from the list of membership auto enrollment courses
 	 * called from "Auto Enrollment" tab of LLMS Membership Metaboxes
 	 * @since    3.0.0
@@ -170,7 +292,9 @@ class LLMS_AJAX_Handler {
 	 * 		last name
 	 * 		email
 	 *
-	 * @return json
+	 * @return   json
+	 * @since    ??
+	 * @version  3.14.2
 	 */
 	public static function query_students() {
 
@@ -179,10 +303,37 @@ class LLMS_AJAX_Handler {
 
 		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
 
+		$enrolled_in = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['enrolled_in'] ) : null;
+		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['not_enrolled_in'] ) : null;
+
+		$roles = array_key_exists( 'roles', $_REQUEST ) ? sanitize_text_field( $_REQUEST['roles'] ) : null;
+
 		global $wpdb;
 
 		$limit = 30;
 		$start = $limit * $page;
+
+		$vars = array();
+
+		$roles_sql = '';
+		if ( $roles ) {
+			$roles = explode( ',', $roles );
+			$roles = array_map( 'trim', $roles );
+			$total = count( $roles );
+			foreach ( $roles as $i => $role ) {
+				$roles_sql .= "roles.meta_value LIKE '%s'";
+				$vars[] = '%"' . $role . '"%';
+				if ( $total > 1 && $i + 1 !== $total ) {
+					$roles_sql .= ' OR ';
+				}
+			}
+
+			$roles_sql = "JOIN $wpdb->usermeta AS roles
+							ON $wpdb->users.ID = roles.user_id
+						   AND roles.meta_key = '{$wpdb->prefix}capabilities'
+						   AND ( $roles_sql )
+						";
+		}
 
 		// there was a search query
 		if ( $term ) {
@@ -195,18 +346,18 @@ class LLMS_AJAX_Handler {
 							, user_email AS email
 							, display_name AS name
 						  FROM $wpdb->users
+						  $roles_sql
 						  WHERE user_email LIKE '%s'
 						  ORDER BY display_name
 						  LIMIT %d, %d;";
 
-				$vars = array(
+				$vars = array_merge( $vars, array(
 					'%' . $term . '%',
 					$start,
 					$limit,
-				);
+				) );
 
-			} // search for FIRST and LAST names
-			elseif ( false !== strpos( $term, ' ' ) ) {
+			} elseif ( false !== strpos( $term, ' ' ) ) {
 
 				$term = explode( ' ', $term );
 
@@ -215,30 +366,30 @@ class LLMS_AJAX_Handler {
 							, users.user_email AS email
 							, users.display_name AS name
 						  FROM $wpdb->users AS users
+						  $roles_sql
 						  LEFT JOIN wp_usermeta AS fname ON fname.user_id = users.ID
 						  LEFT JOIN wp_usermeta AS lname ON lname.user_id = users.ID
-						  WHERE
-						  	( fname.meta_key = 'first_name' AND fname.meta_value LIKE '%s' )
-						  	AND
-						  	( lname.meta_key = 'last_name' AND lname.meta_value LIKE '%s' )
+						  WHERE ( fname.meta_key = 'first_name' AND fname.meta_value LIKE '%s' )
+						  	AND ( lname.meta_key = 'last_name' AND lname.meta_value LIKE '%s' )
 						  ORDER BY users.display_name
 						  LIMIT %d, %d;";
 
-				$vars = array(
+				$vars = array_merge( $vars, array(
 					'%' . $term[0] . '%', // first name
 					'%' . $term[1] . '%', // last name
 					$start,
 					$limit,
-				);
+				) );
 
-			} // search for login, display name, or email
-			else {
+				// search for login, display name, or email
+			} else {
 
 				$query = "SELECT
 							  ID AS id
 							, user_email AS email
 							, display_name AS name
 						  FROM $wpdb->users
+						  $roles_sql
 						  WHERE
 						  	user_email LIKE '%s'
 						  	OR user_login LIKE '%s'
@@ -246,43 +397,255 @@ class LLMS_AJAX_Handler {
 						  ORDER BY display_name
 						  LIMIT %d, %d;";
 
-				$vars = array(
+				$vars = array_merge( $vars, array(
 					'%' . $term . '%',
 					'%' . $term . '%',
 					'%' . $term . '%',
 					$start,
 					$limit,
-				);
+				) );
 
-			}
-
-		} // no search query
-		else {
+			}// End if().
+		} else {
 
 			$query = "SELECT
 						  ID AS id
 						, user_email AS email
 						, display_name AS name
 					  FROM $wpdb->users
+					  $roles_sql
 					  ORDER BY display_name
 					  LIMIT %d, %d;";
 
-			$vars = array(
+			$vars = array_merge( $vars, array(
 				$start,
 				$limit,
-			);
+			) );
 
+		}// End if().
+
+		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) );
+
+		if ( $enrolled_in ) {
+
+			$checks = explode( ',', $enrolled_in );
+			$checks = array_map( 'trim', $checks );
+
+			// loop through each user
+			foreach ( $res as $key => $user ) {
+
+				// loop through each check -- this is an OR relationship situation
+				foreach ( $checks as $id ) {
+
+					// if the user is enrolled break to the next user, they can stay
+					if ( llms_is_user_enrolled( $user->id, $id ) ) {
+
+						continue 2;
+
+					}
+				}
+
+				// if we get here that means the user isn't enrolled in any of the check posts
+				// remove them from the results
+				unset( $res[ $key ] );
+			}
 		}
 
-		$r = $wpdb->get_results( $wpdb->prepare( $query, $vars ) );
+		if ( $not_enrolled_in ) {
+
+			$checks = explode( ',', $enrolled_in );
+			$checks = array_map( 'trim', $checks );
+
+			// loop through each user
+			foreach ( $res as $key => $user ) {
+
+				// loop through each check -- this is an OR relationship situation
+				// if the user is enrolled in any of the courses they need to be filtered out
+				foreach ( $checks as $id ) {
+
+					// if the user is enrolled break remove them and break to the next user
+					if ( llms_is_user_enrolled( $user->id, $id ) ) {
+
+						unset( $res[ $key ] );
+						continue 2;
+
+					}
+				}
+			}
+		}
 
 		echo json_encode( array(
-			'items' => $r,
-			'more' => count( $r ) === $limit,
+			'items' => $res,
+			'more' => count( $res ) === $limit,
 			'success' => true,
 		) );
 
 		wp_die();
+
+	}
+
+	/**
+	 * Start a Quiz Attempt
+	 * @param    array     $request  $_POST data
+	 *                               required:
+	 *                               	(string) attemptkey
+	 *                               or
+	 *                               	(int) quiz_id
+	 *                               	(int) lesson_id
+	 *
+	 * @return   obj|array           WP_Error on error or array containing html template of the first question
+	 * @since    3.9.0
+	 * @version  3.9.0
+	 */
+	public static function quiz_start( $request ) {
+
+		$err = new WP_Error();
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$attempt = false;
+		if ( isset( $request['attempt_key'] ) && $request['attempt_key'] ) {
+			$attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );
+		}
+
+		if ( ! $attempt || 'new' !== $attempt->get_status() ) {
+
+			if ( ! isset( $request['quiz_id'] ) || ! isset( $request['lesson_id'] ) ) {
+				$err->add( 400, __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ) );
+				return $err;
+			}
+
+			$attempt = LLMS_Quiz_Attempt::init( absint( $request['quiz_id'] ), absint( $request['lesson_id'] ), $student->get( 'id' ) );
+
+		}
+
+		$question_id = $attempt->get_first_question();
+		if ( ! $question_id ) {
+			$err->add( 404, __( 'Unable to start quiz because the quiz does not contain any questions.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$attempt->start();
+		$html = llms_get_template_ajax( 'content-single-question.php', array(
+			'attempt' => $attempt,
+			'quiz_id' => $attempt->get( 'quiz_id' ),
+			'question_id' => $question_id,
+		) );
+
+		return array(
+			'html' => $html,
+		);
+
+	}
+
+	/**
+	 * [quiz_answer_question description]
+	 * @param    [type]     $request  [description]
+	 * @return   [type]               [description]
+	 * @since    3.9.0
+	 * @version  3.9.0
+	 */
+	public static function quiz_answer_question( $request ) {
+
+		$err = new WP_Error();
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$required = array( 'quiz_id', 'question_id', 'question_type', 'answer' );
+		foreach ( $required as $key ) {
+			if ( ! isset( $request[ $key ] ) ) {
+				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
+				return $err;
+			}
+		}
+
+		$quiz_id = absint( $request['quiz_id'] );
+		$question_id = absint( $request['question_id'] );
+		$answer = sanitize_text_field( $request['answer'] );
+
+		$attempt = $student->quizzes()->get_current_attempt( $quiz_id );
+		if ( ! $attempt ) {
+			$err->add( 500, __( 'There was an error recording your answer the quiz. Please return to the lesson and begin again.', 'lifterlms' ) );
+			return $err;
+		}
+
+		// record the answe
+		$attempt->answer_question( $question_id, $answer );
+
+		// get the next question
+		$question_id = $attempt->get_next_question();
+
+		// return html for the next question
+		if ( $question_id ) {
+
+			$html = llms_get_template_ajax( 'content-single-question.php', array(
+				'attempt' => $attempt,
+				'quiz_id' => $attempt->get( 'quiz_id' ),
+				'question_id' => $question_id,
+			) );
+
+			return array(
+				'html' => $html,
+			);
+
+		} else {
+
+			return self::quiz_end( $request, $attempt );
+
+		}
+
+	}
+
+	/**
+	 * End a quiz attempt
+	 * @param    [type]     $request  [description]
+	 * @param    [type]     $attempt  [description]
+	 * @return   array
+	 * @since    3.9.0
+	 * @version  3.12.1
+	 */
+	public static function quiz_end( $request, $attempt = null ) {
+
+		$err = new WP_Error();
+
+		if ( ! $attempt ) {
+
+			$student = llms_get_student();
+			if ( ! $student ) {
+				$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
+				return $err;
+			}
+
+			if ( ! isset( $request['quiz_id'] ) ) {
+				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
+				return $err;
+			}
+
+			$quiz_id = absint( $request['quiz_id'] );
+
+			$attempt = $student->quizzes()->get_current_attempt( $quiz_id );
+
+		}
+
+		// record the attempt's completion
+		$attempt->end();
+
+		// setup a redirect
+		$url = add_query_arg( array(
+			'attempt_key' => $attempt->get_key(),
+		), get_permalink( $attempt->get( 'quiz_id' ) ) );
+
+		return array(
+			'redirect' => apply_filters( 'llms_quiz_complete_redirect', $url, $attempt ),
+		);
 
 	}
 
@@ -329,35 +692,43 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Handle Select2 Search boxes for WordPress Posts by Post Type
-	 * @since 3.0.0
-	 * @version 3.0.0
+	 * @since   3.0.0
+	 * @version 3.10.1
 	 * @return  string/json
 	 */
 	public static function select2_query_posts() {
 
+		global $wpdb;
+
 		// grab the search term if it exists
 		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
 
+		// get the page
 		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
 
-		global $wpdb;
+		$post_type = sanitize_text_field( $_REQUEST['post_type'] );
+		$post_types_array = explode( ',', $post_type );
+		foreach ( $post_types_array as &$str ) {
+			$str = "'" . esc_sql( trim( $str ) ) . "'";
+		}
+		$post_types = implode( ',', $post_types_array );
 
 		$limit = 30;
 		$start = $limit * $page;
 
 		if ( $term ) {
 			$like = " AND post_title LIKE '%s'";
-			$vars = array( $_REQUEST['post_type'], '%' . $term . '%', $start, $limit );
+			$vars = array( '%' . $term . '%', $start, $limit );
 		} else {
 			$like = '';
-			$vars = array( $_REQUEST['post_type'], $start, $limit );
+			$vars = array( $start, $limit );
 		}
 
 		$posts = $wpdb->get_results( $wpdb->prepare(
-			"SELECT ID, post_title
+			"SELECT ID, post_title, post_type
 			 FROM $wpdb->posts
 			 WHERE
-			 	    post_type = %s
+			 	post_type IN ( $post_types )
 			 	AND post_status = 'publish'
 			 	$like
 			 ORDER BY post_title
@@ -368,13 +739,33 @@ class LLMS_AJAX_Handler {
 
 		$r = array();
 
+		$grouping = ( count( $post_types_array ) > 1 );
+
 		foreach ( $posts as $p ) {
 
-			$r[] = array(
+			$item = array(
 				'id' => $p->ID,
 				'name' => $p->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $p->ID . ')',
 			);
 
+			if ( $grouping ) {
+
+				// setup an object for the optgroup if it's not already set up
+				if ( ! isset( $r[ $p->post_type ] ) ) {
+					$obj = get_post_type_object( $p->post_type );
+					$r[ $p->post_type ] = array(
+						'label' => $obj->labels->name,
+						'items' => array(),
+					);
+				}
+
+				$r[ $p->post_type ]['items'][] = $item;
+
+			} else {
+
+				$r[] = $item;
+
+			}
 		}
 
 		echo json_encode( array(
@@ -429,7 +820,7 @@ class LLMS_AJAX_Handler {
 
 			$error->add( 'error', __( 'Please enter a plan ID.', 'lifterlms' ) );
 
-		} // all required fields found
+		} // End if().
 		else {
 
 			$cid = llms_find_coupon( $request['code'] );
@@ -487,10 +878,8 @@ class LLMS_AJAX_Handler {
 						'summary_html' => $summary_html,
 					);
 
-				}
-
-			}
-
+				}// End if().
+			}// End if().
 		}
 
 		// if there are errors, return them
@@ -636,7 +1025,9 @@ class LLMS_AJAX_Handler {
 		foreach ( $request['sections'] as $key => $value ) {
 
 			$section = new LLMS_Section( $key );
-			$updated_data[ $key ] = $section->update( array( 'order' => $value ) );
+			$updated_data[ $key ] = $section->update( array(
+				'order' => $value,
+			) );
 
 		}
 
@@ -661,6 +1052,20 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $updated_data;
+
+	}
+
+	/**
+	 * "API" for the Admin Builder
+	 * @param    [type]     $request  [description]
+	 * @return   [type]               [description]
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	public static function llms_builder( $request ) {
+
+		require_once 'admin/class.llms.admin.builder.php';
+		return LLMS_Admin_Builder::handle_ajax( $request );
 
 	}
 

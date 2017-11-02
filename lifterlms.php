@@ -3,15 +3,15 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.4.3
+ * Version: 3.14.7
  * Author: Thomas Patrick Levy, codeBOX LLC
- * Author URI: http://gocodebox.com
+ * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
  * Domain Path: /languages
- * License: GPLv2
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * License: GPLv3
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.0
- * Tested up to: 4.7.2
+ * Tested up to: 4.8.2
  *
  * @package     LifterLMS
  * @category 	Core
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.4.3';
+	public $version = '3.14.7';
 
 	protected static $_instance = null;
 
@@ -69,7 +69,7 @@ final class LifterLMS {
 	 * LifterLMS Constructor.
 	 * @return   LifterLMS
 	 * @since    1.0.0
-	 * @version  ??
+	 * @version  [version]
 	 */
 	private function __construct() {
 
@@ -102,9 +102,6 @@ final class LifterLMS {
 			LLMS_Tracker::init();
 		}
 
-		// load localization files
-		add_action( 'plugins_loaded', array( $this, 'localize' ) );
-
 		//Loaded action
 		do_action( 'lifterlms_loaded' );
 
@@ -112,14 +109,21 @@ final class LifterLMS {
 
 	/**
 	 * Auto-load LLMS classes.
-	 *
-	 * @param mixed $class
-	 * @return void
+	 * @param    string  $class  class name being called
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function autoload( $class ) {
-		$path = null;
+
 		$class = strtolower( $class );
-		$file = 'class.' . str_replace( '_', '.', $class ) . '.php';
+		// if ( false === strpos( $class, 'llms' ) ) {
+		// 	return;
+		// }
+
+		$path = null;
+		$fileize = str_replace( '_', '.', $class );
+		$file = 'class.' . $fileize . '.php';
 
 		if ( strpos( $class, 'llms_meta_box' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/admin/post-types/meta-boxes/';
@@ -129,7 +133,13 @@ final class LifterLMS {
 			$path = $this->plugin_path() . '/includes/integrations/';
 		} elseif ( strpos( $class, 'llms_controller_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/controllers/';
-		} elseif (strpos( $class, 'llms_' ) === 0 ) {
+		} elseif ( 0 === strpos( $class, 'llms_abstract' ) ) {
+			$path = $this->plugin_path() . '/includes/abstracts/';
+			$file = $fileize . '.php';
+		} elseif ( 0 === strpos( $class, 'llms_interface' ) ) {
+			$path = $this->plugin_path() . '/includes/interfaces/';
+			$file = $fileize . '.php';
+		} elseif ( strpos( $class, 'llms_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/';
 		}
 
@@ -174,7 +184,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.4.3
+	 * @version [version]
 	 */
 	private function includes() {
 
@@ -183,15 +193,14 @@ final class LifterLMS {
 		require_once 'includes/class.llms.session.php';
 
 		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
-
 		require_once 'includes/processors/class.llms.processors.php';
+		include_once 'includes/abstracts/abstract.llms.admin.table.php';
 
 		if ( is_admin() ) {
 
 			include_once 'includes/class.llms.generator.php';
 			include_once 'includes/admin/class.llms.admin.import.php';
 
-			include_once 'includes/abstracts/abstract.llms.admin.table.php';
 			include_once 'includes/admin/post-types/tables/class.llms.table.student.management.php';
 
 			require_once 'includes/admin/llms.functions.admin.php';
@@ -214,6 +223,11 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
 
 		}
+
+		// nav menus
+		require_once 'includes/class.llms.nav.menus.php';
+
+		include 'includes/notifications/class.llms.notifications.php';
 
 		// Date, Number and language formatting
 		include_once( 'includes/class.llms.date.php' );
@@ -242,22 +256,25 @@ final class LifterLMS {
 		// Hooks
 		include_once( 'includes/llms.template.hooks.php' );
 
-		// Custom Post Type Models
+		// Models
 		require_once 'includes/abstracts/abstract.llms.post.model.php';
 		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/models/*.php', GLOB_NOSORT ) as $model ) {
 			require_once $model;
 		}
 
 		// queries
+		include_once( 'includes/abstracts/abstract.llms.database.query.php' );
 		include_once( 'includes/class.llms.student.query.php' );
+		include_once( 'includes/notifications/class.llms.notifications.query.php' );
 
 		// Classes
-		include_once( 'includes/class.llms.student.php' );
 		include_once( 'includes/class.llms.lesson.handler.php' );
 		include_once( 'includes/class.llms.quiz.php' );
 		include_once( 'includes/class.llms.course.factory.php' );
 		include_once( 'includes/class.llms.review.php' );
 		include_once( 'includes/class.llms.student.dashboard.php' );
+		include_once( 'includes/class.llms.user.permissions.php' );
+		include_once( 'includes/class.llms.view.manager.php' );
 
 		//handler classes
 		require_once 'includes/class.llms.person.handler.php';
@@ -270,6 +287,8 @@ final class LifterLMS {
 
 		// controllers
 		include_once( 'includes/controllers/class.llms.controller.orders.php' );
+		include_once( 'includes/controllers/class.llms.controller.account.php' );
+		include_once( 'includes/controllers/class.llms.controller.quizzes.php' );
 		include_once( 'includes/controllers/class.llms.controller.registration.php' );
 
 		// comments
@@ -304,9 +323,9 @@ final class LifterLMS {
 	 * Load Hooks
 	 */
 	public function include_template_functions() {
-		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+		// if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			include_once( 'includes/llms.template.functions.php' );
-		}
+		// }
 	}
 
 	/**
@@ -316,11 +335,14 @@ final class LifterLMS {
 
 		do_action( 'before_lifterlms_init' );
 
+		$this->localize();
+
 		if ( ! is_admin() ) {
 			$this->person = new LLMS_Person();
 		}
 
 		$this->engagements();
+		$this->notifications();
 
 		do_action( 'lifterlms_init' );
 
@@ -342,6 +364,16 @@ final class LifterLMS {
 	// 	$this->background_handlers['enrollment'] = new LLMS_Background_Enrollment();
 
 	// }
+
+	/**
+	 * Retrieve an instance of the notifications class
+	 * @return   obj
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function notifications() {
+		return LLMS_Notifications::instance();
+	}
 
 	/**
 	 * Get the plugin url.
@@ -383,8 +415,8 @@ final class LifterLMS {
 	 * Load all background processors and
 	 * access to them programattically a processor via LLMS()->processors()->get( $processor )
 	 * @return   LLMS_Processors
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public function processors() {
 		return LLMS_Processors::instance();
@@ -420,13 +452,13 @@ final class LifterLMS {
 	 *
 	 * @param array $links [array of links]
 	 */
-	public function add_action_links ( $links ) {
+	public function add_action_links( $links ) {
 
 		$lifter_links = array(
 			'<a href="' . admin_url( 'admin.php?page=llms-settings' ) . '">' . __( 'Settings', 'lifterlms' ) . '</a>'
 		);
 
-		if (count( $links ) == 3) {
+		if ( count( $links ) == 3 ) {
 			return $links;
 		}
 
@@ -439,8 +471,8 @@ final class LifterLMS {
 	 * The first loaded file takes priority
 	 *
 	 * Files can be found in the following order:
-	 * 		WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
 	 * 		WP_LANG_DIR/lifterlms/lifterlms-LOCALE.mo
+	 * 		WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
 	 *
 	 * @return void
 	 */

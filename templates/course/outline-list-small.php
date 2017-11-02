@@ -1,6 +1,18 @@
 <?php
 /**
  * Course Outline Small List
+ *
+ * Used for lifterlms_course_outline Shortcode & Course Syllabus Widget
+ *
+ * @property  $collapse         bool   whether or not sections are collapsible via user interaction
+ * @property  $course           obj    instance of the LLMS_Course for the current course
+ * @property  $current_section  int    WP Post ID of the current section, this determines which section is open when the outline is collapsible
+ * @property  $sections         array  array of LLMS_Sections
+ * @property  $student          obj    Instance of the LLMS_Student for the current user
+ * @property  $toggles          bool   whether or not open/close all toggles should display in the outline footer. Only works when $collapse is also true
+ *
+ * @since     1.0.0
+ * @version   3.5.1
  */
 ?>
 <div class="llms-widget-syllabus<?php echo ( $collapse ) ? ' llms-widget-syllabus--collapsible' : ''; ?>">
@@ -9,10 +21,9 @@
 
 	<ul class="llms-course-outline">
 
-		<?php //get section data
-		foreach ( $sections as $section ) : ?>
+		<?php foreach ( $sections as $section ) : ?>
 
-			<li class="llms-section<?php echo ( $collapse ) ? ( $current_section && $section['id'] == $current_section ) ? ' llms-section--opened' : ' llms-section--closed' : ''; ?>">
+			<li class="llms-section<?php echo ( $collapse ) ? ( $section->get( 'id' ) == $current_section ) ? ' llms-section--opened' : ' llms-section--closed' : ''; ?>">
 
 				<div class="section-header">
 
@@ -21,62 +32,54 @@
 					<?php if ( $collapse ) : ?>
 
 						<span class="llms-collapse-caret">
-
 							<i class="fa fa-caret-down"></i>
 							<i class="fa fa-caret-right"></i>
-
 						</span>
 
 					<?php endif; ?>
 
-					<span class="section-title"><?php echo $section['title']; ?></span>
+					<span class="section-title"><?php echo apply_filters( 'llms_widget_syllabus_section_title', $section->get( 'title' ), $section ); ?></span>
 
 					<?php do_action( 'lifterlms_outline_after_header' ); ?>
 
 				</div>
 
-				<?php //loop through sections
-				foreach ( $syllabus->lessons as $lesson ) :
+				<?php foreach ( $section->get_lessons() as $lesson ) :
+					$is_complete = $student->is_complete( $lesson->get( 'id' ), 'lesson' ); ?>
 
-					if ( $lesson['parent_id'] == $section['id'] ) : ?>
+					<ul class="llms-lesson">
 
-						<ul class="llms-lesson">
+						<li>
 
-							<li>
+							<span class="llms-lesson-complete <?php echo ( $is_complete ? 'done' : '' ); ?>">
+								<i class="fa fa-check-circle"></i>
+							</span>
 
-								<span class="llms-lesson-complete <?php echo ( $lesson['is_complete'] ? 'done' : '' ); ?>">
+							<?php do_action( 'lifterlms_outline_before_lesson_title', $lesson ); ?>
 
-									<i class="fa fa-check-circle"></i>
+							<span class="lesson-title <?php echo ( $is_complete ? 'done' : '' ); ?>">
 
-								</span>
+								<?php if ( $lesson->is_free() || $student->is_enrolled( $course->get( 'id' ) ) ) : ?>
 
-								<?php do_action( 'lifterlms_outline_before_lesson_title', $lesson ); ?>
+									<a href="<?php echo get_permalink( $lesson->get( 'id' ) ); ?>">
+										<?php echo apply_filters( 'llms_widget_syllabus_section_title', $lesson->get( 'title' ) ); ?>
+									</a>
 
-								<span class="lesson-title <?php echo ( $lesson['is_complete'] ? 'done' : '' ); ?>">
+								<?php else : ?>
 
-									<?php $l = new LLMS_Lesson( $lesson['id'] ); ?>
+									<?php echo apply_filters( 'llms_widget_syllabus_section_title', $lesson->get( 'title' ) ); ?>
 
-									<?php if ( $l->is_free() || llms_is_user_enrolled( get_current_user_id(), $course->id ) ) : ?>
+								<?php endif; ?>
 
-										<a href="<?php echo get_permalink( $lesson['id'] ); ?>"><?php echo $lesson['title']; ?></a>
+							</span>
 
-									<?php else :
+							<?php do_action( 'lifterlms_outline_after_lesson_title', $lesson ); ?>
 
-										echo $lesson['title'];
+						</li>
 
-									endif; ?>
+					</ul>
 
-								</span>
-
-								<?php do_action( 'lifterlms_outline_after_lesson_title', $lesson ); ?>
-
-							</li>
-
-						</ul>
-
-					<?php endif;
-
-				endforeach; ?>
+				<?php endforeach; ?>
 
 			</li>
 

@@ -1,8 +1,8 @@
 <?php
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
- * @since  3.0.0
- * @since  3.3.0
+ * @since    3.0.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -61,21 +61,24 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Constructor
 	 * Setup ID and related post property
 	 *
-	 * @param int|obj    $model   WP post id, instance of an extending class, instance of WP_Post
-	 * @param  array     $args    args to create the post, only applies when $model is 'new'
-	 * @return  void
-	 * @since  3.0.0
+	 * @param     int|obj    $model   WP post id, instance of an extending class, instance of WP_Post
+	 * @param     array     $args    args to create the post, only applies when $model is 'new'
+	 * @return    void
+	 * @since     3.0.0
+	 * @version   3.13.0
 	 */
 	public function __construct( $model, $args = array() ) {
 
 		if ( 'new' === $model ) {
 			$model = $this->create( $args );
-			$created = true;
+			if ( ! is_wp_error( $model ) ) {
+				$created = true;
+			}
 		} else {
 			$created = false;
 		}
 
-		if ( empty( $model ) ) {
+		if ( empty( $model ) || is_wp_error( $model ) ) {
 			return;
 		}
 
@@ -116,7 +119,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			return absint( $this->$key );
 
-		} // if it's a WP Post Property, grab it from the object we already have and apply appropriate filters
+		} // End if().
 		elseif ( in_array( $key, $this->get_post_properties() ) ) {
 
 			$post_key = 'post_' . $key;
@@ -254,33 +257,51 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Create a new post of the Instantiated Model
 	 * This can be called by instantiating an instance with "new"
 	 * as the value passed to the constructor
-	 * @param  string  $title   Title to create the post with
-	 * @return int    WP Post ID of the new Post on success or 0 on error
-	 * @since  3.0.0
+	 * @param    string  $title   Title to create the post with
+	 * @return   int    WP Post ID of the new Post on success or 0 on error
+	 * @since    3.0.0
+	 * @version  3.14.6
 	 */
 	private function create( $title = '' ) {
-		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ) );
+		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ), true );
 	}
 
 	/**
 	 * Clones the Post if the post is cloneable
-	 * @return   mixed         WP_Error or array of generator results
+	 * @return   mixed         WP_Error or WP Post ID of the clone (new) post
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function clone_post() {
 
 		// if post type doesnt support cloning don't proceed
-		if ( ! $this->is_exportable() ) {
+		if ( ! $this->is_cloneable() ) {
 			return;
 		}
+
+		global $allowedposttags;
+		$allowedposttags['iframe'] = array(
+			'allowfullscreen' => true,
+			'frameborder' => true,
+			'height' => true,
+			'src' => true,
+			'width' => true,
+		);
 
 		$generator = new LLMS_Generator( $this->toArray() );
 		$generator->set_generator( 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Cloner' );
 		if ( ! $generator->is_error() ) {
 			$generator->generate();
 		}
-		return $generator->get_results();
+
+		unset( $allowedposttags['iframe'] );
+
+		$generated = $generator->get_generated_posts();
+		if ( isset( $generated[ $this->db_post_type ] ) ) {
+			return $generated[ $this->db_post_type ][0];
+		}
+
+		return new WP_Error( 'generator-error', __( 'An unknown error occurred during post cloning. Please try again.', 'lifterlms' ) );
 
 	}
 
@@ -288,7 +309,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Trigger an export download of the given post type
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.14.6
 	 */
 	public function export() {
 
@@ -307,6 +328,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 
+		global $allowedposttags;
+		$allowedposttags['iframe'] = array(
+			'allowfullscreen' => true,
+			'frameborder' => true,
+			'height' => true,
+			'src' => true,
+			'width' => true,
+		);
+
 		$arr = $this->toArray();
 
 		$arr['_generator'] = 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Exporter';
@@ -316,6 +346,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		ksort( $arr );
 
 		echo json_encode( $arr );
+
+		unset( $allowedposttags['iframe'] );
 
 		die();
 
@@ -384,24 +416,21 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *                                 additional custom images are added
 	 * @return   string                empty string if no image or not supported
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.8.0
 	 */
 	public function get_image( $size = 'full', $key = '' ) {
-		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
+		if ( 'thumbnail' === $key && post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
 			$url = get_the_post_thumbnail_url( $this->get( 'id' ), $size );
+		} else {
+			$id = $this->get( $key );
+			if ( is_numeric( $id ) ) {
+				$src = wp_get_attachment_image_src( $id, $size );
+				if ( $src ) {
+					$url = $src[0];
+				}
+			}
 		}
 		return ! empty( $url ) ? $url : '';
-	}
-
-	/**
-	 * Retrieve the registered Label of the posts current status
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function get_status_name() {
-		$obj = get_post_status_object( $this->get( 'status' ) );
-		return apply_filters( 'llms_get_' . $this->model_post_type . '_status_name', $obj->label );
 	}
 
 	/**
@@ -415,11 +444,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Retrieve a label from the post type data object's labels object
-	 * @param  string $label key for the label
-	 * @return string
-	 * @since  3.0.0
+	 * @param    string $label key for the label
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.8.0
 	 */
-	public function get_post_type_label( $label = 'singular' ) {
+	public function get_post_type_label( $label = 'singular_name' ) {
 		$obj = $this->get_post_type_data();
 		if ( property_exists( $obj, 'labels' ) && property_exists( $obj->labels, $label ) ) {
 			return $obj->labels->$label;
@@ -434,7 +464,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $format      optional format conversion method [html|raw|float]
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  3.2.7
+	 * @version  3.7.0
 	 */
 	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
@@ -451,7 +481,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				$price = strip_tags( $price );
 			}
 		} elseif ( 'float' === $format ) {
-			$price = floatval( number_format( $price, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), '' ) );
+			$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
 		} else {
 			$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format, $price, $key, $price_args, $format, $this );
 		}
@@ -511,7 +541,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// check against the properties array
 		if ( in_array( $key, array_keys( $props ) ) ) {
 			$type = $props[ $key ];
-		} // default to text
+		} // End if().
 		else {
 			$type = 'text';
 		}
@@ -545,10 +575,43 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Retrieve an array of properties defined by the model
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.8.0
 	 */
 	public function get_properties() {
-		return apply_filters( 'llms_post_model_get_post_properties', $this->properties, $this );
+		return apply_filters( 'llms_get_' . $this->model_post_type . '_properties', $this->properties, $this );
+	}
+
+	/**
+	 * Retrieve the registered Label of the posts current status
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
+	public function get_status_name() {
+		$obj = get_post_status_object( $this->get( 'status' ) );
+		return apply_filters( 'llms_get_' . $this->model_post_type . '_status_name', $obj->label );
+	}
+
+	/**
+	 * Get an array of terms for a given taxonomy for the post
+	 * @param    string     $tax     taxonomy name
+	 * @param    boolean    $single  return only one term as an int, useful for taxes which
+	 *                               can only have one term (eg: visibilities and difficulties and such)
+	 * @return   mixed               when single a single term object or null
+	 *                               when not single an array of term objects
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function get_terms( $tax, $single = false ) {
+
+		$terms = get_the_terms( $this->get( 'id' ), $tax );
+
+		if ( $single ) {
+			return $terms ? $terms[0] : null;
+		}
+
+		return $terms ? $terms : array();
+
 	}
 
 	/**
@@ -638,10 +701,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Scrub fields according to datatype
-	 * @param  mixed  $val   property value to scrub
-	 * @param  string $type  data type
-	 * @return mixed
-	 * @since  3.0.0
+	 * @param    mixed  $val   property value to scrub
+	 * @param    string $type  data type
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  3.12.0
 	 */
 	protected function scrub_field( $val, $type ) {
 
@@ -656,7 +720,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			break;
 
 			case 'array':
-				$val = ( array ) $val;
+				if ( '' === $val ) {
+					$val = array();
+				}
+				$val = (array) $val;
 			break;
 
 			case 'bool':
@@ -685,7 +752,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			default:
 				$val = sanitize_text_field( $val );
 
-		}
+		}// End switch().
 
 		return $val;
 
@@ -693,9 +760,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Setter
-	 * @param  string $key  key of the property
-	 * @param  mixed  $val  value to set the property with
-	 * @return boolean      true on success, false on error or if the submitted value is the same as what's in the database
+	 * @param    string $key  key of the property
+	 * @param    mixed  $val  value to set the property with
+	 * @return   boolean      true on success, false on error or if the submitted value is the same as what's in the database
+	 * @since    3.0.0
+	 * @version  3.10.0
 	 */
 	public function set( $key, $val ) {
 
@@ -733,12 +802,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$args[ $post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
 
 			if ( wp_update_post( $args ) ) {
+				$this->post->{$post_key} = $val;
 				return true;
 			} else {
 				return false;
 			}
-
-		} // if the property is not unsettable, update the meta value
+		} // End if().
 		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
 
 			$u = update_post_meta( $this->id, $this->meta_prefix . $key, apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this ) );
@@ -747,7 +816,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			} else {
 				return false;
 			}
-
 		} // we have a problem...
 		else {
 
@@ -755,6 +823,21 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		}
 
+	}
+
+	/**
+	 * Update terms for the post for a given taxonomy
+	 * @param    array      $terms   array of terms (name or ids)
+	 * @param    string     $tax     the name of the tax
+	 * @param    boolean    $append  if true, will append the terms, false will replace existing terms
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function set_terms( $terms, $tax, $append = false ) {
+		$set = wp_set_object_terms( $this->get( 'id' ), $terms, $tax, $append );
+		// wp_set_object_terms has 3 options when unsuccessful and only 1 for success
+		// an array of terms when successful, let's keep it simple...
+		return is_array( $set );
 	}
 
 	/**

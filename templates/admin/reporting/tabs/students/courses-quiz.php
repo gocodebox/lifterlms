@@ -48,6 +48,7 @@ $quiz = new LLMS_Quiz( $quiz_id );
 	</div>
 
 	<section class="llms-collapsible-group llms-quiz-attempts" id="llms-quiz-attempts">
+
 	<?php foreach ( $attempts as $attempt ) : ?>
 
 	<div class="llms-collapsible llms-quiz-attempt">
@@ -64,7 +65,11 @@ $quiz = new LLMS_Quiz( $quiz_id );
 				<?php $start = strtotime( $attempt['start_date'] ); ?>
 				<?php $end = strtotime( $attempt['end_date'] ); ?>
 				<?php _e( 'Time', 'lifterlms' ); ?>:
-				<?php echo llms_get_date_diff( $start, $end ); ?>
+				<?php if ( $attempt['end_date'] ) : ?>
+					<?php echo llms_get_date_diff( $start, $end ); ?>
+				<?php else : ?>
+					<?php _e( 'Incomplete', 'lifterlms' ); ?>
+				<?php endif; ?>
 			</div>
 			<div class="d-1of6">
 				<?php _e( 'Start', 'lifterlms' ); ?>:
@@ -73,10 +78,15 @@ $quiz = new LLMS_Quiz( $quiz_id );
 
 			<div class="d-1of6">
 				<?php _e( 'End', 'lifterlms' ); ?>:
-				<?php echo date_i18n( 'm/d/y h:i a', $end ); ?>
+				<?php if ( $attempt['end_date'] ) : ?>
+					<?php echo date_i18n( 'm/d/y h:i a', $end ); ?>
+				<?php else : ?>
+					<?php _e( 'Incomplete', 'lifterlms' ); ?>
+				<?php endif; ?>
 			</div>
 
 			<div class="d-1of6 d-right">
+				<a class="llms-del-quiz-attempt tooltip" data-attempt="<?php echo $attempt['attempt']; ?>" data-lesson="<?php echo $attempt['assoc_lesson']; ?>" data-quiz="<?php echo $attempt['id']; ?>" data-user="<?php echo $attempt['user_id']; ?>" href="#llms-delete-quiz-attempt" title="<?php _e( 'Delete Attempt', 'lifterlms' ); ?>"><span class="dashicons dashicons-trash"></span></a>
 				<span class="dashicons dashicons-arrow-down"></span>
 				<span class="dashicons dashicons-arrow-up"></span>
 			</div>

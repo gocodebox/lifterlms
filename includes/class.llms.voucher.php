@@ -1,19 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' )) { exit; }
-
 /**
  * Voucher Class
- *
- * @author codeBOX
- * @project lifterLMS
+ * @since    2.0.0
+ * @version  3.6.2
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Voucher {
 
 
 	/**
 	 * ID of the voucher
 	 * This will be a LifterLMS Voucher custom post type Post ID
-	 * @var int
+	 * @var      int
 	 */
 	protected $id;
 
@@ -22,7 +22,6 @@ class LLMS_Voucher {
 	 * Unprefixed name of the vouchers codes table
 	 * @var string
 	 */
-
 	protected $codes_table_name = 'lifterlms_vouchers_codes';
 
 	/**
@@ -41,6 +40,8 @@ class LLMS_Voucher {
 	/**
 	 * Constructor
 	 * @param id
+	 * @since    2.0.0
+	 * @version  2.0.0
 	 */
 	public function __construct( $id = null ) {
 		$this->id = $id;
@@ -50,6 +51,8 @@ class LLMS_Voucher {
 	/**
 	 * Retrieve the prefixed database table name for the table where voucher codes are stored
 	 * @return string
+	 * @since    2.0.0
+	 * @version  2.0.0
 	 */
 	protected function get_codes_table_name() {
 
@@ -62,6 +65,8 @@ class LLMS_Voucher {
 	/**
 	 * Retrieve the prefixed database table name where voucher to product relationships are stored
 	 * @return [type] [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
 	 */
 	protected function get_product_to_voucher_table_name() {
 
@@ -74,6 +79,8 @@ class LLMS_Voucher {
 	/**
 	 * Retrieve the prefixed database table name where voucher redemptions are stored
 	 * @return string
+	 * @since    2.0.0
+	 * @version  2.0.0
 	 */
 	protected function get_redemptions_table_name() {
 
@@ -84,16 +91,26 @@ class LLMS_Voucher {
 	}
 
 
-
+	/**
+	 * Get voucher title
+	 * @return   string
+	 * @since    2.0.0
+	 * @version  3.6.2
+	 */
 	public function get_voucher_title() {
 
-		return get_title( $this->id );
+		return get_the_title( $this->id );
 
 	}
 
 
 
-	// Get single voucher code
+	/**
+	 * Get a single voucher code by id
+	 * @return   obj
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function get_voucher_by_voucher_id() {
 
 		global $wpdb;
@@ -104,7 +121,13 @@ class LLMS_Voucher {
 		return $wpdb->get_row( $query );
 	}
 
-	// Get single voucher code by code
+	/**
+	 * Get a single voucher code by string
+	 * @param    string     $code  voucher code string
+	 * @return   obj
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function get_voucher_by_code( $code ) {
 
 		global $wpdb;
@@ -122,6 +145,13 @@ class LLMS_Voucher {
 		return $wpdb->get_row( $query );
 	}
 
+	/**
+	 * Get a list of voucher codes
+	 * @param    string     $format  [description]
+	 * @return   [type]              [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function get_voucher_codes( $format = 'OBJECT' ) {
 
 		global $wpdb;
@@ -138,6 +168,13 @@ class LLMS_Voucher {
 		return $wpdb->get_results( $query, $format );
 	}
 
+	/**
+	 * [get_voucher_code_by_code_id description]
+	 * @param    [type]     $code_id  [description]
+	 * @return   [type]               [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function get_voucher_code_by_code_id( $code_id ) {
 
 		global $wpdb;
@@ -148,6 +185,13 @@ class LLMS_Voucher {
 		return $wpdb->get_row( $query );
 	}
 
+	/**
+	 * [save_voucher_code description]
+	 * @param    [type]     $data  [description]
+	 * @return   [type]            [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function save_voucher_code( $data ) {
 
 		global $wpdb;
@@ -159,17 +203,33 @@ class LLMS_Voucher {
 		return $wpdb->insert( $this->get_codes_table_name(), $data );
 	}
 
+	/**
+	 * [update_voucher_code description]
+	 * @param    [type]     $data  [description]
+	 * @return   [type]            [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function update_voucher_code( $data ) {
 
 		global $wpdb;
 
 		$data['updated_at'] = date( 'Y-m-d H:i:s' );
 
-		$where = array( 'id' => $data['id'] );
+		$where = array(
+			'id' => $data['id'],
+		);
 		unset( $data['id'] );
 		return $wpdb->update( $this->get_codes_table_name(), $data, $where );
 	}
 
+	/**
+	 * [delete_voucher_code description]
+	 * @param    [type]     $id  [description]
+	 * @return   [type]          [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function delete_voucher_code( $id ) {
 
 		global $wpdb;
@@ -177,7 +237,9 @@ class LLMS_Voucher {
 		$data['updated_at'] = date( 'Y-m-d H:i:s' );
 		$data['is_deleted'] = 1;
 
-		$where = array( 'id' => $id );
+		$where = array(
+			'id' => $id,
+		);
 		unset( $data['id'] );
 		return $wpdb->update( $this->get_codes_table_name(), $data, $where );
 	}
@@ -186,7 +248,7 @@ class LLMS_Voucher {
 	 * Determie if a voucher is valid
 	 * @param    string       $code  voucher code
 	 * @return   WP_Error|object     WP_Error if invalid or not redeemable OR a voucher data object
-	 * @since    ??
+	 * @since    2.0.0
 	 * @version  3.0.0
 	 */
 	public function check_voucher( $code ) {
@@ -215,7 +277,7 @@ class LLMS_Voucher {
 	 * @param  string  $code     voucher code of the voucher being redeemd
 	 * @param  int     $user_id  user id of the redeeming user
 	 * @return bool|WP_Error     true on success or WP_Error on failure
-	 * @since    ??
+	 * @since    2.0.0
 	 * @version  3.0.0
 	 */
 	public function use_voucher( $code, $user_id ) {
@@ -259,17 +321,18 @@ class LLMS_Voucher {
 				return true;
 
 			}
-
 		} else {
 
 			return $voucher ;
 
-		}
+		}// End if().
 
 	}
 
 	/**
 	 * Redeemed Codes
+	 * @since    2.0.0
+	 * @version  2.0.0
 	 */
 	public function get_redeemed_codes( $format = 'OBJECT' ) {
 
@@ -297,6 +360,8 @@ class LLMS_Voucher {
 	 * @param  int $code_id Voucher Code ID from wp_lifterlms_vouchers_codes table
 	 * @param  int $user_id User ID from wp_users tables
 	 * @return int
+	 * @since    2.0.0
+	 * @version  2.0.0
 	 */
 	public function get_redemptions_for_code_by_user( $code_id, $user_id ) {
 
@@ -309,6 +374,13 @@ class LLMS_Voucher {
 
 	}
 
+	/**
+	 * [save_redeemed_code description]
+	 * @param    [type]     $data  [description]
+	 * @return   [type]            [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function save_redeemed_code( $data ) {
 
 		global $wpdb;
@@ -322,6 +394,7 @@ class LLMS_Voucher {
 	 * Get an  array of IDs for products associated with this voucher
 	 * @param  string   $post_type  allows filtering of products by post type
 	 * @return array
+	 * @since   2.0.0
 	 * @version 3.0.0
 	 */
 	public function get_products( $post_type = 'any' ) {
@@ -351,16 +424,24 @@ class LLMS_Voucher {
 		return $products;
 	}
 
+	/**
+	 * [is_product_to_voucher_link_valid description]
+	 * @param    [type]     $code        [description]
+	 * @param    [type]     $product_id  [description]
+	 * @return   boolean                 [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function is_product_to_voucher_link_valid( $code, $product_id ) {
 
 		$voucher = $this->check_voucher( $code );
 
-		if ($voucher) {
+		if ( $voucher ) {
 			$this->id = $voucher->voucher_id;
 
 			$products = $this->get_products();
 
-			if ( ! empty( $products ) && in_array( $product_id, $products )) {
+			if ( ! empty( $products ) && in_array( $product_id, $products ) ) {
 				return true;
 			}
 		}
@@ -368,6 +449,13 @@ class LLMS_Voucher {
 		return false;
 	}
 
+	/**
+	 * [is_code_duplicate description]
+	 * @param    [type]     $codes  [description]
+	 * @return   boolean            [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function is_code_duplicate( $codes ) {
 
 		global $wpdb;
@@ -381,13 +469,20 @@ class LLMS_Voucher {
                   AND voucher_id != ' . $this->id;
 		$codes = $wpdb->get_results( $query, ARRAY_A );
 
-		if (count( $codes )) {
+		if ( count( $codes ) ) {
 			return $codes;
 		}
 
 		return false;
 	}
 
+	/**
+	 * [save_product description]
+	 * @param    [type]     $product_id  [description]
+	 * @return   [type]                  [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function save_product( $product_id ) {
 
 		global $wpdb;
@@ -398,10 +493,18 @@ class LLMS_Voucher {
 		return $wpdb->insert( $this->get_product_to_voucher_table_name(), $data );
 	}
 
+	/**
+	 * [delete_products description]
+	 * @return   [type]     [description]
+	 * @since    2.0.0
+	 * @version  2.0.0
+	 */
 	public function delete_products() {
 
 		global $wpdb;
 
-		return $wpdb->delete( $this->get_product_to_voucher_table_name(), array( 'voucher_id' => $this->id ) );
+		return $wpdb->delete( $this->get_product_to_voucher_table_name(), array(
+			'voucher_id' => $this->id,
+		) );
 	}
 }

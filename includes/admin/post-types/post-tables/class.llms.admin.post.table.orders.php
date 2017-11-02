@@ -134,7 +134,7 @@ class LLMS_Admin_Post_Table_Orders {
 
 					echo ' ' . $date;
 
-				} // display the string -- this would be a Lifetime or possibly custom plan
+				} // End if().
 				else {
 
 					echo $date;
@@ -179,7 +179,7 @@ class LLMS_Admin_Post_Table_Orders {
 
 			break;
 
-		}
+		}// End switch().
 	}
 
 	/**
@@ -228,7 +228,7 @@ class LLMS_Admin_Post_Table_Orders {
 						'orderby' => 'ID',
 					)
 				);
-			} // order product
+			} // End if().
 			elseif ( isset( $vars['orderby'] ) && 'product' == $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars,
@@ -246,7 +246,6 @@ class LLMS_Admin_Post_Table_Orders {
 					)
 				);
 			}
-
 		}
 
 		return $vars;
@@ -279,13 +278,13 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @return obj
 	 *
 	 * @since  2.5.0  moved from a non-classed function
-	 * @version  3.0.0
+	 * @version  3.4.8
 	 */
 	public function modify_admin_search( $query ) {
 
 		// on the admin posts order table
 		// allow searching of custom fields
-		if ( is_admin() && 'llms_order' === $query->query_vars['post_type'] && ! empty( $query->query_vars['s'] ) ) {
+		if ( is_admin() && ! empty( $query->query_vars['s'] ) && isset( $query->query_vars['post_type'] ) && 'llms_order' === $query->query_vars['post_type'] ) {
 
 			$s = $query->query_vars['s'];
 
@@ -326,10 +325,8 @@ class LLMS_Admin_Post_Table_Orders {
 					} );
 
 				}
-
-			}
-
-		}
+			}// End if().
+		}// End if().
 
 		return $query;
 

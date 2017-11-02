@@ -1,6 +1,8 @@
 <?php
 /**
  * Single Student View
+ * @since    3.2.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
@@ -36,7 +38,9 @@ if ( ! is_admin() ) { exit; }
 	</nav>
 
 	<section class="llms-reporting-stab">
-		<?php llms_get_template( 'admin/reporting/tabs/students/' . $current_tab . '.php', array( 'student' => $student ) ); ?>
+		<?php llms_get_template( 'admin/reporting/tabs/students/' . $current_tab . '.php', array(
+			'student' => $student,
+		) ); ?>
 	</section>
 
 </section>

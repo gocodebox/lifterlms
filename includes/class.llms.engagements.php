@@ -1,11 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Engagments Class
-*
 * Finds and triggers the appropriate engagement
+* @since    2.3.0
+* @version  3.13.1
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Engagements {
 
 	/**
@@ -53,12 +55,13 @@ class LLMS_Engagements {
 	 * @return  void
 	 *
 	 * @since    2.3.0
-	 * @version  3.3.1
+	 * @version  3.11.0
 	 */
 	private function add_actions() {
 
 		$actions = apply_filters( 'lifterlms_engagement_actions', array(
 
+			'lifterlms_access_plan_purchased',
 			'lifterlms_course_completed',
 			'lifterlms_course_track_completed',
 			'lifterlms_created_person',
@@ -151,31 +154,87 @@ class LLMS_Engagements {
 	 * @param array $args  indexed array of args
 	 *                     0 => WP User ID
 	 *                     1 => WP Post ID of the email post
-	 *
+	 *                     2 => WP Post ID of the triggering post
 	 * @return void
 	 *
-	 * @since 2.3.0
+	 * @since    2.3.0
+	 * @version  3.8.0
 	 */
 	public function handle_email( $args ) {
+
 		$this->log( '======== handle_email() =======' );
 		$this->log( $args );
-		$m = LLMS()->mailer();
-		$m->trigger_engagement( $args[0], $args[1], $args[2] );
-	}
 
+		$person_id = $args[0];
+		$email_id = $args[1];
+		$related_id = $args[2];
+
+		// dupcheck
+		global $wpdb;
+
+		$res = (int) $wpdb->get_var( $wpdb->prepare( "
+			SELECT count( meta_id )
+			FROM {$wpdb->prefix}lifterlms_user_postmeta
+			WHERE post_id = %d
+			  AND user_id = %d
+			  AND meta_value = %d
+			  LIMIT 1
+			;",
+			array(
+				$related_id,
+				$person_id,
+				$email_id,
+			)
+		) );
+
+		if ( $res >= 1 ) {
+			llms_log( sprintf( 'Email `#%d` was not sent because of dupcheck', $email_id ) );
+			return;
+		}
+
+		// setup the email
+		$email = LLMS()->mailer()->get_email( 'engagement', array(
+			'person_id' => $args[0],
+			'email_id' => $args[1],
+			'related_id' => $args[2],
+		) );
+
+		if ( $email ) {
+
+			if ( $email->send() ) {
+
+				$wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+					array(
+						'user_id' 			=> $person_id,
+						'post_id' 			=> $related_id,
+						'meta_key'			=> '_email_sent',
+						'meta_value'		=> $email_id,
+						'updated_date'		=> current_time( 'mysql' ),
+					),
+					array( '%d', '%d', '%s', '%d', '%s' )
+				);
+				llms_log( sprintf( 'Email `#%d` sent sucessfully', $email_id ) );
+
+			} else {
+
+				llms_log( sprintf( 'Error: email `#%d` was not sent', $email_id ) );
+			}
+		}
+
+	}
 
 	/**
 	 * Log debug data to the WordPress debug.log file
 	 * @param    mixed     $log  data to write to the log
 	 * @return   void
 	 * @since    2.7.9
-	 * @version  2.7.9
+	 * @version  3.12.0
 	 */
 	public function log( $log ) {
 
 		if ( $this->debug ) {
 
-			llms_log( $log );
+			llms_log( $log, 'engagements' );
 
 		}
 
@@ -189,7 +248,7 @@ class LLMS_Engagements {
 	 * @return   void
 	 *
 	 * @since    2.3.0
-	 * @version  3.4.1
+	 * @version  3.11.0
 	 */
 	public function maybe_trigger_engagement() {
 
@@ -222,7 +281,7 @@ class LLMS_Engagements {
 			case 'lifterlms_quiz_passed':
 			case 'lifterlms_quiz_failed':
 				$user_id = absint( $args[0] );
-				$related_post_id = absint( $args[1]['id'] );
+				$related_post_id = absint( $args[1] );
 				$trigger_type = str_replace( 'lifterlms_', '', $action );
 			break;
 
@@ -233,6 +292,7 @@ class LLMS_Engagements {
 				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_enrollment';
 			break;
 
+			case 'lifterlms_access_plan_purchased' :
 			case 'lifterlms_product_purchased' :
 				$user_id = intval( $args[0] );
 				$related_post_id = intval( $args[1] );
@@ -247,7 +307,7 @@ class LLMS_Engagements {
 					'user_id' => null,
 				), $action, $args ) );
 
-		}
+		}// End switch().
 
 		// we need a user and a trigger to proceed, related_post is optional though
 		if ( ! $user_id || ! $trigger_type ) {
@@ -308,7 +368,7 @@ class LLMS_Engagements {
 							'handler_args' => $handler_args,
 						), $e, $user_id, $related_post_id, $trigger_type ) );
 
-				}
+				}// End switch().
 
 				// can't proceed without an action and a handler
 				if ( ! $handler_action && ! $handler_args ) {
@@ -324,16 +384,14 @@ class LLMS_Engagements {
 
 					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, array( $handler_args ) );
 
-				} // otherwise trigger it now
+				} // End if().
 				else {
 
 					do_action( $handler_action, $handler_args );
 
 				}
-
-			}
-
-		}
+			}// End foreach().
+		}// End if().
 
 		$this->log( '======= end maybe_trigger_engagement ========' );
 
@@ -359,7 +417,8 @@ class LLMS_Engagements {
 	 *         		     )
 	 *         		)
 	 *
-	 * @since  2.3.0
+	 * @since    2.3.0
+	 * @version  3.13.1
 	 */
 	private function get_engagements( $trigger_type, $related_post_id = '' ) {
 
@@ -369,7 +428,7 @@ class LLMS_Engagements {
 
 			$related_select = ', relation_meta.meta_value AS related_post_id';
 			$related_join = "LEFT JOIN $wpdb->postmeta AS relation_meta ON triggers.ID = relation_meta.post_id";
-			$related_where = "AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND relation_meta.meta_value = %d";
+			$related_where = $wpdb->prepare( "AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND relation_meta.meta_value = %d", $related_post_id );
 
 		} else {
 
@@ -414,7 +473,7 @@ class LLMS_Engagements {
 				$related_where
 			",
 			// prepare variables
-			$trigger_type, $related_post_id
+			$trigger_type
 		), OBJECT );
 
 		$this->log( '$wpdb->last_query' . $wpdb->last_query );

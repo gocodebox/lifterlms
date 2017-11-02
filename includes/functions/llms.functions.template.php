@@ -153,7 +153,6 @@ function llms_get_template_override( $template = '' ) {
 	 	if ( file_exists( $path . $template ) ) {
 			return $path;
 		}
-
 	}
 
 	return false;

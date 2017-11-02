@@ -135,7 +135,6 @@ class LLMS_Sidebars {
 			if ( method_exists( __CLASS__, $method ) ) {
 				add_action( 'genesis_sidebar', array( __CLASS__, $method ) );
 			}
-
 		}
 
 	}
@@ -238,9 +237,7 @@ class LLMS_Sidebars {
 					$widgets[ $sidebar_id ] = $widgets['llms_lesson_widgets_side'];
 
 				}
-
 			}
-
 		}
 
 		return $widgets;

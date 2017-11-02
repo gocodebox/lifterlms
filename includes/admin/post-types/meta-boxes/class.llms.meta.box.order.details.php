@@ -1,12 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Order Details Metabox
  *
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.10.0
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 
 	/**
@@ -48,7 +49,10 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 */
 	public function output() {
 
-		$order = new LLMS_Order( $this->post );
+		$order = llms_get_post( $this->post );
+		if ( ! $order || ! is_a( $order, 'LLMS_Order' ) ) {
+			return;
+		}
 		$gateway = $order->get_gateway();
 
 		llms_get_template( 'admin/post-types/order-details.php', array(
@@ -64,10 +68,30 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.10.0
 	 */
 	public function save( $post_id ) {
-		return;
+
+		$order = llms_get_post( $this->post );
+		if ( ! $order || ! is_a( $order, 'LLMS_Order' ) ) {
+			return;
+		}
+		// $gateway = $order->get_gateway();
+
+		$fields = array(
+			'payment_gateway',
+			'gateway_customer_id',
+			'gateway_subscription_id',
+			'gateway_source_id',
+		);
+
+		foreach ( $fields as $key ) {
+
+			if ( isset( $_POST[ $key ] ) ) {
+				$order->set( $key, sanitize_text_field( $_POST[ $key ] ) );
+			}
+		}
+
 	}
 
 }

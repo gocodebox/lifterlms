@@ -33,7 +33,7 @@ class LLMS_Reviews {
 		/**
 		 * Check to see if we are supposed to output the code at all
 		 */
-		if (get_post_meta( get_the_ID(),'_llms_display_reviews',true )) {
+		if ( get_post_meta( get_the_ID(),'_llms_display_reviews',true ) ) {
 		?>
 			<div id="old_reviews">
 			<h3><?php echo apply_filters( 'lifterlms_reviews_section_title', _e( 'What Others Have Said', 'lifterlms' ) ); ?></h3>
@@ -54,11 +54,11 @@ class LLMS_Reviews {
 				'custom-css' => '',
 			);
 
-			if (has_filter( 'llms_review_custom_styles' )) {
+			if ( has_filter( 'llms_review_custom_styles' ) ) {
 				$styles = apply_filters( 'llms_review_custom_styles', $styles );
 			}
 
-			foreach ($posts_array as $post) {
+			foreach ( $posts_array as $post ) {
 				echo $styles['custom-css'];
 
 				?>
@@ -73,12 +73,12 @@ class LLMS_Reviews {
 			<hr>
 			</div>
 			<?php
-		}
+		}// End if().
 
 		/**
 		 * Check to see if reviews are open
 		 */
-		if (get_post_meta( get_the_ID(),'_llms_reviews_enabled',true ) && is_user_logged_in()) {
+		if ( get_post_meta( get_the_ID(),'_llms_reviews_enabled',true ) && is_user_logged_in() ) {
 			/**
 			 * Look for previous reviews that we have written on this course.
 			 * @var array
@@ -97,7 +97,7 @@ class LLMS_Reviews {
 			 * Check to see if we are allowed to write more than one review.
 			 * If we are not, check to see if we have written a review already.
 			 */
-			if (get_post_meta( get_the_ID(),'_llms_multiple_reviews_disabled',true ) && $posts_array) {
+			if ( get_post_meta( get_the_ID(),'_llms_multiple_reviews_disabled',true ) && $posts_array ) {
 			?>
 				<div id="thank_you_box">
 					<h2><?php echo apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!','lifterlms' ) ); ?></h2>
@@ -123,7 +123,7 @@ class LLMS_Reviews {
 				</div>
 				<?php
 			}
-		}
+		}// End if().
 	}
 
 	/**

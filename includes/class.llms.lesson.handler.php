@@ -18,9 +18,9 @@ class LLMS_Lesson_Handler {
 
 		$options = array();
 
-		if ( ! empty( $lessons )) {
+		if ( ! empty( $lessons ) ) {
 
-			foreach ($lessons as $key => $value) {
+			foreach ( $lessons as $key => $value ) {
 
 				//get parent course if assigned
 				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
@@ -34,7 +34,6 @@ class LLMS_Lesson_Handler {
 				$options[ $value->ID ] = $title;
 
 			}
-
 		}
 
 		return $options;
@@ -62,7 +61,7 @@ class LLMS_Lesson_Handler {
 
 		}
 
-		if ($reset_order) {
+		if ( $reset_order ) {
 			update_post_meta( $lesson_id, '_llms_order', $lesson_order );
 		}
 
@@ -130,8 +129,10 @@ class LLMS_Lesson_Handler {
 
 			//get all current post terms and set them to the new post
 			$taxonomies = get_object_taxonomies( $post_obj->post_type );
-			foreach ($taxonomies as $taxonomy) {
-				$post_terms = wp_get_object_terms( $post_obj->ID, $taxonomy, array( 'fields' => 'slugs' ) );
+			foreach ( $taxonomies as $taxonomy ) {
+				$post_terms = wp_get_object_terms( $post_obj->ID, $taxonomy, array(
+					'fields' => 'slugs',
+				) );
 				wp_set_object_terms( $new_post_id, $post_terms, $taxonomy, false );
 			}
 
@@ -150,23 +151,23 @@ class LLMS_Lesson_Handler {
 		//duplicate all post meta
 		$post_meta_infos = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id" );
 
-		if (count( $post_meta_infos ) != 0) {
+		if ( count( $post_meta_infos ) != 0 ) {
 
 			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
 
-			foreach ($post_meta_infos as $meta_info) {
+			foreach ( $post_meta_infos as $meta_info ) {
 
 				//do not copy the following meta values
-				if ( $meta_info->meta_key === '_llms_parent_section') {
+				if ( $meta_info->meta_key === '_llms_parent_section' ) {
 					$meta_info->meta_value = '';
 				}
-				if ( $meta_info->meta_key === '_llms_parent_course') {
+				if ( $meta_info->meta_key === '_llms_parent_course' ) {
 					$meta_info->meta_value = '';
 				}
-				if ( $meta_info->meta_key === '_prerequisite') {
+				if ( $meta_info->meta_key === '_prerequisite' ) {
 					$meta_info->meta_value = '';
 				}
-				if ( $meta_info->meta_key === '_has_prerequisite') {
+				if ( $meta_info->meta_key === '_has_prerequisite' ) {
 					$meta_info->meta_value = '';
 				}
 

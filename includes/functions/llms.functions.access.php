@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  3.2.5
+ * @version  3.12.2
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -39,15 +39,18 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	 * Do checks to determine if the content should be restricted
 	 */
 
+	$sitewide_membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id );
+	$membership_id = llms_is_post_restricted_by_membership( $post_id, $user_id );
+
 	// if it's a search page and the site isn't restricted to a membership bypass restrictions
 	if ( is_search() && ! get_option( 'lifterlms_membership_required', '' ) ) {
 		return apply_filters( 'llms_page_restricted', $results, $post_id );
-	} // content is restricted by a sitewide membership
-	elseif ( $membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id ) ) {
-		$restriction_id = $membership_id;
+	} // End if().
+	elseif ( is_singular() && $sitewide_membership_id ) {
+		$restriction_id = $sitewide_membership_id;
 		$reason = 'sitewide_membership';
 	} // content is restricted by a membership
-	elseif ( $membership_id = llms_is_post_restricted_by_membership( $post_id, $user_id ) ) {
+	elseif ( is_singular() && $membership_id ) {
 		$restriction_id = $membership_id;
 		$reason = 'membership';
 	} // checks for lessons
@@ -56,7 +59,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 		// if lesson is free, return accessible results and skip the rest of this function
 		if ( $lesson->is_free() ) {
 			return $results;
-		} // must be enrolled b/c it's a lesson, alright?
+		} // End if().
 		else {
 			$restriction_id = $lesson->get_parent_course();
 			$reason = 'enrollment_lesson';
@@ -86,7 +89,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	 * this is run if we have a restriction and a reason for restriction
 	 * and we either don't have a logged in student or the logged in student doesn't have access
 	 */
-	if ( ! empty( $restriction_id ) && ! empty( $reason ) && ( ! $student || ! $student->has_access( $restriction_id ) ) ) {
+	if ( ! empty( $restriction_id ) && ! empty( $reason ) && ( ! $student || ! $student->is_enrolled( $restriction_id ) ) ) {
 
 		$results['is_restricted'] = true;
 		$results['reason'] = $reason;
@@ -105,7 +108,8 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 		if ( 'llms_quiz' === $post_type ) {
 
-			if ( $quiz_id = llms_is_quiz_accessible( $post_id, $user_id ) ) {
+			$quiz_id = llms_is_quiz_accessible( $post_id, $user_id );
+			if ( $quiz_id ) {
 
 				$results['is_restricted'] = true;
 				$results['reason'] = 'quiz';
@@ -113,12 +117,12 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
-
 		}
 
 		if ( 'lesson' === $post_type || 'llms_quiz' === $post_type ) {
 
-			if ( $course_id = llms_is_post_restricted_by_time_period( $post_id, $user_id ) ) {
+			$course_id = llms_is_post_restricted_by_time_period( $post_id, $user_id );
+			if ( $course_id ) {
 
 				$results['is_restricted'] = true;
 				$results['reason'] = 'course_time_period';
@@ -127,16 +131,18 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 			}
 
-			if ( $lesson_id = llms_is_post_restricted_by_prerequisite( $post_id, $user_id ) ) {
+			$prereq_data = llms_is_post_restricted_by_prerequisite( $post_id, $user_id );
+			if ( $prereq_data ) {
 
 				$results['is_restricted'] = true;
-				$results['reason'] = 'lesson_prerequisite';
-				$results['restriction_id'] = $lesson_id;
+				$results['reason'] = sprintf( '%s_prerequisite', $prereq_data['type'] );
+				$results['restriction_id'] = $prereq_data['id'];
 				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
 
-			if ( $lesson_id = llms_is_post_restricted_by_drip_settings( $post_id, $user_id ) ) {
+			$lesson_id = llms_is_post_restricted_by_drip_settings( $post_id, $user_id );
+			if ( $lesson_id ) {
 
 				$results['is_restricted'] = true;
 				$results['reason'] = 'lesson_drip';
@@ -144,10 +150,8 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 			}
-
 		}
-
-	}
+	}// End if().
 
 	return apply_filters( 'llms_page_restricted', $results, $post_id );
 
@@ -164,7 +168,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
  * @param    array     $restriction  array of data from llms_page_restricted()
  * @return   string
  * @since    3.2.4
- * @version  3.4.0
+ * @version  3.7.3
  */
 function llms_get_restriction_message( $restriction ) {
 
@@ -172,13 +176,27 @@ function llms_get_restriction_message( $restriction ) {
 
 	switch ( $restriction['reason'] ) {
 
+		case 'course_prerequisite':
+			$lesson = new LLMS_Lesson( $restriction['content_id'] );
+			$course_id = $restriction['restriction_id'];
+			$prereq_link = '<a href="' . get_permalink( $course_id ) . '">' . get_the_title( $course_id ) . '</a>';
+			$msg = sprintf( _x( 'The lesson "%1$s" cannot be accessed until the required prerequisite course "%2$s" is completed.', 'restricted by course prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
+		break;
+
+		case 'course_track_prerequisite':
+			$lesson = new LLMS_Lesson( $restriction['content_id'] );
+			$track = new LLMS_Track( $restriction['restriction_id'] );
+			$prereq_link = '<a href="' . $track->get_permalink() . '">' . $track->term->name . '</a>';
+			$msg = sprintf( _x( 'The lesson "%1$s" cannot be accessed until the required prerequisite track "%2$s" is completed.', 'restricted by course track prerequisite message', 'lifterlms' ), $lesson->get( 'title' ), $prereq_link );
+		break;
+
 		// this particular case is only utilized by lessons, courses do the check differently in the template
 		case 'course_time_period':
 			$course = new LLMS_Course( $restriction['restriction_id'] );
 			// if the start date hasn't passed yet
 			if ( ! $course->has_date_passed( 'start_date' ) ) {
 				$msg = $course->get( 'course_opens_message' );
-			} // course end date has passed
+			} // End if().
 			elseif ( $course->has_date_passed( 'end_date' ) ) {
 				$msg = $course->get( 'course_closed_message' );
 			}
@@ -203,7 +221,7 @@ function llms_get_restriction_message( $restriction ) {
 
 		default:
 
-	}
+	}// End switch().
 
 	return apply_filters( 'llms_get_restriction_message', do_shortcode( $msg ), $restriction );
 }
@@ -236,7 +254,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 	// if we're on a lesson, lesson id is the post id
 	if ( 'lesson' === $post_type ) {
 		$lesson_id = $post_id;
-	} // quizzes need to cascade up to get lesson id
+	} // End if().
 	elseif ( 'llms_quiz' == $post_type ) {
 		$quiz = new LLMS_Quiz( $post_id );
 		$lesson_id = $quiz->get_assoc_lesson( $user_id );
@@ -258,63 +276,90 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 /**
  * Determine if a lesson/quiz is restricted by a prerequisite lesson
  * @param    int     $post_id  WP Post ID of a lesson or quiz
- * @return   int|false         false if the post is not restricted or the user has completed the prereq
- *                             WP Post ID of the prerequisite lesson if it is
+ * @return   array|false       false if the post is not restricted or the user has completed the prereq
+ *                             associative array with prereq type and prereq id
+ *                             array(
+ *                             		type => [course|course_track|lesson]
+ *                             		id => int (object id)
+ *                             )
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.12.1
  */
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	$post_type = get_post_type( $post_id );
 
-	// if we're on a lesson, lesson id is the post id
 	if ( 'lesson' === $post_type ) {
 		$lesson_id = $post_id;
-	} // quizzes need to cascade up to get lesson id
-	elseif ( 'llms_quiz' == $post_type ) {
+	} elseif ( 'llms_quiz' == $post_type ) {
 		$quiz = new LLMS_Quiz( $post_id );
 		$lesson_id = $quiz->get_assoc_lesson( $user_id );
-	} // dont pass other post types in here dumb dumb
-	else {
+		if ( ! $lesson_id ) {
+			$session = LLMS()->session->get( 'llms_quiz' );
+			$lesson_id = ( $session && isset( $session->assoc_lesson ) ) ? $session->assoc_lesson : false;
+		}
+
+		if ( ! $lesson_id ) {
+			$quiz = new LLMS_QQuiz( $post_id );
+			$lessons = $quiz->get_lessons( 'ids' );
+			if ( ! $lessons ) {
+				return false;
+			}
+			$lesson_id = $lessons[0];
+		}
+	} else {
 		return false;
 	}
 
-	$lesson = new LLMS_Lesson( $lesson_id );
+	$lesson = llms_get_post( $lesson_id );
 	$course = $lesson->get_course();
+
+	if ( ! $course ) {
+		return false;
+	}
 
 	// get an array of all possible prereqs
 	$prerequisites = array();
 
 	if ( $course->has_prerequisite( 'course' ) ) {
-		$prerequisites[ $course->get_prerequisite_id( 'course' ) ] = 'course';
+		$prerequisites[] = array(
+			'id' => $course->get_prerequisite_id( 'course' ),
+			'type' => 'course',
+		);
 	}
 
-	if ( $course->has_prerequisite( 'track' ) ) {
-		$prerequisites[ $course->get_prerequisite_id( 'track' ) ] = 'track';
+	if ( $course->has_prerequisite( 'course_track' ) ) {
+		$prerequisites[] = array(
+			'id' => $course->get_prerequisite_id( 'course_track' ),
+			'type' => 'course_track',
+		);
 	}
 
 	if ( $lesson->has_prerequisite() ) {
-		$prerequisites[ $lesson->get_prerequisite() ] = 'lesson';
+		$prerequisites[] = array(
+			'id' => $lesson->get_prerequisite(),
+			'type' => 'lesson',
+		);
 	}
 
 	// prereqs exist and user is not logged in
 	// return the first prereq id
 	if ( $prerequisites && ! $user_id ) {
-		return array_shift( array_keys( $prerequisites ) );
-	} // student is logged in, check completion of the preq
-	// if incomplete, send the prereq id
-	// otherwise return false
-	else {
+
+		return array_shift( $prerequisites );
+
+		// if incomplete, send the prereq id
+	} else {
 
 		$student = new LLMS_Student( $user_id );
-		foreach ( $prerequisites as $obj_id => $obj_type ) {
-			if ( ! $student->is_complete( $obj_id, $obj_type ) ) {
-				return $obj_id;
+		foreach ( $prerequisites as $prereq ) {
+			if ( ! $student->is_complete( $prereq['id'], $prereq['type'] ) ) {
+				return $prereq;
 			}
 		}
-
 	}
 
+	// otherwise return false
 	// no prereq
 	return false;
 
@@ -326,7 +371,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  * @return   int|false         false if the post is not restricted by course time period
  *                             WP Post ID of the course if it is
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.12.1
  */
 function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 
@@ -338,11 +383,22 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 		$lesson = new LLMS_Lesson( $post_id );
 		$course_id = $lesson->get_parent_course();
 
-	} // quizzes need to cascade up to get course info
+	} // End if().
 	elseif ( 'llms_quiz' == $post_type ) {
 
 		$quiz = new LLMS_Quiz( $post_id );
-		$lesson = new LLMS_Lesson( $quiz->get_assoc_lesson( $user_id ) );
+		$lesson = llms_get_post( $quiz->get_assoc_lesson( $user_id ) );
+		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+			$quiz = new LLMS_QQuiz( $post_id );
+			$lessons = $quiz->get_lessons( 'ids' );
+			if ( ! $lessons ) {
+				return false;
+			}
+			$lesson = llms_get_post( $lessons[0] );
+		}
+		if ( ! $lesson ) {
+			return false;
+		}
 		$course_id = $lesson->get_parent_course();
 
 	} // course id is the post id
@@ -375,7 +431,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
  * @return   bool|int          WP_Post ID of the membership if a restriction is found
  *                             false if no restrictions found
  * @since    3.0.0
- * @version  3.2.4 -- fix to handle post restricted to multiple memberships
+ * @version  3.14.1
  */
 function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
@@ -404,7 +460,7 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
 			$restriction_id = array_shift( $memberships );
 
-		} // we have a user to check against each membership, user must be in at least one membership
+		} // End if().
 		else {
 
 			$student = new LLMS_Student( $user_id );
@@ -417,11 +473,10 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
 				// once we find the student has access break the loop
 				// this will be the restriciton that the template loader will check against later
-				if ( $student->has_access( $mid ) ) {
+				if ( $student->is_enrolled( $mid ) ) {
 					break;
 				}
 			}
-
 		}
 
 		return absint( $restriction_id );
@@ -468,7 +523,7 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
 
 		return $membership_id;
 
-	} // site is note restricted to a membership
+	} // End if().
 	else {
 
 		return false;
@@ -483,18 +538,18 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
  * @return   bool|int          if the post is not restricted returns false
  *                             if the post is restricted, returns the quiz id
  * @since    3.1.6
- * @version  3.1.6
+ * @version  3.9.0
  */
 function llms_is_quiz_accessible( $post_id, $user_id = null ) {
 
-	$quiz = new LLMS_Quiz( $post_id );
-	$lesson_id = $quiz->get_assoc_lesson( $user_id );
+	$lesson_id = false;
 
-	// if we don't have a lesson id, try to retrieve it from the session
-	if ( ! $lesson_id ) {
-		$quiz = LLMS()->session->get( 'llms_quiz' );
-		if ( $quiz ) {
-			$lesson_id = $quiz->assoc_lesson;
+	if ( isset( $_GET['attempt_key'] ) ) {
+
+		$student = llms_get_student( $user_id );
+		$attempt = $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] );
+		if ( $attempt ) {
+			$lesson_id = $attempt->get( 'lesson_id' );
 		}
 	}
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * Individual Access Plan
- *
- * @since  3.0.0
+ * Transactions Table Metabox for Orders
+ * @since    3.5.0
+ * @version  3.8.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
@@ -23,7 +23,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 			<th class="expandable closed"><?php _e( 'Gateway', 'lifterlms' ); ?></th>
 			<th class="expandable closed"><?php _e( 'Source', 'lifterlms' ); ?></th>
 			<th class="expandable closed"><?php _e( 'Transaction ID', 'lifterlms' ); ?></th>
-			<th><?php _e( 'Actions', 'lifterlms' ); ?></th>
+			<th class="expandable"><?php _e( 'Actions', 'lifterlms' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -50,7 +50,8 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					<td class="expandable closed"><?php echo $gateway->get_admin_title(); ?></td>
 					<td class="expandable closed">
 						<?php echo $txn->get( 'gateway_source_description' ); ?>
-						<?php if ( $source_id = $txn->get( 'gateway_source_id' ) ) : ?>
+						<?php $source_id = $txn->get( 'gateway_source_id' );
+						if ( $source_id ) : ?>
 							<?php $source = $gateway->get_source_url( $source_id ); ?>
 							<?php if ( false === filter_var( $source, FILTER_VALIDATE_URL ) ) : ?>
 								(<?php echo $source; ?>)
@@ -60,8 +61,9 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 						<?php endif; ?>
 					</td>
 					<td class="expandable closed">
-						<?php if ( $txn_id = $txn->get( 'gateway_transaction_id' ) ) : ?>
-							<?php $txn_url = $gateway->get_transaction_url( $txn_id ); ?>
+						<?php $txn_id = $txn->get( 'gateway_transaction_id' );
+						if ( $txn_id ) : ?>
+							<?php $txn_url = $gateway->get_transaction_url( $txn_id, $txn->get( 'api_mode' ) ); ?>
 							<?php if ( false === filter_var( $txn_url, FILTER_VALIDATE_URL ) ) : ?>
 								<?php echo $txn_id; ?>
 							<?php else : ?>
@@ -69,10 +71,11 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 							<?php endif; ?>
 						<?php endif; ?>
 					</td>
-					<td>
+					<td class="expandable">
 						<?php if ( $txn->can_be_refunded() ) : ?>
 							<button class="button" data-gateway="<?php echo $gateway->get_admin_title(); ?>" data-gateway-supports="<?php echo ( $gateway->supports( 'refunds' ) ); ?>" data-refundable="<?php echo $txn->get_refundable_amount(); ?>" name="llms-refund-toggle" type="button"><?php _e( 'Refund', 'lifterlms' ); ?></button>
 						<?php endif; ?>
+						<button class="button" name="llms_resend_receipt" type="submit" value="<?php echo $txn->get( 'id' ); ?>"><?php _e( 'Resend Receipt', 'lifterlms' ); ?></button>
 					</td>
 				</tr>
 			<?php endforeach; ?>

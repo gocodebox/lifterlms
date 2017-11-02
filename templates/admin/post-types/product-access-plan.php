@@ -1,8 +1,8 @@
 <?php
 /**
- * Individual Access Plan
- *
- * @since  3.0.0
+ * Individual Access Plan on Admin Panel
+ * @since    3.0.0
+ * @version  3.8.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
@@ -20,6 +20,7 @@ if ( ! isset( $plan ) ) {
 
 	$id = 'llms-access-plan-' . $plan->get( 'id' );
 	$order = $plan->get( 'menu_order' );
+	$visibility = $plan->get_visibility();
 	$frequency = $plan->get( 'frequency' );
 	$period = $plan->get( 'period' );
 	$access_expiration = $plan->get( 'access_expiration' );
@@ -39,6 +40,7 @@ if ( ! isset( $plan ) ) {
 			<?php if ( $plan ) : ?>
 				<span class="llms-plan-title" data-default="<?php _e( 'Unnamed Access Plan', 'lifterlms' ); ?>"><?php echo $plan->get( 'title' ); ?></span>
 				<small>(<?php printf( _x( 'ID# %s', 'Product Access Plan ID', 'lifterlms' ), $plan->get( 'id' ) ); ?>)</small>
+				<small class="llms-plan-link"><a href="<?php echo esc_url( $plan->get_checkout_url( false ) ); ?>"><?php _e( 'Purchase Link', 'lifterlms' ); ?></a></small>
 			<?php else : ?>
 				<span class="llms-plan-title" data-default="<?php _e( 'New Access Plan', 'lifterlms' ); ?>"><?php _e( 'New Access Plan', 'lifterlms' ); ?></span>
 			<?php endif; ?>
@@ -52,6 +54,8 @@ if ( ! isset( $plan ) ) {
 	</header>
 
 	<section class="llms-collapsible-body">
+
+		<?php do_action( 'llms_access_plan_mb_before_body', $plan, $id, $order ); ?>
 
 		<div class="llms-metabox-field d-1of3">
 			<label><?php _e( 'Plan Title', 'lifterlms' ) ?></label>
@@ -69,9 +73,12 @@ if ( ! isset( $plan ) ) {
 		</div>
 
 		<div class="llms-metabox-field d-1of6">
-			<label><?php _e( 'Featured', 'lifterlms' ) ?></label>
-			<input name="_llms_plans[<?php echo $order; ?>][featured]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'featured' ) : 'no' ); ?>>
-			<em><?php _e( 'Highlight this plan', 'lifterlms' ); ?></em>
+			<label><?php _e( 'Visibility', 'lifterlms' ) ?></label>
+			<select name="_llms_plans[<?php echo $order; ?>][visibility]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+				<?php foreach ( llms_get_access_plan_visibility_options() as $val => $name ) : ?>
+					<option value="<?php echo esc_attr( $val ); ?>"<?php selected( $val, ( $plan ) ? $visibility : null ); ?>><?php echo esc_attr( $name ); ?></option>
+				<?php endforeach; ?>
+			</select>
 		</div>
 
 		<div class="llms-metabox-field d-1of6">
@@ -81,6 +88,8 @@ if ( ! isset( $plan ) ) {
 		</div>
 
 		<div class="clear"></div>
+
+		<?php do_action( 'llms_access_plan_mb_after_row_one', $plan, $id, $order ); ?>
 
 		<div data-controller="llms-plan-is-free" data-value-is-not="yes">
 
@@ -122,28 +131,32 @@ if ( ! isset( $plan ) ) {
 						<option value="0"<?php selected( 0, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
 						<?php $i = 1; while ( $i <= 6 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s year', 'for %s years', $i, 'lifterlms' ), $i ); ?></option>
-						<?php $i++; endwhile; ?>
+						<?php $i++;
+endwhile; ?>
 					</select>
 
 					<select data-controller="llms-plan-period" data-value-is="month" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 						<option value="0"<?php selected( 0, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
 						<?php $i = 1; while ( $i <= 24 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s month', 'for %s months', $i, 'lifterlms' ), $i ); ?></option>
-						<?php $i++; endwhile; ?>
+						<?php $i++;
+endwhile; ?>
 					</select>
 
 					<select data-controller="llms-plan-period" data-value-is="week" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 						<option value="0"<?php selected( 0, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
 						<?php $i = 1; while ( $i <= 52 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s week', 'for %s weeks', $i, 'lifterlms' ), $i ); ?></option>
-						<?php $i++; endwhile; ?>
+						<?php $i++;
+endwhile; ?>
 					</select>
 
 					<select data-controller="llms-plan-period" data-value-is="day" name="_llms_plans[<?php echo $order; ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 						<option value="0"<?php selected( 0, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php _e( 'for all time', 'lifterlms' ); ?></option>
 						<?php $i = 1; while ( $i <= 90 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s day', 'for %s days', $i, 'lifterlms' ), $i ); ?></option>
-						<?php $i++; endwhile; ?>
+						<?php $i++;
+endwhile; ?>
 					</select>
 				</div>
 
@@ -152,6 +165,8 @@ if ( ! isset( $plan ) ) {
 		</div>
 
 		<div class="clear"></div>
+
+		<?php do_action( 'llms_access_plan_mb_after_row_two', $plan, $id, $order ); ?>
 
 		<div class="d-1of2">
 
@@ -215,6 +230,8 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
+		<?php do_action( 'llms_access_plan_mb_after_row_three', $plan, $id, $order ); ?>
+
 		<div data-controller="llms-plan-frequency" data-value-is-not="0">
 			<div class="llms-metabox-field d-1of5">
 				<label><?php _e( 'Trial Offer', 'lifterlms' ) ?></label>
@@ -247,6 +264,8 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
+		<?php do_action( 'llms_access_plan_mb_after_row_four', $plan, $id, $order ); ?>
+
 		<div data-controller="llms-plan-is-free" data-value-is-not="yes">
 			<div class="llms-metabox-field d-1of5">
 				<label><?php _e( 'Sale Pricing', 'lifterlms' ) ?></label>
@@ -274,6 +293,8 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
+		<?php do_action( 'llms_access_plan_mb_after_row_five', $plan, $id, $order ); ?>
+
 		<div class="llms-metabox-field d-all">
 			<label><?php _e( 'Plan Description', 'lifterlms' ) ?></label>
 			<?php wp_editor( htmlspecialchars_decode( $plan ? $plan->get( 'content' ) : '' ), '_llms_plans_content_' . $id, apply_filters( 'llms_access_plan_editor_settings', array(
@@ -282,12 +303,16 @@ if ( ! isset( $plan ) ) {
 				'media_buttons' => false,
 				'teeny' => true,
 				'textarea_name'	=> '_llms_plans[' . $order . '][content]',
-				'quicktags' 	=> array( 'buttons' => 'strong,em,del,ul,ol,li,close' ),
+				'quicktags' 	=> array(
+					'buttons' => 'strong,em,del,ul,ol,li,close',
+				),
 			) ) ); ?>
 		</div>
 
 		<input class="plan-order" name="_llms_plans[<?php echo $order; ?>][menu_order]" type="hidden" value="<?php echo ( $plan ) ? $plan->get( 'menu_order' ) : $order; ?>"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 		<input name="_llms_plans[<?php echo $order; ?>][id]" type="hidden"<?php echo ( $plan ) ? ' value="' . $plan->get( 'id' ) . '"' : ' disabled="disabled"'; ?>>
+
+		<?php do_action( 'llms_access_plan_mb_after_body', $plan, $id, $order ); ?>
 
 	</section>
 

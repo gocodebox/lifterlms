@@ -1,12 +1,18 @@
 <?php
 /**
- * The Template for displaying Certificates.
- *
- * @author 		codeBOX
- * @package 	LifterLMS/Templates
+ * Certificate: Content
+ * @since   1.0.0
+ * @version 3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+$cert = new LLMS_User_Certificate( get_the_ID() );
+$uid = get_current_user_id();
+
+if ( $uid != $cert->get_user_id() && ! llms_can_user_bypass_restrictions( $uid ) ) {
+	return _e( 'Certificate not found.', 'lifterlms' );
+}
 
 $image = llms_get_certificate_image();
 ?>

@@ -29,9 +29,6 @@ overflow: visible;
 	margin-right: 10px;
 	font-weight: bold;
 }
-.chosen-select {
-	width: 300px;
-}
 .myicon:before {
 	content: "\2605";
 	display: inline-block;
@@ -81,9 +78,9 @@ i.section-dismiss:hover {
 	cursor: pointer;
 	color: #d54e21;
 }
-.select, .input {
-	width: 300px;
-}
+// .select, .input {
+// 	width: 300px;
+// }
 #post_course_difficulty {
 	min-width: 200px;
 }
@@ -414,5 +411,54 @@ div[id^="lifterlms-"] .inside {
 		font-size: 13px;
 		height: 13px;
 		width: 13px;
+	}
+}
+
+
+a.llms-view-as {
+	line-height: 2;
+	margin-right: 8px;
+}
+
+.llms-image-field-preview {
+	max-height: 80px;
+	vertical-align: middle;
+	width: auto;
+}
+
+.llms-image-field-remove {
+	&.hidden { display: none; }
+}
+
+.llms-log-viewer {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	margin: 20px 0;
+	padding: 25px;
+
+	pre {
+		font-family: monospace;
+		margin: 0;
+		padding: 0;
+		white-space: pre-wrap;
+	}
+}
+
+.llms-status--tools {
+	.llms-table {
+		background: #fff;
+		border: 1px solid #e5e5e5;
+		box-shadow: 0 1px 1px rgba(0,0,0,.04);
+		td, th {
+			padding: 10px;
+			vertical-align: top;
+		}
+		th {
+			width: 28%;
+		}
+		p {
+			margin: 0 0 10px;
+		}
 	}
 }

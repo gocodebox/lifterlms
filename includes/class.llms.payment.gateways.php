@@ -1,6 +1,4 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Payment Gateway class
 *
@@ -8,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 *
 * @version  3.0.0
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Payment_Gateways {
 
 	/**
@@ -113,6 +114,28 @@ class LLMS_Payment_Gateways {
 	}
 
 	/**
+	 * Retrive a payment gateway object by the payment gateway ID
+	 *
+	 * @param  string $id  id of the gateway (paypal, stripe, etc...)
+	 * @return mixed       instance of the gateway object OR false
+	 *
+	 * @since  2.5.0
+	 */
+	function get_gateway_by_id( $id ) {
+
+		$gateways = $this->get_payment_gateways();
+
+		if ( array_key_exists( $id, $gateways ) ) {
+
+			return $gateways[ $id ];
+
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Get all registered payment gateways
 	 * @return array
 	 * @version  3.0.0
@@ -128,6 +151,26 @@ class LLMS_Payment_Gateways {
 		}
 
 		return $gateways;
+
+	}
+
+	/**
+	 * Get an array of payment gateways which support a specific gateway feature
+	 * @param    string    $feature  a gateway feature string
+	 * @return   array
+	 * @since    3.10.0
+	 * @version  3.10.0
+	 */
+	public function get_supporting_gateways( $feature ) {
+
+		$gateways = array();
+		foreach ( $this->get_enabled_payment_gateways() as $id => $gateway ) {
+			if ( $gateway->supports( $feature ) ) {
+				$gateways[ $id ] = $gateway;
+			}
+		}
+
+		return apply_filters( 'lifterlms_supporting_payment_gateways', $gateways, $feature );
 
 	}
 
@@ -152,34 +195,5 @@ class LLMS_Payment_Gateways {
 
 	}
 
-
-
-
-
-
-
-
-
-	/**
-	 * Retrive a payment gateway object by the payment gateway ID
-	 *
-	 * @param  string $id  id of the gateway (paypal, stripe, etc...)
-	 * @return mixed       instance of the gateway object OR false
-	 *
-	 * @since  2.5.0
-	 */
-	function get_gateway_by_id( $id ) {
-
-		$gateways = $this->get_payment_gateways();
-
-		if ( array_key_exists( $id, $gateways ) ) {
-
-			return $gateways[ $id ];
-
-		}
-
-		return false;
-
-	}
 
 }

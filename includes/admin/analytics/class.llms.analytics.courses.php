@@ -148,7 +148,9 @@ if ( ! class_exists( 'LLMS_Analytics_Courses' ) ) :
 			//search button
 			$html .= '<div class="llms-search-button">';
 			//$html .= '<input type="submit" name="llms_search" class="button button-primary" id="llms_analytics_search" value="Filter Results" />';
-			$html .= get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array( 'id' => 'llms_analytics_search' ) );
+			$html .= get_submit_button( 'Filter Results', 'primary', 'llms_search', true, array(
+				'id' => 'llms_analytics_search',
+			) );
 			$html .= '</div>';
 
 			$html .= '</div>';
@@ -195,7 +197,6 @@ if ( ! class_exists( 'LLMS_Analytics_Courses' ) ) :
 				} else {
 					$lesson_completion_percent = array();
 				}
-
 			} else {
 				$lesson_completion_percent = array();
 			}

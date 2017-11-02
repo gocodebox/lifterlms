@@ -6,11 +6,11 @@
  * Heavily inspired by WC Subscriptions, thanks <3
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 3.7.4
  */
 class LLMS_Site {
 
-	private static $lock_string = '_[llms_site_url]_';
+	public static $lock_string = '_[llms_site_url]_';
 
 	/**
 	 * Clears the value of the lock URL
@@ -66,6 +66,13 @@ class LLMS_Site {
 
 	}
 
+	/**
+	 * Get a single feature's status
+	 * @param    string     $feature  feature id/key
+	 * @return   bool
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public static function get_feature( $feature ) {
 		$features = self::get_features();
 		if ( isset( $features[ $feature ] ) ) {

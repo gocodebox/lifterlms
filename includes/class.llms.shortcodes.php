@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  3.4.3
+* @version  3.14.1
 */
 class LLMS_Shortcodes {
 
@@ -11,18 +11,31 @@ class LLMS_Shortcodes {
 	* init shortcodes array
 	* @return void
 	* @since    1.0.0
-	* @version  3.4.3
+	* @version  3.11.1
 	*/
 	public static function init() {
 
 		// new method
 		$scs = apply_filters( 'llms_load_shortcodes', array(
+			'LLMS_Shortcode_Course_Author',
+			'LLMS_Shortcode_Course_Continue',
+			'LLMS_Shortcode_Course_Continue_Button',
+			'LLMS_Shortcode_Course_Meta_Info',
+			'LLMS_Shortcode_Course_Outline',
+			'LLMS_Shortcode_Course_Prerequisites',
+			'LLMS_Shortcode_Course_Reviews',
+			'LLMS_Shortcode_Course_Syllabus',
+			'LLMS_Shortcode_Courses',
+			'LLMS_Shortcode_Hide_Content',
+			'LLMS_Shortcode_Lesson_Mark_Complete',
 			'LLMS_Shortcode_Membership_Link',
+			'LLMS_Shortcode_My_Achievements',
 			'LLMS_Shortcode_Registration',
 		) );
 
-		// include abstract
+		// include abstracts
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.course.element.php';
 
 		foreach ( $scs as $class ) {
 
@@ -32,23 +45,23 @@ class LLMS_Shortcodes {
 			if ( file_exists( $path ) ) {
 				require_once $path;
 			}
-
 		}
+
+		/**
+		 * @deprecated  2.0.0
+		 * @todo        deprecate
+		 */
+		add_shortcode( 'courses', array( LLMS_Shortcode_Courses::instance(), 'output' ) );
 
 		// old method
 		$shortcodes = array(
 			'lifterlms_access_plan_button' => __CLASS__ . '::access_plan_button',
 			'lifterlms_my_account' => __CLASS__ . '::my_account',
-			'lifterlms_my_achievements' => __CLASS__ . '::my_achievements',
 			'lifterlms_checkout' => __CLASS__ . '::checkout',
 			'lifterlms_course_info' => __CLASS__ . '::course_info',
-			'lifterlms_courses' => __CLASS__ . '::courses', // added here so that we can deprecate the non-prefixed "courses" (maybe)
-				'courses' => __CLASS__ . '::courses', // should be deprecated at some point
 			'lifterlms_course_progress' => __CLASS__ . '::course_progress',
 			'lifterlms_course_title' => __CLASS__ . '::course_title',
 			'lifterlms_user_statistics' => __CLASS__ . '::user_statistics',
-			'lifterlms_course_outline' => __CLASS__ . '::course_outline',
-			'lifterlms_hide_content' => __CLASS__ . '::hide_content',
 			'lifterlms_related_courses' => __CLASS__ . '::related_courses',
 			'lifterlms_login' => __CLASS__ . '::login',
 			'lifterlms_pricing_table' => __CLASS__ . '::pricing_table',
@@ -294,27 +307,6 @@ class LLMS_Shortcodes {
 
 	}
 
-
-
-
-	public static function my_achievements( $atts ) {
-
-		extract( shortcode_atts( array(
-			'count' => null,
-			'user_id' => 0,
-		), $atts, 'lifterlms_my_achievements' ) );
-
-		ob_start();
-
-		include( llms_get_template_part_contents( 'myaccount/my', 'achievements' ) );
-
-		$html = ob_get_clean();
-
-		return $html;
-	}
-
-
-
 	/**
 	* Checkout shortcode.
 	*
@@ -325,35 +317,6 @@ class LLMS_Shortcodes {
 	public static function checkout( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_Checkout', 'output' ), $atts );
-
-	}
-
-	/**
-	 * Display content only to user enrolled in a specific course, lesson, or membership
-	 * and display an option message to everyone else
-	 * @param    array       $atts     array of shortcode atts
-	 * @param    string     $content  HTML / Text content to be displayed only if the user is enrolled
-	 * @return   content
-	 * @since    1.0.0
-	 * @version  3.4.1
-	 */
-	public static function hide_content( $atts, $content = '' ) {
-
-		extract( shortcode_atts( array(
-			'membership' => '', // backwards compat, use ID moving forwad
-			'message' => '',
-			'id' => get_the_ID(),
-		), $atts ) );
-
-		if ( $membership ) {
-			$id = $membership;
-		}
-
-		if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
-			return $content;
-		}
-
-		return $message;
 
 	}
 
@@ -392,7 +355,6 @@ class LLMS_Shortcodes {
 					$ret = $course->get( $key );
 
 			}
-
 		}
 
 		return apply_filters( 'llms_shortcode_course_info', $ret, $atts );
@@ -434,93 +396,6 @@ class LLMS_Shortcodes {
 	/**
 	* courses shortcode
 	*
-	* @return   array
-	* @since    1.0.0
-	* @version  3.0.2
-	*/
-	public static function courses( $atts ) {
-
-		// enqueue match height so the loop isn't all messed up visually
-		self::enqueue_script( 'llms-jquery-matchheight' );
-
-		if (isset( $atts['category'] )) {
-			$tax = array(
-				array(
-					'taxonomy' => 'course_cat',
-					'field' => 'slug',
-					'terms' => $atts['category'],
-				),
-			);
-		}
-
-		$args = array(
-			'paged' => get_query_var( 'paged' ),
-			'post_type' => 'course',
-			'post_status' => 'publish',
-			'posts_per_page' => isset( $atts['posts_per_page'] ) ? $atts['posts_per_page'] : -1,
-			'order' => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
-			'orderby' => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
-			'tax_query' => isset( $tax ) ? $tax : '',
-		);
-
-		if ( isset( $atts['id'] ) ) {
-
-			$args['p'] = $atts['id'];
-
-		}
-
-		$query = new WP_Query( $args );
-
-		ob_start();
-
-		if ( $query->have_posts() ) :
-
-			/**
-			 * lifterlms_before_loop hook
-			 * @hooked lifterlms_loop_start - 10
-			 */
-			do_action( 'lifterlms_before_loop' );
-
-			while ( $query->have_posts() ) : $query->the_post();
-
-				llms_get_template_part( 'loop/content', get_post_type() );
-
-			endwhile;
-
-			/**
-			 * lifterlms_before_loop hook
-			 * @hooked lifterlms_loop_end - 10
-			 */
-			do_action( 'lifterlms_after_loop' );
-
-			echo '<nav class="llms-pagination">';
-			echo paginate_links( array(
-				'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
-				'format'       => '?page=%#%',
-				'total'        => $query->max_num_pages,
-				'current'      => max( 1, get_query_var( 'paged' ) ),
-				'prev_next'    => true,
-				'prev_text'    => '«' . __( 'Previous', 'lifterlms' ),
-				'next_text'    => __( 'Next', 'lifterlms' ) . '»',
-				'type'         => 'list',
-			) );
-			echo '</nav>';
-
-		else :
-
-			llms_get_template( 'loop/none-found.php' );
-
-		endif;
-
-		wp_reset_postdata();
-
-		return ob_get_clean();
-
-	}
-
-	/**
-	* courses shortcode
-	*
 	* Used for [lifterlms_related_courses]
 	*
 	* @return array
@@ -529,7 +404,7 @@ class LLMS_Shortcodes {
 
 		ob_start();
 
-		if (isset( $atts['category'] )) {
+		if ( isset( $atts['category'] ) ) {
 			$tax = array(
 						array(
 							'taxonomy' => 'course_cat',
@@ -579,7 +454,7 @@ class LLMS_Shortcodes {
 		),$atts));
 
 		// setup the meta key to search on
-		switch ($stat) {
+		switch ( $stat ) {
 			case 'completed':
 				$key = '_is_complete';
 				$val = false;
@@ -599,20 +474,20 @@ class LLMS_Shortcodes {
 		// get results
 		$results = $person->get_user_postmetas_by_key( $uid,$key );
 
-		if ($results) {
+		if ( $results ) {
 			// unset all items that are not courses
-			foreach ($results as $key => $obj) {
-				if (get_post_type( $obj->post_id ) != $type) {
+			foreach ( $results as $key => $obj ) {
+				if ( get_post_type( $obj->post_id ) != $type ) {
 					unset( $results[ $key ] );
 				}
 			}
 		}
 
 		// filter by value if set
-		if (is_array( $results ) && $val) {
-			foreach ($results as $key => $obj) {
+		if ( is_array( $results ) && $val ) {
+			foreach ( $results as $key => $obj ) {
 				// remove from the results array if $val doesn't match
-				if ($obj->meta_value != $val) {
+				if ( $obj->meta_value != $val ) {
 					unset( $results[ $key ] );
 				}
 			}
@@ -626,100 +501,6 @@ class LLMS_Shortcodes {
 
 		return $count . ' ' . $type . 's';
 
-	}
-
-	/**
-	 * Course Outline Shortcode
-	 *
-	 * @return template course/outline-list-small.php
-	 */
-	public static function course_outline( $atts ) {
-		global $post;
-
-		extract(shortcode_atts(array(
-			'collapse' => 0, // output collapsible syllabus
-			'course_id' => false,
-			'outline_type' => 'full', // course, lesson, section
-			'toggles' => 0,
-			'view_type' => 'list',// completed, enrolled
-		),$atts));
-
-		// If no course id is passed try to get course id
-		if ( ! $course_id) {
-
-			if ( is_course() ) {
-				$course_id = get_the_ID();
-			} elseif ( is_lesson() ) {
-				$lesson = new LLMS_Lesson( get_the_ID() );
-				$course_id = $lesson->get_parent_course();
-			} elseif ( is_quiz() ) {
-				$quiz = LLMS()->session->get( 'llms_quiz' );
-				$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
-				$course_id = $lesson->get_parent_course();
-			} else {
-				return '';
-			}
-
-		}
-
-		$course = new LLMS_Course( $course_id );
-
-		$syllabus = $course->get_student_progress();
-
-		if ($outline_type === 'current_section') {
-
-			$next_lesson = new LLMS_Lesson( $course->get_next_uncompleted_lesson() );
-
-			foreach ( $syllabus->sections as $section ) {
-
-				if ( (int) $next_lesson->get_parent_section() === (int) $section['id'] ) {
-
-					$args = array(
-								'course' => $course,
-								'sections' => array( $section ),
-								'syllabus' => $syllabus,
-							);
-
-					break;
-
-				}
-
-			}
-
-		} else {
-
-			$post_type = get_post_type();
-
-			if ( 'lesson' === $post_type ) {
-
-				$lesson = new LLMS_Lesson( get_the_ID() );
-				$current_section = $lesson->get_parent_section();
-
-			} elseif ( 'course' === $post_type ) {
-
-				$lesson = new LLMS_Lesson( $course->get_next_uncompleted_lesson() );
-				$current_section = $lesson->get_parent_section();
-
-			} else {
-
-				$current_section = false;
-
-			}
-
-			$args = array(
-				'collapse' => $collapse,
-				'course' => $course,
-				'current_section' => $current_section,
-				'sections' => $syllabus->sections,
-				'syllabus' => $syllabus,
-				'toggles' => $toggles,
-			);
-
-		}
-
-		ob_start();
-		llms_get_template( 'course/outline-list-small.php', $args );
-		return ob_get_clean();
 	}
 
 	/**
@@ -751,7 +532,9 @@ class LLMS_Shortcodes {
 			self::enqueue_script( 'llms-jquery-matchheight' );
 
 			ob_start();
-			llms_get_template( 'product/pricing-table.php', array( 'product' => new LLMS_Product( $atts['product'] ) ) );
+			llms_get_template( 'product/pricing-table.php', array(
+				'product' => new LLMS_Product( $atts['product'] ),
+			) );
 			$ret = ob_get_clean();
 		}
 

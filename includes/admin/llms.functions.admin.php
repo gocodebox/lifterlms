@@ -11,15 +11,16 @@
  * @param    string     $option   option name
  * @return   int                  page id
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.7.5
  */
 function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 
 	$option_val = get_option( $option );
 
 	// see if there's a valid page already stored for the option we're trying to create
-	if ( $option_val && is_numeric( $option_val ) && ( $page_object = get_post( $option_val ) ) ) {
-		if ( 'page' === $page_object->post_type && ! in_array( $page_object->post_status, array( 'pending', 'trash', 'future', 'auto-draft' ) ) ) {
+	if ( $option_val && is_numeric( $option_val ) ) {
+		$page_object = get_post( $option_val );
+		if ( $page_object && 'page' === $page_object->post_type && ! in_array( $page_object->post_status, array( 'pending', 'trash', 'future', 'auto-draft' ) ) ) {
 			return $page_object->ID;
 		}
 	}
@@ -29,7 +30,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 	// Search for an existing page with the specified page content like a shortcode
 	if ( strlen( $content ) > 0 ) {
 		$page_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' ) AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
-	} // Search for an existing page with the specified page slug
+	} // End if().
 	else {
 		$page_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' )  AND post_name = %s LIMIT 1;", $slug ) );
 	}
@@ -45,7 +46,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 	// look in the trashd trashed page by content
 	if ( strlen( $content ) > 0 ) {
 		$trashed_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
-	} // look in the trashd trashed page by slug
+	} // End if().
 	else {
 		$trashed_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_name = %s LIMIT 1;", $slug ) );
 	}
@@ -58,7 +59,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 			'post_status'    => 'publish',
 		);
 	 	wp_update_post( $page_data );
-	} // otherwise create it
+	} // End if().
 	else {
 		$page_data = array(
 			'post_status'    => 'publish',
@@ -91,11 +92,13 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
  *                               what is available for the post type
  * @return   void|string
  * @since    3.1.0
- * @version  3.1.4
+ * @version  3.8.0
  */
 function llms_merge_code_button( $target = 'content', $echo = true, $codes = array() ) {
 
-	if ( ! $codes && $screen = get_current_screen() ) {
+	$screen = get_current_screen();
+
+	if ( ! $codes && $screen ) {
 
 		if ( isset( $screen->post_type ) ) {
 
@@ -120,10 +123,10 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 					$codes = array();
 
 			}
-
 		}
-
 	}
+
+	$codes = apply_filters( 'llms_merge_codes_for_button', $codes, $screen, $target );
 
 	if ( ! $codes ) {
 		return;

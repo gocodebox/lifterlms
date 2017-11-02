@@ -5,7 +5,7 @@
  * Functions here are used by the background updater during db updates
  *
  * @since    3.4.3
- * @version  3.4.3
+ * @version  3.14.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -60,7 +60,6 @@ function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
 function llms_update_300_create_access_plans() {
 
 	$courses = new WP_Query( array(
-		'paged' => $page,
 		'post_type' => array( 'course', 'llms_membership' ),
 		'posts_per_page' => -1,
 		'status' => 'any',
@@ -116,7 +115,7 @@ function llms_update_300_create_access_plans() {
 				$single_free_open = false;
 				$recurring_paid = false;
 
-			} // is paid and members only, available to members for free & everyone ala carte
+			} // End if().
 			elseif ( ! $is_free && $members_only ) {
 
 				$free_members_only = true;
@@ -206,7 +205,7 @@ function llms_update_300_create_access_plans() {
 				$plan['menu_order'] = $order;
 				$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-subscription' : '';
 
-				if (isset( $meta['_llms_subscription_first_payment'][0] ) && $meta['_llms_subscription_first_payment'][0] != $meta['_llms_subscription_price'][0] ) {
+				if ( isset( $meta['_llms_subscription_first_payment'][0] ) && $meta['_llms_subscription_first_payment'][0] != $meta['_llms_subscription_price'][0] ) {
 					$plan['trial_offer'] = 'yes';
 					$plan['trial_length'] = $meta['_llms_billing_freq'][0];
 					$plan['trial_period'] = $meta['_llms_billing_period'][0];
@@ -254,9 +253,8 @@ function llms_update_300_create_access_plans() {
 			foreach ( $keys as $key ) {
 				delete_post_meta( $post->ID, $key );
 			}
-
-		}
-	}
+		}// End foreach().
+	}// End if().
 
 }
 
@@ -357,7 +355,6 @@ function llms_update_300_migrate_account_field_options() {
 		if ( $phone ) {
 			update_option( 'lifterlms_user_info_field_phone_' . $screen . '_visibility', $phone );
 		}
-
 	}
 
 	delete_option( 'lifterlms_registration_confirm_email' );
@@ -579,7 +576,6 @@ function llms_update_300_migrate_order_data() {
 function llms_update_300_update_orders() {
 
 	$args = array(
-		'paged' => $page,
 		'post_type' => array( 'llms_order' ),
 		'posts_per_page' => -1,
 		'status' => 'publish',
@@ -624,15 +620,14 @@ function llms_update_300_update_orders() {
 
 					foreach ( $metas as $ordermeta => $usermeta ) {
 
-						if ( $v = $student->$usermeta ) {
+						$v = $student->$usermeta;
+						if ( $v ) {
 
 							$order->set( $ordermeta, $v );
 
 						}
-
 					}
 				}
-
 			}
 
 			// setup trial info if there was a first payment recorded
@@ -664,8 +659,8 @@ function llms_update_300_update_orders() {
 			delete_post_meta( $post->ID, '_llms_order_coupon_value' );
 			delete_post_meta( $post->ID, '_llms_order_original_total' );
 
-		}
-	}
+		}// End foreach().
+	}// End if().
 }
 
 /**
@@ -773,5 +768,208 @@ function llms_update_343_update_relationships() {
 function llms_update_343_update_db_version() {
 
 	LLMS_Install::update_db_version( '3.4.3' );
+
+}
+
+/*
+	  /$$$$$$      /$$$$$$      /$$$$$$
+	 /$$__  $$    /$$__  $$    /$$$_  $$
+	|__/  \ $$   | $$  \__/   | $$$$\ $$
+	   /$$$$$/   | $$$$$$$    | $$ $$ $$
+	  |___  $$   | $$__  $$   | $$\ $$$$
+	 /$$  \ $$   | $$  \ $$   | $$ \ $$$
+	|  $$$$$$//$$|  $$$$$$//$$|  $$$$$$/
+	 \______/|__/ \______/|__/ \______/
+*/
+
+/**
+ * Add course and membership visibility settings
+ * Default course is catalog only and default membership is catalog & search
+ * Courses were NOT SEARCHABLE in earlier versions
+ */
+function llms_update_360_set_product_visibility() {
+	$query = new WP_Query( array(
+		'post_status' => 'any',
+		'post_type' => array( 'course', 'llms_membership' ),
+		'posts_per_page' => -1,
+	) );
+	if ( $query->have_posts() ) {
+		foreach ( $query->posts as $post ) {
+			$visibility = ( 'course' === $post->post_type ) ? 'catalog' : 'catalog_search';
+			wp_set_object_terms( $post->ID, $visibility, 'llms_product_visibility', false );
+		}
+	}
+}
+
+/**
+ * Update db version at conclusion of 3.6.0 updates
+ */
+function llms_update_360_update_db_version() {
+
+	LLMS_Install::update_db_version( '3.6.0' );
+
+}
+
+/*
+	  /$$$$$$      /$$$$$$      /$$$$$$
+	 /$$__  $$    /$$__  $$    /$$$_  $$
+	|__/  \ $$   | $$  \ $$   | $$$$\ $$
+	   /$$$$$/   |  $$$$$$/   | $$ $$ $$
+	  |___  $$    >$$__  $$   | $$\ $$$$
+	 /$$  \ $$   | $$  \ $$   | $$ \ $$$
+	|  $$$$$$//$$|  $$$$$$//$$|  $$$$$$/
+	 \______/|__/ \______/|__/ \______/
+*/
+
+/**
+ * Add visibility settings to all access plans
+ * and delete the "featured" meta values for all access plans
+ */
+function llms_update_380_set_access_plan_visibility() {
+	$query = new WP_Query( array(
+		'post_status' => 'any',
+		'post_type' => array( 'llms_access_plan' ),
+		'posts_per_page' => -1,
+	) );
+	if ( $query->have_posts() ) {
+		foreach ( $query->posts as $post ) {
+			$plan = llms_get_post( $post );
+			$visibility = $plan->is_featured() ? 'featured' : 'visible';
+			wp_set_object_terms( $post->ID, $visibility, 'llms_access_plan_visibility', false );
+			delete_post_meta( $post->ID, '_llms_featured' );
+		}
+	}
+}
+
+/**
+ * Update db version at conclusion of 3.8.0 updates
+ */
+function llms_update_380_update_db_version() {
+
+	LLMS_Install::update_db_version( '3.8.0' );
+
+}
+
+
+/**
+ * Add end dates to LifterLMS Orders which have a length but no saved end date
+ */
+function llms_update_3120_update_order_end_dates() {
+
+	global $wpdb;
+
+	$ids = $wpdb->get_col(
+		"SELECT posts.ID
+		 FROM {$wpdb->posts} AS posts
+		 JOIN {$wpdb->postmeta} AS meta1 ON meta1.post_id = posts.ID AND meta1.meta_key = '_llms_billing_length'
+		 LEFT JOIN {$wpdb->postmeta} AS meta2 ON meta2.post_id = posts.ID AND meta2.meta_key = '_llms_date_billing_end'
+		 WHERE posts.post_type = 'llms_order'
+		   AND meta2.meta_value IS NULL
+		   AND meta1.meta_value > 0;"
+	);
+
+	foreach ( $ids as $id ) {
+
+		$order = llms_get_post( $id );
+		if ( ! is_a( $order, 'LLMS_Order' ) ) {
+			continue;
+		}
+
+		$order->maybe_schedule_payment( true );
+
+	}
+
+}
+
+/**
+ * Rename options for bbPress and BuddyPress to follow the abstract integration options structure
+ */
+function llms_update_3120_update_integration_options() {
+
+	global $wpdb;
+	$wpdb->update( $wpdb->options,
+		array(
+			'option_name' => 'llms_integration_bbpress_enabled',
+		),
+		array(
+			'option_name' => 'lifterlms_bbpress_enabled',
+		)
+	);
+
+	$wpdb->update( $wpdb->options,
+		array(
+			'option_name' => 'llms_integration_buddypress_enabled',
+		),
+		array(
+			'option_name' => 'lifterlms_buddypress_enabled',
+		)
+	);
+
+}
+
+/**
+ * Update db version at conclusion of 3.12.0 updates
+ */
+function llms_update_3120_update_db_version() {
+
+	LLMS_Install::update_db_version( '3.12.0' );
+
+}
+
+/*
+	  /$$$$$$       /$$    /$$$$$$      /$$$$$$
+	 /$$__  $$    /$$$$   /$$__  $$    /$$$_  $$
+	|__/  \ $$   |_  $$  |__/  \ $$   | $$$$\ $$
+	   /$$$$$/     | $$     /$$$$$/   | $$ $$ $$
+	  |___  $$     | $$    |___  $$   | $$\ $$$$
+	 /$$  \ $$     | $$   /$$  \ $$   | $$ \ $$$
+	|  $$$$$$//$$ /$$$$$$|  $$$$$$//$$|  $$$$$$/
+	 \______/|__/|______/ \______/|__/ \______/
+*/
+
+/**
+ * Setup default instructor data for courses and memberships
+ */
+function llms_update_3130_create_default_instructors() {
+
+	$query = new WP_Query( array(
+		'post_type' => array( 'course', 'llms_membership' ),
+		'posts_per_page' => -1,
+	) );
+
+	foreach ( $query->posts as $post ) {
+		$course = llms_get_post( $post );
+		$course->set_instructors();
+	}
+
+}
+
+/**
+ * Add an admin notice about the new builder
+ */
+function llms_update_3130_builder_notice() {
+
+	require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+
+	LLMS_Admin_Notices::add_notice( 'update-3130', array(
+		'html' => sprintf(
+			__( 'Welcome to LifterLMS 3.13.0! We\'ve packed a ton of features into this release: Take a moment to get familiar with the all new %1$scourse builder%3$s and our new %2$suser roles%3$s.', 'lifterlms' ),
+			'<a href="https://lifterlms.com/docs/using-course-builder/" target="_blank">',
+			'<a href="https://lifterlms.com/docs/roles-and-capabilities/" target="_blank">',
+			'</a>'
+		),
+		'type' => 'info',
+		'dismissible' => true,
+		'remindable' => false,
+	) );
+
+}
+
+/**
+ * Update db version at conclusion of 3.13.0 updates
+ */
+function llms_update_3130_update_db_version() {
+
+	LLMS_Install::update_db_version( '3.13.0' );
 
 }

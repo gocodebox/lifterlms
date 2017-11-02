@@ -10,7 +10,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 * Allow settings page to determine if a rewrite flush is required
 	 * @var      boolean
 	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @version  3.10.0
 	 */
 	protected $flush = true;
 
@@ -33,7 +33,9 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	/**
 	 * Get settings array
 	 *
-	 * @return array
+	 * @return   array
+	 * @since    3.0.4
+	 * @version  3.10.0
 	 */
 	public function get_settings() {
 
@@ -93,11 +95,31 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'default'	=> 'no',
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'course_archive_options' ),
+			array(
+				'default'	=> 'yes',
+				'desc' => __( 'Enable automatic retry of failed recurring payments.', 'lifterlms' ) .
+							  '<br><span class="description">' . sprintf( __( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn more%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</span>',
+				'id' => 'lifterlms_recurring_payment_retry',
+				'title' => __( 'Retry Failed Payments', 'lifterlms' ),
+				'type' 		=> 'checkbox',
+			),
 
-			array( 'type' => 'sectionstart', 'id' => 'general_options' ),
+			array(
+				'type' => 'sectionend',
+				'id' => 'course_archive_options',
+			),
 
-			array( 'title' => __( 'Currency Options', 'lifterlms' ), 'type' => 'title', 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ), 'id' => 'pricing_options' ),
+			array(
+				'type' => 'sectionstart',
+				'id' => 'general_options',
+			),
+
+			array(
+				'title' => __( 'Currency Options', 'lifterlms' ),
+				'type' => 'title',
+				'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ),
+				'id' => 'pricing_options',
+			),
 
 			array(
 				'class'     => 'llms-select2',
@@ -170,13 +192,24 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'type'          => 'checkbox',
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'general_options' ),
+			array(
+				'type' => 'sectionend',
+				'id' => 'general_options',
+			),
 
 		);
 
-		$settings[] = array( 'type' => 'sectionstart', 'id' => 'checkout_gateway_settings', 'class' => 'top' );
+		$settings[] = array(
+			'type' => 'sectionstart',
+			'id' => 'checkout_gateway_settings',
+			'class' => 'top',
+		);
 
-		$settings[] = array( 'title' => __( 'Payment Gateways', 'lifterlms' ), 'type' => 'title', 'id' => 'course_options' );
+		$settings[] = array(
+			'title' => __( 'Payment Gateways', 'lifterlms' ),
+			'type' => 'title',
+			'id' => 'course_options',
+		);
 
 		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
 		$total = count( $gateways );
@@ -194,10 +227,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			} else {
 				$i++;
 			}
-
 		}
 
-		$settings[] = array( 'type' => 'sectionend', 'id' => 'general_options' );
+		$settings[] = array(
+			'type' => 'sectionend',
+			'id' => 'general_options',
+		);
 
 		return apply_filters( 'lifterlms_checkout_settings', $settings );
 	}

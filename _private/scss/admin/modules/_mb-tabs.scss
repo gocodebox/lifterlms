@@ -22,6 +22,10 @@ Metabox Tabs
             margin: 0;
             border-bottom: 1px solid $color-lightgrey;
 
+            &.select:not([class*="d-"]) {
+            	width: 100%;
+            }
+
             &:last-child {
                 border: 0;
                 padding-bottom: 0;
@@ -42,57 +46,57 @@ Metabox Tabs
         background: none;
     }
 
-    .chosen-container-multi {
-        width: 100% !important;
-    }
+    // .chosen-container-multi {
+    //     width: 100% !important;
+    // }
 
-    .chosen-container-multi .chosen-choices,
-    .chosen-container-single .chosen-single {
-        border-radius: 3px;
-        vertical-align: middle;
-        min-height: 32px;
-        border: 1px solid $color-lightgrey;
-        width: 100%;
-        background: $color-white !important;
-        outline: none;
-        box-sizing: border-box;
-        box-shadow: 0 0 0 #fff;
-        line-height: 32px;
-        margin: 0;
+    // .chosen-container-multi .chosen-choices,
+    // .chosen-container-single .chosen-single {
+    //     border-radius: 3px;
+    //     vertical-align: middle;
+    //     min-height: 32px;
+    //     border: 1px solid $color-lightgrey;
+    //     width: 100%;
+    //     background: $color-white !important;
+    //     outline: none;
+    //     box-sizing: border-box;
+    //     box-shadow: 0 0 0 #fff;
+    //     line-height: 32px;
+    //     margin: 0;
 
-        &:focus {
-            background: $color-white;
-            border: 1px solid $color-blue;
-        }
-    }
+    //     &:focus {
+    //         background: $color-white;
+    //         border: 1px solid $color-blue;
+    //     }
+    // }
 
-    .chosen-container-multi,
-    .chosen-container-single, {
-        .chosen-results li {
-            padding: 10px;
-        }
-    }
+    // .chosen-container-multi,
+    // .chosen-container-single, {
+    //     .chosen-results li {
+    //         padding: 10px;
+    //     }
+    // }
 
 
-    .chosen-container-single .chosen-single div b {
-        margin-top: 4px;
-    }
+    // .chosen-container-single .chosen-single div b {
+    //     margin-top: 4px;
+    // }
 
-    .chosen-container-multi {
-        .chosen-choices li.search-choice {
-            margin-top: 5px;
-        }
-    }
+    // .chosen-container-multi {
+    //     .chosen-choices li.search-choice {
+    //         margin-top: 5px;
+    //     }
+    // }
 
-    .chosen-search input[type=text] {
-        border: 1px solid $color-lightgrey;
+    // .chosen-search input[type=text] {
+    //     border: 1px solid $color-lightgrey;
 
-        &:focus {
-            background-color: $color-white;
-            border: 1px solid $color-blue;
-        }
+    //     &:focus {
+    //         background-color: $color-white;
+    //         border: 1px solid $color-blue;
+    //     }
 
-    }
+    // }
 
 }
 
@@ -100,9 +104,9 @@ Metabox Tabs
     display: inherit;
 }
 
-ul.chosen-results li {
-    border: 0;
-}
+// ul.chosen-results li {
+//     border: 0;
+// }
 
 .llms-mb-container .tab-content .no-border {
     border-bottom: 0px;

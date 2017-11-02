@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version 3.2.0
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -48,7 +48,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	 * @param    int        $course_id  ID of the course
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.13.0
 	 */
 	public function get_data( $key, $course_id ) {
 
@@ -73,17 +73,25 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 			break;
 
 			case 'id':
-				$value = $value = $this->get_post_link( $course->get( 'id' ) );
+				$value = $course->get( 'id' );
+				if ( current_user_can( 'edit_post', $value ) ) {
+					$value = $this->get_post_link( $value );
+				}
 			break;
 
 			case 'name':
-				$url = esc_url( add_query_arg( array(
-					'course_id' => $course->get( 'id' ),
-					'page' => 'llms-reporting',
-					'stab' => 'courses',
-					'student_id' => $this->student->get_id(),
-				), admin_url( 'admin.php' ) ) );
-				$value = '<a href="' . $url . '">' . $course->get( 'title' ) . '</a>';
+				$id = $course->get( 'id' );
+				if ( current_user_can( 'edit_post', $id ) ) {
+					$url = esc_url( add_query_arg( array(
+						'course_id' => $course->get( 'id' ),
+						'page' => 'llms-reporting',
+						'stab' => 'courses',
+						'student_id' => $this->student->get_id(),
+					), admin_url( 'admin.php' ) ) );
+					$value = '<a href="' . $url . '">' . $course->get( 'title' ) . '</a>';
+				} else {
+					$value = $course->get( 'title' );
+				}
 			break;
 
 			case 'status':
@@ -97,7 +105,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}
+		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $course_id );
 

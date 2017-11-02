@@ -74,6 +74,9 @@ LLMS.Ajax = {
 		var $R = LLMS.Rest,
 		query_vars = $R.get_query_vars();
 		obj.data.post_id = 'post' in query_vars ? query_vars.post : null;
+		if ( !obj.data.post_id && $( 'input#post_ID' ).length ) {
+			obj.data.post_id = $( 'input#post_ID' ).val();
+		}
 
 		return obj;
 	},

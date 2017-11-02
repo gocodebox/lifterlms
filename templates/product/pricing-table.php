@@ -1,9 +1,13 @@
 <?php
 /**
  * LifterLMS Product Pricing Table Template
- * @property obj $product WP_Product object
+ *
+ * @property  obj   $product   WP_Product object
+ * @since     3.0.0
+ * @version   3.11.1
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
+
+if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
 
 $is_enrolled = llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) );
 $purchaseable = $product->is_purchasable();
@@ -11,7 +15,7 @@ $has_free = $product->has_free_access_plan();
 $free_only = ( $has_free && ! $purchaseable );
 ?>
 
-<?php if ( ! $is_enrolled && ( $purchaseable || $has_free ) ) : ?>
+<?php if ( ! apply_filters( 'llms_product_pricing_table_enrollment_status', $is_enrolled ) && ( $purchaseable || $has_free ) ) : ?>
 
 	<?php do_action( 'lifterlms_before_access_plans', $product->get( 'id' ) ); ?>
 
@@ -50,11 +54,13 @@ $free_only = ( $has_free && ! $purchaseable );
 							<?php endif; ?>
 						</div>
 
-						<?php if ( $schedule = $plan->get_schedule_details() ) : ?>
+						<?php $schedule = $plan->get_schedule_details();
+						if ( $schedule ) : ?>
 							<div class="llms-access-plan-schedule"><?php echo $schedule; ?></div>
 						<?php endif; ?>
 
-						<?php if ( $expires = $plan->get_expiration_details() ) : ?>
+						<?php $expires = $plan->get_expiration_details();
+						if ( $expires ) : ?>
 							<div class="llms-access-plan-expiration"><?php echo $expires; ?></div>
 						<?php endif; ?>
 
@@ -92,10 +98,11 @@ $free_only = ( $has_free && ! $purchaseable );
 							&nbsp;
 						<?php endif; ?>
 					</div>
-
-					<?php if ( $plan->has_free_checkout() && get_current_user_id() ) : ?>
-						<?php llms_get_template( 'product/free-enroll-form.php', array( 'plan' => $plan ) ); ?>
-					<?php else : ?>
+					<?php if ( get_current_user_id() && $plan->has_free_checkout() && $plan->is_available_to_user() ) : ?>
+						<?php llms_get_template( 'product/free-enroll-form.php', array(
+							'plan' => $plan,
+						) ); ?>
+					<?php else : $plan->get_checkout_url(); ?>
 						<a class="llms-button-action button" href="<?php echo $plan->get_checkout_url(); ?>"><?php echo $plan->get_enroll_text(); ?></a>
 					<?php endif; ?>
 
@@ -115,7 +122,8 @@ $free_only = ( $has_free && ! $purchaseable );
 
 	<?php do_action( 'lifterlms_product_not_purchasable', $product->get( 'id' ) ); ?>
 
-	<?php if ( 'course' === $product->get( 'type' ) ) : $course = new LLMS_Course( $product->post ); ?>
+	<?php if ( 'course' === $product->get( 'type' ) ) :
+		$course = new LLMS_Course( $product->post ); ?>
 		<?php if ( 'yes' === $course->get( 'enrollment_period' ) ) : ?>
 			<?php if ( ! $course->has_date_passed( 'enrollment_start_date' ) ) : ?>
 				<?php llms_print_notice( $course->get( 'enrollment_opens_message' ), 'notice' ); ?>

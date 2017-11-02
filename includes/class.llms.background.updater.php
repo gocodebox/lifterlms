@@ -53,8 +53,8 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 */
 	protected function complete() {
 		$this->log( 'Update complete' );
-		LLMS_Install::update_notice();
 		LLMS_Install::update_db_version();
+		LLMS_Install::update_notice();
 		parent::complete();
 	}
 
@@ -81,6 +81,13 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 * @version  3.4.3
 	 */
 	public function get_progress() {
+
+		// if the queue is empty we've already finished
+		if ( $this->is_queue_empty() ) {
+			return 100;
+		}
+
+		// get the progress
 		$batch = $this->get_batch();
 		$total = max( array_keys( $batch->data ) ) + 1 ;
 		$remaining = count( $batch->data );

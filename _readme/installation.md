@@ -1,12 +1,34 @@
 == Installation ==
 
-Installing the plugin is easy. Just follow these steps:
+#### Minimum System Requirements
 
-1. From the dashboard of your site, navigate to Plugins > Add New.
-2. Select the Upload option and hit "Choose File."
-3. When the popup appears, select the lifterlms-x.x.zip file from your desktop. (The 'x.x' will change depending on the current version number).
-4. Follow the on-screen instructions and wait as the upload completes.
-5. When it's finished, activate the plugin via the prompt. A message will show confirming activation was successful.
-6. Click on Courses > Add Course, and you’re ready to build your first course!
+LifterLMS Requires
 
-That's it! Just configure your settings as you see fit, and you're on your way to creating online courses in style. Need help getting things started? Check out our [Getting Started Guide and Documentation](https://lifterlms.readme.io/docs/getting-started).
++ PHP 5.6 or later
++ MySQL 5.6 or later
++ WordPress 4.0 or later
+
+Visit our [full system requirements](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) for additional information.
+
+#### Automatic Installation
+
+This is the simplest way to install LifterLMS as it utilizes WordPress to handle file transfers and you never need to leave the web browser or admin panel.
+
+1. Log in to your WordPress dashboard.
+2. Navigate to Plugins -> Add New
+3. In the search field type "LifterLMS" and click "Search Plugins"
+4. Once you've located LifterLMS click "Install Now"
+5. Once installation is complete, click "Activate"
+
+#### Manual Installation
+
+To manually install LifterLMS you'll need to download the zip file using the "Download" link on this screen. You'll then need to use FTP to manually upload the files to the proper directory on your webserver.
+
+Please see this [WordPress Codex document](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation) for full instruction on Manual Plugin Installation.
+
+
+#### Setup Wizard
+
+After installing LifterLMS for the first time you will be redirected to the Setup Wizard. This wizard will walk quickly configure LifterLMS so you can get to course creating as quickly as possible. At the conclusion you'll have the option to import a sample course.
+
+You can return to the setup wizard at any time by following [these steps](https://lifterlms.com/docs/rerun-lifterlms-setup-wizard/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).

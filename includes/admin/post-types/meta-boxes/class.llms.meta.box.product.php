@@ -1,10 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Meta Box Product info
 *
-* @version  3.0.0
+* @since    1.0.0
+* @version  3.8.0
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 	/**
@@ -103,6 +106,13 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 	}
 
+	/**
+	 * Save product information to db
+	 * @param    int     $post_id  ID of the post
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.8.0
+	 */
 	public function save( $post_id ) {
 
 		if ( ! isset( $_POST[ $this->prefix . 'plans' ] ) ) {
@@ -150,9 +160,10 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 			$plan = new LLMS_Access_Plan( $id, $title );
 
+			$plan->set_visibility( $data['visibility'] );
 			$plan->set( 'product_id', $post_id );
 
-			// set some values based on the priduct being free
+			// set some values based on the product being free
 			if ( ! empty( $data['is_free'] ) && 'yes' === $data['is_free'] ) {
 				$data['price'] = 0;
 				$data['frequency'] = 0;
@@ -162,21 +173,26 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 				$data['trial_price'] = 0;
 			}
 
-			// set checkboxes to no if not submitted
-			if ( empty( $data['featured'] ) ) {
-				$data['featured'] = 'no';
+			$props = $plan->get_properties();
+
+			foreach ( $props as $prop => $type ) {
+
+				if ( array_key_exists( $prop, $data ) ) {
+					// if the key exists, set it to the submitted value
+
+					$plan->set( $prop, $data[ $prop ] );
+
+				} elseif ( 'yesno' === $type ) {
+					// missing yesno field should be set to no
+
+					$plan->set( $prop, 'no' );
+
+				}
 			}
 
-			if ( empty( $data['is_free'] ) ) {
-				$data['is_free'] = 'no';
-			}
+			do_action( 'llms_access_plan_saved', $plan, $data, $this );
 
-			foreach ( $data as $key => $val ) {
-
-				$plan->set( $key, $val );
-			}
-
-		}
+		}// End foreach().
 
 	}
 

@@ -2,7 +2,7 @@
 /**
  * Tests for the LLMS_Install Class
  * @since    3.3.1
- * @version  3.4.3
+ * @version  3.6.0
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -94,7 +94,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 * Tests for create_options()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.5.1
 	 */
 	public function test_create_options() {
 
@@ -109,6 +109,10 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
 		foreach ( $settings as $section ) {
+			// skip general settings since this screen doesn't actually have any settings on it
+			if ( 'general' === $section->id ) {
+				continue;
+			}
 			foreach ( $section->get_settings() as $value ) {
 				if ( isset( $value['default'] ) && isset( $value['id'] ) ) {
 					$this->assertEquals( $value['default'], get_option( $value['id'] ) );
@@ -161,20 +165,6 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test create_roles()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
-	 */
-	public function test_create_roles() {
-
-		remove_role( 'student' );
-		LLMS_Install::create_roles();
-		$this->assertInstanceOf( 'WP_Role', get_role( 'student' ) );
-
-	}
-
-	/**
 	 * Tests for create_tables()
 	 * @return   void
 	 * @since    3.3.1
@@ -206,18 +196,18 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test db_updates()
+	 * Test create_visibilities()
 	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since    3.6.0
+	 * @version  3.6.0
 	 */
-	public function test_db_updates() {
+	public function test_create_visibilities() {
 
-		update_option( 'lifterlms_current_version', '2.5.0' );
-		update_option( 'lifterlms_db_version', '2.5.0' );
-
-		LLMS_Install::db_updates();
-		$this->assertTrue( LLMS_Install::$background_updater->is_updating() );
+		// terms may or may not exist and should exist after creation
+		LLMS_Install::create_visibilities();
+		foreach( array_keys( llms_get_product_visibility_options() ) as $name ) {
+			$this->assertInstanceOf( 'WP_Term', get_term_by( 'name', $name, 'llms_product_visibility' ) );
+		}
 
 	}
 

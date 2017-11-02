@@ -139,7 +139,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 			$this->user_firstname,
 			$this->user_lastname,
 			$this->user_email,
-			date( get_option( 'date_format' ), strtotime( current_time( 'mysql' ) ) ),
+			date_i18n( get_option( 'date_format' ), strtotime( current_time( 'mysql' ) ) ),
 		);
 
 		$content = $this->format_string( $this->content );

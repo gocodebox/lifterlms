@@ -1,6 +1,7 @@
 .button.llms-merge-code-button {
 	vertical-align: middle;
 	img {
+		margin-right: 3px;
 		margin-top: -3px;
 		vertical-align: middle;
 	}
@@ -51,6 +52,7 @@
 
 	&.active {
 		display: block;
+		z-index: 777;
 	}
 
 }

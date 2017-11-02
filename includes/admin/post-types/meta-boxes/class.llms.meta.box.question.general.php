@@ -42,8 +42,8 @@ class LLMS_Meta_Box_Question_General {
 					<tbody>
 
 							<?php
-							if ($question_options) {
-								foreach ($question_options as $key => $value) {
+							if ( $question_options ) {
+								foreach ( $question_options as $key => $value ) {
 
 									?>
 									<tr class="list_item" data-order="<?php echo $key ?>" style="display: table-row;">
@@ -87,12 +87,12 @@ class LLMS_Meta_Box_Question_General {
 		$question_options = array();
 
 		//add options to array
-		if ( isset( $_POST['option_text'] ) || isset( $_POST['correct_option'] )) {
-			foreach ($_POST['option_text'] as $key => $value) {
+		if ( isset( $_POST['option_text'] ) || isset( $_POST['correct_option'] ) ) {
+			foreach ( $_POST['option_text'] as $key => $value ) {
 				$option_data = array();
 				$correct_option = false;
 
-				if ($_POST['correct_option'] == $key) {
+				if ( $_POST['correct_option'] == $key ) {
 					$correct_option = true;
 				}
 				$option_data['option_text'] = $value;

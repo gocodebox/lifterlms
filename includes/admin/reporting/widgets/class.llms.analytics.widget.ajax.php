@@ -3,7 +3,7 @@
 * Register WordPress AJAX methods for Analytics Widgets
 *
 * @since  3.0.0
-* @version 3.2.0
+* @version 3.5.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -32,6 +32,9 @@ class LLMS_Analytics_Widget_Ajax {
 
 			// enrollments
 			'enrollments',
+			'registrations',
+			'lessoncompletions',
+			'coursecompletions',
 
 		);
 

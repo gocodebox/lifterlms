@@ -68,47 +68,55 @@ if ( ! function_exists( 'llms_current_time' ) ) {
  * @param   string $replacement function to use in it's place (optional)
  * @return  void
  * @since   2.6.0
- * @version 2.6.0
+ * @version 3.6.0
  */
 function llms_deprecated_function( $function, $version, $replacement = null ) {
 
 	// only warn if debug is enabled
-	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-
-		if ( function_exists( '__' ) ) {
-
-			if ( ! is_null( $replacement ) ) {
-				$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'lifterlms' ), $function, $version, $replacement );
-			} else {
-				$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
-			}
-
-		} else {
-
-			if ( ! is_null( $replacement ) ) {
-				$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement );
-			} else {
-				$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
-			}
-
-		}
-
-		// warn on screen
-		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
-
-			echo '<br>' . $string . '<br>';
-
-		}
-
-		// log to the error logger
-		if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
-
-			llms_log( $string );
-
-		}
-
+	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+		return;
 	}
 
+	if ( function_exists( '__' ) ) {
+
+		if ( ! is_null( $replacement ) ) {
+			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'lifterlms' ), $function, $version, $replacement );
+		} else {
+			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
+		}
+	} else {
+
+		if ( ! is_null( $replacement ) ) {
+			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement );
+		} else {
+			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
+		}
+	}
+
+	// warn on screen
+	if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
+		echo '<br>' . $string . '<br>';
+	}
+
+	// log to the error logger
+	if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+		llms_log( $string );
+	}
+
+}
+
+/**
+ * Get a list of available access plan visibility options
+ * @return   array
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_get_access_plan_visibility_options() {
+	return apply_filters( 'lifterlms_access_plan_visibility_options', array(
+		'visible' => __( 'Visible', 'lifterlms' ),
+		'hidden' => __( 'Hidden', 'lifterlms' ),
+		'featured' => __( 'Featured', 'lifterlms' ),
+	) );
 }
 
 /**
@@ -151,14 +159,14 @@ function llms_get_core_supported_themes() {
  * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
  *
  * @since    ??
- * @version  ??
+ * @version  3.8.0
  */
 function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	// If not numeric then convert timestamps
-	if ( ! is_int( $time1 ) ) {
+	if ( ! is_numeric( $time1 ) ) {
 		$time1 = strtotime( $time1 );
 	}
-	if ( ! is_int( $time2 ) ) {
+	if ( ! is_numeric( $time2 ) ) {
 		$time2 = strtotime( $time2 );
 	}
 	// If time1 > time2 then swap the 2 values
@@ -224,14 +232,40 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 }
 
 /**
+ * Retrieve the HTML for a donut chart
+ * Note that this must be used in conjunction with some JS to initialize the chart!
+ * @param    [type]     $percentage  percentage to display
+ * @param    string     $text        optional text/caption to display (short)
+ * @param    string     $size        size of the chart (small, default, large)
+ * @param    array      $classes     additional custom css classes to add to the chart element
+ * @return   string
+ * @since    3.9.0
+ * @version  3.9.0
+ */
+function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = array() ) {
+	$classes = array_merge( array( 'llms-donut', $size ), $classes );
+	$classes = implode( ' ', $classes );
+	return '
+		<div class="' . $classes . '" data-perc="' . $percentage . '">
+			<div class="inside">
+				<div class="percentage">
+					' . round( $percentage, 2 ) . '<small>%</small>
+					<div class="caption">' . $text . '</div>
+				</div>
+			</div>
+		</div>';
+}
+
+/**
  * Get a list of registered engagement triggers
  * @return   array
  * @since    3.1.0
- * @version  3.3.1
+ * @version  3.11.0
  */
 function llms_get_engagement_triggers() {
 	return apply_filters( 'lifterlms_engagement_triggers', array(
 		'user_registration' => __( 'Student creates a new account', 'lifterlms' ),
+		'access_plan_purchased' => __( 'Student Purchases an Access Plan', 'lifterlms' ),
 		'course_enrollment' => __( 'Student enrolls in a course', 'lifterlms' ),
 		'course_purchased' => __( 'Student purchases a course', 'lifterlms' ),
 		'course_completed' => __( 'Student completes a course', 'lifterlms' ),
@@ -262,6 +296,21 @@ function llms_get_engagement_types() {
 }
 
 /**
+ * Get a list of available product (course & membership) catalog visibility options
+ * @return   array
+ * @since    3.6.0
+ * @version  3.6.0
+ */
+function llms_get_product_visibility_options() {
+	return apply_filters( 'lifterlms_product_visibility_options', array(
+		'catalog_search' => __( 'Catalog &amp; Search', 'lifterlms' ),
+		'catalog' => __( 'Catalog only', 'lifterlms' ),
+		'search' => __( 'Search only', 'lifterlms' ),
+		'hidden' => __( 'Hidden', 'lifterlms' ),
+	) );
+}
+
+/**
 * Get an array of student IDs based on enrollment status a course or memebership
 * @param    int           $post_id   WP_Post id of a course or memberhip
 * @param    string|array  $statuses  list of enrollment statuses to query by
@@ -270,21 +319,9 @@ function llms_get_engagement_types() {
 * @param    integer    $skip         number of results to skip (for pagination)
 * @return   array
 * @since    3.0.0
-* @version  3.4.0
+* @version  3.8.0
 */
 function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
-
-	// ensure we have an array if only one status is being queried
-	if ( ! is_array( $statuses ) ) {
-		$statuses = array( $statuses );
-	}
-
-	// drop invalid statuses
-	foreach ( $statuses as $key => $status ) {
-		if ( ! in_array( $status, array_keys( llms_get_enrollment_statuses() ) ) ) {
-			unset( $statuses[ $key ] );
-		}
-	}
 
 	$query = new LLMS_Student_Query( array(
 		'post_id' => $post_id,
@@ -296,8 +333,8 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 		),
 	) );
 
-	if ( $query->students ) {
-		return wp_list_pluck( $query->students, 'id' );
+	if ( $query->results ) {
+		return wp_list_pluck( $query->results, 'id' );
 	}
 
 	return array();
@@ -339,7 +376,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.10.1
  */
 function llms_form_field( $field = array(), $echo = true ) {
 
@@ -437,7 +474,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 			break;
 
 		case 'html':
-			$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '"></div>';
+			$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '">' . $field['value'] . '</div>';
 			break;
 
 		case 'select':
@@ -449,7 +486,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 			break;
 
 		case 'textarea':
-			$r .= '<textrea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
+			$r .= '<textarea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
 			break;
 
 		default:
@@ -503,7 +540,7 @@ function llms_get_enrollment_statuses() {
  * @param    string     $status  enrollment status key
  * @return   string
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.6.0
  */
 function llms_get_enrollment_status_name( $status ) {
 
@@ -512,7 +549,7 @@ function llms_get_enrollment_status_name( $status ) {
 	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
 		$status = $statuses[ $status ];
 	}
-	return apply_filters( 'lifterlms_get_enrollment_status_name ', $status );
+	return apply_filters( 'lifterlms_get_enrollment_status_name', $status );
 
 }
 
@@ -567,14 +604,14 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
  * @param    string $status LifterLMS Order Status
  * @return   string
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.6.0
  */
 function llms_get_order_status_name( $status ) {
 	$statuses = llms_get_order_statuses();
 	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
 		$status = $statuses[ $status ];
 	}
-	return apply_filters( 'lifterlms_get_order_status_name ', $status );
+	return apply_filters( 'lifterlms_get_order_status_name', $status );
 }
 
 /**
@@ -582,7 +619,7 @@ function llms_get_order_status_name( $status ) {
  * @param    string  $order_type  filter stauses which are specific to the supplied order type, defaults to any statuses
  * @return   array
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.10.0
  */
 function llms_get_order_statuses( $order_type = 'any' ) {
 
@@ -592,6 +629,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 		'llms-completed' => __( 'Completed', 'lifterlms' ),
 		'llms-expired'   => __( 'Expired', 'lifterlms' ),
 		'llms-failed'    => __( 'Failed', 'lifterlms' ),
+		'llms-on-hold'   => __( 'On Hold', 'lifterlms' ),
 		'llms-pending'   => __( 'Pending', 'lifterlms' ),
 		'llms-refunded'  => __( 'Refunded', 'lifterlms' ),
 	);
@@ -605,6 +643,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 		case 'single':
 			unset( $statuses['llms-active'] );
 			unset( $statuses['llms-expired'] );
+			unset( $statuses['llms-on-hold'] );
 		break;
 	}
 
@@ -614,65 +653,51 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 /**
  * Retrieve the LLMS Post Model for a give post by ID or WP_Post Object
  * @param    obj|int     $post  instance of WP_Post or a WP Post ID
- * @return   obj|false
+ * @return   obj
  * @since    3.3.0
- * @version  3.3.1
+ * @version  3.6.0
  */
 function llms_get_post( $post ) {
 
-	if ( ! empty( $post ) && is_numeric( $post ) ) {
-		$post = get_post( $post );
-	} elseif ( ! is_a( $post, 'WP_Post' ) ) {
-		return false;
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return $post;
 	}
 
-	switch ( $post->post_type ) {
+	$post_type = explode( '_', str_replace( 'llms_', '', $post->post_type ) );
+	$class = 'LLMS';
+	foreach ( $post_type as $part ) {
+		$class .= '_' . ucfirst( $part );
+	}
 
-		case 'llms_access_plan':
-			$post = new LLMS_Access_Plan( $post );
-		break;
-
-		case 'llms_coupon':
-			$post = new LLMS_Coupon( $post );
-		break;
-
-		case 'course':
-			$post = new LLMS_Course( $post );
-		break;
-
-		case 'lesson':
-			$post = new LLMS_Lesson( $post );
-		break;
-
-		case 'section':
-			$post = new LLMS_Section( $post );
-		break;
-
-		case 'llms_membership':
-			$post = new LLMS_Membership( $post );
-		break;
-
-		case 'llms_order':
-			$post = new LLMS_Order( $post );
-		break;
-
-		case 'llms_quiz':
-			$post = new LLMS_Quiz( $post );
-		break;
-
-		case 'llms_question':
-			$post = new LLMS_Question( $post );
-		break;
-
-		case 'llms_transaction':
-			$post = new LLMS_Transaction( $post );
-		break;
-
+	if ( class_exists( $class ) ) {
+		$post = new $class( $post );
 	}
 
 	return $post;
 
 }
+
+/**
+ * Retrieve the parent course for a section, lesson, or quiz
+ * @param    mixed     $post  WP Post ID or insance of WP_Post
+ * @return   obj|null         Instance of the LLMS_Course or null
+ * @since    3.6.0
+ * @version  3.13.0
+ */
+function llms_get_post_parent_course( $post ) {
+
+	$post = get_post( $post );
+	if ( ! $post || ! in_array( $post->post_type, array( 'section', 'lesson', 'llms_quiz' ) ) ) {
+		return null;
+	}
+
+	$post = llms_get_post( $post );
+
+	return $post->get_course();
+
+}
+
 
 /**
  * Retrieve an array of existing transaction statuses
@@ -719,7 +744,7 @@ function llms_is_site_https() {
  *                                 and will be replaced with the post title and post id respectively
  * @return   array
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.6.0
  */
 function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 
@@ -731,18 +756,47 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 		$post_ids = array( $post_ids );
 	}
 
-	$r = array();
+	$ret = array();
 	foreach ( $post_ids as $id ) {
 
 		$title = str_replace( array( '{title}', '{id}' ), array( get_the_title( $id ), $id ), $template );
 
-		$r[] = array(
+		$ret[] = array(
 			'key' => $id,
 			'title' => $title,
 		);
 	}
-	return apply_filters( 'llms_make_select2_post_array', $r, $post_ids );
+	return apply_filters( 'llms_make_select2_post_array', $ret, $post_ids );
 
+}
+
+/**
+ * Create an array that can be passed to metabox select elements
+ * configured as an llms-select2-student query-ier
+ * @param    array      $post_ids  indexed array of WordPress User IDs
+ * @param    string     $template  an optional template to customize the way the results look
+ *                                 %1$s = student name
+ *                                 %2$s = student email
+ * @return   array
+ * @since    3.10.1
+ * @version  3.10.1
+ */
+function llms_make_select2_student_array( $user_ids = array(), $template = '' ) {
+	if ( ! $template ) {
+		$template = '%1$s &lt;%2$s&gt;';
+	}
+	if ( ! is_array( $user_ids ) ) {
+		$user_ids = array( $user_ids );
+	}
+	$ret = array();
+	foreach ( $user_ids as $id ) {
+		$student = llms_get_student( $id );
+		$ret[] = array(
+			'key' => $id,
+			'title' => sprintf( $template, $student->get_name(), $student->get( 'user_email' ) ),
+		);
+	}
+	return apply_filters( 'llms_make_select2_student_array', $ret, $user_ids );
 }
 
 /**
@@ -766,9 +820,76 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
 	return $string;
 }
 
+/**
+ * Verify nonce with additional checks to confirm request method
+ * Skips verification if the nonce is not set
+ * Useful for checking nonce for various LifterLMS forms which check for the form submission on init actions
+ * @param    string     $nonce           name of the nonce field
+ * @param    string     $action          name of the action
+ * @param    string     $request_method  name of the intended request method
+ * @return   null|false|int
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
+	if ( strtoupper( getenv( 'REQUEST_METHOD' ) ) !== $request_method ) {
+		return;
+	}
 
+	if ( empty( $_REQUEST[ $nonce ] ) ) {
+		return;
+	}
 
+	return wp_verify_nonce( $_REQUEST[ $nonce ], $action );
+
+}
+
+/**
+ * Verifies a plain text password key for a user (by login) against the hashed key in the database
+ * @param    string     $key    plain text activation key
+ * @param    string     $login  user login
+ * @return   boolean
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_verify_password_reset_key( $key = '', $login = '' ) {
+
+	$key = preg_replace( '/[^a-z0-9]/i', '', $key );
+	if ( empty( $key ) || ! is_string( $key ) ) {
+		return false;
+	}
+
+	if ( empty( $login ) || ! is_string( $login ) ) {
+		return false;
+	}
+
+	global $wpdb;
+	$user_key = $wpdb->get_var( $wpdb->prepare(
+		"SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s",
+		$login
+	) );
+
+	if ( empty( $user_key ) ) {
+		return false;
+	}
+
+	global $wp_hasher;
+
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
+	}
+
+	$valid = $wp_hasher->CheckPassword( $key, $user_key );
+
+	if ( empty( $valid ) ) {
+		return false;
+	}
+
+	return true;
+
+}
 
 
 
@@ -824,17 +945,12 @@ function llms_clean( $var ) {
 	return sanitize_text_field( $var );
 }
 
-
-
-
-
-
 /**
  * Schedule expired membership cron
  * @return void
  */
 function llms_expire_membership_schedule() {
-	if ( ! wp_next_scheduled( 'llms_check_for_expired_memberships' )) {
+	if ( ! wp_next_scheduled( 'llms_check_for_expired_memberships' ) ) {
 		  wp_schedule_event( time(), 'daily', 'llms_check_for_expired_memberships' );
 	}
 }
@@ -862,7 +978,7 @@ function llms_expire_membership() {
 		return;
 	}
 
-	foreach ($posts as $post) {
+	foreach ( $posts as $post ) {
 
 		//make sure interval and period exist before continuing.
 		$interval = get_post_meta( $post->ID, '_llms_expiration_interval', true );
@@ -880,7 +996,7 @@ function llms_expire_membership() {
 		$results = $wpdb->get_results( $wpdb->prepare(
 		'SELECT * FROM ' . $table_name . ' WHERE post_id = %d AND meta_key = "%s" AND meta_value = %s ORDER BY updated_date DESC', $post->ID, $meta_key_status, $meta_value_status ) );
 
-		for ($i = 0; $i < count( $results ); $i++) {
+		for ( $i = 0; $i < count( $results ); $i++ ) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}
@@ -923,7 +1039,7 @@ function llms_expire_membership() {
 				);
 
 				// change enrolled to expired in user_postmeta
-				$update_user_meta = $wpdb->update( $table_name, $status_update, $set_user_expired );
+				$wpdb->update( $table_name, $status_update, $set_user_expired );
 
 				// remove membership id from usermeta array
 				$users_levels = get_user_meta( $user_id, '_llms_restricted_levels', true );
@@ -934,10 +1050,8 @@ function llms_expire_membership() {
 					update_user_meta( $user_id, '_llms_restricted_levels', $users_levels );
 				}
 			}
-
-		}
-
-	}
+		}// End foreach().
+	}// End foreach().
 
 }
 add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );

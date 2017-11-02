@@ -106,10 +106,10 @@ abstract class LLMS_Shortcode {
 	 * Get the array of attributes
 	 * @return   array
 	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @version  3.5.1
 	 */
 	public function get_attributes() {
-		return $this->attributes;
+		return apply_filters( $this->get_filter( 'get_attributes' ), $this->attributes, $this );
 	}
 
 	/**
@@ -118,11 +118,12 @@ abstract class LLMS_Shortcode {
 	 * @param    string     $default  if no attribute is set, this value will be used
 	 * @return   mixed
 	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @version  3.5.1
 	 */
 	public function get_attribute( $key, $default = '' ) {
-		if ( isset( $this->attributes[ $key ] ) ) {
-			return $this->attributes[ $key ];
+		$attributes = $this->get_attributes();
+		if ( isset( $attributes[ $key ] ) ) {
+			return $attributes[ $key ];
 		}
 		return $default;
 	}
@@ -131,10 +132,10 @@ abstract class LLMS_Shortcode {
 	 * Retrieve the content of the shortcode
 	 * @return   string
 	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @version  3.5.1
 	 */
 	public function get_content() {
-		return $this->content;
+		return apply_filters( $this->get_filter( 'get_content' ), $this->content, $this );
 	}
 
 	/**
@@ -161,7 +162,7 @@ abstract class LLMS_Shortcode {
 	 * @param    string     $content  user submitted content
 	 * @return   string
 	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @version  3.5.1
 	 */
 	public function output( $atts = array(), $content = '' ) {
 
@@ -172,10 +173,10 @@ abstract class LLMS_Shortcode {
 		);
 
 		if ( ! $content ) {
-			$content = $this->get_default_content();
+			$content = apply_filters( $this->get_filter( 'get_default_content' ), $this->get_default_content(), $this );
 		}
 
-		$this->content = apply_filters( $this->get_filter( 'content' ), $content, $this );
+		$this->content = $content;
 
 		return apply_filters( $this->get_filter( 'output' ), $this->get_output(), $this );
 

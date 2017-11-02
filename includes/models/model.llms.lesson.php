@@ -3,7 +3,7 @@
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.3.0
+ * @version  [version]
  *
  * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
  * @property  $audio_embed  (string)  Audio embed URL
@@ -131,12 +131,53 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve an instance of LLMS_Course for the lesson's parent course
-	 * @return   obj
+	 * @return   obj|null
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.14.4
 	 */
 	public function get_course() {
-		return new LLMS_Course( $this->get_parent_course() );
+		$course_id = $this->get( 'parent_course' );
+		if ( ! $course_id ) {
+			return null;
+		}
+		return llms_get_post( $course_id );
+	}
+
+	/**
+	 * An array of default arguments to pass to $this->create()
+	 * when creating a new post
+	 * @param    array  $args   args of data to be passed to wp_insert_post
+	 * @return   array
+	 * @since    3.13.0
+	 * @version  3.13.0
+	 */
+	protected function get_creation_args( $args = null ) {
+
+		// allow nothing to be passed in
+		if ( empty( $args ) ) {
+			$args = array();
+		}
+
+		// backwards compat to original 3.0.0 format when just a title was passed in
+		if ( is_string( $args ) ) {
+			$args = array(
+				'post_title' => $args,
+			);
+		}
+
+		$args = wp_parse_args( $args, array(
+			'comment_status' => 'closed',
+			'ping_status'	 => 'closed',
+			'post_author' 	 => get_current_user_id(),
+			'post_content'   => '',
+			'post_excerpt'   => '',
+			'post_status' 	 => 'publish',
+			'post_title'     => '',
+			'post_type' 	 => $this->get( 'db_post_type' ),
+		) );
+
+		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
+
 	}
 
 	/**
@@ -211,7 +252,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				$html = '<span class="llms-lesson-complete"><i class="fa fa-' . apply_filters( 'lifterlms_lesson_complete_icon', 'check-circle' ) . '"></i></span>';
 
 			}
-
 		} elseif ( $this->is_free() ) {
 
 			$html = '<span class="llms-icon-free">' . __( 'FREE', 'lifterlms' ) . '</span>';
@@ -274,6 +314,21 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function has_prerequisite() {
 
 		return ( 'yes' == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
+
+	}
+
+	/**
+	 * Determine if the slug (post name) of a lesson has been modified
+	 * Ensures that lessons created via the builder with "New Lesson" as the title (default slug "new-lesson-{$num}")
+	 * have their slug renamed when the title is renamed for the first time
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_modified_slug() {
+
+		$default = sanitize_title( __( 'New Lesson', 'lifterlms' ) );
+		return ( false === strpos( $this->get( 'name' ), $default ) );
 
 	}
 
@@ -343,6 +398,31 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function is_free() {
 		return ( 'yes' === $this->get( 'free_lesson' ) );
+	}
+
+	/**
+	 * Determine if the lesson is an orphan
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_orphan() {
+
+		$statuses = array( 'publish', 'future', 'draft', 'pending', 'private', 'auto-draft' );
+
+		foreach ( array( 'course', 'section' ) as $parent ) {
+
+			$parent_id = $this->get( sprintf( 'parent_%s', $parent ) );
+
+			if ( ! $parent_id ) {
+				return true;
+			} elseif ( ! in_array( get_post_status( $parent_id ), $statuses ) ) {
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 
 	/**
@@ -440,7 +520,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				$updated_values[ $key ] = $updated_value;
 
 			}
-
 		}
 
 		return $updated_values;
@@ -617,7 +696,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			} else {
 				return false;
 			}
-		}
+		}// End if().
 	}
 
 	/**
@@ -667,7 +746,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			$current_position = $cursection->get_order();
 			$previous_position = $current_position - 1;
 
-			if ($previous_position != 0) {
+			if ( $previous_position != 0 ) {
 				$args = array(
 					'post_type' 		=> 'section',
 					'posts_per_page'	=> 500,
@@ -690,15 +769,18 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				);
 				$sections = get_posts( $args );
 
-				if ($sections) {
+				if ( $sections ) {
 					$newsection = new LLMS_Section( $sections[0]->ID );
 					$lessons = $newsection->get_children_lessons();
-					return $lessons[ count( $lessons ) -1 ]->ID;
+					if ( ! $lessons ) {
+						return false;
+					}
+					return $lessons[ count( $lessons ) - 1 ]->ID;
 				} else {
 					return false;
 				}
 			}
-		}
+		}// End if().
 	}
 
 }

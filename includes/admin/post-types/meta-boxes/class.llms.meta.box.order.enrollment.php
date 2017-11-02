@@ -105,9 +105,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 					llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $new_status, 'any' );
 
 				}
-
 			}
-
 		}
 		return;
 	}

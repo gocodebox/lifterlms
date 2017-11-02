@@ -45,6 +45,13 @@
 			display: none;
 		}
 
+		.llms-button-primary,
+		.llms-button-secondary,
+		.llms-button-action,
+		.llms-button-danger {
+			display: inline-block;
+		}
+
 	}
 
 	thead th,
@@ -91,12 +98,12 @@
 		border-bottom: none;
 	}
 
-	&.zebra tbody tr:nth-child( even ) td {
-		background-color: #fafafa;
+	&.zebra tbody tr:nth-child( even ) {
+		th, td { background-color: #fafafa; }
 	}
 
-	&.zebra tbody tr:nth-child( odd ) td {
-		background-color: #fff;
+	&.zebra tbody tr:nth-child( odd ) {
+		th, td { background-color: #fff; }
 	}
 
 	&.text-left {

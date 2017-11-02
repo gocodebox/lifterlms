@@ -2,9 +2,7 @@
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  3.3.0
- *
- * @todo  how do we handle prerequisites?
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -18,10 +16,22 @@ class LLMS_Generator {
 	public $error;
 
 	/**
+	 * Default post status when status isn't set in $raw for a given post
+	 * @var  string
+	 */
+	private $default_post_status = 'draft';
+
+	/**
 	 * Name of the Generator to use for generation
 	 * @var  string
 	 */
 	private $generator = '';
+
+	/**
+	 * Array of generated posts
+	 * @var  array
+	 */
+	private $posts = array();
 
 	/**
 	 * Raw contents passed into the generator's constructor
@@ -89,7 +99,7 @@ class LLMS_Generator {
 	 * @param    obj      $course_id   WP Post ID of a Course
 	 * @param    array    $raw_terms   array of raw term arrays
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.7.5
 	 */
 	private function add_course_terms( $course_id, $raw_terms ) {
 
@@ -116,7 +126,8 @@ class LLMS_Generator {
 						continue;
 					}
 
-					if ( $term_id = $this->get_term_id( $term_name, $tax ) ) {
+					$term_id = $this->get_term_id( $term_name, $tax );
+					if ( $term_id ) {
 						$terms[] = $term_id;
 					}
 				}
@@ -124,7 +135,6 @@ class LLMS_Generator {
 				wp_set_post_terms( $course_id, $terms, $tax, $append );
 
 			}
-
 		}
 
 	}
@@ -160,12 +170,27 @@ class LLMS_Generator {
 			} else {
 				$wpdb->query( 'COMMIT' );
 			}
-
 		} else {
 
 			return $this->error->add( 'missing-generator', __( 'No generator supplied.', 'lifterlms' ) );
 
 		}
+
+	}
+
+	/**
+	 * Generator called when cloning a lesson
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function clone_lesson() {
+
+		$temp = array();
+
+		$this->raw['title'] .= sprintf( ' (%s)', __( 'Clone', 'lifterlms' ) );
+
+		$this->create_lesson( $this->raw, 0, '', '' );
 
 	}
 
@@ -214,10 +239,9 @@ class LLMS_Generator {
 
 				unset( $raw_course['_generator'], $raw_course['_version'] );
 
-				$course = $this->create_course( $raw_course );
+				$this->create_course( $raw_course );
 
 			}
-
 		}
 
 		$this->handle_prerequisites();
@@ -231,7 +255,7 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  WP User ID to use for the access plan author if no author is supplied in the raw data
 	 * @return   int
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.7.3
 	 */
 	private function create_access_plan( $raw, $course_id, $fallback_author_id = null ) {
 
@@ -246,7 +270,7 @@ class LLMS_Generator {
 			'post_content' => isset( $raw['content'] ) ? $raw['content'] : null,
 			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
 			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : null,
+			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
 			'post_title' => $raw['title'],
 		) );
 
@@ -274,9 +298,9 @@ class LLMS_Generator {
 	/**
 	 * Create a new course
 	 * @param    array     $raw  raw course data
-	 * @return   void
+	 * @return   void|int
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.7.3
 	 */
 	private function create_course( $raw ) {
 
@@ -289,7 +313,7 @@ class LLMS_Generator {
 			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
 			'post_excerpt' => isset( $raw['excerpt'] ) ? $raw['excerpt'] : null,
 			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => apply_filters( 'llms_generator_course_status', 'draft', $raw, $this ),
+			'post_status' => apply_filters( 'llms_generator_course_status', $this->get_default_post_status(), $raw, $this ),
 			'post_title' => $raw['title'],
 		) );
 
@@ -298,6 +322,7 @@ class LLMS_Generator {
 		}
 
 		$this->increment( 'courses' );
+		$this->record_generation( $course->get( 'id' ), 'course' );
 
 		// save the tempid
 		$tempid = $this->store_temp_id( $raw, $course );
@@ -310,7 +335,9 @@ class LLMS_Generator {
 		}
 
 		// set featured image
-		$this->set_featured_image( $raw['featured_image'], $course->get( 'id' ) );
+		if ( isset( $raw['featured_image'] ) ) {
+			$this->set_featured_image( $raw['featured_image'], $course->get( 'id' ) );
+		}
 
 		// add terms to our course
 		$terms = array();
@@ -338,6 +365,8 @@ class LLMS_Generator {
 			}
 		}
 
+		return $course->get( 'id' );
+
 	}
 
 	/**
@@ -349,7 +378,7 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   mixed                          lesson id or WP_Error
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	private function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
 
@@ -362,7 +391,7 @@ class LLMS_Generator {
 			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
 			'post_excerpt' => isset( $raw['excerpt'] ) ? $raw['excerpt'] : null,
 			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : null,
+			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
 			'post_title' => $raw['title'],
 		) );
 
@@ -371,12 +400,15 @@ class LLMS_Generator {
 		}
 
 		$this->increment( 'lessons' );
+		$this->record_generation( $lesson->get( 'id' ), 'lesson' );
 
 		// save the tempid
 		$tempid = $this->store_temp_id( $raw, $lesson );
 
 		// set featured image
-		$this->set_featured_image( $raw['featured_image'], $lesson->get( 'id' ) );
+		if ( isset( $raw['featured_image'] ) ) {
+			$this->set_featured_image( $raw['featured_image'], $lesson->get( 'id' ) );
+		}
 
 		$lesson->set( 'parent_course', $course_id );
 		$lesson->set( 'parent_section', $section_id );
@@ -412,7 +444,7 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                            WP Post ID of the Quiz
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.7.3
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
 
@@ -424,7 +456,7 @@ class LLMS_Generator {
 			'post_content' => isset( $raw['content'] ) ? $raw['content'] : null,
 			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
 			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : null,
+			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
 			'post_title' => $raw['title'],
 		) );
 
@@ -462,7 +494,7 @@ class LLMS_Generator {
 	 * @param    int        $author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                    WP Post ID of the question
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  3.7.3
 	 */
 	private function create_question( $raw, $author_id ) {
 
@@ -471,7 +503,7 @@ class LLMS_Generator {
 			'post_content' => isset( $raw['content'] ) ? $raw['content'] : null,
 			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
 			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : null,
+			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
 			'post_title' => $raw['title'],
 		) );
 
@@ -497,8 +529,8 @@ class LLMS_Generator {
 	 * @param    int        $course_id           WP Post ID of the parent course
 	 * @param    int        $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                             WP Post ID of the Section
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.3.0
+	 * @version  3.7.3
 	 */
 	private function create_section( $raw, $order, $course_id, $fallback_author_id = null ) {
 
@@ -509,7 +541,7 @@ class LLMS_Generator {
 			'post_author' => $author_id,
 			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
 			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : null,
+			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
 			'post_title' => $raw['title'],
 		) );
 
@@ -588,14 +620,11 @@ class LLMS_Generator {
 						if ( $user->user_email == $raw['email'] ) {
 							$author_id = $user->ID;
 						}
-
-					} // use the author id
+					} // End if().
 					else {
 						$author_id = $user->ID;
 					}
-
 				}
-
 			}
 
 			if ( ! $author_id ) {
@@ -609,9 +638,7 @@ class LLMS_Generator {
 					if ( $user ) {
 						$author_id = $user->ID;
 					}
-
 				}
-
 			}
 
 			// no author id, create a new one using the email
@@ -640,10 +667,8 @@ class LLMS_Generator {
 				if ( ! is_wp_error( $author_id ) ) {
 					$this->increment( 'authors' );
 				}
-
 			}
-
-		}
+		}// End if().
 
 		if ( is_wp_error( $author_id ) ) {
 			return $this->error->add( $author_id->get_error_code(), $author_id->get_error_message() );
@@ -680,16 +705,52 @@ class LLMS_Generator {
 	}
 
 	/**
+	 * Retrieve the default post status for the generated set of posts
+	 * @return   string
+	 * @since    3.7.3
+	 * @version  3.7.3
+	 */
+	private function get_default_post_status() {
+		return apply_filters( 'llms_generator_default_post_status', $this->default_post_status, $this );
+	}
+
+	/**
+	 * Retrieve the array of generated course ids
+	 * @return   array
+	 * @since    3.7.3
+	 * @version  [version]
+	 */
+	public function get_generated_courses() {
+		if ( isset( $this->posts['course'] ) ) {
+			return $this->posts['course'];
+		}
+		return array();
+	}
+
+	/**
+	 * Retrieve the array of generated course ids
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_generated_posts() {
+		return $this->posts;
+	}
+
+	/**
 	 * Get an array of valid LifterLMS generators
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	private function get_generators() {
 		return apply_filters( 'llms_generators', array(
 			'LifterLMS/BulkCourseExporter' => array( $this, 'generate_courses' ),
+			'LifterLMS/BulkCourseGenerator' => array( $this, 'generate_courses' ),
 			'LifterLMS/SingleCourseCloner' => array( $this, 'generate_course' ),
 			'LifterLMS/SingleCourseExporter' => array( $this, 'generate_course' ),
+			'LifterLMS/SingleCourseGenerator' => array( $this, 'generate_course' ),
+			'LifterLMS/SingleLessonCloner' => array( $this, 'clone_lesson' ),
 		) );
 	}
 
@@ -732,7 +793,6 @@ class LLMS_Generator {
 			} else {
 				$this->increment( 'terms' );
 			}
-
 		}
 
 		return $term['term_id'];
@@ -772,13 +832,12 @@ class LLMS_Generator {
 				if ( 'course' === $obj_type && ( ! isset( $raw['_source'] ) || $raw['_source'] !== get_site_url() ) ) {
 
 					// remove prereq track settings
-					if ( $obj->has_prerequisite( 'track' ) ) {
+					if ( $obj->has_prerequisite( 'course_track' ) ) {
 						$obj->set( 'prerequisite_track', 0 );
 						if ( ! $obj->has_prerequisite( 'course' ) ) {
 							$obj->set( 'has_prerequisite', 'no' );
 						}
 					}
-
 				}
 
 				// if the object has a prereq
@@ -793,7 +852,7 @@ class LLMS_Generator {
 
 						$obj->set( 'prerequisite', $ids[ $old_prereq ] );
 
-					} // sources do not match so we'll clear the prereq
+					} // End if().
 					elseif ( ! isset( $raw['_source'] ) || $raw['_source'] !== get_site_url() ) {
 
 						$obj->set( 'has_prerequisite', 'no' );
@@ -809,14 +868,10 @@ class LLMS_Generator {
 							$obj->set( 'prerequisite', 0 );
 
 						}
-
 					}
-
 				}
-
-			}
-
-		}
+			}// End foreach().
+		}// End foreach().
 
 	}
 
@@ -841,6 +896,25 @@ class LLMS_Generator {
 	 */
 	public function is_error() {
 		return ( $this->error->get_error_messages() );
+	}
+
+	/**
+	 * Records a generated post id
+	 * @param    int      $id    WP Post ID of the generated post
+	 * @param    string   $type  key of the stat to increment
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function record_generation( $id, $type ) {
+
+		// add the id to the type array
+		if ( ! isset( $this->posts[ $type ] ) ) {
+			$this->posts[ $type ] = array();
+		}
+
+		array_push( $this->posts[ $type ], $id );
+
 	}
 
 	/**
@@ -872,9 +946,18 @@ class LLMS_Generator {
 				$id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE guid = %s", array( $img_src ) ) );
 				set_post_thumbnail( $post_id, $id );
 			}
-
 		}
 
+	}
+
+	/**
+	 * Configure the default post status for generated posts at runtime
+	 * @param    string     $status  any valid WP Post Status
+	 * @since    3.7.3
+	 * @version  3.7.3
+	 */
+	public function set_default_post_status( $status ) {
+		$this->default_post_status = $status;
 	}
 
 	/**
@@ -898,7 +981,6 @@ class LLMS_Generator {
 				return $this->set_generator( $this->raw['_generator'] );
 
 			}
-
 		}
 
 		$generators = $this->get_generators();

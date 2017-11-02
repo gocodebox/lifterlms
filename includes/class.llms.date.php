@@ -102,14 +102,13 @@ class LLMS_Date {
 			} elseif ( $current_month >= 4 && $current_month <= 6 ) {
 				$start_date = $current_year . '-04-01';
 				$end_date = $current_year . '-06-30';
-			} elseif ( $current_month >= 7 && $current_month <= 9) {
+			} elseif ( $current_month >= 7 && $current_month <= 9 ) {
 				$start_date = $current_year . '-07-01';
 				$end_date = $current_year . '-09-30';
 			} elseif ( $current_month >= 10 && $current_month <= 12 ) {
 				$start_date = $current_year . '-10-01';
 				$end_date = ($current_year + 1) . '-01-01';
 			}
-
 		} elseif ( $filter === 'year' ) {
 
 			$start_date = $current_year . '-01-01';

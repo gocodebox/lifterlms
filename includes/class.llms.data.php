@@ -1,14 +1,22 @@
 <?php
 /**
  * Retrieve data sets used by various other classes and functions
- * @since  3.0.0
- * @version  3.0.0
+ * @since    3.0.0
+ * @version  3.11.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Data {
 
+	/**
+	 * Get the data data
+	 * @param    string     $dataset  dataset to retrieve data for [tracker|system_report]
+	 * @param    string     $format   data return format (unused for unrecalled reasons)
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.11.2
+	 */
 	public static function get_data( $dataset, $format = 'array' ) {
 
 		$data = array();
@@ -57,10 +65,7 @@ class LLMS_Data {
 
 		$data['integrations'] = self::get_integrations_data();
 
-		// var_dump( $data ); die();
-
-		// @todo
-		// template overrides
+		$data['template_overrides'] = self::get_templates_data();
 
 		return $data;
 
@@ -85,6 +90,42 @@ class LLMS_Data {
 		$data['course_completions'] = absint( $wpdb->get_var( "SELECT COUNT( * ) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_is_complete' AND meta_value = 'yes' " ) );
 
 		return $data;
+
+	}
+
+	/**
+	 * Retrieve metadata from a file.
+	 * Copied from WCs get_file_version which is based on WP Core's get_file_data function.
+	 * @param    string    $file   Path to the file
+	 * @return   string
+	 * @since    3.11.2
+	 * @version  3.11.2
+	 */
+	private static function get_file_version( $file ) {
+
+		// Avoid notices if file does not exist
+		if ( ! file_exists( $file ) ) {
+			return '';
+		}
+
+		// We don't need to write to the file, so just open for reading.
+		$fp = fopen( $file, 'r' );
+
+		// Pull only the first 8kiB of the file in.
+		$file_data = fread( $fp, 8192 );
+
+		// PHP will close file handle, but we are good citizens.
+		fclose( $fp );
+
+		// Make sure we catch CR-only line endings.
+		$file_data = str_replace( "\r", "\n", $file_data );
+		$version   = '';
+
+		if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( '@version', '/' ) . '(.*)$/mi', $file_data, $match ) && $match[1] ) {
+			$version = _cleanup_header_comment( $match[1] );
+		}
+
+		return $version;
 
 	}
 
@@ -138,13 +179,6 @@ class LLMS_Data {
 				$data[ $obj->title ] = $obj->is_available() ? 'Yes' : 'No';
 
 			}
-
-			// if ( method_exists( $obj, 'get_report_data' ) ) {
-
-			// 	array_merge( $data, $obj->get_report_data() );
-
-			// }
-
 		}
 
 		return $data;
@@ -293,7 +327,6 @@ class LLMS_Data {
 			} else {
 				$inactive[ $path ] = $data;
 			}
-
 		}
 
 		return array(
@@ -386,21 +419,53 @@ class LLMS_Data {
 	}
 
 	/**
+	 * Retrieve information about template overrides
+	 * @return   array
+	 * @since    3.11.2
+	 * @version  3.11.2
+	 */
+	private static function get_templates_data() {
+
+		$path = LLMS()->plugin_path() . '/templates/';
+
+		$templates = array_merge( glob( $path . '*.php' ), glob( $path . '**/*.php' ) );
+
+		$overrides = array();
+
+		foreach ( $templates as $file ) {
+
+			$name = str_replace( $path, '', $file );
+			$found = llms_get_template_override( $name );
+			if ( $found ) {
+				$overrides[] = array(
+					'core_version' => self::get_file_version( $file ),
+					'location' => $found,
+					'version' => self::get_file_version( $found . $name ),
+					'template' => $name,
+				);
+			}
+		}
+
+		return $overrides;
+
+	}
+
+	/**
 	 * Get an array of theme data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.11.2
 	 */
 	private static function get_theme_data() {
 
 		$data = array();
 		// @codingStandardsIgnoreStart
 		$theme_data = wp_get_theme();
-		$data['name'] = $theme_data->Name;
-		$data['version'] = $theme_data->Version;
-		$data['themeuri'] = $theme_data->ThemeURI;
-		$data['authoruri'] = $theme_data->AuthorURI;
-		$data['template'] = $theme_data->Template;
+		$data['name'] = $theme_data->get( 'Name' );
+		$data['version'] = $theme_data->get( 'Version' );
+		$data['themeuri'] = $theme_data->get( 'ThemeURI' );
+		$data['authoruri'] = $theme_data->get( 'AuthorURI' );
+		$data['template'] = $theme_data->get( 'Template' );
 		$data['child_theme'] = is_child_theme() ? 'Yes' : 'No';
 		$data['llms_support'] = ( ! current_theme_supports( 'lifterlms' ) ) ? 'No' : 'Yes';
 		// @codingStandardsIgnoreEnd

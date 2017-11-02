@@ -243,7 +243,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 				$membership->set( $field, $_POST[ $this->prefix . $field ] );
 
 			}
-
 		}
 
 		// add new autoenroll courses

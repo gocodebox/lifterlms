@@ -1,4 +1,10 @@
 <?php
+/**
+* Admin Metabox Class
+* @since    3.0.0
+* @version  3.14.1
+*/
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 // include all classes for each of the metabox types
@@ -6,11 +12,6 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
 	require_once $filename;
 }
 
-/**
-* Admin Settings Class
-*
-* @version  3.0.0
-*/
 abstract class LLMS_Admin_Metabox {
 
 	/**
@@ -38,6 +39,13 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 */
 	public $title;
+
+	/**
+	 * Capability to check in order to display the metabox to the user
+	 * @var    string
+	 * @since  3.13.0
+	 */
+	public $capability = 'edit_post';
 
 	/**
 	 * Optional context to register the metabox with
@@ -104,6 +112,11 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	private $total_tabs = 0;
 
+	/**
+	 * Metabox Version Numbers
+	 * @var  integer
+	 */
+	private $version = 1;
 
 	/**
 	 * Constructor
@@ -136,10 +149,11 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Add an Error Message
 	 * @param string $text
-	 * @return  void
-	 * @since  3.0.0
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.8.0
 	 */
-	protected function add_error( $text ) {
+	public function add_error( $text ) {
 		$this->errors[] = $text;
 	}
 
@@ -270,14 +284,21 @@ abstract class LLMS_Admin_Metabox {
 	 * Register the Metabox using WP Functions
 	 * This is called automatically by constructor
 	 * Utilizes class properties for registration
-	 *
-	 * @return void
-	 * @since  3.0.0
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.13.0
 	 */
 	public function register() {
+
 		global $post;
 		$this->post = $post;
-		add_meta_box( $this->id, $this->title, array( $this, 'output' ), $this->get_screens(), $this->context, $this->priority );
+
+		if ( current_user_can( $this->capability, $this->post->ID ) ) {
+
+			add_meta_box( $this->id, $this->title, array( $this, 'output' ), $this->get_screens(), $this->context, $this->priority );
+
+		}
+
 	}
 
 	/**
@@ -288,14 +309,18 @@ abstract class LLMS_Admin_Metabox {
 	 * This function is dumb. If the fields need to output error messages or do validation
 	 * Override this method and create a custom save method to accommodate the validations or conditions
 	 *
-	 * @param  int   $post_id   WP Post ID of the post being saved
-	 * @return void
-	 * @since  3.0.0
+	 * @param    int   $post_id   WP Post ID of the post being saved
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.14.1
 	 */
 	protected function save( $post_id ) {
 
 		// dont save metabox during a quick save action
 		if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
+			return;
+			// don't save during ajax calls
+		} elseif ( llms_is_ajax() ) {
 			return;
 		}
 
@@ -323,7 +348,7 @@ abstract class LLMS_Admin_Metabox {
 
 							$val = $_POST[ $field['id'] ];
 
-						} // checkboxes with no post data are not checked
+						} // End if().
 						elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
 
 							$val = '';
@@ -340,11 +365,9 @@ abstract class LLMS_Admin_Metabox {
 						unset( $val );
 
 					}
-
 				}
-
 			}
-		}
+		}// End foreach().
 
 	}
 

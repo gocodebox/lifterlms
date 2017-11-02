@@ -60,6 +60,8 @@
 		vertical-align: top;
 	}
 
+	.llms-access-plan-restrictions ul { margin: 0; }
+
 }
 	.llms-access-plan-featured {
 		color: #fff;
@@ -162,15 +164,29 @@
 		padding: 10px;
 		margin: 0 2px 2px 2px;
 
-		.llms-button-action {
-			position: relative;
-			.llms-tooltip {
-				min-width: 280px;
-				z-index: 1;
-			}
-		}
-
 		.llms-access-plan-pricing {
 			padding: 0 0 10px;
 		}
 	}
+
+
+.webui-popover-content .llms-members-only-restrictions {
+	text-align: center;
+	ul,ol,li,p {
+		margin: 0;
+		padding: 0;
+	}
+	ul,ol,li {
+		list-style-type: none;
+	}
+	li {
+		padding: 8px 0;
+		border-top: 1px solid #3b3b3b;
+		&:first-child {
+			border-top: none;
+		}
+		a {
+			display: block;
+		}
+	}
+}

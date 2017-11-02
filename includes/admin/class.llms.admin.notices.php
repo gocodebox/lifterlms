@@ -2,7 +2,7 @@
 /**
  * LifterLMS Admin Notices
  * @since    3.0.0
- * @version  3.3.0
+ * @version  3.7.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -213,7 +213,7 @@ class LLMS_Admin_Notices {
 	 * @param    string     $notice_id  notice id
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.3.1
+	 * @version  3.7.4
 	 */
 	public static function output_notice( $notice_id ) {
 
@@ -231,7 +231,7 @@ class LLMS_Admin_Notices {
 				self::delete_notice( $notice_id );
 			}
 			?>
-			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>">
+			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>" style="position:relative;">
 				<?php if ( $notice['dismissible'] ) : ?>
 					<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
 						<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
@@ -257,8 +257,7 @@ class LLMS_Admin_Notices {
 			if ( isset( $notice['flash'] ) && $notice['flash'] ) {
 				self::delete_notice( $notice_id, 'delete' );
 			}
-
-		}
+		}// End if().
 
 	}
 

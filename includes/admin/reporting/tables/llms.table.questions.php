@@ -3,7 +3,7 @@
  * Admin GradeBook Tables
  *
  * @since   3.2.0
- * @version 3.2.0
+ * @version 3.7.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -22,7 +22,7 @@ class LLMS_Table_Questions extends LLMS_Admin_Table {
 	 * @param    mixed      $data  object of achievment data
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.9.0
 	 */
 	public function get_data( $key, $data ) {
 
@@ -58,13 +58,17 @@ class LLMS_Table_Questions extends LLMS_Admin_Table {
 			case 'selected':
 				$q = new LLMS_Question( $data['id'] );
 				$options = $q->get_options();
-				$value = wp_kses_post( $options[ $data['answer'] ]['option_text'] );
+				if ( isset( $data['answer'] ) && isset( $options[ $data['answer'] ]['option_text'] ) ) {
+					$value = wp_kses_post( $options[ $data['answer'] ]['option_text'] );
+				} else {
+					$value = '';
+				}
 			break;
 
 			default:
 				$value = $key;
 
-		}
+		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $data );
 

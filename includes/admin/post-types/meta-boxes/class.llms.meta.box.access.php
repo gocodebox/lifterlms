@@ -92,7 +92,9 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 
 		// get all public post types
 		// non public can't be restricted for hopefully obvious reasons
-		foreach ( get_post_types( array( 'public' => true ), 'names', 'and' ) as $post_type ) {
+		foreach ( get_post_types( array(
+			'public' => true,
+		), 'names', 'and' ) as $post_type ) {
 
 			// check if the post type supports membership restrictions
 			if ( post_type_supports( $post_type, 'llms-membership-restrictions' ) ) {
@@ -100,7 +102,6 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 				$screens[] = $post_type;
 
 			}
-
 		}
 
 		return $screens;

@@ -3,7 +3,7 @@
  * Checkout Shortcode
  * Sets functionality associated with shortcode [llms_checkout]
  * @since    1.0.0
- * @version  3.4.0
+ * @version  3.7.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -94,11 +94,13 @@ class LLMS_Shortcode_Checkout {
 	 * @param    array   $atts  shortcode atts from originating shortcode
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.2.5
+	 * @version  3.7.7
 	 */
 	public static function output( $atts ) {
 
 		global $wp;
+
+		$atts = $atts ? $atts : array();
 
 		$atts['cols'] = isset( $atts['cols'] ) ? $atts['cols'] : 2;
 
@@ -135,8 +137,8 @@ class LLMS_Shortcode_Checkout {
 
 				$coupon = LLMS()->session->get( 'llms_coupon' );
 
-				if (isset( $coupon['coupon_id'] ) && isset( $coupon['plan_id'] )) {
-					if ($coupon['plan_id'] == $_GET['plan']) {
+				if ( isset( $coupon['coupon_id'] ) && isset( $coupon['plan_id'] ) ) {
+					if ( $coupon['plan_id'] == $_GET['plan'] ) {
 						$atts['coupon'] = new LLMS_Coupon( $coupon['coupon_id'] );
 					} else {
 						LLMS()->session->set( 'llms_coupon', false );
@@ -146,7 +148,7 @@ class LLMS_Shortcode_Checkout {
 					$atts['coupon'] = false;
 				}
 
-				if (isset( $_POST['llms_order_key'] )) {
+				if ( isset( $_POST['llms_order_key'] ) ) {
 					$atts['order_key'] = sanitize_text_field( $_POST['llms_order_key'] );
 				}
 
@@ -160,9 +162,7 @@ class LLMS_Shortcode_Checkout {
 				self::error( __( 'Invalid access plan.', 'lifterlms' ) );
 
 			}
-
-		} // purchase confirmation where applicable
-		elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
+		} elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
 			// $atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
 
@@ -182,15 +182,15 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
-			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
+					$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
 
-			self::confirm_payment( $atts );
+					self::confirm_payment( $atts );
 
 		} else {
 
 			return self::error( sprintf( __( 'Your cart is currently empty. Click <a href="%s">here</a> to get started.', 'lifterlms' ), llms_get_page_url( 'courses' ) ) );
 
-		}
+		}// End if().
 
 		echo '</div><!-- .llms-checkout-wrapper -->';
 

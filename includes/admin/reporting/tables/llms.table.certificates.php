@@ -66,7 +66,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}
+		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $data );
 

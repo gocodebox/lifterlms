@@ -27,7 +27,7 @@ if ( 0 == $lifterlms_loop['loop'] % $lifterlms_loop['columns'] ) {
 
 <?php
 	// check to see if auto-redirect option is set
-if (get_option( 'redirect_to_checkout' ) == 'yes') {
+if ( get_option( 'redirect_to_checkout' ) == 'yes' ) {
 
 	// create product object and get prices from the object
 	$product = new LLMS_Product( get_the_ID() );
@@ -42,14 +42,14 @@ if (get_option( 'redirect_to_checkout' ) == 'yes') {
 		?>
 		<a class="llms-membership-link" href="<?php echo $account_redirect; ?>">
 		<?php
-	} // if user is logged in handle separate logic
+	} // End if().
 	elseif ( ! llms_is_user_enrolled( get_current_user_id(), get_the_ID() ) ) {
 		// if price is greater than 0 redirect to checkout page
-		if ($single_price > 0 || $rec_price > 0) {
+		if ( $single_price > 0 || $rec_price > 0 ) {
 			?>
 			<a class="llms-membership-link" href="<?php echo $product->get_checkout_url(); ?>">
 			<?php
-		} // otherwise automatically enroll
+		} // End if().
 		else {
 			?>
 			<form action="" method="post" id="hiddenform">
@@ -69,7 +69,8 @@ if (get_option( 'redirect_to_checkout' ) == 'yes') {
 	}
 } else { ?>
 	<a class="llms-membership-link" href="<?php the_permalink(); ?>">
-<?php } ?>
+<?php }// End if().
+	?>
 		<?php
 
 			do_action( 'lifterlms_before_memberships_loop_item_title' );

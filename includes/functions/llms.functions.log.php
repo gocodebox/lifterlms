@@ -22,18 +22,19 @@ function llms_get_log_path( $handle ) {
 
 /**
  * Log arbitrary messages to a log file
- * @param  mixed   $message   data to log
- * @param  string  $handle    allow creation of multiple log files by handle
- * @return boolean
- * @since  1.0.0
- * @version  3.0.0
+ * @param    mixed   $message   data to log
+ * @param    string  $handle    allow creation of multiple log files by handle
+ * @return   boolean
+ * @since    1.0.0
+ * @version  3.7.5
  */
 function llms_log( $message, $handle = 'llms' ) {
 
 	$r = false;
 
+	$fh = fopen( llms_get_log_path( $handle ), 'a' );
 	// open the file (creates it if it doesn't already exist)
-	if ( $fh = fopen( llms_get_log_path( $handle ), 'a' ) ) {
+	if ( $fh ) {
 
 		// print array or objects with print_r
 		if ( is_array( $message ) || is_object( $message ) ) {

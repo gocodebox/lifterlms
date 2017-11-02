@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' )) { exit; }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  *
@@ -28,18 +28,19 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		parent::output();
 
-		$id = $name = esc_attr( $this->field['id'] );
+		$id = esc_attr( $this->field['id'] );
+		$name = $id;
 
 		$allow_null = ( isset( $this->field['allow_null'] ) ) ? $this->field['allow_null'] : true;
 
 		$controls = isset( $this->field['is_controller'] ) ? 'data-is-controller="true"' : '';
 
-		if (array_key_exists( 'multi', $this->field )) {
+		if ( array_key_exists( 'multi', $this->field ) ) {
 			$name .= '[]';
 		}
 
 		$selected = $this->meta;
-		if (array_key_exists( 'selected', $this->field )) {
+		if ( array_key_exists( 'selected', $this->field ) ) {
 			$selected = $this->field['selected'];
 		}
 		$attrs = isset( $this->field['data_attributes'] ) ? $this->field['data_attributes'] : array();
@@ -50,7 +51,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			id="<?php echo $id; ?>"
 			name="<?php echo $name; ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
-			<?php if (array_key_exists( 'multi', $this->field ) && $this->field['multi']) : ?>
+			<?php if ( array_key_exists( 'multi', $this->field ) && $this->field['multi'] ) : ?>
 				multiple="multiple"
 			<?php endif; ?>
 			<?php foreach ( $attrs as $attr => $attr_val ) { echo ' data-' . $attr . '="' . $attr_val . '"'; } ?>>
@@ -60,13 +61,13 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 			<?php if ( isset( $this->field['value'] ) ) : ?>
 
-				<?php foreach ($this->field['value'] as $key => $option) :
+				<?php foreach ( $this->field['value'] as $key => $option ) :
 					$selected_text = '';
-					if (is_array( $selected )) {
-						if (in_array( $option['key'], $selected )) {
+					if ( is_array( $selected ) ) {
+						if ( in_array( $option['key'], $selected ) ) {
 							$selected_text = ' selected="selected" ';
 						}
-					} elseif ($option['key'] == $selected) {
+					} elseif ( isset( $option['key'] ) && $option['key'] == $selected ) {
 						$selected_text = ' selected="selected" ';
 					} elseif ( $key === $selected ) {
 						$selected_text = ' selected="selected" ';

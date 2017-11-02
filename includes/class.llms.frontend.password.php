@@ -32,7 +32,6 @@ class LLMS_Frontend_Password {
 			if ( empty( $user_data ) ) {
 
 				llms_add_notice( __( 'The email address entered is not associated with an account.', 'lifterlms' ), 'error' ); }
-
 		} else {
 
 			$login = trim( $_POST['user_login'] );
@@ -85,7 +84,11 @@ class LLMS_Frontend_Password {
 			do_action( 'retrieve_password_key', $user_login, $key );
 
 			// Now insert the new md5 key into the db
-			$wpdb->update( $wpdb->users, array( 'user_activation_key' => $key ), array( 'user_login' => $user_login ) );
+			$wpdb->update( $wpdb->users, array(
+				'user_activation_key' => $key,
+				), array(
+				'user_login' => $user_login,
+			) );
 
 		}
 

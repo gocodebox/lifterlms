@@ -23,8 +23,11 @@ function changelog( cb ) {
 			return console.log( err );
 		}
 
+		data = data.replace( 'LifterLMS Changelog', '== Changelog ==' );
+		data = data.replace( '===================', '' );
+
 		// add equals signs around version numbers
-		data = data.replace( /v\d+\.\d+\.\d+ - \d{4}\/\d{2}\/\d{2}/g, function( match ) {
+		data = data.replace( /v\d+\.\d+\.\d+ - \d{4}\-\d{2}\-\d{2}/g, function( match ) {
 			return '= ' + match + ' =';
 		} );
 

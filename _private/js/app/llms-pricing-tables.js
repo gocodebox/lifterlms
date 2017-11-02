@@ -26,7 +26,9 @@ LLMS.Pricing_Tables = {
 
 			if ( this.$locked.length ) {
 
-				self.bind_locked();
+				LLMS.wait_for_popover( function() {
+					self.bind_locked();
+				} );
 
 			}
 
@@ -47,54 +49,31 @@ LLMS.Pricing_Tables = {
 	},
 
 	/**
-	 * Bind DOM events for locked plans
+	 * Setup a popover for members-only restricted plans
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.9.1
 	 */
 	bind_locked: function() {
 
-		var self = this;
+		this.$locked.each( function() {
 
-		this.$locked.on( 'click', function() {
-			return false;
-		} );
-
-		this.$locked.on( 'mouseenter', function() {
-
-			var $tip = $( this ).find( '.llms-tooltip' );
-			if ( !$tip.length ) {
-				$tip = self.get_tooltip();
-				$( this ).append( $tip );
-			}
-			setTimeout( function() {
-				$tip.addClass( 'show' );
-			}, 10 );
-
-		} );
-
-		this.$locked.on( 'mouseleave', function() {
-
-			var $tip = $( this ).find( '.llms-tooltip' );
-			$tip.removeClass( 'show' );
+			$( this ).webuiPopover( {
+				animation: 'pop',
+				closeable: true,
+				content: function( e ) {
+					var $content = $( '<div class="llms-members-only-restrictions" />' );
+					$content.append( e.$element.closest( '.llms-access-plan' ).find( '.llms-access-plan-restrictions ul' ).clone() );
+					return $content;
+				},
+				placement: 'top',
+				style: 'inverse',
+				title: LLMS.l10n.translate( 'Members Only Pricing' ),
+				width: '280px',
+			} );
 
 		} );
 
-	},
-
-	/**
-	 * Get a tooltip element
-	 * @return   obj
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	get_tooltip: function() {
-		var msg = LLMS.l10n.translate( 'This plan is for members only. Click the links above to learn more.' ),
-			$el = $( '<div class="llms-tooltip" />' );
-
-		$el.append( '<div class="llms-tooltip-content">' + msg + '</div>' );
-
-		return $el;
 	},
 
 };

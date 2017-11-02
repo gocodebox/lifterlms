@@ -52,6 +52,90 @@ function llms_create_new_person( $email, $email2, $username = '', $firstname = '
 	) );
 }
 
+/**
+ * Checks LifterLMS user capabilities against an object
+ * @param    string     $cap     capability name
+ * @param    int        $obj_id  WP_Post or WP_User ID
+ * @return   boolean
+ * @since    3.13.0
+ * @version  3.13.0
+ */
+function llms_current_user_can( $cap, $obj_id = null ) {
+
+	$caps = LLMS_Roles::get_all_core_caps();
+	$grant = false;
+
+	if ( in_array( $cap, $caps ) ) {
+
+		// if the user has the cap, maybe do some additional checks
+		if ( current_user_can( $cap ) ) {
+
+			switch ( $cap ) {
+
+				case 'view_lifterlms_reports':
+
+					// can view others reports so its okay
+					if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
+						$grant = true;
+
+						// can only view their own reports check if the student is their instructor
+					} elseif ( $obj_id ) {
+
+						$instructor = llms_get_instructor();
+						$student = llms_get_student( $obj_id );
+						if ( $instructor && $student ) {
+							foreach ( $instructor->get_posts( array(
+								'posts_per_page' => -1,
+							), 'ids' ) as $id ) {
+								if ( $student->get_enrollment_status( $id ) ) {
+									$grant = true;
+									break;
+								}
+							}
+						}
+					}
+
+				break;
+
+				// no other checks needed
+				default:
+					$grant = true;
+
+			}
+		}
+	}// End if().
+
+	return apply_filters( 'llms_current_user_can_' . $cap, $grant, $obj_id );
+
+}
+
+/**
+ * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
+ * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be uesd
+ * @return   boolean
+ * @since    3.7.0
+ * @version  3.9.0
+ */
+function llms_can_user_bypass_restrictions( $user = null ) {
+
+	$user = llms_get_student( $user );
+
+	if ( ! $user ) {
+		return false;
+	}
+
+	$roles = get_option( 'llms_grant_site_access', '' );
+	if ( ! $roles ) {
+		$roles = array();
+	}
+
+	if ( array_intersect( $user->get_user()->roles, $roles ) ) {
+		return true;
+	}
+
+	return false;
+
+}
 
 /**
  * Disables admin bar on front end
@@ -84,6 +168,18 @@ add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10, 1 );
 function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
 	return $student->enroll( $product_id, $trigger );
+}
+
+/**
+ * Get an LLMS_Instructor
+ * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any instructor class extending this class
+ * @return   obj|false        LLMS_Instructor instance on success, false if user not found
+ * @since    3.13.0
+ * @version  3.13.0
+ */
+function llms_get_instructor( $user = null ) {
+	$student = new LLMS_Instructor( $user );
+	return $student->exists() ? $student : false;
 }
 
 /**
@@ -127,6 +223,18 @@ function llms_get_minimum_password_strength_name() {
 }
 
 /**
+ * Get an LLMS_Student
+ * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any student class extending this class
+ * @return   obj|false        LLMS_Student instance on success, false if user not found
+ * @since    3.8.0
+ * @version  3.9.0
+ */
+function llms_get_student( $user = null ) {
+	$student = new LLMS_Student( $user );
+	return $student->exists() ? $student : false;
+}
+
+/**
  * Checks if user is currently enrolled in course
  *
  * @param  int $user_id    WP User ID of the user
@@ -141,6 +249,23 @@ function llms_get_minimum_password_strength_name() {
 function llms_is_user_enrolled( $user_id, $product_id ) {
 	$s = new LLMS_Student( $user_id );
 	return $s->is_enrolled( $product_id );
+}
+
+/**
+ * Checks if the given object is complete for the given student
+ * @param  int $user_id      WP User ID of the user
+ * @param  int $object_id    WP Post ID of a Course, Section, or Lesson
+ * @param  int $object_type  Type, either Course, Section, or Lesson
+ *
+ * @see  LLMS_Student->is_complete()
+ *
+ * @return bool    true if complete, false otherwise
+ *
+ * @version  3.3.1  updated to use LLMS_Studnet->is_enrolled()
+ */
+function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
+	$s = new LLMS_Student( $user_id );
+	return $s->is_complete( $object_id, $object_type );
 }
 
 /**
@@ -159,6 +284,24 @@ function llms_is_user_enrolled( $user_id, $product_id ) {
 function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
 	return $student->mark_complete( $object_id, $object_type, $trigger );
+}
+
+/**
+ * Mark a lesson, section, course, or track as incomplete
+ * @param  int     $user_id   	 WP User ID
+ * @param  int     $object_id  	 WP Post ID of the Lesson, Section, Track, or Course
+ * @param  int     $object_type	 object type [lesson|section|course|track]
+ * @param  string  $trigger    	 String describing the event that triggered marking the object as incomplete
+ * @return bool
+ *
+ * @see    LLMS_Student->mark_incomplete() the class method wrapped by this function
+ *
+ * @since     3.5.0
+ * @version   3.5.0
+ */
+function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->mark_incomplete( $object_id, $object_type, $trigger );
 }
 
 /**
@@ -193,6 +336,44 @@ function llms_set_person_auth_cookie( $user_id, $remember = false ) {
 }
 
 /**
+ * Generate a user password reset key, hash it, and store it in the database
+ * @param    int     $user_id  WP_User ID
+ * @return   string
+ * @since    3.8.0
+ * @version  3.8.0
+ */
+function llms_set_user_password_rest_key( $user_id ) {
+
+	$user = get_user_by( 'ID', $user_id );
+
+	// generate an activation key
+	$key = wp_generate_password( 20, false );
+
+	do_action( 'retrieve_password_key', $user->user_login, $key ); // wp core hook
+
+	// insert the hashed key into the db
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
+	}
+	$hashed = $wp_hasher->HashPassword( $key );
+
+	global $wpdb;
+	$wpdb->update(
+		$wpdb->users,
+		array(
+			'user_activation_key' => $hashed,
+		),
+		array(
+			'user_login' => $user->user_login,
+		)
+	);
+
+	return $key;
+
+}
+
+/**
  * Remove a LifterLMS Student from a course or membership
  * @param  int     $user_id     WP User ID
  * @param  int     $product_id  WP Post ID of the Course or Membership
@@ -213,15 +394,16 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
 /**
  * Perform validations according to $screen and updates the user
  *
- * @see  LLMS_Person_Handler::update()
+ * @see      LLMS_Person_Handler::update()
  *
- * @param  array  $data   array of user data
- * @param  string $screen  screen to perform validations for, accepts "update" or "checkout"
- * @return int|WP_Error
+ * @param    array  $data   array of user data
+ * @param    string $screen  screen to perform validations for, accepts "account" or "checkout"
+ * @return   int|WP_Error
  *
- * @since  3.0.0
+ * @since    3.0.0
+ * @version  3.7.0
  */
-function llms_update_update( $data = array(), $screen = 'update' ) {
+function llms_update_user( $data = array(), $screen = 'account' ) {
 	return LLMS_Person_Handler::update( $data, $screen );
 }
 
@@ -320,9 +502,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 							$return .= '<br><em>End Date</em>: ' . date( get_option( 'date_format' , 'Y-m-d' ), $end_date );
 						}
 					}
-
 				}
-
 			} else {
 
 				return 'No memberships';
@@ -333,7 +513,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 
 		default:
 			$return = $val;
-	}
+	}// End switch().
 
 	return $return;
 

@@ -78,7 +78,6 @@ class LLMS_Meta_Box_Quiz_Questions extends LLMS_Admin_Metabox {
 								echo self::get_question_html_template( $q['id'], $q['points'] );
 
 							}
-
 						}
 						?>
 					</tbody>
@@ -114,7 +113,7 @@ class LLMS_Meta_Box_Quiz_Questions extends LLMS_Admin_Metabox {
 		$questions = array();
 
 		if ( isset( $_POST['_llms_question'] ) ) {
-			foreach ($_POST['_llms_question'] as $key => $value) {
+			foreach ( $_POST['_llms_question'] as $key => $value ) {
 				$question_id = llms_clean( $value );
 				$question_data = array();
 
@@ -125,7 +124,7 @@ class LLMS_Meta_Box_Quiz_Questions extends LLMS_Admin_Metabox {
 					$questions[ $key ] = $question_data;
 				}
 
-				if ($questions) {
+				if ( $questions ) {
 					update_post_meta( $post_id, '_llms_questions', $questions );
 				}
 			}

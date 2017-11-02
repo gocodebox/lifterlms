@@ -8,7 +8,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 llms_print_notices();
-
 $loop = new WP_Query( array(
 	'post_type' => 'llms_question',
 	'p' => $args['question_id'],
@@ -30,7 +29,6 @@ if ( ! $loop->have_posts() ) {
 		do_action( 'lifterlms_single_question_after_summary', $args );
 
 	}
-
 }
 
 wp_reset_postdata();

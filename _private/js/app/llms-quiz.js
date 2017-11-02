@@ -1,16 +1,38 @@
-/* global LLMS, Ajax, $ */
+/* global LLMS, $ */
 /* jshint strict: false */
 
 /**
  * Front End Quiz Class
- * Applies only to post type quiz
- * @type {Object}
+ * @type     {Object}
+ * @since    1.0.0
+ * @version  3.9.0
  */
 LLMS.Quiz = {
 
 	/**
+	 * Main Container Element
+	 * @type  obj
+	 */
+	$container: null,
+
+	current_question: 0,
+	prev_question: 0,
+	questions: {},
+
+	/**
+	 * Records current status of a quiz session
+	 * If a user attempts to navigate away from a quiz
+	 * while taking the quiz they'll be warned that their progress
+	 * will not be saved if this status is not null
+	 * @type  boolean
+	 */
+	status: null,
+
+	/**
 	 * init
 	 * loads class methods
+	 * @since    1.0.0
+ 	 * @version  3.9.0
 	 */
 	init: function() {
 
@@ -24,139 +46,276 @@ LLMS.Quiz = {
 	},
 
 	/**
-	 * Bind Method
-	 * Handles dom binding on load
-	 * @return {[type]} [description]
+	 * Bind DOM events
+	 * @return void
+	 * @since    1.0.0
+	 * @version  3.9.0
 	 */
 	bind: function() {
-		var that = this;
 
-		//hides the quiz timer when page loads
-		$('#llms-quiz-timer').hide();
+		var self = this;
 
-		// calls start quiz on "Start Quiz" button click
-		$('#llms_start_quiz').click(function() {
-			that.start_quiz();
-			return false;
-		});
+		this.$container = $( '#llms-quiz-question-wrapper' );
 
-		$('.view-summary').click(function() {
+		// start quiz
+		$( '#llms_start_quiz' ).on( 'click', function( e ) {
+			e.preventDefault();
+			self.start_quiz();
+		} );
+
+		$( '.view-summary' ).on( 'click', function( e ) {
+			e.preventDefault();
 			var accordion = $('.accordion');
-			if(accordion.hasClass('hidden')) {
+			if ( accordion.hasClass('hidden' )) {
 				accordion.fadeIn(300);
 				accordion.removeClass('hidden');
-				$(this).text( LLMS.l10n.translate( 'Hide Summary' ) );
-			} else{
+				$( this ).text( LLMS.l10n.translate( 'Hide Summary' ) );
+			} else {
 				accordion.fadeOut(300);
 				accordion.addClass('hidden');
-				$(this).text( LLMS.l10n.translate( 'View Summary' ) );
+				$( this ).text( LLMS.l10n.translate( 'View Summary' ) );
 			}
-		});
+		} );
 
-		//draw quiz grade circular chart
-		this.chart_quiz_grade();
+		// draw quiz grade circular chart
+		$( '.llms-donut' ).each( function() {
+			LLMS.Donut( $( this ) );
+		} );
+
+		// redirect to attempt on attempt selection change
+		$( '#llms-quiz-attempt-select' ).on( 'change', function() {
+			var val = $( this ).val();
+			if ( val ) {
+				window.location.href = val;
+			}
+		} );
+
+		// warn when quiz is running and user tries to leave the page
+		$( window ).on( 'beforeunload', function() {
+			if ( self.status ) {
+				return 'Are you sure you wish to quit this quiz attempt?';
+			}
+		} );
+
+		// complete the quiz attempt when user leaves if the quiz is running
+		$( window ).on( 'unload', function() {
+			if ( self.status ) {
+				self.complete_quiz();
+			}
+		} );
 
 	},
 
 	/**
-	 * Draws quiz grade circular charts
-	 * @return {[void]}
-	 */
-	chart_quiz_grade: function() {
-
-		/**
-		 * Used for populating the quiz grade svg graph
-		 * @type {[type]}
-		 */
-		var $llms_circ = $('.llms-animated-circle'),
-			$llms_prog_count = $('.llms-progress-circle-count'),
-			llms_grade_perc = $('#llms-grade-value').val(),
-			llms_circ_offset = 430 * llms_grade_perc / 100;
-
-		$llms_circ.css({
-			'stroke-dashoffset' : 430 - llms_circ_offset
-		});
-
-		$llms_prog_count.html(Math.round(llms_grade_perc) + '%');
-
-	},
-
-	/**
-	 * Start Quiz
-	 * Finds values of quiz-id and user-id
-	 * Calls ajax.start_quiz
-	 * @return {[void]}
-	 */
-	start_quiz: function () {
-
-		var post_id = $('#llms-quiz').val(),
-			user_id = $('#llms-user').val(),
-			ajax = new Ajax( 'post', {
-				action : 'start_quiz',
-				quiz_id : post_id,
-				user_id : user_id
-			}, true);
-
-		ajax.start_quiz( post_id, user_id );
-	},
-
-	/**
-	 * Answer Question
-	 * Finds values of quiz-id, question-type, question-id and answer
-	 * Calls ajax.answer_question
-	 *
-	 * @return {[void]}
+	 * Answer a Question
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.9.0
 	 */
 	answer_question: function() {
 
-		if ( $( 'input[name=llms_option_selected]:checked' ).length <= 0 ){
+		var self = this;
 
-			$('#llms-quiz-question-wrapper .llms-error').remove();
-			var string = LLMS.l10n.translate( 'You must enter an answer to continue.' );
-			$('#llms-quiz-question-wrapper').prepend( '<div class="llms-error">' + string + '</div>' );
+		if ( !$( 'input[name="llms_option_selected"]:checked' ).length ) {
 
-		} else {
+			var msg = LLMS.l10n.translate( 'You must enter an answer to continue.' );
 
-			var quiz_id = $('#llms-quiz').val(),
-				question_type = $('#question-type').val(),
-				question_id = $('#question-id').val(),
-				answer = $('input[name=llms_option_selected]:checked').val(),
-
-				ajax = new Ajax('post', {
-					action : 'answer_question',
-					quiz_id : quiz_id,
-					question_type : question_type,
-					question_id : question_id,
-					answer : answer
-				},true );
-
-			ajax.answer_question(
-				question_type,
-				question_id,
-				answer
-			);
+			self.$container.find( '.llms-error' ).remove();
+			self.$container.prepend( '<p class="llms-error">' + msg + '</p>' );
+			return;
 
 		}
+
+		LLMS.Ajax.call( {
+			data: {
+				action: 'quiz_answer_question',
+				answer: $( 'input[name=llms_option_selected]:checked' ).val(),
+				question_id: $( '#question-id' ).val(),
+				question_type: $( '#question-type' ).val(),
+				quiz_id: $( '#quiz-id' ).val(),
+			},
+			beforeSend: function() {
+
+				self.toggle_loader( 'show', 'Loading Question...' );
+
+			},
+			success: function( r ) {
+
+				self.toggle_loader( 'hide' );
+
+				if ( r.data && r.data.html ) {
+
+					self.load_question( r.data.html );
+
+				} else if ( r.data && r.data.redirect ) {
+
+					self.redirect( r.data.redirect );
+
+				} else if ( r.message ) {
+
+					self.$container.append( '<p>' + r.message + '</p>' );
+
+				} else {
+
+					var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
+					self.$container.append( '<p>' + msg + '</p>' );
+
+				}
+
+			}
+
+		} );
 
 	},
 
 	/**
-	 * Previous Question
-	 * Finds quiz-id and question-id
-	 * Calls ajax.previous_question to find the previous question
-	 * @return {[void]}
+	 * Complete the quiz
+	 * Called when timed quizzes reach time limit
+	 * & during unload events to record the attempt as abandoned
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.9.0
+	 */
+	complete_quiz: function() {
+
+		var self = this;
+
+		LLMS.Ajax.call( {
+			data: {
+				action: 'quiz_end',
+				quiz_id: $( '#quiz-id' ).val(),
+			},
+			beforeSend: function() {
+
+				self.toggle_loader( 'show', 'Grading Quiz...' );
+
+			},
+			success: function( r ) {
+
+				self.toggle_loader( 'hide' );
+
+				if ( r.data && r.data.redirect ) {
+
+					self.redirect( r.data.redirect );
+
+				} else if ( r.message ) {
+
+					this.$container.append( '<p>' + r.message + '</p>' );
+
+				} else {
+
+					var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
+					this.$container.append( '<p>' + msg + '</p>' );
+
+				}
+
+			}
+
+		} );
+
+	},
+
+	/**
+	 * Redirect on quiz comlpetion / timeout
+	 * @param    string   url  redirect url
+	 * @return   void
+	 * @since    3.9.0
+	 * @version  3.9.0
+	 */
+	redirect: function( url ) {
+
+		$( '#llms-quiz-timer' ).hide();
+		this.toggle_loader( 'show', 'Grading Quiz...' );
+		this.status = null;
+		window.location.href = url;
+
+	},
+
+	/**
+	 * Return to the previous question
+	 * @return   void
+	 * @since    1.0.0
+ 	 * @version  3.9.0
 	 */
 	previous_question: function() {
 
-		var quiz_id = $('#llms-quiz').val(),
-			question_id = $('#question-id').val(),
-			ajax = new Ajax('post', {
-				action :'previous_question',
-				quiz_id : quiz_id,
-				question_id : question_id
-			}, true);
+		var self = this;
 
-		ajax.previous_question( quiz_id, question_id );
+		self.toggle_loader( 'show', 'Loading Question...' );
+
+		setTimeout( function() {
+			self.toggle_loader( 'hide' );
+			self.load_question( self.questions[ self.prev_question ] );
+		}, 100 );
+
+	},
+
+	/**
+	 * Start a Quiz via AJAX call
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.9.0
+	 */
+	start_quiz: function () {
+
+		var self = this;
+
+		// bind sumbission event for answering questions
+		this.$container.on( 'click', '#llms_answer_question', function( e ) {
+			e.preventDefault();
+			self.answer_question();
+		} );
+
+		// bind submission event for navigating backwards
+		this.$container.on( 'click', '#llms_prev_question', function( e ) {
+			e.preventDefault();
+			self.previous_question();
+		} );
+
+		LLMS.Ajax.call( {
+			data: {
+				action: 'quiz_start',
+				attempt_key: $( '#llms-attempt-key' ).val(),
+				lesson_id : $( '#llms-lesson-id' ).val(),
+				quiz_id : $( '#llms-quiz-id' ).val(),
+			},
+			beforeSend: function() {
+
+				self.status = true;
+				$( '#llms-quiz-wrapper, #quiz-start-button' ).remove();
+				$( 'html, body' ).stop().animate( {scrollTop: 0 }, 500 );
+				self.toggle_loader( 'show', 'Loading Quiz...' );
+
+			},
+			success: function( r ) {
+
+				self.toggle_loader( 'hide' );
+
+				if ( r.data && r.data.html ) {
+
+					// start the quiz timer
+					self.start_quiz_timer();
+
+					// show the quiz timer
+					$( '#llms-quiz-timer' ).show();
+
+					self.load_question( r.data.html );
+
+				} else if ( r.message ) {
+
+					this.$container.append( '<p>' + r.message + '</p>' );
+
+				} else {
+
+					var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
+					this.$container.append( '<p>' + msg + '</p>' );
+
+				}
+
+			}
+
+		} );
+
 	},
 
 	/**
@@ -215,6 +374,57 @@ LLMS.Quiz = {
 	},
 
 	/**
+	 * Load the HTML of a question into the DOM and the question cache
+	 * @param    string   html  string of html
+	 * @return   void
+	 * @since    3.9.0
+	 * @version  3.9.0
+	 */
+	load_question: function( html ) {
+
+		var $html = $( html ),
+			qid = $html.find( '#question-id' ).val();
+
+		if ( !this.questions[ qid ] ) {
+			this.questions[ qid ] = $html;
+		}
+
+		this.prev_question = this.current_question;
+		this.current_question = qid;
+
+		this.$container.append( $html );
+
+	},
+
+	/**
+	 * Show or hide the "loading" spinnr with an option message
+	 * @param    string   display  show|hide
+	 * @param    string   msg      text to display when showing
+	 * @return   void
+	 * @since    3.9.0
+	 * @version  3.9.0
+	 */
+	toggle_loader: function( display, msg ) {
+
+		if ( 'show' === display ) {
+
+			msg = msg || 'Loading...';
+
+			this.$container.empty();
+			LLMS.Spinner.start( this.$container );
+			this.$container
+				.append( '<div class="llms-quiz-loading">' + LLMS.l10n.translate( msg ) + '</div>' );
+
+		} else {
+
+			LLMS.Spinner.stop( this.$container );
+			this.$container.find( '.llms-quiz-loading' ).remove();
+
+		}
+
+	},
+
+	/**
 	 * Get Count Down
 	 * Called every second to update the on screen countdown timer
 	 * Changes color to yellow at 1/2 of total time
@@ -228,6 +438,8 @@ LLMS.Quiz = {
 	 * @param  {[int]} seconds     [description]
 	 * @param  {[int]} countdown   [description]
 	 * @return Displays updates hours, minutes on quiz timer
+	 * @since    1.0.0
+ 	 * @version  1.0.0
 	 */
 	getCountdown: function(total_minutes, target_date, time_limit, days, hours, minutes, seconds, countdown){
 
@@ -266,29 +478,11 @@ LLMS.Quiz = {
 	 * pads number with 0 if single digit.
 	 * @param  {[int]} n [number]
 	 * @return {[string]} [padded number]
+	 * @since    1.0.0
+ 	 * @version  1.0.0
 	 */
 	pad: function(n) {
 		return (n < 10 ? '0' : '') + n;
 	},
 
-	/**
-	 * Complete Quiz
-	 * Called by start_quiz_timer when countdown reaches 0
-	 * @return Calls ajax.complete_quiz to end quiz
-	 */
-	complete_quiz: function() {
-
-		var quiz_id = $('#llms-quiz').val(),
-			question_type = $('#question-type').val(),
-			question_id = $('#question-id').val(),
-			answer = $('input[name=llms_option_selected]:checked').val(),
-			ajax = new Ajax( 'post', {
-				action : 'complete_quiz',
-				quiz_id : quiz_id,
-				question_id : question_id,
-				question_type : question_type,
-				answer : answer
-			}, true);
-		ajax.complete_quiz( quiz_id, question_id, question_type, answer );
-	}
 };

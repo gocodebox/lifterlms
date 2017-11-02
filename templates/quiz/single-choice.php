@@ -1,7 +1,8 @@
 <?php
 /**
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * Single Quiz: Single Choice Question
+ * @since    1.0.0
+ * @version  3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -22,7 +23,8 @@ $quiz_obj = $quiz;
 $options = $question->get_options();
 $question_key = isset( $quiz ) ? $quiz->get_question_key : 0;
 
-$quiz_session = $quiz = LLMS()->session->get( 'llms_quiz' );
+$quiz_session = LLMS()->session->get( 'llms_quiz' );
+$quiz = $quiz_session;
 
 $answer = '';
 if ( ! empty( $quiz_session->questions ) ) {
@@ -32,19 +34,18 @@ if ( ! empty( $quiz_session->questions ) ) {
 			$answer = $q['answer'];
 
 		}
-
 	}
 }
 ?>
 <div class="clear"></div>
 <div class="llms-question-wrapper">
 	<?php
-	if ($quiz_obj->get_show_random_answers()) {
+	if ( $quiz_obj->get_show_random_answers() ) {
 		llms_shuffle_assoc( $options );
 	}
 
-	foreach ($options as $key => $value) :
-		if (isset( $value )) :
+	foreach ( $options as $key => $value ) :
+		if ( isset( $value ) ) :
 			$option = $value['option_text'];
 
 

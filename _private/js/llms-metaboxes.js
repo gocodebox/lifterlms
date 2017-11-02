@@ -1,9 +1,9 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
- * @since  3.0.0
+ * @since    3.0.0
+ * @version  3.13.0
  */
 ( function( $ ) {
-
 
 	$.fn.llmsCollapsible = function() {
 
@@ -34,18 +34,19 @@
 	var Metaboxes = function() {
 
 		/**
+		 * load all partials
+		 */
+		//= include /partials/*.js
+
+		/**
 		 * Initialize
-		 * @return void
-		 * @since  3.0.0
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.13.0
 		 */
 		this.init = function() {
 
 			var self = this;
-
-			// regularly initialize select2 with no options or options passed via data-attrs
-			$( '.llms-select2' ).llmsSelect2( {
-				width: '100%',
-			} );
 
 			$( '.llms-select2-post' ).each( function() {
 				self.post_select( $( this ) );
@@ -55,22 +56,70 @@
 
 			this.bind_tabs();
 
-			// bind all datepickers if datepickers exist
-			if ( $( '.llms-datepicker' ).length ) {
-				this.bind_datepickers();
-			}
+			// bind everything better and less repetatively...
+			var bindings = [
+				{
+					selector: $( '.llms-datepicker' ),
+					func: 'bind_datepickers',
+				},
+				{
+					selector: $( '.llms-select2' ),
+					func: function( $selector ) {
+						$selector.llmsSelect2( {
+							width: '100%',
+						} );
+					},
+				},
+				{
+					selector: $( '.llms-select2-student' ),
+					func: function( $selector ) {
+						$selector.llmsStudentsSelect2();
+					}
+				},
+				{
+					selector: $( 'input[type="checkbox"][data-controls]' ),
+					func: 'bind_cb_controllers',
+				},
+				{
+					selector: $( '[data-is-controller]' ),
+					func: 'bind_controllers',
+				},
+				{
+					selector: $( '.llms-table' ),
+					func: 'bind_tables',
+				},
+				{
+					selector: $( '.llms-merge-code-wrapper' ),
+					func: 'bind_merge_code_buttons',
+				},
+				{
+					selector: $( 'a.llms-editable' ),
+					func: 'bind_editables',
+				},
+			];
 
-			if ( $( 'input[type="checkbox"][data-controls]' ).length ) {
-				this.bind_cb_controllers();
-			}
+			// bind all the bindables but don't bind things in repeaters
+			$.each( bindings, function( index, obj ) {
 
-			if ( $( '[data-is-controller]' ).length ) {
-				this.bind_controllers();
-			}
+				if ( obj.selector.length ) {
 
-			if ( $( '.llms-table' ).length ) {
-				this.bind_tables();
-			}
+					// reduce the selector to exclude items in a repeater
+					var reduced = obj.selector.filter( function() {
+						return ( 0 === $( this ).closest( '.llms-repeater-model' ).length );
+					} );
+
+					// bind by string
+					if ( 'string' === typeof obj.func ) {
+						self[ obj.func ]( reduced );
+					}
+					// bind by an anonymous function
+					else if ( 'function' === typeof obj.func ) {
+						obj.func( reduced );
+					}
+
+				}
+
+			} );
 
 			// if a post type is set & a bind exists for it, bind it
 			if ( window.llms.post.post_type ) {
@@ -85,20 +134,20 @@
 
 			}
 
-			if ( $( '.llms-merge-code-button' ).length ) {
-				this.bind_merge_code_buttons();
-			}
-
 		};
 
 		/**
 		 * Bind checkboxes that control the display of other elements
-		 * @since 3.0.0
-		 * @return void
+		 * @param    obj   $controllerss  jQuery selctor for checkboxes to be bound as checkbox controllers
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.11.0
 		 */
-		this.bind_cb_controllers = function() {
+		this.bind_cb_controllers = function( $controllers ) {
 
-			$( 'input[type="checkbox"][data-controls]' ).each( function() {
+			$controllers = $controllers || $( 'input[type="checkbox"][data-controls]' );
+
+			$controllers.each( function() {
 
 				var $cb = $( this ),
 					$controlled = $( $cb.attr( 'data-controls' ) ).closest( '.llms-mb-list' );
@@ -125,12 +174,16 @@
 
 		/**
 		 * Bind elements that control the display of other elements
-		 * @since 3.0.0
-		 * @return void
+		 * @param    obj   $controllerss  jQuery selctor for elements to be bound as checkbox controllers
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.11.0
 		 */
-		this.bind_controllers = function() {
+		this.bind_controllers = function( $controllers ) {
 
-			$( '[data-is-controller]' ).each( function() {
+			$controllers = $controllers || $( '[data-is-controller]' );
+
+			$controllers.each( function() {
 
 				var $el = $( this ),
 					$controlled = $( '[data-controller="#' + $el.attr( 'id' ) + '"]' ),
@@ -163,7 +216,6 @@
 
 						}
 
-
 						if ( -1 !== vals.indexOf( val ) ) {
 
 							$( this ).slideDown( 200 );
@@ -185,20 +237,126 @@
 
 		};
 
+		/**
+		 * Bind a single datepicker element
+		 * @param    obj   $el  jQuery selector for the input to bind the datepicker to
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.10.0
+		 */
+		this.bind_datepicker = function( $el ) {
+			var format = $el.attr( 'data-format' ) || 'mm/dd/yy',
+				maxDate = $el.attr( 'data-max-date' ) || null,
+				minDate = $el.attr( 'data-min-date' ) || null;
+			$el.datepicker( {
+				dateFormat: format,
+				maxDate: maxDate,
+				minDate: minDate,
+			} );
+		}
 
 		/**
 		 * Bind all LifterLMS datepickers
-		 * @return void
-		 * @since  3.0.0
+		 * @param    obj   $datepickers  jQuery selector for the elements to bind
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.11.0
 		 */
-		this.bind_datepickers = function() {
+		this.bind_datepickers = function( $datepickers ) {
 
-			$('.llms-datepicker').datepicker( {
-				dateFormat: "mm/dd/yy"
+			var self = this;
+
+			$datepickers = $datepickers || $('.llms-datepicker');
+
+			$datepickers.each( function() {
+				self.bind_datepicker( $( this ) );
 			} );
 
 		};
 
+		/**
+		 * Bind llms-editable metabox fields and related dom interactions
+		 * @return   void
+		 * @since    3.10.0
+		 * @version  3.10.0
+		 */
+		this.bind_editables = function() {
+
+			var self = this;
+
+			function make_editable( $field ) {
+
+				var $label = $field.find( 'label' ).clone(),
+					name = $field.attr( 'data-llms-editable' ),
+					type = $field.attr( 'data-llms-editable-type' ),
+					required = $field.attr( 'data-llms-editable-required' ) || 'no',
+					val = $field.attr( 'data-llms-editable-value' ),
+					$input;
+
+				required = ( 'yes' === required ) ? ' required="required"' : '';
+
+				if ( 'select' === type ) {
+
+					var options = JSON.parse( $field.attr( 'data-llms-editable-options' ) ),
+						selected;
+
+					$input = $( '<select name="' + name + '"' + required + ' />');
+					for ( var key in options ) {
+						selected = val === key ? ' selected="selected"' : '';
+						$input.append( '<option value="' + key + '"' + selected + '>' + options[ key ] + '</option>' );
+					}
+
+
+				} else if ( 'datetime' === type ) {
+
+					$input = $( '<div class="llms-datetime-field" />' );
+
+					val = JSON.parse( val );
+					var format = $field.attr( 'data-llms-editable-date-format' ) || '',
+						min_date = $field.attr( 'data-llms-editable-date-min' ) || '',
+						max_date = $field.attr( 'data-llms-editable-date-max' ) || '';
+
+					$picker = $( '<input class="llms-date-input llms-datepicker" data-format="' + format + '" data-max-date="' + max_date + '" data-min-date="' + min_date + '" name="' + name + '[date]" type="text" value="' +  val.date + '">' );
+					self.bind_datepicker( $picker );
+					$input.append( $picker );
+					$input.append( '<em>@</em>');
+
+					$input.append( '<input class="llms-time-input" max="23" min="0" name="' + name + '[hour]" type="number" value="' +  val.hour + '">' );
+					$input.append( '<em>:</em>');
+					$input.append( '<input class="llms-time-input" max="59" min="0" name="' + name + '[minute]" type="number" value="' +  val.minute + '">' );
+
+				} else {
+
+					$input = $( '<input name="' + name + '" type="' + type + '" value="' + val + '"' + required + '>');
+				}
+
+				$field.empty().append( $label ).append( $input );
+
+			};
+
+			$( 'a.llms-editable' ).on( 'click', function( e ) {
+
+				e.preventDefault();
+
+				var $btn = $( this ),
+					$fields;
+
+				if ( $btn.attr( 'data-fields' ) ) {
+					$fields = $( $btn.attr( 'data-fields' ) );
+				} else {
+					$fields = $btn.closest( '.llms-metabox-section' ).find( '[data-llms-editable]' );
+				}
+
+
+				$btn.remove();
+
+				$fields.each( function() {
+					make_editable( $( this ) );
+				} );
+
+			} );
+
+		};
 
 		/**
 		 * Bind Engagement post type JS
@@ -348,7 +506,7 @@
 		 * Actions for ORDERS
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  3.10.0
 		 */
 		this.bind_llms_order = function() {
 
@@ -414,23 +572,76 @@
 
 			} );
 
+			// cache the original value when focusing on a payment gateway select
+			// used below so the original field related data can be restored when switching back to the orignially selected gateway
+			$( '.llms-metabox' ).one( 'focus', '.llms-metabox-field[data-llms-editable="payment_gateway"] select', function() {
+
+				if ( ! $( this ).attr( 'data-original-value' ) ) {
+					$( this ).attr( 'data-original-value', $( this ).val() );
+				}
+
+			} );
+
+			// when selecting a new payment gateway get field data and update the dom to only display the fields
+			// supported/needed by the newly selected gateway
+			$( '.llms-metabox' ).on( 'change', '.llms-metabox-field[data-llms-editable="payment_gateway"] select', function() {
+
+				var $select = $( this ),
+					gateway = $select.val(),
+					data = JSON.parse( $select.closest( '.llms-metabox-field' ).attr( 'data-gateway-fields' ) ),
+					gateway_data = data[ gateway ];
+
+				for ( var field in gateway_data ) {
+
+					var $field = $( 'input[name="' + gateway_data[ field ].name + '"]' ),
+						$wrap = $field.closest( '.llms-metabox-field' );
+
+					// always clear the value when switching
+					// ensures that outdated data is removed from the DB
+					$field.attr( 'value', '' );
+
+					// if the field is enabled show it the field and, if we're switching back to the originally selected
+					// gateway, reload the value from the dom
+					if ( gateway_data[ field ].enabled ) {
+
+						$wrap.show();
+						$field.attr( 'required', 'required' );
+						if ( gateway === $select.attr( 'data-original-value') ) {
+							$field.val( $wrap.attr( 'data-llms-editable-value' ) );
+						}
+
+					// otherwise hide the field
+					// this will ensure it gets updated in the database
+					} else {
+
+						$field.removeAttr( 'required' );
+						$wrap.hide();
+
+					}
+
+				}
+
+			} );
+
 		};
 
 		/**
 		 * Binds custom llms merge code buttons
 		 * @return   void
 		 * @since    3.1.0
-		 * @version  3.1.0
+		 * @version  3.9.2
 		 */
-		this.bind_merge_code_buttons = function() {
+		this.bind_merge_code_buttons = function( $wrappers ) {
 
-			$( '.llms-merge-code-button' ).on( 'click', function() {
+			$wrappers = $wrappers || $( '.llms-merge-code-wrapper' );
+
+			$wrappers.find( '.llms-merge-code-button' ).on( 'click', function() {
 
 				$( this ).next( '.llms-merge-codes' ).toggleClass( 'active' );
 
 			} );
 
-			$( '.llms-merge-codes li' ).on( 'click', function() {
+			$wrappers.find( '.llms-merge-codes li' ).on( 'click', function() {
 
 				var $el = $( this ),
 					$parent = $el.closest( '.llms-merge-codes' ),
@@ -440,7 +651,7 @@
 				// dealing with a tinymce instance
 				if ( -1 === target.indexOf( '#' ) ) {
 
-					var editor = tinymce.editors[ target ];
+					var editor = window.tinymce.editors[ target ];
 					if ( editor ) {
 						editor.insertContent( code );
 					} // fallback in case we can't access the editor directly
@@ -487,9 +698,9 @@
 
 		/**
 		 * Enable WP Post Table searches for applicable select2 boxes
-		 * @since 3.0.0
-		 * @version 3.0.0
-		 * @return  void
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.10.1
 		 */
 		this.post_select = function( $el ) {
 
@@ -514,13 +725,39 @@
 						};
 					},
 					processResults: function( data, params ) {
+
+						// recursive function for creating
+						function map_data( items ) {
+
+							// this is a flat array of results
+							// used when only one post type is selected
+							// and to format children when using optgroups with multiple post types
+							if ( Array.isArray( items ) ) {
+								return $.map( items, function( item ) {
+									return format_item( item );
+								} );
+
+							// this sets up the top level optgroups when using multiple post types
+							} else {
+								return $.map( items, function( item ) {
+									return {
+										text: item.label,
+										children: map_data( item.items ),
+									}
+								} );
+							}
+						}
+
+						// format a single result (option)
+						function format_item( item ) {
+							return {
+								text: item.name,
+								id: item.id,
+							};
+						}
+
 						return {
-							results: $.map( data.items, function( item ) {
-								return {
-									text: item.name,
-									id: item.id,
-								};
-							} ),
+							results: map_data( data.items ),
 							pagination: {
 								more: data.more
 							}

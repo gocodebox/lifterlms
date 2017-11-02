@@ -2,11 +2,12 @@
 /**
  * LifterLMS Quiz Model
  * @since    3.3.0
- * @version  3.3.0
+ * @version  3.12.0
  *
  * @property  $allowed_attempts  (int)  Number of times a student is allowed to take the quiz before being locked out of it
  * @property  $passing_percent  (float)  Grade required for a student to "pass" the quiz
  * @property  $random_answers  (yesno)  Whether or not to randomize the order of answers to the quiz questions
+ * @property  $random_questions  (yesno)  Whether or not to randomize the order of questions for each attempt
  * @property  $show_correct_answer  (yesno)  Whether or not to show the correct answer(s) to students on the quiz results screen
  * @property  $show_options_description_right_answer  (yesno)  If yes, displays the question description when the student chooses the correct answer
  * @property  $show_options_description_wrong_answer  (yesno)  If yes, displays the question description when the student chooses the wrong answer
@@ -22,12 +23,45 @@ class LLMS_QQuiz extends LLMS_Post_Model {
 		'allowed_attempts' => 'int',
 		'passing_percent' => 'float',
 		'random_answers' => 'yesno',
+		'random_questions' => 'yesno',
 		'show_correct_answer' => 'yesno',
 		'show_options_description_right_answer' => 'yesno',
 		'show_options_description_wrong_answer' => 'yesno',
 		'show_results' => 'yesno',
 		'time_limit' => 'int',
 	);
+
+	/**
+	 * Retrieve lessons this quiz is assigned to
+	 * @param    string    $return  format of the return [ids|lessons]
+	 * @return   array              array of WP_Post IDs (lesson post types)
+	 * @since    3.12.0
+	 * @version  3.12.0
+	 */
+	public function get_lessons( $return = 'ids' ) {
+
+		global $wpdb;
+		$query = $wpdb->get_col( $wpdb->prepare(
+			"SELECT post_id
+			 FROM {$wpdb->postmeta}
+			 WHERE meta_key = '_llms_assigned_quiz'
+			   AND meta_value = %d;",
+			$this->get( 'id' )
+		) );
+
+		// return just the ids
+		if ( 'ids' === $return ) {
+			return $query;
+		}
+
+		// setup lesson objects
+		$ret = array();
+		foreach ( $query as $id ) {
+			$ret[] = llms_get_post( $id );
+		}
+		return $ret;
+
+	}
 
 	/**
 	 * Get the (points) value of a question
@@ -55,7 +89,7 @@ class LLMS_QQuiz extends LLMS_Post_Model {
 	 * @since    3.3.0
 	 * @version  3.3.0
 	 */
-	public function get_questions( $return = 'questions'  ) {
+	public function get_questions( $return = 'questions' ) {
 
 		$questions = $this->get_questions_raw();
 

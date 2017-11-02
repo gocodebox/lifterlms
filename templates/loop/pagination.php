@@ -1,12 +1,15 @@
 <?php
 /**
  * The Template for displaying course archive pagination
- *
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
- *
+ * @since    1.0.0
+ * @version  3.14.0
  */
-if ($wp_query->max_num_pages < 2) { return; }
+
+global $wp_query;
+if ( $wp_query->max_num_pages < 2 ) {
+	return;
+}
+
 ?>
 
 <nav class="llms-pagination">
