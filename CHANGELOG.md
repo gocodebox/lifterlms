@@ -4,9 +4,12 @@ LifterLMS Changelog
 v3.14.8 - 2017-11-??
 --------------------
 
++ Lessons can be cloned via the "Clone" action from the lessons post table
++ Lessons created via Course builder will have their slugs renamed the first time the lesson title is updated via the builder
 + Removed logging and debugging functions from admin builder class
 + JS-generated error messages on the course builder are now translateable
 + Fix: Show all memberships on dashboard
+
 
 v3.14.7 - 2017-10-25
 --------------------

@@ -160,7 +160,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Post Types
 	 * @since    1.0.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public static function register_post_types() {
 
@@ -275,7 +275,7 @@ class LLMS_Post_Types {
 			),
 			'show_in_nav_menus' => false,
 			'query_var' => true,
-			'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author' ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author', 'llms-clone-post' ),
 		) );
 
 		// quizzes

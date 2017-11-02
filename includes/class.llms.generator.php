@@ -2,7 +2,7 @@
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  3.7.5
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -175,6 +175,22 @@ class LLMS_Generator {
 			return $this->error->add( 'missing-generator', __( 'No generator supplied.', 'lifterlms' ) );
 
 		}
+
+	}
+
+	/**
+	 * Generator called when cloning a lesson
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function clone_lesson() {
+
+		$temp = array();
+
+		$this->raw['title'] .= sprintf( ' (%s)', __( 'Clone', 'lifterlms' ) );
+
+		$this->create_lesson( $this->raw, 0, '', '' );
 
 	}
 
@@ -720,6 +736,7 @@ class LLMS_Generator {
 			'LifterLMS/SingleCourseCloner' => array( $this, 'generate_course' ),
 			'LifterLMS/SingleCourseExporter' => array( $this, 'generate_course' ),
 			'LifterLMS/SingleCourseGenerator' => array( $this, 'generate_course' ),
+			'LifterLMS/SingleLessonCloner' => array( $this, 'clone_lesson' ),
 		) );
 	}
 
