@@ -5,8 +5,8 @@ v3.14.8 - 2017-11-??
 --------------------
 
 + Removed logging and debugging functions from admin builder class
++ JS-generated error messages on the course builder are now translateable
 + Fix: Show all memberships on dashboard
-
 
 v3.14.7 - 2017-10-25
 --------------------
