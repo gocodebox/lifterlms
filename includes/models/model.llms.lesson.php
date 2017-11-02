@@ -401,6 +401,32 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Determine if the lesson is an orphan
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_orphan() {
+
+		$statuses = array( 'publish', 'future', 'draft', 'pending', 'private', 'auto-draft' );
+
+		foreach ( array( 'course', 'section' ) as $parent ) {
+
+			$parent_id = $this->get( sprintf( 'parent_%s', $parent ) );
+
+			if ( ! $parent_id ) {
+				return true;
+			} elseif ( ! in_array( get_post_status( $parent_id ), $statuses ) ) {
+				return true;
+			}
+
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Add data to the course model when converted to array
 	 * Called before data is sorted and retuned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized
