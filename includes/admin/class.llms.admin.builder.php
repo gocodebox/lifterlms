@@ -83,7 +83,24 @@ class LLMS_Admin_Builder {
 					}
 				} elseif ( 'model' === $request['object_type'] ) {
 
-					$id = ( false === strpos( $request['model']['id'], '_temp_' ) ) ? absint( $request['model']['id'] ) : 'new';
+					// new item
+					if ( false !== strpos( $request['model']['id'], '_temp_' ) ) {
+
+						$id = 'new';
+
+					// clone (lessons only)
+					} elseif ( false !== strpos( $request['model']['id'], '_clone_' ) ) {
+
+						$orig_id = preg_replace( '/[^0-9]/', '', $request['model']['id'] );
+						$orig = llms_get_post( $orig_id );
+						$id = $orig->clone_post();
+
+					// regular update
+					} else {
+
+						$id = absint( $request['model']['id'] );
+
+					}
 
 					// create new / update existing sections/lessons
 					if ( 'section' === $request['data_type'] ) {
@@ -135,7 +152,7 @@ class LLMS_Admin_Builder {
 			case 'search':
 				$page = isset( $request['page'] ) ? $request['page'] : 1;
 				$term = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
-				wp_send_json( self::get_orphaned_lessons( absint( $request['course_id'] ), $term, $page ) );
+				wp_send_json( self::get_existing_lessons( absint( $request['course_id'] ), $term, $page ) );
 			break;
 
 		}// End switch().
@@ -216,82 +233,90 @@ if ( ! empty( $active_post_lock ) ) {
 	}
 
 	/**
-	 * Retrieve a list of orphaned lessons filtered by current user's permissions
+	 * Retrieve a list of lessons the current user is allowed to clone/attach
 	 * Used for ajax searching to add existing lessons
 	 * @param    int        $course_id    WP Post ID of the course
 	 * @param    string     $search_term  optional search term (searches post_title)
 	 * @param    integer    $page         page, used when paginating search results
 	 * @return   array
-	 * @since    3.14.4
+	 * @since    [version]
 	 * @version  [version]
 	 */
-	private static function get_orphaned_lessons( $course_id, $search_term = '', $page = 1 ) {
+	private static function get_existing_lessons( $course_id, $search_term = '', $page = 1 ) {
 
-		global $wpdb;
+		$lessons = array(
+			'orphan' => array(
+				'children' => array(),
+				'text' => esc_attr__( 'Attach Orphaned Lesson', 'lifterlms' ),
+			),
+			'dupe' => array(
+				'children' => array(),
+				'text' => esc_attr__( 'Clone Existing Lesson', 'lifterlms' ),
+			),
+		);
 
-		$limit = 50;
-		$skip = ( $page - 1 ) * $limit;
+		$args = array(
+			'order' => 'ASC',
+			'orderby' => 'post_title',
+			'paged' => $page,
+			'post_status' => array( 'publish', 'draft', 'pending' ),
+			'post_type' => 'lesson',
+			'posts_per_page' => 50,
+			's' => $search_term,
+		);
 
-		$author_sql = '';
-
-		// if can't manage LifterLMS current user is either an instructor or an instructor's assistant
-		if ( ! current_user_can( 'manage_lifterlms', $course_id ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 
 			$instructor = llms_get_instructor();
-
 			$parents = $instructor->get( 'parent_instructors' );
 			if ( ! $parents ) {
 				$parents = array();
 			}
 
-			$ids = array_unique( array_merge(
+			$args['author__in'] = array_unique( array_merge(
 				array( get_current_user_id() ),
 				$instructor->get_assistants(),
 				$parents
 			) );
-			$ids = array_map( 'absint', $ids );
-			$author_sql = sprintf( 'AND post_author IN ( %s )', implode( ', ', $ids ) );
 
 		}
 
-		$query = $wpdb->get_results( $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS l.ID AS `id`, l.post_title AS `title`
-			   FROM {$wpdb->posts} AS l
+		$query = new WP_Query( $args );
 
-			   LEFT JOIN {$wpdb->postmeta} AS m
-			     ON l.ID = m.post_id
-			    AND meta_key = '_llms_parent_course'
+		if ( $query->have_posts() ) {
 
-			  WHERE l.post_type = 'lesson'
-			    AND l.post_status IN ( 'publish', 'draft', 'pending' )
-			    AND (
-			    	   m.meta_value IS NULL
-			    	OR m.meta_value NOT IN ( SELECT ID FROM {$wpdb->posts} WHERE post_type = 'course' )
-			    )
-			    AND l.post_title LIKE '%s'
-			    {$author_sql}
-			  LIMIT %d, %d;",
-			'%' . $search_term . '%', $skip, $limit
-		), ARRAY_A );
+			foreach ( $query->posts as $post ) {
 
-		$sql = $wpdb->last_query;
+				$lesson = llms_get_post( $post );
 
-		$found = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) );
-		$more = false;
-		if ( $found ) {
-			$pages = ceil( $found / $limit );
-			$more = ( $page < $pages );
+				$push = 'dupe';
+				if ( $lesson->is_orphan() ) {
+					$id = $post->ID;
+					$push = 'orphan';
+				} else {
+					$id = 'lesson_clone_' . $post->ID;
+				}
+
+				array_push( $lessons[ $push ]['children'], array(
+					'id' => $id,
+					'text' => sprintf( '%1$s (#%2$d)', $post->post_title, $post->ID ),
+					'title' => $post->post_title,
+				) );
+
+			}
+
 		}
 
-		foreach ( $query as &$result ) {
-			$result['text'] = sprintf( '%1$s (#%2$d)', $result['title'], $result['id'] );
+		foreach ( $lessons as $key => $data ) {
+			if ( ! $data['children'] ) {
+				unset( $lessons[ $key ] );
+			}
 		}
 
 		$ret = array(
-			// 'sql' => $sql,
-			'results' => $query,
+			'results' => array_values( $lessons ),
 			'pagination' => array(
-				'more' => $more,
+				'more' =>  ( $page < $query->max_num_pages ),
 			),
 		);
 
