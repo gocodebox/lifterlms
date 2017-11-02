@@ -15,7 +15,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.14.4
+	 * @version  [version]
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -108,6 +108,9 @@ class LLMS_Admin_Builder {
 
 						if ( 'new' !== $id ) {
 							$lesson->set( 'title', $request['model']['title'] );
+							if ( ! $lesson->has_modified_slug() ){
+								$lesson->set( 'name', sanitize_title( $request['model']['title'] ) );
+							}
 						}
 
 						// detach the lesson
@@ -133,7 +136,6 @@ class LLMS_Admin_Builder {
 				$page = isset( $request['page'] ) ? $request['page'] : 1;
 				$term = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
 				wp_send_json( self::get_orphaned_lessons( absint( $request['course_id'] ), $term, $page ) );
-
 			break;
 
 		}// End switch().
@@ -459,7 +461,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public static function output() {
 
@@ -480,6 +482,9 @@ if ( ! empty( $active_post_lock ) ) {
 		?>
 
 		<div class="wrap lifterlms llms-course-builder">
+
+			<!-- give admin notices a home -->
+			<h1 style="display:none;"></h1>
 
 			<div class="llms-builder-inside">
 
