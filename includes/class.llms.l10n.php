@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.13.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.13.0
+	 * @version [version]
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -93,7 +93,7 @@ class LLMS_L10n {
 			'An unknown error occurred. Please try again.' => esc_html__( 'An unknown error occurred. Please try again.', 'lifterlms' ),
 			'Hide Summary' => esc_html__( 'Hide Summary', 'lifterlms' ),
 			'Loading...' => esc_html__( 'Loading...', 'lifterlms' ),
-				'Loading Question...' => esc_html__( 'Loading Question...', 'lifterlms' ),
+			'Loading Question...' => esc_html__( 'Loading Question...', 'lifterlms' ),
 			'Loading Quiz...' => esc_html__( 'Loading Quiz...', 'lifterlms' ),
 			'Loading Quiz Results...' => esc_html__( 'Loading Quiz Results...', 'lifterlms' ),
 			'View Summary' => esc_html__( 'View Summary', 'lifterlms' ),
@@ -105,7 +105,6 @@ class LLMS_L10n {
 		if ( is_admin() ) {
 
 			$admin_strings = array(
-
 				/**
 				 * file: _private/js/llms-admin.js
 				 * @since   3.4.4
@@ -113,6 +112,17 @@ class LLMS_L10n {
 				 */
 				'An unknown error occurred, please try again.' => esc_html__( 'An unknown error occurred, please try again.', 'lifterlms' ),
 				'delete_quiz_attempt' => esc_html__( 'Are you sure you want to delete this quiz attempt? This action cannot be undone!', 'lifterlms' ),
+
+				/**
+				 * file: _private/js/llms-builder.js
+				 * @since   [version]
+				 * @version [version]
+				 */
+				'Add an Existing Lesson'=> esc_html__( 'Add an Existing Lesson', 'lifterlms' ),
+				'Are you sure you want to permanently delete this lesson?' => esc_html__( 'Are you sure you want to permanently delete this lesson?' , 'lifterlms' ),
+				'If you leave now your changes may not be saved!'=> esc_html__( 'If you leave now your changes may not be saved!', 'lifterlms' ),
+				'Search for existing lessons...' => esc_html__( 'Search for existing lessons...' , 'lifterlms' ),
+				'You must remove all lessons before deleting a section.'=> esc_html__( 'You must remove all lessons before deleting a section.', 'lifterlms' ),
 
 				/**
 				 * file: _private/js/llms-analytics.js
