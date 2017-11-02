@@ -121,6 +121,7 @@ class LLMS_L10n {
 				'Add an Existing Lesson'=> esc_html__( 'Add an Existing Lesson', 'lifterlms' ),
 				'Are you sure you want to permanently delete this lesson?' => esc_html__( 'Are you sure you want to permanently delete this lesson?' , 'lifterlms' ),
 				'If you leave now your changes may not be saved!'=> esc_html__( 'If you leave now your changes may not be saved!', 'lifterlms' ),
+				'New Lesson' => esc_html__( 'New Lesson', 'lifterlms' ),
 				'Search for existing lessons...' => esc_html__( 'Search for existing lessons...' , 'lifterlms' ),
 				'You must remove all lessons before deleting a section.'=> esc_html__( 'You must remove all lessons before deleting a section.', 'lifterlms' ),
 
