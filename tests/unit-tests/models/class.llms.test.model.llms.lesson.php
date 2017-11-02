@@ -147,4 +147,83 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * test the is_orphan function
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_is_orphan() {
+
+		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
+		$section = llms_get_post( $course->get_sections( 'ids' )[0] );
+		$lesson = llms_get_post( $course->get_lessons( 'ids' )[0] );
+
+		// not an orphan
+		$this->assertFalse( $lesson->is_orphan() );
+
+ 		$test_statuses = get_post_stati( array( '_builtin' => true ) );
+		foreach ( array_keys( $test_statuses ) as $status ) {
+
+			$assert = in_array( $status, array( 'publish', 'future', 'draft', 'pending', 'private', 'auto-draft' ) ) ? 'assertFalse' : 'assertTrue';
+
+			// check parent course
+			wp_update_post( array(
+				'ID' => $course->get( 'id' ),
+				'post_status' => $status,
+			) );
+			$this->$assert( $lesson->is_orphan() );
+			wp_update_post( array(
+				'ID' => $course->get( 'id' ),
+				'post_status' => 'publish',
+			) );
+
+			// check parent section
+			wp_update_post( array(
+				'ID' => $section->get( 'id' ),
+				'post_status' => $status,
+			) );
+			$this->$assert( $lesson->is_orphan() );
+			wp_update_post( array(
+				'ID' => $section->get( 'id' ),
+				'post_status' => 'publish',
+			) );
+
+		}
+
+		// parent course doesn't exist
+		$lesson->set( 'parent_course', 123456789 );
+		$this->assertTrue( $lesson->is_orphan() );
+		$lesson->set( 'parent_course', $course->get( 'id' ) );
+
+		// parent section doesn't exist
+		$lesson->set( 'parent_section', 123456789 );
+		$this->assertTrue( $lesson->is_orphan() );
+		$lesson->set( 'parent_section', $section->get( 'id' ) );
+
+		// parent course isn't set
+		$lesson->set( 'parent_course', '' );
+		$this->assertTrue( $lesson->is_orphan() );
+		$lesson->set( 'parent_course', $course->get( 'id' ) );
+
+		// parent section isn't set
+		$lesson->set( 'parent_section', '' );
+		$this->assertTrue( $lesson->is_orphan() );
+		$lesson->set( 'parent_section', $section->get( 'id' ) );
+
+		// metakey for parent course doesn't exist
+		delete_post_meta( $lesson->get( 'id' ), '_llms_parent_course' );
+		$this->assertTrue( $lesson->is_orphan() );
+		$lesson->set( 'parent_course', $course->get( 'id' ) );
+
+		// metakey for parent section doesn't exist
+		delete_post_meta( $lesson->get( 'id' ), '_llms_parent_section' );
+		$this->assertTrue( $lesson->is_orphan() );
+		$lesson->set( 'parent_section', $section->get( 'id' ) );
+
+		// not an orphan
+		$this->assertFalse( $lesson->is_orphan() );
+
+	}
+
 }
