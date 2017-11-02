@@ -8,6 +8,7 @@ v3.14.8 - 2017-11-??
 
 ##### Builder Improvements & Fixes
 
++ Add "Existing Lesson" functionality can now clone and attach the clone (when adding a lesson currently attached to a course) OR attach orphans
 + Lessons created via Course builder will have their slugs renamed the first time the lesson title is updated via the builder
 + No longer display notices on the course builder
 + Add extra space to the scollable area on course builder

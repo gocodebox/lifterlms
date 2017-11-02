@@ -721,8 +721,8 @@ class LLMS_Generator {
 	 * @version  [version]
 	 */
 	public function get_generated_courses() {
-		if ( isset( $this->posts['courses'] ) ) {
-			return $this->posts['courses'];
+		if ( isset( $this->posts['course'] ) ) {
+			return $this->posts['course'];
 		}
 		return array();
 	}

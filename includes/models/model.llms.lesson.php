@@ -419,7 +419,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			} elseif ( ! in_array( get_post_status( $parent_id ), $statuses ) ) {
 				return true;
 			}
-
 		}
 
 		return false;

@@ -88,14 +88,14 @@ class LLMS_Admin_Builder {
 
 						$id = 'new';
 
-					// clone (lessons only)
+						// clone (lessons only)
 					} elseif ( false !== strpos( $request['model']['id'], '_clone_' ) ) {
 
 						$orig_id = preg_replace( '/[^0-9]/', '', $request['model']['id'] );
 						$orig = llms_get_post( $orig_id );
 						$id = $orig->clone_post();
 
-					// regular update
+						// regular update
 					} else {
 
 						$id = absint( $request['model']['id'] );
@@ -125,7 +125,7 @@ class LLMS_Admin_Builder {
 
 						if ( 'new' !== $id ) {
 							$lesson->set( 'title', $request['model']['title'] );
-							if ( ! $lesson->has_modified_slug() ){
+							if ( ! $lesson->has_modified_slug() ) {
 								$lesson->set( 'name', sanitize_title( $request['model']['title'] ) );
 							}
 						}
@@ -304,7 +304,6 @@ if ( ! empty( $active_post_lock ) ) {
 				) );
 
 			}
-
 		}
 
 		foreach ( $lessons as $key => $data ) {
@@ -316,7 +315,7 @@ if ( ! empty( $active_post_lock ) ) {
 		$ret = array(
 			'results' => array_values( $lessons ),
 			'pagination' => array(
-				'more' =>  ( $page < $query->max_num_pages ),
+				'more' => ( $page < $query->max_num_pages ),
 			),
 		);
 
