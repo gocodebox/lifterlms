@@ -295,7 +295,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 			'per_page' => 1,
 		) );
 
-		return $query->found_students;
+		return $query->found_results;
 
 	}
 
