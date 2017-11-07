@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.14.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -270,7 +270,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Clones the Post if the post is cloneable
 	 * @return   mixed         WP_Error or WP Post ID of the clone (new) post
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.14.8
 	 */
 	public function clone_post() {
 

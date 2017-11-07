@@ -4,7 +4,7 @@
 	 * Main Application Object
 	 * @type     {Object}
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.8
 	 */
 	var App = {
 
@@ -589,7 +589,7 @@
 	/**
 	 * Lesson Model
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.8
 	 */
 	App.Models.Lesson = Backbone.Model.extend( _.defaults( {
 
@@ -599,7 +599,7 @@
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.14.8
 		 */
 		defaults: function() {
 			var order = this.collection ? this.collection.next_order() : 1,

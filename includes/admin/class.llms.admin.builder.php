@@ -2,7 +2,7 @@
 /**
  * Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.14.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -17,7 +17,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.8
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -181,9 +181,9 @@ class LLMS_Admin_Builder {
 
 		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
 
-		if ( ! empty( $active_post_lock ) ) {
-			?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
-		}
+if ( ! empty( $active_post_lock ) ) {
+	?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
+}
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
@@ -241,8 +241,8 @@ class LLMS_Admin_Builder {
 	 * @param    string     $search_term  optional search term (searches post_title)
 	 * @param    integer    $page         page, used when paginating search results
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	private static function get_existing_lessons( $course_id, $search_term = '', $page = 1 ) {
 
@@ -287,7 +287,6 @@ class LLMS_Admin_Builder {
 		$query = new WP_Query( $args );
 		remove_filter( 'posts_where', array( __CLASS__, 'get_existing_lessons_where' ), 10, 2 );
 
-
 		$lessons = array();
 
 		if ( $query->have_posts() ) {
@@ -329,8 +328,8 @@ class LLMS_Admin_Builder {
 	 * @param    string     $where      existing sql where clause
 	 * @param    obj        $wp_query   WP_Query
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	public function get_existing_lessons_where( $where, $wp_query ) {
 
@@ -505,7 +504,7 @@ class LLMS_Admin_Builder {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.14.8
 	 */
 	public static function output() {
 

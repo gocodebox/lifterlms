@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version [version]
+ * @version 3.14.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version [version]
+	 * @version 3.14.8
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -115,8 +115,8 @@ class LLMS_L10n {
 
 				/**
 				 * file: _private/js/llms-builder.js
-				 * @since   [version]
-				 * @version [version]
+				 * @since   3.14.8
+				 * @version 3.14.8
 				 */
 				'Add an Existing Lesson' => esc_html__( 'Add an Existing Lesson', 'lifterlms' ),
 				'Are you sure you want to permanently delete this lesson?' => esc_html__( 'Are you sure you want to permanently delete this lesson?' , 'lifterlms' ),

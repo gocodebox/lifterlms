@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.8.2
-Stable tag: 3.14.7
+Stable tag: 3.14.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -348,6 +348,25 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+= v3.14.8 - 2017-11-06 =
+------------------------
+
++ Lessons can be cloned via the "Clone" action from the lessons post table
+
+##### Builder Improvements & Fixes
+
++ Add "Existing Lesson" functionality can now clone and attach the clone (when adding a lesson currently attached to a course) OR attach orphans
++ Lessons created via Course builder will have their slugs renamed the first time the lesson title is updated via the builder
++ No longer display notices on the course builder
++ Add extra space to the scollable area on course builder
++ Removed logging and debugging functions from admin builder class
++ JS-generated error messages on the course builder are now translateable
+
+##### Bug Fixes
+
++ Fix: Show all memberships on dashboard
 
 
 = v3.14.7 - 2017-10-25 =
