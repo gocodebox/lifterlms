@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Admin_Builder {
 
+	private static $search_term = '';
+
 	/**
 	 * A terrible Rest API for the course builder
 	 * @shame    gimme a break pls
@@ -179,9 +181,9 @@ class LLMS_Admin_Builder {
 
 		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
 
-if ( ! empty( $active_post_lock ) ) {
-	?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
-}
+		if ( ! empty( $active_post_lock ) ) {
+			?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
+		}
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
@@ -262,7 +264,6 @@ if ( ! empty( $active_post_lock ) ) {
 			'post_status' => array( 'publish', 'draft', 'pending' ),
 			'post_type' => 'lesson',
 			'posts_per_page' => 50,
-			's' => $search_term,
 		);
 
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -281,7 +282,13 @@ if ( ! empty( $active_post_lock ) ) {
 
 		}
 
+		self::$search_term = $search_term;
+		add_filter( 'posts_where', array( __CLASS__, 'get_existing_lessons_where' ), 10, 2 );
 		$query = new WP_Query( $args );
+		remove_filter( 'posts_where', array( __CLASS__, 'get_existing_lessons_where' ), 10, 2 );
+
+
+		$lessons = array();
 
 		if ( $query->have_posts() ) {
 
@@ -289,37 +296,50 @@ if ( ! empty( $active_post_lock ) ) {
 
 				$lesson = llms_get_post( $post );
 
-				$push = 'dupe';
 				if ( $lesson->is_orphan() ) {
 					$id = $post->ID;
-					$push = 'orphan';
+					$text = sprintf( '%1$s (#%2$d)', $post->post_title, $post->ID );
 				} else {
 					$id = 'lesson_clone_' . $post->ID;
+					$text = sprintf( '[CLONE] %1$s (#%2$d)', $post->post_title, $post->ID );
 				}
 
-				array_push( $lessons[ $push ]['children'], array(
+				$lessons[] = array(
 					'id' => $id,
-					'text' => sprintf( '%1$s (#%2$d)', $post->post_title, $post->ID ),
+					'text' => $text,
 					'title' => $post->post_title,
-				) );
+				);
 
-			}
-		}
-
-		foreach ( $lessons as $key => $data ) {
-			if ( ! $data['children'] ) {
-				unset( $lessons[ $key ] );
 			}
 		}
 
 		$ret = array(
-			'results' => array_values( $lessons ),
+			'results' => $lessons,
 			'pagination' => array(
 				'more' => ( $page < $query->max_num_pages ),
 			),
 		);
 
 		return $ret;
+
+	}
+
+	/**
+	 * Search lessons by search term during existing lesson lookups
+	 * @param    string     $where      existing sql where clause
+	 * @param    obj        $wp_query   WP_Query
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_existing_lessons_where( $where, $wp_query ) {
+
+		if ( self::$search_term ) {
+			global $wpdb;
+			$where .= ' AND ' . $wpdb->posts . '.post_title LIKE "%' . esc_sql( $wpdb->esc_like( self::$search_term ) ) . '%"';
+		}
+
+		return $where;
 
 	}
 
