@@ -1,7 +1,7 @@
 == Changelog ==
 
 
-v3.14.8 - 2017-11-??
+= v3.14.8 - 2017-11-06 =
 ------------------------
 
 + Lessons can be cloned via the "Clone" action from the lessons post table

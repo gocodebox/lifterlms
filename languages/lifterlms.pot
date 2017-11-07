@@ -42,7 +42,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:501, includes/admin/class.llms.admin.builder.php:346, includes/admin/class.llms.admin.builder.php:362, includes/admin/class.llms.admin.builder.php:371, includes/admin/class.llms.admin.builder.php:380, includes/admin/class.llms.admin.builder.php:389, includes/admin/class.llms.admin.builder.php:398, includes/class.llms.shortcodes.php:293, templates/loop/pagination.php:23, templates/myaccount/my-notifications.php:41, templates/myaccount/my-orders.php:61, templates/myaccount/view-order-transactions.php:52
+#: includes/abstracts/abstract.llms.admin.table.php:501, includes/admin/class.llms.admin.builder.php:365, includes/admin/class.llms.admin.builder.php:381, includes/admin/class.llms.admin.builder.php:390, includes/admin/class.llms.admin.builder.php:399, includes/admin/class.llms.admin.builder.php:408, includes/admin/class.llms.admin.builder.php:417, includes/class.llms.shortcodes.php:293, templates/loop/pagination.php:23, templates/myaccount/my-notifications.php:41, templates/myaccount/my-orders.php:61, templates/myaccount/view-order-transactions.php:52
 msgid "Next"
 msgstr ""
 
@@ -83,7 +83,7 @@ msgstr ""
 msgid "The title the user sees during checkout."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:163, includes/notifications/views/class.llms.notification.view.enrollment.php:72
+#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:164, includes/notifications/views/class.llms.notification.view.enrollment.php:72
 msgid "Title"
 msgstr ""
 
@@ -205,7 +205,7 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#: includes/admin/analytics/class.llms.analytics.courses.php:20, includes/admin/analytics/class.llms.analytics.sales.php:103, includes/admin/class.llms.admin.import.php:74, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:152, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:51, includes/admin/reporting/class.llms.admin.reporting.php:223, includes/admin/reporting/tables/llms.table.courses.php:99, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:83, includes/admin/settings/class.llms.settings.courses.php:19, includes/class.llms.post-types.php:176, includes/integrations/class.llms.integration.buddypress.php:52, includes/integrations/class.llms.integration.buddypress.php:65, templates/admin/analytics/analytics.php:90, templates/admin/reporting/nav-filters.php:72, templates/admin/reporting/tabs/courses/course.php:12
+#: includes/admin/analytics/class.llms.analytics.courses.php:20, includes/admin/analytics/class.llms.analytics.sales.php:103, includes/admin/class.llms.admin.import.php:74, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:152, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:51, includes/admin/reporting/class.llms.admin.reporting.php:223, includes/admin/reporting/tables/llms.table.courses.php:100, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:83, includes/admin/settings/class.llms.settings.courses.php:19, includes/class.llms.post-types.php:176, includes/integrations/class.llms.integration.buddypress.php:52, includes/integrations/class.llms.integration.buddypress.php:65, templates/admin/analytics/analytics.php:90, templates/admin/reporting/nav-filters.php:72, templates/admin/reporting/tabs/courses/course.php:12
 msgid "Courses"
 msgstr ""
 
@@ -413,231 +413,231 @@ msgstr ""
 msgid "You must enter a start and end date."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:250
+#: includes/admin/class.llms.admin.builder.php:252
 msgid "Attach Orphaned Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:254
+#: includes/admin/class.llms.admin.builder.php:256
 msgid "Clone Existing Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:336
+#: includes/admin/class.llms.admin.builder.php:355
 msgid "Create a Section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:338
+#: includes/admin/class.llms.admin.builder.php:357
 msgid "Sections are the organizational building blocks of a course. A course can be made up of one or more sections and each of these sections contains at least one lesson."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:339
+#: includes/admin/class.llms.admin.builder.php:358
 msgid "Add a section by clicking the \"New Section\" button on the right."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:343
+#: includes/admin/class.llms.admin.builder.php:362
 msgid "Auto-Saves and Save Status"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:348
+#: includes/admin/class.llms.admin.builder.php:367
 msgid "Everything is saved automatically but watch the status indicator to ensure your content is saved before leaving the builder!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:352
+#: includes/admin/class.llms.admin.builder.php:371
 msgid "Create a Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:354
+#: includes/admin/class.llms.admin.builder.php:373
 msgid "Great! Now that you have a section you can start adding lessons to it. Lessons will contain the main content of your course. In a lesson you can add text, video, image, and other types of content."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:355
+#: includes/admin/class.llms.admin.builder.php:374
 msgid "Add a lesson by clicking the \"New Lesson\" button on the right."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:359
+#: includes/admin/class.llms.admin.builder.php:378
 msgid "Reorder Sections"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:364
+#: includes/admin/class.llms.admin.builder.php:383
 msgid "Use drag handles to drag and drop sections and reorder them."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:368
+#: includes/admin/class.llms.admin.builder.php:387
 msgid "Rename a Section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:373
+#: includes/admin/class.llms.admin.builder.php:392
 msgid "Click on the title of any section to edit the title. When finished, hit the \"Enter\" key to save or press \"Esc\" to quit editing and revert to the original title."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:377
+#: includes/admin/class.llms.admin.builder.php:396
 msgid "Reorder Lessons within a section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:382
+#: includes/admin/class.llms.admin.builder.php:401
 msgid "Use drag handles on a lesson to drag and drop lessons within a section and reorder them. When you have multilpe sections you can also move lessons into another section."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:386
+#: includes/admin/class.llms.admin.builder.php:405
 msgid "Rename a Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:391
+#: includes/admin/class.llms.admin.builder.php:410
 msgid "Click on the title of a lesson to rename it in the same way you can rename sections!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:395
+#: includes/admin/class.llms.admin.builder.php:414
 msgid "Expand and Collapse"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:400
+#: includes/admin/class.llms.admin.builder.php:419
 msgid "Use these expand and collapse buttons to open and close all the sections in the course in one click."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:404
+#: includes/admin/class.llms.admin.builder.php:423
 msgid "Build on!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:407, includes/admin/class.llms.admin.setup.wizard.php:188
+#: includes/admin/class.llms.admin.builder.php:426, includes/admin/class.llms.admin.setup.wizard.php:188
 msgid "Finish!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:409
+#: includes/admin/class.llms.admin.builder.php:428
 msgid "That's all! To finish building your course you'll want to finish your outline with more sections and lessons. When you're satisfied use the pencil icons to leave the builder and start adding content to your lessons."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:496
+#: includes/admin/class.llms.admin.builder.php:515
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:503
+#: includes/admin/class.llms.admin.builder.php:522
 msgid "You cannot edit this course!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:525
+#: includes/admin/class.llms.admin.builder.php:544
 msgid "Course Elements"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:531, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:41, includes/class.llms.post-types.php:216
+#: includes/admin/class.llms.admin.builder.php:550, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:41, includes/class.llms.post-types.php:216
 msgid "Section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:537, includes/class.llms.l10n.php:124, includes/class.llms.post-types.php:253, includes/models/model.llms.lesson.php:330
+#: includes/admin/class.llms.admin.builder.php:556, includes/class.llms.l10n.php:124, includes/class.llms.post-types.php:253, includes/models/model.llms.lesson.php:330
 msgid "New Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:543
+#: includes/admin/class.llms.admin.builder.php:562
 msgid "Existing Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:549
+#: includes/admin/class.llms.admin.builder.php:568
 msgid "Tools"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:556
+#: includes/admin/class.llms.admin.builder.php:575
 msgid "Expand All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:563
+#: includes/admin/class.llms.admin.builder.php:582
 msgid "Collapse All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:572
+#: includes/admin/class.llms.admin.builder.php:591
 msgid "You have unsaved changes"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:573
+#: includes/admin/class.llms.admin.builder.php:592
 msgid "Saving changes..."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:617
+#: includes/admin/class.llms.admin.builder.php:636
 msgid "Enrolled students only"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:618
+#: includes/admin/class.llms.admin.builder.php:637
 msgid "Publicly available"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:623
+#: includes/admin/class.llms.admin.builder.php:642
 msgid "No prerequisite"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:624
+#: includes/admin/class.llms.admin.builder.php:643
 msgid "Prerequisite: %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:629
+#: includes/admin/class.llms.admin.builder.php:648
 msgid "No drip delay"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:640
+#: includes/admin/class.llms.admin.builder.php:659
 msgid "No quiz"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:641
+#: includes/admin/class.llms.admin.builder.php:660
 msgid "Quiz: %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:646
+#: includes/admin/class.llms.admin.builder.php:665
 msgid "No content"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:647
+#: includes/admin/class.llms.admin.builder.php:666
 msgid "Has content"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:674
+#: includes/admin/class.llms.admin.builder.php:693
 msgid "Expand section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:677
+#: includes/admin/class.llms.admin.builder.php:696
 msgid "Collapse section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:681, includes/admin/class.llms.admin.builder.php:736
+#: includes/admin/class.llms.admin.builder.php:700, includes/admin/class.llms.admin.builder.php:755
 msgid "Shift up"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:685, includes/admin/class.llms.admin.builder.php:740
+#: includes/admin/class.llms.admin.builder.php:704, includes/admin/class.llms.admin.builder.php:759
 msgid "Shift down"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:690
+#: includes/admin/class.llms.admin.builder.php:709
 msgid "Delete Section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:703
+#: includes/admin/class.llms.admin.builder.php:722
 msgid "Drop a section here to get started!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:706
+#: includes/admin/class.llms.admin.builder.php:725
 msgid "Show Me How"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:710
+#: includes/admin/class.llms.admin.builder.php:729
 msgid "Read the Docs"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:728
+#: includes/admin/class.llms.admin.builder.php:747
 msgid "Edit lesson settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:732
+#: includes/admin/class.llms.admin.builder.php:751
 msgid "View lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:744
+#: includes/admin/class.llms.admin.builder.php:763
 msgid "Move to previous section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:748
+#: includes/admin/class.llms.admin.builder.php:767
 msgid "Move to next section"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:752
+#: includes/admin/class.llms.admin.builder.php:771
 msgid "Detach Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:757
+#: includes/admin/class.llms.admin.builder.php:776
 msgid "Delete Lesson"
 msgstr ""
 
@@ -2520,7 +2520,7 @@ msgstr ""
 msgid "Manage Existing Enrollments"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.courses.php:159, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:330, templates/admin/post-types/order-transactions.php:17
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.courses.php:160, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:330, templates/admin/post-types/order-transactions.php:17
 msgid "ID"
 msgstr ""
 
@@ -2548,7 +2548,7 @@ msgstr ""
 msgid "Enrollment Trigger"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:222, includes/admin/reporting/tables/llms.table.courses.php:167, includes/admin/reporting/tables/llms.table.students.php:198, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:89, templates/admin/analytics/analytics.php:71, templates/admin/reporting/nav-filters.php:53, templates/admin/reporting/tabs/students/student.php:13
+#: includes/admin/reporting/class.llms.admin.reporting.php:222, includes/admin/reporting/tables/llms.table.courses.php:168, includes/admin/reporting/tables/llms.table.students.php:198, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:89, templates/admin/analytics/analytics.php:71, templates/admin/reporting/nav-filters.php:53, templates/admin/reporting/tabs/students/student.php:13
 msgid "Students"
 msgstr ""
 
@@ -2576,11 +2576,11 @@ msgstr ""
 msgid "This student has not yet earned any certificates."
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.courses.php:170, templates/admin/reporting/tabs/students/information.php:22
+#: includes/admin/reporting/tables/llms.table.courses.php:171, templates/admin/reporting/tabs/students/information.php:22
 msgid "Overall Progress"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.courses.php:174, templates/admin/reporting/tabs/students/information.php:29
+#: includes/admin/reporting/tables/llms.table.courses.php:175, templates/admin/reporting/tabs/students/information.php:29
 msgid "Overall Grade"
 msgstr ""
 

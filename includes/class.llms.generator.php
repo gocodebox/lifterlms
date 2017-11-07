@@ -2,7 +2,7 @@
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  [version]
+ * @version  3.14.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -181,8 +181,8 @@ class LLMS_Generator {
 	/**
 	 * Generator called when cloning a lesson
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	private function clone_lesson() {
 
@@ -378,7 +378,7 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   mixed                          lesson id or WP_Error
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.14.8
 	 */
 	private function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
 
@@ -718,7 +718,7 @@ class LLMS_Generator {
 	 * Retrieve the array of generated course ids
 	 * @return   array
 	 * @since    3.7.3
-	 * @version  [version]
+	 * @version  3.14.8
 	 */
 	public function get_generated_courses() {
 		if ( isset( $this->posts['course'] ) ) {
@@ -730,8 +730,8 @@ class LLMS_Generator {
 	/**
 	 * Retrieve the array of generated course ids
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	public function get_generated_posts() {
 		return $this->posts;
@@ -741,7 +741,7 @@ class LLMS_Generator {
 	 * Get an array of valid LifterLMS generators
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.14.8
 	 */
 	private function get_generators() {
 		return apply_filters( 'llms_generators', array(
@@ -903,8 +903,8 @@ class LLMS_Generator {
 	 * @param    int      $id    WP Post ID of the generated post
 	 * @param    string   $type  key of the stat to increment
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	private function record_generation( $id, $type ) {
 

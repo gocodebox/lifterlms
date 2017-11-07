@@ -1,8 +1,8 @@
 <?php
 /**
  * Tests for LifterLMS Lesson Model
- * @since     [version]
- * @version   [version]
+ * @since     3.14.8
+ * @version   3.14.8
  * @group     post_models
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
@@ -23,8 +23,8 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	protected function get_properties() {
 		return array(
@@ -49,8 +49,8 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	protected function get_data() {
 		return array(
@@ -86,8 +86,8 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test Audio and Video Embeds
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	public function test_get_embeds() {
 
@@ -125,8 +125,8 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test has_modified_slug function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	public function test_has_modified_slug() {
 
@@ -150,8 +150,8 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * test the is_orphan function
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	public function test_is_orphan() {
 

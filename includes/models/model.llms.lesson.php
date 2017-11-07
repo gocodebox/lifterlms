@@ -3,7 +3,7 @@
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.8
  *
  * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
  * @property  $audio_embed  (string)  Audio embed URL
@@ -322,8 +322,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Ensures that lessons created via the builder with "New Lesson" as the title (default slug "new-lesson-{$num}")
 	 * have their slug renamed when the title is renamed for the first time
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	public function has_modified_slug() {
 
@@ -403,8 +403,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Determine if the lesson is an orphan
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.8
+	 * @version  3.14.8
 	 */
 	public function is_orphan() {
 
