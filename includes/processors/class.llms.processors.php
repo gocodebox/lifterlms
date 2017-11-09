@@ -16,6 +16,7 @@ class LLMS_Processors {
 	 */
 	private $classes = array(
 		'course_data',
+		'table_to_csv',
 	);
 
 	/**
@@ -107,6 +108,7 @@ class LLMS_Processors {
 
 		}
 
+
 	}
 
 	/**
@@ -124,6 +126,7 @@ class LLMS_Processors {
 
 			$file = str_replace( '_', '.', $path );
 			$path = LLMS_PLUGIN_DIR . 'includes/processors/class.llms.processor.' . $file . '.php';
+
 		}
 
 		if ( file_exists( $path ) ) {
