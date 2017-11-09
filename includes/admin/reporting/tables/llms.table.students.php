@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version 3.13.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -183,6 +183,49 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Retrieve data for a cell in an export file
+	 * Should be overriden in extending classes
+	 * @param    string     $key        the column id / key
+	 * @param    obj        $student    Instance of the LLMS_Student
+	 * @return   mixed
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_data( $key, $student ) {
+
+		switch ( $key ) {
+
+			case 'id':
+				$value = $student->get_id();
+			break;
+
+			case 'email':
+				$value = $student->get( 'user_email' );
+			break;
+
+			case 'name_first':
+				$value = $student->get( 'first_name' );
+			break;
+
+			case 'name_last':
+				$value = $student->get( 'last_name' );
+			break;
+
+			case 'overall_progress':
+				$value = $student->get_overall_progress( true ) . '%';
+			break;
+
+			default:
+				$value = $this->get_data( $key, $student );
+
+		}// End switch().
+
+		return $this->filter_get_data( $value, $key, $student, 'export' );
+
+	}
+
+
+	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input
 	 * @return   string
 	 * @since    3.2.0
@@ -197,7 +240,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.4.0
+	 * @version  [version]
 	 */
 	public function get_results( $args = array() ) {
 
@@ -266,7 +309,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		$query_args = array(
 			'page' => $this->get_current_page(),
 			'post_id' => array(),
-			'per_page' => apply_filters( 'llms_gradebook_' . $this->id . '_per_page', 20 ),
+			'per_page' => $args['per_page'],
 			'sort' => $sort,
 		);
 
@@ -317,37 +360,59 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Define the structure of arguments used to pass to the get_results method
 	 * @return   array
 	 * @since    2.3.0
-	 * @version  2.3.0
+	 * @version  [version]
 	 */
 	public function set_args() {
-		return array();
+		$deprecated = apply_filters( 'llms_gradebook_' . $this->id . '_per_page', 25 );
+		return array(
+			'per_page' => apply_filters( 'llms_table_' . $this->id . '_per_page', $deprecated ),
+		);
 	}
 
 	/**
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function set_columns() {
 		return array(
 			'id' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'ID', 'lifterlms' ),
+			),
+			'email' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Email', 'lifterlms' ),
 			),
 			'name' => array(
 				'sortable' => true,
 				'title' => __( 'Name', 'lifterlms' ),
 			),
+			'name_last' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Last Name', 'lifterlms' ),
+			),
+			'name_first' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'First Name', 'lifterlms' ),
+			),
 			'registered' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'Registration Date', 'lifterlms' ),
 			),
 			'overall_progress' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'Progress', 'lifterlms' ),
 			),
 			'overall_grade' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
