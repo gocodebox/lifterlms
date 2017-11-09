@@ -74,6 +74,13 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
 	}
 
+	/**
+	 * Retrieve an instance of the table handler class
+	 * @param    string     $handler  name of the handler
+	 * @return   obj|false
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	private function get_handler( $handler ) {
 
 		if ( 0 !== strpos( $handler, 'LLMS_Table_' ) ) {
