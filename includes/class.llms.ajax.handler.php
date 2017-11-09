@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.14.2
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -126,31 +126,25 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Reload admin tables
+	 * Queue a table export event
 	 * @param    array     $request  post data ($_REQUST)
 	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public static function export_admin_table( $request ) {
 
 		require_once 'admin/reporting/class.llms.admin.reporting.php';
+		LLMS_Admin_Reporting::includes();
 
 		$handler = 'LLMS_Table_' . $request['handler'];
-
-		LLMS_Admin_Reporting::includes();
 
 		if ( class_exists( $handler ) ) {
 
 			$table = new $handler();
-			return $table->generate_export();
-
-			// return array(
-			// 	'args'  => json_encode( $table->get_args() ),
-			// 	'thead' => trim( $table->get_thead_html() ),
-			// 	'tbody' => trim( $table->get_tbody_html() ),
-			// 	'tfoot' => trim( $table->get_tfoot_html() ),
-			// );
+			$table->queue_export();
+			$user = wp_get_current_user();
+			return sprintf( __( 'The export is being generated and will be emailed to %s when complete.', 'lifterlms' ), $user->user_email );
 
 		} else {
 
