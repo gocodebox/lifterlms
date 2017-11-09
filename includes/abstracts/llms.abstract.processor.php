@@ -1,13 +1,13 @@
 <?php
 /**
  * Base background processor class
- * @since    ??
- * @version  ??
+ * @since    [version]
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-abstract class LLMS_Processor extends WP_Background_Process {
+abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Unique identifier for the processor
@@ -20,8 +20,8 @@ abstract class LLMS_Processor extends WP_Background_Process {
 	 * Acts as a constructor that extending processors should implement
 	 * at the very least should populate the $this->actions array
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	abstract protected function init();
 
@@ -32,8 +32,8 @@ abstract class LLMS_Processor extends WP_Background_Process {
 	 * @param    array    $item  item in the queue
 	 * @return   boolean      	 true to keep the item in the queue and process again
 	 *                           false to remove the item from the queue
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	// abstract protected function task( $item );
 
@@ -49,8 +49,8 @@ abstract class LLMS_Processor extends WP_Background_Process {
 	/**
 	 * Constructor
 	 * Initializes and adds actions
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public function __construct() {
 
@@ -67,8 +67,8 @@ abstract class LLMS_Processor extends WP_Background_Process {
 	/**
 	 * Add actions defined in $this->actions
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	private function add_actions() {
 
@@ -88,8 +88,8 @@ abstract class LLMS_Processor extends WP_Background_Process {
 	/**
 	 * Called when queue is emptied and process is complete
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	protected function complete() {
 
@@ -101,8 +101,8 @@ abstract class LLMS_Processor extends WP_Background_Process {
 	/**
 	 * Retrieve a filtered array of actions to be added by $this->add_acitons
 	 * @return   array
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	private function get_actions() {
 
@@ -116,8 +116,8 @@ abstract class LLMS_Processor extends WP_Background_Process {
 	 * @param    string     $key      if set, return a specific peice of data rather than the whole array
 	 * @param    string     $default  when returning a specific piece of data, allows a default value to be passed
 	 * @return   array|mixed
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public function get_data( $key = null, $default = '' ) {
 
@@ -144,8 +144,8 @@ abstract class LLMS_Processor extends WP_Background_Process {
 	 * Log data to the processors log when processors debugging is enabled
 	 * @param    mixed     $data  data to log
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	protected function log( $data ) {
 
@@ -159,8 +159,8 @@ abstract class LLMS_Processor extends WP_Background_Process {
 	 * Save data to the database related to the processor
 	 * @param    string     $key    keyn ame
 	 * @param    mixed     $value  value
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public function set_data( $key, $value ) {
 

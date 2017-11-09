@@ -1,8 +1,8 @@
 <?php
 /**
  * Load, access, and manage LifterLMS Processors
- * @since    ??
- * @version  ??
+ * @since    [version]
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -33,8 +33,8 @@ class LLMS_Processors {
 	/**
 	 * Main instance
 	 * @return   LLMS_Processors
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -45,8 +45,8 @@ class LLMS_Processors {
 
 	/**
 	 * Constructor
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	private function __construct() {
 
@@ -59,8 +59,8 @@ class LLMS_Processors {
 	 * Access a single loaded processor instance
 	 * @param    string     $name  name of the processor
 	 * @return   obj|false         instance of the proccesor if found, otherwise false
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public function get( $name ) {
 
@@ -74,12 +74,11 @@ class LLMS_Processors {
 	/**
 	 * Include classes required by proccessors
 	 * @return   [type]     [description]
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	private function includes() {
 
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.processor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
 
@@ -88,8 +87,8 @@ class LLMS_Processors {
 	/**
 	 * Load all processors
 	 * @return   [type]     [description]
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	private function load_all() {
 
@@ -114,8 +113,8 @@ class LLMS_Processors {
 	 * Load a single processor
 	 * @param    string     $name  name of the processor
 	 * @return   obj|false         instance of the proccesor if found, otherwise false
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public function load_processor( $name ) {
 

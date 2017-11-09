@@ -83,7 +83,7 @@ msgstr ""
 msgid "The title the user sees during checkout."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:164, includes/notifications/views/class.llms.notification.view.enrollment.php:72
+#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:167, includes/notifications/views/class.llms.notification.view.enrollment.php:72
 msgid "Title"
 msgstr ""
 
@@ -2520,7 +2520,7 @@ msgstr ""
 msgid "Manage Existing Enrollments"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.courses.php:160, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:330, templates/admin/post-types/order-transactions.php:17
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.courses.php:163, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:330, templates/admin/post-types/order-transactions.php:17
 msgid "ID"
 msgstr ""
 
@@ -2548,7 +2548,7 @@ msgstr ""
 msgid "Enrollment Trigger"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:222, includes/admin/reporting/tables/llms.table.courses.php:168, includes/admin/reporting/tables/llms.table.students.php:198, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:89, templates/admin/analytics/analytics.php:71, templates/admin/reporting/nav-filters.php:53, templates/admin/reporting/tabs/students/student.php:13
+#: includes/admin/reporting/class.llms.admin.reporting.php:222, includes/admin/reporting/tables/llms.table.courses.php:171, includes/admin/reporting/tables/llms.table.students.php:198, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:89, templates/admin/analytics/analytics.php:71, templates/admin/reporting/nav-filters.php:53, templates/admin/reporting/tabs/students/student.php:13
 msgid "Students"
 msgstr ""
 
@@ -2576,12 +2576,12 @@ msgstr ""
 msgid "This student has not yet earned any certificates."
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.courses.php:171, templates/admin/reporting/tabs/students/information.php:22
-msgid "Overall Progress"
+#: includes/admin/reporting/tables/llms.table.courses.php:174
+msgid "Average Progress"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.courses.php:175, templates/admin/reporting/tabs/students/information.php:29
-msgid "Overall Grade"
+#: includes/admin/reporting/tables/llms.table.courses.php:178
+msgid "Average Grade"
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.questions.php:91, includes/class.llms.post-types.php:322, templates/quiz/summary.php:38
@@ -8576,6 +8576,14 @@ msgstr ""
 
 #: templates/admin/reporting/tabs/students/information.php:15
 msgid "Registered"
+msgstr ""
+
+#: templates/admin/reporting/tabs/students/information.php:22
+msgid "Overall Progress"
+msgstr ""
+
+#: templates/admin/reporting/tabs/students/information.php:29
+msgid "Overall Grade"
 msgstr ""
 
 #: templates/admin/user-edit.php:22

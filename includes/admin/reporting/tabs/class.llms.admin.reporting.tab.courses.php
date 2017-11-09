@@ -1,8 +1,8 @@
 <?php
 /**
  * Courses Tab on Reporting Screen
- * @since    ??
- * @version  ??
+ * @since    [version]
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -12,8 +12,8 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	/**
 	 * Constructor
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public function __construct() {
 
@@ -74,19 +74,18 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	/**
 	 * Output tab content
 	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	public function output() {
 
 		// single course
 		if ( isset( $_GET['course_id'] ) ) {
 
-			$tabs = apply_filters( 'llms_reporting_tab_student_tabs', array(
+			$tabs = apply_filters( 'llms_reporting_tab_course_tabs', array(
 				'overview' => __( 'Overview', 'lifterlms' ),
-				'lessons' => __( 'Lessons', 'lifterlms' ),
-				'quizzes' => __( 'Quizzes', 'lifterlms' ),
 				'students' => __( 'Students', 'lifterlms' ),
+				// 'quizzes' => __( 'Quizzes', 'lifterlms' ),
 			) );
 
 			llms_get_template( 'admin/reporting/tabs/courses/course.php', array(
@@ -94,9 +93,6 @@ class LLMS_Admin_Reporting_Tab_Courses {
 				'tabs' => $tabs,
 				'course' => llms_get_post( intval( $_GET['course_id'] ) ),
 			) );
-
-
-
 
 		} // courses table
 		else {

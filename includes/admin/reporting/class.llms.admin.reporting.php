@@ -275,4 +275,65 @@ class LLMS_Admin_Reporting {
 
 	}
 
+	public static function output_widget( $args = array() ) {
+
+		$args = wp_parse_args( $args, array(
+
+			'color' => '',
+			'cols' => 'd-1of2',
+			'data' => '',
+			'data_compare' => '',
+			'data_type' => 'numeric', // [numeric|monetary|text|percentage]
+			'icon' => '',
+			'id' => '',
+			'impact' => 'positive',
+			'text' => '',
+
+		) );
+
+		$data_after = '';
+		if ( 'percentage' === $args['data_type'] ) {
+			$data_after = '<sup>%</sup>';
+		}
+
+		$change = false;
+		if ( $args['data_compare'] && $args['data'] ) {
+
+			if ( $args['data'] ) {
+
+				$change = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
+				$compare_operator = ( $change <= 0 ) ? '' : '+';
+				if ( 'positive' === $args['impact'] ) {
+					$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
+				} else {
+					$compare_class = ( $change <= 0 ) ? 'positive' : 'negative';
+				}
+
+			}
+
+
+
+		}
+
+		?>
+		<div class="<?php echo esc_attr( $args['cols'] ); ?>">
+			<div class="llms-reporting-widget <?php echo esc_attr( $args['id'] ); ?> <?php echo esc_attr( $args['color'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>">
+				<?php if ( $args['icon'] ) : ?>
+					<i class="fa fa-<?php echo $args['icon']; ?>" aria-hidden="true"></i>
+				<?php endif; ?>
+				<div class="llms-reporting-widget-data">
+					<strong><?php echo $args['data']; ?><?php echo $data_after; ?></strong>
+					<?php if ( $change ) : ?>
+						<small class="compare tooltip <?php echo $compare_class ?>" title="<?php printf( esc_attr__( 'Previously %d', 'lifterlms' ), $args['data_compare'] ); ?>">
+							<?php echo $compare_operator . $change; ?>%
+						</small>
+					<?php endif; ?>
+				</div>
+				<small><?php echo $args['text']; ?></small>
+			</div>
+		</div>
+		<?php
+
+	}
+
 }

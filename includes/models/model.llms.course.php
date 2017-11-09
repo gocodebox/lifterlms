@@ -6,6 +6,8 @@
 * @version  [version]
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
+* @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
+* @property $average_progress  (float)  Calulated value of the overall average progress of all *enrolled* students in the course.
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
 * @property $capacity_message  (string)  Message displayed when capacity has been reached
 * @property $content_restricted_message  (string)  Message displayed when non-enrolled visitors try to access lessons/quizzes directly
@@ -24,8 +26,6 @@
 * @property $prerequisite_track   (int)  WP Tax ID of a the prerequisite track
 * @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
 * @property $length  (string)  User defined coure length
-* @property $overall_grade  (float)  Calulated value of the overall grade of all *enrolled* students in the course.
-* @property $overall_progress  (float)  Calulated value of the overall progress of all *enrolled* students in the course.
 * @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
 * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
 * @property $video_embed  (string)  URL to an oEmbed enable video URL
@@ -39,6 +39,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 		// public
 		'audio_embed' => 'text',
+		'average_grade' => 'float',
+		'average_progress' => 'float',
 		'capacity' => 'absint',
 		'capacity_message' => 'text',
 		'course_closed_message' => 'text',
@@ -54,8 +56,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		'has_prerequisite' => 'yesno',
 		'instructors' => 'array',
 		'length' => 'text',
-		'overall_grade' => 'float',
-		'overall_progress' => 'float',
 		'prerequisite' => 'absint',
 		'prerequisite_track' => 'absint',
 		'tile_featured_video' => 'yesno',
@@ -228,7 +228,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	/**
 	 * Retrieve an array of quizzes within a course
 	 * @return   array            array of WP_Post IDs of the quizzes
-	 * @since    [version]
+	 * @since    3.12.0
 	 * @version  3.12.0
 	 */
 	public function get_quizzes() {

@@ -57,7 +57,7 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 		switch ( $key ) {
 
 			case 'grade':
-				$value = $course->get( 'overall_grade' ) . '%';
+				$value = $course->get( 'average_grade' ) . '%';
 			break;
 
 			case 'id':
@@ -65,7 +65,7 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 			break;
 
 			case 'progress':
-				$value = $this->get_progress_bar_html( $course->get( 'overall_progress' ) );
+				$value = $this->get_progress_bar_html( $course->get( 'average_progress' ) );
 			break;
 
 			case 'students':
@@ -120,7 +120,10 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 		);
 
 		if ( 'progress' === $this->orderby ) {
-			$query_args['meta_key'] = '_llms_overall_progress';
+			$query_args['meta_key'] = '_llms_average_progress';
+			$query_args['orderby'] = 'meta_value_num';
+		} elseif ( 'grade' === $this->orderby ) {
+			$query_args['meta_key'] = '_llms_average_progress';
 			$query_args['orderby'] = 'meta_value_num';
 		}
 
@@ -168,11 +171,12 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 				'title' => __( 'Students', 'lifterlms' ),
 			),
 			'progress' => array(
-				'title' => __( 'Overall Progress', 'lifterlms' ),
+				'title' => __( 'Average Progress', 'lifterlms' ),
 				'sortable' => true,
 			),
 			'grade' => array(
-				'title' => __( 'Overall Grade', 'lifterlms' ),
+				'title' => __( 'Average Grade', 'lifterlms' ),
+				'sortable' => true,
 			),
 		);
 	}
