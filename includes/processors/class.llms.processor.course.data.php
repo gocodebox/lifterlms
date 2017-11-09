@@ -113,6 +113,11 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 		// for LifterLMS actions which trigger recalculation
 		$this->actions = array(
+			'llms_course_calculate_data' => array(
+				'arguments' => 1,
+				'callback' => 'schedule_calculation',
+				'priority' => 10,
+			),
 			'llms_user_enrolled_in_course' => array(
 				'arguments' => 2,
 				'callback' => 'schedule_from_course',

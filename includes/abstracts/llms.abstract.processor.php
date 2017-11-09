@@ -78,7 +78,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function add_actions() {
+	public function add_actions() {
 
 		foreach ( $this->get_actions() as $action => $data ) {
 
@@ -103,6 +103,30 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 		parent::complete();
 		$this->set_data( 'last_run', time() );
+
+	}
+
+	/**
+	 * Disable a processor
+	 * Useful when bulk enrolling into a membership (for examlpe)
+	 * so we don't trigger course data calculations a few hundred tiems
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function disable() {
+
+		remove_action( $this->cron_hook_identifier, array( $this, 'handle_cron_healthcheck' ) );
+		foreach ( $this->get_actions() as $action => $data ) {
+
+			$data = wp_parse_args( $data, array(
+				'arguments' => 1,
+				'priority' => 10,
+			) );
+
+			remove_action( $action, array( $this, $data['callback'] ), $data['priority'], $data['arguments'] );
+
+		}
 
 	}
 

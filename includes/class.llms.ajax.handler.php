@@ -14,7 +14,7 @@ class LLMS_AJAX_Handler {
 	 * @param    array     $request  array of request data
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	public static function bulk_enroll_membership_into_course( $request ) {
 
@@ -22,34 +22,7 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
 
-		$args = array(
-			'post_id' => $request['post_id'],
-			'statuses' => 'enrolled',
-			'page' => 1,
-			'per_page' => 50,
-		);
-
-		$query = new LLMS_Student_Query( $args );
-
-		if ( $query->found_results ) {
-
-			$handler = LLMS()->background_handlers['enrollment'];
-
-			while ( $args['page'] <= $query->max_pages ) {
-
-				$handler->push_to_queue( array(
-					'enroll_into_id' => $request['course_id'],
-					'query_args' => $args,
-					'trigger' => sprintf( 'membership_%d', $request['post_id'] ),
-				) );
-
-				$args['page']++;
-
-			}
-
-			$handler->save()->dispatch();
-
-		}
+		do_action( 'llms_membership_do_bulk_course_enrollment', $request['post_id'], $request['course_id'] );
 
 		return array(
 			'message' => __( 'Members are being enrolled in the background. You may leave this page.', 'lifterlms' ),

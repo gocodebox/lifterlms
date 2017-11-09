@@ -39,12 +39,6 @@ final class LifterLMS {
 
 	protected static $_instance = null;
 
-	/**
-	 * Array of background handler instances
-	 * @var  array
-	 */
-	public $background_handlers = array();
-
 	public $course_factory = null;
 	public $person = null;
 	public $query = null;
@@ -88,7 +82,7 @@ final class LifterLMS {
 		// setup session stuff
 		$this->session = new LLMS_Session();
 
-		//Hooks
+		// Hooks
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
@@ -102,7 +96,7 @@ final class LifterLMS {
 			LLMS_Tracker::init();
 		}
 
-		//Loaded action
+		// Loaded action
 		do_action( 'lifterlms_loaded' );
 
 	}
@@ -353,23 +347,6 @@ final class LifterLMS {
 		do_action( 'lifterlms_init' );
 
 	}
-
-	// public function init_background_handlers() {
-
-	// 	require_once 'includes/libraries/wp-background-processing/wp-async-request.php';
-	// 	require_once 'includes/libraries/wp-background-processing/wp-background-process.php';
-	// 	require_once 'includes/class.llms.background.enrollment.php';
-
-	// 	// processors
-	// 	require_once 'includes/abstracts/abstract.llms.processor.php';
-	// 	foreach ( glob( LLMS_PLUGIN_DIR . 'includes/processors/*.php', GLOB_NOSORT ) as $model ) {
-	// 		require_once $model;
-	// 	}
-
-	// 	$this->background_handlers['course'] = new LLMS_Processor_Course();
-	// 	$this->background_handlers['enrollment'] = new LLMS_Background_Enrollment();
-
-	// }
 
 	/**
 	 * Retrieve an instance of the notifications class

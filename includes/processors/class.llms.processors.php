@@ -16,6 +16,7 @@ class LLMS_Processors {
 	 */
 	private $classes = array(
 		'course_data',
+		'membership_bulk_enroll',
 		'table_to_csv',
 	);
 
