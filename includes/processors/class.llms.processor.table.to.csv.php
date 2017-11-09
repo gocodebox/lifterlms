@@ -199,7 +199,6 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 			} else {
 				unlink( $args['_processor']['file'] );
 			}
-
 		}
 
 		return false;

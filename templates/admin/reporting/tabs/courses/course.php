@@ -38,7 +38,9 @@ $img = $course->get_image( array( 64, 64 ) );
 	</nav>
 
 	<section class="llms-gb-tab">
-		<?php llms_get_template( 'admin/reporting/tabs/courses/' . $current_tab . '.php', array( 'course' => $course ) ); ?>
+		<?php llms_get_template( 'admin/reporting/tabs/courses/' . $current_tab . '.php', array(
+			'course' => $course,
+		) ); ?>
 	</section>
 
 </section>

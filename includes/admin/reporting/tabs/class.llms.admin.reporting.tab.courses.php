@@ -98,7 +98,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 				'course' => llms_get_post( intval( $_GET['course_id'] ) ),
 			) );
 
-		} // courses table
+		} // End if().
 		else {
 
 			$table = new LLMS_Table_Courses();

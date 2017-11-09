@@ -308,11 +308,7 @@ class LLMS_Admin_Reporting {
 				} else {
 					$compare_class = ( $change <= 0 ) ? 'positive' : 'negative';
 				}
-
 			}
-
-
-
 		}
 
 		?>

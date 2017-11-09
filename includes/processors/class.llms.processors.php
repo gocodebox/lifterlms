@@ -105,9 +105,7 @@ class LLMS_Processors {
 				$this->processors[ $name ] = $class;
 
 			}
-
 		}
-
 
 	}
 

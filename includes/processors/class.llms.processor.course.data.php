@@ -277,7 +277,6 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 				$data['quizzes']++;
 				$data['grade'] = $data['grade'] + $grade;
 			}
-
 		}
 
 		$this->log( $data );
@@ -298,7 +297,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 			$this->log( sprintf( 'course data calculation completed for course %d', $course_id ) );
 
-		} // save the progress
+		} // End if().
 		else {
 
 			$course->set( 'temp_calc_data', $data );

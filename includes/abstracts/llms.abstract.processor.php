@@ -177,7 +177,9 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		$data[ $key ] = $value;
 
 		// merge the current data with all processor data
-		$all_data = wp_parse_args( array( $this->id => $data ), get_option( 'llms_processor_data', array() ) );
+		$all_data = wp_parse_args( array(
+			$this->id => $data,
+		), get_option( 'llms_processor_data', array() ) );
 
 		// save it
 		update_option( 'llms_processor_data', $all_data );

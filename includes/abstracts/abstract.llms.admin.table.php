@@ -236,9 +236,7 @@ abstract class LLMS_Admin_Table {
 				if ( ! $this->is_col_visible( $data, $context ) ) {
 					unset( $cols[ $id ] );
 				}
-
 			}
-
 		}
 
 		return apply_filters( 'llms_table_get_' . $this->id . '_columns', $cols, $context );
@@ -738,7 +736,7 @@ abstract class LLMS_Admin_Table {
 		if ( 'display' === $context ) {
 			return ( ! isset( $data['export_only'] ) || ! $data['export_only'] );
 
-		// display if exportable is set and is true
+			// display if exportable is set and is true
 		} elseif ( 'export' === $context ) {
 			return ( isset( $data['exportable'] ) && $data['exportable'] );
 		}

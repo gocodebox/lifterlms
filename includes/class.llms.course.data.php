@@ -130,7 +130,7 @@ class LLMS_Course_Data {
 				$prev_start = $now - DAY_IN_SECONDS;
 				$prev_end = $prev_start;
 
-		}
+		}// End switch().
 
 		$this->dates = array(
 			'current' => array(
