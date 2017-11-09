@@ -151,6 +151,8 @@ final class LifterLMS {
 
 	/**
 	 * Define LifterLMS Constants
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	private function define_constants() {
 
@@ -174,9 +176,13 @@ final class LifterLMS {
 			define( 'LLMS_SVG_DIR', plugins_url( '/assets/svg/svg.svg', LLMS_PLUGIN_FILE ) );
 		}
 
+		$upload_dir = wp_upload_dir();
 		if ( ! defined( 'LLMS_LOG_DIR' ) ) {
-			$upload_dir = wp_upload_dir();
 			define( 'LLMS_LOG_DIR', $upload_dir['basedir'] . '/llms-logs/' );
+		}
+
+		if ( ! defined( 'LLMS_TMP_DIR' ) ) {
+			define( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
 		}
 
 	}
