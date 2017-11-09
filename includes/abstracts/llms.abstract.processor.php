@@ -10,6 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
+	 * Prefix
+	 * @var string
+	 */
+	protected $prefix = 'llms';
+
+	/**
 	 * Unique identifier for the processor
 	 * @var  string
 	 */
@@ -53,6 +59,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * @version  [version]
 	 */
 	public function __construct() {
+
+		$this->action .= '_' . $this->id;
 
 		parent::__construct();
 
