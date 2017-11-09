@@ -127,9 +127,25 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 			$query_args['orderby'] = 'meta_value_num';
 		}
 
-		$query = new WP_Query( $query_args );
+		// if you can view others reports, make a regular query
+		if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
 
-		// var_dump( $query );
+			$query = new WP_Query( $query_args );
+
+			// user can only see their own reports, get a list of their students
+		} elseif ( current_user_can( 'view_lifterlms_reports' ) ) {
+
+			$instructor = llms_get_instructor();
+			if ( ! $instructor ) {
+				return;
+			}
+			$query = $instructor->get_courses( $query_args, 'query' );
+
+		} else {
+
+			return;
+
+		}
 
 		$this->max_pages = $query->max_num_pages;
 
