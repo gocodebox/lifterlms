@@ -93,9 +93,16 @@
 	}
 
 	tfoot th {
-		text-align: right;
-		// padding: 8px;
 		border-bottom: none;
+
+		.llms-table-export {
+			float: left;
+		}
+
+		.llms-table-pagination {
+			float: right;
+		}
+
 	}
 
 	&.zebra tbody tr:nth-child( even ) {

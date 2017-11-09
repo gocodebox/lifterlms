@@ -2464,8 +2464,13 @@ a.llms-view-as {
   width: 16px;
 }
 .llms-table tfoot th {
-  text-align: right;
   border-bottom: none;
+}
+.llms-table tfoot th .llms-table-export {
+  float: left;
+}
+.llms-table tfoot th .llms-table-pagination {
+  float: right;
 }
 .llms-table.zebra tbody tr:nth-child(even) th, .llms-table.zebra tbody tr:nth-child(even) td {
   background-color: #fafafa;

@@ -36,6 +36,12 @@ abstract class LLMS_Admin_Table {
 	protected $filterby = '';
 
 	/**
+	 * Is the Table Exportable?
+	 * @var  boolean
+	 */
+	protected $is_exportable = false;
+
+	/**
 	 * When pagination enabled, determines if this is the last page of results
 	 * @var  boolean
 	 */
@@ -232,6 +238,40 @@ abstract class LLMS_Admin_Table {
 	 */
 	public function get_current_page() {
 		return $this->current_page;
+	}
+
+	public function generate_export() {
+
+		$this->get_results();
+
+		// $this->max_pages = 5;
+
+		// generate big result sets in the background
+		if ( $this->is_paginated && $this->max_pages > 10 ) {
+
+			$user = wp_get_current_user();
+			$message = sprintf( __( 'The export is being generated and will be emailed to %s when complete.', 'lifterlms' ), $user->user_email );
+
+		} else {
+
+			// $this
+
+		}
+
+		return array(
+			'status' => 'pending',
+			'message' => $message,
+		);
+	}
+
+	public function get_export( $page ) {
+
+		if ( 1 === $page ) {
+
+
+
+		}
+
 	}
 
 	/**
@@ -487,7 +527,14 @@ abstract class LLMS_Admin_Table {
 		<tfoot>
 			<tr>
 				<th colspan="<?php echo $this->get_columns_count(); ?>">
+					<?php if ( $this->is_exportable ) : ?>
+						<div class="llms-table-export">
+							<button class="llms-button-primary small" name="llms-table-export"><span class="dashicons dashicons-download"></span> <?php _e( 'Export', 'lifterlms' ); ?></button>
+						</div>
+					<?php endif; ?>
+
 					<?php if ( $this->is_paginated ) : ?>
+						<div class="llms-table-pagination">
 						<?php if ( $this->max_pages ) : ?>
 							<span class="llms-table-page-count"><?php printf( _x( '%d of %d', 'pagination', 'lifterlms' ), $this->current_page, $this->max_pages ); ?></span>
 						<?php endif; ?>
@@ -503,6 +550,7 @@ abstract class LLMS_Admin_Table {
 								<button class="llms-button-primary small" data-page="<?php echo $this->max_pages; ?>" name="llms-table-paging"><?php _e( 'Last', 'lifterlms' ); ?> <span class="dashicons dashicons-arrow-right-alt"></span></button>
 							<?php endif; ?>
 						<?php endif; ?>
+						</div>
 					<?php endif; ?>
 				</th>
 			</tr>

@@ -17,6 +17,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	protected $id = 'students';
 
 	/**
+	 * Is the Table Exportable?
+	 * @var  boolean
+	 */
+	protected $is_exportable = true;
+
+	/**
 	 * If true, tfoot will add ajax pagination links
 	 * @var  boolean
 	 */
