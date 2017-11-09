@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Tables
  * @since    3.2.0
- * @version  3.4.0
+ * @version  [version]
  */
 ;( function( $, undefined ) {
 
@@ -32,7 +32,7 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    2.3.0
-		 * @version  3.4.0
+		 * @version  [version]
 		 */
 		this.bind = function() {
 
@@ -130,6 +130,14 @@
 
 		};
 
+		/**
+		 * Handle
+		 * @param    obj   $table  jQuery object for the table
+		 * @param    obj   $btn    jQuery object for the clicked button
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.export = function( $table, $btn ) {
 
 			LLMS.Ajax.call( {
@@ -149,13 +157,7 @@
 
 					if ( r.success ) {
 
-						$table.find( '.llms-table-export' ).append( '<em><small>' + r.data.message + '</small></em>' );
-
-					// 	$table.attr( 'data-args', r.data.args );
-
-					// 	$table.find( 'thead' ).replaceWith( r.data.thead );
-					// 	$table.find( 'tbody' ).replaceWith( r.data.tbody );
-					// 	$table.find( 'tfoot' ).replaceWith( r.data.tfoot );
+						$table.find( '.llms-table-export' ).append( '<em><small>' + r.data + '</small></em>' );
 
 					}
 
