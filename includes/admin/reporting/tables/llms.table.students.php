@@ -215,6 +215,15 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				$value = $student->get_overall_progress( true ) . '%';
 			break;
 
+			case 'billing_address_1':
+			case 'billing_address_2':
+			case 'billing_city':
+			case 'billing_state':
+			case 'billing_zip':
+			case 'billing_country':
+				$value = $student->get( $key );
+			break;
+
 			default:
 				$value = $this->get_data( $key, $student );
 
@@ -435,6 +444,36 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			'memberships' => array(
 				'sortable' => false,
 				'title' => __( 'Memberships', 'lifterlms' ),
+			),
+			'billing_address_1' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing Address 1', 'lifterlms' ),
+			),
+			'billing_address_2' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing Address 2', 'lifterlms' ),
+			),
+			'billing_city' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing City', 'lifterlms' ),
+			),
+			'billing_state' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing State', 'lifterlms' ),
+			),
+			'billing_zip' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing Zip', 'lifterlms' ),
+			),
+			'billing_country' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing Country', 'lifterlms' ),
 			),
 		);
 	}

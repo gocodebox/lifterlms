@@ -141,10 +141,10 @@
 		this.export = function( $table, $btn ) {
 
 			LLMS.Ajax.call( {
-				data: {
+				data: $.extend( {
 					action: 'export_admin_table',
 					handler: $table.attr( 'data-handler' ),
-				},
+				}, JSON.parse( $table.attr( 'data-args' ) ) ),
 				beforeSend: function() {
 
 					LLMS.Spinner.start( $table.closest( '.llms-table-wrap' ) );

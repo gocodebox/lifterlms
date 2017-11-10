@@ -28,7 +28,7 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function dispatch_generation( $handler, $user_id ) {
+	public function dispatch_generation( $handler, $user_id, $args = array() ) {
 
 		$this->log( sprintf( 'csv generation dispatched for table %s', $handler ) );
 
@@ -42,15 +42,16 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 			// set the user to be the initiating user so the table will have the correct data
 			wp_set_current_user( $user_id );
 
-			$args = array(
+			$args = wp_parse_args( $args, array(
 				'_processor' => array(
 					'file' => LLMS_TMP_DIR . $table->get_export_file_name() . '.csv',
 					'handler' => get_class( $table ),
 					'user_id' => $user_id,
 				),
-				'per_page' => 250,
-				'page' => 1,
-			);
+			) );
+
+			$args['page'] = 1; // always start at one
+			$args['per_page'] = 250; // if supported, do more than the displayed / page count
 
 			$table->get_results( $args );
 
@@ -107,7 +108,7 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	protected function init() {
 
 		// for the cron
-		add_action( $this->schedule_hook, array( $this, 'dispatch_generation' ), 10, 2 );
+		add_action( $this->schedule_hook, array( $this, 'dispatch_generation' ), 10, 3 );
 
 		// for LifterLMS actions which trigger recalculation
 		$this->actions = array(
@@ -132,7 +133,7 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
 		$this->log( sprintf( 'csv generation triggered for table %s', $table->get_handler() ) );
 
-		$args = array( $table->get_handler(), get_current_user_id() );
+		$args = array( $table->get_handler(), get_current_user_id(), $table->get_args() );
 
 		if ( ! wp_next_scheduled( $this->schedule_hook, $args ) ) {
 

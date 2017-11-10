@@ -115,7 +115,7 @@ class LLMS_AJAX_Handler {
 		if ( class_exists( $handler ) ) {
 
 			$table = new $handler();
-			$table->queue_export();
+			$table->queue_export( $request );
 			$user = wp_get_current_user();
 			return sprintf( __( 'The export is being generated and will be emailed to %s when complete.', 'lifterlms' ), $user->user_email );
 

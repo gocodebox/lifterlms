@@ -761,7 +761,13 @@ abstract class LLMS_Admin_Table {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function queue_export() {
+	public function queue_export( $args = array() ) {
+
+		$args = $this->clean_args( $args );
+
+		foreach ( $args as $key => $val ) {
+			$this->$key = $val;
+		}
 
 		do_action( 'llms_table_generate_csv', $this );
 
