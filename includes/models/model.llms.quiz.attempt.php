@@ -340,11 +340,10 @@ class LLMS_Quiz_Attempt {
 			if ( $next || is_null( $question['answer'] ) ) {
 				return $question['id'];
 
-			// when rewinding and moving back through we don't want to skip questions
+				// when rewinding and moving back through we don't want to skip questions
 			} elseif ( $last_question && $last_question == $question['id'] ) {
 				$next = true;
 			}
-
 		}
 
 		return false;
