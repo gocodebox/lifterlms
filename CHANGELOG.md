@@ -6,6 +6,8 @@ v3.14.9 - 2017-11-??
 
 + Fix error during uninstall related to missing file
 + Fix issue with rewinding quiz using "Previous Question" button
++ On final question of a quiz the "Next Lesson" button now says "Complete Quiz"
++ When completing a quiz, the loading message will now say "Grading Quiz" the entire time instead of "Loading Question" and then "Grading Quiz"
 
 
 v3.14.8 - 2017-11-06

@@ -107,11 +107,12 @@ LLMS.Quiz = {
 
 	/**
 	 * Answer a Question
+	 * @param    obj   $btn   jQuery object for the "Next Lesson" button
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  [version]
 	 */
-	answer_question: function() {
+	answer_question: function( $btn ) {
 
 		var self = this;
 
@@ -135,7 +136,8 @@ LLMS.Quiz = {
 			},
 			beforeSend: function() {
 
-				self.toggle_loader( 'show', 'Loading Question...' );
+				var msg = $btn.hasClass( 'llms-button-quiz-complete' ) ? 'Grading Quiz...' : 'Loading Question...';
+				self.toggle_loader( 'show', msg );
 
 			},
 			success: function( r ) {
@@ -278,7 +280,7 @@ LLMS.Quiz = {
 		// bind sumbission event for answering questions
 		this.$container.on( 'click', '#llms_answer_question', function( e ) {
 			e.preventDefault();
-			self.answer_question();
+			self.answer_question( $( this ) );
 		} );
 
 		// bind submission event for navigating backwards
