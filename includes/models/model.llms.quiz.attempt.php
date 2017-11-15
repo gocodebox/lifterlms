@@ -2,7 +2,7 @@
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version 3.12.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -329,14 +329,22 @@ class LLMS_Quiz_Attempt {
 	 * Retrieve the next unanswered question in the attempt
 	 * @return   int|false
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
-	public function get_next_question() {
+	public function get_next_question( $last_question = null ) {
+
+		$next = false;
 
 		foreach ( $this->get( 'questions' ) as $question ) {
-			if ( is_null( $question['answer'] ) ) {
+
+			if ( $next || is_null( $question['answer'] ) ) {
 				return $question['id'];
+
+			// when rewinding and moving back through we don't want to skip questions
+			} elseif ( $last_question && $last_question == $question['id'] ) {
+				$next = true;
 			}
+
 		}
 
 		return false;

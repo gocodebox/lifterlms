@@ -5,6 +5,8 @@ v3.14.9 - 2017-11-??
 --------------------
 
 + Fix error during uninstall related to missing file
++ Fix issue with rewinding quiz using "Previous Question" button
+
 
 v3.14.8 - 2017-11-06
 --------------------

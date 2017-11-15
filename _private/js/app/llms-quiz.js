@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  3.9.0
+ * @version  [version]
  */
 LLMS.Quiz = {
 
@@ -16,7 +16,6 @@ LLMS.Quiz = {
 	$container: null,
 
 	current_question: 0,
-	prev_question: 0,
 	questions: {},
 
 	/**
@@ -110,7 +109,7 @@ LLMS.Quiz = {
 	 * Answer a Question
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	answer_question: function() {
 
@@ -145,7 +144,15 @@ LLMS.Quiz = {
 
 				if ( r.data && r.data.html ) {
 
-					self.load_question( r.data.html );
+					// load html from the cached questions if it exists already
+					if ( r.data.question_id && self.questions[ r.data.question_id ] ) {
+
+						self.load_question( self.questions[ r.data.question_id ] );
+
+					// load html from server if the question's never been seen before
+					} else {
+						self.load_question( r.data.html );
+					}
 
 				} else if ( r.data && r.data.redirect ) {
 
@@ -243,9 +250,17 @@ LLMS.Quiz = {
 
 		self.toggle_loader( 'show', 'Loading Question...' );
 
+		var ids = Object.keys( self.questions ),
+			curr = ids.indexOf( self.current_question ),
+			prev_id = ids[0];
+
+		if ( curr >= 1 ) {
+			prev_id = ids[ curr - 1 ];
+		}
+
 		setTimeout( function() {
 			self.toggle_loader( 'hide' );
-			self.load_question( self.questions[ self.prev_question ] );
+			self.load_question( self.questions[ prev_id ] );
 		}, 100 );
 
 	},
@@ -389,7 +404,6 @@ LLMS.Quiz = {
 			this.questions[ qid ] = $html;
 		}
 
-		this.prev_question = this.current_question;
 		this.current_question = qid;
 
 		this.$container.append( $html );
