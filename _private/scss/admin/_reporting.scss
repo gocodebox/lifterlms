@@ -228,7 +228,14 @@
 		font-size: 20px;
 	}
 
-	sup {
+	&.llms-reporting-student-address {
+		strong {
+			line-height: 1.1;
+		}
+	}
+
+	sup,
+	.llms-price-currency-symbol {
 		font-size: 75%;
 		position: relative;
 		top: -4px;
@@ -259,6 +266,7 @@
 	padding: 10px;
 	@include clearfix;
 
+	&._enrollment_trigger,
 	&._is_complete.yes {
 		border-left-color: $color-green;
 	}
@@ -268,6 +276,11 @@
 	&._status.expired,
 	&._status.cancelled {
 		border-left-color: $color-red;
+	}
+	&._achievement_earned,
+	&._certificate_earned,
+	&._email_sent {
+		border-left-color: $color-orange;
 	}
 
 	time {
