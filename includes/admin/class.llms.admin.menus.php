@@ -28,7 +28,6 @@ class LLMS_Admin_Menus {
 		// shame shame shame
 		add_action( 'admin_menu', array( $this, 'instructor_menu_hack' ) );
 
-
 	}
 
 	/**
