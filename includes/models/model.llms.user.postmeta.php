@@ -117,7 +117,7 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 
 			break;
 
-		}
+		}// End switch().
 
 		return $string;
 
@@ -174,7 +174,7 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 						'tab' => 'students',
 					) );
 				}
-		}
+		}// End switch().
 
 	}
 

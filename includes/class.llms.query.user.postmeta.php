@@ -97,7 +97,6 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 				);
 
 			}
-
 		}
 
 		if ( $this->arguments['types'] ) {
@@ -148,15 +147,12 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 					}
 					$this->arguments['query'][] = $all_events[ $type ];
 				}
-
 			}
-
-
-		}
+		}// End if().
 
 		if ( $this->arguments['query'] ) {
 
-			foreach ( $this->arguments['query'] AS $i => &$query ) {
+			foreach ( $this->arguments['query'] as $i => &$query ) {
 
 				// ensure that each query has a compare operator
 				$query = wp_parse_args( $query, array(
@@ -169,9 +165,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 				if ( ! in_array( $query['compare'], $operators ) ) {
 					unset( $this->arguments['query'][ $i ] );
 				}
-
 			}
-
 		}
 
 		if ( ! in_array( $this->arguments['query_compare'], array( 'AND', 'OR' ) ) ) {
@@ -201,7 +195,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			 {$this->sql_where()}
 			 {$this->sql_orderby()}
 			 LIMIT %d, %d;",
-			 $vars
+			$vars
 		);
 
 		return $sql;
@@ -220,14 +214,13 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
 		$sql = 'WHERE 1';
 
-		foreach ( array( 'post_id', 'user_id' ) AS $key ) {
+		foreach ( array( 'post_id', 'user_id' ) as $key ) {
 
 			$ids = $this->get( $key );
 			if ( $ids ) {
 				$prepared = implode( ',', $ids );
 				$sql .= " AND {$key} IN ({$prepared})";
 			}
-
 		}
 
 		if ( $this->get( 'query' ) ) {
@@ -260,12 +253,11 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 					break;
 
 				}
-
 			}
 
 			$sql .= ' )';
 
-		}
+		}// End if().
 
 		return apply_filters( $this->get_filter( 'where' ), $sql, $this );
 
