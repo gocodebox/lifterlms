@@ -1,8 +1,9 @@
 <?php
 /**
  * Single Course Tab: Overview Subtab
+ * @since    [version]
+ * @version  [version]
  */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
 
@@ -77,6 +78,24 @@ $now = current_time( 'timestamp' );
 		) );
 
 		LLMS_Admin_Reporting::output_widget( array(
+			'icon' => 'shopping-cart',
+			'id' => 'llms-reporting-course-orders',
+			'data' => $data->get_orders( 'current' ),
+			'data_compare' => $data->get_orders( 'previous' ),
+			'text' => sprintf( __( 'New orders %s', 'lifterlms' ), $period_text ),
+		) );
+
+		LLMS_Admin_Reporting::output_widget( array(
+			'icon' => 'money',
+			'id' => 'llms-reporting-course-revenue',
+			'data' => $data->get_revenue( 'current' ),
+			'data_compare' => $data->get_revenue( 'previous' ),
+			'data_type' => 'monetary',
+			'text' => sprintf( __( 'Total sales %s', 'lifterlms' ), $period_text ),
+		) );
+
+
+		LLMS_Admin_Reporting::output_widget( array(
 			'icon' => 'smile-o',
 			'id' => 'llms-reporting-course-enrollments',
 			'data' => $data->get_enrollments( 'current' ),
@@ -144,36 +163,8 @@ $now = current_time( 'timestamp' );
 
 		<h3><i class="fa fa-bolt" aria-hidden="true"></i> <?php _e( 'Recent events', 'lifterlms' ); ?></h3>
 
-		<?php foreach ( $data->recent_events() as $event ) :
-			$student = llms_get_student( $event->user_id );
-			$url = LLMS_Admin_Reporting::get_current_tab_url( array(
-				'course_id' => $course->get( 'id' ),
-				'stab' => 'courses',
-				'student_id' => $event->user_id,
-				'tab' => 'students',
-			) );
-			switch ( $event->meta_key ) {
-				case '_is_complete':
-					$verb = __( 'completed', 'lifterlms' );
-				break;
-				case '_status':
-					$verb = strtolower( llms_get_enrollment_status_name( $event->meta_value ) );
-				break;
-				default:
-					$verb = $event->meta_key;
-			}
-			?>
-
-			<div class="llms-reporting-event <?php echo $event->meta_key; ?> <?php echo $event->meta_value; ?>">
-
-				<a href="<?php echo esc_url( $url ); ?>">
-					<?php echo $student->get_avatar( 24 ); ?>
-					<?php printf( '%1$s %2$s %3$s', $student->get( 'display_name' ), $verb, get_the_title( $event->post_id ) ); ?>
-					<time datetime="<?php echo $event->updated_date; ?>"><?php echo llms_get_date_diff( current_time( 'timestamp' ), $event->updated_date, 1 ); ?></time>
-				</a>
-
-			</div>
-
+		<?php foreach ( $data->recent_events() as $event ) : ?>
+			<?php LLMS_Admin_Reporting::output_event( $event, 'course' ); ?>
 		<?php endforeach; ?>
 
 	</aside>
