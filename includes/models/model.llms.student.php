@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.14.1
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -555,6 +555,25 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			}
 		}
 		return $id;
+
+	}
+
+	/**
+	 * Retrieve postmeta events related to the student
+	 * @param    array      $args  default args, see LLMS_Query_User_Postmeta
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_events( $args = array() ) {
+
+		$query = new LLMS_Query_User_Postmeta( wp_parse_args( $args, array(
+			'types' => 'all',
+			'per_page' => 10,
+			'user_id' => $this->get_id(),
+		) ) );
+
+		return $query->get_metas();
 
 	}
 
