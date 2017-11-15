@@ -1,8 +1,10 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Admin Reporting Base Class
  * @since   3.2.0
- * @version 3.2.0
+ * @version [version]
  */
 class LLMS_Admin_Reporting {
 
@@ -275,15 +277,61 @@ class LLMS_Admin_Reporting {
 
 	}
 
+	/**
+	 * Output the HTML for a postmeta event in the recent events sidebar of various reporting screens
+	 * @param    obj     $event    instance of an LLMS_User_Postmeta item
+	 * @param    string     $context  display context [course|student]
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function output_event( $event, $context = 'course' ) {
+
+		$student = $event->get_student();
+		if ( ! $student ) {
+			return;
+		}
+
+		$url = $event->get_link( $context );
+
+		?>
+		<div class="llms-reporting-event <?php echo $event->get( 'meta_key' ); ?> <?php echo $event->get( 'meta_value' ); ?>">
+
+			<?php if ( $url ) : ?>
+				<a href="<?php echo esc_url( $url ); ?>">
+			<?php endif; ?>
+
+				<?php if ( 'course' === $context ) : ?>
+					<?php echo $student->get_avatar( 24 ); ?>
+				<?php endif; ?>
+
+				<?php echo $event->get_description( $context ); ?>
+				<time datetime="<?php echo $event->get( 'updated_date' ); ?>"><?php echo llms_get_date_diff( current_time( 'timestamp' ), $event->get( 'updated_date' ), 1 ); ?></time>
+
+			<?php if ( $url ) : ?>
+				</a>
+			<?php endif; ?>
+
+		</div>
+		<?php
+
+	}
+
+	/**
+	 * Output the HTML for a reporting widget
+	 * @param    array      $args   widget options
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public static function output_widget( $args = array() ) {
 
 		$args = wp_parse_args( $args, array(
 
-			'color' => '',
 			'cols' => 'd-1of2',
 			'data' => '',
 			'data_compare' => '',
-			'data_type' => 'numeric', // [numeric|monetary|text|percentage]
+			'data_type' => 'numeric', // [numeric|monetary|text|percentage|date]
 			'icon' => '',
 			'id' => '',
 			'impact' => 'positive',
@@ -292,7 +340,7 @@ class LLMS_Admin_Reporting {
 		) );
 
 		$data_after = '';
-		if ( 'percentage' === $args['data_type'] ) {
+		if ( 'percentage' === $args['data_type'] && is_numeric( $args['data'] ) ) {
 			$data_after = '<sup>%</sup>';
 		}
 
@@ -311,16 +359,21 @@ class LLMS_Admin_Reporting {
 			}
 		}
 
+		if ( 'monetary' === $args['data_type'] && is_numeric( $args['data'] ) ) {
+			$args['data'] = llms_price( $args['data'] );
+			$args['data_compare'] = llms_price_raw( $args['data_compare'] );
+		}
+
 		?>
 		<div class="<?php echo esc_attr( $args['cols'] ); ?>">
-			<div class="llms-reporting-widget <?php echo esc_attr( $args['id'] ); ?> <?php echo esc_attr( $args['color'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>">
+			<div class="llms-reporting-widget <?php echo esc_attr( $args['id'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>">
 				<?php if ( $args['icon'] ) : ?>
 					<i class="fa fa-<?php echo $args['icon']; ?>" aria-hidden="true"></i>
 				<?php endif; ?>
 				<div class="llms-reporting-widget-data">
-					<strong><?php echo $args['data']; ?><?php echo $data_after; ?></strong>
+					<strong><?php echo $args['data'] . $data_after; ?></strong>
 					<?php if ( $change ) : ?>
-						<small class="compare tooltip <?php echo $compare_class ?>" title="<?php printf( esc_attr__( 'Previously %d', 'lifterlms' ), $args['data_compare'] ); ?>">
+						<small class="compare tooltip <?php echo $compare_class ?>" title="<?php printf( esc_attr__( 'Previously %s', 'lifterlms' ), $args['data_compare'] ); ?>">
 							<?php echo $compare_operator . $change; ?>%
 						</small>
 					<?php endif; ?>
