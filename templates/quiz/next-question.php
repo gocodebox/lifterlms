@@ -2,7 +2,7 @@
 /**
  * Single Quiz: Next Question button
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.9
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

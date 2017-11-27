@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.14.9 - 2017-11-??
+v3.14.9 - 2017-11-27
 --------------------
 
 + Fix error during uninstall related to missing file

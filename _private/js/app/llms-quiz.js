@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.9
  */
 LLMS.Quiz = {
 
@@ -110,7 +110,7 @@ LLMS.Quiz = {
 	 * @param    obj   $btn   jQuery object for the "Next Lesson" button
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.14.9
 	 */
 	answer_question: function( $btn ) {
 

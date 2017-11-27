@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  *
  * Sets up admin menu items.
  * @since   1.0.0
- * @version [version]
+ * @version 3.14.9
  */
 class LLMS_Admin_Menus {
 
 	/**
 	 * Constructor
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.14.9
 	 */
 	public function __construct() {
 
@@ -79,8 +79,8 @@ class LLMS_Admin_Menus {
 	 * Set the global $title variable for the builder
 	 * Prevents the <title> in the admin head being partially empty on builder screen
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.14.9
+	 * @version  3.14.9
 	 */
 	public function builder_title() {
 		global $title;

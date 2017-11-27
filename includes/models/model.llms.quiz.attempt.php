@@ -2,7 +2,7 @@
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version [version]
+ * @version 3.14.9
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -329,7 +329,7 @@ class LLMS_Quiz_Attempt {
 	 * Retrieve the next unanswered question in the attempt
 	 * @return   int|false
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.14.9
 	 */
 	public function get_next_question( $last_question = null ) {
 
