@@ -1,25 +1,25 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Admin Assets Class
  *
  * Sets up admin menu items.
  * @since   1.0.0
- * @version 3.13.0
+ * @version 3.14.9
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Menus {
 
 	/**
 	 * Constructor
 	 * @since   1.0.0
-	 * @version 3.13.0
+	 * @version 3.14.9
 	 */
 	public function __construct() {
 
 		add_action( 'admin_init', array( $this, 'status_page_actions' ) );
 		add_action( 'admin_init', array( $this, 'builder_page_actions' ) );
+		add_action( 'load-admin_page_llms-course-builder', array( $this, 'builder_title' ) );
 
 		add_filter( 'custom_menu_order', array( $this, 'submenu_order' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
@@ -73,6 +73,18 @@ class LLMS_Admin_Menus {
 			exit();
 
 		}
+	}
+
+	/**
+	 * Set the global $title variable for the builder
+	 * Prevents the <title> in the admin head being partially empty on builder screen
+	 * @return   void
+	 * @since    3.14.9
+	 * @version  3.14.9
+	 */
+	public function builder_title() {
+		global $title;
+		$title = __( 'Course Builder', 'lifterlms' );
 	}
 
 	/**
@@ -138,6 +150,7 @@ class LLMS_Admin_Menus {
 	 * @version  3.13.0
 	 */
 	public function builder_init() {
+		global $title;
 		require_once 'class.llms.admin.builder.php';
 		LLMS_Admin_Builder::output();
 	}

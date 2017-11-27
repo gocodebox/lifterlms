@@ -540,6 +540,7 @@ class LLMS_AJAX_Handler {
 
 		return array(
 			'html' => $html,
+			'question_id' => $question_id,
 		);
 
 	}
@@ -549,7 +550,7 @@ class LLMS_AJAX_Handler {
 	 * @param    [type]     $request  [description]
 	 * @return   [type]               [description]
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  3.14.9
 	 */
 	public static function quiz_answer_question( $request ) {
 
@@ -583,7 +584,7 @@ class LLMS_AJAX_Handler {
 		$attempt->answer_question( $question_id, $answer );
 
 		// get the next question
-		$question_id = $attempt->get_next_question();
+		$question_id = $attempt->get_next_question( $question_id );
 
 		// return html for the next question
 		if ( $question_id ) {
@@ -596,6 +597,7 @@ class LLMS_AJAX_Handler {
 
 			return array(
 				'html' => $html,
+				'question_id' => $question_id,
 			);
 
 		} else {

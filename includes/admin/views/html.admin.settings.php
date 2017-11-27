@@ -19,7 +19,7 @@
 
 		</nav>
 
-		<h1 style="display:none;"></h1>
+		<h1 class="screen-reader-text"><?php echo $tabs[ $current_tab ]; ?></h1>
 
 		<?php do_action( 'lifterlms_settings_notices' ); ?>
 

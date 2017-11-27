@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  3.9.0
+ * @version  3.14.9
  */
 LLMS.Quiz = {
 
@@ -16,7 +16,6 @@ LLMS.Quiz = {
 	$container: null,
 
 	current_question: 0,
-	prev_question: 0,
 	questions: {},
 
 	/**
@@ -108,11 +107,12 @@ LLMS.Quiz = {
 
 	/**
 	 * Answer a Question
+	 * @param    obj   $btn   jQuery object for the "Next Lesson" button
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.9.0
+	 * @version  3.14.9
 	 */
-	answer_question: function() {
+	answer_question: function( $btn ) {
 
 		var self = this;
 
@@ -136,7 +136,8 @@ LLMS.Quiz = {
 			},
 			beforeSend: function() {
 
-				self.toggle_loader( 'show', 'Loading Question...' );
+				var msg = $btn.hasClass( 'llms-button-quiz-complete' ) ? 'Grading Quiz...' : 'Loading Question...';
+				self.toggle_loader( 'show', msg );
 
 			},
 			success: function( r ) {
@@ -145,7 +146,15 @@ LLMS.Quiz = {
 
 				if ( r.data && r.data.html ) {
 
-					self.load_question( r.data.html );
+					// load html from the cached questions if it exists already
+					if ( r.data.question_id && self.questions[ r.data.question_id ] ) {
+
+						self.load_question( self.questions[ r.data.question_id ] );
+
+					// load html from server if the question's never been seen before
+					} else {
+						self.load_question( r.data.html );
+					}
 
 				} else if ( r.data && r.data.redirect ) {
 
@@ -243,9 +252,17 @@ LLMS.Quiz = {
 
 		self.toggle_loader( 'show', 'Loading Question...' );
 
+		var ids = Object.keys( self.questions ),
+			curr = ids.indexOf( self.current_question ),
+			prev_id = ids[0];
+
+		if ( curr >= 1 ) {
+			prev_id = ids[ curr - 1 ];
+		}
+
 		setTimeout( function() {
 			self.toggle_loader( 'hide' );
-			self.load_question( self.questions[ self.prev_question ] );
+			self.load_question( self.questions[ prev_id ] );
 		}, 100 );
 
 	},
@@ -263,7 +280,7 @@ LLMS.Quiz = {
 		// bind sumbission event for answering questions
 		this.$container.on( 'click', '#llms_answer_question', function( e ) {
 			e.preventDefault();
-			self.answer_question();
+			self.answer_question( $( this ) );
 		} );
 
 		// bind submission event for navigating backwards
@@ -389,7 +406,6 @@ LLMS.Quiz = {
 			this.questions[ qid ] = $html;
 		}
 
-		this.prev_question = this.current_question;
 		this.current_question = qid;
 
 		this.$container.append( $html );

@@ -1,11 +1,23 @@
 LifterLMS Changelog
 ===================
 
+
 v3.15.0 - 2017-11-??
 --------------------
 
 + Students table is exportable
 + Add course-level reporting to reporting screens
+
+
+v3.14.9 - 2017-11-27
+--------------------
+
++ Tested up to WordPress 4.9
++ Fix error during uninstall related to missing file
++ Fix issue with rewinding quiz using "Previous Question" button
++ On final question of a quiz the "Next Lesson" button now says "Complete Quiz"
++ When completing a quiz, the loading message will now say "Grading Quiz" the entire time instead of "Loading Question" and then "Grading Quiz"
++ Fix issue causing the <title> element on course builder pages from being partially empty
 
 
 v3.14.8 - 2017-11-06
