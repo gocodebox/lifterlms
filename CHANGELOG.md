@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.14.9 - 2017-11-27
 --------------------
 
++ Tested up to WordPress 4.9
 + Fix error during uninstall related to missing file
 + Fix issue with rewinding quiz using "Previous Question" button
 + On final question of a quiz the "Next Lesson" button now says "Complete Quiz"

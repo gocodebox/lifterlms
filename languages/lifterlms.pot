@@ -709,55 +709,55 @@ msgstr ""
 msgid "Only valid JSON files can be imported."
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:92
-msgid "LifterLMS Settings"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:92, lifterlms.php:440
-msgid "Settings"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:94
-msgid "LifterLMS Reporting"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:94
-msgid "Reporting"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:96
-msgid "LifterLMS Import"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:96, templates/admin/import/import.php:26
-msgid "Import"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:98
-msgid "LifterLMS Status"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:98, includes/admin/post-types/tables/class.llms.table.student.management.php:351, includes/admin/reporting/tables/llms.table.student.courses.php:203, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/students/courses-quiz.php:22, templates/myaccount/view-order.php:36
-msgid "Status"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:100
-msgid "LifterLMS Course Builder"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:100, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:21
+#: includes/admin/class.llms.admin.menus.php:87, includes/admin/class.llms.admin.menus.php:112, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:21
 msgid "Course Builder"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:119
+#: includes/admin/class.llms.admin.menus.php:104
+msgid "LifterLMS Settings"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:104, lifterlms.php:440
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:106
+msgid "LifterLMS Reporting"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:106
+msgid "Reporting"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:108
+msgid "LifterLMS Import"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:108, templates/admin/import/import.php:26
+msgid "Import"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:110
+msgid "LifterLMS Status"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:110, includes/admin/post-types/tables/class.llms.table.student.management.php:351, includes/admin/reporting/tables/llms.table.student.courses.php:203, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/students/courses-quiz.php:22, templates/myaccount/view-order.php:36
+msgid "Status"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:112
+msgid "LifterLMS Course Builder"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:131
 msgid "LifterLMS Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:119
+#: includes/admin/class.llms.admin.menus.php:131
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:193, templates/admin/reporting/tabs/students/courses.php:36
+#: includes/admin/class.llms.admin.menus.php:206, templates/admin/reporting/tabs/students/courses.php:36
 msgid "You do not have permission to access this content."
 msgstr ""
 
@@ -1330,7 +1330,7 @@ msgstr ""
 msgid "Coupon Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:748, includes/llms.functions.core.php:752
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:750, includes/llms.functions.core.php:752
 msgid "ID#"
 msgstr ""
 
@@ -3340,7 +3340,7 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:22, includes/class.llms.ajax.handler.php:68, includes/class.llms.ajax.handler.php:788
+#: includes/class.llms.ajax.handler.php:22, includes/class.llms.ajax.handler.php:68, includes/class.llms.ajax.handler.php:790
 msgid "Missing required parameters"
 msgstr ""
 
@@ -3368,7 +3368,7 @@ msgstr ""
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:506, includes/class.llms.ajax.handler.php:558, includes/class.llms.ajax.handler.php:623, includes/class.llms.template.loader.php:315
+#: includes/class.llms.ajax.handler.php:506, includes/class.llms.ajax.handler.php:559, includes/class.llms.ajax.handler.php:625, includes/class.llms.template.loader.php:315
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
@@ -3380,27 +3380,27 @@ msgstr ""
 msgid "Unable to start quiz because the quiz does not contain any questions."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:565, includes/class.llms.ajax.handler.php:628
+#: includes/class.llms.ajax.handler.php:566, includes/class.llms.ajax.handler.php:630
 msgid "Missing required parameters. Could not proceed."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:576
+#: includes/class.llms.ajax.handler.php:577
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:792
+#: includes/class.llms.ajax.handler.php:794
 msgid "Invalid status"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:816
+#: includes/class.llms.ajax.handler.php:818
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:821
+#: includes/class.llms.ajax.handler.php:823
 msgid "Please enter a plan ID."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:830, includes/controllers/class.llms.controller.orders.php:198
+#: includes/class.llms.ajax.handler.php:832, includes/controllers/class.llms.controller.orders.php:198
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -7275,7 +7275,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: includes/llms.functions.core.php:631, includes/models/model.llms.quiz.attempt.php:481, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
+#: includes/llms.functions.core.php:631, includes/models/model.llms.quiz.attempt.php:488, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
 msgid "Failed"
 msgstr ""
 
@@ -7453,11 +7453,11 @@ msgstr ""
 msgid "Maximum retry attempts reached."
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:434
+#: includes/models/model.llms.quiz.attempt.php:441
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:481, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
+#: includes/models/model.llms.quiz.attempt.php:488, templates/admin/reporting/tabs/students/courses-quiz.php:23, templates/admin/reporting/tabs/students/courses-quiz.php:62
 msgid "Passed"
 msgstr ""
 
@@ -8919,7 +8919,7 @@ msgstr ""
 msgid "Next Question"
 msgstr ""
 
-#: templates/quiz/next-question.php:30
+#: templates/quiz/next-question.php:22
 msgid "Complete Quiz"
 msgstr ""
 
