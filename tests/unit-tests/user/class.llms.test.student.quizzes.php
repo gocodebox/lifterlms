@@ -2,6 +2,7 @@
 /**
  * Tests for LifterLMS Student Functions
  * @group    quizzes
+ * @group    LLMS_Student
  * @since    3.9.0
  * @version  3.9.0
  */
