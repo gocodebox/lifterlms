@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.14.10 - 2017-11-??
+---------------------
+
++ Fix error when `[lifterlms_course_continue_button]` shortcode is displayed to logged out or students not enrolled in the chosen course
+
+
 v3.14.9 - 2017-11-27
 --------------------
 
