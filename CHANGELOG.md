@@ -1,14 +1,13 @@
 LifterLMS Changelog
 ===================
 
-
 v3.15.0 - 2017-11-??
 --------------------
 
 + Students table is exportable
 + Add course-level reporting to reporting screens
 + Updated student reporting screen interface
-
++ Fix error when `[lifterlms_course_continue_button]` shortcode is displayed to logged out or students not enrolled in the chosen course
 
 
 v3.14.9 - 2017-11-27

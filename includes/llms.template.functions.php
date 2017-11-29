@@ -1082,11 +1082,11 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
  * @param    integer    $progress  current progress of the student through the course
  * @return   void
  * @since    3.11.1
- * @version  3.11.1
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 
-	function lifterlms_course_continue_button( $post_id = null, $student = null, $progress = 0 ) {
+	function lifterlms_course_continue_button( $post_id = null, $student = null, $progress = null ) {
 
 		if ( ! $post_id ) {
 			$post_id = get_the_ID();
@@ -1096,10 +1096,9 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 		}
 
 		$course = llms_get_post( $post_id );
-		if ( ! $course ) {
+		if ( ! $course || ! is_a( $course, 'LLMS_Post_Model' ) ) {
 			return '';
 		}
-
 		if ( in_array( $course->get( 'type' ), array( 'lesson', 'quiz' ) ) ) {
 			$course = llms_get_post_parent_course( $course->get( 'id' ) );
 			if ( ! $course ) {
@@ -1110,7 +1109,7 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 		if ( ! $student ) {
 			$student = llms_get_student();
 		}
-		if ( ! $student->exists() ) {
+		if ( ! $student || ! $student->exists() || ! llms_is_user_enrolled( $student->get_id(), $course->get( 'id' ) ) ) {
 			return '';
 		}
 
