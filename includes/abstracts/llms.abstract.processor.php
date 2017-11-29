@@ -171,7 +171,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	}
 
-
 	/**
 	 * Log data to the processors log when processors debugging is enabled
 	 * @param    mixed     $data  data to log
