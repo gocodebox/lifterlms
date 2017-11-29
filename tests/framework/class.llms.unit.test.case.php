@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  3.9.2
+ * @version  [version]
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -15,7 +15,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 *                                   fractions will be rounded up
 	 * @return   void
 	 * @since    3.7.3
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	protected function complete_courses_for_student( $student_id = 0, $course_ids = array(), $perc = 100 ) {
 
@@ -37,7 +37,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 			foreach ( $lessons as $i => $lid ) {
 
 				// stop once we reach the stopping point
-				if ( $i > $stop ) {
+				if ( $i + 1 > $stop ) {
 					break;
 				}
 
@@ -57,9 +57,10 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 					$attempt->end();
 
 				} else {
-					$student->mark_complete( $lid, 'lesson' );
-				}
 
+					$student->mark_complete( $lid, 'lesson' );
+
+				}
 
 			}
 
