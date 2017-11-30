@@ -8,6 +8,7 @@ v3.15.0 - 2017-11-??
 + Add course-level reporting to reporting screens
 + Updated student reporting screen interface
 + Fix error when `[lifterlms_course_continue_button]` shortcode is displayed to logged out or students not enrolled in the chosen course
++ Add nocache constants and headers on student dashboard & checkout page to increase compatibility with caching plugins
 
 
 v3.14.9 - 2017-11-27

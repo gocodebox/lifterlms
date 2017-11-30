@@ -191,6 +191,7 @@ final class LifterLMS {
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
 		require_once 'includes/class.llms.session.php';
+		require_once 'includes/class.llms.cache.helper.php';
 
 		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
 		require_once 'includes/processors/class.llms.processors.php';
