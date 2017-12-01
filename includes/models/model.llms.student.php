@@ -273,92 +273,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve IDs of user's courses based on supplied criteria
-	 *
-	 * @param  array  $args query arguments
-	 *                      @arg int    $limit    number of courses to return
-	 *                      @arg string $orderby  table reference and field to order results by
-	 *                      @arg string $order    result order (DESC, ASC)
-	 *                      @arg int    $skip     number of results to skip for pagination purposes
-	 *                      @arg string $status   filter results by enrollment status, "any", "enrolled", "cancelled", or "expired"
-	 * @return array        "courses" will contain an array of course ids
-	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
+	 * @param    array  $args   see `get_enrollments`
+	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.6.0
+	 * @version  [version]
 	 */
 	public function get_courses( $args = array() ) {
 
-		global $wpdb;
-
-		$args = array_merge( array(
-			'limit'   => 20,
-			'orderby' => 'upm.updated_date',
-			'order'   => 'DESC',
-			'skip'    => 0,
-			'status'  => 'any', // any, enrolled, cancelled, expired
-		), $args );
-
-		// allow "short" orderby's to be passed in without a table reference
-		switch ( $args['orderby'] ) {
-			case 'date':
-				$args['orderby'] = 'upm.updated_date';
-			break;
-			case 'order':
-				$args['orderby'] = 'p.menu_order';
-			break;
-			case 'title':
-				$args['orderby'] = 'p.post_title';
-			break;
-		}
-
-		// prepare status
-		if ( 'any' !== $args['status'] ) {
-			$status = $wpdb->prepare( ' AND upm.meta_value = %s', ucfirst( $args['status'] ) );
-		} else {
-			$status = '';
-		}
-
-		// add one to the limit to see if there's pagination
-		$args['limit']++;
-
-		// the query
-		$q = $wpdb->get_results( $wpdb->prepare(
-			"SELECT DISTINCT upm.post_id AS id
-			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
-			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
-			 WHERE p.post_type = 'course'
-			   AND p.post_status = 'publish'
-			   AND upm.meta_key = '_status'
-			   AND upm.user_id = %d
-			   {$status}
-			 ORDER BY {$args['orderby']} {$args['order']}
-			 LIMIT %d, %d;
-			", array(
-				$this->get_id(),
-				$args['skip'],
-				$args['limit'],
-			)
-		), 'OBJECT_K' );
-
-		$ids = array_keys( $q );
-
-		$more = false;
-		// if we hit our limit we have too many results, pop the last one
-		if ( $args['limit'] === count( $ids ) ) {
-			array_pop( $ids );
-			$more = true;
-		}
-
-		// reset args to pass back for pagination
-		$args['limit']--;
-
-		$r = array(
-			'limit' => $args['limit'],
-			'more' => $more,
-			'results' => $ids,
-			'skip' => $args['skip'],
-		);
-
-		return $r;
+		return $this->get_enrollments( 'course', $args );
 
 	}
 
@@ -448,6 +370,102 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		) );
 
 		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
+
+	}
+
+	/**
+	 * Retrieve IDs of user's enrollments by post type (and additional criteria)
+	 * @param  string $post_type  name of the post type (course|membership)
+	 * @param  array  $args query arguments
+	 *                      @arg int    $limit    number of courses to return
+	 *                      @arg string $orderby  table reference and field to order results by
+	 *                      @arg string $order    result order (DESC, ASC)
+	 *                      @arg int    $skip     number of results to skip for pagination purposes
+	 *                      @arg string $status   filter results by enrollment status, "any", "enrolled", "cancelled", or "expired"
+	 * @return array        "results" will contain an array of course ids
+	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
+	 *                      "found" will contain the total possible FOUND_ROWS() for the query
+	 * @since    3.0.0
+	 * @version  [version]
+	 */
+	public function get_enrollments( $post_type = 'course', $args = array() ) {
+
+		global $wpdb;
+
+		$args = wp_parse_args( $args, array(
+			'limit' => 20,
+			'orderby' => 'upm.updated_date',
+			'order' => 'DESC',
+			'skip' => 0,
+			'status' => 'any', // any, enrolled, cancelled, expired
+		) );
+
+		// prefix membership
+		if ( 'membership' === $post_type ) {
+			$post_type = 'llms_membership';
+		}
+
+		// sanitize order & orderby
+		$args['orderby'] = preg_replace( '/[^a-zA-Z_.]/', '', $args['orderby'] );
+		$args['order'] = preg_replace( '/[^a-zA-Z_.]/', '', $args['order'] );
+
+		// allow "short" orderby's to be passed in without a table reference
+		switch ( $args['orderby'] ) {
+			case 'date':
+				$args['orderby'] = 'upm.updated_date';
+			break;
+			case 'order':
+				$args['orderby'] = 'p.menu_order';
+			break;
+			case 'title':
+				$args['orderby'] = 'p.post_title';
+			break;
+		}
+
+		// prepare additional status AND clauses
+		if ( 'any' !== $args['status'] ) {
+			$status = $wpdb->prepare( "
+				AND upm.meta_value = %s
+				AND upm.updated_date = (
+					SELECT MAX( upm2.updated_date )
+					  FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
+					 WHERE upm2.meta_key = '_status'
+					   AND upm2.user_id = %d
+					   AND upm2.post_id = upm.post_id
+					)", $args['status'], $this->get_id() );
+		} else {
+			$status = '';
+		}
+
+		// the query
+		$query = $wpdb->get_results( $wpdb->prepare(
+			"SELECT SQL_CALC_FOUND_ROWS DISTINCT upm.post_id AS id
+			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
+			 WHERE p.post_type = %d
+			   AND p.post_status = 'publish'
+			   AND upm.meta_key = '_status'
+			   AND upm.user_id = %d
+			   {$status}
+			 ORDER BY {$args['orderby']} {$args['order']}
+			 LIMIT %d, %d;
+			", array(
+				$post_type,
+				$this->get_id(),
+				$args['skip'],
+				$args['limit'],
+			)
+		), 'OBJECT_K' );
+
+		$found = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) );
+
+		return array(
+			'found' => $found,
+			'limit' => $args['limit'],
+			'more' => ( $found > ( ( $args['skip'] / $args['limit'] + 1 ) * $args['limit'] ) ),
+			'skip' => $args['skip'],
+			'results' => array_keys( $query ),
+		);
 
 	}
 
@@ -656,6 +674,19 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_student_get_grade', $grade, $this, $object_id, $type );
+
+	}
+
+	/**
+	 * Retrieve IDs of user's memberships based on supplied criteria
+	 * @param    array  $args   see `get_enrollments`
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_memberships( $args = array() ) {
+
+		return $this->get_enrollments( 'membership', $args );
 
 	}
 
