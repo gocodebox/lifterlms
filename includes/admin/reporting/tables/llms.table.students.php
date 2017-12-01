@@ -54,7 +54,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function get_data( $key, $student ) {
 
@@ -86,7 +86,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					'stab' => 'courses',
 					'student_id' => $student->get_id(),
 				) );
-				$value = '<a href="' . esc_url( $url ) . '">' . count( $this->get_enrollments( $student ) ) . '</a>';
+				$enrollments = $student->get_courses( array( 'limit' => 1 ) );
+				$value = '<a href="' . esc_url( $url ) . '">' . $enrollments['found'] . '</a>';
 			break;
 
 			case 'id':
@@ -149,40 +150,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Retrieve a list of IDs for all the users enrollments
-	 * @param    obj     $student  instance of LLMS_Student
-	 * @return   array             array of course ids
-	 * @since    3.2.0
-	 * @version  3.2.0
-	 */
-	private function get_enrollments( $student ) {
-
-		$r = array();
-
-		$page = 1;
-		$skip = 0;
-
-		while ( true ) {
-
-			$courses = $student->get_courses( array(
-				'limit' => 5000,
-				'skip' => 5000 * ( $page - 1 ),
-			) );
-
-			$r = array_merge( $courses['results'] );
-
-			if ( ! $courses['more'] ) {
-				break;
-			} else {
-				$page++;
-			}
-		}
-
-		return $r;
-
-	}
-
-	/**
 	 * Retrieve data for a cell in an export file
 	 * Should be overriden in extending classes
 	 * @param    string     $key        the column id / key
@@ -199,8 +166,42 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				$value = $student->get_id();
 			break;
 
+			case 'courses_cancelled':
+			case 'courses_enrolled':
+			case 'courses_expired':
+
+				$status = explode( '_', $key );
+				$status = array_pop( $status );
+				$courses = $student->get_courses( array(
+					'status' => $status,
+				) );
+				$titles = array();
+				foreach ( $courses['results'] as $id ) {
+					$titles[] = get_the_title( $id );
+				}
+				$value = implode( ', ', $titles );
+
+			break;
+
 			case 'email':
 				$value = $student->get( 'user_email' );
+			break;
+
+			case 'memberships_cancelled':
+			case 'memberships_enrolled':
+			case 'memberships_expired':
+
+				$status = explode( '_', $key );
+				$status = array_pop( $status );
+				$memberships = $student->get_memberships( array(
+					'status' => $status,
+				) );
+				$titles = array();
+				foreach ( $memberships['results'] as $id ) {
+					$titles[] = get_the_title( $id );
+				}
+				$value = implode( ', ', $titles );
+
 			break;
 
 			case 'name_first':
@@ -221,6 +222,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			case 'billing_state':
 			case 'billing_zip':
 			case 'billing_country':
+			case 'phone':
 				$value = $student->get( $key );
 			break;
 
@@ -474,6 +476,41 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				'exportable' => true,
 				'export_only' => true,
 				'title' => __( 'Billing Country', 'lifterlms' ),
+			),
+			'phone' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Phone', 'lifterlms' ),
+			),
+			'courses_enrolled' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Courses (Enrolled)', 'lifterlms' ),
+			),
+			'courses_cancelled' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Courses (Cancelled)', 'lifterlms' ),
+			),
+			'courses_expired' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Courses (Expired)', 'lifterlms' ),
+			),
+			'memberships_enrolled' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Memberships (Enrolled)', 'lifterlms' ),
+			),
+			'memberships_cancelled' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Memberships (Cancelled)', 'lifterlms' ),
+			),
+			'memberships_expired' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Memberships (Expired)', 'lifterlms' ),
 			),
 		);
 	}
