@@ -107,10 +107,12 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 */
 	protected function init() {
 
+		add_filter( $this->identifier . '_cron_interval', array( $this, '_healthcheck_interval' ) );
+
 		// for the cron
 		add_action( $this->schedule_hook, array( $this, 'dispatch_generation' ), 10, 3 );
 
-		// for LifterLMS actions which trigger recalculation
+		// for LifterLMS actions which trigger export
 		$this->actions = array(
 			'llms_table_generate_csv' => array(
 				'arguments' => 1,
@@ -118,6 +120,12 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 				'priority' => 10,
 			),
 		);
+
+	}
+
+	public function is_table_locked( $handler ) {
+
+		return in_array( $handler, $this->get_data( 'locked_tables', array() ) );
 
 	}
 
@@ -134,6 +142,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 		$this->log( sprintf( 'csv generation triggered for table %s', $table->get_handler() ) );
 
 		$args = array( $table->get_handler(), get_current_user_id(), $table->get_args() );
+
+		$this->_lock_table( $table->get_handler() );
 
 		if ( ! wp_next_scheduled( $this->schedule_hook, $args ) ) {
 
@@ -198,11 +208,58 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 			if ( ! $mailer->send() ) {
 				$this->log( sprintf( 'error sending csv email for table %s', $args['_processor']['handler'] ) );
 			} else {
+				$this->_unlock_table( $table->get_handler() );
 				unlink( $args['_processor']['file'] );
 			}
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Healthcheck
+	 * @param    int   $interval   default interval (in minutes)
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function _healthcheck_interval( $interval ) {
+		return 1;
+	}
+
+	/**
+	 * Lock the table
+	 * Only one export at a time per table
+	 * @param    string     $handler  table handler name
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function _lock_table( $handler ) {
+
+		$locked = $this->get_data( 'locked_tables', array() );
+		$locked[] = $handler;
+		$this->set_data( 'locked_tables', $locked );
+
+	}
+
+	/**
+	 * Unlock the table
+	 * @param    string     $handler  table handler name
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function _unlock_table( $handler ) {
+
+		$locked = $this->get_data( 'locked_tables', array() );
+
+		$index = array_search( $handler, $locked );
+		if ( false !== $index ) {
+			unset( $locked[ $index ] );
+			$this->set_data( 'locked_tables', $locked );
+		}
 
 	}
 
