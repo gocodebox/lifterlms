@@ -45,6 +45,19 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	private $throttle_frequency;
 
 	/**
+	 * Called when queue is emptied and process is complete
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function complete() {
+
+		parent::complete();
+		$this->set_data( 'last_run', time() );
+
+	}
+
+	/**
 	 * Action triggered to queue queries needed to make the calculation
 	 * @param    int     $course_id  WP Post ID of the course
 	 * @return   void
