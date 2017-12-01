@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  3.14.8
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
  * @since    3.14.0
- * @version  3.14.6
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
@@ -23,9 +23,9 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			return;
 		}
 
-		$courses = $student->get_courses( array(
+		$courses = $student->get_courses( apply_filters( 'llms_my_courses_loop_courses_query_args', array(
 			'limit' => 500,
-		) );
+		), $student ) );
 
 		if ( ! $courses['results'] ) {
 
