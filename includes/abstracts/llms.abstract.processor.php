@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
- * Base background processor class
+ * Background Processor abstract
  * @since    [version]
  * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
@@ -42,7 +41,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * @version  [version]
 	 */
 	// abstract protected function task( $item );
-
 
 
 	/**
@@ -90,19 +88,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 			add_action( $action, array( $this, $data['callback'] ), $data['priority'], $data['arguments'] );
 
 		}
-
-	}
-
-	/**
-	 * Called when queue is emptied and process is complete
-	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	protected function complete() {
-
-		parent::complete();
-		$this->set_data( 'last_run', time() );
 
 	}
 
@@ -157,9 +142,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		$all_data = get_option( 'llms_processor_data', array() );
 
 		// get data for current processor
-		$data = isset( $all_data[ $this->id ] ) ? $all_data[ $this->id ] : array(
-			'last_run' => 0,
-		);
+		$data = isset( $all_data[ $this->id ] ) ? $all_data[ $this->id ] : array();
 
 		// get a specific piece of data
 		if ( $key ) {
@@ -187,9 +170,29 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	}
 
 	/**
-	 * Save data to the database related to the processor
-	 * @param    string     $key    keyn ame
+	 * Persist data to the database related to the processor
+	 * @param    array     $data   data to save
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function save_data( $data ) {
+
+		// merge the current data with all processor data
+		$all_data = wp_parse_args( array(
+			$this->id => $data,
+		), get_option( 'llms_processor_data', array() ) );
+
+		// save it
+		update_option( 'llms_processor_data', $all_data );
+
+	}
+
+	/**
+	 * Update data to the database related to the processor
+	 * @param    string     $key   key name
 	 * @param    mixed     $value  value
+	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
 	 */
@@ -199,13 +202,25 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		$data = $this->get_data();
 		$data[ $key ] = $value;
 
-		// merge the current data with all processor data
-		$all_data = wp_parse_args( array(
-			$this->id => $data,
-		), get_option( 'llms_processor_data', array() ) );
+		$this->save_data( $data );
 
-		// save it
-		update_option( 'llms_processor_data', $all_data );
+	}
+
+	/**
+	 * Delete a piece of data from the database by key
+	 * @param    string     $key  keyname to remove
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function unset_data( $key ) {
+
+		$data = $this->get_data();
+		if ( isset( $data[ $key ] ) ) {
+			unset( $data[ $key ] );
+		}
+
+		$this->save_data( $data );
 
 	}
 
