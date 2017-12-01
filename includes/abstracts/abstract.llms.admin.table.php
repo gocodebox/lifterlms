@@ -572,7 +572,7 @@ abstract class LLMS_Admin_Table {
 	 * Get a tfoot element for the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.4.0
+	 * @version  [version]
 	 */
 	public function get_tfoot_html() {
 		ob_start();
@@ -581,8 +581,14 @@ abstract class LLMS_Admin_Table {
 			<tr>
 				<th colspan="<?php echo $this->get_columns_count(); ?>">
 					<?php if ( $this->is_exportable ) : ?>
+						<?php $locked = LLMS()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_handler() ); ?>
 						<div class="llms-table-export">
-							<button class="llms-button-primary small" name="llms-table-export"><span class="dashicons dashicons-download"></span> <?php _e( 'Export', 'lifterlms' ); ?></button>
+							<button class="llms-button-primary small" name="llms-table-export"<?php echo $locked ? ' disabled="disabled"' : ''; ?>>
+								<span class="dashicons dashicons-download"></span> <?php _e( 'Export', 'lifterlms' ); ?>
+							</button>
+							<?php if ( $locked ) : ?>
+								<em><small>The export is being generated.</small></em>
+							<?php endif; ?>
 						</div>
 					<?php endif; ?>
 
