@@ -32,9 +32,6 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
 		$this->log( sprintf( 'csv generation dispatched for table %s', $handler ) );
 
-		// cancel process in case it's currently running
-		$this->cancel_process();
-
 		$table = $this->get_handler( $handler );
 
 		if ( $table ) {
