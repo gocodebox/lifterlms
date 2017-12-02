@@ -235,15 +235,14 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 	}
 
-
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_table_search_form_placeholder() {
-		return apply_filters( 'llms_gradebook_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
+		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
 	}
 
 	/**
@@ -374,7 +373,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @version  [version]
 	 */
 	public function set_args() {
-		$deprecated = apply_filters( 'llms_gradebook_' . $this->id . '_per_page', 25 );
+		$deprecated = apply_filters( 'llms_table_' . $this->id . '_per_page', 25 );
 		return array(
 			'per_page' => apply_filters( 'llms_table_' . $this->id . '_per_page', $deprecated ),
 		);
