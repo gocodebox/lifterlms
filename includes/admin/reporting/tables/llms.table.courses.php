@@ -119,7 +119,7 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}
+		}// End switch().
 
 		return $value;
 	}

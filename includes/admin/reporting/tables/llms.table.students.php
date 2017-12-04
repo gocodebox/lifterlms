@@ -86,7 +86,9 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					'stab' => 'courses',
 					'student_id' => $student->get_id(),
 				) );
-				$enrollments = $student->get_courses( array( 'limit' => 1 ) );
+				$enrollments = $student->get_courses( array(
+					'limit' => 1,
+				) );
 				$value = '<a href="' . esc_url( $url ) . '">' . $enrollments['found'] . '</a>';
 			break;
 

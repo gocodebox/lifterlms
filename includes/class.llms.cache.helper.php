@@ -34,7 +34,7 @@ class LLMS_Cache_Helper {
 
 		$ids = apply_filters( 'llms_no_cache_page_ids', array(
 			llms_get_page_id( 'checkout' ),
-			llms_get_page_id( 'myaccount' )
+			llms_get_page_id( 'myaccount' ),
 		) );
 
 		if ( is_page( $ids ) ) {
