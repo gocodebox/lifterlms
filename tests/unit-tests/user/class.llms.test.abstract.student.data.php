@@ -1,6 +1,7 @@
 <?php
 /**
  * Tests for LLMS_Abstract_User_Data
+ * @group    LLMS_Student
  * @since    3.9.0
  * @version  3.9.0
  */

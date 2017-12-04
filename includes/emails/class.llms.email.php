@@ -1,13 +1,12 @@
 <?php
-/**
-* Email Base Class
-*
-* @since    1.0.0
-* @version  3.10.1
-*/
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * Email Base Class
+ *
+ * @since    1.0.0
+ * @version  [version]
+ */
 class LLMS_Email {
 
 	protected $id = 'generic';
@@ -18,6 +17,7 @@ class LLMS_Email {
 	protected $heading = '';
 	protected $subject = '';
 
+	private $attachments = array();
 	private $headers = array();
 	private $find = array();
 	private $recipient = array();
@@ -53,6 +53,19 @@ class LLMS_Email {
 		) );
 
 		$this->init( $args );
+
+	}
+
+	/**
+	 * Add an attachment to the email
+	 * @param    string     $attachment  full system path to a file to attach
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function add_attachment( $attachment ) {
+
+		array_push( $this->attachments, $attachment );
 
 	}
 
@@ -170,6 +183,16 @@ class LLMS_Email {
 	 */
 	public function format_string( $string ) {
 		return str_replace( $this->find, $this->replace, $string );
+	}
+
+	/**
+	 * Get attachments
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_attachments() {
+		return apply_filters( 'llms_email_get_attachments', $this->attachments, $this );
 	}
 
 	/**
@@ -346,7 +369,7 @@ class LLMS_Email {
 	 * Send email
 	 * @return bool
 	 * @since    1.0.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function send() {
 
@@ -356,7 +379,7 @@ class LLMS_Email {
 		add_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );
 		add_filter( 'wp_mail_content_type', array( $this, 'get_content_type' ) );
 
-		$return = wp_mail( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers() );
+		$return = wp_mail( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );
 
 		remove_filter( 'wp_mail_from', array( $this, 'get_from_address' ) );
 		remove_filter( 'wp_mail_from_name', array( $this, 'get_from_name' ) );

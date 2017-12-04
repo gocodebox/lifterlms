@@ -2,7 +2,7 @@
 /**
  * Abstract Database Query
  * @since    3.8.0
- * @version  3.14.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -235,6 +235,33 @@ abstract class LLMS_Database_Query {
 		$this->number_results = count( $this->results );
 
 		$this->set_found_results();
+
+	}
+
+	/**
+	 * Sanitize input to ensure an array of absints
+	 * @param    mixed     $ids  String/Int or array of strings/ints
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function sanitize_id_array( $ids ) {
+
+		// allow numeric strings & ints to be passed instead of an array
+		if ( ! is_array( $ids ) && is_numeric( $ids ) && $ids > 0 ) {
+			$ids = array( $ids );
+		} else {
+			$ids = array();
+		}
+
+		foreach ( $ids as $key => &$id ) {
+			$id = absint( $id ); // verify we have ints
+			if ( $id <= 0 ) { // remove anything negative or 0
+				unset( $ids[ $key ] );
+			}
+		}
+
+		return $ids;
 
 	}
 

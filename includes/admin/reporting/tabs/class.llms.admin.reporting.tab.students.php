@@ -15,7 +15,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 	public function __construct() {
 
 		add_action( 'llms_reporting_content_students', array( $this, 'output' ) );
-
 		add_action( 'llms_reporting_student_tab_breadcrumbs', array( $this, 'breadcrumbs' ) );
 
 	}

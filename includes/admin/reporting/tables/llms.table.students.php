@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version 3.13.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,6 +15,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @var  string
 	 */
 	protected $id = 'students';
+
+	/**
+	 * Is the Table Exportable?
+	 * @var  boolean
+	 */
+	protected $is_exportable = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
@@ -48,7 +54,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function get_data( $key, $student ) {
 
@@ -80,7 +86,10 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					'stab' => 'courses',
 					'student_id' => $student->get_id(),
 				) );
-				$value = '<a href="' . esc_url( $url ) . '">' . count( $this->get_enrollments( $student ) ) . '</a>';
+				$enrollments = $student->get_courses( array(
+					'limit' => 1,
+				) );
+				$value = '<a href="' . esc_url( $url ) . '">' . $enrollments['found'] . '</a>';
 			break;
 
 			case 'id':
@@ -143,36 +152,88 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Retrieve a list of IDs for all the users enrollments
-	 * @param    obj     $student  instance of LLMS_Student
-	 * @return   array             array of course ids
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * Retrieve data for a cell in an export file
+	 * Should be overriden in extending classes
+	 * @param    string     $key        the column id / key
+	 * @param    obj        $student    Instance of the LLMS_Student
+	 * @return   mixed
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	private function get_enrollments( $student ) {
+	public function get_export_data( $key, $student ) {
 
-		$r = array();
+		switch ( $key ) {
 
-		$page = 1;
-		$skip = 0;
+			case 'id':
+				$value = $student->get_id();
+			break;
 
-		while ( true ) {
+			case 'courses_cancelled':
+			case 'courses_enrolled':
+			case 'courses_expired':
 
-			$courses = $student->get_courses( array(
-				'limit' => 5000,
-				'skip' => 5000 * ( $page - 1 ),
-			) );
+				$status = explode( '_', $key );
+				$status = array_pop( $status );
+				$courses = $student->get_courses( array(
+					'status' => $status,
+				) );
+				$titles = array();
+				foreach ( $courses['results'] as $id ) {
+					$titles[] = get_the_title( $id );
+				}
+				$value = implode( ', ', $titles );
 
-			$r = array_merge( $courses['results'] );
+			break;
 
-			if ( ! $courses['more'] ) {
-				break;
-			} else {
-				$page++;
-			}
-		}
+			case 'email':
+				$value = $student->get( 'user_email' );
+			break;
 
-		return $r;
+			case 'memberships_cancelled':
+			case 'memberships_enrolled':
+			case 'memberships_expired':
+
+				$status = explode( '_', $key );
+				$status = array_pop( $status );
+				$memberships = $student->get_memberships( array(
+					'status' => $status,
+				) );
+				$titles = array();
+				foreach ( $memberships['results'] as $id ) {
+					$titles[] = get_the_title( $id );
+				}
+				$value = implode( ', ', $titles );
+
+			break;
+
+			case 'name_first':
+				$value = $student->get( 'first_name' );
+			break;
+
+			case 'name_last':
+				$value = $student->get( 'last_name' );
+			break;
+
+			case 'overall_progress':
+				$value = $student->get_overall_progress( true ) . '%';
+			break;
+
+			case 'billing_address_1':
+			case 'billing_address_2':
+			case 'billing_city':
+			case 'billing_state':
+			case 'billing_zip':
+			case 'billing_country':
+			case 'phone':
+				$value = $student->get( $key );
+			break;
+
+			default:
+				$value = $this->get_data( $key, $student );
+
+		}// End switch().
+
+		return $this->filter_get_data( $value, $key, $student, 'export' );
 
 	}
 
@@ -180,10 +241,10 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Get the Text to be used as the placeholder in a searchable tables search input
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_table_search_form_placeholder() {
-		return apply_filters( 'llms_gradebook_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
+		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
 	}
 
 	/**
@@ -191,7 +252,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.4.0
+	 * @version  [version]
 	 */
 	public function get_results( $args = array() ) {
 
@@ -260,7 +321,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		$query_args = array(
 			'page' => $this->get_current_page(),
 			'post_id' => array(),
-			'per_page' => apply_filters( 'llms_gradebook_' . $this->id . '_per_page', 20 ),
+			'per_page' => $args['per_page'],
 			'sort' => $sort,
 		);
 
@@ -311,37 +372,59 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Define the structure of arguments used to pass to the get_results method
 	 * @return   array
 	 * @since    2.3.0
-	 * @version  2.3.0
+	 * @version  [version]
 	 */
 	public function set_args() {
-		return array();
+		$deprecated = apply_filters( 'llms_table_' . $this->id . '_per_page', 25 );
+		return array(
+			'per_page' => apply_filters( 'llms_table_' . $this->id . '_per_page', $deprecated ),
+		);
 	}
 
 	/**
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function set_columns() {
 		return array(
 			'id' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'ID', 'lifterlms' ),
+			),
+			'email' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Email', 'lifterlms' ),
 			),
 			'name' => array(
 				'sortable' => true,
 				'title' => __( 'Name', 'lifterlms' ),
 			),
+			'name_last' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Last Name', 'lifterlms' ),
+			),
+			'name_first' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'First Name', 'lifterlms' ),
+			),
 			'registered' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'Registration Date', 'lifterlms' ),
 			),
 			'overall_progress' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'Progress', 'lifterlms' ),
 			),
 			'overall_grade' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
@@ -364,6 +447,71 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			'memberships' => array(
 				'sortable' => false,
 				'title' => __( 'Memberships', 'lifterlms' ),
+			),
+			'billing_address_1' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing Address 1', 'lifterlms' ),
+			),
+			'billing_address_2' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing Address 2', 'lifterlms' ),
+			),
+			'billing_city' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing City', 'lifterlms' ),
+			),
+			'billing_state' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing State', 'lifterlms' ),
+			),
+			'billing_zip' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing Zip', 'lifterlms' ),
+			),
+			'billing_country' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Billing Country', 'lifterlms' ),
+			),
+			'phone' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Phone', 'lifterlms' ),
+			),
+			'courses_enrolled' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Courses (Enrolled)', 'lifterlms' ),
+			),
+			'courses_cancelled' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Courses (Cancelled)', 'lifterlms' ),
+			),
+			'courses_expired' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Courses (Expired)', 'lifterlms' ),
+			),
+			'memberships_enrolled' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Memberships (Enrolled)', 'lifterlms' ),
+			),
+			'memberships_cancelled' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Memberships (Cancelled)', 'lifterlms' ),
+			),
+			'memberships_expired' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Memberships (Expired)', 'lifterlms' ),
 			),
 		);
 	}

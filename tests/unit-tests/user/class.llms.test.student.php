@@ -3,7 +3,7 @@
  * Tests for LifterLMS Student Functions
  * @group    LLMS_Student
  * @since    3.5.0
- * @version  3.12.2
+ * @version  [version]
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -286,6 +286,63 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		) );
 		$student =  new LLMS_Student( $uid );
 		$this->assertEquals( 'Student McStudentFace', $student->get_name() );
+
+	}
+
+	/**
+	 * Test get_progress()
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_progress() {
+
+		$student = $this->get_mock_student();
+
+		$courses = $this->generate_mock_courses( 3, 2, 5, 0 );
+
+
+		// create a track and add all 3 courses to it
+		$track_id = wp_insert_term( 'Test Course Track', 'course_track' )['term_id'];
+		foreach ( $courses as $cid ) {
+			wp_set_post_terms( $cid, array( $track_id ), 'course_track' );
+		}
+
+		// course for most of our tests
+		$course_id = $courses[0];
+		$course = llms_get_post( $course_id );
+
+		// check progress through course
+		$i = 0;
+		while ( $i <= 100 ) {
+
+			$this->complete_courses_for_student( $student->get( 'id' ), array( $course_id ), $i );
+			$this->assertEquals( $i, $student->get_progress( $course_id, 'course' ) );
+
+			$i += 10;
+
+		}
+
+		// check track progress
+		$this->assertEquals( 33.33, $student->get_progress( $track_id, 'course_track' ), '', 0.01 );
+		$this->complete_courses_for_student( $student->get( 'id' ), array( $courses[1], $courses[2] ), 100 );
+		$this->assertEquals( 100, $student->get_progress( $track_id, 'course_track' ), '', 0.01 );
+
+		// test the progress through a section
+		$student = $this->get_mock_student();
+		foreach ( $course->get_sections( 'ids' ) as $i => $section_id ) {
+
+			$this->assertEquals( 0, $student->get_progress( $section_id, 'section' ) );
+
+			if ( 0 === $i ) {
+				$this->complete_courses_for_student( $student->get( 'id' ), array( $course_id ), 50 );
+				$this->assertEquals( 100, $student->get_progress( $section_id, 'section' ) );
+			} else {
+				$this->complete_courses_for_student( $student->get( 'id' ), array( $course_id ), 80 );
+				$this->assertEquals( 60, $student->get_progress( $section_id, 'section' ) );
+			}
+
+		}
 
 	}
 

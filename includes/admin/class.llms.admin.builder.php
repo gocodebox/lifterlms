@@ -182,7 +182,9 @@ class LLMS_Admin_Builder {
 		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
 
 if ( ! empty( $active_post_lock ) ) {
-	?><input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" /><?php
+	?>
+	<input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
+	<?php
 }
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );

@@ -800,6 +800,20 @@ function llms_make_select2_student_array( $user_ids = array(), $template = '' ) 
 }
 
 /**
+ * Define a constant if it's not already defined
+ * @param    string     $name   constant name
+ * @param    mixed      $value  constant values
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_maybe_define_constant( $name, $value ) {
+	if ( ! defined( $name ) ) {
+		define( $name, $value );
+	}
+}
+
+/**
  * Trim a string and append a suffix.
  * @source thank you WooCommerce <3
  * @param  string  $string  input string

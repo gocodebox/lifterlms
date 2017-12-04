@@ -1,13 +1,12 @@
 <?php
-/**
- * Admin GradeBook Tables
- *
- * @since   3.2.0
- * @version 3.4.1
- */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * Admin Tables
+ *
+ * @since   3.2.0
+ * @version [version]
+ */
 abstract class LLMS_Admin_Table {
 
 	/**
@@ -34,6 +33,12 @@ abstract class LLMS_Admin_Table {
 	 * @var  string
 	 */
 	protected $filterby = '';
+
+	/**
+	 * Is the Table Exportable?
+	 * @var  boolean
+	 */
+	protected $is_exportable = false;
 
 	/**
 	 * When pagination enabled, determines if this is the last page of results
@@ -175,22 +180,23 @@ abstract class LLMS_Admin_Table {
 	/**
 	 * Ensures that all data requested by $this->get_data if filterable
 	 * before being output on screen
-	 * @param    mixed     $value  value to be displayed
-	 * @param    string    $key    column key / id
-	 * @param    mixed     $data   original data object / array
+	 * @param    mixed     $value     value to be displayed
+	 * @param    string    $key       column key / id
+	 * @param    mixed     $data      original data object / array
+	 * @param    string    $context   display context [display|export]
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
-	protected function filter_get_data( $value, $key, $data ) {
-		return apply_filters( 'llms_gradebook_get_data_' . $this->id, $value, $key, $data );
+	protected function filter_get_data( $value, $key, $data, $context = 'display' ) {
+		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context );
 	}
 
 	/**
 	 * Retrieve the arguments defined in `set_args`
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_args() {
 
@@ -211,17 +217,30 @@ abstract class LLMS_Admin_Table {
 
 		$args = wp_parse_args( $this->set_args(), $default );
 
-		return apply_filters( 'llms_gradebook_get_args_' . $this->id, $args );
+		return apply_filters( 'llms_table_get_args_' . $this->id, $args );
 	}
 
 	/**
 	 * Retrieve the array of columns defined by set_columns
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
-	public function get_columns() {
-		return apply_filters( 'llms_gradebook_get_' . $this->id . '_columns', $this->set_columns() );
+	public function get_columns( $context = 'display' ) {
+
+		$cols = $this->set_columns();
+		if ( $this->is_exportable ) {
+
+			foreach ( $cols as $id => $data ) {
+
+				if ( ! $this->is_col_visible( $data, $context ) ) {
+					unset( $cols[ $id ] );
+				}
+			}
+		}
+
+		return apply_filters( 'llms_table_get_' . $this->id . '_columns', $cols, $context );
+
 	}
 
 	/**
@@ -238,10 +257,96 @@ abstract class LLMS_Admin_Table {
 	 * Get $this->empty_msg string
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_empty_message() {
-		return apply_filters( 'llms_gradebook_get_' . $this->id . '_empty_message', $this->set_empty_message() );
+		return apply_filters( 'llms_table_get_' . $this->id . '_empty_message', $this->set_empty_message() );
+	}
+
+	/**
+	 * Gets data prepared for an export
+	 * @param    array     $args  query arguements to be passed to get_results()
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export( $args = array() ) {
+
+		$this->get_results( $args );
+
+		$export = array();
+		if ( 1 === $this->current_page ) {
+			$export[] = $this->get_export_header();
+		}
+
+		foreach ( $this->get_tbody_data() as $row ) {
+			$row_data = array();
+			foreach ( array_keys( $this->get_columns( 'export' ) ) as $row_key ) {
+				$row_data[ $row_key ] = $this->get_export_data( $row_key, $row );
+			}
+			$export[] = $row_data;
+		}
+
+		return $export;
+
+	}
+
+	/**
+	 * Retrieve data for a cell in an export file
+	 * Should be overriden in extending classes
+	 * @param    string     $key   the column id / key
+	 * @param    mixed      $data  object / array of data that the function can use to extract the data
+	 * @return   mixed
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_data( $key, $data ) {
+		return trim( strip_tags( $this->get_data( $key, $data ) ) );
+	}
+
+	/**
+	 * Retrieve the header row for generating an export file
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_header() {
+		return apply_filters( 'llms_table_get_' . $this->id . '_export_header', wp_list_pluck( $this->get_columns( 'export' ), 'title' ) );
+	}
+
+	/**
+	 * Get the file name for an export file
+	 * @param    array    $args   optional arguements passed from table to csv processor
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_file_name( $args = array() ) {
+
+		$title = sprintf( '%1$s_export_%2$s', sanitize_title( $this->get_export_title( $args ), 'llms-' . $this->id ), current_time( 'Y-m-d' ) );
+		return apply_filters( 'llms_table_get_' . $this->id . '_export_file_name', $title );
+
+	}
+
+	/**
+	 * Get a lock key unique to the table & user for locking the table during export generation
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_lock_key() {
+		return sprintf( '%1$s:%2$d', $this->id, get_current_user_id() );
+	}
+
+	/**
+	 * Allow customization of the title for export files
+	 * @param    array    $args   optional arguements passed from table to csv processor
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_title( $args = array() ) {
+		return apply_filters( 'llms_table_get_' . $this->id . '_export_title', $this->get_title() );
 	}
 
 	/**
@@ -249,7 +354,7 @@ abstract class LLMS_Admin_Table {
 	 * @param    string     $column_id  id of the column
 	 * @return   string
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  [version]
 	 */
 	public function get_filter_placeholder( $column_id, $column_data ) {
 		$placeholder = __( 'Any', 'lifterlms' );
@@ -258,7 +363,7 @@ abstract class LLMS_Admin_Table {
 		} elseif ( is_strinp( $column_data ) ) {
 			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data );
 		}
-		return apply_filters( 'llms_gradebook_get_' . $this->id . '_filter_placeholder', $placeholder, $column_id );
+		return apply_filters( 'llms_table_get_' . $this->id . '_filter_placeholder', $placeholder, $column_id );
 	}
 
 	/**
@@ -289,6 +394,16 @@ abstract class LLMS_Admin_Table {
 	 */
 	public function get_handler() {
 		return str_replace( 'LLMS_Table_', '', get_class( $this ) );
+	}
+
+	/**
+	 * Retrieve the max number of pages for the table
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_max_pages() {
+		return $this->max_pages;
 	}
 
 	/**
@@ -421,20 +536,20 @@ abstract class LLMS_Admin_Table {
 	 * Get the Text to be used as the placeholder in a searchable tables search input
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_table_search_form_placeholder() {
-		return apply_filters( 'llms_gradebook_get_' . $this->id . '_search_placeholder', __( 'Search', 'lifterlms' ) );
+		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search', 'lifterlms' ) );
 	}
 
 	/**
 	 * Get the HTML for the table's title
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_table_title_html() {
-		$title = apply_filters( 'llms_gradebook_get_' . $this->id . '_table_title', $this->title );
+		$title = $this->get_title();
 		if ( $title ) {
 			return '<h2 class="llms-table-title">' . $title . '</h2>';
 		} else {
@@ -446,10 +561,10 @@ abstract class LLMS_Admin_Table {
 	 * Get $this->tbody_data array
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_tbody_data() {
-		return apply_filters( 'llms_gradebook_get_' . $this->id . '_tbody_data', $this->tbody_data );
+		return apply_filters( 'llms_table_get_' . $this->id . '_tbody_data', $this->tbody_data );
 	}
 
 	/**
@@ -479,7 +594,7 @@ abstract class LLMS_Admin_Table {
 	 * Get a tfoot element for the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.4.0
+	 * @version  [version]
 	 */
 	public function get_tfoot_html() {
 		ob_start();
@@ -487,7 +602,20 @@ abstract class LLMS_Admin_Table {
 		<tfoot>
 			<tr>
 				<th colspan="<?php echo $this->get_columns_count(); ?>">
+					<?php if ( $this->is_exportable ) : ?>
+						<?php $locked = LLMS()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() ); ?>
+						<div class="llms-table-export">
+							<button class="llms-button-primary small" name="llms-table-export"<?php echo $locked ? ' disabled="disabled"' : ''; ?>>
+								<span class="dashicons dashicons-download"></span> <?php _e( 'Export', 'lifterlms' ); ?>
+							</button>
+							<?php if ( $locked ) : ?>
+								<em><small>The export is being generated.</small></em>
+							<?php endif; ?>
+						</div>
+					<?php endif; ?>
+
 					<?php if ( $this->is_paginated ) : ?>
+						<div class="llms-table-pagination">
 						<?php if ( $this->max_pages ) : ?>
 							<span class="llms-table-page-count"><?php printf( _x( '%d of %d', 'pagination', 'lifterlms' ), $this->current_page, $this->max_pages ); ?></span>
 						<?php endif; ?>
@@ -503,6 +631,7 @@ abstract class LLMS_Admin_Table {
 								<button class="llms-button-primary small" data-page="<?php echo $this->max_pages; ?>" name="llms-table-paging"><?php _e( 'Last', 'lifterlms' ); ?> <span class="dashicons dashicons-arrow-right-alt"></span></button>
 							<?php endif; ?>
 						<?php endif; ?>
+						</div>
 					<?php endif; ?>
 				</th>
 			</tr>
@@ -550,11 +679,11 @@ abstract class LLMS_Admin_Table {
 	 * @param    mixed     $row  array/object of data describing a single row in the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();
-		do_action( 'llms_gradebook_table_before_tr', $row );
+		do_action( 'llms_table_table_before_tr', $row, $this );
 		?>
 		<tr>
 		<?php foreach ( $this->get_columns() as $id => $title ) : ?>
@@ -562,7 +691,7 @@ abstract class LLMS_Admin_Table {
 		<?php endforeach; ?>
 		</tr>
 		<?php
-		do_action( 'llms_gradebook_table_after_tr', $row );
+		do_action( 'llms_table_table_after_tr', $row, $this );
 		return ob_get_clean();
 	}
 
@@ -612,6 +741,67 @@ abstract class LLMS_Admin_Table {
 	}
 
 	/**
+	 * Get the title of the table
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_title() {
+		return apply_filters( 'llms_table_get_' . $this->id . '_table_title', $this->title );
+	}
+
+	/**
+	 * Determine if a column is visible based on the current context
+	 * @param    [type]     $data     array of a single column's data from set_columns()
+	 * @param    string     $context  context [display|export]
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function is_col_visible( $data, $context = 'display' ) {
+
+		// display if 'export_only' does not exist or it does exist and is false
+		if ( 'display' === $context ) {
+			return ( ! isset( $data['export_only'] ) || ! $data['export_only'] );
+
+			// display if exportable is set and is true
+		} elseif ( 'export' === $context ) {
+			return ( isset( $data['exportable'] ) && $data['exportable'] );
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Return protected is_last_page var
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_last_page() {
+		return $this->is_last_page;
+	}
+
+	/**
+	 * Queues an export for the table to be generated
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function queue_export( $args = array() ) {
+
+		$args = $this->clean_args( $args );
+
+		foreach ( $args as $key => $val ) {
+			$this->$key = $val;
+		}
+
+		do_action( 'llms_table_generate_csv', $this );
+
+	}
+
+	/**
 	 * Allow custom hooks to be registered for use within the class
 	 * @return   void
 	 * @since    3.2.0
@@ -634,10 +824,10 @@ abstract class LLMS_Admin_Table {
 	 * Empty message displayed when no results are found
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	protected function set_empty_message() {
-		return apply_filters( 'llms_gradebook_default_empty_message', __( 'No results were found.', 'lifterlms' ) );
+		return apply_filters( 'llms_table_default_empty_message', __( 'No results were found.', 'lifterlms' ) );
 	}
 
 }

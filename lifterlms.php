@@ -39,12 +39,6 @@ final class LifterLMS {
 
 	protected static $_instance = null;
 
-	/**
-	 * Array of background handler instances
-	 * @var  array
-	 */
-	public $background_handlers = array();
-
 	public $course_factory = null;
 	public $person = null;
 	public $query = null;
@@ -52,12 +46,11 @@ final class LifterLMS {
 
 	/**
 	 * Main Instance of LifterLMS
-	 *
 	 * Ensures only one instance of LifterLMS is loaded or can be loaded.
-	 *
-	 * @static
-	 * @see LLMS()
-	 * @return LifterLMS - Main instance
+	 * @see      LLMS()
+	 * @return   LifterLMS - Main instance
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -68,8 +61,9 @@ final class LifterLMS {
 
 	/**
 	 * LifterLMS Constructor.
-	 * @access public
-	 * @return LifterLMS
+	 * @return   LifterLMS
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	private function __construct() {
 
@@ -88,11 +82,11 @@ final class LifterLMS {
 		// setup session stuff
 		$this->session = new LLMS_Session();
 
-		//Hooks
+		// Hooks
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
-		add_action( 'init', array( $this, 'init_background_handlers' ), 5 );
+		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
@@ -102,7 +96,7 @@ final class LifterLMS {
 			LLMS_Tracker::init();
 		}
 
-		//Loaded action
+		// Loaded action
 		do_action( 'lifterlms_loaded' );
 
 	}
@@ -112,7 +106,7 @@ final class LifterLMS {
 	 * @param    string  $class  class name being called
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  ??
+	 * @version  [version]
 	 */
 	public function autoload( $class ) {
 
@@ -151,6 +145,8 @@ final class LifterLMS {
 
 	/**
 	 * Define LifterLMS Constants
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	private function define_constants() {
 
@@ -174,9 +170,13 @@ final class LifterLMS {
 			define( 'LLMS_SVG_DIR', plugins_url( '/assets/svg/svg.svg', LLMS_PLUGIN_FILE ) );
 		}
 
+		$upload_dir = wp_upload_dir();
 		if ( ! defined( 'LLMS_LOG_DIR' ) ) {
-			$upload_dir = wp_upload_dir();
 			define( 'LLMS_LOG_DIR', $upload_dir['basedir'] . '/llms-logs/' );
+		}
+
+		if ( ! defined( 'LLMS_TMP_DIR' ) ) {
+			define( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
 		}
 
 	}
@@ -184,16 +184,17 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.14.7
+	 * @version [version]
 	 */
 	private function includes() {
 
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
 		require_once 'includes/class.llms.session.php';
+		require_once 'includes/class.llms.cache.helper.php';
 
 		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
-
+		require_once 'includes/processors/class.llms.processors.php';
 		include_once 'includes/abstracts/abstract.llms.admin.table.php';
 
 		if ( is_admin() ) {
@@ -264,6 +265,7 @@ final class LifterLMS {
 
 		// queries
 		include_once( 'includes/abstracts/abstract.llms.database.query.php' );
+		include_once( 'includes/class.llms.query.user.postmeta.php' );
 		include_once( 'includes/class.llms.student.query.php' );
 		include_once( 'includes/notifications/class.llms.notifications.query.php' );
 
@@ -348,21 +350,11 @@ final class LifterLMS {
 
 	}
 
-	public function init_background_handlers() {
-
-		require_once 'includes/libraries/wp-background-processing/wp-async-request.php';
-		require_once 'includes/libraries/wp-background-processing/wp-background-process.php';
-		require_once 'includes/class.llms.background.enrollment.php';
-
-		$this->background_handlers['enrollment'] = new LLMS_Background_Enrollment();
-
-	}
-
 	/**
 	 * Retrieve an instance of the notifications class
 	 * @return   obj
-	 * @since    ??
-	 * @version  ??
+	 * @since    3.8.0
+	 * @version  3.8.0
 	 */
 	public function notifications() {
 		return LLMS_Notifications::instance();
@@ -402,6 +394,17 @@ final class LifterLMS {
 	 */
 	public function payment_gateways() {
 		return LLMS_Payment_Gateways::instance();
+	}
+
+	/**
+	 * Load all background processors and
+	 * access to them programattically a processor via LLMS()->processors()->get( $processor )
+	 * @return   LLMS_Processors
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function processors() {
+		return LLMS_Processors::instance();
 	}
 
 	public function mailer() {

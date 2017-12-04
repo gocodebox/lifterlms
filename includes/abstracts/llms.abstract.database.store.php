@@ -85,10 +85,15 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Determine if the item exists in the database
 	 * @return   boolean
 	 * @since    3.14.7
-	 * @version  3.14.7
+	 * @version  [version]
 	 */
 	public function exists() {
-		return $this->read( 'id' ) ? true : false;
+
+		if ( $this->primary_key ) {
+			return $this->read( $this->get_primary_key() ) ? true : false;
+		}
+
+		return false;
 	}
 
 	/**
@@ -227,7 +232,7 @@ abstract class LLMS_Abstract_Database_Store {
 		if ( is_array( $keys ) ) {
 			$keys = implode( ', ', $keys );
 		}
-		$res = $wpdb->get_row( $wpdb->prepare( "SELECT {$keys} FROM {$this->get_table()} WHERE id = %d", $this->id ), ARRAY_A );
+		$res = $wpdb->get_row( $wpdb->prepare( "SELECT {$keys} FROM {$this->get_table()} WHERE {$this->get_primary_key()} = %d", $this->id ), ARRAY_A );
 		return ! $res ? false : $res;
 
 	}
@@ -307,6 +312,19 @@ abstract class LLMS_Abstract_Database_Store {
 			return $this->columns[ $key ];
 		}
 		return '%s';
+
+	}
+
+	/**
+	 * Retrieve the primary key column name
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_primary_key() {
+
+		$primary_key = array_keys( $this->primary_key );
+		return preg_replace( '/[^a-zA-Z0-9_]/', '', $primary_key[0] );
 
 	}
 

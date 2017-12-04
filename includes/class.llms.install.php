@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.13.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -132,23 +132,33 @@ class LLMS_Install {
 	 * Create files needed by LifterLMS
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.7.5
+	 * @version  [version]
 	 */
 	public static function create_files() {
-
-		$upload_dir      = wp_upload_dir();
+		$upload_dir = wp_upload_dir();
 		$files = array(
 			array(
-				'base' 		=> LLMS_LOG_DIR,
-				'file' 		=> '.htaccess',
-				'content' 	=> 'deny from all',
+				'base' => LLMS_LOG_DIR,
+				'file' => '.htaccess',
+				'content' => 'deny from all',
 			),
 			array(
-				'base' 		=> LLMS_LOG_DIR,
-				'file' 		=> 'index.html',
-				'content' 	=> '',
+				'base' => LLMS_LOG_DIR,
+				'file' => 'index.html',
+				'content' => '',
+			),
+			array(
+				'base' => LLMS_TMP_DIR,
+				'file' => '.htaccess',
+				'content' => 'deny from all',
+			),
+			array(
+				'base' => LLMS_TMP_DIR,
+				'file' => 'index.html',
+				'content' => '',
 			),
 		);
+
 		foreach ( $files as $file ) {
 			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
 				$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' );

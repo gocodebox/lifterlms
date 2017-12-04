@@ -1,6 +1,7 @@
 <?php
 /**
  * Tests for LifterLMS Core Functions
+ * @group    LLMS_Student
  * @since    3.7.0
  * @version  3.9.0
  */

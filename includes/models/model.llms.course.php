@@ -3,9 +3,11 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  3.13.0
+* @version  [version]
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
+* @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
+* @property $average_progress  (float)  Calulated value of the overall average progress of all *enrolled* students in the course.
 * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
 * @property $capacity_message  (string)  Message displayed when capacity has been reached
 * @property $content_restricted_message  (string)  Message displayed when non-enrolled visitors try to access lessons/quizzes directly
@@ -34,7 +36,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
 
 	protected $properties = array(
+
+		// public
 		'audio_embed' => 'text',
+		'average_grade' => 'float',
+		'average_progress' => 'float',
 		'capacity' => 'absint',
 		'capacity_message' => 'text',
 		'course_closed_message' => 'text',
@@ -56,6 +62,9 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		'time_period' => 'yesno',
 		'start_date' => 'text',
 		'video_embed' => 'text',
+
+		// private
+		'temp_calc_data' => 'array',
 	);
 
 	protected $db_post_type = 'course';
@@ -219,7 +228,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	/**
 	 * Retrieve an array of quizzes within a course
 	 * @return   array            array of WP_Post IDs of the quizzes
-	 * @since    ??
+	 * @since    3.12.0
 	 * @version  3.12.0
 	 */
 	public function get_quizzes() {
@@ -269,6 +278,24 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		}
 
 		return $r;
+
+	}
+
+	/**
+	 * Retrieve the number of enrolled students in the course
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_student_count() {
+
+		$query = new LLMS_Student_Query( array(
+			'post_id' => $this->get( 'id' ),
+			'statuses' => array( 'enrolled' ),
+			'per_page' => 1,
+		) );
+
+		return $query->found_results;
 
 	}
 
@@ -407,7 +434,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 * Determine if the course is at capacity based on course capacity serttings
 	 * @return   boolean    true if not at capacity, false if at or over capacity
 	 * @since    3.0.0
-	 * @version  3.4.0
+	 * @version  [version]
 	 */
 	public function has_capacity() {
 
@@ -422,15 +449,9 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 			return true;
 		}
 
-		// run a query and utilize the "found_results" so we perform a smaller query
-		$query = new LLMS_Student_Query( array(
-			'post_id' => $this->get( 'id' ),
-			'statuses' => array( 'enrolled' ),
-			'per_page' => 1,
-		) );
-
 		// compare results
-		return ( $query->found_results < $capacity );
+		return ( $this->get_student_count() < $capacity );
+
 	}
 
 	/**

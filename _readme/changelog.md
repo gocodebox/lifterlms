@@ -1,6 +1,14 @@
 == Changelog ==
 
 
+
+v3.15.0 - 2017-11-??
+------------------------
+
++ Students table is exportable
++ Add course-level reporting to reporting screens
+
+
 = v3.14.9 - 2017-11-27 =
 ------------------------
 

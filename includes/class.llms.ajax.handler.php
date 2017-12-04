@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.14.9
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -14,7 +14,7 @@ class LLMS_AJAX_Handler {
 	 * @param    array     $request  array of request data
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	public static function bulk_enroll_membership_into_course( $request ) {
 
@@ -22,34 +22,7 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
 
-		$args = array(
-			'post_id' => $request['post_id'],
-			'statuses' => 'enrolled',
-			'page' => 1,
-			'per_page' => 50,
-		);
-
-		$query = new LLMS_Student_Query( $args );
-
-		if ( $query->found_results ) {
-
-			$handler = LLMS()->background_handlers['enrollment'];
-
-			while ( $args['page'] <= $query->max_pages ) {
-
-				$handler->push_to_queue( array(
-					'enroll_into_id' => $request['course_id'],
-					'query_args' => $args,
-					'trigger' => sprintf( 'membership_%d', $request['post_id'] ),
-				) );
-
-				$args['page']++;
-
-			}
-
-			$handler->save()->dispatch();
-
-		}
+		do_action( 'llms_membership_do_bulk_course_enrollment', $request['post_id'], $request['course_id'] );
 
 		return array(
 			'message' => __( 'Members are being enrolled in the background. You may leave this page.', 'lifterlms' ),
@@ -122,6 +95,35 @@ class LLMS_AJAX_Handler {
 		$student->quizzes()->delete_attempt( $request['quiz'], $request['lesson'], $request['attempt'] );
 
 		return true;
+
+	}
+
+	/**
+	 * Queue a table export event
+	 * @param    array     $request  post data ($_REQUST)
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function export_admin_table( $request ) {
+
+		require_once 'admin/reporting/class.llms.admin.reporting.php';
+		LLMS_Admin_Reporting::includes();
+
+		$handler = 'LLMS_Table_' . $request['handler'];
+
+		if ( class_exists( $handler ) ) {
+
+			$table = new $handler();
+			$table->queue_export( $request );
+			$user = wp_get_current_user();
+			return sprintf( __( 'The export is being generated and will be emailed to %s when complete.', 'lifterlms' ), $user->user_email );
+
+		} else {
+
+			return false;
+
+		}
 
 	}
 

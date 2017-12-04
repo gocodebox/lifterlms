@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Tables
  * @since    3.2.0
- * @version  3.4.0
+ * @version  [version]
  */
 ;( function( $, undefined ) {
 
@@ -32,7 +32,7 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    2.3.0
-		 * @version  3.4.0
+		 * @version  [version]
 		 */
 		this.bind = function() {
 
@@ -45,6 +45,11 @@
 				$table.on( 'click', 'button[name="llms-table-paging"]', function( e ) {
 					e.preventDefault();
 					self.change_page( $table, $( this ) );
+				} );
+
+				$table.on( 'click', 'button[name="llms-table-export"]', function( e ) {
+					e.preventDefault();
+					self.export( $table, $( this ) );
 				} );
 
 				$table.on( 'click', 'a.llms-sortable', function( e ) {
@@ -124,6 +129,42 @@
 			} );
 
 		};
+
+		/**
+		 * Handle
+		 * @param    obj   $table  jQuery object for the table
+		 * @param    obj   $btn    jQuery object for the clicked button
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		this.export = function( $table, $btn ) {
+
+			LLMS.Ajax.call( {
+				data: $.extend( {
+					action: 'export_admin_table',
+					handler: $table.attr( 'data-handler' ),
+				}, JSON.parse( $table.attr( 'data-args' ) ) ),
+				beforeSend: function() {
+
+					LLMS.Spinner.start( $table.closest( '.llms-table-wrap' ) );
+					$btn.attr( 'disabled', 'disabled' );
+
+				},
+				success: function( r ) {
+
+					LLMS.Spinner.stop( $table.closest( '.llms-table-wrap' ) )
+
+					if ( r.success ) {
+
+						$table.find( '.llms-table-export' ).append( '<em><small>' + r.data + '</small></em>' );
+
+					}
+
+				}
+			} );
+
+		}
 
 		/**
 		 * Retrieve arguments stored in the table and parse into a readable object
