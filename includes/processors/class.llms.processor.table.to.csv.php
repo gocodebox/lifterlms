@@ -41,7 +41,7 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
 			$args = wp_parse_args( $args, array(
 				'_processor' => array(
-					'file' => LLMS_TMP_DIR . $table->get_export_file_name() . '.csv',
+					'file' => LLMS_TMP_DIR . $table->get_export_file_name( $args ) . '.csv',
 					'handler' => get_class( $table ),
 					'user_id' => $user_id,
 				),
@@ -120,9 +120,16 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
 	}
 
-	public function is_table_locked( $handler ) {
+	/**
+	 * Determine if the table is currently locked
+	 * @param    string]     $key   table lock key
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_table_locked( $key ) {
 
-		return in_array( $handler, $this->get_data( 'locked_tables', array() ) );
+		return in_array( $key, $this->get_data( 'locked_tables', array() ) );
 
 	}
 
@@ -140,7 +147,7 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
 		$args = array( $table->get_handler(), get_current_user_id(), $table->get_args() );
 
-		$this->_lock_table( $table->get_handler() );
+		$this->_lock_table( $table->get_export_lock_key() );
 
 		if ( ! wp_next_scheduled( $this->schedule_hook, $args ) ) {
 
@@ -198,14 +205,14 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
 			$mailer->add_attachment( $args['_processor']['file'] );
 
-			$mailer->set_subject( sprintf( esc_html__( 'Your %1$s export file from %2$s', 'lifterlms' ), $table->get_title(), get_bloginfo( 'name' ) ) );
+			$mailer->set_subject( sprintf( esc_html__( 'Your %1$s export file from %2$s', 'lifterlms' ), $table->get_export_title( $args ), get_bloginfo( 'name' ) ) );
 			$mailer->set_body( __( 'Please find the attached CSV file.', 'lifterlms' ) );
 
 			// log when wp_mail fails
 			if ( ! $mailer->send() ) {
 				$this->log( sprintf( 'error sending csv email for table %s', $args['_processor']['handler'] ) );
 			} else {
-				$this->_unlock_table( $table->get_handler() );
+				$this->_unlock_table( $table->get_export_lock_key() );
 				unlink( $args['_processor']['file'] );
 			}
 		}
@@ -228,31 +235,31 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	/**
 	 * Lock the table
 	 * Only one export at a time per table
-	 * @param    string     $handler  table handler name
+	 * @param    string     $key   table lock key
 	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function _lock_table( $handler ) {
+	private function _lock_table( $key ) {
 
 		$locked = $this->get_data( 'locked_tables', array() );
-		$locked[] = $handler;
+		$locked[] = $key;
 		$this->set_data( 'locked_tables', $locked );
 
 	}
 
 	/**
 	 * Unlock the table
-	 * @param    string     $handler  table handler name
+	 * @param    string     $key  table lock key
 	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function _unlock_table( $handler ) {
+	private function _unlock_table( $key ) {
 
 		$locked = $this->get_data( 'locked_tables', array() );
 
-		$index = array_search( $handler, $locked );
+		$index = array_search( $key, $locked );
 		if ( false !== $index ) {
 			unset( $locked[ $index ] );
 			$this->set_data( 'locked_tables', $locked );
