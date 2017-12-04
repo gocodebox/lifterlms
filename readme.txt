@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.9
-Stable tag: 3.14.9
+Tested up to: 4.9.1
+Stable tag: 3.15.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -350,12 +350,25 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-
-v3.15.0 - 2017-11-??
+= v3.15.0 - 2017-12-04 =
 ------------------------
 
-+ Students table is exportable
-+ Add course-level reporting to reporting screens
+##### Reporting Updates (and CSV exports!)
+
++ Added course-level reporting table (see "Courses" tab of Reporting screen)
++ Updated the interface on reporting screen when reviewing a single student
++ Added reporting exports: students list, courses list, and list of students per course
+
+##### Bug fixes
+
++ Fix error when `[lifterlms_course_continue_button]` shortcode is displayed to logged out or students not enrolled in the chosen course
+
+##### Minor updates
+
++ Tested up to WordPress 4.9.1
++ Added background data processors to ensure reporting data stays up to date in close to real time
++ Add nocache constants and headers on student dashboard & checkout page to increase compatibility with caching plugins
++ Added filter to student dashboard courses query
 
 
 = v3.14.9 - 2017-11-27 =
