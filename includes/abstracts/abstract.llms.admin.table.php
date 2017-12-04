@@ -316,15 +316,37 @@ abstract class LLMS_Admin_Table {
 
 	/**
 	 * Get the file name for an export file
+	 * @param    array    $args   optional arguements passed from table to csv processor
 	 * @return   string
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function get_export_file_name() {
+	public function get_export_file_name( $args = array() ) {
 
-		$title = sprintf( '%1$s_export_%2$s', sanitize_title( $this->title, 'llms-' . $this->id ), current_time( 'Y-m-d' ) );
-		return apply_filters( 'llms_table_get_' . $this->id . '_export_name', $title );
+		$title = sprintf( '%1$s_export_%2$s', sanitize_title( $this->get_export_title( $args ), 'llms-' . $this->id ), current_time( 'Y-m-d' ) );
+		return apply_filters( 'llms_table_get_' . $this->id . '_export_file_name', $title );
 
+	}
+
+	/**
+	 * Get a lock key unique to the table & user for locking the table during export generation
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_lock_key() {
+		return sprintf( '%1$s:%2$d', $this->id, get_current_user_id() );
+	}
+
+	/**
+	 * Allow customization of the title for export files
+	 * @param    array    $args   optional arguements passed from table to csv processor
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_title( $args = array() ) {
+		return apply_filters( 'llms_table_get_' . $this->id . '_export_title', $this->get_title() );
 	}
 
 	/**
@@ -581,7 +603,7 @@ abstract class LLMS_Admin_Table {
 			<tr>
 				<th colspan="<?php echo $this->get_columns_count(); ?>">
 					<?php if ( $this->is_exportable ) : ?>
-						<?php $locked = LLMS()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_handler() ); ?>
+						<?php $locked = LLMS()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() ); ?>
 						<div class="llms-table-export">
 							<button class="llms-button-primary small" name="llms-table-export"<?php echo $locked ? ' disabled="disabled"' : ''; ?>>
 								<span class="dashicons dashicons-download"></span> <?php _e( 'Export', 'lifterlms' ); ?>
