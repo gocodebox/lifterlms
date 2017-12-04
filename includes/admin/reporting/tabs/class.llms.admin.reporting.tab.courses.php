@@ -1,8 +1,8 @@
 <?php
 /**
  * Courses Tab on Reporting Screen
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -12,8 +12,8 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	/**
 	 * Constructor
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function __construct() {
 
@@ -74,8 +74,8 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	/**
 	 * Output tab content
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function output() {
 

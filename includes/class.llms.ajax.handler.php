@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.15.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -14,7 +14,7 @@ class LLMS_AJAX_Handler {
 	 * @param    array     $request  array of request data
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public static function bulk_enroll_membership_into_course( $request ) {
 
@@ -102,8 +102,8 @@ class LLMS_AJAX_Handler {
 	 * Queue a table export event
 	 * @param    array     $request  post data ($_REQUST)
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public static function export_admin_table( $request ) {
 

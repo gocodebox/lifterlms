@@ -3,7 +3,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.14.9
+ * Version: 3.15.0
  * Author: Thomas Patrick Levy, codeBOX LLC
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.14.9';
+	public $version = '3.15.0';
 
 	protected static $_instance = null;
 
@@ -63,7 +63,7 @@ final class LifterLMS {
 	 * LifterLMS Constructor.
 	 * @return   LifterLMS
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	private function __construct() {
 
@@ -106,7 +106,7 @@ final class LifterLMS {
 	 * @param    string  $class  class name being called
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function autoload( $class ) {
 
@@ -146,7 +146,7 @@ final class LifterLMS {
 	/**
 	 * Define LifterLMS Constants
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	private function define_constants() {
 
@@ -184,7 +184,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.15.0
 	 */
 	private function includes() {
 
@@ -400,8 +400,8 @@ final class LifterLMS {
 	 * Load all background processors and
 	 * access to them programattically a processor via LLMS()->processors()->get( $processor )
 	 * @return   LLMS_Processors
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function processors() {
 		return LLMS_Processors::instance();

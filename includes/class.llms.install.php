@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version [version]
+ * @version 3.15.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -132,7 +132,7 @@ class LLMS_Install {
 	 * Create files needed by LifterLMS
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public static function create_files() {
 		$upload_dir = wp_upload_dir();

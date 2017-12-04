@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Background Processor abstract
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
@@ -25,8 +25,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Acts as a constructor that extending processors should implement
 	 * at the very least should populate the $this->actions array
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	abstract protected function init();
 
@@ -37,8 +37,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * @param    array    $item  item in the queue
 	 * @return   boolean      	 true to keep the item in the queue and process again
 	 *                           false to remove the item from the queue
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	// abstract protected function task( $item );
 
@@ -53,8 +53,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	/**
 	 * Constructor
 	 * Initializes and adds actions
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function __construct() {
 
@@ -73,8 +73,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	/**
 	 * Add actions defined in $this->actions
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function add_actions() {
 
@@ -96,8 +96,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Useful when bulk enrolling into a membership (for examlpe)
 	 * so we don't trigger course data calculations a few hundred tiems
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function disable() {
 
@@ -118,8 +118,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	/**
 	 * Retrieve a filtered array of actions to be added by $this->add_acitons
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function get_actions() {
 
@@ -133,8 +133,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * @param    string     $key      if set, return a specific peice of data rather than the whole array
 	 * @param    string     $default  when returning a specific piece of data, allows a default value to be passed
 	 * @return   array|mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_data( $key = null, $default = '' ) {
 
@@ -158,8 +158,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Log data to the processors log when processors debugging is enabled
 	 * @param    mixed     $data  data to log
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function log( $data ) {
 
@@ -173,8 +173,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Persist data to the database related to the processor
 	 * @param    array     $data   data to save
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function save_data( $data ) {
 
@@ -193,8 +193,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * @param    string     $key   key name
 	 * @param    mixed     $value  value
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function set_data( $key, $value ) {
 
@@ -210,8 +210,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Delete a piece of data from the database by key
 	 * @param    string     $key  keyname to remove
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function unset_data( $key ) {
 

@@ -1,8 +1,8 @@
 <?php
 /**
  * Single Course Tab: Students Subtab
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

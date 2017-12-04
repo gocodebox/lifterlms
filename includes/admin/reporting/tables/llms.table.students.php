@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.15.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -54,7 +54,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_data( $key, $student ) {
 
@@ -157,8 +157,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    string     $key        the column id / key
 	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export_data( $key, $student ) {
 
@@ -241,7 +241,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Get the Text to be used as the placeholder in a searchable tables search input
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_table_search_form_placeholder() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
@@ -252,7 +252,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_results( $args = array() ) {
 
@@ -372,7 +372,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Define the structure of arguments used to pass to the get_results method
 	 * @return   array
 	 * @since    2.3.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function set_args() {
 		$deprecated = apply_filters( 'llms_table_' . $this->id . '_per_page', 25 );
@@ -385,7 +385,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function set_columns() {
 		return array(

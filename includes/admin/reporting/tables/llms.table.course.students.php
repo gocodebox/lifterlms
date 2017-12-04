@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Display students enrolled in a given course on the course students subtab
- * @since   [version]
- * @version [version]
+ * @since   3.15.0
+ * @version 3.15.0
  */
 class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
@@ -77,8 +77,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * @param    string     $key        the column id / key
 	 * @param    int        $user_id    WP User ID
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_data( $key, $student ) {
 
@@ -170,8 +170,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * @param    string     $key        the column id / key
 	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export_data( $key, $student ) {
 
@@ -210,8 +210,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	/**
 	 * Get a lock key unique to the table & user for locking the table during export generation
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export_lock_key() {
 		$args = $this->get_args();
@@ -222,8 +222,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Allow customization of the title for export files
 	 * @param    array    $args   optional arguements passed from table to csv processor
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export_title( $args = array() ) {
 		$title = $this->get_title();
@@ -236,8 +236,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_table_search_form_placeholder() {
 		return apply_filters( 'llms_reporting_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
@@ -247,8 +247,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Execute a query to retrieve results from the table
 	 * @param    array      $args  array of query args
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_results( $args = array() ) {
 
@@ -342,8 +342,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function set_args() {
 
@@ -360,8 +360,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function set_columns() {
 		$cols = array(

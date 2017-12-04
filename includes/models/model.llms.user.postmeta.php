@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * LLMS_User_Postmeta data model
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 
@@ -59,8 +59,8 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	 * Get a string used to describe the postmeta item
 	 * @param    string     $context  display context [course|student]
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_description( $context = 'course' ) {
 
@@ -127,8 +127,8 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	 * Retrieve a link for the item on the admin panel
 	 * @param    string     $context  display context [course|student]
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_link( $context = 'course' ) {
 
@@ -181,8 +181,8 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve a student obj for the meta item
 	 * @return   obj LLMS_Student
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_student() {
 		return llms_get_student( $this->get( 'user_id' ) );

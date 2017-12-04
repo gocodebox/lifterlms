@@ -3,15 +3,15 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * LifterLMS Caching Helper
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 class LLMS_Cache_Helper {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function __construct() {
 
@@ -23,8 +23,8 @@ class LLMS_Cache_Helper {
 	 * Define nocache constants and set nocache headers on specified pages
 	 * Checkout & Student Dashboard
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function maybe_no_cache() {
 

@@ -2,8 +2,8 @@
 /**
  * Tests for template functions
  * @group    LLMS_Functions_Templates
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 class LLMS_Functions_Templates extends LLMS_UnitTestCase {
 
@@ -18,8 +18,8 @@ class LLMS_Functions_Templates extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_course_continue_button() func
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function test_lifterlms_course_continue_button() {
 

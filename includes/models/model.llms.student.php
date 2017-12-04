@@ -5,7 +5,7 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version [version]
+ * @version 3.15.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -276,7 +276,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    array  $args   see `get_enrollments`
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_courses( $args = array() ) {
 
@@ -386,7 +386,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
 	 *                      "found" will contain the total possible FOUND_ROWS() for the query
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_enrollments( $post_type = 'course', $args = array() ) {
 
@@ -580,8 +580,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Retrieve postmeta events related to the student
 	 * @param    array      $args  default args, see LLMS_Query_User_Postmeta
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_events( $args = array() ) {
 
@@ -681,8 +681,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Retrieve IDs of user's memberships based on supplied criteria
 	 * @param    array  $args   see `get_enrollments`
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_memberships( $args = array() ) {
 

@@ -2,7 +2,7 @@
 /**
  * Abstract Database Query
  * @since    3.8.0
- * @version  [version]
+ * @version  3.15.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -242,8 +242,8 @@ abstract class LLMS_Database_Query {
 	 * Sanitize input to ensure an array of absints
 	 * @param    mixed     $ids  String/Int or array of strings/ints
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function sanitize_id_array( $ids ) {
 

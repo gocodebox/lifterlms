@@ -1,8 +1,8 @@
 <?php
 /**
  * Load, access, and manage LifterLMS Processors
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -35,8 +35,8 @@ class LLMS_Processors {
 	/**
 	 * Main instance
 	 * @return   LLMS_Processors
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -47,8 +47,8 @@ class LLMS_Processors {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function __construct() {
 
@@ -61,8 +61,8 @@ class LLMS_Processors {
 	 * Access a single loaded processor instance
 	 * @param    string     $name  name of the processor
 	 * @return   obj|false         instance of the proccesor if found, otherwise false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get( $name ) {
 
@@ -76,8 +76,8 @@ class LLMS_Processors {
 	/**
 	 * Include classes required by proccessors
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function includes() {
 
@@ -89,8 +89,8 @@ class LLMS_Processors {
 	/**
 	 * Load all processors
 	 * @return   [type]     [description]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function load_all() {
 
@@ -114,8 +114,8 @@ class LLMS_Processors {
 	 * Load a single processor
 	 * @param    string     $name  name of the processor
 	 * @return   obj|false         instance of the proccesor if found, otherwise false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function load_processor( $name ) {
 

@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Admin Tables
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.15.0
  */
 abstract class LLMS_Admin_Table {
 
@@ -186,7 +186,7 @@ abstract class LLMS_Admin_Table {
 	 * @param    string    $context   display context [display|export]
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	protected function filter_get_data( $value, $key, $data, $context = 'display' ) {
 		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context );
@@ -196,7 +196,7 @@ abstract class LLMS_Admin_Table {
 	 * Retrieve the arguments defined in `set_args`
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_args() {
 
@@ -224,7 +224,7 @@ abstract class LLMS_Admin_Table {
 	 * Retrieve the array of columns defined by set_columns
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_columns( $context = 'display' ) {
 
@@ -257,7 +257,7 @@ abstract class LLMS_Admin_Table {
 	 * Get $this->empty_msg string
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_empty_message() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_empty_message', $this->set_empty_message() );
@@ -267,8 +267,8 @@ abstract class LLMS_Admin_Table {
 	 * Gets data prepared for an export
 	 * @param    array     $args  query arguements to be passed to get_results()
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export( $args = array() ) {
 
@@ -297,8 +297,8 @@ abstract class LLMS_Admin_Table {
 	 * @param    string     $key   the column id / key
 	 * @param    mixed      $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export_data( $key, $data ) {
 		return trim( strip_tags( $this->get_data( $key, $data ) ) );
@@ -307,8 +307,8 @@ abstract class LLMS_Admin_Table {
 	/**
 	 * Retrieve the header row for generating an export file
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export_header() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_export_header', wp_list_pluck( $this->get_columns( 'export' ), 'title' ) );
@@ -318,8 +318,8 @@ abstract class LLMS_Admin_Table {
 	 * Get the file name for an export file
 	 * @param    array    $args   optional arguements passed from table to csv processor
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export_file_name( $args = array() ) {
 
@@ -331,8 +331,8 @@ abstract class LLMS_Admin_Table {
 	/**
 	 * Get a lock key unique to the table & user for locking the table during export generation
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export_lock_key() {
 		return sprintf( '%1$s:%2$d', $this->id, get_current_user_id() );
@@ -342,8 +342,8 @@ abstract class LLMS_Admin_Table {
 	 * Allow customization of the title for export files
 	 * @param    array    $args   optional arguements passed from table to csv processor
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_export_title( $args = array() ) {
 		return apply_filters( 'llms_table_get_' . $this->id . '_export_title', $this->get_title() );
@@ -354,7 +354,7 @@ abstract class LLMS_Admin_Table {
 	 * @param    string     $column_id  id of the column
 	 * @return   string
 	 * @since    3.4.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_filter_placeholder( $column_id, $column_data ) {
 		$placeholder = __( 'Any', 'lifterlms' );
@@ -399,8 +399,8 @@ abstract class LLMS_Admin_Table {
 	/**
 	 * Retrieve the max number of pages for the table
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_max_pages() {
 		return $this->max_pages;
@@ -536,7 +536,7 @@ abstract class LLMS_Admin_Table {
 	 * Get the Text to be used as the placeholder in a searchable tables search input
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_table_search_form_placeholder() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search', 'lifterlms' ) );
@@ -546,7 +546,7 @@ abstract class LLMS_Admin_Table {
 	 * Get the HTML for the table's title
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_table_title_html() {
 		$title = $this->get_title();
@@ -561,7 +561,7 @@ abstract class LLMS_Admin_Table {
 	 * Get $this->tbody_data array
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_tbody_data() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_tbody_data', $this->tbody_data );
@@ -594,7 +594,7 @@ abstract class LLMS_Admin_Table {
 	 * Get a tfoot element for the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_tfoot_html() {
 		ob_start();
@@ -679,7 +679,7 @@ abstract class LLMS_Admin_Table {
 	 * @param    mixed     $row  array/object of data describing a single row in the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();
@@ -743,8 +743,8 @@ abstract class LLMS_Admin_Table {
 	/**
 	 * Get the title of the table
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_title() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_table_title', $this->title );
@@ -755,8 +755,8 @@ abstract class LLMS_Admin_Table {
 	 * @param    [type]     $data     array of a single column's data from set_columns()
 	 * @param    string     $context  context [display|export]
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function is_col_visible( $data, $context = 'display' ) {
 
@@ -776,8 +776,8 @@ abstract class LLMS_Admin_Table {
 	/**
 	 * Return protected is_last_page var
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function is_last_page() {
 		return $this->is_last_page;
@@ -786,8 +786,8 @@ abstract class LLMS_Admin_Table {
 	/**
 	 * Queues an export for the table to be generated
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function queue_export( $args = array() ) {
 
@@ -824,7 +824,7 @@ abstract class LLMS_Admin_Table {
 	 * Empty message displayed when no results are found
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	protected function set_empty_message() {
 		return apply_filters( 'llms_table_default_empty_message', __( 'No results were found.', 'lifterlms' ) );

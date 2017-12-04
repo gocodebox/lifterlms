@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Admin Reporting Base Class
  * @since   3.2.0
- * @version [version]
+ * @version 3.15.0
  */
 class LLMS_Admin_Reporting {
 
@@ -282,8 +282,8 @@ class LLMS_Admin_Reporting {
 	 * @param    obj     $event    instance of an LLMS_User_Postmeta item
 	 * @param    string     $context  display context [course|student]
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public static function output_event( $event, $context = 'course' ) {
 
@@ -321,8 +321,8 @@ class LLMS_Admin_Reporting {
 	 * Output the HTML for a reporting widget
 	 * @param    array      $args   widget options
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public static function output_widget( $args = array() ) {
 

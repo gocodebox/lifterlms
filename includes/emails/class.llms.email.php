@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Email Base Class
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.15.0
  */
 class LLMS_Email {
 
@@ -60,8 +60,8 @@ class LLMS_Email {
 	 * Add an attachment to the email
 	 * @param    string     $attachment  full system path to a file to attach
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function add_attachment( $attachment ) {
 
@@ -188,8 +188,8 @@ class LLMS_Email {
 	/**
 	 * Get attachments
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_attachments() {
 		return apply_filters( 'llms_email_get_attachments', $this->attachments, $this );
@@ -369,7 +369,7 @@ class LLMS_Email {
 	 * Send email
 	 * @return bool
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function send() {
 

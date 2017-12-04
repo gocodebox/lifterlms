@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Convert LifterLMS Tables to CSVs as a background process
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
@@ -25,8 +25,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * @param    string     $handler  LLMS_Table Handler name
 	 * @param    int        $user_id  WP User ID of the user who initiated the export
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function dispatch_generation( $handler, $user_id, $args = array() ) {
 
@@ -76,8 +76,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * Retrieve an instance of the table handler class
 	 * @param    string     $handler  name of the handler
 	 * @return   obj|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function get_handler( $handler ) {
 
@@ -99,8 +99,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	/**
 	 * Initializer
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function init() {
 
@@ -124,8 +124,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * Determine if the table is currently locked
 	 * @param    string]     $key   table lock key
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function is_table_locked( $key ) {
 
@@ -138,8 +138,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * This will schedule an event that will setup the queue of items for the background process
 	 * @param    int     $table  instance of an LLMS_Table
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function schedule_generation( $table ) {
 
@@ -166,8 +166,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * @param    array     $args  query arguments passed to LLMS_Table
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function task( $args ) {
 
@@ -225,8 +225,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * Healthcheck
 	 * @param    int   $interval   default interval (in minutes)
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function _healthcheck_interval( $interval ) {
 		return 1;
@@ -237,8 +237,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * Only one export at a time per table
 	 * @param    string     $key   table lock key
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function _lock_table( $key ) {
 
@@ -252,8 +252,8 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * Unlock the table
 	 * @param    string     $key  table lock key
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function _unlock_table( $key ) {
 

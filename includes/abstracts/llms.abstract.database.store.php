@@ -85,7 +85,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Determine if the item exists in the database
 	 * @return   boolean
 	 * @since    3.14.7
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function exists() {
 
@@ -318,8 +318,8 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve the primary key column name
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function get_primary_key() {
 

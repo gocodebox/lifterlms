@@ -804,8 +804,8 @@ function llms_make_select2_student_array( $user_ids = array(), $template = '' ) 
  * @param    string     $name   constant name
  * @param    mixed      $value  constant values
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 function llms_maybe_define_constant( $name, $value ) {
 	if ( ! defined( $name ) ) {

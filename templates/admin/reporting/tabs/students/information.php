@@ -2,7 +2,7 @@
 /**
  * Single Student View: Information Tab
  * @since    3.2.0
- * @version  [version]
+ * @version  3.15.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }

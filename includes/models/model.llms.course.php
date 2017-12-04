@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.15.0
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
@@ -284,8 +284,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	/**
 	 * Retrieve the number of enrolled students in the course
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_student_count() {
 
@@ -434,7 +434,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 * Determine if the course is at capacity based on course capacity serttings
 	 * @return   boolean    true if not at capacity, false if at or over capacity
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.15.0
 	 */
 	public function has_capacity() {
 

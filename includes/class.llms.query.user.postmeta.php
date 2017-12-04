@@ -13,8 +13,8 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	/**
 	 * Retrieve default arguments for a student query
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function get_default_args() {
 
@@ -40,8 +40,8 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	/**
 	 * Retrieve an array of LLMS_User_Postmetas for the given set of results
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function get_metas() {
 
@@ -68,8 +68,8 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	 * Convert strings to array and ensure resulting array contains only valid statuses
 	 * If no valid statuses, returns to the default
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function parse_args() {
 
@@ -177,8 +177,8 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	/**
 	 * Prepare the SQL for the query
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function preprare_query() {
 
@@ -205,8 +205,8 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	/**
 	 * SQL "where" clause for the query
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function sql_where() {
 

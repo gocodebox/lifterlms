@@ -1082,7 +1082,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
  * @param    integer    $progress  current progress of the student through the course
  * @return   void
  * @since    3.11.1
- * @version  [version]
+ * @version  3.15.0
  */
 if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 

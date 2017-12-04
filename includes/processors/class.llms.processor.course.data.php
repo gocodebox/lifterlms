@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * 		students enroll
  * 		students unenroll
  * 		sutendts complete lessons
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
@@ -47,8 +47,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	/**
 	 * Called when queue is emptied and process is complete
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function complete() {
 
@@ -61,8 +61,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Action triggered to queue queries needed to make the calculation
 	 * @param    int     $course_id  WP Post ID of the course
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function dispatch_calc( $course_id ) {
 
@@ -116,8 +116,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	/**
 	 * Initializer
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function init() {
 
@@ -164,8 +164,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @param    int    $num_students  number of students in the current course
 	 * @return   boolean               true = throttle the current dispatch
 	 *                                 false = run the current dispatch
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	private function maybe_throttle( $num_students = 0 ) {
 
@@ -188,8 +188,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @param    int     $user_id    WP user id of the student
 	 * @param    int     $course_id  WP Post ID of the course
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function schedule_from_course( $user_id, $course_id ) {
 		$this->schedule_calculation( $course_id );
@@ -200,8 +200,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @param    int     $user_id    WP user id of the student
 	 * @param    int     $lesson_id  WP Post ID of the lesson
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function schedule_from_lesson( $user_id, $lesson_id ) {
 		$lesson = llms_get_post( $lesson_id );
@@ -214,8 +214,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @param    int     $quiz_id  WP Post ID of the quiz
 	 * @param    obj     $attempt  LLMS_Quiz_Attempt object
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function schedule_from_quiz( $user_id, $quiz_id, $attempt ) {
 		$this->schedule_from_lesson( $user_id, $attempt->get( 'lesson_id' ) );
@@ -227,8 +227,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @param    int     $course_id  WP Post ID of the course
 	 * @param    int     $time       optionally pass a timestamp for when the event should be run
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function schedule_calculation( $course_id, $time = null ) {
 
@@ -255,8 +255,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @param    array     $args  query arguments passed to LLMS_Student_Query
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function task( $args ) {
 

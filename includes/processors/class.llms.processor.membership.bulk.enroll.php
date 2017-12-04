@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * 		students enroll
  * 		students unenroll
  * 		sutendts complete lessons
- * @since    [version]
- * @version  [version]
+ * @since    3.15.0
+ * @version  3.15.0
  */
 class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
@@ -32,8 +32,8 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	 * @param    int     $membership_id  WP Post ID of the membership
 	 * @param    int     $course_id      WP Post ID of the course to enroll members into
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function dispatch_enrollment( $membership_id, $course_id ) {
 
@@ -76,8 +76,8 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	/**
 	 * Initializer
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	protected function init() {
 
@@ -101,8 +101,8 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	 * @param    int     $membership_id  WP Post ID of the membership
 	 * @param    int     $course_id      WP Post ID of the course to enroll members into
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function schedule_enrollment( $membership_id, $course_id ) {
 
@@ -126,8 +126,8 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	 * @param    array     $item  array of processing data
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.15.0
+	 * @version  3.15.0
 	 */
 	public function task( $item ) {
 
