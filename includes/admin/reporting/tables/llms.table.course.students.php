@@ -28,6 +28,13 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	protected $filterby = 'status';
 
 	/**
+	 * Is the Table Exportable?
+	 * @var  boolean
+	 */
+	protected $is_exportable = true;
+
+
+	/**
 	 * Determine if the table is filterable
 	 * @var  boolean
 	 */
@@ -124,7 +131,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 					'tab' => 'students',
 					'student_id' => $student->get_id(),
 					'stab' => 'courses',
-					'course_id' => 5202,
+					'course_id' => $this->course_id,
 				), admin_url( 'admin.php' ) );
 				$value = '<a href="' . esc_url( $url ) . '">' . $value . '</a>';
 
@@ -155,6 +162,75 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 		return $this->filter_get_data( $value, $key, $student );
 
+	}
+
+	/**
+	 * Retrieve data for a cell in an export file
+	 * Should be overriden in extending classes
+	 * @param    string     $key        the column id / key
+	 * @param    obj        $student    Instance of the LLMS_Student
+	 * @return   mixed
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_data( $key, $student ) {
+
+		switch ( $key ) {
+
+			case 'id':
+				$value = $student->get_id();
+			break;
+
+			case 'email':
+				$value = $student->get( 'user_email' );
+			break;
+
+			case 'name_first':
+				$value = $student->get( 'first_name' );
+			break;
+
+			case 'name_last':
+				$value = $student->get( 'last_name' );
+			break;
+
+			case 'progress':
+				$value = $student->get_progress( $this->course_id ) . '%';
+			break;
+
+			default:
+				$value = $this->get_data( $key, $student );
+
+		}// End switch().
+
+		return $this->filter_get_data( $value, $key, $student, 'export' );
+
+	}
+
+
+	/**
+	 * Get a lock key unique to the table & user for locking the table during export generation
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_lock_key() {
+		$args = $this->get_args();
+		return sprintf( '%1$s:%2$d:%3$d', $this->id, get_current_user_id(), $args['course_id'] );
+	}
+
+	/**
+	 * Allow customization of the title for export files
+	 * @param    array    $args   optional arguements passed from table to csv processor
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_export_title( $args = array() ) {
+		$title = $this->get_title();
+		if ( isset( $args['course_id'] ) ) {
+			$title = get_the_title( $args['course_id'] ) . ' ' . $title;
+		}
+		return apply_filters( 'llms_table_get_' . $this->id . '_export_title', $title );
 	}
 
 	/**
@@ -290,6 +366,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	public function set_columns() {
 		$cols = array(
 			'id' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'ID', 'lifterlms' ),
 			),
@@ -297,20 +374,39 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				'sortable' => true,
 				'title' => __( 'Name', 'lifterlms' ),
 			),
+			'name_last' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Last Name', 'lifterlms' ),
+			),
+			'name_first' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'First Name', 'lifterlms' ),
+			),
+			'email' => array(
+				'exportable' => true,
+				'export_only' => true,
+				'title' => __( 'Email', 'lifterlms' ),
+			),
 			'status' => array(
+				'exportable' => true,
 				'filterable' => llms_get_enrollment_statuses(),
 				'sortable' => true,
 				'title' => __( 'Status', 'lifterlms' ),
 			),
 			'enrolled' => array(
+				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'Enrollment Updated', 'lifterlms' ),
 			),
 			'progress' => array(
+				'exportable' => true,
 				'sortable' => false,
 				'title' => __( 'Progress', 'lifterlms' ),
 			),
 			'grade' => array(
+				'exportable' => true,
 				'sortable' => false,
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
@@ -321,6 +417,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 		);
 
 		return $cols;
+
 	}
 
 }
