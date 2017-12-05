@@ -1,11 +1,13 @@
 <?php
 /**
  * Single Student View: Courses Tab: Quiz View
+ * @since    [version]
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
 
-$quiz = new LLMS_Quiz( $quiz_id );
+$quiz = new LLMS_Quiz_Legacy( $quiz_id );
 ?>
 
 <h2 class="llms-stab-title">

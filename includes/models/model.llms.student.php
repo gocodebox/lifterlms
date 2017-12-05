@@ -1,15 +1,14 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Student Class
  *
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.15.0
+ * @version [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
@@ -601,7 +600,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    int     $object_id  WP Post ID of a course or lesson
 	 * @return   mixed
 	 * @since    ??
-	 * @version  ??
+	 * @version  [version]
 	 */
 	public function get_grade( $object_id ) {
 
@@ -654,7 +653,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 				if ( $q ) {
 
-					$q = new LLMS_Quiz( $q );
+					$q = new LLMS_Quiz_Legacy( $q );
 
 					if ( $q->get_total_attempts_by_user( $this->get_id() ) ) {
 

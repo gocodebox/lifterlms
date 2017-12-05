@@ -2,7 +2,7 @@
 /**
  * Single Quiz: Single Choice Question
  * @since    1.0.0
- * @version  3.9.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -10,7 +10,7 @@ global $post, $quiz, $question;
 
 if ( ! $quiz ) {
 
-	$quiz = new LLMS_Quiz( $post->ID );
+	$quiz = new LLMS_Quiz_Legacy( $post->ID );
 
 }
 if ( ! $question ) {

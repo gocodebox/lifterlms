@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  3.14.1
+* @version  [version]
 */
 class LLMS_Shortcodes {
 
@@ -100,7 +100,7 @@ class LLMS_Shortcodes {
 	 * Retrieve the course ID from within a course, lesson, or quiz
 	 * @return   int
 	 * @since    2.7.9
-	 * @version  3.4.1
+	 * @version  [version]
 	 */
 	private static function get_course_id() {
 
@@ -110,7 +110,7 @@ class LLMS_Shortcodes {
 			$lesson = new LLMS_Lesson( get_the_ID() );
 			return $lesson->get_parent_course();
 		} elseif ( is_quiz() ) {
-			$quiz = new LLMS_Quiz( get_the_ID() );
+			$quiz = new LLMS_Quiz_Legacy( get_the_ID() );
 			$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
 			return $lesson->get_parent_course();
 		}

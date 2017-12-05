@@ -2,7 +2,7 @@
 /**
  * Quiz Start & Next lesson buttons
  * @since    1.0.0
- * @version  3.9.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -23,7 +23,7 @@ if ( $llms_quiz_attempt ) {
 	return;
 }
 
-$quiz = new LLMS_Quiz( $quiz );
+$quiz = new LLMS_Quiz_Legacy( $quiz );
 $lesson = llms_get_post( $lesson );
 ?>
 

@@ -75,7 +75,7 @@ class LLMS_Course_Factory {
 
 	 	$classname = 'LLMS_Quiz';
 
-		return new LLMS_Quiz( $the_quiz, $args );
+		return new LLMS_Quiz_Legacy( $the_quiz, $args );
 	}
 
 	/**

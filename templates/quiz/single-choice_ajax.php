@@ -2,12 +2,12 @@
 /**
  * Single Quiz: Single Choice Question AJAX
  * @since    1.0.0
- * @version  3.9.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-$quiz = new LLMS_Quiz( $args['quiz_id'] );
+$quiz = new LLMS_Quiz_Legacy( $args['quiz_id'] );
 $quiz_obj = $quiz;
 
 $question = new LLMS_Question( $args['question_id'] );

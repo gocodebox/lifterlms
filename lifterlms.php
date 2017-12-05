@@ -184,7 +184,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.15.0
+	 * @version [version]
 	 */
 	private function includes() {
 
@@ -224,6 +224,9 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
 
 		}
+
+		// legacy
+		include_once( 'includes/class.llms.quiz.legacy.php' );
 
 		// nav menus
 		require_once 'includes/class.llms.nav.menus.php';
@@ -271,7 +274,6 @@ final class LifterLMS {
 
 		// Classes
 		include_once( 'includes/class.llms.lesson.handler.php' );
-		include_once( 'includes/class.llms.quiz.php' );
 		include_once( 'includes/class.llms.course.factory.php' );
 		include_once( 'includes/class.llms.review.php' );
 		include_once( 'includes/class.llms.student.dashboard.php' );

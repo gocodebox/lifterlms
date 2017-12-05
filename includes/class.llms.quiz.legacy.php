@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Base Question Class
 */
-class LLMS_Quiz {
+class LLMS_Quiz_Legacy {
 
 	/**
 	* ID
