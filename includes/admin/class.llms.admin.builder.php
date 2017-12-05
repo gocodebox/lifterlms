@@ -505,7 +505,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.14.8
+	 * @version  [version]
 	 */
 	public static function output() {
 
@@ -561,6 +561,12 @@ if ( ! empty( $active_post_lock ) ) {
 						<li>
 							<button class="llms-tool-button" id="llms-existing-lesson" data-model="lesson">
 								<span class="fa fa-file-text"></span> <?php _e( 'Existing Lesson', 'lifterlms' ); ?>
+							</button>
+						</li>
+
+						<li>
+							<button class="llms-tool-button llms-add-item" id="llms-new-quiz" data-model="quiz">
+								<span class="fa fa-list-ol"></span> <?php _e( 'New Quiz', 'lifterlms' ); ?>
 							</button>
 						</li>
 
