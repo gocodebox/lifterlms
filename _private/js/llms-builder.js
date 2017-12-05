@@ -4,7 +4,7 @@
 	 * Main Application Object
 	 * @type     {Object}
 	 * @since    3.13.0
-	 * @version  3.14.8
+	 * @version  [version]
 	 */
 	var App = {
 
@@ -1551,7 +1551,7 @@
 	/**
 	 * "Tools" sidebar view
 	 * @since    3.13.0
-	 * @version  3.14.4
+	 * @version  [version]
 	 */
 	App.Views.Tools = Backbone.View.extend( {
 
@@ -1688,7 +1688,7 @@
 		 * @param    obj   e  js click event obj
 		 * @return   void
 		 * @since    3.14.4
-		 * @version  3.14.4
+		 * @version  [version]
 		 */
 		show_search_popover: function( e ) {
 
@@ -1702,7 +1702,7 @@
 				placement: 'left',
 				title: LLMS.l10n.translate( 'Add an Existing Lesson' ),
 				trigger: 'manual',
-				width: 340,
+				width: 480,
 				onShow: function( $popover ) {
 					$( '.webui-popover-backdrop' ).one( 'click', function() {
 						WebuiPopovers.hide( e.target );
