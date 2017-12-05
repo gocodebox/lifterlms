@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  *
  * @since   2.2.3
  * @version [version]
+ * @version 3.15.1
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -385,7 +386,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
 	 *                      "found" will contain the total possible FOUND_ROWS() for the query
 	 * @since    3.0.0
-	 * @version  3.15.0
+	 * @version  3.15.1
 	 */
 	public function get_enrollments( $post_type = 'course', $args = array() ) {
 
@@ -441,7 +442,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			"SELECT SQL_CALC_FOUND_ROWS DISTINCT upm.post_id AS id
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
-			 WHERE p.post_type = %d
+			 WHERE p.post_type = %s
 			   AND p.post_status = 'publish'
 			   AND upm.meta_key = '_status'
 			   AND upm.user_id = %d

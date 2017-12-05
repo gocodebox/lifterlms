@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.9.1
-Stable tag: 3.15.0
+Stable tag: 3.15.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -348,6 +348,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+= v3.15.1 - 2017-12-05 =
+------------------------
+
++ Ensure course & membership titles with HTML characters are decoded during reporting exports
++ Fix issue causing some courses to display in membership columns on reporting exports
 
 
 = v3.15.0 - 2017-12-04 =

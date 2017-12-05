@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.15.1 - 2017-12-05
+--------------------
+
++ Ensure course & membership titles with HTML characters are decoded during reporting exports
++ Fix issue causing some courses to display in membership columns on reporting exports
+
+
 v3.15.0 - 2017-12-04
 --------------------
 
