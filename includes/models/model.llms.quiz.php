@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * LifterLMS Quiz Model
  * @since    3.3.0
@@ -14,7 +16,7 @@
  * @property  $show_results  (yesno)  If yes, results will be shown to the student at the conclusion of the quiz
  * @property  $time_limit  (int)  Quiz time limit (in minutes), empty denotes unlimited (untimed) quiz
  */
-class LLMS_QQuiz extends LLMS_Post_Model {
+class LLMS_Quiz extends LLMS_Post_Model {
 
 	protected $db_post_type = 'llms_quiz';
 	protected $model_post_type = 'quiz';
