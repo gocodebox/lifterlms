@@ -22,9 +22,21 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
  */
-class LLMS_Lesson extends LLMS_Abstract_Course_Element_Post {
+class LLMS_Lesson extends LLMS_Post_Model {
 
 	protected $properties = array(
+
+		'order' => 'absint',
+
+		// drippable
+		'days_before_available' => 'absint',
+		'date_available' => 'text',
+		'drip_method' => 'text',
+		'time_available' => 'text',
+
+		// parent element
+		'parent_course' => 'absint',
+		'parent_section' => 'absint',
 
 		'assigned_quiz' => 'absint',
 		'audio_embed' => 'text',
@@ -66,6 +78,95 @@ class LLMS_Lesson extends LLMS_Abstract_Course_Element_Post {
 			return $r;
 
 		}
+
+	}
+
+	/**
+	 * Get the date a course became or will become available according to element drip settings
+	 * If there are no drip settings, the published date of the element will be returned
+	 *
+	 * @param    string     $format  date format (passed to date_i18n()) (defaults to WP Core date + time formats)
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_available_date( $format = '' ) {
+
+		if ( ! $format ) {
+			$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+		}
+
+		$drip_method = $this->get( 'drip_method' );
+
+		$days = $this->get( 'days_before_available' ) * DAY_IN_SECONDS;
+
+		// default availability is the element's post date
+		$available = $this->get_date( 'date', 'U' );
+
+		switch ( $drip_method ) {
+
+			// available on a specific date / time
+			case 'date':
+
+				$date = $this->get( 'date_available' );
+				$time = $this->get( 'time_available' );
+
+				if ( ! $time ) {
+					$time = '12:00 AM';
+				}
+
+				$available = strtotime( $date . ' ' . $time );
+
+			break;
+
+			// available # of days after enrollment in course
+			case 'enrollment':
+				$student = llms_get_student();
+				if ( $student ) {
+					$available = $days + $student->get_enrollment_date( $this->get_parent_course(), 'enrolled', 'U' );
+				}
+			break;
+
+			case 'prerequisite':
+
+				if ( $this->has_prerequisite() ) {
+					$student = llms_get_student();
+					if ( $student ) {
+						$date = $student->get_completion_date( $this->get( 'prerequisite' ), 'U' );
+						if ( $date ) {
+							$available = $days + $date;
+						}
+					}
+				}
+
+			break;
+
+			// available # of days after course start date
+			case 'start':
+				$course = $this->get_course();
+				$available = $days + $course->get_date( 'start_date', 'U' );
+			break;
+
+		}
+
+		return date_i18n( $format, $available );
+
+	}
+
+	/**
+	 * Retrieve an instance of LLMS_Course for the element's parent course
+	 * @return   obj|null
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_course() {
+
+		$course_id = $this->get( 'parent_course' );
+		if ( ! $course_id ) {
+			return null;
+		}
+
+		return llms_get_post( $course_id );
 
 	}
 
@@ -188,6 +289,23 @@ class LLMS_Lesson extends LLMS_Abstract_Course_Element_Post {
 	}
 
 	/**
+	 * Retrieve an instance of LLMS_Course for the elements's parent section
+	 * @return   obj|null
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_section() {
+
+		$section_id = $this->get( 'parent_section' );
+		if ( ! $section_id ) {
+			return null;
+		}
+
+		return llms_get_post( $section_id );
+
+	}
+
+	/**
 	 * Retrieve an object for the assignd quiz (if a quiz is assigned )
 	 * @return   obj|false
 	 * @since    3.3.0
@@ -268,6 +386,31 @@ class LLMS_Lesson extends LLMS_Abstract_Course_Element_Post {
 	}
 
 	/**
+	 * Determine if an element is available based on drip settings
+	 * If no settings, this will return true if the posts's published
+	 * date is in the past
+	 *
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_available() {
+
+		$drip_method = $this->get( 'drip_method' );
+
+		// drip is no enabled, so the element is available
+		if ( ! $drip_method ) {
+			return true;
+		}
+
+		$available = $this->get_available_date( 'U' );
+		$now = llms_current_time( 'timestamp' );
+
+		return ( $now > $available );
+
+	}
+
+	/**
 	 * Determine if the lesson has been completed by a specific user
 	 * @param   int    $user_id  WP_User ID of a student
 	 * @return  bool
@@ -289,6 +432,7 @@ class LLMS_Lesson extends LLMS_Abstract_Course_Element_Post {
 		return $student->is_complete( $this->get( 'id' ), 'lesson' );
 
 	}
+
 
 	/**
 	 * Determine if a the lesson is marked as "free"

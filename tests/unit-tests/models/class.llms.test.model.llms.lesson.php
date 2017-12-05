@@ -1,9 +1,10 @@
 <?php
 /**
  * Tests for LifterLMS Lesson Model
- * @since     3.14.8
- * @version   3.14.8
  * @group     post_models
+ * @group     lessons
+ * @since     3.14.8
+ * @version   [version]
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -83,6 +84,64 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		   \___/   \_______/|_______/    \___/ |_______/
 	*/
 
+	public function test_get_available_date() {
+
+		$format = 'Y-m-d';
+
+		$course_id = $this->generate_mock_courses( 1, 1, 2, 0 )[0];
+		$course = llms_get_post( $course_id );
+		$lesson = $course->get_lessons()[0];
+		$lesson_id = $lesson->get( 'id' );
+		$student = $this->get_mock_student();
+		wp_set_current_user( $student->get_id() );
+		$student->enroll( $course_id );
+
+		// no drip settings, lesson is currently available
+		$this->assertEquals( current_time( $format ), $lesson->get_available_date( $format ) );
+
+		$lesson->set( 'drip_method', 'date' );
+		$lesson->set( 'date_available', '12/12/2012' );
+		$lesson->set( 'time_available', '12:12 AM' );
+		$this->assertEquals( date( $format, strtotime( '12/12/2012' ) ), $lesson->get_available_date( $format ) );
+		$this->assertEquals( date( 'U', strtotime( '12/12/2012 12:12 AM' ) ), $lesson->get_available_date( 'U' ) );
+
+		$lesson->set( 'drip_method', 'enrollment' );
+		$lesson->set( 'days_before_available', '3' );
+		$this->assertEquals( $student->get_enrollment_date( $course_id, 'enrolled', 'U' ) + ( DAY_IN_SECONDS * 3 ), $lesson->get_available_date( 'U' ) );
+
+		$lesson->set( 'drip_method', 'start' );
+		$start = current_time( 'm/d/Y' );
+		$course->set( 'start_date', $start );
+		$this->assertEquals( strtotime( $start ) + ( DAY_IN_SECONDS * 3 ), $lesson->get_available_date( 'U' ) );
+
+		$prereq_id = $lesson_id;
+		$student->mark_complete( $lesson_id, 'lesson' );
+
+		$lesson = $course->get_lessons()[1];
+
+		$lesson->set( 'has_prerequisite', 'yes' );
+		$lesson->set( 'prerequisite', $lesson_id );
+
+		$lesson->set( 'drip_method', 'prerequisite' );
+		$lesson->set( 'days_before_available', '3' );
+		$this->assertEquals( $student->get_completion_date( $prereq_id, 'U' ) + ( DAY_IN_SECONDS * 3 ), $lesson->get_available_date( 'U' ) );
+
+	}
+
+	public function test_get_course() {
+
+		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
+		$lesson = llms_get_post( $course->get_lessons( 'ids' )[0] );
+
+		// returns a course when everything's okay
+		$this->assertTrue( is_a( $lesson->get_course(), 'LLMS_Course' ) );
+
+		// course trashed / doesn't exist, returns null
+		wp_delete_post( $course->get( 'id' ), true );
+		$this->assertNull( $lesson->get_course() );
+
+	}
+
 	/**
 	 * Test Audio and Video Embeds
 	 * @return   void
@@ -122,6 +181,20 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	public function test_get_section() {
+
+		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
+		$lesson = llms_get_post( $course->get_lessons( 'ids' )[0] );
+
+		// returns a course when everything's okay
+		$this->assertTrue( is_a( $lesson->get_section(), 'LLMS_Section' ) );
+
+		// section trashed / doesn't exist, returns null
+		wp_delete_post( $lesson->get( 'parent_section' ), true );
+		$this->assertNull( $lesson->get_section() );
+
+	}
+
 	/**
 	 * Test has_modified_slug function
 	 * @return   void
@@ -144,6 +217,70 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$lesson->set( 'name', 'modified-slug' );
 
 		$this->assertTrue( $lesson->has_modified_slug() );
+
+	}
+
+	public function test_is_available() {
+
+		$course_id = $this->generate_mock_courses( 1, 1, 2, 0 )[0];
+		$course = llms_get_post( $course_id );
+		$lesson = $course->get_lessons()[0];
+		$lesson_id = $lesson->get( 'id' );
+		$student = $this->get_mock_student();
+		wp_set_current_user( $student->get_id() );
+		$student->enroll( $course_id );
+
+		// no drip settings, lesson is currently available
+		$this->assertTrue( $lesson->is_available() );
+
+		// date in past so the lesson is available
+		$lesson = llms_get_post( $lesson_id );
+		$lesson->set( 'drip_method', 'date' );
+		$lesson->set( 'date_available', '12/12/2012' );
+		$lesson->set( 'time_available', '12:12 AM' );
+		$this->assertTrue( $lesson->is_available() );
+
+		// date in future so lesson not available
+		$lesson->set( 'date_available', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
+		$this->assertFalse( $lesson->is_available() );
+
+		// available 3 days after enrollment
+		$lesson->set( 'drip_method', 'enrollment' );
+		$lesson->set( 'days_before_available', '3' );
+		$this->assertFalse( $lesson->is_available() );
+
+		// now available
+		llms_mock_current_time( '+4 days' );
+		$this->assertTrue( $lesson->is_available() );
+
+		llms_reset_current_time();
+		$lesson->set( 'drip_method', 'start' );
+		$course->set( 'start_date', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
+
+		// not available until 3 days after course start date
+		$this->assertFalse( $lesson->is_available() );
+
+		// now available
+		llms_mock_current_time( '+4 days' );
+		$this->assertTrue( $lesson->is_available() );
+		llms_reset_current_time();
+
+		$prereq_id = $lesson_id;
+		$student->mark_complete( $lesson_id, 'lesson' );
+
+		// second lesson not available until 3 days after lesson 1 is complete
+		$lesson = $course->get_lessons()[1];
+
+		$lesson->set( 'has_prerequisite', 'yes' );
+		$lesson->set( 'prerequisite', $lesson_id );
+
+		$lesson->set( 'drip_method', 'prerequisite' );
+		$lesson->set( 'days_before_available', '3' );
+
+		$this->assertFalse( $lesson->is_available() );
+
+		llms_mock_current_time( '+4 days' );
+		$this->assertTrue( $lesson->is_available() );
 
 	}
 

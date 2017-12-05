@@ -56,10 +56,7 @@ class LLMS_Admin_Meta_Boxes {
 		new LLMS_Meta_Box_Students();
 
 		// lessons
-		new LLMS_Meta_Box_Lesson();
-
-		// lessons & quizzes
-		require_once 'meta-boxes/class.llms.meta.box.drip.settings.php';
+		require_once 'meta-boxes/class.llms.meta.box.lesson.php';
 
 		// coupons
 		new LLMS_Meta_Box_Coupon();

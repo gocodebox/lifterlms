@@ -38,6 +38,21 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 */
 	public function get_fields() {
 
+		$lesson = llms_get_post( $this->post );
+
+		$methods = array(
+			'date' => __( 'On a specific date', 'lifterlms' ),
+			'enrollment' => __( 'After course enrollment', 'lifterlms' ),
+			'start' => __( 'After course start date', 'lifterlms' ),
+		);
+
+		$section = $lesson->get_section();
+
+		// if the lesson isn't first, add previous completion method
+		if ( 1 !== $lesson->get( 'order' ) || 1 !== $section->get( 'order' ) ) {
+			$methods['prerequisite'] = __( 'After prerequisite completion', 'lifterlms' );
+		}
+
 		return array(
 			array(
 				'title' 	=> __( 'General', 'lifterlms' ),
@@ -73,7 +88,6 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			array(
 				'title' 	=> __( 'Prerequisites', 'lifterlms' ),
 				'fields' 	=> array(
-
 					array(
 						'class' 	=> '',
 						'controls' => '#' . $this->prefix . 'prerequisite',
@@ -97,6 +111,47 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'label'		 => __( 'Choose Prerequisite', 'lifterlms' ),
 						'type'		 => 'select',
 						'value' 	=> llms_make_select2_post_array( array( get_post_meta( $this->post->ID, $this->prefix . 'prerequisite', true ) ) ),
+					),
+				),
+			),
+			array(
+				'title' => __( 'Drip Settings', 'lifterlms' ),
+				'fields' => array(
+					array(
+						'class' => 'llms-select2',
+						'desc_class' => 'd-all',
+						'id' => $this->prefix . 'drip_method',
+						'is_controller' => true,
+						'label' => __( 'Method', 'lifterlms' ),
+						'type' => 'select',
+						'value' => $methods,
+					),
+					array(
+						'controller' => '#' . $this->prefix . 'drip_method',
+						'controller_value' => 'lesson,enrollment,start,prerequisite',
+						'class' => 'input-full',
+						'id' => $this->prefix . 'days_before_available',
+						'label' => __( 'Delay (in days) ', 'lifterlms' ),
+						'type' => 'number',
+						'step' => 1,
+						'min' => 1,
+					),
+					array(
+						'controller' => '#' . $this->prefix . 'drip_method',
+						'controller_value' => 'date',
+						'class' => 'llms-datepicker',
+						'id' => $this->prefix . 'date_available',
+						'label' => __( 'Date Available', 'lifterlms' ),
+						'type' => 'date',
+					),
+					array(
+						'controller' => '#' . $this->prefix . 'drip_method',
+						'controller_value' => 'date',
+						'class' => '',
+						'desc' => __( 'Optionally enter a time when the lesson should become available. If no time supplied, leson will be available at 12:00 AM. Format must be HH:MM AM', 'lifterlms' ),
+						'id' => $this->prefix . 'time_available',
+						'label' => __( 'Time Available', 'lifterlms' ),
+						'type' => 'text',
 					),
 				),
 			),
@@ -143,3 +198,5 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	}
 
 }
+
+new LLMS_Meta_Box_Lesson();
