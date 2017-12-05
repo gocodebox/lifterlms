@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Add, Customize, and Manage LifterLMS quiz posts table Columns
  * @since    3.12.0
- * @version  3.12.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Post_Table_Quizzes {
 
 	/**
@@ -73,11 +72,11 @@ class LLMS_Admin_Post_Table_Quizzes {
 	 * @param  int    $post_id  WP Post ID of the quiz for the row
 	 * @return void
 	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @version  [version]
 	 */
 	public function manage_columns( $column, $post_id ) {
 
-		$quiz = new LLMS_QQuiz( $post_id );
+		$quiz = new LLMS_Quiz( $post_id );
 
 		switch ( $column ) {
 

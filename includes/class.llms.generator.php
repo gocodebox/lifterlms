@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  3.14.8
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Generator {
 
 	/**
@@ -444,14 +443,14 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                            WP Post ID of the Quiz
 	 * @since    3.3.0
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
 
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
 
 		// insert the course
-		$quiz = new LLMS_QQuiz( 'new', array(
+		$quiz = new LLMS_Quiz( 'new', array(
 			'post_author' => $author_id,
 			'post_content' => isset( $raw['content'] ) ? $raw['content'] : null,
 			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,

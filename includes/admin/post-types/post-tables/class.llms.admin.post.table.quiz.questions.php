@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Add, Customize, and Manage LifterLMS question posts table Columns
  * @since    3.12.0
- * @version  3.12.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Post_Table_Quiz_Questions {
 
 	/**
@@ -102,7 +101,7 @@ class LLMS_Admin_Post_Table_Quiz_Questions {
 	 * @param    obj     $query  WP_Query
 	 * @return   obj
 	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @version  [version]
 	 */
 	public function parse_query_filters( $query ) {
 
@@ -121,7 +120,7 @@ class LLMS_Admin_Post_Table_Quiz_Questions {
 			return $query;
 		}
 
-		$quiz = new LLMS_QQuiz( absint( $_REQUEST['llms_filter_quiz_id'] ) );
+		$quiz = new LLMS_Quiz( absint( $_REQUEST['llms_filter_quiz_id'] ) );
 		$query->set( 'post__in', $quiz->get_questions( 'ids' ) );
 
 		return $query;

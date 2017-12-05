@@ -1,9 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.14.8
+ * @version  [version]
  *
  * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
  * @property  $audio_embed  (string)  Audio embed URL
@@ -20,9 +22,6 @@
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Lesson extends LLMS_Post_Model {
 
 	protected $properties = array(
@@ -266,11 +265,11 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Retrieve an object for the assignd quiz (if a quiz is assigned )
 	 * @return   obj|false
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function get_quiz() {
 		if ( $this->has_quiz() ) {
-			return new LLMS_QQuiz( $this->get( 'assigned_quiz' ) );
+			return new LLMS_Quiz( $this->get( 'assigned_quiz' ) );
 		}
 		return false;
 	}

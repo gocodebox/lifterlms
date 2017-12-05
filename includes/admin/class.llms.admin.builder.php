@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Course Builder
  * @since    3.13.0
- * @version  3.14.8
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Builder {
 
 	private static $search_term = '';
@@ -439,11 +438,11 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    boolean    $include_questions  if true, includes question data
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public static function get_quiz( $quiz_id, $include_questions = false ) {
 
-		$quiz = new LLMS_QQuiz( $quiz_id );
+		$quiz = new LLMS_Quiz( $quiz_id );
 		$data = array(
 			'id' => $quiz->get( 'id' ),
 			'title' => $quiz->get( 'title' ),

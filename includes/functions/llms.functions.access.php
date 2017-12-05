@@ -300,7 +300,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 		}
 
 		if ( ! $lesson_id ) {
-			$quiz = new LLMS_QQuiz( $post_id );
+			$quiz = new LLMS_Quiz( $post_id );
 			$lessons = $quiz->get_lessons( 'ids' );
 			if ( ! $lessons ) {
 				return false;
@@ -389,7 +389,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 		$quiz = new LLMS_Quiz_Legacy( $post_id );
 		$lesson = llms_get_post( $quiz->get_assoc_lesson( $user_id ) );
 		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
-			$quiz = new LLMS_QQuiz( $post_id );
+			$quiz = new LLMS_Quiz( $post_id );
 			$lessons = $quiz->get_lessons( 'ids' );
 			if ( ! $lessons ) {
 				return false;

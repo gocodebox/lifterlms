@@ -2,7 +2,7 @@
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version 3.14.9
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -302,11 +302,11 @@ class LLMS_Quiz_Attempt {
 	 * @param    int     $quiz_id  WP Post ID of the quiz
 	 * @return   array
 	 * @since    3.9.0
-	 * @version  3.12.0
+	 * @version  [version]
 	 */
 	private function get_new_questions( $quiz_id ) {
 
-		$qquiz = new LLMS_QQuiz( $quiz_id );
+		$qquiz = new LLMS_Quiz( $quiz_id );
 		$questions = array();
 		foreach ( $qquiz->get_questions( 'ids' ) as $qid ) {
 			$questions[] = array(
