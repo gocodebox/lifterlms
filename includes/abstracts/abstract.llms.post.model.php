@@ -206,6 +206,18 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
+	 * Allow extending classes to add custom meta properties to the object
+	 * @param    array      $props  key val array of prop key => prop type (see $this->properties)
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function add_properties( $props = array() ) {
+
+		$this->properties = array_merge( $this->properties, $props );
+
+	}
+
+	/**
 	 * Wrapper for $this-get() which allows translation of the database value before outputting on screen
 	 *
 	 * Extending classes should define this and translate any possible strings

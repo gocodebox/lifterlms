@@ -18,6 +18,16 @@ class LLMS_Section extends LLMS_Post_Model {
 	protected $model_post_type = 'section';
 
 	/**
+	 * Retrieve the total number of elements in the section
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function count_elements() {
+		return count( $this->get_lessons( 'ids' ) );
+	}
+
+	/**
 	 * Retrieve an instance of LLMS_Course for the sections's parent course
 	 * @return   obj|null
 	 * @since    3.6.0

@@ -1,13 +1,12 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Lesson Settings Metabox
  *
  * @since    1.0.0
- * @version  3.0.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
 	/**
@@ -35,7 +34,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 *
 	 * @return array
 	 * @since   3.0.0
-	 * @version 3.0.0
+	 * @version [version]
 	 */
 	public function get_fields() {
 
@@ -98,60 +97,6 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'label'		 => __( 'Choose Prerequisite', 'lifterlms' ),
 						'type'		 => 'select',
 						'value' 	=> llms_make_select2_post_array( array( get_post_meta( $this->post->ID, $this->prefix . 'prerequisite', true ) ) ),
-					),
-				),
-			),
-
-			array(
-				'title' 	=> __( 'Drip Settings', 'lifterlms' ),
-				'fields' 	=> array(
-					array(
-						'class' 	=> 'llms-select2',
-						'desc' 		=> __( 'Choose a method to determine how to drip this lesson to enrolled students', 'lifterlms' ),
-						'desc_class' => 'd-all',
-						'id' 		=> $this->prefix . 'drip_method',
-						'is_controller' => true,
-						'label'		=> __( 'Drip Method', 'lifterlms' ),
-						'type'		=> 'select',
-						'value'     => array(
-							array(
-								'key' => 'date',
-								'title' => __( 'Available on a specific date', 'lifterlms' ),
-							),
-							array(
-								'key' => 'enrollment',
-								'title' => __( 'Available # of days after after enrollment in the course', 'lifterlms' ),
-							),
-							array(
-								'key' => 'start',
-								'title' => __( 'Available # of days after course start date', 'lifterlms' ),
-							),
-						),
-					),
-					array(
-						'controller' => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'lesson,enrollment,start',
-						'class' 	=> 'input-full',
-						'id' 		=> $this->prefix . 'days_before_available',
-						'label'		=> __( 'Number of days ', 'lifterlms' ),
-						'type'		=> 'number',
-					),
-					array(
-						'controller' => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'date',
-						'class' 	=> 'llms-datepicker',
-						'id' 		=> $this->prefix . 'date_available',
-						'label'		=> __( 'Date Available', 'lifterlms' ),
-						'type'		=> 'date',
-					),
-					array(
-						'controller' => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'date',
-						'class' 	=> '',
-						'desc'      => __( 'Optionally enter a time when the lesson should become available. If no time supplied, leson will be available at 12:00 AM on the date supplied above. Format must be HH:MM AM', 'lifterlms' ),
-						'id' 		=> $this->prefix . 'time_available',
-						'label'		=> __( 'Time Available', 'lifterlms' ),
-						'type'		=> 'text',
 					),
 				),
 			),

@@ -19,6 +19,12 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		return date( $format, strtotime( $offset, current_time( 'timestamp' ) ) );
 	}
 
+	/**
+	 * Test drip restrictions
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_llms_is_post_restricted_by_drip_settings() {
 
 		$course_id = $this->generate_mock_courses( 1, 1, 2, 0 )[0];

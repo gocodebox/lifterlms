@@ -83,10 +83,6 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		   \___/   \_______/|_______/    \___/ |_______/
 	*/
 
-	public function test_get_available_date() {
-
-	}
-
 	/**
 	 * Test Audio and Video Embeds
 	 * @return   void

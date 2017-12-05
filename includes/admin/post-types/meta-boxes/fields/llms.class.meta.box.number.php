@@ -1,9 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
-*
-*/
 class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 
@@ -14,7 +11,9 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 	/**
 	 * outputs the Html for the given field
-	 * @return HTML
+	 * @return   HTML
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function output() {
 
@@ -35,7 +34,9 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			id="<?php echo $this->field['id']; ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
 			value="<?php echo $this->meta; ?>" size="30"
-			step="<?php echo isset( $this->field['meta'] ) ? $this->field['meta'] : 'any'; ?>"
+			<?php if ( isset( $this->field['step'] ) ) : ?>
+			step="<?php echo $this->field['step']; ?>"
+			<?php endif; ?>
 			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ) : ?>
 			required="required"
 			<?php endif; ?>
