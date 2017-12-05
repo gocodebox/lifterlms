@@ -80,16 +80,23 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * If there are no drip settings, the published date of the lesson will be returned
 	 *
-	 * @param    string     $format  date format (passed to date_i18n() )
+	 * @param    string     $format  date format (passed to date_i18n()) (defaults to WP Core date + time formats)
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
-	public function get_available_date( $format = 'F j, Y h:i A' ) {
+	public function get_available_date( $format = '' ) {
+
+		if ( ! $format ) {
+			$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+		}
 
 		$drip_method = $this->get( 'drip_method' );
 
 		$days = $this->get( 'days_before_available' ) * DAY_IN_SECONDS;
+
+		// default availability is the lessons post date
+		$available = $this->get_date( 'date', 'U' );
 
 		switch ( $drip_method ) {
 
@@ -109,18 +116,17 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 			// available # of days after enrollment in course
 			case 'enrollment':
-				$student = new LLMS_Student();
-				$available = $days + $student->get_enrollment_date( $this->get_parent_course(), 'enrolled', 'U' );
+				$student = llms_get_student();
+				if ( $student ) {
+					$available = $days + $student->get_enrollment_date( $this->get_parent_course(), 'enrolled', 'U' );
+				}
 			break;
 
 			// available # of days after course start date
 			case 'start':
-				$course = new LLMS_Course( $this->get_parent_course() );
+				$course = $this->get_course();
 				$available = $days + $course->get_date( 'start_date', 'U' );
 			break;
-
-			default:
-				$available = $this->get_date( 'date', 'U' );
 
 		}
 
@@ -348,7 +354,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function is_available() {
 
@@ -360,7 +366,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		$available = $this->get_available_date( 'U' );
-		$now = current_time( 'timestamp' );
+		$now = llms_current_time( 'timestamp' );
 
 		return ( $now > $available );
 
