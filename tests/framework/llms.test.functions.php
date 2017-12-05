@@ -27,3 +27,14 @@ function llms_mock_current_time( $time ) {
 	global $llms_mock_time;
 	$llms_mock_time = strtotime( $time );
 }
+
+/**
+ * Reset current time after mocking it
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_reset_current_time() {
+	global $llms_mock_time;
+	$llms_mock_time = null;
+}

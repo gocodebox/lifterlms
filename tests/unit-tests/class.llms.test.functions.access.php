@@ -3,7 +3,7 @@
  * Tests for LifterLMS Access Functions
  * @group    access
  * @since    3.7.3
- * @version  3.7.3
+ * @version  [version]
  */
 class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
@@ -17,6 +17,52 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 */
 	private function get_date( $offset = '+7 days', $format = 'm/d/y' ) {
 		return date( $format, strtotime( $offset, current_time( 'timestamp' ) ) );
+	}
+
+	public function test_llms_is_post_restricted_by_drip_settings() {
+
+		$course_id = $this->generate_mock_courses( 1, 1, 2, 0 )[0];
+		$course = llms_get_post( $course_id );
+		$lesson = $course->get_lessons()[0];
+		$lesson_id = $lesson->get( 'id' );
+		$student = $this->get_mock_student();
+		wp_set_current_user( $student->get_id() );
+		$student->enroll( $course_id );
+
+		// no drip settings, lesson is currently available
+		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// date in past so the lesson is available
+		$lesson = llms_get_post( $lesson_id );
+		$lesson->set( 'drip_method', 'date' );
+		$lesson->set( 'date_available', '12/12/2012' );
+		$lesson->set( 'time_available', '12:12 AM' );
+		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// date in future so lesson not available
+		$lesson->set( 'date_available', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
+		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// available 3 days after enrollment
+		$lesson->set( 'drip_method', 'enrollment' );
+		$lesson->set( 'days_before_available', '3' );
+		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// now available
+		llms_mock_current_time( '+4 days' );
+		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		llms_reset_current_time();
+		$lesson->set( 'drip_method', 'start' );
+		$course->set( 'start_date', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
+
+		// not available until 3 days after course start date
+		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// now available
+		llms_mock_current_time( '+4 days' );
+		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
 	}
 
 	/**
