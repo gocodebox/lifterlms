@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.15.0
+ * @version 3.15.1
  */
 abstract class LLMS_Admin_Table {
 
@@ -179,7 +179,7 @@ abstract class LLMS_Admin_Table {
 
 	/**
 	 * Ensures that all data requested by $this->get_data if filterable
-	 * before being output on screen
+	 * before being output on screen / in the export file
 	 * @param    mixed     $value     value to be displayed
 	 * @param    string    $key       column key / id
 	 * @param    mixed     $data      original data object / array
@@ -268,7 +268,7 @@ abstract class LLMS_Admin_Table {
 	 * @param    array     $args  query arguements to be passed to get_results()
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  3.15.1
 	 */
 	public function get_export( $args = array() ) {
 
@@ -282,7 +282,7 @@ abstract class LLMS_Admin_Table {
 		foreach ( $this->get_tbody_data() as $row ) {
 			$row_data = array();
 			foreach ( array_keys( $this->get_columns( 'export' ) ) as $row_key ) {
-				$row_data[ $row_key ] = $this->get_export_data( $row_key, $row );
+				$row_data[ $row_key ] = html_entity_decode( $this->get_export_data( $row_key, $row ) );
 			}
 			$export[] = $row_data;
 		}
