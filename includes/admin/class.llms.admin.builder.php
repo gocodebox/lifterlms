@@ -180,11 +180,11 @@ class LLMS_Admin_Builder {
 
 		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
 
-if ( ! empty( $active_post_lock ) ) {
-	?>
-	<input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
-	<?php
-}
+		if ( ! empty( $active_post_lock ) ) {
+			?>
+			<input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
+			<?php
+		}
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
@@ -533,7 +533,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 			<header class="llms-builder-page-header" id="llms-course-info"></header>
 
-			<div class="llms-builder-main">
+			<div class="llms-builder-main" id="llms-builder-main">
 
 				<section class="llms-course-syllabus llms-course" id="llms-course-syllabus">
 					<div class="llms-builder-tutorial" id="llms-builder-tutorial"></div>
@@ -561,12 +561,6 @@ if ( ! empty( $active_post_lock ) ) {
 						<li>
 							<button class="llms-tool-button" id="llms-existing-lesson" data-model="lesson">
 								<span class="fa fa-file-text"></span> <?php _e( 'Existing Lesson', 'lifterlms' ); ?>
-							</button>
-						</li>
-
-						<li>
-							<button class="llms-tool-button llms-add-item" id="llms-new-quiz" data-model="quiz">
-								<span class="fa fa-list-ol"></span> <?php _e( 'New Quiz', 'lifterlms' ); ?>
 							</button>
 						</li>
 
