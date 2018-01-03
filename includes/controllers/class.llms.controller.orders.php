@@ -280,7 +280,7 @@ class LLMS_Controller_Orders {
 
 		// if there's no id we can't proceed, return an error
 		if ( ! $order->get( 'id' ) ) {
-			return llms_add_notice( __( 'There was an error creating your order, please try again.', 'lifterlms' ), 'error' );
+			return llms_add_notice( sprintf( __( 'You already have access to this product! Visit your account page <a href="%s">here.</a>', 'lifterlms' ), llms_get_page_url( 'myaccount' ) ) , 'error' );
 		}
 
 		// add order key to globals so the order can be retried if processing errors occur
