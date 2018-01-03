@@ -249,7 +249,7 @@ class LLMS_Controller_Orders {
 		} // make sure the user isn't already enrolled in the course or membership
 		elseif ( llms_is_user_enrolled( $person_id, $product->get( 'id' ) ) ) {
 
-			return llms_add_notice( __( 'You already have access to this product!', 'lifterlms' ), 'error' );
+			return llms_add_notice( sprintf( __( 'You already have access to this product! Visit your account page <a href="%s">here.</a>', 'lifterlms' ), llms_get_page_url( 'myaccount' ) ) , 'error' );
 
 		} else {
 			$person = new LLMS_Student( $person_id );
@@ -280,7 +280,7 @@ class LLMS_Controller_Orders {
 
 		// if there's no id we can't proceed, return an error
 		if ( ! $order->get( 'id' ) ) {
-			return llms_add_notice( sprintf( __( 'You already have access to this product! Visit your account page <a href="%s">here.</a>', 'lifterlms' ), llms_get_page_url( 'myaccount' ) ) , 'error' );
+			return llms_add_notice( __( 'There was an error creating your order, please try again.', 'lifterlms' ), 'error' );
 		}
 
 		// add order key to globals so the order can be retried if processing errors occur
