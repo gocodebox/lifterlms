@@ -1,18 +1,17 @@
 {
   "name": "lifterlms",
-  "version": "3.0.0",
+  "version": "3.15.1",
   "description": "LifterLMS by codeBOX",
-  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://therealmarknelson@github.com/gocodebox/lifterlms.git"
+    "url": "https://github.com/gocodebox/lifterlms.git"
   },
-  "author": "codeBOX",
-  "license": "ISC",
+  "author": "LifterLMS",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/gocodebox/lifterlms/issues"
   },
-  "homepage": "https://github.com/gocodebox/lifterlms",
+  "homepage": "https://lifterlms.com",
   "devDependencies": {
     "cheerio": "^0.19.0",
     "gulp": "^3.9.0",
@@ -34,7 +33,7 @@
     "jscs": "^1.11.3",
     "jshint": "^2.6.3",
     "jshint-stylish": "^1.0.1",
-    "markdown-html": "0.0.8",
+    "markdown-html": "gocodebox/markdown-html",
     "require-dir": "^0.3.2",
     "yargs": "^4.1.0"
   }
