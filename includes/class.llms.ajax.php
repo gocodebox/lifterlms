@@ -119,7 +119,7 @@ class LLMS_AJAX {
 		wp_localize_script( 'llms', 'wp_ajax_data', $this->get_ajax_data() );
 
 		// ensure this doesn't load on the wp-login.php screen
-		if ( false === stripos( $_SERVER['SCRIPT_NAME'], strrchr( wp_login_url(), '/' ) ) ) {
+		if ( isset( $_SERVER['SCRIPT_NAME'] ) && false === stripos( $_SERVER['SCRIPT_NAME'], strrchr( wp_login_url(), '/' ) ) ) {
 			wp_enqueue_script( 'llms' );
 		}
 
