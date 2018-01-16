@@ -79,8 +79,8 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
 
 	  do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
 
-	  if( file_exists( $located ) ) {
-	     include( $located );
+	  if ( file_exists( $located ) ) {
+		include($located);
 	  }
 
 	  do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
