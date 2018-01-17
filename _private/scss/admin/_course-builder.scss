@@ -821,21 +821,18 @@ body.admin_page_llms-course-builder {
 			right: 10px;
 			z-index: 1;
 
-			.llms-builder-save-message {
+			.llms-builder-error {
 				background: $color-danger;
 				border-radius: 4px;
 				color: #fff;
 				display: inline-block;
 				font-style: italic;
-				overflow: scroll;
-				max-height: 55px;
+				padding: 5px 15px 7px 25px;
+				margin: 0 0 10px;
 
-				ul, ol {
-					margin: 15px 25px;
-				}
-
-				&:empty {
-					background: transparent;
+				li {
+					margin: 0;
+					padding: 0;
 				}
 
 			}
