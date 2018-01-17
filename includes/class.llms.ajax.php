@@ -1,12 +1,11 @@
 <?php
-/**
-* AJAX Event Handler
-* @since    1.0.0
-* @version  3.13.0
-*/
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * AJAX Event Handler
+ * @since    1.0.0
+ * @version  [version]
+ */
 class LLMS_AJAX {
 
 	/**
@@ -17,6 +16,8 @@ class LLMS_AJAX {
 
 	/**
 	 * Hook into ajax events
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function __construct() {
 
@@ -54,6 +55,10 @@ class LLMS_AJAX {
 		}
 
 		self::register();
+
+		require_once 'admin/class.llms.admin.builder.php';
+		add_filter( 'heartbeat_received', array( 'LLMS_Admin_Builder', 'heartbeat_received' ), 10, 2 );
+
 	}
 
 	/**
