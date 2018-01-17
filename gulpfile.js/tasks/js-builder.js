@@ -17,8 +17,12 @@ gulp.task( 'js:builder', function() {
 		.pipe( requirejsOptimize( function( file ) {
 			return {
 				name: '../vendor/almond',
-				optimize: 'uglify2',
-				wrap: true,
+				// optimize: 'uglify2',
+				optimize: 'none',
+				wrap: {
+					start: "(function($){",
+					end: "}(jQuery));"
+				},
 				baseUrl: 'assets/js/builder/',
 				include: [ 'main' ],
 				preserveLicenseComments: false

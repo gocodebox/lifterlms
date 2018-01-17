@@ -91,7 +91,7 @@ gulp.task('build', ['jscs', 'lint'], function() {
 /**
  * Rebuild task to do everything in one fell swoop
  */
-gulp.task('rebuild',['process-scripts','process-frontend-styles','process-frontend-certificates-styles','process-admin-styles'],function(){});
+gulp.task('rebuild',['process-scripts','process-frontend-styles','process-frontend-certificates-styles','process-admin-styles','process-builder-styles'],function(){});
 
 /**
  * Compile front end SASS files
@@ -157,6 +157,27 @@ gulp.task( 'process-admin-styles', function () {
 });
 
 /**
+ * Compile builder SCSS file
+ */
+gulp.task( 'process-builder-styles', function () {
+
+	return sass( '_private/scss/builder.scss', {
+		cacheLocation: '_private/scss/.sass-cache',
+		style: 'expanded'
+		})
+		.pipe( autoprefixer( 'last 2 version' ) )
+		.pipe( gulp.dest( 'assets/css/' ) )
+		.pipe( rename( { suffix: '.min' } ) )
+		.pipe( minifycss() )
+		.pipe( gulp.dest( 'assets/css/') )
+		.pipe(notify({
+            title: 'Admin Styles',
+            message: 'Successfully Built Admin Styles'
+        }));
+
+});
+
+/**
  * Minify JS files
  */
 gulp.task( 'process-scripts', function () {
@@ -186,6 +207,7 @@ gulp.task( 'watch', function () {
 	gulp.watch( '_private/js/**/*.js', [ 'build', 'process-scripts' ] );
 	gulp.watch( '_private/**/*.scss', [ 'process-admin-styles' ] );
 	gulp.watch( '_private/**/*.scss', [ 'process-frontend-styles' ] );
+	gulp.watch( '_private/**/*.scss', [ 'process-builder-styles' ] );
 
 
 });
