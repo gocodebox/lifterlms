@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @since    1.0.0
  * @version  [version]
  *
- * @property  $assigned_quiz  (int)  WP Post ID of the llms_quiz
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
  * @property  $days_before_available  (int)  The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
@@ -18,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $prerequisite  (int)  WP Post ID of the prerequisite lesson, only if $has_prequisite is 'yes'
  * @property  $parent_course (int)  WP Post ID of the course the lesson belongs to
  * @property  $parent_section (int)  WP Post ID of the section the lesson belongs to
+ * @property  $quiz  (int)  WP Post ID of the llms_quiz
+ * @property  $quiz_enabled  (yesno)  Whether or not the attached quiz is enabled for students
  * @property  $require_passing_grade  (yesno)  Whether of not students have to pass the quiz to advance to the next lesson
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
@@ -38,13 +39,16 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		'parent_course' => 'absint',
 		'parent_section' => 'absint',
 
-		'assigned_quiz' => 'absint',
 		'audio_embed' => 'text',
 		'free_lesson' => 'yesno',
 		'has_prerequisite' => 'yesno',
 		'prerequisite' => 'absint',
 		'require_passing_grade' => 'yesno',
 		'video_embed' => 'text',
+
+		// quizzes
+		'quiz' => 'absint',
+		'quiz_enabled' => 'yesno',
 
 	);
 
@@ -313,7 +317,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function get_quiz() {
 		if ( $this->has_quiz() ) {
-			return new LLMS_Quiz( $this->get( 'assigned_quiz' ) );
+			return new LLMS_Quiz( $this->get( 'quiz' ) );
 		}
 		return false;
 	}
@@ -379,10 +383,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Determine if a quiz is assigned to this lesson
 	 * @return   boolean
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function has_quiz() {
-		return ( $this->get( 'assigned_quiz' ) );
+		return ( $this->get( 'quiz' ) );
 	}
 
 	/**
@@ -470,25 +474,40 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Determines if a quiz is enabled for the lesson
+	 * Lesson must have a quiz and the quiz must be enabled
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_quiz_enabled() {
+		return ( $this->has_quiz() && ( 'yes' === $this->get( 'quiz_enabled' ) ) );
+	}
+
+	/**
 	 * Add data to the course model when converted to array
 	 * Called before data is sorted and retuned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function toArrayAfter( $arr ) {
 
 		if ( $this->has_quiz() ) {
 
 			$q = $this->get_quiz();
-			$arr['assigned_quiz'] = $q->toArray();
+			$arr['quiz'] = $q->toArray();
 
 		}
 
 		return $arr;
 
 	}
+
+
+
+
 
 
 
@@ -562,11 +581,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		return update_post_meta( $this->id, '_llms_parent_course', $course_id );
 
 	}
-
-
-
-
-
 
 	/**
 	 * Get the lesson prerequisite
@@ -776,13 +790,13 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @return     false|int
 	 * @deprecated 3.0.2
 	 * @since      1.0.0
-	 * @version    3.0.2
+	 * @version    [version]
 	 */
 	public function get_assigned_quiz() {
 
-		llms_deprecated_function( 'LLMS_Lesson::get_assigned_quiz()', '3.0.2', "LLMS_Lesson::get( 'assigned_quiz' )" );
+		llms_deprecated_function( 'LLMS_Lesson::get_assigned_quiz()', '3.0.2', "LLMS_Lesson::get( 'quiz' )" );
 
-		$id = $this->get( 'assigned_quiz' );
+		$id = $this->get( 'quiz' );
 		if ( $id ) {
 			return $id;
 		} else {

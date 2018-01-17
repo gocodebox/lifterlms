@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Model
  * @since    3.3.0
- * @version  3.12.0
+ * @version  [version]
  *
  * @property  $allowed_attempts  (int)  Number of times a student is allowed to take the quiz before being locked out of it
  * @property  $passing_percent  (float)  Grade required for a student to "pass" the quiz
@@ -22,16 +22,73 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	protected $model_post_type = 'quiz';
 
 	protected $properties = array(
-		'allowed_attempts' => 'int',
-		'passing_percent' => 'float',
-		'random_answers' => 'yesno',
-		'random_questions' => 'yesno',
-		'show_correct_answer' => 'yesno',
-		'show_options_description_right_answer' => 'yesno',
-		'show_options_description_wrong_answer' => 'yesno',
-		'show_results' => 'yesno',
-		'time_limit' => 'int',
+
+		'lesson_id' => 'absint',
+
+		// 'allowed_attempts' => 'int',
+		// 'passing_percent' => 'float',
+		// 'random_answers' => 'yesno',
+		// 'random_questions' => 'yesno',
+		// 'show_correct_answer' => 'yesno',
+		// 'show_options_description_right_answer' => 'yesno',
+		// 'show_options_description_wrong_answer' => 'yesno',
+		// 'show_results' => 'yesno',
+		// 'time_limit' => 'int',
 	);
+
+	/**
+	 * Retrieve an instance of the question manager for the quiz
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function questions() {
+		return new LLMS_Question_Manager( $this );
+	}
+
+	/**
+	 * Retrieve the quizzes child questions
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_questions() {
+		return $this->questions()->get_questions();
+	}
+
+	/**
+	 * Called before data is sorted and returned by $this->toArray()
+	 * Extending classes should override this data if custom data should
+	 * be added when object is converted to an array or json
+	 * @param    array     $arr   array of data to be serialized
+	 * @return   array
+	 * @since    3.3.0
+	 * @version  [version]
+	 */
+	protected function toArrayAfter( $arr ) {
+
+		$arr['questions'] = array();
+		foreach ( $this->get_questions() as $question ) {
+			$arr['questions'][] = $question->toArray();
+		}
+
+		return $arr;
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Retrieve lessons this quiz is assigned to
@@ -65,6 +122,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	}
 
+
 	/**
 	 * Get the (points) value of a question
 	 * @param    int     $question_id  WP Post ID of the LLMS_Question
@@ -85,34 +143,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get questions
-	 * @param    string  $return  type of return [ids|posts|questions]
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.3.0
-	 */
-	public function get_questions( $return = 'questions' ) {
-
-		$questions = $this->get_questions_raw();
-
-		if ( $return === 'ids' ) {
-			$r = wp_list_pluck( $questions, 'id' );
-		} else {
-			$r = array();
-			foreach ( $questions as $q ) {
-				if ( $return === 'posts' ) {
-					$r[] = new WP_Post( $q['id'] );
-				} else {
-					$r[] = new LLMS_Question( $q['id'] );
-				}
-			}
-		}
-
-		return $r;
-
-	}
-
-	/**
 	 * Retrieve the array of raw question data from the postmeta table
 	 * @return   array
 	 * @since    3.3.0
@@ -125,26 +155,5 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	}
 
-	/**
-	 * Called before data is sorted and returned by $this->toArray()
-	 * Extending classes should override this data if custom data should
-	 * be added when object is converted to an array or json
-	 * @param    array     $arr   array of data to be serialized
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.3.0
-	 */
-	protected function toArrayAfter( $arr ) {
-
-		$arr['questions'] = array();
-		foreach ( $this->get_questions() as $q ) {
-			$qdata = $q->toArray();
-			$qdata['value'] = $this->get_question_value( $q->get( 'id' ) );
-			$arr['questions'][] = $qdata;
-		}
-
-		return $arr;
-
-	}
 
 }
