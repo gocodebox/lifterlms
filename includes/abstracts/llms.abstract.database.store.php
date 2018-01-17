@@ -197,7 +197,7 @@ abstract class LLMS_Abstract_Database_Store {
 
 	/**
 	 * Delete the object from the database
-	 * @return   [type]     [description]
+	 * @return   boolean     true on success, false otherwise
 	 * @since    3.14.0
 	 * @version  3.14.0
 	 */
