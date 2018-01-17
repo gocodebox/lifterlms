@@ -2,238 +2,13 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
- * Course Builder
+ * LifterLMS Admin Course Builder
  * @since    3.13.0
  * @version  [version]
  */
 class LLMS_Admin_Builder {
 
 	private static $search_term = '';
-
-	/**
-	 * A terrible Rest API for the course builder
-	 * @shame    gimme a break pls
-	 * @param    array     $request  $_REQUEST
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.14.8
-	 */
-	public static function handle_ajax( $request ) {
-
-		// @todo do some real error handling here
-		if ( ! $request['course_id'] || ! current_user_can( 'edit_course', $request['course_id'] ) ) {
-			return array();
-		}
-
-		switch ( $request['action_type'] ) {
-
-			case 'delete':
-
-				if ( ! current_user_can( 'delete_course', $request['course_id'] ) ) {
-					return array(); // @todo better error handling here
-				}
-
-				if ( 'model' === $request['object_type'] ) {
-
-					if ( in_array( $request['data_type'], array( 'section', 'lesson' ) ) ) {
-
-						$obj = llms_get_post( $request['model']['id'] );
-
-						// make sure sections are empty before deleting
-						if ( 'section' === $obj->type && $obj->get_lessons( 'ids' ) ) {
-							return array(); // @todo error handling
-						}
-
-						wp_delete_post( $request['model']['id'], true );
-
-					}
-				}
-
-			break;
-
-			case 'read':
-
-				if ( 'section' === $request['data_type'] && 'collection' === $request['object_type'] ) {
-
-					$course = llms_get_post( $request['course_id'] );
-					$sections = array();
-					foreach ( $course->get_sections( 'ids' ) as $section_id ) {
-						array_push( $sections, self::get_section( $section_id, true ) );
-					}
-					return $sections;
-
-				}
-
-			break;
-
-			case 'update':
-
-				// reorder sections or lessons
-				if ( 'collection' === $request['object_type'] && in_array( $request['data_type'], array( 'section', 'lesson' ) ) ) {
-
-					if ( isset( $request['models'] ) ) {
-
-						foreach ( $request['models'] as $model ) {
-							$object = llms_get_post( $model['id'] );
-							$object->set( 'order', $model['order'] );
-							// additionally save lessons parent
-							if ( 'lesson' === $request['data_type'] ) {
-								$object->set( 'parent_section', $model['section_id'] );
-							}
-						}
-					}
-				} elseif ( 'model' === $request['object_type'] ) {
-
-					// new item
-					if ( false !== strpos( $request['model']['id'], '_temp_' ) ) {
-
-						$id = 'new';
-
-						// clone (lessons only)
-					} elseif ( false !== strpos( $request['model']['id'], '_clone_' ) ) {
-
-						$orig_id = preg_replace( '/[^0-9]/', '', $request['model']['id'] );
-						$orig = llms_get_post( $orig_id );
-						$id = $orig->clone_post();
-
-						// regular update
-					} else {
-
-						$id = absint( $request['model']['id'] );
-
-					}
-
-					// create new / update existing sections/lessons
-					if ( 'section' === $request['data_type'] ) {
-
-						$section = new LLMS_Section( $id, $request['model']['title'] );
-
-						if ( 'new' === $id ) {
-							$section->set( 'parent_course', $request['course_id'] );
-							$section->set( 'order', $request['model']['order'] );
-						} else {
-							$section->set( 'title', $request['model']['title'] );
-						}
-
-						wp_send_json( self::get_section( $section->get( 'id' ), false ) );
-
-					} elseif ( 'lesson' === $request['data_type'] ) {
-
-						$lesson = new LLMS_Lesson( $id, $request['model']['title'] );
-
-						$lesson->set( 'parent_section', $request['model']['section_id'] );
-						$lesson->set( 'order', $request['model']['order'] );
-
-						if ( 'new' !== $id ) {
-							$lesson->set( 'title', $request['model']['title'] );
-							if ( ! $lesson->has_modified_slug() ) {
-								$lesson->set( 'name', sanitize_title( $request['model']['title'] ) );
-							}
-						}
-
-						// detach the lesson
-						if ( '' === $request['model']['section_id'] ) {
-							$lesson->set( 'parent_course', '' );
-						} else {
-							$lesson->set( 'parent_course', $request['course_id'] );
-						}
-
-						wp_send_json( self::get_lesson( $lesson->get( 'id' ), false, true ) );
-
-					} elseif ( 'course' === $request['data_type'] ) {
-
-						$course = new LLMS_Course( $id );
-						$course->set( 'title', $request['model']['title'] );
-
-					}// End if().
-				}// End if().
-
-			break;
-
-			case 'search':
-				$page = isset( $request['page'] ) ? $request['page'] : 1;
-				$term = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
-				wp_send_json( self::get_existing_lessons( absint( $request['course_id'] ), $term, $page ) );
-			break;
-
-		}// End switch().
-
-		return array();
-
-	}
-
-	/**
-	 * Do post locking stuff on the builder
-	 * Locking the course edit main screen will lock the builder and vice versa... probably need to find a way
-	 * to fix that but for now this'll work just fine and if you're unhappy about it, well, sorry...
-	 *
-	 * @param    int     $course_id  WP Post ID
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.13.0
-	 */
-	private static function handle_post_locking( $course_id ) {
-
-		if ( ! wp_check_post_lock( $course_id ) ) {
-			$active_post_lock = wp_set_post_lock( $course_id );
-		}
-
-		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
-
-		if ( ! empty( $active_post_lock ) ) {
-			?>
-			<input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
-			<?php
-		}
-
-		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
-		add_action( 'admin_footer', '_admin_notice_post_locked' );
-
-	}
-
-	/**
-	 * Retrieve lesson data
-	 * @param    int        $lesson_id        WP Post ID of a lesson
-	 * @param    boolean    $include_quizzes  if true, include quiz data
-	 * @param    boolean    $include_meta     if true, include meta data
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
-	 */
-	public static function get_lesson( $lesson_id, $include_quizzes = false, $include_meta = true ) {
-
-		$lesson = llms_get_post( $lesson_id );
-
-		$data = array(
-			'id' => $lesson->get( 'id' ),
-			'title' => $lesson->get( 'title' ),
-			'order' => $lesson->get( 'order' ),
-			'section_id' => $lesson->get( 'parent_section' ),
-		);
-
-		if ( $include_meta ) {
-
-			$quiz_id = $lesson->get( 'assigned_quiz' );
-
-			$data = array_merge( $data, array(
-				'is_free' => $lesson->is_free(),
-				'prerequisite' => $lesson->has_prerequisite() ? self::get_lesson( $lesson->get( 'prerequisite' ), false, false ) : false,
-				'drip_method' => $lesson->get( 'drip_method' ),
-				'days_before_available' => $lesson->get( 'days_before_available' ),
-				'date_available' => $lesson->get( 'date_available' ),
-				'quiz' => $quiz_id ? self::get_quiz( $quiz_id ) : false,
-				'has_content' => $lesson->get( 'content' ) ? true : false,
-				'edit_url' => current_user_can( 'edit_lesson', $lesson_id ) ? get_edit_post_link( $lesson_id ) : '',
-				'view_url' => get_permalink( $lesson_id ),
-			) );
-
-		}
-
-		// if ( $include_quizzes ) {}
-
-		return $data;
-
-	}
 
 	/**
 	 * Retrieve a list of lessons the current user is allowed to clone/attach
@@ -264,7 +39,7 @@ class LLMS_Admin_Builder {
 			'paged' => $page,
 			'post_status' => array( 'publish', 'draft', 'pending' ),
 			'post_type' => 'lesson',
-			'posts_per_page' => 50,
+			'posts_per_page' => 10,
 		);
 
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -297,17 +72,21 @@ class LLMS_Admin_Builder {
 				$lesson = llms_get_post( $post );
 
 				if ( $lesson->is_orphan() ) {
-					$id = $post->ID;
-					$text = sprintf( '%1$s (#%2$d)', $post->post_title, $post->ID );
+					$action = 'attach';
+					$parent = '';
+					// $text = sprintf( '%1$s (#%2$d)', $post->post_title, $post->ID );
 				} else {
-					$id = 'lesson_clone_' . $post->ID;
-					$text = sprintf( '[CLONE] %1$s (#%2$d)', $post->post_title, $post->ID );
+					$action = 'clone';
+					$parent = get_the_title( $lesson->get( 'parent_course' ) );
+					// $text = sprintf( '[CLONE] %1$s (#%2$d)', $post->post_title, $post->ID );
 				}
 
 				$lessons[] = array(
-					'id' => $id,
-					'text' => $text,
-					'title' => $post->post_title,
+					'action' => $action,
+					'data' => $lesson,
+					'id' => $post->ID,
+					'course_title' => $parent,
+					'text' => sprintf( '%1$s (#%2$d)', $post->post_title, $post->ID ),
 				);
 
 			}
@@ -344,142 +123,160 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
-	 * Tutorial steps data
-	 * @return   [type]     [description]
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * Retrieve the HTML of a JS template
+	 * @param    [type]     $template  [description]
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	private static function get_tutorial_steps() {
-		return array(
-			array(
-				'el' => '#llms-new-section',
-				'title' => __( 'Create a Section', 'lifterlms' ),
-				'placement' => 'left',
-				'content_main' => __( 'Sections are the organizational building blocks of a course. A course can be made up of one or more sections and each of these sections contains at least one lesson.', 'lifterlms' ),
-				'content_action' => __( 'Add a section by clicking the "New Section" button on the right.', 'lifterlms' ),
-			),
-			array(
-				'el' => '#llms-builder-tools footer',
-				'title' => __( 'Auto-Saves and Save Status', 'lifterlms' ),
-				'placement' => 'top',
-				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' ),
-				),
-				'content_main' => __( 'Everything is saved automatically but watch the status indicator to ensure your content is saved before leaving the builder!', 'lifterlms' ),
-			),
-			array(
-				'el' => '#llms-new-lesson',
-				'title' => __( 'Create a Lesson', 'lifterlms' ),
-				'placement' => 'left',
-				'content_main' => __( 'Great! Now that you have a section you can start adding lessons to it. Lessons will contain the main content of your course. In a lesson you can add text, video, image, and other types of content.', 'lifterlms' ),
-				'content_action' => __( 'Add a lesson by clicking the "New Lesson" button on the right.', 'lifterlms' ),
-			),
-			array(
-				'el' => '.llms-sections .llms-section:first-child .llms-drag-utility',
-				'title' => __( 'Reorder Sections', 'lifterlms' ),
-				'placement' => 'bottom',
-				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' ),
-				),
-				'content_main' => __( 'Use drag handles to drag and drop sections and reorder them.', 'lifterlms' ),
-			),
-			array(
-				'el' => '.llms-sections .llms-section:first-child > .llms-builder-header .llms-editable-title',
-				'title' => __( 'Rename a Section', 'lifterlms' ),
-				'placement' => 'bottom',
-				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' ),
-				),
-				'content_main' => __( 'Click on the title of any section to edit the title. When finished, hit the "Enter" key to save or press "Esc" to quit editing and revert to the original title.', 'lifterlms' ),
-			),
-			array(
-				'el' => '.llms-sections .llms-section:first-child .llms-lessons .llms-drag-utility',
-				'title' => __( 'Reorder Lessons within a section', 'lifterlms' ),
-				'placement' => 'bottom',
-				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' ),
-				),
-				'content_main' => __( 'Use drag handles on a lesson to drag and drop lessons within a section and reorder them. When you have multilpe sections you can also move lessons into another section.', 'lifterlms' ),
-			),
-			array(
-				'el' => '.llms-sections .llms-section:first-child .llms-lessons .llms-editable-title',
-				'title' => __( 'Rename a Lesson', 'lifterlms' ),
-				'placement' => 'bottom',
-				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' ),
-				),
-				'content_main' => __( 'Click on the title of a lesson to rename it in the same way you can rename sections!', 'lifterlms' ),
-			),
-			array(
-				'el' => '#llms-expand-all',
-				'title' => __( 'Expand and Collapse', 'lifterlms' ),
-				'placement' => 'left',
-				'buttons' => array(
-					'next' => __( 'Next', 'lifterlms' ),
-				),
-				'content_main' => __( 'Use these expand and collapse buttons to open and close all the sections in the course in one click.', 'lifterlms' ),
-			),
-			array(
-				'el' => '#llms-builder-tools',
-				'title' => __( 'Build on!', 'lifterlms' ),
-				'placement' => 'left',
-				'buttons' => array(
-					'next' => __( 'Finish!', 'lifterlms' ),
-				),
-				'content_main' => __( 'That\'s all! To finish building your course you\'ll want to finish your outline with more sections and lessons. When you\'re satisfied use the pencil icons to leave the builder and start adding content to your lessons.', 'lifterlms' ),
-			),
+	private static function get_template( $template, $vars = array() ) {
 
-		);
+		ob_start();
+		extract( $vars );
+		include 'views/builder/' . $template . '.php';
+		return ob_get_clean();
+
 	}
 
 	/**
-	 * Retrieve Quiz data
-	 * @param    int        $quiz_id            WP Post ID of a quiz
-	 * @param    boolean    $include_questions  if true, includes question data
+	 * A terrible Rest API for the course builder
+	 * @shame    gimme a break pls
+	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
 	 * @version  [version]
 	 */
-	public static function get_quiz( $quiz_id, $include_questions = false ) {
+	public static function handle_ajax( $request ) {
 
-		$quiz = new LLMS_Quiz( $quiz_id );
-		$data = array(
-			'id' => $quiz->get( 'id' ),
-			'title' => $quiz->get( 'title' ),
-		);
+		// @todo do some real error handling here
+		if ( ! $request['course_id'] || ! current_user_can( 'edit_course', $request['course_id'] ) ) {
+			return array();
+		}
 
-		// if ( $include_questions ) {}
+		switch ( $request['action_type'] ) {
 
-		return $data;
+			case 'search':
+				$page = isset( $request['page'] ) ? $request['page'] : 1;
+				$term = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
+				wp_send_json( self::get_existing_lessons( absint( $request['course_id'] ), $term, $page ) );
+			break;
+
+		}
+
+		return array();
 
 	}
 
 	/**
-	 * Retrieve an array of data for a section
-	 * @param    int      $section_id       WP Post ID of the section
-	 * @param    bool     $include_lessons  if true, includes children lesson data
-	 * @return   array
+	 * Do post locking stuff on the builder
+	 * Locking the course edit main screen will lock the builder and vice versa... probably need to find a way
+	 * to fix that but for now this'll work just fine and if you're unhappy about it, well, sorry...
+	 *
+	 * @param    int     $course_id  WP Post ID
+	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
-	public static function get_section( $section_id, $include_lessons ) {
+	private static function handle_post_locking( $course_id ) {
 
-		$section = llms_get_post( $section_id );
-
-		$data = array(
-			'id' => $section->get( 'id' ),
-			'title' => $section->get( 'title' ),
-			'order' => $section->get( 'order' ),
-		);
-
-		if ( $include_lessons ) {
-			$data['lessons'] = array();
-			foreach ( $section->get_lessons( 'ids' ) as $lesson_id ) {
-				array_push( $data['lessons'], self::get_lesson( $lesson_id ) );
-			}
+		if ( ! wp_check_post_lock( $course_id ) ) {
+			$active_post_lock = wp_set_post_lock( $course_id );
 		}
 
-		return $data;
+		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
+
+		if ( ! empty( $active_post_lock ) ) {
+			?>
+			<input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
+			<?php
+		}
+
+		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
+		add_action( 'admin_footer', '_admin_notice_post_locked' );
+
+	}
+
+	/**
+	 * Handle AJAX Heartbeat received calls
+	 * All builder data is sent through the heartbeat
+	 * @param    array     $res   response data
+	 * @param    array     $data  data from the heartbeat api
+	 *                            builder data will be in the "llms_builder" array
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function heartbeat_received( $res, $data ) {
+
+		// exit if there's no builder data in the heartbeat data
+		if ( empty( $data['llms_builder'] ) ) {
+			return $res;
+		}
+
+		// only mess with our data
+		$data = $data['llms_builder'];
+
+		// setup our return
+		$ret = array(
+			'status' => 'success',
+			'message' => esc_html__( 'Success', 'lifterlms' ),
+		);
+
+		// need a numeric ID for a course post type!
+		if ( empty( $data['id'] ) || ! is_numeric( $data['id'] ) || 'course' !== get_post_type( $data['id'] ) ) {
+
+			$ret['status'] =  'error';
+			$ret['message'] = esc_html__( 'Error: Invalid or missing course ID.', 'lifterlms' );
+
+		} elseif ( ! current_user_can( 'edit_course', $data['id'] ) ) {
+
+			$ret['status'] =  'error';
+			$ret['message'] = esc_html__( 'Error: You do not have permission to edit this course.', 'lifterlms' );
+
+		} else {
+
+			if ( ! empty( $data['detach'] ) && is_array( $data['detach'] ) ) {
+
+				$ret['detach'] = self::process_detachments( $data );
+
+			}
+
+			if ( current_user_can( 'delete_course', $data['id'] ) ) {
+
+				if ( ! empty( $data['trash'] ) && is_array( $data['trash'] ) ) {
+
+					$ret['trash'] = self::process_trash( $data );
+
+				}
+
+			}
+
+			if ( ! empty( $data['updates'] ) && is_array( $data['updates'] ) ) {
+
+				$ret['updates']['sections'] = self::process_updates( $data );
+
+			}
+
+		}
+
+		// add our return data
+		$res['llms_builder'] = $ret;
+
+		return $res;
+
+	}
+
+	/**
+	 * Determine if an ID submitted via heartbeat data is a temporary id
+	 * if so the object must be created rather than updated
+	 * @param    string     $id  an ID string
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function is_temp_id( $id ) {
+
+		return ( ! is_numeric( $id ) && 0 === strpos( $id, 'temp_' ) );
 
 	}
 
@@ -519,100 +316,59 @@ class LLMS_Admin_Builder {
 
 		$post = get_post( $course_id );
 
+		$course = llms_get_post( $post );
+
 		if ( ! current_user_can( 'edit_course', $course_id ) ) {
 			_e( 'You cannot edit this course!', 'lifterlms' );
 			return;
 		}
 		?>
 
-		<div class="wrap lifterlms llms-course-builder">
+		<div class="wrap lifterlms llms-builder">
 
-			<div class="llms-builder-inside">
+			<?php do_action( 'llms_before_builder', $course_id ); ?>
 
-			<?php do_action( 'llms_before_course_builder', $course_id ); ?>
+			<div class="llms-builder-main" id="llms-builder-main"></div>
 
-			<header class="llms-builder-page-header" id="llms-course-info"></header>
+			<aside class="llms-builder-sidebar" id="llms-builder-sidebar"></aside>
 
-			<div class="llms-builder-main" id="llms-builder-main">
+			<?php
+				$templates = array(
+					'course',
+					'editor',
+					'elements',
+					'lesson',
+					'quiz',
+					'quiz-header',
+					'question',
+					'question-choice',
+					'question-type',
+					'section',
+					'sidebar',
+					'utilities',
+				);
 
-				<section class="llms-course-syllabus llms-course" id="llms-course-syllabus">
-					<div class="llms-builder-tutorial" id="llms-builder-tutorial"></div>
-					<ul class="llms-sections" id="llms-sections"></ul>
-				</section>
-
-				<aside id="llms-builder-tools" class="llms-builder-tools">
-
-					<h2 class="llms-tools-headline"><?php _e( 'Course Elements', 'lifterlms' ); ?></h2>
-
-					<ul class="llms-tools-list llms-add-items">
-
-						<li>
-							<button class="llms-tool-button llms-add-item" id="llms-new-section" data-model="section">
-								<span class="fa fa-puzzle-piece"></span> <?php _e( 'Section', 'lifterlms' ); ?>
-							</button>
-						</li>
-
-						<li>
-							<button class="llms-tool-button llms-add-item" id="llms-new-lesson" data-model="lesson">
-								<span class="fa fa-file"></span> <?php _e( 'New Lesson', 'lifterlms' ); ?>
-							</button>
-						</li>
-
-						<li>
-							<button class="llms-tool-button" id="llms-existing-lesson" data-model="lesson">
-								<span class="fa fa-file-text"></span> <?php _e( 'Existing Lesson', 'lifterlms' ); ?>
-							</button>
-						</li>
-
-					</ul>
-
-					<h2 class="llms-tools-headline"><?php _e( 'Tools', 'lifterlms' ); ?></h2>
-
-					<ul class="llms-tools-list llms-utilities">
-
-						<li>
-							<a class="llms-utility bulk-toggle" href="#llms-bulk-toggle" data-action="expand" id="llms-expand-all">
-								<span class="fa fa-plus-circle"></span>
-								<?php _e( 'Expand All', 'lifterlms' ); ?>
-							</a>
-						</li>
-
-						<li>
-							<a class="llms-utility bulk-toggle" href="#llms-bulk-toggle" data-action="collapse" id="llms-collapse-all">
-								<span class="fa fa-minus-circle"></span>
-								<?php _e( 'Collapse All', 'lifterlms' ); ?>
-							</a>
-						</li>
-
-					</ul>
-
-
-					<footer>
-						<h5 class="save-status" data-status="complete" id="save-status">
-							<span class="unsaved"><?php _e( 'You have unsaved changes', 'lifterlms' ); ?></span>
-							<span class="saving"><i id="llms-spinner-el"></i><?php _e( 'Saving changes...', 'lifterlms' ); ?></span>
-						</h5>
-					</footer>
-
-				</aside>
-
-			</div>
-
-			<?php self::templates( $course_id ); ?>
+				foreach ( $templates as $template ) {
+					echo self::get_template( $template, array(
+						'course_id' => $course_id,
+					) );
+				}
+			?>
 
 			<script>window.llms_builder = <?php echo json_encode( array(
-				'course' => array(
-					'id' => absint( $course_id ),
-					'edit_url' => current_user_can( 'edit_course', $course_id ) ? get_edit_post_link( $course_id ) : '',
-					'view_url' => get_permalink( $course_id ),
-					'title' => get_the_title( $course_id ),
+				'admin_url' => admin_url(),
+				'choice_markers' => llms_get_question_choice_markers(),
+				'course' => array_merge( $course->toArray() ),
+				'debug' => array(
+					'enabled' => ( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ) ),
 				),
-				'tutorial' => self::get_tutorial_steps(),
+				'questions' => array_values( llms_get_question_types() ),
+				'sync' => apply_filters( 'llms_builder_sync_settings', array(
+					'check_interval_ms' => 10000,
+				) ),
 			) ); ?></script>
 
-			<?php do_action( 'llms_after_course_builder', $course_id ); ?>
-
-			</div>
+			<?php do_action( 'llms_after_builder', $course_id ); ?>
 
 		</div>
 
@@ -622,178 +378,436 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
-	 * Output underscore template HTML
-	 * @param    int   $course_id   WP_Post ID of the course
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.14.4
+	 * Process lesson detachments from the heartbeat data
+	 * @param    array     $data  array of lesson ids
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	private static function templates( $course_id ) {
+	private static function process_detachments( $data ) {
 
-		$lesson_icons = array(
-			'free' => array(
-				'active' => 'data.is_free',
-				'icon' => 'unlock',
-				'text_default' => esc_attr__( 'Enrolled students only', 'lifterlms' ),
-				'text_active' => esc_attr__( 'Publicly available', 'lifterlms' ),
-			),
-			'prerequisite' => array(
-				'active' => 'data.prerequisite',
-				'icon' => 'link',
-				'text_default' => esc_attr__( 'No prerequisite', 'lifterlms' ),
-				'text_active' => sprintf( esc_attr__( 'Prerequisite: %s', 'lifterlms' ), '{{ data.prerequisite.title }}' ),
-			),
-			'drip' => array(
-				'active' => 'data.drip_method',
-				'icon' => 'calendar',
-				'text_default' => esc_attr__( 'No drip delay', 'lifterlms' ),
-				'text_active' => '
-					<# print( LLMS.l10n.translate( "Drip delay" ) + ": " ) #>
-					<# if ( "date" === data.drip_method ) { print( data.date_available ) } #>
-					<# if ( "start" === data.drip_method ) { print( data.days_before_available + " " + LLMS.l10n.translate( "days after course start date" ) ) } #>
-					<# if ( "enrollment" === data.drip_method ) { print( data.days_before_available + " " + LLMS.l10n.translate( "days after enrollment" ) ) } #>
-				',
-			),
-			'quiz' => array(
-				'active' => 'data.quiz',
-				'icon' => 'question-circle',
-				'text_default' => esc_attr__( 'No quiz', 'lifterlms' ),
-				'text_active' => sprintf( esc_attr__( 'Quiz: %s', 'lifterlms' ), '{{ data.quiz.title }}' ),
-			),
-			'content' => array(
-				'active' => 'data.has_content',
-				'icon' => 'file-text-o',
-				'text_default' => esc_attr__( 'No content', 'lifterlms' ),
-				'text_active' => esc_attr__( 'Has content', 'lifterlms' ),
-			),
+		$ret = array();
+
+		foreach ( $data['detach'] as $id ) {
+
+			$res = array(
+				'error' => sprintf( esc_html__( 'Unable to detach lesson "%s". Invalid lesson ID.', 'lifterlms' ), $id ),
+				'id' => $id,
+			);
+
+			if ( ! is_numeric( $id ) || 'lesson' !== get_post_type( $id ) ) {
+				array_push( $ret, $res );
+				continue;
+			}
+
+			$lesson = llms_get_post( $id );
+			if ( ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+				array_push( $ret, $res );
+				continue;
+			}
+
+			$lesson->set( 'parent_course', '' );
+			$lesson->set( 'parent_section', '' );
+
+			unset( $res['error'] );
+			array_push( $ret, $res );
+
+		}
+
+		return $ret;
+
+	}
+
+	/**
+	 * Delete/trash elements from heartbeat data
+	 * @param    array     $data  array of ids to trash/delete
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function process_trash( $data ) {
+
+		$ret = array();
+
+		foreach ( $data['trash'] as $id ) {
+
+			$res = array(
+				'error' => sprintf( esc_html__( 'Unable to delete "%s". Invalid ID.', 'lifterlms' ), $id ),
+				'id' => $id,
+			);
+
+			if ( is_numeric( $id ) ) {
+
+				$type = get_post_type( $id );
+
+			} else {
+
+				$type = 'question_choice';
+
+			}
+
+			if ( ! in_array( $type, array( 'lesson', 'llms_question', 'question_choice', 'section' ) ) ) {
+				array_push( $ret, $res );
+				continue;
+			}
+
+
+			// lessons, sections, & questions passed as numeric WP Post IDs
+			if ( is_numeric( $id ) ) {
+
+				// delete sections
+				if ( in_array( $type, array( 'section', 'llms_question' ) ) ) {
+					$stat = wp_delete_post( $id, true );
+				}
+				// move other post types to trash
+				else {
+					$stat = wp_trash_post( $id );
+				}
+
+			// question choices passed in as {$question_id}:{$choice_id} format
+			} else {
+
+				$split = explode( ':', $id );
+				$question = llms_get_post( $split[0] );
+				if ( $question && is_a( $question, 'LLMS_Question' ) ) {
+					$stat = $question->delete_choice( $split[1] );
+				} else {
+					$stat = false;
+				}
+
+			}
+
+
+			// both functions return false on failure
+			if ( ! $stat ) {
+				$res['error'] = sprintf( esc_html__( 'Error deleting %1$s "%s".', 'lifterlms' ), $type, $id );
+			} else {
+				unset( $res['error'] );
+			}
+
+			array_push( $ret, $res );
+
+		}
+
+		return $ret;
+
+	}
+
+	/**
+	 * Process all the update data from the heartbeat
+	 * @param    array     $data  array of course updates (all the way down the tree)
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function process_updates( $data ) {
+
+		$ret = array();
+
+		if ( ! empty( $data['updates']['sections'] ) && is_array( $data['updates']['sections'] ) ) {
+
+			foreach ( $data['updates']['sections'] as $section_data ) {
+
+				if ( ! isset( $section_data['id'] ) ) {
+					continue;
+				}
+
+				$ret[] = self::update_section( $section_data, $data['id'] );
+
+			}
+
+		}
+
+		return $ret;
+
+	}
+
+	/**
+	 * Update lesson from heartbeat data
+	 * @param    array     $lessons  lesson data from heartbeat
+	 * @param    obj       $section  instance of the parent LLMS_Section
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function update_lessons( $lessons, $section ) {
+
+		$ret = array();
+
+		foreach ( $lessons as $lesson_data ) {
+
+			if ( ! isset( $lesson_data['id'] ) ) {
+				continue;
+			}
+
+			$res = array(
+				'orig_id' => $lesson_data['id'],
+			);
+
+			// create a new section
+			if ( self::is_temp_id( $lesson_data['id'] ) ) {
+				$lesson = new LLMS_Lesson( 'new', array(
+					'post_title' => isset( $lesson_data['title'] ) ? $lesson_data['title'] : __( 'New Lesson', 'lifterlms' ),
+				) );
+				// $lesson->set( 'parent_course', $course_id );
+				// $lesson->set( 'parent_section', $section->get( 'id' ) );
+
+			// update existing section
+			} else {
+
+				$lesson = llms_get_post( $lesson_data['id'] );
+
+			}
+
+			if ( empty( $lesson ) || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+
+				$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". Invalid lesson ID.', 'lifterlms' ), $lesson_data['id'] );
+
+			} else {
+
+				// return the real ID (important when creating a new lesson)
+				$res['id'] = $lesson->get( 'id' );
+
+				$properties = array_merge( array_keys( $lesson->get_properties() ), array(
+					'content',
+					'title',
+				) );
+
+				// update all updateable properties
+				foreach ( $properties as $prop ) {
+					if ( isset( $lesson_data[ $prop ] ) && 'quiz' !== $prop ) {
+						$lesson->set( $prop, $lesson_data[ $prop ] );
+					}
+				}
+
+				// ensure slug gets updated when changing title from default "New Lesson"
+				if ( isset( $lesson_data['title'] ) && ! $lesson->has_modified_slug() ) {
+					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
+				}
+
+				if ( isset( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
+
+					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
+
+				}
+
+			}
+
+			array_push( $ret, $res );
+
+		}
+
+		return $ret;
+
+	}
+
+	/**
+	 * Update quiz questions from heartbeat data
+	 * @param    array     $questions  question data array
+	 * @param    obj       $parent    instance of an LLMS_Quiz or LLMS_Question (group)
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function update_questions( $questions, $parent ) {
+
+		$res = array();
+
+		foreach ( $questions as $q_data ) {
+
+			$ret = array(
+				'orig_id' => $q_data['id'],
+			);
+
+			// remove temp id if we have one so we'll create a new question
+			if ( self::is_temp_id( $q_data['id'] ) ) {
+				unset( $q_data['id'] );
+			}
+
+			// remove choices because we'll add them individually after creation
+			$choices = ( isset( $q_data['choices'] ) && is_array( $q_data['choices'] ) ) ? $q_data['choices'] : false;
+			unset( $q_data['choices'] );
+
+			// remove child questions if it's a question group
+			$questions = ( isset( $q_data['questions'] ) && is_array( $q_data['questions'] ) ) ? $q_data['questions'] : false;
+			unset( $q_data['questions'] );
+
+			$question_id = $parent->questions()->update_question( $q_data );
+
+			if ( ! $question_id ) {
+
+				$ret['error'] = sprintf( esc_html__( 'Unable to update question "%s". Invalid question ID.', 'lifterlms' ), $q_data['id'] );
+
+			} else {
+
+				$ret['id'] = $question_id;
+
+				$question = $parent->questions()->get_question( $question_id );
+
+				if ( $choices ) {
+
+					$ret['choices'] = array();
+
+					foreach ( $choices as $c_data ) {
+
+						$choice_res = array(
+							'orig_id' => $c_data['id'],
+						);
+
+						unset( $c_data['question_id'] );
+
+						// remove the temp ID so that we create it if it's new
+						if ( self::is_temp_id( $c_data['id'] ) ) {
+							unset( $c_data['id'] );
+						}
+
+						$choice_id = $question->update_choice( $c_data );
+						if ( ! $choice_id ) {
+							$choice_res['error'] = sprintf( esc_html__( 'Unable to update choice "%s". Invalid choice ID.', 'lifterlms' ), $c_data['id'] );
+						} else {
+							$choice_res['id'] = $choice_id;
+						}
+
+						array_push( $ret['choices'], $choice_res );
+
+					}
+
+				} elseif ( $questions ) {
+
+					$ret['questions'] = self::update_questions( $questions, $question );
+
+				}
+
+			}
+
+			array_push( $res, $ret );
+
+
+		}
+
+		return $res;
+
+	}
+
+	/**
+	 * Update quizzes during heartbeats
+	 * @param    array     $quiz_data  array of quiz updates
+	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function update_quiz( $quiz_data, $lesson ) {
+
+		$res = array(
+			'orig_id' => $quiz_data['id'],
 		);
-		?>
 
-		<script type="text/html" id="tmpl-llms-course-template">
-			<h1 class="llms-headline">
-				<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="{{{ data.title }}}" type="text">{{{ data.title }}}</span>
-			</h1>
-			<div class="llms-action-icons">
-				<# if ( data.edit_url ) { #>
-					<a class="llms-action-icon" href="{{{ data.edit_url }}}"><span class="fa fa-pencil"></span></a>
-				<# } #>
-				<a class="llms-action-icon" href="{{{ data.view_url }}}"><span class="fa fa-external-link"></span></a>
-			</div>
-		</script>
+		// create a quiz
+		if ( self::is_temp_id( $quiz_data['id'] ) ) {
 
-		<script type="text/html" id="tmpl-llms-section-template">
-			<header class="llms-builder-header">
-				<span class="llms-drag-utility drag-section"></span>
-				<h2 class="llms-headline">
-					<?php echo get_post_type_object( 'section' )->labels->singular_name; ?> {{{ data.order }}}:
-					<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="{{{ data.title }}}" type="text">{{{ data.title }}}</span>
-				</h2>
+			$quiz = new LLMS_Quiz( 'new' );
+			$lesson->set( 'quiz', $quiz->get( 'id' ) );
 
-				<div class="llms-action-icons">
+		// update existing quiz
+		} else {
 
-					<a class="llms-action-icon expand" data-title-default="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>" href="#llms-toggle">
-						<span class="fa fa-plus-circle"></span>
-					</a>
-					<a class="llms-action-icon collapse" data-title-default="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>" href="#llms-toggle">
-						<span class="fa fa-minus-circle"></span>
-					</a>
+			$quiz = llms_get_post( $quiz_data['id'] );
 
-					<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
-						<span class="fa fa-caret-square-o-up"></span>
-					</a>
+		}
 
-					<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
-						<span class="fa fa-caret-square-o-down"></span>
-					</a>
+		// we don't have a proper quiz to work with...
+		if ( empty( $quiz ) || ! is_a( $quiz, 'LLMS_Quiz' ) ) {
 
-					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-						<a class="llms-action-icon trash danger" data-title-default="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
-							<span class="fa fa-trash"></span>
-						</a>
-					<?php endif; ?>
+			$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
 
-				</div>
+		} else {
 
-			</header>
-			<ul class="llms-lessons"></ul>
-		</script>
+			// return the real ID (important when creating a new quiz)
+			$res['id'] = $quiz->get( 'id' );
 
-		<script type="text/html" id="tmpl-llms-builder-tutorial-template">
+			$properties = array_merge( array_keys( $quiz->get_properties() ), array(
+				// 'content',
+				'status',
+				'title',
+			) );
 
-			<h2 class="llms-headline"><?php _e( 'Drop a section here to get started!', 'lifterlms' ); ?></h2>
-			<div class="llms-tutorial-buttons">
-				<a class="llms-button-primary large" href="#llms-start-tut" id="llms-start-tut">
-					<?php _e( 'Show Me How', 'lifterlms' ); ?>
-					<i class="fa fa-magic" aria-hidden="true"></i>
-				</a>
-				<a class="llms-button-secondary large" href="https://lifterlms.com/docs/using-course-builder/" target="_blank">
-					<?php _e( 'Read the Docs', 'lifterlms' ); ?>
-					<i class="fa fa-book" aria-hidden="true"></i>
-				</a>
-			</div>
+			// update all updateable properties
+			foreach ( $properties as $prop ) {
+				if ( isset( $quiz_data[ $prop ] ) ) {
+					$quiz->set( $prop, $quiz_data[ $prop ] );
+				}
+			}
 
-		</script>
+			if ( isset( $quiz_data['questions'] ) && is_array( $quiz_data['questions'] ) ) {
 
-		<script type="text/html" id="tmpl-llms-lesson-template">
-			<header class="llms-builder-header">
-				<span class="llms-drag-utility drag-lesson"></span>
-				<h3 class="llms-headline">
-					<?php echo get_post_type_object( 'lesson' )->labels->singular_name; ?> {{{ data.order }}}:
-					<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="{{{ data.title }}}" type="text">{{{ data.title }}}</span>
-				</h3>
+				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
 
-				<div class="llms-action-icons">
+			}
 
-					<# if ( data.edit_url ) { #>
-						<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'Edit lesson settings', 'lifterlms' ); ?>" href="{{{ data.edit_url }}}">
-							<span class="fa fa-pencil"></span>
-						</a>
-					<# } #>
-					<a class="llms-action-icon" data-title-default="<?php esc_attr_e( 'View lesson', 'lifterlms' ); ?>" href="{{{ data.view_url }}}">
-						<span class="fa fa-external-link"></span>
-					</a>
+		}
 
-					<a class="llms-action-icon shift-up" data-title-default="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
-						<span class="fa fa-caret-square-o-up"></span>
-					</a>
+		return $res;
 
-					<a class="llms-action-icon shift-down" data-title-default="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
-						<span class="fa fa-caret-square-o-down"></span>
-					</a>
+	}
 
-					<a class="llms-action-icon section-prev" data-title-default="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>" href="#llms-section-change">
-						<span class="fa fa-arrow-circle-o-up"></span>
-					</a>
+	/**
+	 * Update a section with data from the heartbeat
+	 * @param    array     $section_data  array of section data
+	 * @param    obj       $course_id     instance of the parent LLMS_Course
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function update_section( $section_data, $course_id ) {
 
-					<a class="llms-action-icon section-next" data-title-default="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>" href="#llms-section-change">
-						<span class="fa fa-arrow-circle-o-down"></span>
-					</a>
+		$res = array(
+			'orig_id' => $section_data['id'],
+		);
 
-					<a class="llms-action-icon detach danger" data-title-default="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" href="#llms-detach">
-						<span class="fa fa-chain-broken"></span>
-					</a>
+		// create a new section
+		if ( self::is_temp_id( $section_data['id'] ) ) {
 
-					<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-						<a class="llms-action-icon trash danger" data-title-default="<?php esc_attr_e( 'Delete Lesson', 'lifterlms' ); ?>" href="#llms-trash">
-							<span class="fa fa-trash"></span>
-						</a>
-					<?php endif; ?>
+			$section = new LLMS_Section( 'new' );
+			$section->set( 'parent_course', $course_id );
 
-				</div>
+		// update existing section
+		} else {
 
-			</header>
+			$section = llms_get_post( $section_data['id'] );
 
-			<div class="llms-info-icons">
-			<?php foreach ( $lesson_icons as $icon => $info ) : ?>
-				<span class="llms-info-icon<# <?php echo $info['active']; ?> ? print( ' active' ) : print( '' ) #>" data-title-active="<?php echo $info['text_active']; ?>" data-title-default="<?php echo $info['text_default']; ?>">
-					<i class="fa fa-<?php echo $info['icon']; ?>" aria-hidden="true"></i>
-				</span>
-			<?php endforeach; ?>
-			</div>
+		}
 
-		</script>
+		// we don't have a proper section to work with...
+		if ( empty( $section ) || ! is_a( $section, 'LLMS_Section' ) ) {
+			$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
+		} else {
 
-		<?php
+			// return the real ID (important when creating a new section)
+			$res['id'] = $section->get( 'id' );
+
+			// run through all possible updated fields
+			foreach ( array( 'order', 'title' ) as $key ) {
+
+				// update those that were sent through
+				if ( isset( $section_data[ $key ] ) ) {
+
+					$section->set( $key, $section_data[ $key ] );
+
+				}
+
+			}
+
+			if ( isset( $section_data['lessons'] ) && is_array( $section_data['lessons'] ) ) {
+
+				$res['lessons'] = self::update_lessons( $section_data['lessons'], $section );
+
+			}
+
+		}
+
+		return $res;
+
 	}
 
 }
