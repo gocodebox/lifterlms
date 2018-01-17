@@ -1,7 +1,7 @@
 <?php
 /**
-* Core LifterLMS functions file
-*/
+ * Core LifterLMS functions file
+ */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -14,6 +14,7 @@ require_once 'functions/llms.functions.log.php';
 require_once 'functions/llms.functions.notice.php';
 require_once 'functions/llms.functions.page.php';
 require_once 'functions/llms.functions.person.php';
+require_once 'functions/llms.functions.quiz.php';
 require_once 'functions/llms.functions.template.php';
 
 /**
