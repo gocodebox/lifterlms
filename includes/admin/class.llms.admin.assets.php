@@ -2,7 +2,7 @@
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.13.1
+* @version  [version]
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.13.1
+	 * @version  [version]
 	 */
 	public function admin_scripts() {
 		global $post_type;
@@ -224,8 +224,12 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'llms-admin-settings', plugins_url( '/assets/js/llms-admin-settings' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
 		} elseif ( 'admin_page_llms-course-builder' === $screen->id ) {
 
+			wp_enqueue_editor();
+
+			wp_enqueue_style( 'llms-builder-styles', plugins_url( '/assets/css/builder' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 			wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.css', LLMS_PLUGIN_FILE ) );
 			wp_enqueue_script( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
+
 			wp_enqueue_script( 'llms-builder', plugins_url( '/assets/js/llms-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post' ), LLMS()->version, true );
 
 		}
