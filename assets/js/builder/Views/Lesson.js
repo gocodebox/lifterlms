@@ -1,10 +1,9 @@
 /**
  * Single Lesson View
  * @since    3.13.0
- * @version  3.14.4
+ * @version  [version]
  */
-
-define( [ 'Mixins/EditableView', 'Mixins/ShiftableView' ], function( Editable, Shiftable ) {
+define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable ) {
 
 	return Backbone.View.extend( _.defaults( {
 
@@ -17,7 +16,7 @@ define( [ 'Mixins/EditableView', 'Mixins/ShiftableView' ], function( Editable, S
 		attributes: function() {
 			return {
 				'data-id': this.model.id,
-				'data-section-id': this.model.get( 'section_id' ),
+				'data-section-id': this.model.get( 'parent_section' ),
 			};
 		},
 
@@ -28,19 +27,16 @@ define( [ 'Mixins/EditableView', 'Mixins/ShiftableView' ], function( Editable, S
 		className: 'llms-builder-item llms-lesson',
 
 		/**
-		 * DOM Events
-		 * @type     obj
-		 * @since    3.13.0
-		 * @version  3.14.4
+		 * Events
+		 * @type  {Object}
 		 */
 		events: _.defaults( {
-			'drop-lesson': 'drop',
-			'update-parent': 'update_parent',
-			'click .llms-action-icon.section-prev': 'section_prev',
-			'click .llms-action-icon.section-next': 'section_next',
-			'click .llms-action-icon.trash': 'delete_lesson',
-			'click .llms-action-icon.detach': 'detach_lesson',
-		}, Editable.events, Shiftable.events ),
+			'click .llms-headline': 'on_click',
+			'click .shift-up--lesson': 'shift_up',
+			'click .shift-down--lesson': 'shift_down',
+			'click .detach--lesson': 'detach',
+			'click .trash--lesson': 'trash',
+		}, Editable.events ),
 
 		/**
 		 * HTML element wrapper ID attribute
@@ -65,173 +61,106 @@ define( [ 'Mixins/EditableView', 'Mixins/ShiftableView' ], function( Editable, S
 		template: wp.template( 'llms-lesson-template' ),
 
 		/**
-		 * Event handler for lesson deletion
-		 * requires a confirmation before removing from collection & syncing
-		 * @param    {obj}   event  js event object
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		delete_lesson: function( event ) {
-
-			event.stopPropagation();
-			event.preventDefault();
-
-			var msg = LLMS.l10n.translate( 'Are you sure you want to permanently delete this lesson?' );
-
-			if ( ! window.confirm( msg ) ) {
-				return;
-			}
-
-			var del_id = 'delete_' + this.model.id;
-
-			this.model.destroy( {
-				beforeSend: function() {
-					Instance.Status.add( del_id );
-				},
-				success: function( res ) {
-					Instance.Status.remove( del_id );
-				},
-			} );
-
-		},
-
-		/**
-		 * Removes a lesson from the course (turns it into an orphan)
-		 * @param    obj   event  js event obj
-		 * @return   void
-		 * @since    3.14.4
-		 * @version  3.14.4
-		 */
-		detach_lesson: function( event ) {
-
-			event.stopPropagation();
-			event.preventDefault();
-			this.model.trigger( 'detach' );
-
-		},
-
-		/**
-		 * Draggable/Sortable DROP event
-		 * @param    {obj}   event            js event obj
-		 * @param    {obj}   $item            jQuery obj of the dropped item
-		 * @param    {int}   to_section_id    id of the section the lesson was dropped into
-		 * @param    {int}   from_section_id  id of the section the lesson came from (may be undefined)
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		drop: function( event, $item, to_section_id, from_section_id ) {
-
-			var self = this,
-				to_collection = Instance.Syllabus.collection.get( to_section_id ).Lessons.collection,
-				from_collection = ! this.model.collection ? null : Instance.Syllabus.collection.get( from_section_id ).Lessons.collection,
-				auto_save = true;
-
-			// create if the model doesn't have a collection
-			if ( ! this.model.collection ) {
-				var id = self.model.id;
-				auto_save = false;
-				self.model.set( 'section_id', to_section_id );
-				to_collection.create( self.model, {
-					beforeSend: function() {
-						Instance.Status.add( id );
-					},
-					success: function( res ) {
-						Instance.Status.remove( id );
-						self.model.collection.sync_order();
-					},
-				} );
-			}
-
-			this.$el.trigger( 'update-sort', [ this.model, $item.index() + 1, to_collection, from_collection, auto_save ] );
-
-		},
-
-		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.14.1
 		 * @version  3.14.1
 		 */
 		initialize: function() {
-			this.listenTo( this.model, 'sync', this.render );
+
+			this.render();
+
+			this.listenTo( this.model, 'change', this.render );
+
+			Backbone.pubSub.on(  'lesson-selected', this.on_select, this );
+			Backbone.pubSub.on(  'new-lesson-added', this.on_select, this );
+
 		},
 
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @version  [version]
 		 */
 		render: function() {
-			if ( ! this.model.get( 'section_id' ) ) {
-				return this;
+
+			this.$el.html( this.template( this.model ) );
+			this.maybe_hide_shiftable_buttons();
+			if ( this.model.get( '_selected' ) ) {
+				this.$el.addClass( 'selected' );
+			} else {
+				this.$el.removeClass( 'selected' );
 			}
-			this.$el.html( this.template( this.model.toJSON() ) );
 			return this;
-		},
-
-		/**
-		 * Event handler for moving a lesson to the next section in the sections collection
-		 * this moves lesson DOWN a section
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		section_next: function() {
-
-			var from_section = this.model.get_section(),
-				to_section = from_section.get_next(),
-				from_collection = from_section.Lessons.collection
-				to_collection = to_section.Lessons.collection,
-
-			$( '#llms-section-' + to_section.id ).addClass( 'opened' );
-
-			// update the parent
-			this.model.set( 'section_id', to_section.id );
-
-			// trigger resorts on the collections
-			this.$el.trigger( 'update-sort', [ this.model, 1, to_collection, from_collection ] );
 
 		},
 
 		/**
-		 * Event handler for moving a lesson to the previous section in the sections collection
-		 * this moves lesson UP a section
+		 * Remove lesson from course and delete it
+		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @since    [version]
+		 * @version  [version]
 		 */
-		section_prev: function() {
+		detach: function( event ) {
 
-			var from_section = this.model.get_section(),
-				to_section = from_section.get_prev(),
-				from_collection = from_section.Lessons.collection
-				to_collection = to_section.Lessons.collection,
+			if ( event ) {
+				event.preventDefault();
+			}
 
-			$( '#llms-section-' + to_section.id ).addClass( 'opened' );
+			if ( window.confirm( LLMS.l10n.translate( 'Are you sure you want to remove this lesson from the course?' ) ) ) {
 
-			// update the parent
-			this.model.set( 'section_id', to_section.id );
+				this.model.collection.remove( this.model );
+				Backbone.pubSub.trigger( 'model-detached', this.model );
 
-			// trigger resorts on the collections
-			this.$el.trigger( 'update-sort', [ this.model, to_collection.next_order(), to_collection, from_collection ] );
+			}
+
+
+		},
+
+		on_click: function( event ) {
+
+			var $el = $( event.target );
+			if ( $el.is( '.llms-input' ) ) {
+				return;
+			}
+
+			Backbone.pubSub.trigger( 'lesson-selected', this.model );
+
+			this.model.set( '_selected', true );
+
+		},
+
+		on_select: function( model ) {
+
+			if ( this.model.id !== model.id ) {
+				this.model.set( '_selected', false );
+			}
 
 		},
 
 		/**
-		 * jQuery UI sortable "receieve" callback
-		 * when a lesson is moved to a new section the drop event handles most stuff
-		 * but this updates the section_id attribute on the lesson
-		 * @param    {obj}   event  js event object
-		 * @param    {obj}   item   jQuery ui sortable item object
+		 * Remove lesson from course and delete it
+		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @since    [version]
+		 * @version  [version]
 		 */
-		update_parent: function( event, item ) {
-			this.model.set( 'section_id', $( item ).closest( '.llms-section' ).attr( 'data-id' ) );
+		trash: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
+
+			if ( window.confirm( LLMS.l10n.translate( 'Are you sure you want to move this lesson to the trash?' ) ) ) {
+
+				this.model.collection.remove( this.model );
+				Backbone.pubSub.trigger( 'model-trashed', this.model );
+
+			}
+
+
 		},
 
 	}, Editable, Shiftable ) );

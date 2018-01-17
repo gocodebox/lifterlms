@@ -1,19 +1,31 @@
 /**
- * Single Section View
- * @since    3.13.0
+ * Quiz question bank view
+ * @since    [version]
  * @version  [version]
  */
-define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivable ) {
+define( [ 'Views/Question' ], function( QuestionView ) {
 
-	return Backbone.CollectionView.extend( _.defaults( {
+	return Backbone.CollectionView.extend( {
 
-		className: 'llms-lessons',
+		className: 'llms-quiz-questions',
+
+		/**
+		 * Parent element
+		 * @type  {String}
+		 */
+		// el: '#llms-quiz-questions',
 
 		/**
 		 * Section model
 		 * @type  {[type]}
 		 */
-		modelView: LessonView,
+		modelView: QuestionView,
+
+		/**
+		 * Enable keyboard events
+		 * @type  {Bool}
+		 */
+		processKeyEvents: false,
 
 		/**
 		 * Are sections selectable?
@@ -29,19 +41,19 @@ define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivabl
 
 		sortableOptions: {
 			axis: false,
-			connectWith: '.llms-lessons',
+			connectWith: '.llms-quiz-questions',
 			cursor: 'move',
-			handle: '.drag-lesson',
-			items: '.llms-lesson',
-			placeholder: 'llms-lesson llms-sortable-placeholder',
+			handle: '.llms-data-stamp',
+			items: '.llms-question',
+			placeholder: 'llms-question llms-sortable-placeholder',
 		},
 
 		sortable_start: function( collection ) {
-			$( '.llms-lessons' ).addClass( 'dragging' );
+			$( '.llms-quiz-questions' ).addClass( 'dragging' );
 		},
 
 		sortable_stop: function( collection ) {
-			$( '.llms-lessons' ).removeClass( 'dragging' );
+			$( '.llms-quiz-questions' ).removeClass( 'dragging' );
 		},
 
 		/**
@@ -54,6 +66,8 @@ define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivabl
 		 * @version  [version]
 		 */
 		_sortStop : function( event, ui ) {
+
+			event.stopPropagation();
 
 			var modelBeingSorted = this.collection.get( ui.item.attr( 'data-model-cid' ) ),
 				modelViewContainerEl = this._getContainerEl(),
@@ -74,6 +88,6 @@ define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivabl
 
 		},
 
-	}, Receivable ) );
+	} );
 
 } );

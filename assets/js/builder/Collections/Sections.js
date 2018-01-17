@@ -1,26 +1,55 @@
 /**
  * Sections Collection
- * @since    3.13.0
- * @version  3.13.0
+ * @since    [version]
+ * @version  [version]
  */
-define( [ 'Models/Section', 'Mixins/Syncable', 'Mixins/SortableCollection' ], function( model, Syncable, Sortable ) {
+define( [ 'Models/Section' ], function( model ) {
 
-	return Backbone.Collection.extend( _.defaults( {
-
-		model: model,
-		type_id: 'section',
+	return Backbone.Collection.extend( {
 
 		/**
-		 * Parse AJAX response
-		 * @param    obj   response  JSON from the server
-		 * @return   obj             relevant data from the server
-		 * @since    3.13.0
-		 * @version  3.13.0
+		 * Model for collection items
+		 * @type  obj
 		 */
-		parse: function( response ) {
-			return response.data;
+		model: model,
+
+		/**
+		 * Initialize
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		initialize: function() {
+
+			var self = this;
+
+			// reorder called by SectionList view when sortable drops occur
+			this.on( 'reorder', this.update_order );
+
+			// when a section is added or removed, update order
+			this.on( 'add', this.update_order );
+			this.on( 'remove', this.update_order );
+
 		},
 
-	}, Syncable, Sortable ) );
+		/**
+		 * Update the order attr of each section in the list to reflect the order of the collection
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		update_order: function() {
+
+			var self = this;
+
+			this.each( function( section ) {
+
+				section.set( 'order', self.indexOf( section ) + 1 );
+
+			} );
+
+		},
+
+	} );
 
 } );

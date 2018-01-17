@@ -1,120 +1,139 @@
-( function( $ ) {
+require( [
+	'../vendor/backbone.collectionView',
+	'../vendor/backbone-forms',
+	'../vendor/backbone.trackit',
+	'Controllers/Construct',
+	'Controllers/Debug',
+	'Controllers/Sync',
+	'Models/loader',
+	'Views/Editors/wysiwyg',
+	'Views/Course',
+	'Views/Sidebar'
+], function(
+	Forms,
+	CV,
+	TrackIt,
+	Construct,
+	Debug,
+	Sync,
+	Models,
+	WysiwygEditor,
+	CourseView,
+	SidebarView
+) {
+
+	window.llms_builder.debug = new Debug( window.llms_builder.debug );
+	window.llms_builder.construct = new Construct();
+
+	// register custom backbone forms editor
+	Backbone.Form.editors.Wysiwyg = WysiwygEditor;
 
 	Backbone.pubSub = _.extend( {}, Backbone.Events );
 
-	require( [ 'Collections/loader', 'Models/loader', 'Views/loader' ], function( Collections, Models, Views ) {
+	window.llms_builder.questions = window.llms_builder.construct.get_collection( 'QuestionTypes', window.llms_builder.questions );
 
-		/**
-		 * Main Application Object
-		 * @type     {Object}
-		 * @since    3.13.0
-		 * @version  [version]
-		 */
-		var App = {
 
-			$elements: {
-				$main: $( '.llms-builder-main' ),
-			},
+	var CourseModel = window.llms_builder.construct.get_model( 'Course', window.llms_builder.course );
+	window.llms_builder.CourseModel = CourseModel;
+	console.log( CourseModel );
 
-			Views: {},
+	window.llms_builder.sync = new Sync( CourseModel, window.llms_builder.sync );
 
-			/**
-			 * Various Application Methods
-			 * @type  {Object}
-			 */
-			Methods: {
-
-				/**
-				 * Retrieve the last section in the current instance
-				 * @return   obj     App.Models.Section
-				 * @since    3.13.0
-				 * @version  3.13.0
-				 */
-				get_last_section: function() {
-					return Instance.Syllabus.collection.at( Instance.Syllabus.collection.length - 1 );
-				},
-
-			},
-
-		};
-
-		/**
-		 * Main Instance
-		 * @type     {Object}
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		var Instance = {
-			Course: new Views.Course( {
-				model: new Models.Course( window.llms_builder.course ),
-			} ),
-			Main: new Views.Main,
-			Syllabus: new Views.SectionList,
-			Status: {
-				saving: [],
-				add: function( id ) {
-					this.saving.push( id );
-					this.update_dom();
-				},
-				remove: function( id ) {
-					this.saving = _.without( this.saving, id );
-					this.update_dom();
-				},
-				update_dom: function() {
-					var status = this.saving.length ? 'saving' : 'complete';
-					$( '#save-status' ).attr( 'data-status', status );
-				},
-			},
-		};
-
-		Instance.Tools = new Views.Tools;
-		Instance.Tutorial = new Views.Tutorial;
-
-		// prevent actions outside the intended tutorial action (when the tutorial is active)
-		$( '.wrap.llms-course-builder' ).on( 'click', 'a, button', function( event ) {
-			var $el = $( this );
-			if ( Instance.Tutorial.is_active ) {
-				var step = Instance.Tutorial.get_current_step();
-				if ( $( step.el ) !== $el ) {
-					event.preventDefault();
-					$( step.el ).fadeOut( 100 ).fadeIn( 300 );
-				}
-			}
-		} );
-
-		/**
-		 * Set the fixed height of the builder area
-		 * @return   void
-		 * @since    3.14.2
-		 * @version  3.14.2
-		 */
-		function resize_builder() {
-			$( '.llms-course-builder' ).height( $( window ).height() - 62 ); // @shame magic numbers...
-		}
-
-		var resize_timeout;
-		$( window ).on( 'resize', function() {
-
-			clearTimeout( resize_timeout );
-			resize_timeout = setTimeout( function() {
-				resize_builder();
-			}, 250 );
-
-		} );
-
-		// resize on page load
-		resize_builder();
-
-		// warn during unloads while we're still processing saves
-		$( window ).on( 'beforeunload', function( e ) {
-			if ( Instance.Status.saving.length ) {
-				return LLMS.l10n.translate( 'If you leave now your changes may not be saved!' );
-			}
-		} );
-
-		// expose the instance to the window
-		window.llms_builder.Instance = Instance;
-
+	var Course = new CourseView( {
+		model: CourseModel,
 	} );
 
-} )( jQuery );
+	new SidebarView( {
+		CourseView: Course
+	} );
+
+
+
+
+
+
+
+
+
+
+
+	function add_test_sections( max ) {
+
+		var max = max || _.random( 5, 15 ),
+			i = 1;
+		while ( i <= max ) {
+
+			TehCours.add_section( {
+				title: chance.sentence( { words: _.random( 2, 6 ) } ).slice( 0, -1 ),
+				lessons: get_test_lessons(),
+			} );
+
+			i++;
+
+		}
+
+	};
+
+	function get_test_lessons() {
+		var max = max || _.random( 1, 15 ),
+			i = 1,
+			lessons = [];
+		while ( i <= max ) {
+			lessons.push( {
+				title: chance.sentence( { words: _.random( 2, 6 ) } ).slice( 0, -1 ),
+				order: i,
+			} );
+			i++;
+		}
+		return lessons;
+	}
+
+	// setTimeout( function() {
+
+	// 	$( '#llms-sections a[href="#llms-toggle"]' ).first().trigger( 'click' );
+
+	// 	setTimeout( function() {
+
+	// 		$( '.llms-lesson' ).first().find( '.llms-headline' ).trigger( 'click' );
+
+	// 		setTimeout( function() {
+
+	// 			$( '#llms-enable-quiz' ).trigger( 'click' );
+
+	// 			setTimeout( function() {
+
+	// 				var i = 0;
+	// 				while ( i <= 5 ) {
+
+	// 					setTimeout( function() {
+
+	// 						$( '#llms-show-question-bank' ).trigger( 'click' );
+
+	// 						setTimeout( function() {
+
+	// 							var $btns = $( 'button.llms-add-question' );
+	// 							$btns.eq( _.random( 0, $btns.length - 1 ) ).trigger( 'click' );
+
+	// 						}, 100 );
+
+	// 					}, i * 150 );
+
+	// 					i++;
+
+	// 				}
+
+	// 			}, 100 );
+
+
+	// 		}, 500 );
+
+	// 	}, 100 );
+
+	// }, 100 );
+
+
+	// add_test_sections();
+
+	// console.log( CourseModel.get( 'sections' )[0].get( 'lessons' )[0] );
+
+} );

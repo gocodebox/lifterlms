@@ -1,9 +1,9 @@
 /**
  * Single Section View
  * @since    3.13.0
- * @version  3.14.0
+ * @version  [version]
  */
-define( [ 'Collections/Lessons', 'Mixins/EditableView', 'Mixins/ShiftableView', 'Views/LessonList' ], function( LessonCollection, Editable, Shiftable, LessonListView ) {
+define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function( LessonListView, Editable, Shiftable ) {
 
 	return Backbone.View.extend( _.defaults( {
 
@@ -20,31 +20,26 @@ define( [ 'Collections/Lessons', 'Mixins/EditableView', 'Mixins/ShiftableView', 
 		},
 
 		/**
-		 * Return CSS classes for the html wrapper element
-		 * @return   string
-		 * @since    3.14.5
-		 * @version  3.14.5
+		 * Element classnames
+		 * @type  {String}
 		 */
-		className: function() {
-			var classes = [ 'llms-builder-item', 'llms-section' ];
-			if ( this.model.get( 'opened' ) ) {
-				classes.push( 'opened' );
-			}
-			return classes.join( ' ' );
-		},
+		className: 'llms-builder-item llms-section',
 
 		/**
-		 * DOM Events
-		 * @type     obj
-		 * @since    3.13.0
-		 * @version  3.14.0
+		 * Events
+		 * @type  {Object}
 		 */
 		events: _.defaults( {
-			'click .llms-action-icon.expand': 'lessons_show',
-			'click .llms-action-icon.collapse': 'lessons_hide',
-			'click .llms-action-icon.trash': 'delete_section',
-			'drop-section': 'drop',
-		}, Editable.events, Shiftable.events ),
+			'click': 'select',
+			'click .expand': 'expand',
+			'click .collapse': 'collapse',
+			'click .shift-up--section': 'shift_up',
+			'click .shift-down--section': 'shift_down',
+			'click .trash--section': 'trash',
+
+			'mouseenter .llms-lessons': 'on_mouseenter',
+			// 'mouseleave': 'on_mouseleave',
+		}, Editable.events ),
 
 		/**
 		 * HTML element wrapper ID attribute
@@ -69,116 +64,23 @@ define( [ 'Collections/Lessons', 'Mixins/EditableView', 'Mixins/ShiftableView', 
 		template: wp.template( 'llms-section-template' ),
 
 		/**
-		 * Handles deletion of a section
-		 * Will only delete empty sections
-		 * @param    {obj}   event  js event object
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		delete_section: function( event ) {
-
-			event.stopPropagation();
-			event.preventDefault();
-
-			// can't delete sections with lessons
-			if ( this.model.Lessons.collection.length ) {
-				alert( LLMS.l10n.translate( 'You must remove all lessons before deleting a section.' ) );
-				return;
-			}
-
-			var del_id = 'delete_' + this.model.id;
-
-			this.model.destroy( {
-				beforeSend: function() {
-					Instance.Status.add( del_id );
-				},
-				success: function( res ) {
-					Instance.Status.remove( del_id );
-				},
-			} );
-
-		},
-
-		/**
-		 * jQuery UI sortable drop event handler
-		 * @param    {obj}   event  js event object
-		 * @param    {int}   index  new index of the dropped element
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		drop: function( event, index ) {
-
-			var self = this,
-				auto_save = true;
-
-			// create if the model doesn't have a collection
-			if ( ! this.model.collection ) {
-				var id = self.model.id;
-				auto_save = false;
-				Instance.Syllabus.collection.create( self.model, {
-					beforeSend: function() {
-						Instance.Status.add( id );
-					},
-					success: function( res ) {
-						Instance.Status.remove( id );
-						self.model.collection.sync_order();
-					},
-				} );
-			}
-
-			self.$el.trigger( 'update-sort', [ self.model, index + 1, self.model.collection, null, auto_save ] );
-
-		},
-
-		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.14.5
+		 * @version  [version]
 		 */
 		initialize: function() {
 
-			// this.listenTo( this.model, 'sync', this.render );
+			this.render();
+			this.listenTo( this.model, 'change', this.render );
+			this.listenTo( this.model, 'change:_expanded', this.toggle_expanded );
+			this.lessonListView.collection.on( 'add', this.on_lesson_add, this );
 
-			if ( ! this.model.Lessons ) {
+			this.dragTimeout = null;
 
-				// setup lessons child view & collection
-				this.model.Lessons = new LessonListView( {
-					collection: new LessonCollection,
-				} );
-				this.model.Lessons.collection.add( this.model.get( 'lessons' ) );
+			Backbone.pubSub.on( 'expand-all', this.expand, this );
+			Backbone.pubSub.on( 'collapse-all', this.collapse, this );
 
-			}
-
-
-		},
-
-		/**
-		 * Hide lessons in the section
-		 * @param    {obj}   e  js event object
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.14.5
-		 */
-		lessons_hide: function( e ) {
-			e.preventDefault();
-			this.$el.removeClass( 'opened' );
-			this.model.set( 'opened', false );
-		},
-
-		/**
-		 * Show lessons in the section
-		 * @param    {obj}   e  js event object
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.14.5
-		 */
-		lessons_show: function( e ) {
-			e.preventDefault();
-			this.$el.addClass( 'opened' );
-			this.model.set( 'opened', true );
 		},
 
 		/**
@@ -186,22 +88,186 @@ define( [ 'Collections/Lessons', 'Mixins/EditableView', 'Mixins/ShiftableView', 
 		 * Initalizes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  3.14.4
+		 * @version  [version]
 		 */
 		render: function() {
 
-			// render inside
 			this.$el.html( this.template( this.model.toJSON() ) );
 
-			this.model.Lessons.setElement( this.$el.find( '.llms-lessons' ) ).render();
+			this.maybe_hide_shiftable_buttons();
 
-			// if the id has changed (when creating a new section for example) update the attributes and id
-			if ( this.$el.attr( 'id' ) != this.model.id ) {
-				this.$el.attr( 'id', this.id() );
-				this.$el.attr( this.attributes() );
-			}
+			this.lessonListView = new LessonListView( {
+				el: this.$el.find( '.llms-lessons' ),
+				collection: this.model.get( 'lessons' ),
+			} );
+			this.lessonListView.render();
+			this.lessonListView.on( 'sortStart', this.lessonListView.sortable_start );
+			this.lessonListView.on( 'sortStop', this.lessonListView.sortable_stop );
+
+			// selection changes
+			this.lessonListView.on( 'selectionChanged', this.active_lesson_change, this );
+
+			this.maybe_hide_trash_button();
 
 			return this;
+
+		},
+
+		active_lesson_change: function( current, previous ) {
+
+			Backbone.pubSub.trigger( 'active-lesson-change', {
+				current: current,
+				previous: previous,
+			} );
+
+		},
+
+		/**
+		 * Collapse lessons within the section
+		 * @param    obj   event    js event object
+		 * @param    bool  update   if true, updates the model to reflect the new state
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		collapse: function( event, update ) {
+
+			if ( 'undefined' === typeof update ) {
+				update = true;
+			}
+
+			if ( event ) {
+				event.stopPropagation();
+				event.preventDefault();
+			}
+
+			this.$el.removeClass( 'expanded' ).find( '.drag-expanded' ).removeClass( 'drag-expanded' );
+			if ( update ) {
+				this.model.set( '_expanded', false );
+			}
+			Backbone.pubSub.trigger( 'section-toggle', this.model );
+
+		},
+
+		/**
+		 * Expand lessons within the section
+		 * @param    obj   event    js event object
+		 * @param    bool  update   if true, updates the model to reflect the new state
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		expand: function( event, update ) {
+
+			if ( 'undefined' === typeof update ) {
+				update = true;
+			}
+
+			if ( event ) {
+				event.stopPropagation();
+				event.preventDefault();
+			}
+
+			this.$el.addClass( 'expanded' );
+			if ( update ) {
+				this.model.set( '_expanded', true );
+			}
+			Backbone.pubSub.trigger( 'section-toggle', this.model );
+
+		},
+
+		maybe_hide_trash_button: function() {
+
+			var $btn = this.$el.find( '.trash--section' );
+
+			if ( this.model.get( 'lessons' ).isEmpty() ) {
+
+				$btn.show();
+
+			} else {
+
+				$btn.hide()
+
+			}
+
+		},
+
+		/**
+		 * When a lesson is added to the section trigger a collection reorder & update the lesson's id
+		 * @param    obj   model  Lesson model
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		on_lesson_add: function( model ) {
+
+			this.lessonListView.collection.trigger( 'reorder' );
+			model.set( 'parent_section', this.model.get( 'id' ) );
+			this.expand();
+
+		},
+
+		on_mouseenter: function( event ) {
+
+
+			if ( $( event.target ).hasClass( 'dragging' ) ) {
+
+				$( '.drag-expanded' ).removeClass( 'drag-expanded' );
+				$( event.target ).addClass( 'drag-expanded' );
+
+			}
+
+		},
+
+		// on_mouseleave: function( event ) {
+
+		// 	console.log( event );
+
+		// 	var $el = $( event.currentTarget ).find( '.llms-lessons' );
+
+		// 	clearTimeout( this.dragTimeout );
+
+		// 	if ( $el.hasClass( 'dragging' ) ) {
+
+		// 		$el.removeClass( 'drag-expanded' );
+
+		// 	}
+
+		// },
+
+		/**
+		 * Expand
+		 * @param    {[type]}   model  [description]
+		 * @param    {[type]}   value  [description]
+		 * @return   {[type]}
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		toggle_expanded: function( model, value ) {
+
+			if ( value ) {
+				this.expand( null, false );
+			} else {
+				this.collapse( null, false );
+			}
+
+		},
+
+		/**
+		 * Remove section from course and delete it
+		 * @param    obj   event  js event object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		trash: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
+
+			Backbone.pubSub.trigger( 'model-trashed', this.model );
+			this.model.collection.remove( this.model );
 
 		},
 

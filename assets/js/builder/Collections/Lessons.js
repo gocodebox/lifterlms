@@ -1,15 +1,49 @@
 /**
  * Lessons Collection
  * @since    3.13.0
- * @version  3.13.0
+ * @version  [version]
  */
-define( [ 'Models/Lesson', 'Mixins/Syncable', 'Mixins/SortableCollection' ], function( model, Syncable, SortableCollection ) {
+define( [ 'Models/Lesson' ], function( model ) {
 
-	return Backbone.Collection.extend( _.defaults( {
+	return Backbone.Collection.extend( {
 
+		/**
+		 * Model for collection items
+		 * @type  obj
+		 */
 		model: model,
-		type_id: 'lesson',
 
-	}, Syncable, SortableCollection ) );
+		initialize: function() {
+
+			var self = this;
+
+			// reorder called by LessonList view when sortable drops occur
+			this.on( 'reorder', this.update_order );
+
+			// when a lesson is added or removed, update order
+			this.on( 'add', this.update_order );
+			this.on( 'remove', this.update_order );
+
+		},
+
+		/**
+		 * Update the order attr of each section in the list to reflect the order of the collection
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		update_order: function() {
+
+			var self = this;
+
+			this.each( function( lesson ) {
+
+				lesson.set( 'order', self.indexOf( lesson ) + 1 );
+
+			} );
+
+		},
+
+	} );
 
 } );

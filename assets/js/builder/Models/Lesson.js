@@ -1,89 +1,155 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  3.14.8
+ * @version  [version]
  */
-define( [ 'Mixins/Syncable' ], function( Syncable ) {
+define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], function( Quiz, Relationships, Utilities ) {
 
 	return Backbone.Model.extend( _.defaults( {
 
-		type_id: 'lesson',
+		relationships: {
+			parents: {
+				model: 'lesson',
+				type: 'model',
+			},
+			children: {
+				quiz: {
+					class: 'Quiz',
+					conditional: function( model ) {
+						// if quiz is enabled OR not enabled but we have some quiz data as an obj
+						return ( 'yes' === model.get( 'quiz_enabled' ) || ! _.isEmpty( model.get( 'quiz' ) ) );
+					},
+					model: 'quiz',
+					type: 'model',
+				},
+			},
+		},
+
+		schema: {
+			title: {
+				title: 'Title',
+				type: 'Text',
+				validators: [ 'required' ],
+			},
+			content: {
+				title: 'Content',
+				type: 'Wysiwyg',
+			},
+			video_embed: {
+				help: 'Helper text sentence description situation',
+				title: 'Video Embed',
+				type: 'Text',
+				validators: [ 'url' ],
+			},
+			audio_embed: {
+				help: 'Helper text sentence description situation',
+				title: 'Audio Embed',
+				type: 'Text',
+				validators: [ 'url' ],
+			},
+			free_lesson: {
+				title: 'Free Lesson',
+				type: 'Checkbox',
+			}
+
+		},
 
 		/**
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  3.14.8
+		 * @version  [version]
 		 */
 		defaults: function() {
-			var order = this.collection ? this.collection.next_order() : 1,
-				// section_id = App.Methods.get_last_section().id;
-				section_id = 1;
 			return {
+				id: _.uniqueId( 'temp_' ),
 				title: LLMS.l10n.translate( 'New Lesson' ),
 				type: 'lesson',
-				order: order,
-				section_id: section_id,
+				order: this.collection ? this.collection.length + 1 : 1,
+				parent_course: window.llms_builder.course.id,
+				parent_section: '',
+
 
 				// urls
 				edit_url: '',
 				view_url: '',
 
-				// icon info
-				date_available: '',
-				days_before_available: '',
-				drip_method: '',
-				has_content: false,
-				is_free: false,
-				prerequisite: false,
-				quiz: false,
+				// editable fields
+				content: '',
+				audio_embed: '',
+				video_embed: '',
+				free_lesson: '',
+
+				// other fields
+				// assigned_quiz: '', // quiz id
+				quiz: {}, // quiz model/data
+				quiz_enabled: 'no',
+
+				// // icon info
+				// date_available: '',
+				// days_before_available: '',
+				// drip_method: '',
+				// has_content: false,
+				// is_free: false,
+				// prerequisite: false,
+				// quiz: false,
+
+				_forceSync: false,
+
 			};
 		},
 
 		/**
 		 * Initializer
 		 * @return   void
-		 * @since    3.14.0
-		 * @version  3.14.4
+		 * @since    [version]
+		 * @version  [version]
 		 */
 		initialize: function() {
 
-			this.listenTo( this, 'detach', this.detach );
+			this.startTracking();
+			this.init_relationships();
+
+			// this.on( 'change:quiz', function( model, val ) {
+			// 	console.log( val );
+			// 	console.trace();
+			// } )
 
 		},
 
 		/**
-		 * Detach lesson from section
-		 * @return   void
-		 * @since    3.14.4
-		 * @version  3.14.4
+		 * Retrieve a reference to the parent course of the lesson
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
 		 */
-		detach: function() {
-
-			var id = 'detach_' + this.id;
-
-			this.set( 'section_id', '' );
-			this.collection.remove( this.id );
-			this.save( null, {
-				beforeSend: function() {
-					Instance.Status.add( id );
-				},
-				success: function( res ) {
-					Instance.Status.remove( id );
-				},
-			} );
+		get_course: function() {
+			return this.get_parent().get_parent();
 		},
 
-		/**
-		 * Retrieve the parent section of the lesson
-		 * @return   {obj}   App.Models.Section
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		get_section: function() {
-			return Instance.Syllabus.collection.get( this.get( 'section_id' ) );
+		add_quiz: function( data ) {
+
+			data = data || {};
+
+			data.lesson_id = this.id;
+
+			if ( ! data.title ) {
+
+				data.title = this.get( 'title' ) + ' Quiz';
+
+			}
+
+			this.set( 'quiz', data );
+			this.init_relationships();
+
+			var quiz = this.get( 'quiz' );
+			this.set( 'quiz_enabled', 'yes' );
+			// this.set( 'assigned_quiz', quiz.get( 'id' ) );
+
+			return quiz;
+
 		},
 
-	}, Syncable ) );
+	}, Relationships, Utilities ) );
 
 } );

@@ -1,51 +1,69 @@
 /**
  * Section Model
- * @since    3.13.0
- * @version  3.14.4
+ * @since    [version]
+ * @version  [version]
  */
-define( [ 'Mixins/Syncable' ], function( Syncable ) {
+define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, Relationships ) {
 
 	return Backbone.Model.extend( _.defaults( {
 
-		type_id: 'section',
+		relationships: {
+			parent: {
+				model: 'course',
+				type: 'model',
+			},
+			children: {
+				lessons: {
+					class: 'Lessons',
+					model: 'lesson',
+					type: 'collection',
+				},
+			}
+		},
 
 		/**
 		 * New section defaults
 		 * @return   obj
-		 * @since    3.13.0
-		 * @version  3.14.4
+		 * @since    [version]
+		 * @version  [version]
 		 */
 		defaults: function() {
-			var order = this.collection ? this.collection.next_order() : 1;
 			return {
-				active: false,
-				title: 'New Section',
-				type: 'section',
+				id: _.uniqueId( 'temp_' ),
 				lessons: [],
-				order: order,
+				order: this.collection ? this.collection.length + 1 : 1,
+				parent_course: window.llms_builder.course.id,
+				title: LLMS.l10n.translate( 'New Section' ),
+				type: 'section',
+
+				_expanded: false,
+				_selected: false,
 			};
 		},
 
 		/**
-		 * Retrieve the next section in the section's collection
-		 * @return   obj     App.Models.Section
-		 * @since    3.13.0
-		 * @version  3.13.0
+		 * Initialize
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
 		 */
-		get_next: function() {
-			return this.collection.at( this.collection.indexOf( this ) + 1 );
+		initialize: function() {
+
+			this.startTracking();
+			this.init_relationships();
+
 		},
 
-		/**
-		 * Retrieve the prev section in the section's collection
-		 * @return   obj     App.Models.Section
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		get_prev: function() {
-			return this.collection.at( this.collection.indexOf( this ) - 1 );
+		add_lesson: function( data, options ) {
+
+			data = data || {};
+			options = options || {};
+
+			data.parent_section = this.get( 'id' );
+			return this.get( 'lessons' ).add( data, options );
+
 		},
 
-	}, Syncable ) );
+	}, Relationships ) );
 
 } );

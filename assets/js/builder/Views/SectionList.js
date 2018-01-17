@@ -1,103 +1,66 @@
 /**
- * Section list (colletion) view
- * @return   void
+ * Single Section View
  * @since    3.13.0
  * @version  [version]
  */
-define( [ 'Collections/Sections', 'Mixins/SortableView', 'Views/Section' ], function( collection, Sortable, SectionView ) {
+define( [ 'Views/Section', 'Views/_Receivable' ], function( SectionView, Receivable ) {
 
-	return Backbone.View.extend( _.defaults( {
-
-		/**
-		 * DOM element for the view to be added within
-		 * @type  {obj}
-		 */
-		el: $( '#llms-sections' ),
+	return Backbone.CollectionView.extend( _.defaults( {
 
 		/**
-		 * collection association
-		 * @type  {obj}
+		 * Parent element
+		 * @type  {String}
 		 */
-		collection: new collection,
+		el: '#llms-sections',
 
-		/**
-		 * Add a section to the collection
-		 * @param    {obj}   section  a section model
-		 * @since    3.13.0
-		 * @version  3.13.0
-		 */
-		add_one: function( section ) {
-			var view = new SectionView( { model: section } );
-			this.$el.append( view.render().el );
+		events : {
+			'mousedown > li.llms-section > .llms-builder-header .llms-headline' : '_listItem_onMousedown',
+			// 'dblclick > li, tbody > tr > td' : '_listItem_onDoubleClick',
+			'click' : '_listBackground_onClick',
+			'click ul.collection-view' : '_listBackground_onClick',
+			'keydown' : '_onKeydown'
 		},
 
 		/**
-		 * Delete a section from the collection
-		 * @param    {obj}   section     a model of the section
-		 * @param    {obj}   collection  the collection to remove it from
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.13.0
+		 * Section model
+		 * @type  {[type]}
 		 */
-		destroy_one: function( section, collection ) {
-			this.sort_collection( collection );
-			collection.sync_order();
-		},
+		modelView: SectionView,
 
 		/**
-		 * Initializer
-		 * Setup dom event
-		 * & fetch the starting data for the collection
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  [version]
+		 * Enable keyboard events
+		 * @type  {Bool}
 		 */
-		initialize: function() {
-
-			var self = this;
-
-			this.listenTo( this.collection, 'add', this.add_one );
-			this.listenTo( this.collection, 'destroy', this.destroy_one );
-			this.listenTo( this.collection, 'rerender', this.render );
-
-			this.collection.fetch( {
-
-				beforeSend: function() {
-
-					Backbone.pubSub.trigger( 'lock' );
-
-				},
-				success: function( res ) {
-
-					Backbone.pubSub.trigger( 'unlock' );
-					Backbone.pubSub.trigger( 'init-complete' );
-
-				},
-
-			} );
-
-		},
+		processKeyEvents: false,
 
 		/**
-		 * Render the view
-		 * @return   void
-		 * @since    3.13.0
-		 * @version  3.14.5
+		 * Are sections selectable?
+		 * @type  {Bool}
 		 */
-		render: function() {
+		selectable: true,
 
-			this.$el.children().remove();
+		/**
+		 * Are sections sortable?
+		 * @type  {Bool}
+		 */
+		sortable: true,
 
-			if ( this.collection.length ) {
-				this.collection.each( this.add_one, this );
-			}
-
-			Backbone.pubSub.trigger( 'rebind' );
-
-			return this;
-
+		sortableOptions: {
+			axis: false,
+			cursor: 'move',
+			handle: '.drag-section',
+			items: '.llms-section',
+			placeholder: 'llms-section llms-sortable-placeholder',
 		},
 
-	}, Sortable ) );
+		sortable_start: function( collection ) {
+			this.$el.addClass( 'dragging' );
+		},
+
+		sortable_stop: function( collection ) {
+			this.$el.removeClass( 'dragging' );
+		},
+
+	}, Receivable ) );
 
 } );

@@ -1,7 +1,7 @@
 /**
  * Existing Lesson Popover content View
  * @since    3.13.0
- * @version  3.14.0
+ * @version  [version]
  */
 define( [], function() {
 
@@ -17,6 +17,7 @@ define( [], function() {
 			'select2:select': 'add_lesson',
 		},
 
+
 		/**
 		 * Wrapper Tag name
 		 * @type  {String}
@@ -27,16 +28,11 @@ define( [], function() {
 		 * Select event, adds the existing lesson to the course
 		 * @param    obj   event  select2:select event object
 		 * @since    3.14.4
-		 * @version  3.14.4
+		 * @version  [version]
 		 */
 		add_lesson: function( event ) {
 
-			WebuiPopovers.hide( $( '#llms-existing-lesson' ) );
-
-			Instance.Tools.create_item( 'lesson', {
-				id: event.params.data.id,
-				title: event.params.data.title
-			} );
+			Backbone.pubSub.trigger( 'lesson-search-select', event.params.data, event );
 
 			this.$el.val( null ).trigger( 'change' );
 
@@ -72,12 +68,44 @@ define( [], function() {
 						// 	console.log( status, error );
 						// },
 					},
-					placeholder: LLMS.l10n.translate( 'Search for existing lessons...' ),
 					dropdownParent: $( '.webui-popover-inner' ),
+					// don't escape html from render_result
+					escapeMarkup: function( markup ) {
+						return markup;
+					},
+					placeholder: LLMS.l10n.translate( 'Search for existing lessons...' ),
+					templateResult: self.render_result,
 					width: '100%',
 				} );
 			}, 0 );
 			return this;
+
+		},
+
+		render_result: function( res ) {
+
+			var $html = $( '<div class="llms-existing-lesson-result" />' );
+
+			if ( res.loading ) {
+				return $html.append( res.text );
+			}
+
+			var $side = $( '<aside class="llms-existing-action" />' ),
+				$main = $( '<div class="llms-existing-info" />' );
+				icon = ( 'attach' === res.action ) ? 'paperclip' : 'clone',
+				text = ( 'attach' === res.action ) ? 'Attach' : 'Clone';
+
+			text = LLMS.l10n.translate( text );
+
+			$side.append( '<i class="fa fa-' + icon + '" aria-hidden="true"></i><small>' + text + '</small>' );
+
+			$main.append( '<h4>' + res.data.title + '</h4>' );
+			$main.append( '<h5>' + LLMS.l10n.translate( 'ID' ) + ': <em>' + res.data.id + '</em></h5>' );
+			if ( res.course_title ) {
+				$main.append( '<h5>' + LLMS.l10n.translate( 'Course' ) + ': <em>' + res.course_title + '</em></h5>' );
+			}
+
+			return $html.append( $side ).append( $main );
 
 		},
 
