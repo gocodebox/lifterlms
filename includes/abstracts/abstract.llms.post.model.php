@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.14.8
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -864,7 +864,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function toArray() {
 
@@ -885,18 +885,23 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		// expand author
 		if ( ! empty( $arr['author'] ) ) {
-			$u = new WP_User( $arr['author'] );
+			$user = new WP_User( $arr['author'] );
 			$arr['author'] = array(
-				'descrpition' => $u->description,
-				'email' => $u->user_email,
-				'first_name' => $u->first_name,
-				'id' => $u->ID,
-				'last_name' => $u->last_name,
+				'descrpition' => $user->description,
+				'email' => $user->user_email,
+				'first_name' => $user->first_name,
+				'id' => $user->ID,
+				'last_name' => $user->last_name,
 			);
 		}
 
 		// allow extending classes to add properties easily without overridding the class
 		$arr = $this->toArrayAfter( $arr );
+
+		$cpt_data = $this->get_post_type_data();
+		if ( $cpt_data->public ) {
+			$arr['permalink'] = get_permalink( $this->get( 'id' ) );
+		}
 
 		ksort( $arr ); // because i'm anal...
 
