@@ -100,6 +100,25 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 		},
 
 		/**
+		 * Override to allow manipulatino of placeholder element
+		 * @param    {[type]}   event  [description]
+		 * @param    {[type]}   ui     [description]
+		 * @return   {[type]}
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		_sortStart : function( event, ui ) {
+
+			var modelBeingSorted = this.collection.get( ui.item.attr( "data-model-cid" ) );
+
+			ui.placeholder.addClass( 'qtype--' + modelBeingSorted.get( 'question_type' ).get( 'id' ) );
+
+			if( this._isBackboneCourierAvailable() )
+				this.spawn( "sortStart", { modelBeingSorted : modelBeingSorted } );
+			else this.trigger( "sortStart", modelBeingSorted );
+		},
+
+		/**
 		 * Overloads the function from Backbone.CollectionView core because it doesn't send stop events
 		 * if moving from one sortable to another... :-(
 		 * @param    obj   event  js event object

@@ -1078,6 +1078,9 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   text-align: center;
   margin: 20px auto;
 }
+.wrap.lifterlms.llms-builder ul.llms-quiz-questions li.llms-question ul.llms-quiz-questions li.llms-question.llms-sortable-placeholder.qtype--group {
+  display: none !important;
+}
 .wrap.lifterlms.llms-builder ul.llms-quiz-questions li.llms-question .llms-builder-header:before, .wrap.lifterlms.llms-builder ul.llms-quiz-questions li.llms-question .llms-builder-header:after {
   content: " ";
   display: table;

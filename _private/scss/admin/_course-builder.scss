@@ -1106,6 +1106,9 @@ body.admin_page_llms-course-builder {
 					text-align: center;
 					margin: 20px auto;
 				}
+				li.llms-question.llms-sortable-placeholder.qtype--group {
+					display: none !important;
+				}
 			}
 
 			.llms-builder-header {
