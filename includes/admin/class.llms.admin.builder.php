@@ -549,8 +549,12 @@ class LLMS_Admin_Builder {
 				$lesson = new LLMS_Lesson( 'new', array(
 					'post_title' => isset( $lesson_data['title'] ) ? $lesson_data['title'] : __( 'New Lesson', 'lifterlms' ),
 				) );
-				// $lesson->set( 'parent_course', $course_id );
-				// $lesson->set( 'parent_section', $section->get( 'id' ) );
+
+				// if the parent section was just created the lesson will have a temp id
+				// replace it with the newly created section's real ID
+				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
+					$lesson_data['parent_section'] = $section->get( 'id' );
+				}
 
 			// update existing section
 			} else {

@@ -17,14 +17,22 @@
 
 		<div class="llms-action-icons">
 
+			<a class="llms-action-icon edit-lesson tip--top-right" data-tip="<?php esc_attr_e( 'Edit lesson', 'lifterlms' ); ?>" href="#llms-lesson-settings">
+				<span class="fa fa-cog"></span>
+			</a>
+
+			<a class="llms-action-icon edit-quiz tip--top-right" data-tip="<?php esc_attr_e( 'Edit quiz', 'lifterlms' ); ?>" href="#llms-lesson-settings">
+				<span class="fa fa-question-circle"></span>
+			</a>
+
 			<# if ( data.get_edit_post_link() ) { #>
-				<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'Edit lesson settings', 'lifterlms' ); ?>" href="{{{ data.get_edit_post_link() }}}">
+				<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'Open WordPress editor', 'lifterlms' ); ?>" href="{{{ data.get_edit_post_link() }}}" target="_blank">
 					<span class="fa fa-pencil"></span>
 				</a>
 			<# } #>
 
 			<# if ( ! data.has_temp_id() ) { #>
-				<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'View lesson', 'lifterlms' ); ?>" href="{{{ data.get( 'permalink' ) }}}">
+				<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'View lesson', 'lifterlms' ); ?>" href="{{{ data.get( 'permalink' ) }}}" target="_blank">
 					<span class="fa fa-external-link"></span>
 				</a>
 			<# } #>
