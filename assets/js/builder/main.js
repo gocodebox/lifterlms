@@ -49,87 +49,48 @@ require( [
 
 
 
+	setTimeout( function() {
+
+		$( '#llms-sections a[href="#llms-toggle"]' ).first().trigger( 'click' );
+
+		setTimeout( function() {
+
+			$( '.llms-lesson' ).first().find( '.edit-quiz' ).trigger( 'click' );
+
+			// setTimeout( function() {
+
+			// 	$( '#llms-enable-quiz' ).trigger( 'click' );
+
+			// 	setTimeout( function() {
+
+			// 		var i = 0;
+			// 		while ( i <= 5 ) {
+
+			// 			setTimeout( function() {
+
+			// 				$( '#llms-show-question-bank' ).trigger( 'click' );
+
+			// 				setTimeout( function() {
+
+			// 					var $btns = $( 'button.llms-add-question' );
+			// 					$btns.eq( _.random( 0, $btns.length - 1 ) ).trigger( 'click' );
+
+			// 				}, 100 );
+
+			// 			}, i * 150 );
+
+			// 			i++;
+
+			// 		}
+
+			// 	}, 100 );
 
 
+			// }, 500 );
 
+		}, 100 );
 
-
-
-
-
-	function add_test_sections( max ) {
-
-		var max = max || _.random( 5, 15 ),
-			i = 1;
-		while ( i <= max ) {
-
-			TehCours.add_section( {
-				title: chance.sentence( { words: _.random( 2, 6 ) } ).slice( 0, -1 ),
-				lessons: get_test_lessons(),
-			} );
-
-			i++;
-
-		}
-
-	};
-
-	function get_test_lessons() {
-		var max = max || _.random( 1, 15 ),
-			i = 1,
-			lessons = [];
-		while ( i <= max ) {
-			lessons.push( {
-				title: chance.sentence( { words: _.random( 2, 6 ) } ).slice( 0, -1 ),
-				order: i,
-			} );
-			i++;
-		}
-		return lessons;
-	}
-
-	// setTimeout( function() {
-
-	// 	$( '#llms-sections a[href="#llms-toggle"]' ).first().trigger( 'click' );
-
-	// 	setTimeout( function() {
-
-	// 		$( '.llms-lesson' ).first().find( '.llms-headline' ).trigger( 'click' );
-
-	// 		setTimeout( function() {
-
-	// 			$( '#llms-enable-quiz' ).trigger( 'click' );
-
-	// 			setTimeout( function() {
-
-	// 				var i = 0;
-	// 				while ( i <= 5 ) {
-
-	// 					setTimeout( function() {
-
-	// 						$( '#llms-show-question-bank' ).trigger( 'click' );
-
-	// 						setTimeout( function() {
-
-	// 							var $btns = $( 'button.llms-add-question' );
-	// 							$btns.eq( _.random( 0, $btns.length - 1 ) ).trigger( 'click' );
-
-	// 						}, 100 );
-
-	// 					}, i * 150 );
-
-	// 					i++;
-
-	// 				}
-
-	// 			}, 100 );
-
-
-	// 		}, 500 );
-
-	// 	}, 100 );
-
-	// }, 100 );
+	}, 100 );
 
 
 	// add_test_sections();

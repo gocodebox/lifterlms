@@ -59,7 +59,6 @@ define( [], function() {
 
 					// if the child defines a parent, save a reference to the parent on the child
 					if ( 'model' === child_data.type ) {
-
 						this._maybe_set_parent_reference( child );
 
 					// save directly to each model in the collection

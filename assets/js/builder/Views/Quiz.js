@@ -108,10 +108,6 @@ define( [
 				this.model.set_parent( this.lesson );
 			}
 
-			this.events_subscribe( {
-				'clone-question': this.clone_question,
-			} );
-
 		},
 
 		/**
@@ -155,33 +151,6 @@ define( [
 			}
 
 			return this;
-
-		},
-
-		clone_question: function( model ) {
-
-			var clone = _.clone( model.attributes );
-			delete clone.id;
-
-			clone.image = _.clone( model.get( 'image' ).attributes );
-
-			if ( model.get( 'choices' ) ) {
-
-				clone.choices = [];
-
-				model.get( 'choices' ).each( function ( choice ) {
-
-					var choice_clone = _.clone( choice.attributes );
-					delete choice_clone.id;
-					delete choice_clone.question_id;
-
-					clone.choices.push( choice_clone );
-
-				} );
-
-			}
-
-			this.model.add_question( clone );
 
 		},
 

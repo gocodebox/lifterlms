@@ -563,9 +563,9 @@
 		},
 
 		_registerCollectionEvents : function() {
+
 			this.listenTo( this.collection, "add", function( model ) {
 				var modelView;
-
 				if( this._hasBeenRendered ) {
 					modelView = this._createNewModelView( model, this._getModelViewOptions( model ) );
 					this._insertAndRenderModelView( modelView, this._getContainerEl(), this.collection.indexOf( model ) );
@@ -748,6 +748,7 @@
 		},
 
 		_reorderCollectionBasedOnHTML : function() {
+
 			var _this = this;
 
 			this._getContainerEl().children().each( function() {

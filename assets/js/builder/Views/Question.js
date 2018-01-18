@@ -54,12 +54,10 @@ define( [
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    3.14.1
-		 * @version  3.14.1
+		 * @since    [version]
+		 * @version  [version]
 		 */
 		initialize: function() {
-
-			this.render();
 
 			var change_events = [
 				'change:order',
@@ -129,19 +127,66 @@ define( [
 			return this;
 		},
 
+		/**
+		 * rerender points percentage when question points are updated
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		render_points_percentage: function() {
 
 			this.$el.find( '.llms-question-points' ).attr( 'data-tip', this.model.get_points_percentage() );
 
 		},
 
+
 		clone: function( event ) {
 
+			event.stopPropagation();
 			event.preventDefault();
-			Backbone.pubSub.trigger( 'clone-question', this.model );
+
+			// create a duplicate
+			var clone = _.clone( this.model.attributes );
+
+			// remove id (we want the duplicate to have a temp id)
+			delete clone.id;
+
+			clone.parent_id = this.model.get( 'id' );
+
+			// set the question type ID
+			clone.question_type = this.model.get( 'question_type' ).get( 'id' );
+
+			// clone the image attributes seperately
+			clone.image = _.clone( this.model.get( 'image' ).attributes );
+
+			// if it has choices clone all the choices
+			if ( this.model.get( 'choices' ) ) {
+
+				clone.choices = [];
+
+				this.model.get( 'choices' ).each( function ( choice ) {
+
+					var choice_clone = _.clone( choice.attributes );
+					delete choice_clone.id;
+					delete choice_clone.question_id;
+
+					clone.choices.push( choice_clone );
+
+				} );
+
+			}
+
+			this.model.collection.add( clone );
 
 		},
 
+		/**
+		 * Delete the question from a quiz / question group
+		 * @param    obj   event  js event object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		delete: function( event ) {
 
 			event.preventDefault();
@@ -190,6 +235,12 @@ define( [
 
 		},
 
+		/**
+		 * Update the model's points when the value of the points input is updated
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		update_points: function() {
 
 			this.model.set( 'points', this.$el.find( 'input[name="question_points"]' ).val() * 1 );

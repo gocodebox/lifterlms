@@ -81,6 +81,8 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 		 */
 		_receive : function( event, ui ) {
 
+			event.stopPropagation();
+
 			// prevent moving a question group into a question group
 			if ( ui.item.hasClass( 'qtype--group' ) && $( event.target ).closest( '.qtype--group' ).length ) {;
 				ui.sender.sortable( 'cancel' );
