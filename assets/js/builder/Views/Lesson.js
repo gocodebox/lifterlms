@@ -31,10 +31,11 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * @type  {Object}
 		 */
 		events: _.defaults( {
-			'click .llms-headline': 'on_click',
+			'click .detach--lesson': 'detach',
+			'click .edit-lesson': 'open_lesson_editor',
+			'click .edit-quiz': 'open_quiz_editor',
 			'click .shift-up--lesson': 'shift_up',
 			'click .shift-down--lesson': 'shift_down',
-			'click .detach--lesson': 'detach',
 			'click .trash--lesson': 'trash',
 		}, Editable.events ),
 
@@ -119,19 +120,42 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 
 		},
 
-		on_click: function( event ) {
+		/**
+		 * Click event for lesson settings action icon
+		 * Opens sidebar to the lesson editor tab
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		open_lesson_editor: function() {
 
-			var $el = $( event.target );
-			if ( $el.is( '.llms-input' ) ) {
-				return;
-			}
-
-			Backbone.pubSub.trigger( 'lesson-selected', this.model );
-
+			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'lesson' );
 			this.model.set( '_selected', true );
 
 		},
 
+		/**
+		 * Click event for the quiz editor action icon
+		 * Opens sidebar to the quiz editor tab
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		open_quiz_editor: function() {
+
+			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'quiz' );
+			this.model.set( '_selected', true );
+
+		},
+
+		/**
+		 * When a lesson is selected mark it as selected in the hidden prop
+		 * Allows views to re-render and reflect current state properly
+		 * @param    obj   model  lesson model that's been selected
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		on_select: function( model ) {
 
 			if ( this.model.id !== model.id ) {

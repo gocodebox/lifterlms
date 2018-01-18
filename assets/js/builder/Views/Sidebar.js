@@ -1,5 +1,5 @@
 /**
- * Single Course View
+ * Main sidebar view
  * @since    [version]
  * @version  [version]
  */
@@ -274,7 +274,7 @@ define( [
 		 * @since    [version]
 		 * @version  [version]
 		 */
-		on_lesson_select: function( lesson_model ) {
+		on_lesson_select: function( lesson_model, tab ) {
 
 			if ( 'editor' !== this.state ) {
 				this.set_state( 'editor' );
@@ -284,6 +284,7 @@ define( [
 
 			this.render( {
 				model: lesson_model,
+				tab: tab,
 			} );
 
 		},

@@ -1,5 +1,5 @@
 /**
- * Sidebar Elements View
+ * Sidebar Editor View
  * @since    [version]
  * @version  [version]
  */
@@ -11,7 +11,7 @@ define( [ 'Views/LessonEditor', 'Views/Quiz', 'Views/_Subview' ], function( Less
 		 * Current view state
 		 * @type  {String}
 		 */
-		state: 'quiz', // [lesson|quiz]
+		state: 'lesson', // [lesson|quiz]
 
 		/**
 		 * Current Subviews
@@ -62,6 +62,9 @@ define( [ 'Views/LessonEditor', 'Views/Quiz', 'Views/_Subview' ], function( Less
 		initialize: function( data ) {
 
 			this.SidebarView = data.SidebarView;
+			if ( data.tab ) {
+				this.state = data.tab;
+			}
 
 		},
 
