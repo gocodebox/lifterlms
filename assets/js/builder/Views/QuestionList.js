@@ -48,12 +48,55 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 			placeholder: 'llms-question llms-sortable-placeholder',
 		},
 
-		sortable_start: function( collection ) {
-			$( '.llms-quiz-questions' ).addClass( 'dragging' );
+		/**
+		 * Highlight drop areas when dragging starts
+		 * @param    obj   model  model being sorted
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		sortable_start: function( model ) {
+			var selector = 'group' === model.get( 'question_type' ).get( 'id' ) ? '.llms-editor-tab > .llms-quiz-questions' : '.llms-quiz-questions';
+			$( selector ).addClass( 'dragging' );
 		},
 
-		sortable_stop: function( collection ) {
+		/**
+		 * Remove highlights when dragging stops
+		 * @param    obj   model  model being sorted
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		sortable_stop: function() {
 			$( '.llms-quiz-questions' ).removeClass( 'dragging' );
+		},
+
+		/**
+		 * Overrides receive to ensure that question groups can't be moved into queston groups
+		 * @param    obj   event  js event object
+		 * @param    obj   ui     jQuery UI Sortable ui object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		_receive : function( event, ui ) {
+
+			// prevent moving a question group into a question group
+			if ( ui.item.hasClass( 'qtype--group' ) && $( event.target ).closest( '.qtype--group' ).length ) {;
+				ui.sender.sortable( 'cancel' );
+				return;
+			}
+
+			var senderListEl = ui.sender;
+			var senderCollectionListView = senderListEl.data( "view" );
+			if( ! senderCollectionListView || ! senderCollectionListView.collection ) return;
+
+			var newIndex = this._getContainerEl().children().index( ui.item );
+			var modelReceived = senderCollectionListView.collection.get( ui.item.attr( "data-model-cid" ) );
+			senderCollectionListView.collection.remove( modelReceived );
+			this.collection.add( modelReceived, { at : newIndex } );
+			modelReceived.collection = this.collection; // otherwise will not get properly set, since modelReceived.collection might already have a value.
+			this.setSelectedModel( modelReceived );
 		},
 
 		/**

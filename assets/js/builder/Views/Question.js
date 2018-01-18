@@ -14,10 +14,14 @@ define( [
 	return Backbone.View.extend( _.defaults( {
 
 		/**
-		 * HTML class names
-		 * @type  {String}
+		 * Generate CSS classes for the question
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
 		 */
-		className: 'llms-question',
+		className: function() {
+			return 'llms-question qtype--' + this.model.get( 'question_type' ).get( 'id' );
+		},
 
 		events: _.defaults( {
 			'click .clone--question': 'clone',
