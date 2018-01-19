@@ -22,12 +22,12 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 			this.on( 'add', this.update_order );
 			this.on( 'remove', this.update_order );
 
-			// when a choice is added or remove, ensure min correct answers exist
-			this.on( 'add', this.ensure_correct );
-			this.on( 'remove', this.ensure_correct );
+			// when a choice is added or remove, ensure min/max correct answers exist
+			this.on( 'add', this.update_correct );
+			this.on( 'remove', this.update_correct );
 
-			// called from Question view to ensure min/max correct options exist
-			this.on( 'question-choices-update-correct', this.update_correct );
+			// when a choice is toggled, ensure min/max correct exist
+			this.on( 'correct-update', this.update_correct );
 
 		},
 
@@ -39,66 +39,44 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 		 */
 		count_correct: function() {
 
-			return _.size( this.filter( function( choice ) {
-				return choice.get( 'correct' );
-			} ) );
+			return _.size( this.get_correct() );
 
 		},
 
 		/**
-		 * Ensure at least one correct answer exists
-		 * Called when adding/removing choices and when toggling correct choices off
-		 * @return   void
+		 * Retrieve the collection reduced to only correct choices
+		 * @return   obj
 		 * @since    [version]
 		 * @version  [version]
 		 */
-		ensure_correct: function() {
-
-			var correct = this.filter( function( choice ) {
+		get_correct: function() {
+			return this.filter( function( choice ) {
 				return choice.get( 'correct' );
 			} );
-
-			if ( correct.length > 1 ) {
-
-				_.each( correct, function( choice, index ) {
-
-					if ( index > 0 ) {
-						choice.set( 'correct', false );
-					}
-
-				} );
-
-			} else {
-
-				this.first().set( 'correct', true );
-
-			}
-
 		},
 
 		/**
 		 * Ensure min/max correct choices exist in the collection based on the question's settings
 		 * @param    obj      choice  model of the choice that was toggled
-		 * @param    string   multi   value of the question's multi_choice attribute setting [yes|no]
 		 * @return   void
 		 * @since    [version]
 		 * @version  [version]
 		 */
-		update_correct: function( choice, multi, points ) {
+		update_correct: function( choice ) {
 
-			var siblings = this.without( choice ); // exclude the toggled choice from loops
+			var siblings = this.without( choice ), // exclude the toggled choice from loops
+				question = this.parent;
 
-			if ( 'no' === multi ) {
-
+			// if multiple choices aren't enabled turn all other choices to incorrect
+			if ( 'no' === question.get( 'multi_choices' ) ) {
 				_.each( siblings, function( model ) {
 					model.set( 'correct', false );
 				} );
-
 			}
 
 			// if we don't have a single corret answer & the question has points, set one
 			// allows users to create quizzes / questions with no points and therefore no correct answers are allowed
-			if ( 0 === this.count_correct() && points > 0 ) {
+			if ( 0 === this.count_correct() && question.get( 'points' ) > 0 ) {
 				_.first( siblings ).set( 'correct', true );
 			}
 

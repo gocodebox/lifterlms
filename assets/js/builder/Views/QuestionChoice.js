@@ -101,12 +101,8 @@ define( [ 'Views/_Editable', ], function( Editable ) {
 		del_choice: function( event ) {
 
 			event.preventDefault();
-
 			Backbone.pubSub.trigger( 'model-trashed', this.model );
-
-			var choices = this.model.collection.remove( this.model );
-			// this.model.collection.ensure_correct();
-
+			this.model.collection.remove( this.model );
 
 		},
 
@@ -120,7 +116,7 @@ define( [ 'Views/_Editable', ], function( Editable ) {
 
 			var correct = this.$el.find( 'input[name="correct"]' ).is( ':checked' );
 			this.model.set( 'correct', correct );
-			Backbone.pubSub.trigger( 'question-choice-toggle-correct', this.model, correct );
+			this.model.collection.trigger( 'correct-update', this.model );
 
 		},
 

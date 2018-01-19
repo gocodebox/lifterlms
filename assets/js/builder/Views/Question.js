@@ -77,9 +77,6 @@ define( [
 
 			Backbone.pubSub.on( 'del-question-choice', this.del_choice, this );
 
-			// called from QuestionChoice view when a choice is toggled as correct/incorrect
-			Backbone.pubSub.on( 'question-choice-toggle-correct', this.toggle_correct, this );
-
 		},
 
 		/**
@@ -240,25 +237,7 @@ define( [
 				return;
 			}
 
-			this.model.get( 'choices' ).ensure_correct();
-
-		},
-
-		/**
-		 * Bubble information to the QuestionChoices collection for this question
-		 * Ensures that at least one correct answer is selected
-		 * @param    obj   choice  model of the updated choice
-		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
-		 */
-		toggle_correct: function( choice ) {
-
-			if ( choice.get( 'question_id') != this.model.get( 'id') ) {
-				return;
-			}
-
-			this.model.get( 'choices' ).trigger( 'question-choices-update-correct', choice, this.model.get( 'multi_choices' ), this.model.get( 'points' ) );
+			this.model.get( 'choices' ).update_correct( _.first( this.model.get( 'choices' ).get_correct() ) );
 
 		},
 

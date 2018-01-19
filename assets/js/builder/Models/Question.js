@@ -105,14 +105,6 @@ define( [
 
 			}
 
-			if ( _.isEmpty( this.get( 'label' ) ) ) {
-
-				this.set( 'label', LLMS.l10n.replace( 'New %1$s Question', {
-					'%1$s': this.get( 'question_type' ).get( 'name' ),
-				} ), { silent: true } );
-
-			}
-
 			_.delay( function( self ) {
 				self.on( 'change:points', self.get_parent().update_points, self.get_parent() );
 			}, 1, this );
