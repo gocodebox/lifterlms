@@ -229,17 +229,20 @@ define( [], function() {
 						// succesfully detached, remove it from the detached collection
 						if ( ! info.error ) {
 
+							// regular ids for lessons, sections, questions
+							if ( $.isNumeric( info.id ) ) {
+								coll.remove( info.id );
+
 							// choices formatted as question_id:choice_id
-							if ( _.isNaN( parseInt( info.id ) ) ) {
+							} else {
 								var split = info.id.split( ':' );
 								coll.remove( split[1] );
-
-							// regular ids for lessons, sections, questions
-							} else {
-								coll.remove( info.id );
 							}
+
 						} else {
+
 							errors.push( info.error );
+
 						}
 
 					} );
