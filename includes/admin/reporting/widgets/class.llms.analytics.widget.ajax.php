@@ -18,6 +18,10 @@ class LLMS_Analytics_Widget_Ajax {
 			return;
 
 		}
+		
+		if( ! isset( $_REQUEST['action'] ) ) {
+			return;
+		}
 
 		$methods = array(
 
