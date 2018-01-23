@@ -85,17 +85,15 @@ $free_only = ( $has_free && ! $purchaseable );
 
 				<div class="llms-access-plan-footer">
 
-					<div class="llms-access-plan-pricing trial">
-						<?php if ( $plan->has_trial() ) : ?>
+					<?php if ( $plan->has_trial() ) : ?>
+						<div class="llms-access-plan-pricing trial">
 							<div class="llms-access-plan-price">
 								<em class="stamp"><?php _e( 'TRIAL', 'lifterlms' ); ?></em>
 								<?php echo $plan->get_price( 'trial_price' ); ?>
 							</div>
 							<div class="llms-access-plan-trial"><?php echo $plan->get_trial_details(); ?></div>
-						<?php else : ?>
-							&nbsp;
-						<?php endif; ?>
-					</div>
+						</div>
+					<?php endif; ?>
 					<?php if ( get_current_user_id() && $plan->has_free_checkout() && $plan->is_available_to_user() ) : ?>
 						<?php llms_get_template( 'product/free-enroll-form.php', array(
 							'plan' => $plan,
