@@ -27,13 +27,11 @@ $free_only = ( $has_free && ! $purchaseable );
 
 			<div class="llms-access-plan<?php echo $plan->is_featured() ? ' featured' : ''; ?><?php echo $plan->is_on_sale() ? ' on-sale' : '' ?>" id="llms-access-plan-<?php echo $plan->get( 'id' ); ?>">
 
-				<div class="llms-access-plan-featured">
-					<?php if ( $plan->is_featured() ) : ?>
+				<?php if ( $plan->is_featured() ) : ?>
+					<div class="llms-access-plan-featured">
 						<?php echo apply_filters( 'lifterlms_featured_access_plan_text', __( 'FEATURED', 'lifterlms' ), $plan ); ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
-				</div>
+					</div>
+				<?php endif; ?>
 
 				<div class="llms-access-plan-content">
 
