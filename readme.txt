@@ -350,6 +350,49 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.16.0 - 2018-01-31 =
+------------------------
+
+##### Updates
+
++ Updated Quiz post type slug from "llms_quiz" to "quiz".
++ Updated default return of `llms_get_post()` to be `false` rather than a `WP_Post` object when a LifterLMS post cannot be located
+
+
+##### Bug Fixes
+
++ Fixed a potential database read error related to database store abstract
+
+
+##### Removed templates
+
+The following quiz templates have been removed. Customization of these templates causes quiz application functionality to break and they should not have been available for customization but were due to oversights. This has been corrected.
+
++ templates/content-single-question-after.php
++ templates/content-single-question-before.php
++ templates/quiz/next-question.php
++ templates/quiz/previous-question.php
++ templates/quiz/question-count.php
++ templates/quiz/quiz-question.php
++ templates/quiz/single-choice.php
++ templates/quiz/single-choice_ajax.php
++ templates/quiz/summary.php
++ templates/quiz/timer.php
++ templates/quiz/wrapper-end.php
++ templates/quiz/wrapper-start.php
+
+##### Removed Functions
+
+Various template functions related to quizzes were removed due to the deprecation of their related templates
+
++ `lifterlms_template_quiz_timer()`
++ `lifterlms_template_single_next_question()`
++ `lifterlms_template_single_prev_question()`
++ `lifterlms_template_single_single_choice()`
++ `lifterlms_template_single_single_choice_ajax()`
++ `lifterlms_template_single_question_count()`
+
+
 = v3.15.1 - 2017-12-05 =
 ------------------------
 
