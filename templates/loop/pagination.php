@@ -1,15 +1,16 @@
 <?php
 /**
- * The Template for displaying course archive pagination
+ * LLMS Pagination Template
  * @since    1.0.0
- * @version  3.14.0
+ * @version  [version]
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $wp_query;
 if ( $wp_query->max_num_pages < 2 ) {
 	return;
 }
-
 ?>
 
 <nav class="llms-pagination">
