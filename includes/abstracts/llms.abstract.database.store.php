@@ -2,7 +2,7 @@
 /**
  * WPDB database interactions
  * @since    3.14.0
- * @version  3.14.7
+ * @version  [version]
  */
 
 // Restrict direct access
@@ -102,12 +102,12 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    boolean    $cache  if true, save data to to the object for future gets
 	 * @return   mixed
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  [version]
 	 */
 	public function get( $key, $cache = true ) {
 
 		if ( ! isset( $this->data[ $key ] ) && $this->id ) {
-			$res = $this->read( $key );
+			$res = $this->read( $key )[ $key ];
 			if ( $cache ) {
 				$this->set( $key, $res );
 			}
