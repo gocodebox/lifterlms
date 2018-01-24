@@ -9,6 +9,7 @@ require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.certificates.php';
 require 'functions/llms.functions.templates.dashboard.php';
 require 'functions/llms.functions.templates.loop.php';
+require 'functions/llms.functions.templates.quizzes.php';
 
 /**
  * Get the HTML for the Terms field displayed on reg forms
@@ -577,188 +578,13 @@ if ( ! function_exists( 'lifterlms_template_single_membership_title' ) ) {
 	}
 }
 
-/**
- * Quiz timer
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_timer' ) ) {
 
-	function lifterlms_template_quiz_timer() {
-
-		llms_get_template( 'quiz/timer.php' );
-	}
-}
-
-/**
- * Quiz: wrapper start ( quiz container )
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_wrapper_start' ) ) {
-
-	function lifterlms_template_quiz_wrapper_start() {
-
-		llms_get_template( 'quiz/quiz-wrapper-start.php' );
-	}
-}
-
-/**
- * Quiz: wrapper end ( quiz container )
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_wrapper_end' ) ) {
-
-	function lifterlms_template_quiz_wrapper_end() {
-
-		llms_get_template( 'quiz/quiz-wrapper-end.php' );
-	}
-}
-
-/**
- * Question: Wrapper for ajax loaded quiz question
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_question' ) ) {
-
-	function lifterlms_template_quiz_question() {
-
-		llms_get_template( 'quiz/quiz-question.php' );
-	}
-}
-
-/**
- * Lesson Return link Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_return_link' ) ) {
-
-	function lifterlms_template_quiz_return_link() {
-
-		llms_get_template( 'quiz/return-to-lesson.php' );
-	}
-}
-
-/**
- * Passing Percent Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_meta_info' ) ) {
-	function lifterlms_template_quiz_meta_info() {
-		llms_get_template( 'quiz/meta-information.php' );
-	}
-}
-
-/**
- * Start Button Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_start_button' ) ) {
-
-	function lifterlms_template_start_button() {
-
-		llms_get_template( 'quiz/start-button.php' );
-	}
-}
-
-/**
- * Next Question Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_single_next_question' ) ) {
-
-	function lifterlms_template_single_next_question( $args ) {
-
-		llms_get_template( 'quiz/next-question.php', $args );
-	}
-}
-
-/**
- * Prev Question Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_single_prev_question' ) ) {
-
-	function lifterlms_template_single_prev_question( $args ) {
-
-		llms_get_template( 'quiz/previous-question.php', $args );
-	}
-}
-
-/**
- * Question Count Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_single_question_count' ) ) {
-
-	function lifterlms_template_single_question_count( $args ) {
-
-		llms_get_template( 'quiz/question-count.php', $args );
-	}
-}
 
 if ( ! function_exists( 'lifterlms_get_content' ) ) {
 
 	function lifterlms_get_content( $args ) {
 
 		llms_get_template( 'content-single-question.php', $args );
-	}
-}
-
-/**
- * Single Choice Question Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_single_single_choice' ) ) {
-
-	function lifterlms_template_single_single_choice() {
-
-		llms_get_template( 'quiz/single-choice.php' );
-	}
-}
-
-/**
- * Single Choice Question Template Include AJAX
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_single_single_choice_ajax' ) ) {
-
-	function lifterlms_template_single_single_choice_ajax( $args ) {
-
-		llms_get_template( 'quiz/single-choice_ajax.php', $args );
-	}
-}
-
-/**
- * Question Wrapper Start Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_question_wrapper_start' ) ) {
-
-	function lifterlms_template_question_wrapper_start( $args ) {
-
-		llms_get_template( 'quiz/wrapper-start.php', $args );
-
-	}
-}
-
-/**
- * Question Wrapper End Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_question_wrapper_end' ) ) {
-
-	function lifterlms_template_question_wrapper_end( $args ) {
-
-		llms_get_template( 'quiz/wrapper-end.php', $args );
-	}
-}
-
-/**
- * Quiz Results Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_quiz_results' ) ) {
-	function lifterlms_template_quiz_results() {
-		llms_get_template( 'quiz/results.php' );
 	}
 }
 
@@ -793,37 +619,37 @@ function llms_setup_course_data( $post ) {
 }
 add_action( 'the_post', 'llms_setup_course_data' );
 
-/**
- * When the_post is called, put quiz data into a global.
- *
- * @param mixed $post
- * @return LLMS_Course
- */
-function llms_setup_quiz_data( $post ) {
-	if ( ! is_admin() ) {
+// /**
+//  * When the_post is called, put quiz data into a global.
+//  *
+//  * @param mixed $post
+//  * @return LLMS_Course
+//  */
+// function llms_setup_quiz_data( $post ) {
+// 	if ( ! is_admin() ) {
 
-		if ( $post->post_type == 'llms_quiz' ) {
+// 		if ( $post->post_type == 'llms_quiz' ) {
 
-			unset( $GLOBALS['quiz'] );
+// 			unset( $GLOBALS['quiz'] );
 
-			if ( is_int( $post ) ) {
-				$post = get_post( $post );
-			}
+// 			if ( is_int( $post ) ) {
+// 				$post = get_post( $post );
+// 			}
 
-			if ( empty( $post->post_type ) ) {
-				return;
-			}
+// 			if ( empty( $post->post_type ) ) {
+// 				return;
+// 			}
 
-			$GLOBALS['quiz'] = llms_get_quiz( $post );
-			$student = llms_get_student();
-			if ( isset( $_GET['attempt_key'] ) && $student ) {
-				$GLOBALS['llms_quiz_attempt'] = $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] );
-			}
-		}
-	}
+// 			$GLOBALS['quiz'] = llms_get_quiz( $post );
+// 			$student = llms_get_student();
+// 			if ( isset( $_GET['attempt_key'] ) && $student ) {
+// 				$GLOBALS['llms_quiz_attempt'] = $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] );
+// 			}
+// 		}
+// 	}
 
-}
-add_action( 'the_post', 'llms_setup_quiz_data' );
+// }
+// add_action( 'the_post', 'llms_setup_quiz_data' );
 
 /**
  * When the_post is called, put question data into a global.
