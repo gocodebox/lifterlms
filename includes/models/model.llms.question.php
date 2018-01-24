@@ -14,9 +14,11 @@ class LLMS_Question extends LLMS_Post_Model {
 	protected $model_post_type = 'question';
 
 	protected $properties = array(
+		'clarifications' => 'html',
+		'clarifications_enabled' => 'yesno',
 		'description_enabled' => 'yesno',
 		'description' => 'html',
-		// 'image' => '',
+		'image' => 'array',
 		'multi_choices' => 'yesno',
 		'points' => 'absint',
 		'question_type' => 'string',
@@ -184,6 +186,57 @@ class LLMS_Question extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve correct choices for a given question
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_correct_choice() {
+
+		$correct = false;
+
+		if ( $this->supports( 'choices' ) && $this->supports( 'grading', 'auto' ) ) {
+
+			$multi = ( 'yes' === $this->get( 'multi_choices' ) );
+			$correct = array();
+
+			foreach( $this->get_choices() as $choice ) {
+
+				if ( $choice->is_correct() ) {
+					$correct[] = $choice->get( 'id' );
+					if ( ! $multi ) {
+						break;
+					}
+				}
+
+			}
+
+			// always sort multi choices for easy auto comparison
+			if ( $multi ) {
+				sort( $correct );
+			}
+
+		}
+
+		return $correct;
+
+	}
+
+	public function get_html( $attempt_data = null ) {
+
+		$type = $this->get( 'question_type' );
+		$template = apply_filters( 'llms_get_' . $type . '_question_template', 'quiz/questions/content-' . $type, $this );
+
+		ob_start();
+		llms_get_template( $template . '.php', array(
+			'question' => $this,
+			'attempt' => $attempt_data,
+		) );
+		return ob_get_clean();
+
+	}
+
+	/**
 	 * Retrieve child questions (for question group)
 	 * @todo     need to prevent access for non-group questions...
 	 * @return   array
@@ -203,6 +256,33 @@ class LLMS_Question extends LLMS_Post_Model {
 	private function get_choice_cache_key() {
 
 		return sprintf( 'question_%d_choices', $this->get( 'id' ) );
+
+	}
+
+	/**
+	 * Retrieve URL for an image associated with the question if it's enabled
+	 * @param    string|array   $size  registered image size or a numeric array with width/height
+	 * @return   string                empty string if no image or not supported
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_image( $size = 'full', $unused = null ) {
+
+		$url = '';
+
+		if ( $this->has_image() ) {
+			$img = $this->get( 'image' );
+			if ( isset( $img['id'] ) && is_numeric( $img['id'] ) ) {
+				$src = wp_get_attachment_image_src( $img['id'], $size );
+				if ( $src ) {
+					$url = $src[0];
+				} elseif ( isset( $img['src'] ) ) {
+					$url = $img['src'];
+				}
+			}
+		}
+
+		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_video', $url, $this );
 
 	}
 
@@ -235,7 +315,94 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @version  [version]
 	 */
 	public function get_quiz() {
-		return new LLMS_Quiz( $this->get( 'quiz_id' ) );
+		return new LLMS_Quiz( $this->get( 'parent_id' ) );
+	}
+
+	/**
+	 * Retrieve video embed for question featured video
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_video() {
+
+		$html = '';
+		$embed = $this->get( 'video_src' );
+
+		if ( $embed ) {
+
+			// get oembed
+			$html = wp_oembed_get( $embed );
+
+			// fallback to video shortcode
+			if ( ! $html ) {
+				$html = do_shortcode( '[video src="' . $embed . '"]' );
+			}
+
+		}
+
+		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_video', $html, $embed, $this );
+
+	}
+
+	/**
+	 * Attempt to grade a question
+	 * @param    array     $answer  selected answer(s)
+	 * @return   mixed     yes = correct
+	 *                     no  = incorrect
+	 *                     null = not auto gradeable
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function grade( $answer ) {
+
+		$grade = null;
+
+		if ( $this->supports( 'choices' ) && $this->supports( 'grading', 'auto' ) ) {
+
+			sort( $answer );
+			$grade = ( $answer === $this->get_correct_choice() ) ? 'yes' : 'no';
+
+		}
+
+		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_grade', $grade, $answer, $this );
+
+	}
+
+	/**
+	 * Determine if a description is enabled and not empty
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_description() {
+		return ( 'yes' === $this->get( 'description_enabled' ) && ! empty( $this->get( 'content' ) ) );
+	}
+
+	/**
+	 * Determine if a featured image is enabled and not empty
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_image() {
+		$img = $this->get( 'image' );
+		if ( is_array( $img ) ) {
+			if ( ! empty( $img['enabled'] ) && ( ! empty( $img['id'] ) || ! empty( $img['src'] ) ) ) {
+				return ( 'yes' === $img['enabled'] );
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Determine if a featured video is enabled & not empty
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_video() {
+		return ( 'yes' === $this->get( 'video_enabled' ) && ! empty( $this->get( 'video_src' ) ) );
 	}
 
 	/**
@@ -252,18 +419,22 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Determine if the question supports a question feature
 	 * @param    string     $feature  name of the feature (eg "choices")
+	 * @param    mixed      $option   allow matching feauture options
 	 * @return   boolean
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function supports( $feature ) {
+	public function supports( $feature, $option = null ) {
 
 		$ret = false;
 
 		$type = $this->get_question_type();
+		llms_log( $type );
 		if ( $type ) {
 			if ( 'choices' === $feature ) {
 				$ret = ( ! empty( $type['choices'] ) );
+			} elseif ( 'grading' === $feature ) {
+				$ret = ( $type['grading'] && $option === $type['grading'] );
 			} elseif ( 'points' === $feature ) {
 				$ret = $type['points'];
 			}
@@ -274,11 +445,11 @@ class LLMS_Question extends LLMS_Post_Model {
 		 * @param    boolean   $ret      return value
 		 * @param    string    $string   name of the feature being checked (eg "choices")
 		 * @param    obj       $this     instance of the LLMS_Question
-		 * @usage    apply_filters( 'llms_choice_question_supports', function( $ret, $feature, $question ) {
+		 * @usage    apply_filters( 'llms_choice_question_supports', function( $ret, $feature, $option, $question ) {
 		 *           	return $ret;
-		 *           }, 10, 3 );
+		 *           }, 10, 4 );
 		 */
-		return apply_filter( 'llms_' . $this->get( 'question_type' ) . '_question_supports', $ret, $feature, $this );
+		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_supports', $ret, $feature, $option, $this );
 
 	}
 

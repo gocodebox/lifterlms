@@ -103,19 +103,55 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Retrieve quiz attempts
+	 * @param    int     $quiz_id  WP Post ID of the quiz
+	 * @param    array   $args     additional args to pass to LLMS_Query_Quiz_Attempt
+	 * @return   array             array of LLMS_Quiz_Attempts
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_attempts_by_quiz( $quiz_id, $args = array() ) {
+
+		$args = wp_parse_args( array(
+			'student_id' => $this->get_id(),
+			'quiz_id' => $quiz_id,
+		), $args );
+
+		$query = new LLMS_Query_Quiz_Attempt( $args );
+
+		if ( $query->has_results() ) {
+			return $query->get_attempts();
+		}
+
+		return array();
+
+	}
+
+	/**
+	 * Retrieve an attempt by attempt id
+	 * @param    int     $attempt_id  Attempt ID
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_attempt_by_id( $attempt_id ) {
+		return new LLMS_Quiz_Attempt( $attempt_id );
+	}
+
+	/**
 	 * Decodes an attempt string and returns the associated attempt
 	 * @param    string     $attempt_key  encoded attempt key
 	 * @return   obj|false
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	public function get_attempt_by_key( $attempt_key ) {
 
-		$parsed = $this->parse_attempt_key( $attempt_key );
-		if ( ! $parsed ) {
+		$id = $this->parse_attempt_key( $attempt_key );
+		if ( ! $id ) {
 			return false;
 		}
-		return $this->get_attempt( $parsed['quiz_id'], $parsed['lesson_id'], $parsed['attempt'] );
+		return $this->get_attempt_by_id( $id );
 
 	}
 
@@ -128,11 +164,14 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 */
 	public function get_sibling_attempts_by_key( $attempt_key ) {
 
-		$parsed = $this->parse_attempt_key( $attempt_key );
-		if ( ! $parsed ) {
+		$id = $this->parse_attempt_key( $attempt_key );
+		if ( ! $id ) {
 			return false;
 		}
-		return $this->get_all( $parsed['quiz_id'], $parsed['lesson_id'] );
+
+		var_dump( $id );
+
+		// return $this->get_all( $parsed['quiz_id'], $parsed['lesson_id'] );
 
 	}
 
@@ -215,20 +254,20 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve the last recorded attempt for a student for a given quiz/lesson
 	 * "Last" is defined as the attempt with the highest attempt number
-	 * @param    int     $quiz    WP Post ID of the quiz
-	 * @param    int     $lesson  WP Post ID of the lesson
+	 * @param    int     $quiz_id    WP Post ID of the quiz
 	 * @return   obj|false
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
-	public function get_last_attempt( $quiz, $lesson ) {
+	public function get_last_attempt( $quiz_id ) {
 
-		$attempts = $this->get_all( $quiz, $lesson );
+		$attempts = $this->get_attempts_by_quiz( $quiz_id, array(
+			'per_page' => 1,
+			'sort' => array( 'attempt' => 'DESC' ),
+		) );
 
 		if ( $attempts ) {
-			$numbers = wp_list_pluck( $attempts, 'attempt' );
-			$last = max( $numbers );
-			return $this->get_attempt( $quiz, $lesson, $last );
+			return $attempts[0];
 		}
 
 		return false;
@@ -262,21 +301,24 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    string     $attempt_key  an encoded attempt key
 	 * @return   array|false
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	private function parse_attempt_key( $attempt_key ) {
 
-		$parsed = explode( '|', base64_decode( $attempt_key ) );
+		$hashids = new Hashids\Hashids( 'OwxbRhk6uyGb08wggj7K648Tdmsd4FDW' );
+		return $hashids->decode( $attempt_key )[0];
 
-		if ( 3 !== count( $parsed ) ) {
-			return false;
-		}
+		// $parsed = explode( '|', base64_decode( $attempt_key ) );
 
-		return array(
-			'attempt' => $parsed[2],
-			'lesson_id' => $parsed[1],
-			'quiz_id' => $parsed[0],
-		);
+		// if ( 3 !== count( $parsed ) ) {
+		// 	return false;
+		// }
+
+		// return array(
+		// 	'attempt' => $parsed[2],
+		// 	'lesson_id' => $parsed[1],
+		// 	'quiz_id' => $parsed[0],
+		// );
 
 	}
 

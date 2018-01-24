@@ -25,16 +25,152 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 		'lesson_id' => 'absint',
 
-		// 'allowed_attempts' => 'int',
-		// 'passing_percent' => 'float',
+		'allowed_attempts' => 'int',
+		'limit_attempts' => 'yesno',
+		'limit_time' => 'yesno',
+		'passing_percent' => 'float',
+
 		// 'random_answers' => 'yesno',
-		// 'random_questions' => 'yesno',
-		// 'show_correct_answer' => 'yesno',
+		'random_questions' => 'yesno',
+		'show_correct_answer' => 'yesno',
 		// 'show_options_description_right_answer' => 'yesno',
 		// 'show_options_description_wrong_answer' => 'yesno',
 		// 'show_results' => 'yesno',
-		// 'time_limit' => 'int',
+		'time_limit' => 'int',
 	);
+
+	/**
+	 * Retrieve LLMS_Lesson for the quiz's parent lesson
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_lesson() {
+		if ( 'llms_quiz' === get_post_type( $this->get( 'lesson_id' ) ) ) {
+			llms_log( $this->get( 'id' ) );
+		}
+		return llms_get_post( $this->get( 'lesson_id' ) );
+	}
+
+	/**
+	 * Retrieve the quizzes child questions
+	 * @param    string  $return  type of return [ids|posts|questions]
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_questions( $return = 'questions' ) {
+		return $this->questions()->get_questions( $return );
+	}
+
+	/**
+	 * Get remaining quiz attempts
+	 * @param   int   $user_id   WP_User ID, if not supplied uses current user
+	 * @return  int
+	 * @since   1.0.0
+	 * @version [version]
+	 */
+	public function get_remaining_attempts_by_user( $user_id = null ) {
+
+		if ( ! $this->has_attempt_limit() ) {
+			return _x( 'Unlimited', 'quiz attempts remaining', 'lifterlms' );
+		}
+
+		$allowed = $this->get( 'allowed_attempts' );
+		$used = $this->get_total_attempts_by_user( $user_id );
+
+		// ensure undefined, null, '', etc.. show as an int
+		if ( ! $allowed ) {
+			$allowed = 0;
+		}
+
+		$remaining = ( $allowed - $used );
+
+		// don't show negative attmepts
+		return max( 0, $remaining );
+
+	}
+
+	/**
+	 * Retrieve the time limit formatted as a human readable string
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_time_limit_string() {
+
+		return LLMS_Date::convert_to_hours_minutes_string( $this->get( 'time_limit' ) );
+
+	}
+
+	/**
+	 * Get total attempts by user
+	 * @param    int   $user_id  a WP_User ID, if not supplied uses current user
+	 * @return   int
+	 * @since    1.0.0
+	 * @version  [version]
+	 */
+	public function get_total_attempts_by_user( $user_id = null ) {
+
+		$student = llms_get_student( $user_id );
+		if ( ! $student ) {
+			return 0;
+		}
+
+		$attempts = $student->quizzes()->get_all( $this->get( 'id' ) );
+		foreach ( $attempts as $key => $attempt ) {
+			$attempt = new LLMS_Quiz_Attempt( $attempt );
+			if ( $attempt->get( 'current' ) ) {
+				unset( $attempts[ $key ] );
+			}
+		}
+
+		return count( $attempts );
+
+	}
+
+	/**
+	 * Determine if the quiz defines limited attempts
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_attempt_limit() {
+		return ( 'yes' === $this->get( 'limit_attempts' ) );
+	}
+
+	/**
+	 * Determine if a time limit is enabled for the quiz
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_time_limit() {
+		return ( 'yes' === $this->get( 'limit_time' ) );
+	}
+
+
+	/**
+	 * Determine if a student can take the quiz
+	 * @param    int      $user_id   WP User ID, none supplied uses current user
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  [version]
+	 */
+	public function is_open( $user_id = null ) {
+
+		$remaining = $this->get_remaining_attempts_by_user( $user_id );
+
+		// string for "unlimited" or number of attempts
+		if ( ! is_numeric( $remaining ) || $remaining > 0 ) {
+
+			return true;
+
+		}
+
+		return false;
+
+	}
 
 	/**
 	 * Retrieve an instance of the question manager for the quiz
@@ -44,16 +180,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 */
 	public function questions() {
 		return new LLMS_Question_Manager( $this );
-	}
-
-	/**
-	 * Retrieve the quizzes child questions
-	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function get_questions() {
-		return $this->questions()->get_questions();
 	}
 
 	/**
@@ -75,10 +201,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		return $arr;
 
 	}
-
-
-
-
 
 
 
@@ -155,5 +277,54 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	}
 
+
+	/*
+		       /$$                                                               /$$                     /$$
+		      | $$                                                              | $$                    | $$
+		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
+		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
+		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
+		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
+		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
+		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
+		                    | $$
+		                    | $$
+		                    |__/
+	*/
+
+	/**
+	 * Retrieve the configured time limit
+	 * @return      int
+	 * @since       1.0.0
+	 * @version     [version]
+	 * @deprecated  [version]
+	 */
+	public function get_time_limit() {
+		llms_deprecated_function( 'LLMS_Quiz::get_time_limit()', '3.16.0', 'LLMS_Quiz::get( "time_limit" )' );
+		return $this->get( 'time_limit' );
+	}
+
+	/**
+	 * Retrieve the configured time limit
+	 * @return      int
+	 * @since       1.0.0
+	 * @version     [version]
+	 * @deprecated  [version]
+	 */
+	public function get_total_allowed_attempts() {
+		llms_deprecated_function( 'LLMS_Quiz::get_total_allowed_attempts()', '3.16.0', 'LLMS_Quiz::get( "allowed_attempts" )' );
+		return $this->get( 'allowed_attempts' );
+	}
+
+	public function get_passing_percent() {
+		// deprecate
+		return $this->get( 'passing_percent' );
+
+	}
+
+	public function get_assoc_lesson() {
+		// deprecate
+		return $this->get( 'lesson_id' );
+	}
 
 }

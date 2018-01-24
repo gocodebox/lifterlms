@@ -97,6 +97,36 @@ class LLMS_Question_Choice {
 	}
 
 	/**
+	 * Generic choice getter which automatically uses correct functions based on choice type
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_choice() {
+		if ( 'image' === $this->get( 'choice_type' ) ) {
+			return $this->get_image();
+		}
+		return $this->get( 'choice' );
+	}
+
+	/**
+	 * Retrieve an image for picture choices
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_image() {
+		if ( 'image' !== $this->get( 'choice_type' ) ) {
+			return '';
+		}
+		$img = $this->get( 'choice' );
+		if ( is_array( $img ) && isset( $img['id'] ) ) {
+			return wp_get_attachment_image( $img['id'], 'full' );
+		}
+		return '';
+	}
+
+	/**
 	 * Retrieve all of the choice data as an array
 	 * @return   array
 	 * @since    [version]
@@ -140,6 +170,16 @@ class LLMS_Question_Choice {
 	}
 
 	/**
+	 * Determine if the choice is correct
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_correct() {
+		return filter_var( $this->get( 'correct' ), FILTER_VALIDATE_BOOLEAN );
+	}
+
+	/**
 	 * Save $this->data to the postmeta table
 	 * @return   void
 	 * @since    [version]
@@ -172,7 +212,7 @@ class LLMS_Question_Choice {
 		switch ( $key ) {
 
 			case 'choice_type':
-				if ( ! in_array( $val, array( 'text', 'picture' ) ) ) {
+				if ( ! in_array( $val, array( 'text', 'image' ) ) ) {
 					$val = 'text';
 				}
 			break;
