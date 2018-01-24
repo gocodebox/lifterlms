@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Abstract Database Query
  * @since    3.8.0
- * @version  3.15.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Database_Query {
 
 	/**
@@ -181,6 +180,16 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
+	 * Determine if the query has at least one result
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_results() {
+		return ( $this->number_results > 0 );
+	}
+
+	/**
 	 * Determine if we're on the first page of results
 	 * @return   boolean
 	 * @since    3.8.0
@@ -241,7 +250,7 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Sanitize input to ensure an array of absints
 	 * @param    mixed     $ids  String/Int or array of strings/ints
-	 * @return   [type]
+	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
@@ -316,6 +325,21 @@ abstract class LLMS_Database_Query {
 
 		}
 
+	}
+
+	/**
+	 * Retrieve the prepared SQL for the LIMIT clause
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function sql_limit() {
+
+		global $wpdb;
+
+		$sql = $wpdb->prepare( 'LIMIT %d, %d', $this->get_skip(), $this->get( 'per_page' ) );
+
+		return apply_filters( $this->get_filter( 'limit' ), $sql, $this );
 	}
 
 	/**
