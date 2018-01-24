@@ -19,8 +19,8 @@ if ( $wp_query->max_num_pages < 2 ) {
 	'total'        => $wp_query->max_num_pages,
 	'current'      => max( 1, get_query_var( 'paged' ) ),
 	'prev_next'    => true,
-	'prev_text'    => '«' . __( 'Previous', 'lifterlms' ),
-	'next_text'    => __( 'Next', 'lifterlms' ) . '»',
+	'prev_text'    => '« ' . __( 'Previous', 'lifterlms' ),
+	'next_text'    => __( 'Next', 'lifterlms' ) . ' »',
 	'type'         => 'list',
 ) ); ?>
 </nav>
