@@ -4,6 +4,16 @@ LifterLMS Changelog
 v3.16.0 - 2018-01-31
 --------------------
 
+##### Updates
+
++ Updated Quiz post type slug from "llms_quiz" to "quiz".
+
+
+##### Bug Fixes
+
++ Fixed a potential database read error related to database store abstract
+
+
 ##### Removed templates
 
 The following quiz templates have been removed. Customization of these templates causes quiz application functionality to break and they should not have been available for customization but were due to oversights. This has been corrected.

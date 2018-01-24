@@ -2,7 +2,7 @@
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  3.13.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -160,7 +160,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Post Types
 	 * @since    1.0.0
-	 * @version  3.14.8
+	 * @version  [version]
 	 */
 	public static function register_post_types() {
 
@@ -306,7 +306,7 @@ class LLMS_Post_Types {
 			'show_in_menu' => 'edit.php?post_type=course',
 			'hierarchical' => false,
 			'rewrite' => array(
-				'slug' => _x( 'llms_quiz', 'quiz url slug', 'lifterlms' ),
+				'slug' => _x( 'quiz', 'quiz url slug', 'lifterlms' ),
 				'with_front' => false,
 				'feeds' => true,
 			),
