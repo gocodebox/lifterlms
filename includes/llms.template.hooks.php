@@ -2,7 +2,7 @@
 /**
 * LifterLMS Template Actions
 * @since    1.0.0
-* @version  3.14.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -97,24 +97,28 @@ add_action( 'lifterlms_email_footer', 'llms_email_footer', 10 );
  * Quizzes
  *
  ***********************************************************************/
-add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_timer',         5 );
 add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_wrapper_start', 5 );
 add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_return_link',   10 );
 add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_results',       15 );
+	add_action( 'llms_single_quiz_attempt_results', 'lifterlms_template_quiz_attempt_results', 10 );
 add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_meta_info',     25 );
 
 add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_quiz_wrapper_end',    5 );
 add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_start_button',        10 );
-add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_quiz_question',       15 );
 
-// Before Question Summary
+
+/***********************************************************************
+ *
+ * Questions
+ *
+ ***********************************************************************/
 add_action( 'lifterlms_single_question_before_summary', 'lifterlms_template_question_wrapper_start', 10 );
-add_action( 'lifterlms_single_question_before_summary', 'lifterlms_template_single_question_count', 10 );
 
-// After Question Summary
-add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_single_choice_ajax', 10 );
-add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_prev_question', 10 );
-add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_single_next_question', 10 );
+add_action( 'lifterlms_single_question_content', 'lifterlms_template_question_description', 10 );
+add_action( 'lifterlms_single_question_content', 'lifterlms_template_question_image', 20 );
+add_action( 'lifterlms_single_question_content', 'lifterlms_template_question_video', 30 );
+add_action( 'lifterlms_single_question_content', 'lifterlms_template_question_content', 40 );
+
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_question_wrapper_end', 10 );
 
 
