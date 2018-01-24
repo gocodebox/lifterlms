@@ -49,28 +49,6 @@ class LLMS_Quiz_Legacy {
 
 	}
 
-	/**
-	 * Determine if a student can take the quiz
-	 * @param    int      $user_id   WP User ID
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function is_open( $user_id ) {
-
-		$remaining = $this->get_remaining_attempts_by_user( $user_id );
-
-		// string for "unlimited" or number of attempts
-		if ( ! is_numeric( $remaining ) || $remaining > 0 ) {
-
-			return true;
-
-		}
-
-		return false;
-
-	}
-
 
 	/**
 	* __isset function
