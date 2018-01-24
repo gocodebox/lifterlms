@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.15.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -497,7 +497,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @return   obj|array           WP_Error on error or array containing html template of the first question
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	public static function quiz_start( $request ) {
 
@@ -534,13 +534,18 @@ class LLMS_AJAX_Handler {
 		$attempt->start();
 		$html = llms_get_template_ajax( 'content-single-question.php', array(
 			'attempt' => $attempt,
-			'quiz_id' => $attempt->get( 'quiz_id' ),
-			'question_id' => $question_id,
+			'question' => llms_get_post( $question_id ),
 		) );
 
+		$quiz = $attempt->get_quiz();
+		$limit = $quiz->has_attempt_limit() ? $quiz->get( 'time_limit' ) : false;
+
 		return array(
+			'attempt_key' => $attempt->get_key(),
 			'html' => $html,
+			'time_limit' => $limit,
 			'question_id' => $question_id,
+			'total' => $attempt->get_count( 'questions' ),
 		);
 
 	}
@@ -550,7 +555,7 @@ class LLMS_AJAX_Handler {
 	 * @param    [type]     $request  [description]
 	 * @return   [type]               [description]
 	 * @since    3.9.0
-	 * @version  3.14.9
+	 * @version  [version]
 	 */
 	public static function quiz_answer_question( $request ) {
 
@@ -562,7 +567,7 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
-		$required = array( 'quiz_id', 'question_id', 'question_type', 'answer' );
+		$required = array( 'attempt_key', 'question_id', 'question_type' );
 		foreach ( $required as $key ) {
 			if ( ! isset( $request[ $key ] ) ) {
 				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
@@ -570,11 +575,12 @@ class LLMS_AJAX_Handler {
 			}
 		}
 
-		$quiz_id = absint( $request['quiz_id'] );
+		// $quiz_id = absint( $request['quiz_id'] );
+		$attempt_key = sanitize_text_field( $request['attempt_key'] );
 		$question_id = absint( $request['question_id'] );
-		$answer = sanitize_text_field( $request['answer'] );
+		$answer = isset( $request['answer'] ) ? array_map( 'sanitize_text_field', $request['answer'] ) : array();
 
-		$attempt = $student->quizzes()->get_current_attempt( $quiz_id );
+		$attempt = $student->quizzes()->get_attempt_by_key( $attempt_key );
 		if ( ! $attempt ) {
 			$err->add( 500, __( 'There was an error recording your answer the quiz. Please return to the lesson and begin again.', 'lifterlms' ) );
 			return $err;
@@ -591,8 +597,7 @@ class LLMS_AJAX_Handler {
 
 			$html = llms_get_template_ajax( 'content-single-question.php', array(
 				'attempt' => $attempt,
-				'quiz_id' => $attempt->get( 'quiz_id' ),
-				'question_id' => $question_id,
+				'question' => llms_get_post( $question_id ),
 			) );
 
 			return array(
@@ -614,7 +619,7 @@ class LLMS_AJAX_Handler {
 	 * @param    [type]     $attempt  [description]
 	 * @return   array
 	 * @since    3.9.0
-	 * @version  3.12.1
+	 * @version  [version]
 	 */
 	public static function quiz_end( $request, $attempt = null ) {
 
@@ -628,14 +633,12 @@ class LLMS_AJAX_Handler {
 				return $err;
 			}
 
-			if ( ! isset( $request['quiz_id'] ) ) {
+			if ( ! isset( $request['attempt_key'] ) ) {
 				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
 				return $err;
 			}
 
-			$quiz_id = absint( $request['quiz_id'] );
-
-			$attempt = $student->quizzes()->get_current_attempt( $quiz_id );
+			$attempt = $student->quizzes()->get_attempt_by_key( sanitize_text_field( $request['attempt_key'] ) );
 
 		}
 
