@@ -2,7 +2,7 @@
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.14.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -129,7 +129,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.14.0
+	 * @version [version]
 	 */
 	public static function enqueue_scripts() {
 
@@ -166,12 +166,15 @@ class LLMS_Frontend_Assets {
 		}
 
 		wp_enqueue_script( 'llms-ajax', plugins_url( '/assets/js/llms-ajax' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
-		//wp_enqueue_script( 'llms-quiz', plugins_url(  '/assets/js/llms-quiz' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array('jquery'), '', TRUE);
 		wp_enqueue_script( 'llms-form-checkout', plugins_url( '/assets/js/llms-form-checkout' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
 		if ( ( is_llms_account_page() || is_llms_checkout() ) && 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
 			wp_enqueue_script( 'password-strength-meter' );
 			self::enqueue_inline_pw_script();
+		}
+
+		if ( is_singular( 'llms_quiz' ) ) {
+			wp_enqueue_script( 'llms-quiz', plugins_url(  '/assets/js/llms-quiz' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms' ), LLMS()->version, true );
 		}
 
 		wp_register_script( 'llms-iziModal', plugins_url( 'assets/vendor/izimodal/iziModal.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '1.5.1', true );
