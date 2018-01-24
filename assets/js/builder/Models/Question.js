@@ -59,7 +59,7 @@ define( [
 			}
 		},
 
-		defaults: function() {
+		defaults: function( defaults ) {
 			return {
 				id: _.uniqueId( 'temp_' ),
 				choices: [],
@@ -76,6 +76,8 @@ define( [
 				type: 'question',
 				video_enabled: 'no',
 				video_src: '',
+
+				_expanded: false,
 			}
 		},
 
@@ -103,6 +105,11 @@ define( [
 					}, 0 );
 				} );
 
+			}
+
+			// ensure question types that don't support points don't record default 1 point in database
+			if ( ! this.get( 'question_type' ).get( 'points' ) ) {
+				this.set( 'points', 0 );
 			}
 
 			_.delay( function( self ) {
@@ -275,9 +282,15 @@ define( [
 
 		},
 
+		/**
+		 * Retrieve the questions percentage value within the quiz
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_points_percentage: function() {
 
-			var total = this.get_parent().get( 'points' ),
+			var total = this.get_parent().get( '_points' ),
 				points = this.get( 'points' );
 
 			if ( 0 === total ) {

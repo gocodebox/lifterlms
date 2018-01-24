@@ -14,5 +14,9 @@ define( [], function() {
 			src: '',
 		},
 
+		initialize: function() {
+			this.startTracking();
+		},
+
 	} );
 } );

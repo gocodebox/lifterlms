@@ -53,15 +53,17 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 
 				// editable fields
 				content: '',
-				allowed_attempts: -1,
+				allowed_attempts: 5,
+				limit_attempts: 'no',
+				limit_time: 'no',
 				passing_percent: 65,
 				random_answers: 'no',
-				time_limit: -1,
+				time_limit: 30,
 
 				questions: [],
 
 				// calculated
-				points: 0,
+				_points: 0,
 
 			};
 
@@ -81,7 +83,7 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 			this.listenTo( this.get( 'questions' ), 'add', this.update_points );
 			this.listenTo( this.get( 'questions' ), 'remove', this.update_points );
 
-			this.set( 'points', this.get_total_points() );
+			this.set( '_points', this.get_total_points() );
 
 		},
 
@@ -115,7 +117,7 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 
 		update_points: function() {
 
-			this.set( 'points', this.get_total_points() );
+			this.set( '_points', this.get_total_points() );
 
 		},
 

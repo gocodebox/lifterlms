@@ -60,6 +60,7 @@ define( [
 		events: _.defaults( {
 			'click #llms-enable-quiz': 'enable_quiz',
 			'click #llms-show-question-bank': 'show_tools',
+			'click .bulk-toggle': 'bulk_toggle',
 			// 'keyup #llms-question-bank-filter': 'filter_question_types',
 			// 'search #llms-question-bank-filter': 'filter_question_types',
 		}, Editable.events ),
@@ -147,10 +148,31 @@ define( [
 				list.on( 'sortStart', list.sortable_start );
 				list.on( 'sortStop', list.sortable_stop );
 
+				this.model.on( 'new-question-added', function() {
+					var $questions = this.$el.find( '#llms-quiz-questions' );
+					$questions.animate( { scrollTop: $questions.prop( 'scrollHeight' ) }, 200 );
+				}, this );
 
 			}
 
 			return this;
+
+		},
+
+		/**
+		 * Bulk expand / collapse question buttons
+		 * @param    obj   event  js event object
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		bulk_toggle: function( event ) {
+
+			var expanded = ( 'expand' === $( event.target ).attr( 'data-action' ) );
+
+			this.model.get( 'questions' ).each( function( question ) {
+				question.set( '_expanded', expanded );
+			} );
 
 		},
 
@@ -189,8 +211,16 @@ define( [
 
 		// }, 300 ),
 
+		/**
+		 * "Add Question" button click event
+		 * Creates a popover with question type list interface
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		show_tools: function() {
 
+			// create popover
 			var pop = new Popover( {
 				el: '#llms-show-question-bank',
 				args: {
@@ -198,14 +228,17 @@ define( [
 					closeable: true,
 					container: '#llms-builder-sidebar',
 					dismissible: true,
-					placement: 'vertical',
+					placement: 'top-left',
 					width: 'calc( 100% - 40px )',
 					title: LLMS.l10n.translate( 'Add a Question' ),
 					url: '#llms-quiz-tools',
 				}
 			} );
 
+			// show it
 			pop.show();
+
+			// if a question is added, hide the popover
 			this.model.on( 'new-question-added', function() {
 				pop.hide();
 			} );

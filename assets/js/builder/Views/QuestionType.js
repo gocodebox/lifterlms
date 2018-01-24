@@ -70,6 +70,7 @@ define( [ ], function() {
 		add_question: function() {
 
 			this.quiz.add_question( {
+				_expanded: true,
 				choices: this.model.get( 'default_choices' ) ? this.model.get( 'default_choices' ) : null,
 				question_type: this.model,
 			} );

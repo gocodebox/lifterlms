@@ -37,6 +37,10 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 
 		get_content: function( $el ) {
 
+			if ( 'INPUT' === $el[0].tagName ) {
+				return $el.val();
+			}
+
 			if ( ! $el.attr( 'data-formatting' ) ) {
 				return $el.text();
 			}
@@ -131,7 +135,6 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 			var self = this,
 				$el = $( event.target ),
 				changed = this.has_changed( event );
-
 			this.hide_formatting_toolbar( $el );
 
 			if ( changed ) {
@@ -265,7 +268,6 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 
 			var $el = $( event.target ),
 				val = this.get_content( $el );
-
 			this.model.set( $el.attr( 'data-attribute' ), val );
 
 		},
@@ -331,24 +333,50 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 
 		},
 
-		init_editor: function( id ) {
+		/**
+		 * Initializes a WP Editor on a textarea
+		 * @param    string   id        CSS ID of the editor (don't include #)
+		 * @param    obj      settings  optional object of settings to pass to wp.editor.initialize()
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		init_editor: function( id, settings ) {
+
+			settings = settings || {};
 
 			wp.editor.remove( id );
 
 			wp.editor.initialize( id, $.extend( true, wp.editor.getDefaultSettings(), {
 				mediaButtons: true,
 				tinymce: {
-					toolbar1: 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink,wp_more,spellchecker,wp_fullscreen,wp_adv',
+					toolbar1: 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink,wp_adv',
 					toolbar2: 'formatselect,underline,alignjustify,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help',
 					setup: _.bind( this.on_editor_ready, this ),
 				}
-			} ) );
+			}, settings ) );
 
 		},
 
+		/**
+		 * Callback function called after initialization of an editor
+		 * Updates UI if a label is present
+		 * Binds a change event to ensure editor changes are saved to the model
+		 * @param    obj   editor  wp.editor instance
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		on_editor_ready: function( editor ) {
 
-			var self = this;
+			var self = this,
+				$ed = $( '#' + editor.id ),
+				$parent = $ed.closest( '.llms-editable-editor' ),
+				$label = $parent.find( '.llms-label' );
+
+			if ( $label.length ) {
+				$label.prependTo( $parent.find( '.wp-editor-tools' ) );
+			}
 
 			// save changes to the model
 			editor.on( 'change', function( event ) {

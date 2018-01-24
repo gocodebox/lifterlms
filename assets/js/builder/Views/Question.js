@@ -26,6 +26,8 @@ define( [
 		events: _.defaults( {
 			'click .clone--question': 'clone',
 			'click .delete--question': 'delete',
+			'click .expand--question': 'expand',
+			'click .collapse--question': 'collapse',
 			'change input[name="question_points"]': 'update_points',
 		}, Editable.events ),
 
@@ -60,8 +62,10 @@ define( [
 		initialize: function() {
 
 			var change_events = [
-				'change:order',
+				'change:_expanded',
+				'change:clarifications_enabled',
 				'change:description_enabled',
+				'change:order',
 				'change:video_enabled',
 				'change:video_src',
 			];
@@ -71,7 +75,7 @@ define( [
 
 			this.listenTo( this.model.get( 'image' ), 'change', this.render );
 
-			this.listenTo( this.model.get_parent(), 'change:points', this.render_points_percentage );
+			this.listenTo( this.model.get_parent(), 'change:_points', this.render_points_percentage );
 
 			this.on( 'multi_choices_toggle', this.multi_choices_toggle, this );
 
@@ -116,9 +120,18 @@ define( [
 			}
 
 			if ( this.model.get( 'description_enabled' ) ) {
-
 				this.init_editor( 'question-desc--' + this.model.get( 'id' ) );
+			}
 
+			if ( this.model.get( 'clarifications_enabled' ) ) {
+				this.init_editor( 'question-clarifications--' + this.model.get( 'id' ), {
+					mediaButtons: false,
+					tinymce: {
+						toolbar1: 'bold,italic,strikethrough,bullist,numlist,alignleft,aligncenter,alignright',
+						toolbar2: '',
+						setup: _.bind( this.on_editor_ready, this ),
+					}
+				} );
 			}
 
 			return this;
@@ -205,6 +218,18 @@ define( [
 		},
 
 		/**
+		 * Collapse a question and hide it's settings
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		collapse: function() {
+
+			this.model.set( '_expanded', false );
+
+		},
+
+		/**
 		 * Delete the question from a quiz / question group
 		 * @param    obj   event  js event object
 		 * @return   void
@@ -221,6 +246,18 @@ define( [
 				Backbone.pubSub.trigger( 'model-trashed', this.model );
 
 			}
+
+		},
+
+		/**
+		 * Click event to reveal a question's settings & choices
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		expand: function() {
+
+			this.model.set( '_expanded', true );
 
 		},
 

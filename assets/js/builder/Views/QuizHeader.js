@@ -53,7 +53,8 @@ define( [ 'Views/_Editable' ], function( Editable ) {
 		toggle_settings: function( event ) {
 
 			event.preventDefault();
-			this.$el.find( '.llms-quiz-settings' ).slideToggle( 200 );
+			var val = this.model.get( '_show_settings' ) ? false : true;
+			this.model.set( '_show_settings', val );
 
 		},
 
