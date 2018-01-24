@@ -8,13 +8,18 @@ v3.16.0 - 2018-01-31
 
 The following quiz templates have been removed. Customization of these templates causes quiz application functionality to break and they should not have been available for customization but were due to oversights. This has been corrected.
 
-+ templates/quiz/timer.php
++ templates/content-single-question-after.php
++ templates/content-single-question-before.php
 + templates/quiz/next-question.php
 + templates/quiz/previous-question.php
++ templates/quiz/question-count.php
++ templates/quiz/quiz-question.php
 + templates/quiz/single-choice.php
 + templates/quiz/single-choice_ajax.php
-+ templates/quiz/question-count.php
 + templates/quiz/summary.php
++ templates/quiz/timer.php
++ templates/quiz/wrapper-end.php
++ templates/quiz/wrapper-start.php
 
 ##### Removed Functions
 
