@@ -151,7 +151,6 @@ class LLMS_Question_Manager {
 					'key' => '_llms_parent_id',
 					'value' => $this->get_parent()->get( 'id' ),
 				),
-				// todo exclude questions in a question group...
 			),
 			'order' => 'ASC',
 			'orderby' => 'menu_order',
