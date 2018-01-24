@@ -46,8 +46,21 @@
 
 
 	&.tip--bottom-left {
-		&:before {}
-		&:after {}
+		&:before {
+			top: 100%;
+			right: -10px;
+		}
+		&:hover:before {
+			top: calc( 100% + 6px );
+		}
+		&:after {
+			border-bottom-color: $bgcolor;
+			right: 6px;
+			bottom: 0;
+		}
+		&:hover:after {
+			bottom: -6px;
+		}
 	}
 
 	&.tip--bottom-right {
