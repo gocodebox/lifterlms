@@ -63,12 +63,13 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
 /**
  * Get Template Part
  *
- * @param  string] $template_name [name of template]
- * @param  array  $args          [array of pst args]
- * @param  string $template_path [file path to template]
- * @param  string $default_path  [default file path]
- *
- * @return void
+ * @param    string  $template_name [name of template]
+ * @param    array   $args          [array of pst args]
+ * @param    string  $template_path [file path to template]
+ * @param    string  $default_path  [default file path]
+ * @return   void
+ * @since    1.0.0
+ * @version  [version]
  */
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 	if ( $args && is_array( $args ) ) {
@@ -80,7 +81,7 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
 	  do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
 
 	  if ( file_exists( $located ) ) {
-		include($located);
+		include( $located );
 	  }
 
 	  do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
