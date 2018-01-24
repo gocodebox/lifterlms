@@ -1,9 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Core LifterLMS functions file
+ * @since    1.0.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 //include all other function files
 require_once 'functions/llms.functions.access.php';
@@ -653,12 +655,15 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 
 /**
  * Retrieve the LLMS Post Model for a give post by ID or WP_Post Object
- * @param    obj|int     $post  instance of WP_Post or a WP Post ID
- * @return   obj
+ * @param    obj|int   $post    instance of WP_Post or a WP Post ID
+ * @param    mixed     $error   determine what to return if the LLMS class isn't found
+ *                              post  = WP_Post
+ *                              falsy = false
+ * @return   mixed
  * @since    3.3.0
- * @version  3.6.0
+ * @version  [version]
  */
-function llms_get_post( $post ) {
+function llms_get_post( $post, $error = false ) {
 
 	$post = get_post( $post );
 	if ( ! $post ) {
@@ -672,10 +677,12 @@ function llms_get_post( $post ) {
 	}
 
 	if ( class_exists( $class ) ) {
-		$post = new $class( $post );
+		return new $class( $post );
+	} elseif ( 'post' === $error ) {
+		return 'post';
 	}
 
-	return $post;
+	return false;
 
 }
 
@@ -812,6 +819,18 @@ function llms_maybe_define_constant( $name, $value ) {
 	if ( ! defined( $name ) ) {
 		define( $name, $value );
 	}
+}
+
+/**
+ * Parse booleans
+ * Mostly used to parse yes/no bools stored in various meta data fields
+ * @param    mixed      $val      value to parse
+ * @return   bool
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_parse_bool( $val ) {
+	return filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 }
 
 /**
