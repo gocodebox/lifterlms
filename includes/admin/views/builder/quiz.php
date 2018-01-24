@@ -23,10 +23,24 @@
 
 		<ul class="llms-quiz-questions" data-empty-msg="<?php esc_attr_e( 'Click "Add Question" below to start building your quiz!', 'lifterlms' ); ?>" id="llms-quiz-questions"></ul>
 
-		<button class="llms-element-button small right llms-show-question-bank" id="llms-show-question-bank">
-			<?php _e( 'Add Question', 'lifterlms' ); ?>
-			<i class="fa fa-plus-circle" aria-hidden="true"></i>
-		</button>
+		<footer class="llms-quiz-footer">
+
+			<button class="llms-element-button secondary small right bulk-toggle" data-action="collapse" id="llms-question-collapse-all">
+				<?php _e( 'Collapse All', 'lifterlms' ); ?>
+				<i class="fa fa-minus-circle"></i>
+			</button>
+
+			<button class="llms-element-button secondary small right bulk-toggle" data-action="expand" id="llms-question-expand-all">
+				<?php _e( 'Expand All', 'lifterlms' ); ?>
+				<i class="fa fa-plus-circle"></i>
+			</button>
+
+			<button class="llms-element-button small right llms-show-question-bank" id="llms-show-question-bank">
+				<?php _e( 'Add Question', 'lifterlms' ); ?>
+				<i class="fa fa-plus-circle" aria-hidden="true"></i>
+			</button>
+
+		</footer>
 
 		<div class="llms-quiz-tools" id="llms-quiz-tools">
 
