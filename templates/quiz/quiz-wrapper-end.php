@@ -1,9 +1,9 @@
 <?php
 /**
- * Single Quiz: Next Question closing wrapper
+ * Quiz Wrapper: Close
  * @since    1.0.0
- * @version  1.0.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 ?>
-</div><!--end llms-quiz-wrapper-->
+</div><!--end #llms-quiz-wrapper -->

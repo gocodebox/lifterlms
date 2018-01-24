@@ -1,14 +1,11 @@
 <?php
 /**
- * The Template for displaying quiz
- *
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
- *
+ * LifterLMS Single Quiz Before
+ * @since   1.0.0
+ * @version [version]
  */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 llms_print_notices();
+
 do_action( 'lifterlms_single_quiz_before_summary' );
-
-

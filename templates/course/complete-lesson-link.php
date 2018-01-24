@@ -4,21 +4,23 @@
  * Mark Complete & Mark Incomplete buttons
  * Take Quiz Button when quiz attached
  * @since    1.0.0
- * @version  3.9.0
+ * @version  [version]
  */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post;
 
-$lesson = new LLMS_Lesson( $post );
+$lesson = llms_get_post( $post );
+if ( ! $lesson ) {
+	return;
+}
 
 if ( ! llms_is_user_enrolled( get_current_user_id(), $lesson->get( 'parent_course' ) ) ) {
 	return;
 }
 
 $student = new LLMS_Student( get_current_user_id() );
-$quiz_id = $lesson->get( 'assigned_quiz' );
+$quiz_id = $lesson->get( 'quiz' );
 ?>
 
 <div class="clear"></div>
@@ -92,8 +94,8 @@ $quiz_id = $lesson->get( 'assigned_quiz' );
 	<?php endif; ?>
 
 	<?php if ( $quiz_id ) : ?>
-
-		<form action="" class="llms-start-quiz-form" method="POST" name="take_quiz">
+		<a class="llms-button-action auto button" id="llms_start_quiz" href="<?php echo get_permalink( $quiz_id ); ?>">Take Quiz</a>
+<!-- 		<form action="" class="llms-start-quiz-form" method="POST" name="take_quiz">
 
 			<?php do_action( 'llms_before_start_quiz_button' ); ?>
 
@@ -116,7 +118,7 @@ $quiz_id = $lesson->get( 'assigned_quiz' );
 
 			<?php do_action( 'llms_after_start_quiz_button' ); ?>
 
-		</form>
+		</form> -->
 
 	<?php endif; ?>
 

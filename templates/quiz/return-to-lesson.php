@@ -6,19 +6,15 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-global $llms_quiz_attempt, $quiz, $post;
+global $post;
 
-if ( $llms_quiz_attempt ) {
-	$lesson = $llms_quiz_attempt->get( 'lesson_id' );
-} elseif ( ! $quiz ) {
-	$quiz = new LLMS_Quiz_Legacy( $post->ID );
-	$lesson = $quiz->get_assoc_lesson( get_current_user_id() );
-} else {
+$quiz = llms_get_post( $post );
+if ( ! $quiz ) {
 	return;
 }
 ?>
 
 <div class="clear"></div>
 <div class="llms-return">
-	<a href="<?php echo esc_url( get_permalink( $lesson ) ); ?>"><?php _e( 'Return to Lesson', 'lifterlms' ); ?></a>
+	<a href="<?php echo esc_url( get_permalink( $quiz->get( 'lesson_id' ) ) ); ?>"><?php _e( 'Return to Lesson', 'lifterlms' ); ?></a>
 </div>

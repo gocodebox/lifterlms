@@ -1,34 +1,37 @@
 <?php
 /**
- * The Template for displaying the quiz.
- * @since  1.0.0
- * @version 3.0.0
+ * Single Question Template
+ * @since    1.0.0
+ * @version [version]
+ *
+ * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
+ * @arg  $question (obj)  LLMS_Question instance
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-llms_print_notices();
-$loop = new WP_Query( array(
-	'post_type' => 'llms_question',
-	'p' => $args['question_id'],
-	'posts_per_page' => 1,
-) );
+/**
+ * lifterlms_single_question_before_summary
+ * @hooked lifterlms_template_question_wrapper_start - 10
+ */
+do_action( 'lifterlms_single_question_before_summary', $args ); ?>
 
-if ( ! $loop->have_posts() ) {
+	<h3 class="llms-question-text"><?php echo $question->get( 'title' ); ?></h3>
 
-	_e( 'No question found.', 'lifterlms' );
+	<?php
+		/**
+		 * lifterlms_single_question_content
+		 * @hooked lifterlms_template_question_description - 10
+		 * @hooked lifterlms_template_question_image - 20
+		 * @hooked lifterlms_template_question_video - 30
+		 * @hooked lifterlms_template_question_content - 40
+		 */
+		do_action( 'lifterlms_single_question_content', $args );
+	?>
 
-} else {
-
-	while ( $loop->have_posts() ) { $loop->the_post();
-
-		do_action( 'lifterlms_single_question_before_summary', $args );
-
-		the_content();
-
-		do_action( 'lifterlms_single_question_after_summary', $args );
-
-	}
-}
-
-wp_reset_postdata();
+<?php
+/**
+ * lifterlms_single_question_after_summary
+ * @hooked lifterlms_template_question_wrapper_end - 10
+ */
+do_action( 'lifterlms_single_question_after_summary', $args );

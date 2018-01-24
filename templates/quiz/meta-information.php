@@ -2,24 +2,15 @@
 /**
  * Single Quiz: Meta Information
  * @since    3.9.0
- * @version  3.9.2
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-global $llms_quiz_attempt, $quiz, $post;
 
-if ( $llms_quiz_attempt ) {
-	$quiz = $llms_quiz_attempt->get( 'quiz_id' );
-} elseif ( ! $quiz ) {
-	$quiz = $post->ID;
-} else {
-	return;
-}
+global $post;
 
-$quiz = llms_get_post( $quiz );
+$quiz = llms_get_post( $post );
 $passing_percent = $quiz->get_passing_percent();
-$attempts_left = $quiz->get_remaining_attempts_by_user( get_current_user_id() );
-$time_limit = $quiz->get_time_limit();
 ?>
 
 <h2 class="llms-quiz-meta-title"><?php _e( 'Quiz Information', 'lifterlms' ); ?></h2>
@@ -31,12 +22,12 @@ $time_limit = $quiz->get_time_limit();
 	<?php endif; ?>
 
 	<li class="llms-quiz-meta-item passing-percent">
-		<?php printf( __( 'Remaining Attempts: %s', 'lifterlms' ), '<span class="llms-attempts">' . $attempts_left . '</span>' ); ?>
+		<?php printf( __( 'Remaining Attempts: %s', 'lifterlms' ), '<span class="llms-attempts">' . $quiz->get_remaining_attempts_by_user( get_current_user_id() ) . '</span>' ); ?>
 	</li>
 
-	<?php if ( $time_limit ) : ?>
+	<?php if ( $quiz->has_time_limit() ) : ?>
 	<li class="llms-quiz-meta-item passing-percent">
-		<?php printf( __( 'Time Limit: %s', 'lifterlms' ), '<span class="llms-time-limit">' . LLMS_Date::convert_to_hours_minutes_string( $time_limit ) . '</span>' ); ?>
+		<?php printf( __( 'Time Limit: %s', 'lifterlms' ), '<span class="llms-time-limit">' . $quiz->get_time_limit_string() . '</span>' ); ?>
 	</li>
 	<?php endif; ?>
 </ul>
