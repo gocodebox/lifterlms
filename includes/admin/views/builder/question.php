@@ -15,7 +15,7 @@
 		</span>
 
 		<h3 class="llms-headline llms-input-wrapper">
-			<span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-formatting="b,i,u" data-original-content="{{{ data.get( 'title' ) }}}" data-placeholder="<?php esc_attr_e( 'Enter your question...', 'lifterlms' ); ?>">{{{ data.get( 'title' ) }}}</span>
+			<span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-formatting="b,i,u" data-original-content="{{{ data.get( 'title' ) }}}" data-placeholder="{{{ data.get( 'question_type' ).get( 'placeholder' ) }}}">{{{ data.get( 'title' ) }}}</span>
 		</h3>
 
 		<div class="llms-action-icons">

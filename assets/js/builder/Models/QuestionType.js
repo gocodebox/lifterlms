@@ -10,13 +10,15 @@ define( [], function() {
 		defaults: function() {
 			return {
 				choices: false,
-				defaults: [],
+				clarifications: true,
+				default_choices: [],
 				description: true,
 				icon: 'question',
 				id: 'generic',
 				image: true,
 				keywords: [],
 				name: 'Generic',
+				placeholder: '',
 				points: true,
 				video: true,
 			}

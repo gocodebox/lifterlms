@@ -84,106 +84,12 @@ function llms_get_question_type( $type ) {
 }
 
 /**
- * Retrieve question type data
+ * Retrieve question types
+ * see LLMS_Question_Types class for actual loading of core question types
  * @return   array
  * @since    [version]
  * @version  [version]
  */
 function llms_get_question_types() {
-
-	return apply_filters( 'llms_get_question_types', array(
-
-		'choice' => array(
-			'choices' => array(
-				'max' => -1,
-				'min' => 2,
-				'multi' => true,
-				'type' => 'text',
-			),
-			'clarifications' => true,
-			'description' => true,
-			'grading' => 'auto',
-			'icon' => 'check',
-			'id' => 'choice',
-			'image' => true,
-			'name' => esc_html__( 'Multiple Choice', 'lifterlms' ),
-			'points' => true,
-			'video' => true,
-		),
-
-		'picture_choice' => array(
-			'choices' => array(
-				'max' => -1,
-				'min' => 2,
-				'multi' => true,
-				'type' => 'image',
-			),
-			'clarifications' => true,
-			'description' => true,
-			'grading' => 'auto',
-			'icon' => 'picture-o',
-			'id' => 'picture_choice',
-			'image' => true,
-			'name' => esc_html__( 'Picture Choice', 'lifterlms' ),
-			'points' => true,
-			'video' => true,
-		),
-
-		'true_false' => array(
-			'choices' => array(
-				'max' => 2,
-				'min' => 2,
-				'multi' => false,
-				'type' => 'text',
-			),
-			'clarifications' => true,
-			'description' => true,
-			'grading' => 'auto',
-			'default_choices' => array(
-				array(
-					'choice' => esc_html__( 'True', 'lifterlms' ),
-					'correct' => true,
-					'marker' => 'A',
-				),
-				array(
-					'choice' => esc_html__( 'False', 'lifterlms' ),
-					'marker' => 'B',
-				)
-			),
-			'icon' => 'toggle-on',
-			'id' => 'true_false',
-			'image' => true,
-			'name' => esc_html__( 'True or False', 'lifterlms' ),
-			'points' => true,
-			'video' => true,
-		),
-
-		'content' => array(
-			'choices' => false,
-			'clarifications' => false,
-			'description' => true,
-			'icon' => 'window-maximize',
-			'id' => 'content',
-			'image' => true,
-			'grading' => false,
-			'name' => esc_html__( 'Content', 'lifterlms' ),
-			'points' => false,
-			'video' => true,
-		),
-
-		'group' => array(
-			'choices' => false,
-			'clarifications' => false,
-			'description' => true,
-			'icon' => 'sitemap',
-			'id' => 'group',
-			'image' => true,
-			'grading' => false,
-			'name' => esc_html__( 'Question Group', 'lifterlms' ),
-			'points' => true,
-			'video' => true,
-		),
-
-	) );
-
+	return apply_filters( 'llms_get_question_types', array() );
 }
