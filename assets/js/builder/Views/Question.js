@@ -66,7 +66,7 @@ define( [
 				'change:clarifications_enabled',
 				'change:description_enabled',
 				'change:multi_choices',
-				'change:order',
+				'change:menu_order',
 				'change:video_enabled',
 				'change:video_src',
 			];

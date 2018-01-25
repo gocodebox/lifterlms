@@ -44,7 +44,7 @@ define( [ 'Models/Question' ], function( model ) {
 
 			this.each( function( question ) {
 
-				question.set( 'order', self.indexOf( question ) + 1 );
+				question.set( 'menu_order', self.indexOf( question ) + 1 );
 
 			} );
 

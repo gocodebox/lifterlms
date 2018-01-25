@@ -469,7 +469,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		unset( $arr['author'] );
 		unset( $arr['date'] );
 		unset( $arr['excerpt'] );
-		unset( $arr['menu_order'] );
 		unset( $arr['modified'] );
 		unset( $arr['status'] );
 

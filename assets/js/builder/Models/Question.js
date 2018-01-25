@@ -67,7 +67,7 @@ define( [
 				description_enabled: 'no',
 				image: {},
 				multi_choices: 'no',
-				order: 1,
+				menu_order: 1,
 				points: 1,
 				question_type: 'generic',
 				questions: [], // for question groups
