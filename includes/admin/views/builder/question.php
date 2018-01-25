@@ -47,95 +47,121 @@
 
 	<section class="llms-question-body <# if ( data.get( '_expanded' ) ) { print( ' active' ); }#>">
 
-		<div class="llms-question-content">
+		<div class="llms-question-features">
 
-			<# if ( 'yes' === data.get( 'description_enabled' ) ) { #>
-				<div class="llms-editable-editor">
-					<textarea data-attribute="content" id="question-desc--{{{ data.get( 'id' ) }}}">{{{ data.get( 'content' ) }}}</textarea>
-				</div>
-			<# } #>
+			<?php do_action( 'llms_builder_question_before_features' ); ?>
 
-			<# if ( 'yes' === data.get( 'image' ).get( 'enabled' ) ) { #>
-				<div class="llms-editable-image">
-					<# if ( data.get( 'image' ).get( 'src' ) ) { #>
-						<div class="llms-image">
-							<a class="llms-action-icon danger tip--top-left" data-attribute="image" data-tip="<?php esc_attr_e( 'Remove image', 'lifterlms' ); ?>" href="#llms-remove-image">
-								<i class="fa fa-times-circle" aria-hidden="true"></i>
-								<span class="screen-reader-text"><?php _e( 'Remove image', 'lifterlms' ); ?></span>
-							</a>
-							<img alt="<?php esc_attr_e( 'image preview', 'lifterlms' ); ?>" src="{{{ data.get( 'image' ).get( 'src' ) }}}">
-						</div>
-					<# } else { #>
-						<button class="llms-element-button small llms-add-image" data-attribute="image" data-image-size="full">
-							<span class="fa fa-picture-o"></span> <?php _e( 'Add Image', 'lifterlms' ); ?>
-						</button>
+			<div class="llms-settings-row">
+				<# if ( data.get( 'question_type' ).get( 'description' ) ) { #>
+					<div class="llms-editable-toggle-group">
+						<label class="llms-switch">
+							<span class="llms-label"><?php _e( 'Description', 'lifterlms' ); ?></span>
+							<input type="checkbox" name="description_enabled"<# if ( 'yes' === data.get( 'description_enabled' ) ) { print( ' checked' ) } #>>
+							<div class="llms-switch-slider"></div>
+						</label>
+
+						<# if ( 'yes' === data.get( 'description_enabled' ) ) { #>
+							<div class="llms-editable-editor">
+								<textarea data-attribute="content" id="question-desc--{{{ data.get( 'id' ) }}}">{{{ data.get( 'content' ) }}}</textarea>
+							</div>
+						<# } #>
+					</div>
+
+					<# if ( 'yes' === data.get( 'description_enabled' ) ) { #>
+						<div class="llms-breaker"></div>
 					<# } #>
-				</div>
-			<# } #>
+				<# } #>
 
-			<# if ( 'yes' === data.get( 'video_enabled' ) ) { #>
-				<div class="llms-editable-video">
-					<span class="llms-label"><?php _e( 'Video URL', 'lifterlms' ); ?>:</span>
-					<span class="llms-input" contenteditable="true" data-attribute="video_src" data-original-content="{{{ data.get( 'video_src' ) }}}" data-placeholder="<?php esc_attr_e( 'https://', 'lifterlms' ); ?>" data-type="video">{{{ data.get( 'video_src' ) }}}</span>
-					<span class="tip--top-<# if ( data.get( 'video_src' ) ) { print( 'left' ) } else { print( 'right' ) } #>" data-tip="<?php esc_attr_e( 'Use YouTube, Vimeo, or Wistia video URLS.', 'lifterlms' ); ?>"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
-				</div>
-			<# } #>
+				<# if ( data.get( 'question_type' ).get( 'image' ) ) { #>
+					<div class="llms-editable-toggle-group">
+						<label class="llms-switch">
+							<span class="llms-label"><?php _e( 'Image', 'lifterlms' ); ?></span>
+							<input type="checkbox" name="image.enabled"<# if ( 'yes' === data.get( 'image' ).get( 'enabled' ) ) { print( ' checked' ) } #>>
+							<div class="llms-switch-slider"></div>
+						</label>
+
+						<# if ( 'yes' === data.get( 'image' ).get( 'enabled' ) ) { #>
+							<div class="llms-editable-image">
+								<# if ( data.get( 'image' ).get( 'src' ) ) { #>
+									<div class="llms-image">
+										<a class="llms-action-icon danger tip--top-left" data-attribute="image" data-tip="<?php esc_attr_e( 'Remove image', 'lifterlms' ); ?>" href="#llms-remove-image">
+											<i class="fa fa-times-circle" aria-hidden="true"></i>
+											<span class="screen-reader-text"><?php _e( 'Remove image', 'lifterlms' ); ?></span>
+										</a>
+										<img alt="<?php esc_attr_e( 'image preview', 'lifterlms' ); ?>" src="{{{ data.get( 'image' ).get( 'src' ) }}}">
+									</div>
+								<# } else { #>
+									<button class="llms-element-button small llms-add-image" data-attribute="image" data-image-size="full">
+										<span class="fa fa-picture-o"></span> <?php _e( 'Add Image', 'lifterlms' ); ?>
+									</button>
+								<# } #>
+							</div>
+						<# } #>
+					</div>
+				<# } #>
+
+				<# if ( data.get( 'question_type' ).get( 'video' ) ) { #>
+					<div class="llms-editable-toggle-group">
+						<label class="llms-switch">
+							<span class="llms-label"><?php _e( 'Video', 'lifterlms' ); ?></span>
+							<input type="checkbox" name="video_enabled"<# if ( 'yes' === data.get( 'video_enabled' ) ) { print( ' checked' ) } #>>
+							<div class="llms-switch-slider"></div>
+						</label>
+
+						<# if ( 'yes' === data.get( 'video_enabled' ) ) { #>
+							<div class="llms-editable-video tip--top-right" data-tip="<?php esc_attr_e( 'Use YouTube, Vimeo, or Wistia video URLS.', 'lifterlms' ); ?>">
+								<input class="llms-input standard" data-attribute="video_src" data-original-content="{{{ data.get( 'video_src' ) }}}" placeholder="<?php esc_attr_e( 'https://', 'lifterlms' ); ?>" data-type="video" name="video_src" value="{{{ data.get( 'video_src' ) }}}">
+							</div>
+						<# } #>
+					</div>
+				<# } #>
+			</div>
+
+			<?php do_action( 'llms_builder_question_after_features' ); ?>
 
 		</div>
 
 		<# if ( data.get( 'question_type' ).get( 'choices' ) ) { #>
-			<ul class="llms-question-choices"></ul>
+			<div class="llms-question-choices-wrapper">
+
+				<header class="llms-question-choices-list-header">
+
+					<span class="llms-label"><?php _e( 'Choices', 'lifterlms' ); ?></span>
+
+					<# if ( data.get( 'question_type' ).get_multi_choices() ) { #>
+						<label class="llms-switch">
+							<span class="llms-label"><?php _e( 'Multiple Correct Choices', 'lifterlms' ); ?></span>
+							<input type="checkbox" name="multi_choices"<# if ( 'yes' === data.get( 'multi_choices' ) ) { print( ' checked' ) } #>>
+							<div class="llms-switch-slider"></div>
+						</label>
+					<# } #>
+
+				</header>
+
+				<ul class="llms-question-choices<# if ( 'yes' === data.get( 'multi_choices' ) ) { print( ' multi-choices' ) } #>"></ul>
+			</div>
 		<# } else if ( 'group' === data.get( 'question_type' ).get( 'id' ) ) { #>
 			<ul class="llms-quiz-questions" data-empty-msg="<?php esc_attr_e( 'Drag a question here to add it to the group.', 'lifterlms' ); ?>"></ul>
 		<# } #>
 
-		<# if ( 'yes' === data.get( 'clarifications_enabled' ) ) { #>
-			<div class="llms-editable-editor">
-				<span class="llms-label"><?php _e( 'Result Clarifications', 'lifterlms' ); ?></span>
-				<textarea data-attribute="clarifications" id="question-clarifications--{{{ data.get( 'id' ) }}}">{{{ data.get( 'clarifications' ) }}}</textarea>
-			</div>
-		<# } #>
-
 		<div class="llms-question-features">
-			<# if ( data.get( 'question_type' ).get( 'description' ) ) { #>
-				<label class="llms-switch">
-					<span class="llms-label"><?php _e( 'Description', 'lifterlms' ); ?></span>
-					<input type="checkbox" name="description_enabled"<# if ( 'yes' === data.get( 'description_enabled' ) ) { print( ' checked' ) } #>>
-					<div class="llms-switch-slider"></div>
-				</label>
-			<# } #>
 
-			<# if ( data.get( 'question_type' ).get( 'image' ) ) { #>
-				<label class="llms-switch">
-					<span class="llms-label"><?php _e( 'Image', 'lifterlms' ); ?></span>
-					<input type="checkbox" name="image.enabled"<# if ( 'yes' === data.get( 'image' ).get( 'enabled' ) ) { print( ' checked' ) } #>>
-					<div class="llms-switch-slider"></div>
-				</label>
-			<# } #>
-
-			<# if ( data.get( 'question_type' ).get( 'video' ) ) { #>
-				<label class="llms-switch">
-					<span class="llms-label"><?php _e( 'Video', 'lifterlms' ); ?></span>
-					<input type="checkbox" name="video_enabled"<# if ( 'yes' === data.get( 'video_enabled' ) ) { print( ' checked' ) } #>>
-					<div class="llms-switch-slider"></div>
-				</label>
-			<# } #>
-
-			<# if ( data.get( 'question_type' ).get_multi_choices() ) { #>
-				<label class="llms-switch">
-					<span class="llms-label"><?php _e( 'Multiple Correct Choices', 'lifterlms' ); ?></span>
-					<input type="checkbox" name="multi_choices"<# if ( 'yes' === data.get( 'multi_choices' ) ) { print( ' checked' ) } #>>
-					<div class="llms-switch-slider"></div>
-				</label>
-			<# } #>
-
-			<# if ( data.get( 'question_type' ).get( 'clarifications' ) ) { #>
-				<label class="llms-switch">
-					<span class="llms-label"><?php _e( 'Result Clarifications', 'lifterlms' ); ?></span>
-					<input type="checkbox" name="clarifications_enabled"<# if ( 'yes' === data.get( 'clarifications_enabled' ) ) { print( ' checked' ) } #>>
-					<div class="llms-switch-slider"></div>
-				</label>
-			<# } #>
+			<div class="llms-settings-row">
+				<# if ( data.get( 'question_type' ).get( 'clarifications' ) ) { #>
+					<div class="llms-editable-toggle-group">
+						<label class="llms-switch">
+							<span class="llms-label"><?php _e( 'Result Clarifications', 'lifterlms' ); ?></span>
+							<input type="checkbox" name="clarifications_enabled"<# if ( 'yes' === data.get( 'clarifications_enabled' ) ) { print( ' checked' ) } #>>
+							<div class="llms-switch-slider"></div>
+						</label>
+						<# if ( 'yes' === data.get( 'clarifications_enabled' ) ) { #>
+							<div class="llms-editable-editor">
+								<textarea data-attribute="clarifications" id="question-clarifications--{{{ data.get( 'id' ) }}}">{{{ data.get( 'clarifications' ) }}}</textarea>
+							</div>
+						<# } #>
+					</div>
+				<# } #>
+			</div>
 
 		</div>
 
