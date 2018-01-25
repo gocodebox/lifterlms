@@ -42,6 +42,13 @@ define( [ 'Views/QuestionChoice' ], function( ChoiceView ) {
 			placeholder: 'llms-question-choice llms-sortable-placeholder',
 		},
 
+		sortable_start: function( model ) {
+			this.$el.addClass( 'dragging' );
+		},
+
+		sortable_stop: function( model ) {
+			this.$el.removeClass( 'dragging' );
+		},
 
 	} );
 

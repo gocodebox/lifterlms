@@ -65,6 +65,7 @@ define( [
 				'change:_expanded',
 				'change:clarifications_enabled',
 				'change:description_enabled',
+				'change:multi_choices',
 				'change:order',
 				'change:video_enabled',
 				'change:video_src',
@@ -99,8 +100,9 @@ define( [
 					el: this.$el.find( '.llms-question-choices' ),
 					collection: this.model.get( 'choices' ),
 				} );
-
 				this.choiceListView.render();
+				this.choiceListView.on( 'sortStart', this.choiceListView.sortable_start );
+				this.choiceListView.on( 'sortStop', this.choiceListView.sortable_stop );
 
 			}
 
