@@ -233,7 +233,7 @@ class LLMS_Question_Choice {
 				if ( is_array( $val ) ) {
 					$val = array_map( 'sanitize_text_field', $val );
 				} else {
-					$val = sanitize_text_field( $val );
+					$val = wp_kses_post( $val );
 				}
 			break;
 
