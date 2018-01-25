@@ -20,10 +20,11 @@ class LLMS_Question extends LLMS_Post_Model {
 		'description' => 'html',
 		'image' => 'array',
 		'multi_choices' => 'yesno',
+		'parent_id' => 'absint',
 		'points' => 'absint',
 		'question_type' => 'string',
 		'question' => 'html',
-		'parent_id' => 'absint',
+		'title' => 'html',
 		'video_enabled' => 'yesno',
 		'video_src' => 'string',
 	);

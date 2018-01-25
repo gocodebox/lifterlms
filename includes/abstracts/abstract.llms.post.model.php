@@ -588,10 +588,17 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Retrieve an array of properties defined by the model
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function get_properties() {
-		return apply_filters( 'llms_get_' . $this->model_post_type . '_properties', $this->properties, $this );
+		$props = array_merge( array(
+			'author' => 'absint',
+			'menu_order' => 'absint',
+			'content' => 'html',
+			'excerpt' => 'text',
+			'title' => 'text',
+		), $this->properties );
+		return apply_filters( 'llms_get_' . $this->model_post_type . '_properties', $props, $this );
 	}
 
 	/**
@@ -680,33 +687,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Scrub field according to it's type
 	 * This is automatically called by set() method before anything is actually set
 	 *
-	 * @param  string $key  property key
-	 * @param  mixed  $val  property value
-	 * @return mixed
-	 * @since  3.0.0
+	 * @param    string $key  property key
+	 * @param    mixed  $val  property value
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	protected function scrub( $key, $val ) {
 
-		switch ( $key ) {
-
-			case 'author':
-			case 'menu_order':
-				$type = 'absint';
-			break;
-
-			case 'content':
-				$type = 'html';
-			break;
-
-			case 'excerpt':
-			case 'title':
-				$type = 'text';
-			break;
-
-			default:
-				$type = apply_filters( 'llms_get_' . $this->model_post_type . '_property_type', $this->get_property_type( $key ), $this );
-
-		}
+		$type = apply_filters( 'llms_get_' . $this->model_post_type . '_property_type', $this->get_property_type( $key ), $this );
 
 		return apply_filters( 'llms_scrub_' . $this->model_post_type . '_field_' . $key, $this->scrub_field( $val, $type ), $this, $key, $val );
 

@@ -9,7 +9,6 @@ v3.16.0 - 2018-01-31
 + Updated Quiz post type slug from "llms_quiz" to "quiz".
 + Updated default return of `llms_get_post()` to be `false` rather than a `WP_Post` object when a LifterLMS post cannot be located
 
-
 ##### Bug Fixes
 
 + Fixed a potential database read error related to database store abstract
