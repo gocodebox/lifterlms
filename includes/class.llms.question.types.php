@@ -43,10 +43,10 @@ class LLMS_Question_Types {
 			'icon' => 'question-cirlce',
 			'id' => 'generic',
 			'image' => true,
-			'locked' => false,
 			'name' => esc_html__( 'Question', 'lifterlms' ),
 			'placeholder' => esc_attr__( 'Enter your question...', 'lifterlms' ),
 			'points' => true,
+			'random_lock' => false,
 			'video' => true,
 		) );
 
@@ -115,10 +115,10 @@ class LLMS_Question_Types {
 				'icon' => 'window-maximize',
 				'id' => 'content',
 				'grading' => false,
-				'locked' => true,
 				'name' => esc_html__( 'Content', 'lifterlms' ),
 				'placeholder' => esc_attr__( 'Enter your content title...', 'lifterlms' ),
 				'points' => false,
+				'random_lock' => true,
 			),
 
 			'group' => array(

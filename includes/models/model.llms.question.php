@@ -430,7 +430,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		$ret = false;
 
 		$type = $this->get_question_type();
-		llms_log( $type );
 		if ( $type ) {
 			if ( 'choices' === $feature ) {
 				$ret = ( ! empty( $type['choices'] ) );
@@ -438,6 +437,8 @@ class LLMS_Question extends LLMS_Post_Model {
 				$ret = ( $type['grading'] && $option === $type['grading'] );
 			} elseif ( 'points' === $feature ) {
 				$ret = $type['points'];
+			} elseif ( 'random_lock' === $feature ) {
+				$ret = $type['random_lock'];
 			}
 		}
 

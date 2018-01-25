@@ -306,7 +306,18 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $quiz ) {
 
-			foreach ( $quiz->get_questions() as $question ) {
+			$randomize = llms_parse_bool( $quiz->get( 'random_questions' ) );
+
+			// array of indexes that will be locked during shuffling
+			$locks = array();
+
+			foreach ( $quiz->get_questions() as $index => $question ) {
+
+				// if randomization is enabled, store the questions index so we can lock it during randomization
+				if ( $randomize && $question->supports( 'random_lock' ) ) {
+					$locks[] = $index;
+				}
+
 				$questions[] = array(
 					'id' => $question->get( 'id' ),
 					'points' => $question->supports( 'points' ) ? $question->get( 'points' ) : 0,
@@ -315,8 +326,34 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				);
 			}
 
-			if ( 'yes' === $quiz->get( 'random_questions' ) ) {
-				shuffle( $questions );
+			if ( $randomize ) {
+
+				// lifted from https://stackoverflow.com/a/28491007/400568
+				// i generally comprehend this code but also in a truer way i have no idea...
+				$inc = array();
+				$i = 0;
+				$j = 0;
+				$l = count( $questions );
+				$le = count( $locks );
+				while ( $i < $l ) {
+					if ( $j >= $le || $i < $locks[ $j ] ) {
+						$inc[] = $i;
+					} else {
+						$j++;
+					}
+					$i++;
+				}
+
+				// fisher-yates-knuth shuffle variation O(n)
+				$num = count( $inc );
+				while ( $num-- ) {
+					$perm = rand( 0, $num );
+					$swap = $questions[ $inc[ $num ] ];
+					$questions[ $inc[ $num ] ] = $questions[ $inc[ $perm ] ];
+					$questions[ $inc[ $perm ] ] = $swap;
+				}
+				// end lifted
+
 			}
 
 		}
