@@ -13,6 +13,7 @@ v3.16.0 - 2018-01-31
 ##### Bug Fixes
 
 + Fixed a potential database read error related to database store abstract
++ Now passing Post ID as second parameter to the `the_title` filter called on post model getters
 
 
 ##### Removed templates

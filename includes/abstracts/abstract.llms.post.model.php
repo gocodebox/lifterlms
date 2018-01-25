@@ -108,9 +108,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Magic Getter
-	 * @param  string $key   key to retrieve
-	 * @return mixed
-	 * @since  3.0.0
+	 * @param    string $key   key to retrieve
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public function __get( $key ) {
 
@@ -148,7 +149,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				break;
 
 				case 'title':
-					$val = apply_filters( 'the_title', $this->post->$post_key );
+					$val = apply_filters( 'the_title', $this->post->$post_key, $this->get( 'id' ) );
 				break;
 
 				default:
