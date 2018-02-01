@@ -272,7 +272,7 @@ class LLMS_Admin_Reporting {
 	 * Include all required classes & files for the Reporting screens
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public static function includes() {
 
