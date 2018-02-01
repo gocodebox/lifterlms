@@ -76,29 +76,6 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Delete a student's quiz attempt
-	 * Called from student quiz reporting screen
-	 * @since    3.4.4
-	 * @version  3.9.0
-	 */
-	public static function delete_quiz_attempt( $request ) {
-
-		$required = array( 'attempt', 'lesson', 'quiz', 'user' );
-		foreach ( $required as $param ) {
-			if ( empty( $request[ $param ] ) ) {
-				return new WP_Error( 400, __( 'Error deleting quiz attempt: Missing required parameter!', 'lifterlms' ) );
-			}
-			$request[ $param ] = intval( $request[ $param ] );
-		}
-
-		$student = new LLMS_Student( $request['user'] );
-		$student->quizzes()->delete_attempt( $request['quiz'], $request['lesson'], $request['attempt'] );
-
-		return true;
-
-	}
-
-	/**
 	 * Queue a table export event
 	 * @param    array     $request  post data ($_REQUST)
 	 * @return   array

@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.14.8
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.14.8
+	 * @version [version]
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -108,10 +108,9 @@ class LLMS_L10n {
 				/**
 				 * file: _private/js/llms-admin.js
 				 * @since   3.4.4
-				 * @version 3.4.4
+				 * @version [version]
 				 */
 				'An unknown error occurred, please try again.' => esc_html__( 'An unknown error occurred, please try again.', 'lifterlms' ),
-				'delete_quiz_attempt' => esc_html__( 'Are you sure you want to delete this quiz attempt? This action cannot be undone!', 'lifterlms' ),
 
 				/**
 				 * file: _private/js/llms-builder.js
