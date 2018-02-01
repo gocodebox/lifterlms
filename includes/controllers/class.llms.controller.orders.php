@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version 3.10.0
+ * @version [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -146,7 +146,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function create_pending_order() {
 
@@ -245,11 +245,13 @@ class LLMS_Controller_Orders {
 			return;
 		} // End if().
 		elseif ( ! is_numeric( $person_id ) ) {
+
 			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ), 'error' );
+
 		} // make sure the user isn't already enrolled in the course or membership
 		elseif ( llms_is_user_enrolled( $person_id, $product->get( 'id' ) ) ) {
 
-			return llms_add_notice( sprintf( __( 'You already have access to this product! Visit your account page <a href="%s">here.</a>', 'lifterlms' ), llms_get_page_url( 'myaccount' ) ) , 'error' );
+			return llms_add_notice( sprintf( __( 'You already have access to this %2$s! Visit your dashboard <a href="%s">here.</a>', 'lifterlms' ), llms_get_page_url( 'myaccount' ), $product->get_post_type_label() ) , 'error' );
 
 		} else {
 			$person = new LLMS_Student( $person_id );
