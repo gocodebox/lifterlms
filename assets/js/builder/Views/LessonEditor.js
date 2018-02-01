@@ -17,7 +17,7 @@ define( [], function() {
 
 		render: function() {
 
-			this.$el.html( this.model.get( 'title' ) );
+			this.$el.html( LLMS.l10n.translate( 'Lesson editing coming soon...' ) );
 
 		},
 
