@@ -177,7 +177,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						),
 						'desc' 		=> __( 'Quiz will be required to complete lesson.', 'lifterlms' ),
 						'desc_class' => 'd-all',
-						'id' 		=> $this->prefix . 'assigned_quiz',
+						'id' 		=> $this->prefix . 'quiz',
 						'label'		=> __( 'Assigned Quiz', 'lifterlms' ),
 						'type'		=> 'select',
 						'value' 	=> llms_make_select2_post_array( array( get_post_meta( $this->post->ID, $this->prefix . 'assigned_quiz', true ) ) ),
