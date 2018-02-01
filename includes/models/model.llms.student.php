@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  *
  * @since   2.2.3
  * @version [version]
- * @version 3.15.1
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -647,19 +646,16 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			case 'lesson':
 
-				$l = new LLMS_Lesson( $object_id );
-				$q = $l->get( 'assigned_quiz' );
+				$lesson = new LLMS_Lesson( $object_id );
+				$quiz_id = $lesson->get( 'quiz' );
 
 				$grade = _x( 'N/A', 'lesson grade when lesson has no quiz', 'lifterlms' );
 
-				if ( $q ) {
+				if ( $quiz_id ) {
 
-					$q = new LLMS_Quiz_Legacy( $q );
-
-					if ( $q->get_total_attempts_by_user( $this->get_id() ) ) {
-
-						$grade = $q->get_best_grade( $this->get_id() );
-
+					$attempt = $this->quizzes()->get_best_attempt( $quiz_id );
+					if ( $attempt ) {
+						$grade = $attempt->get( 'grade' );
 					}
 				}
 
