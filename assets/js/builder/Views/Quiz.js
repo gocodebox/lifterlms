@@ -131,9 +131,21 @@ define( [
 				this.render_subview( 'bank', {
 					collection: window.llms_builder.questions,
 				} );
+
+				var last_group = null,
+					group = null;
 				// let all the question types reference the quiz for adding questions quickly
 				this.get_subview( 'bank' ).instance.viewManager.each( function( view ) {
+
 					view.quiz = this.model;
+
+					group = view.model.get( 'group' ).name;
+
+					if ( last_group !== group ) {
+						last_group = group;
+						view.$el.before( '<li class="llms-question-bank-header"><h4>' + group + '</h4></li>' );
+					}
+
 				}, this );
 
 				this.render_subview( 'list', {
