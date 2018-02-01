@@ -66,21 +66,6 @@
 				self.start_quiz();
 			} );
 
-			$( '.llms-quiz-attempt-question-header .toggle-answer' ).on( 'click', function() {
-
-				var $curr = $( this ).closest( 'header' ).next( '.llms-quiz-attempt-question-main' );
-
-				$( this ).closest( 'li' ).siblings().find( '.llms-quiz-attempt-question-main' ).slideUp( 200 );
-
-				if ( $curr.is( ':visible' ) ) {
-					$curr.slideUp( 200 );
-				}  else {
-					$curr.slideDown( 200 );
-				}
-
-
-			} );
-
 			// draw quiz grade circular chart
 			$( '.llms-donut' ).each( function() {
 				LLMS.Donut( $( this ) );
@@ -117,6 +102,30 @@
 		},
 
 		/**
+		 * Add an error message to the UI
+		 * @param    string   msg  error message string
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		add_error: function( msg ) {
+
+			var self = this;
+
+			self.$container.find( '.llms-error' ).remove();
+			var $err = $( '<p class="llms-error">' + msg + '<a href="#"><i class="fa fa-times-circle" aria-hidden="true"></i></a></p>' );
+			$err.on( 'click', 'a', function( e ) {
+				e.preventDefault();
+				$err.fadeOut( '200' );
+				setTimeout( function() {
+					$err.remove();
+				}, 210 );
+			} );
+			self.$container.append( $err );
+
+		},
+
+		/**
 		 * Answer a Question
 		 * @param    obj   $btn   jQuery object for the "Next Lesson" button
 		 * @return   void
@@ -139,12 +148,10 @@
 
 			valid = this.validators[ type ]( $question );
 			if ( ! valid || true !== valid.valid || !valid.answer ) {
-
-				self.$container.find( '.llms-error' ).remove();
-				self.$container.append( '<p class="llms-error">' + valid.valid + '</p>' );
-				return;
-
+				return self.add_error( valid.valid );
 			}
+
+
 
 			LLMS.Ajax.call( {
 				data: {
@@ -404,7 +411,7 @@
 			$el.append( '<i class="fa fa-clock-o" aria-hidden="true"></i><span class="screen-reader-text">' + msg + '</span>' );
 			$el.append( '<div id="llms-tiles" class="llms-tiles"></div>' );
 
-			this.$ui.find( '.llms-progress' ).after( $el );
+			$( '#llms-quiz-header' ).append( $el );
 
 			// start the timer
 			var self = this,
@@ -445,6 +452,34 @@
 		},
 
 		/**
+		 * Trigger events
+		 * @param    string   event  event to trigger
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		trigger: function( event ) {
+
+			var self = this;
+
+			// trigger question submission for the current question
+			if ( 'answer_question' === event ) {
+
+				if ( this.get_question_index( self.current_question ) === self.total_questions ) {
+
+					$( '#llms-complete-quiz' ).trigger( 'click' );
+
+				} else {
+
+					$( '#llms-next-question' ).trigger( 'click' );
+
+				}
+
+			}
+
+		},
+
+		/**
 		 * Load the HTML of a question into the DOM and the question cache
 		 * @param    string   html  string of html
 		 * @return   void
@@ -464,23 +499,30 @@
 
 			this.current_question = qid;
 
+			$( document ).trigger( 'llms-pre-append-question', $html );
+
 			this.$container.append( $html );
+
+			$( document ).trigger( 'llms-post-append-question', $html );
 
 		},
 
 		load_ui_elements: function() {
 
 			var $html = $( '<div class="llms-quiz-ui" id="llms-quiz-ui" />' ),
+				$header = $( '<header class="llms-quiz-header" id="llms-quiz-header" />')
 				$footer = $( '<footer class="llms-quiz-nav" id="llms-quiz-nav" />' );
 
 			$footer.append( '<button class="button large llms-button-action" id="llms-next-question" name="llms_next_question" type="submit">' + LLMS.l10n.translate( 'Next Question' ) + '</button>' );
 			$footer.append( '<button class="button large llms-button-action llms-button-quiz-complete" id="llms-complete-quiz" name="llms_complete_quiz" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Complete Quiz' ) + '</button>' );
 			$footer.append( '<button class="button llms-button-secondary" id="llms-prev-question" name="llms_prev_question" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Prevous Question' ) + '</button>' );
 
-			$html.append( '<div class="llms-progress"><div class="progress-bar-complete"></div></div>' );
+			$header.append( '<div class="llms-progress"><div class="progress-bar-complete"></div></div>' );
 			$footer.append( '<div class="llms-quiz-counter" id="llms-quiz-counter"><span class="llms-current"></span><span class="llms-sep">/</span><span class="llms-total"></span></div>')
-			$html.append( '<div class="llms-quiz-question-wrapper" id="llms-quiz-question-wrapper" />' );
-			$html.append( $footer );
+
+			$html.append( $header )
+				 .append( '<div class="llms-quiz-question-wrapper" id="llms-quiz-question-wrapper" />' )
+				 .append( $footer );
 
 			$( '#llms-quiz-wrapper' ).after( $html );
 
