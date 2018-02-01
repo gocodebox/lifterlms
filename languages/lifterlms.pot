@@ -148,7 +148,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:256, includes/admin/reporting/tables/llms.table.quiz.attempts.php:252, includes/class.llms.roles.php:283, includes/class.llms.view.manager.php:181, includes/functions/llms.functions.updates.php:717, tests/unit-tests/class.llms.test.roles.php:23
+#: includes/abstracts/llms.abstract.notification.controller.php:256, includes/admin/reporting/tables/llms.table.quiz.attempts.php:256, includes/class.llms.roles.php:283, includes/class.llms.view.manager.php:181, includes/functions/llms.functions.updates.php:717, tests/unit-tests/class.llms.test.roles.php:23
 msgid "Student"
 msgstr ""
 
@@ -437,47 +437,47 @@ msgstr ""
 msgid "Error: You do not have permission to edit this course."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:313
+#: includes/admin/class.llms.admin.builder.php:311
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:322
+#: includes/admin/class.llms.admin.builder.php:320
 msgid "You cannot edit this course!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:396
+#: includes/admin/class.llms.admin.builder.php:394
 msgid "Unable to detach lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:437
+#: includes/admin/class.llms.admin.builder.php:435
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:485
+#: includes/admin/class.llms.admin.builder.php:477
 msgid "Error deleting %1$s \"%s\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:552, includes/admin/views/builder/elements.php:21, includes/class.llms.l10n.php:124, includes/class.llms.post-types.php:253, includes/models/model.llms.lesson.php:380
+#: includes/admin/class.llms.admin.builder.php:543, includes/admin/views/builder/elements.php:21, includes/class.llms.l10n.php:123, includes/class.llms.post-types.php:253, includes/models/model.llms.lesson.php:380
 msgid "New Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:570
+#: includes/admin/class.llms.admin.builder.php:559
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:645
+#: includes/admin/class.llms.admin.builder.php:633
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:672
+#: includes/admin/class.llms.admin.builder.php:660
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:728
+#: includes/admin/class.llms.admin.builder.php:713
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:789
+#: includes/admin/class.llms.admin.builder.php:773
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -581,7 +581,7 @@ msgstr ""
 msgid "LifterLMS Status"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:110, includes/admin/post-types/tables/class.llms.table.student.management.php:351, includes/admin/reporting/tables/llms.table.course.students.php:396, includes/admin/reporting/tables/llms.table.student.courses.php:203, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/quizzes/attempt.php:68, templates/admin/reporting/tabs/students/courses-quiz.php:24, templates/myaccount/view-order.php:36
+#: includes/admin/class.llms.admin.menus.php:110, includes/admin/post-types/tables/class.llms.table.student.management.php:351, includes/admin/reporting/tables/llms.table.course.students.php:396, includes/admin/reporting/tables/llms.table.student.courses.php:203, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/quizzes/attempt.php:75, templates/myaccount/view-order.php:36
 msgid "Status"
 msgstr ""
 
@@ -597,15 +597,15 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:205, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:86, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:67, templates/admin/reporting/tabs/students/courses.php:36
+#: includes/admin/class.llms.admin.menus.php:205, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:86, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:67, templates/admin/reporting/tabs/students/courses.php:33
 msgid "You do not have permission to access this content."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184, includes/class.llms.install.php:548, includes/class.llms.install.php:568
+#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184, includes/class.llms.install.php:549, includes/class.llms.install.php:569
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:69, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:552, includes/class.llms.install.php:572
+#: includes/admin/class.llms.admin.notices.core.php:69, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:553, includes/class.llms.install.php:573
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -933,7 +933,7 @@ msgstr ""
 msgid "LifterLMS has a few essential pages. The following will be created automatically if they don't already exist."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:319, includes/admin/settings/class.llms.settings.courses.php:84, includes/class.llms.install.php:219
+#: includes/admin/class.llms.admin.setup.wizard.php:319, includes/admin/settings/class.llms.settings.courses.php:84, includes/class.llms.install.php:220
 msgid "Course Catalog"
 msgstr ""
 
@@ -941,7 +941,7 @@ msgstr ""
 msgid "This page is where your visitors will find a list of all your available courses."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:323, includes/class.llms.install.php:225
+#: includes/admin/class.llms.admin.setup.wizard.php:323, includes/class.llms.install.php:226
 msgid "Membership Catalog"
 msgstr ""
 
@@ -1166,7 +1166,7 @@ msgstr ""
 msgid "Coupon Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:755, includes/llms.functions.core.php:758
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54, includes/class.llms.ajax.handler.php:732, includes/llms.functions.core.php:758
 msgid "ID#"
 msgstr ""
 
@@ -2220,7 +2220,7 @@ msgstr ""
 msgid "Manage Existing Enrollments"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.course.students.php:371, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:242, includes/admin/reporting/tables/llms.table.quizzes.php:275, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395, templates/admin/post-types/order-transactions.php:17
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.course.students.php:371, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:246, includes/admin/reporting/tables/llms.table.quizzes.php:275, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395, templates/admin/post-types/order-transactions.php:17
 msgid "ID"
 msgstr ""
 
@@ -2236,7 +2236,7 @@ msgstr ""
 msgid "Progress"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:363, includes/admin/reporting/tables/llms.table.course.students.php:411, includes/admin/reporting/tables/llms.table.quiz.attempts.php:257, includes/admin/reporting/tables/llms.table.student.course.php:193, includes/admin/reporting/tables/llms.table.student.courses.php:206, includes/admin/reporting/tables/llms.table.students.php:429, includes/notifications/views/class.llms.notification.view.quiz.failed.php:78, includes/notifications/views/class.llms.notification.view.quiz.passed.php:78, templates/admin/reporting/tabs/quizzes/attempt.php:33, templates/admin/reporting/tabs/students/courses-quiz.php:62
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:363, includes/admin/reporting/tables/llms.table.course.students.php:411, includes/admin/reporting/tables/llms.table.quiz.attempts.php:261, includes/admin/reporting/tables/llms.table.student.course.php:193, includes/admin/reporting/tables/llms.table.student.courses.php:206, includes/admin/reporting/tables/llms.table.students.php:429, includes/notifications/views/class.llms.notification.view.quiz.failed.php:78, includes/notifications/views/class.llms.notification.view.quiz.passed.php:78, templates/admin/reporting/tabs/quizzes/attempt.php:33
 msgid "Grade"
 msgstr ""
 
@@ -2352,15 +2352,15 @@ msgstr ""
 msgid "Quiz Attempts"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.quiz.attempts.php:247
+#: includes/admin/reporting/tables/llms.table.quiz.attempts.php:251
 msgid "Attempt #"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.quiz.attempts.php:262, templates/admin/reporting/tabs/quizzes/attempt.php:77, templates/myaccount/view-order.php:132
+#: includes/admin/reporting/tables/llms.table.quiz.attempts.php:266, templates/admin/reporting/tabs/quizzes/attempt.php:84, templates/myaccount/view-order.php:132
 msgid "Start Date"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.quiz.attempts.php:267, templates/admin/reporting/tabs/quizzes/attempt.php:86
+#: includes/admin/reporting/tables/llms.table.quiz.attempts.php:271, templates/admin/reporting/tabs/quizzes/attempt.php:93
 msgid "End Date"
 msgstr ""
 
@@ -3428,7 +3428,7 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:22, includes/class.llms.ajax.handler.php:41, includes/class.llms.ajax.handler.php:795
+#: includes/class.llms.ajax.handler.php:22, includes/class.llms.ajax.handler.php:41, includes/class.llms.ajax.handler.php:772
 msgid "Missing required parameters"
 msgstr ""
 
@@ -3440,59 +3440,55 @@ msgstr ""
 msgid "There was a problem deleting your access plan, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:89
-msgid "Error deleting quiz attempt: Missing required parameter!"
-msgstr ""
-
-#: includes/class.llms.ajax.handler.php:120
+#: includes/class.llms.ajax.handler.php:97
 msgid "The export is being generated and will be emailed to %s when complete."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:178
+#: includes/class.llms.ajax.handler.php:155
 msgid "Missing required paramters"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:277
+#: includes/class.llms.ajax.handler.php:254
 msgid "Missing required parameters."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:283
+#: includes/class.llms.ajax.handler.php:260
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:508, includes/class.llms.ajax.handler.php:566, includes/class.llms.ajax.handler.php:632, includes/class.llms.template.loader.php:315
+#: includes/class.llms.ajax.handler.php:485, includes/class.llms.ajax.handler.php:543, includes/class.llms.ajax.handler.php:609, includes/class.llms.template.loader.php:315
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:520
+#: includes/class.llms.ajax.handler.php:497
 msgid "There was an error starting the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:530
+#: includes/class.llms.ajax.handler.php:507
 msgid "Unable to start quiz because the quiz does not contain any questions."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:573, includes/class.llms.ajax.handler.php:637
+#: includes/class.llms.ajax.handler.php:550, includes/class.llms.ajax.handler.php:614
 msgid "Missing required parameters. Could not proceed."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:585
+#: includes/class.llms.ajax.handler.php:562
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:799
+#: includes/class.llms.ajax.handler.php:776
 msgid "Invalid status"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:823
+#: includes/class.llms.ajax.handler.php:800
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:828
+#: includes/class.llms.ajax.handler.php:805
 msgid "Please enter a plan ID."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:837, includes/controllers/class.llms.controller.orders.php:198
+#: includes/class.llms.ajax.handler.php:814, includes/controllers/class.llms.controller.orders.php:198
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -3657,30 +3653,30 @@ msgstr ""
 msgid "Invalid generator supplied"
 msgstr ""
 
-#: includes/class.llms.install.php:231
+#: includes/class.llms.install.php:232
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:237, includes/class.llms.student.dashboard.php:137, includes/functions/llms.functions.templates.dashboard.php:250
+#: includes/class.llms.install.php:238, includes/class.llms.student.dashboard.php:137, includes/functions/llms.functions.templates.dashboard.php:250
 msgid "My Courses"
-msgstr ""
-
-#: includes/class.llms.install.php:338
-msgctxt "course difficulty name"
-msgid "Beginner"
 msgstr ""
 
 #: includes/class.llms.install.php:339
 msgctxt "course difficulty name"
-msgid "Intermediate"
+msgid "Beginner"
 msgstr ""
 
 #: includes/class.llms.install.php:340
 msgctxt "course difficulty name"
+msgid "Intermediate"
+msgstr ""
+
+#: includes/class.llms.install.php:341
+msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:624
+#: includes/class.llms.install.php:625
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -3771,47 +3767,43 @@ msgstr ""
 msgid "An unknown error occurred, please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.php:114
-msgid "Are you sure you want to delete this quiz attempt? This action cannot be undone!"
-msgstr ""
-
-#: includes/class.llms.l10n.php:121
+#: includes/class.llms.l10n.php:120
 msgid "Add an Existing Lesson"
 msgstr ""
 
-#: includes/class.llms.l10n.php:122, includes/class.llms.l10n.php:143
+#: includes/class.llms.l10n.php:121, includes/class.llms.l10n.php:142
 msgid "Are you sure you want to permanently delete this lesson?"
 msgstr ""
 
-#: includes/class.llms.l10n.php:123, includes/class.llms.l10n.php:144
+#: includes/class.llms.l10n.php:122, includes/class.llms.l10n.php:143
 msgid "If you leave now your changes may not be saved!"
 msgstr ""
 
-#: includes/class.llms.l10n.php:125
+#: includes/class.llms.l10n.php:124
 msgid "Search for existing lessons..."
 msgstr ""
 
-#: includes/class.llms.l10n.php:126, includes/class.llms.l10n.php:145
+#: includes/class.llms.l10n.php:125, includes/class.llms.l10n.php:144
 msgid "You must remove all lessons before deleting a section."
 msgstr ""
 
-#: includes/class.llms.l10n.php:133
+#: includes/class.llms.l10n.php:132
 msgid "Error"
 msgstr ""
 
-#: includes/class.llms.l10n.php:134
+#: includes/class.llms.l10n.php:133
 msgid "Filter by Student(s)"
 msgstr ""
 
-#: includes/class.llms.l10n.php:135
+#: includes/class.llms.l10n.php:134
 msgid "Request timed out"
 msgstr ""
 
-#: includes/class.llms.l10n.php:136
+#: includes/class.llms.l10n.php:135
 msgid "Retry"
 msgstr ""
 
-#: includes/class.llms.l10n.php:152
+#: includes/class.llms.l10n.php:151
 msgid "Are you sure you want to delete this template? This cannot be undone."
 msgstr ""
 
@@ -7219,19 +7211,19 @@ msgstr ""
 msgid "Never"
 msgstr ""
 
-#: includes/functions/llms.functions.quiz.php:95, templates/admin/reporting/tabs/students/courses-quiz.php:73, templates/admin/reporting/tabs/students/courses-quiz.php:86
+#: includes/functions/llms.functions.quiz.php:94
 msgid "Incomplete"
 msgstr ""
 
-#: includes/functions/llms.functions.quiz.php:96
+#: includes/functions/llms.functions.quiz.php:95
 msgid "Pending Review"
 msgstr ""
 
-#: includes/functions/llms.functions.quiz.php:97
+#: includes/functions/llms.functions.quiz.php:96
 msgid "Fail"
 msgstr ""
 
-#: includes/functions/llms.functions.quiz.php:98
+#: includes/functions/llms.functions.quiz.php:97
 msgid "Pass"
 msgstr ""
 
@@ -7447,7 +7439,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: includes/llms.functions.core.php:634, templates/admin/reporting/tabs/students/courses-quiz.php:25, templates/admin/reporting/tabs/students/courses-quiz.php:64
+#: includes/llms.functions.core.php:634
 msgid "Failed"
 msgstr ""
 
@@ -7625,23 +7617,23 @@ msgstr ""
 msgid "Maximum retry attempts reached."
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:502
+#: includes/models/model.llms.quiz.attempt.php:498
 msgid "Quiz Attempt #%1$d by %2$s"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:520
+#: includes/models/model.llms.quiz.attempt.php:516
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:107
+#: includes/models/model.llms.quiz.attempt.question.php:105
 msgid "Correct answer"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:110
+#: includes/models/model.llms.quiz.attempt.question.php:108
 msgid "Incorrect answer"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:115
+#: includes/models/model.llms.quiz.attempt.question.php:113
 msgid "Awaiting review"
 msgstr ""
 
@@ -8706,59 +8698,59 @@ msgstr ""
 msgid "LifterLMS Reporting Beta"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:27
+#: templates/admin/reporting/tabs/courses/overview.php:29
 msgid "Course Overview"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:38
+#: templates/admin/reporting/tabs/courses/overview.php:40
 msgid "Currently enrolled students"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:47
+#: templates/admin/reporting/tabs/courses/overview.php:49
 msgid "Current average progress"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:56
+#: templates/admin/reporting/tabs/courses/overview.php:58
 msgid "Current average grade"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:64
+#: templates/admin/reporting/tabs/courses/overview.php:66
 msgid "New orders %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:73
+#: templates/admin/reporting/tabs/courses/overview.php:75
 msgid "Total sales %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:82
+#: templates/admin/reporting/tabs/courses/overview.php:84
 msgid "New enrollments %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:90
+#: templates/admin/reporting/tabs/courses/overview.php:92
 msgid "Unenrollments %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:99
+#: templates/admin/reporting/tabs/courses/overview.php:101
 msgid "Lessons completed %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:107
+#: templates/admin/reporting/tabs/courses/overview.php:109
 msgid "Course completions %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:116
+#: templates/admin/reporting/tabs/courses/overview.php:118
 msgid "Achievements earned %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:125
+#: templates/admin/reporting/tabs/courses/overview.php:127
 msgid "Certificates earned %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:134
+#: templates/admin/reporting/tabs/courses/overview.php:136
 msgid "Emails sent %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/courses/overview.php:143, templates/admin/reporting/tabs/quizzes/overview.php:75, templates/admin/reporting/tabs/students/information.php:96
+#: templates/admin/reporting/tabs/courses/overview.php:145, templates/admin/reporting/tabs/quizzes/overview.php:77, templates/admin/reporting/tabs/students/information.php:96
 msgid "Recent events"
 msgstr ""
 
@@ -8770,55 +8762,55 @@ msgstr ""
 msgid "Points earned"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/attempt.php:94
+#: templates/admin/reporting/tabs/quizzes/attempt.php:101
 msgid "Time Elapsed"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/attempt.php:101
+#: templates/admin/reporting/tabs/quizzes/attempt.php:108
 msgid "Answers"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/attempt.php:112
+#: templates/admin/reporting/tabs/quizzes/attempt.php:119
 msgid "Start a Review"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/attempt.php:116
+#: templates/admin/reporting/tabs/quizzes/attempt.php:123
 msgid "Save Review"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/attempt.php:122
+#: templates/admin/reporting/tabs/quizzes/attempt.php:129
 msgid "Recalculate Grade"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/attempt.php:127, templates/admin/reporting/tabs/students/courses-quiz.php:91
+#: templates/admin/reporting/tabs/quizzes/attempt.php:134
 msgid "Delete Attempt"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/attempt.php:141
+#: templates/admin/reporting/tabs/quizzes/attempt.php:148
 msgid "Additional Attempts"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/overview.php:27
+#: templates/admin/reporting/tabs/quizzes/overview.php:29
 msgid "Quiz Overview"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/overview.php:39
+#: templates/admin/reporting/tabs/quizzes/overview.php:41
 msgid "Attempts %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/overview.php:49
+#: templates/admin/reporting/tabs/quizzes/overview.php:51
 msgid "Average grade %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/overview.php:57
+#: templates/admin/reporting/tabs/quizzes/overview.php:59
 msgid "Passed attempts %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/overview.php:65
+#: templates/admin/reporting/tabs/quizzes/overview.php:67
 msgid "Failed attempts %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/quizzes/overview.php:77
+#: templates/admin/reporting/tabs/quizzes/overview.php:79
 msgid "Quiz events coming soon..."
 msgstr ""
 
@@ -8852,42 +8844,6 @@ msgstr ""
 
 #: templates/admin/reporting/tabs/students/courses-course.php:72, templates/quiz/results-attempt.php:23
 msgid "Completed: %s"
-msgstr ""
-
-#: templates/admin/reporting/tabs/students/courses-quiz.php:25, templates/admin/reporting/tabs/students/courses-quiz.php:64
-msgid "Passed"
-msgstr ""
-
-#: templates/admin/reporting/tabs/students/courses-quiz.php:31
-msgid "Best Grade"
-msgstr ""
-
-#: templates/admin/reporting/tabs/students/courses-quiz.php:38
-msgid "# of Attempts"
-msgstr ""
-
-#: templates/admin/reporting/tabs/students/courses-quiz.php:45
-msgid "Remaining Attempts"
-msgstr ""
-
-#: templates/admin/reporting/tabs/students/courses-quiz.php:59
-msgid "Attempt %d"
-msgstr ""
-
-#: templates/admin/reporting/tabs/students/courses-quiz.php:69
-msgid "Time"
-msgstr ""
-
-#: templates/admin/reporting/tabs/students/courses-quiz.php:77
-msgid "Start"
-msgstr ""
-
-#: templates/admin/reporting/tabs/students/courses-quiz.php:82
-msgid "End"
-msgstr ""
-
-#: templates/admin/reporting/tabs/students/courses-quiz.php:112
-msgid "Student has not taken this quiz yet."
 msgstr ""
 
 #: templates/admin/reporting/tabs/students/information.php:18, templates/checkout/form-checkout.php:25
@@ -9283,15 +9239,15 @@ msgstr ""
 msgid "Total time: %s"
 msgstr ""
 
-#: templates/quiz/results.php:44
+#: templates/quiz/results.php:46
 msgid "View Previous Attempts"
 msgstr ""
 
-#: templates/quiz/results.php:46
+#: templates/quiz/results.php:48
 msgid "Select an Attempt"
 msgstr ""
 
-#: templates/quiz/results.php:50
+#: templates/quiz/results.php:52
 msgid "Attempt #%1$d - %2$s (%3$s)"
 msgstr ""
 

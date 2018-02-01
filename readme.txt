@@ -3,8 +3,8 @@ Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
-Tested up to: 4.9.1
-Stable tag: 3.15.1
+Tested up to: 4.9.2
+Stable tag: 3.16.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -353,9 +353,28 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 = v3.16.0 - 2018-02-01 =
 ------------------------
 
+##### Quizzes
+
++ New question types: True/False, Picture Choice, and Non-question content
++ Picture & Multiple choice have options for multiple correct answers (checkbox-like questions)
++ You can now create questions with NO POINTS (maybe for surveys?)
++ Upgraded student quiz review interface
++ Upgraded instructor quiz attempt review interface
++ Admins may now leave remarks on questions directly
++ Improved data available related to quizzes and quiz attempts on reporting screens
++ Improved quiz user interface
++ Added a progress bar to the quiz interface
++ Shrunk the quiz timer
++ Added a question # counter on the quiz interface
++ Fixed issue causing randomized questions to get "lost" when navigating back through a quiz attempt
++ Improved error handling on quizzes
++ Overhauled quiz data structure for improved performance and scalability
++ Requires database migration and update: [3.16.0](https://lifterlms.com/docs/lifterlms-database-updates/#3160)
+
 ##### Course Builder Improvements
 
 + Quiz-building is now available on the course builder
++ Quiz and Question WordPress editors no longer available. Quizzes and Questions HAVE NOT DISAPPEARED, they've been improved and relocated
 + All hooks & filters attached to `the_content` and `the_title` are now being removed when loading the course builder. This should prevent infinite spinners on builder loading and builder AJAX calls due to third-parties accidentally outputting html during these events.
 
 ##### Updates
