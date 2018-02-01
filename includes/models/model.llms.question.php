@@ -73,6 +73,25 @@ class LLMS_Question extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the type of automatic grading that can be performed on the question
+	 * @return   string|false
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_auto_grade_type() {
+
+		if ( $this->supports( 'choices' ) && $this->supports( 'grading', 'auto' ) ) {
+			return 'choices';
+		} elseif ( $this->supports( 'grading', 'conditional' ) && llms_parse_bool( $this->get( 'auto_grade' ) ) ) {
+			return 'conditional';
+		}
+
+		return false;
+
+	}
+
+
+	/**
 	 * An array of default arguments to pass to $this->create() when creating a new post
 	 * @param    array  $args   args of data to be passed to wp_insert_post
 	 * @return   array
@@ -91,7 +110,10 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		$meta = isset( $args['meta_input'] ) ? $args['meta_input'] : array();
-		foreach ( array_keys( $this->get_properties() ) as $prop ) {
+
+		$props = array_diff( array_keys( $this->get_properties() ), array_keys( $this->get_post_properties() ) );
+
+		foreach ( $props as $prop ) {
 
 			if ( isset( $args[ $prop ] ) ) {
 
@@ -102,11 +124,6 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		}
 		$args['meta_input'] = wp_parse_args( $meta, $meta );
-
-		if ( isset( $args['order'] ) ) {
-			$args['menu_order'] = $args['order'];
-			unset( $args['order'] );
-		}
 
 		$args = wp_parse_args( $args, array(
 			'comment_status' => 'closed',
@@ -223,18 +240,14 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	}
 
-	public function get_html( $attempt_data = null ) {
-
-		$type = $this->get( 'question_type' );
-		$template = apply_filters( 'llms_get_' . $type . '_question_template', 'quiz/questions/content-' . $type, $this );
-
-		ob_start();
-		llms_get_template( $template . '.php', array(
-			'question' => $this,
-			'attempt' => $attempt_data,
-		) );
-		return ob_get_clean();
-
+	/**
+	 * Get the question text (title)
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_question( $format = 'html' ) {
+		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_question', $this->get( 'title' ), $format, $this );
 	}
 
 	/**
@@ -295,7 +308,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	 */
 	protected function get_next_choice_marker() {
 		$next_index = count( $this->get_choices( 'ids', false ) ) + 1;
-		$markers = llms_get_question_choice_markers();
+		$type = $this->get_question_type();
+		$markers = $type['choices']['markers'];
 		return $next_index > count( $markers ) ? false : $markers[ $next_index ];
 	}
 
@@ -357,12 +371,29 @@ class LLMS_Question extends LLMS_Post_Model {
 	 */
 	public function grade( $answer ) {
 
-		$grade = null;
+		/**
+		 * Allow 3rd parties to do custom grading
+		 * If filter returns non-null will bypass core grading
+		 */
+		$grade = apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_pre_grade', null, $answer, $this );
 
-		if ( $this->supports( 'choices' ) && $this->supports( 'grading', 'auto' ) ) {
+		if ( is_null( $grade ) ) {
 
-			sort( $answer );
-			$grade = ( $answer === $this->get_correct_choice() ) ? 'yes' : 'no';
+			$grading_type = $this->get_auto_grade_type();
+
+			if ( 'choices' === $grading_type ) {
+
+				sort( $answer );
+				$grade = ( $answer === $this->get_correct_choice() ) ? 'yes' : 'no';
+
+			} elseif ( 'conditional' === $grading_type ) {
+
+				$correct = explode( '|', $this->get( 'correct_value' ) );
+				$correct = array_map( 'trim', $correct );
+
+				$grade = ( $answer == $correct ) ? 'yes' : 'no';
+
+			}
 
 		}
 
