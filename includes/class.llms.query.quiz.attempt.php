@@ -7,8 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 * @version  [version]
 *
 * @arg  $attempt     (int)        Query by attempt number
-* @arg  $current     (bool)       Query by current status
-* @arg  $passed      (bool)       Query by passed status
 * @arg  $quiz_id     (int|array)  Query by Quiz WP post ID (locate multiple quizzes with an array of ids)
 * @arg  $student_id  (int|array)  Query by WP User ID (locate by multiple users with an array of ids)
 *
@@ -46,9 +44,9 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 				'attempt' => 'DESC',
 				'id' => 'ASC',
 			),
+			'status' => array(),
+			'status_exclude' => array(),
 			'attempt' => null,
-			'current' => null,
-			'passed' => null,
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
@@ -98,6 +96,22 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			$this->arguments[ $key ] = $this->sanitize_id_array( $this->arguments[ $key ] );
 		}
 
+		// validate status args
+		$valid_statuses = array_keys( llms_get_quiz_attempt_statuses() );
+		foreach ( array( 'status', 'status_exclude' ) as $key ) {
+
+			// allow single statuses to be passed in as a string
+			if ( is_string( $this->arguments[ $key ] ) ) {
+				$this->arguments[ $key ] = array( $this->arguments[ $key ] );
+			}
+
+			// ensure submitted statuses are valid
+			if ( $this->arguments[ $key ] ) {
+				$this->arguments[ $key ] = array_intersect( $valid_statuses, $this->arguments[ $key ] );
+			}
+
+		}
+
 	}
 
 	/**
@@ -131,7 +145,6 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 		$sql = 'WHERE 1';
 
 		foreach ( array( 'quiz_id', 'student_id' ) as $key ) {
-
 			$ids = $this->get( $key );
 			if ( $ids ) {
 				$prepared = implode( ',', $ids );
@@ -139,14 +152,26 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			}
 		}
 
-		// add option bools
-		foreach ( array( 'current', 'attempt', 'passed' ) as $key ) {
+		// add numeric lookups
+		foreach ( array( 'attempt' ) as $key ) {
 
 			$val = $this->get( $key );
 			if ( '' !== $val ) {
 				$sql .= $wpdb->prepare( " AND {$key} = %d", $val );
 			}
 
+		}
+
+		$status = $this->get( 'status' );
+		if ( $status ) {
+			$prepared = implode( ',', array_map( array( $this, 'escape_and_quote_string' ), $status ) );
+			$sql .= " AND status IN ({$prepared})";
+		}
+
+		$status_exclude = $this->get( 'status_exclude' );
+		if ( $status_exclude ) {
+			$prepared = implode( ',', array_map( array( $this, 'escape_and_quote_string' ), $status_exclude ) );
+			$sql .= " AND status NOT IN ({$prepared})";
 		}
 
 		return apply_filters( $this->get_filter( 'where' ), $sql, $this );
