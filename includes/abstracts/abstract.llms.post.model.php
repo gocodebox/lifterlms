@@ -121,7 +121,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			return absint( $this->$key );
 
 		} // End if().
-		elseif ( in_array( $key, $this->get_post_properties() ) ) {
+		elseif ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
 
 			$post_key = 'post_' . $key;
 
@@ -566,21 +566,22 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Retrieve an array of post properties
 	 * These properties need to be get/set with alternate methods
-	 * @return array
-	 * @since 3.0.0
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	protected function get_post_properties() {
 		return apply_filters( 'llms_post_model_get_post_properties', array(
-			'author',
-			'content',
-			'date',
-			'excerpt',
-			'menu_order',
-			'modified',
-			'name',
-			'status',
-			'title',
-			'type',
+			'author' => 'absint',
+			'content' => 'html',
+			'date' => 'text',
+			'excerpt' => 'text',
+			'menu_order' => 'absint',
+			'modified' => 'text',
+			'name' => 'text',
+			'status' => 'text',
+			'title' => 'text',
+			'type' => 'text',
 		), $this );
 	}
 
@@ -591,13 +592,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @version  [version]
 	 */
 	public function get_properties() {
-		$props = array_merge( array(
-			'author' => 'absint',
-			'menu_order' => 'absint',
-			'content' => 'html',
-			'excerpt' => 'text',
-			'title' => 'text',
-		), $this->properties );
+		$props = array_merge( $this->get_post_properties(), $this->properties );
 		return apply_filters( 'llms_get_' . $this->model_post_type . '_properties', $props, $this );
 	}
 
@@ -766,14 +761,14 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    mixed  $val  value to set the property with
 	 * @return   boolean      true on success, false on error or if the submitted value is the same as what's in the database
 	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function set( $key, $val ) {
 
 		$val = $this->scrub( $key, $val );
 
 		// update WordPress Post Properties using the wp_insert_post() function
-		if ( in_array( $key, $this->get_post_properties() ) ) {
+		if ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
 
 			$post_key = 'post_' . $key;
 
@@ -862,7 +857,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'id' => $this->get( 'id' ),
 		);
 
-		$props = array_merge( array_keys( $this->get_properties() ), $this->get_post_properties() );
+		$props = apply_filters( 'llms_get_' . $this->model_post_type . '_to_array_properties', array_keys( $this->get_properties() ), $this );
 
 		foreach ( $props as $prop ) {
 			$arr[ $prop ] = $this->get( $prop );
