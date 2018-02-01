@@ -19,9 +19,13 @@ define( [
 
 	return Backbone.Model.extend( _.defaults( {
 
+		/**
+		 * Model relationships
+		 * @type  {Object}
+		 */
 		relationships: {
 			parent: {
-				model: 'quiz',
+				model: 'llms_quiz',
 				type: 'model',
 			},
 			children: {
@@ -42,7 +46,7 @@ define( [
 							type_id = _.isString( type ) ? type : type.get( 'id' );
 						return ( 'group' === type_id );
 					},
-					model: 'question',
+					model: 'llms_question',
 					type: 'collection',
 				},
 				question_type: {
@@ -59,7 +63,13 @@ define( [
 			}
 		},
 
-		defaults: function( defaults ) {
+		/**
+		 * Model defaults
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		defaults: function() {
 			return {
 				id: _.uniqueId( 'temp_' ),
 				choices: [],
@@ -73,7 +83,7 @@ define( [
 				questions: [], // for question groups
 				parent_id: '',
 				title: '',
-				type: 'question',
+				type: 'llms_question',
 				video_enabled: 'no',
 				video_src: '',
 
@@ -81,14 +91,17 @@ define( [
 			}
 		},
 
+		/**
+		 * Initializer
+		 * @param    obj   data     object of data for the model
+		 * @param    obj   options  additional options
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		initialize: function( data, options ) {
 
 			var self = this;
-
-			// backwards compat legacy 'single_choice' is now 'choice'
-			if ( 'single_choice' === this.get( 'question_type' ) ) {
-				this.set( 'question_type', 'choice' );
-			}
 
 			this.startTracking();
 			this.init_relationships( options );
@@ -118,6 +131,13 @@ define( [
 
 		},
 
+		/**
+		 * Add a new question choice
+		 * @param    obj   data     object of choice data
+		 * @param    obj   options  additional options
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		add_choice: function( data, options ) {
 
 			var max = this.get( 'question_type' ).get_max_choices();
@@ -130,7 +150,11 @@ define( [
 
 			data.choice_type = this.get( 'question_type' ).get_choice_type();
 			data.question_id = this.get( 'id' );
-			this.get( 'choices' ).add( data, options );
+			options.parent = this;
+
+			var choice = this.get( 'choices' ).add( data, options );
+
+			Backbone.pubSub.trigger( 'question-add-choice', choice, this );
 
 		},
 
@@ -174,6 +198,14 @@ define( [
 
 		},
 
+		/**
+		 * Gets the index of the question within it's parent
+		 * Question numbers skip content elements
+		 * & content elements skip questions
+		 * @return   int
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_type_index: function() {
 
 			// current models type, used to check the predicate in the filter function below
@@ -198,6 +230,13 @@ define( [
 
 		},
 
+		/**
+		 * Gets iterator for the given type
+		 * Questions use numbers and content uses alphabet
+		 * @return   mixed
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_type_iterator: function() {
 
 			var index = this.get_type_index();
@@ -215,6 +254,7 @@ define( [
 
 		},
 
+
 		get_qid: function() {
 
 			var parent = this.get_parent_question(),
@@ -225,19 +265,6 @@ define( [
 				prefix = parent.get_qid() + '.';
 
 			}
-
-			// var question_type_id = this.get( 'question_type' ).get( 'id' ),
-			// 	short_id = LLMS.l10n.translate( 'Q' );
-
-			// if ( 'group' === question_type_id ) {
-
-			// 	short_id = LLMS.l10n.translate( 'G' );
-
-			// } else if ( 'content' === question_type_id ) {
-
-			// 	short_id = LLMS.l10n.translate( 'C' );
-
-			// }
 
 			// return short_id + this.get_type_iterator();
 			return prefix + this.get_type_iterator();
@@ -272,6 +299,13 @@ define( [
 			return this.get_parent();
 		},
 
+		/**
+		 * Points getter
+		 * ensures that 0 is always returned if the question type doesn't support points
+		 * @return   int
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_points: function() {
 
 			if ( ! this.get( 'question_type' ).get( 'points' ) ) {
@@ -301,6 +335,12 @@ define( [
 
 		},
 
+		/**
+		 * Deterine if the question belongs to a question group
+		 * @return   {Boolean}
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		is_in_group: function() {
 
 			return ( 'question' === this.collection.parent.get( 'type' ) );
