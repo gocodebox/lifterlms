@@ -56,7 +56,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * @param    int        $lesson     Instance of an LLMS_Lesson
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_data( $key, $lesson ) {
 
@@ -82,7 +82,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 			case 'quiz':
 
-				$q = $lesson->get( 'assigned_quiz' );
+				$q = $lesson->get( 'quiz' );
 
 				if ( $q ) {
 
