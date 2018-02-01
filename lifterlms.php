@@ -196,6 +196,8 @@ final class LifterLMS {
 		require_once 'includes/processors/class.llms.processors.php';
 		include_once 'includes/abstracts/abstract.llms.admin.table.php';
 
+		include_once 'includes/admin/class.llms.admin.assets.php';
+
 		if ( is_admin() ) {
 
 			include_once 'includes/class.llms.generator.php';
@@ -208,7 +210,6 @@ final class LifterLMS {
 			include_once 'includes/admin/class.llms.admin.notices.php';
 			include_once 'includes/admin/class.llms.admin.notices.core.php';
 			include_once 'includes/admin/class.llms.admin.post-types.php';
-			include_once 'includes/admin/class.llms.admin.assets.php';
 			include_once 'includes/admin/post-types/class.llms.post.tables.php';
 			if ( ! empty( $_GET['page'] ) && 'llms-setup' === $_GET['page'] ) {
 				require_once 'includes/admin/class.llms.admin.setup.wizard.php';
