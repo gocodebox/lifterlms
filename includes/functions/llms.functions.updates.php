@@ -1426,6 +1426,28 @@ function llms_update_3160_update_attempt_question_data() {
 }
 
 /**
+ * Ensure quizzes backreference their parent lessons
+ * @return   void
+ */
+function llms_update_3160_update_quiz_to_lesson_rels() {
+
+	global $wpdb;
+	$ids = $wpdb->get_col( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_quiz_enabled' AND meta_value = 'yes'" );
+
+	foreach ( $ids as $id ) {
+
+		$lesson = llms_get_post( $id );
+		$quiz_id =  $lesson->get( 'quiz' );
+		if ( $quiz_id ) {
+			$quiz = llms_get_post( $quiz_id );
+			$quiz->set( 'lesson_id', $id );
+		}
+
+	}
+
+}
+
+/**
  * Update db version at conclusion of 3.16.0 updates
  * @return void
  */

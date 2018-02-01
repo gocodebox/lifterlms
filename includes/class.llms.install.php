@@ -63,6 +63,7 @@ class LLMS_Install {
 			'llms_update_3160_ensure_no_lesson_dupe_rels',
 			'llms_update_3160_update_question_data',
 			'llms_update_3160_update_attempt_question_data',
+			'llms_update_3160_update_quiz_to_lesson_rels',
 			'llms_update_3160_update_db_version',
 		),
 	);
