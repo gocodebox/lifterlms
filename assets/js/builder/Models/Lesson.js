@@ -7,6 +7,10 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 
 	return Backbone.Model.extend( _.defaults( {
 
+		/**
+		 * Model relationships
+		 * @type  {Object}
+		 */
 		relationships: {
 			parents: {
 				model: 'lesson',
@@ -19,39 +23,10 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 						// if quiz is enabled OR not enabled but we have some quiz data as an obj
 						return ( 'yes' === model.get( 'quiz_enabled' ) || ! _.isEmpty( model.get( 'quiz' ) ) );
 					},
-					model: 'quiz',
+					model: 'llms_quiz',
 					type: 'model',
 				},
 			},
-		},
-
-		schema: {
-			title: {
-				title: 'Title',
-				type: 'Text',
-				validators: [ 'required' ],
-			},
-			content: {
-				title: 'Content',
-				type: 'Wysiwyg',
-			},
-			video_embed: {
-				help: 'Helper text sentence description situation',
-				title: 'Video Embed',
-				type: 'Text',
-				validators: [ 'url' ],
-			},
-			audio_embed: {
-				help: 'Helper text sentence description situation',
-				title: 'Audio Embed',
-				type: 'Text',
-				validators: [ 'url' ],
-			},
-			free_lesson: {
-				title: 'Free Lesson',
-				type: 'Checkbox',
-			}
-
 		},
 
 		/**
@@ -69,7 +44,6 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 				parent_course: window.llms_builder.course.id,
 				parent_section: '',
 
-
 				// urls
 				edit_url: '',
 				view_url: '',
@@ -81,18 +55,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 				free_lesson: '',
 
 				// other fields
-				// assigned_quiz: '', // quiz id
 				quiz: {}, // quiz model/data
 				quiz_enabled: 'no',
-
-				// // icon info
-				// date_available: '',
-				// days_before_available: '',
-				// drip_method: '',
-				// has_content: false,
-				// is_free: false,
-				// prerequisite: false,
-				// quiz: false,
 
 				_forceSync: false,
 
@@ -110,11 +74,6 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 			this.startTracking();
 			this.init_relationships();
 
-			// this.on( 'change:quiz', function( model, val ) {
-			// 	console.log( val );
-			// 	console.trace();
-			// } )
-
 		},
 
 		/**
@@ -127,6 +86,13 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 			return this.get_parent().get_parent();
 		},
 
+		/**
+		 * Add a new quiz to the lesson
+		 * @param    obj   data   object of quiz data used to construct a new quiz model
+		 * @return   obj          model for the created quiz
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		add_quiz: function( data ) {
 
 			data = data || {};
@@ -144,7 +110,6 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 
 			var quiz = this.get( 'quiz' );
 			this.set( 'quiz_enabled', 'yes' );
-			// this.set( 'assigned_quiz', quiz.get( 'id' ) );
 
 			return quiz;
 
