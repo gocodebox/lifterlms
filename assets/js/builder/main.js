@@ -30,12 +30,12 @@ require( [
 
 	Backbone.pubSub = _.extend( {}, Backbone.Events );
 
-	window.llms_builder.questions = window.llms_builder.construct.get_collection( 'QuestionTypes', window.llms_builder.questions );
+	$( document ).trigger( 'llms-builder-pre-init' );
 
+	window.llms_builder.questions = window.llms_builder.construct.get_collection( 'QuestionTypes', window.llms_builder.questions );
 
 	var CourseModel = window.llms_builder.construct.get_model( 'Course', window.llms_builder.course );
 	window.llms_builder.CourseModel = CourseModel;
-	console.log( CourseModel );
 
 	window.llms_builder.sync = new Sync( CourseModel, window.llms_builder.sync );
 
@@ -43,28 +43,13 @@ require( [
 		model: CourseModel,
 	} );
 
-	new SidebarView( {
+	var Sidebar = new SidebarView( {
 		CourseView: Course
 	} );
 
-
-
-	// setTimeout( function() {
-
-	// 	$( '#llms-sections a[href="#llms-toggle"]' ).first().trigger( 'click' );
-
-	// 	setTimeout( function() {
-
-	// 		$( '.llms-lesson' ).first().find( '.edit-quiz' ).trigger( 'click' );
-
-
-	// 	}, 100 );
-
-	// }, 100 );
-
-
-	// add_test_sections();
-
-	// console.log( CourseModel.get( 'sections' )[0].get( 'lessons' )[0] );
+	$( document ).trigger( 'llms-builder-init', {
+		course: Course,
+		sidebar: Sidebar,
+	} );
 
 } );
