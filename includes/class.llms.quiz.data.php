@@ -1,0 +1,144 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+include LLMS_PLUGIN_DIR . 'includes/class.llms.course.data.php';
+
+/**
+ * Query data about a quiz
+ * @since    [version]
+ * @version  [version]
+ */
+class LLMS_Quiz_Data extends LLMS_Course_Data {
+
+	/**
+	 * Constructor
+	 * @param    int     $quiz_id  WP Post ID of the quiz
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function __construct( $quiz_id ) {
+
+		$this->quiz_id = $quiz_id;
+		$this->quiz = llms_get_post( $this->quiz_id );
+
+	}
+
+	/**
+	 * Retrieve # of quiz attempts within the period
+	 * @param    string     $period  date period [current|previous]
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_attempt_count( $period = 'current' ) {
+
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "
+			SELECT COUNT( id )
+			FROM {$wpdb->prefix}lifterlms_quiz_attempts
+			WHERE quiz_id = %d
+			  AND update_date BETWEEN %s AND %s
+			",
+			$this->quiz_id,
+			$this->get_date( $period, 'start' ),
+			$this->get_date( $period, 'end' )
+		) );
+
+	}
+
+	/**
+	 * Retrieve avg grade of quiz attempts within the period
+	 * @param    string     $period  date period [current|previous]
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_average_grade( $period = 'current' ) {
+
+		global $wpdb;
+
+		$grade = $wpdb->get_var( $wpdb->prepare( "
+			SELECT ROUND( AVG( grade ), 3 )
+			FROM {$wpdb->prefix}lifterlms_quiz_attempts
+			WHERE quiz_id = %d
+			  AND update_date BETWEEN %s AND %s
+			",
+			$this->quiz_id,
+			$this->get_date( $period, 'start' ),
+			$this->get_date( $period, 'end' )
+		) );
+
+		return $grade ? $grade : 0;
+
+	}
+
+	/**
+	 * Retrieve # of quiz fails within the period
+	 * @param    string     $period  date period [current|previous]
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_fail_count( $period = 'current' ) {
+
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "
+			SELECT COUNT( id )
+			FROM {$wpdb->prefix}lifterlms_quiz_attempts
+			WHERE quiz_id = %d
+			  AND status = 'fail'
+			  AND update_date BETWEEN %s AND %s
+			",
+			$this->quiz_id,
+			$this->get_date( $period, 'start' ),
+			$this->get_date( $period, 'end' )
+		) );
+
+	}
+
+	/**
+	 * Retrieve # of quiz passes within the period
+	 * @param    string     $period  date period [current|previous]
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_pass_count( $period = 'current' ) {
+
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "
+			SELECT COUNT( id )
+			FROM {$wpdb->prefix}lifterlms_quiz_attempts
+			WHERE quiz_id = %d
+			  AND status = 'pass'
+			  AND update_date BETWEEN %s AND %s
+			",
+			$this->quiz_id,
+			$this->get_date( $period, 'start' ),
+			$this->get_date( $period, 'end' )
+		) );
+
+	}
+
+
+	/**
+	 * Retrieve recent LLMS_User_Postmeta for the quiz
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function recent_events() {
+
+		$query = new LLMS_Query_User_Postmeta( array(
+			'per_page' => 10,
+			'post_id' => $this->quiz_id,
+		) );
+
+		return $query->get_metas();
+
+	}
+
+}
