@@ -379,30 +379,6 @@ class LLMS_Quiz_Legacy {
 
 	}
 
-	/**
-	 * Get total attempts by user
-	 * @param    int $user_id [ID of user]
-	 * @return   int [number of times user has taken quiz]
-	 * @since    1.0.0
-	 * @version  3.9.1
-	 */
-	public function get_total_attempts_by_user( $user_id ) {
-
-		$student = llms_get_student( $user_id );
-		if ( ! $student ) {
-			return 0;
-		}
-
-		$attempts = $student->quizzes()->get_all( $this->get_id() );
-		foreach ( $attempts as $key => $attempt ) {
-			$attempt = new LLMS_Quiz_Attempt( $attempt );
-			if ( $attempt->get( 'current' ) ) {
-				unset( $attempts[ $key ] );
-			}
-		}
-
-		return count( $attempts );
-	}
 
 	/**
 	 * Get remaining quiz attempts
