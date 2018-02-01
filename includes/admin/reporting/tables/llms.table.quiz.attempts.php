@@ -172,7 +172,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 			'page' => $this->current_page,
 			'per_page' => $per,
 			'quiz_id' => $args['quiz_id'],
-			'student_id' => ( $args['student_id'] ) ? $args['student_id'] : null,
+			'student_id' => isset( $args['student_id'] ) ? $args['student_id'] : null,
 		);
 
 		// if ( 'any' !== $this->filter ) {
