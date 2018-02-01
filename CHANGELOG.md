@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.16.1 - 2018-02-??
+--------------------
+
++ Update checkout error message to provide user with direction when they already have access to a course.
+
+
 v3.16.0 - 2018-02-01
 --------------------
 
