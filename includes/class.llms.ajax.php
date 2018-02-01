@@ -86,7 +86,8 @@ class LLMS_AJAX {
 		// Make sure we are getting a valid AJAX request
 		check_ajax_referer( self::NONCE );
 
-		$request = self::scrub_request( $_REQUEST );
+		// $request = self::scrub_request( $_REQUEST );
+		$request = $_REQUEST;
 
 		$response = call_user_func( 'LLMS_AJAX_Handler::' . $request['action'], $request );
 
