@@ -322,6 +322,9 @@ class LLMS_Admin_Builder {
 			_e( 'You cannot edit this course!', 'lifterlms' );
 			return;
 		}
+
+		remove_all_actions( 'the_title' );
+		remove_all_actions( 'the_content' );
 		?>
 
 		<div class="wrap lifterlms llms-builder">
@@ -357,7 +360,6 @@ class LLMS_Admin_Builder {
 
 			<script>window.llms_builder = <?php echo json_encode( array(
 				'admin_url' => admin_url(),
-				'choice_markers' => llms_get_question_choice_markers(),
 				'course' => array_merge( $course->toArray() ),
 				'debug' => array(
 					'enabled' => ( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ) ),
