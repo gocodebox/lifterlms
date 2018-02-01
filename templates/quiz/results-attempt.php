@@ -3,6 +3,8 @@
  * Quiz Single Attempt Results
  * @since    [version]
  * @version  [version]
+ *
+ * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,64 +26,14 @@ if ( ! $attempt ) {
 </aside>
 
 <section class="llms-quiz-results-main">
-	<?php if ( apply_filters( 'llms_quiz_show_attempt_results', true ) ) : ?>
-		<ol class="llms-quiz-attempt-results">
-		<?php foreach ( $attempt->get_questions() as $qdata ) :
-			$question = llms_get_post( $qdata['id'] );
-			$correct = llms_parse_bool( $qdata['correct'] );
-			// var_dump( $qdata ); ?>
-			<li class="llms-quiz-attempt-question points-<?php echo $question->get( 'points' ); ?> <?php echo $correct ? 'correct' : 'incorrect'; ?>">
-				<header class="llms-quiz-attempt-question-header">
-					<a class="toggle-answer" href="#">
-						<h3 class="llms-question-title"><?php echo $question->get( 'title' ); ?></h3>
-						<?php if ( $question->get( 'points' ) ) : ?>
-							<span class="llms-points">
-								<?php printf( '%1$d / %2$d points', $correct ? $qdata['points'] : 0, $qdata['points'] ); ?>
-							</span>
-						<?php endif; ?>
-						<?php if ( $qdata['correct'] ) : ?>
-							<div class="llms-correct">
-								<i class="fa fa-<?php echo $correct ? 'check' : 'times'; ?>-circle" aria-hidden="true"></i>
-							</div>
-						<?php endif; ?>
-					</a>
-				</header>
-				<?php if ( $qdata['answer'] ) : ?>
-					<section class="llms-quiz-attempt-question-main">
-						<?php if ( $question->supports( 'choices' ) && $question->supports( 'grading', 'auto' ) ) : ?>
 
-							<div class="llms-quiz-attempt-answer-section">
-								<p class="llms-quiz-results-label student-answer"><?php _e( 'Your answer: ', 'lifterlms' ); ?></p>
-								<?php foreach ( $qdata['answer'] as $aid ) :
-									$choice = $question->get_choice( $aid ); ?>
-									<?php echo $choice->get_choice(); ?>
-								<?php endforeach; ?>
-							</div>
+	<?php
+		/**
+		 * llms_single_quiz_attempt_results_main
+		 * @hooked lifterlms_template_quiz_attempt_results_questions_list - 10
+		 */
+		do_action( 'llms_single_quiz_attempt_results_main', $attempt );
+	?>
 
-							<?php if ( ! $correct && llms_parse_bool( $question->get_quiz()->get( 'show_correct_answer' ) ) ) : ?>
-								<div class="llms-quiz-attempt-answer-section">
-									<p class="llms-quiz-results-label correct-answer"><?php _e( 'Correct answer: ', 'lifterlms' ); ?></p>
-									<?php foreach ( $question->get_correct_choice() as $aid ) :
-										$choice = $question->get_choice( $aid ); ?>
-										<?php echo $choice->get_choice(); ?>
-									<?php endforeach; ?>
-								</div>
-							<?php endif; ?>
-
-							<?php if ( ! $correct && llms_parse_bool( $question->get( 'clarifications_enabled' ) ) ) : ?>
-								<div class="llms-quiz-attempt-answer-section">
-									<p class="llms-quiz-results-label clarification"><?php _e( 'Clarification: ', 'lifterlms' ); ?></p>
-									<?php echo $question->get( 'clarifications' ); ?>
-								</div>
-							<?php endif; ?>
-
-						<?php endif; ?>
-
-					</section>
-				<?php endif; ?>
-			</li>
-		<?php endforeach; ?>
-		</ol>
-	<?php endif; ?>
 </section>
 

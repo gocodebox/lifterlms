@@ -3,6 +3,8 @@
  * Quiz Results Template
  * @since    1.0.0
  * @version  [version]
+ *
+ * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -15,7 +17,7 @@ if ( ! $quiz ) {
 
 $student = llms_get_student();
 $siblings = $student->quizzes()->get_attempts_by_quiz( $quiz->get( 'id' ), array(
-	'limit' => 50,
+	'per_page' => 200,
 	'sort' => array( 'attempt' => 'ASC' ),
 ) );
 
