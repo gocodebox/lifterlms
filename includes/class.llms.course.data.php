@@ -4,11 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Query data about a course
  * @since    3.15.0
- * @version  3.15.0
+ * @version  [version]
  */
 class LLMS_Course_Data {
 
-	private $dates = array();
+	protected $dates = array();
 
 	/**
 	 * Constructor
@@ -28,9 +28,9 @@ class LLMS_Course_Data {
 	 * @param    mixed     $date  date string or timestamp
 	 * @return   int
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
-	private function strtotime( $date ) {
+	protected function strtotime( $date ) {
 		if ( ! is_numeric( $date ) ) {
 			$date = date( 'U', strtotime( $date ) );
 		}
@@ -59,9 +59,9 @@ class LLMS_Course_Data {
 	 * @param    string     $date    date type [start|end]
 	 * @return   string
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
-	private function get_date( $period, $date ) {
+	protected function get_date( $period, $date ) {
 
 		return date( 'Y-m-d H:i:s', $this->dates[ $period ][ $date ] );
 
@@ -292,7 +292,7 @@ class LLMS_Course_Data {
 	 * @param    string     $period  date period [current|previous]
 	 * @return   float
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function get_revenue( $period ) {
 
@@ -319,6 +319,10 @@ class LLMS_Course_Data {
 				$this->get_date( $period, 'start' ),
 				$this->get_date( $period, 'end' )
 			) );
+
+			if ( is_null( $revenue ) ) {
+				$revenue = 0;
+			}
 
 		}
 
