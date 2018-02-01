@@ -24,7 +24,7 @@ class LLMS_Question_Choice {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function __construct( $question_id, $data_or_id ) {
+	public function __construct( $question_id, $data_or_id = array() ) {
 
 		// ensure the question is valid
 		if ( $this->set_question( $question_id ) ) {
@@ -143,7 +143,7 @@ class LLMS_Question_Choice {
 	 * @version  [version]
 	 */
 	public function get_question() {
-		return $question;
+		return $this->question;
 	}
 
 	/**
@@ -222,7 +222,8 @@ class LLMS_Question_Choice {
 			break;
 
 			case 'marker':
-				$markers = llms_get_question_choice_markers();
+				$type = $this->get_question()->get_question_type();
+				$markers = $type['choices']['markers'];
 				if ( ! in_array( $val, $markers ) ) {
 					$val = $markers[0];
 				}
