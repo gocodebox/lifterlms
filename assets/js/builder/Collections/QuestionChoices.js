@@ -64,6 +64,10 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 		 */
 		update_correct: function( choice ) {
 
+			if ( ! this.parent.get( 'question_type' ).get_choice_selectable() ) {
+				return;
+			}
+
 			var siblings = this.without( choice ), // exclude the toggled choice from loops
 				question = this.parent;
 
@@ -91,10 +95,11 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 		 */
 		update_order: function() {
 
-			var self = this;
+			var self = this,
+				question = this.parent;
 
 			this.each( function( choice ) {
-				choice.set( 'marker', window.llms_builder.choice_markers[ self.indexOf( choice ) ] );
+				choice.set( 'marker', question.get( 'question_type' ).get_choice_markers()[ self.indexOf( choice ) ] );
 			} );
 
 		},
