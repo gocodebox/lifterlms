@@ -1437,12 +1437,11 @@ function llms_update_3160_update_quiz_to_lesson_rels() {
 	foreach ( $ids as $id ) {
 
 		$lesson = llms_get_post( $id );
-		$quiz_id =  $lesson->get( 'quiz' );
+		$quiz_id = $lesson->get( 'quiz' );
 		if ( $quiz_id ) {
 			$quiz = llms_get_post( $quiz_id );
 			$quiz->set( 'lesson_id', $id );
 		}
-
 	}
 
 }

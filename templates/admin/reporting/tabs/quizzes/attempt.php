@@ -52,14 +52,18 @@ $siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' 
 		) );
 
 		switch ( $attempt->get( 'status' ) ) {
-			case 'pass': $icon = 'star';
-break;
+			case 'pass':
+				$icon = 'star';
+			break;
 			case 'incomplete':
-			case 'fail': $icon = 'times-circle';
-break;
-			case 'pending': $icon = 'clock-o';
-break;
-			default: $icon = 'question-circle';
+			case 'fail':
+				$icon = 'times-circle';
+			break;
+			case 'pending':
+				$icon = 'clock-o';
+			break;
+			default:
+				$icon = 'question-circle';
 		}
 
 		LLMS_Admin_Reporting::output_widget( array(
