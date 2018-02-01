@@ -2,7 +2,7 @@
 /**
  * Single Course Tab: Overview Subtab
  * @since    3.15.0
- * @version  3.15.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
@@ -12,16 +12,7 @@ include LLMS_PLUGIN_DIR . 'includes/class.llms.course.data.php';
 $data = new LLMS_Course_Data( $course->get( 'id' ) );
 $period = isset( $_GET['period'] ) ? $_GET['period'] : 'today';
 $data->set_period( $period );
-$periods = array(
-	'today' => esc_attr__( 'Today', 'lifterlms' ),
-	'yesterday' => esc_attr__( 'Yesterday', 'lifterlms' ),
-	'week' => esc_attr__( 'This Week', 'lifterlms' ),
-	'last_week' => esc_attr__( 'Last Week', 'lifterlms' ),
-	'month' => esc_attr__( 'This Month', 'lifterlms' ),
-	'last_month' => esc_attr__( 'Last Month', 'lifterlms' ),
-	'year' => esc_attr__( 'This Year', 'lifterlms' ),
-	'last_year' => esc_attr__( 'Last Year', 'lifterlms' ),
-);
+$periods = LLMS_Admin_Reporting::get_period_filters();
 $period_text = strtolower( $periods[ $period ] );
 $now = current_time( 'timestamp' );
 ?>
@@ -32,19 +23,7 @@ $now = current_time( 'timestamp' );
 
 		<header>
 
-			<div class="llms-reporting-tab-filter">
-				<form action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" method="GET">
-					<select class="llms-select2" name="period" onchange="this.form.submit();">
-						<?php foreach ( $periods as $val => $text ) : ?>
-							<option value="<?php echo $val; ?>"<?php selected( $val, $period ); ?>><?php echo $text; ?></option>
-						<?php endforeach; ?>
-					</select>
-					<input type="hidden" name="page" value="llms-reporting">
-					<input type="hidden" name="tab" value="courses">
-					<input type="hidden" name="course_id" value="<?php echo $course->get( 'id' ); ?>">
-				</form>
-			</div>
-
+			<?php LLMS_Admin_Reporting::output_widget_range_filter( $period, 'courses', array( 'course_id' => $course->get( 'id' ) ) ); ?>
 			<h3><?php _e( 'Course Overview', 'lifterlms' ); ?></h3>
 
 		</header><?php
