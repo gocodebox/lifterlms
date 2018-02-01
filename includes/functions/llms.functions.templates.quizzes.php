@@ -15,7 +15,15 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 if ( ! function_exists( 'lifterlms_template_question_content' ) ) {
 	function lifterlms_template_question_content( $args ) {
-		echo $args['question']->get_html( $args['attempt'] );
+
+		$type = $args['question']->get( 'question_type' );
+
+		$template = apply_filters( 'llms_get_' . $type . '_question_template', 'quiz/questions/content-' . $type, $this );
+		llms_get_template( $template . '.php', array(
+			'question' => $args['question'],
+			'attempt' => $args['attempt'],
+		) );
+
 	}
 }
 
@@ -102,6 +110,19 @@ if ( ! function_exists( 'lifterlms_template_quiz_attempt_results' ) ) {
 		llms_get_template( 'quiz/results-attempt.php', array( 'attempt' => $attempt ) );
 	}
 }
+
+/**
+ * Quiz Single Attempt Results Question List
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'lifterlms_template_quiz_attempt_results_questions_list' ) ) {
+	function lifterlms_template_quiz_attempt_results_questions_list( $attempt = null ) {
+		llms_get_template( 'quiz/results-attempt-questions-list.php', array( 'attempt' => $attempt ) );
+	}
+}
+
 
 /**
  * Quiz Results Template Include
