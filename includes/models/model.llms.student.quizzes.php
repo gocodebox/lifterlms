@@ -25,7 +25,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 			'student_id' => $this->get_id(),
 			'quiz_id' => $quiz_id,
 			'per_page' => 1,
-			'status_exclude' => array( 'current' ),
 		) );
 
 		return $query->found_results;
@@ -332,19 +331,25 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    int     $lesson  WP Post ID of a Lesson
 	 * @return   false|obj
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
-	public function get_last_completed_attempt( $quiz = null, $lesson = null ) {
-		$attempts = $this->get_all( $quiz, $lesson );
-		if ( $attempts ) {
-			$attempts = array_reverse( $attempts );
-			foreach ( $attempts as $attempt ) {
-				$attempt = new LLMS_Quiz_Attempt( $attempt );
-				if ( 'complete' === $attempt->get_status() ) {
-					return $attempt;
-				}
-			}
+	public function get_last_completed_attempt( $quiz_id = null, $deprecated = null ) {
+
+		$query = new LLMS_Query_Quiz_Attempt( array(
+			'student_id' => $this->get_id(),
+			'quiz_id' => $quiz_id,
+			'per_page' => 1,
+			'status_exclude' => array( 'incomplete' ),
+			'sort' => array(
+				'end_date' => 'DESC',
+				'id' => 'DESC',
+			),
+		) );
+
+		if ( $query->has_results() ) {
+			return $query->get_attempts()[0];
 		}
+
 		return false;
 	}
 
