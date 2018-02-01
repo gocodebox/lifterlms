@@ -122,7 +122,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 	 * @param    obj     $query  WP_Query
 	 * @return   obj
 	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @version  [version]
 	 */
 	public function parse_query_filters( $query ) {
 
@@ -153,7 +153,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 		if ( isset( $_REQUEST['llms_filter_lesson_id'] ) ) {
 			$lesson = llms_get_post( absint( $_REQUEST['llms_filter_lesson_id'] ) );
 			if ( $lesson && $lesson->has_quiz() ) {
-				$post_ids[] = $lesson->get( 'assigned_quiz' );
+				$post_ids[] = $lesson->get( 'quiz' );
 			}
 		}
 
