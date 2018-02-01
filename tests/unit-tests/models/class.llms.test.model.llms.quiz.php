@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for LifterLMS Lesson Model
+ * Tests for LifterLMS Quiz Model
  * @group     post_models
  * @group     quizzes
  * @group     quiz
@@ -52,37 +52,37 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	public function test_create_question() {
 
 		$this->create( 'test title' );
-		$this->assertTrue( is_numeric( $this->obj->create_question() ) );
+		$this->assertTrue( is_numeric( $this->obj->questions()->create_question() ) );
 
 	}
 
 	public function test_delete_question() {
 
 		$this->create( 'test title' );
-		$qid = $this->obj->create_question();
-		$this->assertTrue( $this->obj->delete_question( $qid ) );
+		$qid = $this->obj->questions()->create_question();
+		$this->assertTrue( $this->obj->questions()->delete_question( $qid ) );
 
 		// belongs to another quiz, can't delete
 		$this->create( 'second question' );
-		$this->assertFalse( $this->obj->delete_question( $qid ) );
+		$this->assertFalse( $this->obj->questions()->delete_question( $qid ) );
 
 		// doesn't exist
-		$this->assertFalse( $this->obj->delete_question( 999999999 ) );
+		$this->assertFalse( $this->obj->questions()->delete_question( 999999999 ) );
 
 	}
 
 	public function test_get_question() {
 
 		$this->create( 'test title' );
-		$qid = $this->obj->create_question();
-		$this->assertTrue( is_a( $this->obj->get_question( $qid ), 'LLMS_Question' ) );
+		$qid = $this->obj->questions()->create_question();
+		$this->assertTrue( is_a( $this->obj->questions()->get_question( $qid ), 'LLMS_Question' ) );
 
 		// question doesn't belong to quiz so it should return false
 		$this->create( 'second question' );
-		$this->assertFalse( $this->obj->get_question( $qid ) );
+		$this->assertFalse( $this->obj->questions()->get_question( $qid ) );
 
 		// question doesn't exist
-		$this->assertFalse( $this->obj->get_question( 9999999 ) );
+		$this->assertFalse( $this->obj->questions()->get_question( 9999999 ) );
 
 	}
 
@@ -91,7 +91,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 		$this->create( 'test title' );
 		$i = 1;
 		while( $i <= 3 ) {
-			$this->obj->create_question();
+			$this->obj->questions()->create_question();
 			$i++;
 		}
 
@@ -123,15 +123,15 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 		$this->create( 'test title' );
 
 		// create when no id supplied
-		$id = $this->obj->update_question();
+		$id = $this->obj->questions()->update_question();
 		$this->assertTrue( is_numeric( $id ) );
 
 		// update should return it's own id
-		$this->assertEquals( $id, $this->obj->update_question( array( 'id' => $id ) ) );
+		$this->assertEquals( $id, $this->obj->questions()->update_question( array( 'id' => $id ) ) );
 
 		// can't update from another quiz
 		$this->create( 'second question' );
-		$this->assertFalse( $this->obj->update_question( array( 'id' => $id ) ) );
+		$this->assertFalse( $this->obj->questions()->update_question( array( 'id' => $id ) ) );
 
 	}
 
