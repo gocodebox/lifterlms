@@ -59,16 +59,6 @@ function llms_get_picture_choice_question_cols( $num_choices ) {
 }
 
 /**
- * Retrieve question choice markers
- * @return   array
- * @since    [version]
- * @version  [version]
- */
-function llms_get_question_choice_markers() {
-	return apply_filters( 'llms_question_choice_markers', range( 'A', 'Z' ) );
-}
-
-/**
  * Retrieve data for a single question type
  * @param    string     $type  id of the question type
  * @return   array|false
@@ -92,4 +82,20 @@ function llms_get_question_type( $type ) {
  */
 function llms_get_question_types() {
 	return apply_filters( 'llms_get_question_types', array() );
+}
+
+/**
+ * Retrieve statuses for quiz attempts
+ * @return   array
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_get_quiz_attempt_statuses() {
+	return apply_filters( 'llms_get_quiz_attempt_statuses', array(
+		'current' => __( 'Current', 'lifterlms' ),
+		'fail' => __( 'Fail', 'lifterlms' ),
+		'incomplete' => __( 'Incomplete', 'lifterlms' ),
+		'pass' => __( 'Pass', 'lifterlms' ),
+		'pending' => __( 'Pending Review', 'lifterlms' ),
+	) );
 }
