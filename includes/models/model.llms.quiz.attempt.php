@@ -144,6 +144,48 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Run actions designating quiz completion
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function do_completion_actions() {
+
+		// do quiz completion actions
+		do_action( 'lifterlms_quiz_completed', $this->get_student()->get_id(), $this->get( 'quiz_id' ), $this );
+
+		$passed = false;
+
+		switch ( $this->get( 'status' ) ) {
+
+			case 'pass':
+				$passed = true;
+				do_action( 'lifterlms_quiz_passed', $this->get_student()->get_id(), $this->get( 'quiz_id' ), $this );
+			break;
+
+			case 'fail':
+				do_action( 'lifterlms_quiz_failed', $this->get_student()->get_id(), $this->get( 'quiz_id' ), $this );
+			break;
+
+			case 'pending':
+				do_action( 'lifterlms_quiz_pending', $this->get_student()->get_id(), $this->get( 'quiz_id' ), $this );
+			break;
+
+		}
+
+		// mark lesson complete
+		$lesson = llms_get_post( $this->get( 'lesson_id' ) );
+		$passing_required = ( 'yes' === $lesson->get( 'require_passing_grade' ) );
+		if ( ! $passing_required || ( $passing_required && $passed ) ) {
+			// mark associated lesson complete only if it hasn't been completed before
+			if ( ! llms_is_complete( $this->get( 'student_id' ), $this->get( 'lesson_id' ), 'lesson' ) ) {
+				llms_mark_complete( $this->get( 'student_id' ), $this->get( 'lesson_id' ), 'lesson', 'quiz_' . $this->get( 'quiz_id' ) );
+			}
+		}
+
+	}
+
+	/**
 	 * End a quiz attempt
 	 * Sets end date, unsets the quiz as the current quiz, and records a grade
 	 * @param    boolean   $silent   if true, will not trigger actions or mark related lesson as complete
@@ -158,25 +200,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( ! $silent ) {
 
-			// do quiz completion actions
-			do_action( 'lifterlms_quiz_completed', $this->get_student()->get_id(), $this->get( 'quiz_id' ), $this );
-			if ( $this->get( 'passed' ) ) {
-				$passed = true;
-				do_action( 'lifterlms_quiz_passed', $this->get_student()->get_id(), $this->get( 'quiz_id' ), $this );
-			} else {
-				$passed = false;
-				do_action( 'lifterlms_quiz_failed', $this->get_student()->get_id(), $this->get( 'quiz_id' ), $this );
-			}
+			$this->do_completion_actions();
 
-			// mark lesson complete
-			$lesson = llms_get_post( $this->get( 'lesson_id' ) );
-			$passing_required = ( 'yes' === $lesson->get( 'require_passing_grade' ) );
-			if ( ! $passing_required || ( $passing_required && $passed ) ) {
-				// mark associated lesson complete only if it hasn't been completed before
-				if ( ! llms_is_complete( $this->get( 'student_id' ), $this->get( 'lesson_id' ), 'lesson' ) ) {
-					llms_mark_complete( $this->get( 'student_id' ), $this->get( 'lesson_id' ), 'lesson', 'quiz_' . $this->get( 'quiz_id' ) );
-				}
-			}
 		}
 
 		// clear "cached" grade so it's recalced next time it's requested
