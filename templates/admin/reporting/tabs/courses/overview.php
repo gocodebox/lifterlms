@@ -23,7 +23,9 @@ $now = current_time( 'timestamp' );
 
 		<header>
 
-			<?php LLMS_Admin_Reporting::output_widget_range_filter( $period, 'courses', array( 'course_id' => $course->get( 'id' ) ) ); ?>
+			<?php LLMS_Admin_Reporting::output_widget_range_filter( $period, 'courses', array(
+				'course_id' => $course->get( 'id' ),
+			) ); ?>
 			<h3><?php _e( 'Course Overview', 'lifterlms' ); ?></h3>
 
 		</header><?php

@@ -1031,7 +1031,6 @@ function llms_update_3160_update_quiz_settings() {
 		if ( $quiz->get( 'allowed_attempts' ) > 0 ) {
 			$quiz->set( 'limit_attempts', 'yes' );
 		}
-
 	}
 
 }
@@ -1054,7 +1053,7 @@ function llms_update_3160_update_question_data() {
 				$question->set( 'parent_id', $data->quiz_id );
 				$question->set( 'question_type', 'choice' );
 				update_post_meta( $question->get( 'id' ), '_llms_legacy_question_title', $question->get( 'title' ) );
-				$question->set( 'title', strip_tags( str_replace( array('<p>', '</p>' ), '', $question->get( 'content' ) ), '<b><em><u><strong><i>' ) );
+				$question->set( 'title', strip_tags( str_replace( array( '<p>', '</p>' ), '', $question->get( 'content' ) ), '<b><em><u><strong><i>' ) );
 
 				$options = get_post_meta( $question->get( 'id' ), '_llms_question_options', true );
 				if ( ! $options ) {
@@ -1079,23 +1078,21 @@ function llms_update_3160_update_question_data() {
 					if ( ! empty( $option['option_description'] ) ) {
 						$clarify .= $option['option_description'] . '<br><br>';
 					}
-
 				}
 
 				if ( $clarify ) {
 					$question->set( 'clarifications', $clarify );
 					$question->set( 'clarifications_enabled', 'yes' );
 				}
-
-			}
-		}
-	}
+			}// End foreach().
+		}// End if().
+	}// End foreach().
 
 	global $wpdb;
 	$wpdb->update(
 		$wpdb->postmeta,
 		array(
-			'meta_key' => '_llms_legacy_question_options'
+			'meta_key' => '_llms_legacy_question_options',
 		),
 		array(
 			'meta_key' => '_llms_question_options',
@@ -1114,7 +1111,7 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
 	$wpdb->update(
 		$wpdb->postmeta,
 		array(
-			'meta_key' => '_llms_quiz'
+			'meta_key' => '_llms_quiz',
 		),
 		array(
 			'meta_key' => '_llms_assigned_quiz',
@@ -1137,8 +1134,12 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 	foreach ( $question_ids as $qid ) {
 
 		$parts = array(
-			serialize( array( 'id' => $qid ) ),
-			serialize( array( 'id' => absint( $qid ) ) ),
+			serialize( array(
+				'id' => $qid,
+			) ),
+			serialize( array(
+				'id' => absint( $qid ),
+			) ),
 		);
 
 		foreach ( $parts as &$part ) {
@@ -1180,7 +1181,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 
 					$attempt = new LLMS_Quiz_Attempt( $aid );
 					$attempt_qs = $attempt->get_questions();
-					foreach( $attempt_qs as &$answer ) {
+					foreach ( $attempt_qs as &$answer ) {
 						if ( $answer['id'] == $qid ) {
 							$answer['id'] = $question_copy_id;
 						}
@@ -1188,13 +1189,9 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 					$attempt->set_questions( $attempt_qs, true );
 
 				}
-
-
 			}
-
-		}
-
-	}
+		}// End if().
+	}// End foreach().
 
 }
 
@@ -1209,7 +1206,7 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 
 	$quizzes_set = array();
 
-	foreach( $res as $data ) {
+	foreach ( $res as $data ) {
 
 		$lesson = llms_get_post( $data->lesson_id );
 		if ( ! $lesson ) {
@@ -1259,20 +1256,18 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 					if ( isset( $qid_map[ $aqd['id'] ] ) ) {
 						$aqd['id'] = $qid_map[ $aqd['id'] ];
 					}
-
 				}
 				$attempt->set_questions( $questions, true );
 				$attempt->set( 'quiz_id', $dupe_quiz_id );
 				$attempt->save();
 
 			}
-
 		}
 
 		$quizzes_set[] = $data->quiz_id;
 		$lesson->set( 'quiz_enabled', 'yes' ); // ensure the new quiz enabled key is set
 
-	}
+	}// End foreach().
 
 }
 
@@ -1299,7 +1294,6 @@ function llms_update_3160_attempt_migration() {
 
 			$to_insert = array();
 			$format = array();
-
 
 			$start = $attempt['start_date'];
 			$end = $attempt['end_date'];
@@ -1348,14 +1342,12 @@ function llms_update_3160_attempt_migration() {
 							}
 							// quiz was abandoned
 							$insert_val = 'incomplete';
-						// actual failure
+							// actual failure
 						} else {
 							$insert_val = 'fail';
 						}
-
 					}
-
-				}
+				}// End if().
 
 				switch ( $insert_key ) {
 
@@ -1378,19 +1370,18 @@ function llms_update_3160_attempt_migration() {
 				$to_insert[ $insert_key ] = $insert_val;
 				$format[] = $insert_format;
 
-			}
+			}// End foreach().
 
 			$wpdb->insert( $wpdb->prefix . 'lifterlms_quiz_attempts', $to_insert, $format );
 
-		}
-
-	}
+		}// End foreach().
+	}// End foreach().
 
 	// move attempt data to legacy backup location
 	$wpdb->update(
 		$wpdb->usermeta,
 		array(
-			'meta_key' => '_llms_quiz'
+			'meta_key' => '_llms_quiz',
 		),
 		array(
 			'meta_key' => '_llms_assigned_quiz',
@@ -1425,9 +1416,7 @@ function llms_update_3160_update_attempt_question_data() {
 						$question['answer'] = array( $choices[ $question['answer'] ]->get( 'id' ) );
 					}
 				}
-
 			}
-
 		}
 
 		$attempt->set_questions( $questions, true );

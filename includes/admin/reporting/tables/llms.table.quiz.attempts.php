@@ -166,7 +166,9 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
 
 		$query_args = array(
-			'sort' => array( $this->orderby => $this->order ),
+			'sort' => array(
+				$this->orderby => $this->order,
+			),
 			'page' => $this->current_page,
 			'per_page' => $per,
 			'quiz_id' => $args['quiz_id'],
@@ -195,7 +197,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 			$query = new LLMS_Query_Quiz_Attempt( $query_args );
 
-		// user can only see their own reports, get a list of their students
+			// user can only see their own reports, get a list of their students
 		} elseif ( current_user_can( 'view_lifterlms_reports' ) ) {
 
 			$instructor = llms_get_instructor();

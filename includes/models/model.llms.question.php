@@ -121,7 +121,6 @@ class LLMS_Question extends LLMS_Post_Model {
 				unset( $args[ $prop ] );
 
 			}
-
 		}
 		$args['meta_input'] = wp_parse_args( $meta, $meta );
 
@@ -218,7 +217,7 @@ class LLMS_Question extends LLMS_Post_Model {
 			$multi = ( 'yes' === $this->get( 'multi_choices' ) );
 			$correct = array();
 
-			foreach( $this->get_choices() as $choice ) {
+			foreach ( $this->get_choices() as $choice ) {
 
 				if ( $choice->is_correct() ) {
 					$correct[] = $choice->get( 'id' );
@@ -226,14 +225,12 @@ class LLMS_Question extends LLMS_Post_Model {
 						break;
 					}
 				}
-
 			}
 
 			// always sort multi choices for easy auto comparison
 			if ( $multi ) {
 				sort( $correct );
 			}
-
 		}
 
 		return $correct;
@@ -353,7 +350,6 @@ class LLMS_Question extends LLMS_Post_Model {
 			if ( ! $html ) {
 				$html = do_shortcode( '[video src="' . $embed . '"]' );
 			}
-
 		}
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_video', $html, $embed, $this );
@@ -394,7 +390,6 @@ class LLMS_Question extends LLMS_Post_Model {
 				$grade = ( $answer == $correct ) ? 'yes' : 'no';
 
 			}
-
 		}
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_grade', $grade, $answer, $this );
@@ -546,7 +541,6 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		// return choice ID
 		return $choice->get( 'id' );
-
 
 	}
 

@@ -109,7 +109,6 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			if ( $this->arguments[ $key ] ) {
 				$this->arguments[ $key ] = array_intersect( $valid_statuses, $this->arguments[ $key ] );
 			}
-
 		}
 
 	}
@@ -159,7 +158,6 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			if ( '' !== $val ) {
 				$sql .= $wpdb->prepare( " AND {$key} = %d", $val );
 			}
-
 		}
 
 		$status = $this->get( 'status' );

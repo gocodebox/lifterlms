@@ -185,11 +185,11 @@ class LLMS_Admin_Builder {
 
 		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
 
-		if ( ! empty( $active_post_lock ) ) {
-			?>
-			<input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
-			<?php
-		}
+if ( ! empty( $active_post_lock ) ) {
+	?>
+	<input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
+	<?php
+}
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
@@ -225,12 +225,12 @@ class LLMS_Admin_Builder {
 		// need a numeric ID for a course post type!
 		if ( empty( $data['id'] ) || ! is_numeric( $data['id'] ) || 'course' !== get_post_type( $data['id'] ) ) {
 
-			$ret['status'] =  'error';
+			$ret['status'] = 'error';
 			$ret['message'] = esc_html__( 'Error: Invalid or missing course ID.', 'lifterlms' );
 
 		} elseif ( ! current_user_can( 'edit_course', $data['id'] ) ) {
 
-			$ret['status'] =  'error';
+			$ret['status'] = 'error';
 			$ret['message'] = esc_html__( 'Error: You do not have permission to edit this course.', 'lifterlms' );
 
 		} else {
@@ -248,7 +248,6 @@ class LLMS_Admin_Builder {
 					$ret['trash'] = self::process_trash( $data );
 
 				}
-
 			}
 
 			if ( ! empty( $data['updates'] ) && is_array( $data['updates'] ) ) {
@@ -256,7 +255,6 @@ class LLMS_Admin_Builder {
 				$ret['updates']['sections'] = self::process_updates( $data );
 
 			}
-
 		}
 
 		// add our return data
@@ -351,11 +349,11 @@ class LLMS_Admin_Builder {
 					'utilities',
 				);
 
-				foreach ( $templates as $template ) {
-					echo self::get_template( $template, array(
-						'course_id' => $course_id,
-					) );
-				}
+			foreach ( $templates as $template ) {
+				echo self::get_template( $template, array(
+					'course_id' => $course_id,
+				) );
+			}
 			?>
 
 			<script>window.llms_builder = <?php echo json_encode( array(
@@ -453,20 +451,16 @@ class LLMS_Admin_Builder {
 				continue;
 			}
 
-
 			// lessons, sections, & questions passed as numeric WP Post IDs
 			if ( is_numeric( $id ) ) {
 
 				// delete sections
 				if ( in_array( $type, array( 'section', 'llms_question' ) ) ) {
 					$stat = wp_delete_post( $id, true );
-				}
-				// move other post types to trash
+				} // End if().
 				else {
 					$stat = wp_trash_post( $id );
 				}
-
-			// question choices passed in as {$question_id}:{$choice_id} format
 			} else {
 
 				$split = explode( ':', $id );
@@ -476,9 +470,7 @@ class LLMS_Admin_Builder {
 				} else {
 					$stat = false;
 				}
-
 			}
-
 
 			// both functions return false on failure
 			if ( ! $stat ) {
@@ -489,7 +481,7 @@ class LLMS_Admin_Builder {
 
 			array_push( $ret, $res );
 
-		}
+		}// End foreach().
 
 		return $ret;
 
@@ -517,7 +509,6 @@ class LLMS_Admin_Builder {
 				$ret[] = self::update_section( $section_data, $data['id'] );
 
 			}
-
 		}
 
 		return $ret;
@@ -557,8 +548,6 @@ class LLMS_Admin_Builder {
 				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
 					$lesson_data['parent_section'] = $section->get( 'id' );
 				}
-
-			// update existing section
 			} else {
 
 				$lesson = llms_get_post( $lesson_data['id'] );
@@ -596,12 +585,11 @@ class LLMS_Admin_Builder {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
 
 				}
-
 			}
 
 			array_push( $ret, $res );
 
-		}
+		}// End foreach().
 
 		return $ret;
 
@@ -677,19 +665,16 @@ class LLMS_Admin_Builder {
 						array_push( $ret['choices'], $choice_res );
 
 					}
-
 				} elseif ( $questions ) {
 
 					$ret['questions'] = self::update_questions( $questions, $question );
 
 				}
-
-			}
+			}// End if().
 
 			array_push( $res, $ret );
 
-
-		}
+		}// End foreach().
 
 		return $res;
 
@@ -715,7 +700,7 @@ class LLMS_Admin_Builder {
 			$quiz = new LLMS_Quiz( 'new' );
 			$lesson->set( 'quiz', $quiz->get( 'id' ) );
 
-		// update existing quiz
+			// update existing quiz
 		} else {
 
 			$quiz = llms_get_post( $quiz_data['id'] );
@@ -750,7 +735,6 @@ class LLMS_Admin_Builder {
 				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
 
 			}
-
 		}
 
 		return $res;
@@ -777,7 +761,7 @@ class LLMS_Admin_Builder {
 			$section = new LLMS_Section( 'new' );
 			$section->set( 'parent_course', $course_id );
 
-		// update existing section
+			// update existing section
 		} else {
 
 			$section = llms_get_post( $section_data['id'] );
@@ -801,7 +785,6 @@ class LLMS_Admin_Builder {
 					$section->set( $key, $section_data[ $key ] );
 
 				}
-
 			}
 
 			if ( isset( $section_data['lessons'] ) && is_array( $section_data['lessons'] ) ) {
@@ -809,7 +792,6 @@ class LLMS_Admin_Builder {
 				$res['lessons'] = self::update_lessons( $section_data['lessons'], $section );
 
 			}
-
 		}
 
 		return $res;

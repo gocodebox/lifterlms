@@ -107,7 +107,9 @@ if ( ! function_exists( 'lifterlms_template_quiz_meta_info' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_quiz_attempt_results' ) ) {
 	function lifterlms_template_quiz_attempt_results( $attempt = null ) {
-		llms_get_template( 'quiz/results-attempt.php', array( 'attempt' => $attempt ) );
+		llms_get_template( 'quiz/results-attempt.php', array(
+			'attempt' => $attempt,
+		) );
 	}
 }
 
@@ -119,7 +121,9 @@ if ( ! function_exists( 'lifterlms_template_quiz_attempt_results' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_quiz_attempt_results_questions_list' ) ) {
 	function lifterlms_template_quiz_attempt_results_questions_list( $attempt = null ) {
-		llms_get_template( 'quiz/results-attempt-questions-list.php', array( 'attempt' => $attempt ) );
+		llms_get_template( 'quiz/results-attempt-questions-list.php', array(
+			'attempt' => $attempt,
+		) );
 	}
 }
 

@@ -52,10 +52,13 @@ $siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' 
 		) );
 
 		switch ( $attempt->get( 'status' ) ) {
-			case 'pass': $icon = 'star'; break;
+			case 'pass': $icon = 'star';
+break;
 			case 'incomplete':
-			case 'fail': $icon ='times-circle'; break;
-			case 'pending': $icon ='clock-o'; break;
+			case 'fail': $icon = 'times-circle';
+break;
+			case 'pending': $icon = 'clock-o';
+break;
 			default: $icon = 'question-circle';
 		}
 
@@ -147,7 +150,7 @@ $siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' 
 						'attempt_id' => $attempt->get( 'id' ),
 						'quiz_id' => $attempt->get( 'quiz_id' ),
 						'stab' => 'attempts',
-					) ) ); ?>">
+				) ) ); ?>">
 
 					<?php printf( 'Attempt #%1$s - %2$s', $attempt->get( 'attempt' ), $attempt->get( 'grade' ) . '%' ); ?>
 					<br>

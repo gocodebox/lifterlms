@@ -17,7 +17,7 @@ if ( isset( $_GET['attempt_id'] ) ) {
 
 	$table = new LLMS_Table_Quiz_Attempts();
 	$table->get_results( array(
-		'quiz_id' => absint( $_GET['quiz_id'] )
+		'quiz_id' => absint( $_GET['quiz_id'] ),
 	) );
 	echo $table->get_table_html();
 

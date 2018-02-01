@@ -120,7 +120,6 @@ class LLMS_Question_Manager {
 			return false;
 		}
 
-
 		// only retrieve questions attached to this parent
 		if ( $question->get( 'parent_id' ) !== $this->get_parent()->get( 'id' ) ) {
 

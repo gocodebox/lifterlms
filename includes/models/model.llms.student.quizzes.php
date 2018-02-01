@@ -201,7 +201,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 			$remaining = ( $allowed - $used );
 
 			// don't show negative attmepts
-			$ret =  max( 0, $remaining );
+			$ret = max( 0, $remaining );
 
 		}
 
@@ -314,7 +314,9 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 		$attempts = $this->get_attempts_by_quiz( $quiz_id, array(
 			'per_page' => 1,
-			'sort' => array( 'attempt' => 'DESC' ),
+			'sort' => array(
+				'attempt' => 'DESC',
+			),
 		) );
 
 		if ( $attempts ) {

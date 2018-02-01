@@ -56,7 +56,7 @@ class LLMS_Quiz_Attempt_Question {
 		$question = $this->get_question();
 		$answers = $this->get( 'answer' );
 
-		if ( $answers  ) {
+		if ( $answers ) {
 
 			if ( $question->supports( 'choices' ) && $question->supports( 'grading', 'auto' ) ) {
 
@@ -66,13 +66,11 @@ class LLMS_Quiz_Attempt_Question {
 					$ret .= $choice->get_choice();
 
 				}
-
 			} else {
 
 				$ret = implode( ', ', array_map( 'wp_kses_post', $answers ) );
 
 			}
-
 		}
 
 		return $ret;
@@ -117,7 +115,7 @@ class LLMS_Quiz_Attempt_Question {
 
 		}
 
-		if ( $icon  ) {
+		if ( $icon ) {
 			return sprintf( '<span class="llms-status-icon-tip tip--top-left" data-tip="%1$s"><i class="llms-status-icon fa fa-%2$s"></i><span>', $tip, $icon );
 		}
 

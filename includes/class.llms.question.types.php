@@ -44,7 +44,7 @@ class LLMS_Question_Types {
 			'grading' => 'auto',
 			'group' => array(
 				'order' => 20,
-				'name' => __( 'Other', 'lifterlms' )
+				'name' => __( 'Other', 'lifterlms' ),
 			),
 			'icon' => 'question-cirlce',
 			'id' => 'generic',
@@ -74,7 +74,7 @@ class LLMS_Question_Types {
 				'choices' => array(),
 				'group' => array(
 					'order' => 0,
-					'name' => __( 'Basic Questions', 'lifterlms' )
+					'name' => __( 'Basic Questions', 'lifterlms' ),
 				),
 				'icon' => 'check',
 				'id' => 'choice',
@@ -87,7 +87,7 @@ class LLMS_Question_Types {
 				),
 				'group' => array(
 					'order' => 0,
-					'name' => __( 'Basic Questions', 'lifterlms' )
+					'name' => __( 'Basic Questions', 'lifterlms' ),
 				),
 				'icon' => 'picture-o',
 				'id' => 'picture_choice',
@@ -109,11 +109,11 @@ class LLMS_Question_Types {
 					array(
 						'choice' => esc_html__( 'False', 'lifterlms' ),
 						'marker' => 'B',
-					)
+					),
 				),
 				'group' => array(
 					'order' => 0,
-					'name' => __( 'Basic Questions', 'lifterlms' )
+					'name' => __( 'Basic Questions', 'lifterlms' ),
 				),
 				'icon' => 'toggle-on',
 				'id' => 'true_false',
@@ -150,7 +150,7 @@ class LLMS_Question_Types {
 				'choices' => false,
 				'group' => array(
 					'order' => 10,
-					'name' => __( 'Advanced Questions', 'lifterlms' )
+					'name' => __( 'Advanced Questions', 'lifterlms' ),
 				),
 				'icon' => 'window-minimize',
 				'id' => 'blank',
@@ -162,7 +162,7 @@ class LLMS_Question_Types {
 				'choices' => false,
 				'group' => array(
 					'order' => 10,
-					'name' => __( 'Advanced Questions', 'lifterlms' )
+					'name' => __( 'Advanced Questions', 'lifterlms' ),
 				),
 				'icon' => 'sort-numeric-asc',
 				'id' => 'reorder',
@@ -174,7 +174,7 @@ class LLMS_Question_Types {
 				'choices' => false,
 				'group' => array(
 					'order' => 10,
-					'name' => __( 'Advanced Questions', 'lifterlms' )
+					'name' => __( 'Advanced Questions', 'lifterlms' ),
 				),
 				'icon' => 'picture-o',
 				'id' => 'picture_reorder',
@@ -186,7 +186,7 @@ class LLMS_Question_Types {
 				'choices' => false,
 				'group' => array(
 					'order' => 10,
-					'name' => __( 'Advanced Questions', 'lifterlms' )
+					'name' => __( 'Advanced Questions', 'lifterlms' ),
 				),
 				'icon' => 'align-left',
 				'id' => 'short_answer',
@@ -198,7 +198,7 @@ class LLMS_Question_Types {
 				'choices' => false,
 				'group' => array(
 					'order' => 10,
-					'name' => __( 'Advanced Questions', 'lifterlms' )
+					'name' => __( 'Advanced Questions', 'lifterlms' ),
 				),
 				'icon' => 'paragraph',
 				'id' => 'long_answer',
@@ -210,7 +210,7 @@ class LLMS_Question_Types {
 				'choices' => false,
 				'group' => array(
 					'order' => 10,
-					'name' => __( 'Advanced Questions', 'lifterlms' )
+					'name' => __( 'Advanced Questions', 'lifterlms' ),
 				),
 				'icon' => 'cloud-upload',
 				'id' => 'upload',
@@ -222,7 +222,7 @@ class LLMS_Question_Types {
 				'choices' => false,
 				'group' => array(
 					'order' => 10,
-					'name' => __( 'Advanced Questions', 'lifterlms' )
+					'name' => __( 'Advanced Questions', 'lifterlms' ),
 				),
 				'icon' => 'code',
 				'id' => 'code',
@@ -234,7 +234,7 @@ class LLMS_Question_Types {
 				'choices' => false,
 				'group' => array(
 					'order' => 10,
-					'name' => __( 'Advanced Questions', 'lifterlms' )
+					'name' => __( 'Advanced Questions', 'lifterlms' ),
 				),
 				'icon' => 'sliders',
 				'id' => 'scale',

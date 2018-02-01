@@ -18,7 +18,9 @@ if ( ! $quiz ) {
 $student = llms_get_student();
 $attempts = $student->quizzes()->get_attempts_by_quiz( $quiz->get( 'id' ), array(
 	'per_page' => 25,
-	'sort' => array( 'attempt' => 'DESC' ),
+	'sort' => array(
+		'attempt' => 'DESC',
+	),
 ) );
 
 $attempt = isset( $_GET['attempt_key'] ) ? $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] ) : false;

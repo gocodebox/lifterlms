@@ -78,8 +78,8 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 				'quiz' => llms_get_post( intval( $_GET['quiz_id'] ) ),
 			) );
 
-		// quiz table
-		}  else {
+			// quiz table
+		} else {
 
 			$table = new LLMS_Table_Quizzes();
 			$table->get_results();

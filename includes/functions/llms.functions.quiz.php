@@ -51,7 +51,6 @@ function llms_get_picture_choice_question_cols( $num_choices ) {
 		if ( ! $cols ) {
 			$cols = llms_get_picture_choice_question_cols( $num_choices + 1 );
 		}
-
 	}
 
 	return apply_filters( 'llms_get_picture_choice_question_cols', $cols, $num_choices );

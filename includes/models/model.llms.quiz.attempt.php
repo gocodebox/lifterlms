@@ -51,7 +51,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 			$this->id = $item->id;
 
-		} elseif ( is_array( $item ) && isset( $item['id'] ) )  {
+		} elseif ( is_array( $item ) && isset( $item['id'] ) ) {
 
 			$this->id = $item['id'];
 
@@ -232,13 +232,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				foreach ( $questions as $data ) {
 					// get the total number of correct answers
 					if ( 'correct_answers' === $key ) {
-						if  ( 'yes' === $data['correct'] ) {
+						if ( 'yes' === $data['correct'] ) {
 							$count++;
 						}
-					// get the total number of earned points
 					} elseif ( 'earned' === $key || 'points' === $key ) {
 						$count += $data['earned'];
-					// get the total number of possible points
+						// get the total number of possible points
 					} elseif ( 'available_points' === $key ) {
 						$count += $data['points'];
 					}
@@ -382,11 +381,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 					$questions[ $inc[ $num ] ] = $questions[ $inc[ $perm ] ];
 					$questions[ $inc[ $perm ] ] = $swap;
 				}
-				// end lifted
-
 			}
-
-		}
+		}// End if().
 
 		return $questions;
 
@@ -407,7 +403,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			if ( $next || is_null( $question['answer'] ) ) {
 				return $question['id'];
 
-			// when rewinding and moving back through we don't want to skip questions
+				// when rewinding and moving back through we don't want to skip questions
 			} elseif ( $last_question && $last_question == $question['id'] ) {
 				$next = true;
 			}
@@ -553,7 +549,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			if ( 'waiting' === $question->get_status() ) {
 				return false;
 			}
-
 		}
 
 		return true;

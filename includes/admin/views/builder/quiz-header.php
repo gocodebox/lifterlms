@@ -106,7 +106,7 @@
 			<input type="checkbox" name="parent.quiz_enabled"<# if ( 'yes' === data.get_parent().get( 'quiz_enabled' ) ) { print( ' checked' ) } #>>
 			<div class="llms-switch-slider"></div>
 		</label>
- -->
+	-->
 
 	</section>
 

@@ -323,7 +323,6 @@ class LLMS_Course_Data {
 			if ( is_null( $revenue ) ) {
 				$revenue = 0;
 			}
-
 		}
 
 		return apply_filters( 'llms_course_data_get_revenue', $revenue, $period, $this );

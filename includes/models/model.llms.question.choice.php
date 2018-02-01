@@ -39,7 +39,6 @@ class LLMS_Question_Choice {
 			if ( is_array( $data_or_id ) && isset( $data_or_id['id'] ) ) {
 				$this->hydrate( $data_or_id );
 			}
-
 		}
 
 	}
@@ -88,7 +87,7 @@ class LLMS_Question_Choice {
 	 */
 	public function get( $key, $default = '' ) {
 
-		if ( isset ( $this->data[ $key ] ) ) {
+		if ( isset( $this->data[ $key ] ) ) {
 			return $this->data[ $key ];
 		}
 
@@ -239,7 +238,6 @@ class LLMS_Question_Choice {
 			break;
 
 		}
-
 
 		$this->data[ $key ] = $val;
 		return $this;

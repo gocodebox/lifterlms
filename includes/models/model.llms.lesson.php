@@ -151,7 +151,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				$available = $days + $course->get_date( 'start_date', 'U' );
 			break;
 
-		}
+		}// End switch().
 
 		return date_i18n( $format, $available );
 
@@ -503,7 +503,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			if ( $quiz ) {
 				$arr['quiz'] = $quiz->toArray();
 			}
-
 		}
 
 		return $arr;

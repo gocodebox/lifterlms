@@ -52,7 +52,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			} elseif ( 'llms_attempt_grade' === $action && ( isset( $_POST['remarks'] ) || isset( $_POST['points'] )) ) {
 				$this->save_grade( $attempt );
 			}
-
 		}
 
 	}
@@ -66,8 +65,8 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 */
 	private function save_grade( $attempt ) {
 
-		$remarks = isset( $_POST['remarks'] ) ? ( array ) $_POST['remarks'] : array();
-		$points = isset( $_POST['points'] ) ? ( array ) $_POST['points'] : array();
+		$remarks = isset( $_POST['remarks'] ) ? (array) $_POST['remarks'] : array();
+		$points = isset( $_POST['points'] ) ? (array) $_POST['points'] : array();
 
 		$questions = $attempt->get_questions();
 		foreach ( $questions as &$question ) {
@@ -85,7 +84,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 					$question['correct'] = 'no';
 				}
 			}
-
 		}
 
 		$attempt->set_questions( $questions, true );
