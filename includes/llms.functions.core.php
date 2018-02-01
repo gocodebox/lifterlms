@@ -691,16 +691,14 @@ function llms_get_post( $post, $error = false ) {
  * @param    mixed     $post  WP Post ID or insance of WP_Post
  * @return   obj|null         Instance of the LLMS_Course or null
  * @since    3.6.0
- * @version  3.13.0
+ * @version  [version]
  */
 function llms_get_post_parent_course( $post ) {
 
-	$post = get_post( $post );
-	if ( ! $post || ! in_array( $post->post_type, array( 'section', 'lesson', 'llms_quiz' ) ) ) {
+	$post = llms_get_post( $post );
+	if ( ! $post || ! in_array( $post->get( 'type' ), array( 'section', 'lesson', 'llms_quiz' ) ) ) {
 		return null;
 	}
-
-	$post = llms_get_post( $post );
 
 	return $post->get_course();
 
