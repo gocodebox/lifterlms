@@ -56,6 +56,7 @@ class LLMS_Install {
 			'llms_update_3130_update_db_version',
 		),
 		'3.16.0' => array(
+			'llms_update_3160_update_quiz_settings',
 			'llms_update_3160_attempt_migration',
 			'llms_update_3160_lesson_to_quiz_relationships_migration',
 			'llms_update_3160_ensure_no_dupe_question_rels',

@@ -1012,6 +1012,31 @@ function llms_update_3130_update_db_version() {
 */
 
 /**
+ * Add yes/no vals for quiz new quiz settings
+ * @return   void
+ */
+function llms_update_3160_update_quiz_settings() {
+
+	global $wpdb;
+	$ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'llms_quiz'" );
+
+	foreach ( $ids as $id ) {
+
+		$quiz = llms_get_post( $id );
+
+		if ( $quiz->get( 'time_limit' ) > 0 ) {
+			$quiz->set( 'limit_time', 'yes' );
+		}
+
+		if ( $quiz->get( 'allowed_attempts' ) > 0 ) {
+			$quiz->set( 'limit_attempts', 'yes' );
+		}
+
+	}
+
+}
+
+/**
  * Update question & choice data to new structure
  * @return   void
  */
