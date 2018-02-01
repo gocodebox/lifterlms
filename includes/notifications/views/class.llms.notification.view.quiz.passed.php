@@ -94,6 +94,9 @@ class LLMS_Notification_View_Quiz_Passed extends LLMS_Abstract_Notification_View
 
 		$quiz = new LLMS_Quiz_Legacy( $this->notification->get( 'post_id' ) );
 		$attempt = $this->user->quizzes()->get_last_completed_attempt( $this->notification->get( 'post_id' ) );
+		if ( ! $attempt ) {
+			return '';
+		}
 		$lesson = llms_get_post( $attempt->get( 'lesson_id' ) );
 		if ( ! $lesson ) {
 			return '';
