@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Admin Reporting Base Class
  * @since   3.2.0
- * @version [version]
+ * @version 3.16.0
  */
 class LLMS_Admin_Reporting {
 
@@ -186,8 +186,8 @@ class LLMS_Admin_Reporting {
 	 * Retrieve an array of period filters
 	 * used by self::output_widget_range_filter()
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public static function get_period_filters() {
 		return array(
@@ -207,7 +207,7 @@ class LLMS_Admin_Reporting {
 	 * @param    string     $stab  slug of the sub-tab
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public static function get_stab_url( $stab ) {
 
@@ -241,7 +241,7 @@ class LLMS_Admin_Reporting {
 	 * Get an array of tabs to output in the main reporting menu
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	private function get_tabs() {
 		return apply_filters( 'lifterlms_reporting_tabs', array(
@@ -272,7 +272,7 @@ class LLMS_Admin_Reporting {
 	 * Include all required classes & files for the Reporting screens
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public static function includes() {
 
@@ -308,7 +308,7 @@ class LLMS_Admin_Reporting {
 	 * @param    string     $context  display context [course|student]
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public static function output_event( $event, $context = 'course' ) {
 
@@ -417,8 +417,8 @@ class LLMS_Admin_Reporting {
 	 * @param    string     $tab              current tab name
 	 * @param    array      $args             additional args to be passed when form is submitted
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public static function output_widget_range_filter( $selected_period, $tab, $args = array() ) {
 		?>

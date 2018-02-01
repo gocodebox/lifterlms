@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 class LLMS_Admin_Builder {
 
@@ -126,8 +126,8 @@ class LLMS_Admin_Builder {
 	 * Retrieve the HTML of a JS template
 	 * @param    [type]     $template  [description]
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function get_template( $template, $vars = array() ) {
 
@@ -144,7 +144,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -203,8 +203,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  data from the heartbeat api
 	 *                            builder data will be in the "llms_builder" array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public static function heartbeat_received( $res, $data ) {
 
@@ -269,8 +269,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * if so the object must be created rather than updated
 	 * @param    string     $id  an ID string
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function is_temp_id( $id ) {
 
@@ -300,7 +300,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public static function output() {
 
@@ -381,8 +381,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Process lesson detachments from the heartbeat data
 	 * @param    array     $data  array of lesson ids
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function process_detachments( $data ) {
 
@@ -422,8 +422,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Delete/trash elements from heartbeat data
 	 * @param    array     $data  array of ids to trash/delete
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function process_trash( $data ) {
 
@@ -491,8 +491,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Process all the update data from the heartbeat
 	 * @param    array     $data  array of course updates (all the way down the tree)
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function process_updates( $data ) {
 
@@ -520,8 +520,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $lessons  lesson data from heartbeat
 	 * @param    obj       $section  instance of the parent LLMS_Section
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function update_lessons( $lessons, $section ) {
 
@@ -600,8 +600,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $questions  question data array
 	 * @param    obj       $parent    instance of an LLMS_Quiz or LLMS_Question (group)
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function update_questions( $questions, $parent ) {
 
@@ -685,8 +685,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $quiz_data  array of quiz updates
 	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
@@ -746,8 +746,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $section_data  array of section data
 	 * @param    obj       $course_id     instance of the parent LLMS_Course
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function update_section( $section_data, $course_id ) {
 

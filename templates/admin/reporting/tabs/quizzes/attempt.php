@@ -1,8 +1,8 @@
 <?php
 /**
  * Single Quiz Tab: Single Attempt Subtab
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  * @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }

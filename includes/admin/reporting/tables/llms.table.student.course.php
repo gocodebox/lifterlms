@@ -56,7 +56,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * @param    int        $lesson     Instance of an LLMS_Lesson
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function get_data( $key, $lesson ) {
 

@@ -41,8 +41,8 @@ LLMS.l10n.translate = function ( string ) {
  * @param    string   string        text string
  * @param    object   replacements  object containing token => replacement pairs
  * @return   string
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 LLMS.l10n.replace = function( string, replacements ) {
 

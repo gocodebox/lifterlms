@@ -3,16 +3,16 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Courses Tab on Reporting Screen
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 class LLMS_Admin_Reporting_Tab_Quizzes {
 
 	/**
 	 * Constructor
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function __construct() {
 
@@ -24,8 +24,8 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 	/**
 	 * Add breadcrumb links to the tab depending on current view
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function breadcrumbs() {
 
@@ -55,8 +55,8 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 	/**
 	 * Output tab content
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function output() {
 

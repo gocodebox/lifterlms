@@ -1,8 +1,8 @@
 <?php
 /**
  * Builder question view
- * @since   [version]
- * @version [version]
+ * @since   3.16.0
+ * @version 3.16.0
  */
 ?>
 <script type="text/html" id="tmpl-llms-question-choice-template">

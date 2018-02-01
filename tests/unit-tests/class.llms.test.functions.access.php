@@ -3,7 +3,7 @@
  * Tests for LifterLMS Access Functions
  * @group    access
  * @since    3.7.3
- * @version  [version]
+ * @version  3.16.0
  */
 class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
@@ -22,8 +22,8 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	/**
 	 * Test drip restrictions
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function test_llms_is_post_restricted_by_drip_settings() {
 

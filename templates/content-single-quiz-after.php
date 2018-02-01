@@ -2,7 +2,7 @@
 /**
  * LifterLMS Single Quiz After
  * @since   1.0.0
- * @version [version]
+ * @version 3.16.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 

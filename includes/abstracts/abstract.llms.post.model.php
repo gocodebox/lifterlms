@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -111,7 +111,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $key   key to retrieve
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function __get( $key ) {
 
@@ -209,8 +209,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Allow extending classes to add custom meta properties to the object
 	 * @param    array      $props  key val array of prop key => prop type (see $this->properties)
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	protected function add_properties( $props = array() ) {
 
@@ -568,7 +568,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * These properties need to be get/set with alternate methods
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	protected function get_post_properties() {
 		return apply_filters( 'llms_post_model_get_post_properties', array(
@@ -589,7 +589,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Retrieve an array of properties defined by the model
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function get_properties() {
 		$props = array_merge( $this->get_post_properties(), $this->properties );
@@ -686,7 +686,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    mixed  $val  property value
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	protected function scrub( $key, $val ) {
 
@@ -761,7 +761,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    mixed  $val  value to set the property with
 	 * @return   boolean      true on success, false on error or if the submitted value is the same as what's in the database
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function set( $key, $val ) {
 
@@ -849,7 +849,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function toArray() {
 

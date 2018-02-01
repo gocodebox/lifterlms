@@ -4,8 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Quizzes Reporting Table
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
@@ -71,8 +71,8 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * @param    string     $key      the column id / key
 	 * @param    obj        $attempt  LLMS_Quiz_Attempt obj
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	protected function get_data( $key, $attempt ) {
 
@@ -122,8 +122,8 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	/**
 	 * Retrieve a list of Instructors to be used for Filtering
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private function get_instructor_filters() {
 
@@ -144,8 +144,8 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * Execute a query to retrieve results from the table
 	 * @param    array      $args  array of query args
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_results( $args = array() ) {
 
@@ -222,8 +222,8 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function set_args() {
 		return array(
@@ -235,8 +235,8 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	protected function set_columns() {
 

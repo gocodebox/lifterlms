@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Abstract Database Query
  * @since    3.8.0
- * @version  [version]
+ * @version  3.16.0
  */
 abstract class LLMS_Database_Query {
 
@@ -182,8 +182,8 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Determine if the query has at least one result
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function has_results() {
 		return ( $this->number_results > 0 );
@@ -330,8 +330,8 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Retrieve the prepared SQL for the LIMIT clause
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	protected function sql_limit() {
 

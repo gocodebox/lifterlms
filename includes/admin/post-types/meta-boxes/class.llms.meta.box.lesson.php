@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Lesson Settings Metabox
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
@@ -34,7 +34,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 *
 	 * @return array
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.16.0
 	 */
 	public function get_fields() {
 

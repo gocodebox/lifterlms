@@ -1,8 +1,8 @@
 <?php
 /**
  * Tests for LifterLMS Core Functions
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 class LLMS_Test_Functions_Quiz extends LLMS_UnitTestCase {
 

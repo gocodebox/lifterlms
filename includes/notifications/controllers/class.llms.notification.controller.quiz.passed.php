@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Notification Controller: Quiz Passed
  * @since    3.8.0
- * @version  [version]
+ * @version  3.16.0
  */
 class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notification_Controller {
 
@@ -32,7 +32,7 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	 * @param    array   $quiz_data   WP Post ID of a LifterLMS quiz
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function action_callback( $student_id = null, $quiz_data = null ) {
 

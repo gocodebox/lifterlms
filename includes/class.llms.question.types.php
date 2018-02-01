@@ -4,16 +4,16 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Question Types
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 class LLMS_Question_Types {
 
 	/**
 	 * Initializer
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public static function init() {
 
@@ -24,8 +24,8 @@ class LLMS_Question_Types {
 	/**
 	 * Retrieve question type model defaults
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public static function get_model() {
 
@@ -61,8 +61,8 @@ class LLMS_Question_Types {
 	/**
 	 * Retrieve all the default question types loaded by the LifterLMS core
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private static function get_types() {
 
@@ -250,8 +250,8 @@ class LLMS_Question_Types {
 	 * Load core question types
 	 * @param    array     $questions  array of question types (probably empty)
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public static function load( $questions ) {
 

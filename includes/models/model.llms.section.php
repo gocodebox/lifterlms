@@ -20,8 +20,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Retrieve the total number of elements in the section
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function count_elements() {
 		return count( $this->get_lessons( 'ids' ) );

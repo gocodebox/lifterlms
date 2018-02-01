@@ -4,7 +4,7 @@
  * @group     post_models
  * @group     lessons
  * @since     3.14.8
- * @version   [version]
+ * @version   3.16.0
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 

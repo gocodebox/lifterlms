@@ -4,7 +4,7 @@
  * Mark Complete & Mark Incomplete buttons
  * Take Quiz Button when quiz attached
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 

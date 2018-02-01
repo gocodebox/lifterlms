@@ -13,7 +13,7 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	 * outputs the Html for the given field
 	 * @return   HTML
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function output() {
 

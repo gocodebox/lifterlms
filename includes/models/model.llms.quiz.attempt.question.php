@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Quiz Attempt Answer Question
- * @since   [version]
- * @version [version]
+ * @since   3.16.0
+ * @version 3.16.0
  */
 class LLMS_Quiz_Attempt_Question {
 
@@ -13,8 +13,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Constructor
 	 * @param    array      $data   question data array from attempt record
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function __construct( $data = array() ) {
 
@@ -34,8 +34,8 @@ class LLMS_Quiz_Attempt_Question {
 	 * @param    string     $key      data key name
 	 * @param    mixed      $default  default fallback value if key is unset
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get( $key, $default = '' ) {
 		if ( isset( $this->data[ $key ] ) ) {
@@ -47,8 +47,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Retrieve anwser HTML for the question
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_answer() {
 
@@ -80,8 +80,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Retrieve an instance of the LLMS_Question
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_question() {
 		return llms_get_post( $this->get( 'id' ) );
@@ -90,8 +90,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Retrieve the status icon HTML based on the question's status/answer
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_status_icon() {
 
@@ -126,8 +126,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Receive the graded status of the question
 	 * @return   string      [graded|waiting|none]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_status() {
 		$question = $this->get_question();
@@ -146,8 +146,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Determine if remarks are available for the question
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function has_remarks() {
 
@@ -170,8 +170,8 @@ class LLMS_Quiz_Attempt_Question {
 	 * @param    string    $key  data key name
 	 * @param    mixed     $val  value
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function set( $key, $val ) {
 		$this->data[ $key ] = $val;

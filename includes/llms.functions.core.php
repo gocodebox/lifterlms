@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 
 //include all other function files
@@ -661,7 +661,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  *                              falsy = false
  * @return   mixed
  * @since    3.3.0
- * @version  [version]
+ * @version  3.16.0
  */
 function llms_get_post( $post, $error = false ) {
 
@@ -691,7 +691,7 @@ function llms_get_post( $post, $error = false ) {
  * @param    mixed     $post  WP Post ID or insance of WP_Post
  * @return   obj|null         Instance of the LLMS_Course or null
  * @since    3.6.0
- * @version  [version]
+ * @version  3.16.0
  */
 function llms_get_post_parent_course( $post ) {
 
@@ -824,8 +824,8 @@ function llms_maybe_define_constant( $name, $value ) {
  * Mostly used to parse yes/no bools stored in various meta data fields
  * @param    mixed      $val      value to parse
  * @return   bool
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 function llms_parse_bool( $val ) {
 	return filter_var( $val, FILTER_VALIDATE_BOOLEAN );

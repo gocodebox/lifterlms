@@ -1,7 +1,7 @@
 /**
  * Quiz attempt review / grading UI & UX
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 ( function( $ ) {
 
@@ -10,8 +10,8 @@
 		/**
 		 * Bind DOM events
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		function bind() {
 
@@ -30,8 +30,8 @@
 		/**
 		 * Create editable fields for grading / remarking
 		 * @return   {[type]}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		function setup_fields() {
 

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 class LLMS_AJAX {
 
@@ -17,7 +17,7 @@ class LLMS_AJAX {
 	/**
 	 * Hook into ajax events
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function __construct() {
 

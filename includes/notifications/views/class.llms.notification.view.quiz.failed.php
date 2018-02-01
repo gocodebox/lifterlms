@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Notification View: Quiz Failed
  * @since    3.8.0
- * @version  [version]
+ * @version  3.16.0
  */
 class LLMS_Notification_View_Quiz_Failed extends LLMS_Abstract_Notification_View {
 
@@ -88,7 +88,7 @@ class LLMS_Notification_View_Quiz_Failed extends LLMS_Abstract_Notification_View
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	protected function set_merge_data( $code ) {
 

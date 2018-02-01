@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Query data about a course
  * @since    3.15.0
- * @version  [version]
+ * @version  3.16.0
  */
 class LLMS_Course_Data {
 
@@ -28,7 +28,7 @@ class LLMS_Course_Data {
 	 * @param    mixed     $date  date string or timestamp
 	 * @return   int
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	protected function strtotime( $date ) {
 		if ( ! is_numeric( $date ) ) {
@@ -59,7 +59,7 @@ class LLMS_Course_Data {
 	 * @param    string     $date    date type [start|end]
 	 * @return   string
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	protected function get_date( $period, $date ) {
 
@@ -292,7 +292,7 @@ class LLMS_Course_Data {
 	 * @param    string     $period  date period [current|previous]
 	 * @return   float
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function get_revenue( $period ) {
 

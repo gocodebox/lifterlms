@@ -5,8 +5,8 @@
  * @author    LifterLMS
  * @category  Core
  * @package   LifterLMS/Functions
- * @since     [version]
- * @version   [version]
+ * @since     3.16.0
+ * @version   3.16.0
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Retrieve the number of columns needed for a picture choice question
  * @param    int     $num_choices  number of choices
  * @return   int
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 function llms_get_picture_choice_question_cols( $num_choices ) {
 
@@ -61,8 +61,8 @@ function llms_get_picture_choice_question_cols( $num_choices ) {
  * Retrieve data for a single question type
  * @param    string     $type  id of the question type
  * @return   array|false
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 function llms_get_question_type( $type ) {
 
@@ -76,8 +76,8 @@ function llms_get_question_type( $type ) {
  * Retrieve question types
  * see LLMS_Question_Types class for actual loading of core question types
  * @return   array
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 function llms_get_question_types() {
 	return apply_filters( 'llms_get_question_types', array() );
@@ -86,8 +86,8 @@ function llms_get_question_types() {
 /**
  * Retrieve statuses for quiz attempts
  * @return   array
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 function llms_get_quiz_attempt_statuses() {
 	return apply_filters( 'llms_get_quiz_attempt_statuses', array(

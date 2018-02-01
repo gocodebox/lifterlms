@@ -5,7 +5,7 @@
  * Functions here are used by the background updater during db updates
  *
  * @since    3.4.3
- * @version  [version]
+ * @version  3.16.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Duplicate a WP Post & all relate metadata
  * @param    int     $id  WP Post ID
  * @return   int          WP Post ID of the new duplicate
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 function llms_update_util_post_duplicator( $id ) {
 
@@ -1123,8 +1123,8 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
 /**
  * Create duplicate questions for each question attached to multiple quizzes
  * @return   [type]
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 function llms_update_3160_ensure_no_dupe_question_rels() {
 

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  [version]
+ * @version  3.16.0
  */
 class LLMS_Generator {
 
@@ -443,7 +443,7 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                            WP Post ID of the Quiz
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
 

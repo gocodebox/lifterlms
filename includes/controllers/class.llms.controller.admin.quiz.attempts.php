@@ -5,8 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Quiz Attempt Forms
  * Grading, Deleting, Etc...
  *
- * @since   [version]
- * @version [version]
+ * @since   3.16.0
+ * @version 3.16.0
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -19,8 +19,8 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	/**
 	 * Run actions on form submission
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function maybe_run_actions() {
 
@@ -60,8 +60,8 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * Saves changes to a quiz
 	 * @param    obj     $attempt  LLMS_Quiz_Attempt instance
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private function save_grade( $attempt ) {
 

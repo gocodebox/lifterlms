@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Allow admins to view as various user types
  * to make easier testing and editing of LLMS Content
  * @since    3.7.0
- * @version  [version]
+ * @version  3.16.0
  */
 class LLMS_View_Manager {
 
@@ -54,7 +54,7 @@ class LLMS_View_Manager {
 	 * Add view links to the admin menu bar for qualifying users
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function add_menu_items() {
 

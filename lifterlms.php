@@ -183,7 +183,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.16.0
 	 */
 	private function includes() {
 

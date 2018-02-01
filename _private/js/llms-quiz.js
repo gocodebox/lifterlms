@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 ;( function( $ ) {
 
@@ -54,7 +54,7 @@
 		 * Bind DOM events
 		 * @return void
 		 * @since    1.0.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		bind: function() {
 
@@ -105,8 +105,8 @@
 		 * Add an error message to the UI
 		 * @param    string   msg  error message string
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		add_error: function( msg ) {
 
@@ -255,8 +255,8 @@
 		 * Retrieve the index of a question by question id
 		 * @param    int   qid  WP Post ID of the question
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_question_index: function( qid ) {
 
@@ -269,7 +269,7 @@
 		 * @param    string   url  redirect url
 		 * @return   void
 		 * @since    3.9.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		redirect: function( url ) {
 
@@ -283,7 +283,7 @@
 		 * Return to the previous question
 		 * @return   void
 		 * @since    1.0.0
-	 	 * @version  [version]
+	 	 * @version  3.16.0
 		 */
 		previous_question: function() {
 
@@ -312,8 +312,8 @@
 		 * @param    string     type  question type id
 		 * @param    function   func  callback function to validate the question with
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		register_validator: function( type, func ) {
 
@@ -408,7 +408,7 @@
 		 * When time limit reaches 0 calls complete_quiz() to complete quiz.
 		 * @return Calls get_count_down at a set interval of 1 second
 		 * @since    1.0.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		start_quiz_timer: function( total_minutes ) {
 
@@ -463,8 +463,8 @@
 		 * Trigger events
 		 * @param    string   event  event to trigger
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		trigger: function( event ) {
 
@@ -492,7 +492,7 @@
 		 * @param    string   html  string of html
 		 * @return   void
 		 * @since    3.9.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		load_question: function( html ) {
 
@@ -542,7 +542,7 @@
 		 * @param    string   msg      text to display when showing
 		 * @return   void
 		 * @since    3.9.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		toggle_loader: function( display, msg ) {
 
@@ -570,8 +570,8 @@
 		 * Update the progress bar and toggle button avalability based on question the question being shown
 		 * @param    {[type]}   qid  [description]
 		 * @return   {[type]}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_progress: function( qid ) {
 
@@ -611,8 +611,8 @@
 		 * Increase progress bar ui elment
 		 * @param    string   dir  update direction [increment|decrement]
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_progress_bar: function( dir ) {
 
@@ -695,8 +695,8 @@
 		 * in the format required by the application
 		 * @param    obj   $question  jQuery selector of the question
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		validate: function( $question ) {
 			return {
@@ -709,8 +709,8 @@
 		 * Validates a choice question to ensure there's at least one checked input
 		 * @param    obj   $question  jQuery selector of the question
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		validate_choice: function( $question ) {
 

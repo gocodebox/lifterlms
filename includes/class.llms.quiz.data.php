@@ -5,16 +5,16 @@ include LLMS_PLUGIN_DIR . 'includes/class.llms.course.data.php';
 
 /**
  * Query data about a quiz
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 class LLMS_Quiz_Data extends LLMS_Course_Data {
 
 	/**
 	 * Constructor
 	 * @param    int     $quiz_id  WP Post ID of the quiz
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function __construct( $quiz_id ) {
 
@@ -27,8 +27,8 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	 * Retrieve # of quiz attempts within the period
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_attempt_count( $period = 'current' ) {
 
@@ -51,8 +51,8 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	 * Retrieve avg grade of quiz attempts within the period
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_average_grade( $period = 'current' ) {
 
@@ -77,8 +77,8 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	 * Retrieve # of quiz fails within the period
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_fail_count( $period = 'current' ) {
 
@@ -102,8 +102,8 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	 * Retrieve # of quiz passes within the period
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_pass_count( $period = 'current' ) {
 
@@ -127,8 +127,8 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	/**
 	 * Retrieve recent LLMS_User_Postmeta for the quiz
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function recent_events() {
 

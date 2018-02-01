@@ -5,16 +5,16 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * LifterLMS Quiz Question Manager
  * Don't instantiate this directly, instead use the wrapper functions
  * found in the LLMS_Quiz and LLMS_Question classes
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 class LLMS_Question_Manager {
 
 	/**
 	 * Constructor
 	 * @param    obj     $parent  instance of the parent LLMS_Quiz or LLMS_Question
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function __construct( $parent ) {
 
@@ -25,8 +25,8 @@ class LLMS_Question_Manager {
 	/**
 	 * Quick access to the parent attribute
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private function get_parent() {
 		return $this->parent;
@@ -35,8 +35,8 @@ class LLMS_Question_Manager {
 	/**
 	 * Quick access to parents type property
 	 * @return   string    [llms_quiz|llms_question]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private function get_parent_type() {
 		return $this->parent->get( 'type' );
@@ -45,8 +45,8 @@ class LLMS_Question_Manager {
 	/**
 	 * Retrieve the related LLMS_Quiz
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	private function get_quiz() {
 
@@ -62,8 +62,8 @@ class LLMS_Question_Manager {
 	 * Create a new question and add it to the quiz
 	 * @param    array      $data  array of question data
 	 * @return   false|question id
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function create_question( $data = array() ) {
 
@@ -84,8 +84,8 @@ class LLMS_Question_Manager {
 	 * skips trash and force deletes the question
 	 * @param    int     $id  WP Post ID of a question (must be associated with this quiz)
 	 * @return   boolean      true = deleted, false = error
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function delete_question( $id ) {
 
@@ -108,8 +108,8 @@ class LLMS_Question_Manager {
 	 * Retrieve a question associated with this quiz by question ID
 	 * @param    int     $id  WP Post ID of the question
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_question( $id ) {
 
@@ -140,7 +140,7 @@ class LLMS_Question_Manager {
 	 * @param    string  $return  type of return [ids|posts|questions]
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function get_questions( $return = 'questions' ) {
 
@@ -179,8 +179,8 @@ class LLMS_Question_Manager {
 	 * Omit 'id' to create a new question
 	 * @param    array      $data  array of question data
 	 * @return   false|question id
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function update_question( $data = array() ) {
 

@@ -31,8 +31,8 @@ function llms_mock_current_time( $time ) {
 /**
  * Reset current time after mocking it
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 function llms_reset_current_time() {
 	global $llms_mock_time;

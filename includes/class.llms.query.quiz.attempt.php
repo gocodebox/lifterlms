@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Query LifterLMS Students for a given course / membership
-* @since    [version]
-* @version  [version]
+* @since    3.16.0
+* @version  3.16.0
 *
 * @arg  $attempt     (int)        Query by attempt number
 * @arg  $quiz_id     (int|array)  Query by Quiz WP post ID (locate multiple quizzes with an array of ids)
@@ -31,8 +31,8 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	/**
 	 * Retrieve default arguments for a student query
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	protected function get_default_args() {
 
@@ -58,8 +58,8 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	/**
 	 * Retrieve an array of LLMS_Quiz_Attempts for the given result set returned by the query
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_attempts() {
 
@@ -86,8 +86,8 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 * Convert strings to array and ensure resulting array contains only valid statuses
 	 * If no valid statuses, returns to the default
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	protected function parse_args() {
 
@@ -116,8 +116,8 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	/**
 	 * Prepare the SQL for the query
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	protected function preprare_query() {
 
@@ -134,8 +134,8 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	/**
 	 * SQL "where" clause for the query
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	protected function sql_where() {
 

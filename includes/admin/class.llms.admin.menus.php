@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  *
  * Sets up admin menu items.
  * @since   1.0.0
- * @version [version]
+ * @version 3.16.0
  */
 class LLMS_Admin_Menus {
 
@@ -147,7 +147,7 @@ class LLMS_Admin_Menus {
 	 * Output the HTML for the Course Builder
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function builder_init() {
 		require_once 'class.llms.admin.builder.php';

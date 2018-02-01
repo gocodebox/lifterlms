@@ -2,7 +2,7 @@
 /**
  * Single Quiz: Meta Information
  * @since    3.9.0
- * @version  [version]
+ * @version  3.16.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

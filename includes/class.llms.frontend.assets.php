@@ -2,7 +2,7 @@
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  [version]
+* @version  3.16.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -129,7 +129,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.16.0
 	 */
 	public static function enqueue_scripts() {
 

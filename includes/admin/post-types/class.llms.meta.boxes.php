@@ -5,7 +5,7 @@
 * sets up base metabox functionality and global save.
 *
 * @since   1.0.0
-* @version [version]
+* @version 3.16.0
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -23,7 +23,7 @@ class LLMS_Admin_Meta_Boxes {
 	 * Constructor
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function __construct() {
 
@@ -132,7 +132,7 @@ class LLMS_Admin_Meta_Boxes {
 	* Add Metaboxes
 	* @return   void
 	* @since    1.0.0
-	* @version  [version]
+	* @version  3.16.0
 	*/
 	public function get_meta_boxes() {
 

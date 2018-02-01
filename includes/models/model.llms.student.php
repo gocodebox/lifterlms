@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version [version]
+ * @version 3.16.0
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -600,7 +600,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    int     $object_id  WP Post ID of a course or lesson
 	 * @return   mixed
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function get_grade( $object_id ) {
 

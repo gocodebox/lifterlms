@@ -4,8 +4,8 @@
  * @group     post_models
  * @group     quizzes
  * @group     quiz
- * @since     [version]
- * @version   [version]
+ * @since     3.16.0
+ * @version   3.16.0
  */
 class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 

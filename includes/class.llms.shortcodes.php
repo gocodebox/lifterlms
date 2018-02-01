@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.16.0
 */
 class LLMS_Shortcodes {
 
@@ -100,7 +100,7 @@ class LLMS_Shortcodes {
 	 * Retrieve the course ID from within a course, lesson, or quiz
 	 * @return   int
 	 * @since    2.7.9
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	private static function get_course_id() {
 

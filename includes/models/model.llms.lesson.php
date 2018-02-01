@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -91,8 +91,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * @param    string     $format  date format (passed to date_i18n()) (defaults to WP Core date + time formats)
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_available_date( $format = '' ) {
 
@@ -160,8 +160,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Retrieve an instance of LLMS_Course for the element's parent course
 	 * @return   obj|null
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_course() {
 
@@ -295,8 +295,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Retrieve an instance of LLMS_Course for the elements's parent section
 	 * @return   obj|null
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_section() {
 
@@ -313,7 +313,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Retrieve an object for the assignd quiz (if a quiz is assigned )
 	 * @return   obj|false
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function get_quiz() {
 		if ( $this->has_quiz() ) {
@@ -386,7 +386,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Determine if a quiz is assigned to this lesson
 	 * @return   boolean
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function has_quiz() {
 		return ( $this->get( 'quiz' ) );
@@ -398,8 +398,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * date is in the past
 	 *
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function is_available() {
 
@@ -480,8 +480,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Determines if a quiz is enabled for the lesson
 	 * Lesson must have a quiz and the quiz must be enabled
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function is_quiz_enabled() {
 		return ( $this->has_quiz() && ( 'yes' === $this->get( 'quiz_enabled' ) ) );
@@ -493,7 +493,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function toArrayAfter( $arr ) {
 
@@ -794,7 +794,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @return     false|int
 	 * @deprecated 3.0.2
 	 * @since      1.0.0
-	 * @version    [version]
+	 * @version    3.16.0
 	 */
 	public function get_assigned_quiz() {
 

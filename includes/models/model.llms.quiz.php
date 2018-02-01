@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Model
  * @since    3.3.0
- * @version  [version]
+ * @version  3.16.0
  *
  * @property  $allowed_attempts  (int)  Number of times a student is allowed to take the quiz before being locked out of it
  * @property  $passing_percent  (float)  Grade required for a student to "pass" the quiz
@@ -35,8 +35,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Retrieve the LLMS_Course for the quiz
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_course() {
 		$lesson = $this->get_lesson();
@@ -49,8 +49,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Retrieve LLMS_Lesson for the quiz's parent lesson
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_lesson() {
 		return llms_get_post( $this->get( 'lesson_id' ) );
@@ -60,8 +60,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Retrieve the quizzes child questions
 	 * @param    string  $return  type of return [ids|posts|questions]
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_questions( $return = 'questions' ) {
 		return $this->questions()->get_questions( $return );
@@ -70,8 +70,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Retrieve the time limit formatted as a human readable string
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_time_limit_string() {
 
@@ -82,8 +82,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Determine if the quiz defines limited attempts
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function has_attempt_limit() {
 		return ( 'yes' === $this->get( 'limit_attempts' ) );
@@ -92,8 +92,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Determine if a time limit is enabled for the quiz
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function has_time_limit() {
 		return ( 'yes' === $this->get( 'limit_time' ) );
@@ -105,7 +105,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @param    int      $user_id   WP User ID, none supplied uses current user
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	public function is_open( $user_id = null ) {
 
@@ -128,8 +128,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Retrieve an instance of the question manager for the quiz
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.0
+	 * @version  3.16.0
 	 */
 	public function questions() {
 		return new LLMS_Question_Manager( $this );
@@ -142,7 +142,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @param    array     $arr   array of data to be serialized
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.0
 	 */
 	protected function toArrayAfter( $arr ) {
 
@@ -250,7 +250,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @param      int   $user_id   WP_User ID, if not supplied uses current user
 	 * @return     int
 	 * @since      1.0.0
-	 * @version    [version]
+	 * @version    3.16.0
 	 * @deprecated [version]
 	 */
 	public function get_remaining_attempts_by_user( $user_id = null ) {
@@ -271,7 +271,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Retrieve the configured time limit
 	 * @return      int
 	 * @since       1.0.0
-	 * @version     [version]
+	 * @version     3.16.0
 	 * @deprecated  [version]
 	 */
 	public function get_time_limit() {
@@ -283,7 +283,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Retrieve the configured time limit
 	 * @return      int
 	 * @since       1.0.0
-	 * @version     [version]
+	 * @version     3.16.0
 	 * @deprecated  [version]
 	 */
 	public function get_total_allowed_attempts() {
@@ -296,7 +296,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @param       int   $user_id  a WP_User ID, if not supplied uses current user
 	 * @return      int
 	 * @since       1.0.0
-	 * @version     [version]
+	 * @version     3.16.0
 	 * @deprecated  [version]
 	 */
 	public function get_total_attempts_by_user( $user_id = null ) {

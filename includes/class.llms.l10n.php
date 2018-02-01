@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version [version]
+ * @version 3.16.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,7 +24,7 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version [version]
+	 * @version 3.16.0
 	 */
 	public static function get_js_strings( $json = true ) {
 
@@ -108,7 +108,7 @@ class LLMS_L10n {
 				/**
 				 * file: _private/js/llms-admin.js
 				 * @since   3.4.4
-				 * @version [version]
+				 * @version 3.16.0
 				 */
 				'An unknown error occurred, please try again.' => esc_html__( 'An unknown error occurred, please try again.', 'lifterlms' ),
 

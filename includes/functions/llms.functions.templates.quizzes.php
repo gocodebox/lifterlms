@@ -2,7 +2,7 @@
 /**
  * Template functions for quizzes & questions
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Single question main content template
  * @return void
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_question_content' ) ) {
 	function lifterlms_template_question_content( $args ) {
@@ -30,8 +30,8 @@ if ( ! function_exists( 'lifterlms_template_question_content' ) ) {
 /**
  * Single question description template
  * @return void
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_question_description' ) ) {
 	function lifterlms_template_question_description( $args ) {
@@ -42,8 +42,8 @@ if ( ! function_exists( 'lifterlms_template_question_description' ) ) {
 /**
  * Single question featured image template
  * @return void
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_question_image' ) ) {
 	function lifterlms_template_question_image( $args ) {
@@ -54,8 +54,8 @@ if ( ! function_exists( 'lifterlms_template_question_image' ) ) {
 /**
  * Single question featured video template
  * @return void
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_question_video' ) ) {
 	function lifterlms_template_question_video( $args ) {
@@ -67,7 +67,7 @@ if ( ! function_exists( 'lifterlms_template_question_video' ) ) {
  * Question Wrapper End Template Include
  * @return void
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_question_wrapper_end' ) ) {
 	function lifterlms_template_question_wrapper_end( $args ) {
@@ -79,7 +79,7 @@ if ( ! function_exists( 'lifterlms_template_question_wrapper_end' ) ) {
  * Question Wrapper Start Template Include
  * @return void
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_question_wrapper_start' ) ) {
 	function lifterlms_template_question_wrapper_start( $args ) {
@@ -102,8 +102,8 @@ if ( ! function_exists( 'lifterlms_template_quiz_meta_info' ) ) {
 /**
  * Quiz Single Attempt Results
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_quiz_attempt_results' ) ) {
 	function lifterlms_template_quiz_attempt_results( $attempt = null ) {
@@ -116,8 +116,8 @@ if ( ! function_exists( 'lifterlms_template_quiz_attempt_results' ) ) {
 /**
  * Quiz Single Attempt Results Question List
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_quiz_attempt_results_questions_list' ) ) {
 	function lifterlms_template_quiz_attempt_results_questions_list( $attempt = null ) {

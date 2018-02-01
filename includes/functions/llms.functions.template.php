@@ -69,7 +69,7 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
  * @param    string  $default_path  [default file path]
  * @return   void
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.0
  */
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 	if ( $args && is_array( $args ) ) {
