@@ -8,8 +8,10 @@
 <script type="text/html" id="tmpl-llms-question-choice-template">
 
 	<label class="llms-choice-id">
-		<input name="correct" type="checkbox"<# if ( data.get( 'correct' ) ) { print( ' checked="checked"' ) ;} #>>
-		<span>
+		<# if ( data.is_selectable() ) { #>
+			<input name="correct" type="checkbox"<# if ( data.get( 'correct' ) ) { print( ' checked="checked"' ) ;} #>>
+		<# } #>
+		<span class="llms-marker<# if ( data.is_selectable() ) { print ( ' selectable' ) }#>">
 			<b>{{{ data.get( 'marker' ) }}}</b>
 			<i class="fa fa-check" aria-hidden="true"></i>
 		</span>
