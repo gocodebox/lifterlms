@@ -63,12 +63,7 @@ define( [
 
 			var change_events = [
 				'change:_expanded',
-				'change:clarifications_enabled',
-				'change:description_enabled',
-				'change:multi_choices',
 				'change:menu_order',
-				'change:video_enabled',
-				'change:video_src',
 			];
 			_.each( change_events, function( event ) {
 				this.listenTo( this.model, event, this.render );
@@ -135,6 +130,9 @@ define( [
 					}
 				} );
 			}
+
+			this.init_formatting_els();
+			this.init_selects();
 
 			return this;
 		},
