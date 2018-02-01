@@ -20,13 +20,12 @@ class LLMS_Quiz_Attempt_Question {
 
 		$this->data = wp_parse_args( $data, array(
 			'id' => null,
+			'earned' => null,
 			'points' => null,
 			'remarks' => null,
 			'answer' => null,
 			'correct' => null,
 		) );
-
-		// var_dump( $this->data );
 
 	}
 
@@ -78,16 +77,6 @@ class LLMS_Quiz_Attempt_Question {
 
 		return $ret;
 
-	}
-
-	/**
-	 * Retrieve the number of points earned for the question
-	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function get_earned_points() {
-		return $this->is_correct() ? $this->get( 'points' ) : 0;
 	}
 
 	/**
@@ -154,6 +143,18 @@ class LLMS_Quiz_Attempt_Question {
 			}
 		}
 		return 'none';
+	}
+
+	/**
+	 * Determine if remarks are available for the question
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function has_remarks() {
+
+		return ( $this->get( 'remarks' ) );
+
 	}
 
 	public function is_correct() {
