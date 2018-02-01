@@ -22,22 +22,29 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	protected $model_post_type = 'quiz';
 
 	protected $properties = array(
-
 		'lesson_id' => 'absint',
-
 		'allowed_attempts' => 'int',
 		'limit_attempts' => 'yesno',
 		'limit_time' => 'yesno',
 		'passing_percent' => 'float',
-
-		// 'random_answers' => 'yesno',
 		'random_questions' => 'yesno',
 		'show_correct_answer' => 'yesno',
-		// 'show_options_description_right_answer' => 'yesno',
-		// 'show_options_description_wrong_answer' => 'yesno',
-		// 'show_results' => 'yesno',
 		'time_limit' => 'int',
 	);
+
+	/**
+	 * Retrieve the LLMS_Course for the quiz
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_course() {
+		$lesson = $this->get_lesson();
+		if ( $lesson ) {
+			return $lesson->get_course();
+		}
+		return false;
+	}
 
 	/**
 	 * Retrieve LLMS_Lesson for the quiz's parent lesson
@@ -46,9 +53,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @version  [version]
 	 */
 	public function get_lesson() {
-		if ( 'llms_quiz' === get_post_type( $this->get( 'lesson_id' ) ) ) {
-			llms_log( $this->get( 'id' ) );
-		}
 		return llms_get_post( $this->get( 'lesson_id' ) );
 	}
 
@@ -100,32 +104,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	public function get_time_limit_string() {
 
 		return LLMS_Date::convert_to_hours_minutes_string( $this->get( 'time_limit' ) );
-
-	}
-
-	/**
-	 * Get total attempts by user
-	 * @param    int   $user_id  a WP_User ID, if not supplied uses current user
-	 * @return   int
-	 * @since    1.0.0
-	 * @version  [version]
-	 */
-	public function get_total_attempts_by_user( $user_id = null ) {
-
-		$student = llms_get_student( $user_id );
-		if ( ! $student ) {
-			return 0;
-		}
-
-		$attempts = $student->quizzes()->get_all( $this->get( 'id' ) );
-		foreach ( $attempts as $key => $attempt ) {
-			$attempt = new LLMS_Quiz_Attempt( $attempt );
-			if ( $attempt->get( 'current' ) ) {
-				unset( $attempts[ $key ] );
-			}
-		}
-
-		return count( $attempts );
 
 	}
 
@@ -314,6 +292,27 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	public function get_total_allowed_attempts() {
 		llms_deprecated_function( 'LLMS_Quiz::get_total_allowed_attempts()', '3.16.0', 'LLMS_Quiz::get( "allowed_attempts" )' );
 		return $this->get( 'allowed_attempts' );
+	}
+
+	/**
+	 * Get total attempts by user
+	 * @param       int   $user_id  a WP_User ID, if not supplied uses current user
+	 * @return      int
+	 * @since       1.0.0
+	 * @version     [version]
+	 * @deprecated  [version]
+	 */
+	public function get_total_attempts_by_user( $user_id = null ) {
+
+		llms_deprecated_function( 'LLMS_Quiz::get_total_attempts_by_user()', '3.16.0', 'LLMS_Student::quizzes()->count_attempts_by_quiz( $quiz_id )' );
+
+		$student = llms_get_student( $user_id );
+		if ( ! $student ) {
+			return 0;
+		}
+
+		return $student->quizzes()->count_attempts_by_quiz( $this->get( 'id' ) );
+
 	}
 
 	public function get_passing_percent() {
