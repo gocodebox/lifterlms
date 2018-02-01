@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 do_action( 'lifterlms_single_question_before_summary', $args ); ?>
 
-	<h3 class="llms-question-text"><?php echo $question->get( 'title' ); ?></h3>
+	<h3 class="llms-question-text"><?php echo $question->get_question(); ?></h3>
 
 	<?php
 		/**
