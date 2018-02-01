@@ -159,6 +159,13 @@
 .llms-button-secondary.large.square {
   padding: 16px;
 }
+.llms-button-action.large .fa,
+.llms-button-danger.large .fa,
+.llms-button-primary.large .fa,
+.llms-button-secondary.large .fa {
+  left: -7px;
+  position: relative;
+}
 
 .llms-button-primary {
   background: #2295ff;
