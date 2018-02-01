@@ -4,7 +4,8 @@ LifterLMS Changelog
 v3.16.1 - 2018-02-??
 --------------------
 
-+ Update checkout error message to provide user with direction when they already have access to a course.
++ Fix undefined index warning on wp-login.php related to LifterLMS js assets. Thanks [Mte90](https://github.com/Mte90)!
++ Update checkout error message to provide user with direction when they already have access to a course. Thanks [@andreasblumberg](https://github.com/andreasblumberg)!
 
 
 v3.16.0 - 2018-02-01
@@ -36,6 +37,7 @@ v3.16.0 - 2018-02-01
 
 ##### Updates
 
++ Added space between arrows and "Next" and "Previous" text on pagination lists. Thanks [sujaypawar](https://github.com/sujaypawar)!
 + Updated Quiz post type slug from "llms_quiz" to "quiz".
 + Updated default return of `llms_get_post()` to be `false` rather than a `WP_Post` object when a LifterLMS post cannot be located
 
