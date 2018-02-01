@@ -101,6 +101,8 @@ add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_wra
 add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_return_link',   10 );
 add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_results',       15 );
 	add_action( 'llms_single_quiz_attempt_results', 'lifterlms_template_quiz_attempt_results', 10 );
+	add_action( 'llms_single_quiz_attempt_results_main', 'lifterlms_template_quiz_attempt_results_questions_list', 10 );
+
 add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_meta_info',     25 );
 
 add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_quiz_wrapper_end',    5 );
