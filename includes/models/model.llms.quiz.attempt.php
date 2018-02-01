@@ -20,10 +20,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		'start_date' => '%s',
 		'update_date' => '%s',
 		'end_date' => '%s',
-		'current' => '%d',
+		'status' => '%s',
 		'attempt' => '%d',
 		'grade' => '%f',
-		'passed' => '%d',
 		'questions' => '%s',
 	);
 
@@ -97,8 +96,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		$this->set_questions( $questions )->save();
 
-		llms_log( $this->get_questions() );
-
 		return $this;
 
 	}
@@ -144,7 +141,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	public function end( $silent = false ) {
 
 		$this->set( 'end_date', current_time( 'mysql' ) );
-		$this->set( 'current', false );
 		$this->calculate_grade()->save();
 
 		if ( ! $silent ) {
@@ -228,12 +224,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @param    string     $format  output date format (PHP), uses wordpress format options if none provided
 	 * @return   string
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	public function get_date( $key, $format = null ) {
 
 		$date = strtotime( $this->get( $key . '_date' ) );
-		$format = ! $format ? get_option( 'date_format' ) : $format;
+		$format = ! $format ? get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) : $format;
 		return date_i18n( $format, $date );
 
 	}
@@ -285,11 +281,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	public function get_key() {
 		$hashids = new Hashids\Hashids( 'OwxbRhk6uyGb08wggj7K648Tdmsd4FDW' );
 		return $hashids->encode( $this->get_id() );
-		// return base64_encode( implode( '|', array(
-		// 	$this->get( 'quiz_id' ),
-		// 	$this->get( 'lesson_id' ),
-		// 	$this->get( 'attempt' ),
-		// ) ) );
 	}
 
 	/**
@@ -320,10 +311,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 				$questions[] = array(
 					'id' => $question->get( 'id' ),
+					'earned' => 0,
 					'points' => $question->supports( 'points' ) ? $question->get( 'points' ) : 0,
 					'answer' => null,
 					'correct' => null,
 				);
+
 			}
 
 			if ( $randomize ) {
@@ -415,6 +408,22 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Retrieve an array of attempt question objects
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_question_objects() {
+
+		$questions = array();
+		foreach ( $this->get_questions() as $qdata ) {
+			$questions[] = new LLMS_Quiz_Attempt_Question( $qdata );
+		}
+		return $questions;
+
+	}
+
+	/**
 	 * Get an instance of the LLMS_Quiz for the attempt
 	 * @return   obj
 	 * @since    3.9.0
@@ -422,38 +431,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 */
 	public function get_quiz() {
 		return llms_get_post( $this->get( 'quiz_id' ) );
-	}
-
-	/**
-	 * Get the attempts status based on start and end dates
-	 * @return   string
-	 * @since    3.9.0
-	 * @version  3.9.0
-	 */
-	public function get_status() {
-
-		$start = $this->get( 'start_date' );
-		$end = $this->get( 'end_date' );
-
-		// quiz has been initialized but hasn't been started yet
-		if ( ! $start && ! $end ) {
-
-			return 'new';
-
-		} elseif ( $start && ! $end ) {
-
-			if ( true == $this->get( 'current' ) ) {
-
-				return 'in-progress';
-
-			}
-
-			return 'incomplete';
-
-		}
-
-		return 'complete';
-
 	}
 
 	/**
@@ -478,6 +455,16 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Retrieve a title-like string
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_title() {
+		return sprintf( __( 'Quiz Attempt #%1$d by %2$s', 'lifterlms' ), $this->get( 'attempt' ), $this->get_student()->get_name() );
+	}
+
+	/**
 	 * Initialize a new quiz attempt by quiz and lesson for a user
 	 * if no user is passed the current user will be used
 	 * if no user found returns a WP_Error
@@ -495,19 +482,13 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			throw new Exception( __( 'You must be logged in to take a quiz!', 'lifterlms' ) );
 		}
 
-		// initialized attempt already exists for this quiz/lesson
-		// $current = $student->quizzes()->get_current_attempt( $quiz_id );
-		// if ( $current && $lesson_id == $current->get( 'lesson_id' ) ) {
-		// 	return $current;
-		// }
-
 		// initialize a new attempt
 		$attempt = new self();
 		$attempt->set( 'quiz_id', $quiz_id );
 		$attempt->set( 'lesson_id', $lesson_id );
 		$attempt->set( 'student_id', $student->get_id() );
+		$attempt->set_status( 'current' );
 		$attempt->set_questions( $attempt->get_new_questions() );
-		$attempt->set( 'current', true );
 
 		$last_attempt = $student->quizzes()->get_last_attempt( $quiz_id );
 		if ( $last_attempt ) {
@@ -522,10 +503,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Determine if the attempt was passing
 	 * @return   boolean
 	 * @since    3.9.2
-	 * @version  3.9.2
+	 * @version  [version]
 	 */
 	public function is_passing() {
-		return $this->get( 'passed' );
+		return ( 'pass' === $this->get( 'status' ) );
 	}
 
 	/**
@@ -533,14 +514,21 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @param    string     $key  key to translate
 	 * @return   string
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
 	public function l10n( $key ) {
 
 		switch ( $key ) {
-			case 'passed':
+
+			case 'status':
+				$statuses = llms_get_quiz_attempt_statuses();
+				return $statuses[ $this->get( 'status' ) ];
+			break;
+
+			case 'passed': // deprecated
 				return $this->get( 'passed' ) ? __( 'Passed', 'lifterlms' ) : __( 'Failed', 'lifterlms' );
 			break;
+
 		}
 
 		return '';
@@ -551,11 +539,30 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Setter for serialized questions array
 	 * @param    array      $questions  question data
 	 * @param    boolean    $save       if true, immediately persists to database
+	 * @return   self
 	 * @since    [version]
 	 * @version  [version]
 	 */
 	public function set_questions( $questions = array(), $save = false ) {
 		return $this->set( 'questions', serialize( $questions ), $save );
+	}
+
+	/**
+	 * Set the status of the attempt
+	 * @param    string     $status   status value
+	 * @param    boolean    $save     if true, immediately persists to database
+	 * @return   self
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function set_status( $status, $save = false ) {
+
+		$statuses = array_keys( llms_get_quiz_attempt_statuses() );
+		if ( ! in_array( $status , $statuses ) ) {
+			return false;
+		}
+		return $this->set( 'status', $status );
+
 	}
 
 	/**
@@ -580,6 +587,34 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 */
 	public function to_array() {
 		return $this->data;
+	}
+
+
+
+	/*
+		       /$$                                                               /$$                     /$$
+		      | $$                                                              | $$                    | $$
+		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
+		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
+		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
+		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
+		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
+		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
+		                    | $$
+		                    | $$
+		                    |__/
+	*/
+
+	/**
+	 * Get the attempts status based on start and end dates
+	 * @return   string
+	 * @since      3.9.0
+	 * @version    [version]
+	 * @deprecated [version]
+	 */
+	public function get_status() {
+		llms_deprecated_function( 'LLMS_Quiz_Attempt::get_status()', '3.16.0', "LLMS_Quiz_Attempt::get( 'status' )" );
+		return $this->get( 'status' );
 	}
 
 }
