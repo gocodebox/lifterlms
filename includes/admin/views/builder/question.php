@@ -15,7 +15,7 @@
 		</span>
 
 		<h3 class="llms-headline llms-input-wrapper">
-			<span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-formatting="b,i,u" data-original-content="{{{ data.get( 'title' ) }}}" data-placeholder="{{{ data.get( 'question_type' ).get( 'placeholder' ) }}}">{{{ data.get( 'title' ) }}}</span>
+			<div class="llms-editable-title llms-input-formatting" data-attribute="title" data-formatting="bold,italic,underline" data-placeholder="{{{ data.get( 'question_type' ).get( 'placeholder' ) }}}">{{{ data.get( 'title' ) }}}</div>
 		</h3>
 
 		<div class="llms-action-icons">
@@ -128,7 +128,7 @@
 
 					<span class="llms-label"><?php _e( 'Choices', 'lifterlms' ); ?></span>
 
-					<# if ( data.get( 'question_type' ).get_multi_choices() ) { #>
+					<# if ( data.get( 'question_type' ).get_multi_choices() && data.get( 'question_type' ).get_choice_selectable() ) { #>
 						<label class="llms-switch">
 							<span class="llms-label"><?php _e( 'Multiple Correct Choices', 'lifterlms' ); ?></span>
 							<input type="checkbox" name="multi_choices"<# if ( 'yes' === data.get( 'multi_choices' ) ) { print( ' checked' ) } #>>
