@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Admin Reporting Base Class
  * @since   3.2.0
- * @version 3.15.0
+ * @version [version]
  */
 class LLMS_Admin_Reporting {
 
@@ -183,11 +183,31 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
+	 * Retrieve an array of period filters
+	 * used by self::output_widget_range_filter()
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function get_period_filters() {
+		return array(
+			'today' => esc_attr__( 'Today', 'lifterlms' ),
+			'yesterday' => esc_attr__( 'Yesterday', 'lifterlms' ),
+			'week' => esc_attr__( 'This Week', 'lifterlms' ),
+			'last_week' => esc_attr__( 'Last Week', 'lifterlms' ),
+			'month' => esc_attr__( 'This Month', 'lifterlms' ),
+			'last_month' => esc_attr__( 'Last Month', 'lifterlms' ),
+			'year' => esc_attr__( 'This Year', 'lifterlms' ),
+			'last_year' => esc_attr__( 'Last Year', 'lifterlms' ),
+		);
+	}
+
+	/**
 	 * Get the full URL to a sub-tab within a reporting screen
 	 * @param    string     $stab  slug of the sub-tab
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  ??
+	 * @version  [version]
 	 */
 	public static function get_stab_url( $stab ) {
 
@@ -207,6 +227,10 @@ class LLMS_Admin_Reporting {
 				$args['student_id'] = $_GET['student_id'];
 			break;
 
+			case 'quizzes':
+				$args['quiz_id'] = $_GET['quiz_id'];
+			break;
+
 		}
 
 		return add_query_arg( $args, admin_url( 'admin.php' ) );
@@ -217,12 +241,13 @@ class LLMS_Admin_Reporting {
 	 * Get an array of tabs to output in the main reporting menu
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  ??
+	 * @version  [version]
 	 */
 	private function get_tabs() {
 		return apply_filters( 'lifterlms_reporting_tabs', array(
 			'students' => __( 'Students', 'lifterlms' ),
 			'courses' => __( 'Courses', 'lifterlms' ),
+			'quizzes' => __( 'Quizzes', 'lifterlms' ),
 			'sales' => __( 'Sales', 'lifterlms' ),
 			'enrollments' => __( 'Enrollments', 'lifterlms' ),
 		) );
@@ -283,7 +308,7 @@ class LLMS_Admin_Reporting {
 	 * @param    string     $context  display context [course|student]
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public static function output_event( $event, $context = 'course' ) {
 
@@ -301,7 +326,7 @@ class LLMS_Admin_Reporting {
 				<a href="<?php echo esc_url( $url ); ?>">
 			<?php endif; ?>
 
-				<?php if ( 'course' === $context ) : ?>
+				<?php if ( 'course' === $context || 'quiz' === $context ) : ?>
 					<?php echo $student->get_avatar( 24 ); ?>
 				<?php endif; ?>
 
@@ -383,6 +408,35 @@ class LLMS_Admin_Reporting {
 		</div>
 		<?php
 
+	}
+
+	/**
+	 * Output a range filter select
+	 * Used by overview data tabs
+	 * @param    string     $selected_period  currently selected period
+	 * @param    string     $tab              current tab name
+	 * @param    array      $args             additional args to be passed when form is submitted
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function output_widget_range_filter( $selected_period, $tab, $args = array() ) {
+		?>
+		<div class="llms-reporting-tab-filter">
+			<form action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" method="GET">
+				<select class="llms-select2" name="period" onchange="this.form.submit();">
+					<?php foreach ( self::get_period_filters() as $val => $text ) : ?>
+						<option value="<?php echo $val; ?>"<?php selected( $val, $selected_period ); ?>><?php echo $text; ?></option>
+					<?php endforeach; ?>
+				</select>
+				<input type="hidden" name="page" value="llms-reporting">
+				<input type="hidden" name="tab" value="<?php echo $tab; ?>">
+				<?php foreach ( $args as $key => $val ) : ?>
+					<input type="hidden" name="<?php echo $key; ?>" value="<?php echo $val; ?>">
+				<?php endforeach; ?>
+			</form>
+		</div>
+		<?php
 	}
 
 }
