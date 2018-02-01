@@ -209,6 +209,13 @@ class LLMS_Admin_Assets {
 								wp_enqueue_script( 'llms-metaboxes' );
 							}
 						break;
+
+						case 'quizzes':
+							if ( isset( $_GET['stab'] ) && 'attempts' === $_GET['stab'] ) {
+								wp_enqueue_script( 'llms-quiz-attempt-review', plugins_url( '/assets/js/llms-quiz-attempt-review' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms' ), LLMS()->version, true );
+							}
+						break;
+
 					}
 				}
 			}
