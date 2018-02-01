@@ -31,15 +31,21 @@ class LLMS_Question_Types {
 
 		return apply_filters( 'llms_question_type_model_defaults', array(
 			'choices' => array(
-				'max' => 0,
-				'min' => 0,
-				'multi' => false,
+				'selectable' => true,
+				'markers' => range( 'A', 'Z' ),
+				'max' => 26,
+				'min' => 2,
+				'multi' => true,
 				'type' => 'text',
 			),
 			'clarifications' => true,
 			'description' => true,
 			'default_choices' => array(),
 			'grading' => 'auto',
+			'group' => array(
+				'order' => 20,
+				'name' => __( 'Other', 'lifterlms' )
+			),
 			'icon' => 'question-cirlce',
 			'id' => 'generic',
 			'image' => true,
@@ -60,14 +66,15 @@ class LLMS_Question_Types {
 	 */
 	private static function get_types() {
 
+		$upgrade_url = 'https://lifterlms.com/product/advanced-quizzes/?utm_source=LifterLMS%20Plugin&utm_medium=Quiz%20Builder%20Button&utm_campaign=Advanced%20Question%20Upsell&utm_content=3.16.0&utm_term=';
+
 		return array(
 
 			'choice' => array(
-				'choices' => array(
-					'max' => -1,
-					'min' => 2,
-					'multi' => true,
-					'type' => 'text',
+				'choices' => array(),
+				'group' => array(
+					'order' => 0,
+					'name' => __( 'Basic Questions', 'lifterlms' )
 				),
 				'icon' => 'check',
 				'id' => 'choice',
@@ -76,10 +83,11 @@ class LLMS_Question_Types {
 
 			'picture_choice' => array(
 				'choices' => array(
-					'max' => -1,
-					'min' => 2,
-					'multi' => true,
 					'type' => 'image',
+				),
+				'group' => array(
+					'order' => 0,
+					'name' => __( 'Basic Questions', 'lifterlms' )
 				),
 				'icon' => 'picture-o',
 				'id' => 'picture_choice',
@@ -91,7 +99,6 @@ class LLMS_Question_Types {
 					'max' => 2,
 					'min' => 2,
 					'multi' => false,
-					'type' => 'text',
 				),
 				'default_choices' => array(
 					array(
@@ -103,6 +110,10 @@ class LLMS_Question_Types {
 						'choice' => esc_html__( 'False', 'lifterlms' ),
 						'marker' => 'B',
 					)
+				),
+				'group' => array(
+					'order' => 0,
+					'name' => __( 'Basic Questions', 'lifterlms' )
 				),
 				'icon' => 'toggle-on',
 				'id' => 'true_false',
@@ -121,14 +132,114 @@ class LLMS_Question_Types {
 				'random_lock' => true,
 			),
 
-			'group' => array(
+			// 'group' => array(
+			// 	'choices' => false,
+			// 	'clarifications' => false,
+			// 	'group' => array(
+			//		'order' => 0,
+			//		'name' => __( 'Basic Questions', 'lifterlms' )
+			//	),
+			// 	'icon' => 'sitemap',
+			// 	'id' => 'group',
+			// 	'grading' => false,
+			// 	'name' => esc_html__( 'Question Group', 'lifterlms' ),
+			// 	'placeholder' => esc_attr__( 'Enter your group title...', 'lifterlms' ),
+			// ),
+
+			'blank' => array(
 				'choices' => false,
-				'clarifications' => false,
-				'icon' => 'sitemap',
-				'id' => 'group',
-				'grading' => false,
-				'name' => esc_html__( 'Question Group', 'lifterlms' ),
-				'placeholder' => esc_attr__( 'Enter your group title...', 'lifterlms' ),
+				'group' => array(
+					'order' => 10,
+					'name' => __( 'Advanced Questions', 'lifterlms' )
+				),
+				'icon' => 'window-minimize',
+				'id' => 'blank',
+				'name' => esc_html__( 'Fill in the Blank', 'lifterlms' ),
+				'upgrade' => $upgrade_url . 'blank',
+			),
+
+			'reorder' => array(
+				'choices' => false,
+				'group' => array(
+					'order' => 10,
+					'name' => __( 'Advanced Questions', 'lifterlms' )
+				),
+				'icon' => 'sort-numeric-asc',
+				'id' => 'reorder',
+				'name' => esc_html__( 'Reorder Items', 'lifterlms' ),
+				'upgrade' => $upgrade_url . 'reorder',
+			),
+
+			'picture_reorder' => array(
+				'choices' => false,
+				'group' => array(
+					'order' => 10,
+					'name' => __( 'Advanced Questions', 'lifterlms' )
+				),
+				'icon' => 'picture-o',
+				'id' => 'picture_reorder',
+				'name' => esc_html__( 'Reorder Pictures', 'lifterlms' ),
+				'upgrade' => $upgrade_url . 'picture_reorder',
+			),
+
+			'short_answer' => array(
+				'choices' => false,
+				'group' => array(
+					'order' => 10,
+					'name' => __( 'Advanced Questions', 'lifterlms' )
+				),
+				'icon' => 'align-left',
+				'id' => 'short_answer',
+				'name' => esc_html__( 'Short Answer', 'lifterlms' ),
+				'upgrade' => $upgrade_url . 'short_answer',
+			),
+
+			'long_answer' => array(
+				'choices' => false,
+				'group' => array(
+					'order' => 10,
+					'name' => __( 'Advanced Questions', 'lifterlms' )
+				),
+				'icon' => 'paragraph',
+				'id' => 'long_answer',
+				'name' => esc_html__( 'Long Answer', 'lifterlms' ),
+				'upgrade' => $upgrade_url . 'long_answer',
+			),
+
+			'upload' => array(
+				'choices' => false,
+				'group' => array(
+					'order' => 10,
+					'name' => __( 'Advanced Questions', 'lifterlms' )
+				),
+				'icon' => 'cloud-upload',
+				'id' => 'upload',
+				'name' => esc_html__( 'File Upload', 'lifterlms' ),
+				'upgrade' => $upgrade_url . 'upload',
+			),
+
+			'code' => array(
+				'choices' => false,
+				'group' => array(
+					'order' => 10,
+					'name' => __( 'Advanced Questions', 'lifterlms' )
+				),
+				'icon' => 'code',
+				'id' => 'code',
+				'name' => esc_html__( 'Code', 'lifterlms' ),
+				'upgrade' => $upgrade_url . 'code',
+			),
+
+			'scale' => array(
+				'choices' => false,
+				'group' => array(
+					'order' => 10,
+					'name' => __( 'Advanced Questions', 'lifterlms' )
+				),
+				'icon' => 'sliders',
+				'id' => 'scale',
+				'name' => esc_html__( 'Scale', 'lifterlms' ),
+				'upgrade' => $upgrade_url . 'scale',
 			),
 
 		);
@@ -148,6 +259,9 @@ class LLMS_Question_Types {
 
 		foreach ( self::get_types() as $id => $type ) {
 
+			if ( is_array( $type['choices'] ) ) {
+				$type['choices'] = wp_parse_args( $type['choices'], $model['choices'] );
+			}
 			$questions[ $id ] = wp_parse_args( $type, $model );
 
 		}
