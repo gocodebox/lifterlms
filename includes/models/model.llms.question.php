@@ -165,9 +165,9 @@ class LLMS_Question extends LLMS_Post_Model {
 	 */
 	public function get_choices( $return = 'choices' ) {
 
-		$query = wp_cache_get( $this->get_choice_cache_key(), 'llms' );
+		// $query = wp_cache_get( $this->get_choice_cache_key(), 'llms' );
 
-		if ( false === $query ) {
+		// if ( false === $query ) {
 
 			global $wpdb;
 			$query = $wpdb->get_results( $wpdb->prepare(
@@ -185,9 +185,9 @@ class LLMS_Question extends LLMS_Post_Model {
 				return strcmp( $adata['marker'], $bdata['marker'] );
 			} );
 
-			wp_cache_set( $this->get_choice_cache_key(), $query, 'llms' );
+			// wp_cache_set( $this->get_choice_cache_key(), $query, 'llms' );
 
-		}
+		// }
 
 		if ( 'ids' === $return ) {
 			return wp_list_pluck( $query, 'id' );
