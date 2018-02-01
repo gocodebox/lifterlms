@@ -130,10 +130,9 @@ define( [], function() {
 		 */
 		_maybe_set_parent_reference: function( model ) {
 
-			if ( ! model.get_relationships ) {
+			if ( ! model || ! model.get_relationships ) {
 				return;
 			}
-
 			var rels = model.get_relationships();
 			if ( rels.parent && rels.parent.model === this.get( 'type' ) ) {
 				model.set_parent( this );
