@@ -1400,6 +1400,43 @@ function llms_update_3160_attempt_migration() {
 }
 
 /**
+ * Update question data to new formats & match question choice indexes to new choice IDs
+ * @return   void
+ */
+function llms_update_3160_update_attempt_question_data() {
+
+	global $wpdb;
+	$res = $wpdb->get_col( "SELECT id FROM {$wpdb->prefix}lifterlms_quiz_attempts" );
+	foreach ( $res as $att_id ) {
+
+		$attempt = new LLMS_Quiz_Attempt( $att_id );
+		$questions = $attempt->get_questions();
+		foreach ( $questions as &$question ) {
+
+			$question['earned'] = empty( $question['correct'] ) ? 0 : $question['points'];
+			if ( ! isset( $question['answer'] ) ) {
+				$question['answer'] = array();
+			} elseif ( ! is_array( $question['answer'] ) && is_numeric( $question['answer'] ) ) {
+
+				$obj = llms_get_post( $question['id'] );
+				if ( $obj ) {
+					$choices = $obj->get_choices();
+					if ( isset( $choices[ $question['answer'] ] ) ) {
+						$question['answer'] = array( $choices[ $question['answer'] ]->get( 'id' ) );
+					}
+				}
+
+			}
+
+		}
+
+		$attempt->set_questions( $questions, true );
+
+	}
+
+}
+
+/**
  * Update db version at conclusion of 3.16.0 updates
  * @return void
  */
