@@ -242,10 +242,10 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   top: 30px;
 }
 .wrap.lifterlms.llms-builder .llms-builder-main li.llms-section:last-child:before {
-  bottom: 30px;
+  bottom: 55px;
 }
 .wrap.lifterlms.llms-builder .llms-builder-main li.llms-section.expanded:last-child:before {
-  bottom: 76px;
+  bottom: 86px;
 }
 .wrap.lifterlms.llms-builder .llms-builder-main ul.llms-lessons {
   box-shadow: 0 0 0 3px transparent;
@@ -269,7 +269,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-builder-main li.llms-lesson {
   background: #fff;
   margin: 0;
-  padding: 20px 20px 20px 30px;
+  padding: 10px 20px 10px 30px;
   position: relative;
   pointer-events: none;
   visibility: hidden;
@@ -287,7 +287,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   height: 2px;
   left: -20px;
   position: absolute;
-  top: 30px;
+  top: 20px;
   width: 30px;
 }
 .wrap.lifterlms.llms-builder .llms-builder-main li.llms-section .llms-drag-utility {
@@ -303,7 +303,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-builder-main li.llms-lesson .llms-drag-utility {
   height: 6px;
   left: 5px;
-  top: 26px !important;
+  top: 16px !important;
   width: 6px;
 }
 .wrap.lifterlms.llms-builder .llms-builder-main .llms-section:hover > .llms-drag-utility,
@@ -328,7 +328,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   left: -7px;
   position: absolute;
   text-align: center;
-  top: -10px;
+  top: -12px;
   width: 23px;
 }
 .wrap.lifterlms.llms-builder .llms-builder-main li.llms-section.ui-sortable-helper, .wrap.lifterlms.llms-builder .llms-builder-main li.llms-section.ui-draggable-dragging,
@@ -599,6 +599,27 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 }
 .wrap.lifterlms.llms-builder .llms-action-icon.circle:hover.danger {
   border-color: #e5554e;
+}
+.wrap.lifterlms.llms-builder ul.llms-info-list {
+  margin: 0;
+  padding: 0;
+}
+.wrap.lifterlms.llms-builder ul.llms-info-list:before, .wrap.lifterlms.llms-builder ul.llms-info-list:after {
+  content: " ";
+  display: table;
+}
+.wrap.lifterlms.llms-builder ul.llms-info-list:after {
+  clear: both;
+}
+.wrap.lifterlms.llms-builder ul.llms-info-list li.llms-info-item {
+  color: #aaa;
+  font-size: 16px;
+  margin: 0;
+  padding: 10px;
+  float: left;
+}
+.wrap.lifterlms.llms-builder ul.llms-info-list li.llms-info-item.active {
+  color: #2295ff;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar {
   background: #e6e6e6;

@@ -291,24 +291,13 @@
   transition: all 0.2s 0.6s ease;
   visibility: visible;
 }
-[data-tip].active,
-[data-title-default].active,
-[data-title-active].active {
-  color: #2295ff;
-}
-[data-tip].active:before,
-[data-title-default].active:before,
-[data-title-active].active:before {
-  content: attr(data-title-active);
-}
 
 [data-tip]:before {
   content: attr(data-tip);
 }
 
-[data-title-default]:before,
-[data-title-active]:before {
-  content: attr(data-title-default);
+[data-tip].active:before {
+  content: attr(data-tip-active);
 }
 
 /******************************************************************

@@ -113,17 +113,6 @@
 		visibility: visible;
 	}
 
-
-
-
-
-	&.active {
-		color: $color-brand-blue;
-		&:before {
-			content: attr(data-title-active);
-		}
-	}
-
 }
 
 [data-tip] {
@@ -131,10 +120,8 @@
 		content: attr(data-tip);
 	}
 }
-
-[data-title-default],
-[data-title-active] {
+[data-tip].active {
 	&:before {
-		content: attr(data-title-default);
+		content: attr(data-tip-active);
 	}
 }

@@ -69,10 +69,20 @@
 
 	</header>
 
-	<# if ( 'yes' === data.get( 'quiz_enabled' ) ) { #>
-		<div class="llms-quiz">
-			<i class="fa fa-question-circle" aria-hidden="true"></i> <?php _e( 'Quiz:', 'lifterlms' ); ?> {{{ data.get( 'quiz' ).get( 'title' ) }}}
-		</div>
-	<# } #>
+	<ul class="llms-info-list">
+
+		<li class="llms-info-item tip--top-right<# if ( 'yes' === data.get( 'quiz_enabled' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'No quiz', 'lifterlms' ); ?>"<# if ( 'yes' === data.get( 'quiz_enabled' ) ) { #> data-tip-active="<?php printf( esc_attr__( 'Quiz: %s', 'lifterlms' ), "{{{ data.get( 'quiz' ).get( 'title' ) }}}" ); ?>"<# } #>>
+			<i class="fa fa-question-circle"></i>
+		</li>
+
+		<li class="llms-info-item tip--top-right<# if ( 'yes' === data.get( 'free_lesson' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'Free Lesson', 'lifterlms' ); ?>" data-tip-active="<?php esc_attr_e( 'Enrolled students only', 'lifterlms' ); ?>">
+			<# if ( 'yes' === data.get( 'free_lesson' ) ) { #>
+				<i class="fa fa-unlock"></i>
+			<# } else { #>
+				<i class="fa fa-lock"></i>
+			<# } #>
+		</li>
+
+	</ul>
 
 </script>
