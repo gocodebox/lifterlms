@@ -12,6 +12,27 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
+	 * Retrieve # of quiz attempts for a quiz
+	 * @param    int     $quiz_id  WP Post ID of the quiz
+	 * @param    array   $args     additional args to pass to LLMS_Query_Quiz_Attempt
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function count_attempts_by_quiz( $quiz_id ) {
+
+		$query = new LLMS_Query_Quiz_Attempt( array(
+			'student_id' => $this->get_id(),
+			'quiz_id' => $quiz_id,
+			'per_page' => 1,
+			'status_exclude' => array( 'current' ),
+		) );
+
+		return $query->found_results;
+
+	}
+
+	/**
 	 * Remove Student Quiz attempt(s)
 	 * @param    int     $quiz_id    WP Post ID of a Quiz
 	 * @param    int     $lesson_id  WP Post ID of a lesson
@@ -203,28 +224,25 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination
 	 * @param    int     $quiz_id    WP Post ID of a Quiz
-	 * @param    int     $lesson_id  WP Post ID of a lesson
+	 * @param    null    $deprecated deprecated
 	 * @return   false|array
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version [version]
 	 */
-	public function get_best_attempt( $quiz = null, $lesson = null ) {
+	public function get_best_attempt( $quiz_id = null, $deprecated = null ) {
 
-		$attempts = $this->get_all( $quiz, $lesson );
+		$attempts = $this->get_attempts_by_quiz( $quiz_id, array(
+			'per_page' => 1,
+			'sort' => array(
+				'grade' => 'DESC',
+				'update_date' => 'DESC',
+				'id' => 'DESC',
+			),
+			'status' => array( 'pass', 'fail' ),
+		) );
 
 		if ( $attempts ) {
-
-			$best = false;
-
-			foreach ( $attempts as $attempt ) {
-
-				if ( empty( $best['grade'] ) || $attempt['grade'] >= $best['grade'] ) {
-					$best = $attempt;
-				}
-			}
-
-			return $best;
-
+			return $attempts[0];
 		}
 
 		return false;
