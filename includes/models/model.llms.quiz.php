@@ -68,34 +68,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get remaining quiz attempts
-	 * @param   int   $user_id   WP_User ID, if not supplied uses current user
-	 * @return  int
-	 * @since   1.0.0
-	 * @version [version]
-	 */
-	public function get_remaining_attempts_by_user( $user_id = null ) {
-
-		if ( ! $this->has_attempt_limit() ) {
-			return _x( 'Unlimited', 'quiz attempts remaining', 'lifterlms' );
-		}
-
-		$allowed = $this->get( 'allowed_attempts' );
-		$used = $this->get_total_attempts_by_user( $user_id );
-
-		// ensure undefined, null, '', etc.. show as an int
-		if ( ! $allowed ) {
-			$allowed = 0;
-		}
-
-		$remaining = ( $allowed - $used );
-
-		// don't show negative attmepts
-		return max( 0, $remaining );
-
-	}
-
-	/**
 	 * Retrieve the time limit formatted as a human readable string
 	 * @return   string
 	 * @since    [version]
@@ -137,13 +109,16 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 */
 	public function is_open( $user_id = null ) {
 
-		$remaining = $this->get_remaining_attempts_by_user( $user_id );
+		$student = llms_get_student( $user_id );
+		if ( ! $student ) {
+			return false;
+		}
+
+		$remaining = $student->quizzes()->get_attempts_remaining_for_quiz( $this->get( 'id' ) );
 
 		// string for "unlimited" or number of attempts
 		if ( ! is_numeric( $remaining ) || $remaining > 0 ) {
-
 			return true;
-
 		}
 
 		return false;
@@ -269,6 +244,28 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		                    | $$
 		                    |__/
 	*/
+
+	/**
+	 * Get remaining quiz attempts
+	 * @param      int   $user_id   WP_User ID, if not supplied uses current user
+	 * @return     int
+	 * @since      1.0.0
+	 * @version    [version]
+	 * @deprecated [version]
+	 */
+	public function get_remaining_attempts_by_user( $user_id = null ) {
+
+		llms_deprecated_function( 'LLMS_Quiz::get_remaining_attempts_by_user()', '3.16.0', 'LLMS_Student::quizzes()->get_attempts_remaining_for_quiz( $quiz_id )' );
+
+		$student = llms_get_student( $user_id );
+		if ( $student ) {
+			return $student->quizzes()->get_attempts_remaining_for_quiz( $this->get( 'id' ) );
+		}
+
+		return 0;
+
+	}
+
 
 	/**
 	 * Retrieve the configured time limit

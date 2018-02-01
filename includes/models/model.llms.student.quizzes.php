@@ -177,6 +177,40 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Get the # of attempts remaining by a student for a given quiz
+	 * @param    int     $quiz_id  WP Post ID of the Quiz
+	 * @return   mixed
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_attempts_remaining_for_quiz( $quiz_id ) {
+
+		$quiz = llms_get_post( $quiz_id );
+
+		$ret = _x( 'Unlimited', 'quiz attempts remaining', 'lifterlms' );
+
+		if ( $quiz->has_attempt_limit() ) {
+
+			$allowed = $quiz->get( 'allowed_attempts' );
+			$used = $this->count_attempts_by_quiz( $quiz->get( 'id' ) );
+
+			// ensure undefined, null, '', etc.. show as an int
+			if ( ! $allowed ) {
+				$allowed = 0;
+			}
+
+			$remaining = ( $allowed - $used );
+
+			// don't show negative attmepts
+			$ret =  max( 0, $remaining );
+
+		}
+
+		return apply_filters( 'llms_student_quiz_attempts_remaining_for_quiz', $ret, $quiz, $this );
+
+	}
+
+	/**
 	 * Get all the attempts for a given quiz/lesson from an attempt key
 	 * @param    string     $attempt_key  an encoded attempt key
 	 * @return   false|array

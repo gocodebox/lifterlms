@@ -8,7 +8,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 global $post;
-$key = '';
 $quiz = llms_get_post( $post );
 $lesson = $quiz->get_lesson();
 ?>
@@ -23,7 +22,6 @@ $lesson = $quiz->get_lesson();
 
 			<?php if ( $quiz->is_open() ) : ?>
 
-				<input id="llms-attempt-key" name="llms_attempt_key" type="hidden" value="<?php echo $key; ?>"/>
 				<input id="llms-lesson-id" name="llms_lesson_id" type="hidden" value="<?php echo $lesson->get( 'id' ); ?>"/>
 				<input id="llms-quiz-id" name="llms_quiz_id" type="hidden" value="<?php echo $quiz->get( 'id' ); ?>"/>
 

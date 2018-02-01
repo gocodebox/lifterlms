@@ -11,6 +11,7 @@ global $post;
 
 $quiz = llms_get_post( $post );
 $passing_percent = $quiz->get_passing_percent();
+$student = llms_get_student();
 ?>
 
 <h2 class="llms-quiz-meta-title"><?php _e( 'Quiz Information', 'lifterlms' ); ?></h2>
@@ -22,7 +23,11 @@ $passing_percent = $quiz->get_passing_percent();
 	<?php endif; ?>
 
 	<li class="llms-quiz-meta-item passing-percent">
-		<?php printf( __( 'Remaining Attempts: %s', 'lifterlms' ), '<span class="llms-attempts">' . $quiz->get_remaining_attempts_by_user( get_current_user_id() ) . '</span>' ); ?>
+		<?php printf( __( 'Remaining Attempts: %s', 'lifterlms' ), '<span class="llms-attempts">' . $student->quizzes()->get_attempts_remaining_for_quiz( $quiz->get( 'id' ) ) . '</span>' ); ?>
+	</li>
+
+	<li class="llms-quiz-meta-item passing-percent">
+		<?php printf( __( 'Questions: %s', 'lifterlms' ), '<span class="llms-question-count">' . count( $quiz->get_questions( 'ids' ) ) . '</span>' ); ?>
 	</li>
 
 	<?php if ( $quiz->has_time_limit() ) : ?>
