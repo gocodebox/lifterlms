@@ -92,10 +92,9 @@ function llms_get_question_types() {
  */
 function llms_get_quiz_attempt_statuses() {
 	return apply_filters( 'llms_get_quiz_attempt_statuses', array(
-		'current' => __( 'Current', 'lifterlms' ),
-		'fail' => __( 'Fail', 'lifterlms' ),
 		'incomplete' => __( 'Incomplete', 'lifterlms' ),
-		'pass' => __( 'Pass', 'lifterlms' ),
 		'pending' => __( 'Pending Review', 'lifterlms' ),
+		'fail' => __( 'Fail', 'lifterlms' ),
+		'pass' => __( 'Pass', 'lifterlms' ),
 	) );
 }
