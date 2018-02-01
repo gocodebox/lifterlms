@@ -4,6 +4,11 @@ LifterLMS Changelog
 v3.16.0 - 2018-01-31
 --------------------
 
+##### Course Builder Improvements
+
++ Quiz-building is now available on the course builder
++ All hooks & filters attached to `the_content` and `the_title` are now being removed when loading the course builder. This should prevent infinite spinners on builder loading and builder AJAX calls due to third-parties accidentally outputting html during these events.
+
 ##### Updates
 
 + Updated Quiz post type slug from "llms_quiz" to "quiz".
