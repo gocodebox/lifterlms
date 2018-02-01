@@ -1,5 +1,5 @@
 /**
- * Lesson Model
+ * Quiz Model
  * @since    [version]
  * @version  [version]
  */
@@ -7,6 +7,10 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 
 	return Backbone.Model.extend( _.defaults( {
 
+		/**
+		 * model relationships
+		 * @type  {Object}
+		 */
 		relationships: {
 			parent: {
 				model: 'lesson',
@@ -15,38 +19,24 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 			children: {
 				questions: {
 					class: 'Questions',
-					model: 'question',
+					model: 'llms_question',
 					type: 'collection',
 				},
 			}
-		},
-
-		schema: {
-			title: {
-				title: 'Title',
-				type: 'Text',
-				validators: [ 'required' ],
-			},
-			content: {
-				title: 'Content',
-				type: 'Wysiwyg',
-			},
-
 		},
 
 		/**
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    [version]
-		 * @version  3.14.8
+		 * @version  [version]
 		 */
 		defaults: function() {
-
 			return {
 
 				id: _.uniqueId( 'temp_' ),
 				title: LLMS.l10n.translate( 'New Quiz' ),
-				type: 'quiz',
+				type: 'llms_quiz',
 				lesson_id: '',
 
 				status: 'draft',
@@ -73,7 +63,7 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		 * Initializer
 		 * @return   void
 		 * @since    [version]
-		 * @version  3.14.4
+		 * @version  [version]
 		 */
 		initialize: function() {
 
@@ -97,12 +87,19 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		add_question: function( data ) {
 
 			data.parent_id = this.get( 'id' );
-			this.get( 'questions' ).add( data, {
+			var question = this.get( 'questions' ).add( data, {
 				parent: this,
 			} );
+			Backbone.pubSub.trigger( 'quiz-add-question', question, this );
 
 		},
 
+		/**
+		 * Retrieve the quiz's total points
+		 * @return   int
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_total_points: function() {
 
 			var points = 0;
@@ -115,6 +112,12 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 
 		},
 
+		/**
+		 * Update total number of points calculated property
+		 * @return   int
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		update_points: function() {
 
 			this.set( '_points', this.get_total_points() );
