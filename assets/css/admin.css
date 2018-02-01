@@ -2425,10 +2425,6 @@ td.llms-table-select select, th.llms-table-select select {
   width: 100%;
 }
 
-.question-select {
-  margin-top: 2px;
-}
-
 .llms-table-select .chosen-container {
   margin-top: 2px;
 }
@@ -2841,23 +2837,6 @@ a.llms-view-as {
 }
 ._llms_instructors_data.repeater .llms-mb-list {
   padding: 0 5px !important;
-}
-
-#llms-question-container {
-  position: relative;
-  min-height: 100px;
-}
-#llms-question-container tr.llms-question[data-question-id="0"] .llms-fa-edit {
-  display: none;
-}
-#llms-question-container .new-question-button {
-  text-align: right;
-}
-#llms-question-container td.llms-table-points, #llms-question-container th.llms-table-points {
-  width: 10%;
-}
-#llms-question-container td.llms-table-points input[type="number"], #llms-question-container th.llms-table-points input[type="number"] {
-  width: 100%;
 }
 
 .post-type-llms_order #post-body-content {

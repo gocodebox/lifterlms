@@ -5,7 +5,7 @@
 * sets up base metabox functionality and global save.
 *
 * @since   1.0.0
-* @version 3.13.0
+* @version [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -23,7 +23,7 @@ class LLMS_Admin_Meta_Boxes {
 	 * Constructor
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function __construct() {
 
@@ -68,10 +68,6 @@ class LLMS_Admin_Meta_Boxes {
 		new LLMS_Meta_Box_Order_Enrollment();
 		new LLMS_Meta_Box_Order_Notes();
 
-		// quizzes
-		new LLMS_Meta_Box_Quiz();
-		new LLMS_Meta_Box_Quiz_Questions();
-
 		// vouchers
 		new LLMS_Meta_Box_Voucher();
 
@@ -79,8 +75,6 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'add_meta_boxes', array( $this, 'refresh_meta_boxes' ), 10 );
 		add_action( 'add_meta_boxes', array( $this, 'get_meta_boxes' ), 10 );
 		add_action( 'save_post', array( $this, 'save_meta_boxes' ), 10, 2 );
-
-		add_action( 'lifterlms_process_llms_question_meta', 'LLMS_Meta_Box_Question_General::save', 10, 2 );
 
 		add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
 
@@ -138,7 +132,7 @@ class LLMS_Admin_Meta_Boxes {
 	* Add Metaboxes
 	* @return   void
 	* @since    1.0.0
-	* @version  3.13.0
+	* @version  [version]
 	*/
 	public function get_meta_boxes() {
 
@@ -148,7 +142,6 @@ class LLMS_Admin_Meta_Boxes {
 		 * @todo  transition to new style metaboxes
 		 */
 		add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
-		add_meta_box( 'lifterlms-question-general', __( 'Question Settings', 'lifterlms' ), 'LLMS_Meta_Box_Question_General::output', 'llms_question', 'normal' );
 
 	}
 

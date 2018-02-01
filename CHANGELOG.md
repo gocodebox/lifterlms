@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.16.0 - 2018-01-31
+v3.16.0 - 2018-02-01
 --------------------
 
 ##### Course Builder Improvements
