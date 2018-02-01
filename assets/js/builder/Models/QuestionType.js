@@ -7,6 +7,12 @@ define( [], function() {
 
 	return Backbone.Model.extend( {
 
+		/**
+		 * Get model default attributes
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		defaults: function() {
 			return {
 				choices: false,
@@ -22,12 +28,6 @@ define( [], function() {
 				points: true,
 				video: true,
 			}
-		},
-
-		initialize: function() {
-
-			// console.log( 'Question loaded: ' + this.get( 'name' ) );
-
 		},
 
 		/**
@@ -46,30 +46,72 @@ define( [], function() {
 
 		},
 
+		/**
+		 * Get marker array for the question choices
+		 * @return   array
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_choice_markers: function() {
+
+			return this._get_choice_option( 'markers' );
+
+		},
+
+		/**
+		 * Determine if the question's choices are selectable
+		 * @return   bool
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_choice_selectable: function() {
+
+			return this._get_choice_option( 'selectable' );
+
+		},
+
+		/**
+		 * Get the choice type (text,image)
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_choice_type: function() {
 
 			return this._get_choice_option( 'type' );
 
 		},
 
+		/**
+		 * Retrieve defined min. choices
+		 * @return   int
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_min_choices: function() {
 
 			return this._get_choice_option( 'min' );
 
 		},
 
+		/**
+		 * Get type-defined max choices
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_max_choices: function() {
 
-			var max = this._get_choice_option( 'max' );
-
-			if ( '-1' == max ) {
-				return window.llms_builder.choice_markers.length;
-			}
-
-			return max;
+			return this._get_choice_option( 'max' );
 
 		},
 
+		/**
+		 * Determine if multi-choice selection is enabled
+		 * @return   bool
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_multi_choices: function() {
 
 			var choices = this.get( 'choices' );
@@ -82,6 +124,14 @@ define( [], function() {
 
 		},
 
+		/**
+		 * Retrieve data from the type's "choices" attribute
+		 * Allows quick handling of types with no choice definitions w/o additional checks
+		 * @param    string   option  name of the choice option to retrieve
+		 * @return   mixed
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		_get_choice_option: function( option ) {
 
 			var choices = this.get( 'choices' );
