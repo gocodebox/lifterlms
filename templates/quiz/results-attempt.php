@@ -17,7 +17,7 @@ if ( ! $attempt ) {
 <h2 class="llms-quiz-results-title"><?php printf( __( 'Attempt #%d Results', 'lifterlms' ), $attempt->get( 'attempt' ) ); ?></h2>
 
 <aside class="llms-quiz-results-aside">
-	<?php echo llms_get_donut( $attempt->get( 'grade' ), $attempt->l10n( 'passed' ), 'default', array( $attempt->get( 'passed' ) ? 'passing' : 'failing' ) ); ?>
+	<?php echo llms_get_donut( $attempt->get( 'grade' ), $attempt->l10n( 'status' ), 'default', array( $attempt->is_passing() ? 'passing' : 'failing' ) ); ?>
 	<ul class="llms-quiz-meta-info">
 		<li class="llms-quiz-meta-item"><?php printf( __( 'Correct Answers: %1$d / %2$d', 'lifterlms' ), $attempt->get_count( 'correct_answers' ), $attempt->get_count( 'questions' ) ); ?></li>
 		<li class="llms-quiz-meta-item"><?php printf( __( 'Completed: %s', 'lifterlms' ), $attempt->get_date( 'start' ) ); ?></li>

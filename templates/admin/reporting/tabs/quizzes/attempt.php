@@ -56,8 +56,7 @@ $siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' 
 			case 'incomplete':
 			case 'fail': $icon ='times-circle'; break;
 			case 'pending': $icon ='clock-o'; break;
-			case 'current': $icon = 'hourglass'; break;
-			case 'default': $icon = 'question-circle';
+			default: $icon = 'question-circle';
 		}
 
 		LLMS_Admin_Reporting::output_widget( array(
@@ -100,19 +99,40 @@ $siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' 
 		<div class="clear"></div>
 
 		<h3><?php _e( 'Answers', 'lifterlms' ); ?></h3>
-		<?php lifterlms_template_quiz_attempt_results_questions_list( $attempt ); ?>
 
-		<!-- <br><br><br> -->
-<!--
-		<a class="llms-button-primary large" href="<?php echo esc_url( $attempt->get_permalink() ); ?>">
-			<i class="fa fa-check-square-o" aria-hidden="true"></i>
-			<?php _e( 'Review and Grade', 'lifterlms' ); ?>
-		</a>
+		<form action="" method="POST">
 
-		<a class="llms-button-danger large" href="#">
-			<i class="fa fa-trash-o" aria-hidden="true"></i>
-			<?php _e( 'Delete Attempt', 'lifterlms' ); ?>
-		</a> -->
+			<?php lifterlms_template_quiz_attempt_results_questions_list( $attempt ); ?>
+
+			<br><br><br>
+
+			<button class="llms-button-primary large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_grade">
+				<span class="default">
+					<i class="fa fa-check-square-o" aria-hidden="true"></i>
+					<?php _e( 'Start a Review', 'lifterlms' ); ?>
+				</span>
+				<span class="save">
+					<i class="fa fa-floppy-o" aria-hidden="true"></i>
+					<?php _e( 'Save Review', 'lifterlms' ); ?>
+				</span>
+			</button>
+
+			<button class="llms-button-secondary large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_recalc">
+				<i class="fa fa-refresh" aria-hidden="true"></i>
+				<?php _e( 'Recalculate Grade', 'lifterlms' ); ?>
+			</button>
+
+			<button class="llms-button-danger large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_delete">
+				<i class="fa fa-trash-o" aria-hidden="true"></i>
+				<?php _e( 'Delete Attempt', 'lifterlms' ); ?>
+			</button>
+
+			<input type="hidden" name="llms_attempt_id" value="<?php echo $attempt->get( 'id' ); ?>">
+
+			<?php wp_nonce_field( 'llms_quiz_attempt_actions', '_llms_quiz_attempt_nonce' ); ?>
+
+		</form>
+
 
 	</section>
 
