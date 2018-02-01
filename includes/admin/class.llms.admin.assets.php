@@ -85,6 +85,7 @@ class LLMS_Admin_Assets {
 	 * @version  [version]
 	 */
 	public function admin_scripts() {
+
 		global $post_type;
 		$screen = get_current_screen();
 
@@ -220,17 +221,21 @@ class LLMS_Admin_Assets {
 		}// End if().
 
 		if ( 'lifterlms_page_llms-settings' == $screen->id ) {
+
 			wp_enqueue_media();
 			wp_enqueue_script( 'llms-admin-settings', plugins_url( '/assets/js/llms-admin-settings' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
+
 		} elseif ( 'admin_page_llms-course-builder' === $screen->id ) {
+
+			self::register_quill();
 
 			wp_enqueue_editor();
 
-			wp_enqueue_style( 'llms-builder-styles', plugins_url( '/assets/css/builder' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+			wp_enqueue_style( 'llms-builder-styles', plugins_url( '/assets/css/builder' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ), array( 'llms-quill-bubble' ), LLMS()->version, 'screen' );
 			wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.css', LLMS_PLUGIN_FILE ) );
 			wp_enqueue_script( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
 
-			wp_enqueue_script( 'llms-builder', plugins_url( '/assets/js/llms-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-builder', plugins_url( '/assets/js/llms-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
 
 		}
 
@@ -268,6 +273,20 @@ class LLMS_Admin_Assets {
 
 		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
 		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';</script>';
+
+	}
+
+	/**
+	 * Register Quill CSS & JS
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function register_quill() {
+
+		$min = ( ! defined( 'WP_DEBUG' ) || WP_DEBUG == false ) ? '.min' : '';
+		wp_register_script( 'llms-quill',  plugins_url( '/assets/vendor/quill/quill' . $min . '.js', LLMS_PLUGIN_FILE ), array(), '1.3.5', true );
+		wp_register_style( 'llms-quill-bubble', plugins_url( '/assets/vendor/quill/quill.bubble' . $min . '.css', LLMS_PLUGIN_FILE ), array(), '1.3.5', 'screen' );
 
 	}
 
