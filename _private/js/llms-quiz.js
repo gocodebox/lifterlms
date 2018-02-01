@@ -151,8 +151,6 @@
 				return self.add_error( valid.valid );
 			}
 
-
-
 			LLMS.Ajax.call( {
 				data: {
 					action: 'quiz_answer_question',
@@ -165,6 +163,8 @@
 
 					var msg = $btn.hasClass( 'llms-button-quiz-complete' ) ? 'Grading Quiz...' : 'Loading Question...';
 					self.toggle_loader( 'show', msg );
+
+					self.update_progress_bar( 'increment' );
 
 				},
 				success: function( r ) {
@@ -269,11 +269,10 @@
 		 * @param    string   url  redirect url
 		 * @return   void
 		 * @since    3.9.0
-		 * @version  3.9.0
+		 * @version  [version]
 		 */
 		redirect: function( url ) {
 
-			$( '#llms-quiz-timer' ).hide();
 			this.toggle_loader( 'show', 'Grading Quiz...' );
 			this.status = null;
 			window.location.href = url;
@@ -291,6 +290,7 @@
 			var self = this;
 
 			self.toggle_loader( 'show', 'Loading Question...' );
+			self.update_progress_bar( 'decrement' );
 
 			var ids = Object.keys( self.questions ),
 				curr = ids.indexOf( 'q-' + self.current_question ),
@@ -307,6 +307,14 @@
 
 		},
 
+		/**
+		 * Register question type validator functions
+		 * @param    string     type  question type id
+		 * @param    function   func  callback function to validate the question with
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		register_validator: function( type, func ) {
 
 			this.validators[ type ] = func;
@@ -574,9 +582,6 @@
 				return;
 			}
 
-			progress = ( index / this.total_questions ) * 100;
-			this.$ui.find( '.progress-bar-complete' ).css( 'width', progress + '%' );
-
 			index++;
 
 			$( '#llms-quiz-counter .llms-current' ).text( index );
@@ -599,6 +604,27 @@
 				$( '#llms-next-question' ).show();
 				$( '#llms-complete-quiz' ).hide();
 			}
+
+		},
+
+		/**
+		 * Increase progress bar ui elment
+		 * @param    string   dir  update direction [increment|decrement]
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		update_progress_bar: function( dir ) {
+
+			var index = this.get_question_index( this.current_question );
+			if ( 'increment' === dir ) {
+				index++;
+			} else {
+				index--;
+			}
+
+			progress = ( index / this.total_questions ) * 100;
+			this.$ui.find( '.progress-bar-complete' ).css( 'width', progress + '%' );
 
 		},
 
