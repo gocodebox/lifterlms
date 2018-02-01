@@ -317,7 +317,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function get_quiz() {
 		if ( $this->has_quiz() ) {
-			return new LLMS_Quiz( $this->get( 'quiz' ) );
+			$quiz = llms_get_post( $this->get( 'quiz' ) );
+			if ( $quiz ) {
+				return $quiz;
+			}
 		}
 		return false;
 	}
@@ -496,8 +499,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		if ( $this->has_quiz() ) {
 
-			$q = $this->get_quiz();
-			$arr['quiz'] = $q->toArray();
+			$quiz = $this->get_quiz();
+			if ( $quiz ) {
+				$arr['quiz'] = $quiz->toArray();
+			}
 
 		}
 

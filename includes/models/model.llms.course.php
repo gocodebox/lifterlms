@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  3.15.0
+* @version  [version]
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
@@ -229,14 +229,14 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 * Retrieve an array of quizzes within a course
 	 * @return   array            array of WP_Post IDs of the quizzes
 	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @version  [version]
 	 */
 	public function get_quizzes() {
 
 		$quizzes = array();
 		foreach ( $this->get_lessons( 'lessons' ) as $lesson ) {
 			if ( $lesson->has_quiz() ) {
-				$quizzes[] = $lesson->get( 'assigned_quiz' );
+				$quizzes[] = $lesson->get( 'quiz' );
 			}
 		}
 		return $quizzes;
