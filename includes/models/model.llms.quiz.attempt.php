@@ -89,8 +89,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				continue;
 			}
 			$question = llms_get_post( $question_id );
+			$graded = $question->grade( $answer );
 			$questions[ $key ]['answer'] = $answer;
-			$questions[ $key ]['correct'] = $question->grade( $answer );
+			$questions[ $key ]['correct'] = $graded;
+			if ( llms_parse_bool( $graded ) ) {
+				$questions[ $key ]['earned'] = $questions[ $key ]['points'];
+			}
 			break;
 		}
 
@@ -104,16 +108,25 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Calculate and the grade for a completed quiz
 	 * @return   $this      for chaining
 	 * @since    3.9.0
-	 * @version  3.9.2
+	 * @version  [version]
 	 */
-	private function calculate_grade() {
+	public function calculate_grade() {
 
-		$grade = round( $this->get_count( 'points' ) * $this->calculate_point_weight(), 2 );
-		$quiz = $this->get_quiz();
-		$min_grade = $quiz ? $quiz->get_passing_percent() : 100;
+		$status = 'pending';
 
-		$this->set( 'grade', $grade );
-		$this->set( 'passed', ( $min_grade <= $grade ) );
+		if ( $this->is_auto_gradeable() ) {
+
+			$grade = round( $this->get_count( 'earned' ) * $this->calculate_point_weight(), 2 );
+
+			$quiz = $this->get_quiz();
+			$min_grade = $quiz ? $quiz->get_passing_percent() : 100;
+
+			$this->set( 'grade', $grade );
+			$status = ( $min_grade <= $grade ) ? 'pass' : 'fail';
+
+		}
+
+		$this->set_status( $status );
 
 		return $this;
 
@@ -189,7 +202,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 			case 'available_points':
 			case 'correct_answers':
-			case 'points':
+			case 'earned':
+			case 'points': // legacy version of earned
 				foreach ( $questions as $data ) {
 					// get the total number of correct answers
 					if ( 'correct_answers' === $key ) {
@@ -197,10 +211,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 							$count++;
 						}
 					// get the total number of earned points
-					} elseif ( 'points' === $key ) {
-						if ( 'yes' === $data['correct'] ) {
-							$count += $data['points'];
-						}
+					} elseif ( 'earned' === $key || 'points' === $key ) {
+						$count += $data['earned'];
 					// get the total number of possible points
 					} elseif ( 'available_points' === $key ) {
 						$count += $data['points'];
@@ -409,14 +421,15 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 	/**
 	 * Retrieve an array of attempt question objects
+	 * @param    boolean    $cache  if true, save data to to the object for future gets
 	 * @return   array
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function get_question_objects() {
+	public function get_question_objects( $cache = true ) {
 
 		$questions = array();
-		foreach ( $this->get_questions() as $qdata ) {
+		foreach ( $this->get_questions( $cache ) as $qdata ) {
 			$questions[] = new LLMS_Quiz_Attempt_Question( $qdata );
 		}
 		return $questions;
@@ -487,15 +500,38 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$attempt->set( 'quiz_id', $quiz_id );
 		$attempt->set( 'lesson_id', $lesson_id );
 		$attempt->set( 'student_id', $student->get_id() );
-		$attempt->set_status( 'current' );
+		$attempt->set_status( 'incomplete' );
 		$attempt->set_questions( $attempt->get_new_questions() );
+
+		$number = 1;
 
 		$last_attempt = $student->quizzes()->get_last_attempt( $quiz_id );
 		if ( $last_attempt ) {
-			$attempt->set( 'attempt', absint( $last_attempt->get( 'attempt' ) ) + 1 );
+			$number = absint( $last_attempt->get( 'attempt' ) ) + 1;
 		}
+		$attempt->set( 'attempt', $number );
 
 		return $attempt;
+
+	}
+
+	/**
+	 * Determine if the attempt can be autograded
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function is_auto_gradeable() {
+
+		foreach ( $this->get_question_objects() as $question ) {
+
+			if ( 'waiting' === $question->get_status() ) {
+				return false;
+			}
+
+		}
+
+		return true;
 
 	}
 
@@ -520,13 +556,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		switch ( $key ) {
 
+			case 'passed': // deprecated
 			case 'status':
 				$statuses = llms_get_quiz_attempt_statuses();
 				return $statuses[ $this->get( 'status' ) ];
-			break;
-
-			case 'passed': // deprecated
-				return $this->get( 'passed' ) ? __( 'Passed', 'lifterlms' ) : __( 'Failed', 'lifterlms' );
 			break;
 
 		}
