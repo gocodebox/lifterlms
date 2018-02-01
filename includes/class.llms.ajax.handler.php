@@ -578,7 +578,7 @@ class LLMS_AJAX_Handler {
 		// $quiz_id = absint( $request['quiz_id'] );
 		$attempt_key = sanitize_text_field( $request['attempt_key'] );
 		$question_id = absint( $request['question_id'] );
-		$answer = isset( $request['answer'] ) ? array_map( 'sanitize_text_field', $request['answer'] ) : array();
+		$answer = isset( $request['answer'] ) ? $request['answer'] : array();
 
 		$attempt = $student->quizzes()->get_attempt_by_key( $attempt_key );
 		if ( ! $attempt ) {
