@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.15.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -335,7 +335,7 @@ class LLMS_Install {
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	private static function get_schema() {
 
@@ -364,6 +364,22 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_user_postmeta` (
   PRIMARY KEY (`meta_id`),
   KEY user_id (`user_id`),
   KEY post_id (`post_id`)
+) $collate;
+CREATE TABLE `{$wpdb->prefix}lifterlms_quiz_attempts` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `student_id` bigint(20) DEFAULT NULL,
+  `quiz_id` bigint(20) DEFAULT NULL,
+  `lesson_id` bigint(20) DEFAULT NULL,
+  `start_date` datetime DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `status` varchar(15) CHARACTER SET utf8mb4 DEFAULT '',
+  `attempt` bigint(20) DEFAULT NULL,
+  `grade` float DEFAULT NULL,
+  `questions` longtext CHARACTER SET utf8mb4,
+  PRIMARY KEY (`id`),
+  KEY `student_id` (`student_id`),
+  KEY `quiz_id` (`quiz_id`)
 ) $collate;
 CREATE TABLE `{$wpdb->prefix}lifterlms_product_to_voucher` (
   `product_id` bigint(20) NOT NULL,
