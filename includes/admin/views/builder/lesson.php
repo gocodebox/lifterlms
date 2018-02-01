@@ -71,16 +71,28 @@
 
 	<ul class="llms-info-list">
 
-		<li class="llms-info-item tip--top-right<# if ( 'yes' === data.get( 'quiz_enabled' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'No quiz', 'lifterlms' ); ?>"<# if ( 'yes' === data.get( 'quiz_enabled' ) ) { #> data-tip-active="<?php printf( esc_attr__( 'Quiz: %s', 'lifterlms' ), "{{{ data.get( 'quiz' ).get( 'title' ) }}}" ); ?>"<# } #>>
-			<i class="fa fa-question-circle"></i>
-		</li>
-
-		<li class="llms-info-item tip--top-right<# if ( 'yes' === data.get( 'free_lesson' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'Free Lesson', 'lifterlms' ); ?>" data-tip-active="<?php esc_attr_e( 'Enrolled students only', 'lifterlms' ); ?>">
+		<li class="llms-info-item tip--top-right<# if ( 'yes' === data.get( 'free_lesson' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'Enrolled students only', 'lifterlms' ); ?>" data-tip-active="<?php esc_attr_e( 'Free Lesson', 'lifterlms' ); ?>" >
 			<# if ( 'yes' === data.get( 'free_lesson' ) ) { #>
 				<i class="fa fa-unlock"></i>
 			<# } else { #>
 				<i class="fa fa-lock"></i>
 			<# } #>
+		</li>
+
+		<li class="llms-info-item tip--top-right<# if ( 'yes' === data.get( 'has_prerequsite' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'No prerequsite', 'lifterlms' ); ?>" data-tip-active="<?php esc_attr_e( 'Prerequsite Enabled', 'lifterlms' ); ?>">
+			<i class="fa fa-link"></i>
+		</li>
+
+		<li class="llms-info-item tip--top-right<# if ( data.get( 'drip_method' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'No prerequsite', 'lifterlms' ); ?>" data-tip-active="<?php esc_attr_e( 'Drip Enabled', 'lifterlms' ); ?>">
+			<i class="fa fa-calendar"></i>
+		</li>
+
+		<li class="llms-info-item tip--top-right<# if ( 'yes' === data.get( 'quiz_enabled' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'No quiz', 'lifterlms' ); ?>"<# if ( 'yes' === data.get( 'quiz_enabled' ) ) { #> data-tip-active="<?php printf( esc_attr__( 'Quiz: %s', 'lifterlms' ), "{{{ data.get( 'quiz' ).get( 'title' ) }}}" ); ?>"<# } #>>
+			<i class="fa fa-question-circle"></i>
+		</li>
+
+		<li class="llms-info-item tip--top-right<# if ( data.get( 'content' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'No content', 'lifterlms' ); ?>" data-tip-active="<?php esc_attr_e( 'Has content', 'lifterlms' ); ?>">
+			<i class="fa fa-file-text-o"></i>
 		</li>
 
 	</ul>
