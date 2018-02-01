@@ -3,16 +3,14 @@
  * Use with a Model's View
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
- * @since    3.13.0
+ * @since    [version]
  * @version  [version]
  */
-define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
+define( [], function() {
 
 	return {
 
 		media_lib: null,
-
-		tag_whitelist: [ 'b', 'i', 'u' ],
 
 		/**
 		 * DOM Events
@@ -23,25 +21,39 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 		events: {
 			'click .llms-add-image': 'open_media_lib',
 			'click a[href="#llms-remove-image"]': 'remove_image',
+			'change .llms-editable-select select': 'on_select',
 			'change .llms-switch input[type="checkbox"]': 'toggle_switch',
-			'focus .llms-input[data-formatting]': 'show_formatting_toolbar',
 			'focusout .llms-input': 'on_blur',
 			'keydown .llms-input': 'on_keydown',
 		},
 
+		/**
+		 * Retrieve a list of allowed tags for a given element
+		 * @param    obj   $el  jQuery selector for the element
+		 * @return   array
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_allowed_tags: function( $el ) {
 
-			return _.intersection( this.tag_whitelist, $el.attr( 'data-formatting' ).split( ',' ) );
+			return [ 'b', 'i', 'u', 'strong', 'em' ];
 
 		},
 
+		/**
+		 * Retrieve the content of an element
+		 * @param    obj   $el  jQuery object of the element
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		get_content: function( $el ) {
 
 			if ( 'INPUT' === $el[0].tagName ) {
 				return $el.val();
 			}
 
-			if ( ! $el.attr( 'data-formatting' ) ) {
+			if ( ! $el.attr( 'data-formatting' ) && ! $el.hasClass( 'ql-editor' ) ) {
 				return $el.text();
 			}
 
@@ -56,22 +68,6 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 			return $html.html();
 
 		},
-
-		// get_video_embed: function( content, attr ) {
-
-		// 	var self = this;
-
-		// 	$.post( ajaxurl, {
-		// 		action: 'parse-embed',
-		// 		maxwidth: '240',
-		// 		post_ID: 0,
-		// 		type: 'embed',
-		// 		shortcode: '[embed]' + content + '[/embed]',
-		// 	}, function( res ) {
-		// 		self.$el.find( '.llms-video-embed[data-attribute="' + attr + '"]' ).html( res.data.body );
-		// 	} );
-
-		// },
 
 		/**
 		 * Determine if changes have been made to the element
@@ -108,15 +104,73 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 					return false;
 				}
 
-				// if ( 'video' === type ) {
-
-				// 	this.get_video_embed( content, $el.attr( 'data-attribute' ) );
-
-				// }
-
 			}
 
 			return true;
+
+		},
+
+		/**
+		 * Initialize elements that allow inline formatting
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		init_formatting_els: function() {
+
+			var self = this;
+
+			this.$el.find( '.llms-input-formatting[data-formatting]' ).each( function() {
+
+				var formatting = $( this ).attr( 'data-formatting' ).split( ',' ),
+					attr = $( this ).attr( 'data-attribute' );
+
+				var ed = new Quill( this, {
+					modules: {
+						toolbar: [ formatting ],
+						keyboard: {
+							bindings: {
+								tab: {
+									key: 9,
+									handler: function( range, context ) {
+										return true;
+									},
+								},
+								13: {
+									key: 13,
+									handler: function( range, context ) {
+										ed.root.blur();
+										return false;
+									},
+								},
+							},
+						},
+					},
+					placeholder: $( this ).attr( 'data-placeholder' ),
+					theme: 'bubble',
+				} );
+
+				ed.on( 'text-change', function( delta, oldDelta, source ) {
+					self.model.set( attr, self.get_content( $( ed.root ) ) );
+				} );
+
+				Backbone.pubSub.trigger( 'formatting-ed-init', ed, $( this ), self );
+
+			} );
+
+		},
+
+		/**
+		 * Initialize editable select elements
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		init_selects: function() {
+
+			this.$el.find( '.llms-editable-select select' ).llmsSelect2( {
+				width: '100%',
+			} );
 
 		},
 
@@ -135,7 +189,6 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 			var self = this,
 				$el = $( event.target ),
 				changed = this.has_changed( event );
-			this.hide_formatting_toolbar( $el );
 
 			if ( changed ) {
 
@@ -146,6 +199,34 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 				}
 
 			}
+
+		},
+
+		/**
+		 * Change event for selectables
+		 * @param    obj   event  js event object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		on_select: function( event ) {
+
+			var $el = $( event.target ),
+				multi = ( $el.attr( 'multiple' ) ),
+				attr = $el.attr( 'name' ),
+				$selected = $el.find( 'option:selected' ),
+				val;
+
+			if ( multi ) {
+				val = [];
+				val = $selected.map( function() {
+					return this.value;
+				} ).get();
+			} else {
+				val = $selected[0].value;
+			}
+
+			this.model.set( attr, val );
 
 		},
 
@@ -182,6 +263,13 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 
 		},
 
+		/**
+		 * Open the WP media lib
+		 * @param    obj   event  js event object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		open_media_lib: function( event ) {
 
 			event.stopPropagation();
@@ -232,6 +320,13 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 
 		},
 
+		/**
+		 * Click event to remove an image
+		 * @param    obj   event  js event obj
+		 * @return   voids
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		remove_image: function( event ) {
 
 			event.preventDefault();
@@ -310,26 +405,7 @@ define( [ 'Views/FormattingToolbar' ], function( FormattingToolbarView ) {
 			}
 
 			this.trigger( attr.replace( '.', '-' ) + '_toggle', val );
-
-		},
-
-		hide_formatting_toolbar: function( $el ) {
-
-			$el.parent().find( '.llms-input-formatting' ).remove();
-
-		},
-
-		show_formatting_toolbar: function( event ) {
-
-			var $el = $( event.target ),
-				Toolbar = new FormattingToolbarView( {
-					$input: $el,
-					tags: this.get_allowed_tags( $el ),
-				} );
-
-			Toolbar.render();
-
-			$el.parent().append( Toolbar.$el );
+			this.render();
 
 		},
 
