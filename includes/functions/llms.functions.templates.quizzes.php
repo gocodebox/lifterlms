@@ -18,7 +18,7 @@ if ( ! function_exists( 'lifterlms_template_question_content' ) ) {
 
 		$type = $args['question']->get( 'question_type' );
 
-		$template = apply_filters( 'llms_get_' . $type . '_question_template', 'quiz/questions/content-' . $type, $this );
+		$template = apply_filters( 'llms_get_' . $type . '_question_template', 'quiz/questions/content-' . $type, $args['question'] );
 		llms_get_template( $template . '.php', array(
 			'question' => $args['question'],
 			'attempt' => $args['attempt'],
