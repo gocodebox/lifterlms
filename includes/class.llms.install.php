@@ -2,7 +2,7 @@
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.16.0
+ * @version 3.16.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
