@@ -308,7 +308,6 @@ class LLMS_Template_Loader {
 					$redirect = get_permalink( $course->get( 'id' ) );
 				}
 			}
-
 		} else {
 
 			$msg = __( 'You must be logged in to take quizzes.', 'lifterlms' );
