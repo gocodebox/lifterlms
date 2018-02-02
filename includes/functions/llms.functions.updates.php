@@ -1047,11 +1047,15 @@ function llms_update_3160_update_question_data() {
 	foreach ( $res as $data ) {
 		$questions = maybe_unserialize( $data->questions );
 		if ( is_array( $questions ) ) {
-			foreach ( $questions as $question ) {
+			foreach ( $questions as $raw_question ) {
 
-				$question = llms_get_post( $question['id'] );
+				$points = isset( $raw_question['points'] ) ? $raw_question['points'] : 1;
+
+				$question = llms_get_post( $raw_question['id'] );
+
 				$question->set( 'parent_id', $data->quiz_id );
 				$question->set( 'question_type', 'choice' );
+				$question->set( 'points', $points );
 				update_post_meta( $question->get( 'id' ), '_llms_legacy_question_title', $question->get( 'title' ) );
 				$question->set( 'title', strip_tags( str_replace( array( '<p>', '</p>' ), '', $question->get( 'content' ) ), '<b><em><u><strong><i>' ) );
 
@@ -1408,7 +1412,6 @@ function llms_update_3160_update_attempt_question_data() {
 			if ( ! isset( $question['answer'] ) ) {
 				$question['answer'] = array();
 			} elseif ( ! is_array( $question['answer'] ) && is_numeric( $question['answer'] ) ) {
-
 				$obj = llms_get_post( $question['id'] );
 				if ( $obj ) {
 					$choices = $obj->get_choices();
@@ -1443,6 +1446,26 @@ function llms_update_3160_update_quiz_to_lesson_rels() {
 			$quiz->set( 'lesson_id', $id );
 		}
 	}
+
+}
+
+/**
+ * Add an admin notice about new quiz things
+ */
+function llms_update_3160_builder_notice() {
+
+	require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+
+	LLMS_Admin_Notices::add_notice( 'update-3160', array(
+		'html' => sprintf(
+			__( 'Welcome to LifterLMS 3.16.0! This update adds significant improvements to the quiz-building experience. Notice quizzes and questions are no longer found under "Courses" on the sidebar? Your quizzes have not been deleted but they have been moved! Read more about the all new %1$squiz builder%2$s.', 'lifterlms' ),
+			'<a href="http://blog.lifterlms.com/hello-quizzes/" target="_blank">',
+			'</a>'
+		),
+		'type' => 'info',
+		'dismissible' => true,
+		'remindable' => false,
+	) );
 
 }
 
