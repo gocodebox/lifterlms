@@ -1,6 +1,25 @@
 == Changelog ==
 
 
+= v3.16.2 - 2018-02-02 =
+------------------------
+
++ Add an update notice to 3.16.0 migration scripts to provide more information about the major update.
++ Removed quiz assignment fields on the lesson metabox to reduce confusion as quizzes are now managed exclusively on the quiz builder.
++ Ensure questions migrated during 3.16 updates retain their initial points value from the quiz.
+
+
+= v3.16.1 - 2018-02-01 =
+------------------------
+
++ Ensure quizzes in draft mode are only accessible by those with edit access (instructors, admins, etc...)
++ Restore pre 3.16 actions and filters related to quiz start buttons
++ Remove legacy error message for quiz accessibility issues by site admins
++ Students who cannot access a quiz are redirected to the parent lesson if they attempt to access a quiz directly
++ Fix undefined index warning on wp-login.php related to LifterLMS js assets. Thanks [Mte90](https://github.com/Mte90)!
++ Update checkout error message to provide user with direction when they already have access to a course. Thanks [@andreasblumberg](https://github.com/andreasblumberg)!
+
+
 = v3.16.0 - 2018-02-01 =
 ------------------------
 
@@ -30,6 +49,7 @@
 
 ##### Updates
 
++ Added space between arrows and "Next" and "Previous" text on pagination lists. Thanks [sujaypawar](https://github.com/sujaypawar)!
 + Updated Quiz post type slug from "llms_quiz" to "quiz".
 + Updated default return of `llms_get_post()` to be `false` rather than a `WP_Post` object when a LifterLMS post cannot be located
 
