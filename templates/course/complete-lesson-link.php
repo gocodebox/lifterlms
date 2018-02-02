@@ -4,7 +4,7 @@
  * Mark Complete & Mark Incomplete buttons
  * Take Quiz Button when quiz attached
  * @since    1.0.0
- * @version  3.16.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -21,6 +21,9 @@ if ( ! llms_is_user_enrolled( get_current_user_id(), $lesson->get( 'parent_cours
 
 $student = new LLMS_Student( get_current_user_id() );
 $quiz_id = $lesson->get( 'quiz' );
+if ( 'publish' !== get_post_status( $quiz_id ) && ! current_user_can( 'edit_post', $quiz_id ) ) {
+	$quiz_id = false;
+}
 ?>
 
 <div class="clear"></div>
@@ -94,31 +97,14 @@ $quiz_id = $lesson->get( 'quiz' );
 	<?php endif; ?>
 
 	<?php if ( $quiz_id ) : ?>
-		<a class="llms-button-action auto button" id="llms_start_quiz" href="<?php echo get_permalink( $quiz_id ); ?>">Take Quiz</a>
-<!-- 		<form action="" class="llms-start-quiz-form" method="POST" name="take_quiz">
 
-			<?php do_action( 'llms_before_start_quiz_button' ); ?>
+		<?php do_action( 'llms_before_start_quiz_button' ); ?>
 
-		 	<input type="hidden" name="associated_lesson" value="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>">
-		 	<input type="hidden" name="quiz_id" value="<?php echo esc_attr( $quiz_id ); ?>">
-		 	<input type="hidden" name="action" value="take_quiz">
+		<a class="llms-button-action auto button" id="llms_start_quiz" href="<?php echo get_permalink( $quiz_id ); ?>">
+			<?php echo apply_filters( 'lifterlms_start_quiz_button_text', __( 'Take Quiz', 'lifterlms' ), $quiz_id, $lesson ); ?>
+		</a>
 
-		 	<?php wp_nonce_field( 'take_quiz', '_llms_take_quiz_nonce' ); ?>
-
-			<?php llms_form_field( array(
-				'columns' => 12,
-				'classes' => 'llms-button-action auto button',
-				'id' => 'llms_start_quiz',
-				'value' => apply_filters( 'lifterlms_start_quiz_button_text', __( 'Take Quiz', 'lifterlms' ), $quiz_id, $lesson ),
-				'last_column' => true,
-				'name' => 'take_quiz',
-				'required' => false,
-				'type'  => 'submit',
-			) ); ?>
-
-			<?php do_action( 'llms_after_start_quiz_button' ); ?>
-
-		</form> -->
+		<?php do_action( 'llms_after_start_quiz_button' ); ?>
 
 	<?php endif; ?>
 

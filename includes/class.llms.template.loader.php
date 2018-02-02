@@ -2,7 +2,7 @@
 /**
 * Template loader class
 * @since    1.0.0
-* @version  3.7.3
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -291,7 +291,7 @@ class LLMS_Template_Loader {
 	 * @param    array     $info  array of restriction results from llms_page_restricted()
 	 * @return   void
 	 * @since    3.1.6
-	 * @version  3.1.6
+	 * @version  [version]
 	 */
 	public function restricted_by_quiz( $info ) {
 
@@ -300,16 +300,15 @@ class LLMS_Template_Loader {
 
 		if ( get_current_user_id() ) {
 
-			// if the user can edit the post, they're probably a creator giving it a test
-			if ( current_user_can( 'edit_post', $info['restriction_id'] ) ) {
-
-				$msg = sprintf( __( 'It looks like you\'re trying to test a quiz you just made. To test your quiz please read our documentation at %s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/i-cant-take-the-quiz-i-just-created/" target="_blank">https://lifterlms.com/docs/i-cant-take-the-quiz-i-just-created/</a>' );
-
-			} else {
-
-				$msg = __( 'You cannot access quizzes directly. Please return to the associated lesson and start the quiz from there.', 'lifterlms' );
-
+			$msg = __( 'You must be enrolled in the course to access this quiz.', 'lifterlms' );
+			$quiz = llms_get_post( $info['restriction_id'] );
+			if ( $quiz ) {
+				$course = $quiz->get_course();
+				if ( $course ) {
+					$redirect = get_permalink( $course->get( 'id' ) );
+				}
 			}
+
 		} else {
 
 			$msg = __( 'You must be logged in to take quizzes.', 'lifterlms' );
