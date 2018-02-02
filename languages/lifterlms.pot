@@ -3456,7 +3456,7 @@ msgstr ""
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:485, includes/class.llms.ajax.handler.php:543, includes/class.llms.ajax.handler.php:609, includes/class.llms.template.loader.php:315
+#: includes/class.llms.ajax.handler.php:485, includes/class.llms.ajax.handler.php:543, includes/class.llms.ajax.handler.php:609, includes/class.llms.template.loader.php:313
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
@@ -3492,7 +3492,7 @@ msgstr ""
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
-#: includes/class.llms.ajax.php:626, includes/class.llms.ajax.php:755, includes/class.llms.lesson.handler.php:31, includes/class.llms.post.handler.php:195
+#: includes/class.llms.ajax.php:628, includes/class.llms.ajax.php:757, includes/class.llms.lesson.handler.php:31, includes/class.llms.post.handler.php:195
 msgid "unassigned"
 msgstr ""
 
@@ -5403,12 +5403,8 @@ msgstr ""
 msgid "Manage Preferences"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:306
-msgid "It looks like you're trying to test a quiz you just made. To test your quiz please read our documentation at %s"
-msgstr ""
-
-#: includes/class.llms.template.loader.php:310
-msgid "You cannot access quizzes directly. Please return to the associated lesson and start the quiz from there."
+#: includes/class.llms.template.loader.php:303
+msgid "You must be enrolled in the course to access this quiz."
 msgstr ""
 
 #: includes/class.llms.view.manager.php:83
@@ -5507,51 +5503,51 @@ msgstr ""
 msgid "No payment method selected."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:248
+#: includes/controllers/class.llms.controller.orders.php:249
 msgid "An unknown error occurred when attempting to create an account, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:252
-msgid "You already have access to this product!"
+#: includes/controllers/class.llms.controller.orders.php:254
+msgid "You already have access to this %2$s! Visit your dashboard <a href=\"%s\">here.</a>"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:283
+#: includes/controllers/class.llms.controller.orders.php:285
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:341
+#: includes/controllers/class.llms.controller.orders.php:343
 msgid "Student unenrolled due to automatic access plan expiration"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:404
+#: includes/controllers/class.llms.controller.orders.php:406
 msgid "Missing order information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:409, includes/controllers/class.llms.controller.orders.php:413, templates/myaccount/view-order.php:10
+#: includes/controllers/class.llms.controller.orders.php:411, includes/controllers/class.llms.controller.orders.php:415, templates/myaccount/view-order.php:10
 msgid "Invalid Order."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:417
+#: includes/controllers/class.llms.controller.orders.php:419
 msgid "Missing gateway information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:528
+#: includes/controllers/class.llms.controller.orders.php:530
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:559
+#: includes/controllers/class.llms.controller.orders.php:561
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:564
+#: includes/controllers/class.llms.controller.orders.php:566
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:569
+#: includes/controllers/class.llms.controller.orders.php:571
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:574
+#: includes/controllers/class.llms.controller.orders.php:576
 msgid "An invalid payment method was selected."
 msgstr ""
 
@@ -7753,7 +7749,7 @@ msgstr ""
 msgid "Enrollment"
 msgstr ""
 
-#: includes/notifications/controllers/class.llms.notification.controller.lesson.complete.php:89, templates/course/complete-lesson-link.php:33
+#: includes/notifications/controllers/class.llms.notification.controller.lesson.complete.php:89, templates/course/complete-lesson-link.php:36
 msgid "Lesson Complete"
 msgstr ""
 
@@ -8988,15 +8984,15 @@ msgstr[1] ""
 msgid "Categories: "
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:50
+#: templates/course/complete-lesson-link.php:53
 msgid "Mark Incomplete"
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:81
+#: templates/course/complete-lesson-link.php:84
 msgid "Mark Complete"
 msgstr ""
 
-#: templates/course/complete-lesson-link.php:112
+#: templates/course/complete-lesson-link.php:104
 msgid "Take Quiz"
 msgstr ""
 

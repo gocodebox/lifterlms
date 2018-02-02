@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.9.2
-Stable tag: 3.16.0
+Stable tag: 3.16.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -350,6 +350,17 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.16.1 - 2018-02-01 =
+------------------------
+
++ Ensure quizzes in draft mode are only accessible by those with edit access (instructors, admins, etc...)
++ Restore pre 3.16 actions and filters related to quiz start buttons
++ Remove legacy error message for quiz accessibility issues by site admins
++ Students who cannot access a quiz are redirected to the parent lesson if they attempt to access a quiz directly
++ Fix undefined index warning on wp-login.php related to LifterLMS js assets. Thanks [Mte90](https://github.com/Mte90)!
++ Update checkout error message to provide user with direction when they already have access to a course. Thanks [@andreasblumberg](https://github.com/andreasblumberg)!
+
+
 = v3.16.0 - 2018-02-01 =
 ------------------------
 
@@ -379,6 +390,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 ##### Updates
 
++ Added space between arrows and "Next" and "Previous" text on pagination lists. Thanks [sujaypawar](https://github.com/sujaypawar)!
 + Updated Quiz post type slug from "llms_quiz" to "quiz".
 + Updated default return of `llms_get_post()` to be `false` rather than a `WP_Post` object when a LifterLMS post cannot be located
 
